@@ -998,7 +998,8 @@ void EkosManager::checkINDITimeout()
 {
     if (nDevices <= 0)
     {
-        ekosStartingStatus = STATUS_SUCCESS;
+        if (ekosStartingStatus == STATUS_PENDING)
+            ekosStartingStatus = STATUS_SUCCESS;
         return;
     }
 
@@ -1057,7 +1058,8 @@ void EkosManager::checkINDITimeout()
         }
     }
 
-    ekosStartingStatus = STATUS_ERROR;
+    if (ekosStartingStatus == STATUS_PENDING)
+        ekosStartingStatus = STATUS_ERROR;
 }
 
 void EkosManager::connectDevices()
@@ -1094,14 +1096,18 @@ void EkosManager::cleanDevices()
 
     INDIListener::Instance()->disconnect(this);
 
-    if (localMode)
+    if (managedDrivers.isEmpty() == false)
     {
-        DriverManager::Instance()->stopDevices(managedDrivers);
+        if (localMode)
+        {
+            DriverManager::Instance()->stopDevices(managedDrivers);
+        }
+        else
+        {
+            DriverManager::Instance()->disconnectRemoteHost(managedDrivers.first());
+        }
     }
-    else
-    {
-        DriverManager::Instance()->disconnectRemoteHost(managedDrivers.first());
-    }    
+
 
     reset();
 
