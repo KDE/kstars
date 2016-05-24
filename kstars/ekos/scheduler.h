@@ -272,9 +272,15 @@ protected slots:
       */
      void checkTwilightWarning(bool enabled);
 
+     void runStartupProcedure();
+     void checkStartupProcedure();
+
+     void runShutdownProcedure();
+     void checkShutdownProcedure();
+
 signals:
         void newLog();
-        void weatherChanged(IPState state);
+        void weatherChanged(IPState state);        
 
 private:
 
