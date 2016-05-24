@@ -996,10 +996,13 @@ bool EkosManager::start()
 
 void EkosManager::checkINDITimeout()
 {
+    // Don't check anything unless we're still pending
+    if (ekosStartingStatus != STATUS_PENDING)
+        return;
+
     if (nDevices <= 0)
     {
-        if (ekosStartingStatus == STATUS_PENDING)
-            ekosStartingStatus = STATUS_SUCCESS;
+        ekosStartingStatus = STATUS_SUCCESS;
         return;
     }
 
@@ -1058,8 +1061,7 @@ void EkosManager::checkINDITimeout()
         }
     }
 
-    if (ekosStartingStatus == STATUS_PENDING)
-        ekosStartingStatus = STATUS_ERROR;
+    ekosStartingStatus = STATUS_ERROR;
 }
 
 void EkosManager::connectDevices()
