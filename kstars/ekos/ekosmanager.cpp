@@ -2048,6 +2048,15 @@ bool EkosManager::setProfile(const QString &profileName)
     return true;
 }
 
+QStringList EkosManager::getProfiles()
+{
+    QStringList profiles;
+
+    for (int i=0; i < profileCombo->count(); i++)
+        profiles << profileCombo->itemText(i);
+
+    return profiles;
+}
 
 void EkosManager::addProfile()
 {

@@ -190,6 +190,8 @@ Scheduler::Scheduler()
 
     connect(twilightCheck, SIGNAL(toggled(bool)), this, SLOT(checkTwilightWarning(bool)));
 
+    loadProfiles();
+
 }
 
 Scheduler::~Scheduler()
@@ -205,6 +207,7 @@ void Scheduler::watchJobChanges(bool enable)
         connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
 
+        connect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         connect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
         connect(startupButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
         connect(constraintButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
@@ -228,6 +231,7 @@ void Scheduler::watchJobChanges(bool enable)
         disconnect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
 
+        disconnect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         disconnect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
         disconnect(startupButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
         disconnect(constraintButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
@@ -440,6 +444,7 @@ void Scheduler::saveJob()
 
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
     job->setSequenceFile(sequenceURL);
+    job->setProfile(profileCombo->currentText());
 
     fitsURL = QUrl::fromLocalFile(fitsEdit->text());
     job->setFITSFile(fitsURL);
@@ -632,6 +637,8 @@ void Scheduler::loadJob(QModelIndex i)
 
     sequenceEdit->setText(job->getSequenceFile().path());
     sequenceURL = job->getSequenceFile();
+
+    profileCombo->setCurrentText(job->getProfile());
 
     trackStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
     focusStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
@@ -2016,6 +2023,13 @@ bool Scheduler::checkStartupState()
             return true;
         }
 
+        if (profileCombo->currentText() != i18n("Default"))
+        {
+            QList<QVariant> profile;
+            profile.append(profileCombo->currentText());
+            ekosInterface->callWithArgumentList(QDBus::AutoDetect,"setProfile", profile);
+        }
+
         if (startupScriptURL.isEmpty() == false)
         {
             startupState = STARTUP_SCRIPT;
@@ -3121,6 +3135,10 @@ bool Scheduler::processJobInfo(XMLEle *root)
                 }
             }
         }
+        else if (!strcmp(tagXMLEle(ep), "Profile"))
+        {
+            profileCombo->setCurrentText(pcdataXMLEle(ep));
+        }
         else if (!strcmp(tagXMLEle(ep), "Steps"))
         {
             XMLEle *module;
@@ -3275,6 +3293,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
            outstream << "<Condition value='" << job->getCompletionTime().toString(Qt::ISODate) << "'>At</Condition>" << endl;
        outstream << "</CompletionCondition>" << endl;
 
+       outstream << "<Profile>" << job->getProfile() << "</Profile>" << endl;
        outstream << "<Steps>" << endl;
        if  (job->getStepPipeline() & SchedulerJob::USE_TRACK)
            outstream << "<Step>Track</Step>" << endl;
@@ -4521,6 +4540,23 @@ void Scheduler::runShutdownProcedure()
 
         appendLogText(i18n("Shutdown procedure terminated."));
 
+    }
+}
+
+void Scheduler::loadProfiles()
+{
+    QString currentProfile = profileCombo->currentText();
+
+    QDBusReply<QStringList> profiles = ekosInterface->call(QDBus::AutoDetect,"getProfiles");
+
+    if (profiles.error().type() == QDBusError::NoError)
+    {
+        profileCombo->blockSignals(true);
+        profileCombo->clear();
+        profileCombo->addItem(i18n("Default"));
+        profileCombo->addItems(profiles);
+        profileCombo->setCurrentText(currentProfile);
+        profileCombo->blockSignals(false);
     }
 }
 

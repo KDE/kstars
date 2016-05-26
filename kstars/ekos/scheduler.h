@@ -480,6 +480,8 @@ private:
          */
         bool createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir);
 
+        void loadProfiles();
+
         XMLEle * getSequenceJobRoot();
 
         bool isWeatherOK(SchedulerJob *job);
