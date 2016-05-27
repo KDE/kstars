@@ -557,6 +557,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/nodes/pointnode.cpp
         kstarslite/skyitems/nodes/skynode.cpp
         kstarslite/skyitems/nodes/pointsourcenode.cpp
+        kstarslite/skyitems/nodes/planetmoonsnode.cpp
     )
     #Qml files will be probably moved to user's data dir, but for use
     #with QtCreator it is more convenient to have them here
@@ -635,8 +636,11 @@ set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
         ${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
         ${printing_SRCS} ${kstarslite_SRCS} ${kstarslite_RESOURCE}
 )
-
-kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
+if(BUILD_KSTARS_LITE)
+    kconfig_add_kcfg_files(kstars_SRCS GENERATE_MOC ${kstars_KCFG_SRCS})
+else()
+    kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
+endif()
 
 if(NOT BUILD_KSTARS_LITE)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)

@@ -78,6 +78,9 @@ public:
     /** @return pointer to KStarsData object which contains application data. */
     inline KStarsData* data() const { return m_KStarsData; }
 
+    /** @short used from QML to update positions of sky objects and update SkyMapLite */
+    Q_INVOKABLE void fullUpdate();
+
 signals:
     /** Sent when KStarsData finishes loading data */
     void dataLoadFinished();

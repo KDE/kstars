@@ -35,9 +35,19 @@ QSGTexture* RootNode::getCachedTexture(int size, char spType) {
     return m_textureCache[SkyMapLite::Instance()->harvardToIndex(spType)][size];
 }
 
-void RootNode::appendSkyNode(SkyNode * skyNode) {
+void RootNode::appendSkyNode(SkyNode *skyNode) {
     m_skyNodes.append(skyNode);
     appendChildNode(skyNode);
+}
+
+void RootNode::prependSkyNode(SkyNode *skyNode) {
+    m_skyNodes.append(skyNode);
+    prependChildNode(skyNode);
+}
+
+void RootNode::removeSkyNode(SkyNode *skyNode) {
+    removeChildNode(skyNode);
+    m_skyNodes.removeOne(skyNode);
 }
 
 void RootNode::removeAllSkyNodes() {

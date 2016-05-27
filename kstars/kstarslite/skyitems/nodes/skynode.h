@@ -44,6 +44,10 @@ public:
     /** @short short function that returns pointer to the current projector
      *  @return pointer to current projector of SkyMapLite
      */
+
+    // All children nodes allocated on heap are deleted automatically
+    //virtual ~SkyNode() { }
+
     inline const Projector* projector() { return SkyMapLite::Instance()->projector(); }
 
     /** @short short function to access SkyMapLite

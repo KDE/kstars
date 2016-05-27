@@ -35,6 +35,7 @@ class SolarSystemSingleComponent;
 class PlanetsItem;
 class AsteroidsItem;
 class CometsItem;
+class PlanetMoonsComponent;
 
 class QSGTexture;
 
@@ -228,10 +229,17 @@ public:
       */
     void setZoomFactor(double factor);
 
-    /** @short Adds object of type KSPlanetBase to the PlanetsItem
-     *@param parentComp pointer to the KSPlanetBase that is to be displayed on SkyMapLite
+    /** @short Adds object of type SolarSystemSingleComponent that needs to be displayed on
+     * SkyMapLite to PlanetsItem
+     *@param planetComp pointer to object of type SolarSystemSingleComponent
      */
-    void addPlanetItem(SolarSystemSingleComponent* parentComp);
+    void addPlanet(SolarSystemSingleComponent *planetComp);
+
+    /** @short Adds object of type PlanetMoonsComponent that needs to be displayed on
+     * SkyMapLite to PlanetsItem
+     *@param moonsComp pointer to object of type PlanetMoonsComponent
+     */
+    void addPlanetMoons(PlanetMoonsComponent *moonsComp);
 
     /** @short Call to set up the projector before update of SkyItems positions begins. */
     void setupProjector();
@@ -339,7 +347,7 @@ public slots:
      * Map after each step, until the Focus point is within 1 step of the Destination point.
      * For the final step, snap directly to Destination, and redraw the map.
      */
-    //void slewFocus();
+    void slewFocus();
 
     /** @short Center the display at the point ClickedPoint.
      *
@@ -540,6 +548,8 @@ private:
     // true if mouseMoveEvent; needed by setMouseMoveCursor
     bool mouseMoveCursor;
     bool slewing, clockSlewing;
+    // true if pinch to zoom or pinch to rotate is performed
+    bool pinch;
     //if false only old pixmap will repainted with bitBlt(), this
     // saves a lot of cpu usage
     bool computeSkymap;

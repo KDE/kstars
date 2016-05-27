@@ -26,7 +26,7 @@
 PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode* p, char sp, float size)
     :SkyNode(skyObject), m_point(0), m_sizeMagLim(10.) // has to be changed when stars will be introduced
 {
-    m_point = new PointNode(p,sp,starWidth(size));
+    m_point = new PointNode(p,starWidth(size),sp);
     appendChildNode(m_point);
 }
 

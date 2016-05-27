@@ -317,6 +317,8 @@ int main(int argc, char *argv[])
         Options::setXplanetBackgroundColorValue("#000000");
         Options::setXplanetColor("#ff0000");
 #endif
+        Options::setShowGround(false);
+
 #endif
 
     // Create writable data dir if it does not exist

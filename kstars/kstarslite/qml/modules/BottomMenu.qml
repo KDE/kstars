@@ -168,6 +168,11 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: num.iconpath + "media-playback-start.png"
+                MouseArea {
+                    onClicked: {
+                        Options.setRunClock(false);
+                    }
+                }
             }
             TopMenuButton {
                 iconSrc: num.iconpath + "media-skip-forward.png"

@@ -57,17 +57,25 @@ public:
     inline int skyNodesCount() { return m_skyNodes.length(); }
 
     /**
-     * @short returns a SkyNode in m_skyNodes with i index
+     * @short returns a SkyNode in m_skyNodes with index i
      * @param i index of SkyNode
      * @return desired SkyNode
      */
-    inline SkyNode * skyNodeAtIndex(int i) { return m_skyNodes[i]; }
+    inline SkyNode *skyNodeAtIndex(int i) { return m_skyNodes[i]; }
 
     /**
      * @brief Adds node to m_skyNodes and node tree
      * @param skyNode pointer to skyNode that has to be added
      */
-    void appendSkyNode(SkyNode * skyNode);
+    void appendSkyNode(SkyNode *skyNode);
+
+    void prependSkyNode(SkyNode *skyNode);
+
+    /**
+     * @short remove given skyNode from m_skyNodes and a node tree
+     * @param skyNode pointer to skyNode that needs to be deleted
+     */
+    void removeSkyNode(SkyNode *skyNode);
 
     /**
      * @short deletes all SkyNodes from m_skyNodes and node tree

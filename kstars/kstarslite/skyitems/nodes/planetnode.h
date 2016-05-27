@@ -15,15 +15,13 @@
  ***************************************************************************/
 #ifndef PLANETNODE_H_
 #define PLANETNODE_H_
-#include <QSGNode>
-#include "pointnode.h"
 #include "skynode.h"
 
 class QSGSimpleTextureNode;
 class QImage;
 class KSPlanetBase;
 class RootNode;
-
+class PointNode;
 
 /** @class PlanetNode
  *
@@ -70,14 +68,15 @@ public:
     virtual void changePos(QPointF pos) override;
 
     virtual void update() override;
+
     virtual void hide() override;
 private:
-    PointNode* m_point;
+    PointNode *m_point;
 
     // This opacity node is used to hide m_planetPic. m_point is subclass of QSGOpacityNode so it needs
     // no explicit opacity node here.
-    QSGOpacityNode* m_planetOpacity;
-    QSGSimpleTextureNode* m_planetPic;
+    QSGOpacityNode *m_planetOpacity;
+    QSGSimpleTextureNode *m_planetPic;
 };
 
 
