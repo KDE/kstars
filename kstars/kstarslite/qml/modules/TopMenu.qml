@@ -86,13 +86,21 @@ ColumnLayout {
             }
             TopMenuButton {
                 iconSrc: num.iconpath + "/sc-actions-kstars_deepsky.png"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        Options.showJupiter = !Options.showJupiter
+                        KStarsLite.fullUpdate()
+                    }
+                }
             }
             TopMenuButton {
                 iconSrc: num.iconpath + "/sc-actions-kstars_planets.png"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        Options.setShowSolarSystem(false);
+                        Options.showSolarSystem = !Options.showSolarSystem
+                        KStarsLite.fullUpdate()
                     }
                 }
             }
@@ -109,9 +117,23 @@ ColumnLayout {
                 iconSrc: num.iconpath + "/sc-actions-kstars_mw.png"
             }
             TopMenuButton {
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        SkyMapLite.slotZoomIn()
+                        KStarsLite.fullUpdate()
+                    }
+                }
                 iconSrc: num.iconpath + "/sc-actions-kstars_grid.png"
             }
             TopMenuButton {
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        SkyMapLite.slotZoomOut()
+                        KStarsLite.fullUpdate()
+                    }
+                }
                 iconSrc: num.iconpath + "/sc-actions-kstars_horizon.png"
             }
         }

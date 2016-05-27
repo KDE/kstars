@@ -41,7 +41,6 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     //Make instance of KStarsLite and KStarsData available to QML
     m_Engine.rootContext()->setContextProperty("KStarsLite", this);
     m_Engine.rootContext()->setContextProperty("KStarsData", m_KStarsData);
-
     m_Engine.rootContext()->setContextProperty("Options", Options::self());
 
     /*Register SkyMapLite for use within QML
@@ -62,6 +61,8 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     /*SkyMapLite has to be loaded before KStarsData is initialized because SkyComponents derived classes
     have to add SkyItems to the SkyMapLite*/
     m_SkyMapLite = SkyMapLite::createInstance(skyMapLiteWrapper);
+
+    m_Engine.rootContext()->setContextProperty("SkyMapLite", m_SkyMapLite);
 
     // Set pinstance to yourself
     pinstance = this;
@@ -116,6 +117,13 @@ KStarsLite *KStarsLite::createInstance( bool doSplash, bool clockrunning, const 
     new KStarsLite( doSplash, clockrunning, startDateString );
     Q_ASSERT( pinstance && "pinstance must be non NULL");
     return nullptr;
+}
+
+void KStarsLite::fullUpdate() {
+    m_KStarsData->setFullTimeUpdate();
+    updateTime();
+
+    m_SkyMapLite->forceUpdate();
 }
 
 void KStarsLite::updateTime( const bool automaticDSTchange ) {

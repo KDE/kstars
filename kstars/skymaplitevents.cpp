@@ -2,6 +2,8 @@
 #include "kstarsdata.h"
 #include "kstarslite.h"
 
+#include <QtMath>
+
 #include "kstarslite/skyitems/planetsitem.h"
 #include "Options.h"
 #include "projections/projector.h"
@@ -48,17 +50,17 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
 
         switch( e->button() ) {
         case Qt::LeftButton:
-            {
-                QString name;
-                if( clickedObject() )
-                    name = clickedObject()->translatedLongName();
-                else
-                    name = i18n( "Empty sky" );
-                //kstars->statusBar()->changeItem(name, 0 );
-                //kstars->statusBar()->showMessage(name, 0 );
+        {
+            QString name;
+            if( clickedObject() )
+                name = clickedObject()->translatedLongName();
+            else
+                name = i18n( "Empty sky" );
+            //kstars->statusBar()->changeItem(name, 0 );
+            //kstars->statusBar()->showMessage(name, 0 );
 
-                emit positionClicked(&m_MousePoint);
-            }
+            emit positionClicked(&m_MousePoint);
+        }
 
             break;
         case Qt::RightButton:
@@ -66,13 +68,13 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
                 // Compute angular distance.
                 slotEndRulerMode();
             } else {*/
-                // Show popup menu
-                if( clickedObject() ) {
-                    //clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
-                } else {
-                   /* pmenu->createEmptyMenu( clickedPoint() );
+            // Show popup menu
+            if( clickedObject() ) {
+                //clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
+            } else {
+                /* pmenu->createEmptyMenu( clickedPoint() );
                     pmenu->popup( QCursor::pos() );*/
-                }
+            }
             //}
             break;
         default: ;
@@ -180,10 +182,10 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
         // set the mouseMoveCursor and set slewing=true, if they are not set yet
         if( !mouseMoveCursor )
             //setMouseMoveCursor();
-        if( !slewing ) {
-            slewing = true;
-            //stopTracking(); //toggle tracking off
-        }
+            if( !slewing ) {
+                slewing = true;
+                //stopTracking(); //toggle tracking off
+            }
 
         //Update focus such that the sky coords at mouse cursor remain approximately constant
         if ( Options::useAltAz() ) {
@@ -194,7 +196,7 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
             focus()->setAz( focus()->az().Degrees() - dAz.Degrees() ); //move focus in opposite direction
             focus()->setAz( focus()->az().reduce() );
             focus()->setAlt(
-                KSUtils::clamp( focus()->alt().Degrees() - dAlt.Degrees() , -90.0 , 90.0 ) );
+                        KSUtils::clamp( focus()->alt().Degrees() - dAlt.Degrees() , -90.0 , 90.0 ) );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             dms dRA  = m_MousePoint.ra()  - clickedPoint()->ra();
@@ -202,7 +204,7 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
             focus()->setRA( focus()->ra().Hours() - dRA.Hours() ); //move focus in opposite direction
             focus()->setRA( focus()->ra().reduce() );
             focus()->setDec(
-                KSUtils::clamp( focus()->dec().Degrees() - dDec.Degrees() , -90.0 , 90.0 ) );
+                        KSUtils::clamp( focus()->dec().Degrees() - dDec.Degrees() , -90.0 , 90.0 ) );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
         //showFocusCoords();
@@ -228,54 +230,116 @@ void SkyMapLite::wheelEvent( QWheelEvent *e ) {
 }
 
 void SkyMapLite::touchEvent( QTouchEvent *e) {
-    //Under construction. Don't take this mess seriously
-    qDebug() << "TOUCH EVENT!";
-
     QList<QTouchEvent::TouchPoint> points = e->touchPoints();
 
-    QPointF newPoint = points[0].pos();
+    if(points.length() == 2) {
+        if ( projector()->unusablePoint( points[0].pos() ) ||
+             projector()->unusablePoint( points[1].pos() ))
+            return;
 
-    if(points.length() >= 2) {
-        double xdiff = abs(points[1].pos().x() - points[0].pos().x());
-        double ydiff = abs(points[1].pos().y() - points[0].pos().y());
-        double xmax = points[1].pos().x() < points[0].pos().x() ? points[1].pos().x() : points[0].pos().x();
-        double ymax = points[1].pos().y() < points[0].pos().y() ? points[1].pos().y() : points[0].pos().y();
-        double md_new = xdiff + ydiff;
-        qDebug() << md_new << "MD NEW";
+        //Pinch to zoom
 
-        double xolddiff = abs(points[1].lastPos().x() - points[0].lastPos().x());
-        double yolddiff = abs(points[1].lastPos().y() - points[0].lastPos().y());
-        double md_old = xolddiff + yolddiff;
-        qDebug() << xolddiff + yolddiff << "MD OLD";
+        double x_old_diff = abs(points[1].lastPos().x() - points[0].lastPos().x());
+        double y_old_diff = abs(points[1].lastPos().y() - points[0].lastPos().y());
 
-        if(md_old - md_new < 0) zoomInOrMagStep(Qt::ControlModifier);
-        else if(md_old - md_new > 0) zoomOutOrMagStep(Qt::ControlModifier);
-        qDebug() << Options::showGround();
-        qDebug() << "NEW1" << points[0].pos() << "MID" << QPointF(xmax+ xdiff/2,ymax + ydiff/2) << "NEW2" << points[1].pos();
+        //Manhattan distance of old points
+        double md_old = x_old_diff + y_old_diff;
 
-        //newPoint = QPointF(xmax + xdiff/2,ymax + ydiff/2);
-    }
+        double x_diff = abs(points[1].pos().x() - points[0].pos().x());
+        double y_diff = abs(points[1].pos().y() - points[0].pos().y());
 
-    //This is ugly but it reduces the amount of duplicate code
-    QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, newPoint,
-            Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
-    mousePressEvent(event);
-    mouseMoveEvent(event);
+        //Manhattan distance of new points
+        double md_new = x_diff + y_diff;
 
-    if(e->type() == QEvent::TouchEnd) {
-        if (mouseButtonDown) {
+        int zoomThreshold = 5;
+
+        if(md_old - md_new < -zoomThreshold) zoomInOrMagStep(Qt::MetaModifier);
+        else if(md_old - md_new > zoomThreshold) zoomOutOrMagStep(Qt::MetaModifier);
+
+        double x_min = points[1].pos().x() < points[0].pos().x() ? points[1].pos().x() : points[0].pos().x();
+        double y_min = points[1].pos().y() < points[0].pos().y() ? points[1].pos().y() : points[0].pos().y();
+
+        //Center point on the line between 2 touch points used for moveEvent
+        QPointF pinchCenter(x_min + x_diff/2,y_min + y_diff/2);
+
+        //Pinch(turn) to rotate
+        QPointF old_vec = points[1].lastPos() - points[0].lastPos();
+        QPointF new_vec = points[1].pos() - points[0].pos();
+
+        double old_vec_len = sqrt((old_vec.x() * old_vec.x()) + (old_vec.y() * old_vec.y()));
+        double new_vec_len = sqrt((new_vec.x() * new_vec.x()) + (new_vec.y() * new_vec.y()));
+
+        //Normalize vectors
+        old_vec = QPointF(old_vec.x()/old_vec_len, old_vec.y()/old_vec_len);
+        new_vec = QPointF(new_vec.x()/new_vec_len, new_vec.y()/new_vec_len);
+
+        if(rotation() > 360) {
+            setRotation(0);
+        } else if(rotation() < 0) {
+            setRotation(360);
+        }
+
+        double old_atan = qAtan2(old_vec.y(), old_vec.x());
+        double new_atan = qAtan2(new_vec.y(), new_vec.x());
+
+        /*Workaround to solve the strange bug when sometimes signs of qAtan2 results
+        for 2 vectors are different*/
+        if((new_atan > 0 && old_atan < 0) || (new_atan < 0 && old_atan > 0)) {
+            old_atan *= -1;
+        }
+
+        //Get the angle between two vectors
+        double delta = new_atan - old_atan;
+
+        //Scale the angle to speed up the rotation
+        delta *= 100;
+        setRotation(rotation() + delta);
+        update(); //Apply rotation
+
+        //Allow movement of SkyMapLite while rotating or zooming
+        QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, pinchCenter,
+                                             Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
+        if(!pinch) {
+            m_MousePoint = projector()->fromScreen( pinchCenter, data->lst(), data->geo()->lat() );
+            setClickedPoint( &m_MousePoint );
+            mouseButtonDown = true;
+            pinch = true;
+        }
+        mouseMoveEvent(event);
+
+        delete event;
+
+    } else {
+        if(pinch) {
+            pinch = false;
             mouseButtonDown = false;
-            if ( slewing ) {
-                slewing = false;
-                if ( Options::useAltAz() )
-                    setDestinationAltAz( focus()->alt(), focus()->az() );
-                else
-                    setDestination( *focus() );
+        } else {
+            //If only pan is needed we just use the first touch point
+            QPointF newFocus = points[0].pos();
+            QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, newFocus,
+                                                 Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
+            if(e->type() == QEvent::TouchBegin) {
+                if(mouseButtonDown) mouseButtonDown = false;
             }
-            //forceUpdate();	// is needed because after moving the sky not all stars are shown
+
+            mousePressEvent(event);
+            mouseMoveEvent(event);
+
+            if(e->type() == QEvent::TouchEnd) {
+                if (mouseButtonDown) {
+                    mouseButtonDown = false;
+                    if ( slewing ) {
+                        slewing = false;
+                        if ( Options::useAltAz() )
+                            setDestinationAltAz( focus()->alt(), focus()->az() );
+                        else
+                            setDestination( *focus() );
+                    }
+                }
+            }
+            delete event;
         }
     }
-    delete event;
 }
 
 double SkyMapLite::zoomFactor( const int modifier ) {
@@ -288,6 +352,9 @@ double SkyMapLite::zoomFactor( const int modifier ) {
 void SkyMapLite::zoomInOrMagStep( const int modifier ) {
     if ( modifier & Qt::AltModifier )
         incMagLimit( modifier );
+    else if( modifier & Qt::MetaModifier) {//Used in pinch-to-zoom gesture
+        setZoomFactor (Options::zoomFactor() + Options::zoomFactor()*0.04);
+    }
     else
         setZoomFactor( Options::zoomFactor() * zoomFactor( modifier ) );
 }
@@ -296,6 +363,9 @@ void SkyMapLite::zoomInOrMagStep( const int modifier ) {
 void SkyMapLite::zoomOutOrMagStep( const int modifier ) {
     if ( modifier & Qt::AltModifier )
         decMagLimit( modifier );
+    else if( modifier & Qt::MetaModifier) {//Used in pinch-to-zoom gesture
+        setZoomFactor (Options::zoomFactor() - Options::zoomFactor()*0.04);
+    }
     else
         setZoomFactor( Options::zoomFactor() / zoomFactor (modifier ) );
 }

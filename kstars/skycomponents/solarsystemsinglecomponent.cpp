@@ -51,7 +51,7 @@ SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *par
         objectNames(m_Planet->type()).append( m_Planet->longname() );
     //Draw planet on the SkyMapLite
     #ifdef KSTARS_LITE
-    SkyMapLite::Instance()->addPlanetItem(this);
+    SkyMapLite::Instance()->addPlanet(this);
     #endif
 }
 

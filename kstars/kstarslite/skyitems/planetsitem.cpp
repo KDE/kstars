@@ -18,7 +18,9 @@
 #include "projections/projector.h"
 #include "solarsystemsinglecomponent.h"
 #include "ksplanet.h"
+#include "planetmoonscomponent.h"
 
+#include "nodes/planetmoonsnode.h"
 #include "nodes/planetnode.h"
 #include "nodes/rootnode.h"
 
@@ -31,8 +33,15 @@ PlanetsItem::PlanetsItem(QQuickItem* parent)
 }
 
 void PlanetsItem::addPlanet(SolarSystemSingleComponent* planetComp) {
-    if(!m_planetComponents.contains(planetComp) && !m_toAdd.contains(planetComp))
-        m_toAdd.append(planetComp);
+    if(!m_planetComponents.contains(planetComp) && !m_planetsToAdd.contains(planetComp)) {
+        m_planetsToAdd.append(planetComp);
+    }
+}
+
+void PlanetsItem::addMoons(PlanetMoonsComponent * moonsComponent) {
+    if(!m_moonsComponents.contains(moonsComponent) && !m_moonsToAdd.contains(moonsComponent)) {
+        m_moonsToAdd.append(moonsComponent);
+    }
 }
 
 SolarSystemSingleComponent * PlanetsItem::getParentComponent(SkyObject * planet) {
@@ -57,26 +66,59 @@ QSGNode* PlanetsItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upd
         int pCompLen = m_planetComponents.length();
         if(pCompLen > 0) {
             /* If there are some planets that have been already displayed once then recreate them
-                 in new instance of PlanetRootNode*/
-            for(int i = 0; i < pCompLen; ++i) {
-                n->appendSkyNode(new PlanetNode(m_planetComponents[i]->planet(), n));
+                 in the new instance of RootNode*/
+            int mCompLen = m_moonsComponents.length();
+            foreach(SolarSystemSingleComponent * planetComp, m_planetComponents) {
+                KSPlanetBase *planet = planetComp->planet();
+                PlanetMoonsNode *pNode = new PlanetMoonsNode(planet, n);
+                n->appendSkyNode(pNode);
+                /* If there are some moons that have been already displayed once then recreate them
+                     in the new instance of RootNode*/
+                if(mCompLen > 0) {
+                    foreach(PlanetMoonsComponent * moonsComp, m_moonsComponents) {
+                        // Find planet of moons
+                        if(planet == moonsComp->getPlanet()) {
+                            pNode->addMoons(moonsComp->getMoons());
+                        }
+                    }
+                }
             }
         }
     }
 
-    int addLength = m_toAdd.length();
-    if(addLength > 0) { // If there are some new planets to add
-        for(int i = 0; i < addLength; ++i) {
-            m_planetComponents.append(m_toAdd[i]);
-            n->appendSkyNode(new PlanetNode(m_toAdd[i]->planet(), n));
+    int addPlanetLen = m_planetsToAdd.length();
+    if(addPlanetLen > 0) { // If there are some new planets to add
+        foreach(SolarSystemSingleComponent * planetComp, m_planetsToAdd) {
+            m_planetComponents.append(planetComp);
+
+            KSPlanetBase *planet = planetComp->planet();
+            PlanetMoonsNode *pNode = new PlanetMoonsNode(planet, n);
+            n->appendSkyNode(pNode);
         }
-        m_toAdd.clear();
+        m_planetsToAdd.clear();
     }
+
+    int addMoonLen = m_moonsToAdd.length();
+
     //Update clipping geometry. If m_clipPoly in SkyMapLite wasn't changed, geometry is not updated
     n->updateClipPoly();
     //Traverse all children nodes of RootNode
     for(int i = 0; i < n->skyNodesCount(); ++i) {
-        PlanetNode* pNode = static_cast<PlanetNode*>(n->skyNodeAtIndex(i));
+        PlanetMoonsNode *pNode = static_cast<PlanetMoonsNode *>(n->skyNodeAtIndex(i));
+
+        SkyObject * planet = pNode->getSkyObject();
+
+        if(addMoonLen > 0) { // If there are moons to add
+            foreach(PlanetMoonsComponent * moonsComp, m_moonsToAdd) {
+                if(planet == moonsComp->getPlanet()) {
+                    pNode->addMoons(moonsComp->getMoons());
+
+                    m_moonsComponents.append(moonsComp);
+                    m_moonsToAdd.removeOne(moonsComp);
+                }
+            }
+        }
+
         bool selected = getParentComponent(pNode->getSkyObject())->selected();
         if(selected) pNode->update();
         else pNode->hide();

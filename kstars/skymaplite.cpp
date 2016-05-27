@@ -87,7 +87,7 @@ int SkyMapLite::starColorMode = 0;
 SkyMapLite::SkyMapLite(QQuickItem* parent)
     :QQuickItem(parent), m_proj(0), count(0), data(KStarsData::Instance()),
       nStarSizes(15), nSPclasses(7), m_planetsItem(new PlanetsItem(this)),
-      m_asteroidsItem(new AsteroidsItem(this)), m_cometsItem(new CometsItem(this))
+      m_asteroidsItem(new AsteroidsItem(this)), m_cometsItem(new CometsItem(this)), pinch(false)
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
@@ -207,6 +207,103 @@ void SkyMapLite::setFocusObject( SkyObject *o ) {
         Options::setFocusObject( i18n( "nothing" ) );
 }
 
+void SkyMapLite::slewFocus() {
+    //Don't slew if the mouse button is pressed
+    //Also, no animated slews if the Manual Clock is active
+    //08/2002: added possibility for one-time skipping of slew with snapNextFocus
+    if ( !mouseButtonDown ) {
+        bool goSlew =  ( Options::useAnimatedSlewing() && ! data->snapNextFocus() ) &&
+                      !( data->clock()->isManualMode() && data->clock()->isActive() );
+        if ( goSlew  ) {
+            double dX, dY;
+            double maxstep = 10.0;
+            if ( Options::useAltAz() ) {
+                dX = destination()->az().Degrees() - focus()->az().Degrees();
+                dY = destination()->alt().Degrees() - focus()->alt().Degrees();
+            } else {
+                dX = destination()->ra().Degrees() - focus()->ra().Degrees();
+                dY = destination()->dec().Degrees() - focus()->dec().Degrees();
+            }
+
+            //switch directions to go the short way around the celestial sphere, if necessary.
+            dX = KSUtils::reduceAngle(dX, -180.0, 180.0);
+
+            double r0 = sqrt( dX*dX + dY*dY );
+            if ( r0 < 20.0 ) { //smaller slews have smaller maxstep
+                maxstep *= (10.0 + 0.5*r0)/20.0;
+            }
+            double step  = 0.5;
+            double r  = r0;
+            while ( r > step ) {
+                //DEBUG
+                //qDebug() << step << ": " << r << ": " << r0 << endl;
+                double fX = dX / r;
+                double fY = dY / r;
+
+                if ( Options::useAltAz() ) {
+                    focus()->setAlt( focus()->alt().Degrees() + fY*step );
+                    focus()->setAz( dms( focus()->az().Degrees() + fX*step ).reduce() );
+                    focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+                } else {
+                    fX = fX/15.; //convert RA degrees to hours
+                    SkyPoint newFocus( focus()->ra().Hours() + fX*step, focus()->dec().Degrees() + fY*step );
+                    setFocus( &newFocus );
+                    focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+                }
+
+                slewing = true;
+
+                forceUpdate();
+                qApp->processEvents(); //keep up with other stuff
+
+                if ( Options::useAltAz() ) {
+                    dX = destination()->az().Degrees() - focus()->az().Degrees();
+                    dY = destination()->alt().Degrees() - focus()->alt().Degrees();
+                } else {
+                    dX = destination()->ra().Degrees() - focus()->ra().Degrees();
+                    dY = destination()->dec().Degrees() - focus()->dec().Degrees();
+                }
+
+                //switch directions to go the short way around the celestial sphere, if necessary.
+                dX = KSUtils::reduceAngle(dX, -180.0, 180.0);
+                r = sqrt( dX*dX + dY*dY );
+
+                //Modify step according to a cosine-shaped profile
+                //centered on the midpoint of the slew
+                //NOTE: don't allow the full range from -PI/2 to PI/2
+                //because the slew will never reach the destination as
+                //the speed approaches zero at the end!
+                double t = dms::PI*(r - 0.5*r0)/(1.05*r0);
+                step = cos(t)*maxstep;
+            }
+        }
+
+        //Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
+        //set focus=destination.
+        if ( Options::useAltAz() ) {
+            setFocusAltAz( destination()->alt(), destination()->az() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+        } else {
+            setFocus( destination() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        }
+
+        slewing = false;
+
+        //Turn off snapNextFocus, we only want it to happen once
+        if ( data->snapNextFocus() ) {
+            data->setSnapNextFocus(false);
+        }
+
+        //Start the HoverTimer. if the user leaves the mouse in place after a slew,
+        //we want to attach a label to the nearest object.
+        if ( Options::useHoverLabel() )
+            m_HoverTimer.start( HOVER_INTERVAL );
+
+        forceUpdate();
+    }
+}
+
 void SkyMapLite::slotClockSlewing() {
     //If the current timescale exceeds slewTimeScale, set clockSlewing=true, and stop the clock.
     if( (fabs( data->clock()->scale() ) > Options::slewTimeScale())  ^  clockSlewing ) {
@@ -254,8 +351,12 @@ void SkyMapLite::slotClockSlewing() {
     }
 }*/
 
-void SkyMapLite::addPlanetItem(SolarSystemSingleComponent* parentComp) {
-    m_planetsItem->addPlanet(parentComp);
+void SkyMapLite::addPlanet(SolarSystemSingleComponent *planetComp) {
+    m_planetsItem->addPlanet(planetComp);
+}
+
+void SkyMapLite::addPlanetMoons(PlanetMoonsComponent *moonsComp) {
+    m_planetsItem->addMoons(moonsComp);
 }
 
 void SkyMapLite::resizeItem() {
@@ -284,9 +385,22 @@ void SkyMapLite::setZoomFactor(double factor) {
 
 void SkyMapLite::forceUpdate() {
     setupProjector();
-    m_planetsItem->update();
-    m_asteroidsItem->update();
-    m_cometsItem->update();
+
+    //TODO: Move this check somewhere else (create a separate function)
+    if(Options::showSolarSystem()) {
+        if(!m_planetsItem->property("visible").toBool()) {
+            m_planetsItem->setVisible(true);
+            m_asteroidsItem->setVisible(true);
+            m_cometsItem->setVisible(true);
+        }
+        m_planetsItem->update();
+        m_asteroidsItem->update();
+        m_cometsItem->update();
+    } else {
+        m_planetsItem->setVisible(false);
+        m_asteroidsItem->setVisible(false);
+        m_cometsItem->setVisible(false);
+    }
 }
 
 void SkyMapLite::setupProjector() {

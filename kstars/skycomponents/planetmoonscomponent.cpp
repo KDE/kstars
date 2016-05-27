@@ -23,7 +23,9 @@
 #include "skyobjects/jupitermoons.h"
 #include "skyobjects/ksplanetbase.h"
 #include "kstarsdata.h"
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
 #endif
 #include "skyobjects/skypoint.h" 
@@ -57,6 +59,11 @@ PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
     int nmoons = pmoons->nMoons();
     for ( int i=0; i<nmoons; ++i ) 
         objectNames(SkyObject::MOON).append( pmoons->name(i) );
+
+#ifdef KSTARS_LITE
+    SkyMapLite *map = SkyMapLite::Instance();
+    map->addPlanetMoons(this);
+#endif
 }
 
 PlanetMoonsComponent::~PlanetMoonsComponent()
@@ -95,6 +102,12 @@ SkyObject* PlanetMoonsComponent::findByName( const QString &name ) {
 
     return 0;
 }
+
+#ifdef KSTARS_LITE
+KSPlanetBase* PlanetMoonsComponent::getPlanet() const {
+    return m_Planet->planet();
+}
+#endif
 
 SkyObject* PlanetMoonsComponent::objectNearest( SkyPoint *p, double &maxrad ) { 
     SkyObject *oBest = 0;
