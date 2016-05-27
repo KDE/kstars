@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>649</width>
-    <height>436</height>
+    <width>722</width>
+    <height>460</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
@@ -88,7 +88,7 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="2">
+        <item row="5" column="2">
          <layout class="QHBoxLayout" name="horizontalLayout_11">
           <item>
            <widget class="QCheckBox" name="trackStepCheck">
@@ -266,7 +266,7 @@
           </item>
          </layout>
         </item>
-        <item row="4" column="0">
+        <item row="5" column="0">
          <widget class="QLabel" name="label_4">
           <property name="toolTip">
            <string>Select which steps to execute before starting the capture process.</string>
@@ -294,6 +294,25 @@
           <property name="text">
            <string>*</string>
           </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="toolTip">
+           <string>Ekos Device Profile</string>
+          </property>
+          <property name="text">
+           <string>Profile:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QComboBox" name="profileCombo">
+          <item>
+           <property name="text">
+            <string>Default</string>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>
@@ -878,7 +897,7 @@
        <property name="title">
         <string>Startup Procedure</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_16">
           <item>
@@ -939,6 +958,19 @@
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QPushButton" name="startupB">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -980,6 +1012,12 @@
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox_10">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time shutdown procedure to be executed after all scheduler jobs are completed. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;after&lt;/span&gt; the shutdown procedures (e.g. parking), if selected, are completed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
@@ -1062,6 +1100,25 @@
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="shutdownB">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -1162,19 +1219,19 @@
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="shutdownProcedureGroup">
+  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="stepsButtonGroup">
+  <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>

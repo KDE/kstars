@@ -80,13 +80,17 @@ public:
     /*@{*/
 
     /** DBUS interface function.
-     * set Ekos connection mode.
-     * @param isLocal if true, it will establish INDI server locally, otherwise it will connect to a remote INDI server as defined in the Ekos options or by the user.
-     * /note This function must be called before all functions in Ekos DBUS Interface.
+     * set Current device profile.
+     * @param profileName Profile name
+     * @return True if profile is set, false if not found.
      */
-    //Q_SCRIPTABLE Q_NOREPLY void setConnectionMode(bool isLocal);
-
     Q_SCRIPTABLE bool setProfile(const QString &profileName);
+
+    /** DBUS interface function
+     * @brief getProfiles Return a list of all device profiles
+     * @return List of device profiles
+     */
+    Q_SCRIPTABLE QStringList getProfiles();
 
     /** DBUS interface function.
      * @retrun INDI connection status (0 Idle, 1 Pending, 2 Connected, 3 Error)

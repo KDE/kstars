@@ -19,6 +19,9 @@
     <method name="stop">
       <arg type="b" direction="out"/>
     </method>
+    <method name="getProfiles">
+      <arg type="as" direction="out"/>
+    </method>
     <method name="setProfile">
       <arg name="profileName" type="s" direction="in"/>
       <arg type="b" direction="out"/>

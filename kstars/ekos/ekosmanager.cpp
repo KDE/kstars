@@ -996,6 +996,10 @@ bool EkosManager::start()
 
 void EkosManager::checkINDITimeout()
 {
+    // Don't check anything unless we're still pending
+    if (ekosStartingStatus != STATUS_PENDING)
+        return;
+
     if (nDevices <= 0)
     {
         ekosStartingStatus = STATUS_SUCCESS;
@@ -1094,14 +1098,18 @@ void EkosManager::cleanDevices()
 
     INDIListener::Instance()->disconnect(this);
 
-    if (localMode)
+    if (managedDrivers.isEmpty() == false)
     {
-        DriverManager::Instance()->stopDevices(managedDrivers);
+        if (localMode)
+        {
+            DriverManager::Instance()->stopDevices(managedDrivers);
+        }
+        else
+        {
+            DriverManager::Instance()->disconnectRemoteHost(managedDrivers.first());
+        }
     }
-    else
-    {
-        DriverManager::Instance()->disconnectRemoteHost(managedDrivers.first());
-    }    
+
 
     reset();
 
@@ -2040,6 +2048,15 @@ bool EkosManager::setProfile(const QString &profileName)
     return true;
 }
 
+QStringList EkosManager::getProfiles()
+{
+    QStringList profiles;
+
+    for (int i=0; i < profileCombo->count(); i++)
+        profiles << profileCombo->itemText(i);
+
+    return profiles;
+}
 
 void EkosManager::addProfile()
 {
