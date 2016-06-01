@@ -167,8 +167,6 @@ Scheduler::Scheduler()
 
     connect(startupB, SIGNAL(clicked()), this, SLOT(runStartupProcedure()));
     connect(shutdownB, SIGNAL(clicked()), this, SLOT(runShutdownProcedure()));
-    connect(this, SIGNAL(startupStateChanged(StartupState)), this, SLOT(updateStateGUI()));
-    connect(this, SIGNAL(shutdownStateChanged(ShutdownState)), this, SLOT(updateStateGUI()));
 
     connect(selectObjectB,SIGNAL(clicked()),this,SLOT(selectObject()));
     connect(selectFITSB,SIGNAL(clicked()),this,SLOT(selectFITS()));
