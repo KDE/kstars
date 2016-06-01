@@ -920,8 +920,7 @@ bool EkosManager::start()
     connect(INDIListener::Instance(), SIGNAL(newDustCap(ISD::GDInterface*)), this, SLOT(setDustCap(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newLightBox(ISD::GDInterface*)), this, SLOT(setLightBox(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
-    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);
-    connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
+    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);    
 
     if (localMode)
     {        
@@ -947,6 +946,8 @@ bool EkosManager::start()
             ekosStartingStatus = STATUS_ERROR;            
             return false;
         }
+
+        connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
 
         ekosStartingStatus = STATUS_PENDING;
 
@@ -1075,10 +1076,7 @@ void EkosManager::connectDevices()
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
 
-    appendLogText(i18n("Connecting INDI devices..."));
-
-    if (Options::verboseLogging())
-        qDebug() << "Connecting INDI devices...";
+    appendLogText(i18n("Connecting INDI devices..."));    
 }
 
 void EkosManager::disconnectDevices()
@@ -1086,10 +1084,7 @@ void EkosManager::disconnectDevices()
     foreach(ISD::GDInterface *device, genericDevices)
         device->Disconnect();
 
-    appendLogText(i18n("Disconnecting INDI devices..."));
-
-    if (Options::verboseLogging())
-        qDebug() << "Disconnecting INDI devices...";
+    appendLogText(i18n("Disconnecting INDI devices..."));    
 
 }
 
@@ -1097,6 +1092,7 @@ void EkosManager::cleanDevices()
 {
 
     INDIListener::Instance()->disconnect(this);
+    DriverManager::Instance()->disconnect(this);
 
     if (managedDrivers.isEmpty() == false)
     {
@@ -1120,10 +1116,7 @@ void EkosManager::cleanDevices()
     controlPanelB->setEnabled(false);
     profileGroup->setEnabled(true);
 
-    appendLogText(i18n("INDI services stopped."));
-
-    if (Options::verboseLogging())
-        qDebug() << "Stopping INDI services.";
+    appendLogText(i18n("INDI services stopped."));    
 }
 
 void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
@@ -1705,6 +1698,9 @@ void EkosManager::appendLogText(const QString &text)
 {
 
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
+
+    if (Options::verboseLogging())
+        qDebug() << "Ekos: " << logText;
 
     updateLog();
 }
