@@ -59,6 +59,13 @@
 
 	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
 		<Action name="astrocalculator" />
+	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>
+		<Action name="telescope_wizard" />
+		<Action name="device_manager" />
+		<Separator />
+		<Action name="indi_cpl" />
+	</Menu>
+
                 <Action name="skycalendar" />
 		<Action name="moonphasetool" />
 		<Action name="altitude_vs_time" />
@@ -67,6 +74,7 @@
 		<Action name="glossary" />
 		<Action name="scriptbuilder" />
 		<Action name="solarsystem" />
+                <Action name="ekos" />
 		<Action name="jmoontool" />
                 <Action name="flagmanager" />
 	</Menu>
@@ -83,7 +91,7 @@
 	<Menu name="observation" noMerge="1"><text>&amp;Observation</text>
 	   <Action name="obslist" />
 	   <Action name="execute" />
-        </Menu>
+	</Menu>
 
 	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
 		<Menu name="infopanel"><text>&amp;Info Boxes</text>
@@ -93,12 +101,7 @@
 			<Action name="show_focus_box" />
 			<Action name="show_location_box" />
 		</Menu>
-		<Menu name="toolbars"><text>&amp;Toolbars</text>
-			<Action name="show_mainToolBar" />
-			<Action name="show_viewToolBar" />
-			<Separator />
-			<Action name="configure_toolbars" />
-		</Menu>
+                <Merge name="StandardToolBarMenuHandler" />
 		<Menu name="statusbar"><text>&amp;Statusbar</text>
 			<Action name="show_statusBar" />
 			<Separator />
@@ -110,14 +113,16 @@
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->
 		<Action name="opengl" />
                 <Action name="artificialhorizon" />
-                <Separator />
-                <Menu name="config_oal"><text>Configure Observation &amp;Logging</text>
+		<Separator />
+		<Menu name="config_oal"><text>Configure Observation &amp;Logging</text>
                 <Action name="equipmentwriter"/>
                 <Action name="manageobserver"/>
 		</Menu>
 		<Separator />
 		<Action name="geolocation" />
-        <Separator />
+		<Separator />
+		<Action name="options_configure_keybinding"/>
+		<Action name="options_configure_toolbars"/>
 		<Action name="configure" />
 		<Action name="startwizard" />
 	</Menu>
@@ -169,4 +174,13 @@
     <Action name="show_horizontal_grid" />
 	<Action name="show_horizon" />    
 </ToolBar>
+
+<ToolBar noMerge="1" name="INDIToolBar" iconText="icononly">
+        <text>INDI Toolbar</text>
+        <Action name="show_ekos" />
+        <Action name="show_control_panel" />        
+        <Action name="show_fits_viewer" />
+        <Action name="show_device_manager" />
+</ToolBar>
+
 </kpartgui>
