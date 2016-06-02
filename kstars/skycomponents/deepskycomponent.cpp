@@ -161,7 +161,7 @@ void DeepSkyComponent::loadData()
         float mag(1000.0);
         int type, ingc, imess(-1), pa;
         int pgc, ugc;
-        QString con, ss, name, name2, longname;
+        QString ss, name, name2, longname;
         QString cat2;
 
         // Designation
@@ -318,6 +318,9 @@ void DeepSkyComponent::loadData()
 
         deep_sky_parser.ShowProgress();
     }
+
+    foreach(QStringList list, objectNames())
+        list.removeDuplicates();
 }
 
 void DeepSkyComponent::mergeSplitFiles() {
