@@ -270,9 +270,10 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
 
     static const QString horizonLabel = i18n("Horizon");
     float marginLeft, marginRight, marginTop, marginBot;
+#ifndef KSTARS_LITE
     SkyLabeler::Instance()->getMargins( horizonLabel, &marginLeft, &marginRight,
                                         &marginTop, &marginBot );
-
+#endif
     //daz is 1/2 the width of the sky in degrees
     double daz = 90.;
     if ( m_vp.useAltAz ) {

@@ -23,9 +23,14 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
-#ifndef KSTARS_LITE
+
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#include "kstarslite/skyitems/linesitem.h"
+#else
 #include "skymap.h"
 #endif
+
 #include "linelist.h"
 #include "dms.h"
 
@@ -92,6 +97,9 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite *parent )
             appendLine( lineList );
         }
     }
+#ifdef KSTARS_LITE
+    SkyMapLite::Instance()->getLinesItem()->addLinesComponent( this, "HorizontalGridColor", 2, Qt::DotLine );
+#endif
     summary();
 }
 
@@ -105,7 +113,7 @@ bool HorizontalCoordinateGrid::selected()
             ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() ) );
 #else
         return( Options::showHorizontalGrid() &&
-            ! ( Options::hideOnSlew() && Options::hideGrids() ) );
+            ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMapLite::IsSlewing() ) );
 #endif
 }
 

@@ -26,6 +26,7 @@ if(BUILD_KSTARS_LITE)
         ${kstars_SOURCE_DIR}/kstars/skycomponents
         ${kstars_SOURCE_DIR}/kstars/auxiliary
         ${kstars_SOURCE_DIR}/kstars/time
+        ${kstars_SOURCE_DIR}/kstars/triangle
     )
 else(BUILD_KSTARS_LITE)
     include_directories(
@@ -141,7 +142,6 @@ if(NOT BUILD_KSTARS_LITE)
           ekos/guide/rcalibration.cpp
           ekos/guide/scroll_graph.cpp
           ekos/guide/vect.cpp
-
        )
 
     endif(CFITSIO_FOUND)
@@ -549,17 +549,48 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/planetsitem.cpp
         kstarslite/skyitems/asteroidsitem.cpp
         kstarslite/skyitems/cometsitem.cpp
-        #Root Nodes
-        kstarslite/skyitems/nodes/rootnode.cpp
-        kstarslite/skyitems/nodes/planetrootnode.cpp
+        kstarslite/skyitems/horizonitem.cpp
+        kstarslite/skyitems/linesitem.cpp
+        #RootNodes
+        kstarslite/skyitems/skynodes/rootnodes/rootnode.cpp
+        kstarslite/skyitems/skynodes/rootnodes/linesrootnode.cpp
+        #SkyNodes
+        kstarslite/skyitems/skynodes/planetnode.cpp
+        kstarslite/skyitems/skynodes/skynode.cpp
+        kstarslite/skyitems/skynodes/pointsourcenode.cpp
+        kstarslite/skyitems/skynodes/planetmoonsnode.cpp
+        kstarslite/skyitems/skynodes/horizonnode.cpp
+        kstarslite/skyitems/skynodes/trixelnode.cpp
         #Nodes
-        kstarslite/skyitems/nodes/planetnode.cpp
-        kstarslite/skyitems/nodes/pointnode.cpp
-        kstarslite/skyitems/nodes/skynode.cpp
-        kstarslite/skyitems/nodes/pointsourcenode.cpp
-        kstarslite/skyitems/nodes/planetmoonsnode.cpp
+        kstarslite/skyitems/skynodes/nodes/pointnode.cpp
+        kstarslite/skyitems/skynodes/nodes/polynode.cpp
+        kstarslite/skyitems/skynodes/nodes/linenode.cpp
+        #libtess
+        libtess/dict.c
+        libtess/geom.c
+        libtess/gluos.h
+        libtess/memalloc.c
+        libtess/mesh.c
+        libtess/normal.c
+        libtess/priorityq-sort.h
+        libtess/priorityq.c
+        libtess/render.c
+        libtess/sweep.c
+        libtess/tess.c
+        libtess/tessmono.c
+        libtess/priorityq-heap.c
+        libtess/dict-list.h
+        libtess/glu.h
+        libtess/tessellate.c
     )
-    #Qml files will be probably moved to user's data dir, but for use
+    add_definitions(-DANSI_DECLARATORS) #Needed for Triangle
+    add_definitions(-DTRILIBRARY)
+    add_definitions(-DREDUCED)
+    #add_definitions(-DCDT_ONLY)
+    if(NOT ANDROID)
+        add_definitions(-DLINUX)
+    endif()
+#Qml files will be probably moved to user's data dir, but for use
     #with QtCreator it is more convenient to have them here
     set(kstarsliteqml_SRCS
         kstarslite/qml/main.qml
@@ -630,11 +661,7 @@ if(NOT BUILD_KSTARS_LITE)
     )
 endif(NOT BUILD_KSTARS_LITE)
 
-set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
-        ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
-        ${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
-        ${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
-        ${printing_SRCS} ${kstarslite_SRCS} ${kstarslite_RESOURCE}
+set(kstars_SRCS  ${kstarslite_SRCS} ${kstarslite_RESOURCE}
 )
 if(BUILD_KSTARS_LITE)
     kconfig_add_kcfg_files(kstars_SRCS GENERATE_MOC ${kstars_KCFG_SRCS})
@@ -673,7 +700,13 @@ if(NOT BUILD_KSTARS_LITE)
 endif(NOT BUILD_KSTARS_LITE)
 
 add_executable(kstars main.cpp)
-add_library( KStarsLib STATIC ${kstars_SRCS})
+
+add_library( KStarsLib STATIC ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
+    ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
+    ${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
+    ${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
+    ${printing_SRCS} ${kstars_SRCS} ${kstarslite_RESOURCE})
+
 # FIXME TODO
 #target_include_directories(KStarsLib INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/>")
 if(BUILD_KSTARS_LITE)

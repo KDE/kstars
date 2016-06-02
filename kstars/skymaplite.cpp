@@ -33,6 +33,8 @@
 #include "kstarslite/skyitems/planetsitem.h"
 #include "kstarslite/skyitems/asteroidsitem.h"
 #include "kstarslite/skyitems/cometsitem.h"
+#include "kstarslite/skyitems/horizonitem.h"
+#include "kstarslite/skyitems/linesitem.h"
 
 #include "ksplanetbase.h"
 #include "ksutils.h"
@@ -87,11 +89,24 @@ int SkyMapLite::starColorMode = 0;
 SkyMapLite::SkyMapLite(QQuickItem* parent)
     :QQuickItem(parent), m_proj(0), count(0), data(KStarsData::Instance()),
       nStarSizes(15), nSPclasses(7), m_planetsItem(new PlanetsItem(this)),
-      m_asteroidsItem(new AsteroidsItem(this)), m_cometsItem(new CometsItem(this)), pinch(false)
+      m_asteroidsItem(new AsteroidsItem(this)), m_cometsItem(new CometsItem(this)), pinch(false),
+      m_linesItem(new LinesItem(this)), m_horizonItem(new HorizonItem(this))
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
     setFlag(ItemHasContents, true);
+
+    m_horizonItem->setZ(1);
+
+    midMouseButtonDown = false;
+    mouseButtonDown = false;
+    slewing = false;
+    clockSlewing = false;
+
+    ClickedObject = NULL;
+    FocusObject = NULL;
+
+    setupProjector();
 
     // Whenever the wrapper's(parent) dimensions changed, change SkyMapLite too
     connect(parent, &QQuickItem::widthChanged, this, &SkyMapLite::resizeItem);
@@ -213,7 +228,7 @@ void SkyMapLite::slewFocus() {
     //08/2002: added possibility for one-time skipping of slew with snapNextFocus
     if ( !mouseButtonDown ) {
         bool goSlew =  ( Options::useAnimatedSlewing() && ! data->snapNextFocus() ) &&
-                      !( data->clock()->isManualMode() && data->clock()->isActive() );
+                !( data->clock()->isManualMode() && data->clock()->isActive() );
         if ( goSlew  ) {
             double dX, dY;
             double maxstep = 10.0;
@@ -351,14 +366,6 @@ void SkyMapLite::slotClockSlewing() {
     }
 }*/
 
-void SkyMapLite::addPlanet(SolarSystemSingleComponent *planetComp) {
-    m_planetsItem->addPlanet(planetComp);
-}
-
-void SkyMapLite::addPlanetMoons(PlanetMoonsComponent *moonsComp) {
-    m_planetsItem->addMoons(moonsComp);
-}
-
 void SkyMapLite::resizeItem() {
     setWidth(parentItem()->width());
     setHeight(parentItem()->height());
@@ -401,6 +408,9 @@ void SkyMapLite::forceUpdate() {
         m_asteroidsItem->setVisible(false);
         m_cometsItem->setVisible(false);
     }
+
+    m_horizonItem->update();
+    m_linesItem->update();
 }
 
 void SkyMapLite::setupProjector() {
@@ -420,25 +430,25 @@ void SkyMapLite::setupProjector() {
     else {
         delete m_proj;
         switch( Options::projection() ) {
-            case Projector::Gnomonic:
-                m_proj = new GnomonicProjector(p);
-                break;
-            case Projector::Stereographic:
-                m_proj = new StereographicProjector(p);
-                break;
-            case Projector::Orthographic:
-                m_proj = new OrthographicProjector(p);
-                break;
-            case Projector::AzimuthalEquidistant:
-                m_proj = new AzimuthalEquidistantProjector(p);
-                break;
-            case Projector::Equirectangular:
-                m_proj = new EquirectangularProjector(p);
-                break;
-            case Projector::Lambert: default:
-                //TODO: implement other projection classes
-                m_proj = new LambertProjector(p);
-                break;
+        case Projector::Gnomonic:
+            m_proj = new GnomonicProjector(p);
+            break;
+        case Projector::Stereographic:
+            m_proj = new StereographicProjector(p);
+            break;
+        case Projector::Orthographic:
+            m_proj = new OrthographicProjector(p);
+            break;
+        case Projector::AzimuthalEquidistant:
+            m_proj = new AzimuthalEquidistantProjector(p);
+            break;
+        case Projector::Equirectangular:
+            m_proj = new EquirectangularProjector(p);
+            break;
+        case Projector::Lambert: default:
+            //TODO: implement other projection classes
+            m_proj = new LambertProjector(p);
+            break;
         }
     }
 }

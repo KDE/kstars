@@ -20,7 +20,7 @@
 #include "skymaplite.h"
 #include "pointsourcenode.h"
 #include "skyobject.h"
-#include "pointnode.h"
+#include "nodes/pointnode.h"
 #include "Options.h"
 
 PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode* p, char sp, float size)

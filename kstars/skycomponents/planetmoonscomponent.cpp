@@ -25,6 +25,7 @@
 #include "kstarsdata.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
+#include "kstarslite/skyitems/planetsitem.h"
 #else
 #include "skymap.h"
 #endif
@@ -62,7 +63,7 @@ PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
 
 #ifdef KSTARS_LITE
     SkyMapLite *map = SkyMapLite::Instance();
-    map->addPlanetMoons(this);
+    map->getPlanetsItem()->addMoons(this);
 #endif
 }
 

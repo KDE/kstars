@@ -180,11 +180,10 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
 
     if ( mouseButtonDown ) {
         // set the mouseMoveCursor and set slewing=true, if they are not set yet
-        if( !mouseMoveCursor )
-            //setMouseMoveCursor();
-            if( !slewing ) {
-                slewing = true;
-                //stopTracking(); //toggle tracking off
+        if( !mouseMoveCursor ) setMouseMoveCursor();
+        if( !slewing ) {
+            slewing = true;
+            //stopTracking(); //toggle tracking off
             }
 
         //Update focus such that the sky coords at mouse cursor remain approximately constant

@@ -59,6 +59,12 @@ public:
      */
     virtual void draw( SkyPainter *skyp );
 
+#ifdef KSTARS_LITE
+    /**
+     * @short KStars Lite needs direct access to m_lineIndex for drawing the lines
+     */
+    inline LineListHash* lineIndex() const { return m_lineIndex; }
+#endif
 protected:
     /** @short this is called from within the draw routines when the updateID
      * of the lineList is stale.  It is virtual because different subclasses
@@ -152,8 +158,7 @@ protected:
 
     virtual LineListLabel* label() {return 0;}
     
-    inline LineListList  listList() const { return m_listList; }
-    
+    inline LineListList listList() const { return m_listList; }
 private:
     QString      m_name;
 

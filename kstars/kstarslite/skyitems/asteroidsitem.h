@@ -19,6 +19,7 @@
 #include "skyitem.h"
 
 class KSAsteroid;
+class SkyObject;
 
 class AsteroidsItem : public SkyItem {
 public:
@@ -32,7 +33,7 @@ public:
      *
      * @param KSAsteroid that should be displayed on SkyMapLite
      */
-    void addAsteroid(KSAsteroid * asteroid);
+    void setAsteroidsList(QList<SkyObject*> *asteroidsList);
     /**
      * Sets m_clear to true. On next call to updatePaintNode all SkyNodes in RootNode and
      * all KSAsteroids in m_asteroids and m_toAdd will be deleted.
@@ -43,7 +44,8 @@ protected:
     virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) override;
 private:
     bool m_clear;
-    QList<KSAsteroid*> m_asteroids;
-    QList<KSAsteroid*> m_toAdd;
+    bool m_addAsteroids;
+
+    QList<SkyObject*> *m_asteroidsList;
 };
 #endif

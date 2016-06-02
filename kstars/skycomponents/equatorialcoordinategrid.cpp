@@ -23,9 +23,14 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
-#ifndef KSTARS_LITE
+
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#include "kstarslite/skyitems/linesitem.h"
+#else
 #include "skymap.h"
 #endif
+
 #include "linelist.h"
 #include "dms.h"
 
@@ -87,7 +92,9 @@ EquatorialCoordinateGrid::EquatorialCoordinateGrid( SkyComposite *parent )
             appendLine( lineList );
         }
     }
-    
+#ifdef KSTARS_LITE
+    SkyMapLite::Instance()->getLinesItem()->addLinesComponent( this, "EquatorialGridColor", 1, Qt::DotLine );
+#endif
     summary();
 }
 
@@ -101,15 +108,13 @@ bool EquatorialCoordinateGrid::selected()
                 ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() ) );
 #else
         return( Options::showEquatorialGrid() &&
-                ! ( Options::hideOnSlew() && Options::hideGrids() ) );
+                ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMapLite::IsSlewing() ) );
 #endif
 }
 
 void EquatorialCoordinateGrid::preDraw( SkyPainter* skyp )
 {
-#ifndef KSTARS_LITE
     KStarsData *data = KStarsData::Instance();
     QColor color = data->colorScheme()->colorNamed( "EquatorialGridColor" );
     skyp->setPen( QPen( QBrush( color ), 1, Qt::DotLine ) );
-#endif
 }

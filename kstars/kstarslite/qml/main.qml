@@ -13,6 +13,7 @@ Window {
     property int bgOrder: 1
     property int skyMapOrder: 0
     property int topMenuOrder: 0
+    objectName: "mainWindow"
 
     Splash {
         z:1

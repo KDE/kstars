@@ -4,15 +4,15 @@
 #include "rootnode.h"
 #include "skymaplite.h"
 #include "projections/projector.h"
-#include "skynode.h"
+#include "../skynode.h"
 
 RootNode::RootNode()
-    :m_polyNode(new QSGGeometryNode), m_skyMapLite(SkyMapLite::Instance()),
-      m_polyGeometry(0)
+    :m_clipNode(new QSGGeometryNode), m_skyMapLite(SkyMapLite::Instance()),
+      m_clipGeometry(0)
 {
     genCachedTextures();
     updateClipPoly();
-    setIsRectangular(false);
+    //setIsRectangular(false);
 }
 
 void RootNode::genCachedTextures() {
@@ -59,7 +59,7 @@ void RootNode::removeAllSkyNodes() {
 }
 
 void RootNode::updateClipPoly() {
-    QPolygonF newClip = m_skyMapLite->projector()->clipPoly();
+    /*    QPolygonF newClip = m_skyMapLite->projector()->clipPoly();
     if(m_clipPoly != newClip) {
         m_clipPoly = newClip;
         QVector<QPointF> triangles;
@@ -70,20 +70,22 @@ void RootNode::updateClipPoly() {
             triangles.append(m_clipPoly[i+1]);
         }
 
-        const int size = triangles.size();
-        if(!m_polyGeometry) {
-            m_polyGeometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D (),
+
+    /*const int size = 0;
+        if(!m_clipGeometry) {
+            m_clipGeometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D (),
                                               size);
-            m_polyGeometry->setDrawingMode (GL_TRIANGLES);
-            setGeometry(m_polyGeometry);
+            m_clipGeometry->setDrawingMode(GL_TRIANGLES);
+            setGeometry(m_clipGeometry);
         } else {
-            m_polyGeometry->allocate(size);
+            m_clipGeometry->allocate(size);
         }
 
-        QSGGeometry::Point2D * vertex = m_polyGeometry->vertexDataAsPoint2D ();
-        for (int idx = 0; idx < size; idx++) {
-            vertex [idx].x = triangles[idx].x ();
-            vertex [idx].y = triangles[idx].y ();
+        QSGGeometry::Point2D * vertex = m_clipGeometry->vertexDataAsPoint2D ();
+        for (int i = 0; i < size; i++) {
+            //vertex[i].x = triangles[i].x();
+            //vertex[i].y = triangles[i].y();
         }
-    }
+        m_clipNode->markDirty(QSGNode::DirtyGeometry);*/
 }
+

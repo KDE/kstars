@@ -28,7 +28,13 @@
 #include "skyobjects/starobject.h"
 #include "skycomponents/starcomponent.h"
 #include "skycomponents/culturelist.h"
+
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#include "kstarslite/skyitems/linesitem.h"
+#else
 #include "skymap.h"
+#endif
 
 #include "skymesh.h"
 #include "ksfilereader.h"
@@ -107,6 +113,10 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
     if( lineList )
         appendLine( lineList );
 
+#ifdef KSTARS_LITE
+    SkyMapLite::Instance()->getLinesItem()->addLinesComponent( this, "CLineColor", 1, Qt::SolidLine );
+#endif
+
     m_reindexInterval = StarObject::reindexInterval( maxPM );
     //printf("CLines:           maxPM = %6.1f milliarcsec/year\n", maxPM );
     //printf("CLines: Update Interval = %6.1f years\n", m_reindexInterval * 100.0 );
@@ -119,8 +129,8 @@ bool ConstellationLines::selected()
     return Options::showCLines() &&
            ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing() );
 #else
-    return Options::showCLines() && //TODO: Implement isSlewing in KStars Lite if needed
-           ! ( Options::hideOnSlew() && Options::hideCLines() );
+    return Options::showCLines() &&
+           ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMapLite::IsSlewing() );
 #endif
 }
 

@@ -24,7 +24,7 @@
 #include "projections/projector.h"
 
 #include "planetnode.h"
-#include "pointnode.h"
+#include "nodes/pointnode.h"
 
 PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode)
     :SkyNode(pb), m_planetPic(new QSGSimpleTextureNode), m_planetOpacity(new QSGOpacityNode)

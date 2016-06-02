@@ -1,5 +1,5 @@
 /** *************************************************************************
-                          planetrootnode.h  -  K Desktop Planetarium
+                          pointnode.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 05/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
@@ -13,21 +13,40 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef PLANETROOTNODE_H_
-#define PLANETROOTNODE_H_
-#include "rootnode.h"
-class PlanetNode;
 
-/** @class PlanetRootNode
- *@short A RootNode derived class used as a container for holding PlanetNodes.
- * Might be deleted soon
- *@author Artem Fedoskin
- *@version 1.0
- */
+#include <QImage>
+#include <QQuickWindow>
 
-class PlanetRootNode : public RootNode {
-public:
-    PlanetRootNode();
-private:
-};
-#endif
+#include "pointnode.h"
+#include "../rootnodes/rootnode.h"
+
+PointNode::PointNode(RootNode* p, char sp, float size)
+    :spType(sp), texture(new QSGSimpleTextureNode), m_rootNode(p)
+{
+    appendChildNode(texture);
+    setSize(size);
+}
+
+void PointNode::setSize(float size) {
+    int isize = qMin(static_cast<int>(size), 14);
+    texture->setTexture(m_rootNode->getCachedTexture(isize, spType));
+    //markDirty(QSGNode::DirtyMaterial);
+
+    QSize tSize = texture->texture()->textureSize();
+    QRectF oldRect = texture->rect();
+    texture->setRect(QRect(oldRect.x(),oldRect.y(),tSize.width(),tSize.height()));
+}
+
+void PointNode::show() {
+    if(!opacity()) {
+        setOpacity(1);
+        markDirty(QSGNode::DirtyOpacity);
+    }
+}
+
+void PointNode::hide() {
+    if(opacity()) {
+        setOpacity(0);
+        markDirty(QSGNode::DirtyOpacity);
+    }
+}

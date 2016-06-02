@@ -27,7 +27,10 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#include "kstarslite/skyitems/linesitem.h"
+#else
 #include "skymap.h"
 #endif
 #include "skyobjects/skyobject.h"
@@ -145,6 +148,9 @@ ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComposite *parent )
         appendLine( lineList );
     if( polyList )
         appendPoly( polyList, idxFile, verbose );
+#ifdef KSTARS_LITE
+    SkyMapLite::Instance()->getLinesItem()->addLinesComponent( this, "CBoundColor", 1, Qt::SolidLine );
+#endif
 }
 
 bool ConstellationBoundaryLines::selected()
@@ -153,8 +159,8 @@ bool ConstellationBoundaryLines::selected()
     return Options::showCBounds() &&
            ! ( Options::hideOnSlew() && Options::hideCBounds() && SkyMap::IsSlewing() );
 #else
-    return Options::showCBounds() && //TODO: Implement isSlewing in KStars Lite if needed
-           ! ( Options::hideOnSlew() && Options::hideCBounds() );
+    return Options::showCBounds() &&
+           ! ( Options::hideOnSlew() && Options::hideCBounds() && SkyMapLite::IsSlewing());
 #endif
 }
 

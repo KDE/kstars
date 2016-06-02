@@ -20,25 +20,23 @@
 #include "projections/projector.h"
 #include "ksasteroid.h"
 
-#include "nodes/planetnode.h"
-#include "nodes/planetrootnode.h"
-#include "nodes/pointsourcenode.h"
+#include "skynodes/rootnodes/rootnode.h"
+#include "skynodes/planetnode.h"
+#include "skynodes/pointsourcenode.h"
 
 AsteroidsItem::AsteroidsItem(QQuickItem* parent)
-    :SkyItem(parent)
+    :SkyItem(parent), m_asteroidsList(0), m_clear(false)
 {
 
 }
 
-void AsteroidsItem::addAsteroid(KSAsteroid * asteroid) {
-    if(!m_asteroids.contains(asteroid) && !m_toAdd.contains(asteroid))
-        m_toAdd.append(asteroid);
+void AsteroidsItem::setAsteroidsList(QList<SkyObject*> *asteroidsList) {
+    m_asteroidsList = asteroidsList;
+    m_addAsteroids = true;
 }
 
 void AsteroidsItem::clear() {
     m_clear = true;
-    m_asteroids.clear();
-    m_toAdd.clear();
 }
 
 QSGNode* AsteroidsItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
@@ -53,41 +51,32 @@ QSGNode* AsteroidsItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *u
         return 0;
     }
 
-    if(!n) {
-        n = new RootNode; // If no RootNode exists create one
-        int pAstLen = m_asteroids.length();
-        if(pAstLen > 0) {
-            /* If there are some asteroids that have been already displayed once then recreate them
-                 in new instance of RootNode*/
-            for(int i = 0; i < pAstLen; ++i) {
-                if (m_asteroids[i]->image().isNull() == false) {
-                    n->appendSkyNode(new PlanetNode(m_asteroids[i], n));
-                }
-                else {
-                    n->appendSkyNode(new PointSourceNode(m_asteroids[i],n));
-                }
-            }
-        }
-    }
-
     if(m_clear) {
-        n->removeAllSkyNodes();
+        if(n) n->removeAllSkyNodes();
         m_clear = false;
     }
 
-    int addLength = m_toAdd.length();
-    if(addLength > 0) { // If there are some new asteroids to add
-        for(int i = 0; i < addLength; ++i) {
-            m_asteroids.append(m_toAdd[i]);
-            if (m_asteroids[i]->image().isNull() == false) {
-                n->appendSkyNode(new PlanetNode(m_toAdd[i], n));
+    if(!n) {
+        if(!m_asteroidsList) return 0;// AsteroidsComponent is not ready
+        n = new RootNode; // If no RootNode exists create one
+    }
+
+    if(m_addAsteroids) {
+        int pAstLen = m_asteroidsList->length();
+        /* If there are some asteroids that have been already displayed once then recreate them
+             in new instance of RootNode*/
+        for(int i = 0; i < pAstLen; ++i) {
+            KSAsteroid *ast = static_cast<KSAsteroid *>(m_asteroidsList->value(i));
+            if (ast->image().isNull() == false) {
+                n->appendSkyNode(new PlanetNode(ast, n));
             }
             else {
-                n->appendSkyNode(new PointSourceNode(m_toAdd[i],n));
+                n->appendSkyNode(new PointSourceNode(ast,n));
             }
         }
-        m_toAdd.clear();
+        m_addAsteroids = false;
     }
+
     //Update clipping geometry. If m_clipPoly in SkyMapLite wasn't changed, geometry is not updated
     n->updateClipPoly();
     //Traverse all children nodes of PlanetRootNode

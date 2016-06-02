@@ -95,6 +95,7 @@ void AsteroidsComponent::loadData()
 
     emitProgressText( i18n("Loading asteroids") );
 
+    // Clear Asteroid nodes in AsteroidsItem
 #ifdef KSTARS_LITE
     AsteroidsItem * asteroidsItem = SkyMapLite::Instance()->getAsteroidsItem();
     asteroidsItem->clear();
@@ -192,12 +193,12 @@ void AsteroidsComponent::loadData()
         //new_asteroid->setAngularSize(0.005);
 
         m_ObjectList.append(new_asteroid);
-#ifdef KSTARS_LITE
-        asteroidsItem->addAsteroid(new_asteroid);
-#endif
         // Add name to the list of object names
         objectNames(SkyObject::ASTEROID).append(name);
     }
+#ifdef KSTARS_LITE
+        asteroidsItem->setAsteroidsList(&m_ObjectList);
+#endif
 }
 
 

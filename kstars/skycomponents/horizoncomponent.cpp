@@ -23,9 +23,14 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
-#ifndef KSTARS_LITE
+
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#include "kstarslite/skyitems/horizonitem.h"
+#else
 #include "skymap.h"
 #endif
+
 #include "skyobjects/skypoint.h" 
 #include "dms.h"
 #include "skylabeler.h"
@@ -50,6 +55,9 @@ HorizonComponent::HorizonComponent(SkyComposite *parent )
         o->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         pointList().append( o );
     }
+#ifdef KSTARS_LITE
+    SkyMapLite::Instance()->getHorizonItem()->setHorizonComp(this);
+#endif
 }
 
 HorizonComponent::~HorizonComponent()

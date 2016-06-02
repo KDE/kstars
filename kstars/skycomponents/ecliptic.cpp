@@ -19,9 +19,14 @@
 
 #include "ksnumbers.h"
 #include "kstarsdata.h"
-#ifndef KSTARS_LITE
+
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#include "kstarslite/skyitems/linesitem.h"
+#else
 #include "skymap.h"
 #endif
+
 #include "skyobjects/skypoint.h" 
 #include "dms.h"
 #include "Options.h"
@@ -58,6 +63,9 @@ Ecliptic::Ecliptic(SkyComposite *parent ) :
         }
         appendLine( lineList );
     }
+#ifdef KSTARS_LITE
+    SkyMapLite::Instance()->getLinesItem()->addLinesComponent( this, "EclColor", 1, Qt::SolidLine );
+#endif
 }
 
 bool Ecliptic::selected()

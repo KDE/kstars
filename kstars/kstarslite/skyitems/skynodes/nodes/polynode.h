@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          pointnode.h  -  K Desktop Planetarium
+                          polynode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 05/05/2016
+    begin                : 28/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,14 +13,13 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef POINTNODE_H_
-#define POINTNODE_H_
-#include <QSGSimpleTextureNode>
+#ifndef POLYNODE_H_
+#define POLYNODE_H_
+#include <QSGOpacityNode>
+#include <QSGGeometry>
+#include <QSGFlatColorMaterial>
 
-class PlanetItemNode;
-class SkyMapLite;
-
-/** @class PointNode
+/** @class PolyNode
  *
  * A QSGOpacityNode derived class used for representing stars and planets as stars. Upon
  * construction loads the texture of star cached in parentNode
@@ -31,31 +30,27 @@ class SkyMapLite;
  */
 
 class RootNode;
+class QSGGeometryNode;
+class QSGGeometry;
 
-class PointNode : public QSGOpacityNode  {
+class PolyNode : public QSGOpacityNode  {
 public:
-    /**
-     * @short Constructor
-     * @param spType spectral type
-     * @param parentNode pointer to the top parent node, which holds texture cache
-     * @param size initial size of PointNode
-     */
-    PointNode(RootNode* parentNode, char spType = 'A', float size = 1);
-    /**
-     * @short setSize update size of PointNode with the given parameter
-     * @param size new size of PointNode
-     */
-    void setSize(float size);
+    PolyNode();
 
-    inline QSizeF size() const { return texture->rect().size(); }
+    void setColor(QColor color);
+    inline void setLineWidth(int width) { m_geometry->setLineWidth(width); }
+
+    void updateGeometry(QPolygonF polygon, bool filled);
+
+    inline QColor getColor() { return m_material->color(); }
 
     void show();
     void hide();
 private:
-    char spType;
-    QSGSimpleTextureNode *texture;
-    //parentNode holds texture cache
-    RootNode* parentNode;
+    QSGGeometryNode *m_geometryNode;
+    QSGGeometry *m_geometry;
+    QSGFlatColorMaterial *m_material;
 };
 
 #endif
+

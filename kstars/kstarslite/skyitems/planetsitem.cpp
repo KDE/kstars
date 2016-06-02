@@ -20,9 +20,9 @@
 #include "ksplanet.h"
 #include "planetmoonscomponent.h"
 
-#include "nodes/planetmoonsnode.h"
-#include "nodes/planetnode.h"
-#include "nodes/rootnode.h"
+#include "skynodes/planetmoonsnode.h"
+#include "skynodes/planetnode.h"
+#include "skynodes/rootnodes/rootnode.h"
 
 #include "Options.h"
 

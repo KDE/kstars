@@ -45,6 +45,7 @@ void KStarsLite::datainitFinished() {
 
     //Notify Splash in QML that loading of data is finished
     dataLoadFinished();
+    map()->forceUpdate();
 }
 
 void KStarsLite::initFocus() {

@@ -19,10 +19,13 @@
 
 #include "ksnumbers.h"
 #include "kstarsdata.h"
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#include "kstarslite/skyitems/linesitem.h"
+#else
 #include "skymap.h"
 #endif
-#include "skyobjects/skypoint.h" 
+#include "skyobjects/skypoint.h"
 #include "dms.h"
 #include "Options.h"
 #include "linelist.h"
@@ -53,6 +56,9 @@ Equator::Equator(SkyComposite *parent ) :
         }
         appendLine( lineList );
     }
+#ifdef KSTARS_LITE
+    SkyMapLite::Instance()->getLinesItem()->addLinesComponent( this, "EqColor", 1, Qt::SolidLine );
+#endif
 }
 
 bool Equator::selected()

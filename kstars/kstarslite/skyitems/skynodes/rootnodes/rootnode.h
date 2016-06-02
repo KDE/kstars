@@ -35,7 +35,7 @@ class SkyNode;
  *@version 1.0
  */
 
-class RootNode : public QSGClipNode {
+class RootNode : public QSGNode { //Clipping under construction
 public:
     RootNode();
     /**
@@ -47,7 +47,7 @@ public:
     QSGTexture* getCachedTexture(int size, char spType);
 
     /**
-     * @short triangulates clipping polygon provided by Projection system
+     * @short triangulates and sets new clipping polygon provided by Projection system
      */
     void updateClipPoly();
 
@@ -90,8 +90,8 @@ private:
     SkyMapLite *m_skyMapLite;
 
     QPolygonF m_clipPoly;
-    QSGGeometryNode *m_polyNode;
-    QSGGeometry *m_polyGeometry;
+    QSGGeometryNode *m_clipNode;
+    QSGGeometry *m_clipGeometry;
     //To hold nodes that represent sky objects
     QVector<SkyNode *> m_skyNodes;
     bool m_hidden;

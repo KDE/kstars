@@ -19,6 +19,9 @@
 #include "kstarsdata.h"
 #include <QQmlContext>
 #include <QApplication>
+#include <QQuickWindow>
+#include <QSurfaceFormat>
+
 #include "kspaths.h"
 
 #include "Options.h"
@@ -53,7 +56,15 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
 
     m_RootObject = m_Engine.rootObjects()[0];
 
-    QQuickItem* skyMapLiteWrapper = m_RootObject->findChild<QQuickItem*>("skyMapLiteWrapper");
+    QQuickItem *skyMapLiteWrapper = m_RootObject->findChild<QQuickItem*>("skyMapLiteWrapper");
+
+    //QQuickWindow *mainWindow = m_RootObject->findChild<QQuickWindow*>("mainWindow");
+    QQuickWindow *mainWindow = static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
+
+    QSurfaceFormat format = mainWindow->format();
+    format.setSamples(4);
+    format.setSwapBehavior (QSurfaceFormat::TripleBuffer);
+    mainWindow->setFormat(format);
 
     //Set Geographic Location from Options
     m_KStarsData->setLocationFromOptions();

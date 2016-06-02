@@ -20,9 +20,8 @@
 #include "projections/projector.h"
 #include "kscomet.h"
 
-#include "nodes/planetnode.h"
-#include "nodes/planetrootnode.h"
-#include "nodes/pointsourcenode.h"
+#include "skynodes/rootnodes/rootnode.h"
+#include "skynodes/pointsourcenode.h"
 
 CometsItem::CometsItem(QQuickItem* parent)
     :SkyItem(parent)
@@ -90,7 +89,7 @@ QSGNode* CometsItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
     skyp->setPen( QPen( QColor( "darkcyan" ) ) );
     skyp->setBrush( QBrush( QColor( "darkcyan" ) ) );*/
 
-    //Traverse all children nodes of PlanetRootNode
+    //Traverse all children nodes of RootNode
     for(int i = 0; i < n->skyNodesCount(); ++i) {
         SkyNode* skyNode = static_cast<SkyNode*>(n->skyNodeAtIndex(i));
 
