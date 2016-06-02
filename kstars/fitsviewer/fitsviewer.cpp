@@ -223,7 +223,7 @@ void FITSViewer::closeEvent(QCloseEvent * /*event*/)
     QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
     QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
 
-    if (viewers.count() == 1)
+    if (a && viewers.count() == 1)
     {
         a->setEnabled(false);
         a->setChecked(false);
@@ -233,17 +233,23 @@ void FITSViewer::closeEvent(QCloseEvent * /*event*/)
 void FITSViewer::hideEvent(QHideEvent * /*event*/)
 {
     QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
-    QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+    if (a)
+    {
+        QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
 
-    if (viewers.count() == 1)
-        a->setChecked(false);
+        if (viewers.count() == 1)
+            a->setChecked(false);
+    }
 }
 
 void FITSViewer::showEvent(QShowEvent * /*event*/)
 {
     QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
-    a->setEnabled(true);
-    a->setChecked(true);
+    if (a)
+    {
+        a->setEnabled(true);
+        a->setChecked(true);
+    }
 }
 
 int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
