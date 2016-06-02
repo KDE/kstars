@@ -67,6 +67,10 @@ void CatalogComponent::loadData() {
         }
     }
 
+    // Remove Duplicates
+    foreach(QStringList list, objectNames())
+        list.removeDuplicates();
+
     CatalogData loaded_catalog_data;
     KStarsData::Instance()->catalogdb()->GetCatalogData(m_catName, loaded_catalog_data);
     m_catPrefix = loaded_catalog_data.prefix;
