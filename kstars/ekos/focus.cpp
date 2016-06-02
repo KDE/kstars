@@ -884,44 +884,49 @@ void Focus::newFITS(IBLOB *bp)
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    image_data->findStars();
-
-    currentHFR= image_data->getHFR(HFR_MAX);
-
-    if (currentHFR == -1)
+    // If we're not framing, let's try to detect stars
+    if (inFocusLoop == false)
     {
-        currentHFR = image_data->getHFR();
+        image_data->findStars();
+
+        currentHFR= image_data->getHFR(HFR_MAX);
+
+        if (currentHFR == -1)
+        {
+            currentHFR = image_data->getHFR();
+        }
+
+        if (Options::focusLogging())
+            qDebug() << "Focus newFITS: Current HFR " << currentHFR;
+
+        HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
+
+        if (focusType == FOCUS_MANUAL && lastHFR == -1)
+                appendLogText(i18n("FITS received. No stars detected."));
+
+        HFROut->setText(HFRText);
+
+        if (currentHFR > 0)
+        {
+            if (currentHFR > maxHFR)
+                maxHFR = currentHFR;
+
+            if (hfr_position.empty())
+                hfr_position.append(1);
+            else
+                hfr_position.append(hfr_position.last()+1);
+            hfr_value.append(currentHFR);
+
+            if (focusType == FOCUS_MANUAL || (inAutoFocus && canAbsMove == false && canRelMove == false))
+                drawHFRPlot();
+        }
     }
-
-    if (Options::focusLogging())
-        qDebug() << "Focus newFITS: Current HFR " << currentHFR;
-
-    HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
-
-    if (inFocusLoop == false && focusType == FOCUS_MANUAL && lastHFR == -1)
-            appendLogText(i18n("FITS received. No stars detected."));
-
-    HFROut->setText(HFRText);
-
-    if (currentHFR > 0)
-    {
-        if (currentHFR > maxHFR)
-            maxHFR = currentHFR;
-
-        if (hfr_position.empty())
-            hfr_position.append(1);
-        else
-            hfr_position.append(hfr_position.last()+1);
-        hfr_value.append(currentHFR);
-
-        if (focusType == FOCUS_MANUAL || (inAutoFocus && canAbsMove == false && canRelMove == false))
-            drawHFRPlot();
-    }
-
-    if (inFocusLoop)
+    // If just framing, let's capture again
+    else
     {
         capture();
         return;
+
     }
 
     if (starSelected == false)

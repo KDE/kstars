@@ -149,15 +149,13 @@ bool ServerManager::startDriver(DriverInfo *dv)
          return false;
     }
 
-        //qDebug() << "Will run driver: " << dv->getName() << " with driver " << dv->getDriver() <<
-        //            " Unique Label " << dv->getUniqueLabel() << endl;
-
         out << "start " << dv->getDriver();
         if (dv->getUniqueLabel().isEmpty() == false)
             out << " -n \"" << dv->getUniqueLabel() << "\"";
         if (dv->getSkeletonFile().isEmpty() == false)
             out << " -s \"" << Options::indiDriversDir() << QDir::separator() << dv->getSkeletonFile() << "\"";
         out << endl;
+
         out.flush();
 
         dv->setServerState(true);
@@ -246,7 +244,15 @@ void ServerManager::processServerError(QProcess::ProcessError err)
 
 void ServerManager::processStandardError()
 {
-    serverBuffer.append(serverProcess->readAllStandardError());
+    QString stderr = serverProcess->readAllStandardError();
+
+    serverBuffer.append(stderr);
+
+    if (Options::iNDILogging())
+    {
+        foreach(QString msg, stderr.split("\n"))
+            qDebug() << "INDI Server: " << msg;
+    }
 
     if (driverCrashed == false && (serverBuffer.contains("stdin EOF") || serverBuffer.contains("stderr EOF")))
     {

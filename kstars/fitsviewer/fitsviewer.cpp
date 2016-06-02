@@ -48,18 +48,6 @@
 #include <KStandardAction>
 #include <KToolBar>
 #include <KLocalizedString>
-//#include <klineedit.h>
-
-#include <cmath>
-#ifndef __MINGW32__
-  #include <unistd.h>
-#endif
-#include <cstdlib>
-#include <string.h>
-#include <errno.h>
-#ifndef __MINGW32__
-  #include <netinet/in.h>
-#endif
 
 #include "kstars.h"
 #include "fitsdata.h"
