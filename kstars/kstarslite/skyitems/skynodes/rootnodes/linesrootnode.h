@@ -17,7 +17,7 @@
 #ifndef LINESROOTNODE_H_
 #define LINESROOTNODE_H_
 #include "linelistindex.h"
-#include <QSGNode>
+#include "rootnode.h"
 
 /** @class LinesRootNode
  *
@@ -32,7 +32,7 @@
 class LinesRootNode : public QSGNode { //Clipping under construction
 public:
     LinesRootNode();
-    void addLinesComponent(LineListIndex * linesList, QString color, int width, Qt::PenStyle style);
+    void addLinesComponent(LineListIndex * linesList, QString color, int width, Qt::PenStyle style, int z);
     void update();
 private:
     QMap<QSGOpacityNode *, LineListIndex *> m_lineIndexes;

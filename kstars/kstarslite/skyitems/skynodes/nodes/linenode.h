@@ -32,7 +32,7 @@ class QSGFlatColorMaterial;
  *@version 1.0
  */
 
-class LineNode : public QSGGeometryNode  {
+class LineNode : public QSGOpacityNode  {
 public:
     /**
      * @short Constructor
@@ -48,11 +48,16 @@ public:
     void setColor(QColor color);
     void setWidth(int width);
     void updateGeometry();
+    inline LineList *lineList() { return m_lineList; }
+    void hide();
+    void setDrawStyle(Qt::PenStyle drawStyle);
 
 private:
+    QSGGeometryNode *m_geometryNode;
     LineList *m_lineList;
     QSGGeometry *m_geometry;
     QSGFlatColorMaterial *m_material;
+    Qt::PenStyle m_drawStyle;
 };
 
 #endif

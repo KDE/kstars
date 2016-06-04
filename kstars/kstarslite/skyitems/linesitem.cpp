@@ -37,6 +37,9 @@ LinesItem::LinesItem(QQuickItem* parent)
     Options::setShowEquatorialGrid(true);
     Options::setShowHorizontalGrid(true);
     Options::setHideGrids(false);
+
+    Options::setRunClock(false);
+    Options::setShowGround(true);
 }
 
 void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int width, Qt::PenStyle style) {

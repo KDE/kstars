@@ -18,6 +18,7 @@
 #define ROOTNODE_H_
 #include <QSGClipNode>
 #include <QPolygonF>
+#include <QSGClipNode>
 
 class QSGSimpleTextureNode;
 class QImage;

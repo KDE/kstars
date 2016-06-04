@@ -28,6 +28,7 @@
 
 #include "solarsystemsinglecomponent.h"
 #include "Options.h"
+#include "skymesh.h"
 
 //SkyItems
 #include "kstarslite/skyitems/planetsitem.h"
@@ -393,6 +394,40 @@ void SkyMapLite::setZoomFactor(double factor) {
 void SkyMapLite::forceUpdate() {
     setupProjector();
 
+    // We delay one draw cycle before re-indexing
+    // we MUST ensure CLines do not get re-indexed while we use DRAW_BUF
+    // so we do it here.
+    //m_CLines->reindex( &m_reindexNum );
+    // This queues re-indexing for the next draw cycle
+    //m_reindexNum = KSNumbers( data->updateNum()->julianDay() );
+
+    // This ensures that the JIT updates are synchronized for the entire draw
+    // cycle so the sky moves as a single sheet.  May not be needed.
+    data->syncUpdateIDs();
+
+    SkyMesh *m_skyMesh = SkyMesh::Instance(3);
+    if(m_skyMesh) {
+        // prepare the aperture
+        // FIXME_FOV: We may want to rejigger this to allow
+        // wide-angle views --hdevalence
+        double radius = m_proj->fov();
+        if ( radius > 180.0 )
+            radius = 180.0;
+
+
+        if ( m_skyMesh->inDraw() ) {
+            printf("Warning: aborting concurrent SkyMapComposite::draw()\n");
+            return;
+        }
+
+        //m_skyMesh->inDraw( true );
+        m_skyMesh->aperture( &Focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
+
+        // create the no-precess aperture if needed
+        if ( Options::showEquatorialGrid() || Options::showHorizontalGrid() || Options::showCBounds() || Options::showEquator() ) {
+            m_skyMesh->index( &Focus, radius + 1.0, NO_PRECESS_BUF );
+        }
+    }
     //TODO: Move this check somewhere else (create a separate function)
     if(Options::showSolarSystem()) {
         if(!m_planetsItem->property("visible").toBool()) {

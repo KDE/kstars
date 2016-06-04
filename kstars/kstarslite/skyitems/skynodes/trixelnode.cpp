@@ -22,6 +22,7 @@
 #include "skyobject.h"
 #include "nodes/linenode.h"
 #include "Options.h"
+#include "skymesh.h"
 #include <QSGOpacityNode>
 
 TrixelNode::TrixelNode(Trixel trixelId, LineListList *linesList)
@@ -44,8 +45,16 @@ void TrixelNode::setStyle(QString color, int width) {
 
 void TrixelNode::update() {
     m_opacity->setOpacity(1);
-    for(int i = 0; i < childCount(); ++i) {
+    DrawID   drawID   = SkyMesh::Instance()->drawID();
+    //UpdateID updateID = KStarsData::Instance()->updateID();
+    for(int i = 0; i < m_opacity->childCount(); ++i) {
         LineNode * lines = static_cast<LineNode *>(m_opacity->childAtIndex(i));
+        LineList * lineList = lines->lineList();
+        if ( lineList->drawID == drawID ) {
+            lines->hide();
+            continue;
+        }
+        lineList->drawID = drawID;
         lines->updateGeometry();
     }
 }

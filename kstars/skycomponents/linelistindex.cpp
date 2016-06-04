@@ -184,6 +184,11 @@ void LineListIndex::draw( SkyPainter *skyp )
     preDraw( skyp );
     drawLines( skyp );
 }
+#ifdef KSTARS_LITE
+MeshIterator LineListIndex::visibleTrixels() {
+    return MeshIterator( skyMesh(), drawBuffer() );
+}
+#endif
 
 // This is a callback used int drawLinesInt() and drawLinesFloat()
 SkipList* LineListIndex::skipList( LineList *lineList )

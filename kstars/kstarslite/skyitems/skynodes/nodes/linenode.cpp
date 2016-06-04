@@ -18,43 +18,57 @@
 #include <QSGFlatColorMaterial>
 #include "skymaplite.h"
 #include "projections/projector.h"
+#include <QLinkedList>
+//#include <forward_list>
 
 LineNode::LineNode(LineList *lineList)
     :m_lineList(lineList), m_material(new QSGFlatColorMaterial),
-      m_geometry(new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0))
+      m_geometry(new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0)),
+      m_geometryNode(new QSGGeometryNode)
 {
-    setGeometry(m_geometry);
+    appendChildNode(m_geometryNode);
+    m_geometryNode->setGeometry(m_geometry);
     setFlag(QSGNode::OwnsGeometry);
 
-    setOpaqueMaterial(m_material);
+    m_geometryNode->setOpaqueMaterial(m_material);
     setFlag(QSGNode::OwnsMaterial);
 }
 
 void LineNode::setColor(QColor color) {
     m_material->setColor(color);
-    markDirty(QSGNode::DirtyMaterial);
+    m_geometryNode->markDirty(QSGNode::DirtyMaterial);
 }
 
 void LineNode::setWidth(int width) {
     m_geometry->setLineWidth(width);
-    markDirty(QSGNode::DirtyGeometry);
+    m_geometryNode->markDirty(QSGNode::DirtyGeometry);
+}
+
+void LineNode::setDrawStyle(Qt::PenStyle style) {
+    m_drawStyle = style;
+}
+
+void LineNode::hide() {
+    setOpacity(0);
+    markDirty(QSGNode::DirtyOpacity);
 }
 
 void LineNode::updateGeometry() {
+    setOpacity(1);
     SkyList *points = m_lineList->points();
 
     m_geometry->setDrawingMode(GL_LINES);
 
-    bool isVisible, isVisibleLast;
-
     const Projector *m_proj = SkyMapLite::Instance()->projector();
+
+    bool isVisible, isVisibleLast;
 
     QPointF oLast = m_proj->toScreen( points->first(), true, &isVisibleLast );
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility( points->first() );
     QPointF oThis, oThis2;
 
-    QVector<QPointF> newPoints;
+    QLinkedList<QPointF> newPoints;
 
     for ( int j = 1 ; j < points->size() ; j++ ) {
         SkyPoint* pThis = points->at( j );
@@ -67,14 +81,13 @@ void LineNode::updateGeometry() {
         }*/
 
         if ( !doSkip ) {
-            if ( isVisible && isVisibleLast ) {
-                newPoints.append(oLast);
-                newPoints.append(oThis);
+            if ( (isVisible) ) {
+                    newPoints.append(oLast);
+                    newPoints.append(oThis);
                 //if ( label )
-                  //  label->updateLabelCandidates( oThis.x(), oThis.y(), list, j );
+                //  label->updateLabelCandidates( oThis.x(), oThis.y(), list, j );
             }
         }
-
         oLast = oThis2;
         isVisibleLast = isVisible;
     }
@@ -84,9 +97,14 @@ void LineNode::updateGeometry() {
 
     QSGGeometry::Point2D * vertex = m_geometry->vertexDataAsPoint2D();
 
-    for (int i = 0; i < newPoints.size(); ++i) {
-        vertex[i].x = newPoints[i].x();
-        vertex[i].y = newPoints[i].y();
+    QLinkedList<QPointF>::const_iterator i = newPoints.constBegin();
+    int c = 0;
+    while ( i != newPoints.constEnd()) {
+        vertex[c].x = (*i).x();
+        vertex[c].y = (*i).y();
+        c++;
+        i++;
     }
-    markDirty(QSGNode::DirtyGeometry);
+
+    m_geometryNode->markDirty(QSGNode::DirtyGeometry);
 }

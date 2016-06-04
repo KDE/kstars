@@ -565,6 +565,8 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/skynodes/nodes/pointnode.cpp
         kstarslite/skyitems/skynodes/nodes/polynode.cpp
         kstarslite/skyitems/skynodes/nodes/linenode.cpp
+        #Material
+        kstarslite/skyitems/skynodes/material/dashedshader.cpp
         #libtess
         libtess/dict.c
         libtess/geom.c

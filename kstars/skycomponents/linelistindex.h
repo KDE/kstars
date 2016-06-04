@@ -64,6 +64,10 @@ public:
      * @short KStars Lite needs direct access to m_lineIndex for drawing the lines
      */
     inline LineListHash* lineIndex() const { return m_lineIndex; }
+
+     /** @short returns MeshIterator for currently visible trixels */
+    MeshIterator visibleTrixels();
+
 #endif
 protected:
     /** @short this is called from within the draw routines when the updateID

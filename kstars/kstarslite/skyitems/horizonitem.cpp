@@ -26,8 +26,7 @@
 HorizonItem::HorizonItem(QQuickItem* parent)
     :SkyItem(parent), m_horizonComp(0)
 {
-    Options::setRunClock(false);
-    Options::setShowGround(false);
+
 }
 
 QSGNode* HorizonItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {

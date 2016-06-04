@@ -98,7 +98,7 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite *parent )
         }
     }
 #ifdef KSTARS_LITE
-    SkyMapLite::Instance()->getLinesItem()->addLinesComponent( this, "HorizontalGridColor", 2, Qt::DotLine );
+    SkyMapLite::Instance()->getLinesItem()->addLinesComponent( this, "HorizontalGridColor", 1, Qt::DotLine );
 #endif
     summary();
 }
