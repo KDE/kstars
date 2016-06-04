@@ -32,7 +32,7 @@
 class LinesRootNode : public QSGNode { //Clipping under construction
 public:
     LinesRootNode();
-    void addLinesComponent(LineListIndex * linesList, QString color, int width, Qt::PenStyle style, int z);
+    void addLinesComponent(LineListIndex * linesList, QString color, int width, Qt::PenStyle style);
     void update();
 private:
     QMap<QSGOpacityNode *, LineListIndex *> m_lineIndexes;

@@ -74,7 +74,7 @@ void LineNode::updateGeometry() {
         SkyPoint* pThis = points->at( j );
         oThis2 = oThis = m_proj->toScreen( pThis, true, &isVisible );
         // & with the result of checkVisibility to clip away things below horizon
-        isVisible &= m_proj->checkVisibility(pThis);
+        //isVisible &= m_proj->checkVisibility(pThis);
         bool doSkip = false;
         /*if( skipList ) {
             doSkip = skipList->skip(j);
