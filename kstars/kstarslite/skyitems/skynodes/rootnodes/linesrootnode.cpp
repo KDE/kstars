@@ -12,7 +12,7 @@ LinesRootNode::LinesRootNode()
 
 }
 
-void LinesRootNode::addLinesComponent(LineListIndex * linesComp, QString color, int width, Qt::PenStyle style, z) {
+void LinesRootNode::addLinesComponent(LineListIndex * linesComp, QString color, int width, Qt::PenStyle style) {
     QSGOpacityNode *node = new QSGOpacityNode;
     appendChildNode(node);
 
@@ -39,22 +39,22 @@ void LinesRootNode::addLinesComponent(LineListIndex * linesComp, QString color, 
 void LinesRootNode::update() {
     QMap< QSGOpacityNode *, LineListIndex *>::const_iterator i = m_lineIndexes.begin();
     while( i != m_lineIndexes.end()) {
-        /*QVector<Trixel> visTrixels;
+        QVector<Trixel> visTrixels;
         SkyMesh * mesh = SkyMesh::Instance();
         SkyMapLite *map = SkyMapLite::Instance();
         double radius = map->projector()->fov();
         if ( radius > 180.0 )
             radius = 180.0;
         if(mesh) {
-            mesh->aperture(map->focus(), radius);
+            //mesh->aperture(map->focus(), radius);
         }
 
         MeshIterator region (mesh,DRAW_BUF);
         while ( region.hasNext() ) {
             visTrixels.append(region.next());
-        }*/
+        }
 
-        //qDebug() << visTrixels;
+        qDebug() << visTrixels.size();
 
         QSGOpacityNode * node = i.key();
         if(i.value()->selected()) {
