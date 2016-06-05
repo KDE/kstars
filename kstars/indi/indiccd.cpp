@@ -1314,7 +1314,7 @@ void CCD::processBLOB(IBLOB* bp)
             else
                 tabRC = guideTabID;
 
-            if (guideTabID >= 0)
+            if (tabRC >= 0)
             {
                 guideTabID = tabRC;
                 targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
