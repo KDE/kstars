@@ -461,7 +461,7 @@ int FITSView::rescale(FITSZoom type)
             /* Fill in pixel values using indexed map, linear scale */
             for (int j = 0; j < image_height; j++)
             {
-                QRgb *scanLine = (QRgb*) (display_image->scanLine(j));
+                QRgb *scanLine = reinterpret_cast<QRgb*>((display_image->scanLine(j)));
 
                 for (int i = 0; i < image_width; i++)
                 {
