@@ -544,6 +544,8 @@ if(BUILD_KSTARS_LITE)
         kstarsliteinit.cpp
         skymaplite.cpp
         skymaplitevents.cpp
+        #RootNode
+        kstarslite/skyitems/rootnode.cpp
         #SkyItems
         kstarslite/skyitems/skyitem.cpp
         kstarslite/skyitems/planetsitem.cpp
@@ -551,9 +553,6 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/cometsitem.cpp
         kstarslite/skyitems/horizonitem.cpp
         kstarslite/skyitems/linesitem.cpp
-        #RootNodes
-        kstarslite/skyitems/skynodes/rootnodes/rootnode.cpp
-        kstarslite/skyitems/skynodes/rootnodes/linesrootnode.cpp
         #SkyNodes
         kstarslite/skyitems/skynodes/planetnode.cpp
         kstarslite/skyitems/skynodes/skynode.cpp
@@ -566,7 +565,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/skynodes/nodes/polynode.cpp
         kstarslite/skyitems/skynodes/nodes/linenode.cpp
         #Material
-        kstarslite/skyitems/skynodes/material/dashedshader.cpp
+        #kstarslite/skyitems/skynodes/material/dashedshader.cpp
         #libtess
         libtess/dict.c
         libtess/geom.c

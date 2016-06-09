@@ -22,3 +22,9 @@ SkyNode::SkyNode(SkyObject * skyObject)
 {
 
 }
+
+SkyNode::SkyNode()
+    :m_skyObject(nullptr)
+{
+
+}

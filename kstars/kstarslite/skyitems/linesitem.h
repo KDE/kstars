@@ -24,17 +24,13 @@ class LineListIndex;
 class LinesItem : public SkyItem {
 public:
 
-    LinesItem(QQuickItem* parent = 0);
+    LinesItem(RootNode *rootNode);
 
     void addLinesComponent(LineListIndex *linesComp, QString color, int width, Qt::PenStyle style);
 
-protected:
-    virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) override;
+    virtual void update();
 private:
-    QVector<QPair<bool, LineListIndex *>> m_lineIndexes;
-    QVector<QString> m_colors;
-    QVector<int> m_widths;
-    QVector<Qt::PenStyle> m_styles;
+    QMap<QSGOpacityNode *,LineListIndex *> m_lineIndexes;
 };
 #endif
 

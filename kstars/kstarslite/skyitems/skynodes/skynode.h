@@ -41,6 +41,7 @@ public:
      * @param skyObject that is represented on the SkyMapLIte
      */
     SkyNode(SkyObject * skyObject);
+    SkyNode();
     /** @short short function that returns pointer to the current projector
      *  @return pointer to current projector of SkyMapLite
      */
@@ -65,21 +66,19 @@ public:
     virtual void hide() =0;
 
     /**
-     * @short changePos changes the position of SkyNode on SkyMapLite
+     * @short changes the position of SkyNode on SkyMapLite. Has to be overriden by the classes
+     * that support moving
      * @param pos new position
      */
-    virtual void changePos(QPointF pos) =0;
+    virtual void changePos(QPointF pos) { }
 
     /**
      * @short returns SkyObject associated with this SkyNode
      * @return pointer to the object of type SkyObject
      */
-    SkyObject * getSkyObject() const { return m_skyObject; }
+    SkyObject * skyObject() const { return m_skyObject; }
 protected:
     SkyObject * m_skyObject;
-private:
-    //SkyMapLite * m_skyMapLite;
-    //const Projector * m_proj;
 };
 
 

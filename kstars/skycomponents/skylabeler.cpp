@@ -212,9 +212,10 @@ void SkyLabeler::getMargins( const QString& text, float *left,
 
 void SkyLabeler::reset( SkyMap* skyMap )
 {
-#ifndef KSTARS_LITE
+
     // ----- Set up Projector ---
     m_proj = skyMap->projector();
+#ifdef KSTARS_LITE
     // ----- Set up Painter -----
     if( m_p.isActive() )
         m_p.end();
@@ -230,7 +231,7 @@ void SkyLabeler::reset( SkyMap* skyMap )
     m_skyFont = m_p.font();
     m_fontMetrics = QFontMetrics( m_skyFont );
     m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
-
+#endif
     // ----- Set up Zoom Dependent Offset -----
     m_offset = SkyLabeler::ZoomOffset();
 
@@ -274,7 +275,6 @@ void SkyLabeler::reset( SkyMap* skyMap )
     for (int i = 0; i < labelList.size(); i++) {
         labelList[ i ].clear();
     }
-#endif
 }
 
 void SkyLabeler::draw(QPainter& p)

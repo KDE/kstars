@@ -17,14 +17,14 @@
 #ifndef SKYITEM_H_
 #define SKYITEM_H_
 
-#include <QSGNode>
-#include <QQuickItem>
+#include <QSGOpacityNode>
 //#include "skymaplite.h"
 
 class SkyComponent;
-class Projector;
 class SkyMapLite;
 class QQuickItem;
+class RootNode;
+class SkyNode;
 
 /** @class SkyItem
  *
@@ -36,40 +36,27 @@ class QQuickItem;
  *@version 1.0
  */
 
-class SkyItem : public QQuickItem {
-
-    Q_OBJECT
-
-protected:
-   /**
-    *Constructor, initializes m_parentComponent (a pointer to SkyComponent, which asked to initialize
-    * this SkyItem).
-    *
-    * @param parent a pointer to SkyItem's data and visual parent
-    */
-    /* @param parentComponent a pointer to SkyComponent, which asked to initialize this SkyItem*/
-
-    explicit SkyItem(QQuickItem* parent = 0);
+class SkyItem : public QSGOpacityNode {
 
 public:
-    /* @short Get the component that asked to instantiate this SkyItem
-     *
-     *@return a pointer to the parent component.
-
-    SkyComponent* getParentComponent() const { return m_parentComponent; }
+   /**
+    *Constructor, add SkyItem to parent in a node tree
+    *
+    * @param parent a pointer to SkyItem's parent node
     */
-    /*/** @short Set the m_parentComponent pointer to the argument.
-     *@param component pointer to the SkyComponent derived object to be assigned as the m_parentComponent
-    void setParentComponent( SkyComponent *component ) { m_parentComponent = component; }     */
 
-public slots:
-    /** Called whenever parent's width or height are changed.
-     */
-    void resizeItem();
+    explicit SkyItem(RootNode *rootNode = 0);
+
+    virtual void update() =0;
+
+    void hide();
+    void show();
+
+    inline RootNode *rootNode() { return m_rootNode; }
 
 private:
-    SkyMapLite* m_skyMapLite;
-    //SkyComponent* m_parentComponent;
+    RootNode *m_rootNode;
+    QVector<SkyNode *>m_skyNodes;
 };
 
 #endif

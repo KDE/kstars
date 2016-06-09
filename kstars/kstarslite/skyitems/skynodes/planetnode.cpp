@@ -51,7 +51,7 @@ PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode)
 }
 
 void PlanetNode::update() {
-    KSPlanetBase * planet = static_cast<KSPlanetBase *>(m_skyObject);
+    KSPlanetBase * planet = static_cast<KSPlanetBase *>(skyObject());
     const Projector * proj = projector();
 
     if( !proj->checkVisibility(planet) ) {
@@ -145,7 +145,7 @@ void PlanetNode::changePos(QPointF pos) {
         //Matrix has to be rotated between assigning x and y and translating it by the half
         //of size of the planet. Otherwise the image will don't rotate at all or rotate around
         //the top-left corner
-        m.rotate(projector()->findPA( m_skyObject, pos.x(), pos.y()), 0, 0, 1);
+        m.rotate(projector()->findPA( skyObject(), pos.x(), pos.y()), 0, 0, 1);
     } else {
         size = m_point->size();
     }

@@ -16,15 +16,18 @@
  ***************************************************************************/
 #ifndef ROOTNODE_H_
 #define ROOTNODE_H_
-#include <QSGClipNode>
 #include <QPolygonF>
 #include <QSGClipNode>
 
-class QSGSimpleTextureNode;
-class QImage;
 class QSGTexture;
 class SkyMapLite;
-class SkyNode;
+
+class PlanetsItem;
+class AsteroidsItem;
+class CometsItem;
+
+class HorizonItem;
+class LinesItem;
 
 /** @class RootNode
  *
@@ -36,7 +39,7 @@ class SkyNode;
  *@version 1.0
  */
 
-class RootNode : public QSGNode { //Clipping under construction
+class RootNode : public QSGClipNode { //Clipping under construction
 public:
     RootNode();
     /**
@@ -53,35 +56,9 @@ public:
     void updateClipPoly();
 
     /**
-     * @return number of SkyNodes in m_skyNodes
+     * @short update positions of all child SkyItems
      */
-    inline int skyNodesCount() { return m_skyNodes.length(); }
-
-    /**
-     * @short returns a SkyNode in m_skyNodes with index i
-     * @param i index of SkyNode
-     * @return desired SkyNode
-     */
-    inline SkyNode *skyNodeAtIndex(int i) { return m_skyNodes[i]; }
-
-    /**
-     * @brief Adds node to m_skyNodes and node tree
-     * @param skyNode pointer to skyNode that has to be added
-     */
-    void appendSkyNode(SkyNode *skyNode);
-
-    void prependSkyNode(SkyNode *skyNode);
-
-    /**
-     * @short remove given skyNode from m_skyNodes and a node tree
-     * @param skyNode pointer to skyNode that needs to be deleted
-     */
-    void removeSkyNode(SkyNode *skyNode);
-
-    /**
-     * @short deletes all SkyNodes from m_skyNodes and node tree
-     */
-    void removeAllSkyNodes();
+    void update();
 private:
     /**
      * @short initializes textureCache with cached images of stars in SkyMapLite
@@ -91,10 +68,17 @@ private:
     SkyMapLite *m_skyMapLite;
 
     QPolygonF m_clipPoly;
-    QSGGeometryNode *m_clipNode;
     QSGGeometry *m_clipGeometry;
+
+    PlanetsItem *m_planetsItem;
+    AsteroidsItem *m_asteroidsItem;
+    CometsItem *m_cometsItem;
+
+    HorizonItem *m_horizonItem;
+    LinesItem *m_linesItem;
+
     //To hold nodes that represent sky objects
-    QVector<SkyNode *> m_skyNodes;
-    bool m_hidden;
+    //QVector<SkyNode *> m_skyNodes;
+    //bool m_hidden;
 };
 #endif

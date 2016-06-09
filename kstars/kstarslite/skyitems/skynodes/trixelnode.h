@@ -47,11 +47,12 @@ public:
      */
     TrixelNode(Trixel trixel, LineListList *lineIndex);
 
-    void setStyle(QString color, int width);
+    void setStyle(QString color, int width, Qt::PenStyle style);
 
     virtual void changePos(QPointF pos) {}
     virtual void update() override;
     virtual void hide() override;
+    void show();
 private:
     QSGOpacityNode *m_opacity;
     Trixel trixel;

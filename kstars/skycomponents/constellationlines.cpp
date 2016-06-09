@@ -31,7 +31,6 @@
 
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
-#include "kstarslite/skyitems/linesitem.h"
 #else
 #include "skymap.h"
 #endif
@@ -112,10 +111,6 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
     //Add the last clc component
     if( lineList )
         appendLine( lineList );
-
-#ifdef KSTARS_LITE
-    SkyMapLite::Instance()->getLinesItem()->addLinesComponent( this, "CLineColor", 1, Qt::SolidLine );
-#endif
 
     m_reindexInterval = StarObject::reindexInterval( maxPM );
     //printf("CLines:           maxPM = %6.1f milliarcsec/year\n", maxPM );

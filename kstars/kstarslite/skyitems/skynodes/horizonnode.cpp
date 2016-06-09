@@ -4,7 +4,7 @@
 #include "ksutils.h"
 
 HorizonNode::HorizonNode(QList<SkyPoint*>& pointList)
-    :SkyNode(0),m_pointList(pointList), m_polygonNode(new PolyNode)
+    :SkyNode(),m_pointList(pointList), m_polygonNode(new PolyNode)
 {
     appendChildNode(m_polygonNode);
 }
@@ -16,10 +16,7 @@ void HorizonNode::update() {
 
     QColor color = KStarsData::Instance()->colorScheme()->colorNamed( "HorzColor" );
 
-    if(m_polygonNode->getColor() != color) {
-        m_polygonNode->setColor(color);
-    }
-
+    m_polygonNode->setColor(color);
     m_polygonNode->setLineWidth(2);
 
     //QVector<Vector2f> ground = projector()->groundPoly(labelPoint, drawLabel);

@@ -187,7 +187,7 @@ void OAL::Log::writeTarget( SkyObject *o ) {
     }
     writer->writeStartElement( "constellation" );
     writer->writeCDATA(
-        KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( o ) );
+        KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( o ) );
     writer->writeEndElement();
     writer->writeStartElement( "notes" );
     writer->writeCDATA( o->notes() );

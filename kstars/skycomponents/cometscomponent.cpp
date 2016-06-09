@@ -25,8 +25,6 @@
 #include "cometscomponent.h"
 #include "solarsystemcomposite.h"
 
-#include "kstarslite/skyitems/cometsitem.h"
-
 #include "Options.h"
 #include "skyobjects/kscomet.h"
 #include "ksutils.h"
@@ -89,11 +87,6 @@ void CometsComponent::loadData() {
     double q, e, dble_i, dble_w, dble_N, Tp, earth_moid;
     long double JD;
     float M1, M2, K1, K2, diameter, albedo, rot_period, period;
-
-#ifdef KSTARS_LITE
-    CometsItem * cometsItem = SkyMapLite::Instance()->getCometsItem();
-    cometsItem->clear();
-#endif
 
     emitProgressText(i18n("Loading comets"));
     objectNames(SkyObject::COMET).clear();
@@ -180,9 +173,6 @@ void CometsComponent::loadData() {
 
         // Add *short* name to the list of object names
         objectNames( SkyObject::COMET ).append( com->name() );
-#ifdef KSTARS_LITE
-        cometsItem->addComet(com);
-#endif
     }
 }
 

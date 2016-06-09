@@ -15,7 +15,6 @@
  ***************************************************************************/
 #ifndef POINTSOURCENODE_H_
 #define POINTSOURCENODE_H_
-#include <QSGSimpleTextureNode>
 #include "skynode.h"
 
 class PlanetItemNode;

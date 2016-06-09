@@ -15,26 +15,18 @@
  ***************************************************************************/
 
 #include <QSGGeometryNode>
+#include <QSGGeometry>
 #include <QSGFlatColorMaterial>
-#include <QSGSimpleTextureNode>
-#include <QPainter>
+#include <QPolygon>
 
 #include "polynode.h"
-#include "skymaplite.h"
-#include "kstarsdata.h"
-#include <stdio.h>
-#include <stdlib.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+
 extern "C"
 {
 #include "libtess/tessellate.h"
 }
-/*
-#include "qquickwindow.h"
-#include "triangle/include/tpp_interface.hpp"
-#include "polypartition/polypartition.h"
-#include "poly2tri/poly2tri.h"*/
-
-//using namespace tpp;
 
 PolyNode::PolyNode()
     :m_geometryNode(new QSGGeometryNode), m_geometry(0),
@@ -51,8 +43,17 @@ PolyNode::PolyNode()
 }
 
 void PolyNode::setColor(QColor color) {
-    m_material->setColor(color);
-    m_geometryNode->markDirty(QSGNode::DirtyMaterial);
+    if(color != m_material->color()) {
+        m_material->setColor(color);
+        m_geometryNode->markDirty(QSGNode::DirtyMaterial);
+    }
+}
+
+void PolyNode::setLineWidth(int width) {
+    if(width != m_geometry->lineWidth()) {
+        m_geometry->setLineWidth(width);
+        m_geometryNode->markDirty(QSGNode::DirtyGeometry);
+    }
 }
 
 void PolyNode::updateGeometry(QPolygonF polygon, bool filled) {
@@ -98,7 +99,7 @@ void PolyNode::updateGeometry(QPolygonF polygon, bool filled) {
         QSGGeometry::Point2D * vertex = m_geometry->vertexDataAsPoint2D ();
 
         for (i=0; i<3 * ntris; ++i) {
-            int tris = tris_out[i];
+            //int tris = tris_out[i];
             vertex[i].x = coordinates_out[tris_out[i]*2];
             vertex[i].y = coordinates_out[tris_out[i]*2+1];
         }

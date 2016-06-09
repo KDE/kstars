@@ -26,7 +26,7 @@
 #include <QSGOpacityNode>
 
 TrixelNode::TrixelNode(Trixel trixelId, LineListList *linesList)
-    :SkyNode(0), trixel(trixelId), m_linesLists(linesList), m_opacity(new QSGOpacityNode)
+    :SkyNode(), trixel(trixelId), m_linesLists(linesList), m_opacity(new QSGOpacityNode)
 {
     appendChildNode(m_opacity);
     for(int i = 0; i < m_linesLists->size(); ++i) {
@@ -35,20 +35,25 @@ TrixelNode::TrixelNode(Trixel trixelId, LineListList *linesList)
     }
 }
 
-void TrixelNode::setStyle(QString color, int width) {
-    for(int i = 0; i < m_opacity->childCount(); ++i) {
-        LineNode *ln = static_cast<LineNode *>(m_opacity->childAtIndex(i));
-        ln->setColor(KStarsData::Instance()->colorScheme()->colorNamed( color ) );
-        ln->setWidth(width);
+void TrixelNode::setStyle(QString color, int width, Qt::PenStyle style) {
+    QSGNode *n = m_opacity->firstChild();
+    while(n != 0) {
+        LineNode *ln = static_cast<LineNode *>(n);
+        ln->setStyle(KStarsData::Instance()->colorScheme()->colorNamed( color ), width, style);
+        n = n->nextSibling();
     }
 }
 
 void TrixelNode::update() {
-    m_opacity->setOpacity(1);
+    show();
     DrawID   drawID   = SkyMesh::Instance()->drawID();
     //UpdateID updateID = KStarsData::Instance()->updateID();
-    for(int i = 0; i < m_opacity->childCount(); ++i) {
-        LineNode * lines = static_cast<LineNode *>(m_opacity->childAtIndex(i));
+    //for(int i = 0; i < m_opacity->childCount(); ++i) {
+    QSGNode *n = m_opacity->firstChild();
+    while(n != 0) {
+        LineNode * lines = static_cast<LineNode *>(n);
+        n = n->nextSibling();
+
         LineList * lineList = lines->lineList();
         if ( lineList->drawID == drawID ) {
             lines->hide();
@@ -61,4 +66,10 @@ void TrixelNode::update() {
 
 void TrixelNode::hide() {
     m_opacity->setOpacity(0);
+    m_opacity->markDirty(QSGNode::DirtyOpacity);
+}
+
+void TrixelNode::show() {
+    m_opacity->setOpacity(1);
+    m_opacity->markDirty(QSGNode::DirtyOpacity);
 }

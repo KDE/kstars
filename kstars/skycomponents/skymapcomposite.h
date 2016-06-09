@@ -173,6 +173,19 @@ public:
     SatellitesComponent* satellites();
     SupernovaeComponent* supernovaeComponent();
     ArtificialHorizonComponent* artificialHorizon();
+    inline HorizonComponent* horizon() { return m_Horizon; }
+
+    inline ConstellationBoundaryLines* constellationBoundary() { return m_CBoundLines; }
+    inline ConstellationLines* constellationLines() { return m_CLines; }
+
+    inline Ecliptic* ecliptic() { return m_Ecliptic; }
+    inline Equator* equator() { return m_Equator; }
+
+    inline EquatorialCoordinateGrid* equatorialCoordGrid() { return m_EquatorialCoordinateGrid; }
+    inline HorizontalCoordinateGrid* horizontalCoordGrid() { return m_HorizontalCoordinateGrid; }
+
+    inline SolarSystemComposite* solarSystemComposite() { return m_SolarSystem; }
+
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
@@ -196,11 +209,7 @@ public:
 
     QList<SkyComponent*> customCatalogs();
 
-    ConstellationBoundaryLines* getConstellationBoundary() { return m_CBoundLines; }
     inline TargetListComponent *getStarHopRouteList() { return m_StarHopRouteList; }
-
-    SolarSystemComposite *solarSystemComposite();
-
 signals:
     void progressText( const QString &message );
 

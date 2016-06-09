@@ -26,7 +26,6 @@
 
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
-#include "kstarslite/skyitems/linesitem.h"
 #else
 #include "skymap.h"
 #endif
@@ -92,9 +91,6 @@ EquatorialCoordinateGrid::EquatorialCoordinateGrid( SkyComposite *parent )
             appendLine( lineList );
         }
     }
-#ifdef KSTARS_LITE
-    SkyMapLite::Instance()->getLinesItem()->addLinesComponent( this, "EquatorialGridColor", 1, Qt::DotLine );
-#endif
     summary();
 }
 

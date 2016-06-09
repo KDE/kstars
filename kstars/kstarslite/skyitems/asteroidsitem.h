@@ -20,11 +20,12 @@
 
 class KSAsteroid;
 class SkyObject;
+class RootNode;
 
 class AsteroidsItem : public SkyItem {
 public:
 
-    AsteroidsItem(QQuickItem* parent = 0);
+    AsteroidsItem(const QList<SkyObject*>& asteroidsList, RootNode *rootNode = 0);
 
     /** Adds an object of type KSAsteroid to m_toAdd. In the next call to
      * updatePaintNode() the object of type PlanetNode will be created and asteroid
@@ -33,19 +34,11 @@ public:
      *
      * @param KSAsteroid that should be displayed on SkyMapLite
      */
-    void setAsteroidsList(QList<SkyObject*> *asteroidsList);
-    /**
-     * Sets m_clear to true. On next call to updatePaintNode all SkyNodes in RootNode and
-     * all KSAsteroids in m_asteroids and m_toAdd will be deleted.
-     */
-    void clear();
+    //void setAsteroidsList(QList<SkyObject*> *asteroidsList);
 
-protected:
-    virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) override;
+    void recreateList();
+    virtual void update() override;
 private:
-    bool m_clear;
-    bool m_addAsteroids;
-
-    QList<SkyObject*> *m_asteroidsList;
+    const QList<SkyObject*>& m_asteroidsList;
 };
 #endif

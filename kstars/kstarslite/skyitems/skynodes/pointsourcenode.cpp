@@ -13,15 +13,13 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
-#include <QImage>
-#include <QQuickWindow>
-
-#include "skymaplite.h"
-#include "pointsourcenode.h"
 #include "skyobject.h"
-#include "nodes/pointnode.h"
 #include "Options.h"
+
+#include <QSGSimpleTextureNode>
+
+#include "pointsourcenode.h"
+#include "nodes/pointnode.h"
 
 PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode* p, char sp, float size)
     :SkyNode(skyObject), m_point(0), m_sizeMagLim(10.) // has to be changed when stars will be introduced

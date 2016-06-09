@@ -1,5 +1,5 @@
 /** *************************************************************************
-                          LineNode.cpp  -  K Desktop Planetarium
+                          linenode.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 05/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
@@ -17,9 +17,9 @@
 #include "linenode.h"
 #include <QSGFlatColorMaterial>
 #include "skymaplite.h"
+
 #include "projections/projector.h"
 #include <QLinkedList>
-//#include <forward_list>
 
 LineNode::LineNode(LineList *lineList)
     :m_lineList(lineList), m_material(new QSGFlatColorMaterial),
@@ -48,13 +48,24 @@ void LineNode::setDrawStyle(Qt::PenStyle style) {
     m_drawStyle = style;
 }
 
+void LineNode::setStyle(QColor color, int width, Qt::PenStyle drawStyle) {
+    setColor(color);
+    setWidth(width);
+    setDrawStyle(drawStyle);
+}
+
 void LineNode::hide() {
     setOpacity(0);
     markDirty(QSGNode::DirtyOpacity);
 }
 
-void LineNode::updateGeometry() {
+void LineNode::show() {
     setOpacity(1);
+    markDirty(QSGNode::DirtyOpacity);
+}
+
+void LineNode::updateGeometry() {
+
     SkyList *points = m_lineList->points();
 
     m_geometry->setDrawingMode(GL_LINES);
@@ -74,7 +85,7 @@ void LineNode::updateGeometry() {
         SkyPoint* pThis = points->at( j );
         oThis2 = oThis = m_proj->toScreen( pThis, true, &isVisible );
         // & with the result of checkVisibility to clip away things below horizon
-        //isVisible &= m_proj->checkVisibility(pThis);
+        isVisible &= m_proj->checkVisibility(pThis);
         bool doSkip = false;
         /*if( skipList ) {
             doSkip = skipList->skip(j);

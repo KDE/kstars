@@ -25,15 +25,12 @@
 
 #include "asteroidscomponent.h"
 
-#include "kstarslite/skyitems/asteroidsitem.h"
 #include "auxiliary/filedownloader.h"
 #include "projections/projector.h"
 #include "solarsystemcomposite.h"
 #include "skycomponent.h"
 #include "skylabeler.h"
-#ifdef KSTARS_LITE
-#include "skymaplite.h"
-#else
+#ifndef KSTARS_LITE
 #include "skymap.h"
 #endif
 #include "skypainter.h"
@@ -95,11 +92,6 @@ void AsteroidsComponent::loadData()
 
     emitProgressText( i18n("Loading asteroids") );
 
-    // Clear Asteroid nodes in AsteroidsItem
-#ifdef KSTARS_LITE
-    AsteroidsItem * asteroidsItem = SkyMapLite::Instance()->getAsteroidsItem();
-    asteroidsItem->clear();
-#endif
     // Clear lists
     m_ObjectList.clear();
     objectNames( SkyObject::ASTEROID ).clear();
@@ -196,9 +188,6 @@ void AsteroidsComponent::loadData()
         // Add name to the list of object names
         objectNames(SkyObject::ASTEROID).append(name);
     }
-#ifdef KSTARS_LITE
-        asteroidsItem->setAsteroidsList(&m_ObjectList);
-#endif
 }
 
 
