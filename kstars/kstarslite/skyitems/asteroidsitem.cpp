@@ -24,16 +24,13 @@
 #include "skynodes/pointsourcenode.h"
 #include "kstarslite/skyitems/rootnode.h"
 
+#include "labelsitem.h"
+
 AsteroidsItem::AsteroidsItem(const QList<SkyObject*>& asteroidsList, RootNode *rootNode)
-    :SkyItem(rootNode), m_asteroidsList(asteroidsList)
+    :SkyItem(LabelsItem::label_t::ASTEROID_LABEL, rootNode), m_asteroidsList(asteroidsList)
 {
     recreateList();
 }
-
-/*void AsteroidsItem::setAsteroidsList(QList<SkyObject*> *asteroidsList) {
-    m_asteroidsList = asteroidsList;
-    m_addAsteroids = true;
-}*/
 
 void AsteroidsItem::recreateList() {
     removeAllChildNodes();
@@ -41,48 +38,40 @@ void AsteroidsItem::recreateList() {
         KSAsteroid *ast = static_cast<KSAsteroid *>(asteroid);
         if (ast->image().isNull() == false) {
             appendChildNode(new PlanetNode(ast, rootNode()));
-        }
-        else {
-            appendChildNode(new PointSourceNode(ast, rootNode()));
+        } else {
+            appendChildNode(new PointSourceNode(ast, rootNode(),labelType()));
         }
     }
 }
 
 void AsteroidsItem::update() {
-    if (!Options::showAsteroids()) {
-        removeAllChildNodes();
-        hide();
-        return;
-    } else if (!childCount()) {
-        recreateList();
-    }
-    show();
-
     QSGNode *n = firstChild();
     while(n != 0) {
         SkyNode* pNode = static_cast<SkyNode*>(n);
         n = n->nextSibling();
 
-        //bool hideLabels =  ! Options::showAsteroidNames() ||
-        //( SkyMapLite::Instance()->isSlewing() && Options::hideLabels() );
+        bool hideLabels =  ! Options::showAsteroidNames() ||
+        ( SkyMapLite::Instance()->isSlewing() && Options::hideLabels() );
 
-        /*double lgmin = log10(MINZOOM);
+        double lgmin = log10(MINZOOM);
         double lgmax = log10(MAXZOOM);
         double lgz = log10(Options::zoomFactor());
         double labelMagLimit  = 2.5 + Options::asteroidLabelDensity() / 5.0;
         labelMagLimit += ( 15.0 - labelMagLimit ) * ( lgz - lgmin) / (lgmax - lgmin );
         if ( labelMagLimit > 10.0 ) labelMagLimit = 10.0;
-        //printf("labelMagLim = %.1f\n", labelMagLimit );*/
+        //printf("labelMagLim = %.1f\n", labelMagLimit );
 
         KSAsteroid *ast = static_cast<KSAsteroid *>(pNode->skyObject());
+
+        bool drawLabel = false;
 
         if ( ast->mag() > Options::magLimitAsteroid() || std::isnan(ast->mag()) != 0) {
             pNode->hide();
             continue;
         }
-        //bool drawn = false;
-        pNode->update();
-        //if ( drawn && !( hideLabels || ast->mag() >= labelMagLimit ) )
-        //  SkyLabeler::AddLabel( ast, SkyLabeler::ASTEROID_LABEL );
+        if (!( hideLabels || ast->mag() >= labelMagLimit ) ) {
+            drawLabel = true;
+        }
+        pNode->update(drawLabel);
     }
 }

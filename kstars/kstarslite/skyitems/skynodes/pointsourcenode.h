@@ -16,10 +16,12 @@
 #ifndef POINTSOURCENODE_H_
 #define POINTSOURCENODE_H_
 #include "skynode.h"
+#include "../labelsitem.h"
 
 class PlanetItemNode;
 class SkyMapLite;
 class PointNode;
+class LabelNode;
 
 /** @class PointSourceNode
  *
@@ -41,7 +43,8 @@ public:
      * @param spType spectral class of PointNode
      * @param size initial size of PointNode
      */
-    PointSourceNode(SkyObject * skyObject, RootNode * parentNode, char spType = 'A', float size = 1);
+    PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
+                    LabelsItem::label_t labelType = LabelsItem::label_t::STAR_LABEL, char spType = 'A', float size = 1);
 
     /** @short Get the width of a star of magnitude mag */
     float starWidth(float mag) const;
@@ -58,6 +61,12 @@ private:
     PointNode * m_point;
     //TODO deal setter for this when stars will be introduced
     float m_sizeMagLim;
+    RootNode *m_rootNode;
+
+    LabelNode *m_label;
+    LabelsItem::label_t m_labelType;
+
+    QPointF pos;
 };
 
 #endif

@@ -23,6 +23,7 @@
 #include "kstarslite/skyitems/cometsitem.h"
 #include "kstarslite/skyitems/horizonitem.h"
 #include "kstarslite/skyitems/linesitem.h"
+#include "kstarslite/skyitems/labelsitem.h"
 
 RootNode::RootNode()
     :m_skyMapLite(SkyMapLite::Instance()),
@@ -31,31 +32,33 @@ RootNode::RootNode()
     genCachedTextures();
     Options::setProjection(Projector::Lambert);
 
-    SkyMapComposite *skyComposite = KStarsData::Instance()->skyComposite();
-    SolarSystemComposite *solarSystem = skyComposite->solarSystemComposite();
+    m_skyComposite = KStarsData::Instance()->skyComposite();
+    m_solarSystem = m_skyComposite->solarSystemComposite();
 
-    m_planetsItem = new PlanetsItem(solarSystem->planets(), solarSystem->planetMoonsComponent(), this);
-    m_asteroidsItem = new AsteroidsItem(solarSystem->asteroids(), this);
-    m_cometsItem = new CometsItem(solarSystem->comets(), this);
-
+    // LabelsItem needs to be created first so that other items could insert their labels in labelsList
+    m_labelsItem = new LabelsItem(this);
 
     m_linesItem = new LinesItem(this);
 
-    m_linesItem->addLinesComponent( skyComposite->constellationBoundary(), "CBoundColor", 1, Qt::SolidLine );
-    m_linesItem->addLinesComponent( skyComposite->constellationLines(), "СLineColor", 1, Qt::SolidLine );
+    m_linesItem->addLinesComponent( m_skyComposite->equatorialCoordGrid(), "EquatorialGridColor", 1, Qt::DotLine );
+    m_linesItem->addLinesComponent( m_skyComposite->horizontalCoordGrid(), "HorizontalGridColor", 1, Qt::DotLine );
 
-    m_linesItem->addLinesComponent( skyComposite->equator(), "EqColor", 1, Qt::SolidLine );
-    m_linesItem->addLinesComponent( skyComposite->ecliptic(), "EclColor", 1, Qt::SolidLine );
+    m_linesItem->addLinesComponent( m_skyComposite->equator(), "EqColor", 1, Qt::SolidLine );
+    m_linesItem->addLinesComponent( m_skyComposite->ecliptic(), "EclColor", 1, Qt::SolidLine );
 
-    m_linesItem->addLinesComponent( skyComposite->equatorialCoordGrid(), "EquatorialGridColor", 1, Qt::DotLine );
-    m_linesItem->addLinesComponent( skyComposite->horizontalCoordGrid(), "HorizontalGridColor", 1, Qt::DotLine );
+    m_linesItem->addLinesComponent( m_skyComposite->constellationBoundary(), "CBoundColor", 1, Qt::SolidLine );
+    m_linesItem->addLinesComponent( m_skyComposite->constellationLines(), "CLineColor", 1, Qt::SolidLine );
 
-    m_horizonItem = new HorizonItem(skyComposite->horizon(), this);
+    m_planetsItem = new PlanetsItem(m_solarSystem->planets(), m_solarSystem->planetMoonsComponent(), this);
+    m_asteroidsItem = new AsteroidsItem(m_solarSystem->asteroids(), this);
+    m_cometsItem = new CometsItem(m_solarSystem->comets(), this);
+
+    m_horizonItem = new HorizonItem(m_skyComposite->horizon(), this);
 
     setIsRectangular(false);
     updateClipPoly();
 
-    Options::setShowGround(true);
+    appendChildNode(m_labelsItem);
 
     /*
           m_linesItem(new LinesItem(this)), m_horizonItem(new HorizonItem(this))
@@ -120,16 +123,28 @@ void RootNode::update() {
     //TODO: Move this check somewhere else (create a separate function)
     if(Options::showSolarSystem()) {
         m_planetsItem->update();
-        m_asteroidsItem->update();
-        m_cometsItem->update();
+        if (!Options::showAsteroids() ) {
+            if (m_asteroidsItem) delete m_asteroidsItem;
+        } else {
+            if(!m_asteroidsItem) m_asteroidsItem = new AsteroidsItem(m_solarSystem->asteroids(), this);
+            m_asteroidsItem->update();
+        }
+
+        if (!Options::showComets() ) {
+            if (m_cometsItem) delete m_cometsItem;
+        } else {
+            if(!m_cometsItem) m_cometsItem = new CometsItem(m_solarSystem->comets(), this);
+            m_cometsItem->update();
+        }
     } else {
         m_planetsItem->hide();
-        m_asteroidsItem->hide();
-        m_cometsItem->hide();
+        if(m_asteroidsItem) m_asteroidsItem->hide();
+        if(m_cometsItem) m_cometsItem->hide();
     }
 
     m_horizonItem->update();
 
     m_linesItem->update();
+    m_labelsItem->update();
 }
 

@@ -20,37 +20,38 @@
 #include "projections/projector.h"
 #include "kscomet.h"
 
+#include "rootnode.h"
+#include "labelsitem.h"
+#include "skylabeler.h"
+
 #include "skynodes/pointsourcenode.h"
 
 CometsItem::CometsItem(const QList<SkyObject*>& cometsList, RootNode *rootNode)
-    :SkyItem(rootNode), m_cometsList(cometsList)
+    :SkyItem(LabelsItem::label_t::COMET_LABEL, rootNode), m_cometsList(cometsList)
 {
     recreateList();
 }
 
 void CometsItem::update() {
-    if (!Options::showComets() || Options::zoomFactor() < 10*MINZOOM ) {
-        removeAllChildNodes();
+    if(Options::zoomFactor() < 10*MINZOOM) {
         hide();
         return;
-    } else if (!childCount()) {
-        show();
-        recreateList();
     }
+
     show();
 
-    /*bool hideLabels =  ! Options::showCometNames() ||
-                       (SkyMap::Instance()->isSlewing() &&
+    bool hideLabels =  ! Options::showCometNames() ||
+                       (SkyMapLite::Instance()->isSlewing() &&
                         Options::hideLabels() );
     double rsunLabelLimit = Options::maxRadCometName();
 
-    //FIXME: Should these be config'able?
+    /*//FIXME: Should these be config'able?
     skyp->setPen( QPen( QColor( "darkcyan" ) ) );
     skyp->setBrush( QBrush( QColor( "darkcyan" ) ) );*/
 
     //Traverse all children nodes
     QSGNode *n = firstChild();
-    while( n!= 0) {
+    while( n != 0) {
         SkyNode* skyNode = static_cast<SkyNode*>(n);
         n = n->nextSibling();
 
@@ -59,10 +60,11 @@ void CometsItem::update() {
         double mag = com->mag();
         if (std::isnan(mag) == 0)
         {
-            skyNode->update();
-            //bool drawn = skyp->drawPointSource(com,mag);
-            //if ( drawn && !(hideLabels || com->rsun() >= rsunLabelLimit) )
-            //  SkyLabeler::AddLabel( com, SkyLabeler::COMET_LABEL );
+            bool drawLabel = false;
+            if ( !(hideLabels || com->rsun() >= rsunLabelLimit) ) {
+                drawLabel = true;
+            }
+            skyNode->update(drawLabel);
         } else {
             skyNode->hide();
         }
@@ -73,6 +75,6 @@ void CometsItem::recreateList() {
     removeAllChildNodes();
     foreach(SkyObject *comet, m_cometsList) {
         KSComet *com = static_cast<KSComet *>(comet);
-        appendChildNode(new PointSourceNode(com,rootNode()));
+        appendChildNode(new PointSourceNode(com, rootNode(),labelType()));
     }
 }

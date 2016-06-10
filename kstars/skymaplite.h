@@ -242,6 +242,8 @@ public:
      */
     QVector<QVector<QPixmap*>> getImageCache();
 
+    QSGTexture *textToTexture(QString text, QColor color = QColor(255,255,255), QFont font = QFont());
+
     /**
      * @short returns cached texture from textureCache.
      *
@@ -269,6 +271,11 @@ public:
     /** Get the current projector.
         @return a pointer to the current projector. */
     inline const Projector * projector() const { return m_proj; }
+
+    /**
+     * @return font of labels
+     */
+    inline QFont skyFont() const { return m_skyFont; }
 
     /**
      *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
@@ -573,6 +580,8 @@ private:
 
     static SkyMapLite *pinstance;
     QQuickItem *m_SkyMapLiteWrapper;
+
+    QFont m_skyFont;
 
     static int starColorMode;
 

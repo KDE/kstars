@@ -59,11 +59,23 @@ public:
     /**
      * @short updates coordinate of the object on SkyMapLite
      */
-    virtual void update() =0;
+    virtual void update() { }
+
     /**
-     * @short hides all child nodes
+     * @short sets m_drawLabel to true if it is needed to be drawn and calls update()
+     * @param drawLabel true of label has to be drawn
      */
-    virtual void hide() =0;
+    void update(bool drawLabel);
+
+    /**
+     * @short hides all child nodes (sets opacity of m_opacity to 0)
+     */
+    virtual void hide();
+
+    /**
+     * @short shows all child nodes (sets opacity of m_opacity to 1)
+     */
+    virtual void show();
 
     /**
      * @short changes the position of SkyNode on SkyMapLite. Has to be overriden by the classes
@@ -73,12 +85,20 @@ public:
     virtual void changePos(QPointF pos) { }
 
     /**
+     * @return true if object is visible (m_opacity->opacity() != 0) else returns false
+     */
+    bool visible();
+
+    /**
      * @short returns SkyObject associated with this SkyNode
      * @return pointer to the object of type SkyObject
      */
     SkyObject * skyObject() const { return m_skyObject; }
 protected:
     SkyObject * m_skyObject;
+    QSGOpacityNode *m_opacity;
+
+    bool m_drawLabel;
 };
 
 

@@ -18,18 +18,33 @@
 #include "rootnode.h"
 #include "skynodes/skynode.h"
 
-SkyItem::SkyItem(RootNode* parent)
-    :m_rootNode(parent)
+SkyItem::SkyItem(LabelsItem::label_t labelType, RootNode* parent)
+    :m_rootNode(parent), m_labelType(labelType)
 {
     parent->appendChildNode(this);
 }
 
+SkyItem::~SkyItem() {
+    rootNode()->labelsItem()->deleteLabels(m_labelType);
+}
+
 void SkyItem::hide() {
-    setOpacity(0);
-    markDirty(QSGNode::DirtyOpacity);
+    if(opacity()) {
+        setOpacity(0);
+        markDirty(QSGNode::DirtyOpacity);
+    }
 }
 
 void SkyItem::show() {
-    setOpacity(1);
-    markDirty(QSGNode::DirtyOpacity);
+    if(!opacity()) {
+        setOpacity(1);
+        markDirty(QSGNode::DirtyOpacity);
+    }
+}
+
+bool SkyItem::visible() {
+    if(opacity() != 0) {
+        return true;
+    }
+    return false;
 }

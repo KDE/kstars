@@ -22,6 +22,7 @@ class PlanetMoons;
 class RootNode;
 class PointSourceNode;
 class KSPlanetBase;
+class QSGSimpleTextureNode;
 
 /** @class PlanetMoonsNode
  *
@@ -65,6 +66,7 @@ private:
 
     QList<PointSourceNode *> m_moonNodes;
     RootNode *m_rootNode;
+
 };
 
 

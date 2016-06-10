@@ -63,13 +63,3 @@ void TrixelNode::update() {
         lines->updateGeometry();
     }
 }
-
-void TrixelNode::hide() {
-    m_opacity->setOpacity(0);
-    m_opacity->markDirty(QSGNode::DirtyOpacity);
-}
-
-void TrixelNode::show() {
-    m_opacity->setOpacity(1);
-    m_opacity->markDirty(QSGNode::DirtyOpacity);
-}

@@ -28,6 +28,10 @@ class CometsItem;
 
 class HorizonItem;
 class LinesItem;
+class LabelsItem;
+
+class SkyMapComposite;
+class SolarSystemComposite;
 
 /** @class RootNode
  *
@@ -59,6 +63,10 @@ public:
      * @short update positions of all child SkyItems
      */
     void update();
+
+    inline CometsItem *cometsItem() { return m_cometsItem; }
+
+    inline LabelsItem *labelsItem() { return m_labelsItem; }
 private:
     /**
      * @short initializes textureCache with cached images of stars in SkyMapLite
@@ -76,6 +84,10 @@ private:
 
     HorizonItem *m_horizonItem;
     LinesItem *m_linesItem;
+    LabelsItem *m_labelsItem;
+
+    SkyMapComposite *m_skyComposite;
+    SolarSystemComposite *m_solarSystem;
 
     //To hold nodes that represent sky objects
     //QVector<SkyNode *> m_skyNodes;

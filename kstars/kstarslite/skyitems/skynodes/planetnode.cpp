@@ -22,9 +22,12 @@
 #include "ksplanetbase.h"
 #include "Options.h"
 #include "projections/projector.h"
+#include "../rootnode.h"
+#include "../labelsitem.h"
 
 #include "planetnode.h"
 #include "nodes/pointnode.h"
+#include "labelnode.h"
 
 PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode)
     :SkyNode(pb), m_planetPic(new QSGSimpleTextureNode), m_planetOpacity(new QSGOpacityNode)
@@ -48,6 +51,7 @@ PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode)
     m_planetOpacity->appendChildNode(m_planetPic);
     m_planetPic->setTexture(SkyMapLite::Instance()->window()->createTextureFromImage(
                                 pb->image(), QQuickWindow::TextureCanUseAtlas));
+    m_label = parentNode->labelsItem()->addLabel(pb, LabelsItem::label_t::PLANET_LABEL);
 }
 
 void PlanetNode::update() {
@@ -61,10 +65,15 @@ void PlanetNode::update() {
 
     bool visible = false;
     QPointF pos = proj->toScreen(planet,true,&visible);
+
     if( !visible || !proj->onScreen(pos) ) {
         hide();
         return;
     }
+
+    //Set new position of the label
+    m_label->setLabelPos(pos);
+
     float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
     if( fakeStarSize > 15.0 )
         fakeStarSize = 15.0;
@@ -98,6 +107,7 @@ void PlanetNode::update() {
             //drawEllipse( pos, size, size );
         }
     }
+
 }
 
 void PlanetNode::setPointSize(float size) {
@@ -131,10 +141,12 @@ void PlanetNode::hide() {
         m_planetOpacity->markDirty(QSGNode::DirtyOpacity);
     }
     m_point->hide();
+    m_label->hide();
 }
 
 void PlanetNode::changePos(QPointF pos) {
     QSizeF size;
+    //Check the bug with planet
     QMatrix4x4 m (1,0,0,pos.x(),
                   0,1,0,pos.y(),
                   0,0,1,0,

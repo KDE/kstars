@@ -1,8 +1,11 @@
+#include <QSGSimpleTextureNode>
+
 #include "planetnode.h"
 #include "pointsourcenode.h"
 #include "planetmoonsnode.h"
 #include "planetmoons.h"
 #include "ksplanetbase.h"
+#include "skylabeler.h"
 
 PlanetMoonsNode::PlanetMoonsNode(KSPlanetBase* planet, RootNode* parentNode)
     :SkyNode(planet), m_rootNode(parentNode), pmoons(0),
@@ -33,7 +36,7 @@ void PlanetMoonsNode::updateMoons() {
 
     if(!m_moonNodes.length()) { //Initialize PointSourceNodes used for drawing moons
         for ( int i=0; i<nmoons; ++i ) {
-            m_moonNodes.append(new PointSourceNode(pmoons->moon(i), m_rootNode));
+            m_moonNodes.append(new PointSourceNode(pmoons->moon(i), m_rootNode,LabelsItem::label_t::JUPITER_MOON_LABEL));
         }
     }
 

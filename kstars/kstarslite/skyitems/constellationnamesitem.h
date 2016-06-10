@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          skyitem.h  -  K Desktop Planetarium
+                          constellationnamesitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 02/05/2016
+    begin                : 10/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -14,17 +14,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYITEM_H_
-#define SKYITEM_H_
+#ifndef CONSTELLATIONNAMESITEM_H_
+#define CONSTELLATIONNAMESITEM_H_
 
 #include <QSGOpacityNode>
-#include "labelsitem.h"
+#include "skyitem.h"
 
-class SkyComponent;
-class SkyMapLite;
-class QQuickItem;
-class RootNode;
-class SkyNode;
+class ConstellationNamesComponent;
 
 /** @class SkyItem
  *
@@ -36,7 +32,7 @@ class SkyNode;
  *@version 1.0
  */
 
-class SkyItem : public QSGOpacityNode {
+class ConstellationNamesItem : public SkyItem {
 
 public:
    /**
@@ -45,27 +41,15 @@ public:
     * @param parent a pointer to SkyItem's parent node
     */
 
-    explicit SkyItem(LabelsItem::label_t labelType, RootNode *rootNode = 0);
-    virtual ~SkyItem();
+    explicit ConstellationNamesItem(const QList<SkyObject*>& namesList, RootNode *rootNode = 0);
 
-    virtual void update() =0;
+    virtual void update();
 
     void hide();
     void show();
-
-    inline RootNode *rootNode() { return m_rootNode; }
-
-    inline LabelsItem::label_t labelType() { return m_labelType; }
-
-    bool visible();
-
+    void recreateList();
 private:
-    RootNode *m_rootNode;
-    QVector<SkyNode *>m_skyNodes;
-
-    //This node holds all labels that belongs to this SkyItem. See LabelsItem
-    LabelTypeNode *m_labels;
-    LabelsItem::label_t m_labelType;
+    const QList<SkyObject*>& m_namesList;
 };
 
 #endif

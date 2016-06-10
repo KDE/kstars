@@ -18,9 +18,10 @@
 
 #include "horizoncomponent.h"
 #include "skynodes/horizonnode.h"
+#include "labelsitem.h"
 
 HorizonItem::HorizonItem(HorizonComponent * hComp, RootNode *rootNode)
-    :SkyItem(rootNode), m_horizonComp(hComp)
+    :SkyItem(LabelsItem::label_t::RUDE_LABEL, rootNode), m_horizonComp(hComp)
 {
     appendChildNode(new HorizonNode(m_horizonComp->pointList()));
 }

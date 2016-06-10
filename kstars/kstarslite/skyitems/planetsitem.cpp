@@ -25,7 +25,7 @@
 #include "Options.h"
 
 PlanetsItem::PlanetsItem(QList<SolarSystemSingleComponent *> planets, QList<PlanetMoonsComponent *> moons, RootNode *rootNode)
-    :SkyItem(rootNode), m_planetComponents(planets), m_moonsComponents(moons)
+    :SkyItem(LabelsItem::label_t::PLANET_LABEL, rootNode), m_planetComponents(planets), m_moonsComponents(moons)
 {
     foreach(SolarSystemSingleComponent * planetComp, m_planetComponents) {
         KSPlanetBase *planet = planetComp->planet();

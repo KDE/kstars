@@ -33,6 +33,7 @@ void HorizonNode::update() {
         }
     } else {
         m_polygonNode->hide();
+        return;
     }
     m_polygonNode->markDirty(QSGNode::DirtyGeometry);
 

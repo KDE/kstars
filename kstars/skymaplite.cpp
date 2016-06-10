@@ -121,9 +121,8 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
     if(m_loadingFinished) {
         if(!n) {
             n = new RootNode();
-        } else  {
-            n->update();
         }
+        n->update();
     }
 
     return n;
@@ -503,6 +502,40 @@ int SkyMapLite::harvardToIndex(char c) {
 QVector<QVector<QPixmap*>> SkyMapLite::getImageCache()
 {
     return imageCache;
+}
+
+QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, QFont font) {
+    QPainter painter;
+
+    QFontMetrics fm = painter.fontMetrics();
+    QFont f = painter.font();
+    if(font != f) {
+        fm = QFontMetrics(font);
+    }
+
+    if(m_skyFont != f) {
+        m_skyFont = f;
+    }
+
+    int width = fm.width(text);
+    int height = fm.height();
+
+    QImage label(width, height, QImage::Format_ARGB32_Premultiplied);
+    label.fill(0);
+    painter.begin(&label);
+
+    painter.setPen( color );
+    painter.drawText(0,height-fm.descent(),text);
+
+    painter.end();
+
+    QFile file("/home/polaris/label.png");
+    file.open(QIODevice::WriteOnly);
+    label.save(&file, "PNG");
+
+    QSGTexture *texture = window()->createTextureFromImage(label,
+                                                           QQuickWindow::TextureCanUseAtlas & QQuickWindow::TextureHasAlphaChannel);
+    return texture;
 }
 
 void SkyMapLite::initStarImages()

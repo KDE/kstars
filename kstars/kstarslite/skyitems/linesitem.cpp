@@ -25,23 +25,32 @@
 #include "skynodes/nodes/linenode.h"
 
 LinesItem::LinesItem(RootNode *rootNode)
-    :SkyItem(rootNode)
+    :SkyItem(LabelsItem::label_t::RUDE_LABEL, rootNode)
 {
-    Options::setHideCBounds(true);
+    //Under construction
     Options::setShowCBounds(true);
     Options::setShowCLines(true);
-    Options::setHideOnSlew(true);
-    Options::setHideCLines(false);
     Options::setShowSolarSystem(true);
-
     Options::setShowEcliptic(true);
     Options::setShowEquator(true);
     Options::setShowEquatorialGrid(true);
     Options::setShowHorizontalGrid(true);
+    Options::setShowGround(true);
+
+    //Labels
+    Options::setShowCometNames(true);
+    Options::setShowAsteroidNames(true);
+    Options::setShowAsteroids(true);
+
+    Options::setAsteroidLabelDensity(10000);
+    Options::setMagLimitAsteroid(-10);
+
+    Options::setHideCBounds(true);
+    Options::setHideCLines(false);
+    Options::setHideOnSlew(true);
     Options::setHideGrids(false);
 
     Options::setRunClock(false);
-    Options::setShowGround(true);
 }
 
 void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int width, Qt::PenStyle style) {
