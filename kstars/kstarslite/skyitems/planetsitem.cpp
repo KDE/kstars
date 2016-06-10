@@ -22,25 +22,22 @@
 
 #include "skynodes/planetmoonsnode.h"
 #include "skynodes/planetnode.h"
-#include "skynodes/rootnodes/rootnode.h"
-
 #include "Options.h"
 
-PlanetsItem::PlanetsItem(QQuickItem* parent)
-    :SkyItem(parent)
+PlanetsItem::PlanetsItem(QList<SolarSystemSingleComponent *> planets, QList<PlanetMoonsComponent *> moons, RootNode *rootNode)
+    :SkyItem(LabelsItem::label_t::PLANET_LABEL, rootNode), m_planetComponents(planets), m_moonsComponents(moons)
 {
+    foreach(SolarSystemSingleComponent * planetComp, m_planetComponents) {
+        KSPlanetBase *planet = planetComp->planet();
+        PlanetMoonsNode *pNode = new PlanetMoonsNode(planet, rootNode);
+        appendChildNode(pNode);
 
-}
-
-void PlanetsItem::addPlanet(SolarSystemSingleComponent* planetComp) {
-    if(!m_planetComponents.contains(planetComp) && !m_planetsToAdd.contains(planetComp)) {
-        m_planetsToAdd.append(planetComp);
-    }
-}
-
-void PlanetsItem::addMoons(PlanetMoonsComponent * moonsComponent) {
-    if(!m_moonsComponents.contains(moonsComponent) && !m_moonsToAdd.contains(moonsComponent)) {
-        m_moonsToAdd.append(moonsComponent);
+        foreach(PlanetMoonsComponent * moonsComp, m_moonsComponents) {
+            // Find planet of moons
+            if(planet == moonsComp->getPlanet()) {
+                pNode->addMoons(moonsComp->getMoons());
+            }
+        }
     }
 }
 
@@ -51,77 +48,16 @@ SolarSystemSingleComponent * PlanetsItem::getParentComponent(SkyObject * planet)
     return nullptr;
 }
 
-QSGNode* PlanetsItem::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
-    RootNode *n = static_cast<RootNode*>(oldNode);
-    Q_UNUSED(updatePaintNodeData);
-    QRectF rect = boundingRect();
-
-    if (rect.isEmpty()) {
-        delete n;
-        return 0;
-    }
-
-    if(!n) {
-        n = new RootNode; // If no RootNode exists create one
-        int pCompLen = m_planetComponents.length();
-        if(pCompLen > 0) {
-            /* If there are some planets that have been already displayed once then recreate them
-                 in the new instance of RootNode*/
-            int mCompLen = m_moonsComponents.length();
-            foreach(SolarSystemSingleComponent * planetComp, m_planetComponents) {
-                KSPlanetBase *planet = planetComp->planet();
-                PlanetMoonsNode *pNode = new PlanetMoonsNode(planet, n);
-                n->appendSkyNode(pNode);
-                /* If there are some moons that have been already displayed once then recreate them
-                     in the new instance of RootNode*/
-                if(mCompLen > 0) {
-                    foreach(PlanetMoonsComponent * moonsComp, m_moonsComponents) {
-                        // Find planet of moons
-                        if(planet == moonsComp->getPlanet()) {
-                            pNode->addMoons(moonsComp->getMoons());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    int addPlanetLen = m_planetsToAdd.length();
-    if(addPlanetLen > 0) { // If there are some new planets to add
-        foreach(SolarSystemSingleComponent * planetComp, m_planetsToAdd) {
-            m_planetComponents.append(planetComp);
-
-            KSPlanetBase *planet = planetComp->planet();
-            PlanetMoonsNode *pNode = new PlanetMoonsNode(planet, n);
-            n->appendSkyNode(pNode);
-        }
-        m_planetsToAdd.clear();
-    }
-
-    int addMoonLen = m_moonsToAdd.length();
-
-    //Update clipping geometry. If m_clipPoly in SkyMapLite wasn't changed, geometry is not updated
-    n->updateClipPoly();
+void PlanetsItem::update() {
+    show();
     //Traverse all children nodes of RootNode
-    for(int i = 0; i < n->skyNodesCount(); ++i) {
-        PlanetMoonsNode *pNode = static_cast<PlanetMoonsNode *>(n->skyNodeAtIndex(i));
+    QSGNode *n = firstChild();
+    while(n != 0) {
+        PlanetMoonsNode *pNode = static_cast<PlanetMoonsNode *>(n);
+        n = n->nextSibling();
 
-        SkyObject * planet = pNode->getSkyObject();
-
-        if(addMoonLen > 0) { // If there are moons to add
-            foreach(PlanetMoonsComponent * moonsComp, m_moonsToAdd) {
-                if(planet == moonsComp->getPlanet()) {
-                    pNode->addMoons(moonsComp->getMoons());
-
-                    m_moonsComponents.append(moonsComp);
-                    m_moonsToAdd.removeOne(moonsComp);
-                }
-            }
-        }
-
-        bool selected = getParentComponent(pNode->getSkyObject())->selected();
+        bool selected = getParentComponent(pNode->skyObject())->selected();
         if(selected) pNode->update();
         else pNode->hide();
     }
-    return n;
 }

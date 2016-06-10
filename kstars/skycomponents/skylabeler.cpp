@@ -212,9 +212,10 @@ void SkyLabeler::getMargins( const QString& text, float *left,
 
 void SkyLabeler::reset( SkyMap* skyMap )
 {
-#ifndef KSTARS_LITE
+
     // ----- Set up Projector ---
     m_proj = skyMap->projector();
+#ifdef KSTARS_LITE
     // ----- Set up Painter -----
     if( m_p.isActive() )
         m_p.end();
@@ -230,7 +231,7 @@ void SkyLabeler::reset( SkyMap* skyMap )
     m_skyFont = m_p.font();
     m_fontMetrics = QFontMetrics( m_skyFont );
     m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
-
+#endif
     // ----- Set up Zoom Dependent Offset -----
     m_offset = SkyLabeler::ZoomOffset();
 
@@ -274,8 +275,67 @@ void SkyLabeler::reset( SkyMap* skyMap )
     for (int i = 0; i < labelList.size(); i++) {
         labelList[ i ].clear();
     }
-#endif
 }
+
+#ifdef KSTARS_LITE
+void SkyLabeler::reset()
+{
+    SkyMapLite * skyMap = SkyMapLite::Instance();
+    // ----- Set up Projector ---
+    m_proj = skyMap->projector();
+
+    // ----- Set up Painter -----
+
+    m_stdFont = QFont( skyMap->skyFont() );
+    setZoomFont();
+    m_skyFont = skyMap->skyFont() ;
+    m_fontMetrics = QFontMetrics( m_skyFont );
+    m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
+    // ----- Set up Zoom Dependent Offset -----
+    m_offset = SkyLabeler::ZoomOffset();
+
+    // ----- Prepare Virtual Screen -----
+    m_yScale = (m_fontMetrics.height() + 1.0);
+
+    int maxY = int( skyMap->height() / m_yScale );
+    if ( maxY < 1 ) maxY = 1;                         // prevents a crash below?
+
+    int m_maxX = skyMap->width();
+    m_size = (maxY + 1) * m_maxX;
+
+    // Resize if needed:
+    if ( maxY > m_maxY ) {
+        screenRows.resize( m_maxY );
+        for ( int y = m_maxY; y <= maxY; y++) {
+            screenRows.append( new LabelRow() );
+        }
+        //printf("resize: %d -> %d, size:%d\n", m_maxY, maxY, screenRows.size());
+    }
+
+    // Clear all pre-existing rows as needed
+
+    int minMaxY = (maxY < m_maxY) ? maxY : m_maxY;
+
+    for (int y = 0; y <= minMaxY; y++) {
+        LabelRow* row = screenRows[y];
+        for ( int i = 0; i < row->size(); i++) {
+            delete row->at(i);
+        }
+        row->clear();
+    }
+
+    // never decrease m_maxY:
+    if ( m_maxY < maxY ) m_maxY = maxY;
+
+    // reset the counters
+    m_marks = m_hits = m_misses = m_elements = 0;
+
+    //----- Clear out labelList -----
+    for (int i = 0; i < labelList.size(); i++) {
+        labelList[ i ].clear();
+    }
+}
+#endif
 
 void SkyLabeler::draw(QPainter& p)
 {
@@ -429,13 +489,16 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
     return true;
 }
 
-
 void SkyLabeler::addLabel( SkyObject *obj, SkyLabeler::label_t type )
 {
     bool visible = false;
     QPointF p = m_proj->toScreen(obj, true, &visible);
     if ( !visible || !m_proj->onScreen(p) || obj->translatedName().isEmpty() ) return;
     labelList[ (int)type ].append( SkyLabel( p, obj ) );
+}
+
+void SkyLabeler::addLabel(SkyObject *obj, QPointF pos,  label_t type) {
+    labelList[ (int)type ].append( SkyLabel( pos, obj ) );
 }
 
 void SkyLabeler::drawQueuedLabels()

@@ -16,8 +16,6 @@
 #ifndef POLYNODE_H_
 #define POLYNODE_H_
 #include <QSGOpacityNode>
-#include <QSGGeometry>
-#include <QSGFlatColorMaterial>
 
 /** @class PolyNode
  *
@@ -29,20 +27,18 @@
  *@version 1.0
  */
 
-class RootNode;
 class QSGGeometryNode;
 class QSGGeometry;
+class QSGFlatColorMaterial;
 
 class PolyNode : public QSGOpacityNode  {
 public:
     PolyNode();
 
     void setColor(QColor color);
-    inline void setLineWidth(int width) { m_geometry->setLineWidth(width); }
+    void setLineWidth(int width);
 
     void updateGeometry(QPolygonF polygon, bool filled);
-
-    inline QColor getColor() { return m_material->color(); }
 
     void show();
     void hide();

@@ -30,12 +30,7 @@
 #include "Options.h"
 #include "skymesh.h"
 
-//SkyItems
-#include "kstarslite/skyitems/planetsitem.h"
-#include "kstarslite/skyitems/asteroidsitem.h"
-#include "kstarslite/skyitems/cometsitem.h"
-#include "kstarslite/skyitems/horizonitem.h"
-#include "kstarslite/skyitems/linesitem.h"
+#include "kstarslite/skyitems/rootnode.h"
 
 #include "ksplanetbase.h"
 #include "ksutils.h"
@@ -89,15 +84,11 @@ int SkyMapLite::starColorMode = 0;
 
 SkyMapLite::SkyMapLite(QQuickItem* parent)
     :QQuickItem(parent), m_proj(0), count(0), data(KStarsData::Instance()),
-      nStarSizes(15), nSPclasses(7), m_planetsItem(new PlanetsItem(this)),
-      m_asteroidsItem(new AsteroidsItem(this)), m_cometsItem(new CometsItem(this)), pinch(false),
-      m_linesItem(new LinesItem(this)), m_horizonItem(new HorizonItem(this))
+      nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false)
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
     setFlag(ItemHasContents, true);
-
-    m_horizonItem->setZ(1);
 
     midMouseButtonDown = false;
     mouseButtonDown = false;
@@ -120,30 +111,21 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     initStarImages();
     // Set pinstance to yourself
     pinstance = this;
-    /*textureCache = QVector<QVector<QSGTexture*>> (imageCache.length());
 
-    for(int i = 0; i < textureCache.length(); ++i) {
-        int length = imageCache[i].length();
-        textureCache[i] = QVector<QSGTexture *>(length);
-        for(int c = 1; c < length; ++c) {
-           textureCache[i][c] = window()->createTextureFromImage(imageCache[i][c]->toImage());
-        }
-    }*/
 }
 
 QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
-    /*if(!textureCache.length()) {
-        textureCache = QVector<QVector<QSGTexture*>> (imageCache.length());
+    Q_UNUSED(updatePaintNodeData);
+    RootNode *n = static_cast<RootNode*>(oldNode);
 
-        for(int i = 0; i < textureCache.length(); ++i) {
-            int length = imageCache[i].length();
-            textureCache[i] = QVector<QSGTexture *>(length);
-            for(int c = 1; c < length; ++c) {
-                //textureCache[i][c] = window()->createTextureFromImage(imageCache[i][c]->toImage());
-            }
+    if(m_loadingFinished) {
+        if(!n) {
+            n = new RootNode();
         }
-    }*/
-    return oldNode;
+        n->update();
+    }
+
+    return n;
 }
 
 QSGTexture* SkyMapLite::getCachedTexture(int size, char spType) {
@@ -428,24 +410,7 @@ void SkyMapLite::forceUpdate() {
             m_skyMesh->index( &Focus, radius + 1.0, NO_PRECESS_BUF );
         }
     }
-    //TODO: Move this check somewhere else (create a separate function)
-    if(Options::showSolarSystem()) {
-        if(!m_planetsItem->property("visible").toBool()) {
-            m_planetsItem->setVisible(true);
-            m_asteroidsItem->setVisible(true);
-            m_cometsItem->setVisible(true);
-        }
-        m_planetsItem->update();
-        m_asteroidsItem->update();
-        m_cometsItem->update();
-    } else {
-        m_planetsItem->setVisible(false);
-        m_asteroidsItem->setVisible(false);
-        m_cometsItem->setVisible(false);
-    }
-
-    m_horizonItem->update();
-    m_linesItem->update();
+    update();
 }
 
 void SkyMapLite::setupProjector() {
@@ -537,6 +502,40 @@ int SkyMapLite::harvardToIndex(char c) {
 QVector<QVector<QPixmap*>> SkyMapLite::getImageCache()
 {
     return imageCache;
+}
+
+QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, QFont font) {
+    QPainter painter;
+
+    QFontMetrics fm = painter.fontMetrics();
+    QFont f = painter.font();
+    if(font != f) {
+        fm = QFontMetrics(font);
+    }
+
+    if(m_skyFont != f) {
+        m_skyFont = f;
+    }
+
+    int width = fm.width(text);
+    int height = fm.height();
+
+    QImage label(width, height, QImage::Format_ARGB32_Premultiplied);
+    label.fill(0);
+    painter.begin(&label);
+
+    painter.setPen( color );
+    painter.drawText(0,height-fm.descent(),text);
+
+    painter.end();
+
+    QFile file("/home/polaris/label.png");
+    file.open(QIODevice::WriteOnly);
+    label.save(&file, "PNG");
+
+    QSGTexture *texture = window()->createTextureFromImage(label,
+                                                           QQuickWindow::TextureCanUseAtlas & QQuickWindow::TextureHasAlphaChannel);
+    return texture;
 }
 
 void SkyMapLite::initStarImages()

@@ -18,7 +18,7 @@
 #include <QQuickWindow>
 
 #include "pointnode.h"
-#include "../rootnodes/rootnode.h"
+#include "kstarslite/skyitems/rootnode.h"
 
 PointNode::PointNode(RootNode* p, char sp, float size)
     :spType(sp), texture(new QSGSimpleTextureNode), m_rootNode(p)
@@ -29,12 +29,15 @@ PointNode::PointNode(RootNode* p, char sp, float size)
 
 void PointNode::setSize(float size) {
     int isize = qMin(static_cast<int>(size), 14);
-    texture->setTexture(m_rootNode->getCachedTexture(isize, spType));
-    //markDirty(QSGNode::DirtyMaterial);
+    if(size != m_size) {
+        texture->setTexture(m_rootNode->getCachedTexture(isize, spType));
+        //markDirty(QSGNode::DirtyMaterial);
 
-    QSize tSize = texture->texture()->textureSize();
-    QRectF oldRect = texture->rect();
-    texture->setRect(QRect(oldRect.x(),oldRect.y(),tSize.width(),tSize.height()));
+        QSize tSize = texture->texture()->textureSize();
+        QRectF oldRect = texture->rect();
+        texture->setRect(QRect(oldRect.x(),oldRect.y(),tSize.width(),tSize.height()));
+        m_size = size;
+    }
 }
 
 void PointNode::show() {

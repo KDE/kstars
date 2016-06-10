@@ -1,5 +1,5 @@
 /** *************************************************************************
-                          LineNode.h  -  K Desktop Planetarium
+                          linenode.h  -  K Desktop Planetarium
                              -------------------
     begin                : 05/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
@@ -45,12 +45,17 @@ public:
      * @short setSize update size of LineNode with the given parameter
      * @param size new size of LineNode
      */
+
     void setColor(QColor color);
     void setWidth(int width);
+    void setDrawStyle(Qt::PenStyle drawStyle);
+
+    void setStyle(QColor color, int width, Qt::PenStyle drawStyle);
+
     void updateGeometry();
     inline LineList *lineList() { return m_lineList; }
     void hide();
-    void setDrawStyle(Qt::PenStyle drawStyle);
+    void show();
 
 private:
     QSGGeometryNode *m_geometryNode;

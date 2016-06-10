@@ -22,6 +22,7 @@ class QImage;
 class KSPlanetBase;
 class RootNode;
 class PointNode;
+class LabelNode;
 
 /** @class PlanetNode
  *
@@ -77,6 +78,7 @@ private:
     // no explicit opacity node here.
     QSGOpacityNode *m_planetOpacity;
     QSGSimpleTextureNode *m_planetPic;
+    LabelNode *m_label;
 };
 
 

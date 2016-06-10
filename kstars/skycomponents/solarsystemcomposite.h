@@ -62,6 +62,10 @@ public:
 
     AsteroidsComponent* asteroidsComponent();
 
+    QList<PlanetMoonsComponent *> planetMoonsComponent() const;
+
+    const QList<SolarSystemSingleComponent *>& planets() const;
+
 private:
     KSPlanet *m_Earth;
     KSSun *m_Sun;
@@ -69,6 +73,7 @@ private:
     PlanetMoonsComponent *m_JupiterMoons;
     AsteroidsComponent *m_AsteroidsComponent;
     CometsComponent *m_CometsComponent;
+    QList<SolarSystemSingleComponent *> m_planets;
 };
 
 #endif

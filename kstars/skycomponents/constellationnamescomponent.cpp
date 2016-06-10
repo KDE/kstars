@@ -102,7 +102,7 @@ bool ConstellationNamesComponent::selected()
            !( Options::hideOnSlew() && Options::hideCNames() && SkyMap::IsSlewing() );
 #else
     return Options::showCNames() &&
-           !( Options::hideOnSlew() && Options::hideCNames() );
+           !( Options::hideOnSlew() && Options::hideCNames() && SkyMapLite::IsSlewing());
 #endif
 }
 

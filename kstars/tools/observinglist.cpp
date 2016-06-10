@@ -347,7 +347,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
                 << new QStandardItem( dec )
                 << new QStandardItem( smag )
                 << new QStandardItem( obj->typeName() )
-                << new QStandardItem( KSUtils::constNameToAbbrev( KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( obj ) ) )
+                << new QStandardItem( KSUtils::constNameToAbbrev( KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( obj ) ) )
                 << BestTime
                 << new QStandardItem( alt )
                 << new QStandardItem( az );

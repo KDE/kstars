@@ -56,6 +56,7 @@ private:
     QSGSimpleTextureNode *texture;
     //parentNode holds texture cache
     RootNode* m_rootNode;
+    float m_size;
 };
 
 #endif

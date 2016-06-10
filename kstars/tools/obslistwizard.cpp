@@ -747,7 +747,7 @@ bool ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
     //select by constellation
     if ( isItemSelected( i18n("by constellation"), olw->RegionList ) )
     {
-        QString c = KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( o );
+        QString c = KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( o );
         if ( isItemSelected( c, olw->ConstellationList ) )
         {
             if ( doBuildList )

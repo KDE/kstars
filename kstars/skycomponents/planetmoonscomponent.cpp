@@ -60,11 +60,6 @@ PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
     int nmoons = pmoons->nMoons();
     for ( int i=0; i<nmoons; ++i ) 
         objectNames(SkyObject::MOON).append( pmoons->name(i) );
-
-#ifdef KSTARS_LITE
-    SkyMapLite *map = SkyMapLite::Instance();
-    map->getPlanetsItem()->addMoons(this);
-#endif
 }
 
 PlanetMoonsComponent::~PlanetMoonsComponent()

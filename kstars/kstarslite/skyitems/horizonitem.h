@@ -22,11 +22,10 @@ class HorizonComponent;
 
 class HorizonItem : public SkyItem {
 public:
-    HorizonItem(QQuickItem* parent = 0);
+    HorizonItem(HorizonComponent * hComp, RootNode *rootNode);
     inline void setHorizonComp(HorizonComponent * hComp) { m_horizonComp = hComp; }
 
-protected:
-    virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) override;
+    virtual void update();
 private:
     HorizonComponent *m_horizonComp;
 };

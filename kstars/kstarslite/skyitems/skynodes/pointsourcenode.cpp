@@ -13,20 +13,24 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
-#include <QImage>
-#include <QQuickWindow>
-
-#include "skymaplite.h"
-#include "pointsourcenode.h"
 #include "skyobject.h"
-#include "nodes/pointnode.h"
 #include "Options.h"
 
-PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode* p, char sp, float size)
-    :SkyNode(skyObject), m_point(0), m_sizeMagLim(10.) // has to be changed when stars will be introduced
+#include <QSGSimpleTextureNode>
+
+#include "pointsourcenode.h"
+#include "nodes/pointnode.h"
+
+#include "../rootnode.h"
+#include "../labelsitem.h"
+#include "labelnode.h"
+
+PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
+                                 LabelsItem::label_t labelType, char spType, float size)
+    :SkyNode(skyObject), m_point(0), m_sizeMagLim(10.), // has to be changed when stars will be introduced
+        m_label(0), m_labelType(labelType), m_rootNode(parentNode)
 {
-    m_point = new PointNode(p,starWidth(size),sp);
+    m_point = new PointNode(parentNode,starWidth(size),spType);
     appendChildNode(m_point);
 }
 
@@ -62,21 +66,39 @@ void PointSourceNode::changePos(QPointF pos) {
 
 void PointSourceNode::update() {
     if( !projector()->checkVisibility(m_skyObject) ) {
-        m_point->hide();
+        hide();
         return;
     }
 
     bool visible = false;
-    QPointF pos = projector()->toScreen(m_skyObject,true,&visible);
+    pos = projector()->toScreen(m_skyObject,true,&visible);
     if( visible && projector()->onScreen(pos) ) { // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
         m_point->setSize(starWidth(m_skyObject->mag()));
         changePos(pos);
         m_point->show();
+
+        if(m_drawLabel) {
+            if(!m_label) { //This way labels will be created only when they are needed
+                m_label = m_rootNode->labelsItem()->addLabel(m_skyObject, m_labelType);
+            }
+            m_label->setLabelPos(pos);
+        } else {
+            if(m_label) m_label->hide();
+        }
+
+
     } else {
-        m_point->hide();
+        hide();
     }
+
 }
 
+/*void PointSourceNode::updateLabel() {
+    if(!m_label) m_label = m_rootNode->labelsItem()->addLabel(skyObject, labelType);
+    m_label->setLabelPos(pos);
+}*/
+
 void PointSourceNode::hide() {
+    if(m_label) m_label->hide();
     m_point->hide();
 }

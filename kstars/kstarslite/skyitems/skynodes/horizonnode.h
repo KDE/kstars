@@ -30,10 +30,6 @@ public:
 
     virtual void update() override;
     virtual void hide() override;
-    /**
-     * @note HorizonNode is not meant to be moved.
-     */
-    virtual void changePos(QPointF pos) { }
 
 private:
     PolyNode *m_polygonNode;

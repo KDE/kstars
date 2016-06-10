@@ -1,8 +1,7 @@
- 
 /** *************************************************************************
-                          LinesRootNode.h  -  K Desktop Planetarium
+                          constellationnamesitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 14/05/2016
+    begin                : 10/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -14,30 +13,43 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef LINESROOTNODE_H_
-#define LINESROOTNODE_H_
-#include "linelistindex.h"
-#include "rootnode.h"
 
-/** @class LinesRootNode
+#ifndef CONSTELLATIONNAMESITEM_H_
+#define CONSTELLATIONNAMESITEM_H_
+
+#include <QSGOpacityNode>
+#include "skyitem.h"
+
+class ConstellationNamesComponent;
+
+/** @class SkyItem
  *
- * A QSGClipNode derived class used as a container for holding pointers to nodes and for clipping.
- * Upon construction LinesRootNode generates all textures that are used by PointNode.
+ *This is an interface for implementing SkyItems that are used to display SkyComponent
+ *derived objects on the SkyMapLite.
  *
- *@short A container for nodes that holds collection of textures for stars and provides clipping
+ *@short A base class that is used for displaying SkyComponents on SkyMapLite.
  *@author Artem Fedoskin
  *@version 1.0
  */
 
-class LinesRootNode : public QSGNode { //Clipping under construction
+class ConstellationNamesItem : public SkyItem {
+
 public:
-    LinesRootNode();
-    void addLinesComponent(LineListIndex * linesList, QString color, int width, Qt::PenStyle style);
-    void update();
+   /**
+    *Constructor, add SkyItem to parent in a node tree
+    *
+    * @param parent a pointer to SkyItem's parent node
+    */
+
+    explicit ConstellationNamesItem(const QList<SkyObject*>& namesList, RootNode *rootNode = 0);
+
+    virtual void update();
+
+    void hide();
+    void show();
+    void recreateList();
 private:
-    QMap<QSGOpacityNode *, LineListIndex *> m_lineIndexes;
-    QVector<QString> m_colors;
-    QVector<int> m_widths;
-    QVector<Qt::PenStyle> m_styles;
+    const QList<SkyObject*>& m_namesList;
 };
+
 #endif

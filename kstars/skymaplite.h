@@ -231,37 +231,6 @@ public:
       */
     void setZoomFactor(double factor);
 
-    /**
-     * @short Get PlanetsItem object
-     * @return const pointer to m_planetsItem
-     */
-    inline PlanetsItem *getPlanetsItem() { return m_planetsItem; }
-
-    /**
-     * @short Get AsteroidsItem object
-     * @return pointer to m_asteroidsItem
-     */
-    inline AsteroidsItem *getAsteroidsItem() { return m_asteroidsItem; }
-
-    /**
-     * @short Get CometsItem object
-     * @return pointer to m_cometsItem
-     */
-    inline CometsItem *getCometsItem() { return m_cometsItem; }
-
-    /**
-     * @short Get HorizonItem object
-     * @return pointer to m_horizonItem
-     */
-    inline HorizonItem *getHorizonItem() { return m_horizonItem; }
-
-    /**
-     * @short Get EquatorItem object
-     * @return pointer to m_equatorItem
-     */
-    inline LinesItem *getLinesItem() { return m_linesItem; }
-
-
     /** @short Call to set up the projector before update of SkyItems positions begins. */
     void setupProjector();
 
@@ -273,6 +242,8 @@ public:
      */
     QVector<QVector<QPixmap*>> getImageCache();
 
+    QSGTexture *textToTexture(QString text, QColor color = QColor(255,255,255), QFont font = QFont());
+
     /**
      * @short returns cached texture from textureCache.
      *
@@ -283,6 +254,9 @@ public:
      * @return cached QSGTexture from textureCache
      */
     QSGTexture* getCachedTexture(int size, char spType);
+
+    /** Called when SkyMapComposite finished loading all SkyComponents */
+    inline void loadingFinished() { m_loadingFinished = true; }
 
     bool isSlewing() const;
 
@@ -297,6 +271,11 @@ public:
     /** Get the current projector.
         @return a pointer to the current projector. */
     inline const Projector * projector() const { return m_proj; }
+
+    /**
+     * @return font of labels
+     */
+    inline QFont skyFont() const { return m_skyFont; }
 
     /**
      *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
@@ -318,7 +297,7 @@ public:
     SkyPoint getCenterPoint();*/
 
 public slots:
-    /** Called whenever wrappers' width or height are changed. Probably will be used to
+     /** Called whenever wrappers' width or height are changed. Probably will be used to
      * update positions of items.
      */
     void resizeItem();
@@ -575,6 +554,9 @@ private:
 
     KStarsData *data;
 
+    //True if SkyMapComposite has finished loading of SkyComponents
+    bool m_loadingFinished;
+
     /** @short Coordinates of point under cursor. It's update in
      * function mouseMoveEvent
      */
@@ -599,14 +581,7 @@ private:
     static SkyMapLite *pinstance;
     QQuickItem *m_SkyMapLiteWrapper;
 
-    //SkyItems
-    //Solar system
-    PlanetsItem *m_planetsItem;
-    AsteroidsItem *m_asteroidsItem;
-    CometsItem *m_cometsItem;
-
-    HorizonItem *m_horizonItem;
-    LinesItem *m_linesItem;
+    QFont m_skyFont;
 
     static int starColorMode;
 

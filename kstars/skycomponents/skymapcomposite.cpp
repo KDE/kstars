@@ -113,6 +113,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_StarHopRouteList = new TargetListComponent( this , 0, QPen() ), 130 );
     addComponent( m_Satellites       = new SatellitesComponent( this ), 7 );
     addComponent( m_Supernovae       = new SupernovaeComponent( this ), 7 );
+    SkyMapLite::Instance()->loadingFinished();
 #else
     addComponent( m_MilkyWay       = new MilkyWay( this ), 50);
     addComponent( m_Stars          = StarComponent::Create( this ), 10);
@@ -698,11 +699,6 @@ FlagComponent* SkyMapComposite::flags() {
 
 SatellitesComponent* SkyMapComposite::satellites() {
     return m_Satellites;
-}
-
-SolarSystemComposite* SkyMapComposite::solarSystemComposite()
-{
-    return m_SolarSystem;
 }
 
 SupernovaeComponent* SkyMapComposite::supernovaeComponent()

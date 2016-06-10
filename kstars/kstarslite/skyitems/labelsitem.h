@@ -13,32 +13,54 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef ASTEROIDSITEM_H_
-#define ASTEROIDSITEM_H_
+#ifndef LABELSITEM_H_
+#define LABELSITEM_H_
 
-#include "skyitem.h"
+#include "skylabeler.h"
+
+#include <QSGOpacityNode>
+
+typedef QSGOpacityNode LabelTypeNode;
 
 class KSAsteroid;
+class LineListIndex;
+class LabelNode;
 class SkyObject;
 class RootNode;
 
-class AsteroidsItem : public SkyItem {
+class LabelsItem : public QSGOpacityNode {
+
 public:
+    LabelsItem(RootNode *rootNode);
 
-    AsteroidsItem(const QList<SkyObject*>& asteroidsList, RootNode *rootNode = 0);
+    enum label_t {
+        STAR_LABEL,
+        ASTEROID_LABEL,
+        COMET_LABEL,
+        PLANET_LABEL,
+        JUPITER_MOON_LABEL,
+        SATURN_MOON_LABEL,
+        DEEP_SKY_LABEL,
+        CONSTEL_NAME_LABEL,
+        SATELLITE_LABEL,
+        RUDE_LABEL, ///Rude labels block other labels FIXME: find a better solution
+        NUM_LABEL_TYPES,
+    };
 
-    /** Adds an object of type KSAsteroid to m_toAdd. In the next call to
-     * updatePaintNode() the object of type PlanetNode will be created and asteroid
-     * will be moved to m_asteroids. PlanetNode represents graphically KSAsteroid on SkyMapLite.
-     * This function should be called whenever an object of class KSAsteroid is created.
-     *
-     * @param KSAsteroid that should be displayed on SkyMapLite
-     */
-    //void setAsteroidsList(QList<SkyObject*> *asteroidsList);
+    LabelNode *addLabel(SkyObject *skyObject, label_t);
+    void update();
+    void updateChildLabels(label_t type);
+    QSGOpacityNode *getLabelNode(label_t type) { return labelsLists.value(type); }
 
-    void recreateList();
-    virtual void update() override;
+    void deleteLabels(label_t type);
+
+    void hideLabels(label_t type);
+
+    RootNode *rootNode() { return m_rootNode; }
+
 private:
-    const QList<SkyObject*>& m_asteroidsList;
+    QMap<label_t, LabelTypeNode *> labelsLists;
+    RootNode *m_rootNode;
 };
 #endif
+

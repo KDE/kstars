@@ -27,7 +27,6 @@
 #include "skyobjects/ksplanet.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
-#include "kstarslite/skyitems/planetsitem.h"
 #else
 #include "skymap.h"
 #endif
@@ -49,10 +48,6 @@ SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *par
         objectNames(m_Planet->type()).append( m_Planet->name() );
     if ( ! m_Planet->longname().isEmpty() && m_Planet->longname() != m_Planet->name() )
         objectNames(m_Planet->type()).append( m_Planet->longname() );
-    //Draw planet on the SkyMapLite
-    #ifdef KSTARS_LITE
-    SkyMapLite::Instance()->getPlanetsItem()->addPlanet(this);
-    #endif
 }
 
 SolarSystemSingleComponent::~SolarSystemSingleComponent()

@@ -29,7 +29,6 @@
 #include "kstarsdata.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
-#include "kstarslite/skyitems/linesitem.h"
 #else
 #include "skymap.h"
 #endif
@@ -148,9 +147,6 @@ ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComposite *parent )
         appendLine( lineList );
     if( polyList )
         appendPoly( polyList, idxFile, verbose );
-#ifdef KSTARS_LITE
-    SkyMapLite::Instance()->getLinesItem()->addLinesComponent( this, "CBoundColor", 1, Qt::SolidLine );
-#endif
 }
 
 bool ConstellationBoundaryLines::selected()

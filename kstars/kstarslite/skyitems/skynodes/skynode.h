@@ -41,6 +41,7 @@ public:
      * @param skyObject that is represented on the SkyMapLIte
      */
     SkyNode(SkyObject * skyObject);
+    SkyNode();
     /** @short short function that returns pointer to the current projector
      *  @return pointer to current projector of SkyMapLite
      */
@@ -58,28 +59,46 @@ public:
     /**
      * @short updates coordinate of the object on SkyMapLite
      */
-    virtual void update() =0;
-    /**
-     * @short hides all child nodes
-     */
-    virtual void hide() =0;
+    virtual void update() { }
 
     /**
-     * @short changePos changes the position of SkyNode on SkyMapLite
+     * @short sets m_drawLabel to true if it is needed to be drawn and calls update()
+     * @param drawLabel true of label has to be drawn
+     */
+    void update(bool drawLabel);
+
+    /**
+     * @short hides all child nodes (sets opacity of m_opacity to 0)
+     */
+    virtual void hide();
+
+    /**
+     * @short shows all child nodes (sets opacity of m_opacity to 1)
+     */
+    virtual void show();
+
+    /**
+     * @short changes the position of SkyNode on SkyMapLite. Has to be overriden by the classes
+     * that support moving
      * @param pos new position
      */
-    virtual void changePos(QPointF pos) =0;
+    virtual void changePos(QPointF pos) { }
+
+    /**
+     * @return true if object is visible (m_opacity->opacity() != 0) else returns false
+     */
+    bool visible();
 
     /**
      * @short returns SkyObject associated with this SkyNode
      * @return pointer to the object of type SkyObject
      */
-    SkyObject * getSkyObject() const { return m_skyObject; }
+    SkyObject * skyObject() const { return m_skyObject; }
 protected:
     SkyObject * m_skyObject;
-private:
-    //SkyMapLite * m_skyMapLite;
-    //const Projector * m_proj;
+    QSGOpacityNode *m_opacity;
+
+    bool m_drawLabel;
 };
 
 

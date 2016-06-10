@@ -15,22 +15,36 @@
  ***************************************************************************/
 #include "skyitem.h"
 #include "../../skymaplite.h"
+#include "rootnode.h"
+#include "skynodes/skynode.h"
 
-SkyItem::SkyItem(QQuickItem* parent)
-    :QQuickItem(parent), m_skyMapLite(SkyMapLite::Instance())
+SkyItem::SkyItem(LabelsItem::label_t labelType, RootNode* parent)
+    :m_rootNode(parent), m_labelType(labelType)
 {
-    setFlag(ItemHasContents, true);
-    //TODO: Dirty hack to allow call to updatePaintNode
-    // Whenever the parent's dimensions changed, change dimensions of this item too
-    connect(parent, &QQuickItem::widthChanged, this, &SkyItem::resizeItem);
-    connect(parent, &QQuickItem::heightChanged, this, &SkyItem::resizeItem);
-
-    connect(m_skyMapLite, &SkyMapLite::zoomChanged, this, &QQuickItem::update);
-    setWidth(1);
-    setHeight(1);
+    parent->appendChildNode(this);
 }
 
-void SkyItem::resizeItem() {
-    setWidth(parentItem()->width());
-    setHeight(parentItem()->height());
+SkyItem::~SkyItem() {
+    rootNode()->labelsItem()->deleteLabels(m_labelType);
+}
+
+void SkyItem::hide() {
+    if(opacity()) {
+        setOpacity(0);
+        markDirty(QSGNode::DirtyOpacity);
+    }
+}
+
+void SkyItem::show() {
+    if(!opacity()) {
+        setOpacity(1);
+        markDirty(QSGNode::DirtyOpacity);
+    }
+}
+
+bool SkyItem::visible() {
+    if(opacity() != 0) {
+        return true;
+    }
+    return false;
 }

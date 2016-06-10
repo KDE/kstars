@@ -167,6 +167,13 @@ public:
     void reset( SkyMap* skyMap );
 
     /**
+     * @short KStars Lite version of the function above
+     */
+#ifdef KSTARS_LITE
+    void reset();
+#endif
+
+    /**
      * @short Draws labels using the given painter
      * @param p the painter to draw labels with
      */
@@ -256,6 +263,12 @@ public:
     void addLabel( SkyObject *obj, label_t type );
 
     /**
+     * @short queues the label in the "type" buffer for later drawing. Doesn't calculate the position of
+     * SkyObject but uses pos as a position of label.
+     */
+     void addLabel(SkyObject *obj, QPointF pos,  label_t type);
+
+    /**
      *@short draws the labels stored in all the buffers.  You can change the
      * priority by editing the .cpp file and changing the order in which
      * buffers are drawn.  You can also change the fonts and colors there
@@ -317,7 +330,7 @@ public:
      */
     void printInfo();
 
-    int hits()  { return m_hits; };
+    int hits()  { return m_hits; }
     int marks() { return m_marks; }
 
 private:

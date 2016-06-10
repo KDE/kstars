@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          TrixelNode.h  -  K Desktop Planetarium
+                          labelnode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/05/2016
+    begin                : 09/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,19 +13,19 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef TRIXELNODE_H_
-#define TRIXELNODE_H_
-#include <QSGSimpleTextureNode>
+#ifndef LABELNODE_H_
+#define LABELNODE_H_
+
 #include "skynode.h"
-#include "linelist.h"
+#include "../labelsitem.h"
 
 class PlanetItemNode;
 class SkyMapLite;
 class PointNode;
-class LineNode;
-class QSGOpacityNode;
+class QSGSimpleTextureNode;
+class SkyLabeler;
 
-/** @class TrixelNode
+/** @class LabelNode
  *
  * A SkyNode derived class used for displaying PointNode with coordinates provided by SkyObject.
  *
@@ -36,7 +36,7 @@ class QSGOpacityNode;
 
 class RootNode;
 
-class TrixelNode : public SkyNode  {
+class LabelNode : public SkyNode  {
 public:
     /**
      * @short Constructor
@@ -45,16 +45,27 @@ public:
      * @param spType spectral class of PointNode
      * @param size initial size of PointNode
      */
-    TrixelNode(Trixel trixel, LineListList *lineIndex);
+    LabelNode(SkyObject * skyObject, LabelsItem::label_t type);
 
-    void setStyle(QString color, int width, Qt::PenStyle style);
+    /**
+     * @short changePos changes the position m_point
+     * @param pos new position
+     */
+    virtual void changePos(QPointF pos) override;
 
-    virtual void changePos(QPointF pos) {}
-    virtual void update() override;
+    /**
+     * @short setLabelPos sets the position of label with the given offset from SkyObject's position and
+     * makes the label visible if it was hidden
+     * @param pos position of label
+     */
+    void setLabelPos(QPointF pos);
+
+    void update();
+    QPointF labelPos;
+
 private:
-    QSGOpacityNode *m_opacity;
-    Trixel trixel;
-    LineListList *m_linesLists;
+    QSGSimpleTextureNode *m_textTexture;
+    QSize m_textSize;
 };
 
 #endif
