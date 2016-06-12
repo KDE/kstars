@@ -19,6 +19,7 @@
 #include "labelsitem.h"
 #include "skylabeler.h"
 #include "skynodes/labelnode.h"
+#include "skynodes/guidelabelnode.h"
 
 #include "cometsitem.h"
 #include "rootnode.h"
@@ -69,10 +70,34 @@ LabelsItem::LabelsItem(RootNode *rootNode)
     LabelTypeNode *num_label = new LabelTypeNode;
     appendChildNode(num_label);
     labelsLists.insert(label_t::NUM_LABEL_TYPES, num_label);
+
+    LabelTypeNode *horizon_label = new LabelTypeNode;
+    appendChildNode(horizon_label);
+    labelsLists.insert(label_t::HORIZON_LABEL, horizon_label);
+
+    LabelTypeNode *equator = new LabelTypeNode;
+    appendChildNode(equator);
+    labelsLists.insert(label_t::EQUATOR_LABEL, equator);
+
+    LabelTypeNode *ecliptic = new LabelTypeNode;
+    appendChildNode(ecliptic);
+    labelsLists.insert(label_t::ECLIPTIC_LABEL, ecliptic);
 }
 
 LabelNode *LabelsItem::addLabel(SkyObject *skyObject, label_t type) {
     LabelNode *label = new LabelNode(skyObject, type);
+    labelsLists.value(type)->appendChildNode(label);
+    return label;
+}
+
+LabelNode *LabelsItem::addLabel(QString name, label_t type) {
+    LabelNode *label = new LabelNode(name, type);
+    labelsLists.value(type)->appendChildNode(label);
+    return label;
+}
+
+GuideLabelNode *LabelsItem::addGuideLabel(QString name, label_t type) {
+    GuideLabelNode *label = new GuideLabelNode(name, type);
     labelsLists.value(type)->appendChildNode(label);
     return label;
 }
@@ -82,8 +107,14 @@ void LabelsItem::update() {
     skyLabeler->reset();
 
     updateChildLabels(label_t::PLANET_LABEL);
-    updateChildLabels(label_t::SATURN_MOON_LABEL);
     updateChildLabels(label_t::JUPITER_MOON_LABEL);
+
+    updateChildLabels(label_t::HORIZON_LABEL);
+    updateChildLabels(label_t::EQUATOR_LABEL);
+    updateChildLabels(label_t::ECLIPTIC_LABEL);
+
+
+    updateChildLabels(label_t::SATURN_MOON_LABEL);
     updateChildLabels(label_t::ASTEROID_LABEL);
 
     if(rootNode()->cometsItem()->visible()) {
@@ -91,6 +122,8 @@ void LabelsItem::update() {
     } else {
         hideLabels(label_t::COMET_LABEL);
     }
+
+    updateChildLabels(label_t::CONSTEL_NAME_LABEL);
 }
 
 void LabelsItem::hideLabels(label_t type) {
@@ -115,10 +148,26 @@ void LabelsItem::updateChildLabels(label_t type) {
     node->markDirty(QSGNode::DirtyOpacity);
 
     QSGNode *n = node->firstChild();
+    /*if( type == label_t::HORIZON_LABEL
+            || type == label_t::ECLIPTIC_LABEL || type == label_t::EQUATOR_LABEL) {
+        while( n != 0) {
+            GuideLabelNode *label = static_cast<GuideLabelNode *>(n);
+            if(label->visible()) {
+                //if(SkyLabeler::Instance()->markRegion(label->left,label->right,label->top,label->bot)) {
+                QString name = label->name();
+                if(SkyLabeler::Instance()->markText(label->labelPos, name)) {
+                    label->update();
+                } else {
+                    label->hide();
+                }
+            }
+            n = n->nextSibling();
+        }
+    } else {*/
     while( n != 0) {
         LabelNode *label = static_cast<LabelNode *>(n);
         if(label->visible()) {
-            if(SkyLabeler::Instance()->markText(label->labelPos, label->skyObject()->name())) {
+            if(SkyLabeler::Instance()->markText(label->labelPos, label->name())) {
                 label->update();
             } else {
                 label->hide();
@@ -126,4 +175,5 @@ void LabelsItem::updateChildLabels(label_t type) {
         }
         n = n->nextSibling();
     }
+
 }

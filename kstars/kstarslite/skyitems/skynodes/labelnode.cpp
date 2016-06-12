@@ -22,8 +22,18 @@
 #include "labelnode.h"
 
 LabelNode::LabelNode(SkyObject * skyObject, LabelsItem::label_t type)
-    :SkyNode(skyObject), m_textTexture(new QSGSimpleTextureNode)
+    :SkyNode(skyObject), m_name(skyObject->name()), m_textTexture(new QSGSimpleTextureNode)
 {
+    createTexture(type);
+}
+
+LabelNode::LabelNode(QString name, LabelsItem::label_t type)
+    :m_name(name), m_textTexture(new QSGSimpleTextureNode)
+{
+    createTexture(type);
+}
+
+void LabelNode::createTexture(LabelsItem::label_t type) {
     QColor color;
     switch(type) {
         case LabelsItem::label_t::PLANET_LABEL:
@@ -36,11 +46,14 @@ LabelNode::LabelNode(SkyObject * skyObject, LabelsItem::label_t type)
         case LabelsItem::label_t::ASTEROID_LABEL:
             color = QColor("gray");
             break;
+        case LabelsItem::label_t::CONSTEL_NAME_LABEL:
+            color = KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" );
+            break;
         default:
             color = KStarsData::Instance()->colorScheme()->colorNamed( "UserLabelColor" );
     }
 
-    m_textTexture->setTexture(SkyMapLite::Instance()->textToTexture(skyObject->name(), color));
+    m_textTexture->setTexture(SkyMapLite::Instance()->textToTexture(m_name, color));
     m_opacity->appendChildNode(m_textTexture);
 
     m_textSize = m_textTexture->texture()->textureSize();
@@ -63,7 +76,8 @@ void LabelNode::changePos(QPointF pos) {
 void LabelNode::setLabelPos(QPointF pos) {
     show();
     //We need to subtract the height of texture from final y to follow the way QPainter draws the text
-    labelPos = QPointF(pos.x() + m_skyObject->labelOffset(), pos.y() + m_skyObject->labelOffset() - m_textSize.height());
+    if(m_skyObject) labelPos = QPointF(pos.x() + m_skyObject->labelOffset(), pos.y() + m_skyObject->labelOffset() - m_textSize.height());
+    else labelPos = QPointF(pos.x()-(m_textSize.width()/2.0), pos.y());//QPointF(pos.x()-(m_textSize.width()/2.0), pos.y() + m_textSize.height());
 }
 
 void LabelNode::update() {

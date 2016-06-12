@@ -4,7 +4,7 @@
 #include "ksutils.h"
 
 HorizonNode::HorizonNode(QList<SkyPoint*>& pointList)
-    :SkyNode(),m_pointList(pointList), m_polygonNode(new PolyNode)
+    :m_pointList(pointList), m_polygonNode(new PolyNode)
 {
     appendChildNode(m_polygonNode);
 }

@@ -46,6 +46,7 @@ public:
      * @param size initial size of PointNode
      */
     LabelNode(SkyObject * skyObject, LabelsItem::label_t type);
+    LabelNode(QString name, LabelsItem::label_t type);
 
     /**
      * @short changePos changes the position m_point
@@ -60,12 +61,17 @@ public:
      */
     void setLabelPos(QPointF pos);
 
+    inline QString name() { return m_name; }
+
+    void createTexture(LabelsItem::label_t type);
+
     void update();
     QPointF labelPos;
 
 private:
     QSGSimpleTextureNode *m_textTexture;
     QSize m_textSize;
+    QString m_name;
 };
 
 #endif

@@ -25,12 +25,13 @@
 #include "skymesh.h"
 #include <QSGOpacityNode>
 
-TrixelNode::TrixelNode(Trixel trixelId, LineListList *linesList)
+TrixelNode::TrixelNode(Trixel trixelId, LineListList *linesList, QString color, int width, Qt::PenStyle style)
     :SkyNode(), trixel(trixelId), m_linesLists(linesList), m_opacity(new QSGOpacityNode)
 {
     appendChildNode(m_opacity);
+    QColor c = KStarsData::Instance()->colorScheme()->colorNamed(color);
     for(int i = 0; i < m_linesLists->size(); ++i) {
-        LineNode * ln = new LineNode(m_linesLists->at(i));
+        LineNode * ln = new LineNode(m_linesLists->at(i), c, width, style);
         m_opacity->appendChildNode(ln);
     }
 }

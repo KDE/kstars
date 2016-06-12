@@ -15,47 +15,93 @@
  ***************************************************************************/
 #include "constellationnamesitem.h"
 #include "constellationnamescomponent.h"
+#include "skymaplite.h"
+#include "projections/projector.h"
 
-ConstellationNamesItem::ConstellationNamesItem(const QList<SkyObject*>& namesList, RootNode* parent)
-    :SkyItem(LabelsItem::label_t::CONSTEL_NAME_LABEL, parent), m_namesList(namesList)
+#include "rootnode.h"
+#include "labelsitem.h"
+#include "skynodes/labelnode.h"
+
+#include "Options.h"
+
+ConstellationName::ConstellationName(SkyObject *skyObj)
+    :obj(skyObj), latin(0), secondary(0)
 {
+
+}
+
+void ConstellationName::hide() {
+    if(latin) latin->hide();
+    if(secondary) secondary->hide();
+}
+
+ConstellationNamesItem::ConstellationNamesItem(ConstellationNamesComponent *constComp, RootNode* parent)
+    :SkyItem(LabelsItem::label_t::CONSTEL_NAME_LABEL, parent), m_constelNamesComp(constComp)
+{
+    recreateList();
 }
 
 void ConstellationNamesItem::update() {
-    /*if ( ! selected() )
+    if ( ! m_constelNamesComp->selected() )
         return;
+    if( !m_constelNamesComp->selected() )  {
+        hide();
+        rootNode()->labelsItem()->hideLabels(labelType());
+        return;
+    }
 
-    const Projector *proj = SkyMap::Instance()->projector();
-    SkyLabeler* skyLabeler = SkyLabeler::Instance();
-    skyLabeler->useStdFont();
-    skyLabeler->setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" ) ) );
+    show();
 
-    QString name;
-    foreach(SkyObject *p, m_ObjectList) {
-        if( ! proj->checkVisibility( p ) )
+    const Projector *proj = SkyMapLite::Instance()->projector();
+
+    foreach(ConstellationName *constName, m_names) {
+        SkyObject *p = constName->obj;
+        if( ! proj->checkVisibility( p ) ) {
+            constName->hide();
             continue;
+        }
 
         bool visible = false;
         QPointF o = proj->toScreen( p, false, &visible );
-        if( !visible || !proj->onScreen( o ) )
+        if( !visible || !proj->onScreen( o ) ) {
+            constName->hide();
             continue;
+        }
 
-        if( Options::useLatinConstellNames() || Options::useLocalConstellNames() )
+        QString name;
+
+        if( Options::useLatinConstellNames() || Options::useLocalConstellNames() ) {
             name = p->name();
-        else
+
+            if(!constName->latin) {
+                constName->latin = rootNode()->labelsItem()->addLabel(name,labelType());
+            }
+
+            o.setX( o.x() - 5.0 * name.length() );
+
+            constName->latin->setLabelPos(o);
+            if(constName->secondary) constName->secondary->hide();
+        } else {
             name = p->name2();
 
-        o.setX( o.x() - 5.0 * name.length() );
-        skyLabeler->drawGuideLabel( o, name, 0.0 );
+            if(!constName->secondary) {
+                constName->secondary = rootNode()->labelsItem()->addLabel(name,labelType());
+            }
+
+            o.setX( o.x() - 5.0 * name.length() );
+
+            constName->secondary->setLabelPos(o);
+            if(constName->latin) constName->latin->hide();
+        }
     }
 
-    skyLabeler->resetFont();*/
+    //skyLabeler->resetFont();
 }
 
 void ConstellationNamesItem::recreateList() {
     removeAllChildNodes();
-    /*foreach(SkyObject *comet, m_namesList) {
-        appendChildNode(new PointSourceNode(com, rootNode(),labelType()));
-    }*/
+    foreach(SkyObject *skyObj, m_constelNamesComp->objectList()) {
+        m_names.append(new ConstellationName(skyObj));
+    }
 }
 

@@ -25,6 +25,7 @@ typedef QSGOpacityNode LabelTypeNode;
 class KSAsteroid;
 class LineListIndex;
 class LabelNode;
+class GuideLabelNode;
 class SkyObject;
 class RootNode;
 
@@ -45,9 +46,15 @@ public:
         SATELLITE_LABEL,
         RUDE_LABEL, ///Rude labels block other labels FIXME: find a better solution
         NUM_LABEL_TYPES,
+        HORIZON_LABEL,
+        EQUATOR_LABEL,
+        ECLIPTIC_LABEL
     };
 
-    LabelNode *addLabel(SkyObject *skyObject, label_t);
+    LabelNode *addLabel(SkyObject *skyObject, label_t type);
+    LabelNode *addLabel(QString name, label_t type);
+
+    GuideLabelNode *addGuideLabel(QString name, label_t type);
     void update();
     void updateChildLabels(label_t type);
     QSGOpacityNode *getLabelNode(label_t type) { return labelsLists.value(type); }

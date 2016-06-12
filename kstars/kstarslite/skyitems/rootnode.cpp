@@ -22,8 +22,13 @@
 #include "kstarslite/skyitems/asteroidsitem.h"
 #include "kstarslite/skyitems/cometsitem.h"
 #include "kstarslite/skyitems/horizonitem.h"
-#include "kstarslite/skyitems/linesitem.h"
+#include "kstarslite/skyitems/lines/linesitem.h"
 #include "kstarslite/skyitems/labelsitem.h"
+#include "kstarslite/skyitems/constellationnamesitem.h"
+
+//Lines
+#include "kstarslite/skyitems/lines/equatoritem.h"
+#include "kstarslite/skyitems/lines/eclipticitem.h"
 
 RootNode::RootNode()
     :m_skyMapLite(SkyMapLite::Instance()),
@@ -41,9 +46,11 @@ RootNode::RootNode()
     m_linesItem = new LinesItem(this);
 
     m_linesItem->addLinesComponent( m_skyComposite->equatorialCoordGrid(), "EquatorialGridColor", 1, Qt::DotLine );
-    m_linesItem->addLinesComponent( m_skyComposite->horizontalCoordGrid(), "HorizontalGridColor", 1, Qt::DotLine );
+    m_linesItem->addLinesComponent( m_skyComposite->horizontalCoordGrid(), "HorizontalGridColor", 2, Qt::DotLine );
 
-    m_linesItem->addLinesComponent( m_skyComposite->equator(), "EqColor", 1, Qt::SolidLine );
+    //m_linesItem->addLinesComponent( m_skyComposite->equator(), "EqColor", 1, Qt::SolidLine );
+    m_equator = new EquatorItem(m_skyComposite->equator(),this);
+    m_ecliptic = new EclipticItem(m_skyComposite->ecliptic(),this);
     m_linesItem->addLinesComponent( m_skyComposite->ecliptic(), "EclColor", 1, Qt::SolidLine );
 
     m_linesItem->addLinesComponent( m_skyComposite->constellationBoundary(), "CBoundColor", 1, Qt::SolidLine );
@@ -52,6 +59,8 @@ RootNode::RootNode()
     m_planetsItem = new PlanetsItem(m_solarSystem->planets(), m_solarSystem->planetMoonsComponent(), this);
     m_asteroidsItem = new AsteroidsItem(m_solarSystem->asteroids(), this);
     m_cometsItem = new CometsItem(m_solarSystem->comets(), this);
+
+    m_constelNamesItem = new ConstellationNamesItem(m_skyComposite->constellationNamesComponent(), this);
 
     m_horizonItem = new HorizonItem(m_skyComposite->horizon(), this);
 
@@ -142,7 +151,12 @@ void RootNode::update() {
         if(m_cometsItem) m_cometsItem->hide();
     }
 
+    m_constelNamesItem->update();
+
     m_horizonItem->update();
+
+    m_equator->update();
+    m_ecliptic->update();
 
     m_linesItem->update();
     m_labelsItem->update();

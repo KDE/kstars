@@ -225,7 +225,6 @@ int main(int argc, char *argv[])
     }
 
 #else
-#ifdef ANDROID
     Options::setAngularRulerColor("#ffffff");
         Options::setArtificialHorizonColor("#c82828");
         Options::setBoxBGColor("#223344");
@@ -266,16 +265,8 @@ int main(int argc, char *argv[])
         Options::setUserLabelColor("#ffffff");
         Options::setVisibleSatColor("#00ff00");
 
-        //[DownloadDialog Settings]
-        //Options::setHeight 768("440");
-        //Options::setWidth 1366("700");
-
-        //[GUI]
-        Options::setPositionFocusBox(QPoint(1155,0));
-        Options::setPositionGeoBox(QPoint(0,586));
-        Options::setRunStartupWizard("false");
-        Options::setWindowHeight(701);
-        Options::setWindowWidth(1366);
+        Options::setShowEquatorialGrid(true);
+        Options::setShowHorizontalGrid(true);
 
         //[Location]
         Options::setCityName("Saarbrücken");
@@ -296,19 +287,7 @@ int main(int argc, char *argv[])
         Options::setShowSatellites("true");
 
         //[View]
-        Options::setAutoSelectGrid("false");
         //Options::setFOVNames("
-        Options::setFocusDec(67.135635748539812);
-        Options::setFocusRA(9.0349369959032693);
-        Options::setRunClock(true);
-        Options::setShowCLines(false);
-        Options::setShowCNames(false);
-        Options::setShowEquatorialGrid(false);
-        Options::setShowGround(false);
-        Options::setShowPlanetImages(true);
-        Options::setShowSupernovae(true);
-        Options::setStarDensity(2);
-        Options::setZoomFactor(250);
 
         //[WISettings]
         //Options::setScopeListWidget("4294967295");
@@ -316,8 +295,6 @@ int main(int argc, char *argv[])
         //[Xplanet]
         Options::setXplanetBackgroundColorValue("#000000");
         Options::setXplanetColor("#ff0000");
-#endif
-        Options::setShowGround(false);
 
 #endif
 

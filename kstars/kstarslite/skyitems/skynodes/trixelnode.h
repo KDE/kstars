@@ -45,7 +45,7 @@ public:
      * @param spType spectral class of PointNode
      * @param size initial size of PointNode
      */
-    TrixelNode(Trixel trixel, LineListList *lineIndex);
+    TrixelNode(Trixel trixel, LineListList *lineIndex, QString color, int width, Qt::PenStyle style);
 
     void setStyle(QString color, int width, Qt::PenStyle style);
 

@@ -16,26 +16,42 @@
 
 #include "linenode.h"
 #include <QSGFlatColorMaterial>
+#include <QSGVertexColorMaterial>
 #include "skymaplite.h"
 
 #include "projections/projector.h"
 #include <QLinkedList>
 
-LineNode::LineNode(LineList *lineList)
-    :m_lineList(lineList), m_material(new QSGFlatColorMaterial),
-      m_geometry(new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0)),
-      m_geometryNode(new QSGGeometryNode)
+LineNode::LineNode(LineList *lineList, QColor color, int width, Qt::PenStyle drawStyle)
+    :m_lineList(lineList), m_geometryNode(new QSGGeometryNode), m_color(color), m_drawStyle(drawStyle)
+
 {
+    if(m_drawStyle == Qt::DotLine) {
+        m_material = new QSGVertexColorMaterial;
+        m_geometry = new QSGGeometry(QSGGeometry::defaultAttributes_ColoredPoint2D(),0);
+        m_geometryNode->setMaterial(m_material);
+    } else {
+        m_material = new QSGFlatColorMaterial;
+        static_cast<QSGFlatColorMaterial *>(m_material)->setColor(color);
+        markDirty(QSGNode::DirtyMaterial);
+
+        m_geometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0);
+        m_geometryNode->setOpaqueMaterial(m_material);
+    }
+
+    setWidth(width);
+
     appendChildNode(m_geometryNode);
     m_geometryNode->setGeometry(m_geometry);
-    setFlag(QSGNode::OwnsGeometry);
 
-    m_geometryNode->setOpaqueMaterial(m_material);
+    setFlag(QSGNode::OwnsGeometry);
     setFlag(QSGNode::OwnsMaterial);
 }
 
 void LineNode::setColor(QColor color) {
-    m_material->setColor(color);
+    //m_material->setColor(color);
+    m_color = color;
+
     m_geometryNode->markDirty(QSGNode::DirtyMaterial);
 }
 
@@ -93,8 +109,8 @@ void LineNode::updateGeometry() {
 
         if ( !doSkip ) {
             if ( (isVisible) ) {
-                    newPoints.append(oLast);
-                    newPoints.append(oThis);
+                newPoints.append(oLast);
+                newPoints.append(oThis);
                 //if ( label )
                 //  label->updateLabelCandidates( oThis.x(), oThis.y(), list, j );
             }
@@ -106,15 +122,30 @@ void LineNode::updateGeometry() {
     int size = newPoints.size();
     m_geometry->allocate(size);
 
-    QSGGeometry::Point2D * vertex = m_geometry->vertexDataAsPoint2D();
+    if(m_drawStyle == Qt::DotLine) {
 
-    QLinkedList<QPointF>::const_iterator i = newPoints.constBegin();
-    int c = 0;
-    while ( i != newPoints.constEnd()) {
-        vertex[c].x = (*i).x();
-        vertex[c].y = (*i).y();
-        c++;
-        i++;
+        QSGGeometry::ColoredPoint2D *vertex = m_geometry->vertexDataAsColoredPoint2D();
+        QLinkedList<QPointF>::const_iterator i = newPoints.constBegin();
+        int c = 0;
+        int dot = 0;
+        while ( i != newPoints.constEnd()) {
+            //vertex[c].set((*i).x(), (*i).y(), m_color.red(), m_color.blue(), m_color.green(), 255);
+            vertex[c].set((*i).x(), (*i).y(), m_color.red(), m_color.green(), m_color.blue(), 0);
+            c++;
+            i++;
+        }
+    } else {
+
+        QSGGeometry::Point2D * vertex = m_geometry->vertexDataAsPoint2D();
+
+        QLinkedList<QPointF>::const_iterator i = newPoints.constBegin();
+        int c = 0;
+        while ( i != newPoints.constEnd()) {
+            vertex[c].x = (*i).x();
+            vertex[c].y = (*i).y();
+            c++;
+            i++;
+        }
     }
 
     m_geometryNode->markDirty(QSGNode::DirtyGeometry);

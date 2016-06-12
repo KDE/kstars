@@ -13,11 +13,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef LABELNODE_H_
-#define LABELNODE_H_
+#ifndef GUIDELABELNODE_H_
+#define GUIDELABELNODE_H_
 
 #include "skynode.h"
 #include "../labelsitem.h"
+#include <QSGSimpleRectNode>
 
 class PlanetItemNode;
 class SkyMapLite;
@@ -45,27 +46,39 @@ public:
      * @param spType spectral class of PointNode
      * @param size initial size of PointNode
      */
-    GuideLabelNode(SkyObject * skyObject, LabelsItem::label_t type);
+    GuideLabelNode(QString name, LabelsItem::label_t type);
 
     /**
      * @short changePos changes the position m_point
      * @param pos new position
      */
     virtual void changePos(QPointF pos) override;
-
     /**
      * @short setLabelPos sets the position of label with the given offset from SkyObject's position and
      * makes the label visible if it was hidden
      * @param pos position of label
      */
-    void setLabelPos(QPointF pos);
+    void setLabelPos(QPointF pos, float angle);
 
     void update();
+
+    inline const QString name() const { return m_name; }
+
     QPointF labelPos;
+
+    qreal left;
+    qreal right;
+    qreal top;
+    qreal bot;
 
 private:
     QSGSimpleTextureNode *m_textTexture;
     QSize m_textSize;
+    float m_angle;
+    QSGSimpleRectNode debugRect;
+    const QString m_name;
+
+    QPointF m_translatePos;
 };
 
 #endif

@@ -32,6 +32,16 @@ class ConstellationNamesComponent;
  *@version 1.0
  */
 
+struct ConstellationName {
+    ConstellationName(SkyObject *skyObj);
+
+    SkyObject *obj;
+    LabelNode *latin;
+    LabelNode *secondary;
+
+    void hide();
+};
+
 class ConstellationNamesItem : public SkyItem {
 
 public:
@@ -41,15 +51,14 @@ public:
     * @param parent a pointer to SkyItem's parent node
     */
 
-    explicit ConstellationNamesItem(const QList<SkyObject*>& namesList, RootNode *rootNode = 0);
+    explicit ConstellationNamesItem(ConstellationNamesComponent *constComp, RootNode *rootNode = 0);
 
     virtual void update();
 
-    void hide();
-    void show();
     void recreateList();
 private:
-    const QList<SkyObject*>& m_namesList;
+    ConstellationNamesComponent *m_constelNamesComp;
+    QVector<ConstellationName *> m_names;
 };
 
 #endif

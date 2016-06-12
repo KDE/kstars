@@ -21,19 +21,24 @@
 #include "skymaplite.h"
 #include "guidelabelnode.h"
 
-GuideLabelNode::GuideLabelNode(SkyObject * skyObject, LabelsItem::label_t type)
-    :SkyNode(skyObject), m_textTexture(new QSGSimpleTextureNode)
+GuideLabelNode::GuideLabelNode(QString name, LabelsItem::label_t type)
+    :m_textTexture(new QSGSimpleTextureNode), m_name(name)
 {
+    appendChildNode(&debugRect);
+    debugRect.setColor(QColor("green"));
     QColor color;
     switch(type) {
         case LabelsItem::label_t::CONSTEL_NAME_LABEL:
             color = KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" );
             break;
+        case LabelsItem::label_t::HORIZON_LABEL:
+            color = KStarsData::Instance()->colorScheme()->colorNamed( "CompassColor" );
+            break;
         default:
             color = KStarsData::Instance()->colorScheme()->colorNamed( "UserLabelColor" );
     }
 
-    m_textTexture->setTexture(SkyMapLite::Instance()->textToTexture(skyObject->name(), color));
+    m_textTexture->setTexture(SkyMapLite::Instance()->textToTexture(name, color));
     m_opacity->appendChildNode(m_textTexture);
 
     m_textSize = m_textTexture->texture()->textureSize();
@@ -43,68 +48,65 @@ GuideLabelNode::GuideLabelNode(SkyObject * skyObject, LabelsItem::label_t type)
 
 void GuideLabelNode::changePos(QPointF pos) {
 
-   /* QFontMetricsF fontMetrics = SkyLabeler::Instance()->fontMetrics();
-    // Create bounding rectangle by rotating the (height x width) rectangle
-    qreal h = fontMetrics.height();
-    qreal w = fontMetrics.width( text );
-
-    float angle = 0.0;
-    qreal s = 0;//sin( angle * dms::PI / 180.0 );
-    qreal c = 1;//cos( angle * dms::PI / 180.0 );
-
-    qreal w2 = w / 2.0;
-
-    qreal top, bot, left, right;
-
-    // These numbers really do depend on the sign of the angle like this
-    if ( angle >= 0.0 ) {
-        top   = o.y()           - s * w2;
-        bot   = o.y() + c *  h  + s * w2;
-        left  = o.x() - c * w2  - s * h;
-        right = o.x() + c * w2;
-    }
-    else {
-        top   = o.y()           + s * w2;
-        bot   = o.y() + c *  h  - s * w2;
-        left  = o.x() - c * w2;
-        right = o.x() + c * w2  - s * h;
-    }
-
-    // return false if label would overlap existing label
-    if ( ! markRegion( left, right, top, bot) )
-        return false;
-
-    // for debugging the bounding rectangle:
-    //psky.drawLine( QPointF( left,  top ), QPointF( right, top ) );
-    //psky.drawLine( QPointF( right, top ), QPointF( right, bot ) );
-    //psky.drawLine( QPointF( right, bot ), QPointF( left,  bot ) );
-    //psky.drawLine( QPointF( left,  bot ), QPointF( left,  top ) );
-
     // otherwise draw the label and return true
-    m_p.save();
-    m_p.translate( o );
+    //m_p.rotate( angle );                        //rotate the coordinate system
+    //m_p.drawText( QPointF( -w2, h ), text );
+    //m_p.restore();                              //reset coordinate system
 
-    m_p.rotate( angle );                        //rotate the coordinate system
-    m_p.drawText( QPointF( -w2, h ), text );
-    m_p.restore();                              //reset coordinate system
-
-    return true;
+    //return true;*/
 
     //QSizeF size = m_point->size();
     QMatrix4x4 m (1,0,0,pos.x(),
                   0,1,0,pos.y(),
                   0,0,1,0,
                   0,0,0,1);
-    //m.translate(-0.5*size.width(), -0.5*size.height());
+    //m.translate(m_translatePos.x(), m_translatePos.y());
+    m.rotate(m_angle, 0, 0, 1);
+
 
     setMatrix(m);
-    markDirty(QSGNode::DirtyMatrix);*/
+    markDirty(QSGNode::DirtyMatrix);
 }
 
-void GuideLabelNode::setLabelPos(QPointF pos) {
+void GuideLabelNode::setLabelPos(QPointF pos, float angle) {
     show();
     //We need to subtract the height of texture from final y to follow the way QPainter draws the text
-    labelPos = QPointF(pos.x() + m_skyObject->labelOffset(), pos.y() + m_skyObject->labelOffset() - m_textSize.height());
+    m_angle = angle;
+    m_translatePos = pos;
+
+    //QFontMetricsF fontMetrics = SkyLabeler::Instance()->fontMetrics();
+    // Create bounding rectangle by rotating the (height x width) rectangle
+    qreal h = m_textSize.height();//fontMetrics.height();
+    qreal w = m_textSize.width();//fontMetrics.width( m_name );
+
+    qreal s = sin( angle * dms::PI / 180.0 );
+    qreal c = cos( angle * dms::PI / 180.0 );
+
+    qreal w2 = w / 2.0;
+
+    // These numbers really do depend on the sign of the angle like this
+    if ( angle >= 0.0 ) {
+        top   = pos.y()           - s * w2;
+        bot   = pos.y() + c *  h  + s * w2;
+        left  = pos.x() - c * w2  - s * h;
+        right = pos.x() + c * w2;
+    }
+    else {
+        top   = pos.y()           + s * w2;
+        bot   = pos.y() + c *  h  - s * w2;
+        left  = pos.x() - c * w2;
+        right = pos.x() + c * w2  - s * h;
+    }
+
+    //We need to translate matrix with the value of pos point
+
+    labelPos = QPointF(pos.x()-w2, pos.y() + h);
+
+   /*debugRect.setRect(QRectF(QPointF(left,top),QPointF(right,bot)));
+    debugRect.markDirty(QSGNode::DirtyGeometry);*/
+
+    // return false if label would overlap existing label
+//    if ( ! markRegion( left, right, top, bot) )
 }
 
 void GuideLabelNode::update() {

@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          horizonitem.h  -  K Desktop Planetarium
+                          asteroidsitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 28/05/2016
+    begin                : 16/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,25 +13,24 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef HORIZONITEM_H_
-#define HORIZONITEM_H_
+#ifndef LINESITEM_H_
+#define LINESITEM_H_
 
-#include "skyitem.h"
+#include "../skyitem.h"
 
-class HorizonComponent;
-class GuideLabelNode;
+class KSAsteroid;
+class LineListIndex;
 
-class HorizonItem : public SkyItem {
+class LinesItem : public SkyItem {
 public:
-    HorizonItem(HorizonComponent * hComp, RootNode *rootNode);
-    inline void setHorizonComp(HorizonComponent * hComp) { m_horizonComp = hComp; }
 
-    void hideLabels();
+    LinesItem(RootNode *rootNode);
+
+    void addLinesComponent(LineListIndex *linesComp, QString color, int width, Qt::PenStyle style);
 
     virtual void update();
 private:
-    HorizonComponent *m_horizonComp;
-    QMap<SkyPoint *, LabelNode *> m_compassLabels;
+    QMap<QSGOpacityNode *,LineListIndex *> m_lineIndexes;
 };
 #endif
 

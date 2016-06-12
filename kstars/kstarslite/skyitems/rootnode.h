@@ -26,9 +26,13 @@ class PlanetsItem;
 class AsteroidsItem;
 class CometsItem;
 
-class HorizonItem;
-class LinesItem;
+class ConstellationNamesItem;
 class LabelsItem;
+
+class LinesItem;
+class HorizonItem;
+class EquatorItem;
+class EclipticItem;
 
 class SkyMapComposite;
 class SolarSystemComposite;
@@ -82,9 +86,13 @@ private:
     AsteroidsItem *m_asteroidsItem;
     CometsItem *m_cometsItem;
 
+    ConstellationNamesItem *m_constelNamesItem;
+    LabelsItem *m_labelsItem;
+
     HorizonItem *m_horizonItem;
     LinesItem *m_linesItem;
-    LabelsItem *m_labelsItem;
+    EquatorItem *m_equator;
+    EclipticItem *m_ecliptic;
 
     SkyMapComposite *m_skyComposite;
     SolarSystemComposite *m_solarSystem;

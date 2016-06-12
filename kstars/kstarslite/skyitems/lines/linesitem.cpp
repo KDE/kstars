@@ -18,11 +18,11 @@
 #include "projections/projector.h"
 #include <QSGNode>
 
-#include "skynodes/trixelnode.h"
+#include "../skynodes/trixelnode.h"
 #include "linesitem.h"
 #include "linelist.h"
 #include "linelistindex.h"
-#include "skynodes/nodes/linenode.h"
+#include "../skynodes/nodes/linenode.h"
 
 LinesItem::LinesItem(RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::RUDE_LABEL, rootNode)
@@ -41,9 +41,9 @@ LinesItem::LinesItem(RootNode *rootNode)
     Options::setShowCometNames(true);
     Options::setShowAsteroidNames(true);
     Options::setShowAsteroids(true);
+    Options::setShowCNames(true);
 
-    Options::setAsteroidLabelDensity(10000);
-    Options::setMagLimitAsteroid(-10);
+    Options::setAutoSelectGrid(true);
 
     Options::setHideCBounds(true);
     Options::setHideCLines(false);
@@ -63,9 +63,9 @@ void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int w
     QHash< Trixel, LineListList *>::const_iterator i = trixels->begin();
     while( i != trixels->end()) {
 
-        TrixelNode *trixel = new TrixelNode(i.key(), i.value());
+        TrixelNode *trixel = new TrixelNode(i.key(), i.value(), color, width, style);
         node->appendChildNode(trixel);
-        trixel->setStyle(color, width, style);
+        //trixel->setStyle(color, width, style);
         ++i;
     }
 }

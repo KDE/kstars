@@ -13,24 +13,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef LINESITEM_H_
-#define LINESITEM_H_
+#ifndef ECLIPTICITEM_H_
+#define ECLIPTICITEM_H_
 
-#include "skyitem.h"
+#include "../skyitem.h"
 
-class KSAsteroid;
-class LineListIndex;
+class Ecliptic;
 
-class LinesItem : public SkyItem {
+class EclipticItem : public SkyItem {
 public:
 
-    LinesItem(RootNode *rootNode);
-
-    void addLinesComponent(LineListIndex *linesComp, QString color, int width, Qt::PenStyle style);
+    EclipticItem(Ecliptic *eclipticComp, RootNode *rootNode);
 
     virtual void update();
 private:
-    QMap<QSGOpacityNode *,LineListIndex *> m_lineIndexes;
+    Ecliptic *m_eclipticComp;
+    QMap<SkyPoint *, LabelNode *> m_compassLabels;
 };
 #endif
 

@@ -186,6 +186,8 @@ public:
 
     inline SolarSystemComposite* solarSystemComposite() { return m_SolarSystem; }
 
+    inline ConstellationNamesComponent* constellationNamesComponent() { return m_CNames; }
+
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );

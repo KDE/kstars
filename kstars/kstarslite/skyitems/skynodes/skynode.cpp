@@ -26,7 +26,7 @@ SkyNode::SkyNode(SkyObject * skyObject)
 SkyNode::SkyNode()
     :m_skyObject(nullptr), m_opacity(new QSGOpacityNode)
 {
-
+    appendChildNode(m_opacity);
 }
 
 void SkyNode::update(bool drawLabel) {

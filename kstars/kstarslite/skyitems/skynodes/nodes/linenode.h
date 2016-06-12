@@ -17,6 +17,7 @@
 #define LINENODE_H_
 #include <QSGGeometryNode>
 #include "linelist.h"
+#include <QColor>
 
 class PlanetItemNode;
 class SkyMapLite;
@@ -40,7 +41,7 @@ public:
      * @param parentNode pointer to the top parent node, which holds texture cache
      * @param size initial size of LineNode
      */
-    LineNode(LineList *lineList);
+    LineNode(LineList *lineList, QColor color, int width, Qt::PenStyle drawStyle);
     /**
      * @short setSize update size of LineNode with the given parameter
      * @param size new size of LineNode
@@ -61,8 +62,9 @@ private:
     QSGGeometryNode *m_geometryNode;
     LineList *m_lineList;
     QSGGeometry *m_geometry;
-    QSGFlatColorMaterial *m_material;
+    QSGMaterial *m_material;
     Qt::PenStyle m_drawStyle;
+    QColor m_color;
 };
 
 #endif

@@ -552,9 +552,12 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/asteroidsitem.cpp
         kstarslite/skyitems/cometsitem.cpp
         kstarslite/skyitems/horizonitem.cpp
-        kstarslite/skyitems/linesitem.cpp
         kstarslite/skyitems/labelsitem.cpp
         kstarslite/skyitems/constellationnamesitem.cpp
+        #Lines
+        kstarslite/skyitems/lines/linesitem.cpp
+        kstarslite/skyitems/lines/equatoritem.cpp
+        kstarslite/skyitems/lines/eclipticitem.cpp
         #SkyNodes
         kstarslite/skyitems/skynodes/planetnode.cpp
         kstarslite/skyitems/skynodes/skynode.cpp

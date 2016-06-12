@@ -215,7 +215,6 @@ void SkyLabeler::reset( SkyMap* skyMap )
 
     // ----- Set up Projector ---
     m_proj = skyMap->projector();
-#ifdef KSTARS_LITE
     // ----- Set up Painter -----
     if( m_p.isActive() )
         m_p.end();
@@ -231,7 +230,6 @@ void SkyLabeler::reset( SkyMap* skyMap )
     m_skyFont = m_p.font();
     m_fontMetrics = QFontMetrics( m_skyFont );
     m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
-#endif
     // ----- Set up Zoom Dependent Offset -----
     m_offset = SkyLabeler::ZoomOffset();
 
@@ -284,15 +282,13 @@ void SkyLabeler::reset()
     // ----- Set up Projector ---
     m_proj = skyMap->projector();
 
-    // ----- Set up Painter -----
-
     m_stdFont = QFont( skyMap->skyFont() );
     setZoomFont();
     m_skyFont = skyMap->skyFont() ;
     m_fontMetrics = QFontMetrics( m_skyFont );
     m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
     // ----- Set up Zoom Dependent Offset -----
-    m_offset = SkyLabeler::ZoomOffset();
+    m_offset = ZoomOffset();
 
     // ----- Prepare Virtual Screen -----
     m_yScale = (m_fontMetrics.height() + 1.0);
