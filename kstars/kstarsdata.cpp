@@ -349,7 +349,7 @@ bool KStarsData::readCityData()
     citydb.setDatabaseName(dbfile);
     if (citydb.open() == false)
     {
-        qWarning() << "Unable to open city database file " << dbfile << endl;
+        qWarning() << "Unable to open city database file " << dbfile << citydb.lastError().text() << endl;
         return false;
     }
 
