@@ -765,7 +765,7 @@ void EkosManager::reset()
 
 void EkosManager::processINDI()
 {
-    if (ekosStartingStatus != STATUS_IDLE)
+    if (ekosStartingStatus == STATUS_SUCCESS || ekosStartingStatus == STATUS_PENDING)
     {
         stop();
     }
