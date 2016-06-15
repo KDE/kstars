@@ -43,9 +43,9 @@
 
 
 static const char description[] =
-    I18N_NOOP("Desktop Planetarium");
+        I18N_NOOP("Desktop Planetarium");
 static const char notice[] =
-    I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
+        I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
 
 
 int main(int argc, char *argv[])
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     * enable high dpi support
     */
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     KCrash::initialize();
     KLocalizedString::setApplicationDomain("kstars");
 
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Ana-Maria Constantin"), i18n("Technical documentation on Astronomy and KStars") );
     aboutData.addCredit(i18n("Andrew Stepanenko"), i18n("Guiding code based on lin_guider") );
     aboutData.addCredit(i18n("Nuno Pinheiro"), i18n("Artwork") );
-    aboutData.addCredit(i18n("Utkarsh Simha"), i18n("Improvements to observation plan execution, star hopper etc.") );    
+    aboutData.addCredit(i18n("Utkarsh Simha"), i18n("Improvements to observation plan execution, star hopper etc.") );
     aboutData.addCredit(i18n("Daniel Holler"), i18n("Extensive testing and suggestions for Ekos/INDI.") );
     aboutData.addCredit(i18n("Stephane Lucas"), i18n("Extensive testing and suggestions for Ekos Scheduler.") );
 
@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
         if ( !ok ) {
             qWarning() << "Unable to parse arguments: " ;
             qWarning() << "Width: " << parser.value( "width" )
-            << "  Height: " << parser.value( "height" ) << endl;
+                       << "  Height: " << parser.value( "height" ) << endl;
             return 1;
         }
 
@@ -224,79 +224,40 @@ int main(int argc, char *argv[])
         datestring.clear();
     }
 
-#else
-    Options::setAngularRulerColor("#ffffff");
-        Options::setArtificialHorizonColor("#c82828");
-        Options::setBoxBGColor("#223344");
-        Options::setBoxGrabColor("#ff0000v");
-        Options::setBoxTextColor("#ffffff");
-        Options::setCBoundColor("#333333");
-        Options::setCBoundHighColor("#555555");
-        Options::setCLineColor("#555555");
-        Options::setCNameColor("#aaaa77");
-        Options::setColorSchemeFile("classic.colors");
-        Options::setCompassColor("#ffffff");
-        //Options::setDEGuideError("#00a5ff");
-        //Options::setDSNameColor("#77aaaa");
-        //Options::setEclColor("#666633");
-        //Options::setEqColor("#ffffff");
-        Options::setEquatorialGridColor("#445566");
-        //Options::setHSTColor("#aa0000");
-        Options::setHorizontalGridColor("#55aa33");
-        //Options::setHorzColor("#55aa33");
-        Options::setICColor("#443399");
-        //Options::setMWColor("#112233");
-        //Options::setMessColor("#00ff00");
-        Options::setNGCColor("#006666");
-        //Options::setObsListColor("#ffff00");
-        //Options::setPNameColor("#aa7777");
-        Options::setPlanetTrailColor("#996633");
-        //Options::setRAGuideError("#00ff00");
-        //Options::setSNameColor("#77aaaa");
-        Options::setSatColor("#ff0000");
-        Options::setSatLabelColor("#640000");
-        Options::setSkyColor("#000022");
-        Options::setSolverFOVColor("#ffffff");
-        Options::setStarColorIntensity(4);
-        Options::setStarColorMode(0);
-        //Options::setStarHopRouteColor("#00ffff");
-        Options::setSupernovaColor("#ffa500");
-        //Options::setTargetColor("#88bb88");
-        Options::setUserLabelColor("#ffffff");
-        Options::setVisibleSatColor("#00ff00");
-
-        Options::setShowEquatorialGrid(true);
-        Options::setShowHorizontalGrid(true);
-
-        //[Location]
-        Options::setCityName("Saarbrücken");
-        Options::setCountryName("Germany");
-        Options::setDST("EU");
-        Options::setLatitude(49.233333333333334);
-        Options::setLongitude(7);
-        Options::setTimeZone(1);
-
-        //[MainWindow]
-        /*Options::setHeight 768("709");
-        Options::setState("AAAA/wAAAAD9AAAAAQAAAAEAAAKAAAACb/wCAAAAAfsAAAAkAFcAaABhAHQAJwBzACAASQBuAHQAZQByAGUAcwB0AGkAbgBnAAAAADgAAAJvAAAAAAAAAAAAAAVWAAACYgAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAACAAAAGgBrAHMAdABhAHIAcwBUAG8AbwBsAEIAYQByAQAAAAD/////AAAAAAAAAAAAAAAWAHYAaQBlAHcAVABvAG8AbABCAGEAcgEAAAGT/////wAAAAAAAAAA");
-        Options::setToolBarsMovable("Disabled");
-        Options::setWidth 1366("1366");
-        Options::setWindow-Maximized 768x1366("true");*/
-
-        //[Satellites]
-        Options::setShowSatellites("true");
-
-        //[View]
-        //Options::setFOVNames("
-
-        //[WISettings]
-        //Options::setScopeListWidget("4294967295");
-
-        //[Xplanet]
-        Options::setXplanetBackgroundColorValue("#000000");
-        Options::setXplanetColor("#ff0000");
-
 #endif
+
+    //Under construction
+    //[Location]
+    Options::setCityName("Saarbrücken");
+    Options::setCountryName("Germany");
+    Options::setDST("EU");
+    Options::setLatitude(49.233333333333334);
+    Options::setLongitude(7);
+    Options::setTimeZone(1);
+    Options::setRunClock(false);
+
+    Options::setShowCBounds(true);
+    Options::setShowCLines(true);
+    Options::setShowSolarSystem(true);
+    Options::setShowEcliptic(true);
+    Options::setShowEquator(true);
+    Options::setShowEquatorialGrid(true);
+    Options::setShowHorizontalGrid(true);
+    Options::setShowGround(true);
+
+    //Labels
+    Options::setShowCometNames(true);
+    Options::setShowAsteroidNames(true);
+    Options::setShowAsteroids(true);
+    Options::setShowCNames(true);
+
+    Options::setAutoSelectGrid(false);
+
+    Options::setHideCBounds(true);
+    Options::setHideCLines(false);
+    Options::setHideOnSlew(true);
+    Options::setHideGrids(false);
+
 
     // Create writable data dir if it does not exist
     QDir writableDir;
@@ -313,8 +274,8 @@ int main(int argc, char *argv[])
         const QRegExp withProtocolChecker( QStringLiteral("^[a-zA-Z]+:") );
         foreach (const QString &url, urls) {
             const QUrl u = (withProtocolChecker.indexIn(url) == 0) ?
-                QUrl::fromUserInput( url ) :
-                QUrl::fromLocalFile(QDir::current().absoluteFilePath(url));
+                        QUrl::fromUserInput( url ) :
+                        QUrl::fromLocalFile(QDir::current().absoluteFilePath(url));
 
             KStars::Instance()->openFITS(u);
         }

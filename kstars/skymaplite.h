@@ -21,6 +21,7 @@
 #include "skyobjects/skyline.h"
 
 #include <QTimer>
+#include <QPainter>
 
 #include <config-kstars.h>
 #include <QQuickItem>
@@ -41,18 +42,18 @@ class LinesItem;
 
 class QSGTexture;
 
-/** @class SkyMapLite
-        *
-        *This is the main item that displays all SkyItems. After its instantiation it is reparanted
-        *to an object with objectName SkyMapLiteWrapper in main.qml. To display SkyItems they are reparanted
-        *to instance of SkyMapLite.
-        *
-        *SkyMapLite handles most user interaction events (both mouse and keyboard).
-        *
-        *@short Item for displaying sky objects; also handles user interaction events.
-        *@author Artem Fedoskin
-        *@version 1.0
-        */
+    /** @class SkyMapLite
+    *
+    *This is the main item that displays all SkyItems. After its instantiation it is reparanted
+    *to an object with objectName SkyMapLiteWrapper in main.qml. To display SkyItems they are reparanted
+    *to instance of SkyMapLite.
+    *
+    *SkyMapLite handles most user interaction events (both mouse and keyboard).
+    *
+    *@short Item for displaying sky objects; also handles user interaction events.
+    *@author Artem Fedoskin
+    *@version 1.0
+    */
 
 class SkyMapLite : public QQuickItem {
 
@@ -83,14 +84,6 @@ public:
 
     /** Destructor (empty) */
     ~SkyMapLite();
-
-    /*enum Projection { Lambert,
-                      AzimuthalEquidistant,
-                      Orthographic,
-                      Equirectangular,
-                      Stereographic,
-                      Gnomonic,
-                      UnknownProjection };*/
 
     /** @short Retrieve the Focus point; the position on the sky at the
         *center of the skymap.
@@ -242,7 +235,16 @@ public:
      */
     QVector<QVector<QPixmap*>> getImageCache();
 
-    QSGTexture *textToTexture(QString text, QColor color = QColor(255,255,255), QFont font = QFont());
+    /**
+     * @short creates QImage from text and converts it to QSGTexture
+     * @param color text color
+     * @param zoomFont if true zoom-dependent font from SkyLabeler will be used else standart
+     * font is used
+     * @return QSGTexture with text
+     * @note font size is set in SkyLabeler::SkyLabeler() by initializing m_stdFont with default font
+     */
+
+    QSGTexture *textToTexture(QString text, QColor color = QColor(255,255,255), bool zoomFont = false);
 
     /**
      * @short returns cached texture from textureCache.
@@ -273,9 +275,11 @@ public:
     inline const Projector * projector() const { return m_proj; }
 
     /**
-     * @return font of labels
+     * @return true if font size was changed
      */
-    inline QFont skyFont() const { return m_skyFont; }
+    inline bool fontSizeChanged() const { return m_fontSizeChanged; }
+
+    inline void setFontSizeChanged(bool val) { m_fontSizeChanged = val; }
 
     /**
      *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
@@ -581,7 +585,10 @@ private:
     static SkyMapLite *pinstance;
     QQuickItem *m_SkyMapLiteWrapper;
 
-    QFont m_skyFont;
+    // Used to notify zoom-dependent labels about font size change
+    bool m_fontSizeChanged;
+    // Used for drawing labels
+    QPainter m_painter;
 
     static int starColorMode;
 

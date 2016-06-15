@@ -330,6 +330,10 @@ public:
      */
     void printInfo();
 
+    inline QFont stdFont() { return m_stdFont; }
+    inline QFont skyFont() { return m_skyFont; }
+    inline QFont drawFont() { return m_drawFont; }
+
     int hits()  { return m_hits; }
     int marks() { return m_marks; }
 
@@ -352,6 +356,11 @@ private:
 
     QFont		 m_stdFont, m_skyFont;
     QFontMetricsF m_fontMetrics;
+
+    //In KStars Lite this font should be used wherever font of m_p was changed or used
+#ifdef KSTARS_LITE
+    QFont m_drawFont;
+#endif
 
     QPainter m_p;
     QPicture m_picture;

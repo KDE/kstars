@@ -272,12 +272,6 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         old_vec = QPointF(old_vec.x()/old_vec_len, old_vec.y()/old_vec_len);
         new_vec = QPointF(new_vec.x()/new_vec_len, new_vec.y()/new_vec_len);
 
-        if(rotation() > 360) {
-            setRotation(0);
-        } else if(rotation() < 0) {
-            setRotation(360);
-        }
-
         double old_atan = qAtan2(old_vec.y(), old_vec.x());
         double new_atan = qAtan2(new_vec.y(), new_vec.x());
 
@@ -290,10 +284,16 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         //Get the angle between two vectors
         double delta = new_atan - old_atan;
 
+        if(rotation() > 360) {
+            setRotation(0);
+        } else if(rotation() < 0) {
+            setRotation(360);
+        }
+
         //Scale the angle to speed up the rotation
         delta *= 100;
         setRotation(rotation() + delta);
-        update(); //Apply rotation
+        //update(); //Apply rotation
 
         //Allow movement of SkyMapLite while rotating or zooming
         QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, pinchCenter,
@@ -352,7 +352,7 @@ void SkyMapLite::zoomInOrMagStep( const int modifier ) {
     if ( modifier & Qt::AltModifier )
         incMagLimit( modifier );
     else if( modifier & Qt::MetaModifier) {//Used in pinch-to-zoom gesture
-        setZoomFactor (Options::zoomFactor() + Options::zoomFactor()*0.04);
+        setZoomFactor (Options::zoomFactor() + Options::zoomFactor()*0.05);
     }
     else
         setZoomFactor( Options::zoomFactor() * zoomFactor( modifier ) );
@@ -363,7 +363,7 @@ void SkyMapLite::zoomOutOrMagStep( const int modifier ) {
     if ( modifier & Qt::AltModifier )
         decMagLimit( modifier );
     else if( modifier & Qt::MetaModifier) {//Used in pinch-to-zoom gesture
-        setZoomFactor (Options::zoomFactor() - Options::zoomFactor()*0.04);
+        setZoomFactor (Options::zoomFactor() - Options::zoomFactor()*0.05);
     }
     else
         setZoomFactor( Options::zoomFactor() / zoomFactor (modifier ) );

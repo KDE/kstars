@@ -22,21 +22,33 @@ class KSAsteroid;
 class SkyObject;
 class RootNode;
 
+    /**
+     * @class AsteroidsItem
+     * This class handles asteroids in SkyMapLite
+     *
+     * @author Artem Fedoskin
+     * @version 1.0
+     */
+
 class AsteroidsItem : public SkyItem {
 public:
-
+    /**
+     * @short Constructor
+     * @param asteroidsList const reference to list of asteroids
+     * @param rootNode parent RootNode that instantiates PlanetsItem
+     */
     AsteroidsItem(const QList<SkyObject*>& asteroidsList, RootNode *rootNode = 0);
 
-    /** Adds an object of type KSAsteroid to m_toAdd. In the next call to
-     * updatePaintNode() the object of type PlanetNode will be created and asteroid
-     * will be moved to m_asteroids. PlanetNode represents graphically KSAsteroid on SkyMapLite.
-     * This function should be called whenever an object of class KSAsteroid is created.
-     *
-     * @param KSAsteroid that should be displayed on SkyMapLite
+    /**
+     * @short recreates the node tree (deletes old nodes and appends new ones according to
+     * m_asteroidsList)
      */
-    //void setAsteroidsList(QList<SkyObject*> *asteroidsList);
-
     void recreateList();
+
+    /**
+     * @short Determines the visibility of the object and its label and hides/updates them accordingly
+     */
+
     virtual void update() override;
 private:
     const QList<SkyObject*>& m_asteroidsList;

@@ -57,17 +57,31 @@ SkyLabeler* SkyLabeler::Instance( )
 
 void SkyLabeler::setZoomFont()
 {
+#ifndef KSTARS_LITE
     QFont font( m_p.font() );
+#else
+    QFont font( m_stdFont );
+#endif
     int deltaSize = 0;
     if ( Options::zoomFactor() < 2.0 * MINZOOM )
         deltaSize = 2;
     else if ( Options::zoomFactor() < 10.0 * MINZOOM )
         deltaSize = 1;
 
+#ifndef KSTARS_LITE
     if ( deltaSize ) {
         font.setPointSize( font.pointSize() - deltaSize );
         m_p.setFont( font );
     }
+#else
+    if ( deltaSize ) {
+        font.setPointSize( font.pointSize() - deltaSize );
+    }
+    if(m_drawFont.pointSize() != font.pointSize()) {
+        m_drawFont = font;
+        SkyMapLite::Instance()->setFontSizeChanged(true);
+    }
+#endif
 }
 
 double SkyLabeler::ZoomOffset()
@@ -79,18 +93,28 @@ double SkyLabeler::ZoomOffset()
 //----- Constructor ---------------------------------------------------------//
 
 SkyLabeler::SkyLabeler() :
-        m_maxY(0),
-        m_size(0),
-        m_fontMetrics( QFont() ),
-        m_picture(-1),
-        labelList( NUM_LABEL_TYPES ),
-        m_proj(0)
+    m_maxY(0),
+    m_size(0),
+    m_fontMetrics( QFont() ),
+    m_picture(-1),
+    labelList( NUM_LABEL_TYPES ),
+    m_proj(0)
 {
     m_errors = 0;
     m_minDeltaX = 30;    // when to merge two adjacent regions
     m_marks = m_hits = m_misses = m_elements = 0;
-}
 
+#ifdef KSTARS_LITE
+    //Painter is needed to get default font and we use it only once to have only one warning
+    m_stdFont = QFont();
+
+    //For some reason there is no point size in default font on Android
+#ifdef ANDROID
+    m_stdFont.setPointSize(10);
+#endif
+
+#endif
+}
 
 SkyLabeler::~SkyLabeler()
 {
@@ -170,18 +194,29 @@ bool SkyLabeler::drawNameLabel(SkyObject* obj, const QPointF& _p)
 
 void SkyLabeler::setFont( const QFont& font )
 {
+#ifndef KSTARS_LITE
     m_p.setFont( font );
+#else
+    m_drawFont = font;
+#endif
     m_fontMetrics = QFontMetrics( font );
 }
 
 void SkyLabeler::setPen(const QPen& pen)
 {
+#ifndef KSTARS_LITE
+    Q_UNUSED(pen);
     m_p.setPen(pen);
+#endif
 }
 
 void SkyLabeler::shrinkFont( int delta )
 {
+#ifndef KSTARS_LITE
     QFont font( m_p.font() );
+#else
+    QFont font( m_drawFont );
+#endif
     font.setPointSize( font.pointSize() - delta );
     setFont( font );
 }
@@ -282,9 +317,9 @@ void SkyLabeler::reset()
     // ----- Set up Projector ---
     m_proj = skyMap->projector();
 
-    m_stdFont = QFont( skyMap->skyFont() );
+    //m_stdFont was moved to constructor
     setZoomFont();
-    m_skyFont = skyMap->skyFont() ;
+    m_skyFont = m_drawFont;
     m_fontMetrics = QFontMetrics( m_skyFont );
     m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
     // ----- Set up Zoom Dependent Offset -----
@@ -341,7 +376,7 @@ void SkyLabeler::draw(QPainter& p)
     // No, that's definitely better to leave to people to figure out on their own.
     if( m_p.isActive() ) { m_p.end(); }
     m_picture.play(&p); //can't replay while it's being painted on
-                        //this is also undocumented btw.
+    //this is also undocumented btw.
     //m_p.begin(&m_picture);
 }
 

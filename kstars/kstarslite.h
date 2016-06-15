@@ -99,6 +99,11 @@ public Q_SLOTS:
      */
     void writeConfig();
 
+    /** Load a color scheme.
+     * @param name the name of the color scheme to load (e.g., "Moonless Night")
+     */
+    void loadColorScheme( const QString &name );
+
 private slots:
     /** finish setting up after the KStarsData has finished
      */

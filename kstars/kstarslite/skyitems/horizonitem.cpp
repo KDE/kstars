@@ -54,16 +54,6 @@ HorizonItem::HorizonItem(HorizonComponent * hComp, RootNode *rootNode)
     }
 }
 
-void HorizonItem::hideLabels() {
-    QMap<SkyPoint *,LabelNode *>::iterator i = m_compassLabels.begin();
-
-    while (  i != m_compassLabels.end() ) {
-        LabelNode * compass = (*i);
-        compass->hide();
-        i++;
-    }
-}
-
 void HorizonItem::update() {
     if(!childCount()) {
         appendChildNode(new HorizonNode(m_horizonComp->pointList()));
@@ -71,40 +61,37 @@ void HorizonItem::update() {
 
     //HorizonNode *hNode = static_cast<HorizonNode *>(n->skyNodeAtIndex(0));
     QSGNode *n = firstChild();
-    while(n != 0) {
-        SkyNode *hNode = static_cast<SkyNode *>(n);
-        if(m_horizonComp->selected()) {
+    SkyNode *hNode = static_cast<SkyNode *>(n);
+    if(m_horizonComp->selected()) {
+        QPointF cpoint;
+        bool visible;
 
-            QPointF cpoint;
-            bool visible;
+        const Projector *proj = SkyMapLite::Instance()->projector();
+        KStarsData *data = KStarsData::Instance();
 
-            const Projector *proj = SkyMapLite::Instance()->projector();
-            KStarsData *data = KStarsData::Instance();
+        QMap<SkyPoint *,LabelNode *>::iterator i = m_compassLabels.begin();
 
-            QMap<SkyPoint *,LabelNode *>::iterator i = m_compassLabels.begin();
-
-            while (  i != m_compassLabels.end() ) {
-                SkyPoint *c = i.key();
-                if ( !Options::useAltAz() ) {
-                    c->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-                }
-
-                LabelNode * compass = (*i);
-                cpoint = proj->toScreen( c, false, &visible );
-                if ( visible && proj->onScreen(cpoint) ) {
-                    compass->setLabelPos(cpoint);
-                } else {
-                    compass->hide();
-                }
-                i++;
+        while (  i != m_compassLabels.end() ) {
+            SkyPoint *c = i.key();
+            if ( !Options::useAltAz() ) {
+                c->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
             }
 
-            hNode->update();
-        } else {
-            hNode->hide();
-            hideLabels();
+            LabelNode * compass = (*i);
+            cpoint = proj->toScreen( c, false, &visible );
+            if ( visible && proj->onScreen(cpoint) ) {
+                compass->setLabelPos(cpoint);
+            } else {
+                compass->hide();
+            }
+            i++;
         }
-        n = n->nextSibling();
+
+        hNode->update();
+    } else {
+        hNode->hide();
+        rootNode()->labelsItem()->hideLabels(LabelsItem::label_t::HORIZON_LABEL);
     }
+    n = n->nextSibling();
 }
 

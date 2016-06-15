@@ -21,21 +21,34 @@
 class KSComet;
 class SkyObject;
 
+    /**
+     * @class CometsItem
+     * This class handles comets in SkyMapLite
+     *
+     * @author Artem Fedoskin
+     * @version 1.0
+     */
+
 class CometsItem : public SkyItem {
 public:
-    CometsItem(const QList<SkyObject *>& cometsList, RootNode *rootNode = 0);
-    /** Adds an object of type KSComet to m_toAdd. In the next call to
-     * updatePaintNode() the object of type PointSourceNode will be created and comet
-     * will be moved to m_comets. PointSourceNode represents graphically KSComet on SkyMapLite.
-     * This function should be called whenever an object of class KSComet is
-     * created.
-     *
-     * @param KSComet that should be displayed on SkyMapLite
+    /**
+     * @short Constructor
+     * @param cometsList const reference to list of comets
+     * @param rootNode parent RootNode that instantiates this object
      */
-    //void addComet(KSComet * comet);
+    CometsItem(const QList<SkyObject *>& cometsList, RootNode *rootNode = 0);
 
-    virtual void update() override;
+    /**
+     * @short recreates the node tree (deletes old nodes and appends new ones according to
+     * m_cometsList)
+     */
     void recreateList();
+
+    /**
+     * @short Determines the visibility of the object and its label and hides/updates them accordingly
+     */
+    virtual void update() override;
+
 private:
     const QList<SkyObject *>& m_cometsList;
 };

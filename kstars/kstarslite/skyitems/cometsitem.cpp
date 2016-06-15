@@ -72,7 +72,9 @@ void CometsItem::update() {
 }
 
 void CometsItem::recreateList() {
-    removeAllChildNodes();
+    //Delete all child nodes
+    while(QSGNode *n = firstChild()) { removeChildNode(n); delete n; }
+
     foreach(SkyObject *comet, m_cometsList) {
         KSComet *com = static_cast<KSComet *>(comet);
         appendChildNode(new PointSourceNode(com, rootNode(),labelType()));

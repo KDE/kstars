@@ -26,7 +26,7 @@
 #include "projections/azimuthalequidistantprojector.h"
 #include "projections/equirectangularprojector.h"
 
-#include "solarsystemsinglecomponent.h"
+#include "skylabeler.h"
 #include "Options.h"
 #include "skymesh.h"
 
@@ -125,6 +125,8 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
         n->update();
     }
 
+    //Reset m_fontSizeChanged
+    setFontSizeChanged(false);
     return n;
 }
 
@@ -369,6 +371,7 @@ void SkyMapLite::slotZoomDefault() {
 
 void SkyMapLite::setZoomFactor(double factor) {
     Options::setZoomFactor(  KSUtils::clamp(factor, MINZOOM, MAXZOOM)  );
+
     forceUpdate();
     emit zoomChanged();
 }
@@ -504,37 +507,39 @@ QVector<QVector<QPixmap*>> SkyMapLite::getImageCache()
     return imageCache;
 }
 
-QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, QFont font) {
-    QPainter painter;
+QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont) {
+    QFont f;
 
-    QFontMetrics fm = painter.fontMetrics();
-    QFont f = painter.font();
-    if(font != f) {
-        fm = QFontMetrics(font);
+    if(zoomFont) {
+        f = SkyLabeler::Instance()->drawFont();
+    } else {
+        f = SkyLabeler::Instance()->stdFont();
     }
 
-    if(m_skyFont != f) {
-        m_skyFont = f;
-    }
+    QFontMetrics fm(f);
 
     int width = fm.width(text);
     int height = fm.height();
 
     QImage label(width, height, QImage::Format_ARGB32_Premultiplied);
     label.fill(0);
-    painter.begin(&label);
 
-    painter.setPen( color );
-    painter.drawText(0,height-fm.descent(),text);
+    m_painter.begin(&label);
 
-    painter.end();
+    m_painter.setFont(f);
 
-    QFile file("/home/polaris/label.png");
-    file.open(QIODevice::WriteOnly);
-    label.save(&file, "PNG");
+    m_painter.setPen( color );
+    m_painter.drawText(0,height - fm.descent(),text);
+
+    m_painter.end();
 
     QSGTexture *texture = window()->createTextureFromImage(label,
                                                            QQuickWindow::TextureCanUseAtlas & QQuickWindow::TextureHasAlphaChannel);
+
+    /*texture->setFiltering(QSGTexture::Linear);
+    texture->setHorizontalWrapMode(QSGTexture::ClampToEdge);
+    texture->setVerticalWrapMode(QSGTexture::ClampToEdge);*/
+
     return texture;
 }
 

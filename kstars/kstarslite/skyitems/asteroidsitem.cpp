@@ -33,7 +33,9 @@ AsteroidsItem::AsteroidsItem(const QList<SkyObject*>& asteroidsList, RootNode *r
 }
 
 void AsteroidsItem::recreateList() {
-    removeAllChildNodes();
+    //Delete all child nodes
+    while(QSGNode *n = firstChild()) { removeChildNode(n); delete n; }
+
     foreach(SkyObject *asteroid, m_asteroidsList) {
         KSAsteroid *ast = static_cast<KSAsteroid *>(asteroid);
         if (ast->image().isNull() == false) {

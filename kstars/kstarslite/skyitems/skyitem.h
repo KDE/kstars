@@ -28,8 +28,9 @@ class SkyNode;
 
 /** @class SkyItem
  *
- *This is an interface for implementing SkyItems that are used to display SkyComponent
- *derived objects on the SkyMapLite.
+ *This is an interface for implementing SkyItems that represent SkyComponent derived objects on
+ *the SkyMapLite. It is derived from QSGOpacityNode to make it possible to hide the whole node tree
+ *by simply setting opacity to 0.
  *
  *@short A base class that is used for displaying SkyComponents on SkyMapLite.
  *@author Artem Fedoskin
@@ -40,22 +41,48 @@ class SkyItem : public QSGOpacityNode {
 
 public:
    /**
-    *Constructor, add SkyItem to parent in a node tree
+    * Constructor, appends SkyItem to rootNode as a child in a node tree
     *
+    * @param labelType type of label that corresponds to this item
+    * @note see LabelsItem::label_t
     * @param parent a pointer to SkyItem's parent node
     */
 
     explicit SkyItem(LabelsItem::label_t labelType, RootNode *rootNode = 0);
     virtual ~SkyItem();
 
+    /**
+     * @short updates the coordinates and visibility of child node. Similiar to draw routine in
+     * SkyComponent derived classes
+     */
+
     virtual void update() =0;
 
+    /**
+     * @short hides this item by setting its opacity to 0
+     */
     void hide();
+
+    /**
+     * @short shows this item by setting its opacity to 1
+     */
     void show();
+
+    /**
+     * @return RootNode that is the parent of this SkyItem in a node tree
+     */
 
     inline RootNode *rootNode() { return m_rootNode; }
 
+    /**
+     * @return label type of this SkyItem
+     */
+
     inline LabelsItem::label_t labelType() { return m_labelType; }
+
+    /**
+     * @return false if opacity is 0 otherwise true
+     */
 
     bool visible();
 

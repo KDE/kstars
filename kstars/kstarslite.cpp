@@ -189,3 +189,26 @@ void KStarsLite::slotAboutToQuit()
     //synch the config file with the Config object
     writeConfig();
 }
+
+void KStarsLite::loadColorScheme( const QString &name ) {
+    bool ok = data()->colorScheme()->load( name );
+    QString filename = data()->colorScheme()->fileName();
+
+    if ( ok ) {
+        //set the application colors for the Night Vision scheme
+        if ( Options::darkAppColors() == false && filename == "night.colors" )  {
+            Options::setDarkAppColors( true );
+            OriginalPalette = QApplication::palette();
+            QApplication::setPalette( DarkPalette );
+        }
+
+        if ( Options::darkAppColors() && filename != "night.colors" ) {
+            Options::setDarkAppColors( false );
+            QApplication::setPalette( OriginalPalette );
+        }
+
+        Options::setColorSchemeFile( name );
+
+        map()->forceUpdate();
+    }
+}

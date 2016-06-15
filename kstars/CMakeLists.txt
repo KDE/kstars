@@ -543,7 +543,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite.cpp
         kstarsliteinit.cpp
         skymaplite.cpp
-        skymaplitevents.cpp
+        skymapliteevents.cpp
         #RootNode
         kstarslite/skyitems/rootnode.cpp
         #SkyItems

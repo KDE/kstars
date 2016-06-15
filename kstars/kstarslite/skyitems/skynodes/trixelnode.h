@@ -1,5 +1,5 @@
 /** *************************************************************************
-                          TrixelNode.h  -  K Desktop Planetarium
+                          trixelnode.h  -  K Desktop Planetarium
                              -------------------
     begin                : 16/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
@@ -13,6 +13,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #ifndef TRIXELNODE_H_
 #define TRIXELNODE_H_
 #include <QSGSimpleTextureNode>
@@ -21,7 +22,6 @@
 
 class PlanetItemNode;
 class SkyMapLite;
-class PointNode;
 class LineNode;
 class QSGOpacityNode;
 

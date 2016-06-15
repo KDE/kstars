@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          EquatorItem.cpp  -  K Desktop Planetarium
+                          linesitem.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/05/2016
+    begin                : 1/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -25,32 +25,9 @@
 #include "../skynodes/nodes/linenode.h"
 
 LinesItem::LinesItem(RootNode *rootNode)
-    :SkyItem(LabelsItem::label_t::RUDE_LABEL, rootNode)
+    :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode)
 {
-    //Under construction
-    Options::setShowCBounds(true);
-    Options::setShowCLines(true);
-    Options::setShowSolarSystem(true);
-    Options::setShowEcliptic(true);
-    Options::setShowEquator(true);
-    Options::setShowEquatorialGrid(true);
-    Options::setShowHorizontalGrid(true);
-    Options::setShowGround(true);
 
-    //Labels
-    Options::setShowCometNames(true);
-    Options::setShowAsteroidNames(true);
-    Options::setShowAsteroids(true);
-    Options::setShowCNames(true);
-
-    Options::setAutoSelectGrid(true);
-
-    Options::setHideCBounds(true);
-    Options::setHideCLines(false);
-    Options::setHideOnSlew(true);
-    Options::setHideGrids(false);
-
-    Options::setRunClock(false);
 }
 
 void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int width, Qt::PenStyle style) {

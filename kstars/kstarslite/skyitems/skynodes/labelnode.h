@@ -63,15 +63,24 @@ public:
 
     inline QString name() { return m_name; }
 
-    void createTexture(LabelsItem::label_t type);
+    void createTexture();
+
+    /**
+     * @return true if the size of text depends on zoom
+     */
+    inline bool zoomFont() { return m_zoomFont; }
 
     void update();
     QPointF labelPos;
 
 private:
+    QString m_name;
     QSGSimpleTextureNode *m_textTexture;
     QSize m_textSize;
-    QString m_name;
+
+    int m_fontSize;
+    bool m_zoomFont;
+    LabelsItem::label_t m_labelType;
 };
 
 #endif

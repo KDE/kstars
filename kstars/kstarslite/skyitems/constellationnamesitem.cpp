@@ -94,12 +94,12 @@ void ConstellationNamesItem::update() {
             if(constName->latin) constName->latin->hide();
         }
     }
-
-    //skyLabeler->resetFont();
 }
 
 void ConstellationNamesItem::recreateList() {
-    removeAllChildNodes();
+    rootNode()->labelsItem()->deleteLabels(labelType());
+    m_names.clear();
+
     foreach(SkyObject *skyObj, m_constelNamesComp->objectList()) {
         m_names.append(new ConstellationName(skyObj));
     }

@@ -22,14 +22,9 @@
 
 class ConstellationNamesComponent;
 
-/** @class SkyItem
- *
- *This is an interface for implementing SkyItems that are used to display SkyComponent
- *derived objects on the SkyMapLite.
- *
- *@short A base class that is used for displaying SkyComponents on SkyMapLite.
- *@author Artem Fedoskin
- *@version 1.0
+/**
+ * @short The ConstellationName struct. It holds SkyObject (coordinate of label) and 2 labels (latin and
+ * secondary names)
  */
 
 struct ConstellationName {
@@ -39,22 +34,41 @@ struct ConstellationName {
     LabelNode *latin;
     LabelNode *secondary;
 
+    /**
+     * @short hides both latin and secondary labels
+     */
     void hide();
 };
 
-class ConstellationNamesItem : public SkyItem {
+/** @class ConstellationNamesItem
+ *
+ * This class handles representation of ConstellationNamesComponent in SkyMapLite
+ * @author Artem Fedoskin
+ * @version 1.0
+ */
 
+class ConstellationNamesItem : public SkyItem {
 public:
    /**
-    *Constructor, add SkyItem to parent in a node tree
-    *
+    * Constructor.
+    * @param constComp a pointer to ConstellationNamesComponent that this object has to represent in
+    * SkyMapLite
     * @param parent a pointer to SkyItem's parent node
     */
-
     explicit ConstellationNamesItem(ConstellationNamesComponent *constComp, RootNode *rootNode = 0);
 
+    /**
+     * Updates positions of labels of ConstellationName based on user settings and labels
+     * visibility. If the user chose latin names then label with secondary name won't be created until
+     * settings are not changed.
+     *
+     * @short updates positions of labels based on their visibility.
+     */
     virtual void update();
 
+    /**
+     * @short deletes all labels and recreates m_names according to object list of m_constelNamesComp
+     */
     void recreateList();
 private:
     ConstellationNamesComponent *m_constelNamesComp;

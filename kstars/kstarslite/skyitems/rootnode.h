@@ -1,4 +1,3 @@
- 
 /** *************************************************************************
                           rootnode.h  -  K Desktop Planetarium
                              -------------------
@@ -47,7 +46,7 @@ class SolarSystemComposite;
  *@version 1.0
  */
 
-class RootNode : public QSGClipNode { //Clipping under construction
+class RootNode : public QSGClipNode {
 public:
     RootNode();
     /**
@@ -73,9 +72,10 @@ public:
     inline LabelsItem *labelsItem() { return m_labelsItem; }
 private:
     /**
-     * @short initializes textureCache with cached images of stars in SkyMapLite
+     * @short initializes textureCache with cached images of stars from SkyMapLite
      */
     void genCachedTextures();
+
     QVector<QVector<QSGTexture *>> m_textureCache;
     SkyMapLite *m_skyMapLite;
 
@@ -96,9 +96,5 @@ private:
 
     SkyMapComposite *m_skyComposite;
     SolarSystemComposite *m_solarSystem;
-
-    //To hold nodes that represent sky objects
-    //QVector<SkyNode *> m_skyNodes;
-    //bool m_hidden;
 };
 #endif

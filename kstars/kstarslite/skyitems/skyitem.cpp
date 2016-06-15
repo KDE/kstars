@@ -33,6 +33,7 @@ void SkyItem::hide() {
         setOpacity(0);
         markDirty(QSGNode::DirtyOpacity);
     }
+    rootNode()->labelsItem()->hideLabels(labelType());
 }
 
 void SkyItem::show() {

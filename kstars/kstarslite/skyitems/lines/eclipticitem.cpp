@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          EclipticItem.cpp  -  K Desktop Planetarium
+                          eclipticitem.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/05/2016
+    begin                : 10/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -67,7 +67,6 @@ void EclipticItem::update() {
 
         const Projector *proj  = SkyMapLite::Instance()->projector();
         KStarsData *data       = KStarsData::Instance();
-        //SkyLabeler* skyLabeler = SkyLabeler::Instance();
 
         QMap<SkyPoint *,LabelNode *>::iterator i = m_compassLabels.begin();
 
@@ -89,7 +88,6 @@ void EclipticItem::update() {
 
     } else {
         hide();
-        rootNode()->labelsItem()->hideLabels(labelType());
     }
 }
 

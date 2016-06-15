@@ -7,6 +7,8 @@
 #include "ksplanetbase.h"
 #include "skylabeler.h"
 
+#include "Options.h"
+
 PlanetMoonsNode::PlanetMoonsNode(KSPlanetBase* planet, RootNode* parentNode)
     :SkyNode(planet), m_rootNode(parentNode), pmoons(0),
       m_planetNode(new PlanetNode(planet, parentNode))
@@ -22,7 +24,7 @@ void PlanetMoonsNode::update() {
 void PlanetMoonsNode::hide() {
     m_planetNode->hide();
 
-    foreach(PointSourceNode *moon, m_moonNodes) {
+    foreach(SkyNode *moon, m_moonNodes) {
         moon->hide();
     }
 }
@@ -45,20 +47,26 @@ void PlanetMoonsNode::updateMoons() {
     // We need to reappend node that draws the planet
     appendChildNode(m_planetNode);
 
+    bool drawLabel = true;
+
+    if ( ! (Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM) ) {
+        drawLabel = false;
+    }
+
     for ( int i=0; i<nmoons; ++i ) {
         if ( pmoons->z(i) < 0.0 ) { //Moon is nearer than the planet
             appendChildNode(m_moonNodes[i]);
-            m_moonNodes[i]->update();
+            m_moonNodes[i]->update(drawLabel);
         } else {
             //Draw Moons that are further than the planet
             //skyp->drawPointSource( pmoons->moon(i), pmoons->moon(i)->mag() );
             prependChildNode(m_moonNodes[i]);
-            m_moonNodes[i]->update();
+            m_moonNodes[i]->update(drawLabel);
         }
     }
 
 /*  //Draw Moon name labels if at high zoom
-    /*if ( ! (Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM) ) return;
+     return;
     for ( int i=0; i<nmoons; ++i ) {
         /*
         if (planet ==KSPlanetBase::SATURN)

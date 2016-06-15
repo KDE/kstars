@@ -23,33 +23,39 @@ class PlanetMoonsComponent;
 class RootNode;
 class SkyObject;
 
+    /**
+     * @class PlanetsItem
+     * This class handles planets and their moons in SkyMapLite
+     *
+     * @author Artem Fedoskin
+     * @version 1.0
+     */
+
 class PlanetsItem : public SkyItem {
 public:
-    PlanetsItem(QList<SolarSystemSingleComponent *> planets, QList<PlanetMoonsComponent *> moons, RootNode *rootNode = 0);
-    /** Add a pointer to an object of type SolarSystemSingleComponent to m_toAdd. In the next call to
-     * updatePaintNode() the object of type PlanetNode will be created and planetComponent
-     * will be moved to m_planetComponents. PlanetNode represents graphically KSPlanetBase on SkyMapLite.
-     * This function should be called whenever an object of class SolarSystemSingleComponent is
-     * created.
+    /**
+     * @short Constructor. Takes lists of pointers to planets(SolarSystemSingleComponent) and their
+     * moons (PlanetMoonsComponent) to instantiate PlanetMoonsNodes for each of the planet.
      *
-     * @param SolarSystemSingleComponent that should be displayed on SkyMapLite
+     * @param planets list of pointers to planets
+     * @param moons list of pointers to moons
+     * @param rootNode parent RootNode that instantiates this object
      */
-
-//    void addPlanet(SolarSystemSingleComponent* planetComp);
+    PlanetsItem(QList<SolarSystemSingleComponent *> planets, QList<PlanetMoonsComponent *> moons, RootNode *rootNode = 0);
 
     /**
-     * Add a pointer to an object of type PlanetMoonsComponent to m_moonsToAdd. In the next call to
-     * updatePaintNode() PlanetMoons will be added to existing PlanetMoonsNode, which will then control
-     * the drawing of moons and planet.
-     * @param pMoons pointer to PlanetMoonsComponent which moons should be displayed on SkyMapLite
+     * @short returns SolarSystemSingleComponent that corresponds to the planet. Used to determine
+     * whether the planet has to be drawn according to its selected() function
+     * @param planet
+     * @return corresponding SolarSystemSingleComponent
      */
-//    void addMoons(PlanetMoonsComponent * pMoons);
-
     SolarSystemSingleComponent * getParentComponent(SkyObject * planet);
 
+    /**
+     * @short calls update() of all child PlanetMoonsNodes
+     * @note see PlanetMoonsNodes::update()
+     */
     void update() override;
-protected:
-    //virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) override;
 
 private:
     QList<SolarSystemSingleComponent *> m_planetComponents;

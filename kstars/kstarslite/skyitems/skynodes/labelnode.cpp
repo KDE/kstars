@@ -22,20 +22,60 @@
 #include "labelnode.h"
 
 LabelNode::LabelNode(SkyObject * skyObject, LabelsItem::label_t type)
-    :SkyNode(skyObject), m_name(skyObject->name()), m_textTexture(new QSGSimpleTextureNode)
+    :SkyNode(skyObject), m_name(skyObject->name()), m_textTexture(new QSGSimpleTextureNode),
+      m_zoomFont(false), m_labelType(type), m_fontSize(0)
 {
-    createTexture(type);
+    switch(type) {
+        case LabelsItem::label_t::PLANET_LABEL:
+        case LabelsItem::label_t::SATURN_MOON_LABEL:
+        case LabelsItem::label_t::JUPITER_MOON_LABEL:
+        case LabelsItem::label_t::COMET_LABEL:
+        case LabelsItem::label_t::RUDE_LABEL:
+        case LabelsItem::label_t::ASTEROID_LABEL:
+            m_zoomFont = true;
+        break;
+        default:
+            break;
+    }
+
+    createTexture();
+    m_opacity->appendChildNode(m_textTexture);
+
 }
 
 LabelNode::LabelNode(QString name, LabelsItem::label_t type)
-    :m_name(name), m_textTexture(new QSGSimpleTextureNode)
+    :m_name(name), m_textTexture(new QSGSimpleTextureNode), m_labelType(type), m_zoomFont(false)
 {
-    createTexture(type);
+    switch(type) {
+        case LabelsItem::label_t::PLANET_LABEL:
+        case LabelsItem::label_t::SATURN_MOON_LABEL:
+        case LabelsItem::label_t::JUPITER_MOON_LABEL:
+        case LabelsItem::label_t::COMET_LABEL:
+        case LabelsItem::label_t::RUDE_LABEL:
+        case LabelsItem::label_t::ASTEROID_LABEL:
+            m_zoomFont = true;
+        break;
+        default:
+            break;
+    }
+
+    createTexture();
+    m_opacity->appendChildNode(m_textTexture);
 }
 
-void LabelNode::createTexture(LabelsItem::label_t type) {
+void LabelNode::createTexture() {
     QColor color;
-    switch(type) {
+
+    switch(m_labelType) {
+        case LabelsItem::label_t::SATURN_MOON_LABEL:
+        case LabelsItem::label_t::JUPITER_MOON_LABEL:
+            SkyLabeler::Instance()->shrinkFont(2);
+            break;
+        default:
+            break;
+    }
+
+    switch(m_labelType) {
         case LabelsItem::label_t::PLANET_LABEL:
         case LabelsItem::label_t::SATURN_MOON_LABEL:
         case LabelsItem::label_t::JUPITER_MOON_LABEL:
@@ -53,8 +93,21 @@ void LabelNode::createTexture(LabelsItem::label_t type) {
             color = KStarsData::Instance()->colorScheme()->colorNamed( "UserLabelColor" );
     }
 
-    m_textTexture->setTexture(SkyMapLite::Instance()->textToTexture(m_name, color));
-    m_opacity->appendChildNode(m_textTexture);
+    QSGTexture *oldTexture = m_textTexture->texture();
+
+    m_textTexture->setTexture(SkyMapLite::Instance()->textToTexture(m_name, color, m_zoomFont));
+    if(m_zoomFont) m_fontSize = SkyLabeler::Instance()->drawFont().pointSize();
+
+    switch(m_labelType) {
+        case LabelsItem::label_t::SATURN_MOON_LABEL:
+        case LabelsItem::label_t::JUPITER_MOON_LABEL:
+            SkyLabeler::Instance()->resetFont();
+            break;
+        default:
+            break;
+    }
+
+    if(oldTexture) delete oldTexture;
 
     m_textSize = m_textTexture->texture()->textureSize();
     QRectF oldRect = m_textTexture->rect();
@@ -62,7 +115,6 @@ void LabelNode::createTexture(LabelsItem::label_t type) {
 }
 
 void LabelNode::changePos(QPointF pos) {
-    //QSizeF size = m_point->size();
     QMatrix4x4 m (1,0,0,pos.x(),
                   0,1,0,pos.y(),
                   0,0,1,0,
@@ -81,5 +133,8 @@ void LabelNode::setLabelPos(QPointF pos) {
 }
 
 void LabelNode::update() {
+    if(m_zoomFont && m_fontSize != SkyLabeler::Instance()->skyFont().pointSize()) {
+        createTexture();
+    }
     changePos(labelPos);
 }
