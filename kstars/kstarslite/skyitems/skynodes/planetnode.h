@@ -16,6 +16,7 @@
 #ifndef PLANETNODE_H_
 #define PLANETNODE_H_
 #include "skynode.h"
+#include "../skyopacitynode.h"
 
 class QSGSimpleTextureNode;
 class QImage;
@@ -78,7 +79,7 @@ private:
 
     // This opacity node is used to hide m_planetPic. m_point is subclass of QSGOpacityNode so it needs
     // no explicit opacity node here.
-    QSGOpacityNode *m_planetOpacity;
+    SkyOpacityNode *m_planetOpacity;
     QSGSimpleTextureNode *m_planetPic;
     LabelNode *m_label;
 };

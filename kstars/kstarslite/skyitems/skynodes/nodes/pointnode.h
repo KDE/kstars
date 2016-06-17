@@ -16,6 +16,7 @@
 #ifndef POINTNODE_H_
 #define POINTNODE_H_
 #include <QSGSimpleTextureNode>
+#include "../../skyopacitynode.h"
 
 class PlanetItemNode;
 class SkyMapLite;
@@ -32,7 +33,7 @@ class SkyMapLite;
 
 class RootNode;
 
-class PointNode : public QSGOpacityNode  {
+class PointNode : public SkyOpacityNode  {
 public:
     /**
      * @short Constructor
@@ -48,9 +49,6 @@ public:
     void setSize(float size);
 
     inline QSizeF size() const { return texture->rect().size(); }
-
-    void show();
-    void hide();
 private:
     char spType;
     QSGSimpleTextureNode *texture;

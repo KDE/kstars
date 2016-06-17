@@ -44,7 +44,7 @@ public:
      * @param size initial size of PointNode
      */
     PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
-                    LabelsItem::label_t labelType = LabelsItem::label_t::STAR_LABEL, char spType = 'A', float size = 1);
+                    LabelsItem::label_t labelType = LabelsItem::label_t::STAR_LABEL, char spType = 'A', float size = 1, short trixel = -1);
 
     /** @short Get the width of a star of magnitude mag */
     float starWidth(float mag) const;
@@ -54,6 +54,8 @@ public:
      * @param pos new position
      */
     virtual void changePos(QPointF pos) override;
+
+    void setSizeMagLim(float sizeMagLim) { m_sizeMagLim = sizeMagLim; }
 
     virtual void update() override;
     virtual void hide() override;
@@ -65,6 +67,9 @@ private:
 
     LabelNode *m_label;
     LabelsItem::label_t m_labelType;
+
+    short m_trixel; //Trixel to which this object belongs. Used only in stars. By default -1 for all
+    //other objects that are not indexed by SkyMesh
 
     QPointF pos;
 };

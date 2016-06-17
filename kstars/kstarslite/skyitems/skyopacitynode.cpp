@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          pointnode.cpp  -  K Desktop Planetarium
+                          skyopacitynode.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 05/05/2016
+    begin                : 16/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -14,28 +14,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QImage>
-#include <QQuickWindow>
+#include "skyopacitynode.h"
 
-#include "pointnode.h"
-#include "kstarslite/skyitems/rootnode.h"
+SkyOpacityNode::SkyOpacityNode() {
 
-PointNode::PointNode(RootNode* p, char sp, float size)
-    :spType(sp), texture(new QSGSimpleTextureNode), m_rootNode(p)
-{
-    appendChildNode(texture);
-    setSize(size);
 }
 
-void PointNode::setSize(float size) {
-    int isize = qMin(static_cast<int>(size), 14);
-    if(size != m_size) {
-        texture->setTexture(m_rootNode->getCachedTexture(isize, spType));
-        //markDirty(QSGNode::DirtyMaterial);
-
-        QSize tSize = texture->texture()->textureSize();
-        QRectF oldRect = texture->rect();
-        texture->setRect(QRect(oldRect.x(),oldRect.y(),tSize.width(),tSize.height()));
-        m_size = size;
+void SkyOpacityNode::show() {
+    if(!opacity()) {
+        setOpacity(1);
+        markDirty(QSGNode::DirtyOpacity);
     }
+}
+
+void SkyOpacityNode::hide() {
+    if(opacity()) {
+        setOpacity(0);
+        markDirty(QSGNode::DirtyOpacity);
+    }
+}
+
+bool SkyOpacityNode::visible() {
+    if(opacity() != 0) {
+        return true;
+    }
+    return false;
 }

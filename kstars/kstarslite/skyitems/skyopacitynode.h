@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          pointnode.cpp  -  K Desktop Planetarium
+                          skyopacitynode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 05/05/2016
+    begin                : 16/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -14,28 +14,37 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QImage>
-#include <QQuickWindow>
+#ifndef SKYOPACITYNODE_H_
+#define SKYOPACITYNODE_H_
 
-#include "pointnode.h"
-#include "kstarslite/skyitems/rootnode.h"
+#include <QSGOpacityNode>
 
-PointNode::PointNode(RootNode* p, char sp, float size)
-    :spType(sp), texture(new QSGSimpleTextureNode), m_rootNode(p)
-{
-    appendChildNode(texture);
-    setSize(size);
-}
+/** @class SkyOpacityNode
+ *
+ *@short A wrapper for QSGOpacityNode that provides hide() and show() functions. If node is invisible
+ * (opacity is 0) it won't be rendered.
+ *@author Artem Fedoskin
+ *@version 1.0
+ */
 
-void PointNode::setSize(float size) {
-    int isize = qMin(static_cast<int>(size), 14);
-    if(size != m_size) {
-        texture->setTexture(m_rootNode->getCachedTexture(isize, spType));
-        //markDirty(QSGNode::DirtyMaterial);
+class SkyOpacityNode : public QSGOpacityNode {
+public:
+    SkyOpacityNode();
 
-        QSize tSize = texture->texture()->textureSize();
-        QRectF oldRect = texture->rect();
-        texture->setRect(QRect(oldRect.x(),oldRect.y(),tSize.width(),tSize.height()));
-        m_size = size;
-    }
-}
+    /**
+     * @short makes this node visible
+     */
+    void show();
+
+    /**
+     * @short hides this node
+     */
+    void hide();
+
+    /**
+     * @return true if node is visible
+     */
+    bool visible();
+};
+
+#endif

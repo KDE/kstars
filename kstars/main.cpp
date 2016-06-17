@@ -56,6 +56,10 @@ int main(int argc, char *argv[])
     * enable high dpi support
     */
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+
+    QByteArray data = "1";
+    //qputenv("QSG_RENDER_TIMING", data);
+
 #ifndef KSTARS_LITE
     KCrash::initialize();
     KLocalizedString::setApplicationDomain("kstars");
@@ -225,7 +229,6 @@ int main(int argc, char *argv[])
     }
 
 #endif
-
     //Under construction
     //[Location]
     Options::setCityName("Saarbrücken");
@@ -236,12 +239,12 @@ int main(int argc, char *argv[])
     Options::setTimeZone(1);
     Options::setRunClock(false);
 
-    Options::setShowCBounds(true);
+    Options::setShowCBounds(false);
     Options::setShowCLines(true);
     Options::setShowSolarSystem(true);
     Options::setShowEcliptic(true);
     Options::setShowEquator(true);
-    Options::setShowEquatorialGrid(true);
+    Options::setShowEquatorialGrid(false);
     Options::setShowHorizontalGrid(true);
     Options::setShowGround(true);
 
@@ -257,7 +260,6 @@ int main(int argc, char *argv[])
     Options::setHideCLines(false);
     Options::setHideOnSlew(true);
     Options::setHideGrids(false);
-
 
     // Create writable data dir if it does not exist
     QDir writableDir;

@@ -15,9 +15,12 @@
  ***************************************************************************/
 #ifndef SKYNODE_H_
 #define SKYNODE_H_
+
 #include <QSGTransformNode>
 #include "skymaplite.h"
 #include "projections/projector.h"
+
+#include "../skyopacitynode.h"
 
 class Projector;
 class SkyMapLite;
@@ -70,12 +73,12 @@ public:
     /**
      * @short hides all child nodes (sets opacity of m_opacity to 0)
      */
-    virtual void hide();
+    inline virtual void hide() { m_opacity->hide(); }
 
     /**
      * @short shows all child nodes (sets opacity of m_opacity to 1)
      */
-    virtual void show();
+    inline virtual void show() { m_opacity->show(); }
 
     /**
      * @short changes the position of SkyNode on SkyMapLite. Has to be overriden by the classes
@@ -87,7 +90,7 @@ public:
     /**
      * @return true if object is visible (m_opacity->opacity() != 0) else returns false
      */
-    bool visible();
+    inline bool visible() { return m_opacity->visible(); }
 
     /**
      * @short returns SkyObject associated with this SkyNode
@@ -96,7 +99,7 @@ public:
     SkyObject * skyObject() const { return m_skyObject; }
 protected:
     SkyObject * m_skyObject;
-    QSGOpacityNode *m_opacity;
+    SkyOpacityNode *m_opacity;
 
     bool m_drawLabel;
 };

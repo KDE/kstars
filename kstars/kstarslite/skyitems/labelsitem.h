@@ -17,11 +17,12 @@
 #define LABELSITEM_H_
 
 #include "skylabeler.h"
+#include "typedef.h"
+#include "typedeflite.h"
 
-#include <QSGOpacityNode>
+#include "skyopacitynode.h"
 
-typedef QSGOpacityNode LabelTypeNode;
-
+class StarItem;
 class LabelNode;
 class GuideLabelNode;
 class RootNode;
@@ -56,7 +57,7 @@ class SkyObject;
  * @version 1.0
  */
 
-class LabelsItem : public QSGOpacityNode {
+class LabelsItem : public SkyOpacityNode {
 
 public:
 
@@ -95,6 +96,12 @@ public:
      * @return pointer to newly created LabelNode
      */
     LabelNode *addLabel(SkyObject *skyObject, label_t labelType);
+
+    /** creates LabelNode and appends it to corresponding TrixelNode so that all labels
+     * can be hidden whenever Trixel is not displayed. Use for sky objects that are indexed by SkyMesh
+     * @param trixel id of trixel
+     **/
+    LabelNode *addLabel(SkyObject *skyObject, label_t labelType, Trixel trixel);
 
     /**
      * @short does the same as above but with QString instead of SkyObject
@@ -139,7 +146,7 @@ public:
      * @short hides all labels of type labelType
      */
 
-    void hideLabels(label_t labelType);
+    inline void hideLabels(label_t labelType) { m_labelsLists[labelType]->hide(); }
 
     /**
      * @short sets m_rootNode and appends to it this node

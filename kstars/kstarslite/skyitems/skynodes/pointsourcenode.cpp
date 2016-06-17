@@ -26,11 +26,11 @@
 #include "labelnode.h"
 
 PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
-                                 LabelsItem::label_t labelType, char spType, float size)
+                                 LabelsItem::label_t labelType, char spType, float size, short trixel)
     :SkyNode(skyObject), m_point(0), m_sizeMagLim(10.), // has to be changed when stars will be introduced
-        m_label(0), m_labelType(labelType), m_rootNode(parentNode)
+        m_label(0), m_labelType(labelType), m_rootNode(parentNode), m_trixel(trixel)
 {
-    m_point = new PointNode(parentNode,starWidth(size),spType);
+    m_point = new PointNode(parentNode,spType,starWidth(size));
     appendChildNode(m_point);
 }
 
@@ -79,7 +79,11 @@ void PointSourceNode::update() {
 
         if(m_drawLabel) {
             if(!m_label) { //This way labels will be created only when they are needed
-                m_label = m_rootNode->labelsItem()->addLabel(m_skyObject, m_labelType);
+                if(m_trixel != -1) {
+                    m_label = m_rootNode->labelsItem()->addLabel(m_skyObject, m_labelType, m_trixel);
+                } else {
+                    m_label = m_rootNode->labelsItem()->addLabel(m_skyObject, m_labelType);
+                }
             }
             m_label->setLabelPos(pos);
         } else {
@@ -92,11 +96,6 @@ void PointSourceNode::update() {
     }
 
 }
-
-/*void PointSourceNode::updateLabel() {
-    if(!m_label) m_label = m_rootNode->labelsItem()->addLabel(skyObject, labelType);
-    m_label->setLabelPos(pos);
-}*/
 
 void PointSourceNode::hide() {
     if(m_label) m_label->hide();

@@ -14,9 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "skyitem.h"
-#include "../../skymaplite.h"
 #include "rootnode.h"
-#include "skynodes/skynode.h"
 
 SkyItem::SkyItem(LabelsItem::label_t labelType, RootNode* parent)
     :m_rootNode(parent), m_labelType(labelType)
@@ -29,23 +27,6 @@ SkyItem::~SkyItem() {
 }
 
 void SkyItem::hide() {
-    if(opacity()) {
-        setOpacity(0);
-        markDirty(QSGNode::DirtyOpacity);
-    }
+    SkyOpacityNode::hide();
     rootNode()->labelsItem()->hideLabels(labelType());
-}
-
-void SkyItem::show() {
-    if(!opacity()) {
-        setOpacity(1);
-        markDirty(QSGNode::DirtyOpacity);
-    }
-}
-
-bool SkyItem::visible() {
-    if(opacity() != 0) {
-        return true;
-    }
-    return false;
 }

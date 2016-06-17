@@ -30,7 +30,7 @@
 #include "labelnode.h"
 
 PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode)
-    :SkyNode(pb), m_planetPic(new QSGSimpleTextureNode), m_planetOpacity(new QSGOpacityNode)
+    :SkyNode(pb), m_planetPic(new QSGSimpleTextureNode), m_planetOpacity(new SkyOpacityNode)
 {
     // Draw them as bright stars of appropriate color instead of images
     char spType;
@@ -120,26 +120,17 @@ void PlanetNode::setPlanetPicSize(float size) {
 }
 
 void PlanetNode::showPoint() {
-    if(m_planetOpacity->opacity()) {
-        m_planetOpacity->setOpacity(0);
-        m_planetOpacity->markDirty(QSGNode::DirtyOpacity);
-    }
+    m_planetOpacity->hide();
     m_point->show();
 }
 
 void PlanetNode::showPlanetPic() {
-    if(!m_planetOpacity->opacity()) {
-        m_planetOpacity->setOpacity(1);
-        m_planetOpacity->markDirty(QSGNode::DirtyOpacity);
-    }
+    m_planetOpacity->show();
     m_point->hide();
 }
 
 void PlanetNode::hide() {
-    if(m_planetOpacity->opacity()) {
-        m_planetOpacity->setOpacity(0);
-        m_planetOpacity->markDirty(QSGNode::DirtyOpacity);
-    }
+    m_planetOpacity->hide();
     m_point->hide();
     m_label->hide();
 }

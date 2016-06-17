@@ -76,9 +76,7 @@ StarComponent::StarComponent(SkyComposite *parent )
     loadStaticData();
     // Load any deep star catalogs that are available
     loadDeepStarCatalogs();
-#ifdef KSTARS_LITE
-    //SkyMapLite::Instance()->initStarImages();
-#else
+#ifndef KSTARS_LITE
     SkyQPainter::initStarImages();
 #endif
 }

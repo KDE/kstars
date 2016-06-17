@@ -546,6 +546,8 @@ if(BUILD_KSTARS_LITE)
         skymapliteevents.cpp
         #RootNode
         kstarslite/skyitems/rootnode.cpp
+        kstarslite/skyitems/skyopacitynode.cpp
+        kstarslite/skyitems/typedeflite.h
         #SkyItems
         kstarslite/skyitems/skyitem.cpp
         kstarslite/skyitems/planetsitem.cpp
@@ -554,6 +556,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/horizonitem.cpp
         kstarslite/skyitems/labelsitem.cpp
         kstarslite/skyitems/constellationnamesitem.cpp
+        kstarslite/skyitems/staritem.cpp
         #Lines
         kstarslite/skyitems/lines/linesitem.cpp
         kstarslite/skyitems/lines/equatoritem.cpp
@@ -564,7 +567,8 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/skynodes/pointsourcenode.cpp
         kstarslite/skyitems/skynodes/planetmoonsnode.cpp
         kstarslite/skyitems/skynodes/horizonnode.cpp
-        kstarslite/skyitems/skynodes/trixelnode.cpp
+        #kstarslite/skyitems/skynodes/trixelnode.cpp
+        #kstarslite/skyitems/skynodes/startrixelnode.cpp
         kstarslite/skyitems/skynodes/labelnode.cpp
         kstarslite/skyitems/skynodes/guidelabelnode.cpp
         #Nodes

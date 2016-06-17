@@ -18,13 +18,13 @@
 #include "skynode.h"
 
 SkyNode::SkyNode(SkyObject * skyObject)
-    :m_skyObject(skyObject), m_opacity(new QSGOpacityNode), m_drawLabel(false)
+    :m_skyObject(skyObject), m_opacity(new SkyOpacityNode), m_drawLabel(false)
 {
     appendChildNode(m_opacity);
 }
 
 SkyNode::SkyNode()
-    :m_skyObject(nullptr), m_opacity(new QSGOpacityNode), m_drawLabel(false)
+    :m_skyObject(nullptr), m_opacity(new SkyOpacityNode), m_drawLabel(false)
 {
     appendChildNode(m_opacity);
 }
@@ -32,25 +32,4 @@ SkyNode::SkyNode()
 void SkyNode::update(bool drawLabel) {
     m_drawLabel = drawLabel;
     update();
-}
-
-void SkyNode::hide() {
-    if(m_opacity->opacity()) {
-        m_opacity->setOpacity(0);
-        m_opacity->markDirty(QSGNode::DirtyOpacity);
-    }
-}
-
-void SkyNode::show() {
-    if(!m_opacity->opacity()) {
-        m_opacity->setOpacity(1);
-        m_opacity->markDirty(QSGNode::DirtyOpacity);
-    }
-}
-
-bool SkyNode::visible() {
-    if(m_opacity->opacity() != 0) {
-        return true;
-    }
-    return false;
 }

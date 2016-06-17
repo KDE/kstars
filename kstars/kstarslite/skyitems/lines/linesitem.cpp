@@ -18,7 +18,6 @@
 #include "projections/projector.h"
 #include <QSGNode>
 
-#include "../skynodes/trixelnode.h"
 #include "linesitem.h"
 #include "linelist.h"
 #include "linelistindex.h"
@@ -31,7 +30,7 @@ LinesItem::LinesItem(RootNode *rootNode)
 }
 
 void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int width, Qt::PenStyle style) {
-    QSGOpacityNode *node = new QSGOpacityNode;
+    LineIndexNode *node = new LineIndexNode;
     appendChildNode(node);
 
     m_lineIndexes.insert(node, linesComp);
@@ -39,18 +38,26 @@ void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int w
 
     QHash< Trixel, LineListList *>::const_iterator i = trixels->begin();
     while( i != trixels->end()) {
+        LineListList *linesList = *i;
 
-        TrixelNode *trixel = new TrixelNode(i.key(), i.value(), color, width, style);
-        node->appendChildNode(trixel);
-        //trixel->setStyle(color, width, style);
+        if(linesList->size()) {
+            TrixelNode *trixel = new TrixelNode;
+            node->appendChildNode(trixel);
+
+            QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed(color);
+            for(int c = 0; c < linesList->size(); ++c) {
+                LineNode * ln = new LineNode(linesList->at(c), schemeColor, width, style);
+                trixel->appendChildNode(ln);
+            }
+        }
         ++i;
     }
 }
 
 void LinesItem::update() {
-    QMap< QSGOpacityNode *, LineListIndex *>::const_iterator i = m_lineIndexes.begin();
+    QMap< LineIndexNode *, LineListIndex *>::const_iterator i = m_lineIndexes.begin();
     while( i != m_lineIndexes.end()) {
-        QVector<Trixel> visTrixels;
+        //QVector<Trixel> visTrixels;
         SkyMesh * mesh = SkyMesh::Instance();
         SkyMapLite *map = SkyMapLite::Instance();
         double radius = map->projector()->fov();
@@ -60,29 +67,48 @@ void LinesItem::update() {
             //mesh->aperture(map->focus(), radius);
         }
 
-        MeshIterator region (mesh,DRAW_BUF);
+        /*MeshIterator region (mesh,DRAW_BUF);
         while ( region.hasNext() ) {
             visTrixels.append(region.next());
-        }
+        }*/
 
-        QSGOpacityNode * node = i.key();
+        DrawID   drawID   = SkyMesh::Instance()->drawID();
+        //UpdateID updateID = KStarsData::Instance()->updateID();
+
+        LineIndexNode * node = i.key();
         if(i.value()->selected()) {
-            node->setOpacity(1);
-            //for(int c = 0; c < node->childCount(); ++c) {
+            node->show();
+
             QSGNode *n = node->firstChild();
             while(n != 0) {
                 TrixelNode * trixel = static_cast<TrixelNode *>(n);
+                trixel->show();
+
                 n = n->nextSibling();
+
                 //if(visTrixels.contains(c)) {
-                    trixel->update();
-               /* } else {
+
+                QSGNode *l = trixel->firstChild();
+                while(l != 0) {
+                    LineNode * lines = static_cast<LineNode *>(l);
+                    l = l->nextSibling();
+
+                    LineList * lineList = lines->lineList();
+                    if ( lineList->drawID == drawID ) {
+                        lines->hide();
+                        continue;
+                    }
+                    lineList->drawID = drawID;
+                    lines->updateGeometry();
+                }
+
+                /* } else {
                     trixel->hide();
                 }*/
             }
         } else {
-            node->setOpacity(0);
+            node->hide();
         }
-        node->markDirty(QSGNode::DirtyOpacity);
         ++i;
     }
 }

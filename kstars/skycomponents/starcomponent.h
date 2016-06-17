@@ -45,6 +45,7 @@
 #include "binfilehelper.h"
 #include "starblockfactory.h"
 #include "skymesh.h"
+#include "kstarslite/skyitems/staritem.h"
 
 class SkyMesh;
 class StarObject;
@@ -58,12 +59,13 @@ class MeshIterator;
 
 class StarComponent: public ListComponent
 {
+    friend class StarItem; //Needs access to faintMagnitude() and reindex()
+
 protected:
 
     StarComponent( SkyComposite* );
 
 public:
-
     virtual ~StarComponent();
 
     // TODO: Desingletonize StarComponent
@@ -90,6 +92,9 @@ public:
     virtual SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
     virtual SkyObject* findStarByGenetiveName( const QString name );
+
+     /** @short get m_starIndex. Used in StarItem (KStars Lite)*/
+    inline StarIndex* starIndex() { return m_starIndex; }
 
     /**
      *@short Find stars by name (including genetive name)
@@ -130,7 +135,7 @@ public:
      *@p center The center point of the aperture
      *@p radius The radius around the center point that defines the
      * aperture
-     *@p maglim Optional parameter indicating the limiting magnitude. 
+     *@p maglim Optional parameter indicating the limiting magnitude.
      * If magnitude limit is numerically < -28, the limiting magnitude
      * is assumed to be the limiting magnitude of the catalog (i.e. no
      * magnitude limit) 

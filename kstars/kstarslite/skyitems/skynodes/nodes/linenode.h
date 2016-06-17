@@ -18,10 +18,10 @@
 #include <QSGGeometryNode>
 #include "linelist.h"
 #include <QColor>
+#include "../../skyopacitynode.h"
 
-class PlanetItemNode;
-class SkyMapLite;
 class QSGFlatColorMaterial;
+class SkyMapLite;
 
 /** @class LineNode
  *
@@ -33,7 +33,7 @@ class QSGFlatColorMaterial;
  *@version 1.0
  */
 
-class LineNode : public QSGOpacityNode  {
+class LineNode : public SkyOpacityNode  {
 public:
     /**
      * @short Constructor
@@ -55,14 +55,13 @@ public:
 
     void updateGeometry();
     inline LineList *lineList() { return m_lineList; }
-    void hide();
-    void show();
-
 private:
     QSGGeometryNode *m_geometryNode;
     LineList *m_lineList;
+
     QSGGeometry *m_geometry;
-    QSGMaterial *m_material;
+    QSGFlatColorMaterial *m_material;
+
     Qt::PenStyle m_drawStyle;
     QColor m_color;
 };

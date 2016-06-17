@@ -18,6 +18,7 @@
 #include "equator.h"
 
 //SkyItems
+#include "kstarslite/skyitems/staritem.h"
 #include "kstarslite/skyitems/planetsitem.h"
 #include "kstarslite/skyitems/asteroidsitem.h"
 #include "kstarslite/skyitems/cometsitem.h"
@@ -38,7 +39,6 @@ RootNode::RootNode()
     Options::setProjection(Projector::Lambert);
 
     m_skyComposite = KStarsData::Instance()->skyComposite();
-    m_solarSystem = m_skyComposite->solarSystemComposite();
 
     // LabelsItem needs to be created first so that other items could insert their labels in labelsList
     m_labelsItem = new LabelsItem();
@@ -50,6 +50,10 @@ RootNode::RootNode()
 
     m_linesItem->addLinesComponent( m_skyComposite->constellationBoundary(), "CBoundColor", 1, Qt::SolidLine );
     m_linesItem->addLinesComponent( m_skyComposite->constellationLines(), "CLineColor", 1, Qt::SolidLine );
+
+    m_starItem = new StarItem(m_skyComposite->starComponent(), this);
+
+    m_solarSystem = m_skyComposite->solarSystemComposite();
 
     m_equator = new EquatorItem(m_skyComposite->equator(),this);
     m_ecliptic = new EclipticItem(m_skyComposite->ecliptic(),this);
@@ -151,12 +155,15 @@ void RootNode::update() {
 
     m_constelNamesItem->update();
 
-    m_horizonItem->update();
+    m_starItem->update();
 
     m_equator->update();
     m_ecliptic->update();
 
     m_linesItem->update();
+
+    m_horizonItem->update();
+
     m_labelsItem->update();
 }
 

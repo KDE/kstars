@@ -17,6 +17,8 @@
 #define LINESITEM_H_
 
 #include "../skyitem.h"
+#include "../skyopacitynode.h"
+#include "../typedeflite.h"
 
 class LineListIndex;
 
@@ -57,7 +59,8 @@ public:
 
     virtual void update();
 private:
-    QMap<QSGOpacityNode *,LineListIndex *> m_lineIndexes;
+    QMap<LineIndexNode *, LineListIndex *> m_lineIndexes;
+    //QMap<QSGOpacityNode *, QVector<TrixelNode *> > m_trixelNodes;
 };
 #endif
 

@@ -17,7 +17,7 @@
 #ifndef SKYITEM_H_
 #define SKYITEM_H_
 
-#include <QSGOpacityNode>
+#include "skyopacitynode.h"
 #include "labelsitem.h"
 
 class SkyComponent;
@@ -37,7 +37,7 @@ class SkyNode;
  *@version 1.0
  */
 
-class SkyItem : public QSGOpacityNode {
+class SkyItem : public SkyOpacityNode {
 
 public:
    /**
@@ -59,14 +59,9 @@ public:
     virtual void update() =0;
 
     /**
-     * @short hides this item by setting its opacity to 0
+     * @short hides this item and corresponding labels
      */
     void hide();
-
-    /**
-     * @short shows this item by setting its opacity to 1
-     */
-    void show();
 
     /**
      * @return RootNode that is the parent of this SkyItem in a node tree
@@ -79,12 +74,6 @@ public:
      */
 
     inline LabelsItem::label_t labelType() { return m_labelType; }
-
-    /**
-     * @return false if opacity is 0 otherwise true
-     */
-
-    bool visible();
 
 private:
     RootNode *m_rootNode;

@@ -109,18 +109,3 @@ void PolyNode::updateGeometry(QPolygonF polygon, bool filled) {
     m_geometryNode->markDirty(QSGNode::DirtyGeometry);
 
 }
-
-void PolyNode::show() {
-    if(!opacity()) {
-        setOpacity(1);
-        markDirty(QSGNode::DirtyOpacity);
-    }
-}
-
-void PolyNode::hide() {
-    if(opacity()) {
-        setOpacity(0);
-        markDirty(QSGNode::DirtyOpacity);
-    }
-}
-

@@ -22,13 +22,23 @@
 #include "skynodes/guidelabelnode.h"
 
 #include "cometsitem.h"
+#include "staritem.h"
 #include "rootnode.h"
+#include "skymesh.h"
 
 LabelsItem::LabelsItem()
     :m_rootNode(0)
 {
     LabelTypeNode *stars = new LabelTypeNode;
     appendChildNode(stars);
+
+    //Add trixels to hold star labels
+    int trixelNum = SkyMesh::Instance()->size();
+
+    for(int i = 0; i < trixelNum; ++i) {
+        stars->appendChildNode(new TrixelNode);
+    }
+
     m_labelsLists.insert(label_t::STAR_LABEL, stars);
 
     LabelTypeNode *asteroids = new LabelTypeNode;
@@ -93,6 +103,13 @@ LabelNode *LabelsItem::addLabel(SkyObject *skyObject, label_t labelType) {
     return label;
 }
 
+LabelNode *LabelsItem::addLabel(SkyObject *skyObject, label_t labelType, Trixel trixel) {
+    Q_ASSERT(labelType == STAR_LABEL);
+    LabelNode *label = new LabelNode(skyObject, labelType);
+    m_labelsLists.value(labelType)->childAtIndex(trixel)->appendChildNode(label);
+    return label;
+}
+
 LabelNode *LabelsItem::addLabel(QString name, label_t labelType) {
     LabelNode *label = new LabelNode(name, labelType);
     m_labelsLists.value(labelType)->appendChildNode(label);
@@ -109,10 +126,13 @@ void LabelsItem::update() {
     SkyLabeler * skyLabeler = SkyLabeler::Instance();
     skyLabeler->reset();
 
+    updateChildLabels(label_t::HORIZON_LABEL);
+
     updateChildLabels(label_t::EQUATOR_LABEL);
     updateChildLabels(label_t::ECLIPTIC_LABEL);
 
     updateChildLabels(label_t::PLANET_LABEL);
+
     updateChildLabels(label_t::JUPITER_MOON_LABEL);
 
     updateChildLabels(label_t::SATURN_MOON_LABEL);
@@ -123,15 +143,10 @@ void LabelsItem::update() {
     }
 
     updateChildLabels(label_t::CONSTEL_NAME_LABEL);
-    updateChildLabels(label_t::HORIZON_LABEL);
 
+    updateChildLabels(label_t::STAR_LABEL);
 }
 
-void LabelsItem::hideLabels(label_t labelType) {
-    QSGOpacityNode *node = m_labelsLists[labelType];
-    node->setOpacity(0);
-    node->markDirty(QSGNode::DirtyOpacity);
-}
 
 void LabelsItem::setRootNode(RootNode *rootNode) {
     //Remove from previous parent if had any
@@ -144,15 +159,14 @@ void LabelsItem::setRootNode(RootNode *rootNode) {
 
 void LabelsItem::deleteLabels(label_t labelType) {
     if(labelType != label_t::NO_LABEL) {
-        QSGOpacityNode *node = m_labelsLists[labelType];
+        LabelTypeNode *node = m_labelsLists[labelType];
         while(QSGNode *n = node->firstChild()) { node->removeChildNode(n); delete n; }
     }
 }
 
 void LabelsItem::updateChildLabels(label_t labelType) {
-    QSGOpacityNode *node = m_labelsLists[labelType];
-    node->setOpacity(1);
-    node->markDirty(QSGNode::DirtyOpacity);
+    LabelTypeNode *node = m_labelsLists[labelType];
+    node->show();
 
     QSGNode *n = node->firstChild();
     /*if( labelType == label_t::HORIZON_LABEL
@@ -172,17 +186,37 @@ void LabelsItem::updateChildLabels(label_t labelType) {
         }
     } else {*/
     while( n != 0) {
-        LabelNode *label = static_cast<LabelNode *>(n);
-        if(label->visible()) {
-            if(label->zoomFont()) skyLabeler->resetFont();
-            if(skyLabeler->markText(label->labelPos, label->name())) {
-                label->update();
-            } else {
-                label->hide();
+        if(labelType == STAR_LABEL) {
+            TrixelNode *trixel = static_cast<TrixelNode *>(n);
+
+            if(trixel->visible()) {
+                QSGNode *l = trixel->firstChild();
+
+                while(l != 0) {
+                    LabelNode *label = static_cast<LabelNode *>(l);
+                    l = l->nextSibling();
+
+                    if(skyLabeler->markText(label->labelPos, label->name())) {
+                        label->update();
+                    } else {
+                        label->hide();
+                    }
+                }
             }
-            skyLabeler->useStdFont();
+        } else {
+            LabelNode *label = static_cast<LabelNode *>(n);
+            //n = n->nextSibling();
+
+            if(label->visible()) {
+                if(label->zoomFont()) skyLabeler->resetFont();
+                if(skyLabeler->markText(label->labelPos, label->name())) {
+                    label->update();
+                } else {
+                    label->hide();
+                }
+                skyLabeler->useStdFont();
+            }
         }
         n = n->nextSibling();
     }
-
 }

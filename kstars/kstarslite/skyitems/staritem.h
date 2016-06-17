@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          polynode.h  -  K Desktop Planetarium
+                          staritem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 28/05/2016
+    begin                : 15/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,37 +13,44 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef POLYNODE_H_
-#define POLYNODE_H_
-#include "../../skyopacitynode.h"
+#ifndef STARITEM_H_
+#define STARITEM_H_
 
-/** @class PolyNode
- *
- * A QSGOpacityNode derived class used for representing stars and planets as stars. Upon
- * construction loads the texture of star cached in parentNode
- *
- *@short QSGOpacityNode derived class that represents stars and planets using cached QSGTexture
- *@author Artem Fedoskin
- *@version 1.0
- */
+#include "skyitem.h"
+#include "skyopacitynode.h"
+#include "typedeflite.h"
 
-class QSGGeometryNode;
-class QSGGeometry;
-class QSGFlatColorMaterial;
+    /** @class StarItem
+     *
+     *@short Class that handles Stars
+     *@author Artem Fedoskin
+     *@version 1.0
+     */
 
-class PolyNode : public SkyOpacityNode  {
+class StarComponent;
+class SkyMesh;
+class StarBlockFactory;
+
+class StarItem : public SkyItem {
 public:
-    PolyNode();
+    /**
+     * @short Constructor.
+     * @param rootNode parent RootNode that instantiated this object
+     */
+    StarItem(StarComponent *starComp, RootNode *rootNode);
 
-    void setColor(QColor color);
-    void setLineWidth(int width);
+    /**
+     * @short updates all trixels that contain stars
+     */
+    float m_magLim;
+    virtual void update();
 
-    void updateGeometry(QPolygonF polygon, bool filled);
 private:
-    QSGGeometryNode *m_geometryNode;
-    QSGGeometry *m_geometry;
-    QSGFlatColorMaterial *m_material;
+    StarComponent *m_starComp;
+    SkyMesh *m_skyMesh;
+    StarBlockFactory *m_StarBlockFactory;
+    SkyOpacityNode *m_starLabels;
+    //QMap<QSGOpacityNode *,LineListIndex *> m_lineIndexes;
 };
-
 #endif
 

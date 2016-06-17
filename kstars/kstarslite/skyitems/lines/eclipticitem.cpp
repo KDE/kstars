@@ -20,7 +20,7 @@
 #include "../labelsitem.h"
 #include "ecliptic.h"
 #include "../skynodes/labelnode.h"
-#include "../skynodes/trixelnode.h"
+#include "../skynodes/nodes/linenode.h"
 
 EclipticItem::EclipticItem(Ecliptic *eclipticComp, RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::ECLIPTIC_LABEL, rootNode), m_eclipticComp(eclipticComp)
@@ -29,9 +29,18 @@ EclipticItem::EclipticItem(Ecliptic *eclipticComp, RootNode *rootNode)
 
     QHash< Trixel, LineListList *>::const_iterator i = trixels->begin();
     while( i != trixels->end()) {
+        LineListList *linesList = *i;
 
-        TrixelNode *trixel = new TrixelNode(i.key(), i.value(), "EclColor", 1, Qt::SolidLine );
-        appendChildNode(trixel);
+        if(linesList->size()) {
+            TrixelNode *trixel = new TrixelNode;
+            appendChildNode(trixel);
+
+            QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed("EclColor");
+            for(int c = 0; c < linesList->size(); ++c) {
+                LineNode * ln = new LineNode(linesList->at(c), schemeColor, 1, Qt::SolidLine);
+                trixel->appendChildNode(ln);
+            }
+        }
         ++i;
     }
 
@@ -59,10 +68,28 @@ void EclipticItem::update() {
     if(m_eclipticComp->selected()) {
         show();
         QSGNode *n = firstChild();
+
+        DrawID   drawID   = SkyMesh::Instance()->drawID();
+        //UpdateID updateID = KStarsData::Instance()->updateID();
+
         while(n != 0) {
             TrixelNode * trixel = static_cast<TrixelNode *>(n);
+            trixel->show();
             n = n->nextSibling();
-            trixel->update();
+
+            QSGNode *l = trixel->firstChild();
+            while(l != 0) {
+                LineNode * lines = static_cast<LineNode *>(l);
+                l = l->nextSibling();
+
+                LineList * lineList = lines->lineList();
+                if ( lineList->drawID == drawID ) {
+                    lines->hide();
+                    continue;
+                }
+                lineList->drawID = drawID;
+                lines->updateGeometry();
+            }
         }
 
         const Projector *proj  = SkyMapLite::Instance()->projector();

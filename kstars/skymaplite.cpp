@@ -125,6 +125,7 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
         n->update();
     }
 
+    ///DELETE
     //Reset m_fontSizeChanged
     setFontSizeChanged(false);
     return n;

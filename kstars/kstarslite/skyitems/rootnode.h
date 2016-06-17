@@ -21,6 +21,8 @@
 class QSGTexture;
 class SkyMapLite;
 
+class StarItem;
+
 class PlanetsItem;
 class AsteroidsItem;
 class CometsItem;
@@ -70,6 +72,8 @@ public:
     inline CometsItem *cometsItem() { return m_cometsItem; }
 
     inline LabelsItem *labelsItem() { return m_labelsItem; }
+
+    inline StarItem *starItem() { return m_starItem; }
 private:
     /**
      * @short initializes textureCache with cached images of stars from SkyMapLite
@@ -81,6 +85,8 @@ private:
 
     QPolygonF m_clipPoly;
     QSGGeometry *m_clipGeometry;
+
+    StarItem *m_starItem;
 
     PlanetsItem *m_planetsItem;
     AsteroidsItem *m_asteroidsItem;
