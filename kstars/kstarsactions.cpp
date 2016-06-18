@@ -237,18 +237,7 @@ void KStars::slotINDIToolBar()
 #ifdef HAVE_INDI
     KToggleAction *a = (KToggleAction*)sender();
 
-    if ( a == actionCollection()->action( "show_device_manager" ) )
-    {
-        if (a->isChecked())
-        {
-            DriverManager::Instance()->raise();
-            DriverManager::Instance()->activateWindow();
-            DriverManager::Instance()->showNormal();
-        }
-        else
-           DriverManager::Instance()->hide();
-    }    
-    else if ( a == actionCollection()->action( "show_control_panel" ) )
+    if ( a == actionCollection()->action( "show_control_panel" ) )
     {
        if (a->isChecked())
        {

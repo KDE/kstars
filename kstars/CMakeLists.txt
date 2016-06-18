@@ -785,21 +785,11 @@ if(NOT BUILD_KSTARS_LITE)
     install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
     ########### install files ###############
-
+    ecm_install_icons(${KDE_INSTALL_ICONDIR})
+    install( PROGRAMS org.kde.kstars.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
     install( FILES kstars.kcfg  DESTINATION  ${KDE_INSTALL_KCFGDIR} )
     install( FILES kstars.knsrc  DESTINATION  ${KDE_INSTALL_CONFDIR} )
-    ecm_install_icons(${KDE_INSTALL_ICONDIR})
-
-    install( PROGRAMS org.kde.kstars.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
-    if (INDI_FOUND)
-    install( FILES kstarsui-indi.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars RENAME kstarsui.rc)
-    else (INDI_FOUND)
     install( FILES kstarsui.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
-    endif(INDI_FOUND)
-
     install( FILES fitsviewer.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
-    if (WIN32)
-        install( FILES kstarsui-win.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
-    endif (WIN32)
-    install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+    install( FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 endif(NOT BUILD_KSTARS_LITE)
