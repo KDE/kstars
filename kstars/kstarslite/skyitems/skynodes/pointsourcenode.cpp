@@ -31,7 +31,8 @@ PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
         m_label(0), m_labelType(labelType), m_rootNode(parentNode), m_trixel(trixel)
 {
     m_point = new PointNode(parentNode,spType,starWidth(size));
-    appendChildNode(m_point);
+    //appendChildNode(m_opacity);
+    m_opacity->appendChildNode(m_point);
 }
 
 float PointSourceNode::starWidth(float mag) const
@@ -75,9 +76,10 @@ void PointSourceNode::update() {
     if( visible && projector()->onScreen(pos) ) { // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
         m_point->setSize(starWidth(m_skyObject->mag()));
         changePos(pos);
-        m_point->show();
+        show();
+        //m_point->show();
 
-        if(m_drawLabel) {
+        if(m_drawLabel && m_labelType != LabelsItem::label_t::NO_LABEL) {
             if(!m_label) { //This way labels will be created only when they are needed
                 if(m_trixel != -1) {
                     m_label = m_rootNode->labelsItem()->addLabel(m_skyObject, m_labelType, m_trixel);
@@ -89,15 +91,13 @@ void PointSourceNode::update() {
         } else {
             if(m_label) m_label->hide();
         }
-
-
     } else {
         hide();
     }
-
 }
 
 void PointSourceNode::hide() {
     if(m_label) m_label->hide();
-    m_point->hide();
+    //m_point->hide();
+    SkyNode::hide();
 }

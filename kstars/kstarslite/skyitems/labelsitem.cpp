@@ -147,6 +147,9 @@ void LabelsItem::update() {
     updateChildLabels(label_t::STAR_LABEL);
 }
 
+void LabelsItem::hideLabels(label_t labelType) {
+    if (labelType != NO_LABEL) m_labelsLists[labelType]->hide();
+}
 
 void LabelsItem::setRootNode(RootNode *rootNode) {
     //Remove from previous parent if had any
@@ -158,7 +161,7 @@ void LabelsItem::setRootNode(RootNode *rootNode) {
 }
 
 void LabelsItem::deleteLabels(label_t labelType) {
-    if(labelType != label_t::NO_LABEL) {
+    if(labelType != NO_LABEL) {
         LabelTypeNode *node = m_labelsLists[labelType];
         while(QSGNode *n = node->firstChild()) { node->removeChildNode(n); delete n; }
     }

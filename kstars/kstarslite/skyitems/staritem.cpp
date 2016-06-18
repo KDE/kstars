@@ -20,6 +20,7 @@
 #include "skynodes/pointsourcenode.h"
 #include "labelsitem.h"
 #include "staritem.h"
+#include "deepstaritem.h"
 
 #include "starcomponent.h"
 #include "starblockfactory.h"
@@ -28,9 +29,11 @@
 
 StarItem::StarItem(StarComponent *starComp, RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::STAR_LABEL, rootNode), m_starComp(starComp)
-    ,m_starLabels(rootNode->labelsItem()->getLabelNode(labelType()))
+    ,m_starLabels(rootNode->labelsItem()->getLabelNode(labelType())), m_stars(new SkyOpacityNode),
+      m_deepStars(new SkyOpacityNode)
 {
     StarIndex *trixels = m_starComp->starIndex();
+    appendChildNode(m_stars);
 
     //Test
     Options::setShowStarMagnitudes(false);
@@ -39,7 +42,7 @@ StarItem::StarItem(StarComponent *starComp, RootNode *rootNode)
     for(int i = 0; i < trixels->size(); ++i) {
         StarList *skyList = trixels->at(i);
         TrixelNode *trixel = new TrixelNode;
-        appendChildNode(trixel);
+        m_stars->appendChildNode(trixel);
 
         for(int c = 0; c < skyList->size(); ++c) {
             StarObject *star = skyList->at(c);
@@ -51,21 +54,28 @@ StarItem::StarItem(StarComponent *starComp, RootNode *rootNode)
         }
     }
 
+    appendChildNode(m_deepStars);
+
+    QVector<DeepStarComponent*> deepStars = m_starComp->m_DeepStarComponents;
+    int deepSize = deepStars.size();
+    for(int i = 0; i < deepSize; ++i) {
+        DeepStarItem *deepStar = new DeepStarItem(deepStars[i], rootNode);
+        rootNode->removeChildNode(deepStar);
+        m_deepStars->appendChildNode(deepStar);
+    }
+
     m_skyMesh = SkyMesh::Instance();
     m_StarBlockFactory = StarBlockFactory::Instance();
 }
 
 void StarItem::update() {
-
     if( !m_starComp->selected() ) {
         hide();
         return;
     }
 
     SkyMapLite *map             = SkyMapLite::Instance();
-    const Projector *proj   = map->projector();
     KStarsData* data        = KStarsData::Instance();
-    UpdateID updateID       = data->updateID();
 
     bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
     bool hideLabels = checkSlewing || !( Options::showStarMagnitudes() || Options::showStarNames() );
@@ -81,7 +91,7 @@ void StarItem::update() {
 
     double maglim;
     double m_zoomMagLimit; //Check it later. Needed for labels
-    m_zoomMagLimit = maglim = m_starComp->zoomMagnitudeLimit();
+    m_zoomMagLimit = maglim = StarComponent::zoomMagnitudeLimit();
 
     double labelMagLim = Options::starLabelDensity() / 5.0;
     labelMagLim += ( 12.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
@@ -106,17 +116,21 @@ void StarItem::update() {
 
     //Loop for drawing star images
 
+    float radius = map->projector()->fov();
+    if ( radius > 90.0 ) radius = 90.0;
+
+    m_skyMesh->inDraw( true );
+
+    SkyPoint* focus = map->focus();
+    m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
+
     MeshIterator region(m_skyMesh, DRAW_BUF);
 
     // If we are hiding faint stars, then maglim is really the brighter of hideStarsMag and maglim
     if( hideFaintStars && maglim > hideStarsMag )
         maglim = hideStarsMag;
 
-    m_magLim = maglim;
-
     m_StarBlockFactory->drawID = m_skyMesh->drawID();
-
-    int nTrixels = 0;
 
     int regionID = -1;
     if(region.hasNext()) {
@@ -124,8 +138,8 @@ void StarItem::update() {
     }
 
     int trixelID = 0;
-    //++nTrixels;
-    QSGNode *firstTrixel = firstChild();
+
+    QSGNode *firstTrixel = m_stars->firstChild();
     TrixelNode *trixel = static_cast<TrixelNode *>(firstTrixel);
 
     QSGNode *firstLabel = m_starLabels->firstChild();
@@ -153,6 +167,8 @@ void StarItem::update() {
 
         QSGNode *n = trixel->firstChild();
 
+        bool hide = false;
+
         while(n != 0) {
             PointSourceNode *point = static_cast<PointSourceNode *>(n);
             n = n->nextSibling();
@@ -160,12 +176,12 @@ void StarItem::update() {
             StarObject *curStar = static_cast<StarObject *>(point->skyObject());
             float mag = curStar->mag();
 
-            bool hide = false;
-
-            // break loop if maglim is reached
-            if ( mag > m_magLim ) hide = true;
             bool drawLabel = false;
-            if(mag < labelMagLim) drawLabel = true;
+            // break loop if maglim is reached
+            if(!hide) {
+                if ( mag > maglim ) hide = true;
+                if(!(hideLabels || mag > labelMagLim)) drawLabel = true;
+            }
 
             if(!hide) {
                 if ( curStar->updateID != KStarsData::Instance()->updateID() )
@@ -191,8 +207,13 @@ void StarItem::update() {
     }*/
 
     // Now draw each of our DeepStarComponents
-    /*for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
-        m_DeepStarComponents.at( i )->draw( skyp );
-    }*/
+    QSGNode *deep = m_deepStars->firstChild();
+    while( deep != 0 ) {
+        DeepStarItem *deepStars = static_cast<DeepStarItem *>(deep);
+        deep = deep->nextSibling();
+        deepStars->update();
+    }
+
+    m_skyMesh->inDraw( false );
 }
 

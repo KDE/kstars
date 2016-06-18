@@ -557,6 +557,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/labelsitem.cpp
         kstarslite/skyitems/constellationnamesitem.cpp
         kstarslite/skyitems/staritem.cpp
+        kstarslite/skyitems/deepstaritem.cpp
         #Lines
         kstarslite/skyitems/lines/linesitem.cpp
         kstarslite/skyitems/lines/equatoritem.cpp

@@ -31,15 +31,17 @@
 #include "skymesh.h"
 
 #include "kstarslite/skyitems/rootnode.h"
+#include "kstarslite/skyitems/skynodes/skynode.h"
 
 #include "ksplanetbase.h"
 #include "ksutils.h"
 
 #include <QSGSimpleRectNode>
-#include <QSGNode>
+//#include <QSGNode>
 #include <QBitmap>
 #include <QSGTexture>
 #include <QQuickWindow>
+#include <QLinkedList>
 
 namespace {
 
@@ -118,6 +120,9 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
     Q_UNUSED(updatePaintNodeData);
     RootNode *n = static_cast<RootNode*>(oldNode);
 
+    qDeleteAll(m_deleteNodes);
+    m_deleteNodes.clear();
+
     if(m_loadingFinished) {
         if(!n) {
             n = new RootNode();
@@ -125,10 +130,11 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
         n->update();
     }
 
-    ///DELETE
-    //Reset m_fontSizeChanged
-    setFontSizeChanged(false);
     return n;
+}
+
+void SkyMapLite::deleteSkyNode(SkyNode *skyNode) {
+    m_deleteNodes.append(skyNode);
 }
 
 QSGTexture* SkyMapLite::getCachedTexture(int size, char spType) {
@@ -523,7 +529,7 @@ QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont)
     int height = fm.height();
 
     QImage label(width, height, QImage::Format_ARGB32_Premultiplied);
-    label.fill(0);
+    label.fill(Qt::transparent);
 
     m_painter.begin(&label);
 
@@ -535,7 +541,7 @@ QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont)
     m_painter.end();
 
     QSGTexture *texture = window()->createTextureFromImage(label,
-                                                           QQuickWindow::TextureCanUseAtlas & QQuickWindow::TextureHasAlphaChannel);
+                                                           QQuickWindow::TextureCanUseAtlas);
 
     /*texture->setFiltering(QSGTexture::Linear);
     texture->setHorizontalWrapMode(QSGTexture::ClampToEdge);
@@ -629,15 +635,13 @@ void SkyMapLite::initStarImages()
         //[nSPclasses][nStarSizes];
         // Cache array slice
 
-        QVector<QPixmap *> pmap = imageCache[ harvardToIndex(color) ];
-        pmap.append(new QPixmap());
+        QVector<QPixmap *> *pmap = &imageCache[ harvardToIndex(color) ];
+        pmap->append(new QPixmap(BigImage));
         for( int size = 1; size < nStarSizes; size++ ) {
-            //if( !pmap[size] ) {
-            pmap.append(new QPixmap());
-            *pmap[size] = BigImage.scaled( size, size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-            //}
+            pmap->append(new QPixmap(BigImage.scaled( size, size, Qt::KeepAspectRatio, Qt::SmoothTransformation )));
         }
-        imageCache[ harvardToIndex(color) ] = pmap;
+
     }
+    //}
     starColorMode = Options::starColorMode();
 }
