@@ -36,7 +36,6 @@
 #include <wcshdr.h>
 #include <wcsfix.h>
 #include <wcs.h>
-#include <getwcstab.h>
 #endif
 
 #include "ksutils.h"
