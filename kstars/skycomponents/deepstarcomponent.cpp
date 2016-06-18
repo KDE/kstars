@@ -131,10 +131,17 @@ bool DeepStarComponent::loadStaticStars() {
             /* Initialize star with data just read. */
             StarObject* star;
             if( starReader.guessRecordSize() == 32 )
+        #ifdef KSTARS_LITE
+                star = &(SB->addStar( stardata )->star);
+        #else
                 star = SB->addStar( stardata );
+        #endif
             else
+        #ifdef KSTARS_LITE
+                star = &(SB->addStar( stardata )->star);
+        #else
                 star = SB->addStar( deepstardata );
-            
+        #endif
             if( star ) {
                 KStarsData* data = KStarsData::Instance();
                 star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -306,8 +313,9 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
 
     }
     m_skyMesh->inDraw( false );
-#endif
+#else
     Q_UNUSED(skyp)
+#endif
 }
 
 bool DeepStarComponent::openDataFile() {
@@ -388,7 +396,11 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
         for( int i = 0; i < m_starBlockList.at( currentRegion )->getBlockCount(); ++i ) {
             StarBlock *block = m_starBlockList.at( currentRegion )->block( i );
             for( int j = 0; j < block->getStarCount(); ++j ) {
+#ifdef KSTARS_LITE
+                StarObject* star =  &(block->star( j )->star);
+#else
                 StarObject* star =  block->star( j );
+#endif
                 if( !star ) continue;
                 if ( star->mag() > m_zoomMagLimit ) continue;
                 
@@ -443,7 +455,11 @@ bool DeepStarComponent::starsInAperture( QList<StarObject *> &list, const SkyPoi
         for( int i = 0; i < sbl->getBlockCount(); ++i ) {
             StarBlock *block = sbl->block( i );
             for( int j = 0; j < block->getStarCount(); ++j ) {
+#ifdef KSTARS_LITE
+                StarObject *star = &(block->star( j )->star);
+#else
                 StarObject *star = block->star( j );
+#endif
                 if( star->mag() > maglim )
                     break; // Stars are organized by magnitude, so this should work
                 if( star->angularDistanceTo( &center ).Degrees() <= radius )

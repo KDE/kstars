@@ -146,7 +146,7 @@ public:
      * @short hides all labels of type labelType
      */
 
-    inline void hideLabels(label_t labelType) { m_labelsLists[labelType]->hide(); }
+    void hideLabels(label_t labelType);
 
     /**
      * @short sets m_rootNode and appends to it this node

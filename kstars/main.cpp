@@ -239,7 +239,7 @@ int main(int argc, char *argv[])
     Options::setTimeZone(1);
     Options::setRunClock(false);
 
-    Options::setShowCBounds(false);
+    Options::setShowCBounds(true);
     Options::setShowCLines(true);
     Options::setShowSolarSystem(true);
     Options::setShowEcliptic(true);

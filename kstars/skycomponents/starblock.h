@@ -25,8 +25,21 @@
 
 class StarObject;
 class StarBlockList;
+class PointSourceNode;
 struct starData;
 struct deepStarData;
+
+#ifdef KSTARS_LITE
+#include "starobject.h"
+
+struct StarNode {
+    StarNode();
+    ~StarNode();
+
+    StarObject star;
+    PointSourceNode *starNode;
+};
+#endif
 
 /**
  *@class StarBlock
@@ -59,8 +72,13 @@ public:
      *@param  data    data to initialize star with.
      *@return pointer to star initialized with data. NULL if block is full.
      */
+#ifdef KSTARS_LITE
+    StarNode* addStar(const starData& data);
+    StarNode* addStar(const deepStarData& data);
+#else
     StarObject* addStar(const starData& data);
     StarObject* addStar(const deepStarData& data);
+#endif
 
     /**
      *@short Returns true if the StarBlock is full
@@ -86,8 +104,11 @@ public:
      *@param  Index of StarBlock to return
      *@return A pointer to the i-th StarObject
      */
+#ifdef KSTARS_LITE
+    inline StarNode *star( int i ) { return &stars[i]; }
+#else
     inline StarObject *star( int i ) { return &stars[i]; }
-
+#endif
     // These methods are there because we might want to make faintMag and brightMag private at some point
     /**
      *@short  Return the magnitude of the brightest star in this StarBlock
@@ -129,7 +150,11 @@ public:
     /** Number of initialized stars in StarBlock. */
     int nStars;
     /** Array of stars. */
+#ifdef KSTARS_LITE
+    QVector<StarNode> stars;
+#else
     QVector<StarObject> stars;
+#endif
 };
 
 #endif

@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          staritem.h  -  K Desktop Planetarium
+                          deepstaritem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 15/06/2016
+    begin                : 17/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,31 +13,32 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef STARITEM_H_
-#define STARITEM_H_
+#ifndef DEEPSTARITEM_H_
+#define DEEPSTARITEM_H_
 
 #include "skyitem.h"
 #include "skyopacitynode.h"
 #include "typedeflite.h"
 
-    /** @class StarItem
+    /** @class DeepStarItem
      *
-     *@short Class that handles Stars
+     *@short Class that handles unnamed Stars
      *@author Artem Fedoskin
      *@version 1.0
      */
 
-class StarComponent;
+class DeepStarComponent;
 class SkyMesh;
 class StarBlockFactory;
+class StarBlockList;
 
-class StarItem : public SkyItem {
+class DeepStarItem : public SkyItem {
 public:
     /**
      * @short Constructor.
      * @param rootNode parent RootNode that instantiated this object
      */
-    StarItem(StarComponent *starComp, RootNode *rootNode);
+    DeepStarItem(DeepStarComponent *deepStarComp, RootNode *rootNode);
 
     /**
      * @short updates all trixels that contain stars
@@ -45,13 +46,12 @@ public:
     virtual void update();
 
 private:
-    StarComponent *m_starComp;
     SkyMesh *m_skyMesh;
     StarBlockFactory *m_StarBlockFactory;
 
-    SkyOpacityNode *m_stars;
-    SkyOpacityNode *m_deepStars;
-    SkyOpacityNode *m_starLabels;
+    DeepStarComponent *m_deepStarComp;
+    QVector< StarBlockList *> *m_starBlockList;
+    bool m_staticStars;
 };
 #endif
 

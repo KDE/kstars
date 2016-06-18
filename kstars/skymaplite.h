@@ -26,6 +26,7 @@
 #include <config-kstars.h>
 #include <QQuickItem>
 #include <QPolygonF>
+#include <QLinkedList>
 #include "kstarsdata.h"
 
 class dms;
@@ -39,6 +40,7 @@ class CometsItem;
 class PlanetMoonsComponent;
 class HorizonItem;
 class LinesItem;
+class SkyNode;
 
 class QSGTexture;
 
@@ -84,6 +86,12 @@ public:
 
     /** Destructor (empty) */
     ~SkyMapLite();
+
+    /**
+     * @short skyNode will be deleted on the next call to updatePaintNode (currently used only in
+     * StarNode(struct in StarBlock))
+     */
+    void deleteSkyNode(SkyNode *skyNode);
 
     /** @short Retrieve the Focus point; the position on the sky at the
         *center of the skymap.
@@ -585,6 +593,9 @@ private:
     static SkyMapLite *pinstance;
     QQuickItem *m_SkyMapLiteWrapper;
 
+    //Holds SkyNodes that need to be deleted
+    QLinkedList<SkyNode *> m_deleteNodes;
+
     // Used to notify zoom-dependent labels about font size change
     bool m_fontSizeChanged;
     // Used for drawing labels
@@ -606,7 +617,6 @@ private:
     QVector<QVector<QPixmap*>> imageCache;
     //Textures created from cached star images
     QVector<QVector<QSGTexture*>> textureCache;
-
 };
 
 #endif

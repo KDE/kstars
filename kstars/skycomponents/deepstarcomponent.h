@@ -48,6 +48,8 @@ class StarBlockList;
 
 class DeepStarComponent: public ListComponent
 {
+    friend class DeepStarItem; //Needs access to staticStars and buch of other facilities
+
 public:
 
     DeepStarComponent( SkyComposite *parent, QString fileName, float trigMag, bool staticstars=false );

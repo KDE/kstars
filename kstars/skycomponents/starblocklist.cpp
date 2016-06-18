@@ -22,6 +22,11 @@
 #include "skyobjects/deepstardata.h"
 #include "starcomponent.h"
 
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#include "kstarslite/skyitems/skynodes/pointsourcenode.h"
+#endif
+
 StarBlockList::StarBlockList( Trixel tr, DeepStarComponent *parent ) {
     trixel = tr;
     nStars = 0;
@@ -44,6 +49,13 @@ int StarBlockList::releaseBlock( StarBlock *block ) {
         qDebug() << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel << endl;
 
     else if( blocks.size() > 0 ) {
+        for(int i = 0; i < block->getStarCount(); ++i) {
+            PointSourceNode * node = block->star(i)->starNode;
+            if(node) {
+                SkyMapLite::Instance()->deleteSkyNode(node);
+                block->star(i)->starNode = 0;
+            }
+        }
 
         blocks.removeLast();
         nBlocks--;
