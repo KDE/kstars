@@ -359,9 +359,7 @@ private slots:
     void setDirty();
 
     void checkFrameType(int index);
-    void resetFrame();
-    void updateFocusStatus(bool status);
-    void updateAutofocusStatus(bool status, double HFR);
+    void resetFrame();    
     void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);
     void checkSeqFile(const QString &path);
@@ -371,18 +369,26 @@ private slots:
 
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
 
+    // Sequence Queue
     void loadSequenceQueue();
     void saveSequenceQueue();
     void saveSequenceQueueAs();
 
+    // Jobs
     void resetJobs();
     void editJob(QModelIndex i);
     void resetJobEdit();
     void executeJob();
 
+    // Meridian Flip
     void checkMeridianFlipTimeout();
     void checkAlignmentSlewComplete();
     void enableAlignmentFlag();
+
+    // Auto Focus
+    void updateFocusStatus(bool status);
+    void updateAutofocusStatus(bool status, double HFR);
+    void startPostFilterAutoFocus();
 
     // Flat field
     void openCalibrationDialog();

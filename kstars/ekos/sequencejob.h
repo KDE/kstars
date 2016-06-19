@@ -135,8 +135,12 @@ class SequenceJob : public QObject
     QString getRootFITSDir() const;
     void setRootFITSDir(const QString &value);
 
+    bool getFilterPostFocusReady() const;
+    void setFilterPostFocusReady(bool value);
+
 signals:
     void prepareComplete();
+    void checkFocus();
 
 private:
 
@@ -159,7 +163,7 @@ private:
     int count;
     int delay;    
     bool preview;
-    bool filterReady, temperatureReady;
+    bool filterReady, temperatureReady, filterPostFocusReady;
     bool enforceTemperature;
     int isoIndex;
     int captureRetires;

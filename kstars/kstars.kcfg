@@ -1390,6 +1390,10 @@
        <label>When starting a new capture job, check if files were previously captured and resume capture afterwards.</label>
        <default>true</default>
      </entry>
+     <entry name="AutoFocusOnFilterChange" type="Bool">
+       <label>Perform an autofocus operation when changing filter wheels during an exposure sequence.</label>
+       <default>false</default>
+     </entry>
    </group>
    <group name="Focus">
    <entry name="DefaultFocusCCD" type="String">
