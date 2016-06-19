@@ -724,8 +724,9 @@ dc1394_bayer_VNG_float(const float * bayer, float * dst, int sx, int sy, int off
     /* the following has the same type as the image */
     float (*brow[5])[3], *pix;          /* [FD] */
     int code[8][2][320], *ip, gval[8], gmin, gmax, sum[4];
-    int row, col, x, y, x1, x2, y1, y2, t, weight, grads, color, diag;
-    int g, diff, thold, num, c;
+    int row, col, x, y, x1, x2, y1, y2, t, weight, grads, diag;
+    int g, diff, thold, num;
+    uint32_t c, color;
     uint32_t filters;                     /* [FD] */
 
     /* first, use bilinear bayer decoding */
