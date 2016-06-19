@@ -81,8 +81,7 @@ FILE *BinFileHelper::openFile(const QString &fileName) {
 }
 
 enum BinFileHelper::Errors BinFileHelper::__readHeader() {
-    int i;
-    qint16 endian_id;
+    qint16 endian_id, i;
     char ASCII_text[125];
     dataElement *de;
 
@@ -131,7 +130,8 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     // Read the index table
     fread(&indexSize, 4, 1, fileHandle);
     if( byteswap ) indexSize = bswap_32( indexSize );
-    
+
+    quint32 j;
     quint32 ID;
     quint32 offset;
     quint32 prev_offset;
@@ -151,9 +151,9 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
         errorMessage.sprintf( "Zero index size!" );
         return ERR_INDEX_TRUNC;
     }
-    for(i = 0; i < indexSize; ++i) {
+    for(j = 0; j < indexSize; ++j) {
         if(!fread(&ID, 4, 1, fileHandle)) {
-            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
+            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
             return ERR_INDEX_TRUNC;
         }
         if( byteswap ) ID = bswap_32( ID );
@@ -161,23 +161,23 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
             errorMessage.sprintf("ID %u is greater than the expected number of expected entries (%u)", ID, indexSize);
             return ERR_INDEX_BADID;
         }
-        if(ID != i) {
-            errorMessage.sprintf("Found ID %u, at the location where ID %u was expected", ID, i);
+        if(ID != j) {
+            errorMessage.sprintf("Found ID %u, at the location where ID %u was expected", ID, j);
             return ERR_INDEX_IDMISMATCH;
         }
         if(!fread(&offset, 4, 1, fileHandle)) {
-            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
+            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
             return ERR_BADSEEK;
         }
         if( byteswap ) offset = bswap_32( offset );
         if(!fread(&nrecs, 4, 1, fileHandle)) {
-            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
+            errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
             return ERR_BADSEEK;
         }
         if( byteswap ) nrecs = bswap_32( nrecs );
         if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/recordSize) { 
             errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u", 
-                                    (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, i - 1);
+                                    (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, j - 1);
             return ERR_INDEX_BADOFFSET;
         }
 
