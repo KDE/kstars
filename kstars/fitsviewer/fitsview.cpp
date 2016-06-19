@@ -236,7 +236,12 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
 
     KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
 
-#endif
+#else
+
+    Q_UNUSED(raJ2000);
+    Q_UNUSED(decJ2000);
+
+#endif    
 }
 
 FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent) , zoomFactor(1.2)
