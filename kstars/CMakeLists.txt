@@ -71,6 +71,7 @@ if (INDI_FOUND)
     indi/opsindi.cpp
     indi/telescopewizardprocess.cpp
     indi/streamwg.cpp
+    indi/indiwebmanager.cpp
     )
   set(indiui_SRCS
     indi/drivermanager.ui

@@ -35,6 +35,7 @@
 #include "indi/drivermanager.h"
 #include "indi/indilistener.h"
 #include "indi/guimanager.h"
+#include "indi/indiwebmanager.h"
 
 #include "ekosadaptor.h"
 
@@ -54,7 +55,8 @@ EkosManager::EkosManager()
     nDevices=0;
     nConnectedDevices=0;
     useGuideHead    =false;
-    useST4          =false;    
+    useST4          =false;
+    remoteManagerStart=false;
 
     indiConnectionStatus = STATUS_IDLE;
     ekosStartingStatus   = STATUS_IDLE;
@@ -959,6 +961,30 @@ bool EkosManager::start()
     }
     else
     {
+        // If we need to use INDI Web Manager
+        if (currentProfile->INDIWebManagerPort != -1)
+        {
+            remoteManagerStart = false;
+            if (INDI::WebManager::isOnline(currentProfile))
+            {
+                if (INDI::WebManager::areDriversRunning(currentProfile) == false)
+                {
+                    INDI::WebManager::stopProfile(currentProfile);
+
+                    if (INDI::WebManager::startProfile(currentProfile) == false)
+                    {
+                        appendLogText(i18n("Failed to start profile on remote INDI Web Manager."));
+                        return false;
+                    }
+
+                    appendLogText(i18n("Starting profile on remote INDI Web Manager..."));
+                    remoteManagerStart = true;
+                }
+            }
+            else
+                appendLogText(i18n("Warning: INDI Web Manager is not online."));
+        }
+
         appendLogText(i18n("Connecting to remote INDI server at %1 on port %2 ...", currentProfile->host, currentProfile->port));
         qApp->processEvents();
 
@@ -1103,6 +1129,13 @@ void EkosManager::cleanDevices()
         else
         {
             DriverManager::Instance()->disconnectRemoteHost(managedDrivers.first());
+
+            ProfileInfo *pi = getCurrentProfile();
+            if (remoteManagerStart && pi->INDIWebManagerPort != -1)
+            {
+                INDI::WebManager::stopProfile(pi);
+                remoteManagerStart = false;
+            }
         }
     }
 

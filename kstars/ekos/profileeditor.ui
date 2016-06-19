@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>469</width>
-    <height>248</height>
+    <width>387</width>
+    <height>275</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -58,15 +58,15 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
            <string>Mode:</string>
           </property>
          </widget>
         </item>
-        <item>
+        <item row="0" column="1">
          <widget class="QRadioButton" name="localMode">
           <property name="text">
            <string>&amp;Local</string>
@@ -76,14 +76,14 @@
           </property>
          </widget>
         </item>
-        <item>
+        <item row="0" column="2">
          <widget class="QRadioButton" name="remoteMode">
           <property name="text">
            <string>Re&amp;mote</string>
           </property>
          </widget>
         </item>
-        <item>
+        <item row="0" column="3">
          <widget class="QLabel" name="remoteHostLabel">
           <property name="enabled">
            <bool>false</bool>
@@ -93,7 +93,7 @@
           </property>
          </widget>
         </item>
-        <item>
+        <item row="0" column="4">
          <widget class="QLineEdit" name="remoteHost">
           <property name="enabled">
            <bool>false</bool>
@@ -103,7 +103,7 @@
           </property>
          </widget>
         </item>
-        <item>
+        <item row="0" column="5">
          <widget class="QLabel" name="remotePortLabel">
           <property name="enabled">
            <bool>false</bool>
@@ -113,13 +113,52 @@
           </property>
          </widget>
         </item>
-        <item>
+        <item row="0" column="6">
          <widget class="QLineEdit" name="remotePort">
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="toolTip">
+           <string>Remote INDI Server Port</string>
+          </property>
           <property name="text">
            <string>7624</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="3">
+         <widget class="QCheckBox" name="INDIWebManagerCheck">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Store profile on remote INDI Web Manager. Use INDI Web Manager on the remote device to start/stop INDI server.</string>
+          </property>
+          <property name="text">
+           <string>INDI Web Manager</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="5">
+         <widget class="QLabel" name="remotePortLabel_2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Port:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="6">
+         <widget class="QLineEdit" name="INDIWebManagerPort">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>INDI Web Manager port</string>
+          </property>
+          <property name="text">
+           <string>8624</string>
           </property>
          </widget>
         </item>

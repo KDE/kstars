@@ -30,6 +30,7 @@ public:
 
     int id;
     int port;
+    int  INDIWebManagerPort;
 
     // driver[role] = label
     QMap<QString,QString> drivers;
