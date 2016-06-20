@@ -160,9 +160,8 @@ public:
     /**
      * @brief Add CCD to the list of available CCD.
      * @param newCCD pointer to CCD device.
-     * @param isPrimaryCCD if true, if will be selected by default in the dropdown menu.
      */
-    void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
+    void addCCD(ISD::GDInterface *newCCD);
 
     /**
      * @brief Set the current telescope
@@ -298,6 +297,8 @@ private slots:
     void processFilterNumber(INumberVectorProperty *nvp);
 
     void setSolverOverlay(bool enable);
+
+    void setDefaultCCD(QString ccd);
 
 signals:
         void newLog();

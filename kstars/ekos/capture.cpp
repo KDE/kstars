@@ -81,6 +81,7 @@ Capture::Capture()
 
     deviationDetected = false;
     spikeDetected     = false;
+    isBusy            = false;
 
     ignoreJobProgress=true;
 
@@ -116,7 +117,9 @@ Capture::Capture()
 
     connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
 
-    connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
+    connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
+    connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
+
 
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
 
@@ -193,26 +196,27 @@ Capture::~Capture()
     qDeleteAll(jobs);
 }
 
-void Capture::addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD)
+void Capture::setDefaultCCD(QString ccd)
+{
+    Options::setDefaultCaptureCCD(ccd);
+}
+
+void Capture::addCCD(ISD::GDInterface *newCCD)
 {
     ISD::CCD *ccd = static_cast<ISD::CCD *> (newCCD);
 
-    CCDCaptureCombo->addItem(ccd->getDeviceName());
+    if (CCDs.contains(ccd))
+            return;
 
     CCDs.append(ccd);
 
-    if (isPrimaryCCD)
-    {
-        if (Filters.count() > 0)
-            syncFilterInfo();
-        checkCCD(CCDs.count()-1);
-        CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
-    }
-    else
-    {
-        checkCCD(0);
-        CCDCaptureCombo->setCurrentIndex(0);
-    }
+    CCDCaptureCombo->addItem(ccd->getDeviceName());   
+
+    if (Filters.count() > 0)
+        syncFilterInfo();
+    //checkCCD(CCDs.count()-1);
+    //CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
+
 }
 
 void Capture::addGuideHead(ISD::GDInterface *newCCD)
@@ -360,7 +364,7 @@ void Capture::abort()
     secondsLabel->clear();
     //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
 
     currentCCD->setFITSDir("");
 
@@ -371,11 +375,8 @@ void Capture::abort()
     currentImgCountOUT->setText(QString());
     exposeOUT->setText(QString());
 
-    startB->setEnabled(true);
-    stopB->setEnabled(false);
-    previewB->setEnabled(true);
+    setBusy(false);
 
-    pi->stopAnimation();
     seqTimer->stop();
 
 }
@@ -385,7 +386,7 @@ bool Capture::setCCD(QString device)
     for (int i=0; i < CCDCaptureCombo->count(); i++)
         if (device == CCDCaptureCombo->itemText(i))
         {
-            checkCCD(i);
+            CCDCaptureCombo->setCurrentIndex(i);
             return true;
         }
 
@@ -401,6 +402,7 @@ void Capture::checkCCD(int ccdNum)
     {
         disconnect(ccd, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)));
         disconnect(ccd, SIGNAL(newTemperatureValue(double)), this, SLOT(updateCCDTemperature(double)));
+        disconnect(ccd, SIGNAL(newRemoteFile(QString)), this, SLOT(setNewRemoteFile(QString)));
     }
 
     if (ccdNum <= CCDs.count())
@@ -490,6 +492,7 @@ void Capture::checkCCD(int ccdNum)
 
         connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(newTemperatureValue(double)), this, SLOT(updateCCDTemperature(double)), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(newRemoteFile(QString)), this, SLOT(setNewRemoteFile(QString)));
     }
 }
 
@@ -1303,7 +1306,7 @@ void Capture::addJob(bool preview)
     {
 
         currentRow = queueTable->rowCount();
-        queueTable->insertRow(currentRow);
+        queueTable->insertRow(currentRow);        
     }
     else
         currentRow = queueTable->currentRow();
@@ -1508,9 +1511,21 @@ void Capture::moveJobDown()
 
 }
 
+void Capture::setBusy(bool enable)
+{
+    isBusy = enable;
+
+    enable ? pi->startAnimation() : pi->stopAnimation();
+    previewB->setEnabled(!enable);
+    startB->setEnabled(!enable);
+    stopB->setEnabled(enable);
+}
+
 void Capture::prepareJob(SequenceJob *job)
 {
     activeJob = job;
+
+    connect(job, SIGNAL(checkFocus()), this, SLOT(startPostFilterAutoFocus()));
 
     // Reset calibration stage
     if (calibrationStage == CAL_CAPTURING)
@@ -1523,16 +1538,23 @@ void Capture::prepareJob(SequenceJob *job)
 
     if (currentFilterPosition > 0)
     {
+        // If we haven't performed a single autofocus yet, we stop
+        if (Options::autoFocusOnFilterChange() && (isAutoFocus == false && firstAutoFocus == true))
+        {
+            appendLogText(i18n("Manual focusing post filter change is not supported. Run Autofocus process before trying again."));
+            abort();
+            return;
+        }
+
         activeJob->setCurrentFilter(currentFilterPosition);
 
         if (currentFilterPosition != activeJob->getTargetFilter())
         {
             appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
             secondsLabel->setText(i18n("Set filter..."));
-            pi->startAnimation();
-            previewB->setEnabled(false);
-            startB->setEnabled(false);
-            stopB->setEnabled(true);
+
+            setBusy(true);
+
         }
     }
 
@@ -1543,10 +1565,8 @@ void Capture::prepareJob(SequenceJob *job)
         {
             appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
             secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
-            pi->startAnimation();
-            previewB->setEnabled(false);
-            startB->setEnabled(false);
-            stopB->setEnabled(true);
+
+            setBusy(true);
         }
     }
 
@@ -1603,11 +1623,7 @@ void Capture::executeJob()
     }
 
     // Update button status
-    startB->setEnabled(false);
-    stopB->setEnabled(true);
-    previewB->setEnabled(false);
-
-    pi->startAnimation();
+    setBusy(true);
 
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;        
 
@@ -1628,6 +1644,7 @@ void Capture::executeJob()
     }
 
     syncGUIToJob(activeJob);
+
 
     captureImage();
 }
@@ -1740,6 +1757,24 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
            // in case in-sequence-focusing is used.
            HFRPixels->setValue(HFR + (HFR * 0.025));
         }
+    }
+
+    if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
+    {
+        if (status)
+        {
+            HFRPixels->setValue(HFR + (HFR * 0.025));
+            appendLogText(i18n("Focus complete."));
+        }
+        else
+        {
+            appendLogText(i18n("Autofocus failed. Aborting exposure..."));
+            secondsLabel->setText("");
+            abort();
+        }
+
+        activeJob->setFilterPostFocusReady(status);
+        return;
     }
 
     if (isAutoFocus && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
@@ -2474,6 +2509,9 @@ QString Capture::getSequenceQueueStatus()
     if (jobs.count() == 0)
         return "Invalid";
 
+    if (isBusy)
+        return "Running";
+
     int idle=0, error=0, complete=0, aborted=0,running=0;
 
     foreach(SequenceJob* job, jobs)
@@ -2504,7 +2542,7 @@ QString Capture::getSequenceQueueStatus()
     if (aborted > 0)
     {
         if (isAutoGuiding && deviationDetected)
-            return "Suspended";
+            return "Suspended";        
         else
             return "Aborted";
     }
@@ -3304,6 +3342,26 @@ bool Capture::isFITSDirUnique(SequenceJob *job)
     }
 
     return true;
+}
+
+void Capture::setNewRemoteFile(QString file)
+{
+    appendLogText(i18n("Remote image saved to %1", file));
+}
+
+void Capture::startPostFilterAutoFocus()
+{
+    if (isFocusBusy)
+        return;
+
+    isFocusBusy = true;
+
+    secondsLabel->setText(i18n("Focusing..."));
+
+    appendLogText(i18n("Post filter change Autofocus..."));
+
+    // Force it to always run autofocus routine
+    emit checkFocus(0.1);   
 }
 
 }

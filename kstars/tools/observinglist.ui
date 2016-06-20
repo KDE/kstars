@@ -262,7 +262,17 @@
       </widget>
      </item>
      <item>
-      <widget class="KDateComboBox" name="DateEdit"/>
+      <widget class="QDateEdit" name="DateEdit">
+       <property name="showGroupSeparator" stdset="0">
+        <bool>false</bool>
+       </property>
+       <property name="displayFormat">
+        <string>dd/mm/yy</string>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="Update">
@@ -565,31 +575,21 @@
       </spacer>
      </item>
      <item>
-      <widget class="KSeparator" name="kseparator">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="KImageFilePreview" name="ImagePreview">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+      <widget class="QLabel" name="ImagePreview">
        <property name="minimumSize">
         <size>
          <width>200</width>
          <height>200</height>
         </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>200</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
        </property>
       </widget>
      </item>
@@ -697,26 +697,13 @@
    <class>KPlotWidget</class>
    <extends>QFrame</extends>
    <header>kplotwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KDateComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kdatecombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KImageFilePreview</class>
-   <extends>QWidget</extends>
-   <header>kimagefilepreview.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KSeparator</class>
-   <extends>QFrame</extends>
-   <header>kseparator.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>AVTPlotWidget</class>
    <extends>KPlotWidget</extends>
    <header>tools/avtplotwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

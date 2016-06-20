@@ -47,8 +47,8 @@
  * 18: Radio Source
  * 19: Satellite
  * 20: Supernova
- * 21: TYPE_UNKNOWN
- * 
+ * 255: TYPE_UNKNOWN
+ *
  * magnitude = Apparent Magnitude of the object
  * position_angle = Position Angle of the object
  * major_axis = Major Axis Length (arcmin)
@@ -58,6 +58,8 @@
 
 class CatalogEntryData {
  public:
+  CatalogEntryData();
+
   QString catalog_name;
   int ID;
   QString long_name;

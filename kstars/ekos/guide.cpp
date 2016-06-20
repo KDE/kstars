@@ -84,7 +84,11 @@ Guide::Guide() : QWidget()
     tabWidget->setTabEnabled(1, false);
 
     connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
+    connect(ST4Combo, SIGNAL(activated(QString)), this, SLOT(setDefaultST4(QString)));
+
+    connect(guiderCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
     connect(guiderCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
+
     connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
 
     foreach(QString filter, FITSViewer::filterTypes)
@@ -96,7 +100,7 @@ Guide::Guide() : QWidget()
     connect(phd2, SIGNAL(guideReady()), this, SIGNAL(guideReady()));
     connect(phd2, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
     connect(phd2, SIGNAL(autoGuidingToggled(bool)), guider, SLOT(setGuideState(bool)));
-    connect(guider, SIGNAL(ditherToggled(bool)), phd2, SLOT(setDitherEnabled(bool)));
+    //connect(guider, SIGNAL(ditherToggled(bool)), phd2, SLOT(setDitherEnabled(bool)));
     connect(phd2, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
 
     if (Options::usePHD2Guider())
@@ -111,34 +115,48 @@ Guide::~Guide()
     delete phd2;
 }
 
-void Guide::addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider)
+void Guide::setDefaultCCD(QString ccd)
 {
-    currentCCD = (ISD::CCD *) newCCD;
+    Options::setDefaultGuideCCD(ccd);
+}
 
-    CCDs.append(currentCCD);
+void Guide::addCCD(ISD::GDInterface *newCCD)
+{
+    ISD::CCD *ccd = static_cast<ISD::CCD*>(newCCD);
 
-    guiderCombo->addItem(currentCCD->getDeviceName());
+    if (CCDs.contains(ccd))
+        return;
 
-    if (isPrimaryGuider)
+    CCDs.append(ccd);
+
+    guiderCombo->addItem(ccd->getDeviceName());
+
+    //checkCCD(CCDs.count()-1);
+    //guiderCombo->setCurrentIndex(CCDs.count()-1);
+
+    setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
+}
+
+void Guide::addGuideHead(ISD::GDInterface *newCCD)
+{
+    ISD::CCD *ccd = static_cast<ISD::CCD *> (newCCD);
+
+    CCDs.append(ccd);
+
+    QString guiderName = ccd->getDeviceName() + QString(" Guider");
+
+    if (guiderCombo->findText(guiderName) == -1)
     {
-        checkCCD(CCDs.count()-1);
-        guiderCombo->setCurrentIndex(CCDs.count()-1);
+        guiderCombo->addItem(guiderName);
+        //CCDs.append(static_cast<ISD::CCD *> (newCCD));
     }
-    else
-    {
-        checkCCD(0);
-        guiderCombo->setCurrentIndex(0);
-    }
+
+    //checkCCD(CCDs.count()-1);
+    //guiderCombo->setCurrentIndex(CCDs.count()-1);
 
     setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
 
-    //if (currentCCD->hasGuideHead())
-       // addGuideHead(newCCD);
-
-
-    //qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture;
-
-}
+ }
 
 void Guide::setTelescope(ISD::GDInterface *newTelescope)
 {
@@ -153,7 +171,7 @@ bool Guide::setCCD(QString device)
     for (int i=0; i < guiderCombo->count(); i++)
         if (device == guiderCombo->itemText(i))
         {
-            checkCCD(i);
+            guiderCombo->setCurrentIndex(i);
             return true;
         }
 
@@ -163,7 +181,7 @@ bool Guide::setCCD(QString device)
 void Guide::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
-        ccdNum = guiderCombo->currentIndex();    
+        ccdNum = guiderCombo->currentIndex();
 
     if (ccdNum <= CCDs.count())
     {
@@ -180,18 +198,6 @@ void Guide::checkCCD(int ccdNum)
 
         syncCCDInfo();
     }
-}
-
-void Guide::addGuideHead(ISD::GDInterface *ccd)
-{   
-   currentCCD = (ISD::CCD *) ccd;
-
-   CCDs.append(currentCCD);
-
-   guiderCombo->addItem(currentCCD->getDeviceName() + QString(" Guider"));
-   checkCCD(0);
-
-   setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
 }
 
 void Guide::setGuiderProcess(int guiderProcess)
@@ -346,39 +352,42 @@ void Guide::updateGuideParams()
 
 void Guide::addST4(ISD::ST4 *newST4)
 {
-    int i=0;
     foreach(ISD::ST4 *guidePort, ST4List)
     {
-        if (guidePort == newST4)
+        if (!strcmp(guidePort->getDeviceName(),newST4->getDeviceName()))
             return;
     }
 
-    disconnect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
-
-    ST4Combo->addItem(newST4->getDeviceName());
     ST4List.append(newST4);
 
-    for (i=0; i < ST4List.count(); i++)
-    {
-        if (ST4List.at(i)->getDeviceName() == Options::sT4Driver())
+    ST4Combo->addItem(newST4->getDeviceName());        
+}
+
+bool Guide::setST4(QString device)
+{
+    for (int i=0; i < ST4List.count(); i++)
+        if (ST4List.at(i)->getDeviceName() == device)
         {
-           ST4Driver = ST4List.at(i);
-           ST4Combo->setCurrentIndex(i);
-           break;
+            ST4Combo->setCurrentIndex(i);
+            return true;
         }
-    }
 
-    // If no option was selected before, let us set the first item as the default item.
-    if (i == ST4List.count())
-    {
-        ST4Driver = ST4List.at(0);
-        ST4Combo->setCurrentIndex(0);
-    }
+    return false;
+}
 
-    connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
+void Guide::setDefaultST4(QString st4)
+{
+    Options::setDefaultST4Driver(st4);
+}
+
+void Guide::newST4(int index)
+{
+    if (ST4List.empty() || index >= ST4List.count())
+        return;
+
+    ST4Driver = ST4List.at(index);
 
     GuideDriver = ST4Driver;
-
 }
 
 void Guide::setAO(ISD::ST4 *newAO)
@@ -626,31 +635,6 @@ QStringList Guide::getST4Devices()
         devices << driver->getDeviceName();
 
     return devices;
-}
-
-bool Guide::setST4(QString device)
-{
-    for (int i=0; i < ST4List.count(); i++)
-        if (ST4List.at(i)->getDeviceName() == device)
-        {
-            ST4Combo->setCurrentIndex(i);
-            return true;
-        }
-
-    return false;
-}
-
-void Guide::newST4(int index)
-{
-    if (ST4List.empty() || index >= ST4List.count())
-        return;
-
-    ST4Driver = ST4List.at(index);
-
-    Options::setST4Driver(ST4Driver->getDeviceName());
-
-    GuideDriver = ST4Driver;
-
 }
 
 double Guide::getReticleAngle()

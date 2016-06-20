@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>502</width>
-    <height>419</height>
+    <height>444</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>1</number>
   </property>
   <widget class="QWidget" name="generalTab">
    <attribute name="title">
@@ -219,6 +219,16 @@
             </spacer>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="kcfg_AutoFocusOnFilterChange">
+           <property name="toolTip">
+            <string>Perform Autofocus when changing filter wheels during exposure sequence.</string>
+           </property>
+           <property name="text">
+            <string>Autofocus on Filter Change</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>

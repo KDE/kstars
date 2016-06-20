@@ -239,18 +239,7 @@ void KStars::slotINDIToolBar()
 #ifdef HAVE_INDI
     KToggleAction *a = (KToggleAction*)sender();
 
-    if ( a == actionCollection()->action( "show_device_manager" ) )
-    {
-        if (a->isChecked())
-        {
-            DriverManager::Instance()->raise();
-            DriverManager::Instance()->activateWindow();
-            DriverManager::Instance()->showNormal();
-        }
-        else
-           DriverManager::Instance()->hide();
-    }    
-    else if ( a == actionCollection()->action( "show_control_panel" ) )
+    if ( a == actionCollection()->action( "show_control_panel" ) )
     {
        if (a->isChecked())
        {
@@ -806,6 +795,14 @@ void KStars::slotOpenFITS()
     if (fileURL.isEmpty())
         return;
 
+    // Workaround for "/C:/foo/bar" Qt Bug
+    // Reported as fixed in Qt 5.6
+    // Emerged Qt 5.5 with patch is not working
+    #ifdef Q_OS_WIN
+    if (fileURL.path().startsWith("/"))
+        fileURL.setPath(fileURL.path().right(fileURL.path().count()-1));
+    #endif
+
     // Remember last directory
     path.setUrl(fileURL.path());
 
@@ -863,9 +860,18 @@ void KStars::slotRunScript() {
 
     QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), QString(), QUrl(QDir::homePath()), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
     QFile f;
-    QString fname;
+    //QString fname;
 
-    if ( fileURL.isValid() ) {
+    if ( fileURL.isValid() )
+    {
+
+        if (fileURL.isLocalFile() == false)
+        {
+            KMessageBox::sorry(0, i18n("Executing remote scripts is not supported."));
+            return;
+        }
+
+        /*
         if ( ! fileURL.isLocalFile() )
         {
             //Warn the user about executing remote code.
@@ -926,11 +932,13 @@ void KStars::slotRunScript() {
                 return;
             }
         }
+        */
 
         //Damn the torpedos and full speed ahead, we're executing the script!
         QTemporaryFile tmpfile;
         tmpfile.open();
 
+        /*
         if ( ! fileURL.isLocalFile() )
         {
             fname = tmpfile.fileName();
@@ -944,7 +952,9 @@ void KStars::slotRunScript() {
             }
         } else {
             f.setFileName( fileURL.toLocalFile() );
-        }
+        }*/
+
+        f.setFileName( fileURL.toLocalFile() );
 
         if ( !f.open( QIODevice::ReadOnly) )
         {

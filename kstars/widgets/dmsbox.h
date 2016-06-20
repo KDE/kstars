@@ -19,7 +19,8 @@
 #define DMSBOX_H
 
 #include <QFocusEvent>
-#include <klineedit.h>
+#include <QLineEdit>
+//#include <klineedit.h>
 
 #include "dms.h"
 

@@ -547,7 +547,7 @@ NGC 7741:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n7741blo
 NGC 7753:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n7753block.jpg
 NGC 7771:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n7771block.jpg
 NGC 7814:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/n7814hurtig.jpg
-Moon:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/gibbous2.jpg
+Moon:Show KPNO AOP Image:http://www-kpno.kpno.noao.edu/Info/Mtn_Weather/graphics/moonphase.gif
 Mars:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/mars080303block.jpg
 Jupiter:Show KPNO AOP Image:http://www.noao.edu/outreach/aop/observers/jupmoon4.gif
 
@@ -701,32 +701,6 @@ Jupiter:Show Voyager 1 Image:http://pds.jpl.nasa.gov/planets/images/browse/jupit
 Jupiter:Show New Horizons Image:http://pluto.jhuapl.edu/gallery/sciencePhotos/images/large/100907_11.jpg
 Saturn:Show Collage of Saturn and moons:http://nssdc.gsfc.nasa.gov/image/planetary/saturn/saturn_family.jpg
 Uranus:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-31a-02-preview.jpg
-#
-# VLT Images:
-IC 434:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-02a-02-normal.jpg
-IC 4248:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1999/phot-19c-99-preview.jpg
-IC 4406:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1998/phot-21-98-preview.jpg
-M 1:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1999/phot-40f-99-preview.jpg
-M 16:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2001/phot-37b-01-preview.jpg
-M 17:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2000/phot-24a-00-preview.jpg
-M 27:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1998/phot-38a-98-preview.jpg
-M 42:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2001/phot-12a-01-normal.jpg
-M 83:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2001/phot-32a-01-normal.jpg
-M 87:Show VLT Image:http://www.eso.org/outreach/ut1fl/pr-pictures/ut1fl-03-07-preview.jpg
-M 100:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-09h-02-preview.jpg
-M 104:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2000/phot-07b-00-preview.jpg
-NGC 300:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-18a-02-preview.jpg
-NGC 1316:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2000/phot-18a-00-preview.jpg
-NGC 2613:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-09g-02-preview.jpg
-NGC 2997:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1999/phot-17a-99-preview.jpg
-NGC 3603:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2001/phot-33d-01-preview.jpg
-NGC 4038:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-09a-02-preview.jpg
-NGC 4365:Show HST/VLT Image:http://www.eso.org/outreach/press-rel/pr-2002/phot-15a-02-preview.jpg
-NGC 5090:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1999/phot-20d-99-preview.jpg
-NGC 5128:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2001/phot-08a-01-normal.jpg
-NGC 6302:Show VLT Image:http://www.eso.org/outreach/ut1fl/pr-pictures/ut1fl-03-04-preview.jpg
-NGC 6822:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-2000/phot-22f-00-preview.jpg
-NGC 6872:Show VLT Image:http://www.eso.org/outreach/press-rel/pr-1999/phot-20b-99-preview.jpg
 #
 # APOD Images:
 Moon:Show APOD Image:http://antwrp.gsfc.nasa.gov/apod/image/0503/moon8_mandel_big.jpg

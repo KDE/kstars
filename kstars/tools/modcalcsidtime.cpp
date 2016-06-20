@@ -22,6 +22,7 @@
 
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KLineEdit>
 
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"

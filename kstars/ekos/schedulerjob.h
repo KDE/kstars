@@ -26,7 +26,7 @@ public:
     typedef enum { STAGE_IDLE, STAGE_SLEWING, STAGE_SLEW_COMPLETE, STAGE_FOCUSING, STAGE_FOCUS_COMPLETE, STAGE_ALIGNING, STAGE_ALIGN_COMPLETE, STAGE_RESLEWING, STAGE_RESLEWING_COMPLETE,
                    STAGE_POSTALIGN_FOCUSING, STAGE_POSTALIGN_FOCUSING_COMPLETE, STAGE_CALIBRATING, STAGE_GUIDING, STAGE_CAPTURING, STAGE_COMPLETE} JOBStage;
     //typedef enum { FITS_IDLE, FITS_SOLVING, FITS_COMPLETE, FITS_ERROR } FITSStatus;
-    typedef enum { START_ASAP, START_FORCE_NOW, START_CULMINATION, START_AT } StartupCondition;
+    typedef enum { START_ASAP, START_CULMINATION, START_AT } StartupCondition;
     typedef enum { FINISH_SEQUENCE, FINISH_LOOP, FINISH_AT } CompletionCondition;
     typedef enum { USE_NONE  = 0,
                    USE_TRACK = 1 << 0,
@@ -107,6 +107,12 @@ public:
     uint8_t getPriority() const;
     void setPriority(const uint8_t &value);
 
+    bool getEnforceTwilight() const;
+    void setEnforceTwilight(bool value);
+
+    QString getProfile() const;
+    void setProfile(const QString &value);
+
 private:
 
     QString name;
@@ -130,6 +136,7 @@ private:
     double minMoonSeparation;
 
     bool enforceWeather;
+    bool enforceTwilight;
 
     StepPipeline stepPipeline;
 
@@ -144,6 +151,7 @@ private:
 
     double Dawn, Dusk;    
     QString dateTimeDisplayFormat;
+    QString profile;
 
 
 };

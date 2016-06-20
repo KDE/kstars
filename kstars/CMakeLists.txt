@@ -4,10 +4,10 @@ add_subdirectory(htmesh)
 add_subdirectory(tools/skyguide)
 
 if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
-SET(HAVE_KF5WIT 1)
-add_subdirectory( tools/whatsinteresting/qml)
+    SET(HAVE_KF5WIT 1)
+    add_subdirectory( tools/whatsinteresting/qml)
 else()
-SET(HAVE_KF5WIT 0)
+    SET(HAVE_KF5WIT 0)
 endif()
 
 Find_package(ZLIB REQUIRED)
@@ -26,54 +26,55 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/time
 )
 
-if (CFITSIO_FOUND)
-    set (fits_SRCS
-         fitsviewer/fitshistogram.cpp
-         fitsviewer/fitsdata.cpp
-         fitsviewer/fitsview.cpp
-         fitsviewer/fitsviewer.cpp
-         fitsviewer/fitstab.cpp
-         fitsviewer/fitsdebayer.cpp
-         fitsviewer/bayer.c
+if(CFITSIO_FOUND)
+    set(fits_SRCS
+        fitsviewer/fitshistogram.cpp
+        fitsviewer/fitsdata.cpp
+        fitsviewer/fitsview.cpp
+        fitsviewer/fitsviewer.cpp
+        fitsviewer/fitstab.cpp
+        fitsviewer/fitsdebayer.cpp
+        fitsviewer/bayer.c
     )
 
-    set (fitsui_SRCS
-         fitsviewer/fitsheaderdialog.ui
-         fitsviewer/statform.ui
-         fitsviewer/fitsdebayer.ui
-         indi/streamform.ui
-         fitsviewer/fitshistogramui.ui
+    set(fitsui_SRCS
+        fitsviewer/fitsheaderdialog.ui
+        fitsviewer/statform.ui
+        fitsviewer/fitsdebayer.ui
+        indi/streamform.ui
+        fitsviewer/fitshistogramui.ui
     )
 
     include_directories(${CFITSIO_INCLUDE_DIR})
 endif(CFITSIO_FOUND)
 
-if (INDI_FOUND)
-    set (indi_SRCS
-         indi/drivermanager.cpp
-         indi/servermanager.cpp
-         indi/clientmanager.cpp
-         indi/guimanager.cpp
-         indi/driverinfo.cpp
-         indi/deviceinfo.cpp
-         indi/indidevice.cpp
-         indi/indigroup.cpp
-         indi/indiproperty.cpp
-         indi/indielement.cpp
-         indi/indistd.cpp
-         indi/indilistener.cpp
-         indi/inditelescope.cpp
-         indi/indiccd.cpp
-         indi/indifocuser.cpp
-         indi/indifilter.cpp
-         indi/indidome.cpp
-         indi/indiweather.cpp
-         indi/indicap.cpp
-         indi/indilightbox.cpp
-         indi/indidbus.cpp
-         indi/opsindi.cpp
-         indi/telescopewizardprocess.cpp
-         indi/streamwg.cpp
+if(INDI_FOUND)
+    set(indi_SRCS
+        indi/drivermanager.cpp
+        indi/servermanager.cpp
+        indi/clientmanager.cpp
+        indi/guimanager.cpp
+        indi/driverinfo.cpp
+        indi/deviceinfo.cpp
+        indi/indidevice.cpp
+        indi/indigroup.cpp
+        indi/indiproperty.cpp
+        indi/indielement.cpp
+        indi/indistd.cpp
+        indi/indilistener.cpp
+        indi/inditelescope.cpp
+        indi/indiccd.cpp
+        indi/indifocuser.cpp
+        indi/indifilter.cpp
+        indi/indidome.cpp
+        indi/indiweather.cpp
+        indi/indicap.cpp
+        indi/indilightbox.cpp
+        indi/indidbus.cpp
+        indi/opsindi.cpp
+        indi/telescopewizardprocess.cpp
+        indi/streamwg.cpp
+        indi/indiwebmanager.cpp
     )
 
     set(indiui_SRCS
@@ -85,78 +86,79 @@ if (INDI_FOUND)
     )
 
     if (CFITSIO_FOUND)
-       set(ekosui_SRCS
-           ekos/scheduler.ui
-           ekos/mosaic.ui
-           ekos/opsekos.ui
-           ekos/ekosmanager.ui
-           ekos/capture.ui
-           ekos/calibrationoptions.ui
-           ekos/align.ui
-           ekos/focus.ui
-           ekos/guide.ui
-           ekos/mount.ui
-           ekos/profileeditor.ui
-           ekos/guide/guider.ui
-           ekos/guide/rcalibration.ui
+        set(ekosui_SRCS
+            ekos/scheduler.ui
+            ekos/mosaic.ui
+            ekos/opsekos.ui
+            ekos/ekosmanager.ui
+            ekos/capture.ui
+            ekos/calibrationoptions.ui
+            ekos/align.ui
+            ekos/focus.ui
+            ekos/guide.ui
+            ekos/mount.ui
+            ekos/profileeditor.ui
+            ekos/guide/guider.ui
+            ekos/guide/rcalibration.ui
         )
 
-       set(ekos_SRCS
-           ekos/schedulerjob.cpp
-           ekos/scheduler.cpp
-           ekos/mosaic.cpp
-           ekos/ekosmanager.cpp
-           ekos/capture.cpp
-           ekos/sequencejob.cpp
-           ekos/focus.cpp
-           ekos/guide.cpp
-           ekos/phd2.cpp
-           ekos/align.cpp
-           ekos/mount.cpp
-           ekos/dome.cpp
-           ekos/weather.cpp
-           ekos/dustcap.cpp
-           ekos/astrometryparser.cpp
-           ekos/offlineastrometryparser.cpp
-           ekos/onlineastrometryparser.cpp
-           ekos/profileeditor.cpp
-           ekos/opsekos.cpp
-           ekos/QProgressIndicator.cpp
-           ekos/guide/common.cpp
-           ekos/guide/gmath.cpp
-           ekos/guide/guider.cpp
-           ekos/guide/matr.cpp
-           ekos/guide/rcalibration.cpp
-           ekos/guide/scroll_graph.cpp
-           ekos/guide/vect.cpp
+        set(ekos_SRCS
+            ekos/schedulerjob.cpp
+            ekos/scheduler.cpp
+            ekos/mosaic.cpp
+            ekos/ekosmanager.cpp
+            ekos/capture.cpp
+            ekos/sequencejob.cpp
+            ekos/focus.cpp
+            ekos/guide.cpp
+            ekos/phd2.cpp
+            ekos/align.cpp
+            ekos/mount.cpp
+            ekos/dome.cpp
+            ekos/weather.cpp
+            ekos/dustcap.cpp
+            ekos/astrometryparser.cpp
+            ekos/offlineastrometryparser.cpp
+            ekos/onlineastrometryparser.cpp
+            ekos/profileeditor.cpp
+            ekos/opsekos.cpp
+            ekos/QProgressIndicator.cpp
+            ekos/guide/common.cpp
+            ekos/guide/gmath.cpp
+            ekos/guide/guider.cpp
+            ekos/guide/matr.cpp
+            ekos/guide/rcalibration.cpp
+            ekos/guide/scroll_graph.cpp
+            ekos/guide/vect.cpp
         )
     endif(CFITSIO_FOUND)
 
     include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
 
-if (WCSLIB_FOUND)
-    include_directories( ${WCSLIB_INCLUDE_DIR} )
-endif (WCSLIB_FOUND)
+if(WCSLIB_FOUND)
+  include_directories( ${WCSLIB_INCLUDE_DIR} )
+endif(WCSLIB_FOUND)
 
-if (XPLANET_FOUND)
-    set (xplanet_SRCS
-         xplanet/opsxplanet.cpp
+if(XPLANET_FOUND)
+    set(xplanet_SRCS
+        xplanet/opsxplanet.cpp
     )
 
     set(xplanetui_SRCS
         xplanet/opsxplanet.ui
     )
-endif (XPLANET_FOUND)
+endif(XPLANET_FOUND)
 
 #FIXME Enable OpenGL Later
-#if (OPENGL_FOUND)
-#  include_directories(${OPENGL_INCLUDE_DIRS})
-#  set(kstars_gl_SRCS
-#    skyglpainter.cpp skymapgldraw.cpp
+#if(OPENGL_FOUND)
+#    include_directories( ${OPENGL_INCLUDE_DIRS} )
+#    set(kstars_gl_SRCS
+#        skyglpainter.cpp
+#        skymapgldraw.cpp
 #    )
-#  add_definitions(-DHAVE_OPENGL)
-#endif(OPENGL_FOUND)
+#    add_definitions(-DHAVE_OPENGL)
+#endif( OPENGL_FOUND )
 
 ########### next target ###############
 set(libkstarstools_SRCS
@@ -199,7 +201,6 @@ set(libkstarstools_SRCS
     tools/skyguide/skyguideview.cpp
     tools/skyguide/skyguidewriter.cpp
 
-
     #FIXME Port to KF5
     #tools/moonphasetool.cpp
 
@@ -209,7 +210,7 @@ set(libkstarstools_SRCS
     tools/starhopperdialog.cpp
 )
 
-if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+if(${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
     set(libkstarstools_SRCS
         ${libkstarstools_SRCS}
         tools/whatsinteresting/skyobjlistmodel.cpp
@@ -242,6 +243,7 @@ ki18n_wrap_ui(libkstarstools_SRCS
     tools/argwaitforkey.ui
     tools/argzoom.ui
     tools/conjunctions.ui
+
     tools/modcalcangdist.ui
     tools/modcalcapcoord.ui
     tools/modcalcaltaz.ui
@@ -254,6 +256,7 @@ ki18n_wrap_ui(libkstarstools_SRCS
     tools/modcalcplanets.ui
     tools/modcalcsidtime.ui
     tools/modcalcvlsr.ui
+
     tools/observinglist.ui
     tools/obslistwizard.ui
     tools/optionstreeview.ui
@@ -265,6 +268,7 @@ ki18n_wrap_ui(libkstarstools_SRCS
     tools/flagmanager.ui
     tools/starhopperdialog.ui
     tools/horizonmanager.ui
+
     tools/skyguide/skyguideauthor.ui
     tools/skyguide/skyguideslide.ui
     tools/skyguide/skyguidewriter.ui
@@ -335,20 +339,18 @@ set(libkstarswidgets_SRCS
     widgets/timestepbox.cpp
     widgets/timeunitbox.cpp
     widgets/infoboxwidget.cpp
-    # widgets/genericcalendarwidget.cpp
-    # widgets/moonphasecalendarwidget.cpp
+#    widgets/genericcalendarwidget.cpp
+#    widgets/moonphasecalendarwidget.cpp
     widgets/kshelplabel.cpp
     widgets/unitspinboxwidget.cpp
 )
 
 ki18n_wrap_ui(libkstarswidgets_SRCS
-    # widgets/genericcalendarwidget.ui
+#    widgets/genericcalendarwidget.ui
     widgets/unitspinboxwidget.ui
 )
 
-set(kstars_KCFG_SRCS
-    Options.kcfgc
-)
+set(kstars_KCFG_SRCS Options.kcfgc)
 
 set(kstars_options_SRCS
     options/opsadvanced.cpp
@@ -380,7 +382,7 @@ set(kstars_skyobjects_SRCS
     skyobjects/ksmoon.cpp
     skyobjects/ksplanetbase.cpp
     skyobjects/ksplanet.cpp
-    #skyobjects/kspluto.cpp
+#    skyobjects/kspluto.cpp
     skyobjects/kssun.cpp
     skyobjects/skyline.cpp
     skyobjects/skyobject.cpp
@@ -452,6 +454,7 @@ set(kstars_extra_SRCS
     auxiliary/kswizard.cpp
     auxiliary/qcustomplot.cpp
     auxiliary/profileinfo.cpp
+    auxiliary/filedownloader.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
@@ -606,25 +609,31 @@ if(NOT WIN32)
     target_link_libraries(KStarsLib m)
 endif(NOT WIN32)
 
-if (CFITSIO_FOUND)
+if(CFITSIO_FOUND)
     target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
-endif (CFITSIO_FOUND)
+endif(CFITSIO_FOUND)
 
-if (INDI_FOUND)
-    target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
-endif (INDI_FOUND)
+if(INDI_FOUND)
+    target_link_libraries(KStarsLib
+        ${CMAKE_THREAD_LIBS_INIT}
+        ${INDI_LIBRARIES}
+        ${INDI_CLIENT_LIBRARIES}
+        KF5::Notifications
+        z
+    )
+endif(INDI_FOUND)
 
-if (WCSLIB_FOUND)
+if(WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})
-endif (WCSLIB_FOUND)
+endif(WCSLIB_FOUND)
 
-# FIXME Enable OpenGL Later
-# if(OPENGL_FOUND)
-#     target_link_libraries(KStarsLib
-#                           ${OPENGL_LIBRARIES}
-#                           ${QT_QTOPENGL_LIBRARY}
-#     )
-# endif(OPENGL_FOUND)
+#FIXME Enable OpenGL Later
+#if( OPENGL_FOUND )
+#    target_link_libraries(KStarsLib
+#    ${OPENGL_LIBRARIES}
+#    ${QT_QTOPENGL_LIBRARY}
+#    )
+#endif( OPENGL_FOUND )
 
 target_link_libraries(kstars KStarsLib)
 
@@ -632,19 +641,9 @@ install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 ecm_install_icons(${KDE_INSTALL_ICONDIR})
-install(PROGRAMS org.kde.kstars.desktop  DESTINATION  ${KDE_INSTALL_APPDIR})
-install(FILES kstars.kcfg  DESTINATION  ${KDE_INSTALL_KCFGDIR})
-install(FILES kstars.knsrc  DESTINATION  ${KDE_INSTALL_CONFDIR})
-
-if (INDI_FOUND)
-    install(FILES kstarsui-indi.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars RENAME kstarsui.rc)
-else (INDI_FOUND)
-    install(FILES kstarsui.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
-endif(INDI_FOUND)
-
-install(FILES fitsviewer.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
-
-if (WIN32)
-    install(FILES kstarsui-win.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
-endif (WIN32)
+install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+install(FILES kstars.knsrc DESTINATION ${KDE_INSTALL_CONFDIR})
+install(FILES kstarsui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
+install(FILES fitsviewer.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
 install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})

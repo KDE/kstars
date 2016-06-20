@@ -55,7 +55,7 @@ class KDirWatch;
  * The primary class is EkosManager. It handles startup and shutdown of local and remote INDI devices, manages and orchesterates the various Ekos modules, and provides advanced DBus
  * interface to enable unattended scripting.
 *@author Jasem Mutlaq
- *@version 1.1
+ *@version 1.2
  */
 namespace Ekos
 {   
@@ -219,7 +219,7 @@ public:
 
     /** @}*/
 
-    void addCCD(ISD::GDInterface *newCCD, bool isPrimaryCCD);
+    void addCCD(ISD::GDInterface *newCCD);
     void addFilter(ISD::GDInterface *newFilter);
     void setDome(ISD::GDInterface *device) { dome = dynamic_cast<ISD::Dome*>(device); }
     void setDustCap(ISD::GDInterface *device) { dustCap = dynamic_cast<ISD::DustCap*>(device); }
@@ -359,28 +359,36 @@ private slots:
     void setDirty();
 
     void checkFrameType(int index);
-    void resetFrame();
-    void updateFocusStatus(bool status);
-    void updateAutofocusStatus(bool status, double HFR);
+    void resetFrame();    
     void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);
     void checkSeqFile(const QString &path);
     void saveFITSDirectory();
+    void setDefaultCCD(QString ccd);
+    void setNewRemoteFile(QString file);
 
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
 
+    // Sequence Queue
     void loadSequenceQueue();
     void saveSequenceQueue();
     void saveSequenceQueueAs();
 
+    // Jobs
     void resetJobs();
     void editJob(QModelIndex i);
     void resetJobEdit();
     void executeJob();
 
+    // Meridian Flip
     void checkMeridianFlipTimeout();
     void checkAlignmentSlewComplete();
     void enableAlignmentFlag();
+
+    // Auto Focus
+    void updateFocusStatus(bool status);
+    void updateAutofocusStatus(bool status, double HFR);
+    void startPostFilterAutoFocus();
 
     // Flat field
     void openCalibrationDialog();
@@ -399,6 +407,7 @@ signals:
 
 private:
 
+    void setBusy(bool enable);
     bool resumeSequence();
     void startNextExposure();
     void updateFrameProperties();
@@ -430,6 +439,7 @@ private:
     QString		seqPrefix;
     int			nextSequenceID;
     int         seqFileCount;
+    bool        isBusy;
 
     int calibrationState;
     bool useGuideHead;

@@ -23,8 +23,10 @@
 #include <QImage>
 #include <QPixmap>
 
-#include <kio/job.h>
+//#include <kio/job.h>
 #include <QDialog>
+
+#include "auxiliary/filedownloader.h"
 
 class QUrl;
 class QLabel;
@@ -103,7 +105,9 @@ private:
     bool fileIsImage;
     QString filename;
 
-    KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
+    //KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
+
+    FileDownloader downloadJob;
 
     ImageLabel *m_View;
     QLabel     *m_Caption;
@@ -112,7 +116,10 @@ private slots:
     /** Initialize (common part of onstructors) */
     void init(QString caption, QString capText);
     /** Make sure download has finished, then make sure file exists, then display the image */
-    void downloadReady (KJob *);
+    //void downloadReady (KJob *);
+
+    void downloadReady();
+    void downloadError(const QString &errorString);
 
     /** Saves file to disc. */
     void saveFileToDisc();

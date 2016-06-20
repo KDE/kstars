@@ -199,7 +199,7 @@ protected slots:
 
      void resetJobState(QModelIndex i);
 
-     //void resetJobEdit();
+     void resetJobEdit();
 
      /**
       * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it call evaluateJobs();
@@ -267,9 +267,20 @@ protected slots:
       */
      void startMosaicTool();
 
+     /**
+      * @brief displayTwilightWarning Display twilight warning to user if it is unchecked.
+      */
+     void checkTwilightWarning(bool enabled);
+
+     void runStartupProcedure();
+     void checkStartupProcedure();
+
+     void runShutdownProcedure();
+     void checkShutdownProcedure();
+
 signals:
         void newLog();
-        void weatherChanged(IPState state);
+        void weatherChanged(IPState state);        
 
 private:
 
@@ -468,6 +479,8 @@ private:
          * @return True if new file is saved, false otherwise
          */
         bool createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir);
+
+        void loadProfiles();
 
         XMLEle * getSequenceJobRoot();
 

@@ -35,6 +35,7 @@
 #include "indi/drivermanager.h"
 #include "indi/indilistener.h"
 #include "indi/guimanager.h"
+#include "indi/indiwebmanager.h"
 
 #include "ekosadaptor.h"
 
@@ -55,45 +56,12 @@ EkosManager::EkosManager()
     nConnectedDevices=0;
     useGuideHead    =false;
     useST4          =false;
-    ccdStarted      =false;
-    ccdDriverSelected =false;
-    scopeRegistered = false;
-    remoteCCDRegistered    = false;
-    remoteGuideRegistered  = false;
+    remoteManagerStart=false;
 
     indiConnectionStatus = STATUS_IDLE;
     ekosStartingStatus   = STATUS_IDLE;
 
     profileModel = NULL;
-
-    mount   =  NULL;
-    ccd     =  NULL;
-    guider  =  NULL;
-    focuser =  NULL;
-    filter  =  NULL;
-    aux1    =  NULL;
-    aux2    =  NULL;
-    aux3    =  NULL;
-    aux4    =  NULL;
-    ao      =  NULL;
-    dome    =  NULL;
-    weather =  NULL;
-    dustCap =  NULL;
-    lightBox= NULL;
-
-    mount_di   = NULL;
-    ccd_di     = NULL;
-    guider_di  = NULL;
-    focuser_di = NULL;
-    filter_di  = NULL;
-    aux1_di    = NULL;
-    aux2_di    = NULL;
-    aux3_di    = NULL;
-    aux4_di    = NULL;
-    ao_di      = NULL;
-    dome_di    = NULL;
-    weather_di = NULL;
-    remote_indi= NULL;
 
     captureProcess = NULL;
     focusProcess   = NULL;
@@ -125,10 +93,6 @@ EkosManager::EkosManager()
 
     // INDI Control Panel
     connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
-
-    // Show Ekos Options
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
-    connect(a, SIGNAL(changed()), this, SLOT(checkFITSViewerState()));
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
 
     // Clear Ekos Log
@@ -771,55 +735,15 @@ void EkosManager::reset()
 {
     nDevices=0;
     nConnectedDevices=0;
+    nRemoteDevices=0;
 
-    useGuideHead           = false;
-    guideStarted           = false;
-    useST4                 = false;
-    ccdStarted             = false;
-    ccdDriverSelected      = false;
-    scopeRegistered        = false;
-    remoteCCDRegistered    = false;
-    remoteGuideRegistered  = false;
+    useGuideHead           = false;    
+    useST4                 = false;    
 
-    removeTabs();
+    removeTabs();    
 
-    mount   =  NULL;
-    ccd     =  NULL;
-    guider  =  NULL;
-    focuser =  NULL;
-    filter  =  NULL;    
-    dome    =  NULL;
-    weather =  NULL;
-    ao      =  NULL;
-    aux1    =  NULL;
-    aux2    =  NULL;
-    aux3    =  NULL;
-    aux4    = NULL;
-
-    delete(mount_di);
-    mount_di   = NULL;
-    delete(ccd_di);
-    ccd_di     = NULL;
-    delete(guider_di);
-    guider_di  = NULL;
-    delete(focuser_di);
-    focuser_di = NULL;
-    delete(filter_di);
-    filter_di  = NULL;
-    delete(dome_di);
-    dome_di    = NULL;
-    delete (weather_di);
-    weather_di = NULL;
-    delete(ao_di);
-    ao_di      = NULL;
-    delete(aux1_di);
-    aux1_di    = NULL;
-    delete(aux2_di);
-    aux2_di    = NULL;
-    delete(aux3_di);
-    aux3_di    = NULL;
-    delete(aux4_di);
-    aux4_di = NULL;
+    genericDevices.clear();
+    managedDevices.clear();
 
     captureProcess = NULL;
     focusProcess   = NULL;
@@ -833,9 +757,6 @@ void EkosManager::reset()
     ekosStartingStatus  = STATUS_IDLE;
     indiConnectionStatus= STATUS_IDLE;
 
-    guiderCCDName  = "";
-    primaryCCDName = "";
-
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
     controlPanelB->setEnabled(false);    
@@ -846,7 +767,7 @@ void EkosManager::reset()
 
 void EkosManager::processINDI()
 {
-    if (managedDevices.count() > 0 || remote_indi != NULL)
+    if (ekosStartingStatus == STATUS_SUCCESS || ekosStartingStatus == STATUS_PENDING)
     {
         stop();
     }
@@ -866,170 +787,117 @@ bool EkosManager::stop()
 
 bool EkosManager::start()
 {
-    managedDevices.clear();
+    if (localMode)
+        qDeleteAll(managedDrivers);
+    managedDrivers.clear();
+
     reset();
 
     ProfileInfo *currentProfile = getCurrentProfile();
-
     localMode = currentProfile->isLocal();
 
     // Load profile location if one exists
     updateProfileLocation(currentProfile);
 
+    bool haveCCD=false, haveGuider=false;
+
     if (localMode)
     {
-        DriverInfo *drv = NULL;
+        DriverInfo *drv = NULL;        
 
         drv = driversList.value(currentProfile->mount());
         if (drv != NULL)
-            mount_di   = drv->clone();
+            managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->ccd());
         if (drv != NULL)
-            ccd_di     = drv->clone();
+        {
+            managedDrivers.append(drv->clone());
+            haveCCD = true;
+        }
 
         drv = driversList.value(currentProfile->guider());
         if (drv != NULL)
-            guider_di  = drv->clone();
+        {
+            haveGuider = true;
+
+                // If the guider and ccd are the same driver, we have two cases:
+                // #1 Drivers that only support ONE device per driver (such as sbig)
+                // #2 Drivers that supports multiples devices per driver (such as sx)
+                // For #1, we modify guider_di to make a unique label for the other device with postfix "Guide"
+                // For #2, we set guider_di to NULL and we prompt the user to select which device is primary ccd and which is guider
+                // since this is the only way to find out in real time.
+                if (haveCCD && currentProfile->guider() == currentProfile->ccd())
+                {
+                    if (drv->getAuxInfo().value("mdpd", false).toBool() == true)
+                        drv = NULL;
+                    else
+                    {
+                        drv->setUniqueLabel(drv->getTreeLabel() + " Guide");
+                    }
+                }
+
+            if (drv)
+                managedDrivers.append(drv->clone());
+        }
 
         drv = driversList.value(currentProfile->ao());
         if (drv != NULL)
-            ao_di      = drv->clone();
+            managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->filter());
         if (drv != NULL)
-            filter_di  = drv->clone();
+            managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->focuser());
         if (drv != NULL)
-            focuser_di = drv->clone();
+            managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->dome());
         if (drv != NULL)
-            dome_di    = drv->clone();
+            managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->weather());
         if (drv != NULL)
-            weather_di    = drv->clone();
+            managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->aux1());
         if (drv != NULL)
-            aux1_di    = drv->clone();
+            managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->aux2());
         if (drv != NULL)
-            aux2_di    = drv->clone();
+            managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->aux3());
         if (drv != NULL)
-            aux3_di    = drv->clone();
+            managedDrivers.append(drv->clone());
 
         drv = driversList.value(currentProfile->aux4());
         if (drv != NULL)
-            aux4_di    = drv->clone();
+            managedDrivers.append(drv->clone());
 
-        if (guider_di)
-        {
-            // If the guider and ccd are the same driver, we have two cases:
-            // #1 Drivers that only support ONE device per driver (such as sbig)
-            // #2 Drivers that supports multiples devices per driver (such as sx)
-            // For #1, we modify guider_di to make a unique label for the other device with postfix "Guide"
-            // For #2, we set guider_di to NULL and we prompt the user to select which device is primary ccd and which is guider
-            // since this is the only way to find out in real time.
-            if (ccd_di && guider_di->getDriver() == ccd_di->getDriver())
-            {
-                if (guider_di->getAuxInfo().value("mdpd", false).toBool() == true)
-                    guider_di = NULL;
-                else
-                {
-                    //QVariantMap vMap = guider_di->getAuxInfo();
-                    //vMap.insert("DELETE", 1);
-                    //guider_di = new DriverInfo(ccd_di);
-                    guider_di->setUniqueLabel(guider_di->getTreeLabel() + " Guide");
-                    //guider_di->setAuxInfo(vMap);
-                }
-            }
-        }
-
-        if (mount_di != NULL)
-            managedDevices.append(mount_di);
-        if (ccd_di != NULL)
-            managedDevices.append(ccd_di);
-        if (guider_di != NULL)
-            managedDevices.append(guider_di);
-        if (ao_di != NULL)
-            managedDevices.append(ao_di);
-        if (filter_di != NULL)
-            managedDevices.append(filter_di);
-        if (focuser_di != NULL)
-            managedDevices.append(focuser_di);
-        if (dome_di != NULL)
-            managedDevices.append(dome_di);
-        if (weather_di != NULL)
-            managedDevices.append(weather_di);
-        if (aux1_di != NULL)
-        {
-            QVariantMap vMap = aux1_di->getAuxInfo();
-            vMap.insert("AUX#", 1);
-            aux1_di->setAuxInfo(vMap);
-            managedDevices.append(aux1_di);
-        }
-        if (aux2_di != NULL)
-        {
-            managedDevices.append(aux2_di);
-            QVariantMap vMap = aux2_di->getAuxInfo();
-            vMap.insert("AUX#", 2);
-            aux2_di->setAuxInfo(vMap);
-        }
-        if (aux3_di != NULL)
-        {
-            QVariantMap vMap = aux3_di->getAuxInfo();
-            vMap.insert("AUX#", 3);
-            aux3_di->setAuxInfo(vMap);
-            managedDevices.append(aux3_di);
-        }
-        if (aux4_di != NULL)
-        {
-            QVariantMap vMap = aux4_di->getAuxInfo();
-            vMap.insert("AUX#", 4);
-            aux4_di->setAuxInfo(vMap);
-            managedDevices.append(aux4_di);
-        }
-
-        if (ccd_di == NULL && guider_di == NULL)
+        if (haveCCD == false && haveGuider == false)
         {
             KMessageBox::error(this, i18n("Ekos requires at least one CCD or Guider to operate."));
-            managedDevices.clear();
+            managedDrivers.clear();
             return false;
         }
 
-        nDevices = managedDevices.count();
-
-        //saveLocalDrivers();
+        nDevices = managedDrivers.count();
     }
     else
     {
-        delete (remote_indi);
-        bool haveCCD=false, haveGuider=false;
-
-        remote_indi = new DriverInfo(QString("Ekos Remote Host"));
+        DriverInfo *remote_indi = new DriverInfo(QString("Ekos Remote Host"));
 
         remote_indi->setHostParameters(currentProfile->host, QString::number(currentProfile->port));
 
         remote_indi->setDriverSource(GENERATED_SOURCE);
 
-        if (currentProfile->drivers.contains("Mount"))
-            nDevices++;
-        if (currentProfile->drivers.contains("CCD"))
-        {
-            haveCCD = true;
-            nDevices++;
-        }
-        if (currentProfile->drivers.contains("Guider"))
-        {
-            haveGuider = true;
-            nDevices++;
-        }
+        managedDrivers.append(remote_indi);
+
+        haveCCD    = currentProfile->drivers.contains("CCD");
+        haveGuider = currentProfile->drivers.contains("Guider");
 
         if (haveCCD == false && haveGuider == false)
         {
@@ -1039,34 +907,9 @@ bool EkosManager::start()
             return false;
         }
 
-        // If the user puts identical device names for both CCD & Guider then
-        // this is a case for Multiple-Devices-Per-Driver.
-        // We reduce the number of devices since it will be increased once device is detected.
-        //if (guiderCombo->currentText() == ccdCombo->currentText())
-             //nDevices--;
-
-        if (currentProfile->drivers.contains("AO"))
-            nDevices++;
-        if (currentProfile->drivers.contains("Focuser"))
-            nDevices++;
-        if (currentProfile->drivers.contains("Filter"))
-            nDevices++;
-        if (currentProfile->drivers.contains("Dome"))
-            nDevices++;
-        if (currentProfile->drivers.contains("Weather"))
-            nDevices++;
-        if (currentProfile->drivers.contains("Aux1"))
-            nDevices++;
-        if (currentProfile->drivers.contains("Aux2"))
-            nDevices++;
-        if (currentProfile->drivers.contains("Aux3"))
-            nDevices++;
-        if (currentProfile->drivers.contains("Aux4"))
-            nDevices++;
+        nDevices = currentProfile->drivers.count();
 
         nRemoteDevices=0;
-
-        //saveRemoteDrivers();
     }
 
     connect(INDIListener::Instance(), SIGNAL(newDevice(ISD::GDInterface*)), this, SLOT(processNewDevice(ISD::GDInterface*)));
@@ -1079,11 +922,10 @@ bool EkosManager::start()
     connect(INDIListener::Instance(), SIGNAL(newDustCap(ISD::GDInterface*)), this, SLOT(setDustCap(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newLightBox(ISD::GDInterface*)), this, SLOT(setLightBox(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
-    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);
-    connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
+    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);    
 
     if (localMode)
-    {
+    {        
         if (isRunning("indiserver"))
         {
             if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, i18n("Ekos detected an instance of INDI server running. Do you wish to shut down the existing instance before starting a new one?"),
@@ -1098,36 +940,62 @@ bool EkosManager::start()
 
         appendLogText(i18n("Starting INDI services..."));
 
-        if (DriverManager::Instance()->startDevices(managedDevices) == false)
+        if (DriverManager::Instance()->startDevices(managedDrivers) == false)
         {
             INDIListener::Instance()->disconnect(this);
-            ekosStartingStatus = STATUS_ERROR;
+            qDeleteAll(managedDrivers);
+            managedDrivers.clear();
+            ekosStartingStatus = STATUS_ERROR;            
             return false;
         }
 
+        connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
+
         ekosStartingStatus = STATUS_PENDING;
 
-        appendLogText(i18n("INDI services started on port %1. Please connect devices.", ( (ccd_di != NULL) ? ccd_di->getPort() : guider_di->getPort())));
+        appendLogText(i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
 
-        if (Options::verboseLogging())
-            qDebug() << "INDI services started on port " << ( (ccd_di != NULL) ? ccd_di->getPort() : guider_di->getPort());
 
         QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
 
     }
     else
     {
+        // If we need to use INDI Web Manager
+        if (currentProfile->INDIWebManagerPort != -1)
+        {
+            remoteManagerStart = false;
+            if (INDI::WebManager::isOnline(currentProfile))
+            {
+                if (INDI::WebManager::areDriversRunning(currentProfile) == false)
+                {
+                    INDI::WebManager::stopProfile(currentProfile);
+
+                    if (INDI::WebManager::startProfile(currentProfile) == false)
+                    {
+                        appendLogText(i18n("Failed to start profile on remote INDI Web Manager."));
+                        return false;
+                    }
+
+                    appendLogText(i18n("Starting profile on remote INDI Web Manager..."));
+                    remoteManagerStart = true;
+                }
+            }
+            else
+                appendLogText(i18n("Warning: INDI Web Manager is not online."));
+        }
+
         appendLogText(i18n("Connecting to remote INDI server at %1 on port %2 ...", currentProfile->host, currentProfile->port));
         qApp->processEvents();
 
         QApplication::setOverrideCursor(Qt::WaitCursor);
 
-        if (DriverManager::Instance()->connectRemoteHost(remote_indi) == false)
+        if (DriverManager::Instance()->connectRemoteHost(managedDrivers.first()) == false)
         {
             appendLogText(i18n("Failed to connect to remote INDI server!"));
             INDIListener::Instance()->disconnect(this);
-            delete (remote_indi);
-            remote_indi=0;
+            qDeleteAll(managedDrivers);
+            managedDrivers.clear();
             ekosStartingStatus = STATUS_ERROR;
             QApplication::restoreOverrideCursor();
             return false;
@@ -1136,7 +1004,7 @@ bool EkosManager::start()
         QApplication::restoreOverrideCursor();
         ekosStartingStatus = STATUS_PENDING;
 
-        appendLogText(i18n("INDI services started. Connection to remote INDI server is successful."));
+        appendLogText(i18n("INDI services started. Connection to remote INDI server is successful. Waiting for devices..."));
 
         QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
 
@@ -1151,298 +1019,14 @@ bool EkosManager::start()
     processINDIB->setText(i18n("Stop INDI"));
 
     return true;
-
-
 }
-
-/*
-bool EkosManager::start()
-{
-    managedDevices.clear();
-    reset();
-
-    if (localMode)
-    {
-        DriverInfo *drv = NULL;
-
-        drv = driversList.value(telescopeCombo->currentText());
-        if (drv != NULL)
-            scope_di   = drv->clone();
-
-        drv = driversList.value(ccdCombo->currentText());
-        if (drv != NULL)
-            ccd_di     = drv->clone();
-
-        drv = driversList.value(guiderCombo->currentText());
-        if (drv != NULL)
-            guider_di  = drv->clone();
-
-        drv = driversList.value(AOCombo->currentText());
-        if (drv != NULL)
-            ao_di      = drv->clone();
-
-        drv = driversList.value(filterCombo->currentText());
-        if (drv != NULL)
-            filter_di  = drv->clone();
-
-        drv = driversList.value(focuserCombo->currentText());
-        if (drv != NULL)
-            focuser_di = drv->clone();
-
-        drv = driversList.value(domeCombo->currentText());
-        if (drv != NULL)
-            dome_di    = drv->clone();
-
-        drv = driversList.value(weatherCombo->currentText());
-        if (drv != NULL)
-            weather_di    = drv->clone();
-
-        drv = driversList.value(aux1Combo->currentText());
-        if (drv != NULL)
-            aux1_di    = drv->clone();
-
-        drv = driversList.value(aux2Combo->currentText());
-        if (drv != NULL)
-            aux2_di    = drv->clone();
-
-        drv = driversList.value(aux3Combo->currentText());
-        if (drv != NULL)
-            aux3_di    = drv->clone();
-
-        drv = driversList.value(aux4Combo->currentText());
-        if (drv != NULL)
-            aux4_di    = drv->clone();
-
-        if (guider_di)
-        {
-            // If the guider and ccd are the same driver, we have two cases:
-            // #1 Drivers that only support ONE device per driver (such as sbig)
-            // #2 Drivers that supports multiples devices per driver (such as sx)
-            // For #1, we modify guider_di to make a unique label for the other device with postfix "Guide"
-            // For #2, we set guider_di to NULL and we prompt the user to select which device is primary ccd and which is guider
-            // since this is the only way to find out in real time.
-            if (ccd_di && guider_di->getDriver() == ccd_di->getDriver())
-            {
-                if (guider_di->getAuxInfo().value("mdpd", false).toBool() == true)
-                    guider_di = NULL;
-                else
-                {
-                    //QVariantMap vMap = guider_di->getAuxInfo();
-                    //vMap.insert("DELETE", 1);
-                    //guider_di = new DriverInfo(ccd_di);
-                    guider_di->setUniqueLabel(guider_di->getTreeLabel() + " Guide");
-                    //guider_di->setAuxInfo(vMap);
-                }
-            }
-        }
-
-        if (scope_di != NULL)
-            managedDevices.append(scope_di);
-        if (ccd_di != NULL)
-            managedDevices.append(ccd_di);
-        if (guider_di != NULL)
-            managedDevices.append(guider_di);
-        if (ao_di != NULL)
-            managedDevices.append(ao_di);
-        if (filter_di != NULL)
-            managedDevices.append(filter_di);
-        if (focuser_di != NULL)
-            managedDevices.append(focuser_di);
-        if (dome_di != NULL)
-            managedDevices.append(dome_di);
-        if (weather_di != NULL)
-            managedDevices.append(weather_di);
-        if (aux1_di != NULL)
-        {
-            QVariantMap vMap = aux1_di->getAuxInfo();
-            vMap.insert("AUX#", 1);
-            aux1_di->setAuxInfo(vMap);
-            managedDevices.append(aux1_di);
-        }
-        if (aux2_di != NULL)
-        {
-            managedDevices.append(aux2_di);
-            QVariantMap vMap = aux2_di->getAuxInfo();
-            vMap.insert("AUX#", 2);
-            aux2_di->setAuxInfo(vMap);
-        }
-        if (aux3_di != NULL)
-        {
-            QVariantMap vMap = aux3_di->getAuxInfo();
-            vMap.insert("AUX#", 3);
-            aux3_di->setAuxInfo(vMap);
-            managedDevices.append(aux3_di);
-        }
-        if (aux4_di != NULL)
-        {
-            QVariantMap vMap = aux4_di->getAuxInfo();
-            vMap.insert("AUX#", 4);
-            aux4_di->setAuxInfo(vMap);
-            managedDevices.append(aux4_di);
-        }
-
-        if (ccd_di == NULL && guider_di == NULL)
-        {
-            KMessageBox::error(this, i18n("Ekos requires at least one CCD or Guider to operate."));
-            managedDevices.clear();
-            return false;
-        }
-
-        nDevices = managedDevices.count();
-
-        saveLocalDrivers();
-    }
-    else
-    {
-        delete (remote_indi);
-        bool haveCCD=false, haveGuider=false;
-
-        remote_indi = new DriverInfo(QString("Ekos Remote Host"));
-
-        remote_indi->setHostParameters(Options::remoteHost(), Options::remotePort());
-
-        remote_indi->setDriverSource(GENERATED_SOURCE);
-
-        if (telescopeCombo->currentText() != "--")
-            nDevices++;
-        if (ccdCombo->currentText() != "--")
-        {
-            haveCCD = true;
-            nDevices++;
-        }
-        if (guiderCombo->currentText() != "--")
-        {
-            haveGuider = true;
-            nDevices++;
-        }
-
-        if (haveCCD == false && haveGuider == false)
-        {
-            KMessageBox::error(this, i18n("Ekos requires at least one CCD or Guider to operate."));
-            delete (remote_indi);
-            nDevices=0;
-            return false;
-        }
-
-        // If the user puts identical device names for both CCD & Guider then
-        // this is a case for Multiple-Devices-Per-Driver.
-        // We reduce the number of devices since it will be increased once device is detected.
-        //if (guiderCombo->currentText() == ccdCombo->currentText())
-             //nDevices--;
-
-        if (AOCombo->currentText() != "--")
-            nDevices++;
-        if (focuserCombo->currentText() != "--")
-            nDevices++;
-        if (filterCombo->currentText() != "--")
-            nDevices++;
-        if (domeCombo->currentText() != "--")
-            nDevices++;
-        if (weatherCombo->currentText() != "--")
-            nDevices++;
-        if (aux1Combo->currentText() != "--")
-            nDevices++;
-        if (aux2Combo->currentText() != "--")
-            nDevices++;
-        if (aux3Combo->currentText() != "--")
-            nDevices++;
-        if (aux4Combo->currentText() != "--")
-            nDevices++;
-
-        nRemoteDevices=0;
-
-        saveRemoteDrivers();
-    }
-
-    connect(INDIListener::Instance(), SIGNAL(newDevice(ISD::GDInterface*)), this, SLOT(processNewDevice(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newTelescope(ISD::GDInterface*)), this, SLOT(setTelescope(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newCCD(ISD::GDInterface*)), this, SLOT(setCCD(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newFilter(ISD::GDInterface*)), this, SLOT(setFilter(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newFocuser(ISD::GDInterface*)), this, SLOT(setFocuser(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newDome(ISD::GDInterface*)), this, SLOT(setDome(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newWeather(ISD::GDInterface*)), this, SLOT(setWeather(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newDustCap(ISD::GDInterface*)), this, SLOT(setDustCap(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newLightBox(ISD::GDInterface*)), this, SLOT(setLightBox(ISD::GDInterface*)));
-    connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
-    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);
-    connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
-
-    if (localMode)
-    {
-        if (isRunning("indiserver"))
-        {
-            if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, i18n("Ekos detected an instance of INDI server running. Do you wish to shut down the existing instance before starting a new one?"),
-                                                                i18n("INDI Server"), KStandardGuiItem::yes(), KStandardGuiItem::no(), "ekos_shutdown_existing_indiserver")))
-            {
-                //TODO is there a better way to do this.
-                QProcess p;
-                p.start("pkill indiserver");
-                p.waitForFinished();
-            }
-        }
-
-        appendLogText(i18n("Starting INDI services..."));
-
-        if (DriverManager::Instance()->startDevices(managedDevices) == false)
-        {
-            INDIListener::Instance()->disconnect(this);
-            ekosStartingStatus = STATUS_ERROR;
-            return false;
-        }
-
-        ekosStartingStatus = STATUS_PENDING;
-
-        appendLogText(i18n("INDI services started on port %1. Please connect devices.", ( (ccd_di != NULL) ? ccd_di->getPort() : guider_di->getPort())));
-
-        if (Options::verboseLogging())
-            qDebug() << "INDI services started on port " << ( (ccd_di != NULL) ? ccd_di->getPort() : guider_di->getPort());
-
-        QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
-
-    }
-    else
-    {
-        appendLogText(i18n("Connecting to remote INDI server at %1 on port %2 ...", Options::remoteHost(), Options::remotePort()));
-        qApp->processEvents();
-
-        QApplication::setOverrideCursor(Qt::WaitCursor);
-
-        if (DriverManager::Instance()->connectRemoteHost(remote_indi) == false)
-        {
-            appendLogText(i18n("Failed to connect to remote INDI server!"));
-            INDIListener::Instance()->disconnect(this);
-            delete (remote_indi);
-            remote_indi=0;
-            ekosStartingStatus = STATUS_ERROR;
-            QApplication::restoreOverrideCursor();
-            return false;
-        }
-
-        QApplication::restoreOverrideCursor();
-        ekosStartingStatus = STATUS_PENDING;
-
-        appendLogText(i18n("INDI services started. Connection to remote INDI server is successful."));
-
-        QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
-
-    }
-
-    connectB->setEnabled(false);
-    disconnectB->setEnabled(false);
-    controlPanelB->setEnabled(false);
-    fitsViewerB->setEnabled(false);
-    INDIB->setEnabled(false);
-
-    processINDIB->setText(i18n("Stop INDI"));
-
-    return true;
-
-
-}
-*/
 
 void EkosManager::checkINDITimeout()
 {
+    // Don't check anything unless we're still pending
+    if (ekosStartingStatus != STATUS_PENDING)
+        return;
+
     if (nDevices <= 0)
     {
         ekosStartingStatus = STATUS_SUCCESS;
@@ -1452,30 +1036,11 @@ void EkosManager::checkINDITimeout()
     if (localMode)
     {
         QStringList remainingDevices;
-        if (mount_di && mount == NULL)
-            remainingDevices << QString("+ %1").arg(mount_di->getName());
-        if (ccd_di && ccd == NULL)
-            remainingDevices << QString("+ %1").arg(ccd_di->getName());
-        if (guider_di && guider == NULL)
-            remainingDevices << QString("+ %1").arg(guider_di->getName());
-        if (focuser_di && focuser == NULL)
-            remainingDevices << QString("+ %1").arg(focuser_di->getName());
-        if (filter_di && filter == NULL)
-            remainingDevices << QString("+ %1").arg(filter_di->getName());        
-        if (ao_di && ao == NULL)
-            remainingDevices << QString("+ %1").arg(ao_di->getName());
-        if (dome_di && dome == NULL)
-            remainingDevices << QString("+ %1").arg(dome_di->getName());
-        if (weather_di && weather == NULL)
-            remainingDevices << QString("+ %1").arg(weather_di->getName());
-        if (aux1_di && aux1 == NULL)
-            remainingDevices << QString("+ %1").arg(aux1_di->getName());
-        if (aux2_di && aux2 == NULL)
-            remainingDevices << QString("+ %1").arg(aux2_di->getName());
-        if (aux3_di && aux3 == NULL)
-            remainingDevices << QString("+ %1").arg(aux3_di->getName());
-        if (aux4_di && aux4 == NULL)
-            remainingDevices << QString("+ %1").arg(aux4_di->getName());
+        foreach(DriverInfo *drv, managedDrivers)
+        {
+            if (drv->getDevices().count() == 0)
+                remainingDevices << QString("+ %1").arg(drv->getUniqueLabel().isEmpty() == false ? drv->getUniqueLabel() : drv->getName());
+        }
 
         if (remainingDevices.count() == 1)
         {
@@ -1493,30 +1058,23 @@ void EkosManager::checkINDITimeout()
         ProfileInfo *currentProfile = getCurrentProfile();
 
         QStringList remainingDevices;
-        if (currentProfile->drivers.contains("Mount") && mount == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->mount());
-        if (currentProfile->drivers.contains("CCD") && ccd == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->ccd());
-        if (currentProfile->drivers.contains("Guider") && guider == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->guider());
-        if (currentProfile->drivers.contains("Focuser") && focuser == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->focuser());
-        if (currentProfile->drivers.contains("Filter") && filter == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->filter());
-        if (currentProfile->drivers.contains("Dome") && dome == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->dome());
-        if (currentProfile->drivers.contains("Weather") && weather == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->weather());
-        if (currentProfile->drivers.contains("AO") && ao == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->ao());
-        if (currentProfile->drivers.contains("Aux1") && aux1 == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->aux1());
-        if (currentProfile->drivers.contains("Aux2") && aux2 == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->aux2());
-        if (currentProfile->drivers.contains("Aux3") && aux3 == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->aux3());
-        if (currentProfile->drivers.contains("Aux4") && aux4 == NULL)
-            remainingDevices << QString("+ %1").arg(currentProfile->aux4());
+
+        foreach(QString driver, currentProfile->drivers.values())
+        {
+            bool driverFound=false;
+
+            foreach(ISD::GDInterface *device, genericDevices)
+            {
+                if (device->getBaseDevice()->getDriverName() == driver)
+                {
+                    driverFound = true;
+                    break;
+                }
+            }
+
+            if (driverFound == false)
+                remainingDevices << QString("+ %1").arg(driver);
+        }
 
         if (remainingDevices.count() == 1)
         {
@@ -1533,155 +1091,26 @@ void EkosManager::checkINDITimeout()
     ekosStartingStatus = STATUS_ERROR;
 }
 
-/*void EkosManager::refreshRemoteDrivers()
-{
-    if (localMode == false)
-        initRemoteDrivers();
-}*/
-
 void EkosManager::connectDevices()
 {
 
     indiConnectionStatus = STATUS_PENDING;
 
-    if (mount)
-    {
-         mount->Connect();
-
-         if (mountProcess)
-             mountProcess->setEnabled(true);
-    }
-
-    if (ccd)
-    {
-        ccd->Connect();
-
-        if (captureProcess)
-            captureProcess->setEnabled(true);
-        if (focusProcess)
-            focusProcess->setEnabled(true);
-        if (alignProcess)
-            alignProcess->setEnabled(true);
-    }
-
-
-    if (guider && guider != ccd)
-        guider->Connect();
-
-    if (guideProcess)
-        guideProcess->setEnabled(true);
-
-    if (filter && filter != ccd)
-        filter->Connect();
-
-    if (ao)
-        ao->Connect();
-
-    if (focuser)
-    {
-        focuser->Connect();
-
-        if (focusProcess)
-            focusProcess->setEnabled(true);
-    }
-
-    if (dome)
-        dome->Connect();
-
-    if (weather)
-        weather->Connect();
-
-    if (aux1)
-        aux1->Connect();
-
-    if (aux2)
-        aux2->Connect();
-
-    if (aux3)
-        aux3->Connect();
-
-    if (aux4)
-        aux4->Connect();
+    foreach(ISD::GDInterface *device, genericDevices)
+        device->Connect();
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
 
-    appendLogText(i18n("Connecting INDI devices..."));
-
-    if (Options::verboseLogging())
-        qDebug() << "Connecting INDI devices...";
+    appendLogText(i18n("Connecting INDI devices..."));    
 }
 
 void EkosManager::disconnectDevices()
 {
+    foreach(ISD::GDInterface *device, genericDevices)
+        device->Disconnect();
 
-    if (mount)
-    {
-         mount->Disconnect();
-
-         if (mountProcess)
-             mountProcess->setEnabled(false);
-    }
-
-    if (ccd)
-    {
-        ccdStarted      =false;
-        ccd->Disconnect();
-
-        if (captureProcess)
-            captureProcess->setEnabled(false);
-        if (alignProcess)
-            alignProcess->setEnabled(false);
-        if (focusProcess)
-            focusProcess->setEnabled(false);
-    }
-
-    if (guider && guider != ccd)
-        guider->Disconnect();
-
-    if (guideProcess)
-        guideProcess->setEnabled(false);
-
-    if (ao)
-        ao->Disconnect();
-
-    if (filter && filter != ccd)
-        filter->Disconnect();
-
-    if (focuser)
-    {
-        focuser->Disconnect();
-
-        if (focusProcess)
-        {
-            disconnect(focuser, SIGNAL(numberUpdated(INumberVectorProperty*)), focusProcess, SLOT(processFocusNumber(INumberVectorProperty*)));
-            focusProcess->setEnabled(false);
-        }
-     }
-
-    if (dome)
-        dome->Disconnect();
-
-    if (weather)
-        weather->Disconnect();
-
-    if (aux1)
-        aux1->Disconnect();
-
-    if (aux2)
-        aux2->Disconnect();
-
-    if (aux3)
-        aux3->Disconnect();
-
-    if (aux4)
-        aux4->Disconnect();
-
-
-    appendLogText(i18n("Disconnecting INDI devices..."));
-
-    if (Options::verboseLogging())
-        qDebug() << "Disconnecting INDI devices...";
+    appendLogText(i18n("Disconnecting INDI devices..."));    
 
 }
 
@@ -1689,29 +1118,27 @@ void EkosManager::cleanDevices()
 {
 
     INDIListener::Instance()->disconnect(this);
+    DriverManager::Instance()->disconnect(this);
 
-    if (localMode)
+    if (managedDrivers.isEmpty() == false)
     {
-        DriverManager::Instance()->stopDevices(managedDevices);
-        /*if (guider_di)
+        if (localMode)
         {
-            if (guider_di->getAuxInfo().value("DELETE") == 1)
+            DriverManager::Instance()->stopDevices(managedDrivers);
+        }
+        else
+        {
+            DriverManager::Instance()->disconnectRemoteHost(managedDrivers.first());
+
+            ProfileInfo *pi = getCurrentProfile();
+            if (remoteManagerStart && pi->INDIWebManagerPort != -1)
             {
-                delete(guider_di);
-                guider_di=NULL;
+                INDI::WebManager::stopProfile(pi);
+                remoteManagerStart = false;
             }
-        }*/
-    }
-    else if (remote_indi)
-    {
-        DriverManager::Instance()->disconnectRemoteHost(remote_indi);
-        remote_indi = 0;
+        }
     }
 
-
-    nRemoteDevices=0;
-    nDevices = 0;
-    managedDevices.clear();
 
     reset();
 
@@ -1722,127 +1149,15 @@ void EkosManager::cleanDevices()
     controlPanelB->setEnabled(false);
     profileGroup->setEnabled(true);
 
-    appendLogText(i18n("INDI services stopped."));
-
-    if (Options::verboseLogging())
-        qDebug() << "Stopping INDI services.";
+    appendLogText(i18n("INDI services stopped."));    
 }
 
 void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
 {
-    if (localMode)
-        processLocalDevice(devInterface);
-    else
-        processRemoteDevice(devInterface);
-
-}
-
-void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
-{
     if (Options::verboseLogging())
         qDebug() << "Ekos received a new device: " << devInterface->getDeviceName();
 
-    DriverInfo *di = devInterface->getDriverInfo();
-
-            switch (di->getType())
-            {
-               case KSTARS_TELESCOPE:
-                mount = devInterface;
-                break;
-
-
-               case KSTARS_CCD:
-                if (aux1_di == di)
-                {
-                    aux1 = devInterface;
-                    break;
-                }
-                else if (aux2_di == di)
-                {
-                    aux2 = devInterface;
-                    break;
-                }
-                else if (aux3_di == di)
-                {
-                    aux3 = devInterface;
-                    break;
-                }
-                else if (aux4_di == di)
-                {
-                    aux4 = devInterface;
-                    break;
-                }
-
-                if (guider_di == di)
-                {
-                    guider = devInterface;
-                    guiderCCDName = devInterface->getDeviceName();
-                }
-                else if (ccd_di->getAuxInfo().value("mdpd", false).toBool() == true)
-                {
-                    if (ccdDriverSelected == false)
-                    {
-                        ccd = devInterface;
-                        primaryCCDName = QString(devInterface->getDeviceName());
-                        ccdDriverSelected = true;
-
-                    }
-                    else
-                    {
-                        guider = devInterface;
-                        guiderCCDName = devInterface->getDeviceName();
-                        //guideDriverSelected = true;
-
-                    }
-                }
-                else
-                {
-                    primaryCCDName = QString(devInterface->getDeviceName());
-                    ccd = devInterface;
-                }
-
-                break;
-
-            case KSTARS_ADAPTIVE_OPTICS:
-                ao = devInterface;
-                break;
-
-            case KSTARS_FOCUSER:
-                focuser = devInterface;
-                break;
-
-             case KSTARS_FILTER:
-                if (filter_di == di)
-                    filter = devInterface;
-                //if (useFilterFromCCD)
-                   // ccd = devInterface;
-                break;
-
-             case KSTARS_DOME:
-                if (dome_di == di)
-                    dome = devInterface;
-                break;
-
-            case KSTARS_WEATHER:
-               if (weather_di == di)
-                   weather = devInterface;
-               break;
-
-             case KSTARS_AUXILIARY:
-                if (aux1_di == di)
-                    aux1 = devInterface;
-                else if (aux2_di == di)
-                    aux2 = devInterface;
-                else if (aux3_di == di)
-                    aux3 = devInterface;
-                else if (aux4_di == di)
-                    aux4 = devInterface;
-                    break;
-
-              default:
-                return;
-                break;
-            }
+    genericDevices.append(devInterface);
 
      nDevices--;
 
@@ -1854,75 +1169,7 @@ void EkosManager::processLocalDevice(ISD::GDInterface *devInterface)
     {
         ekosStartingStatus = STATUS_SUCCESS;
 
-        connectB->setEnabled(true);
-        disconnectB->setEnabled(false);
-        controlPanelB->setEnabled(true);
-    }
-
-}
-
-void EkosManager::processRemoteDevice(ISD::GDInterface *devInterface)
-{
-    ProfileInfo *pi = getCurrentProfile();
-
-    QString deviceName(devInterface->getDeviceName());
-
-    if (deviceName == pi->mount())
-        mount = devInterface;
-    else if (remoteCCDRegistered == false && (deviceName == pi->ccd() || deviceName.startsWith(pi->ccd())))
-    {
-        ccd = devInterface;
-        primaryCCDName = QString(devInterface->getDeviceName());
-        remoteCCDRegistered = true;
-
-        // In case CCD = Guider, we decrement the device number.
-        if (QString(devInterface->getDeviceName()) == pi->guider())
-            nDevices--;
-    }
-    else if (remoteGuideRegistered == false &&
-            ( (pi->guider().isEmpty() == false && deviceName.startsWith(pi->guider()) ) ||
-              (deviceName.startsWith(pi->ccd()))))
-    {
-        guider = devInterface;
-        guiderCCDName = QString(devInterface->getDeviceName());
-        remoteGuideRegistered = true;
-     }
-    else if (deviceName == pi->ao())
-        ao = devInterface;
-    else if (deviceName == pi->focuser())
-        focuser = devInterface;
-    else if (deviceName == pi->filter())
-        filter = devInterface;
-    else if (deviceName == pi->dome())
-        dome = devInterface;
-    else if (deviceName == pi->weather())
-        weather = devInterface;
-    else if (deviceName == pi->aux1())
-        aux1 = devInterface;
-    else if (deviceName == pi->aux2())
-        aux2 = devInterface;
-    else if (deviceName == pi->aux3())
-        aux3 = devInterface;
-    else if (deviceName == pi->aux4())
-        aux4 = devInterface;
-    else
-        return;
-
-    nDevices--;
-    nRemoteDevices++;
-
-    if (Options::verboseLogging())
-        qDebug() << "Received new remote device " << deviceName << " nDevices: " << nDevices << " nRemoteDevices: " << nRemoteDevices;
-
-    connect(devInterface, SIGNAL(Connected()), this, SLOT(deviceConnected()));
-    connect(devInterface, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
-    connect(devInterface, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
-
-    if (nDevices <= 0)
-    {
-        ekosStartingStatus = STATUS_SUCCESS;
-
-        if (nDevices == 0)
+        if (localMode == false && nDevices == 0)
             appendLogText(i18n("Remote devices established. Please connect devices."));
 
         connectB->setEnabled(true);
@@ -1944,103 +1191,53 @@ void EkosManager::deviceConnected()
     {
         ISD::GDInterface *device = (ISD::GDInterface *) sender();
         qDebug() << device->getDeviceName() << " is connected.";
-        qDebug() << "Managed Devices: " << managedDevices.count() << " Remote Devices: " << nRemoteDevices;
+        qDebug() << "Managed Devices: " << managedDrivers.count() << " Remote Devices: " << nRemoteDevices;
         qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
     }
 
-    if (nConnectedDevices == managedDevices.count() || (nDevices <=0 && nConnectedDevices == nRemoteDevices))
-        indiConnectionStatus = STATUS_SUCCESS;
+    ProfileInfo *pi = getCurrentProfile();
+    //if (nConnectedDevices == managedDrivers.count() || (nDevices <=0 && nConnectedDevices == nRemoteDevices))
+    if (nConnectedDevices >= pi->drivers.count())
+        indiConnectionStatus = STATUS_SUCCESS;    
+
+    ISD::GDInterface *dev = static_cast<ISD::GDInterface *> (sender());
+
+    if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)
+    {
+        if (mountProcess)
+            mountProcess->setEnabled(true);
+    }
+    else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
+    {
+        if (captureProcess)
+            captureProcess->setEnabled(true);
+        if (focusProcess)
+            focusProcess->setEnabled(true);
+        if (alignProcess)
+            alignProcess->setEnabled(true);
+        if (guideProcess)
+            guideProcess->setEnabled(true);
+    }
+    else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
+    {
+        if (focusProcess)
+            focusProcess->setEnabled(true);
+    }
 
     if (Options::neverLoadConfig())
         return;
 
     INDIConfig tConfig = Options::loadConfigOnConnection() ? LOAD_LAST_CONFIG : LOAD_DEFAULT_CONFIG;
 
-    ISwitchVectorProperty *configProp = NULL;
-
-    if (mount && mount->isConnected())
+    foreach(ISD::GDInterface *device, genericDevices)
     {
-        configProp = mount->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           mount->setConfig(tConfig);
-    }
-
-    if (ccd && ccd->isConnected())
-    {
-        configProp = ccd->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           ccd->setConfig(tConfig);
-    }
-
-
-    if (guider && guider != ccd && guider->isConnected())
-    {
-        configProp = guider->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           guider->setConfig(tConfig);
-    }
-
-    if (ao && ao->isConnected())
-    {
-        configProp = ao->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           ao->setConfig(tConfig);
-    }
-
-    if (focuser && focuser->isConnected())
-    {
-        configProp = focuser->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           focuser->setConfig(tConfig);
-    }
-
-    if (filter && filter->isConnected())
-    {
-        configProp = filter->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           filter->setConfig(tConfig);
-    }
-
-    if (dome && dome->isConnected())
-    {
-        configProp = dome->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           dome->setConfig(tConfig);
-    }
-
-    if (weather && weather->isConnected())
-    {
-        configProp = weather->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           weather->setConfig(tConfig);
-    }
-
-    if (aux1 && aux1->isConnected())
-    {
-        configProp = aux1->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           aux1->setConfig(tConfig);
-    }
-
-    if (aux2 && aux2->isConnected())
-    {
-        configProp = aux2->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           aux2->setConfig(tConfig);
-    }
-
-    if (aux3 && aux3->isConnected())
-    {
-        configProp = aux3->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           aux3->setConfig(tConfig);
-    }
-
-    if (aux4 && aux4->isConnected())
-    {
-        configProp = aux4->getBaseDevice()->getSwitch("CONFIG_PROCESS");
-        if (configProp && configProp->s == IPS_IDLE)
-           aux4->setConfig(tConfig);
+        if (device == dev)
+        {
+            ISwitchVectorProperty *configProp = device->getBaseDevice()->getSwitch("CONFIG_PROCESS");
+            if (configProp && configProp->s == IPS_IDLE)
+               device->setConfig(tConfig);
+            break;
+        }
     }
 }
 
@@ -2074,216 +1271,197 @@ void EkosManager::deviceDisconnected()
 
     connectB->setEnabled(true);
     disconnectB->setEnabled(false);
-
     processINDIB->setEnabled(true);
 
+    if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)
+    {
+        if (mountProcess)
+            mountProcess->setEnabled(false);
+    }
+    else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
+    {
+        if (captureProcess)
+            captureProcess->setEnabled(false);
+        if (focusProcess)
+            focusProcess->setEnabled(false);
+        if (alignProcess)
+            alignProcess->setEnabled(false);
+        if (guideProcess)
+            guideProcess->setEnabled(false);
+    }
+    else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
+    {
+        if (focusProcess)
+            focusProcess->setEnabled(false);
+    }
 }
 
 void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 {
-    mount = scopeDevice;
+    //mount = scopeDevice;
 
-    appendLogText(i18n("%1 is online.", mount->getDeviceName()));
+    managedDevices[KSTARS_TELESCOPE] = scopeDevice;
 
-    scopeRegistered = true;
+    appendLogText(i18n("%1 is online.", scopeDevice->getDeviceName()));
 
     connect(scopeDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
 
     initMount();
 
-    mountProcess->setTelescope(mount);
+    mountProcess->setTelescope(scopeDevice);
 
     if (guideProcess)
-        guideProcess->setTelescope(mount);
+        guideProcess->setTelescope(scopeDevice);
 
     if (alignProcess)
-        alignProcess->setTelescope(mount);
+        alignProcess->setTelescope(scopeDevice);
 }
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 {    
-    bool isPrimaryCCD = (primaryCCDName == QString(ccdDevice->getDeviceName()));
-
-    if (isPrimaryCCD)
-    {
-        ccd = ccdDevice;
-    }
+    managedDevices.insertMulti(KSTARS_CCD, ccdDevice);
 
     initCapture();
 
-    captureProcess->addCCD(ccdDevice, isPrimaryCCD);
+    captureProcess->addCCD(ccdDevice);
+
+    ProfileInfo *pi = getCurrentProfile();
+    QString primaryCCD, guiderCCD;
+
+    // Only look for primary & guider CCDs if we can tell a difference between them
+    // otherwise rely on saved options
+    if (pi->ccd() != pi->guider())
+    {
+        foreach(ISD::GDInterface *device, findDevices(KSTARS_CCD))
+        {
+            if (QString(device->getDeviceName()).startsWith(pi->ccd(), Qt::CaseInsensitive))
+                primaryCCD = QString(device->getDeviceName());
+            else if (QString(device->getDeviceName()).startsWith(pi->guider(), Qt::CaseInsensitive))
+                guiderCCD = QString(device->getDeviceName());
+        }
+    }
+
+    bool rc=false;
+    if (Options::defaultCaptureCCD().isEmpty() == false)
+        rc = captureProcess->setCCD(Options::defaultCaptureCCD());
+    if (rc == false && primaryCCD.isEmpty() == false)
+        captureProcess->setCCD(primaryCCD);   
 
     initFocus();
 
-    focusProcess->addCCD(ccdDevice, isPrimaryCCD);
+    focusProcess->addCCD(ccdDevice);
+
+    rc=false;
+    if (Options::defaultFocusCCD().isEmpty() == false)
+        rc = focusProcess->setCCD(Options::defaultFocusCCD());
+    if (rc == false && primaryCCD.isEmpty() == false)
+        focusProcess->setCCD(primaryCCD);
+
 
     initAlign();
 
-    alignProcess->addCCD(ccdDevice, isPrimaryCCD);
+    alignProcess->addCCD(ccdDevice);
 
-    if (guiderCCDName.isEmpty() == false || useGuideHead)
-    {
-        guider = ccdDevice;
-        initGuide();
-        guideProcess->addCCD(ccdDevice, !isPrimaryCCD);
-        if (scopeRegistered)
-            guideProcess->setTelescope(mount);
-    }
+    rc=false;
+    if (Options::defaultAlignCCD().isEmpty() == false)
+        rc = alignProcess->setCCD(Options::defaultAlignCCD());
+    if (rc == false && primaryCCD.isEmpty() == false)
+        alignProcess->setCCD(primaryCCD);    
+
+    initGuide();
+
+    guideProcess->addCCD(ccdDevice);
+
+    rc=false;
+    if (Options::defaultGuideCCD().isEmpty() == false)
+        rc = guideProcess->setCCD(Options::defaultGuideCCD());
+    if (rc == false && guiderCCD.isEmpty() == false)
+            guideProcess->setCCD(guiderCCD);
 
     appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
 
     connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
 
-   if (scopeRegistered)
+   if (managedDevices.contains(KSTARS_TELESCOPE))
    {
-      alignProcess->setTelescope(mount);
-      captureProcess->setTelescope(mount);
+      alignProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+      captureProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+      guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
    }
 
 }
 
-/*void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
-{
-    bool isPrimaryCCD = false;
-
-    // For multiple devices per driver, we always treat the first device as the primary CCD
-    // but this shouldn't matter since the user can select the final ccd from the drop down in both CCD and Guide modules
-    if ( (ccd_di && ccd_di->getAuxInfo().value("mdpd", false).toBool()) == true || (remote_indi && remote_indi->getAuxInfo().value("mdpd", false).toBool()))
-    {
-        if (ccdStarted == false)
-            isPrimaryCCD = true;
-    }
-    else if ( ccd_di == ccdDevice->getDriverInfo() || (ccd_di == NULL && Options::remoteCCDName() == ccdDevice->getDeviceName()))
-        isPrimaryCCD = true;
-
-    initCapture();
-
-    captureProcess->addCCD(ccdDevice, isPrimaryCCD);
-
-    initFocus();
-
-    focusProcess->addCCD(ccdDevice, isPrimaryCCD);
-
-    connect(ccdDevice, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processNewNumber(INumberVectorProperty*)), Qt::UniqueConnection);
-
-    // If we have a guider and it's the same as the CCD driver, then let's establish it separately.
-    if (isPrimaryCCD == false)
-    {
-        guider = ccdDevice;
-        appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
-
-        initGuide();
-
-        guideProcess->addCCD(guider, true);
-        guideProcess->addCCD(ccd, false);
-
-        initAlign();
-        alignProcess->addCCD(guider, false);
-
-        if (scopeRegistered)
-        {
-            guideProcess->setTelescope(scope);
-            captureProcess->setTelescope(scope);
-        }
-    }
-    else
-    {
-        ccd = ccdDevice;
-
-        if (ccdStarted == false)
-            appendLogText(i18n("%1 is online.", ccdDevice->getDeviceName()));
-
-        ccdStarted = true;
-
-        initAlign();
-        alignProcess->addCCD(ccd, isPrimaryCCD);
-        if (scope && scope->isConnected())
-        {
-            alignProcess->setTelescope(scope);
-            captureProcess->setTelescope(scope);
-        }
-
-        // For multiple devices per driver, we also add the CCD to the guider selection
-        // since the order of initialization is not guranteed in real time
-        if (ccd_di && ccd_di->getAuxInfo().value("mdpd", false).toBool() == true)
-        {
-            initGuide();
-            guideProcess->addCCD(ccdDevice, true);
-        }
-    }
-
-}*/
-
 void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 {
 
-   filter = filterDevice;
-   appendLogText(i18n("%1 filter is online.", filter->getDeviceName()));
+   managedDevices.insertMulti(KSTARS_FILTER, filterDevice);
+
+   appendLogText(i18n("%1 filter is online.", filterDevice->getDeviceName()));
 
     initCapture();
 
-    connect(filter, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
-    connect(filter, SIGNAL(textUpdated(ITextVectorProperty*)), this, SLOT(processNewText(ITextVectorProperty*)));
+    connect(filterDevice, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processNewNumber(INumberVectorProperty*)));
+    connect(filterDevice, SIGNAL(textUpdated(ITextVectorProperty*)), this, SLOT(processNewText(ITextVectorProperty*)));
 
-    captureProcess->addFilter(filter);
+    captureProcess->addFilter(filterDevice);
 
     initFocus();
 
-    focusProcess->addFilter(filter);
+    focusProcess->addFilter(filterDevice);
 }
 
 void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 {
-    focuser = focuserDevice;
+    managedDevices.insertMulti(KSTARS_FILTER, focuserDevice);
 
     initCapture();
 
     initFocus();
 
-    focusProcess->addFocuser(focuser);
+    focusProcess->addFocuser(focuserDevice);
 
-    appendLogText(i18n("%1 is online.", focuser->getDeviceName()));
+    appendLogText(i18n("%1 is online.", focuserDevice->getDeviceName()));
 }
 
 void EkosManager::setDome(ISD::GDInterface *domeDevice)
 {
-    initDome();
+    managedDevices[KSTARS_DOME] = domeDevice;
 
-    dome = domeDevice;
+    initDome();    
 
-    domeProcess->setDome(dome);
+    domeProcess->setDome(domeDevice);
 
-    appendLogText(i18n("%1 is online.", dome->getDeviceName()));
+    appendLogText(i18n("%1 is online.", domeDevice->getDeviceName()));
 }
 
 void EkosManager::setWeather(ISD::GDInterface *weatherDevice)
 {
+    managedDevices[KSTARS_WEATHER] = weatherDevice;
+
     initWeather();
 
-    weather = weatherDevice;
+    weatherProcess->setWeather(weatherDevice);
 
-    weatherProcess->setWeather(weather);
-
-    appendLogText(i18n("%1 is online.", weather->getDeviceName()));
+    appendLogText(i18n("%1 is online.", weatherDevice->getDeviceName()));
 }
 
 void EkosManager::setDustCap(ISD::GDInterface *dustCapDevice)
 {
+    managedDevices.insertMulti(KSTARS_AUXILIARY, dustCapDevice);
+
     initDustCap();
 
-    dustCap = dustCapDevice;
+    dustCapProcess->setDustCap(dustCapDevice);
 
-    dustCapProcess->setDustCap(dustCap);
-
-    appendLogText(i18n("%1 is online.", dustCap->getDeviceName()));
+    appendLogText(i18n("%1 is online.", dustCapDevice->getDeviceName()));
 
     if (captureProcess)
-        captureProcess->setDustCap(dustCap);
+        captureProcess->setDustCap(dustCapDevice);
 }
 
 void EkosManager::setLightBox(ISD::GDInterface *lightBoxDevice)
 {
-    lightBox = lightBoxDevice;
+    managedDevices.insertMulti(KSTARS_AUXILIARY, lightBoxDevice);
 
     if (captureProcess)
         captureProcess->setLightBox(lightBoxDevice);
@@ -2308,21 +1486,18 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
 
     appendLogText(i18n("%1 is offline.", devInterface->getDeviceName()));
 
-    foreach(DriverInfo *drvInfo, managedDevices)
+    foreach(ISD::GDInterface *device, managedDevices.values())
     {
-        if (drvInfo == devInterface->getDriverInfo())
+        if (device == devInterface)
         {
-            managedDevices.removeOne(drvInfo);
+            managedDevices.remove(managedDevices.key(device));
 
             if (managedDevices.count() == 0)
-             cleanDevices();
+                cleanDevices();
 
             break;
         }
     }
-
-
-
 }
 
 void EkosManager::processNewText(ITextVectorProperty *tvp)
@@ -2339,17 +1514,17 @@ void EkosManager::processNewText(ITextVectorProperty *tvp)
 
 void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 {
-    if (!strcmp(nvp->name, "TELESCOPE_INFO"))
+    if (!strcmp(nvp->name, "TELESCOPE_INFO") && managedDevices.contains(KSTARS_TELESCOPE))
     {
         if (guideProcess)
         {
-           guideProcess->setTelescope(mount);
+           guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
            guideProcess->syncTelescopeInfo();
         }
 
         if (alignProcess)
         {
-            alignProcess->setTelescope(mount);
+            alignProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
             alignProcess->syncTelescopeInfo();
         }
 
@@ -2357,8 +1532,7 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 
     }
 
-    if (!strcmp(nvp->name, "CCD_INFO") || !strcmp(nvp->name, "GUIDER_INFO")
-            || !strcmp(nvp->name, "CCD_FRAME") || !strcmp(nvp->name, "GUIDER_FRAME"))
+    if (!strcmp(nvp->name, "CCD_INFO") || !strcmp(nvp->name, "GUIDER_INFO")  || !strcmp(nvp->name, "CCD_FRAME") || !strcmp(nvp->name, "GUIDER_FRAME"))
     {
         if (focusProcess)
             focusProcess->syncCCDInfo();
@@ -2396,41 +1570,42 @@ void EkosManager::processNewProperty(INDI::Property* prop)
         return;
     }
 
-    if (!strcmp(prop->getName(), "TELESCOPE_INFO"))
+    if (!strcmp(prop->getName(), "TELESCOPE_INFO") && managedDevices.contains(KSTARS_TELESCOPE))
     {
         if (guideProcess)
         {
-           guideProcess->setTelescope(mount);
+           guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
            guideProcess->syncTelescopeInfo();
         }
 
         if (mountProcess)
         {
-           mountProcess->setTelescope(mount);
+           mountProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
            mountProcess->syncTelescopeInfo();
         }
 
-
-
         return;
-
     }
 
     if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
-    {
-        initCapture();        
+    {       
+        foreach(ISD::GDInterface *device, findDevices(KSTARS_CCD))
+        {
+            if (!strcmp(device->getDeviceName(), prop->getDeviceName()))
+            {
+                    initCapture();
+                    initGuide();
+                    useGuideHead=true;
+                    captureProcess->addGuideHead(device);
+                    guideProcess->addGuideHead(device);
 
-        if (ccd && !strcmp(ccd->getDeviceName(), prop->getDeviceName()))
-        {
-            useGuideHead=true;
-            initGuide();
-            captureProcess->addGuideHead(ccd);
-            guideProcess->addGuideHead(ccd);
-        }
-        else if (guider)
-        {
-            captureProcess->addGuideHead(guider);
-            guideProcess->addGuideHead(guider);
+                    bool rc = false;
+                    if (Options::defaultGuideCCD().isEmpty() == false)
+                        rc = guideProcess->setCCD(Options::defaultGuideCCD());
+                    if (rc == false)
+                            guideProcess->setCCD(QString(device->getDeviceName()) + QString(" Guider"));
+                    return;
+            }
         }
 
         return;
@@ -2440,19 +1615,23 @@ void EkosManager::processNewProperty(INDI::Property* prop)
     {
         if (captureProcess)
         {
-            if (ccd && !strcmp(ccd->getDeviceName(), prop->getDeviceName()))
-                captureProcess->syncFrameType(ccd);
-            else if (guider)
-                captureProcess->syncFrameType(guider);
+            foreach(ISD::GDInterface *device, findDevices(KSTARS_CCD))
+            {
+                if (!strcmp(device->getDeviceName(), prop->getDeviceName()))
+                {
+                    captureProcess->syncFrameType(device);
+                    return;
+                }
+            }
         }
 
         return;
     }
 
-    if (!strcmp(prop->getName(), "TELESCOPE_PARK"))
+    if (!strcmp(prop->getName(), "TELESCOPE_PARK") && managedDevices.contains(KSTARS_TELESCOPE))
     {
         if (captureProcess)
-            captureProcess->setTelescope(mount);
+            captureProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
 
         return;
     }
@@ -2470,6 +1649,22 @@ void EkosManager::processNewProperty(INDI::Property* prop)
 
 }
 
+QList<ISD::GDInterface*> EkosManager::findDevices(DeviceFamily type)
+{
+    QList<ISD::GDInterface*> deviceList;
+
+    QMapIterator<DeviceFamily, ISD::GDInterface*> i(managedDevices);
+    while (i.hasNext())
+    {
+        i.next();
+
+        if (i.key() == type)
+            deviceList.append(i.value());
+    }
+
+    return deviceList;
+}
+
 void EkosManager::processTabChange()
 {
     QWidget *currentWidget = toolsWidget->currentWidget();
@@ -2482,9 +1677,9 @@ void EkosManager::processTabChange()
 
     if (alignProcess && currentWidget == alignProcess)
     {
-        if (alignProcess->isEnabled() == false && captureProcess->isEnabled() && ccd && ccd->isConnected())
+        if (alignProcess->isEnabled() == false && captureProcess->isEnabled())
         {
-            if (alignProcess->isParserOK())
+            if (managedDevices[KSTARS_CCD]->isConnected() && alignProcess->isParserOK())
                 alignProcess->setEnabled(true);
         }
 
@@ -2537,6 +1732,9 @@ void EkosManager::appendLogText(const QString &text)
 
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
+    if (Options::verboseLogging())
+        qDebug() << "Ekos: " << text;
+
     updateLog();
 }
 
@@ -2575,10 +1773,14 @@ void EkosManager::initCapture()
      toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
      connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
 
-     if (dustCap)
-         captureProcess->setDustCap(dustCap);
-     if (lightBox)
-         captureProcess->setLightBox(lightBox);
+
+     foreach(ISD::GDInterface *device, findDevices(KSTARS_AUXILIARY))
+     {
+         if (device->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::DUSTCAP_INTERFACE)
+             captureProcess->setDustCap(device);
+         if (device->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::LIGHTBOX_INTERFACE)
+             captureProcess->setLightBox(device);
+     }
 
      if (focusProcess)
      {
@@ -2702,17 +1904,18 @@ void EkosManager::initGuide()
     if (guideProcess == NULL)
         guideProcess = new Ekos::Guide();
 
-    if ( ( (guider && guider->isConnected()) || useGuideHead) && useST4 && guideStarted == false)
+    //if ( (haveGuider || ccdCount > 1 || useGuideHead) && useST4 && toolsWidget->indexOf(guideProcess) == -1)
+    if ( (findDevices(KSTARS_CCD).isEmpty() == false || useGuideHead) && useST4 && toolsWidget->indexOf(guideProcess) == -1)
     {
-        guideStarted = true;
-        if (mount && mount->isConnected())
-            guideProcess->setTelescope(mount);
+
+        //if (mount && mount->isConnected())
+        if (managedDevices.contains(KSTARS_TELESCOPE) && managedDevices[KSTARS_TELESCOPE]->isConnected())
+            guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
 
         //toolsWidget->addTab( guideProcess, i18n("Guide"));
         int index = toolsWidget->addTab( guideProcess, QIcon::fromTheme("kstars_ekos_guide"), "");
         toolsWidget->tabBar()->setTabToolTip(index, i18n("Guide"));
         connect(guideProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
-
     }
 
     if (captureProcess)
@@ -2778,20 +1981,24 @@ void EkosManager::initDustCap()
 void EkosManager::setST4(ISD::ST4 * st4Driver)
 {
      appendLogText(i18n("Guider port from %1 is ready.", st4Driver->getDeviceName()));
+
      useST4=true;
 
      initGuide();
 
      guideProcess->addST4(st4Driver);
 
-     if (ao && ao->getDeviceName() == st4Driver->getDeviceName())
+     if (Options::defaultST4Driver().isEmpty() == false)
+         guideProcess->setST4(Options::defaultST4Driver());
+
+     //if (ao && ao->getDeviceName() == st4Driver->getDeviceName())
+     if (managedDevices.contains(KSTARS_ADAPTIVE_OPTICS) && (st4Driver->getDeviceName() == managedDevices[KSTARS_ADAPTIVE_OPTICS]->getDeviceName()))
          guideProcess->setAO(st4Driver);
 
 }
 
 void EkosManager::removeTabs()
 {
-
     disconnect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
 
         for (int i=2; i < toolsWidget->count(); i++)
@@ -2800,42 +2007,44 @@ void EkosManager::removeTabs()
         delete (alignProcess);
         alignProcess = NULL;
 
-        ccd = NULL;
+        //ccd = NULL;
         delete (captureProcess);
         captureProcess = NULL;
 
 
-        guider = NULL;
+        //guider = NULL;
         delete (guideProcess);
         guideProcess = NULL;
 
         delete (mountProcess);
         mountProcess = NULL;
 
-        ao = NULL;
+        //ao = NULL;
 
-        focuser = NULL;
+        //focuser = NULL;
         delete (focusProcess);
         focusProcess = NULL;
 
-        dome = NULL;
+        //dome = NULL;
         delete (domeProcess);
         domeProcess = NULL;
 
-        weather = NULL;
+        //weather = NULL;
         delete (weatherProcess);
         weatherProcess = NULL;
 
-        dustCap = NULL;
+        //dustCap = NULL;
         delete (dustCapProcess);
         dustCapProcess = NULL;
 
-        lightBox = NULL;
+        //lightBox = NULL;
 
-        aux1 = NULL;
-        aux2 = NULL;
-        aux3 = NULL;
-        aux4 = NULL;
+        //aux1 = NULL;
+        //aux2 = NULL;
+        //aux3 = NULL;
+        //aux4 = NULL;
+
+        managedDevices.clear();
 
         connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
 
@@ -2849,213 +2058,6 @@ bool EkosManager::isRunning(const QString &process)
   QString output = ps.readAllStandardOutput();
   return output.startsWith(process);
 }
-
-#if 0
-void EkosManager::setTelescope(const QString & telescopeName)
-{
-    if (localMode)
-    {
-        for (int i=0; i < telescopeCombo->count(); i++)
-            if (telescopeCombo->itemText(i) == telescopeName)
-            {
-                telescopeCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-    else
-        Options::setRemoteScopeName(telescopeName);
-
-}
-
-void EkosManager::setCCD(const QString & ccdName)
-{
-    if (localMode)
-    {
-        for (int i=0; i < ccdCombo->count(); i++)
-            if (ccdCombo->itemText(i) == ccdName)
-            {
-                ccdCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-    else
-        Options::setRemoteCCDName(ccdName);
-
-
-}
-
-void EkosManager::setGuider(const QString & guiderName)
-{
-    if (localMode)
-    {
-        for (int i=0; i < guiderCombo->count(); i++)
-            if (guiderCombo->itemText(i) == guiderName)
-            {
-                guiderCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-    else
-        Options::setRemoteGuiderName(guiderName);
-
-}
-
-void EkosManager::setFocuser(const QString & focuserName)
-{
-    if (localMode)
-    {
-        for (int i=0; i < focuserCombo->count(); i++)
-            if (focuserCombo->itemText(i) == focuserName)
-            {
-                focuserCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-    else
-        Options::setRemoteFocuserName(focuserName);
-
-}
-
-void EkosManager::setAO(const QString & AOName)
-{
-    if (localMode)
-    {
-        for (int i=0; i < AOCombo->count(); i++)
-            if (AOCombo->itemText(i) == AOName)
-            {
-                AOCombo->setCurrentIndex(i);
-                break;
-            }
-    }
-    else
-        Options::setRemoteAOName(AOName);
-}
-
-void EkosManager::setFilter(const QString & filterName)
-{
-    if (localMode)
-    {
-            for (int i=0; i < filterCombo->count(); i++)
-                if (filterCombo->itemText(i) == filterName)
-                {
-                    filterCombo->setCurrentIndex(i);
-                    break;
-                }
-
-    }
-    else
-        Options::setRemoteFilterName(filterName);
-
-
-}
-
-void EkosManager::setDome(const QString & domeName)
-{
-  if (localMode)
-  {
-      for (int i=0; i < domeCombo->count(); i++)
-          if (domeCombo->itemText(i) == domeName)
-          {
-              domeCombo->setCurrentIndex(i);
-              break;
-          }
-  }
-  else
-      Options::setRemoteDomeName(domeName);
-
-}
-
-void EkosManager::setWeather(const QString & weatherName)
-{
-  if (localMode)
-  {
-      for (int i=0; i < weatherCombo->count(); i++)
-          if (weatherCombo->itemText(i) == weatherName)
-          {
-              weatherCombo->setCurrentIndex(i);
-              break;
-          }
-  }
-  else
-      Options::setRemoteWeatherName(weatherName);
-
-}
-
-void EkosManager::setAuxiliary(int index, const QString & auxiliaryName)
-{
-    if (localMode)
-    {
-        switch (index)
-        {
-            case 1:
-            for (int i=0; i < aux1Combo->count(); i++)
-                if (aux1Combo->itemText(i) == auxiliaryName)
-                {
-                    aux1Combo->setCurrentIndex(i);
-                    break;
-                }
-            break;
-
-            case 2:
-            for (int i=0; i < aux2Combo->count(); i++)
-                if (aux2Combo->itemText(i) == auxiliaryName)
-                {
-                    aux2Combo->setCurrentIndex(i);
-                    break;
-                }
-            break;
-
-            case 3:
-            for (int i=0; i < aux3Combo->count(); i++)
-                if (aux3Combo->itemText(i) == auxiliaryName)
-                {
-                    aux3Combo->setCurrentIndex(i);
-                    break;
-                }
-            break;
-
-            case 4:
-            for (int i=0; i < aux4Combo->count(); i++)
-                if (aux4Combo->itemText(i) == auxiliaryName)
-                {
-                    aux4Combo->setCurrentIndex(i);
-                    break;
-                }
-        break;
-
-           default:
-            break;
-
-        }
-
-
-    }
-    else
-    {
-        switch (index)
-        {
-            case 1:
-            Options::setRemoteAux1Name(auxiliaryName);
-            break;
-
-            case 2:
-            Options::setRemoteAux2Name(auxiliaryName);
-            break;
-
-            case 3:
-            Options::setRemoteAux3Name(auxiliaryName);
-            break;
-
-            case 4:
-            Options::setRemoteAux4Name(auxiliaryName);
-            break;
-
-            default:
-                break;
-        }
-    }
-}
-#endif
 
 void EkosManager::addObjectToScheduler(SkyObject *object)
 {
@@ -3075,6 +2077,15 @@ bool EkosManager::setProfile(const QString &profileName)
     return true;
 }
 
+QStringList EkosManager::getProfiles()
+{
+    QStringList profiles;
+
+    for (int i=0; i < profileCombo->count(); i++)
+        profiles << profileCombo->itemText(i);
+
+    return profiles;
+}
 
 void EkosManager::addProfile()
 {
@@ -3097,16 +2108,15 @@ void EkosManager::editProfile()
 
     Q_ASSERT(currentProfile);
 
-    QString name = currentProfile->name;
-
     editor.setPi(currentProfile);
 
     if (editor.exec() == QDialog::Accepted)
     {
+        int currentIndex = profileCombo->currentIndex();
         qDeleteAll(profiles);
         profiles.clear();
         loadProfiles();
-        profileCombo->setCurrentIndex(profileCombo->findText(name));
+        profileCombo->setCurrentIndex(currentIndex);
     }
 
 }

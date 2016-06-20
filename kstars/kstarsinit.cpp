@@ -22,7 +22,6 @@
 #include <QMenu>
 #include <QWidgetAction>
 
-#include <KIconThemes/KIconLoader>
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KTipDialog>
@@ -130,7 +129,7 @@ namespace {
 }
 
 void KStars::initActions() {
-    KIconLoader::global()->addAppDir( "kstars" );
+    //KIconLoader::global()->addAppDir( "kstars" );
     QAction *ka;
 
     // ==== File menu ================
@@ -674,6 +673,7 @@ void KStars::datainitFinished() {
 
     //DEBUG
     qDebug() << "The current Date/Time is: " << KStarsDateTime::currentDateTime().toString();
+
 }
 
 void KStars::initFocus() {

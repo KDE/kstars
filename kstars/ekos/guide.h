@@ -184,14 +184,14 @@ public:
 
     /** @}*/
 
-    void addCCD(ISD::GDInterface *newCCD, bool isPrimaryGuider);
+    void addCCD(ISD::GDInterface *newCCD);
     void setTelescope(ISD::GDInterface *newTelescope);
     void addST4(ISD::ST4 *newST4);
     void setAO(ISD::ST4 *newAO);
 
     bool isDithering();
 
-    void addGuideHead(ISD::GDInterface *ccd);
+    void addGuideHead(ISD::GDInterface *newCCD);
     void syncTelescopeInfo();
     void syncCCDInfo();
 
@@ -269,6 +269,9 @@ protected slots:
         void processCCDNumber(INumberVectorProperty *nvp);
 
         void saveDefaultGuideExposure();
+
+        void setDefaultCCD(QString ccd);
+        void setDefaultST4(QString st4);
 
 signals:
         void newLog();

@@ -1036,9 +1036,17 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
 
 void CCD::processText(ITextVectorProperty *tvp)
 {
+    if (!strcmp(tvp->name, "CCD_FILE_PATH"))
+    {
+        IText *filepath = IUFindText(tvp, "FILE_PATH");
+        if (filepath)
+            emit newRemoteFile(QString(filepath->text));
+
+        return;
+    }
+
     DeviceDecorator::processText(tvp);
 }
-
 
 void CCD::processBLOB(IBLOB* bp)
 {
@@ -1250,19 +1258,26 @@ void CCD::processBLOB(IBLOB* bp)
         }
 
 
+        int tabRC = -1;
+
         switch (targetChip->getCaptureMode())
         {
             case FITS_NORMAL:
                 if (normalTabID == -1 || Options::singlePreviewFITS() == false)
-                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+                    tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
                 else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
                 {
                     fv->removeFITS(normalTabID);
-                    normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+                    tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
                 }
+                else
+                    tabRC = normalTabID;
 
-                if (normalTabID >= 0)
+                if (tabRC >= 0)
+                {
+                    normalTabID = tabRC;
                     targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
+                }
                 else
                     // If opening file fails, we treat it the same as exposure failure and recapture again if possible
                     emit newExposureValue(targetChip, 0, IPS_ALERT);
@@ -1270,47 +1285,61 @@ void CCD::processBLOB(IBLOB* bp)
 
             case FITS_FOCUS:
                 if (focusTabID == -1)
-                    focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
+                    tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
                 else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
                 {
                     fv->removeFITS(focusTabID);
-                    focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
+                    tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
                 }
+                else
+                    tabRC = focusTabID;
 
-                if (focusTabID >= 0)
+                if (tabRC >= 0)
+                {
+                    focusTabID = tabRC;
                     targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
+                }
                 else
                     emit newExposureValue(targetChip, 0, IPS_ALERT);
                 break;
 
         case FITS_GUIDE:
             if (guideTabID == -1)
-                guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
+                tabRC = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
             else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
             {
                 fv->removeFITS(guideTabID);
-                guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
+                tabRC = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
             }
+            else
+                tabRC = guideTabID;
 
-            if (guideTabID >= 0)
+            if (tabRC >= 0)
+            {
+                guideTabID = tabRC;
                 targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
+            }
             else
                 emit newExposureValue(targetChip, 0, IPS_ALERT);
             break;
 
         case FITS_CALIBRATE:
             if (calibrationTabID == -1)
-                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+                tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
             else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
             {
                 fv->removeFITS(calibrationTabID);
-                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+                tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
             }
-
-            if (calibrationTabID >= 0)
-                targetChip->setImage(fv->getView(calibrationTabID), FITS_CALIBRATE);
             else
+                tabRC = calibrationTabID;
 
+            if (tabRC >= 0)
+            {
+                calibrationTabID = tabRC;
+                targetChip->setImage(fv->getView(calibrationTabID), FITS_CALIBRATE);
+            }
+            else
                 emit newExposureValue(targetChip, 0, IPS_ALERT);
             break;
 

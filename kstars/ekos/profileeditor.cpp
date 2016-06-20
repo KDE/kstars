@@ -59,7 +59,7 @@ ProfileEditor::~ProfileEditor()
 
 void ProfileEditor::saveProfile()
 {
-    bool newProfle = (pi == NULL);
+    bool newProfile = (pi == NULL);
 
     if (ui->profileIN->text().isEmpty())
     {
@@ -67,17 +67,20 @@ void ProfileEditor::saveProfile()
         return;
     }
 
-   if (newProfle)
+   if (newProfile)
    {
        int id = KStarsData::Instance()->userdb()->AddProfile(ui->profileIN->text());
        pi = new ProfileInfo(id, ui->profileIN->text());
    }
+   else
+       pi->name = ui->profileIN->text();
 
    // Local Mode
    if (ui->localMode->isChecked())
    {
        pi->host.clear();
        pi->port=-1;
+       pi->INDIWebManagerPort=-1;
        //pi->customDrivers = ui->customDriversIN->text();
    }
    // Remote Mode
@@ -85,6 +88,7 @@ void ProfileEditor::saveProfile()
    {
        pi->host = ui->remoteHost->text();
        pi->port = ui->remotePort->text().toInt();
+       pi->INDIWebManagerPort = ui->INDIWebManagerPort->text().toInt();
        //pi->customDrivers.clear();
    }
 
@@ -165,7 +169,7 @@ void ProfileEditor::saveProfile()
    KStarsData::Instance()->userdb()->SaveProfile(pi);
 
    // Ekos manager will reload and new profiles will be created
-   if (newProfle)
+   if (newProfile)
     delete (pi);
 
    accept();
@@ -201,6 +205,9 @@ void ProfileEditor::setRemoteMode(bool enable)
 
     ui->loadSiteCheck->setEnabled(enable);
 
+    ui->INDIWebManagerCheck->setEnabled(enable);
+    ui->INDIWebManagerPort->setEnabled(enable);
+
 }
 
 void ProfileEditor::setPi(ProfileInfo *value)
@@ -225,6 +232,12 @@ void ProfileEditor::setPi(ProfileInfo *value)
         ui->remotePort->setText(QString::number(pi->port));
 
         ui->remoteMode->setChecked(true);
+
+        if (pi->INDIWebManagerPort != -1)
+        {
+            ui->INDIWebManagerCheck->setChecked(true);
+            ui->INDIWebManagerPort->setText(QString::number(pi->INDIWebManagerPort));
+        }
     }
 
     QMapIterator<QString, QString> i(pi->drivers);

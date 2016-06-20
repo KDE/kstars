@@ -171,6 +171,7 @@ signals:
     void newTemperatureValue(double value);
     void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
     void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
+    void newRemoteFile(QString);
 
 private:    
     void addFITSKeywords(QString filename);

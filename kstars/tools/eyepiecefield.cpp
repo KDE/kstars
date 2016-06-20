@@ -192,7 +192,7 @@ void EyepieceField::slotEnforcePreset( int index ) {
 
 void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, const QString &imagePath ) {
 
-    double dssWidth, dssHeight, fovWidth, fovHeight;
+    double fovWidth, fovHeight;
 
     Q_ASSERT( sp );
 
@@ -299,7 +299,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
         dssHeight = dssImage.getMetadata().height;
         if( dssWidth == 0 || dssHeight == 0 ) {
             // Metadata unavailable, guess based on most common DSS arcsec/pixel
-            const double dssArcSecPerPixel = 1.01;
+            //const double dssArcSecPerPixel = 1.01;
             dssWidth = dssImage.getImage().width()*1.01/60.0;
             dssHeight = dssImage.getImage().height()*1.01/60.0;
         }
@@ -559,12 +559,35 @@ void EyepieceField::slotExport() {
 
 dms EyepieceField::findNorthAngle( const SkyPoint *sp, const dms *lat ) {
     Q_ASSERT( sp && lat );
-    // FIXME: This procedure does not account for precession and nutation. Need to figure out how to incorporate these effects.
+
+    // NOTE: northAngle1 is the correction due to lunisolar precession
+    // (needs testing and checking). northAngle2 is the correction due
+    // to going from equatorial to horizontal coordinates.
+
+    // FIXME: The following code is a guess at how to handle
+    // precession. While it might work in many cases, it might fail in
+    // some. Careful testing will be needed to ensure that all
+    // conditions are met, esp. with getting the signs right when
+    // using arccosine! Nutation and planetary precession corrections
+    // have not been included. -- asimha
+    // TODO: Look at the Meeus book and see if it has some formulas -- asimha
+    const double equinoxPrecessionPerYear = (50.35 / 3600.0); // Equinox precession in ecliptic longitude per year in degrees (ref: http://star-www.st-and.ac.uk/~fv/webnotes/chapt16.htm)
+    dms netEquinoxPrecession( ( (sp->getLastPrecessJD() - J2000)/365.25 ) * equinoxPrecessionPerYear );
+    double cosNorthAngle1 = ( netEquinoxPrecession.cos() - sp->dec0().sin() * sp->dec().sin() ) / ( sp->dec0().cos() * sp->dec().cos() );
+    double northAngle1 = acos( cosNorthAngle1 );
+    if( sp->getLastPrecessJD() < J2000 )
+        northAngle1 = -northAngle1;
+    if( sp->dec0().Degrees() < 0 )
+        northAngle1 = -northAngle1;
     // We trust that EquatorialToHorizontal has been called on sp, after all, how else can it have an alt/az representation.
     // Use spherical cosine rule (the triangle with vertices at sp, zenith and NCP) to compute the angle between direction of increasing altitude and north
-    double cosNorthAngle = ( lat->sin() - sp->alt().sin() * sp->dec().sin() )/( sp->alt().cos() * sp->dec().cos() );
-    double northAngle = acos( cosNorthAngle ); // arccosine is blind to sign of the angle
+    double cosNorthAngle2 = ( lat->sin() - sp->alt().sin() * sp->dec().sin() )/( sp->alt().cos() * sp->dec().cos() );
+    double northAngle2 = acos( cosNorthAngle2 ); // arccosine is blind to sign of the angle
     if( sp->az().reduce().Degrees() < 180.0 ) // if on the eastern hemisphere, flip sign
-        northAngle = -northAngle;
+        northAngle2 = -northAngle2;
+    double northAngle = northAngle1 + northAngle2;
+    qDebug() << "Data: alt = " << sp->alt().toDMSString() << "; az = " << sp->az().toDMSString() << "; ra, dec (" << sp->getLastPrecessJD()/365.25 << ") = " << sp->ra().toHMSString() <<
+        "," << sp->dec().toDMSString() << "; ra0,dec0 (J2000.0) = " << sp->ra0().toHMSString() << "," << sp->dec0().toDMSString();
+    qDebug() << "PA corrections: precession cosine = " << cosNorthAngle1 << "; angle = " << northAngle1 << "; horizontal = " << cosNorthAngle2 << "; angle = " << northAngle2;
     return dms( northAngle * 180/M_PI );
 }

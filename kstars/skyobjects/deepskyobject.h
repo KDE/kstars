@@ -74,7 +74,7 @@ public:
 
     virtual DeepSkyObject* clone() const;
     virtual SkyObject::UID getUID() const;
-    
+
     /** *Destructor */
     virtual ~DeepSkyObject() { }
 
