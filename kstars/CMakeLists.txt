@@ -119,6 +119,7 @@ if(INDI_FOUND)
             ekos/astrometryparser.cpp
             ekos/offlineastrometryparser.cpp
             ekos/onlineastrometryparser.cpp
+            ekos/remoteastrometryparser.cpp
             ekos/profileeditor.cpp
             ekos/opsekos.cpp
             ekos/QProgressIndicator.cpp
