@@ -88,9 +88,12 @@ void ProfileEditor::saveProfile()
    {
        pi->host = ui->remoteHost->text();
        pi->port = ui->remotePort->text().toInt();
-       pi->INDIWebManagerPort = ui->INDIWebManagerPort->text().toInt();
+       if (ui->INDIWebManagerCheck->isChecked())
+           pi->INDIWebManagerPort = ui->INDIWebManagerPort->text().toInt();
+       else
+           pi->INDIWebManagerPort=-1;
        //pi->customDrivers.clear();
-   }
+   }      
 
    // City Info
    if (ui->loadSiteCheck->isEnabled() && ui->loadSiteCheck->isChecked())
@@ -233,10 +236,15 @@ void ProfileEditor::setPi(ProfileInfo *value)
 
         ui->remoteMode->setChecked(true);
 
-        if (pi->INDIWebManagerPort != -1)
+        if (pi->INDIWebManagerPort > 0)
         {
             ui->INDIWebManagerCheck->setChecked(true);
             ui->INDIWebManagerPort->setText(QString::number(pi->INDIWebManagerPort));
+        }
+        else
+        {
+            ui->INDIWebManagerCheck->setChecked(false);
+            ui->INDIWebManagerPort->setText("8624");
         }
     }
 
