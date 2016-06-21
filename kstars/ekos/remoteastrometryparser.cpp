@@ -102,7 +102,6 @@ bool RemoteAstrometryParser::stopSolver()
     }
 
     solverRunning=false;
-    solverTimer.stop();
 
     return true;
 
