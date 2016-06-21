@@ -273,10 +273,13 @@ void INDI_E::syncText()
     if (tp == NULL)
         return;
 
-    if (tp->text[0])
-        read_w->setText(i18nc(libindi_strings_context, tp->text));
-    else
-        read_w->setText(tp->text);
+    if (tp->tvp->p != IP_WO)
+    {
+        if (tp->text[0])
+            read_w->setText(i18nc(libindi_strings_context, tp->text));
+        else
+            read_w->setText(tp->text);
+    }
 }
 
 void INDI_E::syncNumber()
