@@ -38,7 +38,7 @@ SequenceJob::SequenceJob()
     currentTemperature=targetTemperature=INVALID_TEMPERATURE;
     captureFilter=FITS_NONE;
     preview=false;
-    filterReady=temperatureReady=true;
+    filterReady=temperatureReady=filterPostFocusReady=true;
     enforceTemperature=false;
     activeChip=NULL;
     activeCCD=NULL;
@@ -121,6 +121,10 @@ void SequenceJob::prepareCapture()
         else
         {
             filterReady = false;
+
+            // Post Focus on Filter change
+            filterPostFocusReady = !Options::autoFocusOnFilterChange();
+
             activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
         }
     }
@@ -260,7 +264,7 @@ void SequenceJob::setCurrentTemperature(double value)
     if (enforceTemperature == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
         temperatureReady = true;
 
-    if (filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (filterReady && temperatureReady && filterPostFocusReady && (status == JOB_IDLE || status == JOB_ABORTED))
         emit prepareComplete();
 }
 
@@ -363,6 +367,19 @@ void SequenceJob::setRootFITSDir(const QString &value)
     rootFITSDir = value;
 }
 
+bool SequenceJob::getFilterPostFocusReady() const
+{
+    return filterPostFocusReady;
+}
+
+void SequenceJob::setFilterPostFocusReady(bool value)
+{
+    filterPostFocusReady = value;
+
+    if (filterPostFocusReady && filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
+        emit prepareComplete();
+}
+
 int SequenceJob::getISOIndex() const
 {
     return isoIndex;
@@ -385,8 +402,10 @@ void SequenceJob::setCurrentFilter(int value)
     if (currentFilter == targetFilter)
         filterReady = true;
 
-    if (filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (filterReady && temperatureReady && filterPostFocusReady && (status == JOB_IDLE || status == JOB_ABORTED))
         emit prepareComplete();
+    else if (filterReady && filterPostFocusReady == false)
+        emit checkFocus();
 }
 
 }

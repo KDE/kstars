@@ -192,7 +192,7 @@ void EyepieceField::slotEnforcePreset( int index ) {
 
 void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, const QString &imagePath ) {
 
-    double dssWidth, dssHeight, fovWidth, fovHeight;
+    double fovWidth, fovHeight;
 
     Q_ASSERT( sp );
 
@@ -299,7 +299,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
         dssHeight = dssImage.getMetadata().height;
         if( dssWidth == 0 || dssHeight == 0 ) {
             // Metadata unavailable, guess based on most common DSS arcsec/pixel
-            const double dssArcSecPerPixel = 1.01;
+            //const double dssArcSecPerPixel = 1.01;
             dssWidth = dssImage.getImage().width()*1.01/60.0;
             dssHeight = dssImage.getImage().height()*1.01/60.0;
         }

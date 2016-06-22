@@ -80,6 +80,7 @@ void ProfileEditor::saveProfile()
    {
        pi->host.clear();
        pi->port=-1;
+       pi->INDIWebManagerPort=-1;
        //pi->customDrivers = ui->customDriversIN->text();
    }
    // Remote Mode
@@ -87,8 +88,12 @@ void ProfileEditor::saveProfile()
    {
        pi->host = ui->remoteHost->text();
        pi->port = ui->remotePort->text().toInt();
+       if (ui->INDIWebManagerCheck->isChecked())
+           pi->INDIWebManagerPort = ui->INDIWebManagerPort->text().toInt();
+       else
+           pi->INDIWebManagerPort=-1;
        //pi->customDrivers.clear();
-   }
+   }      
 
    // City Info
    if (ui->loadSiteCheck->isEnabled() && ui->loadSiteCheck->isChecked())
@@ -203,6 +208,9 @@ void ProfileEditor::setRemoteMode(bool enable)
 
     ui->loadSiteCheck->setEnabled(enable);
 
+    ui->INDIWebManagerCheck->setEnabled(enable);
+    ui->INDIWebManagerPort->setEnabled(enable);
+
 }
 
 void ProfileEditor::setPi(ProfileInfo *value)
@@ -227,6 +235,17 @@ void ProfileEditor::setPi(ProfileInfo *value)
         ui->remotePort->setText(QString::number(pi->port));
 
         ui->remoteMode->setChecked(true);
+
+        if (pi->INDIWebManagerPort > 0)
+        {
+            ui->INDIWebManagerCheck->setChecked(true);
+            ui->INDIWebManagerPort->setText(QString::number(pi->INDIWebManagerPort));
+        }
+        else
+        {
+            ui->INDIWebManagerCheck->setChecked(false);
+            ui->INDIWebManagerPort->setText("8624");
+        }
     }
 
     QMapIterator<QString, QString> i(pi->drivers);

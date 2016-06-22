@@ -31,6 +31,7 @@ namespace Ekos
 class AstrometryParser;
 class OnlineAstrometryParser;
 class OfflineAstrometryParser;
+class RemoteAstrometryParser;
 
 /**
  *@class Align
@@ -54,6 +55,7 @@ public:
     typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
     typedef enum { ALIGN_SYNC, ALIGN_SLEW, ALIGN_SOLVE } GotoMode;
+    typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE} SolverType;
 
     /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
      * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net
@@ -233,10 +235,10 @@ public slots:
     Q_SCRIPTABLE Q_NOREPLY void abort();
 
     /** DBUS interface function.
-     * Select the solver type (online or offline)
-     * @param useOnline if true, select the online solver, otherwise the offline solver is selected.
+     * Select the solver type
+     * @param type Set solver type. 0 online, 1 offline, 2 remote
      */
-    Q_SCRIPTABLE Q_NOREPLY void setSolverType(bool useOnline);
+    Q_SCRIPTABLE Q_NOREPLY void setSolverType(int type);
 
     /** DBUS interface function.
      * Capture and solve an image using the astrometry.net engine
@@ -419,6 +421,7 @@ private:
     AstrometryParser *parser;
     OnlineAstrometryParser *onlineParser;
     OfflineAstrometryParser *offlineParser;
+    RemoteAstrometryParser *remoteParser;
 
     // Pointers to our devices
     ISD::Telescope *currentTelescope;

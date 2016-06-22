@@ -277,7 +277,7 @@ private slots:
     Ekos::Weather *weatherProcess;
     Ekos::DustCap *dustCapProcess;
 
-    bool localMode;
+    bool localMode, remoteManagerStart;
 
     int nDevices, nRemoteDevices;
     QAtomicInt nConnectedDevices;    

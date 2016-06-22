@@ -87,7 +87,7 @@ bool KSUserDB::Initialize() {
                     qDebug() << query.lastError();
 
                 // Profiles
-                if (!query.exec("CREATE TABLE IF NOT EXISTS profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, country TEXT)"))
+                if (!query.exec("CREATE TABLE IF NOT EXISTS profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT NULL)"))
                     qDebug() << query.lastError();
 
                 // Drivers
@@ -221,7 +221,7 @@ bool KSUserDB::RebuildDB() {
                   "label TEXT NOT NULL,"
                   "enabled INTEGER NOT NULL)");
 
-     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, country TEXT)");
+     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT NULL)");
      tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
      //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
      tables.append("INSERT INTO profile (name) VALUES ('Simulators')");
@@ -1158,7 +1158,7 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     QSqlQuery query(userdb_);
 
     // Clear data
-    if (!query.exec(QString("UPDATE profile SET host=null,port=null,city=null,province=null,country=null WHERE id=%1").arg(pi->id)))
+    if (!query.exec(QString("UPDATE profile SET host=null,port=null,city=null,province=null,country=null,indiwebmanagerport=NULL WHERE id=%1").arg(pi->id)))
         qDebug() << query.lastQuery() << query.lastError().text();
 
     // Update Name
@@ -1170,6 +1170,12 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     {
         if (!query.exec(QString("UPDATE profile SET host='%1',port=%2 WHERE id=%3").arg(pi->host).arg((pi->port)).arg(pi->id)))
             qDebug() << query.lastQuery() << query.lastError().text();
+
+        if (pi->INDIWebManagerPort != -1)
+        {
+            if (!query.exec(QString("UPDATE profile SET indiwebmanagerport='%1' WHERE id=%2").arg(pi->INDIWebManagerPort).arg(pi->id)))
+                qDebug() << query.lastQuery() << query.lastError().text();
+        }
     }
 
     // Update City Info
@@ -1220,6 +1226,8 @@ QList<ProfileInfo *> KSUserDB::GetAllProfiles()
         pi->city     = record.value("city").toString();
         pi->province = record.value("province").toString();
         pi->country  = record.value("country").toString();
+
+        pi->INDIWebManagerPort = record.value("indiwebmanagerport").toInt();
 
         GetProfileDrivers(pi);
         //GetProfileCustomDrivers(pi);

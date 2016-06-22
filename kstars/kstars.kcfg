@@ -1390,6 +1390,10 @@
        <label>When starting a new capture job, check if files were previously captured and resume capture afterwards.</label>
        <default>true</default>
      </entry>
+     <entry name="AutoFocusOnFilterChange" type="Bool">
+       <label>Perform an autofocus operation when changing filter wheels during an exposure sequence.</label>
+       <default>false</default>
+     </entry>
    </group>
    <group name="Focus">
    <entry name="DefaultFocusCCD" type="String">
@@ -1480,9 +1484,9 @@
               <whatsthis>Display captured image in FITS Viewer before starting the plate solving process.</whatsthis>
               <default>false</default>
           </entry>
-          <entry name="SolverOnline" type="Bool">
-              <label>Use astrometry.net online solver.</label>
-              <default>true</default>
+          <entry name="SolverType" type="UInt">
+              <label>Set solver type (online, offline, remote).</label>
+              <default>0</default>
           </entry>
           <entry name="SolverOptions" type="String">
               <label>Options passed to the astrometry solver.</label>

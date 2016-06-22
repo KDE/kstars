@@ -1306,7 +1306,7 @@ void Capture::addJob(bool preview)
     {
 
         currentRow = queueTable->rowCount();
-        queueTable->insertRow(currentRow);
+        queueTable->insertRow(currentRow);        
     }
     else
         currentRow = queueTable->currentRow();
@@ -1525,6 +1525,8 @@ void Capture::prepareJob(SequenceJob *job)
 {
     activeJob = job;
 
+    connect(job, SIGNAL(checkFocus()), this, SLOT(startPostFilterAutoFocus()));
+
     // Reset calibration stage
     if (calibrationStage == CAL_CAPTURING)
     {
@@ -1536,6 +1538,14 @@ void Capture::prepareJob(SequenceJob *job)
 
     if (currentFilterPosition > 0)
     {
+        // If we haven't performed a single autofocus yet, we stop
+        if (Options::autoFocusOnFilterChange() && (isAutoFocus == false && firstAutoFocus == true))
+        {
+            appendLogText(i18n("Manual focusing post filter change is not supported. Run Autofocus process before trying again."));
+            abort();
+            return;
+        }
+
         activeJob->setCurrentFilter(currentFilterPosition);
 
         if (currentFilterPosition != activeJob->getTargetFilter())
@@ -1634,6 +1644,7 @@ void Capture::executeJob()
     }
 
     syncGUIToJob(activeJob);
+
 
     captureImage();
 }
@@ -1746,6 +1757,24 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
            // in case in-sequence-focusing is used.
            HFRPixels->setValue(HFR + (HFR * 0.025));
         }
+    }
+
+    if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
+    {
+        if (status)
+        {
+            HFRPixels->setValue(HFR + (HFR * 0.025));
+            appendLogText(i18n("Focus complete."));
+        }
+        else
+        {
+            appendLogText(i18n("Autofocus failed. Aborting exposure..."));
+            secondsLabel->setText("");
+            abort();
+        }
+
+        activeJob->setFilterPostFocusReady(status);
+        return;
     }
 
     if (isAutoFocus && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
@@ -3318,6 +3347,21 @@ bool Capture::isFITSDirUnique(SequenceJob *job)
 void Capture::setNewRemoteFile(QString file)
 {
     appendLogText(i18n("Remote image saved to %1", file));
+}
+
+void Capture::startPostFilterAutoFocus()
+{
+    if (isFocusBusy)
+        return;
+
+    isFocusBusy = true;
+
+    secondsLabel->setText(i18n("Focusing..."));
+
+    appendLogText(i18n("Post filter change Autofocus..."));
+
+    // Force it to always run autofocus routine
+    emit checkFocus(0.1);   
 }
 
 }
