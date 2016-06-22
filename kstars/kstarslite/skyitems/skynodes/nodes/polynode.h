@@ -38,7 +38,7 @@ public:
     void setColor(QColor color);
     void setLineWidth(int width);
 
-    void updateGeometry(QPolygonF polygon, bool filled);
+    void updateGeometry(const QPolygonF &polygon, bool filled);
 private:
     QSGGeometryNode *m_geometryNode;
     QSGGeometry *m_geometry;

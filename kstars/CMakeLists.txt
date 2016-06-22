@@ -558,7 +558,8 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/constellationnamesitem.cpp
         kstarslite/skyitems/staritem.cpp
         kstarslite/skyitems/deepstaritem.cpp
-        #Lines
+        kstarslite/skyitems/deepskyitem.cpp
+        #Line
         kstarslite/skyitems/lines/linesitem.cpp
         kstarslite/skyitems/lines/equatoritem.cpp
         kstarslite/skyitems/lines/eclipticitem.cpp
@@ -568,14 +569,16 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/skynodes/pointsourcenode.cpp
         kstarslite/skyitems/skynodes/planetmoonsnode.cpp
         kstarslite/skyitems/skynodes/horizonnode.cpp
-        #kstarslite/skyitems/skynodes/trixelnode.cpp
-        #kstarslite/skyitems/skynodes/startrixelnode.cpp
         kstarslite/skyitems/skynodes/labelnode.cpp
         kstarslite/skyitems/skynodes/guidelabelnode.cpp
+        kstarslite/skyitems/skynodes/skytexturenode.cpp
+        kstarslite/skyitems/skynodes/deepskynode.cpp
+        kstarslite/skyitems/skynodes/dsosymbolnode.cpp
         #Nodes
         kstarslite/skyitems/skynodes/nodes/pointnode.cpp
         kstarslite/skyitems/skynodes/nodes/polynode.cpp
         kstarslite/skyitems/skynodes/nodes/linenode.cpp
+        kstarslite/skyitems/skynodes/nodes/ellipsenode.cpp
         #Material
         #kstarslite/skyitems/skynodes/material/dashedshader.cpp
         #libtess
@@ -677,7 +680,7 @@ endif(NOT BUILD_KSTARS_LITE)
 set(kstars_SRCS  ${kstarslite_SRCS} ${kstarslite_RESOURCE}
 )
 if(BUILD_KSTARS_LITE)
-    kconfig_add_kcfg_files(kstars_SRCS GENERATE_MOC ${kstars_KCFG_SRCS})
+    kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 else()
     kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 endif()

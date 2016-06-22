@@ -79,7 +79,6 @@ void SkyLabeler::setZoomFont()
     }
     if(m_drawFont.pointSize() != font.pointSize()) {
         m_drawFont = font;
-        SkyMapLite::Instance()->setFontSizeChanged(true);
     }
 #endif
 }

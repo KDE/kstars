@@ -547,6 +547,8 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
     float ya = y + dya;
     float yb = y + dyb;
 
+    QString color;
+
     float psize;
 
     QBrush tempBrush;
@@ -566,6 +568,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
     case 3: //Open cluster; draw circle of points
     case 13: // Asterism
         tempBrush = brush();
+        color = pen().color().name();
         setBrush( pen().color() );
         psize = 2.;
         if ( size > 50. )  psize *= 2.;
@@ -599,6 +602,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         if (size<2.) size = 2.;
         save();
         translate( x, y );
+        color = pen().color().name();
         rotate( positionAngle );  //rotate the coordinate system
 
         if ( Options::useAntialias() ) {
@@ -622,7 +626,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         save();
         translate( x, y );
         rotate( positionAngle );  //rotate the coordinate system
-
+color = pen().color().name();
         if ( Options::useAntialias() ) {
             drawLine( QPointF(dx1, dy1), QPointF(dx2, dy1) );
             drawLine( QPointF(dx2, dy1), QPointF(dx2, dy2) );
@@ -643,7 +647,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         save();
         translate( x, y );
         rotate( positionAngle );  //rotate the coordinate system
-
+color = pen().color().name();
         if ( Options::useAntialias() ) {
             drawEllipse( QRectF(dx1, dy1, size, e*size) );
             drawLine( QPointF(0., dy1), QPointF(0., dy1 - e*size/2. ) );
@@ -667,7 +671,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         save();
         translate( x, y );
         rotate( positionAngle );  //rotate the coordinate system
-
+color = pen().color().name();
         if ( Options::useAntialias() ) {
             drawLine( QPointF(0., dy1), QPointF(dx2, 0.) );
             drawLine( QPointF(dx2, 0.), QPointF(0., dy2) );
@@ -686,6 +690,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         break;
     case 8: //Galaxy
     case 16: // Quasar
+        color = pen().color().name();
         if ( size <1. && zoom > 20*MINZOOM ) size = 3.; //force ellipse above zoomFactor 20
         if ( size <1. && zoom > 5*MINZOOM ) size = 1.; //force points above zoomFactor 5
         if ( size>2. ) {
@@ -711,7 +716,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         setBrush( pen().color() );
         psize = 1.;
         if ( size > 50. )  psize *= 2.;
-
+color = pen().color().name();
         if ( Options::useAntialias() ) {
             drawLine( QLineF( xa - psize, y1, xa + psize, y1 ) );
             drawLine( QLineF( xa, y1 - psize, xa, y1 + psize ) );

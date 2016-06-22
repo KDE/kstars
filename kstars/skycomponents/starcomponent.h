@@ -45,7 +45,11 @@
 #include "binfilehelper.h"
 #include "starblockfactory.h"
 #include "skymesh.h"
-#include "kstarslite/skyitems/staritem.h"
+
+#ifdef KSTARS_LITE
+class StarItem;
+//#include "kstarslite/skyitems/staritem.h"
+#endif
 
 class SkyMesh;
 class StarObject;
@@ -59,7 +63,9 @@ class MeshIterator;
 
 class StarComponent: public ListComponent
 {
+#ifdef KSTARS_LITE
     friend class StarItem; //Needs access to faintMagnitude() and reindex()
+#endif
 
 protected:
 
@@ -92,9 +98,6 @@ public:
     virtual SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
     virtual SkyObject* findStarByGenetiveName( const QString name );
-
-     /** @short get m_starIndex. Used in StarItem (KStars Lite)*/
-    inline StarIndex* starIndex() { return m_starIndex; }
 
     /**
      *@short Find stars by name (including genetive name)
@@ -165,7 +168,8 @@ private:
     /** @return the magnitude of the faintest star */
     float faintMagnitude() const;
 
-    void reindex( KSNumbers *num );
+    /** true if all stars(not only high PM ones) were reindexed else false**/
+    bool reindex( KSNumbers *num );
 
     
     SkyMesh*       m_skyMesh;

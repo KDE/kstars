@@ -22,6 +22,7 @@ class QSGTexture;
 class SkyMapLite;
 
 class StarItem;
+class DeepSkyItem;
 
 class PlanetsItem;
 class AsteroidsItem;
@@ -51,6 +52,7 @@ class SolarSystemComposite;
 class RootNode : public QSGClipNode {
 public:
     RootNode();
+    virtual ~RootNode();
     /**
      * @short returns cached texture from textureCache
      * @param size size of the star
@@ -68,6 +70,10 @@ public:
      * @short update positions of all child SkyItems
      */
     void update();
+
+    //Debug
+    void testLeakDelete();
+    void testLeakAdd();
 
     inline CometsItem *cometsItem() { return m_cometsItem; }
 
@@ -87,6 +93,7 @@ private:
     QSGGeometry *m_clipGeometry;
 
     StarItem *m_starItem;
+    DeepSkyItem *m_dsoItem;
 
     PlanetsItem *m_planetsItem;
     AsteroidsItem *m_asteroidsItem;

@@ -22,23 +22,24 @@
 #include <QLinkedList>
 
 LineNode::LineNode(LineList *lineList, QColor color, int width, Qt::PenStyle drawStyle)
-    :m_lineList(lineList), m_geometryNode(new QSGGeometryNode), m_color(color), m_drawStyle(drawStyle)
-
+    :m_lineList(lineList), m_geometryNode(new QSGGeometryNode), m_color(color), m_drawStyle(drawStyle),
+      m_material(new QSGFlatColorMaterial)
 {
-    m_material = new QSGFlatColorMaterial;
-    static_cast<QSGFlatColorMaterial *>(m_material)->setColor(color);
-    markDirty(QSGNode::DirtyMaterial);
+    m_geometryNode->setOpaqueMaterial(m_material);
+    //m_geometryNode->setFlag(QSGNode::OwnsMaterial);
+    m_material->setColor(color);
 
     m_geometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0);
-    m_geometryNode->setOpaqueMaterial(m_material);
-
+    m_geometryNode->setGeometry(m_geometry);
+    //m_geometryNode->setFlag(QSGNode::OwnsGeometry);
     setWidth(width);
 
     appendChildNode(m_geometryNode);
-    m_geometryNode->setGeometry(m_geometry);
+}
 
-    setFlag(QSGNode::OwnsGeometry);
-    setFlag(QSGNode::OwnsMaterial);
+LineNode::~LineNode() {
+    delete m_geometry;
+    delete m_material;
 }
 
 void LineNode::setColor(QColor color) {

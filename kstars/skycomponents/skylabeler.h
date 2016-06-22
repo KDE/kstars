@@ -332,8 +332,9 @@ public:
 
     inline QFont stdFont() { return m_stdFont; }
     inline QFont skyFont() { return m_skyFont; }
+#ifdef KSTARS_LITE
     inline QFont drawFont() { return m_drawFont; }
-
+#endif
     int hits()  { return m_hits; }
     int marks() { return m_marks; }
 

@@ -86,7 +86,7 @@ int SkyMapLite::starColorMode = 0;
 
 SkyMapLite::SkyMapLite(QQuickItem* parent)
     :QQuickItem(parent), m_proj(0), count(0), data(KStarsData::Instance()),
-      nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false)
+      nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0)
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
@@ -123,12 +123,28 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
     qDeleteAll(m_deleteNodes);
     m_deleteNodes.clear();
 
+
     if(m_loadingFinished) {
         if(!n) {
             n = new RootNode();
         }
         n->update();
     }
+
+    //Debug
+    /*if(m_loadingFinished) {
+        if(!n) {
+            n = new RootNode();
+        }
+        n->testLeakAdd();
+        n->update();
+        m_loadingFinished = false;
+    } else {
+        if (n) {
+            n->testLeakDelete();
+        }
+        m_loadingFinished = true;
+    }*/
 
     return n;
 }

@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          skyopacitynode.h  -  K Desktop Planetarium
+                          skytexturenode.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/06/2016
+    begin                : 20/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,38 +13,3 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
-#ifndef SKYOPACITYNODE_H_
-#define SKYOPACITYNODE_H_
-
-#include <QSGOpacityNode>
-
-/** @class SkyOpacityNode
- *
- *@short A wrapper for QSGOpacityNode that provides hide() and show() functions. If node is invisible
- * (opacity is 0) it won't be rendered.
- *@author Artem Fedoskin
- *@version 1.0
- */
-
-class SkyOpacityNode : public QSGOpacityNode {
-public:
-    SkyOpacityNode();
-
-    /**
-     * @short makes this node visible
-     */
-    virtual void show();
-
-    /**
-     * @short hides this node
-     */
-    virtual void hide();
-
-    /**
-     * @return true if node is visible
-     */
-    bool visible();
-};
-
-#endif

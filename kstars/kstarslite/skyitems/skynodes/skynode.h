@@ -57,7 +57,7 @@ public:
     /** @short short function to access SkyMapLite
      *  @return pointer to instance of SkyMapLite class
      */
-    inline const SkyMapLite* map() { return SkyMapLite::Instance(); }
+    inline SkyMapLite* map() const { return SkyMapLite::Instance(); }
 
     /**
      * @short updates coordinate of the object on SkyMapLite
@@ -69,6 +69,8 @@ public:
      * @param drawLabel true of label has to be drawn
      */
     void update(bool drawLabel);
+
+    inline void addChildNode(QSGNode *node) { m_opacity->appendChildNode(node); }
 
     /**
      * @short hides all child nodes (sets opacity of m_opacity to 0)

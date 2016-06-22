@@ -35,6 +35,12 @@ LabelNode::LabelNode(QString name, LabelsItem::label_t type)
     initialize();
 }
 
+LabelNode::~LabelNode() {
+    m_opacity->removeChildNode(m_textTexture);
+    m_textTexture->setOwnsTexture(true);
+    delete m_textTexture;
+}
+
 void LabelNode::initialize() {
     switch(m_labelType) {
         case LabelsItem::label_t::PLANET_LABEL:
@@ -89,6 +95,7 @@ void LabelNode::createTexture() {
     QSGTexture *oldTexture = m_textTexture->texture();
 
     m_textTexture->setTexture(SkyMapLite::Instance()->textToTexture(m_name, color, m_zoomFont));
+
     if(m_zoomFont) m_fontSize = SkyLabeler::Instance()->drawFont().pointSize();
 
     switch(m_labelType) {

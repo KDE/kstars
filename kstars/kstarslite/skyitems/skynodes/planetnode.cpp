@@ -51,6 +51,7 @@ PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode)
     m_planetOpacity->appendChildNode(m_planetPic);
     m_planetPic->setTexture(SkyMapLite::Instance()->window()->createTextureFromImage(
                                 pb->image(), QQuickWindow::TextureCanUseAtlas));
+    m_planetPic->setOwnsTexture(true);
     m_label = parentNode->labelsItem()->addLabel(pb, LabelsItem::label_t::PLANET_LABEL);
 }
 

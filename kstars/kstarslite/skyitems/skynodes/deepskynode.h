@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          pointsourcenode.h  -  K Desktop Planetarium
+                          deepskynode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/05/2016
+    begin                : 20/05/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,8 +13,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef POINTSOURCENODE_H_
-#define POINTSOURCENODE_H_
+#ifndef DEEPSKYNODE_H_
+#define DEEPSKYNODE_H_
 #include "skynode.h"
 #include "../labelsitem.h"
 
@@ -22,8 +22,10 @@ class PlanetItemNode;
 class SkyMapLite;
 class PointNode;
 class LabelNode;
+class QSGSimpleTextureNode;
+class DSOSymbolNode;
 
-/** @class PointSourceNode
+/** @class DeepSkyNode
  *
  * A SkyNode derived class used for displaying PointNode with coordinates provided by SkyObject.
  *
@@ -34,7 +36,7 @@ class LabelNode;
 
 class RootNode;
 
-class PointSourceNode : public SkyNode  {
+class DeepSkyNode : public SkyNode  {
 public:
     /**
      * @short Constructor
@@ -43,33 +45,29 @@ public:
      * @param spType spectral class of PointNode
      * @param size initial size of PointNode
      */
-    PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
-                    LabelsItem::label_t labelType = LabelsItem::label_t::STAR_LABEL, char spType = 'A', float size = 1, short trixel = -1);
-
-    //virtual ~PointSourceNode();
-
-    /** @short Get the width of a star of magnitude mag */
-    float starWidth(float mag) const;
+    DeepSkyNode(DeepSkyObject *skyObject, DSOSymbolNode *symbol);
 
     /**
      * @short changePos changes the position m_point
      * @param pos new position
      */
-    virtual void changePos(QPointF pos) override;
+    void changePos(QPointF pos);
 
-    virtual void update() override;
+    void update(bool drawImage);
     virtual void hide() override;
+
+    DeepSkyObject *dsObject() { return m_dso; }
 private:
-    PointNode * m_point;
-    //TODO deal setter for this when stars will be introduced
-    RootNode *m_rootNode;
+    //RootNode *m_rootNode;
+    QSGSimpleTextureNode *m_objImg;
 
     LabelNode *m_label;
     LabelsItem::label_t m_labelType;
+    DeepSkyObject *m_dso;
+    DSOSymbolNode *m_symbol;
+    float m_angle;
 
     short m_trixel; //Trixel to which this object belongs. Used only in stars. By default -1 for all
-    //other objects that are not indexed by SkyMesh
-
     QPointF pos;
 };
 

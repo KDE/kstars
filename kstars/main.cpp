@@ -239,6 +239,11 @@ int main(int argc, char *argv[])
     Options::setTimeZone(1);
     Options::setRunClock(false);
 
+    Options::setShowStarMagnitudes(false);
+    Options::setShowStarNames(true);
+    Options::setShowStars(true);
+
+    Options::setShowDeepSky(true);
     Options::setShowCBounds(true);
     Options::setShowCLines(true);
     Options::setShowSolarSystem(true);
@@ -246,13 +251,16 @@ int main(int argc, char *argv[])
     Options::setShowEquator(true);
     Options::setShowEquatorialGrid(false);
     Options::setShowHorizontalGrid(true);
-    Options::setShowGround(true);
+    Options::setShowGround(false);
 
     //Labels
     Options::setShowCometNames(true);
     Options::setShowAsteroidNames(true);
     Options::setShowAsteroids(true);
     Options::setShowCNames(true);
+
+    Options::setShowNGC(true);
+    Options::setHideNGC(true);
 
     Options::setAutoSelectGrid(false);
 

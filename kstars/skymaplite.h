@@ -282,12 +282,11 @@ public:
         @return a pointer to the current projector. */
     inline const Projector * projector() const { return m_proj; }
 
-    /**
-     * @return true if font size was changed
-     */
-    inline bool fontSizeChanged() const { return m_fontSizeChanged; }
+    /** Set magnitude limit for size of stars. Used in StarItem **/
+    inline void setSizeMagLim(float sizeMagLim) { m_sizeMagLim = sizeMagLim; }
 
-    inline void setFontSizeChanged(bool val) { m_fontSizeChanged = val; }
+    /** Used in PointSourceNode **/
+    inline float sizeMagLim() const { return m_sizeMagLim; }
 
     /**
      *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
@@ -595,6 +594,8 @@ private:
 
     //Holds SkyNodes that need to be deleted
     QLinkedList<SkyNode *> m_deleteNodes;
+
+    float m_sizeMagLim; //Used in PointSourceNode
 
     // Used to notify zoom-dependent labels about font size change
     bool m_fontSizeChanged;

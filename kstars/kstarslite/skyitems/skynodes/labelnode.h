@@ -50,6 +50,8 @@ public:
     /** does the same as above function but with QString instead of skyObject **/
     LabelNode(QString name, LabelsItem::label_t type);
 
+    virtual ~LabelNode();
+
     void initialize();
 
     /**
@@ -66,6 +68,8 @@ public:
     void setLabelPos(QPointF pos);
 
     inline QString name() { return m_name; }
+
+    inline LabelsItem::label_t labelType() { return m_labelType; }
 
     void createTexture();
 

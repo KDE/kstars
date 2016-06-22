@@ -26,7 +26,18 @@ SkyItem::~SkyItem() {
     rootNode()->labelsItem()->deleteLabels(m_labelType);
 }
 
+void SkyItem::show() {
+    SkyOpacityNode::show();
+    if(labelType() != LabelsItem::label_t::NO_LABEL) {
+        rootNode()->labelsItem()->getLabelNode(m_labelType)->show();
+    }
+}
+
+void SkyItem::hideLabels() {
+    rootNode()->labelsItem()->getLabelNode(m_labelType)->hide();
+}
+
 void SkyItem::hide() {
     SkyOpacityNode::hide();
-    rootNode()->labelsItem()->hideLabels(labelType());
+    rootNode()->labelsItem()->hideLabels(m_labelType);
 }

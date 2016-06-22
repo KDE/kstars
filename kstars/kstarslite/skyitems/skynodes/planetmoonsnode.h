@@ -16,6 +16,7 @@
 #ifndef PLANETMOONSNODE_H_
 #define PLANETMOONSNODE_H_
 #include "skynode.h"
+#include "../labelsitem.h"
 
 class PlanetNode;
 class PlanetMoons;
@@ -46,6 +47,7 @@ public:
      * which are cached in RootNode.
      */
     PlanetMoonsNode(KSPlanetBase* planet, RootNode* parentNode);
+    ~PlanetMoonsNode();
 
     /**
      * @short Add object of type PlanetMoons to this node
@@ -79,6 +81,8 @@ public:
 private:
     PlanetNode *m_planetNode;
     PlanetMoons *pmoons;
+
+    LabelsItem::label_t m_labelType;
 
     QList<SkyNode *> m_moonNodes;
     RootNode *m_rootNode;

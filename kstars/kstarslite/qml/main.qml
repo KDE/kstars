@@ -52,7 +52,7 @@ Window {
                 right: parent.right
                 top: parent.top
             }
-            height: parent.height * 0.25
+            height: parent.height * 0.10
 
             onPressed: {
                 posY = mouseY
@@ -153,7 +153,7 @@ Window {
                 horizontalCenter: parent.horizontalCenter
             }
             width: bottomMenu.width
-            height: parent.height *0.25
+            height: parent.height *0.10
 
             onPressed: {
                 posY = mouseY

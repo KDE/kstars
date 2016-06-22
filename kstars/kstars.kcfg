@@ -60,19 +60,19 @@
       <label>Time InfoBox anchor flag</label>
       <whatsthis>Is the Time InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
       <default>0</default>
-      <!--<min>0</min><max>3</max>-->
+      <min>0</min><max>3</max>
     </entry>
     <entry name="StickyFocusBox" type="Int">
       <label>Time InfoBox anchor flag</label>
       <whatsthis>Is the Focus InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
       <default>1</default>
-      <!--<min>0</min><max>3</max>-->
+      <min>0</min><max>3</max>
     </entry>
     <entry name="StickyGeoBox" type="Int">
       <label>Geographic InfoBox anchor flag</label>
       <whatsthis>Is the Geographic Location InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
       <default>2</default>
-      <!--<min>0</min><max>3</max>-->
+      <min>0</min><max>3</max>
     </entry>
     <entry name="ShowStatusBar" type="Bool">
       <label>Display the statusbar?</label>
@@ -125,7 +125,7 @@
     </entry>
   </group>
 
-  <group name="indi">
+  <group name="indi">    
     <entry name="useGeographicUpdate" type="Bool">
       <label>Automatically updates geographic location?</label>
       <default>true</default>
@@ -143,7 +143,7 @@
       <label>Display INDI messages in the statusbar?</label>
       <whatsthis>Toggle display of INDI messages in the KStars statusbar.</whatsthis>
       <default>true</default>
-    </entry>
+    </entry>    
     <entry name="useComputerSource" type="Bool">
       <label>Use computer time and location for synchronization?</label>
       <default>true</default>
@@ -644,7 +644,7 @@
       <label>Zoom Factor, in pixels per radian</label>
       <whatsthis>The zoom level, measured in pixels per radian.</whatsthis>
       <default>1000.</default>
-      <!--<min>200.</min><max>5000000.</max>-->
+      <min>200.</min><max>5000000.</max>
     </entry>
     <entry name="MagLimitAsteroid" type="Double">
       <label>Faint limit for asteroids</label>
@@ -762,13 +762,13 @@
       <label>Mode for rendering stars</label>
       <whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"</whatsthis>
       <default>0</default>
-      <!--<max>3</max>-->
+      <max>3</max>
     </entry>
     <entry name="StarColorIntensity" type="UInt">
       <label>Saturation level of star colors</label>
       <whatsthis>The color saturation level of stars (only applicable when using "realistic colors" mode).</whatsthis>
       <default>6</default>
-      <!--<max>10</max>-->
+      <max>10</max>
     </entry>
     <entry name="AngularRulerColor" type="String">
       <label>Color of angular distance ruler</label>
@@ -1538,7 +1538,7 @@
     <entry name="PHD2Port" type="UInt">
         <label>PHD2 Event Monitoring Port</label>
         <default>4400</default>
-    </entry>
+    </entry>    
     <entry name="CalibrationPulseDuration" type="UInt">
         <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
         <default>1000</default>

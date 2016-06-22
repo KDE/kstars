@@ -49,6 +49,7 @@ int StarBlockList::releaseBlock( StarBlock *block ) {
         qDebug() << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel << endl;
 
     else if( blocks.size() > 0 ) {
+#ifdef KSTARS_LITE
         for(int i = 0; i < block->getStarCount(); ++i) {
             PointSourceNode * node = block->star(i)->starNode;
             if(node) {
@@ -56,7 +57,7 @@ int StarBlockList::releaseBlock( StarBlock *block ) {
                 block->star(i)->starNode = 0;
             }
         }
-
+#endif
         blocks.removeLast();
         nBlocks--;
         nStars -= block->getStarCount();

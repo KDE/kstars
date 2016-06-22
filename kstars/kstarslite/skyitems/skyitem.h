@@ -58,10 +58,14 @@ public:
 
     virtual void update() =0;
 
+    virtual void show() override;
+
     /**
      * @short hides this item and corresponding labels
      */
-    void hide();
+    virtual void hide() override;
+
+    void hideLabels();
 
     /**
      * @return RootNode that is the parent of this SkyItem in a node tree

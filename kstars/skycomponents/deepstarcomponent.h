@@ -48,7 +48,9 @@ class StarBlockList;
 
 class DeepStarComponent: public ListComponent
 {
+#ifdef KSTARS_LITE
     friend class DeepStarItem; //Needs access to staticStars and buch of other facilities
+#endif
 
 public:
 

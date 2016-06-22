@@ -78,6 +78,10 @@ public:
         JUPITER_MOON_LABEL,
         SATURN_MOON_LABEL,
         DEEP_SKY_LABEL,
+        DSO_MESSIER_LABEL,
+        DSO_NGC_LABEL,
+        DSO_IC_LABEL,
+        DSO_OTHER_LABEL,
         CONSTEL_NAME_LABEL,
         SATELLITE_LABEL,
         RUDE_LABEL, ///Rude labels block other labels FIXME: find a better solution
@@ -141,6 +145,11 @@ public:
      */
 
     void deleteLabels(label_t labelType);
+
+    /**
+     * @short deletes particular label
+     */
+    void deleteLabel(LabelNode *label);
 
     /**
      * @short hides all labels of type labelType

@@ -71,7 +71,7 @@ public:
      * more than our update interval then we re-index all the stars in our
      * list that have actually changed trixels.
      */
-    void reindex( KSNumbers *num, StarIndex* starIndex );
+    bool reindex( KSNumbers *num, StarIndex* starIndex );
 
     /** @short prints out some brief statistics.
      */

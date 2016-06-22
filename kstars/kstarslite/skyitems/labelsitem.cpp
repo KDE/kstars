@@ -65,6 +65,22 @@ LabelsItem::LabelsItem()
     appendChildNode(deep_sky);
     m_labelsLists.insert(label_t::DEEP_SKY_LABEL, deep_sky);
 
+    LabelTypeNode *dso_messier = new LabelTypeNode;
+    deep_sky->appendChildNode(dso_messier);
+    m_labelsLists.insert(label_t::DSO_MESSIER_LABEL, dso_messier);
+
+    LabelTypeNode *dso_ngc = new LabelTypeNode;
+    deep_sky->appendChildNode(dso_ngc);
+    m_labelsLists.insert(label_t::DSO_NGC_LABEL, dso_ngc);
+
+    LabelTypeNode *dso_ic = new LabelTypeNode;
+    deep_sky->appendChildNode(dso_ic);
+    m_labelsLists.insert(label_t::DSO_IC_LABEL, dso_ic);
+
+    LabelTypeNode *dso_other = new LabelTypeNode;
+    deep_sky->appendChildNode(dso_other);
+    m_labelsLists.insert(label_t::DSO_OTHER_LABEL, dso_other);
+
     LabelTypeNode *constellation = new LabelTypeNode;
     appendChildNode(constellation);
     m_labelsLists.insert(label_t::CONSTEL_NAME_LABEL, constellation);
@@ -138,13 +154,15 @@ void LabelsItem::update() {
     updateChildLabels(label_t::SATURN_MOON_LABEL);
     updateChildLabels(label_t::ASTEROID_LABEL);
 
-    if(getLabelNode(label_t::COMET_LABEL)->opacity()) {
+    if(getLabelNode(label_t::COMET_LABEL)->visible()) {
         updateChildLabels(label_t::COMET_LABEL);
     }
 
     updateChildLabels(label_t::CONSTEL_NAME_LABEL);
 
-    updateChildLabels(label_t::STAR_LABEL);
+    if(getLabelNode(label_t::STAR_LABEL)->visible()) {
+        updateChildLabels(label_t::STAR_LABEL);
+    }
 }
 
 void LabelsItem::hideLabels(label_t labelType) {
@@ -161,9 +179,49 @@ void LabelsItem::setRootNode(RootNode *rootNode) {
 }
 
 void LabelsItem::deleteLabels(label_t labelType) {
-    if(labelType != NO_LABEL) {
+    if(labelType == STAR_LABEL) {
+        LabelTypeNode *node = m_labelsLists[labelType];
+        QSGNode *trixel = node->firstChild();
+        while(trixel != 0) {
+            while(QSGNode *label = trixel->firstChild()) {
+                trixel->removeChildNode(label);
+                delete label;
+            }
+            trixel = trixel->nextSibling();
+        }
+    } else if(labelType != NO_LABEL) {
         LabelTypeNode *node = m_labelsLists[labelType];
         while(QSGNode *n = node->firstChild()) { node->removeChildNode(n); delete n; }
+    }
+}
+
+void LabelsItem::deleteLabel(LabelNode *label) {
+    if(label) {
+        label_t type = label->labelType();
+        LabelTypeNode *node = m_labelsLists[type];
+
+        if(type == STAR_LABEL) {
+            QSGNode *trixel = node->firstChild();
+            bool found = false;
+
+            while(trixel != 0 && !found) {
+                QSGNode *l = trixel->firstChild();
+                while(l != 0) {
+                    if(l == label) {
+                        trixel->removeChildNode(label);
+                        delete label;
+
+                        found = true;
+                        break;
+                    }
+                    l = l->nextSibling();
+                }
+                trixel = trixel->nextSibling();
+            }
+        } else {
+            node->removeChildNode(label);
+            delete label;
+        }
     }
 }
 
@@ -189,7 +247,13 @@ void LabelsItem::updateChildLabels(label_t labelType) {
         }
     } else {*/
     while( n != 0) {
-        if(labelType == STAR_LABEL) {
+        /*
+         *  int max = int( m_zoomMagLimit * 10.0 );
+    if ( max < 0 ) max = 0;
+    if ( max > MAX_LINENUMBER_MAG ) max = MAX_LINENUMBER_MAG;
+    */
+        if(labelType == STAR_LABEL || labelType == DSO_NGC_LABEL || labelType == DSO_MESSIER_LABEL
+                || labelType == DSO_IC_LABEL || labelType == DSO_OTHER_LABEL) {
             TrixelNode *trixel = static_cast<TrixelNode *>(n);
 
             if(trixel->visible()) {

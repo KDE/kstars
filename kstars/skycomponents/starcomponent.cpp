@@ -130,20 +130,22 @@ void StarComponent::update( KSNumbers*)
 // We use the update hook to re-index all the stars when the date has changed by
 // more than 150 years.
 
-void StarComponent::reindex( KSNumbers *num )
+bool StarComponent::reindex( KSNumbers *num )
 {
-    if ( ! num ) return;
+    if ( ! num ) return false;
 
     // for large time steps we re-index all points
     if ( fabs( num->julianCenturies() -
                m_reindexNum.julianCenturies() ) > m_reindexInterval ) {
         reindexAll( num );
-        return;
+        return true;
     }
 
+    bool highPM = true;
     // otherwise we just re-index fast movers as needed
     for ( int j = 0; j < m_highPMStars.size(); j++ )
-        m_highPMStars.at( j )->reindex( num, m_starIndex );
+        highPM &= !(m_highPMStars.at( j )->reindex( num, m_starIndex ));
+    return !(highPM);
 }
 
 void StarComponent::reindexAll( KSNumbers *num )

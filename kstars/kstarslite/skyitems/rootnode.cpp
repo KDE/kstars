@@ -10,6 +10,7 @@
 
 #include "constellationboundarylines.h"
 #include "constellationlines.h"
+#include "starcomponent.h"
 
 #include "horizontalcoordinategrid.h"
 #include "equatorialcoordinategrid.h"
@@ -19,6 +20,7 @@
 
 //SkyItems
 #include "kstarslite/skyitems/staritem.h"
+#include "kstarslite/skyitems/deepskyitem.h"
 #include "kstarslite/skyitems/planetsitem.h"
 #include "kstarslite/skyitems/asteroidsitem.h"
 #include "kstarslite/skyitems/cometsitem.h"
@@ -51,6 +53,41 @@ RootNode::RootNode()
     m_linesItem->addLinesComponent( m_skyComposite->constellationBoundary(), "CBoundColor", 1, Qt::SolidLine );
     m_linesItem->addLinesComponent( m_skyComposite->constellationLines(), "CLineColor", 1, Qt::SolidLine );
 
+    m_starItem = new StarItem(StarComponent::Instance(), this);
+
+    m_solarSystem = m_skyComposite->solarSystemComposite();
+
+    m_equator = new EquatorItem(m_skyComposite->equator(),this);
+    m_ecliptic = new EclipticItem(m_skyComposite->ecliptic(),this);
+
+    m_planetsItem = new PlanetsItem(m_solarSystem->planets(), m_solarSystem->planetMoonsComponent(), this);
+    m_asteroidsItem = new AsteroidsItem(m_solarSystem->asteroids(), this);
+    m_cometsItem = new CometsItem(m_solarSystem->comets(), this);
+
+    m_constelNamesItem = new ConstellationNamesItem(m_skyComposite->constellationNamesComponent(), this);
+    m_dsoItem = new DeepSkyItem( m_skyComposite->deepSkyComponent(), this );
+
+    m_horizonItem = new HorizonItem(m_skyComposite->horizon(), this);
+
+    setIsRectangular(false);
+    updateClipPoly();
+
+    m_labelsItem->setRootNode(this);
+
+    /*
+          m_linesItem(new LinesItem(this)), m_horizonItem(new HorizonItem(this))
+     */
+}
+
+void RootNode::testLeakAdd() {
+/*    m_linesItem = new LinesItem(this);
+
+    m_linesItem->addLinesComponent( m_skyComposite->equatorialCoordGrid(), "EquatorialGridColor", 1, Qt::DotLine );
+    m_linesItem->addLinesComponent( m_skyComposite->horizontalCoordGrid(), "HorizontalGridColor", 2, Qt::DotLine );
+
+    m_linesItem->addLinesComponent( m_skyComposite->constellationBoundary(), "CBoundColor", 1, Qt::SolidLine );
+    m_linesItem->addLinesComponent( m_skyComposite->constellationLines(), "CLineColor", 1, Qt::SolidLine );
+
     m_starItem = new StarItem(m_skyComposite->starComponent(), this);
 
     m_solarSystem = m_skyComposite->solarSystemComposite();
@@ -63,16 +100,41 @@ RootNode::RootNode()
     m_cometsItem = new CometsItem(m_solarSystem->comets(), this);
 
     m_constelNamesItem = new ConstellationNamesItem(m_skyComposite->constellationNamesComponent(), this);
-    m_horizonItem = new HorizonItem(m_skyComposite->horizon(), this);
+    m_horizonItem = new HorizonItem(m_skyComposite->horizon(), this);*/
+}
 
-    setIsRectangular(false);
-    updateClipPoly();
+void RootNode::testLeakDelete() {
+    /*removeChildNode(m_linesItem);
+    delete m_linesItem;
 
-    m_labelsItem->setRootNode(this);
+    removeChildNode(m_starItem);
+    delete m_starItem;
 
-    /*
-          m_linesItem(new LinesItem(this)), m_horizonItem(new HorizonItem(this))
-     */
+    removeChildNode(m_equator);
+    delete m_equator;
+    removeChildNode(m_ecliptic);
+    delete m_ecliptic;
+
+    removeChildNode(m_planetsItem);
+    delete m_planetsItem;
+    removeChildNode(m_asteroidsItem);
+    delete m_asteroidsItem;
+    removeChildNode(m_cometsItem);
+    delete m_cometsItem;
+
+    removeChildNode(m_constelNamesItem);
+    delete m_constelNamesItem;
+
+    removeChildNode(m_horizonItem);
+    delete m_horizonItem;*/
+}
+
+RootNode::~RootNode() {
+    for(int i = 0; i < m_textureCache.length(); ++i) {
+        for(int c = 0; c < m_textureCache[i].size(); ++c) {
+            delete m_textureCache[i][c];
+        }
+    }
 }
 
 void RootNode::genCachedTextures() {
@@ -116,6 +178,7 @@ void RootNode::updateClipPoly() {
                                           size);
         m_clipGeometry->setDrawingMode(GL_TRIANGLES);
         setGeometry(m_clipGeometry);
+        setFlag(QSGNode::OwnsGeometry);
     } else {
         m_clipGeometry->allocate(size);
     }
@@ -156,6 +219,7 @@ void RootNode::update() {
     m_constelNamesItem->update();
 
     m_starItem->update();
+    m_dsoItem->update();
 
     m_equator->update();
     m_ecliptic->update();

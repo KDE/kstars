@@ -32,7 +32,7 @@ StarItem::StarItem(StarComponent *starComp, RootNode *rootNode)
     ,m_starLabels(rootNode->labelsItem()->getLabelNode(labelType())), m_stars(new SkyOpacityNode),
       m_deepStars(new SkyOpacityNode)
 {
-    StarIndex *trixels = m_starComp->starIndex();
+    StarIndex *trixels = m_starComp->m_starIndex;
     appendChildNode(m_stars);
 
     //Test
@@ -73,17 +73,19 @@ void StarItem::update() {
         hide();
         return;
     }
+    show();
 
     SkyMapLite *map             = SkyMapLite::Instance();
     KStarsData* data        = KStarsData::Instance();
 
     bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
-    bool hideLabels = checkSlewing || !( Options::showStarMagnitudes() || Options::showStarNames() );
+    bool hideLabel = checkSlewing || !( Options::showStarMagnitudes() || Options::showStarNames() );
+    if(hideLabel) hideLabels();
 
     //shortcuts to inform whether to draw different objects
     bool hideFaintStars = checkSlewing && Options::hideStars();
     double hideStarsMag = Options::magLimitHideStar();
-    m_starComp->reindex( data->updateNum() );
+    bool reIndex = m_starComp->reindex( data->updateNum() );
 
     double lgmin = log10(MINZOOM);
     double lgmax = log10(MAXZOOM);
@@ -92,6 +94,7 @@ void StarItem::update() {
     double maglim;
     double m_zoomMagLimit; //Check it later. Needed for labels
     m_zoomMagLimit = maglim = StarComponent::zoomMagnitudeLimit();
+    map->setSizeMagLim(m_zoomMagLimit);
 
     double labelMagLim = Options::starLabelDensity() / 5.0;
     labelMagLim += ( 12.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
@@ -145,17 +148,39 @@ void StarItem::update() {
     QSGNode *firstLabel = m_starLabels->firstChild();
     TrixelNode *label = static_cast<TrixelNode *>(firstLabel);
 
+    StarIndex *index = m_starComp->m_starIndex;
+
+    if(reIndex) rootNode()->labelsItem()->deleteLabels(labelType());
+
     while( trixel != 0 ) {
+        //All stars were reindexed so recreate the trixel nodes again
+        if(reIndex) {
+            StarList *skyList = index->at(trixelID);
+
+            QSGNode *n = trixel->firstChild();
+            while( n != 0 ) {
+                QSGNode *c = n;
+                n = n->nextSibling();
+
+                //Delete node
+                trixel->removeChildNode(c);
+                delete c;
+            }
+
+            for(int c = 0; c < skyList->size(); ++c) {
+                StarObject *star = skyList->at(c);
+                if(star) {
+                    PointSourceNode *point = new PointSourceNode(star, rootNode(), LabelsItem::label_t::STAR_LABEL, star->spchar(),
+                                                                 star->mag(), c);
+                    trixel->appendChildNode(point);
+                }
+            }
+        }
+
         if(trixelID != regionID) {
             trixel->hide();
             label->hide();
 
-            trixel = static_cast<TrixelNode *>(trixel->nextSibling());
-            label = static_cast<TrixelNode *>(label->nextSibling());
-
-            trixelID++;
-
-            continue;
         } else {
             trixel->show();
             label->show();
@@ -163,33 +188,32 @@ void StarItem::update() {
             if(region.hasNext()) {
                 regionID = region.next();
             }
-        }
 
-        QSGNode *n = trixel->firstChild();
+            QSGNode *n = trixel->firstChild();
 
-        bool hide = false;
+            bool hide = false;
 
-        while(n != 0) {
-            PointSourceNode *point = static_cast<PointSourceNode *>(n);
-            n = n->nextSibling();
+            while(n != 0) {
+                PointSourceNode *point = static_cast<PointSourceNode *>(n);
+                n = n->nextSibling();
 
-            StarObject *curStar = static_cast<StarObject *>(point->skyObject());
-            float mag = curStar->mag();
+                StarObject *curStar = static_cast<StarObject *>(point->skyObject());
+                float mag = curStar->mag();
 
-            bool drawLabel = false;
-            // break loop if maglim is reached
-            if(!hide) {
-                if ( mag > maglim ) hide = true;
-                if(!(hideLabels || mag > labelMagLim)) drawLabel = true;
-            }
+                bool drawLabel = false;
+                // break loop if maglim is reached
+                if(!hide) {
+                    if ( mag > maglim ) hide = true;
+                    if(!(hideLabel || mag > labelMagLim)) drawLabel = true;
+                }
 
-            if(!hide) {
-                if ( curStar->updateID != KStarsData::Instance()->updateID() )
-                    curStar->JITupdate();
-                point->setSizeMagLim(m_zoomMagLimit);
-                point->SkyNode::update(drawLabel);
-            } else {
-                point->hide();
+                if(!hide) {
+                    if ( curStar->updateID != KStarsData::Instance()->updateID() )
+                        curStar->JITupdate();
+                    point->SkyNode::update(drawLabel);
+                } else {
+                    point->hide();
+                }
             }
         }
         trixel = static_cast<TrixelNode *>(trixel->nextSibling());

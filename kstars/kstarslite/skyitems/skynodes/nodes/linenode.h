@@ -42,6 +42,7 @@ public:
      * @param size initial size of LineNode
      */
     LineNode(LineList *lineList, QColor color, int width, Qt::PenStyle drawStyle);
+    virtual ~LineNode();
     /**
      * @short setSize update size of LineNode with the given parameter
      * @param size new size of LineNode

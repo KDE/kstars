@@ -40,9 +40,13 @@ void CometsItem::update() {
 
     show();
 
-    bool hideLabels =  ! Options::showCometNames() ||
+    bool hideLabel =  ! Options::showCometNames() ||
                        (SkyMapLite::Instance()->isSlewing() &&
                         Options::hideLabels() );
+
+    if(hideLabel) {
+        hideLabels();
+    }
     double rsunLabelLimit = Options::maxRadCometName();
 
     /*//FIXME: Should these be config'able?
@@ -61,7 +65,7 @@ void CometsItem::update() {
         if (std::isnan(mag) == 0)
         {
             bool drawLabel = false;
-            if ( !(hideLabels || com->rsun() >= rsunLabelLimit) ) {
+            if ( !(hideLabel || com->rsun() >= rsunLabelLimit) ) {
                 drawLabel = true;
             }
             skyNode->update(drawLabel);

@@ -182,187 +182,187 @@ void DeepStarItem::update() {
     m_skyMesh->inDraw( false );
 #endif
 
-    //if(m_staticStars) {
-    SkyMapLite *map             = SkyMapLite::Instance();
-    KStarsData* data        = KStarsData::Instance();
-    UpdateID updateID       = data->updateID();
+    if(m_staticStars) { // dynamic stars under construction
+        SkyMapLite *map             = SkyMapLite::Instance();
+        KStarsData* data        = KStarsData::Instance();
+        UpdateID updateID       = data->updateID();
 
-    //FIXME_FOV -- maybe not clamp like that...
-    float radius = map->projector()->fov();
-    if ( radius > 90.0 ) radius = 90.0;
+        //FIXME_FOV -- maybe not clamp like that...
+        float radius = map->projector()->fov();
+        if ( radius > 90.0 ) radius = 90.0;
 
-    if ( m_skyMesh != SkyMesh::Instance() && m_skyMesh->inDraw() ) {
-        printf("Warning: aborting concurrent DeepStarComponent::draw()");
-    }
-    bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
+        if ( m_skyMesh != SkyMesh::Instance() && m_skyMesh->inDraw() ) {
+            printf("Warning: aborting concurrent DeepStarComponent::draw()");
+        }
+        bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
 
-    //shortcuts to inform whether to draw different objects
-    bool hideFaintStars( checkSlewing && Options::hideStars() );
-    double hideStarsMag = Options::magLimitHideStar();
+        //shortcuts to inform whether to draw different objects
+        bool hideFaintStars( checkSlewing && Options::hideStars() );
+        double hideStarsMag = Options::magLimitHideStar();
 
-    //adjust maglimit for ZoomLevel
-    //    double lgmin = log10(MINZOOM);
-    //    double lgmax = log10(MAXZOOM);
-    //    double lgz = log10(Options::zoomFactor());
-    // TODO: Enable hiding of faint stars
+        //adjust maglimit for ZoomLevel
+        //    double lgmin = log10(MINZOOM);
+        //    double lgmax = log10(MAXZOOM);
+        //    double lgz = log10(Options::zoomFactor());
+        // TODO: Enable hiding of faint stars
 
-    float maglim = StarComponent::zoomMagnitudeLimit();
+        float maglim = StarComponent::zoomMagnitudeLimit();
 
-    if( maglim < m_deepStarComp->triggerMag || !m_staticStars ) {
-        hide();
-        return;
-    } else {
-        show();
-    }
+        if( maglim < m_deepStarComp->triggerMag || !m_staticStars ) {
+            hide();
+            return;
+        } else {
+            show();
+        }
 
-    float m_zoomMagLimit = maglim;
+        float m_zoomMagLimit = maglim;
 
-    m_skyMesh->inDraw( true );
+        m_skyMesh->inDraw( true );
 
-    SkyPoint* focus = map->focus();
-    m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
+        SkyPoint* focus = map->focus();
+        m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
-    MeshIterator region(m_skyMesh, DRAW_BUF);
+        MeshIterator region(m_skyMesh, DRAW_BUF);
 
-    // If we are to hide the fainter stars (eg: while slewing), we set the magnitude limit to hideStarsMag.
-    if( hideFaintStars && maglim > hideStarsMag )
-        maglim = hideStarsMag;
+        // If we are to hide the fainter stars (eg: while slewing), we set the magnitude limit to hideStarsMag.
+        if( hideFaintStars && maglim > hideStarsMag )
+            maglim = hideStarsMag;
 
-    StarBlockFactory *m_StarBlockFactory = StarBlockFactory::Instance();
-    //    m_StarBlockFactory->drawID = m_skyMesh->drawID();
-    //    qDebug() << "Mesh size = " << m_skyMesh->size() << "; drawID = " << m_skyMesh->drawID();
+        StarBlockFactory *m_StarBlockFactory = StarBlockFactory::Instance();
+        //    m_StarBlockFactory->drawID = m_skyMesh->drawID();
+        //    qDebug() << "Mesh size = " << m_skyMesh->size() << "; drawID = " << m_skyMesh->drawID();
 
-    /*t_dynamicLoad = 0;
+        /*t_dynamicLoad = 0;
         t_updateCache = 0;
         t_drawUnnamed = 0;*/
 
-    //visibleStarCount = 0;
+        //visibleStarCount = 0;
 
-    // Mark used blocks in the LRU Cache. Not required for static stars
-    if( !m_staticStars ) {
-        while( region.hasNext() ) {
-            Trixel currentRegion = region.next();
-            for( int i = 0; i < m_starBlockList->at( currentRegion )->getBlockCount(); ++i ) {
-                StarBlock *prevBlock = ( ( i >= 1 ) ? m_starBlockList->at( currentRegion )->block( i - 1 ) : NULL );
-                StarBlock *block = m_starBlockList->at( currentRegion )->block( i );
+        // Mark used blocks in the LRU Cache. Not required for static stars
+        if( !m_staticStars ) {
+            while( region.hasNext() ) {
+                Trixel currentRegion = region.next();
+                for( int i = 0; i < m_starBlockList->at( currentRegion )->getBlockCount(); ++i ) {
+                    StarBlock *prevBlock = ( ( i >= 1 ) ? m_starBlockList->at( currentRegion )->block( i - 1 ) : NULL );
+                    StarBlock *block = m_starBlockList->at( currentRegion )->block( i );
 
-                if( i == 0  &&  !m_StarBlockFactory->markFirst( block ) )
-                    qDebug() << "markFirst failed in trixel" << currentRegion;
-                if( i > 0   &&  !m_StarBlockFactory->markNext( prevBlock, block ) )
-                    qDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
-                if( i < m_starBlockList->at( currentRegion )->getBlockCount()
-                        && m_starBlockList->at( currentRegion )->block( i )->getFaintMag() < maglim )
-                    break;
-            }
-        }
-        //t_updateCache = t.restart();
-        region.reset();
-    }
-
-    m_StarBlockFactory->drawID = m_skyMesh->drawID();
-
-    int regionID = -1;
-    if(region.hasNext()) {
-        regionID = region.next();
-    }
-
-    int trixelID = 0;
-
-    QSGNode *firstTrixel = firstChild();
-    TrixelNode *trixel = static_cast<TrixelNode *>(firstTrixel);
-
-    while( trixel != 0 ) {
-        if(trixelID != regionID) {
-            trixel->hide();
-
-            trixel = static_cast<TrixelNode *>(trixel->nextSibling());
-
-            trixelID++;
-
-            continue;
-        } else {
-            trixel->show();
-
-            if(region.hasNext()) {
-                regionID = region.next();
-
-            }
-        }
-
-        if(m_staticStars) {
-
-            QSGNode *n = trixel->firstChild();
-
-            bool hide = false;
-
-            while(n != 0) {
-                PointSourceNode *point = static_cast<PointSourceNode *>(n);
-                n = n->nextSibling();
-
-                StarObject *curStar = static_cast<StarObject *>(point->skyObject());
-                float mag = curStar->mag();
-
-                // break loop if maglim is reached
-                if(!hide) {
-                    if ( mag > maglim ) hide = true;
-                }
-
-                if(!hide) {
-                    if ( curStar->updateID != KStarsData::Instance()->updateID() )
-                        curStar->JITupdate();
-                    point->setSizeMagLim(m_zoomMagLimit);
-                    point->update();
-                } else {
-                    point->hide();
+                    if( i == 0  &&  !m_StarBlockFactory->markFirst( block ) )
+                        qDebug() << "markFirst failed in trixel" << currentRegion;
+                    if( i > 0   &&  !m_StarBlockFactory->markNext( prevBlock, block ) )
+                        qDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
+                    if( i < m_starBlockList->at( currentRegion )->getBlockCount()
+                            && m_starBlockList->at( currentRegion )->block( i )->getFaintMag() < maglim )
+                        break;
                 }
             }
-        } else if(false) {
-            if( !m_staticStars && !m_starBlockList->at( regionID )->fillToMag( maglim ) && maglim <= m_deepStarComp->m_FaintMagnitude * ( 1 - 1.5/16 ) ) {
-                qDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel "
-                         << regionID << " !"<< endl;
+            //t_updateCache = t.restart();
+            region.reset();
+        }
+
+        m_StarBlockFactory->drawID = m_skyMesh->drawID();
+
+        int regionID = -1;
+        if(region.hasNext()) {
+            regionID = region.next();
+        }
+
+        int trixelID = 0;
+
+        QSGNode *firstTrixel = firstChild();
+        TrixelNode *trixel = static_cast<TrixelNode *>(firstTrixel);
+
+        while( trixel != 0 ) {
+            if(trixelID != regionID) {
+                trixel->hide();
+
+                trixel = static_cast<TrixelNode *>(trixel->nextSibling());
+
+                trixelID++;
+
+                continue;
+            } else {
+                trixel->show();
+
+                if(region.hasNext()) {
+                    regionID = region.next();
+
+                }
             }
 
-            for( int i = 0; i < m_starBlockList->at( regionID )->getBlockCount(); ++i ) {
+            if(m_staticStars) {
+
+                QSGNode *n = trixel->firstChild();
 
                 bool hide = false;
 
-                StarBlock *block = m_starBlockList->at( regionID )->block( i );
-                for( int j = 0; j < block->getStarCount(); j++ ) {
+                while(n != 0) {
+                    PointSourceNode *point = static_cast<PointSourceNode *>(n);
+                    n = n->nextSibling();
 
-                    StarNode *star = block->star( j );
-                    StarObject *curStar = &(star->star);
-                    PointSourceNode *point = star->starNode;
-
-                    if ( curStar->updateID != updateID )
-                        curStar->JITupdate();
-
+                    StarObject *curStar = static_cast<StarObject *>(point->skyObject());
                     float mag = curStar->mag();
 
+                    // break loop if maglim is reached
                     if(!hide) {
                         if ( mag > maglim ) hide = true;
                     }
 
                     if(!hide) {
-                        if(!point) {
-                            star->starNode = new PointSourceNode(curStar, rootNode(), LabelsItem::label_t::NO_LABEL, curStar->spchar(),
-                                                                         curStar->mag(), regionID);
-                            point = star->starNode;
-                            trixel->appendChildNode(point);
-                        }
-                        point->setSizeMagLim(m_zoomMagLimit);
+                        if ( curStar->updateID != KStarsData::Instance()->updateID() )
+                            curStar->JITupdate();
+                        //point->setSizeMagLim(m_zoomMagLimit);
                         point->update();
-
                     } else {
-                        if(point) point->hide();
+                        point->hide();
+                    }
+                }
+            } else if(false) {
+                if( !m_staticStars && !m_starBlockList->at( regionID )->fillToMag( maglim ) && maglim <= m_deepStarComp->m_FaintMagnitude * ( 1 - 1.5/16 ) ) {
+                    qDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel "
+                             << regionID << " !"<< endl;
+                }
+
+                for( int i = 0; i < m_starBlockList->at( regionID )->getBlockCount(); ++i ) {
+
+                    bool hide = false;
+
+                    StarBlock *block = m_starBlockList->at( regionID )->block( i );
+                    for( int j = 0; j < block->getStarCount(); j++ ) {
+
+                        StarNode *star = block->star( j );
+                        StarObject *curStar = &(star->star);
+                        PointSourceNode *point = star->starNode;
+
+                        if ( curStar->updateID != updateID )
+                            curStar->JITupdate();
+
+                        float mag = curStar->mag();
+
+                        if(!hide) {
+                            if ( mag > maglim ) hide = true;
+                        }
+
+                        if(!hide) {
+                            if(!point) {
+                                star->starNode = new PointSourceNode(curStar, rootNode(), LabelsItem::label_t::NO_LABEL, curStar->spchar(),
+                                                                     curStar->mag(), regionID);
+                                point = star->starNode;
+                                trixel->appendChildNode(point);
+                            }
+                            //point->setSizeMagLim(m_zoomMagLimit);
+                            point->update();
+
+                        } else {
+                            if(point) point->hide();
+                        }
                     }
                 }
             }
-        }
-        trixel = static_cast<TrixelNode *>(trixel->nextSibling());
+            trixel = static_cast<TrixelNode *>(trixel->nextSibling());
 
-        trixelID++;
+            trixelID++;
+        }
+        m_skyMesh->inDraw( false );
     }
-    m_skyMesh->inDraw( false );
 }
-//}
 

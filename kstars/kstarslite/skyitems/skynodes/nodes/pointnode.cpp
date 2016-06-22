@@ -19,9 +19,10 @@
 
 #include "pointnode.h"
 #include "kstarslite/skyitems/rootnode.h"
+#include <QSGTexture>
 
 PointNode::PointNode(RootNode* p, char sp, float size)
-    :spType(sp), texture(new QSGSimpleTextureNode), m_rootNode(p)
+    :spType(sp), texture(new QSGSimpleTextureNode), m_rootNode(p), m_size(-1) //Important to init to -1
 {
     appendChildNode(texture);
     setSize(size);

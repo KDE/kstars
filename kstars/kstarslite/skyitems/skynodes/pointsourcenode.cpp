@@ -27,13 +27,17 @@
 
 PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
                                  LabelsItem::label_t labelType, char spType, float size, short trixel)
-    :SkyNode(skyObject), m_point(0), m_sizeMagLim(10.), // has to be changed when stars will be introduced
+    :SkyNode(skyObject), m_point(0), // has to be changed when stars will be introduced
         m_label(0), m_labelType(labelType), m_rootNode(parentNode), m_trixel(trixel)
 {
     m_point = new PointNode(parentNode,spType,starWidth(size));
     //appendChildNode(m_opacity);
     m_opacity->appendChildNode(m_point);
 }
+
+/*PointSourceNode::~PointSourceNode() {
+    m_rootNode->labelsItem()->deleteLabel(m_label);
+}*/
 
 float PointSourceNode::starWidth(float mag) const
 {
@@ -45,6 +49,8 @@ float PointSourceNode::starWidth(float mag) const
     double lgz = log10(Options::zoomFactor());
 
     float sizeFactor = maxSize + (lgz - lgmin);
+
+    float m_sizeMagLim = map()->sizeMagLim();
 
     float size = ( sizeFactor*( m_sizeMagLim - mag ) / m_sizeMagLim ) + 1.;
     if( size <= 1.0 ) size = 1.0;
@@ -74,7 +80,11 @@ void PointSourceNode::update() {
     bool visible = false;
     pos = projector()->toScreen(m_skyObject,true,&visible);
     if( visible && projector()->onScreen(pos) ) { // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
-        m_point->setSize(starWidth(m_skyObject->mag()));
+        if(m_labelType == LabelsItem::label_t::DEEP_SKY_LABEL){
+            m_point->setSize(14);//starWidth(m_skyObject->mag()));
+        } else {
+            m_point->setSize(starWidth(m_skyObject->mag()));
+        }
         changePos(pos);
         show();
         //m_point->show();

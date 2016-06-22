@@ -46,8 +46,9 @@ void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int w
 
             QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed(color);
             for(int c = 0; c < linesList->size(); ++c) {
-                LineNode * ln = new LineNode(linesList->at(c), schemeColor, width, style);
-                trixel->appendChildNode(ln);
+                //LineNode * ln = new LineNode(linesList->at(c), schemeColor, width, style);
+                /*trixel->appendChildNode(ln);*/
+                trixel->appendChildNode(new LineNode(linesList->at(c), schemeColor, width, style));
             }
         }
         ++i;

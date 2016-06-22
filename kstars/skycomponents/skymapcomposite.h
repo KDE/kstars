@@ -188,9 +188,9 @@ public:
 
     inline ConstellationNamesComponent* constellationNamesComponent() { return m_CNames; }
 
+    inline DeepSkyComponent* deepSkyComponent() { return m_DeepSky; }
 
     //Accessors for StarComponent
-    inline StarComponent *starComponent() { return m_Stars; } //Used in StarItem (KStars Lite)
     SkyObject* findStarByGenetiveName( const QString name );
     virtual void emitProgressText( const QString &message );
     QList<SkyObject*>& labelObjects() { return m_LabeledObjects; }
