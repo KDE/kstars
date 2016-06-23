@@ -18,7 +18,13 @@
 #include <QTabWidget>
 #include <QPointer>
 
+#ifdef Q_OS_LINUX
 #include <indibase.h>
+#endif 
+
+#ifdef Q_OS_WIN
+#include <basemediator.h>
+#endif 
 
 #include "clientmanager.h"
 

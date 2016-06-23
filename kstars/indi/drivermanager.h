@@ -15,7 +15,14 @@
 #include <QHash>
 #include <QStringList>
 #include <QDialog>
+
+#ifdef Q_OS_LINUX
 #include <unistd.h>
+#endif 
+
+#ifdef Q_OS_WIN
+#include <io.h>
+#endif 
 
 #include <lilxml.h>
 #include "ui_drivermanager.h"

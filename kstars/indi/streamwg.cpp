@@ -38,7 +38,15 @@
 #include <QTemporaryFile>
 
 #include <stdlib.h>
+
+#ifdef Q_OS_LINUX
 #include <unistd.h>
+#endif 
+
+#ifdef Q_OS_WIN
+#include <io.h>
+#endif 
+
 #include <fcntl.h>
 
 StreamWG::StreamWG(QWidget * parent) : QWidget(parent)

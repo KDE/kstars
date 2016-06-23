@@ -10,10 +10,19 @@
 
 #include <basedevice.h>
 
+#ifdef Q_OS_LINUX
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#endif 
+
+#ifdef Q_OS_WIN
+#include <io.h>
+#include <winsock2.h>
+#include <windows.h>
+#endif 
+
 #include <string>
 
 #include <QRadioButton>

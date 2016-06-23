@@ -45,7 +45,14 @@
 #include <QAbstractButton>
 #include <QAction>
 
+#ifdef Q_OS_LINUX
 #include <unistd.h>
+#endif 
+
+#ifdef Q_OS_WIN
+#include <io.h>
+#endif 
+
 #include <stdlib.h>
 #include <assert.h>
  

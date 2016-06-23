@@ -16,7 +16,14 @@
 
 #include "indidriver.h"
 
+#ifdef Q_OS_LINUX
 #include <unistd.h>
+#endif 
+
+#ifdef Q_OS_WIN
+#include <io.h>
+#endif 
+
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>

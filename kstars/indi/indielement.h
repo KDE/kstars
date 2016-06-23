@@ -12,7 +12,13 @@
 #ifndef INDIELEMENT_H_
 #define INDIELEMENT_H_
 
+#ifdef Q_OS_LINUX
 #include <unistd.h>
+#endif 
+
+#ifdef Q_OS_WIN
+#include <io.h>
+#endif 
 
 #include <QDialog>
 #include <QLabel>
