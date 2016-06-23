@@ -23,15 +23,23 @@
 
 class DSOIndexNode : public SkyOpacityNode {
 public:
-    DSOIndexNode(DeepSkyIndex *index);
-    QSGNode *m_trixImage;
-    QSGNode *m_trixSymbol;
+    DSOIndexNode(DeepSkyIndex *index, LabelsItem::label_t labelType, QString colorString);
+
+    QSGNode *m_trixels;
     DeepSkyIndex *m_index;
+
+    LabelsItem::label_t m_labelType;
+    QColor m_color;
+
+    virtual void hide();
+    virtual void show();
 };
 
 class DSOTrixelNode : public TrixelNode {
 public:
     DSOTrixelNode(Trixel trixelID);
+    TrixelNode *m_labels;
+    QSGNode *m_symbols;
     Trixel trixel;
 };
 

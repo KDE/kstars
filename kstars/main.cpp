@@ -261,6 +261,7 @@ int main(int argc, char *argv[])
 
     Options::setShowNGC(true);
     Options::setHideNGC(true);
+    Options::setShowDeepSkyNames(true);
 
     Options::setAutoSelectGrid(false);
 

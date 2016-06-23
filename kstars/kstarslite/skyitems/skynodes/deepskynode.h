@@ -45,7 +45,7 @@ public:
      * @param spType spectral class of PointNode
      * @param size initial size of PointNode
      */
-    DeepSkyNode(DeepSkyObject *skyObject, DSOSymbolNode *symbol);
+    DeepSkyNode(DeepSkyObject *skyObject, DSOSymbolNode *symbol, Trixel trixel, LabelsItem::label_t labelType);
 
     /**
      * @short changePos changes the position m_point
@@ -53,21 +53,20 @@ public:
      */
     void changePos(QPointF pos);
 
-    void update(bool drawImage);
+    void update(bool drawImage, bool drawLabel);
     virtual void hide() override;
 
     DeepSkyObject *dsObject() { return m_dso; }
 private:
-    //RootNode *m_rootNode;
     QSGSimpleTextureNode *m_objImg;
+    Trixel m_trixel; //Trixel to which this object belongs. Used only in stars. By default -1 for all
 
     LabelNode *m_label;
     LabelsItem::label_t m_labelType;
+
     DeepSkyObject *m_dso;
     DSOSymbolNode *m_symbol;
     float m_angle;
-
-    short m_trixel; //Trixel to which this object belongs. Used only in stars. By default -1 for all
     QPointF pos;
 };
 

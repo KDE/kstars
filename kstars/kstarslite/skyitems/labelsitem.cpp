@@ -36,7 +36,9 @@ LabelsItem::LabelsItem()
     int trixelNum = SkyMesh::Instance()->size();
 
     for(int i = 0; i < trixelNum; ++i) {
-        stars->appendChildNode(new TrixelNode);
+        TrixelNode *trixel = new TrixelNode;
+        trixel->m_trixel = i;
+        stars->appendChildNode(trixel);
     }
 
     m_labelsLists.insert(label_t::STAR_LABEL, stars);
@@ -120,9 +122,19 @@ LabelNode *LabelsItem::addLabel(SkyObject *skyObject, label_t labelType) {
 }
 
 LabelNode *LabelsItem::addLabel(SkyObject *skyObject, label_t labelType, Trixel trixel) {
-    Q_ASSERT(labelType == STAR_LABEL);
-    LabelNode *label = new LabelNode(skyObject, labelType);
-    m_labelsLists.value(labelType)->childAtIndex(trixel)->appendChildNode(label);
+    Q_ASSERT(labelType == STAR_LABEL || labelType == DSO_MESSIER_LABEL || labelType == DSO_NGC_LABEL
+             || labelType == DSO_IC_LABEL || labelType == DSO_OTHER_LABEL);
+    TrixelNode *triNode = static_cast<TrixelNode *>(m_labelsLists.value(labelType)->firstChild());
+    LabelNode *label = 0;
+
+    while(triNode != 0) {
+        if(triNode->m_trixel == trixel) {
+            label = new LabelNode(skyObject, labelType);
+            triNode->appendChildNode(label);
+            break;
+        }
+        triNode = static_cast<TrixelNode *>(triNode->nextSibling());
+    }
     return label;
 }
 
@@ -136,6 +148,13 @@ GuideLabelNode *LabelsItem::addGuideLabel(QString name, label_t labelType) {
     GuideLabelNode *label = new GuideLabelNode(name, labelType);
     m_labelsLists.value(labelType)->appendChildNode(label);
     return label;
+}
+
+TrixelNode *LabelsItem::addTrixel(label_t labelType, Trixel trixel) {
+    TrixelNode *triNode = new TrixelNode;
+    triNode->m_trixel = trixel;
+    getLabelNode(labelType)->appendChildNode(triNode);
+    return triNode;
 }
 
 void LabelsItem::update() {
@@ -154,19 +173,24 @@ void LabelsItem::update() {
     updateChildLabels(label_t::SATURN_MOON_LABEL);
     updateChildLabels(label_t::ASTEROID_LABEL);
 
-    if(getLabelNode(label_t::COMET_LABEL)->visible()) {
-        updateChildLabels(label_t::COMET_LABEL);
-    }
+    updateChildLabels(label_t::COMET_LABEL);
 
     updateChildLabels(label_t::CONSTEL_NAME_LABEL);
 
-    if(getLabelNode(label_t::STAR_LABEL)->visible()) {
-        updateChildLabels(label_t::STAR_LABEL);
-    }
+    updateChildLabels(label_t::DSO_MESSIER_LABEL);
+    updateChildLabels(label_t::DSO_NGC_LABEL);
+    updateChildLabels(label_t::DSO_IC_LABEL);
+    updateChildLabels(label_t::DSO_OTHER_LABEL);
+
+    updateChildLabels(label_t::STAR_LABEL);
 }
 
 void LabelsItem::hideLabels(label_t labelType) {
     if (labelType != NO_LABEL) m_labelsLists[labelType]->hide();
+}
+
+void LabelsItem::showLabels(label_t labelType) {
+    if (labelType != NO_LABEL) m_labelsLists[labelType]->show();
 }
 
 void LabelsItem::setRootNode(RootNode *rootNode) {
@@ -227,10 +251,10 @@ void LabelsItem::deleteLabel(LabelNode *label) {
 
 void LabelsItem::updateChildLabels(label_t labelType) {
     LabelTypeNode *node = m_labelsLists[labelType];
-    node->show();
+    if(node->visible()) {
 
-    QSGNode *n = node->firstChild();
-    /*if( labelType == label_t::HORIZON_LABEL
+        QSGNode *n = node->firstChild();
+        /*if( labelType == label_t::HORIZON_LABEL
             || labelType == label_t::ECLIPTIC_LABEL || labelType == label_t::EQUATOR_LABEL) {
         while( n != 0) {
             GuideLabelNode *label = static_cast<GuideLabelNode *>(n);
@@ -246,44 +270,44 @@ void LabelsItem::updateChildLabels(label_t labelType) {
             n = n->nextSibling();
         }
     } else {*/
-    while( n != 0) {
-        /*
+        while( n != 0) {
+            /*
          *  int max = int( m_zoomMagLimit * 10.0 );
     if ( max < 0 ) max = 0;
     if ( max > MAX_LINENUMBER_MAG ) max = MAX_LINENUMBER_MAG;
     */
-        if(labelType == STAR_LABEL || labelType == DSO_NGC_LABEL || labelType == DSO_MESSIER_LABEL
-                || labelType == DSO_IC_LABEL || labelType == DSO_OTHER_LABEL) {
-            TrixelNode *trixel = static_cast<TrixelNode *>(n);
+            if(labelType == STAR_LABEL || labelType == DSO_NGC_LABEL || labelType == DSO_MESSIER_LABEL
+                    || labelType == DSO_IC_LABEL || labelType == DSO_OTHER_LABEL) {
+                TrixelNode *trixel = static_cast<TrixelNode *>(n);
+                if(trixel->visible()) {
+                    QSGNode *l = trixel->firstChild();
 
-            if(trixel->visible()) {
-                QSGNode *l = trixel->firstChild();
+                    while(l != 0) {
+                        LabelNode *label = static_cast<LabelNode *>(l);
+                        l = l->nextSibling();
 
-                while(l != 0) {
-                    LabelNode *label = static_cast<LabelNode *>(l);
-                    l = l->nextSibling();
+                        if(skyLabeler->markText(label->labelPos, label->name())) {
+                            label->update();
+                        } else {
+                            label->hide();
+                        }
+                    }
+                }
+            } else {
+                LabelNode *label = static_cast<LabelNode *>(n);
+                //n = n->nextSibling();
 
+                if(label->visible()) {
+                    if(label->zoomFont()) skyLabeler->resetFont();
                     if(skyLabeler->markText(label->labelPos, label->name())) {
                         label->update();
                     } else {
                         label->hide();
                     }
+                    skyLabeler->useStdFont();
                 }
             }
-        } else {
-            LabelNode *label = static_cast<LabelNode *>(n);
-            //n = n->nextSibling();
-
-            if(label->visible()) {
-                if(label->zoomFont()) skyLabeler->resetFont();
-                if(skyLabeler->markText(label->labelPos, label->name())) {
-                    label->update();
-                } else {
-                    label->hide();
-                }
-                skyLabeler->useStdFont();
-            }
+            n = n->nextSibling();
         }
-        n = n->nextSibling();
     }
 }

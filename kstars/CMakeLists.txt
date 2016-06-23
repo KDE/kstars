@@ -563,6 +563,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/lines/linesitem.cpp
         kstarslite/skyitems/lines/equatoritem.cpp
         kstarslite/skyitems/lines/eclipticitem.cpp
+        kstarslite/skyitems/lines/milkywayitem.cpp
         #SkyNodes
         kstarslite/skyitems/skynodes/planetnode.cpp
         kstarslite/skyitems/skynodes/skynode.cpp
@@ -621,6 +622,9 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/modules/Splash.qml
         )
     add_subdirectory(kstarslite/qml)
+if(ANDROID)
+    add_subdirectory(kstarslite/res)
+endif()
     ADD_CUSTOM_TARGET(kstarsliteqml SOURCES ${kstarsliteqml_SRCS})
 endif(BUILD_KSTARS_LITE)
 

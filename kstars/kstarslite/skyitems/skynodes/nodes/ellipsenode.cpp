@@ -20,20 +20,13 @@
 #include <QPolygon>
 
 #include "ellipsenode.h"
-//#include <stdio.h>
-//#include <stdlib.h>
-
-extern "C"
-{
-#include "libtess/tessellate.h"
-}
 
 EllipseNode::EllipseNode(QColor color, int width)
     :m_geometryNode(new QSGGeometryNode), m_geometry(0),
-      m_material(new QSGFlatColorMaterial), m_fillMode(false)
+      m_material(new QSGFlatColorMaterial), m_fillMode(false), m_width(0), m_height(0)
 {
     m_geometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0);
-    m_geometry->allocate(360);
+    m_geometry->allocate(60);
     m_geometryNode->setGeometry(m_geometry);
     m_geometryNode->setFlag(QSGNode::OwnsGeometry);
 
@@ -64,23 +57,37 @@ void EllipseNode::setLineWidth(int width) {
 
 void EllipseNode::updateGeometry(float x, float y, int width, int height, bool filled) {
     if(filled) {
-        m_geometry->setDrawingMode(GL_POLYGON);
+        m_geometry->setDrawingMode(GL_TRIANGLE_FAN);
     } else {
         m_geometry->setDrawingMode(GL_LINE_LOOP);
     }
 
     QSGGeometry::Point2D * vertex = m_geometry->vertexDataAsPoint2D();
 
-    for (int i=0; i < 360; ++i) {
-        vertex[i].x = x + width*cos(i*(M_PI/180));
-        vertex[i].y = y + height*sin(i*(M_PI/180));
+    float rad = M_PI/180;
+
+    width /= 2;
+    height /= 2;
+
+    if(m_width != width || m_height != height) {
+        for (int i=0; i < 360; i += 6) {
+            vertex[i/6].x = width*cos(i*rad);
+            vertex[i/6].y = height*sin(i*rad);
+        }
+        m_geometryNode->markDirty(QSGNode::DirtyGeometry);
+
+        m_width = width;
+        m_height = height;
     }
-    /*vertex[0].x = 0;
-    vertex[0].y = 0;
+    if(m_x != x || m_y != y) {
+        QMatrix4x4 m (1,0,0,x,
+                      0,1,0,y,
+                      0,0,1,0,
+                      0,0,0,1);
+        setMatrix(m);
+        markDirty(QSGNode::DirtyMatrix);
 
-    vertex[1].x = 50;
-    vertex[1].x = 50;*/
-
-    m_geometryNode->markDirty(QSGNode::DirtyGeometry);
-
+        m_x = x;
+        m_y = y;
+    }
 }

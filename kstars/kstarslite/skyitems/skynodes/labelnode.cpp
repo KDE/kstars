@@ -49,6 +49,11 @@ void LabelNode::initialize() {
         case LabelsItem::label_t::COMET_LABEL:
         case LabelsItem::label_t::RUDE_LABEL:
         case LabelsItem::label_t::ASTEROID_LABEL:
+        case LabelsItem::label_t::DEEP_SKY_LABEL:
+        case LabelsItem::label_t::DSO_MESSIER_LABEL:
+        case LabelsItem::label_t::DSO_NGC_LABEL:
+        case LabelsItem::label_t::DSO_IC_LABEL:
+        case LabelsItem::label_t::DSO_OTHER_LABEL:
             m_zoomFont = true;
         break;
         default:
@@ -77,13 +82,18 @@ void LabelNode::createTexture() {
         case LabelsItem::label_t::JUPITER_MOON_LABEL:
         case LabelsItem::label_t::COMET_LABEL:
         case LabelsItem::label_t::RUDE_LABEL:
-            color = KStarsData::Instance()->colorScheme()->colorNamed( "PNameColor" );
-            break;
         case LabelsItem::label_t::ASTEROID_LABEL:
-            color = QColor("gray");
+            color = KStarsData::Instance()->colorScheme()->colorNamed( "PNameColor" );
             break;
         case LabelsItem::label_t::CONSTEL_NAME_LABEL:
             color = KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" );
+            break;
+        case LabelsItem::label_t::DEEP_SKY_LABEL:
+        case LabelsItem::label_t::DSO_MESSIER_LABEL:
+        case LabelsItem::label_t::DSO_NGC_LABEL:
+        case LabelsItem::label_t::DSO_IC_LABEL:
+        case LabelsItem::label_t::DSO_OTHER_LABEL:
+            color = KStarsData::Instance()->colorScheme()->colorNamed( "DSNameColor" );
             break;
         case LabelsItem::label_t::STAR_LABEL:
             color = KStarsData::Instance()->colorScheme()->colorNamed( "SNameColor" );

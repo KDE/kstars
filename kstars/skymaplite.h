@@ -41,6 +41,7 @@ class PlanetMoonsComponent;
 class HorizonItem;
 class LinesItem;
 class SkyNode;
+class RootNode;
 
 class QSGTexture;
 
@@ -287,6 +288,8 @@ public:
 
     /** Used in PointSourceNode **/
     inline float sizeMagLim() const { return m_sizeMagLim; }
+
+    inline RootNode *rootNode() { return m_rootNode; }
 
     /**
      *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
@@ -586,6 +589,8 @@ private:
 
     bool m_objPointingMode;
     bool m_fovCaptureMode;
+
+    RootNode *m_rootNode;
 
     Projector* m_proj;
 

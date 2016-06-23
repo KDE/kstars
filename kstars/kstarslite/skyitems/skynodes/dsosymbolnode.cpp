@@ -50,8 +50,8 @@ void SymbolNode::updateSymbol(float x, float y, float e, float size) {
     yb = y + dyb;
 }
 
-StarSymbol::StarSymbol()
-    :m_ellipse(new EllipseNode(QColor("#006666")))
+StarSymbol::StarSymbol(QColor color)
+    :m_ellipse(new EllipseNode(color))
 {
     appendChildNode(m_ellipse);
 }
@@ -65,15 +65,15 @@ void StarSymbol::updateSymbol(float x, float y, float e, float size) {
         m_ellipse->updateGeometry(0, 0, int(size/2), int(size/2), false);
 }
 
-AsterismSymbol::AsterismSymbol() {
-    e1 = new EllipseNode(QColor("#008f00"));
-    e2 = new EllipseNode(QColor("#008f00"));
-    e3 = new EllipseNode(QColor("#008f00"));
-    e4 = new EllipseNode(QColor("#008f00"));
-    e5 = new EllipseNode(QColor("#008f00"));
-    e6 = new EllipseNode(QColor("#008f00"));
-    e7 = new EllipseNode(QColor("#008f00"));
-    e8 = new EllipseNode(QColor("#008f00"));
+AsterismSymbol::AsterismSymbol(QColor color) {
+    e1 = new EllipseNode(color);
+    e2 = new EllipseNode(color);
+    e3 = new EllipseNode(color);
+    e4 = new EllipseNode(color);
+    e5 = new EllipseNode(color);
+    e6 = new EllipseNode(color);
+    e7 = new EllipseNode(color);
+    e8 = new EllipseNode(color);
     appendChildNode(e1);
     appendChildNode(e2);
     appendChildNode(e3);
@@ -100,8 +100,8 @@ void AsterismSymbol::updateSymbol(float x, float y, float e, float size) {
     e8->updateGeometry(x2, yb, psize, psize, true);
 }
 
-GlobularClusterSymbol::GlobularClusterSymbol()
-    :e1(new EllipseNode(QColor("#008f00")))
+GlobularClusterSymbol::GlobularClusterSymbol(QColor color)
+    :e1(new EllipseNode(color))
 {
     appendChildNode(e1);
 
@@ -116,7 +116,7 @@ GlobularClusterSymbol::GlobularClusterSymbol()
     lines->setFlag(QSGNode::OwnsGeometry);
 
     QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
-    material->setColor(QColor("#008f00"));
+    material->setColor(color);
     lines->setOpaqueMaterial(material);
     lines->setFlag(QSGNode::OwnsMaterial);
 }
@@ -139,7 +139,7 @@ void GlobularClusterSymbol::updateSymbol(float x, float y, float e, float size) 
     lines->markDirty(QSGNode::DirtyGeometry);
 }
 
-DarkNebulaSymbol::DarkNebulaSymbol() {
+DarkNebulaSymbol::DarkNebulaSymbol(QColor color) {
     lines = new QSGGeometryNode;
     appendChildNode(lines);
 
@@ -151,7 +151,7 @@ DarkNebulaSymbol::DarkNebulaSymbol() {
     lines->setFlag(QSGNode::OwnsGeometry);
 
     QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
-    material->setColor("#006666");
+    material->setColor(color);
     lines->setOpaqueMaterial(material);
     lines->setFlag(QSGNode::OwnsMaterial);
 }
@@ -181,8 +181,8 @@ void DarkNebulaSymbol::updateSymbol(float x, float y, float e, float size) {
     lines->markDirty(QSGNode::DirtyGeometry);
 }
 
-PlanetaryNebulaSymbol::PlanetaryNebulaSymbol() {
-    e1 = new EllipseNode;
+PlanetaryNebulaSymbol::PlanetaryNebulaSymbol(QColor color) {
+    e1 = new EllipseNode(color);
     appendChildNode(e1);
 
     lines = new QSGGeometryNode;
@@ -196,7 +196,7 @@ PlanetaryNebulaSymbol::PlanetaryNebulaSymbol() {
     lines->setFlag(QSGNode::OwnsGeometry);
 
     QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
-    material->setColor(QColor("#006666"));
+    material->setColor(color);
     lines->setOpaqueMaterial(material);
     lines->setFlag(QSGNode::OwnsMaterial);
 }
@@ -233,7 +233,7 @@ void PlanetaryNebulaSymbol::updateSymbol(float x, float y, float e, float size) 
     lines->markDirty(QSGNode::DirtyGeometry);
 }
 
-SupernovaRemnantSymbol::SupernovaRemnantSymbol() {
+SupernovaRemnantSymbol::SupernovaRemnantSymbol(QColor color) {
     lines = new QSGGeometryNode;
     appendChildNode(lines);
 
@@ -245,19 +245,14 @@ SupernovaRemnantSymbol::SupernovaRemnantSymbol() {
     lines->setFlag(QSGNode::OwnsGeometry);
 
     QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
-    material->setColor(QColor("#006666"));
+    material->setColor(color);
     lines->setOpaqueMaterial(material);
     lines->setFlag(QSGNode::OwnsMaterial);
 }
 
 void SupernovaRemnantSymbol::updateSymbol(float x, float y, float e, float size) {
     SymbolNode::updateSymbol(x, y, e, size);
-
     if (size<2.) size = 2.;
-    /*drawLine( QPointF(0., dy1), QPointF(dx2, 0.) );
-    drawLine( QPointF(dx2, 0.), QPointF(0., dy2) );
-    drawLine( QPointF(0., dy2), QPointF(dx1, 0.) );
-    drawLine( QPointF(dx1, 0.), QPointF(0., dy1) );*/
 
     QSGGeometry::Point2D * vertex = lines->geometry()->vertexDataAsPoint2D();
     //First line
@@ -279,8 +274,8 @@ void SupernovaRemnantSymbol::updateSymbol(float x, float y, float e, float size)
     lines->markDirty(QSGNode::DirtyGeometry);
 }
 
-GalaxySymbol::GalaxySymbol()
-    :e1(new EllipseNode(QColor("#006666")))
+GalaxySymbol::GalaxySymbol(QColor color)
+    :e1(new EllipseNode(color))
 {
     appendChildNode(e1);
 }
@@ -297,7 +292,7 @@ void GalaxySymbol::updateSymbol(float x, float y, float e, float size) {
     }
 }
 
-GalaxyClusterSymbol::GalaxyClusterSymbol()
+GalaxyClusterSymbol::GalaxyClusterSymbol(QColor color)
     :lines(new QSGGeometryNode)
 {
     QSGGeometry *geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(),0);
@@ -308,7 +303,7 @@ GalaxyClusterSymbol::GalaxyClusterSymbol()
     lines->setFlag(QSGNode::OwnsGeometry);
 
     QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
-    material->setColor(QColor("#006666"));
+    material->setColor(color);
     lines->setOpaqueMaterial(material);
     lines->setFlag(QSGNode::OwnsMaterial);
 
@@ -344,7 +339,7 @@ void GalaxyClusterSymbol::updateSymbol(float x, float y, float e, float size) {
 
 }
 
-DSOSymbolNode::DSOSymbolNode(DeepSkyObject * skyObject)
+DSOSymbolNode::DSOSymbolNode(DeepSkyObject * skyObject, QColor color)
     :m_dso(skyObject), m_symbol(0), m_rotate(false) //We don't rotate the symbol by default
 {
     int type = m_dso->type();
@@ -352,36 +347,36 @@ DSOSymbolNode::DSOSymbolNode(DeepSkyObject * skyObject)
     case 0:
     case 1:
         //catalog star
-        m_symbol = new StarSymbol();
+        m_symbol = new StarSymbol(color);
         break;
     case 3: //Open cluster; draw circle of points
     case 13: // Asterism
-        m_symbol = new AsterismSymbol();
+        m_symbol = new AsterismSymbol(color);
         break;
     case 4: //Globular Cluster
-        m_symbol = new GlobularClusterSymbol();
+        m_symbol = new GlobularClusterSymbol(color);
         m_rotate = true;
         break;
     case 5: //Gaseous Nebula
     case 15: // Dark Nebula
-        m_symbol = new DarkNebulaSymbol();
+        m_symbol = new DarkNebulaSymbol(color);
         m_rotate = true;
         break;
     case 6: //Planetary Nebula
-        m_symbol = new PlanetaryNebulaSymbol();
+        m_symbol = new PlanetaryNebulaSymbol(color);
         m_rotate = true;
         break;
     case 7: //Supernova remnant
-        m_symbol = new SupernovaRemnantSymbol();
+        m_symbol = new SupernovaRemnantSymbol(color);
         m_rotate = true;
         break;
     case 8: //Galaxy
     case 16: // Quasar
-        m_symbol = new GalaxySymbol();
+        m_symbol = new GalaxySymbol(color);
         m_rotate = true;
         break;
     case 14: // Galaxy cluster - draw a circle of + marks
-        m_symbol = new GalaxyClusterSymbol();
+        m_symbol = new GalaxyClusterSymbol(color);
         m_rotate = true;
         break;
     default:

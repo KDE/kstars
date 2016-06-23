@@ -127,6 +127,7 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
     if(m_loadingFinished) {
         if(!n) {
             n = new RootNode();
+            m_rootNode = n;
         }
         n->update();
     }

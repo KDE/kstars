@@ -158,6 +158,17 @@ public:
     void hideLabels(label_t labelType);
 
     /**
+     * @short shows all labels of type labelType
+     */
+
+    void showLabels(label_t labelType);
+
+    /**
+     * @short adds trixel to the node corresponding to labelType
+     */
+    TrixelNode *addTrixel(label_t labelType, Trixel trixel);
+
+    /**
      * @short sets m_rootNode and appends to it this node
      * @param rootNode
      */

@@ -24,7 +24,9 @@
 #include <KLocalizedString>
 
 #include "kstarsdata.h"
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
 #endif
 #include "skyobjects/skypoint.h"
@@ -69,7 +71,7 @@ bool MilkyWay::selected()
            ! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMap::IsSlewing() );
 #else
     return Options::showMilkyWay() &&
-           ! ( Options::hideOnSlew() && Options::hideMilkyWay() );
+           ! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMapLite::IsSlewing() );
 #endif
 }
 

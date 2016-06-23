@@ -37,11 +37,10 @@ DeepStarItem::DeepStarItem(DeepStarComponent *deepStarComp, RootNode *rootNode)
     //Test
     Options::setShowStarMagnitudes(false);
     Options::setShowStarNames(true);
-
-    for(int c = 0; c < m_starBlockList->size(); ++c) {
-        TrixelNode *trixel = new TrixelNode;
-        appendChildNode(trixel);
-        if(m_staticStars) {
+    if(m_staticStars) {
+        for(int c = 0; c < m_starBlockList->size(); ++c) {
+            TrixelNode *trixel = new TrixelNode;
+            appendChildNode(trixel);
             int blockCount = m_starBlockList->at( c )->getBlockCount();
 
             for( int i = 0; i < blockCount; ++i ) {

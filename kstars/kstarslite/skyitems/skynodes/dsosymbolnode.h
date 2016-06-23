@@ -67,14 +67,14 @@ protected:
 
 class StarSymbol : public SymbolNode {
 public:
-    StarSymbol();
+    StarSymbol(QColor color = QColor());
     virtual void updateSymbol(float x, float y, float e, float size) override;
     EllipseNode *m_ellipse;
 };
 
 class AsterismSymbol : public SymbolNode {
 public:
-    AsterismSymbol();
+    AsterismSymbol(QColor color);
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
     EllipseNode *e1;
@@ -89,7 +89,7 @@ public:
 
 class GlobularClusterSymbol : public SymbolNode {
 public:
-    GlobularClusterSymbol();
+    GlobularClusterSymbol(QColor color);
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
     EllipseNode *e1;
@@ -98,7 +98,7 @@ public:
 
 class DarkNebulaSymbol : public SymbolNode {
 public:
-    DarkNebulaSymbol();
+    DarkNebulaSymbol(QColor color);
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
     QSGGeometryNode *lines;
@@ -106,7 +106,7 @@ public:
 
 class PlanetaryNebulaSymbol : public SymbolNode {
 public:
-    PlanetaryNebulaSymbol();
+    PlanetaryNebulaSymbol(QColor color);
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
     EllipseNode *e1;
@@ -115,7 +115,7 @@ public:
 
 class SupernovaRemnantSymbol : public SymbolNode {
 public:
-    SupernovaRemnantSymbol();
+    SupernovaRemnantSymbol(QColor color);
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
     QSGGeometryNode *lines;
@@ -123,7 +123,7 @@ public:
 
 class GalaxySymbol : public SymbolNode {
 public:
-    GalaxySymbol();
+    GalaxySymbol(QColor color);
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
     EllipseNode *e1;
@@ -131,7 +131,7 @@ public:
 
 class GalaxyClusterSymbol : public SymbolNode {
 public:
-    GalaxyClusterSymbol();
+    GalaxyClusterSymbol(QColor color);
     virtual void updateSymbol(float x, float y, float e, float size) override;
 
     QSGGeometryNode *lines;
@@ -146,7 +146,7 @@ public:
      * @param spType spectral class of PointNode
      * @param size initial size of PointNode
      */
-    DSOSymbolNode(DeepSkyObject *skyObject);
+    DSOSymbolNode(DeepSkyObject *skyObject, QColor color = QColor());
     void changePos(float size, const QPointF &pos, float positionangle);
     void update(float size, const QPointF &pos, float positionangle);
 private:
