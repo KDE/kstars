@@ -25,15 +25,6 @@ include(ECMInstallIcons)
 include(FeatureSummary)
 include(ECMAddAppIcon)
 
-# Packaging stuff
-include(ECMOptionalAddSubdirectory)
-include(ECMSetupVersion)
-include(ECMAddTests)
-include(ECMMarkNonGuiExecutable)
-include(ECMGenerateHeaders)
-include(ECMPackageConfigHelpers)
-# End of packaging stuff
-
 # Load the frameworks we need
 find_package(KF5 REQUIRED COMPONENTS
   Config
@@ -118,28 +109,6 @@ include_directories (BEFORE ${CMAKE_CURRENT_BINARY_DIR})
 add_subdirectory(doc)
 add_subdirectory(kstars)
 add_subdirectory(datahandlers)
-
-# Packaging stuff
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KStars")
-ecm_configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/KStarsConfig.cmake.in"
-                                  "${CMAKE_CURRENT_BINARY_DIR}/KStarsConfig.cmake"
-                                  INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
-)
-ecm_setup_version(${KStars_VERSION_MAJOR}.${KStars_VERSION_MINOR}.${KStars_VERSION_PATCH}
-                  VARIABLE_PREFIX KStars
-                  VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kstars_version.h"
-                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KStarsConfigVersion.cmake"
-                  SOVERSION ${KStars_LIB_SOVERSION}
-)
-install(FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/kstars_version.h"
-        DESTINATION "${KDE_INSTALL_INCLUDEDIR}/kstars")
-install(FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/KStarsConfig.cmake"
-        "${CMAKE_CURRENT_BINARY_DIR}/KStarsConfigVersion.cmake"
-        DESTINATION "${CMAKECONFIG_INSTALL_DIR}" )
-install(EXPORT KStarsTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" NAMESPACE KStars:: FILE KStarsTargets.cmake)
-# End of packaging stuff
 
 enable_testing(true)
 add_subdirectory(Tests)
