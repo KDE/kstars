@@ -7,7 +7,15 @@
     version 2 of the License, or (at your option) any later version.
 */
 
+#ifdef Q_OS_LINUX
 #include <unistd.h>
+#endif 
+
+#ifdef Q_OS_WIN
+#include <io.h>
+#include <indidevapi.h>
+#define F_OK 0 /* test for existence of file */
+#endif
 
 #include <QDir>
 
@@ -212,7 +220,7 @@ void OfflineAstrometryParser::solverComplete(int exist_status)
 {
     solver.disconnect();
 
-    if (exist_status != 0 || access("/tmp/solution.wcs", F_OK)==-1)
+    if (exist_status != 0 || access("/tmp/solution.wcs", F_OK) == -1)
     {
         align->appendLogText(i18n("Solver failed. Try again."));
         emit solverFailed();
