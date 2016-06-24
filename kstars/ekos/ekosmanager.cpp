@@ -35,6 +35,7 @@
 #include "indi/drivermanager.h"
 #include "indi/indilistener.h"
 #include "indi/guimanager.h"
+#include "indi/indiwebmanager.h"
 
 #include "ekosadaptor.h"
 
@@ -54,7 +55,8 @@ EkosManager::EkosManager()
     nDevices=0;
     nConnectedDevices=0;
     useGuideHead    =false;
-    useST4          =false;    
+    useST4          =false;
+    remoteManagerStart=false;
 
     indiConnectionStatus = STATUS_IDLE;
     ekosStartingStatus   = STATUS_IDLE;
@@ -765,7 +767,7 @@ void EkosManager::reset()
 
 void EkosManager::processINDI()
 {
-    if (ekosStartingStatus != STATUS_IDLE)
+    if (ekosStartingStatus == STATUS_SUCCESS || ekosStartingStatus == STATUS_PENDING)
     {
         stop();
     }
@@ -920,8 +922,7 @@ bool EkosManager::start()
     connect(INDIListener::Instance(), SIGNAL(newDustCap(ISD::GDInterface*)), this, SLOT(setDustCap(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newLightBox(ISD::GDInterface*)), this, SLOT(setLightBox(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
-    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);
-    connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
+    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);    
 
     if (localMode)
     {        
@@ -948,6 +949,8 @@ bool EkosManager::start()
             return false;
         }
 
+        connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
+
         ekosStartingStatus = STATUS_PENDING;
 
         appendLogText(i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
@@ -958,6 +961,30 @@ bool EkosManager::start()
     }
     else
     {
+        // If we need to use INDI Web Manager
+        if (currentProfile->INDIWebManagerPort != -1)
+        {
+            remoteManagerStart = false;
+            if (INDI::WebManager::isOnline(currentProfile))
+            {
+                if (INDI::WebManager::areDriversRunning(currentProfile) == false)
+                {
+                    INDI::WebManager::stopProfile(currentProfile);
+
+                    if (INDI::WebManager::startProfile(currentProfile) == false)
+                    {
+                        appendLogText(i18n("Failed to start profile on remote INDI Web Manager."));
+                        return false;
+                    }
+
+                    appendLogText(i18n("Starting profile on remote INDI Web Manager..."));
+                    remoteManagerStart = true;
+                }
+            }
+            else
+                appendLogText(i18n("Warning: INDI Web Manager is not online."));
+        }
+
         appendLogText(i18n("Connecting to remote INDI server at %1 on port %2 ...", currentProfile->host, currentProfile->port));
         qApp->processEvents();
 
@@ -996,6 +1023,10 @@ bool EkosManager::start()
 
 void EkosManager::checkINDITimeout()
 {
+    // Don't check anything unless we're still pending
+    if (ekosStartingStatus != STATUS_PENDING)
+        return;
+
     if (nDevices <= 0)
     {
         ekosStartingStatus = STATUS_SUCCESS;
@@ -1071,10 +1102,7 @@ void EkosManager::connectDevices()
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
 
-    appendLogText(i18n("Connecting INDI devices..."));
-
-    if (Options::verboseLogging())
-        qDebug() << "Connecting INDI devices...";
+    appendLogText(i18n("Connecting INDI devices..."));    
 }
 
 void EkosManager::disconnectDevices()
@@ -1082,10 +1110,7 @@ void EkosManager::disconnectDevices()
     foreach(ISD::GDInterface *device, genericDevices)
         device->Disconnect();
 
-    appendLogText(i18n("Disconnecting INDI devices..."));
-
-    if (Options::verboseLogging())
-        qDebug() << "Disconnecting INDI devices...";
+    appendLogText(i18n("Disconnecting INDI devices..."));    
 
 }
 
@@ -1093,15 +1118,27 @@ void EkosManager::cleanDevices()
 {
 
     INDIListener::Instance()->disconnect(this);
+    DriverManager::Instance()->disconnect(this);
 
-    if (localMode)
+    if (managedDrivers.isEmpty() == false)
     {
-        DriverManager::Instance()->stopDevices(managedDrivers);
+        if (localMode)
+        {
+            DriverManager::Instance()->stopDevices(managedDrivers);
+        }
+        else
+        {
+            DriverManager::Instance()->disconnectRemoteHost(managedDrivers.first());
+
+            ProfileInfo *pi = getCurrentProfile();
+            if (remoteManagerStart && pi->INDIWebManagerPort != -1)
+            {
+                INDI::WebManager::stopProfile(pi);
+                remoteManagerStart = false;
+            }
+        }
     }
-    else
-    {
-        DriverManager::Instance()->disconnectRemoteHost(managedDrivers.first());
-    }    
+
 
     reset();
 
@@ -1112,10 +1149,7 @@ void EkosManager::cleanDevices()
     controlPanelB->setEnabled(false);
     profileGroup->setEnabled(true);
 
-    appendLogText(i18n("INDI services stopped."));
-
-    if (Options::verboseLogging())
-        qDebug() << "Stopping INDI services.";
+    appendLogText(i18n("INDI services stopped."));    
 }
 
 void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
@@ -1698,6 +1732,9 @@ void EkosManager::appendLogText(const QString &text)
 
     logText.insert(0, i18nc("log entry; %1 is the date, %2 is the text", "%1 %2", QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"), text));
 
+    if (Options::verboseLogging())
+        qDebug() << "Ekos: " << text;
+
     updateLog();
 }
 
@@ -2040,6 +2077,15 @@ bool EkosManager::setProfile(const QString &profileName)
     return true;
 }
 
+QStringList EkosManager::getProfiles()
+{
+    QStringList profiles;
+
+    for (int i=0; i < profileCombo->count(); i++)
+        profiles << profileCombo->itemText(i);
+
+    return profiles;
+}
 
 void EkosManager::addProfile()
 {

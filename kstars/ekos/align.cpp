@@ -34,6 +34,7 @@
 
 #include "onlineastrometryparser.h"
 #include "offlineastrometryparser.h"
+#include "remoteastrometryparser.h"
 
 #include <basedevice.h>
 
@@ -83,6 +84,7 @@ Align::Align()
     solverFOV->setColor(KStars::Instance()->data()->colorScheme()->colorNamed( "SolverFOVColor" ).name());
     onlineParser = NULL;
     offlineParser = NULL;
+    remoteParser = NULL;
 
     connect(solveB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
     connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
@@ -133,20 +135,29 @@ Align::Align()
     altStage = ALT_INIT;
     azStage  = AZ_INIT;
 
-    // Online/Offline solver check
-    kcfg_onlineSolver->setChecked(Options::solverOnline());
-    kcfg_offlineSolver->setChecked(Options::solverOnline() == false);
-    connect(kcfg_onlineSolver, SIGNAL(toggled(bool)), SLOT(setSolverType(bool)));
+    // Online/Offline/Remote solver check
+    solverTypeGroup->setId(onlineSolverR, SOLVER_ONLINE);
+    solverTypeGroup->setId(offlineSolverR, SOLVER_OFFLINE);
+    solverTypeGroup->setId(remoteSolverR, SOLVER_REMOTE);
+    solverTypeGroup->button(Options::solverType())->setChecked(true);
+    connect(solverTypeGroup, SIGNAL(buttonClicked(int)), SLOT(setSolverType(int)));
 
-    if (kcfg_onlineSolver->isChecked())
+    switch(solverTypeGroup->checkedId())
     {
+    case SOLVER_ONLINE:
         onlineParser = new Ekos::OnlineAstrometryParser();
-        parser = onlineParser;  
-    }
-    else
-    {
+        parser = onlineParser;
+        break;
+
+    case SOLVER_OFFLINE:
         offlineParser = new OfflineAstrometryParser();
         parser = offlineParser;
+        break;
+
+    case SOLVER_REMOTE:
+        remoteParser = new RemoteAstrometryParser();
+        parser = remoteParser;
+        break;
     }
 
     parser->setAlign(this);
@@ -174,6 +185,7 @@ Align::~Align()
 {
     delete(pi);
     delete(solverFOV);
+    delete(parser);
 }
 
 bool Align::isParserOK()
@@ -194,11 +206,11 @@ bool Align::isVerbose()
     return kcfg_solverVerbose->isChecked();
 }
 
-void Align::setSolverType(bool useOnline)
+void Align::setSolverType(int type)
 {
-
-    if (useOnline)
+    switch(type)
     {
+    case SOLVER_ONLINE:
         if (onlineParser != NULL)
         {
             parser = onlineParser;
@@ -207,17 +219,32 @@ void Align::setSolverType(bool useOnline)
 
         onlineParser = new Ekos::OnlineAstrometryParser();
         parser = onlineParser;
-    }
-    else
-    {
+        break;
+
+    case SOLVER_OFFLINE:
         if (offlineParser != NULL)
         {
             parser = offlineParser;
+
             return;
         }
 
         offlineParser = new Ekos::OfflineAstrometryParser();
         parser = offlineParser;
+        break;
+
+    case SOLVER_REMOTE:
+        if (remoteParser != NULL)
+        {
+            parser = remoteParser;
+            (dynamic_cast<RemoteAstrometryParser*>(parser))->setCCD(currentCCD);
+            return;
+        }
+
+        remoteParser = new Ekos::RemoteAstrometryParser();
+        parser = remoteParser;
+        (dynamic_cast<RemoteAstrometryParser*>(parser))->setCCD(currentCCD);
+        break;
     }
 
     parser->setAlign(this);
@@ -254,7 +281,12 @@ void Align::checkCCD(int ccdNum)
         ccdNum = CCDCaptureCombo->currentIndex();
 
     if (ccdNum <= CCDs.count())
+    {
         currentCCD = CCDs.at(ccdNum);
+
+        if (solverTypeGroup->checkedId() == SOLVER_REMOTE)
+            (dynamic_cast<RemoteAstrometryParser*>(parser))->setCCD(currentCCD);
+    }
 
     syncCCDInfo();
 
@@ -588,10 +620,26 @@ bool Align::captureAndSolve()
    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
 
-   if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+   // In case of remote solver, we set mode to either UPLOAD_LOCAL (when preview is OFF) or UPLOAD_BOTH (when preview is on)
+   if (solverTypeGroup->checkedId() == SOLVER_REMOTE)
    {
-       rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
-       currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+       rememberUploadMode = currentCCD->getUploadMode();
+
+       if (kcfg_solverPreview->isChecked())
+           currentCCD->setUploadMode(ISD::CCD::UPLOAD_BOTH);
+       else
+           currentCCD->setUploadMode(ISD::CCD::UPLOAD_LOCAL);
+
+       // For solver remote we need to start solver BEFORE capture
+       startSovling(QString());
+   }
+   else
+   {
+       if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+       {
+           rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
+           currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+       }
    }
 
    targetChip->resetFrame();
@@ -626,9 +674,11 @@ void Align::newFITS(IBLOB *bp)
 
     appendLogText(i18n("Image received."));
 
-    char *finalFileName = (char *) bp->aux2;
-
-    startSovling(QString(finalFileName));
+    if (solverTypeGroup->checkedId() != SOLVER_REMOTE)
+    {
+        char *finalFileName = (char *) bp->aux2;
+        startSovling(QString(finalFileName));
+    }
 }
 
 void Align::setGOTOMode(int mode)
@@ -665,7 +715,7 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     Options::setSolverXBin(binXIN->value());
     Options::setSolverYBin(binYIN->value());
     Options::setSolverUpdateCoords(kcfg_solverUpdateCoords->isChecked());
-    Options::setSolverOnline(kcfg_onlineSolver->isChecked());
+    Options::setSolverType(solverTypeGroup->checkedId());
     Options::setSolverPreview(kcfg_solverPreview->isChecked());
     Options::setSolverOptions(kcfg_solverOptions->text());
     Options::setSolverOTA(kcfg_solverOTA->isChecked());

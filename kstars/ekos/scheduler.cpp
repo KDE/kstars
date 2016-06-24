@@ -160,7 +160,13 @@ Scheduler::Scheduler()
     loadSequenceB->setIcon(QIcon::fromTheme("document-open"));
     selectStartupScriptB->setIcon(QIcon::fromTheme("document-open"));
     selectShutdownScriptB->setIcon(QIcon::fromTheme("document-open"));
-    selectFITSB->setIcon(QIcon::fromTheme("document-open"));    
+    selectFITSB->setIcon(QIcon::fromTheme("document-open"));
+
+    startupB->setIcon(QIcon::fromTheme("media-playback-start"));
+    shutdownB->setIcon(QIcon::fromTheme("media-playback-start"));
+
+    connect(startupB, SIGNAL(clicked()), this, SLOT(runStartupProcedure()));
+    connect(shutdownB, SIGNAL(clicked()), this, SLOT(runShutdownProcedure()));
 
     connect(selectObjectB,SIGNAL(clicked()),this,SLOT(selectObject()));
     connect(selectFITSB,SIGNAL(clicked()),this,SLOT(selectFITS()));
@@ -182,6 +188,8 @@ Scheduler::Scheduler()
 
     connect(twilightCheck, SIGNAL(toggled(bool)), this, SLOT(checkTwilightWarning(bool)));
 
+    loadProfiles();
+
 }
 
 Scheduler::~Scheduler()
@@ -197,6 +205,7 @@ void Scheduler::watchJobChanges(bool enable)
         connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
 
+        connect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         connect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
         connect(startupButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
         connect(constraintButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
@@ -220,6 +229,7 @@ void Scheduler::watchJobChanges(bool enable)
         disconnect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
 
+        disconnect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         disconnect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
         disconnect(startupButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
         disconnect(constraintButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
@@ -432,6 +442,7 @@ void Scheduler::saveJob()
 
     job->setDateTimeDisplayFormat(startupTimeEdit->displayFormat());
     job->setSequenceFile(sequenceURL);
+    job->setProfile(profileCombo->currentText());
 
     fitsURL = QUrl::fromLocalFile(fitsEdit->text());
     job->setFITSFile(fitsURL);
@@ -624,6 +635,8 @@ void Scheduler::loadJob(QModelIndex i)
 
     sequenceEdit->setText(job->getSequenceFile().path());
     sequenceURL = job->getSequenceFile();
+
+    profileCombo->setCurrentText(job->getProfile());
 
     trackStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_TRACK);
     focusStepCheck->setChecked(job->getStepPipeline() & SchedulerJob::USE_FOCUS);
@@ -855,6 +868,9 @@ void Scheduler::stop()
     loadAndSlewProgress=false;
     autofocusCompleted=false;
 
+    startupB->setEnabled(true);
+    shutdownB->setEnabled(true);
+
     // If soft shutdown, we return for now
     if (preemptiveShutdown)
     {
@@ -930,6 +946,9 @@ void Scheduler::start()
     removeFromQueueB->setEnabled(false);
     mosaicB->setEnabled(false);
     evaluateOnlyB->setEnabled(false);
+
+    startupB->setEnabled(false);
+    shutdownB->setEnabled(false);
 
     schedulerTimer.start();
 }
@@ -2002,6 +2021,13 @@ bool Scheduler::checkStartupState()
             return true;
         }
 
+        if (profileCombo->currentText() != i18n("Default"))
+        {
+            QList<QVariant> profile;
+            profile.append(profileCombo->currentText());
+            ekosInterface->callWithArgumentList(QDBus::AutoDetect,"setProfile", profile);
+        }
+
         if (startupScriptURL.isEmpty() == false)
         {
             startupState = STARTUP_SCRIPT;
@@ -2085,7 +2111,8 @@ bool Scheduler::checkShutdownState()
 
         currentJob = NULL;
 
-        schedulerTimer.start();
+        if(state == SCHEDULER_RUNNIG)
+            schedulerTimer.start();
 
         if (preemptiveShutdown == false)
         {
@@ -2182,7 +2209,6 @@ bool Scheduler::checkShutdownState()
         return true;
 
     case SHUTDOWN_ERROR:
-        //appendLogText(i18n("Shutdown script failed, aborting..."));
         stop();
         return true;
         break;
@@ -3107,6 +3133,10 @@ bool Scheduler::processJobInfo(XMLEle *root)
                 }
             }
         }
+        else if (!strcmp(tagXMLEle(ep), "Profile"))
+        {
+            profileCombo->setCurrentText(pcdataXMLEle(ep));
+        }
         else if (!strcmp(tagXMLEle(ep), "Steps"))
         {
             XMLEle *module;
@@ -3261,6 +3291,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
            outstream << "<Condition value='" << job->getCompletionTime().toString(Qt::ISODate) << "'>At</Condition>" << endl;
        outstream << "</CompletionCondition>" << endl;
 
+       outstream << "<Profile>" << job->getProfile() << "</Profile>" << endl;
        outstream << "<Steps>" << endl;
        if  (job->getStepPipeline() & SchedulerJob::USE_TRACK)
            outstream << "<Step>Track</Step>" << endl;
@@ -4072,7 +4103,7 @@ void Scheduler::checkCapParkingStatus()
         if (startupState == STARTUP_UNPARKING_CAP)
         {
            startupState = STARTUP_COMPLETE;
-           appendLogText(i18n("Cap unparked."));
+           appendLogText(i18n("Cap unparked."));           
         }
          break;
 
@@ -4353,6 +4384,177 @@ void Scheduler::checkTwilightWarning(bool enabled)
         if (KMessageBox::warningContinueCancel(NULL, i18n("Warning! Turning off astronomial twilight check may cause the observatory to run during daylight. This can cause irreversible damage to your equipment!"),
                          i18n("Astronomial Twilight Warning"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "astronomical_twilight_warning") == KMessageBox::Cancel)
             twilightCheck->setChecked(true);
+    }
+}
+
+void Scheduler::checkStartupProcedure()
+{
+        if (checkStartupState() == false)
+            QTimer::singleShot(1000, this, SLOT(checkStartupProcedure()));
+        else
+        {
+            if (startupState == STARTUP_COMPLETE)
+                appendLogText(i18n("Manual startup procedure completed successfully."));
+            else if (startupState == STARTUP_ERROR)
+                appendLogText(i18n("Manual startup procedure terminated due to errors."));
+
+            startupB->setIcon(QIcon::fromTheme("media-playback-start"));
+        }
+}
+
+void Scheduler::runStartupProcedure()
+{
+    if (startupState == STARTUP_IDLE || startupState == STARTUP_ERROR || startupState == STARTUP_COMPLETE)
+    {
+        if (KMessageBox::questionYesNo(NULL, i18n("Are you sure you want to execute the startup procedure manually?")) == KMessageBox::Yes)
+        {
+            appendLogText(i18n("Warning! Executing startup procedure manually..."));
+            startupB->setIcon(QIcon::fromTheme("media-playback-stop"));
+            startupState = STARTUP_IDLE;
+            checkStartupState();
+            QTimer::singleShot(1000, this, SLOT(checkStartupProcedure()));
+        }
+    }
+    else
+    {
+        switch (startupState)
+        {
+        case STARTUP_IDLE:
+            break;
+
+        case STARTUP_SCRIPT:
+            scriptProcess.terminate();
+            break;
+
+        case STARTUP_UNPARK_DOME:
+            break;
+
+        case STARTUP_UNPARKING_DOME:
+            domeInterface->call(QDBus::AutoDetect, "abort");
+            break;
+
+        case STARTUP_UNPARK_MOUNT:
+            break;
+
+        case STARTUP_UNPARKING_MOUNT:
+            mountInterface->call(QDBus::AutoDetect, "abort");
+            break;
+
+        case STARTUP_UNPARK_CAP:
+            break;
+
+        case STARTUP_UNPARKING_CAP:
+            break;
+
+        case STARTUP_COMPLETE:
+            break;
+
+        case STARTUP_ERROR:
+            break;
+
+        }
+
+        startupState = STARTUP_IDLE;
+
+        appendLogText(i18n("Startup procedure terminated."));
+
+    }
+}
+
+void Scheduler::checkShutdownProcedure()
+{
+        // If shutdown procedure is not finished yet, let's check again in 1 second.
+        if (checkShutdownState() == false)
+            QTimer::singleShot(1000, this, SLOT(checkShutdownProcedure()));
+        else
+        {
+            if (shutdownState == SHUTDOWN_COMPLETE)
+                appendLogText(i18n("Manual shutdown procedure completed successfully."));
+            else if (shutdownState == SHUTDOWN_ERROR)
+                appendLogText(i18n("Manual shutdown procedure terminated due to errors."));
+
+            shutdownState = SHUTDOWN_IDLE;
+            shutdownB->setIcon(QIcon::fromTheme("media-playback-start"));
+        }
+
+}
+
+void Scheduler::runShutdownProcedure()
+{
+    if (shutdownState == SHUTDOWN_IDLE || shutdownState == SHUTDOWN_ERROR || shutdownState == SHUTDOWN_COMPLETE)
+    {
+        if (KMessageBox::questionYesNo(NULL, i18n("Are you sure you want to execute the shutdown procedure manually?")) == KMessageBox::Yes)
+        {
+            appendLogText(i18n("Warning! Executing shutdown procedure manually..."));
+            shutdownB->setIcon(QIcon::fromTheme("media-playback-stop"));
+            shutdownState = SHUTDOWN_IDLE;
+            checkShutdownState();
+            QTimer::singleShot(1000, this, SLOT(checkShutdownProcedure()));
+        }
+    }
+    else
+    {
+        switch (shutdownState)
+        {
+        case SHUTDOWN_IDLE:
+            break;
+
+        case SHUTDOWN_SCRIPT:
+            break;
+
+        case SHUTDOWN_SCRIPT_RUNNING:
+            scriptProcess.terminate();
+            break;
+
+        case SHUTDOWN_PARK_DOME:
+            break;
+
+        case SHUTDOWN_PARKING_DOME:
+            domeInterface->call(QDBus::AutoDetect, "abort");
+            break;
+
+        case SHUTDOWN_PARK_MOUNT:
+            break;
+
+        case SHUTDOWN_PARKING_MOUNT:
+            mountInterface->call(QDBus::AutoDetect, "abort");
+            break;
+
+        case SHUTDOWN_PARK_CAP:
+            break;
+
+        case SHUTDOWN_PARKING_CAP:
+            break;
+
+        case SHUTDOWN_COMPLETE:
+            break;
+
+        case SHUTDOWN_ERROR:
+            break;
+
+        }
+
+        shutdownState = SHUTDOWN_IDLE;
+
+        appendLogText(i18n("Shutdown procedure terminated."));
+
+    }
+}
+
+void Scheduler::loadProfiles()
+{
+    QString currentProfile = profileCombo->currentText();
+
+    QDBusReply<QStringList> profiles = ekosInterface->call(QDBus::AutoDetect,"getProfiles");
+
+    if (profiles.error().type() == QDBusError::NoError)
+    {
+        profileCombo->blockSignals(true);
+        profileCombo->clear();
+        profileCombo->addItem(i18n("Default"));
+        profileCombo->addItems(profiles);
+        profileCombo->setCurrentText(currentProfile);
+        profileCombo->blockSignals(false);
     }
 }
 

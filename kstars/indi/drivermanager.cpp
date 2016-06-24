@@ -332,6 +332,9 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
     getUniqueHosts(dList, uHosts);
 
+    if (Options::iNDILogging())
+        qDebug() << "INDI: Starting local drivers...";
+
     foreach(QList <DriverInfo *> qdv, uHosts)
     {
 
@@ -370,6 +373,9 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
              return false;
          }
 
+         if (Options::iNDILogging())
+             qDebug() << "INDI: INDI Server started locally on port " << port;
+
          foreach(DriverInfo *dv, qdv)
          {
               if (serverManager->startDriver(dv) == false)
@@ -400,6 +406,9 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
          for (int i=0; i < INDI_MAX_TRIES; i++)
          {
+             if (Options::iNDILogging())
+                 qDebug() << "INDI: Connecting to local INDI server on port " << port << " ...";
+
              connectionToServer= clientManager->connectServer();
 
              if (connectionToServer)
@@ -412,7 +421,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
          if (connectionToServer)
          {
-             if (Options::verboseLogging())
+             if (Options::iNDILogging())
                  qDebug() << "Connection to INDI server is successful";
 
              clients.append(clientManager);
@@ -421,8 +430,11 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
          else
          {
 
+             if (Options::iNDILogging())
+                 qDebug() << "INDI: Connection to local INDI server on port " << port << " failed!";
+
              KNotification::beep();
-             QMessageBox* msgBox = new QMessageBox();
+             QPointer<QMessageBox> msgBox;
              msgBox->setAttribute( Qt::WA_DeleteOnClose );
              msgBox->setStandardButtons( QMessageBox::Ok );
              msgBox->setWindowTitle( i18n("Error") );
@@ -450,6 +462,9 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
 void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
 {
+
+    if (Options::iNDILogging())
+        qDebug() << "INDI: Stopping local drivers...";
 
      // #2 stop server
     foreach(DriverInfo *dv, dList)

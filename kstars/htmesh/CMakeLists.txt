@@ -5,27 +5,27 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-htmesh.h.cmake ${CMAKE_CURRENT
 
 ### HTMesh library
 set(HTMesh_LIB_SRCS
-	${kstars_SOURCE_DIR}/kstars/htmesh/MeshIterator.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/HtmRange.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/HtmRangeIterator.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/RangeConvex.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/SkipList.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/SkipListElement.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/SpatialConstraint.cpp
-#	${kstars_SOURCE_DIR}/kstars/htmesh/SpatialDomain.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/SpatialEdge.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/SpatialException.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/SpatialIndex.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/SpatialVector.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/HTMesh.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/MeshBuffer.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/MeshIterator.cpp
-	${kstars_SOURCE_DIR}/kstars/htmesh/cc_aux.c
+    ${kstars_SOURCE_DIR}/kstars/htmesh/MeshIterator.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/HtmRange.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/HtmRangeIterator.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/RangeConvex.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/SkipList.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/SkipListElement.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/SpatialConstraint.cpp
+#    ${kstars_SOURCE_DIR}/kstars/htmesh/SpatialDomain.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/SpatialEdge.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/SpatialException.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/SpatialIndex.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/SpatialVector.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/HTMesh.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/MeshBuffer.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/MeshIterator.cpp
+    ${kstars_SOURCE_DIR}/kstars/htmesh/cc_aux.c
 )
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 #TODO is there KF5_ENABLE_EXCEPTIONS?
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
 
 add_library(htmesh STATIC ${HTMesh_LIB_SRCS})
 

@@ -5,7 +5,7 @@
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setSolverType">
-      <arg name="useOnline" type="b" direction="in"/>
+      <arg name="type" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="captureAndSolve">

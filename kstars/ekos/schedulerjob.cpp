@@ -387,6 +387,16 @@ void SchedulerJob::setEnforceTwilight(bool value)
     enforceTwilight = value;
 }
 
+QString SchedulerJob::getProfile() const
+{
+    return profile;
+}
+
+void SchedulerJob::setProfile(const QString &value)
+{
+    profile = value;
+}
+
 
 
 void SchedulerJob::setTargetCoords(dms ra, dms dec)

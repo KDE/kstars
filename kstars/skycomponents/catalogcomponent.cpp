@@ -60,10 +60,16 @@ void CatalogComponent::loadData() {
                                                        this);
     for (int iter = 0; iter < names.size(); iter++) {
         if (names.at(iter).first <= SkyObject::TYPE_UNKNOWN) {
-            if (!objectNames(names.at(iter).first).contains(names.at(iter).second))
+            //FIXME JM 2016-06-02: inefficient and costly check
+            // Need better way around this
+            //if (!objectNames(names.at(iter).first).contains(names.at(iter).second))
                 objectNames(names.at(iter).first).append(names.at(iter).second);
         }
     }
+
+    // Remove Duplicates
+    foreach(QStringList list, objectNames())
+        list.removeDuplicates();
 
     CatalogData loaded_catalog_data;
     KStarsData::Instance()->catalogdb()->GetCatalogData(m_catName, loaded_catalog_data);

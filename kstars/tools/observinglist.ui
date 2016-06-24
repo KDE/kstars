@@ -267,7 +267,7 @@
         <bool>false</bool>
        </property>
        <property name="displayFormat">
-        <string>dd/mm/yy</string>
+        <string>dd/MM/yyyy</string>
        </property>
        <property name="calendarPopup">
         <bool>true</bool>

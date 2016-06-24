@@ -158,7 +158,7 @@ void DeepSkyComponent::loadData()
         float mag(1000.0);
         int type, ingc, imess(-1), pa;
         int pgc, ugc;
-        QString con, ss, name, name2, longname;
+        QString ss, name, name2, longname;
         QString cat2;
 
         // Designation
@@ -303,16 +303,21 @@ void DeepSkyComponent::loadData()
             appendIndex( o, &m_OtherIndex, trixel );
         }
 
-        //Add name to the list of object names if it does not exist already
-        if ( ! name.isEmpty() && !objectNames(type).contains(name))
+        // JM: VERY INEFFICIENT. Disabling for now until we figure out how to deal with dups. QSet?
+        //if ( ! name.isEmpty() && !objectNames(type).contains(name))
+        if ( ! name.isEmpty() )
             objectNames(type).append( name );
 
         //Add long name to the list of object names
-        if ( ! longname.isEmpty() && longname != name  && !objectNames(type).contains(longname))
+        //if ( ! longname.isEmpty() && longname != name  && !objectNames(type).contains(longname))
+        if ( ! longname.isEmpty() && longname != name)
             objectNames(type).append( longname );
 
         deep_sky_parser.ShowProgress();
     }
+
+    foreach(QStringList list, objectNames())
+        list.removeDuplicates();
 }
 
 void DeepSkyComponent::mergeSplitFiles() {

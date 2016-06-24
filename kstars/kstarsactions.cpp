@@ -237,18 +237,7 @@ void KStars::slotINDIToolBar()
 #ifdef HAVE_INDI
     KToggleAction *a = (KToggleAction*)sender();
 
-    if ( a == actionCollection()->action( "show_device_manager" ) )
-    {
-        if (a->isChecked())
-        {
-            DriverManager::Instance()->raise();
-            DriverManager::Instance()->activateWindow();
-            DriverManager::Instance()->showNormal();
-        }
-        else
-           DriverManager::Instance()->hide();
-    }    
-    else if ( a == actionCollection()->action( "show_control_panel" ) )
+    if ( a == actionCollection()->action( "show_control_panel" ) )
     {
        if (a->isChecked())
        {
@@ -787,6 +776,14 @@ void KStars::slotOpenFITS()
 
     if (fileURL.isEmpty())
         return;
+
+    // Workaround for "/C:/foo/bar" Qt Bug
+    // Reported as fixed in Qt 5.6
+    // Emerged Qt 5.5 with patch is not working
+    #ifdef Q_OS_WIN
+    if (fileURL.path().startsWith("/"))
+        fileURL.setPath(fileURL.path().right(fileURL.path().count()-1));
+    #endif
 
     // Remember last directory
     path.setUrl(fileURL.path());

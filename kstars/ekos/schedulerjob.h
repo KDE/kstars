@@ -110,6 +110,9 @@ public:
     bool getEnforceTwilight() const;
     void setEnforceTwilight(bool value);
 
+    QString getProfile() const;
+    void setProfile(const QString &value);
+
 private:
 
     QString name;
@@ -148,6 +151,7 @@ private:
 
     double Dawn, Dusk;    
     QString dateTimeDisplayFormat;
+    QString profile;
 
 
 };
