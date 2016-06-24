@@ -7,7 +7,13 @@
     version 2 of the License, or (at your option) any later version.
 */
 
+#ifdef Q_OS_LINUX
 #include <unistd.h>
+#endif 
+
+#ifdef Q_OS_WIN
+#include <io.h>
+#endif
 
 #include <QDir>
 

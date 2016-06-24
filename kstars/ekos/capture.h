@@ -16,6 +16,10 @@
 
 #include "ui_capture.h"
 
+#ifdef Q_OS_WIN
+#include <lilxml.h>
+#endif 
+
 #include "fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
