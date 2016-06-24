@@ -73,11 +73,13 @@ bool ServerManager::start()
 
     QString fifoFile = QString("/tmp/indififo%1").arg(QUuid::createUuid().toString().mid(1, 8));
 
+#ifdef Q_OS_LINUX
     if ( (fd = mkfifo (fifoFile.toLatin1(), S_IRUSR| S_IWUSR) < 0))
     {
          KMessageBox::error(NULL, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
          return false;
    }
+#endif  // "mkfifo" does not exist on Windows
 
     indiFIFO.setFileName(fifoFile);
 
