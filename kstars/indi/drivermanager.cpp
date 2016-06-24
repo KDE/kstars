@@ -759,7 +759,14 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
         if (connectionToServer)
             break;
 
-         usleep(100000);
+#ifdef Q_OS_LINUX
+	     usleep(100000); 	// Linux uses microseconds
+#endif 
+
+#ifdef Q_OS_WIN
+             Sleep(100);	// Windows uses milliseconds
+#endif 
+
     }
 
     if (connectionToServer)
