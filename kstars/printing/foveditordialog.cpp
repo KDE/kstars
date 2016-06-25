@@ -125,12 +125,12 @@ void FovEditorDialog::slotSaveImage()
     QUrl fileUrl;
     if(!url.contains(QDir::separator()))
     {
-        fileUrl = QDir::homePath() + '/' + url;
+        fileUrl = QUrl::fromLocalFile(QDir::homePath() + '/' + url);
     }
 
     else
     {
-        fileUrl = url;
+        fileUrl = QUrl::fromLocalFile(url);
     }
 
     QTemporaryFile tmpfile;

@@ -709,7 +709,7 @@ void DetailDialog::viewLink()
     }
 
     if ( !URL.isEmpty() )
-        QDesktopServices::openUrl(URL);
+        QDesktopServices::openUrl(QUrl(URL));
 }
 
 void DetailDialog::updateLists()
@@ -1021,7 +1021,7 @@ void  DetailDialog::viewADVData()
         {
             link = item->Link;
             link = parseADVData(link);
-            QDesktopServices::openUrl(link);
+            QDesktopServices::openUrl(QUrl(link));
             return;
         }
     }

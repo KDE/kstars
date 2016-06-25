@@ -717,7 +717,7 @@ void SkyMap::slotInfo() {
 
     QUrl url ( sURL );
     if (!url.isEmpty())
-        QDesktopServices::openUrl(sURL);
+        QDesktopServices::openUrl(url);
 }
 
 bool SkyMap::isObjectLabeled( SkyObject *object ) {
