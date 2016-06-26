@@ -231,12 +231,8 @@ int main(int argc, char *argv[])
     // take arguments
     if( ! urls.isEmpty() )
     {
-        const QRegExp withProtocolChecker( QStringLiteral("^[a-zA-Z]+:") );
         foreach (const QString &url, urls) {
-            const QUrl u = (withProtocolChecker.indexIn(url) == 0) ?
-                QUrl::fromUserInput( url ) :
-                QUrl::fromLocalFile(QDir::current().absoluteFilePath(url));
-
+            const QUrl u = QUrl::fromUserInput(url, QDir::currentPath());
             KStars::Instance()->openFITS(u);
         }
     }

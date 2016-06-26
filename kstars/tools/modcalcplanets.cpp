@@ -195,9 +195,7 @@ void modCalcPlanets::slotLatCheckedBatch()
 
 void modCalcPlanets::slotRunBatch() {
 
-    QString inputFileName;
-
-    inputFileName = InputFileBoxBatch->url().toLocalFile();
+    const QString inputFileName = InputFileBoxBatch->url().toLocalFile();
 
     // We open the input file and read its content
 
@@ -206,7 +204,6 @@ void modCalcPlanets::slotRunBatch() {
         if ( !f.open( QIODevice::ReadOnly) ) {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-            inputFileName.clear();
             return;
         }
 
@@ -216,9 +213,7 @@ void modCalcPlanets::slotRunBatch() {
     } else  {
         QString message = i18n( "Invalid file: %1", inputFileName );
         KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-        inputFileName.clear();
-        InputFileBoxBatch->setUrl( inputFileName );
-        return;
+        InputFileBoxBatch->setUrl(QUrl());
     }
 }
 
@@ -243,8 +238,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
 {
     // we open the output file
 
-    QString outputFileName;
-    outputFileName = OutputFileBoxBatch->url().toLocalFile();
+    const QString outputFileName = OutputFileBoxBatch->url().toLocalFile();
     QFile fOut( outputFileName );
     fOut.open(QIODevice::WriteOnly);
     QTextStream ostream(&fOut);

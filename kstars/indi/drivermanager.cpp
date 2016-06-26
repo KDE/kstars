@@ -38,7 +38,7 @@
 #include <KMessageBox>
 #include <QPushButton>
 #include <QLineEdit>
-#include <KProcess>
+#include <QProcess>
 #include <QAction>
 #include <KActionCollection>
 #include <KNotifications/KNotification>

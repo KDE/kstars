@@ -450,7 +450,7 @@ private:
     // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
     ISD::CCD::UploadMode rememberUploadMode;
 
-    QString dirPath;
+    QUrl dirPath;
 
 
 };

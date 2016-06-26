@@ -514,7 +514,7 @@ private:
 
     // File HFR
     double fileHFR;
-    QString dirPath;
+    QUrl dirPath;
 
     // Misc
     bool ignoreJobProgress;
