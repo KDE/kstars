@@ -1,5 +1,12 @@
 ecm_install_icons(
     ICONS
+        16-apps-kstars.png
+        32-apps-kstars.png
+        48-apps-kstars.png
+        64-apps-kstars.png
+        128-apps-kstars.png
+        sc-apps-kstars.svgz
+
         22-actions-kstars_cbound.png
         22-actions-kstars_clines.png
         22-actions-kstars_cnames.png
