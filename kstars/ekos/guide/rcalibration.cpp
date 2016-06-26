@@ -13,6 +13,14 @@
 #include "Options.h"
 
 #include <unistd.h>
+#include <QtGlobal>
+
+#ifdef Q_OS_LINUX
+#include <unistd.h> 	
+#elif defined(Q_OS_WIN)
+#include <io.h> 
+#endif
+
 #include <time.h>
 #include <assert.h>
 

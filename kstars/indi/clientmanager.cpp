@@ -10,20 +10,18 @@
 
 #include <cstdlib>
 
-#ifdef Q_OS_LINUX
-#include <unistd.h>
-#endif 
-
-#ifdef Q_OS_WIN
-#include <io.h>
-#endif 
-
 #include <QDebug>
 #include <QProcess>
 #include <QTime>
 #include <QTemporaryFile>
 #include <QDataStream>
 #include <QTimer>
+
+#ifdef Q_OS_LINUX
+#include <unistd.h>
+#elif defined(Q_OS_WIN)
+#include <io.h>
+#endif 
 
 #include <basedevice.h>
 

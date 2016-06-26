@@ -1850,9 +1850,7 @@ bool    Scheduler::checkEkosState()
         }
         }
         break;
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
 	if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
         {
             ekosState = EKOS_READY;
@@ -1887,9 +1885,7 @@ bool    Scheduler::checkEkosState()
             }
         }
         break;
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
 	case EKOS_STARTING:
         {
             QDBusReply<int> isEkosStarted;
@@ -1951,9 +1947,7 @@ bool    Scheduler::checkINDIState()
 
             return false;
         }
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
 	 if (isINDIConnected.value()== EkosManager::EKOS_STATUS_SUCCESS)
         {
             indiState = INDI_PROPERTY_CHECK;
@@ -2004,9 +1998,7 @@ bool    Scheduler::checkINDIState()
         }
         else
             return false;
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
         if(isINDIConnected.value()== EkosManager::EKOS_STATUS_SUCCESS)
         {
             appendLogText(i18n("INDI devices connected."));
@@ -2117,9 +2109,7 @@ bool Scheduler::checkStartupState()
             startupState = STARTUP_UNPARK_DOME;
             return true;
         }
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
 	if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
         {
             if (startupScriptURL.isEmpty() == false)

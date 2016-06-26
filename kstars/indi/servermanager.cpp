@@ -245,15 +245,23 @@ void ServerManager::processServerError(QProcess::ProcessError err)
 
 void ServerManager::processStandardError()
 {
+#ifdef Q_OS_LINUX
     QString stderr = serverProcess->readAllStandardError();
-
     serverBuffer.append(stderr);
-
     if (Options::iNDILogging())
     {
         foreach(QString msg, stderr.split("\n"))
             qDebug() << "INDI Server: " << msg;
     }
+#elif defined(Q_OS_WIN)
+    QString stderrWindows = serverProcess->readAllStandardError(); // 'stderr' is a reserved keyword on Windows
+    serverBuffer.append(stderrWindows);
+    if (Options::iNDILogging())
+    {
+        foreach(QString msg, stderrWindows.split("\n"))
+            qDebug() << "INDI Server: " << msg;
+    }
+#endif
 
     if (driverCrashed == false && (serverBuffer.contains("stdin EOF") || serverBuffer.contains("stderr EOF")))
     {

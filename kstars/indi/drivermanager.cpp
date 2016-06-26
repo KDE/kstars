@@ -10,19 +10,6 @@
 
 #include <basedevice.h>
 
-#ifdef Q_OS_LINUX
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#endif 
-
-#ifdef Q_OS_WIN
-#include <io.h>
-#include <winsock2.h>
-#include <windows.h>
-#endif 
-
 #include <string>
 
 #include <QRadioButton>
@@ -33,6 +20,17 @@
 #include <QIcon>
 #include <QDialog>
 #include <QTcpServer>
+
+#ifdef Q_OS_LINUX
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#elif defined(Q_OS_WIN)
+#include <io.h>
+#include <winsock2.h>
+#include <windows.h>
+#endif 
 
 #include <QMenu>
 #include <KMessageBox>
@@ -165,7 +163,10 @@ void DriverManager::showEvent(QShowEvent * /*event*/)
 
 void DriverManager::processDeviceStatus(DriverInfo *dv)
 {
-
+#ifdef Q_OS_WIN
+	qWarning() << "Feature no supported on Windows";
+	return;
+#endif
    if (dv == NULL)
         return;
 
@@ -225,7 +226,7 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                          item->setIcon(LOCAL_MODE_COLUMN, ui->localMode);
 
                          if (manager)
-                         item->setText(LOCAL_PORT_COLUMN, QString(manager->getPort()));
+                         	item->setText(LOCAL_PORT_COLUMN, QString(manager->getPort()));
                      }
                      else
                      {
@@ -322,6 +323,10 @@ void DriverManager::getUniqueHosts(QList<DriverInfo*> & dList, QList < QList<Dri
 
 bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 {
+#ifdef Q_OS_WIN
+	qWarning() << "Feature no supported on Windows";
+	return false;
+#endif
     ServerManager *serverManager=NULL;
     ClientManager *clientManager=NULL;
     int port=-1;
@@ -418,9 +423,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
 #ifdef Q_OS_LINUX
 	     usleep(100000); 	// Linux uses microseconds
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
              Sleep(100);	// Windows uses milliseconds
 #endif 
 
@@ -469,7 +472,10 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
 void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
 {
-
+#ifdef Q_OS_WIN
+	qWarning() << "Feature no supported on Windows";
+	return;
+#endif
     if (Options::iNDILogging())
         qDebug() << "INDI: Stopping local drivers...";
 
@@ -522,6 +528,10 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
 
 void DriverManager::clearServers()
 {
+#ifdef Q_OS_WIN
+	qWarning() << "Feature no supported on Windows";
+	return;
+#endif
     foreach(ServerManager *serverManager, servers)
         serverManager->terminate();
 
@@ -555,6 +565,10 @@ ClientManager *DriverManager::getClientManager(DriverInfo *dv)
 
 void DriverManager::updateLocalTab()
 {
+#ifdef Q_OS_WIN
+	qWarning() << "Feature no supported on Windows";
+	return;
+#endif
     if (ui->localTreeWidget->currentItem() == NULL)
           return;
 
@@ -671,6 +685,10 @@ void DriverManager::processClientTermination(ClientManager *client)
 
 void DriverManager::processServerTermination(ServerManager* server)
 {
+#ifdef Q_OS_WIN
+	qWarning() << "Feature no supported on Windows";
+	return;
+#endif
     if (server == NULL)
         return;
 
@@ -761,9 +779,7 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
 
 #ifdef Q_OS_LINUX
 	     usleep(100000); 	// Linux uses microseconds
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
              Sleep(100);	// Windows uses milliseconds
 #endif 
 

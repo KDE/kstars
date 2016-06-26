@@ -20,9 +20,7 @@
 
 #ifdef Q_OS_LINUX
 #include <indibase.h>
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
 #include <basemediator.h>
 #endif 
 

@@ -7,15 +7,13 @@
     version 2 of the License, or (at your option) any later version.
 */
 
+#include <QDir>
+
 #ifdef Q_OS_LINUX
 #include <unistd.h>
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
 #include <io.h>
 #endif
-
-#include <QDir>
 
 #include <KMessageBox>
 #include <KLocalizedString>

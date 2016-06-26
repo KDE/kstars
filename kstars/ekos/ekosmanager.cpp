@@ -61,13 +61,10 @@ EkosManager::EkosManager()
 #ifdef Q_OS_LINUX
     indiConnectionStatus = STATUS_IDLE;
     ekosStartingStatus   = STATUS_IDLE;
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
     indiConnectionStatus = EKOS_STATUS_IDLE;
     ekosStartingStatus   = EKOS_STATUS_IDLE;
 #endif
-    
 
     profileModel = NULL;
 
@@ -764,9 +761,7 @@ void EkosManager::reset()
 #ifdef Q_OS_LINUX
     ekosStartingStatus  = STATUS_IDLE;
     indiConnectionStatus= STATUS_IDLE;
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
     ekosStartingStatus  = EKOS_STATUS_IDLE;
     indiConnectionStatus= EKOS_STATUS_IDLE;
 #endif
@@ -789,9 +784,7 @@ void EkosManager::processINDI()
     }
     else
         start();
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
     if (ekosStartingStatus == EKOS_STATUS_SUCCESS || ekosStartingStatus == EKOS_STATUS_PENDING)
     {
         stop();
@@ -808,9 +801,7 @@ bool EkosManager::stop()
 
 #ifdef Q_OS_LINUX
     ekosStartingStatus = STATUS_IDLE;
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
     ekosStartingStatus = EKOS_STATUS_IDLE;
 #endif
 
@@ -982,9 +973,7 @@ bool EkosManager::start()
 
 #ifdef Q_OS_LINUX
             ekosStartingStatus = STATUS_ERROR;    
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
             ekosStartingStatus = EKOS_STATUS_ERROR;    
 #endif
         
@@ -995,9 +984,7 @@ bool EkosManager::start()
 
 #ifdef Q_OS_LINUX
         ekosStartingStatus = STATUS_PENDING;
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
         ekosStartingStatus = EKOS_STATUS_PENDING;
 #endif
 
@@ -1048,9 +1035,7 @@ bool EkosManager::start()
 
 #ifdef Q_OS_LINUX
             ekosStartingStatus = STATUS_ERROR;
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
             ekosStartingStatus = EKOS_STATUS_ERROR;
 #endif
 
@@ -1062,9 +1047,7 @@ bool EkosManager::start()
 
 #ifdef Q_OS_LINUX
         ekosStartingStatus = STATUS_PENDING;
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
         ekosStartingStatus = EKOS_STATUS_PENDING;
 #endif
 
@@ -1098,9 +1081,7 @@ void EkosManager::checkINDITimeout()
         ekosStartingStatus = STATUS_SUCCESS;
         return;
     }
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
     if (ekosStartingStatus != EKOS_STATUS_PENDING)
         return;
 
@@ -1168,10 +1149,7 @@ void EkosManager::checkINDITimeout()
 
 #ifdef Q_OS_LINUX
     ekosStartingStatus = STATUS_ERROR;
-#endif 
-
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
     ekosStartingStatus = EKOS_STATUS_ERROR;
 #endif
 
@@ -1182,10 +1160,7 @@ void EkosManager::connectDevices()
 
 #ifdef Q_OS_LINUX
     indiConnectionStatus = STATUS_PENDING;
-#endif 
-
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
     indiConnectionStatus = EKOS_STATUS_PENDING;
 #endif
 
@@ -1263,9 +1238,7 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
 
 #ifdef Q_OS_LINUX
         ekosStartingStatus = STATUS_SUCCESS;
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
         ekosStartingStatus = EKOS_STATUS_SUCCESS;
 #endif
 
@@ -1301,9 +1274,7 @@ void EkosManager::deviceConnected()
 
 #ifdef Q_OS_LINUX
         indiConnectionStatus = STATUS_SUCCESS;    
-#endif 
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
         indiConnectionStatus = EKOS_STATUS_SUCCESS;    
 #endif        
 
@@ -1374,10 +1345,7 @@ void EkosManager::deviceDisconnected()
     if (indiConnectionStatus == STATUS_IDLE)
         nConnectedDevices--;
 
-#endif 
-
-
-#ifdef Q_OS_WIN
+#elif defined(Q_OS_WIN)
     if (dev)
     {
         if (dev->getState("CONNECTION") == IPS_ALERT)
