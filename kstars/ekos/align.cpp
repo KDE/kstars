@@ -54,7 +54,7 @@ Align::Align()
     new AlignAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Align",  this);
 
-    dirPath = QDir::homePath();
+    dirPath = QUrl(QDir::homePath());
 
     currentCCD     = NULL;
     currentTelescope = NULL;
@@ -1588,7 +1588,7 @@ void Align::loadAndSlew(QUrl fileURL)
     if (fileURL.isEmpty())
         return;
 
-    dirPath = fileURL.path().remove(fileURL.fileName());
+    dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
 
     loadSlewMode = true;
     loadSlewState=IPS_BUSY;

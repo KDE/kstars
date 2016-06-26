@@ -56,7 +56,7 @@ Capture::Capture()
     new CaptureAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture",  this);    
 
-    dirPath = QDir::homePath();
+    dirPath = QUrl(QDir::homePath());
 
     currentCCD = NULL;
     currentTelescope = NULL;
@@ -1827,7 +1827,7 @@ void Capture::syncTelescopeInfo()
 
 void Capture::saveFITSDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), dirPath);
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), dirPath.path());
 
     if (dir.isEmpty())
         return;
@@ -1838,7 +1838,7 @@ void Capture::saveFITSDirectory()
 
 void Capture::loadSequenceQueue()
 {
-    QUrl fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Open Ekos Sequence Queue"), dirPath, "Ekos Sequence Queue (*.esq)");
+    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Ekos Sequence Queue"), dirPath, "Ekos Sequence Queue (*.esq)");
     if (fileURL.isEmpty())
         return;
 
@@ -1849,7 +1849,7 @@ void Capture::loadSequenceQueue()
        return;
     }
 
-    dirPath = fileURL.path().remove(fileURL.fileName());
+    dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
 
 }
 
@@ -2133,7 +2133,7 @@ void Capture::saveSequenceQueue()
 
     if (sequenceURL.isEmpty())
     {
-        sequenceURL = QFileDialog::getSaveFileName(KStars::Instance(), i18n("Save Ekos Sequence Queue"), dirPath, "Ekos Sequence Queue (*.esq)");
+        sequenceURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Ekos Sequence Queue"), dirPath, "Ekos Sequence Queue (*.esq)");
         // if user presses cancel
         if (sequenceURL.isEmpty())
         {
@@ -2141,7 +2141,7 @@ void Capture::saveSequenceQueue()
             return;
         }
 
-        dirPath = sequenceURL.path().remove(sequenceURL.fileName());
+        dirPath = QUrl(sequenceURL.url(QUrl::RemoveFilename));
 
         if (sequenceURL.path().contains('.') == 0)
             sequenceURL.setPath(sequenceURL.path() + ".esq");
