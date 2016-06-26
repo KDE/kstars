@@ -13,7 +13,7 @@
 
 #include <QObject>
 #include <QTcpSocket>
-#include <KProcess>
+#include <QProcess>
 #include <QFile>
 
 #include <lilxml.h>
@@ -68,7 +68,7 @@ private:
     QString		 host;
     QString		 port;
     QString 		 serverBuffer;
-    KProcess 		 *serverProcess;
+    QProcess 		 *serverProcess;
 
     ServerMode          mode;
     bool        driverCrashed;

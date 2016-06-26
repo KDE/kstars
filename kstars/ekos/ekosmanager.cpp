@@ -962,7 +962,7 @@ bool EkosManager::start()
     else
     {
         // If we need to use INDI Web Manager
-        if (currentProfile->INDIWebManagerPort != -1)
+        if (currentProfile->INDIWebManagerPort > 0)
         {
             remoteManagerStart = false;
             if (INDI::WebManager::isOnline(currentProfile))

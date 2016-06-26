@@ -249,21 +249,19 @@ void modCalcVlsr::slotVlsrChecked(){
 }
 
 void modCalcVlsr::slotInputFile() {
-    QString inputFileName;
-    inputFileName = QFileDialog::getOpenFileName(KStars::Instance(), QString(),  QString());
-    InputFileBoxBatch->setUrl( inputFileName );
+    const QString inputFileName = QFileDialog::getOpenFileName(KStars::Instance(), QString(),  QString());
+    if (!inputFileName.isEmpty())
+        InputFileBoxBatch->setUrl(QUrl::fromLocalFile(inputFileName));
 }
 
 void modCalcVlsr::slotOutputFile() {
-    QString outputFileName;
-    outputFileName = QFileDialog::getSaveFileName( );
-    OutputFileBoxBatch->setUrl( outputFileName );
+    const QString outputFileName = QFileDialog::getSaveFileName();
+    if (!outputFileName.isEmpty())
+        OutputFileBoxBatch->setUrl(QUrl::fromLocalFile(outputFileName));
 }
 
 void modCalcVlsr::slotRunBatch() {
-    QString inputFileName;
-
-    inputFileName = InputFileBoxBatch->url().toLocalFile();
+    const QString inputFileName = InputFileBoxBatch->url().toLocalFile();
 
     // We open the input file and read its content
 
@@ -272,7 +270,6 @@ void modCalcVlsr::slotRunBatch() {
         if ( !f.open( QIODevice::ReadOnly) ) {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-            inputFileName.clear();
             return;
         }
 
@@ -284,9 +281,7 @@ void modCalcVlsr::slotRunBatch() {
     } else  {
         QString message = i18n( "Invalid file: %1", inputFileName );
         KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
-        inputFileName.clear();
-        InputFileBoxBatch->setUrl( inputFileName );
-        return;
+        InputFileBoxBatch->setUrl(QUrl());
     }
 }
 

@@ -504,20 +504,52 @@
            </spacer>
           </item>
           <item>
-           <widget class="QRadioButton" name="kcfg_onlineSolver">
+           <widget class="QLabel" name="label_21">
             <property name="text">
-             <string>Online Sol&amp;ver</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
+             <string>Solver:</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="kcfg_offlineSolver">
-            <property name="text">
-             <string>Offline Solver</string>
+           <widget class="QRadioButton" name="onlineSolverR">
+            <property name="toolTip">
+             <string>Use online astrometry.net solver to solve the image. You must have an internet connection and a valid API key.</string>
             </property>
+            <property name="text">
+             <string>Online</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">solverTypeGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="offlineSolverR">
+            <property name="toolTip">
+             <string>Use offline astrometry.net solver. You must install all the necessary index files for your field of view.</string>
+            </property>
+            <property name="text">
+             <string>Offline</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">solverTypeGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="remoteSolverR">
+            <property name="toolTip">
+             <string>Use astrometry solver on remote machine running INDI server.</string>
+            </property>
+            <property name="text">
+             <string>Remote</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">solverTypeGroup</string>
+            </attribute>
            </widget>
           </item>
          </layout>
@@ -914,4 +946,7 @@
  </customwidgets>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="solverTypeGroup"/>
+ </buttongroups>
 </ui>

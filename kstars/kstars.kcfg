@@ -1484,9 +1484,9 @@
               <whatsthis>Display captured image in FITS Viewer before starting the plate solving process.</whatsthis>
               <default>false</default>
           </entry>
-          <entry name="SolverOnline" type="Bool">
-              <label>Use astrometry.net online solver.</label>
-              <default>true</default>
+          <entry name="SolverType" type="UInt">
+              <label>Set solver type (online, offline, remote).</label>
+              <default>0</default>
           </entry>
           <entry name="SolverOptions" type="String">
               <label>Options passed to the astrometry solver.</label>

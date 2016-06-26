@@ -146,10 +146,9 @@ void StreamWG::newFrame(IBLOB *bp)
 
 void StreamWG::captureImage()
 {
-    QString fname;
     QString fmt;
     QUrl currentFileURL;
-    QString currentDir = Options::fitsDir();
+    QUrl currentDir(Options::fitsDir());
     QTemporaryFile tmpfile;
     tmpfile.open();
 
@@ -161,33 +160,7 @@ void StreamWG::captureImage()
 
     if ( currentFileURL.isValid() )
     {
-        //currentDir = currentFileURL.path();
-
-        /*if ( currentFileURL.isLocalFile() )
-            fname = currentFileURL.path();
-        else
-            fname = tmpfile.fileName();
-
-        if (fname.right(fmt.length()).toLower() != fmt.toLower())
-        {
-            fname += '.';
-            fname += fmt.toLower();
-        }*/
-
-        streamFrame->kPix.save(currentFileURL.path(), fmt.toLatin1());
-
-        //set rwx for owner, rx for group, rx for other
-        /*chmod( fname.toLatin1(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
-
-        if ( tmpfile.fileName() == fname )
-        { //need to upload to remote location
-
-            if ( ! KIO::NetAccess::upload( tmpfile.fileName(), currentFileURL, (QWidget*) 0 ) )
-            {
-                QString message = i18n( "Could not upload image to remote location: %1", currentFileURL.prettyUrl() );
-                KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
-            }
-        }*/
+        streamFrame->kPix.save(currentFileURL.path(), fmt.toLatin1());        
     }
     else
     {
