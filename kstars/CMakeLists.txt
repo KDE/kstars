@@ -715,7 +715,13 @@ if(NOT BUILD_KSTARS_LITE)
     endif(INDI_FOUND)
 
     ki18n_wrap_ui(kstars_SRCS
-        ${indiui_SRCS} ${ui_SRCS} ${fitsui_SRCS} ${ekosui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
+        ${indiui_SRCS}
+        ${ui_SRCS}
+        ${fitsui_SRCS}
+        ${ekosui_SRCS}
+        ${xplanetui_SRCS}
+        ${kstars_optionsui_SRCS}
+        ${kstars_dialogsui_SRCS}
         ${printingui_SRCS}
         auxiliary/thumbnailpicker.ui
         auxiliary/thumbnaileditor.ui
@@ -723,10 +729,9 @@ if(NOT BUILD_KSTARS_LITE)
         oal/equipmentwriter.ui
         oal/execute.ui
         skycomponents/notifyupdatesui.ui
-        )
-endif(NOT BUILD_KSTARS_LITE)
+    )
 
-add_executable(kstars main.cpp)
+endif(NOT BUILD_KSTARS_LITE)
 
 add_library( KStarsLib STATIC ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
     ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
@@ -794,17 +799,30 @@ endif (WCSLIB_FOUND)
 #    )
 #endif( OPENGL_FOUND )
 
+set (KSTARS_APP_SRCS
+    main.cpp
+)
+
+# add icon to application sources
+ecm_add_app_icon(KSTARS_APP_SRCS ICONS
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-kstars.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/32-apps-kstars.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/48-apps-kstars.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/64-apps-kstars.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/128-apps-kstars.png
+)
+
+add_executable(kstars ${KSTARS_APP_SRCS})
 target_link_libraries(kstars KStarsLib)
 
 if(NOT BUILD_KSTARS_LITE)
     install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
     ########### install files ###############
-    ecm_install_icons(${KDE_INSTALL_ICONDIR})
-    install( PROGRAMS org.kde.kstars.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
-    install( FILES kstars.kcfg  DESTINATION  ${KDE_INSTALL_KCFGDIR} )
-    install( FILES kstars.knsrc  DESTINATION  ${KDE_INSTALL_CONFDIR} )
-    install( FILES kstarsui.rc DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
-    install( FILES fitsviewer.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kstars )
-    install( FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+    install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+    install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+    install(FILES kstars.knsrc DESTINATION ${KDE_INSTALL_CONFDIR})
+    install(FILES kstarsui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
+    install(FILES fitsviewer.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
+    install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 endif(NOT BUILD_KSTARS_LITE)

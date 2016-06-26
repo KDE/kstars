@@ -41,6 +41,11 @@ ConstellationArtComponent::~ConstellationArtComponent()
 
 void ConstellationArtComponent::loadData(){
 
+    //TODO enable loading later
+    //FIXME Disabling constellationart until memory issue is fixed
+    // It currently loads all images and consumes > 400MB of RAM
+    return;
+
         QSqlDatabase skydb = QSqlDatabase::addDatabase("QSQLITE", "skycultures");
         QString dbfile = KSPaths::locate(QStandardPaths::DataLocation, "skycultures.sqlite");
 

@@ -8,7 +8,7 @@
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="loadScheduler">
-      <arg name="fileURL" type="s" direction="in"/>
+      <arg name="fileURL" type="QUrl" direction="in"/>
       <arg type="b" direction="out"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
     </method>

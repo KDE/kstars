@@ -28,15 +28,15 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE
 
 find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport)
 
+include(ECMInstallIcons)
+include(ECMAddAppIcon)
 include(KDEInstallDirs)
 if(NOT ANDROID)
     #We get error "could not find main method" with this module
     include(KDECompilerSettings NO_POLICY_SCOPE)
 endif()
 include(KDECMakeSettings)
-include(ECMInstallIcons)
 include(FeatureSummary)
-include(ECMAddAppIcon)
 
 # Load the frameworks we need
 if(BUILD_KSTARS_LITE)
@@ -117,6 +117,7 @@ SET(HAVE_KF5WIT 0)
 endif()
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS -Dfexceptions)
+add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )

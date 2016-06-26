@@ -697,6 +697,12 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
     }
 }
 
+bool KStars::openFITS(const QString &imageURL)
+{
+    QUrl url(imageURL);
+    return openFITS(url);
+}
+
 bool KStars::openFITS(const QUrl &imageURL)
 {
     #ifndef HAVE_CFITSIO
