@@ -81,7 +81,7 @@
 #include "starhopperdialog.h"
 
 #ifdef HAVE_XPLANET
-#include <KProcess>
+#include <QProcess>
 #include <QFileDialog>
 #endif
 
@@ -1167,11 +1167,11 @@ void SkyMap::startXplanet( const QString & outputFile ) {
     if ( seconde.setNum( data->ut().time().second() ).size() == 1 ) seconde.push_front( '0' );
 
     // Create xplanet process
-    KProcess *xplanetProc = new KProcess;
+    QProcess *xplanetProc = new QProcess;
 
     // Add some options
-    *xplanetProc << Options::xplanetPath()
-            << "-body" << clickedObject()->name().toLower() 
+    QStringList args;
+    args    << "-body" << clickedObject()->name().toLower()
             << "-geometry" << Options::xplanetWidth() + 'x' + Options::xplanetHeight()
             << "-date" <<  year + month + day + '.' + hour + minute + seconde
             << "-glare" << Options::xplanetGlare()
@@ -1181,86 +1181,86 @@ void SkyMap::startXplanet( const QString & outputFile ) {
 
     // General options
     if ( ! Options::xplanetTitle().isEmpty() )
-        *xplanetProc << "-window_title" << "\"" + Options::xplanetTitle() + "\"";
+        args << "-window_title" << "\"" + Options::xplanetTitle() + "\"";
     if ( Options::xplanetFOV() )
-        *xplanetProc << "-fov" << fov.setNum( this->fov() ).replace( '.', ',' );
+        args << "-fov" << fov.setNum( this->fov() ).replace( '.', ',' );
     if ( Options::xplanetConfigFile() )
-        *xplanetProc << "-config" << Options::xplanetConfigFilePath();
+        args << "-config" << Options::xplanetConfigFilePath();
     if ( Options::xplanetStarmap() )
-        *xplanetProc << "-starmap" << Options::xplanetStarmapPath();
+        args << "-starmap" << Options::xplanetStarmapPath();
     if ( Options::xplanetArcFile() )
-        *xplanetProc << "-arc_file" << Options::xplanetArcFilePath();
+        args << "-arc_file" << Options::xplanetArcFilePath();
     if ( Options::xplanetWait() )
-        *xplanetProc << "-wait" << Options::xplanetWaitValue();
+        args << "-wait" << Options::xplanetWaitValue();
     if ( !outputFile.isEmpty() )
-        *xplanetProc << "-output" << outputFile << "-quality" << Options::xplanetQuality();
+        args << "-output" << outputFile << "-quality" << Options::xplanetQuality();
 
     // Labels
     if ( Options::xplanetLabel() ) {
-        *xplanetProc << "-fontsize" << Options::xplanetFontSize()
+        args << "-fontsize" << Options::xplanetFontSize()
                 << "-color" << "0x" + Options::xplanetColor().mid( 1 )
                 << "-date_format" << Options::xplanetDateFormat();
 
         if ( Options::xplanetLabelGMT() )
-            *xplanetProc << "-gmtlabel";
+            args << "-gmtlabel";
         else
-            *xplanetProc << "-label";
+            args << "-label";
         if ( !Options::xplanetLabelString().isEmpty() )
-            *xplanetProc << "-label_string" << "\"" + Options::xplanetLabelString() + "\"";
+            args << "-label_string" << "\"" + Options::xplanetLabelString() + "\"";
         if ( Options::xplanetLabelTL() )
-            *xplanetProc << "-labelpos" << "+15+15";
+            args << "-labelpos" << "+15+15";
         else if ( Options::xplanetLabelTR() )
-            *xplanetProc << "-labelpos" << "-15+15";
+            args << "-labelpos" << "-15+15";
         else if ( Options::xplanetLabelBR() )
-            *xplanetProc << "-labelpos" << "-15-15";
+            args << "-labelpos" << "-15-15";
         else if ( Options::xplanetLabelBL() )
-            *xplanetProc << "-labelpos" << "+15-15";
+            args << "-labelpos" << "+15-15";
     }
 
     // Markers
     if ( Options::xplanetMarkerFile() )
-        *xplanetProc << "-marker_file" << Options::xplanetMarkerFilePath();
+        args << "-marker_file" << Options::xplanetMarkerFilePath();
     if ( Options::xplanetMarkerBounds() )
-        *xplanetProc << "-markerbounds" << Options::xplanetMarkerBoundsPath();
+        args << "-markerbounds" << Options::xplanetMarkerBoundsPath();
 
     // Position
     if ( Options::xplanetRandom() )
-        *xplanetProc << "-random";
+        args << "-random";
     else
-        *xplanetProc << "-latitude" << Options::xplanetLatitude() << "-longitude" << Options::xplanetLongitude();
+        args << "-latitude" << Options::xplanetLatitude() << "-longitude" << Options::xplanetLongitude();
 
     // Projection
     if ( Options::xplanetProjection() ) {
         switch ( Options::xplanetProjection() ) {
-            case 1 : *xplanetProc << "-projection" << "ancient"; break;
-            case 2 : *xplanetProc << "-projection" << "azimuthal"; break;
-            case 3 : *xplanetProc << "-projection" << "bonne"; break;
-            case 4 : *xplanetProc << "-projection" << "gnomonic"; break;
-            case 5 : *xplanetProc << "-projection" << "hemisphere"; break;
-            case 6 : *xplanetProc << "-projection" << "lambert"; break;
-            case 7 : *xplanetProc << "-projection" << "mercator"; break;
-            case 8 : *xplanetProc << "-projection" << "mollweide"; break;
-            case 9 : *xplanetProc << "-projection" << "orthographic"; break;
-            case 10 : *xplanetProc << "-projection" << "peters"; break;
-            case 11 : *xplanetProc << "-projection" << "polyconic"; break;
-            case 12 : *xplanetProc << "-projection" << "rectangular"; break;
-            case 13 : *xplanetProc << "-projection" << "tsc"; break;
+            case 1 : args << "-projection" << "ancient"; break;
+            case 2 : args << "-projection" << "azimuthal"; break;
+            case 3 : args << "-projection" << "bonne"; break;
+            case 4 : args << "-projection" << "gnomonic"; break;
+            case 5 : args << "-projection" << "hemisphere"; break;
+            case 6 : args << "-projection" << "lambert"; break;
+            case 7 : args << "-projection" << "mercator"; break;
+            case 8 : args << "-projection" << "mollweide"; break;
+            case 9 : args << "-projection" << "orthographic"; break;
+            case 10 : args << "-projection" << "peters"; break;
+            case 11 : args << "-projection" << "polyconic"; break;
+            case 12 : args << "-projection" << "rectangular"; break;
+            case 13 : args << "-projection" << "tsc"; break;
             default : break;
         }
         if ( Options::xplanetBackground() ) {
             if ( Options::xplanetBackgroundImage() )
-                *xplanetProc << "-background" << Options::xplanetBackgroundImagePath();
+                args << "-background" << Options::xplanetBackgroundImagePath();
             else
-                *xplanetProc << "-background" << "0x" + Options::xplanetBackgroundColorValue().mid( 1 );
+                args << "-background" << "0x" + Options::xplanetBackgroundColorValue().mid( 1 );
         }
     }
 
     // We add this option at the end otherwise it does not work (???)
-    *xplanetProc << "-origin" << "earth";
+    args << "-origin" << "earth";
 
     // Run xplanet
-    qDebug() << "Run:" << xplanetProc->program().join(" ");
-    xplanetProc->start();
+    //qDebug() << "Run:" << xplanetProc->program().join(" ");
+    xplanetProc->start(Options::xplanetPath(), args);
 }
 
 void SkyMap::slotXplanetToScreen() {

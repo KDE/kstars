@@ -18,7 +18,7 @@
 #include <QTcpSocket>
 #include <QTextEdit>
 
-#include <KProcess>
+#include <QProcess>
 #include <QLocale>
 #include <QDebug>
 #include <KMessageBox>
@@ -62,41 +62,41 @@ ServerManager::~ServerManager()
 }
 
 bool ServerManager::start()
-  {
+{
     bool connected=false;
     int fd=0;
-    serverProcess = new KProcess(this);
 
-    *serverProcess << Options::indiServer();
-    *serverProcess << "-v" << "-p" << port;
-    *serverProcess << "-m" << "100";
+    if (serverProcess == NULL)
+        serverProcess = new QProcess(this);
+
+    QStringList args;
+
+    args << "-v" << "-p" << port << "-m" << "100";
 
     QString fifoFile = QString("/tmp/indififo%1").arg(QUuid::createUuid().toString().mid(1, 8));
 
     if ( (fd = mkfifo (fifoFile.toLatin1(), S_IRUSR| S_IWUSR) < 0))
     {
-         KMessageBox::error(NULL, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
-         return false;
-   }
+        KMessageBox::error(NULL, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
+        return false;
+    }
 
     indiFIFO.setFileName(fifoFile);
 
     driverCrashed = false;
 
-   if (!indiFIFO.open(QIODevice::ReadWrite | QIODevice::Text))
-   {
-         qDebug() << "Unable to create INDI FIFO file: " << fifoFile << endl;
-         return false;
-   }
+    if (!indiFIFO.open(QIODevice::ReadWrite | QIODevice::Text))
+    {
+        qDebug() << "Unable to create INDI FIFO file: " << fifoFile << endl;
+        return false;
+    }
 
+    args << "-f" << fifoFile;
 
-    *serverProcess << "-f" << fifoFile;
-
-    serverProcess->setOutputChannelMode(KProcess::SeparateChannels);
+    serverProcess->setProcessChannelMode(QProcess::SeparateChannels);
     serverProcess->setReadChannel(QProcess::StandardError);
 
-
-    serverProcess->start();
+    serverProcess->start(Options::indiServer(), args);
 
     connected = serverProcess->waitForStarted();
 
@@ -107,11 +107,10 @@ bool ServerManager::start()
 
         emit started();
     }
+    else
+        KMessageBox::error(0, i18n("INDI server failed to start: %1", serverProcess->errorString()));
 
     return connected;
-
-
-
 }
 
 bool ServerManager::startDriver(DriverInfo *dv)
