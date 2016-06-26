@@ -624,7 +624,6 @@ target_link_libraries(kstars KStarsLib)
 install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
-ecm_install_icons(${KDE_INSTALL_ICONDIR})
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES kstars.knsrc DESTINATION ${KDE_INSTALL_CONFDIR})
