@@ -22,6 +22,7 @@
 
 class QSGFlatColorMaterial;
 class SkyMapLite;
+class SkipList;
 
 /** @class LineNode
  *
@@ -41,7 +42,7 @@ public:
      * @param parentNode pointer to the top parent node, which holds texture cache
      * @param size initial size of LineNode
      */
-    LineNode(LineList *lineList, QColor color, int width, Qt::PenStyle drawStyle);
+    LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle);
     virtual ~LineNode();
     /**
      * @short setSize update size of LineNode with the given parameter
@@ -59,6 +60,7 @@ public:
 private:
     QSGGeometryNode *m_geometryNode;
     LineList *m_lineList;
+    SkipList *m_skipList;
 
     QSGGeometry *m_geometry;
     QSGFlatColorMaterial *m_material;

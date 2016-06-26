@@ -102,8 +102,8 @@ void PlanetNode::update() {
                 size = int(size*exp(1.5*size));
 
             setPlanetPicSize(size);
-            changePos(pos);
             showPlanetPic();
+            changePos(pos);
         } else { //Otherwise, draw a simple circle. Do we need it?
             //drawEllipse( pos, size, size );
         }

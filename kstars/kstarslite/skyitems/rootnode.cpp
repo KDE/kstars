@@ -28,10 +28,14 @@
 #include "kstarslite/skyitems/lines/linesitem.h"
 #include "kstarslite/skyitems/labelsitem.h"
 #include "kstarslite/skyitems/constellationnamesitem.h"
+#include "kstarslite/skyitems/constellationartitem.h"
+#include "kstarslite/skyitems/satellitesitem.h"
+#include "kstarslite/skyitems/supernovaeitem.h"
 
 //Lines
 #include "kstarslite/skyitems/lines/equatoritem.h"
 #include "kstarslite/skyitems/lines/eclipticitem.h"
+#include "kstarslite/skyitems/lines/milkywayitem.h"
 
 RootNode::RootNode()
     :m_skyMapLite(SkyMapLite::Instance()),
@@ -45,29 +49,41 @@ RootNode::RootNode()
     // LabelsItem needs to be created first so that other items could insert their labels in labelsList
     m_labelsItem = new LabelsItem();
 
+    m_MWItem = new MilkyWayItem(m_skyComposite->milkyWay(), this);
+
     m_linesItem = new LinesItem(this);
 
     m_linesItem->addLinesComponent( m_skyComposite->equatorialCoordGrid(), "EquatorialGridColor", 1, Qt::DotLine );
     m_linesItem->addLinesComponent( m_skyComposite->horizontalCoordGrid(), "HorizontalGridColor", 2, Qt::DotLine );
 
-    m_linesItem->addLinesComponent( m_skyComposite->constellationBoundary(), "CBoundColor", 1, Qt::SolidLine );
+    if ( m_skyComposite->currentCulture() == "Western" )
+    {
+        m_linesItem->addLinesComponent( m_skyComposite->constellationBoundary(), "CBoundColor", 1, Qt::SolidLine );
+    }
+
+    m_artItem = new ConstellationArtItem(m_skyComposite->constellationArt(), this);
+
     m_linesItem->addLinesComponent( m_skyComposite->constellationLines(), "CLineColor", 1, Qt::SolidLine );
-
-    m_starItem = new StarItem(StarComponent::Instance(), this);
-
-    m_solarSystem = m_skyComposite->solarSystemComposite();
 
     m_equator = new EquatorItem(m_skyComposite->equator(),this);
     m_ecliptic = new EclipticItem(m_skyComposite->ecliptic(),this);
+
+    m_dsoItem = new DeepSkyItem( m_skyComposite->deepSkyComponent(), this );
+    m_starItem = new StarItem(StarComponent::Instance(), this);
+
+    m_solarSystem = m_skyComposite->solarSystemComposite();
 
     m_planetsItem = new PlanetsItem(m_solarSystem->planets(), m_solarSystem->planetMoonsComponent(), this);
     m_asteroidsItem = new AsteroidsItem(m_solarSystem->asteroids(), this);
     m_cometsItem = new CometsItem(m_solarSystem->comets(), this);
 
     m_constelNamesItem = new ConstellationNamesItem(m_skyComposite->constellationNamesComponent(), this);
-    m_dsoItem = new DeepSkyItem( m_skyComposite->deepSkyComponent(), this );
+
+    m_satItem = new SatellitesItem( m_skyComposite->satellites(), this);
+    m_snovaItem = new SupernovaeItem(m_skyComposite->supernovaeComponent(), this);
 
     m_horizonItem = new HorizonItem(m_skyComposite->horizon(), this);
+
 
     setIsRectangular(false);
     updateClipPoly();
@@ -164,35 +180,39 @@ void RootNode::updateClipPoly() {
     } else {
         return; //We don't need to triangulate polygon and update geometry if polygon wasn't changed
     }
-    QVector<QPointF> triangles;
 
-    for(int i = 1; i < m_clipPoly.size() - 1; ++i) {
-        triangles.append(m_clipPoly[0]);
-        triangles.append(m_clipPoly[i]);
-        triangles.append(m_clipPoly[i+1]);
-    }
-
-    const int size = triangles.size();
+    const int size = m_clipPoly.size();
     if(!m_clipGeometry) {
         m_clipGeometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D (),
                                           size);
-        m_clipGeometry->setDrawingMode(GL_TRIANGLES);
+        m_clipGeometry->setDrawingMode(GL_TRIANGLE_FAN);
         setGeometry(m_clipGeometry);
         setFlag(QSGNode::OwnsGeometry);
-    } else {
         m_clipGeometry->allocate(size);
     }
 
     QSGGeometry::Point2D * vertex = m_clipGeometry->vertexDataAsPoint2D ();
     for (int i = 0; i < size; i++) {
-        vertex[i].x = triangles[i].x();
-        vertex[i].y = triangles[i].y();
+        vertex[i].x = m_clipPoly[i].x();
+        vertex[i].y = m_clipPoly[i].y();
     }
     markDirty(QSGNode::DirtyGeometry);
 }
 
 void RootNode::update() {
     updateClipPoly();
+
+    m_MWItem->update();
+
+    m_artItem->update();
+
+    m_linesItem->update();
+
+    m_equator->update();
+    m_ecliptic->update();
+
+    m_dsoItem->update();
+    m_starItem->update();
 
     //TODO: Move this check somewhere else (create a separate function)
     if(Options::showSolarSystem()) {
@@ -212,22 +232,22 @@ void RootNode::update() {
         }
     } else {
         m_planetsItem->hide();
-        if(m_asteroidsItem) delete m_asteroidsItem;
-        if(m_cometsItem) delete m_cometsItem;
+        if(m_asteroidsItem) {
+            delete m_asteroidsItem;
+            m_asteroidsItem = 0;
+        }
+        if(m_cometsItem) {
+            delete m_cometsItem;
+            m_cometsItem = 0;
+        }
     }
 
     m_constelNamesItem->update();
 
-    m_starItem->update();
-    m_dsoItem->update();
-
-    m_equator->update();
-    m_ecliptic->update();
-
-    m_linesItem->update();
+    m_satItem->update();
+    m_snovaItem->update();
 
     m_horizonItem->update();
-
     m_labelsItem->update();
 }
 

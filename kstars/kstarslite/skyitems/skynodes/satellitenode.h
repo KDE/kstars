@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          skyopacitynode.cpp  -  K Desktop Planetarium
+                          satellitenode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/06/2016
+    begin                : 25/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,30 +13,47 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef SATELLITENODE_H_
+#define SATELLITENODE_H_
+#include "skynode.h"
 
-#include "skyopacitynode.h"
+class PolyNode;
+class Satellite;
+class PointNode;
+class QSGFlatColorMaterial;
 
-SkyOpacityNode::SkyOpacityNode() {
+/** @class SatelliteNode
+ *
+ *@version 1.0
+ */
 
-}
+class SatelliteNode : public SkyNode {
+public:
+    SatelliteNode(Satellite* sat, RootNode *rootNode);
 
-void SkyOpacityNode::show() {
-    if(!opacity()) {
-        setOpacity(1);
-        markDirty(QSGNode::DirtyOpacity);
-    }
-}
+    void update();
+    //virtual void hide() override;
+    void initLines();
+    void initPoint();
 
-void SkyOpacityNode::hide() {
-    if(opacity() != 0) {
-        setOpacity(0);
-        markDirty(QSGNode::DirtyOpacity);
-    }
-}
+    void changePos(QPointF pos);
 
-bool SkyOpacityNode::visible() {
-    if(opacity() != 0) {
-        return true;
-    }
-    return false;
-}
+    inline Satellite *sat() { return m_sat; }
+
+private:
+    Satellite *m_sat;
+    RootNode *m_rootNode;
+
+    SkyOpacityNode *m_linesOpacity;
+    QSGGeometryNode *m_lines;
+
+    QSGFlatColorMaterial *m_material;
+    QSGGeometry *m_geometry;
+
+    PointNode *m_point;
+};
+
+
+#endif
+
+

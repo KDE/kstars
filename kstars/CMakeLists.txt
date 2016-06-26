@@ -559,6 +559,9 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/staritem.cpp
         kstarslite/skyitems/deepstaritem.cpp
         kstarslite/skyitems/deepskyitem.cpp
+        kstarslite/skyitems/constellationartitem.cpp
+        kstarslite/skyitems/satellitesitem.cpp
+        kstarslite/skyitems/supernovaeitem.cpp
         #Line
         kstarslite/skyitems/lines/linesitem.cpp
         kstarslite/skyitems/lines/equatoritem.cpp
@@ -575,6 +578,10 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/skynodes/skytexturenode.cpp
         kstarslite/skyitems/skynodes/deepskynode.cpp
         kstarslite/skyitems/skynodes/dsosymbolnode.cpp
+        kstarslite/skyitems/skynodes/skypolygonnode.cpp
+        kstarslite/skyitems/skynodes/constellationartnode.cpp
+        kstarslite/skyitems/skynodes/satellitenode.cpp
+        kstarslite/skyitems/skynodes/supernovanode.cpp
         #Nodes
         kstarslite/skyitems/skynodes/nodes/pointnode.cpp
         kstarslite/skyitems/skynodes/nodes/polynode.cpp

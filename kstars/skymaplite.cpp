@@ -86,7 +86,8 @@ int SkyMapLite::starColorMode = 0;
 
 SkyMapLite::SkyMapLite(QQuickItem* parent)
     :QQuickItem(parent), m_proj(0), count(0), data(KStarsData::Instance()),
-      nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0)
+      nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0),
+      m_rootNode(0)
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
@@ -546,6 +547,7 @@ QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont)
     int height = fm.height();
 
     QImage label(width, height, QImage::Format_ARGB32_Premultiplied);
+
     label.fill(Qt::transparent);
 
     m_painter.begin(&label);
@@ -559,11 +561,6 @@ QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont)
 
     QSGTexture *texture = window()->createTextureFromImage(label,
                                                            QQuickWindow::TextureCanUseAtlas);
-
-    /*texture->setFiltering(QSGTexture::Linear);
-    texture->setHorizontalWrapMode(QSGTexture::ClampToEdge);
-    texture->setVerticalWrapMode(QSGTexture::ClampToEdge);*/
-
     return texture;
 }
 

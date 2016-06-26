@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          linesitem.h  -  K Desktop Planetarium
+                          milkywayitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 1/06/2016
+    begin                : 23/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -21,8 +21,9 @@
 #include "../typedeflite.h"
 
 class LineListIndex;
+class MilkyWay;
 
-    /** @class LinesItem
+    /** @class MilkyWay
      *
      * Class that handles lines (Constellation lines and boundaries and both coordinate grids) in
      * SkyMapLite.
@@ -41,16 +42,9 @@ public:
      * @short Constructor.
      * @param rootNode parent RootNode that instantiated this object
      */
-    MilkyWayItem(RootNode *rootNode);
+    MilkyWayItem(MilkyWay *mwComp, RootNode *rootNode);
 
-    /**
-     * @short adds LinesListIndex that is needed to be displayed to m_lineIndexes
-     * @param linesComp LineListIndex derived object
-     * @param color desired color of lines specified as name of entry in ColorScheme
-     * @param width thickness of lines
-     * @param style desired style (currently supports only Qt::SolidLine)
-     */
-    void addLinesComponent(LineListIndex *linesComp, QString color, int width, Qt::PenStyle style);
+    void initialize();
 
     /**
      * @short updates all trixels that are associated with LineListIndex or hide them if selected()
@@ -59,8 +53,8 @@ public:
 
     virtual void update();
 private:
-    QMap<LineIndexNode *, LineListIndex *> m_lineIndexes;
-    //QMap<QSGOpacityNode *, QVector<TrixelNode *> > m_trixelNodes;
+    bool m_filled; //True if the polygon has to be filled
+    MilkyWay *m_MWComp;
 };
 #endif
 

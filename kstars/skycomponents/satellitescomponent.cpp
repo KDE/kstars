@@ -44,7 +44,6 @@ SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
     if ( ! fileReader.open( "satellites.dat" ) ) return;
 
     emitProgressText( i18n("Loading satellites" ) );
-    
 
     while ( fileReader.hasMoreLines() ) {
         line = fileReader.readLine();

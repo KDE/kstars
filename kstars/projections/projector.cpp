@@ -26,15 +26,15 @@
 #include "skycomponents/skylabeler.h"
 
 namespace {
-    void toXYZ(const SkyPoint* p, double *x, double *y, double *z) {
-        double sinRa, sinDec, cosRa, cosDec;
+void toXYZ(const SkyPoint* p, double *x, double *y, double *z) {
+    double sinRa, sinDec, cosRa, cosDec;
 
-        p->ra().SinCos(  sinRa,  cosRa );
-        p->dec().SinCos( sinDec, cosDec );
-        *x = cosDec * cosRa;
-        *y = cosDec * sinRa;
-        *z = sinDec;
-    }
+    p->ra().SinCos(  sinRa,  cosRa );
+    p->dec().SinCos( sinDec, cosDec );
+    *x = cosDec * cosRa;
+    *y = cosDec * sinRa;
+    *z = sinDec;
+}
 }
 
 SkyPoint Projector::pointAt(double az)
@@ -76,7 +76,7 @@ void Projector::setViewParams(const ViewParams& p)
     double currentFOV = m_fov;
     //Find FOV in radians
     m_fov = sqrt( m_vp.width*m_vp.width + m_vp.height*m_vp.height )
-                    / ( 2 * m_vp.zoomFactor * dms::DegToRad );
+            / ( 2 * m_vp.zoomFactor * dms::DegToRad );
     //Set checkVisibility variables
     double Ymax;
     if ( m_vp.useAltAz ) {
@@ -278,7 +278,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
     double daz = 90.;
     if ( m_vp.useAltAz ) {
         daz = 0.5*m_vp.width*57.3/m_vp.zoomFactor; //center to edge, in degrees
-    if ( type() == Orthographic ) {
+        if ( type() == Orthographic ) {
             daz = daz * 1.4;
         }
         daz = qMin(qreal(90.0), daz);
@@ -314,7 +314,12 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
         return QVector<Vector2f>();
     }
 
+#ifdef KSTARS_LITE
+    qreal rotation = SkyMapLite::Instance()->rotation();
+    if( allGround && rotation == 0.0) {
+#else
     if( allGround ) {
+#endif
         ground.clear();
         ground.append( Vector2f( -10., -10. ) );
         ground.append( Vector2f( m_vp.width +10., -10. ) );
@@ -328,7 +333,11 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
     //In Gnomonic projection, or if sufficiently zoomed in, we can complete
     //the ground polygon by simply adding offscreen points
     //FIXME: not just gnomonic
-    if ( daz < 25.0 || type() == Gnomonic) {
+#ifdef KSTARS_LITE
+    if ( (daz < 25.0 || type() == Gnomonic) && rotation == 0.0) {
+#else
+    if ( (daz < 25.0 || type() == Gnomonic)) {
+#endif
         ground.append( Vector2f( m_vp.width + 10.f, ground.last().y() ) );
         ground.append( Vector2f( m_vp.width + 10.f, m_vp.height + 10.f ) );
         ground.append( Vector2f( -10.f, m_vp.height + 10.f ) );
@@ -476,18 +485,21 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
         qDebug() << "Y = " << Y << " and isfinite(Y) is" << std::isfinite(Y);
     }
 
-    Q_ASSERT( std::isfinite( Y ) && std::isfinite( dX ) );
+    //Q_ASSERT( std::isfinite( Y ) && std::isfinite( dX ) );
+    if(!std::isfinite( Y ) && !std::isfinite( dX )) {
+        return Vector2f(0,0);
+    }
 
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
 
     //Convert dX, Y coords to screen pixel coords, using GNU extension if available
-    #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
+#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
     sincos( dX, &sindX, &cosdX );
     sincos( Y, &sinY, &cosY );
-    #else
+#else
     sindX = sin(dX);   cosdX = cos(dX);
     sinY  = sin(Y);    cosY  = cos(Y);
-    #endif
+#endif
 
     //c is the cosine of the angular distance from the center
     double c = m_sinY0*sinY + m_cosY0*cosY*cosdX;

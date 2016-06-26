@@ -239,7 +239,7 @@ int main(int argc, char *argv[])
     Options::setTimeZone(1);
     Options::setRunClock(false);
 
-    Options::setShowStarMagnitudes(false);
+    Options::setShowStarMagnitudes(true);
     Options::setShowStarNames(true);
     Options::setShowStars(true);
 
@@ -249,9 +249,13 @@ int main(int argc, char *argv[])
     Options::setShowSolarSystem(true);
     Options::setShowEcliptic(true);
     Options::setShowEquator(true);
-    Options::setShowEquatorialGrid(false);
+    Options::setShowEquatorialGrid(true);
     Options::setShowHorizontalGrid(true);
-    Options::setShowGround(false);
+    Options::setShowGround(true);
+    Options::setShowSupernovae(true);
+
+    Options::setShowMilkyWay(true);
+    Options::setShowConstellationArt(true);
 
     //Labels
     Options::setShowCometNames(true);

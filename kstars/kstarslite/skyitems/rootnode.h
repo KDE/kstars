@@ -30,11 +30,15 @@ class CometsItem;
 
 class ConstellationNamesItem;
 class LabelsItem;
+class ConstellationArtItem;
+class SatellitesItem;
+class SupernovaeItem;
 
 class LinesItem;
 class HorizonItem;
 class EquatorItem;
 class EclipticItem;
+class MilkyWayItem;
 
 class SkyMapComposite;
 class SolarSystemComposite;
@@ -101,11 +105,15 @@ private:
 
     ConstellationNamesItem *m_constelNamesItem;
     LabelsItem *m_labelsItem;
+    ConstellationArtItem *m_artItem;
+    SatellitesItem *m_satItem;
+    SupernovaeItem *m_snovaItem;
 
     HorizonItem *m_horizonItem;
     LinesItem *m_linesItem;
     EquatorItem *m_equator;
     EclipticItem *m_ecliptic;
+    MilkyWayItem *m_MWItem;
 
     SkyMapComposite *m_skyComposite;
     SolarSystemComposite *m_solarSystem;

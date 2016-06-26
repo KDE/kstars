@@ -99,9 +99,10 @@ public:
      * @return pointer to the object of type SkyObject
      */
     SkyObject * skyObject() const { return m_skyObject; }
+    SkyOpacityNode *m_opacity;
+
 protected:
     SkyObject * m_skyObject;
-    SkyOpacityNode *m_opacity;
 
     bool m_drawLabel;
 };

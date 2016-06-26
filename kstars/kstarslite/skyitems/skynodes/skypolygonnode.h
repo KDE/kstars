@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          skyopacitynode.cpp  -  K Desktop Planetarium
+                          skypolygonnode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/06/2016
+    begin                : 23/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,30 +13,32 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef SKYPOLYGONNODE_H_
+#define SKYPOLYGONNODE_H_
+#include "skynode.h"
 
-#include "skyopacitynode.h"
+class PolyNode;
 
-SkyOpacityNode::SkyOpacityNode() {
+/** @class HorizonNode
+ *
+ *@version 1.0
+ */
 
-}
+class SkyPolygonNode : public SkyNode {
+public:
+    SkyPolygonNode(LineList* list);
 
-void SkyOpacityNode::show() {
-    if(!opacity()) {
-        setOpacity(1);
-        markDirty(QSGNode::DirtyOpacity);
-    }
-}
+    void update(bool forceClip = true);
+    virtual void hide() override;
+    LineList *lineList() { return m_list; }
+    void setColor(QColor color);
 
-void SkyOpacityNode::hide() {
-    if(opacity() != 0) {
-        setOpacity(0);
-        markDirty(QSGNode::DirtyOpacity);
-    }
-}
+private:
+    PolyNode *m_polygonNode;
+    LineList *m_list;
+};
 
-bool SkyOpacityNode::visible() {
-    if(opacity() != 0) {
-        return true;
-    }
-    return false;
-}
+
+#endif
+
+

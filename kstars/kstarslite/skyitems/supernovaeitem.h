@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          skyopacitynode.h  -  K Desktop Planetarium
+                          supernovaeitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/06/2016
+    begin                : 26/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,40 +13,44 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef SUPERNOVAEITEM_H_
+#define SUPERNOVAEITEM_H_
 
-#ifndef SKYOPACITYNODE_H_
-#define SKYOPACITYNODE_H_
+#include "skyitem.h"
 
-#include <QSGOpacityNode>
+class KSComet;
+class SkyObject;
+class SupernovaeComponent;
 
-/** @class SkyOpacityNode
- *
- *@short A wrapper for QSGOpacityNode that provides hide() and show() functions. If node is invisible
- * (opacity is 0) it won't be rendered.
- *@author Artem Fedoskin
- *@version 1.0
- */
+    /**
+     * @class SupernovaItem
+     * This class handles comets in SkyMapLite
+     *
+     * @author Artem Fedoskin
+     * @version 1.0
+     */
 
-class SkyOpacityNode : public QSGOpacityNode {
+class SupernovaeItem : public SkyItem {
 public:
-    SkyOpacityNode();
+    /**
+     * @short Constructor
+     * @param cometsList const reference to list of comets
+     * @param rootNode parent RootNode that instantiates this object
+     */
+    SupernovaeItem(SupernovaeComponent *snovaComp, RootNode *rootNode = 0);
 
     /**
-     * @short makes this node visible
+     * @short recreates the node tree (deletes old nodes and appends new ones according to
+     * m_cometsList)
      */
-    virtual void show();
+    void recreateList();
 
     /**
-     * @short hides this node
+     * @short Determines the visibility of the object and its label and hides/updates them accordingly
      */
-    virtual void hide();
+    virtual void update() override;
 
-    /**
-     * @return true if node is visible
-     */
-    bool visible();
 private:
-    double m_opacityVal;
+    SupernovaeComponent *m_snovaComp;
 };
-
 #endif

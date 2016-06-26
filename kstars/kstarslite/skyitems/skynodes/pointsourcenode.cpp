@@ -27,17 +27,11 @@
 
 PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
                                  LabelsItem::label_t labelType, char spType, float size, short trixel)
-    :SkyNode(skyObject), m_point(0), // has to be changed when stars will be introduced
-        m_label(0), m_labelType(labelType), m_rootNode(parentNode), m_trixel(trixel)
+    :SkyNode(skyObject), m_label(0), m_labelType(labelType), m_rootNode(parentNode),
+      m_trixel(trixel), m_point(0), m_size(size), m_spType(spType)
 {
-    m_point = new PointNode(parentNode,spType,starWidth(size));
-    //appendChildNode(m_opacity);
-    m_opacity->appendChildNode(m_point);
-}
 
-/*PointSourceNode::~PointSourceNode() {
-    m_rootNode->labelsItem()->deleteLabel(m_label);
-}*/
+}
 
 float PointSourceNode::starWidth(float mag) const
 {
@@ -45,7 +39,7 @@ float PointSourceNode::starWidth(float mag) const
     const double maxSize = 10.0;
 
     double lgmin = log10(MINZOOM);
-//    double lgmax = log10(MAXZOOM);
+    //    double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
 
     float sizeFactor = maxSize + (lgz - lgmin);
@@ -57,6 +51,16 @@ float PointSourceNode::starWidth(float mag) const
     if( size > maxSize ) size = maxSize;
 
     return size;
+}
+
+void PointSourceNode::initPoint() {
+    if(!m_point) {
+        m_point = new PointNode(m_rootNode,m_spType,starWidth(m_size));
+        //appendChildNode(m_opacity);
+        m_opacity->appendChildNode(m_point);
+    }
+    show();
+    m_point->setSize(starWidth(m_skyObject->mag()));
 }
 
 void PointSourceNode::changePos(QPointF pos) {
@@ -80,14 +84,8 @@ void PointSourceNode::update() {
     bool visible = false;
     pos = projector()->toScreen(m_skyObject,true,&visible);
     if( visible && projector()->onScreen(pos) ) { // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
-        if(m_labelType == LabelsItem::label_t::DEEP_SKY_LABEL){
-            m_point->setSize(14);//starWidth(m_skyObject->mag()));
-        } else {
-            m_point->setSize(starWidth(m_skyObject->mag()));
-        }
+        initPoint();
         changePos(pos);
-        show();
-        //m_point->show();
 
         if(m_drawLabel && m_labelType != LabelsItem::label_t::NO_LABEL) {
             if(!m_label) { //This way labels will be created only when they are needed

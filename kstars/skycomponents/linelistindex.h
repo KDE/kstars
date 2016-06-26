@@ -63,13 +63,14 @@ public:
     /**
      * @short KStars Lite needs direct access to m_lineIndex for drawing the lines
      */
-    inline LineListHash* lineIndex() const { return m_lineIndex; }
+    inline LineListHash *lineIndex() const { return m_lineIndex; }
+    inline LineListHash *polyIndex() const { return m_polyIndex; }
 
      /** @short returns MeshIterator for currently visible trixels */
     MeshIterator visibleTrixels();
 
 #endif
-protected:
+    //Moved to public because KStars Lite uses it
     /** @short this is called from within the draw routines when the updateID
      * of the lineList is stale.  It is virtual because different subclasses
      * have different update routines.  NoPrecessIndex doesn't precess in
@@ -77,6 +78,7 @@ protected:
      * not points.  that doesn't precess the points.
      */
     virtual void JITupdate( LineList* lineList );
+protected:
 
     /** @short as the name says, recreates the lineIndex using the LineLists
      * in the previous index.  Since we are indexing everything at J2000

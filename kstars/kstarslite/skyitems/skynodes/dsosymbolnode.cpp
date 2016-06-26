@@ -340,49 +340,55 @@ void GalaxyClusterSymbol::updateSymbol(float x, float y, float e, float size) {
 }
 
 DSOSymbolNode::DSOSymbolNode(DeepSkyObject * skyObject, QColor color)
-    :m_dso(skyObject), m_symbol(0), m_rotate(false) //We don't rotate the symbol by default
+    :m_dso(skyObject), m_symbol(0), m_rotate(false), m_color(color) //We don't rotate the symbol by default
 {
-    int type = m_dso->type();
-    switch ( type ) {
-    case 0:
-    case 1:
-        //catalog star
-        m_symbol = new StarSymbol(color);
-        break;
-    case 3: //Open cluster; draw circle of points
-    case 13: // Asterism
-        m_symbol = new AsterismSymbol(color);
-        break;
-    case 4: //Globular Cluster
-        m_symbol = new GlobularClusterSymbol(color);
-        m_rotate = true;
-        break;
-    case 5: //Gaseous Nebula
-    case 15: // Dark Nebula
-        m_symbol = new DarkNebulaSymbol(color);
-        m_rotate = true;
-        break;
-    case 6: //Planetary Nebula
-        m_symbol = new PlanetaryNebulaSymbol(color);
-        m_rotate = true;
-        break;
-    case 7: //Supernova remnant
-        m_symbol = new SupernovaRemnantSymbol(color);
-        m_rotate = true;
-        break;
-    case 8: //Galaxy
-    case 16: // Quasar
-        m_symbol = new GalaxySymbol(color);
-        m_rotate = true;
-        break;
-    case 14: // Galaxy cluster - draw a circle of + marks
-        m_symbol = new GalaxyClusterSymbol(color);
-        m_rotate = true;
-        break;
-    default:
-        break;
+
+}
+
+void DSOSymbolNode::initSymbol() {
+    if(!m_symbol) {
+        int type = m_dso->type();
+        switch ( type ) {
+        case 0:
+        case 1:
+            //catalog star
+            m_symbol = new StarSymbol(m_color);
+            break;
+        case 3: //Open cluster; draw circle of points
+        case 13: // Asterism
+            m_symbol = new AsterismSymbol(m_color);
+            break;
+        case 4: //Globular Cluster
+            m_symbol = new GlobularClusterSymbol(m_color);
+            m_rotate = true;
+            break;
+        case 5: //Gaseous Nebula
+        case 15: // Dark Nebula
+            m_symbol = new DarkNebulaSymbol(m_color);
+            m_rotate = true;
+            break;
+        case 6: //Planetary Nebula
+            m_symbol = new PlanetaryNebulaSymbol(m_color);
+            m_rotate = true;
+            break;
+        case 7: //Supernova remnant
+            m_symbol = new SupernovaRemnantSymbol(m_color);
+            m_rotate = true;
+            break;
+        case 8: //Galaxy
+        case 16: // Quasar
+            m_symbol = new GalaxySymbol(m_color);
+            m_rotate = true;
+            break;
+        case 14: // Galaxy cluster - draw a circle of + marks
+            m_symbol = new GalaxyClusterSymbol(m_color);
+            m_rotate = true;
+            break;
+        default:
+            break;
+        }
+        if(m_symbol) addChildNode(m_symbol);
     }
-    if(m_symbol) addChildNode(m_symbol);
 }
 
 void DSOSymbolNode::changePos(float size, const QPointF &pos, float positionangle) {
@@ -402,6 +408,8 @@ void DSOSymbolNode::changePos(float size, const QPointF &pos, float positionangl
 
 void DSOSymbolNode::update(float size, const QPointF &pos, float positionangle) {
     show();
+    initSymbol();
+
     if(m_symbol) {
         m_symbol->updateSymbol(pos.x(), pos.y(), m_dso->e(), size);
     }

@@ -48,7 +48,7 @@ void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int w
             for(int c = 0; c < linesList->size(); ++c) {
                 //LineNode * ln = new LineNode(linesList->at(c), schemeColor, width, style);
                 /*trixel->appendChildNode(ln);*/
-                trixel->appendChildNode(new LineNode(linesList->at(c), schemeColor, width, style));
+                trixel->appendChildNode(new LineNode(linesList->at(c), 0, schemeColor, width, style));
             }
         }
         ++i;
@@ -74,7 +74,7 @@ void LinesItem::update() {
         }*/
 
         DrawID   drawID   = SkyMesh::Instance()->drawID();
-        //UpdateID updateID = KStarsData::Instance()->updateID();
+        UpdateID updateID = KStarsData::Instance()->updateID();
 
         LineIndexNode * node = i.key();
         if(i.value()->selected()) {
@@ -99,6 +99,9 @@ void LinesItem::update() {
                         lines->hide();
                         continue;
                     }
+                    if ( lineList->updateID != updateID )
+                        i.value()->JITupdate( lineList );
+
                     lineList->drawID = drawID;
                     lines->updateGeometry();
                 }

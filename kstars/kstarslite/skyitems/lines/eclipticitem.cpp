@@ -37,7 +37,7 @@ EclipticItem::EclipticItem(Ecliptic *eclipticComp, RootNode *rootNode)
 
             QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed("EclColor");
             for(int c = 0; c < linesList->size(); ++c) {
-                LineNode * ln = new LineNode(linesList->at(c), schemeColor, 1, Qt::SolidLine);
+                LineNode * ln = new LineNode(linesList->at(c), 0, schemeColor, 1, Qt::SolidLine);
                 trixel->appendChildNode(ln);
             }
         }
@@ -70,7 +70,7 @@ void EclipticItem::update() {
         QSGNode *n = firstChild();
 
         DrawID   drawID   = SkyMesh::Instance()->drawID();
-        //UpdateID updateID = KStarsData::Instance()->updateID();
+        UpdateID updateID = KStarsData::Instance()->updateID();
 
         while(n != 0) {
             TrixelNode * trixel = static_cast<TrixelNode *>(n);
@@ -87,6 +87,9 @@ void EclipticItem::update() {
                     lines->hide();
                     continue;
                 }
+                if ( lineList->updateID != updateID )
+                    m_eclipticComp->JITupdate( lineList );
+
                 lineList->drawID = drawID;
                 lines->updateGeometry();
             }

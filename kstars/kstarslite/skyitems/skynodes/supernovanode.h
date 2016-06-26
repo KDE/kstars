@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          skyopacitynode.cpp  -  K Desktop Planetarium
+                          supernovanode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/06/2016
+    begin                : 26/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,30 +13,43 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef SUPERNOVANODE_H_
+#define SUPERNOVANODE_H_
+#include "skynode.h"
 
-#include "skyopacitynode.h"
+class PolyNode;
+class Supernova;
+class PointNode;
+class QSGFlatColorMaterial;
 
-SkyOpacityNode::SkyOpacityNode() {
+/** @class SupernovaNode
+ *
+ *@version 1.0
+ */
 
-}
+class SupernovaNode : public SkyNode {
+public:
+    SupernovaNode(Supernova *snova);
 
-void SkyOpacityNode::show() {
-    if(!opacity()) {
-        setOpacity(1);
-        markDirty(QSGNode::DirtyOpacity);
-    }
-}
+    void update();
 
-void SkyOpacityNode::hide() {
-    if(opacity() != 0) {
-        setOpacity(0);
-        markDirty(QSGNode::DirtyOpacity);
-    }
-}
+    void init(QColor color);
 
-bool SkyOpacityNode::visible() {
-    if(opacity() != 0) {
-        return true;
-    }
-    return false;
-}
+    void changePos(QPointF pos);
+
+    inline Supernova *snova() { return m_snova; }
+
+private:
+    Supernova *m_snova;
+
+    QSGGeometryNode *m_lines;
+
+    QSGFlatColorMaterial *m_material;
+    QSGGeometry *m_geometry;
+
+    PointNode *m_point;
+};
+
+#endif
+
+

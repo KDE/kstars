@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          linesitem.cpp  -  K Desktop Planetarium
+                          milkywayitem.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 1/06/2016
+    begin                : 23/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -18,23 +18,22 @@
 #include "projections/projector.h"
 #include <QSGNode>
 
-#include "linesitem.h"
+#include "milkywayitem.h"
+#include "milkyway.h"
 #include "linelist.h"
 #include "linelistindex.h"
 #include "../skynodes/nodes/linenode.h"
+#include "../skynodes/skypolygonnode.h"
 
-LinesItem::LinesItem(RootNode *rootNode)
-    :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode)
+MilkyWayItem::MilkyWayItem(MilkyWay *mwComp, RootNode *rootNode)
+    :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode), m_MWComp(mwComp), m_filled(Options::fillMilkyWay())
 {
-
+    initialize();
 }
 
-void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int width, Qt::PenStyle style) {
-    LineIndexNode *node = new LineIndexNode;
-    appendChildNode(node);
-
-    m_lineIndexes.insert(node, linesComp);
-    LineListHash *trixels = linesComp->lineIndex();
+void MilkyWayItem::initialize() {
+    LineListHash *trixels = m_MWComp->polyIndex();
+    while(QSGNode *n = firstChild()) { removeChildNode(n); delete n; }
 
     QHash< Trixel, LineListList *>::const_iterator i = trixels->begin();
     while( i != trixels->end()) {
@@ -42,75 +41,83 @@ void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int w
 
         if(linesList->size()) {
             TrixelNode *trixel = new TrixelNode;
-            node->appendChildNode(trixel);
+            appendChildNode(trixel);
 
-            QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed(color);
+            QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed("MWColor");
             for(int c = 0; c < linesList->size(); ++c) {
-                //LineNode * ln = new LineNode(linesList->at(c), schemeColor, width, style);
-                /*trixel->appendChildNode(ln);*/
-                trixel->appendChildNode(new LineNode(linesList->at(c), schemeColor, width, style));
+                LineList *list = linesList->at(c);
+                if(m_filled) {
+                    SkyPolygonNode *poly = new SkyPolygonNode(list);
+                    schemeColor.setAlpha(0.7*255);
+                    poly->setColor(schemeColor);
+                    trixel->appendChildNode(poly);
+                } else {
+                    LineNode * ln = new LineNode(list, m_MWComp->skipList(list), schemeColor, 3, Qt::SolidLine);
+                    trixel->appendChildNode(ln);
+                }
             }
         }
         ++i;
     }
 }
 
-void LinesItem::update() {
-    QMap< LineIndexNode *, LineListIndex *>::const_iterator i = m_lineIndexes.begin();
-    while( i != m_lineIndexes.end()) {
-        //QVector<Trixel> visTrixels;
-        SkyMesh * mesh = SkyMesh::Instance();
-        SkyMapLite *map = SkyMapLite::Instance();
-        double radius = map->projector()->fov();
-        if ( radius > 180.0 )
-            radius = 180.0;
-        if(mesh) {
-            //mesh->aperture(map->focus(), radius);
-        }
-
-        /*MeshIterator region (mesh,DRAW_BUF);
-        while ( region.hasNext() ) {
-            visTrixels.append(region.next());
-        }*/
+void MilkyWayItem::update() {
+    if(m_MWComp->selected()) {
+        show();
+        QSGNode *n = firstChild();
 
         DrawID   drawID   = SkyMesh::Instance()->drawID();
-        //UpdateID updateID = KStarsData::Instance()->updateID();
+        UpdateID updateID = KStarsData::Instance()->updateID();
 
-        LineIndexNode * node = i.key();
-        if(i.value()->selected()) {
-            node->show();
+        if(Options::fillMilkyWay() != m_filled) {
+            m_filled = Options::fillMilkyWay();
+            initialize();
+        }
 
-            QSGNode *n = node->firstChild();
-            while(n != 0) {
-                TrixelNode * trixel = static_cast<TrixelNode *>(n);
-                trixel->show();
+        while(n != 0) {
+            TrixelNode * trixel = static_cast<TrixelNode *>(n);
+            trixel->show();
+            n = n->nextSibling();
 
-                n = n->nextSibling();
+            QSGNode *l = trixel->firstChild();
+            while(l != 0) {
+                if(m_filled) {
+                    SkyPolygonNode *polygon = static_cast<SkyPolygonNode *>(l);
+                    LineList * lineList = polygon->lineList();
 
-                //if(visTrixels.contains(c)) {
+                    if ( lineList->drawID == drawID ) {
+                        polygon->hide();
+                        l = l->nextSibling();
+                        continue;
+                    }
+                    lineList->drawID = drawID;
+                    if ( lineList->updateID != updateID )
+                        m_MWComp->JITupdate( lineList );
 
-                QSGNode *l = trixel->firstChild();
-                while(l != 0) {
+                    polygon->update();
+                } else {
                     LineNode * lines = static_cast<LineNode *>(l);
-                    l = l->nextSibling();
 
                     LineList * lineList = lines->lineList();
                     if ( lineList->drawID == drawID ) {
                         lines->hide();
+                        l = l->nextSibling();
                         continue;
                     }
                     lineList->drawID = drawID;
+                    if ( lineList->updateID != updateID )
+                        m_MWComp->JITupdate( lineList );
+
                     lines->updateGeometry();
                 }
-
-                /* } else {
-                    trixel->hide();
-                }*/
+                l = l->nextSibling();
             }
-        } else {
-            node->hide();
         }
-        ++i;
+    } else {
+        hide();
     }
 }
+
+
+
 

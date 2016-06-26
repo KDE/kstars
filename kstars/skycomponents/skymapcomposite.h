@@ -184,11 +184,15 @@ public:
     inline EquatorialCoordinateGrid* equatorialCoordGrid() { return m_EquatorialCoordinateGrid; }
     inline HorizontalCoordinateGrid* horizontalCoordGrid() { return m_HorizontalCoordinateGrid; }
 
+    inline ConstellationArtComponent * constellationArt() { return m_ConstellationArt; }
+
     inline SolarSystemComposite* solarSystemComposite() { return m_SolarSystem; }
 
     inline ConstellationNamesComponent* constellationNamesComponent() { return m_CNames; }
 
     inline DeepSkyComponent* deepSkyComponent() { return m_DeepSky; }
+
+    inline MilkyWay *milkyWay() { return m_MilkyWay; }
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );

@@ -19,11 +19,12 @@
 #include "skymaplite.h"
 
 #include "projections/projector.h"
+#include "skiplist.h"
 #include <QLinkedList>
 
-LineNode::LineNode(LineList *lineList, QColor color, int width, Qt::PenStyle drawStyle)
-    :m_lineList(lineList), m_geometryNode(new QSGGeometryNode), m_color(color), m_drawStyle(drawStyle),
-      m_material(new QSGFlatColorMaterial)
+LineNode::LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle)
+    :m_lineList(lineList), m_skipList(skipList), m_geometryNode(new QSGGeometryNode),
+      m_color(color), m_drawStyle(drawStyle), m_material(new QSGFlatColorMaterial)
 {
     m_geometryNode->setOpaqueMaterial(m_material);
     //m_geometryNode->setFlag(QSGNode::OwnsMaterial);
@@ -86,9 +87,9 @@ void LineNode::updateGeometry() {
         // & with the result of checkVisibility to clip away things below horizon
         isVisible &= m_proj->checkVisibility(pThis);
         bool doSkip = false;
-        /*if( skipList ) {
-            doSkip = skipList->skip(j);
-        }*/
+        if( m_skipList ) {
+            doSkip = m_skipList->skip(j);
+        }
 
         if ( !doSkip ) {
             if ( (isVisible) ) {
