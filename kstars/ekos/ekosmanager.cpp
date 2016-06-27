@@ -58,8 +58,8 @@ EkosManager::EkosManager()
     useST4          =false;
     remoteManagerStart=false;
 
-    indiConnectionStatus = STATUS_IDLE;
-    ekosStartingStatus   = STATUS_IDLE;
+    indiConnectionStatus = EKOS_STATUS_IDLE;
+    ekosStartingStatus   = EKOS_STATUS_IDLE;
 
     profileModel = NULL;
 
@@ -754,8 +754,8 @@ void EkosManager::reset()
     weatherProcess = NULL;
     dustCapProcess = NULL;
 
-    ekosStartingStatus  = STATUS_IDLE;
-    indiConnectionStatus= STATUS_IDLE;
+    ekosStartingStatus  = EKOS_STATUS_IDLE;
+    indiConnectionStatus= EKOS_STATUS_IDLE;
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
@@ -767,7 +767,7 @@ void EkosManager::reset()
 
 void EkosManager::processINDI()
 {
-    if (ekosStartingStatus == STATUS_SUCCESS || ekosStartingStatus == STATUS_PENDING)
+    if (ekosStartingStatus == EKOS_STATUS_SUCCESS || ekosStartingStatus == EKOS_STATUS_PENDING)
     {
         stop();
     }
@@ -778,7 +778,7 @@ void EkosManager::processINDI()
 bool EkosManager::stop()
 {
     cleanDevices();
-    ekosStartingStatus = STATUS_IDLE;
+    ekosStartingStatus = EKOS_STATUS_IDLE;
 
     profileGroup->setEnabled(true);
 
@@ -945,13 +945,13 @@ bool EkosManager::start()
             INDIListener::Instance()->disconnect(this);
             qDeleteAll(managedDrivers);
             managedDrivers.clear();
-            ekosStartingStatus = STATUS_ERROR;            
+            ekosStartingStatus = EKOS_STATUS_ERROR;            
             return false;
         }
 
         connect(DriverManager::Instance(), SIGNAL(serverTerminated(QString,QString)), this, SLOT(cleanDevices()));
 
-        ekosStartingStatus = STATUS_PENDING;
+        ekosStartingStatus = EKOS_STATUS_PENDING;
 
         appendLogText(i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
 
@@ -996,13 +996,13 @@ bool EkosManager::start()
             INDIListener::Instance()->disconnect(this);
             qDeleteAll(managedDrivers);
             managedDrivers.clear();
-            ekosStartingStatus = STATUS_ERROR;
+            ekosStartingStatus = EKOS_STATUS_ERROR;
             QApplication::restoreOverrideCursor();
             return false;
         }
 
         QApplication::restoreOverrideCursor();
-        ekosStartingStatus = STATUS_PENDING;
+        ekosStartingStatus = EKOS_STATUS_PENDING;
 
         appendLogText(i18n("INDI services started. Connection to remote INDI server is successful. Waiting for devices..."));
 
@@ -1024,12 +1024,12 @@ bool EkosManager::start()
 void EkosManager::checkINDITimeout()
 {
     // Don't check anything unless we're still pending
-    if (ekosStartingStatus != STATUS_PENDING)
+    if (ekosStartingStatus != EKOS_STATUS_PENDING)
         return;
 
     if (nDevices <= 0)
     {
-        ekosStartingStatus = STATUS_SUCCESS;
+        ekosStartingStatus = EKOS_STATUS_SUCCESS;
         return;
     }
 
@@ -1088,13 +1088,13 @@ void EkosManager::checkINDITimeout()
         }
     }
 
-    ekosStartingStatus = STATUS_ERROR;
+    ekosStartingStatus = EKOS_STATUS_ERROR;
 }
 
 void EkosManager::connectDevices()
 {
 
-    indiConnectionStatus = STATUS_PENDING;
+    indiConnectionStatus = EKOS_STATUS_PENDING;
 
     foreach(ISD::GDInterface *device, genericDevices)
         device->Connect();
@@ -1167,7 +1167,7 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
 
     if (nDevices <= 0)
     {
-        ekosStartingStatus = STATUS_SUCCESS;
+        ekosStartingStatus = EKOS_STATUS_SUCCESS;
 
         if (localMode == false && nDevices == 0)
             appendLogText(i18n("Remote devices established. Please connect devices."));
@@ -1198,7 +1198,7 @@ void EkosManager::deviceConnected()
     ProfileInfo *pi = getCurrentProfile();
     //if (nConnectedDevices == managedDrivers.count() || (nDevices <=0 && nConnectedDevices == nRemoteDevices))
     if (nConnectedDevices >= pi->drivers.count())
-        indiConnectionStatus = STATUS_SUCCESS;    
+        indiConnectionStatus = EKOS_STATUS_SUCCESS;    
 
     ISD::GDInterface *dev = static_cast<ISD::GDInterface *> (sender());
 
@@ -1248,14 +1248,14 @@ void EkosManager::deviceDisconnected()
     if (dev)
     {
         if (dev->getState("CONNECTION") == IPS_ALERT)
-            indiConnectionStatus = STATUS_ERROR;
+            indiConnectionStatus = EKOS_STATUS_ERROR;
         else if (dev->getState("CONNECTION") == IPS_BUSY)
-            indiConnectionStatus = STATUS_PENDING;
+            indiConnectionStatus = EKOS_STATUS_PENDING;
         else
-            indiConnectionStatus = STATUS_IDLE;
+            indiConnectionStatus = EKOS_STATUS_IDLE;
     }
     else
-        indiConnectionStatus = STATUS_IDLE;
+        indiConnectionStatus = EKOS_STATUS_IDLE;
 
     if (Options::verboseLogging())
     {
@@ -1263,7 +1263,7 @@ void EkosManager::deviceDisconnected()
         qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
     }
 
-    if (indiConnectionStatus == STATUS_IDLE)
+    if (indiConnectionStatus == EKOS_STATUS_IDLE)
         nConnectedDevices--;
 
     if (nConnectedDevices < 0)

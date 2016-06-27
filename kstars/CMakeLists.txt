@@ -584,13 +584,13 @@ target_link_libraries(KStarsLib
     KF5::KIOFileWidgets
     KF5::WidgetsAddons
     KF5::Plotting
-#    KF5::IconThemes
     Qt5::Gui
     Qt5::PrintSupport
     Qt5::Sql
     Qt5::Svg
     Qt5::Qml
     Qt5::Quick
+    Qt5::Network
     ${ZLIB_LIBRARIES}
 )
 
@@ -603,12 +603,16 @@ if(CFITSIO_FOUND)
 endif(CFITSIO_FOUND)
 
 if(INDI_FOUND)
+    if(WIN32)
+        add_definitions(-DUSE_QT5_INDI)
+        find_package(Nova REQUIRED)
+        target_link_libraries(KStarsLib ${NOVA_LIBRARIES})
+    endif(WIN32)
     target_link_libraries(KStarsLib
         ${CMAKE_THREAD_LIBS_INIT}
         ${INDI_LIBRARIES}
         ${INDI_CLIENT_LIBRARIES}
-        KF5::Notifications
-        z
+        KF5::Notifications        
     )
 endif(INDI_FOUND)
 

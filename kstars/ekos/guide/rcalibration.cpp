@@ -12,7 +12,6 @@
 #include "rcalibration.h"
 #include "Options.h"
 
-#include <unistd.h>
 #include <time.h>
 #include <assert.h>
 

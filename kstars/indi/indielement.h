@@ -12,8 +12,6 @@
 #ifndef INDIELEMENT_H_
 #define INDIELEMENT_H_
 
-#include <unistd.h>
-
 #include <QDialog>
 #include <QLabel>
 #include <QVBoxLayout>
@@ -21,6 +19,7 @@
 
 #include <indiapi.h>
 #include <indiproperty.h>
+
 #include "indicommon.h"
 
 /* Forward decleration */

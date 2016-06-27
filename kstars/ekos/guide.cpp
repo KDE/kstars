@@ -10,17 +10,18 @@
 #include "guide.h"
 
 #include <QDateTime>
-#include <unistd.h>
-
-#include "guide/gmath.h"
-#include "guide/guider.h"
-#include "phd2.h"
-
-#include "Options.h"
 
 #include <KMessageBox>
 #include <KLed>
 #include <KLocalizedString>
+
+#include <basedevice.h>
+
+#include "Options.h"
+
+#include "guide/gmath.h"
+#include "guide/guider.h"
+#include "phd2.h"
 
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"
@@ -30,8 +31,6 @@
 
 #include "guide/rcalibration.h"
 #include "guideadaptor.h"
-
-#include <basedevice.h>
 
 namespace Ekos
 {

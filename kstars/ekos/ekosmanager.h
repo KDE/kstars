@@ -60,7 +60,7 @@ public:
     EkosManager();
     ~EkosManager();
 
-    typedef enum { STATUS_IDLE, STATUS_PENDING, STATUS_SUCCESS, STATUS_ERROR } CommunicationStatus;
+    typedef enum { EKOS_STATUS_IDLE, EKOS_STATUS_PENDING, EKOS_STATUS_SUCCESS, EKOS_STATUS_ERROR } CommunicationStatus;
 
     void appendLogText(const QString &);
     //void refreshRemoteDrivers();

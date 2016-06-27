@@ -10,12 +10,6 @@
 
 #include <basedevice.h>
 
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <string>
-
 #include <QRadioButton>
 #include <QFile>
 #include <QDir>
@@ -23,14 +17,13 @@
 #include <QTreeWidget>
 #include <QIcon>
 #include <QDialog>
+#include <QStandardPaths>
+#include <QAction>
+#include <QMenu>
+#include <QPushButton>
 #include <QTcpServer>
 
-#include <QMenu>
 #include <KMessageBox>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QProcess>
-#include <QAction>
 #include <KActionCollection>
 #include <KNotifications/KNotification>
 
@@ -50,7 +43,6 @@
 #include "indilistener.h"
 
 #include <config-kstars.h>
-#include <QStandardPaths>
 
 #define INDI_MAX_TRIES  2
 #define  ERRMSG_SIZE 1024
@@ -407,7 +399,8 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
              qApp->processEvents();
 
-             usleep(100000);
+             //usleep(100000);
+             QThread::usleep(100000);
          }
 
          if (connectionToServer)
@@ -743,7 +736,7 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
         if (connectionToServer)
             break;
 
-         usleep(100000);
+         QThread::usleep(100000);
     }
 
     if (connectionToServer)
@@ -821,7 +814,10 @@ void DriverManager::updateMenuActions()
 
 int DriverManager::getINDIPort(int customPort)
 {
-
+    #ifdef Q_OS_WIN
+    qWarning() << "INDI server is currently not supported on Windows.";
+    return -1;
+    #else
     int lastPort  = Options::serverPortEnd().toInt();;
     bool success = false;
     currentPort++;
@@ -853,6 +849,7 @@ int DriverManager::getINDIPort(int customPort)
         }
     }
     return -1;
+    #endif
 }
 
 

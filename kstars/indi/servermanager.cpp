@@ -63,6 +63,10 @@ ServerManager::~ServerManager()
 
 bool ServerManager::start()
 {
+#ifdef Q_OS_WIN
+    qWarning() << "INDI server is currently not supported on Windows.";
+    return false;
+#else
     bool connected=false;
     int fd=0;
 
@@ -93,6 +97,12 @@ bool ServerManager::start()
 
     args << "-f" << fifoFile;
 
+    if (!indiFIFO.open(QIODevice::ReadWrite | QIODevice::Text))
+    {
+        qDebug() << "Unable to create INDI FIFO file: " << fifoFile << endl;
+        return false;
+    }
+
     serverProcess->setProcessChannelMode(QProcess::SeparateChannels);
     serverProcess->setReadChannel(QProcess::StandardError);
 
@@ -111,6 +121,7 @@ bool ServerManager::start()
         KMessageBox::error(0, i18n("INDI server failed to start: %1", serverProcess->errorString()));
 
     return connected;
+#endif
 }
 
 bool ServerManager::startDriver(DriverInfo *dv)
@@ -243,6 +254,10 @@ void ServerManager::processServerError(QProcess::ProcessError err)
 
 void ServerManager::processStandardError()
 {
+    #ifdef Q_OS_WIN
+    qWarning() << "INDI server is currently not supported on Windows.";
+    return;
+    #else
     QString stderr = serverProcess->readAllStandardError();
 
     serverBuffer.append(stderr);
@@ -269,6 +284,7 @@ void ServerManager::processStandardError()
    }
 
     emit newServerLog();
+    #endif
 }
 
 QString ServerManager::errorString()
