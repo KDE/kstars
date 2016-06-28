@@ -418,7 +418,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
                  qDebug() << "INDI: Connection to local INDI server on port " << port << " failed!";
 
              KNotification::beep();
-             QPointer<QMessageBox> msgBox;
+             QPointer<QMessageBox> msgBox = new QMessageBox();
              msgBox->setAttribute( Qt::WA_DeleteOnClose );
              msgBox->setStandardButtons( QMessageBox::Ok );
              msgBox->setWindowTitle( i18n("Error") );

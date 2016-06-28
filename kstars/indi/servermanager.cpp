@@ -95,13 +95,7 @@ bool ServerManager::start()
         return false;
     }
 
-    args << "-f" << fifoFile;
-
-    if (!indiFIFO.open(QIODevice::ReadWrite | QIODevice::Text))
-    {
-        qDebug() << "Unable to create INDI FIFO file: " << fifoFile << endl;
-        return false;
-    }
+    args << "-f" << fifoFile;    
 
     serverProcess->setProcessChannelMode(QProcess::SeparateChannels);
     serverProcess->setReadChannel(QProcess::StandardError);

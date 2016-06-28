@@ -603,6 +603,7 @@ if(CFITSIO_FOUND)
 endif(CFITSIO_FOUND)
 
 if(INDI_FOUND)
+    add_definitions(-DUSE_QT5_INDI)
     if(WIN32)
         add_definitions(-DUSE_QT5_INDI)
         find_package(Nova REQUIRED)
