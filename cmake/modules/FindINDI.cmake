@@ -5,6 +5,7 @@
 #  INDI_INCLUDE_DIR - the INDI include directory
 #  INDI_LIBRARIES - Link to these for XML and INDI Common support
 #  INDI_CLIENT_LIBRARIES - Link to these to build INDI clients
+#  INDI_CLIENT_QT_LIBRARIES - Link to these to build INDI clients with Qt5 backend
 
 # Copyright (c) 2016, Jasem Mutlaq <mutlaqja@ikarustech.com>
 # Copyright (c) 2012, Pino Toscano <pino@kde.org>
@@ -70,8 +71,6 @@ else (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND INDI_CLIENT_LIBRARIES)
     ${GNUWIN32_DIR}/lib
   )
 
-message("INDI LIB " ${INDI_LIBRARIES})
-
   find_library(INDI_CLIENT_LIBRARIES NAMES indiclient
     PATHS
     ${PC_INDI_LIBRARY_DIRS}
@@ -79,13 +78,27 @@ message("INDI LIB " ${INDI_LIBRARIES})
     ${GNUWIN32_DIR}/lib
   )
 
-message("INDI CLIENT LIB " ${INDI_CLIENT_LIBRARIES})
+   find_library(INDI_CLIENT_QT_LIBRARIES NAMES indiclientqt
+   PATHS
+   ${PC_INDI_LIBRARY_DIRS}
+   ${_obLinkDir}
+   ${GNUWIN32_DIR}/lib
+   )
 
   if (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND INDI_CLIENT_LIBRARIES)
-    set(INDI_FOUND TRUE)
+      # If INDI is found we need to make sure on WIN32 we have INDI Client Qt backend otherwise we can't use INDI
+      if (WIN32)
+          if (INDI_CLIENT_QT_LIBRARIES)
+              set(INDI_FOUND TRUE)
+          else(INDI_CLIENT_QT_LIBRARIES)
+              set(INDI_FOUND FALSE)
+          endif(INDI_CLIENT_QT_LIBRARIES)
+      else (WIN32)
+          set(INDI_FOUND TRUE)
+      endif(WIN32)
   else (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND INDI_CLIENT_LIBRARIES)
     set(INDI_FOUND FALSE)
-  endif (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND INDI_CLIENT_LIBRARIES)
+  endif (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND INDI_CLIENT_LIBRARIES)  
 
   if (INDI_FOUND)
     if (NOT INDI_FIND_QUIETLY)
@@ -97,6 +110,6 @@ message("INDI CLIENT LIB " ${INDI_CLIENT_LIBRARIES})
     endif (INDI_FIND_REQUIRED)
   endif (INDI_FOUND)
 
-  mark_as_advanced(INDI_INCLUDE_DIR INDI_LIBRARIES INDI_CLIENT_LIBRARIES)
+  mark_as_advanced(INDI_INCLUDE_DIR INDI_LIBRARIES INDI_CLIENT_LIBRARIES INDI_CLIENT_QT_LIBRARIES)
 
 endif (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND INDI_CLIENT_LIBRARIES)

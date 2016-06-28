@@ -14,7 +14,6 @@
 #include <KMessageBox>
 #include <QStatusBar>
 
-#include <baseclient.h>
 #include <basedevice.h>
 
 #include "indilistener.h"
@@ -112,15 +111,17 @@ void INDIListener::removeClient(ClientManager *cm)
 
         if (dv && cm->isDriverManaged(dv))
         {
+            it = devices.erase(it);
+
             cm->removeManagedDriver(dv);
             cm->disconnect(this);
-            if (hostSource || devices.isEmpty())
+            if (hostSource)
                 return;
-            it = devices.erase(it);
         }
       else
             ++it;
     }
+
 }
 
 void INDIListener::processDevice(DeviceInfo *dv)

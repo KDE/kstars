@@ -49,7 +49,6 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI
-#include <baseclient.h>
 #include <basedevice.h>
 #include "indi/indilistener.h"
 #include "indi/driverinfo.h"

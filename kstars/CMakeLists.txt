@@ -603,18 +603,22 @@ if(CFITSIO_FOUND)
 endif(CFITSIO_FOUND)
 
 if(INDI_FOUND)
-    add_definitions(-DUSE_QT5_INDI)
+    target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
+
     if(WIN32)
         add_definitions(-DUSE_QT5_INDI)
         find_package(Nova REQUIRED)
-        target_link_libraries(KStarsLib ${NOVA_LIBRARIES})
+        target_link_libraries(KStarsLib ${NOVA_LIBRARIES} ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
+    else(WIN32)
+        # If INDI Qt5 Client is found, use it.
+        if (INDI_CLIENT_QT_LIBRARIES)
+            add_definitions(-DUSE_QT5_INDI)
+            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
+        else(INDI_CLIENT_QT_LIBRARIES)
+            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES})
+        endif(INDI_CLIENT_QT_LIBRARIES)
     endif(WIN32)
-    target_link_libraries(KStarsLib
-        ${CMAKE_THREAD_LIBS_INIT}
-        ${INDI_LIBRARIES}
-        ${INDI_CLIENT_LIBRARIES}
-        KF5::Notifications        
-    )
+
 endif(INDI_FOUND)
 
 if(WCSLIB_FOUND)

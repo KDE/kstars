@@ -11,6 +11,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 
+#include <indidevapi.h>
 #include <indicom.h>
 
 #include <config-kstars.h>

@@ -11,7 +11,11 @@
  */
 
 
+#ifdef USE_QT5_INDI
+#include <baseclientqt.h>
+#else
 #include <baseclient.h>
+#endif
 
 #include "ui_ekosmanager.h"
 #include "indi/indistd.h"
@@ -49,7 +53,7 @@ class KPageWidgetItem;
  * </ul>
  *  For low level access to INDI devices, the \ref INDIDBusInterface "INDI Dbus Interface" provides complete access to INDI devices and properties.
  *@author Jasem Mutlaq
- *@version 1.2
+ *@version 1.3
  */
 class EkosManager : public QDialog, public Ui::EkosManager
 {
@@ -114,64 +118,6 @@ public:
      */
     Q_SCRIPTABLE bool stop();
 
- #if 0
-    /** DBUS interface function.
-     * Sets the telescope driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote telescope driver.
-     * @param telescopeName telescope driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setTelescope(const QString & telescopeName);
-
-    /** DBUS interface function.
-     * Sets the CCD driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote CCD driver.
-     * @param CCDName CCD driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setCCD(const QString & ccdName);
-
-    /** DBUS interface function.
-     * Sets the guider driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote guider driver.
-     * @param guiderName guider CCD driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup. If the primary CCD has a guide chip,
-     * do not set the guider name as the guide chip will be automatically selected as guider
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setGuider(const QString & guiderName);
-
-    /** DBUS interface function.
-     * Sets the focuser driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote focuser driver.
-     * @param focuserName focuser driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setFocuser(const QString & focuserName);
-
-    /** DBUS interface function.
-     * Sets the AO driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote AO driver.
-     * @param AOName Adaptive Optics driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setAO(const QString & AOName);
-
-    /** DBUS interface function.
-     * Sets the filter driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote filter driver.
-     * @param filterName filter driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setFilter(const QString & filterName);
-
-    /** DBUS interface function.
-     * Sets the dome driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote dome driver.
-     * @param domeName dome driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setDome(const QString & domeName);
-
-    /** DBUS interface function.
-     * Sets the weather driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote dome driver.
-     * @param domeName dome driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setWeather(const QString & domeName);
-
-    /** DBUS interface function.
-     * Sets the auxiliary driver name. If connection mode is local, it is selected from the local drivers combo box. Otherwise, it is set as the remote auxiliary driver.
-     * @param index 1 for Aux 1, 2 for Aux 2, 3 for Aux 3
-     * @param auxiliaryName auxiliary driver name. For remote devices, the name has to be exactly as the name defined by the driver on startup.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setAuxiliary(int index, const QString & auxiliaryName);
-#endif
-
 protected:
     void closeEvent(QCloseEvent *);
     void hideEvent(QHideEvent *);
@@ -192,7 +138,7 @@ public slots:
     /** @}*/
 
     void processINDI();   
-    void cleanDevices();
+    void cleanDevices(bool stopDrivers=true);
 
     void processNewDevice(ISD::GDInterface*);
     void processNewProperty(INDI::Property*);
@@ -205,6 +151,8 @@ private slots:
     void clearLog();
 
     void processTabChange();
+
+    void processServerTermination(const QString &host, const QString &port);
 
     void removeDevice(ISD::GDInterface*);
 

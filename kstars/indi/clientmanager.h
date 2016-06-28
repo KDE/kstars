@@ -11,8 +11,12 @@
 #ifndef CLIENTMANAGER_H
 #define CLIENTMANAGER_H
 
+#ifdef USE_QT5_INDI
+#include <baseclientqt.h>
+#else
 #include <baseclient.h>
 #include <QObject>
+#endif
 
 #include "config-kstars.h"
 
@@ -31,7 +35,7 @@ class ServerManager;
  * @version 1.1
  */
 #ifdef USE_QT5_INDI
-class ClientManager : public INDI::BaseClient
+class ClientManager : public INDI::BaseClientQt
 #else
 class ClientManager : public QObject, public INDI::BaseClient
 #endif
