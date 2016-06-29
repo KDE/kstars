@@ -88,7 +88,10 @@ void KSFileReader::showProgress()
     //printf("%8d %8d %3d\n", m_curLine, m_totalLines, percent );
     if ( percent > 100 ) percent = 100;
     emit progressText( QString("%1 (%2%)").arg( m_label ).arg( percent ) );
+//#ifdef ANDROID
+// Can cause crashes on Android
     qApp->processEvents();
+//#endif
 }
 
 

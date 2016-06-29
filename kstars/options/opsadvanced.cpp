@@ -26,6 +26,7 @@
 #include "kstars.h"
 #include "ksutils.h"
 #include "widgets/timestepbox.h"
+#include "kspaths.h"
 
 OpsAdvanced::OpsAdvanced()
         : QFrame(KStars::Instance())
@@ -90,7 +91,7 @@ void OpsAdvanced::slotToggleOutputOptions()
         kcfg_VerboseLogFile->setEnabled(true);
 
         if (kcfg_VerboseLogFile->text().isEmpty())
-            kcfg_VerboseLogFile->setText(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "kstars.log");
+            kcfg_VerboseLogFile->setText(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "kstars.log");
 
         if (kcfg_DisableLogging->isChecked() == false)
             KSUtils::Logging::UseFile(kcfg_VerboseLogFile->text());

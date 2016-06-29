@@ -45,6 +45,7 @@
 #include "oal/observeradd.h"
 #include "skycomponents/skymapcomposite.h"
 #include "texturemanager.h"
+#include "kspaths.h"
 
 #include <config-kstars.h>
 #include <QStandardPaths>
@@ -328,7 +329,7 @@ void KStars::initActions() {
     addColorMenuItem( i18n("&Moonless Night" ), "cs_moonless-night" );
 
     //Add any user-defined color schemes:
-    QFile file( QStandardPaths::locate(QStandardPaths::DataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
+    QFile file( KSPaths::locate(QStandardPaths::GenericDataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
     if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
         while ( !stream.atEnd() ) {

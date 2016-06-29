@@ -23,6 +23,7 @@
 #include "artificialhorizoncomponent.h"
 #include "version.h"
 #include "linelist.h"
+#include "kspaths.h"
 
 /*
  * TODO (spacetime):
@@ -35,7 +36,7 @@
 bool KSUserDB::Initialize() {
     // Every logged in user has their own db.
     userdb_ = QSqlDatabase::addDatabase("QSQLITE", "userdb");
-    QString dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "userdb.sqlite";
+    QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "userdb.sqlite";
     QFile testdb(dbfile);
     bool first_run = false;
     if (!testdb.exists()) {
@@ -61,7 +62,7 @@ bool KSUserDB::Initialize() {
             version.setTable("Version");
             version.select();
             QSqlRecord record = version.record(0);
-            qDebug() << " Verion string is " << record.value("Version").toString();
+            qDebug() << " Version string is " << record.value("Version").toString();
             version.clear();
 
             // If prior to 2.4.0 upgrade database for horizon table
@@ -112,7 +113,7 @@ bool KSUserDB::Initialize() {
            }
         }
     }
-    userdb_.close();        
+    userdb_.close();
     return true;
 }
 
@@ -706,7 +707,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
 
 #if 0
 bool KSUserDB::ImportFlags() {
-    QString flagfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "flags.dat";
+    QString flagfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "flags.dat";
     QFile flagsfile(flagfilename);
     if (!flagsfile.exists()) {
         return false;  // No upgrade needed. Flags file doesn't exist.
@@ -737,7 +738,7 @@ bool KSUserDB::ImportFlags() {
 }
 
 bool KSUserDB::ImportUsers() {
-    QString usersfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "observerlist.xml";
+    QString usersfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "observerlist.xml";
     QFile usersfile(usersfilename);
 
     if (!usersfile.exists()) {
@@ -798,7 +799,7 @@ bool KSUserDB::ImportUsers() {
 }
 
 bool KSUserDB::ImportEquipment() {
-    QString equipfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "equipmentlist.xml";
+    QString equipfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "equipmentlist.xml";
     QFile equipfile(equipfilename);
 
     if (!equipfile.exists()) {
