@@ -429,7 +429,7 @@ private:
     double getCurrentHA();
 
     /* Capture */
-    KDirWatch          *seqWatcher;
+    //KDirWatch          *seqWatcher;
     double	seqExpose;
     int	seqTotalCount;
     int	seqCurrentCount;

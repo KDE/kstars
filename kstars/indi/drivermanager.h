@@ -122,11 +122,6 @@ public:
 
     void clearServers();
 
-protected:
-    void closeEvent(QCloseEvent *);
-    void hideEvent(QHideEvent *);
-    void showEvent(QShowEvent *);
-
 private:
     DriverManager();
 

@@ -122,29 +122,18 @@ DriverManager::DriverManager()
     QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientTab()));
     QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
 
+    if (Options::indiDriversDir().isEmpty())
+        Options::setIndiDriversDir(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory));
+
     readXMLDrivers();
 
     readINDIHosts();
 
     updateCustomDrivers();
-}
 
-void DriverManager::closeEvent(QCloseEvent * /*event*/)
-{
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
-    a->setChecked(false);
-}
-
-void DriverManager::hideEvent(QHideEvent * /*event*/)
-{
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
-    a->setChecked(false);
-}
-
-void DriverManager::showEvent(QShowEvent * /*event*/)
-{
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
-    a->setChecked(true);
+    #ifdef Q_OS_WIN
+    ui->localTreeWidget->setEnabled(false);
+    #endif
 }
 
 void DriverManager::processDeviceStatus(DriverInfo *dv)

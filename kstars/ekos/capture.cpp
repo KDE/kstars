@@ -109,7 +109,7 @@ Capture::Capture()
     progressLayout->addWidget(pi, 0, 4, 1, 1);
 
     seqFileCount    = 0;
-    seqWatcher		= new KDirWatch();
+    //seqWatcher		= new KDirWatch();
     seqTimer = new QTimer(this);
     connect(startB, SIGNAL(clicked()), this, SLOT(start()));
     connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
@@ -125,7 +125,7 @@ Capture::Capture()
 
     connect(previewB, SIGNAL(clicked()), this, SLOT(captureOne()));
 
-    connect( seqWatcher, SIGNAL(dirty(QString)), this, SLOT(checkSeqFile(QString)));
+    //connect( seqWatcher, SIGNAL(dirty(QString)), this, SLOT(checkSeqFile(QString)));
 
     connect(addToQueueB, SIGNAL(clicked()), this, SLOT(addJob()));
     connect(removeFromQueueB, SIGNAL(clicked()), this, SLOT(removeJob()));
@@ -1002,6 +1002,8 @@ void Capture::captureImage()
          }
      }
 
+     checkSeqBoundary(activeJob->getFITSDir());
+
      rc = activeJob->capture(isDark);
 
      switch (rc)
@@ -1059,24 +1061,24 @@ void Capture::resumeCapture()
 /*******************************************************************************/
 void Capture::updateSequencePrefix( const QString &newPrefix, const QString &dir)
 {
-    static QString lastDir=QDir::homePath();
+    //static QString lastDir=QDir::homePath();
 
     seqPrefix = newPrefix;
 
     // If it doesn't exist, create it
     QDir().mkpath(dir);
 
-    if (dir != lastDir)
+    /*if (dir != lastDir)
     {
         seqWatcher->removeDir(lastDir);
         lastDir = dir;
     }
 
-    seqWatcher->addDir(dir, KDirWatch::WatchFiles);
+    seqWatcher->addDir(dir, KDirWatch::WatchFiles);*/
 
     nextSequenceID = 1;
 
-    checkSeqBoundary(dir);
+    //checkSeqBoundary(dir);
 }
 
 void Capture::checkSeqFile(const QString &path)
@@ -1098,33 +1100,33 @@ void Capture::checkSeqBoundary(const QString &path)
     if (meridianFlipStage >= MF_ALIGNING)
         return;
 
-    //KFileItemList::const_iterator it = items.begin();
-    //const KFileItemList::const_iterator end = items.end();
     QDirIterator it(path, QDir::Files);
+
     while (it.hasNext())
-        {
-            tempName = it.next();
-            tempName.remove(path + QDir::separator());
+    {
+        tempName = it.next();
+        QFileInfo info(tempName);
+        tempName = info.baseName();
 
-            // find the prefix first
-            //if (tempName.startsWith(seqPrefix) == false || tempName.endsWith(".fits") == false)
-            if (seqPrefix.isEmpty() || tempName.startsWith(seqPrefix) == false)
-                continue;
+        // find the prefix first
+        if (seqPrefix.isEmpty() || tempName.startsWith(seqPrefix) == false)
+            continue;
 
-            seqFileCount++;
+        seqFileCount++;
 
-            tempName = tempName.remove(seqPrefix);
-            if (tempName.startsWith("_"))
-                tempName = tempName.remove(0, 1);
+        tempName = tempName.remove(seqPrefix);
 
-            bool indexOK = false;
-            newFileIndex = tempName.mid(0, 3).toInt(&indexOK);
-            if (indexOK && newFileIndex >= nextSequenceID)
-                nextSequenceID = newFileIndex + 1;
-        }
+        if (tempName.startsWith("_"))
+            tempName = tempName.remove(0, 1);
+
+        bool indexOK = false;
+        newFileIndex = tempName.mid(0, 3).toInt(&indexOK);
+
+        if (indexOK && newFileIndex >= nextSequenceID)
+            nextSequenceID = newFileIndex + 1;
+    }
 
     currentCCD->setNextSequenceID(nextSequenceID);
-
 }
 
 void Capture::appendLogText(const QString &text)
@@ -1161,6 +1163,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
         activeJob->setCaptureRetires(retries);
 
         appendLogText(i18n("Capture failed."));
+
         if (retries == 3)
         {
             abort();
@@ -1168,6 +1171,9 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
         }
 
         appendLogText(i18n("Restarting capture attempt #%1", retries));
+
+        nextSequenceID = 1;
+
         captureImage();
         return;
     }
@@ -1294,9 +1300,11 @@ void Capture::addJob(bool preview)
         if (preview)
             return;
 
-        QString finalFITSDir = fitsDir->text() + QDir::separator() + frameTypeCombo->currentText();
+        //QString finalFITSDir = fitsDir->text() + QDir::separator() + frameTypeCombo->currentText();
+        QString finalFITSDir = fitsDir->text() + QLatin1Literal("/") + frameTypeCombo->currentText();
         if ( (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && job->getFilterName().isEmpty() == false)
-            finalFITSDir += QDir::separator() + job->getFilterName();        
+            //finalFITSDir += QDir::separator() + job->getFilterName();
+            finalFITSDir += QLatin1Literal("/") + job->getFilterName();
 
         job->setFITSDir(finalFITSDir);
     }
@@ -1644,7 +1652,6 @@ void Capture::executeJob()
     }
 
     syncGUIToJob(activeJob);
-
 
     captureImage();
 }

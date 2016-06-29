@@ -116,7 +116,6 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
 
     if (fptr)
     {
-
         fits_close_file(fptr, &status);
 
         if (tempFile)
@@ -125,13 +124,10 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
 
     filename = inFilename;
 
-    if (filename.contains("/tmp/"))
+    if (filename.startsWith("/tmp/") || filename.contains("/Temp"))
         tempFile = true;
     else
         tempFile = false;
-
-    filename.remove("file://");
-
 
     if (fits_open_image(&fptr, filename.toLatin1(), READONLY, &status))
     {

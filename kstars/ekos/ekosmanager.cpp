@@ -75,9 +75,6 @@ EkosManager::EkosManager()
 
     ekosOption     = NULL;
 
-    //kcfg_localMode->setChecked(Options::localMode());
-    //kcfg_remoteMode->setChecked(Options::remoteMode());
-
     toolsWidget->setIconSize(QSize(64,64));
     connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
 
@@ -108,15 +105,6 @@ EkosManager::EkosManager()
     addProfileB->setIcon(QIcon::fromTheme("list-add"));
     editProfileB->setIcon(QIcon::fromTheme("edit-entry"));
     deleteProfileB->setIcon(QIcon::fromTheme("list-remove"));
-
-    //connect(profileCombo, SIGNAL(activated(int)), this, SLOT(processINDIModeChange()));
-
-    /*localMode = Options::localMode();
-
-    if (localMode)
-        initLocalDrivers();
-    else
-        initRemoteDrivers();*/
 
     // Load all drivers
     loadDrivers();
@@ -278,10 +266,10 @@ void EkosManager::reset()
     nConnectedDevices=0;
     nRemoteDevices=0;
 
-    useGuideHead           = false;    
-    useST4                 = false;    
+    useGuideHead           = false;
+    useST4                 = false;
 
-    removeTabs();    
+    removeTabs();
 
     genericDevices.clear();
     managedDevices.clear();
@@ -300,7 +288,7 @@ void EkosManager::reset()
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(false);
-    controlPanelB->setEnabled(false);    
+    controlPanelB->setEnabled(false);
     processINDIB->setEnabled(true);
 
     processINDIB->setText(i18n("Start INDI"));
@@ -318,7 +306,7 @@ void EkosManager::processINDI()
 
 bool EkosManager::stop()
 {
-    cleanDevices();    
+    cleanDevices();
 
     profileGroup->setEnabled(true);
 
@@ -343,7 +331,7 @@ bool EkosManager::start()
 
     if (localMode)
     {
-        DriverInfo *drv = NULL;        
+        DriverInfo *drv = NULL;
 
         drv = driversList.value(currentProfile->mount());
         if (drv != NULL)
@@ -462,10 +450,10 @@ bool EkosManager::start()
     connect(INDIListener::Instance(), SIGNAL(newDustCap(ISD::GDInterface*)), this, SLOT(setDustCap(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newLightBox(ISD::GDInterface*)), this, SLOT(setLightBox(ISD::GDInterface*)));
     connect(INDIListener::Instance(), SIGNAL(newST4(ISD::ST4*)), this, SLOT(setST4(ISD::ST4*)));
-    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);    
+    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface*)), this, SLOT(removeDevice(ISD::GDInterface*)), Qt::DirectConnection);
 
     if (localMode)
-    {        
+    {
         if (isRunning("indiserver"))
         {
             if (KMessageBox::Yes == (KMessageBox::questionYesNo(0, i18n("Ekos detected an instance of INDI server running. Do you wish to shut down the existing instance before starting a new one?"),
@@ -485,7 +473,7 @@ bool EkosManager::start()
             INDIListener::Instance()->disconnect(this);
             qDeleteAll(managedDrivers);
             managedDrivers.clear();
-            ekosStartingStatus = EKOS_STATUS_ERROR;            
+            ekosStartingStatus = EKOS_STATUS_ERROR;
             return false;
         }
 
@@ -644,7 +632,7 @@ void EkosManager::connectDevices()
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
 
-    appendLogText(i18n("Connecting INDI devices..."));    
+    appendLogText(i18n("Connecting INDI devices..."));
 }
 
 void EkosManager::disconnectDevices()
@@ -652,7 +640,7 @@ void EkosManager::disconnectDevices()
     foreach(ISD::GDInterface *device, genericDevices)
         device->Disconnect();
 
-    appendLogText(i18n("Disconnecting INDI devices..."));    
+    appendLogText(i18n("Disconnecting INDI devices..."));
 
 }
 
@@ -704,7 +692,7 @@ void EkosManager::cleanDevices(bool stopDrivers)
     controlPanelB->setEnabled(false);
     profileGroup->setEnabled(true);
 
-    appendLogText(i18n("INDI services stopped."));    
+    appendLogText(i18n("INDI services stopped."));
 }
 
 void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
@@ -753,7 +741,7 @@ void EkosManager::deviceConnected()
     ProfileInfo *pi = getCurrentProfile();
     //if (nConnectedDevices == managedDrivers.count() || (nDevices <=0 && nConnectedDevices == nRemoteDevices))
     if (nConnectedDevices >= pi->drivers.count())
-        indiConnectionStatus = EKOS_STATUS_SUCCESS;    
+        indiConnectionStatus = EKOS_STATUS_SUCCESS;
 
     ISD::GDInterface *dev = static_cast<ISD::GDInterface *> (sender());
 
@@ -873,7 +861,7 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 }
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
-{    
+{
     managedDevices.insertMulti(KSTARS_CCD, ccdDevice);
 
     initCapture();
@@ -900,7 +888,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
     if (Options::defaultCaptureCCD().isEmpty() == false)
         rc = captureProcess->setCCD(Options::defaultCaptureCCD());
     if (rc == false && primaryCCD.isEmpty() == false)
-        captureProcess->setCCD(primaryCCD);   
+        captureProcess->setCCD(primaryCCD);
 
     initFocus();
 
@@ -921,7 +909,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
     if (Options::defaultAlignCCD().isEmpty() == false)
         rc = alignProcess->setCCD(Options::defaultAlignCCD());
     if (rc == false && primaryCCD.isEmpty() == false)
-        alignProcess->setCCD(primaryCCD);    
+        alignProcess->setCCD(primaryCCD);
 
     initGuide();
 
@@ -982,7 +970,7 @@ void EkosManager::setDome(ISD::GDInterface *domeDevice)
 {
     managedDevices[KSTARS_DOME] = domeDevice;
 
-    initDome();    
+    initDome();
 
     domeProcess->setDome(domeDevice);
 
@@ -1023,7 +1011,7 @@ void EkosManager::setLightBox(ISD::GDInterface *lightBoxDevice)
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
-{    
+{
     switch (devInterface->getType())
     {
         case KSTARS_CCD:
@@ -1142,7 +1130,7 @@ void EkosManager::processNewProperty(INDI::Property* prop)
     }
 
     if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
-    {       
+    {
         foreach(ISD::GDInterface *device, findDevices(KSTARS_CCD))
         {
             if (!strcmp(device->getDeviceName(), prop->getDeviceName()))
@@ -1322,7 +1310,6 @@ void EkosManager::initCapture()
         return;
 
      captureProcess = new Ekos::Capture();
-     //toolsWidget->addTab( captureProcess, i18n("CCD"));
      int index = toolsWidget->addTab( captureProcess, QIcon::fromTheme("kstars_ekos_ccd"), "");
      toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
      connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
@@ -1372,7 +1359,6 @@ void EkosManager::initAlign()
         return;
 
      alignProcess = new Ekos::Align();
-     //toolsWidget->addTab( alignProcess, i18n("Alignment"));
      int index = toolsWidget->addTab( alignProcess, QIcon::fromTheme("kstars_ekos_align"), "");
      toolsWidget->tabBar()->setTabToolTip(index, i18n("Align"));
      connect(alignProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
@@ -1402,7 +1388,6 @@ void EkosManager::initFocus()
         return;
 
     focusProcess = new Ekos::Focus();
-    //toolsWidget->addTab( focusProcess, i18n("Focus"));
     int index = toolsWidget->addTab( focusProcess, QIcon::fromTheme("kstars_ekos_focus"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Focus"));
     connect(focusProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
@@ -1410,7 +1395,7 @@ void EkosManager::initFocus()
     if (captureProcess)
     {
         // Autofocus
-        connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);        
+        connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);
         connect(focusProcess, SIGNAL(autoFocusFinished(bool, double)), captureProcess, SLOT(updateAutofocusStatus(bool, double)), Qt::UniqueConnection);
         connect(focusProcess, SIGNAL(statusUpdated(bool)), captureProcess, SLOT(updateFocusStatus(bool)), Qt::UniqueConnection);
 
@@ -1439,7 +1424,6 @@ void EkosManager::initMount()
         return;
 
     mountProcess = new Ekos::Mount();
-    //toolsWidget->addTab(mountProcess, i18n("Mount"));
     int index = toolsWidget->addTab(mountProcess, QIcon::fromTheme("kstars_ekos_mount"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Mount"));
     connect(mountProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
@@ -1454,7 +1438,7 @@ void EkosManager::initMount()
 }
 
 void EkosManager::initGuide()
-{    
+{
     if (guideProcess == NULL)
         guideProcess = new Ekos::Guide();
 
@@ -1466,7 +1450,6 @@ void EkosManager::initGuide()
         if (managedDevices.contains(KSTARS_TELESCOPE) && managedDevices[KSTARS_TELESCOPE]->isConnected())
             guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
 
-        //toolsWidget->addTab( guideProcess, i18n("Guide"));
         int index = toolsWidget->addTab( guideProcess, QIcon::fromTheme("kstars_ekos_guide"), "");
         toolsWidget->tabBar()->setTabToolTip(index, i18n("Guide"));
         connect(guideProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
@@ -1485,7 +1468,7 @@ void EkosManager::initGuide()
         connect(guideProcess, SIGNAL(autoGuidingToggled(bool)), captureProcess, SLOT(setAutoguiding(bool)));
         connect(guideProcess, SIGNAL(ditherComplete()), captureProcess, SLOT(resumeCapture()));
         connect(guideProcess, SIGNAL(ditherFailed()), captureProcess, SLOT(abort()));
-        connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));        
+        connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));
         connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
 
         // Parking
