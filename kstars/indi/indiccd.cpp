@@ -31,6 +31,7 @@
 #include "guimanager.h"
 #include "kstarsdata.h"
 #include "fov.h"
+#include "kspaths.h"
 
 #include <ekos/ekosmanager.h>
 
@@ -1105,7 +1106,7 @@ void CCD::processBLOB(IBLOB* bp)
     QString currentDir;
 
     if (targetChip->isBatchMode() == false)
-        currentDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation);
     else
         currentDir  =  fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
 

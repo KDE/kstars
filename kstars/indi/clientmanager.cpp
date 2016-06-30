@@ -9,7 +9,6 @@
  */
 
 #include <cstdlib>
-#include <unistd.h>
 
 #include <QDebug>
 #include <QProcess>
@@ -121,8 +120,6 @@ void ClientManager::removeProperty(INDI::Property *prop)
     emit removeINDIProperty(prop);
 }
 
-#ifdef INDI_VERSION_MAJOR
-#if (INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 1)
 void ClientManager::removeDevice(INDI::BaseDevice *dp)
 {
     foreach(DriverInfo *driverInfo, managedDrivers)
@@ -146,8 +143,6 @@ void ClientManager::removeDevice(INDI::BaseDevice *dp)
         }
     }
 }
-#endif
-#endif
 
 void ClientManager::newBLOB(IBLOB *bp)
 {

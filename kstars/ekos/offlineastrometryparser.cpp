@@ -7,9 +7,8 @@
     version 2 of the License, or (at your option) any later version.
 */
 
-#include <unistd.h>
-
 #include <QDir>
+#include <QFileInfo>
 
 #include <KMessageBox>
 #include <KLocalizedString>
@@ -74,8 +73,11 @@ bool OfflineAstrometryParser::astrometryNetOK()
 {
     bool solverOK=false, wcsinfoOK=false;
 
-    solverOK   = (0==access(Options::astrometrySolver().toLatin1(), 0));
-    wcsinfoOK  = (0==access(Options::astrometryWCSInfo().toLatin1(), 0));
+    QFileInfo solver(Options::astrometrySolver());
+    solverOK = solver.exists() && solver.isFile();
+
+    QFileInfo wcsinfo(Options::astrometryWCSInfo());
+    wcsinfoOK  = wcsinfo.exists() && wcsinfo.isFile();
 
     return (solverOK && wcsinfoOK);
 }
@@ -212,7 +214,10 @@ void OfflineAstrometryParser::solverComplete(int exist_status)
 {
     solver.disconnect();
 
-    if (exist_status != 0 || access("/tmp/solution.wcs", F_OK)==-1)
+    // TODO use QTemporaryFile later
+    QFileInfo solution("/tmp/solution.wcs");
+
+    if (exist_status != 0 || solution.exists() == false)
     {
         align->appendLogText(i18n("Solver failed. Try again."));
         emit solverFailed();

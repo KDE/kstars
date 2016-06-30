@@ -154,7 +154,11 @@ void GUIManager::addClient(ClientManager *cm)
 {
     clients.append(cm);
 
+    #ifdef USE_QT5_INDI
+    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), Qt::DirectConnection);
+    #else
     connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
+    #endif
 
     connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), Qt::DirectConnection);
 
@@ -230,7 +234,11 @@ void GUIManager::buildDevice(DeviceInfo *di)
     INDI_D *gdm = new INDI_D(this, di->getBaseDevice(), cm);
 
     connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), gdm, SLOT(buildProperty(INDI::Property*)));
+    #ifdef USE_QT5_INDI
+    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), gdm, SLOT(removeProperty(INDI::Property*)), Qt::DirectConnection);
+    #else
     connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), gdm, SLOT(removeProperty(INDI::Property*)), Qt::BlockingQueuedConnection);
+    #endif
     connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), gdm, SLOT(updateSwitchGUI(ISwitchVectorProperty*)));
     connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), gdm, SLOT(updateTextGUI(ITextVectorProperty*)));
     connect(cm, SIGNAL(newINDINumber(INumberVectorProperty*)), gdm, SLOT(updateNumberGUI(INumberVectorProperty*)));

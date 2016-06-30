@@ -23,7 +23,7 @@
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include <QStandardPaths>
-
+#include "kspaths.h"
 
 
 #include "dialogs/locationdialog.h"
@@ -36,7 +36,7 @@ MapCanvas::MapCanvas( QWidget *parent ) :
 {
     setAutoFillBackground( false );
 
-    QString bgFile = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars/geomap.png" );
+    QString bgFile = KSPaths::locate(QStandardPaths::GenericDataLocation, "kstars/geomap.png" );
     bgImage = new QPixmap( bgFile );
 
     origin.setX( bgImage->width()/2 );

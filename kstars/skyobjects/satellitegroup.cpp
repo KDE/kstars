@@ -21,7 +21,7 @@
 
 #include "satellitegroup.h"
 #include "ksutils.h"
-
+#include "kspaths.h"
 
 SatelliteGroup::SatelliteGroup( QString name, QString tle_filename, QUrl update_url )
 {
@@ -81,7 +81,7 @@ void SatelliteGroup::updateSatellitesPos()
 QUrl SatelliteGroup::tleFilename()
 {
     // Return absolute path with "file:" before the path
-    return QUrl( "file:" + (QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "") + m_tle_file) ;
+    return QUrl( "file:" + (KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "") + m_tle_file) ;
 }
 
 QUrl SatelliteGroup::tleUrl()

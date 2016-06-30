@@ -45,7 +45,6 @@
 #include <QAbstractButton>
 #include <QAction>
 
-#include <unistd.h>
 #include <stdlib.h>
 #include <assert.h>
  

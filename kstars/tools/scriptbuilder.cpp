@@ -34,6 +34,7 @@
 #include <KIO/CopyJob>
 #include <KJob>
 
+#include "kspaths.h"
 #include "scriptfunction.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -712,7 +713,7 @@ void ScriptBuilder::initViewOptions() {
 
     QFile file;
     QString line;
-    file.setFileName( QStandardPaths::locate(QStandardPaths::DataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
+    file.setFileName( KSPaths::locate(QStandardPaths::GenericDataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
     if ( file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
 

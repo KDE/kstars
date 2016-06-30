@@ -35,6 +35,7 @@
 #include "skypainter.h"
 #include "projections/projector.h"
 #include "auxiliary/filedownloader.h"
+#include "kspaths.h"
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent ) {
@@ -111,7 +112,7 @@ void CometsComponent::loadData() {
     sequence.append(qMakePair(QString("H"), KSParser::D_SKIP));
     sequence.append(qMakePair(QString("G"), KSParser::D_SKIP));
 
-    QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation, QString("comets.dat") );
+    QString file_name = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("comets.dat") );
     KSParser cometParser(file_name, '#', sequence);
 
     QHash<QString, QVariant> row_content;
@@ -229,7 +230,7 @@ void CometsComponent::downloadReady()
     data.insert( 0, '#' );
 
     // Write data to asteroids.dat
-    QFile file( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "comets.dat" ) ;
+    QFile file( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "comets.dat" ) ;
     file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
     file.write( data );
     file.close();

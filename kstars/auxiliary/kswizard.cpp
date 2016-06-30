@@ -25,7 +25,7 @@
 #include <kns3/downloaddialog.h>
 #include <QStandardPaths>
 
-
+#include "kspaths.h"
 #include "kstarsdata.h"
 #include "geolocation.h"
 #include "widgets/dmsbox.h"
@@ -83,11 +83,11 @@ KSWizard::KSWizard( QWidget *parent ) :
 
     //Load images into banner frames.
     QPixmap im;
-    if( im.load(QStandardPaths::locate(QStandardPaths::DataLocation, "wzstars.png")) )
+    if( im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzstars.png")) )
         welcome->Banner->setPixmap( im );
-    if( im.load(QStandardPaths::locate(QStandardPaths::DataLocation, "wzgeo.png")) )
+    if( im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzgeo.png")) )
         location->Banner->setPixmap( im );
-    if( im.load(QStandardPaths::locate(QStandardPaths::DataLocation, "wzdownload.png")) )
+    if( im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzdownload.png")) )
         download->Banner->setPixmap( im );
 
     //connect signals/slots

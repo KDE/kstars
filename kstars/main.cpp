@@ -24,6 +24,7 @@
 #include <KAboutData>
 #include <KCrash>
 #include <KLocalizedString>
+#include "kspaths.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -221,7 +222,7 @@ int main(int argc, char *argv[])
 
     // Create writable data dir if it does not exist
     QDir writableDir;
-    writableDir.mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
 
     KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );
 
