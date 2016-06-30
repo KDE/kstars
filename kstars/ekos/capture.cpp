@@ -1002,7 +1002,8 @@ void Capture::captureImage()
          }
      }
 
-     checkSeqBoundary(activeJob->getFITSDir());
+     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+        checkSeqBoundary(activeJob->getFITSDir());
 
      rc = activeJob->capture(isDark);
 
@@ -1081,10 +1082,10 @@ void Capture::updateSequencePrefix( const QString &newPrefix, const QString &dir
     //checkSeqBoundary(dir);
 }
 
-void Capture::checkSeqFile(const QString &path)
+/*void Capture::checkSeqFile(const QString &path)
 {
     checkSeqBoundary(QFileInfo(path).absolutePath());
-}
+}*/
 
 /*******************************************************************************/
 /* Determine the next file number sequence. That is, if we have file1.png      */
@@ -1109,7 +1110,7 @@ void Capture::checkSeqBoundary(const QString &path)
         tempName = info.baseName();
 
         // find the prefix first
-        if (seqPrefix.isEmpty() || tempName.startsWith(seqPrefix) == false)
+        if (tempName.startsWith(seqPrefix) == false)
             continue;
 
         seqFileCount++;
