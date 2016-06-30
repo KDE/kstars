@@ -62,6 +62,7 @@ else (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND INDI_CLIENT_LIBRARIES)
     ${GNUWIN32_DIR}/include
   )
 
+if (INDI_INCLUDE_DIR)
   _INDI_check_version()
 
   find_library(INDI_LIBRARIES NAMES indi
@@ -84,6 +85,7 @@ else (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND INDI_CLIENT_LIBRARIES)
    ${_obLinkDir}
    ${GNUWIN32_DIR}/lib
    )
+endif(INDI_INCLUDE_DIR)
 
   if (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES))
       # If INDI is found we need to make sure on WIN32 we have INDI Client Qt backend otherwise we can't use INDI
