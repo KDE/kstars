@@ -53,7 +53,7 @@ DeepStarComponent::DeepStarComponent( SkyComposite *parent, QString fileName, fl
     openDataFile();
     if( staticStars )
         loadStaticStars();
-    qDebug() << "Loaded catalog file " << dataFileName << "(hopefully)";
+    qDebug() << "Loaded DSO catalog file: " << dataFileName;
 }
 
 bool DeepStarComponent::loadStaticStars() {

@@ -455,6 +455,10 @@ void KStars::initActions() {
         ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
             << i18n("INDI Control Panel...");
         ka->setEnabled(false);
+#else
+    //FIXME need to disable/hide devices submenu in the tools menu. It is created from the kstarsui.rc file
+    //but I don't know how to hide/disable it yet. menuBar()->findChildren<QMenu *>() does not return any children that I can
+    //iterate over. Anyway to resolve this?
 #endif
 
     //Help Menu:
@@ -749,11 +753,7 @@ void KStars::buildGUI() {
 
     setupGUI(StandardWindowOptions (Default & ~Create));
 
-#ifdef Q_WS_WIN
-    createGUI("kstarsui-win.rc");
-#else
     createGUI("kstarsui.rc");
-#endif
 
     //get focus of keyboard and mouse actions (for example zoom in with +)
     map()->QWidget::setFocus();
