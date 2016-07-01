@@ -1,0 +1,43 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>catalog.png</file>
+        <file>cbound.png</file>
+        <file>clines.png</file>
+        <file>cnames.png</file>
+        <file>colors.png</file>
+        <file>constellationart.png</file>
+        <file>deepsky.png</file>
+        <file>ekos_align.png</file>
+        <file>ekos_ccd.png</file>
+        <file>ekos_focus.png</file>
+        <file>ekos_guide.png</file>
+        <file>ekos_mount.png</file>
+        <file>ekos_scheduler.png</file>
+        <file>ekos_setup.png</file>
+        <file>ekos.png</file>
+        <file>fitsviewer.png</file>
+        <file>flag.png</file>
+        <file>fov.png</file>
+        <file>grid.png</file>
+        <file>guides.png</file>
+        <file>hgrid.png</file>
+        <file>horizon.png</file>
+        <file>indi.png</file>
+        <file>kstars.png</file>
+        <file>mw.png</file>
+        <file>planets.png</file>
+        <file>satellites.png</file>
+        <file>solarsystem.png</file>
+        <file>stars.png</file>
+        <file>supernovae.png</file>
+        <file>xplanet.png</file>
+        <file>advanced.png</file>
+    </qresource>
+    <qresource prefix="/kconfig">
+        <file>kstars.knsrc</file>
+    </qresource>
+    <qresource prefix="/kxmlgui5/kstars">
+        <file>kstarsui.rc</file>
+        <file>fitsviewerui.rc</file>
+    </qresource>
+</RCC>

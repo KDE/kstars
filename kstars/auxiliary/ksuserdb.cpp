@@ -36,7 +36,7 @@
 bool KSUserDB::Initialize() {
     // Every logged in user has their own db.
     userdb_ = QSqlDatabase::addDatabase("QSQLITE", "userdb");
-    QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "userdb.sqlite";
+    QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "userdb.sqlite";
     QFile testdb(dbfile);
     bool first_run = false;
     if (!testdb.exists()) {

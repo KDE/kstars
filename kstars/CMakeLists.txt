@@ -832,13 +832,19 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
 )
 
 if(NOT BUILD_KSTARS_LITE)
-    install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
 
-    ########### install files ###############
-    install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
-    install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-    install(FILES kstars.knsrc DESTINATION ${KDE_INSTALL_CONFDIR})
-    install(FILES kstarsui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
-    install(FILES fitsviewer.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
-    install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+add_executable(kstars ${KSTARS_APP_SRCS})
+target_link_libraries(kstars KStarsLib)
+
+install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+
+########### install files ###############
+install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+#install(FILES kstars.knsrc DESTINATION ${KDE_INSTALL_CONFDIR})
+#install(FILES kstarsui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
+#install(FILES fitsviewer.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
+install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 endif(NOT BUILD_KSTARS_LITE)
+>>>>>>> master

@@ -206,7 +206,9 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
         fovWidth = fovHeight = -1.0; // figure out from the image.
     }
     else {
-        Q_ASSERT( false );
+        //Q_ASSERT( false );
+        // Don't crash the program
+        KMessageBox::error(0, i18n(("No image found. Please specify the exact FOV.")));
         return;
     }
 

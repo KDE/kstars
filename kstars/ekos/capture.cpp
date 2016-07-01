@@ -1301,10 +1301,8 @@ void Capture::addJob(bool preview)
         if (preview)
             return;
 
-        //QString finalFITSDir = fitsDir->text() + QDir::separator() + frameTypeCombo->currentText();
         QString finalFITSDir = fitsDir->text() + QLatin1Literal("/") + frameTypeCombo->currentText();
         if ( (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && job->getFilterName().isEmpty() == false)
-            //finalFITSDir += QDir::separator() + job->getFilterName();
             finalFITSDir += QLatin1Literal("/") + job->getFilterName();
 
         job->setFITSDir(finalFITSDir);

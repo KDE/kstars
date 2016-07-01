@@ -203,7 +203,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     connect(filterMapper, SIGNAL(mapped(int)), this, SLOT(applyFilter(int)));
 
     /* Create GUI */
-    createGUI("fitsviewer.rc");
+    createGUI("fitsviewerui.rc");
 
     setWindowTitle(i18n("KStars FITS Viewer"));
 

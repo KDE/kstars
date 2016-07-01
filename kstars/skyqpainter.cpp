@@ -468,11 +468,15 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
 
     save();
 
+    setRenderHint(QPainter::SmoothPixmapTransform);
+
     translate(constellationmidpoint);
     rotate(positionangle);
     setOpacity(0.7);
     drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
     setOpacity(1);
+
+    setRenderHint(QPainter::SmoothPixmapTransform, false);
     restore();
     return true;
 }

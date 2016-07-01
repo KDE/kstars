@@ -3690,7 +3690,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
 
                     foreach (QString oneFolder, folderList)
                     {
-                        QDir folder(dir + QDir::separator() + oneFolder);
+                        QDir folder(dir + QLatin1Literal("/") + oneFolder);
                         totalSequenceCompleted += folder.entryInfoList(QStringList("*.fits"), QDir::Files).count();
                     }
                 }
