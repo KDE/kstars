@@ -53,7 +53,9 @@ public:
      */
     void changePos(QPointF pos);
 
-    void update(bool drawImage, bool drawLabel);
+    void destroy();
+
+    void update(bool drawImage, bool drawLabel, QPointF pos = QPointF(-1,-1));
     virtual void hide() override;
 
     DeepSkyObject *dsObject() { return m_dso; }

@@ -22,6 +22,7 @@
 #include "linelist.h"
 #include "linelistindex.h"
 #include "../skynodes/nodes/linenode.h"
+#include "../skynodes/trixelnode.h"
 
 LinesItem::LinesItem(RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode)

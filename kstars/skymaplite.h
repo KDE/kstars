@@ -28,6 +28,7 @@
 #include <QPolygonF>
 #include <QLinkedList>
 #include "kstarsdata.h"
+#include "kstarslite/skyitems/rootnode.h"
 
 class dms;
 class KStarsData;
@@ -69,6 +70,8 @@ protected:
     explicit SkyMapLite(QQuickItem* parent = 0);
 
     virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData);
+
+    static RootNode *m_rootNode;
 
 public:
     static SkyMapLite* createInstance(QQuickItem* parent = 0);
@@ -289,7 +292,14 @@ public:
     /** Used in PointSourceNode **/
     inline float sizeMagLim() const { return m_sizeMagLim; }
 
-    inline RootNode *rootNode() { return m_rootNode; }
+    static inline RootNode *rootNode() { return m_rootNode; }
+
+    static inline void setRootNode(RootNode *root) { m_rootNode = root; }
+
+    static inline int updatesCount() { return m_updatesCount; }
+
+    /** return limit of hides for the node to delete it **/
+    static double deleteLimit();
 
     /**
      *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
@@ -500,6 +510,9 @@ private slots:
     /** Set the shape of mouse cursor to a cross with 4 arrows. */
     void setMouseMoveCursor();
 
+    /** resets updates counter **/
+    void setUpdateCounter();
+
 private:
 
     /** @short Sets the shape of the default mouse cursor to a cross. */
@@ -590,12 +603,14 @@ private:
     bool m_objPointingMode;
     bool m_fovCaptureMode;
 
-    RootNode *m_rootNode;
-
     Projector* m_proj;
 
     static SkyMapLite *pinstance;
     QQuickItem *m_SkyMapLiteWrapper;
+
+    QTimer m_timer;
+    static int m_updatesCount; // To count the number of updates per second
+    static int m_updatesCountTemp;
 
     //Holds SkyNodes that need to be deleted
     QLinkedList<SkyNode *> m_deleteNodes;

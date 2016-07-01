@@ -41,6 +41,7 @@ RootNode::RootNode()
     :m_skyMapLite(SkyMapLite::Instance()),
       m_clipGeometry(0)
 {
+    SkyMapLite::setRootNode(this);
     genCachedTextures();
     Options::setProjection(Projector::Lambert);
 
@@ -61,7 +62,7 @@ RootNode::RootNode()
         m_linesItem->addLinesComponent( m_skyComposite->constellationBoundary(), "CBoundColor", 1, Qt::SolidLine );
     }
 
-    m_artItem = new ConstellationArtItem(m_skyComposite->constellationArt(), this);
+    //m_artItem = new ConstellationArtItem(m_skyComposite->constellationArt(), this);
 
     m_linesItem->addLinesComponent( m_skyComposite->constellationLines(), "CLineColor", 1, Qt::SolidLine );
 
@@ -84,15 +85,10 @@ RootNode::RootNode()
 
     m_horizonItem = new HorizonItem(m_skyComposite->horizon(), this);
 
-
     setIsRectangular(false);
     updateClipPoly();
 
     m_labelsItem->setRootNode(this);
-
-    /*
-          m_linesItem(new LinesItem(this)), m_horizonItem(new HorizonItem(this))
-     */
 }
 
 void RootNode::testLeakAdd() {
@@ -204,7 +200,7 @@ void RootNode::update() {
 
     m_MWItem->update();
 
-    m_artItem->update();
+   // m_artItem->update();
 
     m_linesItem->update();
 

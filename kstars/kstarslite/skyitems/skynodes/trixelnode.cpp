@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          satellitenode.h  -  K Desktop Planetarium
+                          trixelnode.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 25/06/2016
+    begin                : 01/07/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,52 +13,16 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef SATELLITENODE_H_
-#define SATELLITENODE_H_
-#include "skynode.h"
 
-class PolyNode;
-class Satellite;
-class PointNode;
-class QSGFlatColorMaterial;
-class LabelNode;
+#include "skymaplite.h"
+#include "trixelnode.h"
 
-/** @class SatelliteNode
- *
- *@version 1.0
- */
+void TrixelNode::hide() {
+    m_hideCount++;
+    SkyOpacityNode::hide();
+}
 
-class SatelliteNode : public SkyNode {
-public:
-    SatelliteNode(Satellite* sat, RootNode *rootNode);
-
-    void update();
-    //virtual void hide() override;
-    void initLines();
-    void initPoint();
-
-    void hide();
-
-    void changePos(QPointF pos);
-
-    inline Satellite *sat() { return m_sat; }
-
-private:
-    Satellite *m_sat;
-    RootNode *m_rootNode;
-
-    SkyOpacityNode *m_linesOpacity;
-    QSGGeometryNode *m_lines;
-
-    LabelNode *m_label;
-
-    QSGFlatColorMaterial *m_material;
-    QSGGeometry *m_geometry;
-
-    PointNode *m_point;
-};
-
-
-#endif
-
-
+void TrixelNode::show() {
+    SkyOpacityNode::show();
+    m_hideCount = 0;
+}

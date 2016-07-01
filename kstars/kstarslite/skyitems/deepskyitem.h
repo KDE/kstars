@@ -19,7 +19,7 @@
 #include "skyitem.h"
 #include "skyopacitynode.h"
 #include "deepskycomponent.h"
-#include "typedeflite.h"
+#include "skynodes/trixelnode.h"
 
 class DSOIndexNode : public SkyOpacityNode {
 public:

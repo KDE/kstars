@@ -82,16 +82,22 @@ QBitmap defaultCursorBitmap(int width) {
 
 SkyMapLite *SkyMapLite::pinstance = 0;
 
+RootNode *SkyMapLite::m_rootNode = nullptr;
+
+int SkyMapLite::m_updatesCount = 0;
+int SkyMapLite::m_updatesCountTemp = 0;
+
 int SkyMapLite::starColorMode = 0;
 
 SkyMapLite::SkyMapLite(QQuickItem* parent)
     :QQuickItem(parent), m_proj(0), count(0), data(KStarsData::Instance()),
-      nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0),
-      m_rootNode(0)
+      nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0)
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
     setFlag(ItemHasContents, true);
+
+    m_rootNode = 0;
 
     midMouseButtonDown = false;
     mouseButtonDown = false;
@@ -100,6 +106,11 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
 
     ClickedObject = NULL;
     FocusObject = NULL;
+
+    m_timer.setInterval(1000);
+    m_timer.start();
+
+    connect(&m_timer, SIGNAL(timeout()), this, SLOT(setUpdateCounter()));
 
     setupProjector();
 
@@ -117,6 +128,10 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
 
 }
 
+void SkyMapLite::setUpdateCounter() {
+    m_updatesCount = m_updatesCountTemp; m_updatesCountTemp = 0;
+}
+
 QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
     Q_UNUSED(updatePaintNodeData);
     RootNode *n = static_cast<RootNode*>(oldNode);
@@ -124,12 +139,12 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
     qDeleteAll(m_deleteNodes);
     m_deleteNodes.clear();
 
-
     if(m_loadingFinished) {
         if(!n) {
             n = new RootNode();
             m_rootNode = n;
         }
+        m_updatesCountTemp++;
         n->update();
     }
 
@@ -149,6 +164,11 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
     }*/
 
     return n;
+}
+
+double SkyMapLite::deleteLimit() {
+    double lim = (MAXZOOM/MINZOOM)/sqrt(Options::zoomFactor())/3;//(MAXZOOM/MINZOOM - Options::zoomFactor())/130;
+    return lim;
 }
 
 void SkyMapLite::deleteSkyNode(SkyNode *skyNode) {

@@ -485,7 +485,7 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
         qDebug() << "Y = " << Y << " and isfinite(Y) is" << std::isfinite(Y);
     }
 
-    //Q_ASSERT( std::isfinite( Y ) && std::isfinite( dX ) );
+    Q_ASSERT( std::isfinite( Y ) && std::isfinite( dX ) );
     if(!std::isfinite( Y ) && !std::isfinite( dX )) {
         return Vector2f(0,0);
     }

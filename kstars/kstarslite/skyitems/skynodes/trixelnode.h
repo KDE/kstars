@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          deepstaritem.h  -  K Desktop Planetarium
+                          trixelnode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 17/06/2016
+    begin                : 01/07/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,44 +13,29 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef DEEPSTARITEM_H_
-#define DEEPSTARITEM_H_
+#ifndef TRIXELNODE_H_
+#define TRIXELNODE_H_
 
-#include "skyitem.h"
-#include "skyopacitynode.h"
+#include "../skyopacitynode.h"
+#include "typedef.h"
 
-    /** @class DeepStarItem
-     *
-     *@short Class that handles unnamed Stars
-     *@author Artem Fedoskin
-     *@version 1.0
-     */
+class SkyObject;
+class SkyNode;
 
-class DeepStarComponent;
-class SkyMesh;
-class StarBlockFactory;
-class StarBlockList;
-
-class DeepStarItem : public SkyItem {
+class TrixelNode : public SkyOpacityNode {
 public:
-    /**
-     * @short Constructor.
-     * @param rootNode parent RootNode that instantiated this object
-     */
-    DeepStarItem(DeepStarComponent *deepStarComp, RootNode *rootNode);
+    Trixel m_trixel;
 
-    /**
-     * @short updates all trixels that contain stars
-     */
-    virtual void update();
+    QLinkedList<QPair<SkyObject *, SkyNode *>> m_nodes;
 
+    inline int hideCount() { return m_hideCount; }
+    inline void resetHideCount() { m_hideCount = 0; }
+
+    void virtual hide() override;
+    void virtual show() override;
 private:
-    SkyMesh *m_skyMesh;
-    StarBlockFactory *m_StarBlockFactory;
-
-    DeepStarComponent *m_deepStarComp;
-    QVector< StarBlockList *> *m_starBlockList;
-    bool m_staticStars;
+    int m_hideCount;
 };
-#endif
 
+
+#endif

@@ -46,7 +46,7 @@ public:
     PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
                     LabelsItem::label_t labelType = LabelsItem::label_t::STAR_LABEL, char spType = 'A', float size = 1, short trixel = -1);
 
-    //virtual ~PointSourceNode();
+    virtual ~PointSourceNode();
 
     /** @short Get the width of a star of magnitude mag */
     float starWidth(float mag) const;
@@ -58,6 +58,8 @@ public:
      */
     virtual void changePos(QPointF pos) override;
 
+    void updatePos(QPointF pos, bool drawLabel);
+
     virtual void update() override;
     virtual void hide() override;
 private:
@@ -66,6 +68,7 @@ private:
     RootNode *m_rootNode;
     char m_spType;
     float m_size;
+    QVector<int> m_int;
 
     LabelNode *m_label;
     LabelsItem::label_t m_labelType;

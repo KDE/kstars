@@ -21,6 +21,7 @@
 #include "ecliptic.h"
 #include "../skynodes/labelnode.h"
 #include "../skynodes/nodes/linenode.h"
+#include "../skynodes/trixelnode.h"
 
 EclipticItem::EclipticItem(Ecliptic *eclipticComp, RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::ECLIPTIC_LABEL, rootNode), m_eclipticComp(eclipticComp)

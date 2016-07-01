@@ -95,14 +95,9 @@ DeepSkyItem::DeepSkyItem(DeepSkyComponent *dsoComp, RootNode *rootNode)
             QSGNode *symbols = new QSGNode;
 
             for(int c = 0; c < dsoList->size(); ++c) {
-                DeepSkyObject *dso = dsoList->at(c);
-                if(dso) {
-                    DSOSymbolNode *dsoSymbol = new DSOSymbolNode(dso, indexNode->m_color);
-                    symbols->appendChildNode(dsoSymbol);
 
-                    DeepSkyNode *dsoNode = new DeepSkyNode(dso, dsoSymbol,i.key(), indexNode->m_labelType);
-                    trixel->appendChildNode(dsoNode);
-                }
+                DeepSkyObject *dso = dsoList->at(c);
+                trixel->m_nodes.append(QPair<SkyObject *, SkyNode *>(dso, 0));
             }
 
             trixel->m_symbols = symbols;
@@ -124,25 +119,53 @@ void DeepSkyItem::update() {
 
     MeshIterator region( m_skyMesh, DRAW_BUF );
 
+    int count = 0;
+
     drawFlag = Options::showMessier() &&
             ! ( Options::hideOnSlew() && Options::hideMessier() && SkyMapLite::IsSlewing() );
 
     updateDeepSkyNode(m_Messier, drawFlag, "MessColor", &region, Options::showMessierImages() );
+
+    /*QSGNode *n = m_Messier->m_trixels->firstChild();
+    while(n != 0) {
+        count += n->childCount();
+        n = n->nextSibling();
+    }*/
 
     drawFlag = Options::showNGC() &&
             ! ( Options::hideOnSlew() && Options::hideNGC() && SkyMapLite::IsSlewing() );
 
     updateDeepSkyNode(m_NGC, drawFlag, "NGCColor", &region );
 
+    /*n = m_NGC->m_trixels->firstChild();
+    while(n != 0) {
+        count += n->childCount();
+        n = n->nextSibling();
+    }*/
+
     drawFlag = Options::showIC() &&
             ! ( Options::hideOnSlew() && Options::hideIC() && SkyMapLite::IsSlewing() );
 
     updateDeepSkyNode(m_IC, drawFlag, "ICColor", &region );
 
+    /*n = m_IC->m_trixels->firstChild();
+    while(n != 0) {
+        count += n->childCount();
+        n = n->nextSibling();
+    }*/
+
     drawFlag = Options::showOther() &&
             ! ( Options::hideOnSlew() && Options::hideOther() && SkyMapLite::IsSlewing() );
 
     updateDeepSkyNode(m_other, drawFlag, "NGCColor", &region );
+
+    /*n = m_other->m_trixels->firstChild();
+    while(n != 0) {
+        count += n->childCount();
+        n = n->nextSibling();
+    }
+
+    qDebug() << count << "DSO";*/
 }
 
 void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, const QString& colorString,
@@ -156,7 +179,7 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, co
     indexNode->show();
 
     SkyMapLite *map = SkyMapLite::Instance();
-    //const Projector *proj = map->projector();
+    const Projector *projector = map->projector();
     KStarsData *data = KStarsData::Instance();
 
     UpdateID updateID = data->updateID();
@@ -202,15 +225,31 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, co
     }*/
 
     DSOTrixelNode *trixel = static_cast<DSOTrixelNode *>(indexNode->m_trixels->firstChild());
+    double delLim = SkyMapLite::deleteLimit();
+
     while( trixel != 0 ) {
         if(trixel->trixel < regionID) {
             trixel->hide();
             trixel->m_labels->hide();
-            //label->hide();
+
+            if(trixel->hideCount() > delLim) {
+                QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = trixel->m_nodes.begin();
+
+                while(i != trixel->m_nodes.end()) {
+                    DeepSkyNode *node = static_cast<DeepSkyNode *>((*i).second);
+                    if(node) {
+                        node->parent()->removeChildNode(node);
+                        node->destroy();
+
+                        *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
+                    }
+                    i++;
+                }
+            }
 
             trixel = static_cast<DSOTrixelNode *>(trixel->nextSibling());
-            //label = static_cast<TrixelNode *>(label->nextSibling());
             continue;
+
         } else if(trixel->trixel > regionID) {
             if (region->hasNext()) {
                 regionID = region->next();
@@ -218,6 +257,21 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, co
                 while(trixel != 0) {
                     trixel->hide();
                     trixel->m_labels->hide();
+
+                    if(trixel->hideCount() > delLim) {
+                        QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = trixel->m_nodes.begin();
+
+                        while(i != trixel->m_nodes.end()) {
+                            DeepSkyNode *node = static_cast<DeepSkyNode *>((*i).second);
+                            if(node) {
+                                node->parent()->removeChildNode(node);
+                                node->destroy();
+
+                                *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
+                            }
+                            i++;
+                        }
+                    }
 
                     trixel = static_cast<DSOTrixelNode *>(trixel->nextSibling());
                 }
@@ -231,50 +285,74 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, co
             if(region->hasNext()) {
                 regionID = region->next();
             }
-        }
 
-        QSGNode *n = trixel->firstChild();
+            QLinkedList<QPair<SkyObject *, SkyNode *>> *nodes = &trixel->m_nodes;
 
-        while(n != 0 && n != trixel->m_symbols) {
-            DeepSkyNode *dsoNode = static_cast<DeepSkyNode *>(n);
-            n = n->nextSibling();
+            QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = nodes->begin();
 
-            DeepSkyObject *obj = static_cast<DeepSkyObject *>(dsoNode->dsObject());
-            //if ( obj->drawID == drawID ) continue;  // only draw each line once
-            //obj->drawID = drawID;
+            while(i != nodes->end()) {
+                DeepSkyObject *dsoObj = static_cast<DeepSkyObject *>((*i).first);
+                DeepSkyNode *dsoNode = static_cast<DeepSkyNode *>((*i).second);
 
-            if ( obj->updateID != updateID ) {
-                obj->updateID = updateID;
-                if ( obj->updateNumID != updateNumID) {
-                    obj->updateCoords( data->updateNum() );
+                if ( dsoObj->updateID != updateID ) {
+                    dsoObj->updateID = updateID;
+                    if ( dsoObj->updateNumID != updateNumID) {
+                        dsoObj->updateCoords( data->updateNum() );
+                    }
+                    dsoObj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                 }
-                obj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            }
 
-            float mag = obj->mag();
-            float size = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
+                float mag = dsoObj->mag();
+                float size = dsoObj->a() * dms::PI * Options::zoomFactor() / 10800.0;
 
-            //only draw objects if flags set, it's bigger than 1 pixel (unless
-            //zoom > 2000.), and it's brighter than maglim (unless mag is
-            //undefined (=99.9)
-            bool sizeCriterion = (size > 1.0 || Options::zoomFactor() > 2000.);
-            bool magCriterion = ( mag < (float)maglim ) || ( showUnknownMagObjects && ( std::isnan( mag ) || mag > 36.0 ) );
-            if ( sizeCriterion && magCriterion )
-            {
+                //only draw objects if flags set, it's bigger than 1 pixel (unless
+                //zoom > 2000.), and it's brighter than maglim (unless mag is
+                //undefined (=99.9)
+                bool sizeCriterion = (size > 1.0 || Options::zoomFactor() > 2000.);
+                bool magCriterion = ( mag < (float)maglim ) || ( showUnknownMagObjects && ( std::isnan( mag ) || mag > 36.0 ) );
+
                 bool drawLabel = false;
+
                 if ( !( m_hideLabels || mag > labelMagLim ) ) drawLabel = true;
 
-                dsoNode->update(drawImage, drawLabel);
-                /*bool drawn = skyp->drawDeepSkyObject(obj, drawImage);
+                if( dsoNode ) {
+                    if( dsoNode->hideCount() > delLim ) {
+                        //qDebug() << dsoNode->hideCount() << "hideCount";
+                        trixel->removeChildNode(dsoNode);
+                        dsoNode->destroy();
+                        *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
+                    } else {
+                        if(sizeCriterion && magCriterion) {
 
-                //FIXME: find a better way to do above*/
-            } else {
-                dsoNode->hide();
+                            dsoNode->update(drawImage, drawLabel);
+                        } else {
+                            dsoNode->hide();
+                        }
+                    }
+                } else {
+                    if( sizeCriterion && magCriterion && projector->checkVisibility(dsoObj) ) {
+
+                        QPointF pos;
+
+                        bool visible = false;
+                        pos = projector->toScreen(dsoObj,true,&visible);
+                        if( visible && projector->onScreen(pos) ) {
+                            DSOSymbolNode *dsoSymbol = new DSOSymbolNode(dsoObj, indexNode->m_color);
+                            trixel->m_symbols->appendChildNode(dsoSymbol);
+
+                            DeepSkyNode *dsoNode = new DeepSkyNode(dsoObj, dsoSymbol, trixel->trixel, indexNode->m_labelType);
+                            trixel->appendChildNode(dsoNode);
+
+                            *i = QPair<SkyObject *, SkyNode *>((*i).first, static_cast<SkyNode *>(dsoNode));
+                            dsoNode->update(drawImage, drawLabel, pos);
+                        }
+                    }
+                }
+                i++;
             }
         }
-
         trixel = static_cast<DSOTrixelNode *>(trixel->nextSibling());
-        //label = static_cast<TrixelNode *>(label->nextSibling());
     }
+
     region->reset();
 }

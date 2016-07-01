@@ -24,6 +24,7 @@
 #include "linelistindex.h"
 #include "../skynodes/nodes/linenode.h"
 #include "../skynodes/skypolygonnode.h"
+#include "../skynodes/trixelnode.h"
 
 MilkyWayItem::MilkyWayItem(MilkyWay *mwComp, RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode), m_MWComp(mwComp), m_filled(Options::fillMilkyWay())

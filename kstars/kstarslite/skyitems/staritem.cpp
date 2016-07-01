@@ -26,6 +26,8 @@
 #include "starblockfactory.h"
 #include "skymesh.h"
 #include "rootnode.h"
+#include <QLinkedList>
+#include "skynodes/trixelnode.h"
 
 StarItem::StarItem(StarComponent *starComp, RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::STAR_LABEL, rootNode), m_starComp(starComp)
@@ -47,9 +49,7 @@ StarItem::StarItem(StarComponent *starComp, RootNode *rootNode)
         for(int c = 0; c < skyList->size(); ++c) {
             StarObject *star = skyList->at(c);
             if(star) {
-                PointSourceNode *point = new PointSourceNode(star, rootNode, LabelsItem::label_t::STAR_LABEL, star->spchar(),
-                                                             star->mag(), i);
-                trixel->appendChildNode(point);
+                trixel->m_nodes.append(QPair<SkyObject *, SkyNode *>(star, 0));
             }
         }
     }
@@ -152,35 +152,57 @@ void StarItem::update() {
 
     if(reIndex) rootNode()->labelsItem()->deleteLabels(labelType());
 
+    const Projector *projector = SkyMapLite::Instance()->projector();
+
+    double delLim = SkyMapLite::deleteLimit();
+
     while( trixel != 0 ) {
-        //All stars were reindexed so recreate the trixel nodes again
         if(reIndex) {
             StarList *skyList = index->at(trixelID);
 
             QSGNode *n = trixel->firstChild();
+
+            //Delete nodes
             while( n != 0 ) {
                 QSGNode *c = n;
                 n = n->nextSibling();
 
-                //Delete node
                 trixel->removeChildNode(c);
                 delete c;
             }
 
+            //Delete all pairs that represent stars
+            trixel->m_nodes.clear();
+
             for(int c = 0; c < skyList->size(); ++c) {
                 StarObject *star = skyList->at(c);
                 if(star) {
-                    PointSourceNode *point = new PointSourceNode(star, rootNode(), LabelsItem::label_t::STAR_LABEL, star->spchar(),
-                                                                 star->mag(), c);
-                    trixel->appendChildNode(point);
+                    //Add new pair with reindexed star
+                    trixel->m_nodes.append(QPair<SkyObject *, SkyNode *>(star, 0));
                 }
             }
         }
+
+        bool hide = false;
 
         if(trixelID != regionID) {
             trixel->hide();
             label->hide();
 
+            if(trixel->hideCount() > delLim) {
+                QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = trixel->m_nodes.begin();
+
+                while(i != trixel->m_nodes.end()) {
+                    SkyNode *node = (*i).second;
+                    if(node) {
+                        trixel->removeChildNode(node);
+                        delete node;
+
+                        *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
+                    }
+                    i++;
+                }
+            }
         } else {
             trixel->show();
             label->show();
@@ -189,31 +211,54 @@ void StarItem::update() {
                 regionID = region.next();
             }
 
-            QSGNode *n = trixel->firstChild();
+            QLinkedList<QPair<SkyObject *, SkyNode *>> *nodes = &trixel->m_nodes;
 
-            bool hide = false;
+            QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = nodes->begin();
 
-            while(n != 0) {
-                PointSourceNode *point = static_cast<PointSourceNode *>(n);
-                n = n->nextSibling();
-
-                StarObject *curStar = static_cast<StarObject *>(point->skyObject());
-                float mag = curStar->mag();
+            while(i != nodes->end()) {
 
                 bool drawLabel = false;
-                // break loop if maglim is reached
-                if(!hide) {
-                    if ( mag > maglim ) hide = true;
-                    if(!(hideLabel || mag > labelMagLim)) drawLabel = true;
-                }
 
-                if(!hide) {
-                    if ( curStar->updateID != KStarsData::Instance()->updateID() )
-                        curStar->JITupdate();
-                    point->SkyNode::update(drawLabel);
+                StarObject *starObj = static_cast<StarObject *>((*i).first);
+                SkyNode *node = (*i).second;
+
+                int mag = starObj->mag();
+
+                // break loop if maglim is reached
+                if ( mag > maglim ) hide = true;
+                if (!(hideLabel || mag > labelMagLim)) drawLabel = true;
+                if ( starObj->updateID != KStarsData::Instance()->updateID() )
+                    starObj->JITupdate();
+
+                if( node ) {
+                    if( node->hideCount() > delLim || hide) {
+                        trixel->removeChildNode(node);
+                        delete node;
+                        *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
+                    } else {
+                        if(!hide) {
+                            node->update(drawLabel);
+                        } else {
+                            node->hide();
+                        }
+                    }
                 } else {
-                    point->hide();
+                    if( !hide && projector->checkVisibility(starObj) ) {
+
+                        QPointF pos;
+
+                        bool visible = false;
+                        pos = projector->toScreen(starObj,true,&visible);
+                        if( visible && projector->onScreen(pos) ) {
+                            PointSourceNode *point = new PointSourceNode(starObj, rootNode(), LabelsItem::label_t::STAR_LABEL, starObj->spchar(), starObj->mag(), trixelID);
+                            trixel->appendChildNode(point);
+
+                            *i = QPair<SkyObject *, SkyNode *>((*i).first, static_cast<SkyNode *>(point));
+                            point->updatePos(pos, drawLabel);
+                        }
+                    }
                 }
+                i++;
             }
         }
         trixel = static_cast<TrixelNode *>(trixel->nextSibling());
@@ -237,6 +282,17 @@ void StarItem::update() {
         deep = deep->nextSibling();
         deepStars->update();
     }
+
+    /*int count = 0;
+
+    QSGNode *n = m_stars->firstChild();
+    while(n != 0) {
+        count += n->childCount();
+        n = n->nextSibling();
+    }
+
+    qDebug() << delLim << "delLim";
+    qDebug() << count << "Nodes";*/
 
     m_skyMesh->inDraw( false );
 }

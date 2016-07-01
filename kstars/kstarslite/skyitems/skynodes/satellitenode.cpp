@@ -22,11 +22,14 @@
 #include "linelist.h"
 #include "nodes/pointnode.h"
 #include <QSGFlatColorMaterial>
-
+#include "../rootnode.h"
+#include "../labelsitem.h"
+#include "labelnode.h"
 
 SatelliteNode::SatelliteNode(Satellite* sat, RootNode *rootNode)
-    :m_sat(sat), m_lines(0), m_point(0), m_rootNode(rootNode)
+    :m_sat(sat), m_lines(0), m_point(0), m_rootNode(rootNode), m_label(0)
 {
+
 }
 
 void SatelliteNode::initLines() {
@@ -99,12 +102,23 @@ void SatelliteNode::update() {
         }
 
         changePos(pos);
+
+        if ( Options::showSatellitesLabels() ) {
+            if(!m_label) {
+                m_label = SkyMapLite::rootNode()->labelsItem()->addLabel(m_sat,
+                                                               LabelsItem::label_t::SATELLITE_LABEL);
+            }
+            m_label->setLabelPos(pos);
+        }
+
     } else {
         hide();
     }
+}
 
-    /*if ( Options::showSatellitesLabels() )
-        data->skyComposite()->satellites()->drawLabel( sat, pos );*/
+void SatelliteNode::hide() {
+    SkyNode::hide();
+    if(m_label) m_label->hide();
 }
 
 void SatelliteNode::changePos(QPointF pos) {

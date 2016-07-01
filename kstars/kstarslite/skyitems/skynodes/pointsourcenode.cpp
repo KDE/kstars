@@ -30,7 +30,13 @@ PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
     :SkyNode(skyObject), m_label(0), m_labelType(labelType), m_rootNode(parentNode),
       m_trixel(trixel), m_point(0), m_size(size), m_spType(spType)
 {
-
+    if(labelType == LabelsItem::label_t::STAR_LABEL) {
+        /*int i = 0;
+        while(i != 100000) {
+            i++;
+            m_int.append(i);
+        }*/
+    }
 }
 
 float PointSourceNode::starWidth(float mag) const
@@ -53,11 +59,14 @@ float PointSourceNode::starWidth(float mag) const
     return size;
 }
 
+PointSourceNode::~PointSourceNode() {
+    if(m_label) m_rootNode->labelsItem()->deleteLabel(m_label);
+}
+
 void PointSourceNode::initPoint() {
     if(!m_point) {
         m_point = new PointNode(m_rootNode,m_spType,starWidth(m_size));
-        //appendChildNode(m_opacity);
-        m_opacity->appendChildNode(m_point);
+        addChildNode(m_point);
     }
     show();
     m_point->setSize(starWidth(m_skyObject->mag()));
@@ -84,23 +93,29 @@ void PointSourceNode::update() {
     bool visible = false;
     pos = projector()->toScreen(m_skyObject,true,&visible);
     if( visible && projector()->onScreen(pos) ) { // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
-        initPoint();
-        changePos(pos);
-
-        if(m_drawLabel && m_labelType != LabelsItem::label_t::NO_LABEL) {
-            if(!m_label) { //This way labels will be created only when they are needed
-                if(m_trixel != -1) {
-                    m_label = m_rootNode->labelsItem()->addLabel(m_skyObject, m_labelType, m_trixel);
-                } else {
-                    m_label = m_rootNode->labelsItem()->addLabel(m_skyObject, m_labelType);
-                }
-            }
-            m_label->setLabelPos(pos);
-        } else {
-            if(m_label) m_label->hide();
-        }
+        updatePos(pos, m_drawLabel);
     } else {
         hide();
+    }
+}
+
+void PointSourceNode::updatePos(QPointF pos, bool drawLabel) {
+    initPoint();
+    changePos(pos);
+    //Do something with this!
+    m_drawLabel = drawLabel;
+
+    if(m_drawLabel && m_labelType != LabelsItem::label_t::NO_LABEL) {
+        if(!m_label) { //This way labels will be created only when they are needed
+            if(m_trixel != -1) {
+                m_label = m_rootNode->labelsItem()->addLabel(m_skyObject, m_labelType, m_trixel);
+            } else {
+                m_label = m_rootNode->labelsItem()->addLabel(m_skyObject, m_labelType);
+            }
+        }
+        m_label->setLabelPos(pos);
+    } else {
+        if(m_label) m_label->hide();
     }
 }
 

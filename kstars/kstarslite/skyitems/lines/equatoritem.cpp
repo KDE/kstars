@@ -25,6 +25,7 @@
 #include "../skynodes/nodes/linenode.h"
 
 #include "../skynodes/labelnode.h"
+#include "../skynodes/trixelnode.h"
 
 EquatorItem::EquatorItem(Equator *equatorComp, RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::EQUATOR_LABEL, rootNode), m_equatorComp(equatorComp)

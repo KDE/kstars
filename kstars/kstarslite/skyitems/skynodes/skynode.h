@@ -50,7 +50,7 @@ public:
      */
 
     // All children nodes allocated on heap are deleted automatically
-    //virtual ~SkyNode() { }
+    virtual ~SkyNode() { }
 
     inline const Projector* projector() { return SkyMapLite::Instance()->projector(); }
 
@@ -75,12 +75,14 @@ public:
     /**
      * @short hides all child nodes (sets opacity of m_opacity to 0)
      */
-    inline virtual void hide() { m_opacity->hide(); }
+    virtual void hide();
 
     /**
      * @short shows all child nodes (sets opacity of m_opacity to 1)
      */
-    inline virtual void show() { m_opacity->show(); }
+    virtual void show();
+
+    inline int hideCount() { return m_hideCount; }
 
     /**
      * @short changes the position of SkyNode on SkyMapLite. Has to be overriden by the classes
@@ -103,6 +105,7 @@ public:
 
 protected:
     SkyObject * m_skyObject;
+    int m_hideCount;
 
     bool m_drawLabel;
 };

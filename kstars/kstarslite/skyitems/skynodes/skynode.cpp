@@ -18,7 +18,7 @@
 #include "skynode.h"
 
 SkyNode::SkyNode(SkyObject * skyObject)
-    :m_skyObject(skyObject), m_opacity(new SkyOpacityNode), m_drawLabel(false)
+    :m_skyObject(skyObject), m_opacity(new SkyOpacityNode), m_drawLabel(false), m_hideCount(0)
 {
     appendChildNode(m_opacity);
 }
@@ -27,6 +27,16 @@ SkyNode::SkyNode()
     :m_skyObject(nullptr), m_opacity(new SkyOpacityNode), m_drawLabel(false)
 {
     appendChildNode(m_opacity);
+}
+
+void SkyNode::hide() {
+    m_opacity->hide();
+    m_hideCount++;
+}
+
+void SkyNode::show() {
+    m_opacity->show();
+    m_hideCount = 0;
 }
 
 void SkyNode::update(bool drawLabel) {

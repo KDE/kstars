@@ -582,6 +582,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/skynodes/constellationartnode.cpp
         kstarslite/skyitems/skynodes/satellitenode.cpp
         kstarslite/skyitems/skynodes/supernovanode.cpp
+        kstarslite/skyitems/skynodes/trixelnode.cpp
         #Nodes
         kstarslite/skyitems/skynodes/nodes/pointnode.cpp
         kstarslite/skyitems/skynodes/nodes/polynode.cpp
@@ -688,8 +689,6 @@ if(NOT BUILD_KSTARS_LITE)
         )
 endif(NOT BUILD_KSTARS_LITE)
 
-set(kstars_SRCS  ${kstarslite_SRCS} ${kstarslite_RESOURCE}
-    )
 if(BUILD_KSTARS_LITE)
     kconfig_add_kcfg_files(kstars_SRCS GENERATE_MOC ${kstars_KCFG_SRCS})
 else()
@@ -737,7 +736,7 @@ add_library( KStarsLib STATIC ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlinepar
     ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
     ${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
     ${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
-    ${printing_SRCS} ${kstars_SRCS} ${kstarslite_RESOURCE})
+    ${printing_SRCS} ${kstars_SRCS} ${kstarslite_SRCS})
 
 # FIXME TODO
 #target_include_directories(KStarsLib INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/>")
@@ -777,6 +776,10 @@ else(BUILD_KSTARS_LITE)
         )
 endif(BUILD_KSTARS_LITE)
 
+add_executable(kstars main.cpp)
+
+target_link_libraries(kstars KStarsLib)
+
 if(NOT WIN32)
     target_link_libraries(KStarsLib m)
 endif(NOT WIN32)
@@ -811,9 +814,6 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/64-apps-kstars.png
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/128-apps-kstars.png
 )
-
-add_executable(kstars ${KSTARS_APP_SRCS})
-target_link_libraries(kstars KStarsLib)
 
 if(NOT BUILD_KSTARS_LITE)
     install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

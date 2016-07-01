@@ -26,6 +26,7 @@ class StarItem;
 class LabelNode;
 class GuideLabelNode;
 class RootNode;
+class TrixelNode;
 
 class SkyObject;
 

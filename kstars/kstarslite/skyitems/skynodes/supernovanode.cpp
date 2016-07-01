@@ -24,7 +24,7 @@
 #include <QSGFlatColorMaterial>
 
 SupernovaNode::SupernovaNode(Supernova *snova)
-    :m_snova(snova)
+    :m_snova(snova), m_lines(0)
 {
 
 }

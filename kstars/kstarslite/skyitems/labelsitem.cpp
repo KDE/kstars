@@ -25,6 +25,7 @@
 #include "staritem.h"
 #include "rootnode.h"
 #include "skymesh.h"
+#include "skynodes/trixelnode.h"
 
 LabelsItem::LabelsItem()
     :m_rootNode(0)
@@ -224,7 +225,8 @@ void LabelsItem::deleteLabel(LabelNode *label) {
         label_t type = label->labelType();
         LabelTypeNode *node = m_labelsLists[type];
 
-        if(type == STAR_LABEL) {
+        if(type == STAR_LABEL || type == DSO_IC_LABEL || type == DSO_NGC_LABEL || type == DSO_MESSIER_LABEL ||
+                type == DSO_OTHER_LABEL) {
             QSGNode *trixel = node->firstChild();
             bool found = false;
 
@@ -243,8 +245,15 @@ void LabelsItem::deleteLabel(LabelNode *label) {
                 trixel = trixel->nextSibling();
             }
         } else {
-            node->removeChildNode(label);
-            delete label;
+            QSGNode *n = node->firstChild();
+            while(n != 0) {
+                if(n == label) {
+                    node->removeChildNode(label);
+                    delete label;
+                    break;
+                }
+                n = n->nextSibling();
+            }
         }
     }
 }

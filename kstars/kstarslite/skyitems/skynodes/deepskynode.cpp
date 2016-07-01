@@ -35,6 +35,16 @@ DeepSkyNode::DeepSkyNode(DeepSkyObject * skyObject, DSOSymbolNode *symbol, Trixe
 
 }
 
+void DeepSkyNode::destroy() {
+    QSGNode *parent = m_symbol->parent();
+    parent->removeChildNode(m_symbol);
+
+    if(m_label) SkyMapLite::rootNode()->labelsItem()->deleteLabel(m_label);
+
+    delete m_symbol;
+    delete this;
+}
+
 void DeepSkyNode::changePos(QPointF pos) {
     QSizeF size = m_objImg->rect().size();
     QMatrix4x4 m (1,0,0,pos.x(),
@@ -49,18 +59,20 @@ void DeepSkyNode::changePos(QPointF pos) {
     markDirty(QSGNode::DirtyMatrix);
 }
 
-void DeepSkyNode::update(bool drawImage, bool drawLabel) {
-    const Projector *proj = projector();
-    if( !proj->checkVisibility(m_dso) ) {
-        hide();
-        return;
-    }
+void DeepSkyNode::update(bool drawImage, bool drawLabel, QPointF pos) {
+    if(pos.x() == -1 && pos.y() == -1) {
+        const Projector *proj = projector();
+        if( !proj->checkVisibility(m_dso) ) {
+            hide();
+            return;
+        }
 
-    bool visible = false;
-    QPointF pos = proj->toScreen(m_dso, true, &visible);
-    if( !visible || !proj->onScreen(pos) ) {
-        hide();
-        return;
+        bool visible = false;
+        pos = proj->toScreen(m_dso, true, &visible);
+        if( !visible || !proj->onScreen(pos) ) {
+            hide();
+            return;
+        }
     }
     show();
 
@@ -70,10 +82,6 @@ void DeepSkyNode::update(bool drawImage, bool drawLabel) {
     if ( majorAxis == 0.0 ) {   majorAxis = 1.0; }
 
     float size = majorAxis * dms::PI * Options::zoomFactor() / 10800.0;
-
-    //Draw Image
-    /*if ( drawImage && Options::zoomFactor() > 5.*MINZOOM )
-        drawDeepSkyImage(pos, obj, positionAngle);*/
 
     double zoom = Options::zoomFactor();
     double w = m_dso->a() * dms::PI * zoom/10800.0;
@@ -97,13 +105,15 @@ void DeepSkyNode::update(bool drawImage, bool drawLabel) {
     } else {
         hide();
     }
+
     //Draw symbol
     m_symbol->update(size, pos, m_angle);
+    m_symbol->show();
 
     // Draw label
     if(drawLabel) {
         if(!m_label) {
-            m_label = SkyMapLite::Instance()->rootNode()->labelsItem()->addLabel(m_dso, m_labelType, m_trixel);
+            m_label = SkyMapLite::rootNode()->labelsItem()->addLabel(m_dso, m_labelType, m_trixel);
         }
         m_label->setLabelPos(pos);
     } else if(m_label) {

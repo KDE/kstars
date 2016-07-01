@@ -208,10 +208,7 @@ void PlanetaryNebulaSymbol::updateSymbol(float x, float y, float e, float size) 
 
     e1->updateGeometry(0, 0, size, e*size, false);
 
-    /*drawLine( QPointF(0., dy1), QPointF(0., dy1 - e*size/2. ) );
-    drawLine( QPointF(0., dy2), QPointF(0., dy2 + e*size/2. ) );
-    drawLine( QPointF(dx1, 0.), QPointF(dx1 - size/2., 0.) );
-    drawLine( QPointF(dx2, 0.), QPointF(dx2 + size/2., 0.) );*/
+
 
     QSGGeometry::Point2D * vertex = lines->geometry()->vertexDataAsPoint2D();
     //First line

@@ -18,7 +18,6 @@
 
 #include "skyitem.h"
 #include "skyopacitynode.h"
-#include "typedeflite.h"
 
     /** @class StarItem
      *
