@@ -11,6 +11,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 
+#include <indidevapi.h>
 #include <indicom.h>
 
 #include <config-kstars.h>
@@ -63,6 +64,10 @@ ServerManager::~ServerManager()
 
 bool ServerManager::start()
 {
+#ifdef Q_OS_WIN
+    qWarning() << "INDI server is currently not supported on Windows.";
+    return false;
+#else
     bool connected=false;
     int fd=0;
 
@@ -75,13 +80,11 @@ bool ServerManager::start()
 
     QString fifoFile = QString("/tmp/indififo%1").arg(QUuid::createUuid().toString().mid(1, 8));
 
-#ifdef Q_OS_LINUX
     if ( (fd = mkfifo (fifoFile.toLatin1(), S_IRUSR| S_IWUSR) < 0))
     {
-         KMessageBox::error(NULL, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
-         return false;
+        KMessageBox::error(NULL, i18n("Error making FIFO file %1: %2.", fifoFile, strerror(errno)));
+        return false;
     }
-#endif
 
     indiFIFO.setFileName(fifoFile);
 
@@ -93,7 +96,7 @@ bool ServerManager::start()
         return false;
     }
 
-    args << "-f" << fifoFile;
+    args << "-f" << fifoFile;    
 
     serverProcess->setProcessChannelMode(QProcess::SeparateChannels);
     serverProcess->setReadChannel(QProcess::StandardError);
@@ -113,6 +116,7 @@ bool ServerManager::start()
         KMessageBox::error(0, i18n("INDI server failed to start: %1", serverProcess->errorString()));
 
     return connected;
+#endif
 }
 
 bool ServerManager::startDriver(DriverInfo *dv)
@@ -245,23 +249,19 @@ void ServerManager::processServerError(QProcess::ProcessError err)
 
 void ServerManager::processStandardError()
 {
-#ifdef Q_OS_LINUX
+    #ifdef Q_OS_WIN
+    qWarning() << "INDI server is currently not supported on Windows.";
+    return;
+    #else
     QString stderr = serverProcess->readAllStandardError();
+
     serverBuffer.append(stderr);
+
     if (Options::iNDILogging())
     {
         foreach(QString msg, stderr.split("\n"))
             qDebug() << "INDI Server: " << msg;
     }
-#elif defined(Q_OS_WIN)
-    QString stderrWindows = serverProcess->readAllStandardError(); // 'stderr' is a reserved keyword on Windows
-    serverBuffer.append(stderrWindows);
-    if (Options::iNDILogging())
-    {
-        foreach(QString msg, stderrWindows.split("\n"))
-            qDebug() << "INDI Server: " << msg;
-    }
-#endif
 
     if (driverCrashed == false && (serverBuffer.contains("stdin EOF") || serverBuffer.contains("stderr EOF")))
     {
@@ -279,6 +279,7 @@ void ServerManager::processStandardError()
    }
 
     emit newServerLog();
+    #endif
 }
 
 QString ServerManager::errorString()

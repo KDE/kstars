@@ -134,8 +134,8 @@ void SimClock::start() {
 
 void SimClock::setUTC(const KStarsDateTime &newtime) {
     //DEBUG
-    qDebug() << newtime.toString();
-    qDebug() << "is dateTime valid? " << newtime.isValid();
+    //qDebug() << newtime.toString();
+    //qDebug() << "is dateTime valid? " << newtime.isValid();
 
     if ( newtime.isValid() ) {
         UTC = newtime;

@@ -34,6 +34,7 @@
 #include "ksutils.h"
 #include "ksfilereader.h"
 #include "ksnumbers.h"
+#include "auxiliary/kspaths.h"
 #include "skyobjects/skyobject.h"
 #include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/skymapcomposite.h"
@@ -156,8 +157,8 @@ bool KStarsData::initialize() {
     //Initialize SkyMapComposite//
     emit progressText(i18n("Loading sky objects" ) );
     m_SkyComposite = new SkyMapComposite(0);
-
     //Load Image URLs//
+
     emit progressText( i18n("Loading Image URLs" ) );
     if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
         return false;
@@ -344,8 +345,8 @@ SkyObject* KStarsData::objectNamed( const QString &name ) {
 bool KStarsData::readCityData()
 {
     QSqlDatabase citydb = QSqlDatabase::addDatabase("QSQLITE", "citydb");
-    QString dbfile = QStandardPaths::locate(QStandardPaths::DataLocation, "citydb.sqlite");
-    //QString dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "citydb.sqlite";
+    QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, "citydb.sqlite");
+    //QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "citydb.sqlite";
     citydb.setDatabaseName(dbfile);
     if (citydb.open() == false)
     {
@@ -382,7 +383,7 @@ bool KStarsData::readCityData()
 
     // Reading local database
     QSqlDatabase mycitydb = QSqlDatabase::addDatabase("QSQLITE", "mycitydb");
-    dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator()  +  "mycitydb.sqlite";
+    dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator()  +  "mycitydb.sqlite";
 
     if (QFile::exists(dbfile))
     {
@@ -457,7 +458,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
         fileFound = true;
     } else {
         // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
-        file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + urlfile ) ;
+        file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + urlfile ) ;
         if ( file.open( QIODevice::ReadOnly ) ) {
             //local file found.  Now, if global file has newer timestamp, then merge the two files.
             //First load local file into QStringList
@@ -469,7 +470,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
             //Find global file(s) in findAllResources() list.
             QFileInfo fi_local( file.fileName() );
 
-            QStringList flist = QStandardPaths::locateAll(QStandardPaths::DataLocation, urlfile);
+            QStringList flist = KSPaths::locateAll(QStandardPaths::DataLocation, urlfile);
             for ( int i=0; i< flist.size(); i++ ) {
                 if ( flist[i] != file.fileName() ) {
                     QFileInfo fi_global( flist[i] );
@@ -533,7 +534,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
                 if ( QLocale().language() != QLocale::English )
                     qDebug() << "No localized URL file; using default English file.";
                 // we found urlfile, we need to copy it to locale
-                localeFile.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + urlfile ) ;
+                localeFile.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + urlfile ) ;
                 if (localeFile.open(QIODevice::WriteOnly)) {
                     QTextStream readStream(&file);
                     QTextStream writeStream(&localeFile);

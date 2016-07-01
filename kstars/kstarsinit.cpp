@@ -45,6 +45,7 @@
 #include "oal/observeradd.h"
 #include "skycomponents/skymapcomposite.h"
 #include "texturemanager.h"
+#include "kspaths.h"
 
 #include <config-kstars.h>
 #include <QStandardPaths>
@@ -328,7 +329,7 @@ void KStars::initActions() {
     addColorMenuItem( i18n("&Moonless Night" ), "cs_moonless-night" );
 
     //Add any user-defined color schemes:
-    QFile file( QStandardPaths::locate(QStandardPaths::DataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
+    QFile file( KSPaths::locate(QStandardPaths::GenericDataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
     if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
         while ( !stream.atEnd() ) {
@@ -401,11 +402,9 @@ void KStars::initActions() {
         << i18n("Sky Calendar");
 
 #ifdef HAVE_INDI
-#ifndef Q_WS_WIN
         actionCollection()->addAction("ekos", this, SLOT( slotEkos() ) )
             << i18n("Ekos")
             << QKeySequence(Qt::CTRL+Qt::Key_K );
-#endif
 #endif
 
 //FIXME: implement glossary
@@ -444,12 +443,11 @@ void KStars::initActions() {
 
     // ==== devices Menu ================
 #ifdef HAVE_INDI
-#ifndef Q_WS_WIN
-
-
+#ifndef Q_OS_WIN
         actionCollection()->addAction("telescope_wizard", this, SLOT( slotTelescopeWizard() ) )
             << i18n("Telescope Wizard...")
             << QIcon::fromTheme("tools-wizard" );
+#endif
         actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
             << i18n("Device Manager...")
             << QIcon::fromTheme("network-server" )
@@ -457,9 +455,10 @@ void KStars::initActions() {
         ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
             << i18n("INDI Control Panel...");
         ka->setEnabled(false);
-
-
-#endif
+#else
+    //FIXME need to disable/hide devices submenu in the tools menu. It is created from the kstarsui.rc file
+    //but I don't know how to hide/disable it yet. menuBar()->findChildren<QMenu *>() does not return any children that I can
+    //iterate over. Anyway to resolve this?
 #endif
 
     //Help Menu:
@@ -553,10 +552,10 @@ void KStars::initActions() {
         << QIcon::fromTheme("kstars_fitsviewer" )
         << ToolTip( i18n("Toggle FITS Viewer") );
     ka->setEnabled(false);
-    actionCollection()->add<KToggleAction>("show_device_manager", this, SLOT( slotINDIToolBar() ) )
+    /*actionCollection()->add<KToggleAction>("show_device_manager", this, SLOT( slotINDIToolBar() ) )
         << i18nc("Toggle the device manager in the display", "Device Manager" )
         << QIcon::fromTheme("computer" )
-        << ToolTip( i18n("Toggle Device Manager") );    
+        << ToolTip( i18n("Toggle Device Manager") );*/
 #endif
 
     if (Options::fitsDir().isEmpty())
@@ -758,11 +757,7 @@ void KStars::buildGUI() {
 
     setupGUI(StandardWindowOptions (Default & ~Create));
 
-#ifdef Q_WS_WIN
-    createGUI("kstarsui-win.rc");
-#else
     createGUI("kstarsui.rc");
-#endif
 
     //get focus of keyboard and mouse actions (for example zoom in with +)
     map()->QWidget::setFocus();

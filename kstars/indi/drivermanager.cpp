@@ -10,8 +10,6 @@
 
 #include <basedevice.h>
 
-#include <string>
-
 #include <QRadioButton>
 #include <QFile>
 #include <QDir>
@@ -19,25 +17,13 @@
 #include <QTreeWidget>
 #include <QIcon>
 #include <QDialog>
+#include <QStandardPaths>
+#include <QAction>
+#include <QMenu>
+#include <QPushButton>
 #include <QTcpServer>
 
-#ifdef Q_OS_LINUX
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#elif defined(Q_OS_WIN)
-#include <io.h>
-#include <winsock2.h>
-#include <windows.h>
-#endif 
-
-#include <QMenu>
 #include <KMessageBox>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QProcess>
-#include <QAction>
 #include <KActionCollection>
 #include <KNotifications/KNotification>
 
@@ -55,9 +41,9 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "indilistener.h"
+#include "kspaths.h"
 
 #include <config-kstars.h>
-#include <QStandardPaths>
 
 #define INDI_MAX_TRIES  2
 #define  ERRMSG_SIZE 1024
@@ -136,37 +122,23 @@ DriverManager::DriverManager()
     QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientTab()));
     QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
 
+    if (Options::indiDriversDir().isEmpty())
+        Options::setIndiDriversDir(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory));
+
     readXMLDrivers();
 
     readINDIHosts();
 
     updateCustomDrivers();
-}
 
-void DriverManager::closeEvent(QCloseEvent * /*event*/)
-{
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
-    a->setChecked(false);
-}
-
-void DriverManager::hideEvent(QHideEvent * /*event*/)
-{
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
-    a->setChecked(false);
-}
-
-void DriverManager::showEvent(QShowEvent * /*event*/)
-{
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_device_manager" );
-    a->setChecked(true);
+    #ifdef Q_OS_WIN
+    ui->localTreeWidget->setEnabled(false);
+    #endif
 }
 
 void DriverManager::processDeviceStatus(DriverInfo *dv)
 {
-#ifdef Q_OS_WIN
-	qWarning() << "Feature no supported on Windows";
-	return;
-#endif
+
    if (dv == NULL)
         return;
 
@@ -226,7 +198,7 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                          item->setIcon(LOCAL_MODE_COLUMN, ui->localMode);
 
                          if (manager)
-                         	item->setText(LOCAL_PORT_COLUMN, QString(manager->getPort()));
+                         item->setText(LOCAL_PORT_COLUMN, QString(manager->getPort()));
                      }
                      else
                      {
@@ -323,10 +295,6 @@ void DriverManager::getUniqueHosts(QList<DriverInfo*> & dList, QList < QList<Dri
 
 bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 {
-#ifdef Q_OS_WIN
-	qWarning() << "Feature no supported on Windows";
-	return false;
-#endif
     ServerManager *serverManager=NULL;
     ClientManager *clientManager=NULL;
     int port=-1;
@@ -421,12 +389,8 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
              qApp->processEvents();
 
-#ifdef Q_OS_LINUX
-	     usleep(100000); 	// Linux uses microseconds
-#elif defined(Q_OS_WIN)
-             Sleep(100);	// Windows uses milliseconds
-#endif 
-
+             //usleep(100000);
+             QThread::usleep(100000);
          }
 
          if (connectionToServer)
@@ -444,7 +408,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
                  qDebug() << "INDI: Connection to local INDI server on port " << port << " failed!";
 
              KNotification::beep();
-             QPointer<QMessageBox> msgBox;
+             QPointer<QMessageBox> msgBox = new QMessageBox();
              msgBox->setAttribute( Qt::WA_DeleteOnClose );
              msgBox->setStandardButtons( QMessageBox::Ok );
              msgBox->setWindowTitle( i18n("Error") );
@@ -472,10 +436,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
 void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
 {
-#ifdef Q_OS_WIN
-	qWarning() << "Feature no supported on Windows";
-	return;
-#endif
+
     if (Options::iNDILogging())
         qDebug() << "INDI: Stopping local drivers...";
 
@@ -528,10 +489,6 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
 
 void DriverManager::clearServers()
 {
-#ifdef Q_OS_WIN
-	qWarning() << "Feature no supported on Windows";
-	return;
-#endif
     foreach(ServerManager *serverManager, servers)
         serverManager->terminate();
 
@@ -565,10 +522,6 @@ ClientManager *DriverManager::getClientManager(DriverInfo *dv)
 
 void DriverManager::updateLocalTab()
 {
-#ifdef Q_OS_WIN
-	qWarning() << "Feature no supported on Windows";
-	return;
-#endif
     if (ui->localTreeWidget->currentItem() == NULL)
           return;
 
@@ -685,10 +638,6 @@ void DriverManager::processClientTermination(ClientManager *client)
 
 void DriverManager::processServerTermination(ServerManager* server)
 {
-#ifdef Q_OS_WIN
-	qWarning() << "Feature no supported on Windows";
-	return;
-#endif
     if (server == NULL)
         return;
 
@@ -777,12 +726,7 @@ bool DriverManager::connectRemoteHost(DriverInfo *dv)
         if (connectionToServer)
             break;
 
-#ifdef Q_OS_LINUX
-	     usleep(100000); 	// Linux uses microseconds
-#elif defined(Q_OS_WIN)
-             Sleep(100);	// Windows uses milliseconds
-#endif 
-
+         QThread::usleep(100000);
     }
 
     if (connectionToServer)
@@ -860,7 +804,10 @@ void DriverManager::updateMenuActions()
 
 int DriverManager::getINDIPort(int customPort)
 {
-
+    #ifdef Q_OS_WIN
+    qWarning() << "INDI server is currently not supported on Windows.";
+    return -1;
+    #else
     int lastPort  = Options::serverPortEnd().toInt();;
     bool success = false;
     currentPort++;
@@ -892,6 +839,7 @@ int DriverManager::getINDIPort(int customPort)
         }
     }
     return -1;
+    #endif
 }
 
 
@@ -909,7 +857,7 @@ bool DriverManager::readINDIHosts()
     lastGroup = NULL;
 
 
-    file.setFileName( QStandardPaths::locate(QStandardPaths::DataLocation, indiFile ) );
+    file.setFileName( KSPaths::locate(QStandardPaths::GenericDataLocation, indiFile ) );
     if ( file.fileName().isEmpty() || !file.open( QIODevice::ReadOnly ) )
         return false;
 
@@ -1009,7 +957,7 @@ bool DriverManager::readXMLDrivers()
         if (fileInfo.fileName() == "drivers.xml")
         {
             // Let first attempt to load the local version of drivers.xml
-            driverName = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "drivers.xml";
+            driverName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "drivers.xml";
 
             // If found, we continue, otherwise, we load the system file
             if (driverName.isEmpty() == false && QFile(driverName).exists())
@@ -1490,7 +1438,7 @@ void DriverManager::saveHosts()
     QFile file;
     QString hostData;
 
-    file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "indihosts.xml" ) ; //determine filename in local user KDE directory tree.
+    file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "indihosts.xml" ) ; //determine filename in local user KDE directory tree.
 
     if ( !file.open( QIODevice::WriteOnly))
     {

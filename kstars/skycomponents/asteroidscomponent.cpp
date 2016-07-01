@@ -36,6 +36,7 @@
 #include "skyobjects/ksasteroid.h"
 #include "kstarsdata.h"
 #include "ksfilereader.h"
+#include "auxiliary/kspaths.h"
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent) : SolarSystemListComponent(parent)
 {
@@ -118,8 +119,8 @@ void AsteroidsComponent::loadData()
     sequence.append(qMakePair(QString("moid"), KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("class"), KSParser::D_QSTRING));
 
-    //QString file_name = QStandardPaths::locate( QStandardPaths::DataLocation,  );
-    QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation, QString("asteroids.dat"));
+    //QString file_name = KSPaths::locate( QStandardPaths::DataLocation,  );
+    QString file_name = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("asteroids.dat"));
     KSParser asteroid_parser(file_name, '#', sequence);
 
     QHash<QString, QVariant> row_content;
@@ -271,7 +272,7 @@ void AsteroidsComponent::downloadReady()
     data.insert( 0, '#' );
 
     // Write data to asteroids.dat
-    QFile file( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "asteroids.dat" ) ;
+    QFile file( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "asteroids.dat" ) ;
     file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
     file.write( data );
     file.close();

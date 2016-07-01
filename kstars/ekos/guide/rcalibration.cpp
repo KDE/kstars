@@ -12,15 +12,6 @@
 #include "rcalibration.h"
 #include "Options.h"
 
-#include <unistd.h>
-#include <QtGlobal>
-
-#ifdef Q_OS_LINUX
-#include <unistd.h> 	
-#elif defined(Q_OS_WIN)
-#include <io.h> 
-#endif
-
 #include <time.h>
 #include <assert.h>
 
@@ -34,6 +25,7 @@
 #include "../guide.h"
 #include "../fitsviewer/fitsviewer.h"
 #include "../fitsviewer/fitsview.h"
+#include "kspaths.h"
 
 #include "../ekosmanager.h"
 
@@ -1070,7 +1062,7 @@ void rcalibration::toggleAutoSquareSize(bool enable)
 
 void rcalibration::clearDarkLibrary()
 {
-    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
     QDir dir(path);
 
     dir.setNameFilters(QStringList() << "dark-*");

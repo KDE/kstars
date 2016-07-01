@@ -24,6 +24,7 @@
 #include "skymap.h"
 #include "dialogs/detaildialog.h"
 #include <klocalizedcontext.h>
+#include "kspaths.h"
 
 
 WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs), m_CurCategorySelected(-1)
@@ -43,7 +44,7 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs
     ///Use instead of KDeclarative
     m_Ctxt->setContextObject(new KLocalizedContext(m_BaseView));
 
-    m_BaseView->setSource(QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::AppDataLocation, "tools/whatsinteresting/qml/wiview.qml")));
+    m_BaseView->setSource(QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::AppDataLocation, "tools/whatsinteresting/qml/wiview.qml")));
 
     m_BaseObj = m_BaseView->rootObject();
 

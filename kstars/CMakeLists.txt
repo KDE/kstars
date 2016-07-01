@@ -446,6 +446,7 @@ set(kstars_extra_SRCS
     auxiliary/qcustomplot.cpp
     auxiliary/profileinfo.cpp
     auxiliary/filedownloader.cpp
+    auxiliary/kspaths.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
@@ -557,7 +558,13 @@ endif(INDI_FOUND)
 kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
 ki18n_wrap_ui(kstars_SRCS
-    ${indiui_SRCS} ${ui_SRCS} ${fitsui_SRCS} ${ekosui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
+    ${indiui_SRCS}
+    ${ui_SRCS}
+    ${fitsui_SRCS}
+    ${ekosui_SRCS}
+    ${xplanetui_SRCS}
+    ${kstars_optionsui_SRCS}
+    ${kstars_dialogsui_SRCS}
     ${printingui_SRCS}
     auxiliary/thumbnailpicker.ui
     auxiliary/thumbnaileditor.ui
@@ -567,8 +574,7 @@ ki18n_wrap_ui(kstars_SRCS
     skycomponents/notifyupdatesui.ui
 )
 
-add_executable(kstars main.cpp)
-add_library( KStarsLib STATIC ${kstars_SRCS})
+add_library(KStarsLib STATIC ${kstars_SRCS})
 
 target_link_libraries(KStarsLib
     LibKSDataHandlers
@@ -579,13 +585,13 @@ target_link_libraries(KStarsLib
     KF5::KIOFileWidgets
     KF5::WidgetsAddons
     KF5::Plotting
-#    KF5::IconThemes
     Qt5::Gui
     Qt5::PrintSupport
     Qt5::Sql
     Qt5::Svg
     Qt5::Qml
     Qt5::Quick
+    Qt5::Network
     ${ZLIB_LIBRARIES}
 )
 
@@ -598,13 +604,22 @@ if(CFITSIO_FOUND)
 endif(CFITSIO_FOUND)
 
 if(INDI_FOUND)
-    target_link_libraries(KStarsLib
-        ${CMAKE_THREAD_LIBS_INIT}
-        ${INDI_LIBRARIES}
-        ${INDI_CLIENT_LIBRARIES}
-        KF5::Notifications
-        z
-    )
+    target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
+
+    if(WIN32)
+        add_definitions(-DUSE_QT5_INDI)
+        find_package(Nova REQUIRED)
+        target_link_libraries(KStarsLib ${NOVA_LIBRARIES} ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
+    else(WIN32)
+        # If INDI Qt5 Client is found, use it.
+        if (INDI_CLIENT_QT_LIBRARIES)
+            add_definitions(-DUSE_QT5_INDI)
+            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
+        else(INDI_CLIENT_QT_LIBRARIES)
+            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES})
+        endif(INDI_CLIENT_QT_LIBRARIES)
+    endif(WIN32)
+
 endif(INDI_FOUND)
 
 if(WCSLIB_FOUND)
@@ -619,12 +634,25 @@ endif(WCSLIB_FOUND)
 #    )
 #endif( OPENGL_FOUND )
 
+set (KSTARS_APP_SRCS
+    main.cpp
+)
+
+# add icon to application sources
+ecm_add_app_icon(KSTARS_APP_SRCS ICONS
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-kstars.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/32-apps-kstars.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/48-apps-kstars.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/64-apps-kstars.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/icons/128-apps-kstars.png
+)
+
+add_executable(kstars ${KSTARS_APP_SRCS})
 target_link_libraries(kstars KStarsLib)
 
 install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
-ecm_install_icons(${KDE_INSTALL_ICONDIR})
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES kstars.knsrc DESTINATION ${KDE_INSTALL_CONFDIR})

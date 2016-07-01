@@ -34,7 +34,7 @@
 #include "skymesh.h"
 #include "skypainter.h"
 #include "projections/projector.h"
-
+#include "kspaths.h"
 
 DeepSkyComponent::DeepSkyComponent( SkyComposite *parent ) :
     SkyComponent(parent)
@@ -135,7 +135,7 @@ void DeepSkyComponent::loadData()
     sequence.append(qMakePair(QString("Longname"),KSParser::D_QSTRING));
     //No width to be appended for last sequence object
 
-    QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation, QString("ngcic.dat") );
+    QString file_name = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("ngcic.dat") );
     KSParser deep_sky_parser(file_name, '#', sequence, widths);
 
     deep_sky_parser.SetProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
@@ -323,7 +323,7 @@ void DeepSkyComponent::loadData()
 void DeepSkyComponent::mergeSplitFiles() {
     //If user has downloaded the Steinicke NGC/IC catalog, then it is
     //split into multiple files.  Concatenate these into a single file.
-    QString firstFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "ngcic01.dat";
+    QString firstFile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "ngcic01.dat";
     if ( ! QFile::exists( firstFile ) ) return;
     QDir localDir = QFileInfo( firstFile ).absoluteDir();
     QStringList catFiles = localDir.entryList( QStringList( "ngcic??.dat" ) );

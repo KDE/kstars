@@ -16,12 +16,6 @@
 #include <QStringList>
 #include <QDialog>
 
-#ifdef Q_OS_LINUX
-#include <unistd.h>
-#elif defined(Q_OS_WIN)
-#include <io.h>
-#endif 
-
 #include <lilxml.h>
 #include "ui_drivermanager.h"
 #include "indidbus.h"
@@ -34,8 +28,6 @@ class DriverManager;
 class ServerManager;
 class ClientManager;
 class DriverInfo;
-
-
 
 class DriverManagerUI : public QFrame, public Ui::DriverManager
 {
@@ -129,11 +121,6 @@ public:
     QString getUniqueDeviceLabel(const QString &label);
 
     void clearServers();
-
-protected:
-    void closeEvent(QCloseEvent *);
-    void hideEvent(QHideEvent *);
-    void showEvent(QShowEvent *);
 
 private:
     DriverManager();

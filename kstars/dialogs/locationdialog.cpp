@@ -31,6 +31,7 @@
 #include <QStandardPaths>
 
 #include "kstarsdata.h"
+#include "kspaths.h"
 
 LocationDialogUI::LocationDialogUI( QWidget *parent ) : QFrame( parent )
 {
@@ -303,7 +304,7 @@ bool LocationDialog::updateCity(CityOperation operation)
         }*/
 
         QSqlDatabase mycitydb = QSqlDatabase::database("mycitydb");
-        QString dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator()  +  "mycitydb.sqlite";
+        QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator()  +  "mycitydb.sqlite";
 
         // If it doesn't exist, create it
         if (QFile::exists(dbfile) == false)
