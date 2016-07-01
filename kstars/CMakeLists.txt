@@ -647,6 +647,8 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/128-apps-kstars.png
 )
 
+qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
+
 add_executable(kstars ${KSTARS_APP_SRCS})
 target_link_libraries(kstars KStarsLib)
 
@@ -655,7 +657,7 @@ install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 ########### install files ###############
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-install(FILES kstars.knsrc DESTINATION ${KDE_INSTALL_CONFDIR})
-install(FILES kstarsui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
-install(FILES fitsviewer.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
+#install(FILES kstars.knsrc DESTINATION ${KDE_INSTALL_CONFDIR})
+#install(FILES kstarsui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
+#install(FILES fitsviewer.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
 install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
