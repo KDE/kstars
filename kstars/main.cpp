@@ -30,6 +30,9 @@
 
 #include <KAboutData>
 #include <KCrash>
+#include <KLocalizedString>
+#include "kspaths.h"
+
 #include "kstars.h"
 #include "skymap.h"
 #endif
@@ -276,8 +279,9 @@ int main(int argc, char *argv[])
 
     // Create writable data dir if it does not exist
     QDir writableDir;
-    writableDir.mkdir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
 #ifndef KSTARS_LITE
+    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
+
     KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );
 
     // no session.. just start up normally

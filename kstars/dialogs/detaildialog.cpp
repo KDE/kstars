@@ -67,6 +67,7 @@
 
 #include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skymapcomposite.h"
+#include "kspaths.h"
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent ) :
     KPageDialog( parent ),
@@ -611,7 +612,7 @@ void DetailDialog::addLink() {
 
             //Also, update the user's custom image links database
             //check for user's image-links database.  If it doesn't exist, create it.
-            file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "image_url.dat" ) ; //determine filename in local user KDE directory tree.
+            file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "image_url.dat" ) ; //determine filename in local user KDE directory tree.
 
             if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
                 QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
@@ -630,7 +631,7 @@ void DetailDialog::addLink() {
             selectedObject->InfoTitle().append( adialog->desc() );
 
             //check for user's image-links database.  If it doesn't exist, create it.
-            file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "info_url.dat" ) ; //determine filename in local user KDE directory tree.
+            file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "info_url.dat" ) ; //determine filename in local user KDE directory tree.
 
             if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
                 QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );
@@ -925,13 +926,13 @@ void DetailDialog::updateLocalDatabase(int type, const QString &search_line, con
         // Info Links
     case 0:
         // Get name for our local info_url file
-        URLFile.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "info_url.dat" ) ;
+        URLFile.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "info_url.dat" ) ;
         break;
 
         // Image Links
     case 1:
         // Get name for our local info_url file
-        URLFile.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "image_url.dat" ) ;
+        URLFile.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "image_url.dat" ) ;
         break;
     }
 
@@ -1158,7 +1159,7 @@ void DetailDialog::updateThumbnail() {
     QPointer<ThumbnailPicker> tp = new ThumbnailPicker( selectedObject, *Thumbnail, this );
 
     if ( tp->exec() == QDialog::Accepted ) {
-        QString fname = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "thumb-" + selectedObject->name().toLower().remove( ' ' ) + ".png" ;
+        QString fname = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "thumb-" + selectedObject->name().toLower().remove( ' ' ) + ".png" ;
 
         Data->Image->setPixmap( *(tp->image()) );
 

@@ -270,12 +270,9 @@ protected slots:
 
         void saveDefaultGuideExposure();
 
-<<<<<<< HEAD
-=======
         void setDefaultCCD(QString ccd);
         void setDefaultST4(QString st4);
 
->>>>>>> master
 signals:
         void newLog();
         void guideReady();

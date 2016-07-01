@@ -25,6 +25,7 @@
 #include "../phd2.h"
 #include "../ekosmanager.h"
 #include "kstars.h"
+#include "kspaths.h"
 
 #include "Options.h"
 
@@ -114,7 +115,7 @@ rguider::rguider(cgmath *mathObject, Ekos::Guide *parent)
     ui.ditherPixels->setValue(Options::ditherPixels());
     ui.spinBox_AOLimit->setValue(Options::aOLimit());    
 
-    QString logFileName = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/guide_log.txt";
+    QString logFileName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/guide_log.txt";
     logFile.setFileName(logFileName);
 
 }

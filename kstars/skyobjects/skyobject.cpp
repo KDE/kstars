@@ -38,6 +38,7 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skycomponents/skylabeler.h"
+#include "kspaths.h"
 
 QString SkyObject::emptyString;
 QString SkyObject::unnamedString = QString(I18N_NOOP("unnamed"));
@@ -444,7 +445,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
             KSLabel = "[KSLABEL:" + star->gname( false ) + ']'; //"false": spell out greek letter
     }
 
-    file.setFileName( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "userlog.dat" ) ; //determine filename in local user KDE directory tree.
+    file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "userlog.dat" ) ; //determine filename in local user KDE directory tree.
     if ( file.open( QIODevice::ReadOnly)) {
         QTextStream instream(&file);
         // read all data into memory

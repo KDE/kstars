@@ -24,6 +24,7 @@
 #endif
 #include "culturelist.h"
 #include "projections/projector.h"
+#include "kspaths.h"
 
 ConstellationArtComponent::ConstellationArtComponent( SkyComposite *parent, CultureList *cultures ):SkyComponent(parent)
 {
@@ -47,7 +48,7 @@ void ConstellationArtComponent::loadData(){
     return;
 
         QSqlDatabase skydb = QSqlDatabase::addDatabase("QSQLITE", "skycultures");
-        QString dbfile = KSPaths::locate(QStandardPaths::DataLocation, "skycultures.sqlite");
+        QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, "skycultures.sqlite");
 
         skydb.setDatabaseName(dbfile);
         if (skydb.open() == false)

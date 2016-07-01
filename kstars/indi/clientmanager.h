@@ -11,8 +11,12 @@
 #ifndef CLIENTMANAGER_H
 #define CLIENTMANAGER_H
 
+#ifdef USE_QT5_INDI
+#include <baseclientqt.h>
+#else
 #include <baseclient.h>
 #include <QObject>
+#endif
 
 #include "config-kstars.h"
 
@@ -28,9 +32,13 @@ class ServerManager;
  * This enables the class to communicate with INDI server and to receive notification of devices, properties, and messages.
  *
  * @author Jasem Mutlaq
- * @version 1.0
+ * @version 1.1
  */
+#ifdef USE_QT5_INDI
+class ClientManager : public INDI::BaseClientQt
+#else
 class ClientManager : public QObject, public INDI::BaseClient
+#endif
 {
     Q_OBJECT
 
@@ -56,11 +64,7 @@ protected:
     virtual void newDevice(INDI::BaseDevice *dp);
     virtual void newProperty(INDI::Property *prop);
     virtual void removeProperty(INDI::Property *prop);
-    #ifdef INDI_VERSION_MAJOR
-    #if (INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 1)
     virtual void removeDevice(INDI::BaseDevice *dp);
-    #endif
-    #endif
     virtual void newBLOB(IBLOB *bp);
     virtual void newSwitch(ISwitchVectorProperty *svp);
     virtual void newNumber(INumberVectorProperty *);

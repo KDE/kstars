@@ -28,6 +28,8 @@
 #endif
 
 #include "auxiliary/kspaths.h"
+#include "kspaths.h"
+
 #ifdef HAVE_OPENGL
 # include <QGLWidget>
 #endif
@@ -68,22 +70,23 @@ TextureManager::CacheIter TextureManager::findTexture(const QString& name)
         return it;
     } else {
         // Try to load from file in 'textures' subdirectory
-        QString filename = KSPaths::locate(QStandardPaths::DataLocation, QString("textures/%1.png").arg(name));
+        QString filename = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("textures/%1.png").arg(name));
         if( !filename.isNull() ) {
             return (TextureManager::CacheIter)m_p->m_textures.insert( name, QImage(filename,"PNG") );
         } else {
             //Try to load from the file in 'skycultures/western' subdirectory for western constellation art
-            QString filename = KSPaths::locate(QStandardPaths::DataLocation, QString("skycultures/western/%1.png").arg(name));
+            QString filename = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("skycultures/western/%1.png").arg(name));
             if( !filename.isNull() ) {
                 return (TextureManager::CacheIter)m_p->m_textures.insert( name, QImage(filename,"PNG") );
                } else {
                 //Try to load from the file in 'skycultures/inuit' subdirectory for Inuit constellation art
-                QString filename = KSPaths::locate(QStandardPaths::DataLocation, QString("skycultures/inuit/%1.png").arg(name));
+                QString filename = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("skycultures/inuit/%1.png").arg(name));
                 if( !filename.isNull() ) {
                     return (TextureManager::CacheIter)m_p->m_textures.insert( name, QImage(filename,"PNG") );
                    }else {
                 // Try to load from file in main data directory
-                filename = KSPaths::locate(QStandardPaths::DataLocation, QString("%1.png").arg(name));
+
+                filename = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("%1.png").arg(name));
                 if( !filename.isNull() ) {
                     return (TextureManager::CacheIter)m_p->m_textures.insert( name, QImage(filename,"PNG") );
                 } else {

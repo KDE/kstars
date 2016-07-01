@@ -33,7 +33,7 @@ namespace KSUtils {
 
 
 bool openDataFile( QFile &file, const QString &s ) {
-    QString FileName = KSPaths::locate(QStandardPaths::DataLocation, s );
+    QString FileName = KSPaths::locate(QStandardPaths::GenericDataLocation, s );
     if ( !FileName.isNull() ) {
         file.setFileName( FileName );
         return file.open( QIODevice::ReadOnly );

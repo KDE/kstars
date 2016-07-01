@@ -785,13 +785,29 @@ if(NOT WIN32)
 endif(NOT WIN32)
 if (CFITSIO_FOUND)
     target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
-endif (CFITSIO_FOUND)
-if (INDI_FOUND)
-    target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT}
-        ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES}
-        KF5::Notifications z)
-endif (INDI_FOUND)
-if (WCSLIB_FOUND)
+
+endif(CFITSIO_FOUND)
+
+if(INDI_FOUND)
+    target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
+
+    if(WIN32)
+        add_definitions(-DUSE_QT5_INDI)
+        find_package(Nova REQUIRED)
+        target_link_libraries(KStarsLib ${NOVA_LIBRARIES} ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
+    else(WIN32)
+        # If INDI Qt5 Client is found, use it.
+        if (INDI_CLIENT_QT_LIBRARIES)
+            add_definitions(-DUSE_QT5_INDI)
+            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
+        else(INDI_CLIENT_QT_LIBRARIES)
+            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES})
+        endif(INDI_CLIENT_QT_LIBRARIES)
+    endif(WIN32)
+
+endif(INDI_FOUND)
+
+if(WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})
 endif (WCSLIB_FOUND)
 #FIXME Enable OpenGL Later

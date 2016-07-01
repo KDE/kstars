@@ -22,9 +22,9 @@
 
 bool CatalogDB::Initialize() {
   skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
-  QString dbfile = KSPaths::locate(QStandardPaths::DataLocation, QString("skycomponents.sqlite"));
+  QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("skycomponents.sqlite"));
   if (dbfile.isEmpty())
-      dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QString("/skycomponents.sqlite");
+      dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString("/skycomponents.sqlite");
 
   QFile testdb(dbfile);
   bool first_run = false;

@@ -447,7 +447,7 @@ void PrintingWizard::setupWidgets()
 
     // Set banner images for steps
     QPixmap bannerImg;
-    if(bannerImg.load(KSPaths::locate(QStandardPaths::DataLocation, "wzstars.png")))
+    if(bannerImg.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzstars.png")))
     {
         m_WizWelcomeUI->banner->setPixmap(bannerImg);
         m_WizObjectSelectionUI->banner->setPixmap(bannerImg);

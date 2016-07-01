@@ -116,11 +116,17 @@ else()
 SET(HAVE_KF5WIT 0)
 endif()
 
-add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS -Dfexceptions)
+add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake
-               ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
+if (UNIX)
+add_definitions(-Dfexceptions)
+endif(UNIX)
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h
+)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/kstars/version.h.cmake
                ${CMAKE_CURRENT_BINARY_DIR}/kstars/version.h )

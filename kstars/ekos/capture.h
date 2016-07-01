@@ -362,7 +362,7 @@ private slots:
     void resetFrame();    
     void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);
-    void checkSeqFile(const QString &path);
+    //void checkSeqFile(const QString &path);
     void saveFITSDirectory();
     void setDefaultCCD(QString ccd);
     void setNewRemoteFile(QString file);
@@ -429,7 +429,7 @@ private:
     double getCurrentHA();
 
     /* Capture */
-    KDirWatch          *seqWatcher;
+    //KDirWatch          *seqWatcher;
     double	seqExpose;
     int	seqTotalCount;
     int	seqCurrentCount;

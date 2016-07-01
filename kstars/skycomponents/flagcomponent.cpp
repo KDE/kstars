@@ -44,9 +44,9 @@ FlagComponent::FlagComponent( SkyComposite *parent )
     m_Names.append( i18n( "No icon" ) );
     m_Images.append( QImage() );
     m_Names.append( i18n( "Default" ) );
-    m_Images.append( QImage( KSPaths::locate(QStandardPaths::DataLocation, "defaultflag.gif" ) ));
+    m_Images.append( QImage( KSPaths::locate(QStandardPaths::GenericDataLocation, "defaultflag.gif" ) ));
 
-    QDir appDir( QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    QDir appDir( KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
     appDir.setNameFilters(QStringList() << "flag*");
     // Add all other images found in user appdata directory
     foreach( QString item, appDir.entryList())

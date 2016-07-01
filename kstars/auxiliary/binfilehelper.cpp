@@ -54,7 +54,7 @@ void BinFileHelper::clearFields() {
 }
 
 bool BinFileHelper::testFileExists( const QString &fileName ) {
-    QString FilePath = KSPaths::locate(QStandardPaths::DataLocation, fileName );
+    QString FilePath = KSPaths::locate(QStandardPaths::GenericDataLocation, fileName );
     QByteArray b = FilePath.toLatin1();
     const char *filepath = b.data();
     FILE *f  = fopen(filepath, "rb");
@@ -67,7 +67,7 @@ bool BinFileHelper::testFileExists( const QString &fileName ) {
 }
 
 FILE *BinFileHelper::openFile(const QString &fileName) {
-    QString FilePath = KSPaths::locate(QStandardPaths::DataLocation, fileName );
+    QString FilePath = KSPaths::locate(QStandardPaths::GenericDataLocation, fileName );
     init();
     QByteArray b = FilePath.toLatin1();
     const char *filepath = b.data();

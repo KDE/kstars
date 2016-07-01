@@ -1835,7 +1835,7 @@ bool    Scheduler::checkEkosState()
         // Even if state is IDLE, check if Ekos is already started. If not, start it.
         QDBusReply<int> isEkosStarted;
         isEkosStarted = ekosInterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
-        if (isEkosStarted.value() == EkosManager::STATUS_SUCCESS)
+        if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
         {
             ekosState = EKOS_READY;
             return true;
@@ -1854,13 +1854,13 @@ bool    Scheduler::checkEkosState()
         {
             QDBusReply<int> isEkosStarted;
             isEkosStarted = ekosInterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
-            if(isEkosStarted.value()== EkosManager::STATUS_SUCCESS)
+            if(isEkosStarted.value()== EkosManager::EKOS_STATUS_SUCCESS)
             {
                 appendLogText(i18n("Ekos started."));
                 ekosState = EKOS_READY;
                 return true;
             }
-            else if(isEkosStarted.value()== EkosManager::STATUS_ERROR)
+            else if(isEkosStarted.value()== EkosManager::EKOS_STATUS_ERROR)
             {
                 appendLogText(i18n("Ekos failed to start."));
                 stop();
@@ -1889,7 +1889,7 @@ bool    Scheduler::checkINDIState()
     {
         // Even in idle state, we make sure that INDI is not already connected.
         QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect,"getINDIConnectionStatus");
-        if (isINDIConnected.value()== EkosManager::STATUS_SUCCESS)
+        if (isINDIConnected.value()== EkosManager::EKOS_STATUS_SUCCESS)
         {
             indiState = INDI_PROPERTY_CHECK;
 
@@ -1914,13 +1914,13 @@ bool    Scheduler::checkINDIState()
     case INDI_CONNECTING:
     {
         QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect,"getINDIConnectionStatus");
-        if(isINDIConnected.value()== EkosManager::STATUS_SUCCESS)
+        if(isINDIConnected.value()== EkosManager::EKOS_STATUS_SUCCESS)
         {
             appendLogText(i18n("INDI devices connected."));
             indiState = INDI_PROPERTY_CHECK;
             return false;
         }
-        else if(isINDIConnected.value()== EkosManager::STATUS_ERROR)
+        else if(isINDIConnected.value()== EkosManager::EKOS_STATUS_ERROR)
         {
             if (indiConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
             {
@@ -2013,7 +2013,7 @@ bool Scheduler::checkStartupState()
         // If Ekos is already started, we skip the script and move on to mount unpark step
         QDBusReply<int> isEkosStarted;
         isEkosStarted = ekosInterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
-        if (isEkosStarted.value() == EkosManager::STATUS_SUCCESS)
+        if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
         {
             if (startupScriptURL.isEmpty() == false)
                 appendLogText(i18n("Ekos is already started, skipping startup script..."));
