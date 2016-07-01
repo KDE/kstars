@@ -346,7 +346,6 @@ bool KStarsData::readCityData()
 {
     QSqlDatabase citydb = QSqlDatabase::addDatabase("QSQLITE", "citydb");
     QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, "citydb.sqlite");
-    //QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "citydb.sqlite";
     citydb.setDatabaseName(dbfile);
     if (citydb.open() == false)
     {
@@ -458,7 +457,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
         fileFound = true;
     } else {
         // Try to load locale file, if not successful, load regular urlfile and then copy it to locale.
-        file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + urlfile ) ;
+        file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + urlfile ) ;
         if ( file.open( QIODevice::ReadOnly ) ) {
             //local file found.  Now, if global file has newer timestamp, then merge the two files.
             //First load local file into QStringList
@@ -534,7 +533,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
                 if ( QLocale().language() != QLocale::English )
                     qDebug() << "No localized URL file; using default English file.";
                 // we found urlfile, we need to copy it to locale
-                localeFile.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + urlfile ) ;
+                localeFile.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + urlfile ) ;
                 if (localeFile.open(QIODevice::WriteOnly)) {
                     QTextStream readStream(&file);
                     QTextStream writeStream(&localeFile);

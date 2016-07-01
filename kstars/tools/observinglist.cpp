@@ -519,7 +519,7 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->setEnabled( false );
                 ui->SearchImage->setEnabled( false );
             }
-            QString BasePath=  KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator();
+            QString BasePath=  KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
             QString ImagePath;
             if( QFile( ImagePath = BasePath + CurrentImage ).exists() )  {
                 ;
@@ -831,7 +831,7 @@ void ObservingList::slotSaveSessionAs(bool nativeSave) {
 
 void ObservingList::slotSaveList() {
     QFile f;
-    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "wishlist.obslist" ) ;
+    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist" ) ;
     if ( ! f.open( QIODevice::WriteOnly ) ) {
         qDebug() << "Cannot write list to  file"; // TODO: This should be presented as a message box to the user
         return;
@@ -860,7 +860,7 @@ void ObservingList::slotSaveList() {
 
 void ObservingList::slotLoadWishList() {
     QFile f;
-    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "wishlist.obslist" ) ;
+    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist" ) ;
     if ( ! f.open( QIODevice::ReadOnly) ) {
        qDebug() << "No WishList Saved yet";
        return;
@@ -1118,7 +1118,7 @@ void ObservingList::slotCustomDSS() {
     QString version = QInputDialog::getItem(this, i18n("Customized DSS Download"), i18n("Specify version: "), strList, 0, false, &ok );
 
     QUrl srcUrl( KSDssDownloader::getDSSURL( currentObject()->ra0(), currentObject()->dec0(), width, height, "gif", version, &md ) );
-    QString CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + CurrentImage;
+    QString CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
 
     delete m_dl;
     m_dl = new KSDssDownloader();
@@ -1134,13 +1134,13 @@ void ObservingList::slotGetImage( bool _dss, const SkyObject *o ) {
     ui->SearchImage->setEnabled( false );
     //ui->ImagePreview->clearPreview();
     ui->ImagePreview->setPixmap(QPixmap());
-    if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + CurrentImage ) )
+    if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage ) )
         setCurrentImage( o );
-    QFile::remove( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + CurrentImage ) ;
+    QFile::remove( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage ) ;
     //QUrl url;
     dss = true;
     qDebug() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
-    KSDssDownloader *dler = new KSDssDownloader( o, KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + CurrentImage );
+    KSDssDownloader *dler = new KSDssDownloader( o, KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage );
     connect( dler, SIGNAL( downloadComplete( bool ) ), SLOT( downloadReady( bool ) ) );
 }
 
@@ -1159,7 +1159,7 @@ void ObservingList::downloadReady( bool success ) {
           if( QFile( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + CurrentImage ).size() > 13000)
           //The default image is around 8689 bytes
         */
-        CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + CurrentImage;
+        CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
         //ui->ImagePreview->showPreview( QUrl::fromLocalFile( CurrentImagePath ) );
         ui->ImagePreview->setPixmap(QPixmap(CurrentImagePath).scaledToHeight(ui->ImagePreview->width()));
         saveThumbImage();
@@ -1258,7 +1258,7 @@ void ObservingList::slotDeleteAllImages() {
     ui->SessionView->clearSelection();
     //ui->ImagePreview->clearPreview();
     ui->ImagePreview->setPixmap(QPixmap());
-    QDirIterator iterator( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "" ) ;
+    QDirIterator iterator( KSPaths::writableLocation(QStandardPaths::GenericDataLocation)) ;
     while( iterator.hasNext() )
     {
         // TODO: Probably, there should be a different directory for cached images in the observing list.
@@ -1332,7 +1332,7 @@ void ObservingList::slotSearchImage() {
     QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, i18n( "Image Chooser" ) );
     if ( tp->exec() == QDialog::Accepted )
     {
-        CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + CurrentImage;
+        CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
         QFile f( CurrentImagePath );
 
         //If a real image was set, save it.
@@ -1354,10 +1354,10 @@ void ObservingList::slotDeleteCurrentImage() {
 }
 
 void ObservingList::saveThumbImage() {
-    if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + ThumbImage ) )  {
+    if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + ThumbImage ) )  {
         QImage img( CurrentImagePath );
         img = img.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-        img.save( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + ThumbImage ) ;
+        img.save( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + ThumbImage ) ;
     }
 }
 

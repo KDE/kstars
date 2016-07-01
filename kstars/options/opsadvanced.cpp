@@ -91,7 +91,7 @@ void OpsAdvanced::slotToggleOutputOptions()
         kcfg_VerboseLogFile->setEnabled(true);
 
         if (kcfg_VerboseLogFile->text().isEmpty())
-            kcfg_VerboseLogFile->setText(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "kstars.log");
+            kcfg_VerboseLogFile->setText(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "kstars.log");
 
         if (kcfg_DisableLogging->isChecked() == false)
             KSUtils::Logging::UseFile(kcfg_VerboseLogFile->text());
