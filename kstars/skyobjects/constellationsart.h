@@ -47,7 +47,7 @@ class ConstellationsArt: public SkyObject{
 
 private:
     QString abbrev, imageFileName;
-    QImage constellationArtImage,unscaled;
+    QImage constellationArtImage;
     double positionAngle, width, height;
 
 public:
