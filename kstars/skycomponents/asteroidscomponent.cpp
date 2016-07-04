@@ -272,7 +272,7 @@ void AsteroidsComponent::downloadReady()
     data.insert( 0, '#' );
 
     // Write data to asteroids.dat
-    QFile file( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "asteroids.dat" ) ;
+    QFile file( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "asteroids.dat" ) ;
     file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
     file.write( data );
     file.close();

@@ -188,7 +188,7 @@ QList<FOV*> FOV::defaults()
 void FOV::writeFOVs(const QList<FOV*> fovs)
 {
     QFile f;
-    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "fov.dat" ) ;
+    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "fov.dat" ) ;
 
     if ( ! f.open( QIODevice::WriteOnly ) ) {
         qDebug() << "Could not open fov.dat.";
@@ -212,7 +212,7 @@ QList<FOV*> FOV::readFOVs()
 {
     QFile f;
     QList<FOV*> fovs;
-    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "fov.dat" ) ;
+    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "fov.dat" ) ;
 
     if( !f.exists() ) {
         fovs = defaults();

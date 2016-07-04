@@ -1022,7 +1022,7 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
 bool Guide::loadDarkFrame(double exposure)
 {
     QString filename = QString("dark-%1-%2.fits").arg(QString(currentCCD->getDeviceName()).replace(" ", "_")).arg(QString::number(exposure, 'f', 2));
-    QString path     = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + filename;
+    QString path     = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename;
     if (darkImage == NULL)
         darkImage = new FITSData();
 
@@ -1032,7 +1032,7 @@ bool Guide::loadDarkFrame(double exposure)
 void Guide::saveDarkFrame()
 {
     QString filename = QString("dark-%1-%2.fits").arg(QString(currentCCD->getDeviceName()).replace(" ", "_")).arg(QString::number(darkExposure, 'f', 2));
-    QString path     = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + filename;
+    QString path     = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename;
 
     if (darkImage->saveFITS(path) == 0)
         appendLogText(i18n("Saved new dark frame %1 to library.", path));

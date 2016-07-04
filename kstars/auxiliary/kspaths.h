@@ -37,7 +37,7 @@ public:
     static QStringList locateAll(QStandardPaths::StandardLocation, const QString &fileNames,
                              QStandardPaths::LocateOptions options = QStandardPaths::LocateFile);
     static inline QString writableLocation(QStandardPaths::StandardLocation type) {
-        return QStandardPaths::writableLocation(type) + "kstars" + QDir::separator();
+        return QStandardPaths::writableLocation(type) + "/kstars/";
     }
 };
 #endif
