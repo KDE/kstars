@@ -45,6 +45,7 @@
 #include "oal/observeradd.h"
 #include "skycomponents/skymapcomposite.h"
 #include "texturemanager.h"
+#include "kspaths.h"
 
 #include <config-kstars.h>
 #include <QStandardPaths>
@@ -328,7 +329,7 @@ void KStars::initActions() {
     addColorMenuItem( i18n("&Moonless Night" ), "cs_moonless-night" );
 
     //Add any user-defined color schemes:
-    QFile file( QStandardPaths::locate(QStandardPaths::DataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
+    QFile file( KSPaths::locate(QStandardPaths::GenericDataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
     if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
         while ( !stream.atEnd() ) {
@@ -401,11 +402,9 @@ void KStars::initActions() {
         << i18n("Sky Calendar");
 
 #ifdef HAVE_INDI
-#ifndef Q_WS_WIN
         actionCollection()->addAction("ekos", this, SLOT( slotEkos() ) )
             << i18n("Ekos")
             << QKeySequence(Qt::CTRL+Qt::Key_K );
-#endif
 #endif
 
 //FIXME: implement glossary
@@ -444,12 +443,11 @@ void KStars::initActions() {
 
     // ==== devices Menu ================
 #ifdef HAVE_INDI
-#ifndef Q_WS_WIN
-
-
+#ifndef Q_OS_WIN
         actionCollection()->addAction("telescope_wizard", this, SLOT( slotTelescopeWizard() ) )
             << i18n("Telescope Wizard...")
             << QIcon::fromTheme("tools-wizard" );
+#endif
         actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
             << i18n("Device Manager...")
             << QIcon::fromTheme("network-server" )
@@ -457,9 +455,10 @@ void KStars::initActions() {
         ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
             << i18n("INDI Control Panel...");
         ka->setEnabled(false);
-
-
-#endif
+#else
+    //FIXME need to disable/hide devices submenu in the tools menu. It is created from the kstarsui.rc file
+    //but I don't know how to hide/disable it yet. menuBar()->findChildren<QMenu *>() does not return any children that I can
+    //iterate over. Anyway to resolve this?
 #endif
 
     //Help Menu:
@@ -482,81 +481,77 @@ void KStars::initActions() {
     // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Stars in the display", "Stars" )
-        << QIcon::fromTheme("kstars_stars" )
+        << QIcon::fromTheme("kstars_stars", QIcon(":/icons/stars.png") )
         << ToolTip( i18n("Toggle stars") );
     actionCollection()->add<KToggleAction>("show_deepsky", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Deep Sky Objects in the display", "Deep Sky" )
-        << QIcon::fromTheme("kstars_deepsky" )
+        << QIcon::fromTheme("kstars_deepsky" , QIcon(":/icons/deepsky.png") )
         << ToolTip( i18n("Toggle deep sky objects") );
     actionCollection()->add<KToggleAction>("show_planets", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Solar System objects in the display", "Solar System" )
-        << QIcon::fromTheme("kstars_planets" )
+        << QIcon::fromTheme("kstars_planets" , QIcon(":/icons/planets.png"))
         << ToolTip( i18n("Toggle Solar system objects") );
     actionCollection()->add<KToggleAction>("show_clines", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Constellation Lines in the display", "Const. Lines" )
-        << QIcon::fromTheme("kstars_clines" )
+        << QIcon::fromTheme("kstars_clines" , QIcon(":/icons/clines.png"))
         << ToolTip( i18n("Toggle constellation lines") );
     actionCollection()->add<KToggleAction>("show_cnames", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Constellation Names in the display", "Const. Names" )
-        << QIcon::fromTheme("kstars_cnames" )
+        << QIcon::fromTheme("kstars_cnames" , QIcon(":/icons/cnames.png"))
         << ToolTip( i18n("Toggle constellation names") );
     actionCollection()->add<KToggleAction>("show_cbounds", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Constellation Boundaries in the display", "C. Boundaries" )
-        << QIcon::fromTheme("kstars_cbound" )
+        << QIcon::fromTheme("kstars_cbound" , QIcon(":/icons/cbound.png"))
         << ToolTip( i18n("Toggle constellation boundaries") );
     actionCollection()->add<KToggleAction>("show_constellationart", this, SLOT( slotViewToolBar() ) )
         << xi18nc("Toggle Constellation Art in the display", "C. Art (BETA)" )
-        << QIcon::fromTheme("kstars_constellationart" )
+        << QIcon::fromTheme("kstars_constellationart" , QIcon(":/icons/constellationart.png"))
         << ToolTip( xi18n("Toggle constellation art (BETA)") );
     actionCollection()->add<KToggleAction>("show_mw", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Milky Way in the display", "Milky Way" )
-        << QIcon::fromTheme("kstars_mw" )
+        << QIcon::fromTheme("kstars_mw" , QIcon(":/icons/mw.png"))
         << ToolTip( i18n("Toggle milky way") );
     actionCollection()->add<KToggleAction>("show_equatorial_grid", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Equatorial Coordinate Grid in the display", "Equatorial coord. grid" )
-        << QIcon::fromTheme("kstars_grid" )
+        << QIcon::fromTheme("kstars_grid" , QIcon(":/icons/grid.png") )
         << ToolTip( i18n("Toggle equatorial coordinate grid") );
     actionCollection()->add<KToggleAction>("show_horizontal_grid", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Horizontal Coordinate Grid in the display", "Horizontal coord. grid" )
-        << QIcon::fromTheme("kstars_hgrid" )
+        << QIcon::fromTheme("kstars_hgrid" , QIcon(":/icons/hgrid.png") )
         << ToolTip( i18n("Toggle horizontal coordinate grid") );
     actionCollection()->add<KToggleAction>("show_horizon", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle the opaque fill of the ground polygon in the display", "Ground" )
-        << QIcon::fromTheme("kstars_horizon" )
+        << QIcon::fromTheme("kstars_horizon" , QIcon(":/icons/horizon.png") )
         << ToolTip( i18n("Toggle opaque ground") );
     actionCollection()->add<KToggleAction>("show_flags", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle flags in the display", "Flags" )
-        << QIcon::fromTheme("kstars_flag" )
+        << QIcon::fromTheme("kstars_flag" , QIcon(":/icons/flag.png") )
         << ToolTip( i18n("Toggle flags") );
     actionCollection()->add<KToggleAction>("show_satellites", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle satellites in the display", "Satellites" )
-        << QIcon::fromTheme("kstars_satellites" )
+        << QIcon::fromTheme("kstars_satellites" , QIcon(":/icons/satellites.png"))
         << ToolTip( i18n("Toggle satellites") );
     actionCollection()->add<KToggleAction>("show_supernovae", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle supernovae in the display", "Supernovae" )
-        << QIcon::fromTheme("kstars_supernovae" )
+        << QIcon::fromTheme("kstars_supernovae" , QIcon(":/icons/supernovae.png"))
         << ToolTip( i18n("Toggle supernovae") );
 
 #ifdef HAVE_INDI
     // ==== INDIToolBar actions ================
     actionCollection()->add<KToggleAction>("show_ekos", this, SLOT( slotINDIToolBar() ) )
         << i18nc("Toggle Ekos in the display", "Ekos" )
-        << QIcon::fromTheme("kstars_ekos" )
+        << QIcon::fromTheme("kstars_ekos", QIcon(":/icons/ekos.png") )
         << ToolTip( i18n("Toggle Ekos") );
     ka = actionCollection()->add<KToggleAction>("show_control_panel", this, SLOT( slotINDIToolBar() ) )
         << i18nc("Toggle the INDI Control Panel in the display", "INDI Control Panel" )
-        << QIcon::fromTheme("kstars_indi" )
+        << QIcon::fromTheme("kstars_indi", QIcon(":/icons/indi.png") )
         << ToolTip( i18n("Toggle INDI Control Panel") );
     ka->setEnabled(false);
     ka = actionCollection()->add<KToggleAction>("show_fits_viewer", this, SLOT( slotINDIToolBar() ) )
         << i18nc("Toggle the FITS Viewer in the display", "FITS Viewer" )
-        << QIcon::fromTheme("kstars_fitsviewer" )
+        << QIcon::fromTheme("kstars_fitsviewer" , QIcon(":/icons/fitsviewer.png") )
         << ToolTip( i18n("Toggle FITS Viewer") );
     ka->setEnabled(false);
-    actionCollection()->add<KToggleAction>("show_device_manager", this, SLOT( slotINDIToolBar() ) )
-        << i18nc("Toggle the device manager in the display", "Device Manager" )
-        << QIcon::fromTheme("computer" )
-        << ToolTip( i18n("Toggle Device Manager") );    
 #endif
 
     if (Options::fitsDir().isEmpty())
@@ -758,11 +753,7 @@ void KStars::buildGUI() {
 
     setupGUI(StandardWindowOptions (Default & ~Create));
 
-#ifdef Q_WS_WIN
-    createGUI("kstarsui-win.rc");
-#else
     createGUI("kstarsui.rc");
-#endif
 
     //get focus of keyboard and mouse actions (for example zoom in with +)
     map()->QWidget::setFocus();

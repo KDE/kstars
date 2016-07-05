@@ -185,12 +185,12 @@ bool ImageExporter::exportImage( QString url )
     QUrl fileURL;
     if(!url.contains(QDir::separator()))
     {
-        fileURL = QDir::homePath() + '/' + url;
+        fileURL = QUrl::fromLocalFile(QDir::homePath() + '/' + url);
     }
 
     else
     {
-        fileURL = url;
+        fileURL = QUrl::fromUserInput(url);
     }
 
     m_lastErrorMessage = QString();

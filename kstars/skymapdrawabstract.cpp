@@ -49,7 +49,6 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI
-#include <baseclient.h>
 #include <basedevice.h>
 #include "indi/indilistener.h"
 #include "indi/driverinfo.h"
@@ -278,7 +277,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
             indi_sp.EquatorialToHorizontal( m_KStarsData->lst(), m_KStarsData->geo()->lat() );
 
 
-        if (std::isnan(indi_sp.ra().Degrees() || std::isnan(indi_sp.dec().Degrees())))
+        if (std::isnan(indi_sp.ra().Degrees()) || std::isnan(indi_sp.dec().Degrees()))
             continue;
 
         QPointF P = m_SkyMap->m_proj->toScreen( &indi_sp );

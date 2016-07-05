@@ -179,7 +179,6 @@
     <entry name="indiDriversDir" type="String">
       <label>PATH to indi drivers directory</label>
       <whatsthis>PATH to indi drivers directory</whatsthis>
-      <default>/usr/share/indi</default>
     </entry>
   </group>
 

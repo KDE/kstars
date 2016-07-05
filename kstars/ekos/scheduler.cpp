@@ -70,7 +70,7 @@ Scheduler::Scheduler()
     new SchedulerAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler",  this);
 
-    dirPath     = QDir::homePath();
+    dirPath     = QUrl(QDir::homePath());
     state       = SCHEDULER_IDLE;
     ekosState   = EKOS_IDLE;
     indiState   = INDI_IDLE;
@@ -306,7 +306,7 @@ void Scheduler::selectFITS()
     if (fitsURL.isEmpty())
         return;
 
-    dirPath = fitsURL.path().remove(fitsURL.fileName());
+    dirPath = QUrl(fitsURL.url(QUrl::RemoveFilename));
 
     setDirty();
 
@@ -328,7 +328,7 @@ void Scheduler::selectSequence()
     if (sequenceURL.isEmpty())
         return;
 
-    dirPath = sequenceURL.path().remove(sequenceURL.fileName());
+    dirPath = QUrl(sequenceURL.url(QUrl::RemoveFilename));
 
     setDirty();
 
@@ -346,11 +346,11 @@ void Scheduler::selectSequence()
 
 void Scheduler::selectStartupScript()
 {
-    startupScriptURL = QFileDialog::getOpenFileUrl(this, i18n("Select Startup Script"), QDir::homePath(), i18n("Script (*)"));
+    startupScriptURL = QFileDialog::getOpenFileUrl(this, i18n("Select Startup Script"), dirPath, i18n("Script (*)"));
     if (startupScriptURL.isEmpty())
         return;
 
-    dirPath = startupScriptURL.path().remove(startupScriptURL.fileName());
+    dirPath = QUrl(startupScriptURL.url(QUrl::RemoveFilename));
 
     mDirty=true;
     startupScript->setText(startupScriptURL.path());
@@ -358,11 +358,11 @@ void Scheduler::selectStartupScript()
 
 void Scheduler::selectShutdownScript()
 {
-    shutdownScriptURL = QFileDialog::getOpenFileUrl(this, i18n("Select Shutdown Script"), QDir::homePath(), i18n("Script (*)"));
+    shutdownScriptURL = QFileDialog::getOpenFileUrl(this, i18n("Select Shutdown Script"), dirPath, i18n("Script (*)"));
     if (shutdownScriptURL.isEmpty())
         return;
 
-    dirPath = shutdownScriptURL.path().remove(shutdownScriptURL.fileName());
+    dirPath = QUrl(shutdownScriptURL.url(QUrl::RemoveFilename));
 
     mDirty=true;
     shutdownScript->setText(shutdownScriptURL.path());    
@@ -1835,7 +1835,7 @@ bool    Scheduler::checkEkosState()
         // Even if state is IDLE, check if Ekos is already started. If not, start it.
         QDBusReply<int> isEkosStarted;
         isEkosStarted = ekosInterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
-        if (isEkosStarted.value() == EkosManager::STATUS_SUCCESS)
+        if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
         {
             ekosState = EKOS_READY;
             return true;
@@ -1854,13 +1854,13 @@ bool    Scheduler::checkEkosState()
         {
             QDBusReply<int> isEkosStarted;
             isEkosStarted = ekosInterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
-            if(isEkosStarted.value()== EkosManager::STATUS_SUCCESS)
+            if(isEkosStarted.value()== EkosManager::EKOS_STATUS_SUCCESS)
             {
                 appendLogText(i18n("Ekos started."));
                 ekosState = EKOS_READY;
                 return true;
             }
-            else if(isEkosStarted.value()== EkosManager::STATUS_ERROR)
+            else if(isEkosStarted.value()== EkosManager::EKOS_STATUS_ERROR)
             {
                 appendLogText(i18n("Ekos failed to start."));
                 stop();
@@ -1889,7 +1889,7 @@ bool    Scheduler::checkINDIState()
     {
         // Even in idle state, we make sure that INDI is not already connected.
         QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect,"getINDIConnectionStatus");
-        if (isINDIConnected.value()== EkosManager::STATUS_SUCCESS)
+        if (isINDIConnected.value()== EkosManager::EKOS_STATUS_SUCCESS)
         {
             indiState = INDI_PROPERTY_CHECK;
 
@@ -1914,13 +1914,13 @@ bool    Scheduler::checkINDIState()
     case INDI_CONNECTING:
     {
         QDBusReply<int> isINDIConnected = ekosInterface->call(QDBus::AutoDetect,"getINDIConnectionStatus");
-        if(isINDIConnected.value()== EkosManager::STATUS_SUCCESS)
+        if(isINDIConnected.value()== EkosManager::EKOS_STATUS_SUCCESS)
         {
             appendLogText(i18n("INDI devices connected."));
             indiState = INDI_PROPERTY_CHECK;
             return false;
         }
-        else if(isINDIConnected.value()== EkosManager::STATUS_ERROR)
+        else if(isINDIConnected.value()== EkosManager::EKOS_STATUS_ERROR)
         {
             if (indiConnectFailureCount++ < MAX_FAILURE_ATTEMPTS)
             {
@@ -2013,7 +2013,7 @@ bool Scheduler::checkStartupState()
         // If Ekos is already started, we skip the script and move on to mount unpark step
         QDBusReply<int> isEkosStarted;
         isEkosStarted = ekosInterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
-        if (isEkosStarted.value() == EkosManager::STATUS_SUCCESS)
+        if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
         {
             if (startupScriptURL.isEmpty() == false)
                 appendLogText(i18n("Ekos is already started, skipping startup script..."));
@@ -2921,7 +2921,7 @@ void Scheduler::stopCurrentJobAction()
 
 void Scheduler::load()
 {
-    QUrl fileURL = QFileDialog::getOpenFileName(this, i18n("Open Ekos Scheduler List"), QDir::homePath(), "Ekos Scheduler List (*.esl)");
+    QUrl fileURL = QFileDialog::getOpenFileUrl(this, i18n("Open Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
     if (fileURL.isEmpty())
         return;
 
@@ -3188,7 +3188,7 @@ void Scheduler::save()
 
     if (schedulerURL.isEmpty())
     {
-        schedulerURL = QFileDialog::getSaveFileName(this, i18n("Save Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
+        schedulerURL = QFileDialog::getSaveFileUrl(this, i18n("Save Ekos Scheduler List"), dirPath, "Ekos Scheduler List (*.esl)");
         // if user presses cancel
         if (schedulerURL.isEmpty())
         {
@@ -3196,7 +3196,7 @@ void Scheduler::save()
             return;
         }
 
-        dirPath = schedulerURL.path().remove(schedulerURL.fileName());
+        dirPath = QUrl(schedulerURL.url(QUrl::RemoveFilename));
 
         if (schedulerURL.path().contains('.') == 0)
             schedulerURL.setPath(schedulerURL.path() + ".esl");
@@ -3690,7 +3690,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
 
                     foreach (QString oneFolder, folderList)
                     {
-                        QDir folder(dir + QDir::separator() + oneFolder);
+                        QDir folder(dir + QLatin1Literal("/") + oneFolder);
                         totalSequenceCompleted += folder.entryInfoList(QStringList("*.fits"), QDir::Files).count();
                     }
                 }

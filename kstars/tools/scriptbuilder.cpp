@@ -34,6 +34,7 @@
 #include <KIO/CopyJob>
 #include <KJob>
 
+#include "kspaths.h"
 #include "scriptfunction.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -712,7 +713,7 @@ void ScriptBuilder::initViewOptions() {
 
     QFile file;
     QString line;
-    file.setFileName( QStandardPaths::locate(QStandardPaths::DataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
+    file.setFileName( KSPaths::locate(QStandardPaths::GenericDataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
     if ( file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
 
@@ -1361,7 +1362,7 @@ void ScriptBuilder::slotArgWidget() {
 
         } else if ( sf->name() == "exportImage" ) {
             sb->ArgStack->setCurrentWidget( argExportImage );
-            argExportImage->ExportFileName->setUrl( sf->argVal(0) );
+            argExportImage->ExportFileName->setUrl(QUrl::fromUserInput(sf->argVal(0)));
             bool ok(false);
             int w=0, h=0;
             w = sf->argVal(1).toInt( &ok );

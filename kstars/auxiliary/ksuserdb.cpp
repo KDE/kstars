@@ -23,6 +23,7 @@
 #include "artificialhorizoncomponent.h"
 #include "version.h"
 #include "linelist.h"
+#include "kspaths.h"
 
 /*
  * TODO (spacetime):
@@ -35,7 +36,7 @@
 bool KSUserDB::Initialize() {
     // Every logged in user has their own db.
     userdb_ = QSqlDatabase::addDatabase("QSQLITE", "userdb");
-    QString dbfile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "userdb.sqlite";
+    QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "userdb.sqlite";
     QFile testdb(dbfile);
     bool first_run = false;
     if (!testdb.exists()) {
@@ -61,7 +62,6 @@ bool KSUserDB::Initialize() {
             version.setTable("Version");
             version.select();
             QSqlRecord record = version.record(0);
-            qDebug() << " Verion string is " << record.value("Version").toString();
             version.clear();
 
             // If prior to 2.4.0 upgrade database for horizon table
@@ -99,8 +99,13 @@ bool KSUserDB::Initialize() {
                     //qDebug() << query.lastError();
 
                 // Add sample profile
+                #ifdef Q_OS_WIN
+                if (!query.exec("INSERT INTO profile (name, host, port) VALUES ('Simulators', 'localhost', 7624)"))
+                    qDebug() << query.lastError();
+                #else
                 if (!query.exec("INSERT INTO profile (name) VALUES ('Simulators')"))
                     qDebug() << query.lastError();
+                #endif
 
                 // Add sample profile drivers
                 if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('Telescope Simulator', 'Mount', 1)"))
@@ -112,7 +117,7 @@ bool KSUserDB::Initialize() {
            }
         }
     }
-    userdb_.close();        
+    userdb_.close();
     return true;
 }
 
@@ -224,7 +229,13 @@ bool KSUserDB::RebuildDB() {
      tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT NULL)");
      tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
      //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
+
+     #ifdef Q_OS_WIN
+     tables.append("INSERT INTO profile (name, host, port) VALUES ('Simulators', 'localhost', 7624)");
+     #else
      tables.append("INSERT INTO profile (name) VALUES ('Simulators')");
+     #endif
+
      tables.append("INSERT INTO driver (label, role, profile) VALUES ('Telescope Simulator', 'Mount', 1)");
      tables.append("INSERT INTO driver (label, role, profile) VALUES ('CCD Simulator', 'CCD', 1)");
      tables.append("INSERT INTO driver (label, role, profile) VALUES ('Focuser Simulator', 'Focuser', 1)");
@@ -706,7 +717,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
 
 #if 0
 bool KSUserDB::ImportFlags() {
-    QString flagfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "flags.dat";
+    QString flagfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "flags.dat";
     QFile flagsfile(flagfilename);
     if (!flagsfile.exists()) {
         return false;  // No upgrade needed. Flags file doesn't exist.
@@ -737,7 +748,7 @@ bool KSUserDB::ImportFlags() {
 }
 
 bool KSUserDB::ImportUsers() {
-    QString usersfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "observerlist.xml";
+    QString usersfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "observerlist.xml";
     QFile usersfile(usersfilename);
 
     if (!usersfile.exists()) {
@@ -798,7 +809,7 @@ bool KSUserDB::ImportUsers() {
 }
 
 bool KSUserDB::ImportEquipment() {
-    QString equipfilename = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "equipmentlist.xml";
+    QString equipfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "equipmentlist.xml";
     QFile equipfile(equipfilename);
 
     if (!equipfile.exists()) {

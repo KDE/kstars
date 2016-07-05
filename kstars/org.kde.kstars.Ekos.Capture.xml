@@ -18,12 +18,12 @@
     </method>
     <method name="loadSequenceQueue">
       <arg type="b" direction="out"/>
-      <arg name="fileURL" type="s" direction="in"/>
+      <arg name="fileURL" type="QUrl" direction="in"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
     </method>
     <method name="isSequenceFileComplete">
       <arg type="b" direction="out"/>
-      <arg name="fileURL" type="s" direction="in"/>
+      <arg name="fileURL" type="QUrl" direction="in"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
     </method>
     <method name="clearSequenceQueue">

@@ -27,12 +27,13 @@
 #include <QStandardPaths>
 
 #include <cmath>
+#include "auxiliary/kspaths.h"
 
 namespace KSUtils {
 
 
 bool openDataFile( QFile &file, const QString &s ) {
-    QString FileName = QStandardPaths::locate(QStandardPaths::DataLocation, s );
+    QString FileName = KSPaths::locate(QStandardPaths::GenericDataLocation, s );
     if ( !FileName.isNull() ) {
         file.setFileName( FileName );
         return file.open( QIODevice::ReadOnly );

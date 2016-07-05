@@ -37,6 +37,7 @@
 #include "skymap.h"
 #include "skycomponents/flagcomponent.h"
 #include "skycomponents/skymapcomposite.h"
+#include "kspaths.h"
 
 
 FlagManagerUI::FlagManagerUI( QWidget *p ) : QFrame( p ) {
@@ -68,7 +69,7 @@ FlagManager::FlagManager( QWidget *ks )
 
     ui->hintLabel->setText(i18n("To add custom icons, just add images in %1. File names must begin with flag. "
                                  "For example, the file <i>flagSmall_red_cross.gif</i> will be shown as <i>Small red cross</i> in the combo box.",
-                                 QStandardPaths::writableLocation(QStandardPaths::DataLocation)));
+                                 KSPaths::writableLocation(QStandardPaths::GenericDataLocation)));
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
     m_Model->setHorizontalHeaderLabels( QStringList() << i18nc( "Right Ascension", "RA" ) 

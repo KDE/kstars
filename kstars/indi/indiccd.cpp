@@ -31,6 +31,7 @@
 #include "guimanager.h"
 #include "kstarsdata.h"
 #include "fov.h"
+#include "kspaths.h"
 
 #include <ekos/ekosmanager.h>
 
@@ -1105,7 +1106,7 @@ void CCD::processBLOB(IBLOB* bp)
     QString currentDir;
 
     if (targetChip->isBatchMode() == false)
-        currentDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+        currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation);
     else
         currentDir  =  fitsDir.isEmpty() ? Options::fitsDir() : fitsDir;
 
@@ -1198,7 +1199,7 @@ void CCD::processBLOB(IBLOB* bp)
             {
                 QProcess dcraw;
                 QString rawFileName = filename;
-                rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QDir::separator()));
+                rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
                 QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
                 QTemporaryFile jpgPreview(templateName);
                 jpgPreview.setAutoRemove(false);

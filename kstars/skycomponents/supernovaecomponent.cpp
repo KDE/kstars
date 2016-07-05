@@ -28,6 +28,7 @@
 #include "ksfilereader.h"
 #include "QStandardPaths"
 #include "kstarsdata.h"
+#include "auxiliary/kspaths.h"
 
 SupernovaeComponent::SupernovaeComponent(SkyComposite* parent): ListComponent(parent), m_Parser(0)
 {
@@ -62,10 +63,8 @@ void SupernovaeComponent::loadData()
     //m_ObjectList.clear();
     latest.clear();
     objectNames(SkyObject::SUPERNOVA).clear();
-    
-    KStarsData *m_data = KStarsData::Instance(); // to convert equatorial coordinate to horizontal
 
-    //SN     ,Host Galaxy     ,Date       , R.A.  , Decl.,   Offset  ,Mag.,  Disc. Ref.     ,      SN Position      ,  Posn. Ref.      ,Typ,  SN     ,Discoverer(s)
+    //SN,  Host Galaxy,  Date,  R.A.,  Dec.,  Offset,  Mag.,  Disc.Ref.,  SN Position,  Posn.Ref.,  Typ,  SN,  Discoverer(s)
     QList< QPair<QString,KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("serialNo"),      KSParser::D_QSTRING));
     sequence.append(qMakePair(QString("hostGalaxy"),    KSParser::D_QSTRING));
@@ -81,13 +80,12 @@ void SupernovaeComponent::loadData()
     sequence.append(qMakePair(QString("ignore3"),       KSParser::D_SKIP));
     sequence.append(qMakePair(QString("discoverers"),   KSParser::D_QSTRING));
 
-    QString file_name = QStandardPaths::locate(QStandardPaths::DataLocation,
+    QString file_name = KSPaths::locate(QStandardPaths::GenericDataLocation,
                                                QString("supernovae.dat"));
     KSParser snParser(file_name, '#', sequence);
 
     QHash<QString, QVariant> row_content;
     while (snParser.HasNextRow()){
-        Supernova *sup=0;
         row_content = snParser.ReadNextRow();
 
         if(row_content["serialNo"].toString() == "Null")
@@ -107,27 +105,19 @@ void SupernovaeComponent::loadData()
         if (magnitude == KSParser::EBROKEN_FLOAT)
             magnitude = 99.9;
 
-        sup=new Supernova(ra, dec, date, magnitude, serialNo, type, hostGalaxy, offset, discoverers);
-        sup->EquatorialToHorizontal(m_data->lst(),m_data->geo()->lat());
-        if (!m_ObjectList.empty())
+        if (m_ObjectList.empty() || !findByName(serialNo))
         {
-            if ( findByName(sup->name() ) == 0 )
-            {
-                //qDebug()<<"List of supernovae not empty. Found new supernova";
-                m_ObjectList.append(sup);
-                latest.append(sup);
-            }/*
-            else
-                m_ObjectList.append(sup);*/
-        }
-        else             //if the list is empty
-        {
+            Supernova *sup = new Supernova(ra, dec, date, magnitude, serialNo,
+                    type, hostGalaxy, offset, discoverers);
+
+            sup->EquatorialToHorizontal(KStarsData::Instance()->lst(),
+                                        KStarsData::Instance()->geo()->lat());
+
             m_ObjectList.append(sup);
             latest.append(sup);
-            //notifyNewSupernovae();
         }
 
-        objectNames(SkyObject::SUPERNOVA).append(sup->name());
+        objectNames(SkyObject::SUPERNOVA).append(serialNo);
     }
     //notifyNewSupernovae();
 }
@@ -204,7 +194,7 @@ void SupernovaeComponent::notifyNewSupernovae()
     {
         Supernova * sup = (Supernova *)so;
 
-        if (sup->getMagnitude() > float(Options::magnitudeLimitAlertSupernovae())) 
+        if (sup->getMagnitude() > float(Options::magnitudeLimitAlertSupernovae()))
         {
             //qDebug()<<"Not Bright enough to be notified";
             continue;
@@ -226,8 +216,8 @@ void SupernovaeComponent::notifyNewSupernovae()
 
 void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
-    QString output  = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "supernovae.dat";
-    QString filename= QStandardPaths::locate(QStandardPaths::DataLocation, "scripts/supernova_updates_parser.py") ;
+    QString output  = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "supernovae.dat";
+    QString filename= KSPaths::locate(QStandardPaths::GenericDataLocation, "scripts/supernova_updates_parser.py") ;
     QStringList args;
     args << filename << output;
     //qDebug()<<filename;

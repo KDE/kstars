@@ -19,12 +19,13 @@
 
 #include <KLocalizedString>
 #include <QStandardPaths>
+#include "kspaths.h"
 
 
 KStarsSplash::KStarsSplash(const QString& customMessage )
         : QSplashScreen(QPixmap() )
 {
-    setPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "kstars.png"));
+    setPixmap(KSPaths::locate(QStandardPaths::GenericDataLocation, "kstars.png"));
     setMessage( customMessage.isEmpty() ?
                       i18n( "Welcome to KStars. Please stand by while loading..." ) :
                       customMessage);

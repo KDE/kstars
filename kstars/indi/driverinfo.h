@@ -14,7 +14,6 @@
 #include <QObject>
 #include <QVariantMap>
 
-#include <baseclient.h>
 #include "indicommon.h"
 
 class ServerManager;
