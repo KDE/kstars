@@ -23,12 +23,11 @@ Here is a screenshot of the &kstars; main window:
 <para>
 The above screenshot shows a typical view of the &kstars; program.  You
 can see the sky display centered on Betelgeuse, the brightest star in
-the constellation Orion.  Orion has just risen above the eastern horizon.
-Stars are displayed with <link linkend="ai-colorandtemp">realistic
+the constellation Orion. Stars are displayed with <link linkend="ai-colorandtemp">realistic
 colors</link> and relative brightnesses.  In three corners 
 of the sky display, there are on-screen text labels displaying data on 
-the current time (<quote>LT: 20:16:09 Tuesday 23 November 2010</quote>), the current 
-Geographic Location (<quote>Fremont, California, USA</quote>), and the 
+the current time (<quote>LT: 3:08:30 AM EEST Wednesday, July 6, 2016</quote>), the current 
+Geographic Location (<quote>Bucharest, Romania</quote>), and the 
 current object in the center of the display (<quote>Focused on: Betelgeuse 
 (alpha Orionis)</quote>).  Above the sky display, there are two toolbars.  
 The main toolbar contains shortcuts for
@@ -47,13 +46,13 @@ Right Ascension/Declination and Azimuth/Altitude) of the mouse cursor.
 <indexterm><primary>Setup Wizard</primary></indexterm>
 The first time you run &kstars;, you will be presented with a Setup Wizard,
 which allows you to easily set your geographic location and download some
-extra data files.  You can press the <guilabel>OK</guilabel> button
+extra data files. You can press the <guilabel>OK</guilabel> button
 at any time to exit the Setup Wizard.
 </para>
 
 <para>
 The second page of the Setup Wizard allows you to choose the starting
-geographic location, by selecting from the list of the 2500+ known
+geographic location, by selecting from the list of the 3400+ known
 locations on the right side of the window.  The list of locations can be
 filtered to match the text you enter in the <guilabel>City</guilabel>,
 <guilabel>Province</guilabel>, and <guilabel>Country</guilabel> edit
@@ -162,17 +161,17 @@ the object's popup menu, which provides more options.
 
 <para>
 Here is an example of the <mousebutton>right</mousebutton> click popup
-menu, for the Orion Nebula:
+menu, for the Uranus:
 </para>
 
 <screenshot>
-<screeninfo>Popup Menu for M 42</screeninfo>
+<screeninfo>Popup Menu for Uranus</screeninfo>
 <mediaobject>
   <imageobject>
     <imagedata fileref="popup.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase>Popup Menu for M 42</phrase>
+    <phrase>Popup Menu for Uranus</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -187,9 +186,9 @@ menu</link>.
 
 <para>
 The top section contains some lines of information which are not
-selectable: the object's names ("M 42"; "Orion Nebula"),
-object type ("gaseous nebula"), and the constellation
-which contains the object ("Orion").  The next three lines show the 
+selectable: the object's names ("Uranus"),
+object type ("Solar system object"), and the constellation
+which contains the object ("Pisces").  The next three lines show the 
 object's rise, set, and transit times.  If the rise and set times 
 say "circumpolar", it means that the object is always above the 
 horizon for the present location.
@@ -197,7 +196,7 @@ horizon for the present location.
 <para>
 The middle section contains actions which can be performed on the
 selected object, such as <guimenuitem>Center &amp; Track</guimenuitem>,
-<guimenuitem>Details...</guimenuitem>, and
+<guimenuitem>Details</guimenuitem>, and
 <guimenuitem>Attach Label</guimenuitem>.  See the <link 
 linkend="popup-menu">popup menu description</link> for a full list 
 and description of each action.
