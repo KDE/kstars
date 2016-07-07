@@ -518,6 +518,16 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_7">
             <item>
+             <widget class="QCheckBox" name="focusDarkFrameCheck">
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Dark Frame</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="suspendGuideCheck">
               <property name="toolTip">
                <string>Suspend Guiding while autofocus in progress</string>

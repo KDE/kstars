@@ -1453,6 +1453,10 @@
            <label>Use specified filter index when performing focus regardless of current filter settings.</label>
            <default>0</default>
        </entry>
+       <entry name="FocusDarkFrame" type="Bool">
+           <label>Take a dark frame and subtract it before running autofocus operation.</label>
+           <default>false</default>
+       </entry>
     </group>
     <group name="Align">
     <entry name="DefaultAlignCCD" type="String">

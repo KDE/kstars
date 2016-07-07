@@ -46,6 +46,7 @@ public:
     Focus();
     ~Focus();
 
+    enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
     typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
 
@@ -437,6 +438,11 @@ private:
     QCPGraph *v_graph;
 
     QVector<double> hfr_position, hfr_value;
+
+    // Calibration
+    int calibrationState;
+    bool haveDarkFrame;
+    float *darkBuffer;
 };
 
 }

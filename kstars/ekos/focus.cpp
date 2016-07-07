@@ -55,6 +55,7 @@ Focus::Focus()
     currentFilter  = NULL;
     filterName     = NULL;
     filterSlot     = NULL;
+    darkBuffer     = NULL;
 
     canAbsMove        = false;
     canRelMove        = false;
@@ -67,6 +68,9 @@ Focus::Focus()
     resetFocus        = false;
     m_autoFocusSuccesful = false;
     filterPositionPending= false;
+    haveDarkFrame        = false;
+
+    calibrationState = CALIBRATE_NONE;
 
     rememberUploadMode = ISD::CCD::UPLOAD_CLIENT;
     HFRInc =0;
@@ -176,6 +180,7 @@ Focus::Focus()
     kcfg_subFrame->setChecked(Options::focusSubFrame());
     suspendGuideCheck->setChecked(Options::suspendGuiding());
     lockFilterCheck->setChecked(Options::lockFocusFilter());
+    focusDarkFrameCheck->setChecked(Options::focusDarkFrame());
 
 }
 
@@ -183,6 +188,8 @@ Focus::~Focus()
 {
     //qDeleteAll(HFRAbsolutePoints);
    // HFRAbsolutePoints.clear();
+
+    delete (darkBuffer);
 }
 
 void Focus::toggleAutofocus(bool enable)
@@ -214,6 +221,7 @@ void Focus::resetFrame()
         {
                     targetChip->setFrame(orig_x, orig_y, orig_w, orig_h);
                     frameModified = false;
+                    haveDarkFrame=false;
         }
     }
 }
@@ -465,7 +473,7 @@ bool Focus::setFocuser(QString device)
     for (int i=0; i < focuserCombo->count(); i++)
         if (device == focuserCombo->itemText(i))
         {
-            checkFilter(i);
+            checkFocuser(i);
             return true;
         }
 
@@ -612,6 +620,7 @@ void Focus::start()
     Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
     Options::setSuspendGuiding(suspendGuideCheck->isChecked());
     Options::setLockFocusFilter(lockFilterCheck->isChecked());
+    Options::setFocusDarkFrame(focusDarkFrameCheck->isChecked());
 
     if (Options::focusLogging())
         qDebug() << "Focus: Starting focus with pulseDuration " << pulseDuration;
@@ -624,7 +633,7 @@ void Focus::start()
     if (suspendGuideCheck->isChecked())
          emit suspendGuiding(true);
 
-    emit statusUpdated(true);
+    emit statusUpdated(true);    
 
     capture();
 }
@@ -735,6 +744,16 @@ void Focus::capture()
     targetChip->setCaptureMode(FITS_FOCUS);
     targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
+    // Check if we need to capture a dark frame
+    if (inFocusLoop == false && haveDarkFrame == false && focusDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_NONE)
+    {
+        ccdFrame = FRAME_DARK;
+        calibrationState = CALIBRATE_START;
+
+        if (ISOCombo->isEnabled())
+            KMessageBox::information(NULL, i18n("Cover your telescope in order to take a dark frame..."));
+    }
+
     if (ISOCombo->isEnabled() && ISOCombo->currentIndex() != -1 && targetChip->getISOIndex() != ISOCombo->currentIndex())
         targetChip->setISOIndex(ISOCombo->currentIndex());
 
@@ -742,9 +761,6 @@ void Focus::capture()
 
     targetChip->setFrameType(ccdFrame);
 
-    /*if (subX >= 0 && subY >=0 && subW > 0 && subH > 0)
-        targetChip->setFrame(subX, subY, subW, subH);
-    else*/
     if (fw == 0 || fh == 0)
         targetChip->getFrame(&fx, &fy, &fw, &fh);
 
@@ -759,7 +775,10 @@ void Focus::capture()
 
     if (inFocusLoop == false)
     {
-        appendLogText(i18n("Capturing image..."));
+        if (ccdFrame == FRAME_LIGHT)
+            appendLogText(i18n("Capturing image..."));
+        else
+            appendLogText(i18n("Capturing dark frame..."));
 
         if (inAutoFocus == false)
         {
@@ -859,6 +878,41 @@ void Focus::newFITS(IBLOB *bp)
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
+    if (calibrationState == CALIBRATE_START)
+    {
+        calibrationState = CALIBRATE_DONE;
+        capture();
+        return;
+    }
+
+    // If we're done capturing dark frame, store it.
+    if (focusDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_DONE)
+    {
+        calibrationState = CALIBRATE_NONE;
+
+        delete (darkBuffer);
+
+        FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
+
+        Q_ASSERT(calibrateImage != NULL);
+
+        haveDarkFrame = true;
+        int totalSize = calibrateImage->getImageData()->getSize()*calibrateImage->getImageData()->getNumOfChannels();
+        darkBuffer = new float[totalSize];
+        memcpy(darkBuffer, calibrateImage->getImageData()->getImageBuffer(), totalSize);
+    }
+
+    // If we already have a dark frame, subtract it from light frame
+    if (haveDarkFrame)
+    {
+        FITSView *currentImage   = targetChip->getImage(FITS_FOCUS);
+
+        Q_ASSERT(currentImage != NULL);
+
+        FITSData *image_data = currentImage->getImageData();
+        image_data->subtract(darkBuffer);
+    }
+
     // Always reset capture mode to NORMAL
     targetChip->setCaptureMode(FITS_NORMAL);
 
@@ -878,7 +932,7 @@ void Focus::newFITS(IBLOB *bp)
             currentCCD->setUploadMode(rememberUploadMode);
     }
 
-    captureInProgress = false;
+    captureInProgress = false;    
 
     FITSData *image_data = targetChip->getImageData();
 
@@ -985,11 +1039,12 @@ void Focus::newFITS(IBLOB *bp)
                 fw = subW;
                 fh = subH;
                 frameModified = true;
+                haveDarkFrame=false;
             }
             else
                 targetChip->getFrame(&fx, &fy, &fw, &fh);
 
-            starSelected=true;
+            starSelected=true;            
 
             capture();
 
@@ -1779,6 +1834,7 @@ void Focus::focusStarSelected(int x, int y)
         fh = h;
         targetChip->setFocusFrame(fx, fy, fw, fh);
         frameModified=true;
+        haveDarkFrame=false;
     }
 
     starSelected=true;
