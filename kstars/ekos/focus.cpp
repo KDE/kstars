@@ -1547,6 +1547,9 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     {
         canAbsMove = true;
         getAbsFocusPosition();
+
+        absTicksSpin->setEnabled(true);
+        setAbsTicksB->setEnabled(true);
     }
 
     if (canRelMove == false && currentFocuser->canRelMove())
