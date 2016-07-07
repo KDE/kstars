@@ -180,19 +180,23 @@ trail</quote> whenever a solar system body is tracked, and another to
 toggle whether the color of the orbit trail fades into the background
 sky color.
 </para>
-<!-- Satellites + Supernovae pages missing-->
+
+<!-- Satellites page: -->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
-<secondary>Guides page</secondary></indexterm>
-The <guilabel>Guides</guilabel> page lets you toggle whether non-objects
-are displayed (&ie; constellation lines, constellation names, the
-Milky Way contour, the <link linkend="ai-cequator">celestial
-equator</link>, <link linkend="ai-ecliptic">the ecliptic</link>, <link
-linkend="ai-horizon">the horizon line</link>, and the opaque ground).
-You can also choose whether you would like to see Latin constellation
-names, <acronym>IAU</acronym>-standard three-letter abbreviations, or
-constellation names using your local language.
+<secondary>Satellites page</secondary></indexterm>
+The <guilabel>Satellites</guilabel> page allows you to set the satellites view options. You can decide which satellites are shown by 
+KStars, as well as their labels. You can also choose to see only visible satellites or to see them like stars.
+There is another way to select what satellites you want to be displayed on KStars globe. All you need to do is to select the
+desired satellite from the list with a simple click on its checkbox.
 </para>
+<!-- Supernovae page: -->
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>Supernovae page</secondary></indexterm>
+The <guilabel>Supernovae</guilabel> page allows you to decide if the supernovae are displayed or not by checking the <guilabel>Show supernovae</guilabel> checkbox. You can configure KStars to check for recent supernovae on startup and you can also enable supernova alerts. The magnitude limit for showing the supernovae and for supernova alerts can be set using the spin boxes control.
+</para>
+
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Colors page</secondary></indexterm>
