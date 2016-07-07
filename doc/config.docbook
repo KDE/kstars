@@ -199,6 +199,18 @@ The <guilabel>Supernovae</guilabel> page allows you to decide if the supernovae 
 
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
+<secondary>Guides page</secondary></indexterm>
+The <guilabel>Guides</guilabel> page lets you toggle whether non-objects
+are displayed (&ie;, constellation lines, constellation names, the
+Milky Way contour, the <link linkend="ai-cequator">celestial
+equator</link>, <link linkend="ai-ecliptic">the ecliptic</link>, <link
+linkend="ai-horizon">the horizon line</link>, and the opaque ground).
+You can also choose whether you would like to see Latin constellation
+names, <acronym>IAU</acronym>-standard three-letter abbreviations, or
+constellation names using your local language.
+</para>
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
 <secondary>Colors page</secondary></indexterm>
 <indexterm><primary>Color Schemes</primary>
 <secondary>Customizing</secondary></indexterm>
