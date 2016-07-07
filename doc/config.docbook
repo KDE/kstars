@@ -21,7 +21,7 @@ window:
 </para>
 
 <para>
-There is a list of over 2500 predefined cities available to choose from.
+There is a list of over 3400 predefined cities available to choose from.
 You set your location by highlighting a city from this list.  Each
 city is represented in the world map as a small dot, and when a city
 is highlighted in the list, a red crosshairs appears on its location
@@ -31,18 +31,18 @@ in the map.
 <para>
 <indexterm><primary>Geographic Location Tool</primary>
 <secondary>Filtering</secondary></indexterm>
-It is not practical to scroll through the full list of 2500 locations,
+It is not practical to scroll through the full list of 3400 locations,
 looking for a specific city. To make searches easier, the list can be
 filtered by entering text in the boxes below the map. For example, in
-the screenshot, the text <quote>Ba</quote> appears in the
-<guilabel>City Filter</guilabel> box, while <quote>M</quote> has been
+the screenshot, the text <quote>A</quote> appears in the
+<guilabel>City Filter</guilabel> box, while <quote>Te</quote> has been
 entered in the <guilabel>Province Filter</guilabel> box, and
 <quote>USA</quote> is in the <guilabel>Country Filter</guilabel>
 box. Note that all of the cities displayed in the list have city,
 province, and country names that begin with the entered filter
-strings, and that the message below the filter boxes indicates that 7
+strings, and that the message below the filter boxes indicates that 6
 cities are matched by the filters.  Also notice that the dots
-representing these seven cities in the map have been colored white,
+representing these six cities in the map have been colored white,
 while the unmatched cities remain gray.
 </para><para>
 The list can also be filtered by location in the map.  Clicking anywhere
@@ -57,7 +57,7 @@ The <link linkend="ai-geocoords">longitude, latitude</link> and
 <link linkend="ai-timezones">time zone</link> information for the
 currently-selected location are displayed in the boxes at the bottom of
 the window.  If you feel that any of these values are inaccurate, you
-can modify them and press the <guibutton>Add City to List</guibutton> button
+can modify them and press the <guibutton>+</guibutton> (Add City) button
 to record your custom version of the location.  You can also define a
 completely new location by pressing the
 <guibutton>Clear Fields</guibutton> button, and entering the data for
@@ -99,7 +99,7 @@ You can set the  time and date by selecting <guimenuitem>Set
 Time...</guimenuitem> from the <guimenu>Time</guimenu> menu, or by
 pressing the <guiicon>time</guiicon> icon in the toolbar.  The
 <guilabel>Set Time</guilabel> window uses a standard &kde; Date Picker
-widget, coupled with two spinboxes for setting the hours and minutes. 
+widget, coupled with a spinbox for setting the hours and minutes. 
 If you want to re-synchronize the simulation clock back to the
 current CPU time, just select <guimenuitem>Set Time to Now</guimenuitem>
 from the <guimenu>Time</guimenu> menu.</para>
@@ -108,7 +108,7 @@ from the <guimenu>Time</guimenu> menu.</para>
 <indexterm><primary>Date and Time</primary>
 <secondary>Extended range of dates</secondary></indexterm>
 &kstars; can accept very remote dates beyond the usual limits imposed by
-QDate.  Currently, you can set the date between the years -50000 and +50000.
+QDate.  Currently, you can set the date between the years -100000 and +100000.
 We may extend this range even further in future releases.  However, please
 be aware that the accuracy of the simulation becomes more and more degraded
 as more remote dates are examined.  This is especially true for the positions
@@ -145,7 +145,7 @@ The <guilabel>Configure &kstars;</guilabel> window is divided into ten
 pages:
 <guilabel>Catalogs</guilabel>, <guilabel>Solar System</guilabel>, <guilabel>Satellites</guilabel>,
 <guilabel>Supernovae</guilabel>, <guilabel>Guides</guilabel>, <guilabel>Colors</guilabel>, 
-<guilabel>INDI</guilabel>, <guilabel>Ekos</guilabel>, <guilabel>Xplanet</guilabel>, and <guilabel>Advanced</guilabel>.
+<guilabel>INDI</guilabel>, <guilabel>Ekos</guilabel> and <guilabel>Advanced</guilabel>.
 </para>
 
 <para>
@@ -160,7 +160,7 @@ displaying the names and/or magnitudes of stars.  Below the stars section,
 the <guilabel>Deep-Sky Objects</guilabel> section controls the display of
 several non-stellar object catalogs.  By default, the list includes the
 Messier, NGC and IC catalogs.  You can add your own custom object catalogs
-by pressing the <guibutton>Import Catalog</guibutton> or <guilabel>Load Catalog</guilabel> button.  For
+by pressing the <guibutton>Import Catalog...</guibutton> or <guilabel>Load Catalog...</guilabel> button.  For
 detailed instructions on preparing a catalog data file, see the
 <filename>README.customize</filename> file that ships with &kstars;. It is possible to define
 faint limits for sky objects for zoomed in and zoomed out states of the rendering. When
@@ -185,7 +185,7 @@ sky color.
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Guides page</secondary></indexterm>
 The <guilabel>Guides</guilabel> page lets you toggle whether non-objects
-are displayed (&ie;, constellation lines, constellation names, the
+are displayed (&ie; constellation lines, constellation names, the
 Milky Way contour, the <link linkend="ai-cequator">celestial
 equator</link>, <link linkend="ai-ecliptic">the ecliptic</link>, <link
 linkend="ai-horizon">the horizon line</link>, and the opaque ground).
@@ -220,7 +220,7 @@ background, <guilabel>Night Vision</guilabel>, which uses only shades
 of red in order to protect dark-adapted vision, and <guilabel>Moonless
 Night</guilabel>, a more realistic, dark theme.  Additionally,
 you can save the current color settings as a custom scheme by clicking
-the <guibutton>Save Current Colors</guibutton> button.  It will prompt
+the <guibutton>Save Current Colors...</guibutton> button.  It will prompt
 you for a name for the new scheme, and then your scheme will appear in
 the list in all future &kstars; sessions.  To remove a custom scheme,
 simply highlight it in the list, and press the <guibutton>Remove Color
@@ -229,10 +229,10 @@ Scheme</guibutton> button.
 <para>For detailed explanation of the options on the <guilabel>INDI</guilabel> 
 page see the <link linkend="indi-configure">Configure INDI</link> section.
 </para>
-<!--
-missing:
-INDI, Ekos, Xplanet
--->
+
+<para>For detailed explanation of the options on the <guilabel>Ekos</guilabel> 
+page see the <link linkend="indi-configure">Configure Ekos</link> section.
+</para>
 
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
@@ -254,7 +254,7 @@ Note that atmospheric refraction is never applied if you are using
 <guilabel>Equatorial coordinates</guilabel>.
 </para><para>
 <indexterm><primary>Animated Slewing</primary></indexterm>
-The <guilabel>Use animating slewing</guilabel> checkbox controls how the
+The <guilabel>Use animated slewing</guilabel> checkbox controls how the
 display changes when a new focus position is selected in the map.  By
 default, you will see the sky drift or <quote>slew</quote> to the new
 position; if you uncheck this option, then the display will instead
@@ -283,7 +283,7 @@ cannot keep up with the demand, then the display will seem sluggish or jerky.
 To mitigate this, &kstars; will hide certain objects during these rapid-redraw
 situations, as long as the <guilabel>Hide objects while moving</guilabel>
 checkbox is selected.  The timestep threshold above which objects will be
-hidden is determined by the <guilabel>Also hide if timescale greater
+hidden is determined by the <guilabel>Also hide if time step larger
 than:</guilabel> timestep-spinbox.  You can specify the objects that should
 be hidden in the <guilabel>Configure Hidden Objects</guilabel> group box.
 </para>
@@ -380,8 +380,8 @@ This window lets you modify the four properties that define a FOV symbol: name, 
 shape, and color.  The angular size for the symbol can either be entered directly in the
 <guilabel>Field of View</guilabel> edit box, or you can use the Eyepiece/Camera Tabs to
 calculate the field-of-view angle, given parameters of your telescope/eyepiece or
-telescope/camera setup.  The four available shapes are: Circle, Square, Crosshairs, and
-Bullseye.  Once you have specified all four parameters, press <guibutton>Ok</guibutton>,
+telescope/camera setup.  The five available shapes are: Square, Circle, Crosshairs, Bullseye and Semitransparent circle.
+Once you have specified all four parameters, press <guibutton>Ok</guibutton>,
 and the symbol will appear in the list of defined symbols.  It will also be available
 from the <menuchoice><guimenu>Settings</guimenu><guisubmenu>FOV Symbols</guisubmenu></menuchoice> menu.
 </para>
