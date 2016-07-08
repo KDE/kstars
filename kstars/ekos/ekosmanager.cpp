@@ -126,7 +126,7 @@ EkosManager::EkosManager()
     // dynamically. I used setMinimumSize() but it doesn't appear to make any difference.
     // Also set Layout policy to SetMinAndMaxSize as well. Any idea how to fix this?
     // FIXME
-    resize(900,750);
+    resize(1000,750);
 }
 
 EkosManager::~EkosManager()
@@ -1070,6 +1070,12 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
             alignProcess->syncTelescopeInfo();
         }
 
+        if (mountProcess)
+        {
+           mountProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+           mountProcess->syncTelescopeInfo();
+        }
+
         return;
 
     }
@@ -1103,6 +1109,9 @@ void EkosManager::processNewProperty(INDI::Property* prop)
 {
     if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDER_INFO"))
     {
+        if (focusProcess)
+            focusProcess->syncCCDInfo();
+
         if (guideProcess)
             guideProcess->syncCCDInfo();
 
@@ -1118,6 +1127,12 @@ void EkosManager::processNewProperty(INDI::Property* prop)
         {
            guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
            guideProcess->syncTelescopeInfo();
+        }
+
+        if (alignProcess)
+        {
+            alignProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+            alignProcess->syncTelescopeInfo();
         }
 
         if (mountProcess)
@@ -1187,6 +1202,12 @@ void EkosManager::processNewProperty(INDI::Property* prop)
             focusProcess->checkFilter();
 
         return;
+    }
+
+    if (strstr(prop->getName(), "FOCUS_POSITION"))
+    {
+        if (focusProcess)
+            focusProcess->checkFocuser();
     }
 
 }

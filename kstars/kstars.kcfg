@@ -1514,6 +1514,10 @@
             <label>Accuracy threshold in arcseconds between solution and target coordinates.</label>
             <default>30</default>
           </entry>
+          <entry name="AlignDarkFrame" type="Bool">
+              <label>Take a dark frame and subtract it before running astrometry operation.</label>
+              <default>false</default>
+          </entry>
     </group>
     <group name="Guide">
     <entry name="DefaultGuideCCD" type="String">

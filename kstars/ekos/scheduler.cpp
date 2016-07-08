@@ -204,6 +204,7 @@ void Scheduler::watchJobChanges(bool enable)
         connect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
 
         connect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         connect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
@@ -228,6 +229,7 @@ void Scheduler::watchJobChanges(bool enable)
         disconnect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
 
         disconnect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         disconnect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));

@@ -40,7 +40,7 @@ class RemoteAstrometryParser;
  * to perform when the solver completes successfully. Measurement of polar alignment errors is performed by capturing two images on selected points in the sky and measuring the declination drift to calculate
  * the error in the mount's azimutn and altitude displacement from optimal. Correction is carried by asking the user to re-center a star by adjusting the telescope's azimuth and/or altitude knobs.
  *@author Jasem Mutlaq
- *@version 1.0
+ *@version 1.2
  */
 class Align : public QWidget, public Ui::Align
 {
@@ -52,6 +52,7 @@ public:
     Align();
     ~Align();
 
+    enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
     typedef enum { ALIGN_SYNC, ALIGN_SLEW, ALIGN_SOLVE } GotoMode;
@@ -302,6 +303,9 @@ private slots:
 
     void setDefaultCCD(QString ccd);
 
+    /* We need to take a dark frame when CCD, Frame size, or exposure time changes */
+    void invalidateDarkFrame();
+
 signals:
         void newLog();
         void solverComplete(bool);
@@ -452,6 +456,10 @@ private:
 
     QUrl dirPath;
 
+    // Dark Frame
+    int calibrationState;
+    bool haveDarkFrame;
+    float *darkBuffer;
 
 };
 
