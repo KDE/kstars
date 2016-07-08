@@ -12,8 +12,7 @@
       <arg type="b" direction="out"/>
     </method>
     <method name="loadAndSlew">
-      <arg name="fileURL" type="QUrl" direction="in"/>
-      <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QUrl"/>
+      <arg name="fileURL" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setCCD">

@@ -54,7 +54,7 @@ Align::Align()
     new AlignAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Align",  this);
 
-    dirPath = QUrl(QDir::homePath());
+    dirPath = QDir::homePath();
 
     currentCCD     = NULL;
     currentTelescope = NULL;
@@ -1664,28 +1664,27 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
         dec_str = QString("%1:%2:%3").arg(dec_s.degree(), 2, 10, QChar('0')).arg(dec_s.arcmin(), 2, 10, QChar('0')).arg(dec_s.arcsec(), 2, 10, QChar('0'));
 }
 
-void Align::loadAndSlew(QUrl fileURL)
+void Align::loadAndSlew(QString fileURL)
 {
     if (fileURL.isEmpty())
-        fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Load Image"), dirPath, "Images (*.fits *.fit *.jpg *.jpeg)");
+        fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Load Image"), dirPath, "Images (*.fits *.fit *.jpg *.jpeg)");
 
     if (fileURL.isEmpty())
         return;
 
-    dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
+    QFileInfo fileInfo(fileURL);
+    dirPath = fileInfo.absolutePath();
 
     loadSlewMode = true;
     loadSlewState=IPS_BUSY;
 
     slewR->setChecked(true);
 
-    //loadSlewIterations = loadSlewIterationsSpin->value();
-
     solveB->setEnabled(false);
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    startSovling(fileURL.path(), false);
+    startSovling(fileURL, false);
 }
 
 void Align::setExposure(double value)

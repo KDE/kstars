@@ -278,7 +278,7 @@ public slots:
      * the telescope is pointing to the same coordinates of the image.
      * @param fileURL URL to the image to solve
      */
-     Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QUrl fileURL = QUrl());
+     Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QString fileURL = QString());
 
     void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);    
 
@@ -454,7 +454,7 @@ private:
     // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
     ISD::CCD::UploadMode rememberUploadMode;
 
-    QUrl dirPath;
+    QString dirPath;
 
     // Dark Frame
     int calibrationState;

@@ -120,13 +120,13 @@ public:
      * Opens a sequence files and checks whether the jobs contained within are complete or not. The check is done by quering the file system for the produced files for each job.
      * If returns true if all jobs are complete, false otherwise.sudo
      */
-    Q_SCRIPTABLE bool isSequenceFileComplete(const QUrl &fileURL);
+    Q_SCRIPTABLE bool isSequenceFileComplete(const QString &fileURL);
 
     /** DBUS interface function.
      * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
      * @param fileURL full URL of the filename
      */
-    Q_SCRIPTABLE bool loadSequenceQueue(const QUrl &fileURL);
+    Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL);
 
     /** DBUS interface function.
      * Enables or disables the maximum guiding deviation and sets its value.

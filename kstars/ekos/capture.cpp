@@ -1610,23 +1610,28 @@ void Capture::executeJob()
     }
 
     // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system unless ignoreJobProgress is set to true
-    if (ignoreJobProgress == false && Options::rememberJobProgress() && activeJob->isPreview() == false && seqFileCount > 0)
+    if (ignoreJobProgress == false && Options::rememberJobProgress() && activeJob->isPreview() == false)
     {
-        // Fully complete
-        if (seqFileCount >= seqTotalCount)
-        {
-            seqCurrentCount=seqTotalCount;
-            activeJob->setCompleted(seqCurrentCount);
-            imgProgress->setValue(seqCurrentCount);
-            processJobCompletion();
-            return;
-        }
+        checkSeqBoundary(activeJob->getFITSDir());
 
-        // Partially complete
-        seqCurrentCount=seqFileCount;
-        activeJob->setCompleted(seqCurrentCount);
-        currentImgCountOUT->setText( QString::number(seqCurrentCount));
-        imgProgress->setValue(seqCurrentCount);
+        if (seqFileCount > 0)
+        {
+            // Fully complete
+            if (seqFileCount >= seqTotalCount)
+            {
+                seqCurrentCount=seqTotalCount;
+                activeJob->setCompleted(seqCurrentCount);
+                imgProgress->setValue(seqCurrentCount);
+                processJobCompletion();
+                return;
+            }
+
+            // Partially complete
+            seqCurrentCount=seqFileCount;
+            activeJob->setCompleted(seqCurrentCount);
+            currentImgCountOUT->setText( QString::number(seqCurrentCount));
+            imgProgress->setValue(seqCurrentCount);
+        }
     }
 
     // Update button status
@@ -1857,16 +1862,18 @@ void Capture::loadSequenceQueue()
 
     dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
 
+    loadSequenceQueue(fileURL.path());
+
 }
 
-bool Capture::loadSequenceQueue(const QUrl &fileURL)
+bool Capture::loadSequenceQueue(const QString &fileURL)
 {
     QFile sFile;
-    sFile.setFileName(fileURL.path());
+    sFile.setFileName(fileURL);
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {
-        QString message = i18n( "Unable to open file %1",  fileURL.path());
+        QString message = i18n( "Unable to open file %1",  fileURL);
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         return false;
     }
@@ -1956,7 +1963,7 @@ bool Capture::loadSequenceQueue(const QUrl &fileURL)
         }
     }
 
-    sequenceURL = fileURL;
+    sequenceURL = QUrl::fromLocalFile(fileURL);
     mDirty = false;
     delLilXML(xmlParser);
 
@@ -3296,7 +3303,7 @@ bool Capture::processPostCaptureCalibrationStage()
     return true;
 }
 
-bool Capture::isSequenceFileComplete(const QUrl &fileURL)
+bool Capture::isSequenceFileComplete(const QString &fileURL)
 {
     // If we don't remember job progress, then no sequence would be complete
     if (Options::rememberJobProgress() == false)
@@ -3313,27 +3320,26 @@ bool Capture::isSequenceFileComplete(const QUrl &fileURL)
     if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         return false;
 
-    QString prevFITSDir, prevPrefix;
+    QStringList jobDirs;
     int totalJobCount = 0, totalFileCount=0;
     foreach(SequenceJob *job, jobs)
     {
-        updateSequencePrefix(job->getPrefix(), job->getFITSDir());
-
+        jobDirs << job->getFITSDir();
         totalJobCount   += job->getCount();
+    }
 
-        // We only count files if prefix or directory is different
-        // Otherwise there is no way to distinguish among files
-        if (job->getPrefix() != prevPrefix || job->getFITSDir() != prevFITSDir)
-        {
-            totalFileCount  += seqFileCount;
-            prevPrefix = job->getPrefix();
-            prevFITSDir= job->getFITSDir();
-        }
+    jobDirs.removeDuplicates();
+
+    foreach(QString dir, jobDirs)
+    {
+        QDir oneDir(dir);
+        oneDir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
+        totalFileCount += oneDir.count();
     }
 
     clearSequenceQueue();
 
-    return (totalJobCount == totalFileCount);
+    return (totalFileCount >= totalJobCount);
 }
 
 bool Capture::isFITSDirUnique(SequenceJob *job)
