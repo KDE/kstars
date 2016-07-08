@@ -673,8 +673,6 @@ bool Align::captureAndSolve()
        targetChip->setCaptureMode(FITS_CALIBRATE);
    else
        targetChip->setCaptureMode( kcfg_solverPreview->isChecked() ? FITS_NORMAL : FITS_WCSM);
-   if (kcfg_solverPreview->isChecked())
-       targetChip->setCaptureFilter(FITS_AUTO_STRETCH);
    targetChip->setBinning(binXIN->value(), binYIN->value());
    targetChip->setFrameType(ccdFrame);
 
@@ -715,14 +713,14 @@ void Align::newFITS(IBLOB *bp)
             return;
         }
 
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
         // If we're done capturing dark frame, store it.
         if (alignDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_DONE)
         {
             calibrationState = CALIBRATE_NONE;
-
             delete (darkBuffer);
 
-            ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
             FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
             Q_ASSERT(calibrateImage != NULL);
 
@@ -747,6 +745,19 @@ void Align::newFITS(IBLOB *bp)
                 image_data.subtract(darkBuffer);
                 image_data.saveFITS(fitsFileName);
             }
+        }
+
+        if (kcfg_solverPreview->isChecked())
+        {
+            FITSView *previewImage = targetChip->getImage(FITS_NORMAL);
+            FITSData *previewData  = previewImage->getImageData();
+
+            if (haveDarkFrame)
+                previewData->subtract(darkBuffer);
+
+            previewData->applyFilter(FITS_AUTO_STRETCH);
+            previewImage->rescale(ZOOM_KEEP_LEVEL);
+            previewImage->updateFrame();
         }
 
         startSovling(fitsFileName);
