@@ -426,7 +426,7 @@ object.</para></listitem>
 <keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo>
 </shortcut>
 <guimenu>Tools</guimenu>
-<guimenuitem>Calculator...</guimenuitem>
+<guimenuitem>Calculator</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>
@@ -450,6 +450,9 @@ control it with &kstars;.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo>
+</shortcut>
 <guimenu>Tools</guimenu>
 <guisubmenu>Devices</guisubmenu>
 <guimenuitem>Device Manager...</guimenuitem>
@@ -488,18 +491,6 @@ which allows you to plan observations of Solar System planets by giving graphica
 </listitem>
 </varlistentry>
 
-<varlistentry>
-<term><menuchoice>
-<guimenu>Tools</guimenu>
-<guimenuitem>Moon Phase Calendar</guimenuitem>
-</menuchoice></term>
-<listitem>
-<para>
-Opens the <guilabel>Moon Phase Calendar</guilabel> Tool with graphical representation of Moon phases with convenient calendar to choose the month and year.
-</para>
-</listitem>
-</varlistentry>
-
 <!-- removed after 4.9 see http://commits.kde.org/kstars/c8dd5af7bff7f738ce2b6ab68bdb46e9125bde7d
 <varlistentry>
 <term><menuchoice>
@@ -524,7 +515,7 @@ star from the American Association of Variable Star Observers.
 <keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo>
 </shortcut>
 <guimenu>Tools</guimenu>
-<guimenuitem>Altitude vs. Time...</guimenuitem>
+<guimenuitem>Altitude vs. Time</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>
@@ -542,7 +533,7 @@ sessions.
 <keycombo action="simul">&Ctrl;<keycap>U</keycap></keycombo>
 </shortcut>
 <guimenu>Tools</guimenu>
-<guimenuitem>What's Up Tonight...</guimenuitem>
+<guimenuitem>What's Up Tonight</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>
@@ -575,7 +566,7 @@ which allows you to be informed about the most interesting observations that can
 <keycombo action="simul">&Ctrl;<keycap>B</keycap></keycombo>
 </shortcut>
 <guimenu>Tools</guimenu>
-<guimenuitem>Script Builder...</guimenuitem>
+<guimenuitem>Script Builder</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>
@@ -591,7 +582,7 @@ which provides a GUI interface for building &kstars; &DBus; scripts.
 <keycombo action="simul">&Ctrl;<keycap>Y</keycap></keycombo>
 </shortcut>
 <guimenu>Tools</guimenu>
-<guimenuitem>Solar System...</guimenuitem>
+<guimenuitem>Solar System</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>
@@ -604,6 +595,9 @@ current simulation date.
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>K</keycap></keycombo>
+</shortcut>
 <guimenu>Tools</guimenu>
 <guimenuitem>Ekos</guimenuitem>
 </menuchoice></term>
@@ -620,7 +614,7 @@ current simulation date.
 <keycombo action="simul">&Ctrl;<keycap>J</keycap></keycombo>
 </shortcut>
 <guimenu>Tools</guimenu>
-<guimenuitem>Jupiter's Moons...</guimenuitem>
+<guimenuitem>Jupiter's Moons</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>
@@ -654,7 +648,7 @@ which can be used to assign color labels and icons to the given positions on the
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo>
+<keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
 </shortcut>
 <guimenu>Data</guimenu>
 <guimenuitem>Download New Data...</guimenuitem>
@@ -663,12 +657,15 @@ which can be used to assign color labels and icons to the given positions on the
 dialog to download additional data for &kstars;.
 </para></listitem>
 </varlistentry>
+
 <varlistentry>
 <term><menuchoice>
 <guimenu>Data</guimenu>
 <guisubmenu>Updates</guisubmenu>
 </menuchoice></term>
-<listitem><para>This submenu can be used to update various object data, namely asteroid and comet orbit elements as well as recent supernovae data from internet. The data will be downloaded for the current user account only. If you use &kstars; from different account you should download them for every account separately.
+<listitem><para>This submenu can be used to update various object data, namely asteroids, comets and satellites orbital 
+elements as well as recent supernovae data from internet. The data will be downloaded for the current user account only. 
+If you use &kstars; from different account you should download them for every account separately.
 </para>
 <para>&kstars; tries to download recent supernovae list automatically by default. You can switch the download off using <guilabel>Supernovae</guilabel> page of &kstars; Settings window.</para>
 </listitem>
@@ -692,13 +689,14 @@ dialog to download additional data for &kstars;.
 <listitem><para>Open the <link linkend="tool-obsplanner">Observation Planner</link> 
 tool</para></listitem>
 </varlistentry>
+
 <varlistentry>
 <term><menuchoice>
 <shortcut>
 <keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo>
 </shortcut>
 <guimenu>Observation</guimenu>
-<guimenuitem>Execute the session Plan</guimenuitem>
+<guimenuitem>Execute the session Plan...</guimenuitem>
 </menuchoice></term>
 <listitem><para>Opens <link linkend="tool-obsplanner">session plan wizard</link> or execute the planned session.</para></listitem>
 </varlistentry>
@@ -725,7 +723,9 @@ tool</para></listitem>
 <guisubmenu>Info Boxes</guisubmenu>
 <guimenuitem>Show Time Box</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Time Info Box
+<listitem><para>Toggle display of the Time Info Box. By default, the Time Info Box is located
+in the top left side of the screen. You can change the position of Time Info Box by holding 
+the left-click mouse button and dragging it to the new position. 
 </para></listitem>
 </varlistentry>
 
@@ -735,7 +735,9 @@ tool</para></listitem>
 <guisubmenu>Info Boxes</guisubmenu>
 <guimenuitem>Show Focus Box</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Focus Info Box
+<listitem><para>Toggle display of the Focus Info Box. By default, the Focus Info Box is located
+in the top right side of the screen. You can change the position of Focus Info Box by holding 
+the left-click mouse button and dragging it to the new position. 
 </para></listitem>
 </varlistentry>
 
@@ -745,7 +747,9 @@ tool</para></listitem>
 <guisubmenu>Info Boxes</guisubmenu>
 <guimenuitem>Show Location Box</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Location Info Box
+<listitem><para>Toggle display of the Location Info Box. By default, the Location Info Box is located
+in the bottom left side of the screen. You can change the position of Location Info Box by holding 
+the left-click mouse button and dragging it to the new position. 
 </para></listitem>
 </varlistentry>
 
@@ -753,10 +757,48 @@ tool</para></listitem>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
 <guisubmenu>Toolbars Shown</guisubmenu>
+<guimenuitem>Main Toolbar</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Main and View Toolbar
+<listitem><para>Toggle display of the Main Toolbar. By default, the Main Toolbar provides useful shortcuts 
+for controlling the sky map view (i.e. Zoom in and Zoom out) and for controlling KStars clock as well. 
+You can Start / Stop the clock, advance one step backward / forward in time and also you can easily set 
+the time step used by KStars' clock. The time step is the rate at which time flows in the simulation. 
+For setting the time step, you can use the spin box used for establishing the time step units and the 
+spin box used for increasing / decreasing the time step value.
+Using the Main Toolbar you can quickly open the <guilabel>Find Object</guilabel>, <guilabel>Set Time</guilabel>
+or <guilabel>Set Geographic Location</guilabel> window.
+Main Toolbar can be configured using <guilabel>Settings -> Configure Toolbars...</guilabel> submenu.
 </para></listitem>
 </varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>Toolbars Shown</guisubmenu>
+<guimenuitem>View Toolbar</guimenuitem>
+</menuchoice></term>
+<listitem><para>Toggle display of the View Toolbar. View Toolbar controls which sky objects are drawn on KStars Sky Map
+(stars, deep sky objects, Solar system objects, supernovae or satellites) as well as what constellation information is 
+included (constellation lines, constellation names, constellation art or constellation boundaries). It also provides icon 
+shortcuts for: showing milky way (drawn with dark grey color), showing equatorial/horizontal coordinate grid and for showing
+the green opaque ground. Note that when the horizon is switched off, refraction effects are temporarily disabled.
+View Toolbar can be configured using <guilabel>Settings -> Configure Toolbars...</guilabel> submenu.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>Toolbars Shown</guisubmenu>
+<guimenuitem>INDI Toolbar</guimenuitem>
+</menuchoice></term>
+<listitem><para>Toggle display of the INDI Toolbar. By default, INDI Toolbar contains three shortcut icons:
+<guilabel>Toggle Ekos</guilabel>, <guilabel>Toggle INDI Control Panel</guilabel> and 
+<guilabel>Toggle FITS Viewer</guilabel>.
+INDI Toolbar can be configured using <guilabel>Settings -> Configure Toolbars...</guilabel> submenu.
+</para></listitem>
+</varlistentry>
+
 
 <varlistentry>
 <term><menuchoice>
@@ -764,7 +806,7 @@ tool</para></listitem>
 <guisubmenu>Statusbar</guisubmenu>
 <guimenuitem>Show Statusbar</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Statusbar
+<listitem><para>Toggle display of the Statusbar.
 </para></listitem>
 </varlistentry>
 
@@ -775,7 +817,7 @@ tool</para></listitem>
 <guimenuitem>Show Az/Alt Field</guimenuitem>
 </menuchoice></term>
 <listitem><para>Toggle display of the mouse cursor's horizontal
-coordinates in the statusbar
+coordinates in the statusbar.
 </para></listitem>
 </varlistentry>
 
@@ -785,8 +827,19 @@ coordinates in the statusbar
 <guisubmenu>Statusbar</guisubmenu>
 <guimenuitem>Show RA/Dec Field</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the mouse cursor's horizontal
-coordinates in the statusbar
+<listitem><para>Toggle display of the mouse cursor's equatorial
+coordinates in the statusbar.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>Statusbar</guisubmenu>
+<guimenuitem>Show J2000.0 RA/Dec Field</guimenuitem>
+</menuchoice></term>
+<listitem><para>Toggle display of the mouse cursor's equatorial J2000
+coordinates in the statusbar.
 </para></listitem>
 </varlistentry>
 
@@ -796,8 +849,8 @@ coordinates in the statusbar
 <guisubmenu>Color Schemes</guisubmenu>
 </menuchoice></term>
 <listitem><para>
-This submenu contains all of the defined color schemes, including your
-custom schemes.  Select any item to set that color scheme.
+This submenu contains all of the defined color schemes: Classic, Star Chart, Night Vision and Moonless Night.
+It can also include your custom schemes.  Select any item to set that color scheme.
 </para></listitem>
 </varlistentry>
 
@@ -809,28 +862,43 @@ custom schemes.  Select any item to set that color scheme.
 <listitem><para>
 This submenu lists the available field-of-view (FOV) Symbols.
 The FOV Symbol is drawn at the center of the display.  You
-may choose from the list of predefined symbols (No symbol,
-7x35 Binoculars, One degree, or HST WFPC2), or you may define
-your own symbols (or modify existing symbols) using the
-<guimenuitem>Edit FOV Symbols...</guimenuitem> item.
+may choose one or more from the list of predefined symbols (7x35 Binoculars, Telrad, One Degree, HST WFPC2 
+or 30m at 1.3cm) by checking their specific checkbox, or you may use no symbol by unchecking all the items from 
+the symbols list. You can also define your own symbols (or modify existing symbols) using the
+<guimenuitem>Edit FOV Symbols...</guimenuitem> option.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guimenuitem>Switch to OpenGL/QPainter backend</guimenuitem>
+<guisubmenu>Artificial Horizon...</guisubmenu>
 </menuchoice></term>
-<listitem>
-<para>
-&kstars; has an experimental <ulink url="https://en.wikipedia.org/wiki/OpenGL">OpenGL</ulink> support. The corresponding backend works much faster on machines with hardware acceleration. Switch back to QPainter backend (default) if you experience troubles with OpenGL backend.
-</para>
-<important>
-  <para>
-    In the current version, infoboxes do not work correctly when using OpenGL backend. So they will be disabled.
-  </para>
-</important>
-</listitem>
+<listitem><para>
+If you select this submenu, then Artificial Horizon Manager will be opened. Artificial Horizon Manager 
+is used to define on the skymap one or more regions that are blocked from view from your current 
+location (i.e. tall trees or building). The window is split in two sections: in the left side is 
+the Regions section while in the right side is the Points section. You can add a new region by pressing 
+<guibutton>+</guibutton> (Add Region) button or you can remove a region by selecting it in the regions 
+list and then pressing the <guibutton>-</guibutton> (Remove Region) button. In order to draw a region 
+you need to define a list of points that encompasses the blocked area. You can add a new point by 
+pressing the <guibutton>+</guibutton> (Add Point) button from the right Points section. You can also 
+remove a highlighted point from the list of points or you can clear all the points. There are two ways 
+to add a new point to a selected region: manually by entering the point's coordinates or by selecting 
+the point from the skymap after clicking <guibutton>Select Points</guibutton> button.
+Note that each point is described by a set of horizontal coordinates: Az (Azimuth) and Alt (Altitude). 
+If you want to modify a point's coordinates, just double click on its Az/Alt text box value and enter 
+the new value. First and Last points must be on the horizon.
+Polygons must be closed to be considered valid regions.
+Artificial Horizon Manager provides a easy way to rename your regions. By default, regions are 
+named as: "Region " plus an index (i.e. "Region 1" or "Region 2"). For renaming a region, all you need 
+to do is to double click on its name and then you will be invited to complete a new region name. 
+You can also control which regions are enabled or disabled for marking on the map by a simple 
+click on the checkbox in front of each region. After you defined your desired regions you can apply 
+them by pressing the <guibutton>Apply</guibutton> button.
+If you want to use these regions again, in further astronomy sessions, you can save them such that 
+next time when you will open KStars they will be automatically marked on the skymap.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -839,13 +907,15 @@ your own symbols (or modify existing symbols) using the
 <keycombo action="simul">&Ctrl;<keycap>0</keycap></keycombo>
 </shortcut>
 <guimenu>Settings</guimenu>
-<guimenuitem>Define Equipment...</guimenuitem>
+<guisubmenu>Configure Observation Logging</guisubmenu>
+<guimenuitem>List your Equipment...</guimenuitem>
 </menuchoice></term>
-<listitem>
-<para>
-Allows you to define equipment (telescope, eyepiece, lens and filter) characteristics for observation logs.
-</para>
-</listitem>
+<listitem><para>Allows you to define your equipment characteristics for observation logs.
+The Configure Equipment window is divided into four tabs: <guilabel>Telescope</guilabel>, 
+<guilabel>Eyepiece</guilabel>, <guilabel>Lens</guilabel> and <guilabel>Filter</guilabel>.
+You can add a new equipment by completing its characteristics and pressing <guibutton>Add New...</guibutton>
+button. You can also save or remove an equipment from the list.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -854,14 +924,19 @@ Allows you to define equipment (telescope, eyepiece, lens and filter) characteri
 <keycombo action="simul">&Ctrl;<keycap>1</keycap></keycombo>
 </shortcut>
 <guimenu>Settings</guimenu>
-<guimenuitem>Add Observer...</guimenuitem>
+<guisubmenu>Configure Observation Logging</guisubmenu>
+<guimenuitem>Manage Observer...</guimenuitem>
 </menuchoice></term>
-<listitem>
-<para>
-Can be used to add a new observer item for your observation logs.
-</para>
-</listitem>
+<listitem><para>Selecting this will open Manage Observers window that enables you to register 
+a number of observers which are using KStars on this computer. You can add a new entry to 
+observers list by completing the mandatory fields: <guilabel>Name</guilabel> and <guilabel>Surname</guilabel>
+and then pressing the <guibutton>+</guibutton> (Add observer) button.
+Note that <guilabel>Contact</guilabel> field is optional, KStars allowing you to add a new observer 
+even though <guilabel>Contact</guilabel> text box is empty. 
+You can also remove an observer from the list using <guibutton>-</guibutton> (Remove observer) button.
+</para></listitem>
 </varlistentry>
+
 <varlistentry>
 <term><menuchoice>
 <shortcut>
@@ -877,6 +952,27 @@ location</link>
 </para>
 </listitem>
 </varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure Shortcuts...</guimenuitem>
+</menuchoice></term>
+<listitem><para>
+TODO
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure Toolbars...</guimenuitem>
+</menuchoice></term>
+<listitem><para>
+TODO
+</para></listitem>
+</varlistentry>
+
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
@@ -886,8 +982,16 @@ location</link>
 options</link></para></listitem>
 </varlistentry>
 
-<!-- Startup Wizard missing-->
- 
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Startup Wizard...</guimenuitem>
+</menuchoice></term>
+<listitem><para>
+TODO
+</para></listitem>
+</varlistentry>
+
 </variablelist>
 
 <para>
