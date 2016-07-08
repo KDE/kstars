@@ -2130,7 +2130,7 @@ void Capture::saveSequenceQueue()
 {
     QUrl backupCurrent = sequenceURL;
 
-    if (sequenceURL.path().contains("/tmp/"))
+    if (sequenceURL.path().startsWith("/tmp/") || sequenceURL.path().contains("/Temp"))
         sequenceURL.clear();
 
     // If no changes made, return.

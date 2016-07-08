@@ -3181,7 +3181,7 @@ void Scheduler::save()
 {
     QUrl backupCurrent = schedulerURL;
 
-    if (schedulerURL.path().contains("/tmp/"))
+    if (schedulerURL.path().startsWith("/tmp/") || schedulerURL.path().contains("/Temp"))
         schedulerURL.clear();
 
     // If no changes made, return.

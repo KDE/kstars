@@ -376,7 +376,7 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
             int tabIndex = fitsTab->indexOf(tab);
             if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
             {
-                if (imageName->path().startsWith("/tmp") && Options::singlePreviewFITS())
+                if ( (imageName->path().startsWith("/tmp") || imageName->path().contains("/Temp")) && Options::singlePreviewFITS())
                     fitsTab->setTabText(tabIndex, tab->getPreviewText());
                 else
                     fitsTab->setTabText(tabIndex, imageName->fileName());

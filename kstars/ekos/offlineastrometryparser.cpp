@@ -274,15 +274,9 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
 
     emit solverFinished(orientation,ra,dec, pixscale);  
 
-    // Remove files left over by the solver
-    int fitsLoc = fitsFile.indexOf("fits");
-    QString tmpDir  = fitsFile.left(fitsLoc);
-    QString tmpFITS = fitsFile.remove(tmpDir);
-
-    tmpFITS.replace(".tmp", "*.*");
-
-    QDir dir(tmpDir);
-    dir.setNameFilters(QStringList() << tmpFITS);
+    // Remove files left over by the solver    
+    QDir dir("/tmp");
+    dir.setNameFilters(QStringList() << "fits*" << "tmp.*");
     dir.setFilter(QDir::Files);
     foreach(QString dirFile, dir.entryList())
             dir.remove(dirFile);
