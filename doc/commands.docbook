@@ -664,7 +664,7 @@ dialog to download additional data for &kstars;.
 <guisubmenu>Updates</guisubmenu>
 </menuchoice></term>
 <listitem><para>This submenu can be used to update various object data, namely asteroids, comets and satellites orbital 
-elements as well as recent supernovae data from internet. The data will be downloaded for the current user account only. 
+elements as well as recent supernovae data from Internet. The data will be downloaded for the current user account only.
 If you use &kstars; from different account you should download them for every account separately.
 </para>
 <para>&kstars; tries to download recent supernovae list automatically by default. You can switch the download off using <guilabel>Supernovae</guilabel> page of &kstars; Settings window.</para>
@@ -696,7 +696,7 @@ tool</para></listitem>
 <keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo>
 </shortcut>
 <guimenu>Observation</guimenu>
-<guimenuitem>Execute the session Plan...</guimenuitem>
+<guimenuitem>Execute the session Plan</guimenuitem>
 </menuchoice></term>
 <listitem><para>Opens <link linkend="tool-obsplanner">session plan wizard</link> or execute the planned session.</para></listitem>
 </varlistentry>
@@ -760,14 +760,14 @@ the left-click mouse button and dragging it to the new position.
 <guimenuitem>Main Toolbar</guimenuitem>
 </menuchoice></term>
 <listitem><para>Toggle display of the Main Toolbar. By default, the Main Toolbar provides useful shortcuts 
-for controlling the sky map view (i.e. Zoom in and Zoom out) and for controlling KStars clock as well. 
+for controlling the sky map view (&ie; Zoom in and Zoom out) and for controlling &kstars; clock as well.
 You can Start / Stop the clock, advance one step backward / forward in time and also you can easily set 
-the time step used by KStars' clock. The time step is the rate at which time flows in the simulation. 
+the time step used by &kstars;' clock. The time step is the rate at which time flows in the simulation.
 For setting the time step, you can use the spin box used for establishing the time step units and the 
 spin box used for increasing / decreasing the time step value.
 Using the Main Toolbar you can quickly open the <guilabel>Find Object</guilabel>, <guilabel>Set Time</guilabel>
 or <guilabel>Set Geographic Location</guilabel> window.
-Main Toolbar can be configured using <guilabel>Settings -> Configure Toolbars...</guilabel> submenu.
+Main Toolbar can be configured using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Toolbars</guimenuitem></menuchoice>.
 </para></listitem>
 </varlistentry>
 
@@ -777,12 +777,12 @@ Main Toolbar can be configured using <guilabel>Settings -> Configure Toolbars...
 <guisubmenu>Toolbars Shown</guisubmenu>
 <guimenuitem>View Toolbar</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the View Toolbar. View Toolbar controls which sky objects are drawn on KStars Sky Map
+<listitem><para>Toggle display of the View Toolbar. View Toolbar controls which sky objects are drawn on &kstars; Sky Map
 (stars, deep sky objects, Solar system objects, supernovae or satellites) as well as what constellation information is 
 included (constellation lines, constellation names, constellation art or constellation boundaries). It also provides icon 
 shortcuts for: showing milky way (drawn with dark grey color), showing equatorial/horizontal coordinate grid and for showing
 the green opaque ground. Note that when the horizon is switched off, refraction effects are temporarily disabled.
-View Toolbar can be configured using <guilabel>Settings -> Configure Toolbars...</guilabel> submenu.
+View Toolbar can be configured using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Toolbars</guimenuitem></menuchoice>.
 </para></listitem>
 </varlistentry>
 
@@ -795,18 +795,7 @@ View Toolbar can be configured using <guilabel>Settings -> Configure Toolbars...
 <listitem><para>Toggle display of the INDI Toolbar. By default, INDI Toolbar contains three shortcut icons:
 <guilabel>Toggle Ekos</guilabel>, <guilabel>Toggle INDI Control Panel</guilabel> and 
 <guilabel>Toggle FITS Viewer</guilabel>.
-INDI Toolbar can be configured using <guilabel>Settings -> Configure Toolbars...</guilabel> submenu.
-</para></listitem>
-</varlistentry>
-
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
-<guisubmenu>Statusbar</guisubmenu>
-<guimenuitem>Show Statusbar</guimenuitem>
-</menuchoice></term>
-<listitem><para>Toggle display of the Statusbar.
+INDI Toolbar can be configured using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Toolbars</guimenuitem></menuchoice>.
 </para></listitem>
 </varlistentry>
 
@@ -872,12 +861,12 @@ the symbols list. You can also define your own symbols (or modify existing symbo
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guisubmenu>Artificial Horizon...</guisubmenu>
+<guisubmenu>Artificial Horizon</guisubmenu>
 </menuchoice></term>
 <listitem><para>
 If you select this submenu, then Artificial Horizon Manager will be opened. Artificial Horizon Manager 
 is used to define on the skymap one or more regions that are blocked from view from your current 
-location (i.e. tall trees or building). The window is split in two sections: in the left side is 
+location (&ie; tall trees or building). The window is split in two sections: in the left side is
 the Regions section while in the right side is the Points section. You can add a new region by pressing 
 <guibutton>+</guibutton> (Add Region) button or you can remove a region by selecting it in the regions 
 list and then pressing the <guibutton>-</guibutton> (Remove Region) button. In order to draw a region 
@@ -891,13 +880,13 @@ If you want to modify a point's coordinates, just double click on its Az/Alt tex
 the new value. First and Last points must be on the horizon.
 Polygons must be closed to be considered valid regions.
 Artificial Horizon Manager provides a easy way to rename your regions. By default, regions are 
-named as: "Region " plus an index (i.e. "Region 1" or "Region 2"). For renaming a region, all you need 
+named as: <quote>Region </quote> plus an index (&ie; <quote>Region 1</quote> or <quote>Region 2</quote>). For renaming a region, all you need
 to do is to double click on its name and then you will be invited to complete a new region name. 
 You can also control which regions are enabled or disabled for marking on the map by a simple 
 click on the checkbox in front of each region. After you defined your desired regions you can apply 
 them by pressing the <guibutton>Apply</guibutton> button.
 If you want to use these regions again, in further astronomy sessions, you can save them such that 
-next time when you will open KStars they will be automatically marked on the skymap.
+next time when you will open &kstars; they will be automatically marked on the skymap.
 </para></listitem>
 </varlistentry>
 
@@ -908,7 +897,7 @@ next time when you will open KStars they will be automatically marked on the sky
 </shortcut>
 <guimenu>Settings</guimenu>
 <guisubmenu>Configure Observation Logging</guisubmenu>
-<guimenuitem>List your Equipment...</guimenuitem>
+<guimenuitem>List your Equipment</guimenuitem>
 </menuchoice></term>
 <listitem><para>Allows you to define your equipment characteristics for observation logs.
 The Configure Equipment window is divided into four tabs: <guilabel>Telescope</guilabel>, 
@@ -925,13 +914,13 @@ button. You can also save or remove an equipment from the list.
 </shortcut>
 <guimenu>Settings</guimenu>
 <guisubmenu>Configure Observation Logging</guisubmenu>
-<guimenuitem>Manage Observer...</guimenuitem>
+<guimenuitem>Manage Observer</guimenuitem>
 </menuchoice></term>
 <listitem><para>Selecting this will open Manage Observers window that enables you to register 
-a number of observers which are using KStars on this computer. You can add a new entry to 
+a number of observers which are using &kstars; on this computer. You can add a new entry to
 observers list by completing the mandatory fields: <guilabel>Name</guilabel> and <guilabel>Surname</guilabel>
 and then pressing the <guibutton>+</guibutton> (Add observer) button.
-Note that <guilabel>Contact</guilabel> field is optional, KStars allowing you to add a new observer 
+Note that <guilabel>Contact</guilabel> field is optional, &kstars; allowing you to add a new observer
 even though <guilabel>Contact</guilabel> text box is empty. 
 You can also remove an observer from the list using <guibutton>-</guibutton> (Remove observer) button.
 </para></listitem>
@@ -956,26 +945,6 @@ location</link>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guimenuitem>Configure Shortcuts...</guimenuitem>
-</menuchoice></term>
-<listitem><para>
-TODO
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
-<guimenuitem>Configure Toolbars...</guimenuitem>
-</menuchoice></term>
-<listitem><para>
-TODO
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
 <guimenuitem>Configure &kstars;...</guimenuitem>
 </menuchoice></term>
 <listitem><para>Modify <link linkend="config">configuration
@@ -985,7 +954,7 @@ options</link></para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guimenuitem>Startup Wizard...</guimenuitem>
+<guimenuitem>Startup Wizard</guimenuitem>
 </menuchoice></term>
 <listitem><para>
 TODO
@@ -1086,7 +1055,7 @@ Print XPlanet view
 <term>[All]</term>
 <listitem><para>
 <guimenuitem>Show ... Image</guimenuitem>: download an image of the
-object from the internet, and display it in the Image Viewer tool.
+object from the Internet, and display it in the Image Viewer tool.
 The "..." text is replaced by a short description of the image's
 source.  An object may have multiple image links available in its
 popup menu.
