@@ -185,47 +185,48 @@ sky color.
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Satellites page</secondary></indexterm>
-The <guilabel>Satellites</guilabel> page allows you to set the satellites view options. Firsly, 
-you can see or hide the satellites on the skymap using <guilabel>Show satellites checkbox</guilabel> 
+The <guilabel>Satellites</guilabel> page allows you to set the satellites view options. Firstly, 
+you can see or hide the satellites on the skymap using <guilabel>Show satellites</guilabel> checkbox
 from the top <guilabel>View options</guilabel> section. By default, satellites are drawn as small 
 light red filled circles with an optional dark red name label next to them. You can enable or disable 
 these labels by checking or not the <guilabel>Show labels</guilabel> checkbox. It is located bellow 
 the <guilabel>Show satellites</guilabel> checkbox, within the <guilabel>View options</guilabel> section. 
 The colors of the dots representing satellites and their name labels can be easily customized using 
-the <guilabel>Colors</guilabel> page from the same <guilabel>Configure KStars</guilabel> window. 
+the <guilabel>Colors</guilabel> page from the same <guilabel>Configure &kstars;...</guilabel> window. 
 In addition, satellites can be drawn just like regular stars by checking the <guilabel>Draw satellites 
 like stars</guilabel> checkbox. To display only the visible satellites from your current geographic location 
 and time, select <guilabel>Show only visible satellites</guilabel>.
-KStars can draw artificial satellites from many predefined groups. Thus, you can select to display a particular 
+&kstars; can draw artificial satellites from many predefined groups. Thus, you can select to display a particular 
 group, multiple groups or partially select subgroups. Under each group, a list of individual satellites is 
 presented. To select all satellites from a group, you need to check the group checkbox. You can also select 
 only the satellites of interest in each group.
 The satellites orbital elements can be updated via the internet by pressing the <guibutton>Update TLEs</guibutton> 
-button. Another way for updating the satellites orbital elements is to click on <guilabel>Data -> Updates -> Update 
-satellites orbital elements</guilabel> option. If you know the name of a desired satellite then you can use 
-the search satellites method that KStars provides. You need to enter the name of satellite in the <guilabel>Search 
+button. Another way for updating the satellites orbital elements is to use the <menuchoice>
+<guisubmenu>Updates</guisubmenu><guimenuitem>Update satellites orbital elements</guimenuitem></menuchoice> in the
+<guimenu>Data</guimenu> menu. If you know the name of a desired satellite then you can use 
+the search satellites method that &kstars; provides. You need to enter the name of satellite in the <guilabel>Search 
 satellites</guilabel> text box and the list will be reduced only to its best matches.
-You can add new satellites to KStars default satellites set by editing the "kstars/data/satellites.dat" file.
+You can add new satellites to &kstars; default satellites set by editing the <filename>kstars/data/satellites.dat</filename> file.
 As each line of this file is a group of satellites, you need to add a new entry for your desired satellites group. 
-An entry should have the following format: "Group Name;local_filename;url". 
-For example: "Iridium;iridium.tle;http://celestrak.com/NORAD/elements/iridium.txt".
+An entry should have the following format: <userinput>Group Name;local_filename;url</userinput>.
+For example: <userinput>Iridium;iridium.tle;http://celestrak.com/NORAD/elements/iridium.txt</userinput>.
 </para>
 <!-- Supernovae page: -->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Supernovae page</secondary></indexterm>
 The <guilabel>Supernovae</guilabel> page allows you to decide if the supernovae are displayed or not by checking 
-the <guilabel>Show supernovae</guilabel> checkbox. By default, supernovae are drawn as small light orange '+' mark. 
+the <guilabel>Show supernovae</guilabel> checkbox. By default, supernovae are drawn as small light orange <quote>+</quote> mark. 
 As for satellites, the color of supernovae can be easily customized using the <guilabel>Colors</guilabel> page. 
-You can configure KStars to check for newly discovered supernovae on startup by checking the <guilabel>Check for 
-Recent Supernovae on Startup</guilabel> checkbox. This way, KStars will be always up-to-date with the most recent 
+You can configure &kstars; to check for newly discovered supernovae on startup by checking the <guilabel>Check for 
+Recent Supernovae on Startup</guilabel> checkbox. This way, &kstars; will be always up-to-date with the most recent 
 supernovae. You can enable supernova alerts using the <guilabel>Enable Supernova alerts</guilabel> checkbox. Thus, 
 KStars will automatically alert you every time it learns of a new supernova in the sky. You can set the magnitude 
 limit for showing a supernova as well as magnitude limit for supernova alerts using the spin boxes control. The 
 limiting magnitude is the faintest apparent magnitude of an skyobject that is visible with the naked-eye or a telescope. 
 The list of recent supernovae can be updated via the internet by pressing the <guibutton>Update List of Recent 
-Supernovae</guibutton> button. Another way for updating the supernovae list is to click on 
-<guilabel>Data -> Updates -> Update Recent Supernovae data</guilabel> option. 
+Supernovae</guibutton> button. Another way for updating the supernovae list is to use the
+<menuchoice><guisubmenu>Updates</guisubmenu><guimenuitem>Update Recent Supernovae data</guimenuitem></menuchoice> item in the <guimenu>Data</guimenu> menu.
 </para>
 
 <para>
