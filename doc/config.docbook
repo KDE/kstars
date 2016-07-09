@@ -189,7 +189,7 @@ The <guilabel>Satellites</guilabel> page allows you to set the satellites view o
 you can see or hide the satellites on the skymap using <guilabel>Show satellites</guilabel> checkbox
 from the top <guilabel>View options</guilabel> section. By default, satellites are drawn as small 
 light red filled circles with an optional dark red name label next to them. You can enable or disable 
-these labels by checking or not the <guilabel>Show labels</guilabel> checkbox. It is located bellow 
+these labels by checking or not the <guilabel>Show labels</guilabel> checkbox. It is located below
 the <guilabel>Show satellites</guilabel> checkbox, within the <guilabel>View options</guilabel> section. 
 The colors of the dots representing satellites and their name labels can be easily customized using 
 the <guilabel>Colors</guilabel> page from the same <guilabel>Configure &kstars;...</guilabel> window. 
