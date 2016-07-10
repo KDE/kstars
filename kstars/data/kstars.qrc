@@ -40,4 +40,7 @@
         <file>kstarsui.rc</file>
         <file>fitsviewerui.rc</file>
     </qresource>
+    <qresource prefix="/images">
+        <file>noimage.png</file>
+    </qresource>
 </RCC>

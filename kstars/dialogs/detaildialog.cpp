@@ -1138,19 +1138,13 @@ void DetailDialog::showThumbnail() {
 
     //Try to load the object's image from disk
     //If no image found, load "no image" image
-    //If that isn't found, make it blank.
     QFile file;
     QString fname = "thumb-" + selectedObject->name().toLower().remove( ' ' ) + ".png";
     if ( KSUtils::openDataFile( file, fname ) ) {
         file.close();
         Thumbnail->load( file.fileName(), "PNG" );
-    } else if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
-        file.close();
-        Thumbnail->load( file.fileName(), "PNG" );
-    } else {
-        Thumbnail->scaled( Data->Image->width(), Data->Image->height() );
-        Thumbnail->fill( Data->DataFrame->palette().color( QPalette::Window ) );
-    }
+    } else
+        Thumbnail->load( ":/images/noimage.png" );
 
     Data->Image->setPixmap( *Thumbnail );
 }
