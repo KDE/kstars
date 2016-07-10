@@ -1393,6 +1393,10 @@
        <label>Perform an autofocus operation when changing filter wheels during an exposure sequence.</label>
        <default>false</default>
      </entry>
+     <entry name="AutoStretch" type="Bool">
+       <label>Perform auto stretch on captured images in FITS Viewer.</label>
+       <default>true</default>
+     </entry>
    </group>
    <group name="Focus">
    <entry name="DefaultFocusCCD" type="String">
