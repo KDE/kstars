@@ -974,7 +974,7 @@ double FITSData::getHFR(int x, int y)
     return -1;
 }
 
-void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
+void FITSData::applyFilter(FITSScale type, float *image, float min, float max)
 {
     if (type == FITS_NONE /* || histogram == NULL*/)
         return;
@@ -1043,10 +1043,8 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
                     bufferVal = image[index];
                     if (bufferVal < min) bufferVal = min;
                     else if (bufferVal > max) bufferVal = max;
-                    val = (coeff * log(1 + bufferVal));
-                    if (val < min) val = min;
-                    else if (val > max) val = max;
-                    image_buffer[index] = val;
+                    val = (coeff * log(1 + qBound(min, image[index], max)));
+                    image_buffer[index] = qBound(min, val, max);
                 }
             }
 
@@ -1071,10 +1069,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
                for (int k=0; k < width; k++)
                {
                     index=k + row;
-                    bufferVal = (int) image[index];
-                    if (bufferVal < min) bufferVal = min;
-                    else if (bufferVal > max) bufferVal = max;
-                    val = (int) (coeff * sqrt(bufferVal));
+                    val = (int) (coeff * sqrt(qBound(min, image[index], max)));
                     image_buffer[index] = val;
                }
             }
@@ -1100,10 +1095,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
                   for (int k=0; k < width; k++)
                   {
                      index=k + row;
-                     bufferVal = image[index];
-                     if (bufferVal < min) bufferVal = min;
-                     else if (bufferVal > max) bufferVal = max;
-                     image_buffer[index] = bufferVal;
+                     image_buffer[index] = qBound(min, image[index], max);
                   }
                }
             }
@@ -1130,10 +1122,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
                for (int k=0; k < width; k++)
                {
                   index=k + row;
-                  bufferVal = image[index];
-                  if (bufferVal < min) bufferVal = min;
-                  else if (bufferVal > max) bufferVal = max;
-                  image_buffer[index] = bufferVal;
+                  image_buffer[index] = qBound(min, image[index], max);
                 }
             }
         }
@@ -1185,11 +1174,8 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
                row = offset + j * width;
                for (int k=0; k < width; k++)
                {
-                  index=k + row;
-                  bufferVal = image[index];
-                  if (bufferVal < min) bufferVal = min;
-                  else if (bufferVal > max) bufferVal = max;
-                  image_buffer[index] = bufferVal;
+                  index=k + row;                  
+                  image_buffer[index] = qBound(min, image[index], max);
                 }
             }
         }
