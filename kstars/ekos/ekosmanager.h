@@ -53,8 +53,9 @@ class QProgressIndicator;
  * <li>\ref DustCapDBusInterface "Dust Cap DBus Interface"</li>
  * </ul>
  *  For low level access to INDI devices, the \ref INDIDBusInterface "INDI Dbus Interface" provides complete access to INDI devices and properties.
+ *  Ekos Manager provides a summary of operations progress in the <i>Summary</i> section of the <i>Setup</i> tab.
  *@author Jasem Mutlaq
- *@version 1.3
+ *@version 1.4
  */
 class EkosManager : public QDialog, public Ui::EkosManager
 {
@@ -173,6 +174,7 @@ private slots:
     void setLightBox(ISD::GDInterface *);
     void setST4(ISD::ST4 *);
 
+    // Profiles
     void addProfile();
     void editProfile();
     void deleteProfile();
@@ -181,6 +183,10 @@ private slots:
     // Mount Summary
     void updateMountCoords(const QString &ra, const QString &dec ,const QString &az ,const QString &alt);
     void updateMountStatus(ISD::Telescope::TelescopeStatus status);
+
+    // Capture Summary
+    void updateCaptureStatus(const QString &status, double percentage);
+    void updateCaptureImage(QImage *image);
 
  private:
 
@@ -218,7 +224,7 @@ private slots:
 
     // All Managed devices
     QMap<DeviceFamily, ISD::GDInterface*> managedDevices;
-    QList<ISD::GDInterface*> findDevices(DeviceFamily type);    
+    QList<ISD::GDInterface*> findDevices(DeviceFamily type);
 
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;
@@ -233,7 +239,7 @@ private slots:
     bool localMode, remoteManagerStart;
 
     int nDevices, nRemoteDevices;
-    QAtomicInt nConnectedDevices;    
+    QAtomicInt nConnectedDevices;
 
     QStringList logText;
     KPageWidgetItem *ekosOption;
@@ -247,6 +253,7 @@ private slots:
 
     // Mount Summary
     QProgressIndicator *mountPI;
+    QProgressIndicator *capturePI;
 
 
 };

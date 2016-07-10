@@ -172,8 +172,9 @@ signals:
     void newExposureValue(ISD::CCDChip *chip, double value, IPState state);
     void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
     void newRemoteFile(QString);
+    void newImage(QImage *image);
 
-private:    
+private:
     void addFITSKeywords(QString filename);
     QString filter;
 

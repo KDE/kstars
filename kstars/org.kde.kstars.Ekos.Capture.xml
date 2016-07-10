@@ -71,6 +71,9 @@
       <arg type="d" direction="out"/>
       <arg name="id" type="i" direction="in"/>
     </method>
+    <method name="getProgressPercentage">
+      <arg type="d" direction="out"/>
+    </method>
     <method name="hasCoolerControl">
       <arg type="b" direction="out"/>
     </method>

@@ -66,23 +66,23 @@ FITSView * CCDChip::getImage(FITSMode imageType)
 {
     switch (imageType)
     {
-        case FITS_NORMAL:
-            return normalImage;
-            break;
+    case FITS_NORMAL:
+        return normalImage;
+        break;
 
-        case FITS_FOCUS:
-            return focusImage;
-            break;
+    case FITS_FOCUS:
+        return focusImage;
+        break;
 
-        case FITS_GUIDE:
-            return guideImage;
-            break;
+    case FITS_GUIDE:
+        return guideImage;
+        break;
 
-        case FITS_CALIBRATE:
-            return calibrationImage;
-            break;
+    case FITS_CALIBRATE:
+        return calibrationImage;
+        break;
 
-        default:
+    default:
         break;
     }
 
@@ -95,33 +95,33 @@ void CCDChip::setImage(FITSView *image, FITSMode imageType)
 
     switch (imageType)
     {
-        case FITS_NORMAL:
-            normalImage = image;
-            if (normalImage)
-                imageData = normalImage->getImageData();
-            if (KStars::Instance()->ekosManager()->alignModule() && KStars::Instance()->ekosManager()->alignModule()->fov())
-                KStars::Instance()->ekosManager()->alignModule()->fov()->setImage(normalImage->getDisplayImage()->copy());
-            break;
+    case FITS_NORMAL:
+        normalImage = image;
+        if (normalImage)
+            imageData = normalImage->getImageData();
+        if (KStars::Instance()->ekosManager()->alignModule() && KStars::Instance()->ekosManager()->alignModule()->fov())
+            KStars::Instance()->ekosManager()->alignModule()->fov()->setImage(normalImage->getDisplayImage()->copy());
+        break;
 
-        case FITS_FOCUS:
-            focusImage = image;
-            if (focusImage)
-                imageData = focusImage->getImageData();
-            break;
+    case FITS_FOCUS:
+        focusImage = image;
+        if (focusImage)
+            imageData = focusImage->getImageData();
+        break;
 
-        case FITS_GUIDE:
-            guideImage = image;
-            if (guideImage)
-                imageData = guideImage->getImageData();
-            break;
+    case FITS_GUIDE:
+        guideImage = image;
+        if (guideImage)
+            imageData = guideImage->getImageData();
+        break;
 
-        case FITS_CALIBRATE:
-            calibrationImage = image;
-            if (calibrationImage)
-                imageData = calibrationImage->getImageData();
-            break;
+    case FITS_CALIBRATE:
+        calibrationImage = image;
+        if (calibrationImage)
+            imageData = calibrationImage->getImageData();
+        break;
 
-        default:
+    default:
         break;
     }
 
@@ -133,11 +133,11 @@ bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *mi
 
     switch (type)
     {
-       case PRIMARY_CCD:
+    case PRIMARY_CCD:
         frameProp = baseDevice->getNumber("CCD_FRAME");
         break;
 
-      case GUIDE_CCD:
+    case GUIDE_CCD:
         frameProp = baseDevice->getNumber("GUIDER_FRAME");
         break;
 
@@ -187,11 +187,11 @@ bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
 
     switch (type)
     {
-       case PRIMARY_CCD:
+    case PRIMARY_CCD:
         frameProp = baseDevice->getNumber("CCD_FRAME");
         break;
 
-      case GUIDE_CCD:
+    case GUIDE_CCD:
         frameProp = baseDevice->getNumber("GUIDER_FRAME");
         break;
 
@@ -236,11 +236,11 @@ bool CCDChip::resetFrame()
 
     switch (type)
     {
-       case PRIMARY_CCD:
+    case PRIMARY_CCD:
         frameProp = baseDevice->getNumber("CCD_FRAME");
         break;
 
-      case GUIDE_CCD:
+    case GUIDE_CCD:
         frameProp = baseDevice->getNumber("GUIDER_FRAME");
         break;
 
@@ -278,11 +278,11 @@ bool CCDChip::setFrame(int x, int y, int w, int h)
 
     switch (type)
     {
-       case PRIMARY_CCD:
+    case PRIMARY_CCD:
         frameProp = baseDevice->getNumber("CCD_FRAME");
         break;
 
-      case GUIDE_CCD:
+    case GUIDE_CCD:
         frameProp = baseDevice->getNumber("GUIDER_FRAME");
         break;
 
@@ -320,11 +320,11 @@ bool CCDChip::capture(double exposure)
 
     switch (type)
     {
-       case PRIMARY_CCD:
+    case PRIMARY_CCD:
         expProp = baseDevice->getNumber("CCD_EXPOSURE");
         break;
 
-      case GUIDE_CCD:
+    case GUIDE_CCD:
         expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
         break;
 
@@ -346,11 +346,11 @@ bool CCDChip::abortExposure()
 
     switch (type)
     {
-       case PRIMARY_CCD:
+    case PRIMARY_CCD:
         abortProp = baseDevice->getSwitch("CCD_ABORT_EXPOSURE");
         break;
 
-      case GUIDE_CCD:
+    case GUIDE_CCD:
         abortProp = baseDevice->getSwitch("GUIDER_ABORT_EXPOSURE");
         break;
 
@@ -454,14 +454,14 @@ bool CCDChip::setISOIndex(int value)
 
 QStringList CCDChip::getISOList() const
 {
-   QStringList isoList;
+    QStringList isoList;
 
-   ISwitchVectorProperty *isoProp = baseDevice->getSwitch("CCD_ISO");
-   if (isoProp == NULL)
-       return isoList;
+    ISwitchVectorProperty *isoProp = baseDevice->getSwitch("CCD_ISO");
+    if (isoProp == NULL)
+        return isoList;
 
-   for (int i=0; i < isoProp->nsp; i++)
-       isoList << isoProp->sp[i].label;
+    for (int i=0; i < isoProp->nsp; i++)
+        isoList << isoProp->sp[i].label;
 
     return isoList;
 }
@@ -476,7 +476,7 @@ bool CCDChip::isCapturing()
         expProp = baseDevice->getNumber("CCD_EXPOSURE");
         break;
 
-      case GUIDE_CCD:
+    case GUIDE_CCD:
         expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
         break;
 
@@ -576,11 +576,11 @@ CCDFrameType CCDChip::getFrameType()
     if (!strcmp(ccdFrame->name, "FRAME_LIGHT"))
         fType = FRAME_LIGHT;
     else if (!strcmp(ccdFrame->name, "FRAME_DARK"))
-            fType = FRAME_DARK;
+        fType = FRAME_DARK;
     else if (!strcmp(ccdFrame->name, "FRAME_FLAT"))
-            fType = FRAME_FLAT;
+        fType = FRAME_FLAT;
     else if (!strcmp(ccdFrame->name, "FRAME_BIAS"))
-            fType = FRAME_BIAS;
+        fType = FRAME_BIAS;
 
     return fType;
 
@@ -591,18 +591,18 @@ bool CCDChip::setBinning(CCDBinType binType)
 
     switch (binType)
     {
-        case SINGLE_BIN:
-            return setBinning(1,1);
-            break;
-        case DOUBLE_BIN:
-            return setBinning(2,2);
-            break;
-        case TRIPLE_BIN:
-            return setBinning(3,3);
-            break;
-        case QUADRAPLE_BIN:
-            return setBinning(4,4);
-            break;
+    case SINGLE_BIN:
+        return setBinning(1,1);
+        break;
+    case DOUBLE_BIN:
+        return setBinning(2,2);
+        break;
+    case TRIPLE_BIN:
+        return setBinning(3,3);
+        break;
+    case QUADRAPLE_BIN:
+        return setBinning(4,4);
+        break;
     }
 
     return false;
@@ -615,11 +615,11 @@ CCDBinType CCDChip::getBinning()
 
     switch (type)
     {
-       case PRIMARY_CCD:
+    case PRIMARY_CCD:
         binProp = baseDevice->getNumber("CCD_BINNING");
         break;
 
-       case GUIDE_CCD:
+    case GUIDE_CCD:
         binProp = baseDevice->getNumber("GUIDER_BINNING");
         break;
     }
@@ -637,19 +637,19 @@ CCDBinType CCDChip::getBinning()
 
     switch ( (int) horBin->value)
     {
-        case 2:
-          binType = DOUBLE_BIN;
-          break;
+    case 2:
+        binType = DOUBLE_BIN;
+        break;
 
-        case 3:
-           binType = TRIPLE_BIN;
-           break;
+    case 3:
+        binType = TRIPLE_BIN;
+        break;
 
-         case 4:
-            binType = QUADRAPLE_BIN;
-            break;
+    case 4:
+        binType = QUADRAPLE_BIN;
+        break;
 
-         default:
+    default:
         break;
 
     }
@@ -665,11 +665,11 @@ bool CCDChip::getBinning(int *bin_x, int *bin_y)
 
     switch (type)
     {
-       case PRIMARY_CCD:
+    case PRIMARY_CCD:
         binProp = baseDevice->getNumber("CCD_BINNING");
         break;
 
-       case GUIDE_CCD:
+    case GUIDE_CCD:
         binProp = baseDevice->getNumber("GUIDER_BINNING");
         break;
     }
@@ -700,11 +700,11 @@ bool CCDChip::getMaxBin(int *max_xbin, int *max_ybin)
 
     switch (type)
     {
-       case PRIMARY_CCD:
+    case PRIMARY_CCD:
         binProp = baseDevice->getNumber("CCD_BINNING");
         break;
 
-       case GUIDE_CCD:
+    case GUIDE_CCD:
         binProp = baseDevice->getNumber("GUIDER_BINNING");
         break;
     }
@@ -734,11 +734,11 @@ bool CCDChip::setBinning(int bin_x, int bin_y)
 
     switch (type)
     {
-       case PRIMARY_CCD:
+    case PRIMARY_CCD:
         binProp = baseDevice->getNumber("CCD_BINNING");
         break;
 
-       case GUIDE_CCD:
+    case GUIDE_CCD:
         binProp = baseDevice->getNumber("GUIDER_BINNING");
         break;
     }
@@ -878,7 +878,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
     {
         INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
         if (np)
-           emit newExposureValue(primaryChip, np->value, nvp->s);
+            emit newExposureValue(primaryChip, np->value, nvp->s);
 
         return;
     }
@@ -887,17 +887,17 @@ void CCD::processNumber(INumberVectorProperty *nvp)
     {
         HasCooler = true;
         INumber *np = IUFindNumber(nvp, "CCD_TEMPERATURE_VALUE");
-            if (np)
-                emit newTemperatureValue(np->value);
+        if (np)
+            emit newTemperatureValue(np->value);
 
-            return;
+        return;
     }
 
     if (!strcmp(nvp->name, "GUIDER_EXPOSURE"))
     {
         INumber *np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
         if (np)
-           emit newExposureValue(guideChip, np->value, nvp->s);
+            emit newExposureValue(guideChip, np->value, nvp->s);
         return;
     }
 
@@ -1114,7 +1114,7 @@ void CCD::processBLOB(IBLOB* bp)
     QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");
 
     if (currentDir.endsWith('/'))
-        currentDir.truncate(sizeof(currentDir)-1);    
+        currentDir.truncate(sizeof(currentDir)-1);
 
     if (QDir(currentDir).exists() == false)
         QDir().mkpath(currentDir);
@@ -1130,47 +1130,47 @@ void CCD::processBLOB(IBLOB* bp)
         //tmpFile.setPrefix("fits");
         tmpFile.setAutoRemove(false);
 
-         if (!tmpFile.open())
-         {
-                 qDebug() << "ISD:CCD Error: Unable to open " << filename << endl;
-                 emit BLOBUpdated(NULL);
-                 return;
-         }
+        if (!tmpFile.open())
+        {
+            qDebug() << "ISD:CCD Error: Unable to open " << filename << endl;
+            emit BLOBUpdated(NULL);
+            return;
+        }
 
-         QDataStream out(&tmpFile);
+        QDataStream out(&tmpFile);
 
-         for (nr=0; nr < (int) bp->size; nr += n)
-             n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
+        for (nr=0; nr < (int) bp->size; nr += n)
+            n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
 
-         tmpFile.close();
+        tmpFile.close();
 
-         filename = tmpFile.fileName();
+        filename = tmpFile.fileName();
 
     }
     // Create file name for others
     else
     {
-         QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
+        QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
-         if (ISOMode == false)
-               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%03d", nextSequenceID)).arg(QString(fmt));
-          else
-               filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(QString().sprintf("%03d", nextSequenceID)).arg(ts).arg(QString(fmt));
+        if (ISOMode == false)
+            filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%03d", nextSequenceID)).arg(QString(fmt));
+        else
+            filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(QString().sprintf("%03d", nextSequenceID)).arg(ts).arg(QString(fmt));
 
-            QFile fits_temp_file(filename);
-            if (!fits_temp_file.open(QIODevice::WriteOnly))
-            {
-                    qDebug() << "ISD:CCD Error: Unable to open " << fits_temp_file.fileName() << endl;
-                    emit BLOBUpdated(NULL);
-                    return;
-            }
+        QFile fits_temp_file(filename);
+        if (!fits_temp_file.open(QIODevice::WriteOnly))
+        {
+            qDebug() << "ISD:CCD Error: Unable to open " << fits_temp_file.fileName() << endl;
+            emit BLOBUpdated(NULL);
+            return;
+        }
 
-            QDataStream out(&fits_temp_file);
+        QDataStream out(&fits_temp_file);
 
-            for (nr=0; nr < (int) bp->size; nr += n)
-                n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
+        for (nr=0; nr < (int) bp->size; nr += n)
+            n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
 
-            fits_temp_file.close();
+        fits_temp_file.close();
     }
 
     if (BType == BLOB_FITS)
@@ -1227,7 +1227,7 @@ void CCD::processBLOB(IBLOB* bp)
         QFile::remove(filename);
     }
     // Unless we have cfitsio, we're done.
-    #ifdef HAVE_CFITSIO
+#ifdef HAVE_CFITSIO
     if (BType == BLOB_FITS && targetChip->getCaptureMode() != FITS_WCSM)
     {
         QUrl fileURL(filename);
@@ -1263,46 +1263,54 @@ void CCD::processBLOB(IBLOB* bp)
 
         switch (targetChip->getCaptureMode())
         {
-            case FITS_NORMAL:
-                if (normalTabID == -1 || Options::singlePreviewFITS() == false)
-                    tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
-                else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
-                {
-                    fv->removeFITS(normalTabID);
-                    tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
-                }
-                else
-                    tabRC = normalTabID;
+        case FITS_NORMAL:
+        {
+            FITSScale actualFilter = captureFilter;
+            if (Options::autoStretch() && captureFilter == FITS_NONE)
+                actualFilter = FITS_AUTO_STRETCH;
 
-                if (tabRC >= 0)
-                {
-                    normalTabID = tabRC;
-                    targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
-                }
-                else
-                    // If opening file fails, we treat it the same as exposure failure and recapture again if possible
-                    emit newExposureValue(targetChip, 0, IPS_ALERT);
-                break;
+            if (normalTabID == -1 || Options::singlePreviewFITS() == false)
+                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, actualFilter, previewTitle);
+            else if (fv->updateFITS(&fileURL, normalTabID, actualFilter) == false)
+            {
+                fv->removeFITS(normalTabID);
+                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, actualFilter, previewTitle);
+            }
+            else
+                tabRC = normalTabID;
 
-            case FITS_FOCUS:
-                if (focusTabID == -1)
-                    tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
-                else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
-                {
-                    fv->removeFITS(focusTabID);
-                    tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
-                }
-                else
-                    tabRC = focusTabID;
+            if (tabRC >= 0)
+            {
+                normalTabID = tabRC;
+                targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
 
-                if (tabRC >= 0)
-                {
-                    focusTabID = tabRC;
-                    targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
-                }
-                else
-                    emit newExposureValue(targetChip, 0, IPS_ALERT);
-                break;
+                emit newImage(fv->getView(normalTabID)->getDisplayImage());
+            }
+            else
+                // If opening file fails, we treat it the same as exposure failure and recapture again if possible
+                emit newExposureValue(targetChip, 0, IPS_ALERT);
+        }
+            break;
+
+        case FITS_FOCUS:
+            if (focusTabID == -1)
+                tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
+            else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
+            {
+                fv->removeFITS(focusTabID);
+                tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
+            }
+            else
+                tabRC = focusTabID;
+
+            if (tabRC >= 0)
+            {
+                focusTabID = tabRC;
+                targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
+            }
+            else
+                emit newExposureValue(targetChip, 0, IPS_ALERT);
+            break;
 
         case FITS_GUIDE:
             if (guideTabID == -1)
@@ -1345,7 +1353,7 @@ void CCD::processBLOB(IBLOB* bp)
             break;
 
 
-           default:
+        default:
             break;
 
         }
@@ -1353,7 +1361,7 @@ void CCD::processBLOB(IBLOB* bp)
         fv->show();
 
     }
-    #endif
+#endif
 
     emit BLOBUpdated(bp);
 
@@ -1398,21 +1406,21 @@ void CCD::FITSViewerDestroyed()
 
 void CCD::StreamWindowHidden()
 {
-        if (baseDevice->isConnected())
+    if (baseDevice->isConnected())
+    {
+        ISwitchVectorProperty *streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
+        if (streamSP == NULL)
+            streamSP = baseDevice->getSwitch("VIDEO_STREAM");
+        if (streamSP)
         {
-            ISwitchVectorProperty *streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
-            if (streamSP == NULL)
-                streamSP = baseDevice->getSwitch("VIDEO_STREAM");
-            if (streamSP)
-            {
-                IUResetSwitch(streamSP);
-                streamSP->sp[1].s = ISS_ON;
-                streamSP->s = IPS_IDLE;
-                clientManager->sendNewSwitch(streamSP);
-            }
+            IUResetSwitch(streamSP);
+            streamSP->sp[1].s = ISS_ON;
+            streamSP->s = IPS_IDLE;
+            clientManager->sendNewSwitch(streamSP);
         }
+    }
 
-        streamWindow->disconnect();
+    streamWindow->disconnect();
 }
 
 bool CCD::hasGuideHead()
@@ -1452,13 +1460,13 @@ CCDChip * CCD::getChip(CCDChip::ChipType cType)
 {
     switch (cType)
     {
-        case CCDChip::PRIMARY_CCD:
-            return primaryChip;
-            break;
+    case CCDChip::PRIMARY_CCD:
+        return primaryChip;
+        break;
 
-        case CCDChip::GUIDE_CCD:
-            return guideChip;
-            break;
+    case CCDChip::GUIDE_CCD:
+        return guideChip;
+        break;
     }
 
     return NULL;
@@ -1601,7 +1609,7 @@ bool CCD::setUploadMode(UploadMode mode)
 
     switch (mode)
     {
-        case UPLOAD_CLIENT:
+    case UPLOAD_CLIENT:
         modeS = IUFindSwitch(uploadModeSP, "UPLOAD_CLIENT");
         if (modeS == NULL)
             return false;
@@ -1609,7 +1617,7 @@ bool CCD::setUploadMode(UploadMode mode)
             return true;
         break;
 
-        case UPLOAD_BOTH:
+    case UPLOAD_BOTH:
         modeS = IUFindSwitch(uploadModeSP, "UPLOAD_BOTH");
         if (modeS == NULL)
             return false;
@@ -1617,7 +1625,7 @@ bool CCD::setUploadMode(UploadMode mode)
             return true;
         break;
 
-        case UPLOAD_LOCAL:
+    case UPLOAD_LOCAL:
         modeS = IUFindSwitch(uploadModeSP, "UPLOAD_LOCAL");
         if (modeS == NULL)
             return false;

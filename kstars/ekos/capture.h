@@ -172,6 +172,11 @@ public:
     Q_SCRIPTABLE bool setCoolerControl(bool enable);
 
     /** DBUS interface function.
+     * @return Returns the percentage of completed captures in all active jobs
+     */
+    Q_SCRIPTABLE double            getProgressPercentage();
+
+    /** DBUS interface function.
      * @return Returns the number of jobs in the sequence queue.
      */
     Q_SCRIPTABLE int            getJobCount() { return jobs.count(); }
@@ -404,6 +409,8 @@ signals:
         void meridianFlipStarted();
         void meridialFlipTracked();
         void meridianFlipCompleted();
+        void newStatus(const QString status, double progress);
+        void newImage(QImage *image);
 
 private:
 
@@ -420,16 +427,12 @@ private:
     double setCurrentADU(double value);
     void llsq (QList<double> x, QList<double> y, double &a, double &b);
 
-    /* Misc */
-    bool isFITSDirUnique(SequenceJob *job);
-
     /* Meridian Flip */
     bool checkMeridianFlip();
     void checkGuidingAfterFlip();
     double getCurrentHA();
 
     /* Capture */
-    //KDirWatch          *seqWatcher;
     double	seqExpose;
     int	seqTotalCount;
     int	seqCurrentCount;

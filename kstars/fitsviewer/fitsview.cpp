@@ -252,7 +252,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     firstLoad = true;
     gammaValue=0;
     filter = filterType;
-    mode = fitsMode;    
+    mode = fitsMode;
 
     setBackgroundRole(QPalette::Dark);
 
@@ -261,10 +261,10 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     marker_x = marker_y = -1;
 
     currentZoom = 0.0;
-    markStars = false;    
+    markStars = false;
 
     connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
-    connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));    
+    connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
     connect(image_frame, SIGNAL(markerSelected(int,int)), this, SLOT(processMarkerSelection(int,int)));
 
     image_frame->setMouseTracking(true);
@@ -280,7 +280,7 @@ FITSView::~FITSView()
 {
     delete(image_frame);
     delete(image_data);
-    delete(display_image);    
+    delete(display_image);
 }
 
 bool FITSView::loadFITS (const QString &inFilename , bool silent)
@@ -427,7 +427,7 @@ int FITSView::rescale(FITSZoom type)
         bzero  = (-min) * (255. / (max - min));
 
         if (image_height != image_data->getHeight() || image_width != image_data->getWidth())
-        {            
+        {
             image_width  = image_data->getWidth();
             image_height = image_data->getHeight();
 

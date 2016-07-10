@@ -1107,7 +1107,7 @@ void FITSData::applyFilter(FITSScale type, float *image, float min, float max)
       break;
 
      case FITS_HIGH_CONTRAST:
-     {        
+     {
         min = stats.mean[0] + stats.stddev[0];
         if (min < 0)
             min =0;
@@ -1174,7 +1174,7 @@ void FITSData::applyFilter(FITSScale type, float *image, float min, float max)
                row = offset + j * width;
                for (int k=0; k < width; k++)
                {
-                  index=k + row;                  
+                  index=k + row;
                   image_buffer[index] = qBound(min, image[index], max);
                 }
             }
@@ -1969,7 +1969,7 @@ bool FITSData::checkDebayer()
       return false;
 
   fits_read_key(fptr, TINT, "XBAYROFF", &debayerParams.offsetX, NULL, &status);
-  fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, NULL, &status); 
+  fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, NULL, &status);
 
   delete[] bayer_buffer;
   bayer_buffer = new float[stats.samples_per_channel * channels];

@@ -76,6 +76,8 @@ EkosManager::EkosManager()
 
     ekosOption     = NULL;
 
+    mountPI=capturePI=NULL;
+
     captureProgress->setValue(0);
 
     toolsWidget->setIconSize(QSize(64,64));
@@ -1277,7 +1279,11 @@ void EkosManager::initCapture()
      int index = toolsWidget->addTab( captureProcess, QIcon(":/icons/ekos_ccd.png"), "");
      toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
      connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+     connect(captureProcess, SIGNAL(newStatus(QString,double)), this, SLOT(updateCaptureStatus(QString,double)));
+     connect(captureProcess, SIGNAL(newImage(QImage*)), this, SLOT(updateCaptureImage(QImage*)));
 
+     capturePI = new QProgressIndicator(captureProcess);
+     captureStatusLayout->addWidget(capturePI);
 
      foreach(ISD::GDInterface *device, findDevices(KSTARS_AUXILIARY))
      {
@@ -1393,7 +1399,7 @@ void EkosManager::initMount()
     connect(mountProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
     connect(mountProcess, SIGNAL(newCoords(QString,QString,QString,QString)), this, SLOT(updateMountCoords(QString,QString,QString,QString)));
     connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this, SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
-    mountPI = new QProgressIndicator(this);
+    mountPI = new QProgressIndicator(mountProcess);
     mountStatusLayout->addWidget(mountPI);
 
     if (captureProcess)
@@ -1402,8 +1408,6 @@ void EkosManager::initMount()
         connect(captureProcess, SIGNAL(meridianFlipStarted()), mountProcess, SLOT(disableAltLimits()), Qt::UniqueConnection);
         connect(captureProcess, SIGNAL(meridianFlipCompleted()), mountProcess, SLOT(enableAltLimits()), Qt::UniqueConnection);
     }
-
-
 
 }
 
@@ -1717,4 +1721,26 @@ void EkosManager::updateMountCoords(const QString &ra, const QString &dec, const
     decOUT->setText(dec);
     azOUT->setText(az);
     altOUT->setText(alt);
+}
+
+void EkosManager::updateCaptureStatus(const QString &status, double percentage)
+{
+    captureStatus->setText(status);
+    captureProgress->setValue(percentage);
+
+    if (status != i18n("Aborted") && status != i18n("Complete"))
+    {
+        if (capturePI->isAnimated() == false)
+            capturePI->startAnimation();
+    }
+    else
+    {
+        if (capturePI->isAnimated())
+            capturePI->stopAnimation();
+    }
+}
+
+void EkosManager::updateCaptureImage(QImage *image)
+{
+    fitsImage->setPixmap(QPixmap::fromImage(image->scaled(fitsImage->width(), fitsImage->height(), Qt::KeepAspectRatio)));
 }

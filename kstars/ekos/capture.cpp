@@ -344,6 +344,7 @@ void Capture::abort()
         {
             KNotification::event( QLatin1String( "CaptureFailed"), i18n("CCD capture failed with errors") );
             activeJob->abort();
+            emit newStatus(i18n("Aborted"), getProgressPercentage());
         }
 
         activeJob->reset();
@@ -364,6 +365,7 @@ void Capture::abort()
     secondsLabel->clear();
     //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(newImage(QImage*)), this, SIGNAL(newImage(QImage*)));
     disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
 
     currentCCD->setFITSDir("");
@@ -739,7 +741,11 @@ void Capture::syncFilterInfo()
 void Capture::startNextExposure()
 {
     if (seqDelay > 0)
+    {
         secondsLabel->setText(i18n("Waiting..."));
+        emit newStatus(i18n("Waiting..."), getProgressPercentage());
+    }
+
     seqTimer->start(seqDelay);
 }
 
@@ -780,6 +786,7 @@ void Capture::newFITS(IBLOB *bp)
             return;
 
         disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+        disconnect(currentCCD, SIGNAL(newImage(QImage*)), this, SIGNAL(newImage(QImage*)));
 
         if (calibrationState == CALIBRATE_START)
         {
@@ -807,7 +814,7 @@ void Capture::newFITS(IBLOB *bp)
 
     secondsLabel->setText(i18n("Complete."));
 
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
 
     // If it was initially set as preview job
     if (seqTotalCount <= 0)
@@ -834,6 +841,8 @@ void Capture::newFITS(IBLOB *bp)
     imgProgress->setValue(seqCurrentCount);
 
     appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
+
+    emit newStatus(i18n("Image received..."), getProgressPercentage());
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
@@ -868,6 +877,8 @@ void Capture::processJobCompletion()
     else
     {
         KNotification::event( QLatin1String( "CaptureSuccessful"), i18n("CCD capture sequence completed"));
+
+        emit newStatus(i18n("Complete"), getProgressPercentage());
 
         if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
         {
@@ -934,11 +945,15 @@ bool Capture::resumeSequence()
         {
                 secondsLabel->setText(i18n("Dithering..."));
                 emit exposureComplete();
+
+                emit newStatus(i18n("Dithering..."), getProgressPercentage());
         }
         else if (isAutoFocus && activeJob->getFrameType() == FRAME_LIGHT)
         {
             secondsLabel->setText(i18n("Focusing..."));
             emit checkFocus(HFRPixels->value());
+
+            emit newStatus(i18n("Focusing..."), getProgressPercentage());
         }
         else
             startNextExposure();
@@ -991,6 +1006,7 @@ void Capture::captureImage()
     }
 
      connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
+     connect(currentCCD, SIGNAL(newImage(QImage*)), this, SIGNAL(newImage(QImage*)), Qt::UniqueConnection);
 
      if (activeJob->getFrameType() == FRAME_FLAT)
      {
@@ -1004,6 +1020,8 @@ void Capture::captureImage()
 
      if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
         checkSeqBoundary(activeJob->getFITSDir());
+
+     emit newStatus(i18n("Capturing..."), getProgressPercentage());
 
      rc = activeJob->capture(isDark);
 
@@ -1051,6 +1069,7 @@ void Capture::resumeCapture()
     {
         secondsLabel->setText(i18n("Focusing..."));
         emit checkFocus(HFRPixels->value());
+        emit newStatus(i18n("Focusing..."), getProgressPercentage());
         return;
     }
 
@@ -1560,6 +1579,8 @@ void Capture::prepareJob(SequenceJob *job)
             appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
             secondsLabel->setText(i18n("Set filter..."));
 
+            emit newStatus(i18n("Changing filter..."), getProgressPercentage());
+
             setBusy(true);
 
         }
@@ -1572,6 +1593,8 @@ void Capture::prepareJob(SequenceJob *job)
         {
             appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
             secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
+
+            emit newStatus(i18n("Setting temperature..."), getProgressPercentage());
 
             setBusy(true);
         }
@@ -2417,6 +2440,23 @@ void Capture::constructPrefix(QString &imagePrefix)
     }
 }
 
+double Capture::getProgressPercentage()
+{
+    int totalImageCount=0;
+    int totalImageCompleted=0;
+
+    foreach(SequenceJob *job, jobs)
+    {
+        totalImageCount += job->getCount();
+        totalImageCompleted += job->getCompleted();
+    }
+
+    if (totalImageCount != 0)
+        return ( ( (double) totalImageCompleted / totalImageCount) * 100.0);
+    else
+        return -1;
+}
+
 QString Capture::getJobState(int id)
 {
     if (id < jobs.count())
@@ -2617,6 +2657,9 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
             {
                 appendLogText(i18n("Performing post flip re-alignment..."));
                 secondsLabel->setText(i18n("Aligning..."));
+
+                emit newStatus(i18n("Aligning..."), getProgressPercentage());
+
                 meridianFlipStage = MF_ALIGNING;
                 emit meridialFlipTracked();
                 return;
@@ -2644,6 +2687,9 @@ void Capture::checkGuidingAfterFlip()
     {
         appendLogText(i18n("Performing post flip re-calibration and guiding..."));
         secondsLabel->setText(i18n("Calibrating..."));
+
+        emit newStatus(i18n("Calibrating..."), getProgressPercentage());
+
         meridianFlipStage = MF_GUIDING;
         emit meridianFlipCompleted();
     }
@@ -2708,6 +2754,9 @@ bool Capture::checkMeridianFlip()
         currentTelescope->getEqCoords(&initialRA, &dec);
         currentTelescope->Slew(initialRA,dec);
         secondsLabel->setText(i18n("Meridian Flip..."));
+
+        emit newStatus(i18n("Meridian Flip..."), getProgressPercentage());
+
         QTimer::singleShot(MF_TIMER_TIMEOUT, this, SLOT(checkMeridianFlipTimeout()));
         return true;
     }
@@ -3004,7 +3053,7 @@ void Capture::openCalibrationDialog()
         calibrationOptions.ADUC->setChecked(true);
         calibrationOptions.ADUValue->setValue(targetADU);
         break;
-    }   
+    }
 
     if (calibrationDialog.exec() == QDialog::Accepted)
     {
@@ -3063,7 +3112,7 @@ IPState Capture::processPreCaptureCalibrationStage()
     switch (activeJob->getFlatFieldSource())
     {
     case SOURCE_MANUAL:
-    case SOURCE_DAWN_DUSK: // Not yet implemented       
+    case SOURCE_DAWN_DUSK: // Not yet implemented
         break;
 
     // Park cap, if not parked
@@ -3342,20 +3391,6 @@ bool Capture::isSequenceFileComplete(const QString &fileURL)
     return (totalFileCount >= totalJobCount);
 }
 
-bool Capture::isFITSDirUnique(SequenceJob *job)
-{
-    foreach(SequenceJob *onejob, jobs)
-    {
-        if (onejob == job)
-            continue;
-
-        if (onejob->getFITSDir() == job->getFITSDir())
-            return false;
-    }
-
-    return true;
-}
-
 void Capture::setNewRemoteFile(QString file)
 {
     appendLogText(i18n("Remote image saved to %1", file));
@@ -3370,10 +3405,12 @@ void Capture::startPostFilterAutoFocus()
 
     secondsLabel->setText(i18n("Focusing..."));
 
+    emit newStatus(i18n("Focusing..."), getProgressPercentage());
+
     appendLogText(i18n("Post filter change Autofocus..."));
 
     // Force it to always run autofocus routine
-    emit checkFocus(0.1);   
+    emit checkFocus(0.1);
 }
 
 }
