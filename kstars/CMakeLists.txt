@@ -447,6 +447,7 @@ set(kstars_extra_SRCS
     auxiliary/profileinfo.cpp
     auxiliary/filedownloader.cpp
     auxiliary/kspaths.cpp
+    auxiliary/QRoundProgressBar.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp

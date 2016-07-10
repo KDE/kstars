@@ -703,4 +703,77 @@ bool Telescope::isParked()
     return IsParked;
 }
 
+Telescope::TelescopeStatus Telescope::getStatus()
+{
+    INumberVectorProperty *EqProp(NULL);
+
+    EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
+    if (EqProp == NULL)
+        return MOUNT_ERROR;
+
+    switch (EqProp->s)
+    {
+    case IPS_IDLE:
+        if (isParked())
+            return MOUNT_PARKED;
+        else
+            return MOUNT_IDLE;
+        break;
+
+    case IPS_OK:
+        return MOUNT_TRACKING;
+        break;
+
+
+    case IPS_BUSY:
+    {
+        ISwitchVectorProperty *parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
+        if (parkSP && parkSP->s == IPS_BUSY)
+            return MOUNT_PARKING;
+        else
+            return MOUNT_SLEWING;
+    }
+        break;
+
+    case IPS_ALERT:
+        return MOUNT_ERROR;
+        break;
+
+    }
+
+    return MOUNT_ERROR;
+}
+
+const QString Telescope::getStatusString(Telescope::TelescopeStatus status)
+{
+    switch (status)
+    {
+    case ISD::Telescope::MOUNT_IDLE:
+        return i18n("Idle");
+        break;
+
+    case ISD::Telescope::MOUNT_PARKED:
+        return i18n("Parked");
+        break;
+
+    case ISD::Telescope::MOUNT_PARKING:
+        return i18n("Parking");
+        break;
+
+    case ISD::Telescope::MOUNT_SLEWING:
+        return i18n("Slewing");
+        break;
+
+    case ISD::Telescope::MOUNT_TRACKING:
+        return i18n("Tracking");
+        break;
+
+    case ISD::Telescope::MOUNT_ERROR:
+        return i18n("Error");
+        break;
+    }
+
+    return i18n("Error");
+}
+
 }

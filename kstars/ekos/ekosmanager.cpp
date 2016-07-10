@@ -27,6 +27,7 @@
 
 #include "profileeditor.h"
 #include "profileinfo.h"
+#include "QProgressIndicator.h"
 
 #include "indi/clientmanager.h"
 #include "indi/indielement.h"
@@ -74,6 +75,8 @@ EkosManager::EkosManager()
     dustCapProcess = NULL;
 
     ekosOption     = NULL;
+
+    captureProgress->setValue(0);
 
     toolsWidget->setIconSize(QSize(64,64));
     connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
@@ -159,66 +162,6 @@ void EkosManager::showEvent(QShowEvent * /*event*/)
     QAction *a = KStars::Instance()->actionCollection()->action( "show_ekos" );
     a->setChecked(true);
 }
-
-#if 0
-void EkosManager::setConnectionMode(bool isLocal)
-{
-    if (isLocal)
-        kcfg_localMode->setChecked(true);
-    else
-        kcfg_remoteMode->setChecked(true);
-}
-
-
-void EkosManager::processINDIModeChange()
-{
-    Options::setLocalMode(kcfg_localMode->isChecked());
-    Options::setRemoteMode(kcfg_remoteMode->isChecked());
-
-    bool newLocalMode = kcfg_localMode->isChecked();
-
-    if (newLocalMode == localMode)
-        return;
-
-    if (managedDevices.count() > 0 || remote_indi != NULL)
-    {
-        KMessageBox::error(0, i18n("Cannot switch modes while INDI services are running."), i18n("Ekos Mode"));
-        kcfg_localMode->setChecked(!newLocalMode);
-        kcfg_remoteMode->setChecked(newLocalMode);
-        return;
-    }
-    else
-    {
-        if ( Options::remotePort().isEmpty() || Options::remoteHost().isEmpty())
-        {
-           appendLogText(i18n("Please fill the remote server information in Ekos options before switching to remote mode."));
-           if (KConfigDialog::showDialog("settings") == false)
-               optionsB->click();
-
-           KConfigDialog *mConfigDialog = KConfigDialog::exists("settings");
-           if (mConfigDialog && ekosOption)
-           {
-                   mConfigDialog->setCurrentPage(ekosOption);
-                   kcfg_localMode->setChecked(!newLocalMode);
-                   kcfg_remoteMode->setChecked(newLocalMode);
-                   return;
-
-            }
-
-        }
-    }
-
-    localMode = newLocalMode;
-
-    reset();
-
-    if (localMode)
-        initLocalDrivers();
-    else
-        initRemoteDrivers();
-
-}
-#endif
 
 void EkosManager::loadProfiles()
 {
@@ -1448,6 +1391,10 @@ void EkosManager::initMount()
     int index = toolsWidget->addTab(mountProcess, QIcon(":/icons/ekos_mount.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Mount"));
     connect(mountProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+    connect(mountProcess, SIGNAL(newCoords(QString,QString,QString,QString)), this, SLOT(updateMountCoords(QString,QString,QString,QString)));
+    connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this, SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
+    mountPI = new QProgressIndicator(this);
+    mountStatusLayout->addWidget(mountPI);
 
     if (captureProcess)
     {
@@ -1455,6 +1402,8 @@ void EkosManager::initMount()
         connect(captureProcess, SIGNAL(meridianFlipStarted()), mountProcess, SLOT(disableAltLimits()), Qt::UniqueConnection);
         connect(captureProcess, SIGNAL(meridianFlipCompleted()), mountProcess, SLOT(enableAltLimits()), Qt::UniqueConnection);
     }
+
+
 
 }
 
@@ -1729,4 +1678,43 @@ void EkosManager::updateProfileLocation(ProfileInfo *pi)
         else
             appendLogText(i18n("Failed to update site location to %1. City not found.", KStarsData::Instance()->geo()->fullName()));
     }
+}
+
+void EkosManager::updateMountStatus(ISD::Telescope::TelescopeStatus status)
+{
+    static ISD::Telescope::TelescopeStatus lastStatus = ISD::Telescope::MOUNT_IDLE;
+
+    if (status == lastStatus)
+        return;
+
+    lastStatus = status;
+
+    mountStatus->setText(ISD::Telescope::getStatusString(status));
+
+    switch (status)
+    {
+    case ISD::Telescope::MOUNT_PARKING:
+    case ISD::Telescope::MOUNT_SLEWING:
+        mountPI->setColor(QColor( KStarsData::Instance()->colorScheme()->colorNamed("TargetColor" )));
+        if (mountPI->isAnimated() == false)
+            mountPI->startAnimation();
+        break;
+    case ISD::Telescope::MOUNT_TRACKING:
+        mountPI->setColor(Qt::darkGreen);
+        if (mountPI->isAnimated() == false)
+            mountPI->startAnimation();
+        break;
+
+    default:
+        if (mountPI->isAnimated())
+            mountPI->stopAnimation();
+    }
+}
+
+void EkosManager::updateMountCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt)
+{
+    raOUT->setText(ra);
+    decOUT->setText(dec);
+    azOUT->setText(az);
+    altOUT->setText(alt);
 }

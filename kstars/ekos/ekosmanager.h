@@ -36,6 +36,7 @@
 class DriverInfo;
 class ProfileInfo;
 class KPageWidgetItem;
+class QProgressIndicator;
 
 /**
  *@class EkosManager
@@ -177,6 +178,10 @@ private slots:
     void deleteProfile();
     void saveDefaultProfile(const QString& name);
 
+    // Mount Summary
+    void updateMountCoords(const QString &ra, const QString &dec ,const QString &az ,const QString &alt);
+    void updateMountStatus(ISD::Telescope::TelescopeStatus status);
+
  private:
 
     void removeTabs();
@@ -239,6 +244,9 @@ private slots:
 
     ProfileInfo * getCurrentProfile();
     void updateProfileLocation(ProfileInfo *pi);
+
+    // Mount Summary
+    QProgressIndicator *mountPI;
 
 
 };
