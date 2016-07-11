@@ -880,7 +880,8 @@ If you want to modify a point's coordinates, just double click on its Az/Alt tex
 the new value. First and Last points must be on the horizon.
 Polygons must be closed to be considered valid regions.
 Artificial Horizon Manager provides a easy way to rename your regions. By default, regions are 
-named as: <quote>Region </quote> plus an index (&ie; <quote>Region 1</quote> or <quote>Region 2</quote>). For renaming a region, all you need
+named as: <quote>Region </quote> plus an index (&ie; <quote>Region 1</quote> or <quote>Region 2</quote>). 
+For renaming a region, all you need
 to do is to double click on its name and then you will be invited to complete a new region name. 
 You can also control which regions are enabled or disabled for marking on the map by a simple 
 click on the checkbox in front of each region. After you defined your desired regions you can apply 
@@ -1046,6 +1047,28 @@ on this location, and engage tracking.  Equivalent to double-clicking.
 <varlistentry>
 <term>[All]</term>
 <listitem><para>
+<guimenuitem>Add flag...</guimenuitem>: Open &kstars; <quote>Flag manager</quote> window.
+Here you can manage your flags and use some of &kstars; features. When <quote>Flag manager</quote>
+window is open for a selected object, <guilabel>Right ascension</guilabel> and
+<guilabel>Declination</guilabel> text boxes will be automatically filled with the coordinate values
+of the selected object on the Sky Map. Besides these two text boxes, you can set the 
+<guilabel>Epoch</guilabel>, add a <guilabel>Label</guilabel>, set the <guilabel>Label color</guilabel>
+or even add an <guilabel>Icon</guilabel>. To add custom icons, just add images in <quote>/home/user_name/
+.local/share/kstars/</quote>. File names must begin with the <quote>flag</quote> keyword. For example, 
+the file <quote>flagSmall_red_cross.gif</quote> will be shown as Small red cross in the combo box. After
+you set up the information of the new flag, you can add it to the flags list using the 
+<guibutton>Add</guibutton> button. You may also change flags details (&ie; RA/Dec, label or icon) and 
+then save the new ones by pressing the <guibutton>Save changes</guibutton> button. Using the Flag manager, 
+you can easily center an object in Map or in Telescope, by pressing <guibutton>Center in Map</guibutton> 
+or <guibutton>Center in Telescope</guibutton> button. In order to delete a value from the list, just 
+select it in the list and then press <guibutton>Delete</guibutton> button. Your flags are saved after you
+close current session and thus you will be able to see them everytime you will use &kstars; again.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[All]</term>
+<listitem><para>
 <guimenuitem>Angular Distance To...</guimenuitem>: Enter "angular distance
 mode".  In this mode, a dotted line is drawn from the first target object
 to the current mouse position.  When you click with the &RMB; on a second
@@ -1055,7 +1078,30 @@ exit angular distance mode without measuring an angle.
 </para></listitem>
 </varlistentry>
 
-<!-- Starhop from here missing-->
+<!-- Starhop: -->
+<varlistentry>
+<term>[All]</term>
+<listitem><para>
+<guimenuitem>Starhop from here to</guimenuitem>: will enable you to find a path between two points in 
+the sky. Star hopping is a technique that uses bright stars as a quide for finding fainter objects. So if 
+you have a bright star, you can use it as a reference to find a fainter object. Starting from your reference 
+star, &kstars; will find a route to the destination, traversing a sequence of stars/patterns of stars. The 
+object for which you called <guilabel>Starhop from here to</guilabel> tool will be your starting point. When 
+your starting point is established, a dotted line will appear, allowing you to decide which will be your 
+end point. You have to move the mouse cursor to your destination object position and right click on it. 
+Then, a dialog box will pop up, requiring you to set the FOV used for star hopping. For selecting a FOV, 
+you need to make a choice from the FOV combo box list of values. The values you can choose include 
+default FOV values (7x35 Binoculars, Telrad, One Degree, HST WFPC2 and 30m at 1.3cm) plus your customized 
+FOVs. After you selected the FOV, &kstars; will find a route for you. Thus, the dialog box will contain a 
+list of object used in the starhop. If &kstars; did not manage to find a route, then an error dialog box 
+will be displayed, giving you a helping hand. When the Star-Hopper algorithm ends, the dialog box will 
+contain a list of objects used in starhop route. For every object from the list, you can perform a set of 
+actions: you can ask for details using the <guibutton>Details</guibutton> button, center selected object in 
+the map using <guibutton>Center on map</guibutton> button or you can go to next star by pressing the 
+<guibutton>Next</guibutton> button. Note that when go to next star, it will be automatically centered on 
+the map. Also, Star-Hopper tool provides directions to star hop for every object of the list.
+</para></listitem>
+</varlistentry>
 
 <varlistentry>
 <term>[All]</term>
@@ -1073,29 +1119,57 @@ to the object.  If the object already has a label attached, this item
 will read <guilabel>Remove Label</guilabel>.
 </para></listitem>
 </varlistentry>
-<!-- missing
-Add to Observing Wishlist
-Add Trail
-Print XPlanet view
-  -->
-<varlistentry>
-<term>[All]</term>
-<listitem><para>
-<guimenuitem>Show ... Image</guimenuitem>: download an image of the
-object from the Internet, and display it in the Image Viewer tool.
-The "..." text is replaced by a short description of the image's
-source.  An object may have multiple image links available in its
-popup menu.
-</para></listitem>
-</varlistentry>
 
 <varlistentry>
 <term>[All]</term>
 <listitem><para>
-<guimenuitem>... Page</guimenuitem>: Display a webpage about the object
-in your default web browser.  The "..." text is replaced by a short
-description of the page.  An object may have multiple web links available
-in its popup menu.
+<guimenuitem>Add to Observing WishList</guimenuitem>: Add the selected object to 
+<guimenu>Observation Planner</guimenu>'s Wish List. You can see the Wish List, by selecting 
+<menuchoice><guimenu>Observation</guimenu><guimenuitem>Observation Planner</guimenuitem></menuchoice>. 
+If the object is already in the Observing WishList, then this item will become 
+<guilabel>Remove Label</guilabel>.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[Solar system objects]</term>
+<listitem><para>
+<guimenuitem>Add Trail</guimenuitem>: Add a trail to current Solar system object. A star trail is the 
+continuous path created by the star in the night sky due to the rotation of the Earth.
+If the object already has a trail, this item will become <guilabel>Remove Trail</guilabel>.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[Solar system objects]</term>
+<listitem><para>
+<guimenuitem>Image Resources</guimenuitem>: gives a list of image links for current Solar system object. The images
+are displayed in &kstars; Image Viewer tool. Image Viewer tool allows you to invert the colors and save the image 
+in your computer.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[Solar system objects]</term>
+<listitem><para>
+<guimenuitem>Information Resources</guimenuitem>: gives a list of documentation links for current Solar system object. 
+The links are opened in your default browser. 
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[All objects without Solar system objects]</term>
+<listitem><para>
+<guimenuitem>Show SDSS Image</guimenuitem>: download a SDSS (Sloan Digital Sky Survey) image of the object from the 
+Internet, and display it in the Image Viewer tool.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[All objects without Solar system objects]</term>
+<listitem><para>
+<guimenuitem>Show DSS Image</guimenuitem>: download a DSS (Digitized Sky Survey) image of the object from the 
+Internet, and display it in the Image Viewer tool. 
 </para></listitem>
 </varlistentry>
 
@@ -1216,11 +1290,11 @@ Point (straight up)</para></listitem>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>W</keycap></keycombo></term>
-<listitem><para>Close a &kstars; window</para></listitem>
+<listitem><para>Close a f window</para></listitem>
 </varlistentry>
 -->
 <varlistentry>
-<term><keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo></term>
+<term><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></term>
 <listitem><para>Download extra data</para></listitem>
 </varlistentry>
 
@@ -1403,13 +1477,7 @@ window</para></listitem>
 <listitem><para>Open the <link linkend="tool-calculator">AstroCalculator</link> 
 </para></listitem>
 </varlistentry>
-<!--
-<varlistentry>
-<term><keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="tool-aavso">AAVSO Lightcurve Generator</link>
-</para></listitem>
-</varlistentry>
--->
+ 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo></term>
 <listitem><para>Open the <link linkend="tool-altvstime">Altitude vs. Time</link> 
@@ -1460,8 +1528,12 @@ tool</para></listitem>
 <variablelist>
 <varlistentry><term>Moving the mouse</term>
 <listitem><para>
-The sky coordinates (RA/Dec and Az/Alt) of the mouse cursor are updated
-in the status bar
+The sky coordinates (Az/Alt, RA/Dec and J2000.0 RA/Dec) of the mouse cursor are updated
+in the status bar. The status bar is located in the right bottom corner of the screen.
+The status bar can be customized by selecting <menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Statusbar</guimenuitem></menuchoice> submenu. Here you may choose what coordinates
+systems &kstars; will display in the status bar. Furthermore, you can hide the status bar by 
+unchecking the <guilabel>Show Statusbar</guilabel> checkbox.
 </para></listitem>
 </varlistentry>
 
