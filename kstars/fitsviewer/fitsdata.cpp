@@ -846,6 +846,14 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
                 FSum += image_buffer[cen_x-k+(cen_y*stats.width)] - min;
 
+            rCenter->mean = FSum/rCenter->width;
+            float variance=0;
+            for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
+                variance += (image_buffer[cen_x-k+(cen_y*stats.width)] - min - rCenter->mean) * (image_buffer[cen_x-k+(cen_y*stats.width)] - min - rCenter->mean);
+
+            variance /= rCenter->width;
+            rCenter->stddev = sqrt(variance);
+
             // Half flux
             HF = FSum / 2.0;
 
@@ -876,7 +884,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             rCenter->val = FSum;
 
             if (Options::fITSLogging())
-                qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum;
+                qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum << " Mean is " << rCenter->mean << " Stddev: " << rCenter->stddev;
 
             starCenters.append(rCenter);
 

@@ -68,6 +68,8 @@ public:
     float width;
     float HFR;
     float sum;
+    float mean;
+    float stddev;
 };
 
 class FITSData

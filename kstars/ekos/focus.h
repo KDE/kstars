@@ -325,6 +325,7 @@ signals:
 
 private:
     void drawHFRPlot();
+    void drawProfilePlot(FITSData *fitsData);
     void getAbsFocusPosition();
     void autoFocusAbs();
     void autoFocusRel();

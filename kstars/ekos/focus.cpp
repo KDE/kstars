@@ -126,6 +126,19 @@ Focus::Focus()
 
     focusType = FOCUS_MANUAL;
 
+    profilePlot->setBackground(QBrush(Qt::black));
+    profilePlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    profilePlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    profilePlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    profilePlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    profilePlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
+    profilePlot->yAxis->grid()->setZeroLinePen(Qt::NoPen);
+    profilePlot->addGraph();
+    profilePlot->graph(0)->setLineStyle(QCPGraph::lsLine);
+    profilePlot->graph(0)->setPen(QPen(Qt::red, 2));
+
     HFRPlot->setBackground(QBrush(Qt::black));
 
     HFRPlot->xAxis->setBasePen(QPen(Qt::white, 1));
@@ -153,16 +166,8 @@ Focus::Focus()
     HFRPlot->yAxis->setLabel(i18n("HFR"));
 
     v_graph = HFRPlot->addGraph();
-    //v_graph->setBrush(QBrush(QColor(170, 40, 80)));
-    //v_graph->setPen(QPen(Qt::red));
     v_graph->setLineStyle(QCPGraph::lsNone);
     v_graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::red, 3));
-
-    //HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( i18nc("Half Flux Radius", "HFR") );
-    //HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Iterations") );
-
-    //HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( i18nc("Half Flux Radius", "HFR") );
-    //HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Absolute Position") );
 
     resetButtons();
 
@@ -181,7 +186,6 @@ Focus::Focus()
     suspendGuideCheck->setChecked(Options::suspendGuiding());
     lockFilterCheck->setChecked(Options::lockFocusFilter());
     focusDarkFrameCheck->setChecked(Options::focusDarkFrame());
-
 }
 
 Focus::~Focus()
@@ -977,7 +981,10 @@ void Focus::newFITS(IBLOB *bp)
             hfr_value.append(currentHFR);
 
             if (focusType == FOCUS_MANUAL || (inAutoFocus && canAbsMove == false && canRelMove == false))
+            {
+                drawProfilePlot(image_data);
                 drawHFRPlot();
+            }
         }
     }
     // If just framing, let's capture again
@@ -1142,6 +1149,38 @@ void Focus::drawHFRPlot()
 
     HFRPlot->replot();
 
+}
+
+void Focus::drawProfilePlot(FITSData *fitsData)
+{
+    QVector<double> key;
+    QVector<double> value;
+
+    Edge *rCenter = fitsData->getMaxHFRStar();
+
+    float min=fitsData->getMin(0);
+    int cen_x = (int) floor(rCenter->x);
+    int cen_y = (int) floor(rCenter->y);
+    int width = fitsData->getWidth();
+    double maxGaus=-1;
+    float *image_buffer = fitsData->getImageBuffer();
+
+    // NOTE NOT WORKING! Fix it at home
+    for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
+    {
+        key.append(-1*k);
+        double intensity = (image_buffer[cen_x-k+(cen_y*width)] - min);
+        double gaus  = (1/(rCenter->stddev*sqrt(2*M_PI))) * exp(-1 * ( (intensity-rCenter->mean) *  (intensity-rCenter->mean) ) / (2 * (rCenter->stddev * rCenter->stddev)));
+        if (gaus > maxGaus)
+            maxGaus = gaus;
+        value.append(gaus);
+    }
+
+    profilePlot->xAxis->setRange(key.first(), key.last());
+    profilePlot->yAxis->setRange(0, maxGaus);
+
+    profilePlot->graph()->setData(key, value);
+    profilePlot->replot();
 }
 
 void Focus::autoFocusAbs()
