@@ -851,7 +851,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
                 variance += (image_buffer[cen_x-k+(cen_y*stats.width)] - min - rCenter->mean) * (image_buffer[cen_x-k+(cen_y*stats.width)] - min - rCenter->mean);
 
-            variance /= rCenter->width;
+            variance /= (rCenter->width-1);
             rCenter->stddev = sqrt(variance);
 
             // Half flux

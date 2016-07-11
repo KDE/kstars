@@ -135,9 +135,24 @@ Focus::Focus()
     profilePlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
     profilePlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
     profilePlot->yAxis->grid()->setZeroLinePen(Qt::NoPen);
+    profilePlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->xAxis->setTickPen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setTickPen(QPen(Qt::white, 1));
+    profilePlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
+    profilePlot->xAxis->setTickLabelColor(Qt::white);
+    profilePlot->yAxis->setTickLabelColor(Qt::white);
+    profilePlot->xAxis->setLabelColor(Qt::white);
+    profilePlot->yAxis->setLabelColor(Qt::white);
+
     profilePlot->addGraph();
     profilePlot->graph(0)->setLineStyle(QCPGraph::lsLine);
     profilePlot->graph(0)->setPen(QPen(Qt::red, 2));
+
+    profilePlot->addGraph();
+    profilePlot->graph(1)->setLineStyle(QCPGraph::lsLine);
+    profilePlot->graph(1)->setPen(QPen(Qt::darkGreen, 1));
 
     HFRPlot->setBackground(QBrush(Qt::black));
 
@@ -981,10 +996,7 @@ void Focus::newFITS(IBLOB *bp)
             hfr_value.append(currentHFR);
 
             if (focusType == FOCUS_MANUAL || (inAutoFocus && canAbsMove == false && canRelMove == false))
-            {
-                drawProfilePlot(image_data);
                 drawHFRPlot();
-            }
         }
     }
     // If just framing, let's capture again
@@ -1111,6 +1123,8 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
+    drawProfilePlot(image_data);
+
     if (focusType == FOCUS_MANUAL || inAutoFocus==false)
         return;
 
@@ -1154,19 +1168,20 @@ void Focus::drawHFRPlot()
 void Focus::drawProfilePlot(FITSData *fitsData)
 {
     QVector<double> key;
-    QVector<double> value;
+    QVector<double> currentGaus;
 
     Edge *rCenter = fitsData->getMaxHFRStar();
 
-    float min=fitsData->getMin(0);
+    /*float min=fitsData->getMin(0);
     int cen_x = (int) floor(rCenter->x);
     int cen_y = (int) floor(rCenter->y);
     int width = fitsData->getWidth();
-    double maxGaus=-1;
-    float *image_buffer = fitsData->getImageBuffer();
+
+    float *image_buffer = fitsData->getImageBuffer();*/
+
 
     // NOTE NOT WORKING! Fix it at home
-    for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
+    /*for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
     {
         key.append(-1*k);
         double intensity = (image_buffer[cen_x-k+(cen_y*width)] - min);
@@ -1174,13 +1189,38 @@ void Focus::drawProfilePlot(FITSData *fitsData)
         if (gaus > maxGaus)
             maxGaus = gaus;
         value.append(gaus);
+    }*/
+
+    float start= rCenter->mean - rCenter->stddev*4;
+    float end  = rCenter->mean + rCenter->stddev*4;
+    float step = rCenter->stddev*4 / 20.0;
+    for (float x=start; x < end; x+= step)
+    {
+        key.append(x);
+        currentGaus.append((1/(rCenter->stddev*sqrt(2*M_PI))) * exp(-1 * ( (x-rCenter->mean) *  (x-rCenter->mean) ) / (2 * (rCenter->stddev * rCenter->stddev))));
     }
 
-    profilePlot->xAxis->setRange(key.first(), key.last());
-    profilePlot->yAxis->setRange(0, maxGaus);
+    profilePlot->graph(0)->setData(key, currentGaus);
 
-    profilePlot->graph()->setData(key, value);
+    //profilePlot->graph(0)->rescaleAxes();
+
+    if (lastGaus.count() > 0)
+    {
+        profilePlot->graph(1)->setData(lastGausRange, lastGaus);
+        //profilePlot->graph(1)->rescaleAxes();
+    }
+
+    profilePlot->rescaleAxes();
     profilePlot->replot();
+
+    qDebug() << "Current Key: " << key;
+    qDebug() << "Last Key: " << lastGausRange;
+
+    qDebug() << "Current Values: " << currentGaus;
+    qDebug() << "Last Gaus: " << lastGaus;
+
+    lastGaus      = currentGaus;
+    lastGausRange = key;
 }
 
 void Focus::autoFocusAbs()

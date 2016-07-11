@@ -482,6 +482,12 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
      </item>
      <item>
       <widget class="QGroupBox" name="profileGroup">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="title">
         <string>Profile</string>
        </property>
@@ -489,7 +495,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
         <item>
          <widget class="QCustomPlot" name="profilePlot" native="true">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -502,8 +508,8 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
           </property>
           <property name="maximumSize">
            <size>
-            <width>100</width>
-            <height>100</height>
+            <width>16777215</width>
+            <height>16777215</height>
            </size>
           </property>
          </widget>
