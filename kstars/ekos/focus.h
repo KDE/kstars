@@ -439,8 +439,9 @@ private:
     QCPGraph *v_graph;
 
     // Last gaussian fit values
-    QVector<double> lastGaus;
-    QVector<double> lastGausRange;
+    QVector<double> firstGausIndexes, lastGausIndexes;
+    QVector<double> firstGausFrequencies, lastGausFrequencies;
+    QCPGraph *currentGaus, *firstGaus, *lastGaus;
 
     QVector<double> hfr_position, hfr_value;
 

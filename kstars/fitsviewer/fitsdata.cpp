@@ -558,18 +558,13 @@ bool FITSData::checkCollision(Edge* s1, Edge*s2)
 /*** Find center of stars and calculate Half Flux Radius */
 void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 {
-    double threshold=0;
-    double avg = 0;
-    double sum=0;
-    double min=0;
-    double noiseAvg=0,noiseSum=0;
-    int starDiameter =0, noisePixelRadius=0;
+    double threshold=0,sum=0,avg=0,min=0;
+    int starDiameter=0;
     int pixVal=0;
-    int noisePix=0, totalNoisePix=0;
     int minimumEdgeCount = MINIMUM_EDGE_LIMIT;
 
-    int noisePixLimit=0;
     double JMIndex = histogram->getJMIndex();
+    float dispersion_ratio=1.5;
 
     QList<Edge*> edges;
 
@@ -594,32 +589,33 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
         if (JMIndex < DIFFUSE_THRESHOLD)
         {
-            //threshold = stats.max[0] - stats.stddev[0]* (MINIMUM_STDVAR - initStdDev +1);
             // Taking the average out seems to have better result for noisy images
             threshold = stats.max[0] - stats.mean[0] * ( (MINIMUM_STDVAR - initStdDev)*0.5 +1);
 
             min =stats.min[0];
+            if (threshold-min < 0)
+            {
+                threshold=stats.mean[0]* ( (MINIMUM_STDVAR - initStdDev)*0.5 +1);
+                min=0;
+            }
 
-           // noisePixLimit=minEdgeWidth*0.5;
+            dispersion_ratio=1.4 - (MINIMUM_STDVAR - initStdDev)*0.08;
         }
         else
         {
-            //threshold = (stats.max[0] - stats.min[0])/2.0 + stats.min[0]  + stats.stddev[0]* (MINIMUM_STDVAR - initStdDev);
-            //if ( (stats.max[0] - stats.min[0])/2.0 > (stats.mean[0]+stats.stddev[0]*5))
-            //threshold = stats.mean[0]+stats.stddev[0]*initStdDev*(0.95 - (MINIMUM_STDVAR - initStdDev) * 0.05);
-            threshold = stats.mean[0]+stats.stddev[0]*initStdDev*(0.1 - (MINIMUM_STDVAR - initStdDev) * 0.05);
+            threshold = stats.mean[0]+stats.stddev[0]*initStdDev*(0.3 - (MINIMUM_STDVAR - initStdDev) * 0.05);
             min = stats.min[0];
-            //noisePixLimit =2;
-           // noisePixLimit= 0;//floor(qBound(1.0, minEdgeWidth*0.1, 5.0));
+            // Ratio between centeroid center and edge
+            dispersion_ratio=1.8 - (MINIMUM_STDVAR - initStdDev)*0.2;
         }
 
         if (Options::fITSLogging())
         {
             qDebug() << "SNR: " << stats.SNR;
-            qDebug() << "The threshold level is " << threshold << " minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeCount;
+            qDebug() << "The threshold level is " << threshold << "(actual " << threshold-min << ")  minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeCount;
         }
 
-        threshold = qMax(stats.min[0], threshold-stats.min[0]);
+        threshold -= min;
 
         int subX, subY, subW, subH;
 
@@ -638,36 +634,18 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             subH = stats.height;
         }
 
-        // Detect "edges" that are above threshold
+       // Detect "edges" that are above threshold
         for (int i=subY; i < subH; i++)
         {
             starDiameter = 0;
-            totalNoisePix=0;
 
             for(int j=subX; j < subW; j++)
             {
                 pixVal = image_buffer[j+(i*stats.width)] - min;
 
                 // If pixel value > threshold, let's get its weighted average
-                if ( pixVal >= threshold ) // || (sum > 0 && noisePix < noisePixLimit))
+                if ( pixVal >= threshold )
                 {
-                    /*if (pixVal < threshold)
-                    {
-                        noisePix++;
-                        noiseAvg += j * pixVal;
-                        noiseSum += pixVal;
-                        noisePixelRadius++;
-                        continue;
-                    }
-                    else if (noisePix)
-                    {
-                        avg += noiseAvg;
-                        sum += noiseSum;
-                        starDiameter += noisePixelRadius;
-                        totalNoisePix += noisePixelRadius;
-                        noisePix=noiseAvg=noiseSum=noisePixelRadius=0;
-                    }*/
-
                     avg += j * pixVal;
                     sum += pixVal;
                     starDiameter++;
@@ -675,28 +653,24 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
                 // Value < threshold but avg exists
                 else if (sum > 0)
                 {
-
                     // We found a potential centroid edge
-                    if (starDiameter >= (minEdgeWidth - (MINIMUM_STDVAR - initStdDev)))
+                    if (starDiameter >= minEdgeWidth)
                     {
                         float center = avg/sum + 0.5;
                         if (center > 0)
                         {
                             int i_center = floor(center);
 
-                            for (int k=starDiameter/2; k >= -(starDiameter) ; k--)
-                            {
-                                qDebug() << image_buffer[ (i_center-k+(i*stats.width)) ] - min;
-                            }
-
                             // Check if center is 10% or more brighter than edge, if not skip
-                            if ( ((image_buffer[i_center+(i*stats.width)]-min) / (image_buffer[i_center+(i*stats.width)-starDiameter/2]-min) >= 1.7) &&
-                                 ((image_buffer[i_center+(i*stats.width)]-min) / (image_buffer[i_center+(i*stats.width)+starDiameter/2]-min) >= 1.7))// &&
-                                 //((double) totalNoisePix / starDiameter) < 0.1)
+                            if ( ((image_buffer[i_center+(i*stats.width)]-min) / (image_buffer[i_center+(i*stats.width)-starDiameter/2]-min) >= dispersion_ratio) &&
+                                 ((image_buffer[i_center+(i*stats.width)]-min) / (image_buffer[i_center+(i*stats.width)+starDiameter/2]-min) >= dispersion_ratio))
                             {
-
-                                qDebug() << "Center is " << image_buffer[i_center+(i*stats.width)]-min << " Edge is " << image_buffer[i_center+(i*stats.width)-starDiameter/2]-min
-                                         << " and ratio is " << ((image_buffer[i_center+(i*stats.width)]-min) / (image_buffer[i_center+(i*stats.width)-starDiameter/2]-min));
+                                if (Options::fITSLogging())
+                                {
+                                    qDebug() << "Edge center is " << image_buffer[i_center+(i*stats.width)]-min << " Edge is " << image_buffer[i_center+(i*stats.width)-starDiameter/2]-min
+                                             << " and ratio is " << ((image_buffer[i_center+(i*stats.width)]-min) / (image_buffer[i_center+(i*stats.width)-starDiameter/2]-min))
+                                             << " located at X: " << center << " Y: " << i+0.5;
+                                }
 
                                 Edge *newEdge = new Edge();
 
@@ -716,7 +690,6 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
                     // Reset
                     avg= sum = starDiameter=0;
-                    noisePix = noiseAvg = noiseSum = noisePixelRadius = totalNoisePix = 0;
                 }
             }
         }
@@ -865,15 +838,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             {
                 FSum += image_buffer[cen_x-k+(cen_y*stats.width)] - min;
                 qDebug() << image_buffer[cen_x-k+(cen_y*stats.width)] - min;
-            }
-
-            rCenter->mean = FSum/rCenter->width;
-            float variance=0;
-            for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
-                variance += (image_buffer[cen_x-k+(cen_y*stats.width)] - min - rCenter->mean) * (image_buffer[cen_x-k+(cen_y*stats.width)] - min - rCenter->mean);
-
-            variance /= (rCenter->width-1);
-            rCenter->stddev = sqrt(variance);
+            }            
 
             // Half flux
             HF = FSum / 2.0;
@@ -905,10 +870,9 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             rCenter->val = FSum;
 
             if (Options::fITSLogging())
-                qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum << " Mean is " << rCenter->mean << " Stddev: " << rCenter->stddev;
+                qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum;
 
             starCenters.append(rCenter);
-
         }
     }
 
