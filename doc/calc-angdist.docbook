@@ -28,7 +28,9 @@ the two points.
 </para>
 <para>
 There is also a Batch mode for this module.  In batch mode, you
-specify an input filename which contains four numbers per line:
+specify an input filename which contains a number of parameters (up to four) on each line: 
+the initial right ascension (RA), initial declination (Dec), final right ascension and 
+final declination. By default, each line should contain four numbers signifying 
 the RA and Dec values for pairs of points.  Alternatively, you can
 specify a single value for any of these four coordinates in
 the calculator panel (the corresponding values in the input file
