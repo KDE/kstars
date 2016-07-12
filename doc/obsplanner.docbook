@@ -23,7 +23,7 @@
       </para>
     </caption>
   </mediaobject>
-  <para>The <guibutton>Save all Images</guibutton> button does a search for the SDSS images and displays the DSS image if the requested RA/Dec is out of the SDSS footprint.</para>
+  <para>The <guibutton>Download all Images</guibutton> button does a search for the SDSS images and displays the DSS image if the requested RA/Dec is out of the SDSS footprint.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="sds.png" format="PNG"/>
@@ -55,10 +55,19 @@
       </para>
     </caption>
   </mediaobject>
-  <para>You can add more objects by pressing the <guibutton>Add Object</guibutton> button. It has quite accurate method for sorting out items, depending on what options you have given to him. They are: Any, Stars, Solar System, Clusters (Globular and Open), Nebula (Gaseous and Planetary), Galaxies, Comets, Asteroids and Constellations + the name filter.</para>
-  <para>Here you can see the object visibility based on the time and date. The leader line shows the time right now.</para>
-  <para>And below this you can add notes about observing this object.</para>
-  <para>Do note that the Wish List is not the Session Plan. In the Wish List you can add objects that you wish to observer at some point. From there you can add them to the Session Plan.</para>
+  <para>You can add more objects by pressing the <guibutton>Find Object</guibutton> button. It will open
+the <guilabel>Find Object</guilabel> tool which provides two accurate methods for sorting out the items, 
+depending on what criteria you want to use. 
+You can filter the list by objects type: Any, Stars, Solar System, Clusters (Globular and Open), 
+Nebulae (Gaseous and Planetary), Galaxies, Comets, Asteroids, Constellations, Supernovae or Satellites.
+You can also filter the objects list by name. All you need to do is to enter the name of desired object 
+in <guilabel>Filter by name</guilabel> text box.
+  </para>
+
+  <para>Inside Observation Planner window you can see an Altvstime widget, which shows you how 
+the altitude of a selected object varies over time.</para>
+  <para>Below the Altvstime widget, its a text box in that you can add observing notes for current sky object.</para>
+  <para>Note that the Wish List is not the Session Plan. In the Wish List you can add objects that you wish to observe at some point. From there you can add them to the Session Plan.</para>
   <para>You can see the pop-up window that comes after right-clicking on an object.</para>
   <mediaobject>
     <imageobject>
@@ -70,7 +79,8 @@
       </para>
     </caption>
   </mediaobject>
-  <para> Here is the second way of adding objects in your Observation Plan and using you Observation Plan. To use this way you just need to press the 4-th icon on the top-left corner of the Observation Planner Wizard (which is highlighted with yellow).</para>
+  <para> Here is the second way of adding objects in your Observation Plan, using the Observing List Wizard. You 
+just need to press the fourth button on the top-left corner of the Observation Planner window.</para>
   <para>Despite looking differently this way is basically the same as the first one. Although that it could be a bit more detailed. Here you can see the same categories of objects.</para>
   <mediaobject>
     <imageobject>
