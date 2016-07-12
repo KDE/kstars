@@ -60,13 +60,36 @@ setting at around 15:00 local time, and is rising at about 04:00 local
 time.
 </para>
 <para>
-The plot can be easily zoomed and panned using the mouse. The zooming level can be adjusted using the mouse scroll wheel. When the plot is zoomed out, the zooming level will be automatically limited to a default minimum value, such as the axes’ ranges are able to cover the entire plot (i.e. on vertical axis, the maximum altitude value should touch the top edge of the plot frame). The same principle is applied when the plot is panned using the mouse movement. For panning the plot, all you need to do is to click on the point of the plot you want to pan and then drag the mouse on your desired direction: left, right, up or down. 
+The plot can be easily zoomed and panned using the mouse. The zooming level 
+can be adjusted using the mouse scroll wheel. When the plot is zoomed out, 
+the zooming level will be automatically limited to a default minimum value, 
+such as the axes’ ranges are able to cover the entire plot (i.e. on vertical 
+axis, the maximum altitude value should touch the top edge of the plot frame). 
+The same principle is applied when the plot is panned using the mouse movement. 
+For panning the plot, all you need to do is to click on the point of the plot 
+you want to pan and then drag the mouse on your desired direction: left, right, 
+up or down. 
 </para>
 <para>
-Another useful feature that Altvstime tool provides is its ability to compute and mark the Rise/Set/Transit times. This can be accomplished by a simple press of one of the <guibutton>Rise</guibutton>, <guibutton>Set</guibutton> or <guibutton>Transit</guibutton> buttons. When one of these buttons is pressed, a filled colored circle will be marked on the curve. The color used for Rise, Set and Transit dots are: red for Rise, blue for Set and green for Transit time. For a more intuitive way of using these buttons, they are marked with the color of their specific dots. This way, the user can easily understand the plot and make the association between a certain color and its significance.
+Another useful feature that Altvstime tool provides is its ability to compute 
+and mark the Rise/Set/Transit times. This can be accomplished by a simple press 
+of one of the <guibutton>Rise</guibutton>, <guibutton>Set</guibutton> or 
+<guibutton>Transit</guibutton> buttons. When one of these buttons is pressed, 
+a filled colored circle will be marked on the curve. The color used for Rise, 
+Set and Transit dots are: red for Rise, blue for Set and green for Transit time. 
+For a more intuitive way of using these buttons, they are marked with the color 
+of their specific dots. This way, the user can easily understand the plot and make 
+the association between a certain color and its significance.
 </para>
 <para>
-Altvstime tool provides an easy way to find out the altitude of a sky-object at a certain moment of time using the <guibutton>Compute</guibutton> button. After you select the object from the Objects list and set the moment of time, the altitude can be computed by pressing the <guibutton>Compute</guibutton> button. But this is not the only way you can find out the altitude. Another method is to hover with mouse above one curve and thus, a tooltip containing the Local Time, Local Sidereal Time and Altitude will come up. This way, you can read the information in real time.
+Altvstime tool provides an easy way to find out the altitude of a sky-object at 
+a certain moment of time using the <guibutton>Compute</guibutton> button. After 
+you select the object from the Objects list and set the moment of time, the 
+altitude can be computed by pressing the <guibutton>Compute</guibutton> button. 
+But this is not the only way you can find out the altitude. Another method is to 
+hover with mouse above one curve and thus, a tooltip containing the Local Time, 
+Local Sidereal Time and Altitude will come up. This way, you can read the 
+information in real time.
 </para>
 <para>
 The Altitude of an object depends on both where you are on Earth, and
