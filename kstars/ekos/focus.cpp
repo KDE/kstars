@@ -1002,6 +1002,7 @@ void Focus::newFITS(IBLOB *bp)
     // If just framing, let's capture again
     else
     {
+        drawProfilePlot();
         capture();
         return;
 
@@ -1123,7 +1124,7 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
-    drawProfilePlot(image_data);
+    drawProfilePlot();
 
     if (focusType == FOCUS_MANUAL || inAutoFocus==false)
         return;
@@ -1165,59 +1166,29 @@ void Focus::drawHFRPlot()
 
 }
 
-void Focus::drawProfilePlot(FITSData *fitsData)
+void Focus::drawProfilePlot()
 {
     QVector<double> key;
     QVector<double> currentGaus;
 
-    Edge *rCenter = fitsData->getMaxHFRStar();
-
-    /*float min=fitsData->getMin(0);
-    int cen_x = (int) floor(rCenter->x);
-    int cen_y = (int) floor(rCenter->y);
-    int width = fitsData->getWidth();
-
-    float *image_buffer = fitsData->getImageBuffer();*/
-
-
-    // NOTE NOT WORKING! Fix it at home
-    /*for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
-    {
-        key.append(-1*k);
-        double intensity = (image_buffer[cen_x-k+(cen_y*width)] - min);
-        double gaus  = (1/(rCenter->stddev*sqrt(2*M_PI))) * exp(-1 * ( (intensity-rCenter->mean) *  (intensity-rCenter->mean) ) / (2 * (rCenter->stddev * rCenter->stddev)));
-        if (gaus > maxGaus)
-            maxGaus = gaus;
-        value.append(gaus);
-    }*/
-
-    float start= rCenter->mean - rCenter->stddev*4;
-    float end  = rCenter->mean + rCenter->stddev*4;
-    float step = rCenter->stddev*4 / 20.0;
+    // HFR = 50% * 1.36 = 68% aka one standard deviation
+    double stdDev = currentHFR * 1.36;
+    float start= -stdDev*4;
+    float end  = stdDev*4;
+    float step = stdDev*4 / 20.0;
     for (float x=start; x < end; x+= step)
     {
         key.append(x);
-        currentGaus.append((1/(rCenter->stddev*sqrt(2*M_PI))) * exp(-1 * ( (x-rCenter->mean) *  (x-rCenter->mean) ) / (2 * (rCenter->stddev * rCenter->stddev))));
+        currentGaus.append((1/(stdDev*sqrt(2*M_PI))) * exp(-1 * ( x*x ) / (2 * (stdDev * stdDev))));
     }
 
     profilePlot->graph(0)->setData(key, currentGaus);
 
-    //profilePlot->graph(0)->rescaleAxes();
-
     if (lastGaus.count() > 0)
-    {
         profilePlot->graph(1)->setData(lastGausRange, lastGaus);
-        //profilePlot->graph(1)->rescaleAxes();
-    }
 
     profilePlot->rescaleAxes();
     profilePlot->replot();
-
-    qDebug() << "Current Key: " << key;
-    qDebug() << "Last Key: " << lastGausRange;
-
-    qDebug() << "Current Values: " << currentGaus;
-    qDebug() << "Last Gaus: " << lastGaus;
 
     lastGaus      = currentGaus;
     lastGausRange = key;

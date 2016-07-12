@@ -59,7 +59,7 @@
 #include "Options.h"
 
 QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast")
-                                                    << I18N_NOOP("Equalize") << I18N_NOOP("High Pass")
+                                                    << I18N_NOOP("Equalize") << I18N_NOOP("High Pass") << I18N_NOOP("Median")
                                                     << I18N_NOOP("Rotate Right") << I18N_NOOP("Rotate Left")
                                                     << I18N_NOOP("Flip Horizontal") << I18N_NOOP("Flip Vertical");
 
