@@ -55,7 +55,7 @@ You can choose to show objects which are up between midnight and dawn
 (<quote>in the morning</quote>), or between dusk and dawn (<quote>any
 time tonight</quote>) using the combobox near the top of the window. 
 You can also choose to see only those objects that are brighter than a 
-magnitude by seting a minimum magnitude using the <guilabel>Show objects 
+magnitude by setting a minimum magnitude using the <guilabel>Show objects 
 brighter than magnitude</guilabel> spinbox. You may center the selected object 
 in the Sky Map or add it to Wish List by pressing the 
 <guibutton>Center Object</guibutton> or <guibutton>Add to List</guibutton> button.

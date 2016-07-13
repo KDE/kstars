@@ -1052,8 +1052,8 @@ window is open for a selected object, <guilabel>Right ascension</guilabel> and
 <guilabel>Declination</guilabel> text boxes will be automatically filled with the coordinate values
 of the selected object on the Sky Map. Besides these two text boxes, you can set the 
 <guilabel>Epoch</guilabel>, add a <guilabel>Label</guilabel>, set the <guilabel>Label color</guilabel>
-or even add an <guilabel>Icon</guilabel>. To add custom icons, just add images in <quote>/home/user_name/
-.local/share/kstars/</quote>. File names must begin with the <quote>flag</quote> keyword. For example, 
+or even add an <guilabel>Icon</guilabel>. To add custom icons, just add images in
+<filename class="directory">`qtpaths --paths GenericDataLocation`/kstars/</filename>. File names must begin with the <quote>flag</quote> keyword. For example, 
 the file <quote>flagSmall_red_cross.gif</quote> will be shown as Small red cross in the combo box. After
 you set up the information of the new flag, you can add it to the flags list using the 
 <guibutton>Add</guibutton> button. You may also change flags details (&ie; RA/Dec, label or icon) and 
@@ -1082,7 +1082,7 @@ exit angular distance mode without measuring an angle.
 <term>[All]</term>
 <listitem><para>
 <guimenuitem>Starhop from here to</guimenuitem>: will enable you to find a path between two points in 
-the sky. Star hopping is a technique that uses bright stars as a quide for finding fainter objects. So if 
+the sky. Star hopping is a technique that uses bright stars as a guide for finding fainter objects. So if 
 you have a bright star, you can use it as a reference to find a fainter object. Starting from your reference 
 star, &kstars; will find a route to the destination, traversing a sequence of stars/patterns of stars. The 
 object for which you called <guilabel>Starhop from here to</guilabel> tool will be your starting point. When 
