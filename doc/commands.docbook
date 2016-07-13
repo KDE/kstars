@@ -881,8 +881,7 @@ the new value. First and Last points must be on the horizon.
 Polygons must be closed to be considered valid regions.
 Artificial Horizon Manager provides a easy way to rename your regions. By default, regions are 
 named as: <quote>Region </quote> plus an index (&ie; <quote>Region 1</quote> or <quote>Region 2</quote>). 
-For renaming a region, all you need
-to do is to double click on its name and then you will be invited to complete a new region name. 
+For renaming a region, just double click on its name and then you will be invited to complete a new region name. 
 You can also control which regions are enabled or disabled for marking on the map by a simple 
 click on the checkbox in front of each region. After you defined your desired regions you can apply 
 them by pressing the <guibutton>Apply</guibutton> button.
