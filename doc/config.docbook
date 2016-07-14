@@ -338,6 +338,7 @@ be hidden in the <guilabel>Configure Hidden Objects</guilabel> group box.
 </sect1>
 
 <sect1 id="catalogs">
+<title>Catalogs</title>
 <para>
 <screenshot>
 <screeninfo>Catalogs Window</screeninfo>
@@ -352,7 +353,6 @@ be hidden in the <guilabel>Configure Hidden Objects</guilabel> group box.
 </screenshot>
 </para>
 
-<title>Catalogs</title>
 <para>
 <indexterm><primary>Catalogs page</primary>
 <secondary>Short overview</secondary></indexterm>
@@ -440,23 +440,25 @@ You can add your own custom object catalogs by pressing the <guibutton>Import Ca
 or <guilabel>Load Catalog</guilabel> button.  
 Firstly, you need to prepare the object catalog data file.  Each line in the file should contain 
 the following space-separated fields:
+</para>
 
-<literallayout>For stars: type(0 for stars), RA, Dec, mag, SpType, name(optional)
-For other types: type(3-8), RA, Dec, mag (optional), flux(optional), name(optional)
-</literallayout>
+<para>For stars: type(0 for stars), RA, Dec, mag, SpType, name(optional)</para>
+<para>For other types: type(3-8), RA, Dec, mag (optional), flux(optional), name(optional)
+</para>
 
-<literallayout>The types are:
-0: star
-1: star (in object catalog...probably don't want to use this)
-2: planet (don't use this in custom catalog)
-3: open cluster
-4: globular cluster
-5: gaseous nebula
-6: planetary nebula
-7: supernova remnant
-8: galaxy
-18: radio source
-</literallayout>
+<para>The types are:</para>
+<itemizedlist>
+  <listitem><para>0: star</para></listitem>
+  <listitem><para>1: star (in object catalog...probably don't want to use this)</para></listitem>
+  <listitem><para>2: planet (don't use this in custom catalog)</para></listitem>
+  <listitem><para>3: open cluster</para></listitem>
+  <listitem><para>4: globular cluster</para></listitem>
+  <listitem><para>5: gaseous nebula</para></listitem>
+  <listitem><para>6: planetary nebula</para></listitem>
+  <listitem><para>7: supernova remnant</para></listitem>
+  <listitem><para>8: galaxy</para></listitem>
+  <listitem><para>18: radio source</para></listitem>
+</itemizedlist>
 
 <para>
 The SpType is a short string for the spectral type.  For example, <quote>B5</quote> 
@@ -470,7 +472,7 @@ Once you have constructed a custom data file, open the &kstars; configuration wi
 to the <guilabel>Catalogs</guilabel> tab, and press the 
 <guibutton>Import Catalog...</guibutton> button.  A popup window appears in which you can 
 specify a name for the catalog, and the name of the file (including the path):
-<para>
+</para>
 <screenshot>
 <screeninfo>Import Catalog Window</screeninfo>
 <mediaobject>
@@ -482,8 +484,6 @@ specify a name for the catalog, and the name of the file (including the path):
   </textobject>
 </mediaobject>
 </screenshot>
-</para>
-</para>
 
 <para>
 When you press <guibutton>Ok</guibutton> button, &kstars; will attempt to read the lines 
@@ -495,7 +495,7 @@ or to cancel the operation to attempt to resolve the problems first.
 <para>
 You can load a new catalog using the <guibutton>Load Catalog...</guibutton> button. 
 A new window will appear, asking you to specify the file that contains the catalog.
-<para>
+</para>
 <screenshot>
 <screeninfo>Load Catalog Window</screeninfo>
 <mediaobject>
@@ -507,14 +507,12 @@ A new window will appear, asking you to specify the file that contains the catal
   </textobject>
 </mediaobject>
 </screenshot>
-</para>
-</para>
 
 <para>
 Once the data file has been accepted, your custom catalog will be loaded on 
 startup along with the standard catalogs. In the <guilabel>Catalogs</guilabel> window 
 is a checkbox for each catalog which toggles the display of catalog objects.
-<para>
+</para>
 <screenshot>
 <screeninfo>Add Catalog</screeninfo>
 <mediaobject>
@@ -526,12 +524,10 @@ is a checkbox for each catalog which toggles the display of catalog objects.
   </textobject>
 </mediaobject>
 </screenshot>
-</para>
-</para>
 
 <para>
 Note that, if you want to load a catalog that is already loaded, a warning dialog will pop-up.
-<para>
+</para>
 <screenshot>
 <screeninfo>Overwrite Catalog</screeninfo>
 <mediaobject>
@@ -543,8 +539,6 @@ Note that, if you want to load a catalog that is already loaded, a warning dialo
   </textobject>
 </mediaobject>
 </screenshot>
-</para>
-</para>
 
 <para>
 You can remove custom catalogs by highlighting its checkbox in the 
@@ -552,7 +546,7 @@ You can remove custom catalogs by highlighting its checkbox in the
 <guibutton>Remove Catalog...</guibutton> button (this
 button is only active if a custom catalog is highlighted in the list
 of checkboxes). Note that it can not be used for removing &kstars; default catalogs.
-<para>
+</para>
 <screenshot>
 <screeninfo>Delete Catalog</screeninfo>
 <mediaobject>
@@ -564,16 +558,15 @@ of checkboxes). Note that it can not be used for removing &kstars; default catal
   </textobject>
 </mediaobject>
 </screenshot>
-</para>
-</para>
 
-<literallayout>For radio sources catalogs, you must include the flux frequency and units. For example:
-
+<para>For radio sources catalogs, you must include the flux frequency and units. For example:</para>
+<programlisting>
 # Flux Frequency: 1420 Mhz
 # Flux Unit: mJy
+</programlisting>
 
-The following is a simple catalog file:
-
+<para>The following is a simple catalog file:</para>
+<programlisting>
 # Name: my_catalog
 # Prefix: et_radio
 # Color: #00ff00
@@ -581,8 +574,8 @@ The following is a simple catalog file:
 # Flux Frequency: 1420 Mhz
 # Flux Unit: mJy
 # ID  RA  Dc  Tp  Mj  Mn  PA  Nm  Flux
-J0001 12:31:23.1 +11:29:34 18 180.60 360.30   45  my_radio_source   70</literallayout>
-
+J0001 12:31:23.1 +11:29:34 18 180.60 360.30   45  my_radio_source   70</programlisting>
+<para>
 Using the <guilabel>Catalogs</guilabel> window, you can define
 faint limits for sky objects for zoomed in and zoomed out states of the rendering. When
 the <guilabel>Show objects of unknown magnitude</guilabel> item is enabled, objects whose
