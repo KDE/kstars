@@ -263,7 +263,7 @@ change the port under your device tab.
 <para>&kstars; automatically updates the telescope's longitude, latitude, and
 time based on current settings in &kstars;. You can enable/disable these
 using the <guimenuitem>INDI</guimenuitem> tab from 
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KStars...</guimenuitem></menuchoice> 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kstars;...</guimenuitem></menuchoice> 
 submenu. Using the <guimenuitem>INDI</guimenuitem> tab you can configure &kstars; to display or not 
 INDI status messages in the status bar. By default INDI server port numbers have values between 
 the range from 7624 to 9000, but you can easily change the range using the <guilabel>From</guilabel> 
@@ -274,7 +274,7 @@ and <guilabel>To</guilabel> text boxes from the <guilabel>Server Port</guilabel>
 current <abbrev>RA</abbrev> and <abbrev>DEC</abbrev> from the telescope and will display a 
 crosshair on the sky map indicating the telescope position. You can hide the crosshair that marks telescope 
 position using <guimenuitem>INDI</guimenuitem> tab from 
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KStars...</guimenuitem></menuchoice> submenu.
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kstars;...</guimenuitem></menuchoice> submenu.
 </para>
 
 <note id="indi-sync">
@@ -323,8 +323,8 @@ it will be automatically displayed in the &kstars; <link linkend="tool-fitsviewe
 </indexterm>
 
 <para>The INDI page allows you to modify <emphasis>Client side</emphasis> INDI 
-specific options. To acces it, select the <guimenuitem>INDI</guimenuitem> tab from 
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KStars...</guimenuitem></menuchoice> 
+specific options. To access it, select the <guimenuitem>INDI</guimenuitem> tab from 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kstars;...</guimenuitem></menuchoice> 
 submenu.
 The window is divided into several main categories: General, Device Updates, Display and Server Port:
 </para>
