@@ -337,6 +337,260 @@ be hidden in the <guilabel>Configure Hidden Objects</guilabel> group box.
 </para>
 </sect1>
 
+<sect1 id="catalogs">
+<para>
+<screenshot>
+<screeninfo>Catalogs Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="viewops.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Catalogs Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+
+<title>Catalogs</title>
+<para>
+<indexterm><primary>Catalogs page</primary>
+<secondary>Short overview</secondary></indexterm>
+In the <guilabel>Catalogs</guilabel> page, you can configure which object catalogs are 
+displayed by &kstars;, as well as how much information you would like to be included on 
+the Sky Map. By default, &kstars; comes with three pre-installed catalogues:
+Index Catalog (<quote>IC</quote>), New General Catalog (<quote>NGC</quote>) and Messier Catalog.
+</para>
+
+<para>
+Index Catalogue of Nebulae and Clusters of Stars (abbreviated as IC) serves as a supplement to the 
+NGC, and contains an additional 5,386 objects, collectively known as the IC objects. 
+</para>
+
+<para>
+New General Catalogue of Nebulae and Clusters of Stars (abbreviated as NGC) is a catalogue of 7,840 
+deep-sky objects.
+</para>
+
+<para>
+Messier Catalogue is a catalogue of 110 deep-sky objects, including diffuse nebulae, planetary nebulae, 
+open clusters, globular clusters and galaxies. Messier objects have names like M1, M2, up to M110. The 
+maximum apparent visual magnitude of Messier Catalogue is represented by M91's value of 10,2. 
+</para>
+
+<para>
+You can install new catalogues using &kstars; <quote>Add-On Installer</quote>. You can open it by opening 
+the <menuchoice><guimenu>Data</guimenu><guimenuitem>Download New Data...</guimenuitem></menuchoice> submenu.
+You can choose from a list of catalogues, including:
+<itemizedlist>
+
+<listitem><para>
+Steinicke NGC/IC Catalog: is a more complete NGC/IC catalog.
+</para></listitem>
+
+<listitem><para>
+Abell Planetary Nebulae Catalog: is a catalog of 86 planetary nebulae. The 
+maximum magnitude is represented by Abell 47's value of 19,5.
+</para></listitem>
+
+<listitem><para>
+Sharpless HII region Catalog: is the Sharpless (Sh2) catalog of HII regions (diffuse nebulae).
+</para></listitem>
+
+<listitem><para>
+Hickson Compact Groups: is a catalog consisting of 99 compact groups of galaxies.
+</para></listitem>
+
+<listitem><para>
+Tycho-2 Star Catalog: is a catalog of more than 2,5 million of the brightest stars. It contains 
+stars with a magnitude value from 8,0 to 12,5.
+</para></listitem>
+
+<listitem><para>
+USNO NOMAD Catalog: is a catalog of about 100 million stars with magnitude from 12,5 to 16,5.
+Note that is requires Tycho-2 to be installed.
+</para></listitem>
+
+</itemizedlist>
+</para>
+
+<para>
+<indexterm><primary>Catalogs</primary>
+<secondary>Star Catalogs</secondary></indexterm>
+The <guilabel>Stars</guilabel> section allows you to manage how stars are 
+displayed in &kstars;. You can choose to see the stars or not by checking the 
+<guilabel>Star Catalogs</guilabel> checkbox. If you check it, then multiple 
+options will be enabled. Thus, you can set how many stars are drawn on the map 
+using the <guilabel>Star Density</guilabel> slider. You can also customize 
+&kstars; to show or not stars' name and stars' <link linkend="ai-magnitude">magnitude</link>.
+By default, stars' label name and stars' magnitude are drawn next to the stars, with a dark
+green color. You can change this default color using the <guilabel>Colors</guilabel> tab.
+If stars' labels occupy too much space in the Sky Map, you can change their density using 
+the <guilabel>Label density</guilabel> slider. 
+</para>
+
+<para>
+<indexterm><primary>Catalogs</primary>
+<secondary>Deep-Sky Catalogs</secondary></indexterm>
+Below the stars section, the <guilabel>Deep-Sky Objects</guilabel> section controls 
+the display of several non-stellar object catalogs. As for the stars, you can choose to see or 
+not the deep-sky objects. You may also configure &kstars; to display their names and magnitude 
+values. By default, the list of deep-sky objects includes the Messier, NGC and IC catalogs.  
+You can add your own custom object catalogs by pressing the <guibutton>Import Catalog</guibutton> 
+or <guilabel>Load Catalog</guilabel> button.  
+Firstly, you need to prepare the object catalog data file.  Each line in the file should contain 
+the following space-separated fields:
+
+<literallayout>For stars: type(0 for stars), RA, Dec, mag, SpType, name(optional)
+For other types: type(3-8), RA, Dec, mag (optional), flux(optional), name(optional)
+</literallayout>
+
+<literallayout>The types are:
+0: star
+1: star (in object catalog...probably don't want to use this)
+2: planet (don't use this in custom catalog)
+3: open cluster
+4: globular cluster
+5: gaseous nebula
+6: planetary nebula
+7: supernova remnant
+8: galaxy
+18: radio source
+</literallayout>
+
+<para>
+The SpType is a short string for the spectral type.  For example, <quote>B5</quote> 
+or <quote>G2</quote>. The coordinates should be given as floating-point values, in 
+the J2000.0 epoch. The name can be anything you wish.  If the name is more than one 
+word, it must be enclosed in quotation marks.
+</para>
+
+<para>
+Once you have constructed a custom data file, open the &kstars; configuration window
+to the <guilabel>Catalogs</guilabel> tab, and press the 
+<guibutton>Import Catalog...</guibutton> button.  A popup window appears in which you can 
+specify a name for the catalog, and the name of the file (including the path):
+<para>
+<screenshot>
+<screeninfo>Import Catalog Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="import_catalog.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Import Catalog Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+</para>
+
+<para>
+When you press <guibutton>Ok</guibutton> button, &kstars; will attempt to read the lines 
+of your data file. It will report any problems, and if any lines at all were successfully 
+parsed, you are given a choice to accept the data file (ignoring any unparsed lines),
+or to cancel the operation to attempt to resolve the problems first.
+</para>
+
+<para>
+You can load a new catalog using the <guibutton>Load Catalog...</guibutton> button. 
+A new window will appear, asking you to specify the file that contains the catalog.
+<para>
+<screenshot>
+<screeninfo>Load Catalog Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="load_catalog.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Load Catalog Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+</para>
+
+<para>
+Once the data file has been accepted, your custom catalog will be loaded on 
+startup along with the standard catalogs. In the <guilabel>Catalogs</guilabel> window 
+is a checkbox for each catalog which toggles the display of catalog objects.
+<para>
+<screenshot>
+<screeninfo>Add Catalog</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="add_catalog.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Add Catalog</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+</para>
+
+<para>
+Note that, if you want to load a catalog that is already loaded, a warning dialog will pop-up.
+<para>
+<screenshot>
+<screeninfo>Overwrite Catalog</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="overwrite_catalog.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Overwrite Catalog</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+</para>
+
+<para>
+You can remove custom catalogs by highlighting its checkbox in the 
+<guilabel>Catalogs</guilabel> window, and pressing the 
+<guibutton>Remove Catalog...</guibutton> button (this
+button is only active if a custom catalog is highlighted in the list
+of checkboxes). Note that it can not be used for removing &kstars; default catalogs.
+<para>
+<screenshot>
+<screeninfo>Delete Catalog</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="delete_catalog.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Delete Catalog</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para>
+</para>
+
+<literallayout>For radio sources catalogs, you must include the flux frequency and units. For example:
+
+# Flux Frequency: 1420 Mhz
+# Flux Unit: mJy
+
+The following is a simple catalog file:
+
+# Name: my_catalog
+# Prefix: et_radio
+# Color: #00ff00
+# Epoch: 2000
+# Flux Frequency: 1420 Mhz
+# Flux Unit: mJy
+# ID  RA  Dc  Tp  Mj  Mn  PA  Nm  Flux
+J0001 12:31:23.1 +11:29:34 18 180.60 360.30   45  my_radio_source   70</literallayout>
+
+Using the <guilabel>Catalogs</guilabel> window, you can define
+faint limits for sky objects for zoomed in and zoomed out states of the rendering. When
+the <guilabel>Show objects of unknown magnitude</guilabel> item is enabled, objects whose
+magnitudes are unknown, or not available to &kstars;, are drawn irrespective of the faint limits set.
+</para>
+</sect1>
+
+
 <sect1 id="customize">
 <title>Customizing the Display</title>
 
