@@ -141,8 +141,7 @@ The window is depicted below:
 </para>
 
 <para>
-The <guilabel>Configure &kstars;</guilabel> window is divided into ten
-pages:
+The <guilabel>Configure &kstars;</guilabel> window is divided into nine pages:
 <guilabel>Catalogs</guilabel>, <guilabel>Solar System</guilabel>, <guilabel>Satellites</guilabel>,
 <guilabel>Supernovae</guilabel>, <guilabel>Guides</guilabel>, <guilabel>Colors</guilabel>, 
 <guilabel>INDI</guilabel>, <guilabel>Ekos</guilabel> and <guilabel>Advanced</guilabel>.
@@ -152,81 +151,27 @@ pages:
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Catalogs page</secondary></indexterm>
 In the <guilabel>Catalogs</guilabel> page, you determine which object
-catalogs are displayed in the map.  The <guilabel>Stars</guilabel> section
-also allows you to set the
-<quote>faint <link linkend="ai-magnitude">magnitude</link> limit</quote>
-for stars, and the <link linkend="ai-magnitude">magnitude</link> limit for
-displaying the names and/or magnitudes of stars.  Below the stars section,
-the <guilabel>Deep-Sky Objects</guilabel> section controls the display of
-several non-stellar object catalogs.  By default, the list includes the
-Messier, NGC and IC catalogs.  You can add your own custom object catalogs
-by pressing the <guibutton>Import Catalog</guibutton> or <guilabel>Load Catalog</guilabel> button.  For
-detailed instructions on preparing a catalog data file, see the
-<filename>README.customize</filename> file that ships with &kstars;. It is possible to define
-faint limits for sky objects for zoomed in and zoomed out states of the rendering. When
-the <guilabel>Show objects of unknown magnitude</guilabel> item is enabled, objects whose
-magnitudes are unknown, or not available to &kstars;, are drawn irrespective of the faint limits set.
+catalogs are displayed in the map along with several properties.
 </para>
+
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Solar System page</secondary></indexterm>
 In the <guilabel>Solar System</guilabel> page, you can specify whether
-the Sun, Moon, planets, comets and asteroids are displayed, and
-whether the major bodies are drawn as colored circles or actual images.
-You can also toggle whether solar system bodies have name labels attached,
-and control how many of the comets and asteroids get name labels.
-There is an option to automatically attach a temporary <quote>orbit
-trail</quote> whenever a solar system body is tracked, and another to
-toggle whether the color of the orbit trail fades into the background
-sky color.
+the Sun, Moon, planets, comets and asteroids are displayed.
 </para>
 
 <!-- Satellites page: -->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Satellites page</secondary></indexterm>
-The <guilabel>Satellites</guilabel> page allows you to set the satellites view options. Firstly, 
-you can see or hide the satellites on the skymap using <guilabel>Show satellites</guilabel> checkbox
-from the top <guilabel>View options</guilabel> section. By default, satellites are drawn as small 
-light red filled circles with an optional dark red name label next to them. You can enable or disable 
-these labels by checking or not the <guilabel>Show labels</guilabel> checkbox. It is located below
-the <guilabel>Show satellites</guilabel> checkbox, within the <guilabel>View options</guilabel> section. 
-The colors of the dots representing satellites and their name labels can be easily customized using 
-the <guilabel>Colors</guilabel> page from the same <guilabel>Configure &kstars;</guilabel> window.
-In addition, satellites can be drawn just like regular stars by checking the <guilabel>Draw satellites 
-like stars</guilabel> checkbox. To display only the visible satellites from your current geographic location 
-and time, select <guilabel>Show only visible satellites</guilabel>.
-&kstars; can draw artificial satellites from many predefined groups. Thus, you can select to display a particular
-group, multiple groups or partially select subgroups. Under each group, a list of individual satellites is 
-presented. To select all satellites from a group, you need to check the group checkbox. You can also select 
-only the satellites of interest in each group.
-The satellites orbital elements can be updated via the internet by pressing the <guibutton>Update TLEs</guibutton> 
-button. Another way for updating the satellites orbital elements is to use the <menuchoice>
-<guisubmenu>Updates</guisubmenu><guimenuitem>Update satellites orbital elements</guimenuitem></menuchoice> in the
-<guimenu>Data</guimenu> menu. If you know the name of a desired satellite then you can use 
-the search satellites method that &kstars; provides. You need to enter the name of satellite in the <guilabel>Search 
-satellites</guilabel> text box and the list will be reduced only to its best matches.
-You can add new satellites to &kstars; default satellites set by editing the <filename>kstars/data/satellites.dat</filename> file.
-As each line of this file is a group of satellites, you need to add a new entry for your desired satellites group. 
-An entry should have the following format: <userinput>Group Name;local_filename;url</userinput>.
-For example: <userinput>Iridium;iridium.tle;http://celestrak.com/NORAD/elements/iridium.txt</userinput>.
+The <guilabel>Satellites</guilabel> page allows you to set the satellites view options.
 </para>
 <!-- Supernovae page: -->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Supernovae page</secondary></indexterm>
-The <guilabel>Supernovae</guilabel> page allows you to decide if the supernovae are displayed or not by checking 
-the <guilabel>Show supernovae</guilabel> checkbox. By default, supernovae are drawn as small light orange <quote>+</quote> mark. 
-As for satellites, the color of supernovae can be easily customized using the <guilabel>Colors</guilabel> page. 
-You can configure &kstars; to check for newly discovered supernovae on startup by checking the <guilabel>Check for 
-Recent Supernovae on Startup</guilabel> checkbox. This way, &kstars; will be always up-to-date with the most recent 
-supernovae. You can enable supernova alerts using the <guilabel>Enable Supernova alerts</guilabel> checkbox. Thus, 
-&kstars; will automatically alert you every time it learns of a new supernova in the sky. You can set the magnitude
-limit for showing a supernova as well as magnitude limit for supernova alerts using the spin boxes control. The 
-limiting magnitude is the faintest apparent magnitude of an skyobject that is visible with the naked-eye or a telescope. 
-The list of recent supernovae can be updated via the internet by pressing the <guibutton>Update List of Recent 
-Supernovae</guibutton> button. Another way for updating the supernovae list is to use the
-<menuchoice><guisubmenu>Updates</guisubmenu><guimenuitem>Update Recent Supernovae data</guimenuitem></menuchoice> item in the <guimenu>Data</guimenu> menu.
+The <guilabel>Supernovae</guilabel> page allows you to manage how supernovae are displayed by &kstars;.
 </para>
 
 <para>
@@ -234,52 +179,24 @@ Supernovae</guibutton> button. Another way for updating the supernovae list is t
 <secondary>Guides page</secondary></indexterm>
 The <guilabel>Guides</guilabel> page lets you toggle whether non-objects
 are displayed (&ie;, constellation lines, constellation names, the
-Milky Way contour, the <link linkend="ai-cequator">celestial
-equator</link>, <link linkend="ai-ecliptic">the ecliptic</link>, <link
-linkend="ai-horizon">the horizon line</link>, and the opaque ground).
-You can also choose whether you would like to see Latin constellation
-names, <acronym>IAU</acronym>-standard three-letter abbreviations, or
-constellation names using your local language.
+Milky Way contour).
 </para>
+
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Colors page</secondary></indexterm>
 <indexterm><primary>Color Schemes</primary>
 <secondary>Customizing</secondary></indexterm>
 The <guilabel>Colors</guilabel> page allows you to set the color scheme,
-and to define custom color schemes.  The tab is split into two panels:
+and to define new custom color schemes.
 </para>
-<para>
-The left panel shows a list of all display items with adjustable
-colors.  Click on any item to bring up a color selection window to
-adjust its color.  Below the list is the <guilabel>Star Color
-Mode</guilabel> selection box.  By default, &kstars; draws stars with
-a <link linkend="ai-colorandtemp">realistic color</link> tint according
-to the spectral type of the star.  However, you may also choose to draw
-the stars as solid white, black or red circles.  If you are using the
-realistic star colors, you can set the saturation level of the star
-colors with the <guilabel>Star Color Intensity</guilabel> spinbox.
-</para>
-<para>
-The right panel lists the defined color schemes.  There are four
-predefined schemes: the <guilabel>Default Colors</guilabel> scheme,
-<guilabel>Star Chart</guilabel>, which uses black stars on a white
-background, <guilabel>Night Vision</guilabel>, which uses only shades
-of red in order to protect dark-adapted vision, and <guilabel>Moonless
-Night</guilabel>, a more realistic, dark theme.  Additionally,
-you can save the current color settings as a custom scheme by clicking
-the <guibutton>Save Current Colors</guibutton> button.  It will prompt
-you for a name for the new scheme, and then your scheme will appear in
-the list in all future &kstars; sessions.  To remove a custom scheme,
-simply highlight it in the list, and press the <guibutton>Remove Color
-Scheme</guibutton> button.
-</para>
+
 <para>For detailed explanation of the options on the <guilabel>INDI</guilabel> 
 page see the <link linkend="indi-configure">Configure INDI</link> section.
 </para>
 
-<para>For detailed explanation of the options on the <guilabel>Ekos</guilabel> 
-page see the <link linkend="indi-configure">Configure Ekos</link> section.
+<para>For detailed explanation of <guilabel>Ekos</guilabel> astrophotography suite, 
+see the official <ulink url="http://www.indilib.org/about/ekos.html">Ekos</ulink> page.
 </para>
 
 <para>
@@ -287,53 +204,6 @@ page see the <link linkend="indi-configure">Configure Ekos</link> section.
 <secondary>Advanced page</secondary></indexterm>
 The <guilabel>Advanced</guilabel> page provides fine-grained control
 over the more subtle behaviors of &kstars;.
-</para><para>
-<indexterm><primary>Atmospheric Refraction</primary></indexterm>
-The <guilabel>Correct for atmospheric refraction</guilabel> checkbox
-controls whether the positions of objects are corrected for the effects
-of the atmosphere.  Because the atmosphere is a spherical shell, light from
-outer space is <quote>bent</quote> as it passes through the atmosphere to
-our telescopes or eyes on the Earth's surface.  The effect is largest for
-objects near the horizon, and actually changes the predicted rise or set
-times of objects by a few minutes.  In fact, when you <quote>see</quote> a
-sunset, the Sun's actual position is already well below the horizon;
-atmospheric refraction makes it seem as if the Sun is still in the sky.
-Note that atmospheric refraction is never applied if you are using
-<guilabel>Equatorial coordinates</guilabel>.
-</para><para>
-<indexterm><primary>Animated Slewing</primary></indexterm>
-The <guilabel>Use animated slewing</guilabel> checkbox controls how the
-display changes when a new focus position is selected in the map.  By
-default, you will see the sky drift or <quote>slew</quote> to the new
-position; if you uncheck this option, then the display will instead
-<quote>snap</quote> immediately to the new focus position.
-</para><para>
-<indexterm><primary>Objects in the Sky</primary>
-<secondary>Labeling</secondary>
-<tertiary>Automatic</tertiary>
-</indexterm>
-If the <guilabel>Attach label to centered object</guilabel> checkbox is
-selected, then a name label will automatically be attached to an object
-when it is being tracked by the program.  The label will be removed when
-the object is no longer being tracked.  Note that you can also manually
-attach a persistent name label to any object with its <link
-linkend="popup-menu">popup menu</link>.
-</para><para>
-<indexterm><primary>Objects in the Sky</primary>
-<secondary>Hiding</secondary></indexterm>
-There are three situations when &kstars; must redraw the sky display very
-rapidly: when a new focus position is selected (and <guilabel>Use
-animated slewing</guilabel> is checked), when the sky is dragged with the
-mouse, and when the time step is large.  In these situations, the positions
-of all objects must be recomputed as rapidly as possible, which can put
-a large load on the <abbrev>CPU</abbrev>.  If the <abbrev>CPU</abbrev>
-cannot keep up with the demand, then the display will seem sluggish or jerky.
-To mitigate this, &kstars; will hide certain objects during these rapid-redraw
-situations, as long as the <guilabel>Hide objects while moving</guilabel>
-checkbox is selected.  The timestep threshold above which objects will be
-hidden is determined by the <guilabel>Also hide if time step larger
-than:</guilabel> timestep-spinbox.  You can specify the objects that should
-be hidden in the <guilabel>Configure Hidden Objects</guilabel> group box.
 </para>
 </sect1>
 
@@ -705,6 +575,308 @@ magnitudes are unknown, or not available to &kstars;, are drawn irrespective of 
 </para>
 </sect1>
 
+<sect1 id="solar_system">
+<title>Solar System</title>
+<para>
+<screenshot>
+<screeninfo>Solar System Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="solarsystem_tab.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Solar System Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>Solar System page</secondary></indexterm>
+In the <guilabel>Solar System</guilabel> page, you can specify whether
+the Sun, Moon, planets, comets and asteroids are displayed, and
+whether the major bodies are drawn as colored circles or actual images.
+You can also toggle whether solar system bodies have name labels attached,
+and control how many of the comets and asteroids get name labels.
+There is an option to automatically attach a temporary <quote>orbit
+trail</quote> whenever a solar system body is tracked, and another to
+toggle whether the color of the orbit trail fades into the background
+sky color.
+</para>
+</para>
+</sect1>
+
+<sect1 id="satellites">
+<title>Satellites</title>
+<para>
+<screenshot>
+<screeninfo>Satellites Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="satellites_tab.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Satellites Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>Satellites page</secondary></indexterm>
+The <guilabel>Satellites</guilabel> page allows you to set the satellites view options. Firstly, 
+you can see or hide the satellites on the skymap using <guilabel>Show satellites</guilabel> checkbox
+from the top <guilabel>View options</guilabel> section. By default, satellites are drawn as small 
+light red filled circles with an optional dark red name label next to them. You can enable or disable 
+these labels by checking or not the <guilabel>Show labels</guilabel> checkbox. It is located below
+the <guilabel>Show satellites</guilabel> checkbox, within the <guilabel>View options</guilabel> section. 
+The colors of the dots representing satellites and their name labels can be easily customized using 
+the <guilabel>Colors</guilabel> page from the same <guilabel>Configure &kstars;</guilabel> window.
+In addition, satellites can be drawn just like regular stars by checking the <guilabel>Draw satellites 
+like stars</guilabel> checkbox. To display only the visible satellites from your current geographic location 
+and time, select <guilabel>Show only visible satellites</guilabel>.
+&kstars; can draw artificial satellites from many predefined groups. Thus, you can select to display a particular
+group, multiple groups or partially select subgroups. Under each group, a list of individual satellites is 
+presented. To select all satellites from a group, you need to check the group checkbox. You can also select 
+only the satellites of interest in each group.
+The satellites orbital elements can be updated via the internet by pressing the <guibutton>Update TLEs</guibutton> 
+button. Another way for updating the satellites orbital elements is to use the <menuchoice>
+<guisubmenu>Updates</guisubmenu><guimenuitem>Update satellites orbital elements</guimenuitem></menuchoice> in the
+<guimenu>Data</guimenu> menu. If you know the name of a desired satellite then you can use 
+the search satellites method that &kstars; provides. You need to enter the name of satellite in the <guilabel>Search 
+satellites</guilabel> text box and the list will be reduced only to its best matches.
+You can add new satellites to &kstars; default satellites set by editing the <filename>kstars/data/satellites.dat</filename> file.
+As each line of this file is a group of satellites, you need to add a new entry for your desired satellites group. 
+An entry should have the following format: <userinput>Group Name;local_filename;url</userinput>.
+For example: <userinput>Iridium;iridium.tle;http://celestrak.com/NORAD/elements/iridium.txt</userinput>.
+</para>
+</para>
+</sect1>
+
+<sect1 id="supernovae">
+<title>Supernovae</title>
+<para>
+<screenshot>
+<screeninfo>Supernovae Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="supernovae_tab.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Supernovae Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>Supernovae page</secondary></indexterm>
+The <guilabel>Supernovae</guilabel> page allows you to decide if the supernovae are displayed or not by checking 
+the <guilabel>Show supernovae</guilabel> checkbox. By default, supernovae are drawn as small light orange <quote>+</quote> mark. 
+As for satellites, the color of supernovae can be easily customized using the <guilabel>Colors</guilabel> page. 
+You can configure &kstars; to check for newly discovered supernovae on startup by checking the <guilabel>Check for 
+Recent Supernovae on Startup</guilabel> checkbox. This way, &kstars; will be always up-to-date with the most recent 
+supernovae. You can enable supernova alerts using the <guilabel>Enable Supernova alerts</guilabel> checkbox. Thus, 
+&kstars; will automatically alert you every time it learns of a new supernova in the sky. You can set the magnitude
+limit for showing a supernova as well as magnitude limit for supernova alerts using the spin boxes control. The 
+limiting magnitude is the faintest apparent magnitude of an skyobject that is visible with the naked-eye or a telescope. 
+The list of recent supernovae can be updated via the internet by pressing the <guibutton>Update List of Recent 
+Supernovae</guibutton> button. Another way for updating the supernovae list is to use the
+<menuchoice><guisubmenu>Updates</guisubmenu><guimenuitem>Update Recent Supernovae data</guimenuitem></menuchoice> item in the <guimenu>Data</guimenu> menu.
+</para>
+</para>
+</sect1>
+
+<sect1 id="guides">
+<title>Guides</title>
+<para>
+<screenshot>
+<screeninfo>Guides Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="guides_tab.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Guides Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>Guides page</secondary></indexterm>
+The <guilabel>Guides</guilabel> page lets you toggle whether non-objects
+are displayed (&ie;, constellation lines, constellation names, the
+Milky Way contour, the <link linkend="ai-cequator">celestial
+equator</link>, <link linkend="ai-ecliptic">the ecliptic</link>, <link
+linkend="ai-horizon">the horizon line</link>, and the opaque ground).
+You can also choose whether you would like to see Latin constellation
+names, <acronym>IAU</acronym>-standard three-letter abbreviations, or
+constellation names using your local language.
+</para>
+</para>
+</sect1>
+
+<sect1 id="colors">
+<title>Colors</title>
+<para>
+<screenshot>
+<screeninfo>Colors Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="colors_tab.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Colors Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>Colors page</secondary></indexterm>
+<indexterm><primary>Color Schemes</primary>
+<secondary>Customizing</secondary></indexterm>
+The <guilabel>Colors</guilabel> page allows you to set the color scheme,
+and to define custom color schemes.  The tab is split into two panels:
+</para>
+<para>
+The left panel shows a list of all display items with adjustable
+colors.  Click on any item to bring up a color selection window to
+adjust its color.  Below the list is the <guilabel>Star Color
+Mode</guilabel> selection box.  By default, &kstars; draws stars with
+a <link linkend="ai-colorandtemp">realistic color</link> tint according
+to the spectral type of the star.  However, you may also choose to draw
+the stars as solid white, black or red circles.  If you are using the
+realistic star colors, you can set the saturation level of the star
+colors with the <guilabel>Star Color Intensity</guilabel> spinbox.
+</para>
+<para>
+The right panel lists the defined color schemes.  There are four
+predefined schemes: the <guilabel>Default Colors</guilabel> scheme,
+<guilabel>Star Chart</guilabel>, which uses black stars on a white
+background, <guilabel>Night Vision</guilabel>, which uses only shades
+of red in order to protect dark-adapted vision, and <guilabel>Moonless
+Night</guilabel>, a more realistic, dark theme.  Additionally,
+you can save the current color settings as a custom scheme by clicking
+the <guibutton>Save Current Colors</guibutton> button.  It will prompt
+you for a name for the new scheme, and then your scheme will appear in
+the list in all future &kstars; sessions.  To remove a custom scheme,
+simply highlight it in the list, and press the <guibutton>Remove Color
+Scheme</guibutton> button.
+</para>
+</para>
+</sect1>
+
+<sect1 id="indi_tab">
+<title>INDI</title>
+<para>
+<screenshot>
+<screeninfo>INDI Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="indi_tab.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>INDI Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>For detailed explanation of the options on the <guilabel>INDI</guilabel> 
+page see the <link linkend="indi-configure">Configure INDI</link> section.
+</para>
+</para>
+</sect1>
+
+<sect1 id="ekos">
+<title>Ekos</title>
+<para>
+<screenshot>
+<screeninfo>Ekos Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="ekos_tab.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Ekos Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+Ekos is an astrophotography suite, a complete astrophotography solution that can control 
+all INDI devices including numerous telescopes, CCDs, DSLRs, focusers, filters, and a lot more. 
+Ekos supports highly accurate tracking using online and offline astrometry solver, autofocus 
+and autoguiding capabilities, and capture of single or multiple images using the powerful 
+built in sequence manager. For detailed explanation of <guilabel>Ekos</guilabel>, 
+see the official <ulink url="http://www.indilib.org/about/ekos.html">Ekos</ulink> page.
+</para>
+</para>
+</sect1>
+
+<sect1 id="advanced">
+<title>Advanced</title>
+<para>
+<screenshot>
+<screeninfo>Advanced Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="advanced_tab.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Advanced Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
+<indexterm><primary>Configure &kstars; window</primary>
+<secondary>Advanced page</secondary></indexterm>
+The <guilabel>Advanced</guilabel> page provides fine-grained control
+over the more subtle behaviors of &kstars;.
+</para><para>
+<indexterm><primary>Atmospheric Refraction</primary></indexterm>
+The <guilabel>Correct for atmospheric refraction</guilabel> checkbox
+controls whether the positions of objects are corrected for the effects
+of the atmosphere.  Because the atmosphere is a spherical shell, light from
+outer space is <quote>bent</quote> as it passes through the atmosphere to
+our telescopes or eyes on the Earth's surface.  The effect is largest for
+objects near the horizon, and actually changes the predicted rise or set
+times of objects by a few minutes.  In fact, when you <quote>see</quote> a
+sunset, the Sun's actual position is already well below the horizon;
+atmospheric refraction makes it seem as if the Sun is still in the sky.
+Note that atmospheric refraction is never applied if you are using
+<guilabel>Equatorial coordinates</guilabel>.
+</para><para>
+<indexterm><primary>Animated Slewing</primary></indexterm>
+The <guilabel>Use animated slewing</guilabel> checkbox controls how the
+display changes when a new focus position is selected in the map.  By
+default, you will see the sky drift or <quote>slew</quote> to the new
+position; if you uncheck this option, then the display will instead
+<quote>snap</quote> immediately to the new focus position.
+</para><para>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Labeling</secondary>
+<tertiary>Automatic</tertiary>
+</indexterm>
+If the <guilabel>Attach label to centered object</guilabel> checkbox is
+selected, then a name label will automatically be attached to an object
+when it is being tracked by the program.  The label will be removed when
+the object is no longer being tracked.  Note that you can also manually
+attach a persistent name label to any object with its <link
+linkend="popup-menu">popup menu</link>.
+</para><para>
+<indexterm><primary>Objects in the Sky</primary>
+<secondary>Hiding</secondary></indexterm>
+There are three situations when &kstars; must redraw the sky display very
+rapidly: when a new focus position is selected (and <guilabel>Use
+animated slewing</guilabel> is checked), when the sky is dragged with the
+mouse, and when the time step is large.  In these situations, the positions
+of all objects must be recomputed as rapidly as possible, which can put
+a large load on the <abbrev>CPU</abbrev>.  If the <abbrev>CPU</abbrev>
+cannot keep up with the demand, then the display will seem sluggish or jerky.
+To mitigate this, &kstars; will hide certain objects during these rapid-redraw
+situations, as long as the <guilabel>Hide objects while moving</guilabel>
+checkbox is selected.  The timestep threshold above which objects will be
+hidden is determined by the <guilabel>Also hide if time step larger
+than:</guilabel> timestep-spinbox.  You can specify the objects that should
+be hidden in the <guilabel>Configure Hidden Objects</guilabel> group box.
+</para>
+</para>
+</sect1>
 
 <sect1 id="customize">
 <title>Customizing the Display</title>
