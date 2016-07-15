@@ -415,6 +415,128 @@ Note that is requires Tycho-2 to be installed.
 </para>
 
 <para>
+To summarize, you can read the following table:
+
+<table frame="top"><title>Stars Catalogues</title>
+<tgroup cols="4" colsep="1" rowsep="1">
+<thead>
+<row>
+<entry>Name</entry>
+<entry>Abbreviation</entry>
+<entry>Number of objects</entry>
+<entry>Magnitude</entry>
+<entry>Add-On</entry>
+<entry>Default</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Default Catalog</entry>
+<entry>Default</entry>
+<entry>126,000</entry>
+<entry>Up to 8 magnitude</entry>
+<entry>No</entry>
+<entry>Yes</entry>
+</row>
+<row>
+<entry>Tycho-2 Star</entry>
+<entry>Tycho2</entry>
+<entry>more than 2.5 million</entry>
+<entry>8.0-12.5 </entry>
+<entry>Yes</entry>
+<entry>No</entry>
+</row>
+<row>
+<entry>Naval Observatory Merged Astronomic Dataset</entry>
+<entry>USNO NOMAD</entry>
+<entry>100 million</entry>
+<entry>12.5-16.5</entry>
+<entry>Yes</entry>
+<entry>No</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+<table frame="top"><title>Deep-sky objects Catalogues</title>
+<tgroup cols="4" colsep="1" rowsep="1">
+<thead>
+<row>
+<entry>Name</entry>
+<entry>Abbreviation</entry>
+<entry>Number of objects</entry>
+<entry>Magnitude</entry>
+<entry>Add-On</entry>
+<entry>Default</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Index Catalogue of Nebulae and Clusters of Stars</entry>
+<entry>IC</entry>
+<entry>5,386</entry>
+<entry>Up to 18.3 magnitude</entry>
+<entry>No</entry>
+<entry>Yes</entry>
+</row>
+<row>
+<entry>New General Catalogue of Nebulae and Clusters of Stars</entry>
+<entry>NGC</entry>
+<entry>7,840</entry>
+<entry>-</entry>
+<entry>No</entry>
+<entry>Yes</entry>
+</row>
+<row>
+<entry>Messier Catalogue</entry>
+<entry>-</entry>
+<entry>110</entry>
+<entry>Up to 10.2 magnitude</entry>
+<entry>No</entry>
+<entry>Yes</entry>
+</row>
+<row>
+<entry>Steinicke NGC/IC</entry>
+<entry>-</entry>
+<entry>-</entry>
+<entry>-</entry>
+<entry>Yes</entry>
+<entry>No</entry>
+</row>
+
+<row>
+<entry>Abell Planetary Nebulae Catalog</entry>
+<entry>-</entry>
+<entry>86</entry>
+<entry>Up to 19.5 magnitude</entry>
+<entry>Yes</entry>
+<entry>No</entry>
+</row>
+
+<row>
+<entry>Sharpless HII region Catalog</entry>
+<entry>Sh2</entry>
+<entry>-</entry>
+<entry>-</entry>
+<entry>Yes</entry>
+<entry>No</entry>
+</row>
+
+<row>
+<entry>Hickson Compact Groups</entry>
+<entry>-</entry>
+<entry>99</entry>
+<entry>-</entry>
+<entry>Yes</entry>
+<entry>No</entry>
+</row>
+
+</tbody>
+</tgroup>
+</table>
+</para>
+
+<para>
 <indexterm><primary>Catalogs</primary>
 <secondary>Star Catalogs</secondary></indexterm>
 The <guilabel>Stars</guilabel> section allows you to manage how stars are 
