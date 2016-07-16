@@ -489,7 +489,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
         </sizepolicy>
        </property>
        <property name="title">
-        <string>Profile</string>
+        <string>Relative Profile</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>

@@ -94,7 +94,7 @@ is used to do this.  Highlight this function in the Function Browser,
 and note the documentation displayed in the panel below the Browser.
 Press the <guibutton>Add Function</guibutton> button to add this
 function to the Current Script box.  The Function Arguments panel
-will now contain a combobox labeled <quote>dir</quote>, short for
+will now contain a combobox labeled <quote>Dir</quote>, short for
 direction.  This is the direction in which the display should
 be pointed.  The combobox contains only the cardinal compass points,
 not the Moon or any other objects.  You can either enter
@@ -141,7 +141,7 @@ press the <guibutton>Browse Tree</guibutton> button, which will open
 a window containing a tree view of the available options, organized by
 topic.  In addition, each item has a short explanation of what the
 option does, and the data type of the option's value.  We find
-UseAltAz under the <guilabel>Skymap options</guilabel> category.
+UseAltAz under the <guilabel>Skymap Options</guilabel> category.
 Just highlight this item and press <guibutton>OK</guibutton>, and it
 will be selected in the combobox of the Function Arguments panel.
 Finally, make its value <quote>false</quote> or <quote>0</quote>.
@@ -168,7 +168,7 @@ Now that we have a completed script, we can run it in a couple of ways.
 From a console prompt, you can simply execute the script as long as an
 instance of &kstars; is currently running.  Alternatively, you can execute
 the script from within &kstars; using the <guimenuitem>Run
-Script</guimenuitem> item in the <guimenu>File</guimenu> menu.
+Script...</guimenuitem> item in the <guimenu>File</guimenu> menu.
 </para>
 </sect2>
 </sect1>

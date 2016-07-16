@@ -4,9 +4,16 @@
 <secondary>Overview</secondary>
 </indexterm>
 
-<para>&kstars; provides an interface to configure and control astronomical instruments via the <acronym><link linkend="what-is-indi">INDI</link></acronym> protocol.</para>
+<para>&kstars; provides an interface to configure and control astronomical 
+instruments via the <acronym><link linkend="what-is-indi">INDI</link></acronym> 
+protocol.
+</para>
 
-<para>The <acronym>INDI</acronym> protocol supports a variety of astronomical instruments such as CCD cameras and focusers. For an up to date list of supported devices, please visit <acronym>INDI</acronym> <ulink url="http://indilib.org/index.php?title=Devices">supported devices page</ulink>.</para>
+<para>The <acronym>INDI</acronym> protocol supports a variety of astronomical 
+instruments such as CCD cameras and focusers. For an up to date list of supported 
+devices, please visit <acronym>INDI</acronym> 
+<ulink url="http://indilib.org/index.php?title=Devices">supported devices page</ulink>.
+</para>
 
 <sect1 id="indi-kstars-setup">
 <title>INDI Setup</title>
@@ -14,18 +21,34 @@
 <secondary>Setup</secondary>
 </indexterm>
 <para>
-&kstars; can control local and remote devices seamlessly via the <link linkend="what-is-indi">INDI</link> server/client architecture. INDI devices may be run in three different modes:</para>
+&kstars; can control local and remote devices seamlessly via the 
+<link linkend="what-is-indi">INDI</link> server/client architecture. INDI devices 
+may be run in three different modes:
+</para>
 
 <orderedlist>
-<listitem><para>Local: The local mode is the most common and is used to control local device (&ie; a device attached to your machine).</para></listitem>
-<listitem><para>Server: The server mode establishes an INDI server for a particular device and waits for connections from remote clients. You cannot operate server devices, you can only start and shut them down.</para></listitem>
-<listitem><para>Client: The client mode is used to connect to remote INDI servers running INDI devices. You can control remote devices seamlessly like local devices.</para></listitem>
+<listitem><para>Local: The local mode is the most common and is used to control 
+local device (&ie; a device attached to your machine).
+</para></listitem>
+
+<listitem><para>Server: The server mode establishes an INDI server for a particular 
+device and waits for connections from remote clients. You cannot operate server devices, 
+you can only start and shut them down.
+</para></listitem>
+
+<listitem><para>Client: The client mode is used to connect to remote INDI servers 
+running INDI devices. You can control remote devices seamlessly like local devices.
+</para></listitem>
 </orderedlist>
 
-<para>You can run local device, establish INDI servers, and connect to remote clients from the <guimenuitem>Device Manager</guimenuitem> in the <guimenu>Devices</guimenu> menu.</para>
+<para>You can run local device, establish INDI servers, and connect to remote clients 
+from the <guimenuitem>Device Manager</guimenuitem> in the 
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Devices</guimenuitem></menuchoice> submenu.
+</para>
 
 <para>Here is a screenshot of the <guilabel>Device Manager</guilabel>
-window:</para>
+window:
+</para>
 
 <screenshot>
 <screeninfo>Running device drivers</screeninfo>
@@ -39,9 +62,18 @@ window:</para>
 </mediaobject>
 </screenshot>
 
-<para>You can run devices by browsing the device tree, selecting a specific device, and then clicking on the <guibutton>Run Service</guibutton> button. You can select the operation mode, either local or server as defined above. The port number is randomly generated between the range from 7624 to 10,000. To specify a port, click on the port column next to the desired driver. &kstars; allows multiple drivers to run under one INDI server, and hence one port. Select multiple drivers then press <guibutton>Run Service</guibutton> button.</para>
+<para>You can run devices by browsing the device tree, selecting a specific device, 
+and then clicking on the <guibutton>Run Service</guibutton> button. You can select 
+the operation mode, either local or server as defined above. The port number is 
+randomly generated between the range from 7624 to 10,000. To specify a port, click 
+on the port column next to the desired driver. &kstars; allows multiple drivers to 
+run under one INDI server, and hence one port. Select multiple drivers then press 
+<guibutton>Run Service</guibutton> button.
+</para>
 
-<para>To control remote devices, refer to the <link linkend="indi-remote-control">remote device control</link> section.</para>
+<para>To control remote devices, refer to the 
+<link linkend="indi-remote-control">remote device control</link> section.
+</para>
 </sect1>
 
 <sect1 id="indi-telescope-setup">
@@ -56,69 +88,104 @@ computer's <hardware>Serial/USB</hardware> port. Traditionally, the RS232
 connects to the serial port of your computer, but since many new laptops
 abandoned the serial port in favor of <hardware>USB/FireWire</hardware>
 ports, you might need to obtain a Serial to USB adaptor to use with new
-laptops.</para>
+laptops.
+</para>
 
 <para>After connecting your telescope to the Serial/USB port, turn your
 telescope on. It is <emphasis>highly</emphasis> recommended that you
 download and install the latest firmware for your telescope
-controller.</para>
+controller.
+</para>
 
 <para>The telescope needs to be aligned before it can be used properly.
 Align your telescope (one or two stars alignment) as illustrated in your
-telescope manual.</para>
+telescope manual.
+</para>
 
-<para>&kstars; needs to verify time and location settings before connecting to the telescope. This insures proper tracking and synchronization between the telescope and &kstars;. The following steps will enable you to connect to a device that is connected to your computer. To connect and control remote devices, please refer to <link linkend="indi-remote-control">remote device control</link> section.</para>
+<para>&kstars; needs to verify time and location settings before connecting 
+to the telescope. This insures proper tracking and synchronization between 
+the telescope and &kstars;. The following steps will enable you to connect 
+to a device that is connected to your computer. To connect and control remote 
+devices, please refer to 
+<link linkend="indi-remote-control">remote device control</link> section.
+</para>
 
-<para>You can use the Telescope Setup Wizard and it will verify all the required information in the process. It can automatically scan ports for attached telescopes. You can run the wizard by selecting <guimenuitem>Telescope Wizard</guimenuitem> from the <guimenu>Devices</guimenu> menu.</para>
+<para>You can use the Telescope Setup Wizard and it will verify all the 
+required information in the process. It can automatically scan ports for 
+attached telescopes. You can run the wizard by selecting 
+<guimenuitem>Telescope Wizard</guimenuitem> from the <guimenu>Devices</guimenu> menu.
+</para>
 
-<para>Alternatively, you can connect to a local telescope by performing the following
-steps:</para>
+<para>Alternatively, you can connect to a local telescope by performing the 
+following steps:
+</para>
 
 <orderedlist>
-<listitem><para>Set your geographical location. Open the <guilabel>Set Geographic Location</guilabel> window by selecting
+<listitem><para>Set your geographical location. Open the 
+<guilabel>Set Geographic Location</guilabel> window by selecting
 <guimenuitem>Geographic...</guimenuitem> from the
-<guimenu>Settings</guimenu> menu, or by pressing the <guiicon>Globe</guiicon> icon in the toolbar, or by pressing <keycombo
-action="simul">&Ctrl;<keycap>G</keycap></keycombo>.</para>
+<guimenu>Settings</guimenu> menu, or by pressing the <guiicon>Globe</guiicon> 
+icon in the toolbar, or by pressing <keycombo
+action="simul">&Ctrl;<keycap>G</keycap></keycombo>.
+</para>
 </listitem>
+
 <listitem><para>Set your local time and date. You can change to any time or
-date by selecting <guimenuitem>Set Time...</guimenuitem> from the <guimenu>Time</guimenu> menu, or by
-pressing the <guiicon>time</guiicon> icon in the toolbar. The <guilabel>Set 
-Time</guilabel> window uses a standard &kde; Date Picker widget. If you ever 
-need to reset the clock back to the current time, just select <guimenuitem>Set 
-Time to Now</guimenuitem> from the <guimenu>Time</guimenu> menu.</para>
+date by selecting <guimenuitem>Set Time...</guimenuitem> from the 
+<guimenu>Time</guimenu> menu, or by pressing the <guiicon>time</guiicon> 
+icon in the toolbar. The <guilabel>Set Time</guilabel> window uses a standard 
+&kde; Date Picker widget. If you ever need to reset the clock back to the current 
+time, just select <guimenuitem>Set Time to Now</guimenuitem> from the <guimenu>Time</guimenu> menu.
+</para>
 </listitem>
+
 <listitem>
-<para>Click on the <guimenu>Devices</guimenu> menu and select the
-<guimenuitem>Device Manager</guimenuitem>.</para>
+<para>Click on the <menuchoice><guimenu>Tools</guimenu><guimenuitem>Devices</guimenuitem></menuchoice> 
+submenu and select the <guimenuitem>Device Manager</guimenuitem>.
+</para>
 </listitem>
+
 <listitem>
-<para>Under the <guilabel>Device</guilabel> column, select your telescope model.</para>
+<para>Under the <guilabel>Device</guilabel> column, select your telescope model.
+</para>
 </listitem>
+
 <listitem>
-<para>Click on the <guibutton>Run Service</guibutton> button.</para>
+<para>Click on the <guibutton>Run Service</guibutton> button.
+</para>
 </listitem>
+
 <listitem>
 <para>Click <guibutton>Close</guibutton> to leave the Device Manager
-Dialog.</para>
+Dialog.
+</para>
 </listitem>
 </orderedlist>
 
 <note id="geo-time-note">
 <title>Frequent Settings</title>
-<para>You do not need to set the geographic location and time every time you connect to a telescope. Only adjust the settings as needed.</para></note>
+<para>You do not need to set the geographic location and time every time you 
+connect to a telescope. Only adjust the settings as needed.
+</para></note>
 
-<para>You are now ready to use the device features, &kstars; conveniently provides two interchangeable GUI interfaces for controlling telescopes:</para>
+<para>You are now ready to use the device features, &kstars; conveniently provides 
+two interchangeable GUI interfaces for controlling telescopes:
+</para>
 
 <orderedlist>
 <title>Controlling your telescope</title>
 <listitem>
 <para>
-<guilabel>Sky map Control</guilabel>: For each device you run in the <guilabel>Device Manager</guilabel>, a corresponding entry will show up in popup menu that allows you to control the properties of the device. You can
+<guilabel>Sky map Control</guilabel>: For each device you run in the 
+<guilabel>Device Manager</guilabel>, a corresponding entry will show up in popup menu 
+that allows you to control the properties of the device. You can 
 issue commands like <command>Slew, Sync,</command> and
 <command>Track</command> directly from the sky map.
 </para>
-<para>Here is a screenshot of the popup menu with an active LX200 Classic
-device:</para>
+
+<para>Here is a screenshot of the popup menu with an active LX200 Classic device:
+</para>
+
 <screenshot>
 <screeninfo>Controlling devices from sky map</screeninfo>
 <mediaobject>
@@ -135,7 +202,9 @@ device:</para>
 features supported by a device.
 </para>
 
-<para>The panel is divided into three main sections:</para>
+<para>The panel is divided into three main sections:
+</para>
+
 <itemizedlist>
 <listitem>
 <para>
@@ -144,24 +213,26 @@ tab in the INDI panel. Multiple devices can run simultaneously without
 affecting the operation of other devices.
 </para>
 </listitem>
+
 <listitem>
 <para>
 Property views on the <guilabel>Main Control</guilabel> and <guilabel>Options</guilabel> 
-tabs: Properties are the key element in INDI
-architecture. Each device defines a set of properties to communicate with
-the client. The current position of the telescope is an example of a
-property. Semantically similar properties are usually contained in logical
-blocks or groupings.
+tabs: Properties are the key element in INDI architecture. Each device defines a 
+set of properties to communicate with the client. The current position of the 
+telescope is an example of a property. Semantically similar properties are usually 
+contained in logical blocks or groupings.
 </para>
 </listitem>
+
 <listitem>
 <para>
 <guilabel>Log viewer</guilabel>: Devices report their status and acknowledge commands 
-by sending INDI messages. Each device has its own log view. A device usually sends 
-messages to its device driver only, but a device is permitted to send a generic message when appropriate.
+by sending INDI messages. Each device has its own log view. A device usually sends messages 
+to its device driver only, but a device is permitted to send a generic message when appropriate.
 </para>
 </listitem>
 </itemizedlist>
+
 <screenshot>
 <screeninfo>INDI Control Panel</screeninfo>
 <mediaobject>
@@ -173,35 +244,58 @@ messages to its device driver only, but a device is permitted to send a generic 
 </listitem>
 </orderedlist>
 
-<para>You are not restricted on using one interface over another as they can be both used simultaneously. Actions from the <guilabel>Sky map</guilabel> are automatically reflected in the <guilabel>INDI Control Panel</guilabel>
-and vice versa.</para>
+<para>You are not restricted on using one interface over another as they can be both 
+used simultaneously. Actions from the <guilabel>Sky map</guilabel> are automatically 
+reflected in the <guilabel>INDI Control Panel</guilabel> and vice versa.
+</para>
 
-<para>To connect to your telescope, you can either select <guimenuitem>Connect</guimenuitem> from your device popup menu or
-alternatively, you can press <guibutton>Connect</guibutton> under your device tab in the <guilabel>INDI Control Panel</guilabel>.</para>
+<para>To connect to your telescope, you can either select <guimenuitem>Connect</guimenuitem> 
+from your device popup menu or alternatively, you can press <guibutton>Connect</guibutton> 
+under your device tab in the <guilabel>INDI Control Panel</guilabel>.
+</para>
 
 <important><para>By default, &kstars; will try to connect to the <constant>/dev/ttyS0</constant>
-port. To change the connection port, select <guilabel>INDI Control Panel</guilabel> from the <guimenu>Devices</guimenu> menu and change the port under your device tab.</para></important>
+port. To change the connection port, select <guilabel>INDI Control Panel</guilabel> from the 
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Devices</guimenuitem></menuchoice> submenu and 
+change the port under your device tab.
+</para></important>
 
 <para>&kstars; automatically updates the telescope's longitude, latitude, and
 time based on current settings in &kstars;. You can enable/disable these
-updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
-<guimenu>Devices</guimenu> menu.
+using the <guimenuitem>INDI</guimenuitem> tab from 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kstars;...</guimenuitem></menuchoice> 
+submenu. Using the <guimenuitem>INDI</guimenuitem> tab you can configure &kstars; to display or not 
+INDI status messages in the status bar. By default INDI server port numbers have values between 
+the range from 7624 to 9000, but you can easily change the range using the <guilabel>From</guilabel> 
+and <guilabel>To</guilabel> text boxes from the <guilabel>Server Port</guilabel> section.
 </para>
 
-<para>If &kstars; communicates successfully with the telescope, it will retrieve the current <abbrev>RA</abbrev> and <abbrev>DEC</abbrev> from the telescope and will display a crosshair on the sky map indicating the telescope position.</para>
+<para>If &kstars; communicates successfully with the telescope, it will retrieve the 
+current <abbrev>RA</abbrev> and <abbrev>DEC</abbrev> from the telescope and will display a 
+crosshair on the sky map indicating the telescope position. You can hide the crosshair that marks telescope 
+position using <guimenuitem>INDI</guimenuitem> tab from 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kstars;...</guimenuitem></menuchoice> submenu.
+</para>
 
 <note id="indi-sync">
 <title>Synchronizing your telescope</title>
-<para>If you aligned your telescope and the last alignment star was, for example, Vega, then the crosshair should be centered around Vega. If the crosshair was off target, then you can <mousebutton>right</mousebutton>-click Vega from the sky map and select
-<command>Sync</command> from your telescope menu. This action will instruct the telescope to synchronize its internal coordinates to match those of Vega, and the telescope's crosshair should now be centered around Vega.
+<para>If you aligned your telescope and the last alignment star was, for example, Vega, 
+then the crosshair should be centered around Vega. If the crosshair was off target, then 
+you can <mousebutton>right</mousebutton>-click Vega from the sky map and select
+<command>Sync</command> from your telescope menu. This action will instruct the telescope 
+to synchronize its internal coordinates to match those of Vega, and the telescope's crosshair 
+should now be centered around Vega.
 </para>
 </note>
 
-<para>This is it: your telescope is ready to explore the heavens!</para>
+<para>This is it: your telescope is ready to explore the heavens!
+</para>
 
 <warning>
 <title>WARNING</title>
-<para>Never use the telescope to look at the sun. Looking at the sun might cause irreversible damage to your eyes and your equipment.</para>
+<para>Never use the telescope to look at the sun. Looking at the sun might cause irreversible 
+damage to your eyes and your equipment.
+</para>
 </warning>
 </sect1>
 
@@ -211,9 +305,15 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 <secondary>Setup</secondary>
 </indexterm>
 
-<para>You can run CCD and Video Capture devices from the <guimenuitem>Device Manager</guimenuitem> in the <guimenu>Devices</guimenu> menu. Like all INDI devices, some of the device controls will be accessible from the skymap. The device can be controlled fully from the <guimenuitem>INDI Control Panel.</guimenuitem></para>
+<para>You can run CCD and Video Capture devices from the <guimenuitem>Device Manager</guimenuitem> 
+in the <menuchoice><guimenu>Tools</guimenu><guimenuitem>Devices</guimenuitem></menuchoice> submenu. 
+Like all INDI devices, some of the device controls will be accessible from the skymap. 
+The device can be controlled fully from the <guimenuitem>INDI Control Panel</guimenuitem>.
+</para>
 
-<para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be automatically displayed in the &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link>.</para>
+<para>The standard format for image capture is FITS. Once an image is captured and downloaded, 
+it will be automatically displayed in the &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link>.
+</para>
 </sect1>
 
 <sect1 id="indi-configure">
@@ -222,35 +322,69 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 <secondary>INDI</secondary>
 </indexterm>
 
-<para>The INDI page allows you to modify <emphasis>Client side</emphasis> INDI specific options. The window is divided into several main categories: General, Automatic device updates, Display, Update Source, Filter Wheel and Server Port:</para>
+<para>The INDI page allows you to modify <emphasis>Client side</emphasis> INDI 
+specific options. To access it, select the <guimenuitem>INDI</guimenuitem> tab from 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kstars;...</guimenuitem></menuchoice> 
+submenu.
+The window is divided into several main categories: General, Device Updates, Display and Server Port:
+</para>
 
  <itemizedlist>
    <listitem><para>General</para>
       <itemizedlist>
-         <listitem><para><option>Default FITS directory:</option> Specify the directory where all captured FITS images will be saved to. If no directory is specified, images will be stored in $HOME.</para></listitem>
+         <listitem><para><option>INDI Server:</option> Specify the directory where INDI server 
+is located in your system. By default, &kstars; uses <quote>/usr/bin/indiserver</quote> directory.
+	 </para></listitem>
+         <listitem><para><option>INDI Drivers Directory:</option> Specify the directory where INDI 
+drivers are located in your system. By default, &kstars; uses <quote>/usr/share/indi</quote> directory.
+	 </para></listitem>
+         <listitem><para><option>Default FITS directory:</option> Specify the directory where all 
+captured FITS images will be saved to. If no directory is specified, images will be stored in $HOME.
+	 </para></listitem>
+	 <!-- Telescope port & Video port:
          <listitem><para><option>Telescope port:</option> The default telescope port. When you connect to a local or remote telescope service, &kstars; will automatically fill the telescope's device port with the specified default port.</para></listitem>
-         <listitem><para><option>Video port:</option> The default video port. When you connect to a local or remote video service, &kstars; will automatically fill the webcam's device port with the specified default port.</para></listitem>
-	 <!-- INDI Server + INDI Drivers Directory-->
+         <listitem><para><option>Video port:</option> The default video port. When you connect to a local or remote video service, &kstars; will automatically fill the webcam's device port with the specified default port.</para></listitem>	
+	 -->
       </itemizedlist>
    </listitem>
-   <listitem><para>Automatic device updates</para>
+   <listitem><para>Device Updates</para>
     <itemizedlist>
-       <listitem><para><option>Time:</option> Update the telescope's date and time, if supported, upon connection.</para></listitem>
-       <listitem><para><option>Geographic location:</option> Update the telescope's geographical location information (current longitude and latitude), if supported, upon connection.</para></listitem>
+       <listitem><para><option>Computer:</option> Sync the device to the computer's time and 
+location settings. 
+       </para></listitem>
+       <listitem><para><option>Device:</option> Sync the computer to the device's time and 
+location settings.
+       </para></listitem>
+       <listitem><para><option>Time:</option> Update the telescope's date and time, if supported, 
+upon connection.
+       </para></listitem>
+       <listitem><para><option>Geographic location:</option> Update the telescope's geographical 
+location information (current longitude and latitude), if supported, upon connection.
+       </para></listitem>
     </itemizedlist>
    </listitem>
    <listitem><para>Display</para>
     <itemizedlist>
-     <listitem><para><option>Device target crosshair:</option> When checked, &kstars; displays the telescope's target crosshair on the sky map. The crosshair is displayed upon a successful connection to the telescope and its location is updated periodically. The telescope's name is displayed next to the crosshair. &kstars; displays one crosshair per each connected telescope. To change the color of the telescope's crosshair, open the <link linkend="viewops">Configure &kstars;</link> window. Select the <guilabel>Colors</guilabel> tab, and then change the color of the <emphasis>Target Indicator</emphasis> item to the desired color.</para></listitem>
-     <listitem><para><option>INDI messages in status bar:</option> When checked, &kstars; displays INDI status messages in the &kstars; status bar.</para></listitem>
-     <listitem><para><option>Automatic Display of FITS upon capture:</option> When checked, &kstars; will display captured FITS in &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link> tool.</para></listitem>
+     <listitem><para><option>Telescope crosshair:</option> When checked, &kstars; displays the 
+telescope's target crosshair on the sky map. The crosshair is displayed upon a successful connection 
+to the telescope and its location is updated periodically. The telescope's name is displayed next 
+to the crosshair. &kstars; displays one crosshair per each connected telescope. To change the color 
+of the telescope's crosshair, open the <link linkend="viewops">Configure &kstars;</link> window. 
+Select the <guilabel>Colors</guilabel> tab, and then change the color of the 
+<emphasis>Target Indicator</emphasis> item to the desired color.
+     </para></listitem>
+     <listitem><para><option>INDI messages in status bar:</option> When checked, &kstars; displays 
+INDI status messages in the &kstars; status bar.
+     </para></listitem>
     </itemizedlist>
    </listitem>
+<!--
   <listitem><para>Update Source: Synchronize &kstars; according to either the 
     computer or device time and location settings.</para>
   </listitem>
   <listitem><para>Filter Wheel: Assign color codes to the filter wheel slots (e.g. Slot #0 Red, Slot #1 Blue..etc). You can assign color codes for up to 10 filter slots (0 to 9). To assign a color code, select a slot number from the drop down combo box, and then type the corresponding color code in the edit field. Repeat the process for all desired slots and then press OK.</para>
   </listitem>
+-->
   <listitem><para>Server Port: Specify range of ports that INDI Server 
     will bind to when starting new drivers.</para>
   </listitem>
@@ -265,7 +399,13 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 </indexterm>
 
 <para>
-The main key concept in INDI is that devices have the ability to describe themselves. This is accomplished by using XML to describe a generic hierarchy that can represent both canonical and non-canonical devices. In INDI, all <emphasis>devices</emphasis> may contain one or more <emphasis>properties</emphasis>. Any <emphasis>property</emphasis> may contain one or more <emphasis>elements</emphasis>. There are four types of INDI properties:</para>
+The main key concept in INDI is that devices have the ability to describe themselves. 
+This is accomplished by using XML to describe a generic hierarchy that can represent 
+both canonical and non-canonical devices. In INDI, all <emphasis>devices</emphasis> 
+may contain one or more <emphasis>properties</emphasis>. Any <emphasis>property</emphasis> 
+may contain one or more <emphasis>elements</emphasis>. 
+There are four types of INDI properties:
+</para>
 <itemizedlist>
 <listitem><para>Text property.</para></listitem>
 <listitem><para>Number property.</para></listitem>
@@ -273,9 +413,15 @@ The main key concept in INDI is that devices have the ability to describe themse
 <listitem><para>Light property (Represented in GUI by colored LEDs).</para></listitem>
 </itemizedlist>
 
-<para>For example, all INDI devices share the CONNECTION standard switch <emphasis>property</emphasis>. The CONNECTION property has two elements: CONNECT and DISCONNECT switches. &kstars; parses the generic XML description of properties and builds a GUI representation suitable for direct human interaction.</para>
+<para>For example, all INDI devices share the CONNECTION standard switch <emphasis>property</emphasis>. 
+The CONNECTION property has two elements: CONNECT and DISCONNECT switches. &kstars; parses the generic 
+XML description of properties and builds a GUI representation suitable for direct human interaction.
+</para>
 
-<para>The INDI control panel offers many device properties not accessible from the sky map. The properties offered differ from one device to another. Nevertheless, all properties share common features that constrains how they are displayed and used:</para>
+<para>The INDI control panel offers many device properties not accessible from the sky map. 
+The properties offered differ from one device to another. Nevertheless, all properties share 
+common features that constrains how they are displayed and used:
+</para>
 
 <itemizedlist>
 <listitem>
@@ -285,11 +431,13 @@ write enabled. An example of a read-write property is the telescope's Right
 Ascension. You can enter a new Right Ascension and the telescope, based on
 current settings, will either slew or sync to the new input. Furthermore,
 when the telescope slews, its Right Ascension gets updated and sent back to
-the client.</para>
+the client.
+</para>
 </listitem>
 <listitem>
 <para>State: Prefixed to each property is a state indicator (round LED).
-Each property has a state and an associated color code:</para>
+Each property has a state and an associated color code:
+</para>
 <table frame="top"><title>INDI State color code</title>
 <tgroup cols="3" colsep="1" rowsep="1">
 <thead>
@@ -330,15 +478,16 @@ attention</entry>
 necessary. For example, if the telescope is in the process of slewing to a
 target, then the RA/DEC properties will be signaled as
 <guilabel>Busy</guilabel>. When the slew process is completed successfully,
-the properties will be signaled as
-<guilabel>Ok</guilabel>.</para>
+the properties will be signaled as <guilabel>Ok</guilabel>.
+</para>
 </listitem>
 <listitem>
 <para>
 Context: Numerical properties can accept and process numbers in two formats:
 decimal and sexagesimal. The sexagesimal format is convenient when expressing
 time or equatorial/geographical coordinates. You can use any format at your
-convenience. For example, all the following numbers are equal:</para>
+convenience. For example, all the following numbers are equal:
+</para>
 <itemizedlist>
 <listitem><para>-156.40</para></listitem>
 <listitem><para>-156:24:00</para></listitem>
@@ -347,7 +496,10 @@ convenience. For example, all the following numbers are equal:</para>
 </listitem>
 <listitem>
 <para>
-Time: The standard time for all INDI-related communications is Universal Time UTC specified as YYYY-MM-DDTHH:MM:SS in accord with ISO 8601. &kstars; communicates the correct UTC time with device drivers automatically. You can enable/disable automatic time updates from the <guimenuitem>INDI</guimenuitem> page in the settings dialog.
+Time: The standard time for all INDI-related communications is Universal Time UTC 
+specified as YYYY-MM-DDTHH:MM:SS in accord with ISO 8601. &kstars; communicates the 
+correct UTC time with device drivers automatically. You can enable/disable automatic 
+time updates from the <guimenuitem>INDI</guimenuitem> page in the settings dialog.
 </para>
 </listitem>
 </itemizedlist>
@@ -361,20 +513,29 @@ Time: The standard time for all INDI-related communications is Universal Time UT
 
 <para>&kstars; provides a simple yet powerful layer for remote device control.
 A detailed description of the layer is described in the INDI <ulink
-url="http://www.clearskyinstitute.com/INDI/INDI.pdf">white
-paper</ulink>.</para>
+url="http://www.clearskyinstitute.com/INDI/INDI.pdf">white paper</ulink>.
+</para>
 
-<para>You need to configure both the server and client machines for remote
-control:</para>
+<para>You need to configure both the server and client machines for remote control:
+</para>
 
 <orderedlist>
 <listitem>
-<para>Server: To prepare a device for remote control, follow the same steps in the <link linkend="indi-kstars-setup">local/server</link> setup. When you start a device service in the <guimenu>Device Manager</guimenu>, a port number is displayed under the <guilabel>Listening port</guilabel> column. In addition to the port number, you also need the hostname or IP address of your server.
+<para>Server: To prepare a device for remote control, follow the same steps in the 
+<link linkend="indi-kstars-setup">local/server</link> setup. When you start a device 
+service in the <guimenu>Device Manager</guimenu>, a port number is displayed under 
+the <guilabel>Port</guilabel> column. In addition to the port number, you 
+also need the hostname or IP address of your server.
 </para>
 
 </listitem>
 <listitem>
-<para>Client: Select the <guimenuitem>Device Manager</guimenuitem> from the <guimenu>Device</guimenu> menu and click on the <guilabel>Client</guilabel> tab. You can add, modify, or delete hosts under the <guilabel>Client</guilabel> tab. Add a host by clicking on the <guibutton>Add</guibutton> button. Enter the hostname/IP address of the server in the <guilabel>Host</guilabel> field, and enter the port number obtained from the <emphasis>server</emphasis> machine in step 1.
+<para>Client: Select the <guimenuitem>Device Manager</guimenuitem> from the 
+<menuchoice><guimenu>Tools</guimenu><guimenuitem>Devices</guimenuitem></menuchoice> submenu 
+and click on the <guilabel>Client</guilabel> tab. You can add, modify, or delete hosts under 
+the <guilabel>Client</guilabel> tab. Add a host by clicking on the <guibutton>Add</guibutton> button. 
+Enter the hostname/IP address of the server in the <guilabel>Host</guilabel> field, and enter the port 
+number obtained from the <emphasis>server</emphasis> machine in step 1.
 </para>
 </listitem>
 </orderedlist>
@@ -397,15 +558,20 @@ exactly as described in the <link linkend="indi-kstars-setup">local/server</link
 
 <sect2 id="indi-commandline">
 <title>Running an INDI server from the command line</title>
-<para>While &kstars; allows you to easily deploy an INDI server; you can launch an INDI server from the command line.
+<para>While &kstars; allows you to easily deploy an INDI server; you can launch 
+an INDI server from the command line.
 </para>
 
 <para>
-Since INDI is an independent backend component, you can run an INDI server on a host without &kstars;. INDI can be compiled separately to run on remote hosts. Furthermore, device drivers log messages to <constant>stderr</constant> and that can be helpful in a debugging situation.  The syntax for INDI server is
-as following:</para>
+Since INDI is an independent backend component, you can run an INDI server on a host 
+without &kstars;. INDI can be compiled separately to run on remote hosts. 
+Furthermore, device drivers log messages to <constant>stderr</constant> and that can 
+be helpful in a debugging situation.  The syntax for INDI server is as following:
+</para>
 
 <para>$ <command>indiserver</command> [options] [<filename>driver</filename>
-...]</para>
+...]
+</para>
 
 <para>Options:</para>
 <para> -l d    : log driver messages to d/YYYY-MM-DD.islog</para>
@@ -419,7 +585,8 @@ as following:</para>
 
 <para>For example, if you want to start an INDI server running an LX200 GPS
 driver and listening to connections on port 8000, you would run the
-following command:</para>
+following command:
+</para>
 
 <para>$ <command>indiserver</command> -p 8000 <filename>lx200gps</filename></para>
 </sect2>
@@ -428,17 +595,28 @@ following command:</para>
 <title>Secure Remote Operation</title>
 
 <para>Suppose we want to run an indiserver with INDI drivers on a remote host,
-<constant>remote_host</constant>, and connect them to &kstars; running on the local machine.</para>
+<constant>remote_host</constant>, and connect them to &kstars; running on the local machine.
+</para>
 
-<para>From the local machine log onto the remote host, <constant>remote_host</constant>, by typing:</para>
+<para>From the local machine log onto the remote host, <constant>remote_host</constant>, 
+by typing:
+</para>
 
 <para>$ <command>ssh</command> -L <varname>local_port</varname>:<constant>remote_host</constant>:<varname>remote_port</varname></para>
 
-<para>This binds the <varname>local_port</varname> on the local machine to the <varname>remote_port</varname> on the <constant>remote_host</constant>. After logging in, run indiserver on the remote host:</para>
+<para>This binds the <varname>local_port</varname> on the local machine to the 
+<varname>remote_port</varname> on the <constant>remote_host</constant>. After logging in, 
+run indiserver on the remote host:
+</para>
 
 <para>$ <command>indiserver</command> -p <varname>remote_port</varname> [<filename>driver</filename>...]</para>
 
-<para>Back on the local machine, start &kstars; then open the <guimenuitem>Device Manager</guimenuitem> and add a host under the <guilabel>Client</guilabel> tab. The host should be the local host (usually 127.0.0.1) and the port number should be the <varname>local_port</varname> used in the steps above. <mousebutton>Right</mousebutton>-click on the host and select <guimenuitem>Connect</guimenuitem> from the popup menu. &kstars; will connect to the remote INDI server securely. The host information will be saved for future sessions.</para>
+<para>Back on the local machine, start &kstars; then open the <guimenuitem>Device Manager</guimenuitem> 
+and add a host under the <guilabel>Client</guilabel> tab. The host should be the local host 
+(usually 127.0.0.1) and the port number should be the <varname>local_port</varname> used in the steps above. 
+<mousebutton>Right</mousebutton>-click on the host and select <guimenuitem>Connect</guimenuitem> from 
+the popup menu. &kstars; will connect to the remote INDI server securely. The host information will be saved 
+for future sessions.</para>
 </sect2>
 </sect1>
 
@@ -454,9 +632,17 @@ following command:</para>
 <para>What is INDI?</para>
 </question>
 <answer>
-<para> <acronym>INDI</acronym> is the <ulink url="http://indi.sourceforge.net"> Instrument-Neutral-Distributed-Interface</ulink> control protocol developed by <author><firstname>Elwood</firstname><surname>C.
-Downey</surname></author> of <ulink url="http://www.clearskyinstitute.com/">ClearSky Institute</ulink>. &kstars; employs device drivers that are compatible with the INDI protocol. INDI has many advantages including loose coupling between hardware devices and
-software drivers. Clients that use the device drivers (like &kstars;) are completely unaware of the device capabilities. In run time, &kstars; communicates with the device drivers and builds a completely dynamical GUI based on services provided by the device. Therefore, new device drivers can be written or updated and &kstars; can take full advantage of them without any changes on the client side.</para>
+<para> <acronym>INDI</acronym> is the 
+<ulink url="http://indi.sourceforge.net"> Instrument-Neutral-Distributed-Interface</ulink> control 
+protocol developed by <author><firstname>Elwood</firstname><surname>C. Downey</surname></author> of 
+<ulink url="http://www.clearskyinstitute.com/">ClearSky Institute</ulink>. &kstars; employs device 
+drivers that are compatible with the INDI protocol. INDI has many advantages including loose coupling 
+between hardware devices and software drivers. Clients that use the device drivers (like &kstars;) 
+are completely unaware of the device capabilities. In run time, &kstars; communicates with the device 
+drivers and builds a completely dynamical GUI based on services provided by the device. Therefore, new 
+device drivers can be written or updated and &kstars; can take full advantage of them without any changes 
+on the client side.
+</para>
 </answer>
 </qandaentry>
 
@@ -483,7 +669,12 @@ What operations does &kstars; provide to control the telescope?
 </question>
 <answer>
 <para>
-It depends on the particular telescope you're running, but the minimum three operations are <command>Slew</command>, <command>Track</command>, and <command>Sync</command>, which you can issue directly from the sky map. Your telescope must be aligned for those operations to perform correctly. Some telescopes offer you more operations like site management, slew modes, focusing, parking, and more. You can access the telescopes extended features from the INDI Control Panel in the Devices Menu.
+It depends on the particular telescope you're running, but the minimum three operations are 
+<command>Slew</command>, <command>Track</command>, and <command>Sync</command>, which you can 
+issue directly from the sky map. Your telescope must be aligned for those operations to perform 
+correctly. Some telescopes offer you more operations like site management, slew modes, focusing, 
+parking, and more. You can access the telescopes extended features from the INDI Control Panel 
+in the <menuchoice><guimenu>Tools</guimenu><guimenuitem>Devices</guimenuitem></menuchoice> submenu.
 </para>
 </answer>
 </qandaentry>
@@ -496,10 +687,16 @@ What's the difference between <command>Slew</command>, <command>Track</command>,
 </question>
 <answer>
 <para>
-The command <command>Slew</command> orders the telescope to move to a particular target, and once the telescope reaches its target, the telescope keeps tracking that target at a <emphasis>sidereal</emphasis> rate (i.e. the rate at which stars move across the sky). This works well for stars, Messier objects, and about everything outside our solar system. But solar system objects travel differently across the sky and so the telescope must <command>Track</command> the objects as they move.
+The command <command>Slew</command> orders the telescope to move to a particular target, and once 
+the telescope reaches its target, the telescope keeps tracking that target at a 
+<emphasis>sidereal</emphasis> rate (i.e. the rate at which stars move across the sky). This works well 
+for stars, Messier objects, and about everything outside our solar system. But solar system objects 
+travel differently across the sky and so the telescope must <command>Track</command> the objects as they move.
 </para>
 <para>
-Therefore, you need to issue a track command if you want to track an object with non-sidereal motion. On the other hand, <command>Sync</command> is used to synchronize the telescope's internal coordinates with that of an object you select.
+Therefore, you need to issue a track command if you want to track an object with non-sidereal motion. 
+On the other hand, <command>Sync</command> is used to synchronize the telescope's internal coordinates 
+with that of an object you select.
 </para>
 </answer>
 </qandaentry>
@@ -512,7 +709,10 @@ Can I control my telescope remotely?
 </question>
 <answer>
 <para>
-Yes. You can start an INDI server on the machine connected to your telescope and the server will listen to requests from &kstars; clients. Once you're connected, you can control your telescope directly from the sky map. This procedure is described in detail in the <link linkend="indi-remote-control">Remote device control</link> section.
+Yes. You can start an INDI server on the machine connected to your telescope and the server will listen 
+to requests from &kstars; clients. Once you're connected, you can control your telescope directly from 
+the sky map. This procedure is described in detail in the 
+<link linkend="indi-remote-control">Remote device control</link> section.
 </para>
 </answer>
 </qandaentry>
@@ -554,7 +754,13 @@ under the <guimenu>Devices</guimenu> menu. The default device is
 <para>&kstars; reports that the telescope is online and ready, but I cannot find the telescope's crosshair, where is it?</para>
 </question>
 <answer>
-<para>&kstars; retrieves the telescopes RA and DEC coordinates upon connection. If your alignment was performed correctly, then you should see the crosshair around your target in the Sky Map. However, the RA and DEC coordinates provided by the telescope may be incorrect (even below the horizon) and you need to <link linkend="indi-sync">Sync</link> your telescope to your current target. You can use the right-click menu to center and track the telescope crosshair in the sky map.</para>
+<para>&kstars; retrieves the telescopes RA and DEC coordinates upon connection. If your 
+alignment was performed correctly, then you should see the crosshair around your target 
+in the Sky Map. However, the RA and DEC coordinates provided by the telescope may be 
+incorrect (even below the horizon) and you need to <link linkend="indi-sync">Sync</link> 
+your telescope to your current target. You can use the right-click menu to center and track 
+the telescope crosshair in the sky map.
+</para>
 </answer>
 </qandaentry>
 
@@ -569,7 +775,9 @@ under the <guimenu>Devices</guimenu> menu. The default device is
 <para>Is the telescope aligned?</para>
 </listitem>
 <listitem>
-<para>Is the telescope alignment mode correct? Use <guilabel>INDI Control Panel</guilabel> to check and change these settings (<constant>Alt/Az,Polar, Land</constant>).</para>
+<para>Is the telescope alignment mode correct? Use <guilabel>INDI Control Panel</guilabel> to check 
+and change these settings (<constant>Alt/Az,Polar, Land</constant>).
+</para>
 </listitem>
 <listitem>
 <para>Are the telescope's time and date settings correct?</para>
@@ -591,8 +799,9 @@ under the <guimenu>Devices</guimenu> menu. The default device is
 </listitem>
 </orderedlist>
 
-<para>If you think all settings are correct but the telescope still moves erratically or not at all, then please send a report to
-<email>indi-devel@lists.sourceforge.net</email></para>
+<para>If you think all settings are correct but the telescope still moves erratically or not at all, 
+then please send a report to <email>indi-devel@lists.sourceforge.net</email>.
+</para>
 </answer>
 </qandaentry>
 </qandaset>
