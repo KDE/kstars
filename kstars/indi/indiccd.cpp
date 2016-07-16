@@ -1307,6 +1307,8 @@ void CCD::processBLOB(IBLOB* bp)
             {
                 focusTabID = tabRC;
                 targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
+
+                emit newImage(fv->getView(focusTabID)->getDisplayImage());
             }
             else
                 emit newExposureValue(targetChip, 0, IPS_ALERT);
@@ -1327,6 +1329,8 @@ void CCD::processBLOB(IBLOB* bp)
             {
                 guideTabID = tabRC;
                 targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
+
+                emit newImage(fv->getView(guideTabID)->getDisplayImage());
             }
             else
                 emit newExposureValue(targetChip, 0, IPS_ALERT);

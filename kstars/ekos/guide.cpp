@@ -57,6 +57,8 @@ Guide::Guide() : QWidget()
     calibration=NULL;
     guider=NULL;
 
+    state = GUIDE_IDLE;
+
     guideDeviationRA = guideDeviationDEC = 0;
 
     tabWidget = new QTabWidget(this);
@@ -66,6 +68,8 @@ Guide::Guide() : QWidget()
     exposureIN->setValue(Options::guideExposure());
     connect(exposureIN, SIGNAL(editingFinished()), this, SLOT(saveDefaultGuideExposure()));
 
+    // TODO must develop a parent abstract GuideProcess class that is then inherited by both the internal guider and PHD2 and any additional future guiders
+    // It should provide the interface to hook its actions and results here instead of this mess.
     pmath = new cgmath();
 
     connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
@@ -73,11 +77,15 @@ Guide::Guide() : QWidget()
 
     calibration = new rcalibration(pmath, this);
 
+    connect(calibration, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
+
     guider = new rguider(pmath, this);
 
     connect(guider, SIGNAL(ditherToggled(bool)), this, SIGNAL(ditherToggled(bool)));
     connect(guider, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
-    connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));   
+    connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
+    connect(guider, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
+    connect(guider, SIGNAL(newProfilePixmap(QPixmap &)), this, SIGNAL(newProfilePixmap(QPixmap &)));
 
     tabWidget->addTab(calibration, calibration->windowTitle());
     tabWidget->addTab(guider, guider->windowTitle());
@@ -95,12 +103,14 @@ Guide::Guide() : QWidget()
         filterCombo->addItem(filter);
 
     phd2 = new PHD2();
+
     connect(phd2, SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+    connect(phd2, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
+
     connect(phd2, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
     connect(phd2, SIGNAL(guideReady()), this, SIGNAL(guideReady()));
     connect(phd2, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
     connect(phd2, SIGNAL(autoGuidingToggled(bool)), guider, SLOT(setGuideState(bool)));
-    //connect(guider, SIGNAL(ditherToggled(bool)), phd2, SLOT(setDitherEnabled(bool)));
     connect(phd2, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
 
     if (Options::usePHD2Guider())
@@ -156,7 +166,7 @@ void Guide::addGuideHead(ISD::GDInterface *newCCD)
 
     setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
 
- }
+}
 
 void Guide::setTelescope(ISD::GDInterface *newTelescope)
 {
@@ -360,7 +370,7 @@ void Guide::addST4(ISD::ST4 *newST4)
 
     ST4List.append(newST4);
 
-    ST4Combo->addItem(newST4->getDeviceName());        
+    ST4Combo->addItem(newST4->getDeviceName());
 }
 
 bool Guide::setST4(QString device)
@@ -449,11 +459,11 @@ bool Guide::capture()
 
     if (guider->isGuiding())
     {
-         if (guider->isRapidGuide() == false)
-             connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+        if (guider->isRapidGuide() == false)
+            connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-         targetChip->capture(seqExpose);
-         return true;
+        targetChip->capture(seqExpose);
+        return true;
     }
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
@@ -489,7 +499,7 @@ void Guide::newFITS(IBLOB *bp)
         else
             appendLogText(i18n("Dark frame processing failed."));
 
-       return;
+        return;
     }
 
     FITSView *targetImage = targetChip->getImage(FITS_GUIDE);
@@ -527,7 +537,7 @@ void Guide::newFITS(IBLOB *bp)
     }
 
     pmath->set_image(targetImage);
-    guider->setImage(targetImage);
+    guider->setImage(targetImage);    
 
     //fv->show();
 
@@ -539,10 +549,11 @@ void Guide::newFITS(IBLOB *bp)
     if (isSuspended)
     {
         //capture();
+
         if (Options::guideLogging())
             qDebug() << "Guide: Guider is suspended.";
         return;
-    }
+    }        
 
     if (guider->isDithering())
     {
@@ -558,7 +569,7 @@ void Guide::newFITS(IBLOB *bp)
     {
         guider->guide();
 
-         if (guider->isGuiding())
+        if (guider->isGuiding())
             capture();
     }
     else if (calibration->isCalibrating())
@@ -567,14 +578,15 @@ void Guide::newFITS(IBLOB *bp)
         pmath->do_processing();
         calibration->processCalibration();
 
-         if (calibration->isCalibrationComplete())
-         {
-             guider->setReady(true);
-             tabWidget->setTabEnabled(1, true);
-             emit guideReady();
-         }
+        if (calibration->isCalibrationComplete())
+        {
+            guider->setReady(true);
+            tabWidget->setTabEnabled(1, true);
+            emit guideReady();
+        }
     }
 
+    emit newStarPixmap(targetImage->getTrackingBoxPixmap());
 }
 
 void Guide::appendLogText(const QString &text)
@@ -741,16 +753,16 @@ bool Guide::isDithering()
 
 void Guide::dither()
 {
-   if (Options::useEkosGuider())
-   {
-       if (isDithering() == false)
+    if (Options::useEkosGuider())
+    {
+        if (isDithering() == false)
             guider->dither();
-   }
-   else
-   {
-       if (isDithering() == false)
-           phd2->dither(guider->getDitherPixels());
-   }
+    }
+    else
+    {
+        if (isDithering() == false)
+            phd2->dither(guider->getDitherPixels());
+    }
 
 }
 
@@ -773,7 +785,7 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
     if (AODriver != NULL && (fabs(delta_ra) < guider->getAOLimit()) && (fabs(delta_dec) < guider->getAOLimit()))
     {
         if (AODriver != GuideDriver)
-                appendLogText(i18n("Using %1 to correct for guiding errors.", AODriver->getDeviceName()));
+            appendLogText(i18n("Using %1 to correct for guiding errors.", AODriver->getDeviceName()));
         GuideDriver = AODriver;
         return;
     }
@@ -873,13 +885,17 @@ void Guide::setSuspended(bool enable)
             capture();
         else
             phd2->resumeGuiding();
-            //phd2->startGuiding();
+        //phd2->startGuiding();
     }
 
     if (isSuspended)
+    {
         appendLogText(i18n("Guiding suspended."));
+    }
     else
+    {
         appendLogText(i18n("Guiding resumed."));
+    }
 }
 
 void Guide::setExposure(double value)
@@ -925,22 +941,22 @@ void Guide::setCalibrationParams(int boxSize, int pulseDuration)
 
 void Guide::setGuideBoxSize(int boxSize)
 {
-     guider->setGuideOptions(boxSize, guider->getAlgorithm(), guider->useSubFrame(), guider->useRapidGuide());
+    guider->setGuideOptions(boxSize, guider->getAlgorithm(), guider->useSubFrame(), guider->useRapidGuide());
 }
 
 void Guide::setGuideAlgorithm(const QString & algorithm)
 {
-     guider->setGuideOptions(guider->getBoxSize(), algorithm, guider->useSubFrame(), guider->useRapidGuide());
+    guider->setGuideOptions(guider->getBoxSize(), algorithm, guider->useSubFrame(), guider->useRapidGuide());
 }
 
 void Guide::setGuideSubFrame(bool enable)
 {
-     guider->setGuideOptions(guider->getBoxSize(), guider->getAlgorithm(), enable , guider->useRapidGuide());
+    guider->setGuideOptions(guider->getBoxSize(), guider->getAlgorithm(), enable , guider->useRapidGuide());
 }
 
 void Guide::setGuideRapid(bool enable)
 {
-     guider->setGuideOptions(guider->getBoxSize(), guider->getAlgorithm(), guider->useSubFrame() , enable);
+    guider->setGuideOptions(guider->getBoxSize(), guider->getAlgorithm(), guider->useSubFrame() , enable);
 }
 
 void Guide::setDither(bool enable, double value)
@@ -985,6 +1001,67 @@ void Guide::checkAutoCalibrateGuiding(bool successful)
     }
 }
 
+void Guide::setStatus(Ekos::GuideState newState)
+{
+    if (newState == state)
+        return;
+
+    state = newState;
+
+    emit newStatus(newState);
+}
+
+QString Guide::getStatusString(Ekos::GuideState state)
+{
+
+    switch (state)
+    {
+    case GUIDE_IDLE:
+        return i18n("Idle");
+        break;
+
+    case GUIDE_CALIBRATING:
+        return i18n("Calibrating");
+        break;
+
+    case GUIDE_CALIBRATION_SUCESS:
+        return i18n("Calibration successful");
+        break;
+
+    case GUIDE_CALIBRATION_ERROR:
+        return i18n("Calibration error");
+        break;
+
+    case GUIDE_GUIDING:
+        return i18n("Guiding");
+        break;
+
+    case GUIDE_ABORTED:
+        return i18n("Aborted");
+        break;
+
+
+    case GUIDE_SUSPENDED:
+        return i18n("Suspended");
+        break;
+
+    case GUIDE_DITHERING:
+        return i18n("Dithering");
+        break;
+
+    case GUIDE_DITHERING_SUCCESS:
+        return i18n("Dithering successful");
+        break;
+
+    case GUIDE_DITHERING_ERROR:
+        return i18n("Dithering error");
+        break;
+
+    }
+
+    return i18n("Unknown");
+}
+
 void Guide::updateCCDBin(int index)
 {
     if (currentCCD == NULL && Options::usePHD2Guider())
@@ -1005,7 +1082,7 @@ void Guide::processCCDNumber(INumberVectorProperty *nvp)
         binningCombo->disconnect();
         binningCombo->setCurrentIndex(nvp->np[0].value-1);
         connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
-    }        
+    }
 }
 
 void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState state)

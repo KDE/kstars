@@ -133,7 +133,7 @@ private:
     QUrl lastURL;
 
 signals:
-    void guideStarSelected(int x, int y);
+    void trackingStarSelected(int x, int y);
 };
 
 #endif

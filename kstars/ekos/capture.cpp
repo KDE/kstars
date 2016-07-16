@@ -321,6 +321,8 @@ void Capture::start()
         }
     }*/
 
+    emit newStatus(Ekos::CAPTURE_PROGRESS);
+
     prepareJob(first_job);
 
 }
@@ -344,7 +346,7 @@ void Capture::abort()
         {
             KNotification::event( QLatin1String( "CaptureFailed"), i18n("CCD capture failed with errors") );
             activeJob->abort();
-            emit newStatus(i18n("Aborted"), getProgressPercentage());
+            emit newStatus(Ekos::CAPTURE_ABORTED);
         }
 
         activeJob->reset();
@@ -365,7 +367,7 @@ void Capture::abort()
     secondsLabel->clear();
     //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newImage(QImage*)), this, SIGNAL(newImage(QImage*)));
+    disconnect(currentCCD, SIGNAL(newImage(QImage*)), this, SLOT(sendNewImage(QImage*)));
     disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
 
     currentCCD->setFITSDir("");
@@ -381,6 +383,12 @@ void Capture::abort()
 
     seqTimer->stop();
 
+}
+
+void Capture::sendNewImage(QImage *image)
+{
+    if (activeJob)
+        emit newImage(image, activeJob);
 }
 
 bool Capture::setCCD(QString device)
@@ -743,7 +751,7 @@ void Capture::startNextExposure()
     if (seqDelay > 0)
     {
         secondsLabel->setText(i18n("Waiting..."));
-        emit newStatus(i18n("Waiting..."), getProgressPercentage());
+        emit newStatus(Ekos::CAPTURE_WAITING);
     }
 
     seqTimer->start(seqDelay);
@@ -786,7 +794,7 @@ void Capture::newFITS(IBLOB *bp)
             return;
 
         disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-        disconnect(currentCCD, SIGNAL(newImage(QImage*)), this, SIGNAL(newImage(QImage*)));
+        disconnect(currentCCD, SIGNAL(newImage(QImage*)), this, SLOT(sendNewImage(QImage*)));
 
         if (calibrationState == CALIBRATE_START)
         {
@@ -842,7 +850,7 @@ void Capture::newFITS(IBLOB *bp)
 
     appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
 
-    emit newStatus(i18n("Image received..."), getProgressPercentage());
+    emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
@@ -878,7 +886,7 @@ void Capture::processJobCompletion()
     {
         KNotification::event( QLatin1String( "CaptureSuccessful"), i18n("CCD capture sequence completed"));
 
-        emit newStatus(i18n("Complete"), getProgressPercentage());
+        emit newStatus(Ekos::CAPTURE_COMPLETE);
 
         if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
         {
@@ -946,14 +954,14 @@ bool Capture::resumeSequence()
                 secondsLabel->setText(i18n("Dithering..."));
                 emit exposureComplete();
 
-                emit newStatus(i18n("Dithering..."), getProgressPercentage());
+                emit newStatus(Ekos::CAPTURE_DITHERING);
         }
         else if (isAutoFocus && activeJob->getFrameType() == FRAME_LIGHT)
         {
             secondsLabel->setText(i18n("Focusing..."));
             emit checkFocus(HFRPixels->value());
 
-            emit newStatus(i18n("Focusing..."), getProgressPercentage());
+            emit newStatus(Ekos::CAPTURE_FOCUSING);
         }
         else
             startNextExposure();
@@ -1006,7 +1014,7 @@ void Capture::captureImage()
     }
 
      connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
-     connect(currentCCD, SIGNAL(newImage(QImage*)), this, SIGNAL(newImage(QImage*)), Qt::UniqueConnection);
+     connect(currentCCD, SIGNAL(newImage(QImage*)), this, SLOT(sendNewImage(QImage*)), Qt::UniqueConnection);
 
      if (activeJob->getFrameType() == FRAME_FLAT)
      {
@@ -1021,7 +1029,8 @@ void Capture::captureImage()
      if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
         checkSeqBoundary(activeJob->getFITSDir());
 
-     emit newStatus(i18n("Capturing..."), getProgressPercentage());
+     if (activeJob->isPreview() == false)
+        emit newStatus(Ekos::CAPTURE_CAPTURING);
 
      rc = activeJob->capture(isDark);
 
@@ -1069,7 +1078,7 @@ void Capture::resumeCapture()
     {
         secondsLabel->setText(i18n("Focusing..."));
         emit checkFocus(HFRPixels->value());
-        emit newStatus(i18n("Focusing..."), getProgressPercentage());
+        emit newStatus(Ekos::CAPTURE_FOCUSING);
         return;
     }
 
@@ -1579,7 +1588,7 @@ void Capture::prepareJob(SequenceJob *job)
             appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
             secondsLabel->setText(i18n("Set filter..."));
 
-            emit newStatus(i18n("Changing filter..."), getProgressPercentage());
+            emit newStatus(Ekos::CAPTURE_CHANGING_FILTER);
 
             setBusy(true);
 
@@ -1594,7 +1603,7 @@ void Capture::prepareJob(SequenceJob *job)
             appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
             secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
 
-            emit newStatus(i18n("Setting temperature..."), getProgressPercentage());
+            emit newStatus(Ekos::CAPTURE_SETTING_TEMPERATURE);
 
             setBusy(true);
         }
@@ -2457,6 +2466,20 @@ double Capture::getProgressPercentage()
         return -1;
 }
 
+int Capture::getActiveJobID()
+{
+    if (activeJob == NULL)
+        return -1;
+
+    for (int i=0; i < jobs.count(); i++)
+    {
+        if (activeJob == jobs[i])
+            return i;
+    }
+
+    return -1;
+}
+
 QString Capture::getJobState(int id)
 {
     if (id < jobs.count())
@@ -2512,6 +2535,36 @@ double Capture::getJobExposureDuration(int id)
     return -1;
 }
 
+int Capture::getJobRemainingTime(SequenceJob *job)
+{
+    int remaining=0;
+
+    if (job->getStatus() == SequenceJob::JOB_BUSY)
+        remaining += (job->getExposure() + job->getDelay()) * (job->getCount() - job->getCompleted()) + job->getExposeLeft();
+    else
+        remaining += (job->getExposure() + job->getDelay()) * (job->getCount() - job->getCompleted());
+
+    return remaining;
+}
+
+int Capture::getOverallRemainingTime()
+{
+    double remaining=0;
+
+    foreach(SequenceJob *job, jobs)
+        remaining += getJobRemainingTime(job);
+
+    return remaining;
+}
+
+int Capture::getActiveJobRemainingTime()
+{
+    if (activeJob == NULL)
+        return -1;
+
+    return getJobRemainingTime(activeJob);
+}
+
 void Capture::setMaximumGuidingDeviaiton(bool enable, double value)
 {
     if (guideDeviationCheck->isEnabled())
@@ -2548,7 +2601,7 @@ void Capture::setTemperature()
 void Capture::clearSequenceQueue()
 {
     activeJob=NULL;
-    abort();    
+    abort();
     while (queueTable->rowCount() > 0)
         queueTable->removeRow(0);
     jobs.clear();
@@ -2595,7 +2648,7 @@ QString Capture::getSequenceQueueStatus()
     if (aborted > 0)
     {
         if (isAutoGuiding && deviationDetected)
-            return "Suspended";        
+            return "Suspended";
         else
             return "Aborted";
     }
@@ -2658,7 +2711,7 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
                 appendLogText(i18n("Performing post flip re-alignment..."));
                 secondsLabel->setText(i18n("Aligning..."));
 
-                emit newStatus(i18n("Aligning..."), getProgressPercentage());
+                emit newStatus(Ekos::CAPTURE_ALIGNING);
 
                 meridianFlipStage = MF_ALIGNING;
                 emit meridialFlipTracked();
@@ -2688,7 +2741,7 @@ void Capture::checkGuidingAfterFlip()
         appendLogText(i18n("Performing post flip re-calibration and guiding..."));
         secondsLabel->setText(i18n("Calibrating..."));
 
-        emit newStatus(i18n("Calibrating..."), getProgressPercentage());
+        emit newStatus(Ekos::CAPTURE_CALIBRATING);
 
         meridianFlipStage = MF_GUIDING;
         emit meridianFlipCompleted();
@@ -2755,7 +2808,7 @@ bool Capture::checkMeridianFlip()
         currentTelescope->Slew(initialRA,dec);
         secondsLabel->setText(i18n("Meridian Flip..."));
 
-        emit newStatus(i18n("Meridian Flip..."), getProgressPercentage());
+        emit newStatus(Ekos::CAPTURE_MERIDIAN_FLIP);
 
         QTimer::singleShot(MF_TIMER_TIMEOUT, this, SLOT(checkMeridianFlipTimeout()));
         return true;
@@ -3405,12 +3458,13 @@ void Capture::startPostFilterAutoFocus()
 
     secondsLabel->setText(i18n("Focusing..."));
 
-    emit newStatus(i18n("Focusing..."), getProgressPercentage());
+    emit newStatus(Ekos::CAPTURE_FOCUSING);
 
     appendLogText(i18n("Post filter change Autofocus..."));
 
     // Force it to always run autofocus routine
     emit checkFocus(0.1);
 }
+
 
 }

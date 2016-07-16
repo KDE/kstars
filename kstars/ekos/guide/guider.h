@@ -81,7 +81,7 @@ protected slots:
 	void onInputParamChanged();
     void onRapidGuideChanged(bool enable);
     void capture();
-    void guideStarSelected(int x, int y);
+    void trackingStarSelected(int x, int y);
 	void onStartStopButtonClick();
     void onSetDECSwap(bool enable);
 
@@ -89,6 +89,8 @@ signals:
     void ditherComplete();
     void ditherToggled(bool);
     void autoGuidingToggled(bool);
+    void newStatus(Ekos::GuideState);
+    void newProfilePixmap(QPixmap &);
 
 private:
 	cgmath *pmath;
@@ -111,6 +113,7 @@ private:
     double ret_x, ret_y, ret_angle;
     bool m_isDithering;
     QFile logFile;
+    QPixmap profilePixmap;
 
 private:
     Ui::guiderClass ui;

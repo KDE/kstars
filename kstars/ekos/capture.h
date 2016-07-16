@@ -16,6 +16,7 @@
 
 #include "ui_capture.h"
 
+#include "ekos.h"
 #include "fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
@@ -180,6 +181,21 @@ public:
      * @return Returns the number of jobs in the sequence queue.
      */
     Q_SCRIPTABLE int            getJobCount() { return jobs.count(); }
+
+    /** DBUS interface function.
+     * @return Returns ID of current active job if any, or -1 if there are no active jobs.
+     */
+    Q_SCRIPTABLE int            getActiveJobID();
+
+    /** DBUS interface function.
+     * @return Returns time left in seconds until active job is estimated to be complete.
+     */
+    int getActiveJobRemainingTime();
+
+    /** DBUS interface function.
+     * @return Returns overall time left in seconds until all jobs are estimated to be complete
+     */
+    int getOverallRemainingTime();
 
     /** DBUS interface function.
      * @param id job number. Job IDs start from 0 to N-1.
@@ -367,7 +383,6 @@ private slots:
     void resetFrame();    
     void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);
-    //void checkSeqFile(const QString &path);
     void saveFITSDirectory();
     void setDefaultCCD(QString ccd);
     void setNewRemoteFile(QString file);
@@ -400,6 +415,9 @@ private slots:
     IPState processPreCaptureCalibrationStage();
     bool processPostCaptureCalibrationStage();
 
+    // Send image info
+    void sendNewImage(QImage *image);
+
 signals:
         void newLog();
         void exposureComplete();
@@ -409,8 +427,8 @@ signals:
         void meridianFlipStarted();
         void meridialFlipTracked();
         void meridianFlipCompleted();
-        void newStatus(const QString status, double progress);
-        void newImage(QImage *image);
+        void newStatus(Ekos::CaptureState status);
+        void newImage(QImage *image, Ekos::SequenceJob *job);
 
 private:
 
@@ -431,6 +449,9 @@ private:
     bool checkMeridianFlip();
     void checkGuidingAfterFlip();
     double getCurrentHA();
+
+    // Remaining Time in seconds
+    int getJobRemainingTime(SequenceJob *job);
 
     /* Capture */
     double	seqExpose;

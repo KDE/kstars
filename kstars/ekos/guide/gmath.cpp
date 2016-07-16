@@ -358,7 +358,10 @@ void cgmath::move_square( double newx, double newy )
 
     // FITS Image takes center coords
     if (guide_frame)
-        guide_frame->setGuideSquare(square_pos.x+square_size/2, square_pos.y+square_size/2);
+    {
+        guide_frame->setTrackingBoxEnabled(true);
+        guide_frame->setTrackingBoxCenter(QPointF(square_pos.x+square_size/2, square_pos.y+square_size/2));
+    }
 }
 
 
@@ -373,7 +376,10 @@ void cgmath::resize_square( int size_idx )
 
 	// check position
     if (guide_frame)
-        guide_frame->setGuideBoxSize(square_size);
+    {
+        guide_frame->setTrackingBoxEnabled(true);
+        guide_frame->setTrackingBoxSize(QSize(square_size,square_size));
+    }
 
 }
 

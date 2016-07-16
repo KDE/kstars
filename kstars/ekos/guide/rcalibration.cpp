@@ -255,6 +255,9 @@ bool rcalibration::stopCalibration()
         return false;
 
     calibrationStage = CAL_ERROR;
+
+    emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+
     reset();
 
     return true;
@@ -305,11 +308,13 @@ bool rcalibration::startCalibration()
     }
 
     if (pmath->get_image())
-        disconnect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+        disconnect(pmath->get_image(), SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
 
     ui.captureLED->setColor(okColor);
     ui.selectStarLED->setColor(okColor);
+
     calibrationStage = CAL_START;
+    emit newStatus(Ekos::GUIDE_CALIBRATING);
 
     // Must reset dec swap before we run any calibration procedure!
     pmain_wnd->setDECSwap(false);
@@ -335,7 +340,7 @@ bool rcalibration::startCalibration()
         return true;
 	}
 
-    ui.progressBar->setVisible(true);
+    ui.progressBar->setVisible(true);    
 
 	// automatic
     if( ui.twoAxisCheck->checkState() == Qt::Checked )
@@ -349,11 +354,13 @@ bool rcalibration::startCalibration()
 void rcalibration::processCalibration()
 {
     if (pmath->get_image())
-        pmath->get_image()->setGuideBoxSize(pmath->get_square_size());
+        pmath->get_image()->setTrackingBoxSize(QSize(pmath->get_square_size(), pmath->get_square_size()));
 
     if (pmath->is_lost_star())
     {
         calibrationStage = CAL_ERROR;
+        emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+
         ui.startCalibrationLED->setColor(alertColor);
         KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
         reset();
@@ -393,7 +400,7 @@ void rcalibration::reset()
     ui.pushButton_StartCalibration->setText( i18n("Start") );
     ui.startCalibrationLED->setColor(idleColor);
     ui.progressBar->setVisible(false);
-    connect(pmath->get_image(), SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+    connect(pmath->get_image(), SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
 }
 
 void rcalibration::calibrateManualReticle( void )
@@ -455,7 +462,10 @@ void rcalibration::calibrateManualReticle( void )
 
                     KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
                     calibrationStage = CAL_FINISH;
+
                     emit calibrationCompleted(true);
+                    // FIXME Just one signal is enough. Remove previous signal
+                    emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
 
                    pmain_wnd->setDECSwap(dec_swap);
 				}
@@ -465,6 +475,8 @@ void rcalibration::calibrateManualReticle( void )
                     is_started = false;
                     calibrationStage = CAL_ERROR;
                     emit calibrationCompleted(false);
+                    // FIXME Just one signal is enough. Remove previous signal
+                    emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 				}
 			}
 		}
@@ -477,13 +489,21 @@ void rcalibration::calibrateManualReticle( void )
                 calibrationStage = CAL_FINISH;
                 fillInterface();
                 pmain_wnd->appendLogText(i18n("Calibration completed."));
+
                 emit calibrationCompleted(true);
+                // FIXME Just one signal is enough. Remove previous signal
+                emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+
                 KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
 			}
 			else
 			{
                 calibrationStage = CAL_ERROR;
-                emit calibrationCompleted(false);                
+
+                emit calibrationCompleted(false);
+                // FIXME Just one signal is enough. Remove previous signal
+                emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+
                 QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
                 is_started = false;
                 KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
@@ -634,7 +654,11 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             }
 
             calibrationStage = CAL_ERROR;
+
             emit calibrationCompleted(false);
+            // FIXME Just one signal is enough. Remove previous signal
+            emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+
             if (ui.autoStarCheck->isChecked())
                 pmain_wnd->appendLogText(i18np("GUIDE_RA: Scope cannot reach the start point after %1 iteration. Possible mount or drive problems...", "GUIDE_RA: Scope cannot reach the start point after %1 iterations. Possible mount or drive problems...", turn_back_time));
             else
@@ -678,7 +702,11 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             calibrationStage = CAL_FINISH;
             fillInterface();
             pmain_wnd->appendLogText(i18n("Calibration completed."));
+
             emit calibrationCompleted(true);
+            // FIXME Just one signal is enough. Remove previous signal
+            emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+
             ui.startCalibrationLED->setColor(okColor);
             KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
             if (ui.autoStarCheck->isChecked())
@@ -692,7 +720,11 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
                 QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
             ui.startCalibrationLED->setColor(alertColor);            
             calibrationStage = CAL_ERROR;
+
             emit calibrationCompleted(false);
+            // FIXME Just one signal is enough. Remove previous signal
+            emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+
             KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
         }
 
@@ -785,7 +817,11 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         }
 
         calibrationStage = CAL_ERROR;
+
         emit calibrationCompleted(false);
+        // FIXME Just one signal is enough. Remove previous signal
+        emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+
         if (ui.autoStarCheck->isChecked())
             pmain_wnd->appendLogText(i18np("GUIDE_DEC: Scope cannot reach the start point after %1 iteration.\nPossible mount or drive problems...", "GUIDE_DEC: Scope cannot reach the start point after %1 iterations.\nPossible mount or drive problems...", turn_back_time));
         else
@@ -807,7 +843,11 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
         else
             pmain_wnd->appendLogText(i18n("DEC swap disabled."));
         pmain_wnd->appendLogText(i18n("Calibration completed."));
+
         emit calibrationCompleted(true);
+        // FIXME Just one signal is enough. Remove previous signal
+        emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+
         ui.startCalibrationLED->setColor(okColor);
         pmain_wnd->setDECSwap(swap_dec);
 
@@ -823,7 +863,11 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
             pmain_wnd->appendLogText(i18n("Calibration rejected. Star drift is too short."));
         else
             QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
+
         emit calibrationCompleted(false);
+        // FIXME Just one signal is enough. Remove previous signal
+        emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+
         ui.startCalibrationLED->setColor(alertColor);
         calibrationStage = CAL_ERROR;
         KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
@@ -842,7 +886,7 @@ void rcalibration::calibrateRADECRecticle( bool ra_only )
 
 }
 
-void rcalibration::guideStarSelected(int x, int y)
+void rcalibration::trackingStarSelected(int x, int y)
 {
     int square_size = guide_squares[pmath->get_square_index()].size;
 
@@ -880,6 +924,7 @@ void rcalibration::capture()
     {
         ui.captureLED->setColor(alertColor);
         calibrationStage = CAL_ERROR;
+        emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
     }
 }
 
@@ -907,11 +952,11 @@ bool rcalibration::setImage(FITSView *image)
 
             if (ui.autoStarCheck->isChecked())
             {
-                guideStarSelected(star.first, star.second);
+                trackingStarSelected(star.first, star.second);
                 return false;
             }
             else
-                connect(guideFrame, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+                connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
 
          }
             break;

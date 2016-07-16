@@ -102,9 +102,10 @@ if(INDI_FOUND)
         )
 
         set(ekos_SRCS
+            ekos/ekos.cpp
             ekos/schedulerjob.cpp
             ekos/scheduler.cpp
-            ekos/mosaic.cpp
+            ekos/mosaic.cpp            
             ekos/ekosmanager.cpp
             ekos/capture.cpp
             ekos/sequencejob.cpp
@@ -658,7 +659,4 @@ install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 ########### install files ###############
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-#install(FILES kstars.knsrc DESTINATION ${KDE_INSTALL_CONFDIR})
-#install(FILES kstarsui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
-#install(FILES fitsviewer.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
 install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})

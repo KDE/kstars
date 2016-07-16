@@ -23,6 +23,8 @@
 #include "indi/clientmanager.h"
 #include "indi/indifilter.h"
 
+#include "auxiliary/kspaths.h"
+
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
@@ -146,13 +148,18 @@ Focus::Focus()
     profilePlot->xAxis->setLabelColor(Qt::white);
     profilePlot->yAxis->setLabelColor(Qt::white);
 
-    profilePlot->addGraph();
-    profilePlot->graph(0)->setLineStyle(QCPGraph::lsLine);
-    profilePlot->graph(0)->setPen(QPen(Qt::red, 2));
+    firstGaus   = NULL;
 
-    profilePlot->addGraph();
-    profilePlot->graph(1)->setLineStyle(QCPGraph::lsLine);
-    profilePlot->graph(1)->setPen(QPen(Qt::darkGreen, 1));
+    currentGaus = profilePlot->addGraph();
+    currentGaus->setLineStyle(QCPGraph::lsLine);
+    currentGaus->setPen(QPen(Qt::red, 2));
+
+    lastGaus = profilePlot->addGraph();
+    lastGaus->setLineStyle(QCPGraph::lsLine);
+    QPen pen(Qt::darkGreen);
+    pen.setStyle(Qt::DashLine);
+    pen.setWidth(2);
+    lastGaus->setPen(pen);
 
     HFRPlot->setBackground(QBrush(Qt::black));
 
@@ -631,6 +638,12 @@ void Focus::start()
 
     clearDataPoints();
 
+    if (firstGaus)
+    {
+        profilePlot->removeGraph(firstGaus);
+        firstGaus = NULL;
+    }
+
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
     Options::setFocusExposure(exposureIN->value());
@@ -695,7 +708,7 @@ void Focus::abort()
     noStarCount = 0;
     //maxHFR=1;
 
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));    
 
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
@@ -779,7 +792,7 @@ void Focus::capture()
     if (ISOCombo->isEnabled() && ISOCombo->currentIndex() != -1 && targetChip->getISOIndex() != ISOCombo->currentIndex())
         targetChip->setISOIndex(ISOCombo->currentIndex());
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));    
 
     targetChip->setFrameType(ccdFrame);
 
@@ -962,6 +975,9 @@ void Focus::newFITS(IBLOB *bp)
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
+    starPixmap = targetImage->getTrackingBoxPixmap();
+    emit newStarPixmap(starPixmap);
+
     // If we're not framing, let's try to detect stars
     if (inFocusLoop == false)
     {
@@ -1002,7 +1018,6 @@ void Focus::newFITS(IBLOB *bp)
     // If just framing, let's capture again
     else
     {
-        drawProfilePlot();
         capture();
         return;
 
@@ -1019,12 +1034,13 @@ void Focus::newFITS(IBLOB *bp)
             if (maxStar == NULL)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
-                targetImage->updateMode(FITS_GUIDE);
-                targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
+                //targetImage->updateMode(FITS_GUIDE);
+                targetImage->setTrackingBoxSize(QSize(kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
                 if (fw == 0 || fh == 0)
                     targetChip->getFrame(&fx, &fy, &fw, &fh);
-                targetImage->setGuideSquare(fw/2, fh/2);
-                connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
+                targetImage->setTrackingBoxCenter(QPointF(fw/2, fh/2));
+                targetImage->setTrackingBoxEnabled(true);
+                connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
 
                 QTimer::singleShot(AUTO_STAR_TIMEOUT, this, SLOT(checkAutoStarTimeout()));
 
@@ -1066,6 +1082,9 @@ void Focus::newFITS(IBLOB *bp)
                 frameModified = true;
                 haveDarkFrame=false;
                 calibrationState = CALIBRATE_NONE;
+
+                targetImage->setTrackingBoxCenter(QPointF(fw/2.0,fh/2.0));
+                targetImage->setTrackingBoxSize(QSize(subW/5.0, subH/5.0));
             }
             else
                 targetChip->getFrame(&fx, &fy, &fw, &fh);
@@ -1081,10 +1100,11 @@ void Focus::newFITS(IBLOB *bp)
         else if (kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
         {
             appendLogText(i18n("Capture complete. Select a star to focus."));
-            targetImage->updateMode(FITS_GUIDE);
-            targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
-            targetImage->setGuideSquare(fw/2, fh/2);
-            connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
+            //targetImage->updateMode(FITS_GUIDE);
+            targetImage->setTrackingBoxSize(QSize(kcfg_focusBoxSize->value(),kcfg_focusBoxSize->value()));
+            targetImage->setTrackingBoxCenter(QPointF(fw/2, fh/2));
+            targetImage->setTrackingBoxEnabled(true);
+            connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
             return;
         }
     }
@@ -1129,6 +1149,16 @@ void Focus::newFITS(IBLOB *bp)
     if (focusType == FOCUS_MANUAL || inAutoFocus==false)
         return;
 
+    if (Options::focusLogging())
+    {
+        QDir dir;
+        QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "autofocus/" + QDateTime::currentDateTime().toString("yyyy-MM-dd");
+        dir.mkpath(path);
+        QString name = "autofocus_frame_" + QDateTime::currentDateTime().toString("HH:mm:ss") + ".fits";
+        QString filename = path + QStringLiteral("/") + name;
+        targetImage->getImageData()->saveFITS(filename);
+    }
+
     if (canAbsMove || canRelMove)
         autoFocusAbs();
     else
@@ -1146,7 +1176,7 @@ void Focus::clearDataPoints()
 }
 
 void Focus::drawHFRPlot()
-{    
+{
     v_graph->setData(hfr_position, hfr_value);
 
     if (focusType == FOCUS_AUTO && (canAbsMove || canRelMove) )
@@ -1168,8 +1198,8 @@ void Focus::drawHFRPlot()
 
 void Focus::drawProfilePlot()
 {
-    QVector<double> key;
-    QVector<double> currentGaus;
+    QVector<double> currentIndexes;
+    QVector<double> currentFrequencies;
 
     // HFR = 50% * 1.36 = 68% aka one standard deviation
     double stdDev = currentHFR * 1.36;
@@ -1178,20 +1208,40 @@ void Focus::drawProfilePlot()
     float step = stdDev*4 / 20.0;
     for (float x=start; x < end; x+= step)
     {
-        key.append(x);
-        currentGaus.append((1/(stdDev*sqrt(2*M_PI))) * exp(-1 * ( x*x ) / (2 * (stdDev * stdDev))));
+        currentIndexes.append(x);
+        currentFrequencies.append((1/(stdDev*sqrt(2*M_PI))) * exp(-1 * ( x*x ) / (2 * (stdDev * stdDev))));
     }
 
-    profilePlot->graph(0)->setData(key, currentGaus);
+    currentGaus->setData(currentIndexes, currentFrequencies);
 
-    if (lastGaus.count() > 0)
-        profilePlot->graph(1)->setData(lastGausRange, lastGaus);
+    if (lastGausIndexes.count() > 0)
+        lastGaus->setData(lastGausIndexes, lastGausFrequencies);
+
+    if (focusType == FOCUS_AUTO && firstGaus == NULL)
+    {
+        firstGaus = profilePlot->addGraph();
+        QPen pen;
+        pen.setStyle(Qt::DashDotLine);
+        pen.setWidth(2);
+        pen.setColor(Qt::darkMagenta);
+        firstGaus->setPen(pen);
+
+        firstGaus->setData(currentIndexes, currentFrequencies);
+    }
+    else if (focusType == FOCUS_MANUAL && firstGaus)
+    {
+        profilePlot->removeGraph(firstGaus);
+        firstGaus=NULL;
+    }
 
     profilePlot->rescaleAxes();
     profilePlot->replot();
 
-    lastGaus      = currentGaus;
-    lastGausRange = key;
+    lastGausIndexes      = currentIndexes;
+    lastGausFrequencies  = currentFrequencies;
+
+    profilePixmap = profilePlot->grab();
+    emit newProfilePixmap(profilePixmap);
 }
 
 void Focus::autoFocusAbs()
@@ -1570,7 +1620,7 @@ void Focus::autoFocusRel()
             //if (fabs(currentHFR - lastHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             if (fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             {
-                appendLogText(i18n("Autofocus complete."));                
+                appendLogText(i18n("Autofocus complete."));
                 abort();
                 emit suspendGuiding(false);
                 updateFocusStatus(true);
@@ -1726,7 +1776,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         return;
     }
 
-    if (!strcmp(nvp->name, "FOCUS_TIMER"))        
+    if (!strcmp(nvp->name, "FOCUS_TIMER"))
     {
         if (resetFocus && nvp->s == IPS_OK)
         {
@@ -1852,7 +1902,8 @@ void Focus::focusStarSelected(int x, int y)
     int offset = kcfg_focusBoxSize->value();
     int binx, biny;
 
-    disconnect(this, SLOT(focusStarSelected(int,int)));
+    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+    disconnect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)));
 
     targetChip->getBinning(&binx, &biny);
     int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
@@ -1872,17 +1923,12 @@ void Focus::focusStarSelected(int x, int y)
     if ((y+h)>maxH)
         h=maxH-y;
 
-    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
-    targetImage->updateMode(FITS_FOCUS);
+    //targetImage->updateMode(FITS_FOCUS);
 
     if (targetChip->canSubframe())
     {
 
         targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
-        /*orig_x = fx;
-        orig_y = fy;
-        orig_w = fw;
-        orig_h = fh;*/
 
         fx += x;
         fy += y;
@@ -1895,6 +1941,10 @@ void Focus::focusStarSelected(int x, int y)
     }
 
     starSelected=true;
+
+    targetImage->setTrackingBoxEnabled(false);
+    targetImage->setTrackingBoxCenter(QPointF(fw/2.0,fh/2.0));
+    targetImage->setTrackingBoxSize(QSize(fw/5.0, fh/5.0));
 
     capture();
 }

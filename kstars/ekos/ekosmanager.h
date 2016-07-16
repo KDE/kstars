@@ -18,6 +18,8 @@
 #endif
 
 #include "ui_ekosmanager.h"
+
+#include "ekos.h"
 #include "indi/indistd.h"
 #include "capture.h"
 #include "focus.h"
@@ -39,7 +41,7 @@ class KPageWidgetItem;
 class QProgressIndicator;
 
 /**
- *@class EkosManager
+ *@class Manager
  *@short Primary class to handle all Ekos modules.
  * The Ekos Manager class manages startup and shutdown of INDI devices and registeration of devices within Ekos Modules. Ekos module consist of \ref Ekos::Mount, \ref Ekos::Capture, \ref Ekos::Focus, \ref Ekos::Guide, and \ref Ekos::Align modules.
  * \ref EkosDBusInterface "Ekos DBus Interface" provides high level functions to control devices and Ekos modules for a total robotic operation:
@@ -123,7 +125,8 @@ public:
 protected:
     void closeEvent(QCloseEvent *);
     void hideEvent(QHideEvent *);
-    void showEvent(QShowEvent *);    
+    void showEvent(QShowEvent *);
+    void resizeEvent(QResizeEvent *);
 
 public slots:
 
@@ -185,8 +188,19 @@ private slots:
     void updateMountStatus(ISD::Telescope::TelescopeStatus status);
 
     // Capture Summary
-    void updateCaptureStatus(const QString &status, double percentage);
-    void updateCaptureImage(QImage *image);
+    void updateCaptureStatus(Ekos::CaptureState status);
+    void updateCaptureImage(QImage *image, Ekos::SequenceJob *job);
+    void updateCaptureCountDown();
+
+    // Focus summary
+    void updateFocusStatus(bool status);
+    void updateFocusStarPixmap(QPixmap &starPixmap);
+    void updateFocusProfilePixmap(QPixmap &profilePixmap);
+
+    // Guide Summary
+    void updateGuideStatus(Ekos::GuideState status);
+    void updateGuideStarPixmap(QPixmap &starPix);
+    void updateGuideProfilePixmap(QPixmap &profilePix);
 
  private:
 
@@ -253,10 +267,28 @@ private slots:
 
     // Mount Summary
     QProgressIndicator *mountPI;
+
+    // Capture Summary
+    QTime overallCountDown;
+    QTime sequenceCountDown;
+    QTimer countdownTimer;
+    QPixmap *previewPixmap;
     QProgressIndicator *capturePI;
 
+    // Focus Summary
+    QProgressIndicator *focusPI;
+    QPixmap *focusStarPixmap;
+    QPixmap *focusProfilePixmap;
+    QTemporaryFile focusStarFile;
+    QTemporaryFile focusProfileFile;
+
+    // Guide Summary
+    QProgressIndicator *guidePI;
+    QPixmap *guideStarPixmap;
+    QPixmap *guideProfilePixmap;
+    QTemporaryFile guideStarFile;
+    QTemporaryFile guideProfileFile;
 
 };
-
 
 #endif // EKOS_H

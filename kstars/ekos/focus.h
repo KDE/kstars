@@ -322,6 +322,8 @@ signals:
         void suspendGuiding(bool suspend);
         void filterLockUpdated(ISD::GDInterface *filter, int lockedIndex);
         void statusUpdated(bool status);
+        void newStarPixmap(QPixmap &);
+        void newProfilePixmap(QPixmap &);
 
 private:
     void drawHFRPlot();
@@ -439,8 +441,9 @@ private:
     QCPGraph *v_graph;
 
     // Last gaussian fit values
-    QVector<double> lastGaus;
-    QVector<double> lastGausRange;
+    QVector<double> firstGausIndexes, lastGausIndexes;
+    QVector<double> firstGausFrequencies, lastGausFrequencies;
+    QCPGraph *currentGaus, *firstGaus, *lastGaus;
 
     QVector<double> hfr_position, hfr_value;
 
@@ -448,6 +451,10 @@ private:
     int calibrationState;
     bool haveDarkFrame;
     float *darkBuffer;
+
+    // Pixmaps
+    QPixmap starPixmap;
+    QPixmap profilePixmap;
 };
 
 }

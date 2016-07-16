@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <QtDBus/QtDBus>
 
+#include "ekos.h"
 #include "guide/common.h"
 #include "guide.h"
 #include "fitsviewer/fitscommon.h"
@@ -36,7 +37,7 @@ class PHD2;
  *@class Guide
  *@short Performs calibration and autoguiding using an ST4 port or directly via the INDI driver.
  *@author Jasem Mutlaq
- *@version 1.0
+ *@version 1.1
  */
 class Guide : public QWidget, public Ui::Guide
 {
@@ -49,7 +50,7 @@ public:
     ~Guide();
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
-    enum GuiderProcess { GUIDE_INTERNAL, GUIDE_PHD2 };
+    enum GuiderProcess { GUIDE_INTERNAL, GUIDE_PHD2 };    
 
     /** @defgroup GuideDBusInterface Ekos DBus Interface - Capture Module
      * Ekos::Guide interface provides advanced scripting capabilities to calibrate and guide a mount via a CCD camera.
@@ -208,6 +209,8 @@ public:
     void startRapidGuide();
     void stopRapidGuide();
 
+    static QString getStatusString(Ekos::GuideState state);
+
 public slots:
 
     /** DBUS interface function.
@@ -259,6 +262,8 @@ public slots:
 
      void appendLogText(const QString &);
 
+     void setStatus(Ekos::GuideState newState);
+
 protected slots:
         void updateCCDBin(int index);
 
@@ -275,6 +280,11 @@ protected slots:
 
 signals:
         void newLog();
+        void newStatus(Ekos::GuideState status);
+
+        void newStarPixmap(QPixmap &);
+        void newProfilePixmap(QPixmap &);
+
         void guideReady();
         void newAxisDelta(double delta_ra, double delta_dec);
         void autoGuidingToggled(bool);
@@ -320,6 +330,7 @@ private:
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, guideDeviationRA, guideDeviationDEC;
     bool rapidGuideReticleSet;
 
+    GuideState state;    
 };
 
 }
