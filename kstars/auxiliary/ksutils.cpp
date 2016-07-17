@@ -535,16 +535,23 @@ QString constGenetiveToAbbrev( const QString &genetive_ ) {
 
   QString Logging::_filename;
 
-  void Logging::UseFile(const QString &filename)
+  void Logging::UseFile()
   {
-    _filename = filename;
+      if (_filename.isEmpty())
+      {
+          QDir dir;
+          QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs/" + QDateTime::currentDateTime().toString("yyyy-MM-dd");
+          dir.mkpath(path);
+          QString name = "log_" + QDateTime::currentDateTime().toString("HH:mm:ss") + ".txt";
+          _filename = path + QStringLiteral("/") + name;
+      }
 
-    // Clear file contents
-    QFile file(filename);
-    file.open(QFile::WriteOnly);
-    file.close();
+      // Clear file contents
+      QFile file(_filename);
+      file.open(QFile::WriteOnly);
+      file.close();
 
-    qInstallMessageHandler(File);
+      qInstallMessageHandler(File);
   }
 
   void Logging::File(QtMsgType type, const QMessageLogContext &, const QString &msg)

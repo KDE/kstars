@@ -72,8 +72,8 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     // Initialize logging settings
     if (Options::disableLogging())
         KSUtils::Logging::Disable();
-    else if (Options::logToFile() && Options::verboseLogFile().isEmpty() == false)
-        KSUtils::Logging::UseFile(Options::verboseLogFile());
+    else if (Options::logToFile())
+        KSUtils::Logging::UseFile();
     else
         KSUtils::Logging::UseDefault();
 

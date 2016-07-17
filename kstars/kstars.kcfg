@@ -1209,11 +1209,7 @@
       <label>Log debug message to a log file</label>
       <whatsthis>Checking this option causes KStars log debug messages to a log file as specified.</whatsthis>
       <default>false</default>
-    </entry>
-    <entry name="VerboseLogFile" type="String">
-      <label>Verbose Log File</label>
-      <whatsthis>Verbose log file to save all of KStars generated debug messages to.</whatsthis>
-    </entry>
+    </entry>    
     <entry name="FITSLogging" type="Bool">
       <whatsthis>Log FITS Data activity.</whatsthis>
       <default>false</default>
