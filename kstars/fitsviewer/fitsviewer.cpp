@@ -476,7 +476,7 @@ void FITSViewer::openFile()
     if (fileURL.isEmpty())
         return;
 
-    lastURL = fileURL;
+    lastURL = QUrl(fileURL.url(QUrl::RemoveFilename));
     QString fpath = fileURL.path();
     QString cpath;
 
