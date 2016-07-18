@@ -582,8 +582,10 @@ There are the steps:
 Download/write the raw catalog data file (the raw file is the file containing catalog's objects described by a set 
 of parameters, like: ID Number, Right Ascension, Declination and so on). Note that each object should be written on 
 a separate row and each line in the custom catalog file should contain the following space-separated fields:
-<para>For stars: type(0 for stars), RA, Dec, mag, SpType, name(optional)</para>
-<para>For other types: type(3-8), RA, Dec, mag (optional), flux(optional), name(optional)</para>
+<itemizedlist>
+<listitem><para>For stars: type(0 for stars), RA, Dec, mag, SpType, name(optional)</para></listitem>
+<listitem><para>For other types: type(3-8), RA, Dec, mag (optional), flux(optional), name(optional)</para></listitem>
+</itemizedlist>
 </para></listitem>
 
 <listitem><para>
