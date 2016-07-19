@@ -316,12 +316,14 @@ private slots:
 
     void setDefaultCCD(QString ccd);
 
+    void updateBoxSize(int value);
+
 signals:
         void newLog();
         void autoFocusFinished(bool status, double finalHFR);
         void suspendGuiding(bool suspend);
         void filterLockUpdated(ISD::GDInterface *filter, int lockedIndex);
-        void statusUpdated(bool status);
+        void newStatus(Ekos::FocusState state);
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
 
@@ -431,10 +433,7 @@ private:
 
     // Plot minimum and maximum positions
     int minPos, maxPos;
-    // List of V curve plot points
-    //QList<HFRPoint *> HFRAbsolutePoints;
-    // List of iterative curve points
-    //QList<HFRPoint *> HFRIterativePoints;
+    // List of V curve plot points    
     // Custom Plot object
     QCustomPlot *customPlot;
     // V-Curve graph
@@ -455,6 +454,12 @@ private:
     // Pixmaps
     QPixmap starPixmap;
     QPixmap profilePixmap;
+
+    // State
+    Ekos::FocusState state;
+
+    // FITS Scale
+    FITSScale defaultScale;
 };
 
 }

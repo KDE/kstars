@@ -1457,6 +1457,10 @@
            <label>Take a dark frame and subtract it before running autofocus operation.</label>
            <default>false</default>
        </entry>
+       <entry name="FocusEffect" type="UInt">
+           <label>Image filter to be applied to focus image upon loading.</label>
+           <default>0</default>
+       </entry>
     </group>
     <group name="Align">
     <entry name="DefaultAlignCCD" type="String">
