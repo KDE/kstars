@@ -251,16 +251,12 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     display_image = NULL;
     firstLoad = true;
     trackingBoxEnabled=false;
+    trackingBoxUpdated=false;
     gammaValue=0;
     filter = filterType;
-    mode = fitsMode;
+    mode = fitsMode;    
 
-    setBackgroundRole(QPalette::Dark);
-
-    trackingBoxCenter.setX(0);
-    trackingBoxCenter.setY(0);
-    trackingBoxSize.setWidth(-1);
-    trackingBoxSize.setHeight(-1);
+    setBackgroundRole(QPalette::Dark);    
 
     markerCrosshair.setX(0);
     markerCrosshair.setY(0);
@@ -275,7 +271,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     image_frame->setMouseTracking(true);
 
     //if (fitsMode == FITS_GUIDE)
-    connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
+    //connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
 
     // Default size
     resize(INITIAL_W, INITIAL_H);
@@ -712,46 +708,38 @@ void FITSView::drawTrackingBox(QPainter *painter)
 {
     painter->setPen(QPen(Qt::green, 2));
 
-    if (trackingBoxCenter.isNull() || trackingBoxSize.isValid() == false)
-        return;
+    if (trackingBox.isNull())
+        return;    
 
-    int x1 = (trackingBoxCenter.x()-trackingBoxSize.width()/2) * (currentZoom / ZOOM_DEFAULT);
-    int y1 = (trackingBoxCenter.y()-trackingBoxSize.height()/2) * (currentZoom / ZOOM_DEFAULT);
-    int w  = trackingBoxSize.width() * (currentZoom / ZOOM_DEFAULT);
-    int h  = trackingBoxSize.height() * (currentZoom / ZOOM_DEFAULT);
+    int x1 = trackingBox.x() * (currentZoom / ZOOM_DEFAULT);
+    int y1 = trackingBox.y() * (currentZoom / ZOOM_DEFAULT);
+    int w  = trackingBox.width() * (currentZoom / ZOOM_DEFAULT);
+    int h  = trackingBox.height() * (currentZoom / ZOOM_DEFAULT);
 
     painter->drawRect(x1, y1, w, h);
 }
 
 QPixmap & FITSView::getTrackingBoxPixmap()
 {
-    if (trackingBoxCenter.isNull() || trackingBoxSize.isValid() == false)
+    if (trackingBox.isNull())
         return trackingBoxPixmap;
 
-    int x1 = (trackingBoxCenter.x()-trackingBoxSize.width()/2) * (currentZoom / ZOOM_DEFAULT);
-    int y1 = (trackingBoxCenter.y()-trackingBoxSize.height()/2) * (currentZoom / ZOOM_DEFAULT);
-    int w  = trackingBoxSize.width() * (currentZoom / ZOOM_DEFAULT);
-    int h  = trackingBoxSize.height() * (currentZoom / ZOOM_DEFAULT);
+    int x1 = trackingBox.x() * (currentZoom / ZOOM_DEFAULT);
+    int y1 = trackingBox.y() * (currentZoom / ZOOM_DEFAULT);
+    int w  = trackingBox.width() * (currentZoom / ZOOM_DEFAULT);
+    int h  = trackingBox.height() * (currentZoom / ZOOM_DEFAULT);
 
-    trackingBoxPixmap = image_frame->grab(QRect(QPoint(x1-w, y1-h), QSize(w*3, h*3)));
+    trackingBoxPixmap = image_frame->grab(QRect(x1, y1, w, h));
 
     return trackingBoxPixmap;
 }
 
-void FITSView::setTrackingBoxCenter(const QPointF &center)
+void FITSView::setTrackingBox(const QRect & rect)
 {
-    if (center != trackingBoxCenter)
+    if (rect != trackingBox)
     {
-        trackingBoxCenter = center;
-        updateFrame();
-    }
-}
-
-void FITSView::setTrackingBoxSize(const QSize size)
-{
-    if (size != trackingBoxSize)
-    {
-        trackingBoxSize = size;
+        trackingBoxUpdated=true;
+        trackingBox = rect;
         updateFrame();
     }
 }
@@ -765,7 +753,16 @@ void FITSView::toggleStars(bool enable)
        QApplication::setOverrideCursor(Qt::WaitCursor);
        emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
        qApp->processEvents();
-       int count = image_data->findStars();
+       int count = -1;
+
+       /*if (trackingBoxEnabled)
+       {
+           count = image_data->findStars(trackingBox, trackingBoxUpdated);
+           trackingBoxUpdated=false;
+       }
+       else*/
+           count = image_data->findStars();
+
        if (count >= 0 && isVisible())
                emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
        QApplication::restoreOverrideCursor();
