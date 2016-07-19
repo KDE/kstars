@@ -1780,9 +1780,9 @@ void Capture::setAutoguiding(bool enable)
     isAutoGuiding = enable;
 }
 
-void Capture::updateFocusStatus(bool status)
+void Capture::updateFocusStatus(FocusState state)
 {
-    isFocusBusy = status;
+    isFocusBusy = state >= Ekos::FOCUS_PROGRESS;
 }
 
 void Capture::updateAutofocusStatus(bool status, double HFR)
@@ -2273,7 +2273,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Type>" << frameTypeCombo->itemText(job->getFrameType()) << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
             //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
-            outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;            
+            outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;
             outstream << "<FilterEnabled>" << (filterEnabled ? 1 : 0) << "</FilterEnabled>" << endl;
             outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << endl;
             outstream << "<TimeStampEnabled>" << (tsEnabled ? 1 : 0) << "</TimeStampEnabled>" << endl;

@@ -406,7 +406,7 @@ private slots:
     void enableAlignmentFlag();
 
     // Auto Focus
-    void updateFocusStatus(bool status);
+    void updateFocusStatus(Ekos::FocusState state);
     void updateAutofocusStatus(bool status, double HFR);
     void startPostFilterAutoFocus();
 
