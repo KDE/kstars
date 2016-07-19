@@ -722,7 +722,11 @@ void Align::newFITS(IBLOB *bp)
             delete (darkBuffer);
 
             FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
-            Q_ASSERT(calibrateImage != NULL);
+            if (calibrateImage == NULL)
+            {
+                captureAndSolve();
+                return;
+            }
 
             FITSData *calibrateData = calibrateImage->getImageData();
 
@@ -1840,9 +1844,9 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
     }
 }
 
-void Align::updateFocusStatus(bool status)
+void Align::updateFocusStatus(Ekos::FocusState state)
 {
-    isFocusBusy = status;
+    isFocusBusy = state >= Ekos::FOCUS_PROGRESS;
 }
 
 void Align::setSolverOverlay(bool enable)
