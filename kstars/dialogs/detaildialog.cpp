@@ -128,13 +128,13 @@ void DetailDialog::createGeneralTab()
 
     //Fill in the data fields
     //Contents depend on type of object
-    QString oname, objecttyp, str;
+    QString objecttyp, str;
 
     switch (selectedObject->type()) {
         case SkyObject::STAR: {
             StarObject* s = (StarObject*) selectedObject;
 
-            if(s->getHDIndex()) {
+            if (s->getHDIndex()) {
                 Data->Names->setText(QString("%1, HD %2").arg(s->longname()).arg(s->getHDIndex()));
             } else {
                 Data->Names->setText(s->longname());
@@ -214,8 +214,8 @@ void DetailDialog::createGeneralTab()
             // JM: Shouldn't we use the calculated magnitude? Disabling the following
             /*
             if(selectedObject->type() == SkyObject::COMET){
-                Data->Magnitude->setText(i18nc( "number in magnitudes", "%1 mag" ,
-                                         QLocale().toString( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 'f', 2 ) ) );  //show to hundredth place
+                Data->Magnitude->setText(i18nc("number in magnitudes", "%1 mag",
+                                         QLocale().toString( ((KSComet *)selectedObject)->getTotalMagnitudeParameter(), 'f', 2)));  //show to hundredth place
 
             }
             else{*/
@@ -262,29 +262,27 @@ void DetailDialog::createGeneralTab()
             DeepSkyObject* dso = (DeepSkyObject*) selectedObject;
 
             //Show all names recorded for the object
-            QString pname;
+            QStringList nameList;
             if (!dso->longname().isEmpty() && dso->longname() != dso->name()) {
-                pname = dso->translatedLongName();
-                oname = dso->translatedName();
+                nameList.append(dso->translatedLongName());
+                nameList.append(dso->translatedName());
             } else {
-                pname = dso->translatedName();
+                nameList.append(dso->translatedName());
             }
 
             if (!dso->translatedName2().isEmpty()) {
-                oname = oname.isEmpty() ? dso->translatedName2() : ", " + dso->translatedName2();
+                nameList.append(dso->translatedName2());
             }
 
             if (dso->ugc() != 0) {
-                if (!oname.isEmpty()) oname += ", ";
-                oname += QString("UGC %1").arg(dso->ugc());
-            }
-            if ( dso->pgc() != 0 ) {
-                if (!oname.isEmpty()) oname += ", ";
-                oname += QString("PGC %1").arg(dso->pgc());
+                nameList.append(QString("UGC %1").arg(dso->ugc()));
             }
 
-            if (!oname.isEmpty()) pname += ", " + oname;
-            Data->Names->setText(pname);
+            if (dso->pgc() != 0) {
+                nameList.append(QString("PGC %1").arg(dso->pgc()));
+            }
+
+            Data->Names->setText(nameList.join(","));
 
             objecttyp = dso->typeName();
 
