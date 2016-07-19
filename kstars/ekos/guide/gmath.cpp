@@ -343,32 +343,38 @@ bool cgmath::reset( void )
 
 void cgmath::move_square( double newx, double newy )
 {
-	square_pos.x = newx;
-	square_pos.y = newy;
+    square_pos.x = newx;
+    square_pos.y = newy;
 
-	// check frame ranges
-	if( square_pos.x < 0 )
-		square_pos.x = 0;
-	if( square_pos.y < 0 )
-		square_pos.y = 0;
-	if( square_pos.x+(double)square_size > (double)video_width )
-		square_pos.x = (double)(video_width - square_size);
-	if( square_pos.y+(double)square_size > (double)video_height )
-		square_pos.y = (double)(video_height - square_size);
+    // check frame ranges
+    if( square_pos.x < 0 )
+        square_pos.x = 0;
+    if( square_pos.y < 0 )
+        square_pos.y = 0;
+    if( square_pos.x+(double)square_size > (double)video_width )
+        square_pos.x = (double)(video_width - square_size);
+    if( square_pos.y+(double)square_size > (double)video_height )
+        square_pos.y = (double)(video_height - square_size);
 
     // FITS Image takes center coords
     if (guide_frame)
     {
         guide_frame->setTrackingBoxEnabled(true);
-        guide_frame->setTrackingBoxCenter(QPointF(square_pos.x+square_size/2, square_pos.y+square_size/2));
+        //guide_frame->setTrackingBoxCenter(QPointF(square_pos.x+square_size/2, square_pos.y+square_size/2));
+        guide_frame->setTrackingBox(QRect(square_pos.x, square_pos.y, square_size, square_size));
     }
 }
-
 
 void cgmath::resize_square( int size_idx )
 {
     if( size_idx < 0 || size_idx >= (int)(sizeof(guide_squares)/sizeof(guide_square_t))-1)
 		return;
+
+    if (square_size != guide_squares[size_idx].size)
+    {
+      square_pos.x += (square_size-guide_squares[size_idx].size)/2;
+      square_pos.y += (square_size-guide_squares[size_idx].size)/2;
+    }
 
 	square_size = guide_squares[size_idx].size;
 	square_square = guide_squares[size_idx].square;
@@ -378,7 +384,8 @@ void cgmath::resize_square( int size_idx )
     if (guide_frame)
     {
         guide_frame->setTrackingBoxEnabled(true);
-        guide_frame->setTrackingBoxSize(QSize(square_size,square_size));
+        //guide_frame->setTrackingBoxSize(QSize(square_size,square_size));
+        guide_frame->setTrackingBox(QRect(square_pos.x, square_pos.y, square_size, square_size));
     }
 
 }
