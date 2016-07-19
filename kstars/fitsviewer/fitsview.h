@@ -103,9 +103,10 @@ public:
 
     // Tracking square
     void setTrackingBoxEnabled(bool enable);
+    bool isTrackingBoxEnabled() { return trackingBoxEnabled; }
     QPixmap & getTrackingBoxPixmap();
-    void setTrackingBoxSize(const QSize size);
-    void setTrackingBoxCenter(const QPointF &center);
+    void setTrackingBox(const QRect & rect);
+    const QRect & getTrackingBox() { return trackingBox; }
 
     // Overlay
     void drawOverlay(QPainter *);
@@ -172,8 +173,8 @@ private:
 
     // Tracking box
     bool trackingBoxEnabled;
-    QSize trackingBoxSize;
-    QPointF trackingBoxCenter;
+    bool trackingBoxUpdated;
+    QRect trackingBox;
     QPixmap trackingBoxPixmap;
 
 signals:
