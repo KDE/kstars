@@ -571,6 +571,120 @@ faint limits for sky objects for zoomed in and zoomed out states of the renderin
 the <guilabel>Show objects of unknown magnitude</guilabel> item is enabled, objects whose
 magnitudes are unknown, or not available to &kstars;, are drawn irrespective of the faint limits set.
 </para>
+
+<para>
+To summarize, I will provide a brief example on how to add new catalogues. Firstly, you need a catalog 
+data file. For this example, I will use <quote>Lynds Catalog of Dark Nebulae</quote>. 
+There are the steps:
+<itemizedlist>
+
+<listitem><para>
+Download/write the raw catalog data file (the raw file is the file containing catalog's objects described by a set 
+of parameters, like: ID Number, Right Ascension, Declination and so on). Note that each object should be written on 
+a separate row and each line in the custom catalog file should contain the following space-separated fields:
+</para>
+<itemizedlist>
+<listitem><para>For stars: type(0 for stars), RA, Dec, mag, SpType, name(optional)</para></listitem>
+<listitem><para>For other types: type(3-8), RA, Dec, mag (optional), flux(optional), name(optional)</para></listitem>
+</itemizedlist>
+</listitem>
+
+<listitem><para>
+Open the <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KStars...</guimenuitem></menuchoice> menu and 
+choose <guilabel>Catalogs</guilabel> tab.
+</para></listitem>
+
+<listitem><para>
+In the Deep-Sky objects section, press the <guibutton>Import Catalog...</guibutton> button. If the button is not 
+available, check the <guibutton>Deep-Sky Catalogs</guibutton> checkbox. This will enable you to configure &kstars; 
+deep-sky objects catalogs.
+</para></listitem>
+
+<listitem><para>
+After you press the <guibutton>Import Catalog...</guibutton> button, <guilabel>Import Catalog</guilabel> window 
+will pop up. At first, click on <guibutton>Open file dialog</guibutton> button in order to select the raw data file.
+<screenshot>
+<screeninfo>Import catalog</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="open_dialog_ldn.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Import new catalog</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para></listitem>
+
+<listitem><para>
+In the dialog window, find your raw file, select it and then press <guibutton>Open</guibutton> button.
+<screenshot>
+<screeninfo>Open catalog</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="open_ldn.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Open Dark Nebulae catalog</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para></listitem>
+
+<listitem><para>
+Now, you need to specify the correct order of the catalog fields within the raw data file. The fields must be added 
+inside <guilabel>Catalog fields</guilabel> list. Note that you can drag fields in order to build the right order or 
+you can use additional fields from <guilabel>Available fields</guilabel> fields. For example, if your raw data file 
+contains a magnitude column, then you need to add Magnitude field to the <guilabel>Catalog fields</guilabel> list.
+<screenshot>
+<screeninfo>Complete info for new catalog</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="complete_info_ldn.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Complete info for new catalog</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para></listitem>
+
+<listitem><para>
+After you set the fields so that they match to your catalog raw file, you can move to next step: completing the 
+remaining input fields: <guilabel>Coordinate epoch</guilabel>, <guilabel>Catalog name prefix</guilabel> , 
+<guilabel>Catalog name</guilabel> and <guilabel>Save catalog as</guilabel>. You can also choose the 
+<guilabel>Symbol color</guilabel> used for your catalog. There you can specify how the fields are splitted within 
+the raw data file: CSV (Comma-separated values) or Space Delimited.
+</para></listitem>
+
+<listitem><para>
+You can preview the output by pressing the <guibutton>Preview Output</guibutton> button. Pay attention to the header 
+fields to have the same order as your catalog fields (&ie; ID RA Dc)
+</para></listitem>
+
+<listitem><para>
+Press <guibutton>OK</guibutton> button to close the <guilabel>Catalog Preview</guilabel> window. Then press 
+<guibutton>OK</guibutton> button again to create and save your catalog.
+</para></listitem>
+
+<listitem><para>
+After you successfully imported your catalog, it will be displayed in the catalogs list. You can choose to be displayed 
+or not, by pressing on its checkbox.
+<screenshot>
+<screeninfo>Added Dark Nebulae by Lynds catalog</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="added_ldn.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Dark Nebulae by Lynds catalog</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+</para></listitem>
+</itemizedlist>
+</para>
+
 </sect1>
 
 <sect1 id="solar_system">
