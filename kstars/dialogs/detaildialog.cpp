@@ -428,19 +428,14 @@ void DetailDialog::createGeneralTab()
 
             break;
         }
-        case SkyObject::SUPERNOVA: {
-            break;
-        }
     }
 
     //Common to all types:
-    if ( selectedObject->type() == SkyObject::CONSTELLATION )
-        Data->ObjectTypeInConstellation->setText(
-            KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName(selectedObject));
-    else
-        Data->ObjectTypeInConstellation->setText( 
-            i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objecttyp,
-                  KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName(selectedObject)));
+    QString cname = KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName(selectedObject);
+    if (selectedObject->type() != SkyObject::CONSTELLATION) {
+        cname = i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objecttyp, cname);
+    }
+    Data->ObjectTypeInConstellation->setText(cname);
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
