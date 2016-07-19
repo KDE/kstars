@@ -352,9 +352,10 @@ bool rcalibration::startCalibration()
 }
 
 void rcalibration::processCalibration()
-{
-    if (pmath->get_image())
-        pmath->get_image()->setTrackingBoxSize(QSize(pmath->get_square_size(), pmath->get_square_size()));
+{            
+    //if (pmath->get_image())
+        //guide_frame->setTrackingBox(QRect(pmath-> square_pos.x, square_pos.y, square_size*2, square_size*2));
+        //pmath->get_image()->setTrackingBoxSize(QSize(pmath->get_square_size(), pmath->get_square_size()));
 
     if (pmath->is_lost_star())
     {
