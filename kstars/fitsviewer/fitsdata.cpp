@@ -556,7 +556,7 @@ bool FITSData::checkCollision(Edge* s1, Edge*s2)
 
 
 /*** Find center of stars and calculate Half Flux Radius */
-void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
+void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeWidth)
 {
     double threshold=0,sum=0,avg=0,min=0;
     int starDiameter=0;
@@ -619,19 +619,29 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
 
         int subX, subY, subW, subH;
 
-        if (mode == FITS_GUIDE)
+        if (boundary.isNull())
         {
-            subX = stats.width/10;
-            subY = stats.height/10;
-            subW = stats.width - subX;
-            subH = stats.height - subY;
+            if (mode == FITS_GUIDE)
+            {
+                subX = stats.width/10;
+                subY = stats.height/10;
+                subW = stats.width - subX;
+                subH = stats.height - subY;
+            }
+            else
+            {
+                subX = 0;
+                subY = 0;
+                subW = stats.width;
+                subH = stats.height;                
+            }
         }
         else
         {
-            subX = 0;
-            subY = 0;
-            subW = stats.width;
-            subH = stats.height;
+            subX = boundary.x();
+            subY = boundary.y();
+            subW = subX + boundary.width();
+            subH = subY + boundary.height();
         }
 
        // Detect "edges" that are above threshold
@@ -837,7 +847,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
             {
                 FSum += image_buffer[cen_x-k+(cen_y*stats.width)] - min;
-                qDebug() << image_buffer[cen_x-k+(cen_y*stats.width)] - min;
+                //qDebug() << image_buffer[cen_x-k+(cen_y*stats.width)] - min;
             }            
 
             // Half flux
@@ -1281,21 +1291,18 @@ void FITSData::subtract(float *dark_buffer)
     calculateStats(true);
 }
 
-int FITSData::findStars()
+int FITSData::findStars(const QRectF &boundary, bool force)
 {
     if (histogram == NULL)
         return -1;
 
-    if (starsSearched == false)
+    if (starsSearched == false || force)
     {
         qDeleteAll(starCenters);
         starCenters.clear();
 
-        //if (histogram->getJMIndex() > DIFFUSE_THRESHOLD)
-        //{
-        findCentroid();
+        findCentroid(boundary);
         getHFR();
-        //}
     }
 
     starsSearched = true;
