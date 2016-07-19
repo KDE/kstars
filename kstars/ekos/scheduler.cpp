@@ -1055,12 +1055,12 @@ void Scheduler::evaluateJobs()
                         dms passedUp( timeUntil / 3600.0);
                         if (job->getState() == SchedulerJob::JOB_EVALUATION)
                         {
-                            appendLogText(i18n("%1 start up time already passed by %2. Job is marked as invalid.", job->getName(), passedUp.toHMSString()));
+                            appendLogText(i18n("%1 startup time already passed by %2. Job is marked as invalid.", job->getName(), passedUp.toHMSString()));
                             job->setState(SchedulerJob::JOB_INVALID);
                         }
                         else
                         {
-                            appendLogText(i18n("%1 start up time already passed by %2. Aborting job...", job->getName(), passedUp.toHMSString()));
+                            appendLogText(i18n("%1 startup time already passed by %2. Aborting job...", job->getName(), passedUp.toHMSString()));
                             job->setState(SchedulerJob::JOB_ABORTED);
                         }
 
@@ -4383,7 +4383,10 @@ void Scheduler::resetAllJobs()
         return;
 
     foreach(SchedulerJob *job, jobs)
+    {
         job->setState(SchedulerJob::JOB_IDLE);
+        job->setStartupCondition(job->getFileStartupCondition());
+    }
 }
 
 void Scheduler::checkTwilightWarning(bool enabled)
