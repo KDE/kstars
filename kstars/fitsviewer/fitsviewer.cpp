@@ -73,6 +73,8 @@ FITSViewer::FITSViewer (QWidget *parent)
     debayerDialog= NULL;
     markStars = false;
 
+    lastURL = QUrl(QDir::homePath());
+
     fitsTab->setTabsClosable(true);
 
     setWindowIcon(QIcon::fromTheme("kstars_fitsviewer"));
@@ -254,7 +256,6 @@ void FITSViewer::showEvent(QShowEvent * /*event*/)
 
 int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
 {
-
     FITSTab *tab = new FITSTab(this);
 
     led.setColor(Qt::yellow);
@@ -274,6 +275,8 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
 
         return -1;
     }
+
+    lastURL = QUrl(imageName->url(QUrl::RemoveFilename));
 
     QApplication::restoreOverrideCursor();
     tab->setPreviewText(previewText);
