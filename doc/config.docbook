@@ -415,25 +415,30 @@ displayed in &kstars;. You can choose to see the stars or not by checking the
 options will be enabled. Thus, you can set how many stars are drawn on the map
 using the <guilabel>Star Density</guilabel> slider. You can also customize
 &kstars; to toggle star name and <link linkend="ai-magnitude">magnitudes</link>.
-Star names are drawn next to bright stars. To display labels of fainter stars, increase the <guilabel>Label density</guilabel> slider.
+Star names are drawn next to bright stars. To display labels of fainter stars, 
+increase the <guilabel>Label density</guilabel> slider.
 </para>
 
 <para>
 <indexterm><primary>Catalogs</primary>
 <secondary>Deep-Sky Catalogs</secondary></indexterm>
 Below the stars section, the <guilabel>Deep-Sky Objects</guilabel> section controls
-the display of several non-stellar object catalogs. You can toggle the display of Deep Sky Objects and
-control the display of their names and magnitudes. By default, the list of deep-sky objects includes the Messier, NGC and IC catalogs.
-Addons catalogs are available via the <menuchoice><guimenu>Data</guimenu><guimenuitem>Download New Data...</guimenuitem></menuchoice> submenu where you can download catalogs provided by
-KStars team and the community. Furthermore, &kstars; supports import of custom catalogs. To import a raw ASCII catalog data file into &kstars;, press the <guibutton>Import Catalog</guibutton>
-and follow the instructions. To import a custom catalog already in KStars catalog format, press the <guilabel>Load Catalog</guilabel> button.
+the display of several non-stellar object catalogs. You can toggle the display of 
+Deep Sky Objects and control the display of their names and magnitudes. By default, 
+the list of deep-sky objects includes the Messier, NGC and IC catalogs.
+Addons catalogs are available via the 
+<menuchoice><guimenu>Data</guimenu><guimenuitem>Download New Data...</guimenuitem></menuchoice> 
+submenu where you can download catalogs provided by &kstars; team and the community. 
+Furthermore, &kstars; supports import of custom catalogs. To import a raw ASCII catalog 
+data file into &kstars;, press the <guibutton>Import Catalog</guibutton> and follow 
+the instructions. To import a custom catalog already in &kstars; catalog format, press the 
+<guilabel>Load Catalog</guilabel> button.
 
 Each line in the custom catalog file should contain the following space-separated fields:
 </para>
 
 <para>For stars: type(0 for stars), RA, Dec, mag, SpType, name(optional)</para>
-<para>For other types: type(3-8), RA, Dec, mag (optional), flux(optional), name(optional)
-</para>
+<para>For other types: type(3-8), RA, Dec, mag (optional), flux(optional), name(optional)</para>
 
 <para>The types are:</para>
 <itemizedlist>
@@ -459,8 +464,8 @@ word, it must be enclosed in quotation marks.
 <para>
 Once you have constructed a custom data file, open the &kstars; configuration window
 to the <guilabel>Catalogs</guilabel> tab, and press the
-<guibutton>Import Catalog...</guibutton> button.  A popup window appears in which you can
-specify a name for the catalog, and the name of the file (including the path):
+<guibutton>Import Catalog...</guibutton> button.  A popup window appears in which 
+you can specify a name for the catalog, and the name of the file (including the path):
 </para>
 <screenshot>
 <screeninfo>Import Catalog Window</screeninfo>
@@ -533,7 +538,7 @@ Note that, if you want to load a catalog that is already loaded, a warning dialo
 You can remove custom catalogs by highlighting its checkbox in the
 <guilabel>Catalogs</guilabel> window, and pressing the
 <guibutton>Remove Catalog...</guibutton> button (this
-button is only active if a custom catalog is highlighted in the list
+button is active only if a custom catalog is highlighted in the list
 of checkboxes). Note that it can not be used for removing &kstars; default catalogs.
 </para>
 <screenshot>
@@ -573,20 +578,66 @@ magnitudes are unknown, or not available to &kstars;, are drawn irrespective of 
 </para>
 
 <para>
-To summarize, I will provide a brief example on how to add new catalogues. Firstly, you need a catalog 
-data file. For this example, I will use <quote>Lynds Catalog of Dark Nebulae</quote>. 
+To summarize, I will provide a brief example on how to add new catalogues into &kstars;. You can load a 
+catalog or you may import a catalog raw data file. After you import a raw data file, the catalog will be 
+built and automatically loaded into &kstars;. In order to import a catalog, you firstly need a catalog 
+raw data file. For this example, I will use <quote>Lynds Catalog of Dark Nebulae</quote>. 
 There are the steps:
+
 <itemizedlist>
 
-<listitem><para>
-Download/write the raw catalog data file (the raw file is the file containing catalog's objects described by a set 
-of parameters, like: ID Number, Right Ascension, Declination and so on). Note that each object should be written on 
-a separate row and each line in the custom catalog file should contain the following space-separated fields:
+<listitem>
+<para>
+Download / write the raw catalog data file (the raw file is the file containing catalog's objects described by a set 
+of parameters, like: ID Number, Right Ascension, Declination and so on). 
+</para>
+
+<important>
+<para>In order to successfully load a custom catalog into &kstars;, you need to use the following syntax: 
+(otherwise your catalog will be entirely ignored or maybe some objects from your catalog will be wrongly drawn)
 </para>
 <itemizedlist>
-<listitem><para>For stars: type(0 for stars), RA, Dec, mag, SpType, name(optional)</para></listitem>
-<listitem><para>For other types: type(3-8), RA, Dec, mag (optional), flux(optional), name(optional)</para></listitem>
+<listitem><para>Every object should be written on a separate row.</para></listitem>
+<listitem><para>The fields of each line should be separated by whitespace.</para></listitem>
+<listitem><para>The catalog header may contain comment lines beginning with the # symbol.</para></listitem>
+<listitem><para>ID number: integer value.</para></listitem>
+<listitem><para>Right Ascension: colon-delimited hh:mm:ss.s or floating-point value.</para></listitem>
+<listitem><para>Declination: colon-delimited dd:mm:ss.s or floating-point value.</para></listitem>
+<listitem><para>Object type: integer value, one of [ 0,1,2,3,4,5,6,7,8 ].</para></listitem>
+<listitem><para>Common name: string value (if it contains a space, it *must* be enclosed in quotes!).</para></listitem>
+<listitem><para>Magnitude: floating-point value.</para></listitem>
+<listitem><para>Major axis: floating-point value (length of major axis in arcmin).</para></listitem>
+<listitem><para>Minor axis: floating-point value (length of minor axis in arcmin).</para></listitem>
+<listitem><para>Position angle: floating-point value (position angle, in degrees).</para></listitem>
 </itemizedlist>
+</important>
+
+<para>
+For example, this is a small piece of the content (header + first five objects) of the 
+<quote>Dark Nebulae by Lynds</quote> catalog which I got after I imported its raw data file into &kstars;:
+(basically, the raw data file is just like the catalog file without the header made by comment lines)
+</para>
+<programlisting>
+# Delimiter:  
+# Name: LyndsCatalog
+# Prefix: Lynds
+# Color: #ff7600
+# Epoch: 2000
+# ID  RA  Dc  Mj  Tp  
+1 16:26:0 -16:0:0.1 13.943 5
+2 18:4:0 -31:30:0.1 66.813 5
+3 18:0:0 -31:0:0.1 141.986 5
+4 16:59:5 -22:8:0.1 3.795 5
+5 17:13:2 -24:22:0.2 6.573 5
+</programlisting>
+<para>As you can see, I used the ID, Right Ascension, Declination, Major axis and Object Type fields. In the original 
+catalog raw data file, I had only Right Ascension, Declination and Area, so I wrote a new raw data file suitable for &kstars;.
+I added two new columns (for ID and Object Type) and because Area field was not directly provided by &kstars;, I searched 
+for an alternative. Thus, I decided to use the Major Axis, computed with the following formula: 
+<constant>Major Axis = sqrt(Area) * 60</constant>. Note that the Catalog Prefix (<quote>Lynds</quote>) and the ID field are 
+used together for identifying objects in the Sky Map. (&ie; objects from this catalog will have names like: Lynds 1, Lynds 2, 
+Lynds 617 up to the last object, Lynds 1791)
+</para>
 </listitem>
 
 <listitem><para>
@@ -650,7 +701,7 @@ contains a magnitude column, then you need to add Magnitude field to the <guilab
 </para></listitem>
 
 <listitem><para>
-After you set the fields so that they match to your catalog raw file, you can move to next step: completing the 
+After you set the fields so that they match to your catalog raw file, you can move to the next step: completing the 
 remaining input fields: <guilabel>Coordinate epoch</guilabel>, <guilabel>Catalog name prefix</guilabel> , 
 <guilabel>Catalog name</guilabel> and <guilabel>Save catalog as</guilabel>. You can also choose the 
 <guilabel>Symbol color</guilabel> used for your catalog. There you can specify how the fields are splitted within 
@@ -659,7 +710,7 @@ the raw data file: CSV (Comma-separated values) or Space Delimited.
 
 <listitem><para>
 You can preview the output by pressing the <guibutton>Preview Output</guibutton> button. Pay attention to the header 
-fields to have the same order as your catalog fields (&ie; ID RA Dc)
+fields to have the same order as your catalog fields (&ie; ID RA Dec Major Axis and Object Type)
 </para></listitem>
 
 <listitem><para>
