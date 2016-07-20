@@ -311,42 +311,42 @@ void Guide::syncTelescopeInfo()
 
 void Guide::updateGuideParams()
 {
+    if (currentCCD->hasGuideHead() == false)
+        useGuideHead = false;
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    if (targetChip == NULL)
+    {
+        appendLogText(i18n("Connection to the guide CCD is lost."));
+        return;
+    }
+
+    binningCombo->setEnabled(targetChip->canBin());
+    if (targetChip->canBin())
+    {
+        int binX,binY, maxBinX, maxBinY;
+        targetChip->getBinning(&binX, &binY);
+        targetChip->getMaxBin(&maxBinX, &maxBinY);
+
+        binningCombo->disconnect();
+
+        binningCombo->clear();
+
+        for (int i=1; i <= maxBinX; i++)
+            binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
+
+        binningCombo->setCurrentIndex(binX-1);
+
+        connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
+    }
+
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
     {
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
         phd2->setCCDMountParams(ccd_hor_pixel, ccd_ver_pixel, focal_length);
 
         int x,y,w,h;
-
-        if (currentCCD->hasGuideHead() == false)
-            useGuideHead = false;
-
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-        if (targetChip == NULL)
-        {
-            appendLogText(i18n("Connection to the guide CCD is lost."));
-            return;
-        }
-
-        binningCombo->setEnabled(targetChip->canBin());
-        if (targetChip->canBin())
-        {
-            int binX,binY, maxBinX, maxBinY;
-            targetChip->getBinning(&binX, &binY);
-            targetChip->getMaxBin(&maxBinX, &maxBinY);
-
-            binningCombo->disconnect();
-
-            binningCombo->clear();
-
-            for (int i=1; i <= maxBinX; i++)
-                binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
-
-            binningCombo->setCurrentIndex(binX-1);
-
-            connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
-        }
 
         emit guideChipUpdated(targetChip);
 
