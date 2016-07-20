@@ -712,13 +712,36 @@ Uranus:Show APOD Image:http://apod.nasa.gov/apod/image/0108/uranus_vg2.jpg
 
 #
 # Spitzer Images:
-IC 1396:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2003-06a_medium.jpg
-M 20:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2005-02a_medium.jpg
-M 51:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-19a_medium.jpg
-M 57:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2005-07a_medium.jpg
-M 81:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2003-06d_medium.jpg
-NGC 246:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-13a_small.jpg
-NGC 4038:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-14a_medium.jpg
-NGC 5128:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-09a_medium.jpg
-NGC 7129:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-02a_medium.jpg
-NGC 7331:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-12a_medium.jpg
+IC 1396:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/2122/ssc2003-06a_Sm.jpg
+M 1:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0007/9489/sig09-009_Sm.jpg
+M 8:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/3039/sig11-012_Sm.jpg
+M 16:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/1833/ssc2007-01a_Sm.jpg
+M 17:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0007/9869/sig10-010_Sm.jpg
+M 20:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/8082/ssc2005-02a_Sm.jpg
+M 27:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0007/8247/sig11-011_Sm.jpg
+M 31:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/6692/ssc2006-14a_Sm.jpg
+M 33:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/0636/ssc2009-08a_Sm.jpg
+M 42:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/6570/ssc2006-16c_Sm.jpg
+M 45:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/2036/ssc2007-07a_Sm.jpg
+M 51:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/8429/ssc2004-19a_Sm.jpg
+M 57:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/7840/ssc2005-07a_Sm.jpg
+M 63:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0007/8816/sig11-002_Sm.jpg
+M 66:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/2563/sig05-016_Sm.jpg
+M 74:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/3311/sig06-018c_Sm.jpg
+M 76:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/7435/sig13-015_Sm.jpg
+M 78:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0007/9090/sig11-008_Sm.jpg
+M 81:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/2024/ssc2003-06d_Sm.jpg
+M 82:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/8411/sig14-004b_Sm.jpg
+M 83:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/4018/sig11-017_Sm.jpg
+M 94:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/5335/sig13-004_Sm.jpg
+M 95:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/2551/sig05-015_Sm.jpg
+M 100:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/0053/sig12-008_Sm.jpg
+M 101:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/0416/ssc2009-03a_Sm.jpg
+M 104:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/7688/ssc2005-11a_Sm.jpg
+M 106:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0010/1183/sig14-020_Sm.jpg
+NGC 246:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/1253/ssc2004-13a_Sm.jpg
+NGC 4038:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/1228/ssc2004-14a_Sm.jpg
+NGC 4579:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/2934/sig06-003_Sm.jpg
+NGC 5128:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/1399/ssc2004-09a_Sm.jpg
+NGC 7129:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/1780/ssc2004-02a_Sm.jpg
+NGC 7331:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/1313/ssc2004-12a_Sm.jpg
