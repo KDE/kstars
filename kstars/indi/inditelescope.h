@@ -33,6 +33,7 @@ public:
     typedef enum { MOTION_NORTH, MOTION_SOUTH } TelescopeMotionNS;
     typedef enum { MOTION_WEST, MOTION_EAST } TelescopeMotionWE;
     typedef enum { MOTION_START, MOTION_STOP } TelescopeMotionCommand;
+    typedef enum { MOUNT_IDLE, MOUNT_SLEWING, MOUNT_TRACKING, MOUNT_PARKING, MOUNT_PARKED, MOUNT_ERROR } TelescopeStatus;
 
     void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
@@ -54,10 +55,13 @@ public:
     bool isSlewing();
     bool isParked();
     bool isInMotion();
+    TelescopeStatus getStatus();
     bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
     bool doPulse(GuideDirection dir, int msecs );
     bool getEqCoords(double *ra, double *dec);
     void setAltLimits(double minAltitude, double maxAltitude);
+
+    static const QString getStatusString(TelescopeStatus status);
 
 protected:
     bool sendCoords(SkyPoint *ScopeTarget);

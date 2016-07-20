@@ -1,11 +1,11 @@
 # Edit this file to add satellites
-# Each line is a group of satellite
+# Each line is a group of satellites
 #
 # Format :
-# Groupe Name;local_filename;url
-# * Groupe Name : This is the name of the group witch will be use in kstars
+# Group Name;local_filename;url
+# * Group Name : This is the name of the group which will be used in KStars
 # * local_filename : This is the name of the file used to store TLE data
-# * url : The url where the TLE data file can be retrieved (you can leave this field blank, in this case, kstars will not update the file)
+# * url : The url where the TLE data file can be retrieved (you can leave this field blank, in this case, KStars will not update the file)
 #
 Last Launches;new.tle;http://celestrak.com/NORAD/elements/tle-new.txt
 International Space Station;iss.tle;http://celestrak.com/NORAD/elements/stations.txt

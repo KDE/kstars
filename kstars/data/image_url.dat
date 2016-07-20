@@ -22,7 +22,9 @@ IC 2944:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/01/images/a/forma
 IC 4406:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/14/images/a/formats/web_print.jpg
 M 1:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/24/images/a/formats/large_web.jpg
 M 4:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2002/10/images/a/formats/web_print.jpg
+M 5:Show HST Image:http://www.nasa.gov/sites/default/files/m5hst2048.jpg
 M 8:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1996/38/images/b/formats/web_print.jpg
+M 14:Show HST Image:http://messier.seds.org/Pics/Jpg/m14hst.jpg
 M 15:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/25/images/a/formats/web_print.jpg
 M 15:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/25/images/a/formats/web_print.jpg
 M 16:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/44/images/a/formats/web_print.jpg
@@ -34,16 +36,32 @@ M 22:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/20/images/a/formats/
 M 27:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2003/06/images/a/formats/web_print.jpg
 M 31:Show HST Image (stars in M 31):http://imgsrc.hubblesite.org/hu/db/2003/15/images/a/formats/web_print.jpg
 M 32:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/40/images/a/formats/web_print.jpg
+M 33:Show HST Image:http://imgsrc.hubblesite.org/hu/db/images/hs-2003-30-a-large_web.jpg
 M 42:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1995/45/images/a/formats/web_print.jpg
+M 43:Show HST Image:http://imgsrc.hubblesite.org/hu/db/images/hs-2006-01-c-large_web.jpg
+M 45:Show HST Image:http://imgsrc.hubblesite.org/hu/db/images/hs-2004-20-b-large_web.jpg
 M 51:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/10/images/a/formats/web_print.jpg
 M 57:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/01/images/a/formats/web_print.jpg
+M 60:Show HST Image:http://imgsrc.hubblesite.org/hu/db/images/hs-2013-40-a-web.jpg
+M 63:Show HST Image:https://www.nasa.gov/sites/default/files/thumbnails/image/hubble_friday_09102015.jpg
 M 64:Show HST Image (1999):http://imgsrc.hubblesite.org/hu/db/1999/10/images/f/formats/full_jpg.jpg
 M 64:Show HST Image (2004):http://imgsrc.hubblesite.org/hu/db/2004/04/images/a/formats/web_print.jpg
 M 74:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2004/43/images/a/formats/full_jpg.jpg
+M 77:Show HST Image:http://messier.seds.org/Pics/Jpg/m77core.jpg
 M 80:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1999/26/images/a/formats/web_print.jpg
+M 81:Show HST Image:http://imgsrc.hubblesite.org/hu/db/images/hs-2007-19-a-large_web.jpg
 M 82:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2001/08/images/b/formats/web_print.jpg
+M 83:Show HST Image:http://imgsrc.hubblesite.org/hu/db/images/hs-2009-29-a-web_print.jpg
 M 87:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2000/20/images/a/formats/web_print.jpg
+M 91:Show HST Image:http://messier.seds.org/Pics/Jpg/m91hst.jpg
+M 94:Show HST Image:https://www.nasa.gov/sites/default/files/thumbnails/image/hubble_friday_102315.jpg
+M 96:Show HST Image:http://messier.seds.org/Pics/More/m96hst.jpg
 M 100:Show HST Image:http://imgsrc.hubblesite.org/hu/db/1994/49/images/c/formats/web_print.jpg
+M 101:Show HST Image:http://imgsrc.hubblesite.org/hu/db/images/hs-2009-07-h-large_web.jpg
+M 102:Show HST Image:http://messier.seds.org/Pics/Jpg/n5866hst.jpg
+M 104:Show HST Image:http://imgsrc.hubblesite.org/hu/db/images/hs-2003-28-a-large_web.jpg
+M 105:Show HST Image:http://messier.seds.org/Pics/Jpg/m105bhst.jpg
+M 106:Show HST Image:http://imgsrc.hubblesite.org/hu/db/images/hs-2013-06-a-large_web.jpg
 NGC 253:Show HST Image (1995):http://imgsrc.hubblesite.org/hu/db/1995/10/images/a/formats/web_print.jpg
 NGC 253:Show HST Image (1998):http://imgsrc.hubblesite.org/hu/db/1998/42/images/a/formats/web_print.jpg
 NGC 300:Show HST Image:http://imgsrc.hubblesite.org/hu/db/2004/13/images/e/formats/web_print.jpg
@@ -712,13 +730,36 @@ Uranus:Show APOD Image:http://apod.nasa.gov/apod/image/0108/uranus_vg2.jpg
 
 #
 # Spitzer Images:
-IC 1396:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2003-06a_medium.jpg
-M 20:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2005-02a_medium.jpg
-M 51:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-19a_medium.jpg
-M 57:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2005-07a_medium.jpg
-M 81:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2003-06d_medium.jpg
-NGC 246:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-13a_small.jpg
-NGC 4038:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-14a_medium.jpg
-NGC 5128:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-09a_medium.jpg
-NGC 7129:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-02a_medium.jpg
-NGC 7331:Show Spitzer Image:http://ipac.jpl.nasa.gov/media_images/ssc2004-12a_medium.jpg
+IC 1396:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/2122/ssc2003-06a_Sm.jpg
+M 1:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0007/9489/sig09-009_Sm.jpg
+M 8:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/3039/sig11-012_Sm.jpg
+M 16:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/1833/ssc2007-01a_Sm.jpg
+M 17:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0007/9869/sig10-010_Sm.jpg
+M 20:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/8082/ssc2005-02a_Sm.jpg
+M 27:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0007/8247/sig11-011_Sm.jpg
+M 31:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/6692/ssc2006-14a_Sm.jpg
+M 33:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/0636/ssc2009-08a_Sm.jpg
+M 42:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/6570/ssc2006-16c_Sm.jpg
+M 45:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/2036/ssc2007-07a_Sm.jpg
+M 51:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/8429/ssc2004-19a_Sm.jpg
+M 57:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/7840/ssc2005-07a_Sm.jpg
+M 63:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0007/8816/sig11-002_Sm.jpg
+M 66:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/2563/sig05-016_Sm.jpg
+M 74:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/3311/sig06-018c_Sm.jpg
+M 76:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/7435/sig13-015_Sm.jpg
+M 78:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0007/9090/sig11-008_Sm.jpg
+M 81:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/2024/ssc2003-06d_Sm.jpg
+M 82:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/8411/sig14-004b_Sm.jpg
+M 83:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/4018/sig11-017_Sm.jpg
+M 94:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/5335/sig13-004_Sm.jpg
+M 95:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/2551/sig05-015_Sm.jpg
+M 100:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/0053/sig12-008_Sm.jpg
+M 101:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/0416/ssc2009-03a_Sm.jpg
+M 104:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0008/7688/ssc2005-11a_Sm.jpg
+M 106:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0010/1183/sig14-020_Sm.jpg
+NGC 246:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/1253/ssc2004-13a_Sm.jpg
+NGC 4038:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/1228/ssc2004-14a_Sm.jpg
+NGC 4579:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/2934/sig06-003_Sm.jpg
+NGC 5128:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/1399/ssc2004-09a_Sm.jpg
+NGC 7129:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/1780/ssc2004-02a_Sm.jpg
+NGC 7331:Show Spitzer Image:http://www.spitzer.caltech.edu/uploaded_files/graphics/fullscreen_graphics/0009/1313/ssc2004-12a_Sm.jpg

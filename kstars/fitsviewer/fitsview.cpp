@@ -250,27 +250,28 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     image_data  = NULL;
     display_image = NULL;
     firstLoad = true;
+    trackingBoxEnabled=false;
+    trackingBoxUpdated=false;
     gammaValue=0;
     filter = filterType;
     mode = fitsMode;    
 
-    setBackgroundRole(QPalette::Dark);
+    setBackgroundRole(QPalette::Dark);    
 
-    guide_x = guide_y =  -1;
-    guide_box = 16;
-    marker_x = marker_y = -1;
+    markerCrosshair.setX(0);
+    markerCrosshair.setY(0);
 
     currentZoom = 0.0;
-    markStars = false;    
+    markStars = false;
 
     connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
-    connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));    
+    connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
     connect(image_frame, SIGNAL(markerSelected(int,int)), this, SLOT(processMarkerSelection(int,int)));
 
     image_frame->setMouseTracking(true);
 
-    if (fitsMode == FITS_GUIDE)
-        connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
+    //if (fitsMode == FITS_GUIDE)
+    //connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
 
     // Default size
     resize(INITIAL_W, INITIAL_H);
@@ -280,7 +281,7 @@ FITSView::~FITSView()
 {
     delete(image_frame);
     delete(image_data);
-    delete(display_image);    
+    delete(display_image);
 }
 
 bool FITSView::loadFITS (const QString &inFilename , bool silent)
@@ -427,7 +428,7 @@ int FITSView::rescale(FITSZoom type)
         bzero  = (-min) * (255. / (max - min));
 
         if (image_height != image_data->getHeight() || image_width != image_data->getWidth())
-        {            
+        {
             image_width  = image_data->getWidth();
             image_height = image_data->getHeight();
 
@@ -520,8 +521,6 @@ int FITSView::rescale(FITSZoom type)
             currentHeight = image_height;
 
         }
-
-
         break;
 
     case ZOOM_KEEP_LEVEL:
@@ -646,23 +645,17 @@ void FITSView::drawOverlay(QPainter *painter)
     if (markStars)
          drawStarCentroid(painter);
 
-    if (mode == FITS_GUIDE)
-        drawGuideBox(painter);
+    //if (mode == FITS_GUIDE)
+    if (trackingBoxEnabled)
+        drawTrackingBox(painter);
 
-    if (marker_x != -1)
+    if (markerCrosshair.isNull() == false)
         drawMarker(painter);
-
 }
 
 void FITSView::updateMode(FITSMode fmode)
 {
     mode = fmode;
-
-   // if (mode == FITS_GUIDE)
-        //connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
-    //else
-        //image_frame->disconnect(this, SLOT(processPointSelection(int,int)));
-
 }
 
 void FITSView::drawMarker(QPainter *painter)
@@ -675,8 +668,8 @@ void FITSView::drawMarker(QPainter *painter)
     float s2 = pxperdegree;
     float s3 = 2.0*pxperdegree;
 
-    float x0 = marker_x  * (currentZoom / ZOOM_DEFAULT);
-    float y0 = marker_y  * (currentZoom / ZOOM_DEFAULT);
+    float x0 = markerCrosshair.x()  * (currentZoom / ZOOM_DEFAULT);
+    float y0 = markerCrosshair.y()  * (currentZoom / ZOOM_DEFAULT);
     float x1 = x0 - 0.5*s1;  float y1 = y0 - 0.5*s1;
     float x2 = x0 - 0.5*s2;  float y2 = y0 - 0.5*s2;
     float x3 = x0 - 0.5*s3;  float y3 = y0 - 0.5*s3;
@@ -711,37 +704,42 @@ void FITSView::drawStarCentroid(QPainter *painter)
     }
 }
 
-void FITSView::drawGuideBox(QPainter *painter)
+void FITSView::drawTrackingBox(QPainter *painter)
 {
     painter->setPen(QPen(Qt::green, 2));
 
-    int mid = guide_box/2;
+    if (trackingBox.isNull())
+        return;    
 
-    if (mid == -1 || guide_x == -1 || guide_y == -1)
-        return;
+    int x1 = trackingBox.x() * (currentZoom / ZOOM_DEFAULT);
+    int y1 = trackingBox.y() * (currentZoom / ZOOM_DEFAULT);
+    int w  = trackingBox.width() * (currentZoom / ZOOM_DEFAULT);
+    int h  = trackingBox.height() * (currentZoom / ZOOM_DEFAULT);
 
-    int x1 = (guide_x - mid) * (currentZoom / ZOOM_DEFAULT);
-    int y1 = (guide_y - mid) * (currentZoom / ZOOM_DEFAULT);
-    int w  = guide_box * (currentZoom / ZOOM_DEFAULT);
-
-    painter->drawRect(x1, y1, w, w);
+    painter->drawRect(x1, y1, w, h);
 }
 
-void FITSView::setGuideSquare(int x, int y)
+QPixmap & FITSView::getTrackingBoxPixmap()
 {
-    guide_x = x;
-    guide_y = y;
+    if (trackingBox.isNull())
+        return trackingBoxPixmap;
 
-    updateFrame();
+    int x1 = trackingBox.x() * (currentZoom / ZOOM_DEFAULT);
+    int y1 = trackingBox.y() * (currentZoom / ZOOM_DEFAULT);
+    int w  = trackingBox.width() * (currentZoom / ZOOM_DEFAULT);
+    int h  = trackingBox.height() * (currentZoom / ZOOM_DEFAULT);
 
+    trackingBoxPixmap = image_frame->grab(QRect(x1, y1, w, h));
 
+    return trackingBoxPixmap;
 }
 
-void FITSView::setGuideBoxSize(int size)
+void FITSView::setTrackingBox(const QRect & rect)
 {
-    if (size != guide_box)
+    if (rect != trackingBox)
     {
-        guide_box = size;
+        trackingBoxUpdated=true;
+        trackingBox = rect;
         updateFrame();
     }
 }
@@ -755,7 +753,16 @@ void FITSView::toggleStars(bool enable)
        QApplication::setOverrideCursor(Qt::WaitCursor);
        emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
        qApp->processEvents();
-       int count = image_data->findStars();
+       int count = -1;
+
+       /*if (trackingBoxEnabled)
+       {
+           count = image_data->findStars(trackingBox, trackingBoxUpdated);
+           trackingBoxUpdated=false;
+       }
+       else*/
+           count = image_data->findStars();
+
        if (count >= 0 && isVisible())
                emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
        QApplication::restoreOverrideCursor();
@@ -764,23 +771,31 @@ void FITSView::toggleStars(bool enable)
 
 void FITSView::processPointSelection(int x, int y)
 {
-    if (mode != FITS_GUIDE)
-        return;
+    //if (mode != FITS_GUIDE)
+        //return;
 
     image_data->getCenterSelection(&x, &y);
 
     //setGuideSquare(x,y);
-    emit guideStarSelected(x,y);
+    emit trackingStarSelected(x,y);
 }
 
 void FITSView::processMarkerSelection(int x, int y)
 {
-   marker_x = x;
-   marker_y = y;
+   markerCrosshair.setX(x);
+   markerCrosshair.setY(y);
 
    updateFrame();
 }
 
+void FITSView::setTrackingBoxEnabled(bool enable)
+{
+    if (enable != trackingBoxEnabled)
+    {
+        trackingBoxEnabled = enable;
+        updateFrame();
+    }
+}
 int FITSView::getGammaValue() const
 {
     return gammaValue;
@@ -844,4 +859,3 @@ void FITSView::initDisplayImage()
         display_image = new QImage(image_width, image_height, QImage::Format_RGB32);
     }
 }
-

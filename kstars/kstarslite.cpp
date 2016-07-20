@@ -32,12 +32,12 @@ KStarsLite *KStarsLite::pinstance = 0;
 
 KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDateString) {
     // Initialize logging settings
-    if (Options::disableLogging())
+    /*if (Options::disableLogging())
         KSUtils::Logging::Disable();
     else if (Options::logToFile() && Options::verboseLogFile().isEmpty() == false)
         KSUtils::Logging::UseFile(Options::verboseLogFile());
     else
-        KSUtils::Logging::UseDefault();
+        KSUtils::Logging::UseDefault();*/
 
     // Set pinstance to yourself
     // Unlike KStars class we set pinstance at the beginning because SkyMapLite needs access to ClientManagerLite

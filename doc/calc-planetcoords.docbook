@@ -38,7 +38,7 @@ and latitude).  You may choose to specify a constant value
 for some of the parameters in the calculator window (these 
 parameters should be skipped in the input file).  You may 
 also specify which of the output parameters (Equatorial, 
-Horizontal, and Ecliptic coordinates) should be calculated.
+Horizontal, Heliocentric ecliptic and Geocentric ecliptic coordinates) should be calculated.
 Finally, specify the input and output filenames, and press 
 the <guibutton>Run</guibutton> button to generate the output 
 file with the computed values.

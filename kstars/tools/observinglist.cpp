@@ -221,12 +221,7 @@ ObservingList::ObservingList()
     ui->DeleteImage->setEnabled( false );
     ui->OALExport->setEnabled( false );
 
-    QFile file;
-    if ( KSUtils::openDataFile( file, "noimage.png" ) )
-    {
-        file.close();
-        m_NoImagePixmap = QPixmap(file.fileName()).scaledToHeight(ui->ImagePreview->width());
-    }
+    m_NoImagePixmap = QPixmap(":/images/noimage.png").scaledToHeight(ui->ImagePreview->width());
 
     slotLoadWishList(); //Load the wishlist from disk if present
     m_CurrentObject = 0;

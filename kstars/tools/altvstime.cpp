@@ -1046,16 +1046,19 @@ void AltVsTime::slotChooseCity() {
     delete ld;
 }
 
+// FIXME: should we remove this method?
 void AltVsTime::setLSTLimits() {
+    /*
     //UT at noon on target date
-    KStarsDateTime ut = getDate().addSecs( ((double)DayOffset + 0.5)*86400. );
+    KStarsDateTime ut = getDate().addSecs(((double)DayOffset + 0.5)*86400.);
 
-    dms lst = geo->GSTtoLST( ut.gst() );
+    dms lst = geo->GSTtoLST(ut.gst());
     double h1 = lst.Hours();
-    if( h1 > 12.0 )
+    if(h1 > 12.0)
         h1 -= 24.0;
     double h2 = h1 + 24.0;
-   // avtUI->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
+    avtUI->View->setSecondaryLimits(h1, h2, -90.0, 90.0);
+    */
 }
 
 void AltVsTime::showCurrentDate()
@@ -1279,15 +1282,17 @@ void AltVsTime::setDawnDusk()
 
     KSSun sun;
     sun.updateCoords( &num, true, geo->lat(), &LST, true );
-    double dawn, da, dusk, du, max_alt, min_alt;
+
+    /* TODO:
     double last_h = -12.0;
     double last_alt = findAltitude( &sun, last_h );
-    dawn = dusk = -13.0;
-    max_alt = -100.0;
-    min_alt = 100.0;
+    double dawn = -13.0;
+    double dusk = -13.0;
+    double max_alt = -100.0;
+    double min_alt = 100.0;
     for ( double h=-11.95; h<=12.0; h+=0.05 ) {
         double alt = findAltitude( &sun, h );
-        bool   asc = alt - last_alt > 0;
+        bool asc = alt - last_alt > 0;
         if ( alt > max_alt )
             max_alt = alt;
         if ( alt < min_alt )
@@ -1309,9 +1314,9 @@ void AltVsTime::setDawnDusk()
         da = dawn / 24.0;
         du = ( dusk + 24.0 ) / 24.0;
     }
-    // TODO:
-    // avtUI->View->setDawnDuskTimes( da, du );
-    // avtUI->View->setMinMaxSunAlt( min_alt, max_alt );
+    avtUI->View->setDawnDuskTimes( da, du );
+    avtUI->View->setMinMaxSunAlt( min_alt, max_alt );
+    */
 }
 
 void AltVsTime::slotPrint()

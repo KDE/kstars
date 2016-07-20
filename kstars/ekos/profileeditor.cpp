@@ -46,11 +46,12 @@ ProfileEditor::ProfileEditor(QWidget *w )  : QDialog( w )
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(saveProfile()));
 
-    connect(ui->remoteMode, SIGNAL(toggled(bool)), this, SLOT(setRemoteMode(bool)));
-
     #ifdef Q_OS_WIN
+    ui->remoteMode->setChecked(true);
     ui->localMode->setEnabled(false);
     setRemoteMode(true);
+    #else
+    connect(ui->remoteMode, SIGNAL(toggled(bool)), this, SLOT(setRemoteMode(bool)));
     #endif
 
     // Load all drivers

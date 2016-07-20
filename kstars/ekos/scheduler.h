@@ -134,7 +134,7 @@ public:
       * @param fileURL path to a file
       * @return true if loading file is successful, false otherwise.
       */
-     Q_SCRIPTABLE bool loadScheduler(const QUrl &fileURL);
+     Q_SCRIPTABLE bool loadScheduler(const QString &fileURL);
 
      /** DBUS interface function.
       * @brief Resets all jobs to IDLE

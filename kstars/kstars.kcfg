@@ -1209,11 +1209,7 @@
       <label>Log debug message to a log file</label>
       <whatsthis>Checking this option causes KStars log debug messages to a log file as specified.</whatsthis>
       <default>false</default>
-    </entry>
-    <entry name="VerboseLogFile" type="String">
-      <label>Verbose Log File</label>
-      <whatsthis>Verbose log file to save all of KStars generated debug messages to.</whatsthis>
-    </entry>
+    </entry>    
     <entry name="FITSLogging" type="Bool">
       <whatsthis>Log FITS Data activity.</whatsthis>
       <default>false</default>
@@ -1393,6 +1389,10 @@
        <label>Perform an autofocus operation when changing filter wheels during an exposure sequence.</label>
        <default>false</default>
      </entry>
+     <entry name="AutoStretch" type="Bool">
+       <label>Perform auto stretch on captured images in FITS Viewer.</label>
+       <default>true</default>
+     </entry>
    </group>
    <group name="Focus">
    <entry name="DefaultFocusCCD" type="String">
@@ -1453,6 +1453,14 @@
            <label>Use specified filter index when performing focus regardless of current filter settings.</label>
            <default>0</default>
        </entry>
+       <entry name="FocusDarkFrame" type="Bool">
+           <label>Take a dark frame and subtract it before running autofocus operation.</label>
+           <default>false</default>
+       </entry>
+       <entry name="FocusEffect" type="UInt">
+           <label>Image filter to be applied to focus image upon loading.</label>
+           <default>0</default>
+       </entry>
     </group>
     <group name="Align">
     <entry name="DefaultAlignCCD" type="String">
@@ -1509,6 +1517,10 @@
           <entry name="SolverAccuracyThreshold" type="UInt">
             <label>Accuracy threshold in arcseconds between solution and target coordinates.</label>
             <default>30</default>
+          </entry>
+          <entry name="AlignDarkFrame" type="Bool">
+              <label>Take a dark frame and subtract it before running astrometry operation.</label>
+              <default>false</default>
           </entry>
     </group>
     <group name="Guide">

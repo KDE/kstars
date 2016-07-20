@@ -387,7 +387,7 @@ bool rguider::start()
     Options::setDECMinimumPulse(ui.spinBox_MinPulseDEC->value());
 
     if (guideFrame)
-        disconnect(guideFrame, SIGNAL(guideStarSelected(int,int)), 0, 0);
+        disconnect(guideFrame, SIGNAL(trackingStarSelected(int,int)), 0, 0);
 
     // Let everyone know about dither option status
     emit ditherToggled(ui.ditherCheck->isChecked());
@@ -427,6 +427,8 @@ bool rguider::start()
         pmain_wnd->startRapidGuide();
 
     emit autoGuidingToggled(true);
+    // FIXME use only one signal, remove the previous one
+    emit newStatus(Ekos::GUIDE_GUIDING);
 
     pmain_wnd->setSuspended(false);
 
@@ -447,7 +449,7 @@ bool rguider::stop()
     if (phd2)
     {
         ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
-        emit autoGuidingToggled(false);
+        emit autoGuidingToggled(false);        
 
         m_isDithering = false;
         m_isStarted = false;
@@ -456,7 +458,7 @@ bool rguider::stop()
     }
 
     if (guideFrame)
-        connect(guideFrame, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int,int)));
+        connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int,int)));
     ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
     pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
     pmath->stop();
@@ -470,6 +472,8 @@ bool rguider::stop()
         pmain_wnd->stopRapidGuide();
 
     emit autoGuidingToggled(false);
+    // FIXME use only one signal, remove the previous one
+    emit newStatus(Ekos::GUIDE_IDLE);
 
     m_isDithering = false;
     m_isStarted = false;
@@ -545,7 +549,7 @@ void rguider::capture()
 
         targetChip->setFrame(x, y, w, h);
 
-        guideStarSelected(w/binx/2, h/biny/2);
+        trackingStarSelected(w/binx/2, h/biny/2);
     }
     else if (ui.subFrameCheck->isChecked() == false/* && is_subframed == true*/)
     {
@@ -661,6 +665,8 @@ void rguider::guide( void )
      drift_graph->on_paint();
      pDriftOut->update();
 
+     profilePixmap = pDriftOut->grab(QRect(QPoint(0, 100), QSize(pDriftOut->width(), 101)));
+     emit newProfilePixmap(profilePixmap);
 }
 
 void rguider::setImage(FITSView *image)
@@ -668,17 +674,17 @@ void rguider::setImage(FITSView *image)
     guideFrame = image;
 
     if (m_isReady && guideFrame && m_isStarted == false)
-        connect(guideFrame, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+        connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
 }
 
-void rguider::guideStarSelected(int x, int y)
+void rguider::trackingStarSelected(int x, int y)
 {
     int square_size = guide_squares[pmath->get_square_index()].size;
 
     pmath->set_reticle_params(x, y, pmain_wnd->getReticleAngle());
     pmath->move_square(x-square_size/2, y-square_size/2);
 
-    //disconnect(pimage, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
+    //disconnect(pimage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
 
 }
 

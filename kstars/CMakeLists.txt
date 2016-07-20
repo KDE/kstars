@@ -544,6 +544,7 @@ set(kstars_extra_SRCS
     auxiliary/profileinfo.cpp
     auxiliary/filedownloader.cpp
     auxiliary/kspaths.cpp
+    auxiliary/QRoundProgressBar.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
@@ -905,9 +906,6 @@ install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 ########### install files ###############
 install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-#install(FILES kstars.knsrc DESTINATION ${KDE_INSTALL_CONFDIR})
-#install(FILES kstarsui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
-#install(FILES fitsviewer.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
 install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 endif(NOT BUILD_KSTARS_LITE)
 

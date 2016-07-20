@@ -481,6 +481,43 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
       </widget>
      </item>
      <item>
+      <widget class="QGroupBox" name="profileGroup">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="title">
+        <string>Relative Profile</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QCustomPlot" name="profilePlot" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
         <string>Autofocus Options</string>
@@ -517,6 +554,16 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QCheckBox" name="focusDarkFrameCheck">
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Dark Frame</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QCheckBox" name="suspendGuideCheck">
               <property name="toolTip">

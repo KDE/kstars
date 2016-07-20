@@ -144,6 +144,6 @@ if(NOT BUILD_KSTARS_LITE)
     add_subdirectory(Tests)
 endif(NOT BUILD_KSTARS_LITE)
 
-install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_DATAROOTDIR}/appdata/)
+install(FILES org.kde.kstars.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

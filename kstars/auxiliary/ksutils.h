@@ -176,7 +176,7 @@ namespace KSUtils {
            * Store all logs into the specified file
            * @param filename the file in which to store logs
            */
-          static void UseFile(const QString &filename);
+          static void UseFile();
 
           /**
            * Output logs to stdout

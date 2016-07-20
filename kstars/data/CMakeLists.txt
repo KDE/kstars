@@ -63,7 +63,7 @@ install(FILES
     wzstars.png wzgeo.png wzscope.png wzdownload.png chart.colors
     classic.colors moonless-night.colors night.colors
     tips TZrules.dat valaav.txt Interesting.dat PlanetFacts.dat
-    advinterface.dat satellites.dat	histogram.png noimage.png go-nw.png go-ne.png go-sw.png go-se.png glossary.xml defaultflag.gif
+    advinterface.dat satellites.dat	histogram.png go-nw.png go-ne.png go-sw.png go-se.png glossary.xml defaultflag.gif
     DESTINATION  ${KDE_INSTALL_DATADIR}/kstars
 )
 

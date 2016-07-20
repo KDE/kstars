@@ -80,21 +80,12 @@ void OpsAdvanced::slotToggleVerbosityOptions()
 void OpsAdvanced::slotToggleOutputOptions()
 {
     if (kcfg_LogToDefault->isChecked())
-    {
-        kcfg_VerboseLogFile->setEnabled(false);
+    {        
 
         if (kcfg_DisableLogging->isChecked() == false)
             KSUtils::Logging::UseDefault();
     }
-    else
-    {
-        kcfg_VerboseLogFile->setEnabled(true);
-
-        if (kcfg_VerboseLogFile->text().isEmpty())
-            kcfg_VerboseLogFile->setText(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "kstars.log");
-
-        if (kcfg_DisableLogging->isChecked() == false)
-            KSUtils::Logging::UseFile(kcfg_VerboseLogFile->text());
-    }
+    else    
+            KSUtils::Logging::UseFile();
 }
 

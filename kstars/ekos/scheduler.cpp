@@ -204,6 +204,7 @@ void Scheduler::watchJobChanges(bool enable)
         connect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
 
         connect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         connect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
@@ -228,6 +229,7 @@ void Scheduler::watchJobChanges(bool enable)
         disconnect(fitsEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(startupScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(shutdownScript, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
 
         disconnect(profileCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setDirty()));
         disconnect(stepsButtonGroup, SIGNAL(buttonToggled(int,bool)), this, SLOT(setDirty()));
@@ -1053,12 +1055,12 @@ void Scheduler::evaluateJobs()
                         dms passedUp( timeUntil / 3600.0);
                         if (job->getState() == SchedulerJob::JOB_EVALUATION)
                         {
-                            appendLogText(i18n("%1 start up time already passed by %2. Job is marked as invalid.", job->getName(), passedUp.toHMSString()));
+                            appendLogText(i18n("%1 startup time already passed by %2. Job is marked as invalid.", job->getName(), passedUp.toHMSString()));
                             job->setState(SchedulerJob::JOB_INVALID);
                         }
                         else
                         {
-                            appendLogText(i18n("%1 start up time already passed by %2. Aborting job...", job->getName(), passedUp.toHMSString()));
+                            appendLogText(i18n("%1 startup time already passed by %2. Aborting job...", job->getName(), passedUp.toHMSString()));
                             job->setState(SchedulerJob::JOB_ABORTED);
                         }
 
@@ -1103,7 +1105,7 @@ void Scheduler::evaluateJobs()
                     // If time is far in the future, we make the score negative
                     else
                     {
-                        if (calculateJobScore(job, job->getStartupTime()) < 0)
+                        if (job->getState() == SchedulerJob::JOB_EVALUATION && calculateJobScore(job, job->getStartupTime()) < 0)
                         {
                             appendLogText(i18n("%1 observation job evaluation failed with a score of %2. Aborting job...", job->getName(), score));
                             job->setState(SchedulerJob::JOB_INVALID);
@@ -2932,18 +2934,19 @@ void Scheduler::load()
        return;
     }
 
-    loadScheduler(fileURL);
+    dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
 
+    loadScheduler(fileURL.path());
 }
 
-bool Scheduler::loadScheduler(const QUrl & fileURL)
+bool Scheduler::loadScheduler(const QString &fileURL)
 {
     QFile sFile;
-    sFile.setFileName(fileURL.path());
+    sFile.setFileName(fileURL);
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {
-        QString message = i18n( "Unable to open file %1",  fileURL.path());
+        QString message = i18n( "Unable to open file %1",  fileURL);
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         return false;
     }
@@ -2986,7 +2989,10 @@ bool Scheduler::loadScheduler(const QUrl & fileURL)
                          const char *proc = pcdataXMLEle(procedure);
 
                          if (!strcmp(proc, "StartupScript"))
+                         {
                             startupScript->setText(findXMLAttValu(procedure, "value"));
+                            startupScriptURL = QUrl::fromUserInput(startupScript->text());
+                         }
                          else if (!strcmp(proc, "UnparkDome"))
                              unparkDomeCheck->setChecked(true);
                          else if (!strcmp(proc, "UnparkMount"))
@@ -3009,7 +3015,10 @@ bool Scheduler::loadScheduler(const QUrl & fileURL)
                          const char *proc = pcdataXMLEle(procedure);
 
                          if (!strcmp(proc, "ShutdownScript"))
+                         {
                             shutdownScript->setText(findXMLAttValu(procedure, "value"));
+                            shutdownScriptURL = QUrl::fromUserInput(shutdownScript->text());
+                         }
                          else if (!strcmp(proc, "ParkDome"))
                              parkDomeCheck->setChecked(true);
                          else if (!strcmp(proc, "ParkMount"))
@@ -3031,7 +3040,7 @@ bool Scheduler::loadScheduler(const QUrl & fileURL)
         }
     }
 
-    schedulerURL = fileURL;
+    schedulerURL = QUrl::fromLocalFile(fileURL);
     mosaicB->setEnabled(true);
     mDirty = false;
     delLilXML(xmlParser);
@@ -3179,7 +3188,7 @@ void Scheduler::save()
 {
     QUrl backupCurrent = schedulerURL;
 
-    if (schedulerURL.path().contains("/tmp/"))
+    if (schedulerURL.path().startsWith("/tmp/") || schedulerURL.path().contains("/Temp"))
         schedulerURL.clear();
 
     // If no changes made, return.
@@ -3567,7 +3576,7 @@ void Scheduler::startCapture()
 {
     captureInterface->call(QDBus::AutoDetect,"clearSequenceQueue");
 
-    QString url = currentJob->getSequenceFile().toString(QUrl::PreferLocalFile);  
+    QString url = currentJob->getSequenceFile().path();
 
     QList<QVariant> dbusargs;
     dbusargs.append(url);
@@ -4374,7 +4383,10 @@ void Scheduler::resetAllJobs()
         return;
 
     foreach(SchedulerJob *job, jobs)
+    {
         job->setState(SchedulerJob::JOB_IDLE);
+        job->setStartupCondition(job->getFileStartupCondition());
+    }
 }
 
 void Scheduler::checkTwilightWarning(bool enabled)
