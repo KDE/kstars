@@ -22,4 +22,5 @@ install( FILES icon.png
     sc-actions-kstars_planets.png
     sc-actions-kstars_stars.png
     system-search.png
+    back.png
     DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/images/mdpi/icons )

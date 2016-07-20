@@ -30,17 +30,29 @@ ConstellationArtItem::ConstellationArtItem(ConstellationArtComponent *artComp, R
 }
 
 void ConstellationArtItem::update() {
-    if(Options::showConstellationArt() && SkyMapLite::IsSlewing() == false)
-    {
-        show();
-        //Traverse all children nodes of RootNode
-        QSGNode *n = firstChild();
-        while(n != 0) {
-            ConstellationArtNode *artNode = static_cast<ConstellationArtNode *>(n);
-            artNode->update();
-            n = n->nextSibling();
+    if(Options::showConstellationArt()) {
+        m_artComp->loadData();
+        if (SkyMapLite::IsSlewing() == false) {
+            show();
+            //Traverse all children nodes of RootNode
+            QSGNode *n = firstChild();
+            while(n != 0) {
+                ConstellationArtNode *artNode = static_cast<ConstellationArtNode *>(n);
+                artNode->update();
+                n = n->nextSibling();
+            }
+        } else {
+            hide();
         }
     } else {
-        hide();
+        //Delete all images if we don't need to draw constellation art and save ~50 MB.
+        m_artComp->deleteData();
+        QSGNode *n = firstChild();
+        while(n != 0) {
+            QSGNode *d = n;
+            n = n->nextSibling();
+            removeChildNode(d);
+            delete d;
+        }
     }
 }

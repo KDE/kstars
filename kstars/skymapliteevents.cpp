@@ -4,6 +4,9 @@
 
 #include <QtMath>
 
+#include "kstarslite/skypointlite.h"
+#include "kstarslite/skyobjectlite.h"
+
 #include "kstarslite/skyitems/planetsitem.h"
 #include "Options.h"
 #include "projections/projector.h"
@@ -51,15 +54,15 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
         switch( e->button() ) {
         case Qt::LeftButton:
         {
-            QString name;
+            /*QString name;
             if( clickedObject() )
-                name = clickedObject()->translatedLongName();
+                //name = clickedObject()->translatedLongName();
             else
-                name = i18n( "Empty sky" );
+                //name = i18n( "Empty sky" );
             //kstars->statusBar()->changeItem(name, 0 );
             //kstars->statusBar()->showMessage(name, 0 );
 
-            emit positionClicked(&m_MousePoint);
+            emit positionClicked(&m_MousePoint);*/
         }
 
             break;
@@ -70,8 +73,9 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
             } else {*/
             // Show popup menu
             if( clickedObject() ) {
-                //clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
+                emit objectChanged(ClickedObjectLite);
             } else {
+                emit positionChanged(ClickedPointLite);
                 /* pmenu->createEmptyMenu( clickedPoint() );
                     pmenu->popup( QCursor::pos() );*/
             }
@@ -184,7 +188,7 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
         if( !slewing ) {
             slewing = true;
             //stopTracking(); //toggle tracking off
-            }
+        }
 
         //Update focus such that the sky coords at mouse cursor remain approximately constant
         if ( Options::useAltAz() ) {
@@ -314,29 +318,47 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
             mouseButtonDown = false;
         } else {
             //If only pan is needed we just use the first touch point
-            QPointF newFocus = points[0].pos();
-            QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, newFocus,
-                                                 Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
-            if(e->type() == QEvent::TouchBegin) {
-                if(mouseButtonDown) mouseButtonDown = false;
-            }
+            if(e->touchPointStates() & Qt::TouchPointMoved || slewing) {
+                QPointF newFocus = points[0].pos();
+                QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, newFocus,
+                                                     Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
+                if(e->type() == QEvent::TouchBegin) {
+                    if(mouseButtonDown) mouseButtonDown = false;
+                }
 
-            mousePressEvent(event);
-            mouseMoveEvent(event);
+                mousePressEvent(event);
+                mouseMoveEvent(event);
 
-            if(e->type() == QEvent::TouchEnd) {
-                if (mouseButtonDown) {
-                    mouseButtonDown = false;
-                    if ( slewing ) {
-                        slewing = false;
-                        if ( Options::useAltAz() )
-                            setDestinationAltAz( focus()->alt(), focus()->az() );
-                        else
-                            setDestination( *focus() );
+                if(e->type() == QEvent::TouchEnd) {
+                    if (mouseButtonDown) {
+                        mouseButtonDown = false;
+                        if ( slewing ) {
+                            slewing = false;
+                            if ( Options::useAltAz() )
+                                setDestinationAltAz( focus()->alt(), focus()->az() );
+                            else
+                                setDestination( *focus() );
+                        }
                     }
                 }
+                delete event;
+            } else if((e->touchPointStates() & (Qt::TouchPointReleased))) { //&& !slewing && points.length() == 1) {
+                //determine RA, Dec of touch
+                m_MousePoint = projector()->fromScreen( points[0].pos() , data->lst(), data->geo()->lat() );
+                setClickedPoint( &m_MousePoint );
+
+                //Find object nearest to clickedPoint()
+                double maxrad = 1000.0/Options::zoomFactor();
+                SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
+                setClickedObject( obj );
+                if( obj ) setClickedPoint( obj );
+
+                if( clickedObject() ) {
+                    emit objectChanged(ClickedObjectLite);
+                } else {
+                    emit positionChanged(ClickedPointLite);
+                }
             }
-            delete event;
         }
     }
 }

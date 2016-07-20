@@ -384,6 +384,9 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
 {
     StarObject *oBest = 0;
 
+#ifdef KSTARS_LITE
+    m_zoomMagLimit = StarComponent::zoomMagnitudeLimit();
+#endif
     if( !fileOpened )
         return NULL;
 

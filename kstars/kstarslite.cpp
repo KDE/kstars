@@ -21,6 +21,7 @@
 #include <QApplication>
 #include <QQuickWindow>
 #include <QSurfaceFormat>
+#include "indi/clientmanagerlite.h"
 
 #include "kspaths.h"
 
@@ -38,17 +39,39 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     else
         KSUtils::Logging::UseDefault();
 
+    // Set pinstance to yourself
+    // Unlike KStars class we set pinstance at the beginning because SkyMapLite needs access to ClientManagerLite
+    pinstance = this;
+
     m_KStarsData = KStarsData::Create();
     Q_ASSERT( m_KStarsData );
+
+#ifdef INDI_FOUND
+    //INDI Android Client
+    m_clientManager = new ClientManagerLite;
+    m_Engine.rootContext()->setContextProperty("ClientManagerLite", m_clientManager);
+#endif
 
     //Make instance of KStarsLite and KStarsData available to QML
     m_Engine.rootContext()->setContextProperty("KStarsLite", this);
     m_Engine.rootContext()->setContextProperty("KStarsData", m_KStarsData);
     m_Engine.rootContext()->setContextProperty("Options", Options::self());
 
-    /*Register SkyMapLite for use within QML
-    qmlRegisterType<SkyMapLite>("skymaplite",1,0,"SkyMapLite");*/
+    //Set Geographic Location from Options
+    m_KStarsData->setLocationFromOptions();
+
+    /*SkyMapLite has to be loaded before KStarsData is initialized because SkyComponents derived classes
+    have to add SkyItems to the SkyMapLite*/
+    m_SkyMapLite = SkyMapLite::createInstance();
+
+    m_Engine.rootContext()->setContextProperty("SkyMapLite", m_SkyMapLite);
+    //qmlRegisterType<SkyPoint>("skymaplite",1,0,"SkyMapLite");
+
+#ifdef Q_OS_ANDROID
     QString main = KSPaths::locate(QStandardPaths::AppDataLocation, "kstarslite/qml/main.qml");
+#else
+    QString main = QString(QML_IMPORT) + QString("/kstarslite/qml/main.qml");
+#endif
 
     m_Engine.load(QUrl(main));
     Q_ASSERT_X(m_Engine.rootObjects().size(),"loading root object of main.qml",
@@ -57,6 +80,7 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_RootObject = m_Engine.rootObjects()[0];
 
     QQuickItem *skyMapLiteWrapper = m_RootObject->findChild<QQuickItem*>("skyMapLiteWrapper");
+    m_SkyMapLite->setParentItem(skyMapLiteWrapper);
 
     //QQuickWindow *mainWindow = m_RootObject->findChild<QQuickWindow*>("mainWindow");
     QQuickWindow *mainWindow = static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
@@ -65,18 +89,6 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     format.setSamples(4);
     format.setSwapBehavior (QSurfaceFormat::TripleBuffer);
     mainWindow->setFormat(format);
-
-    //Set Geographic Location from Options
-    m_KStarsData->setLocationFromOptions();
-
-    /*SkyMapLite has to be loaded before KStarsData is initialized because SkyComponents derived classes
-    have to add SkyItems to the SkyMapLite*/
-    m_SkyMapLite = SkyMapLite::createInstance(skyMapLiteWrapper);
-
-    m_Engine.rootContext()->setContextProperty("SkyMapLite", m_SkyMapLite);
-
-    // Set pinstance to yourself
-    pinstance = this;
 
     connect( qApp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
 

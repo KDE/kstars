@@ -7,15 +7,16 @@ install( FILES constants/Constants.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/constants )
 
 install( FILES modules/BottomMenu.qml
-    modules/ContextDrawer.qml
-    modules/GlobalDrawer.qml
     modules/Splash.qml
     modules/TopMenu.qml
+    modules/KSPage.qml
+    modules/KSScrollablePage.qml
+    modules/ContextDrawerMenu.qml
+    modules/TelescopeControlMenu.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules )
 
-install( FILES modules/helpers/DrawerColorScheme.qml
-    modules/helpers/DrawerElem.qml
-    modules/helpers/TopMenuButton.qml
+install( FILES modules/helpers/TopMenuButton.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/helpers )
 
 add_subdirectory(modules/images)
+add_subdirectory(indi)

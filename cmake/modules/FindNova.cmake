@@ -27,8 +27,12 @@ else (NOVA_INCLUDE_DIR AND NOVA_LIBRARIES)
 
   find_library(NOVA_LIBRARIES NAMES nova libnova
     PATHS
+    if(ANDROID)
+    ${CMAKE_SOURCE_DIR}/android_lib
+    else(ANDROID)
     ${_obLinkDir}
     ${GNUWIN32_DIR}/lib
+    endif(ANDROID)
   )
 
  set(CMAKE_REQUIRED_INCLUDES ${NOVA_INCLUDE_DIR})

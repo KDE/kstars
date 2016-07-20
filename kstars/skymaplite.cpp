@@ -18,6 +18,12 @@
 #include "kstarsdata.h"
 #include "kstarslite.h"
 
+#ifdef INDI_FOUND
+#include "indi/inditelescopelite.h"
+#include "indi/clientmanagerlite.h"
+#include "kstarslite/skyitems/telescopesymbolsitem.h"
+#endif
+
 #include "projections/projector.h"
 #include "projections/lambertprojector.h"
 #include "projections/gnomonicprojector.h"
@@ -25,6 +31,9 @@
 #include "projections/orthographicprojector.h"
 #include "projections/azimuthalequidistantprojector.h"
 #include "projections/equirectangularprojector.h"
+
+#include "kstarslite/skypointlite.h"
+#include "kstarslite/skyobjectlite.h"
 
 #include "skylabeler.h"
 #include "Options.h"
@@ -42,6 +51,7 @@
 #include <QSGTexture>
 #include <QQuickWindow>
 #include <QLinkedList>
+#include <QQmlContext>
 
 namespace {
 
@@ -107,6 +117,12 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     ClickedObject = NULL;
     FocusObject = NULL;
 
+    ClickedObjectLite = new SkyObjectLite;
+    ClickedPointLite = new SkyPointLite;
+
+    KStarsLite::Instance()->qmlEngine()->rootContext()->setContextProperty("ClickedObject",ClickedObjectLite);
+    KStarsLite::Instance()->qmlEngine()->rootContext()->setContextProperty("ClickedPoint",ClickedPointLite);
+
     m_timer.setInterval(1000);
     m_timer.start();
 
@@ -115,10 +131,10 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     setupProjector();
 
     // Whenever the wrapper's(parent) dimensions changed, change SkyMapLite too
-    connect(parent, &QQuickItem::widthChanged, this, &SkyMapLite::resizeItem);
-    connect(parent, &QQuickItem::heightChanged, this, &SkyMapLite::resizeItem);
+    //connect(parent, &QQuickItem::widthChanged, this, &SkyMapLite::resizeItem);
+    //connect(parent, &QQuickItem::heightChanged, this, &SkyMapLite::resizeItem);
 
-    resizeItem(); /* Set initial size. Without it on Android SkyMapLite is not displayed until screen
+    /*resizeItem(); /* Set initial size. Without it on Android SkyMapLite is not displayed until screen
     orientation is not changed */
 
     //Initialize images for stars
@@ -126,10 +142,25 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     // Set pinstance to yourself
     pinstance = this;
 
+#ifdef INDI_FOUND
+    ClientManagerLite *clientMng = KStarsLite::Instance()->clientManagerLite();
+
+    connect(clientMng, &ClientManagerLite::telescopeAdded, [this](TelescopeLite *newTelescope){ this->m_newTelescopes.append(newTelescope); });
+    connect(clientMng, &ClientManagerLite::removeINDIDevice, [this](QString deviceName){ this->m_delTelescopes.append(deviceName); });
+#endif
+
 }
 
 void SkyMapLite::setUpdateCounter() {
     m_updatesCount = m_updatesCountTemp; m_updatesCountTemp = 0;
+}
+
+void SkyMapLite::addTelescope(TelescopeLite *) {
+
+}
+
+void SkyMapLite::removeDevice(QString device) {
+
 }
 
 QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
@@ -144,7 +175,19 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
             n = new RootNode();
             m_rootNode = n;
         }
-        m_updatesCountTemp++;
+        if(m_newTelescopes.count() > 0) {
+            foreach(TelescopeLite *telescope, m_newTelescopes) {
+                n->telescopeSymbolsItem()->addTelescope(telescope->getDevice());
+            }
+            m_newTelescopes.clear();
+        }
+
+        if(m_delTelescopes.count() > 0) {
+            foreach(QString deviceName, m_delTelescopes) {
+                n->telescopeSymbolsItem()->removeTelescope(deviceName);
+            }
+            m_delTelescopes.clear();
+        }
         n->update();
     }
 
@@ -238,10 +281,12 @@ void SkyMapLite::setDestinationAltAz( const dms &alt, const dms &az) {
 
 void SkyMapLite::setClickedPoint( SkyPoint *f ) {
     ClickedPoint = *f;
+    ClickedPointLite->setPoint(f);
 }
 
 void SkyMapLite::setClickedObject( SkyObject *o ) {
     ClickedObject = o;
+    ClickedObjectLite->setObject(o);
 }
 
 void SkyMapLite::setFocusObject( SkyObject *o ) {
@@ -397,8 +442,10 @@ void SkyMapLite::slotClockSlewing() {
 }*/
 
 void SkyMapLite::resizeItem() {
-    setWidth(parentItem()->width());
-    setHeight(parentItem()->height());
+    if(parentItem()) {
+        setWidth(parentItem()->width());
+        setHeight(parentItem()->height());
+    }
     forceUpdate();
 }
 

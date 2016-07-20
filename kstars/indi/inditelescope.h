@@ -22,7 +22,7 @@ namespace ISD
  *
  * @author Jasem Mutlaq
  */
-class Telescope : public DeviceDecorator
+class Telescope : public QObject
 {
     Q_OBJECT
 
@@ -73,6 +73,7 @@ private:
     SkyPoint currentCoord;
     double minAlt,maxAlt;
     bool IsParked;
+    DeviceFamily dType;
 
 };
 

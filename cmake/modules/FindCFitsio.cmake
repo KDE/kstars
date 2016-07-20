@@ -35,9 +35,13 @@ else (CFITSIO_INCLUDE_DIR AND CFITSIO_LIBRARIES)
 
   find_library(CFITSIO_LIBRARIES NAMES cfitsio libcfitsio
     PATHS
-    ${PC_CFITSIO_LIBRARY_DIRS}
-    ${_obLinkDir}
-    ${GNUWIN32_DIR}/lib
+    if(ANDROID)
+          ${CMAKE_SOURCE_DIR}/android_lib
+    else(ANDROID)
+        ${PC_CFITSIO_INCLUDE_DIRS}
+        ${_obIncDir}
+        ${GNUWIN32_DIR}/include
+    endif(ANDROID)
   )
 
   if(CFITSIO_INCLUDE_DIR AND CFITSIO_LIBRARIES)

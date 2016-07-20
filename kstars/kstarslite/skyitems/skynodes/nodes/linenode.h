@@ -67,6 +67,8 @@ private:
 
     Qt::PenStyle m_drawStyle;
     QColor m_color;
+
+    QSGTransformNode *debug;
 };
 
 #endif

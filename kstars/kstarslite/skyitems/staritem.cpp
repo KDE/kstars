@@ -43,7 +43,7 @@ StarItem::StarItem(StarComponent *starComp, RootNode *rootNode)
 
     for(int i = 0; i < trixels->size(); ++i) {
         StarList *skyList = trixels->at(i);
-        TrixelNode *trixel = new TrixelNode;
+        TrixelNode *trixel = new TrixelNode(i);
         m_stars->appendChildNode(trixel);
 
         for(int c = 0; c < skyList->size(); ++c) {
@@ -207,8 +207,11 @@ void StarItem::update() {
             trixel->show();
             label->show();
 
+
+
             if(region.hasNext()) {
                 regionID = region.next();
+                //count++;
             }
 
             QLinkedList<QPair<SkyObject *, SkyNode *>> *nodes = &trixel->m_nodes;
@@ -283,17 +286,11 @@ void StarItem::update() {
         deepStars->update();
     }
 
-    /*int count = 0;
 
     QSGNode *n = m_stars->firstChild();
     while(n != 0) {
-        count += n->childCount();
         n = n->nextSibling();
     }
-
-    qDebug() << delLim << "delLim";
-    qDebug() << count << "Nodes";*/
-
     m_skyMesh->inDraw( false );
 }
 

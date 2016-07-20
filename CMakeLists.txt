@@ -56,6 +56,7 @@ else(BUILD_KSTARS_LITE)
       KIO
       XmlGui
       Plotting
+      Notifications
       #IconThemes
     )
 endif(BUILD_KSTARS_LITE)
@@ -76,11 +77,11 @@ find_package(INDI 1.2.0)
 #FIXME is there a better way to do this?
 if (INDI_FOUND)
 #FIXME is the following the right way of doing this?
-find_package(KF5 REQUIRED COMPONENTS Notifications)
 SET(HAVE_INDI 1)
 else(INDI_FOUND)
 SET(HAVE_INDI 0)
 endif(INDI_FOUND)
+
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "http://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
 
 find_package(WCSLIB)

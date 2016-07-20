@@ -17,6 +17,7 @@
 #define ELLIPSENODE_H_
 //#include "../../skyopacitynode.h"
 #include <QSGNode>
+#include <QColor>
 
 /** @class PolyNode
  *

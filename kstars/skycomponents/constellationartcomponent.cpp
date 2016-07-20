@@ -40,7 +40,15 @@ ConstellationArtComponent::~ConstellationArtComponent()
     }
 }
 
+void ConstellationArtComponent::deleteData()
+{    while( !m_ConstList.isEmpty() ) {
+        ConstellationsArt *o = m_ConstList.takeFirst();
+        delete o;
+    }
+}
+
 void ConstellationArtComponent::loadData(){
+    if(m_ConstList.isEmpty()) {
         QSqlDatabase skydb = QSqlDatabase::addDatabase("QSQLITE", "skycultures");
         QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, "skycultures.sqlite");
 
@@ -56,7 +64,7 @@ void ConstellationArtComponent::loadData(){
         {
             if (!get_query.exec("SELECT * FROM western"))
             {
-               qDebug() << get_query.lastError();
+                qDebug() << get_query.lastError();
                 return;
             }
         }
@@ -64,32 +72,33 @@ void ConstellationArtComponent::loadData(){
         {
             if (!get_query.exec("SELECT * FROM inuit"))
             {
-               qDebug() << get_query.lastError();
+                qDebug() << get_query.lastError();
                 return;
             }
         }
 
-         while (get_query.next())
-         {
-             QString abbreviation   = get_query.value("Abbreviation").toString();
-             QString filename       = get_query.value("Filename").toString();
-             QString midpointRA            = get_query.value("MidpointRA").toString();
-             QString midpointDEC           = get_query.value("MidpointDEC").toString();
-             double pa                 = get_query.value("Position Angle").toDouble();
-             double w         = get_query.value("Width").toDouble();
-             double h         = get_query.value("Height").toDouble();
+        while (get_query.next())
+        {
+            QString abbreviation   = get_query.value("Abbreviation").toString();
+            QString filename       = get_query.value("Filename").toString();
+            QString midpointRA            = get_query.value("MidpointRA").toString();
+            QString midpointDEC           = get_query.value("MidpointDEC").toString();
+            double pa                 = get_query.value("Position Angle").toDouble();
+            double w         = get_query.value("Width").toDouble();
+            double h         = get_query.value("Height").toDouble();
 
-             dms midpointra = dms::fromString(midpointRA,false);
-             dms midpointdec = dms::fromString(midpointDEC,true);
+            dms midpointra = dms::fromString(midpointRA,false);
+            dms midpointdec = dms::fromString(midpointDEC,true);
 
-             // appends constellation info
-             ConstellationsArt *ca = new ConstellationsArt(midpointra, midpointdec, pa, w,h, abbreviation, filename);
-             m_ConstList.append(ca);
-             //qDebug()<<"Successsfully read skyculture.sqlite"<<abbreviation<<filename<<midpointRA<<midpointDEC<<pa<<w<<h;
-             records++;
-         }
-         //qDebug()<<"Successfully processed"<<records<<"records for"<<cultureName<<"sky culture";
+            // appends constellation info
+            ConstellationsArt *ca = new ConstellationsArt(midpointra, midpointdec, pa, w,h, abbreviation, filename);
+            m_ConstList.append(ca);
+            //qDebug()<<"Successsfully read skyculture.sqlite"<<abbreviation<<filename<<midpointRA<<midpointDEC<<pa<<w<<h;
+            records++;
+        }
+        //qDebug()<<"Successfully processed"<<records<<"records for"<<cultureName<<"sky culture";
         skydb.close();
+    }
 }
 
 void ConstellationArtComponent::showList()
@@ -103,13 +112,13 @@ void ConstellationArtComponent::showList()
 }
 
 void ConstellationArtComponent::draw(SkyPainter *skyp){
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     if(Options::showConstellationArt() && SkyMap::IsSlewing() == false)
     {
-         for(int i =0; i<records; i++)
-         skyp->drawConstellationArtImage(m_ConstList[i]);
+        for(int i =0; i<records; i++)
+            skyp->drawConstellationArtImage(m_ConstList[i]);
     }
 
     //Loops through the QList containing all data required to draw constellations.
-    #endif
+#endif
 }

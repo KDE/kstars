@@ -46,7 +46,7 @@ void DSOIndexNode::show() {
 }
 
 DSOTrixelNode::DSOTrixelNode(Trixel trixelID)
-    :trixel(trixelID)
+    :TrixelNode(trixelID)
 {
 
 }
@@ -228,7 +228,7 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, co
     double delLim = SkyMapLite::deleteLimit();
 
     while( trixel != 0 ) {
-        if(trixel->trixel < regionID) {
+        if(trixel->trixelID() < regionID) {
             trixel->hide();
             trixel->m_labels->hide();
 
@@ -246,11 +246,7 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, co
                     i++;
                 }
             }
-
-            trixel = static_cast<DSOTrixelNode *>(trixel->nextSibling());
-            continue;
-
-        } else if(trixel->trixel > regionID) {
+        } else if(trixel->trixelID() > regionID) {
             if (region->hasNext()) {
                 regionID = region->next();
             } else {
@@ -340,7 +336,7 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, co
                             DSOSymbolNode *dsoSymbol = new DSOSymbolNode(dsoObj, indexNode->m_color);
                             trixel->m_symbols->appendChildNode(dsoSymbol);
 
-                            DeepSkyNode *dsoNode = new DeepSkyNode(dsoObj, dsoSymbol, trixel->trixel, indexNode->m_labelType);
+                            DeepSkyNode *dsoNode = new DeepSkyNode(dsoObj, dsoSymbol, trixel->trixelID(), indexNode->m_labelType);
                             trixel->appendChildNode(dsoNode);
 
                             *i = QPair<SkyObject *, SkyNode *>((*i).first, static_cast<SkyNode *>(dsoNode));

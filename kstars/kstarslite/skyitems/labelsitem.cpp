@@ -37,8 +37,7 @@ LabelsItem::LabelsItem()
     int trixelNum = SkyMesh::Instance()->size();
 
     for(int i = 0; i < trixelNum; ++i) {
-        TrixelNode *trixel = new TrixelNode;
-        trixel->m_trixel = i;
+        TrixelNode *trixel = new TrixelNode(i);
         stars->appendChildNode(trixel);
     }
 
@@ -112,6 +111,10 @@ LabelsItem::LabelsItem()
     appendChildNode(ecliptic);
     m_labelsLists.insert(label_t::ECLIPTIC_LABEL, ecliptic);
 
+    LabelTypeNode *telescopeSymbol = new LabelTypeNode;
+    appendChildNode(telescopeSymbol);
+    m_labelsLists.insert(label_t::TELESCOPE_SYMBOL, telescopeSymbol);
+
     skyLabeler = SkyLabeler::Instance();
     skyLabeler->reset();
 }
@@ -129,7 +132,7 @@ LabelNode *LabelsItem::addLabel(SkyObject *skyObject, label_t labelType, Trixel 
     LabelNode *label = 0;
 
     while(triNode != 0) {
-        if(triNode->m_trixel == trixel) {
+        if(triNode->trixelID() == trixel) {
             label = new LabelNode(skyObject, labelType);
             triNode->appendChildNode(label);
             break;
@@ -152,8 +155,7 @@ GuideLabelNode *LabelsItem::addGuideLabel(QString name, label_t labelType) {
 }
 
 TrixelNode *LabelsItem::addTrixel(label_t labelType, Trixel trixel) {
-    TrixelNode *triNode = new TrixelNode;
-    triNode->m_trixel = trixel;
+    TrixelNode *triNode = new TrixelNode(trixel);
     getLabelNode(labelType)->appendChildNode(triNode);
     return triNode;
 }
@@ -161,6 +163,8 @@ TrixelNode *LabelsItem::addTrixel(label_t labelType, Trixel trixel) {
 void LabelsItem::update() {
     SkyLabeler * skyLabeler = SkyLabeler::Instance();
     skyLabeler->reset();
+
+    updateChildLabels(label_t::TELESCOPE_SYMBOL);
 
     updateChildLabels(label_t::HORIZON_LABEL);
 

@@ -23,12 +23,15 @@
 #include <QPushButton>
 #include <QTcpServer>
 
+#ifndef KSTARS_LITE
 #include <KMessageBox>
 #include <KActionCollection>
 #include <KNotifications/KNotification>
+#endif
 
 #include "oal/log.h"
 #include "oal/scope.h"
+
 
 #include "ui_indihostconf.h"
 #include "servermanager.h"
@@ -123,7 +126,7 @@ DriverManager::DriverManager()
     QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
 
     if (Options::indiDriversDir().isEmpty())
-        Options::setIndiDriversDir(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory));
+        Options::setIndiDriversDir(KSPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory));
 
     readXMLDrivers();
 

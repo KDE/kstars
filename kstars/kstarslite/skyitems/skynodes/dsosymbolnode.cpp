@@ -404,11 +404,13 @@ void DSOSymbolNode::changePos(float size, const QPointF &pos, float positionangl
 }
 
 void DSOSymbolNode::update(float size, const QPointF &pos, float positionangle) {
-    show();
     initSymbol();
 
     if(m_symbol) {
         m_symbol->updateSymbol(pos.x(), pos.y(), m_dso->e(), size);
+        show();
+        changePos(size, pos, positionangle);
+    } else {
+        hide();
     }
-    changePos(size, pos, positionangle);
 }

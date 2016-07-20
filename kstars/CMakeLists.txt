@@ -61,8 +61,47 @@ if(NOT BUILD_KSTARS_LITE)
             )
         include_directories(${CFITSIO_INCLUDE_DIR})
     endif(CFITSIO_FOUND)
+endif(NOT BUILD_KSTARS_LITE)
 
-    if (INDI_FOUND)
+if (INDI_FOUND)
+if(BUILD_KSTARS_LITE)
+        set (indi_SRCS
+            indi/clientmanagerlite.cpp
+            indi/inditelescopelite.cpp
+            #indi/drivermanager.cpp
+            #indi/servermanager.cpp
+            #indi/clientmanager.cpp
+            #indi/guimanager.cpp
+            #indi/driverinfo.cpp
+            #indi/deviceinfo.cpp
+            #indi/indidevice.cpp
+            #indi/indigroup.cpp
+            #indi/indiproperty.cpp
+            #indi/indielement.cpp
+            #indi/indistd.cpp
+            #indi/indilistener.cpp
+            #indi/inditelescope.cpp
+            #indi/indiccd.cpp
+            #indi/indifocuser.cpp
+            #indi/indifilter.cpp
+            #indi/indidome.cpp
+            #indi/indiweather.cpp
+            #indi/indicap.cpp
+            #indi/indilightbox.cpp
+            #indi/indidbus.cpp
+            #indi/opsindi.cpp
+            #indi/telescopewizardprocess.cpp
+            #indi/streamwg.cpp
+            )
+        set(indiui_SRCS
+            indi/drivermanager.ui
+            #indi/opsindi.ui
+            #indi/indihostconf.ui
+            #indi/streamform.ui
+            #indi/telescopewizard.ui
+            )
+        include_directories(${INDI_INCLUDE_DIR})
+elseif(BUILD_KSTARS_LITE)
         set (indi_SRCS
             indi/drivermanager.cpp
             indi/servermanager.cpp
@@ -145,10 +184,10 @@ if(NOT BUILD_KSTARS_LITE)
                 )
 
         endif(CFITSIO_FOUND)
+endif(BUILD_KSTARS_LITE)
+endif (INDI_FOUND)
 
-        include_directories(${INDI_INCLUDE_DIR})
-    endif(INDI_FOUND)
-
+if(NOT BUILD_KSTARS_LITE)
     if (WCSLIB_FOUND)
         include_directories( ${WCSLIB_INCLUDE_DIR} )
     endif (WCSLIB_FOUND)
@@ -539,11 +578,24 @@ if(NOT BUILD_KSTARS_LITE)
 endif(NOT BUILD_KSTARS_LITE)
 
 if(BUILD_KSTARS_LITE)
+    add_definitions(-DQML_IMPORT="${CMAKE_CURRENT_SOURCE_DIR}")
+
+    if(INDI_FOUND)
+        set(indi_lite_SRCS
+            kstarslite/skyitems/skynodes/crosshairnode.cpp
+            kstarslite/skyitems/telescopesymbolsitem.cpp
+            )
+    endif(INDI_FOUND)
+
     set(kstarslite_SRCS
         kstarslite.cpp
         kstarsliteinit.cpp
         skymaplite.cpp
         skymapliteevents.cpp
+        ${indi_lite_SRCS}
+        #Wrappers
+        kstarslite/skypointlite.cpp
+        kstarslite/skyobjectlite.cpp
         #RootNode
         kstarslite/skyitems/rootnode.cpp
         kstarslite/skyitems/skyopacitynode.cpp
@@ -608,28 +660,35 @@ if(BUILD_KSTARS_LITE)
         libtess/glu.h
         libtess/tessellate.c
         )
-    add_definitions(-DANSI_DECLARATORS) #Needed for Triangle
-    add_definitions(-DTRILIBRARY)
-    add_definitions(-DREDUCED)
-    #add_definitions(-DCDT_ONLY)
-    if(NOT ANDROID)
-        add_definitions(-DLINUX)
-    endif()
     #Qml files will be probably moved to user's data dir, but for use
     #with QtCreator it is more convenient to have them here
     set(kstarsliteqml_SRCS
         kstarslite/qml/main.qml
         kstarslite/qml/constants/Constants.qml
         kstarslite/qml/modules/BottomMenu.qml
-        kstarslite/qml/modules/ContextDrawer.qml
-        kstarslite/qml/modules/GlobalDrawer.qml
+        kstarslite/qml/modules/KSPage.qml
+        kstarslite/qml/modules/KSScrollablePage.qml
         kstarslite/qml/modules/TopMenu.qml
-        kstarslite/qml/modules/helpers/DrawerColorScheme.qml
-        kstarslite/qml/modules/helpers/DrawerElem.qml
         kstarslite/qml/modules/helpers/TopMenuButton.qml
         kstarslite/qml/modules/Splash.qml
+        kstarslite/qml/modules/ContextDrawerMenu.qml
+        kstarslite/qml/modules/TelescopeControlMenu.qml
+        kstarslite/qml/indi/INDIControlPanel.qml
+        kstarslite/qml/indi/DevicePanel.qml
+        kstarslite/qml/indi/modules/MotionControl.qml
+        kstarslite/qml/indi/modules/Led.qml
+        kstarslite/qml/indi/modules/Property.qml
+        kstarslite/qml/indi/modules/KSTab.qml
+        kstarslite/qml/indi/modules/KSComboBox.qml
+        kstarslite/qml/indi/modules/KSButton.qml
+        kstarslite/qml/indi/modules/KSCheckBox.qml
+        kstarslite/qml/indi/modules/KSINDIText.qml
+        kstarslite/qml/indi/modules/KSINDINumber.qml
+        kstarslite/qml/indi/modules/KSINDINumberField.qml
+        kstarslite/qml/indi/modules/KSButtonsRow.qml
         )
     add_subdirectory(kstarslite/qml)
+    add_subdirectory(kstarslite/kirigami)
 if(ANDROID)
     add_subdirectory(kstarslite/res)
 endif()
@@ -776,10 +835,6 @@ else(BUILD_KSTARS_LITE)
         )
 endif(BUILD_KSTARS_LITE)
 
-add_executable(kstars main.cpp)
-
-target_link_libraries(kstars KStarsLib)
-
 if(NOT WIN32)
     target_link_libraries(KStarsLib m)
 endif(NOT WIN32)
@@ -787,23 +842,34 @@ if (CFITSIO_FOUND)
     target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
 
 endif(CFITSIO_FOUND)
-
 if(INDI_FOUND)
-    target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
-
-    if(WIN32)
-        add_definitions(-DUSE_QT5_INDI)
+    add_definitions(-DINDI_FOUND)
+    if(BUILD_KSTARS_LITE)
         find_package(Nova REQUIRED)
-        target_link_libraries(KStarsLib ${NOVA_LIBRARIES} ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
-    else(WIN32)
-        # If INDI Qt5 Client is found, use it.
-        if (INDI_CLIENT_QT_LIBRARIES)
+        target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} ${NOVA_LIBRARIES})
+    else(BUILD_KSTARS_LITE)
+        target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
+    endif(BUILD_KSTARS_LITE)
+
+    if(ANDROID)
+        add_definitions(-DUSE_QT5_INDI)
+        target_link_libraries(KStarsLib ${INDI_CLIENT_ANDROID_LIBRARIES})
+    else(ANDROID)
+        if(WIN32)
             add_definitions(-DUSE_QT5_INDI)
-            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
-        else(INDI_CLIENT_QT_LIBRARIES)
-            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES})
-        endif(INDI_CLIENT_QT_LIBRARIES)
-    endif(WIN32)
+            find_package(Nova REQUIRED)
+            target_link_libraries(KStarsLib ${NOVA_LIBRARIES} ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
+        else(WIN32)
+            # If INDI Qt5 Client is found, use it.
+
+            if (INDI_CLIENT_QT_LIBRARIES)
+                add_definitions(-DUSE_QT5_INDI)
+                target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES} z)
+            else(INDI_CLIENT_QT_LIBRARIES)
+                target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
+            endif(INDI_CLIENT_QT_LIBRARIES)
+        endif(WIN32)
+    endif(ANDROID)
 
 endif(INDI_FOUND)
 
@@ -834,9 +900,6 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
 if(NOT BUILD_KSTARS_LITE)
 qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
 
-add_executable(kstars ${KSTARS_APP_SRCS})
-target_link_libraries(kstars KStarsLib)
-
 install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
@@ -847,4 +910,7 @@ install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 #install(FILES fitsviewer.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kstars)
 install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 endif(NOT BUILD_KSTARS_LITE)
->>>>>>> master
+
+add_executable(kstars ${KSTARS_APP_SRCS})
+target_link_libraries(kstars KStarsLib)
+

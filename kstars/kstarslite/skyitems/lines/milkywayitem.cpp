@@ -37,24 +37,28 @@ void MilkyWayItem::initialize() {
     while(QSGNode *n = firstChild()) { removeChildNode(n); delete n; }
 
     QHash< Trixel, LineListList *>::const_iterator i = trixels->begin();
+    QList<LineList *> addedLines;
     while( i != trixels->end()) {
         LineListList *linesList = *i;
 
         if(linesList->size()) {
-            TrixelNode *trixel = new TrixelNode;
+            TrixelNode *trixel = new TrixelNode(i.key());
             appendChildNode(trixel);
 
             QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed("MWColor");
             for(int c = 0; c < linesList->size(); ++c) {
                 LineList *list = linesList->at(c);
-                if(m_filled) {
-                    SkyPolygonNode *poly = new SkyPolygonNode(list);
-                    schemeColor.setAlpha(0.7*255);
-                    poly->setColor(schemeColor);
-                    trixel->appendChildNode(poly);
-                } else {
-                    LineNode * ln = new LineNode(list, m_MWComp->skipList(list), schemeColor, 3, Qt::SolidLine);
-                    trixel->appendChildNode(ln);
+                if(!addedLines.contains(list)) {
+                    if(m_filled) {
+                        SkyPolygonNode *poly = new SkyPolygonNode(list);
+                        schemeColor.setAlpha(0.7*255);
+                        poly->setColor(schemeColor);
+                        trixel->appendChildNode(poly);
+                    } else {
+                        LineNode * ln = new LineNode(list, m_MWComp->skipList(list), schemeColor, 3, Qt::SolidLine);
+                        trixel->appendChildNode(ln);
+                    }
+                    addedLines.append(list);
                 }
             }
         }

@@ -37,9 +37,11 @@
 #include "kstarslite/skyitems/lines/eclipticitem.h"
 #include "kstarslite/skyitems/lines/milkywayitem.h"
 
+//Symbols
+#include "kstarslite/skyitems/telescopesymbolsitem.h"
+
 RootNode::RootNode()
-    :m_skyMapLite(SkyMapLite::Instance()),
-      m_clipGeometry(0)
+    :m_skyMapLite(SkyMapLite::Instance()), m_clipGeometry(0)
 {
     SkyMapLite::setRootNode(this);
     genCachedTextures();
@@ -62,7 +64,7 @@ RootNode::RootNode()
         m_linesItem->addLinesComponent( m_skyComposite->constellationBoundary(), "CBoundColor", 1, Qt::SolidLine );
     }
 
-    //m_artItem = new ConstellationArtItem(m_skyComposite->constellationArt(), this);
+    m_artItem = new ConstellationArtItem(m_skyComposite->constellationArt(), this);
 
     m_linesItem->addLinesComponent( m_skyComposite->constellationLines(), "CLineColor", 1, Qt::SolidLine );
 
@@ -84,6 +86,10 @@ RootNode::RootNode()
     m_snovaItem = new SupernovaeItem(m_skyComposite->supernovaeComponent(), this);
 
     m_horizonItem = new HorizonItem(m_skyComposite->horizon(), this);
+
+#ifdef INDI_FOUND
+    m_telescopeSymbols = new TelescopeSymbolsItem(this);
+#endif
 
     setIsRectangular(false);
     updateClipPoly();
@@ -200,7 +206,7 @@ void RootNode::update() {
 
     m_MWItem->update();
 
-   // m_artItem->update();
+    m_artItem->update();
 
     m_linesItem->update();
 
@@ -244,6 +250,11 @@ void RootNode::update() {
     m_snovaItem->update();
 
     m_horizonItem->update();
+
+#ifdef INDI_FOUND
+    m_telescopeSymbols->update();
+#endif
+
     m_labelsItem->update();
 }
 

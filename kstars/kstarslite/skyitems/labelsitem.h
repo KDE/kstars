@@ -90,6 +90,7 @@ public:
         HORIZON_LABEL,
         EQUATOR_LABEL,
         ECLIPTIC_LABEL,
+        TELESCOPE_SYMBOL,
         NO_LABEL //used in LinesItem
     };
 

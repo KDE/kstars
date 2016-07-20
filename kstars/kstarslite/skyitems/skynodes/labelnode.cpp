@@ -54,6 +54,7 @@ void LabelNode::initialize() {
         case LabelsItem::label_t::DSO_NGC_LABEL:
         case LabelsItem::label_t::DSO_IC_LABEL:
         case LabelsItem::label_t::DSO_OTHER_LABEL:
+        case LabelsItem::label_t::TELESCOPE_SYMBOL:
             m_zoomFont = true;
         break;
         default:
@@ -66,6 +67,7 @@ void LabelNode::initialize() {
 
 void LabelNode::createTexture() {
     QColor color;
+    KStarsData *m_KStarsData = KStarsData::Instance();
 
     switch(m_labelType) {
         case LabelsItem::label_t::SATURN_MOON_LABEL:
@@ -77,29 +79,32 @@ void LabelNode::createTexture() {
     }
 
     switch(m_labelType) {
+        case LabelsItem::label_t::TELESCOPE_SYMBOL:
+            color = m_KStarsData->colorScheme()->colorNamed("TargetColor" );
+            break;
         case LabelsItem::label_t::PLANET_LABEL:
         case LabelsItem::label_t::SATURN_MOON_LABEL:
         case LabelsItem::label_t::JUPITER_MOON_LABEL:
         case LabelsItem::label_t::COMET_LABEL:
         case LabelsItem::label_t::RUDE_LABEL:
         case LabelsItem::label_t::ASTEROID_LABEL:
-            color = KStarsData::Instance()->colorScheme()->colorNamed( "PNameColor" );
+            color = m_KStarsData->colorScheme()->colorNamed( "PNameColor" );
             break;
         case LabelsItem::label_t::CONSTEL_NAME_LABEL:
-            color = KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" );
+            color = m_KStarsData->colorScheme()->colorNamed( "CNameColor" );
             break;
         case LabelsItem::label_t::DEEP_SKY_LABEL:
         case LabelsItem::label_t::DSO_MESSIER_LABEL:
         case LabelsItem::label_t::DSO_NGC_LABEL:
         case LabelsItem::label_t::DSO_IC_LABEL:
         case LabelsItem::label_t::DSO_OTHER_LABEL:
-            color = KStarsData::Instance()->colorScheme()->colorNamed( "DSNameColor" );
+            color = m_KStarsData->colorScheme()->colorNamed( "DSNameColor" );
             break;
         case LabelsItem::label_t::STAR_LABEL:
-            color = KStarsData::Instance()->colorScheme()->colorNamed( "SNameColor" );
+            color = m_KStarsData->colorScheme()->colorNamed( "SNameColor" );
             break;
         default:
-            color = KStarsData::Instance()->colorScheme()->colorNamed( "UserLabelColor" );
+            color = m_KStarsData->colorScheme()->colorNamed( "UserLabelColor" );
     }
 
     QSGTexture *oldTexture = m_textTexture->texture();
@@ -140,7 +145,7 @@ void LabelNode::setLabelPos(QPointF pos) {
 
     //We need to subtract the height of texture from final y to follow the way QPainter draws the text
     if(m_skyObject) labelPos = QPointF(pos.x() + m_skyObject->labelOffset(), pos.y() + m_skyObject->labelOffset() - m_textSize.height());
-    else labelPos = QPointF(pos.x()-(m_textSize.width()/2.0), pos.y());
+    else labelPos = QPointF(pos.x(), pos.y());
 }
 
 void LabelNode::update() {

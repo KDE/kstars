@@ -39,7 +39,7 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite *parent )
         : CoordinateGrid( parent, i18n("Horizontal Coordinate Grid" ) )
 {
     //KStarsData *data = KStarsData::Instance();
-    
+
     intro();
 
     double eps    =   0.1;
@@ -55,8 +55,7 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite *parent )
     double max, alt, alt2, az, az2;
 
     LineList* lineList;
-    
-   
+
     for ( az = minAz; az < maxAz; az += dAz ) {
         for ( alt = -90.0; alt < maxAlt - eps; alt += dAlt ) {
             lineList = new LineList();
@@ -77,7 +76,7 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite *parent )
         // Do not paint the line on the horizon
         if ( alt < 0.1 && alt > -0.1 )
             continue;
-        
+
         // Adjust point density
         int nPoints = int(round( fabs(cos(alt* dms::PI / 180.0)) * dAz / dAz2 ));
         if ( nPoints < 5 )

@@ -32,7 +32,7 @@ DeepSkyNode::DeepSkyNode(DeepSkyObject * skyObject, DSOSymbolNode *symbol, Trixe
     :m_dso(skyObject),m_objImg(0), m_symbol(symbol), m_trixel(trixel), m_labelType(labelType),
       m_label(0)
 {
-
+    m_symbol->hide();
 }
 
 void DeepSkyNode::destroy() {
@@ -108,7 +108,6 @@ void DeepSkyNode::update(bool drawImage, bool drawLabel, QPointF pos) {
 
     //Draw symbol
     m_symbol->update(size, pos, m_angle);
-    m_symbol->show();
 
     // Draw label
     if(drawLabel) {

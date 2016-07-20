@@ -36,14 +36,17 @@ EquatorItem::EquatorItem(Equator *equatorComp, RootNode *rootNode)
     while( i != trixels->end()) {
         LineListList *linesList = *i;
 
-        if(linesList->size()) {
-            TrixelNode *trixel = new TrixelNode;
-            appendChildNode(trixel);
+        QList<LineList *> addedLines;
 
+        if(linesList->size()) {
             QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed("EqColor");
             for(int c = 0; c < linesList->size(); ++c) {
-                LineNode * ln = new LineNode(linesList->at(c), 0, schemeColor, 1, Qt::SolidLine);
-                trixel->appendChildNode(ln);
+                LineList *lines = linesList->at(c);
+                if(!addedLines.contains(lines)) {
+                    LineNode * ln = new LineNode(linesList->at(c), 0, schemeColor, 1, Qt::SolidLine);
+                    appendChildNode(ln);
+                    addedLines.append(lines);
+                }
             }
         }
         ++i;
@@ -64,33 +67,20 @@ EquatorItem::EquatorItem(Equator *equatorComp, RootNode *rootNode)
 void EquatorItem::update() {
     if(m_equatorComp->selected()) {
         show();
-        QSGNode *n = firstChild();
 
-        DrawID   drawID   = SkyMesh::Instance()->drawID();
         UpdateID updateID = KStarsData::Instance()->updateID();
 
-        while(n != 0) {
-            TrixelNode * trixel = static_cast<TrixelNode *>(n);
-            trixel->show();
-            n = n->nextSibling();
-
-            QSGNode *l = trixel->firstChild();
+            QSGNode *l = firstChild();
             while(l != 0) {
                 LineNode * lines = static_cast<LineNode *>(l);
                 l = l->nextSibling();
 
                 LineList * lineList = lines->lineList();
-                if ( lineList->drawID == drawID ) {
-                    lines->hide();
-                    continue;
-                }
                 if ( lineList->updateID != updateID )
                     m_equatorComp->JITupdate( lineList );
 
-                lineList->drawID = drawID;
                 lines->updateGeometry();
             }
-        }
 
         const Projector *proj  = SkyMapLite::Instance()->projector();
         KStarsData *data       = KStarsData::Instance();

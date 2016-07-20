@@ -172,7 +172,8 @@ bool KStarsData::initialize() {
     emit progressText(i18n("Loading sky objects" ) );
     m_SkyComposite = new SkyMapComposite(0);
     //Load Image URLs//
-
+#ifndef Q_OS_ANDROID
+    //On Android these 2 calls produce segfault. FIX IT!
     emit progressText( i18n("Loading Image URLs" ) );
     if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
         return false;
@@ -181,7 +182,7 @@ bool KStarsData::initialize() {
     emit progressText( i18n("Loading Information URLs" ) );
     if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
         return false;
-
+#endif
     emit progressText( i18n("Loading Variable Stars" ) );
 
     //Update supernovae list if enabled
@@ -193,11 +194,11 @@ bool KStarsData::initialize() {
     #ifndef KSTARS_LITE
     //Initialize Observing List
     m_ObservingList = new ObservingList();
-    #endif
+
     readUserLog();
 
     readADVTreeData();
-
+    #endif
     return true;
 }
 

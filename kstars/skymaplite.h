@@ -30,6 +30,10 @@
 #include "kstarsdata.h"
 #include "kstarslite/skyitems/rootnode.h"
 
+#ifdef INDI_FOUND
+#include "basedevice.h"
+#endif
+
 class dms;
 class KStarsData;
 class SkyObject;
@@ -43,6 +47,10 @@ class HorizonItem;
 class LinesItem;
 class SkyNode;
 class RootNode;
+class TelescopeLite;
+
+class SkyObjectLite;
+class SkyPointLite;
 
 class QSGTexture;
 
@@ -433,17 +441,16 @@ signals:
     void zoomChanged();
 
     /** Emitted when current object changed. */
-    void objectChanged(SkyObject*);
+    void objectChanged(SkyObjectLite *obj);
 
     /** Emitted when pointing changed. (At least should) */
-    void positionChanged(SkyPoint*);
+    void positionChanged(SkyPointLite *point);
 
     /** Emitted when position under mouse changed. */
     void mousePointChanged(SkyPoint*);
 
     /** Emitted when a position is clicked */
     void positionClicked(SkyPoint*);
-
 protected:
     /** Process keystrokes:
      * @li arrow keys  Slew the map
@@ -512,6 +519,12 @@ private slots:
 
     /** resets updates counter **/
     void setUpdateCounter();
+
+    /** adds telescope to TelescopeSymbolsItem **/
+    void addTelescope(TelescopeLite *);
+
+    /** deletes all device-related SkyItems or SkyNodes **/
+    void removeDevice(QString device);
 
 private:
 
@@ -592,6 +605,9 @@ private:
     SkyPoint  Focus, ClickedPoint, FocusPoint, Destination;
     SkyObject *ClickedObject, *FocusObject;
 
+    SkyPointLite *ClickedPointLite;
+    SkyObjectLite *ClickedObjectLite;
+
     //SkyLine AngularRuler; //The line for measuring angles in the map
     QRect ZoomRect; //The manual-focus circle.
 
@@ -638,6 +654,11 @@ private:
     QVector<QVector<QPixmap*>> imageCache;
     //Textures created from cached star images
     QVector<QVector<QSGTexture*>> textureCache;
+
+#ifdef INDI_FOUND
+    QList<TelescopeLite *> m_newTelescopes;
+    QList<QString> m_delTelescopes;
+#endif
 };
 
 #endif

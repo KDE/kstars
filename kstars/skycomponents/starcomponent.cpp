@@ -592,6 +592,8 @@ StarObject *StarComponent::findByHDIndex( int HDnum ) {
 //
 SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
 {
+    m_zoomMagLimit = zoomMagnitudeLimit();
+
     SkyObject *oBest = 0;
 
     MeshIterator region( m_skyMesh, OBJ_NEAREST_BUF );

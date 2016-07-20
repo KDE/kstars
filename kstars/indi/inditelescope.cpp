@@ -26,6 +26,7 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     minAlt=-1;
     maxAlt=-1;
     IsParked=false;
+    dType = KSTARS_UNKNOWN;
 }
 
 Telescope::~Telescope()

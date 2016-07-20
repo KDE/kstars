@@ -16,6 +16,12 @@
 
 #include "skymaplite.h"
 #include "trixelnode.h"
+#include <QSGSimpleTextureNode>
+
+TrixelNode::TrixelNode(Trixel trixel)
+    :m_trixel(trixel)
+{
+}
 
 void TrixelNode::hide() {
     m_hideCount++;

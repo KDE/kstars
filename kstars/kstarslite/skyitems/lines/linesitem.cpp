@@ -35,21 +35,32 @@ void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int w
     appendChildNode(node);
 
     m_lineIndexes.insert(node, linesComp);
-    LineListHash *trixels = linesComp->lineIndex();
+    LineListHash *list = linesComp->lineIndex();
+    //Sort by trixels
+    QMap<Trixel, LineListList*> trixels;
 
-    QHash< Trixel, LineListList *>::const_iterator i = trixels->begin();
-    while( i != trixels->end()) {
+    QHash< Trixel, LineListList *>::const_iterator s = list->begin();
+    while(s != list->end()) {
+        trixels.insert(s.key(), *s);
+        s++;
+    }
+
+    QMap< Trixel, LineListList *>::const_iterator i = trixels.begin();
+    QList<LineList *> addedLines;
+    while( i != trixels.end()) {
         LineListList *linesList = *i;
 
         if(linesList->size()) {
-            TrixelNode *trixel = new TrixelNode;
+            TrixelNode *trixel = new TrixelNode(i.key());
             node->appendChildNode(trixel);
 
             QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed(color);
             for(int c = 0; c < linesList->size(); ++c) {
-                //LineNode * ln = new LineNode(linesList->at(c), schemeColor, width, style);
-                /*trixel->appendChildNode(ln);*/
-                trixel->appendChildNode(new LineNode(linesList->at(c), 0, schemeColor, width, style));
+                LineList *list = linesList->at(c);
+                if(!addedLines.contains(list)) {
+                    trixel->appendChildNode(new LineNode(linesList->at(c), 0, schemeColor, width, style));
+                    addedLines.append(list);
+                }
             }
         }
         ++i;
@@ -58,24 +69,28 @@ void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int w
 
 void LinesItem::update() {
     QMap< LineIndexNode *, LineListIndex *>::const_iterator i = m_lineIndexes.begin();
+
+    //SkyMesh * mesh = SkyMesh::Instance();
+    SkyMapLite *map = SkyMapLite::Instance();
+
+    double radius = map->projector()->fov();
+    if ( radius > 90.0 ) radius = 90.0;
+
+    UpdateID updateID = KStarsData::Instance()->updateID();
+
+    SkyPoint* focus = map->focus();
+    //mesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
+    //Doesn't work stable
+
+//    MeshIterator region(mesh, DRAW_BUF);
+
     while( i != m_lineIndexes.end()) {
-        //QVector<Trixel> visTrixels;
-        SkyMesh * mesh = SkyMesh::Instance();
-        SkyMapLite *map = SkyMapLite::Instance();
-        double radius = map->projector()->fov();
-        if ( radius > 180.0 )
-            radius = 180.0;
-        if(mesh) {
-            //mesh->aperture(map->focus(), radius);
-        }
-
-        /*MeshIterator region (mesh,DRAW_BUF);
-        while ( region.hasNext() ) {
-            visTrixels.append(region.next());
+//        int count = 0;
+        int regionID = -1;
+        /*if(region.hasNext()) {
+            regionID = region.next();
+            count++;
         }*/
-
-        DrawID   drawID   = SkyMesh::Instance()->drawID();
-        UpdateID updateID = KStarsData::Instance()->updateID();
 
         LineIndexNode * node = i.key();
         if(i.value()->selected()) {
@@ -84,37 +99,41 @@ void LinesItem::update() {
             QSGNode *n = node->firstChild();
             while(n != 0) {
                 TrixelNode * trixel = static_cast<TrixelNode *>(n);
-                trixel->show();
-
-                n = n->nextSibling();
-
-                //if(visTrixels.contains(c)) {
-
-                QSGNode *l = trixel->firstChild();
-                while(l != 0) {
-                    LineNode * lines = static_cast<LineNode *>(l);
-                    l = l->nextSibling();
-
-                    LineList * lineList = lines->lineList();
-                    if ( lineList->drawID == drawID ) {
-                        lines->hide();
-                        continue;
-                    }
-                    if ( lineList->updateID != updateID )
-                        i.value()->JITupdate( lineList );
-
-                    lineList->drawID = drawID;
-                    lines->updateGeometry();
-                }
-
-                /* } else {
+                //qDebug() << trixel->trixelID() << regionID;
+                /*if(trixel->trixelID() < regionID) {
                     trixel->hide();
-                }*/
+                } else if(trixel->trixelID() > regionID) {
+                    if(region.hasNext()) {
+                        regionID = region.next();
+                        count++;
+                    } else {
+                        //Hide all trixels that has greater ID than regionID
+                        regionID = mesh->size();
+                    }
+                    continue;
+                } else {*/
+                    trixel->show();
+
+                    QSGNode *l = trixel->firstChild();
+                    while(l != 0) {
+                        LineNode * lines = static_cast<LineNode *>(l);
+                        l = l->nextSibling();
+
+                        LineList * lineList = lines->lineList();
+                        if ( lineList->updateID != updateID )
+                            i.value()->JITupdate( lineList );
+
+                        lines->updateGeometry();
+                    }
+                //}
+                n = n->nextSibling();
             }
         } else {
             node->hide();
         }
         ++i;
+        //region.reset();
+        //qDebug() << count;
     }
 }
 

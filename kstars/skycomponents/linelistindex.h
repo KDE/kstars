@@ -38,6 +38,7 @@ class SkipList;
  */
 class LineListIndex : public SkyComponent
 {
+    friend class LinesItem; //Needs access to reindexLines
 public:
     /** @short Constructor
      * Simply set the internal skyMesh, parent, and name.

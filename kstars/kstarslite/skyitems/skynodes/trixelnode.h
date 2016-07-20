@@ -24,16 +24,20 @@ class SkyNode;
 
 class TrixelNode : public SkyOpacityNode {
 public:
-    Trixel m_trixel;
-
-    QLinkedList<QPair<SkyObject *, SkyNode *>> m_nodes;
+    TrixelNode(Trixel trixel);
 
     inline int hideCount() { return m_hideCount; }
     inline void resetHideCount() { m_hideCount = 0; }
 
     void virtual hide() override;
     void virtual show() override;
+
+    inline Trixel trixelID() { return m_trixel; }
+
+    QLinkedList<QPair<SkyObject *, SkyNode *>> m_nodes;
+
 private:
+    Trixel m_trixel;
     int m_hideCount;
 };
 

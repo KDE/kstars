@@ -40,7 +40,6 @@ public:
     DSOTrixelNode(Trixel trixelID);
     TrixelNode *m_labels;
     QSGNode *m_symbols;
-    Trixel trixel;
 };
 
     /** @class StarItem

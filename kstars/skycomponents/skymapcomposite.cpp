@@ -635,10 +635,10 @@ bool SkyMapComposite::isLocalCNames() {
 
 void SkyMapComposite::emitProgressText( const QString &message ) {
     emit progressText( message );
-//#ifdef ANDROID
+#ifndef Q_OS_ANDROID
 //Can cause crashes on Android, investigate it
     qApp->processEvents();         // -jbb: this seemed to make it work.
-//#endif
+#endif
     //qDebug() << QString("PROGRESS TEXT: %1\n").arg( message );
 }
 

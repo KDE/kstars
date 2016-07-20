@@ -31,11 +31,14 @@
 #include <KAboutData>
 #include <KCrash>
 #include <KLocalizedString>
-#include "kspaths.h"
 
 #include "kstars.h"
 #include "skymap.h"
 #endif
+//DELETE!
+#include "projections/projector.h"
+
+#include "kspaths.h"
 
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
@@ -53,12 +56,12 @@ static const char notice[] =
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
     app.setApplicationVersion(KSTARS_VERSION);
     /**
     * enable high dpi support
     */
-    app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    // app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
     QByteArray data = "1";
     //qputenv("QSG_RENDER_TIMING", data);
@@ -258,7 +261,7 @@ int main(int argc, char *argv[])
     Options::setShowSupernovae(true);
 
     Options::setShowMilkyWay(true);
-    Options::setShowConstellationArt(true);
+    Options::setShowConstellationArt(false);
 
     //Labels
     Options::setShowCometNames(true);
@@ -272,15 +275,18 @@ int main(int argc, char *argv[])
 
     Options::setAutoSelectGrid(false);
 
+    Options::setProjection(Projector::Lambert);
+
     Options::setHideCBounds(true);
     Options::setHideCLines(false);
     Options::setHideOnSlew(true);
     Options::setHideGrids(false);
 
+
     // Create writable data dir if it does not exist
     QDir writableDir;
-#ifndef KSTARS_LITE
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
+#ifndef KSTARS_LITE
 
     KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );
 

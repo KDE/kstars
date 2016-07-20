@@ -42,6 +42,9 @@ class MilkyWayItem;
 
 class SkyMapComposite;
 class SolarSystemComposite;
+#ifdef INDI_FOUND
+class TelescopeSymbolsItem;
+#endif
 
 /** @class RootNode
  *
@@ -84,6 +87,10 @@ public:
     inline LabelsItem *labelsItem() { return m_labelsItem; }
 
     inline StarItem *starItem() { return m_starItem; }
+
+#ifdef INDI_FOUND
+    inline TelescopeSymbolsItem *telescopeSymbolsItem() { return m_telescopeSymbols; }
+#endif
 private:
     /**
      * @short initializes textureCache with cached images of stars from SkyMapLite
@@ -117,5 +124,8 @@ private:
 
     SkyMapComposite *m_skyComposite;
     SolarSystemComposite *m_solarSystem;
+#ifdef INDI_FOUND
+    TelescopeSymbolsItem *m_telescopeSymbols;
+#endif
 };
 #endif

@@ -31,6 +31,7 @@ ConstellationArtNode::ConstellationArtNode(ConstellationsArt *obj)
     :SkyNode(obj), m_art(obj), m_texture(new QSGSimpleTextureNode)
 {
     m_texture->setTexture(SkyMapLite::Instance()->window()->createTextureFromImage(m_art->image(), QQuickWindow::TextureCanUseAtlas));
+    m_texture->setFiltering(QSGTexture::Linear);
     m_opacity->appendChildNode(m_texture);
     update();
 }
