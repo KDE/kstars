@@ -22,55 +22,11 @@
 #include "skymapcomposite.h"
 #include "skycomponents/supernovaecomponent.h"
 
-
-OpsSupernovae::OpsSupernovae()
-        : QFrame( KStars::Instance() )
+OpsSupernovae::OpsSupernovae() : QFrame(KStars::Instance())
 {
-    setupUi( this );
+    setupUi(this);
 
     // Signals and slots connections
-    connect( supUpdateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateRecentSupernovae() ) );
-    connect( kcfg_ShowSupernovae, SIGNAL( toggled( bool ) ), this, SLOT( slotShowSupernovae( bool ) ) );
-    connect( kcfg_UpdateSupernovaeOnStartup, SIGNAL( toggled(bool) ), this, SLOT( slotUpdateOnStartup (bool)));
-    connect( kcfg_ShowSupernovaAlerts, SIGNAL( toggled(bool) ),this, SLOT( slotShowSupernovaAlerts( bool ) ) );
-    connect( kcfg_MagnitudeLimitShowSupernovae, SIGNAL( valueChanged(double) ), this, SLOT( slotSetShowMagnitudeLimit( double )));
-    connect( kcfg_MagnitudeLimitAlertSupernovae, SIGNAL( valueChanged(double) ), this, SLOT( slotSetAlertMagnitudeLimit(double)));
+    connect(supUpdateButton, SIGNAL(clicked()),
+            KStarsData::Instance()->skyComposite()->supernovaeComponent(), SLOT(slotTriggerDataFileUpdate()));
 }
-
-OpsSupernovae::~OpsSupernovae()
-{}
-
-void OpsSupernovae::slotUpdateRecentSupernovae()
-{
-    KStarsData::Instance()->skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
-}
-
-void OpsSupernovae::slotShowSupernovae( bool on )
-{
-    kcfg_ShowSupernovae->setChecked( on );
-}
-
-void OpsSupernovae::slotShowSupernovaAlerts(bool on)
-{
-    kcfg_ShowSupernovaAlerts->setChecked(on);
-}
-
-void OpsSupernovae::slotUpdateOnStartup(bool on)
-{
-    kcfg_UpdateSupernovaeOnStartup->setChecked(on);
-}
-
-void OpsSupernovae::slotSetShowMagnitudeLimit(double value)
-{
-    kcfg_MagnitudeLimitShowSupernovae->setValue(value);
-}
-
-void OpsSupernovae::slotSetAlertMagnitudeLimit(double value)
-{
-    kcfg_MagnitudeLimitAlertSupernovae->setValue(value);
-}
-
-
-
-
-

@@ -45,15 +45,7 @@ public:
     /**
      * Destructor
      */
-    ~OpsSupernovae();
-
-private slots:
-    void slotUpdateRecentSupernovae();
-    void slotShowSupernovae( bool on );
-    void slotUpdateOnStartup( bool on );
-    void slotShowSupernovaAlerts( bool on );
-    void slotSetShowMagnitudeLimit( double value );
-    void slotSetAlertMagnitudeLimit( double value );
+    ~OpsSupernovae() {}
 };
 
 #endif  //OPSSUPERNOVAE_H_
