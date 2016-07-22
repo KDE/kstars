@@ -1,5 +1,5 @@
 # File: info_url.dat
-# version 1.0;  last update:  09 March 2004
+# version 2.0;  last update:  22 July 2016
 # by Jason Harris
 # No copyright claimed, this is merely a list of "facts"
 #
@@ -1075,52 +1075,56 @@ IC 5357:Wikipedia Page:http://en.wikipedia.org/wiki/IC_5357
 #
 # Major Planets, Sun and Moon:
 Sun:Wikipedia Page:http://en.wikipedia.org/wiki/Sun
-Sun:SEDS Information Page:http://www.seds.org/nineplanets/nineplanets/sol.html
-Sun:NASA JPL Page:http://www.jpl.nasa.gov/solar_system/sun/sun_index.html
+Sun:Nine Planets Page:http://nineplanets.org/sol.html
+Sun:NASA Solar System Exploration Page:http://solarsystem.nasa.gov/planets/sun
 Sun:Daily Solar Images:http://umbra.nascom.nasa.gov/images/latest.html
-Sun:Fred Espanek's Eclipse page:http://sunearth.gsfc.nasa.gov/eclipse/eclipse.html
+Sun:NASA Eclipse page:http://eclipse.gsfc.nasa.gov/solar.html
+Sun:NASA Sun-Earth Days page:http://sunearthday.nasa.gov/discoveries/index.php
 Moon:Wikipedia Page:http://en.wikipedia.org/wiki/Moon
-Moon:SEDS Information Page:http://www.seds.org/nineplanets/nineplanets/luna.html
-Moon:NASA JPL Page:http://www.jpl.nasa.gov/solar_system/planets/moon_index.html
-Moon:The Apollo Program:http://www.nasm.si.edu/collections/imagery/apollo/apollo.htm
+Moon:Nine Planets Page:http://nineplanets.org/luna.html
+Moon:NASA Solar System Exploration Page:http://solarsystem.nasa.gov/planets/moon
+Moon:The Apollo Program:http://airandspace.si.edu/topics/apollo-program
 Mercury:Wikipedia Page:http://en.wikipedia.org/wiki/Mercury_(planet)
-Mercury:SEDS Information Page:http://www.seds.org/nineplanets/nineplanets/mercury.html
-Mercury:NASA JPL Page:http://www.jpl.nasa.gov/solar_system/planets/planets_index.html
-Mercury:The Mariner 10 Mission:http://nssdc.gsfc.nasa.gov/nmc/tmp/1973-085A.html
+Mercury:Nine Planets Page:http://nineplanets.org/mercury.html
+Mercury:NASA Solar System Exploration Page:http://solarsystem.nasa.gov/planets/mercury
+Mercury:The Mariner 10 Mission:http://nssdc.gsfc.nasa.gov/nmc/spacecraftDisplay.do?id=1973-085A
+Mercury:The Mariner 10 Wikipedia Page:http://en.wikipedia.org/wiki/Mariner_10 http://science.nasa.gov/missions/mariner-missions/
+Mercury:NASA Science Mariner missions:http://science.nasa.gov/missions/mariner-missions/
 Venus:Wikipedia Page:http://en.wikipedia.org/wiki/Venus_(planet)
-Venus:SEDS Information Page:http://www.seds.org/nineplanets/nineplanets/venus.html
-Venus:NASA JPL Page:http://www.jpl.nasa.gov/solar_system/planets/venus_index.html
+Venus:Nine Planets Page:http://nineplanets.org/venus.html
+Venus:NASA Solar System Exploration Page:http://solarsystem.nasa.gov/planets/venus
 Venus:The Magellan Mission:http://www.jpl.nasa.gov/magellan/
 Mars:Wikipedia Page:http://en.wikipedia.org/wiki/Mars_(planet)
-Mars:SEDS Information Page:http://www.seds.org/nineplanets/nineplanets/mars.html
+Mars:Nine Planets Page:http://nineplanets.org/mars.html
 Mars:NASA Mars Missions:http://mars.jpl.nasa.gov/index.html
-Mars:NASA JPL Page:http://www.jpl.nasa.gov/solar_system/planets/mars_index.html
-Mars:Welcome to Mars!:http://www.amnh.org/rose/mars/index.html
+Mars:NASA Solar System Exploration Page:http://solarsystem.nasa.gov/planets/mars
+Mars:Welcome to Mars!:http://www.amnh.org/exhibitions/permanent-exhibitions/rose-center-for-earth-and-space/scales-of-the-universe/planets-and-their-sizes/mars
 Mars:The Whole Mars Catalog:http://www.spaceref.com/mars/
 Mars:The Mars Society:http://www.marssociety.org/
 Mars:The "face" on Mars:http://mars.jpl.nasa.gov/mgs/msss/camera/images/moc_5_24_01/face/index.html
 Jupiter:Wikipedia Page:http://en.wikipedia.org/wiki/Jupiter_(planet)
-Jupiter:SEDS Information Page:http://www.seds.org/nineplanets/nineplanets/jupiter.html
-Jupiter:NASA JPL Page:http://www.jpl.nasa.gov/solar_system/planets/jupiter_index.html
+Jupiter:Nine Planets Page:http://nineplanets.org/jupiter.html
+Jupiter:NASA Solar System Exploration Page:http://solarsystem.nasa.gov/planets/jupiter
 Jupiter:The Galileo Mission:http://www.jpl.nasa.gov/galileo/
 Jupiter:The Voyager Missions:http://voyager.jpl.nasa.gov/
-Jupiter:Comet Shoemaker-Levy 9:http://www.seds.org/nineplanets/nineplanets/sl9.html
+Jupiter:Comet Shoemaker-Levy 9:http://nineplanets.org/sl9.html
+JupiterComet Shoemaker–Levy 9 Wikipedia page:http://en.wikipedia.org/wiki/Comet_Shoemaker%E2%80%93Levy_9
 Saturn:Wikipedia Page:http://en.wikipedia.org/wiki/Saturn_(planet)
-Saturn:SEDS Information Page:http://www.seds.org/nineplanets/nineplanets/saturn.html
-Saturn:NASA JPL Page:http://www.jpl.nasa.gov/solar_system/planets/saturn_index.html
+Saturn:Nine Planets Page:http://nineplanets.org/saturn.html
+Saturn:NASA Solar System Exploration Page:http://solarsystem.nasa.gov/planets/saturn
 Saturn:The Cassini Mission:http://saturn.jpl.nasa.gov/index.cfm
 Saturn:The Voyager Missions:http://voyager.jpl.nasa.gov/
 Uranus:Wikipedia Page:http://en.wikipedia.org/wiki/Uranus_(planet)
-Uranus:SEDS Information Page:http://www.seds.org/nineplanets/nineplanets/uranus.html
-Uranus:NASA JPL Page:http://www.jpl.nasa.gov/solar_system/planets/uranus_index.html
+Uranus:Nine Planets Page:http://nineplanets.org/uranus.html
+Uranus:NASA Solar System Exploration Page:http://solarsystem.nasa.gov/planets/uranus
 Uranus:The Voyager Missions:http://voyager.jpl.nasa.gov/
 Neptune:Wikipedia Page:http://en.wikipedia.org/wiki/Neptune_(planet)
-Neptune:SEDS Information Page:http://www.seds.org/nineplanets/nineplanets/neptune.html
-Neptune:NASA JPL Page:http://www.jpl.nasa.gov/solar_system/planets/neptune_index.html
+Neptune:Nine Planets Page:http://nineplanets.org/neptune.html
+Neptune:NASA Solar System Exploration Page:http://solarsystem.nasa.gov/planets/neptune
 Neptune:The Voyager Missions:http://voyager.jpl.nasa.gov/
 Pluto:Wikipedia Page:http://en.wikipedia.org/wiki/Pluto_(planet)
-Pluto:SEDS Information Page:http://www.seds.org/nineplanets/nineplanets/pluto.html
-Pluto:NASA JPL Page:http://www.jpl.nasa.gov/solar_system/planets/pluto_index.html
+Pluto:Nine Planets Page:http://nineplanets.org/pluto.html
+Pluto:NASA Solar System Exploration Page:http://solarsystem.nasa.gov/planets/pluto
 Quaoar (2002 LM60):Wikipedia Page:http://en.wikipedia.org/wiki/Quaoar
 #
 # Asteroids:
