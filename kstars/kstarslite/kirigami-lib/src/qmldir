@@ -1,0 +1,23 @@
+module org.kde.kirigami
+
+AbstractApplicationHeader 1.0 templates/AbstractApplicationHeader.qml
+AbstractApplicationWindow 1.0 templates/AbstractApplicationWindow.qml
+AbstractListItem 1.0 templates/AbstractListItem.qml
+Action 1.0 templates/Action.qml
+ApplicationHeader 1.0 templates/ApplicationHeader.qml
+ApplicationWindow 1.0 templates/ApplicationWindow.qml
+OverlayDrawer 1.0 templates/OverlayDrawer.qml
+OverlaySheet 1.0 templates/OverlaySheet.qml
+Page 1.0 templates/Page.qml
+SplitDrawer 1.0 templates/SplitDrawer.qml
+SwipeListItem 1.0 templates/SwipeListItem.qml
+
+BasicListItem 1.0 controls/BasicListItem.qml
+ContextDrawer 1.0 controls/ContextDrawer.qml
+GlobalDrawer 1.0 controls/GlobalDrawer.qml
+Heading 1.0 controls/Heading.qml
+Icon 1.0 controls/Icon.qml
+Label 1.0 controls/Label.qml
+ScrollablePage 1.0 controls/ScrollablePage.qml
+Theme 1.0 controls/Theme.qml
+Units 1.0 controls/Units.qml

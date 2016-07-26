@@ -1,0 +1,12 @@
+maintainer: mart
+description: QtQuick plugins to build user interfaces based on the KDE UX guidelines
+tier: 2
+type: functional
+platforms:
+    - name: All
+portingAid: false
+deprecated: false
+release: false
+libraries:
+ - cmake: KF5::Kirigami
+cmakename: KF5Kirigami

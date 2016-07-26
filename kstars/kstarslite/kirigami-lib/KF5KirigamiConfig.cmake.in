@@ -1,0 +1,11 @@
+@PACKAGE_INIT@
+
+# Any changes in this ".cmake" file will be overwritten by CMake, the source is the ".cmake.in" file.
+
+#include("${CMAKE_CURRENT_LIST_DIR}/KF5KirigamiTargets.cmake")
+
+set(Kirigami_INSTALL_PREFIX "@PACKAGE_CMAKE_INSTALL_PREFIX@")
+
+#set(Kirigami_LIBRARIES KF5::Kirigami)
+
+include("${CMAKE_CURRENT_LIST_DIR}/KF5KirigamiMacros.cmake")

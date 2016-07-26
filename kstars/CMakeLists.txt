@@ -702,7 +702,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/indi/modules/KSButtonsSwitchRow.qml
         )
     add_subdirectory(kstarslite/qml)
-    add_subdirectory(kstarslite/kirigami)
+    add_subdirectory(kstarslite/kirigami-lib)
 if(ANDROID)
     add_subdirectory(kstarslite/res)
 endif()
