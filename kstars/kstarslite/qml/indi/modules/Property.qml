@@ -33,6 +33,12 @@ ColumnLayout {
         }
     }
 
+    Item {
+        id: propertyHolder
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+    }
+
     Rectangle {
         height: num.dp
         color: "grey"
@@ -52,7 +58,7 @@ ColumnLayout {
             if(deviceName == device) {
                 if(name == propName) {
                     if(buttonRow == null) {
-                        var buttonRowComp = Qt.createComponent("KSButtonsRow.qml");
+                        var buttonRowComp = Qt.createComponent("KSButtonsSwitchRow.qml");
                         buttonRow = buttonRowComp.createObject(columnProp)
                         buttonRow.deviceName = device
                         buttonRow.propName = name
@@ -66,7 +72,7 @@ ColumnLayout {
             if(deviceName == device) {
                 if(name == propName) {
                     if(buttonRow == null) {
-                        var buttonRowComp = Qt.createComponent("KSButtonsRow.qml");
+                        var buttonRowComp = Qt.createComponent("KSButtonsSwitchRow.qml");
                         buttonRow = buttonRowComp.createObject(columnProp)
                         buttonRow.deviceName = device
                         buttonRow.propName = name
@@ -100,7 +106,7 @@ ColumnLayout {
                 if(name == propName) {
                     var indiTextComp = Qt.createComponent("KSINDIText.qml");
                     var indiText = indiTextComp.createObject(columnProp)
-                    indiText.addText(propText, write)
+                    indiText.addField(false, deviceName, propName, fieldName, propText, write)
                     indiText.propLabel = propLabel
                 }
             }
@@ -108,9 +114,9 @@ ColumnLayout {
         onCreateINDINumber: {
             if(deviceName == device) {
                 if(name == propName) {
-                    var indiNumComp = Qt.createComponent("KSINDINumber.qml");
+                    var indiNumComp = Qt.createComponent("KSINDIText.qml");
                     var indiNum = indiNumComp.createObject(columnProp)
-                    indiNum.addText(propText, write)
+                    indiNum.addField(true, deviceName, propName, numberName, propText, write)
                     indiNum.propLabel = propLabel
                 }
             }

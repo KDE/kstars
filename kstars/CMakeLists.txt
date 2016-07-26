@@ -41,7 +41,19 @@ endif(BUILD_KSTARS_LITE)
 #Temporary solution to allow use of qml files from source dir DELETE
 add_definitions( -DSOURCE_DIR=\"${kstars_SOURCE_DIR}\" )
 
-if(NOT BUILD_KSTARS_LITE)
+if(BUILD_KSTARS_LITE)
+    set (fits_SRCS
+        fitsviewer/fitsdatalite.cpp
+        fitsviewer/fitsviewlite.cpp
+        fitsviewer/bayer.c
+        )
+    if(ANDROID)
+        include_directories(${kstars_SOURCE_DIR}/android_lib/include)
+    else()
+        #if it is not Android we need only CFITSIO
+        include_directories(${CFITSIO_INCLUDE_DIR})
+    endif()
+else(BUILD_KSTARS_LITE)
     if (CFITSIO_FOUND)
         set (fits_SRCS
             fitsviewer/fitshistogram.cpp
@@ -61,7 +73,7 @@ if(NOT BUILD_KSTARS_LITE)
             )
         include_directories(${CFITSIO_INCLUDE_DIR})
     endif(CFITSIO_FOUND)
-endif(NOT BUILD_KSTARS_LITE)
+endif(BUILD_KSTARS_LITE)
 
 if (INDI_FOUND)
 if(BUILD_KSTARS_LITE)
@@ -540,7 +552,6 @@ set(kstars_extra_SRCS
     auxiliary/ksutils.cpp
     auxiliary/ksdssimage.cpp
     auxiliary/ksdssdownloader.cpp
-    auxiliary/qcustomplot.cpp
     auxiliary/profileinfo.cpp
     auxiliary/filedownloader.cpp
     auxiliary/kspaths.cpp
@@ -597,6 +608,8 @@ if(BUILD_KSTARS_LITE)
         #Wrappers
         kstarslite/skypointlite.cpp
         kstarslite/skyobjectlite.cpp
+        #ImageProvider
+        kstarslite/imageprovider.cpp
         #RootNode
         kstarslite/skyitems/rootnode.cpp
         kstarslite/skyitems/skyopacitynode.cpp
@@ -676,17 +689,17 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/modules/TelescopeControlMenu.qml
         kstarslite/qml/indi/INDIControlPanel.qml
         kstarslite/qml/indi/DevicePanel.qml
+        kstarslite/qml/indi/ImagePreview.qml
         kstarslite/qml/indi/modules/MotionControl.qml
         kstarslite/qml/indi/modules/Led.qml
         kstarslite/qml/indi/modules/Property.qml
         kstarslite/qml/indi/modules/KSTab.qml
         kstarslite/qml/indi/modules/KSComboBox.qml
-        kstarslite/qml/indi/modules/KSButton.qml
+        kstarslite/qml/indi/modules/KSButtonSwitch.qml
         kstarslite/qml/indi/modules/KSCheckBox.qml
         kstarslite/qml/indi/modules/KSINDIText.qml
-        kstarslite/qml/indi/modules/KSINDINumber.qml
-        kstarslite/qml/indi/modules/KSINDINumberField.qml
-        kstarslite/qml/indi/modules/KSButtonsRow.qml
+        kstarslite/qml/indi/modules/KSINDITextField.qml
+        kstarslite/qml/indi/modules/KSButtonsSwitchRow.qml
         )
     add_subdirectory(kstarslite/qml)
     add_subdirectory(kstarslite/kirigami)
@@ -798,6 +811,8 @@ add_library( KStarsLib STATIC ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlinepar
     ${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
     ${printing_SRCS} ${kstars_SRCS} ${kstarslite_SRCS})
 
+#target_link_libraries(KStarsLib)
+
 # FIXME TODO
 #target_include_directories(KStarsLib INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/>")
 if(BUILD_KSTARS_LITE)
@@ -808,13 +823,19 @@ if(BUILD_KSTARS_LITE)
         KF5::Plotting
         KF5::ConfigGui
         Qt5::Gui
-        Qt5::PrintSupport
+        #Qt5::PrintSupport
         Qt5::Sql
-        Qt5::Svg
+        #Qt5::Svg
         Qt5::Qml
         Qt5::Quick
+        Qt5::Sensors
         ${ZLIB_LIBRARIES}
         )
+    if(ANDROID)
+        add_library(RAWExtractor SHARED IMPORTED)
+        set_property(TARGET RAWExtractor PROPERTY IMPORTED_LOCATION ${kstars_SOURCE_DIR}/android_lib/libRAWExtractor.so)
+        target_link_libraries(KStarsLib RAWExtractor)
+    endif(ANDROID)
 else(BUILD_KSTARS_LITE)
     target_link_libraries(KStarsLib
         LibKSDataHandlers
@@ -911,4 +932,3 @@ endif(NOT BUILD_KSTARS_LITE)
 
 add_executable(kstars ${KSTARS_APP_SRCS})
 target_link_libraries(kstars KStarsLib)
-

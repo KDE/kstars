@@ -1682,4 +1682,13 @@
         <default>0</default>
     </entry>
     </group>
+    <group name="INDI Lite">
+    <entry name="LastServer" type="String">
+        <label>The address of last used server</label>
+    </entry>
+    <entry name="LastServerPort" type="UInt">
+        <label>The port of last used server</label>
+        <default>7624</default>
+    </entry>
+    </group>
 </kcfg>

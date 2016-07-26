@@ -27,6 +27,8 @@ class KStarsData;
 class SkyMapLite;
 class SkyPoint;
 class GeoLocation;
+class ImageProvider;
+
 #ifdef INDI_FOUND
 class ClientManagerLite;
 #endif
@@ -73,13 +75,15 @@ public:
     inline static KStarsLite *Instance() { return pinstance; }
 
     /** Destructor. Does nothing yet*/
-    virtual ~KStarsLite() { }
+    virtual ~KStarsLite();
 
     /** @return pointer to SkyMapLite object which draws SkyMap. */
     inline SkyMapLite* map() const { return m_SkyMapLite; }
 
     /** @return pointer to KStarsData object which contains application data. */
     inline KStarsData* data() const { return m_KStarsData; }
+
+    inline ImageProvider *imageProvider() const { return m_imgProvider; }
 
     inline QQmlApplicationEngine *qmlEngine() { return &m_Engine; }
 
@@ -90,7 +94,6 @@ public:
     /** @return pointer to KStarsData object which handles connection to INDI server. */
     inline ClientManagerLite *clientManagerLite() const { return m_clientManager; }
     #endif
-
 signals:
     /** Sent when KStarsData finishes loading data */
     void dataLoadFinished();
@@ -135,7 +138,9 @@ private:
     //QQuickItem *m_SkyMapLiteWrapper;
     bool StartClockRunning;
 
-    KStarsData* m_KStarsData;
+    KStarsData *m_KStarsData;
+    ImageProvider *m_imgProvider;
+
 #ifdef INDI_FOUND
     ClientManagerLite *m_clientManager;
 #endif

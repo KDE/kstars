@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          telescopesymbolsitem.h  -  K Desktop Planetarium
+                          imageprovider.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 17/07/2016
+    begin                : 22/07/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,45 +13,27 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef TELESCOPESYMBOLSITEM_H_
-#define TELESCOPESYMBOLSITEM_H_
+#ifndef IMAGEPROVIDER_H_
+#define IMAGEPROVIDER_H_
 
-#include "skyitem.h"
-#include "basedevice.h"
-
-class KSAsteroid;
-class SkyObject;
-class RootNode;
-class EllipseNode;
-class LineNode;
-class CrosshairNode;
-class ClientManagerLite;
+#include <QQuickImageProvider>
 
     /**
-     * @class TelescopeSymbolsItem
-     * This class handles telescope symbols in SkyMapLite
+     * @class ImageProvider
+     * This class makes it possible to use QImages in QML
      *
      * @author Artem Fedoskin
      * @version 1.0
      */
-
-class TelescopeSymbolsItem : public SkyItem {
+class ImageProvider : public QQuickImageProvider
+{
 public:
-    /**
-     * @short Constructor
-     * @param asteroidsList const reference to list of asteroids
-     * @param rootNode parent RootNode that instantiates PlanetsItem
-     */
-    TelescopeSymbolsItem(RootNode *rootNode);
-
-    virtual void update() override;
-    void addTelescope(INDI::BaseDevice *bd);
-    void removeTelescope(INDI::BaseDevice *bd);
-
+    ImageProvider();
+    virtual QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
+    void addImage(const QString &id, QImage image);
 private:
-    QHash<INDI::BaseDevice *, CrosshairNode *> m_telescopes;
-    ClientManagerLite *m_clientManager;
-    QColor m_color;
-    KStarsData *m_KStarsData;
+    QHash<QString, QImage> images;
 };
 #endif
+
+

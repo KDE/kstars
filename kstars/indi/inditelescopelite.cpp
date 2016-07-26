@@ -74,7 +74,6 @@ void TelescopeLite::registerProperty(INDI::Property *prop)
             }
         }
     }
-
 }
 
 void TelescopeLite::processNumber(INumberVectorProperty *nvp)
@@ -135,6 +134,29 @@ void TelescopeLite::processSwitch(ISwitchVectorProperty *svp)
         return;
 
     }
+
+    /*if (!strcmp(svp->name, "TELESCOPE_SLEW_RATE")) {
+
+        int maxSlewRate = svp->nsp;
+
+        for(int i = 0; i < maxSlewRate; ++i) {
+            if(svp->sp[i].s == ISS_ON) {
+                if(i) {
+                    setSlewDecreasable(true);
+                } else {
+                    setSlewDecreasable(false);
+                }
+                if(i == maxSlewRate - 1) {
+                    setSlewIncreasable(false);
+                } else {
+                    setSlewDecreasable(true);
+                }
+                slewRateIndex = i;
+                break;
+            }
+        }
+        return;
+    }*/
 
     //DeviceDecorator::processSwitch(svp);
 }
@@ -389,7 +411,7 @@ bool TelescopeLite::sendCoords(SkyPoint *ScopeTarget)
     if (targetAlt < 0)
     {
         if (false/*KMessageBox::warningContinueCancel(NULL, i18n("Requested altitude is below the horizon. Are you sure you want to proceed?"), i18n("Telescope Motion"),
-                                                                   KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QString("telescope_coordintes_below_horizon_warning")) == KMessageBox::Cancel*/)
+                                                                           KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QString("telescope_coordintes_below_horizon_warning")) == KMessageBox::Cancel*/)
         {
             if (EqProp)
             {

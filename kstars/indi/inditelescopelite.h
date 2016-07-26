@@ -17,7 +17,6 @@
 #include "kstarslite/skyobjectlite.h"
 
 class ClientManagerLite;
-class INDI::BaseDevice;
 
 /**
  * @class Telescope

@@ -14,20 +14,25 @@ KSPage {
     property bool connected: ClientManagerLite.connected
 
     Component.onCompleted: {
-        ClientManagerLite.setHost("localhost", parseInt(7624))
+        if(Qt.platform.os != "android") {
+            ClientManagerLite.setHost("localhost", parseInt(7624))
+        }
+        var i = 100
+        while(i--) {
+            console.log(ClientManagerLite.lastUsedServer())
+        }
     }
 
-    onHeightChanged: {
+    /*onHeightChanged: {
         devicesPage.height = indiPage.height - devicesPage.y
-    }
+    }*/
 
     onConnectedChanged: {
-        if(!connected) {
+        if(!indiPage.connected) {
             for(var i = 0; i < devicesModel.count; ++i) {
                 devicesModel.get(i).panel.destroy()
             }
             devicesModel.clear()
-            //showPage()
             showPassiveNotification("Disconnected from the server")
         }
     }
@@ -46,7 +51,7 @@ KSPage {
         }
 
         ColumnLayout {
-            visible: !connected
+            visible: !indiPage.connected
             anchors {
                 left: parent.left
                 right: parent.right
@@ -67,6 +72,7 @@ KSPage {
                     placeholderText: "IP"
                     Layout.alignment: Qt.AlignHCenter
                     implicitWidth: parent.width*0.8
+                    text: ClientManagerLite.lastUsedServer()
                 }
 
                 Controls.TextField {
@@ -74,22 +80,25 @@ KSPage {
                     placeholderText: "Port"
                     Layout.alignment: Qt.AlignHCenter
                     implicitWidth: parent.width*0.2
+                    text: ClientManagerLite.lastUsedPort()
                 }
             }
         }
 
         Kirigami.Label {
             id: connectedTo
-            visible: connected
+            visible: indiPage.connected
             text: "Connected to " + ClientManagerLite.connectedHost
         }
 
         Controls.Button {
-            text: connected ? "Disconnect" : "Connect"
+            text: indiPage.connected ? "Disconnect" : "Connect"
             onClicked: {
-                if(!connected) {
+                if(!indiPage.connected) {
                     if(ClientManagerLite.setHost(ipHost.text, parseInt(portHost.text))) {
                         showPassiveNotification("Successfully connected to the server")
+                        ClientManagerLite.setLastUsedServer(ipHost.text)
+                        ClientManagerLite.setLastUsedPort(portHost.text)
                     } else {
                         showPassiveNotification("Couldn't connect to the server")
                     }
@@ -103,13 +112,7 @@ KSPage {
         ColumnLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            visible : connected
-
-            Component.onCompleted: {
-                for(var i = 0; i < 100; ++i) {
-                    console.log(height)
-                }
-            }
+            visible : indiPage.connected
 
             Rectangle {
                 Layout.fillWidth: true
@@ -141,6 +144,9 @@ KSPage {
                             devicesModel.remove(i)
                         }
                     }
+                }
+                onNewINDIMessage: {
+                    showPassiveNotification(message)
                 }
             }
         }
@@ -176,6 +182,5 @@ KSPage {
                 }
             }
         }
-
     }
 }

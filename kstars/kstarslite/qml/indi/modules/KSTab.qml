@@ -22,6 +22,7 @@ Tab {
 
         Component.onCompleted: {
             contentItem: column
+            flickableItem.flickableDirection = Flickable.VerticalFlick
         }
 
         Column {

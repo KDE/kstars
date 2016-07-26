@@ -26,7 +26,7 @@ Row {
 
 
     function addButton(propText, switchName, initChecked, enabled) {
-        var buttonComp = Qt.createComponent("KSButton.qml");
+        var buttonComp = Qt.createComponent("KSButtonSwitch.qml");
         var button = buttonComp.createObject(this)
         button.text = propText
         button.switchName = switchName

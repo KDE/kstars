@@ -22,6 +22,7 @@
 #include <QQuickWindow>
 #include <QSurfaceFormat>
 #include "indi/clientmanagerlite.h"
+#include "kstarslite/imageprovider.h"
 
 #include "kspaths.h"
 
@@ -65,6 +66,8 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_SkyMapLite = SkyMapLite::createInstance();
 
     m_Engine.rootContext()->setContextProperty("SkyMapLite", m_SkyMapLite);
+    m_imgProvider = new ImageProvider;
+    m_Engine.addImageProvider(QLatin1String("images"), m_imgProvider);
     //qmlRegisterType<SkyPoint>("skymaplite",1,0,"SkyMapLite");
 
 #ifdef Q_OS_ANDROID
@@ -82,12 +85,19 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     QQuickItem *skyMapLiteWrapper = m_RootObject->findChild<QQuickItem*>("skyMapLiteWrapper");
     m_SkyMapLite->setParentItem(skyMapLiteWrapper);
 
+    // Whenever the wrapper's(parent) dimensions changed, change SkyMapLite too
+    connect(skyMapLiteWrapper, &QQuickItem::widthChanged, m_SkyMapLite, &SkyMapLite::resizeItem);
+    connect(skyMapLiteWrapper, &QQuickItem::heightChanged, m_SkyMapLite, &SkyMapLite::resizeItem);
+
+    m_SkyMapLite->resizeItem(); /* Set initial size pf SkyMapLite. Without it on Android SkyMapLite is
+    not displayed until screen orientation is not changed */
+
     //QQuickWindow *mainWindow = m_RootObject->findChild<QQuickWindow*>("mainWindow");
     QQuickWindow *mainWindow = static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
 
     QSurfaceFormat format = mainWindow->format();
     format.setSamples(4);
-    format.setSwapBehavior (QSurfaceFormat::TripleBuffer);
+    format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
     mainWindow->setFormat(format);
 
     connect( qApp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
@@ -142,6 +152,10 @@ KStarsLite *KStarsLite::createInstance( bool doSplash, bool clockrunning, const 
     return nullptr;
 }
 
+KStarsLite::~KStarsLite() {
+    delete m_imgProvider;
+}
+
 void KStarsLite::fullUpdate() {
     m_KStarsData->setFullTimeUpdate();
     updateTime();
@@ -179,7 +193,6 @@ void KStarsLite::updateTime( const bool automaticDSTchange ) {
 
 void KStarsLite::writeConfig() {
     Options::self()->save();
-
     //Store current simulation time
     //Refer to // FIXME: Used in kstarsdcop.cpp only in kstarsdata.cpp
     //data()->StoredDate = data()->lt();
@@ -197,7 +210,6 @@ void KStarsLite::slotAboutToQuit()
 
     //explicitly save the colorscheme data to the config file
     data()->colorScheme()->saveToConfig();
-
     //synch the config file with the Config object
     writeConfig();
 }

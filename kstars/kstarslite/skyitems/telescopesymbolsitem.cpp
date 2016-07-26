@@ -40,15 +40,13 @@ void TelescopeSymbolsItem::addTelescope(INDI::BaseDevice *bd) {
     m_telescopes.insert(bd, crossHair);
 }
 
-void TelescopeSymbolsItem::removeTelescope(QString deviceName) {
-    QHash<INDI::BaseDevice *, CrosshairNode *>::iterator i = m_telescopes.begin();
-    while(i != m_telescopes.end()) {
-        if(i.key()->getDeviceName() == deviceName) {
-            delete i.value();
-            m_telescopes.remove(i.key());
-        }
-        i++;
+void TelescopeSymbolsItem::removeTelescope(INDI::BaseDevice *bd) {
+    CrosshairNode *crossHair = m_telescopes.value(bd);
+    if(crossHair) {
+        removeChildNode(crossHair);
+        delete crossHair;
     }
+    m_telescopes.remove(bd);
 }
 
 void TelescopeSymbolsItem::update() {
@@ -64,20 +62,23 @@ void TelescopeSymbolsItem::update() {
 
     for (i = m_telescopes.begin(); i != m_telescopes.end(); ++i) {
         CrosshairNode *crossHair = i.value();
-        if(deleteAll) {
-            removeChildNode(crossHair);
-            delete crossHair;
-        } else if(show) {
-            if(i.key()->isConnected()){
-                crossHair->setColor(color);
-                crossHair->update();
-            } else {
-                crossHair->hide();
+        INDI::BaseDevice *device = i.key();
+        if(crossHair) {
+            if(deleteAll || !(device->isConnected())) {
+                removeChildNode(crossHair);
+                delete crossHair;
+                m_telescopes.insert(device, nullptr);
+            } else if(show) {
+                if(device->isConnected()){
+                    crossHair->setColor(color);
+                    crossHair->update();
+                } else {
+                    crossHair->hide();
+                }
             }
         }
     }
     if(deleteAll) {
         m_telescopes.clear();
     }
-
 }

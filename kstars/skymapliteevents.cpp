@@ -12,6 +12,7 @@
 #include "projections/projector.h"
 #include "skymapcomposite.h"
 #include "ksutils.h"
+#include <QTapSensor>
 
 void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
     KStarsLite* kstars = KStarsLite::Instance();
@@ -22,7 +23,6 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
         update(); //refresh without redrawing skymap
         return;
     }*/
-
     // if button is down and cursor is not moved set the move cursor after 500 ms
     QTimer::singleShot(500, this, SLOT (setMouseMoveCursor()));
 
@@ -122,11 +122,11 @@ void SkyMapLite::mouseReleaseEvent( QMouseEvent * ) {
 }
 
 void SkyMapLite::mouseDoubleClickEvent( QMouseEvent *e ) {
-    /*if ( e->button() == Qt::LeftButton && !projector()->unusablePoint( e->pos() ) ) {
+    if ( e->button() == Qt::LeftButton && !projector()->unusablePoint( e->pos() ) ) {
         mouseButtonDown = false;
         if( e->x() != width()/2 || e->y() != height()/2 )
             slotCenter();
-    }*/
+    }
 }
 
 void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
@@ -235,6 +235,17 @@ void SkyMapLite::wheelEvent( QWheelEvent *e ) {
 void SkyMapLite::touchEvent( QTouchEvent *e) {
     QList<QTouchEvent::TouchPoint> points = e->touchPoints();
 
+    QTapReading *reading = m_tapSensor->reading();
+
+    if(reading) {
+        qDebug() << reading->isDoubleTap();
+    }
+
+    bool conn = m_tapSensor->isConnectedToBackend();
+    qDebug() << conn << "Connect State";
+    qDebug() << m_tapSensor->connectToBackend() << "trying to connect";
+
+
     if(points.length() == 2) {
         if ( projector()->unusablePoint( points[0].pos() ) ||
              projector()->unusablePoint( points[1].pos() ))
@@ -319,7 +330,7 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         } else {
             //If only pan is needed we just use the first touch point
             if(e->touchPointStates() & Qt::TouchPointMoved || slewing) {
-                QPointF newFocus = points[0].pos();
+                QPointF newFocus = points[0].screenPos();
                 QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, newFocus,
                                                      Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
                 if(e->type() == QEvent::TouchBegin) {
@@ -343,12 +354,16 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
                 }
                 delete event;
             } else if((e->touchPointStates() & (Qt::TouchPointReleased))) { //&& !slewing && points.length() == 1) {
+                //Show tap animation
+                emit posClicked(points[0].screenPos());
                 //determine RA, Dec of touch
-                m_MousePoint = projector()->fromScreen( points[0].pos() , data->lst(), data->geo()->lat() );
+                m_MousePoint = projector()->fromScreen( points[0].screenPos() , data->lst(), data->geo()->lat() );
                 setClickedPoint( &m_MousePoint );
 
                 //Find object nearest to clickedPoint()
-                double maxrad = 1000.0/Options::zoomFactor();
+                double maxrad = 1000.0/Options::zoomFactor()*2; /* On high zoom-level it is very hard to select the object using touch screen.
+                                            That's why radius remains constant*/
+                qDebug() << maxrad << "maxrad";
                 SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
                 setClickedObject( obj );
                 if( obj ) setClickedPoint( obj );
@@ -398,20 +413,35 @@ double SkyMapLite::magFactor( const int modifier ) {
     return factor;
 }
 
+void SkyMapLite::setMagLim(double magLim) {
+    if(m_magLim != magLim) {
+        m_magLim = magLim;
+        if ( m_magLim > 5.75954 ) m_magLim = 5.75954;
+        if ( m_magLim < 1.18778 ) m_magLim = 1.18778;
+        emit magLimChanged(m_magLim);
+
+        Options::setStarDensity( pow( 10, ( m_magLim - 0.35 ) / 2.222) );
+        //printf("maglim set to %3.1f\n", m_magLim);
+        forceUpdate();
+    }
+}
+
 void SkyMapLite::incMagLimit( const int modifier ) {
-    double limit = 2.222 * log10(static_cast<double>( Options::starDensity() )) + 0.35;
-    limit += magFactor( modifier );
-    if ( limit > 5.75954 ) limit = 5.75954;
-    Options::setStarDensity( pow( 10, ( limit - 0.35 ) / 2.222) );
-    //printf("maglim set to %3.1f\n", limit);
+    m_magLim = 2.222 * log10(static_cast<double>( Options::starDensity() )) + 0.35;
+    m_magLim += magFactor( modifier );
+    if ( m_magLim > 5.75954 ) m_magLim = 5.75954;
+    emit magLimChanged(m_magLim);
+    Options::setStarDensity( pow( 10, ( m_magLim - 0.35 ) / 2.222) );
+    //printf("maglim set to %3.1f\n", m_magLim);
     forceUpdate();
 }
 
 void SkyMapLite::decMagLimit( const int modifier ) {
-    double limit = 2.222 * log10(static_cast<double>( Options::starDensity() )) + 0.35;
-    limit -= magFactor( modifier );
-    if ( limit < 1.18778 ) limit = 1.18778;
-    Options::setStarDensity( pow( 10, ( limit - 0.35 ) / 2.222) );
-    //printf("maglim set to %3.1f\n", limit);
+    m_magLim = 2.222 * log10(static_cast<double>( Options::starDensity() )) + 0.35;
+    m_magLim -= magFactor( modifier );
+    if ( m_magLim < 1.18778 ) m_magLim = 1.18778;
+    emit magLimChanged(m_magLim);
+    Options::setStarDensity( pow( 10, ( m_magLim - 0.35 ) / 2.222) );
+    //printf("maglim set to %3.1f\n", m_magLim);
     forceUpdate();
 }

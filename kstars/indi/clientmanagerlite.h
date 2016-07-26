@@ -20,6 +20,12 @@
 #include <baseclientqt.h>
 #include "inditelescopelite.h"
 #include "indicommon.h"
+#include "Options.h"
+#include "indistd.h"
+#include <QImage>
+
+class FITSViewLite;
+class QFileDialog;
 
 using namespace INDI;
 class TelescopeLite;
@@ -44,6 +50,7 @@ class ClientManagerLite : public INDI::BaseClientQt
     Q_PROPERTY(QString connectedHost READ connectedHost WRITE setConnectedHost NOTIFY connectedHostChanged)
     Q_PROPERTY(bool connected READ isConnected WRITE setConnected NOTIFY connectedChanged)
 public:
+    typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
     ClientManagerLite();
     virtual ~ClientManagerLite();
     Q_INVOKABLE bool setHost(QString ip, unsigned int port);
@@ -65,22 +72,37 @@ public:
     Q_INVOKABLE void sendNewINDISwitch(QString deviceName, QString propName, QString name);
     Q_INVOKABLE void sendNewINDISwitch(QString deviceName, QString propName, int index);
 
+    Q_INVOKABLE void sendNewINDINumber(const QString& deviceName, const QString& propName, const QString &numberName, double value);
+    Q_INVOKABLE void sendNewINDIText(const QString& deviceName, const QString& propName, const QString &fieldName, const QString& text);
+
     bool isConnected() { return m_connected; }
     Q_INVOKABLE bool isDeviceConnected(QString deviceName);
 
-    QList<DeviceInfoLite *>   getDevices() { return m_devices; }
+    QList<DeviceInfoLite *> getDevices() { return m_devices; }
+
+    Q_INVOKABLE QString lastUsedServer() { return Options::lastServer(); }
+    Q_INVOKABLE void setLastUsedServer(QString server) { Options::setLastServer(server); }
+
+    Q_INVOKABLE int lastUsedPort() { return Options::lastServerPort(); }
+    Q_INVOKABLE void setLastUsedPort(int port) { Options::setLastServerPort(port); }
+    /**
+     * @brief saveDisplayImage
+     * @return true if image was saved false otherwise
+     */
+    Q_INVOKABLE bool saveDisplayImage();
+
 
 protected:
     virtual void newDevice(INDI::BaseDevice *dp);
     virtual void removeDevice(INDI::BaseDevice *dp);
     virtual void newProperty(INDI::Property *property);
     virtual void removeProperty(INDI::Property *property);
-    virtual void newBLOB(IBLOB *bp) {}
+    virtual void newBLOB(IBLOB *bp);
     virtual void newSwitch(ISwitchVectorProperty *svp);
     virtual void newNumber(INumberVectorProperty *nvp);
-    virtual void newMessage(INDI::BaseDevice *dp, int messageID) { }
-    virtual void newText(ITextVectorProperty *tvp) {}
-    virtual void newLight(ILightVectorProperty *lvp) {}
+    virtual void newMessage(INDI::BaseDevice *dp, int messageID);
+    virtual void newText(ITextVectorProperty *tvp);
+    virtual void newLight(ILightVectorProperty *lvp);
     virtual void serverConnected() {}
     virtual void serverDisconnected(int exit_code);
 signals:
@@ -91,8 +113,9 @@ signals:
 
     void newINDIProperty(QString deviceName, QString propName, QString groupName, QString type, QString label);
 
-    void createINDIText(QString deviceName, QString propName, QString propLabel, QString propText, bool read, bool write);
-    void createINDINumber(QString deviceName, QString propName, QString propLabel, QString propText, bool read, bool write, bool scale);
+    void createINDIText(QString deviceName, QString propName, QString propLabel, QString fieldName, QString propText, bool read, bool write);
+
+    void createINDINumber(QString deviceName, QString propName, QString propLabel, QString numberName, QString propText, bool read, bool write, bool scale);
 
     void createINDIButton(QString deviceName, QString propName, QString propText, QString switchName, bool read, bool write, bool exclusive, bool checked, bool checkable);
     void createINDIRadio(QString deviceName, QString propName, QString propText, QString switchName, bool read, bool write, bool exclusive, bool checked, bool enabled);
@@ -103,14 +126,28 @@ signals:
 
     //Update signals
     void newINDISwitch(QString deviceName, QString propName, QString switchName, bool isOn);
+    void newINDINumber(QString deviceName, QString propName, QString numberName, QString value);
+    void newINDIText(QString deviceName, QString propName, QString fieldName, QString text);
+    void newINDIMessage(QString message);
+    void newINDIBLOBImage(QString deviceName, bool isLoaded);
 
     void connectedHostChanged(QString);
     void connectedChanged(bool);
     void telescopeAdded(TelescopeLite *newTelescope);
+    void telescopeRemoved(TelescopeLite *delTelescope);
 private:
+    bool processBLOBasCCD(IBLOB *bp);
+
     QList<DeviceInfoLite *> m_devices;
     QString m_connectedHost;
     bool m_connected;
+    FITSViewLite *fitsView;
+    char BLOBFilename[MAXINDIFILENAME];
+    QImage displayImage;
+#ifdef ANDROID
+    QString defaultImageType;
+    QString defaultImagesLocation;
+#endif
 };
 
 #endif // CLIENTMANAGERLITE_H

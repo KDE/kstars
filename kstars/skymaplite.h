@@ -51,6 +51,7 @@ class TelescopeLite;
 
 class SkyObjectLite;
 class SkyPointLite;
+class QTapSensor;
 
 class QSGTexture;
 
@@ -70,7 +71,7 @@ class QSGTexture;
 class SkyMapLite : public QQuickItem {
 
     Q_OBJECT
-
+    Q_PROPERTY(double magLim READ getMagLim WRITE setMagLim NOTIFY magLimChanged)
 protected:
     /**
     *Constructor.
@@ -117,7 +118,7 @@ public:
     //float fov();
 
     /** @short Update the focus position according to current options. */
-    //void updateFocus();
+    void updateFocus();
 
     /** @short Retrieve the Focus point; the position on the sky at the
         *center of the skymap.
@@ -282,6 +283,10 @@ public:
 
     bool isSlewing() const;
 
+    inline double getMagLim() { return m_magLim; }
+
+    void setMagLim(double magLim);
+
     // NOTE: This method is draw-backend independent.
     /** @short update the geometry of the angle ruler. */
     //void updateAngleRuler();
@@ -335,8 +340,6 @@ public slots:
     void resizeItem();
 
     /** Recalculates the positions of objects in the sky, and then repaints the sky map.
-     * If the positions don't need to be recalculated, use update() instead of forceUpdate().
-     * This saves a lot of CPU time.
      */
     void forceUpdate();
 
@@ -349,7 +352,7 @@ public slots:
      * @short Update the focus point and call forceUpdate()
      * @param now is saved for compatibility reasons
      */
-    void slotUpdateSky( bool now ) {Q_UNUSED(now)}
+    void slotUpdateSky( bool now );
 
     /** Toggle visibility of geo infobox */
     //void slotToggleGeoBox(bool);
@@ -379,7 +382,7 @@ public slots:
      * @see destinationChanged()
      * @see slewFocus()
      */
-    //void slotCenter();
+    void slotCenter();
 
     /** @short Popup menu function: Display 1st-Generation DSS image with the Image Viewer.
      * @note the URL is generated using the coordinates of ClickedPoint.
@@ -451,6 +454,13 @@ signals:
 
     /** Emitted when a position is clicked */
     void positionClicked(SkyPoint*);
+
+    /** Emitted when user clicks on SkyMapLite (analagous to positionClicked but sends QPoint) */
+    void posClicked(QPointF pos);
+
+    /** Emitted when magnitude limit is changed */
+    void magLimChanged(double magLim);
+
 protected:
     /** Process keystrokes:
      * @li arrow keys  Slew the map
@@ -632,11 +642,13 @@ private:
     QLinkedList<SkyNode *> m_deleteNodes;
 
     float m_sizeMagLim; //Used in PointSourceNode
+    double m_magLim; //Mag limit for all objects
 
     // Used to notify zoom-dependent labels about font size change
     bool m_fontSizeChanged;
     // Used for drawing labels
     QPainter m_painter;
+    QTapSensor *m_tapSensor;
 
     static int starColorMode;
 
@@ -656,8 +668,8 @@ private:
     QVector<QVector<QSGTexture*>> textureCache;
 
 #ifdef INDI_FOUND
-    QList<TelescopeLite *> m_newTelescopes;
-    QList<QString> m_delTelescopes;
+    QList<INDI::BaseDevice *> m_newTelescopes;
+    QList<INDI::BaseDevice *> m_delTelescopes;
 #endif
 };
 

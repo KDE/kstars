@@ -39,3 +39,10 @@ QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const 
                                      fileName,options);
 #endif
 }
+
+QString KSPaths::writableLocation(QStandardPaths::StandardLocation type) {
+    QString dir;
+    if(type == QStandardPaths::GenericDataLocation) dir = "kstars";
+    return QStandardPaths::writableLocation(type) + dir;
+}
+

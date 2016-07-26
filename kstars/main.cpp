@@ -56,7 +56,7 @@ static const char notice[] =
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
     app.setApplicationVersion(KSTARS_VERSION);
     /**
     * enable high dpi support
@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
     // app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
     QByteArray data = "1";
+
     //qputenv("QSG_RENDER_TIMING", data);
 
 #ifndef KSTARS_LITE
@@ -282,7 +283,6 @@ int main(int argc, char *argv[])
     Options::setHideOnSlew(true);
     Options::setHideGrids(false);
 
-
     // Create writable data dir if it does not exist
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
@@ -307,7 +307,7 @@ int main(int argc, char *argv[])
     KStarsLite::createInstance( true );
 #endif
 
-    QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
+    //QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
     return app.exec();
 
 }

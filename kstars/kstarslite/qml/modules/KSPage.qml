@@ -66,19 +66,15 @@ Kirigami.Page {
             anchors.left: parent.left
             anchors.leftMargin: 10
 
-            Image {
-                id: backButton
-                visible: prevPage !== null
-                source: "images/" + num.density + "/icons/back.png"
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    bottom: parent.bottom
-                }
+            Rectangle {
+                id: backRect
+                radius: width * 0.5
+                color: "grey"
+                opacity: 0
+                state: "released"
 
-                Component.onCompleted: {
-                    console.log(num.density)
-                }
+                width: 30 * num.dp
+                height: 30 * num.dp
 
                 MouseArea {
                     anchors.fill: parent
@@ -87,15 +83,52 @@ Kirigami.Page {
                     }
                     onPressedChanged: {
                         if(pressed) {
-                            backButton.opacity = 0.6
+                            backRect.state = "pressed"
                         } else {
-                            backButton.opacity = 1
+                            backRect.state = "released"
                         }
                     }
                 }
+
+                states: [
+                    State {
+                        name: "pressed"
+                        PropertyChanges { target: backRect; opacity: 0.6 }
+                        PropertyChanges { target: backButton; opacity: 0.6 }
+                    },
+                    State {
+                        name: "released"
+                        PropertyChanges { target: backRect; opacity: 0 }
+                        PropertyChanges { target: backButton; opacity: 1 }
+                    }
+                ]
+
+                transitions: [
+                    Transition {
+                        from: "pressed"
+                        to: "released"
+                        OpacityAnimator { target: backRect; duration: 1000}
+                        OpacityAnimator { target: backButton; duration: 1000}
+                    },
+                    Transition {
+                        from: "released"
+                        to: "released"
+                        OpacityAnimator { target: backRect; duration: 1000}
+                        OpacityAnimator { target: backButton; duration: 1000}
+                    }
+                ]
+            }
+
+            Image {
+                id: backButton
+                visible: prevPage !== null
+                source: "images/" + num.density + "/icons/back.png"
+                sourceSize.height: pageTitle.width
+                anchors.centerIn: backRect
             }
 
             Text {
+                id: pageTitle
                 visible: prevPage !== null
                 text: title
                 color: "white"
@@ -103,6 +136,7 @@ Kirigami.Page {
                 anchors.leftMargin: 20
             }
         }
+
         Rectangle {
             id: headerSeparator
             anchors {

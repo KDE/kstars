@@ -26,8 +26,11 @@ find_package(ECM 1.7.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
-find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport)
-
+if(BUILD_KSTARS_LITE)
+    find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Network Sensors)
+else()
+    find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport)
+endif()
 include(ECMInstallIcons)
 include(ECMAddAppIcon)
 include(KDEInstallDirs)
@@ -45,6 +48,16 @@ if(BUILD_KSTARS_LITE)
       I18n
       Plotting
     )
+if(ANDROID)
+    find_package(OpenMP REQUIRED) #Needed for LibRaw
+    if(OPENMP_FOUND)
+         message("OPENMP FOUND")
+         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+      endif()
+     include_directories(SYSTEM ${OpenMP_INCLUDE_PATH})
+endif()
 else(BUILD_KSTARS_LITE)
     find_package(KF5 REQUIRED COMPONENTS
       Config
@@ -65,7 +78,11 @@ find_package(Eigen3 REQUIRED)
 add_definitions(${EIGEN_DEFINITIONS})
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-find_package(CFitsio)
+if(BUILD_KSTARS_LITE)
+    find_package(CFitsio REQUIRED)
+else()
+    find_package(CFitsio)
+endif()
 if (CFITSIO_FOUND)
 set(HAVE_CFITSIO 1)
 else(CFITSIO_FOUND)

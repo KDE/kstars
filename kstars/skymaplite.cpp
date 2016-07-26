@@ -52,6 +52,7 @@
 #include <QQuickWindow>
 #include <QLinkedList>
 #include <QQmlContext>
+#include <QTapSensor>
 
 namespace {
 
@@ -108,6 +109,7 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     setFlag(ItemHasContents, true);
 
     m_rootNode = 0;
+    m_magLim = 2.222 * log10(static_cast<double>( Options::starDensity() )) + 0.35;
 
     midMouseButtonDown = false;
     mouseButtonDown = false;
@@ -120,6 +122,10 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     ClickedObjectLite = new SkyObjectLite;
     ClickedPointLite = new SkyPointLite;
 
+    m_tapSensor = new QTapSensor(this);
+    m_tapSensor->setReturnDoubleTapEvents(true);
+    m_tapSensor->start();
+
     KStarsLite::Instance()->qmlEngine()->rootContext()->setContextProperty("ClickedObject",ClickedObjectLite);
     KStarsLite::Instance()->qmlEngine()->rootContext()->setContextProperty("ClickedPoint",ClickedPointLite);
 
@@ -130,29 +136,26 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
 
     setupProjector();
 
-    // Whenever the wrapper's(parent) dimensions changed, change SkyMapLite too
-    //connect(parent, &QQuickItem::widthChanged, this, &SkyMapLite::resizeItem);
-    //connect(parent, &QQuickItem::heightChanged, this, &SkyMapLite::resizeItem);
-
-    /*resizeItem(); /* Set initial size. Without it on Android SkyMapLite is not displayed until screen
-    orientation is not changed */
-
     //Initialize images for stars
     initStarImages();
     // Set pinstance to yourself
     pinstance = this;
 
+    connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
+    connect( KStarsData::Instance(), SIGNAL( skyUpdate( bool ) ), this, SLOT( slotUpdateSky( bool ) ) );
+
 #ifdef INDI_FOUND
     ClientManagerLite *clientMng = KStarsLite::Instance()->clientManagerLite();
 
-    connect(clientMng, &ClientManagerLite::telescopeAdded, [this](TelescopeLite *newTelescope){ this->m_newTelescopes.append(newTelescope); });
-    connect(clientMng, &ClientManagerLite::removeINDIDevice, [this](QString deviceName){ this->m_delTelescopes.append(deviceName); });
+    connect(clientMng, &ClientManagerLite::telescopeAdded, [this](TelescopeLite *newTelescope){ this->m_newTelescopes.append(newTelescope->getDevice()); });
+    connect(clientMng, &ClientManagerLite::telescopeRemoved, [this](TelescopeLite *newTelescope){ this->m_delTelescopes.append(newTelescope->getDevice()); });
 #endif
 
 }
 
 void SkyMapLite::setUpdateCounter() {
-    m_updatesCount = m_updatesCountTemp; m_updatesCountTemp = 0;
+    m_updatesCount = m_updatesCountTemp;
+    m_updatesCountTemp = 0;
 }
 
 void SkyMapLite::addTelescope(TelescopeLite *) {
@@ -176,15 +179,15 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
             m_rootNode = n;
         }
         if(m_newTelescopes.count() > 0) {
-            foreach(TelescopeLite *telescope, m_newTelescopes) {
-                n->telescopeSymbolsItem()->addTelescope(telescope->getDevice());
+            foreach(INDI::BaseDevice *telescope, m_newTelescopes) {
+                n->telescopeSymbolsItem()->addTelescope(telescope);
             }
             m_newTelescopes.clear();
         }
 
         if(m_delTelescopes.count() > 0) {
-            foreach(QString deviceName, m_delTelescopes) {
-                n->telescopeSymbolsItem()->removeTelescope(deviceName);
+            foreach(INDI::BaseDevice *telescope, m_delTelescopes) {
+                n->telescopeSymbolsItem()->removeTelescope(telescope);
             }
             m_delTelescopes.clear();
         }
@@ -297,6 +300,72 @@ void SkyMapLite::setFocusObject( SkyObject *o ) {
         Options::setFocusObject( i18n( "nothing" ) );
 }
 
+void SkyMapLite::slotCenter() {
+    /*KStars* kstars = KStars::Instance();
+    TrailObject* trailObj = dynamic_cast<TrailObject*>( focusObject() );*/
+
+    setFocusPoint( clickedPoint() );
+    if ( Options::useAltAz() ) {
+        focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+        focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    }
+    else
+        focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+    qDebug() << "Centering on " << focusPoint()->ra().toHMSString() << " " << focusPoint()->dec().toDMSString();
+
+    //clear the planet trail of old focusObject, if it was temporary
+    /*if( trailObj && data->temporaryTrail ) {
+        trailObj->clearTrail();
+        data->temporaryTrail = false;
+    }*/
+
+    //If the requested object is below the opaque horizon, issue a warning message
+    //(unless user is already pointed below the horizon)
+    if ( Options::useAltAz() && Options::showGround() &&
+            focus()->alt().Degrees() > -1.0 && focusPoint()->alt().Degrees() < -1.0 ) {
+
+        QString caption = i18n( "Requested Position Below Horizon" );
+        QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
+        /*if ( KMessageBox::warningYesNo( this, message, caption,
+                                        KGuiItem(i18n("Go Anyway")), KGuiItem(i18n("Keep Position")), "dag_focus_below_horiz" )==KMessageBox::No ) {
+            setClickedObject( NULL );
+            setFocusObject( NULL );
+            Options::setIsTracking( false );
+
+            return;
+        }*/
+    }
+
+    //set FocusObject before slewing.  Otherwise, KStarsData::updateTime() can reset
+    //destination to previous object...
+    setFocusObject( ClickedObject );
+    Options::setIsTracking( true );
+    /*if ( kstars ) {
+        kstars->actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
+        kstars->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
+    }*/
+
+    //If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
+
+    /*if( Options::useAutoTrail() && trailObj && trailObj->hasTrail() ) {
+        trailObj->addToTrail();
+        data->temporaryTrail = true;
+    }*/
+
+    //update the destination to the selected coordinates
+    if ( Options::useAltAz() ) {
+        setDestinationAltAz( focusPoint()->altRefracted(), focusPoint()->az() );
+    } else {
+        setDestination( *focusPoint() );
+    }
+
+    focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+
+    //display coordinates in statusBar
+    emit mousePointChanged( focusPoint() );
+    //showFocusCoords(); //update FocusBox
+}
+
 void SkyMapLite::slewFocus() {
     //Don't slew if the mouse button is pressed
     //Also, no animated slews if the Manual Clock is active
@@ -322,7 +391,7 @@ void SkyMapLite::slewFocus() {
             if ( r0 < 20.0 ) { //smaller slews have smaller maxstep
                 maxstep *= (10.0 + 0.5*r0)/20.0;
             }
-            double step  = 0.5;
+            double step  = 0.1;
             double r  = r0;
             while ( r > step ) {
                 //DEBUG
@@ -506,6 +575,47 @@ void SkyMapLite::forceUpdate() {
         }
     }
     update();
+}
+
+void SkyMapLite::slotUpdateSky( bool now ) {
+    Q_UNUSED(now);
+    updateFocus();
+    forceUpdate();
+}
+
+void SkyMapLite::updateFocus() {
+    if( slewing )
+        return;
+
+    //Tracking on an object
+    if ( Options::isTracking() && focusObject() != NULL ) {
+        if ( Options::useAltAz() ) {
+            //Tracking any object in Alt/Az mode requires focus updates
+            focusObject()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
+            setFocusAltAz( focusObject()->altRefracted(), focusObject()->az() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+            setDestination( *focus() );
+        } else {
+            //Tracking in equatorial coords
+            setFocus( focusObject() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            setDestination( *focus() );
+        }
+
+    //Tracking on empty sky
+    } else if ( Options::isTracking() && focusPoint() != NULL ) {
+        if ( Options::useAltAz() ) {
+            //Tracking on empty sky in Alt/Az mode
+            setFocus( focusPoint() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            setDestination( *focus() );
+        }
+
+    // Not tracking and not slewing, let sky drift by
+    // This means that horizontal coordinates are constant.
+    } else {
+        focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat() );
+    }
 }
 
 void SkyMapLite::setupProjector() {

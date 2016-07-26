@@ -23,7 +23,21 @@
 #include "indicom.h"
 #include "skymaplite.h"
 #include "kstarslite/skyitems/telescopesymbolsitem.h"
+#include <QDebug>
+#include <QImageReader>
+#include <QTemporaryFile>
+#include "kspaths.h"
+#include "fitsviewer/fitsdatalite.h"
+#include "fitsviewer/fitsviewlite.h"
+#include "kstarslite/imageprovider.h"
+#include <QProcess>
+#include <QFileDialog>
+#include "kspaths.h"
+#include <QApplication>
 
+#ifdef Q_OS_ANDROID
+#include "../../android_lib/include/libraw/libraw.h"
+#endif
 
 DeviceInfoLite::DeviceInfoLite(INDI::BaseDevice *dev)
     :device(dev), telescope(nullptr)
@@ -34,9 +48,15 @@ DeviceInfoLite::DeviceInfoLite(INDI::BaseDevice *dev)
 ClientManagerLite::ClientManagerLite()
     :m_connected(false)
 {
+#ifdef ANDROID
+    defaultImageType = ".jpeg";
+    defaultImagesLocation = KSPaths::writableLocation(QStandardPaths::PicturesLocation);
+#endif
     qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeNS");
     qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeWE");
     qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeCommand");
+
+    fitsView = new FITSViewLite();
 }
 
 ClientManagerLite::~ClientManagerLite()
@@ -165,7 +185,7 @@ void ClientManagerLite::buildTextGUI(Property * property) {
                 write = true;
                 break;
             }
-            emit createINDIText(property->getDeviceName(), property->getName(), label, text, read, write);
+            emit createINDIText(property->getDeviceName(), property->getName(), label, name, text, read, write);
         }
     }
 }
@@ -229,7 +249,7 @@ void ClientManagerLite::buildNumberGUI(Property * property) {
                 write = true;
                 break;
             }
-            emit createINDINumber(property->getDeviceName(), property->getName(), label, text, read, write, scale);
+            emit createINDINumber(property->getDeviceName(), property->getName(), label, name, text, read, write, scale);
         }
     }
 }
@@ -352,9 +372,8 @@ void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, 
     foreach(DeviceInfoLite *devInfo, m_devices) {
         INDI::BaseDevice *device = devInfo->device;
         if(device->getDeviceName() == deviceName) {
-            INDI::Property *property = device->getProperty(propName.toStdString().c_str());
+            INDI::Property *property = device->getProperty(propName.toLatin1());
             if(property) {
-
                 ISwitchVectorProperty *svp = property->getSwitch();
 
                 if (svp == NULL)
@@ -387,6 +406,56 @@ void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, 
     }
 }
 
+void ClientManagerLite::sendNewINDINumber(const QString& deviceName, const QString& propName, const QString &numberName, double value) {
+    foreach(DeviceInfoLite *devInfo, m_devices) {
+        INDI::BaseDevice *device = devInfo->device;
+        if(device->getDeviceName() == deviceName) {
+            INumberVectorProperty *np = device->getNumber(propName.toLatin1());
+            if (np)
+            {
+                INumber *n = IUFindNumber(np, numberName.toLatin1());
+                if (n)
+                {
+                    n->value = value;
+                    sendNewNumber(np);
+                    return;
+                }
+
+                qDebug() << "Could not find property: " << deviceName << "." << propName << "." << numberName;
+                return;
+            }
+
+            qDebug() << "Could not find property: " << deviceName << "." << propName << "." << numberName;
+            return;
+        }
+    }
+}
+
+void ClientManagerLite::sendNewINDIText(const QString& deviceName, const QString& propName, const QString &fieldName, const QString &text) {
+    foreach(DeviceInfoLite *devInfo, m_devices) {
+        INDI::BaseDevice *device = devInfo->device;
+        if(device->getDeviceName() == deviceName) {
+            ITextVectorProperty *tp = device->getText(propName.toLatin1());
+            if (tp)
+            {
+                IText *t = IUFindText(tp, fieldName.toLatin1());
+                if (t)
+                {
+                    IUSaveText(t, text.toLatin1().data());
+                    sendNewText(tp);
+                    return;
+                }
+
+                qDebug() << "Could not find property: " << deviceName << "." << propName << "." << fieldName;
+                return;
+            }
+
+            qDebug() << "Could not find property: " << deviceName << "." << propName << "." << fieldName;
+            return;
+        }
+    }
+}
+
 void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, int index) {
     if(index >= 0) {
         foreach(DeviceInfoLite *devInfo, m_devices) {
@@ -413,6 +482,34 @@ void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, 
             }
         }
     }
+}
+
+bool ClientManagerLite::saveDisplayImage() {
+    QString dateTime = QDateTime::currentDateTime().toString("dd-MM-yyyy-hh-mm-ss");
+    QString fileEnding = "kstars-lite-" + dateTime;
+    //QString filename = KSPaths::writableLocation(QStandardPaths::PicturesLocation);
+//#ifndef ANDROID
+    QString filename = QFileDialog::getSaveFileName(QApplication::activeWindow(), i18n("Save Image"),
+                                                    KSPaths::writableLocation(QStandardPaths::PicturesLocation) + "/" + fileEnding + ".jpeg",
+                                                    i18n("JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)" ));
+//#else
+    /*if(imageType.isEmpty() || !(imageType != ".jpeg" || imageType != ".jpg" || imageType != ".png" || imageType != ".bmp")) {
+            QString warning = imageType + " is a wrong image type. Switching to \"" + defaultImageType + "\"";
+            qDebug() << warning;
+            emit newINDIMessage(warning);
+            imageType = defaultImageType;
+    }*/
+  //  QString filename(defaultImagesLocation + "/" + fileEnding + defaultImageType);
+//#endif
+    if(!filename.isEmpty()) {
+        int i = 100;
+        if(displayImage.save(filename)) {
+            emit newINDIMessage("File " + filename + " was successfully saved");
+            return true;
+        }
+    }
+    emit newINDIMessage("Couldn't save file " + filename);
+    return false;
 }
 
 bool ClientManagerLite::isDeviceConnected(QString deviceName) {
@@ -514,6 +611,170 @@ void ClientManagerLite::newProperty(INDI::Property *property)
 
 void ClientManagerLite::removeProperty(INDI::Property *property) {
     emit removeINDIProperty(property->getGroupName(),property->getName());
+
+    DeviceInfoLite *devInfo = nullptr;
+    foreach(DeviceInfoLite *di, m_devices) {
+        if(di->device == property->getBaseDevice()) {
+            devInfo = di;
+        }
+    }
+
+    if(devInfo) {
+        if ((!strcmp(property->getName(), "EQUATORIAL_EOD_COORD") ||
+             !strcmp(property->getName(), "HORIZONTAL_COORD")) ) {
+            if(devInfo->telescope) {
+                emit telescopeRemoved(devInfo->telescope);
+            }
+            KStarsLite::Instance()->map()->update(); // Update SkyMap if position of telescope is changed
+        }
+    }
+}
+
+void ClientManagerLite::newBLOB(IBLOB *bp) {
+    processBLOBasCCD(bp);
+}
+
+bool ClientManagerLite::processBLOBasCCD(IBLOB *bp) {
+    enum blobType { BLOB_IMAGE, BLOB_FITS, BLOB_CR2, BLOB_OTHER} BType;
+
+    BType = BLOB_OTHER;
+
+    QString format(bp->format);
+    QString deviceName = bp->bvp->device;
+
+    QByteArray fmt = QString(bp->format).toLower().remove(".").toUtf8();
+
+    // If it's not FITS or an image, don't process it.
+    if ( (QImageReader::supportedImageFormats().contains(fmt)))
+        BType = BLOB_IMAGE;
+    else if (format.contains("fits"))
+        BType = BLOB_FITS;
+    else if (format.contains("cr2"))
+        BType = BLOB_CR2;
+
+    if (BType == BLOB_OTHER)
+    {
+        return false;
+    }
+
+    QString currentDir = KSPaths::writableLocation(QStandardPaths::TempLocation);
+
+    int nr, n=0;
+    QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");
+
+    if (currentDir.endsWith('/'))
+        currentDir.chop(1);
+
+    if (QDir(currentDir).exists() == false)
+        QDir().mkpath(currentDir);
+
+    QString filename(currentDir + '/');
+
+    if(true) {
+        tmpFile.setAutoRemove(false);
+
+        if (!tmpFile.open())
+        {
+            qDebug() << "ISD:CCD Error: Unable to open " << filename << endl;
+            //emit BLOBUpdated(NULL);
+            return false;
+        }
+
+        QDataStream out(&tmpFile);
+
+        for (nr=0; nr < (int) bp->size; nr += n)
+            n = out.writeRawData( static_cast<char *> (bp->blob) + nr, bp->size - nr);
+
+        tmpFile.close();
+
+        filename = tmpFile.fileName();
+    } else {
+        //Add support for batch mode
+    }
+
+    strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
+    bp->aux2 = BLOBFilename;
+
+    /* Test images
+    BType = BLOB_IMAGE;
+    filename = "/home/polaris/Pictures/351181_0.jpeg";
+    */
+    /*Test CR2
+    BType = BLOB_CR2;
+
+    filename = "/home/polaris/test.CR2";
+    filename = "/storage/emulated/0/test.CR2";*/
+
+    if (BType == BLOB_IMAGE || BType == BLOB_CR2)
+    {
+        if (BType == BLOB_CR2)
+        {
+#ifdef Q_OS_ANDROID
+            LibRaw RawProcessor;
+    #define OUT RawProcessor.imgdata.params
+            OUT.user_qual = 0; // -q
+            OUT.use_camera_wb = 1; // -w
+            OUT.highlight = 5; // -H
+            OUT.bright = 8; // -b
+
+            QString rawFileName = filename;
+            rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
+            QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
+            QTemporaryFile jpgPreview(templateName);
+            jpgPreview.setAutoRemove(false);
+            jpgPreview.open();
+            jpgPreview.close();
+            QString jpeg_filename = jpgPreview.fileName();
+
+            RawProcessor.open_file(filename.toLatin1());
+            RawProcessor.unpack();
+            RawProcessor.dcraw_process();
+            RawProcessor.dcraw_ppm_tiff_writer(jpeg_filename.toLatin1());
+            QFile::remove(filename);
+            filename = jpeg_filename;
+#else
+            if (QStandardPaths::findExecutable("dcraw").isEmpty() == false && QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
+            {
+                QProcess dcraw;
+                QString rawFileName = filename;
+                rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
+                QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
+                QTemporaryFile jpgPreview(templateName);
+                jpgPreview.setAutoRemove(false);
+                jpgPreview.open();
+                jpgPreview.close();
+                QString jpeg_filename = jpgPreview.fileName();
+
+                QString cmd = QString("/bin/sh -c \"dcraw -c -q 0 -w -H 5 -b 8 %1 | cjpeg -quality 80 > %2\"").arg(filename).arg(jpeg_filename);
+                dcraw.start(cmd);
+                dcraw.waitForFinished();
+                QFile::remove(filename); //Delete raw
+                filename = jpeg_filename;
+            }
+            else
+            {
+                emit newINDIMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
+                emit newINDIBLOBImage(deviceName, false);
+                return false;
+            }
+#endif
+        }
+
+        displayImage.load(filename);
+        QFile::remove(filename);
+        KStarsLite::Instance()->imageProvider()->addImage("ccdPreview", displayImage);
+        emit newINDIBLOBImage(deviceName, true);
+        return true;
+
+    } else if (BType == BLOB_FITS) {
+        displayImage = *(fitsView->loadFITS(filename));
+        QFile::remove(filename);
+        KStarsLite::Instance()->imageProvider()->addImage("ccdPreview", displayImage);
+        emit newINDIBLOBImage(deviceName, true);
+        return true;
+    }
+    emit newINDIBLOBImage(deviceName, false);
+    return false;
 }
 
 void ClientManagerLite::newSwitch(ISwitchVectorProperty *svp) {
@@ -534,6 +795,37 @@ void ClientManagerLite::newNumber(INumberVectorProperty *nvp)
          !strcmp(nvp->name, "HORIZONTAL_COORD")) ) {
         KStarsLite::Instance()->map()->update(); // Update SkyMap if position of telescope is changed
     }
+
+    QString deviceName = nvp->device;
+    QString propName = nvp->name;
+    for (int i = 0; i < nvp->nnp; ++i) {
+        INumber num = nvp->np[i];
+        char buf[MAXINDIFORMAT];
+        numberFormat(buf, num.format, num.value);
+        QString numberName = num.name;
+
+        emit newINDINumber(deviceName, propName, numberName, QString(buf).trimmed());
+    }
+}
+
+void ClientManagerLite::newText(ITextVectorProperty *tvp) {
+    QString deviceName = tvp->device;
+    QString propName = tvp->name;
+    for (int i = 0; i < tvp->ntp; ++i) {
+        IText text = tvp->tp[i];
+        QString fieldName = text.name;
+
+        emit newINDIText(deviceName, propName, fieldName, text.text);
+    }
+}
+
+void ClientManagerLite::newLight(ILightVectorProperty *lvp) {
+    QString deviceName = lvp->device;
+    QString propName = lvp->name;
+}
+
+void ClientManagerLite::newMessage(INDI::BaseDevice *dp, int messageID) {
+    emit newINDIMessage(QString::fromStdString(dp->messageQueue(messageID)));
 }
 
 void ClientManagerLite::serverDisconnected(int exit_code) {

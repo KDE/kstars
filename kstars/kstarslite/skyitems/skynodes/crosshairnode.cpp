@@ -31,12 +31,12 @@ CrosshairNode::CrosshairNode(INDI::BaseDevice *baseDevice, RootNode *rootNode)
     QSGGeometry *linesGeo = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0);
 
     lines->setGeometry(linesGeo);
-    lines->setFlag(QSGNode::OwnsGeometry);
+    //lines->setFlag(QSGNode::OwnsGeometry);
 
     material = new QSGFlatColorMaterial;
 
     lines->setMaterial(material);
-    lines->setFlag(QSGNode::OwnsMaterial);
+    //lines->setFlag(QSGNode::OwnsMaterial);
 
     linesGeo->setDrawingMode(GL_LINES);
     linesGeo->allocate(8);
@@ -48,6 +48,14 @@ CrosshairNode::CrosshairNode(INDI::BaseDevice *baseDevice, RootNode *rootNode)
 
 CrosshairNode::~CrosshairNode() {
     labelsItem->deleteLabel(label);
+    removeChildNode(lines);
+    removeChildNode(el1);
+    removeChildNode(el2);
+    delete lines->geometry();
+    delete material;
+    delete lines;
+    delete el1;
+    delete el2;
 }
 
 void CrosshairNode::setColor(QColor color) {

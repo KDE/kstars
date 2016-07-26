@@ -36,8 +36,6 @@ public:
                           QStandardPaths::LocateOptions options = QStandardPaths::LocateFile);
     static QStringList locateAll(QStandardPaths::StandardLocation, const QString &fileNames,
                              QStandardPaths::LocateOptions options = QStandardPaths::LocateFile);
-    static inline QString writableLocation(QStandardPaths::StandardLocation type) {
-        return QStandardPaths::writableLocation(type) + "/kstars/";
-    }
+    static QString writableLocation(QStandardPaths::StandardLocation type);
 };
 #endif

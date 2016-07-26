@@ -1,9 +1,9 @@
 /***************************************************************************
-                          fitsimage.cpp  -  FITS Image
+                          fitsdatalite.h  -  FITS Image
                              -------------------
-    begin                : Tue Feb 24 2004
-    copyright            : (C) 2004 by Jasem Mutlaq
-    email                : mutlaqja@ikarustech.com
+    begin                : Fri Jul 22 2016
+    copyright            : (C) 2016 by Jasem Mutlaq and Artem Fedoskin
+    email                : mutlaqja@ikarustech.com, afedoskin3@gmail.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,21 +17,8 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
-#ifndef FITSDATA_H_
-#define FITSDATA_H_
-
-#include <QFrame>
-#include <QImage>
-#include <QPixmap>
-#include <QMouseEvent>
-#include <QResizeEvent>
-#include <QPaintEvent>
-#include <QScrollArea>
-#include <QLabel>
-
-#ifndef KSTARS_LITE
-#include <kxmlguiwindow.h>
-#endif
+#ifndef FITSDATALITE_H_
+#define FITSDATALITE_H_
 
 #ifdef WIN32
 // avoid compiler warning when windows.h is included after fitsio.h
@@ -39,8 +26,8 @@
 #endif
 
 #include <fitsio.h>
-#include "fitshistogram.h"
 #include "fitscommon.h"
+#include <QRectF>
 
 #include "skypoint.h"
 #include "dms.h"
@@ -51,8 +38,6 @@
 
 #define MINIMUM_PIXEL_RANGE 5
 #define MINIMUM_STDVAR  5
-
-class QProgressDialog;
 
 typedef struct
 {
@@ -72,14 +57,14 @@ public:
     float sum;
 };
 
-class FITSData
+class FITSDataLite
 {
 public:
 
     typedef enum { CHANNEL_ONE, CHANNEL_TWO, CHANNEL_THREE } ColorChannel;
 
-    FITSData(FITSMode mode=FITS_NORMAL);
-    ~FITSData();
+    FITSDataLite(FITSMode mode=FITS_NORMAL);
+    ~FITSDataLite();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
     bool  loadFITS(const QString &filename, bool silent=true);
@@ -159,7 +144,7 @@ public:
     int getFITSRecord(QString &recordList, int &nkeys);
 
     // Histogram
-    void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
+    //void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
 
     // Filter
     void applyFilter(FITSScale type, float *image=NULL, float min=-1, float max=-1);
@@ -206,7 +191,6 @@ private:
     bool checkDebayer();
     void readWCSKeys();
 
-    FITSHistogram *histogram;           // Pointer to the FITS data histogram
     fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
 
     int data_type;                      // FITS image data type    

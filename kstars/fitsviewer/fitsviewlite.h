@@ -1,9 +1,9 @@
 /***************************************************************************
-                          FITSView.cpp  -  FITS Image
+                          fitsviewlite.h  -  FITS Image
                              -------------------
-    begin                : Tue Feb 24 2004
-    copyright            : (C) 2004 by Jasem Mutlaq
-    email                : mutlaqja@ikarustech.com
+    begin                : Fri Jul 22 2016
+    copyright            : (C) 2016 by Jasem Mutlaq and Artem Fedoskin
+    email                : mutlaqja@ikarustech.com, afedoskin3@gmail.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,28 +20,16 @@
 #ifndef FITSView_H_
 #define FITSView_H_
 
-#include <QFrame>
-#include <QImage>
-#include <QPixmap>
-#include <QMouseEvent>
-#include <QResizeEvent>
-#include <QPaintEvent>
-#include <QScrollArea>
-#include <QLabel>
-
-#include <kxmlguiwindow.h>
-
 #ifdef WIN32
 // avoid compiler warning when windows.h is included after fitsio.h
 #include <windows.h>
 #endif
 
-#include <fitsio.h>
-#include "fitshistogram.h"
+#include "fitsio.h"
 #include "fitscommon.h"
 
 #include "dms.h"
-#include "fitsdata.h"
+#include "fitsdatalite.h"
 
 #define INITIAL_W	640
 #define INITIAL_H	480
@@ -52,7 +40,7 @@
 class FITSView;
 
 
-class FITSLabel : public QLabel
+/*class FITSLabel : public QLabel
 {
      Q_OBJECT
 public:
@@ -78,38 +66,40 @@ signals:
     void markerSelected(int x, int y);
 
 
-};
+};*/
 
-class FITSView : public QScrollArea
+class FITSViewLite : public QObject//: public QScrollArea
 {
     Q_OBJECT
 public:
-    FITSView(QWidget *parent = 0, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);
-    ~FITSView();
+    FITSViewLite(FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);
+    ~FITSViewLite();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
-    bool  loadFITS(const QString &filename, bool silent=true);
+    QImage *loadFITS(const QString &filename, bool silent=true);
     /* Save FITS */
     int saveFITS(const QString &filename);
     /* Rescale image lineary from image_buffer, fit to window if desired */
-    int rescale(FITSZoom type);
+    bool rescale();
 
-    void setImageData(FITSData *d) { image_data = d; }
+    void setImageData(FITSDataLite *d) { image_data = d; }
 
     // Access functions
-    FITSData *getImageData() { return image_data; }
+    FITSDataLite *getImageData() { return image_data; }
     double getCurrentZoom() { return currentZoom; }
-    QImage * getDisplayImage() { return display_image; }    
+    QImage * getDisplayImage() { return display_image; }
+
+    QImage * getImageFromFITS();
 
     // Tracking square
-    void setTrackingBoxEnabled(bool enable);
+    /*void setTrackingBoxEnabled(bool enable);
     bool isTrackingBoxEnabled() { return trackingBoxEnabled; }
     QPixmap & getTrackingBoxPixmap();
     void setTrackingBox(const QRect & rect);
-    const QRect & getTrackingBox() { return trackingBox; }
+    const QRect & getTrackingBox() { return trackingBox; }*/
 
     // Overlay
-    void drawOverlay(QPainter *);
+    /*void drawOverlay(QPainter *);
     void drawStarCentroid(QPainter *);
     void drawTrackingBox(QPainter *);
     void drawMarker(QPainter *);
@@ -120,23 +110,19 @@ public:
 
     // FITS Mode
     void updateMode(FITSMode mode);
-    FITSMode getMode() { return mode;}
+    FITSMode getMode() { return mode;}*/
 
     int getGammaValue() const;
     void setGammaValue(int value);
     void setFilter(FITSScale newFilter) { filter = newFilter;}
 
-protected:
-    void wheelEvent(QWheelEvent* event);
-
 public slots:
-    void ZoomIn();
+    /*void ZoomIn();
     void ZoomOut();
     void ZoomDefault();
 
     void processPointSelection(int x, int y);
-    void processMarkerSelection(int x, int y);
-
+    void processMarkerSelection(int x, int y);*/
 private:
 
     double average();
@@ -145,7 +131,7 @@ private:
     void initDisplayImage();
 
     //FITSLabel *image_frame;
-    FITSData *image_data;
+    FITSDataLite *image_data;
     int image_width, image_height;
 
     double currentWidth,currentHeight; /* Current width and height due to zoom */
@@ -154,7 +140,6 @@ private:
 
     int data_type;                     /* FITS data type when opened */
     QImage  *display_image;            /* FITS image that is displayed in the GUI */
-    FITSHistogram *histogram;
 
     int gammaValue;
     double maxPixel, maxGammaPixel, minPixel;
@@ -172,18 +157,18 @@ private:
     QPointF markerCrosshair;
 
     // Tracking box
-    bool trackingBoxEnabled;
+    /*bool trackingBoxEnabled;
     bool trackingBoxUpdated;
     QRect trackingBox;
-    QPixmap trackingBoxPixmap;
+    QPixmap trackingBoxPixmap;*/
 
 signals:
-    void newStatus(const QString &msg, FITSBar id);
+    /*void newStatus(const QString &msg, FITSBar id);
     void debayerToggled(bool);
     void actionUpdated(const QString &name, bool enable);
-    void trackingStarSelected(int x, int y);
+    void trackingStarSelected(int x, int y);*/
 
-  friend class FITSLabel;
+  //friend class FITSLabel;
 };
 
 #endif

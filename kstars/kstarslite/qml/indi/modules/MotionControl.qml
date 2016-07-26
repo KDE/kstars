@@ -18,7 +18,8 @@ ColumnLayout {
     enabled: buttonsEnabled
 
     property string deviceName
-    property var telescope
+    property var telescope: ClientManagerLite.getTelescope(deviceName)
+    property bool buttonsEnabled: telescope.isConnected()
 
     Connections {
         target: ClientManagerLite
@@ -33,8 +34,6 @@ ColumnLayout {
             }
         }
     }
-
-    property bool buttonsEnabled: ClientManagerLite.isDeviceConnected(deviceName)
 
     //Row 1
     RowLayout {

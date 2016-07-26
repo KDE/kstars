@@ -6,6 +6,7 @@ import "indi"
 import "constants" 1.0
 import QtQuick.Controls 1.4 as Controls
 import org.kde.kirigami 1.0 as Kirigami
+import QtSensors 5.0
 
 Kirigami.ApplicationWindow {
     id: mainWindow
@@ -20,7 +21,7 @@ Kirigami.ApplicationWindow {
 
     property Item initPage: initPage
 
-    pageStack.initialPage: initPage
+    pageStack.initialPage: null
 
     property var contextActions: []
 
@@ -40,7 +41,6 @@ Kirigami.ApplicationWindow {
 
     contentItem.anchors.topMargin: 0
     wideScreen: true
-
 
     Item {
         id: pagesWindow
@@ -70,11 +70,43 @@ Kirigami.ApplicationWindow {
                 }
             }
         ]
+
+        Kirigami.Label {
+            text: "Magnitude Limit"
+        }
+
+        Controls.Slider {
+            Layout.fillWidth: true
+
+            maximumValue: 5.75954
+            minimumValue: 1.18778
+            value: SkyMapLite.magLim
+            onValueChanged: {
+                SkyMapLite.magLim = value
+            }
+        }
     }
 
     contextDrawer: Kirigami.ContextDrawer {
         id: contextDrawer
         property Item contextMenu
+
+        actions: initPage.actions.contextualActions
+
+        onOpenedChanged: {
+            if(opened) {
+                //If no telescopes are connected then we disable actions in context drawer
+                var areTelescopesLoaded = false
+                if(ClientManagerLite.connected) {
+                    for(var i = 0; i < mainWindow.telescopes.length; ++i) {
+                        if(mainWindow.telescopes[i].isConnected()) {
+                            areTelescopesLoaded = true
+                        }
+                    }
+                }
+                initPage.telescopeLoaded = areTelescopesLoaded
+            }
+        }
 
         Component.onCompleted: {
             var contDrawMenuComp = Qt.createComponent("modules/ContextDrawerMenu.qml");
@@ -91,6 +123,12 @@ Kirigami.ApplicationWindow {
         title: "Main Screen"
         visible:true
 
+        TapSensor {
+            onReadingChanged: {
+                console.log(reading.doubleTap)
+            }
+        }
+
         onVisibleChanged: {
             if(visible) {
                 SkyMapLite.update() //Update SkyMapLite once user opened initPage
@@ -98,6 +136,7 @@ Kirigami.ApplicationWindow {
         }
 
         property bool isClickedObject: false
+        property bool telescopeLoaded: false
 
         Connections {
             target: SkyMapLite
@@ -113,10 +152,17 @@ Kirigami.ApplicationWindow {
             }
         }
 
-        property bool telescopeLoaded: false
-
         Connections {
             target: ClientManagerLite
+            /*onDeviceConnected: {
+                var isConnected = false
+                for(var i = 0; i < telescopes.length; ++i) {
+                    if(telescopes[i].isConnected()) {
+                        isConnected = true
+                    }
+                }
+                initPage.telescopeLoaded = Connected
+            }*/
             onTelescopeAdded: {
                 telescopes.push(newTelescope)
                 initPage.telescopeLoaded = true
@@ -126,13 +172,11 @@ Kirigami.ApplicationWindow {
         actions {
             contextualActions: [
                 Kirigami.Action {
-                    enabled: telescopeLoaded
+                    enabled: initPage.telescopeLoaded
                     text: "Slew to object"
                     onTriggered: {
-                        var isConnected = false
                         for(var i = 0; i < telescopes.length; ++i) {
                             if(telescopes[i].isConnected()) {
-                                isConnected = true
                                 if(initPage.isClickedObject) {
                                     telescopes[i].slew(ClickedObject)
                                 } else {
@@ -140,15 +184,12 @@ Kirigami.ApplicationWindow {
                                 }
                             }
                         }
-                        if(!isConnected) telescopeLoaded = false
-                        else telescopeLoaded = true
                     }
                 },
                 Kirigami.Action {
-                    enabled: telescopeLoaded
+                    enabled: initPage.telescopeLoaded
                     text: "Sync"
                     onTriggered: {
-                        var isConnected = false
                         for(var i = 0; i < telescopes.length; ++i) {
                             if(telescopes[i].isConnected()) {
                                 if(initPage.isClickedObject) {
@@ -158,8 +199,6 @@ Kirigami.ApplicationWindow {
                                 }
                             }
                         }
-                        if(!isConnected) telescopeLoaded = false
-                        else telescopeLoaded = true
                     }
                 }
             ]
@@ -188,12 +227,41 @@ Kirigami.ApplicationWindow {
                 anchors.fill: parent
                 color: "black"
 
-                onWidthChanged: {
-                    SkyMapLite.width = width
+                Rectangle {
+                     id: tapCircle
+                     z: 1
+                     width: 20 * num.dp
+                     height: width
+                     color: "grey"
+                     radius: width*0.5
+                     opacity: 0
+
+                     Connections {
+                         target: SkyMapLite
+                         onPosClicked: {
+                            tapCircle.x = pos.x - tapCircle.width * 0.5
+                            tapCircle.y = pos.y - tapCircle.height * 0.5
+                            tapAnimation.start()
+                         }
+                     }
+
+                     SequentialAnimation on opacity {
+                         id: tapAnimation
+                         OpacityAnimator { from: 0; to: 0.8; duration: 100 }
+                         OpacityAnimator { from: 0.8; to: 0; duration: 400 }
+                     }
                 }
-                onHeightChanged: {
-                    SkyMapLite.height = height
-                }
+
+                /*MouseArea {
+                    z: 1
+                    anchors.fill: parent
+                    propagateComposedEvents: true
+                    onClicked: {
+                        tapCircle.x = mouseX - tapCircle.width/2
+                        tapCircle.y = mouseY - tapCircle.height/2
+                        mouse.accepted = false
+                    }
+                }*/
             }
 
             MouseArea {

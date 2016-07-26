@@ -5,9 +5,10 @@ Button {
     property string switchName: ""
     property Row parentRow
     checkable: true
+    checked: true
 
     onClicked: {
         parentRow.sendNewSwitch(switchName, null)
-        checked = true
+        Qt.inputMethod.hide()
     }
 }
