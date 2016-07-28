@@ -35,6 +35,8 @@
 #include "kspaths.h"
 #include <QApplication>
 
+const char *libindi_strings_context = "string from libindi, used in the config dialog";
+
 #ifdef Q_OS_ANDROID
 #include "../../android_lib/include/libraw/libraw.h"
 #endif
@@ -103,12 +105,24 @@ void ClientManagerLite::setConnected(bool connected) {
     emit connectedChanged(connected);
 }
 
-QString ClientManagerLite::updateLED(QString device, QString property) {
+QString ClientManagerLite::syncLED(QString device, QString property, QString name) {
     foreach(DeviceInfoLite *devInfo, m_devices) {
         if(devInfo->device->getDeviceName() == device) {
-            INDI::Property *prop = devInfo->device->getProperty(property.toStdString().c_str());
+            INDI::Property *prop = devInfo->device->getProperty(property.toLatin1());
             if(prop) {
-                switch (prop->getState())
+                IPState state = prop->getState();
+                if(!name.isEmpty()) {
+                    ILight *lights = prop->getLight()->lp;
+                    for (int i=0; i < prop->getLight()->nlp; i++) {
+                        if(lights[i].name == name) {
+                            state = lights[i].s;
+                            break;
+                        }
+                        if(i == prop->getLight()->nlp - 1) return ""; // no Light with name "name" found so return empty string
+                    }
+
+                }
+                switch (state)
                 {
                 case IPS_IDLE:
                     return "grey";
@@ -368,6 +382,70 @@ void ClientManagerLite::buildSwitch(bool buttonGroup, ISwitch *sw, INDI::Propert
     }
 }
 
+void ClientManagerLite::buildLightGUI(INDI::Property *property) {
+    ILightVectorProperty *lvp = property->getLight();
+
+    if (lvp == NULL)
+        return;
+
+    for (int i=0; i < lvp->nlp; i++)
+    {
+        ILight *ilp = &(lvp->lp[i]);
+
+        QString name  = ilp->name;
+        QString label = i18nc(libindi_strings_context, ilp->label);
+
+        if (label == "(I18N_EMPTY_MESSAGE)")
+            label = ilp->label;
+
+        if (label.isEmpty())
+            label = i18nc(libindi_strings_context, ilp->name);
+
+        if (label == "(I18N_EMPTY_MESSAGE)")
+            label = ilp->name;
+
+        emit createINDILight(property->getDeviceName(), property->getName(), label, name);
+    }
+}
+
+/*void ClientManagerLite::buildBLOBGUI(INDI::Property *property) {
+    IBLOBVectorProperty *ibp = property->getBLOB();
+
+    QString name  = ibp->name;
+    QString label = i18nc(libindi_strings_context, ibp->label);
+
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = ibp->label;
+
+    if (label.isEmpty())
+        label = i18nc(libindi_strings_context, ibp->name);
+
+    if (label == "(I18N_EMPTY_MESSAGE)")
+        label = ibp->name;
+
+    text = i18n("INDI DATA STREAM");
+
+    switch (property->getPermission())
+    {
+    case IP_RW:
+        setupElementRead(ELEMENT_READ_WIDTH);
+        setupElementWrite(ELEMENT_WRITE_WIDTH);
+        setupBrowseButton();
+        break;
+
+    case IP_RO:
+        setupElementRead(ELEMENT_FULL_WIDTH);
+        break;
+
+    case IP_WO:
+        setupElementWrite(ELEMENT_FULL_WIDTH);
+        setupBrowseButton();
+        break;
+    }
+
+    guiProp->addLayout(EHBox);
+}*/
+
 void ClientManagerLite::sendNewINDISwitch(QString deviceName, QString propName, QString name) {
     foreach(DeviceInfoLite *devInfo, m_devices) {
         INDI::BaseDevice *device = devInfo->device;
@@ -597,7 +675,7 @@ void ClientManagerLite::newProperty(INDI::Property *property)
         break;
 
     case INDI_LIGHT:
-        //buildLightGUI();
+        buildLightGUI(property);
         break;
 
     case INDI_BLOB:
@@ -610,7 +688,7 @@ void ClientManagerLite::newProperty(INDI::Property *property)
 }
 
 void ClientManagerLite::removeProperty(INDI::Property *property) {
-    emit removeINDIProperty(property->getGroupName(),property->getName());
+    emit removeINDIProperty(property->getDeviceName(), property->getGroupName(),property->getName());
 
     DeviceInfoLite *devInfo = nullptr;
     foreach(DeviceInfoLite *di, m_devices) {
@@ -632,6 +710,7 @@ void ClientManagerLite::removeProperty(INDI::Property *property) {
 
 void ClientManagerLite::newBLOB(IBLOB *bp) {
     processBLOBasCCD(bp);
+    emit newLEDState(bp->bvp->device , bp->name);
 }
 
 bool ClientManagerLite::processBLOBasCCD(IBLOB *bp) {
@@ -785,6 +864,7 @@ void ClientManagerLite::newSwitch(ISwitchVectorProperty *svp) {
         }
         if(sw != NULL) {
             emit newINDISwitch(svp->device, svp->name, sw->name, sw->s == ISS_ON);
+            emit newLEDState(svp->device, svp->name);
         }
     }
 }
@@ -805,6 +885,7 @@ void ClientManagerLite::newNumber(INumberVectorProperty *nvp)
         QString numberName = num.name;
 
         emit newINDINumber(deviceName, propName, numberName, QString(buf).trimmed());
+        emit newLEDState(deviceName, propName);
     }
 }
 
@@ -816,12 +897,13 @@ void ClientManagerLite::newText(ITextVectorProperty *tvp) {
         QString fieldName = text.name;
 
         emit newINDIText(deviceName, propName, fieldName, text.text);
+        emit newLEDState(deviceName, propName);
     }
 }
 
 void ClientManagerLite::newLight(ILightVectorProperty *lvp) {
-    QString deviceName = lvp->device;
-    QString propName = lvp->name;
+    emit newINDILight(lvp->device, lvp->name);
+    emit newLEDState(lvp->device, lvp->name);
 }
 
 void ClientManagerLite::newMessage(INDI::BaseDevice *dp, int messageID) {

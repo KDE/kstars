@@ -3,7 +3,7 @@ import QtQuick.Controls 1.4
 
 CheckBox {
     property string switchName: ""
-    property Row parentRow
+    property Flow parentRow
 
     onClicked: {
         parentRow.sendNewSwitch(switchName, null)

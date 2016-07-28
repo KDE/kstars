@@ -4,9 +4,10 @@ import "../../constants" 1.0
 import org.kde.kirigami 1.0 as Kirigami
 
 Column {
+    id: columnTextProp
     Layout.fillHeight: true
+    Layout.fillWidth: true
     spacing: 5 * num.dp
-    width: parent.width
     property string propLabel: ""
 
     Kirigami.Label {
@@ -14,9 +15,9 @@ Column {
     }
 
     Rectangle {
-        id:separator
+        id: separator
+        height: num.dp
         color: "grey"
-        height: 1 * num.dp
         width: parent.width
     }
 
@@ -24,7 +25,7 @@ Column {
         var textItem
         if(writable) {
                 var textComp = Qt.createComponent("KSINDITextField.qml");
-                textItem = textComp.createObject(columnProp)
+                textItem = textComp.createObject(this)
                 textItem.deviceName = deviceName
                 textItem.propName = propName
                 textItem.fieldName = fieldName

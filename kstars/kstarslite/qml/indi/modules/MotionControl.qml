@@ -29,7 +29,7 @@ ColumnLayout {
             }
         }
         onTelescopeAdded: {
-            if(newTelescope.getDeviceName() == motionCColumn.deviceName) {
+            if(newTelescope.getDeviceName() === motionCColumn.deviceName) {
                 telescope = newTelescope
             }
         }

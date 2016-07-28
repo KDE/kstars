@@ -12,8 +12,8 @@ KSPage {
     contentItem: imgPreviewColumn
     title: "Image Preview - " + deviceName
 
-    property string deviceName: title
-    property Item buttonRow
+    property string deviceName
+    property Item buttonRow: null
 
     Item {
         id: imgPreviewColumn
@@ -29,6 +29,7 @@ KSPage {
             Layout.fillWidth: true
 
             spacing: 5 * num.dp
+
             Controls.Button {
                 text: "Save As"
 
@@ -58,11 +59,13 @@ KSPage {
     Connections {
         target: ClientManagerLite
         onNewINDIBLOBImage: {
-            image.source = "image://images/ccdPreview"
-            imagePreview.showPage()
+            if(imagePreview.deviceName == deviceName) {
+                image.source = "image://images/ccdPreview"
+                imagePreview.showPage()
+            }
         }
         onCreateINDIButton: {
-            if(deviceName == imagePreview.deviceName) {
+            if(imagePreview.deviceName == deviceName) {
                 if(propName == "UPLOAD_MODE") {
                     if(imagePreview.buttonRow == null) {
                         var buttonRowComp = Qt.createComponent("modules/KSButtonsSwitchRow.qml");
@@ -72,6 +75,16 @@ KSPage {
                         imagePreview.buttonRow.exclusive = exclusive
                     }
                     imagePreview.buttonRow.addButton(propText, switchName, checked, enabled)
+                }
+            }
+        }
+        onRemoveINDIProperty: {
+            if(imagePreview.deviceName == deviceName) {
+                if(propName == "UPLOAD_MODE") {
+                    if(imagePreview.buttonRow != null) {
+                        imagePreview.buttonRow.destroy()
+                        imagePreview.buttonRow = null
+                    }
                 }
             }
         }

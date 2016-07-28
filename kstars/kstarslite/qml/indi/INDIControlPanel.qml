@@ -33,6 +33,7 @@ KSPage {
                 devicesModel.get(i).panel.destroy()
             }
             devicesModel.clear()
+            showPage(initPage)
             showPassiveNotification("Disconnected from the server")
         }
     }
@@ -40,12 +41,13 @@ KSPage {
 
     ColumnLayout {
         id: cPanelColumn
+        spacing: 5 * num.dp
 
         anchors {
             top: parent.top
             left: parent.left
             right: parent.right
-            topMargin: 5 * num.dp
+            topMargin: 15 * num.dp
             leftMargin: 25 * num.dp
             rightMargin: 25 * num.dp
         }
@@ -92,7 +94,8 @@ KSPage {
         }
 
         Controls.Button {
-            text: indiPage.connected ? "Disconnect" : "Connect"
+            text: indiPage.connected ? "Disconnect" : "Connect "
+
             onClicked: {
                 if(!indiPage.connected) {
                     if(ClientManagerLite.setHost(ipHost.text, parseInt(portHost.text))) {
@@ -134,7 +137,7 @@ KSPage {
                 onNewINDIDevice: {
                     var component = Qt.createComponent(Qt.resolvedUrl("./DevicePanel.qml"));
                     var devicePanel = component.createObject(pagesWindow);
-                    devicePanel.title = deviceName
+                    devicePanel.deviceName = deviceName
                     devicesModel.append({ name: deviceName, panel: devicePanel })
                 }
                 onRemoveINDIDevice: {
@@ -169,6 +172,8 @@ KSPage {
         rightPadding: 0
         topPadding: 0
         bottomPadding: 0
+
+        visible: connected
 
         ListView {
             id: list

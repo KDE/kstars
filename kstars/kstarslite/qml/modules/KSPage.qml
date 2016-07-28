@@ -55,7 +55,7 @@ Kirigami.Page {
             left: parent.left
             right: parent.right
         }
-        height: Screen.height * 0.07 + headerSeparator.height
+        height: Screen.height * 0.09 + headerSeparator.height
         gradient: Gradient {
             GradientStop { position: 0.0; color: "#207ce5" }
             GradientStop { position: 0.70; color: "#499bea" }
@@ -64,17 +64,17 @@ Kirigami.Page {
         RowLayout {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 10
+            anchors.leftMargin: 10 * num.dp
 
             Rectangle {
                 id: backRect
                 radius: width * 0.5
-                color: "grey"
-                opacity: 0
+                color: "#F0F0F0"
+                //opacity: 0
                 state: "released"
 
-                width: 30 * num.dp
-                height: 30 * num.dp
+                width: pageTitle.height + 15 * num.dp
+                height: width
 
                 MouseArea {
                     anchors.fill: parent
@@ -84,8 +84,10 @@ Kirigami.Page {
                     onPressedChanged: {
                         if(pressed) {
                             backRect.state = "pressed"
+                            console.log(backRect.state)
                         } else {
                             backRect.state = "released"
+                            console.log(backRect.state)
                         }
                     }
                 }
@@ -93,28 +95,26 @@ Kirigami.Page {
                 states: [
                     State {
                         name: "pressed"
-                        PropertyChanges { target: backRect; opacity: 0.6 }
-                        PropertyChanges { target: backButton; opacity: 0.6 }
+                        PropertyChanges { target: backRect; opacity: 0.3 }
+                        //PropertyChanges { target: backButton; opacity: 0.6 }
                     },
                     State {
                         name: "released"
                         PropertyChanges { target: backRect; opacity: 0 }
-                        PropertyChanges { target: backButton; opacity: 1 }
+                        //PropertyChanges { target: backButton; opacity: 1 }
                     }
                 ]
 
                 transitions: [
                     Transition {
-                        from: "pressed"
-                        to: "released"
-                        OpacityAnimator { target: backRect; duration: 1000}
-                        OpacityAnimator { target: backButton; duration: 1000}
+                        from: "released"
+                        to: "pressed"
+                        PropertyAnimation { target: backRect; properties: "opacity"; duration: 100 }
                     },
                     Transition {
-                        from: "released"
+                        from: "pressed"
                         to: "released"
-                        OpacityAnimator { target: backRect; duration: 1000}
-                        OpacityAnimator { target: backButton; duration: 1000}
+                        PropertyAnimation { target: backRect; properties: "opacity"; duration: 150 }
                     }
                 ]
             }
@@ -123,7 +123,8 @@ Kirigami.Page {
                 id: backButton
                 visible: prevPage !== null
                 source: "images/" + num.density + "/icons/back.png"
-                sourceSize.height: pageTitle.width
+                sourceSize.height: pageTitle.height + 2 * num.dp
+                sourceSize.width: pageTitle.height + 2 * num.dp
                 anchors.centerIn: backRect
             }
 
@@ -133,7 +134,7 @@ Kirigami.Page {
                 text: title
                 color: "white"
                 anchors.left: backButton.right
-                anchors.leftMargin: 20
+                anchors.leftMargin: 20 * num.dp
             }
         }
 

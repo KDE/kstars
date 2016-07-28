@@ -61,13 +61,20 @@ public:
     QString connectedHost() { return m_connectedHost; }
     void setConnectedHost(QString connectedHost);
     void setConnected(bool connected);
-    Q_INVOKABLE QString updateLED(QString device, QString property);
+    /**
+     * @brief syncLED
+     * @param name of Light which LED needs to be synced
+     * @return color of state
+     */
+    Q_INVOKABLE QString syncLED(QString device, QString property, QString name = "");
 
     void buildTextGUI(INDI::Property * property);
     void buildNumberGUI(INDI::Property * property);
     void buildMenuGUI(INDI::Property * property);
     void buildSwitchGUI(INDI::Property * property, PGui guiType);
     void buildSwitch(bool buttonGroup, ISwitch *sw, INDI::Property *property, bool exclusive = false, PGui guiType = PG_BUTTONS);
+    void buildLightGUI(INDI::Property *property);
+    //void buildBLOBGUI(INDI::Property *property);
 
     Q_INVOKABLE void sendNewINDISwitch(QString deviceName, QString propName, QString name);
     Q_INVOKABLE void sendNewINDISwitch(QString deviceName, QString propName, int index);
@@ -122,14 +129,18 @@ signals:
 
     void createINDIMenu(QString deviceName, QString propName, QString switchLabel, QString switchName, bool isSelected);
 
-    void removeINDIProperty(QString groupName, QString propName);
+    void createINDILight(QString deviceName, QString propName, QString label, QString lightName);
+
+    void removeINDIProperty(QString deviceName, QString groupName, QString propName);
 
     //Update signals
     void newINDISwitch(QString deviceName, QString propName, QString switchName, bool isOn);
     void newINDINumber(QString deviceName, QString propName, QString numberName, QString value);
     void newINDIText(QString deviceName, QString propName, QString fieldName, QString text);
     void newINDIMessage(QString message);
+    void newINDILight(QString deviceName, QString propName);
     void newINDIBLOBImage(QString deviceName, bool isLoaded);
+    void newLEDState(QString deviceName, QString propName); // to sync LED for properties
 
     void connectedHostChanged(QString);
     void connectedChanged(bool);

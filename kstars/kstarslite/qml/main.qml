@@ -27,7 +27,16 @@ Kirigami.ApplicationWindow {
 
     property var telescopes: []
 
-    //pageStack.currentIndex: initPage
+    property bool loaded: false
+
+    Splash {
+        z:1
+        anchors.fill:parent
+        onTimeout: {
+            loaded = true
+            controlsVisible = true
+        }
+    }
 
     property Item currentPage: initPage
 
@@ -36,8 +45,6 @@ Kirigami.ApplicationWindow {
     header: Kirigami.ApplicationHeader {
         visible: false
     }
-
-    property bool loaded: false
 
     contentItem.anchors.topMargin: 0
     wideScreen: true
@@ -81,6 +88,7 @@ Kirigami.ApplicationWindow {
             maximumValue: 5.75954
             minimumValue: 1.18778
             value: SkyMapLite.magLim
+
             onValueChanged: {
                 SkyMapLite.magLim = value
             }
@@ -121,7 +129,7 @@ Kirigami.ApplicationWindow {
     KSPage {
         id: initPage
         title: "Main Screen"
-        visible:true
+        visible: loaded
 
         TapSensor {
             onReadingChanged: {
@@ -202,15 +210,6 @@ Kirigami.ApplicationWindow {
                     }
                 }
             ]
-        }
-
-        Splash {
-            z:1
-            anchors.fill:parent
-            onTimeout: {
-                loaded = true
-                mainWindow.controlsVisible = true
-            }
         }
 
         /*content is made Rectangle to allow z-index ordering

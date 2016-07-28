@@ -13,18 +13,26 @@ Item {
         devicesPage.showPage(backtoInit)
     }
 
-    property string title
+    property string deviceName
+    property ImagePreview imagePreview: null
 
     KSPage {
         id: devicesPage
         contentItem: deviceTabView
-        title: devicesPanel.title
+        title: devicesPanel.deviceName + " - " + deviceTabView.currentTabTitle
+
         TabView {
             id: deviceTabView
+            currentIndex: 0
 
             property var groups: []
             property var properties: []
             property var tabs: []
+            property string currentTabTitle: ""
+
+            onCurrentIndexChanged: {
+                currentTabTitle = getTab(currentIndex).title
+            }
 
             Component.onCompleted: {
                 if(Qt.platform.os != "android") {
@@ -39,7 +47,8 @@ Item {
             Connections {
                 target: ClientManagerLite
                 onNewINDIProperty: {
-                    if(devicesPage.title === deviceName) {
+                    if(deviceTabView.currentTabTitle == "") deviceTabView.currentTabTitle = groupName
+                    if(devicesPanel.deviceName === deviceName) {
                         if(deviceTabView.groups.indexOf(groupName) == -1) {
                             deviceTabView.groups.push(groupName)
                             var newTabComp = Qt.createComponent("modules/KSTab.qml");
@@ -59,13 +68,14 @@ Item {
                                 if(tab.title === groupName) {
                                     var propComp = Qt.createComponent("modules/Property.qml");
                                     var property = propComp.createObject(tab.columnItem)
-                                    property.name = propName
+                                    property.propName = propName
                                     property.label = label
-                                    property.device = deviceName
-                                    if(propName == "CCD_EXPOSURE") {
+                                    property.deviceName = deviceName
+                                    property.parentTab = tab
+                                    if(propName == "CCD_EXPOSURE" && devicesPanel.imagePreview == null) {
                                         var imgPreviewComp = Qt.createComponent("ImagePreview.qml");
-                                        var imagePreview = imgPreviewComp.createObject(devicesPanel)
-                                        imagePreview.deviceName = devicesPanel.title
+                                        devicesPanel.imagePreview = imgPreviewComp.createObject(devicesPanel)
+                                        devicesPanel.imagePreview.deviceName = devicesPanel.deviceName
                                     }
                                 }
                             }
@@ -78,7 +88,7 @@ Item {
                         if(tab.title === groupName && groupName != "Motion Control") {
                             var columnItem = deviceTabView.tabs[i].columnItem
                             for(var c = 0; c < columnItem.children.length; ++c) {
-                                if(columnItem.children[c].name === propName) {
+                                if(columnItem.children[c].propName === propName) {
                                     columnItem.children[c].destroy()
                                 }
                             }
@@ -87,6 +97,9 @@ Item {
                                 groups.splice(groups.indexOf(groupName), 1)
                                 tab.destroy()
                             }
+                            /*if(propName == "CCD_EXPOSURE" && devicesPanel.imagePreview != null) {
+                                imgPreview.destroy()
+                            }*/
                         }
                     }
                 }

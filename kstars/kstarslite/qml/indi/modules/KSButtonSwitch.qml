@@ -3,7 +3,7 @@ import QtQuick.Controls 1.4
 
 Button {
     property string switchName: ""
-    property Row parentRow
+    property Flow parentRow
     checkable: true
     checked: true
 

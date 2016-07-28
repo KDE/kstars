@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.2
 import QtQuick.Controls 1.4
 import org.kde.kirigami 1.0 as Kirigami
 import "../../constants" 1.0
+import "../../modules"
 
 Tab {
     id: tab
@@ -10,7 +11,6 @@ Tab {
         fill: parent
         leftMargin: 5 * num.dp
         rightMargin: 5 * num.dp
-        bottomMargin: 5 * num.dp
     }
     active: true
 
@@ -27,7 +27,6 @@ Tab {
 
         Column {
             id: column
-            anchors.leftMargin: 5 * num.dp
 
             Component.onCompleted: {
                 tab.columnItem = this

@@ -235,17 +235,6 @@ void SkyMapLite::wheelEvent( QWheelEvent *e ) {
 void SkyMapLite::touchEvent( QTouchEvent *e) {
     QList<QTouchEvent::TouchPoint> points = e->touchPoints();
 
-    QTapReading *reading = m_tapSensor->reading();
-
-    if(reading) {
-        qDebug() << reading->isDoubleTap();
-    }
-
-    bool conn = m_tapSensor->isConnectedToBackend();
-    qDebug() << conn << "Connect State";
-    qDebug() << m_tapSensor->connectToBackend() << "trying to connect";
-
-
     if(points.length() == 2) {
         if ( projector()->unusablePoint( points[0].pos() ) ||
              projector()->unusablePoint( points[1].pos() ))
@@ -361,7 +350,7 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
                 setClickedPoint( &m_MousePoint );
 
                 //Find object nearest to clickedPoint()
-                double maxrad = 1000.0/Options::zoomFactor()*2; /* On high zoom-level it is very hard to select the object using touch screen.
+                double maxrad = 2.5;/*1000.0/Options::zoomFactor()*2; /* On high zoom-level it is very hard to select the object using touch screen.
                                             That's why radius remains constant*/
                 qDebug() << maxrad << "maxrad";
                 SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );

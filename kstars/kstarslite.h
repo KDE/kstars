@@ -47,7 +47,6 @@ class QQuickItem;
 class KStarsLite : public QObject
 {
     Q_OBJECT
-
 private:
     /**
      * @short Constructor.

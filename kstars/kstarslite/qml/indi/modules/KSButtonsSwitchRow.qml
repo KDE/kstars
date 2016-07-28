@@ -1,13 +1,17 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.4
+import QtQuick.Window 2.2
+import "../../constants" 1.0
+import QtQuick.Layouts 1.2
 
-Row {
+Flow {
     id:buttonsRow
     property bool checkBox: false
     property string propName: ""
     property string deviceName: ""
     property bool exclusive: false
-    spacing: 5
+    //Layout.fillWidth: true
+    spacing: 5 * num.dp
 
     Connections {
         target: ClientManagerLite
@@ -23,7 +27,6 @@ Row {
             }
         }
     }
-
 
     function addButton(propText, switchName, initChecked, enabled) {
         var buttonComp = Qt.createComponent("KSButtonSwitch.qml");

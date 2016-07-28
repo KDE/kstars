@@ -10,82 +10,76 @@ ColumnLayout {
     id: columnProp
 
     Layout.fillHeight: true
-    Layout.fillWidth: true
+    width: parentTab.width// : parent.width
 
-    property string name: ""
-    property string device: ""
+    property string deviceName: ""
+    property string propName: ""
     property string label: ""
+    property Item parentTab
     property ComboBox comboBox: null
-    property Row buttonRow: null
+    property Flow buttonRow: null
 
-    Row {
-        id: labelRow
-        spacing: 5
-        Led {
-            id: led
-            color: ClientManagerLite.updateLED(device, name)
-            anchors.verticalCenter: parent.verticalCenter
+    KSLed {
+        id: led
+        deviceName: columnProp.deviceName
+        propName: columnProp.propName
+        label: columnProp.label
+
+        Component.onCompleted: {
+            syncLEDProperty()
         }
-
-        Kirigami.Label {
-            text: label
-            anchors.verticalCenter: parent.verticalCenter
-        }
-    }
-
-    Item {
-        id: propertyHolder
-        Layout.fillHeight: true
-        Layout.fillWidth: true
     }
 
     Rectangle {
+        id: separator
         height: num.dp
         color: "grey"
-        width: Screen.width
+        Layout.fillWidth: true
     }
 
     Connections {
         target: ClientManagerLite
-        onNewINDISwitch: {
-            if(deviceName == device) {
-                if(name == propName) {
-                    led.color = ClientManagerLite.updateLED(device, name)
+        onNewLEDState: {
+            if(columnProp.deviceName == deviceName) {
+                if(columnProp.propName == propName) {
+                    led.syncLEDProperty()
                 }
             }
         }
         onCreateINDIButton: {
-            if(deviceName == device) {
-                if(name == propName) {
+            if(columnProp.deviceName == deviceName) {
+                if(columnProp.propName == propName) {
                     if(buttonRow == null) {
                         var buttonRowComp = Qt.createComponent("KSButtonsSwitchRow.qml");
                         buttonRow = buttonRowComp.createObject(columnProp)
-                        buttonRow.deviceName = device
-                        buttonRow.propName = name
+                        buttonRow.deviceName = deviceName
+                        buttonRow.propName = propName
                         buttonRow.exclusive = exclusive
+                        buttonRow.width = Qt.binding(function() { return parentTab.width })
                     }
                     buttonRow.addButton(propText, switchName, checked, enabled)
                 }
             }
         }
         onCreateINDIRadio: {
-            if(deviceName == device) {
-                if(name == propName) {
+            if(columnProp.deviceName == deviceName) {
+                if(columnProp.propName == propName) {
                     if(buttonRow == null) {
                         var buttonRowComp = Qt.createComponent("KSButtonsSwitchRow.qml");
                         buttonRow = buttonRowComp.createObject(columnProp)
-                        buttonRow.deviceName = device
-                        buttonRow.propName = name
+                        buttonRow.deviceName = deviceName
+                        buttonRow.propName = propName
                         buttonRow.exclusive = exclusive
                         buttonRow.checkBox = true
+                        buttonRow.width = Qt.binding(function() { return parentTab.width })
                     }
                     buttonRow.addCheckBox(propText, switchName, checked, enabled)
                 }
             }
         }
         onCreateINDIMenu: {
-            if(device == deviceName) {
-                if(name == propName) {
+            if(columnProp.deviceName == deviceName) {
+                if(columnProp.propName == propName) {
                     if(comboBox == null) {
                         var CBoxComponent = Qt.createComponent("KSComboBox.qml");
                         comboBox = CBoxComponent.createObject(columnProp)
@@ -102,22 +96,36 @@ ColumnLayout {
         }
 
         onCreateINDIText: {
-            if(deviceName == device) {
-                if(name == propName) {
+            if(columnProp.deviceName == deviceName) {
+                if(columnProp.propName == propName) {
                     var indiTextComp = Qt.createComponent("KSINDIText.qml");
                     var indiText = indiTextComp.createObject(columnProp)
                     indiText.addField(false, deviceName, propName, fieldName, propText, write)
                     indiText.propLabel = propLabel
+                    //indiText.width = Qt.binding(function() { return parentTab.width })
                 }
             }
         }
         onCreateINDINumber: {
-            if(deviceName == device) {
-                if(name == propName) {
+            if(columnProp.deviceName == deviceName) {
+                if(columnProp.propName == propName) {
                     var indiNumComp = Qt.createComponent("KSINDIText.qml");
                     var indiNum = indiNumComp.createObject(columnProp)
                     indiNum.addField(true, deviceName, propName, numberName, propText, write)
                     indiNum.propLabel = propLabel
+                }
+            }
+        }
+        onCreateINDILight: {
+            if(columnProp.deviceName == deviceName) {
+                if(columnProp.propName == propName) {
+                    var lightComp = Qt.createComponent("KSLed.qml")
+                    var light = lightComp.createObject(columnProp)
+                    light.deviceName = deviceName
+                    light.propName = propName
+                    light.label = label
+                    light.name = name
+                    light.syncLEDLight()
                 }
             }
         }

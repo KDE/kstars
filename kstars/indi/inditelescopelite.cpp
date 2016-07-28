@@ -26,6 +26,8 @@ TelescopeLite::TelescopeLite(INDI::BaseDevice *device)
     IsParked=false;
     clientManager = KStarsLite::Instance()->clientManagerLite();
 
+    setSlewRate(0);
+
     setSlewDecreasable(false);
     setSlewIncreasable(true);
 }

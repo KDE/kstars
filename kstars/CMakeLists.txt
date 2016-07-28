@@ -692,6 +692,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/indi/ImagePreview.qml
         kstarslite/qml/indi/modules/MotionControl.qml
         kstarslite/qml/indi/modules/Led.qml
+        kstarslite/qml/indi/modules/KSLed.qml
         kstarslite/qml/indi/modules/Property.qml
         kstarslite/qml/indi/modules/KSTab.qml
         kstarslite/qml/indi/modules/KSComboBox.qml

@@ -35,9 +35,12 @@ TelescopeSymbolsItem::TelescopeSymbolsItem(RootNode *rootNode)
 }
 
 void TelescopeSymbolsItem::addTelescope(INDI::BaseDevice *bd) {
-    CrosshairNode *crossHair = new CrosshairNode(bd, rootNode());
-    appendChildNode(crossHair);
-    m_telescopes.insert(bd, crossHair);
+    if(!m_telescopes.value(bd)) {
+        CrosshairNode *crossHair = new CrosshairNode(bd, rootNode());
+        appendChildNode(crossHair);
+
+        m_telescopes.insert(bd, crossHair);
+    }
 }
 
 void TelescopeSymbolsItem::removeTelescope(INDI::BaseDevice *bd) {
