@@ -54,11 +54,12 @@ Align::Align()
     new AlignAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Align",  this);
 
-    dirPath = QUrl(QDir::homePath());
+    dirPath = QDir::homePath();
 
     currentCCD     = NULL;
     currentTelescope = NULL;
     currentFilter = NULL;
+    darkBuffer=NULL;
     useGuideHead = false;
     canSync = false;
     loadSlewMode = false;
@@ -68,9 +69,11 @@ Align::Align()
     m_slewToTargetSelected=false;    
     m_wcsSynced=false;
     isFocusBusy=false;
+    haveDarkFrame=false;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = sOrientation = sRA = sDEC = -1;
     decDeviation = azDeviation = altDeviation = 0;
 
+    calibrationState = CALIBRATE_NONE;
     rememberUploadMode = ISD::CCD::UPLOAD_CLIENT;
     currentFilter = NULL;
     filterPositionPending = false;
@@ -106,7 +109,7 @@ Align::Align()
 
     binXIN->setValue(Options::solverXBin());
     binYIN->setValue(Options::solverYBin());
-    connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
+    connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));    
 
     kcfg_solverUpdateCoords->setChecked(Options::solverUpdateCoords());
     kcfg_solverPreview->setChecked(Options::solverPreview());    
@@ -179,6 +182,13 @@ Align::Align()
     connect(kcfg_solverOverlay, SIGNAL(toggled(bool)), this, SLOT(setSolverOverlay(bool)));
 
     accuracySpin->setValue(Options::solverAccuracyThreshold());
+
+    alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
+
+    connect(binXIN, SIGNAL(valueChanged(int)), this, SLOT(invalidateDarkFrame()));
+    connect(exposureIN, SIGNAL(valueChanged(double)), this, SLOT(invalidateDarkFrame()));
+    connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(invalidateDarkFrame()));
+    connect(alignDarkFrameCheck, SIGNAL(toggled(bool)), this, SLOT(invalidateDarkFrame()));
 }
 
 Align::~Align()
@@ -186,6 +196,7 @@ Align::~Align()
     delete(pi);
     delete(solverFOV);
     delete(parser);
+    delete (darkBuffer);
 }
 
 bool Align::isParserOK()
@@ -389,6 +400,13 @@ void Align::syncCCDInfo()
     }    
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    ISwitchVectorProperty *svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
+    if (svp && wcsCheck->isEnabled() == false && wcsCheck->isChecked())
+    {
+        wcsCheck->setEnabled(true);
+        setWCS(true);
+    }
 
     targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
     binXIN->setEnabled(targetChip->canBin());
@@ -640,13 +658,21 @@ bool Align::captureAndSolve()
            rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
            currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
        }
+
+       // Check if we need to capture a dark frame
+       if (haveDarkFrame == false && alignDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_NONE)
+       {
+           ccdFrame = FRAME_DARK;
+           calibrationState = CALIBRATE_START;
+       }
    }
 
    targetChip->resetFrame();
-   targetChip->setBatchMode(false);
-   targetChip->setCaptureMode( kcfg_solverPreview->isChecked() ? FITS_NORMAL : FITS_WCSM);
-   if (kcfg_solverPreview->isChecked())
-       targetChip->setCaptureFilter(FITS_AUTO_STRETCH);
+   targetChip->setBatchMode(false);   
+   if (ccdFrame == FRAME_DARK)
+       targetChip->setCaptureMode(FITS_CALIBRATE);
+   else
+       targetChip->setCaptureMode( kcfg_solverPreview->isChecked() ? FITS_NORMAL : FITS_WCSM);
    targetChip->setBinning(binXIN->value(), binYIN->value());
    targetChip->setFrameType(ccdFrame);
 
@@ -658,7 +684,10 @@ bool Align::captureAndSolve()
    stopB->setEnabled(true);
    pi->startAnimation();
 
-   appendLogText(i18n("Capturing image..."));
+   if (ccdFrame == FRAME_LIGHT)
+       appendLogText(i18n("Capturing image..."));
+   else
+       appendLogText(i18n("Capturing dark frame..."));
 
    return true;
 }
@@ -670,14 +699,72 @@ void Align::newFITS(IBLOB *bp)
         return;
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));    
 
     appendLogText(i18n("Image received."));
 
     if (solverTypeGroup->checkedId() != SOLVER_REMOTE)
     {
-        char *finalFileName = (char *) bp->aux2;
-        startSovling(QString(finalFileName));
+        if (calibrationState == CALIBRATE_START)
+        {
+            calibrationState = CALIBRATE_DONE;
+            // Start capture again in 0.5 seconds
+            QTimer::singleShot(500, this, SLOT(captureAndSolve()));
+            return;
+        }
+
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+        // If we're done capturing dark frame, store it.
+        if (alignDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_DONE)
+        {
+            calibrationState = CALIBRATE_NONE;
+            delete (darkBuffer);
+
+            FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
+            if (calibrateImage == NULL)
+            {
+                captureAndSolve();
+                return;
+            }
+
+            FITSData *calibrateData = calibrateImage->getImageData();
+
+            haveDarkFrame = true;
+            int totalSize = calibrateData->getSize()*calibrateData->getNumOfChannels();
+            darkBuffer = new float[totalSize];
+            memcpy(darkBuffer, calibrateData->getImageBuffer(), totalSize*sizeof(float));
+        }
+
+        QString fitsFileName((char *) bp->aux2);
+
+        // If we already have a dark frame, subtract it from light frame
+        if (haveDarkFrame)
+        {
+            FITSData image_data;
+            bool rc = image_data.loadFITS(fitsFileName);
+            if (rc)
+            {
+                fitsFileName += "_dark_subtracted";
+                image_data.subtract(darkBuffer);
+                image_data.saveFITS(fitsFileName);
+            }
+        }
+
+        if (kcfg_solverPreview->isChecked())
+        {
+            FITSView *previewImage = targetChip->getImage(FITS_NORMAL);
+            FITSData *previewData  = previewImage->getImageData();
+
+            if (haveDarkFrame)
+                previewData->subtract(darkBuffer);
+
+            previewData->applyFilter(FITS_AUTO_STRETCH);
+            previewImage->rescale(ZOOM_KEEP_LEVEL);
+            previewImage->updateFrame();
+        }
+
+        startSovling(fitsFileName);
     }
 }
 
@@ -722,6 +809,7 @@ void Align::startSovling(const QString &filename, bool isGenerated)
     Options::setWCSAlign(wcsCheck->isChecked());
     Options::setSolverOverlay(kcfg_solverOverlay->isChecked());
     Options::setSolverAccuracyThreshold(accuracySpin->value());
+    Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
 
     unsigned int solverGotoOption = 0;
     if (slewR->isChecked())
@@ -1580,28 +1668,27 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
         dec_str = QString("%1:%2:%3").arg(dec_s.degree(), 2, 10, QChar('0')).arg(dec_s.arcmin(), 2, 10, QChar('0')).arg(dec_s.arcsec(), 2, 10, QChar('0'));
 }
 
-void Align::loadAndSlew(QUrl fileURL)
+void Align::loadAndSlew(QString fileURL)
 {
     if (fileURL.isEmpty())
-        fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Load Image"), dirPath, "Images (*.fits *.fit *.jpg *.jpeg)");
+        fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Load Image"), dirPath, "Images (*.fits *.fit *.jpg *.jpeg)");
 
     if (fileURL.isEmpty())
         return;
 
-    dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
+    QFileInfo fileInfo(fileURL);
+    dirPath = fileInfo.absolutePath();
 
     loadSlewMode = true;
     loadSlewState=IPS_BUSY;
 
     slewR->setChecked(true);
 
-    //loadSlewIterations = loadSlewIterationsSpin->value();
-
     solveB->setEnabled(false);
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    startSovling(fileURL.path(), false);
+    startSovling(fileURL, false);
 }
 
 void Align::setExposure(double value)
@@ -1703,8 +1790,9 @@ void Align::setWCS(bool enable)
 
     if (wcsControl == NULL)
     {
-        appendLogText(i18n("CCD driver does not support World System Coordinates."));
-        wcsCheck->setChecked(false);
+        //appendLogText(i18n("CCD driver does not support World System Coordinates."));
+        //wcsCheck->setChecked(false);
+        wcsCheck->setEnabled(false);
         return;
     }
 
@@ -1756,9 +1844,9 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
     }
 }
 
-void Align::updateFocusStatus(bool status)
+void Align::updateFocusStatus(Ekos::FocusState state)
 {
-    isFocusBusy = status;
+    isFocusBusy = state >= Ekos::FOCUS_PROGRESS;
 }
 
 void Align::setSolverOverlay(bool enable)
@@ -1878,6 +1966,25 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 
 
     return solver_args;
+}
+
+void Align::invalidateDarkFrame()
+{
+    haveDarkFrame = false;
+    calibrationState = CALIBRATE_NONE;
+
+    if (solverTypeGroup->checkedId() != SOLVER_REMOTE)
+    {
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+        // If capture is still in progress, let's stop that.
+        if (targetChip->isCapturing())
+        {
+            targetChip->abortExposure();
+            appendLogText(i18n("Capture restarted with updated parameters."));
+            captureAndSolve();
+        }
+    }
 }
 
 }

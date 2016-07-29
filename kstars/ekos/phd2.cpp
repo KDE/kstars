@@ -254,6 +254,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
         emit newLog(i18n("PHD2: Calibration Complete."));
         emit calibrationCompleted(true);
         emit guideReady();
+        emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
         break;
 
     case StartGuiding:
@@ -265,16 +266,19 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
         }
         emit newLog(i18n("PHD2: Guiding Started."));
         emit autoGuidingToggled(true);
+        emit newStatus(Ekos::GUIDE_GUIDING);
         break;
 
     case Paused:
         state = PAUSED;
         emit newLog(i18n("PHD2: Guiding Paused."));
+        emit newStatus(Ekos::GUIDE_SUSPENDED);
         break;
 
     case StartCalibration:
         state = CALIBRATING;
         emit newLog(i18n("PHD2: Calibration Started."));
+        emit newStatus(Ekos::GUIDE_CALIBRATING);
         break;
 
     case AppState:
@@ -285,6 +289,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
         state = CALIBRATION_FAILED;
         emit newLog(i18n("PHD2: Calibration Failed (%1).", jsonEvent["Reason"].toString()));
         emit calibrationCompleted(false);
+        emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
         break;
 
     case CalibrationDataFlipped:
@@ -339,15 +344,18 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
     case StarLost:
         emit newLog(i18n("PHD2: Star Lost."));
+        emit newStatus(Ekos::GUIDE_ABORTED);
         break;
 
     case GuidingStopped:
         emit newLog(i18n("PHD2: Guiding Stopped."));
         emit autoGuidingToggled(false);
+        emit newStatus(Ekos::GUIDE_IDLE);
         break;
 
     case Resumed:
         emit newLog(i18n("PHD2: Guiding Resumed."));
+        emit newStatus(Ekos::GUIDE_GUIDING);
         state = GUIDING;
         break;
 
@@ -366,6 +374,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
     case GuidingDithered:
         emit newLog(i18n("PHD2: Guide Dithering."));
+        emit newStatus(Ekos::GUIDE_DITHERING);
         break;
 
     case LockPositionSet:
@@ -374,6 +383,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
     case LockPositionLost:
         emit newLog(i18n("PHD2: Lock Position Lost."));
+        emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
         break;
 
     case Alert:

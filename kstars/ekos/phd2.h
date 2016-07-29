@@ -13,12 +13,12 @@
 #include <QAbstractSocket>
 #include <QJsonArray>
 
+#include "guide.h"
+
 class QTcpSocket;
 
 namespace Ekos
 {
-
-class Guide;
 
 /**
  * @class  PHD2
@@ -77,6 +77,7 @@ signals:
     void newAxisDelta(double delta_ra, double delta_dec);
     void autoGuidingToggled(bool);
     void guideReady();
+    void newStatus(Ekos::GuideState);
 
 private:
 

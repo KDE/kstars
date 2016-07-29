@@ -39,7 +39,8 @@ clock in the main &kstars; window.  There is a timestep control
 widget here, similar to the one in the main window's toolbar.  
 However, this control defaults to a timestep of 1 day (so that 
 the motions of the planets can be seen), and it starts out with 
-the clock paused when the tool is opened.
+the clock paused when the tool is opened. You may set the date to now 
+by pressing the <guibutton>Today</guibutton> button.
 </para>
 <note>
 <para>

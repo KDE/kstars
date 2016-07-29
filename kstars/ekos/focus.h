@@ -46,6 +46,7 @@ public:
     Focus();
     ~Focus();
 
+    enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
     typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
 
@@ -315,15 +316,20 @@ private slots:
 
     void setDefaultCCD(QString ccd);
 
+    void updateBoxSize(int value);
+
 signals:
         void newLog();
         void autoFocusFinished(bool status, double finalHFR);
         void suspendGuiding(bool suspend);
         void filterLockUpdated(ISD::GDInterface *filter, int lockedIndex);
-        void statusUpdated(bool status);
+        void newStatus(Ekos::FocusState state);
+        void newStarPixmap(QPixmap &);
+        void newProfilePixmap(QPixmap &);
 
 private:
     void drawHFRPlot();
+    void drawProfilePlot();
     void getAbsFocusPosition();
     void autoFocusAbs();
     void autoFocusRel();
@@ -427,16 +433,33 @@ private:
 
     // Plot minimum and maximum positions
     int minPos, maxPos;
-    // List of V curve plot points
-    //QList<HFRPoint *> HFRAbsolutePoints;
-    // List of iterative curve points
-    //QList<HFRPoint *> HFRIterativePoints;
+    // List of V curve plot points    
     // Custom Plot object
     QCustomPlot *customPlot;
     // V-Curve graph
     QCPGraph *v_graph;
 
+    // Last gaussian fit values
+    QVector<double> firstGausIndexes, lastGausIndexes;
+    QVector<double> firstGausFrequencies, lastGausFrequencies;
+    QCPGraph *currentGaus, *firstGaus, *lastGaus;
+
     QVector<double> hfr_position, hfr_value;
+
+    // Calibration
+    int calibrationState;
+    bool haveDarkFrame;
+    float *darkBuffer;
+
+    // Pixmaps
+    QPixmap starPixmap;
+    QPixmap profilePixmap;
+
+    // State
+    Ekos::FocusState state;
+
+    // FITS Scale
+    FITSScale defaultScale;
 };
 
 }

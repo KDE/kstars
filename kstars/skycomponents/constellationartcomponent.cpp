@@ -18,7 +18,10 @@
 #include "constellationartcomponent.h"
 #include "constellationsart.h"
 #include "auxiliary/ksfilereader.h"
+#include "auxiliary/kspaths.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "culturelist.h"
 #include "projections/projector.h"
 #include "kspaths.h"
@@ -38,12 +41,6 @@ ConstellationArtComponent::~ConstellationArtComponent()
 }
 
 void ConstellationArtComponent::loadData(){
-
-    //TODO enable loading later
-    //FIXME Disabling constellationart until memory issue is fixed
-    // It currently loads all images and consumes > 400MB of RAM
-    return;
-
         QSqlDatabase skydb = QSqlDatabase::addDatabase("QSQLITE", "skycultures");
         QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, "skycultures.sqlite");
 
@@ -106,7 +103,7 @@ void ConstellationArtComponent::showList()
 }
 
 void ConstellationArtComponent::draw(SkyPainter *skyp){
-
+    #ifndef KSTARS_LITE
     if(Options::showConstellationArt() && SkyMap::IsSlewing() == false)
     {
          for(int i =0; i<records; i++)
@@ -114,4 +111,5 @@ void ConstellationArtComponent::draw(SkyPainter *skyp){
     }
 
     //Loops through the QList containing all data required to draw constellations.
+    #endif
 }

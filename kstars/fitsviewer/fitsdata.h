@@ -129,9 +129,10 @@ public:
 
     // Star detection
     int getDetectedStars() { return starCenters.count(); }
-    QList<Edge*> getStarCenters() { return starCenters;}\
-    int findStars();
-    void findCentroid(int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
+    bool areStarsSearched() { return starsSearched; }
+    QList<Edge*> getStarCenters() { return starCenters;}
+    int findStars(const QRectF &boundary = QRectF(), bool force=false);
+    void findCentroid(const QRectF &boundary = QRectF(), int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
     void getCenterSelection(int *x, int *y);
 
     // Half Flux Radius
@@ -159,7 +160,7 @@ public:
     void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
 
     // Filter
-    void applyFilter(FITSScale type, float *image=NULL, double min=-1, double max=-1);
+    void applyFilter(FITSScale type, float *image=NULL, float min=-1, float max=-1);
 
     // Rotation counter. We keep count to rotate WCS keywords on save
     int getRotCounter() const;

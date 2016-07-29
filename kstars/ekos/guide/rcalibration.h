@@ -87,10 +87,11 @@ protected slots:
 
 public slots:
     void capture();
-    void guideStarSelected(int x, int y);
+    void trackingStarSelected(int x, int y);
 
 signals:
     void calibrationCompleted(bool);
+    void newStatus(Ekos::GuideState state);
 
 private:
 

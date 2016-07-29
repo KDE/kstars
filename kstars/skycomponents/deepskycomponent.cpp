@@ -323,7 +323,7 @@ void DeepSkyComponent::loadData()
 void DeepSkyComponent::mergeSplitFiles() {
     //If user has downloaded the Steinicke NGC/IC catalog, then it is
     //split into multiple files.  Concatenate these into a single file.
-    QString firstFile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "ngcic01.dat";
+    QString firstFile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "ngcic01.dat";
     if ( ! QFile::exists( firstFile ) ) return;
     QDir localDir = QFileInfo( firstFile ).absoluteDir();
     QStringList catFiles = localDir.entryList( QStringList( "ngcic??.dat" ) );

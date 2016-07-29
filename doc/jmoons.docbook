@@ -28,7 +28,8 @@ in arcminutes.  The offset is measured along the direction of Jupiter's
 equator.  Each moon's position as a function of time traces a sinusoidal
 path in the plot, as the moon orbits around Jupiter.  Each track is 
 assigned a different color to distinguish it from the others; the name 
-labels at the top of the window indicate the color used by each moon.
+labels at the top of the window indicate the color used by each moon 
+(&ie; red for Io, yellow for Europa, green for Callisto and blue for Ganymede).
 </para><para>
 The plot can be manipulated with the keyboard.  The time axis can be 
 expanded or compressed using the <keycap>+</keycap> and 

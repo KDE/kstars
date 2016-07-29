@@ -23,6 +23,8 @@
 #include "indi/clientmanager.h"
 #include "indi/indifilter.h"
 
+#include "auxiliary/kspaths.h"
+
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
@@ -55,6 +57,7 @@ Focus::Focus()
     currentFilter  = NULL;
     filterName     = NULL;
     filterSlot     = NULL;
+    darkBuffer     = NULL;
 
     canAbsMove        = false;
     canRelMove        = false;
@@ -67,12 +70,17 @@ Focus::Focus()
     resetFocus        = false;
     m_autoFocusSuccesful = false;
     filterPositionPending= false;
+    haveDarkFrame        = false;
+
+    calibrationState = CALIBRATE_NONE;
 
     rememberUploadMode = ISD::CCD::UPLOAD_CLIENT;
     HFRInc =0;
     noStarCount=0;
     reverseDir = false;
     initialFocuserAbsPosition = -1;
+
+    state = Ekos::FOCUS_IDLE;
 
     pulseDuration = 1000;
 
@@ -108,10 +116,10 @@ Focus::Focus()
     connect(focuserCombo, SIGNAL(activated(int)), this, SLOT(checkFocuser(int)));
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
     connect(FilterPosCombo, SIGNAL(activated(int)), this, SLOT(updateFilterPos(int)));
-    connect(lockFilterCheck, SIGNAL(toggled(bool)), this, SLOT(filterLockToggled(bool)));
-    connect(filterCombo, SIGNAL(activated(int)), this, SLOT(filterChangeWarning(int)));
+    connect(lockFilterCheck, SIGNAL(toggled(bool)), this, SLOT(filterLockToggled(bool)));    
     connect(setAbsTicksB, SIGNAL(clicked()), this, SLOT(setAbsoluteFocusTicks()));
     connect(binningCombo, SIGNAL(activated(int)), this, SLOT(setActiveBinning(int)));
+    connect(kcfg_focusBoxSize, SIGNAL(valueChanged(int)), this, SLOT(updateBoxSize(int)));    
 
     activeBin=Options::focusXBin();
     binningCombo->setCurrentIndex(activeBin-1);
@@ -121,6 +129,39 @@ Focus::Focus()
     lastFocusDirection = FOCUS_NONE;
 
     focusType = FOCUS_MANUAL;
+
+    profilePlot->setBackground(QBrush(Qt::black));
+    profilePlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    profilePlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    profilePlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    profilePlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    profilePlot->xAxis->grid()->setZeroLinePen(Qt::NoPen);
+    profilePlot->yAxis->grid()->setZeroLinePen(Qt::NoPen);
+    profilePlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setBasePen(QPen(Qt::white, 1));
+    profilePlot->xAxis->setTickPen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setTickPen(QPen(Qt::white, 1));
+    profilePlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    profilePlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
+    profilePlot->xAxis->setTickLabelColor(Qt::white);
+    profilePlot->yAxis->setTickLabelColor(Qt::white);
+    profilePlot->xAxis->setLabelColor(Qt::white);
+    profilePlot->yAxis->setLabelColor(Qt::white);
+
+    firstGaus   = NULL;
+
+    currentGaus = profilePlot->addGraph();
+    currentGaus->setLineStyle(QCPGraph::lsLine);
+    currentGaus->setPen(QPen(Qt::red, 2));
+
+    lastGaus = profilePlot->addGraph();
+    lastGaus->setLineStyle(QCPGraph::lsLine);
+    QPen pen(Qt::darkGreen);
+    pen.setStyle(Qt::DashLine);
+    pen.setWidth(2);
+    lastGaus->setPen(pen);
 
     HFRPlot->setBackground(QBrush(Qt::black));
 
@@ -149,16 +190,8 @@ Focus::Focus()
     HFRPlot->yAxis->setLabel(i18n("HFR"));
 
     v_graph = HFRPlot->addGraph();
-    //v_graph->setBrush(QBrush(QColor(170, 40, 80)));
-    //v_graph->setPen(QPen(Qt::red));
     v_graph->setLineStyle(QCPGraph::lsNone);
     v_graph->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle, Qt::white, Qt::red, 3));
-
-    //HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( i18nc("Half Flux Radius", "HFR") );
-    //HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Iterations") );
-
-    //HFRPlot->axis( KPlotWidget::LeftAxis )->setLabel( i18nc("Half Flux Radius", "HFR") );
-    //HFRPlot->axis( KPlotWidget::BottomAxis )->setLabel( i18n("Absolute Position") );
 
     resetButtons();
 
@@ -166,6 +199,10 @@ Focus::Focus()
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
+
+    filterCombo->setCurrentIndex(Options::focusEffect());
+    defaultScale = static_cast<FITSScale>(Options::focusEffect());
+    connect(filterCombo, SIGNAL(activated(int)), this, SLOT(filterChangeWarning(int)));
 
     exposureIN->setValue(Options::focusExposure());
     toleranceIN->setValue(Options::focusTolerance());
@@ -176,13 +213,15 @@ Focus::Focus()
     kcfg_subFrame->setChecked(Options::focusSubFrame());
     suspendGuideCheck->setChecked(Options::suspendGuiding());
     lockFilterCheck->setChecked(Options::lockFocusFilter());
-
+    focusDarkFrameCheck->setChecked(Options::focusDarkFrame());
 }
 
 Focus::~Focus()
 {
     //qDeleteAll(HFRAbsolutePoints);
    // HFRAbsolutePoints.clear();
+
+    delete (darkBuffer);
 }
 
 void Focus::toggleAutofocus(bool enable)
@@ -213,8 +252,11 @@ void Focus::resetFrame()
         if (frameModified && orig_w > 0 && !inAutoFocus && !inFocusLoop && !inSequenceFocus && targetChip && targetChip->canSubframe())
         {
                     targetChip->setFrame(orig_x, orig_y, orig_w, orig_h);
-                    frameModified = false;
+                    frameModified = false;                    
         }
+
+        haveDarkFrame=false;
+        calibrationState = CALIBRATE_NONE;
     }
 }
 
@@ -230,6 +272,10 @@ void Focus::resetFocusFrame()
             targetChip->resetFrame();
             targetChip->setFocusFrame(0,0,0,0);
             starSelected = false;
+
+            FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+            if (targetImage)
+                targetImage->setTrackingBox(QRect());
         }
     }
 }
@@ -465,7 +511,7 @@ bool Focus::setFocuser(QString device)
     for (int i=0; i < focuserCombo->count(); i++)
         if (device == focuserCombo->itemText(i))
         {
-            checkFilter(i);
+            checkFocuser(i);
             return true;
         }
 
@@ -602,6 +648,12 @@ void Focus::start()
 
     clearDataPoints();
 
+    if (firstGaus)
+    {
+        profilePlot->removeGraph(firstGaus);
+        firstGaus = NULL;
+    }
+
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
     Options::setFocusExposure(exposureIN->value());
@@ -612,6 +664,7 @@ void Focus::start()
     Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
     Options::setSuspendGuiding(suspendGuideCheck->isChecked());
     Options::setLockFocusFilter(lockFilterCheck->isChecked());
+    Options::setFocusDarkFrame(focusDarkFrameCheck->isChecked());
 
     if (Options::focusLogging())
         qDebug() << "Focus: Starting focus with pulseDuration " << pulseDuration;
@@ -624,7 +677,12 @@ void Focus::start()
     if (suspendGuideCheck->isChecked())
          emit suspendGuiding(true);
 
-    emit statusUpdated(true);
+    //emit statusUpdated(true);
+    state = Ekos::FOCUS_PROGRESS;
+    emit newStatus(state);
+
+    // Denoise with median filter
+    defaultScale = FITS_MEDIAN;
 
     capture();
 }
@@ -643,8 +701,6 @@ void Focus::checkStopFocus()
         stopFocusB->setEnabled(false);
 
         appendLogText(i18n("Capture aborted."));
-
-        emit statusUpdated(false);
     }
 
     abort();
@@ -652,7 +708,6 @@ void Focus::checkStopFocus()
 
 void Focus::abort()
 {
-
     if (Options::focusLogging())
         qDebug() << "Focus: Stopppig Focus";
 
@@ -665,7 +720,7 @@ void Focus::abort()
     noStarCount = 0;
     //maxHFR=1;
 
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));    
 
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
@@ -684,8 +739,9 @@ void Focus::abort()
     HFRInc=0;
     reverseDir = false;
 
-    emit statusUpdated(false);
-
+    //emit statusUpdated(false);
+    state = Ekos::FOCUS_ABORTED;
+    emit newStatus(state);
 }
 
 void Focus::capture()
@@ -731,20 +787,28 @@ void Focus::capture()
         currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
+    // Check if we need to capture a dark frame
+    if (inFocusLoop == false && haveDarkFrame == false && focusDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_NONE)
+    {
+        ccdFrame = FRAME_DARK;
+        calibrationState = CALIBRATE_START;
+
+        if (ISOCombo->isEnabled())
+            KMessageBox::information(NULL, i18n("Cover your telescope in order to take a dark frame..."));
+    }
+
     targetChip->setBinning(activeBin, activeBin);
-    targetChip->setCaptureMode(FITS_FOCUS);
-    targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
+
+    targetChip->setCaptureMode( (ccdFrame == FRAME_LIGHT) ? FITS_FOCUS : FITS_CALIBRATE);
+    targetChip->setCaptureFilter(defaultScale);
 
     if (ISOCombo->isEnabled() && ISOCombo->currentIndex() != -1 && targetChip->getISOIndex() != ISOCombo->currentIndex())
         targetChip->setISOIndex(ISOCombo->currentIndex());
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));    
 
     targetChip->setFrameType(ccdFrame);
 
-    /*if (subX >= 0 && subY >=0 && subW > 0 && subH > 0)
-        targetChip->setFrame(subX, subY, subW, subH);
-    else*/
     if (fw == 0 || fh == 0)
         targetChip->getFrame(&fx, &fy, &fw, &fh);
 
@@ -759,7 +823,10 @@ void Focus::capture()
 
     if (inFocusLoop == false)
     {
-        appendLogText(i18n("Capturing image..."));
+        if (ccdFrame == FRAME_LIGHT)
+            appendLogText(i18n("Capturing image..."));
+        else
+            appendLogText(i18n("Capturing dark frame..."));
 
         if (inAutoFocus == false)
         {
@@ -859,6 +926,43 @@ void Focus::newFITS(IBLOB *bp)
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
+    if (inFocusLoop == false)
+    {
+        if (calibrationState == CALIBRATE_START)
+        {
+            calibrationState = CALIBRATE_DONE;
+            capture();
+            return;
+        }
+
+        // If we're done capturing dark frame, store it.
+        if (focusDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_DONE)
+        {
+            calibrationState = CALIBRATE_NONE;
+
+            delete (darkBuffer);
+
+            FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
+            Q_ASSERT(calibrateImage != NULL);
+            FITSData *calibrateData = calibrateImage->getImageData();
+
+            haveDarkFrame = true;
+            int totalSize = calibrateData->getSize()*calibrateData->getNumOfChannels();
+            darkBuffer = new float[totalSize];
+            memcpy(darkBuffer, calibrateData->getImageBuffer(), totalSize*sizeof(float));
+        }
+
+        // If we already have a dark frame, subtract it from light frame
+        if (haveDarkFrame)
+        {
+            FITSView *currentImage   = targetChip->getImage(FITS_FOCUS);
+            Q_ASSERT(currentImage != NULL);
+
+            currentImage->getImageData()->subtract(darkBuffer);
+            currentImage->rescale(ZOOM_KEEP_LEVEL);
+        }
+    }
+
     // Always reset capture mode to NORMAL
     targetChip->setCaptureMode(FITS_NORMAL);
 
@@ -871,30 +975,41 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
+    appendLogText(i18n("Image received."));
+
     if (captureInProgress && inFocusLoop == false && inAutoFocus==false)
     {
-            captureB->setEnabled(true);
-            stopFocusB->setEnabled(false);
-            currentCCD->setUploadMode(rememberUploadMode);
+        captureB->setEnabled(true);
+        stopFocusB->setEnabled(false);
+        currentCCD->setUploadMode(rememberUploadMode);
     }
 
-    captureInProgress = false;
+    captureInProgress = false;    
 
     FITSData *image_data = targetChip->getImageData();
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
+    starPixmap = targetImage->getTrackingBoxPixmap();
+    emit newStarPixmap(starPixmap);
+
     // If we're not framing, let's try to detect stars
     if (inFocusLoop == false)
     {
-        image_data->findStars();
+        if (image_data->areStarsSearched() == false)
+        {
+            if (targetImage->isTrackingBoxEnabled())
+                image_data->findStars(targetImage->getTrackingBox());
+            else
+                image_data->findStars();
+        }
 
         currentHFR= image_data->getHFR(HFR_MAX);
 
-        if (currentHFR == -1)
+        /*if (currentHFR == -1)
         {
             currentHFR = image_data->getHFR();
-        }
+        }*/
 
         if (Options::focusLogging())
             qDebug() << "Focus newFITS: Current HFR " << currentHFR;
@@ -908,6 +1023,20 @@ void Focus::newFITS(IBLOB *bp)
 
         if (currentHFR > 0)
         {
+            /*if (starSelected)
+            {
+                Edge *maxStarHFR = image_data->getMaxHFRStar();
+
+                int x = qMax(0, static_cast<int>(maxStarHFR->x-maxStarHFR->width));
+                int y = qMax(0, static_cast<int>(maxStarHFR->y-maxStarHFR->width));
+                int w = qMin(image_data->getWidth(), static_cast<long>(maxStarHFR->width*2));
+                int h = qMin(image_data->getHeight(), static_cast<long>(maxStarHFR->width*2));
+
+                targetImage->setTrackingBox(QRect(x,y,w,h));
+                //targetImage->setTrackingBoxCenter(QPointF(starBoundary.x(),starBoundary.y()));
+                //targetImage->setTrackingBoxSize(QSize(starBoundary.width(), starBoundary.height()));
+            }*/
+
             if (currentHFR > maxHFR)
                 maxHFR = currentHFR;
 
@@ -940,12 +1069,17 @@ void Focus::newFITS(IBLOB *bp)
             if (maxStar == NULL)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
-                targetImage->updateMode(FITS_GUIDE);
-                targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
+                //targetImage->updateMode(FITS_GUIDE);
                 if (fw == 0 || fh == 0)
                     targetChip->getFrame(&fx, &fy, &fw, &fh);
-                targetImage->setGuideSquare(fw/2, fh/2);
-                connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
+                //targetImage->setTrackingBoxCenter(QPointF(fw/2, fh/2));
+                //targetImage->setTrackingBoxSize(QSize(kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
+                targetImage->setTrackingBox(QRect((fw-kcfg_focusBoxSize->value())/2, (fh-kcfg_focusBoxSize->value())/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
+                targetImage->setTrackingBoxEnabled(true);
+                connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
+
+                state = Ekos::FOCUS_WAITING;
+                emit newStatus(state);
 
                 QTimer::singleShot(AUTO_STAR_TIMEOUT, this, SLOT(checkAutoStarTimeout()));
 
@@ -985,11 +1119,21 @@ void Focus::newFITS(IBLOB *bp)
                 fw = subW;
                 fh = subH;
                 frameModified = true;
+                haveDarkFrame=false;
+                calibrationState = CALIBRATE_NONE;
+
+                //targetImage->setTrackingBoxCenter(QPointF(fw/2.0,fh/2.0));
+                //targetImage->setTrackingBoxSize(QSize(subW/5.0, subH/5.0));
             }
             else
                 targetChip->getFrame(&fx, &fy, &fw, &fh);
 
+            targetImage->setTrackingBox(QRect((fw-kcfg_focusBoxSize->value())/2, (fh-kcfg_focusBoxSize->value())/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
+            targetImage->setTrackingBoxEnabled(true);
+
             starSelected=true;
+
+            defaultScale = static_cast<FITSScale>(filterCombo->currentIndex());
 
             capture();
 
@@ -997,13 +1141,15 @@ void Focus::newFITS(IBLOB *bp)
 
 
         }
-        else if (kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
+        else// if (kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
         {
             appendLogText(i18n("Capture complete. Select a star to focus."));
-            targetImage->updateMode(FITS_GUIDE);
-            targetImage->setGuideBoxSize(kcfg_focusBoxSize->value());
-            targetImage->setGuideSquare(fw/2, fh/2);
-            connect(targetImage, SIGNAL(guideStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
+            //targetImage->updateMode(FITS_GUIDE);
+            //targetImage->setTrackingBoxSize(QSize(kcfg_focusBoxSize->value(),kcfg_focusBoxSize->value()));
+            //targetImage->setTrackingBoxCenter(QPointF(fw/2, fh/2));
+            targetImage->setTrackingBox(QRect((fw-kcfg_focusBoxSize->value())/2, (fh-kcfg_focusBoxSize->value())/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
+            targetImage->setTrackingBoxEnabled(true);
+            connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
             return;
         }
     }
@@ -1011,7 +1157,7 @@ void Focus::newFITS(IBLOB *bp)
     if (minimumRequiredHFR >= 0)
     {
         if (currentHFR == -1)
-        {            
+        {
             if (noStarCount++ < MAX_RECAPTURE_RETRIES)
             {
                 appendLogText(i18n("No stars detected, capturing again..."));
@@ -1043,8 +1189,20 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
+    drawProfilePlot();
+
     if (focusType == FOCUS_MANUAL || inAutoFocus==false)
         return;
+
+    if (Options::focusLogging())
+    {
+        QDir dir;
+        QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "autofocus/" + QDateTime::currentDateTime().toString("yyyy-MM-dd");
+        dir.mkpath(path);
+        QString name = "autofocus_frame_" + QDateTime::currentDateTime().toString("HH:mm:ss") + ".fits";
+        QString filename = path + QStringLiteral("/") + name;
+        targetImage->getImageData()->saveFITS(filename);
+    }
 
     if (canAbsMove || canRelMove)
         autoFocusAbs();
@@ -1063,7 +1221,7 @@ void Focus::clearDataPoints()
 }
 
 void Focus::drawHFRPlot()
-{    
+{
     v_graph->setData(hfr_position, hfr_value);
 
     if (focusType == FOCUS_AUTO && (canAbsMove || canRelMove) )
@@ -1081,6 +1239,54 @@ void Focus::drawHFRPlot()
 
     HFRPlot->replot();
 
+}
+
+void Focus::drawProfilePlot()
+{
+    QVector<double> currentIndexes;
+    QVector<double> currentFrequencies;
+
+    // HFR = 50% * 1.36 = 68% aka one standard deviation
+    double stdDev = currentHFR * 1.36;
+    float start= -stdDev*4;
+    float end  = stdDev*4;
+    float step = stdDev*4 / 20.0;
+    for (float x=start; x < end; x+= step)
+    {
+        currentIndexes.append(x);
+        currentFrequencies.append((1/(stdDev*sqrt(2*M_PI))) * exp(-1 * ( x*x ) / (2 * (stdDev * stdDev))));
+    }
+
+    currentGaus->setData(currentIndexes, currentFrequencies);
+
+    if (lastGausIndexes.count() > 0)
+        lastGaus->setData(lastGausIndexes, lastGausFrequencies);
+
+    if (focusType == FOCUS_AUTO && firstGaus == NULL)
+    {
+        firstGaus = profilePlot->addGraph();
+        QPen pen;
+        pen.setStyle(Qt::DashDotLine);
+        pen.setWidth(2);
+        pen.setColor(Qt::darkMagenta);
+        firstGaus->setPen(pen);
+
+        firstGaus->setData(currentIndexes, currentFrequencies);
+    }
+    else if (focusType == FOCUS_MANUAL && firstGaus)
+    {
+        profilePlot->removeGraph(firstGaus);
+        firstGaus=NULL;
+    }
+
+    profilePlot->rescaleAxes();
+    profilePlot->replot();
+
+    lastGausIndexes      = currentIndexes;
+    lastGausFrequencies  = currentFrequencies;
+
+    profilePixmap = profilePlot->grab();
+    emit newProfilePixmap(profilePixmap);
 }
 
 void Focus::autoFocusAbs()
@@ -1118,14 +1324,25 @@ void Focus::autoFocusAbs()
     // No stars detected, try to capture again
     if (currentHFR == -1)
     {
-        if (noStarCount++ < MAX_RECAPTURE_RETRIES)
+        if (noStarCount < MAX_RECAPTURE_RETRIES)
         {
             appendLogText(i18n("No stars detected, capturing again..."));
             capture();
+            noStarCount++;
             return;
         }
-        else
+        else if (noStarCount == MAX_RECAPTURE_RETRIES)
+        {
             currentHFR = 20;
+            noStarCount++;
+        }
+        else
+        {
+            appendLogText(i18n("Failed to detect any stars. Reset frame and try again."));
+            abort();
+            updateFocusStatus(false);
+            return;
+        }
     }
     else
         noStarCount = 0;
@@ -1459,7 +1676,7 @@ void Focus::autoFocusRel()
             //if (fabs(currentHFR - lastHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             if (fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             {
-                appendLogText(i18n("Autofocus complete."));                
+                appendLogText(i18n("Autofocus complete."));
                 abort();
                 emit suspendGuiding(false);
                 updateFocusStatus(true);
@@ -1547,6 +1764,9 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     {
         canAbsMove = true;
         getAbsFocusPosition();
+
+        absTicksSpin->setEnabled(true);
+        setAbsTicksB->setEnabled(true);
     }
 
     if (canRelMove == false && currentFocuser->canRelMove())
@@ -1612,7 +1832,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         return;
     }
 
-    if (!strcmp(nvp->name, "FOCUS_TIMER"))        
+    if (!strcmp(nvp->name, "FOCUS_TIMER"))
     {
         if (resetFocus && nvp->s == IPS_OK)
         {
@@ -1666,7 +1886,9 @@ void Focus::startFraming()
 
     inFocusLoop = true;
 
-    emit statusUpdated(true);
+    //emit statusUpdated(true);
+    state = Ekos::FOCUS_FRAMING;
+    emit newStatus(state);
 
     resetButtons();
 
@@ -1732,43 +1954,61 @@ void Focus::resetButtons()
     captureB->setEnabled(true);
 }
 
+void Focus::updateBoxSize(int value)
+{
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    if (targetChip == NULL)
+        return;
+
+    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+    if (targetImage == NULL)
+        return;
+
+    QRect trackBox = targetImage->getTrackingBox();
+    trackBox.setX(trackBox.x()+(trackBox.width()-value)/2);
+    trackBox.setY(trackBox.y()+(trackBox.height()-value)/2);
+    trackBox.setWidth(value);
+    trackBox.setHeight(value);
+
+    targetImage->setTrackingBox(trackBox);
+}
+
 void Focus::focusStarSelected(int x, int y)
 {
+    if (state == Ekos::FOCUS_PROGRESS)
+        return;
+
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     int offset = kcfg_focusBoxSize->value();
     int binx, biny;
 
-    disconnect(this, SLOT(focusStarSelected(int,int)));
-
-    targetChip->getBinning(&binx, &biny);
-    int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
-    targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
-
-    x = (x - offset) * binx;
-    y = (y - offset) * biny;
-    int w=offset*2*binx;
-    int h=offset*2*biny;
-
-    if (x<minX)
-        x=minX;
-    if (y<minY)
-        y=minY;
-    if ((x+w)>maxW)
-        w=maxW-x;
-    if ((y+h)>maxH)
-        h=maxH-y;
-
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
-    targetImage->updateMode(FITS_FOCUS);
 
-    if (targetChip->canSubframe())
+    //targetImage->updateMode(FITS_FOCUS);
+
+    QRect starRect;
+
+    if (frameModified == false && kcfg_subFrame->isChecked() && targetChip->canSubframe())
     {
+        targetChip->getBinning(&binx, &biny);
+        int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
+        targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
+
+        x = (x - offset) * binx;
+        y = (y - offset) * biny;
+        int w=offset*2*binx;
+        int h=offset*2*biny;
+
+        if (x<minX)
+            x=minX;
+        if (y<minY)
+            y=minY;
+        if ((x+w)>maxW)
+            w=maxW-x;
+        if ((y+h)>maxH)
+            h=maxH-y;
 
         targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
-        /*orig_x = fx;
-        orig_y = fy;
-        orig_w = fw;
-        orig_h = fh;*/
 
         fx += x;
         fy += y;
@@ -1776,11 +2016,27 @@ void Focus::focusStarSelected(int x, int y)
         fh = h;
         targetChip->setFocusFrame(fx, fy, fw, fh);
         frameModified=true;
+        haveDarkFrame=false;
+        calibrationState = CALIBRATE_NONE;
+
+        capture();
+
+        starRect = QRect((fw-kcfg_focusBoxSize->value())/2, (fh-kcfg_focusBoxSize->value())/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value());
     }
+    else
+        starRect = QRect(x-kcfg_focusBoxSize->value()/2, y-kcfg_focusBoxSize->value()/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value());
 
     starSelected=true;
 
-    capture();
+    defaultScale = static_cast<FITSScale>(filterCombo->currentIndex());
+
+    //targetImage->setTrackingBoxCenter(QPointF(fw/2.0,fh/2.0));
+    //targetImage->setTrackingBoxSize(QSize(fw/5.0, fh/5.0));
+    targetImage->setTrackingBox(starRect);
+    //targetImage->setTrackingBoxEnabled(true);
+
+    state = Ekos::FOCUS_PROGRESS;
+    emit newStatus(state);
 }
 
 void Focus::checkFocus(double requiredHFR)
@@ -1803,8 +2059,13 @@ void Focus::toggleSubframe(bool enable)
 
 void Focus::filterChangeWarning(int index)
 {
-    if (index != 0)
+    // index = 4 is MEDIAN filter which helps reduce noise
+    if (index != 0 && index != FITS_MEDIAN)
         appendLogText(i18n("Warning: Only use filters for preview as they may interface with autofocus operation."));
+
+    Options::setFocusEffect(index);
+
+    defaultScale = static_cast<FITSScale>(index);
 }
 
 void Focus::setExposure(double value)
@@ -1887,9 +2148,17 @@ void Focus::updateFocusStatus(bool status)
     emit autoFocusFinished(status, currentHFR);
 
     if (status)
+    {
         KNotification::event( QLatin1String( "FocusSuccessful" ) , i18n("Autofocus operation completed successfully"));
+        state = Ekos::FOCUS_COMPLETE;
+    }
      else
-            KNotification::event( QLatin1String( "FocusFailed" ) , i18n("Autofocus operation failed with errors"));
+    {
+        KNotification::event( QLatin1String( "FocusFailed" ) , i18n("Autofocus operation failed with errors"));
+        state = Ekos::FOCUS_FAILED;
+    }
+
+    emit newStatus(state);
 }
 
 void Focus::checkAutoStarTimeout()

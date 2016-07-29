@@ -250,7 +250,7 @@ bool FITSTab::saveFile()
     QUrl currentDir(Options::fitsDir());
     currentDir.setScheme("file");
 
-    if (currentURL.path().contains("/tmp/"))
+    if (currentURL.path().startsWith("/tmp/") || currentURL.path().contains("/Temp"))
         currentURL.clear();
 
     // If no changes made, return.

@@ -99,7 +99,7 @@ FITSData::~FITSData()
         fits_close_file(fptr, &status);
 
         if (tempFile)
-             QFile::remove(filename);
+            QFile::remove(filename);
 
     }
 }
@@ -165,31 +165,31 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
 
     switch (stats.bitpix)
     {
-        case 8:
-            data_type = TBYTE;
-            break;
-        case 16:
-            data_type = TUSHORT;
-            break;
-        case 32:
-            data_type = TINT;
-            break;
-        case -32:
-             data_type = TFLOAT;
-             break;
-        case 64:
-             data_type = TLONGLONG;
-             break;
-        case -64:
-             data_type = TDOUBLE;
-        default:
-            errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
-            if (silent == false)
-                KMessageBox::error(NULL, errMessage, i18n("FITS Open"));
-            if (Options::fITSLogging())
-                qDebug() << errMessage;
-            return false;
-            break;
+    case 8:
+        data_type = TBYTE;
+        break;
+    case 16:
+        data_type = TUSHORT;
+        break;
+    case 32:
+        data_type = TINT;
+        break;
+    case -32:
+        data_type = TFLOAT;
+        break;
+    case 64:
+        data_type = TLONGLONG;
+        break;
+    case -64:
+        data_type = TDOUBLE;
+    default:
+        errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
+        if (silent == false)
+            KMessageBox::error(NULL, errMessage, i18n("FITS Open"));
+        if (Options::fITSLogging())
+            qDebug() << errMessage;
+        return false;
+        break;
     }
 
     if (stats.ndim < 3)
@@ -216,9 +216,9 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
     image_buffer = new float[stats.samples_per_channel * channels];
     if (image_buffer == NULL)
     {
-       qDebug() << "FITSData: Not enough memory for image_buffer channel. Requested: " << stats.samples_per_channel * channels * sizeof(float) << " bytes.";
-       clearImageBuffers();
-       return false;
+        qDebug() << "FITSData: Not enough memory for image_buffer channel. Requested: " << stats.samples_per_channel * channels * sizeof(float) << " bytes.";
+        clearImageBuffers();
+        return false;
     }
 
     rotCounter=0;
@@ -310,7 +310,7 @@ int FITSData::saveFITS( const QString &newFilename )
     {
         fits_report_error(stderr, status);
         return status;
-    }    
+    }
 
     status=0;
 
@@ -402,10 +402,10 @@ int FITSData::saveFITS( const QString &newFilename )
 
 void FITSData::clearImageBuffers()
 {
-        delete[] image_buffer;
-        image_buffer=NULL;
-        delete [] bayer_buffer;
-        bayer_buffer=NULL;
+    delete[] image_buffer;
+    image_buffer=NULL;
+    delete [] bayer_buffer;
+    bayer_buffer=NULL;
 }
 
 int FITSData::calculateMinMax(bool refresh)
@@ -548,7 +548,7 @@ bool FITSData::checkCollision(Edge* s1, Edge*s2)
     dis -= s2->width/2;
 
     if (dis<=0) //collision
-    return true;
+        return true;
 
     //no collision
     return false;
@@ -556,32 +556,27 @@ bool FITSData::checkCollision(Edge* s1, Edge*s2)
 
 
 /*** Find center of stars and calculate Half Flux Radius */
-void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
+void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeWidth)
 {
-    double threshold=0;
-    double avg = 0;
-    double sum=0;
-    double min=0;
-    double noiseAvg=0,noiseSum=0;
-    int pixelRadius =0, noisePixelRadius=0;
+    double threshold=0,sum=0,avg=0,min=0;
+    int starDiameter=0;
     int pixVal=0;
-    int noisePix=0;
     int minimumEdgeCount = MINIMUM_EDGE_LIMIT;
 
-    int noisePixLimit=0;
     double JMIndex = histogram->getJMIndex();
+    float dispersion_ratio=1.5;
 
     QList<Edge*> edges;
 
     if (JMIndex < DIFFUSE_THRESHOLD)
     {
-            minEdgeWidth = JMIndex*35+1;
-            minimumEdgeCount=minEdgeWidth-1;
+        minEdgeWidth = JMIndex*35+1;
+        minimumEdgeCount=minEdgeWidth-1;
     }
     else
     {
-            minEdgeWidth =6;
-            minimumEdgeCount=4;
+        minEdgeWidth =6;
+        minimumEdgeCount=4;
     }
 
     while (initStdDev >= 1)
@@ -589,147 +584,151 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
         minEdgeWidth--;
         minimumEdgeCount--;
 
-        if (minEdgeWidth < 3)
-            minEdgeWidth = 3;
-        if (minimumEdgeCount < 3)
-            minimumEdgeCount=3;
+        minEdgeWidth     = qMax(3, minEdgeWidth);
+        minimumEdgeCount = qMax(3, minimumEdgeCount);
 
-       if (JMIndex < DIFFUSE_THRESHOLD)
-       {
-           //threshold = stats.max[0] - stats.stddev[0]* (MINIMUM_STDVAR - initStdDev +1);
-           // Taking the average out seems to have better result for noisy images
-           threshold = stats.max[0] - stats.mean[0] * ( (MINIMUM_STDVAR - initStdDev)*0.5 +1);
+        if (JMIndex < DIFFUSE_THRESHOLD)
+        {
+            // Taking the average out seems to have better result for noisy images
+            threshold = stats.max[0] - stats.mean[0] * ( (MINIMUM_STDVAR - initStdDev)*0.5 +1);
 
-           min =stats.min[0];
+            min =stats.min[0];
+            if (threshold-min < 0)
+            {
+                threshold=stats.mean[0]* ( (MINIMUM_STDVAR - initStdDev)*0.5 +1);
+                min=0;
+            }
 
-           noisePixLimit=minEdgeWidth*0.5;
-       }
-       else
-       {
-           //threshold = (stats.max[0] - stats.min[0])/2.0 + stats.min[0]  + stats.stddev[0]* (MINIMUM_STDVAR - initStdDev);
-           //if ( (stats.max[0] - stats.min[0])/2.0 > (stats.mean[0]+stats.stddev[0]*5))
-           threshold = stats.mean[0]+stats.stddev[0]*initStdDev*(0.95 - (MINIMUM_STDVAR - initStdDev) * 0.05);
-           min = stats.min[0];
-           noisePixLimit =2;
-
-       }
+            dispersion_ratio=1.4 - (MINIMUM_STDVAR - initStdDev)*0.08;
+        }
+        else
+        {
+            threshold = stats.mean[0]+stats.stddev[0]*initStdDev*(0.3 - (MINIMUM_STDVAR - initStdDev) * 0.05);
+            min = stats.min[0];
+            // Ratio between centeroid center and edge
+            dispersion_ratio=1.8 - (MINIMUM_STDVAR - initStdDev)*0.2;
+        }
 
         if (Options::fITSLogging())
         {
             qDebug() << "SNR: " << stats.SNR;
-            qDebug() << "The threshold level is " << threshold << " minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeCount;
+            qDebug() << "The threshold level is " << threshold << "(actual " << threshold-min << ")  minimum edge width" << minEdgeWidth << " minimum edge limit " << minimumEdgeCount;
         }
 
-        threshold -= stats.min[0];
+        threshold -= min;
 
-    int subX, subY, subW, subH;
+        int subX, subY, subW, subH;
 
-    if (mode == FITS_GUIDE)
-    {
-        subX = stats.width/10;
-        subY = stats.height/10;
-        subW = stats.width - subX;
-        subH = stats.height - subY;
-    }
-    else
-    {
-        subX = 0;
-        subY = 0;
-        subW = stats.width;
-        subH = stats.height;
-    }
-
-    // Detect "edges" that are above threshold
-    for (int i=subY; i < subH; i++)
-    {
-        pixelRadius = 0;
-
-        for(int j=subX; j < subW; j++)
+        if (boundary.isNull())
         {
-            pixVal = image_buffer[j+(i*stats.width)] - min;
-
-            // If pixel value > threshold, let's get its weighted average
-            if ( pixVal >= threshold || (sum > 0 && noisePix <= noisePixLimit))
+            if (mode == FITS_GUIDE)
             {
-                if (pixVal < threshold)
-                {
-                    noisePix++;
-                    noiseAvg += j * pixVal;
-                    noiseSum += pixVal;
-                    noisePixelRadius++;
-                    continue;
-                }
-                else if (noisePix)
-                {
-                   avg += noiseAvg;
-                   sum += noiseSum;
-                   pixelRadius += noisePixelRadius;
-                   noisePix=noiseAvg=noiseSum=noisePixelRadius=0;
-                }
-
-                avg += j * pixVal;
-                sum += pixVal;
-                pixelRadius++;
+                subX = stats.width/10;
+                subY = stats.height/10;
+                subW = stats.width - subX;
+                subH = stats.height - subY;
             }
-            // Value < threshold but avg exists
-            else if (sum > 0)
+            else
             {
+                subX = 0;
+                subY = 0;
+                subW = stats.width;
+                subH = stats.height;                
+            }
+        }
+        else
+        {
+            subX = boundary.x();
+            subY = boundary.y();
+            subW = subX + boundary.width();
+            subH = subY + boundary.height();
+        }
 
-                // We found a potential centroid edge
-                if (pixelRadius >= (minEdgeWidth - (MINIMUM_STDVAR - initStdDev)))
+       // Detect "edges" that are above threshold
+        for (int i=subY; i < subH; i++)
+        {
+            starDiameter = 0;
+
+            for(int j=subX; j < subW; j++)
+            {
+                pixVal = image_buffer[j+(i*stats.width)] - min;
+
+                // If pixel value > threshold, let's get its weighted average
+                if ( pixVal >= threshold )
                 {
-                    float center = avg/sum + 0.5;
-                    if (center > 0)
+                    avg += j * pixVal;
+                    sum += pixVal;
+                    starDiameter++;
+                }
+                // Value < threshold but avg exists
+                else if (sum > 0)
+                {
+                    // We found a potential centroid edge
+                    if (starDiameter >= minEdgeWidth)
                     {
-                        int i_center = floor(center);
+                        float center = avg/sum + 0.5;
+                        if (center > 0)
+                        {
+                            int i_center = floor(center);
 
-                        Edge *newEdge = new Edge();
+                            // Check if center is 10% or more brighter than edge, if not skip
+                            if ( ((image_buffer[i_center+(i*stats.width)]-min) / (image_buffer[i_center+(i*stats.width)-starDiameter/2]-min) >= dispersion_ratio) &&
+                                 ((image_buffer[i_center+(i*stats.width)]-min) / (image_buffer[i_center+(i*stats.width)+starDiameter/2]-min) >= dispersion_ratio))
+                            {
+                                if (Options::fITSLogging())
+                                {
+                                    qDebug() << "Edge center is " << image_buffer[i_center+(i*stats.width)]-min << " Edge is " << image_buffer[i_center+(i*stats.width)-starDiameter/2]-min
+                                             << " and ratio is " << ((image_buffer[i_center+(i*stats.width)]-min) / (image_buffer[i_center+(i*stats.width)-starDiameter/2]-min))
+                                             << " located at X: " << center << " Y: " << i+0.5;
+                                }
 
-                        newEdge->x          = center;
-                        newEdge->y          = i + 0.5;
-                        newEdge->scanned    = 0;
-                        newEdge->val        = image_buffer[i_center+(i*stats.width)] - min;
-                        newEdge->width      = pixelRadius;
-                        newEdge->HFR        = 0;
-                        newEdge->sum        = sum;
+                                Edge *newEdge = new Edge();
 
-                        edges.append(newEdge);
+                                newEdge->x          = center;
+                                newEdge->y          = i + 0.5;
+                                newEdge->scanned    = 0;
+                                newEdge->val        = image_buffer[i_center+(i*stats.width)] - min;
+                                newEdge->width      = starDiameter;
+                                newEdge->HFR        = 0;
+                                newEdge->sum        = sum;
+
+                                edges.append(newEdge);
+
+                            }
+                        }
                     }
 
+                    // Reset
+                    avg= sum = starDiameter=0;
                 }
-
-                // Reset
-                avg= sum = pixelRadius=0;
-                noisePix = noiseAvg = noiseSum = noisePixelRadius = 0;
             }
-         }
-     }
+        }
 
-    if (Options::fITSLogging())
-        qDebug() << "Total number of edges found is: " << edges.count();
-
-    // In case of hot pixels
-    if (edges.count() == 1 && initStdDev > 1)
-    {
-        initStdDev--;
-        continue;
-    }
-
-    if (edges.count() >= MAX_EDGE_LIMIT)
-    {
         if (Options::fITSLogging())
-            qDebug() << "Too many edges, aborting... " << edges.count();
+            qDebug() << "Total number of edges found is: " << edges.count();
+
+        // In case of hot pixels
+        if (edges.count() == 1 && initStdDev > 1)
+        {
+            initStdDev--;
+            continue;
+        }
+
+        if (edges.count() >= MAX_EDGE_LIMIT)
+        {
+            if (Options::fITSLogging())
+                qDebug() << "Too many edges, aborting... " << edges.count();
+
+            qDeleteAll(edges);
+            return;
+        }
+
+        if (edges.count() >= minimumEdgeCount)
+            break;
 
         qDeleteAll(edges);
-        return;
-    }
-
-    if (edges.count() >= minimumEdgeCount)
-        break;
-
-      qDeleteAll(edges);
-      edges.clear();
-      initStdDev--;
+        edges.clear();
+        initStdDev--;
     }
 
     int cen_count=0;
@@ -746,8 +745,10 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
     for (int i=0; i < edges.count(); i++)
     {
         if (Options::fITSLogging())
+        {
             qDebug() << "# " << i << " Edge at (" << edges[i]->x << "," << edges[i]->y << ") With a value of " << edges[i]->val  << " and width of "
-            << edges[i]->width << " pixels. with sum " << edges[i]->sum;
+                     << edges[i]->width << " pixels. with sum " << edges[i]->sum;
+        }
 
         // If edge scanned already, skip
         if (edges[i]->scanned == 1)
@@ -808,8 +809,8 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
                 cen_limit = 2;
         }
 
-    if (Options::fITSLogging())
-        qDebug() << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is " << cen_limit;
+        if (Options::fITSLogging())
+            qDebug() << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is " << cen_limit;
 
         if (cen_limit < 1)
             continue;
@@ -826,8 +827,8 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             width_sum += rCenter->width;
             rCenter->width = cen_w;
 
-           if (Options::fITSLogging())
-            qDebug() << "Found a real center with number with (" << rCenter->x << "," << rCenter->y << ")";
+            if (Options::fITSLogging())
+                qDebug() << "Found a real center with number with (" << rCenter->x << "," << rCenter->y << ")";
 
             // Calculate Total Flux From Center, Half Flux, Full Summation
             double TF=0;
@@ -844,7 +845,10 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
             // Complete sum along the radius
             //for (int k=0; k < rCenter->width; k++)
             for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
+            {
                 FSum += image_buffer[cen_x-k+(cen_y*stats.width)] - min;
+                //qDebug() << image_buffer[cen_x-k+(cen_y*stats.width)] - min;
+            }            
 
             // Half flux
             HF = FSum / 2.0;
@@ -879,7 +883,6 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
                 qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum;
 
             starCenters.append(rCenter);
-
         }
     }
 
@@ -900,7 +903,7 @@ void FITSData::findCentroid(int initStdDev, int minEdgeWidth)
                 starCenters.removeOne(center);
 
         //foreach(Edge *center, starCenters)
-            //qDebug() << center->x << "," << center->y << "," << center->width << "," << center->val << endl;
+        //qDebug() << center->x << "," << center->y << "," << center->width << "," << center->val << endl;
 
     }
 
@@ -921,10 +924,10 @@ double FITSData::getHFR(HFRType type)
 
     if (type == HFR_MAX)
     {
-         maxHFRStar = NULL;
-         int maxVal=0;
-         int maxIndex=0;
-     for (int i=0; i < starCenters.count() ; i++)
+        maxHFRStar = NULL;
+        int maxVal=0;
+        int maxIndex=0;
+        for (int i=0; i < starCenters.count() ; i++)
         {
             if (starCenters[i]->val > maxVal)
             {
@@ -965,16 +968,16 @@ double FITSData::getHFR(int x, int y)
 
     for (int i=0; i < starCenters.count() ; i++)
     {
-           if (fabs(starCenters[i]->x-x) <= starCenters[i]->width/2 && fabs(starCenters[i]->y-y) <= starCenters[i]->width/2)
-           {
-               return starCenters[i]->HFR;
-           }
+        if (fabs(starCenters[i]->x-x) <= starCenters[i]->width/2 && fabs(starCenters[i]->y-y) <= starCenters[i]->width/2)
+        {
+            return starCenters[i]->HFR;
+        }
     }
 
     return -1;
 }
 
-void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
+void FITSData::applyFilter(FITSScale type, float *image, float min, float max)
 {
     if (type == FITS_NONE /* || histogram == NULL*/)
         return;
@@ -1025,7 +1028,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
         stats.max[0] = max;
         //runningAverageStdDev();
     }
-    break;
+        break;
 
     case FITS_LOG:
     {
@@ -1043,10 +1046,8 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
                     bufferVal = image[index];
                     if (bufferVal < min) bufferVal = min;
                     else if (bufferVal > max) bufferVal = max;
-                    val = (coeff * log(1 + bufferVal));
-                    if (val < min) val = min;
-                    else if (val > max) val = max;
-                    image_buffer[index] = val;
+                    val = (coeff * log(1 + qBound(min, image[index], max)));
+                    image_buffer[index] = qBound(min, val, max);
                 }
             }
 
@@ -1056,7 +1057,7 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
         stats.max[0] = max;
         runningAverageStdDev();
     }
-    break;
+        break;
 
     case FITS_SQRT:
     {
@@ -1067,16 +1068,13 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
             offset = i*size;
             for (int j=0; j < height; j++)
             {
-               row = offset + j * width;
-               for (int k=0; k < width; k++)
-               {
+                row = offset + j * width;
+                for (int k=0; k < width; k++)
+                {
                     index=k + row;
-                    bufferVal = (int) image[index];
-                    if (bufferVal < min) bufferVal = min;
-                    else if (bufferVal > max) bufferVal = max;
-                    val = (int) (coeff * sqrt(bufferVal));
+                    val = (int) (coeff * sqrt(qBound(min, image[index], max)));
                     image_buffer[index] = val;
-               }
+                }
             }
         }
 
@@ -1084,38 +1082,35 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
         stats.max[0] = max;
         runningAverageStdDev();
     }
-    break;
+        break;
 
     case FITS_AUTO_STRETCH:
     {
-       min = stats.mean[0] - stats.stddev[0];
-       max = stats.mean[0] + stats.stddev[0] * 3;
+        min = stats.mean[0] - stats.stddev[0];
+        max = stats.mean[0] + stats.stddev[0] * 3;
 
-           for (int i=0; i < channels; i++)
-           {
-               offset = i*size;
-               for (int j=0; j < height; j++)
-               {
-                  row = offset + j * width;
-                  for (int k=0; k < width; k++)
-                  {
-                     index=k + row;
-                     bufferVal = image[index];
-                     if (bufferVal < min) bufferVal = min;
-                     else if (bufferVal > max) bufferVal = max;
-                     image_buffer[index] = bufferVal;
-                  }
-               }
+        for (int i=0; i < channels; i++)
+        {
+            offset = i*size;
+            for (int j=0; j < height; j++)
+            {
+                row = offset + j * width;
+                for (int k=0; k < width; k++)
+                {
+                    index=k + row;
+                    image_buffer[index] = qBound(min, image[index], max);
+                }
             }
+        }
 
         stats.min[0] = min;
         stats.max[0] = max;
         runningAverageStdDev();
-      }
-      break;
+    }
+        break;
 
-     case FITS_HIGH_CONTRAST:
-     {        
+    case FITS_HIGH_CONTRAST:
+    {
         min = stats.mean[0] + stats.stddev[0];
         if (min < 0)
             min =0;
@@ -1126,25 +1121,22 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
             offset = i*size;
             for (int j=0; j < height; j++)
             {
-               row = offset + j * width;
-               for (int k=0; k < width; k++)
-               {
-                  index=k + row;
-                  bufferVal = image[index];
-                  if (bufferVal < min) bufferVal = min;
-                  else if (bufferVal > max) bufferVal = max;
-                  image_buffer[index] = bufferVal;
+                row = offset + j * width;
+                for (int k=0; k < width; k++)
+                {
+                    index=k + row;
+                    image_buffer[index] = qBound(min, image[index], max);
                 }
             }
         }
         stats.min[0] = min;
         stats.max[0] = max;
         runningAverageStdDev();
-      }
-      break;
+    }
+        break;
 
-     case FITS_EQUALIZE:
-     {
+    case FITS_EQUALIZE:
+    {
         if (histogram == NULL)
             return;
         QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
@@ -1170,26 +1162,23 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
                 }
             }
         }
-     }
-     calculateStats(true);
-     break;
+    }
+        calculateStats(true);
+        break;
 
-     case FITS_HIGH_PASS:
-     {
+    case FITS_HIGH_PASS:
+    {
         min = stats.mean[0];
         for (int i=0; i < channels; i++)
         {
             offset = i*size;
             for (int j=0; j < height; j++)
             {
-               row = offset + j * width;
-               for (int k=0; k < width; k++)
-               {
-                  index=k + row;
-                  bufferVal = image[index];
-                  if (bufferVal < min) bufferVal = min;
-                  else if (bufferVal > max) bufferVal = max;
-                  image_buffer[index] = bufferVal;
+                row = offset + j * width;
+                for (int k=0; k < width; k++)
+                {
+                    index=k + row;
+                    image_buffer[index] = qBound(min, image[index], max);
                 }
             }
         }
@@ -1197,7 +1186,68 @@ void FITSData::applyFilter(FITSScale type, float *image, double min, double max)
         stats.min[0] = min;
         stats.max[0] = max;
         runningAverageStdDev();
-      }
+    }
+        break;
+
+    // Based on http://www.librow.com/articles/article-1
+    case FITS_MEDIAN:
+    {
+        float* extension = new float[(width + 2) * (height + 2)];
+        //   Check memory allocation
+        if (!extension)
+            return;
+        //   Create image extension
+        for (int ch=0; ch < channels; ch++)
+        {
+            offset = ch*size;
+            int N=width,M=height;
+
+            for (int i = 0; i < M; ++i)
+            {
+                memcpy(extension + (N + 2) * (i + 1) + 1, image_buffer + N * i + offset, N * sizeof(float));
+                extension[(N + 2) * (i + 1)] = image_buffer[N * i + offset];
+                extension[(N + 2) * (i + 2) - 1] = image_buffer[N * (i + 1) - 1 + offset];
+            }
+            //   Fill first line of image extension
+            memcpy(extension, extension + N + 2, (N + 2) * sizeof(float));
+            //   Fill last line of image extension
+            memcpy(extension + (N + 2) * (M + 1), extension + (N + 2) * M, (N + 2) * sizeof(float));
+            //   Call median filter implementation
+
+            N=width+2;
+            M=height+2;
+            //   Move window through all elements of the image
+            for (int m = 1; m < M - 1; ++m)
+                for (int n = 1; n < N - 1; ++n)
+                {
+                    //   Pick up window elements
+                    int k = 0;
+                    float window[9];
+                    for (int j = m - 1; j < m + 2; ++j)
+                        for (int i = n - 1; i < n + 2; ++i)
+                            window[k++] = extension[j * N + i];
+                    //   Order elements (only half of them)
+                    for (int j = 0; j < 5; ++j)
+                    {
+                        //   Find position of minimum element
+                        int mine = j;
+                        for (int l = j + 1; l < 9; ++l)
+                            if (window[l] < window[mine])
+                                mine = l;
+                        //   Put found minimum element in its place
+                        const float temp = window[j];
+                        window[j] = window[mine];
+                        window[mine] = temp;
+                    }
+                    //   Get result - the middle element
+                    image_buffer[(m - 1) * (N - 2) + n - 1 + offset] = window[4];
+                }
+        }
+
+        //   Free memory
+        delete[] extension;
+        runningAverageStdDev();
+    }
         break;
 
 
@@ -1241,21 +1291,18 @@ void FITSData::subtract(float *dark_buffer)
     calculateStats(true);
 }
 
-int FITSData::findStars()
+int FITSData::findStars(const QRectF &boundary, bool force)
 {
     if (histogram == NULL)
         return -1;
 
-    if (starsSearched == false)
+    if (starsSearched == false || force)
     {
         qDeleteAll(starCenters);
         starCenters.clear();
 
-        //if (histogram->getJMIndex() > DIFFUSE_THRESHOLD)
-        //{
-             findCentroid();
-             getHFR();
-        //}
+        findCentroid(boundary);
+        getHFR();
     }
 
     starsSearched = true;
@@ -1305,16 +1352,16 @@ void FITSData::checkWCS()
 
     if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
     {
-      fprintf(stderr, "wcspih ERROR %d: %s.\n", status, wcshdr_errmsg[status]);
-      return;
+        fprintf(stderr, "wcspih ERROR %d: %s.\n", status, wcshdr_errmsg[status]);
+        return;
     }
 
     free(header);
 
     if (wcs == 0)
     {
-      //fprintf(stderr, "No world coordinate systems found.\n");
-      return;
+        //fprintf(stderr, "No world coordinate systems found.\n");
+        return;
     }
 
     // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
@@ -1325,8 +1372,8 @@ void FITSData::checkWCS()
 
     if ((status = wcsset(wcs)))
     {
-      fprintf(stderr, "wcsset ERROR %d: %s.\n", status, wcs_errmsg[status]);
-      return;
+        fprintf(stderr, "wcsset ERROR %d: %s.\n", status, wcs_errmsg[status]);
+        return;
     }
 
     delete[] wcs_coord;
@@ -1344,8 +1391,8 @@ void FITSData::checkWCS()
 
             if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])))
             {
-                  fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status,
-                  wcs_errmsg[status]);
+                fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status,
+                        wcs_errmsg[status]);
             }
             else
             {
@@ -1354,7 +1401,7 @@ void FITSData::checkWCS()
 
                 p++;
             }
-       }
+        }
     }
 #endif
 
@@ -1413,18 +1460,18 @@ bool FITSData::rotFITS (int rotate, int mirror)
     int offset=0;
 
     if (rotate == 1)
-    rotate = 90;
+        rotate = 90;
     else if (rotate == 2)
-    rotate = 180;
+        rotate = 180;
     else if (rotate == 3)
-    rotate = 270;
+        rotate = 270;
     else if (rotate < 0)
-    rotate = rotate + 360;
+        rotate = rotate + 360;
 
     nx = stats.width;
     ny = stats.height;
 
-   /* Allocate buffer for rotated image */
+    /* Allocate buffer for rotated image */
     rotimage = new float[stats.samples_per_channel*channels];
     if (rotimage == NULL)
     {
@@ -1458,7 +1505,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
                 {
                     y2 = ny - y1 - 1;
                     for (x1 = 0; x1 < nx; x1++)
-                       rotimage[(y2*nx) + x1 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                        rotimage[(y2*nx) + x1 + offset] = image_buffer[(y1*nx) + x1 + offset];
                 }
             }
 
@@ -1471,7 +1518,7 @@ bool FITSData::rotFITS (int rotate, int mirror)
                 for (y1 = 0; y1 < ny; y1++)
                 {
                     for (x1 = 0; x1 < nx; x1++)
-                       rotimage[(y1*nx) + x1 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                        rotimage[(y1*nx) + x1 + offset] = image_buffer[(y1*nx) + x1 + offset];
                 }
             }
 
@@ -1481,157 +1528,157 @@ bool FITSData::rotFITS (int rotate, int mirror)
     /* Rotate by 90 degrees */
     else if (rotate >= 45 && rotate < 135)
     {
-    if (mirror == 1)
-    {
-        for (int i=0; i < channels; i++)
+        if (mirror == 1)
         {
-            offset = stats.samples_per_channel * i;
-            for (y1 = 0; y1 < ny; y1++)
+            for (int i=0; i < channels; i++)
             {
-                x2 = ny - y1 - 1;
-                for (x1 = 0; x1 < nx; x1++)
+                offset = stats.samples_per_channel * i;
+                for (y1 = 0; y1 < ny; y1++)
                 {
-                    y2 = nx - x1 - 1;
-                    rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                    x2 = ny - y1 - 1;
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        y2 = nx - x1 - 1;
+                        rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                    }
                 }
             }
-        }
 
-    }
-    else if (mirror == 2)
-    {
-        for (int i=0; i < channels; i++)
-        {
-            offset = stats.samples_per_channel * i;
-            for (y1 = 0; y1 < ny; y1++)
-            {
-                for (x1 = 0; x1 < nx; x1++)
-                    rotimage[(x1*ny) + y1 + offset] = image_buffer[(y1*nx) + x1 + offset];
-            }
         }
-
-    }
-    else
-    {
-        for (int i=0; i < channels; i++)
+        else if (mirror == 2)
         {
-            offset = stats.samples_per_channel * i;
-            for (y1 = 0; y1 < ny; y1++)
+            for (int i=0; i < channels; i++)
             {
-                x2 = ny - y1 - 1;
-                for (x1 = 0; x1 < nx; x1++)
+                offset = stats.samples_per_channel * i;
+                for (y1 = 0; y1 < ny; y1++)
                 {
-                    y2 = x1;
-                    rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                    for (x1 = 0; x1 < nx; x1++)
+                        rotimage[(x1*ny) + y1 + offset] = image_buffer[(y1*nx) + x1 + offset];
                 }
             }
+
+        }
+        else
+        {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.samples_per_channel * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    x2 = ny - y1 - 1;
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        y2 = x1;
+                        rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                    }
+                }
+            }
+
         }
 
-    }
-
-    stats.width = ny;
-    stats.height = nx;
+        stats.width = ny;
+        stats.height = nx;
     }
 
     /* Rotate by 180 degrees */
     else if (rotate >= 135 && rotate < 225)
     {
-    if (mirror == 1)
-    {
-        for (int i=0; i < channels; i++)
+        if (mirror == 1)
         {
-            offset = stats.samples_per_channel * i;
-            for (y1 = 0; y1 < ny; y1++)
+            for (int i=0; i < channels; i++)
             {
-                y2 = ny - y1 - 1;
-                for (x1 = 0; x1 < nx; x1++)
-                    rotimage[(y2*nx) + x1 + offset] = image_buffer[(y1*nx) + x1 + offset];
-            }
-        }
-
-    }
-    else if (mirror == 2)
-    {
-        for (int i=0; i < channels; i++)
-        {
-            offset = stats.samples_per_channel * i;
-            for (x1 = 0; x1 < nx; x1++)
-            {
-                x2 = nx - x1 - 1;
+                offset = stats.samples_per_channel * i;
                 for (y1 = 0; y1 < ny; y1++)
-                    rotimage[(y1*nx) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                {
+                    y2 = ny - y1 - 1;
+                    for (x1 = 0; x1 < nx; x1++)
+                        rotimage[(y2*nx) + x1 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                }
             }
+
         }
-    }
-    else
-    {
-        for (int i=0; i < channels; i++)
+        else if (mirror == 2)
         {
-            offset = stats.samples_per_channel * i;
-            for (y1 = 0; y1 < ny; y1++)
+            for (int i=0; i < channels; i++)
             {
-                y2 = ny - y1 - 1;
+                offset = stats.samples_per_channel * i;
                 for (x1 = 0; x1 < nx; x1++)
                 {
                     x2 = nx - x1 - 1;
-                    rotimage[(y2*nx) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                    for (y1 = 0; y1 < ny; y1++)
+                        rotimage[(y1*nx) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                }
+            }
+        }
+        else
+        {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.samples_per_channel * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    y2 = ny - y1 - 1;
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        x2 = nx - x1 - 1;
+                        rotimage[(y2*nx) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                    }
                 }
             }
         }
     }
-   }
 
     /* Rotate by 270 degrees */
     else if (rotate >= 225 && rotate < 315)
     {
-    if (mirror == 1)
-    {
-        for (int i=0; i < channels; i++)
+        if (mirror == 1)
         {
-            offset = stats.samples_per_channel * i;
-            for (y1 = 0; y1 < ny; y1++)
+            for (int i=0; i < channels; i++)
             {
-                for (x1 = 0; x1 < nx; x1++)
-                    rotimage[(x1*ny) + y1 + offset] = image_buffer[(y1*nx) + x1 + offset];
-            }
-        }
-    }
-    else if (mirror == 2)
-    {
-        for (int i=0; i < channels; i++)
-        {
-            offset = stats.samples_per_channel * i;
-            for (y1 = 0; y1 < ny; y1++)
-            {
-                x2 = ny - y1 - 1;
-                for (x1 = 0; x1 < nx; x1++)
+                offset = stats.samples_per_channel * i;
+                for (y1 = 0; y1 < ny; y1++)
                 {
-                    y2 = nx - x1 - 1;
-                    rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                    for (x1 = 0; x1 < nx; x1++)
+                        rotimage[(x1*ny) + y1 + offset] = image_buffer[(y1*nx) + x1 + offset];
                 }
             }
         }
-    }
-    else
-    {
-        for (int i=0; i < channels; i++)
+        else if (mirror == 2)
         {
-            offset = stats.samples_per_channel * i;
-            for (y1 = 0; y1 < ny; y1++)
+            for (int i=0; i < channels; i++)
             {
-                x2 = y1;
-                for (x1 = 0; x1 < nx; x1++)
+                offset = stats.samples_per_channel * i;
+                for (y1 = 0; y1 < ny; y1++)
                 {
-                    y2 = nx - x1 - 1;
-                    rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                    x2 = ny - y1 - 1;
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        y2 = nx - x1 - 1;
+                        rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                    }
                 }
             }
         }
-    }
+        else
+        {
+            for (int i=0; i < channels; i++)
+            {
+                offset = stats.samples_per_channel * i;
+                for (y1 = 0; y1 < ny; y1++)
+                {
+                    x2 = y1;
+                    for (x1 = 0; x1 < nx; x1++)
+                    {
+                        y2 = nx - x1 - 1;
+                        rotimage[(y2*ny) + x2 + offset] = image_buffer[(y1*nx) + x1 + offset];
+                    }
+                }
+            }
+        }
 
-    stats.width = ny;
-    stats.height = nx;
-   }
+        stats.width = ny;
+        stats.height = nx;
+    }
 
     /* If rotating by more than 315 degrees, assume top-bottom reflection */
     else if (rotate >= 315 && mirror)
@@ -1677,10 +1724,10 @@ void FITSData::rotWCSFITS (int angle, int mirror)
     if (angle == 90)
     {
         if (!fits_read_key_dbl(fptr, "CROTA1", &ctemp1, comment, &status ))
-                fits_update_key_dbl(fptr, "CROTA1", ctemp1+90.0, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CROTA1", ctemp1+90.0, WCS_DECIMALS, comment, &status );
 
         if (!fits_read_key_dbl(fptr, "CROTA2", &ctemp1, comment, &status ))
-                fits_update_key_dbl(fptr, "CROTA2", ctemp1+90.0, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CROTA2", ctemp1+90.0, WCS_DECIMALS, comment, &status );
     }
 
     status=0;
@@ -1689,26 +1736,26 @@ void FITSData::rotWCSFITS (int angle, int mirror)
     if (mirror)
     {
         if (!fits_read_key_dbl(fptr, "CROTA1", &ctemp1, comment, &status ))
-                fits_update_key_dbl(fptr, "CROTA1", -ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CROTA1", -ctemp1, WCS_DECIMALS, comment, &status );
 
         if (!fits_read_key_dbl(fptr, "CROTA2", &ctemp1, comment, &status ))
-                fits_update_key_dbl(fptr, "CROTA2", -ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CROTA2", -ctemp1, WCS_DECIMALS, comment, &status );
 
         status=0;
 
         if (!fits_read_key_dbl(fptr, "LTM1_1", &ctemp1, comment, &status ))
-                fits_update_key_dbl(fptr, "LTM1_1", -ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "LTM1_1", -ctemp1, WCS_DECIMALS, comment, &status );
 
         status=0;
 
         if (!fits_read_key_dbl(fptr, "CD1_1", &ctemp1, comment, &status ))
-                fits_update_key_dbl(fptr, "CD1_1", -ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD1_1", -ctemp1, WCS_DECIMALS, comment, &status );
 
         if (!fits_read_key_dbl(fptr, "CD1_2", &ctemp1, comment, &status ))
-                fits_update_key_dbl(fptr, "CD1_2", -ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD1_2", -ctemp1, WCS_DECIMALS, comment, &status );
 
         if (!fits_read_key_dbl(fptr, "CD2_1", &ctemp1, comment, &status ))
-                fits_update_key_dbl(fptr, "CD2_1", -ctemp1, WCS_DECIMALS, comment, &status );
+            fits_update_key_dbl(fptr, "CD2_1", -ctemp1, WCS_DECIMALS, comment, &status );
     }
 
     status=0;
@@ -1719,43 +1766,43 @@ void FITSData::rotWCSFITS (int angle, int mirror)
         if (ctemp1 != 1.0)
         {
             if (!fits_read_key_dbl(fptr, "LTM2_2", &ctemp2, comment, &status ))
-            if (ctemp1 == ctemp2)
-            {
-                double ltv1 = 0.0;
-                double ltv2 = 0.0;
-                status=0;
-                if (!fits_read_key_dbl(fptr, "LTV1", &ltv1, comment, &status))
-                    fits_delete_key(fptr, "LTV1", &status);
-                if (!fits_read_key_dbl(fptr, "LTV2", &ltv2, comment, &status))
-                    fits_delete_key(fptr, "LTV2", &status);
+                if (ctemp1 == ctemp2)
+                {
+                    double ltv1 = 0.0;
+                    double ltv2 = 0.0;
+                    status=0;
+                    if (!fits_read_key_dbl(fptr, "LTV1", &ltv1, comment, &status))
+                        fits_delete_key(fptr, "LTV1", &status);
+                    if (!fits_read_key_dbl(fptr, "LTV2", &ltv2, comment, &status))
+                        fits_delete_key(fptr, "LTV2", &status);
 
-                status=0;
+                    status=0;
 
-                if (!fits_read_key_dbl(fptr, "CRPIX1", &ctemp3, comment, &status ))
-                    fits_update_key_dbl(fptr, "CRPIX1", (ctemp3-ltv1)/ctemp1, WCS_DECIMALS, comment, &status );
+                    if (!fits_read_key_dbl(fptr, "CRPIX1", &ctemp3, comment, &status ))
+                        fits_update_key_dbl(fptr, "CRPIX1", (ctemp3-ltv1)/ctemp1, WCS_DECIMALS, comment, &status );
 
-                if (!fits_read_key_dbl(fptr, "CRPIX2", &ctemp3, comment, &status ))
-                    fits_update_key_dbl(fptr, "CRPIX2", (ctemp3-ltv2)/ctemp1, WCS_DECIMALS, comment, &status );
+                    if (!fits_read_key_dbl(fptr, "CRPIX2", &ctemp3, comment, &status ))
+                        fits_update_key_dbl(fptr, "CRPIX2", (ctemp3-ltv2)/ctemp1, WCS_DECIMALS, comment, &status );
 
-                status=0;
+                    status=0;
 
-                if (!fits_read_key_dbl(fptr, "CD1_1", &ctemp3, comment, &status ))
-                    fits_update_key_dbl(fptr, "CD1_1", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
+                    if (!fits_read_key_dbl(fptr, "CD1_1", &ctemp3, comment, &status ))
+                        fits_update_key_dbl(fptr, "CD1_1", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
 
-                if (!fits_read_key_dbl(fptr, "CD1_2", &ctemp3, comment, &status ))
-                    fits_update_key_dbl(fptr, "CD1_2", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
+                    if (!fits_read_key_dbl(fptr, "CD1_2", &ctemp3, comment, &status ))
+                        fits_update_key_dbl(fptr, "CD1_2", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
 
-                if (!fits_read_key_dbl(fptr, "CD2_1", &ctemp3, comment, &status ))
-                    fits_update_key_dbl(fptr, "CD2_1", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
+                    if (!fits_read_key_dbl(fptr, "CD2_1", &ctemp3, comment, &status ))
+                        fits_update_key_dbl(fptr, "CD2_1", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
 
-                if (!fits_read_key_dbl(fptr, "CD2_2", &ctemp3, comment, &status ))
-                    fits_update_key_dbl(fptr, "CD2_2", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
+                    if (!fits_read_key_dbl(fptr, "CD2_2", &ctemp3, comment, &status ))
+                        fits_update_key_dbl(fptr, "CD2_2", ctemp3/ctemp1, WCS_DECIMALS, comment, &status );
 
-                status=0;
+                    status=0;
 
-                fits_delete_key(fptr, "LTM1_1", &status);
-                fits_delete_key(fptr, "LTM1_2", &status);
-            }
+                    fits_delete_key(fptr, "LTM1_1", &status);
+                    fits_delete_key(fptr, "LTM1_2", &status);
+                }
         }
     }
 
@@ -1767,7 +1814,7 @@ void FITSData::rotWCSFITS (int angle, int mirror)
         if (mirror)
         {
             if (angle == 0)
-                 fits_update_key_dbl(fptr, "CRPIX1", naxis1-ctemp1, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CRPIX1", naxis1-ctemp1, WCS_DECIMALS, comment, &status );
             else if (angle == 90)
             {
                 fits_update_key_dbl(fptr, "CRPIX1", naxis2-ctemp2, WCS_DECIMALS, comment, &status );
@@ -1786,21 +1833,21 @@ void FITSData::rotWCSFITS (int angle, int mirror)
         }
         else
         {
-        if (angle == 90)
-        {
-            fits_update_key_dbl(fptr, "CRPIX1", naxis2-ctemp2, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CRPIX2", ctemp1, WCS_DECIMALS, comment, &status );
-        }
-        else if (angle == 180)
-        {
-            fits_update_key_dbl(fptr, "CRPIX1", naxis1-ctemp1, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CRPIX2", naxis2-ctemp2, WCS_DECIMALS, comment, &status );
-        }
-        else if (angle == 270)
-        {
-            fits_update_key_dbl(fptr, "CRPIX1", ctemp2, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CRPIX2", naxis1-ctemp1, WCS_DECIMALS, comment, &status );
-        }
+            if (angle == 90)
+            {
+                fits_update_key_dbl(fptr, "CRPIX1", naxis2-ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CRPIX2", ctemp1, WCS_DECIMALS, comment, &status );
+            }
+            else if (angle == 180)
+            {
+                fits_update_key_dbl(fptr, "CRPIX1", naxis1-ctemp1, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CRPIX2", naxis2-ctemp2, WCS_DECIMALS, comment, &status );
+            }
+            else if (angle == 270)
+            {
+                fits_update_key_dbl(fptr, "CRPIX1", ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CRPIX2", naxis1-ctemp1, WCS_DECIMALS, comment, &status );
+            }
         }
     }
 
@@ -1809,46 +1856,46 @@ void FITSData::rotWCSFITS (int angle, int mirror)
     /* Reset CDELTn (degrees per pixel) */
     if ( !fits_read_key_dbl(fptr, "CDELT1", &ctemp1, comment, &status ) && !fits_read_key_dbl(fptr, "CDELT2", &ctemp2, comment, &status ) )
     {
-    if (mirror)
-    {
-        if (angle == 0)
-            fits_update_key_dbl(fptr, "CDELT1", -ctemp1, WCS_DECIMALS, comment, &status );
-        else if (angle == 90)
+        if (mirror)
         {
-            fits_update_key_dbl(fptr, "CDELT1", -ctemp2, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CDELT2", -ctemp1, WCS_DECIMALS, comment, &status );
+            if (angle == 0)
+                fits_update_key_dbl(fptr, "CDELT1", -ctemp1, WCS_DECIMALS, comment, &status );
+            else if (angle == 90)
+            {
+                fits_update_key_dbl(fptr, "CDELT1", -ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CDELT2", -ctemp1, WCS_DECIMALS, comment, &status );
 
+            }
+            else if (angle == 180)
+            {
+                fits_update_key_dbl(fptr, "CDELT1", ctemp1, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CDELT2", -ctemp2, WCS_DECIMALS, comment, &status );
+            }
+            else if (angle == 270)
+            {
+                fits_update_key_dbl(fptr, "CDELT1", ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CDELT2", ctemp1, WCS_DECIMALS, comment, &status );
+            }
         }
-        else if (angle == 180)
+        else
         {
-            fits_update_key_dbl(fptr, "CDELT1", ctemp1, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CDELT2", -ctemp2, WCS_DECIMALS, comment, &status );
-        }
-        else if (angle == 270)
-        {
-            fits_update_key_dbl(fptr, "CDELT1", ctemp2, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CDELT2", ctemp1, WCS_DECIMALS, comment, &status );
-        }
-    }
-    else
-    {
-        if (angle == 90)
-        {
-            fits_update_key_dbl(fptr, "CDELT1", -ctemp2, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CDELT2", ctemp1, WCS_DECIMALS, comment, &status );
+            if (angle == 90)
+            {
+                fits_update_key_dbl(fptr, "CDELT1", -ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CDELT2", ctemp1, WCS_DECIMALS, comment, &status );
 
+            }
+            else if (angle == 180)
+            {
+                fits_update_key_dbl(fptr, "CDELT1", -ctemp1, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CDELT2", -ctemp2, WCS_DECIMALS, comment, &status );
+            }
+            else if (angle == 270)
+            {
+                fits_update_key_dbl(fptr, "CDELT1", ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CDELT2", -ctemp1, WCS_DECIMALS, comment, &status );
+            }
         }
-        else if (angle == 180)
-        {
-            fits_update_key_dbl(fptr, "CDELT1", -ctemp1, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CDELT2", -ctemp2, WCS_DECIMALS, comment, &status );
-        }
-        else if (angle == 270)
-        {
-            fits_update_key_dbl(fptr, "CDELT1", ctemp2, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CDELT2", -ctemp1, WCS_DECIMALS, comment, &status );
-        }
-     }
     }
 
     /* Reset CD matrix, if present */
@@ -1863,58 +1910,58 @@ void FITSData::rotWCSFITS (int angle, int mirror)
         fits_read_key_dbl(fptr, "CD2_1", &ctemp3, comment, &status );
         fits_read_key_dbl(fptr, "CD2_2", &ctemp4, comment, &status );
         status=0;
-    if (mirror)
-    {
-        if (angle == 0)
+        if (mirror)
         {
-            fits_update_key_dbl(fptr, "CD1_2", -ctemp2, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_1", -ctemp3, WCS_DECIMALS, comment, &status );
-        }
-        else if (angle == 90)
-        {
-            fits_update_key_dbl(fptr, "CD1_1", -ctemp4, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD1_2", -ctemp3, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_1", -ctemp2, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_2", -ctemp1, WCS_DECIMALS, comment, &status );
+            if (angle == 0)
+            {
+                fits_update_key_dbl(fptr, "CD1_2", -ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_1", -ctemp3, WCS_DECIMALS, comment, &status );
+            }
+            else if (angle == 90)
+            {
+                fits_update_key_dbl(fptr, "CD1_1", -ctemp4, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD1_2", -ctemp3, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_1", -ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_2", -ctemp1, WCS_DECIMALS, comment, &status );
 
+            }
+            else if (angle == 180)
+            {
+                fits_update_key_dbl(fptr, "CD1_1", ctemp1, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD1_2", ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_1", -ctemp3, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_2", -ctemp4, WCS_DECIMALS, comment, &status );
+            }
+            else if (angle == 270)
+            {
+                fits_update_key_dbl(fptr, "CD1_1", ctemp4, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD1_2", ctemp3, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_1", ctemp3, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_2", ctemp1, WCS_DECIMALS, comment, &status );
+            }
         }
-        else if (angle == 180)
-        {
-            fits_update_key_dbl(fptr, "CD1_1", ctemp1, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD1_2", ctemp2, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_1", -ctemp3, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_2", -ctemp4, WCS_DECIMALS, comment, &status );
-        }
-        else if (angle == 270)
-        {
-            fits_update_key_dbl(fptr, "CD1_1", ctemp4, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD1_2", ctemp3, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_1", ctemp3, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_2", ctemp1, WCS_DECIMALS, comment, &status );
-        }
-        }
-    else {
-        if (angle == 90)
-        {
-            fits_update_key_dbl(fptr, "CD1_1", -ctemp4, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD1_2", -ctemp3, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_1", ctemp1, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_2", ctemp1, WCS_DECIMALS, comment, &status );
-        }
-        else if (angle == 180)
-        {
-            fits_update_key_dbl(fptr, "CD1_1", -ctemp1, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD1_2", -ctemp2, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_1", -ctemp3, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_2", -ctemp4, WCS_DECIMALS, comment, &status );
-        }
-        else if (angle == 270)
-        {
-            fits_update_key_dbl(fptr, "CD1_1", ctemp4, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD1_2", ctemp3, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_1", -ctemp2, WCS_DECIMALS, comment, &status );
-            fits_update_key_dbl(fptr, "CD2_2", -ctemp1, WCS_DECIMALS, comment, &status );
-        }
+        else {
+            if (angle == 90)
+            {
+                fits_update_key_dbl(fptr, "CD1_1", -ctemp4, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD1_2", -ctemp3, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_1", ctemp1, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_2", ctemp1, WCS_DECIMALS, comment, &status );
+            }
+            else if (angle == 180)
+            {
+                fits_update_key_dbl(fptr, "CD1_1", -ctemp1, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD1_2", -ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_1", -ctemp3, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_2", -ctemp4, WCS_DECIMALS, comment, &status );
+            }
+            else if (angle == 270)
+            {
+                fits_update_key_dbl(fptr, "CD1_1", ctemp4, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD1_2", ctemp3, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_1", -ctemp2, WCS_DECIMALS, comment, &status );
+                fits_update_key_dbl(fptr, "CD2_2", -ctemp1, WCS_DECIMALS, comment, &status );
+            }
         }
     }
 
@@ -1955,48 +2002,48 @@ void FITSData::setImageBuffer(float *buffer)
 bool FITSData::checkDebayer()
 {
 
-  int status=0;
-  char bayerPattern[64];
+    int status=0;
+    char bayerPattern[64];
 
-  // Let's search for BAYERPAT keyword, if it's not found we return as there is no bayer pattern in this image
-  if (fits_read_keyword(fptr, "BAYERPAT", bayerPattern, NULL, &status))
-      return false;
+    // Let's search for BAYERPAT keyword, if it's not found we return as there is no bayer pattern in this image
+    if (fits_read_keyword(fptr, "BAYERPAT", bayerPattern, NULL, &status))
+        return false;
 
-  if (stats.bitpix != 16 && stats.bitpix != 8)
-  {
-      KMessageBox::error(NULL, i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
-      return false;
-  }
-  QString pattern(bayerPattern);
-  pattern = pattern.remove("'").trimmed();
+    if (stats.bitpix != 16 && stats.bitpix != 8)
+    {
+        KMessageBox::error(NULL, i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
+        return false;
+    }
+    QString pattern(bayerPattern);
+    pattern = pattern.remove("'").trimmed();
 
-  if (pattern == "RGGB")
-      debayerParams.filter = DC1394_COLOR_FILTER_RGGB;
-  else if (pattern == "GBRG")
-      debayerParams.filter = DC1394_COLOR_FILTER_GBRG;
-  else if (pattern == "GRBG")
-      debayerParams.filter = DC1394_COLOR_FILTER_GRBG;
-  else if (pattern == "BGGR")
-      debayerParams.filter = DC1394_COLOR_FILTER_BGGR;
-  // We return unless we find a valid pattern
-  else
-      return false;
+    if (pattern == "RGGB")
+        debayerParams.filter = DC1394_COLOR_FILTER_RGGB;
+    else if (pattern == "GBRG")
+        debayerParams.filter = DC1394_COLOR_FILTER_GBRG;
+    else if (pattern == "GRBG")
+        debayerParams.filter = DC1394_COLOR_FILTER_GRBG;
+    else if (pattern == "BGGR")
+        debayerParams.filter = DC1394_COLOR_FILTER_BGGR;
+    // We return unless we find a valid pattern
+    else
+        return false;
 
-  fits_read_key(fptr, TINT, "XBAYROFF", &debayerParams.offsetX, NULL, &status);
-  fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, NULL, &status); 
+    fits_read_key(fptr, TINT, "XBAYROFF", &debayerParams.offsetX, NULL, &status);
+    fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, NULL, &status);
 
-  delete[] bayer_buffer;
-  bayer_buffer = new float[stats.samples_per_channel * channels];
-  if (bayer_buffer == NULL)
-  {
-      KMessageBox::error(NULL, i18n("Unable to allocate memory for bayer buffer."), i18n("Open FITS"));
-      return false;
-  }
-  memcpy(bayer_buffer, image_buffer, stats.samples_per_channel * channels * sizeof(float));
+    delete[] bayer_buffer;
+    bayer_buffer = new float[stats.samples_per_channel * channels];
+    if (bayer_buffer == NULL)
+    {
+        KMessageBox::error(NULL, i18n("Unable to allocate memory for bayer buffer."), i18n("Open FITS"));
+        return false;
+    }
+    memcpy(bayer_buffer, image_buffer, stats.samples_per_channel * channels * sizeof(float));
 
-  HasDebayer = true;
+    HasDebayer = true;
 
-  return true;
+    return true;
 
 }
 

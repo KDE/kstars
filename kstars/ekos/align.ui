@@ -278,6 +278,13 @@
            </spacer>
           </item>
           <item>
+           <widget class="QCheckBox" name="alignDarkFrameCheck">
+            <property name="text">
+             <string>Dark Frame</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="kcfg_solverOverlay">
             <property name="toolTip">
              <string>Display received FITS images unto solver FOV rectangle in the sky map</string>

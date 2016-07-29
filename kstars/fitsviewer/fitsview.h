@@ -99,28 +99,35 @@ public:
     // Access functions
     FITSData *getImageData() { return image_data; }
     double getCurrentZoom() { return currentZoom; }
-    QImage * getDisplayImage() { return display_image; }
-    FITSMode getMode() { return mode;}
+    QImage * getDisplayImage() { return display_image; }    
 
-    void setGuideBoxSize(int size);
-    void setGuideSquare(int x, int y);
+    // Tracking square
+    void setTrackingBoxEnabled(bool enable);
+    bool isTrackingBoxEnabled() { return trackingBoxEnabled; }
+    QPixmap & getTrackingBoxPixmap();
+    void setTrackingBox(const QRect & rect);
+    const QRect & getTrackingBox() { return trackingBox; }
 
     // Overlay
     void drawOverlay(QPainter *);
     void drawStarCentroid(QPainter *);
-    void drawGuideBox(QPainter *);
+    void drawTrackingBox(QPainter *);
     void drawMarker(QPainter *);
     void updateFrame();
 
     // Star Detection
     void toggleStars(bool enable);
-    void updateMode(FITSMode mode);
-    void wheelEvent(QWheelEvent* event);
 
+    // FITS Mode
+    void updateMode(FITSMode mode);
+    FITSMode getMode() { return mode;}
 
     int getGammaValue() const;
     void setGammaValue(int value);
     void setFilter(FITSScale newFilter) { filter = newFilter;}
+
+protected:
+    void wheelEvent(QWheelEvent* event);
 
 public slots:
     void ZoomIn();
@@ -137,32 +144,44 @@ private:
     void calculateMaxPixel(double min, double max);
     void initDisplayImage();
 
-    bool markStars;
     FITSLabel *image_frame;
     FITSData *image_data;
     int image_width, image_height;
+
     double currentWidth,currentHeight; /* Current width and height due to zoom */
     const double zoomFactor;           /* Image zoom factor */
     double currentZoom;                /* Current Zoom level */
+
     int data_type;                     /* FITS data type when opened */
-    QImage  *display_image;             /* FITS image that is displayed in the GUI */
+    QImage  *display_image;            /* FITS image that is displayed in the GUI */
     FITSHistogram *histogram;
-    int guide_x, guide_y, guide_box;
-    int marker_x, marker_y;
+
     int gammaValue;
     double maxPixel, maxGammaPixel, minPixel;
+
     bool firstLoad;
+    bool markStars;
     bool starsSearched;
     bool hasWCS;
+
     QString filename;
     FITSMode mode;
     FITSScale filter;
+
+    // Cross hair
+    QPointF markerCrosshair;
+
+    // Tracking box
+    bool trackingBoxEnabled;
+    bool trackingBoxUpdated;
+    QRect trackingBox;
+    QPixmap trackingBoxPixmap;
 
 signals:
     void newStatus(const QString &msg, FITSBar id);
     void debayerToggled(bool);
     void actionUpdated(const QString &name, bool enable);
-    void guideStarSelected(int x, int y);
+    void trackingStarSelected(int x, int y);
 
   friend class FITSLabel;
 };

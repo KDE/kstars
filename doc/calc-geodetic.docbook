@@ -29,11 +29,14 @@ around the equator is about 0.3% longer than a <link
 linkend="ai-greatcircle">Great Circle</link> that passes through the 
 poles.  The <firstterm>Geodetic Coordinate system</firstterm> takes
 this ellipsoidal shape into account, and expresses the position
-on the Earth's surface in Cartesian coordinates (X, Y, and Z).
+on the Earth's surface in Cartesian coordinates (X, Y and Z) or in 
+Geographic coordinates (Longitude, Latitude and Elevation).
 </para>
+
 <para>
 To use the module, first select which coordinates you will use as 
-input in the <guilabel>Select Input Coordinates</guilabel> section.  
+input in the <guilabel>Select Input Coordinates</guilabel> section: <quote>Cartesian</quote> 
+or <quote>Geographic</quote>.
 Then select an ellipsoid model and fill 
 in the input coordinates in either the <guilabel>Cartesian
 Coordinates</guilabel> section or the <guilabel>Geographic 
@@ -41,4 +44,16 @@ Coordinates</guilabel> section.  When you press the
 <guibutton>Convert</guibutton> button, the corresponding 
 coordinates will be filled in.
 </para>
+
+<para>
+The module contains a batch mode for converting several coordinate
+values at once.  You must construct an input file in which each line
+contains up to three numbers: the input coordinate values (either Cartesian
+or Geographic).  Then specify which coordinates you are using as input,
+and identify the input and output filenames.  Finally, press the
+<guibutton>Run</guibutton> button to generate the output file,
+which will contain the converted coordinates (Cartesian or
+Geographic; the complement of what you chose as the input values).
+</para>
+
 </sect2>

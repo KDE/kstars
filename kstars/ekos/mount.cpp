@@ -257,6 +257,10 @@ void Mount::updateTelescopeCoords()
 
         lastAlt = currentAlt;
 
+        newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text());
+
+        newStatus(currentTelescope->getStatus());
+
         if (currentTelescope->isConnected())
             QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
     }

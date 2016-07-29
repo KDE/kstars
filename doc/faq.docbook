@@ -149,7 +149,7 @@ my system CPU clock.  Is this possible?</para>
 </question>
 <answer>
 <para>
-Yes; to start kstars with a different time/date, use the 
+Yes; to start &kstars; with a different time/date, use the 
 <quote>--date</quote> argument, followed by a date string like 
 <quote>4 July 1976 12:30:00</quote>
 </para>
@@ -163,7 +163,7 @@ Is this possible?</para>
 </question>
 <answer>
 <para>
-Yes; to start kstars with the clock paused, simply add the 
+Yes; to start &kstars; with the clock paused, simply add the 
 <quote>--paused</quote> argument to the command line.
 </para>
 </answer>

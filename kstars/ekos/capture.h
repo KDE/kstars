@@ -16,6 +16,7 @@
 
 #include "ui_capture.h"
 
+#include "ekos.h"
 #include "fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
@@ -120,13 +121,13 @@ public:
      * Opens a sequence files and checks whether the jobs contained within are complete or not. The check is done by quering the file system for the produced files for each job.
      * If returns true if all jobs are complete, false otherwise.sudo
      */
-    Q_SCRIPTABLE bool isSequenceFileComplete(const QUrl &fileURL);
+    Q_SCRIPTABLE bool isSequenceFileComplete(const QString &fileURL);
 
     /** DBUS interface function.
      * Loads the Ekos Sequence Queue file in the Sequence Queue. Jobs are appended to existing jobs.
      * @param fileURL full URL of the filename
      */
-    Q_SCRIPTABLE bool loadSequenceQueue(const QUrl &fileURL);
+    Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL);
 
     /** DBUS interface function.
      * Enables or disables the maximum guiding deviation and sets its value.
@@ -172,9 +173,29 @@ public:
     Q_SCRIPTABLE bool setCoolerControl(bool enable);
 
     /** DBUS interface function.
+     * @return Returns the percentage of completed captures in all active jobs
+     */
+    Q_SCRIPTABLE double            getProgressPercentage();
+
+    /** DBUS interface function.
      * @return Returns the number of jobs in the sequence queue.
      */
     Q_SCRIPTABLE int            getJobCount() { return jobs.count(); }
+
+    /** DBUS interface function.
+     * @return Returns ID of current active job if any, or -1 if there are no active jobs.
+     */
+    Q_SCRIPTABLE int            getActiveJobID();
+
+    /** DBUS interface function.
+     * @return Returns time left in seconds until active job is estimated to be complete.
+     */
+    int getActiveJobRemainingTime();
+
+    /** DBUS interface function.
+     * @return Returns overall time left in seconds until all jobs are estimated to be complete
+     */
+    int getOverallRemainingTime();
 
     /** DBUS interface function.
      * @param id job number. Job IDs start from 0 to N-1.
@@ -362,7 +383,6 @@ private slots:
     void resetFrame();    
     void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);
-    //void checkSeqFile(const QString &path);
     void saveFITSDirectory();
     void setDefaultCCD(QString ccd);
     void setNewRemoteFile(QString file);
@@ -386,7 +406,7 @@ private slots:
     void enableAlignmentFlag();
 
     // Auto Focus
-    void updateFocusStatus(bool status);
+    void updateFocusStatus(Ekos::FocusState state);
     void updateAutofocusStatus(bool status, double HFR);
     void startPostFilterAutoFocus();
 
@@ -394,6 +414,9 @@ private slots:
     void openCalibrationDialog();
     IPState processPreCaptureCalibrationStage();
     bool processPostCaptureCalibrationStage();
+
+    // Send image info
+    void sendNewImage(QImage *image);
 
 signals:
         void newLog();
@@ -404,6 +427,8 @@ signals:
         void meridianFlipStarted();
         void meridialFlipTracked();
         void meridianFlipCompleted();
+        void newStatus(Ekos::CaptureState status);
+        void newImage(QImage *image, Ekos::SequenceJob *job);
 
 private:
 
@@ -420,16 +445,15 @@ private:
     double setCurrentADU(double value);
     void llsq (QList<double> x, QList<double> y, double &a, double &b);
 
-    /* Misc */
-    bool isFITSDirUnique(SequenceJob *job);
-
     /* Meridian Flip */
     bool checkMeridianFlip();
     void checkGuidingAfterFlip();
     double getCurrentHA();
 
+    // Remaining Time in seconds
+    int getJobRemainingTime(SequenceJob *job);
+
     /* Capture */
-    //KDirWatch          *seqWatcher;
     double	seqExpose;
     int	seqTotalCount;
     int	seqCurrentCount;

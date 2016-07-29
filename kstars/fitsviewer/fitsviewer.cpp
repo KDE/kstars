@@ -59,7 +59,7 @@
 #include "Options.h"
 
 QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast")
-                                                    << I18N_NOOP("Equalize") << I18N_NOOP("High Pass")
+                                                    << I18N_NOOP("Equalize") << I18N_NOOP("High Pass") << I18N_NOOP("Median")
                                                     << I18N_NOOP("Rotate Right") << I18N_NOOP("Rotate Left")
                                                     << I18N_NOOP("Flip Horizontal") << I18N_NOOP("Flip Vertical");
 
@@ -72,6 +72,8 @@ FITSViewer::FITSViewer (QWidget *parent)
     fitsID = 0;
     debayerDialog= NULL;
     markStars = false;
+
+    lastURL = QUrl(QDir::homePath());
 
     fitsTab->setTabsClosable(true);
 
@@ -203,7 +205,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     connect(filterMapper, SIGNAL(mapped(int)), this, SLOT(applyFilter(int)));
 
     /* Create GUI */
-    createGUI("fitsviewer.rc");
+    createGUI("fitsviewerui.rc");
 
     setWindowTitle(i18n("KStars FITS Viewer"));
 
@@ -254,7 +256,6 @@ void FITSViewer::showEvent(QShowEvent * /*event*/)
 
 int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
 {
-
     FITSTab *tab = new FITSTab(this);
 
     led.setColor(Qt::yellow);
@@ -274,6 +275,8 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
 
         return -1;
     }
+
+    lastURL = QUrl(imageName->url(QUrl::RemoveFilename));
 
     QApplication::restoreOverrideCursor();
     tab->setPreviewText(previewText);
@@ -376,7 +379,7 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
             int tabIndex = fitsTab->indexOf(tab);
             if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
             {
-                if (imageName->path().startsWith("/tmp") && Options::singlePreviewFITS())
+                if ( (imageName->path().startsWith("/tmp") || imageName->path().contains("/Temp")) && Options::singlePreviewFITS())
                     fitsTab->setTabText(tabIndex, tab->getPreviewText());
                 else
                     fitsTab->setTabText(tabIndex, imageName->fileName());
@@ -476,7 +479,7 @@ void FITSViewer::openFile()
     if (fileURL.isEmpty())
         return;
 
-    lastURL = fileURL;
+    lastURL = QUrl(fileURL.url(QUrl::RemoveFilename));
     QString fpath = fileURL.path();
     QString cpath;
 

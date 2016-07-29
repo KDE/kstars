@@ -321,6 +321,8 @@ void Capture::start()
         }
     }*/
 
+    emit newStatus(Ekos::CAPTURE_PROGRESS);
+
     prepareJob(first_job);
 
 }
@@ -344,6 +346,7 @@ void Capture::abort()
         {
             KNotification::event( QLatin1String( "CaptureFailed"), i18n("CCD capture failed with errors") );
             activeJob->abort();
+            emit newStatus(Ekos::CAPTURE_ABORTED);
         }
 
         activeJob->reset();
@@ -364,6 +367,7 @@ void Capture::abort()
     secondsLabel->clear();
     //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(newImage(QImage*)), this, SLOT(sendNewImage(QImage*)));
     disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
 
     currentCCD->setFITSDir("");
@@ -379,6 +383,12 @@ void Capture::abort()
 
     seqTimer->stop();
 
+}
+
+void Capture::sendNewImage(QImage *image)
+{
+    if (activeJob)
+        emit newImage(image, activeJob);
 }
 
 bool Capture::setCCD(QString device)
@@ -739,7 +749,11 @@ void Capture::syncFilterInfo()
 void Capture::startNextExposure()
 {
     if (seqDelay > 0)
+    {
         secondsLabel->setText(i18n("Waiting..."));
+        emit newStatus(Ekos::CAPTURE_WAITING);
+    }
+
     seqTimer->start(seqDelay);
 }
 
@@ -780,6 +794,7 @@ void Capture::newFITS(IBLOB *bp)
             return;
 
         disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+        disconnect(currentCCD, SIGNAL(newImage(QImage*)), this, SLOT(sendNewImage(QImage*)));
 
         if (calibrationState == CALIBRATE_START)
         {
@@ -807,7 +822,7 @@ void Capture::newFITS(IBLOB *bp)
 
     secondsLabel->setText(i18n("Complete."));
 
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
 
     // If it was initially set as preview job
     if (seqTotalCount <= 0)
@@ -834,6 +849,8 @@ void Capture::newFITS(IBLOB *bp)
     imgProgress->setValue(seqCurrentCount);
 
     appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
+
+    emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
@@ -868,6 +885,8 @@ void Capture::processJobCompletion()
     else
     {
         KNotification::event( QLatin1String( "CaptureSuccessful"), i18n("CCD capture sequence completed"));
+
+        emit newStatus(Ekos::CAPTURE_COMPLETE);
 
         if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
         {
@@ -934,11 +953,15 @@ bool Capture::resumeSequence()
         {
                 secondsLabel->setText(i18n("Dithering..."));
                 emit exposureComplete();
+
+                emit newStatus(Ekos::CAPTURE_DITHERING);
         }
         else if (isAutoFocus && activeJob->getFrameType() == FRAME_LIGHT)
         {
             secondsLabel->setText(i18n("Focusing..."));
             emit checkFocus(HFRPixels->value());
+
+            emit newStatus(Ekos::CAPTURE_FOCUSING);
         }
         else
             startNextExposure();
@@ -991,6 +1014,7 @@ void Capture::captureImage()
     }
 
      connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
+     connect(currentCCD, SIGNAL(newImage(QImage*)), this, SLOT(sendNewImage(QImage*)), Qt::UniqueConnection);
 
      if (activeJob->getFrameType() == FRAME_FLAT)
      {
@@ -1004,6 +1028,9 @@ void Capture::captureImage()
 
      if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
         checkSeqBoundary(activeJob->getFITSDir());
+
+     if (activeJob->isPreview() == false)
+        emit newStatus(Ekos::CAPTURE_CAPTURING);
 
      rc = activeJob->capture(isDark);
 
@@ -1051,6 +1078,7 @@ void Capture::resumeCapture()
     {
         secondsLabel->setText(i18n("Focusing..."));
         emit checkFocus(HFRPixels->value());
+        emit newStatus(Ekos::CAPTURE_FOCUSING);
         return;
     }
 
@@ -1301,10 +1329,8 @@ void Capture::addJob(bool preview)
         if (preview)
             return;
 
-        //QString finalFITSDir = fitsDir->text() + QDir::separator() + frameTypeCombo->currentText();
         QString finalFITSDir = fitsDir->text() + QLatin1Literal("/") + frameTypeCombo->currentText();
         if ( (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && job->getFilterName().isEmpty() == false)
-            //finalFITSDir += QDir::separator() + job->getFilterName();
             finalFITSDir += QLatin1Literal("/") + job->getFilterName();
 
         job->setFITSDir(finalFITSDir);
@@ -1562,6 +1588,8 @@ void Capture::prepareJob(SequenceJob *job)
             appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
             secondsLabel->setText(i18n("Set filter..."));
 
+            emit newStatus(Ekos::CAPTURE_CHANGING_FILTER);
+
             setBusy(true);
 
         }
@@ -1574,6 +1602,8 @@ void Capture::prepareJob(SequenceJob *job)
         {
             appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
             secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
+
+            emit newStatus(Ekos::CAPTURE_SETTING_TEMPERATURE);
 
             setBusy(true);
         }
@@ -1612,23 +1642,28 @@ void Capture::executeJob()
     }
 
     // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system unless ignoreJobProgress is set to true
-    if (ignoreJobProgress == false && Options::rememberJobProgress() && activeJob->isPreview() == false && seqFileCount > 0)
+    if (ignoreJobProgress == false && Options::rememberJobProgress() && activeJob->isPreview() == false)
     {
-        // Fully complete
-        if (seqFileCount >= seqTotalCount)
-        {
-            seqCurrentCount=seqTotalCount;
-            activeJob->setCompleted(seqCurrentCount);
-            imgProgress->setValue(seqCurrentCount);
-            processJobCompletion();
-            return;
-        }
+        checkSeqBoundary(activeJob->getFITSDir());
 
-        // Partially complete
-        seqCurrentCount=seqFileCount;
-        activeJob->setCompleted(seqCurrentCount);
-        currentImgCountOUT->setText( QString::number(seqCurrentCount));
-        imgProgress->setValue(seqCurrentCount);
+        if (seqFileCount > 0)
+        {
+            // Fully complete
+            if (seqFileCount >= seqTotalCount)
+            {
+                seqCurrentCount=seqTotalCount;
+                activeJob->setCompleted(seqCurrentCount);
+                imgProgress->setValue(seqCurrentCount);
+                processJobCompletion();
+                return;
+            }
+
+            // Partially complete
+            seqCurrentCount=seqFileCount;
+            activeJob->setCompleted(seqCurrentCount);
+            currentImgCountOUT->setText( QString::number(seqCurrentCount));
+            imgProgress->setValue(seqCurrentCount);
+        }
     }
 
     // Update button status
@@ -1745,9 +1780,9 @@ void Capture::setAutoguiding(bool enable)
     isAutoGuiding = enable;
 }
 
-void Capture::updateFocusStatus(bool status)
+void Capture::updateFocusStatus(FocusState state)
 {
-    isFocusBusy = status;
+    isFocusBusy = state >= Ekos::FOCUS_PROGRESS;
 }
 
 void Capture::updateAutofocusStatus(bool status, double HFR)
@@ -1859,16 +1894,18 @@ void Capture::loadSequenceQueue()
 
     dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
 
+    loadSequenceQueue(fileURL.path());
+
 }
 
-bool Capture::loadSequenceQueue(const QUrl &fileURL)
+bool Capture::loadSequenceQueue(const QString &fileURL)
 {
     QFile sFile;
-    sFile.setFileName(fileURL.path());
+    sFile.setFileName(fileURL);
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {
-        QString message = i18n( "Unable to open file %1",  fileURL.path());
+        QString message = i18n( "Unable to open file %1",  fileURL);
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         return false;
     }
@@ -1958,7 +1995,7 @@ bool Capture::loadSequenceQueue(const QUrl &fileURL)
         }
     }
 
-    sequenceURL = fileURL;
+    sequenceURL = QUrl::fromLocalFile(fileURL);
     mDirty = false;
     delLilXML(xmlParser);
 
@@ -2132,7 +2169,7 @@ void Capture::saveSequenceQueue()
 {
     QUrl backupCurrent = sequenceURL;
 
-    if (sequenceURL.path().contains("/tmp/"))
+    if (sequenceURL.path().startsWith("/tmp/") || sequenceURL.path().contains("/Temp"))
         sequenceURL.clear();
 
     // If no changes made, return.
@@ -2236,7 +2273,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Type>" << frameTypeCombo->itemText(job->getFrameType()) << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
             //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
-            outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;            
+            outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;
             outstream << "<FilterEnabled>" << (filterEnabled ? 1 : 0) << "</FilterEnabled>" << endl;
             outstream << "<ExpEnabled>" << (expEnabled ? 1 : 0) << "</ExpEnabled>" << endl;
             outstream << "<TimeStampEnabled>" << (tsEnabled ? 1 : 0) << "</TimeStampEnabled>" << endl;
@@ -2412,6 +2449,37 @@ void Capture::constructPrefix(QString &imagePrefix)
     }
 }
 
+double Capture::getProgressPercentage()
+{
+    int totalImageCount=0;
+    int totalImageCompleted=0;
+
+    foreach(SequenceJob *job, jobs)
+    {
+        totalImageCount += job->getCount();
+        totalImageCompleted += job->getCompleted();
+    }
+
+    if (totalImageCount != 0)
+        return ( ( (double) totalImageCompleted / totalImageCount) * 100.0);
+    else
+        return -1;
+}
+
+int Capture::getActiveJobID()
+{
+    if (activeJob == NULL)
+        return -1;
+
+    for (int i=0; i < jobs.count(); i++)
+    {
+        if (activeJob == jobs[i])
+            return i;
+    }
+
+    return -1;
+}
+
 QString Capture::getJobState(int id)
 {
     if (id < jobs.count())
@@ -2467,6 +2535,36 @@ double Capture::getJobExposureDuration(int id)
     return -1;
 }
 
+int Capture::getJobRemainingTime(SequenceJob *job)
+{
+    int remaining=0;
+
+    if (job->getStatus() == SequenceJob::JOB_BUSY)
+        remaining += (job->getExposure() + job->getDelay()) * (job->getCount() - job->getCompleted()) + job->getExposeLeft();
+    else
+        remaining += (job->getExposure() + job->getDelay()) * (job->getCount() - job->getCompleted());
+
+    return remaining;
+}
+
+int Capture::getOverallRemainingTime()
+{
+    double remaining=0;
+
+    foreach(SequenceJob *job, jobs)
+        remaining += getJobRemainingTime(job);
+
+    return remaining;
+}
+
+int Capture::getActiveJobRemainingTime()
+{
+    if (activeJob == NULL)
+        return -1;
+
+    return getJobRemainingTime(activeJob);
+}
+
 void Capture::setMaximumGuidingDeviaiton(bool enable, double value)
 {
     if (guideDeviationCheck->isEnabled())
@@ -2503,7 +2601,7 @@ void Capture::setTemperature()
 void Capture::clearSequenceQueue()
 {
     activeJob=NULL;
-    abort();    
+    abort();
     while (queueTable->rowCount() > 0)
         queueTable->removeRow(0);
     jobs.clear();
@@ -2550,7 +2648,7 @@ QString Capture::getSequenceQueueStatus()
     if (aborted > 0)
     {
         if (isAutoGuiding && deviationDetected)
-            return "Suspended";        
+            return "Suspended";
         else
             return "Aborted";
     }
@@ -2612,6 +2710,9 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
             {
                 appendLogText(i18n("Performing post flip re-alignment..."));
                 secondsLabel->setText(i18n("Aligning..."));
+
+                emit newStatus(Ekos::CAPTURE_ALIGNING);
+
                 meridianFlipStage = MF_ALIGNING;
                 emit meridialFlipTracked();
                 return;
@@ -2639,6 +2740,9 @@ void Capture::checkGuidingAfterFlip()
     {
         appendLogText(i18n("Performing post flip re-calibration and guiding..."));
         secondsLabel->setText(i18n("Calibrating..."));
+
+        emit newStatus(Ekos::CAPTURE_CALIBRATING);
+
         meridianFlipStage = MF_GUIDING;
         emit meridianFlipCompleted();
     }
@@ -2703,6 +2807,9 @@ bool Capture::checkMeridianFlip()
         currentTelescope->getEqCoords(&initialRA, &dec);
         currentTelescope->Slew(initialRA,dec);
         secondsLabel->setText(i18n("Meridian Flip..."));
+
+        emit newStatus(Ekos::CAPTURE_MERIDIAN_FLIP);
+
         QTimer::singleShot(MF_TIMER_TIMEOUT, this, SLOT(checkMeridianFlipTimeout()));
         return true;
     }
@@ -2999,7 +3106,7 @@ void Capture::openCalibrationDialog()
         calibrationOptions.ADUC->setChecked(true);
         calibrationOptions.ADUValue->setValue(targetADU);
         break;
-    }   
+    }
 
     if (calibrationDialog.exec() == QDialog::Accepted)
     {
@@ -3058,7 +3165,7 @@ IPState Capture::processPreCaptureCalibrationStage()
     switch (activeJob->getFlatFieldSource())
     {
     case SOURCE_MANUAL:
-    case SOURCE_DAWN_DUSK: // Not yet implemented       
+    case SOURCE_DAWN_DUSK: // Not yet implemented
         break;
 
     // Park cap, if not parked
@@ -3298,7 +3405,7 @@ bool Capture::processPostCaptureCalibrationStage()
     return true;
 }
 
-bool Capture::isSequenceFileComplete(const QUrl &fileURL)
+bool Capture::isSequenceFileComplete(const QString &fileURL)
 {
     // If we don't remember job progress, then no sequence would be complete
     if (Options::rememberJobProgress() == false)
@@ -3315,41 +3422,26 @@ bool Capture::isSequenceFileComplete(const QUrl &fileURL)
     if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         return false;
 
-    QString prevFITSDir, prevPrefix;
+    QStringList jobDirs;
     int totalJobCount = 0, totalFileCount=0;
     foreach(SequenceJob *job, jobs)
     {
-        updateSequencePrefix(job->getPrefix(), job->getFITSDir());
-
+        jobDirs << job->getFITSDir();
         totalJobCount   += job->getCount();
+    }
 
-        // We only count files if prefix or directory is different
-        // Otherwise there is no way to distinguish among files
-        if (job->getPrefix() != prevPrefix || job->getFITSDir() != prevFITSDir)
-        {
-            totalFileCount  += seqFileCount;
-            prevPrefix = job->getPrefix();
-            prevFITSDir= job->getFITSDir();
-        }
+    jobDirs.removeDuplicates();
+
+    foreach(QString dir, jobDirs)
+    {
+        QDir oneDir(dir);
+        oneDir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
+        totalFileCount += oneDir.count();
     }
 
     clearSequenceQueue();
 
-    return (totalJobCount == totalFileCount);
-}
-
-bool Capture::isFITSDirUnique(SequenceJob *job)
-{
-    foreach(SequenceJob *onejob, jobs)
-    {
-        if (onejob == job)
-            continue;
-
-        if (onejob->getFITSDir() == job->getFITSDir())
-            return false;
-    }
-
-    return true;
+    return (totalFileCount >= totalJobCount);
 }
 
 void Capture::setNewRemoteFile(QString file)
@@ -3366,10 +3458,13 @@ void Capture::startPostFilterAutoFocus()
 
     secondsLabel->setText(i18n("Focusing..."));
 
+    emit newStatus(Ekos::CAPTURE_FOCUSING);
+
     appendLogText(i18n("Post filter change Autofocus..."));
 
     // Force it to always run autofocus routine
-    emit checkFocus(0.1);   
+    emit checkFocus(0.1);
 }
+
 
 }

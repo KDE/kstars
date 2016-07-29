@@ -138,7 +138,7 @@ bool OpsColors::setColors( const QString &filename ) {
 
     //check if colorscheme is removable...
     QFile test;
-    test.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + filename ) ; //try filename in local user KDE directory tree.
+    test.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename ) ; //try filename in local user KDE directory tree.
     if ( test.exists() ) RemovePreset->setEnabled( true );
     else RemovePreset->setEnabled( false );
     test.close();
@@ -191,7 +191,7 @@ void OpsColors::slotRemovePreset() {
     QString name = current->text();
     QString filename = PresetFileList[ PresetBox->currentRow() ];
     QFile cdatFile;
-    cdatFile.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "colors.dat" ) ; //determine filename in local user KDE directory tree.
+    cdatFile.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "colors.dat" ) ; //determine filename in local user KDE directory tree.
 
     //Remove action from color-schemes menu
     KStars::Instance()->removeColorMenuItem( QString("cs_" + filename.left( filename.indexOf(".colors"))).toUtf8() );
@@ -220,7 +220,7 @@ void OpsColors::slotRemovePreset() {
 
         if ( removed ) { //Entry was removed; delete the corresponding .colors file.
             QFile colorFile;
-            colorFile.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + filename ) ; //determine filename in local user KDE directory tree.
+            colorFile.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename ) ; //determine filename in local user KDE directory tree.
             if ( !colorFile.remove() ) {
                 QString message = i18n( "Could not delete the file: %1", colorFile.fileName() );
                 KMessageBox::sorry( 0, message, i18n( "Error Deleting File" ) );
