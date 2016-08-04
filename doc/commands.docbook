@@ -44,32 +44,6 @@
 <listitem><para>Run the specified &kstars; script
 </para></listitem>
 </varlistentry>
-<!-- not in 4.7
-<variablelist>
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
-</shortcut>
-<guimenu>File</guimenu>
-<guimenuitem>New Window</guimenuitem>
-</menuchoice></term>
-<listitem><para>Open another &kstars; window
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>W</keycap></keycombo>
-</shortcut>
-<guimenu>File</guimenu>
-<guimenuitem>Close Window</guimenuitem>
-</menuchoice></term>
-<listitem><para>Close &kstars; window
-</para></listitem>
-</varlistentry>
--->
 
 <varlistentry>
 <term><menuchoice>
@@ -445,7 +419,8 @@ which provides full access to many of the mathematical functions used by
 </menuchoice></term>
 <listitem><para>Opens the <guilabel>Telescope Wizard</guilabel>, which
 provides a step-by-step guide to help you connect to your telescope and
-control it with &kstars;.</para></listitem>
+control it with &kstars;.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -457,7 +432,9 @@ control it with &kstars;.</para></listitem>
 <guisubmenu>Devices</guisubmenu>
 <guimenuitem>Device Manager...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens up the device manager, which allows you to start/shutdown device drivers and connect to remote INDI servers.</para></listitem>
+<listitem><para>Opens up the device manager, which allows you to start/shutdown 
+device drivers and connect to remote INDI servers.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -466,18 +443,11 @@ control it with &kstars;.</para></listitem>
 <guisubmenu>Devices</guisubmenu>
 <guimenuitem>INDI Control Panel...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens up INDI Control Panel, which allows you to control all the features supported by a device.</para></listitem>
+<listitem><para>Opens up INDI Control Panel, which allows you to control all the 
+features supported by a device.
+</para></listitem>
 </varlistentry>
 
-<!--
-<varlistentry>
-<term><menuchoice>
-<guimenu>Devices</guimenu>
-<guimenuitem>Capture Image Sequence...</guimenuitem>
-</menuchoice></term>
-<listitem><para>Acquire images from a CCD camera or webcam device</para></listitem>
-</varlistentry>
--->
 <varlistentry>
 <term><menuchoice>
 <guimenu>Tools</guimenu>
@@ -485,30 +455,12 @@ control it with &kstars;.</para></listitem>
 </menuchoice></term>
 <listitem>
 <para>
-Opens the <guilabel>Sky Calendar</guilabel> Tool,
-which allows you to plan observations of Solar System planets by giving graphical data on sets and rises of these objects.
+Opens the <guilabel>Sky Calendar</guilabel> Tool, which allows you to plan observations 
+of Solar System planets by giving graphical data on sets and rises of these objects.
 </para>
 </listitem>
 </varlistentry>
 
-<!-- removed after 4.9 see http://commits.kde.org/kstars/c8dd5af7bff7f738ce2b6ab68bdb46e9125bde7d
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo>
-</shortcut>
-<guimenu>Tools</guimenu>
-<guimenuitem>AAVSO Light Curves...</guimenuitem>
-</menuchoice></term>
-<listitem>
-<para>
-Opens the <link linkend="tool-aavso">AAVSO Light Curve Generator</link>
-Tool, which allows you to download a light curve for any variable
-star from the American Association of Variable Star Observers.
-</para>
-</listitem>
-</varlistentry>
--->
 <varlistentry>
 <term><menuchoice>
 <shortcut>
@@ -520,9 +472,8 @@ star from the American Association of Variable Star Observers.
 <listitem>
 <para>
 Opens the <link linkend="tool-altvstime">Altitude vs. Time</link> Tool, which
-can plot curves representing the altitude of any object as a
-function of time.  This is useful for planning observing
-sessions.
+can plot curves representing the altitude of any object as a function of time.  
+This is useful for planning observing sessions.
 </para>
 </listitem>
 </varlistentry>
@@ -554,8 +505,9 @@ from your location on a given date.
 </menuchoice></term>
 <listitem>
 <para>
-Opens the <guilabel>What's Interesting</guilabel> Tool,
-which allows you to be informed about the most interesting observations that can be made from your current location using the given equipment.
+Opens the <guilabel>What's Interesting</guilabel> Tool, which allows you to be 
+informed about the most interesting observations that can be made from your 
+current location using the given equipment.
 </para>
 </listitem>
 </varlistentry>
@@ -603,7 +555,9 @@ current simulation date.
 </menuchoice></term>
 <listitem>
 <para>
-  Opens the powerful <guilabel>Ekos</guilabel> Tool, which is software guider for your telescope. Alignment capabilities of Ekos are powered by <ulink url="http://astrometry.net/">astrometry.net</ulink> libraries.
+  Opens the powerful <guilabel>Ekos</guilabel> Tool, which is software guider 
+for your telescope. Alignment capabilities of Ekos are powered by 
+<ulink url="http://astrometry.net/">astrometry.net</ulink> libraries.
 </para>
 </listitem>
 </varlistentry>
@@ -632,8 +586,8 @@ moons as a function of time.
 </menuchoice></term>
 <listitem>
 <para>
-Opens the <guilabel>Flag manager</guilabel> Tool,
-which can be used to assign color labels and icons to the given positions on the sky chart.
+Opens the <guilabel>Flag manager</guilabel> Tool, which can be used to assign 
+color labels and icons to the given positions on the sky chart.
 </para>
 </listitem>
 </varlistentry>
@@ -663,11 +617,15 @@ dialog to download additional data for &kstars;.
 <guimenu>Data</guimenu>
 <guisubmenu>Updates</guisubmenu>
 </menuchoice></term>
-<listitem><para>This submenu can be used to update various object data, namely asteroids, comets and satellites orbital 
-elements as well as recent supernovae data from Internet. The data will be downloaded for the current user account only.
-If you use &kstars; from different account you should download them for every account separately.
+<listitem><para>This submenu can be used to update various object data, namely 
+asteroids, comets and satellites orbital elements as well as recent supernovae 
+data from the Internet. The data will be downloaded for the current user account only.
+If you use &kstars; from different account you should download them for every 
+account separately.
 </para>
-<para>&kstars; tries to download recent supernovae list automatically by default. You can switch the download off using <guilabel>Supernovae</guilabel> page of &kstars; Settings window.</para>
+<para>&kstars; tries to download recent supernovae list automatically by default. 
+You can switch the download off using <guilabel>Supernovae</guilabel> page 
+of &kstars; Settings window.</para>
 </listitem>
 </varlistentry>
 </variablelist>
@@ -686,8 +644,9 @@ If you use &kstars; from different account you should download them for every ac
 <guimenu>Observation</guimenu>
 <guimenuitem>Observation Planner</guimenuitem>
 </menuchoice></term>
-<listitem><para>Open the <link linkend="tool-obsplanner">Observation Planner</link> 
-tool</para></listitem>
+<listitem><para>
+Open the <link linkend="tool-obsplanner">Observation Planner</link> tool.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -698,7 +657,10 @@ tool</para></listitem>
 <guimenu>Observation</guimenu>
 <guimenuitem>Execute the session Plan</guimenuitem>
 </menuchoice></term>
-<listitem><para>Opens <link linkend="tool-obsplanner">session plan wizard</link> or execute the planned session.</para></listitem>
+<listitem><para>
+Opens <link linkend="tool-obsplanner">session plan wizard</link> or execute 
+the planned session.
+</para></listitem>
 </varlistentry>
 </variablelist>
 </sect2>
@@ -713,7 +675,12 @@ tool</para></listitem>
 <guisubmenu>Info Boxes</guisubmenu>
 <guimenuitem>Show Info Boxes</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of all three Info Boxes
+<listitem><para>Toggle display of all three Info Boxes:
+<itemizedlist>
+<listitem><para>Time Box</para></listitem>
+<listitem><para>Focus Box</para></listitem>
+<listitem><para>Location Box</para></listitem>
+</itemizedlist>
 </para></listitem>
 </varlistentry>
 
@@ -723,9 +690,10 @@ tool</para></listitem>
 <guisubmenu>Info Boxes</guisubmenu>
 <guimenuitem>Show Time Box</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Time Info Box. By default, the Time Info Box is located
-in the top left side of the screen. You can change the position of Time Info Box by holding 
-the left-click mouse button and dragging it to the new position. 
+<listitem><para>Toggle display of the Time Info Box. By default, the Time Info 
+Box is located in the top left side of the screen. You can change the position 
+of Time Info Box by holding the left-click mouse button and dragging it to the 
+new position. 
 </para></listitem>
 </varlistentry>
 
@@ -735,9 +703,10 @@ the left-click mouse button and dragging it to the new position.
 <guisubmenu>Info Boxes</guisubmenu>
 <guimenuitem>Show Focus Box</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Focus Info Box. By default, the Focus Info Box is located
-in the top right side of the screen. You can change the position of Focus Info Box by holding 
-the left-click mouse button and dragging it to the new position. 
+<listitem><para>Toggle display of the Focus Info Box. By default, the Focus Info 
+Box is located in the top right side of the screen. You can change the position 
+of Focus Info Box by holding the left-click mouse button and dragging it to the 
+new position. 
 </para></listitem>
 </varlistentry>
 
@@ -747,9 +716,10 @@ the left-click mouse button and dragging it to the new position.
 <guisubmenu>Info Boxes</guisubmenu>
 <guimenuitem>Show Location Box</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Location Info Box. By default, the Location Info Box is located
-in the bottom left side of the screen. You can change the position of Location Info Box by holding 
-the left-click mouse button and dragging it to the new position. 
+<listitem><para>Toggle display of the Location Info Box. By default, the 
+Location Info Box is located in the bottom left side of the screen. You 
+can change the position of Location Info Box by holding the left-click 
+mouse button and dragging it to the new position. 
 </para></listitem>
 </varlistentry>
 
@@ -759,15 +729,17 @@ the left-click mouse button and dragging it to the new position.
 <guisubmenu>Toolbars Shown</guisubmenu>
 <guimenuitem>Main Toolbar</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the Main Toolbar. By default, the Main Toolbar provides useful shortcuts 
-for controlling the sky map view (&ie; Zoom in and Zoom out) and for controlling &kstars; clock as well.
-You can Start / Stop the clock, advance one step backward / forward in time and also you can easily set 
-the time step used by &kstars;' clock. The time step is the rate at which time flows in the simulation.
-For setting the time step, you can use the spin box used for establishing the time step units and the 
-spin box used for increasing / decreasing the time step value.
-Using the Main Toolbar you can quickly open the <guilabel>Find Object</guilabel>, <guilabel>Set Time</guilabel>
-or <guilabel>Set Geographic Location</guilabel> window.
-Main Toolbar can be configured using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Toolbars</guimenuitem></menuchoice>.
+<listitem><para>Toggle display of the Main Toolbar. By default, the Main Toolbar 
+provides useful shortcuts for controlling the sky map view (&ie; Zoom in and Zoom out) 
+and for controlling &kstars; clock as well. You can Start / Stop the clock, advance 
+one step backward / forward in time and also you can easily set the time step used 
+by &kstars;' clock. The time step is the rate at which time flows in the simulation.
+For setting the time step, you can use the spin box used for establishing the time step 
+units and the spin box used for increasing / decreasing the time step value.
+Using the Main Toolbar you can quickly open the <guilabel>Find Object</guilabel>, 
+<guilabel>Set Time</guilabel> or <guilabel>Set Geographic Location</guilabel> window.
+Main Toolbar can be configured using 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Toolbars</guimenuitem></menuchoice>.
 </para></listitem>
 </varlistentry>
 
@@ -777,12 +749,15 @@ Main Toolbar can be configured using <menuchoice><guimenu>Settings</guimenu><gui
 <guisubmenu>Toolbars Shown</guisubmenu>
 <guimenuitem>View Toolbar</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the View Toolbar. View Toolbar controls which sky objects are drawn on &kstars; Sky Map
-(stars, deep sky objects, Solar system objects, supernovae or satellites) as well as what constellation information is 
-included (constellation lines, constellation names, constellation art or constellation boundaries). It also provides icon 
-shortcuts for: showing milky way (drawn with dark grey color), showing equatorial/horizontal coordinate grid and for showing
-the green opaque ground. Note that when the horizon is switched off, refraction effects are temporarily disabled.
-View Toolbar can be configured using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Toolbars</guimenuitem></menuchoice>.
+<listitem><para>Toggle display of the View Toolbar. View Toolbar controls which sky 
+objects are drawn on &kstars; Sky Map (stars, deep sky objects, Solar system objects, 
+supernovae or satellites) as well as what constellation information is included 
+(constellation lines, constellation names, constellation art or constellation boundaries). 
+It also provides icon shortcuts for: showing milky way (drawn with dark grey color), 
+showing equatorial/horizontal coordinate grid and for showing the green opaque ground. 
+Note that when the horizon is switched off, refraction effects are temporarily disabled.
+View Toolbar can be configured using 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Toolbars</guimenuitem></menuchoice>.
 </para></listitem>
 </varlistentry>
 
@@ -792,10 +767,26 @@ View Toolbar can be configured using <menuchoice><guimenu>Settings</guimenu><gui
 <guisubmenu>Toolbars Shown</guisubmenu>
 <guimenuitem>INDI Toolbar</guimenuitem>
 </menuchoice></term>
-<listitem><para>Toggle display of the INDI Toolbar. By default, INDI Toolbar contains three shortcut icons:
-<guilabel>Toggle Ekos</guilabel>, <guilabel>Toggle INDI Control Panel</guilabel> and 
-<guilabel>Toggle FITS Viewer</guilabel>.
-INDI Toolbar can be configured using <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Toolbars</guimenuitem></menuchoice>.
+<listitem><para>Toggle display of the INDI Toolbar. By default, INDI Toolbar contains 
+three shortcut icons:
+<itemizedlist>
+<listitem><para>Toggle Ekos</para></listitem>
+<listitem><para>Toggle INDI Control Panel</para></listitem>
+<listitem><para>Toggle FITS Viewer</para></listitem>
+</itemizedlist>
+INDI Toolbar can be configured using 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Toolbars</guimenuitem></menuchoice>.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guisubmenu>Statusbar</guisubmenu>
+<guimenuitem>Show Statusbar</guimenuitem>
+</menuchoice></term>
+<listitem><para>Toggle display of the Statusbar. It is located in the bottom 
+of &kstars; window.
 </para></listitem>
 </varlistentry>
 
@@ -838,8 +829,9 @@ coordinates in the statusbar.
 <guisubmenu>Color Schemes</guisubmenu>
 </menuchoice></term>
 <listitem><para>
-This submenu contains all of the defined color schemes: Classic, Star Chart, Night Vision and Moonless Night.
-It can also include your custom schemes.  Select any item to set that color scheme.
+This submenu contains all of the defined color schemes: Classic, Star Chart, 
+Night Vision and Moonless Night. It can also include your custom color schemes. 
+Select any item to set that color scheme.
 </para></listitem>
 </varlistentry>
 
@@ -849,12 +841,12 @@ It can also include your custom schemes.  Select any item to set that color sche
 <guisubmenu>FOV Symbols</guisubmenu>
 </menuchoice></term>
 <listitem><para>
-This submenu lists the available field-of-view (FOV) Symbols.
-The FOV Symbol is drawn at the center of the display.  You
-may choose one or more from the list of predefined symbols (7x35 Binoculars, Telrad, One Degree, HST WFPC2 
-or 30m at 1.3cm) by checking their specific checkbox, or you may use no symbol by unchecking all the items from 
-the symbols list. You can also define your own symbols (or modify existing symbols) using the
-<guimenuitem>Edit FOV Symbols...</guimenuitem> option.
+This submenu lists the available field-of-view (FOV) Symbols. The FOV Symbol is 
+drawn at the center of the display. You may choose one or more from the list of 
+predefined symbols (7x35 Binoculars, Telrad, One Degree, HST WFPC2 or 30m at 1.3cm) 
+by checking their specific checkbox, or you may use no symbol by unchecking all 
+the items from the symbols list. You can also define your own symbols 
+(or modify existing symbols) using the <guimenuitem>Edit FOV Symbols...</guimenuitem> option.
 </para></listitem>
 </varlistentry>
 
@@ -864,29 +856,32 @@ the symbols list. You can also define your own symbols (or modify existing symbo
 <guisubmenu>Artificial Horizon</guisubmenu>
 </menuchoice></term>
 <listitem><para>
-If you select this submenu, then Artificial Horizon Manager will be opened. Artificial Horizon Manager 
-is used to define on the skymap one or more regions that are blocked from view from your current 
-location (&ie; tall trees or building). The window is split in two sections: in the left side is
-the Regions section while in the right side is the Points section. You can add a new region by pressing 
-<guibutton>+</guibutton> (Add Region) button or you can remove a region by selecting it in the regions 
-list and then pressing the <guibutton>-</guibutton> (Remove Region) button. In order to draw a region 
-you need to define a list of points that encompasses the blocked area. You can add a new point by 
-pressing the <guibutton>+</guibutton> (Add Point) button from the right Points section. You can also 
-remove a highlighted point from the list of points or you can clear all the points. There are two ways 
-to add a new point to a selected region: manually by entering the point's coordinates or by selecting 
-the point from the skymap after clicking <guibutton>Select Points</guibutton> button.
-Note that each point is described by a set of horizontal coordinates: Az (Azimuth) and Alt (Altitude). 
-If you want to modify a point's coordinates, just double click on its Az/Alt text box value and enter 
-the new value. First and Last points must be on the horizon.
+If you select this submenu, then Artificial Horizon Manager will be opened. 
+Artificial Horizon Manager is used to define on the skymap one or more 
+regions that are blocked from view from your current location 
+(&ie; tall trees or building). The window is split in two sections: 
+in the left side is the Regions section while in the right side is the Points 
+section. You can add a new region by pressing the <guibutton>+</guibutton> 
+(Add Region) button or you can remove a region by selecting it in the regions 
+list and then pressing the <guibutton>-</guibutton> (Remove Region) button. 
+In order to draw a region you need to define a list of points that encompasses 
+the blocked area. You can add a new point by pressing the <guibutton>+</guibutton> 
+(Add Point) button from the right Points section. You can also remove a highlighted 
+point from the list of points or you can clear all the points. There are two ways 
+to add a new point to a selected region: manually by entering the point's coordinates 
+or by selecting the point from the skymap after clicking <guibutton>Select Points</guibutton> 
+button. Note that each point is described by a set of horizontal coordinates: Az (Azimuth) 
+and Alt (Altitude). If you want to modify a point's coordinates, just double click on its 
+Az/Alt text box value and enter the new value. First and Last points must be on the horizon. 
 Polygons must be closed to be considered valid regions.
 Artificial Horizon Manager provides a easy way to rename your regions. By default, regions are 
 named as: <quote>Region </quote> plus an index (&ie; <quote>Region 1</quote> or <quote>Region 2</quote>). 
-For renaming a region, just double click on its name and then you will be invited to complete a new region name. 
-You can also control which regions are enabled or disabled for marking on the map by a simple 
-click on the checkbox in front of each region. After you defined your desired regions you can apply 
-them by pressing the <guibutton>Apply</guibutton> button.
-If you want to use these regions again, in further astronomy sessions, you can save them such that 
-next time when you will open &kstars; they will be automatically marked on the skymap.
+For renaming a region, just double click on its name and then you will be invited to 
+complete a new region name. You can also control which regions are enabled or disabled for 
+marking on the map by a simple click on the checkbox in front of each region. After you 
+defined your desired regions you can apply them by pressing the <guibutton>Apply</guibutton> 
+button. If you want to use these regions again, in further astronomy sessions, you can save 
+them such that next time when you will open &kstars; they will be automatically marked on the skymap.
 </para></listitem>
 </varlistentry>
 
@@ -918,10 +913,10 @@ button. You can also save or remove an equipment from the list.
 </menuchoice></term>
 <listitem><para>Selecting this will open Manage Observers window that enables you to register 
 a number of observers which are using &kstars; on this computer. You can add a new entry to
-observers list by completing the mandatory fields: <guilabel>Name</guilabel> and <guilabel>Surname</guilabel>
-and then pressing the <guibutton>+</guibutton> (Add observer) button.
-Note that <guilabel>Contact</guilabel> field is optional, &kstars; allowing you to add a new observer
-even though <guilabel>Contact</guilabel> text box is empty. 
+observers list by completing the mandatory fields: <guilabel>Name</guilabel> and 
+<guilabel>Surname</guilabel> and then pressing the <guibutton>+</guibutton> (Add observer) 
+button. Note that <guilabel>Contact</guilabel> field is optional, &kstars; allowing you to 
+add a new observer even though <guilabel>Contact</guilabel> text box is empty. 
 You can also remove an observer from the list using <guibutton>-</guibutton> (Remove observer) button.
 </para></listitem>
 </varlistentry>
@@ -932,12 +927,11 @@ You can also remove an observer from the list using <guibutton>-</guibutton> (Re
 <keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo>
 </shortcut>
 <guimenu>Settings</guimenu>
-<guimenuitem>Geographic...</guimenuitem>
+<guimenuitem>Geographic</guimenuitem>
 </menuchoice></term>
 <listitem>
 <para>
-Select a new <link linkend="setgeo">geographic
-location</link>
+Select a new <link linkend="setgeo">geographic location</link>.
 </para>
 </listitem>
 </varlistentry>
@@ -945,10 +939,53 @@ location</link>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
+<guimenuitem>Configure &kstars;</guimenuitem>
+</menuchoice></term>
+<listitem><para>Modify <link linkend="config">configuration options</link>.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure Shortcuts</guimenuitem>
+</menuchoice></term>
+<listitem><para>Open the Configure Shortcuts window which allows you to modify 
+&kstars; shortcuts. You can use &kstars; default shortcuts scheme or define your 
+own shortcuts scheme. In order to add a new custom shortcut to an action, you 
+need to click on action's name and then press the <guibutton>Custom</guibutton> 
+checkbox. Then click on the button next to <guibutton>Custom</guibutton> checkbox 
+and enter the shortcut you would like to use in &kstars;. You can also remove a 
+shortcut by pressing the <guibutton>Delete</guibutton> button after you select an
+action from the list. &kstars; helps you to find an action by providing its search 
+method; just enter the name of the action and the list will be reduced to its best 
+matches. For example, I will give you a brief example on how to use &kstars; 
+Configure Shortcuts feature:
+<itemizedlist>
+<listitem><para>Firstly, open the Configure Shortcuts window from the 
+<guimenu>Settings</guimenu> menu.</para></listitem>
+<listitem><para>Then select the action you would like to add a shortcut 
+(&ie; Artificial Horizon). You can use the search method provided by &kstars;. Just 
+type <quote>art</quote> in the search text box and the list will be reduced to only 
+four actions. The Artificial Horizon is the first action in the list.</para></listitem>
+<listitem><para>Now that you find your desired action, you can add a new shortcut by clicking on 
+its name. After you click on the action name, press the <guibutton>Custom</guibutton> checkbox. 
+There is a button next to <guibutton>Custom</guibutton> checkbox used for adding new shortcuts.
+By default, if an action has no custom shortcut, the <quote>None</quote> tag will be 
+assigned to this button. Press this button and then add your custom shortcut. For example, for 
+Artificial Horizon, you can use &Ctrl;+H shortcut. Hold the &Ctrl; key and press H. Your shortcut 
+be automatically saved, thus you can use it next time when you open &kstars;.</para></listitem>
+</itemizedlist>
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
 <guimenuitem>Configure &kstars;...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Modify <link linkend="config">configuration
-options</link></para></listitem>
+<listitem><para>Modify <link linkend="config">configuration options</link>.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1053,7 +1090,8 @@ window is open for a selected object, <guilabel>Right ascension</guilabel> and
 of the selected object on the Sky Map. Besides these two text boxes, you can set the 
 <guilabel>Epoch</guilabel>, add a <guilabel>Label</guilabel>, set the <guilabel>Label color</guilabel>
 or even add an <guilabel>Icon</guilabel>. To add custom icons, just add images in
-<filename class="directory">`qtpaths --paths GenericDataLocation`/kstars/</filename>. File names must begin with the <quote>flag</quote> keyword. For example, 
+<filename class="directory">`qtpaths --paths GenericDataLocation`/kstars/</filename>. File names must 
+begin with the <quote>flag</quote> keyword. For example, 
 the file <quote>flagSmall_red_cross.gif</quote> will be shown as Small red cross in the combo box. After
 you set up the information of the new flag, you can add it to the flags list using the 
 <guibutton>Add</guibutton> button. You may also change flags details (&ie; RA/Dec, label or icon) and 
@@ -1140,35 +1178,54 @@ If the object already has a trail, this item will become <guilabel>Remove Trail<
 </varlistentry>
 
 <varlistentry>
-<term>[Solar system objects]</term>
+<term>[All]</term>
 <listitem><para>
-<guimenuitem>Image Resources</guimenuitem>: gives a list of image links for current Solar system object. The images
-are displayed in &kstars; Image Viewer tool. Image Viewer tool allows you to invert the colors and save the image 
-in your computer.
+<guimenuitem>Simulate eyepiece view</guimenuitem>: Eyepiece View feature renders the 
+view through the eyepiece of various telescope types. Firstly, an input dialog is shown, 
+which asks you to select one of the visible FOVs to use as a FOV for the eyepiece view. 
+The user also has the option of trying to determine it from the image (accurate if
+image has metadata, otherwise it will be random). After you set the FOV, 
+the "Eyepiece Field View" window will pop up. 
+You can easily rotate the view using the "Rotation" slider. You can
+also flip and invert the view to help match the view through a telescope/camera.
+"Eyepiece view" tool can help you locate many objects with ease, instead of 
+trying to work with relative positions and relative orientations.
+This is an important advantage, especially when you are star hopping.
+Note that for getting best results, time must be synced with current
+time in &kstars;, and &kstars; must be in horizontal coordinates mode.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term>[Solar system objects]</term>
 <listitem><para>
-<guimenuitem>Information Resources</guimenuitem>: gives a list of documentation links for current Solar system object. 
-The links are opened in your default browser. 
+<guimenuitem>Image Resources</guimenuitem>: gives a list of image links for current Solar 
+system object. The images are displayed in &kstars; Image Viewer tool. Image Viewer tool 
+allows you to invert the colors and save the image in your computer.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>[Solar system objects]</term>
+<listitem><para>
+<guimenuitem>Information Resources</guimenuitem>: gives a list of documentation links for 
+current Solar system object. The links are opened in your default browser. 
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term>[All objects without Solar system objects]</term>
 <listitem><para>
-<guimenuitem>Show SDSS Image</guimenuitem>: download a SDSS (Sloan Digital Sky Survey) image of the object from the 
-Internet, and display it in the Image Viewer tool.
+<guimenuitem>Show SDSS Image</guimenuitem>: download a SDSS (Sloan Digital Sky Survey) 
+image of the object from the Internet, and display it in the Image Viewer tool.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term>[All objects without Solar system objects]</term>
 <listitem><para>
-<guimenuitem>Show DSS Image</guimenuitem>: download a DSS (Digitized Sky Survey) image of the object from the 
-Internet, and display it in the Image Viewer tool. 
+<guimenuitem>Show DSS Image</guimenuitem>: download a DSS (Digitized Sky Survey) image of 
+the object from the Internet, and display it in the Image Viewer tool. 
 </para></listitem>
 </varlistentry>
 
@@ -1281,17 +1338,7 @@ Point (straight up)</para></listitem>
 <tertiary>Keyboard Shortcuts</tertiary>
 </indexterm>
 <variablelist>
-<!-- not in 4.7
-<varlistentry>
-<term><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></term>
-<listitem><para>Open a new &kstars; window</para></listitem>
-</varlistentry>
 
-<varlistentry>
-<term><keycombo action="simul">&Ctrl;<keycap>W</keycap></keycombo></term>
-<listitem><para>Close a f window</para></listitem>
-</varlistentry>
--->
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></term>
 <listitem><para>Download extra data</para></listitem>
@@ -1309,7 +1356,8 @@ Point (straight up)</para></listitem>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo></term>
-<listitem><para>Run a &kstars; <link linkend="tool-obsplanner">Observation Planner</link></para></listitem>
+<listitem><para>Run a &kstars; <link linkend="tool-obsplanner">Observation Planner</link>.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1344,7 +1392,9 @@ Point (straight up)</para></listitem>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>0</keycap></keycombo></term>
-<listitem><para>Define equipment (telescope, eyepiece, lens and filter) characteristics for observation logs</para></listitem>
+<listitem><para>
+Define equipment (telescope, eyepiece, lens and filter) characteristics for observation logs.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1366,12 +1416,16 @@ Point (straight up)</para></listitem>
 
 <varlistentry>
 <term><keycap>F5</keycap></term>
-<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection">Lambert azimuthal equal-area</ulink> projection.</para></listitem>
+<listitem><para>Switch sky chart view to the 
+<ulink url="https://en.wikipedia.org/wiki/Lambert_azimuthal_equal-area_projection">Lambert azimuthal equal-area</ulink> projection.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycap>F6</keycap></term>
-<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Azimuthal_equidistant_projection">azimuthal equidistant</ulink> projection.</para></listitem>
+<listitem><para>Switch sky chart view to the 
+<ulink url="https://en.wikipedia.org/wiki/Azimuthal_equidistant_projection">azimuthal equidistant</ulink> projection.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1381,17 +1435,23 @@ Point (straight up)</para></listitem>
 
 <varlistentry>
 <term><keycap>F8</keycap></term>
-<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Equirectangular_projection">equirectangular</ulink> projection.</para></listitem>
+<listitem><para>Switch sky chart view to the 
+<ulink url="https://en.wikipedia.org/wiki/Equirectangular_projection">equirectangular</ulink> projection.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycap>F9</keycap></term>
-<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Stereographic_projection">stereographic</ulink> projection.</para></listitem>
+<listitem><para>Switch sky chart view to the 
+<ulink url="https://en.wikipedia.org/wiki/Stereographic_projection">stereographic</ulink> projection.
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term><keycap>F10</keycap></term>
-<listitem><para>Switch sky chart view to the <ulink url="https://en.wikipedia.org/wiki/Gnomonic_projection">gnomonic</ulink> projection.</para></listitem>
+<listitem><para>Switch sky chart view to the 
+<ulink url="https://en.wikipedia.org/wiki/Gnomonic_projection">gnomonic</ulink> projection.
+</para></listitem>
 </varlistentry>
 </variablelist>
 </sect2>
