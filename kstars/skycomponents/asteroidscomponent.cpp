@@ -95,6 +95,7 @@ void AsteroidsComponent::loadData()
     // Clear lists
     m_ObjectList.clear();
     objectNames( SkyObject::ASTEROID ).clear();
+    objectLists( SkyObject::ASTEROID ).clear();
 
     QList< QPair<QString, KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
@@ -187,6 +188,7 @@ void AsteroidsComponent::loadData()
         m_ObjectList.append(new_asteroid);
         // Add name to the list of object names
         objectNames(SkyObject::ASTEROID).append(name);
+        objectLists( SkyObject::ASTEROID ).append(QPair<QString, const SkyObject*>(name,new_asteroid));
     }
 }
 

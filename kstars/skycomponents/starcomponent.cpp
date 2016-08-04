@@ -477,9 +477,12 @@ bool StarComponent::loadStaticData()
 
             if ( ! name.isEmpty() && name != i18n("star")) {
                 objectNames(SkyObject::STAR).append( name );
+                objectLists(SkyObject::STAR).append(QPair<QString, const SkyObject*>(name,star));
             }
             if ( ! visibleName.isEmpty() && gname != name ) {
-                objectNames(SkyObject::STAR).append( star -> gname(false) );
+                QString gName = star -> gname(false);
+                objectNames(SkyObject::STAR).append( gName );
+                objectLists(SkyObject::STAR).append(QPair<QString, const SkyObject*>(gName,star));
             }
 
             m_ObjectList.append( star );

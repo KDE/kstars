@@ -46,6 +46,7 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();
+        double zoom = Options::zoomFactor();
         SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
         setClickedObject( obj );
         if( obj )
@@ -73,9 +74,9 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
             } else {*/
             // Show popup menu
             if( clickedObject() ) {
-                emit objectChanged(ClickedObjectLite);
+                emit objectChanged();
             } else {
-                emit positionChanged(ClickedPointLite);
+                emit positionChanged();
                 /* pmenu->createEmptyMenu( clickedPoint() );
                     pmenu->popup( QCursor::pos() );*/
             }
@@ -226,10 +227,15 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
 }
 
 void SkyMapLite::wheelEvent( QWheelEvent *e ) {
-    if ( e->delta() > 0 )
+    if ( e->delta() > 0 ) {
         zoomInOrMagStep ( e->modifiers() );
-    else if ( e->delta() < 0 )
+        //setRotation(rotation() + 0.1); TEST
+    }
+    else if ( e->delta() < 0 ) {
         zoomOutOrMagStep( e->modifiers() );
+        //setRotation(rotation() - 0.1); TEST
+    }
+
 }
 
 void SkyMapLite::touchEvent( QTouchEvent *e) {
@@ -343,6 +349,7 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
                 }
                 delete event;
             } else if((e->touchPointStates() & (Qt::TouchPointReleased))) { //&& !slewing && points.length() == 1) {
+                if(slewing) slewing = false;
                 //Show tap animation
                 emit posClicked(points[0].screenPos());
                 //determine RA, Dec of touch
@@ -350,17 +357,18 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
                 setClickedPoint( &m_MousePoint );
 
                 //Find object nearest to clickedPoint()
-                double maxrad = 2.5;/*1000.0/Options::zoomFactor()*2; /* On high zoom-level it is very hard to select the object using touch screen.
+                double maxrad = 1000.0/Options::zoomFactor(); /* On high zoom-level it is very hard to select the object using touch screen.
                                             That's why radius remains constant*/
+                maxrad = qMax(maxrad,2.5);
                 qDebug() << maxrad << "maxrad";
                 SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
                 setClickedObject( obj );
                 if( obj ) setClickedPoint( obj );
 
                 if( clickedObject() ) {
-                    emit objectChanged(ClickedObjectLite);
+                    emit objectChanged();
                 } else {
-                    emit positionChanged(ClickedPointLite);
+                    emit positionChanged();
                 }
             }
         }

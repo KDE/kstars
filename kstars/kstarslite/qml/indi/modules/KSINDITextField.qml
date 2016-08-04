@@ -25,8 +25,9 @@ Flow {
     TextField {
         id: field
     }
+
     Button {
-        text:"Set"
+        text: xi18n("Set")
         onClicked: {
             if(isNumber) {
                 ClientManagerLite.sendNewINDINumber(deviceName, propName, fieldName, field.text)

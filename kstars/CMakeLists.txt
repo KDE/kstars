@@ -610,6 +610,9 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyobjectlite.cpp
         #ImageProvider
         kstarslite/imageprovider.cpp
+        #Dialogs
+        kstarslite/dialogs/finddialoglite.cpp
+        kstarslite/dialogs/skyobjectlistmodel.cpp
         #RootNode
         kstarslite/skyitems/rootnode.cpp
         kstarslite/skyitems/skyopacitynode.cpp
@@ -687,6 +690,9 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/modules/Splash.qml
         kstarslite/qml/modules/ContextDrawerMenu.qml
         kstarslite/qml/modules/TelescopeControlMenu.qml
+        #Dialogs
+        kstarslite/qml/dialogs/FindDialog.qml
+        #INDI
         kstarslite/qml/indi/INDIControlPanel.qml
         kstarslite/qml/indi/DevicePanel.qml
         kstarslite/qml/indi/ImagePreview.qml
@@ -920,9 +926,12 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/128-apps-kstars.png
 )
 
-if(NOT BUILD_KSTARS_LITE)
 qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
 
+add_executable(kstars ${KSTARS_APP_SRCS})
+target_link_libraries(kstars KStarsLib)
+
+if(NOT BUILD_KSTARS_LITE)
 install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
@@ -930,6 +939,3 @@ install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 endif(NOT BUILD_KSTARS_LITE)
-
-add_executable(kstars ${KSTARS_APP_SRCS})
-target_link_libraries(kstars KStarsLib)

@@ -29,6 +29,8 @@ class SkyPoint;
 class GeoLocation;
 class ImageProvider;
 
+class FindDialogLite;
+
 #ifdef INDI_FOUND
 class ClientManagerLite;
 #endif
@@ -139,6 +141,9 @@ private:
 
     KStarsData *m_KStarsData;
     ImageProvider *m_imgProvider;
+
+    //Dialogs
+    FindDialogLite *m_findDialogLite;
 
 #ifdef INDI_FOUND
     ClientManagerLite *m_clientManager;

@@ -251,7 +251,7 @@ int main(int argc, char *argv[])
     Options::setShowStars(true);
 
     Options::setShowDeepSky(true);
-    Options::setShowCBounds(true);
+    Options::setShowCBounds(false);
     Options::setShowCLines(true);
     Options::setShowSolarSystem(true);
     Options::setShowEcliptic(true);

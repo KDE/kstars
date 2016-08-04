@@ -65,6 +65,7 @@ void SupernovaeComponent::loadData()
     //m_ObjectList.clear();
     latest.clear();
     objectNames(SkyObject::SUPERNOVA).clear();
+    objectLists(SkyObject::SUPERNOVA).clear();
 
     //SN,  Host Galaxy,  Date,  R.A.,  Dec.,  Offset,  Mag.,  Disc.Ref.,  SN Position,  Posn.Ref.,  Typ,  SN,  Discoverer(s)
     QList< QPair<QString,KSParser::DataTypes> > sequence;
@@ -107,9 +108,11 @@ void SupernovaeComponent::loadData()
         if (magnitude == KSParser::EBROKEN_FLOAT)
             magnitude = 99.9;
 
-        if (m_ObjectList.empty() || !findByName(serialNo))
+        Supernova *sup = static_cast<Supernova*>(findByName(serialNo));
+
+        if (m_ObjectList.empty() || !sup)
         {
-            Supernova *sup = new Supernova(ra, dec, date, magnitude, serialNo,
+            sup = new Supernova(ra, dec, date, magnitude, serialNo,
                     type, hostGalaxy, offset, discoverers);
 
             sup->EquatorialToHorizontal(KStarsData::Instance()->lst(),
@@ -119,6 +122,7 @@ void SupernovaeComponent::loadData()
             latest.append(sup);
         }
 
+        if(sup) objectLists(SkyObject::SUPERNOVA).append(QPair<QString, const SkyObject*>(serialNo, sup));
         objectNames(SkyObject::SUPERNOVA).append(serialNo);
     }
     //notifyNewSupernovae();

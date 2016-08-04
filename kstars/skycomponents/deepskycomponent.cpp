@@ -276,7 +276,7 @@ void DeepSkyComponent::loadData()
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
         // Add the name(s) to the nameHash for fast lookup -jbb
-        if ( hasName) {
+        if ( hasName ) {
             nameHash[ name.toLower() ] = o;
             if ( ! longname.isEmpty() ) nameHash[ longname.toLower() ] = o;
             if ( ! name2.isEmpty() ) nameHash[ name2.toLower() ] = o;
@@ -308,13 +308,17 @@ void DeepSkyComponent::loadData()
 
         // JM: VERY INEFFICIENT. Disabling for now until we figure out how to deal with dups. QSet?
         //if ( ! name.isEmpty() && !objectNames(type).contains(name))
-        if ( ! name.isEmpty() )
+        if ( ! name.isEmpty() ) {
             objectNames(type).append( name );
+            objectLists(type).append( QPair<QString, SkyObject *>(name, o));
+        }
 
         //Add long name to the list of object names
         //if ( ! longname.isEmpty() && longname != name  && !objectNames(type).contains(longname))
-        if ( ! longname.isEmpty() && longname != name)
+        if ( ! longname.isEmpty() && longname != name) {
             objectNames(type).append( longname );
+            objectLists(type).append( QPair<QString, SkyObject *>(longname, o));
+        }
 
         deep_sky_parser.ShowProgress();
     }
@@ -530,7 +534,6 @@ void DeepSkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& 
         }
     }
 }
-
 
 //we multiply each catalog's smallest angular distance by the
 //following factors before selecting the final nearest object:

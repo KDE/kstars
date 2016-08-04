@@ -23,8 +23,12 @@
 #include <QSurfaceFormat>
 #include "indi/clientmanagerlite.h"
 #include "kstarslite/imageprovider.h"
+#include "klocalizedcontext.h"
 
 #include "kspaths.h"
+
+//Dialog
+#include "kstarslite/dialogs/finddialoglite.h"
 
 #include "Options.h"
 #include "ksutils.h"
@@ -57,6 +61,11 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_Engine.rootContext()->setContextProperty("KStarsLite", this);
     m_Engine.rootContext()->setContextProperty("KStarsData", m_KStarsData);
     m_Engine.rootContext()->setContextProperty("Options", Options::self());
+    m_Engine.rootContext()->setContextObject(new KLocalizedContext(this));
+
+    //Dialogs
+    m_findDialogLite = new FindDialogLite;
+    m_Engine.rootContext()->setContextProperty("FindDialogLite", m_findDialogLite);
 
     //Set Geographic Location from Options
     m_KStarsData->setLocationFromOptions();
@@ -68,7 +77,7 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_Engine.rootContext()->setContextProperty("SkyMapLite", m_SkyMapLite);
     m_imgProvider = new ImageProvider;
     m_Engine.addImageProvider(QLatin1String("images"), m_imgProvider);
-    //qmlRegisterType<SkyPoint>("skymaplite",1,0,"SkyMapLite");
+    //qmlRegisterType<SkyPoint>("skymaplite",1,0,"SkyMapLite");    
 
 #ifdef Q_OS_ANDROID
     QString main = KSPaths::locate(QStandardPaths::AppDataLocation, "kstarslite/qml/main.qml");

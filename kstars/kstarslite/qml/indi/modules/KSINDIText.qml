@@ -12,12 +12,13 @@ Column {
 
     Kirigami.Label {
         text: propLabel
+        color: num.sysPalette.text
     }
 
     Rectangle {
         id: separator
         height: num.dp
-        color: "grey"
+        color: num.sysPalette.light
         width: parent.width
     }
 
@@ -34,8 +35,9 @@ Column {
         } else {
                 textItem = Qt.createQmlObject('import QtQuick 2.4
                                         import QtQuick.Layouts 1.2
+                                        import "../../constants" 1.0
                                     Text {
-
+                                        color: num.sysPalette.text
                                     }', this)
                 textItem.text = propText
         }

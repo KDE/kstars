@@ -44,15 +44,20 @@ SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *par
     m_Planet( kspb )
 {
     m_Planet->loadData();
-    if ( ! m_Planet->name().isEmpty() )
+    if ( ! m_Planet->name().isEmpty() ) {
         objectNames(m_Planet->type()).append( m_Planet->name() );
-    if ( ! m_Planet->longname().isEmpty() && m_Planet->longname() != m_Planet->name() )
+        objectLists(m_Planet->type()).append( QPair<QString, const SkyObject*>(m_Planet->name(),m_Planet) );
+    }
+    if ( ! m_Planet->longname().isEmpty() && m_Planet->longname() != m_Planet->name() ) {
         objectNames(m_Planet->type()).append( m_Planet->longname() );
+        objectLists(m_Planet->type()).append( QPair<QString, const SkyObject*>(m_Planet->longname(),m_Planet) );
+    }
 }
 
 SolarSystemSingleComponent::~SolarSystemSingleComponent()
 {
     removeFromNames( m_Planet );
+    removeFromLists( m_Planet );
     delete m_Planet;
 }
 

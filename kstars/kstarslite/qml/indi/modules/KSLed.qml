@@ -49,5 +49,6 @@ Row {
     Kirigami.Label {
         text: ledRow.label
         anchors.verticalCenter: parent.verticalCenter
+        color: num.sysPalette.text
     }
 }

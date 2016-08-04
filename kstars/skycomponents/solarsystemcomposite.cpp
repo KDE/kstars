@@ -76,6 +76,24 @@ SolarSystemComposite::SolarSystemComposite(SkyComposite *parent ) :
     m_planets.append(uranus);
     m_planets.append(nep);
 
+    /*m_planetObjects.append(sun->planet());
+    m_planetObjects.append(moon->planet());
+    m_planetObjects.append(mercury->planet());
+    m_planetObjects.append(venus->planet());
+    m_planetObjects.append(mars->planet());
+    m_planetObjects.append(sat->planet());
+    m_planetObjects.append(jup->planet());
+    m_planetObjects.append(uranus->planet());
+    m_planetObjects.append(nep->planet());
+
+    foreach(PlanetMoonsComponent *pMoons, planetMoonsComponent()) {
+        PlanetMoons *moons = pMoons->getMoons();
+        for(int i = 0; i < moons->nMoons(); ++i) {
+            SkyObject *moon = moons->moon(i);
+            objectLists(SkyObject::MOON).append(QPair<QString, const SkyObject*>(moon->name(), moon));
+        }
+    }*/
+
     addComponent( m_AsteroidsComponent = new AsteroidsComponent( this ), 7);
     addComponent( m_CometsComponent    = new CometsComponent( this ), 7);
 }
@@ -143,6 +161,15 @@ const QList<SkyObject*>& SolarSystemComposite::comets() const {
     return m_CometsComponent->objectList();
 }
 
+const QList<SkyObject*>& SolarSystemComposite::planetObjects() const {
+    return m_planetObjects;
+}
+
+const QList<SkyObject*>& SolarSystemComposite::moons() const {
+    return m_moons;
+}
+
+
 CometsComponent* SolarSystemComposite::cometsComponent()
 {
     return m_CometsComponent;
@@ -161,4 +188,3 @@ QList<PlanetMoonsComponent *> SolarSystemComposite::planetMoonsComponent() const
 {
     return QList <PlanetMoonsComponent *>({m_JupiterMoons});
 }
-

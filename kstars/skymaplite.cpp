@@ -52,7 +52,11 @@
 #include <QQuickWindow>
 #include <QLinkedList>
 #include <QQmlContext>
+
 #include <QTapSensor>
+#include <QMagnetometer>
+#include <QCompass>
+#include <QRotationSensor>
 
 namespace {
 
@@ -125,6 +129,18 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     m_tapSensor = new QTapSensor(this);
     m_tapSensor->setReturnDoubleTapEvents(true);
     m_tapSensor->start();
+
+    m_magnetometer = new QMagnetometer(this);
+    m_magnetometer->setReturnGeoValues(true);
+    m_magnetometer->start();
+
+    m_compass = new QCompass(this);
+    m_compass->start();
+
+    m_rotation = new QRotationSensor(this);
+    m_rotation->start();
+
+    connect( m_magnetometer, SIGNAL( readingChanged() ), this, SLOT( slotCompassMove() ) );
 
     KStarsLite::Instance()->qmlEngine()->rootContext()->setContextProperty("ClickedObject",ClickedObjectLite);
     KStarsLite::Instance()->qmlEngine()->rootContext()->setContextProperty("ClickedPoint",ClickedPointLite);
@@ -322,7 +338,7 @@ void SkyMapLite::slotCenter() {
     //If the requested object is below the opaque horizon, issue a warning message
     //(unless user is already pointed below the horizon)
     if ( Options::useAltAz() && Options::showGround() &&
-            focus()->alt().Degrees() > -1.0 && focusPoint()->alt().Degrees() < -1.0 ) {
+         focus()->alt().Degrees() > -1.0 && focusPoint()->alt().Degrees() < -1.0 ) {
 
         QString caption = i18n( "Requested Position Below Horizon" );
         QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
@@ -413,7 +429,7 @@ void SkyMapLite::slewFocus() {
                 slewing = true;
 
                 forceUpdate();
-                qApp->processEvents(); //keep up with other stuff
+                //qApp->processEvents(); //keep up with other stuff
 
                 if ( Options::useAltAz() ) {
                     dX = destination()->az().Degrees() - focus()->az().Degrees();
@@ -530,6 +546,50 @@ void SkyMapLite::slotZoomDefault() {
     setZoomFactor( DEFAULTZOOM );
 }
 
+void SkyMapLite::slotOpenObject(SkyObject *skyObj) {
+    if ( Options::useAltAz() ) {
+        setDestinationAltAz( skyObj->altRefracted(), skyObj->az() );
+    } else {
+        setDestination( *skyObj );
+    }
+    ClickedObjectLite->setObject(skyObj);
+    emit objectChanged();
+}
+
+void SkyMapLite::slotCompassMove() {
+    /*if(m_compass->reading()->calibrationLevel() != 1) {
+        m_compass->reading()->setCalibrationLevel(1);
+    }*/
+    /*qDebug() << m_compass->reading()->azimuth();
+    qDebug() << focus()->alt().Degrees() << focus()->az().Degrees();
+    double az = m_compass->reading()->azimuth();*/
+    QMagnetometerReading *r = m_magnetometer->reading();
+    r->setCalibrationLevel(1);
+    if(r) {
+        double y = r->y();// >= 0 ? r->y() : 360 - abs(r->y());//360 - (r->y() + 180);
+        while(abs(y) < 1) y *= 10;
+        double z = r->z();// >= 0 ? r->z() : 360 - abs(r->z());
+        while(abs(z) < 1) z *= 10;
+        double x = r->x();
+        while(abs(x) < 1) x *= 10;
+
+        /*double alt = x;
+        double az = (z+y)/2;
+
+        if(abs(az - focus()->az().Degrees()) < 1) {
+            az = focus()->az().Degrees();
+        }
+
+        if(abs(alt - focus()->alt().Degrees()) < 1)  {
+            alt = focus()->alt().Degrees();
+        }
+
+        setFocusAltAz(dms(alt),dms(az));
+        qDebug() << focus()->alt().Degrees() << focus()->az().Degrees();*/
+        qDebug() << x << y << z;
+    }
+}
+
 void SkyMapLite::setZoomFactor(double factor) {
     Options::setZoomFactor(  KSUtils::clamp(factor, MINZOOM, MAXZOOM)  );
 
@@ -602,7 +662,7 @@ void SkyMapLite::updateFocus() {
             setDestination( *focus() );
         }
 
-    //Tracking on empty sky
+        //Tracking on empty sky
     } else if ( Options::isTracking() && focusPoint() != NULL ) {
         if ( Options::useAltAz() ) {
             //Tracking on empty sky in Alt/Az mode
@@ -611,8 +671,8 @@ void SkyMapLite::updateFocus() {
             setDestination( *focus() );
         }
 
-    // Not tracking and not slewing, let sky drift by
-    // This means that horizontal coordinates are constant.
+        // Not tracking and not slewing, let sky drift by
+        // This means that horizontal coordinates are constant.
     } else {
         focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat() );
     }
@@ -629,6 +689,7 @@ void SkyMapLite::setupProjector() {
     p.zoomFactor    = Options::zoomFactor();
     p.fillGround    = Options::showGround();
     Options::setProjection(Projector::Lambert);
+
     //Check if we need a new projector
     if( m_proj && Options::projection() == m_proj->type() )
         m_proj->setViewParams(p);

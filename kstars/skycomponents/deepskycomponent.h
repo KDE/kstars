@@ -156,6 +156,7 @@ private:
                              const QString& colorString, bool drawImage = false);
 
     QList<DeepSkyObject*> m_DeepSkyList;
+
     QList<DeepSkyObject*> m_MessierList;
     QList<DeepSkyObject*> m_NGCList;
     QList<DeepSkyObject*> m_ICList;

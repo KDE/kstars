@@ -209,12 +209,18 @@ public:
 
     inline QStringList& objectNames(int type) { return getObjectNames()[type]; }
 
+    inline QHash<int, QVector<QPair<QString, const SkyObject *>>>& objectLists() { return getObjectLists(); }
+
+    inline QVector<QPair<QString, const SkyObject *>>& objectLists(int type) { return getObjectLists()[type]; }
+
 protected:
     void removeFromNames(const SkyObject* obj);
+    void removeFromLists(const SkyObject* obj);
 
 private:
     /** */
     virtual QHash<int, QStringList>& getObjectNames();
+    virtual QHash<int, QVector<QPair<QString, const SkyObject *>>>& getObjectLists();
 
     // Disallow copying and assignement
     SkyComponent(const SkyComponent&);

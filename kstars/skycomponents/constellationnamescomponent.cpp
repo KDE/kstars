@@ -31,7 +31,7 @@
 #include "projections/projector.h"
 
 ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, CultureList* cultures )
-        : ListComponent(parent )
+        : ListComponent( parent )
 {
     uint i = 0;
     bool culture = false;
@@ -88,6 +88,7 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, C
 
             //Add name to the list of object names
             objectNames(SkyObject::CONSTELLATION).append( name );
+            objectLists(SkyObject::CONSTELLATION).append(QPair<QString, const SkyObject*>(name, o));
         }
     }
 }

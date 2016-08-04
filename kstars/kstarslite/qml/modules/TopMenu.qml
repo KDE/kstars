@@ -89,7 +89,6 @@ ColumnLayout {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        Options.showJupiter = !Options.showJupiter
                         KStarsLite.fullUpdate()
                     }
                 }
@@ -99,7 +98,6 @@ ColumnLayout {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        Options.showSolarSystem = !Options.showSolarSystem
                         KStarsLite.fullUpdate()
                     }
                 }

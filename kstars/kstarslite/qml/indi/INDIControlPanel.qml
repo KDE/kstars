@@ -43,15 +43,6 @@ KSPage {
         id: cPanelColumn
         spacing: 5 * num.dp
 
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-            topMargin: 15 * num.dp
-            leftMargin: 25 * num.dp
-            rightMargin: 25 * num.dp
-        }
-
         ColumnLayout {
             visible: !indiPage.connected
             anchors {
@@ -60,7 +51,8 @@ KSPage {
             }
 
             Kirigami.Label {
-                text: "INDI Host"
+                text: xi18n("INDI Host")
+                color: num.sysPalette.text
             }
 
             RowLayout {
@@ -71,7 +63,7 @@ KSPage {
 
                 Controls.TextField {
                     id:ipHost
-                    placeholderText: "IP"
+                    placeholderText: xi18n("IP")
                     Layout.alignment: Qt.AlignHCenter
                     implicitWidth: parent.width*0.8
                     text: ClientManagerLite.lastUsedServer()
@@ -79,7 +71,7 @@ KSPage {
 
                 Controls.TextField {
                     id:portHost
-                    placeholderText: "Port"
+                    placeholderText: xi18n("Port")
                     Layout.alignment: Qt.AlignHCenter
                     implicitWidth: parent.width*0.2
                     text: ClientManagerLite.lastUsedPort()
@@ -90,20 +82,21 @@ KSPage {
         Kirigami.Label {
             id: connectedTo
             visible: indiPage.connected
-            text: "Connected to " + ClientManagerLite.connectedHost
+            color: num.sysPalette.text
+            text: xi18n("Connected to ") + ClientManagerLite.connectedHost
         }
 
         Controls.Button {
-            text: indiPage.connected ? "Disconnect" : "Connect "
+            text: indiPage.connected ? xi18n("Disconnect") : xi18n("Connect ")
 
             onClicked: {
                 if(!indiPage.connected) {
                     if(ClientManagerLite.setHost(ipHost.text, parseInt(portHost.text))) {
-                        showPassiveNotification("Successfully connected to the server")
+                        showPassiveNotification(xi18n("Successfully connected to the server"))
                         ClientManagerLite.setLastUsedServer(ipHost.text)
                         ClientManagerLite.setLastUsedPort(portHost.text)
                     } else {
-                        showPassiveNotification("Couldn't connect to the server")
+                        showPassiveNotification(xi18n("Couldn't connect to the server"))
                     }
                 } else {
                     ClientManagerLite.disconnectHost()
@@ -125,7 +118,8 @@ KSPage {
 
             Kirigami.Label {
                 id: devicesLabel
-                text: "Available Devices"
+                text: xi18n("Available Devices")
+                color: num.sysPalette.text
             }
 
             ListModel {

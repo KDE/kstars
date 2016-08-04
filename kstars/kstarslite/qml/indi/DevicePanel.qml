@@ -8,7 +8,10 @@ import org.kde.kirigami 1.0 as Kirigami
 
 Item {
     id: devicesPanel
-    anchors.fill: parent
+    anchors {
+        fill: parent
+        margins: 0
+    }
     function showPage(backtoInit) {
         devicesPage.showPage(backtoInit)
     }

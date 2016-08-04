@@ -14,17 +14,24 @@ Kirigami.Page {
     anchors.fill: parent
     visible: false
 
+    background: Rectangle {
+        color: num.sysPalette.window
+    }
+
+    id: parentPage
+
     property Item contentItem: null
     property Item prevPage: null
 
     function showPage(backtoInit) {
-        if(backtoInit) {
-            mainWindow.currentPage.visible = false // Hide current page
+        if(this === initPage) { //Exit if user goes back on initPage
+            prevPage = null
+        } else if(backtoInit) {
             prevPage = mainWindow.initPage // Go back to SkyMap
         } else {
             prevPage = mainWindow.currentPage
         }
-        prevPage.visible = false
+        mainWindow.currentPage.visible = false // Hide current page
         visible = true
         mainWindow.currentPage = this
     }
@@ -67,7 +74,7 @@ Kirigami.Page {
             anchors.leftMargin: 10 * num.dp
 
             Rectangle {
-                id: backRect
+                id: goBackRect
                 radius: width * 0.5
                 color: "#F0F0F0"
                 //opacity: 0
@@ -83,11 +90,11 @@ Kirigami.Page {
                     }
                     onPressedChanged: {
                         if(pressed) {
-                            backRect.state = "pressed"
-                            console.log(backRect.state)
+                            goBackRect.state = "pressed"
+                            console.log(goBackRect.state)
                         } else {
-                            backRect.state = "released"
-                            console.log(backRect.state)
+                            goBackRect.state = "released"
+                            console.log(goBackRect.state)
                         }
                     }
                 }
@@ -95,12 +102,12 @@ Kirigami.Page {
                 states: [
                     State {
                         name: "pressed"
-                        PropertyChanges { target: backRect; opacity: 0.3 }
+                        PropertyChanges { target: goBackRect; opacity: 0.3 }
                         //PropertyChanges { target: backButton; opacity: 0.6 }
                     },
                     State {
                         name: "released"
-                        PropertyChanges { target: backRect; opacity: 0 }
+                        PropertyChanges { target: goBackRect; opacity: 0 }
                         //PropertyChanges { target: backButton; opacity: 1 }
                     }
                 ]
@@ -109,12 +116,12 @@ Kirigami.Page {
                     Transition {
                         from: "released"
                         to: "pressed"
-                        PropertyAnimation { target: backRect; properties: "opacity"; duration: 100 }
+                        PropertyAnimation { target: goBackRect; properties: "opacity"; duration: 100 }
                     },
                     Transition {
                         from: "pressed"
                         to: "released"
-                        PropertyAnimation { target: backRect; properties: "opacity"; duration: 150 }
+                        PropertyAnimation { target: goBackRect; properties: "opacity"; duration: 150 }
                     }
                 ]
             }
@@ -125,7 +132,7 @@ Kirigami.Page {
                 source: "images/" + num.density + "/icons/back.png"
                 sourceSize.height: pageTitle.height + 2 * num.dp
                 sourceSize.width: pageTitle.height + 2 * num.dp
-                anchors.centerIn: backRect
+                anchors.centerIn: goBackRect
             }
 
             Text {
@@ -155,8 +162,9 @@ Kirigami.Page {
             contentItem.anchors.top = headerRect.bottom
             contentItem.anchors.left = contentItem.parent.left
             contentItem.anchors.right = contentItem.parent.right
-            //contentItem.anchors.leftMargin = 25
-            //contentItem.anchors.rightMargin = 25
+            contentItem.anchors.topMargin = 15 * num.dp
+            contentItem.anchors.leftMargin = 25 * num.dp
+            contentItem.anchors.rightMargin = 25 * num.dp
         }
     }
 }

@@ -58,8 +58,10 @@ PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
     delete pmoons;
     pmoons = new JupiterMoons();
     int nmoons = pmoons->nMoons();
-    for ( int i=0; i<nmoons; ++i ) 
+    for ( int i=0; i<nmoons; ++i ) {
         objectNames(SkyObject::MOON).append( pmoons->name(i) );
+        objectLists(SkyObject::MOON).append( QPair<QString, const SkyObject*>(pmoons->name(i),pmoons->moon(i)) );
+    }
 }
 
 PlanetMoonsComponent::~PlanetMoonsComponent()

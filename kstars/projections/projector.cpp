@@ -207,6 +207,8 @@ bool Projector::checkVisibility( SkyPoint *p ) const
     */ //Here we hope that the point has already been 'synchronized'
     if( m_vp.fillGround /*&& m_vp.useAltAz*/ && p->alt().Degrees() < -1.0 ) return false;
 
+    SkyMapLite *map = SkyMapLite::Instance();
+
     if ( m_vp.useAltAz ) {
         /** To avoid calculating refraction, we just use the unrefracted
             altitude and add a 2-degree 'safety factor' */
@@ -277,7 +279,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
     //daz is 1/2 the width of the sky in degrees
     double daz = 90.;
     if ( m_vp.useAltAz ) {
-        daz = 0.5*m_vp.width*57.3/m_vp.zoomFactor; //center to edge, in degrees
+        //daz = (0.5*m_vp.width*57.3)/m_vp.zoomFactor; //center to edge, in degrees. Why do we need it? It finishes horizon incorrectly - A. Fedoskin(polaris)
         if ( type() == Orthographic ) {
             daz = daz * 1.4;
         }

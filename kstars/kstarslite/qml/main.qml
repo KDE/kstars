@@ -4,9 +4,11 @@ import QtQuick.Layouts 1.1
 import "modules"
 import "indi"
 import "constants" 1.0
+import "dialogs"
 import QtQuick.Controls 1.4 as Controls
 import org.kde.kirigami 1.0 as Kirigami
 import QtSensors 5.0
+import QtGraphicalEffects 1.0
 
 Kirigami.ApplicationWindow {
     id: mainWindow
@@ -27,6 +29,16 @@ Kirigami.ApplicationWindow {
 
     property var telescopes: []
 
+    //pageStack.currentIndex: initPage
+
+    property Item currentPage: initPage
+
+    controlsVisible: false
+
+    header: Kirigami.ApplicationHeader {
+        visible: false
+    }
+
     property bool loaded: false
 
     Splash {
@@ -36,14 +48,6 @@ Kirigami.ApplicationWindow {
             loaded = true
             controlsVisible = true
         }
-    }
-
-    property Item currentPage: initPage
-
-    controlsVisible: false
-
-    header: Kirigami.ApplicationHeader {
-        visible: false
     }
 
     contentItem.anchors.topMargin: 0
@@ -62,7 +66,6 @@ Kirigami.ApplicationWindow {
                 text: "Sky Map"
 
                 onTriggered: {
-                    mainWindow.currentPage = initPage
                     initPage.showPage(true)
                     globalDrawer.close()
                 }
@@ -73,6 +76,14 @@ Kirigami.ApplicationWindow {
                 onTriggered: {
                     //mainWindow.currentPage = initPage
                     indiControlPanel.showPage(true)
+                    globalDrawer.close()
+                }
+            },
+            Kirigami.Action {
+                text: "Find Object"
+
+                onTriggered: {
+                    findDialog.showPage(true)
                     globalDrawer.close()
                 }
             }
@@ -88,12 +99,65 @@ Kirigami.ApplicationWindow {
             maximumValue: 5.75954
             minimumValue: 1.18778
             value: SkyMapLite.magLim
-
             onValueChanged: {
                 SkyMapLite.magLim = value
             }
         }
     }
+
+    FindDialog {
+        id: findDialog
+    }
+
+    //Background shadow
+
+    /*function showBgShadow() {
+        shadowBg.state = "visible"
+    }
+
+    function hideBgShadow() {
+        shadowBg.state = "hidden"
+    }
+
+    Item {
+        id: shadowBg
+        state: "hidden"
+        anchors.fill: parent
+        z: bgOrder
+
+        Rectangle {
+            id: shadowRect
+            anchors.fill: parent
+            color: "black"
+        }
+
+        FastBlur {
+            anchors.fill: shadowRect
+            source: shadowRect
+            radius: Units.gridUnit
+            transparentBorder: true
+        }
+
+        states: [
+            State {
+                name: "visible"
+                PropertyChanges {
+                    target: shadowBg
+                    opacity: 0.3
+                }
+            },
+            State {
+                name: "hidden"
+                PropertyChanges {
+                    target: shadowBg
+                    opacity: 0
+                }
+            }]
+
+        Behavior on opacity {
+            NumberAnimation { duration: 200 }
+        }
+    }*/
 
     contextDrawer: Kirigami.ContextDrawer {
         id: contextDrawer
@@ -129,7 +193,7 @@ Kirigami.ApplicationWindow {
     KSPage {
         id: initPage
         title: "Main Screen"
-        visible: loaded
+        visible:true
 
         TapSensor {
             onReadingChanged: {
@@ -212,6 +276,15 @@ Kirigami.ApplicationWindow {
             ]
         }
 
+        Splash {
+            z:1
+            anchors.fill:parent
+            onTimeout: {
+                loaded = true
+                mainWindow.controlsVisible = true
+            }
+        }
+
         /*content is made Rectangle to allow z-index ordering
     (for some reason it doesn't work with plain Item)*/
         Item {
@@ -227,28 +300,28 @@ Kirigami.ApplicationWindow {
                 color: "black"
 
                 Rectangle {
-                     id: tapCircle
-                     z: 1
-                     width: 20 * num.dp
-                     height: width
-                     color: "grey"
-                     radius: width*0.5
-                     opacity: 0
+                    id: tapCircle
+                    z: 1
+                    width: 20 * num.dp
+                    height: width
+                    color: "grey"
+                    radius: width*0.5
+                    opacity: 0
 
-                     Connections {
-                         target: SkyMapLite
-                         onPosClicked: {
+                    Connections {
+                        target: SkyMapLite
+                        onPosClicked: {
                             tapCircle.x = pos.x - tapCircle.width * 0.5
                             tapCircle.y = pos.y - tapCircle.height * 0.5
                             tapAnimation.start()
-                         }
-                     }
+                        }
+                    }
 
-                     SequentialAnimation on opacity {
-                         id: tapAnimation
-                         OpacityAnimator { from: 0; to: 0.8; duration: 100 }
-                         OpacityAnimator { from: 0.8; to: 0; duration: 400 }
-                     }
+                    SequentialAnimation on opacity {
+                        id: tapAnimation
+                        OpacityAnimator { from: 0; to: 0.8; duration: 100 }
+                        OpacityAnimator { from: 0.8; to: 0; duration: 400 }
+                    }
                 }
 
                 /*MouseArea {

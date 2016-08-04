@@ -47,6 +47,8 @@ public:
     KSPlanet* earth() { return m_Earth; }
     const QList<SkyObject*>& asteroids() const;
     const QList<SkyObject*>& comets() const;
+    const QList<SkyObject*>& planetObjects() const;
+    const QList<SkyObject*>& moons() const;
 
     bool selected();
 
@@ -65,7 +67,6 @@ public:
     QList<PlanetMoonsComponent *> planetMoonsComponent() const;
 
     const QList<SolarSystemSingleComponent *>& planets() const;
-
 private:
     KSPlanet *m_Earth;
     KSSun *m_Sun;
@@ -74,6 +75,8 @@ private:
     AsteroidsComponent *m_AsteroidsComponent;
     CometsComponent *m_CometsComponent;
     QList<SolarSystemSingleComponent *> m_planets;
+    QList<SkyObject *> m_planetObjects;
+    QList<SkyObject *> m_moons;
 };
 
 #endif

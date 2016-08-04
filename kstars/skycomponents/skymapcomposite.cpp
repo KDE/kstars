@@ -66,7 +66,7 @@
 #include "typedef.h"
 
 SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
-        SkyComposite(parent), m_reindexNum( J2000 )
+    SkyComposite(parent), m_reindexNum( J2000 )
 {
     m_skyLabeler = SkyLabeler::Instance();
     m_skyMesh = SkyMesh::Create( 3 );  // level 5 mesh = 8192 trixels
@@ -102,14 +102,14 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
         m_CustomCatalogs->addComponent(
-                                       new CatalogComponent( this, allcatalogs.at(i), false, i ), 6
-            );
+                    new CatalogComponent( this, allcatalogs.at(i), false, i ), 6
+                    );
     }
 
     addComponent( m_SolarSystem = new SolarSystemComposite( this ), 2);
 
     //addComponent( m_ObservingList = new TargetListComponent( this , 0, QPen(),
-      //                                                       &Options::obsListSymbol, &Options::obsListText ), 120 );
+    //                                                       &Options::obsListSymbol, &Options::obsListText ), 120 );
     addComponent( m_StarHopRouteList = new TargetListComponent( this , 0, QPen() ), 130 );
     addComponent( m_Satellites       = new SatellitesComponent( this ), 7 );
     addComponent( m_Supernovae       = new SupernovaeComponent( this ), 7 );
@@ -124,7 +124,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ), 80);
     m_Cultures = new CultureList();
     addComponent( m_CLines     = new ConstellationLines( this, m_Cultures ), 85);
-    addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ), 90);    
+    addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ), 90);
     addComponent( m_Equator    = new Equator( this ), 95);
     addComponent( m_Ecliptic   = new Ecliptic( this ), 95);
     addComponent( m_Horizon    = new HorizonComponent( this ), 100);
@@ -137,8 +137,8 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
         m_CustomCatalogs->addComponent(
-                                       new CatalogComponent( this, allcatalogs.at(i), false, i ), 6
-            );
+                    new CatalogComponent( this, allcatalogs.at(i), false, i ), 6
+                    );
     }
 
     addComponent( m_SolarSystem = new SolarSystemComposite( this ), 2);
@@ -159,9 +159,9 @@ SkyMapComposite::~SkyMapComposite()
     delete m_skyLabeler;     // These are on the heap to avoid header file hell.
     delete m_skyMesh;
     delete m_Cultures;
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     delete m_Flags;
-    #endif
+#endif
 }
 
 void SkyMapComposite::update(KSNumbers *num )
@@ -394,12 +394,12 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
     }
 
     for( int i = 0; i < m_DeepStars.size(); ++i ) {
-      rTry = maxrad;
-      oTry = m_DeepStars.at( i )->objectNearest( p, rTry );
-      if( rTry < rBest ) {
-        rBest = rTry;
-        oBest = oTry;
-      }
+        rTry = maxrad;
+        oTry = m_DeepStars.at( i )->objectNearest( p, rTry );
+        if( rTry < rBest ) {
+            rBest = rTry;
+            oBest = oTry;
+        }
     }
 
     rTry = maxrad;
@@ -441,7 +441,7 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
     }
 
     //if ( oBest && Options::verboseLogging())
-        //qDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
+    //qDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
     maxrad = rBest;
     return oBest; //will be 0 if no object nearer than maxrad was found
 
@@ -479,6 +479,10 @@ bool SkyMapComposite::removeNameLabel( SkyObject *o ) {
 
 QHash<int, QStringList>& SkyMapComposite::getObjectNames() {
     return m_ObjectNames;
+}
+
+QHash<int, QVector<QPair<QString, const SkyObject*>>>& SkyMapComposite::getObjectLists() {
+    return m_ObjectLists;
 }
 
 QList<SkyObject*> SkyMapComposite::findObjectsInArea( const SkyPoint& p1, const SkyPoint& p2 )
@@ -535,7 +539,7 @@ KSPlanetBase* SkyMapComposite::planet( int n ) {
     if ( n == KSPlanetBase::NEPTUNE ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Neptune" ) ) );
     //if ( n == KSPlanetBase::PLUTO ) return (KSPlanetBase*)(m_SolarSystem->findByName( i18n( "Pluto" ) ) );
 
-	return 0;
+    return 0;
 }
 
 void SkyMapComposite::addCustomCatalog( const QString &filename, int index ) {
@@ -572,13 +576,13 @@ void SkyMapComposite::reloadCLines( ) {
 }
 
 void SkyMapComposite::reloadCNames( ) {
-//     Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
-//     SkyMapDrawAbstract::setDrawLock( true ); // This is not (yet) multithreaded, so I think we don't have to worry about overwriting the state of an existing lock --asimha
-//     objectNames(SkyObject::CONSTELLATION).clear();
-//     delete m_CNames;
-//     m_CNames = 0;
-//     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
-//     SkyMapDrawAbstract::setDrawLock( false );
+    //     Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
+    //     SkyMapDrawAbstract::setDrawLock( true ); // This is not (yet) multithreaded, so I think we don't have to worry about overwriting the state of an existing lock --asimha
+    //     objectNames(SkyObject::CONSTELLATION).clear();
+    //     delete m_CNames;
+    //     m_CNames = 0;
+    //     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
+    //     SkyMapDrawAbstract::setDrawLock( false );
     objectNames(SkyObject::CONSTELLATION).clear();
     delete m_CNames;
     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
@@ -620,8 +624,8 @@ void SkyMapComposite::reloadDeepSky() {
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
         m_CustomCatalogs->addComponent(
-                                       new CatalogComponent( this, allcatalogs.at(i), false, i ), 5
-            );
+                    new CatalogComponent( this, allcatalogs.at(i), false, i ), 5
+                    );
     }
     SkyMapDrawAbstract::setDrawLock(false);
 #endif
@@ -636,7 +640,7 @@ bool SkyMapComposite::isLocalCNames() {
 void SkyMapComposite::emitProgressText( const QString &message ) {
     emit progressText( message );
 #ifndef Q_OS_ANDROID
-//Can cause crashes on Android, investigate it
+    //Can cause crashes on Android, investigate it
     qApp->processEvents();         // -jbb: this seemed to make it work.
 #endif
     //qDebug() << QString("PROGRESS TEXT: %1\n").arg( message );
@@ -667,6 +671,63 @@ const QList<SkyObject*>& SkyMapComposite::comets() const {
 const QList<SkyObject*>& SkyMapComposite::supernovae() const
 {
     return m_Supernovae->objectList();
+}
+
+QList<SkyObject*> SkyMapComposite::planets()
+{
+    return solarSystemComposite()->planetObjects();
+}
+
+//Store it permanently
+QList<SkyObject*> SkyMapComposite::moons()
+{
+    QList<SkyObject*> skyObjects;
+    foreach(PlanetMoonsComponent *pMoons, m_SolarSystem->planetMoonsComponent()) {
+        PlanetMoons *moons = pMoons->getMoons();
+        for(int i = 0; i < moons->nMoons(); ++i) {
+            skyObjects.append(moons->moon(i));
+        }
+    }
+    return skyObjects;
+}
+
+const QList<SkyObject*> *SkyMapComposite::getSkyObjectsList(SkyObject::TYPE t) {
+    switch(t) {
+    case SkyObject::STAR:
+        return &m_Stars->objectList();
+        break;
+    case SkyObject::CATALOG_STAR:
+        return nullptr;
+        break;
+    case SkyObject::PLANET:
+        return &m_SolarSystem->planetObjects();
+        break;
+    case SkyObject::COMET:
+        return &comets();
+        break;
+    case SkyObject::ASTEROID:
+        return &asteroids();
+        break;
+    case SkyObject::MOON:
+        return &m_SolarSystem->moons();
+        break;
+    case SkyObject::GALAXY:
+    case SkyObject::PLANETARY_NEBULA:
+    case SkyObject::GASEOUS_NEBULA:
+    case SkyObject::GLOBULAR_CLUSTER:
+    case SkyObject::OPEN_CLUSTER:
+        return nullptr;
+        break;
+    case SkyObject::CONSTELLATION:
+        return &constellationNames();
+        break;
+    case SkyObject::SUPERNOVA:
+        return &supernovae();
+        break;
+    default:
+        return nullptr;
+    }
+    //return nullptr;
 }
 
 KSPlanet* SkyMapComposite::earth() {

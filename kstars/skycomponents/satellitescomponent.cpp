@@ -54,6 +54,7 @@ SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
     }
 
     objectNames(SkyObject::SATELLITE).clear();
+    objectLists(SkyObject::SATELLITE).clear();
 
     foreach( SatelliteGroup *group, m_groups )
     {
@@ -63,6 +64,7 @@ SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
             if ( sat->selected() && nameHash.contains(sat->name().toLower()) == false)
             {
                 objectNames(SkyObject::SATELLITE).append(sat->name());
+                objectLists(SkyObject::SATELLITE).append(QPair<QString, const SkyObject*>(sat->name(), sat));
                 nameHash[sat->name().toLower()] = sat;
             }
         }

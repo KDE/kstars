@@ -28,4 +28,5 @@ QtObject {
     }
     property string iconpath: "../" + "images/"  + density + "/icons/"
     property string imagesPath: "images/"  + density + "/"
+    property SystemPalette sysPalette: SystemPalette { }
 }

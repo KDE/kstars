@@ -91,6 +91,7 @@ void CometsComponent::loadData() {
 
     emitProgressText(i18n("Loading comets"));
     objectNames(SkyObject::COMET).clear();
+    objectLists(SkyObject::COMET).clear();
 
     QList< QPair<QString, KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
@@ -174,6 +175,7 @@ void CometsComponent::loadData() {
 
         // Add *short* name to the list of object names
         objectNames( SkyObject::COMET ).append( com->name() );
+        objectLists( SkyObject::COMET ).append(QPair<QString, const SkyObject*>(com->name(),com));
     }
 }
 

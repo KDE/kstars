@@ -15,6 +15,9 @@ install( FILES modules/BottomMenu.qml
     modules/TelescopeControlMenu.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules )
 
+install( FILES dialogs/FindDialog.qml
+    DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/dialogs )    
+    
 install( FILES modules/helpers/TopMenuButton.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/helpers )
 

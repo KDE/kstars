@@ -55,6 +55,10 @@ QHash<int, QStringList>& SkyComponent::getObjectNames() {
     return parent()->objectNames();
 }
 
+QHash<int, QVector<QPair<QString, const SkyObject *>>>& SkyComponent::getObjectLists() {
+    return parent()->objectLists();
+}
+
 void SkyComponent::removeFromNames(const SkyObject* obj) {
     QStringList& names = getObjectNames()[obj->type()];
     int i;
@@ -63,6 +67,18 @@ void SkyComponent::removeFromNames(const SkyObject* obj) {
         names.removeAt( i );
 
     i = names.indexOf( obj->longname() );
+    if ( i >= 0 )
+        names.removeAt( i );
+}
+
+void SkyComponent::removeFromLists(const SkyObject* obj) {
+    QVector<QPair<QString, const SkyObject*>>& names = getObjectLists()[obj->type()];
+    int i;
+    i = names.indexOf( QPair<QString, const SkyObject*>(obj->name(), obj) );
+    if ( i >= 0 )
+        names.removeAt( i );
+
+    i = names.indexOf( QPair<QString, const SkyObject*>(obj->longname(),obj) );
     if ( i >= 0 )
         names.removeAt( i );
 }

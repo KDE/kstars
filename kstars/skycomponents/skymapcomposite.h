@@ -22,6 +22,7 @@
 
 #include "skycomposite.h"
 #include "ksnumbers.h"
+#include "skyobject.h"
 
 class SkyMesh;
 class SkyLabeler;
@@ -205,6 +206,10 @@ public:
     const QList<SkyObject*>& asteroids() const;
     const QList<SkyObject*>& comets() const;
     const QList<SkyObject*>& supernovae() const;
+    QList<SkyObject*> planets();
+    QList<SkyObject*> moons();
+
+    const QList<SkyObject*> *getSkyObjectsList(SkyObject::TYPE t);
 
     KSPlanet* earth();
     KSPlanetBase* planet( int n );
@@ -222,6 +227,7 @@ signals:
 
 private:
     virtual QHash<int, QStringList>& getObjectNames();
+    virtual QHash<int, QVector<QPair<QString, const SkyObject*>>>& getObjectLists();
     
     CultureList                 *m_Cultures;
     ConstellationBoundaryLines  *m_CBoundLines;
@@ -254,6 +260,7 @@ private:
 
     QList<SkyObject*>       m_LabeledObjects;
     QHash<int, QStringList> m_ObjectNames;
+    QHash<int, QVector<QPair<QString, const SkyObject*>>> m_ObjectLists;
     QHash<QString, QString> m_ConstellationNames;
 };
 

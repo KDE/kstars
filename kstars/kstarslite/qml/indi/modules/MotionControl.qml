@@ -61,7 +61,7 @@ ColumnLayout {
                 }
             }
 
-            text: "NW"
+            text: xi18n("NW")
         }
 
         Button {
@@ -81,7 +81,7 @@ ColumnLayout {
                 }
             }
 
-            text: "N"
+            text: xi18n("N")
         }
 
         Button {
@@ -103,7 +103,7 @@ ColumnLayout {
                 }
             }
 
-            text: "NE"
+            text: xi18n("NE")
         }
     }
 
@@ -129,7 +129,7 @@ ColumnLayout {
                 }
             }
 
-            text: "W"
+            text: xi18n("W")
         }
 
         Button {
@@ -145,7 +145,7 @@ ColumnLayout {
                 }
             }
 
-            text: "Stop"
+            text: xi18n("Stop")
         }
 
         Button {
@@ -165,7 +165,7 @@ ColumnLayout {
                 }
             }
 
-            text: "E"
+            text: xi18n("E")
         }
     }
 
@@ -191,7 +191,7 @@ ColumnLayout {
                 }
             }
 
-            text: "SW"
+            text: xi18n("SW")
         }
 
         Button {
@@ -200,7 +200,7 @@ ColumnLayout {
             activeFocusOnTab: false
 
 
-            text: "S"
+            text: xi18n("S")
 
             onPressedChanged: {
 
@@ -233,7 +233,7 @@ ColumnLayout {
                 }
             }
 
-            text: "SE"
+            text: xi18n("SE")
         }
     }
 
@@ -263,14 +263,15 @@ ColumnLayout {
                 }
             }
 
-            text: "-"
+            text: xi18n("-")
         }
         Text {
             height: parent.height * 0.15
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
+            color: num.sysPalette.text
 
-            text: "Slewing speed control"
+            text: xi18n("Slewing speed control")
         }
 
         Button {
@@ -293,7 +294,7 @@ ColumnLayout {
                 }
             }
 
-            text: "+"
+            text: xi18n("+")
         }
     }
 }
