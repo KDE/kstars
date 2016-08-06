@@ -279,6 +279,9 @@ void Guide::syncCCDInfo()
 
 void Guide::syncTelescopeInfo()
 {
+    if (currentTelescope == NULL)
+        return;
+
     INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
     if (nvp)
@@ -311,6 +314,9 @@ void Guide::syncTelescopeInfo()
 
 void Guide::updateGuideParams()
 {
+    if (currentCCD == NULL)
+        return;
+
     if (currentCCD->hasGuideHead() == false)
         useGuideHead = false;
 
