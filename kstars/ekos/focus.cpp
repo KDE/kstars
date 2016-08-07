@@ -814,7 +814,10 @@ void Focus::capture()
 
      targetChip->setFrame(fx, fy, fw, fh);
 
-     if (fx != orig_x || fy != orig_y || fw != orig_w || fh != orig_h)
+     if (orig_x == -1)
+         targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
+
+     if (frameModified == false && (fx != orig_x || fy != orig_y || fw != orig_w || fh != orig_h))
          frameModified = true;
 
     captureInProgress = true;
@@ -1108,11 +1111,8 @@ void Focus::newFITS(IBLOB *bp)
 
                 targetChip->setFocusFrame(subX, subY, subW, subH);
 
-                targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
-                /*orig_x = fx;
-                orig_y = fy;
-                orig_w = fw;
-                orig_h = fh;*/
+                //if (orig_x == -1)
+                //    targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
 
                 fx += subX;
                 fy += subY;
@@ -1147,6 +1147,9 @@ void Focus::newFITS(IBLOB *bp)
             //targetImage->updateMode(FITS_GUIDE);
             //targetImage->setTrackingBoxSize(QSize(kcfg_focusBoxSize->value(),kcfg_focusBoxSize->value()));
             //targetImage->setTrackingBoxCenter(QPointF(fw/2, fh/2));
+            //if (orig_x == -1)
+            //    targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
+
             targetImage->setTrackingBox(QRect((fw-kcfg_focusBoxSize->value())/2, (fh-kcfg_focusBoxSize->value())/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
             targetImage->setTrackingBoxEnabled(true);
             connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
@@ -2035,8 +2038,8 @@ void Focus::focusStarSelected(int x, int y)
     targetImage->setTrackingBox(starRect);
     //targetImage->setTrackingBoxEnabled(true);
 
-    state = Ekos::FOCUS_PROGRESS;
-    emit newStatus(state);
+    //state = Ekos::FOCUS_PROGRESS;
+    //emit newStatus(state);
 }
 
 void Focus::checkFocus(double requiredHFR)
