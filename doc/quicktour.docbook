@@ -137,6 +137,29 @@ that the Sun appears to follow across the sky over the course of a
 year.  The Sun is always found somewhere along the Ecliptic, and the
 planets are never far from it.
 </para>
+
+<para>
+You can configure &kstars; to draw or not the celestial equator and Ecliptic curves 
+on the Sky Map using the 
+<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure KStars</guisubmenu></menuchoice> submenu. 
+Select the <guimenu>Guides</guimenu> tab and check/uncheck the <guilabel>Celestial equator</guilabel> 
+and <guilabel>Ecliptic</guilabel> check boxes. You can also configure which colors &kstars; uses for 
+drawing these curves, using the <guimenu>Colors</guimenu> tab.
+</para>
+<screenshot>
+<screeninfo>
+Here is a screenshot of the &kstars; main window, focusing on horizon, 
+celestial equator and Ecliptic curves:
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="kstars_horizon.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>KStars Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
 </sect1>
 
 <sect1 id="skyobjects">
