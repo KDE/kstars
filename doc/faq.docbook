@@ -91,22 +91,6 @@ remove the location's line from that file.
 
 <qandaentry>
 <question>
-<para>Why can I not display the ground when using Equatorial 
-Coordinates?</para>
-</question>
-<answer>
-<para>
-The short answer is, this is a temporary limitation.  There is a
-problem when constructing the filled polygon that represents the ground
-when in Equatorial mode.  However, it does not make too much sense to draw
-the ground in equatorial coordinates, which is why this fix has been given
-a low priority.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
 <para>Why do some objects disappear when I am scrolling the 
 display?</para>
 </question>
