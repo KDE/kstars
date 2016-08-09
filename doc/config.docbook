@@ -627,7 +627,7 @@ and values are not meeting &kstars; expectations (&ie; for Right Ascension: colo
 or floating-point value). Thus, it need to be modified in order to match &kstars; format. 
 For a better understanding on what each column means, you can take a look at 
 <ulink url="ftp://cdsarc.u-strasbg.fr/cats/VII/7A/">the original source</ulink> of the catalog. 
-It contains the raw data file and, in adittion, it contains an useful readme, which will help 
+It contains the raw data file and, in addition, it contains an useful readme, which will help 
 you understand what you should keep and furthermore, what you need to remove from the raw data file. 
 Minimally, the raw data file should contain the following fields:
 <itemizedlist>
@@ -681,7 +681,7 @@ last object, Lynds 1791).
 </listitem>
 
 <listitem><para>
-Open the <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KStars...</guimenuitem></menuchoice> 
+Open the <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &kstars;...</guimenuitem></menuchoice> 
 menu and choose <guilabel>Catalogs</guilabel> tab.
 </para></listitem>
 
@@ -748,7 +748,7 @@ After you set the fields so that they match to your catalog raw file, you can mo
 to the next step: completing the remaining input fields: <guilabel>Coordinate epoch</guilabel>, 
 <guilabel>Catalog name prefix</guilabel>, <guilabel>Catalog name</guilabel> and 
 <guilabel>Save catalog as</guilabel>. You can also choose the <guilabel>Symbol color</guilabel> 
-used for your catalog. There you can specify how the fields are splitted within the raw data 
+used for your catalog. There you can specify how the fields are split within the raw data 
 file: CSV (Comma-separated values) or Space Delimited.
 </para></listitem>
 
