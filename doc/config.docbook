@@ -653,7 +653,7 @@ spreadsheet to convert area to major axis in arcminutes:
 </para>
 
 <para>
-After importing the raw data file into &kstars; and selecting the appropiate columns, &kstars; 
+After importing the raw data file into &kstars; and selecting the appropriate columns, &kstars; 
 shall generate the final catalog file suitable for loading directly into &kstars;. 
 For example, this is a small subset of the content (header + first five objects) of the
 <quote>Dark Nebulae by Lynds</quote> catalog which was created by &kstars; after importing 
