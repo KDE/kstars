@@ -578,15 +578,17 @@ magnitudes are unknown, or not available to &kstars;, are drawn irrespective of 
 </para>
 
 <para>
-The following is a brief tutorial on adding new catalogues to &kstars;. To import a new catalog, download a raw catalog data file where the data columns are space delimited.
-Any lines starting with # shall be ignored. For this example, we shall use the <quote>Lynds Catalog of Dark Nebulae</quote>.
+The following is a brief tutorial on adding new catalogues to &kstars;. To import a 
+new catalog, download a raw catalog data file where the data columns are space delimited.
+Any lines starting with # shall be ignored. For this example, we shall use the 
+<quote>Lynds Catalog of Dark Nebulae</quote>.
 
 <itemizedlist>
 
 <listitem>
 <para>
-Download / write the raw catalog data file (the raw file is the file containing catalog's objects described by a set 
-of parameters, like: ID Number, Right Ascension, Declination and so on). 
+Download / write the raw catalog data file (the raw file is the file containing catalog's 
+objects described by a set of parameters, like: ID Number, Right Ascension, Declination and so on). 
 </para>
 
 <important>
@@ -613,7 +615,11 @@ of parameters, like: ID Number, Right Ascension, Declination and so on).
 The following is a subset of the raw data file:
 
 <programlisting>
-PUT HERE SUBSET
+1 16:26:0 -16:0:0.1 13.943 5
+2 18:4:0 -31:30:0.1 66.813 5
+3 18:0:0 -31:0:0.1 141.986 5
+4 16:59:5 -22:8:0.1 3.795 5
+5 17:13:2 -24:22:0.2 6.573 5
 </programlisting>
 
 Minimally, the raw data file should contain the following fields:
@@ -627,17 +633,24 @@ Minimally, the raw data file should contain the following fields:
 </para>
 
 <para>
-The raw <quote>Dark Nebulae by Lynds</quote> contains only Right Ascension, Declination, and Area (square degrees). Therefore, in order to properly import the catalog
-into &kstars;, the ID and Object Type fields need to be added. You can insert those values manually by your favorite text editor. However, it is recommended to use any spreadsheet application
-to import the raw data file and add the necessary columns. This is especially conveinient for large data sets. Since the original raw data contains an area field which is not supported by &kstars;, we
-need to approximate it to a usable value which is the Major Axis. Therefore, we use the following forumla in the spreadhseet to convert area to major axis in arcmiuntes:
+The raw <quote>Dark Nebulae by Lynds</quote> contains only Right Ascension, Declination 
+and Area (square degrees). Therefore, in order to properly import the catalog 
+into &kstars;, the ID and Object Type fields need to be added. You can insert these values 
+manually using your favorite text editor. However, it is recommended to use any spreadsheet 
+application to import the raw data file and add the necessary columns. This is especially 
+convenient for large data sets. Since the original raw data contains an area field which 
+is not supported by &kstars;, we need to approximate it to a usable value which is the 
+Major Axis. Therefore, we use the following formula in the spreadsheet to convert area 
+to major axis in arcminutes:
 <constant>Major Axis = sqrt(Area) * 60</constant>
 </para>
 
 <para>
-After importing the raw data file into &kstars; and selecting the appropiate columns, &kstars; shall generate the final catalog file suitable for loading directly into &kstars;.
+After importing the raw data file into &kstars; and selecting the appropiate columns, &kstars; 
+shall generate the final catalog file suitable for loading directly into &kstars;. 
 For example, this is a small subset of the content (header + first five objects) of the
-<quote>Dark Nebulae by Lynds</quote> catalog which was created by &kstars; after importing the raw data file which only contains the data columns:
+<quote>Dark Nebulae by Lynds</quote> catalog which was created by &kstars; after importing 
+the raw data file which only contains the data columns:
 </para>
 <programlisting>
 # Delimiter:  
@@ -652,26 +665,29 @@ For example, this is a small subset of the content (header + first five objects)
 4 16:59:5 -22:8:0.1 3.795 5
 5 17:13:2 -24:22:0.2 6.573 5
 </programlisting>
-<para>As seen above, each column was assigned a &kstars; designated header such as the ID, Right Ascension, Declination, Major axis and Object Type fields. Note that the Catalog Prefix (<quote>Lynds</quote>) and the ID field are
-used together for identifying objects in the Sky Map. (&ie; objects from this catalog will have names like: Lynds 1, Lynds 2, 
-Lynds 617 up to the last object, Lynds 1791)
+<para>As seen above, each column was assigned a &kstars; designated header such as the ID, 
+Right Ascension, Declination, Major axis and Object Type fields. Note that the Catalog Prefix 
+(<quote>Lynds</quote>) and the ID field are used together for identifying objects in the Sky Map 
+(&ie; objects from this catalog will have names like: Lynds 1, Lynds 2, Lynds 617 up to the 
+last object, Lynds 1791).
 </para>
 </listitem>
 
 <listitem><para>
-Open the <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KStars...</guimenuitem></menuchoice> menu and 
-choose <guilabel>Catalogs</guilabel> tab.
+Open the <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KStars...</guimenuitem></menuchoice> 
+menu and choose <guilabel>Catalogs</guilabel> tab.
 </para></listitem>
 
 <listitem><para>
-In the Deep-Sky objects section, press the <guibutton>Import Catalog...</guibutton> button. If the button is not 
-available, check the <guibutton>Deep-Sky Catalogs</guibutton> checkbox. This will enable you to configure &kstars; 
-deep-sky objects catalogs.
+In the Deep-Sky objects section, press the <guibutton>Import Catalog...</guibutton> button. 
+If the button is not available, check the <guibutton>Deep-Sky Catalogs</guibutton> checkbox. 
+This will enable you to configure &kstars; deep-sky objects catalogs.
 </para></listitem>
 
 <listitem><para>
-After you press the <guibutton>Import Catalog...</guibutton> button, <guilabel>Import Catalog</guilabel> window 
-will pop up. At first, click on <guibutton>Open file dialog</guibutton> button in order to select the raw data file.
+After you press the <guibutton>Import Catalog...</guibutton> button, 
+<guilabel>Import Catalog</guilabel> window will pop up. At first, click on 
+<guibutton>Open file dialog</guibutton> button in order to select the raw data file.
 <screenshot>
 <screeninfo>Import catalog</screeninfo>
 <mediaobject>
@@ -701,10 +717,12 @@ In the dialog window, find your raw file, select it and then press <guibutton>Op
 </para></listitem>
 
 <listitem><para>
-Now, you need to specify the correct order of the catalog fields within the raw data file. The fields must be added 
-inside <guilabel>Catalog fields</guilabel> list. Note that you can drag fields in order to build the right order or 
-you can use additional fields from <guilabel>Available fields</guilabel> fields. For example, if your raw data file 
-contains a magnitude column, then you need to add Magnitude field to the <guilabel>Catalog fields</guilabel> list.
+Now, you need to specify the correct order of the catalog fields within the raw 
+data file. The fields must be added inside <guilabel>Catalog fields</guilabel> 
+list. Note that you can drag fields in order to build the right order or you can 
+use additional fields from <guilabel>Available fields</guilabel> fields. For 
+example, if your raw data file contains a magnitude column, then you need to add 
+Magnitude field to the <guilabel>Catalog fields</guilabel> list.
 <screenshot>
 <screeninfo>Complete info for new catalog</screeninfo>
 <mediaobject>
@@ -719,26 +737,28 @@ contains a magnitude column, then you need to add Magnitude field to the <guilab
 </para></listitem>
 
 <listitem><para>
-After you set the fields so that they match to your catalog raw file, you can move to the next step: completing the 
-remaining input fields: <guilabel>Coordinate epoch</guilabel>, <guilabel>Catalog name prefix</guilabel> , 
-<guilabel>Catalog name</guilabel> and <guilabel>Save catalog as</guilabel>. You can also choose the 
-<guilabel>Symbol color</guilabel> used for your catalog. There you can specify how the fields are splitted within 
-the raw data file: CSV (Comma-separated values) or Space Delimited.
+After you set the fields so that they match to your catalog raw file, you can move 
+to the next step: completing the remaining input fields: <guilabel>Coordinate epoch</guilabel>, 
+<guilabel>Catalog name prefix</guilabel>, <guilabel>Catalog name</guilabel> and 
+<guilabel>Save catalog as</guilabel>. You can also choose the <guilabel>Symbol color</guilabel> 
+used for your catalog. There you can specify how the fields are splitted within the raw data 
+file: CSV (Comma-separated values) or Space Delimited.
 </para></listitem>
 
 <listitem><para>
-You can preview the output by pressing the <guibutton>Preview Output</guibutton> button. Pay attention to the header 
-fields to have the same order as your catalog fields (&ie; ID RA Dec Major Axis and Object Type)
+You can preview the output by pressing the <guibutton>Preview Output</guibutton> button. 
+Pay attention to the header fields to have the same order as your catalog fields 
+(&ie; ID RA Dec Major Axis and Object Type).
 </para></listitem>
 
 <listitem><para>
-Press <guibutton>OK</guibutton> button to close the <guilabel>Catalog Preview</guilabel> window. Then press 
-<guibutton>OK</guibutton> button again to create and save your catalog.
+Press <guibutton>OK</guibutton> button to close the <guilabel>Catalog Preview</guilabel> window. 
+Then press <guibutton>OK</guibutton> button again to create and save your catalog.
 </para></listitem>
 
 <listitem><para>
-After you successfully imported your catalog, it will be displayed in the catalogs list. You can choose to be displayed 
-or not, by pressing on its checkbox.
+After you successfully imported your catalog, it will be displayed in the catalogs list. 
+You can choose to be displayed or not, by pressing on its checkbox.
 <screenshot>
 <screeninfo>Added Dark Nebulae by Lynds catalog</screeninfo>
 <mediaobject>
@@ -753,7 +773,6 @@ or not, by pressing on its checkbox.
 </para></listitem>
 </itemizedlist>
 </para>
-
 </sect1>
 
 <sect1 id="solar_system">
@@ -827,8 +846,9 @@ the search satellites method that &kstars; provides. You need to enter the name 
 satellites</guilabel> text box and the list will be reduced only to its best matches.
 </para>
 <para>
-You can add new satellites to &kstars; default satellites set by editing the <filename>kstars/data/satellites.dat</filename> file.
-As each line of this file is a group of satellites, you need to add a new entry for your desired satellites group.
+You can add new satellites to &kstars; default satellites set by editing the 
+<filename>kstars/data/satellites.dat</filename> file. As each line of this file is a group of 
+satellites, you need to add a new entry for your desired satellites group.
 An entry should have the following format: <userinput>Group Name;local_filename;url</userinput>.
 For example: <userinput>Iridium;iridium.tle;http://celestrak.com/NORAD/elements/iridium.txt</userinput>.
 </para>
