@@ -652,7 +652,7 @@ For example, this is a small subset of the content (header + first five objects)
 4 16:59:5 -22:8:0.1 3.795 5
 5 17:13:2 -24:22:0.2 6.573 5
 </programlisting>
-<para>As seen above, each column was assigned a &kstars designated header such as the ID, Right Ascension, Declination, Major axis and Object Type fields. Note that the Catalog Prefix (<quote>Lynds</quote>) and the ID field are
+<para>As seen above, each column was assigned a &kstars; designated header such as the ID, Right Ascension, Declination, Major axis and Object Type fields. Note that the Catalog Prefix (<quote>Lynds</quote>) and the ID field are
 used together for identifying objects in the Sky Map. (&ie; objects from this catalog will have names like: Lynds 1, Lynds 2, 
 Lynds 617 up to the last object, Lynds 1791)
 </para>
