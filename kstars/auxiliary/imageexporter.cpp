@@ -27,6 +27,7 @@
 
 /* Qt Includes */
 #include <QTemporaryFile>
+#include <QStatusBar>
 #include <QtSvg/QSvgGenerator>
 
 ImageExporter::ImageExporter( QObject *parent ) : QObject( parent ), m_includeLegend( false ), m_Size( 0 )
