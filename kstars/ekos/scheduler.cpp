@@ -3082,7 +3082,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
         else if (!strcmp(tagXMLEle(ep), "Sequence"))
         {
             sequenceEdit->setText(pcdataXMLEle(ep));
-            sequenceURL = QUrl(sequenceEdit->text());
+            sequenceURL = QUrl::fromUserInput(sequenceEdit->text());
         }
         else if (!strcmp(tagXMLEle(ep), "FITS"))
         {
