@@ -105,12 +105,13 @@ private:
     bool fileIsImage;
     QString filename;
 
-    //KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
-
     FileDownloader downloadJob;
 
     ImageLabel *m_View;
     QLabel     *m_Caption;
+
+    // Share among image viewers
+    static QUrl lastURL;
 
 private slots:
     /** Initialize (common part of onstructors) */

@@ -148,7 +148,7 @@ void SatellitesComponent::updateTLEs()
 
         if (response->error() == QNetworkReply::NoError)
         {
-            QFile file(group->tleFilename().path());
+            QFile file(group->tleFilename().toLocalFile());
             if (file.open(QFile::WriteOnly))
             {
                 file.write(response->readAll());

@@ -789,12 +789,12 @@ void KStars::slotOpenFITS()
     // Reported as fixed in Qt 5.6
     // Emerged Qt 5.5 with patch is not working
     #ifdef Q_OS_WIN
-    if (fileURL.path().startsWith("/"))
-        fileURL.setPath(fileURL.path().right(fileURL.path().count()-1));
+    if (fileURL.toLocalFile().startsWith("/"))
+        fileURL.setPath(fileURL.toLocalFile().right(fileURL.toLocalFile().count()-1));
     #endif
 
     // Remember last directory
-    path.setUrl(fileURL.path());
+    path.setUrl(fileURL.toLocalFile());
 
     FITSViewer * fv = new FITSViewer(this);
     // Error opening file
@@ -819,7 +819,7 @@ void KStars::slotExportImage() {
     }
 
     //Warn user if file exists!
-    if (QFile::exists(fileURL.path()))
+    if (QFile::exists(fileURL.toLocalFile()))
     {
         int r=KMessageBox::warningContinueCancel(parentWidget(),
                 i18n( "A file named \"%1\" already exists. Overwrite it?" , fileURL.fileName()),

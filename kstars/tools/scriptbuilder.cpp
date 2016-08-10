@@ -756,7 +756,7 @@ void ScriptBuilder::slotOpen() {
 
         if ( currentFileURL.isValid() )
         {
-            currentDir = currentFileURL.path();
+            currentDir = currentFileURL.toLocalFile();
 
             ScriptList.clear();
             sb->ScriptListBox->clear();
@@ -819,13 +819,13 @@ void ScriptBuilder::slotSave()
     }
 
     if ( currentFileURL.isValid() ) {
-        currentDir = currentFileURL.path();
+        currentDir = currentFileURL.toLocalFile();
 
         if ( currentFileURL.isLocalFile() ) {
             fname = currentFileURL.toLocalFile();
 
             //Warn user if file exists
-            if (newFilename == true && QFile::exists(currentFileURL.path())) {
+            if (newFilename == true && QFile::exists(currentFileURL.toLocalFile())) {
                 int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
                         i18n( "A file named \"%1\" already exists. "
                               "Overwrite it?" , currentFileURL.fileName()),

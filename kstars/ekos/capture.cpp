@@ -1870,7 +1870,7 @@ void Capture::syncTelescopeInfo()
 
 void Capture::saveFITSDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), dirPath.path());
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), dirPath.toLocalFile());
 
     if (dir.isEmpty())
         return;
@@ -1887,14 +1887,14 @@ void Capture::loadSequenceQueue()
 
     if (fileURL.isValid() == false)
     {
-       QString message = i18n( "Invalid URL: %1", fileURL.path() );
+       QString message = i18n( "Invalid URL: %1", fileURL.toLocalFile() );
        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
        return;
     }
 
     dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
 
-    loadSequenceQueue(fileURL.path());
+    loadSequenceQueue(fileURL.toLocalFile());
 
 }
 
@@ -2169,7 +2169,7 @@ void Capture::saveSequenceQueue()
 {
     QUrl backupCurrent = sequenceURL;
 
-    if (sequenceURL.path().startsWith("/tmp/") || sequenceURL.path().contains("/Temp"))
+    if (sequenceURL.toLocalFile().startsWith("/tmp/") || sequenceURL.toLocalFile().contains("/Temp"))
         sequenceURL.clear();
 
     // If no changes made, return.
@@ -2188,10 +2188,10 @@ void Capture::saveSequenceQueue()
 
         dirPath = QUrl(sequenceURL.url(QUrl::RemoveFilename));
 
-        if (sequenceURL.path().contains('.') == 0)
-            sequenceURL.setPath(sequenceURL.path() + ".esq");
+        if (sequenceURL.toLocalFile().endsWith(".esq") == false)
+            sequenceURL.setPath(sequenceURL.toLocalFile() + ".esq");
 
-        if (QFile::exists(sequenceURL.path()))
+        if (QFile::exists(sequenceURL.toLocalFile()))
         {
             int r = KMessageBox::warningContinueCancel(0,
                         i18n( "A file named \"%1\" already exists. "
@@ -2204,7 +2204,7 @@ void Capture::saveSequenceQueue()
 
     if ( sequenceURL.isValid() )
     {
-        if ( (saveSequenceQueue(sequenceURL.path())) == false)
+        if ( (saveSequenceQueue(sequenceURL.toLocalFile())) == false)
         {
             KMessageBox::error(KStars::Instance(), i18n("Failed to save sequence queue"), i18n("Save"));
             return;

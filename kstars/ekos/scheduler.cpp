@@ -312,7 +312,7 @@ void Scheduler::selectFITS()
 
     setDirty();
 
-    fitsEdit->setText(fitsURL.path());
+    fitsEdit->setText(fitsURL.toLocalFile());
 
     //raBox->clear();
     //decBox->clear();
@@ -334,7 +334,7 @@ void Scheduler::selectSequence()
 
     setDirty();
 
-    sequenceEdit->setText(sequenceURL.path());
+    sequenceEdit->setText(sequenceURL.toLocalFile());
 
     // For object selection, all fields must be filled
     if ( (raBox->isEmpty() == false && decBox->isEmpty() == false && nameEdit->text().isEmpty() == false)
@@ -355,7 +355,7 @@ void Scheduler::selectStartupScript()
     dirPath = QUrl(startupScriptURL.url(QUrl::RemoveFilename));
 
     mDirty=true;
-    startupScript->setText(startupScriptURL.path());
+    startupScript->setText(startupScriptURL.toLocalFile());
 }
 
 void Scheduler::selectShutdownScript()
@@ -367,7 +367,7 @@ void Scheduler::selectShutdownScript()
     dirPath = QUrl(shutdownScriptURL.url(QUrl::RemoveFilename));
 
     mDirty=true;
-    shutdownScript->setText(shutdownScriptURL.path());    
+    shutdownScript->setText(shutdownScriptURL.toLocalFile());
 }
 
 void Scheduler::addJob()
@@ -626,7 +626,7 @@ void Scheduler::loadJob(QModelIndex i)
 
     if (job->getFITSFile().isEmpty() == false)
     {
-        fitsEdit->setText(job->getFITSFile().path());
+        fitsEdit->setText(job->getFITSFile().toLocalFile());
         fitsURL = job->getFITSFile();
     }
     else
@@ -635,7 +635,7 @@ void Scheduler::loadJob(QModelIndex i)
         fitsURL = QUrl();
     }
 
-    sequenceEdit->setText(job->getSequenceFile().path());
+    sequenceEdit->setText(job->getSequenceFile().toLocalFile());
     sequenceURL = job->getSequenceFile();
 
     profileCombo->setCurrentText(job->getProfile());
@@ -2929,14 +2929,14 @@ void Scheduler::load()
 
     if (fileURL.isValid() == false)
     {
-       QString message = i18n( "Invalid URL: %1", fileURL.path() );
+       QString message = i18n( "Invalid URL: %1", fileURL.toLocalFile() );
        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
        return;
     }
 
     dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
 
-    loadScheduler(fileURL.path());
+    loadScheduler(fileURL.toLocalFile());
 }
 
 bool Scheduler::loadScheduler(const QString &fileURL)
@@ -3188,7 +3188,7 @@ void Scheduler::save()
 {
     QUrl backupCurrent = schedulerURL;
 
-    if (schedulerURL.path().startsWith("/tmp/") || schedulerURL.path().contains("/Temp"))
+    if (schedulerURL.toLocalFile().startsWith("/tmp/") || schedulerURL.toLocalFile().contains("/Temp"))
         schedulerURL.clear();
 
     // If no changes made, return.
@@ -3207,10 +3207,10 @@ void Scheduler::save()
 
         dirPath = QUrl(schedulerURL.url(QUrl::RemoveFilename));
 
-        if (schedulerURL.path().contains('.') == 0)
-            schedulerURL.setPath(schedulerURL.path() + ".esl");
+        if (schedulerURL.toLocalFile().contains('.') == 0)
+            schedulerURL.setPath(schedulerURL.toLocalFile() + ".esl");
 
-        if (QFile::exists(schedulerURL.path()))
+        if (QFile::exists(schedulerURL.toLocalFile()))
         {
             int r = KMessageBox::warningContinueCancel(0,
                         i18n( "A file named \"%1\" already exists. "
@@ -3241,11 +3241,11 @@ void Scheduler::save()
 bool Scheduler::saveScheduler(const QUrl &fileURL)
 {
     QFile file;
-    file.setFileName(fileURL.path());
+    file.setFileName(fileURL.toLocalFile());
 
     if ( !file.open( QIODevice::WriteOnly))
     {
-        QString message = i18n( "Unable to write to file %1",  fileURL.path());
+        QString message = i18n( "Unable to write to file %1",  fileURL.toLocalFile());
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         return false;
     }
@@ -3267,9 +3267,9 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
          outstream << "</Coordinates>" << endl;
 
          if (job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
-             outstream << "<FITS>" << job->getFITSFile().path() << "</FITS>" << endl;
+             outstream << "<FITS>" << job->getFITSFile().toLocalFile() << "</FITS>" << endl;
 
-         outstream << "<Sequence>" << job->getSequenceFile().path() << "</Sequence>" << endl;
+         outstream << "<Sequence>" << job->getSequenceFile().toLocalFile() << "</Sequence>" << endl;
 
          outstream << "<StartupCondition>" << endl;
         if (job->getFileStartupCondition() == SchedulerJob::START_ASAP)
@@ -3341,7 +3341,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
 
     outstream << "</SchedulerList>" << endl;
 
-    appendLogText(i18n("Scheduler list saved to %1", fileURL.path()));
+    appendLogText(i18n("Scheduler list saved to %1", fileURL.toLocalFile()));
     file.close();
     return true;
 }
@@ -3576,7 +3576,7 @@ void Scheduler::startCapture()
 {
     captureInterface->call(QDBus::AutoDetect,"clearSequenceQueue");
 
-    QString url = currentJob->getSequenceFile().path();
+    QString url = currentJob->getSequenceFile().toLocalFile();
 
     QList<QVariant> dbusargs;
     dbusargs.append(url);
@@ -3640,7 +3640,7 @@ void Scheduler::setDirty()
 bool Scheduler::estimateJobTime(SchedulerJob *job)
 {
     QFile sFile;
-    sFile.setFileName(job->getSequenceFile().path());
+    sFile.setFileName(job->getSequenceFile().toLocalFile());
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {
@@ -4277,11 +4277,11 @@ void Scheduler::startMosaicTool()
 
         if (saveScheduler(mosaicURL))
         {
-            appendLogText(i18n("Mosaic file %1 saved successfully.", mosaicURL.path()));                                    
+            appendLogText(i18n("Mosaic file %1 saved successfully.", mosaicURL.toLocalFile()));
         }
         else
         {
-            appendLogText(i18n("Error saving mosaic file %1. Please reload job.", mosaicURL.path()));
+            appendLogText(i18n("Error saving mosaic file %1. Please reload job.", mosaicURL.toLocalFile()));
         }
     }
 }
@@ -4289,7 +4289,7 @@ void Scheduler::startMosaicTool()
 XMLEle * Scheduler::getSequenceJobRoot()
 {
     QFile sFile;
-    sFile.setFileName(sequenceURL.path());
+    sFile.setFileName(sequenceURL.toLocalFile());
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {
@@ -4318,7 +4318,7 @@ XMLEle * Scheduler::getSequenceJobRoot()
 bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir)
 {
     QFile sFile;
-    sFile.setFileName(sequenceURL.path());
+    sFile.setFileName(sequenceURL.toLocalFile());
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {

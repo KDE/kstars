@@ -750,7 +750,7 @@ void ObservingList::slotOpenList()
     if ( fileURL.isValid() )
     {
 
-        f.setFileName( fileURL.path() );
+        f.setFileName( fileURL.toLocalFile() );
         //FIXME do we still need to do this?
         /*
         if ( ! fileURL.isLocalFile() ) {
@@ -798,7 +798,7 @@ void ObservingList::slotOpenList()
         //Newly-opened list should not trigger isModified flag
         isModified = false;
         f.close();
-    } else if ( ! fileURL.path().isEmpty() ) {
+    } else if ( ! fileURL.toLocalFile().isEmpty() ) {
         KMessageBox::sorry( 0 , i18n( "The specified file is invalid" ) );
     }
 }
@@ -817,9 +817,12 @@ void ObservingList::saveCurrentList() {
 }
 
 void ObservingList::slotSaveSessionAs(bool nativeSave) {
+    if (sessionList().isEmpty())
+       return;
+
     QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     if ( fileURL.isValid() ) {
-        FileName = fileURL.path();
+        FileName = fileURL.toLocalFile();
         slotSaveSession(nativeSave);
     }
 }
@@ -886,6 +889,12 @@ void ObservingList::slotLoadWishList() {
 }
 
 void ObservingList::slotSaveSession(bool nativeSave) {
+    if (sessionList().isEmpty())
+    {
+        KMessageBox::error(0, i18n("Cannot save an empty session list!"));
+        return;
+    }
+
     if ( FileName.isEmpty() ) {
         slotSaveSessionAs(nativeSave);
         return;

@@ -37,6 +37,8 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
+QUrl ImageViewer::lastURL = QUrl::fromLocalFile(QDir::homePath());
+
 ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
 {
     setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Expanding );
@@ -102,7 +104,7 @@ ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *pare
 
     if (m_ImageUrl.isLocalFile())
     {
-        loadImage(m_ImageUrl.path());
+        loadImage(m_ImageUrl.toLocalFile());
         return;
     }
     
@@ -285,12 +287,12 @@ bool ImageViewer::showImage()
 void ImageViewer::saveFileToDisc()
 {
     QFileDialog dialog;
-    dialog.selectFile(m_ImageUrl.fileName().remove(m_ImageUrl.path()));
-    dialog.setFileMode(QFileDialog::AnyFile);
-    QUrl newURL = dialog.getSaveFileUrl(KStars::Instance(), i18n("Save Image")); // save-dialog with default filename
+
+    QUrl newURL = dialog.getSaveFileUrl(KStars::Instance(), i18n("Save Image"), lastURL); // save-dialog with default filename
     if (!newURL.isEmpty())
     {
-        QFile f (newURL.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path() + '/' +  newURL.fileName());
+        //QFile f (newURL.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).toLocalFile() + '/' +  newURL.fileName());
+        QFile f(newURL.toLocalFile());
         if (f.exists())
         {
             int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
@@ -302,6 +304,9 @@ void ImageViewer::saveFileToDisc()
 
             f.remove();
         }
+
+        lastURL = QUrl(newURL.toString(QUrl::RemoveFilename));
+
         saveFile (newURL);
     }
 }
@@ -314,7 +319,7 @@ void ImageViewer::saveFile (QUrl &url)
     //QUrl tmpURL((file.fileName()));
     //tmpURL.setScheme("file");
 
-    if (file.copy(url.path()) == false)
+    if (file.copy(url.toLocalFile()) == false)
     //if (KIO::file_copy(tmpURL, url)->exec() == false)
     {
         QString text = i18n ("Saving of the image %1 failed.", url.toString());
