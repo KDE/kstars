@@ -836,9 +836,9 @@ void KStars::slotExportImage() {
         //m_ImageExporter = new ImageExporter( this );
 
     if ( !m_ExportImageDialog ) {
-        m_ExportImageDialog = new ExportImageDialog( fileURL.url(), QSize( map()->width(), map()->height() ), KStarsData::Instance()->imageExporter() );
+        m_ExportImageDialog = new ExportImageDialog( fileURL.toLocalFile(), QSize( map()->width(), map()->height() ), KStarsData::Instance()->imageExporter() );
     } else {
-        m_ExportImageDialog->setOutputUrl( fileURL.url() );
+        m_ExportImageDialog->setOutputUrl( fileURL.toLocalFile() );
         m_ExportImageDialog->setOutputSize( QSize ( map()->width(), map()->height() ) );
     }
 
