@@ -1026,19 +1026,19 @@ void Focus::newFITS(IBLOB *bp)
 
         if (currentHFR > 0)
         {
-            /*if (starSelected)
+            // Center tracking box around selected star
+            if (starSelected && inAutoFocus)
             {
                 Edge *maxStarHFR = image_data->getMaxHFRStar();
 
-                int x = qMax(0, static_cast<int>(maxStarHFR->x-maxStarHFR->width));
-                int y = qMax(0, static_cast<int>(maxStarHFR->y-maxStarHFR->width));
-                int w = qMin(image_data->getWidth(), static_cast<long>(maxStarHFR->width*2));
-                int h = qMin(image_data->getHeight(), static_cast<long>(maxStarHFR->width*2));
+                if (maxStarHFR)
+                {
+                    int x = qMax(0, static_cast<int>(maxStarHFR->x-kcfg_focusBoxSize->value()/2));
+                    int y = qMax(0, static_cast<int>(maxStarHFR->y-kcfg_focusBoxSize->value()/2));
 
-                targetImage->setTrackingBox(QRect(x,y,w,h));
-                //targetImage->setTrackingBoxCenter(QPointF(starBoundary.x(),starBoundary.y()));
-                //targetImage->setTrackingBoxSize(QSize(starBoundary.width(), starBoundary.height()));
-            }*/
+                    targetImage->setTrackingBox(QRect(x, y, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
+                }
+            }
 
             if (currentHFR > maxHFR)
                 maxHFR = currentHFR;
