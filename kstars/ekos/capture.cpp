@@ -349,6 +349,7 @@ void Capture::abort()
             emit newStatus(Ekos::CAPTURE_ABORTED);
         }
 
+        activeJob->disconnect(this);
         activeJob->reset();
     }
 
@@ -1770,8 +1771,8 @@ void Capture::setGuideDither(bool enable)
 
 void Capture::setAutoguiding(bool enable)
 {  
-    // If Autoguiding was started before and now stopped, let's abort.
-    if (enable == false && isAutoGuiding && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
+    // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
+    if (enable == false && isAutoGuiding && meridianFlipStage == MF_NONE && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
         appendLogText(i18n("Autoguiding stopped. Aborting..."));
         abort();
