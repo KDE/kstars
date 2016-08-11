@@ -1258,23 +1258,18 @@ void CCD::processBLOB(IBLOB* bp)
                 previewTitle = i18n("Preview");
         }
 
-
         int tabRC = -1;
 
         switch (targetChip->getCaptureMode())
         {
         case FITS_NORMAL:
         {
-            FITSScale actualFilter = captureFilter;
-            if (Options::autoStretch() && captureFilter == FITS_NONE)
-                actualFilter = FITS_AUTO_STRETCH;
-
             if (normalTabID == -1 || Options::singlePreviewFITS() == false)
-                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, actualFilter, previewTitle);
-            else if (fv->updateFITS(&fileURL, normalTabID, actualFilter) == false)
+                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+            else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
             {
                 fv->removeFITS(normalTabID);
-                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, actualFilter, previewTitle);
+                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
             }
             else
                 tabRC = normalTabID;
