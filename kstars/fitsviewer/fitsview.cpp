@@ -409,8 +409,39 @@ int FITSView::rescale(FITSZoom type)
     double val=0;
     double bscale, bzero;
     double min, max;
+    float *image_buffer = image_data->getImageBuffer();
+    float *display_buffer = image_buffer;
     unsigned int size = image_data->getSize();
-    image_data->getMinMax(&min, &max);
+
+    if (Options::autoStretch() && filter != FITS_AUTO_STRETCH)
+    {
+        display_buffer = new float[image_data->getSize() * image_data->getNumOfChannels()];
+        memset(display_buffer, 0, image_data->getSize() * image_data->getNumOfChannels() * sizeof(float));
+
+        float data_min   = image_data->getMean(0) - image_data->getStdDev(0);
+        float data_max   = image_data->getMean(0) + image_data->getStdDev(0) * 3;
+        int   data_w     = image_data->getWidth();
+        int   data_h     = image_data->getHeight();
+
+        for (int i=0; i < image_data->getNumOfChannels(); i++)
+        {
+            int offset = i*size;
+            for (int j=0; j < data_h; j++)
+            {
+                int row = offset + j * data_w;
+                for (int k=0; k < data_w; k++)
+                {
+                    int index=k + row;
+                    display_buffer[index] = qBound(data_min, image_buffer[index], data_max);
+                }
+            }
+        }
+
+        min = data_min;
+        max = data_max;
+    }
+    else
+        image_data->getMinMax(&min, &max);
 
     calculateMaxPixel(min, max);
 
@@ -442,8 +473,6 @@ int FITSView::rescale(FITSZoom type)
         currentWidth  = display_image->width();
         currentHeight = display_image->height();
 
-        float *image_buffer = image_data->getImageBuffer();
-
         if (image_data->getNumOfChannels() == 1)
         {
             /* Fill in pixel values using indexed map, linear scale */
@@ -453,7 +482,7 @@ int FITSView::rescale(FITSZoom type)
 
                 for (int i = 0; i < image_width; i++)
                 {
-                    val = image_buffer[j * image_width + i];
+                    val = display_buffer[j * image_width + i];
                     if (gammaValue > 0)
                         val = qBound(minPixel, val, maxGammaPixel);
                     scanLine[i]= (val * bscale + bzero);
@@ -471,9 +500,9 @@ int FITSView::rescale(FITSZoom type)
 
                 for (int i = 0; i < image_width; i++)
                 {
-                    rval = image_buffer[j * image_width + i];
-                    gval = image_buffer[j * image_width + i + size];
-                    bval = image_buffer[j * image_width + i + size * 2];
+                    rval = display_buffer[j * image_width + i];
+                    gval = display_buffer[j * image_width + i + size];
+                    bval = display_buffer[j * image_width + i + size * 2];
                     if (gammaValue > 0)
                     {
                         rval = qBound(minPixel, rval, maxGammaPixel);
@@ -493,6 +522,9 @@ int FITSView::rescale(FITSZoom type)
 
     }
 
+    if (display_buffer != image_buffer)
+        delete (display_buffer);
+
     switch (type)
     {
     case ZOOM_FIT_WINDOW:
@@ -511,8 +543,6 @@ int FITSView::rescale(FITSZoom type)
 
             if (currentZoom <= ZOOM_MIN)
                 emit actionUpdated("view_zoom_out", false);
-
-
         }
         else
         {
