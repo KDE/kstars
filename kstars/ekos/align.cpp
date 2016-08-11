@@ -759,7 +759,7 @@ void Align::newFITS(IBLOB *bp)
             if (haveDarkFrame)
                 previewData->subtract(darkBuffer);
 
-            previewData->applyFilter(FITS_AUTO_STRETCH);
+            //previewData->applyFilter(FITS_AUTO_STRETCH);
             previewImage->rescale(ZOOM_KEEP_LEVEL);
             previewImage->updateFrame();
         }
