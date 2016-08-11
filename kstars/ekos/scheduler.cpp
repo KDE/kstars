@@ -310,18 +310,15 @@ void Scheduler::selectFITS()
 
     dirPath = QUrl(fitsURL.url(QUrl::RemoveFilename));
 
-    setDirty();
-
     fitsEdit->setText(fitsURL.toLocalFile());
-
-    //raBox->clear();
-    //decBox->clear();
 
     if (nameEdit->text().isEmpty())
         nameEdit->setText(fitsURL.fileName());
 
     addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
     mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
+
+    setDirty();
 }
 
 void Scheduler::selectSequence()
@@ -331,8 +328,6 @@ void Scheduler::selectSequence()
         return;
 
     dirPath = QUrl(sequenceURL.url(QUrl::RemoveFilename));
-
-    setDirty();
 
     sequenceEdit->setText(sequenceURL.toLocalFile());
 
@@ -344,6 +339,8 @@ void Scheduler::selectSequence()
                 addToQueueB->setEnabled(true);
                 mosaicB->setEnabled(true);
     }
+
+    setDirty();
 }
 
 void Scheduler::selectStartupScript()
@@ -4112,7 +4109,7 @@ void Scheduler::checkCapParkingStatus()
         if (startupState == STARTUP_UNPARKING_CAP)
         {
            startupState = STARTUP_COMPLETE;
-           appendLogText(i18n("Cap unparked."));           
+           appendLogText(i18n("Cap unparked."));
         }
          break;
 
@@ -4137,7 +4134,7 @@ void Scheduler::checkCapParkingStatus()
 }
 
 void Scheduler::startJobEvaluation()
-{    
+{
     jobEvaluationOnly = true;
     if (Dawn < 0)
         calculateDawnDusk();
@@ -4216,7 +4213,7 @@ void Scheduler::startMosaicTool()
     center.setDec0(dec);
 
     mosaicTool.setCenter(center);
-    mosaicTool.calculateFOV();    
+    mosaicTool.calculateFOV();
     mosaicTool.adjustSize();
 
     int batchCount=1;
@@ -4273,7 +4270,7 @@ void Scheduler::startMosaicTool()
         }
 
         QUrl mosaicURL;
-        mosaicURL.setPath(QString("%1/%2_mosaic.esl").arg(outputDir).arg(targetName));        
+        mosaicURL.setPath(QString("%1/%2_mosaic.esl").arg(outputDir).arg(targetName));
 
         if (saveScheduler(mosaicURL))
         {
