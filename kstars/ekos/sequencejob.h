@@ -163,7 +163,7 @@ private:
     int count;
     int delay;    
     bool preview;
-    bool filterReady, temperatureReady, filterPostFocusReady;
+    bool filterReady, temperatureReady, filterPostFocusReady, prepareReady;
     bool enforceTemperature;
     int isoIndex;
     int captureRetires;
