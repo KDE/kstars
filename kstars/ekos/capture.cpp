@@ -2541,9 +2541,9 @@ int Capture::getJobRemainingTime(SequenceJob *job)
     int remaining=0;
 
     if (job->getStatus() == SequenceJob::JOB_BUSY)
-        remaining += (job->getExposure() + job->getDelay()) * (job->getCount() - job->getCompleted()) + job->getExposeLeft();
+        remaining += (job->getExposure() + job->getDelay()/1000) * (job->getCount() - job->getCompleted()) + job->getExposeLeft();
     else
-        remaining += (job->getExposure() + job->getDelay()) * (job->getCount() - job->getCompleted());
+        remaining += (job->getExposure() + job->getDelay()/1000) * (job->getCount() - job->getCompleted());
 
     return remaining;
 }
