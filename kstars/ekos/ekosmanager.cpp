@@ -84,6 +84,7 @@ EkosManager::EkosManager()
 
     captureProgress->setValue(0);
     sequenceProgress->setValue(0);
+    sequenceProgress->setDecimals(0);
     sequenceProgress->setFormat("%v");
     countdownTimer.setInterval(1000);
     connect(&countdownTimer, SIGNAL(timeout()), this, SLOT(updateCaptureCountDown()));
@@ -1415,7 +1416,7 @@ void EkosManager::initFocus()
     int index = toolsWidget->addTab( focusProcess, QIcon(":/icons/ekos_focus.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Focus"));
     connect(focusProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
-    connect(focusProcess, SIGNAL(statusUpdated(bool)), this, SLOT(updateFocusStatus(bool)));
+    connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(updateFocusStatus(Ekos::FocusState)));
     connect(focusProcess, SIGNAL(newStarPixmap(QPixmap&)), this, SLOT(updateFocusStarPixmap(QPixmap&)));
     connect(focusProcess, SIGNAL(newProfilePixmap(QPixmap&)), this, SLOT(updateFocusProfilePixmap(QPixmap&)));
 
@@ -1834,7 +1835,8 @@ void EkosManager::updateCaptureImage(QImage *image, Ekos::SequenceJob *job)
 
     if (job->isPreview() == false)
     {
-        sequenceLabel->setText(QString("# %1/%2 %3").arg(captureProcess->getActiveJobID()+1).arg(captureProcess->getJobCount()).arg(job->getPrefix()));
+        sequenceLabel->setText(QString("Job # %1/%2 %3 (%4/%5)").arg(captureProcess->getActiveJobID()+1).arg(captureProcess->getJobCount()).arg(job->getPrefix())
+                               .arg(job->getCompleted()+1).arg(job->getCount()));
         sequenceProgress->setRange(0, job->getCount());
         sequenceProgress->setValue(static_cast<int>(job->getCompleted()+1));
     }
@@ -1878,17 +1880,17 @@ void EkosManager::updateFocusProfilePixmap(QPixmap &profilePixmap)
     focusProfileImage->setToolTip(QString("<img src='%1'>").arg(focusProfileFile.fileName()));
 }
 
-void EkosManager::updateFocusStatus(bool status)
+void EkosManager::updateFocusStatus(Ekos::FocusState status)
 {
-    if (status)
-    {
-        focusStatus->setText(i18n("In Progress"));
+    focusStatus->setText(Ekos::getFocusStatusString(status));
+
+    if (status >= Ekos::FOCUS_PROGRESS)
+    {        
         if (focusPI->isAnimated() == false)
             focusPI->startAnimation();
     }
     else
     {
-        focusStatus->setText(i18n("Stopped"));
         if (focusPI->isAnimated())
             focusPI->stopAnimation();
     }
