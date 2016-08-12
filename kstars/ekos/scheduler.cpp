@@ -827,7 +827,10 @@ void Scheduler::stop()
             }
 
             if (job->getState() <= SchedulerJob::JOB_BUSY)
+            {
                 job->setState(SchedulerJob::JOB_ABORTED);
+                job->setStartupCondition(job->getFileStartupCondition());
+            }
         }
 
     }
