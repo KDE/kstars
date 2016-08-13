@@ -8,21 +8,6 @@
 
 <qandaentry>
 <question>
-<para>What is the &kstars; Icon?</para>
-</question>
-<answer>
-<para>
-The <guiicon>&kstars; Icon</guiicon> is a sextant, a handheld telescope which
-was used by navigators on sailing ships back when the stars were important for
-navigation. By carefully reckoning the positions of the stars, the navigator
-could get an accurate estimate of the ship's current <link
-linkend="ai-geocoords">longitude and latitude</link>.
-</para>
-</answer>
-</qandaentry>
-
-<qandaentry>
-<question>
 <para>What do the different symbols for deep-sky objects mean?</para>
 </question>
 <answer>
@@ -76,15 +61,33 @@ coordinates.
 <qandaentry>
 <question>
 <para>
+How can I add a new custom location to &kstars;?
+</para>
+</question>
+<answer>
+<para>
+If you would like to use a location that is not on the list, enter the
+relevant information (longitude, latitude, city name, province name, and
+country name), then press <guibutton>Add to list</guibutton> button. 
+All fields must be filled, except the optional province field.
+You can also modify the values for an existing city, by simply changing 
+the values in the window, and adding it to the list.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
 I have added a custom location to &kstars; that I no longer want.  How
 do I remove it from the program?
 </para>
 </question>
 <answer>
 <para>
-You will have to edit the 
-<filename>~/.kde/share/apps/kstars/mycities.dat</filename> file, and
-remove the location's line from that file.
+You can easily remove a custom location from &kstars; by selecting it in the 
+cities list and pressing the <guibutton>Remove City</guibutton> button. 
+Note that you can not remove a &kstars; default city.
 </para>
 </answer>
 </qandaentry>
