@@ -131,7 +131,7 @@ void SequenceJob::prepareCapture()
     }
 
 
-    if (enforceTemperature && targetTemperature != currentTemperature)
+    if (enforceTemperature && fabs(targetTemperature - currentTemperature) > Options::maxTemperatureDiff())
     {
         temperatureReady = false;
         activeCCD->setTemperature(targetTemperature);
