@@ -1,10 +1,9 @@
-import QtQuick 2.4
+import QtQuick 2.6
 import QtQuick.Window 2.2
 import "../modules"
 import "../constants" 1.0
 import QtQuick.Layouts 1.2
-import QtQuick.Controls 1.4 as Controls
-import org.kde.kirigami 1.0 as Kirigami
+import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2 as Dialogs
 
 KSPage {
@@ -24,13 +23,13 @@ KSPage {
             anchors {
                 top: parent.top
                 left: parent.left
-                margins: 10 * num.dp
+             //   margins: 10 * num.dp
             }
             Layout.fillWidth: true
 
             spacing: 5 * num.dp
 
-            Controls.Button {
+            Button {
                 text: "Save As"
 
                 onClicked: {
@@ -54,39 +53,42 @@ KSPage {
             }
         }
 
-    }
+        Connections {
+            target: ClientManagerLite
 
-    Connections {
-        target: ClientManagerLite
-        onNewINDIBLOBImage: {
-            if(imagePreview.deviceName == deviceName) {
-                image.source = "image://images/ccdPreview"
-                imagePreview.showPage()
-            }
-        }
-        onCreateINDIButton: {
-            if(imagePreview.deviceName == deviceName) {
-                if(propName == "UPLOAD_MODE") {
-                    if(imagePreview.buttonRow == null) {
-                        var buttonRowComp = Qt.createComponent("modules/KSButtonsSwitchRow.qml");
-                        imagePreview.buttonRow = buttonRowComp.createObject(saveButtons)
-                        imagePreview.buttonRow.deviceName = deviceName
-                        imagePreview.buttonRow.propName = propName
-                        imagePreview.buttonRow.exclusive = exclusive
-                    }
-                    imagePreview.buttonRow.addButton(propText, switchName, checked, enabled)
+            onNewINDIBLOBImage: {
+                if(imagePreview.deviceName == deviceName) {
+                    image.source = "image://images/ccdPreview"
+                    stackView.push(imagePreview)
                 }
             }
-        }
-        onRemoveINDIProperty: {
-            if(imagePreview.deviceName == deviceName) {
-                if(propName == "UPLOAD_MODE") {
-                    if(imagePreview.buttonRow != null) {
-                        imagePreview.buttonRow.destroy()
-                        imagePreview.buttonRow = null
+
+            onCreateINDIButton: {
+                if(imagePreview.deviceName == deviceName) {
+                    if(propName == "UPLOAD_MODE") {
+                        if(imagePreview.buttonRow == null) {
+                            var buttonRowComp = Qt.createComponent("modules/KSButtonsSwitchRow.qml");
+                            imagePreview.buttonRow = buttonRowComp.createObject(saveButtons)
+                            imagePreview.buttonRow.deviceName = deviceName
+                            imagePreview.buttonRow.propName = propName
+                            imagePreview.buttonRow.exclusive = exclusive
+                        }
+                        imagePreview.buttonRow.addButton(propText, switchName, checked, enabled)
                     }
                 }
             }
+
+            onRemoveINDIProperty: {
+                if(imagePreview.deviceName == deviceName) {
+                    if(propName == "UPLOAD_MODE") {
+                        if(imagePreview.buttonRow != null) {
+                            imagePreview.buttonRow.destroy()
+                            imagePreview.buttonRow = null
+                        }
+                    }
+                }
+            }
         }
+
     }
 }

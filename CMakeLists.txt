@@ -10,7 +10,12 @@ if(BUILD_KSTARS_LITE)
 endif(BUILD_KSTARS_LITE)
 # minimal requirements
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
-set (QT_MIN_VERSION "5.4.0")
+
+if(BUILD_KSTARS_LITE)
+    set (QT_MIN_VERSION "5.7.0") #QtQuickControls 2 is available only in the Qt 5.7.0
+else()
+    set (QT_MIN_VERSION "5.4.0")
+endif()
 
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -27,7 +32,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 
 if(BUILD_KSTARS_LITE)
-    find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Network Sensors)
+    find_package(Qt5 5.7 REQUIRED COMPONENTS Gui Qml Quick QuickControls2 Xml Svg Sql Network Sensors)
 else()
     find_package(Qt5 5.4 REQUIRED COMPONENTS Gui Qml Quick Xml Sql Svg Network PrintSupport)
 endif()
@@ -79,7 +84,7 @@ add_definitions(${EIGEN_DEFINITIONS})
 include_directories(${EIGEN3_INCLUDE_DIR})
 
 if(BUILD_KSTARS_LITE)
-    find_package(CFitsio REQUIRED)
+    find_package(CFitsio) #REQUIRED)
 else()
     find_package(CFitsio)
 endif()

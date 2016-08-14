@@ -7,7 +7,6 @@ install( FILES INDIControlPanel.qml
 install( FILES modules/MotionControl.qml
     modules/Led.qml
     modules/Property.qml
-    modules/KSTab.qml
     modules/KSLed.qml
     modules/KSButtonSwitch.qml
     modules/KSButtonsSwitchRow.qml

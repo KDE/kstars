@@ -33,6 +33,8 @@
 #include "auxiliary/kspaths.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
+#else
+#include "kstarslite.h"
 #endif
 #include "skylabeler.h"
 #include "skypainter.h"

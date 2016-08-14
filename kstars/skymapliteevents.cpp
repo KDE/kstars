@@ -31,7 +31,7 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
         return;
 
     if ( !midMouseButtonDown && e->button() == Qt::MidButton ) {
-        //y0 = 0.5*height() - e->y();  //record y pixel coordinate for middle-button zooming
+        y0 = 0.5*height() - e->y();  //record y pixel coordinate for middle-button zooming
         midMouseButtonDown = true;
     }
 
@@ -74,9 +74,9 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
             } else {*/
             // Show popup menu
             if( clickedObject() ) {
-                emit objectChanged();
+                emit objectLiteChanged();
             } else {
-                emit positionChanged();
+                emit pointLiteChanged();
                 /* pmenu->createEmptyMenu( clickedPoint() );
                     pmenu->popup( QCursor::pos() );*/
             }
@@ -89,7 +89,7 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
 
 void SkyMapLite::mouseReleaseEvent( QMouseEvent * ) {
     /*if ( ZoomRect.isValid() ) {
-        //stopTracking();
+        stopTracking();
         SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
         setFocus( &newcenter );
         setDestination( newcenter );
@@ -99,7 +99,7 @@ void SkyMapLite::mouseReleaseEvent( QMouseEvent * ) {
         float factor = float(width()) / float(ZoomRect.width());
         setZoomFactor( Options::zoomFactor() * factor );
     }*/
-    //setDefaultMouseCursor();
+    setDefaultMouseCursor();
     ZoomRect = QRect(); //invalidate ZoomRect
 
     /*if(m_previewLegend) {
@@ -171,7 +171,7 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
     //determine RA, Dec of mouse pointer
     m_MousePoint = projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() );
     double dyPix = 0.5*height() - e->y();
-    /*if ( midMouseButtonDown ) { //zoom according to y-offset
+    if ( midMouseButtonDown ) { //zoom according to y-offset
         float yoff = dyPix - y0;
         if (yoff > 10 ) {
             y0 = dyPix;
@@ -181,14 +181,14 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
             y0 = dyPix;
             slotZoomOut();
         }
-    }*/
+    }
 
     if ( mouseButtonDown ) {
         // set the mouseMoveCursor and set slewing=true, if they are not set yet
         if( !mouseMoveCursor ) setMouseMoveCursor();
         if( !slewing ) {
             slewing = true;
-            //stopTracking(); //toggle tracking off
+            stopTracking(); //toggle tracking off
         }
 
         //Update focus such that the sky coords at mouse cursor remain approximately constant
@@ -292,8 +292,9 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         }
 
         //Get the angle between two vectors
-        double delta = new_atan - old_atan;
+        /*double delta = new_atan - old_atan;
 
+        //Rotation is under construction
         if(rotation() > 360) {
             setRotation(0);
         } else if(rotation() < 0) {
@@ -303,7 +304,7 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         //Scale the angle to speed up the rotation
         delta *= 100;
         setRotation(rotation() + delta);
-        //update(); //Apply rotation
+        //update(); //Apply rotation*/
 
         //Allow movement of SkyMapLite while rotating or zooming
         QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, pinchCenter,
@@ -366,9 +367,9 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
                 if( obj ) setClickedPoint( obj );
 
                 if( clickedObject() ) {
-                    emit objectChanged();
+                    emit objectLiteChanged();
                 } else {
-                    emit positionChanged();
+                    emit pointLiteChanged();
                 }
             }
         }
@@ -421,6 +422,13 @@ void SkyMapLite::setMagLim(double magLim) {
         //printf("maglim set to %3.1f\n", m_magLim);
         forceUpdate();
     }
+}
+
+void SkyMapLite::stopTracking() {
+    KStarsLite* kstars = KStarsLite::Instance();
+    emit positionChanged();
+    if( kstars && Options::isTracking() )
+        kstars->slotTrack();
 }
 
 void SkyMapLite::incMagLimit( const int modifier ) {

@@ -20,15 +20,15 @@ void KStarsLite::datainitFinished() {
              map(), SLOT( slotClockSlewing() ) );
 
     connect( data(),   SIGNAL(skyUpdate(bool)),            map(),  SLOT( forceUpdateNow() ) );
-    //connect( m_TimeStepBox, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
-    //connect( m_TimeStepBox, SIGNAL( scaleChanged(float) ), data()->clock(), SLOT( setClockScale( float )) );
-    //connect( m_TimeStepBox, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
+    connect( this, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
+    connect( this, SIGNAL( scaleChanged(float) ), data()->clock(), SLOT( setClockScale( float )) );
+    connect( this, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning ) data()->clock()->start();
 
     //Propagate config settings
-    // applyConfig( false );
+    applyConfig( false );
 
     //Initialize focus
     initFocus();

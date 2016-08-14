@@ -39,7 +39,7 @@ void AsteroidsItem::recreateList() {
     foreach(SkyObject *asteroid, m_asteroidsList) {
         KSAsteroid *ast = static_cast<KSAsteroid *>(asteroid);
         if (ast->image().isNull() == false) {
-            appendChildNode(new PlanetNode(ast, rootNode()));
+            appendChildNode(new PlanetNode(ast, rootNode(), labelType()));
         } else {
             appendChildNode(new PointSourceNode(ast, rootNode(),labelType()));
         }

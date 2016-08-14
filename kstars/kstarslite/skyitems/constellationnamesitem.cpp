@@ -42,8 +42,6 @@ ConstellationNamesItem::ConstellationNamesItem(ConstellationNamesComponent *cons
 }
 
 void ConstellationNamesItem::update() {
-    if ( ! m_constelNamesComp->selected() )
-        return;
     if( !m_constelNamesComp->selected() )  {
         hide();
         rootNode()->labelsItem()->hideLabels(labelType());

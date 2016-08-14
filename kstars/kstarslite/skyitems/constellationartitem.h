@@ -46,6 +46,18 @@ public:
      */
     void update() override;
 
+    /**
+     * @short deleteNodes deletes constellation art data and ConstellationArtNodes
+     * @see ConstellationArtComponent::deleteData()
+     */
+    void deleteNodes();
+
+    /**
+     * @short loadNodes loads constellation art data and creates ConstellationArtNodes
+     * @see ConstellationArtComponent::loadData()
+     */
+    void loadNodes();
+
 private:
     ConstellationArtComponent *m_artComp;
 };

@@ -28,10 +28,9 @@
 #include "skymesh.h"
 #include "rootnode.h"
 
-DSOIndexNode::DSOIndexNode(DeepSkyIndex *index, LabelsItem::label_t labelType, QString colorString)
-    :m_index(index), m_trixels(new QSGNode), m_labelType(labelType)
+DSOIndexNode::DSOIndexNode(DeepSkyIndex *index, LabelsItem::label_t labelType, QString color)
+    :m_index(index), m_trixels(new QSGNode), m_labelType(labelType), schemeColor(color)
 {
-    m_color = KStarsData::Instance()->colorScheme()->colorNamed( colorString );
     appendChildNode(m_trixels);
 }
 
@@ -114,6 +113,7 @@ void DeepSkyItem::update() {
         hide();
         return;
     }
+    show();
 
     bool drawFlag;
 
@@ -124,7 +124,7 @@ void DeepSkyItem::update() {
     drawFlag = Options::showMessier() &&
             ! ( Options::hideOnSlew() && Options::hideMessier() && SkyMapLite::IsSlewing() );
 
-    updateDeepSkyNode(m_Messier, drawFlag, "MessColor", &region, Options::showMessierImages() );
+    updateDeepSkyNode(m_Messier, drawFlag, &region, Options::showMessierImages() );
 
     /*QSGNode *n = m_Messier->m_trixels->firstChild();
     while(n != 0) {
@@ -135,7 +135,7 @@ void DeepSkyItem::update() {
     drawFlag = Options::showNGC() &&
             ! ( Options::hideOnSlew() && Options::hideNGC() && SkyMapLite::IsSlewing() );
 
-    updateDeepSkyNode(m_NGC, drawFlag, "NGCColor", &region );
+    updateDeepSkyNode(m_NGC, drawFlag, &region );
 
     /*n = m_NGC->m_trixels->firstChild();
     while(n != 0) {
@@ -146,7 +146,7 @@ void DeepSkyItem::update() {
     drawFlag = Options::showIC() &&
             ! ( Options::hideOnSlew() && Options::hideIC() && SkyMapLite::IsSlewing() );
 
-    updateDeepSkyNode(m_IC, drawFlag, "ICColor", &region );
+    updateDeepSkyNode(m_IC, drawFlag, &region );
 
     /*n = m_IC->m_trixels->firstChild();
     while(n != 0) {
@@ -157,7 +157,7 @@ void DeepSkyItem::update() {
     drawFlag = Options::showOther() &&
             ! ( Options::hideOnSlew() && Options::hideOther() && SkyMapLite::IsSlewing() );
 
-    updateDeepSkyNode(m_other, drawFlag, "NGCColor", &region );
+    updateDeepSkyNode(m_other, drawFlag, &region );
 
     /*n = m_other->m_trixels->firstChild();
     while(n != 0) {
@@ -168,8 +168,7 @@ void DeepSkyItem::update() {
     qDebug() << count << "DSO";*/
 }
 
-void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, const QString& colorString,
-                                    MeshIterator *region, bool drawImage)
+void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, MeshIterator *region, bool drawImage)
 {
     if ( ! ( drawObject || drawImage ) ) {
         indexNode->hide();
@@ -184,6 +183,8 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, co
 
     UpdateID updateID = data->updateID();
     UpdateID updateNumID = data->updateNumID();
+
+    QColor schemeColor = data->colorScheme()->colorNamed(indexNode->schemeColor);
 
     //WARNING: CHECK COLOR
     /*skyp->setPen( data->colorScheme()->colorNamed( colorString ) );
@@ -319,7 +320,7 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, co
                         *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
                     } else {
                         if(sizeCriterion && magCriterion) {
-
+                            dsoNode->setColor(schemeColor,trixel);
                             dsoNode->update(drawImage, drawLabel);
                         } else {
                             dsoNode->hide();
@@ -333,7 +334,7 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, co
                         bool visible = false;
                         pos = projector->toScreen(dsoObj,true,&visible);
                         if( visible && projector->onScreen(pos) ) {
-                            DSOSymbolNode *dsoSymbol = new DSOSymbolNode(dsoObj, indexNode->m_color);
+                            DSOSymbolNode *dsoSymbol = new DSOSymbolNode(dsoObj, schemeColor);
                             trixel->m_symbols->appendChildNode(dsoSymbol);
 
                             DeepSkyNode *dsoNode = new DeepSkyNode(dsoObj, dsoSymbol, trixel->trixelID(), indexNode->m_labelType);

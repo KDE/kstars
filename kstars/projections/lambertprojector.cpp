@@ -21,6 +21,7 @@
 
 LambertProjector::LambertProjector(const ViewParams& p) : Projector(p)
 {
+    updateClipPoly();
 }
 
 Projector::Projection LambertProjector::type() const

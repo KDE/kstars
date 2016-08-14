@@ -1,38 +1,55 @@
-import QtQuick 2.0
+import QtQuick 2.6
+import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import "../../constants/" 1.0
 
-Item {
+AbstractButton {
+    id: button
     property string iconSrc: ""
-    width: iconRect.width
-    height: iconRect.height
+    width: icon.width + 5
+    height: icon.height + 5
+    property bool toggled: false
+
+    onClicked: {
+        toggled = !toggled
+    }
+
 
     Image {
         id: icon
         source: iconSrc
-        visible: false
+        width: sourceSize.width/num.pixelRatio
+        height: sourceSize.height/num.pixelRatio
+        anchors.centerIn: iconRect
     }
 
-    Rectangle {
-        width: iconRect.width + num.dp * 3
-        height: iconRect.height + num.dp *3
-        color: "gray"
-
+    background: Rectangle {
+        id: iconRect
         radius: 5
-        Rectangle {
-            id: iconRect
-            width: icon.width
-            height: icon.height
-            radius: 5
-            anchors.centerIn: parent
-            color: "black"
+        anchors {
+            fill: parent
         }
-        OpacityMask {
-            anchors.fill: iconRect
-            source: icon
-            maskSource: iconRect
+        color: "black"
+        border {
+            color: toggled ? num.sysPalette.highlight : "grey"
+            width: 1
         }
     }
 
+    onDownChanged: {
+        if(down) opacity = 0.6
+        else opacity = 1
+    }
 
+    onPressed: {
+        opacity = 0.6
+    }
+
+    onReleased: {
+        opacity = 1
+    }
+
+    Behavior on opacity {
+        OpacityAnimator { duration: 100 }
+    }
 }

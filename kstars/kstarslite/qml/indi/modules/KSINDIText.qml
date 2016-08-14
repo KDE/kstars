@@ -1,7 +1,7 @@
-import QtQuick 2.4
+import QtQuick 2.6
+import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.2
 import "../../constants" 1.0
-import org.kde.kirigami 1.0 as Kirigami
 
 Column {
     id: columnTextProp
@@ -10,9 +10,8 @@ Column {
     spacing: 5 * num.dp
     property string propLabel: ""
 
-    Kirigami.Label {
+    Label {
         text: propLabel
-        color: num.sysPalette.text
     }
 
     Rectangle {
@@ -33,11 +32,10 @@ Column {
                 textItem.textField.text = propText
                 textItem.isNumber = isNumber
         } else {
-                textItem = Qt.createQmlObject('import QtQuick 2.4
+                textItem = Qt.createQmlObject('import QtQuick 2.6
                                         import QtQuick.Layouts 1.2
                                         import "../../constants" 1.0
                                     Text {
-                                        color: num.sysPalette.text
                                     }', this)
                 textItem.text = propText
         }

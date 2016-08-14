@@ -28,7 +28,7 @@ class QSortFilterProxyModel;
 class SkyObjectListModel;
 
 /** @class FindDialogLite
- * A backend of dialog decleared in QML.
+ * A backend of dialog declared in QML.
  *
  * @short Backend for Find Object Dialog in QML
  * @author Artem Fedoskin, Jason Harris
@@ -38,9 +38,6 @@ class FindDialogLite : public QObject {
     Q_OBJECT
     Q_PROPERTY(QStringList filterModel READ getFilterModel NOTIFY filterModelChanged)
 public:
-    /**Constructor. Creates all widgets and packs them in QLayouts.  Connects
-     * Signals and Slots.  Runs initObjectList().
-     */
     explicit FindDialogLite();
 
     /** Destructor */
@@ -72,9 +69,6 @@ public slots:
     void slotOk();
 
 private slots:
-    /** Set the selected item to the first item in the list */
-    //void initSelection();
-
     void enqueueSearch();
 
     void slotDetails();

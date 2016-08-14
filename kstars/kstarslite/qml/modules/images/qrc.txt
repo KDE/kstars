@@ -1,0 +1,13 @@
+<file alias="appointment-new.png">images/ldpi/icons/appointment-new.png</file>
+<file alias="compass.png">images/ldpi/icons/compass.png</file>
+<file alias="games-config-custom.png">images/ldpi/icons/games-config-custom.png</file>
+<file alias="appointment-new.png">images/ldpi/icons/appointment-new.png</file>
+<file alias="compass.png">images/ldpi/icons/compass.png</file>
+<file alias="sc-actions-kstars_hgrid.png">images/ldpi/icons/sc-actions-kstars_hgrid.png</file>
+<file alias="satellites.png">images/ldpi/icons/satellites.png</file>
+<file alias="supernovae.png">images/ldpi/icons/supernovae.png</file>
+<file alias="satellites.png">images/ldpi/icons/satellites.png</file>
+<file alias="supernovae.png">images/ldpi/icons/supernovae.png</file>
+<file alias="satellites.png">images/ldpi/icons/satellites.png</file>
+<file alias="supernovae.png">images/ldpi/icons/supernovae.png</file>
+<file alias="constellationart.png">images/ldpi/icons/constellationart.png</file>

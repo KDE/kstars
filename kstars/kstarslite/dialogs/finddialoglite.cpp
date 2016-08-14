@@ -22,6 +22,7 @@
 #include "skycomponents/starcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skymaplite.h"
+#include "kstarslite.h"
 
 #include "solarsystemcomposite.h"
 
@@ -166,8 +167,6 @@ void FindDialogLite::filterByType(uint typeIndex) {
         fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::SATELLITE ) );
         break;
     }
-
-    qDebug() <<  data->skyComposite()->objectLists( SkyObject::SUPERNOVA ) ;
 }
 
 void FindDialogLite::filterList(QString searchQuery) {

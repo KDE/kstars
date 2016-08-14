@@ -75,8 +75,10 @@ public:
 
     /**
      * @short update positions of all child SkyItems
+     * @param clearTextures true if textures for PointNodes should recreated (required when color scheme
+     * is changed)
      */
-    void update();
+    void update(bool clearTextures = false);
 
     //Debug
     void testLeakDelete();
@@ -87,17 +89,17 @@ public:
     inline LabelsItem *labelsItem() { return m_labelsItem; }
 
     inline StarItem *starItem() { return m_starItem; }
-
-#ifdef INDI_FOUND
-    inline TelescopeSymbolsItem *telescopeSymbolsItem() { return m_telescopeSymbols; }
-#endif
-private:
     /**
      * @short initializes textureCache with cached images of stars from SkyMapLite
      */
     void genCachedTextures();
 
+#ifdef INDI_FOUND
+    inline TelescopeSymbolsItem *telescopeSymbolsItem() { return m_telescopeSymbols; }
+#endif
+private:
     QVector<QVector<QSGTexture *>> m_textureCache;
+    QVector<QVector<QSGTexture *>> m_oldTextureCache;
     SkyMapLite *m_skyMapLite;
 
     QPolygonF m_clipPoly;
@@ -124,6 +126,7 @@ private:
 
     SkyMapComposite *m_skyComposite;
     SolarSystemComposite *m_solarSystem;
+    QSGGeometryNode *m_visualizeClipping;
 #ifdef INDI_FOUND
     TelescopeSymbolsItem *m_telescopeSymbols;
 #endif

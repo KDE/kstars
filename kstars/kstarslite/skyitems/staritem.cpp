@@ -30,9 +30,9 @@
 #include "skynodes/trixelnode.h"
 
 StarItem::StarItem(StarComponent *starComp, RootNode *rootNode)
-    :SkyItem(LabelsItem::label_t::STAR_LABEL, rootNode), m_starComp(starComp)
-    ,m_starLabels(rootNode->labelsItem()->getLabelNode(labelType())), m_stars(new SkyOpacityNode),
-      m_deepStars(new SkyOpacityNode)
+    :SkyItem(LabelsItem::label_t::STAR_LABEL, rootNode), m_starComp(starComp), m_stars(new SkyOpacityNode),
+      m_deepStars(new SkyOpacityNode), m_starLabels(rootNode->labelsItem()->getLabelNode(labelType()))
+
 {
     StarIndex *trixels = m_starComp->m_starIndex;
     appendChildNode(m_stars);
@@ -207,11 +207,8 @@ void StarItem::update() {
             trixel->show();
             label->show();
 
-
-
             if(region.hasNext()) {
                 regionID = region.next();
-                //count++;
             }
 
             QLinkedList<QPair<SkyObject *, SkyNode *>> *nodes = &trixel->m_nodes;
@@ -247,7 +244,6 @@ void StarItem::update() {
                     }
                 } else {
                     if( !hide && projector->checkVisibility(starObj) ) {
-
                         QPointF pos;
 
                         bool visible = false;

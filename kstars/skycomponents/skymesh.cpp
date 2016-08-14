@@ -368,6 +368,9 @@ void SkyMesh::draw(QPainter &psky, MeshBufNum_t bufNum)
         TrixelNumberString.setNum( trixel );
         psky.drawText( (q1 + q2 + q3 ) / 3.0, TrixelNumberString );
     }
+#else
+    Q_UNUSED(psky);
+    Q_UNUSED(bufNum);
 #endif
 }
 

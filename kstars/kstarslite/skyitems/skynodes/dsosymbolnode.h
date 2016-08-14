@@ -150,6 +150,7 @@ public:
     void changePos(float size, const QPointF &pos, float positionangle);
     void update(float size, const QPointF &pos, float positionangle);
     void initSymbol();
+    QColor getColor() { return m_color; }
 private:
     QColor m_color;
     //TODO deal setter for this when stars will be introduced

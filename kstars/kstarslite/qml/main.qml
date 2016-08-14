@@ -1,435 +1,334 @@
-import QtQuick 2.4
-import QtQuick.Window 2.2
+import QtQuick 2.7
+
+import QtQuick.Controls 2.0
+import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Universal 2.0
+
+import QtQuick.Window 2.2 as Window
 import QtQuick.Layouts 1.1
 import "modules"
-import "indi"
-import "constants" 1.0
+import "modules/helpers"
+import "modules/popups"
 import "dialogs"
-import QtQuick.Controls 1.4 as Controls
-import org.kde.kirigami 1.0 as Kirigami
-import QtSensors 5.0
-import QtGraphicalEffects 1.0
+import "constants" 1.0
+import "indi"
 
-Kirigami.ApplicationWindow {
-    id: mainWindow
-    width: Screen.desktopAvailableWidth
-    height: Screen.desktopAvailableHeight
-    property double shadowBgOpacity
-    property int drawersOrder: 2
-    property int bgOrder: 1
-    property int skyMapOrder: 0
-    property int topMenuOrder: 0
-    objectName: "mainWindow"
+ApplicationWindow {
+    id: window
+    objectName: "window"
+    width: Window.Screen.desktopAvailableWidth
+    height: Window.Screen.desktopAvailableHeight
+    visible: true
+    property bool isPortrait: width < height ? true: false
+    property bool isSkyMapVisible: stackView.currentItem == initPage
 
-    property Item initPage: initPage
-
-    pageStack.initialPage: null
-
-    property var contextActions: []
-
-    property var telescopes: []
-
-    //pageStack.currentIndex: initPage
-
-    property Item currentPage: initPage
-
-    controlsVisible: false
-
-    header: Kirigami.ApplicationHeader {
-        visible: false
-    }
-
+    //Application properties
     property bool loaded: false
+
+    header: ToolBar {
+        id: toolBar
+        Material.foreground: "white"
+        height: stackView.currentItem != initPage ? backButton.height: 0
+        visible: stackView.currentItem != initPage
+
+        Behavior on height {
+            NumberAnimation {
+                duration: 200
+                easing.type: Easing.InOutQuad
+            }
+        }
+
+        RowLayout {
+            spacing: 20
+            height: titleLabel.height
+            Layout.fillWidth: true
+
+            ToolButton {
+                id: backButton
+                contentItem: Image {
+                    fillMode: Image.Pad
+                    horizontalAlignment: Image.AlignHCenter
+                    verticalAlignment: Image.AlignVCenter
+                    source: "modules/images/back.png"
+                    sourceSize.height: titleLabel.height
+                }
+                onClicked: {
+                    if(stackView.depth != 1) stackView.pop()
+                }
+            }
+
+            Label {
+                id: titleLabel
+                text: stackView.currentItem.title
+                font.pixelSize: 20
+                elide: Label.ElideRight
+                //horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                Layout.fillWidth: true
+            }
+
+            ToolButton {
+                /*contentItem: Image {
+                    fillMode: Image.Pad
+                    horizontalAlignment: Image.AlignHCenter
+                    verticalAlignment: Image.AlignVCenter
+                    //source: "qrc:/images/menu.png"
+                }*/
+                onClicked: optionsMenu.open()
+
+                Menu {
+                    id: optionsMenu
+                    x: parent.width - width
+                    transformOrigin: Menu.TopRight
+
+                    MenuItem {
+                        text: "Settings"
+                        onTriggered: settingsPopup.open()
+                    }
+                    MenuItem {
+                        text: "About"
+                        onTriggered: aboutDialog.open()
+                    }
+                }
+            }
+        }
+    }
 
     Splash {
         z:1
         anchors.fill:parent
         onTimeout: {
             loaded = true
-            controlsVisible = true
         }
     }
 
-    contentItem.anchors.topMargin: 0
-    wideScreen: true
-
-    Item {
-        id: pagesWindow
-        anchors.fill: parent
-    }
-
-    globalDrawer: Kirigami.GlobalDrawer {
-        bannerImageSource: "modules/images/kstars.png"
+    StackView {
         visible: loaded
-        actions: [
-            Kirigami.Action {
-                text: "Sky Map"
-
-                onTriggered: {
-                    initPage.showPage(true)
-                    globalDrawer.close()
-                }
-            },
-            Kirigami.Action {
-                text: "INDI Control Panel"
-
-                onTriggered: {
-                    //mainWindow.currentPage = initPage
-                    indiControlPanel.showPage(true)
-                    globalDrawer.close()
-                }
-            },
-            Kirigami.Action {
-                text: "Find Object"
-
-                onTriggered: {
-                    findDialog.showPage(true)
-                    globalDrawer.close()
-                }
-            }
-        ]
-
-        Kirigami.Label {
-            text: "Magnitude Limit"
-        }
-
-        Controls.Slider {
-            Layout.fillWidth: true
-
-            maximumValue: 5.75954
-            minimumValue: 1.18778
-            value: SkyMapLite.magLim
-            onValueChanged: {
-                SkyMapLite.magLim = value
-            }
-        }
+        id: stackView
+        anchors.fill: parent
+        initialItem: initPage
     }
 
+    PassiveNotification {
+        id: notification
+    }
+
+    Units {
+        id: units
+    }
+
+    //Pages
     FindDialog {
         id: findDialog
-    }
-
-    //Background shadow
-
-    /*function showBgShadow() {
-        shadowBg.state = "visible"
-    }
-
-    function hideBgShadow() {
-        shadowBg.state = "hidden"
-    }
-
-    Item {
-        id: shadowBg
-        state: "hidden"
-        anchors.fill: parent
-        z: bgOrder
-
-        Rectangle {
-            id: shadowRect
-            anchors.fill: parent
-            color: "black"
-        }
-
-        FastBlur {
-            anchors.fill: shadowRect
-            source: shadowRect
-            radius: Units.gridUnit
-            transparentBorder: true
-        }
-
-        states: [
-            State {
-                name: "visible"
-                PropertyChanges {
-                    target: shadowBg
-                    opacity: 0.3
-                }
-            },
-            State {
-                name: "hidden"
-                PropertyChanges {
-                    target: shadowBg
-                    opacity: 0
-                }
-            }]
-
-        Behavior on opacity {
-            NumberAnimation { duration: 200 }
-        }
-    }*/
-
-    contextDrawer: Kirigami.ContextDrawer {
-        id: contextDrawer
-        property Item contextMenu
-
-        actions: initPage.actions.contextualActions
-
-        onOpenedChanged: {
-            if(opened) {
-                //If no telescopes are connected then we disable actions in context drawer
-                var areTelescopesLoaded = false
-                if(ClientManagerLite.connected) {
-                    for(var i = 0; i < mainWindow.telescopes.length; ++i) {
-                        if(mainWindow.telescopes[i].isConnected()) {
-                            areTelescopesLoaded = true
-                        }
-                    }
-                }
-                initPage.telescopeLoaded = areTelescopesLoaded
-            }
-        }
-
-        Component.onCompleted: {
-            var contDrawMenuComp = Qt.createComponent("modules/ContextDrawerMenu.qml");
-            contextMenu = contDrawMenuComp.createObject(contentItem)
-        }
     }
 
     INDIControlPanel {
         id: indiControlPanel
     }
 
-    KSPage {
+    ObjectDetails {
+        id: objectDetails
+    }
+
+    Page {
         id: initPage
-        title: "Main Screen"
-        visible:true
+        title: "Sky Map"
 
-        TapSensor {
-            onReadingChanged: {
-                console.log(reading.doubleTap)
-            }
-        }
-
-        onVisibleChanged: {
-            if(visible) {
-                SkyMapLite.update() //Update SkyMapLite once user opened initPage
-            }
-        }
-
-        property bool isClickedObject: false
-        property bool telescopeLoaded: false
-
-        Connections {
-            target: SkyMapLite
-            onObjectChanged: {
-                contextDrawer.title = ClickedObject.translatedName
-                contextDrawer.open()
-                initPage.isClickedObject = true
-            }
-            onPositionChanged: {
-                contextDrawer.title = "Point"
-                contextDrawer.open()
-                initPage.isClickedObject = false
-            }
-        }
-
-        Connections {
-            target: ClientManagerLite
-            /*onDeviceConnected: {
-                var isConnected = false
-                for(var i = 0; i < telescopes.length; ++i) {
-                    if(telescopes[i].isConnected()) {
-                        isConnected = true
-                    }
-                }
-                initPage.telescopeLoaded = Connected
-            }*/
-            onTelescopeAdded: {
-                telescopes.push(newTelescope)
-                initPage.telescopeLoaded = true
-            }
-        }
-
-        actions {
-            contextualActions: [
-                Kirigami.Action {
-                    enabled: initPage.telescopeLoaded
-                    text: "Slew to object"
-                    onTriggered: {
-                        for(var i = 0; i < telescopes.length; ++i) {
-                            if(telescopes[i].isConnected()) {
-                                if(initPage.isClickedObject) {
-                                    telescopes[i].slew(ClickedObject)
-                                } else {
-                                    telescopes[i].slew(ClickedPoint)
-                                }
-                            }
-                        }
-                    }
-                },
-                Kirigami.Action {
-                    enabled: initPage.telescopeLoaded
-                    text: "Sync"
-                    onTriggered: {
-                        for(var i = 0; i < telescopes.length; ++i) {
-                            if(telescopes[i].isConnected()) {
-                                if(initPage.isClickedObject) {
-                                    telescopes[i].sync(ClickedObject)
-                                } else {
-                                    telescopes[i].sync(ClickedPoint)
-                                }
-                            }
-                        }
-                    }
-                }
-            ]
-        }
-
-        Splash {
-            z:1
-            anchors.fill:parent
-            onTimeout: {
-                loaded = true
-                mainWindow.controlsVisible = true
-            }
-        }
-
-        /*content is made Rectangle to allow z-index ordering
-    (for some reason it doesn't work with plain Item)*/
-        Item {
-            id: content
+        Rectangle {
             anchors.fill: parent
-            visible: loaded
+            color: "black" //Color scheme
+        }
+    }
 
-            Rectangle {
-                id: skyMapLiteWrapper
-                clip: true
-                objectName: "skyMapLiteWrapper"
-                anchors.fill: parent
-                color: "black"
+    SkyMapLiteWrapper {
+        /*The reason SkyMapLite is a not a child of initPage is that it can't handle properly change of
+          opacity. Each time we go from / to initPage this component is made invisible / visible and
+        skyMapLiteWrapper is anchored to fill null / parent*/
+        id: skyMapLite
+    }
 
+    //Popups
+    TimePage {
+        id: timePage
+    }
+
+    ColorSchemePopup {
+        id: colorSchemePopup
+        x: (window.width - width)/2
+        y: (window.height - height)/2
+    }
+
+    ProjectionsPopup {
+        id: projPopup
+        x: (window.width - width)/2
+        y: (window.height - height)/2
+    }
+
+    ObjectPopup {
+        id: objPopup
+        x: (window.width - width)/2
+        y: (window.height - height)/2
+    }
+
+    Drawer {
+        id: globalDrawer
+        width: Math.min(window.width, window.height) / 4 * 2
+        height: window.height
+        //Disable drawer while loading
+        dragMargin: loaded ? Qt.styleHints.startDragDistance : -Qt.styleHints.startDragDistance
+
+        onOpened: {
+            contextDrawer.close()
+        }
+
+        Image {
+            id: drawerBanner
+            source: "modules/images/kstars.png"
+            fillMode: Image.PreserveAspectFit
+
+            anchors {
+                left: parent.left
+                top: parent.top
+                right: parent.right
+            }
+        }
+
+        ListView {
+            id: pagesList
+            currentIndex: -1
+            anchors {
+                left: parent.left
+                top: drawerBanner.bottom
+                right: parent.right
+                bottom: parent.bottom
+            }
+
+            delegate: ItemDelegate {
                 Rectangle {
-                    id: tapCircle
-                    z: 1
-                    width: 20 * num.dp
-                    height: width
-                    color: "grey"
-                    radius: width*0.5
-                    opacity: 0
-
-                    Connections {
-                        target: SkyMapLite
-                        onPosClicked: {
-                            tapCircle.x = pos.x - tapCircle.width * 0.5
-                            tapCircle.y = pos.y - tapCircle.height * 0.5
-                            tapAnimation.start()
-                        }
+                    anchors {
+                        horizontalCenter: parent.horizontalCenter
+                        bottom: parent.bottom
                     }
-
-                    SequentialAnimation on opacity {
-                        id: tapAnimation
-                        OpacityAnimator { from: 0; to: 0.8; duration: 100 }
-                        OpacityAnimator { from: 0.8; to: 0; duration: 400 }
-                    }
+                    width: parent.width - 10
+                    color: "#E8E8E8"
+                    height: 1
                 }
 
-                /*MouseArea {
-                    z: 1
-                    anchors.fill: parent
-                    propagateComposedEvents: true
-                    onClicked: {
-                        tapCircle.x = mouseX - tapCircle.width/2
-                        tapCircle.y = mouseY - tapCircle.height/2
-                        mouse.accepted = false
-                    }
-                }*/
-            }
+                width: parent.width
+                text: model.objID.title
+                highlighted: ListView.isCurrentItem
+                onClicked: {
+                    if (pagesList.currentIndex != index) {
+                        pagesList.currentIndex = index
 
-            MouseArea {
-                property int posY
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    top: parent.top
-                }
-                height: parent.height * 0.10
-
-                onPressed: {
-                    posY = mouseY
-                }
-
-                onPositionChanged: {
-                    var ratio = 0.05
-                    var delta = mouseY - posY
-                    if (delta > parent.height * ratio) {
-                        if(topMenu.state != "open") topMenu.state = "open"
-                    } else if (delta < - (parent.height * ratio)) {
-                        if(topMenu.state != "") topMenu.state = ""
-                    }
-
-                }
-                TopMenu {
-                    z: topMenuOrder
-                    id: topMenu
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    Connections {
-                        target: mainWindow
-
-                        function setOrientation() {
-                            if (width < topMenu.width) {
-                                topMenu.state = "portrait"
+                        if(stackView.currentItem != model.objID) {
+                            if(model.objID != initPage) {
+                                //skyMapLiteWrapper.visible = false
+                                stackView.replace(null, [initPage, model.objID])
+                            } else {
+                                stackView.replace(null, initPage)
+                                //skyMapLiteWrapper.visible = true
                             }
-                            else topMenu.state = "landscape"
                         }
-
-                        Component.onCompleted: {
-                            setOrientation()
-                        }
-
-                        onWidthChanged: {
-                            setOrientation()
-                        }
+                        globalDrawer.close()
+                        pagesList.currentIndex = -1
                     }
                 }
             }
 
-            MouseArea {
-                property int posY
-                anchors {
-                    bottom: parent.bottom
-                    horizontalCenter: parent.horizontalCenter
+            property ListModel drawerModel : ListModel {
+                //Trick to enable storing of object ids
+                Component.onCompleted: {
+                    append({objID: initPage});
+                    append({objID: indiControlPanel});
+                    append({objID: findDialog});
                 }
-                width: bottomMenu.width
-                height: parent.height *0.10
+            }
 
-                onPressed: {
-                    posY = mouseY
-                }
+            model: drawerModel
 
-                onPositionChanged: {
-                    var ratio = 0.05
-                    var delta = mouseY - posY
-                    if (delta < parent.height * ratio) {
-                        if(bottomMenu.state != "open") bottomMenu.state = "open"
-                    } else if (delta > - (parent.height * ratio)) {
-                        if(bottomMenu.state != "") bottomMenu.state = ""
+            ScrollIndicator.vertical: ScrollIndicator { }
+        }
+    }
+
+    Drawer {
+        id: contextDrawer
+        width: Math.min(window.width, window.height) / 4 * 2
+        height: window.height
+        //Disable drawer while loading and if SkyMapLite is not visible
+        dragMargin: isSkyMapVisible && loaded ? Qt.styleHints.startDragDistance : -Qt.styleHints.startDragDistance
+        onOpened: {
+            globalDrawer.close()
+        }
+
+        Label {
+            id: contextTitle
+            anchors {
+                top: parent.top
+                left: parent.left
+                margins: 10
+            }
+
+            font.pointSize: 14
+            text: stackView.currentItem.title
+        }
+
+        ListView {
+            id: contextList
+            currentIndex: -1
+            anchors {
+                left: parent.left
+                top: contextTitle.bottom
+                right: parent.right
+                bottom: parent.bottom
+                topMargin: 15
+            }
+            model: drawerModel
+
+            delegate: ItemDelegate {
+                Rectangle {
+                    anchors {
+                        horizontalCenter: parent.horizontalCenter
+                        bottom: parent.bottom
                     }
-
+                    width: parent.width - 10
+                    color: "#E8E8E8"
+                    height: 1
                 }
-                BottomMenu {
-                    z: topMenuOrder
-                    id: bottomMenu
 
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    Connections {
-                        target: mainWindow
-
-                        function setOrientation() {
-                            if (width < topMenu.width) {
-                                bottomMenu.state = "portrait"
-                            }
-                            else bottomMenu.state = "landscape"
-                        }
-
-                        Component.onCompleted: {
-                            setOrientation()
-                        }
-
-                        onWidthChanged: {
-                            setOrientation()
-                        }
+                width: parent.width
+                text: model.title
+                highlighted: ListView.isCurrentItem
+                onClicked: {
+                    if(model.type == "popup") {
+                        objID.open()
                     }
+                    contextDrawer.close()
+                    contextList.currentIndex = -1
+                }
+            }
+
+            property ListModel drawerModel : ListModel {
+                //Trick to enable storing of object ids
+                Component.onCompleted: {
+                    append({title: "Projection systems", objID: projPopup, type: "popup"});
+                    append({title: "Color Schemes", objID: colorSchemePopup, type: "popup"});
+                }
+            }
+
+            ScrollIndicator.vertical: ScrollIndicator { }
+        }
+        edge: Qt.RightEdge
+    }
+
+    //Handle back button
+    Connections {
+        target: window
+        onClosing: {
+            if (Qt.platform.os == "android") {
+                if(stackView.depth > 1) {
+                    close.accepted = false;
+                    stackView.pop()
                 }
             }
         }

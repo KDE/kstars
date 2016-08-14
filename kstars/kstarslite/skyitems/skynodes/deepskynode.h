@@ -58,6 +58,13 @@ public:
     void update(bool drawImage, bool drawLabel, QPointF pos = QPointF(-1,-1));
     virtual void hide() override;
 
+    /**
+     * @short sets color of DSO symbol and label
+     * To not increase the code for symbols we just recreate the symbol painted with desired color
+     * @param symbolTrixel the TrixelNode to which symbol node should be appended
+     */
+    void setColor(QColor color, TrixelNode *symbolTrixel);
+
     DeepSkyObject *dsObject() { return m_dso; }
 private:
     QSGSimpleTextureNode *m_objImg;

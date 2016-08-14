@@ -55,7 +55,7 @@ public:
     	*running.
     	*@returns true if the Simulation clock is actively running.
     	*/
-    bool isActive();
+    Q_INVOKABLE bool isActive();
 
     /** @returns the current timestep setting */
     double scale() const { return Scale; }
@@ -98,6 +98,9 @@ public Q_SLOTS:
 
     /** Function to set the time of the SimClock. */
     void setUTC(const KStarsDateTime &newtime);
+
+    /** Sets time and date from QDateTime **/
+    Q_INVOKABLE void setFromQDateTime(const QDateTime &dateTime);
 
     /** Function to set scale of simclock. */
     void setClockScale(float s);

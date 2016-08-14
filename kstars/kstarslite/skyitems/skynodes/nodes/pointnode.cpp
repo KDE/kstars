@@ -20,9 +20,12 @@
 #include "pointnode.h"
 #include "kstarslite/skyitems/rootnode.h"
 #include <QSGTexture>
+#include "skymaplite.h"
+#include "Options.h"
 
 PointNode::PointNode(RootNode* p, char sp, float size)
-    :spType(sp), texture(new QSGSimpleTextureNode), m_rootNode(p), m_size(-1) //Important to init to -1
+    :spType(sp), texture(new QSGSimpleTextureNode), m_rootNode(p), m_size(-1), //Important to init to -1
+      starColorMode(Options::starColorMode())
 {
     appendChildNode(texture);
     setSize(size);
@@ -30,13 +33,17 @@ PointNode::PointNode(RootNode* p, char sp, float size)
 
 void PointNode::setSize(float size) {
     int isize = qMin(static_cast<int>(size), 14);
-    if(size != m_size) {
+    uint newStarCM = Options::starColorMode();
+    if(size != m_size || newStarCM != starColorMode) {
         texture->setTexture(m_rootNode->getCachedTexture(isize, spType));
-        //markDirty(QSGNode::DirtyMaterial);
+
+        //We divide size of texture by ratio. Otherwise texture will be very large
+        qreal ratio = SkyMapLite::Instance()->window()->effectiveDevicePixelRatio();
 
         QSize tSize = texture->texture()->textureSize();
         QRectF oldRect = texture->rect();
-        texture->setRect(QRect(oldRect.x(),oldRect.y(),tSize.width(),tSize.height()));
+        texture->setRect(QRect(oldRect.x(),oldRect.y(),tSize.width()/ratio,tSize.height()/ratio));
         m_size = size;
+        starColorMode = newStarCM;
     }
 }

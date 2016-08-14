@@ -1,10 +1,10 @@
 #!/bin/sh
 
-width=48
+width=32
 halfwidth=$((width/2))
 dir=".."
 
-for file in *.svg
+for file in *.png
 do
 	filename="${file%.*}"
 	echo $filename

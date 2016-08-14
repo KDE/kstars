@@ -57,6 +57,18 @@ public:
      */
     void update() override;
 
+    /**
+     * @short shows this item and labels for all moons (currently only Jupiter moons. Add here labels
+     * for moons that are needed to be shown)
+     */
+    virtual void show() override;
+
+    /**
+     * @short hides this item and labels for all moons (currently only Jupiter moons. Add here labels
+     * for moons that are needed to be hidden)
+     */
+    virtual void hide() override;
+
 private:
     QList<SolarSystemSingleComponent *> m_planetComponents;
     QList<PlanetMoonsComponent *> m_moonsComponents;

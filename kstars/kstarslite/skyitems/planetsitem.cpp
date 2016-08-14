@@ -61,3 +61,13 @@ void PlanetsItem::update() {
         else pNode->hide();
     }
 }
+
+void PlanetsItem::show() {
+    rootNode()->labelsItem()->getLabelNode(LabelsItem::label_t::JUPITER_MOON_LABEL)->show();
+    SkyItem::show();
+}
+
+void PlanetsItem::hide() {
+    rootNode()->labelsItem()->getLabelNode(LabelsItem::label_t::JUPITER_MOON_LABEL)->hide();
+    SkyItem::hide();
+}

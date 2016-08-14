@@ -1,8 +1,7 @@
-import QtQuick 2.4
+import QtQuick 2.6
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.2
-import QtQuick.Controls 1.4
-import org.kde.kirigami 1.0 as Kirigami
+import QtQuick.Controls 2.0
 import TelescopeLiteEnums 1.0
 import "../../constants" 1.0
 
@@ -269,7 +268,6 @@ ColumnLayout {
             height: parent.height * 0.15
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
-            color: num.sysPalette.text
 
             text: xi18n("Slewing speed control")
         }

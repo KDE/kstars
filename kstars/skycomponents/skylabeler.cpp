@@ -203,8 +203,9 @@ void SkyLabeler::setFont( const QFont& font )
 
 void SkyLabeler::setPen(const QPen& pen)
 {
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
     Q_UNUSED(pen);
+#else
     m_p.setPen(pen);
 #endif
 }

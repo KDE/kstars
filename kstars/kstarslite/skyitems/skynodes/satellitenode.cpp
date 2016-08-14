@@ -27,7 +27,7 @@
 #include "labelnode.h"
 
 SatelliteNode::SatelliteNode(Satellite* sat, RootNode *rootNode)
-    :m_sat(sat), m_lines(0), m_point(0), m_rootNode(rootNode), m_label(0)
+    :m_sat(sat), m_rootNode(rootNode), m_lines(0), m_label(0), m_point(0)
 {
 
 }

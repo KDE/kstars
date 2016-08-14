@@ -21,7 +21,7 @@ SkyOpacityNode::SkyOpacityNode() {
 }
 
 void SkyOpacityNode::show() {
-    if(!opacity()) {
+    if(opacity() == 0) {
         setOpacity(1);
         markDirty(QSGNode::DirtyOpacity);
     }

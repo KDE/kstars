@@ -154,6 +154,13 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
     }
 }
 
+void SimClock::setFromQDateTime(const QDateTime &dateTime) {
+    KStarsDateTime dt;
+    dt.setDate(dateTime.date());
+    dt.setTime(dateTime.time());
+    setUTC(dt);
+}
+
 void SimClock::setClockScale(float s) {
     if (Scale != s ) {
         qDebug() << "New clock scale: " << s << " sec";

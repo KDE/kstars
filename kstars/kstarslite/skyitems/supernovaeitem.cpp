@@ -42,6 +42,7 @@ void SupernovaeItem::update() {
         hide();
         return;
     }
+    show();
 
     QSGNode *n = firstChild();
 

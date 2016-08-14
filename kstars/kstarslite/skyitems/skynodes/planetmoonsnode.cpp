@@ -7,8 +7,8 @@
 #include "ksplanetbase.h"
 #include "skylabeler.h"
 
-#include "../rootnode.h";
-#include "../labelsitem.h";
+#include "../rootnode.h"
+#include "../labelsitem.h"
 
 #include "Options.h"
 
@@ -34,7 +34,7 @@ void PlanetMoonsNode::update() {
 void PlanetMoonsNode::hide() {
     m_planetNode->hide();
 
-    foreach(SkyNode *moon, m_moonNodes) {
+    foreach(PointSourceNode *moon, m_moonNodes) {
         moon->hide();
     }
 }
@@ -70,19 +70,19 @@ void PlanetMoonsNode::updateMoons() {
         for ( int i=0; i<nmoons; ++i ) {
             if ( pmoons->z(i) < 0.0 ) { //Moon is nearer than the planet
                 appendChildNode(m_moonNodes[i]);
-                m_moonNodes[i]->update(drawLabel);
+                m_moonNodes[i]->SkyNode::update(drawLabel);
             } else {
                 //Draw Moons that are further than the planet
                 //skyp->drawPointSource( pmoons->moon(i), pmoons->moon(i)->mag() );
                 prependChildNode(m_moonNodes[i]);
-                m_moonNodes[i]->update(drawLabel);
+                m_moonNodes[i]->SkyNode::update(drawLabel);
             }
         }
 
         /*  //Draw Moon name labels if at high zoom
      return;
     for ( int i=0; i<nmoons; ++i ) {
-        /*
+
         if (planet ==KSPlanetBase::SATURN)
             SkyLabeler::AddLabel( pmoons->moon(i), SkyLabeler::SATURN_MOON_LABEL );
         else

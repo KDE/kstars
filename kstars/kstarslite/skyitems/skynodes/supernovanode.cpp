@@ -32,7 +32,6 @@ SupernovaNode::SupernovaNode(Supernova *snova)
 void SupernovaNode::init(QColor color) {
     if(!m_lines) {
         m_lines = new QSGGeometryNode;
-        addChildNode(m_lines);
         m_geometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0);
         m_lines->setGeometry(m_geometry);
         m_lines->setFlag(QSGNode::OwnsGeometry);
@@ -40,6 +39,7 @@ void SupernovaNode::init(QColor color) {
         m_material = new QSGFlatColorMaterial;
         m_lines->setOpaqueMaterial(m_material);
         m_lines->setFlag(QSGNode::OwnsMaterial);
+        addChildNode(m_lines);
 
         m_geometry->allocate(4);
         QSGGeometry::Point2D * vertex = m_geometry->vertexDataAsPoint2D();

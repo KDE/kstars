@@ -37,15 +37,17 @@
 #include "kstarslite/skyitems/lines/eclipticitem.h"
 #include "kstarslite/skyitems/lines/milkywayitem.h"
 
+#ifdef INDI_FOUND
 //Symbols
 #include "kstarslite/skyitems/telescopesymbolsitem.h"
+#endif
+#include <QSGFlatColorMaterial>
 
 RootNode::RootNode()
     :m_skyMapLite(SkyMapLite::Instance()), m_clipGeometry(0)
 {
     SkyMapLite::setRootNode(this);
     genCachedTextures();
-    Options::setProjection(Projector::Lambert);
 
     m_skyComposite = KStarsData::Instance()->skyComposite();
 
@@ -98,7 +100,7 @@ RootNode::RootNode()
 }
 
 void RootNode::testLeakAdd() {
-/*    m_linesItem = new LinesItem(this);
+    /*    m_linesItem = new LinesItem(this);
 
     m_linesItem->addLinesComponent( m_skyComposite->equatorialCoordGrid(), "EquatorialGridColor", 1, Qt::DotLine );
     m_linesItem->addLinesComponent( m_skyComposite->horizontalCoordGrid(), "HorizontalGridColor", 2, Qt::DotLine );
@@ -177,11 +179,11 @@ QSGTexture* RootNode::getCachedTexture(int size, char spType) {
 
 void RootNode::updateClipPoly() {
     QPolygonF newClip = m_skyMapLite->projector()->clipPoly();
-    if(m_clipPoly != newClip) {
-        m_clipPoly = newClip;
+    m_clipPoly = newClip;
+/*    if(m_clipPoly != newClip) {
     } else {
         return; //We don't need to triangulate polygon and update geometry if polygon wasn't changed
-    }
+    }*/
 
     const int size = m_clipPoly.size();
     if(!m_clipGeometry) {
@@ -190,19 +192,32 @@ void RootNode::updateClipPoly() {
         m_clipGeometry->setDrawingMode(GL_TRIANGLE_FAN);
         setGeometry(m_clipGeometry);
         setFlag(QSGNode::OwnsGeometry);
-        m_clipGeometry->allocate(size);
+        /*m_visualizeClipping = new QSGGeometryNode;
+        m_visualizeClipping->setGeometry(m_clipGeometry);
+        QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
+        material->setColor(QColor("red"));
+        m_visualizeClipping->setMaterial(material);
+        appendChildNode(m_visualizeClipping);*/
     }
+    m_clipGeometry->allocate(size);
 
     QSGGeometry::Point2D * vertex = m_clipGeometry->vertexDataAsPoint2D ();
     for (int i = 0; i < size; i++) {
         vertex[i].x = m_clipPoly[i].x();
         vertex[i].y = m_clipPoly[i].y();
     }
+    m_clipGeometry->markIndexDataDirty();
+    m_clipGeometry->markVertexDataDirty();
     markDirty(QSGNode::DirtyGeometry);
 }
 
-void RootNode::update() {
+void RootNode::update(bool clearTextures) {
     updateClipPoly();
+    if(clearTextures) {
+        //First we need to create new textures and only after all PointNodes changed their textures we
+        //can delete old textures
+        genCachedTextures();
+    }
 
     m_MWItem->update();
 
@@ -248,7 +263,6 @@ void RootNode::update() {
 
     m_satItem->update();
     m_snovaItem->update();
-
     m_horizonItem->update();
 
 #ifdef INDI_FOUND
@@ -256,5 +270,14 @@ void RootNode::update() {
 #endif
 
     m_labelsItem->update();
+
+    if(clearTextures) {
+        //Delete old textures
+        if(m_oldTextureCache.length()) {
+            foreach(QVector<QSGTexture *> textures, m_oldTextureCache) {
+                qDeleteAll(textures.begin(), textures.end());
+            }
+        }
+    }
 }
 

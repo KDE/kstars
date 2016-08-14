@@ -18,6 +18,8 @@
 #include "supernovaecomponent.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
+#else
+#include "kstarslite.h"
 #endif
 #include "skypainter.h"
 #include "skymesh.h"

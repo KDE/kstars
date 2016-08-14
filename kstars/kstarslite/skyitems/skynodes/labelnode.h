@@ -71,7 +71,7 @@ public:
 
     inline LabelsItem::label_t labelType() { return m_labelType; }
 
-    void createTexture();
+    void createTexture(QColor color = QColor());
 
     /**
      * @return true if the size of text depends on zoom
@@ -89,6 +89,8 @@ private:
     LabelsItem::label_t m_labelType;
     int m_fontSize;
     bool m_zoomFont;
+    QString m_schemeColor;
+    QColor m_color;
 };
 
 #endif

@@ -50,8 +50,10 @@ Projector::Projector(const ViewParams& p)
 {
     m_data = KStarsData::Instance();
     setViewParams(p);
-    // Force clip polygon update
-    updateClipPoly();
+    /* Force clip polygon update - FIX: when we call this function Projection::radius() is called instead
+    of overriden version. For now I will just call this function from constructors of each projection
+    but isn't it better to have radius as a member and initialize it in constructor? - polaris, 13.08.2016*/
+    //updateClipPoly();
 }
 
 Projector::~Projector()
@@ -364,7 +366,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
 void Projector::updateClipPoly()
 {
     m_clipPolygon.clear();
-
+    //FIX IT: When projection is created Projector::radius() is called instead of overriden version
     double r = m_vp.zoomFactor*radius();
     double t1 = 0 ;
     double t2 = 180;

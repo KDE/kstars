@@ -10,7 +10,7 @@ HorizonNode::HorizonNode(QList<SkyPoint*>& pointList)
 }
 
 void HorizonNode::update() {
-    if(!m_polygonNode->opacity()) {
+    if(!m_polygonNode->visible()) {
         m_polygonNode->show();
     }
 

@@ -8,6 +8,5 @@
 class SkyOpacityNode;
 
 typedef SkyOpacityNode LabelTypeNode;
-typedef SkyOpacityNode LineIndexNode; 
 
 #endif

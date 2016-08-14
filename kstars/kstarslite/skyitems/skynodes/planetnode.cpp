@@ -23,13 +23,12 @@
 #include "Options.h"
 #include "projections/projector.h"
 #include "../rootnode.h"
-#include "../labelsitem.h"
 
 #include "planetnode.h"
 #include "nodes/pointnode.h"
 #include "labelnode.h"
 
-PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode)
+PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode, LabelsItem::label_t labelType)
     :SkyNode(pb), m_planetPic(new QSGSimpleTextureNode), m_planetOpacity(new SkyOpacityNode)
 {
     // Draw them as bright stars of appropriate color instead of images
@@ -52,7 +51,7 @@ PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode)
     m_planetPic->setTexture(SkyMapLite::Instance()->window()->createTextureFromImage(
                                 pb->image(), QQuickWindow::TextureCanUseAtlas));
     m_planetPic->setOwnsTexture(true);
-    m_label = parentNode->labelsItem()->addLabel(pb, LabelsItem::label_t::PLANET_LABEL);
+    m_label = parentNode->labelsItem()->addLabel(pb, labelType);
 }
 
 void PlanetNode::update() {
@@ -144,7 +143,7 @@ void PlanetNode::changePos(QPointF pos) {
                   0,0,1,0,
                   0,0,0,1);
 
-    if(m_planetOpacity->opacity()) {
+    if(m_planetOpacity->visible()) {
         size = m_planetPic->rect().size();
         //Matrix has to be rotated between assigning x and y and translating it by the half
         //of size of the planet. Otherwise the image will don't rotate at all or rotate around

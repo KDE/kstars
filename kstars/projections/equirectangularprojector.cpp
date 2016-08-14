@@ -26,7 +26,7 @@
 EquirectangularProjector::EquirectangularProjector(const ViewParams& p)
     : Projector(p)
 {
-
+    updateClipPoly();
 }
 
 Projector::Projection EquirectangularProjector::type() const

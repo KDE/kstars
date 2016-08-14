@@ -15,15 +15,12 @@
  ***************************************************************************/
 
 #include "skynodes/crosshairnode.h"
-
 #include "indi/clientmanagerlite.h"
-
 #include "telescopesymbolsitem.h"
-
 #include "Options.h"
 #include "projections/projector.h"
-
 #include "kstarslite/skyitems/rootnode.h"
+#include "kstarslite.h"
 
 #include "labelsitem.h"
 

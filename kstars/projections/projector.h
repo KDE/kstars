@@ -56,6 +56,7 @@ public:
  */
 class Projector
 {
+    Q_GADGET
 public:
     /** Constructor.
       * @param p the ViewParams for this projection
@@ -74,6 +75,7 @@ public:
                       Stereographic,
                       Gnomonic,
                       UnknownProjection };
+    Q_ENUM(Projection)
 
     /** Return the type of this projection */
     virtual Projection type() const = 0;

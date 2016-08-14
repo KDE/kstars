@@ -20,20 +20,24 @@
 #include "skypointlite.h"
 #include <QObject>
 
-    /**
-     * @class SkyPointLite
-     * Wrapper for SkyPoint to allow access of some of its properties from QML
-     *
-     * @author Artem Fedoskin
-     * @version 1.0
-     */
+/**
+* @class SkyPointLite
+* Wrapper for SkyPoint to allow access of some of its properties from QML
+*
+* @author Artem Fedoskin
+* @version 1.0
+*/
+
 class SkyObjectLite : public SkyPointLite {
     Q_OBJECT
-    Q_PROPERTY(QString translatedName READ getTranslatedName)
+    Q_PROPERTY(QString translatedName READ getTranslatedName NOTIFY translatedNameChanged)
 public:
     SkyObjectLite();
     void setObject(SkyObject *object);
     Q_INVOKABLE QString getTranslatedName();
+    SkyObject *getObject() const { return object; }
+signals:
+    void translatedNameChanged(QString translatedName);
 private:
     SkyObject *object;
 };

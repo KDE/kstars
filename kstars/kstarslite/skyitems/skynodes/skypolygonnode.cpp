@@ -26,7 +26,7 @@ SkyPolygonNode::SkyPolygonNode(LineList* list)
 }
 
 void SkyPolygonNode::update(bool forceClip) {
-    if(!m_polygonNode->opacity()) {
+    if(!m_polygonNode->visible()) {
         m_polygonNode->show();
     }
 

@@ -74,6 +74,8 @@ void MilkyWayItem::update() {
         DrawID   drawID   = SkyMesh::Instance()->drawID();
         UpdateID updateID = KStarsData::Instance()->updateID();
 
+        QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed("MWColor");
+
         if(Options::fillMilkyWay() != m_filled) {
             m_filled = Options::fillMilkyWay();
             initialize();
@@ -89,12 +91,14 @@ void MilkyWayItem::update() {
                 if(m_filled) {
                     SkyPolygonNode *polygon = static_cast<SkyPolygonNode *>(l);
                     LineList * lineList = polygon->lineList();
+                    polygon->setColor(schemeColor);
 
                     if ( lineList->drawID == drawID ) {
                         polygon->hide();
                         l = l->nextSibling();
                         continue;
                     }
+
                     lineList->drawID = drawID;
                     if ( lineList->updateID != updateID )
                         m_MWComp->JITupdate( lineList );
@@ -102,6 +106,8 @@ void MilkyWayItem::update() {
                     polygon->update();
                 } else {
                     LineNode * lines = static_cast<LineNode *>(l);
+                    QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed("MWColor");
+                    lines->setColor(schemeColor);
 
                     LineList * lineList = lines->lineList();
                     if ( lineList->drawID == drawID ) {

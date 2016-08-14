@@ -21,6 +21,14 @@
 
 class LineListIndex;
 
+class LineIndexNode : public SkyOpacityNode {
+public:
+    LineIndexNode(QString schemeColor = "");
+    QString getSchemeColor() { return schemeColor; }
+private:
+    QString schemeColor;
+};
+
     /** @class LinesItem
      *
      * Class that handles lines (Constellation lines and boundaries and both coordinate grids) in

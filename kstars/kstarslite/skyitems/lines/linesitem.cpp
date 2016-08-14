@@ -30,8 +30,14 @@ LinesItem::LinesItem(RootNode *rootNode)
 
 }
 
+LineIndexNode::LineIndexNode(QString color)
+    :schemeColor(color)
+{
+
+}
+
 void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int width, Qt::PenStyle style) {
-    LineIndexNode *node = new LineIndexNode;
+    LineIndexNode *node = new LineIndexNode(color);
     appendChildNode(node);
 
     m_lineIndexes.insert(node, linesComp);
@@ -83,7 +89,6 @@ void LinesItem::update() {
     //Doesn't work stable
 
 //    MeshIterator region(mesh, DRAW_BUF);
-
     while( i != m_lineIndexes.end()) {
 //        int count = 0;
         int regionID = -1;
@@ -93,6 +98,7 @@ void LinesItem::update() {
         }*/
 
         LineIndexNode * node = i.key();
+        QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed(node->getSchemeColor());
         if(i.value()->selected()) {
             node->show();
 
@@ -117,6 +123,7 @@ void LinesItem::update() {
                     QSGNode *l = trixel->firstChild();
                     while(l != 0) {
                         LineNode * lines = static_cast<LineNode *>(l);
+                        lines->setColor(schemeColor);
                         l = l->nextSibling();
 
                         LineList * lineList = lines->lineList();

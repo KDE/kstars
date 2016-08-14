@@ -76,6 +76,9 @@ class SkyMapLite : public QQuickItem {
 
     Q_OBJECT
     Q_PROPERTY(double magLim READ getMagLim WRITE setMagLim NOTIFY magLimChanged)
+
+    Q_PROPERTY(SkyPointLite *clickedPointLite READ getClickedPointLite NOTIFY pointLiteChanged)
+    Q_PROPERTY(SkyObjectLite *clickedObjectLite READ getClickedObjectLite NOTIFY objectLiteChanged)
 protected:
     /**
     *Constructor.
@@ -90,14 +93,6 @@ public:
     static SkyMapLite* createInstance(QQuickItem* parent = 0);
 
     static SkyMapLite* Instance() { return pinstance; }
-
-    /*enum Projection { Lambert,
-                      AzimuthalEquidistant,
-                      Orthographic,
-                      Equirectangular,
-                      Stereographic,
-                      Gnomonic,
-                      UnknownProjection };*/
 
     static bool IsSlewing() { return pinstance->isSlewing(); }
 
@@ -297,7 +292,7 @@ public:
 
     /*@*@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
         */
-    //void stopTracking();
+    void stopTracking();
 
     /** Get the current projector.
         @return a pointer to the current projector. */
@@ -317,6 +312,19 @@ public:
 
     /** return limit of hides for the node to delete it **/
     static double deleteLimit();
+
+    /** @short Initializes images of Stars and puts them in cache (copied from SkyQPainter)*/
+    void initStarImages();
+
+    /**
+     * @short getClickedPointLite getter for m_ClickedPointLite
+     */
+    SkyPointLite *getClickedPointLite() { return m_ClickedPointLite; }
+
+    /**
+     * @short getClickedObjectLite getter for m_ClickedObjectLite
+     */
+    SkyObjectLite *getClickedObjectLite() { return m_ClickedObjectLite; }
 
     /**
      *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
@@ -460,6 +468,12 @@ signals:
     /** Emitted when current object changed. */
     void objectChanged();
 
+    /** Wrapper of ClickedObject for QML **/
+    void objectLiteChanged();
+
+    /** Wrapper of ClickedPoint for QML **/
+    void pointLiteChanged();
+
     /** Emitted when pointing changed. (At least should) */
     void positionChanged();
 
@@ -593,9 +607,6 @@ private:
      */
     void zoomOutOrMagStep( const int modifier );
 
-    /** @short Initializes images of Stars and puts them in cache (copied from SkyQPainter)*/
-    void initStarImages();
-
     bool mouseButtonDown, midMouseButtonDown;
     // true if mouseMoveEvent; needed by setMouseMoveCursor
     bool mouseMoveCursor;
@@ -611,7 +622,7 @@ private:
     // false while rulerMode is true, it means we are measuring angular
     // distance. FIXME: Find a better way to do this
     //bool starHopDefineMode;
-    //double y0;
+    double y0;
 
     //double m_Scale;
     int count;
@@ -629,8 +640,8 @@ private:
     SkyPoint  Focus, ClickedPoint, FocusPoint, Destination;
     SkyObject *ClickedObject, *FocusObject;
 
-    SkyPointLite *ClickedPointLite;
-    SkyObjectLite *ClickedObjectLite;
+    SkyPointLite *m_ClickedPointLite;
+    SkyObjectLite *m_ClickedObjectLite;
 
     //SkyLine AngularRuler; //The line for measuring angles in the map
     QRect ZoomRect; //The manual-focus circle.
@@ -685,6 +696,7 @@ private:
     QVector<QVector<QPixmap*>> imageCache;
     //Textures created from cached star images
     QVector<QVector<QSGTexture*>> textureCache;
+    bool clearTextures;
 
 #ifdef INDI_FOUND
     QList<INDI::BaseDevice *> m_newTelescopes;

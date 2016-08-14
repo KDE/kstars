@@ -1,4 +1,4 @@
-import QtQuick 2.4
+import QtQuick 2.6
 import QtQuick.Window 2.2
 import "../constants"
 
@@ -12,6 +12,9 @@ Rectangle {
         id: splashImage
         source: "images/" + num.density + "/splash.png"
         anchors.centerIn: parent
+
+        width: sourceSize.width/num.pixelRatio
+        height: sourceSize.height/num.pixelRatio
 
         Text {
             id: progress

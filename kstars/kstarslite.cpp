@@ -18,17 +18,24 @@
 #include "skymaplite.h"
 #include "kstarsdata.h"
 #include <QQmlContext>
-#include <QApplication>
+#include <QGuiApplication>
 #include <QQuickWindow>
+#include <QQuickStyle>
 #include <QSurfaceFormat>
-#include "indi/clientmanagerlite.h"
 #include "kstarslite/imageprovider.h"
 #include "klocalizedcontext.h"
+#include "ksplanetbase.h"
+#include <QScreen>
+
+#ifdef INDI_FOUND
+#include "indi/clientmanagerlite.h"
+#endif
 
 #include "kspaths.h"
 
 //Dialog
 #include "kstarslite/dialogs/finddialoglite.h"
+#include "kstarslite/dialogs/detaildialoglite.h"
 
 #include "Options.h"
 #include "ksutils.h"
@@ -61,23 +68,25 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_Engine.rootContext()->setContextProperty("KStarsLite", this);
     m_Engine.rootContext()->setContextProperty("KStarsData", m_KStarsData);
     m_Engine.rootContext()->setContextProperty("Options", Options::self());
+    m_Engine.rootContext()->setContextProperty("SimClock", m_KStarsData->clock());
     m_Engine.rootContext()->setContextObject(new KLocalizedContext(this));
+    qmlRegisterUncreatableType<Projector>("KStarsLiteEnums", 1, 0, "Projection", "Provides Projection enum");
+    qmlRegisterUncreatableType<KStarsLite>("KStarsLiteEnums", 1, 0, "ObjectsToToggle", "Enum for togglint the visibility of sky objects");
 
     //Dialogs
     m_findDialogLite = new FindDialogLite;
+    m_detailDialogLite = new DetailDialogLite;
     m_Engine.rootContext()->setContextProperty("FindDialogLite", m_findDialogLite);
+    m_Engine.rootContext()->setContextProperty("DetailDialogLite", m_detailDialogLite);
 
     //Set Geographic Location from Options
     m_KStarsData->setLocationFromOptions();
 
-    /*SkyMapLite has to be loaded before KStarsData is initialized because SkyComponents derived classes
-    have to add SkyItems to the SkyMapLite*/
-    m_SkyMapLite = SkyMapLite::createInstance();
+    //Set style - default is Material
+    QQuickStyle::setStyle("Material");
 
-    m_Engine.rootContext()->setContextProperty("SkyMapLite", m_SkyMapLite);
-    m_imgProvider = new ImageProvider;
-    m_Engine.addImageProvider(QLatin1String("images"), m_imgProvider);
-    //qmlRegisterType<SkyPoint>("skymaplite",1,0,"SkyMapLite");    
+    //qmlRegisterType<SkyPoint>("skymaplite",1,0,"SkyMapLite");
+    //qmlRegisterType<KStarsDateTime>("KStarsLite",1,0,"KStarsDateTime");
 
 #ifdef Q_OS_ANDROID
     QString main = KSPaths::locate(QStandardPaths::AppDataLocation, "kstarslite/qml/main.qml");
@@ -92,7 +101,16 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_RootObject = m_Engine.rootObjects()[0];
 
     QQuickItem *skyMapLiteWrapper = m_RootObject->findChild<QQuickItem*>("skyMapLiteWrapper");
-    m_SkyMapLite->setParentItem(skyMapLiteWrapper);
+
+    /*SkyMapLite has to be loaded before KStarsData is initialized because SkyComponents derived classes
+    have to add SkyItems to the SkyMapLite*/
+    m_SkyMapLite = SkyMapLite::createInstance(skyMapLiteWrapper);
+
+    m_detailDialogLite->initialize();
+
+    m_Engine.rootContext()->setContextProperty("SkyMapLite", m_SkyMapLite);
+    m_imgProvider = new ImageProvider;
+    m_Engine.addImageProvider(QLatin1String("images"), m_imgProvider);
 
     // Whenever the wrapper's(parent) dimensions changed, change SkyMapLite too
     connect(skyMapLiteWrapper, &QQuickItem::widthChanged, m_SkyMapLite, &SkyMapLite::resizeItem);
@@ -101,11 +119,11 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_SkyMapLite->resizeItem(); /* Set initial size pf SkyMapLite. Without it on Android SkyMapLite is
     not displayed until screen orientation is not changed */
 
-    //QQuickWindow *mainWindow = m_RootObject->findChild<QQuickWindow*>("mainWindow");
+    //QQuickWindow *mainWindow = m_RootObject->findChild<QQuickWindow*>("window");
     QQuickWindow *mainWindow = static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
 
     QSurfaceFormat format = mainWindow->format();
-    format.setSamples(4);
+    format.setSamples(16);
     format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
     mainWindow->setFormat(format);
 
@@ -142,7 +160,7 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     DarkPalette.setColor( QPalette::Inactive, QPalette::Text, QColor( 238, 0, 0 ) );
     DarkPalette.setColor( QPalette::Inactive, QPalette::Base, QColor( 30, 10, 10 ) );
     //store original color scheme
-    OriginalPalette = QApplication::palette();
+    OriginalPalette = QGuiApplication::palette();
     if( !m_KStarsData->initialize() ) return;
     datainitFinished();
 
@@ -151,6 +169,34 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
 #else
     qDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions.";
 #endif
+}
+
+void KStarsLite::slotTrack() {
+    if ( Options::isTracking() ) {
+        Options::setIsTracking( false );
+        /*actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-decrypt") );
+
+        KSPlanetBase* planet = dynamic_cast<KSPlanetBase*>( map()->focusObject() );
+        if( planet && data()->temporaryTrail ) {
+            planet->clearTrail();
+            data()->temporaryTrail = false;
+        }*/ // No trail support yet
+
+        map()->setClickedObject( NULL );
+        map()->setFocusObject( NULL );//no longer tracking focusObject
+        map()->setFocusPoint( NULL );
+    } else {
+        map()->setClickedPoint( map()->focus() );
+        map()->setClickedObject( NULL );
+        map()->setFocusObject( NULL );//no longer tracking focusObject
+        map()->setFocusPoint( map()->clickedPoint() );
+        Options::setIsTracking( true );
+        /*actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );*/
+    }
+
+    map()->forceUpdate();
 }
 
 KStarsLite *KStarsLite::createInstance( bool doSplash, bool clockrunning, const QString &startDateString) {
@@ -231,17 +277,185 @@ void KStarsLite::loadColorScheme( const QString &name ) {
         //set the application colors for the Night Vision scheme
         if ( Options::darkAppColors() == false && filename == "night.colors" )  {
             Options::setDarkAppColors( true );
-            OriginalPalette = QApplication::palette();
-            QApplication::setPalette( DarkPalette );
+            OriginalPalette = QGuiApplication::palette();
+            QGuiApplication::setPalette( DarkPalette );
         }
 
         if ( Options::darkAppColors() && filename != "night.colors" ) {
             Options::setDarkAppColors( false );
-            QApplication::setPalette( OriginalPalette );
+            QGuiApplication::setPalette( OriginalPalette );
         }
 
         Options::setColorSchemeFile( name );
 
+        //Reinitialize stars textures
+        map()->initStarImages();
+
         map()->forceUpdate();
     }
+}
+
+void KStarsLite::slotSetTime() {
+    //QPointer<TimeDialog> timedialog = new TimeDialog( data()->lt(), data()->geo(), this );
+
+    /*if ( timedialog->exec() == QDialog::Accepted ) {
+        data()->changeDateTime( data()->geo()->LTtoUT( timedialog->selectedDateTime() ) );
+
+        if ( Options::useAltAz() ) {
+            if ( map()->focusObject() ) {
+                map()->focusObject()->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+                map()->setFocus( map()->focusObject() );
+            } else
+                map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
+        }
+
+        map()->forceUpdateNow();
+
+        //If focusObject has a Planet Trail, clear it and start anew.
+        KSPlanetBase* planet = dynamic_cast<KSPlanetBase*>( map()->focusObject() );
+        if( planet && planet->hasTrail() ) {
+            planet->clearTrail();
+            planet->addToTrail();
+        }
+    }*/
+    //delete timedialog;
+}
+
+void KStarsLite::slotToggleTimer() {
+    if ( data()->clock()->isActive() ) {
+        data()->clock()->stop();
+        updateTime();
+    } else {
+        if ( fabs( data()->clock()->scale() ) > Options::slewTimeScale() )
+            data()->clock()->setManualMode( true );
+        data()->clock()->start();
+        if ( data()->clock()->isManualMode() )
+            map()->forceUpdate();
+    }
+
+    // Update clock state in options
+    Options::setRunClock( data()->clock()->isActive() );
+}
+
+void KStarsLite::slotStepForward() {
+    if ( data()->clock()->isActive() )
+        data()->clock()->stop();
+    data()->clock()->manualTick( true );
+    map()->forceUpdate();
+}
+
+void KStarsLite::slotStepBackward() {
+    if ( data()->clock()->isActive() )
+        data()->clock()->stop();
+    data()->clock()->setClockScale( -1.0 * data()->clock()->scale() ); //temporarily need negative time step
+    data()->clock()->manualTick( true );
+    data()->clock()->setClockScale( -1.0 * data()->clock()->scale() ); //reset original sign of time step
+    map()->forceUpdate();
+}
+
+void KStarsLite::applyConfig(bool doApplyFocus) {
+    Q_UNUSED(doApplyFocus);
+    //color scheme
+    m_KStarsData->colorScheme()->loadFromConfig();
+    QGuiApplication::setPalette( Options::darkAppColors() ? DarkPalette : OriginalPalette );
+}
+
+void KStarsLite::setProjection(uint proj) {
+    Options::setProjection(proj);
+    //We update SkyMapLite 2 times because of the bug in Projector::updateClipPoly()
+    SkyMapLite::Instance()->forceUpdate();
+    SkyMapLite::Instance()->forceUpdate();
+}
+
+QColor KStarsLite::getColor(QString schemeColor) {
+    return KStarsData::Instance()->colorScheme()->colorNamed(schemeColor);
+}
+
+void KStarsLite::toggleObjects(ObjectsToToggle toToggle, bool toggle) {
+    switch(toToggle) {
+        case ObjectsToToggle::Stars:
+            Options::setShowStars(toggle);
+            break;
+        case ObjectsToToggle::DeepSky:
+            Options::setShowDeepSky(toggle);
+            break;
+        case ObjectsToToggle::Planets:
+            Options::setShowSolarSystem(toggle);
+            break;
+        case ObjectsToToggle::CLines:
+            Options::setShowCLines(toggle);
+            break;
+        case ObjectsToToggle::CBounds:
+            Options::setShowCBounds(toggle);
+            break;
+        case ObjectsToToggle::ConstellationArt:
+            Options::setShowConstellationArt(toggle);
+            break;
+        case ObjectsToToggle::MilkyWay:
+            Options::setShowMilkyWay(toggle);
+            break;
+        case ObjectsToToggle::CNames:
+            Options::setShowCNames(toggle);
+            break;
+        case ObjectsToToggle::EquatorialGrid:
+            Options::setShowEquatorialGrid(toggle);
+            break;
+        case ObjectsToToggle::HorizontalGrid:
+            Options::setShowHorizontalGrid(toggle);
+            break;
+        case ObjectsToToggle::Ground:
+            Options::setShowGround(toggle);
+            break;
+        case ObjectsToToggle::Flags:
+            Options::setShowFlags(toggle);
+            break;
+        case ObjectsToToggle::Satellites:
+            Options::setShowSatellites(toggle);
+            break;
+        case ObjectsToToggle::Supernovae:
+            Options::setShowSupernovae(toggle);
+            break;
+    };
+
+    // update time for all objects because they might be not initialized
+    // it's needed when using horizontal coordinates
+    data()->setFullTimeUpdate();
+    updateTime();
+
+    map()->forceUpdate();
+}
+
+bool KStarsLite::isToggled(ObjectsToToggle toToggle) {
+    switch(toToggle) {
+        case ObjectsToToggle::Stars:
+            return Options::showStars();
+        case ObjectsToToggle::DeepSky:
+            return Options::showDeepSky();
+        case ObjectsToToggle::Planets:
+            return Options::showSolarSystem();
+        case ObjectsToToggle::CLines:
+            return Options::showCLines();
+        case ObjectsToToggle::CBounds:
+            return Options::showCBounds();
+        case ObjectsToToggle::ConstellationArt:
+            return Options::showConstellationArt();
+        case ObjectsToToggle::MilkyWay:
+            return Options::showMilkyWay();
+        case ObjectsToToggle::CNames:
+            return Options::showCNames();
+        case ObjectsToToggle::EquatorialGrid:
+            return Options::showEquatorialGrid();
+        case ObjectsToToggle::HorizontalGrid:
+            return Options::showHorizontalGrid();
+        case ObjectsToToggle::Ground:
+            return Options::showGround();
+        case ObjectsToToggle::Flags:
+            return Options::showFlags();
+        case ObjectsToToggle::Satellites:
+            return Options::showSatellites();
+        case ObjectsToToggle::Supernovae:
+            return Options::showSupernovae();
+        default:
+            return false;
+    };
 }

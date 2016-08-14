@@ -43,15 +43,16 @@ public:
 
     void updateGeometry(float x, float y, int width, int height, bool filled);
 private:
+    QSGGeometryNode *m_geometryNode;
+    QSGGeometry *m_geometry;
+    QSGFlatColorMaterial *m_material;
+
     int m_width;
     int m_height;
 
     float m_x;
     float m_y;
 
-    QSGGeometryNode *m_geometryNode;
-    QSGGeometry *m_geometry;
-    QSGFlatColorMaterial *m_material;
     bool m_fillMode;
 };
 

@@ -42,17 +42,19 @@ endif(BUILD_KSTARS_LITE)
 add_definitions( -DSOURCE_DIR=\"${kstars_SOURCE_DIR}\" )
 
 if(BUILD_KSTARS_LITE)
-    set (fits_SRCS
-        fitsviewer/fitsdatalite.cpp
-        fitsviewer/fitsviewlite.cpp
-        fitsviewer/bayer.c
-        )
-    if(ANDROID)
-        include_directories(${kstars_SOURCE_DIR}/android_lib/include)
-    else()
-        #if it is not Android we need only CFITSIO
-        include_directories(${CFITSIO_INCLUDE_DIR})
-    endif()
+    if(INDI_FOUND)
+        set (fits_SRCS
+            fitsviewer/fitsdatalite.cpp
+            fitsviewer/fitsviewlite.cpp
+            fitsviewer/bayer.c
+            )
+        if(ANDROID)
+            include_directories(${kstars_SOURCE_DIR}/android_lib/include)
+        else()
+            #if it is not Android we need only CFITSIO
+            include_directories(${CFITSIO_INCLUDE_DIR})
+        endif()
+    endif(INDI_FOUND)
 else(BUILD_KSTARS_LITE)
     if (CFITSIO_FOUND)
         set (fits_SRCS
@@ -80,39 +82,7 @@ if(BUILD_KSTARS_LITE)
         set (indi_SRCS
             indi/clientmanagerlite.cpp
             indi/inditelescopelite.cpp
-            #indi/drivermanager.cpp
-            #indi/servermanager.cpp
-            #indi/clientmanager.cpp
-            #indi/guimanager.cpp
-            #indi/driverinfo.cpp
-            #indi/deviceinfo.cpp
-            #indi/indidevice.cpp
-            #indi/indigroup.cpp
-            #indi/indiproperty.cpp
-            #indi/indielement.cpp
-            #indi/indistd.cpp
-            #indi/indilistener.cpp
-            #indi/inditelescope.cpp
-            #indi/indiccd.cpp
-            #indi/indifocuser.cpp
-            #indi/indifilter.cpp
-            #indi/indidome.cpp
-            #indi/indiweather.cpp
-            #indi/indicap.cpp
-            #indi/indilightbox.cpp
-            #indi/indidbus.cpp
-            #indi/opsindi.cpp
-            #indi/telescopewizardprocess.cpp
-            #indi/streamwg.cpp
             )
-        set(indiui_SRCS
-            indi/drivermanager.ui
-            #indi/opsindi.ui
-            #indi/indihostconf.ui
-            #indi/streamform.ui
-            #indi/telescopewizard.ui
-            )
-        include_directories(${INDI_INCLUDE_DIR})
 elseif(BUILD_KSTARS_LITE)
         set (indi_SRCS
             indi/drivermanager.cpp
@@ -140,6 +110,7 @@ elseif(BUILD_KSTARS_LITE)
             indi/telescopewizardprocess.cpp
             indi/streamwg.cpp
             )
+
         set(indiui_SRCS
             indi/drivermanager.ui
             indi/opsindi.ui
@@ -197,6 +168,7 @@ elseif(BUILD_KSTARS_LITE)
 
         endif(CFITSIO_FOUND)
 endif(BUILD_KSTARS_LITE)
+include_directories(${INDI_INCLUDE_DIR})
 endif (INDI_FOUND)
 
 if(NOT BUILD_KSTARS_LITE)
@@ -611,6 +583,7 @@ if(BUILD_KSTARS_LITE)
         #ImageProvider
         kstarslite/imageprovider.cpp
         #Dialogs
+        kstarslite/dialogs/detaildialoglite.cpp
         kstarslite/dialogs/finddialoglite.cpp
         kstarslite/dialogs/skyobjectlistmodel.cpp
         #RootNode
@@ -682,14 +655,28 @@ if(BUILD_KSTARS_LITE)
     set(kstarsliteqml_SRCS
         kstarslite/qml/main.qml
         kstarslite/qml/constants/Constants.qml
+        kstarslite/qml/modules/SkyMapLiteWrapper.qml
         kstarslite/qml/modules/BottomMenu.qml
         kstarslite/qml/modules/KSPage.qml
+        kstarslite/qml/modules/KSListView.qml
         kstarslite/qml/modules/KSScrollablePage.qml
         kstarslite/qml/modules/TopMenu.qml
         kstarslite/qml/modules/helpers/TopMenuButton.qml
+        kstarslite/qml/modules/helpers/BottomMenuButton.qml
         kstarslite/qml/modules/Splash.qml
         kstarslite/qml/modules/ContextDrawerMenu.qml
-        kstarslite/qml/modules/TelescopeControlMenu.qml
+        kstarslite/qml/modules/helpers/TimeSpinBox.qml
+        kstarslite/qml/modules/TimePage.qml
+        kstarslite/qml/modules/ObjectDetails.qml
+        kstarslite/qml/modules/KSTab.qml
+        #Popups
+        kstarslite/qml/modules/popups/ProjectionsPopup.qml
+        kstarslite/qml/modules/popups/ColorSchemePopup.qml
+        kstarslite/qml/modules/popups/ObjectPopup.qml
+        #Helpers
+        kstarslite/qml/modules/helpers/PassiveNotification.qml
+        kstarslite/qml/modules/helpers/KSMenuItem.qml
+        kstarslite/qml/modules/helpers/DetailsItem.qml
         #Dialogs
         kstarslite/qml/dialogs/FindDialog.qml
         #INDI
@@ -700,7 +687,6 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/indi/modules/Led.qml
         kstarslite/qml/indi/modules/KSLed.qml
         kstarslite/qml/indi/modules/Property.qml
-        kstarslite/qml/indi/modules/KSTab.qml
         kstarslite/qml/indi/modules/KSComboBox.qml
         kstarslite/qml/indi/modules/KSButtonSwitch.qml
         kstarslite/qml/indi/modules/KSCheckBox.qml
@@ -709,7 +695,6 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/indi/modules/KSButtonsSwitchRow.qml
         )
     add_subdirectory(kstarslite/qml)
-    add_subdirectory(kstarslite/kirigami-lib)
 if(ANDROID)
     add_subdirectory(kstarslite/res)
 endif()
@@ -836,13 +821,16 @@ if(BUILD_KSTARS_LITE)
         Qt5::Qml
         Qt5::Quick
         Qt5::Sensors
+        Qt5::QuickControls2
         ${ZLIB_LIBRARIES}
         )
-    if(ANDROID)
-        add_library(RAWExtractor SHARED IMPORTED)
-        set_property(TARGET RAWExtractor PROPERTY IMPORTED_LOCATION ${kstars_SOURCE_DIR}/android_lib/libRAWExtractor.so)
-        target_link_libraries(KStarsLib RAWExtractor)
-    endif(ANDROID)
+    if(INDI_FOUND)
+        if(ANDROID)
+            add_library(RAWExtractor SHARED IMPORTED)
+            set_property(TARGET RAWExtractor PROPERTY IMPORTED_LOCATION ${kstars_SOURCE_DIR}/android_lib/libRAWExtractor.so)
+            target_link_libraries(KStarsLib RAWExtractor)
+        endif(ANDROID)
+    endif(INDI_FOUND)
 else(BUILD_KSTARS_LITE)
     target_link_libraries(KStarsLib
         LibKSDataHandlers
@@ -853,7 +841,6 @@ else(BUILD_KSTARS_LITE)
         KF5::KIOFileWidgets
         KF5::WidgetsAddons
         KF5::Plotting
-        #KF5::IconThemes
         Qt5::Gui
         Qt5::PrintSupport
         Qt5::Sql
@@ -867,10 +854,11 @@ endif(BUILD_KSTARS_LITE)
 if(NOT WIN32)
     target_link_libraries(KStarsLib m)
 endif(NOT WIN32)
+
 if (CFITSIO_FOUND)
     target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
-
 endif(CFITSIO_FOUND)
+
 if(INDI_FOUND)
     add_definitions(-DINDI_FOUND)
     if(BUILD_KSTARS_LITE)

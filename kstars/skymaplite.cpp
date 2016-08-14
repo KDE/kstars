@@ -52,6 +52,7 @@
 #include <QQuickWindow>
 #include <QLinkedList>
 #include <QQmlContext>
+#include <QScreen>
 
 #include <QTapSensor>
 #include <QMagnetometer>
@@ -106,7 +107,8 @@ int SkyMapLite::starColorMode = 0;
 
 SkyMapLite::SkyMapLite(QQuickItem* parent)
     :QQuickItem(parent), m_proj(0), count(0), data(KStarsData::Instance()),
-      nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0)
+      nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0),
+      clearTextures(false)
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
@@ -123,8 +125,8 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     ClickedObject = NULL;
     FocusObject = NULL;
 
-    ClickedObjectLite = new SkyObjectLite;
-    ClickedPointLite = new SkyPointLite;
+    m_ClickedObjectLite = new SkyObjectLite;
+    m_ClickedPointLite = new SkyPointLite;
 
     m_tapSensor = new QTapSensor(this);
     m_tapSensor->setReturnDoubleTapEvents(true);
@@ -140,10 +142,10 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     m_rotation = new QRotationSensor(this);
     m_rotation->start();
 
-    connect( m_magnetometer, SIGNAL( readingChanged() ), this, SLOT( slotCompassMove() ) );
+    qmlRegisterType<SkyObjectLite>("KStarsLite",1,0,"SkyObjectLite");
+    qmlRegisterType<SkyPointLite>("KStarsLite",1,0,"SkyPointLite");
 
-    KStarsLite::Instance()->qmlEngine()->rootContext()->setContextProperty("ClickedObject",ClickedObjectLite);
-    KStarsLite::Instance()->qmlEngine()->rootContext()->setContextProperty("ClickedPoint",ClickedPointLite);
+    connect( m_magnetometer, SIGNAL( readingChanged() ), this, SLOT( slotCompassMove() ) );
 
     m_timer.setInterval(1000);
     m_timer.start();
@@ -194,6 +196,7 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
             n = new RootNode();
             m_rootNode = n;
         }
+#ifdef INDI_FOUND
         if(m_newTelescopes.count() > 0) {
             foreach(INDI::BaseDevice *telescope, m_newTelescopes) {
                 n->telescopeSymbolsItem()->addTelescope(telescope);
@@ -207,10 +210,13 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
             }
             m_delTelescopes.clear();
         }
-        n->update();
+#endif
+        //Notify RootNode that textures for point node should be recreated
+        n->update(clearTextures);
+        clearTextures = false;
     }
 
-    //Debug
+    //Memory Leaks test
     /*if(m_loadingFinished) {
         if(!n) {
             n = new RootNode();
@@ -300,12 +306,12 @@ void SkyMapLite::setDestinationAltAz( const dms &alt, const dms &az) {
 
 void SkyMapLite::setClickedPoint( SkyPoint *f ) {
     ClickedPoint = *f;
-    ClickedPointLite->setPoint(f);
+    m_ClickedPointLite->setPoint(f);
 }
 
 void SkyMapLite::setClickedObject( SkyObject *o ) {
     ClickedObject = o;
-    ClickedObjectLite->setObject(o);
+    m_ClickedObjectLite->setObject(o);
 }
 
 void SkyMapLite::setFocusObject( SkyObject *o ) {
@@ -552,8 +558,9 @@ void SkyMapLite::slotOpenObject(SkyObject *skyObj) {
     } else {
         setDestination( *skyObj );
     }
-    ClickedObjectLite->setObject(skyObj);
-    emit objectChanged();
+    //Updated selected SkyObject (used in FindDialog, DetailDialog)
+    m_ClickedObjectLite->setObject(skyObj);
+    emit objectLiteChanged();
 }
 
 void SkyMapLite::slotCompassMove() {
@@ -586,7 +593,7 @@ void SkyMapLite::slotCompassMove() {
 
         setFocusAltAz(dms(alt),dms(az));
         qDebug() << focus()->alt().Degrees() << focus()->az().Degrees();*/
-        qDebug() << x << y << z;
+        //qDebug() << x << y << z;
     }
 }
 
@@ -688,7 +695,6 @@ void SkyMapLite::setupProjector() {
     p.useRefraction = Options::useRefraction();
     p.zoomFactor    = Options::zoomFactor();
     p.fillGround    = Options::showGround();
-    Options::setProjection(Projector::Lambert);
 
     //Check if we need a new projector
     if( m_proj && Options::projection() == m_proj->type() )
@@ -779,12 +785,15 @@ QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont)
         f = SkyLabeler::Instance()->stdFont();
     }
 
+    qreal ratio = window()->effectiveDevicePixelRatio();
+
     QFontMetrics fm(f);
 
     int width = fm.width(text);
     int height = fm.height();
+    f.setPointSizeF(f.pointSizeF()*ratio);
 
-    QImage label(width, height, QImage::Format_ARGB32_Premultiplied);
+    QImage label(width*ratio, height*ratio, QImage::Format_ARGB32_Premultiplied);
 
     label.fill(Qt::transparent);
 
@@ -793,7 +802,7 @@ QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont)
     m_painter.setFont(f);
 
     m_painter.setPen( color );
-    m_painter.drawText(0,height - fm.descent(),text);
+    m_painter.drawText(0,(height - fm.descent())*ratio,text);
 
     m_painter.end();
 
@@ -804,10 +813,22 @@ QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont)
 
 void SkyMapLite::initStarImages()
 {
+    //Delete all existing pixmaps
+    if(imageCache.length() != 0) {
+        foreach(QVector<QPixmap*> vec, imageCache) {
+            qDeleteAll(vec.begin(), vec.end());
+        }
+        clearTextures = true;
+    }
+
     imageCache = QVector<QVector<QPixmap*>>(nSPclasses);
 
     QMap<char, QColor> ColorMap;
     const int starColorIntensity = Options::starColorIntensity();
+
+    //On high-dpi screens star will look pixelized if don't multiply scaling factor by this ratio
+    //Check PointNode::setNode() to see how it works
+    qreal ratio = window()->effectiveDevicePixelRatio();
 
     switch( Options::starColorMode() ) {
     case 1: // Red stars.
@@ -872,9 +893,9 @@ void SkyMapLite::initStarImages()
                                       qMax( qreal(0), dist < (10-starColorIntensity)/20.0 ? 1 : 1-dist ) );
                     p.setPen( starColor );
                     p.drawPoint( i, j );
-                    p.drawPoint( 14-i, j );
-                    p.drawPoint( i, 14-j );
-                    p.drawPoint (14-i, 14-j);
+                    p.drawPoint( (14-i), j );
+                    p.drawPoint( i, (14-j) );
+                    p.drawPoint ((14-i), (14-j));
                 }
             }
         } else {
@@ -890,9 +911,8 @@ void SkyMapLite::initStarImages()
         QVector<QPixmap *> *pmap = &imageCache[ harvardToIndex(color) ];
         pmap->append(new QPixmap(BigImage));
         for( int size = 1; size < nStarSizes; size++ ) {
-            pmap->append(new QPixmap(BigImage.scaled( size, size, Qt::KeepAspectRatio, Qt::SmoothTransformation )));
+            pmap->append(new QPixmap(BigImage.scaled( size*ratio, size*ratio, Qt::KeepAspectRatio, Qt::SmoothTransformation )));
         }
-
     }
     //}
     starColorMode = Options::starColorMode();

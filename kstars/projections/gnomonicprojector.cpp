@@ -22,7 +22,7 @@
 GnomonicProjector::GnomonicProjector(const ViewParams& p)
     : Projector(p)
 {
-
+    updateClipPoly();
 }
 
 Projector::Projection GnomonicProjector::type() const

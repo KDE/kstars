@@ -29,7 +29,7 @@ public:
     DeepSkyIndex *m_index;
 
     LabelsItem::label_t m_labelType;
-    QColor m_color;
+    QString schemeColor;
 
     virtual void hide();
     virtual void show();
@@ -67,8 +67,8 @@ public:
      */
     virtual void update();
 
-    void updateDeepSkyNode(DSOIndexNode *node, bool drawObject, const QString& colorString,
-                           MeshIterator *region, bool drawImage = false);
+    void updateDeepSkyNode(DSOIndexNode *node, bool drawObject, MeshIterator *region,
+                           bool drawImage = false);
 
 private:
     DeepSkyComponent *m_dsoComp;

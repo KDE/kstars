@@ -1,5 +1,6 @@
 install( FILES icon.png
     applications-system.png
+    appointment-new.png
     arrow-down-double.png
     arrow-down.png
     arrow-right.png
@@ -21,6 +22,10 @@ install( FILES icon.png
     sc-actions-kstars_mw.png
     sc-actions-kstars_planets.png
     sc-actions-kstars_stars.png
+    sc-actions-kstars_hgrid.png
     system-search.png
     back.png
+    satellites.png
+    supernovae.png
+    constellationart.png
     DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/images/hdpi/icons )

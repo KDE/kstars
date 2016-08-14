@@ -161,7 +161,7 @@ public:
     CatalogDB *catalogdb() { return &m_catalogdb; }
 
     /** @return pointer to the simulation Clock object */
-    SimClock *clock() { return &Clock; }
+    Q_INVOKABLE SimClock *clock() { return &Clock; }
 
     /** @return pointer to the local sidereal time: a dms object */
     dms *lst() { return &LST; }

@@ -1,8 +1,5 @@
 #install_files
 install( FILES kstars.png
-    shadow.png
-    SkyMap.png
-    SkyMap-port.png
     DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/images )
     
 add_subdirectory(hdpi) 

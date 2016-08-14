@@ -100,7 +100,7 @@ void DeepStarItem::update() {
             show();
         }
 
-        float m_zoomMagLimit = maglim;
+        //float m_zoomMagLimit = maglim;
 
         m_skyMesh->inDraw( true );
 

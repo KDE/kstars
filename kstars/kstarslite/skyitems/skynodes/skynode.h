@@ -89,7 +89,7 @@ public:
      * that support moving
      * @param pos new position
      */
-    virtual void changePos(QPointF pos) { }
+    virtual void changePos(QPointF pos) {Q_UNUSED(pos);}
 
     /**
      * @return true if object is visible (m_opacity->opacity() != 0) else returns false

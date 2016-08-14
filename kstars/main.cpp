@@ -20,6 +20,7 @@
 #include <QPixmap>
 
 #include <QApplication>
+#include <QScreen>
 
 #ifdef KSTARS_LITE
 #include "kstarslite.h"
@@ -56,20 +57,21 @@ static const char notice[] =
 
 int main(int argc, char *argv[])
 {
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
     app.setApplicationVersion(KSTARS_VERSION);
     /**
     * enable high dpi support
     */
-    // app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
     QByteArray data = "1";
 
     //qputenv("QSG_RENDER_TIMING", data);
-
+    KLocalizedString::setApplicationDomain("kstars");
 #ifndef KSTARS_LITE
     KCrash::initialize();
-    KLocalizedString::setApplicationDomain("kstars");
+
 
     KAboutData aboutData( "kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
                           i18n("(c) 2001-2015, The KStars Team"), i18n(notice), "http://edu.kde.org/kstars");
@@ -246,43 +248,6 @@ int main(int argc, char *argv[])
     Options::setTimeZone(1);
     Options::setRunClock(false);
 
-    Options::setShowStarMagnitudes(true);
-    Options::setShowStarNames(true);
-    Options::setShowStars(true);
-
-    Options::setShowDeepSky(true);
-    Options::setShowCBounds(false);
-    Options::setShowCLines(true);
-    Options::setShowSolarSystem(true);
-    Options::setShowEcliptic(true);
-    Options::setShowEquator(true);
-    Options::setShowEquatorialGrid(true);
-    Options::setShowHorizontalGrid(true);
-    Options::setShowGround(true);
-    Options::setShowSupernovae(true);
-
-    Options::setShowMilkyWay(true);
-    Options::setShowConstellationArt(false);
-
-    //Labels
-    Options::setShowCometNames(true);
-    Options::setShowAsteroidNames(true);
-    Options::setShowAsteroids(true);
-    Options::setShowCNames(true);
-
-    Options::setShowNGC(true);
-    Options::setHideNGC(true);
-    Options::setShowDeepSkyNames(true);
-
-    Options::setAutoSelectGrid(false);
-
-    Options::setProjection(Projector::Lambert);
-
-    Options::setHideCBounds(true);
-    Options::setHideCLines(false);
-    Options::setHideOnSlew(true);
-    Options::setHideGrids(false);
-
     // Create writable data dir if it does not exist
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
@@ -301,13 +266,12 @@ int main(int argc, char *argv[])
             KStars::Instance()->openFITS(u);
         }
     }
+    QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
 #else
     //KStarsLite::createInstance( true, ! parser.isSet( "paused" ), datestring );
     //TODO decide wheter KStars Lite should have command line parser
     KStarsLite::createInstance( true );
 #endif
-
-    //QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
     return app.exec();
 
 }

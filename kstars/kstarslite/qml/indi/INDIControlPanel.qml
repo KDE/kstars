@@ -1,15 +1,14 @@
-import QtQuick 2.4
+import QtQuick 2.6
 import QtQuick.Window 2.2
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.2
 import "../modules"
 import "../constants" 1.0
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 1.4 as Controls
-import org.kde.kirigami 1.0 as Kirigami
 
 KSPage {
     id: indiPage
-    title: "INDI Control Panel"
     objectName: "indiControlPanel"
+    title: "INDI Control Panel"
 
     property bool connected: ClientManagerLite.connected
 
@@ -17,24 +16,16 @@ KSPage {
         if(Qt.platform.os != "android") {
             ClientManagerLite.setHost("localhost", parseInt(7624))
         }
-        var i = 100
-        while(i--) {
-            console.log(ClientManagerLite.lastUsedServer())
-        }
     }
-
-    /*onHeightChanged: {
-        devicesPage.height = indiPage.height - devicesPage.y
-    }*/
 
     onConnectedChanged: {
         if(!indiPage.connected) {
             for(var i = 0; i < devicesModel.count; ++i) {
                 devicesModel.get(i).panel.destroy()
+                stackView.pop(indiPage)
             }
             devicesModel.clear()
-            showPage(initPage)
-            showPassiveNotification("Disconnected from the server")
+            notification.showNotification("Disconnected from the server")
         }
     }
     contentItem: cPanelColumn
@@ -50,9 +41,8 @@ KSPage {
                 right: parent.right
             }
 
-            Kirigami.Label {
+            Label {
                 text: xi18n("INDI Host")
-                color: num.sysPalette.text
             }
 
             RowLayout {
@@ -61,42 +51,43 @@ KSPage {
                     right: parent.right
                 }
 
-                Controls.TextField {
+                TextField {
                     id:ipHost
                     placeholderText: xi18n("IP")
                     Layout.alignment: Qt.AlignHCenter
-                    implicitWidth: parent.width*0.8
+                    Layout.maximumWidth: parent.width*0.8
+                    Layout.fillWidth: true
                     text: ClientManagerLite.lastUsedServer()
                 }
 
-                Controls.TextField {
+                TextField {
                     id:portHost
                     placeholderText: xi18n("Port")
                     Layout.alignment: Qt.AlignHCenter
-                    implicitWidth: parent.width*0.2
+                    Layout.maximumWidth: parent.width*0.2
+                    Layout.fillWidth: true
                     text: ClientManagerLite.lastUsedPort()
                 }
             }
         }
 
-        Kirigami.Label {
+        Label {
             id: connectedTo
             visible: indiPage.connected
-            color: num.sysPalette.text
             text: xi18n("Connected to ") + ClientManagerLite.connectedHost
         }
 
-        Controls.Button {
+        Button {
             text: indiPage.connected ? xi18n("Disconnect") : xi18n("Connect ")
 
             onClicked: {
                 if(!indiPage.connected) {
                     if(ClientManagerLite.setHost(ipHost.text, parseInt(portHost.text))) {
-                        showPassiveNotification(xi18n("Successfully connected to the server"))
+                        notification.showNotification(xi18n("Successfully connected to the server"))
                         ClientManagerLite.setLastUsedServer(ipHost.text)
                         ClientManagerLite.setLastUsedPort(portHost.text)
                     } else {
-                        showPassiveNotification(xi18n("Couldn't connect to the server"))
+                        notification.showNotification(xi18n("Couldn't connect to the server"))
                     }
                 } else {
                     ClientManagerLite.disconnectHost()
@@ -116,10 +107,9 @@ KSPage {
                 color: "gray"
             }
 
-            Kirigami.Label {
+            Label {
                 id: devicesLabel
                 text: xi18n("Available Devices")
-                color: num.sysPalette.text
             }
 
             ListModel {
@@ -130,7 +120,7 @@ KSPage {
                 target: ClientManagerLite
                 onNewINDIDevice: {
                     var component = Qt.createComponent(Qt.resolvedUrl("./DevicePanel.qml"));
-                    var devicePanel = component.createObject(pagesWindow);
+                    var devicePanel = component.createObject(window);
                     devicePanel.deviceName = deviceName
                     devicesModel.append({ name: deviceName, panel: devicePanel })
                 }
@@ -143,42 +133,21 @@ KSPage {
                     }
                 }
                 onNewINDIMessage: {
-                    showPassiveNotification(message)
+                    notification.showNotification(message)
                 }
             }
         }
-    }
 
-    Kirigami.ScrollablePage {
-        id:devicesPage
-        anchors {
-            top: cPanelColumn.bottom
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-            topMargin: 5 * num.dp
-            leftMargin: 25 * num.dp
-            rightMargin: 25 * num.dp
-            bottomMargin: 25 * num.dp
-        }
-
-        leftPadding: 0
-        rightPadding: 0
-        topPadding: 0
-        bottomPadding: 0
-
-        visible: connected
-
-        ListView {
-            id: list
+        KSListView {
+            id: devicesPage
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
             model: devicesModel
-            delegate: Kirigami.BasicListItem {
-                label: model.name
-                enabled: true
-                onClicked: {
-                    model.panel.showPage(false)
-                }
+            textRole: "name"
+
+            onClicked: {
+                stackView.push(devicesModel.get(currentIndex).panel)
             }
         }
     }

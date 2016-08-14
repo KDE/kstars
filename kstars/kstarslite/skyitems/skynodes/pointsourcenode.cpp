@@ -27,16 +27,10 @@
 
 PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
                                  LabelsItem::label_t labelType, char spType, float size, short trixel)
-    :SkyNode(skyObject), m_label(0), m_labelType(labelType), m_rootNode(parentNode),
-      m_trixel(trixel), m_point(0), m_size(size), m_spType(spType)
+    :SkyNode(skyObject), m_point(0), m_rootNode(parentNode), m_label(0), m_spType(spType), m_size(size),
+      m_labelType(labelType), m_trixel(trixel), isTextureRegenerated(false)
 {
-    if(labelType == LabelsItem::label_t::STAR_LABEL) {
-        /*int i = 0;
-        while(i != 100000) {
-            i++;
-            m_int.append(i);
-        }*/
-    }
+
 }
 
 float PointSourceNode::starWidth(float mag) const
@@ -60,16 +54,16 @@ float PointSourceNode::starWidth(float mag) const
 }
 
 PointSourceNode::~PointSourceNode() {
-    if(m_label) m_rootNode->labelsItem()->deleteLabel(m_label);
+    //if(m_label) m_rootNode->labelsItem()->deleteLabel(m_label);
 }
 
-void PointSourceNode::initPoint() {
+void PointSourceNode::updatePoint() {
     if(!m_point) {
         m_point = new PointNode(m_rootNode,m_spType,starWidth(m_size));
         addChildNode(m_point);
     }
     show();
-    m_point->setSize(starWidth(m_skyObject->mag()));
+    m_point->setSize(starWidth(m_skyObject->mag())); //Set points size base on the magnitude of object
 }
 
 void PointSourceNode::changePos(QPointF pos) {
@@ -92,7 +86,7 @@ void PointSourceNode::update() {
 
     bool visible = false;
     pos = projector()->toScreen(m_skyObject,true,&visible);
-    if( visible && projector()->onScreen(pos) ) { // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
+    if( visible && projector()->onScreen(pos) ) {// FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode! (Inherited from SkyMap)
         updatePos(pos, m_drawLabel);
     } else {
         hide();
@@ -100,9 +94,9 @@ void PointSourceNode::update() {
 }
 
 void PointSourceNode::updatePos(QPointF pos, bool drawLabel) {
-    initPoint();
+    updatePoint();
     changePos(pos);
-    //Do something with this!
+
     m_drawLabel = drawLabel;
 
     if(m_drawLabel && m_labelType != LabelsItem::label_t::NO_LABEL) {
@@ -121,6 +115,5 @@ void PointSourceNode::updatePos(QPointF pos, bool drawLabel) {
 
 void PointSourceNode::hide() {
     if(m_label) m_label->hide();
-    //m_point->hide();
     SkyNode::hide();
 }

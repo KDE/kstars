@@ -24,7 +24,7 @@
 
 LineNode::LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle)
     :m_lineList(lineList), m_skipList(skipList), m_geometryNode(new QSGGeometryNode),
-      m_color(color), m_drawStyle(drawStyle), m_material(new QSGFlatColorMaterial)
+      m_drawStyle(drawStyle), m_material(new QSGFlatColorMaterial)
 {
     m_geometryNode->setOpaqueMaterial(m_material);
     //m_geometryNode->setFlag(QSGNode::OwnsMaterial);
@@ -44,9 +44,11 @@ LineNode::~LineNode() {
 }
 
 void LineNode::setColor(QColor color) {
-    m_material->setColor(color);
-    m_color = color;
-    m_geometryNode->markDirty(QSGNode::DirtyMaterial);
+    if(m_material->color() != color) {
+        m_material->setColor(color);
+        m_color = color;
+        m_geometryNode->markDirty(QSGNode::DirtyMaterial);
+    }
 }
 
 void LineNode::setWidth(int width) {

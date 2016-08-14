@@ -71,11 +71,14 @@ EclipticItem::EclipticItem(Ecliptic *eclipticComp, RootNode *rootNode)
 void EclipticItem::update() {
     if(m_eclipticComp->selected()) {
         show();
+        QColor schemeColor = KStarsData::Instance()->colorScheme()->colorNamed("EclColor");
+
         UpdateID updateID = KStarsData::Instance()->updateID();
 
             QSGNode *l = firstChild();
             while(l != 0) {
                 LineNode * lines = static_cast<LineNode *>(l);
+                lines->setColor(schemeColor);
                 l = l->nextSibling();
 
                 LineList * lineList = lines->lineList();

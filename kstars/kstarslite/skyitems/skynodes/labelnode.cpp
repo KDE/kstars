@@ -17,6 +17,7 @@
 #include "Options.h"
 
 #include <QSGSimpleTextureNode>
+#include <QQuickWindow>
 
 #include "skymaplite.h"
 #include "labelnode.h"
@@ -49,25 +50,38 @@ void LabelNode::initialize() {
         case LabelsItem::label_t::COMET_LABEL:
         case LabelsItem::label_t::RUDE_LABEL:
         case LabelsItem::label_t::ASTEROID_LABEL:
+            m_schemeColor = "PNameColor";
+            m_zoomFont = true;
+        break;
         case LabelsItem::label_t::DEEP_SKY_LABEL:
         case LabelsItem::label_t::DSO_MESSIER_LABEL:
         case LabelsItem::label_t::DSO_NGC_LABEL:
         case LabelsItem::label_t::DSO_IC_LABEL:
         case LabelsItem::label_t::DSO_OTHER_LABEL:
-        case LabelsItem::label_t::TELESCOPE_SYMBOL:
+            m_schemeColor = "DSNameColor";
             m_zoomFont = true;
         break;
+        case LabelsItem::label_t::TELESCOPE_SYMBOL:
+            m_schemeColor = "TargetColor";
+            m_zoomFont = true;
+        break;
+        case LabelsItem::label_t::CONSTEL_NAME_LABEL:
+            m_schemeColor = "CNameColor";
+        break;
+        case LabelsItem::label_t::STAR_LABEL:
+            m_schemeColor = "SNameColor";
+        break;
+
         default:
-            break;
+            m_schemeColor = "UserLabelColor";
+        break;
     }
 
-    createTexture();
+    createTexture(KStarsData::Instance()->colorScheme()->colorNamed(m_schemeColor));
     m_opacity->appendChildNode(m_textTexture);
 }
 
-void LabelNode::createTexture() {
-    QColor color;
-    KStarsData *m_KStarsData = KStarsData::Instance();
+void LabelNode::createTexture(QColor color) {
 
     switch(m_labelType) {
         case LabelsItem::label_t::SATURN_MOON_LABEL:
@@ -78,38 +92,10 @@ void LabelNode::createTexture() {
             break;
     }
 
-    switch(m_labelType) {
-        case LabelsItem::label_t::TELESCOPE_SYMBOL:
-            color = m_KStarsData->colorScheme()->colorNamed("TargetColor" );
-            break;
-        case LabelsItem::label_t::PLANET_LABEL:
-        case LabelsItem::label_t::SATURN_MOON_LABEL:
-        case LabelsItem::label_t::JUPITER_MOON_LABEL:
-        case LabelsItem::label_t::COMET_LABEL:
-        case LabelsItem::label_t::RUDE_LABEL:
-        case LabelsItem::label_t::ASTEROID_LABEL:
-            color = m_KStarsData->colorScheme()->colorNamed( "PNameColor" );
-            break;
-        case LabelsItem::label_t::CONSTEL_NAME_LABEL:
-            color = m_KStarsData->colorScheme()->colorNamed( "CNameColor" );
-            break;
-        case LabelsItem::label_t::DEEP_SKY_LABEL:
-        case LabelsItem::label_t::DSO_MESSIER_LABEL:
-        case LabelsItem::label_t::DSO_NGC_LABEL:
-        case LabelsItem::label_t::DSO_IC_LABEL:
-        case LabelsItem::label_t::DSO_OTHER_LABEL:
-            color = m_KStarsData->colorScheme()->colorNamed( "DSNameColor" );
-            break;
-        case LabelsItem::label_t::STAR_LABEL:
-            color = m_KStarsData->colorScheme()->colorNamed( "SNameColor" );
-            break;
-        default:
-            color = m_KStarsData->colorScheme()->colorNamed( "UserLabelColor" );
-    }
-
     QSGTexture *oldTexture = m_textTexture->texture();
 
     m_textTexture->setTexture(SkyMapLite::Instance()->textToTexture(m_name, color, m_zoomFont));
+    m_color = color;
 
     if(m_zoomFont) m_fontSize = SkyLabeler::Instance()->drawFont().pointSize();
 
@@ -126,7 +112,9 @@ void LabelNode::createTexture() {
 
     m_textSize = m_textTexture->texture()->textureSize();
     QRectF oldRect = m_textTexture->rect();
-    m_textTexture->setRect(QRect(oldRect.x(),oldRect.y(),m_textSize.width(),m_textSize.height()));
+    qreal ratio = SkyMapLite::Instance()->window()->effectiveDevicePixelRatio();
+
+    m_textTexture->setRect(QRect(oldRect.x(),oldRect.y(),m_textSize.width()/ratio,m_textSize.height()/ratio));
 }
 
 void LabelNode::changePos(QPointF pos) {
@@ -142,15 +130,16 @@ void LabelNode::changePos(QPointF pos) {
 
 void LabelNode::setLabelPos(QPointF pos) {
     show();
-
+    qreal ratio = SkyMapLite::Instance()->window()->effectiveDevicePixelRatio();
     //We need to subtract the height of texture from final y to follow the way QPainter draws the text
-    if(m_skyObject) labelPos = QPointF(pos.x() + m_skyObject->labelOffset(), pos.y() + m_skyObject->labelOffset() - m_textSize.height());
+    if(m_skyObject) labelPos = QPointF(pos.x() + m_skyObject->labelOffset(), pos.y() + m_skyObject->labelOffset() - m_textSize.height()/ratio);
     else labelPos = QPointF(pos.x(), pos.y());
 }
 
 void LabelNode::update() {
-    if(m_zoomFont && m_fontSize != SkyLabeler::Instance()->skyFont().pointSize()) {
-        createTexture();
+    QColor newColor = KStarsData::Instance()->colorScheme()->colorNamed(m_schemeColor);
+    if((m_zoomFont && m_fontSize != SkyLabeler::Instance()->skyFont().pointSize()) || m_color != newColor) {
+        createTexture(newColor);
     }
 
     changePos(labelPos);

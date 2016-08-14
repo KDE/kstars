@@ -24,6 +24,7 @@ class KSPlanetBase;
 class RootNode;
 class PointNode;
 class LabelNode;
+#include "../labelsitem.h"
 
 /** @class PlanetNode
  *
@@ -42,8 +43,9 @@ public:
      * @brief Constructor
      * @param planet used in PlanesItem to update position of PlanetNode
      * @param parentNode used by PointNode to get textures from cache
+     * @param labelType type of label. Pluto has different from planets label type
      */
-    PlanetNode(KSPlanetBase* planet, RootNode* parentNode);
+    PlanetNode(KSPlanetBase* planet, RootNode* parentNode, LabelsItem::label_t labelType = LabelsItem::label_t::PLANET_LABEL);
 
     /**
      * @short updates the size of m_point
@@ -79,8 +81,8 @@ private:
 
     // This opacity node is used to hide m_planetPic. m_point is subclass of QSGOpacityNode so it needs
     // no explicit opacity node here.
-    SkyOpacityNode *m_planetOpacity;
     QSGSimpleTextureNode *m_planetPic;
+    SkyOpacityNode *m_planetOpacity;
     LabelNode *m_label;
 };
 

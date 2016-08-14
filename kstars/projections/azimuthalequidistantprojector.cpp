@@ -26,7 +26,7 @@
 AzimuthalEquidistantProjector::AzimuthalEquidistantProjector(const ViewParams& p)
     : Projector(p)
 {
-
+    updateClipPoly();
 }
 
 Projector::Projection AzimuthalEquidistantProjector::type() const

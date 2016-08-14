@@ -22,6 +22,7 @@
 #include "deepskynode.h"
 #include "nodes/pointnode.h"
 #include "dsosymbolnode.h"
+#include "trixelnode.h"
 
 #include "../rootnode.h"
 #include "../labelsitem.h"
@@ -57,6 +58,16 @@ void DeepSkyNode::changePos(QPointF pos) {
 
     setMatrix(m);
     markDirty(QSGNode::DirtyMatrix);
+}
+
+void DeepSkyNode::setColor(QColor color, TrixelNode *symbolTrixel) {
+    if(m_symbol->getColor() != color) {
+        delete m_symbol;
+        m_symbol = new DSOSymbolNode(m_dso, color);
+        symbolTrixel->appendChildNode(m_symbol);
+    }
+
+    //m_label->setColor
 }
 
 void DeepSkyNode::update(bool drawImage, bool drawLabel, QPointF pos) {

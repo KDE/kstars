@@ -68,7 +68,7 @@ public:
      * @note PlanetMoonsNode is not meant to be moved. PlanetNode and PointSourceNodes handle this on
      * their own.
      */
-    virtual void changePos(QPointF pos) { }
+    //virtual void changePos(QPointF pos) { }
 
     /**
      * Update position of moons if planet has them. To allow z-ordering we need to change the structure
@@ -79,13 +79,13 @@ public:
     void updateMoons();
 
 private:
-    PlanetNode *m_planetNode;
+    RootNode *m_rootNode;
     PlanetMoons *pmoons;
+    PlanetNode *m_planetNode;
 
     LabelsItem::label_t m_labelType;
 
-    QList<SkyNode *> m_moonNodes;
-    RootNode *m_rootNode;
+    QList<PointSourceNode *> m_moonNodes;
 
 };
 

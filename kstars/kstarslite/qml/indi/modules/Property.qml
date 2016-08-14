@@ -1,16 +1,15 @@
-import QtQuick 2.4
+import QtQuick 2.6
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.2
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.0
 import "../../constants"
-import org.kde.kirigami 1.0 as Kirigami
 import TelescopeLiteEnums 1.0
 
 ColumnLayout {
     id: columnProp
 
     Layout.fillHeight: true
-    width: parentTab.width// : parent.width
+    width: parentTab == null ? 0 : parentTab.width
 
     property string deviceName: ""
     property string propName: ""

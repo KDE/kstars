@@ -22,16 +22,34 @@
 ConstellationArtItem::ConstellationArtItem(ConstellationArtComponent *artComp, RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode), m_artComp(artComp)
 {
-    QList<ConstellationsArt *>list = m_artComp->m_ConstList;
-    for(int i = 0; i < list.size(); ++i) {
-        ConstellationArtNode *constArt = new ConstellationArtNode(list.at(i));
-        appendChildNode(constArt);
+    loadNodes();
+}
+
+void ConstellationArtItem::deleteNodes() {
+    m_artComp->deleteData();
+    QSGNode *n = firstChild();
+    while(n != 0) {
+        QSGNode *d = n;
+        n = n->nextSibling();
+        removeChildNode(d);
+        delete d;
+    }
+}
+
+void ConstellationArtItem::loadNodes() {
+    m_artComp->loadData();
+    if(!childCount()) {
+        QList<ConstellationsArt *>list = m_artComp->m_ConstList;
+        foreach(ConstellationsArt *art, list) {
+            ConstellationArtNode *constArt = new ConstellationArtNode(art);
+            appendChildNode(constArt);
+        }
     }
 }
 
 void ConstellationArtItem::update() {
     if(Options::showConstellationArt()) {
-        m_artComp->loadData();
+        loadNodes();
         if (SkyMapLite::IsSlewing() == false) {
             show();
             //Traverse all children nodes of RootNode
@@ -46,13 +64,6 @@ void ConstellationArtItem::update() {
         }
     } else {
         //Delete all images if we don't need to draw constellation art and save ~50 MB.
-        m_artComp->deleteData();
-        QSGNode *n = firstChild();
-        while(n != 0) {
-            QSGNode *d = n;
-            n = n->nextSibling();
-            removeChildNode(d);
-            delete d;
-        }
+        deleteNodes();
     }
 }

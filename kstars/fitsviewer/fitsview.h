@@ -144,7 +144,7 @@ private:
     void calculateMaxPixel(double min, double max);
     void initDisplayImage();
 
-    //FITSLabel *image_frame;
+    FITSLabel *image_frame;
     FITSData *image_data;
     int image_width, image_height;
 

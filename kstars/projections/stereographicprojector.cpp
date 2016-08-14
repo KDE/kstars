@@ -22,7 +22,7 @@
 StereographicProjector::StereographicProjector(const ViewParams& p)
     : Projector(p)
 {
-    
+    updateClipPoly();
 }
 
 Projector::Projection StereographicProjector::type() const
