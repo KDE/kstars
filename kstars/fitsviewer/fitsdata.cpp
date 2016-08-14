@@ -554,6 +554,85 @@ bool FITSData::checkCollision(Edge* s1, Edge*s2)
     return false;
 }
 
+int FITSData::findOneStar(const QRectF &boundary)
+{
+    int subX = boundary.x();
+    int subY = boundary.y();
+    int subW = subX + boundary.width();
+    int subH = subY + boundary.height();
+
+    float massX=0, massY=0, totalMass=0;
+
+    double threshold = stats.median[0] + stats.stddev[0];
+
+    for (int y=subY; y < subH; y++)
+    {
+        for (int x=subX; x < subW; x++)
+        {
+            float pixel = image_buffer[x+y*stats.width];
+            if (pixel > threshold)
+            {
+                totalMass += pixel;
+                massX     += x * pixel;
+                massY     += y * pixel;
+            }
+        }
+    }
+
+    qDebug() << "Weighted Center is X: " << massX/totalMass << " Y: " << massY/totalMass;
+
+    Edge *center = new Edge;
+    center->width = 10;
+    center->x     = massX/totalMass + 0.5;
+    center->y     = massY/totalMass + 0.5;
+    center->HFR   = 1;
+
+    // Maximum Radius
+    int maxR = qMin(subW-1, subH-1) / 2;
+
+    // Critical threshold
+    double critical_threshold = threshold * 0.7;
+    double running_threshold = threshold;
+
+    while (running_threshold >= critical_threshold)
+    {
+        for (int r=maxR; r > 2; r--)
+        {
+            int pass=0, fail=0;
+
+            for (float theta=0; theta < 2*M_PI; theta += (2*M_PI)/10.0)
+            {
+                int testX = center->x + cos(theta) * r;
+                int testY = center->y + sin(theta) * r;
+
+                // if out of bound, break;
+                if (testX < subX || testX > subW || testY < subY || testY > subH)
+                    break;
+
+                if (image_buffer[testX + testY * stats.width] > running_threshold)
+                    pass++;
+                else if (fail++ > 3)
+                    break;
+            }
+
+            qDebug() << "Testing for radius " << r << " passes # " << pass << " @ threshold " << running_threshold;
+            if (pass >= 9)
+            {
+                    center->width = r*2;
+                    running_threshold=0;
+                    break;
+            }
+        }
+
+        // Increase threshold fuzziness by 10%
+        running_threshold -= running_threshold * 0.1;
+    }
+
+    starCenters.append(center);
+
+    return starCenters.size();
+
+}
 
 /*** Find center of stars and calculate Half Flux Radius */
 void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeWidth)
@@ -638,6 +717,10 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
         }
         else
         {
+            // Only find a single star within the boundary
+            //findOneStar(boundary);
+            //return;
+
             subX = boundary.x();
             subY = boundary.y();
             subW = subX + boundary.width();
