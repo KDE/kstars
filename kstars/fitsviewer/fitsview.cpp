@@ -785,13 +785,17 @@ void FITSView::toggleStars(bool enable)
        qApp->processEvents();
        int count = -1;
 
-       /*if (trackingBoxEnabled)
+       if (trackingBoxEnabled)
        {
            count = image_data->findStars(trackingBox, trackingBoxUpdated);
            trackingBoxUpdated=false;
        }
-       else*/
+       else
            count = image_data->findStars();
+
+
+    //QRectF boundary(0,0, image_data->getWidth(), image_data->getHeight());
+    //count = image_data->findOneStar(boundary);
 
        if (count >= 0 && isVisible())
                emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
