@@ -288,4 +288,4 @@ void TestCSVParser::CSVReadMissingFile() {
 }
 
 
-QTEST_MAIN(TestCSVParser)
+QTEST_GUILESS_MAIN(TestCSVParser)
