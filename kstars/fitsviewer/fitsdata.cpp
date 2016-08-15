@@ -582,7 +582,7 @@ int FITSData::findOneStar(const QRectF &boundary)
     qDebug() << "Weighted Center is X: " << massX/totalMass << " Y: " << massY/totalMass;
 
     Edge *center = new Edge;
-    center->width = 10;
+    center->width = -1;
     center->x     = massX/totalMass + 0.5;
     center->y     = massY/totalMass + 0.5;
     center->HFR   = 1;
@@ -628,12 +628,16 @@ int FITSData::findOneStar(const QRectF &boundary)
         running_threshold -= running_threshold * 0.1;
     }
 
+    // If no stars were detected
+    if (center->width == -1)
+        return 0;
+
     starCenters.append(center);
 
     double FSum=0, HF=0, TF=0, min = stats.min[0];
 
-    int cen_x = center->x;
-    int cen_y = center->y;
+    int cen_x = round(center->x);
+    int cen_y = round(center->y);
 
     // Complete sum along the radius
     //for (int k=0; k < rCenter->width; k++)
@@ -751,8 +755,8 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
         else
         {
             // Only find a single star within the boundary
-            //findOneStar(boundary);
-            //return;
+            findOneStar(boundary);
+            return;
 
             subX = boundary.x();
             subY = boundary.y();
