@@ -630,6 +630,39 @@ int FITSData::findOneStar(const QRectF &boundary)
 
     starCenters.append(center);
 
+    double FSum=0, HF=0, TF=0, min = stats.min[0];
+
+    int cen_x = center->x;
+    int cen_y = center->y;
+
+    // Complete sum along the radius
+    //for (int k=0; k < rCenter->width; k++)
+    for (int k=center->width/2; k >= -(center->width/2) ; k--)
+    {
+        FSum += image_buffer[cen_x-k+(cen_y*stats.width)] - min;
+        //qDebug() << image_buffer[cen_x-k+(cen_y*stats.width)] - min;
+    }
+
+    // Half flux
+    HF = FSum / 2.0;
+
+    // Total flux starting from center
+    TF = image_buffer[cen_y * stats.width + cen_x] - min;
+
+    int pixelCounter = 1;
+
+    // Integrate flux along radius axis until we reach half flux
+    for (int k=1; k < center->width/2; k++)
+    {
+        TF += image_buffer[cen_y * stats.width + cen_x + k] - min;
+        TF += image_buffer[cen_y * stats.width + cen_x - k] - min;
+
+        pixelCounter++;
+    }
+
+    // Calculate weighted Half Flux Radius
+    center->HFR = pixelCounter * (HF / TF);
+
     return starCenters.size();
 
 }
