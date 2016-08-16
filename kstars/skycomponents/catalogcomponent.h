@@ -60,13 +60,13 @@ public:
     virtual void update( KSNumbers *num );
 
     /** @return the name of the catalog */
-    QString name() const { return m_catName; }
+    inline QString name() const { return m_catName; }
 
     /** @return the frequency of the flux readings in the catalog, if any */
-    QString fluxFrequency() const { return m_catFluxFreq; }
+    inline QString fluxFrequency() const { return m_catFluxFreq; }
 
     /** @return the unit of the flux measurements in the catalog, if any */
-    QString fluxUnit() const { return m_catFluxUnit; }
+    inline QString fluxUnit() const { return m_catFluxUnit; }
 
     /**
      *@return true if visibility Option is set for this catalog
