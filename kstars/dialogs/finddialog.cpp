@@ -22,6 +22,7 @@
 #include "detaildialog.h"
 #include "skyobjects/skyobject.h"
 #include "skycomponents/starcomponent.h"
+#include "skycomponents/syncedcatalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 #include "tools/nameresolver.h"
 

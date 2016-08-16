@@ -295,6 +295,7 @@ set(libkstarscomponents_SRCS
     skycomponents/deepstarcomponent.cpp
     skycomponents/deepskycomponent.cpp
     skycomponents/catalogcomponent.cpp
+    skycomponents/syncedcatalogcomponent.cpp
     skycomponents/constellationartcomponent.cpp
     skycomponents/constellationboundarylines.cpp
     skycomponents/constellationlines.cpp
