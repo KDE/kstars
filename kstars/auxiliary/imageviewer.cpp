@@ -58,7 +58,7 @@ void ImageLabel::setImage( const QImage &img )
 void ImageLabel::invertPixels()
 {
     m_Image.invertPixels();
-    pix = QPixmap::fromImage(m_Image.scaled(width(), height(), Qt::KeepAspectRatio));
+    pix = QPixmap::fromImage(m_Image.scaled(width(), height(), Qt::KeepAspectRatio ));
 }
 
 void ImageLabel::paintEvent (QPaintEvent*)
@@ -80,7 +80,7 @@ void ImageLabel::resizeEvent(QResizeEvent *event)
     if (event->size().width() == w && event->size().height() == h)
         return;
 
-    pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio));
+    pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 ImageViewer::ImageViewer (const QString &caption, QWidget *parent):
