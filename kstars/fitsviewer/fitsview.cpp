@@ -808,7 +808,7 @@ void FITSView::processPointSelection(int x, int y)
     //if (mode != FITS_GUIDE)
         //return;
 
-    image_data->getCenterSelection(&x, &y);
+    //image_data->getCenterSelection(&x, &y);
 
     //setGuideSquare(x,y);
     emit trackingStarSelected(x,y);
