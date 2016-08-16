@@ -44,7 +44,7 @@ public:
      *@short Constructor
      *@p parent Pointer to the parent SkyComposite object
      */
-    CatalogComponent( SkyComposite*, const QString &fname, bool showerrs, int index );
+    CatalogComponent( SkyComposite*, const QString &fname, bool showerrs, int index, bool callLoadData = true );
 
     /**
      *@short Destructor.  Delete list members
@@ -77,19 +77,24 @@ public:
      */
     inline bool getVisibility() { return (Options::showCatalog()[m_ccIndex] > 0) ? true : false; }
 
-private:
+protected:
 
     /** @short Load data into custom catalog */
-    void loadData();
+    virtual void loadData() { _loadData( true ); }
 
-    // FIXME: There is no way to remove catalogs from the program.
+    /** @short Load data into custom catalog */
+    virtual void _loadData( bool includeCatalogDesignation );
+
+    // FIXME: There seems to be no way to remove catalogs from the program. -- asimha
+
 
     /**
      * @brief Returns true if this catalog is to be drawn
      * Overridden from SkyComponent::selected
      * @return bool
      **/
-    bool selected();
+    virtual bool selected();
+
 
     QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
     float m_catEpoch;
