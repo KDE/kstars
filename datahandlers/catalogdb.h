@@ -160,6 +160,24 @@ class CatalogDB {
    * @return false if adding was unsuccessful
    **/
   bool AddEntry(const CatalogEntryData &catalog_entry, int catid);
+
+  /**
+   * @brief Returns database ID of the required catalog.
+   * Returns -1 if not found.
+   *
+   * @param name Name of the class being searched
+   * @return int
+   **/
+  int FindCatalog(const QString &catalog_name);
+
+  /**
+   * @brief Add the catalog with given details into the database
+   *
+   * @param catalog_data CatalogData object encompassing all catalog info
+   * @return void
+   **/
+  void AddCatalog(const CatalogData& catalog_data);
+
  private:
   /**
    * @brief Used to add a cross referenced entry into the database
@@ -193,15 +211,6 @@ class CatalogDB {
   QStringList catalog_list_;
 
   /**
-   * @brief Returns database ID of the required catalog.
-   * Returns -1 if not found.
-   *
-   * @param name Name of the class being searched
-   * @return int
-   **/
-  int FindCatalog(const QString &catalog_name);
-
-  /**
    * @short Add the catalog name and details to the db.
    * This does not store the contents. It only adds the catalog info
    * to the database. Hence, it is step 1 in AddCatalogContents
@@ -214,14 +223,6 @@ class CatalogDB {
    **/
   bool ParseCatalogInfoToDB(const QStringList &lines, QStringList &columns,
                             QString &catalog_name, char &delimiter);
-
-  /**
-   * @brief Add the catalog with given details into the database
-   *
-   * @param catalog_data CatalogData object encompassing all catalog info
-   * @return void
-   **/
-  void AddCatalog(const CatalogData& catalog_data);
 
   /**
    * @brief Prepares the sequence required by KSParser according to header.
