@@ -60,13 +60,13 @@ public:
     virtual void update( KSNumbers *num );
 
     /** @return the name of the catalog */
-    QString name() const { return m_catName; }
+    inline QString name() const { return m_catName; }
 
     /** @return the frequency of the flux readings in the catalog, if any */
-    QString fluxFrequency() const { return m_catFluxFreq; }
+    inline QString fluxFrequency() const { return m_catFluxFreq; }
 
     /** @return the unit of the flux measurements in the catalog, if any */
-    QString fluxUnit() const { return m_catFluxUnit; }
+    inline QString fluxUnit() const { return m_catFluxUnit; }
 
     /**
      *@return true if visibility Option is set for this catalog
@@ -82,30 +82,7 @@ private:
     /** @short Load data into custom catalog */
     void loadData();
 
-    /** @short Read data for existing custom catalogs from disk
-     * @return true if catalog data was successfully read
-     */
-    bool readCustomCatalogs();
-
-    /**
-     *@short Remove a catalog rom the program
-     *@p i The index of the catalog to be removed
-     *@return true if catalog was successfully removed
-     */
-    bool removeCatalog( int i );
-
-    /**
-     *@short Process a line from a custom data file
-     *@p lnum the line number being processed (used for error reporting)
-     *@p d QStringList containing the data fields in the current line
-     *@p Columns QStringList containing the column descriptors for the catalog (read from header)
-     *@p Prefix The prefix string for naming objects in this catalog (read from header)
-     *@p objList reference to the QList of SkyObjects to which we will add the parsed object
-     *@p showerrs if true, parse errors will be logged and reported
-     *@p errs reference to the string list containing the parse errors encountered
-     */
-    bool processCustomDataLine(int lnum, const QStringList &d, const QStringList &Columns,
-                               bool showerrs, QStringList &errs);
+    // FIXME: There is no way to remove catalogs from the program.
 
     /**
      * @brief Returns true if this catalog is to be drawn
