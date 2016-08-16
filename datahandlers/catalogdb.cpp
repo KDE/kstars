@@ -261,8 +261,18 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
   return returnval;
 }
 
+bool CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid) {
+    if( ! skydb_.open() ) {
+        qWarning() << "Failed to open database to add catalog entry!";
+        qWarning() << LastError();
+        return false;
+    }
+    bool retVal = _AddEntry( catalog_entry, catid );
+    skydb_.close();
+    return retVal;
+}
 
-void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
+bool CatalogDB::_AddEntry(const CatalogEntryData& catalog_entry, int catid)
 {
   // Verification step
   // If RA, Dec are Null, it denotes an invalid object and should not be written
@@ -274,7 +284,7 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
     qDebug() << "Attempt to add incorrect ra & dec with ID:"
              << catalog_entry.ID << " Long Name: "
              << catalog_entry.long_name;
-    return;
+    return false;
   }
   // Part 1: Adding in DSO table
   // I will not use QSQLTableModel as I need to execute a query to find
@@ -282,7 +292,6 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
 
   // Part 2: Fuzzy Match or Create New Entry
   int rowuid = FindFuzzyEntry(catalog_entry.ra, catalog_entry.dec, catalog_entry.magnitude);
-
   //skydb_.open();
 
   if ( rowuid == -1) { //i.e. No fuzzy match found. Proceed to add new entry
@@ -317,8 +326,10 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
       // correct catalogs and adding things appropriately, but that
       // would entail a long project. This should work for the most
       // part, though -- asimha
-      ID = -1;
+      //      ID = -1;
+      skydb_.close();
       catid = FindCatalog( "Misc" );
+      Q_ASSERT( skydb_.open() );
       if( catid < 0 ) {
           CatalogData new_catalog;
 
@@ -331,12 +342,14 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
           new_catalog.author = "KStars";
           new_catalog.license = "Unknown";
 
+          skydb_.close();
           AddCatalog(new_catalog);
           catid = FindCatalog( "Misc" );
+          Q_ASSERT( skydb_.open() );
       }
       if( catid < 0 ) {
           qWarning() << "Failed to create Misc catalog for miscellaneous objects! AddEntry operation failed!";
-          return;
+          return false;
       }
   }
 
@@ -361,6 +374,7 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
       add_od.bindValue(":id", ID);
   }
   else{
+      qWarning() << "FIXME: This query has not been tested!!!!";
       add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
                      ", IDNumber) VALUES (:catid, :rowuid, :longname,"
                      "(SELECT MAX(ISNULL(IDNumber,1))+1 FROM ObjectDesignation WHERE id_Catalog = :catid) )"
@@ -369,13 +383,17 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
   add_od.bindValue(":catid", catid);
   add_od.bindValue(":rowuid", rowuid);
   add_od.bindValue(":longname", catalog_entry.long_name);
+  bool retVal = true;
   if (!add_od.exec()) {
-    qWarning() << add_od.lastQuery();
-    qWarning() << skydb_.lastError();
+      qWarning() << "Query exec failed:";
+      qWarning() << add_od.lastQuery();
+      qWarning() << skydb_.lastError();
+      retVal = false;
   }
   add_od.clear();
-
   //skydb_.close();
+
+  return retVal;
 }
 
 QString CatalogDB::GetCatalogName(const QString &fname)

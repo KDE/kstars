@@ -109,15 +109,6 @@ class CatalogDB {
                      const double magnitude);
 
   /**
-   * @brief Used to add a cross referenced entry into the database
-   *
-   * @param catalog_entry Data structure with entry details
-   * @param catid Category ID in the database
-   * @return void
-   **/
-  void AddEntry(const CatalogEntryData &catalog_entry, int catid);
-
-  /**
    * @brief Removes the catalog from the database and refreshes the listing.
    *
    * @param catalog_name Name of the catalog
@@ -150,7 +141,29 @@ class CatalogDB {
   void GetCatalogData(const QString& catalog_name,
                       CatalogData& catalog_data);
 
+  /**
+   * @brief Used to add a cross referenced entry into the database
+   *
+   * @note This public method opens and closes the database.
+   *
+   * @param catalog_entry Data structure with entry details
+   * @param catid Category ID in the database
+   * @return false if adding was unsuccessful
+   **/
+  bool AddEntry(const CatalogEntryData &catalog_entry, int catid);
  private:
+  /**
+   * @brief Used to add a cross referenced entry into the database
+   *
+   * @note This private method is useful when calling the method
+   * repeatedly on an already-opened DB.
+   *
+   * @param catalog_entry Data structure with entry details
+   * @param catid Category ID in the database
+   * @return false if adding was unsuccessful
+   **/
+  bool _AddEntry(const CatalogEntryData &catalog_entry, int catid);
+
   /**
    * @brief Database object for the sky object. Assigned and Initialized by
    *        Initialize()
