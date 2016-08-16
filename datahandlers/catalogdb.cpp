@@ -475,7 +475,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
         catalog_entry.minor_axis = row_content["Mn"].toFloat();
         catalog_entry.flux = row_content["Flux"].toFloat();
 
-        AddEntry(catalog_entry, catid);
+        _AddEntry(catalog_entry, catid);
       }
 
       skydb_.commit();
