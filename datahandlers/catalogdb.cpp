@@ -276,7 +276,10 @@ bool CatalogDB::_AddEntry(const CatalogEntryData& catalog_entry, int catid)
 {
   // Verification step
   // If RA, Dec are Null, it denotes an invalid object and should not be written
-
+  if( catid < 0 ) {
+      qWarning() << "Catalog ID " << catid << " is invalid! Cannot add object.";
+      return false;
+  }
   if (catalog_entry.ra == KSParser::EBROKEN_DOUBLE ||
       catalog_entry.ra == 0.0 || std::isnan( catalog_entry.ra ) ||
       catalog_entry.dec == KSParser::EBROKEN_DOUBLE ||
@@ -319,39 +322,6 @@ bool CatalogDB::_AddEntry(const CatalogEntryData& catalog_entry, int catid)
     add_query.clear();
   }
   int ID = catalog_entry.ID;
-  if( catalog_entry.catalog_name == "Misc" || catid < 0 ) {
-      // Add into the Miscellaneous catalog
-
-      // FIXME: This is a hackjob. We should really be identifying the
-      // correct catalogs and adding things appropriately, but that
-      // would entail a long project. This should work for the most
-      // part, though -- asimha
-      //      ID = -1;
-      skydb_.close();
-      catid = FindCatalog( "Misc" );
-      Q_ASSERT( skydb_.open() );
-      if( catid < 0 ) {
-          CatalogData new_catalog;
-
-          new_catalog.catalog_name = "Misc";
-          new_catalog.prefix = "Misc";
-          new_catalog.color = "#ff0000";
-          new_catalog.epoch = 2000.0;
-          new_catalog.fluxfreq = "400 nm";
-          new_catalog.fluxunit = "mag";
-          new_catalog.author = "KStars";
-          new_catalog.license = "Unknown";
-
-          skydb_.close();
-          AddCatalog(new_catalog);
-          catid = FindCatalog( "Misc" );
-          Q_ASSERT( skydb_.open() );
-      }
-      if( catid < 0 ) {
-          qWarning() << "Failed to create Misc catalog for miscellaneous objects! AddEntry operation failed!";
-          return false;
-      }
-  }
 
   /* TODO(spacetime)
    * Possible Bugs in QSQL Db with SQLite
