@@ -124,12 +124,21 @@ class CatalogDB {
    * @param names List of named objects in database (assigns)
    * @param catalog_pointer pointer to the catalogcomponent objects
    *                        (needed for building skyobjects)
+   * @param includeCatalogDesignation This is useful when using 'fake'
+   *   catalogs to bundle up catalogs. Imagine a "Misc" catalog with a
+   *   bunch of miscellaneous objects. We don't want the designations
+   *   "Misc 1", "Misc 2" etc. So the only proper designations are the
+   *   long name. When this is the case, this flag is set to false,
+   *   and the catalog designation (cat_prefix + cat_id) will not be
+   *   included in the object_names returned.
+   *
    * @return void
    **/
   void GetAllObjects(const QString &catalog_name,
                      QList< SkyObject* > &sky_list,
                      QList < QPair <int, QString> > &object_names,
-                     CatalogComponent *catalog_pointer);
+                     CatalogComponent *catalog_pointer,
+                     bool includeCatalogDesignation = true );
 
   /**
    * @brief Get information about the catalog like Prefix etc

@@ -747,7 +747,8 @@ void CatalogDB::GetCatalogData(const QString& catalog_name,
 void CatalogDB::GetAllObjects(const QString &catalog,
                               QList< SkyObject* > &sky_list,
                               QList < QPair <int, QString> > &object_names,
-                              CatalogComponent *catalog_ptr) {
+                              CatalogComponent *catalog_ptr,
+                              bool includeCatalogDesignation ) {
     sky_list.clear();
     QString selected_catalog = QString::number(FindCatalog(catalog));
     skydb_.open();
@@ -784,7 +785,14 @@ void CatalogDB::GetAllObjects(const QString &catalog,
         float PA = get_query.value(10).toFloat();
         float flux = get_query.value(11).toFloat();
 
-        QString name = catPrefix + ' ' + QString::number(id_number_in_catalog);
+        QString name;
+        if( ! includeCatalogDesignation && ! lname.isEmpty() ) {
+            name = lname;
+            lname = QString();
+        }
+        else
+            name = catPrefix + ' ' + QString::number(id_number_in_catalog);
+
         SkyPoint t;
         t.set(RA, Dec);
 
