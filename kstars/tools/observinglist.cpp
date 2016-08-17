@@ -1133,6 +1133,7 @@ void ObservingList::slotCustomDSS() {
 
 void ObservingList::slotGetImage( bool _dss, const SkyObject *o ) {
     dss = _dss;
+    Q_ASSERT( !o || o == currentObject() ); // FIXME: Meaningless to operate on CurrentImage and CurrentImagePath unless o == currentObject()!
     if( !o )
         o = currentObject();
     ui->SearchImage->setEnabled( false );
