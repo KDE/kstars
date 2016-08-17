@@ -477,7 +477,7 @@ void ObservingList::slotNewSelection() {
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
         #ifdef HAVE_INDI
             showScope = true;
-        #endif        
+        #endif
         if ( found )
         {
             m_CurrentObject = o;
