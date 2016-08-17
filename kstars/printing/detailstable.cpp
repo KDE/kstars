@@ -268,6 +268,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
             if(dso->type() == SkyObject::RADIO_SOURCE)
             {
+                Q_ASSERT( dso->customCatalog() );
                 objMagLabel = i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency());
                 objMagVal = i18nc("integrated flux value", "%1 %2", QLocale().toString(dso->flux(), 1),
                                   dso->customCatalog()->fluxUnit()); //show to tenths place
