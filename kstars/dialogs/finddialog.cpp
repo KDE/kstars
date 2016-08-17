@@ -237,11 +237,11 @@ void FindDialog::filterList() {
     if ( !SearchText.isEmpty() ) {
         QStringList mItems = fModel->stringList().filter( QRegExp( '^'+SearchText, Qt::CaseInsensitive ) );
         mItems.sort();
-    
+
         if ( mItems.size() ) {
             QModelIndex qmi = fModel->index( fModel->stringList().indexOf( mItems[0] ) );
             QModelIndex selectItem = sortModel->mapFromSource( qmi );
-    
+
             if ( selectItem.isValid() ) {
                 ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
                 ui->SearchList->scrollTo( selectItem );
@@ -321,11 +321,11 @@ void FindDialog::slotOk() {
         filterList();
     }
     selObj = selectedObject();
-    if( ! selObj && Options::resolveNamesOnline() ) {
-        // ==== FIXME: What follows is buggy testing code : please improve ====
-        // This code is expected to cause crashes / memory leaks
-        // because we don't commit the DSO data to the database, or
-        // any CatalogComponent.
+    finishProcessing( selObj, Options::resolveNamesOnline() );
+}
+
+void FindDialog::finishProcessing( SkyObject *selObj, bool resolve ) {
+    if( ! selObj && resolve ) {
         CatalogEntryData cedata;
         cedata = NameResolver::resolveName( processSearchText() );
         DeepSkyObject *dso = 0;
@@ -335,7 +335,6 @@ void FindDialog::slotOk() {
                 qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
             selObj = dso;
         }
-        // ==== END buggy testing code ====
     }
     m_targetObject = selObj;
     if ( selObj == 0 ) {
@@ -345,7 +344,6 @@ void FindDialog::slotOk() {
         accept();
     }
 }
-
 void FindDialog::keyPressEvent( QKeyEvent *e ) {
     switch( e->key() ) {
     case Qt::Key_Escape :

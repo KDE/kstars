@@ -69,9 +69,10 @@ public slots:
 
     //FIXME: Still valid for QDialog?  i.e., does QDialog have a slotOk() ?
     /**
-     *Overloading the Standard QDialogBase slotOk() to show a "sorry" message
-     *box if no object is selected when the user presses Ok.  The window is
-     *not closed in this case.
+     *Overloading the Standard QDialogBase slotOk() to show a "sorry"
+     *message box if no object is selected and internet resolution was
+     *disabled/failed when the user presses Ok.  The window is not
+     *closed in this case.
      */
     void slotOk();
 
@@ -103,6 +104,11 @@ private:
      * This could include replacing text like "m93" with "m 93"
      */
      QString processSearchText();
+
+     /**
+      * @short Finishes the processing towards closing the dialog initiated by slotOk() or slotResolve()
+      */
+     void finishProcessing( SkyObject *selObj = 0, bool resolve = true );
 
     /** @short pre-filter the list of objects according to the
      * selected object type.
