@@ -110,18 +110,38 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
                         attributes = xml.attributes();
                         char band;
                         if( attributes.hasAttribute( "band" ) ) {
-                            attributes.value("band").at(0).toLatin1();
+                            band = attributes.value("band").at(0).toLatin1();
                         }
                         else {
                             qWarning() << "Warning: Magnitude of unknown band found while reading output from CDS Sesame";
                             band = 0;
                         }
 
+                        float mag = NaN::f;
+                        xml.readNext();
+                        if( xml.isCharacters() ) {
+                            qDebug() << "characters: " << xml.tokenString();
+                            mag = xml.tokenString().toFloat();
+                        }
+                        else if( xml.isStartElement() ) {
+                            while( xml.name() != "v" ) {
+                                qDebug() << "element: " << xml.name();
+                                xml.readNextStartElement();
+                            }
+                            mag = xml.readElementText().toFloat();
+                            qDebug() << "Got " << xml.tokenString() << " mag = " << mag;
+                            while( !xml.atEnd() && xml.readNext() && xml.name() != "mag" ); // finish reading the <mag> tag all the way to </mag>
+                        }
+                        else
+                            qWarning() << "Failed to parse Xml token in magnitude element: " << xml.tokenString();
+
                         if( band == 'V' ) {
-                            data.magnitude = xml.readElementText().toFloat();
+                            data.magnitude = mag;
                         }
                         else if( band == 'B' ) {
-                            data.flux = xml.readElementText().toFloat(); // FIXME: This is bad
+                            data.flux = mag; // FIXME: This is bad
+                            if( std::isnan( data.magnitude ) )
+                                data.magnitude = mag; // FIXME: This is bad too
                         }
                         // Don't know what to do with other magnitudes, until we have a magnitude hash
                     }
