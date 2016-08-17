@@ -503,6 +503,21 @@
        </layout>
       </item>
       <item>
+        <layout class="QHBoxLayout">
+          <item>
+            <widget class="QCheckBox" name="kcfg_ResolveNamesOnline">
+              <property name="text">
+                <string>Resolve names not known to KStars using online services</string>
+              </property>
+              <property name="toolTip">
+                <string>If this checkbox is checked, when an object name unknown to KStars is entered in the Find Dialog, KStars will contact online services (such as CDS Sesame) to learn about the object and then add it to the database.
+		The objects acquired in this manner are stored under a catalog that is called _Internet_Resolved as of this writing.</string>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item>
        <layout class="QHBoxLayout">
         <property name="spacing">
          <number>6</number>

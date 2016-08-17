@@ -123,6 +123,13 @@
       <label>List for displaying custom object catalogs.</label>
       <whatsthis>List of names for which custom catalogs are to be displayed.</whatsthis>
     </entry>
+    <entry name="ResolveNamesOnline" type="Bool">
+      <label>Resolve names using online services.</label>
+      <whatsthis>Names of objects entered into the find dialog are
+      resolved using online services and stored in the database. This
+      option also toggles the display of such resolved objects on the
+      sky map.</whatsthis>
+    </entry>
   </group>
 
   <group name="indi">    

@@ -321,7 +321,7 @@ void FindDialog::slotOk() {
         filterList();
     }
     selObj = selectedObject();
-    if( ! selObj ) {
+    if( ! selObj && Options::resolveNamesOnline() ) {
         // ==== FIXME: What follows is buggy testing code : please improve ====
         // This code is expected to cause crashes / memory leaks
         // because we don't commit the DSO data to the database, or
