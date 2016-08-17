@@ -49,7 +49,8 @@ DeepSkyObject::DeepSkyObject( const DeepSkyObject &o )
     , Catalog( o.Catalog )
 {
     customCat = NULL;
-    Flux = 0;
+    Flux = o.flux();
+    setMag( o.mag() );
     updateID = updateNumID = 0;
 }
 
@@ -89,6 +90,7 @@ DeepSkyObject::DeepSkyObject( const CatalogEntryData &data, CatalogComponent *ca
     MajorAxis = data.major_axis;
     MinorAxis = data.minor_axis;
     PositionAngle = data.position_angle;
+    setMag( data.magnitude );
     PGC = 0;
     UGC = 0;
     setCatalog( data.catalog_name );

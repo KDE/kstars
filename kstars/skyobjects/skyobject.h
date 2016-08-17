@@ -403,6 +403,7 @@ protected:
     /**Set the object's sorting magnitude.
      * @param m the object's magnitude. */
     inline void setMag( float m ) { sortMagnitude = m < 36.0 ? m : NaN::f; } // Updating faintest sane magnitude to 36.0 (faintest visual magnitude visible with E-ELT, acc. to Wikipedia on Apparent Magnitude.)
+    // FIXME: We claim sortMagnitude should not be NaN, but we are setting it to NaN above!! ^
 
     /**Set the object's primary name.
      * @param name the object's primary name */
