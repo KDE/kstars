@@ -328,8 +328,9 @@ void FindDialog::slotOk() {
         // any CatalogComponent.
         CatalogEntryData cedata;
         cedata = NameResolver::resolveName( processSearchText() );
-        DeepSkyObject *dso = new DeepSkyObject( cedata );
+        DeepSkyObject *dso = 0;
         if( ! std::isnan( cedata.ra ) && ! std::isnan( cedata.dec ) ) {
+            dso = KStarsData::Instance()->skyComposite()->miscObjectComponent()->addObject( cedata );
             qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
             selObj = dso;
         }
