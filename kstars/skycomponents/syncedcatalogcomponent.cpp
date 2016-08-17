@@ -51,6 +51,7 @@ SyncedCatalogComponent::SyncedCatalogComponent( SkyComposite *parent,
         db->AddCatalog( catData );
         m_catId = db->FindCatalog( catname );
         loadData();
+        Options::setShowCatalogNames( Options::showCatalogNames() << catname );
     }
     Q_ASSERT( m_catId >= 0 );
     m_catColor = "#ff0000"; // FIXME: HARDCODED!
