@@ -85,7 +85,7 @@ DeepSkyObject *SyncedCatalogComponent::addObject( CatalogEntryData catalogEntry 
         return 0;
     m_catCount++;
     qDebug() << "Added object " << catalogEntry.long_name << " into database!";
-    DeepSkyObject *newObj = new DeepSkyObject( catalogEntry ); // FIXME: What about stars? Are they treated as DeepSkyObjects, type CATALOG_STAR? -- asimha
+    DeepSkyObject *newObj = new DeepSkyObject( catalogEntry, this ); // FIXME: What about stars? Are they treated as DeepSkyObjects, type CATALOG_STAR? -- asimha
     Q_ASSERT( newObj );
 
     qDebug() << "Created new DSO for " << catalogEntry.long_name;

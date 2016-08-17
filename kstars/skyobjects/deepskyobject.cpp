@@ -71,7 +71,7 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
     loadImage();
 }
 
-DeepSkyObject::DeepSkyObject( const CatalogEntryData &data )
+DeepSkyObject::DeepSkyObject( const CatalogEntryData &data, CatalogComponent *cat )
 {
     // FIXME: This assumes that CatalogEntryData coordinates have
     // J2000.0 as epoch as opposed to the catalog's epoch!!! -- asimha
@@ -93,7 +93,7 @@ DeepSkyObject::DeepSkyObject( const CatalogEntryData &data )
     UGC = 0;
     setCatalog( data.catalog_name );
     updateID = updateNumID = 0;
-    customCat = NULL; // <-- FIXME!
+    customCat = cat;
     Flux = data.flux;
     loadImage();
 }

@@ -71,7 +71,7 @@ public:
      */
     DeepSkyObject(const DeepSkyObject &o );
 
-    DeepSkyObject( const CatalogEntryData &data );
+    DeepSkyObject( const CatalogEntryData &data, CatalogComponent *cat = 0 );
 
     QString labelString() const;
 
