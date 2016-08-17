@@ -684,7 +684,7 @@ void Focus::start()
     emit newStatus(state);
 
     // Denoise with median filter
-    defaultScale = FITS_MEDIAN;
+    //defaultScale = FITS_MEDIAN;
 
     capture();
 }
@@ -694,7 +694,7 @@ void Focus::checkStopFocus()
     if (inSequenceFocus == true)
     {
         inSequenceFocus = false;
-        updateFocusStatus(false);
+        setAutoFocusResult(false);
     }
 
     if (captureInProgress && inAutoFocus == false && inFocusLoop == false)
@@ -980,6 +980,8 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
+    connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
+
     if (inFocusLoop == false)
         appendLogText(i18n("Image received."));
 
@@ -1075,14 +1077,12 @@ void Focus::newFITS(IBLOB *bp)
             if (maxStar == NULL)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
-                //targetImage->updateMode(FITS_GUIDE);
+
                 if (fw == 0 || fh == 0)
                     targetChip->getFrame(&fx, &fy, &fw, &fh);
-                //targetImage->setTrackingBoxCenter(QPointF(fw/2, fh/2));
-                //targetImage->setTrackingBoxSize(QSize(kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
+
                 targetImage->setTrackingBox(QRect((fw-kcfg_focusBoxSize->value())/2, (fh-kcfg_focusBoxSize->value())/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
                 targetImage->setTrackingBoxEnabled(true);
-                connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
 
                 state = Ekos::FOCUS_WAITING;
                 emit newStatus(state);
@@ -1177,7 +1177,7 @@ void Focus::newFITS(IBLOB *bp)
             else
             {
                 noStarCount = 0;
-                updateFocusStatus(false);
+                setAutoFocusResult(false);
             }
         }
         else if (currentHFR > minimumRequiredHFR)
@@ -1188,7 +1188,7 @@ void Focus::newFITS(IBLOB *bp)
         }
         else
         {
-            updateFocusStatus(true);
+            setAutoFocusResult(true);
         }
 
         minimumRequiredHFR = -1;
@@ -1324,7 +1324,7 @@ void Focus::autoFocusAbs()
     {
         appendLogText(i18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
         abort();
-        updateFocusStatus(false);
+        setAutoFocusResult(false);
         return;
     }
 
@@ -1347,7 +1347,7 @@ void Focus::autoFocusAbs()
         {
             appendLogText(i18n("Failed to detect any stars. Reset frame and try again."));
             abort();
-            updateFocusStatus(false);
+            setAutoFocusResult(false);
             return;
         }
     }
@@ -1410,20 +1410,20 @@ void Focus::autoFocusAbs()
                 {
                     appendLogText(i18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
                     abort();
-                    updateFocusStatus(false);
+                    setAutoFocusResult(false);
                 }
                 else if (noStarCount > 0)
                 {
                     appendLogText(i18n("Failed to detect focus star in frame. Capture and select a focus star."));
                     abort();
-                    updateFocusStatus(false);
+                    setAutoFocusResult(false);
                 }
                 else
                 {
                     appendLogText(i18n("Autofocus complete."));
                     abort();
                     emit suspendGuiding(false);
-                    updateFocusStatus(true);
+                    setAutoFocusResult(true);
                 }
                 break;
             }
@@ -1591,7 +1591,7 @@ void Focus::autoFocusAbs()
             appendLogText(i18n("Autofocus complete."));
             abort();
             emit suspendGuiding(false);
-            updateFocusStatus(true);
+            setAutoFocusResult(true);
             return;
         }
 
@@ -1600,7 +1600,7 @@ void Focus::autoFocusAbs()
         {
             appendLogText(i18n("Deadlock reached. Please try again with different settings."));
             abort();
-            updateFocusStatus(false);
+            setAutoFocusResult(false);
             return;
         }
 
@@ -1611,7 +1611,7 @@ void Focus::autoFocusAbs()
 
             appendLogText("Maximum travel limit reached. Autofocus aborted.");
             abort();
-            updateFocusStatus(false);
+            setAutoFocusResult(false);
             break;
 
         }
@@ -1651,7 +1651,7 @@ void Focus::autoFocusRel()
     {
         appendLogText(i18n("Autofocus failed to reach proper focus. Try adjusting the tolerance value."));
         abort();
-        updateFocusStatus(false);
+        setAutoFocusResult(false);
         return;
     }
 
@@ -1685,7 +1685,7 @@ void Focus::autoFocusRel()
                 appendLogText(i18n("Autofocus complete."));
                 abort();
                 emit suspendGuiding(false);
-                updateFocusStatus(true);
+                setAutoFocusResult(true);
                 break;
             }
             else if (currentHFR < lastHFR)
@@ -1727,7 +1727,7 @@ void Focus::autoFocusRel()
             appendLogText(i18n("Autofocus complete."));
             abort();
             emit suspendGuiding(false);
-            updateFocusStatus(true);
+            setAutoFocusResult(true);
             break;
         }
         else if (currentHFR < lastHFR)
@@ -1802,7 +1802,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
            {
                appendLogText(i18n("Focuser error, check INDI panel."));
                abort();
-               updateFocusStatus(false);
+               setAutoFocusResult(false);
            }
 
        }
@@ -1831,7 +1831,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
                 abort();
-                updateFocusStatus(false);
+                setAutoFocusResult(false);
             }
         }
 
@@ -1855,7 +1855,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
             {
                 appendLogText(i18n("Focuser error, check INDI panel."));
                 abort();
-                updateFocusStatus(false);
+                setAutoFocusResult(false);
             }
 
         }
@@ -2130,7 +2130,7 @@ bool Focus::setFocusMode(int mode)
     return true;
 }
 
-void Focus::updateFocusStatus(bool status)
+void Focus::setAutoFocusResult(bool status)
 {
     m_autoFocusSuccesful = status;
 
@@ -2175,7 +2175,7 @@ void Focus::checkAutoStarTimeout()
         appendLogText(i18n("No star was selected. Aborting..."));
         initialFocuserAbsPosition=-1;
         abort();
-        updateFocusStatus(false);
+        setAutoFocusResult(false);
     }
 }
 

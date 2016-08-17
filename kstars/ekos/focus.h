@@ -271,7 +271,7 @@ public slots:
      * @brief updateFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
      * @param status If true, the focus process finished successfully. Otherwise, it failed.
      */
-    void updateFocusStatus(bool status);
+    void setAutoFocusResult(bool status);
 
     /** DBUS interface function.
      * resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
