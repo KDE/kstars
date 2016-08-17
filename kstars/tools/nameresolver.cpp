@@ -125,6 +125,14 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
                         }
                         // Don't know what to do with other magnitudes, until we have a magnitude hash
                     }
+                    else if( xml.name() == "oname" ) { // Primary identifier
+                        QRegExp regex(" *([a-ZA-Z][a-zA-Z ]*) *([0-9]+) *");
+                        QString contents = xml.readElementText();
+                        if( contents.contains( regex ) ) { // Has a simple catalog + ID format (this excludes designations like Foo JHHMMMSS+DDMMSS as CatalogEntryData currently doesn't support them, but includes designations like VII Zw 466, where VII Zw will take the place of the catalog)
+                            data.catalog_name = regex.cap(1);
+                            data.ID = regex.cap(2).toInt();
+                        }
+                    }
                     else
                         xml.skipCurrentElement();
                     // TODO: Parse aliases for common names
