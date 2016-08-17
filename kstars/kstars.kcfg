@@ -129,6 +129,7 @@
       resolved using online services and stored in the database. This
       option also toggles the display of such resolved objects on the
       sky map.</whatsthis>
+      <default>true</default>
     </entry>
   </group>
 
