@@ -75,11 +75,17 @@ DeepSkyObject::DeepSkyObject( const CatalogEntryData &data )
 {
     // FIXME: This assumes that CatalogEntryData coordinates have
     // J2000.0 as epoch as opposed to the catalog's epoch!!! -- asimha
+    qWarning() << "Creating a DeepSkyObject from CatalogEntryData assumes that coordinates are J2000.0";
     setType( data.type );
     setRA0( data.ra/15.0 ); // NOTE: CatalogEntryData stores RA in degrees, whereas setRA0() wants it in hours.
     setDec0( data.dec );
     setLongName( data.long_name );
-    setName( data.catalog_name + ' ' + QString::number( data.ID ) );
+    if( ! data.catalog_name.isEmpty() )
+        setName( data.catalog_name + ' ' + QString::number( data.ID ) );
+    else {
+        setName( data.long_name );
+        setLongName( QString() );
+    }
     MajorAxis = data.major_axis;
     MinorAxis = data.minor_axis;
     PositionAngle = data.position_angle;

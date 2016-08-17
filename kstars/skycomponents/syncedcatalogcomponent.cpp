@@ -74,19 +74,14 @@ DeepSkyObject *SyncedCatalogComponent::addObject( CatalogEntryData catalogEntry 
         catalogEntry.major_axis = 0.0;
     if( std::isnan( catalogEntry.minor_axis ) )
         catalogEntry.minor_axis = 0.0;
-    if( catalogEntry.catalog_name != m_catName ) {
-        qWarning() << "Trying to add object with catalog name = " << catalogEntry.catalog_name << " to catalog " << m_catName << "! Will over-write catalog name with " << m_catName;
-        catalogEntry.catalog_name = m_catName;
-        // NOTE: We must fix the following before we can proceed with
-        // debugging: 1. CatalogEntryData doesn't come fully filled
-        // for us. We need to fill in catalog_name and
-        // ID. catalog_name is easy. For ID, we must maintain a
-        // running ocunter like was done in AddEntry() for
-        // "Misc". Please implement this.
+    CatalogEntryData dbEntry = catalogEntry;
+    if( dbEntry.catalog_name != m_catName ) {
+        qWarning() << "Trying to add object " << catalogEntry.catalog_name << catalogEntry.ID << " to catalog " << m_catName << " will over-write catalog name with " << m_catName << " in the database and assign an arbitrary ID";
+        dbEntry.catalog_name = m_catName;
     }
-    catalogEntry.ID = m_catCount;
+    dbEntry.ID = m_catCount;
     CatalogDB *db = KStarsData::Instance()->catalogdb();
-    if( !( db->AddEntry( catalogEntry, m_catId ) ) )
+    if( !( db->AddEntry( dbEntry, m_catId ) ) )
         return 0;
     m_catCount++;
     qDebug() << "Added object " << catalogEntry.long_name << " into database!";
