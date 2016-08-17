@@ -172,12 +172,16 @@ void ImageViewer::init(QString caption, QString capText)
     m_Caption->setFont( capFont );
 }
 
-ImageViewer::~ImageViewer() {
-    /*if ( downloadJob ) {
-        // close job quietly, without emitting a result
-        downloadJob->kill( KJob::Quietly );
-        delete downloadJob;
-    }*/
+ImageViewer::~ImageViewer()
+{
+    QString filename = file.fileName();
+    if (filename.startsWith("/tmp/") || filename.contains("/Temp"))
+    {
+        if (m_ImageUrl.isEmpty() == false ||
+                KMessageBox::questionYesNo(0, i18n("Remove temporary file %1 from disk?", filename), i18n("Confirm Removal"),
+                                   KStandardGuiItem::yes(), KStandardGuiItem::no(), i18n("imageviewer_temporary_file_removal")) == KMessageBox::Yes)
+            QFile::remove(filename);
+    }
 
     QApplication::restoreOverrideCursor();
 }
@@ -188,9 +192,6 @@ void ImageViewer::loadImageFromURL()
 
     if (!saveURL.isValid())
         qDebug()<<"tempfile-URL is malformed\n";
-
-    //downloadJob = KIO::copy (m_ImageUrl, saveURL);	// starts the download asynchron
-    //connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
