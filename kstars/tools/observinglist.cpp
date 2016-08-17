@@ -1282,7 +1282,9 @@ void ObservingList::setSaveImagesButton() {
 // FIXME: Is there a reason to implement these as an event filter,
 // instead of as a signal-slot connection? Shouldn't we just use slots
 // to subscribe to various events from the Table / Session view?
-
+//
+// NOTE: ui->ImagePreview is a QLabel, which has no clicked() event or
+// public mouseReleaseEvent(), so eventFilter makes sense.
 bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
