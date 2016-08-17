@@ -120,7 +120,7 @@ void DeepSkyObject::setCatalog( const QString &cat ) {
     else if ( cat.toUpper() == "NGC" ) Catalog = (unsigned char)CAT_NGC;
     else if ( cat.toUpper() == "IC"  ) Catalog = (unsigned char)CAT_IC;
     else Catalog = (unsigned char)CAT_UNKNOWN;
-}   
+}
 
 void DeepSkyObject::loadImage()
 {
@@ -162,7 +162,7 @@ QString DeepSkyObject::labelString() const {
 SkyObject::UID DeepSkyObject::getUID() const
 {
     // mag takes 10 bit
-    SkyObject::UID m = mag()*10; 
+    SkyObject::UID m = mag()*10;
     if( m < 0 ) m = 0;
 
     // Both RA & dec fits in 24-bits
@@ -173,7 +173,7 @@ SkyObject::UID DeepSkyObject::getUID() const
     assert("RA should fit into 24bits"  && ra>=0  && ra <(1<<24));
     assert("Dec should fit into 24bits" && dec>=0 && dec<(1<<24));
 
-    // Choose kind of 
+    // Choose kind of
     SkyObject::UID kind = type() == SkyObject::GALAXY ? SkyObject::UID_GALAXY : SkyObject::UID_DEEPSKY;
     return (kind << 60) | (m << 48) | (ra << 24) | dec;
 }
