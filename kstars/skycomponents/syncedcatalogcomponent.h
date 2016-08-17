@@ -58,7 +58,7 @@ class SyncedCatalogComponent : public CatalogComponent {
 
     virtual void loadData() { _loadData( false ); }
 
-    virtual bool selected();
+    //    virtual bool selected();
 
  private:
     int m_catId;

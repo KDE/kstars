@@ -242,6 +242,7 @@ private:
     QList<SkyObject*>       m_LabeledObjects;
     QHash<int, QStringList> m_ObjectNames;
     QHash<QString, QString> m_ConstellationNames;
+    QString m_internetResolvedCat; // Holds the name of the internet resolved catalog
 };
 
 #endif

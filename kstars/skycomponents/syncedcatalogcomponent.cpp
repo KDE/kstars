@@ -20,6 +20,7 @@
 #include "syncedcatalogcomponent.h"
 #include "catalogdb.h"
 #include "kstarsdata.h"
+#include "Options.h"
 
 /* KDE Includes */
 
@@ -103,8 +104,4 @@ DeepSkyObject *SyncedCatalogComponent::addObject( CatalogEntryData catalogEntry 
     m_ObjectList.append( newObj );
     qDebug() << "Added new SkyObject " << newObj->name() << " to synced catalog " << m_catName << " which now contains " << m_ObjectList.count() << " objects.";
     return newObj;
-}
-
-bool SyncedCatalogComponent::selected() {
-    return true; // Always selected for now.
 }

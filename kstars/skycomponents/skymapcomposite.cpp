@@ -93,14 +93,17 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
 
     addComponent( m_ArtificialHorizon = new ArtificialHorizonComponent(this), 110);
 
+    m_internetResolvedCat = "_Internet_Resolved";
+    addComponent( m_miscObjectComponent = new SyncedCatalogComponent( this, m_internetResolvedCat, true, 0 ), 6 );
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
+        if( allcatalogs.at(i) == m_internetResolvedCat ) // This is a special catalog
+            continue;
         m_CustomCatalogs->addComponent(
-                                       new CatalogComponent( this, allcatalogs.at(i), false, i ), 6
+                                       new CatalogComponent( this, allcatalogs.at(i), false, i ), 6 // FIXME: Should this be 6 or 5? See SkyMapComposite::reloadDeepSky()
             );
     }
-    addComponent( m_miscObjectComponent = new SyncedCatalogComponent( this, "Misc", true, 0 ), 6 );
 
     addComponent( m_SolarSystem = new SolarSystemComposite( this ), 2);
     addComponent( m_Flags       = new FlagComponent( this ), 4);
@@ -582,15 +585,15 @@ void SkyMapComposite::reloadDeepSky() {
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
+        if( allcatalogs.at(i) == m_internetResolvedCat ) // This is a special catalog
+            continue;
         m_CustomCatalogs->addComponent(
-                                       new CatalogComponent( this, allcatalogs.at(i), false, i ), 5
+                                       new CatalogComponent( this, allcatalogs.at(i), false, i ), 5 // FIXME: Should this be 6 or 5? See SkyMapComposite::SkyMapComposite()
             );
     }
     delete m_miscObjectComponent;
-    addComponent( m_miscObjectComponent = new SyncedCatalogComponent( this, "Misc", true, 0 ), 6 );
+    addComponent( m_miscObjectComponent = new SyncedCatalogComponent( this, m_internetResolvedCat, true, 0 ), 6 );
     SkyMapDrawAbstract::setDrawLock(false);
-
-
 }
 
 
