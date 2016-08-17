@@ -254,7 +254,6 @@ void Focus::resetFrame()
         {
                     targetChip->setFrame(orig_x, orig_y, orig_w, orig_h);
                     frameModified = false;
-                    subFramed = false;
         }
 
         haveDarkFrame=false;
@@ -1518,18 +1517,17 @@ void Focus::autoFocusAbs()
                 // HFR increased, let's deal with it.
                 HFRInc++;
                 HFRDec=0;
-                reverseDir = true;
 
                 // Reality Check: If it's first time, let's capture again and see if it changes.
-                /*if (HFRInc <= 1)
+                if (HFRInc <= 1 && reverseDir == false)
                 {
                     capture();
                     return;
                 }
                 // Looks like we're going away from optimal HFR
                 else
-                {*/
-
+                {
+                    reverseDir = true;
                     lastHFR = currentHFR;
                     lastHFRPos = currentPosition;
                     initSlopeHFR=0;
@@ -1564,7 +1562,7 @@ void Focus::autoFocusAbs()
                     if (Options::focusLogging())
                         qDebug() << "Focus: new targetPosition " << targetPosition;
 
-                //}
+                }
             }
 
         // Limit target Pulse to algorithm limits
