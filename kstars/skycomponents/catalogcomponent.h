@@ -87,7 +87,6 @@ protected:
 
     // FIXME: There seems to be no way to remove catalogs from the program. -- asimha
 
-
     /**
      * @brief Returns true if this catalog is to be drawn
      * Overridden from SkyComponent::selected

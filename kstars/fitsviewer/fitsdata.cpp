@@ -596,7 +596,7 @@ int FITSData::findOneStar(const QRectF &boundary)
 
     while (running_threshold >= critical_threshold)
     {
-        for (int r=maxR; r > 2; r--)
+        for (int r=maxR; r > 1; r--)
         {
             int pass=0, fail=0;
 
@@ -619,10 +619,12 @@ int FITSData::findOneStar(const QRectF &boundary)
             if (pass >= 9)
             {
                     center->width = r*2;
-                    running_threshold=0;
                     break;
-            }
+            }                        
         }
+
+        if (center->width > 0)
+            break;
 
         // Increase threshold fuzziness by 10%
         running_threshold -= running_threshold * 0.1;
@@ -632,26 +634,74 @@ int FITSData::findOneStar(const QRectF &boundary)
     if (center->width == -1)
         return 0;
 
+    // 10% fuzzy
+    //center->width += center->width*0.1 * (running_threshold / threshold);
+
     starCenters.append(center);
 
     double FSum=0, HF=0, TF=0, min = stats.min[0];
+    const double resolution = 1.0/20.0;
 
-    int cen_x = round(center->x);
+    //int cen_x = round(center->x);
     int cen_y = round(center->y);
+
+    double rightEdge = center->x + center->width / 2.0;
+    double leftEdge  = center->x - center->width / 2.0;
+
+    // Align to resolution
+    //rightEdge -= fmod(rightEdge,resolution);
+    //leftEdge  -= fmod(leftEdge,resolution);
+
+    QVector<double> subPixels;
+    subPixels.reserve(center->width / resolution);
+
+    //double rightLimit = ceil(rightEdge);
+    //double leftLimit  = floor(leftEdge);
+
+    for (double x=leftEdge; x <= rightEdge; x += resolution)
+    {
+        //subPixels[x] = resolution * (image_buffer[static_cast<int>(floor(x)) + cen_y * stats.width] - min);
+        double slice = resolution * (image_buffer[static_cast<int>(floor(x)) + cen_y * stats.width] - min);
+        FSum += slice;
+        subPixels.append(slice);
+    }
 
     // Complete sum along the radius
     //for (int k=0; k < rCenter->width; k++)
-    for (int k=center->width/2; k >= -(center->width/2) ; k--)
+    /*for (int k=center->width/2; k >= -(center->width/2) ; k--)
     {
         FSum += image_buffer[cen_x-k+(cen_y*stats.width)] - min;
         //qDebug() << image_buffer[cen_x-k+(cen_y*stats.width)] - min;
-    }
+    }*/
 
     // Half flux
     HF = FSum / 2.0;
 
+    //double subPixelCenter = center->x - fmod(center->x,resolution);
+    int subPixelCenter = (center->width / resolution) / 2;
+
+    // Start from center
+    TF = subPixels[subPixelCenter];
+    double lastTF = TF;
+    // Integrate flux along radius axis until we reach half flux
+    //for (double k=resolution; k < (center->width/(2*resolution)); k += resolution)
+    for (int k=1; k < subPixelCenter; k ++)
+    {
+        TF += subPixels[subPixelCenter+k];
+        TF += subPixels[subPixelCenter-k];
+
+        if (TF >= HF)
+        {
+            center->HFR = (k - 1 + ( (HF-lastTF)/(TF-lastTF) ) ) * resolution;
+            break;
+        }
+
+        lastTF = TF;
+    }
+
+
     // Total flux starting from center
-    TF = image_buffer[cen_y * stats.width + cen_x] - min;
+    /*TF = image_buffer[cen_y * stats.width + cen_x] - min;
 
     int pixelCounter = 1;
 
@@ -665,7 +715,7 @@ int FITSData::findOneStar(const QRectF &boundary)
     }
 
     // Calculate weighted Half Flux Radius
-    center->HFR = pixelCounter * (HF / TF);
+    center->HFR = pixelCounter * (HF / TF);*/
 
     return starCenters.size();
 
@@ -755,8 +805,8 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
         else
         {
             // Only find a single star within the boundary
-            findOneStar(boundary);
-            return;
+            //findOneStar(boundary);
+            //return;
 
             subX = boundary.x();
             subY = boundary.y();
