@@ -77,6 +77,10 @@ FindDialog::FindDialog( QWidget* parent ) :
     buttonBox->addButton(detailB, QDialogButtonBox::ActionRole);
     connect(detailB, SIGNAL(clicked()), this, SLOT(slotDetails()));
 
+    ui->InternetSearchButton->setVisible( Options::resolveNamesOnline() );
+    ui->InternetSearchButton->setEnabled( false );
+    connect( ui->InternetSearchButton, SIGNAL( clicked() ), this, SLOT( slotResolve() ) );
+
     ui->FilterType->setCurrentIndex(0);  // show all types of objects
 
     fModel = new QStringListModel( this );
@@ -226,10 +230,11 @@ void FindDialog::filterByType() {
     }
 }
 
-void FindDialog::filterList() {  
+void FindDialog::filterList() {
     QString SearchText;
     SearchText = processSearchText();
     sortModel->setFilterFixedString( SearchText );
+    ui->InternetSearchButton->setText( i18n( "or search the internet for %1", SearchText ) );
     filterByType();
     initSelection();
 
@@ -250,7 +255,10 @@ void FindDialog::filterList() {
                 okB->setEnabled(true);
             }
         }
+        ui->InternetSearchButton->setEnabled( ! mItems.contains( SearchText ) ); // Disable searching the internet when an exact match for SearchText exists in KStars
     }
+    else
+        ui->InternetSearchButton->setEnabled( false );
 
     listFiltered = true;
 }
@@ -322,6 +330,10 @@ void FindDialog::slotOk() {
     }
     selObj = selectedObject();
     finishProcessing( selObj, Options::resolveNamesOnline() );
+}
+
+void FindDialog::slotResolve() {
+    finishProcessing( 0, true );
 }
 
 void FindDialog::finishProcessing( SkyObject *selObj, bool resolve ) {

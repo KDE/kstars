@@ -76,6 +76,11 @@ public slots:
      */
     void slotOk();
 
+    /**
+     * @short This slot resolves the object on the internet, ignoring the selection on the list
+     */
+    void slotResolve();
+
 private slots:
     /** Init object list after opening dialog. */
     void init();
