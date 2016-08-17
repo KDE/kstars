@@ -1224,10 +1224,6 @@ void CCD::processBLOB(IBLOB* bp)
             imageViewer = new ImageViewer(getDeviceName(), KStars::Instance());
 
         imageViewer->loadImage(filename);
-
-        // Remove file from disk if it is preview or not a regular frame (focus, guide..etc)
-        if (targetChip->isBatchMode() == false || targetChip->getCaptureMode() != FITS_NORMAL)
-            QFile::remove(filename);
     }
     // Unless we have cfitsio, we're done.
 #ifdef HAVE_CFITSIO
