@@ -511,7 +511,7 @@
               </property>
               <property name="toolTip">
                 <string>If this checkbox is checked, when an object name unknown to KStars is entered in the Find Dialog, KStars will contact online services (such as CDS Sesame) to learn about the object and then add it to the database.
-		The objects acquired in this manner are stored under a catalog that is called _Internet_Resolved as of this writing.</string>
+                The objects acquired in this manner are stored under a catalog that is called _Internet_Resolved as of this writing.</string>
               </property>
             </widget>
           </item>
