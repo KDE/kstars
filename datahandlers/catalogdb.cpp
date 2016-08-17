@@ -123,6 +123,7 @@ void CatalogDB::RefreshCatalogList() {
   skydb_.open();
   QSqlTableModel catalog(0, skydb_);
   catalog.setTable("Catalog");
+  catalog.setSort( 0, Qt::AscendingOrder );
   catalog.select();
 
   for (int i = 0; i < catalog.rowCount(); ++i) {
