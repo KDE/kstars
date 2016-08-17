@@ -331,7 +331,8 @@ void FindDialog::slotOk() {
         DeepSkyObject *dso = 0;
         if( ! std::isnan( cedata.ra ) && ! std::isnan( cedata.dec ) ) {
             dso = KStarsData::Instance()->skyComposite()->miscObjectComponent()->addObject( cedata );
-            qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
+            if( dso )
+                qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
             selObj = dso;
         }
         // ==== END buggy testing code ====
