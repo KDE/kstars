@@ -196,6 +196,7 @@ set(libkstarstools_SRCS
     tools/wutdialog.cpp
     tools/flagmanager.cpp
     tools/horizonmanager.cpp
+    tools/nameresolver.cpp
 
     #FIXME Port to KF5
     #tools/moonphasetool.cpp
@@ -294,6 +295,7 @@ set(libkstarscomponents_SRCS
     skycomponents/deepstarcomponent.cpp
     skycomponents/deepskycomponent.cpp
     skycomponents/catalogcomponent.cpp
+    skycomponents/syncedcatalogcomponent.cpp
     skycomponents/constellationartcomponent.cpp
     skycomponents/constellationboundarylines.cpp
     skycomponents/constellationlines.cpp

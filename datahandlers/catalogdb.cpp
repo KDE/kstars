@@ -123,6 +123,7 @@ void CatalogDB::RefreshCatalogList() {
   skydb_.open();
   QSqlTableModel catalog(0, skydb_);
   catalog.setTable("Catalog");
+  catalog.setSort( 0, Qt::AscendingOrder );
   catalog.select();
 
   for (int i = 0; i < catalog.rowCount(); ++i) {
@@ -261,12 +262,25 @@ int CatalogDB::FindFuzzyEntry(const double ra, const double dec,
   return returnval;
 }
 
+bool CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid) {
+    if( ! skydb_.open() ) {
+        qWarning() << "Failed to open database to add catalog entry!";
+        qWarning() << LastError();
+        return false;
+    }
+    bool retVal = _AddEntry( catalog_entry, catid );
+    skydb_.close();
+    return retVal;
+}
 
-void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
+bool CatalogDB::_AddEntry(const CatalogEntryData& catalog_entry, int catid)
 {
   // Verification step
   // If RA, Dec are Null, it denotes an invalid object and should not be written
-
+  if( catid < 0 ) {
+      qWarning() << "Catalog ID " << catid << " is invalid! Cannot add object.";
+      return false;
+  }
   if (catalog_entry.ra == KSParser::EBROKEN_DOUBLE ||
       catalog_entry.ra == 0.0 || std::isnan( catalog_entry.ra ) ||
       catalog_entry.dec == KSParser::EBROKEN_DOUBLE ||
@@ -274,7 +288,7 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
     qDebug() << "Attempt to add incorrect ra & dec with ID:"
              << catalog_entry.ID << " Long Name: "
              << catalog_entry.long_name;
-    return;
+    return false;
   }
   // Part 1: Adding in DSO table
   // I will not use QSQLTableModel as I need to execute a query to find
@@ -282,7 +296,6 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
 
   // Part 2: Fuzzy Match or Create New Entry
   int rowuid = FindFuzzyEntry(catalog_entry.ra, catalog_entry.dec, catalog_entry.magnitude);
-
   //skydb_.open();
 
   if ( rowuid == -1) { //i.e. No fuzzy match found. Proceed to add new entry
@@ -309,6 +322,7 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
     rowuid = add_query.lastInsertId().toInt();
     add_query.clear();
   }
+  int ID = catalog_entry.ID;
 
   /* TODO(spacetime)
    * Possible Bugs in QSQL Db with SQLite
@@ -325,19 +339,32 @@ void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry, int catid)
   // Part 3: Add in Object Designation
   //skydb_.open();
   QSqlQuery add_od(skydb_);
-  add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
-                 ", IDNumber) VALUES (:catid, :rowuid, :longname, :id)");
+  if( ID >= 0 ) {
+      add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
+                     ", IDNumber) VALUES (:catid, :rowuid, :longname, :id)");
+      add_od.bindValue(":id", ID);
+  }
+  else{
+      qWarning() << "FIXME: This query has not been tested!!!!";
+      add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName"
+                     ", IDNumber) VALUES (:catid, :rowuid, :longname,"
+                     "(SELECT MAX(ISNULL(IDNumber,1))+1 FROM ObjectDesignation WHERE id_Catalog = :catid) )"
+                     );
+  }
   add_od.bindValue(":catid", catid);
   add_od.bindValue(":rowuid", rowuid);
   add_od.bindValue(":longname", catalog_entry.long_name);
-  add_od.bindValue(":id", catalog_entry.ID);
+  bool retVal = true;
   if (!add_od.exec()) {
-    qWarning() << add_od.lastQuery();
-    qWarning() << skydb_.lastError();
+      qWarning() << "Query exec failed:";
+      qWarning() << add_od.lastQuery();
+      qWarning() << skydb_.lastError();
+      retVal = false;
   }
   add_od.clear();
-
   //skydb_.close();
+
+  return retVal;
 }
 
 QString CatalogDB::GetCatalogName(const QString &fname)
@@ -449,7 +476,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
         catalog_entry.minor_axis = row_content["Mn"].toFloat();
         catalog_entry.flux = row_content["Flux"].toFloat();
 
-        AddEntry(catalog_entry, catid);
+        _AddEntry(catalog_entry, catid);
       }
 
       skydb_.commit();
@@ -721,7 +748,8 @@ void CatalogDB::GetCatalogData(const QString& catalog_name,
 void CatalogDB::GetAllObjects(const QString &catalog,
                               QList< SkyObject* > &sky_list,
                               QList < QPair <int, QString> > &object_names,
-                              CatalogComponent *catalog_ptr) {
+                              CatalogComponent *catalog_ptr,
+                              bool includeCatalogDesignation ) {
     sky_list.clear();
     QString selected_catalog = QString::number(FindCatalog(catalog));
     skydb_.open();
@@ -758,7 +786,14 @@ void CatalogDB::GetAllObjects(const QString &catalog,
         float PA = get_query.value(10).toFloat();
         float flux = get_query.value(11).toFloat();
 
-        QString name = catPrefix + ' ' + QString::number(id_number_in_catalog);
+        QString name;
+        if( ! includeCatalogDesignation && ! lname.isEmpty() ) {
+            name = lname;
+            lname = QString();
+        }
+        else
+            name = catPrefix + ' ' + QString::number(id_number_in_catalog);
+
         SkyPoint t;
         t.set(RA, Dec);
 

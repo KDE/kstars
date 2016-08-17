@@ -58,7 +58,7 @@ void modCalcGalCoord::slotObject()
 {
     QPointer<FindDialog> fd = new FindDialog( this );
     if ( fd->exec() == QDialog::Accepted ) {
-        SkyObject *o = fd->selectedObject();
+        SkyObject *o = fd->targetObject();
         RA->showInHours( o->ra() );
         Dec->showInDegrees( o->dec() );
         slotComputeCoords();

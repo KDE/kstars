@@ -20,7 +20,7 @@
 #include "../kstars/nan.h"
 
 CatalogEntryData::CatalogEntryData() {
-  catalog_name = "Nil";
+  catalog_name = "";
   ID = -1;
   long_name = "Nil";
   ra = NaN::d;

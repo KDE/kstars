@@ -346,5 +346,4 @@ void OpsCatalog::populateCustomCatalogs() {
           newItem->setCheckState( Qt::Unchecked );
         }
     }
-
 }

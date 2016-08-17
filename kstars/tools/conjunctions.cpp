@@ -164,9 +164,9 @@ void ConjunctionsTool::slotFindObject() {
     QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
     if ( fd->exec() == QDialog::Accepted ) {
         delete Object1;
-        if( !fd->selectedObject() )
+        if( !fd->targetObject() )
             return;
-        Object1 = fd->selectedObject()->clone();
+        Object1 = fd->targetObject()->clone();
         if( Object1 )
             Obj1FindButton->setText( Object1->name() );
     }
