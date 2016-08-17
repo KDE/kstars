@@ -167,27 +167,47 @@ SkyObject::TYPE NameResolver::NameResolverInternals::interpretObjectType( const 
     // accept. Otherwise, or if NED did not return a result, re-run
     // the query on SIMBAD and VizieR and use that result, if any.
 
-    // Highest likelihood is a galaxy of some form
-    if( typeString == "G" || typeString == "LIN" || typeString == "AGN" || typeString == "GiG" || typeString == "H2G" ) {
+    // See http://cds.u-strasbg.fr/cgi-bin/Otype?IR for Object Classification in SIMBAD
+
+    // Highest likelihood is a galaxy of some form, so we process that first
+    if( typeString == "G" || typeString == "LIN" || typeString == "AGN"
+        || typeString == "GiG" || typeString == "GiC" || typeString == "H2G"
+        || typeString == "BiC" || typeString == "GiP" || typeString == "HzG"
+        || typeString == "rG" || typeString == "AG?" || typeString == "EmG"
+        || typeString == "LSB" || typeString == "SBG" || typeString == "bCG"
+        || typeString == "SyG" || typeString == "Sy1" || typeString == "Sy2" ) {
         // this is a galaxy
         return SkyObject::GALAXY;
     }
     // Next possibility is galaxy cluster
-    if( typeString == "GClstr" || typeString == "GGroup" || typeString == "GPair" || typeString == "ClG" || typeString == "CGG" ) { // NOTE (FIXME?): Compact groups and pairs of galaxies ar treated like galaxy clusters
+    if( typeString == "GClstr" || typeString == "GGroup" || typeString == "GPair"
+        || typeString == "ClG" || typeString == "CGG" || typeString == "PaG"
+        || typeString == "IG" || typeString == "GrG" || typeString == "SCG" ) { // NOTE (FIXME?): Compact groups and pairs of galaxies ar treated like galaxy clusters
         return SkyObject::GALAXY_CLUSTER;
     }
-    if( typeString == "*Cl" || typeString == "Cl*" || typeString == "OpC" )
+    if( typeString == "*Cl" || typeString == "Cl*" || typeString == "OpC" || typeString == "As*" || typeString == "St*" )
         return SkyObject::OPEN_CLUSTER; // FIXME: NED doesn't distinguish between globular clusters and open clusters!!
     if( typeString == "GlC" )
         return SkyObject::GLOBULAR_CLUSTER;
-    if( typeString == "Neb" || typeString == "HII" )
+    if( typeString == "Neb" || typeString == "HII" || typeString == "HH" ) // FIXME: The last one is Herbig-Haro object
         return SkyObject::GASEOUS_NEBULA;
     if( typeString == "SNR" ) // FIXME: Simbad returns "ISM" for Veil Nebula (Interstellar Medium??)
         return SkyObject::SUPERNOVA_REMNANT;
-    if( typeString == "PN" )
+    if( typeString == "PN" || typeString == "pA*" ) // FIXME: The latter is actually Proto PN
         return SkyObject::PLANETARY_NEBULA;
     if( typeString == "*" )
-        return SkyObject::STAR;
+        return SkyObject::CATALOG_STAR;
+    if( typeString == "QSO" )
+        return SkyObject::QUASAR;
+    if( typeString == "DNe" || typeString == "glb" ) // The latter is Bok globule
+        return SkyObject::DARK_NEBULA;
+    if( typeString == "Rad" || typeString == "mR" || typeString == "cm" || typeString == "mm"
+        || typeString == "smm" || typeString == "HI" || typeString == "rB" || typeString == "Mas" )
+        return SkyObject::RADIO_SOURCE;
+    if( typeString == "**" )
+        return SkyObject::MULT_STAR;
+    if( typeString.contains('*') && typeString != "C?*" )
+        return SkyObject::CATALOG_STAR;
 
     return SkyObject::TYPE_UNKNOWN;
     // FIXME: complete this method
