@@ -563,7 +563,7 @@ int FITSData::findOneStar(const QRectF &boundary)
 
     float massX=0, massY=0, totalMass=0;
 
-    double threshold = stats.median[0] + stats.stddev[0];
+    double threshold = stats.mean[0] * 1.40;
 
     for (int y=subY; y < subH; y++)
     {
@@ -572,6 +572,7 @@ int FITSData::findOneStar(const QRectF &boundary)
             float pixel = image_buffer[x+y*stats.width];
             if (pixel > threshold)
             {
+                //pixel     *= pow(1000, pixel/stats.max[0]);
                 totalMass += pixel;
                 massX     += x * pixel;
                 massY     += y * pixel;
@@ -616,7 +617,7 @@ int FITSData::findOneStar(const QRectF &boundary)
             }
 
             qDebug() << "Testing for radius " << r << " passes # " << pass << " @ threshold " << running_threshold;
-            if (pass >= 9)
+            if (pass >= 6)
             {
                     center->width = r*2;
                     break;
@@ -634,8 +635,8 @@ int FITSData::findOneStar(const QRectF &boundary)
     if (center->width == -1)
         return 0;
 
-    // 10% fuzzy
-    //center->width += center->width*0.1 * (running_threshold / threshold);
+    // 30% fuzzy
+    //center->width += center->width*0.3 * (running_threshold / threshold);
 
     starCenters.append(center);
 
@@ -805,8 +806,8 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
         else
         {
             // Only find a single star within the boundary
-            //findOneStar(boundary);
-            //return;
+            findOneStar(boundary);
+            return;
 
             subX = boundary.x();
             subY = boundary.y();
