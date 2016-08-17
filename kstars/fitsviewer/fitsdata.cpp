@@ -563,7 +563,8 @@ int FITSData::findOneStar(const QRectF &boundary)
 
     float massX=0, massY=0, totalMass=0;
 
-    double threshold = stats.mean[0] * 1.40;
+    // TODO replace magic number with something more useful to understand
+    double threshold = stats.mean[0] * 1.3;
 
     for (int y=subY; y < subH; y++)
     {
@@ -599,7 +600,7 @@ int FITSData::findOneStar(const QRectF &boundary)
     {
         for (int r=maxR; r > 1; r--)
         {
-            int pass=0, fail=0;
+            int pass=0;
 
             for (float theta=0; theta < 2*M_PI; theta += (2*M_PI)/10.0)
             {
@@ -612,8 +613,6 @@ int FITSData::findOneStar(const QRectF &boundary)
 
                 if (image_buffer[testX + testY * stats.width] > running_threshold)
                     pass++;
-                else if (fail++ > 3)
-                    break;
             }
 
             qDebug() << "Testing for radius " << r << " passes # " << pass << " @ threshold " << running_threshold;
