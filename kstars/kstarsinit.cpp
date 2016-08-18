@@ -146,7 +146,6 @@ void KStars::initActions() {
         << QIcon::fromTheme("document-open")
         << QKeySequence( Qt::CTRL+Qt::Key_O );
 #endif
-
     actionCollection()->addAction("export_image", this, SLOT( slotExportImage() ) )
         << i18n("&Save Sky Image...")
         << QIcon::fromTheme("document-export-image")

@@ -84,7 +84,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ), 80);
     m_Cultures = new CultureList();
     addComponent( m_CLines     = new ConstellationLines( this, m_Cultures ), 85);
-    addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ), 90);    
+    addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ), 90);
     addComponent( m_Equator    = new Equator( this ), 95);
     addComponent( m_Ecliptic   = new Ecliptic( this ), 95);
     addComponent( m_Horizon    = new HorizonComponent( this ), 100);
@@ -288,7 +288,7 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_StarHopRouteList->pen = QPen( QColor(data->colorScheme()->colorNamed( "StarHopRouteColor" )), 1. );
     m_StarHopRouteList->draw( skyp );
-    
+
     m_ArtificialHorizon->draw( skyp );
 
     m_Horizon->draw( skyp );

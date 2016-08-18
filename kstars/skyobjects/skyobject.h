@@ -107,12 +107,16 @@ public:
     /**
      *@enum TYPE
      *The type classification of the SkyObject.
+     * @note Keep TYPE_UNKNOWN at 255. To find out how many known
+     * types exist, keep the NUMBER_OF_KNOWN_TYPES at the highest
+     * non-Unknown value. This is a fake type that can be used in
+     * comparisons and for loops.
      */
     enum TYPE { STAR=0, CATALOG_STAR=1, PLANET=2, OPEN_CLUSTER=3, GLOBULAR_CLUSTER=4,
                 GASEOUS_NEBULA=5, PLANETARY_NEBULA=6, SUPERNOVA_REMNANT=7, GALAXY=8,
                 COMET=9, ASTEROID=10, CONSTELLATION=11, MOON=12, ASTERISM=13,
                 GALAXY_CLUSTER=14, DARK_NEBULA=15, QUASAR=16, MULT_STAR=17, RADIO_SOURCE=18,
-                SATELLITE=19, SUPERNOVA=20, TYPE_UNKNOWN=255 };
+                SATELLITE=19, SUPERNOVA=20, NUMBER_OF_KNOWN_TYPES=21, TYPE_UNKNOWN=255 };
 
     /**
      *@return A translated string indicating the type name for a given type number
