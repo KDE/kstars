@@ -59,6 +59,7 @@ EkosManager::EkosManager()
     nConnectedDevices=0;
     useGuideHead    =false;
     useST4          =false;
+    isStarted       = false;
     remoteManagerStart=false;
 
     indiConnectionStatus = EKOS_STATUS_IDLE;
@@ -288,17 +289,16 @@ void EkosManager::reset()
     if (guidePI)
         guidePI->stopAnimation();
 
+    isStarted = false;
     processINDIB->setText(i18n("Start INDI"));
 }
 
 void EkosManager::processINDI()
 {
-    if (ekosStartingStatus == EKOS_STATUS_SUCCESS || ekosStartingStatus == EKOS_STATUS_PENDING)
-    {
-        stop();
-    }
-    else
+    if (isStarted == false)
         start();
+    else
+        stop();
 }
 
 bool EkosManager::stop()
@@ -480,9 +480,7 @@ bool EkosManager::start()
 
         appendLogText(i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
 
-
         QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
-
     }
     else
     {
@@ -534,7 +532,6 @@ bool EkosManager::start()
         appendLogText(i18n("INDI services started. Connection to remote INDI server is successful. Waiting for devices..."));
 
         QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
-
     }
 
     connectB->setEnabled(false);
@@ -543,6 +540,7 @@ bool EkosManager::start()
 
     profileGroup->setEnabled(false);
 
+    isStarted = true;
     processINDIB->setText(i18n("Stop INDI"));
 
     return true;
@@ -653,7 +651,7 @@ void EkosManager::processServerTermination(const QString &host, const QString &p
 
 void EkosManager::cleanDevices(bool stopDrivers)
 {
-    if (ekosStartingStatus != EKOS_STATUS_SUCCESS)
+    if (ekosStartingStatus == EKOS_STATUS_IDLE)
         return;
 
     INDIListener::Instance()->disconnect(this);
@@ -682,11 +680,6 @@ void EkosManager::cleanDevices(bool stopDrivers)
 
     reset();
 
-    processINDIB->setText(i18n("Start INDI"));
-    processINDIB->setEnabled(true);
-    connectB->setEnabled(false);
-    disconnectB->setEnabled(false);
-    controlPanelB->setEnabled(false);
     profileGroup->setEnabled(true);
 
     appendLogText(i18n("INDI services stopped."));
