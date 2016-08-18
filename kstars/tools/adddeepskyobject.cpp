@@ -38,6 +38,7 @@ AddDeepSkyObject::AddDeepSkyObject( QWidget *parent, SyncedCatalogComponent *cat
     ui->typeComboBox->addItem( SkyObject::typeName( SkyObject::TYPE_UNKNOWN ) );
     ui->catalogNameEdit->setEnabled( false );
     ui->catalogNameEdit->setText( catalog->name() );
+    ui->raInput->setDegType( false );
 
     resetView();
 
