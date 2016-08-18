@@ -16,7 +16,7 @@ QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString
 #else
     QString file = fileName;
     if( location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation )
-        file = "kstars" + QDir::separator() + fileName;
+        file = "kstars/" + fileName;
     return QStandardPaths::locate(location, file, options);
 #endif
 }
@@ -35,7 +35,7 @@ QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const 
 #else
     QString file = fileName;
     if( location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation )
-        file = "kstars" + QDir::separator() + fileName;
+        file = "kstars/" + fileName;
     return QStandardPaths::locateAll(location, file, options);
 #endif
 }
