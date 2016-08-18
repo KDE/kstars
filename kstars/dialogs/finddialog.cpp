@@ -342,7 +342,7 @@ void FindDialog::finishProcessing( SkyObject *selObj, bool resolve ) {
         cedata = NameResolver::resolveName( processSearchText() );
         DeepSkyObject *dso = 0;
         if( ! std::isnan( cedata.ra ) && ! std::isnan( cedata.dec ) ) {
-            dso = KStarsData::Instance()->skyComposite()->miscObjectComponent()->addObject( cedata );
+            dso = KStarsData::Instance()->skyComposite()->internetResolvedComponent()->addObject( cedata );
             if( dso )
                 qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
             selObj = dso;

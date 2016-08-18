@@ -94,7 +94,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_ArtificialHorizon = new ArtificialHorizonComponent(this), 110);
 
     m_internetResolvedCat = "_Internet_Resolved";
-    addComponent( m_miscObjectComponent = new SyncedCatalogComponent( this, m_internetResolvedCat, true, 0 ), 6 );
+    addComponent( m_internetResolvedComponent = new SyncedCatalogComponent( this, m_internetResolvedCat, true, 0 ), 6 );
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
@@ -149,7 +149,7 @@ void SkyMapComposite::update(KSNumbers *num )
     //m_DeepSky->update( data, num );
     //9. Custom catalogs
     m_CustomCatalogs->update( num );
-    m_miscObjectComponent->update( num );
+    m_internetResolvedComponent->update( num );
     //10. Stars
     //m_Stars->update( data, num );
     //m_CLines->update( data, num );  // MUST follow stars.
@@ -260,7 +260,7 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_DeepSky->draw( skyp );
 
     m_CustomCatalogs->draw( skyp );
-    m_miscObjectComponent->draw( skyp );
+    m_internetResolvedComponent->draw( skyp );
 
     m_Stars->draw( skyp );
 
@@ -372,7 +372,7 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
     }
 
     rTry = maxrad;
-    oTry = m_miscObjectComponent->objectNearest( p, rTry );
+    oTry = m_internetResolvedComponent->objectNearest( p, rTry );
     rTry *= 0.5;
     if ( rTry < rBest ) {
         rBest = rTry;
@@ -475,7 +475,7 @@ SkyObject* SkyMapComposite::findByName( const QString &name ) {
     if ( o ) return o;
     o = m_CustomCatalogs->findByName( name );
     if ( o ) return o;
-    o = m_miscObjectComponent->findByName( name );
+    o = m_internetResolvedComponent->findByName( name );
     if ( o ) return o;
     o = m_CNames->findByName( name );
     if ( o ) return o;
@@ -583,6 +583,8 @@ void SkyMapComposite::reloadDeepSky() {
     SkyMapDrawAbstract::setDrawLock(true);
     delete m_CustomCatalogs;
     m_CustomCatalogs = new SkyComposite( this );
+    delete m_internetResolvedComponent;
+    addComponent( m_internetResolvedComponent = new SyncedCatalogComponent( this, m_internetResolvedCat, true, 0 ), 6 );
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
         if( allcatalogs.at(i) == m_internetResolvedCat ) // This is a special catalog
@@ -591,8 +593,6 @@ void SkyMapComposite::reloadDeepSky() {
                                        new CatalogComponent( this, allcatalogs.at(i), false, i ), 5 // FIXME: Should this be 6 or 5? See SkyMapComposite::SkyMapComposite()
             );
     }
-    delete m_miscObjectComponent;
-    addComponent( m_miscObjectComponent = new SyncedCatalogComponent( this, m_internetResolvedCat, true, 0 ), 6 );
     SkyMapDrawAbstract::setDrawLock(false);
 }
 

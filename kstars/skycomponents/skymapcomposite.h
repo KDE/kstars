@@ -174,7 +174,7 @@ public:
     SatellitesComponent* satellites();
     SupernovaeComponent* supernovaeComponent();
     ArtificialHorizonComponent* artificialHorizon();
-    inline SyncedCatalogComponent* miscObjectComponent() { return m_miscObjectComponent; }
+    inline SyncedCatalogComponent* internetResolvedComponent() { return m_internetResolvedComponent; }
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
@@ -230,7 +230,7 @@ private:
     TargetListComponent         *m_StarHopRouteList;
     SatellitesComponent         *m_Satellites;
     SupernovaeComponent         *m_Supernovae;
-    SyncedCatalogComponent      *m_miscObjectComponent;
+    SyncedCatalogComponent      *m_internetResolvedComponent;
 
     SkyMesh*                m_skyMesh;
     SkyLabeler*             m_skyLabeler;
