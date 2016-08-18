@@ -94,11 +94,13 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_ArtificialHorizon = new ArtificialHorizonComponent(this), 110);
 
     m_internetResolvedCat = "_Internet_Resolved";
+    m_manualAdditionsCat = "_Manual_Additions";
     addComponent( m_internetResolvedComponent = new SyncedCatalogComponent( this, m_internetResolvedCat, true, 0 ), 6 );
+    addComponent( m_manualAdditionsComponent = new SyncedCatalogComponent( this, m_manualAdditionsCat, true, 0 ), 6 );
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
-        if( allcatalogs.at(i) == m_internetResolvedCat ) // This is a special catalog
+        if( allcatalogs.at(i) == m_internetResolvedCat || allcatalogs.at(i) == m_manualAdditionsCat ) // This is a special catalog
             continue;
         m_CustomCatalogs->addComponent(
                                        new CatalogComponent( this, allcatalogs.at(i), false, i ), 6 // FIXME: Should this be 6 or 5? See SkyMapComposite::reloadDeepSky()
@@ -150,6 +152,7 @@ void SkyMapComposite::update(KSNumbers *num )
     //9. Custom catalogs
     m_CustomCatalogs->update( num );
     m_internetResolvedComponent->update( num );
+    m_manualAdditionsComponent->update( num );
     //10. Stars
     //m_Stars->update( data, num );
     //m_CLines->update( data, num );  // MUST follow stars.
@@ -261,6 +264,7 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_CustomCatalogs->draw( skyp );
     m_internetResolvedComponent->draw( skyp );
+    m_manualAdditionsComponent->draw( skyp );
 
     m_Stars->draw( skyp );
 
@@ -380,6 +384,14 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
     }
 
     rTry = maxrad;
+    oTry = m_manualAdditionsComponent->objectNearest( p, rTry );
+    rTry *= 0.5;
+    if ( rTry < rBest ) {
+        rBest = rTry;
+        oBest = oTry;
+    }
+
+    rTry = maxrad;
     oTry = m_SolarSystem->objectNearest( p, rTry );
     if( !dynamic_cast<KSComet *>( oTry ) && !dynamic_cast<KSAsteroid *>( oTry ) ) { // There are gazillions of faint asteroids and comets; we want to prevent them from getting precedence
         rTry *= 0.25; // this is either sun, moon, or one of the major planets or their moons.
@@ -476,6 +488,8 @@ SkyObject* SkyMapComposite::findByName( const QString &name ) {
     o = m_CustomCatalogs->findByName( name );
     if ( o ) return o;
     o = m_internetResolvedComponent->findByName( name );
+    if ( o ) return o;
+    o = m_manualAdditionsComponent->findByName( name );
     if ( o ) return o;
     o = m_CNames->findByName( name );
     if ( o ) return o;
@@ -585,9 +599,11 @@ void SkyMapComposite::reloadDeepSky() {
     m_CustomCatalogs = new SkyComposite( this );
     delete m_internetResolvedComponent;
     addComponent( m_internetResolvedComponent = new SyncedCatalogComponent( this, m_internetResolvedCat, true, 0 ), 6 );
+    delete m_manualAdditionsComponent;
+    addComponent( m_manualAdditionsComponent = new SyncedCatalogComponent( this, m_manualAdditionsCat, true, 0 ), 6 );
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
-        if( allcatalogs.at(i) == m_internetResolvedCat ) // This is a special catalog
+        if( allcatalogs.at(i) == m_internetResolvedCat || allcatalogs.at(i) == m_manualAdditionsCat ) // These are special catalogs
             continue;
         m_CustomCatalogs->addComponent(
                                        new CatalogComponent( this, allcatalogs.at(i), false, i ), 5 // FIXME: Should this be 6 or 5? See SkyMapComposite::SkyMapComposite()

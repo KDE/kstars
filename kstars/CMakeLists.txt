@@ -205,6 +205,7 @@ set(libkstarstools_SRCS
     tools/eyepiecefield.cpp
     tools/exporteyepieceview.cpp
     tools/starhopperdialog.cpp
+    tools/adddeepskyobject.cpp
 )
 
 if(${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
@@ -265,6 +266,7 @@ ki18n_wrap_ui(libkstarstools_SRCS
     tools/flagmanager.ui
     tools/starhopperdialog.ui
     tools/horizonmanager.ui
+    tools/adddeepskyobject.ui
 )
 
 if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)

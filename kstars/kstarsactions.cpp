@@ -80,6 +80,7 @@
 #include "tools/wutdialog.h"
 #include "tools/observinglist.h"
 #include "tools/eyepiecefield.h"
+#include "tools/adddeepskyobject.h"
 
 #ifdef HAVE_KF5WIT
 #include "tools/whatsinteresting/wiview.h"
@@ -1485,4 +1486,12 @@ void KStars::slotUpdateSupernovae()
 void KStars::slotUpdateSatellites()
 {
     data()->skyComposite()->satellites()->updateTLEs();
+}
+
+void KStars::slotAddDeepSkyObject() {
+    if( ! m_addDSODialog ) {
+        Q_ASSERT( data() && data()->skyComposite() && data()->skyComposite()->manualAdditionsComponent() );
+        m_addDSODialog = new AddDeepSkyObject( this, data()->skyComposite()->manualAdditionsComponent() );
+    }
+    m_addDSODialog->show();
 }

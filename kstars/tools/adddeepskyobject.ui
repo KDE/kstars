@@ -1,41 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>AddDeepSkyObject</class>
+ <widget class="QDialog" name="AddDeepSkyObject">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>708</width>
-    <height>468</height>
+    <width>703</width>
+    <height>470</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Add/Edit Deep Sky Object</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>350</x>
-     <y>430</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
      <width>681</width>
-     <height>150</height>
+     <height>115</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -47,7 +31,7 @@
    <property name="minimumSize">
     <size>
      <width>0</width>
-     <height>150</height>
+     <height>115</height>
     </size>
    </property>
    <property name="title">
@@ -63,19 +47,6 @@
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="3">
-      <widget class="QComboBox" name="catalogComboBox">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="3" colspan="3">
       <widget class="QLineEdit" name="longNameEdit"/>
      </item>
@@ -88,7 +59,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Numeric ID*:</string>
+        <string>Numeric ID:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -113,11 +84,17 @@
      </item>
      <item row="1" column="5">
       <widget class="QSpinBox" name="catalogIDInput">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="minimum">
+        <number>-1</number>
+       </property>
        <property name="maximum">
         <number>99999999</number>
        </property>
        <property name="value">
-        <number>1</number>
+        <number>-1</number>
        </property>
       </widget>
      </item>
@@ -150,36 +127,33 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="3">
+      <widget class="QLineEdit" name="catalogNameEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
     </layout>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>100</y>
-      <width>631</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>*As of this version the primary designation necessarily has to have a catalog and a unique numeric ID with no suffix. As a workaround when needed, consider using alternate designations, or create fake catalogs of miscellaneous objects, and use the long name to include the designation of your choice.</string>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
    </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>170</y>
+     <y>130</y>
      <width>461</width>
-     <height>91</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="title">
-    <string>Coordinates (J2000)</string>
+    <string>Coordinates (J2000 / ICRS)</string>
    </property>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
@@ -205,7 +179,7 @@
       </widget>
      </item>
      <item>
-      <widget class="dmsBox" name="raInput" native="true"/>
+      <widget class="dmsBox" name="raInput"/>
      </item>
      <item>
       <widget class="QLabel" name="label_6">
@@ -224,7 +198,7 @@
       </widget>
      </item>
      <item>
-      <widget class="dmsBox" name="decInput" native="true"/>
+      <widget class="dmsBox" name="decInput"/>
      </item>
     </layout>
    </widget>
@@ -233,7 +207,7 @@
    <property name="geometry">
     <rect>
      <x>310</x>
-     <y>270</y>
+     <y>250</y>
      <width>381</width>
      <height>101</height>
     </rect>
@@ -247,7 +221,7 @@
       <x>20</x>
       <y>30</y>
       <width>341</width>
-      <height>61</height>
+      <height>70</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -342,9 +316,9 @@
    <property name="geometry">
     <rect>
      <x>480</x>
-     <y>170</y>
+     <y>130</y>
      <width>211</width>
-     <height>91</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="title">
@@ -413,7 +387,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>270</y>
+     <y>250</y>
      <width>291</width>
      <height>101</height>
     </rect>
@@ -427,7 +401,7 @@
       <x>20</x>
       <y>30</y>
       <width>251</width>
-      <height>61</height>
+      <height>68</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_2">
@@ -472,7 +446,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>380</y>
+     <y>360</y>
      <width>681</width>
      <height>31</height>
     </rect>
@@ -488,7 +462,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>410</y>
+     <y>400</y>
      <width>681</width>
      <height>16</height>
     </rect>
@@ -497,13 +471,66 @@
     <string>** Major and minor axes are in arcminutes, position angle is in degrees.</string>
    </property>
   </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>420</y>
+     <width>681</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QPushButton" name="fillFromTextButton">
+      <property name="text">
+       <string>Guess from &amp;Text</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QDialogButtonBox" name="buttonBox">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="standardButtons">
+       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+      </property>
+      <property name="centerButtons">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>dmsBox</class>
+   <extends>QLineEdit</extends>
+   <header>widgets/dmsbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>AddDeepSkyObject</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -519,7 +546,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>AddDeepSkyObject</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

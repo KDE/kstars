@@ -356,6 +356,10 @@ void KStars::initActions() {
         << i18n("Startup Wizard..." )
         << QIcon::fromTheme("tools-wizard" );
 
+    // Manual data entry
+    actionCollection()->addAction( "manual_add_dso", this, SLOT( slotAddDeepSkyObject() ) )
+        << i18n( "Manually add a deep-sky object" );
+
     // Updates actions
     actionCollection()->addAction( "update_comets", this, SLOT( slotUpdateComets() ) )
         << i18n( "Update comets orbital elements" );
