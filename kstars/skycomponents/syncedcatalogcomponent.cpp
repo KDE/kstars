@@ -31,8 +31,8 @@ SyncedCatalogComponent::SyncedCatalogComponent( SkyComposite *parent,
     : CatalogComponent( parent, catname, showerrs, index, false ) {
 
     // First check if the catalog exists
-    CatalogDB *db;
-    Q_ASSERT( db = KStarsData::Instance()->catalogdb() );
+    CatalogDB *db = KStarsData::Instance()->catalogdb();
+    Q_ASSERT( db );
     m_catId = db->FindCatalog( catname );
     if( m_catId >= 0 )
         loadData();
