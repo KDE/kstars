@@ -1193,7 +1193,7 @@ void ObservingList::setCurrentImage( const SkyObject *o  ) {
         QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
-    CurrentImagePath = KSPaths::locate( QStandardPaths::DataLocation , CurrentImage );
+    CurrentImagePath = KSPaths::locate( QStandardPaths::GenericDataLocation , CurrentImage );
     DSSUrl = KSDssDownloader::getDSSURL( o );
     // QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
     // QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
