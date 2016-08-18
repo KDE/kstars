@@ -64,20 +64,21 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
 
     QRegularExpression matchJ2000Line( "^(.*)(?:J2000|ICRS|FK5|\\(2000(?:\\.0)?\\))(.*)$" );
     matchJ2000Line.setPatternOptions( QRegularExpression::MultilineOption );
-    QRegularExpression matchCoords( "(?:^|[^-\\d])([-+]?\\d\\d?)(?:h ?|[^\\d]?° ?|:| +)(\\d\\d)(?:m ?|\' ?|:| +)(\\d\\d(?:\\.\\d+)?)(?:s|\"|\'\')?\\b" );
-    QRegularExpression findMag1( "(?:[mM]ag(?:nitudes?)?|V(?=\\b))(?:\\s*=|:)?\\s*(-?\\d{1,2}(?:\\.\\d{1,3})?)" );
+    QRegularExpression matchCoords( "(?:^|[^-\\d])([-+]?\\d\\d?)(?:h ?|d ?|[^\\d]?° ?|:| +)(\\d\\d)(?:m ?|\' ?|’ ?|′ ?|:| +)(\\d\\d(?:\\.\\d+)?)?(?:s|\"|\'\'|”|″)?\\b" );
+    QRegularExpression matchCoords2( "J\\d{6,6}[-+]\\d{6,6}" );
+    QRegularExpression findMag1( "(?:[mM]ag(?:nitudes?)?\\s*(?:\\([vV]\\))?|V(?=\\b))(?:\\s*=|:)?\\s*(-?\\d{1,2}(?:\\.\\d{1,3})?)" );
     QRegularExpression findMag2( "\\b-?\\d{1,2}(\\.\\d{1,3})?\\s*[mM]ag\\b");
     QRegularExpression findSize1( "\\b(\\d{1,3}(?:\\.\\d{1,2})?)\\s*(°|\'|\"|\'\')?\\s*[xX×]\\s*(\\d{1,3}(?:\\.\\d{1,2})?)\\s*(°|\'|\"|\'\')?\\b" );
-    QRegularExpression findSize2( "\\b(?:[Ss]ize|[Dd]imensions?|[Dd]iameter)[: ](\\d{1,3}(?:\\.\\d{1,2})?)\\s*(°|\'|\"|\'\')?\\b" );
+    QRegularExpression findSize2( "\\b(?:[Ss]ize|[Dd]imensions?|[Dd]iameter)[: ](?:\\([vV]\\))?\\s*(\\d{1,3}(?:\\.\\d{1,2})?)\\s*(°|\'|\"|\'\')?\\b" );
     QRegularExpression findMajorAxis( "\\b[Mm]ajor\\s*[Aa]xis:?\\s*(\\d{1,3}(?:\\.\\d{1,2})?)\\s*(°|\'|\"|\'\')?\\b" );
     QRegularExpression findMinorAxis( "\\b[Mm]inor\\s*[Aa]xis:?\\s*(\\d{1,3}(?:\\.\\d{1,2})?)\\s*(°|\'|\"|\'\')?\\b" );
     QRegularExpression findPA( "\\b(?:[Pp]osition *[Aa]ngle|PA|[pP]\\.[aA]\\.):?\\s*(\\d{1,3}(\\.\\d{1,2})?)(?:°|[Ddeg])?\\b" );
-    QRegularExpression findName1( "\\b(?:[nN]ames?[: ]|[iI]dent(?:ifier)?:|[dD]esignation:)\\s*\"?([-+\'A-Za-z0-9 ]*)\"?\\b" );
+    QRegularExpression findName1( "\\b(?:(?:[nN]ames?|NAMES?)[: ]|[iI]dent(?:ifier)?:|[dD]esignation:)\\h*\"?([-+\'A-Za-z0-9 ]*)\"?\\b" );
     QStringList catalogNames;
-    catalogNames << "NGC" << "IC" << "M" << "PGC" << "UGC" << "MCG" << "ESO" << "SDSS" << "LEDA"
+    catalogNames << "NGC" << "IC" << "M" << "PGC" << "UGC" << "UGCA" << "MCG" << "ESO" << "SDSS" << "LEDA"
                  << "IRAS" << "PNG" << "Abell" << "ACO" << "HCG" << "CGCG" << "[IV]+Zw" << "Hickson"
                  << "AGC" << "2MASS" << "RCS2" << "Terzan" << "PN [A-Z0-9]" << "VV" << "PK" << "GSC2"
-                 << "LBN" << "LDN" << "Caldwell" << "HIP" << "AM" << "vdB" << "B" << "Shk";
+                 << "LBN" << "LDN" << "Caldwell" << "HIP" << "AM" << "vdB" << "Barnard" << "Shk";
     QRegularExpression findName2( "\\b(" + catalogNames.join( "|" ) + ")\\s+(J?[-+0-9\\.]+[A-Da-h]?)\\b" );
     QRegularExpression findName3( "\\b([A-Za-z]+[0-9]?)\\s+(J?[-+0-9]+[A-Da-h]?)\\b" );
 
@@ -113,9 +114,19 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
         coordsFound = true;
     }
     else {
-        QStringList matches;
-        qDebug() << "Could not extract RA/Dec. Found " << countNonOverlappingMatches( text, matchCoords, &matches ) << " coordinate matches:";
-        qDebug() << matches;
+        if ( text.contains( matchCoords2, &rmatch ) ) {
+            QString matchString = rmatch.captured( 0 );
+            QRegularExpression extractCoords2( "(\\d\\d)(\\d\\d)(\\d\\d)([-+]\\d\\d)(\\d\\d)(\\d\\d)" );
+            Q_ASSERT(  matchString.contains( extractCoords2,  &rmatch ) );
+            RA = dms( rmatch.captured( 1 ) + ' ' + rmatch.captured( 2 ) + ' ' + rmatch.captured( 3 ), false );
+            Dec = dms( rmatch.captured( 4 ) + ' ' + rmatch.captured( 5 ) + ' ' + rmatch.captured( 6 ), true );
+            coordsFound = true;
+        }
+        else {
+            QStringList matches;
+            qDebug() << "Could not extract RA/Dec. Found " << countNonOverlappingMatches( text, matchCoords, &matches ) << " coordinate matches:";
+            qDebug() << matches;
+        }
     }
 
     nameFound = true;
