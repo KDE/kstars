@@ -386,9 +386,9 @@ void Capture::abort()
 
 }
 
-void Capture::sendNewImage(QImage *image)
+void Capture::sendNewImage(QImage *image, ISD::CCDChip *myChip)
 {
-    if (activeJob)
+    if (activeJob && myChip != guideChip)
         emit newImage(image, activeJob);
 }
 
@@ -795,7 +795,7 @@ void Capture::newFITS(IBLOB *bp)
             return;
 
         disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-        disconnect(currentCCD, SIGNAL(newImage(QImage*)), this, SLOT(sendNewImage(QImage*)));
+        disconnect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip)));
 
         if (calibrationState == CALIBRATE_START)
         {

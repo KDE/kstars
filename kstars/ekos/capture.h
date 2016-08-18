@@ -416,7 +416,7 @@ private slots:
     bool processPostCaptureCalibrationStage();
 
     // Send image info
-    void sendNewImage(QImage *image);
+    void sendNewImage(QImage *image, ISD::CCDChip *myChip);
 
 signals:
         void newLog();
