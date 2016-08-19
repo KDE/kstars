@@ -2103,8 +2103,10 @@ bool Capture::processJobInfo(XMLEle *root)
                 {
                     if (!strcmp(pcdataXMLEle(typeEP), "Manual"))
                         flatFieldSource = SOURCE_MANUAL;
-                    else if (!strcmp(pcdataXMLEle(typeEP), "DustCap"))
-                        flatFieldSource = SOURCE_DUSTCAP;
+                    else if (!strcmp(pcdataXMLEle(typeEP), "FlatCap"))
+                        flatFieldSource = SOURCE_FLATCAP;
+                    else if (!strcmp(pcdataXMLEle(typeEP), "DarkCap"))
+                        flatFieldSource = SOURCE_DARKCAP;
                     else if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
                     {
                         XMLEle *azEP=NULL, *altEP=NULL;
@@ -2291,8 +2293,10 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<FlatSource>" << endl;
         if (job->getFlatFieldSource() == SOURCE_MANUAL)
             outstream << "<Type>Manual</Type>" << endl;
-        else if (job->getFlatFieldSource() == SOURCE_DUSTCAP)
-            outstream << "<Type>DustCap</Type>" << endl;
+        else if (job->getFlatFieldSource() == SOURCE_FLATCAP)
+            outstream << "<Type>FlatCap</Type>" << endl;
+        else if (job->getFlatFieldSource() == SOURCE_DARKCAP)
+            outstream << "<Type>DarkCap</Type>" << endl;
         else if (job->getFlatFieldSource() == SOURCE_WALL)
         {
             outstream << "<Type>Wall</Type>" << endl;
@@ -3082,8 +3086,12 @@ void Capture::openCalibrationDialog()
         calibrationOptions.manualSourceC->setChecked(true);
         break;
 
-    case SOURCE_DUSTCAP:
-        calibrationOptions.deviceSourceC->setChecked(true);
+    case SOURCE_FLATCAP:
+        calibrationOptions.flatDeviceSourceC->setChecked(true);
+        break;
+
+    case SOURCE_DARKCAP:
+        calibrationOptions.darkDeviceSourceC->setChecked(true);
         break;
 
     case SOURCE_WALL:
@@ -3113,8 +3121,10 @@ void Capture::openCalibrationDialog()
     {
         if (calibrationOptions.manualSourceC->isChecked())
            flatFieldSource =  SOURCE_MANUAL;
-        else if (calibrationOptions.deviceSourceC->isChecked())
-            flatFieldSource =  SOURCE_DUSTCAP;
+        else if (calibrationOptions.flatDeviceSourceC->isChecked())
+            flatFieldSource =  SOURCE_FLATCAP;
+        else if (calibrationOptions.darkDeviceSourceC->isChecked())
+            flatFieldSource = SOURCE_DARKCAP;
         else if (calibrationOptions.wallSourceC->isChecked())
         {
             dms wallAz, wallAlt;
@@ -3171,7 +3181,7 @@ IPState Capture::processPreCaptureCalibrationStage()
 
     // Park cap, if not parked
     // Turn on Light
-    case SOURCE_DUSTCAP:
+    case SOURCE_FLATCAP:
         if (dustCap)
         {
             // If cap is not park, park it
@@ -3217,7 +3227,86 @@ IPState Capture::processPreCaptureCalibrationStage()
         }
         break;
 
-        // Go to wall coordinates
+        
+    // Park cap, if not parked and not flat frame
+    // Unpark cap, if flat frame
+    // Turn on Light
+    case SOURCE_DARKCAP:
+        if (dustCap)
+        {
+            // If cap is not park, park it if not flat frame. (external lightsource)
+            if (calibrationStage < CAL_DUSTCAP_PARKING && dustCap->isParked() == false && activeJob->getFrameType() != FRAME_FLAT)
+            {
+                if (dustCap->Park())
+                {
+                    calibrationStage = CAL_DUSTCAP_PARKING;
+                    appendLogText(i18n("Parking dust cap..."));
+                    return IPS_BUSY;
+                }
+                else
+                {
+                    appendLogText(i18n("Parking dust cap failed, aborting..."));
+                    abort();
+                    return IPS_ALERT;
+                }
+            }
+
+            // Wait until  cap is parked
+            if (calibrationStage == CAL_DUSTCAP_PARKING)
+            {
+                if (dustCap->isParked() == false)
+                    return IPS_BUSY;
+                else
+                {
+                    calibrationStage = CAL_DUSTCAP_PARKED;
+                    appendLogText(i18n("Dust cap parked."));
+                }
+            }
+
+            // If cap is parked, unpark it if flat frame. (external lightsource)
+            if (calibrationStage < CAL_DUSTCAP_UNPARKING && dustCap->isParked() == true && activeJob->getFrameType() == FRAME_FLAT)
+            {
+                if (dustCap->UnPark())
+                {
+                    calibrationStage = CAL_DUSTCAP_UNPARKING;
+                    appendLogText(i18n("UnParking dust cap..."));
+                    return IPS_BUSY;
+                }
+                else
+                {
+                    appendLogText(i18n("UnParking dust cap failed, aborting..."));
+                    abort();
+                    return IPS_ALERT;
+                }
+            }
+
+            // Wait until  cap is parked
+            if (calibrationStage == CAL_DUSTCAP_UNPARKING)
+            {
+                if (dustCap->isParked() == true)
+                    return IPS_BUSY;
+                else
+                {
+                    calibrationStage = CAL_DUSTCAP_UNPARKED;
+                    appendLogText(i18n("Dust cap unparked."));
+                }
+            }
+
+            // If light is not on, turn it on. For flat frames only
+            if (activeJob->getFrameType() == FRAME_FLAT && dustCap->isLightOn() == false)
+            {
+                dustCapLightEnabled = true;
+                dustCap->SetLightEnabled(true);
+            }
+            else if (activeJob->getFrameType() != FRAME_FLAT && dustCap->isLightOn() == true)
+            {
+                dustCapLightEnabled = false;
+                dustCap->SetLightEnabled(false);
+            }
+        }
+        break;
+
+    // Go to wall coordinates
     case SOURCE_WALL:
         if (currentTelescope)
         {
