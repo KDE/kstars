@@ -282,7 +282,7 @@ public slots:
 
     void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);    
 
-    void updateFocusStatus(FocusState state);
+    void updateFocusStatus(Ekos::FocusState state);
 
 private slots:
     /* Solver Options */

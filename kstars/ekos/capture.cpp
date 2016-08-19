@@ -795,7 +795,7 @@ void Capture::newFITS(IBLOB *bp)
             return;
 
         disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-        disconnect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip)));
+        disconnect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)));
 
         if (calibrationState == CALIBRATE_START)
         {
@@ -1015,7 +1015,7 @@ void Capture::captureImage()
     }
 
      connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
-     connect(currentCCD, SIGNAL(newImage(QImage*)), this, SLOT(sendNewImage(QImage*)), Qt::UniqueConnection);
+     connect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)), Qt::UniqueConnection);
 
      if (activeJob->getFrameType() == FRAME_FLAT)
      {
