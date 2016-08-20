@@ -30,6 +30,7 @@ class TelescopeLite : public QObject
     Q_OBJECT
     Q_PROPERTY(bool slewDecreasable READ isSlewDecreasable WRITE setSlewDecreasable NOTIFY slewDecreasableChanged)
     Q_PROPERTY(bool slewIncreasable READ isSlewIncreasable WRITE setSlewIncreasable NOTIFY slewIncreasableChanged)
+    Q_PROPERTY(QString deviceName READ getDeviceName WRITE setDeviceName NOTIFY deviceNameChanged)
 public:
     TelescopeLite(INDI::BaseDevice *device);
     TelescopeLite() { }
@@ -49,7 +50,9 @@ public:
     void processNumber(INumberVectorProperty *nvp);
 
     INDI::BaseDevice *getDevice() { return baseDevice; }
-    Q_INVOKABLE QString getDeviceName() { return baseDevice->getDeviceName(); }
+    //deviceName
+    QString getDeviceName() { return m_deviceName; }
+    void setDeviceName(QString deviceName);
 
     bool isSlewDecreasable() { return m_slewDecreasable; }
     bool isSlewIncreasable() { return m_slewIncreasable; }
@@ -94,6 +97,7 @@ public slots:
 signals:
     void slewDecreasableChanged(bool);
     void slewIncreasableChanged(bool);
+    void deviceNameChanged(QString);
     void newTelescopeLiteCreated(TelescopeLite *);
 
 private:
@@ -103,6 +107,8 @@ private:
     ClientManagerLite *clientManager;
     INDI::BaseDevice *baseDevice;
     int slewRateIndex;
+
+    QString m_deviceName;
 
     bool m_slewDecreasable;
     bool m_slewIncreasable;

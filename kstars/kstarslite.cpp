@@ -151,7 +151,6 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     }
 
     //set up Dark color scheme for application windows
-    //TODO: Move that to QML
     DarkPalette = QPalette(QColor("darkred"), QColor("darkred"));
     DarkPalette.setColor( QPalette::Normal, QPalette::Base, QColor( "black" ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::Text, QColor( 238, 0, 0 ) );

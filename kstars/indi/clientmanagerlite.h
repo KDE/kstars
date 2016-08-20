@@ -32,6 +32,7 @@ class TelescopeLite;
 
 struct DeviceInfoLite {
     DeviceInfoLite(INDI::BaseDevice *dev);
+    ~DeviceInfoLite();
     INDI::BaseDevice *device;
 
     //Motion control
@@ -98,6 +99,7 @@ public:
      */
     Q_INVOKABLE bool saveDisplayImage();
 
+    void clearDevices();
 
 protected:
     virtual void newDevice(INDI::BaseDevice *dp);

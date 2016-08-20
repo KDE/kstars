@@ -30,6 +30,7 @@ TelescopeLite::TelescopeLite(INDI::BaseDevice *device)
 
     setSlewDecreasable(false);
     setSlewIncreasable(true);
+    setDeviceName(device->getDeviceName());
 }
 
 TelescopeLite::~TelescopeLite()
@@ -48,6 +49,13 @@ void TelescopeLite::setSlewIncreasable(bool slewIncreasable) {
     if(m_slewIncreasable != slewIncreasable) {
         m_slewIncreasable = slewIncreasable;
         emit slewIncreasableChanged(slewIncreasable);
+    }
+}
+
+void TelescopeLite::setDeviceName(QString deviceName) {
+    if(m_deviceName != deviceName) {
+        m_deviceName = deviceName;
+        emit deviceNameChanged(deviceName);
     }
 }
 

@@ -57,8 +57,12 @@ Item {
                     tapCircle.y = pos.y - tapCircle.height * 0.5
                     tapAnimation.start()
                 }
+                onPointLiteChanged: {
+                    contextMenu.openPoint()
+                }
+
                 onObjectLiteChanged: {
-                    objPopup.open()
+                    contextMenu.openObject()
                 }
             }
 

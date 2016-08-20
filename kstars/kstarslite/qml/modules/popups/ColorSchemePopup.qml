@@ -12,9 +12,14 @@ Popup {
     height: parent.height > colorsList.implicitHeight ? colorsList.implicitHeight : parent.height
     signal colorSchemeChanged()
 
+    function formatColorScheme(schemeName) {
+        return schemeName.substring(3) + ".colors"
+    }
+
     KSListView {
         id: colorsList
         anchors.centerIn: parent
+        checkCurrent: true
 
         model: ListModel {
             id: colorsModel
@@ -25,12 +30,28 @@ Popup {
                 append({ name: xi18n("Night Vision"), scheme: "cs_night" });
                 append({ name: xi18n("Moonless Night"), scheme: "cs_moonless-night" });
             }
+
+            onCountChanged: {
+                colorsList.currentIndex = 2
+            }
+        }
+
+        Component.onCompleted: {
+            //Set current index to current scheme color
+            var currentScheme = KStarsData.colorSchemeName()
+            for(var i = 0; i < colorsList.model.count; ++i) {
+                if(formatColorScheme(colorsList.model.get(i).scheme) == currentScheme) {
+                    colorsList.currentIndex = 1
+                }
+            }
         }
 
         onClicked: {
             var item = colorsModel.get(colorsList.currentIndex)
-            KStarsLite.loadColorScheme(item.scheme.substring(3) + ".colors");
+
+            KStarsLite.loadColorScheme(formatColorScheme(item.scheme));
             notification.showNotification("Set color scheme to " + item.name)
+
             colorSchemeChanged()
             close()
         }

@@ -54,7 +54,7 @@ KSPage {
                                                                     import QtQuick.Layouts 1.3
                                                                     Column {
                                                                         spacing: 5
-                                                                }', newTab.flickableItem)
+                                                                }', newTab.contentItem)
 
                             newTab.rootItem = columnForTab
 

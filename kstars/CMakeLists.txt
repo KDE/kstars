@@ -659,12 +659,10 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/modules/BottomMenu.qml
         kstarslite/qml/modules/KSPage.qml
         kstarslite/qml/modules/KSListView.qml
-        kstarslite/qml/modules/KSScrollablePage.qml
         kstarslite/qml/modules/TopMenu.qml
         kstarslite/qml/modules/helpers/TopMenuButton.qml
         kstarslite/qml/modules/helpers/BottomMenuButton.qml
         kstarslite/qml/modules/Splash.qml
-        kstarslite/qml/modules/ContextDrawerMenu.qml
         kstarslite/qml/modules/helpers/TimeSpinBox.qml
         kstarslite/qml/modules/TimePage.qml
         kstarslite/qml/modules/ObjectDetails.qml
@@ -672,11 +670,15 @@ if(BUILD_KSTARS_LITE)
         #Popups
         kstarslite/qml/modules/popups/ProjectionsPopup.qml
         kstarslite/qml/modules/popups/ColorSchemePopup.qml
-        kstarslite/qml/modules/popups/ObjectPopup.qml
+        kstarslite/qml/modules/popups/AddLinkPopup.qml
+        kstarslite/qml/modules/popups/LinkMenu.qml
+        #Menus
+        kstarslite/qml/modules/menus/ContextMenu.qml
         #Helpers
         kstarslite/qml/modules/helpers/PassiveNotification.qml
         kstarslite/qml/modules/helpers/KSMenuItem.qml
         kstarslite/qml/modules/helpers/DetailsItem.qml
+        kstarslite/qml/modules/helpers/TelescopeControl.qml
         #Dialogs
         kstarslite/qml/dialogs/FindDialog.qml
         #INDI

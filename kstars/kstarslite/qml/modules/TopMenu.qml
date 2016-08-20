@@ -63,7 +63,7 @@ ColumnLayout {
             id: menuRect
             color: num.sysPalette.dark
             border {
-                width: 1
+                width: 2
                 color: num.sysPalette.light
             }
             radius: 10
@@ -89,7 +89,8 @@ ColumnLayout {
             Layout.fillHeight: true
 
             TopMenuButton {
-                iconSrc: num.iconpath + "/sc-actions-kstars_stars.png"
+                iconSrc: "../../images/kstars_stars.png"
+                title: "Stars"
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.Stars)
                 onClicked: {
@@ -97,7 +98,8 @@ ColumnLayout {
                 }
             }
             TopMenuButton {
-                iconSrc: num.iconpath + "/sc-actions-kstars_deepsky.png"
+                iconSrc: "../../images/kstars_deepsky.png"
+                title: "DeepSky Objects"
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.DeepSky)
                 onClicked: {
@@ -105,7 +107,9 @@ ColumnLayout {
                 }
             }
             TopMenuButton {
-                iconSrc: num.iconpath + "/sc-actions-kstars_planets.png"
+                iconSrc: "../../images/kstars_planets.png"
+                title: "Solar System"
+                titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.Planets)
                 onClicked: {
@@ -113,7 +117,8 @@ ColumnLayout {
                 }
             }
             TopMenuButton {
-                iconSrc: num.iconpath + "/supernovae.png"
+                iconSrc: "../../images/kstars_supernovae.png"
+                title: "Supernovae"
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.Supernovae)
                 onClicked: {
@@ -121,7 +126,8 @@ ColumnLayout {
                 }
             }
             TopMenuButton {
-                iconSrc: num.iconpath + "/satellites.png"
+                iconSrc: "../../images/kstars_satellites.png"
+                title: "Satellites"
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.Satellites)
                 onClicked: {
@@ -129,7 +135,8 @@ ColumnLayout {
                 }
             }
             TopMenuButton {
-                iconSrc: num.iconpath + "/sc-actions-kstars_clines.png"
+                iconSrc: "../../images/kstars_clines.png"
+                title: "Constellation Lines"
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.CLines)
                 onClicked: {
@@ -137,7 +144,8 @@ ColumnLayout {
                 }
             }
             TopMenuButton {
-                iconSrc: num.iconpath + "/sc-actions-kstars_cnames.png"
+                iconSrc: "../../images/kstars_cnames.png"
+                title: "Constellation Names"
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.CNames)
                 onClicked: {
@@ -146,7 +154,9 @@ ColumnLayout {
             }
 
             TopMenuButton {
-                iconSrc: num.iconpath + "/constellationart.png"
+                iconSrc: "../../images/kstars_constellationart.png"
+                title: "Constellation Art"
+                titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.ConstellationArt)
                 onClicked: {
@@ -155,7 +165,8 @@ ColumnLayout {
             }
 
             TopMenuButton {
-                iconSrc: num.iconpath + "/sc-actions-kstars_cbound.png"
+                iconSrc: "../../images/kstars_cbound.png"
+                title: "Constellation Bounds"
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.CBounds)
                 onClicked: {
@@ -163,7 +174,9 @@ ColumnLayout {
                 }
             }
             TopMenuButton {
-                iconSrc: num.iconpath + "/sc-actions-kstars_mw.png"
+                iconSrc: "../../images/kstars_mw.png"
+                title: "Milky Way"
+                titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.MilkyWay)
                 onClicked: {
@@ -171,7 +184,9 @@ ColumnLayout {
                 }
             }
             TopMenuButton {
-                iconSrc: num.iconpath + "/sc-actions-kstars_grid.png"
+                iconSrc: "../../images/kstars_grid.png"
+                title: "Equatorial Grid"
+                titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.EquatorialGrid)
                 onClicked: {
@@ -179,7 +194,9 @@ ColumnLayout {
                 }
             }
             TopMenuButton {
-                iconSrc: num.iconpath + "/sc-actions-kstars_hgrid.png"
+                iconSrc: "../../images/kstars_hgrid.png"
+                title: "Horizontal Grid"
+                titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.HorizontalGrid)
                 onClicked: {
@@ -187,7 +204,9 @@ ColumnLayout {
                 }
             }
             TopMenuButton {
-                iconSrc: num.iconpath + "/sc-actions-kstars_horizon.png"
+                iconSrc: "../../images/kstars_horizon.png"
+                title: "Horizon"
+                titlePlural: false
 
                 toggled: KStarsLite.isToggled(ObjectsToToggle.Ground)
                 onClicked: {
@@ -211,8 +230,8 @@ ColumnLayout {
             width: sourceSize.width/num.pixelRatio
             height: sourceSize.height/num.pixelRatio
             state: "open"
-            source: num.imagesPath + "arrow.png"
-            rotation: topMenu.state == "closed" ? 0 : 180
+            source: "../images/arrow.png"
+            rotation: topMenu.state == "closed" ? 180 : 0
 
             //transform: Rotation { axis { x: 1; y: 0; z: 0 } angle: 90 }
             //rotation: 180

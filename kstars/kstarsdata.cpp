@@ -172,7 +172,7 @@ bool KStarsData::initialize() {
     emit progressText(i18n("Loading sky objects" ) );
     m_SkyComposite = new SkyMapComposite(0);
     //Load Image URLs//
-#ifndef Q_OS_ANDROID
+//#ifndef Q_OS_ANDROID
     //On Android these 2 calls produce segfault. FIX IT!
     emit progressText( i18n("Loading Image URLs" ) );
     if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
@@ -182,7 +182,7 @@ bool KStarsData::initialize() {
     emit progressText( i18n("Loading Information URLs" ) );
     if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
         return false;
-#endif
+//#endif
     emit progressText( i18n("Loading Variable Stars" ) );
 
     //Update supernovae list if enabled
@@ -191,14 +191,16 @@ bool KStarsData::initialize() {
         skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
     }
 
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     //Initialize Observing List
     m_ObservingList = new ObservingList();
+#endif
 
     readUserLog();
 
+#ifndef KSTARS_LITE
     readADVTreeData();
-    #endif
+#endif
     return true;
 }
 
@@ -486,6 +488,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
             QFileInfo fi_local( file.fileName() );
 
             QStringList flist = KSPaths::locateAll(QStandardPaths::DataLocation, urlfile);
+
             for ( int i=0; i< flist.size(); i++ ) {
                 if ( flist[i] != file.fileName() ) {
                     QFileInfo fi_global( flist[i] );

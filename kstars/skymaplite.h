@@ -52,10 +52,10 @@ class TelescopeLite;
 class SkyObjectLite;
 class SkyPointLite;
 
-class QTapSensor;
+/*class QTapSensor;
 class QMagnetometer;
 class QCompass;
-class QRotationSensor;
+class QRotationSensor;*/
 
 class QSGTexture;
 
@@ -439,8 +439,9 @@ public slots:
     void slotZoomDefault();
     /**
      * @short centres skyObj in SkyMap and opens context drawer with skyObj
+     * Used in FindDialogLite
      */
-    void slotOpenObject(SkyObject *skyObj);
+    void slotSelectObject(SkyObject *skyObj);
 
     /** Object pointing for Printing Wizard done */
     //void slotObjectSelected();
@@ -451,7 +452,7 @@ public slots:
      * @short slotGyroMove called when m_gyroSensor got new reading. Moves focus of SkyMapLite according
      * to coordinates received from gyroscope
      */
-    void slotCompassMove();
+    //void slotCompassMove();
 
 signals:
     /** Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
@@ -675,10 +676,10 @@ private:
     QPainter m_painter;
 
     //Sensors
-    QTapSensor *m_tapSensor;
+    /*QTapSensor *m_tapSensor;
     QMagnetometer *m_magnetometer;
     QCompass *m_compass;
-    QRotationSensor *m_rotation;
+    QRotationSensor *m_rotation;*/
 
     static int starColorMode;
 

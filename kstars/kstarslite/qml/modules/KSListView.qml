@@ -6,6 +6,7 @@ import "../constants" 1.0
 ListView {
     id: listView
     clip: true
+    property bool checkCurrent: false
 
     onCountChanged: {
         var root = listView.visibleChildren[0]
@@ -27,18 +28,18 @@ ListView {
 
     ScrollIndicator.vertical: ScrollIndicator { }
     property string textRole: ""
-    signal clicked()
+    signal clicked(var index)
     property bool modelIsArray: false
 
     onModelChanged: {
-        modelIsArray = !!model ? model.constructor === Array : false
+        modelIsArray = !model ? model.constructor === Array : false
     }
 
     delegate: Rectangle {
-        id: delRect
+        id: delegateRect
         width: parent.width
         height: objName.height + 30
-        property int textWidth: objName.width + objName.anchors.leftMargin*2
+        property int textWidth: objRow.width + objRow.anchors.leftMargin*2
 
         border {
             color: "#becad5"
@@ -53,7 +54,7 @@ ListView {
             State {
                 name: "hovered"
                 PropertyChanges {
-                    target: delRect
+                    target: delegateRect
                     color: "#d0e8fa"
                 }
                 PropertyChanges {
@@ -64,7 +65,7 @@ ListView {
             State {
                 name: "selected"
                 PropertyChanges {
-                    target: delRect
+                    target: delegateRect
                     color: "#2196F3"
                 }
                 PropertyChanges {
@@ -75,7 +76,7 @@ ListView {
             State {
                 name: "default"
                 PropertyChanges {
-                    target: delRect
+                    target: delegateRect
                     color: "white"
                 }
                 PropertyChanges {
@@ -92,12 +93,12 @@ ListView {
 
             function hoveredColor() {
                 if(pressed) {
-                    delRect.state = "selected"
+                    delegateRect.state = "selected"
                 } else {
                     if(containsMouse) {
-                        delRect.state = "hovered"
+                        delegateRect.state = "hovered"
                     } else {
-                        delRect.state = "default"
+                        delegateRect.state = "default"
                     }
                 }
             }
@@ -112,22 +113,36 @@ ListView {
 
             onClicked: {
                 listView.currentIndex = model.index
-                listView.clicked()
+                listView.clicked(model.index)
             }
         }
 
-        Text {
-            id: objName
-
-            text: listView.modelIsArray ? modelData[textRole] : model[textRole]
+        RowLayout {
+            id: objRow
             anchors {
                 verticalCenter: parent.verticalCenter
                 left: parent.left
                 leftMargin: 20
             }
-            Behavior on color {
-                ColorAnimation  { duration: 200 }
+
+            Rectangle {
+                visible: checkCurrent && listView.currentIndex == model.index
+                color: "#2173f3"
+                width: height
+                height: objName.height/2
+                radius: width * 0.5
             }
+
+            Text {
+                id: objName
+
+                text: textRole == "" ? modelData : listView.modelIsArray ? modelData[textRole] : model[textRole]
+
+                Behavior on color {
+                    ColorAnimation  { duration: 200 }
+                }
+            }
+
         }
     }
 }

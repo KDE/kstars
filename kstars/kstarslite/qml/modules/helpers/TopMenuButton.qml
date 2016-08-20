@@ -9,11 +9,47 @@ AbstractButton {
     width: icon.width + 5
     height: icon.height + 5
     property bool toggled: false
+    opacity: toggled ? 1 : 0.3
+
+    property string title: " "
+    property bool titlePlural: true
 
     onClicked: {
         toggled = !toggled
     }
 
+    onToggledChanged: {
+        if(loaded) { //Disable while loading
+            if(toggled) {
+                if(titlePlural) {
+                    notification.showNotification(xi18n("%1 are toggled on", title))
+                } else {
+                    notification.showNotification(xi18n("%1 is toggled on", title))
+                }
+            } else {
+                if(titlePlural) {
+                    notification.showNotification(xi18n("%1 are toggled off", title))
+                } else {
+                    notification.showNotification(xi18n("%1 is toggled off", title))
+                }
+            }
+        }
+    }
+
+    DropShadow {
+        anchors.fill: iconRect
+        radius: 8.0
+        samples: 16
+        horizontalOffset: 0
+        verticalOffset: 0
+        color: "#000000"
+        source: iconRect
+        opacity: pressed ? 1 : 0
+
+        Behavior on opacity {
+            OpacityAnimator { duration: 100 }
+        }
+    }
 
     Image {
         id: icon
@@ -37,16 +73,16 @@ AbstractButton {
     }
 
     onDownChanged: {
-        if(down) opacity = 0.6
-        else opacity = 1
+        /*if(down) opacity = 0.6
+        else opacity = 1*/
     }
 
     onPressed: {
-        opacity = 0.6
+        //opacity = 0.6
     }
 
     onReleased: {
-        opacity = 1
+        //opacity = 1
     }
 
     Behavior on opacity {

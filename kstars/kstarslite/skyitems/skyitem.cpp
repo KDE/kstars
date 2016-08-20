@@ -23,7 +23,9 @@ SkyItem::SkyItem(LabelsItem::label_t labelType, RootNode* parent)
 }
 
 SkyItem::~SkyItem() {
-    rootNode()->labelsItem()->deleteLabels(m_labelType);
+    /*PointSourceNode in StarItem deletes the label on its own because nodes of this type are created and
+     * deleted during the lifetime of program to decrease memory consumption*/
+    if(m_labelType != LabelsItem::label_t::STAR_LABEL) rootNode()->labelsItem()->deleteLabels(m_labelType);
 }
 
 void SkyItem::show() {

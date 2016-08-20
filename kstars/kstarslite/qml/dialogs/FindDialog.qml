@@ -87,7 +87,7 @@ KSPage {
 
             onClicked: {
                 stackView.replace(null, initPage)
-                FindDialogLite.selectObject(model.index)
+                FindDialogLite.selectObject(index)
             }
         }
 

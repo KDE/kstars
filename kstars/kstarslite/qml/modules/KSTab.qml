@@ -15,7 +15,7 @@ Pane {
     property Item rootItem
 
     onRootItemChanged: {
-        if(rootItem.parent != flickable) rootItem.parent = flickable
+        if(rootItem.parent != flickable.contentItem) rootItem.parent = flickable.contentItem
     }
 
     Flickable {
@@ -26,10 +26,5 @@ Pane {
         contentWidth: rootItem != undefined ? rootItem.width : 0
         contentHeight: rootItem != undefined ? rootItem.height : 0
         flickableChildren: rootItem
-
-        onMovingChanged: {
-            console.log(rootItem.width)
-
-        }
     }
 }

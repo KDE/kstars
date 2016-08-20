@@ -54,11 +54,6 @@
 #include <QQmlContext>
 #include <QScreen>
 
-#include <QTapSensor>
-#include <QMagnetometer>
-#include <QCompass>
-#include <QRotationSensor>
-
 namespace {
 
 // Draw bitmap for zoom cursor. Width is size of pen to draw with.
@@ -128,24 +123,8 @@ SkyMapLite::SkyMapLite(QQuickItem* parent)
     m_ClickedObjectLite = new SkyObjectLite;
     m_ClickedPointLite = new SkyPointLite;
 
-    m_tapSensor = new QTapSensor(this);
-    m_tapSensor->setReturnDoubleTapEvents(true);
-    m_tapSensor->start();
-
-    m_magnetometer = new QMagnetometer(this);
-    m_magnetometer->setReturnGeoValues(true);
-    m_magnetometer->start();
-
-    m_compass = new QCompass(this);
-    m_compass->start();
-
-    m_rotation = new QRotationSensor(this);
-    m_rotation->start();
-
     qmlRegisterType<SkyObjectLite>("KStarsLite",1,0,"SkyObjectLite");
     qmlRegisterType<SkyPointLite>("KStarsLite",1,0,"SkyPointLite");
-
-    connect( m_magnetometer, SIGNAL( readingChanged() ), this, SLOT( slotCompassMove() ) );
 
     m_timer.setInterval(1000);
     m_timer.start();
@@ -330,9 +309,9 @@ void SkyMapLite::slotCenter() {
     if ( Options::useAltAz() ) {
         focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    }
-    else
+    } else {
         focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+    }
     qDebug() << "Centering on " << focusPoint()->ra().toHMSString() << " " << focusPoint()->dec().toDMSString();
 
     //clear the planet trail of old focusObject, if it was temporary
@@ -435,7 +414,7 @@ void SkyMapLite::slewFocus() {
                 slewing = true;
 
                 forceUpdate();
-                //qApp->processEvents(); //keep up with other stuff
+                qApp->processEvents(); //keep up with other stuff
 
                 if ( Options::useAltAz() ) {
                     dX = destination()->az().Degrees() - focus()->az().Degrees();
@@ -552,49 +531,18 @@ void SkyMapLite::slotZoomDefault() {
     setZoomFactor( DEFAULTZOOM );
 }
 
-void SkyMapLite::slotOpenObject(SkyObject *skyObj) {
-    if ( Options::useAltAz() ) {
+void SkyMapLite::slotSelectObject(SkyObject *skyObj) {
+    ClickedPoint = *skyObj;
+    ClickedObject = skyObj;
+    /*if ( Options::useAltAz() ) {
         setDestinationAltAz( skyObj->altRefracted(), skyObj->az() );
     } else {
         setDestination( *skyObj );
-    }
-    //Updated selected SkyObject (used in FindDialog, DetailDialog)
+    }*/
+    //Update selected SkyObject (used in FindDialog, DetailDialog)
     m_ClickedObjectLite->setObject(skyObj);
     emit objectLiteChanged();
-}
-
-void SkyMapLite::slotCompassMove() {
-    /*if(m_compass->reading()->calibrationLevel() != 1) {
-        m_compass->reading()->setCalibrationLevel(1);
-    }*/
-    /*qDebug() << m_compass->reading()->azimuth();
-    qDebug() << focus()->alt().Degrees() << focus()->az().Degrees();
-    double az = m_compass->reading()->azimuth();*/
-    QMagnetometerReading *r = m_magnetometer->reading();
-    r->setCalibrationLevel(1);
-    if(r) {
-        double y = r->y();// >= 0 ? r->y() : 360 - abs(r->y());//360 - (r->y() + 180);
-        while(abs(y) < 1) y *= 10;
-        double z = r->z();// >= 0 ? r->z() : 360 - abs(r->z());
-        while(abs(z) < 1) z *= 10;
-        double x = r->x();
-        while(abs(x) < 1) x *= 10;
-
-        /*double alt = x;
-        double az = (z+y)/2;
-
-        if(abs(az - focus()->az().Degrees()) < 1) {
-            az = focus()->az().Degrees();
-        }
-
-        if(abs(alt - focus()->alt().Degrees()) < 1)  {
-            alt = focus()->alt().Degrees();
-        }
-
-        setFocusAltAz(dms(alt),dms(az));
-        qDebug() << focus()->alt().Degrees() << focus()->az().Degrees();*/
-        //qDebug() << x << y << z;
-    }
+    slotCenter();
 }
 
 void SkyMapLite::setZoomFactor(double factor) {

@@ -49,6 +49,9 @@ public:
     */
 
     explicit SkyItem(LabelsItem::label_t labelType, RootNode *rootNode = 0);
+    /**
+     * @see PointSourceNode::~PointSourceNode()
+     */
     virtual ~SkyItem();
 
     /**

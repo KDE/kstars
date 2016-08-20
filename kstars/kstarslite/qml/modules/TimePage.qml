@@ -319,6 +319,7 @@ KSPage {
                         }
 
                         ColumnLayout {
+                            visible: false
                             Label {
                                 id:labelWeek
                                 text: "Week"

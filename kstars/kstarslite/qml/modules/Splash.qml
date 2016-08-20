@@ -10,7 +10,7 @@ Rectangle {
 
     Image {
         id: splashImage
-        source: "images/" + num.density + "/splash.png"
+        source: "../images/splash.png"
         anchors.centerIn: parent
 
         width: sourceSize.width/num.pixelRatio

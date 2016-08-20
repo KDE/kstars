@@ -18,11 +18,12 @@ Popup {
             fill: parent
             centerIn: parent
         }
+        checkCurrent: true
 
         model: ListModel {
             id: projModel
             Component.onCompleted: {
-                projModel.append({ name: xi18n("Lambert"), proj: Projection.Lambert });
+                projModel.append({ name: xi18n("Lambert (Default)"), proj: Projection.Lambert });
                 projModel.append({ name: xi18n("Azimuthal Equidistant"), proj: Projection.AzimuthalEquidistant });
                 projModel.append({ name: xi18n("Orthographic"), proj: Projection.Orthographic });
                 projModel.append({ name: xi18n("Equirectangular"), proj: Projection.Equirectangular });

@@ -47,6 +47,10 @@ DeviceInfoLite::DeviceInfoLite(INDI::BaseDevice *dev)
 
 }
 
+DeviceInfoLite::~DeviceInfoLite() {
+    delete telescope;
+}
+
 ClientManagerLite::ClientManagerLite()
     :m_connected(false)
 {
@@ -80,8 +84,8 @@ bool ClientManagerLite::setHost(QString ip, unsigned int port) {
 
 void ClientManagerLite::disconnectHost() {
     disconnectServer();
+    clearDevices();
     setConnectedHost("");
-    m_devices.clear();
 }
 
 TelescopeLite *ClientManagerLite::getTelescope(QString deviceName) {
@@ -911,5 +915,17 @@ void ClientManagerLite::newMessage(INDI::BaseDevice *dp, int messageID) {
 }
 
 void ClientManagerLite::serverDisconnected(int exit_code) {
+    clearDevices();
     setConnected(false);
+}
+
+void ClientManagerLite::clearDevices() {
+    //Delete all created devices
+    foreach(DeviceInfoLite *devInfo, m_devices) {
+        if(devInfo->telescope) {
+            emit telescopeRemoved(devInfo->telescope);
+        }
+        delete devInfo;
+    }
+    m_devices.clear();
 }

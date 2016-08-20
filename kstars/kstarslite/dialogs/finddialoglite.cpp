@@ -192,7 +192,7 @@ void FindDialogLite::filterList(QString searchQuery) {
 void FindDialogLite::selectObject(int index) {
     QVariant sObj = m_sortModel->data(m_sortModel->index(index, 0), SkyObjectListModel::SkyObjectRole);
     SkyObject *skyObj = (SkyObject *) sObj.value<void *>();
-    SkyMapLite::Instance()->slotOpenObject(skyObj);
+    SkyMapLite::Instance()->slotSelectObject(skyObj);
 }
 
 void FindDialogLite::enqueueSearch() {

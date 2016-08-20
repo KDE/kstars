@@ -154,6 +154,9 @@ public:
     /** @return pointer to the ColorScheme object */
     ColorScheme *colorScheme() { return &CScheme; }
 
+    /** @return name of current color scheme **/
+    Q_INVOKABLE QString colorSchemeName() { return CScheme.fileName(); }
+
     /** @return pointer to the KSUserDB object */
     KSUserDB *userdb() { return &m_ksuserdb; }
 

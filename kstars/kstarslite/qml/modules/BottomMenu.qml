@@ -65,8 +65,8 @@ ColumnLayout {
                 horizontalCenter: parent.horizontalCenter
             }
             state: "open"
-            source: num.imagesPath + "arrow.png"
-            rotation: bottomMenu.state == "closed" ? 180 : 0
+            source: "../images/arrow.png"
+            rotation: bottomMenu.state == "closed" ? 0 : 180
             mirror: true // Make sure that arrows in both menus look symmetric
 
             //transform: Rotation { axis { x: 1; y: 0; z: 0 } angle: 90 }
@@ -128,7 +128,7 @@ ColumnLayout {
 
                 BottomMenuButton {
                     id: goBackwards
-                    iconSrc: num.iconpath + "media-skip-backward.png"
+                    iconSrc: "../../images/media-skip-backward.png"
                     onClicked: {
                         KStarsLite.slotStepBackward()
                     }
@@ -137,21 +137,20 @@ ColumnLayout {
                 BottomMenuButton {
                     id: startTimer
                     state: SimClock.isActive() ? "on" : "off"
-                    property string iconPath: num.iconpath
 
                     states: [
                         State {
                             name: "on"
                             PropertyChanges {
                                 target: startTimer
-                                iconSrc: iconPath + "media-playback-pause.png"
+                                iconSrc: "../../images/media-playback-pause.png"
                             }
                         },
                         State {
                             name: "off"
                             PropertyChanges {
                                 target: startTimer
-                                iconSrc: iconPath + "media-playback-start.png"
+                                iconSrc: "../../images/media-playback-start.png"
                             }
                         }
                     ]
@@ -177,7 +176,7 @@ ColumnLayout {
                 }
 
                 BottomMenuButton {
-                    iconSrc: num.iconpath + "media-skip-forward.png"
+                    iconSrc: "../../images/media-skip-forward.png"
                     onClicked: {
                         KStarsLite.slotStepForward()
                     }
@@ -190,7 +189,7 @@ ColumnLayout {
                     visible: isWindowWidthSmall
                     anchors.right: parent.right
 
-                    iconSrc: num.iconpath + "appointment-new.png"
+                    iconSrc: "../../images/appointment-new.png"
                 }
             }
 
@@ -205,7 +204,7 @@ ColumnLayout {
                     }
                     visible: isWindowWidthSmall
 
-                    iconSrc: num.iconpath + "arrow-down.png"
+                    iconSrc: "../../images/arrow-down.png"
                 }
 
                 TimeSpinBox {
@@ -218,7 +217,7 @@ ColumnLayout {
                         timeSpinBox.increaseTimeUnit()
                     }
 
-                    iconSrc: num.iconpath + "arrow-up.png"
+                    iconSrc: "../../images/arrow-up.png"
                 }
 
                 BottomMenuButton {
@@ -228,7 +227,7 @@ ColumnLayout {
                     }
                     visible: !isWindowWidthSmall
 
-                    iconSrc: num.iconpath + "arrow-down.png"
+                    iconSrc: "../../images/arrow-down.png"
                 }
 
                 Rectangle {
@@ -245,7 +244,7 @@ ColumnLayout {
                     }
                     visible: !isWindowWidthSmall
 
-                    iconSrc: num.iconpath + "appointment-new.png"
+                    iconSrc: "../../images/appointment-new.png"
                 }
             }
         }

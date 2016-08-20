@@ -1,4 +1,0 @@
-<file alias="compass.png">images/ldpi/icons/compass.png</file>
-<file alias="games-config-custom.png">images/ldpi/icons/games-config-custom.png</file>
-<file alias="compass.png">images/ldpi/icons/compass.png</file>
-<file alias="games-config-custom.png">images/ldpi/icons/games-config-custom.png</file>

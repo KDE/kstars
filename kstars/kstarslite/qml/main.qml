@@ -6,9 +6,12 @@ import QtQuick.Controls.Universal 2.0
 
 import QtQuick.Window 2.2 as Window
 import QtQuick.Layouts 1.1
+
 import "modules"
 import "modules/helpers"
 import "modules/popups"
+import "modules/menus"
+
 import "dialogs"
 import "constants" 1.0
 import "indi"
@@ -49,8 +52,7 @@ ApplicationWindow {
                     fillMode: Image.Pad
                     horizontalAlignment: Image.AlignHCenter
                     verticalAlignment: Image.AlignVCenter
-                    source: "modules/images/back.png"
-                    sourceSize.height: titleLabel.height
+                    source: "images/back.png"
                 }
                 onClicked: {
                     if(stackView.depth != 1) stackView.pop()
@@ -110,6 +112,7 @@ ApplicationWindow {
     }
 
     PassiveNotification {
+        z: 10
         id: notification
     }
 
@@ -164,8 +167,22 @@ ApplicationWindow {
         y: (window.height - height)/2
     }
 
-    ObjectPopup {
-        id: objPopup
+    //Menus
+    ContextMenu {
+        id: contextMenu
+        x: (window.width - width)/2
+        y: (window.height - height)/2
+    }
+
+    //Links
+    AddLinkPopup {
+        id: addLinkPopup
+        x: (window.width - width)/2
+        y: (window.height - height)/2
+    }
+
+    LinkMenu {
+        id: linkMenu
         x: (window.width - width)/2
         y: (window.height - height)/2
     }
@@ -183,7 +200,7 @@ ApplicationWindow {
 
         Image {
             id: drawerBanner
-            source: "modules/images/kstars.png"
+            source: "images/kstars.png"
             fillMode: Image.PreserveAspectFit
 
             anchors {
@@ -261,6 +278,8 @@ ApplicationWindow {
             globalDrawer.close()
         }
 
+        edge: Qt.RightEdge
+
         Label {
             id: contextTitle
             anchors {
@@ -318,7 +337,77 @@ ApplicationWindow {
 
             ScrollIndicator.vertical: ScrollIndicator { }
         }
-        edge: Qt.RightEdge
+
+        ColumnLayout {
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+
+            RowLayout {
+                id: row
+                spacing: 5
+                Layout.fillWidth: true
+                anchors {
+                    leftMargin: 10
+                    left: parent.left
+                    rightMargin: 10
+                    right: parent.right
+                }
+
+                Rectangle {
+                    anchors{
+                        verticalCenter: parent.verticalCenter
+                        left: parent.left
+                    }
+
+                    width: 24
+                    height: 24
+                    radius: width * 0.5
+                    color: "black"
+                }
+
+                Rectangle {
+                    anchors{
+                        centerIn: parent
+                    }
+
+                    width: 16
+                    height: 16
+                    radius: width * 0.5
+                    color: "black"
+                }
+
+                Rectangle {
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        right: parent.right
+                    }
+
+                    width: 8
+                    height: 8
+                    radius: width * 0.5
+                    color: "black"
+                }
+            }
+
+            Slider {
+                id: magSlider
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+
+                from: 1.18778
+                to: 5.75954
+                value: SkyMapLite.magLim
+
+                onValueChanged: {
+                    SkyMapLite.magLim = value
+                }
+            }
+        }
     }
 
     //Handle back button
