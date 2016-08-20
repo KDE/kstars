@@ -146,7 +146,6 @@ void KStars::initActions() {
         << QIcon::fromTheme("document-open")
         << QKeySequence( Qt::CTRL+Qt::Key_O );
 #endif
-
     actionCollection()->addAction("export_image", this, SLOT( slotExportImage() ) )
         << i18n("&Save Sky Image...")
         << QIcon::fromTheme("document-export-image")
@@ -356,6 +355,10 @@ void KStars::initActions() {
     actionCollection()->addAction("startwizard", this, SLOT( slotWizard() ) )
         << i18n("Startup Wizard..." )
         << QIcon::fromTheme("tools-wizard" );
+
+    // Manual data entry
+    actionCollection()->addAction( "manual_add_dso", this, SLOT( slotAddDeepSkyObject() ) )
+        << i18n( "Manually add a deep-sky object" );
 
     // Updates actions
     actionCollection()->addAction( "update_comets", this, SLOT( slotUpdateComets() ) )

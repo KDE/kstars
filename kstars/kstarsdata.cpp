@@ -555,6 +555,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
     return fileFound;
 }
 
+// FIXME: This is a significant contributor to KStars start-up time
 bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) {
     QFile file;
     if (!openUrlFile(urlfile, file)) return false;
@@ -600,6 +601,28 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
     return true;
 }
 
+// FIXME: Improve the user log system
+
+// Note: It might be very nice to keep the log in plaintext files, for
+// portability, human-readability, and greppability. However, it takes
+// a lot of time to parse and look up, is very messy from the
+// reliability and programming point of view, needs to be parsed at
+// start, can become corrupt easily because of a missing bracket...
+
+// An SQLite database is a good compromise. A user can easily view it
+// using an SQLite browser. There is no need to read at start-up, one
+// can read the log when required. Easy to edit logs / update logs
+// etc. Will not become corrupt. Needn't be parsed.
+
+// However, IMHO, it is best to put these kinds of things in separate
+// databases, instead of unifying them as a table under the user
+// database. This ensures portability and a certain robustness that if
+// a user opens it, they cannot incorrectly edit a part of the DB they
+// did not intend to edit.
+
+// --asimha 2016 Aug 17
+
+// FIXME: This is a significant contributor to KStars startup time.
 bool KStarsData::readUserLog()
 {
     QFile file;
@@ -616,7 +639,7 @@ bool KStarsData::readUserLog()
         int startIndex, endIndex;
 
         startIndex = buffer.indexOf(QLatin1String("[KSLABEL:"));
-        sub = buffer.mid(startIndex);
+        sub = buffer.mid(startIndex); // FIXME: This is inefficient because we are making a copy of a huge string!
         endIndex = sub.indexOf(QLatin1String("[KSLogEnd]"));
 
         // Read name after KSLABEL identifer

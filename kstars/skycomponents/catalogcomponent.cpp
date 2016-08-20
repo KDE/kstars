@@ -40,24 +40,29 @@ QStringList CatalogComponent::m_Columns
 
 CatalogComponent::CatalogComponent(SkyComposite *parent,
                                    const QString &catname,
-                                   bool showerrs, int index)
+                                   bool showerrs, int index, bool callLoadData )
                                  : ListComponent(parent), m_catName(catname),
                                    m_Showerrs(showerrs), m_ccIndex(index) {
-    loadData();
+    if( callLoadData )
+        loadData();
 }
 
 CatalogComponent::~CatalogComponent() {
 }
 
-void CatalogComponent::loadData() {
-    emitProgressText( i18n("Loading custom catalog: %1", m_catName ) );
+void CatalogComponent::_loadData( bool includeCatalogDesignation ) {
+    if( includeCatalogDesignation )
+        emitProgressText( i18n("Loading custom catalog: %1", m_catName ) );
+    else
+        emitProgressText( i18n("Loading internal catalog: %1", m_catName ) );
 
     QList < QPair <int, QString> > names;
 
     KStarsData::Instance()->catalogdb()->GetAllObjects(m_catName,
                                                        m_ObjectList,
                                                        names,
-                                                       this);
+                                                       this,
+                                                       includeCatalogDesignation);
     for (int iter = 0; iter < names.size(); iter++) {
         if (names.at(iter).first <= SkyObject::TYPE_UNKNOWN) {
             //FIXME JM 2016-06-02: inefficient and costly check
@@ -124,6 +129,7 @@ void CatalogComponent::draw( SkyPainter *skyp ) {
         update( 0 );
 
     //Draw Custom Catalog objects
+    // FIXME: Improve using HTM!
     foreach ( SkyObject *obj, m_ObjectList ) {
         if ( obj->type()==0 ) {
             StarObject *starobj = static_cast<StarObject*>(obj);
@@ -136,6 +142,8 @@ void CatalogComponent::draw( SkyPainter *skyp ) {
             // PA for Deep-Sky objects is 90 + PA because major axis is
             // horizontal at PA=0
             // double pa = 90. + map->findPA( dso, o.x(), o.y() );
+            //
+            // ^ Not sure if above is still valid -- asimha 2016/08/16
             DeepSkyObject *dso = static_cast<DeepSkyObject*>(obj);
             skyp->drawDeepSkyObject(dso, true);
         }

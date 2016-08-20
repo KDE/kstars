@@ -288,6 +288,7 @@ void DetailDialog::createGeneralTab()
 
             if (dso->type() == SkyObject::RADIO_SOURCE)
             {
+                Q_ASSERT( dso->customCatalog() ); // the in-built catalogs don't have radio sources
                 Data->MagLabel->setText(i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency()));
                 Data->Magnitude->setText(i18nc("integrated flux value", "%1 %2",
                                                QLocale().toString(dso->flux(), 'f', 1), dso->customCatalog()->fluxUnit()));  //show to tenths place

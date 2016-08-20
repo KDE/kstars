@@ -82,7 +82,7 @@ QUrl SatelliteGroup::tleFilename()
 {
     // Return absolute path with "file:" before the path
     //return QUrl( "file:" + (KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "") + m_tle_file) ;
-    return QUrl(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_tle_file) ;
+    return QUrl::fromLocalFile(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_tle_file) ;
 }
 
 QUrl SatelliteGroup::tleUrl()

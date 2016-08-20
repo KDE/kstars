@@ -80,6 +80,7 @@
 #include "tools/wutdialog.h"
 #include "tools/observinglist.h"
 #include "tools/eyepiecefield.h"
+#include "tools/adddeepskyobject.h"
 
 #ifdef HAVE_KF5WIT
 #include "tools/whatsinteresting/wiview.h"
@@ -782,7 +783,7 @@ void KStars::slotFind() {
 
     if ( !m_FindDialog ) qWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) ;
     SkyObject *targetObject;
-    if ( m_FindDialog->exec() == QDialog::Accepted && ( targetObject = m_FindDialog->selectedObject() ) ) {
+    if ( m_FindDialog->exec() == QDialog::Accepted && ( targetObject = m_FindDialog->targetObject() ) ) {
         map()->setClickedObject( targetObject );
         map()->setClickedPoint( map()->clickedObject() );
         map()->slotCenter();
@@ -807,12 +808,12 @@ void KStars::slotOpenFITS()
     // Reported as fixed in Qt 5.6
     // Emerged Qt 5.5 with patch is not working
     #ifdef Q_OS_WIN
-    if (fileURL.path().startsWith("/"))
-        fileURL.setPath(fileURL.path().right(fileURL.path().count()-1));
+    if (fileURL.toLocalFile().startsWith("/"))
+        fileURL.setPath(fileURL.toLocalFile().right(fileURL.toLocalFile().count()-1));
     #endif
 
     // Remember last directory
-    path.setUrl(fileURL.path());
+    path.setUrl(fileURL.toLocalFile());
 
     FITSViewer * fv = new FITSViewer(this);
     // Error opening file
@@ -837,7 +838,7 @@ void KStars::slotExportImage() {
     }
 
     //Warn user if file exists!
-    if (QFile::exists(fileURL.path()))
+    if (QFile::exists(fileURL.toLocalFile()))
     {
         int r=KMessageBox::warningContinueCancel(parentWidget(),
                 i18n( "A file named \"%1\" already exists. Overwrite it?" , fileURL.fileName()),
@@ -854,9 +855,9 @@ void KStars::slotExportImage() {
         //m_ImageExporter = new ImageExporter( this );
 
     if ( !m_ExportImageDialog ) {
-        m_ExportImageDialog = new ExportImageDialog( fileURL.url(), QSize( map()->width(), map()->height() ), KStarsData::Instance()->imageExporter() );
+        m_ExportImageDialog = new ExportImageDialog( fileURL.toLocalFile(), QSize( map()->width(), map()->height() ), KStarsData::Instance()->imageExporter() );
     } else {
-        m_ExportImageDialog->setOutputUrl( fileURL.url() );
+        m_ExportImageDialog->setOutputUrl( fileURL.toLocalFile() );
         m_ExportImageDialog->setOutputSize( QSize ( map()->width(), map()->height() ) );
     }
 
@@ -1503,4 +1504,12 @@ void KStars::slotUpdateSupernovae()
 void KStars::slotUpdateSatellites()
 {
     data()->skyComposite()->satellites()->updateTLEs();
+}
+
+void KStars::slotAddDeepSkyObject() {
+    if( ! m_addDSODialog ) {
+        Q_ASSERT( data() && data()->skyComposite() && data()->skyComposite()->manualAdditionsComponent() );
+        m_addDSODialog = new AddDeepSkyObject( this, data()->skyComposite()->manualAdditionsComponent() );
+    }
+    m_addDSODialog->show();
 }

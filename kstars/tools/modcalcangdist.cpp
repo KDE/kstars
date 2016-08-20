@@ -96,7 +96,7 @@ void modCalcAngDist::slotValidatePositions(){
 void modCalcAngDist::slotObjectButton() {
     QPointer<FindDialog> fd = new FindDialog( this );
     if ( fd->exec() == QDialog::Accepted ) {
-        SkyObject *o = fd->selectedObject();
+        SkyObject *o = fd->targetObject();
         if ( sender()->objectName() == QString("FirstObjectButton") ) {
             FirstRA->showInHours( o->ra() );
             FirstDec->showInDegrees( o->dec() );

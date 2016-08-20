@@ -67,6 +67,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
       //#if 0
       m_WIView(0), m_ObsConditions(0), m_wiDock(0),
       //#endif
+      m_addDSODialog(0),
       DialogIsObsolete(false), StartClockRunning( clockrun ),
       StartDateString( startdate )
 {

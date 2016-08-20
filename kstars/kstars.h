@@ -59,6 +59,7 @@ class PrintingWizard;
 class EkosManager;
 class HorizonManager;
 class EyepieceField;
+class AddDeepSkyObject;
 
 class OpsCatalog;
 class OpsGuides;
@@ -470,6 +471,9 @@ public Q_SLOTS:
     /** Show the eyepiece view tool */
     void slotEyepieceView( SkyPoint *sp, const QString &imagePath = QString() );
 
+    /** Show the add deep-sky object dialog */
+    void slotAddDeepSkyObject();
+
 
 private slots:
     /** action slot: open a dialog for setting the time and date */
@@ -690,6 +694,8 @@ private:
     #ifdef HAVE_INDI
     EkosManager *m_EkosManager;
     #endif
+
+    AddDeepSkyObject *m_addDSODialog;
 
     // FIXME Port to QML2
     //#if 0

@@ -555,9 +555,9 @@ current simulation date.
 </menuchoice></term>
 <listitem>
 <para>
-  Opens the powerful <guilabel>Ekos</guilabel> Tool, which is software guider 
-for your telescope. Alignment capabilities of Ekos are powered by 
-<ulink url="http://astrometry.net/">astrometry.net</ulink> libraries.
+Opens <guilabel>Ekos</guilabel>, a complete and powerful tool for astrophotography. 
+With Ekos, you can align and guide your telescope, focus your CCD, and capture 
+images using an easy intuitive interface. 
 </para>
 </listitem>
 </varlistentry>

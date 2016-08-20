@@ -197,6 +197,7 @@ set(libkstarstools_SRCS
     tools/wutdialog.cpp
     tools/flagmanager.cpp
     tools/horizonmanager.cpp
+    tools/nameresolver.cpp
 
     tools/skyguide/skyguidemgr.cpp
     tools/skyguide/skyguideobject.cpp
@@ -210,6 +211,7 @@ set(libkstarstools_SRCS
     tools/eyepiecefield.cpp
     tools/exporteyepieceview.cpp
     tools/starhopperdialog.cpp
+    tools/adddeepskyobject.cpp
 )
 
 if(${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
@@ -270,6 +272,7 @@ ki18n_wrap_ui(libkstarstools_SRCS
     tools/flagmanager.ui
     tools/starhopperdialog.ui
     tools/horizonmanager.ui
+    tools/adddeepskyobject.ui
 
     tools/skyguide/skyguideauthor.ui
     tools/skyguide/skyguideslide.ui
@@ -304,6 +307,7 @@ set(libkstarscomponents_SRCS
     skycomponents/deepstarcomponent.cpp
     skycomponents/deepskycomponent.cpp
     skycomponents/catalogcomponent.cpp
+    skycomponents/syncedcatalogcomponent.cpp
     skycomponents/constellationartcomponent.cpp
     skycomponents/constellationboundarylines.cpp
     skycomponents/constellationlines.cpp

@@ -27,6 +27,7 @@
 
 /* Qt Includes */
 #include <QTemporaryFile>
+#include <QStatusBar>
 #include <QtSvg/QSvgGenerator>
 
 ImageExporter::ImageExporter( QObject *parent ) : QObject( parent ), m_includeLegend( false ), m_Size( 0 )
@@ -159,7 +160,7 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
 
     else
     {
-        qDebug() << "Image saved to file: " << fileName;
+        KStars::Instance()->statusBar()->showMessage(i18n ("Saved image to %1", fileName));
         return true;
     }
 }
@@ -180,18 +181,7 @@ void ImageExporter::addLegend(QPaintDevice *pd)
 
 bool ImageExporter::exportImage( QString url )
 {
-    //If the filename string contains no "/" separators, assume the
-    //user wanted to place a file in their home directory.
-    QUrl fileURL;
-    if(!url.contains(QDir::separator()))
-    {
-        fileURL = QUrl::fromLocalFile(QDir::homePath() + '/' + url);
-    }
-
-    else
-    {
-        fileURL = QUrl::fromUserInput(url);
-    }
+    QUrl fileURL = QUrl::fromUserInput(url);
 
     m_lastErrorMessage = QString();
     if(fileURL.isValid())

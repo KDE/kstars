@@ -1224,7 +1224,6 @@ void CCD::processBLOB(IBLOB* bp)
             imageViewer = new ImageViewer(getDeviceName(), KStars::Instance());
 
         imageViewer->loadImage(filename);
-        QFile::remove(filename);
     }
     // Unless we have cfitsio, we're done.
 #ifdef HAVE_CFITSIO
@@ -1258,23 +1257,18 @@ void CCD::processBLOB(IBLOB* bp)
                 previewTitle = i18n("Preview");
         }
 
-
         int tabRC = -1;
 
         switch (targetChip->getCaptureMode())
         {
         case FITS_NORMAL:
         {
-            FITSScale actualFilter = captureFilter;
-            if (Options::autoStretch() && captureFilter == FITS_NONE)
-                actualFilter = FITS_AUTO_STRETCH;
-
             if (normalTabID == -1 || Options::singlePreviewFITS() == false)
-                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, actualFilter, previewTitle);
-            else if (fv->updateFITS(&fileURL, normalTabID, actualFilter) == false)
+                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+            else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
             {
                 fv->removeFITS(normalTabID);
-                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, actualFilter, previewTitle);
+                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
             }
             else
                 tabRC = normalTabID;
@@ -1284,7 +1278,7 @@ void CCD::processBLOB(IBLOB* bp)
                 normalTabID = tabRC;
                 targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
 
-                emit newImage(fv->getView(normalTabID)->getDisplayImage());
+                emit newImage(fv->getView(normalTabID)->getDisplayImage(), targetChip);
             }
             else
                 // If opening file fails, we treat it the same as exposure failure and recapture again if possible
@@ -1308,7 +1302,7 @@ void CCD::processBLOB(IBLOB* bp)
                 focusTabID = tabRC;
                 targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
 
-                emit newImage(fv->getView(focusTabID)->getDisplayImage());
+                emit newImage(fv->getView(focusTabID)->getDisplayImage(), targetChip);
             }
             else
                 emit newExposureValue(targetChip, 0, IPS_ALERT);
@@ -1330,7 +1324,7 @@ void CCD::processBLOB(IBLOB* bp)
                 guideTabID = tabRC;
                 targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
 
-                emit newImage(fv->getView(guideTabID)->getDisplayImage());
+                emit newImage(fv->getView(guideTabID)->getDisplayImage(), targetChip);
             }
             else
                 emit newExposureValue(targetChip, 0, IPS_ALERT);

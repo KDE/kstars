@@ -663,9 +663,9 @@ void INDI_E::browseBlob()
         return;
 
     if ( currentURL.isValid() )
-        write_w->setText(currentURL.path());
+        write_w->setText(currentURL.toLocalFile());
 
-    fp.setFileName(currentURL.path());
+    fp.setFileName(currentURL.toLocalFile());
 
     if ( (pos = filename.lastIndexOf(".")) != -1)
         format = filename.mid (pos, filename.length());

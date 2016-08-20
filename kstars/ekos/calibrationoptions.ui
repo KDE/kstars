@@ -39,12 +39,22 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="deviceSourceC">
+         <widget class="QRadioButton" name="flatDeviceSourceC">
           <property name="toolTip">
            <string>For dark and bias frames, close the dust cap before proceeding. For flat frames, close the dust cap and turn on the light source.</string>
           </property>
           <property name="text">
-           <string>Dust Cover</string>
+           <string>Dust Cover with Built-in Flat Light</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="darkDeviceSourceC">
+          <property name="toolTip">
+           <string>For dark and bias frames, close the dust cap before proceeding. For flat frames, open the dust cap and turn on the light source.</string>
+          </property>
+          <property name="text">
+           <string>Dust Cover with External Flat Light</string>
           </property>
          </widget>
         </item>
@@ -219,7 +229,8 @@
  </customwidgets>
  <tabstops>
   <tabstop>manualSourceC</tabstop>
-  <tabstop>deviceSourceC</tabstop>
+  <tabstop>flatDeviceSourceC</tabstop>
+  <tabstop>darkDeviceSourceC</tabstop>
   <tabstop>wallSourceC</tabstop>
   <tabstop>azBox</tabstop>
   <tabstop>altBox</tabstop>

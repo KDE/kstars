@@ -211,7 +211,7 @@ void KSDssDownloader::startSingleDownload( const QUrl srcUrl, const QString &des
 
     downloadJob = new FileDownloader();
 
-    connect(downloadJob, SIGNAL(downloaded()), this, SLOT(singleDownloadFinished));
+    connect(downloadJob, SIGNAL(downloaded()), this, SLOT(singleDownloadFinished()));
     connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
     m_AttemptData = md;

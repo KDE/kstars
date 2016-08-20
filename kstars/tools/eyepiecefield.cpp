@@ -556,7 +556,7 @@ EyepieceField::~EyepieceField() {
 
 void EyepieceField::slotExport() {
     bool overlay = m_overlay->isChecked() && m_skyImage;
-    ExportEyepieceView *eev = new ExportEyepieceView( m_sp, *m_dt, ((m_skyImage && !overlay) ? &m_renderImage : 0), &m_renderChart, this );
+    new ExportEyepieceView( m_sp, *m_dt, ((m_skyImage && !overlay) ? &m_renderImage : 0), &m_renderChart, this );
 }
 
 dms EyepieceField::findNorthAngle( const SkyPoint *sp, const dms *lat ) {

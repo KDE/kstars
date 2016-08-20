@@ -271,7 +271,7 @@ public slots:
      * @brief updateFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
      * @param status If true, the focus process finished successfully. Otherwise, it failed.
      */
-    void updateFocusStatus(bool status);
+    void setAutoFocusResult(bool status);
 
     /** DBUS interface function.
      * resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
@@ -401,6 +401,8 @@ private:
     bool captureInProgress;
     // Was the frame modified by us? Better keep track since we need to return it to its previous state once we are done with the focus operation.
     bool frameModified;
+    // Was the modified frame subFramed?
+    bool subFramed;
     // If the autofocus process fails, let's not ruin the capture session probably taking place in the next tab. Instead, we should restart it and try again, but we keep count until we hit MAXIMUM_RESET_ITERATIONS
     // and then we truly give up.
     int resetFocusIteration;
