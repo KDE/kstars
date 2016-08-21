@@ -649,7 +649,7 @@ bool Align::captureAndSolve()
            currentCCD->setUploadMode(ISD::CCD::UPLOAD_LOCAL);
 
        // For solver remote we need to start solver BEFORE capture
-       startSovling(QString());
+       startSolving(QString());
    }
    else
    {
@@ -764,7 +764,7 @@ void Align::newFITS(IBLOB *bp)
             previewImage->updateFrame();
         }
 
-        startSovling(fitsFileName);
+        startSolving(fitsFileName);
     }
 }
 
@@ -786,7 +786,7 @@ void Align::setGOTOMode(int mode)
     }
 }
 
-void Align::startSovling(const QString &filename, bool isGenerated)
+void Align::startSolving(const QString &filename, bool isGenerated)
 {
     QStringList solverArgs;
     double ra,dec;
@@ -1688,7 +1688,7 @@ void Align::loadAndSlew(QString fileURL)
     stopB->setEnabled(true);
     pi->startAnimation();
 
-    startSovling(fileURL, false);
+    startSolving(fileURL, false);
 }
 
 void Align::setExposure(double value)

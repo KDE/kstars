@@ -19,7 +19,7 @@
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
     </method>
-    <method name="startSovling">
+    <method name="startSolving">
       <arg name="filename" type="s" direction="in"/>
       <arg name="isGenerated" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>

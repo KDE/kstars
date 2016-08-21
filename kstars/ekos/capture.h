@@ -190,12 +190,12 @@ public:
     /** DBUS interface function.
      * @return Returns time left in seconds until active job is estimated to be complete.
      */
-    int getActiveJobRemainingTime();
+    Q_SCRIPTABLE int getActiveJobRemainingTime();
 
     /** DBUS interface function.
      * @return Returns overall time left in seconds until all jobs are estimated to be complete
      */
-    int getOverallRemainingTime();
+    Q_SCRIPTABLE int getOverallRemainingTime();
 
     /** DBUS interface function.
      * @param id job number. Job IDs start from 0 to N-1.
@@ -257,7 +257,12 @@ public:
 
     /* Capture */
     void updateSequencePrefix( const QString &newPrefix, const QString &dir);
+
 public slots:
+
+    /** \addtogroup CaptureDBusInterface
+     *  @{
+     */
 
     /* Capture */
     /** DBUS interface function.
@@ -269,6 +274,8 @@ public slots:
      * Aborts all jobs and set current job status to Aborted if it was In Progress.
      */
     Q_SCRIPTABLE Q_NOREPLY void abort();
+
+    /** @}*/
 
     /**
      * @brief captureOne Capture one preview image
