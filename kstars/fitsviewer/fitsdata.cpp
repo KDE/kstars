@@ -564,7 +564,7 @@ int FITSData::findOneStar(const QRectF &boundary)
     float massX=0, massY=0, totalMass=0;
 
     // TODO replace magic number with something more useful to understand
-    double threshold = stats.mean[0] * 1.3;
+    double threshold = stats.mean[0] * Options::focusThreshold()/100.0;
 
     for (int y=subY; y < subH; y++)
     {
@@ -616,7 +616,8 @@ int FITSData::findOneStar(const QRectF &boundary)
             }
 
             qDebug() << "Testing for radius " << r << " passes # " << pass << " @ threshold " << running_threshold;
-            if (pass >= 6)
+            //if (pass >= 6)
+            if (pass >= 5)
             {
                     center->width = r*2;
                     break;
@@ -642,21 +643,13 @@ int FITSData::findOneStar(const QRectF &boundary)
     double FSum=0, HF=0, TF=0, min = stats.min[0];
     const double resolution = 1.0/20.0;
 
-    //int cen_x = round(center->x);
     int cen_y = round(center->y);
 
     double rightEdge = center->x + center->width / 2.0;
     double leftEdge  = center->x - center->width / 2.0;
 
-    // Align to resolution
-    //rightEdge -= fmod(rightEdge,resolution);
-    //leftEdge  -= fmod(leftEdge,resolution);
-
     QVector<double> subPixels;
     subPixels.reserve(center->width / resolution);
-
-    //double rightLimit = ceil(rightEdge);
-    //double leftLimit  = floor(leftEdge);
 
     for (double x=leftEdge; x <= rightEdge; x += resolution)
     {
@@ -665,14 +658,6 @@ int FITSData::findOneStar(const QRectF &boundary)
         FSum += slice;
         subPixels.append(slice);
     }
-
-    // Complete sum along the radius
-    //for (int k=0; k < rCenter->width; k++)
-    /*for (int k=center->width/2; k >= -(center->width/2) ; k--)
-    {
-        FSum += image_buffer[cen_x-k+(cen_y*stats.width)] - min;
-        //qDebug() << image_buffer[cen_x-k+(cen_y*stats.width)] - min;
-    }*/
 
     // Half flux
     HF = FSum / 2.0;
@@ -692,30 +677,20 @@ int FITSData::findOneStar(const QRectF &boundary)
 
         if (TF >= HF)
         {
+            // We have two ways to calculate HFR. The first is the correct method but it can get quite variable within 10% due to random fluctuations of the measured star.
+            // The second method is not truely HFR but is much more resistant to noise.
+
+
+            // #1 Approximate HFR, accurate and reliable but quite variable to small changes in star flux
             center->HFR = (k - 1 + ( (HF-lastTF)/(TF-lastTF) ) ) * resolution;
+
+            // #2 Not exactly HFR, but much more stable
+            //center->HFR = (k*resolution) * (HF/TF);
             break;
         }
 
         lastTF = TF;
     }
-
-
-    // Total flux starting from center
-    /*TF = image_buffer[cen_y * stats.width + cen_x] - min;
-
-    int pixelCounter = 1;
-
-    // Integrate flux along radius axis until we reach half flux
-    for (int k=1; k < center->width/2; k++)
-    {
-        TF += image_buffer[cen_y * stats.width + cen_x + k] - min;
-        TF += image_buffer[cen_y * stats.width + cen_x - k] - min;
-
-        pixelCounter++;
-    }
-
-    // Calculate weighted Half Flux Radius
-    center->HFR = pixelCounter * (HF / TF);*/
 
     return starCenters.size();
 
