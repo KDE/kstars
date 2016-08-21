@@ -431,6 +431,10 @@ void SkyMapLite::stopTracking() {
         kstars->slotTrack();
 }
 
+uint SkyMapLite::projType() const {
+    return m_proj->type();
+}
+
 void SkyMapLite::incMagLimit( const int modifier ) {
     m_magLim = 2.222 * log10(static_cast<double>( Options::starDensity() )) + 0.35;
     m_magLim += magFactor( modifier );

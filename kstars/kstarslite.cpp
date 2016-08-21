@@ -94,6 +94,11 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     QString main = QString(QML_IMPORT) + QString("/kstarslite/qml/main.qml");
 #endif
 
+    /*SkyMapLite has to be loaded before KStarsData is initialized because SkyComponents derived classes
+    have to add SkyItems to the SkyMapLite*/
+    m_SkyMapLite = SkyMapLite::createInstance();
+    m_Engine.rootContext()->setContextProperty("SkyMapLite", m_SkyMapLite);
+
     m_Engine.load(QUrl(main));
     Q_ASSERT_X(m_Engine.rootObjects().size(),"loading root object of main.qml",
                "QML file was not loaded. Probably syntax error or failed module import.");
@@ -102,28 +107,16 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
 
     QQuickItem *skyMapLiteWrapper = m_RootObject->findChild<QQuickItem*>("skyMapLiteWrapper");
 
-    /*SkyMapLite has to be loaded before KStarsData is initialized because SkyComponents derived classes
-    have to add SkyItems to the SkyMapLite*/
-    m_SkyMapLite = SkyMapLite::createInstance(skyMapLiteWrapper);
-
+    m_SkyMapLite->initialize(skyMapLiteWrapper);
     m_detailDialogLite->initialize();
 
-    m_Engine.rootContext()->setContextProperty("SkyMapLite", m_SkyMapLite);
     m_imgProvider = new ImageProvider;
     m_Engine.addImageProvider(QLatin1String("images"), m_imgProvider);
 
-    // Whenever the wrapper's(parent) dimensions changed, change SkyMapLite too
-    connect(skyMapLiteWrapper, &QQuickItem::widthChanged, m_SkyMapLite, &SkyMapLite::resizeItem);
-    connect(skyMapLiteWrapper, &QQuickItem::heightChanged, m_SkyMapLite, &SkyMapLite::resizeItem);
-
-    m_SkyMapLite->resizeItem(); /* Set initial size pf SkyMapLite. Without it on Android SkyMapLite is
-    not displayed until screen orientation is not changed */
-
-    //QQuickWindow *mainWindow = m_RootObject->findChild<QQuickWindow*>("window");
     QQuickWindow *mainWindow = static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
 
     QSurfaceFormat format = mainWindow->format();
-    format.setSamples(16);
+    format.setSamples(4);
     format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
     mainWindow->setFormat(format);
 
@@ -362,7 +355,6 @@ void KStarsLite::applyConfig(bool doApplyFocus) {
 void KStarsLite::setProjection(uint proj) {
     Options::setProjection(proj);
     //We update SkyMapLite 2 times because of the bug in Projector::updateClipPoly()
-    SkyMapLite::Instance()->forceUpdate();
     SkyMapLite::Instance()->forceUpdate();
 }
 

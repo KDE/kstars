@@ -5,7 +5,7 @@ import "../constants" 1.0
 Item {
     id: skyMapLiteItem
     anchors.fill: parent
-    visible: loaded
+    visible: isLoaded
 
     Rectangle {
         id: skyMapLiteWrapper

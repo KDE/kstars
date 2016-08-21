@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          telescopesymbolsitem.cpp  -  K Desktop Planetarium
+                          fovitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 17/07/2016
+    begin                : 20/08/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -14,71 +14,48 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "skynodes/crosshairnode.h"
-#include "indi/clientmanagerlite.h"
-#include "telescopesymbolsitem.h"
-#include "Options.h"
-#include "projections/projector.h"
-#include "kstarslite/skyitems/rootnode.h"
-#include "kstarslite.h"
-
+#include "fovitem.h"
 #include "labelsitem.h"
+#include "skynodes/fovsymbolnode.h"
+#include "Options.h"
 
-TelescopeSymbolsItem::TelescopeSymbolsItem(RootNode *rootNode)
-    :SkyItem(LabelsItem::label_t::TELESCOPE_SYMBOL, rootNode)
+FOVItem::FOVItem(RootNode * rootNode)
+    :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode)
 {
-    m_clientManager = KStarsLite::Instance()->clientManagerLite();
-    m_KStarsData = KStarsData::Instance();
+    addSymbol(i18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
+                    558,  558, 0,0,0, CIRCLE,"#AAAAAA");
+    addSymbol(i18nc("use a Telrad field-of-view indicator", "Telrad" ),
+                    30,   30, 0,0,0,   BULLSEYE,"#AA0000");
+    addSymbol(i18nc("use 1-degree field-of-view indicator", "One Degree"),
+                    60,   60, 0,0,0,  CIRCLE,"#AAAAAA");
+    addSymbol(i18nc("use HST field-of-view indicator", "HST WFPC2"),
+                    2.4,  2.4, 0,0,0, SQUARE,"#AAAAAA");
+    addSymbol(i18nc("use Radiotelescope HPBW", "30m at 1.3cm" ),
+                    1.79, 1.79, 0,0,0, SQUARE,"#AAAAAA");
 }
 
-void TelescopeSymbolsItem::addTelescope(INDI::BaseDevice *bd) {
-    if(!m_telescopes.value(bd)) {
-        CrosshairNode *crossHair = new CrosshairNode(bd, rootNode());
-        appendChildNode(crossHair);
-
-        m_telescopes.insert(bd, crossHair);
-    }
+void FOVItem::addSymbol(const QString &name, float a, float b, float xoffset, float yoffset,
+                        float rot, FOVItem::Shape shape, const QString &color)
+{
+    SkyMapLite::Instance()->addFOVSymbol(name, false);
+    appendChildNode(new FOVSymbolNode(name, a, b, xoffset, yoffset, rot, shape,color));
 }
 
-void TelescopeSymbolsItem::removeTelescope(INDI::BaseDevice *bd) {
-    CrosshairNode *crossHair = m_telescopes.value(bd);
-    if(crossHair) {
-        removeChildNode(crossHair);
-        delete crossHair;
-    }
-    m_telescopes.remove(bd);
-}
+void FOVItem::update() {
+    float zoomFactor = Options::zoomFactor();
+    SkyMapLite *map = SkyMapLite::Instance();
 
-void TelescopeSymbolsItem::update() {
-    QHash<INDI::BaseDevice *, CrosshairNode *>::iterator i;
-    bool deleteAll = !m_clientManager->isConnected();
-
-    QColor color = m_KStarsData->colorScheme()->colorNamed("TargetColor" );
-
-    bool show = Options::showTargetCrosshair();
-    if(!show) {
-        hide();
-    }
-
-    for (i = m_telescopes.begin(); i != m_telescopes.end(); ++i) {
-        CrosshairNode *crossHair = i.value();
-        INDI::BaseDevice *device = i.key();
-        if(crossHair) {
-            if(deleteAll || !(device->isConnected())) {
-                removeChildNode(crossHair);
-                delete crossHair;
-                m_telescopes.insert(device, nullptr);
-            } else if(show) {
-                if(device->isConnected()){
-                    crossHair->setColor(color);
-                    crossHair->update();
-                } else {
-                    crossHair->hide();
-                }
-            }
+    QSGNode *n = firstChild();
+    int index = 0;
+    while(n != 0) {
+        FOVSymbolNode *fov = static_cast<FOVSymbolNode *>(n);
+        if(map->isFOVVisible(index)) {
+            fov->update(zoomFactor);
+        } else {
+            fov->hide();
         }
-    }
-    if(deleteAll) {
-        m_telescopes.clear();
+        n = n->nextSibling();
+        index++;
     }
 }
+

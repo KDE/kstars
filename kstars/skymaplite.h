@@ -79,18 +79,21 @@ class SkyMapLite : public QQuickItem {
 
     Q_PROPERTY(SkyPointLite *clickedPointLite READ getClickedPointLite NOTIFY pointLiteChanged)
     Q_PROPERTY(SkyObjectLite *clickedObjectLite READ getClickedObjectLite NOTIFY objectLiteChanged)
+    Q_PROPERTY(QStringList FOVSymbols READ getFOVSymbols NOTIFY symbolsFOVChanged)
 protected:
     /**
     *Constructor.
     */
-    explicit SkyMapLite(QQuickItem* parent = 0);
+    explicit SkyMapLite();
 
     virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData);
 
     static RootNode *m_rootNode;
 
 public:
-    static SkyMapLite* createInstance(QQuickItem* parent = 0);
+    static SkyMapLite* createInstance();
+
+    void initialize(QQuickItem *parent);
 
     static SkyMapLite* Instance() { return pinstance; }
 
@@ -298,6 +301,12 @@ public:
         @return a pointer to the current projector. */
     inline const Projector * projector() const { return m_proj; }
 
+    /**
+     * @short used in QML
+     * @return type of current projection system
+     */
+    Q_INVOKABLE uint projType() const;
+
     /** Set magnitude limit for size of stars. Used in StarItem **/
     inline void setSizeMagLim(float sizeMagLim) { m_sizeMagLim = sizeMagLim; }
 
@@ -312,6 +321,29 @@ public:
 
     /** return limit of hides for the node to delete it **/
     static double deleteLimit();
+
+    /**
+     * @short adds FOV symbol to m_FOVSymbols
+     * @param FOVName name of a FOV symbol
+     */
+    Q_INVOKABLE void addFOVSymbol(const QString& FOVName, bool initialState = false);
+
+    /**
+     * @param index of FOVSymbol in m_FOVSymbols
+     * @return true if FOV symbol with name FOVName should be drawn.
+     */
+    bool isFOVVisible(int index);
+
+    /**
+      * @param index of FOVSymbol in m_FOVSymbols
+      * @short updates visibility of FOV symbol according to visible
+      */
+    Q_INVOKABLE void setFOVVisible(int index, bool visible);
+
+    /**
+      * @short this QList should be used as a model in QML to switch on/off FOV symbols
+      **/
+    Q_INVOKABLE inline QStringList getFOVSymbols() { return m_FOVSymbols; }
 
     /** @short Initializes images of Stars and puts them in cache (copied from SkyQPainter)*/
     void initStarImages();
@@ -490,6 +522,9 @@ signals:
     /** Emitted when magnitude limit is changed */
     void magLimChanged(double magLim);
 
+    /** Emitted when FOVSymbols list was changed (new value appended) **/
+    void symbolsFOVChanged(QStringList);
+
 protected:
     /** Process keystrokes:
      * @li arrow keys  Slew the map
@@ -608,6 +643,9 @@ private:
      */
     void zoomOutOrMagStep( const int modifier );
 
+    //True if SkyMapLite was initialized (star images were initialized etc.)
+    bool isInitialized;
+
     bool mouseButtonDown, midMouseButtonDown;
     // true if mouseMoveEvent; needed by setMouseMoveCursor
     bool mouseMoveCursor;
@@ -684,6 +722,9 @@ private:
     static int starColorMode;
 
     const SkyPoint *m_rulerStartPoint; // Good to keep the original ruler start-point for purposes of dynamic_cast
+
+    QStringList m_FOVSymbols;
+    QList<bool> m_FOVSymVisible;
 
     // This can be later changed
     // Total number of sizes of stars.

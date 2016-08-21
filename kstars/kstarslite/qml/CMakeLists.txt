@@ -22,6 +22,7 @@ install( FILES dialogs/FindDialog.qml
     
 install( FILES modules/popups/ColorSchemePopup.qml
     modules/popups/ProjectionsPopup.qml
+    modules/popups/FOVPopup.qml
     modules/popups/AddLinkPopup.qml
     modules/popups/LinkMenu.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/popups)

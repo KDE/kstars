@@ -29,6 +29,8 @@ Menu {
         Text {
             id: objectName
             text: isPoint ? xi18n("Empty Sky") : SkyMapLite.clickedObjectLite.translatedName
+            wrapMode: Text.Wrap
+            width: parent.width
             font.pointSize: 12
             anchors {
                 left: parent.left
@@ -57,6 +59,11 @@ Menu {
         onTriggered: stackView.push(objectDetails)
     }
 
+    Item {
+        id: hSpacer
+        height: telescopeCol.isTelescope ? 15 : 0
+    }
+
     ColumnLayout {
         id: telescopeCol
         width: parent.width
@@ -72,7 +79,7 @@ Menu {
             target: ClientManagerLite
 
             onTelescopeAdded: {
-                if(!isTelescope) {
+                if(!telescopeCol.isTelescope) {
                     telescopeCol.telescope = newTelescope
                     telescopeName.text = newTelescope.deviceName
                 }
@@ -86,6 +93,7 @@ Menu {
         Text {
             id: telescopeName
             visible: telescopeCol.isTelescope
+            wrapMode: Text.Wrap
             font.pointSize: 12
             anchors {
                 left: parent.left

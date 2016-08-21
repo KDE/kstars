@@ -516,7 +516,6 @@ set(kstars_projection_SRCS
 set(kstars_extra_SRCS
     auxiliary/colorscheme.cpp
     auxiliary/dms.cpp
-    auxiliary/fov.cpp
     auxiliary/geolocation.cpp
     auxiliary/ksfilereader.cpp
     auxiliary/ksuserdb.cpp
@@ -541,6 +540,7 @@ set(kstars_extra_SRCS
 if(NOT BUILD_KSTARS_LITE)
     LIST(APPEND kstars_extra_SRCS
         auxiliary/imageviewer.cpp
+        auxiliary/fov.cpp
         auxiliary/thumbnailpicker.cpp
         auxiliary/thumbnaileditor.cpp
         auxiliary/imageexporter.cpp
@@ -604,6 +604,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/constellationartitem.cpp
         kstarslite/skyitems/satellitesitem.cpp
         kstarslite/skyitems/supernovaeitem.cpp
+        kstarslite/skyitems/fovitem.cpp
         #Line
         kstarslite/skyitems/lines/linesitem.cpp
         kstarslite/skyitems/lines/equatoritem.cpp
@@ -625,11 +626,13 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/skynodes/satellitenode.cpp
         kstarslite/skyitems/skynodes/supernovanode.cpp
         kstarslite/skyitems/skynodes/trixelnode.cpp
+        kstarslite/skyitems/skynodes/fovsymbolnode.cpp
         #Nodes
         kstarslite/skyitems/skynodes/nodes/pointnode.cpp
         kstarslite/skyitems/skynodes/nodes/polynode.cpp
         kstarslite/skyitems/skynodes/nodes/linenode.cpp
         kstarslite/skyitems/skynodes/nodes/ellipsenode.cpp
+        kstarslite/skyitems/skynodes/nodes/rectnode.cpp
         #Material
         #kstarslite/skyitems/skynodes/material/dashedshader.cpp
         #libtess
@@ -669,6 +672,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/modules/KSTab.qml
         #Popups
         kstarslite/qml/modules/popups/ProjectionsPopup.qml
+        kstarslite/qml/modules/popups/FOVPopup.qml
         kstarslite/qml/modules/popups/ColorSchemePopup.qml
         kstarslite/qml/modules/popups/AddLinkPopup.qml
         kstarslite/qml/modules/popups/LinkMenu.qml

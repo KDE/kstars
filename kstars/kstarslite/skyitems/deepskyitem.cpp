@@ -94,7 +94,6 @@ DeepSkyItem::DeepSkyItem(DeepSkyComponent *dsoComp, RootNode *rootNode)
             QSGNode *symbols = new QSGNode;
 
             for(int c = 0; c < dsoList->size(); ++c) {
-
                 DeepSkyObject *dso = dsoList->at(c);
                 trixel->m_nodes.append(QPair<SkyObject *, SkyNode *>(dso, 0));
             }

@@ -69,7 +69,6 @@ FOV::FOV()
 }
 
 void FOV::draw( QPainter &p, float zoomFactor ) {
-#ifndef KSTARS_LITE
     p.setPen( QColor( color() ) );
     p.setBrush( Qt::NoBrush );
     
@@ -151,7 +150,6 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
     }
 
     p.restore();
-#endif
 }
 
 void FOV::draw(QPainter &p, float x, float y)

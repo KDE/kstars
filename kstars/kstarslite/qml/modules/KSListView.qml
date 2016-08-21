@@ -7,28 +7,24 @@ ListView {
     id: listView
     clip: true
     property bool checkCurrent: false
+    property bool checkable: false
+    property int maxWidth: 0
+    property bool modelIsChanged: false
+    implicitWidth: maxWidth
+    //To skip the case when contentItem.height equals to 99000+
+    implicitHeight: contentItem.height >= window.height ? window.height : contentItem.height
 
     onCountChanged: {
-        var root = listView.visibleChildren[0]
-        if(root) {
-            var listViewHeight = 0
-            var listViewWidth = 0
-
-            // iterate over each delegate item to get their sizes
-            // FIX IT: We don't add the height of last child because list becomes longer than we need
-            for (var i = 0; i < root.visibleChildren.length - 1; i++) {
-                var childWidth = root.visibleChildren[i].textWidth
-                if(childWidth > listViewWidth) listViewWidth = childWidth
-                listViewHeight += root.visibleChildren[i].height
-            }
-            listView.implicitWidth = listViewWidth
-            listView.implicitHeight = listViewHeight
+        for(var child in listView.contentItem.children) {
+            var childWidth = listView.contentItem.children[child].textWidth
+            maxWidth = maxWidth > childWidth ? maxWidth : childWidth
         }
     }
 
     ScrollIndicator.vertical: ScrollIndicator { }
     property string textRole: ""
-    signal clicked(var index)
+
+    signal clicked(var index, var checked)
     property bool modelIsArray: false
 
     onModelChanged: {
@@ -38,8 +34,9 @@ ListView {
     delegate: Rectangle {
         id: delegateRect
         width: parent.width
-        height: objName.height + 30
+        height: objName.contentHeight + 30
         property int textWidth: objRow.width + objRow.anchors.leftMargin*2
+        property bool checked: false
 
         border {
             color: "#becad5"
@@ -113,7 +110,8 @@ ListView {
 
             onClicked: {
                 listView.currentIndex = model.index
-                listView.clicked(model.index)
+                if(checkable) delegateRect.checked = !delegateRect.checked
+                listView.clicked(model.index, delegateRect.checked)
             }
         }
 
@@ -126,7 +124,7 @@ ListView {
             }
 
             Rectangle {
-                visible: checkCurrent && listView.currentIndex == model.index
+                visible: (checkCurrent && listView.currentIndex == model.index) || (checkable && delegateRect.checked)
                 color: "#2173f3"
                 width: height
                 height: objName.height/2

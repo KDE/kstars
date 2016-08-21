@@ -40,6 +40,7 @@
 #ifdef INDI_FOUND
 //Symbols
 #include "kstarslite/skyitems/telescopesymbolsitem.h"
+#include "kstarslite/skyitems/fovitem.h"
 #endif
 #include <QSGFlatColorMaterial>
 
@@ -88,6 +89,8 @@ RootNode::RootNode()
     m_snovaItem = new SupernovaeItem(m_skyComposite->supernovaeComponent(), this);
 
     m_horizonItem = new HorizonItem(m_skyComposite->horizon(), this);
+
+    m_FOVItem = new FOVItem(this);
 
 #ifdef INDI_FOUND
     m_telescopeSymbols = new TelescopeSymbolsItem(this);
@@ -268,8 +271,9 @@ void RootNode::update(bool clearTextures) {
 #ifdef INDI_FOUND
     m_telescopeSymbols->update();
 #endif
-
     m_labelsItem->update();
+
+    m_FOVItem->update();
 
     if(clearTextures) {
         //Delete old textures

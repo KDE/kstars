@@ -88,8 +88,6 @@ void LineNode::updateGeometry() {
         /*In regular KStars we first call checkVisibility and then toScreen
         Here we minimize the number of calls to toScreen by proceeding only if
         checkVisibility is true*/
-        //bool vis = false;
-        //if( vis ) {
             oThis = m_proj->toScreen( pThis, true, &isVisible );
             // & with the result of checkVisibility to clip away things below horizon
             isVisible &= m_proj->checkVisibility(pThis);
@@ -99,49 +97,15 @@ void LineNode::updateGeometry() {
             }
 
             if ( !doSkip ) {
-                //if ( (isVisible && isVisibleLast) ) {
                 if ( (isVisible ) ) {
                     newPoints.append(oLast);
                     newPoints.append(oThis);
-                    //if ( label )
-                    //  label->updateLabelCandidates( oThis.x(), oThis.y(), list, j );
                 }
             }
             oLast = oThis;
             isVisibleLast = isVisible;
-//        }
     }
 
-
-    /*SkyList *points = list->points();
-    bool isVisible, isVisibleLast;
-
-    QPointF   oLast = m_proj->toScreen( points->first(), true, &isVisibleLast );
-    // & with the result of checkVisibility to clip away things below horizon
-    isVisibleLast &= m_proj->checkVisibility( points->first() );
-    QPointF oThis, oThis2;
-
-    for ( int j = 1 ; j < points->size() ; j++ ) {
-        SkyPoint* pThis = points->at( j );
-        oThis2 = oThis = m_proj->toScreen( pThis, true, &isVisible );
-        // & with the result of checkVisibility to clip away things below horizon
-        isVisible &= m_proj->checkVisibility(pThis);
-        bool doSkip = false;
-        if( skipList ) {
-            doSkip = skipList->skip(j);
-        }
-
-        if ( !doSkip ) {
-            if ( isVisible && isVisibleLast ) {
-                drawLine( oLast, oThis );
-                if ( label )
-                    label->updateLabelCandidates( oThis.x(), oThis.y(), list, j );
-            }
-        }
-
-        oLast = oThis2;
-        isVisibleLast = isVisible;
-    }*/
 
     int size = newPoints.size();
     m_geometry->allocate(size);

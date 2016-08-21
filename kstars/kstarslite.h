@@ -121,11 +121,13 @@ public:
                            Satellites,
                            Supernovae
                          };
+
     Q_ENUMS(ObjectsToToggle)
     /**
      * @short setProjection calls Options::setProjection(proj) and updates SkyMapLite
      */
-    //Having projection as uint is not good but it will go away once KConfig is fixed
+    /*Having projection as uint is not good but it will go away once KConfig is fixed
+    The reason for this is that you can't use Enums of another in class in Q_INVOKABLE function*/
     Q_INVOKABLE void setProjection(uint proj);
 
     Q_INVOKABLE QColor getColor(QString schemeColor);
@@ -188,13 +190,11 @@ private:
     /** Initialize focus position */
     void initFocus();
     
-    
     QQmlApplicationEngine m_Engine;
     SkyMapLite *m_SkyMapLite;
     QPalette OriginalPalette, DarkPalette;
     
     QObject *m_RootObject;
-    //QQuickItem *m_SkyMapLiteWrapper;
     bool StartClockRunning;
     
     KStarsData *m_KStarsData;

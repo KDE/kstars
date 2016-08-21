@@ -42,6 +42,8 @@ class MilkyWayItem;
 
 class SkyMapComposite;
 class SolarSystemComposite;
+
+class FOVItem;
 #ifdef INDI_FOUND
 class TelescopeSymbolsItem;
 #endif
@@ -127,6 +129,8 @@ private:
     SkyMapComposite *m_skyComposite;
     SolarSystemComposite *m_solarSystem;
     QSGGeometryNode *m_visualizeClipping;
+
+    FOVItem *m_FOVItem;
 #ifdef INDI_FOUND
     TelescopeSymbolsItem *m_telescopeSymbols;
 #endif

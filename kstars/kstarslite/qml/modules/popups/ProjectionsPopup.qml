@@ -29,6 +29,13 @@ Popup {
                 projModel.append({ name: xi18n("Equirectangular"), proj: Projection.Equirectangular });
                 projModel.append({ name: xi18n("Stereographic"), proj: Projection.Stereographic });
                 projModel.append({ name: xi18n("Gnomonic"), proj: Projection.Gnomonic });
+
+                //Initialize projector
+                for(var i = 0; i < projList.model.count; ++i) {
+                    if(projList.model.get(i).proj == SkyMapLite.projType()) {
+                       projList.currentIndex = i
+                    }
+                }
             }
         }
 

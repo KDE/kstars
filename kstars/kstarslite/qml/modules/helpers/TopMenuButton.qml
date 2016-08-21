@@ -19,7 +19,7 @@ AbstractButton {
     }
 
     onToggledChanged: {
-        if(loaded) { //Disable while loading
+        if(isLoaded) { //Disable while loading
             if(toggled) {
                 if(titlePlural) {
                     notification.showNotification(xi18n("%1 are toggled on", title))

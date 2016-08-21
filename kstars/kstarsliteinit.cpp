@@ -22,7 +22,7 @@ void KStarsLite::datainitFinished() {
     connect( data(),   SIGNAL(skyUpdate(bool)),            map(),  SLOT( forceUpdateNow() ) );
     connect( this, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
     connect( this, SIGNAL( scaleChanged(float) ), data()->clock(), SLOT( setClockScale( float )) );
-    connect( this, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
+    //connect( this, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) ); Why did we need this connection in KStars?
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning ) data()->clock()->start();

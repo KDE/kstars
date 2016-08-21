@@ -22,11 +22,16 @@ ApplicationWindow {
     width: Window.Screen.desktopAvailableWidth
     height: Window.Screen.desktopAvailableHeight
     visible: true
-    property bool isPortrait: width < height ? true: false
-    property bool isSkyMapVisible: stackView.currentItem == initPage
 
     //Application properties
-    property bool loaded: false
+    property bool isLoaded: false
+    property bool isPortrait: width < height ? true: false
+    property bool isSkyMapVisible: stackView.currentItem == initPage
+    signal loaded();
+
+    onIsLoadedChanged: {
+        if(isLoaded) loaded()
+    }
 
     header: ToolBar {
         id: toolBar
@@ -100,12 +105,12 @@ ApplicationWindow {
         z:1
         anchors.fill:parent
         onTimeout: {
-            loaded = true
+            isLoaded = true
         }
     }
 
     StackView {
-        visible: loaded
+        visible: isLoaded
         id: stackView
         anchors.fill: parent
         initialItem: initPage
@@ -167,6 +172,12 @@ ApplicationWindow {
         y: (window.height - height)/2
     }
 
+    FOVPopup {
+        id: fovPopup
+        x: (window.width - width)/2
+        y: (window.height - height)/2
+    }
+
     //Menus
     ContextMenu {
         id: contextMenu
@@ -192,7 +203,7 @@ ApplicationWindow {
         width: Math.min(window.width, window.height) / 4 * 2
         height: window.height
         //Disable drawer while loading
-        dragMargin: loaded ? Qt.styleHints.startDragDistance : -Qt.styleHints.startDragDistance
+        dragMargin: isLoaded ? Qt.styleHints.startDragDistance : -Qt.styleHints.startDragDistance
 
         onOpened: {
             contextDrawer.close()
@@ -212,7 +223,6 @@ ApplicationWindow {
 
         ListView {
             id: pagesList
-            currentIndex: -1
             anchors {
                 left: parent.left
                 top: drawerBanner.bottom
@@ -233,7 +243,6 @@ ApplicationWindow {
 
                 width: parent.width
                 text: model.objID.title
-                highlighted: ListView.isCurrentItem
                 onClicked: {
                     if (pagesList.currentIndex != index) {
                         pagesList.currentIndex = index
@@ -248,7 +257,6 @@ ApplicationWindow {
                             }
                         }
                         globalDrawer.close()
-                        pagesList.currentIndex = -1
                     }
                 }
             }
@@ -273,7 +281,8 @@ ApplicationWindow {
         width: Math.min(window.width, window.height) / 4 * 2
         height: window.height
         //Disable drawer while loading and if SkyMapLite is not visible
-        dragMargin: isSkyMapVisible && loaded ? Qt.styleHints.startDragDistance : -Qt.styleHints.startDragDistance
+        dragMargin: isSkyMapVisible && isLoaded ? Qt.styleHints.startDragDistance : -Qt.styleHints.startDragDistance
+
         onOpened: {
             globalDrawer.close()
         }
@@ -294,7 +303,6 @@ ApplicationWindow {
 
         ListView {
             id: contextList
-            currentIndex: -1
             anchors {
                 left: parent.left
                 top: contextTitle.bottom
@@ -317,21 +325,20 @@ ApplicationWindow {
 
                 width: parent.width
                 text: model.title
-                highlighted: ListView.isCurrentItem
                 onClicked: {
                     if(model.type == "popup") {
                         objID.open()
                     }
                     contextDrawer.close()
-                    contextList.currentIndex = -1
                 }
             }
 
             property ListModel drawerModel : ListModel {
                 //Trick to enable storing of object ids
                 Component.onCompleted: {
-                    append({title: "Projection systems", objID: projPopup, type: "popup"});
-                    append({title: "Color Schemes", objID: colorSchemePopup, type: "popup"});
+                    append({title: xi18n("Projection systems"), objID: projPopup, type: "popup"});
+                    append({title: xi18n("Color Schemes"), objID: colorSchemePopup, type: "popup"});
+                    append({title: xi18n("FOV Symbols"), objID: fovPopup, type: "popup"});
                 }
             }
 
@@ -347,8 +354,6 @@ ApplicationWindow {
 
             RowLayout {
                 id: row
-                spacing: 5
-                Layout.fillWidth: true
                 anchors {
                     leftMargin: 10
                     left: parent.left
@@ -358,8 +363,8 @@ ApplicationWindow {
 
                 Rectangle {
                     anchors{
-                        verticalCenter: parent.verticalCenter
                         left: parent.left
+                        bottom: smallestMag.bottom
                     }
 
                     width: 24
@@ -370,7 +375,8 @@ ApplicationWindow {
 
                 Rectangle {
                     anchors{
-                        centerIn: parent
+                        horizontalCenter: parent.horizontalCenter
+                        bottom: smallestMag.bottom
                     }
 
                     width: 16
@@ -380,9 +386,11 @@ ApplicationWindow {
                 }
 
                 Rectangle {
+                    id: smallestMag
+
                     anchors {
-                        verticalCenter: parent.verticalCenter
                         right: parent.right
+                        verticalCenter: parent.bottom
                     }
 
                     width: 8

@@ -62,18 +62,16 @@ KSPage {
                 model: FindDialogLite.filterModel
                 Layout.fillWidth: true
 
-                //Init list with objects when they are loaded
+                //Init list with objects when everything is loaded
                 Connections {
                     target: window
-                    onLoadedChanged: {
-                        if(loaded) {
-                            FindDialogLite.filterByType(typeChoose.currentIndex)
-                        }
+                    onLoaded: {
+                        if(isLoaded) FindDialogLite.filterByType(typeChoose.currentIndex)
                     }
                 }
 
                 onCurrentIndexChanged: {
-                    if(loaded) FindDialogLite.filterByType(currentIndex)
+                    if(isLoaded) FindDialogLite.filterByType(currentIndex)
                 }
             }
         }

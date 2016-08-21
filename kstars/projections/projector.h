@@ -78,7 +78,7 @@ public:
     Q_ENUM(Projection)
 
     /** Return the type of this projection */
-    virtual Projection type() const = 0;
+    Q_INVOKABLE virtual Projection type() const = 0;
 
     /** Return the FOV of this projection */
     double fov() const;

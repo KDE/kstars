@@ -23,7 +23,7 @@
 
 EllipseNode::EllipseNode(QColor color, int width)
     :m_geometryNode(new QSGGeometryNode), m_geometry(0),
-      m_material(new QSGFlatColorMaterial), m_width(0), m_height(0), m_x(-1),
+      m_material(new QSGFlatColorMaterial), m_width(-1), m_height(-1), m_x(-1),
       m_y(-1), m_fillMode(false)
 {
     m_geometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0);

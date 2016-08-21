@@ -29,19 +29,13 @@ Popup {
                 append({ name: xi18n("Star Chart"), scheme: "cs_chart" });
                 append({ name: xi18n("Night Vision"), scheme: "cs_night" });
                 append({ name: xi18n("Moonless Night"), scheme: "cs_moonless-night" });
-            }
 
-            onCountChanged: {
-                colorsList.currentIndex = 2
-            }
-        }
-
-        Component.onCompleted: {
-            //Set current index to current scheme color
-            var currentScheme = KStarsData.colorSchemeName()
-            for(var i = 0; i < colorsList.model.count; ++i) {
-                if(formatColorScheme(colorsList.model.get(i).scheme) == currentScheme) {
-                    colorsList.currentIndex = 1
+                //Set current index to current scheme color
+                var currentScheme = KStarsData.colorSchemeName()
+                for(var i = 0; i < colorsList.model.count; ++i) {
+                    if(formatColorScheme(colorsList.model.get(i).scheme) == currentScheme) {
+                       colorsList.currentIndex = i
+                    }
                 }
             }
         }

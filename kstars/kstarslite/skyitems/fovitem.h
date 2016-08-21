@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          telescopesymbolsitem.h  -  K Desktop Planetarium
+                          fovitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 17/07/2016
+    begin                : 20/08/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,45 +13,37 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef TELESCOPESYMBOLSITEM_H_
-#define TELESCOPESYMBOLSITEM_H_
+#ifndef FOVITEM_H_
+#define FOVITEM_H_
 
 #include "skyitem.h"
-#include "basedevice.h"
-
-class KSAsteroid;
-class SkyObject;
-class RootNode;
-class EllipseNode;
-class LineNode;
-class CrosshairNode;
-class ClientManagerLite;
-
     /**
-     * @class TelescopeSymbolsItem
-     * This class handles telescope symbols in SkyMapLite
+     * @class FOVItem
+     * This class handles FOV symbols in SkyMapLite
      *
      * @author Artem Fedoskin
      * @version 1.0
      */
 
-class TelescopeSymbolsItem : public SkyItem {
+class FOVItem : public SkyItem {
 public:
+    enum Shape { SQUARE,
+                 CIRCLE,
+                 CROSSHAIRS,
+                 BULLSEYE,
+                 SOLIDCIRCLE,
+                 UNKNOWN };
+
+    FOVItem(RootNode * rootNode);
+
     /**
-     * @short Constructor
-     * @param asteroidsList const reference to list of asteroids
-     * @param rootNode parent RootNode that instantiates PlanetsItem
+     * @short Adds symbol to QVariantMap in SkyMap and creates new FOVSymbolNode
      */
-    TelescopeSymbolsItem(RootNode *rootNode);
+    void addSymbol(const QString &name, float a, float b, float xoffset, float yoffset,
+                            float rot, FOVItem::Shape shape, const QString &color);
 
     virtual void update() override;
-    void addTelescope(INDI::BaseDevice *bd);
-    void removeTelescope(INDI::BaseDevice *bd);
 
 private:
-    QHash<INDI::BaseDevice *, CrosshairNode *> m_telescopes;
-    ClientManagerLite *m_clientManager;
-    QColor m_color;
-    KStarsData *m_KStarsData;
 };
 #endif
