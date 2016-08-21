@@ -94,6 +94,7 @@ Focus::Focus()
     currentFilterIndex=-1;
     minPos=1e6;
     maxPos=0;
+    frameNum=0;
 
     connect(startFocusB, SIGNAL(clicked()), this, SLOT(start()));
     connect(stopFocusB, SIGNAL(clicked()), this, SLOT(checkStopFocus()));
@@ -215,6 +216,11 @@ Focus::Focus()
     suspendGuideCheck->setChecked(Options::suspendGuiding());
     lockFilterCheck->setChecked(Options::lockFocusFilter());
     focusDarkFrameCheck->setChecked(Options::focusDarkFrame());
+    thresholdSpin->setValue(Options::focusThreshold());
+    focusFramesSpin->setValue(Options::focusFrames());
+
+    connect(thresholdSpin, SIGNAL(valueChanged(double)), this, SLOT(setThreshold(double)));
+    connect(focusFramesSpin, SIGNAL(valueChanged(int)), this, SLOT(setFrames(int)));
 }
 
 Focus::~Focus()
@@ -638,6 +644,7 @@ void Focus::start()
 
     inAutoFocus = true;
     m_autoFocusSuccesful = false;
+    frameNum=0;
 
     resetButtons();
 
@@ -666,7 +673,7 @@ void Focus::start()
     Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
     Options::setSuspendGuiding(suspendGuideCheck->isChecked());
     Options::setLockFocusFilter(lockFilterCheck->isChecked());
-    Options::setFocusDarkFrame(focusDarkFrameCheck->isChecked());
+    Options::setFocusDarkFrame(focusDarkFrameCheck->isChecked());    
 
     if (Options::focusLogging())
         qDebug() << "Focus: Starting focus with pulseDuration " << pulseDuration;
@@ -720,6 +727,7 @@ void Focus::abort()
     //starSelected= false;
     minimumRequiredHFR    = -1;
     noStarCount = 0;
+    frameNum=0;
     //maxHFR=1;
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));    
@@ -1020,7 +1028,24 @@ void Focus::newFITS(IBLOB *bp)
         }*/
 
         if (Options::focusLogging())
-            qDebug() << "Focus newFITS: Current HFR " << currentHFR;
+            qDebug() << "Focus newFITS #" << frameNum+1 << ": Current HFR " << currentHFR;
+
+        HFRFrames[frameNum++] = currentHFR;
+
+        if (frameNum >= focusFramesSpin->value())
+        {
+            currentHFR=0;
+            for (int i=0; i < frameNum; i++)
+                currentHFR+= HFRFrames[i];
+
+            currentHFR /= frameNum;
+            frameNum =0;
+        }
+        else
+        {
+            capture();
+            return;
+        }
 
         HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
@@ -1519,14 +1544,14 @@ void Focus::autoFocusAbs()
                 HFRDec=0;
 
                 // Reality Check: If it's first time, let's capture again and see if it changes.
-                if (HFRInc <= 1 && reverseDir == false)
+                /*if (HFRInc <= 1 && reverseDir == false)
                 {
                     capture();
                     return;
                 }
                 // Looks like we're going away from optimal HFR
                 else
-                {
+                {*/
                     reverseDir = true;
                     lastHFR = currentHFR;
                     lastHFRPos = currentPosition;
@@ -1562,7 +1587,7 @@ void Focus::autoFocusAbs()
                     if (Options::focusLogging())
                         qDebug() << "Focus: new targetPosition " << targetPosition;
 
-                }
+               // }
             }
 
         // Limit target Pulse to algorithm limits
@@ -1891,6 +1916,7 @@ void Focus::startFraming()
     }
 
     inFocusLoop = true;
+    frameNum=0;
 
     //emit statusUpdated(true);
     state = Ekos::FOCUS_FRAMING;
@@ -2199,6 +2225,16 @@ void Focus::setAbsoluteFocusTicks()
 void Focus::setActiveBinning(int bin)
 {
     activeBin = bin + 1;
+}
+
+void Focus::setThreshold(double value)
+{
+    Options::setFocusThreshold(value);
+}
+
+void Focus::setFrames(int value)
+{
+    Options::setFocusFrames(value);
 }
 
 }

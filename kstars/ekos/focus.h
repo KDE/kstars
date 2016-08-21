@@ -34,7 +34,7 @@ struct HFRPoint
  *@class Focus
  *@short Supports manual focusing and auto focusing using relative and absolute INDI focusers.
  *@author Jasem Mutlaq
- *@version 1.0
+ *@version 1.1
  */
 class Focus : public QWidget, public Ui::Focus
 {
@@ -318,6 +318,10 @@ private slots:
 
     void updateBoxSize(int value);
 
+    void setThreshold(double value);
+
+    void setFrames(int value);
+
 signals:
         void newLog();
         void autoFocusFinished(bool status, double finalHFR);
@@ -374,6 +378,8 @@ private:
     int HFRInc;
     // If HFR decreasing? Well, good job. Once HFR start decreasing, we can start calculating HFR slope and estimating our next move.
     int HFRDec;
+    // How many frames have we captured thus far? Do we need to average them?
+    uint8_t frameNum;
 
     /****************************
     * Absolute position focusers
@@ -424,6 +430,8 @@ private:
     ISD::CCD::UploadMode rememberUploadMode;
     // Previous binning setting
     int activeBin;
+    // HFR values for captured frames before averages
+    double HFRFrames[5];
 
     QStringList logText;
     ITextVectorProperty *filterName;
