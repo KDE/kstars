@@ -68,7 +68,7 @@ void OpsEkos::slotSelectPHD2Exec()
     if (phd2URL.isEmpty())
         return;
 
-    kcfg_PHD2Exec->setText(phd2URL.path());
+    kcfg_PHD2Exec->setText(phd2URL.toLocalFile());
 }
 
 void OpsEkos::slotCheckGuideModule()

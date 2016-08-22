@@ -6,7 +6,9 @@ QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString
                         QStandardPaths::LocateOptions options)
 {
     QString dir;
-    if(location == QStandardPaths::GenericDataLocation) dir = "kstars" + QDir::separator();
+    if( location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation ) {
+        dir = "kstars/";
+    }
 #ifdef ANDROID
     QString file = QStandardPaths::locate(location, dir + fileName ,options);
     if(file.isEmpty()) {
@@ -17,14 +19,16 @@ QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString
     }
     return file;
 #else
-    return QStandardPaths::locate(location, dir + fileName,options);
+    return QStandardPaths::locate(location, dir + fileName, options);
 #endif
 }
 
 QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const QString &fileName,
                         QStandardPaths::LocateOptions options) {
     QString dir;
-    if(location == QStandardPaths::GenericDataLocation) dir = "kstars" + QDir::separator();
+    if( location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation ) {
+        dir = "kstars/";
+    }
 #ifdef ANDROID
     QStringList file = QStandardPaths::locateAll(location, dir + fileName,options);
     if(file.isEmpty()) {
@@ -38,10 +42,3 @@ QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const 
     return QStandardPaths::locateAll(location, dir + fileName,options);
 #endif
 }
-
-QString KSPaths::writableLocation(QStandardPaths::StandardLocation type) {
-    QString dir;
-    if(type == QStandardPaths::GenericDataLocation) dir = "kstars" + QDir::separator();
-    return QStandardPaths::writableLocation(type) + QDir::separator() + dir;
-}
-

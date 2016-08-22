@@ -137,6 +137,29 @@ that the Sun appears to follow across the sky over the course of a
 year.  The Sun is always found somewhere along the Ecliptic, and the
 planets are never far from it.
 </para>
+
+<para>
+You can configure &kstars; to draw or not the celestial equator and Ecliptic curves 
+on the Sky Map using the 
+<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure &kstars;</guisubmenu></menuchoice> submenu. 
+Select the <guimenu>Guides</guimenu> tab and check/uncheck the <guilabel>Celestial equator</guilabel> 
+and <guilabel>Ecliptic</guilabel> check boxes. You can also configure which colors &kstars; uses for 
+drawing these curves, using the <guimenu>Colors</guimenu> tab.
+</para>
+<screenshot>
+<screeninfo>
+Here is a screenshot of the &kstars; main window, focusing on horizon, 
+celestial equator and Ecliptic curves:
+</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="kstars_horizon.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>KStars Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
 </sect1>
 
 <sect1 id="skyobjects">
@@ -230,13 +253,13 @@ Object</guilabel> tool, which can be opened by clicking on the
 The <guilabel>Find Object</guilabel> window is shown below:
 
 <screenshot>
-<screeninfo>Find Object Window</screeninfo>
+<screeninfo>Find Object Window with search online feature</screeninfo>
 <mediaobject>
   <imageobject>
-    <imagedata fileref="find.png" format="PNG"/>
+    <imagedata fileref="find2.png" format="PNG"/>
   </imageobject>
   <textobject>
-    <phrase>Find Object Window</phrase>
+    <phrase>Find Object Window with search online feature</phrase>
   </textobject>
 </mediaobject>
 </screenshot>
@@ -251,7 +274,50 @@ by object type.  To filter by name, enter a string in the edit box
 at the top of the window; the list will then only contain names
 which start with that string.  To filter by type, select a type
 from the combo box at the bottom of the window.
-</para><para>
+</para>
+<para>
+&kstars; provides another method for resolving the objects that are 
+missing from any of its predefined catalogues, by using an internet 
+connection. Thus, if you want to find an object that &kstars; is not 
+aware of, you can easily do this by querying several professional 
+astronomical databases as: SIMBAD, NED or VizieR. This can be done by 
+entering the object's name and then press the <guibutton>or search the 
+internet for ObjectName</guibutton> button. After your object is found, 
+you can use it exactly as any object that is already loaded into &kstars; 
+(&ie; adding it to the Observing WishList). If the object was not found 
+in the online databases, then a warning dialogue will pop-up. Once you 
+resolve an object by using this method, it is stored in &kstars; database, 
+so if you close &kstars; and open it again, your object will still be there. 
+</para>
+
+<para>
+You can choose to enable or disable this feature by checking or unchecking the 
+<guibutton>Resolve names not known to &kstars; using online services</guibutton> 
+check box from <guilabel>Catalogs</guilabel> tab, inside of 
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KStars</guimenuitem></menuchoice> 
+window. If this checkbox is checked, when an object name unknown to &kstars; 
+is entered in the <guilabel>Find Dialog</guilabel>, &kstars; will contact online 
+services to learn about the desired object and then add it directly to &kstars; 
+database. The objects acquired in this manner are stored in a fake catalog, called 
+<quote>_Internet_Resolved</quote>. Thus, you can enable or disable the display of 
+these objects by checking or unchecking the <quote>_Internet_Resolved</quote> catalog 
+from the catalogues list. Note that you can not delete this fake catalogue, as you can 
+do with a custom catalogue. If this checkbox is unchecked, then the 
+<guilabel>Find Dialog</guilabel> window will be exactly the same, excepting a minor change: 
+the online searching button will no longer be visible.
+</para>
+<screenshot>
+<screeninfo>Find Object Window</screeninfo>
+<mediaobject>
+  <imageobject>
+    <imagedata fileref="find.png" format="PNG"/>
+  </imageobject>
+  <textobject>
+    <phrase>Find Object Window</phrase>
+  </textobject>
+</mediaobject>
+</screenshot>
+<para>
 To center the display on an object, highlight the desired object in
 the list, and press <guibutton>Ok</guibutton>.  Note that if the
 object is below the horizon, the program will warn you that you may

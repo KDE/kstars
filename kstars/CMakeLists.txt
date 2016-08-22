@@ -19,43 +19,24 @@ if(MSVC)
     add_definitions(-DNOMINMAX)
 endif()
 
+include_directories(
+    ${kstars_SOURCE_DIR}/kstars/skyobjects
+    ${kstars_SOURCE_DIR}/kstars/skycomponents
+    ${kstars_SOURCE_DIR}/kstars/auxiliary
+    ${kstars_SOURCE_DIR}/kstars/time
+)
 
 if(BUILD_KSTARS_LITE)
     include_directories(
-        ${kstars_SOURCE_DIR}/kstars/skyobjects
-        ${kstars_SOURCE_DIR}/kstars/skycomponents
-        ${kstars_SOURCE_DIR}/kstars/auxiliary
-        ${kstars_SOURCE_DIR}/kstars/time
         ${kstars_SOURCE_DIR}/kstars/triangle
-        )
+    )
 else(BUILD_KSTARS_LITE)
     include_directories(
         ${kstars_SOURCE_DIR}/kstars/tools
-        ${kstars_SOURCE_DIR}/kstars/skyobjects
-        ${kstars_SOURCE_DIR}/kstars/skycomponents
-        ${kstars_SOURCE_DIR}/kstars/auxiliary
-        ${kstars_SOURCE_DIR}/kstars/time
-        )
+    )
 endif(BUILD_KSTARS_LITE)
 
-#Temporary solution to allow use of qml files from source dir DELETE
-add_definitions( -DSOURCE_DIR=\"${kstars_SOURCE_DIR}\" )
-
-if(BUILD_KSTARS_LITE)
-    if(INDI_FOUND)
-        set (fits_SRCS
-            fitsviewer/fitsdatalite.cpp
-            fitsviewer/fitsviewlite.cpp
-            fitsviewer/bayer.c
-            )
-        if(ANDROID)
-            include_directories(${kstars_SOURCE_DIR}/android_lib/include)
-        else()
-            #if it is not Android we need only CFITSIO
-            include_directories(${CFITSIO_INCLUDE_DIR})
-        endif()
-    endif(INDI_FOUND)
-else(BUILD_KSTARS_LITE)
+if(NOT BUILD_KSTARS_LITE)
     if (CFITSIO_FOUND)
         set (fits_SRCS
             fitsviewer/fitshistogram.cpp
@@ -75,123 +56,142 @@ else(BUILD_KSTARS_LITE)
             )
         include_directories(${CFITSIO_INCLUDE_DIR})
     endif(CFITSIO_FOUND)
-endif(BUILD_KSTARS_LITE)
+endif(NOT BUILD_KSTARS_LITE)
 
 if (INDI_FOUND)
-if(BUILD_KSTARS_LITE)
-        set (indi_SRCS
-            indi/clientmanagerlite.cpp
-            indi/inditelescopelite.cpp
+    if(BUILD_KSTARS_LITE)
+            set (fits_SRCS
+                fitsviewer/fitsdatalite.cpp
+                fitsviewer/fitsviewlite.cpp
+                fitsviewer/bayer.c
+                )
+            if(ANDROID)
+                include_directories(${kstars_SOURCE_DIR}/android_lib/include)
+            else()
+                #if it is not Android we need only CFITSIO
+                include_directories(${CFITSIO_INCLUDE_DIR})
+            endif()
+
+            set (indi_SRCS
+                indi/clientmanagerlite.cpp
+                indi/inditelescopelite.cpp
+                kstarslite/skyitems/skynodes/crosshairnode.cpp
+                kstarslite/skyitems/telescopesymbolsitem.cpp
             )
-elseif(BUILD_KSTARS_LITE)
-        set (indi_SRCS
-            indi/drivermanager.cpp
-            indi/servermanager.cpp
-            indi/clientmanager.cpp
-            indi/guimanager.cpp
-            indi/driverinfo.cpp
-            indi/deviceinfo.cpp
-            indi/indidevice.cpp
-            indi/indigroup.cpp
-            indi/indiproperty.cpp
-            indi/indielement.cpp
-            indi/indistd.cpp
-            indi/indilistener.cpp
-            indi/inditelescope.cpp
-            indi/indiccd.cpp
-            indi/indifocuser.cpp
-            indi/indifilter.cpp
-            indi/indidome.cpp
-            indi/indiweather.cpp
-            indi/indicap.cpp
-            indi/indilightbox.cpp
-            indi/indidbus.cpp
-            indi/opsindi.cpp
-            indi/telescopewizardprocess.cpp
-            indi/streamwg.cpp
+    elseif(BUILD_KSTARS_LITE)
+            set(indi_SRCS
+                indi/drivermanager.cpp
+                indi/servermanager.cpp
+                indi/clientmanager.cpp
+                indi/guimanager.cpp
+                indi/driverinfo.cpp
+                indi/deviceinfo.cpp
+                indi/indidevice.cpp
+                indi/indigroup.cpp
+                indi/indiproperty.cpp
+                indi/indielement.cpp
+                indi/indistd.cpp
+                indi/indilistener.cpp
+                indi/inditelescope.cpp
+                indi/indiccd.cpp
+                indi/indifocuser.cpp
+                indi/indifilter.cpp
+                indi/indidome.cpp
+                indi/indiweather.cpp
+                indi/indicap.cpp
+                indi/indilightbox.cpp
+                indi/indidbus.cpp
+                indi/opsindi.cpp
+                indi/telescopewizardprocess.cpp
+                indi/streamwg.cpp
+                indi/indiwebmanager.cpp
             )
 
-        set(indiui_SRCS
-            indi/drivermanager.ui
-            indi/opsindi.ui
-            indi/indihostconf.ui
-            indi/streamform.ui
-            indi/telescopewizard.ui
+            set(indiui_SRCS
+                indi/drivermanager.ui
+                indi/opsindi.ui
+                indi/indihostconf.ui
+                indi/streamform.ui
+                indi/telescopewizard.ui
             )
 
-        if (CFITSIO_FOUND)
-            set(ekosui_SRCS
-                ekos/scheduler.ui
-                ekos/mosaic.ui
-                ekos/opsekos.ui
-                ekos/ekosmanager.ui
-                ekos/capture.ui
-                ekos/calibrationoptions.ui
-                ekos/align.ui
-                ekos/focus.ui
-                ekos/guide.ui
-                ekos/mount.ui
-                ekos/profileeditor.ui
-                ekos/guide/guider.ui
-                ekos/guide/rcalibration.ui
+            if (CFITSIO_FOUND)
+                set(ekosui_SRCS
+                    ekos/scheduler.ui
+                    ekos/mosaic.ui
+                    ekos/opsekos.ui
+                    ekos/ekosmanager.ui
+                    ekos/capture.ui
+                    ekos/calibrationoptions.ui
+                    ekos/align.ui
+                    ekos/focus.ui
+                    ekos/guide.ui
+                    ekos/mount.ui
+                    ekos/profileeditor.ui
+                    ekos/guide/guider.ui
+                    ekos/guide/rcalibration.ui
                 )
 
-            set(ekos_SRCS
-                ekos/schedulerjob.cpp
-                ekos/scheduler.cpp
-                ekos/mosaic.cpp
-                ekos/ekosmanager.cpp
-                ekos/capture.cpp
-                ekos/sequencejob.cpp
-                ekos/focus.cpp
-                ekos/guide.cpp
-                ekos/phd2.cpp
-                ekos/align.cpp
-                ekos/mount.cpp
-                ekos/dome.cpp
-                ekos/weather.cpp
-                ekos/dustcap.cpp
-                ekos/astrometryparser.cpp
-                ekos/offlineastrometryparser.cpp
-                ekos/onlineastrometryparser.cpp
-                ekos/profileeditor.cpp
-                ekos/opsekos.cpp
-                ekos/QProgressIndicator.cpp
-                ekos/guide/common.cpp
-                ekos/guide/gmath.cpp
-                ekos/guide/guider.cpp
-                ekos/guide/matr.cpp
-                ekos/guide/rcalibration.cpp
-                ekos/guide/scroll_graph.cpp
-                ekos/guide/vect.cpp
+                set(ekos_SRCS
+                    ekos/ekos.cpp
+                    ekos/schedulerjob.cpp
+                    ekos/scheduler.cpp
+                    ekos/mosaic.cpp
+                    ekos/ekosmanager.cpp
+                    ekos/capture.cpp
+                    ekos/sequencejob.cpp
+                    ekos/focus.cpp
+                    ekos/guide.cpp
+                    ekos/phd2.cpp
+                    ekos/align.cpp
+                    ekos/mount.cpp
+                    ekos/dome.cpp
+                    ekos/weather.cpp
+                    ekos/dustcap.cpp
+                    ekos/astrometryparser.cpp
+                    ekos/offlineastrometryparser.cpp
+                    ekos/onlineastrometryparser.cpp
+                    ekos/remoteastrometryparser.cpp
+                    ekos/profileeditor.cpp
+                    ekos/opsekos.cpp
+                    ekos/QProgressIndicator.cpp
+                    ekos/guide/common.cpp
+                    ekos/guide/gmath.cpp
+                    ekos/guide/guider.cpp
+                    ekos/guide/matr.cpp
+                    ekos/guide/rcalibration.cpp
+                    ekos/guide/scroll_graph.cpp
+                    ekos/guide/vect.cpp
                 )
+            endif(CFITSIO_FOUND)
+    endif(BUILD_KSTARS_LITE)
 
-        endif(CFITSIO_FOUND)
-endif(BUILD_KSTARS_LITE)
-include_directories(${INDI_INCLUDE_DIR})
+    include_directories(${INDI_INCLUDE_DIR})
 endif (INDI_FOUND)
 
 if(NOT BUILD_KSTARS_LITE)
-    if (WCSLIB_FOUND)
-        include_directories( ${WCSLIB_INCLUDE_DIR} )
-    endif (WCSLIB_FOUND)
+    if(WCSLIB_FOUND)
+      include_directories( ${WCSLIB_INCLUDE_DIR} )
+    endif(WCSLIB_FOUND)
 
-    if ( XPLANET_FOUND )
-        set (xplanet_SRCS
+    if(XPLANET_FOUND)
+        set(xplanet_SRCS
             xplanet/opsxplanet.cpp
-            )
+        )
+
         set(xplanetui_SRCS
             xplanet/opsxplanet.ui
-            )
-    endif ( XPLANET_FOUND )
+        )
+    endif(XPLANET_FOUND)
 
     #FIXME Enable OpenGL Later
-    #if ( OPENGL_FOUND )
-    #  include_directories( ${OPENGL_INCLUDE_DIRS} )
-    #  set(kstars_gl_SRCS
-    #    skyglpainter.cpp skymapgldraw.cpp
+    #if(OPENGL_FOUND)
+    #    include_directories( ${OPENGL_INCLUDE_DIRS} )
+    #    set(kstars_gl_SRCS
+    #        skyglpainter.cpp
+    #        skymapgldraw.cpp
     #    )
-    #  add_definitions(-DHAVE_OPENGL)
+    #    add_definitions(-DHAVE_OPENGL)
     #endif( OPENGL_FOUND )
 
     ########### next target ###############
@@ -229,6 +229,7 @@ if(NOT BUILD_KSTARS_LITE)
         tools/wutdialog.cpp
         tools/flagmanager.cpp
         tools/horizonmanager.cpp
+        tools/nameresolver.cpp
 
         #FIXME Port to KF5
         #tools/moonphasetool.cpp
@@ -237,10 +238,12 @@ if(NOT BUILD_KSTARS_LITE)
         tools/eyepiecefield.cpp
         tools/exporteyepieceview.cpp
         tools/starhopperdialog.cpp
-        )
+        tools/adddeepskyobject.cpp
+    )
 
-    if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
-        LIST(APPEND libkstarstools_SRCS
+    if(${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+        set(libkstarstools_SRCS
+            ${libkstarstools_SRCS}
             tools/whatsinteresting/skyobjlistmodel.cpp
             tools/whatsinteresting/wiview.cpp
             tools/whatsinteresting/modelmanager.cpp
@@ -249,7 +252,7 @@ if(NOT BUILD_KSTARS_LITE)
             tools/whatsinteresting/wiequipsettings.cpp
             tools/whatsinteresting/obsconditions.cpp
             tools/whatsinteresting/skyobjdescription.cpp
-            )
+        )
     endif()
 
     ki18n_wrap_ui(libkstarstools_SRCS
@@ -271,6 +274,7 @@ if(NOT BUILD_KSTARS_LITE)
         tools/argwaitforkey.ui
         tools/argzoom.ui
         tools/conjunctions.ui
+
         tools/modcalcangdist.ui
         tools/modcalcapcoord.ui
         tools/modcalcaltaz.ui
@@ -283,6 +287,7 @@ if(NOT BUILD_KSTARS_LITE)
         tools/modcalcplanets.ui
         tools/modcalcsidtime.ui
         tools/modcalcvlsr.ui
+
         tools/observinglist.ui
         tools/obslistwizard.ui
         tools/optionstreeview.ui
@@ -294,13 +299,14 @@ if(NOT BUILD_KSTARS_LITE)
         tools/flagmanager.ui
         tools/starhopperdialog.ui
         tools/horizonmanager.ui
-        )
+        tools/adddeepskyobject.ui
+    )
 
     if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
         ki18n_wrap_ui(libkstarstools_SRCS
             tools/whatsinteresting/wilpsettings.ui
             tools/whatsinteresting/wiequipsettings.ui
-            )
+        )
     endif()
 
     set(libkstarswidgets_SRCS
@@ -316,16 +322,18 @@ if(NOT BUILD_KSTARS_LITE)
         widgets/timestepbox.cpp
         widgets/timeunitbox.cpp
         widgets/infoboxwidget.cpp
-        #        widgets/genericcalendarwidget.cpp
-        #        widgets/moonphasecalendarwidget.cpp
+    #    widgets/genericcalendarwidget.cpp
+    #    widgets/moonphasecalendarwidget.cpp
         widgets/kshelplabel.cpp
         widgets/unitspinboxwidget.cpp
-        )
+    )
 
     ki18n_wrap_ui(libkstarswidgets_SRCS
-        #  widgets/genericcalendarwidget.ui
+    #    widgets/genericcalendarwidget.ui
         widgets/unitspinboxwidget.ui
-        )
+    )
+
+    set(kstars_KCFG_SRCS Options.kcfgc)
 
     set(kstars_options_SRCS
         options/opsadvanced.cpp
@@ -335,7 +343,7 @@ if(NOT BUILD_KSTARS_LITE)
         options/opssolarsystem.cpp
         options/opssatellites.cpp
         options/opssupernovae.cpp
-        )
+    )
 
     set(kstars_optionsui_SRCS
         options/opsadvanced.ui
@@ -345,7 +353,7 @@ if(NOT BUILD_KSTARS_LITE)
         options/opssolarsystem.ui
         options/opssatellites.ui
         options/opssupernovae.ui
-        )
+    )
 
     set(kstars_dialogs_SRCS
         dialogs/addcatdialog.cpp
@@ -357,7 +365,7 @@ if(NOT BUILD_KSTARS_LITE)
         dialogs/locationdialog.cpp
         dialogs/timedialog.cpp
         dialogs/exportimagedialog.cpp
-        )
+    )
 
     set(kstars_dialogsui_SRCS
         dialogs/addcatdialog.ui
@@ -377,7 +385,58 @@ if(NOT BUILD_KSTARS_LITE)
         dialogs/wizdownload.ui
         dialogs/newfov.ui
         dialogs/exportimagedialog.ui
-        )
+    )
+
+    set(oal_SRCS
+        oal/log.cpp
+        oal/observer.cpp
+        oal/site.cpp
+        oal/session.cpp
+        oal/scope.cpp
+        oal/eyepiece.cpp
+        oal/filter.cpp
+        oal/observation.cpp
+        oal/lens.cpp
+        oal/equipmentwriter.cpp
+        oal/observeradd.cpp
+        oal/execute.cpp
+    )
+
+    set(printing_SRCS
+        printing/detailstable.cpp
+        printing/finderchart.cpp
+        printing/foveditordialog.cpp
+        printing/fovsnapshot.cpp
+        printing/kstarsdocument.cpp
+        printing/legend.cpp
+        printing/loggingform.cpp
+        printing/printingwizard.cpp
+        printing/pwizchartconfig.cpp
+        printing/pwizchartcontents.cpp
+        printing/pwizfovbrowse.cpp
+        printing/pwizfovconfig.cpp
+        printing/pwizfovmanual.cpp
+        printing/pwizfovsh.cpp
+        printing/pwizfovtypeselection.cpp
+        printing/pwizobjectselection.cpp
+        printing/pwizprint.cpp
+        printing/shfovexporter.cpp
+        printing/simplefovexporter.cpp
+    )
+
+    set(printingui_SRCS
+        printing/foveditordialog.ui
+        printing/pwizchartconfig.ui
+        printing/pwizchartcontents.ui
+        printing/pwizfovbrowse.ui
+        printing/pwizfovconfig.ui
+        printing/pwizfovmanual.ui
+        printing/pwizfovsh.ui
+        printing/pwizfovtypeselection.ui
+        printing/pwizobjectselection.ui
+        printing/pwizprint.ui
+        printing/pwizwelcome.ui
+    )
 
     set(oal_SRCS
         oal/log.cpp
@@ -453,6 +512,7 @@ set(libkstarscomponents_SRCS
     skycomponents/deepstarcomponent.cpp
     skycomponents/deepskycomponent.cpp
     skycomponents/catalogcomponent.cpp
+    skycomponents/syncedcatalogcomponent.cpp
     skycomponents/constellationartcomponent.cpp
     skycomponents/constellationboundarylines.cpp
     skycomponents/constellationlines.cpp
@@ -475,6 +535,7 @@ set(libkstarscomponents_SRCS
     skycomponents/flagcomponent.cpp
     skycomponents/targetlistcomponent.cpp
     )
+
 if(NOT BUILD_KSTARS_LITE)
     LIST(APPEND libkstarscomponents_SRCS
         skycomponents/notifyupdatesui.cpp
@@ -530,11 +591,11 @@ set(kstars_extra_SRCS
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
-    #to minimize number of indef KSTARS_LITE
-    skypainter.cpp
     ksnumbers.cpp
     kstarsdata.cpp
     texturemanager.cpp
+    #to minimize number of indef KSTARS_LITE
+    skypainter.cpp
     )
 
 if(NOT BUILD_KSTARS_LITE)
@@ -545,6 +606,7 @@ if(NOT BUILD_KSTARS_LITE)
         auxiliary/thumbnaileditor.cpp
         auxiliary/imageexporter.cpp
         auxiliary/kswizard.cpp
+        auxiliary/qcustomplot.cpp
         kstarsdbus.cpp
         kspopupmenu.cpp
         ksalmanac.cpp
@@ -558,25 +620,18 @@ if(NOT BUILD_KSTARS_LITE)
         skymapevents.cpp
         skyqpainter.cpp
         )
-
 endif(NOT BUILD_KSTARS_LITE)
 
 if(BUILD_KSTARS_LITE)
+    #Temporary solution to allow use of qml files from source dir DELETE
+    add_definitions( -DSOURCE_DIR=\"${kstars_SOURCE_DIR}\" )
     add_definitions(-DQML_IMPORT="${CMAKE_CURRENT_SOURCE_DIR}")
-
-    if(INDI_FOUND)
-        set(indi_lite_SRCS
-            kstarslite/skyitems/skynodes/crosshairnode.cpp
-            kstarslite/skyitems/telescopesymbolsitem.cpp
-            )
-    endif(INDI_FOUND)
 
     set(kstarslite_SRCS
         kstarslite.cpp
         kstarsliteinit.cpp
         skymaplite.cpp
         skymapliteevents.cpp
-        ${indi_lite_SRCS}
         #Wrappers
         kstarslite/skypointlite.cpp
         kstarslite/skyobjectlite.cpp
@@ -708,70 +763,37 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/indi/modules/KSButtonsSwitchRow.qml
         )
     add_subdirectory(kstarslite/qml)
-if(ANDROID)
-    add_subdirectory(kstarslite/res)
-endif()
     ADD_CUSTOM_TARGET(kstarsliteqml SOURCES ${kstarsliteqml_SRCS})
+
+    if(ANDROID)
+        add_subdirectory(kstarslite/res)
+    endif(ANDROID)
+
 endif(BUILD_KSTARS_LITE)
 
-if(NOT BUILD_KSTARS_LITE)
-    set(oal_SRCS
-        oal/log.cpp
-        oal/observer.cpp
-        oal/site.cpp
-        oal/session.cpp
-        oal/scope.cpp
-        oal/eyepiece.cpp
-        oal/filter.cpp
-        oal/observation.cpp
-        oal/lens.cpp
-        oal/equipmentwriter.cpp
-        oal/observeradd.cpp
-        oal/execute.cpp
-        )
+set(kstars_SRCS
+    ${indi_SRCS}
+    ${fits_SRCS}
+    ${ekos_SRCS}
+    ${onlineparser_SRCS}
+    ${libkstarswidgets_SRCS}
+    ${libkstarscomponents_SRCS}
+    ${libkstarstools_SRCS}
+    ${kstars_extra_SRCS}
+    ${kstars_gl_SRCS}
+    ${kstars_projection_SRCS}
+    ${xplanet_SRCS}
+    ${kstars_options_SRCS}
+    ${kstars_skyobjects_SRCS}
+    ${kstars_dialogs_SRCS}
+    ${oal_SRCS}
+    ${printing_SRCS}
+    #KStars Lite
+    ${kstarslite_SRCS}
+    ${indi_lite_SRCS}
+)
 
-    set(printing_SRCS
-        printing/detailstable.cpp
-        printing/finderchart.cpp
-        printing/foveditordialog.cpp
-        printing/fovsnapshot.cpp
-        printing/kstarsdocument.cpp
-        printing/legend.cpp
-        printing/loggingform.cpp
-        printing/printingwizard.cpp
-        printing/pwizchartconfig.cpp
-        printing/pwizchartcontents.cpp
-        printing/pwizfovbrowse.cpp
-        printing/pwizfovconfig.cpp
-        printing/pwizfovmanual.cpp
-        printing/pwizfovsh.cpp
-        printing/pwizfovtypeselection.cpp
-        printing/pwizobjectselection.cpp
-        printing/pwizprint.cpp
-        printing/shfovexporter.cpp
-        printing/simplefovexporter.cpp
-        )
-
-    set(printingui_SRCS
-        printing/foveditordialog.ui
-        printing/pwizchartconfig.ui
-        printing/pwizchartcontents.ui
-        printing/pwizfovbrowse.ui
-        printing/pwizfovconfig.ui
-        printing/pwizfovmanual.ui
-        printing/pwizfovsh.ui
-        printing/pwizfovtypeselection.ui
-        printing/pwizobjectselection.ui
-        printing/pwizprint.ui
-        printing/pwizwelcome.ui
-        )
-endif(NOT BUILD_KSTARS_LITE)
-
-if(BUILD_KSTARS_LITE)
-    kconfig_add_kcfg_files(kstars_SRCS GENERATE_MOC ${kstars_KCFG_SRCS})
-else()
-    kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
-endif()
+kconfig_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
 if(NOT BUILD_KSTARS_LITE)
     qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
@@ -807,19 +829,10 @@ if(NOT BUILD_KSTARS_LITE)
         oal/execute.ui
         skycomponents/notifyupdatesui.ui
     )
-
 endif(NOT BUILD_KSTARS_LITE)
 
-add_library( KStarsLib STATIC ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS} ${onlineparser_SRCS}
-    ${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
-    ${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
-    ${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
-    ${printing_SRCS} ${kstars_SRCS} ${kstarslite_SRCS})
+add_library(KStarsLib STATIC ${kstars_SRCS})
 
-#target_link_libraries(KStarsLib)
-
-# FIXME TODO
-#target_include_directories(KStarsLib INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR}/>")
 if(BUILD_KSTARS_LITE)
     target_link_libraries(KStarsLib
         LibKSDataHandlers
@@ -828,9 +841,7 @@ if(BUILD_KSTARS_LITE)
         KF5::Plotting
         KF5::ConfigGui
         Qt5::Gui
-        #Qt5::PrintSupport
         Qt5::Sql
-        #Qt5::Svg
         Qt5::Qml
         Qt5::Quick
         Qt5::Sensors
@@ -840,11 +851,13 @@ if(BUILD_KSTARS_LITE)
         )
     if(INDI_FOUND)
         if(ANDROID)
+            #RAWExtractor is needed for converting RAW photos to JPEG in INDI Lite
             add_library(RAWExtractor SHARED IMPORTED)
             set_property(TARGET RAWExtractor PROPERTY IMPORTED_LOCATION ${kstars_SOURCE_DIR}/android_lib/libRAWExtractor.so)
             target_link_libraries(KStarsLib RAWExtractor)
         endif(ANDROID)
     endif(INDI_FOUND)
+
 else(BUILD_KSTARS_LITE)
     target_link_libraries(KStarsLib
         LibKSDataHandlers
@@ -861,6 +874,7 @@ else(BUILD_KSTARS_LITE)
         Qt5::Svg
         Qt5::Qml
         Qt5::Quick
+        Qt5::Network
         ${ZLIB_LIBRARIES}
         )
 endif(BUILD_KSTARS_LITE)
@@ -874,7 +888,6 @@ if (CFITSIO_FOUND)
 endif(CFITSIO_FOUND)
 
 if(INDI_FOUND)
-    add_definitions(-DINDI_FOUND)
     if(BUILD_KSTARS_LITE)
         find_package(Nova REQUIRED)
         target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} ${NOVA_LIBRARIES})
@@ -887,19 +900,19 @@ if(INDI_FOUND)
         target_link_libraries(KStarsLib ${INDI_CLIENT_ANDROID_LIBRARIES})
     else(ANDROID)
         if(WIN32)
-            add_definitions(-DUSE_QT5_INDI)
-            find_package(Nova REQUIRED)
-            target_link_libraries(KStarsLib ${NOVA_LIBRARIES} ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
-        else(WIN32)
-            # If INDI Qt5 Client is found, use it.
-
-            if (INDI_CLIENT_QT_LIBRARIES)
                 add_definitions(-DUSE_QT5_INDI)
-                target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES} z)
-            else(INDI_CLIENT_QT_LIBRARIES)
-                target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
-            endif(INDI_CLIENT_QT_LIBRARIES)
-        endif(WIN32)
+                find_package(Nova REQUIRED)
+                target_link_libraries(KStarsLib ${NOVA_LIBRARIES} ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
+            else(WIN32)
+                # If INDI Qt5 Client is found, use it.
+
+                if (INDI_CLIENT_QT_LIBRARIES)
+                    add_definitions(-DUSE_QT5_INDI)
+                    target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
+                else(INDI_CLIENT_QT_LIBRARIES)
+                    target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES})
+                endif(INDI_CLIENT_QT_LIBRARIES)
+            endif(WIN32)
     endif(ANDROID)
 
 endif(INDI_FOUND)
@@ -907,6 +920,7 @@ endif(INDI_FOUND)
 if(WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})
 endif (WCSLIB_FOUND)
+
 #FIXME Enable OpenGL Later
 #if( OPENGL_FOUND )
 #    target_link_libraries(KStarsLib
@@ -934,10 +948,10 @@ add_executable(kstars ${KSTARS_APP_SRCS})
 target_link_libraries(kstars KStarsLib)
 
 if(NOT BUILD_KSTARS_LITE)
-install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+    install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
-########### install files ###############
-install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
-install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+    ########### install files ###############
+    install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+    install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+    install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
 endif(NOT BUILD_KSTARS_LITE)

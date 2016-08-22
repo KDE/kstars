@@ -36,7 +36,7 @@ class FindDialogLite;
 class DetailDialogLite;
 class LocationDialogLite;
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
 class ClientManagerLite;
 #endif
 
@@ -98,7 +98,7 @@ public:
 
     void applyConfig( bool doApplyFocus = true );
     
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
     /** @return pointer to KStarsData object which handles connection to INDI server. */
     inline ClientManagerLite *clientManagerLite() const { return m_clientManager; }
 #endif
@@ -206,7 +206,7 @@ private:
     DetailDialogLite *m_detailDialogLite;
     LocationDialogLite *m_locationDialogLite;
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
     ClientManagerLite *m_clientManager;
 #endif
 };

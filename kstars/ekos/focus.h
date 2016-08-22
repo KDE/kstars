@@ -34,7 +34,7 @@ struct HFRPoint
  *@class Focus
  *@short Supports manual focusing and auto focusing using relative and absolute INDI focusers.
  *@author Jasem Mutlaq
- *@version 1.0
+ *@version 1.1
  */
 class Focus : public QWidget, public Ui::Focus
 {
@@ -172,6 +172,10 @@ public:
 
 public slots:
 
+    /** \addtogroup FocusDBusInterface
+     *  @{
+     */
+
     /* Focus */
     /** DBUS interface function.
      * Start the autofocus operation.
@@ -187,6 +191,25 @@ public slots:
      * Capture a focus frame.
      */
     Q_SCRIPTABLE Q_NOREPLY void capture();
+
+    /** DBUS interface function.
+     * Focus inward
+     * @param ms If set, focus inward for ms ticks (Absolute Focuser), or ms milliseconds (Relative Focuser). If not set, it will use the value specified in the options.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void FocusIn(int ms=-1);
+
+    /** DBUS interface function.
+     * Focus outward
+     * @param ms If set, focus outward for ms ticks (Absolute Focuser), or ms milliseconds (Relative Focuser). If not set, it will use the value specified in the options.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void FocusOut(int ms=-1);
+
+    /** DBUS interface function.
+     * resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void resetFocusFrame();
+
+    /** @}*/
 
     /**
      * @brief startFraming Begins continious capture of the CCD and calculates HFR every frame.
@@ -228,19 +251,7 @@ public slots:
     /**
      * @brief clearDataPoints Remove all data points from HFR plots
      */
-    void clearDataPoints();
-
-    /** DBUS interface function.
-     * Focus inward
-     * @param ms If set, focus inward for ms ticks (Absolute Focuser), or ms milliseconds (Relative Focuser). If not set, it will use the value specified in the options.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void FocusIn(int ms=-1);
-
-    /** DBUS interface function.
-     * Focus outward
-     * @param ms If set, focus outward for ms ticks (Absolute Focuser), or ms milliseconds (Relative Focuser). If not set, it will use the value specified in the options.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void FocusOut(int ms=-1);
+    void clearDataPoints();    
 
     /**
      * @brief focusStarSelected The user selected a focus star, save its coordinates and subframe it if subframing is enabled.
@@ -271,12 +282,7 @@ public slots:
      * @brief updateFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
      * @param status If true, the focus process finished successfully. Otherwise, it failed.
      */
-    void updateFocusStatus(bool status);
-
-    /** DBUS interface function.
-     * resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void resetFocusFrame();
+    void setAutoFocusResult(bool status);    
 
     /**
      * @brief filterChangeWarning Warn the user it is not a good idea to apply image filter in the filter process as they can skew the HFR calculations.
@@ -317,6 +323,10 @@ private slots:
     void setDefaultCCD(QString ccd);
 
     void updateBoxSize(int value);
+
+    void setThreshold(double value);
+
+    void setFrames(int value);
 
 signals:
         void newLog();
@@ -374,6 +384,8 @@ private:
     int HFRInc;
     // If HFR decreasing? Well, good job. Once HFR start decreasing, we can start calculating HFR slope and estimating our next move.
     int HFRDec;
+    // How many frames have we captured thus far? Do we need to average them?
+    uint8_t frameNum;
 
     /****************************
     * Absolute position focusers
@@ -401,6 +413,8 @@ private:
     bool captureInProgress;
     // Was the frame modified by us? Better keep track since we need to return it to its previous state once we are done with the focus operation.
     bool frameModified;
+    // Was the modified frame subFramed?
+    bool subFramed;
     // If the autofocus process fails, let's not ruin the capture session probably taking place in the next tab. Instead, we should restart it and try again, but we keep count until we hit MAXIMUM_RESET_ITERATIONS
     // and then we truly give up.
     int resetFocusIteration;
@@ -422,6 +436,8 @@ private:
     ISD::CCD::UploadMode rememberUploadMode;
     // Previous binning setting
     int activeBin;
+    // HFR values for captured frames before averages
+    double HFRFrames[5];
 
     QStringList logText;
     ITextVectorProperty *filterName;

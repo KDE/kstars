@@ -349,6 +349,7 @@ void Capture::abort()
             emit newStatus(Ekos::CAPTURE_ABORTED);
         }
 
+        activeJob->disconnect(this);
         activeJob->reset();
     }
 
@@ -385,9 +386,9 @@ void Capture::abort()
 
 }
 
-void Capture::sendNewImage(QImage *image)
+void Capture::sendNewImage(QImage *image, ISD::CCDChip *myChip)
 {
-    if (activeJob)
+    if (activeJob && myChip != guideChip)
         emit newImage(image, activeJob);
 }
 
@@ -794,7 +795,7 @@ void Capture::newFITS(IBLOB *bp)
             return;
 
         disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-        disconnect(currentCCD, SIGNAL(newImage(QImage*)), this, SLOT(sendNewImage(QImage*)));
+        disconnect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)));
 
         if (calibrationState == CALIBRATE_START)
         {
@@ -1014,7 +1015,7 @@ void Capture::captureImage()
     }
 
      connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
-     connect(currentCCD, SIGNAL(newImage(QImage*)), this, SLOT(sendNewImage(QImage*)), Qt::UniqueConnection);
+     connect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)), Qt::UniqueConnection);
 
      if (activeJob->getFrameType() == FRAME_FLAT)
      {
@@ -1770,8 +1771,8 @@ void Capture::setGuideDither(bool enable)
 
 void Capture::setAutoguiding(bool enable)
 {  
-    // If Autoguiding was started before and now stopped, let's abort.
-    if (enable == false && isAutoGuiding && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
+    // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
+    if (enable == false && isAutoGuiding && meridianFlipStage == MF_NONE && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
         appendLogText(i18n("Autoguiding stopped. Aborting..."));
         abort();
@@ -1870,7 +1871,7 @@ void Capture::syncTelescopeInfo()
 
 void Capture::saveFITSDirectory()
 {
-    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), dirPath.path());
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("FITS Save Directory"), dirPath.toLocalFile());
 
     if (dir.isEmpty())
         return;
@@ -1887,14 +1888,14 @@ void Capture::loadSequenceQueue()
 
     if (fileURL.isValid() == false)
     {
-       QString message = i18n( "Invalid URL: %1", fileURL.path() );
+       QString message = i18n( "Invalid URL: %1", fileURL.toLocalFile() );
        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
        return;
     }
 
     dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
 
-    loadSequenceQueue(fileURL.path());
+    loadSequenceQueue(fileURL.toLocalFile());
 
 }
 
@@ -2102,8 +2103,10 @@ bool Capture::processJobInfo(XMLEle *root)
                 {
                     if (!strcmp(pcdataXMLEle(typeEP), "Manual"))
                         flatFieldSource = SOURCE_MANUAL;
-                    else if (!strcmp(pcdataXMLEle(typeEP), "DustCap"))
-                        flatFieldSource = SOURCE_DUSTCAP;
+                    else if (!strcmp(pcdataXMLEle(typeEP), "FlatCap"))
+                        flatFieldSource = SOURCE_FLATCAP;
+                    else if (!strcmp(pcdataXMLEle(typeEP), "DarkCap"))
+                        flatFieldSource = SOURCE_DARKCAP;
                     else if (!strcmp(pcdataXMLEle(typeEP), "Wall"))
                     {
                         XMLEle *azEP=NULL, *altEP=NULL;
@@ -2169,7 +2172,7 @@ void Capture::saveSequenceQueue()
 {
     QUrl backupCurrent = sequenceURL;
 
-    if (sequenceURL.path().startsWith("/tmp/") || sequenceURL.path().contains("/Temp"))
+    if (sequenceURL.toLocalFile().startsWith("/tmp/") || sequenceURL.toLocalFile().contains("/Temp"))
         sequenceURL.clear();
 
     // If no changes made, return.
@@ -2188,10 +2191,10 @@ void Capture::saveSequenceQueue()
 
         dirPath = QUrl(sequenceURL.url(QUrl::RemoveFilename));
 
-        if (sequenceURL.path().contains('.') == 0)
-            sequenceURL.setPath(sequenceURL.path() + ".esq");
+        if (sequenceURL.toLocalFile().endsWith(".esq") == false)
+            sequenceURL.setPath(sequenceURL.toLocalFile() + ".esq");
 
-        if (QFile::exists(sequenceURL.path()))
+        if (QFile::exists(sequenceURL.toLocalFile()))
         {
             int r = KMessageBox::warningContinueCancel(0,
                         i18n( "A file named \"%1\" already exists. "
@@ -2204,7 +2207,7 @@ void Capture::saveSequenceQueue()
 
     if ( sequenceURL.isValid() )
     {
-        if ( (saveSequenceQueue(sequenceURL.path())) == false)
+        if ( (saveSequenceQueue(sequenceURL.toLocalFile())) == false)
         {
             KMessageBox::error(KStars::Instance(), i18n("Failed to save sequence queue"), i18n("Save"));
             return;
@@ -2290,8 +2293,10 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<FlatSource>" << endl;
         if (job->getFlatFieldSource() == SOURCE_MANUAL)
             outstream << "<Type>Manual</Type>" << endl;
-        else if (job->getFlatFieldSource() == SOURCE_DUSTCAP)
-            outstream << "<Type>DustCap</Type>" << endl;
+        else if (job->getFlatFieldSource() == SOURCE_FLATCAP)
+            outstream << "<Type>FlatCap</Type>" << endl;
+        else if (job->getFlatFieldSource() == SOURCE_DARKCAP)
+            outstream << "<Type>DarkCap</Type>" << endl;
         else if (job->getFlatFieldSource() == SOURCE_WALL)
         {
             outstream << "<Type>Wall</Type>" << endl;
@@ -2540,9 +2545,9 @@ int Capture::getJobRemainingTime(SequenceJob *job)
     int remaining=0;
 
     if (job->getStatus() == SequenceJob::JOB_BUSY)
-        remaining += (job->getExposure() + job->getDelay()) * (job->getCount() - job->getCompleted()) + job->getExposeLeft();
+        remaining += (job->getExposure() + job->getDelay()/1000) * (job->getCount() - job->getCompleted()) + job->getExposeLeft();
     else
-        remaining += (job->getExposure() + job->getDelay()) * (job->getCount() - job->getCompleted());
+        remaining += (job->getExposure() + job->getDelay()/1000) * (job->getCount() - job->getCompleted());
 
     return remaining;
 }
@@ -3081,8 +3086,12 @@ void Capture::openCalibrationDialog()
         calibrationOptions.manualSourceC->setChecked(true);
         break;
 
-    case SOURCE_DUSTCAP:
-        calibrationOptions.deviceSourceC->setChecked(true);
+    case SOURCE_FLATCAP:
+        calibrationOptions.flatDeviceSourceC->setChecked(true);
+        break;
+
+    case SOURCE_DARKCAP:
+        calibrationOptions.darkDeviceSourceC->setChecked(true);
         break;
 
     case SOURCE_WALL:
@@ -3112,8 +3121,10 @@ void Capture::openCalibrationDialog()
     {
         if (calibrationOptions.manualSourceC->isChecked())
            flatFieldSource =  SOURCE_MANUAL;
-        else if (calibrationOptions.deviceSourceC->isChecked())
-            flatFieldSource =  SOURCE_DUSTCAP;
+        else if (calibrationOptions.flatDeviceSourceC->isChecked())
+            flatFieldSource =  SOURCE_FLATCAP;
+        else if (calibrationOptions.darkDeviceSourceC->isChecked())
+            flatFieldSource = SOURCE_DARKCAP;
         else if (calibrationOptions.wallSourceC->isChecked())
         {
             dms wallAz, wallAlt;
@@ -3170,7 +3181,7 @@ IPState Capture::processPreCaptureCalibrationStage()
 
     // Park cap, if not parked
     // Turn on Light
-    case SOURCE_DUSTCAP:
+    case SOURCE_FLATCAP:
         if (dustCap)
         {
             // If cap is not park, park it
@@ -3216,7 +3227,86 @@ IPState Capture::processPreCaptureCalibrationStage()
         }
         break;
 
-        // Go to wall coordinates
+        
+    // Park cap, if not parked and not flat frame
+    // Unpark cap, if flat frame
+    // Turn on Light
+    case SOURCE_DARKCAP:
+        if (dustCap)
+        {
+            // If cap is not park, park it if not flat frame. (external lightsource)
+            if (calibrationStage < CAL_DUSTCAP_PARKING && dustCap->isParked() == false && activeJob->getFrameType() != FRAME_FLAT)
+            {
+                if (dustCap->Park())
+                {
+                    calibrationStage = CAL_DUSTCAP_PARKING;
+                    appendLogText(i18n("Parking dust cap..."));
+                    return IPS_BUSY;
+                }
+                else
+                {
+                    appendLogText(i18n("Parking dust cap failed, aborting..."));
+                    abort();
+                    return IPS_ALERT;
+                }
+            }
+
+            // Wait until  cap is parked
+            if (calibrationStage == CAL_DUSTCAP_PARKING)
+            {
+                if (dustCap->isParked() == false)
+                    return IPS_BUSY;
+                else
+                {
+                    calibrationStage = CAL_DUSTCAP_PARKED;
+                    appendLogText(i18n("Dust cap parked."));
+                }
+            }
+
+            // If cap is parked, unpark it if flat frame. (external lightsource)
+            if (calibrationStage < CAL_DUSTCAP_UNPARKING && dustCap->isParked() == true && activeJob->getFrameType() == FRAME_FLAT)
+            {
+                if (dustCap->UnPark())
+                {
+                    calibrationStage = CAL_DUSTCAP_UNPARKING;
+                    appendLogText(i18n("UnParking dust cap..."));
+                    return IPS_BUSY;
+                }
+                else
+                {
+                    appendLogText(i18n("UnParking dust cap failed, aborting..."));
+                    abort();
+                    return IPS_ALERT;
+                }
+            }
+
+            // Wait until  cap is parked
+            if (calibrationStage == CAL_DUSTCAP_UNPARKING)
+            {
+                if (dustCap->isParked() == true)
+                    return IPS_BUSY;
+                else
+                {
+                    calibrationStage = CAL_DUSTCAP_UNPARKED;
+                    appendLogText(i18n("Dust cap unparked."));
+                }
+            }
+
+            // If light is not on, turn it on. For flat frames only
+            if (activeJob->getFrameType() == FRAME_FLAT && dustCap->isLightOn() == false)
+            {
+                dustCapLightEnabled = true;
+                dustCap->SetLightEnabled(true);
+            }
+            else if (activeJob->getFrameType() != FRAME_FLAT && dustCap->isLightOn() == true)
+            {
+                dustCapLightEnabled = false;
+                dustCap->SetLightEnabled(false);
+            }
+        }
+        break;
+
+    // Go to wall coordinates
     case SOURCE_WALL:
         if (currentTelescope)
         {

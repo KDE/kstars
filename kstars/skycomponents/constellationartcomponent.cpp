@@ -112,6 +112,7 @@ void ConstellationArtComponent::showList()
 }
 
 void ConstellationArtComponent::draw(SkyPainter *skyp){
+    Q_UNUSED(skyp)
 #ifndef KSTARS_LITE
     if(Options::showConstellationArt() && SkyMap::IsSlewing() == false)
     {

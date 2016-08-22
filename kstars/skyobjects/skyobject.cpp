@@ -29,9 +29,11 @@
 
 #include "starobject.h" //needed in saveUserLog()
 #include "ksnumbers.h"
+
 #ifndef KSTARS_LITE
 #include "kspopupmenu.h"
 #endif
+
 #include "dms.h"
 #include "geolocation.h"
 #include "kstarsdatetime.h"

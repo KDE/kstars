@@ -333,6 +333,8 @@ void StarComponent::draw( SkyPainter *skyp )
     for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
         m_DeepStarComponents.at( i )->draw( skyp );
     }
+#else
+    Q_UNUSED(skyp)
 #endif
 }
 

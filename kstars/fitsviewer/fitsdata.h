@@ -136,6 +136,7 @@ public:
     int findStars(const QRectF &boundary = QRectF(), bool force=false);
     void findCentroid(const QRectF &boundary = QRectF(), int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
     void getCenterSelection(int *x, int *y);
+    int findOneStar(const QRectF &boundary);
 
     // Half Flux Radius
     Edge * getMaxHFRStar() { return maxHFRStar;}

@@ -56,6 +56,7 @@ class DeepSkyObject;
 class KSPlanetBase;
 class KSPlanet;
 class ConstellationsArt;
+class SyncedCatalogComponent;
 
 /** @class SkyMapComposite
 *SkyMapComposite is the root object in the object hierarchy of the sky map.
@@ -174,6 +175,8 @@ public:
     SatellitesComponent* satellites();
     SupernovaeComponent* supernovaeComponent();
     ArtificialHorizonComponent* artificialHorizon();
+
+    /** Getters for SkyComponents **/
     inline HorizonComponent* horizon() { return m_Horizon; }
 
     inline ConstellationBoundaryLines* constellationBoundary() { return m_CBoundLines; }
@@ -194,6 +197,9 @@ public:
     inline DeepSkyComponent* deepSkyComponent() { return m_DeepSky; }
 
     inline MilkyWay *milkyWay() { return m_MilkyWay; }
+
+    inline SyncedCatalogComponent* internetResolvedComponent() { return m_internetResolvedComponent; }
+    inline SyncedCatalogComponent* manualAdditionsComponent() { return m_manualAdditionsComponent; }
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
@@ -250,6 +256,8 @@ private:
     TargetListComponent         *m_StarHopRouteList;
     SatellitesComponent         *m_Satellites;
     SupernovaeComponent         *m_Supernovae;
+    SyncedCatalogComponent      *m_internetResolvedComponent;
+    SyncedCatalogComponent      *m_manualAdditionsComponent;
 
     SkyMesh*                m_skyMesh;
     SkyLabeler*             m_skyLabeler;
@@ -262,6 +270,8 @@ private:
     QHash<int, QStringList> m_ObjectNames;
     QHash<int, QVector<QPair<QString, const SkyObject*>>> m_ObjectLists;
     QHash<QString, QString> m_ConstellationNames;
+    QString m_internetResolvedCat; // Holds the name of the internet resolved catalog
+    QString m_manualAdditionsCat;
 };
 
 #endif

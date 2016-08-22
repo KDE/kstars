@@ -23,8 +23,8 @@
  *@class KSPaths
  *@short Wrapper for QStandardPaths with Android assets support
  *The purpose of this class is to search for resources on some platforms with paths that are not
- *provided by QStandardPaths (e.g. assets:/ on Android that).
- *@author Artem Fedoskin
+ *provided by QStandardPaths (e.g. assets:/ on Android).
+ *@author Artem Fedoskin, Jasem Mutlaq
  *@version 1.0
  */
 
@@ -36,6 +36,8 @@ public:
                           QStandardPaths::LocateOptions options = QStandardPaths::LocateFile);
     static QStringList locateAll(QStandardPaths::StandardLocation, const QString &fileNames,
                              QStandardPaths::LocateOptions options = QStandardPaths::LocateFile);
-    static QString writableLocation(QStandardPaths::StandardLocation type);
+    static inline QString writableLocation(QStandardPaths::StandardLocation type) {
+        return QStandardPaths::writableLocation(type) + "/kstars/";
+    }
 };
 #endif

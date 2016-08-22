@@ -18,7 +18,7 @@
 #include "kstarsdata.h"
 #include "kstarslite.h"
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
 #include "indi/inditelescopelite.h"
 #include "indi/clientmanagerlite.h"
 #include "kstarslite/skyitems/telescopesymbolsitem.h"
@@ -139,7 +139,7 @@ SkyMapLite::SkyMapLite()
     connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
     connect( KStarsData::Instance(), SIGNAL( skyUpdate( bool ) ), this, SLOT( slotUpdateSky( bool ) ) );
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
     ClientManagerLite *clientMng = KStarsLite::Instance()->clientManagerLite();
 
     connect(clientMng, &ClientManagerLite::telescopeAdded, [this](TelescopeLite *newTelescope){ this->m_newTelescopes.append(newTelescope->getDevice()); });
@@ -173,7 +173,7 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
             n = new RootNode();
             m_rootNode = n;
         }
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
         if(m_newTelescopes.count() > 0) {
             foreach(INDI::BaseDevice *telescope, m_newTelescopes) {
                 n->telescopeSymbolsItem()->addTelescope(telescope);

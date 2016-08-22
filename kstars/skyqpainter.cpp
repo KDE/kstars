@@ -762,7 +762,36 @@ color = pen().color().name();
         }
         setBrush( tempBrush );
         break;
+    default: // Unknown object or something we don't know how to draw. Just draw an ellipse with a ?-mark
+        color = pen().color().name();
+        if ( size <1. && zoom > 20*MINZOOM ) size = 3.; //force ellipse above zoomFactor 20
+        if ( size <1. && zoom > 5*MINZOOM ) size = 1.; //force points above zoomFactor 5
+        if ( size>2. ) {
+            save();
+            QFont f = font();
+            const QString qMark = " ? ";
+            double scaleFactor = 0.8 * size / fontMetrics().width( qMark );
+            f.setPointSizeF( f.pointSizeF() * scaleFactor );
+            setFont( f );
+            translate( x, y );
+            rotate( positionAngle );  //rotate the coordinate system
+
+            if ( Options::useAntialias() ) {
+                drawEllipse( QRectF(dx1, dy1, size, e*size) );
+                drawText( QRectF(dx1, dy1, size, e*size), Qt::AlignCenter, qMark );
+            } else {
+                int idx1 = int(dx1); int idy1 = int(dy1);
+                drawEllipse( QRect(idx1, idy1, isize, int(e*size)) );
+                drawText( QRectF(idx1, idy1, isize, int(e*size)), Qt::AlignCenter, qMark );
+            }
+
+            restore(); //reset coordinate system (and font?)
+
+        } else if ( size>0. ) {
+            drawPoint( QPointF(x, y) );
+        }
     }
+
 }
 
 void SkyQPainter::drawObservingList(const QList< SkyObject* >& obs)

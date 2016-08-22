@@ -41,6 +41,8 @@
 //#include <KIO/CopyJob>
 #include <KLocalizedString>
 
+QUrl ImageViewer::lastURL = QUrl::fromLocalFile(QDir::homePath());
+
 ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
 {
     #ifndef KSTARS_LITE
@@ -91,8 +93,12 @@ void ImageLabel::resizeEvent(QResizeEvent *event)
     if (event->size().width() == w && event->size().height() == h)
         return;
 
+<<<<<<< HEAD
     pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio));
     #endif
+=======
+    pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+>>>>>>> master
 }
 
 ImageViewer::ImageViewer (const QString &caption, QWidget *parent):
@@ -119,7 +125,7 @@ ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *pare
 
     if (m_ImageUrl.isLocalFile())
     {
-        loadImage(m_ImageUrl.path());
+        loadImage(m_ImageUrl.toLocalFile());
         return;
     }
     
@@ -190,6 +196,7 @@ void ImageViewer::init(QString caption, QString capText)
     #endif
 }
 
+<<<<<<< HEAD
 ImageViewer::~ImageViewer() {
 #ifndef KSTARS_LITE
     /*if ( downloadJob ) {
@@ -197,6 +204,18 @@ ImageViewer::~ImageViewer() {
         downloadJob->kill( KJob::Quietly );
         delete downloadJob;
     }*/
+=======
+ImageViewer::~ImageViewer()
+{
+    QString filename = file.fileName();
+    if (filename.startsWith("/tmp/") || filename.contains("/Temp"))
+    {
+        if (m_ImageUrl.isEmpty() == false ||
+                KMessageBox::questionYesNo(0, i18n("Remove temporary file %1 from disk?", filename), i18n("Confirm Removal"),
+                                   KStandardGuiItem::yes(), KStandardGuiItem::no(), i18n("imageviewer_temporary_file_removal")) == KMessageBox::Yes)
+            QFile::remove(filename);
+    }
+>>>>>>> master
 
     QApplication::restoreOverrideCursor();
 #endif
@@ -209,9 +228,6 @@ void ImageViewer::loadImageFromURL()
 
     if (!saveURL.isValid())
         qDebug()<<"tempfile-URL is malformed\n";
-
-    //downloadJob = KIO::copy (m_ImageUrl, saveURL);	// starts the download asynchron
-    //connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
@@ -322,12 +338,12 @@ void ImageViewer::saveFileToDisc()
 {
 #ifndef KSTARS_LITE
     QFileDialog dialog;
-    dialog.selectFile(m_ImageUrl.fileName().remove(m_ImageUrl.path()));
-    dialog.setFileMode(QFileDialog::AnyFile);
-    QUrl newURL = dialog.getSaveFileUrl(KStars::Instance(), i18n("Save Image")); // save-dialog with default filename
+
+    QUrl newURL = dialog.getSaveFileUrl(KStars::Instance(), i18n("Save Image"), lastURL); // save-dialog with default filename
     if (!newURL.isEmpty())
     {
-        QFile f (newURL.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path() + '/' +  newURL.fileName());
+        //QFile f (newURL.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).toLocalFile() + '/' +  newURL.fileName());
+        QFile f(newURL.toLocalFile());
         if (f.exists())
         {
             int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
@@ -339,6 +355,9 @@ void ImageViewer::saveFileToDisc()
 
             f.remove();
         }
+
+        lastURL = QUrl(newURL.toString(QUrl::RemoveFilename));
+
         saveFile (newURL);
     }
 #endif
@@ -352,7 +371,7 @@ void ImageViewer::saveFile (QUrl &url)
     //QUrl tmpURL((file.fileName()));
     //tmpURL.setScheme("file");
 
-    if (file.copy(url.path()) == false)
+    if (file.copy(url.toLocalFile()) == false)
     //if (KIO::file_copy(tmpURL, url)->exec() == false)
     {
         QString text = i18n ("Saving of the image %1 failed.", url.toString());

@@ -406,7 +406,7 @@ void DeepSkyComponent::draw( SkyPainter *skyp )
 
 void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
                                            DeepSkyIndex* dsIndex, const QString& colorString, bool drawImage)
-{
+{    
 #ifndef KSTARS_LITE
     if ( ! ( drawObject || drawImage ) ) return;
 
@@ -482,6 +482,10 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
     }
 #else
     Q_UNUSED(skyp)
+    Q_UNUSED(drawObject)
+    Q_UNUSED(dsIndex)
+    Q_UNUSED(colorString)
+    Q_UNUSED(drawImage)
 #endif
 }
 

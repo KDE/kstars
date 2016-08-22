@@ -477,7 +477,7 @@ void ObservingList::slotNewSelection() {
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
         #ifdef HAVE_INDI
             showScope = true;
-        #endif        
+        #endif
         if ( found )
         {
             m_CurrentObject = o;
@@ -675,7 +675,7 @@ void ObservingList::slotAddToSession() {
 void ObservingList::slotFind() {
    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
    if ( fd->exec() == QDialog::Accepted ) {
-       SkyObject *o = fd->selectedObject();
+       SkyObject *o = fd->targetObject();
        if( o != 0 ) {
            slotAddObject( o, sessionView );
        }
@@ -750,7 +750,7 @@ void ObservingList::slotOpenList()
     if ( fileURL.isValid() )
     {
 
-        f.setFileName( fileURL.path() );
+        f.setFileName( fileURL.toLocalFile() );
         //FIXME do we still need to do this?
         /*
         if ( ! fileURL.isLocalFile() ) {
@@ -798,7 +798,7 @@ void ObservingList::slotOpenList()
         //Newly-opened list should not trigger isModified flag
         isModified = false;
         f.close();
-    } else if ( ! fileURL.path().isEmpty() ) {
+    } else if ( ! fileURL.toLocalFile().isEmpty() ) {
         KMessageBox::sorry( 0 , i18n( "The specified file is invalid" ) );
     }
 }
@@ -817,9 +817,12 @@ void ObservingList::saveCurrentList() {
 }
 
 void ObservingList::slotSaveSessionAs(bool nativeSave) {
+    if (sessionList().isEmpty())
+       return;
+
     QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     if ( fileURL.isValid() ) {
-        FileName = fileURL.path();
+        FileName = fileURL.toLocalFile();
         slotSaveSession(nativeSave);
     }
 }
@@ -886,6 +889,12 @@ void ObservingList::slotLoadWishList() {
 }
 
 void ObservingList::slotSaveSession(bool nativeSave) {
+    if (sessionList().isEmpty())
+    {
+        KMessageBox::error(0, i18n("Cannot save an empty session list!"));
+        return;
+    }
+
     if ( FileName.isEmpty() ) {
         slotSaveSessionAs(nativeSave);
         return;
@@ -1124,6 +1133,7 @@ void ObservingList::slotCustomDSS() {
 
 void ObservingList::slotGetImage( bool _dss, const SkyObject *o ) {
     dss = _dss;
+    Q_ASSERT( !o || o == currentObject() ); // FIXME: Meaningless to operate on CurrentImage and CurrentImagePath unless o == currentObject()!
     if( !o )
         o = currentObject();
     ui->SearchImage->setEnabled( false );
@@ -1183,7 +1193,7 @@ void ObservingList::setCurrentImage( const SkyObject *o  ) {
         QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
-    CurrentImagePath = KSPaths::locate( QStandardPaths::DataLocation , CurrentImage );
+    CurrentImagePath = KSPaths::locate( QStandardPaths::GenericDataLocation , CurrentImage );
     DSSUrl = KSDssDownloader::getDSSURL( o );
     // QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
     // QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
@@ -1272,7 +1282,9 @@ void ObservingList::setSaveImagesButton() {
 // FIXME: Is there a reason to implement these as an event filter,
 // instead of as a signal-slot connection? Shouldn't we just use slots
 // to subscribe to various events from the Table / Session view?
-
+//
+// NOTE: ui->ImagePreview is a QLabel, which has no clicked() event or
+// public mouseReleaseEvent(), so eventFilter makes sense.
 bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview ) {
         if( event->type() == QEvent::MouseButtonRelease ) {

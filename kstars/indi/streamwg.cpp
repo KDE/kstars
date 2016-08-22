@@ -159,7 +159,7 @@ void StreamWG::captureImage()
 
     if ( currentFileURL.isValid() )
     {
-        streamFrame->kPix.save(currentFileURL.path(), fmt.toLatin1());        
+        streamFrame->kPix.save(currentFileURL.toLocalFile(), fmt.toLatin1());
     }
     else
     {

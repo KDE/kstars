@@ -480,7 +480,7 @@ void FITSViewer::openFile()
         return;
 
     lastURL = QUrl(fileURL.url(QUrl::RemoveFilename));
-    QString fpath = fileURL.path();
+    QString fpath = fileURL.toLocalFile();
     QString cpath;
 
 

@@ -22,7 +22,9 @@
 #include "detaildialog.h"
 #include "skyobjects/skyobject.h"
 #include "skycomponents/starcomponent.h"
+#include "skycomponents/syncedcatalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
+#include "tools/nameresolver.h"
 
 #include <KMessageBox>
 
@@ -53,7 +55,8 @@ FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
 
 FindDialog::FindDialog( QWidget* parent ) :
     QDialog( parent ),
-    timer(0)
+    timer(0),
+    m_targetObject( 0 )
 {
     ui = new FindDialogUI( this );
 
@@ -73,6 +76,10 @@ FindDialog::FindDialog( QWidget* parent ) :
     QPushButton *detailB = new QPushButton(i18n("Details..."));
     buttonBox->addButton(detailB, QDialogButtonBox::ActionRole);
     connect(detailB, SIGNAL(clicked()), this, SLOT(slotDetails()));
+
+    ui->InternetSearchButton->setVisible( Options::resolveNamesOnline() );
+    ui->InternetSearchButton->setEnabled( false );
+    connect( ui->InternetSearchButton, SIGNAL( clicked() ), this, SLOT( slotResolve() ) );
 
     ui->FilterType->setCurrentIndex(0);  // show all types of objects
 
@@ -105,6 +112,7 @@ void FindDialog::init() {
     filterByType();
     sortModel->sort( 0 );
     initSelection();
+    m_targetObject = 0;
 }
 
 void FindDialog::initSelection() {
@@ -222,10 +230,11 @@ void FindDialog::filterByType() {
     }
 }
 
-void FindDialog::filterList() {  
+void FindDialog::filterList() {
     QString SearchText;
     SearchText = processSearchText();
     sortModel->setFilterFixedString( SearchText );
+    ui->InternetSearchButton->setText( i18n( "or search the internet for %1", SearchText ) );
     filterByType();
     initSelection();
 
@@ -233,11 +242,11 @@ void FindDialog::filterList() {
     if ( !SearchText.isEmpty() ) {
         QStringList mItems = fModel->stringList().filter( QRegExp( '^'+SearchText, Qt::CaseInsensitive ) );
         mItems.sort();
-    
+
         if ( mItems.size() ) {
             QModelIndex qmi = fModel->index( fModel->stringList().indexOf( mItems[0] ) );
             QModelIndex selectItem = sortModel->mapFromSource( qmi );
-    
+
             if ( selectItem.isValid() ) {
                 ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
                 ui->SearchList->scrollTo( selectItem );
@@ -246,7 +255,10 @@ void FindDialog::filterList() {
                 okB->setEnabled(true);
             }
         }
+        ui->InternetSearchButton->setEnabled( ! mItems.contains( SearchText ) ); // Disable searching the internet when an exact match for SearchText exists in KStars
     }
+    else
+        ui->InternetSearchButton->setEnabled( false );
 
     listFiltered = true;
 }
@@ -317,6 +329,26 @@ void FindDialog::slotOk() {
         filterList();
     }
     selObj = selectedObject();
+    finishProcessing( selObj, Options::resolveNamesOnline() );
+}
+
+void FindDialog::slotResolve() {
+    finishProcessing( 0, true );
+}
+
+void FindDialog::finishProcessing( SkyObject *selObj, bool resolve ) {
+    if( ! selObj && resolve ) {
+        CatalogEntryData cedata;
+        cedata = NameResolver::resolveName( processSearchText() );
+        DeepSkyObject *dso = 0;
+        if( ! std::isnan( cedata.ra ) && ! std::isnan( cedata.dec ) ) {
+            dso = KStarsData::Instance()->skyComposite()->internetResolvedComponent()->addObject( cedata );
+            if( dso )
+                qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
+            selObj = dso;
+        }
+    }
+    m_targetObject = selObj;
     if ( selObj == 0 ) {
         QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
         KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );
@@ -324,7 +356,6 @@ void FindDialog::slotOk() {
         accept();
     }
 }
-
 void FindDialog::keyPressEvent( QKeyEvent *e ) {
     switch( e->key() ) {
     case Qt::Key_Escape :

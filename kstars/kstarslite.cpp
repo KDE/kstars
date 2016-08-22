@@ -27,7 +27,7 @@
 #include "ksplanetbase.h"
 #include <QScreen>
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
 #include "indi/clientmanagerlite.h"
 #endif
 
@@ -59,7 +59,7 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_KStarsData = KStarsData::Create();
     Q_ASSERT( m_KStarsData );
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
     //INDI Android Client
     m_clientManager = new ClientManagerLite;
     m_Engine.rootContext()->setContextProperty("ClientManagerLite", m_clientManager);

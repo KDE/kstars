@@ -23,7 +23,7 @@
 #include <QSGFlatColorMaterial>
 
 CrosshairNode::CrosshairNode(INDI::BaseDevice *baseDevice, RootNode *rootNode)
-    :el1(new EllipseNode), el2(new EllipseNode), bd(baseDevice), lines(new QSGGeometryNode)
+    :el1(new EllipseNode), el2(new EllipseNode), lines(new QSGGeometryNode), bd(baseDevice)
 {
     addChildNode(el1);
     addChildNode(el2);

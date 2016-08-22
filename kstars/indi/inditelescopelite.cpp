@@ -67,8 +67,8 @@ void TelescopeLite::registerProperty(INDI::Property *prop)
         if (ti == NULL)
             return;
 
-        bool aperture_ok=false, focal_ok=false;
-        double temp=0;
+//        bool aperture_ok=false, focal_ok=false;
+//        double temp=0;
     }
 
     if (!strcmp(prop->getName(), "TELESCOPE_PARK"))
@@ -130,8 +130,8 @@ void TelescopeLite::processNumber(INumberVectorProperty *nvp)
 
 void TelescopeLite::processSwitch(ISwitchVectorProperty *svp)
 {
-
-    if (!strcmp(svp->name, "TELESCOPE_PARK"))
+    Q_UNUSED(svp);
+    /*if (!strcmp(svp->name, "TELESCOPE_PARK"))
     {
         ISwitch *sp = IUFindSwitch(svp, "PARK");
         if (sp)
@@ -143,38 +143,7 @@ void TelescopeLite::processSwitch(ISwitchVectorProperty *svp)
 
         return;
 
-    }
-
-    /*if (!strcmp(svp->name, "TELESCOPE_SLEW_RATE")) {
-
-        int maxSlewRate = svp->nsp;
-
-        for(int i = 0; i < maxSlewRate; ++i) {
-            if(svp->sp[i].s == ISS_ON) {
-                if(i) {
-                    setSlewDecreasable(true);
-                } else {
-                    setSlewDecreasable(false);
-                }
-                if(i == maxSlewRate - 1) {
-                    setSlewIncreasable(false);
-                } else {
-                    setSlewDecreasable(true);
-                }
-                slewRateIndex = i;
-                break;
-            }
-        }
-        return;
     }*/
-
-    //DeviceDecorator::processSwitch(svp);
-}
-
-void TelescopeLite::processText(ITextVectorProperty *tvp)
-{
-
-    //DeviceDecorator::processText(tvp);
 }
 
 bool TelescopeLite::canGuide()
@@ -236,114 +205,6 @@ bool TelescopeLite::isInMotion()
         inMotion = ((movementSP->s == IPS_BUSY) || inMotion);
 
     return (inSlew || inMotion);
-}
-
-/*bool TelescopeLite::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
-{
-    if (canGuide() == false)
-        return false;
-
-    bool raOK=false, decOK=false;
-    raOK  = doPulse(ra_dir, ra_msecs);
-    decOK = doPulse(dec_dir, dec_msecs);
-
-    if (raOK && decOK)
-        return true;
-    else
-        return false;
-}
-
-bool TelescopeLite::doPulse(GuideDirection dir, int msecs )
-{
-    INumberVectorProperty *raPulse  = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_WE");
-    INumberVectorProperty *decPulse = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_NS");
-    INumberVectorProperty *npulse = NULL;
-    INumber *dirPulse=NULL;
-
-    if (raPulse == NULL || decPulse == NULL)
-        return false;
-
-    switch(dir)
-    {
-    case RA_INC_DIR:
-    dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_W");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = raPulse;
-    break;
-
-    case RA_DEC_DIR:
-    dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_E");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = raPulse;
-    break;
-
-    case DEC_INC_DIR:
-    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_N");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = decPulse;
-    break;
-
-    case DEC_DEC_DIR:
-    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_S");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = decPulse;
-    break;
-
-    default:
-        return false;
-
-    }
-
-    if (dirPulse == NULL || npulse == NULL)
-        return false;
-
-    dirPulse->value = msecs;
-
-    clientManager->sendNewNumber(npulse);
-
-    //qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
-
-    return true;
-
-
-}*/
-
-bool TelescopeLite::runCommand(int command, void *ptr)
-{
-    //qDebug() << "Telescope run command is called!!!" << endl;
-
-    /*switch (command)
-    {
-       case INDI_SEND_COORDS:
-        if (ptr == NULL)
-            sendCoords(KStarsLite::Instance()->map()->clickedPoint());
-        else
-            sendCoords(static_cast<SkyPoint *> (ptr));
-
-        break;
-
-
-        case INDI_ENGAGE_TRACKING:
-            KStarsLite::Instance()->map()->setClickedPoint(&currentCoord);
-            KStarsLite::Instance()->map()->slotCenter();
-            break;
-
-        default:
-            return DeviceDecorator::runCommand(command, ptr);
-            break;
-
-    }*/
-
-    return true;
-
 }
 
 bool TelescopeLite::sendCoords(SkyPoint *ScopeTarget)

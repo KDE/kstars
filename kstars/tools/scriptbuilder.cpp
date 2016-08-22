@@ -756,7 +756,7 @@ void ScriptBuilder::slotOpen() {
 
         if ( currentFileURL.isValid() )
         {
-            currentDir = currentFileURL.path();
+            currentDir = currentFileURL.toLocalFile();
 
             ScriptList.clear();
             sb->ScriptListBox->clear();
@@ -819,13 +819,13 @@ void ScriptBuilder::slotSave()
     }
 
     if ( currentFileURL.isValid() ) {
-        currentDir = currentFileURL.path();
+        currentDir = currentFileURL.toLocalFile();
 
         if ( currentFileURL.isLocalFile() ) {
             fname = currentFileURL.toLocalFile();
 
             //Warn user if file exists
-            if (newFilename == true && QFile::exists(currentFileURL.path())) {
+            if (newFilename == true && QFile::exists(currentFileURL.toLocalFile())) {
                 int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
                         i18n( "A file named \"%1\" already exists. "
                               "Overwrite it?" , currentFileURL.fileName()),
@@ -1528,13 +1528,13 @@ void ScriptBuilder::slotFindCity() {
 void ScriptBuilder::slotFindObject() {
     QPointer<FindDialog> fd = new FindDialog( ks );
 
-    if ( fd->exec() == QDialog::Accepted && fd->selectedObject() ) {
+    if ( fd->exec() == QDialog::Accepted && fd->targetObject() ) {
         setUnsavedChanges( true );
 
         if (sender() == argLookToward->FindButton)
-            argLookToward->FocusEdit->setEditText( fd->selectedObject()->name() );
+            argLookToward->FocusEdit->setEditText( fd->targetObject()->name() );
         else
-            argFindObject->NameEdit->setText(fd->selectedObject()->name());
+            argFindObject->NameEdit->setText(fd->targetObject()->name());
     }
     delete fd;
 }

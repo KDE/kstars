@@ -83,7 +83,7 @@ public:
 
     enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { MF_NONE, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_ALIGNING, MF_GUIDING } MFStage;
-    typedef enum { CAL_NONE, CAL_DUSTCAP_PARKING, CAL_DUSTCAP_PARKED, CAL_LIGHTBOX_ON, CAL_SLEWING, CAL_SLEWING_COMPLETE, CAL_MOUNT_PARKING, CAL_MOUNT_PARKED, CAL_DOME_PARKING, CAL_DOME_PARKED, CAL_PRECAPTURE_COMPLETE, CAL_CALIBRATION, CAL_CALIBRATION_COMPLETE, CAL_CAPTURING} CalibrationStage;
+    typedef enum { CAL_NONE, CAL_DUSTCAP_PARKING, CAL_DUSTCAP_PARKED, CAL_LIGHTBOX_ON, CAL_SLEWING, CAL_SLEWING_COMPLETE, CAL_MOUNT_PARKING, CAL_MOUNT_PARKED, CAL_DOME_PARKING, CAL_DOME_PARKED, CAL_PRECAPTURE_COMPLETE, CAL_CALIBRATION, CAL_CALIBRATION_COMPLETE, CAL_CAPTURING, CAL_DUSTCAP_UNPARKING, CAL_DUSTCAP_UNPARKED} CalibrationStage;
 
     Capture();
     ~Capture();
@@ -190,12 +190,12 @@ public:
     /** DBUS interface function.
      * @return Returns time left in seconds until active job is estimated to be complete.
      */
-    int getActiveJobRemainingTime();
+    Q_SCRIPTABLE int getActiveJobRemainingTime();
 
     /** DBUS interface function.
      * @return Returns overall time left in seconds until all jobs are estimated to be complete
      */
-    int getOverallRemainingTime();
+    Q_SCRIPTABLE int getOverallRemainingTime();
 
     /** DBUS interface function.
      * @param id job number. Job IDs start from 0 to N-1.
@@ -257,7 +257,12 @@ public:
 
     /* Capture */
     void updateSequencePrefix( const QString &newPrefix, const QString &dir);
+
 public slots:
+
+    /** \addtogroup CaptureDBusInterface
+     *  @{
+     */
 
     /* Capture */
     /** DBUS interface function.
@@ -269,6 +274,8 @@ public slots:
      * Aborts all jobs and set current job status to Aborted if it was In Progress.
      */
     Q_SCRIPTABLE Q_NOREPLY void abort();
+
+    /** @}*/
 
     /**
      * @brief captureOne Capture one preview image
@@ -416,7 +423,7 @@ private slots:
     bool processPostCaptureCalibrationStage();
 
     // Send image info
-    void sendNewImage(QImage *image);
+    void sendNewImage(QImage *image, ISD::CCDChip *myChip);
 
 signals:
         void newLog();

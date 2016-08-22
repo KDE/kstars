@@ -148,7 +148,6 @@ void KStars::initActions() {
         << QIcon::fromTheme("document-open")
         << QKeySequence( Qt::CTRL+Qt::Key_O );
 #endif
-
     actionCollection()->addAction("export_image", this, SLOT( slotExportImage() ) )
         << i18n("&Save Sky Image...")
         << QIcon::fromTheme("document-export-image")
@@ -237,13 +236,7 @@ void KStars::initActions() {
 
     actionCollection()->addAction("coordsys", this, SLOT( slotCoordSys() ) )
         << (Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)"))
-        << QKeySequence("Space" );
-
-    #ifdef HAVE_OPENGL
-    Q_ASSERT( SkyMap::Instance() ); // This assert should not fail, because SkyMap is already created by now. Just throwing it in anyway.
-    actionCollection()->addAction("opengl", SkyMap::Instance(), SLOT( slotToggleGL() ) )
-        << (Options::useGL() ? i18n("Switch to QPainter backend"): i18n("Switch to OpenGL backend"));
-    #endif
+        << QKeySequence("Space" );    
 
     actionCollection()->addAction("project_lambert", this, SLOT( slotMapProjection() ) )
         << i18n("&Lambert Azimuthal Equal-area" )
@@ -358,6 +351,10 @@ void KStars::initActions() {
     actionCollection()->addAction("startwizard", this, SLOT( slotWizard() ) )
         << i18n("Startup Wizard..." )
         << QIcon::fromTheme("tools-wizard" );
+
+    // Manual data entry
+    actionCollection()->addAction( "manual_add_dso", this, SLOT( slotAddDeepSkyObject() ) )
+        << i18n( "Manually add a deep-sky object" );
 
     // Updates actions
     actionCollection()->addAction( "update_comets", this, SLOT( slotUpdateComets() ) )

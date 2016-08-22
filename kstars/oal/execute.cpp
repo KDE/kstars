@@ -308,7 +308,7 @@ void Execute::slotEndSession() {
 
         if( fileURL.isValid() ) {
 
-            QFile f( fileURL.path() );
+            QFile f( fileURL.toLocalFile() );
             if( ! f.open( QIODevice::WriteOnly ) ) {
                 QString message = i18n( "Could not open file %1", f.fileName() );
                 KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
@@ -403,7 +403,7 @@ void Execute::slotShowTargets() {
 void Execute::slotAddObject() {
    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
    if ( fd->exec() == QDialog::Accepted ) {
-       SkyObject *o = fd->selectedObject();
+       SkyObject *o = fd->targetObject();
        if( o != 0 ) {
            KStarsData::Instance()->observingList()->slotAddObject( o, true );
            init();

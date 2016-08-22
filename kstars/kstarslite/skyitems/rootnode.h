@@ -15,8 +15,10 @@
  ***************************************************************************/
 #ifndef ROOTNODE_H_
 #define ROOTNODE_H_
+
 #include <QPolygonF>
 #include <QSGClipNode>
+#include "kstarslite.h"
 
 class QSGTexture;
 class SkyMapLite;
@@ -44,7 +46,8 @@ class SkyMapComposite;
 class SolarSystemComposite;
 
 class FOVItem;
-#ifdef INDI_FOUND
+
+#ifdef HAVE_INDI
 class TelescopeSymbolsItem;
 #endif
 
@@ -96,7 +99,7 @@ public:
      */
     void genCachedTextures();
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
     inline TelescopeSymbolsItem *telescopeSymbolsItem() { return m_telescopeSymbols; }
 #endif
 private:
@@ -131,7 +134,7 @@ private:
     QSGGeometryNode *m_visualizeClipping;
 
     FOVItem *m_FOVItem;
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
     TelescopeSymbolsItem *m_telescopeSymbols;
 #endif
 };

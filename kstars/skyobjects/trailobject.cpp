@@ -98,6 +98,7 @@ void TrailObject::clearTrailsExcept(SkyObject* o) {
 }
 
 void TrailObject::drawTrail(SkyPainter* skyp) const {
+    Q_UNUSED(skyp)
 #ifndef KSTARS_LITE
     if( !Trail.size() )
         return;

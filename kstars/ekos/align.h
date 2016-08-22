@@ -77,7 +77,7 @@ public:
      * @param isGenerated Set to true if filename is generated from a CCD capture operation. If the file is loaded from any storage or network media, pass false.
      * @return Returns true if device if found and selected, false otherwise.
      */
-    Q_SCRIPTABLE Q_NOREPLY void startSovling(const QString &filename, bool isGenerated=true);
+    Q_SCRIPTABLE Q_NOREPLY void startSolving(const QString &filename, bool isGenerated=true);
 
     /** DBUS interface function.
      * Select Goto Mode of Solver. The solver mode is the action the solver performs upon successful solving.
@@ -230,6 +230,10 @@ public slots:
      */
     void newFITS(IBLOB *bp);
 
+    /** \addtogroup AlignDBusInterface
+     *  @{
+     */
+
     /** DBUS interface function.
      * Aborts the solving operation.
      */
@@ -246,6 +250,15 @@ public slots:
      * @return Returns true if the procedure started successful, false otherwise.
      */
     Q_SCRIPTABLE bool captureAndSolve();
+
+    /** DBUS interface function.
+     * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
+     * the telescope is pointing to the same coordinates of the image.
+     * @param fileURL URL to the image to solve
+     */
+     Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QString fileURL = QString());
+
+    /** @}*/
 
     /**
      * @brief Solver finished successfully, process the data and execute the required actions depending on the mode.
@@ -272,17 +285,9 @@ public slots:
      */
     void setWCS(bool enable);
 
-
-    /** DBUS interface function.
-     * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
-     * the telescope is pointing to the same coordinates of the image.
-     * @param fileURL URL to the image to solve
-     */
-     Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QString fileURL = QString());
-
     void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);    
 
-    void updateFocusStatus(FocusState state);
+    void updateFocusStatus(Ekos::FocusState state);
 
 private slots:
     /* Solver Options */

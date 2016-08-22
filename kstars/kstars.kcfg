@@ -123,6 +123,14 @@
       <label>List for displaying custom object catalogs.</label>
       <whatsthis>List of names for which custom catalogs are to be displayed.</whatsthis>
     </entry>
+    <entry name="ResolveNamesOnline" type="Bool">
+      <label>Resolve names using online services.</label>
+      <whatsthis>Names of objects entered into the find dialog are
+      resolved using online services and stored in the database. This
+      option also toggles the display of such resolved objects on the
+      sky map.</whatsthis>
+      <default>true</default>
+    </entry>
   </group>
 
   <group name="indi">    
@@ -1461,6 +1469,14 @@
            <label>Image filter to be applied to focus image upon loading.</label>
            <default>0</default>
        </entry>
+       <entry name="FocusThreshold" type="Double">
+          <label>Relative percentage strength of centroid edge pixel strength to average pixel value.</label>
+          <default>150</default>
+        </entry>
+        <entry name="FocusFrames" type="UInt">
+           <label>Number of frames to average</label>
+           <default>1</default>
+         </entry>
     </group>
     <group name="Align">
     <entry name="DefaultAlignCCD" type="String">

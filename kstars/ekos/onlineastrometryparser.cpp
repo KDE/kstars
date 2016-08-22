@@ -200,7 +200,7 @@ void OnlineAstrometryParser::authenticate()
 
     QUrl url(apiURL);
     QString method = "login";
-    url.setPath(QString("%1%2").arg(url.path()).arg(method));
+    url.setPath(QString("%1%2").arg(url.toLocalFile()).arg(method));
     request.setUrl(url);
 
     QVariantMap apiReq;
@@ -231,7 +231,7 @@ void OnlineAstrometryParser::uploadFile()
 
     QUrl url(apiURL);
     QString method = "upload/";
-    url.setPath(QString("%1%2").arg(url.path()).arg(method));
+    url.setPath(QString("%1%2").arg(url.toLocalFile()).arg(method));
     request.setUrl(url);
 
     QHttpMultiPart reqEntity(QHttpMultiPart::FormDataType);

@@ -88,7 +88,6 @@ protected:
     bool sendCoords(SkyPoint *ScopeTarget);
 
 public slots:
-    virtual bool runCommand(int command, void *ptr=NULL);
     Q_INVOKABLE bool abort();
     bool park();
     bool unPark();

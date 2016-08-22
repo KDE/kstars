@@ -30,7 +30,7 @@
 #include "kstarsdata.h"
 #include "kstarslite/skyitems/rootnode.h"
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
 #include "basedevice.h"
 #endif
 
@@ -740,7 +740,7 @@ private:
     QVector<QVector<QSGTexture*>> textureCache;
     bool clearTextures;
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
     QList<INDI::BaseDevice *> m_newTelescopes;
     QList<INDI::BaseDevice *> m_delTelescopes;
 #endif

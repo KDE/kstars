@@ -193,7 +193,7 @@ private slots:
     void updateCaptureCountDown();
 
     // Focus summary
-    void updateFocusStatus(bool status);
+    void updateFocusStatus(Ekos::FocusState status);
     void updateFocusStarPixmap(QPixmap &starPixmap);
     void updateFocusProfilePixmap(QPixmap &profilePixmap);
 
@@ -250,7 +250,7 @@ private slots:
     Ekos::Weather *weatherProcess;
     Ekos::DustCap *dustCapProcess;
 
-    bool localMode, remoteManagerStart;
+    bool localMode, isStarted, remoteManagerStart;
 
     int nDevices, nRemoteDevices;
     QAtomicInt nConnectedDevices;

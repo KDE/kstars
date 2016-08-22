@@ -37,11 +37,12 @@
 #include "kstarslite/skyitems/lines/eclipticitem.h"
 #include "kstarslite/skyitems/lines/milkywayitem.h"
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
 //Symbols
 #include "kstarslite/skyitems/telescopesymbolsitem.h"
 #include "kstarslite/skyitems/fovitem.h"
 #endif
+
 #include <QSGFlatColorMaterial>
 
 RootNode::RootNode()
@@ -92,7 +93,7 @@ RootNode::RootNode()
 
     m_FOVItem = new FOVItem(this);
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
     m_telescopeSymbols = new TelescopeSymbolsItem(this);
 #endif
 
@@ -268,7 +269,7 @@ void RootNode::update(bool clearTextures) {
     m_snovaItem->update();
     m_horizonItem->update();
 
-#ifdef INDI_FOUND
+#ifdef HAVE_INDI
     m_telescopeSymbols->update();
 #endif
     m_labelsItem->update();

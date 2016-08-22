@@ -215,52 +215,18 @@ SkyMap::SkyMap() :
     connect(this,     SIGNAL( positionChanged( SkyPoint*) ),
             m_objBox, SLOT(   slotPointChanged(SkyPoint*) ) );
 
-#ifdef HAVE_OPENGL
-    m_SkyMapQDraw  = new SkyMapQDraw( this );
-    m_SkyMapQDraw->setMouseTracking( true );
-    m_SkyMapGLDraw = new SkyMapGLDraw( this );
-    m_SkyMapGLDraw->setMouseTracking( true );
-    m_SkyMapGLDraw->hide();
-    m_SkyMapQDraw->hide();
-
-    if( Options::useGL() )
-        m_SkyMapDraw = m_SkyMapGLDraw;
-    else
-        m_SkyMapDraw = m_SkyMapQDraw;
-#else
     m_SkyMapDraw = new SkyMapQDraw( this );
     m_SkyMapDraw->setMouseTracking( true );
-#endif
 
     m_SkyMapDraw->setParent( this->viewport() );
     m_SkyMapDraw->show();
 
-    /*
-    m_Scene = new QGraphicsScene( rect() );
-    setScene( m_Scene );
-    */
-
-#ifdef HAVE_OPENGL
-    // If GL is enabled, the InfoBoxes work only with native painting.
-    m_iboxes = new InfoBoxes( m_SkyMapQDraw );
-#else
     m_iboxes = new InfoBoxes( m_SkyMapDraw );
-#endif
 
     m_iboxes->setVisible( Options::showInfoBoxes() );
     m_iboxes->addInfoBox(m_timeBox);
     m_iboxes->addInfoBox(m_geoBox);
     m_iboxes->addInfoBox(m_objBox);
-    /*
-    ( m_Scene->addWidget( m_iboxes ) )->setAcceptedMouseButtons( Qt::NoButton );
-    */
-
-    // JM 2016-05-03: What is this needed for? why update skymap every 30 ms? It is now disabled since it degrades performance significantly.
-    //The update timer will be destructed when SkyMap is..
-    //QTimer *update = new QTimer(this);
-    //update->setInterval(30);
-    //connect(update, SIGNAL(timeout()), this, SLOT(update()) );
-    //update->start();
 
 }
 
@@ -1046,22 +1012,22 @@ void SkyMap::setupProjector() {
     else {
         delete m_proj;
         switch( Options::projection() ) {
-            case Projector::Gnomonic:
+            case Gnomonic:
                 m_proj = new GnomonicProjector(p);
                 break;
-            case Projector::Stereographic:
+            case Stereographic:
                 m_proj = new StereographicProjector(p);
                 break;
-            case Projector::Orthographic:
+            case Orthographic:
                 m_proj = new OrthographicProjector(p);
                 break;
-            case Projector::AzimuthalEquidistant:
+            case AzimuthalEquidistant:
                 m_proj = new AzimuthalEquidistantProjector(p);
                 break;
-            case Projector::Equirectangular:
+            case Equirectangular:
                 m_proj = new EquirectangularProjector(p);
                 break;
-            case Projector::Lambert: default:
+            case Lambert: default:
                 //TODO: implement other projection classes
                 m_proj = new LambertProjector(p);
                 break;
@@ -1103,50 +1069,6 @@ void SkyMap::updateAngleRuler() {
 bool SkyMap::isSlewing() const  {
     return (slewing || ( clockSlewing && data->clock()->isActive() ) );
 }
-
-#ifdef HAVE_OPENGL
-void SkyMap::slotToggleGL() {
-
-    Q_ASSERT( m_SkyMapGLDraw );
-    Q_ASSERT( m_SkyMapQDraw );
-
-    m_SkyMapDraw->setParent( 0 );
-    m_SkyMapDraw->hide();
-
-    if( Options::useGL() ) {
-        // Do NOT use GL
-        Options::setUseGL( false );
-        m_SkyMapDraw = m_SkyMapQDraw;
-        KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to OpenGL backend"));
-    }
-    else {
-        // Use GL
-        QString message = i18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works "
-                               "much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?");
-
-        int result = KMessageBox::warningYesNo( this, message,
-                                                i18n("Switch to OpenGL backend"),
-                                                KStandardGuiItem::yes(),
-                                                KStandardGuiItem::no(),
-                                                "dag_opengl_switch" );
-
-        if ( result == KMessageBox::Yes ) {
-
-            KMessageBox::information( this, i18n("Infoboxes will be disabled as they do not work correctly when using OpenGL backends as of this version"),
-                                      i18n("Switch to OpenGL backend"),
-                                      "dag_opengl_infoboxes" );
-
-            Options::setUseGL( true );
-
-            m_SkyMapDraw = m_SkyMapGLDraw;
-            KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to QPainter backend"));
-        }
-    }
-    m_SkyMapDraw->setParent( viewport() );
-    m_SkyMapDraw->show();
-    m_SkyMapDraw->resize( size() );
-}
-#endif
 
 #ifdef HAVE_XPLANET
 void SkyMap::startXplanet( const QString & outputFile ) {
