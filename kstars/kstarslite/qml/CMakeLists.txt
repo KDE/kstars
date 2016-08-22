@@ -13,18 +13,27 @@ install( FILES modules/BottomMenu.qml
     modules/KSTab.qml
     modules/KSListView.qml
     modules/SkyMapLiteWrapper.qml
-    modules/ObjectDetails.qml
     modules/TimePage.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules )
 
 install( FILES dialogs/FindDialog.qml
+    dialogs/LocationDialog.qml
+    dialogs/DetailsDialog.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/dialogs )
-    
+
+install( FILES dialogs/helpers/DetailsAddLink.qml
+    dialogs/helpers/LocationEdit.qml
+    dialogs/helpers/DetailsItem.qml
+    dialogs/helpers/LocationLoading.qml
+    DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/dialogs/helpers )
+
+install( FILES dialogs/menus/DetailsLinkMenu.qml
+    dialogs/menus/LocationsGeoMenu.qml
+    DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/dialogs/menus )
+
 install( FILES modules/popups/ColorSchemePopup.qml
     modules/popups/ProjectionsPopup.qml
     modules/popups/FOVPopup.qml
-    modules/popups/AddLinkPopup.qml
-    modules/popups/LinkMenu.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/popups)
 
 install ( FILES modules/menus/ContextMenu.qml
@@ -35,7 +44,6 @@ install( FILES modules/helpers/TopMenuButton.qml
     modules/helpers/TimeSpinBox.qml
     modules/helpers/PassiveNotification.qml
     modules/helpers/Units.qml
-    modules/helpers/DetailsItem.qml
     modules/helpers/KSMenuItem.qml
     modules/helpers/TelescopeControl.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/helpers )

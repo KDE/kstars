@@ -34,6 +34,7 @@ class ImageProvider;
 
 class FindDialogLite;
 class DetailDialogLite;
+class LocationDialogLite;
 
 #ifdef INDI_FOUND
 class ClientManagerLite;
@@ -203,7 +204,8 @@ private:
     //Dialogs
     FindDialogLite *m_findDialogLite;
     DetailDialogLite *m_detailDialogLite;
-    
+    LocationDialogLite *m_locationDialogLite;
+
 #ifdef INDI_FOUND
     ClientManagerLite *m_clientManager;
 #endif

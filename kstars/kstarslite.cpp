@@ -33,9 +33,10 @@
 
 #include "kspaths.h"
 
-//Dialog
+//Dialogs
 #include "kstarslite/dialogs/finddialoglite.h"
 #include "kstarslite/dialogs/detaildialoglite.h"
+#include "kstarslite/dialogs/locationdialoglite.h"
 
 #include "Options.h"
 #include "ksutils.h"
@@ -76,8 +77,11 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     //Dialogs
     m_findDialogLite = new FindDialogLite;
     m_detailDialogLite = new DetailDialogLite;
+    m_locationDialogLite = new LocationDialogLite;
+
     m_Engine.rootContext()->setContextProperty("FindDialogLite", m_findDialogLite);
     m_Engine.rootContext()->setContextProperty("DetailDialogLite", m_detailDialogLite);
+    m_Engine.rootContext()->setContextProperty("LocationDialogLite", m_locationDialogLite);
 
     //Set Geographic Location from Options
     m_KStarsData->setLocationFromOptions();

@@ -585,6 +585,7 @@ if(BUILD_KSTARS_LITE)
         #Dialogs
         kstarslite/dialogs/detaildialoglite.cpp
         kstarslite/dialogs/finddialoglite.cpp
+        kstarslite/dialogs/locationdialoglite.cpp
         kstarslite/dialogs/skyobjectlistmodel.cpp
         #RootNode
         kstarslite/skyitems/rootnode.cpp
@@ -668,23 +669,29 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/modules/Splash.qml
         kstarslite/qml/modules/helpers/TimeSpinBox.qml
         kstarslite/qml/modules/TimePage.qml
-        kstarslite/qml/modules/ObjectDetails.qml
         kstarslite/qml/modules/KSTab.qml
         #Popups
         kstarslite/qml/modules/popups/ProjectionsPopup.qml
         kstarslite/qml/modules/popups/FOVPopup.qml
         kstarslite/qml/modules/popups/ColorSchemePopup.qml
-        kstarslite/qml/modules/popups/AddLinkPopup.qml
-        kstarslite/qml/modules/popups/LinkMenu.qml
         #Menus
         kstarslite/qml/modules/menus/ContextMenu.qml
         #Helpers
         kstarslite/qml/modules/helpers/PassiveNotification.qml
         kstarslite/qml/modules/helpers/KSMenuItem.qml
-        kstarslite/qml/modules/helpers/DetailsItem.qml
         kstarslite/qml/modules/helpers/TelescopeControl.qml
         #Dialogs
         kstarslite/qml/dialogs/FindDialog.qml
+        kstarslite/qml/dialogs/LocationDialog.qml
+        kstarslite/qml/dialogs/DetailsDialog.qml
+
+        kstarslite/qml/dialogs/helpers/DetailsItem.qml
+        kstarslite/qml/dialogs/helpers/DetailsAddLink.qml
+        kstarslite/qml/dialogs/helpers/LocationEdit.qml
+        kstarslite/qml/dialogs/helpers/LocationLoading.qml
+
+        kstarslite/qml/dialogs/menus/DetailsLinkMenu.qml
+        kstarslite/qml/dialogs/menus/LocationsGeoMenu.qml
         #INDI
         kstarslite/qml/indi/INDIControlPanel.qml
         kstarslite/qml/indi/DevicePanel.qml
@@ -828,6 +835,7 @@ if(BUILD_KSTARS_LITE)
         Qt5::Quick
         Qt5::Sensors
         Qt5::QuickControls2
+        Qt5::Positioning
         ${ZLIB_LIBRARIES}
         )
     if(INDI_FOUND)

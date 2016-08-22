@@ -36,6 +36,7 @@ MouseArea {
         bottom: parent.bottom
         bottomMargin: units.gridUnit * 4
     }
+
     function showNotification(message, timeout, actionText, callBack) {
         if (!message) {
             return;
@@ -107,6 +108,7 @@ MouseArea {
         id: background
         width: backgroundRect.width + units.gridUnit
         height: backgroundRect.height + units.gridUnit
+
         Rectangle {
             id: backgroundRect
             anchors.centerIn: parent
@@ -116,13 +118,16 @@ MouseArea {
             width: mainLayout.width + Math.round((height - mainLayout.height))
             height: Math.max(mainLayout.height + units.smallSpacing*2, units.gridUnit*2)
         }
+
         RowLayout {
             id: mainLayout
             anchors.centerIn: parent
             Controls.Label {
                 id: messageLabel
                 width: Math.min(root.parent.width - units.largeSpacing*2, implicitWidth)
-                elide: Text.ElideRight
+                anchors.centerIn: parent
+                wrapMode: Controls.Label.WrapAtWordBoundaryOrAnywhere
+
                 color: num.sysPalette.window
             }
             Controls.Button {
@@ -138,6 +143,7 @@ MouseArea {
                 }
             }
         }
+
         layer.enabled: true
         layer.effect: DropShadow {
             horizontalOffset: 0

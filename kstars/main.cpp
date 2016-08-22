@@ -238,16 +238,6 @@ int main(int argc, char *argv[])
     }
 
 #endif
-    //Under construction
-    //[Location]
-    Options::setCityName("Saarbrücken");
-    Options::setCountryName("Germany");
-    Options::setDST("EU");
-    Options::setLatitude(49.233333333333334);
-    Options::setLongitude(7);
-    Options::setTimeZone(1);
-    Options::setRunClock(false);
-
     // Create writable data dir if it does not exist
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));

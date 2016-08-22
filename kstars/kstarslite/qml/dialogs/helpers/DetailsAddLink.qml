@@ -2,11 +2,10 @@ import QtQuick.Controls 2.0
 import QtQuick 2.7
 import QtQuick.Layouts 1.1
 import "../../constants" 1.0
-import "../helpers"
-import ".." //Import modules
+import "../../modules" //Import modules
 
 KSPage {
-    id: linkPopup
+    id: addLink
     title: SkyMapLite.clickedObjectLite.getTranslatedName() + " - " + (editMode ? xi18n("Edit Link") : xi18n("Add a Link") )
     property bool editMode: false // true if popup is in edit mode. False if in add mode
     property bool isImage: false //is the object for which this popup was opened an image or information
@@ -35,9 +34,9 @@ KSPage {
     }
 
     /**
-      closes the popup and clears all text fields
+      closes the page and clears all text fields
     */
-    function closePopup() {
+    function closeAddLink() {
         descField.clear()
         urlField.clear()
         stackView.pop()
@@ -95,14 +94,14 @@ KSPage {
                     } else {
                         DetailDialogLite.addLink(urlField.text, descField.text, radioImg.checked)
                     }
-                    closePopup()
+                    closeAddLink()
                 }
             }
 
             Button {
                 text: xi18n("Cancel")
                 onClicked: {
-                    closePopup()
+                    closeAddLink()
                 }
             }
         }

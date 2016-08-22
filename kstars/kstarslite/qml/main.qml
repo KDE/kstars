@@ -13,6 +13,9 @@ import "modules/popups"
 import "modules/menus"
 
 import "dialogs"
+import "dialogs/menus"
+import "dialogs/helpers"
+
 import "constants" 1.0
 import "indi"
 
@@ -36,7 +39,7 @@ ApplicationWindow {
     header: ToolBar {
         id: toolBar
         Material.foreground: "white"
-        height: stackView.currentItem != initPage ? backButton.height: 0
+        height: stackView.currentItem != initPage ? backButton.height : 0
         visible: stackView.currentItem != initPage
 
         Behavior on height {
@@ -46,10 +49,11 @@ ApplicationWindow {
             }
         }
 
-        RowLayout {
+        Row {
+            id: toolRow
             spacing: 20
-            height: titleLabel.height
-            Layout.fillWidth: true
+            height: parent.height
+            width: parent.width
 
             ToolButton {
                 id: backButton
@@ -67,36 +71,15 @@ ApplicationWindow {
             Label {
                 id: titleLabel
                 text: stackView.currentItem.title
+
                 font.pixelSize: 20
+                width: parent.width - backButton.width - toolRow.spacing //To allow ellision of the text
+
                 elide: Label.ElideRight
-                //horizontalAlignment: Qt.AlignHCenter
-                verticalAlignment: Qt.AlignVCenter
-                Layout.fillWidth: true
-            }
+                wrapMode: Label.Wrap
+                maximumLineCount: 1
 
-            ToolButton {
-                /*contentItem: Image {
-                    fillMode: Image.Pad
-                    horizontalAlignment: Image.AlignHCenter
-                    verticalAlignment: Image.AlignVCenter
-                    //source: "qrc:/images/menu.png"
-                }*/
-                onClicked: optionsMenu.open()
-
-                Menu {
-                    id: optionsMenu
-                    x: parent.width - width
-                    transformOrigin: Menu.TopRight
-
-                    MenuItem {
-                        text: "Settings"
-                        onTriggered: settingsPopup.open()
-                    }
-                    MenuItem {
-                        text: "About"
-                        onTriggered: aboutDialog.open()
-                    }
-                }
+                anchors.verticalCenter: parent.verticalCenter
             }
         }
     }
@@ -125,17 +108,44 @@ ApplicationWindow {
         id: units
     }
 
-    //Pages
+    //Dialogs
     FindDialog {
         id: findDialog
     }
 
-    INDIControlPanel {
-        id: indiControlPanel
+    //Details
+    DetailsDialog {
+        id: detailsDialog
     }
 
-    ObjectDetails {
-        id: objectDetails
+    DetailsAddLink {
+        id: detailsAddLink
+        x: (window.width - width)/2
+        y: (window.height - height)/2
+    }
+
+    DetailsLinkMenu {
+        id: detailsLinkMenu
+        x: (window.width - width)/2
+        y: (window.height - height)/2
+    }
+
+    //Location
+    LocationDialog {
+        id: locationDialog
+    }
+
+    LocationEdit {
+        id: locationEdit
+    }
+
+    LocationLoading {
+        id: locationLoading
+    }
+
+    //Pages
+    INDIControlPanel {
+        id: indiControlPanel
     }
 
     Page {
@@ -185,18 +195,12 @@ ApplicationWindow {
         y: (window.height - height)/2
     }
 
-    //Links
-    AddLinkPopup {
-        id: addLinkPopup
+    LocationsGeoMenu {
+        id: locationsGeoMenu
         x: (window.width - width)/2
         y: (window.height - height)/2
     }
 
-    LinkMenu {
-        id: linkMenu
-        x: (window.width - width)/2
-        y: (window.height - height)/2
-    }
 
     Drawer {
         id: globalDrawer
@@ -244,17 +248,13 @@ ApplicationWindow {
                 width: parent.width
                 text: model.objID.title
                 onClicked: {
-                    if (pagesList.currentIndex != index) {
-                        pagesList.currentIndex = index
-
-                        if(stackView.currentItem != model.objID) {
-                            if(model.objID != initPage) {
-                                //skyMapLiteWrapper.visible = false
-                                stackView.replace(null, [initPage, model.objID])
-                            } else {
-                                stackView.replace(null, initPage)
-                                //skyMapLiteWrapper.visible = true
-                            }
+                    if(stackView.currentItem != model.objID) {
+                        if(model.objID != initPage) {
+                            //skyMapLiteWrapper.visible = false
+                            stackView.replace(null, [initPage, model.objID])
+                        } else {
+                            stackView.replace(null, initPage)
+                            //skyMapLiteWrapper.visible = true
                         }
                         globalDrawer.close()
                     }
@@ -267,6 +267,7 @@ ApplicationWindow {
                     append({objID: initPage});
                     append({objID: indiControlPanel});
                     append({objID: findDialog});
+                    append({objID: locationDialog});
                 }
             }
 
@@ -281,13 +282,12 @@ ApplicationWindow {
         width: Math.min(window.width, window.height) / 4 * 2
         height: window.height
         //Disable drawer while loading and if SkyMapLite is not visible
-        dragMargin: isSkyMapVisible && isLoaded ? Qt.styleHints.startDragDistance : -Qt.styleHints.startDragDistance
+        dragMargin: isSkyMapVisible && isLoaded ? Qt.styleHints.startDragDistance + 15 : -Qt.styleHints.startDragDistance
+        edge: Qt.RightEdge
 
         onOpened: {
             globalDrawer.close()
         }
-
-        edge: Qt.RightEdge
 
         Label {
             id: contextTitle

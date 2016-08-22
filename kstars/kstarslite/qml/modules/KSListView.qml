@@ -8,6 +8,8 @@ ListView {
     clip: true
     property bool checkCurrent: false
     property bool checkable: false
+    property bool onClickCheck: true //true if the item should be be mapped with a blue rectangle when clicked
+
     property int maxWidth: 0
     property bool modelIsChanged: false
     implicitWidth: maxWidth
@@ -17,6 +19,7 @@ ListView {
     onCountChanged: {
         for(var child in listView.contentItem.children) {
             var childWidth = listView.contentItem.children[child].textWidth
+            if(childWidth == undefined) childWidth = 0
             maxWidth = maxWidth > childWidth ? maxWidth : childWidth
         }
     }
@@ -24,7 +27,7 @@ ListView {
     ScrollIndicator.vertical: ScrollIndicator { }
     property string textRole: ""
 
-    signal clicked(var index, var checked)
+    signal clicked(var text, var index, var checked)
     property bool modelIsArray: false
 
     onModelChanged: {
@@ -37,6 +40,7 @@ ListView {
         height: objName.contentHeight + 30
         property int textWidth: objRow.width + objRow.anchors.leftMargin*2
         property bool checked: false
+        property string visibleText: objName.text
 
         border {
             color: "#becad5"
@@ -109,14 +113,15 @@ ListView {
             }
 
             onClicked: {
-                listView.currentIndex = model.index
+                if(onClickCheck) listView.currentIndex = model.index
                 if(checkable) delegateRect.checked = !delegateRect.checked
-                listView.clicked(model.index, delegateRect.checked)
+                listView.clicked(objName.text, model.index, delegateRect.checked)
             }
         }
 
         RowLayout {
             id: objRow
+
             anchors {
                 verticalCenter: parent.verticalCenter
                 left: parent.left
@@ -127,7 +132,7 @@ ListView {
                 visible: (checkCurrent && listView.currentIndex == model.index) || (checkable && delegateRect.checked)
                 color: "#2173f3"
                 width: height
-                height: objName.height/2
+                height: objName.font.pixelSize/2
                 radius: width * 0.5
             }
 
@@ -135,12 +140,12 @@ ListView {
                 id: objName
 
                 text: textRole == "" ? modelData : listView.modelIsArray ? modelData[textRole] : model[textRole]
+                wrapMode: Text.WrapAnywhere
 
                 Behavior on color {
                     ColorAnimation  { duration: 200 }
                 }
             }
-
         }
     }
 }

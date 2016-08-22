@@ -2,7 +2,8 @@ import QtQuick.Controls 2.0
 import QtQuick 2.7
 import QtQuick.Layouts 1.1
 import "../../constants" 1.0
-import "../helpers"
+import "../../modules/"
+import "../../modules/helpers"
 
 Menu {
     modal: true
@@ -37,7 +38,7 @@ Menu {
     KSMenuItem {
         text: xi18n("Edit")
         onTriggered: {
-            addLinkPopup.openEdit(itemIndex, isImage)
+            detailsAddLink.openEdit(itemIndex, isImage)
         }
     }
 

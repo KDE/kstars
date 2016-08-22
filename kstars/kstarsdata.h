@@ -92,6 +92,7 @@ public:
     friend class SkyMap;
     // FIXME: uses geoList and changes it.
     friend class LocationDialog;
+    friend class LocationDialogLite;
 
     static KStarsData* Create( );
 

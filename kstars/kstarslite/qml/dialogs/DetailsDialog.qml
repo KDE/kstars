@@ -3,8 +3,9 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import "helpers"
+import "menus"
+import "../modules"
 import "../constants" 1.0
-import "popups"
 
 KSPage {
     title: SkyMapLite.clickedObjectLite.translatedName + " - " + tabBar.currentItem.text
@@ -307,13 +308,6 @@ KSPage {
                 clip: true
                 id: links
 
-                /*Flickable {
-                    anchors.fill: parent
-                    ScrollBar.vertical: ScrollBar { }
-                    flickableDirection: Flickable.VerticalFlick
-
-                    contentHeight: linkCol.height*/
-
                 GridLayout {
                     id: linkCol
                     rowSpacing: 15
@@ -357,7 +351,7 @@ KSPage {
                             model: DetailDialogLite.infoTitleList
 
                             onClicked: {
-                                linkMenu.openForInfo(index)
+                                detailsLinkMenu.openForInfo(index)
                             }
                         }
                     }
@@ -393,7 +387,7 @@ KSPage {
                             model: DetailDialogLite.imageTitleList
 
                             onClicked: {
-                                linkMenu.openForImage(index)
+                                detailsLinkMenu.openForImage(index)
                             }
                         }
                     }
@@ -407,7 +401,7 @@ KSPage {
                     anchors.bottom: parent.bottom
 
                     onClicked: {
-                        addLinkPopup.openAdd()
+                        detailsAddLink.openAdd()
                     }
                 }
             }

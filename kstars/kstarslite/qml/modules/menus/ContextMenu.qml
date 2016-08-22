@@ -26,10 +26,10 @@ Menu {
         width: parent.width
         spacing: 10
 
-        Text {
+        Label {
             id: objectName
             text: isPoint ? xi18n("Empty Sky") : SkyMapLite.clickedObjectLite.translatedName
-            wrapMode: Text.Wrap
+            wrapMode: Label.WrapAtWordBoundaryOrAnywhere
             width: parent.width
             font.pointSize: 12
             anchors {
@@ -56,7 +56,7 @@ Menu {
     KSMenuItem {
         visible: !isPoint
         text: xi18n("Details")
-        onTriggered: stackView.push(objectDetails)
+        onTriggered: stackView.push(detailsDialog)
     }
 
     Item {

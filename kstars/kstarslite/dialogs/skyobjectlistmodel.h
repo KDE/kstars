@@ -22,10 +22,11 @@
 
 class SkyObject;
 
-/** @class FindDialogLite
- * A backend of dialog decleared in QML.
+/** @class SkyObjectListModel
+ * A model used in Find Object Dialog in QML. Each entry is a QString (name of object) and pointer to
+ * SkyObject itself
  *
- * @short Backend for Find Object Dialog in QML
+ * @short Model that is used in Find Object Dialog
  * @author Artem Fedoskin, Jason Harris
  * @version 1.0
  */
@@ -43,11 +44,6 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const;
 
     virtual QHash<int, QByteArray> roleNames() const;
-
-    /*virtual bool removeRows(int row, int count, const QModelIndex &parent) {
-        qDebug() << "TEST";
-        return false;
-    }*/
 
     void setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects);
 

@@ -43,7 +43,7 @@ void KStarsLite::datainitFinished() {
     //DEBUG
     qDebug() << "The current Date/Time is: " << KStarsDateTime::currentDateTime().toString();
 
-    //Notify Splash in QML that loading of data is finished
+    //Notify Splash in QML and LocationDialogLite that loading of data is finished
     dataLoadFinished();
     map()->forceUpdate();
 }

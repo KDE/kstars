@@ -64,46 +64,6 @@ FindDialogLite::FindDialogLite( ) :
 
 FindDialogLite::~FindDialogLite() { }
 
-/*void FindDialogLite::initSelection() {
-    if ( m_sortModel->rowCount() <= 0 )
-    {
-        return;
-    }
-
-    //if ( ui->SearchBox->text().isEmpty() ) {
-        //Pre-select the first item
-        QModelIndex selectItem = m_sortModel->index( 0, m_sortModel->filterKeyColumn(), QModelIndex() );
-        switch ( 0) {//ui->FilterType->currentIndex() ) {
-        case 0: //All objects, choose Andromeda galaxy
-            {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Andromeda Galaxy") ) );
-                selectItem = m_sortModel->mapFromSource( qmi );
-                break;
-            }
-        case 1: //Stars, choose Aldebaran
-            {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aldebaran") ) );
-                selectItem = m_sortModel->mapFromSource( qmi );
-                break;
-            }
-        case 2: //Solar system or Asteroids, choose Aaltje
-        case 9:
-            {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aaltje") ) );
-                selectItem = m_sortModel->mapFromSource( qmi );
-                break;
-            }
-        case 8: //Comets, choose 'Aarseth-Brewington (1989 W1)'
-            {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aarseth-Brewington (1989 W1)") ) );
-                selectItem = m_sortModel->mapFromSource( qmi );
-                break;
-            }
-
-        }
-    //listFiltered = true;
-}*/
-
 void FindDialogLite::filterByType(uint typeIndex) {
     KStarsData *data = KStarsData::Instance();
 
@@ -172,20 +132,6 @@ void FindDialogLite::filterByType(uint typeIndex) {
 void FindDialogLite::filterList(QString searchQuery) {
     QString SearchText = processSearchText(searchQuery);
     m_sortModel->setFilterFixedString( SearchText );
-    //filterByType();
-    //initSelection();
-
-    //Select the first item in the list that begins with the filter string
-    /*if ( !SearchText.isEmpty() ) {
-        QStringList mItems = fModel->stringList().filter( QRegExp( '^'+SearchText, Qt::CaseInsensitive ) );
-        mItems.sort();
-
-        if ( mItems.size() ) {
-            QModelIndex qmi = fModel->index( fModel->stringList().indexOf( mItems[0] ) );
-            QModelIndex selectItem = m_sortModel->mapFromSource( qmi );
-        }
-    }*/
-
     listFiltered = true;
 }
 
@@ -193,18 +139,6 @@ void FindDialogLite::selectObject(int index) {
     QVariant sObj = m_sortModel->data(m_sortModel->index(index, 0), SkyObjectListModel::SkyObjectRole);
     SkyObject *skyObj = (SkyObject *) sObj.value<void *>();
     SkyMapLite::Instance()->slotSelectObject(skyObj);
-}
-
-void FindDialogLite::enqueueSearch() {
-    /*listFiltered = false;
-    if ( timer ) {
-        timer->stop();
-    } else {
-        timer = new QTimer( this );
-        timer->setSingleShot( true );
-        connect( timer, SIGNAL( timeout() ), this, SLOT( filterList() ) );
-    }
-    timer->start( 500 );*/
 }
 
 // Process the search box text to replace equivalent names like "m93" with "m 93"
@@ -231,56 +165,3 @@ QString FindDialogLite::processSearchText(QString text) {
 
     return searchtext;
 }
-
-void FindDialogLite::slotOk() {
-    /*//If no valid object selected, show a sorry-box.  Otherwise, emit accept()
-    SkyObject *selObj;
-    if(!listFiltered) {
-        filterList();
-    }
-    selObj = selectedObject();
-    if ( selObj == 0 ) {
-        QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
-        //KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );
-    } else {
-        accept();
-    }*/
-}
-
-/*void FindDialogLite::keyPressEvent( QKeyEvent *e ) {
-    switch( e->key() ) {
-    case Qt::Key_Escape :
-        reject();
-        break;
-    case Qt::Key_Up :
-    {
-        int currentRow = ui->SearchList->currentIndex().row();
-        if ( currentRow > 0 ) {
-            QModelIndex selectItem = m_sortModel->index( currentRow-1, m_sortModel->filterKeyColumn(), QModelIndex() );
-            ui->SearchList->selectionModel()->setCurrentIndex( selectItem, QItemSelectionModel::SelectCurrent );
-        }
-        break;
-    }
-    case Qt::Key_Down :
-    {
-        int currentRow = ui->SearchList->currentIndex().row();
-        if ( currentRow < m_sortModel->rowCount()-1 ) {
-            QModelIndex selectItem = m_sortModel->index( currentRow+1, m_sortModel->filterKeyColumn(), QModelIndex() );
-            ui->SearchList->selectionModel()->setCurrentIndex( selectItem, QItemSelectionModel::SelectCurrent );
-        }
-        break;
-    }
-    }
-}*/
-
-void FindDialogLite::slotDetails()
-{
-    /*if ( selectedObject() ) {
-        QPointer<DetailDialog> dd = new DetailDialog( selectedObject(), KStarsData::Instance()->ut(), KStarsData::Instance()->geo(), KStars::Instance());
-        dd->exec();
-        delete dd;
-    }*/
-
-}
-
-

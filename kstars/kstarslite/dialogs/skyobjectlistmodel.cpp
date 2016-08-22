@@ -42,8 +42,6 @@ QVariant SkyObjectListModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 }
 
-
-
 void SkyObjectListModel::setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects) {
     emit beginResetModel();
     skyObjects = sObjects;

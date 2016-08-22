@@ -9,7 +9,7 @@ import "../modules"
 
 KSPage {
     contentItem: findColumn
-    title: "Find an Object"
+    title: xi18n("Find an Object")
     onVisibleChanged: {
         if(visible) {
             typeChoose.currentIndex = 0

@@ -584,6 +584,8 @@ void DetailDialogLite::updateLocalDatabase(int type, const QString &search_line,
 void DetailDialogLite::addLink(QString url, QString desc, bool isImageLink) {
     SkyObject *selectedObject = SkyMapLite::Instance()->getClickedObjectLite()->getObject();
 
+    if(url.isEmpty() || desc.isEmpty()) return; //Do nothing if empty url or desc were provided
+
     QString entry;
     QFile file;
 
@@ -690,6 +692,8 @@ void DetailDialogLite::removeLink(int itemIndex, bool isImage) {
 void DetailDialogLite::editLink(int itemIndex, bool isImage, QString desc, QString url)
 {
     SkyObject *selectedObject = SkyMapLite::Instance()->getClickedObjectLite()->getObject();
+
+    if(url.isEmpty() || desc.isEmpty()) return; //Do nothing if empty url or desc were provided
 
     QString search_line, replace_line, currentItemTitle, currentItemURL;
 

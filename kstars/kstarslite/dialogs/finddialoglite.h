@@ -60,18 +60,6 @@ public slots:
      */
     Q_INVOKABLE void filterList(QString searchQuery);
 
-    //FIXME: Still valid for QDialog?  i.e., does QDialog have a slotOk() ?
-    /**
-     *Overloading the Standard QDialogBase slotOk() to show a "sorry" message
-     *box if no object is selected when the user presses Ok.  The window is
-     *not closed in this case.
-     */
-    void slotOk();
-
-private slots:
-    void enqueueSearch();
-
-    void slotDetails();
 private:
 
     /** @short Do some post processing on the search text to interpret what the user meant
