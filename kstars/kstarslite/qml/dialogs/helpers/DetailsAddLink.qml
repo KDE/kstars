@@ -20,7 +20,6 @@ KSPage {
 
     function openEdit(index, isImage) {
         editMode = true
-        linkPopup.isImage = isImage
         if(!isImage) {
             descField.text = DetailDialogLite.infoTitleList[index]
             urlField.text = DetailDialogLite.getInfoURL(index)

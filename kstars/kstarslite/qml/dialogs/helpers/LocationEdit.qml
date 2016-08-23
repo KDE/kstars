@@ -64,6 +64,7 @@ KSPage {
 
         onUpdateTimeout: {
             notification.showNotification(xi18n("Timeout occured. Try again."))
+            locationLoading.close()
         }
 
         onActiveChanged: {
@@ -238,6 +239,7 @@ KSPage {
                 text: "Set from GPS"
                 enabled: isAvailable
                 onClicked: {
+                    positionSource.stop()
                     positionSource.update()
                     if(!positionSource.valid) {
                         positionSource.stop()

@@ -86,19 +86,13 @@ void ImageLabel::paintEvent (QPaintEvent*)
 
 void ImageLabel::resizeEvent(QResizeEvent *event)
 {
-    #ifndef KSTARS_LITE
     int w=pix.width();
     int h=pix.height();
 
     if (event->size().width() == w && event->size().height() == h)
         return;
 
-<<<<<<< HEAD
-    pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio));
-    #endif
-=======
     pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
->>>>>>> master
 }
 
 ImageViewer::ImageViewer (const QString &caption, QWidget *parent):
@@ -196,15 +190,6 @@ void ImageViewer::init(QString caption, QString capText)
     #endif
 }
 
-<<<<<<< HEAD
-ImageViewer::~ImageViewer() {
-#ifndef KSTARS_LITE
-    /*if ( downloadJob ) {
-        // close job quietly, without emitting a result
-        downloadJob->kill( KJob::Quietly );
-        delete downloadJob;
-    }*/
-=======
 ImageViewer::~ImageViewer()
 {
     QString filename = file.fileName();
@@ -215,10 +200,8 @@ ImageViewer::~ImageViewer()
                                    KStandardGuiItem::yes(), KStandardGuiItem::no(), i18n("imageviewer_temporary_file_removal")) == KMessageBox::Yes)
             QFile::remove(filename);
     }
->>>>>>> master
 
     QApplication::restoreOverrideCursor();
-#endif
 }
 
 void ImageViewer::loadImageFromURL()

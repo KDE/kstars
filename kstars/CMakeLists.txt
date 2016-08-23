@@ -78,7 +78,15 @@ if (INDI_FOUND)
                 kstarslite/skyitems/skynodes/crosshairnode.cpp
                 kstarslite/skyitems/telescopesymbolsitem.cpp
             )
-    elseif(BUILD_KSTARS_LITE)
+    else(BUILD_KSTARS_LITE)
+            set(indiui_SRCS
+                indi/streamform.ui
+                indi/drivermanager.ui
+                indi/opsindi.ui
+                indi/indihostconf.ui
+                indi/telescopewizard.ui
+            )
+
             set(indi_SRCS
                 indi/drivermanager.cpp
                 indi/servermanager.cpp
@@ -105,14 +113,6 @@ if (INDI_FOUND)
                 indi/telescopewizardprocess.cpp
                 indi/streamwg.cpp
                 indi/indiwebmanager.cpp
-            )
-
-            set(indiui_SRCS
-                indi/drivermanager.ui
-                indi/opsindi.ui
-                indi/indihostconf.ui
-                indi/streamform.ui
-                indi/telescopewizard.ui
             )
 
             if (CFITSIO_FOUND)
@@ -598,6 +598,10 @@ set(kstars_extra_SRCS
     skypainter.cpp
     )
 
+set(libkstarstools_SRCS
+    tools/nameresolver.cpp
+    )
+
 if(NOT BUILD_KSTARS_LITE)
     LIST(APPEND kstars_extra_SRCS
         auxiliary/imageviewer.cpp
@@ -900,19 +904,19 @@ if(INDI_FOUND)
         target_link_libraries(KStarsLib ${INDI_CLIENT_ANDROID_LIBRARIES})
     else(ANDROID)
         if(WIN32)
-                add_definitions(-DUSE_QT5_INDI)
-                find_package(Nova REQUIRED)
-                target_link_libraries(KStarsLib ${NOVA_LIBRARIES} ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
-            else(WIN32)
-                # If INDI Qt5 Client is found, use it.
+            add_definitions(-DUSE_QT5_INDI)
+            find_package(Nova REQUIRED)
+            target_link_libraries(KStarsLib ${NOVA_LIBRARIES} ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
+        else(WIN32)
+            # If INDI Qt5 Client is found, use it.
 
-                if (INDI_CLIENT_QT_LIBRARIES)
-                    add_definitions(-DUSE_QT5_INDI)
-                    target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
-                else(INDI_CLIENT_QT_LIBRARIES)
-                    target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES})
-                endif(INDI_CLIENT_QT_LIBRARIES)
-            endif(WIN32)
+            if (INDI_CLIENT_QT_LIBRARIES)
+                add_definitions(-DUSE_QT5_INDI)
+                target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES} z)
+            else(INDI_CLIENT_QT_LIBRARIES)
+                target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
+            endif(INDI_CLIENT_QT_LIBRARIES)
+        endif(WIN32)
     endif(ANDROID)
 
 endif(INDI_FOUND)
@@ -933,6 +937,7 @@ set (KSTARS_APP_SRCS
     main.cpp
 )
 
+if(NOT BUILD_KSTARS_LITE)
 # add icon to application sources
 ecm_add_app_icon(KSTARS_APP_SRCS ICONS
     ${CMAKE_CURRENT_SOURCE_DIR}/icons/16-apps-kstars.png
@@ -943,6 +948,7 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
 )
 
 qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
+endif(NOT BUILD_KSTARS_LITE)
 
 add_executable(kstars ${KSTARS_APP_SRCS})
 target_link_libraries(kstars KStarsLib)

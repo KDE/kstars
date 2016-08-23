@@ -89,15 +89,19 @@ KSPage {
             }
         }
 
-        Button {
-            text: "Cancel"
-            onClicked: {
-                stackView.pop()
+        RowLayout {
+            Button {
+                text: "Search in internet"
+                onClicked: {
+                    FindDialogLite.resolveInInternet(searchQuery.text)
+                }
             }
 
-            anchors {
-                bottom: parent.bottom
-                right: parent.right
+            Button {
+                text: "Cancel"
+                onClicked: {
+                    stackView.pop()
+                }
             }
         }
     }

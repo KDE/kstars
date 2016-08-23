@@ -46,6 +46,15 @@ void KStarsLite::datainitFinished() {
     //Notify Splash in QML and LocationDialogLite that loading of data is finished
     dataLoadFinished();
     map()->forceUpdate();
+
+    //Default options
+    Options::setShowEquator(true);
+    Options::setShowHorizon(true);
+    Options::setShowEcliptic(true);
+    Options::setAutoSelectGrid(false);
+//    Options::setHideGrids(false);
+//    Options::setShowEquatorialGrid(true);
+//    Options::setShowHorizontalGrid(true);
 }
 
 void KStarsLite::initFocus() {

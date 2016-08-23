@@ -153,14 +153,14 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
         qDebug() << "Cannot set SimClock:  Invalid Date/Time.";
     }
 }
-
+#ifdef KSTARS_LITE
 void SimClock::setFromQDateTime(const QDateTime &dateTime) {
     KStarsDateTime dt;
     dt.setDate(dateTime.date());
     dt.setTime(dateTime.time());
     setUTC(dt);
 }
-
+#endif
 void SimClock::setClockScale(float s) {
     if (Scale != s ) {
         qDebug() << "New clock scale: " << s << " sec";

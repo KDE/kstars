@@ -16,7 +16,6 @@ Menu {
     function openMenu(name) {
         locName = name
         isReadOnly = LocationDialogLite.isReadOnly(name)
-        console.log(name + " " + isReadOnly)
 
         open()
     }

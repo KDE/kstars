@@ -100,12 +100,16 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
 
     addComponent( m_ArtificialHorizon = new ArtificialHorizonComponent(this), 110);
 
+    m_internetResolvedCat = "_Internet_Resolved";
+    m_manualAdditionsCat = "_Manual_Additions";
+    addComponent( m_internetResolvedComponent = new SyncedCatalogComponent( this, m_internetResolvedCat, true, 0 ), 6 );
+    addComponent( m_manualAdditionsComponent = new SyncedCatalogComponent( this, m_manualAdditionsCat, true, 0 ), 6 );
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
-        m_CustomCatalogs->addComponent(
-                    new CatalogComponent( this, allcatalogs.at(i), false, i ), 6
-                    );
+        if( allcatalogs.at(i) == m_internetResolvedCat || allcatalogs.at(i) == m_manualAdditionsCat ) // This is a special catalog
+            continue;
+        m_CustomCatalogs->addComponent(new CatalogComponent( this, allcatalogs.at(i), false, i ), 6 ); // FIXME: Should this be 6 or 5? See SkyMapComposite::reloadDeepSky()
     }
 
     addComponent( m_SolarSystem = new SolarSystemComposite( this ), 2);

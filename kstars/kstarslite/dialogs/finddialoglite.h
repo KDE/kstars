@@ -51,6 +51,11 @@ public:
      * selected object type.
      */
     Q_INVOKABLE void filterByType(uint typeIndex);
+
+    /**
+     * @short searches for the object in internet (adopted to KStars Lite FindDialog::finishProcessing()
+     */
+    Q_INVOKABLE void resolveInInternet(QString searchQuery);
 signals:
     void filterModelChanged();
 
@@ -61,7 +66,6 @@ public slots:
     Q_INVOKABLE void filterList(QString searchQuery);
 
 private:
-
     /** @short Do some post processing on the search text to interpret what the user meant
      * This could include replacing text like "m93" with "m 93"
      */

@@ -740,6 +740,8 @@ private:
     QVector<QVector<QSGTexture*>> textureCache;
     bool clearTextures;
 
+    bool tapBegan;
+
 #ifdef HAVE_INDI
     QList<INDI::BaseDevice *> m_newTelescopes;
     QList<INDI::BaseDevice *> m_delTelescopes;

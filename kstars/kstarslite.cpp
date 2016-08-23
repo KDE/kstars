@@ -160,6 +160,9 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     if( !m_KStarsData->initialize() ) return;
     datainitFinished();
 
+    //Set default options
+
+
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
     qDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()";
 #else

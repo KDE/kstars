@@ -120,8 +120,6 @@ ApplicationWindow {
 
     DetailsAddLink {
         id: detailsAddLink
-        x: (window.width - width)/2
-        y: (window.height - height)/2
     }
 
     DetailsLinkMenu {

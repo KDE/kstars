@@ -38,11 +38,11 @@
 
 /* INDI standard property used across all clients to enable interoperability. */
 const char * indi_std[NINDI_STD] =
-{"CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "GEOGRAPHIC_COORD", "EQUATORIAL_COORD",
- "EQUATORIAL_EOD_COORD", "EQUATORIAL_EOD_COORD_REQUEST", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET",
- "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "DOME_PARK", "GPS_REFRESH", "WEATHER_STATUS", "CCD_EXPOSURE",
- "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCD_VIDEO_STREAM",
- "RAW_STREAM", "IMAGE_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT",  "WATCHDOG_HEARTBEAT", "CAP_PARK", "FLAT_LIGHT_CONTROL", "FLAT_LIGHT_INTENSITY"};
+    {"CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "GEOGRAPHIC_COORD", "EQUATORIAL_COORD",
+     "EQUATORIAL_EOD_COORD", "EQUATORIAL_EOD_COORD_REQUEST", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET",
+     "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "DOME_PARK", "GPS_REFRESH", "WEATHER_STATUS", "CCD_EXPOSURE",
+     "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCD_VIDEO_STREAM",
+     "RAW_STREAM", "IMAGE_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT",  "WATCHDOG_HEARTBEAT", "CAP_PARK", "FLAT_LIGHT_CONTROL", "FLAT_LIGHT_INTENSITY"};
 
 INDIListener * INDIListener::_INDIListener = NULL;
 
@@ -72,7 +72,7 @@ ISD::GDInterface * INDIListener::getDevice(const QString &name)
 {
     foreach(ISD::GDInterface *gi, devices)
         if (!strcmp(gi->getDeviceName(), name.toLatin1().constData()))
-            return gi;
+                return gi;
 
     return NULL;
 }
@@ -118,7 +118,7 @@ void INDIListener::removeClient(ClientManager *cm)
             if (hostSource)
                 return;
         }
-        else
+      else
             ++it;
     }
 
@@ -137,7 +137,7 @@ void INDIListener::processDevice(DeviceInfo *dv)
 }
 
 void INDIListener::removeDevice(DeviceInfo *dv)
-{        
+{
     if (Options::iNDILogging())
         qDebug() << "INDIListener: Removing device " << dv->getBaseDevice()->getDeviceName() << " with unique label " << dv->getDriverInfo()->getUniqueLabel();
 
@@ -184,7 +184,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 gd = new ISD::Telescope(gd);
                 devices.append(gd);
                 emit newTelescope(gd);
-            }
+             }
             else if (gd->getType() == KSTARS_UNKNOWN && (!strcmp(prop->getName(), "CCD_EXPOSURE")))
             {
                 devices.removeOne(gd);
@@ -213,7 +213,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                     devices.append(gd);
                 }
 
-                emit newFocuser(gd);
+               emit newFocuser(gd);
             }
 
             else if (!strcmp(prop->getName(), "DOME_MOTION"))
@@ -225,7 +225,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                     devices.append(gd);
                 }
 
-                emit newDome(gd);
+               emit newDome(gd);
             }
             else if (!strcmp(prop->getName(), "WEATHER_STATUS"))
             {
@@ -236,7 +236,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                     devices.append(gd);
                 }
 
-                emit newWeather(gd);
+               emit newWeather(gd);
             }
             else if (!strcmp(prop->getName(), "CAP_PARK"))
             {
@@ -247,11 +247,11 @@ void INDIListener::registerProperty(INDI::Property *prop)
                     devices.append(gd);
                 }
 
-                emit newDustCap(gd);
+               emit newDustCap(gd);
             }
             else if (!strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
             {
-#if (INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 2)
+                #if (INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 2)
                 // If light box part of dust cap
                 if (gd->getType() == KSTARS_UNKNOWN)
                 {
@@ -273,7 +273,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                         emit newLightBox(gd);
                     }
                 }
-#endif
+                #endif
             }
 
             if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))

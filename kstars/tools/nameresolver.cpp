@@ -21,7 +21,9 @@
 #include "../../datahandlers/catalogentrydata.h"
 
 /* KDE Includes */
+#ifndef KSTARS_LITE
 #include <kio/filecopyjob.h>
+#endif
 
 /* Qt Includes */
 #include <QUrl>

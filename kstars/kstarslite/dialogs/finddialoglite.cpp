@@ -25,6 +25,9 @@
 #include "kstarslite.h"
 
 #include "solarsystemcomposite.h"
+//Resolver
+#include "tools/nameresolver.h"
+#include "skycomponents/syncedcatalogcomponent.h"
 
 #include <QSortFilterProxyModel>
 #include "skyobjectlistmodel.h"
@@ -69,33 +72,33 @@ void FindDialogLite::filterByType(uint typeIndex) {
 
     switch ( typeIndex ) {
     case 0: // All object types
-        {
-            QVector<QPair<QString, const SkyObject *>> allObjects;
-            foreach( int type, data->skyComposite()->objectLists().keys() ) {
-                allObjects.append(data->skyComposite()->objectLists(SkyObject::TYPE(type)));
-            }
-            fModel->setSkyObjectsList( allObjects );
-            break;
+    {
+        QVector<QPair<QString, const SkyObject *>> allObjects;
+        foreach( int type, data->skyComposite()->objectLists().keys() ) {
+            allObjects.append(data->skyComposite()->objectLists(SkyObject::TYPE(type)));
         }
+        fModel->setSkyObjectsList( allObjects );
+        break;
+    }
     case 1: //Stars
-        {
-            QVector<QPair<QString, const SkyObject *>> starObjects;
-            starObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
-            starObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
-            fModel->setSkyObjectsList( starObjects );
-            break;
-        }
+    {
+        QVector<QPair<QString, const SkyObject *>> starObjects;
+        starObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
+        starObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
+        fModel->setSkyObjectsList( starObjects );
+        break;
+    }
     case 2: //Solar system
-        {
-            QVector<QPair<QString, const SkyObject *>> ssObjects;
-            ssObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
-            ssObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
-            ssObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
-            ssObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
+    {
+        QVector<QPair<QString, const SkyObject *>> ssObjects;
+        ssObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
+        ssObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
+        ssObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
+        ssObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
 
-            fModel->setSkyObjectsList(ssObjects);
-            break;
-        }
+        fModel->setSkyObjectsList(ssObjects);
+        break;
+    }
     case 3: //Open Clusters
         fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::OPEN_CLUSTER ) );
         break;
@@ -164,4 +167,21 @@ QString FindDialogLite::processSearchText(QString text) {
     // Check for genetive names of stars. Example: alp CMa must go to alpha Canis Majoris
 
     return searchtext;
+}
+
+void FindDialogLite::resolveInInternet(QString searchQuery) {
+    SkyObject *selObj = 0;
+    CatalogEntryData cedata;
+    cedata = NameResolver::resolveName( processSearchText(searchQuery) );
+    DeepSkyObject *dso = 0;
+    if( ! std::isnan( cedata.ra ) && ! std::isnan( cedata.dec ) ) {
+        dso = KStarsData::Instance()->skyComposite()->internetResolvedComponent()->addObject( cedata );
+        if( dso )
+            qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
+        selObj = dso;
+    }
+    if ( selObj == 0 ) {
+        /*QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
+        KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );*/
+    }
 }

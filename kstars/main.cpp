@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
     QByteArray data = "1";
 
     //qputenv("QSG_RENDER_TIMING", data);
-    KLocalizedString::setApplicationDomain("kstars");
+    KLocalizedString::setApplicationDomain("kstars");    
 #ifndef KSTARS_LITE
     KCrash::initialize();
 

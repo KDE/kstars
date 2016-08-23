@@ -317,16 +317,24 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         }
         mouseMoveEvent(event);
 
+        if( e->touchPointStates() & Qt::TouchPointReleased ) {
+            slewing = false;
+            if(pinch) {
+                pinch = false;
+                mouseButtonDown = false;
+            }
+        }
+
         delete event;
 
-    } else {
-        if(pinch) {
-            pinch = false;
-            mouseButtonDown = false;
-        } else {
-            //If only pan is needed we just use the first touch point
-            if(e->touchPointStates() & Qt::TouchPointMoved || slewing) {
+    } else if (points.length() == 1 && !pinch) {
+        if ( !projector()->unusablePoint( points[0].screenPos() ) ) {
+            if( !tapBegan && (e->touchPointStates() & Qt::TouchPointPressed) ) {
+                tapBegan = true;
+            } else if(e->touchPointStates() & Qt::TouchPointMoved || slewing) {
                 QPointF newFocus = points[0].screenPos();
+                tapBegan = false;
+
                 QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, newFocus,
                                                      Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
                 if(e->type() == QEvent::TouchBegin) {
@@ -349,8 +357,9 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
                     }
                 }
                 delete event;
-            } else if((e->touchPointStates() & (Qt::TouchPointReleased))) { //&& !slewing && points.length() == 1) {
+            } else if((e->touchPointStates() & Qt::TouchPointReleased) && tapBegan ) { //&& !slewing && points.length() == 1) {
                 if(slewing) slewing = false;
+                tapBegan = false;
                 //Show tap animation
                 emit posClicked(points[0].screenPos());
                 //determine RA, Dec of touch
@@ -375,6 +384,7 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         }
     }
 }
+
 
 double SkyMapLite::zoomFactor( const int modifier ) {
     double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0;

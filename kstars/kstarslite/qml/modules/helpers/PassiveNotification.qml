@@ -125,8 +125,6 @@ MouseArea {
             Controls.Label {
                 id: messageLabel
                 width: Math.min(root.parent.width - units.largeSpacing*2, implicitWidth)
-                anchors.centerIn: parent
-                wrapMode: Controls.Label.WrapAtWordBoundaryOrAnywhere
 
                 color: num.sysPalette.window
             }

@@ -22,7 +22,7 @@ namespace ISD
  *
  * @author Jasem Mutlaq
  */
-class Telescope : public QObject
+class Telescope : public DeviceDecorator
 {
     Q_OBJECT
 
@@ -46,7 +46,7 @@ public:
     bool Slew(SkyPoint *ScopeTarget);
     bool Slew(double ra, double dec);
     bool Sync(SkyPoint *ScopeTarget);
-    bool Sync(double ra, double dec);    
+    bool Sync(double ra, double dec);
     bool MoveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd);
     bool MoveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd);
     bool canGuide();
@@ -77,7 +77,6 @@ private:
     SkyPoint currentCoord;
     double minAlt,maxAlt;
     bool IsParked;
-    DeviceFamily dType;
 
 };
 

@@ -22,7 +22,6 @@ Popup {
 
             BusyIndicator {
                 anchors.horizontalCenter: parent.horizontalCenter
-                running: image.status === Image.Loading
             }
 
             Label {

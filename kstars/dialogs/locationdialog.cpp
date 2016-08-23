@@ -488,16 +488,6 @@ bool LocationDialog::checkLongLat() {
     return true;
 }
 
-dms LocationDialog::createDms ( bool deg, bool *ok )
-{
-    dms dmsAngle(0.0); // FIXME: Should we change this to NaN?
-    bool check;
-    check = dmsAngle.setFromString( text(), deg );
-    if (ok) *ok = check; //ok might be a null pointer!
-
-    return dmsAngle;
-}
-
 void LocationDialog::clearFields()
 {
     ld->CityFilter->clear();
