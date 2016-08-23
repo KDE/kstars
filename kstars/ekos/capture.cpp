@@ -1561,6 +1561,9 @@ void Capture::prepareJob(SequenceJob *job)
 {
     activeJob = job;
 
+    // Just notification of active job stating up
+    emit newImage(NULL, activeJob);
+
     connect(job, SIGNAL(checkFocus()), this, SLOT(startPostFilterAutoFocus()));
 
     // Reset calibration stage
@@ -1664,13 +1667,16 @@ void Capture::executeJob()
             activeJob->setCompleted(seqCurrentCount);
             currentImgCountOUT->setText( QString::number(seqCurrentCount));
             imgProgress->setValue(seqCurrentCount);
+
+            // Emit progress update
+            emit newImage(NULL, activeJob);
         }
     }
 
     // Update button status
     setBusy(true);
 
-    useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;        
+    useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
     // Check flat field frame requirements
     if (activeJob->getFrameType() != FRAME_LIGHT && activeJob->isPreview() == false)
@@ -1711,14 +1717,14 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         double deviation_rms = sqrt(delta_ra*delta_ra + delta_dec*delta_dec);
         if (deviation_rms < guideDeviation->value())
         {
-                initialHA = getCurrentHA();                
+                initialHA = getCurrentHA();
                 appendLogText(i18n("Post meridian flip calibration completed successfully."));
                 resumeSequence();
                 // N.B. Set meridian flip stage AFTER resumeSequence() always
                 meridianFlipStage = MF_NONE;
                 return;
         }
-    }    
+    }
 
     // We don't enforce limit on previews
     if (activeJob->isPreview() || activeJob->getExposeLeft() == 0)
@@ -1770,7 +1776,7 @@ void Capture::setGuideDither(bool enable)
 }
 
 void Capture::setAutoguiding(bool enable)
-{  
+{
     // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
     if (enable == false && isAutoGuiding && meridianFlipStage == MF_NONE && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
@@ -3227,7 +3233,7 @@ IPState Capture::processPreCaptureCalibrationStage()
         }
         break;
 
-        
+
     // Park cap, if not parked and not flat frame
     // Unpark cap, if flat frame
     // Turn on Light

@@ -189,7 +189,7 @@ private slots:
 
     // Capture Summary
     void updateCaptureStatus(Ekos::CaptureState status);
-    void updateCaptureImage(QImage *image, Ekos::SequenceJob *job);
+    void updateCaptureProgress(QImage *image, Ekos::SequenceJob *job);
     void updateCaptureCountDown();
 
     // Focus summary

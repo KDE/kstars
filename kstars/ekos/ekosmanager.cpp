@@ -1325,7 +1325,7 @@ void EkosManager::initCapture()
     toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
     connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
     connect(captureProcess, SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(updateCaptureStatus(Ekos::CaptureState)));
-    connect(captureProcess, SIGNAL(newImage(QImage*, Ekos::SequenceJob*)), this, SLOT(updateCaptureImage(QImage*, Ekos::SequenceJob*)));
+    connect(captureProcess, SIGNAL(newImage(QImage*, Ekos::SequenceJob*)), this, SLOT(updateCaptureProgress(QImage*, Ekos::SequenceJob*)));
     captureGroup->setEnabled(true);
     sequenceProgress->setEnabled(true);
     captureProgress->setEnabled(true);
@@ -1820,18 +1820,24 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
     }
 }
 
-void EkosManager::updateCaptureImage(QImage *image, Ekos::SequenceJob *job)
+void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
 {
-    delete (previewPixmap);
-    previewPixmap = new QPixmap(QPixmap::fromImage(*image));
-    previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    if (image)
+    {
+        delete (previewPixmap);
+        previewPixmap = new QPixmap(QPixmap::fromImage(*image));
+        previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
+
 
     if (job->isPreview() == false)
     {
-        sequenceLabel->setText(QString("Job # %1/%2 %3 (%4/%5)").arg(captureProcess->getActiveJobID()+1).arg(captureProcess->getJobCount()).arg(job->getPrefix())
-                               .arg(job->getCompleted()+1).arg(job->getCount()));
+        // Image is set to NULL only on initial capture start up
+        int completed   = (image == NULL) ? job->getCompleted() : job->getCompleted()+1;
+
+        sequenceLabel->setText(QString("Job # %1/%2 %3 (%4/%5)").arg(captureProcess->getActiveJobID()+1).arg(captureProcess->getJobCount()).arg(job->getPrefix()).arg(completed).arg(job->getCount()));
         sequenceProgress->setRange(0, job->getCount());
-        sequenceProgress->setValue(static_cast<int>(job->getCompleted()+1));
+        sequenceProgress->setValue(completed);
     }
 }
 
