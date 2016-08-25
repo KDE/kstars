@@ -721,9 +721,12 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
                 drawText( QRect(idx1, idy1, isize, int(e*size)), Qt::AlignCenter, qMark );
             }
             restore(); //reset coordinate system (and font?)
-
-        } else if ( size>0. ) {
-            drawPoint( QPointF(x, y) );
+        }
+        else if ( size>0. ) {
+            if ( Options::useAntialias() )
+                drawPoint( QPointF(x, y) );
+            else
+                drawPoint( QPoint( x, y ) );
         }
     }
 
