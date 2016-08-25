@@ -483,7 +483,7 @@ void ObservingList::slotNewSelection() {
             m_CurrentObject = o;
             //QPoint pos(0,0);
             plot( o );
-            //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
+            //Change the m_currentImageFileName, DSS/SDSS Url to correspond to the new object
             setCurrentImage( o );
             ui->SearchImage->setEnabled( true );
             if ( newName != i18n( "star" ) ) {
@@ -514,9 +514,8 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->setEnabled( false );
                 ui->SearchImage->setEnabled( false );
             }
-            QString BasePath=  KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
-            QString ImagePath;
-            if( QFile( ImagePath = BasePath + CurrentImage ).exists() )  {
+            QString ImagePath = getCurrentImagePath();
+            if( QFile::exists( getCurrentImagePath() ) )  {
                 ;
             }
             else
@@ -684,7 +683,7 @@ void ObservingList::slotFind() {
 }
 
 void ObservingList::slotEyepieceView() {
-    KStars::Instance()->slotEyepieceView( currentObject(), CurrentImagePath );
+    KStars::Instance()->slotEyepieceView( currentObject(), getCurrentImagePath() );
 }
 
 void ObservingList::slotAVT() {
@@ -1124,30 +1123,30 @@ void ObservingList::slotCustomDSS() {
     QString version = QInputDialog::getItem(this, i18n("Customized DSS Download"), i18n("Specify version: "), strList, 0, false, &ok );
 
     QUrl srcUrl( KSDssDownloader::getDSSURL( currentObject()->ra0(), currentObject()->dec0(), width, height, "gif", version, &md ) );
-    QString CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
 
     delete m_dl;
     m_dl = new KSDssDownloader();
     connect( m_dl, SIGNAL ( downloadComplete( bool ) ), SLOT ( downloadReady( bool ) ) );
-    m_dl->startSingleDownload( srcUrl, CurrentImagePath, md );
+    m_dl->startSingleDownload( srcUrl, getCurrentImagePath(), md );
 
 }
 
 void ObservingList::slotGetImage( bool _dss, const SkyObject *o ) {
     dss = _dss;
-    Q_ASSERT( !o || o == currentObject() ); // FIXME: Meaningless to operate on CurrentImage and CurrentImagePath unless o == currentObject()!
+    Q_ASSERT( !o || o == currentObject() ); // FIXME: Meaningless to operate on m_currentImageFileName unless o == currentObject()!
     if( !o )
         o = currentObject();
     ui->SearchImage->setEnabled( false );
     //ui->ImagePreview->clearPreview();
     ui->ImagePreview->setPixmap(QPixmap());
-    if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage ) )
-        setCurrentImage( o );
-    QFile::remove( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage ) ;
+    setCurrentImage( o );
+    QString currentImagePath = getCurrentImagePath();
+    if ( QFile::exists( currentImagePath ) )
+        QFile::remove( currentImagePath ) ;
     //QUrl url;
     dss = true;
-    qDebug() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
-    KSDssDownloader *dler = new KSDssDownloader( o, KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage );
+    qWarning() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
+    KSDssDownloader *dler = new KSDssDownloader( o, currentImagePath );
     connect( dler, SIGNAL( downloadComplete( bool ) ), SLOT( downloadReady( bool ) ) );
 }
 
@@ -1163,12 +1162,11 @@ void ObservingList::downloadReady( bool success ) {
     else {
 
         /*
-          if( QFile( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + CurrentImage ).size() > 13000)
+          if( QFile( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + m_currentImageFileName ).size() > 13000)
           //The default image is around 8689 bytes
         */
-        CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
-        //ui->ImagePreview->showPreview( QUrl::fromLocalFile( CurrentImagePath ) );
-        ui->ImagePreview->setPixmap(QPixmap(CurrentImagePath).scaledToHeight(ui->ImagePreview->width()));
+        //ui->ImagePreview->showPreview( QUrl::fromLocalFile( getCurrentImagePath() ) );
+        ui->ImagePreview->setPixmap(QPixmap( getCurrentImagePath() ).scaledToHeight(ui->ImagePreview->width()));
         saveThumbImage();
         ui->ImagePreview->show();
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
@@ -1182,16 +1180,15 @@ void ObservingList::downloadReady( bool success ) {
 }
 
 void ObservingList::setCurrentImage( const SkyObject *o  ) {
-    CurrentImage = "Image_" +  o->name().remove(' ');
+    m_currentImageFileName = "Image_" +  o->name().remove(' ');
     ThumbImage = "thumb-" + o->name().toLower().remove(' ') + ".png";
     if( o->name() == "star" ) {
         QString RAString( o->ra0().toHMSString() );
         QString DecString( o->dec0().toDMSString() );
-        CurrentImage = "Image" + RAString.remove(' ') + DecString.remove(' ');
+        m_currentImageFileName = "Image" + RAString.remove(' ') + DecString.remove(' ');
         QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
-        CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
+        m_currentImageFileName = m_currentImageFileName.remove('+').remove('-') + decsgn;
     }
-    CurrentImagePath = KSPaths::locate( QStandardPaths::GenericDataLocation , CurrentImage );
     // DSSUrl = KSDssDownloader::getDSSURL( o );
     // QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
     // QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
@@ -1201,6 +1198,16 @@ void ObservingList::setCurrentImage( const SkyObject *o  ) {
     // Dec = Dec.sprintf( "&dec=%f", o->dec0().Degrees() );
 
     // SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
+}
+
+QString ObservingList::getCurrentImagePath() {
+    QString currentImagePath = KSPaths::locate( QStandardPaths::GenericDataLocation , m_currentImageFileName );
+    if ( QFile::exists( currentImagePath ) ) {
+        return currentImagePath;
+    }
+    else
+        return ( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_currentImageFileName );
+
 }
 
 void ObservingList::slotSaveAllImages() {
@@ -1215,7 +1222,7 @@ void ObservingList::slotSaveAllImages() {
         if( !o )
             continue; // FIXME: Why would we have null objects? But appears that we do.
         setCurrentImage( o );
-        QString img( CurrentImagePath  );
+        QString img( getCurrentImagePath()  );
         //        QUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl ); // FIXME: We have removed SDSS support!
         QUrl url( KSDssDownloader::getDSSURL( o ) );
         if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
@@ -1229,7 +1236,7 @@ void ObservingList::saveImage( QUrl /*url*/, QString /*filename*/, const SkyObje
     if( !o )
         o = currentObject();
     Q_ASSERT( o );
-    if( ! QFile::exists( CurrentImagePath  ) )
+    if( ! QFile::exists( getCurrentImagePath()  ) )
     {
         // Call the DSS downloader
         slotGetImage( true, o );
@@ -1240,9 +1247,10 @@ void ObservingList::saveImage( QUrl /*url*/, QString /*filename*/, const SkyObje
 void ObservingList::slotImageViewer()
 {
     QPointer<ImageViewer> iv;
-    if( QFile::exists( CurrentImagePath ) )
+    QString currentImagePath = getCurrentImagePath();
+    if( QFile::exists( currentImagePath ) )
     {
-        QUrl url = QUrl::fromLocalFile(CurrentImagePath);
+        QUrl url = QUrl::fromLocalFile( currentImagePath );
         iv = new ImageViewer( url );
     }
 
@@ -1288,7 +1296,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
             if( currentObject() ) {
-                if( !QFile::exists( CurrentImagePath ) ) {
+                if( !QFile::exists( getCurrentImagePath() ) ) {
                     if( ! currentObject()->isSolarSystem() )
                         slotGetImage( Options::obsListPreferDSS() );
                     else
@@ -1338,8 +1346,8 @@ void ObservingList::slotSearchImage() {
     QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, i18n( "Image Chooser" ) );
     if ( tp->exec() == QDialog::Accepted )
     {
-        CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
-        QFile f( CurrentImagePath );
+        QString currentImagePath = getCurrentImagePath();
+        QFile f( currentImagePath );
 
         //If a real image was set, save it.
         if ( tp->imageFound() ) {
@@ -1354,14 +1362,14 @@ void ObservingList::slotSearchImage() {
 }
 
 void ObservingList::slotDeleteCurrentImage() {
-    QFile::remove( CurrentImagePath );
+    QFile::remove( getCurrentImagePath() );
     ImagePreviewHash.remove(m_CurrentObject);
     slotNewSelection();
 }
 
 void ObservingList::saveThumbImage() {
     if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + ThumbImage ) )  {
-        QImage img( CurrentImagePath );
+        QImage img( getCurrentImagePath() );
         img = img.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
         img.save( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + ThumbImage ) ;
     }

@@ -132,6 +132,11 @@ public:
         */
     void setCurrentImage( const SkyObject *o );
 
+    /**
+     * @short Returns a path to the current image, or a writable image.
+     */
+    QString getCurrentImagePath();
+
     /** @short Save the user log text to a file.
         *@note the log is attached to the current object in obsList.
         */
@@ -384,7 +389,7 @@ private:
     QList<SkyObject*> m_WishList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
-    QString m_listFileName, CurrentImage, ThumbImage, CurrentImagePath;
+    QString m_listFileName, m_currentImageFileName, ThumbImage;
     KStarsDateTime dt;
     GeoLocation *geo;
     QStandardItemModel *m_WishListModel, *m_SessionModel;
