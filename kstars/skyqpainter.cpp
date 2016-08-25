@@ -19,9 +19,6 @@
 
 #include "skyqpainter.h"
 
-#include <QMap>
-#include <QWidget>
-
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skymap.h"
@@ -42,6 +39,9 @@
 #include "skyobjects/constellationsart.h"
 #include "projections/projector.h"
 #include "ksutils.h"
+
+#include <QMap>
+#include <QWidget>
 
 namespace {
 
