@@ -526,7 +526,6 @@ bool SkyQPainter::drawDeepSkyImage(const QPointF& pos, DeepSkyObject* obj, float
     return true;
 }
 
-//FIXME: Do we really need two versions of all of this code? (int/float)
 void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, float e, float positionAngle)
 {
     float x = pos.x();
@@ -559,15 +558,41 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
 
     QBrush tempBrush;
 
+    std::function<void( float, float, float, float )> lambdaDrawEllipse;
+    std::function<void( float, float, float, float )> lambdaDrawLine;
+    std::function<void( float, float, float, float )> lambdaDrawCross;
+
+    if ( Options::useAntialias() ) {
+        lambdaDrawEllipse = [this]( float x, float y, float width, float height ) {
+            drawEllipse( QRectF( x, y, width, height ) );
+        };
+        lambdaDrawLine = [this]( float x1, float y1, float x2, float y2 ) {
+            drawLine( QLineF( x1, y1, x2, y2 ) );
+        };
+        lambdaDrawCross = [this]( float centerX, float centerY, float sizeX, float sizeY ) {
+            drawLine( QLineF( centerX - sizeX/2., centerY, centerX + sizeX/2., centerY ) );
+            drawLine( QLineF( centerX, centerY - sizeY/2., centerX, centerY + sizeY/2. ) );
+        };
+    }
+    else {
+        lambdaDrawEllipse = [this]( float x, float y, float width, float height ) {
+            drawEllipse( QRect( x, y, width, height ) );
+        };
+        lambdaDrawLine = [this]( float x1, float y1, float x2, float y2 ) {
+            drawLine( QLine( x1, y1, x2, y2 ) );
+        };
+        lambdaDrawCross = [this]( float centerX, float centerY, float sizeX, float sizeY ) {
+            drawLine( QLine( centerX - sizeX/2., centerY, centerX + sizeX/2., centerY ) );
+            drawLine( QLine( centerX, centerY - sizeY/2., centerX, centerY + sizeY/2. ) );
+        };
+    }
+
     switch ( type ) {
     case 0:
     case 1: //catalog star
         //Some NGC/IC objects are stars...changed their type to 1 (was double star)
         if (size<2.) size = 2.;
-        if ( Options::useAntialias() )
-            drawEllipse( QRectF(x1, y1, size/2., size/2.) );
-        else
-            drawEllipse( QRect(int(x1), int(y1), int(size/2), int(size/2)) );
+        lambdaDrawEllipse( x1, y1, size/2., size/2. );
         break;
     case 2: //Planet
         break;
@@ -579,13 +604,9 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         psize = 2.;
         if ( size > 50. )  psize *= 2.;
         if ( size > 100. ) psize *= 2.;
-        std::function<void( float, float )> putDot;
-        if ( Options::useAntialias() ) {
-            putDot = [=]( float x, float y ) { drawEllipse( QRectF( x, y, psize, psize ) ); };
-        }
-        else {
-            putDot = [=]( float x, float y ) { drawEllipse( QRect( int( x ), int( y ), int( psize ), int( psize ) ) ); };
-        }
+        auto putDot = [this, psize, &lambdaDrawEllipse]( float x, float y ) {
+            lambdaDrawEllipse( x, y, psize, psize );
+        };
         putDot( xa, y1 );
         putDot( xb, y1 );
         putDot( xa, y2 );
@@ -603,20 +624,9 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         translate( x, y );
         color = pen().color().name();
         rotate( positionAngle );  //rotate the coordinate system
-
-        if ( Options::useAntialias() ) {
-            drawEllipse( QRectF(dx1, dy1, size, e*size) );
-            drawLine( QPointF(0., dy1), QPointF(0., dy2) );
-            drawLine( QPointF(dx1, 0.), QPointF(dx2, 0.) );
-            restore(); //reset coordinate system
-        } else {
-            int idx1 = int(dx1); int idy1 = int(dy1);
-            int idx2 = int(dx2); int idy2 = int(dy2);
-            drawEllipse( QRect(idx1, idy1, isize, int(e*size)) );
-            drawLine( QPoint(0, idy1), QPoint(0, idy2) );
-            drawLine( QPoint(idx1, 0), QPoint(idx2, 0) );
-            restore(); //reset coordinate system
-        }
+        lambdaDrawEllipse( dx1, dy1, size, e*size );
+        lambdaDrawCross( 0, 0, size, e*size );
+        restore(); //reset coordinate system
         break;
 
     case 5: //Gaseous Nebula
@@ -625,20 +635,11 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         save();
         translate( x, y );
         rotate( positionAngle );  //rotate the coordinate system
-color = pen().color().name();
-        if ( Options::useAntialias() ) {
-            drawLine( QPointF(dx1, dy1), QPointF(dx2, dy1) );
-            drawLine( QPointF(dx2, dy1), QPointF(dx2, dy2) );
-            drawLine( QPointF(dx2, dy2), QPointF(dx1, dy2) );
-            drawLine( QPointF(dx1, dy2), QPointF(dx1, dy1) );
-        } else {
-            int idx1 = int(dx1); int idy1 = int(dy1);
-            int idx2 = int(dx2); int idy2 = int(dy2);
-            drawLine( QPoint(idx1, idy1), QPoint(idx2, idy1) );
-            drawLine( QPoint(idx2, idy1), QPoint(idx2, idy2) );
-            drawLine( QPoint(idx2, idy2), QPoint(idx1, idy2) );
-            drawLine( QPoint(idx1, idy2), QPoint(idx1, idy1) );
-        }
+        color = pen().color().name();
+        lambdaDrawLine( dx1, dy1, dx2, dy1 );
+        lambdaDrawLine( dx2, dy1, dx2, dy2 );
+        lambdaDrawLine( dx2, dy2, dx1, dy2 );
+        lambdaDrawLine( dx1, dy2, dx1, dy1 );
         restore(); //reset coordinate system
         break;
     case 6: //Planetary Nebula
@@ -646,45 +647,24 @@ color = pen().color().name();
         save();
         translate( x, y );
         rotate( positionAngle );  //rotate the coordinate system
-color = pen().color().name();
-        if ( Options::useAntialias() ) {
-            drawEllipse( QRectF(dx1, dy1, size, e*size) );
-            drawLine( QPointF(0., dy1), QPointF(0., dy1 - e*size/2. ) );
-            drawLine( QPointF(0., dy2), QPointF(0., dy2 + e*size/2. ) );
-            drawLine( QPointF(dx1, 0.), QPointF(dx1 - size/2., 0.) );
-            drawLine( QPointF(dx2, 0.), QPointF(dx2 + size/2., 0.) );
-        } else {
-            int idx1 = int(dx1); int idy1 = int(dy1);
-            int idx2 = int(dx2); int idy2 = int(dy2);
-            drawEllipse( QRect( idx1, idy1, isize, int(e*size) ) );
-            drawLine( QPoint(0, idy1), QPoint(0, idy1 - int(e*size/2) ) );
-            drawLine( QPoint(0, idy2), QPoint(0, idy2 + int(e*size/2) ) );
-            drawLine( QPoint(idx1, 0), QPoint(idx1 - int(size/2), 0) );
-            drawLine( QPoint(idx2, 0), QPoint(idx2 + int(size/2), 0) );
-        }
-
+        color = pen().color().name();
+        lambdaDrawEllipse( dx1, dy1, size, e*size );
+        lambdaDrawLine( 0., dy1, 0., dy1 - e*size/2. );
+        lambdaDrawLine( 0., dy2, 0., dy2 + e*size/2. );
+        lambdaDrawLine( dx1, 0., dx1 - size/2., 0. );
+        lambdaDrawLine( dx2, 0., dx2 + size/2., 0. );
         restore(); //reset coordinate system
         break;
-    case 7: //Supernova remnant
+    case 7: //Supernova remnant // FIXME: Why is SNR drawn different from a gaseous nebula?
         if (size<2) size = 2;
         save();
         translate( x, y );
         rotate( positionAngle );  //rotate the coordinate system
-color = pen().color().name();
-        if ( Options::useAntialias() ) {
-            drawLine( QPointF(0., dy1), QPointF(dx2, 0.) );
-            drawLine( QPointF(dx2, 0.), QPointF(0., dy2) );
-            drawLine( QPointF(0., dy2), QPointF(dx1, 0.) );
-            drawLine( QPointF(dx1, 0.), QPointF(0., dy1) );
-        } else {
-            int idx1 = int(dx1); int idy1 = int(dy1);
-            int idx2 = int(dx2); int idy2 = int(dy2);
-            drawLine( QPoint(0, idy1), QPoint(idx2, 0) );
-            drawLine( QPoint(idx2, 0), QPoint(0, idy2) );
-            drawLine( QPoint(0, idy2), QPoint(idx1, 0) );
-            drawLine( QPoint(idx1, 0), QPoint(0, idy1) );
-        }
-
+        color = pen().color().name();
+        lambdaDrawLine( 0., dy1, dx2, 0. );
+        lambdaDrawLine( dx2, 0., 0., dy2 );
+        lambdaDrawLine( 0., dy2, dx1, 0. );
+        lambdaDrawLine( dx1, 0., 0., dy1 );
         restore(); //reset coordinate system
         break;
     case 8: //Galaxy
@@ -770,16 +750,13 @@ color = pen().color().name();
             setFont( f );
             translate( x, y );
             rotate( positionAngle );  //rotate the coordinate system
-
-            if ( Options::useAntialias() ) {
-                drawEllipse( QRectF(dx1, dy1, size, e*size) );
+            lambdaDrawEllipse( dx1, dy1, size, e*size );
+            if ( Options::useAntialias() )
                 drawText( QRectF(dx1, dy1, size, e*size), Qt::AlignCenter, qMark );
-            } else {
+            else {
                 int idx1 = int(dx1); int idy1 = int(dy1);
-                drawEllipse( QRect(idx1, idy1, isize, int(e*size)) );
-                drawText( QRectF(idx1, idy1, isize, int(e*size)), Qt::AlignCenter, qMark );
+                drawText( QRect(idx1, idy1, isize, int(e*size)), Qt::AlignCenter, qMark );
             }
-
             restore(); //reset coordinate system (and font?)
 
         } else if ( size>0. ) {
