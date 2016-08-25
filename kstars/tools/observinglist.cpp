@@ -208,7 +208,7 @@ ObservingList::ObservingList()
     ui->OpenButton->setIcon( QIcon::fromTheme("document-open") );
     ui->SaveButton->setIcon( QIcon::fromTheme("document-save") );
     ui->SaveAsButton->setIcon( QIcon::fromTheme("document-save-as") );
-    ui->WizardButton->setIcon( QIcon::fromTheme("games-solve") ); //is there a better icon for this button?
+    ui->WizardButton->setIcon( QIcon::fromTheme("tools-wizard") );
     ui->MiniButton->setIcon( QIcon::fromTheme("view-restore") );
     noSelection = true;
     showScope = false;
