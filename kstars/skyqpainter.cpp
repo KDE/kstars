@@ -676,67 +676,30 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
             save();
             translate( x, y );
             rotate( positionAngle );  //rotate the coordinate system
-
-            if ( Options::useAntialias() ) {
-                drawEllipse( QRectF(dx1, dy1, size, e*size) );
-            } else {
-                int idx1 = int(dx1); int idy1 = int(dy1);
-                drawEllipse( QRect(idx1, idy1, isize, int(e*size)) );
-            }
-
+            lambdaDrawEllipse( dx1, dy1, size, e*size );
             restore(); //reset coordinate system
 
         } else if ( size>0. ) {
             drawPoint( QPointF(x, y) );
         }
         break;
-    case 14: // Galaxy cluster - draw a circle of + marks
+    case 14: { // Galaxy cluster - draw a dashed circle
         tempBrush = brush();
-        setBrush( pen().color() );
+        setBrush( QBrush() );
         psize = 1.;
         if ( size > 50. )  psize *= 2.;
-color = pen().color().name();
-        if ( Options::useAntialias() ) {
-            drawLine( QLineF( xa - psize, y1, xa + psize, y1 ) );
-            drawLine( QLineF( xa, y1 - psize, xa, y1 + psize ) );
-            drawLine( QLineF( xb - psize, y1, xb + psize, y1 ) );
-            drawLine( QLineF( xb, y1 - psize, xb, y1 + psize ) );
-            drawLine( QLineF( xa - psize, y2, xa + psize, y2 ) );
-            drawLine( QLineF( xa, y2 - psize, xa, y2 + psize ) );
-            drawLine( QLineF( xb - psize, y2, xb + psize, y2 ) );
-            drawLine( QLineF( xb, y2 - psize, xb, y2 + psize ) );
-            drawLine( QLineF( x1 - psize, ya, x1 + psize, ya ) );
-            drawLine( QLineF( x1, ya - psize, x1, ya + psize ) );
-            drawLine( QLineF( x1 - psize, yb, x1 + psize, yb ) );
-            drawLine( QLineF( x1, yb - psize, x1, yb + psize ) );
-            drawLine( QLineF( x2 - psize, ya, x2 + psize, ya ) );
-            drawLine( QLineF( x2, ya - psize, x2, ya + psize ) );
-            drawLine( QLineF( x2 - psize, yb, x2 + psize, yb ) );
-            drawLine( QLineF( x2, yb - psize, x2, yb + psize ) );
-        } else {
-            int ix1 = int(x1); int iy1 = int(y1);
-            int ix2 = int(x2); int iy2 = int(y2);
-            int ixa = int(xa); int iya = int(ya);
-            int ixb = int(xb); int iyb = int(yb);
-            drawLine( QLineF( ixa - int(psize), iy1, ixa + int(psize), iy1 ) );
-            drawLine( QLineF( ixa, iy1 - int(psize), ixa, iy1 + int(psize) ) );
-            drawLine( QLineF( ixb - int(psize), iy1, ixb + int(psize), iy1 ) );
-            drawLine( QLineF( ixb, iy1 - int(psize), ixb, iy1 + int(psize) ) );
-            drawLine( QLineF( ixa - int(psize), iy2, ixa + int(psize), iy2 ) );
-            drawLine( QLineF( ixa, iy2 - int(psize), ixa, iy2 + int(psize) ) );
-            drawLine( QLineF( ixb - int(psize), iy2, ixb + int(psize), iy2 ) );
-            drawLine( QLineF( ixb, iy2 - int(psize), ixb, iy2 + int(psize) ) );
-            drawLine( QLineF( ix1 - int(psize), iya, ix1 + int(psize), iya ) );
-            drawLine( QLineF( ix1, iya - int(psize), ix1, iya + int(psize) ) );
-            drawLine( QLineF( ix1 - int(psize), iyb, ix1 + int(psize), iyb ) );
-            drawLine( QLineF( ix1, iyb - int(psize), ix1, iyb + int(psize) ) );
-            drawLine( QLineF( ix2 - int(psize), iya, ix2 + int(psize), iya ) );
-            drawLine( QLineF( ix2, iya - int(psize), ix2, iya + int(psize) ) );
-            drawLine( QLineF( ix2 - int(psize), iyb, ix2 + int(psize), iyb ) );
-            drawLine( QLineF( ix2, iyb - int(psize), ix2, iyb + int(psize) ) );
-        }
+        color = pen().color().name();
+        save();
+        translate( x, y );
+        rotate( positionAngle );  //rotate the coordinate system
+        QPen newPen = pen();
+        newPen.setStyle( Qt::DashLine );
+        setPen( newPen );
+        lambdaDrawEllipse( dx1, dy1, size, e*size );
+        restore();
         setBrush( tempBrush );
         break;
+    }
     default: // Unknown object or something we don't know how to draw. Just draw an ellipse with a ?-mark
         color = pen().color().name();
         if ( size <1. && zoom > 20*MINZOOM ) size = 3.; //force ellipse above zoomFactor 20
