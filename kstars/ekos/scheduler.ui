@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>722</width>
-    <height>460</height>
+    <height>488</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -409,7 +409,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>Create mosaic job</string>
+             <string>Create mosaic job. You must add a job before creating a mosaic job.</string>
             </property>
             <property name="text">
              <string/>
@@ -1214,17 +1214,17 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="constraintButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
   <buttongroup name="completionButtonGroup"/>
   <buttongroup name="stepsButtonGroup">
    <property name="exclusive">

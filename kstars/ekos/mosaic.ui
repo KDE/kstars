@@ -27,7 +27,7 @@
           </sizepolicy>
          </property>
          <property name="title">
-          <string>Equipment</string>
+          <string>1. Equipment</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
           <item row="2" column="2">
@@ -124,6 +124,9 @@
           </item>
           <item row="0" column="0">
            <widget class="QLabel" name="label_4">
+            <property name="toolTip">
+             <string>Mount focal length in millimeters</string>
+            </property>
             <property name="text">
              <string>Focal Length:</string>
             </property>
@@ -131,6 +134,9 @@
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_11">
+            <property name="toolTip">
+             <string>Camera pixel size in microns</string>
+            </property>
             <property name="text">
              <string>Pixel Size:</string>
             </property>
@@ -138,6 +144,9 @@
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_8">
+            <property name="toolTip">
+             <string>Camera frame width and height in pixels</string>
+            </property>
             <property name="text">
              <string>Camera:</string>
             </property>
@@ -195,6 +204,9 @@
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="label_2">
+            <property name="toolTip">
+             <string>Camera's rotation angle (East of North) in degrees. To measure the angle, solve an image and use the astrometry solver solution's rotation angle</string>
+            </property>
             <property name="text">
              <string>Rotation:</string>
             </property>
@@ -229,13 +241,16 @@
           <bool>true</bool>
          </property>
          <property name="title">
-          <string>FOV</string>
+          <string>2. FOV</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="0" column="0">
            <widget class="QLabel" name="cameraFOVLabel">
             <property name="enabled">
              <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Camera FOV in arc minutes as determined from equipment parameters above</string>
             </property>
             <property name="text">
              <string>Camera FOV:</string>
@@ -244,8 +259,11 @@
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label">
+            <property name="toolTip">
+             <string>Specify the number of rows and columns of the final mosaic image</string>
+            </property>
             <property name="text">
-             <string>Mosaic:</string>
+             <string>Mosaic Grid:</string>
             </property>
            </widget>
           </item>
@@ -277,8 +295,11 @@
             <property name="enabled">
              <bool>true</bool>
             </property>
+            <property name="toolTip">
+             <string>Final mosaic field of view size in arc minutes. Click update to calculate it or enter it manually.</string>
+            </property>
             <property name="text">
-             <string>Target FOV:</string>
+             <string>Mosaic FOV:</string>
             </property>
            </widget>
           </item>
@@ -415,6 +436,9 @@
             <property name="enabled">
              <bool>true</bool>
             </property>
+            <property name="toolTip">
+             <string>Percentage of overlap between two neighbouring images</string>
+            </property>
             <property name="text">
              <string>Overlap:</string>
             </property>
@@ -474,7 +498,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>Output</string>
+          <string>3. Output</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
@@ -483,6 +507,9 @@
              <widget class="QLabel" name="jobCountLabel">
               <property name="enabled">
                <bool>true</bool>
+              </property>
+              <property name="toolTip">
+               <string>Number of scheduler jobs required to capture the mosaic image. Click update to calculate it</string>
               </property>
               <property name="text">
                <string>Job Count:</string>
@@ -569,6 +596,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
           <widget class="QPushButton" name="updateB">
+           <property name="toolTip">
+            <string>Calculate target FOV and number of jobs required to capture the mosaic</string>
+           </property>
            <property name="text">
             <string>Update</string>
            </property>
@@ -576,6 +606,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="resetB">
+           <property name="toolTip">
+            <string>Reset all parameters</string>
+           </property>
            <property name="text">
             <string>Reset</string>
            </property>
@@ -598,6 +631,9 @@
           <widget class="QPushButton" name="createJobsB">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Create scheduler jobs to capture the mosaic image</string>
            </property>
            <property name="text">
             <string>Create Jobs</string>
