@@ -65,7 +65,7 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
     QRegularExpression matchJ2000Line( "^(.*)(?:J2000|ICRS|FK5|\\(2000(?:\\.0)?\\))(.*)$" );
     matchJ2000Line.setPatternOptions( QRegularExpression::MultilineOption );
     QRegularExpression matchCoords( "(?:^|[^-\\d])([-+]?\\d\\d?)(?:h ?|d ?|[^\\d]?° ?|:| +)(\\d\\d)(?:m ?|\' ?|’ ?|′ ?|:| +)(\\d\\d(?:\\.\\d+)?)?(?:s|\"|\'\'|”|″)?\\b" );
-    QRegularExpression matchCoords2( "J\\d{6,6}[-+]\\d{6,6}" );
+    QRegularExpression matchCoords2( "J?\\d{6,6}[-+]\\d{6,6}" );
     QRegularExpression findMag1( "(?:[mM]ag(?:nitudes?)?\\s*(?:\\([vV]\\))?|V(?=\\b))(?:\\s*=|:)?\\s*(-?\\d{1,2}(?:\\.\\d{1,3})?)" );
     QRegularExpression findMag2( "\\b-?\\d{1,2}(\\.\\d{1,3})?\\s*[mM]ag\\b");
     QRegularExpression findSize1( "\\b(\\d{1,3}(?:\\.\\d{1,2})?)\\s*(°|\'|\"|\'\')?\\s*[xX×]\\s*(\\d{1,3}(?:\\.\\d{1,2})?)\\s*(°|\'|\"|\'\')?\\b" );
@@ -99,8 +99,6 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
         if ( text.indexOf( matchJ2000Line, 0, &rmatch ) >= 0 ) {
             coordText = rmatch.captured( 1 ) + rmatch.captured( 2 );
             qDebug() << "Found a J2000 line match: " << coordText;
-            if ( countNonOverlappingMatches( coordText, matchCoords ) != 2 )
-                coordText = QString(); // Give up
         }
     }
     if ( !coordText.isEmpty() ) {
