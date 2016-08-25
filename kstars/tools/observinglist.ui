@@ -589,7 +589,7 @@
         </size>
        </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>(No Image)</string>
        </property>
       </widget>
      </item>
