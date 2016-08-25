@@ -371,7 +371,7 @@ private:
      * @short Return the active view
      * @return the active view in the UI -- session view or wishlist view depending on which one is active.
      */
-    inline QTableView *getActiveView() const { return ( ( sessionView ) ? ( ui->SessionView ) : ( ui->TableView ) ); }
+    inline QTableView *getActiveView() const { return ( ( sessionView ) ? ( ui->SessionView ) : ( ui->WishListView ) ); }
 
     /**
      * @short Get the currently selected item indexes

@@ -136,10 +136,10 @@ ObservingList::ObservingList()
     m_WishListSortModel = new QSortFilterProxyModel( this );
     m_WishListSortModel->setSourceModel( m_WishListModel );
     m_WishListSortModel->setDynamicSortFilter( true );
-    ui->TableView->setModel( m_WishListSortModel );
-    ui->TableView->horizontalHeader()->setStretchLastSection( true );
+    ui->WishListView->setModel( m_WishListSortModel );
+    ui->WishListView->horizontalHeader()->setStretchLastSection( true );
 
-    ui->TableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
+    ui->WishListView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
     m_SessionSortModel = new SessionSortFilterProxyModel;
     m_SessionSortModel->setSourceModel( m_SessionModel );
     m_SessionSortModel->setDynamicSortFilter( true );
@@ -158,15 +158,15 @@ ObservingList::ObservingList()
     ui->DateEdit->setDate(dt.date());
     ui->SetLocation->setText( geo -> fullName() );
     ui->ImagePreview->installEventFilter( this );
-    ui->TableView->viewport()->installEventFilter( this );
-    ui->TableView->installEventFilter( this );
+    ui->WishListView->viewport()->installEventFilter( this );
+    ui->WishListView->installEventFilter( this );
     ui->SessionView->viewport()->installEventFilter( this );
     ui->SessionView->installEventFilter( this );
     // setDefaultImage();
     //Connections
-    connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
+    connect( ui->WishListView, SIGNAL( doubleClicked( const QModelIndex& ) ),
              this, SLOT( slotCenterObject() ) );
-    connect( ui->TableView->selectionModel(),
+    connect( ui->WishListView->selectionModel(),
             SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
             this, SLOT( slotNewSelection() ) );
     connect( ui->SessionView->selectionModel(),
@@ -309,7 +309,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         m_WishListModel->appendRow( itemList );
         //Note addition in statusbar
         KStars::Instance()->statusBar()->showMessage( i18n( "Added %1 to observing list.", finalObjectName ), 0 );
-        ui->TableView->resizeColumnsToContents();
+        ui->WishListView->resizeColumnsToContents();
         if( ! update ) slotSaveList();
     }
     //Insert object in the Session List
@@ -393,7 +393,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
     if( ! session ) {
         obsList().removeAt(k);
         ui->avt->removeAllPlotObjects();
-        ui->TableView->resizeColumnsToContents();
+        ui->WishListView->resizeColumnsToContents();
         if( ! update )
             slotSaveList();
     } else {
@@ -415,7 +415,7 @@ void ObservingList::slotRemoveSelectedObjects() {
         if ( sessionView )
             rowSelected = ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() );
         else
-            rowSelected = ui->TableView->selectionModel()->isRowSelected( irow, QModelIndex() );
+            rowSelected = ui->WishListView->selectionModel()->isRowSelected( irow, QModelIndex() );
 
         if ( rowSelected ) {
             QModelIndex sortIndex, index;
@@ -707,7 +707,7 @@ void ObservingList::slotAVT() {
         avt->exec();
         delete avt;
     } else {
-        selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+        selectedItems = m_WishListSortModel->mapSelectionToSource( ui->WishListView->selectionModel()->selection() ).indexes();
         if ( selectedItems.size() ) {
             QPointer<AltVsTime> avt = new AltVsTime( KStars::Instance() );
             foreach ( const QModelIndex &i, selectedItems ) { // FIXME: This code is repeated too many times. We should find a better way to do it.
@@ -727,7 +727,7 @@ void ObservingList::slotClose() {
     saveCurrentUserLog();
     ui->avt->removeAllPlotObjects();
     slotNewSelection();
-    saveCurrentList();    
+    saveCurrentList();
     hide();
 }
 
@@ -983,14 +983,14 @@ void ObservingList::slotToggleSize() {
         ui->refLabel->setText( i18nc( "Abbreviation for Reference Images:", "RefImg:" ) );
         ui->addLabel->setText( i18nc( "Add objects to a list", "Add:" ) );
         //Hide columns 1-5
-        ui->TableView->hideColumn(1);
-        ui->TableView->hideColumn(2);
-        ui->TableView->hideColumn(3);
-        ui->TableView->hideColumn(4);
-        ui->TableView->hideColumn(5);
+        ui->WishListView->hideColumn(1);
+        ui->WishListView->hideColumn(2);
+        ui->WishListView->hideColumn(3);
+        ui->WishListView->hideColumn(4);
+        ui->WishListView->hideColumn(5);
         //Hide the headers
-        ui->TableView->horizontalHeader()->hide();
-        ui->TableView->verticalHeader()->hide();
+        ui->WishListView->horizontalHeader()->hide();
+        ui->WishListView->verticalHeader()->hide();
         //Hide Observing notes
         ui->NotesLabel->hide();
         ui->NotesEdit->hide();
@@ -1002,10 +1002,10 @@ void ObservingList::slotToggleSize() {
         //or the width of column 1, whichever is larger
         /*
         int w = 5*ui->MiniButton->width();
-        if ( ui->TableView->columnWidth(0) > w ) {
-            w = ui->TableView->columnWidth(0);
+        if ( ui->WishListView->columnWidth(0) > w ) {
+            w = ui->WishListView->columnWidth(0);
         } else {
-            ui->TableView->setColumnWidth(0, w);
+            ui->WishListView->setColumnWidth(0, w);
         }
         int left, right, top, bottom;
         ui->layout()->getContentsMargins( &left, &top, &right, &bottom );
@@ -1019,13 +1019,13 @@ void ObservingList::slotToggleSize() {
     } else {
         ui->MiniButton->setIcon( QIcon::fromTheme( "view-restore" ) );
         //Show columns 1-5
-        ui->TableView->showColumn(1);
-        ui->TableView->showColumn(2);
-        ui->TableView->showColumn(3);
-        ui->TableView->showColumn(4);
-        ui->TableView->showColumn(5);
+        ui->WishListView->showColumn(1);
+        ui->WishListView->showColumn(2);
+        ui->WishListView->showColumn(3);
+        ui->WishListView->showColumn(4);
+        ui->WishListView->showColumn(5);
         //Show the horizontal header
-        ui->TableView->horizontalHeader()->show();
+        ui->WishListView->horizontalHeader()->show();
         //Expand text on each button
         ui->FindButton->setText( i18n( "Find &Object") );
         ui->saveImages->setText( i18n( "Download all Images" ) );
@@ -1065,7 +1065,7 @@ void ObservingList::slotChangeTab(int index) {
     ui->WizardButton->setEnabled( ! sessionView );//wizard adds only to the Wish List
     ui->OALExport->setEnabled( sessionView );
     //Clear the selection in the Tables
-    ui->TableView->clearSelection();
+    ui->WishListView->clearSelection();
     ui->SessionView->clearSelection();
     //Clear the user log text box.
     saveCurrentUserLog();
@@ -1210,7 +1210,7 @@ void ObservingList::slotSaveAllImages() {
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
     //Clear the selection in the Tables
-    ui->TableView->clearSelection();
+    ui->WishListView->clearSelection();
     ui->SessionView->clearSelection();
 
     foreach( SkyObject *o, getActiveList() ) {
@@ -1259,7 +1259,7 @@ void ObservingList::slotDeleteAllImages() {
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
     //Clear the selection in the Tables
-    ui->TableView->clearSelection();
+    ui->WishListView->clearSelection();
     ui->SessionView->clearSelection();
     //ui->ImagePreview->clearPreview();
     ui->ImagePreview->setPixmap(QPixmap());
@@ -1301,7 +1301,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
             return true;
         }
     }
-    if( obj == ui->TableView->viewport() || obj == ui->SessionView->viewport() ) {
+    if( obj == ui->WishListView->viewport() || obj == ui->SessionView->viewport() ) {
         bool sessionViewEvent = ( obj == ui->SessionView->viewport() );
 
         if( event->type() == QEvent::MouseButtonRelease  ) { // Mouse button release event
@@ -1318,7 +1318,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
         }
     }
 
-    if( obj == ui->TableView || obj == ui->SessionView )
+    if( obj == ui->WishListView || obj == ui->SessionView )
     {
         if (event->type() == QEvent::KeyPress)
         {
@@ -1391,7 +1391,7 @@ void ObservingList::slotAddVisibleObj() {
     QPointer<WUTDialog> w = new WUTDialog( KStars::Instance(), sessionView, geo, lt );
     w->init();
     QModelIndexList selectedItems;
-    selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+    selectedItems = m_WishListSortModel->mapSelectionToSource( ui->WishListView->selectionModel()->selection() ).indexes();
     if ( selectedItems.size() )
         foreach ( const QModelIndex &i, selectedItems ) {
             foreach ( SkyObject *o, obsList() )
