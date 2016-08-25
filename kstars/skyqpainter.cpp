@@ -77,6 +77,7 @@ namespace {
 
 int SkyQPainter::starColorMode = 0;
 QColor SkyQPainter::m_starColor = QColor();
+QMap<char, QColor> SkyQPainter::ColorMap = QMap<char, QColor>();
 
 
 SkyQPainter::SkyQPainter( QPaintDevice *pd )
@@ -144,9 +145,9 @@ void SkyQPainter::setBrush(const QBrush& brush)
 void SkyQPainter::initStarImages()
 {
 
-    QMap<char, QColor> ColorMap;
     const int starColorIntensity = Options::starColorIntensity();
 
+    ColorMap.clear();
     switch( Options::starColorMode() ) {
     case 1: // Red stars.
         m_starColor = Qt::red;
@@ -409,7 +410,7 @@ bool SkyQPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
 {
     int isize = qMin(static_cast<int>(size), 14);
-    if( !m_vectorStars || ( starColorMode <=0 || starColorMode > 3 )  ) {
+    if( !m_vectorStars || starColorMode == 0  ) {
         // Draw stars as bitmaps, either because we were asked to, or because we're painting real colors
         QPixmap* im = imageCache[ harvardToIndex(sp) ][isize];
         float offset = 0.5 * im->width();
@@ -417,8 +418,16 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
     }
     else {
         // Draw stars as vectors, for better printing / SVG export etc.
-        setPen( m_starColor );
-        setBrush( m_starColor );
+        if ( starColorMode != 4 ) {
+            setPen( m_starColor );
+            setBrush( m_starColor );
+        }
+        else {
+            // Note: This is not efficient, but we use vector stars only when plotting SVG, not when drawing the skymap, so speed is not very important.
+            QColor c = ColorMap.value( sp, Qt::white );
+            setPen( c );
+            setBrush( c );
+        }
 
         // Be consistent with old raster representation
         if( size > 14 )

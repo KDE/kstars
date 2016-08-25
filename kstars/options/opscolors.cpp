@@ -86,6 +86,7 @@ OpsColors::OpsColors()
     kcfg_StarColorMode->addItem( i18nc( "show stars as red circles", "Solid Red" ) );
     kcfg_StarColorMode->addItem( i18nc( "show stars as black circles", "Solid Black" ) );
     kcfg_StarColorMode->addItem( i18nc( "show stars as white circles", "Solid White" ) );
+    kcfg_StarColorMode->addItem( i18nc( "show stars as colored circles", "Solid Colors" ) );
     kcfg_StarColorMode->setCurrentIndex( KStarsData::Instance()->colorScheme()->starColorMode() );
 
     if ( KStarsData::Instance()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"

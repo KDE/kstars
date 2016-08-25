@@ -767,9 +767,9 @@
     </entry>
     <entry name="StarColorMode" type="UInt">
       <label>Mode for rendering stars</label>
-      <whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"</whatsthis>
+      <whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"; 4="solid real colors"</whatsthis>
       <default>0</default>
-      <max>3</max>
+      <max>4</max>
     </entry>
     <entry name="StarColorIntensity" type="UInt">
       <label>Saturation level of star colors</label>
