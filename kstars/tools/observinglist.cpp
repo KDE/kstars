@@ -1182,10 +1182,6 @@ void ObservingList::downloadReady( bool success ) {
 }
 
 void ObservingList::setCurrentImage( const SkyObject *o  ) {
-    // TODO: Remove code duplication -- we have the same stuff
-    // implemented in SkyMap::slotDSS in skymap.cpp; must try to
-    // de-duplicate as much as possible.
-
     CurrentImage = "Image_" +  o->name().remove(' ');
     ThumbImage = "thumb-" + o->name().toLower().remove(' ') + ".png";
     if( o->name() == "star" ) {
@@ -1196,7 +1192,7 @@ void ObservingList::setCurrentImage( const SkyObject *o  ) {
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
     CurrentImagePath = KSPaths::locate( QStandardPaths::GenericDataLocation , CurrentImage );
-    DSSUrl = KSDssDownloader::getDSSURL( o );
+    // DSSUrl = KSDssDownloader::getDSSURL( o );
     // QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
     // QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
 
@@ -1220,7 +1216,8 @@ void ObservingList::slotSaveAllImages() {
             continue; // FIXME: Why would we have null objects? But appears that we do.
         setCurrentImage( o );
         QString img( CurrentImagePath  );
-        QUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl );
+        //        QUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl ); // FIXME: We have removed SDSS support!
+        QUrl url( KSDssDownloader::getDSSURL( o ) );
         if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
             saveImage( url, img, o );
     }
