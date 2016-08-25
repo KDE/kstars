@@ -112,7 +112,7 @@ ObservingList::ObservingList()
     setFocusPolicy(Qt::StrongFocus);
     geo = KStarsData::Instance()->geo();
     sessionView = false;
-    FileName = "";
+    m_listFileName = QString();
     pmenu = new ObsListPopupMenu();
     //Set up the Table Views
     m_WishListModel = new QStandardItemModel( 0, 5, this );
@@ -758,13 +758,13 @@ void ObservingList::slotOpenList()
             QTemporaryFile tmpfile;
             tmpfile.setAutoRemove(false);
             tmpfile.open();
-            FileName = tmpfile.fileName();
-            if( KIO::NetAccess::download( fileURL, FileName, this ) )
-                f.setFileName( FileName );
+            m_listFileName = tmpfile.fileName();
+            if( KIO::NetAccess::download( fileURL, m_listFileName, this ) )
+                f.setFileName( m_listFileName );
 
         } else {
-            FileName = fileURL.toLocalFile();
-            f.setFileName( FileName );
+            m_listFileName = fileURL.toLocalFile();
+            f.setFileName( m_listFileName );
         }
         */
 
@@ -822,13 +822,15 @@ void ObservingList::slotSaveSessionAs(bool nativeSave) {
 
     QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     if ( fileURL.isValid() ) {
-        FileName = fileURL.toLocalFile();
+        m_listFileName = fileURL.toLocalFile();
         slotSaveSession(nativeSave);
     }
 }
 
 void ObservingList::slotSaveList() {
     QFile f;
+    // FIXME: Move wishlist into a database.
+    // TODO: Support multiple wishlists.
     f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist" ) ;
     if ( ! f.open( QIODevice::WriteOnly ) ) {
         qDebug() << "Cannot write list to  file"; // TODO: This should be presented as a message box to the user
@@ -895,15 +897,15 @@ void ObservingList::slotSaveSession(bool nativeSave) {
         return;
     }
 
-    if ( FileName.isEmpty() ) {
+    if ( m_listFileName.isEmpty() ) {
         slotSaveSessionAs(nativeSave);
         return;
     }
-    QFile f( FileName );
+    QFile f( m_listFileName );
     if( ! f.open( QIODevice::WriteOnly ) ) {
         QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
         if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), KGuiItem(i18n("Try Different")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
-            FileName.clear();
+            m_listFileName.clear();
             slotSaveSessionAs(nativeSave);
         }
     return;

@@ -384,7 +384,7 @@ private:
     QList<SkyObject*> m_WishList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
-    QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath;
+    QString m_listFileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath;
     KStarsDateTime dt;
     GeoLocation *geo;
     QStandardItemModel *m_WishListModel, *m_SessionModel;
