@@ -76,6 +76,7 @@ namespace {
 }
 
 int SkyQPainter::starColorMode = 0;
+QColor SkyQPainter::m_starColor = QColor();
 
 
 SkyQPainter::SkyQPainter( QPaintDevice *pd )
@@ -148,33 +149,17 @@ void SkyQPainter::initStarImages()
 
     switch( Options::starColorMode() ) {
     case 1: // Red stars.
-        ColorMap.insert( 'O', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'B', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'A', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'F', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'G', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'K', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'M', QColor::fromRgb( 255,   0,   0 ) );
+        m_starColor = Qt::red;
         break;
     case 2: // Black stars.
-        ColorMap.insert( 'O', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'B', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'A', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'F', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'G', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'K', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'M', QColor::fromRgb(   0,   0,   0 ) );
+        m_starColor = Qt::black;
         break;
     case 3: // White stars
-        ColorMap.insert( 'O', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'B', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'A', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'F', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'G', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'K', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'M', QColor::fromRgb( 255, 255, 255 ) );
+        m_starColor = Qt::white;
+        break;
     case 0:  // Real color
     default: // And use real color for everything else
+        m_starColor = QColor();
         ColorMap.insert( 'O', QColor::fromRgb(   0,   0, 255 ) );
         ColorMap.insert( 'B', QColor::fromRgb(   0, 200, 255 ) );
         ColorMap.insert( 'A', QColor::fromRgb(   0, 255, 255 ) );
@@ -182,6 +167,16 @@ void SkyQPainter::initStarImages()
         ColorMap.insert( 'G', QColor::fromRgb( 255, 255,   0 ) );
         ColorMap.insert( 'K', QColor::fromRgb( 255, 100,   0 ) );
         ColorMap.insert( 'M', QColor::fromRgb( 255,   0,   0 ) );
+        break;
+    }
+    if ( ColorMap.isEmpty() ) {
+        ColorMap.insert( 'O', m_starColor );
+        ColorMap.insert( 'B', m_starColor );
+        ColorMap.insert( 'A', m_starColor );
+        ColorMap.insert( 'F', m_starColor );
+        ColorMap.insert( 'G', m_starColor );
+        ColorMap.insert( 'K', m_starColor );
+        ColorMap.insert( 'M', m_starColor );
     }
 
     foreach( char color, ColorMap.keys() ) {
@@ -422,22 +417,8 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
     }
     else {
         // Draw stars as vectors, for better printing / SVG export etc.
-        static QColor color; // FIXME: This slows down things a bit, but we won't care because we're not painting the SkyMap this way anyway.
-        switch( Options::starColorMode() ) {
-        case 1:
-            color = QColor::fromRgb(255, 0, 0);
-            break;
-        case 2:
-            color = QColor::fromRgb(0, 0, 0);
-            break;
-        case 3:
-            color = QColor::fromRgb(255, 255, 255);
-            break;
-        default:
-            Q_ASSERT( false );
-        }
-        setPen( color );
-        setBrush( color );
+        setPen( m_starColor );
+        setBrush( m_starColor );
 
         // Be consistent with old raster representation
         if( size > 14 )
@@ -842,4 +823,3 @@ bool SkyQPainter::drawSupernova(Supernova* sup)
     drawLine ( QPoint( pos.x (), pos.y() - 2.0 ), QPoint( pos.x(), pos.y() + 2.0 ) );
     return true;
 }
-
