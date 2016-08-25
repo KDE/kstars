@@ -80,9 +80,12 @@ namespace NameResolver {
          * / other resolvers and attempts to convert it into a
          * SkyObject type.
          *
+         * @param typeString An abbreviated string containing the type of the object
+         * @param caseSensitive Should we make a case-sensitive check?
+         *
          * @return a SkyObject::TYPE.
          */
-        SkyObject::TYPE interpretObjectType( const QString &typeString );
+        SkyObject::TYPE interpretObjectType( const QString &typeString, bool caseSensitive = true );
 
     }
 
