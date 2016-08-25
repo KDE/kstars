@@ -43,6 +43,8 @@
 #include <QMap>
 #include <QWidget>
 
+#include <functional>
+
 namespace {
 
     // Convert spectral class to numerical index.
@@ -570,38 +572,31 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
     case 2: //Planet
         break;
     case 3: //Open cluster; draw circle of points
-    case 13: // Asterism
+    case 13: { // Asterism
         tempBrush = brush();
         color = pen().color().name();
         setBrush( pen().color() );
         psize = 2.;
         if ( size > 50. )  psize *= 2.;
         if ( size > 100. ) psize *= 2.;
+        std::function<void( float, float )> putDot;
         if ( Options::useAntialias() ) {
-            drawEllipse( QRectF(xa, y1, psize, psize) );
-            drawEllipse( QRectF(xb, y1, psize, psize) );
-            drawEllipse( QRectF(xa, y2, psize, psize) );
-            drawEllipse( QRectF(xb, y2, psize, psize) );
-            drawEllipse( QRectF(x1, ya, psize, psize) );
-            drawEllipse( QRectF(x1, yb, psize, psize) );
-            drawEllipse( QRectF(x2, ya, psize, psize) );
-            drawEllipse( QRectF(x2, yb, psize, psize) );
-        } else {
-            int ix1 = int(x1); int iy1 = int(y1);
-            int ix2 = int(x2); int iy2 = int(y2);
-            int ixa = int(xa); int iya = int(ya);
-            int ixb = int(xb); int iyb = int(yb);
-            drawEllipse( QRect(ixa, iy1, int(psize), int(psize)) );
-            drawEllipse( QRect(ixb, iy1, int(psize), int(psize)) );
-            drawEllipse( QRect(ixa, iy2, int(psize), int(psize)) );
-            drawEllipse( QRect(ixb, iy2, int(psize), int(psize)) );
-            drawEllipse( QRect(ix1, iya, int(psize), int(psize)) );
-            drawEllipse( QRect(ix1, iyb, int(psize), int(psize)) );
-            drawEllipse( QRect(ix2, iya, int(psize), int(psize)) );
-            drawEllipse( QRect(ix2, iyb, int(psize), int(psize)) );
+            putDot = [=]( float x, float y ) { drawEllipse( QRectF( x, y, psize, psize ) ); };
         }
+        else {
+            putDot = [=]( float x, float y ) { drawEllipse( QRect( int( x ), int( y ), int( psize ), int( psize ) ) ); };
+        }
+        putDot( xa, y1 );
+        putDot( xb, y1 );
+        putDot( xa, y2 );
+        putDot( xb, y2 );
+        putDot( x1, ya );
+        putDot( x1, yb );
+        putDot( x2, ya );
+        putDot( x2, yb );
         setBrush( tempBrush );
         break;
+    }
     case 4: //Globular Cluster
         if (size<2.) size = 2.;
         save();
