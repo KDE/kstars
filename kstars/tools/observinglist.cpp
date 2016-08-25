@@ -1180,15 +1180,22 @@ void ObservingList::downloadReady( bool success ) {
 }
 
 void ObservingList::setCurrentImage( const SkyObject *o  ) {
-    m_currentImageFileName = "Image_" +  o->name().remove(' ');
-    ThumbImage = "thumb-" + o->name().toLower().remove(' ') + ".png";
+    QString sanitizedName = o->name().remove(' ').remove( '\'' ).remove( '\"' );
+    m_currentImageFileName = "Image_" +  sanitizedName;
+    ThumbImage = "thumb-" + sanitizedName.toLower() + ".png";
     if( o->name() == "star" ) {
         QString RAString( o->ra0().toHMSString() );
         QString DecString( o->dec0().toDMSString() );
-        m_currentImageFileName = "Image" + RAString.remove(' ') + DecString.remove(' ');
-        QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
-        m_currentImageFileName = m_currentImageFileName.remove('+').remove('-') + decsgn;
+        m_currentImageFileName = "Image_J" + RAString.remove(' ').remove( ':' ) + DecString.remove(' ').remove( ':' ); // Note: Changed naming convention to standard 2016-08-25 asimha; old images shall have to be re-downloaded.
+        // Unnecessary complication below:
+        // QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
+        // m_currentImageFileName = m_currentImageFileName.remove('+').remove('-') + decsgn;
     }
+    QString imagePath;
+    if ( QFile::exists( imagePath = getCurrentImagePath() ) ) { // New convention -- append filename extension so file is usable on Windows etc.
+        QFile::rename( imagePath, imagePath + ".png" );
+    }
+    m_currentImageFileName += ".png";
     // DSSUrl = KSDssDownloader::getDSSURL( o );
     // QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
     // QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
