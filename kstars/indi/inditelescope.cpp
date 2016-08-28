@@ -14,6 +14,7 @@
 #include "inditelescope.h"
 #include "kstars.h"
 #include "skymap.h"
+#include "skymapcomposite.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
 
@@ -453,6 +454,11 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             AzEle->value  = currentAz;
             AltEle->value = currentAlt;
         }
+
+        double maxrad = 1000.0/Options::zoomFactor();
+        SkyObject *so = KStarsData::Instance()->skyComposite()->objectNearest(ScopeTarget, maxrad );
+        if (so)
+            emit newTarget(so->name());
 
         return true;
 

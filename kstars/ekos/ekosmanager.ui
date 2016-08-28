@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>813</width>
-    <height>645</height>
+    <width>868</width>
+    <height>683</height>
    </rect>
   </property>
   <property name="baseSize">
@@ -54,8 +54,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>799</width>
-        <height>631</height>
+        <width>854</width>
+        <height>669</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -400,6 +400,26 @@
                          </size>
                         </property>
                        </spacer>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_3">
+                        <property name="text">
+                         <string>Target:</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="mountTarget">
+                        <property name="minimumSize">
+                         <size>
+                          <width>50</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
                       </item>
                      </layout>
                     </item>

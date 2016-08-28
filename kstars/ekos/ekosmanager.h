@@ -185,7 +185,8 @@ private slots:
 
     // Mount Summary
     void updateMountCoords(const QString &ra, const QString &dec ,const QString &az ,const QString &alt);
-    void updateMountStatus(ISD::Telescope::TelescopeStatus status);
+    void updateMountStatus(ISD::Telescope::TelescopeStatus status);    
+    void setTarget(SkyObject *o);
 
     // Capture Summary
     void updateCaptureStatus(Ekos::CaptureState status);

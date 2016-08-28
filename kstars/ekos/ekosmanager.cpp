@@ -24,6 +24,7 @@
 #include "kstarsdata.h"
 #include "auxiliary/ksuserdb.h"
 #include "fitsviewer/fitsviewer.h"
+#include "skymap.h"
 
 #include "sequencejob.h"
 
@@ -143,6 +144,7 @@ EkosManager::EkosManager()
     toolsWidget->addTab( schedulerProcess, QIcon(":/icons/ekos_scheduler.png"), "");
     toolsWidget->tabBar()->setTabToolTip(1, i18n("Scheduler"));
     connect(schedulerProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+    connect(schedulerProcess, SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
 
     // Temporary fix. Not sure how to resize Ekos Dialog to fit contents of the various tabs in the QScrollArea which are added
     // dynamically. I used setMinimumSize() but it doesn't appear to make any difference.
@@ -1452,9 +1454,12 @@ void EkosManager::initMount()
     mountProcess = new Ekos::Mount();
     int index = toolsWidget->addTab(mountProcess, QIcon(":/icons/ekos_mount.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Mount"));
+
     connect(mountProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
     connect(mountProcess, SIGNAL(newCoords(QString,QString,QString,QString)), this, SLOT(updateMountCoords(QString,QString,QString,QString)));
     connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this, SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
+    connect(mountProcess, SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
+
     mountPI = new QProgressIndicator(mountProcess);
     mountStatusLayout->addWidget(mountPI);
     mountGroup->setEnabled(true);
@@ -1944,4 +1949,9 @@ void EkosManager::updateGuideProfilePixmap(QPixmap & profilePix)
     guideProfilePixmap->save(guideProfileFile.fileName(), "PNG", 100);
 
     guideProfileImage->setToolTip(QString("<img src='%1'>").arg(guideProfileFile.fileName()));
+}
+
+void EkosManager::setTarget(SkyObject *o)
+{
+    mountTarget->setText(o->name());
 }

@@ -73,6 +73,9 @@ public slots:
     bool UnPark();
     bool setSlewRate(int index);
 
+signals:
+    void newTarget(const QString &);
+
 private:
     SkyPoint currentCoord;
     double minAlt,maxAlt;
