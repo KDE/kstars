@@ -403,6 +403,9 @@
                       </item>
                       <item>
                        <widget class="QLabel" name="label_3">
+                        <property name="styleSheet">
+                         <string notr="true">font-weight:bold;</string>
+                        </property>
                         <property name="text">
                          <string>Target:</string>
                         </property>
