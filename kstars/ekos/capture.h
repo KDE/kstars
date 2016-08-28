@@ -425,6 +425,9 @@ private slots:
     // Send image info
     void sendNewImage(QImage *image, ISD::CCDChip *myChip);
 
+    // Temporary for post capture script
+    void postScriptFinished(int exitCode);
+
 signals:
         void newLog();
         void exposureComplete();
@@ -545,6 +548,10 @@ private:
 
     // Misc
     bool ignoreJobProgress;
+
+
+    // Temporary Only
+    QProcess postCaptureScript;
 
 
 };

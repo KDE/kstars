@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>502</width>
-    <height>444</height>
+    <height>470</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -84,7 +84,7 @@
    <attribute name="title">
     <string>Modules</string>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout_8">
+   <layout class="QVBoxLayout" name="verticalLayout_5">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_9">
       <item>
@@ -152,7 +152,7 @@
         <property name="title">
          <string>Capture</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
+        <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
@@ -239,6 +239,20 @@
             <string>Auto Stretch</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Post Capture Script</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="kcfg_PostCaptureScript"/>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>

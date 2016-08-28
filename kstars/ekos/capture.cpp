@@ -189,6 +189,9 @@ Capture::Capture()
     connect(meridianHours, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
     connect(parkCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
 
+
+    // FIXME remove this later
+    connect(&postCaptureScript, SIGNAL(finished(int)), this, SLOT(postScriptFinished(int)));
 }
 
 Capture::~Capture()
@@ -866,7 +869,14 @@ void Capture::newFITS(IBLOB *bp)
     if (checkMeridianFlip())
         return;
 
-    resumeSequence();
+    // FIXME remove post capture script later
+    if (Options::postCaptureScript().isEmpty() == false)
+    {
+        postCaptureScript.start(Options::postCaptureScript());
+        appendLogText(i18n("Executing post capture script %1", Options::postCaptureScript()));
+    }
+    else
+        resumeSequence();
 }
 
 void Capture::processJobCompletion()
@@ -3564,5 +3574,10 @@ void Capture::startPostFilterAutoFocus()
     emit checkFocus(0.1);
 }
 
+void Capture::postScriptFinished(int exitCode)
+{
+    appendLogText(i18n("Post capture script finished with code %1. Resuming sequence...", exitCode));
+    resumeSequence();
+}
 
 }

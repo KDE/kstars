@@ -1401,6 +1401,9 @@
        <label>Perform auto stretch on captured images in FITS Viewer.</label>
        <default>true</default>
      </entry>
+     <entry name="PostCaptureScript" type="String">
+       <label>Script to execute after an image is captured. The capture process halts until the script is complete.</label>
+     </entry>
    </group>
    <group name="Focus">
    <entry name="DefaultFocusCCD" type="String">
