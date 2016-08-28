@@ -689,10 +689,40 @@ void ObsListWizard::applyFilters( bool doBuildList )
     {
         foreach ( SkyObject *o, data->skyComposite()->comets() )
         {
-            if ( needRegion )
-                filterPass = applyRegionFilter( o, doBuildList );
-            if ( olw->SelectByDate->isChecked() && filterPass)
-                applyObservableFilter( o, doBuildList );
+            if ( olw->SelectByMagnitude->isChecked() )
+            {
+                if ( o->mag() > 90. )
+                {
+                    if ( olw->IncludeNoMag->isChecked() )
+                    {
+                        if ( needRegion )
+                            filterPass = applyRegionFilter( o, doBuildList );
+                        if ( olw->SelectByDate->isChecked() && filterPass)
+                            applyObservableFilter( o, doBuildList );
+                    }
+                    else if ( ! doBuildList )
+                            --ObjectCount;
+                }
+                else
+                {
+                    if ( o->mag() <= maglimit )
+                    {
+                        if ( needRegion )
+                            filterPass = applyRegionFilter( o, doBuildList );
+                        if ( olw->SelectByDate->isChecked() && filterPass)
+                            applyObservableFilter( o, doBuildList );
+                    }
+                    else if ( ! doBuildList )
+                            --ObjectCount;
+                }
+            }
+            else
+            {
+                if ( needRegion )
+                    filterPass = applyRegionFilter( o, doBuildList );
+                if ( olw->SelectByDate->isChecked() && filterPass)
+                    applyObservableFilter( o, doBuildList );
+            }
         }
     }
 
@@ -706,20 +736,24 @@ void ObsListWizard::applyFilters( bool doBuildList )
                 if ( o->mag() > 90. )
                 {
                     if ( olw->IncludeNoMag->isChecked() )
+                    {
                         if ( needRegion )
                             filterPass = applyRegionFilter( o, doBuildList );
                         if ( olw->SelectByDate->isChecked() && filterPass)
                             applyObservableFilter( o, doBuildList );
+                    }
                     else if ( ! doBuildList )
                         --ObjectCount;
                 }
                 else
                 {
                     if ( o->mag() <= maglimit )
+                    {
                         if ( needRegion )
                             filterPass = applyRegionFilter( o, doBuildList );
                         if ( olw->SelectByDate->isChecked() && filterPass)
                             applyObservableFilter( o, doBuildList );
+                    }
                     else if ( ! doBuildList )
                         --ObjectCount;
                 }
