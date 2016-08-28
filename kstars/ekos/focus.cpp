@@ -121,7 +121,7 @@ Focus::Focus()
     connect(lockFilterCheck, SIGNAL(toggled(bool)), this, SLOT(filterLockToggled(bool)));    
     connect(setAbsTicksB, SIGNAL(clicked()), this, SLOT(setAbsoluteFocusTicks()));
     connect(binningCombo, SIGNAL(activated(int)), this, SLOT(setActiveBinning(int)));
-    connect(kcfg_focusBoxSize, SIGNAL(valueChanged(int)), this, SLOT(updateBoxSize(int)));    
+    connect(focusBoxSize, SIGNAL(valueChanged(int)), this, SLOT(updateBoxSize(int)));
 
     activeBin=Options::focusXBin();
     binningCombo->setCurrentIndex(activeBin-1);
@@ -210,7 +210,7 @@ Focus::Focus()
     toleranceIN->setValue(Options::focusTolerance());
     stepIN->setValue(Options::focusTicks());
     kcfg_autoSelectStar->setChecked(Options::autoSelectStar());
-    kcfg_focusBoxSize->setValue(Options::focusBoxSize());    
+    focusBoxSize->setValue(Options::focusBoxSize());
     maxTravelIN->setValue(Options::focusMaxTravel());
     kcfg_subFrame->setChecked(Options::focusSubFrame());
     suspendGuideCheck->setChecked(Options::suspendGuiding());
@@ -676,7 +676,8 @@ void Focus::start()
     Options::setFocusDarkFrame(focusDarkFrameCheck->isChecked());    
 
     if (Options::focusLogging())
-        qDebug() << "Focus: Starting focus with pulseDuration " << pulseDuration;
+        qDebug() << "Focus: Starting focus with box size: " << focusBoxSize->value() << " Step Size: " <<  stepIN->value() << " Threshold: " << thresholdSpin->value() << " Tolerance: "  << toleranceIN->value()
+                 << " Frames: " << focusFramesSpin->value() << " Maximum Travel: " << maxTravelIN->value();
 
     if (kcfg_autoSelectStar->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
@@ -1063,10 +1064,10 @@ void Focus::newFITS(IBLOB *bp)
 
                 if (maxStarHFR)
                 {
-                    int x = qMax(0, static_cast<int>(maxStarHFR->x-kcfg_focusBoxSize->value()/2));
-                    int y = qMax(0, static_cast<int>(maxStarHFR->y-kcfg_focusBoxSize->value()/2));
+                    int x = qMax(0, static_cast<int>(maxStarHFR->x-focusBoxSize->value()/2));
+                    int y = qMax(0, static_cast<int>(maxStarHFR->y-focusBoxSize->value()/2));
 
-                    targetImage->setTrackingBox(QRect(x, y, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
+                    targetImage->setTrackingBox(QRect(x, y, focusBoxSize->value(), focusBoxSize->value()));
                 }
             }
 
@@ -1106,7 +1107,7 @@ void Focus::newFITS(IBLOB *bp)
                 if (fw == 0 || fh == 0)
                     targetChip->getFrame(&fx, &fy, &fw, &fh);
 
-                targetImage->setTrackingBox(QRect((fw-kcfg_focusBoxSize->value())/2, (fh-kcfg_focusBoxSize->value())/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
+                targetImage->setTrackingBox(QRect((fw-focusBoxSize->value())/2, (fh-focusBoxSize->value())/2, focusBoxSize->value(), focusBoxSize->value()));
                 targetImage->setTrackingBoxEnabled(true);
 
                 state = Ekos::FOCUS_WAITING;
@@ -1119,7 +1120,7 @@ void Focus::newFITS(IBLOB *bp)
 
             if (subFramed == false && kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
             {
-                int offset = kcfg_focusBoxSize->value();
+                int offset = focusBoxSize->value();
                 int subX=(maxStar->x - offset) * subBinX;
                 int subY=(maxStar->y - offset) * subBinY;
                 int subW=offset*2*subBinX;
@@ -1157,7 +1158,7 @@ void Focus::newFITS(IBLOB *bp)
             else
                 targetChip->getFrame(&fx, &fy, &fw, &fh);
 
-            targetImage->setTrackingBox(QRect((fw/subBinX-kcfg_focusBoxSize->value())/2, (fh/subBinY-kcfg_focusBoxSize->value())/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
+            targetImage->setTrackingBox(QRect((fw/subBinX-focusBoxSize->value())/2, (fh/subBinY-focusBoxSize->value())/2, focusBoxSize->value(), focusBoxSize->value()));
             targetImage->setTrackingBoxEnabled(true);
 
             starSelected=true;
@@ -1179,7 +1180,7 @@ void Focus::newFITS(IBLOB *bp)
 
             int binx=1,biny=1;
             targetChip->getBinning(&binx, &biny);
-            targetImage->setTrackingBox(QRect((fw/binx-kcfg_focusBoxSize->value())/2, (fh/biny-kcfg_focusBoxSize->value())/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value()));
+            targetImage->setTrackingBox(QRect((fw/binx-focusBoxSize->value())/2, (fh/biny-focusBoxSize->value())/2, focusBoxSize->value(), focusBoxSize->value()));
             targetImage->setTrackingBoxEnabled(true);
             connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
             return;
@@ -2011,7 +2012,7 @@ void Focus::focusStarSelected(int x, int y)
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    int offset = kcfg_focusBoxSize->value();
+    int offset = focusBoxSize->value();
     int binx, biny;
 
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
@@ -2054,10 +2055,10 @@ void Focus::focusStarSelected(int x, int y)
 
         capture();
 
-        starRect = QRect((fw/binx-kcfg_focusBoxSize->value())/2, (fh/biny-kcfg_focusBoxSize->value())/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value());
+        starRect = QRect((fw/binx-focusBoxSize->value())/2, (fh/biny-focusBoxSize->value())/2, focusBoxSize->value(), focusBoxSize->value());
     }
     else
-        starRect = QRect(x-kcfg_focusBoxSize->value()/2, y-kcfg_focusBoxSize->value()/2, kcfg_focusBoxSize->value(), kcfg_focusBoxSize->value());
+        starRect = QRect(x-focusBoxSize->value()/2, y-focusBoxSize->value()/2, focusBoxSize->value(), focusBoxSize->value());
 
     starSelected=true;
 
@@ -2134,7 +2135,7 @@ void Focus::setAutoFocusSubFrame(bool enable)
 
 void Focus::setAutoFocusParameters(int boxSize, int stepSize, int maxTravel, double tolerance)
 {
-    kcfg_focusBoxSize->setValue(boxSize);
+    focusBoxSize->setValue(boxSize);
     stepIN->setValue(stepSize);
     maxTravelIN->setValue(maxTravel);
     toleranceIN->setValue(tolerance);
