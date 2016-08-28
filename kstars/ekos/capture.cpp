@@ -1592,7 +1592,8 @@ void Capture::prepareJob(SequenceJob *job)
             appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
             secondsLabel->setText(i18n("Set filter..."));
 
-            emit newStatus(Ekos::CAPTURE_CHANGING_FILTER);
+            if (activeJob->isPreview() == false)
+                emit newStatus(Ekos::CAPTURE_CHANGING_FILTER);
 
             setBusy(true);
 
@@ -1607,7 +1608,8 @@ void Capture::prepareJob(SequenceJob *job)
             appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
             secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
 
-            emit newStatus(Ekos::CAPTURE_SETTING_TEMPERATURE);
+            if (activeJob->isPreview() == false)
+                emit newStatus(Ekos::CAPTURE_SETTING_TEMPERATURE);
 
             setBusy(true);
         }
@@ -2844,7 +2846,7 @@ void Capture::checkMeridianFlipTimeout()
     {
         if (alignmentEngaged == false)
         {
-            QTimer::singleShot(MF_TIMER_TIMEOUT*2, this, SLOT(checkMeridianFlipTimeout()));
+            QTimer::singleShot(MF_TIMER_TIMEOUT*7, this, SLOT(checkMeridianFlipTimeout()));
             alignmentEngaged = true;
         }
         else
