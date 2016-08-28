@@ -84,8 +84,7 @@ class SequenceJob : public QObject
     int getXBin() { return binX; }
     int getYBin() { return binY; }
     void setDelay(int in_delay) { delay = in_delay; }
-    void setCount(int in_count) { count = in_count;}
-    void setImageType(int type) { imageType = type;}
+    void setCount(int in_count) { count = in_count;}    
     void setExposure(double duration) { exposure = duration;}
     void setStatusCell(QTableWidgetItem *cell) { statusCell = cell; }
     void setCompleted(unsigned int in_completed) { completed = in_completed;}
@@ -155,8 +154,7 @@ private:
     int targetFilter;
     int currentFilter;
 
-    QString filter;
-    int imageType;
+    QString filter;    
     int binX, binY;
     int x,y,w,h;
     QString fullPrefix;
