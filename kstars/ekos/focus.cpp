@@ -308,7 +308,12 @@ void Focus::setDefaultCCD(QString ccd)
 void Focus::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
+    {
         ccdNum = CCDCaptureCombo->currentIndex();
+
+        if (ccdNum == -1)
+            return;
+    }
 
     if (ccdNum >=0 && ccdNum <= CCDs.count())
     {

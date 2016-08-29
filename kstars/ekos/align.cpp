@@ -289,7 +289,12 @@ void Align::setDefaultCCD(QString ccd)
 void Align::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
+    {
         ccdNum = CCDCaptureCombo->currentIndex();
+
+        if (ccdNum == -1)
+            return;
+    }
 
     if (ccdNum <= CCDs.count())
     {

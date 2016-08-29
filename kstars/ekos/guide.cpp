@@ -191,7 +191,12 @@ bool Guide::setCCD(QString device)
 void Guide::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
+    {
         ccdNum = guiderCombo->currentIndex();
+
+        if (ccdNum == -1)
+            return;
+    }
 
     if (ccdNum <= CCDs.count())
     {

@@ -410,7 +410,12 @@ bool Capture::setCCD(QString device)
 void Capture::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
+    {
         ccdNum = CCDCaptureCombo->currentIndex();
+
+        if (ccdNum == -1)
+            return;
+    }
 
     foreach(ISD::CCD *ccd, CCDs)
     {
