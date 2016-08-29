@@ -221,6 +221,7 @@ private:
     QStringList logText;
     SkyPoint telescopeCoord;
     QString lastNotificationMessage;
+    QTimer updateTimer;
     double lastAlt;
     int abortDispatch;
     bool altLimitEnabled;
