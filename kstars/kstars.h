@@ -680,11 +680,11 @@ private:
     HorizonManager *m_HorizonManager;
     EyepieceField *m_EyepieceView;
     #ifdef HAVE_CFITSIO
-    QPointer<FITSViewer> genericViewer;
+    QPointer<FITSViewer> m_GenericFITSViewer;
     #endif
 
     #ifdef HAVE_INDI
-    EkosManager *m_EkosManager;
+    QPointer<EkosManager> m_EkosManager;
     #endif
 
     AddDeepSkyObject *m_addDSODialog;

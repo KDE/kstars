@@ -713,7 +713,7 @@ bool KStars::openFITS(const QUrl &imageURL)
     if (Options::singleWindowOpenedFITS())
         fv = genericFITSViewer();
     else
-        fv = new FITSViewer(this);
+        fv = new FITSViewer((Options::independentWindowFITS()) ? NULL : this);
     // Error opening file
     if (fv->addFITS(&imageURL) == -2)
     {

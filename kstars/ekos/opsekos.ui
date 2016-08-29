@@ -14,7 +14,7 @@
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>1</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="generalTab">
    <attribute name="title">
@@ -64,6 +64,16 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="kcfg_independentWindowEkos">
+      <property name="toolTip">
+       <string>Make Ekos window independent from KStars main window. Requires restart to take effect.</string>
+      </property>
+      <property name="text">
+       <string>Independent Window</string>
+      </property>
+     </widget>
     </item>
     <item>
      <spacer name="verticalSpacer_2">

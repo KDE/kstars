@@ -46,8 +46,7 @@
 #define MAX_REMOTE_INDI_TIMEOUT 15000
 #define MAX_LOCAL_INDI_TIMEOUT 5000
 
-EkosManager::EkosManager()
-    : QDialog(KStars::Instance())
+EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
 

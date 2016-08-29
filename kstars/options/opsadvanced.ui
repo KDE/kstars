@@ -223,6 +223,16 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="kcfg_independentWindowFITS">
+            <property name="toolTip">
+             <string>Make FITS Viewer window independent from KStars</string>
+            </property>
+            <property name="text">
+             <string>Independent Window</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="horizontalSpacer">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -982,12 +992,12 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="logbuttonGroup"/>
-  <buttongroup name="verbosityButtonGroup"/>
   <buttongroup name="modulesGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="verbosityButtonGroup"/>
+  <buttongroup name="logbuttonGroup"/>
  </buttongroups>
 </ui>
