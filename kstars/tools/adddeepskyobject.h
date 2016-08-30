@@ -71,8 +71,6 @@ class AddDeepSkyObject : public QDialog, public Ui::AddDeepSkyObject {
 
  private:
 
-    int countNonOverlappingMatches( const QString &string, const QRegularExpression &regExp, QStringList *list = 0 );
-
     SyncedCatalogComponent *m_catalog;
     Ui::AddDeepSkyObject *ui;
 };

@@ -90,22 +90,45 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
     float minorAxis = NaN::f;
     float positionAngle = 0;
     QString name;
+
+    // Note: The following method is a proxy to support older versions of Qt.
+    // In Qt 5.5 and above, the QString::indexOf(const QRegularExpression &re, int from, QRegularExpressionMatch *rmatch) method obviates the need for the following.
+    auto indexOf = []( const QString &s, const QRegularExpression &regExp, int from, QRegularExpressionMatch *m ) -> int {
+        *m = regExp.match( s, from );
+        return m->capturedStart( 0 );
+    };
+
+    auto countNonOverlappingMatches = [ indexOf ]( const QString &string, const QRegularExpression &regExp, QStringList *list = 0 ) -> int {
+        int count = 0;
+        int matchIndex = -1;
+        int lastMatchLength = 1;
+        QRegularExpressionMatch rmatch;
+        while ( ( matchIndex = indexOf( string, regExp, matchIndex + lastMatchLength, &rmatch ) ) >= 0 ) {
+            ++count;
+            lastMatchLength = rmatch.captured( 0 ).length();
+         if ( list )
+             list->append( rmatch.captured( 0 ) );
+        }
+        return count;
+    };
+
     QRegularExpressionMatch rmatch;
-    if ( countNonOverlappingMatches( text, matchCoords ) == 2 ) {
+    int nonOverlappingMatchCount;
+    if ( ( nonOverlappingMatchCount = countNonOverlappingMatches( text, matchCoords ) ) == 2 ) {
         coordText = text;
     }
-    else if ( countNonOverlappingMatches( text, matchCoords ) > 2 ) {
+    else if ( nonOverlappingMatchCount > 2 ) {
         qDebug() << "Found more than 2 coordinate matches. Trying to match J2000 line.";
-        if ( text.indexOf( matchJ2000Line, 0, &rmatch ) >= 0 ) {
+        if ( indexOf( text, matchJ2000Line, 0, &rmatch ) >= 0 ) {
             coordText = rmatch.captured( 1 ) + rmatch.captured( 2 );
             qDebug() << "Found a J2000 line match: " << coordText;
         }
     }
     if ( !coordText.isEmpty() ) {
-        int coord1 = coordText.indexOf( matchCoords, 0, &rmatch );
+        int coord1 = indexOf( coordText, matchCoords, 0, &rmatch );
         Q_ASSERT( coord1 >= 0 );
         RA = dms( rmatch.captured( 1 ) + ' ' + rmatch.captured( 2 ) + ' ' + rmatch.captured( 3 ), false );
-        int coord2 = coordText.indexOf( matchCoords, coord1 + rmatch.captured( 0 ).length(), &rmatch );
+        int coord2 = indexOf( coordText, matchCoords, coord1 + rmatch.captured( 0 ).length(), &rmatch );
         Q_ASSERT( coord2 >= 0 );
         Dec = dms( rmatch.captured( 1 ) + ' ' + rmatch.captured( 2 ) + ' ' + rmatch.captured( 3 ), true );
         qDebug() << "Extracted coordinates: " << RA.toHMSString() << " " << Dec.toDMSString();
@@ -286,18 +309,4 @@ void AddDeepSkyObject::slotFillFromText() {
                                                    i18n( "Enter the data to guess parameters from:" ), QString(), &ok );
     if ( ok )
         fillFromText( text );
-}
-
-int AddDeepSkyObject::countNonOverlappingMatches( const QString &string, const QRegularExpression &regExp, QStringList *list ) {
-     int count = 0;
-     int matchIndex = -1;
-     int lastMatchLength = 1;
-     QRegularExpressionMatch rmatch;
-     while ( ( matchIndex = string.indexOf( regExp, matchIndex + lastMatchLength, &rmatch ) ) >= 0 ) {
-         ++count;
-         lastMatchLength = rmatch.captured( 0 ).length();
-         if ( list )
-             list->append( rmatch.captured( 0 ) );
-     }
-     return count;
 }
