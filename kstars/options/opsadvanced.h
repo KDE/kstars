@@ -47,6 +47,7 @@ private slots:
     void slotToggleHideOptions();
     void slotToggleVerbosityOptions();
     void slotToggleOutputOptions();
+    void slotShowLogFiles();
 };
 
 #endif  //OPSADVANCED_H_

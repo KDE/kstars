@@ -49,7 +49,8 @@ public:
     bool isStandardProperty(const QString &name);   
 
   private:
-    INDIListener();
+    INDIListener(QObject *parent);
+    ~INDIListener();
     static INDIListener * _INDIListener;
     QList<ClientManager *> clients;
     QList<ISD::GDInterface *> devices;

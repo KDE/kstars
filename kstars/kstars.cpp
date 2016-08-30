@@ -48,6 +48,7 @@
 
 #ifdef HAVE_INDI
 #include "indi/drivermanager.h"
+#include "indi/guimanager.h"
 #include "ekos/ekosmanager.h"
 #endif
 
@@ -162,14 +163,13 @@ KStars::~KStars()
 {
     Q_ASSERT( pinstance );
 
-    #ifdef HAVE_INDI
-    delete m_EkosManager;
-    DriverManager::Instance()->clearServers();
-    DriverManager::Instance()->close();
-    #endif
-
     delete m_KStarsData;
     pinstance = 0;
+
+    #ifdef HAVE_INDI
+    delete m_EkosManager;
+    GUIManager::Instance()->close();
+    #endif
 
     QSqlDatabase::removeDatabase("userdb");
     QSqlDatabase::removeDatabase("skydb");

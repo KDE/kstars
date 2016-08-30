@@ -142,6 +142,10 @@
       <label>Automatically updates time and date?</label>
       <default>true</default>
     </entry>
+    <entry name="independentWindowINDI" type="Bool">
+      <label>Make INDI Control Panel window independent of KStars main window</label>
+      <default>false</default>
+    </entry>
     <entry name="showTargetCrosshair" type="Bool">
       <label>Draw crosshairs at telescope position in the sky map?</label>
       <whatsthis>Toggle display of crosshairs centered at telescope's pointed position in the KStars sky map.</whatsthis>
