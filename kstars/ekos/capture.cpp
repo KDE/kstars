@@ -369,7 +369,6 @@ void Capture::abort()
     }
 
     secondsLabel->clear();
-    //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
     disconnect(currentCCD, SIGNAL(newImage(QImage*,ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*,ISD::CCDChip*)));
     disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
@@ -478,6 +477,7 @@ void Capture::checkCCD(int ccdNum)
             temperatureIN->clear();
             setTemperatureB->setEnabled(false);
         }
+
         updateFrameProperties();
 
         QStringList frameTypes = targetChip->getFrameTypes();
@@ -515,9 +515,10 @@ void Capture::checkCCD(int ccdNum)
     }
 }
 
-void Capture::updateFrameProperties()
+void Capture::updateFrameProperties(bool reload)
 {
     int x,y,w,h;
+    int binx=1,biny=1;
     double min,max,step;
     int xstep=0, ystep=0;
 
@@ -539,23 +540,7 @@ void Capture::updateFrameProperties()
         exposureIN->setMinimum(min);
         exposureIN->setMaximum(max);
         exposureIN->setSingleStep(step);
-    }
-
-    if (targetChip->canBin())
-    {
-        int binx=1,biny=1;
-        targetChip->getMaxBin(&binx, &biny);
-        binXIN->setMaximum(binx);
-        binYIN->setMaximum(biny);
-        targetChip->getBinning(&binx, &biny);
-        binXIN->setValue(binx);
-        binYIN->setValue(biny);
-    }
-    else
-    {
-        binXIN->setValue(1);
-        binYIN->setValue(1);
-    }
+    }    
 
     if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
     {
@@ -613,8 +598,53 @@ void Capture::updateFrameProperties()
         }
     }
 
-    if (targetChip->getFrame(&x,&y,&w,&h))
+    if ( reload || frameSettings.contains(targetChip) == false)
     {
+        QVariantMap settings;
+        bool haveFrame=false, haveBinning=false;
+
+        if ( (haveFrame = targetChip->getFrame(&x,&y,&w,&h)) )
+        {
+            settings["x"] = x;
+            settings["y"] = y;
+            settings["w"] = w;
+            settings["h"] = h;
+        }
+
+        if ( (haveBinning = targetChip->getBinning(&binx, &biny)) )
+        {
+            settings["binx"] = binx;
+            settings["biny"] = biny;
+        }
+
+        if (haveFrame && haveBinning)
+            frameSettings[targetChip] = settings;
+    }
+
+    if (frameSettings.contains(targetChip))
+    {
+        QVariantMap settings = frameSettings[targetChip];
+
+        if (targetChip->canBin())
+        {
+            targetChip->getMaxBin(&binx, &biny);
+            binXIN->setMaximum(binx);
+            binYIN->setMaximum(biny);
+
+            binXIN->setValue(settings["binx"].toInt());
+            binYIN->setValue(settings["biny"].toInt());
+        }
+        else
+        {
+            binXIN->setValue(1);
+            binYIN->setValue(1);
+        }
+
+        x = settings["x"].toInt();
+        y = settings["y"].toInt();
+        w = settings["w"].toInt();
+        h = settings["h"].toInt();
+
         if (x >= 0)
             frameXIN->setValue(x);
         if (y >= 0)
@@ -624,20 +654,19 @@ void Capture::updateFrameProperties()
         if (h > 0)
             frameHIN->setValue(h);
     }
-
 }
 
 void Capture::processCCDNumber(INumberVectorProperty *nvp)
 {
     if (currentCCD && ( (!strcmp(nvp->name, "CCD_FRAME") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_FRAME") && useGuideHead)))
-        updateFrameProperties();    
+        updateFrameProperties();
 }
 
 void Capture::resetFrame()
 {
     targetChip = useGuideHead ? currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) : currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     targetChip->resetFrame();
-    updateFrameProperties();
+    updateFrameProperties(true);
 }
 
 void Capture::syncFrameType(ISD::GDInterface *ccd)
@@ -1047,6 +1076,19 @@ void Capture::captureImage()
 
      if (activeJob->isPreview() == false)
         emit newStatus(Ekos::CAPTURE_CAPTURING);
+
+     if (frameSettings.contains(activeJob->getActiveChip()))
+     {
+         QVariantMap settings;
+         settings["x"]      = activeJob->getSubX();
+         settings["y"]      = activeJob->getSubY();
+         settings["w"]      = activeJob->getSubW();
+         settings["h"]      = activeJob->getSubH();
+         settings["binx"]   = activeJob->getXBin();
+         settings["biny"]   = activeJob->getYBin();
+
+         frameSettings[activeJob->getActiveChip()] = settings;
+     }
 
      rc = activeJob->capture(isDark);
 
