@@ -515,7 +515,7 @@ void Capture::checkCCD(int ccdNum)
     }
 }
 
-void Capture::updateFrameProperties(bool reload)
+void Capture::updateFrameProperties(bool reset)
 {
     int x,y,w,h;
     int binx=1,biny=1;
@@ -544,6 +544,10 @@ void Capture::updateFrameProperties(bool reload)
 
     if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
     {
+
+        if (min == max)
+            return;
+
         if (step == 0)
             xstep = (int) max * 0.05;
         else
@@ -556,9 +560,14 @@ void Capture::updateFrameProperties(bool reload)
             frameWIN->setSingleStep(xstep);
         }
     }
+    else
+        return;
 
     if (currentCCD->getMinMaxStep(frameProp, "HEIGHT", &min, &max, &step))
     {
+        if (min == max)
+            return;
+
         if (step == 0)
             ystep = (int) max * 0.05;
         else
@@ -571,9 +580,14 @@ void Capture::updateFrameProperties(bool reload)
             frameHIN->setSingleStep(ystep);
         }
     }
+    else
+        return;
 
     if (currentCCD->getMinMaxStep(frameProp, "X", &min, &max, &step))
     {
+        if (min == max)
+            return;
+
         if (step == 0)
             step = xstep;
 
@@ -584,9 +598,14 @@ void Capture::updateFrameProperties(bool reload)
             frameXIN->setSingleStep(step);
         }
     }
+    else
+        return;
 
     if (currentCCD->getMinMaxStep(frameProp, "Y", &min, &max, &step))
     {
+        if (min == max)
+            return;
+
         if (step == 0)
             step = ystep;
 
@@ -597,28 +616,21 @@ void Capture::updateFrameProperties(bool reload)
             frameYIN->setSingleStep(step);
         }
     }
+    else
+        return;
 
-    if ( reload || frameSettings.contains(targetChip) == false)
+    if (reset || frameSettings.contains(targetChip) == false)
     {
         QVariantMap settings;
-        bool haveFrame=false, haveBinning=false;
 
-        if ( (haveFrame = targetChip->getFrame(&x,&y,&w,&h)) )
-        {
-            settings["x"] = x;
-            settings["y"] = y;
-            settings["w"] = w;
-            settings["h"] = h;
-        }
+        settings["x"] = 0;
+        settings["y"] = 0;
+        settings["w"] = frameWIN->maximum();
+        settings["h"] = frameHIN->maximum();
+        settings["binx"] = 1;
+        settings["biny"] = 1;
 
-        if ( (haveBinning = targetChip->getBinning(&binx, &biny)) )
-        {
-            settings["binx"] = binx;
-            settings["biny"] = biny;
-        }
-
-        if (haveFrame && haveBinning)
-            frameSettings[targetChip] = settings;
+        frameSettings[targetChip] = settings;
     }
 
     if (frameSettings.contains(targetChip))

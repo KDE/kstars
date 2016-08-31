@@ -445,7 +445,7 @@ private:
     void setBusy(bool enable);
     bool resumeSequence();
     void startNextExposure();
-    void updateFrameProperties(bool reload=false);
+    void updateFrameProperties(bool reset=false);
     void prepareJob(SequenceJob *job);
     void syncGUIToJob(SequenceJob *job);
     bool processJobInfo(XMLEle *root);
