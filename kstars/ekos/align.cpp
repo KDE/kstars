@@ -289,7 +289,12 @@ void Align::setDefaultCCD(QString ccd)
 void Align::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
+    {
         ccdNum = CCDCaptureCombo->currentIndex();
+
+        if (ccdNum == -1)
+            return;
+    }
 
     if (ccdNum <= CCDs.count())
     {
@@ -1058,7 +1063,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 if (loadSlewMode)
                 {                    
                     loadSlewMode = false;
-                    captureAndSolve();
+                    QTimer::singleShot(1500, this, SLOT(captureAndSolve()));
                     return;
                 }
                 else if (m_slewToTargetSelected)
@@ -1081,7 +1086,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                         }
 
                         appendLogText(i18n("Target accuracy is not met, running solver again..."));
-                        captureAndSolve();
+                        QTimer::singleShot(1500, this, SLOT(captureAndSolve()));
                         return;
                     }
                 }

@@ -797,7 +797,7 @@ void KStars::slotOpenFITS()
     // Remember last directory
     path.setUrl(fileURL.toLocalFile());
 
-    FITSViewer * fv = new FITSViewer(this);
+    FITSViewer * fv = new FITSViewer((Options::independentWindowFITS()) ? NULL : this);
     // Error opening file
     if (fv->addFITS(&fileURL, FITS_NORMAL, FITS_NONE, QString(), false) == -2)
         delete (fv);

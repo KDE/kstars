@@ -105,11 +105,13 @@ Mount::Mount()
     connect(enableLimitsCheck, SIGNAL(toggled(bool)), this, SLOT(enableAltitudeLimits(bool)));
     enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
     altLimitEnabled = enableLimitsCheck->isChecked();
+
+    updateTimer.setInterval(UPDATE_DELAY);
+    connect(&updateTimer, SIGNAL(timeout()), this, SLOT(updateTelescopeCoords()));
 }
 
 Mount::~Mount()
 {
-
 }
 
 void Mount::setTelescope(ISD::GDInterface *newTelescope)
@@ -118,6 +120,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(updateSwitch(ISwitchVectorProperty*)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(newTarget(QString)), this, SIGNAL(newTarget(QString)), Qt::UniqueConnection);
 
     //Disable this for now since ALL INDI drivers now log their messages to verbose output
     //connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
@@ -125,7 +128,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     if (enableLimitsCheck->isChecked())
         currentTelescope->setAltLimits(minAltLimit->value(), maxAltLimit->value());
 
-    QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
+    updateTimer.start();
 
     syncTelescopeInfo();
 }
@@ -261,9 +264,13 @@ void Mount::updateTelescopeCoords()
 
         newStatus(currentTelescope->getStatus());
 
-        if (currentTelescope->isConnected())
-            QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
+        if (currentTelescope->isConnected() == false)
+            updateTimer.stop();
+        else if (updateTimer.isActive() == false)
+            updateTimer.start();
     }
+    else
+        updateTimer.stop();
 }
 
 void Mount::updateNumber(INumberVectorProperty *nvp)

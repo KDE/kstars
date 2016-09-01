@@ -142,6 +142,10 @@
       <label>Automatically updates time and date?</label>
       <default>true</default>
     </entry>
+    <entry name="independentWindowINDI" type="Bool">
+      <label>Make INDI Control Panel window independent of KStars main window</label>
+      <default>false</default>
+    </entry>
     <entry name="showTargetCrosshair" type="Bool">
       <label>Draw crosshairs at telescope position in the sky map?</label>
       <whatsthis>Toggle display of crosshairs centered at telescope's pointed position in the KStars sky map.</whatsthis>
@@ -767,9 +771,9 @@
     </entry>
     <entry name="StarColorMode" type="UInt">
       <label>Mode for rendering stars</label>
-      <whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"</whatsthis>
+      <whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"; 4="solid real colors"</whatsthis>
       <default>0</default>
-      <max>3</max>
+      <max>4</max>
     </entry>
     <entry name="StarColorIntensity" type="UInt">
       <label>Saturation level of star colors</label>
@@ -1261,6 +1265,10 @@
       <whatsthis>Display all opened FITS images in a single FITS Viewer window.</whatsthis>
       <default>true</default>
     </entry>
+    <entry name="independentWindowFITS" type="Bool">
+      <label>Make FITS Viewer window independent of KStars main window</label>
+      <default>false</default>
+    </entry>
   </group>
   <group name="WISettings">
       <entry name="BortleClass" type="UInt">
@@ -1285,6 +1293,10 @@
       </entry>
   </group>
   <group name="Ekos">
+    <entry name="independentWindowEkos" type="Bool">
+      <label>Make Ekos window independent of KStars main window</label>
+      <default>false</default>
+    </entry>
     <entry name="profile" type="String">
         <label>Ekos drivers profile</label>
         <default>Simulators</default>
@@ -1400,6 +1412,9 @@
      <entry name="AutoStretch" type="Bool">
        <label>Perform auto stretch on captured images in FITS Viewer.</label>
        <default>true</default>
+     </entry>
+     <entry name="PostCaptureScript" type="String">
+       <label>Script to execute after an image is captured. The capture process halts until the script is complete.</label>
      </entry>
    </group>
    <group name="Focus">

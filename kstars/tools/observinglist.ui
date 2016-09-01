@@ -414,7 +414,7 @@
       </attribute>
       <layout class="QVBoxLayout">
        <item>
-        <widget class="QTableView" name="TableView">
+        <widget class="QTableView" name="WishListView">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -589,7 +589,7 @@
         </size>
        </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>(No Image)</string>
        </property>
       </widget>
      </item>

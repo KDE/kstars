@@ -48,6 +48,7 @@
 
 #ifdef HAVE_INDI
 #include "indi/drivermanager.h"
+#include "indi/guimanager.h"
 #include "ekos/ekosmanager.h"
 #endif
 
@@ -77,11 +78,11 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     QDBusConnection::sessionBus().registerService("org.kde.kstars");
 
     #ifdef HAVE_CFITSIO
-    genericViewer = NULL;
+    m_GenericFITSViewer.clear();
     #endif
 
     #ifdef HAVE_INDI
-    m_EkosManager = NULL;
+    m_EkosManager.clear();
     #endif
 
     // Set pinstance to yourself
@@ -162,14 +163,13 @@ KStars::~KStars()
 {
     Q_ASSERT( pinstance );
 
-    #ifdef HAVE_INDI
-    delete m_EkosManager;
-    DriverManager::Instance()->clearServers();
-    DriverManager::Instance()->close();
-    #endif
-
     delete m_KStarsData;
     pinstance = 0;
+
+    #ifdef HAVE_INDI
+    delete m_EkosManager;
+    GUIManager::Instance()->close();
+    #endif
 
     QSqlDatabase::removeDatabase("userdb");
     QSqlDatabase::removeDatabase("skydb");
@@ -387,21 +387,21 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 #ifdef HAVE_CFITSIO
 FITSViewer * KStars::genericFITSViewer()
 {
-    if (genericViewer == NULL)
+    if (m_GenericFITSViewer.isNull())
     {
-        genericViewer = new FITSViewer(this);
-        genericViewer->setAttribute(Qt::WA_DeleteOnClose);
+        m_GenericFITSViewer = new FITSViewer(Options::independentWindowFITS() ? NULL : this);
+        m_GenericFITSViewer->setAttribute(Qt::WA_DeleteOnClose);
     }
 
-    return genericViewer;
+    return m_GenericFITSViewer;
 }
 #endif
 
 #ifdef HAVE_INDI
 EkosManager *KStars::ekosManager()
 {
-    if (!m_EkosManager)
-        m_EkosManager   = new EkosManager();
+    if (m_EkosManager.isNull())
+        m_EkosManager   = new EkosManager(Options::independentWindowEkos() ? NULL : this);
 
     return m_EkosManager;
 }

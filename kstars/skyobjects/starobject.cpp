@@ -369,32 +369,36 @@ QString StarObject::greekLetter( bool gchar ) const {
     QString letter = code;  //in case genitive name is *not* a Greek letter
     int alpha = 0x03B1;
 
-    if ( code == "alp" ) gchar ? letter = QString( QChar(alpha + 0) ) : letter = i18n("alpha");
-    if ( code == "bet" ) gchar ? letter = QString( QChar(alpha + 1) ) : letter = i18n("beta");
-    if ( code == "gam" ) gchar ? letter = QString( QChar(alpha + 2) ) : letter = i18n("gamma");
-    if ( code == "del" ) gchar ? letter = QString( QChar(alpha + 3) ) : letter = i18n("delta");
-    if ( code == "eps" ) gchar ? letter = QString( QChar(alpha + 4) ) : letter = i18n("epsilon");
-    if ( code == "zet" ) gchar ? letter = QString( QChar(alpha + 5) ) : letter = i18n("zeta");
-    if ( code == "eta" ) gchar ? letter = QString( QChar(alpha + 6) ) : letter = i18n("eta");
-    if ( code == "the" ) gchar ? letter = QString( QChar(alpha + 7) ) : letter = i18n("theta");
-    if ( code == "iot" ) gchar ? letter = QString( QChar(alpha + 8) ) : letter = i18n("iota");
-    if ( code == "kap" ) gchar ? letter = QString( QChar(alpha + 9) ) : letter = i18n("kappa");
-    if ( code == "lam" ) gchar ? letter = QString( QChar(alpha +10) ) : letter = i18n("lambda");
-    if ( code == "mu " ) gchar ? letter = QString( QChar(alpha +11) ) : letter = i18n("mu");
-    if ( code == "nu " ) gchar ? letter = QString( QChar(alpha +12) ) : letter = i18n("nu");
-    if ( code == "xi " ) gchar ? letter = QString( QChar(alpha +13) ) : letter = i18n("xi");
-    if ( code == "omi" ) gchar ? letter = QString( QChar(alpha +14) ) : letter = i18n("omicron");
-    if ( code == "pi " ) gchar ? letter = QString( QChar(alpha +15) ) : letter = i18n("pi");
-    if ( code == "rho" ) gchar ? letter = QString( QChar(alpha +16) ) : letter = i18n("rho");
+    auto checkAndGreekify = [&code, gchar, alpha, &letter]( const QString &abbrev, int unicodeOffset, const QString &expansion ) {
+        if ( code == abbrev ) gchar ? letter = QString( QChar( alpha + unicodeOffset ) ) : letter = expansion;
+    };
+
+    checkAndGreekify( "alp", 0, i18n("alpha") );
+    checkAndGreekify( "bet", 1, i18n("beta") );
+    checkAndGreekify( "gam", 2, i18n("gamma") );
+    checkAndGreekify( "del", 3, i18n("delta") );
+    checkAndGreekify( "eps", 4, i18n("epsilon") );
+    checkAndGreekify( "zet", 5, i18n("zeta") );
+    checkAndGreekify( "eta", 6, i18n("eta") );
+    checkAndGreekify( "the", 7, i18n("theta") );
+    checkAndGreekify( "iot", 8, i18n("iota") );
+    checkAndGreekify( "kap", 9, i18n("kappa") );
+    checkAndGreekify( "lam",10, i18n("lambda") );
+    checkAndGreekify( "mu ",11, i18n("mu") );
+    checkAndGreekify( "nu ",12, i18n("nu") );
+    checkAndGreekify( "xi ",13, i18n("xi") );
+    checkAndGreekify( "omi",14, i18n("omicron") );
+    checkAndGreekify( "pi ",15, i18n("pi") );
+    checkAndGreekify( "rho",16, i18n("rho") );
     //there are two unicode symbols for sigma;
     //skip the first one, the second is more widely used
-    if ( code == "sig" ) gchar ? letter = QString( QChar(alpha +18) ) : letter = i18n("sigma");
-    if ( code == "tau" ) gchar ? letter = QString( QChar(alpha +19) ) : letter = i18n("tau");
-    if ( code == "ups" ) gchar ? letter = QString( QChar(alpha +20) ) : letter = i18n("upsilon");
-    if ( code == "phi" ) gchar ? letter = QString( QChar(alpha +21) ) : letter = i18n("phi");
-    if ( code == "chi" ) gchar ? letter = QString( QChar(alpha +22) ) : letter = i18n("chi");
-    if ( code == "psi" ) gchar ? letter = QString( QChar(alpha +23) ) : letter = i18n("psi");
-    if ( code == "ome" ) gchar ? letter = QString( QChar(alpha +24) ) : letter = i18n("omega");
+    checkAndGreekify( "sig",18, i18n("sigma") );
+    checkAndGreekify( "tau",19, i18n("tau") );
+    checkAndGreekify( "ups",20, i18n("upsilon") );
+    checkAndGreekify( "phi",21, i18n("phi") );
+    checkAndGreekify( "chi",22, i18n("chi") );
+    checkAndGreekify( "psi",23, i18n("psi") );
+    checkAndGreekify( "ome",24, i18n("omega") );
 
     if ( name2().length() && name2().mid(3,1) != " " )
         letter += '[' + name2().mid(3,1) + ']';

@@ -85,13 +85,13 @@ DriverManager * DriverManager::_DriverManager = NULL;
 DriverManager * DriverManager::Instance()
 {
     if (_DriverManager == NULL)
-        _DriverManager = new DriverManager();
+        _DriverManager = new DriverManager(KStars::Instance());
 
     return _DriverManager;
 }
 
-DriverManager::DriverManager()
-        : QDialog( KStars::Instance() )
+DriverManager::DriverManager(QWidget *parent)
+        : QDialog( parent )
 {
 
     currentPort = Options::serverPortStart().toInt()-1;
@@ -137,6 +137,11 @@ DriverManager::DriverManager()
     #ifdef Q_OS_WIN
     ui->localTreeWidget->setEnabled(false);
     #endif
+}
+
+DriverManager::~DriverManager()
+{
+    clearServers();
 }
 
 void DriverManager::processDeviceStatus(DriverInfo *dv)

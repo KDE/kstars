@@ -123,7 +123,8 @@ public:
     void clearServers();
 
 private:
-    DriverManager();
+    DriverManager(QWidget *parent);
+    ~DriverManager();
 
     static DriverManager * _DriverManager;
 

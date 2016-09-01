@@ -112,7 +112,7 @@ ObservingList::ObservingList()
     setFocusPolicy(Qt::StrongFocus);
     geo = KStarsData::Instance()->geo();
     sessionView = false;
-    FileName = "";
+    m_listFileName = QString();
     pmenu = new ObsListPopupMenu();
     //Set up the Table Views
     m_WishListModel = new QStandardItemModel( 0, 5, this );
@@ -136,10 +136,10 @@ ObservingList::ObservingList()
     m_WishListSortModel = new QSortFilterProxyModel( this );
     m_WishListSortModel->setSourceModel( m_WishListModel );
     m_WishListSortModel->setDynamicSortFilter( true );
-    ui->TableView->setModel( m_WishListSortModel );
-    ui->TableView->horizontalHeader()->setStretchLastSection( true );
+    ui->WishListView->setModel( m_WishListSortModel );
+    ui->WishListView->horizontalHeader()->setStretchLastSection( true );
 
-    ui->TableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
+    ui->WishListView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
     m_SessionSortModel = new SessionSortFilterProxyModel;
     m_SessionSortModel->setSourceModel( m_SessionModel );
     m_SessionSortModel->setDynamicSortFilter( true );
@@ -158,15 +158,15 @@ ObservingList::ObservingList()
     ui->DateEdit->setDate(dt.date());
     ui->SetLocation->setText( geo -> fullName() );
     ui->ImagePreview->installEventFilter( this );
-    ui->TableView->viewport()->installEventFilter( this );
-    ui->TableView->installEventFilter( this );
+    ui->WishListView->viewport()->installEventFilter( this );
+    ui->WishListView->installEventFilter( this );
     ui->SessionView->viewport()->installEventFilter( this );
     ui->SessionView->installEventFilter( this );
     // setDefaultImage();
     //Connections
-    connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
+    connect( ui->WishListView, SIGNAL( doubleClicked( const QModelIndex& ) ),
              this, SLOT( slotCenterObject() ) );
-    connect( ui->TableView->selectionModel(),
+    connect( ui->WishListView->selectionModel(),
             SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
             this, SLOT( slotNewSelection() ) );
     connect( ui->SessionView->selectionModel(),
@@ -208,7 +208,7 @@ ObservingList::ObservingList()
     ui->OpenButton->setIcon( QIcon::fromTheme("document-open") );
     ui->SaveButton->setIcon( QIcon::fromTheme("document-save") );
     ui->SaveAsButton->setIcon( QIcon::fromTheme("document-save-as") );
-    ui->WizardButton->setIcon( QIcon::fromTheme("games-solve") ); //is there a better icon for this button?
+    ui->WizardButton->setIcon( QIcon::fromTheme("tools-wizard") );
     ui->MiniButton->setIcon( QIcon::fromTheme("view-restore") );
     noSelection = true;
     showScope = false;
@@ -309,7 +309,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         m_WishListModel->appendRow( itemList );
         //Note addition in statusbar
         KStars::Instance()->statusBar()->showMessage( i18n( "Added %1 to observing list.", finalObjectName ), 0 );
-        ui->TableView->resizeColumnsToContents();
+        ui->WishListView->resizeColumnsToContents();
         if( ! update ) slotSaveList();
     }
     //Insert object in the Session List
@@ -393,7 +393,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
     if( ! session ) {
         obsList().removeAt(k);
         ui->avt->removeAllPlotObjects();
-        ui->TableView->resizeColumnsToContents();
+        ui->WishListView->resizeColumnsToContents();
         if( ! update )
             slotSaveList();
     } else {
@@ -415,7 +415,7 @@ void ObservingList::slotRemoveSelectedObjects() {
         if ( sessionView )
             rowSelected = ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() );
         else
-            rowSelected = ui->TableView->selectionModel()->isRowSelected( irow, QModelIndex() );
+            rowSelected = ui->WishListView->selectionModel()->isRowSelected( irow, QModelIndex() );
 
         if ( rowSelected ) {
             QModelIndex sortIndex, index;
@@ -483,7 +483,7 @@ void ObservingList::slotNewSelection() {
             m_CurrentObject = o;
             //QPoint pos(0,0);
             plot( o );
-            //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
+            //Change the m_currentImageFileName, DSS/SDSS Url to correspond to the new object
             setCurrentImage( o );
             ui->SearchImage->setEnabled( true );
             if ( newName != i18n( "star" ) ) {
@@ -514,9 +514,8 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->setEnabled( false );
                 ui->SearchImage->setEnabled( false );
             }
-            QString BasePath=  KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
-            QString ImagePath;
-            if( QFile( ImagePath = BasePath + CurrentImage ).exists() )  {
+            QString ImagePath = getCurrentImagePath();
+            if( QFile::exists( getCurrentImagePath() ) )  {
                 ;
             }
             else
@@ -684,7 +683,7 @@ void ObservingList::slotFind() {
 }
 
 void ObservingList::slotEyepieceView() {
-    KStars::Instance()->slotEyepieceView( currentObject(), CurrentImagePath );
+    KStars::Instance()->slotEyepieceView( currentObject(), getCurrentImagePath() );
 }
 
 void ObservingList::slotAVT() {
@@ -707,7 +706,7 @@ void ObservingList::slotAVT() {
         avt->exec();
         delete avt;
     } else {
-        selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+        selectedItems = m_WishListSortModel->mapSelectionToSource( ui->WishListView->selectionModel()->selection() ).indexes();
         if ( selectedItems.size() ) {
             QPointer<AltVsTime> avt = new AltVsTime( KStars::Instance() );
             foreach ( const QModelIndex &i, selectedItems ) { // FIXME: This code is repeated too many times. We should find a better way to do it.
@@ -727,7 +726,7 @@ void ObservingList::slotClose() {
     saveCurrentUserLog();
     ui->avt->removeAllPlotObjects();
     slotNewSelection();
-    saveCurrentList();    
+    saveCurrentList();
     hide();
 }
 
@@ -758,13 +757,13 @@ void ObservingList::slotOpenList()
             QTemporaryFile tmpfile;
             tmpfile.setAutoRemove(false);
             tmpfile.open();
-            FileName = tmpfile.fileName();
-            if( KIO::NetAccess::download( fileURL, FileName, this ) )
-                f.setFileName( FileName );
+            m_listFileName = tmpfile.fileName();
+            if( KIO::NetAccess::download( fileURL, m_listFileName, this ) )
+                f.setFileName( m_listFileName );
 
         } else {
-            FileName = fileURL.toLocalFile();
-            f.setFileName( FileName );
+            m_listFileName = fileURL.toLocalFile();
+            f.setFileName( m_listFileName );
         }
         */
 
@@ -822,13 +821,15 @@ void ObservingList::slotSaveSessionAs(bool nativeSave) {
 
     QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     if ( fileURL.isValid() ) {
-        FileName = fileURL.toLocalFile();
+        m_listFileName = fileURL.toLocalFile();
         slotSaveSession(nativeSave);
     }
 }
 
 void ObservingList::slotSaveList() {
     QFile f;
+    // FIXME: Move wishlist into a database.
+    // TODO: Support multiple wishlists.
     f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist" ) ;
     if ( ! f.open( QIODevice::WriteOnly ) ) {
         qDebug() << "Cannot write list to  file"; // TODO: This should be presented as a message box to the user
@@ -895,15 +896,15 @@ void ObservingList::slotSaveSession(bool nativeSave) {
         return;
     }
 
-    if ( FileName.isEmpty() ) {
+    if ( m_listFileName.isEmpty() ) {
         slotSaveSessionAs(nativeSave);
         return;
     }
-    QFile f( FileName );
+    QFile f( m_listFileName );
     if( ! f.open( QIODevice::WriteOnly ) ) {
         QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
         if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), KGuiItem(i18n("Try Different")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
-            FileName.clear();
+            m_listFileName.clear();
             slotSaveSessionAs(nativeSave);
         }
     return;
@@ -983,14 +984,14 @@ void ObservingList::slotToggleSize() {
         ui->refLabel->setText( i18nc( "Abbreviation for Reference Images:", "RefImg:" ) );
         ui->addLabel->setText( i18nc( "Add objects to a list", "Add:" ) );
         //Hide columns 1-5
-        ui->TableView->hideColumn(1);
-        ui->TableView->hideColumn(2);
-        ui->TableView->hideColumn(3);
-        ui->TableView->hideColumn(4);
-        ui->TableView->hideColumn(5);
+        ui->WishListView->hideColumn(1);
+        ui->WishListView->hideColumn(2);
+        ui->WishListView->hideColumn(3);
+        ui->WishListView->hideColumn(4);
+        ui->WishListView->hideColumn(5);
         //Hide the headers
-        ui->TableView->horizontalHeader()->hide();
-        ui->TableView->verticalHeader()->hide();
+        ui->WishListView->horizontalHeader()->hide();
+        ui->WishListView->verticalHeader()->hide();
         //Hide Observing notes
         ui->NotesLabel->hide();
         ui->NotesEdit->hide();
@@ -1002,10 +1003,10 @@ void ObservingList::slotToggleSize() {
         //or the width of column 1, whichever is larger
         /*
         int w = 5*ui->MiniButton->width();
-        if ( ui->TableView->columnWidth(0) > w ) {
-            w = ui->TableView->columnWidth(0);
+        if ( ui->WishListView->columnWidth(0) > w ) {
+            w = ui->WishListView->columnWidth(0);
         } else {
-            ui->TableView->setColumnWidth(0, w);
+            ui->WishListView->setColumnWidth(0, w);
         }
         int left, right, top, bottom;
         ui->layout()->getContentsMargins( &left, &top, &right, &bottom );
@@ -1019,13 +1020,13 @@ void ObservingList::slotToggleSize() {
     } else {
         ui->MiniButton->setIcon( QIcon::fromTheme( "view-restore" ) );
         //Show columns 1-5
-        ui->TableView->showColumn(1);
-        ui->TableView->showColumn(2);
-        ui->TableView->showColumn(3);
-        ui->TableView->showColumn(4);
-        ui->TableView->showColumn(5);
+        ui->WishListView->showColumn(1);
+        ui->WishListView->showColumn(2);
+        ui->WishListView->showColumn(3);
+        ui->WishListView->showColumn(4);
+        ui->WishListView->showColumn(5);
         //Show the horizontal header
-        ui->TableView->horizontalHeader()->show();
+        ui->WishListView->horizontalHeader()->show();
         //Expand text on each button
         ui->FindButton->setText( i18n( "Find &Object") );
         ui->saveImages->setText( i18n( "Download all Images" ) );
@@ -1065,7 +1066,7 @@ void ObservingList::slotChangeTab(int index) {
     ui->WizardButton->setEnabled( ! sessionView );//wizard adds only to the Wish List
     ui->OALExport->setEnabled( sessionView );
     //Clear the selection in the Tables
-    ui->TableView->clearSelection();
+    ui->WishListView->clearSelection();
     ui->SessionView->clearSelection();
     //Clear the user log text box.
     saveCurrentUserLog();
@@ -1122,30 +1123,30 @@ void ObservingList::slotCustomDSS() {
     QString version = QInputDialog::getItem(this, i18n("Customized DSS Download"), i18n("Specify version: "), strList, 0, false, &ok );
 
     QUrl srcUrl( KSDssDownloader::getDSSURL( currentObject()->ra0(), currentObject()->dec0(), width, height, "gif", version, &md ) );
-    QString CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
 
     delete m_dl;
     m_dl = new KSDssDownloader();
     connect( m_dl, SIGNAL ( downloadComplete( bool ) ), SLOT ( downloadReady( bool ) ) );
-    m_dl->startSingleDownload( srcUrl, CurrentImagePath, md );
+    m_dl->startSingleDownload( srcUrl, getCurrentImagePath(), md );
 
 }
 
 void ObservingList::slotGetImage( bool _dss, const SkyObject *o ) {
     dss = _dss;
-    Q_ASSERT( !o || o == currentObject() ); // FIXME: Meaningless to operate on CurrentImage and CurrentImagePath unless o == currentObject()!
+    Q_ASSERT( !o || o == currentObject() ); // FIXME: Meaningless to operate on m_currentImageFileName unless o == currentObject()!
     if( !o )
         o = currentObject();
     ui->SearchImage->setEnabled( false );
     //ui->ImagePreview->clearPreview();
     ui->ImagePreview->setPixmap(QPixmap());
-    if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage ) )
-        setCurrentImage( o );
-    QFile::remove( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage ) ;
+    setCurrentImage( o );
+    QString currentImagePath = getCurrentImagePath();
+    if ( QFile::exists( currentImagePath ) )
+        QFile::remove( currentImagePath ) ;
     //QUrl url;
     dss = true;
-    qDebug() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
-    KSDssDownloader *dler = new KSDssDownloader( o, KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage );
+    qWarning() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
+    KSDssDownloader *dler = new KSDssDownloader( o, currentImagePath );
     connect( dler, SIGNAL( downloadComplete( bool ) ), SLOT( downloadReady( bool ) ) );
 }
 
@@ -1161,12 +1162,11 @@ void ObservingList::downloadReady( bool success ) {
     else {
 
         /*
-          if( QFile( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + CurrentImage ).size() > 13000)
+          if( QFile( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + m_currentImageFileName ).size() > 13000)
           //The default image is around 8689 bytes
         */
-        CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
-        //ui->ImagePreview->showPreview( QUrl::fromLocalFile( CurrentImagePath ) );
-        ui->ImagePreview->setPixmap(QPixmap(CurrentImagePath).scaledToHeight(ui->ImagePreview->width()));
+        //ui->ImagePreview->showPreview( QUrl::fromLocalFile( getCurrentImagePath() ) );
+        ui->ImagePreview->setPixmap(QPixmap( getCurrentImagePath() ).scaledToHeight(ui->ImagePreview->width()));
         saveThumbImage();
         ui->ImagePreview->show();
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
@@ -1180,21 +1180,23 @@ void ObservingList::downloadReady( bool success ) {
 }
 
 void ObservingList::setCurrentImage( const SkyObject *o  ) {
-    // TODO: Remove code duplication -- we have the same stuff
-    // implemented in SkyMap::slotDSS in skymap.cpp; must try to
-    // de-duplicate as much as possible.
-
-    CurrentImage = "Image_" +  o->name().remove(' ');
-    ThumbImage = "thumb-" + o->name().toLower().remove(' ') + ".png";
+    QString sanitizedName = o->name().remove(' ').remove( '\'' ).remove( '\"' );
+    m_currentImageFileName = "Image_" +  sanitizedName;
+    ThumbImage = "thumb-" + sanitizedName.toLower() + ".png";
     if( o->name() == "star" ) {
         QString RAString( o->ra0().toHMSString() );
         QString DecString( o->dec0().toDMSString() );
-        CurrentImage = "Image" + RAString.remove(' ') + DecString.remove(' ');
-        QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
-        CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
+        m_currentImageFileName = "Image_J" + RAString.remove(' ').remove( ':' ) + DecString.remove(' ').remove( ':' ); // Note: Changed naming convention to standard 2016-08-25 asimha; old images shall have to be re-downloaded.
+        // Unnecessary complication below:
+        // QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
+        // m_currentImageFileName = m_currentImageFileName.remove('+').remove('-') + decsgn;
     }
-    CurrentImagePath = KSPaths::locate( QStandardPaths::GenericDataLocation , CurrentImage );
-    DSSUrl = KSDssDownloader::getDSSURL( o );
+    QString imagePath;
+    if ( QFile::exists( imagePath = getCurrentImagePath() ) ) { // New convention -- append filename extension so file is usable on Windows etc.
+        QFile::rename( imagePath, imagePath + ".png" );
+    }
+    m_currentImageFileName += ".png";
+    // DSSUrl = KSDssDownloader::getDSSURL( o );
     // QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
     // QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
 
@@ -1205,20 +1207,31 @@ void ObservingList::setCurrentImage( const SkyObject *o  ) {
     // SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
 }
 
+QString ObservingList::getCurrentImagePath() {
+    QString currentImagePath = KSPaths::locate( QStandardPaths::GenericDataLocation , m_currentImageFileName );
+    if ( QFile::exists( currentImagePath ) ) {
+        return currentImagePath;
+    }
+    else
+        return ( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_currentImageFileName );
+
+}
+
 void ObservingList::slotSaveAllImages() {
     ui->SearchImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
     //Clear the selection in the Tables
-    ui->TableView->clearSelection();
+    ui->WishListView->clearSelection();
     ui->SessionView->clearSelection();
 
     foreach( SkyObject *o, getActiveList() ) {
         if( !o )
             continue; // FIXME: Why would we have null objects? But appears that we do.
         setCurrentImage( o );
-        QString img( CurrentImagePath  );
-        QUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl );
+        QString img( getCurrentImagePath()  );
+        //        QUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl ); // FIXME: We have removed SDSS support!
+        QUrl url( KSDssDownloader::getDSSURL( o ) );
         if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
             saveImage( url, img, o );
     }
@@ -1230,7 +1243,7 @@ void ObservingList::saveImage( QUrl /*url*/, QString /*filename*/, const SkyObje
     if( !o )
         o = currentObject();
     Q_ASSERT( o );
-    if( ! QFile::exists( CurrentImagePath  ) )
+    if( ! QFile::exists( getCurrentImagePath()  ) )
     {
         // Call the DSS downloader
         slotGetImage( true, o );
@@ -1241,9 +1254,10 @@ void ObservingList::saveImage( QUrl /*url*/, QString /*filename*/, const SkyObje
 void ObservingList::slotImageViewer()
 {
     QPointer<ImageViewer> iv;
-    if( QFile::exists( CurrentImagePath ) )
+    QString currentImagePath = getCurrentImagePath();
+    if( QFile::exists( currentImagePath ) )
     {
-        QUrl url = QUrl::fromLocalFile(CurrentImagePath);
+        QUrl url = QUrl::fromLocalFile( currentImagePath );
         iv = new ImageViewer( url );
     }
 
@@ -1259,7 +1273,7 @@ void ObservingList::slotDeleteAllImages() {
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
     //Clear the selection in the Tables
-    ui->TableView->clearSelection();
+    ui->WishListView->clearSelection();
     ui->SessionView->clearSelection();
     //ui->ImagePreview->clearPreview();
     ui->ImagePreview->setPixmap(QPixmap());
@@ -1289,7 +1303,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
             if( currentObject() ) {
-                if( !QFile::exists( CurrentImagePath ) ) {
+                if( !QFile::exists( getCurrentImagePath() ) ) {
                     if( ! currentObject()->isSolarSystem() )
                         slotGetImage( Options::obsListPreferDSS() );
                     else
@@ -1301,7 +1315,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
             return true;
         }
     }
-    if( obj == ui->TableView->viewport() || obj == ui->SessionView->viewport() ) {
+    if( obj == ui->WishListView->viewport() || obj == ui->SessionView->viewport() ) {
         bool sessionViewEvent = ( obj == ui->SessionView->viewport() );
 
         if( event->type() == QEvent::MouseButtonRelease  ) { // Mouse button release event
@@ -1318,7 +1332,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
         }
     }
 
-    if( obj == ui->TableView || obj == ui->SessionView )
+    if( obj == ui->WishListView || obj == ui->SessionView )
     {
         if (event->type() == QEvent::KeyPress)
         {
@@ -1339,8 +1353,8 @@ void ObservingList::slotSearchImage() {
     QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, i18n( "Image Chooser" ) );
     if ( tp->exec() == QDialog::Accepted )
     {
-        CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
-        QFile f( CurrentImagePath );
+        QString currentImagePath = getCurrentImagePath();
+        QFile f( currentImagePath );
 
         //If a real image was set, save it.
         if ( tp->imageFound() ) {
@@ -1355,14 +1369,14 @@ void ObservingList::slotSearchImage() {
 }
 
 void ObservingList::slotDeleteCurrentImage() {
-    QFile::remove( CurrentImagePath );
+    QFile::remove( getCurrentImagePath() );
     ImagePreviewHash.remove(m_CurrentObject);
     slotNewSelection();
 }
 
 void ObservingList::saveThumbImage() {
     if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + ThumbImage ) )  {
-        QImage img( CurrentImagePath );
+        QImage img( getCurrentImagePath() );
         img = img.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
         img.save( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + ThumbImage ) ;
     }
@@ -1391,7 +1405,7 @@ void ObservingList::slotAddVisibleObj() {
     QPointer<WUTDialog> w = new WUTDialog( KStars::Instance(), sessionView, geo, lt );
     w->init();
     QModelIndexList selectedItems;
-    selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+    selectedItems = m_WishListSortModel->mapSelectionToSource( ui->WishListView->selectionModel()->selection() ).indexes();
     if ( selectedItems.size() )
         foreach ( const QModelIndex &i, selectedItems ) {
             foreach ( SkyObject *o, obsList() )

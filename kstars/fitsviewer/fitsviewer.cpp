@@ -222,25 +222,35 @@ FITSViewer::~FITSViewer()
 
 void FITSViewer::closeEvent(QCloseEvent * /*event*/)
 {
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
-    QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+    KStars *ks = KStars::Instance();
 
-    if (a && viewers.count() == 1)
+    if (ks)
     {
-        a->setEnabled(false);
-        a->setChecked(false);
+        QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+        QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+
+        if (a && viewers.count() == 1)
+        {
+            a->setEnabled(false);
+            a->setChecked(false);
+        }
     }
 }
 
 void FITSViewer::hideEvent(QHideEvent * /*event*/)
 {
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
-    if (a)
-    {
-        QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+    KStars *ks = KStars::Instance();
 
-        if (viewers.count() == 1)
-            a->setChecked(false);
+    if (ks)
+    {
+        QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+        if (a)
+        {
+            QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+
+            if (viewers.count() == 1)
+                a->setChecked(false);
+        }
     }
 }
 

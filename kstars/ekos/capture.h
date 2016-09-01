@@ -425,6 +425,9 @@ private slots:
     // Send image info
     void sendNewImage(QImage *image, ISD::CCDChip *myChip);
 
+    // Temporary for post capture script
+    void postScriptFinished(int exitCode);
+
 signals:
         void newLog();
         void exposureComplete();
@@ -442,7 +445,7 @@ private:
     void setBusy(bool enable);
     bool resumeSequence();
     void startNextExposure();
-    void updateFrameProperties();
+    void updateFrameProperties(bool reset=false);
     void prepareJob(SequenceJob *job);
     void syncGUIToJob(SequenceJob *job);
     bool processJobInfo(XMLEle *root);
@@ -545,6 +548,12 @@ private:
 
     // Misc
     bool ignoreJobProgress;
+
+    // CCD Chip frame settings
+    QMap<ISD::CCDChip *, QVariantMap> frameSettings;
+
+    // Temporary Only
+    QProcess postCaptureScript;
 
 
 };

@@ -280,7 +280,8 @@ protected slots:
 
 signals:
         void newLog();
-        void weatherChanged(IPState state);        
+        void weatherChanged(IPState state);
+        void newTarget(const QString &);
 
 private:
 

@@ -123,13 +123,12 @@ void SequenceJob::prepareCapture()
         {
             filterReady = false;
 
-            // Post Focus on Filter change
-            filterPostFocusReady = !Options::autoFocusOnFilterChange();
+            // Post Focus on Filter change. If frame is NOT light, then we do not perform autofocusing on filter change
+            filterPostFocusReady = (!Options::autoFocusOnFilterChange() || frameType != FRAME_LIGHT);
 
             activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
         }
     }
-
 
     if (enforceTemperature && fabs(targetTemperature - currentTemperature) > Options::maxTemperatureDiff())
     {

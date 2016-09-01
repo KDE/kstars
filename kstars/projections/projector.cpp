@@ -26,15 +26,15 @@
 #include "skycomponents/skylabeler.h"
 
 namespace {
-void toXYZ(const SkyPoint* p, double *x, double *y, double *z) {
-    double sinRa, sinDec, cosRa, cosDec;
+    void toXYZ(const SkyPoint* p, double *x, double *y, double *z) {
+        double sinRa, sinDec, cosRa, cosDec;
 
-    p->ra().SinCos(  sinRa,  cosRa );
-    p->dec().SinCos( sinDec, cosDec );
-    *x = cosDec * cosRa;
-    *y = cosDec * sinRa;
-    *z = sinDec;
-}
+        p->ra().SinCos(  sinRa,  cosRa );
+        p->dec().SinCos( sinDec, cosDec );
+        *x = cosDec * cosRa;
+        *y = cosDec * sinRa;
+        *z = sinDec;
+    }
 }
 
 SkyPoint Projector::pointAt(double az)
@@ -50,10 +50,8 @@ Projector::Projector(const ViewParams& p)
 {
     m_data = KStarsData::Instance();
     setViewParams(p);
-    /* Force clip polygon update - FIX: when we call this function Projection::radius() is called instead
-    of overriden version. For now I will just call this function from constructors of each projection
-    but isn't it better to have radius as a member and initialize it in constructor? - polaris, 13.08.2016*/
-    //updateClipPoly();
+    // Force clip polygon update
+    updateClipPoly();
 }
 
 Projector::~Projector()
@@ -78,7 +76,7 @@ void Projector::setViewParams(const ViewParams& p)
     double currentFOV = m_fov;
     //Find FOV in radians
     m_fov = sqrt( m_vp.width*m_vp.width + m_vp.height*m_vp.height )
-            / ( 2 * m_vp.zoomFactor * dms::DegToRad );
+                    / ( 2 * m_vp.zoomFactor * dms::DegToRad );
     //Set checkVisibility variables
     double Ymax;
     if ( m_vp.useAltAz ) {
@@ -272,15 +270,14 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
 
     static const QString horizonLabel = i18n("Horizon");
     float marginLeft, marginRight, marginTop, marginBot;
-#ifndef KSTARS_LITE
     SkyLabeler::Instance()->getMargins( horizonLabel, &marginLeft, &marginRight,
                                         &marginTop, &marginBot );
-#endif
+
     //daz is 1/2 the width of the sky in degrees
     double daz = 90.;
     if ( m_vp.useAltAz ) {
-        //daz = (0.5*m_vp.width*57.3)/m_vp.zoomFactor; //center to edge, in degrees. Why do we need it? It finishes horizon incorrectly - A. Fedoskin(polaris)
-        if ( type() == Orthographic ) {
+        daz = 0.5*m_vp.width*57.3/m_vp.zoomFactor; //center to edge, in degrees
+        if ( type() == SkyMap::Orthographic ) {
             daz = daz * 1.4;
         }
         daz = qMin(qreal(90.0), daz);
@@ -316,12 +313,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
         return QVector<Vector2f>();
     }
 
-#ifdef KSTARS_LITE
-    qreal rotation = SkyMapLite::Instance()->rotation();
-    if( allGround && rotation == 0.0) {
-#else
     if( allGround ) {
-#endif
         ground.clear();
         ground.append( Vector2f( -10., -10. ) );
         ground.append( Vector2f( m_vp.width +10., -10. ) );
@@ -335,11 +327,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
     //In Gnomonic projection, or if sufficiently zoomed in, we can complete
     //the ground polygon by simply adding offscreen points
     //FIXME: not just gnomonic
-#ifdef KSTARS_LITE
-    if ( (daz < 25.0 || type() == Gnomonic) && rotation == 0.0) {
-#else
-    if ( (daz < 25.0 || type() == Gnomonic)) {
-#endif
+    if ( daz < 25.0 || type() == SkyMap::Gnomonic) {
         ground.append( Vector2f( m_vp.width + 10.f, ground.last().y() ) );
         ground.append( Vector2f( m_vp.width + 10.f, m_vp.height + 10.f ) );
         ground.append( Vector2f( -10.f, m_vp.height + 10.f ) );
@@ -364,7 +352,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
 void Projector::updateClipPoly()
 {
     m_clipPolygon.clear();
-    //FIX IT: When projection is created Projector::radius() is called instead of overriden version
+
     double r = m_vp.zoomFactor*radius();
     double t1 = 0 ;
     double t2 = 180;
@@ -469,14 +457,14 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
             Y = SkyPoint::refract( o->alt() ).radians(); //account for atmospheric refraction
         else
             Y = o->alt().radians();
-        dX = m_vp.focus->az().reduce().radians() - o->az().reduce().radians();
+        dX = m_vp.focus->az().radians() - o->az().radians();
     } else {
-        dX = o->ra().reduce().radians() - m_vp.focus->ra().reduce().radians();
+        dX = o->ra().radians() - m_vp.focus->ra().radians();
         Y = o->dec().radians();
     }
 
     if( !( std::isfinite( Y ) && std::isfinite( dX ) ) ) {
-        qDebug() << "Assert in Projector::toScreenVec is going to fail!!";
+        qDebug() << "Assert in Projector::toScreenVec failed!";
         qDebug() << "using AltAz?" << m_vp.useAltAz << " Refract? " << oRefract;
         const SkyObject *obj;
         qDebug() << "Point supplied has RA0 = " << o->ra0().toHMSString() << " Dec0 = " << o->dec0().toDMSString() << "; alt = " << o->alt().toDMSString() << "; az = " << o->az().toDMSString();
@@ -485,23 +473,19 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
         }
         qDebug() << "dX = " << dX << " and isfinite(dX) is" << std::isfinite(dX);
         qDebug() << "Y = " << Y << " and isfinite(Y) is" << std::isfinite(Y);
-    }
-
-    Q_ASSERT( std::isfinite( Y ) && std::isfinite( dX ) );
-    if(!std::isfinite( Y ) && !std::isfinite( dX )) {
-        return Vector2f(0,0);
+        Q_ASSERT( false );
     }
 
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
 
     //Convert dX, Y coords to screen pixel coords, using GNU extension if available
-#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
+    #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
     sincos( dX, &sindX, &cosdX );
     sincos( Y, &sinY, &cosY );
-#else
+    #else
     sindX = sin(dX);   cosdX = cos(dX);
     sinY  = sin(Y);    cosY  = cos(Y);
-#endif
+    #endif
 
     //c is the cosine of the angular distance from the center
     double c = m_sinY0*sinY + m_cosY0*cosY*cosdX;
@@ -517,4 +501,3 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
     return Vector2f( 0.5*m_vp.width  - m_vp.zoomFactor*k*cosY*sindX,
                      0.5*m_vp.height - m_vp.zoomFactor*k*( m_cosY0*sinY - m_sinY0*cosY*cosdX ) );
 }
-

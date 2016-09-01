@@ -4255,7 +4255,7 @@ void Scheduler::startMosaicTool()
 
             QString filename  = QString("%1/%2.esq").arg(outputDir).arg(prefix);
             sequenceEdit->setText(filename);
-            sequenceURL = QUrl(filename);
+            sequenceURL = QUrl::fromLocalFile(filename);
 
             raBox->setText(oneJob->skyCenter.ra0().toHMSString());
             decBox->setText(oneJob->skyCenter.dec0().toDMSString());
@@ -4272,8 +4272,7 @@ void Scheduler::startMosaicTool()
             queueTable->removeRow(0);
         }
 
-        QUrl mosaicURL;
-        mosaicURL.setPath(QString("%1/%2_mosaic.esl").arg(outputDir).arg(targetName));
+        QUrl mosaicURL = QUrl::fromLocalFile((QString("%1/%2_mosaic.esl").arg(outputDir).arg(targetName)));
 
         if (saveScheduler(mosaicURL))
         {

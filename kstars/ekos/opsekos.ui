@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>502</width>
-    <height>444</height>
+    <height>470</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>1</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="generalTab">
    <attribute name="title">
@@ -66,6 +66,16 @@
      </layout>
     </item>
     <item>
+     <widget class="QCheckBox" name="kcfg_independentWindowEkos">
+      <property name="toolTip">
+       <string>Make Ekos window independent from KStars main window. Requires restart to take effect.</string>
+      </property>
+      <property name="text">
+       <string>Independent Window</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <spacer name="verticalSpacer_2">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -84,7 +94,7 @@
    <attribute name="title">
     <string>Modules</string>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout_8">
+   <layout class="QVBoxLayout" name="verticalLayout_5">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_9">
       <item>
@@ -152,7 +162,7 @@
         <property name="title">
          <string>Capture</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
+        <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
@@ -239,6 +249,20 @@
             <string>Auto Stretch</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Post Capture Script</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="kcfg_PostCaptureScript"/>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>

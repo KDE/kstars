@@ -57,7 +57,7 @@ class QProgressIndicator;
  *  For low level access to INDI devices, the \ref INDIDBusInterface "INDI Dbus Interface" provides complete access to INDI devices and properties.
  *  Ekos Manager provides a summary of operations progress in the <i>Summary</i> section of the <i>Setup</i> tab.
  *@author Jasem Mutlaq
- *@version 1.4
+ *@version 1.5
  */
 class EkosManager : public QDialog, public Ui::EkosManager
 {
@@ -65,7 +65,7 @@ class EkosManager : public QDialog, public Ui::EkosManager
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos")
 
 public:
-    EkosManager();
+    EkosManager(QWidget *parent);
     ~EkosManager();
 
     typedef enum { EKOS_STATUS_IDLE, EKOS_STATUS_PENDING, EKOS_STATUS_SUCCESS, EKOS_STATUS_ERROR } CommunicationStatus;
@@ -185,11 +185,12 @@ private slots:
 
     // Mount Summary
     void updateMountCoords(const QString &ra, const QString &dec ,const QString &az ,const QString &alt);
-    void updateMountStatus(ISD::Telescope::TelescopeStatus status);
+    void updateMountStatus(ISD::Telescope::TelescopeStatus status);    
+    void setTarget(SkyObject *o);
 
     // Capture Summary
     void updateCaptureStatus(Ekos::CaptureState status);
-    void updateCaptureImage(QImage *image, Ekos::SequenceJob *job);
+    void updateCaptureProgress(QImage *image, Ekos::SequenceJob *job);
     void updateCaptureCountDown();
 
     // Focus summary

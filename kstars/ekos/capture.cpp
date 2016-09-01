@@ -189,6 +189,9 @@ Capture::Capture()
     connect(meridianHours, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
     connect(parkCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
 
+
+    // FIXME remove this later
+    connect(&postCaptureScript, SIGNAL(finished(int)), this, SLOT(postScriptFinished(int)));
 }
 
 Capture::~Capture()
@@ -366,9 +369,8 @@ void Capture::abort()
     }
 
     secondsLabel->clear();
-    //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newImage(QImage*)), this, SLOT(sendNewImage(QImage*)));
+    disconnect(currentCCD, SIGNAL(newImage(QImage*,ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*,ISD::CCDChip*)));
     disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
 
     currentCCD->setFITSDir("");
@@ -407,7 +409,12 @@ bool Capture::setCCD(QString device)
 void Capture::checkCCD(int ccdNum)
 {
     if (ccdNum == -1)
+    {
         ccdNum = CCDCaptureCombo->currentIndex();
+
+        if (ccdNum == -1)
+            return;
+    }
 
     foreach(ISD::CCD *ccd, CCDs)
     {
@@ -470,6 +477,7 @@ void Capture::checkCCD(int ccdNum)
             temperatureIN->clear();
             setTemperatureB->setEnabled(false);
         }
+
         updateFrameProperties();
 
         QStringList frameTypes = targetChip->getFrameTypes();
@@ -507,9 +515,10 @@ void Capture::checkCCD(int ccdNum)
     }
 }
 
-void Capture::updateFrameProperties()
+void Capture::updateFrameProperties(bool reset)
 {
     int x,y,w,h;
+    int binx=1,biny=1;
     double min,max,step;
     int xstep=0, ystep=0;
 
@@ -531,26 +540,14 @@ void Capture::updateFrameProperties()
         exposureIN->setMinimum(min);
         exposureIN->setMaximum(max);
         exposureIN->setSingleStep(step);
-    }
-
-    if (targetChip->canBin())
-    {
-        int binx=1,biny=1;
-        targetChip->getMaxBin(&binx, &biny);
-        binXIN->setMaximum(binx);
-        binYIN->setMaximum(biny);
-        targetChip->getBinning(&binx, &biny);
-        binXIN->setValue(binx);
-        binYIN->setValue(biny);
-    }
-    else
-    {
-        binXIN->setValue(1);
-        binYIN->setValue(1);
-    }
+    }    
 
     if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
     {
+
+        if (min == max)
+            return;
+
         if (step == 0)
             xstep = (int) max * 0.05;
         else
@@ -563,9 +560,14 @@ void Capture::updateFrameProperties()
             frameWIN->setSingleStep(xstep);
         }
     }
+    else
+        return;
 
     if (currentCCD->getMinMaxStep(frameProp, "HEIGHT", &min, &max, &step))
     {
+        if (min == max)
+            return;
+
         if (step == 0)
             ystep = (int) max * 0.05;
         else
@@ -578,9 +580,14 @@ void Capture::updateFrameProperties()
             frameHIN->setSingleStep(ystep);
         }
     }
+    else
+        return;
 
     if (currentCCD->getMinMaxStep(frameProp, "X", &min, &max, &step))
     {
+        if (min == max)
+            return;
+
         if (step == 0)
             step = xstep;
 
@@ -591,9 +598,14 @@ void Capture::updateFrameProperties()
             frameXIN->setSingleStep(step);
         }
     }
+    else
+        return;
 
     if (currentCCD->getMinMaxStep(frameProp, "Y", &min, &max, &step))
     {
+        if (min == max)
+            return;
+
         if (step == 0)
             step = ystep;
 
@@ -604,9 +616,47 @@ void Capture::updateFrameProperties()
             frameYIN->setSingleStep(step);
         }
     }
+    else
+        return;
 
-    if (targetChip->getFrame(&x,&y,&w,&h))
+    if (reset || frameSettings.contains(targetChip) == false)
     {
+        QVariantMap settings;
+
+        settings["x"] = 0;
+        settings["y"] = 0;
+        settings["w"] = frameWIN->maximum();
+        settings["h"] = frameHIN->maximum();
+        settings["binx"] = 1;
+        settings["biny"] = 1;
+
+        frameSettings[targetChip] = settings;
+    }
+
+    if (frameSettings.contains(targetChip))
+    {
+        QVariantMap settings = frameSettings[targetChip];
+
+        if (targetChip->canBin())
+        {
+            targetChip->getMaxBin(&binx, &biny);
+            binXIN->setMaximum(binx);
+            binYIN->setMaximum(biny);
+
+            binXIN->setValue(settings["binx"].toInt());
+            binYIN->setValue(settings["biny"].toInt());
+        }
+        else
+        {
+            binXIN->setValue(1);
+            binYIN->setValue(1);
+        }
+
+        x = settings["x"].toInt();
+        y = settings["y"].toInt();
+        w = settings["w"].toInt();
+        h = settings["h"].toInt();
+
         if (x >= 0)
             frameXIN->setValue(x);
         if (y >= 0)
@@ -616,20 +666,19 @@ void Capture::updateFrameProperties()
         if (h > 0)
             frameHIN->setValue(h);
     }
-
 }
 
 void Capture::processCCDNumber(INumberVectorProperty *nvp)
 {
     if (currentCCD && ( (!strcmp(nvp->name, "CCD_FRAME") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_FRAME") && useGuideHead)))
-        updateFrameProperties();    
+        updateFrameProperties();
 }
 
 void Capture::resetFrame()
 {
     targetChip = useGuideHead ? currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) : currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     targetChip->resetFrame();
-    updateFrameProperties();
+    updateFrameProperties(true);
 }
 
 void Capture::syncFrameType(ISD::GDInterface *ccd)
@@ -866,7 +915,14 @@ void Capture::newFITS(IBLOB *bp)
     if (checkMeridianFlip())
         return;
 
-    resumeSequence();
+    // FIXME remove post capture script later
+    if (Options::postCaptureScript().isEmpty() == false)
+    {
+        postCaptureScript.start(Options::postCaptureScript());
+        appendLogText(i18n("Executing post capture script %1", Options::postCaptureScript()));
+    }
+    else
+        resumeSequence();
 }
 
 void Capture::processJobCompletion()
@@ -1032,6 +1088,19 @@ void Capture::captureImage()
 
      if (activeJob->isPreview() == false)
         emit newStatus(Ekos::CAPTURE_CAPTURING);
+
+     if (frameSettings.contains(activeJob->getActiveChip()))
+     {
+         QVariantMap settings;
+         settings["x"]      = activeJob->getSubX();
+         settings["y"]      = activeJob->getSubY();
+         settings["w"]      = activeJob->getSubW();
+         settings["h"]      = activeJob->getSubH();
+         settings["binx"]   = activeJob->getXBin();
+         settings["biny"]   = activeJob->getYBin();
+
+         frameSettings[activeJob->getActiveChip()] = settings;
+     }
 
      rc = activeJob->capture(isDark);
 
@@ -1561,6 +1630,9 @@ void Capture::prepareJob(SequenceJob *job)
 {
     activeJob = job;
 
+    // Just notification of active job stating up
+    emit newImage(NULL, activeJob);
+
     connect(job, SIGNAL(checkFocus()), this, SLOT(startPostFilterAutoFocus()));
 
     // Reset calibration stage
@@ -1589,7 +1661,8 @@ void Capture::prepareJob(SequenceJob *job)
             appendLogText(i18n("Changing filter to %1...", FilterPosCombo->itemText(activeJob->getTargetFilter()-1)));
             secondsLabel->setText(i18n("Set filter..."));
 
-            emit newStatus(Ekos::CAPTURE_CHANGING_FILTER);
+            if (activeJob->isPreview() == false)
+                emit newStatus(Ekos::CAPTURE_CHANGING_FILTER);
 
             setBusy(true);
 
@@ -1604,7 +1677,8 @@ void Capture::prepareJob(SequenceJob *job)
             appendLogText(i18n("Setting temperature to %1 C...", activeJob->getTargetTemperature()));
             secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
 
-            emit newStatus(Ekos::CAPTURE_SETTING_TEMPERATURE);
+            if (activeJob->isPreview() == false)
+                emit newStatus(Ekos::CAPTURE_SETTING_TEMPERATURE);
 
             setBusy(true);
         }
@@ -1664,13 +1738,16 @@ void Capture::executeJob()
             activeJob->setCompleted(seqCurrentCount);
             currentImgCountOUT->setText( QString::number(seqCurrentCount));
             imgProgress->setValue(seqCurrentCount);
+
+            // Emit progress update
+            emit newImage(NULL, activeJob);
         }
     }
 
     // Update button status
     setBusy(true);
 
-    useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;        
+    useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
     // Check flat field frame requirements
     if (activeJob->getFrameType() != FRAME_LIGHT && activeJob->isPreview() == false)
@@ -1711,14 +1788,14 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
         double deviation_rms = sqrt(delta_ra*delta_ra + delta_dec*delta_dec);
         if (deviation_rms < guideDeviation->value())
         {
-                initialHA = getCurrentHA();                
+                initialHA = getCurrentHA();
                 appendLogText(i18n("Post meridian flip calibration completed successfully."));
                 resumeSequence();
                 // N.B. Set meridian flip stage AFTER resumeSequence() always
                 meridianFlipStage = MF_NONE;
                 return;
         }
-    }    
+    }
 
     // We don't enforce limit on previews
     if (activeJob->isPreview() || activeJob->getExposeLeft() == 0)
@@ -1770,7 +1847,7 @@ void Capture::setGuideDither(bool enable)
 }
 
 void Capture::setAutoguiding(bool enable)
-{  
+{
     // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
     if (enable == false && isAutoGuiding && meridianFlipStage == MF_NONE && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
@@ -2838,7 +2915,7 @@ void Capture::checkMeridianFlipTimeout()
     {
         if (alignmentEngaged == false)
         {
-            QTimer::singleShot(MF_TIMER_TIMEOUT*2, this, SLOT(checkMeridianFlipTimeout()));
+            QTimer::singleShot(MF_TIMER_TIMEOUT*7, this, SLOT(checkMeridianFlipTimeout()));
             alignmentEngaged = true;
         }
         else
@@ -3227,7 +3304,7 @@ IPState Capture::processPreCaptureCalibrationStage()
         }
         break;
 
-        
+
     // Park cap, if not parked and not flat frame
     // Unpark cap, if flat frame
     // Turn on Light
@@ -3556,5 +3633,10 @@ void Capture::startPostFilterAutoFocus()
     emit checkFocus(0.1);
 }
 
+void Capture::postScriptFinished(int exitCode)
+{
+    appendLogText(i18n("Post capture script finished with code %1. Resuming sequence...", exitCode));
+    resumeSequence();
+}
 
 }

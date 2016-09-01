@@ -49,14 +49,19 @@ INDIListener * INDIListener::_INDIListener = NULL;
 INDIListener * INDIListener::Instance()
 {
     if (_INDIListener == NULL)
-        _INDIListener = new INDIListener();
+        _INDIListener = new INDIListener(KStars::Instance());
 
     return _INDIListener;
 }
 
-INDIListener::INDIListener()
+INDIListener::INDIListener(QObject *parent) : QObject(parent)
 {
 
+}
+
+INDIListener::~INDIListener()
+{
+    qDeleteAll(devices);
 }
 
 bool INDIListener::isStandardProperty(const QString &name)

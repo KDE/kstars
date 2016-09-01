@@ -24,6 +24,7 @@
 #include "kstarsdata.h"
 #include "auxiliary/ksuserdb.h"
 #include "fitsviewer/fitsviewer.h"
+#include "skymap.h"
 
 #include "sequencejob.h"
 
@@ -45,8 +46,7 @@
 #define MAX_REMOTE_INDI_TIMEOUT 15000
 #define MAX_LOCAL_INDI_TIMEOUT 5000
 
-EkosManager::EkosManager()
-    : QDialog(KStars::Instance())
+EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
 
@@ -143,6 +143,7 @@ EkosManager::EkosManager()
     toolsWidget->addTab( schedulerProcess, QIcon(":/icons/ekos_scheduler.png"), "");
     toolsWidget->tabBar()->setTabToolTip(1, i18n("Scheduler"));
     connect(schedulerProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+    connect(schedulerProcess, SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
 
     // Temporary fix. Not sure how to resize Ekos Dialog to fit contents of the various tabs in the QScrollArea which are added
     // dynamically. I used setMinimumSize() but it doesn't appear to make any difference.
@@ -1223,10 +1224,7 @@ void EkosManager::processTabChange()
     QWidget *currentWidget = toolsWidget->currentWidget();
 
     if (focusProcess && currentWidget != focusProcess)
-    {
-        if (focusProcess)
-            focusProcess->resetFrame();
-    }
+         focusProcess->resetFrame();
 
     if (alignProcess && currentWidget == alignProcess)
     {
@@ -1325,7 +1323,7 @@ void EkosManager::initCapture()
     toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
     connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
     connect(captureProcess, SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(updateCaptureStatus(Ekos::CaptureState)));
-    connect(captureProcess, SIGNAL(newImage(QImage*, Ekos::SequenceJob*)), this, SLOT(updateCaptureImage(QImage*, Ekos::SequenceJob*)));
+    connect(captureProcess, SIGNAL(newImage(QImage*, Ekos::SequenceJob*)), this, SLOT(updateCaptureProgress(QImage*, Ekos::SequenceJob*)));
     captureGroup->setEnabled(true);
     sequenceProgress->setEnabled(true);
     captureProgress->setEnabled(true);
@@ -1452,9 +1450,12 @@ void EkosManager::initMount()
     mountProcess = new Ekos::Mount();
     int index = toolsWidget->addTab(mountProcess, QIcon(":/icons/ekos_mount.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Mount"));
+
     connect(mountProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
     connect(mountProcess, SIGNAL(newCoords(QString,QString,QString,QString)), this, SLOT(updateMountCoords(QString,QString,QString,QString)));
     connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this, SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
+    connect(mountProcess, SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
+
     mountPI = new QProgressIndicator(mountProcess);
     mountStatusLayout->addWidget(mountPI);
     mountGroup->setEnabled(true);
@@ -1820,18 +1821,24 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
     }
 }
 
-void EkosManager::updateCaptureImage(QImage *image, Ekos::SequenceJob *job)
+void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
 {
-    delete (previewPixmap);
-    previewPixmap = new QPixmap(QPixmap::fromImage(*image));
-    previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    if (image)
+    {
+        delete (previewPixmap);
+        previewPixmap = new QPixmap(QPixmap::fromImage(*image));
+        previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
+
 
     if (job->isPreview() == false)
     {
-        sequenceLabel->setText(QString("Job # %1/%2 %3 (%4/%5)").arg(captureProcess->getActiveJobID()+1).arg(captureProcess->getJobCount()).arg(job->getPrefix())
-                               .arg(job->getCompleted()+1).arg(job->getCount()));
+        // Image is set to NULL only on initial capture start up
+        int completed   = (image == NULL) ? job->getCompleted() : job->getCompleted()+1;
+
+        sequenceLabel->setText(QString("Job # %1/%2 %3 (%4/%5)").arg(captureProcess->getActiveJobID()+1).arg(captureProcess->getJobCount()).arg(job->getPrefix()).arg(completed).arg(job->getCount()));
         sequenceProgress->setRange(0, job->getCount());
-        sequenceProgress->setValue(static_cast<int>(job->getCompleted()+1));
+        sequenceProgress->setValue(completed);
     }
 }
 
@@ -1938,4 +1945,9 @@ void EkosManager::updateGuideProfilePixmap(QPixmap & profilePix)
     guideProfilePixmap->save(guideProfileFile.fileName(), "PNG", 100);
 
     guideProfileImage->setToolTip(QString("<img src='%1'>").arg(guideProfileFile.fileName()));
+}
+
+void EkosManager::setTarget(SkyObject *o)
+{
+    mountTarget->setText(o->name());
 }
