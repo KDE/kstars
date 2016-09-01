@@ -33,11 +33,9 @@ public:
     SatelliteNode(Satellite* sat, RootNode *rootNode);
 
     void update();
-    //virtual void hide() override;
+    virtual void hide() override;
     void initLines();
     void initPoint();
-
-    void hide();
 
     void changePos(QPointF pos);
 

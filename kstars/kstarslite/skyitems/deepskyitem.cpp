@@ -202,7 +202,6 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, Me
     double lgz = log10(Options::zoomFactor());
     if ( lgz <= 0.75 * lgmax )
         maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
-    double m_zoomMagLimit = maglim;
 
     double labelMagLim = Options::deepSkyLabelDensity();
     labelMagLim += ( Options::magLimitDrawDeepSky() - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
@@ -210,7 +209,7 @@ void DeepSkyItem::updateDeepSkyNode(DSOIndexNode *indexNode, bool drawObject, Me
 
     //DrawID drawID = m_skyMesh->drawID();
 
-    int regionID = -1;
+    uint regionID = 0;
     if(region->hasNext()) {
         regionID = region->next();
     }

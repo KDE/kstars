@@ -25,8 +25,8 @@ class DSOIndexNode : public SkyOpacityNode {
 public:
     DSOIndexNode(DeepSkyIndex *index, LabelsItem::label_t labelType, QString colorString);
 
-    QSGNode *m_trixels;
     DeepSkyIndex *m_index;
+    QSGNode *m_trixels;
 
     LabelsItem::label_t m_labelType;
     QString schemeColor;

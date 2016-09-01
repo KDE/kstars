@@ -50,6 +50,14 @@ class ClientManagerLite : public INDI::BaseClientQt
     Q_OBJECT
     Q_PROPERTY(QString connectedHost READ connectedHost WRITE setConnectedHost NOTIFY connectedHostChanged)
     Q_PROPERTY(bool connected READ isConnected WRITE setConnected NOTIFY connectedChanged)
+
+    /** A wrapper for Options::lastServer(). Used to store last used server if user successfully
+     * connected to some server at least once.**/
+    Q_PROPERTY(QString lastUsedServer READ getLastUsedServer WRITE setLastUsedServer NOTIFY lastUsedServerChanged)
+
+    /** A wrapper for Options::lastServer(). Used to store last used port if user successfully
+     * connected to some server at least once.**/
+    Q_PROPERTY(int lastUsedPort READ getLastUsedPort WRITE setLastUsedPort NOTIFY lastUsedPortChanged)
 public:
     typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
     ClientManagerLite();
@@ -88,11 +96,11 @@ public:
 
     QList<DeviceInfoLite *> getDevices() { return m_devices; }
 
-    Q_INVOKABLE QString lastUsedServer() { return Options::lastServer(); }
-    Q_INVOKABLE void setLastUsedServer(QString server) { Options::setLastServer(server); }
+    Q_INVOKABLE QString getLastUsedServer();
+    Q_INVOKABLE void setLastUsedServer(QString server);
 
-    Q_INVOKABLE int lastUsedPort() { return Options::lastServerPort(); }
-    Q_INVOKABLE void setLastUsedPort(int port) { Options::setLastServerPort(port); }
+    Q_INVOKABLE int getLastUsedPort();
+    Q_INVOKABLE void setLastUsedPort(int port);
     /**
      * @brief saveDisplayImage
      * @return true if image was saved false otherwise
@@ -148,6 +156,9 @@ signals:
     void connectedChanged(bool);
     void telescopeAdded(TelescopeLite *newTelescope);
     void telescopeRemoved(TelescopeLite *delTelescope);
+
+    void lastUsedServerChanged();
+    void lastUsedPortChanged();
 private:
     bool processBLOBasCCD(IBLOB *bp);
 

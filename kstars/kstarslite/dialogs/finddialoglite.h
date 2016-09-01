@@ -17,9 +17,6 @@
 #ifndef FINDDIALOGLITE_H_
 #define FINDDIALOGLITE_H_
 
-#include <QKeyEvent>
-#include <QDialog>
-
 #include "skyobjects/skyobject.h"
 
 class QTimer;
@@ -28,9 +25,7 @@ class QSortFilterProxyModel;
 class SkyObjectListModel;
 
 /** @class FindDialogLite
- * A backend of dialog declared in QML.
- *
- * @short Backend for Find Object Dialog in QML
+ * @short Backend for "Find Object" dialog in QML
  * @author Artem Fedoskin, Jason Harris
  * @version 1.0
  */
@@ -58,6 +53,7 @@ public:
     Q_INVOKABLE void resolveInInternet(QString searchQuery);
 signals:
     void filterModelChanged();
+    void notifyMessage(QString message);
 
 public slots:
     /**When Text is entered in the QLineEdit, filter the List of objects

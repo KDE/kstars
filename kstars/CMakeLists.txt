@@ -765,6 +765,15 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/indi/modules/KSINDIText.qml
         kstarslite/qml/indi/modules/KSINDITextField.qml
         kstarslite/qml/indi/modules/KSButtonsSwitchRow.qml
+        #Tutorial
+        kstarslite/qml/modules/tutorial/TutorialPopup.qml
+        kstarslite/qml/modules/tutorial/TutorialExitPopup.qml
+        kstarslite/qml/modules/tutorial/TutorialStep1.qml
+        kstarslite/qml/modules/tutorial/TutorialStep2.qml
+        kstarslite/qml/modules/tutorial/TutorialStep3.qml
+        kstarslite/qml/modules/tutorial/TutorialStep4.qml
+        kstarslite/qml/modules/tutorial/TutorialStep5.qml
+        kstarslite/qml/modules/tutorial/TutorialPane.qml
         )
     add_subdirectory(kstarslite/qml)
     ADD_CUSTOM_TARGET(kstarsliteqml SOURCES ${kstarsliteqml_SRCS})

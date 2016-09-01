@@ -22,7 +22,7 @@
 SkyPolygonNode::SkyPolygonNode(LineList* list)
     :m_list(list), m_polygonNode(new PolyNode)
 {
-    addChildNode(m_polygonNode);
+    //addChildNode(m_polygonNode);
 }
 
 void SkyPolygonNode::update(bool forceClip) {

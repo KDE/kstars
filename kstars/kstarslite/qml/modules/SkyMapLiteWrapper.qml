@@ -1,10 +1,10 @@
 import QtQuick 2.6
 import QtQuick.Controls 2.0
 import "../constants" 1.0
+import "tutorial"
 
 Item {
     id: skyMapLiteItem
-    anchors.fill: parent
     visible: isLoaded
 
     Rectangle {
@@ -41,6 +41,7 @@ Item {
             }
         }
 
+        /** Circle that appears after user taps on screen **/
         Rectangle {
             id: tapCircle
             z: 1
@@ -74,12 +75,25 @@ Item {
         }
     }
 
+    TopMenu {
+        id: topMenu
+    }
+
+    //Step 3 - Top Menu
+    TutorialStep3 {
+        anchors{
+            top: topMenu.bottom
+        }
+    }
+
     BottomMenu {
         id: bottomMenu
     }
 
-
-    TopMenu {
-        id: topMenu
+    //Step 4 - Bottom Menu
+    TutorialStep4 {
+        anchors{
+            bottom: bottomMenu.top
+        }
     }
 }

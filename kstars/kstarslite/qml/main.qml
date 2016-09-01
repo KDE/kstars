@@ -11,6 +11,8 @@ import "modules"
 import "modules/helpers"
 import "modules/popups"
 import "modules/menus"
+import "modules/tutorial"
+
 
 import "dialogs"
 import "dialogs/menus"
@@ -33,7 +35,10 @@ ApplicationWindow {
     signal loaded();
 
     onIsLoadedChanged: {
-        if(isLoaded) loaded()
+        if(isLoaded) {
+            loaded()
+            if(KStarsLite.runTutorial) tutorialPopup.open()
+        }
     }
 
     header: ToolBar {
@@ -149,6 +154,7 @@ ApplicationWindow {
     Page {
         id: initPage
         title: "Sky Map"
+        padding: 0
 
         Rectangle {
             anchors.fill: parent
@@ -161,6 +167,7 @@ ApplicationWindow {
           opacity. Each time we go from / to initPage this component is made invisible / visible and
         skyMapLiteWrapper is anchored to fill null / parent*/
         id: skyMapLite
+        anchors.fill: parent
     }
 
     //Popups
@@ -186,6 +193,18 @@ ApplicationWindow {
         y: (window.height - height)/2
     }
 
+    TutorialPopup {
+        id: tutorialPopup
+        x: (window.width - width)/2
+        y: (window.height - height)/2
+    }
+
+    TutorialExitPopup {
+        id: tutorialExitPopup
+        x: (window.width - width)/2
+        y: (window.height - height)/2
+    }
+
     //Menus
     ContextMenu {
         id: contextMenu
@@ -198,7 +217,6 @@ ApplicationWindow {
         x: (window.width - width)/2
         y: (window.height - height)/2
     }
-
 
     Drawer {
         id: globalDrawer
@@ -248,11 +266,9 @@ ApplicationWindow {
                 onClicked: {
                     if(stackView.currentItem != model.objID) {
                         if(model.objID != initPage) {
-                            //skyMapLiteWrapper.visible = false
                             stackView.replace(null, [initPage, model.objID])
                         } else {
                             stackView.replace(null, initPage)
-                            //skyMapLiteWrapper.visible = true
                         }
                         globalDrawer.close()
                     }
@@ -273,6 +289,42 @@ ApplicationWindow {
 
             ScrollIndicator.vertical: ScrollIndicator { }
         }
+    }
+
+    //Study mode
+    property bool step1: false
+    property bool step2: false
+    property bool step3: false
+    property bool step4: false
+    property bool step5: false
+
+    function askExitTutorial() {
+        tutorialExitPopup.open()
+    }
+
+    function exitTutorial() {
+        KStarsLite.runTutorial = false
+        tutorialPopup.close()
+        step1 = false
+        step2 = false
+        step3 = false
+        step4 = false
+        step5 = false
+    }
+
+    //Step 1 - Global Drawer
+    TutorialStep1 {
+
+    }
+
+    //Step 2 - Context Drawer
+    TutorialStep2 {
+
+    }
+
+    //Step 5 - Location
+    TutorialStep5 {
+
     }
 
     Drawer {

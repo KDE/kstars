@@ -231,6 +231,7 @@ void SkyMapComposite::updateMoons(KSNumbers *num )
 //should appear "behind" others should be drawn first.
 void SkyMapComposite::draw( SkyPainter *skyp )
 {
+    Q_UNUSED(skyp)
 #ifndef KSTARS_LITE
 
     SkyMap *map = SkyMap::Instance();

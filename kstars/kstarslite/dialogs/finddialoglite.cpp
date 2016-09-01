@@ -181,7 +181,6 @@ void FindDialogLite::resolveInInternet(QString searchQuery) {
         selObj = dso;
     }
     if ( selObj == 0 ) {
-        /*QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
-        KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );*/
+        emit notifyMessage(i18n( "No object named %1 found.", searchQuery ));
     }
 }

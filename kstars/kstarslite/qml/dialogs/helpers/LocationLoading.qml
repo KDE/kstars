@@ -11,7 +11,7 @@ Popup {
     focus: true
     modal: true
 
-    Pane {
+    ColumnLayout {
         id: aboutDialog
         focus: true
         width: Math.min(window.width, window.height) / 3 * 2

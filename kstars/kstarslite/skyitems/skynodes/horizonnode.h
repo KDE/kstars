@@ -32,8 +32,8 @@ public:
     virtual void hide() override;
 
 private:
-    PolyNode *m_polygonNode;
     QList<SkyPoint*>& m_pointList;
+    PolyNode *m_polygonNode;
 };
 
 

@@ -54,6 +54,8 @@ class QQuickItem;
 class KStarsLite : public QObject
 {
     Q_OBJECT
+    //runTutorial is a wrapper for Options::RunStartupWizard()
+    Q_PROPERTY(bool runTutorial WRITE setRunTutorial READ getRunTutorial NOTIFY runTutorialChanged)
 private:
     /**
      * @short Constructor.
@@ -97,6 +99,10 @@ public:
     Q_INVOKABLE void fullUpdate();
 
     void applyConfig( bool doApplyFocus = true );
+
+    void setRunTutorial(bool runTutorial);
+
+    bool getRunTutorial();
     
 #ifdef HAVE_INDI
     /** @return pointer to KStarsData object which handles connection to INDI server. */
@@ -131,10 +137,24 @@ public:
     The reason for this is that you can't use Enums of another in class in Q_INVOKABLE function*/
     Q_INVOKABLE void setProjection(uint proj);
 
-    Q_INVOKABLE QColor getColor(QString schemeColor);
+    /** These functions are just convenient getters to access internals of KStars from QML **/
 
+    /**
+     * @short returns color with key name from current color scheme
+     * @param schemeColor name the key name of the color to be retrieved from current color scheme
+     * @return color from name
+     */
+    Q_INVOKABLE QColor getColor(QString name);
+
+    /**
+     * @short toggles on/off objects of group toToggle
+     * @see ObjectsToToggle
+     */
     Q_INVOKABLE void toggleObjects(ObjectsToToggle toToggle, bool toggle);
 
+    /**
+     * @return true if objects from group toToggle are currently toggled on
+     **/
     Q_INVOKABLE bool isToggled(ObjectsToToggle toToggle);
 
     /** @} */ // end of kconfigwrappers group
@@ -148,6 +168,8 @@ signals:
     
     /** Emitted whenever TimeSpinBox in QML changes the scale **/
     void scaleChanged(float);
+
+    void runTutorialChanged();
     
 public Q_SLOTS:
     /**
@@ -165,8 +187,8 @@ public Q_SLOTS:
      */
     void loadColorScheme( const QString &name );
     
-    /** action slot: open a dialog for setting the time and date */
-    void slotSetTime();
+    /** sets time and date according to parameter time*/
+    void slotSetTime(QDateTime time);
     
     /** action slot: toggle whether kstars clock is running or not */
     void slotToggleTimer();

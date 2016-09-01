@@ -377,11 +377,11 @@ void DeepSkyComponent::appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Tri
 
 void DeepSkyComponent::draw( SkyPainter *skyp )
 {
+#ifndef KSTARS_LITE
     if ( ! selected() ) return;
 
     bool drawFlag;
 
-#ifndef KSTARS_LITE
     drawFlag = Options::showMessier() &&
                ! ( Options::hideOnSlew() && Options::hideMessier() && SkyMap::IsSlewing() );
 
@@ -401,6 +401,8 @@ void DeepSkyComponent::draw( SkyPainter *skyp )
                ! ( Options::hideOnSlew() && Options::hideOther() && SkyMap::IsSlewing() );
 
     drawDeepSkyCatalog( skyp, drawFlag,   &m_OtherIndex,   "NGCColor" );
+#else
+    Q_UNUSED(skyp)
 #endif
 }
 

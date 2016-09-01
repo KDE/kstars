@@ -14,7 +14,7 @@ KSPage {
 
     Component.onCompleted: {
         if(Qt.platform.os != "android") {
-            ClientManagerLite.setHost("localhost", parseInt(7624))
+            //ClientManagerLite.setHost("localhost", parseInt(7624))
         }
     }
 
@@ -57,7 +57,7 @@ KSPage {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.maximumWidth: parent.width*0.8
                     Layout.fillWidth: true
-                    text: ClientManagerLite.lastUsedServer()
+                    text: ClientManagerLite.lastUsedServer
                 }
 
                 TextField {
@@ -66,7 +66,7 @@ KSPage {
                     Layout.alignment: Qt.AlignHCenter
                     Layout.maximumWidth: parent.width*0.2
                     Layout.fillWidth: true
-                    text: ClientManagerLite.lastUsedPort()
+                    text: ClientManagerLite.lastUsedPort
                 }
             }
         }
@@ -84,8 +84,6 @@ KSPage {
                 if(!indiPage.connected) {
                     if(ClientManagerLite.setHost(ipHost.text, parseInt(portHost.text))) {
                         notification.showNotification(xi18n("Successfully connected to the server"))
-                        ClientManagerLite.setLastUsedServer(ipHost.text)
-                        ClientManagerLite.setLastUsedPort(portHost.text)
                     } else {
                         notification.showNotification(xi18n("Couldn't connect to the server"))
                     }

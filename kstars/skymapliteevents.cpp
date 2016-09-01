@@ -15,14 +15,12 @@
 #include <QTapSensor>
 
 void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
-    KStarsLite* kstars = KStarsLite::Instance();
-
-    /*if ( ( e->modifiers() & Qt::ControlModifier ) && (e->button() == Qt::LeftButton) ) {
+    if ( ( e->modifiers() & Qt::ControlModifier ) && (e->button() == Qt::LeftButton) ) {
         ZoomRect.moveCenter( e->pos() );
         setZoomMouseCursor();
         update(); //refresh without redrawing skymap
         return;
-    }*/
+    }
     // if button is down and cursor is not moved set the move cursor after 500 ms
     QTimer::singleShot(500, this, SLOT (setMouseMoveCursor()));
 
@@ -34,7 +32,6 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
         y0 = 0.5*height() - e->y();  //record y pixel coordinate for middle-button zooming
         midMouseButtonDown = true;
     }
-
     if ( !mouseButtonDown ) {
         if ( e->button() == Qt::LeftButton ) {
             mouseButtonDown = true;
@@ -46,7 +43,6 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();
-        double zoom = Options::zoomFactor();
         SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
         setClickedObject( obj );
         if( obj )
@@ -109,8 +105,8 @@ void SkyMapLite::mouseReleaseEvent( QMouseEvent * ) {
     //false if double-clicked, because it's unset there.
     if (mouseButtonDown) {
         mouseButtonDown = false;
-        if ( slewing ) {
-            slewing = false;
+        if ( getSlewing() ) {
+            setSlewing(false);
             if ( Options::useAltAz() )
                 setDestinationAltAz( focus()->alt(), focus()->az() );
             else
@@ -182,12 +178,11 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
             slotZoomOut();
         }
     }
-
     if ( mouseButtonDown ) {
-        // set the mouseMoveCursor and set slewing=true, if they are not set yet
+        // set the mouseMoveCursor and set slewing to true, if they are not set yet
         if( !mouseMoveCursor ) setMouseMoveCursor();
-        if( !slewing ) {
-            slewing = true;
+        if( !getSlewing() ) {
+            setSlewing(true);
             stopTracking(); //toggle tracking off
         }
 
@@ -240,14 +235,14 @@ void SkyMapLite::wheelEvent( QWheelEvent *e ) {
 
 void SkyMapLite::touchEvent( QTouchEvent *e) {
     QList<QTouchEvent::TouchPoint> points = e->touchPoints();
-
     if(points.length() == 2) {
+        //Set tapBegan to false because user doesn't tap but either pans or pinches to zoom
+        tapBegan = false;
         if ( projector()->unusablePoint( points[0].pos() ) ||
              projector()->unusablePoint( points[1].pos() ))
             return;
 
         //Pinch to zoom
-
         double x_old_diff = abs(points[1].lastPos().x() - points[0].lastPos().x());
         double y_old_diff = abs(points[1].lastPos().y() - points[0].lastPos().y());
 
@@ -318,7 +313,7 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         mouseMoveEvent(event);
 
         if( e->touchPointStates() & Qt::TouchPointReleased ) {
-            slewing = false;
+            setSlewing(false);
             if(pinch) {
                 pinch = false;
                 mouseButtonDown = false;
@@ -326,51 +321,54 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         }
 
         delete event;
-
     } else if (points.length() == 1 && !pinch) {
+        QPointF point = points[0].screenPos();
+        //Set clicked point (needed for pan)
+        if(e->type() == QEvent::TouchBegin) {
+            m_MousePoint = projector()->fromScreen( point, data->lst(), data->geo()->lat() );
+            setClickedPoint( &m_MousePoint );
+            mouseButtonDown = true;
+        } else if(e->type() == QEvent::TouchEnd) {
+            mouseButtonDown = false;
+            if ( getSlewing() ) {
+                setSlewing(false);
+                if ( Options::useAltAz() )
+                    setDestinationAltAz( focus()->alt(), focus()->az() );
+                else
+                    setDestination( *focus() );
+            }
+        }
+
         if ( !projector()->unusablePoint( points[0].screenPos() ) ) {
             if( !tapBegan && (e->touchPointStates() & Qt::TouchPointPressed) ) {
+                //We set tapBegan to true whenever user tapped on the screen
                 tapBegan = true;
-            } else if(e->touchPointStates() & Qt::TouchPointMoved || slewing) {
-                QPointF newFocus = points[0].screenPos();
+            } else if((e->touchPointStates() & Qt::TouchPointMoved) || getSlewing()) {
+                //Set tapBegan to false because user doesn't tap but either pans or pinches to zoom
                 tapBegan = false;
 
-                QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, newFocus,
+                QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, point,
                                                      Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
-                if(e->type() == QEvent::TouchBegin) {
-                    if(mouseButtonDown) mouseButtonDown = false;
-                }
 
-                mousePressEvent(event);
                 mouseMoveEvent(event);
 
-                if(e->type() == QEvent::TouchEnd) {
-                    if (mouseButtonDown) {
-                        mouseButtonDown = false;
-                        if ( slewing ) {
-                            slewing = false;
-                            if ( Options::useAltAz() )
-                                setDestinationAltAz( focus()->alt(), focus()->az() );
-                            else
-                                setDestination( *focus() );
-                        }
-                    }
-                }
+
                 delete event;
-            } else if((e->touchPointStates() & Qt::TouchPointReleased) && tapBegan ) { //&& !slewing && points.length() == 1) {
-                if(slewing) slewing = false;
+
+                //If user didn't pan and pinch to zoom tapBegan will be true
+            } else if((e->touchPointStates() & Qt::TouchPointReleased) && tapBegan ) {
+                if(getSlewing()) setSlewing(false);
                 tapBegan = false;
                 //Show tap animation
-                emit posClicked(points[0].screenPos());
+                emit posClicked(point);
                 //determine RA, Dec of touch
-                m_MousePoint = projector()->fromScreen( points[0].screenPos() , data->lst(), data->geo()->lat() );
+                m_MousePoint = projector()->fromScreen( point , data->lst(), data->geo()->lat() );
                 setClickedPoint( &m_MousePoint );
 
                 //Find object nearest to clickedPoint()
                 double maxrad = 1000.0/Options::zoomFactor(); /* On high zoom-level it is very hard to select the object using touch screen.
                                             That's why radius remains constant*/
                 maxrad = qMax(maxrad,2.5);
-                qDebug() << maxrad << "maxrad";
                 SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
                 setClickedObject( obj );
                 if( obj ) setClickedPoint( obj );

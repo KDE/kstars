@@ -11,10 +11,25 @@ import "helpers"
 ColumnLayout {
     id: bottomMenu
     property int padding: 10
+
     property double openOffset: bottomMenu.height - bottomBar.background.radius //Hide bottom round corners
     property double closedOffset: arrowUp.height + padding
+    property string prevState
 
     property bool isWindowWidthSmall: window.width < menuGrid.maxWidth
+
+    //Hide on slew
+    Connections {
+        target: SkyMapLite
+        onSlewingChanged: {
+            if(SkyMapLite.slewing) {
+                prevState = state
+                state = "hidden"
+            } else {
+                state = prevState
+            }
+        }
+    }
 
     state: "closed"
     spacing: padding
@@ -37,52 +52,60 @@ ColumnLayout {
                 target: bottomMenu
                 y: parent.height - closedOffset
             }
+        },
+        State {
+            name: "hidden"
+            PropertyChanges {
+                target: bottomMenu
+                y: parent.height
+            }
         }
     ]
 
     transitions: [
         Transition {
-            from: "closed"; to: "open"
+            to: "open"
             PropertyAnimation { target: bottomMenu
                 properties: "y"; duration: 300 }
         },
         Transition {
-            from: "open"; to: "closed"
+            to: "closed"
             PropertyAnimation { target: bottomMenu
                 properties: "y"; duration: 300 }
+        },
+        Transition {
+            to: "hidden"
+            PropertyAnimation { target: bottomMenu
+                properties: "y"; duration: 200 }
         }
     ]
 
-    Item {
-        width: arrowUp.sourceSize.width/num.pixelRatio
-        height: arrowUp.sourceSize.height/num.pixelRatio
-        anchors.horizontalCenter: parent.horizontalCenter
+    Image {
+        id: arrowUp
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+        }
+        state: "open"
+        source: "../images/arrow.png"
+        rotation: {
+            if(bottomMenu.state == "closed")
+                return 0
+            else if(bottomMenu.state == "open")
+                return 180
+            return rotation //If it state is "hidden" return current rotation
+        }
+        mirror: true // Make sure that arrows in both menus look symmetric
 
-        Image {
-            id: arrowUp
-            anchors {
-                fill: parent
-                horizontalCenter: parent.horizontalCenter
+        MouseArea {
+            anchors.fill: parent
+            onPressed: {
+                bottomMenu.state = bottomMenu.state == "closed" ? "open" : "closed"
             }
-            state: "open"
-            source: "../images/arrow.png"
-            rotation: bottomMenu.state == "closed" ? 0 : 180
-            mirror: true // Make sure that arrows in both menus look symmetric
+        }
 
-            //transform: Rotation { axis { x: 1; y: 0; z: 0 } angle: 90 }
-            //rotation: 180
-
-            MouseArea {
-                anchors.fill: parent
-                onPressed: {
-                    bottomMenu.state = bottomMenu.state == "closed" ? "open" : "closed"
-                }
-            }
-
-            Behavior on rotation {
-                RotationAnimation {
-                    duration: 200; direction: RotationAnimation.Counterclockwise
-                }
+        Behavior on rotation {
+            RotationAnimation {
+                duration: 200; direction: RotationAnimation.Counterclockwise
             }
         }
     }

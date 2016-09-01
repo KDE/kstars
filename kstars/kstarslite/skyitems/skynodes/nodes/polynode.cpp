@@ -29,8 +29,7 @@ extern "C"
 }
 
 PolyNode::PolyNode()
-    :m_geometryNode(new QSGGeometryNode), m_geometry(0),
-      m_material(new QSGFlatColorMaterial)
+    :m_geometryNode(new QSGGeometryNode), m_material(new QSGFlatColorMaterial)
 {
     m_geometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0);
     m_geometryNode->setGeometry(m_geometry);
@@ -107,5 +106,4 @@ void PolyNode::updateGeometry(const QPolygonF &polygon, bool filled) {
         if (tris_out) free(tris_out);
     }
     m_geometryNode->markDirty(QSGNode::DirtyGeometry);
-
 }

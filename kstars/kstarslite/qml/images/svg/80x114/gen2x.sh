@@ -1,6 +1,6 @@
 #!/bin/sh
 
-width=250
+width=80
 dir="../../"
 
 for file in *.svg

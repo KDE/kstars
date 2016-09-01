@@ -48,5 +48,15 @@ install( FILES modules/helpers/TopMenuButton.qml
     modules/helpers/TelescopeControl.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/helpers )
 
+install( FILES modules/tutorial/TutorialStep1.qml
+        modules/tutorial/TutorialStep2.qml
+        modules/tutorial/TutorialStep3.qml
+        modules/tutorial/TutorialStep4.qml
+        modules/tutorial/TutorialStep5.qml
+        modules/tutorial/TutorialPopup.qml
+        modules/tutorial/TutorialExitPopup.qml
+        modules/tutorial/TutorialPane.qml
+    DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules/tutorial )
+
 add_subdirectory(images)
 add_subdirectory(indi)

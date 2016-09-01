@@ -76,6 +76,10 @@ bool ClientManagerLite::setHost(QString ip, unsigned int port) {
         qDebug() << ip << port;
         if(connectServer()) {
             setConnectedHost(ip + ":" + QString::number(port));
+            //Update last used server and port
+            setLastUsedServer(ip);
+            setLastUsedPort(port);
+
             return true;
         }
     }
@@ -273,9 +277,9 @@ void ClientManagerLite::buildNumberGUI(Property * property) {
 }
 
 void ClientManagerLite::buildMenuGUI(INDI::Property * property) {
-    QStringList menuOptions;
+    /*QStringList menuOptions;
     QString oneOption;
-    int onItem=-1;
+    int onItem=-1;*/
     ISwitchVectorProperty *svp = property->getSwitch();
 
     if (svp == NULL)
@@ -570,21 +574,20 @@ bool ClientManagerLite::saveDisplayImage() {
     QString dateTime = QDateTime::currentDateTime().toString("dd-MM-yyyy-hh-mm-ss");
     QString fileEnding = "kstars-lite-" + dateTime;
     //QString filename = KSPaths::writableLocation(QStandardPaths::PicturesLocation);
-//#ifndef ANDROID
+    //#ifndef ANDROID
     QString filename = QFileDialog::getSaveFileName(QApplication::activeWindow(), i18n("Save Image"),
                                                     KSPaths::writableLocation(QStandardPaths::PicturesLocation) + "/" + fileEnding + ".jpeg",
                                                     i18n("JPEG (*.jpeg);;JPG (*.jpg);;PNG (*.png);;BMP (*.bmp)" ));
-//#else
+    //#else
     /*if(imageType.isEmpty() || !(imageType != ".jpeg" || imageType != ".jpg" || imageType != ".png" || imageType != ".bmp")) {
             QString warning = imageType + " is a wrong image type. Switching to \"" + defaultImageType + "\"";
             qDebug() << warning;
             emit newINDIMessage(warning);
             imageType = defaultImageType;
     }*/
-  //  QString filename(defaultImagesLocation + "/" + fileEnding + defaultImageType);
-//#endif
+    //  QString filename(defaultImagesLocation + "/" + fileEnding + defaultImageType);
+    //#endif
     if(!filename.isEmpty()) {
-        int i = 100;
         if(displayImage.save(filename)) {
             emit newINDIMessage("File " + filename + " was successfully saved");
             return true;
@@ -794,7 +797,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB *bp) {
         {
 #ifdef Q_OS_ANDROID
             LibRaw RawProcessor;
-    #define OUT RawProcessor.imgdata.params
+#define OUT RawProcessor.imgdata.params
             OUT.user_qual = 0; // -q
             OUT.use_camera_wb = 1; // -w
             OUT.highlight = 5; // -H
@@ -915,6 +918,7 @@ void ClientManagerLite::newMessage(INDI::BaseDevice *dp, int messageID) {
 }
 
 void ClientManagerLite::serverDisconnected(int exit_code) {
+    Q_UNUSED(exit_code)
     clearDevices();
     setConnected(false);
 }
@@ -928,4 +932,26 @@ void ClientManagerLite::clearDevices() {
         delete devInfo;
     }
     m_devices.clear();
+}
+
+QString ClientManagerLite::getLastUsedServer() {
+    return Options::lastServer();
+}
+
+void ClientManagerLite::setLastUsedServer(QString server) {
+    if(getLastUsedServer() != server) {
+        Options::setLastServer(server);
+        lastUsedServerChanged();
+    }
+}
+
+int ClientManagerLite::getLastUsedPort() {
+    return Options::lastServerPort();
+}
+
+void ClientManagerLite::setLastUsedPort(int port) {
+    if(getLastUsedPort() != port) {
+        Options::setLastServerPort(port);
+        lastUsedPortChanged();
+    }
 }

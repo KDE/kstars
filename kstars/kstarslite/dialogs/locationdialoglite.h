@@ -31,6 +31,7 @@
  */
 
 class GeoLocation;
+class QGeoPositionInfoSource;
 
 class LocationDialogLite : public QObject {
     Q_OBJECT
@@ -104,6 +105,7 @@ private:
 
     QStringList m_TZList;
     QStringList m_DSTRules;
+    QGeoPositionInfoSource *m_geoSrc;
 };
 
 #endif

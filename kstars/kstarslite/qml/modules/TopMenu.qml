@@ -14,6 +14,19 @@ ColumnLayout {
     property int padding: 10
     property double openOffset: -topBar.background.radius //Hide top round corners
     property double closedOffset: -topBar.height // Hide top bar when closed
+    property string prevState
+
+    Connections {
+        target: SkyMapLite
+        onSlewingChanged: {
+            if(SkyMapLite.slewing) {
+                prevState = state
+                state = "hidden"
+            } else {
+                state = prevState
+            }
+        }
+    }
 
     state: "closed"
     spacing: padding
@@ -37,19 +50,31 @@ ColumnLayout {
                 target: topMenu
                 y: closedOffset
             }
+        },
+        State {
+            name: "hidden"
+            PropertyChanges {
+                target: topMenu
+                y: -topMenu.height
+            }
         }
     ]
 
     transitions: [
         Transition {
-            from: "closed"; to: "open"
+            to: "open"
             PropertyAnimation { target: topMenu
                 properties: "y"; duration: 300 }
         },
         Transition {
-            from: "open"; to: "closed"
+            to: "closed"
             PropertyAnimation { target: topMenu
                 properties: "y"; duration: 300 }
+        },
+        Transition {
+            to: "hidden"
+            PropertyAnimation { target: topMenu
+                properties: "y"; duration: 200 }
         }
     ]
 
@@ -216,37 +241,30 @@ ColumnLayout {
         }
     }
 
-    Item {
-        width: arrowDown.sourceSize.width/num.pixelRatio
-        height: arrowDown.sourceSize.height/num.pixelRatio
-        anchors.horizontalCenter: parent.horizontalCenter
+    Image {
+        id: arrowDown
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+        }
+        state: "open"
+        source: "../images/arrow.png"
+        rotation: {
+            if(topMenu.state == "closed")
+                return 180
+            else if(topMenu.state == "open")
+                return 0
+        }
 
-        Image {
-            id: arrowDown
-            anchors {
-                fill: parent
-                horizontalCenter: parent.horizontalCenter
+        MouseArea {
+            anchors.fill: parent
+            onPressed: {
+                topMenu.state = topMenu.state == "closed" ? "open" : "closed"
             }
-            width: sourceSize.width/num.pixelRatio
-            height: sourceSize.height/num.pixelRatio
-            state: "open"
-            source: "../images/arrow.png"
-            rotation: topMenu.state == "closed" ? 180 : 0
+        }
 
-            //transform: Rotation { axis { x: 1; y: 0; z: 0 } angle: 90 }
-            //rotation: 180
-
-            MouseArea {
-                anchors.fill: parent
-                onPressed: {
-                    topMenu.state = topMenu.state == "closed" ? "open" : "closed"
-                }
-            }
-
-            Behavior on rotation {
-                RotationAnimation {
-                    duration: 200; direction: RotationAnimation.Counterclockwise
-                }
+        Behavior on rotation {
+            RotationAnimation {
+                duration: 200; direction: RotationAnimation.Counterclockwise
             }
         }
     }

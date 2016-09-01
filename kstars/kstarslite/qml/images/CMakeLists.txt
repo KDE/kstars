@@ -116,4 +116,12 @@ install( FILES
 	 splash@2x.png
 	 splash@3x.png
 	 splash@4x.png
-	 DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/images )
+         tutorial-arrow-horizontal.png
+         tutorial-arrow-horizontal@2x.png
+         tutorial-arrow-horizontal@3x.png
+         tutorial-arrow-horizontal@4x.png
+         tutorial-arrow-vertical.png
+         tutorial-arrow-vertical@2x.png
+         tutorial-arrow-vertical@3x.png
+         tutorial-arrow-vertical@4x.png
+         DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/images )

@@ -99,9 +99,6 @@ public Q_SLOTS:
     /** Function to set the time of the SimClock. */
     void setUTC(const KStarsDateTime &newtime);
 
-    /** Sets time and date from QDateTime **/
-    Q_INVOKABLE void setFromQDateTime(const QDateTime &dateTime);
-
     /** Function to set scale of simclock. */
     void setClockScale(float s);
     #endif

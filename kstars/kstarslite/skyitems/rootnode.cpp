@@ -184,10 +184,6 @@ QSGTexture* RootNode::getCachedTexture(int size, char spType) {
 void RootNode::updateClipPoly() {
     QPolygonF newClip = m_skyMapLite->projector()->clipPoly();
     m_clipPoly = newClip;
-/*    if(m_clipPoly != newClip) {
-    } else {
-        return; //We don't need to triangulate polygon and update geometry if polygon wasn't changed
-    }*/
 
     const int size = m_clipPoly.size();
     if(!m_clipGeometry) {
@@ -196,12 +192,7 @@ void RootNode::updateClipPoly() {
         m_clipGeometry->setDrawingMode(GL_TRIANGLE_FAN);
         setGeometry(m_clipGeometry);
         setFlag(QSGNode::OwnsGeometry);
-        /*m_visualizeClipping = new QSGGeometryNode;
-        m_visualizeClipping->setGeometry(m_clipGeometry);
-        QSGFlatColorMaterial *material = new QSGFlatColorMaterial;
-        material->setColor(QColor("red"));
-        m_visualizeClipping->setMaterial(material);
-        appendChildNode(m_visualizeClipping);*/
+
     }
     m_clipGeometry->allocate(size);
 

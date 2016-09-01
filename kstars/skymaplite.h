@@ -80,6 +80,7 @@ class SkyMapLite : public QQuickItem {
     Q_PROPERTY(SkyPointLite *clickedPointLite READ getClickedPointLite NOTIFY pointLiteChanged)
     Q_PROPERTY(SkyObjectLite *clickedObjectLite READ getClickedObjectLite NOTIFY objectLiteChanged)
     Q_PROPERTY(QStringList FOVSymbols READ getFOVSymbols NOTIFY symbolsFOVChanged)
+    Q_PROPERTY(bool slewing READ getSlewing WRITE setSlewing NOTIFY slewingChanged)
 protected:
     /**
     *Constructor.
@@ -359,9 +360,19 @@ public:
     SkyObjectLite *getClickedObjectLite() { return m_ClickedObjectLite; }
 
     /**
-     *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
+     * @short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
      */
     //inline void drawObjectLabels( QList< SkyObject* >& labelObjects ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->drawObjectLabels( labelObjects ); }
+
+    /**
+     * @return true if SkyMapLite is being slewed
+     */
+    bool getSlewing() const { return m_slewing; }
+
+    /**
+     * @short sets whether SkyMapLite is being slewed
+     */
+    void setSlewing(bool newSlewing);
 
     /*void setPreviewLegend(bool preview) { m_previewLegend = preview; }
 
@@ -525,6 +536,9 @@ signals:
     /** Emitted when FOVSymbols list was changed (new value appended) **/
     void symbolsFOVChanged(QStringList);
 
+    /** Emitted when SkyMapLite is being slewed or slewing is finished **/
+    void slewingChanged(bool);
+
 protected:
     /** Process keystrokes:
      * @li arrow keys  Slew the map
@@ -594,11 +608,11 @@ private slots:
     /** resets updates counter **/
     void setUpdateCounter();
 
-    /** adds telescope to TelescopeSymbolsItem **/
-    void addTelescope(TelescopeLite *);
+//    /** adds telescope to TelescopeSymbolsItem **/
+//    void addTelescope(TelescopeLite *);
 
-    /** deletes all device-related SkyItems or SkyNodes **/
-    void removeDevice(QString device);
+//    /** deletes all device-related SkyItems or SkyNodes **/
+//    void removeDevice(QString device);
 
 private:
 
@@ -649,7 +663,8 @@ private:
     bool mouseButtonDown, midMouseButtonDown;
     // true if mouseMoveEvent; needed by setMouseMoveCursor
     bool mouseMoveCursor;
-    bool slewing, clockSlewing;
+    bool m_slewing;
+    bool clockSlewing;
     // true if pinch to zoom or pinch to rotate is performed
     bool pinch;
     //if false only old pixmap will repainted with bitBlt(), this

@@ -535,7 +535,7 @@ KSPage {
                     }
                     onClicked: {
                         var date = new Date(userYear, userMonth, userDay, userHour, userMinutes)
-                        SimClock.setFromQDateTime(date)
+                        KStarsLite.slotSetTime(date)
                         notification.showNotification("Setting time to " + date)
                         stackView.pop()
                     }
@@ -550,7 +550,7 @@ KSPage {
                         text: "Ok"
                         onClicked: {
                             var date = new Date(userYear, userMonth, userDay, userHour, userMinutes)
-                            SimClock.setFromQDateTime(date)
+                            KStarsLite.slotSetTime(date)
                             notification.showNotification("Setting time to " + date)
                             stackView.pop()
                         }

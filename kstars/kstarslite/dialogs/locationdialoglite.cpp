@@ -19,6 +19,8 @@
 #include "kstarslite.h"
 #include <QQmlContext>
 #include "kspaths.h"
+#include <QGeoPositionInfoSource>
+#include "Options.h"
 
 LocationDialogLite::LocationDialogLite()
     :SelectedCity(nullptr), currentGeo(nullptr){
@@ -51,6 +53,8 @@ LocationDialogLite::LocationDialogLite()
     connect(kstars, SIGNAL(dataLoadFinished()), this, SLOT(initCityList()));
     KStarsData* data = KStarsData::Instance();
     connect(data, SIGNAL(geoChanged()), this, SLOT(updateCurrentLocation()));
+
+    m_geoSrc = QGeoPositionInfoSource::createDefaultSource(this);
 }
 
 void LocationDialogLite::initCityList() {
@@ -209,7 +213,6 @@ bool LocationDialogLite::deleteCity(QString fullName) {
 bool LocationDialogLite::editCity(QString fullName, QString city, QString province, QString country, QString latitude, QString longitude, QString TimeZoneString, QString TZRule) {
     QSqlDatabase mycitydb = getDB();
     GeoLocation *geo = filteredCityList.value(fullName);
-    KStarsData *data = KStarsData::Instance();
 
     bool latOk(false), lngOk(false), tzOk(false);
     dms lat = createDms( latitude, true, &latOk );
@@ -398,7 +401,6 @@ bool LocationDialogLite::checkLongLat(QString longitude, QString latitude) {
 bool LocationDialogLite::setLocation(QString fullName) {
     KStarsData *data = KStarsData::Instance();
     GeoLocation *geo = filteredCityList.value(fullName);
-
     if(!geo) {
         foreach ( GeoLocation *loc, data->getGeoList() )
         {
@@ -410,8 +412,33 @@ bool LocationDialogLite::setLocation(QString fullName) {
     }
 
     if(geo) {
-        data->setLocation(*geo);
+        // set new location in options
+        data->setLocation( *geo );
+
+        // adjust local time to keep UT the same.
+        // create new LT without DST offset
+        KStarsDateTime ltime = geo->UTtoLT( data->ut() );
+
+        // reset timezonerule to compute next dst change
+        geo->tzrule()->reset_with_ltime( ltime, geo->TZ0(), data->isTimeRunningForward() );
+
+        // reset next dst change time
+        data->setNextDSTChange( geo->tzrule()->nextDSTChange() );
+
+        // reset local sideral time
+        data->syncLST();
+
+        // Make sure Numbers, Moon, planets, and sky objects are updated immediately
         data->setFullTimeUpdate();
+
+        // If the sky is in Horizontal mode and not tracking, reset focus such that
+        // Alt/Az remain constant.
+        if ( ! Options::isTracking() && Options::useAltAz() ) {
+            SkyMapLite::Instance()->focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+        }
+
+        // recalculate new times and objects
+        data->setSnapNextFocus();
         KStarsLite::Instance()->updateTime();
         return true;
     }
@@ -427,6 +454,8 @@ dms LocationDialogLite::createDms (QString degree, bool deg, bool *ok )
 
     return dmsAngle;
 }
+
+
 
 void LocationDialogLite::setCurrentLocation(QString loc) {
     if(m_currentLocation != loc) {

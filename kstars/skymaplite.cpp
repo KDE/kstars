@@ -114,7 +114,7 @@ SkyMapLite::SkyMapLite()
 
     midMouseButtonDown = false;
     mouseButtonDown = false;
-    slewing = false;
+    setSlewing(false);
     clockSlewing = false;
 
     ClickedObject = NULL;
@@ -153,13 +153,13 @@ void SkyMapLite::setUpdateCounter() {
     m_updatesCountTemp = 0;
 }
 
-void SkyMapLite::addTelescope(TelescopeLite *) {
+//void SkyMapLite::addTelescope(TelescopeLite *) {
 
-}
+//}
 
-void SkyMapLite::removeDevice(QString device) {
+//void SkyMapLite::removeDevice(QString device) {
 
-}
+//}
 
 QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
     Q_UNUSED(updatePaintNodeData);
@@ -277,7 +277,7 @@ void SkyMapLite::setFocusAltAz( const dms &alt, const dms &az) {
     focus()->setAz(az);
     focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 
-    slewing = false;
+    setSlewing(false);
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
@@ -426,7 +426,7 @@ void SkyMapLite::slewFocus() {
                     focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                 }
 
-                slewing = true;
+                setSlewing(true);
 
                 forceUpdate();
                 qApp->processEvents(); //keep up with other stuff
@@ -463,7 +463,7 @@ void SkyMapLite::slewFocus() {
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
-        slewing = false;
+        setSlewing(false);
 
         //Turn off snapNextFocus, we only want it to happen once
         if ( data->snapNextFocus() ) {
@@ -614,7 +614,7 @@ void SkyMapLite::slotUpdateSky( bool now ) {
 }
 
 void SkyMapLite::updateFocus() {
-    if( slewing )
+    if( getSlewing() )
         return;
 
     //Tracking on an object
@@ -714,7 +714,7 @@ void SkyMapLite::setMouseMoveCursor()
 }
 
 bool SkyMapLite::isSlewing() const  {
-    return (slewing || ( clockSlewing && data->clock()->isActive() ) );
+    return (getSlewing() || ( clockSlewing && data->clock()->isActive() ) );
 }
 
 int SkyMapLite::harvardToIndex(char c) {
@@ -794,6 +794,13 @@ void SkyMapLite::setFOVVisible(int index, bool visible) {
     if(index >= 0 && index < m_FOVSymVisible.size()) {
         m_FOVSymVisible[index] = visible;
         forceUpdate();
+    }
+}
+
+void SkyMapLite::setSlewing(bool newSlewing) {
+    if(m_slewing != newSlewing) {
+        m_slewing = newSlewing;
+        emit slewingChanged(newSlewing);
     }
 }
 

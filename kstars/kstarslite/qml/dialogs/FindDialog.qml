@@ -91,6 +91,7 @@ KSPage {
 
         RowLayout {
             Button {
+                enabled: searchQuery.text.length > 0
                 text: "Search in internet"
                 onClicked: {
                     FindDialogLite.resolveInInternet(searchQuery.text)
