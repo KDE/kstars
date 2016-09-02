@@ -65,8 +65,8 @@ Focus::Focus()
     inFocusLoop       = false;
     captureInProgress = false;
     inSequenceFocus   = false;
-    starSelected      = false;
-    frameModified     = false;
+    //starSelected      = false;
+    //frameModified     = false;
     subFramed         = false;
     resetFocus        = false;
     m_autoFocusSuccesful = false;
@@ -86,8 +86,8 @@ Focus::Focus()
     pulseDuration = 1000;
 
     resetFocusIteration=0;
-    fy=fw=fh=0;
-    orig_x = orig_y = orig_w = orig_h =-1;
+    //fy=fw=fh=0;
+    //orig_x = orig_y = orig_w = orig_h =-1;
     lockedFilterIndex=-1;
     maxHFR=1;
     minimumRequiredHFR = -1;
@@ -110,7 +110,7 @@ Focus::Focus()
 
     connect(kcfg_subFrame, SIGNAL(toggled(bool)), this, SLOT(toggleSubframe(bool)));
 
-    connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFocusFrame()));
+    connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
 
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
     connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
@@ -250,7 +250,7 @@ void Focus::toggleAutofocus(bool enable)
         resetButtons();
 }
 
-void Focus::resetFrame()
+/*void Focus::resetFrame()
 {
     if (currentCCD)
     {
@@ -265,9 +265,10 @@ void Focus::resetFrame()
         haveDarkFrame=false;
         calibrationState = CALIBRATE_NONE;
     }
-}
+}*/
 
-void Focus::resetFocusFrame()
+//void Focus::resetFocusFrame()
+void Focus::resetFrame()
 {
     if (currentCCD)
     {
@@ -275,10 +276,22 @@ void Focus::resetFocusFrame()
 
         if (targetChip)
         {
-            fx=fy=fw=fh=0;
+            //fx=fy=fw=fh=0;
             targetChip->resetFrame();
-            targetChip->setFocusFrame(0,0,0,0);
-            starSelected = false;
+
+            int x,y,w,h;
+            targetChip->getFrame(&x,&y,&w, &h);
+
+            QVariantMap settings;
+            settings["x"] = x;
+            settings["y"] = y;
+            settings["w"] = w;
+            settings["h"] = h;
+            frameSettings[targetChip] = settings;
+            //targetChip->setFocusFrame(0,0,0,0);
+
+            //starSelected = false;
+            starCoords = QVector3D();
             subFramed = false;
 
             FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
@@ -327,10 +340,10 @@ void Focus::checkCCD(int ccdNum)
             kcfg_autoSelectStar->setEnabled(targetChip->canSubframe());
             if (targetChip->canBin())
             {
-                int binx=1,biny=1;
+                int subBinX=1,subBinY=1;
                 binningCombo->clear();
-                targetChip->getMaxBin(&binx, &biny);
-                for (int i=1; i <= binx; i++)
+                targetChip->getMaxBin(&subBinX, &subBinY);
+                for (int i=1; i <= subBinX; i++)
                     binningCombo->addItem(QString("%1x%2").arg(i).arg(i));
 
                 binningCombo->setCurrentIndex(activeBin-1);
@@ -366,8 +379,25 @@ void Focus::syncCCDInfo()
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    if (targetChip)      
-        targetChip->getFocusFrame(&fx, &fy, &fw, &fh);
+
+    if (frameSettings.contains(targetChip) == false)
+    {
+        int x,y,w,h;
+        if (targetChip->getFrame(&x, &y, &w, &h))
+        {
+            if (w > 0 && h > 0)
+            {
+                QVariantMap settings;
+
+                settings["x"] = x;
+                settings["y"] = y;
+                settings["w"] = w;
+                settings["h"] = h;
+
+                frameSettings[targetChip] = settings;
+            }
+        }
+    }
 }
 
 void Focus::addFilter(ISD::GDInterface *newFilter)
@@ -743,7 +773,7 @@ void Focus::abort()
 
     targetChip->abortExposure();
 
-    resetFrame();
+    //resetFrame();
 
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
     if (targetImage)
@@ -803,6 +833,10 @@ void Focus::capture()
         currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
+    // On bin change, invalidate the dark frame
+    if (starCoords.isNull() == false && starCoords.z() != activeBin)
+        haveDarkFrame = false;
+
     // Check if we need to capture a dark frame
     if (inFocusLoop == false && haveDarkFrame == false && focusDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_NONE)
     {
@@ -825,7 +859,7 @@ void Focus::capture()
 
     targetChip->setFrameType(ccdFrame);
 
-    if (fw == 0 || fh == 0)
+    /*if (fw == 0 || fh == 0)
         targetChip->getFrame(&fx, &fy, &fw, &fh);
 
      targetChip->setFrame(fx, fy, fw, fh);
@@ -834,7 +868,13 @@ void Focus::capture()
          targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
 
      if (frameModified == false && (fx != orig_x || fy != orig_y || fw != orig_w || fh != orig_h))
-         frameModified = true;
+         frameModified = true;*/
+
+    if (frameSettings.contains(targetChip))
+    {
+        QVariantMap settings = frameSettings[targetChip];
+        targetChip->setFrame(settings["x"].toInt(), settings["y"].toInt(), settings["w"].toInt(), settings["h"].toInt());
+    }
 
     captureInProgress = true;
 
@@ -994,6 +1034,23 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
+    int subBinX=1, subBinY=1;
+    targetChip->getBinning(&subBinX, &subBinY);
+
+    if (starCoords.isNull() == false)
+    {
+        // If binning changed, update coords accordingly
+        if (subBinX != starCoords.z())
+        {
+            starCoords.setX(starCoords.x() * (starCoords.z()/subBinX));
+            starCoords.setY(starCoords.y() * (starCoords.z()/subBinY));
+            starCoords.setZ(subBinX);
+        }
+
+        QRect starRect = QRect( (starCoords.x()-focusBoxSize->value()/(2*subBinX)), starCoords.y()-focusBoxSize->value()/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
+        targetImage->setTrackingBox(starRect);
+    }
+
     connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
 
     if (inFocusLoop == false)
@@ -1063,16 +1120,20 @@ void Focus::newFITS(IBLOB *bp)
         if (currentHFR > 0)
         {
             // Center tracking box around selected star
-            if (starSelected && inAutoFocus)
+            //if (starSelected && inAutoFocus)
+            if (starCoords.isNull() == false && inAutoFocus)
             {
                 Edge *maxStarHFR = image_data->getMaxHFRStar();
 
                 if (maxStarHFR)
                 {
-                    int x = qMax(0, static_cast<int>(maxStarHFR->x-focusBoxSize->value()/2));
-                    int y = qMax(0, static_cast<int>(maxStarHFR->y-focusBoxSize->value()/2));
+                    //int x = qMax(0, static_cast<int>(maxStarHFR->x-focusBoxSize->value()/(2*subBinX)));
+                    //int y = qMax(0, static_cast<int>(maxStarHFR->y-focusBoxSize->value()/(2*subBinY)));
 
-                    targetImage->setTrackingBox(QRect(x, y, focusBoxSize->value(), focusBoxSize->value()));
+                    //targetImage->setTrackingBox(QRect(x, y, focusBoxSize->value(), focusBoxSize->value()));
+                    starCoords.setX(qMax(0, static_cast<int>(maxStarHFR->x)));
+                    starCoords.setY(qMax(0, static_cast<int>(maxStarHFR->y)));
+                    targetImage->setTrackingBox(QRect( (starCoords.x()-focusBoxSize->value()/(2*subBinX)), starCoords.y()-focusBoxSize->value()/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY));
                 }
             }
 
@@ -1097,10 +1158,21 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
-    if (starSelected == false)
+    //if (starSelected == false)
+    if (starCoords.isNull())
     {
-        int subBinX=1, subBinY=1;
-        targetChip->getBinning(&subBinX, &subBinY);
+        int x=0, y=0, w=0,h=0;
+
+        if (frameSettings.contains(targetChip))
+        {
+            QVariantMap settings = frameSettings[targetChip];
+            x = settings["x"].toInt();
+            y = settings["y"].toInt();
+            w = settings["w"].toInt();
+            h = settings["h"].toInt();
+        }
+        else
+            targetChip->getFrame(&x, &y, &w, &h);
 
         if (kcfg_autoSelectStar->isEnabled() && kcfg_autoSelectStar->isChecked() && focusType == FOCUS_AUTO)
         {
@@ -1109,10 +1181,11 @@ void Focus::newFITS(IBLOB *bp)
             {
                 appendLogText(i18n("Failed to automatically select a star. Please select a star manually."));
 
-                if (fw == 0 || fh == 0)
-                    targetChip->getFrame(&fx, &fy, &fw, &fh);
+                //if (fw == 0 || fh == 0)
+                    //targetChip->getFrame(&fx, &fy, &fw, &fh);
 
-                targetImage->setTrackingBox(QRect((fw-focusBoxSize->value())/2, (fh-focusBoxSize->value())/2, focusBoxSize->value(), focusBoxSize->value()));
+                //targetImage->setTrackingBox(QRect((fw-focusBoxSize->value())/2, (fh-focusBoxSize->value())/2, focusBoxSize->value(), focusBoxSize->value()));
+                targetImage->setTrackingBox(QRect(w-focusBoxSize->value()/(subBinX*2), h-focusBoxSize->value()/(subBinY*2), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY));
                 targetImage->setTrackingBoxEnabled(true);
 
                 state = Ekos::FOCUS_WAITING;
@@ -1143,30 +1216,47 @@ void Focus::newFITS(IBLOB *bp)
                 if ((subH+subY)> maxH)
                     subH=maxH-subY;
 
-                targetChip->setFocusFrame(subX, subY, subW, subH);
+                //targetChip->setFocusFrame(subX, subY, subW, subH);
 
-                //if (orig_x == -1)
-                //    targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
+                //fx += subX;
+                //fy += subY;
+                //fw = subW;
+                //fh = subH;
+                //frameModified = true;
 
-                fx += subX;
-                fy += subY;
-                fw = subW;
-                fh = subH;
-                frameModified = true;
+                //x += subX;
+                //y += subY;
+                //w = subW;
+                //h = subH;
+
+                QVariantMap settings = frameSettings[targetChip];
+                settings["x"] = subX;
+                settings["y"] = subY;
+                settings["w"] = subW;
+                settings["h"] = subH;
+                frameSettings[targetChip] = settings;
+
+                starCoords.setX(subW/(2*subBinX));
+                starCoords.setY(subH/(2*subBinY));
+
                 subFramed = true;
                 haveDarkFrame=false;
                 calibrationState = CALIBRATE_NONE;
-
-                //targetImage->setTrackingBoxCenter(QPointF(fw/2.0,fh/2.0));
-                //targetImage->setTrackingBoxSize(QSize(subW/5.0, subH/5.0));
             }
             else
-                targetChip->getFrame(&fx, &fy, &fw, &fh);
+            {
+                starCoords.setX(maxStar->x);
+                starCoords.setY(maxStar->y);
+            }
 
-            targetImage->setTrackingBox(QRect((fw/subBinX-focusBoxSize->value())/2, (fh/subBinY-focusBoxSize->value())/2, focusBoxSize->value(), focusBoxSize->value()));
+            starCoords.setZ(subBinX);
+            //else
+                //targetChip->getFrame(&fx, &fy, &fw, &fh);
+
+            //targetImage->setTrackingBox(QRect((w-focusBoxSize->value())/(subBinX*2), (h-focusBoxSize->value())/(subBinY*2), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinX));
             targetImage->setTrackingBoxEnabled(true);
 
-            starSelected=true;
+            //starSelected=true;
 
             defaultScale = static_cast<FITSScale>(filterCombo->currentIndex());
 
@@ -1180,12 +1270,13 @@ void Focus::newFITS(IBLOB *bp)
         {
             appendLogText(i18n("Capture complete. Select a star to focus."));
 
-            if (fw == 0 || fh == 0)
-                targetChip->getFrame(&fx, &fy, &fw, &fh);
+            //if (fw == 0 || fh == 0)
+                //targetChip->getFrame(&fx, &fy, &fw, &fh);            
 
-            int binx=1,biny=1;
-            targetChip->getBinning(&binx, &biny);
-            targetImage->setTrackingBox(QRect((fw/binx-focusBoxSize->value())/2, (fh/biny-focusBoxSize->value())/2, focusBoxSize->value(), focusBoxSize->value()));
+            int subBinX=1,subBinY=1;
+            targetChip->getBinning(&subBinX, &subBinY);
+
+            targetImage->setTrackingBox(QRect((w-focusBoxSize->value())/(subBinX*2), (h-focusBoxSize->value())/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY));
             targetImage->setTrackingBoxEnabled(true);
             connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
             return;
@@ -1201,7 +1292,7 @@ void Focus::newFITS(IBLOB *bp)
                 appendLogText(i18n("No stars detected, capturing again..."));
                 // On Last Attempt reset focus frame to capture full frame and recapture star if possible
                 if (noStarCount == MAX_RECAPTURE_RETRIES)
-                    resetFocusFrame();
+                    resetFrame();
                 capture();
                 return;
             }
@@ -2017,8 +2108,19 @@ void Focus::focusStarSelected(int x, int y)
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
-    int offset = focusBoxSize->value();
-    int binx, biny;
+
+    int subBinX, subBinY;
+    targetChip->getBinning(&subBinX, &subBinY);
+
+    // If binning was changed outside of the focus module, recapture
+    if (subBinX != activeBin)
+    {
+        haveDarkFrame=false;
+        capture();
+        return;
+    }
+
+    int offset = focusBoxSize->value()/subBinX;
 
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
 
@@ -2027,15 +2129,16 @@ void Focus::focusStarSelected(int x, int y)
     QRect starRect;
 
     if (subFramed == false && kcfg_subFrame->isChecked() && targetChip->canSubframe())
-    {
-        targetChip->getBinning(&binx, &biny);
-        int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
-        targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
+    {        
+        int minX, maxX, minY, maxY, minW, maxW, minH, maxH;//, fx,fy,fw,fh;
 
-        x = (x - offset) * binx;
-        y = (y - offset) * biny;
-        int w=offset*2*binx;
-        int h=offset*2*biny;
+        targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
+        //targetChip->getFrame(&fx, &fy, &fw, &fy);
+
+        x = (x - offset) * subBinX;
+        y = (y - offset) * subBinY;
+        int w=offset*2*subBinX;
+        int h=offset*2*subBinY;
 
         if (x<minX)
             x=minX;
@@ -2046,36 +2149,50 @@ void Focus::focusStarSelected(int x, int y)
         if ((y+h)>maxH)
             h=maxH-y;
 
-        targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
+        //targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
 
-        fx += x;
-        fy += y;
-        fw = w;
-        fh = h;
-        targetChip->setFocusFrame(fx, fy, fw, fh);
-        frameModified=true;
+        //fx += x;
+        //fy += y;
+        //fw = w;
+        //fh = h;
+
+        //targetChip->setFocusFrame(fx, fy, fw, fh);
+        //frameModified=true;
+
+        QVariantMap settings = frameSettings[targetChip];
+        settings["x"] = x;
+        settings["y"] = y;
+        settings["w"] = w;
+        settings["h"] = h;
+        frameSettings[targetChip] = settings;
+
+
         subFramed = true;
         haveDarkFrame=false;
         calibrationState = CALIBRATE_NONE;
 
         capture();
 
-        starRect = QRect((fw/binx-focusBoxSize->value())/2, (fh/biny-focusBoxSize->value())/2, focusBoxSize->value(), focusBoxSize->value());
+        //starRect = QRect((w-focusBoxSize->value())/(subBinX*2), (h-focusBoxSize->value())/(subBinY*2), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
+        starCoords.setX(w/(2*subBinX));
+        starCoords.setY(h/(2*subBinY));
     }
     else
-        starRect = QRect(x-focusBoxSize->value()/2, y-focusBoxSize->value()/2, focusBoxSize->value(), focusBoxSize->value());
+    {
+        //starRect = QRect(x-focusBoxSize->value()/(subBinX*2), y-focusBoxSize->value()/(subBinY*2), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
+        starCoords.setX(x);
+        starCoords.setY(y);
+        starRect = QRect( starCoords.x()-focusBoxSize->value()/(2*subBinX), starCoords.y()-focusBoxSize->value()/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
+        targetImage->setTrackingBox(starRect);
+    }
 
-    starSelected=true;
+    starCoords.setZ(subBinX);
+
+    //starSelected=true;
 
     defaultScale = static_cast<FITSScale>(filterCombo->currentIndex());
 
-    //targetImage->setTrackingBoxCenter(QPointF(fw/2.0,fh/2.0));
-    //targetImage->setTrackingBoxSize(QSize(fw/5.0, fh/5.0));
-    targetImage->setTrackingBox(starRect);
-    //targetImage->setTrackingBoxEnabled(true);
-
-    //state = Ekos::FOCUS_PROGRESS;
-    //emit newStatus(state);
+    //targetImage->setTrackingBox(starRect);
 }
 
 void Focus::checkFocus(double requiredHFR)
@@ -2089,11 +2206,12 @@ void Focus::toggleSubframe(bool enable)
 {
     if (enable == false)
     {
-        resetFocusFrame();
+        resetFrame();
         kcfg_autoSelectStar->setChecked(false);
     }
 
-    starSelected = false;
+    //starSelected = false;
+    starCoords = QVector3D();
 }
 
 void Focus::filterChangeWarning(int index)
@@ -2112,10 +2230,10 @@ void Focus::setExposure(double value)
     exposureIN->setValue(value);
 }
 
-void Focus::setBinning(int binX, int binY)
+void Focus::setBinning(int subBinX, int subBinY)
 {
-  INDI_UNUSED(binY);
-  binningCombo->setCurrentIndex(binX-1);
+  INDI_UNUSED(subBinY);
+  binningCombo->setCurrentIndex(subBinX-1);
 }
 
 void Focus::setImageFilter(const QString & value)
@@ -2177,7 +2295,7 @@ void Focus::setAutoFocusResult(bool status)
         {
             resetFocus = true;
             // Reset focus frame in case the star in subframe was lost
-            resetFocusFrame();
+            resetFrame();
             return;
         }
     }
@@ -2202,7 +2320,8 @@ void Focus::setAutoFocusResult(bool status)
 
 void Focus::checkAutoStarTimeout()
 {
-    if (starSelected == false && inAutoFocus)
+    //if (starSelected == false && inAutoFocus)
+    if (starCoords.isNull() && inAutoFocus)
     {
         appendLogText(i18n("No star was selected. Aborting..."));
         initialFocuserAbsPosition=-1;

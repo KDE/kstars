@@ -207,7 +207,7 @@ public slots:
     /** DBUS interface function.
      * resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
      */
-    Q_SCRIPTABLE Q_NOREPLY void resetFocusFrame();
+    //Q_SCRIPTABLE Q_NOREPLY void resetFocusFrame();
 
     /** @}*/
 
@@ -412,7 +412,7 @@ private:
     // Are we in the process of capturing an image?
     bool captureInProgress;
     // Was the frame modified by us? Better keep track since we need to return it to its previous state once we are done with the focus operation.
-    bool frameModified;
+    //bool frameModified;
     // Was the modified frame subFramed?
     bool subFramed;
     // If the autofocus process fails, let's not ruin the capture session probably taking place in the next tab. Instead, we should restart it and try again, but we keep count until we hit MAXIMUM_RESET_ITERATIONS
@@ -425,11 +425,11 @@ private:
     // Did we reverse direction?
     bool reverseDir;
     // Did the user or the auto selection process finish selecting our focus star?
-    bool starSelected;
+    //bool starSelected;
     // Target frame dimensions
-    int fx,fy,fw,fh;
+    //int fx,fy,fw,fh;
     // Origianl frame dimensions
-    int orig_x, orig_y, orig_w, orig_h;
+    //int orig_x, orig_y, orig_w, orig_h;
     // If HFR=-1 which means no stars detected, we need to decide how many times should the re-capture process take place before we give up or reverse direction.
     int noStarCount;
     // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
@@ -476,6 +476,12 @@ private:
 
     // FITS Scale
     FITSScale defaultScale;
+
+    // CCD Chip frame settings
+    QMap<ISD::CCDChip *, QVariantMap> frameSettings;
+
+    // Selected star coordinates
+    QVector3D starCoords;
 };
 
 }

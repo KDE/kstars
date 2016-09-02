@@ -1223,8 +1223,8 @@ void EkosManager::processTabChange()
 {
     QWidget *currentWidget = toolsWidget->currentWidget();
 
-    if (focusProcess && currentWidget != focusProcess)
-         focusProcess->resetFrame();
+    //if (focusProcess && currentWidget != focusProcess)
+         //focusProcess->resetFrame();
 
     if (alignProcess && currentWidget == alignProcess)
     {

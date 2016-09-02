@@ -2535,7 +2535,7 @@ void Scheduler::checkJobStage()
                 if (currentJob->getStage() == SchedulerJob::STAGE_FOCUSING)
                 {
                     // Reset frame to original size.
-                    //focusInterface->call(QDBus::AutoDetect,"resetFocusFrame");
+                    //focusInterface->call(QDBus::AutoDetect,"resetFrame");
                     currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
                 }
                 else
@@ -2552,7 +2552,7 @@ void Scheduler::checkJobStage()
                 {
                     appendLogText(i18n("Restarting %1 focusing procedure...", currentJob->getName()));
                     // Reset frame to original size.
-                    focusInterface->call(QDBus::AutoDetect,"resetFocusFrame");
+                    focusInterface->call(QDBus::AutoDetect,"resetFrame");
                     // Restart focusing
                     startFocusing();
                     return;
@@ -3394,9 +3394,9 @@ void Scheduler::startFocusing()
     QDBusMessage reply;
 
     // We always need to reset frame first
-    if ( (reply = focusInterface->call(QDBus::AutoDetect,"resetFocusFrame")).type() == QDBusMessage::ErrorMessage)
+    if ( (reply = focusInterface->call(QDBus::AutoDetect,"resetFrame")).type() == QDBusMessage::ErrorMessage)
     {
-        appendLogText(i18n("resetFocusFrame DBUS error: %1", reply.errorMessage()));
+        appendLogText(i18n("resetFrame DBUS error: %1", reply.errorMessage()));
         return;
     }
 

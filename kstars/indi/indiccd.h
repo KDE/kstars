@@ -55,8 +55,8 @@ public:
     bool getFrame(int *x, int *y, int *w, int *h);
     bool getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH);
     bool setFrame(int x, int y, int w, int h);
-    bool getFocusFrame(int *x, int *y, int *w, int *h);
-    bool setFocusFrame(int x, int y, int w, int h);
+    //bool getFocusFrame(int *x, int *y, int *w, int *h);
+    //bool setFocusFrame(int x, int y, int w, int h);
     bool resetFrame();
     bool capture(double exposure);
     bool setFrameType(CCDFrameType fType);
@@ -111,7 +111,7 @@ private:
     bool CanBin;
     bool CanSubframe;
     bool CanAbort;    
-    int fx,fy,fw,fh;
+    //int fx,fy,fw,fh;
 
 };
 

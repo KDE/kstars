@@ -57,7 +57,7 @@ CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cT
     captureMode   = FITS_NORMAL;
     captureFilter = FITS_NONE;
 
-    fx=fy=fw=fh=0;
+    //fx=fy=fw=fh=0;
 
     normalImage = focusImage = guideImage = calibrationImage = NULL;
 }
@@ -395,7 +395,7 @@ bool CCDChip::canAbort() const
     return CanAbort;
 }
 
-bool CCDChip::getFocusFrame(int *x, int *y, int *w, int *h)
+/*bool CCDChip::getFocusFrame(int *x, int *y, int *w, int *h)
 {
     *x = fx;
     *y = fy;
@@ -413,7 +413,7 @@ bool CCDChip::setFocusFrame(int x, int y, int w, int h)
     fh=h;
 
     return true;
-}
+}*/
 
 void CCDChip::setCanAbort(bool value)
 {
