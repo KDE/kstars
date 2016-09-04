@@ -1211,10 +1211,8 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
 }
 
 
-QList<ProfileInfo *> KSUserDB::GetAllProfiles()
+void KSUserDB::GetAllProfiles(QList<ProfileInfo *> &profiles)
 {
-    QList<ProfileInfo *> profiles;
-
     userdb_.open();
     QSqlTableModel profile(0, userdb_);
     profile.setTable("profile");
@@ -1227,6 +1225,7 @@ QList<ProfileInfo *> KSUserDB::GetAllProfiles()
         int     id   = record.value("id").toInt();
         QString name = record.value("name").toString();
 
+        // FIXME: This still shows 562 bytes lost in Valgrind, why? Investigate
         ProfileInfo *pi = new ProfileInfo(id, name);
 
         // Add host and port
@@ -1249,7 +1248,6 @@ QList<ProfileInfo *> KSUserDB::GetAllProfiles()
     profile.clear();
     userdb_.close();
 
-    return profiles;
 }
 
 void KSUserDB::GetProfileDrivers(ProfileInfo* pi)

@@ -61,11 +61,13 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     useST4          =false;
     isStarted       = false;
     remoteManagerStart=false;
+    localMode       = true;
 
     indiConnectionStatus = EKOS_STATUS_IDLE;
     ekosStartingStatus   = EKOS_STATUS_IDLE;
 
-    profileModel = NULL;
+    profileModel = new QStandardItemModel(0, 4);
+    profileModel->setHorizontalHeaderLabels(QStringList() << "id" << "name" << "host" << "port");
 
     captureProcess = NULL;
     focusProcess   = NULL;
@@ -163,6 +165,13 @@ EkosManager::~EkosManager()
     delete mountProcess;
     delete schedulerProcess;
     delete dustCapProcess;
+    delete profileModel;
+
+    delete previewPixmap;
+    delete focusStarPixmap;
+    delete focusProfilePixmap;
+    delete guideProfilePixmap;
+    delete guideStarPixmap;
 }
 
 void EkosManager::closeEvent(QCloseEvent * /*event*/)
@@ -199,14 +208,11 @@ void EkosManager::resizeEvent(QResizeEvent *)
 
 void EkosManager::loadProfiles()
 {
-    profiles = KStarsData::Instance()->userdb()->GetAllProfiles();
+    qDeleteAll(profiles);
+    profiles.clear();
+    KStarsData::Instance()->userdb()->GetAllProfiles(profiles);
 
-    if (profileModel)
-        profileModel->clear();
-    else
-        profileModel = new QStandardItemModel(0, 4);
-
-    profileModel->setHorizontalHeaderLabels(QStringList() << "id" << "name" << "host" << "port");
+    profileModel->clear();
 
     foreach(ProfileInfo *pi, profiles)
     {

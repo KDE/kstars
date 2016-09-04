@@ -73,7 +73,7 @@ class KSUserDB {
      * @return QMap with the keys as profile names and values are profile ids.
      */
     //QMap<int, QStringList> GetAllProfiles();
-    QList<ProfileInfo *> GetAllProfiles();
+    void GetAllProfiles(QList<ProfileInfo *> &profiles);
 
     /************************************************************************
      ******************************* Observers ******************************

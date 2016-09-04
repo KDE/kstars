@@ -523,7 +523,7 @@ int FITSView::rescale(FITSZoom type)
     }
 
     if (display_buffer != image_buffer)
-        delete (display_buffer);
+        delete [] display_buffer;
 
     switch (type)
     {

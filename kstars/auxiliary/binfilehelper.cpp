@@ -110,9 +110,12 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     if( byteswap ) nfields = bswap_16( nfields );
     fields.clear();
     for(i = 0; i < nfields; ++i) {
+        // FIXME: Valgrind shows 176 bytes lost here in 11 blocks. Why? Investigate
         de = new dataElement;
-        if(!fread(de, sizeof(dataElement), 1, fileHandle)) {
+        if(!fread(de, sizeof(dataElement), 1, fileHandle))
+        {
             delete de;
+            qDeleteAll(fields);
             return ERR_FD_TRUNC;
         }
         if( byteswap ) de->scale = bswap_32( de->scale );

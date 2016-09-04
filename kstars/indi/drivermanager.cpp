@@ -139,6 +139,7 @@ DriverManager::DriverManager(QWidget *parent)
 DriverManager::~DriverManager()
 {
     clearServers();
+    qDeleteAll(driversList);
 }
 
 void DriverManager::processDeviceStatus(DriverInfo *dv)

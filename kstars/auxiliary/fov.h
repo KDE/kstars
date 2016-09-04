@@ -86,7 +86,7 @@ public:
     /** @short Write list of FOVs to "fov.dat" */
     static void writeFOVs(const QList<FOV*> fovs);
     /** @short Read list of FOVs from "fov.dat" */
-    static QList<FOV*>readFOVs();
+    static const QList<FOV*> & readFOVs();
 
     SkyPoint center() const;
     void setCenter(const SkyPoint &center);
@@ -108,6 +108,8 @@ private:
     SkyPoint m_center;
     QImage m_image;
     bool m_imageDisplay;
+
+    static QList<FOV*> m_FOVs;
 
 };
 

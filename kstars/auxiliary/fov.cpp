@@ -32,6 +32,7 @@
 #include <QStandardPaths>
 #include "kspaths.h"
 
+QList<FOV*> FOV::m_FOVs;
 
 FOV::Shape FOV::intToShape(int s)
 { 
@@ -208,20 +209,21 @@ void FOV::writeFOVs(const QList<FOV*> fovs)
     f.close();
 }
 
-QList<FOV*> FOV::readFOVs()
+const QList<FOV*> & FOV::readFOVs()
 {
     QFile f;
-    QList<FOV*> fovs;
+    qDeleteAll(m_FOVs);
+    m_FOVs.clear();
     f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "fov.dat" ) ;
 
     if( !f.exists() ) {
-        fovs = defaults();
-        writeFOVs(fovs);
-        return fovs;
+        m_FOVs = defaults();
+        writeFOVs(m_FOVs);
+        return m_FOVs;
     }
 
-    if( f.open(QIODevice::ReadOnly) ) {
-        fovs.clear();
+    if( f.open(QIODevice::ReadOnly) )
+    {
         QTextStream istream(&f);
         while( !istream.atEnd() ) {
             QStringList fields = istream.readLine().split(':');
@@ -234,39 +236,41 @@ QList<FOV*> FOV::readFOVs()
                 name = fields[0];
                 sizeX = fields[1].toFloat(&ok);
                 if( !ok ) {
-                    return QList<FOV*>();
+                    return m_FOVs;
                 }
                 sizeY = fields[2].toFloat(&ok);
                 if( !ok ) {
-                    return QList<FOV*>();
+                    return m_FOVs;
                 }
                 xoffset = fields[3].toFloat(&ok);
                 if( !ok ) {
-                    return QList<FOV*>();
+                    return m_FOVs;
                 }
 
                 yoffset = fields[4].toFloat(&ok);
                 if( !ok ) {
-                    return QList<FOV*>();
+                    return m_FOVs;
                 }
 
                 rot = fields[5].toFloat(&ok);
                 if( !ok ) {
-                    return QList<FOV*>();
+                    return m_FOVs;
                 }
 
                 shape = intToShape( fields[6].toInt(&ok) );
                 if( !ok ) {
-                    return QList<FOV*>();
+                    return m_FOVs;
                 }
                 color = fields[7];
             } else {
                 continue;
             }
-            fovs.append( new FOV(name, sizeX, sizeY, xoffset, yoffset, rot, shape, color) );
+
+            //FIXME: This still shows lost blocks in Valgrind despite the fact memory is always cleared?
+            m_FOVs.append( new FOV(name, sizeX, sizeY, xoffset, yoffset, rot, shape, color) );
         }
     }
-    return fovs;
+    return m_FOVs;
 }
 SkyPoint FOV::center() const
 {

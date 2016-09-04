@@ -311,6 +311,8 @@ private slots:
     /* We need to take a dark frame when CCD, Frame size, or exposure time changes */
     void invalidateDarkFrame();
 
+    void saveSettleTime();
+
 signals:
         void newLog();
         void solverComplete(bool);

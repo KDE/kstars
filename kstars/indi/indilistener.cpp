@@ -62,6 +62,7 @@ INDIListener::INDIListener(QObject *parent) : QObject(parent)
 INDIListener::~INDIListener()
 {
     qDeleteAll(devices);
+    qDeleteAll(st4Devices);
 }
 
 bool INDIListener::isStandardProperty(const QString &name)

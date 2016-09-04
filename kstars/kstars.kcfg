@@ -1553,6 +1553,10 @@
               <label>Take a dark frame and subtract it before running astrometry operation.</label>
               <default>false</default>
           </entry>
+          <entry name="SettlingTime" type="UInt">
+              <label>Time to wait in milliseconds after telescope slewing is complete before starting the next capture.</label>
+              <default>1500</default>
+          </entry>
     </group>
     <group name="Guide">
     <entry name="DefaultGuideCCD" type="String">

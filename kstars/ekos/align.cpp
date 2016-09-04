@@ -81,6 +81,7 @@ Align::Align()
     retries=0;
     targetDiff=1e6;
     solverIterations=0;
+    fov_x=fov_y=0;
 
     parser = NULL;
     solverFOV = new FOV();
@@ -172,7 +173,7 @@ Align::Align()
         connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()));
     }
 
-    kcfg_solverOptions->setText(Options::solverOptions());
+    solverOptions->setText(Options::solverOptions());
 
     // Which telescope info to use for FOV calculations
     kcfg_solverOTA->setChecked(Options::solverOTA());    
@@ -189,6 +190,9 @@ Align::Align()
     connect(exposureIN, SIGNAL(valueChanged(double)), this, SLOT(invalidateDarkFrame()));
     connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(invalidateDarkFrame()));
     connect(alignDarkFrameCheck, SIGNAL(toggled(bool)), this, SLOT(invalidateDarkFrame()));
+
+    delaySpin->setValue(Options::settlingTime());
+    connect(delaySpin, SIGNAL(editingFinished()), this, SLOT(saveSettleTime()));
 }
 
 Align::~Align()
@@ -487,14 +491,14 @@ void Align::generateArgs()
 
     getFormattedCoords(ra, dec, ra_dms, dec_dms);
 
-    if (kcfg_solverOptions->text().isEmpty())
+    if (solverOptions->text().isEmpty())
     {
         solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"
                     << "--downsample" << "2" << "-O" << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
     }
     else
     {
-        solver_args = kcfg_solverOptions->text().split(" ");
+        solver_args = solverOptions->text().split(" ");
         int fov_low_index = solver_args.indexOf("-L");
         if (fov_low_index != -1)
             solver_args.replace(fov_low_index+1, fov_low);
@@ -554,7 +558,7 @@ void Align::generateArgs()
 
      }
 
-    kcfg_solverOptions->setText(solver_args.join(" "));
+    solverOptions->setText(solver_args.join(" "));
 }
 
 void Align::checkLineEdits()
@@ -809,7 +813,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     Options::setSolverUpdateCoords(kcfg_solverUpdateCoords->isChecked());
     Options::setSolverType(solverTypeGroup->checkedId());
     Options::setSolverPreview(kcfg_solverPreview->isChecked());
-    Options::setSolverOptions(kcfg_solverOptions->text());
+    Options::setSolverOptions(solverOptions->text());
     Options::setSolverOTA(kcfg_solverOTA->isChecked());
     Options::setWCSAlign(wcsCheck->isChecked());
     Options::setSolverOverlay(kcfg_solverOverlay->isChecked());
@@ -831,7 +835,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     solverTimer.start();
 
     if (isGenerated)
-        solverArgs = kcfg_solverOptions->text().split(" ");
+        solverArgs = solverOptions->text().split(" ");
     else if (filename.endsWith("fits") || filename.endsWith("fit"))
     {
         solverArgs = getSolverOptionsFromFITS(filename);
@@ -1063,7 +1067,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 if (loadSlewMode)
                 {                    
                     loadSlewMode = false;
-                    QTimer::singleShot(1500, this, SLOT(captureAndSolve()));
+                    QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
                     return;
                 }
                 else if (m_slewToTargetSelected)
@@ -1086,7 +1090,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                         }
 
                         appendLogText(i18n("Target accuracy is not met, running solver again..."));
-                        QTimer::singleShot(1500, this, SLOT(captureAndSolve()));
+                        QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
                         return;
                     }
                 }
@@ -1709,7 +1713,7 @@ void Align::setBinning(int binX, int binY)
 
 void Align::setSolverArguments(const QString & value)
 {
-    kcfg_solverOptions->setText(value);
+    solverOptions->setText(value);
 }
 
 void Align::setSolverSearchOptions(double ra, double dec, double radius)
@@ -1990,6 +1994,11 @@ void Align::invalidateDarkFrame()
             captureAndSolve();
         }
     }
+}
+
+void Align::saveSettleTime()
+{
+    Options::setSettlingTime(delaySpin->value());
 }
 
 }
