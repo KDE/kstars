@@ -806,7 +806,7 @@
           <item>
            <widget class="QSpinBox" name="delaySpin">
             <property name="toolTip">
-             <string>After telescope completes slewing, delay capture of nex</string>
+             <string>After telescope completes slewing, delay capture of next image</string>
             </property>
             <property name="maximum">
              <number>5000</number>
