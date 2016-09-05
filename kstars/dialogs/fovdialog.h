@@ -49,8 +49,6 @@ class FOVDialog : public QDialog
 public:
     explicit FOVDialog( QWidget *parent = 0 );
     virtual ~FOVDialog();
-    /** Write list of FOVs to disk. */
-    void writeFOVList();
 private slots:
     void slotNewFOV();
     void slotEditFOV();

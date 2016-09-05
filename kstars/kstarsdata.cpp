@@ -1035,14 +1035,16 @@ void KStarsData::syncFOV()
 {
     visibleFOVs.clear();
     // Add visible FOVs 
-    foreach(FOV* fov, availFOVs) {
+    foreach(FOV* fov, availFOVs)
+    {
         if( Options::fOVNames().contains( fov->name() ) ) 
             visibleFOVs.append( fov );
     }
     // Remove unavailable FOVs
     QSet<QString> names = QSet<QString>::fromList( Options::fOVNames() );
     QSet<QString> all;
-    foreach(FOV* fov, visibleFOVs) {
+    foreach(FOV* fov, visibleFOVs)
+    {
         all.insert(fov->name());
     }
     Options::setFOVNames( all.intersect(names).toList() );
