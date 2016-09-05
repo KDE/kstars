@@ -76,6 +76,14 @@ class KSUserDB {
     void GetAllProfiles(QList<ProfileInfo *> &profiles);
 
     /************************************************************************
+     ******************************* Dark Library****************************
+     ************************************************************************/
+
+    void AddDarkFrame(const QVariantMap &oneFrame);
+    bool DeleteDarkFrame(const QString &filename);
+    void GetAllDarkFrames(QList<QVariantMap> &darkFrames);
+
+    /************************************************************************
      ******************************* Observers ******************************
      ************************************************************************/
 
@@ -86,9 +94,9 @@ class KSUserDB {
 
      /* @brief Returns the unique id of the user with given name & surname
      *
-     * @return int
+     * @return true if found, false otherwise
      **/
-    int FindObserver(const QString &name, const QString &surname);
+    bool FindObserver(const QString &name, const QString &surname);
     /**
      * @brief Removes the user with unique id as given by FindObserver
      * Returns false if the user is not found

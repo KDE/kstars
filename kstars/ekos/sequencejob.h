@@ -36,7 +36,7 @@ class SequenceJob : public QObject
     SequenceJob();
     ~SequenceJob() {}
 
-    CAPTUREResult capture(bool isDark=false);
+    CAPTUREResult capture();
     void reset();
     void abort();
     void done();

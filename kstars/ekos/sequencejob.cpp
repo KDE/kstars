@@ -144,7 +144,8 @@ void SequenceJob::prepareCapture()
 
 }
 
-SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
+//SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
+SequenceJob::CAPTUREResult SequenceJob::capture()
 {
     // If focusing is busy, return error
     //if (activeChip->getCaptureMode() == FITS_FOCUS)
@@ -188,17 +189,17 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
         return CAPTURE_BIN_ERROR;
     }
 
-    if (isDark)
+    /*if (isDark)
     {
         activeChip->setFrameType(FRAME_DARK);
         activeChip->setCaptureMode(FITS_CALIBRATE);
     }
     else
-    {
+    {*/
         activeChip->setFrameType(frameTypeName);
         activeChip->setCaptureMode(FITS_NORMAL);
         activeChip->setCaptureFilter(captureFilter);
-    }
+    //}
 
     // If filter is different that CCD, send the filter info
     if (activeFilter && activeFilter != activeCCD)

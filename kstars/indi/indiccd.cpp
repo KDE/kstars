@@ -25,6 +25,7 @@
 #include "fitsviewer/fitsdata.h"
 #endif
 
+#include "driverinfo.h"
 #include "clientmanager.h"
 #include "streamwg.h"
 #include "indiccd.h"
@@ -42,11 +43,12 @@ const int MAX_FILENAME_LEN = 1024;
 namespace ISD
 {
 
-CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cType)
+CCDChip::CCDChip(ISD::CCD *ccd, ChipType cType)
 {
-    baseDevice    = bDevice;
-    clientManager = cManager;
-    type          = cType;
+    baseDevice    = ccd->getBaseDevice();
+    clientManager = ccd->getDriverInfo()->getClientManager();
+    parentCCD     = ccd;
+    type          = cType;    
     batchMode     = false;
     displayFITS   = true;
     CanBin        = false;
@@ -782,7 +784,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     ST4Driver = NULL;
     nextSequenceID  = 0 ;
 
-    primaryChip = new CCDChip(baseDevice, clientManager, CCDChip::PRIMARY_CCD);
+    primaryChip = new CCDChip(this, CCDChip::PRIMARY_CCD);
 
     normalTabID = calibrationTabID = focusTabID = guideTabID = -1;
     guideChip   = NULL;
@@ -804,7 +806,7 @@ void CCD::registerProperty(INDI::Property *prop)
     if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
     {
         HasGuideHead = true;
-        guideChip = new CCDChip(baseDevice, clientManager, CCDChip::GUIDE_CCD);
+        guideChip = new CCDChip(this, CCDChip::GUIDE_CCD);
     }
     else if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))
     {

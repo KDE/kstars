@@ -34,6 +34,8 @@ class StreamWG;
 namespace ISD
 {
 
+class CCD;
+
 /**
  * @class CCDChip
  * CCDChip class controls a particular chip in CCD device. While most amateur CCDs only have a single chip on the CCD, some
@@ -44,7 +46,7 @@ class CCDChip
 public:
     typedef enum { PRIMARY_CCD, GUIDE_CCD } ChipType;
 
-    CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cType);
+    CCDChip(ISD::CCD *ccd, ChipType cType);
 
     FITSView * getImage(FITSMode imageType);
     void setImage(FITSView *image, FITSMode imageType);
@@ -68,6 +70,7 @@ public:
     bool getBinning(int *bin_x, int *bin_y);
     bool getMaxBin(int *max_xbin, int *max_ybin);
     ChipType getType() const { return type; }
+    ISD::CCD *getParentCCD() { return parentCCD;}
 
     bool isCapturing();
     bool abortExposure();
@@ -110,7 +113,8 @@ private:
     QStringList frameTypes;
     bool CanBin;
     bool CanSubframe;
-    bool CanAbort;    
+    bool CanAbort;
+    ISD::CCD *parentCCD;
     //int fx,fy,fw,fh;
 
 };

@@ -228,7 +228,7 @@ Focus::~Focus()
     //qDeleteAll(HFRAbsolutePoints);
    // HFRAbsolutePoints.clear();
 
-    delete (darkBuffer);
+    delete [] darkBuffer;
 }
 
 void Focus::toggleAutofocus(bool enable)
@@ -293,6 +293,8 @@ void Focus::resetFrame()
             //starSelected = false;
             starCoords = QVector3D();
             subFramed = false;
+
+            haveDarkFrame=false;
 
             FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
             if (targetImage)
@@ -999,7 +1001,7 @@ void Focus::newFITS(IBLOB *bp)
         {
             calibrationState = CALIBRATE_NONE;
 
-            delete (darkBuffer);
+            delete [] darkBuffer;
 
             FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
             Q_ASSERT(calibrateImage != NULL);

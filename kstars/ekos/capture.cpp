@@ -34,6 +34,7 @@
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitsview.h"
 
+#include "darklibrary.h"
 #include "ekosmanager.h"
 #include "captureadaptor.h"
 #include "ui_calibrationoptions.h"
@@ -97,7 +98,7 @@ Capture::Capture()
     jobUnderEdit    = false;
     currentFilterPosition   = -1;
 
-    calibrationState  = CALIBRATE_NONE;
+    //calibrationState  = CALIBRATE_NONE;
     meridianFlipStage = MF_NONE;
     resumeGuidingAfterFlip = false;
 
@@ -844,9 +845,26 @@ void Capture::newFITS(IBLOB *bp)
             return;
 
         disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-        disconnect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)));
+        disconnect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)));        
 
-        if (calibrationState == CALIBRATE_START)
+        // TODO implement this tomorrow
+        /*
+        if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
+        {
+            FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
+
+            if (DarkLibrary::Instance()->hasDarkFrame(targetChip))
+                DarkLibrary::Instance()->subtract(targetChip, currentImage);
+            else
+            {
+
+                connect(DarkLibrary::Instance(), SIGNAL(darkFrameSubtracted()), this, SLOT(setCaptureComplete()));
+                DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage);
+            }
+
+        }*/
+
+        /*if (calibrationState == CALIBRATE_START)
         {
             calibrationState = CALIBRATE_DONE;
             startNextExposure();
@@ -867,12 +885,13 @@ void Capture::newFITS(IBLOB *bp)
 
             if (image_data && calibrateImage && currentImage)
                 image_data->subtract(calibrateImage->getImageData()->getImageBuffer());
-        }
+        }*/
     }
 
-    secondsLabel->setText(i18n("Complete."));
+    //TODO Move this to setCaptureComplete() function
 
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
+    secondsLabel->setText(i18n("Complete."));    
 
     // If it was initially set as preview job
     if (seqTotalCount <= 0)
@@ -1043,7 +1062,7 @@ void Capture::captureOne()
 void Capture::captureImage()
 {
     seqTimer->stop();
-    bool isDark=false;
+    //bool isDark=false;
     SequenceJob::CAPTUREResult rc=SequenceJob::CAPTURE_OK;
 
     if (isFocusBusy)
@@ -1053,9 +1072,8 @@ void Capture::captureImage()
         return;
     }
 
-    if (useGuideHead == false && darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
-        isDark = true;
-
+    //if (useGuideHead == false && darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
+        //isDark = true;
 
     if (filterSlot != NULL)
     {
@@ -1102,18 +1120,18 @@ void Capture::captureImage()
          frameSettings[activeJob->getActiveChip()] = settings;
      }
 
-     rc = activeJob->capture(isDark);
+     rc = activeJob->capture();
 
      switch (rc)
      {
         case SequenceJob::CAPTURE_OK:
          connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
-         if (isDark)
+         /*if (isDark)
          {
             calibrationState = CALIBRATE_START;
             appendLogText(i18n("Capturing dark frame..."));
          }
-         else
+         else*/
            appendLogText(i18n("Capturing image..."));
          break;
 
@@ -1389,22 +1407,22 @@ void Capture::addJob(bool preview)
 
     job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
 
+    job->setRootFITSDir(fitsDir->text());
+
     if (jobUnderEdit == false)
     {
         jobs.append(job);
 
-        job->setRootFITSDir(fitsDir->text());
-
         // Nothing more to do if preview
         if (preview)
             return;
-
-        QString finalFITSDir = fitsDir->text() + QLatin1Literal("/") + frameTypeCombo->currentText();
-        if ( (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && job->getFilterName().isEmpty() == false)
-            finalFITSDir += QLatin1Literal("/") + job->getFilterName();
-
-        job->setFITSDir(finalFITSDir);
     }
+
+    QString finalFITSDir = fitsDir->text() + QLatin1Literal("/") + frameTypeCombo->currentText();
+    if ( (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && job->getFilterName().isEmpty() == false)
+        finalFITSDir += QLatin1Literal("/") + job->getFilterName();
+
+    job->setFITSDir(finalFITSDir);
 
     int currentRow = 0;
     if (jobUnderEdit == false)

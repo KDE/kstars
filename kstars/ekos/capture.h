@@ -475,7 +475,7 @@ private:
     int         seqFileCount;
     bool        isBusy;
 
-    int calibrationState;
+    //int calibrationState;
     bool useGuideHead;
 
     SequenceJob *activeJob;

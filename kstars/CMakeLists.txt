@@ -117,6 +117,7 @@ if(INDI_FOUND)
             ekos/dome.cpp
             ekos/weather.cpp
             ekos/dustcap.cpp
+            ekos/darklibrary.cpp
             ekos/astrometryparser.cpp
             ekos/offlineastrometryparser.cpp
             ekos/onlineastrometryparser.cpp

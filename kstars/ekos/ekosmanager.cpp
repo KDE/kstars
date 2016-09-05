@@ -27,6 +27,7 @@
 #include "skymap.h"
 
 #include "sequencejob.h"
+#include "darklibrary.h"
 
 #include "profileeditor.h"
 #include "profileinfo.h"
