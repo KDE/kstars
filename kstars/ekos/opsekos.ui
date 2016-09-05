@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>502</width>
-    <height>470</height>
+    <height>488</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -224,6 +224,43 @@
               <size>
                <width>17</width>
                <height>17</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QLabel" name="label_6">
+             <property name="toolTip">
+              <string>Reuse dark frames from the dark library for this many days. If exceeded, a new dark frame shall be captured and stored for future use.</string>
+             </property>
+             <property name="text">
+              <string>Dark Library</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="kcfg_DarkLibraryDuration">
+             <property name="maximum">
+              <number>365</number>
+             </property>
+             <property name="singleStep">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
               </size>
              </property>
             </spacer>

@@ -122,8 +122,6 @@ public:
     void updateMode(FITSMode mode);
     FITSMode getMode() { return mode;}
 
-    int getGammaValue() const;
-    void setGammaValue(int value);
     void setFilter(FITSScale newFilter) { filter = newFilter;}
 
 protected:
@@ -156,8 +154,7 @@ private:
     QImage  *display_image;            /* FITS image that is displayed in the GUI */
     FITSHistogram *histogram;
 
-    int gammaValue;
-    double maxPixel, maxGammaPixel, minPixel;
+    double maxPixel, minPixel;
 
     bool firstLoad;
     bool markStars;

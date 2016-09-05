@@ -11,6 +11,7 @@
 #define DARKLIBRARY_H
 
 #include <QObject>
+#include "indi/indiccd.h"
 
 namespace Ekos
 {
@@ -31,12 +32,41 @@ public:
 
     static DarkLibrary *Instance();
 
+    FITSData * getDarkFrame(ISD::CCDChip *targetChip, double duration);
+    bool subtract(FITSData *darkData, FITSView *lightImage, uint16_t offsetX, uint16_t offsetY);
+    void captureAndSubtract(ISD::CCDChip *targetChip, double duration, uint16_t offsetX, uint16_t offsetY, FITSView*targetImage);
+
+signals:
+    void darkFrameCompleted(bool);
+    void newLog(const QString &message);
+
+public slots:
+    /**
+     * @brief newFITS A new FITS blob is received by the CCD driver.
+     * @param bp pointer to blob data
+     */
+    void newFITS(IBLOB *bp);
+
 private:
   DarkLibrary(QObject *parent);
   ~DarkLibrary();
   static DarkLibrary * _DarkLibrary;
 
+  bool loadDarkFile(const QString &filename);
+  bool saveDarkFile(FITSData *darkData);
+
   QList<QVariantMap> darkFrames;
+  QHash<QString, FITSData *> darkFiles;
+
+  struct
+  {
+      ISD::CCDChip *targetChip;
+      double duration;
+      uint16_t offsetX;
+      uint16_t offsetY;
+      FITSView *targetImage;
+  } subtractParams;
+
 
 };
 

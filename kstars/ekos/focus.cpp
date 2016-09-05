@@ -857,7 +857,7 @@ void Focus::capture()
     if (ISOCombo->isEnabled() && ISOCombo->currentIndex() != -1 && targetChip->getISOIndex() != ISOCombo->currentIndex())
         targetChip->setISOIndex(ISOCombo->currentIndex());
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));    
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     targetChip->setFrameType(ccdFrame);
 
@@ -1065,7 +1065,7 @@ void Focus::newFITS(IBLOB *bp)
         currentCCD->setUploadMode(rememberUploadMode);
     }
 
-    captureInProgress = false;    
+    captureInProgress = false;
 
     FITSData *image_data = targetChip->getImageData();
 
@@ -1273,7 +1273,7 @@ void Focus::newFITS(IBLOB *bp)
             appendLogText(i18n("Capture complete. Select a star to focus."));
 
             //if (fw == 0 || fh == 0)
-                //targetChip->getFrame(&fx, &fy, &fw, &fh);            
+                //targetChip->getFrame(&fx, &fy, &fw, &fh);
 
             int subBinX=1,subBinY=1;
             targetChip->getBinning(&subBinX, &subBinY);
@@ -2131,7 +2131,7 @@ void Focus::focusStarSelected(int x, int y)
     QRect starRect;
 
     if (subFramed == false && kcfg_subFrame->isChecked() && targetChip->canSubframe())
-    {        
+    {
         int minX, maxX, minY, maxY, minW, maxW, minH, maxH;//, fx,fy,fw,fh;
 
         targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);

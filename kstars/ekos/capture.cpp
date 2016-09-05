@@ -845,53 +845,44 @@ void Capture::newFITS(IBLOB *bp)
             return;
 
         disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-        disconnect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)));        
+        disconnect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)));
 
-        // TODO implement this tomorrow
-        /*
         if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
         {
             FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
+            FITSData *darkData       = NULL;
 
-            if (DarkLibrary::Instance()->hasDarkFrame(targetChip))
-                DarkLibrary::Instance()->subtract(targetChip, currentImage);
+            darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, activeJob->getExposure());
+
+            connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setDarkCaptureComplete(bool)));
+            connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+
+            if (darkData)
+                DarkLibrary::Instance()->subtract(darkData, currentImage, activeJob->getSubX(), activeJob->getSubY());
             else
-            {
+                DarkLibrary::Instance()->captureAndSubtract(targetChip, activeJob->getExposure(), activeJob->getSubX(), activeJob->getSubY(), currentImage);
 
-                connect(DarkLibrary::Instance(), SIGNAL(darkFrameSubtracted()), this, SLOT(setCaptureComplete()));
-                DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage);
-            }
-
-        }*/
-
-        /*if (calibrationState == CALIBRATE_START)
-        {
-            calibrationState = CALIBRATE_DONE;
-            startNextExposure();
             return;
         }
-
-        if (darkSubCheck->isChecked() && calibrationState == CALIBRATE_DONE)
-        {
-            calibrationState = CALIBRATE_NONE;
-
-            FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
-            FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
-
-            FITSData *image_data = NULL;
-
-            if (currentImage)
-                image_data = currentImage->getImageData();
-
-            if (image_data && calibrateImage && currentImage)
-                image_data->subtract(calibrateImage->getImageData()->getImageBuffer());
-        }*/
     }
 
-    //TODO Move this to setCaptureComplete() function
+    setCaptureComplete();
 
+}
+
+void Capture::setDarkCaptureComplete(bool result)
+{
+    if (result == false)
+        appendLogText(i18n("Dark frame processing failed."));
+
+    setCaptureComplete();
+}
+
+void Capture::setCaptureComplete()
+{
     disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
-    secondsLabel->setText(i18n("Complete."));    
+    DarkLibrary::Instance()->disconnect(this);
+    secondsLabel->setText(i18n("Complete."));
 
     // If it was initially set as preview job
     if (seqTotalCount <= 0)
@@ -1327,7 +1318,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
 }
 
 void Capture::updateCCDTemperature(double value)
-{    
+{
     if (temperatureCheck->isEnabled() == false)
         checkCCD();
 
@@ -1382,7 +1373,7 @@ void Capture::addJob(bool preview)
     job->setWallCoord(wallCoord);
     job->setTargetADU(targetADU);
 
-    imagePrefix = prefixIN->text();        
+    imagePrefix = prefixIN->text();
 
     constructPrefix(imagePrefix);
 
@@ -1429,7 +1420,7 @@ void Capture::addJob(bool preview)
     {
 
         currentRow = queueTable->rowCount();
-        queueTable->insertRow(currentRow);        
+        queueTable->insertRow(currentRow);
     }
     else
         currentRow = queueTable->currentRow();
@@ -2484,9 +2475,7 @@ void Capture::syncGUIToJob(SequenceJob *job)
    preMountPark      = job->isPreMountPark();
    preDomePark       = job->isPreDomePark();
 
-   QString rootDir = job->getRootFITSDir();
-   rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->currentText()));
-   fitsDir->setText(rootDir);
+   fitsDir->setText(job->getRootFITSDir());
 
    if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());

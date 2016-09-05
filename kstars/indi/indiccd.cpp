@@ -1115,13 +1115,15 @@ void CCD::processBLOB(IBLOB* bp)
     int nr, n=0;
     QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");
 
-    if (currentDir.endsWith('/'))
-        currentDir.truncate(sizeof(currentDir)-1);
+    //if (currentDir.endsWith('/'))
+        //currentDir.truncate(currentDir.size()-1);
 
     if (QDir(currentDir).exists() == false)
         QDir().mkpath(currentDir);
 
-    QString filename(currentDir + '/');
+    QString filename(currentDir);
+    if (filename.endsWith('/') == false)
+        filename.append('/');
 
     // Create temporary name if ANY of the following conditions are met:
     // 1. file is preview or batch mode is not enabled

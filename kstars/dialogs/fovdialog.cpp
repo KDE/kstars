@@ -269,7 +269,7 @@ void NewFOV::slotUpdateFOV() {
     f.setColor( ui->ColorButton->color().name() );
 
     okB->setEnabled(!f.name().isEmpty() && okX && okY );
-    
+
     ui->ViewBox->setFOV( &f );
     ui->ViewBox->update();
 }

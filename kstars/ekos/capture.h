@@ -251,7 +251,6 @@ public:
     void syncTelescopeInfo();
     void syncFilterInfo();
 
-    void appendLogText(const QString &);
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
 
@@ -379,6 +378,8 @@ public slots:
      */
     void setTemperature();
 
+    void appendLogText(const QString &);
+
 private slots:
 
     /**
@@ -393,7 +394,6 @@ private slots:
     void saveFITSDirectory();
     void setDefaultCCD(QString ccd);
     void setNewRemoteFile(QString file);
-
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
 
     // Sequence Queue
@@ -424,6 +424,10 @@ private slots:
 
     // Send image info
     void sendNewImage(QImage *image, ISD::CCDChip *myChip);
+
+    // Capture
+    void setDarkCaptureComplete(bool result);
+    void setCaptureComplete();
 
     // Temporary for post capture script
     void postScriptFinished(int exitCode);

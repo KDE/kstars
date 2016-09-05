@@ -70,7 +70,7 @@ public:
     bool getBinning(int *bin_x, int *bin_y);
     bool getMaxBin(int *max_xbin, int *max_ybin);
     ChipType getType() const { return type; }
-    ISD::CCD *getParentCCD() { return parentCCD;}
+    ISD::CCD *getCCD() { return parentCCD;}
 
     bool isCapturing();
     bool abortExposure();

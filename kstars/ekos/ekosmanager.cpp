@@ -1892,7 +1892,7 @@ void EkosManager::updateFocusStatus(Ekos::FocusState status)
     focusStatus->setText(Ekos::getFocusStatusString(status));
 
     if (status >= Ekos::FOCUS_PROGRESS)
-    {        
+    {
         if (focusPI->isAnimated() == false)
             focusPI->startAnimation();
     }

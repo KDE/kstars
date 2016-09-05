@@ -883,7 +883,7 @@ bool KSUserDB::ImportUsers() {
                }
             }
         }
-    }    
+    }
     delete reader_;
     usersfile.close();
     return true;
@@ -1015,7 +1015,7 @@ void KSUserDB::readScope() {
                  driver = reader_->readElementText();
         }
     }
-    
+
     AddScope(model, vendor, driver, type, focalLength, aperture);
 }
 
@@ -1040,7 +1040,7 @@ void KSUserDB::readEyepiece() {
             }
         }
     }
-    
+
     AddEyepiece(vendor, model, focalLength.toDouble(), fov.toDouble(), fovUnit);
 }
 
@@ -1062,7 +1062,7 @@ void KSUserDB::readLens() {
             }
         }
     }
-    
+
     AddLens(vendor, model, factor.toDouble());
 }
 
@@ -1185,7 +1185,7 @@ void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
     QSqlQuery query(userdb_);
     query.exec(tableQuery);
 
-    QSqlTableModel points(0, userdb_);    
+    QSqlTableModel points(0, userdb_);
 
     points.setTable(tableName);
 

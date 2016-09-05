@@ -1405,6 +1405,10 @@
        <label>When starting a new capture job, check if files were previously captured and resume capture afterwards.</label>
        <default>true</default>
      </entry>
+     <entry name="DarkLibraryDuration" type="UInt">
+       <label>Reuse dark frames from the dark library for this many days. If exceeded, a new dark frame shall be captured and stored for future use.</label>
+       <default>30</default>
+     </entry>
      <entry name="AutoFocusOnFilterChange" type="Bool">
        <label>Perform an autofocus operation when changing filter wheels during an exposure sequence.</label>
        <default>false</default>
