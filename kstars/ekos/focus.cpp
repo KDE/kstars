@@ -212,7 +212,7 @@ Focus::Focus()
     kcfg_subFrame->setChecked(Options::focusSubFrame());
     suspendGuideCheck->setChecked(Options::suspendGuiding());
     lockFilterCheck->setChecked(Options::lockFocusFilter());
-    focusDarkFrameCheck->setChecked(Options::focusDarkFrame());
+    darkFrameCheck->setChecked(Options::useFocusDarkFrame());
     thresholdSpin->setValue(Options::focusThreshold());
     focusFramesSpin->setValue(Options::focusFrames());
 
@@ -709,7 +709,7 @@ void Focus::start()
     Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
     Options::setSuspendGuiding(suspendGuideCheck->isChecked());
     Options::setLockFocusFilter(lockFilterCheck->isChecked());
-    Options::setFocusDarkFrame(focusDarkFrameCheck->isChecked());    
+    Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
 
     if (Options::focusLogging())
         qDebug() << "Focus: Starting focus with box size: " << focusBoxSize->value() << " Step Size: " <<  stepIN->value() << " Threshold: " << thresholdSpin->value() << " Tolerance: "  << toleranceIN->value()
@@ -838,7 +838,7 @@ void Focus::capture()
     targetChip->setCaptureMode(FITS_FOCUS);
 
     // Always disable filtering if using a dark frame and then re-apply after subtraction. TODO: Implement this in capture and guide and align
-    if (focusDarkFrameCheck->isChecked())
+    if (darkFrameCheck->isChecked())
         targetChip->setCaptureFilter(FITS_NONE);
     else
         targetChip->setCaptureFilter(defaultScale);
@@ -965,7 +965,7 @@ void Focus::newFITS(IBLOB *bp)
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    if (focusDarkFrameCheck->isChecked())
+    if (darkFrameCheck->isChecked())
     {
         FITSView *currentImage   = targetChip->getImage(FITS_FOCUS);
         FITSData *darkData       = NULL;
@@ -1039,8 +1039,6 @@ void Focus::setCaptureComplete()
     captureInProgress = false;
 
     FITSData *image_data = targetChip->getImageData();
-
-
 
     starPixmap = targetImage->getTrackingBoxPixmap();
     emit newStarPixmap(starPixmap);

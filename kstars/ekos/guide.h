@@ -136,7 +136,7 @@ public:
      * Set calibration dark frame option. The options must be set before starting the calibration operation. If no options are set, the options loaded from the user configuration are used.
      * @param enable if true, a dark frame will be captured to subtract from the light frame.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setCalibrationDarkFrame(bool enable);
+    Q_SCRIPTABLE Q_NOREPLY void setDarkFrameEnabled(bool enable);
 
     /** DBUS interface function.
      * Set calibration parameters.
@@ -161,7 +161,7 @@ public:
      * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
      * @param enable if true, it will select a subframe around the guide star depending on the boxSize size.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuideSubFrame(bool enable);
+    Q_SCRIPTABLE Q_NOREPLY void setSubFrameEnabled(bool enable);
 
     /** DBUS interface function.
      * Set rapid guiding option. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
@@ -247,8 +247,7 @@ public slots:
      void checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState state);
      void newFITS(IBLOB*);
      void newST4(int index);
-     void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
-     void setUseDarkFrame(bool enable);
+     void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);     
      void updateGuideDriver(double delta_ra, double delta_dec);
 
      // Auto Calibration Guiding (Cablirate first then start guiding immediately)
@@ -317,9 +316,7 @@ private:
 
     bool useGuideHead;
     bool isSuspended;
-    bool phd2Connected;
-
-    bool useDarkFrame;
+    bool phd2Connected;    
 
     QStringList logText;
 

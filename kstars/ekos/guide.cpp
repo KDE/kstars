@@ -47,8 +47,7 @@ Guide::Guide() : QWidget()
     currentCCD = NULL;
     currentTelescope = NULL;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
-    useGuideHead = false;
-    useDarkFrame = false;
+    useGuideHead = false;    
     rapidGuideReticleSet = false;
     isSuspended = false;    
     AODriver= NULL;
@@ -100,6 +99,9 @@ Guide::Guide() : QWidget()
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
+
+    darkFrameCheck->setChecked(Options::useGuideDarkFrame());
+    connect(darkFrameCheck, SIGNAL(toggled(bool)), this, SLOT(setDarkFrameEnabled(bool)));
 
     phd2 = new PHD2();
 
@@ -440,7 +442,11 @@ bool Guide::capture()
 
     targetChip->setCaptureMode(FITS_GUIDE);
     targetChip->setFrameType(FRAME_LIGHT);
-    targetChip->setCaptureFilter((FITSScale) filterCombo->currentIndex());
+
+    if (Options::useGuideDarkFrame())
+        targetChip->setCaptureFilter(FITS_NONE);
+    else
+        targetChip->setCaptureFilter((FITSScale) filterCombo->currentIndex());
 
     if (guider->isGuiding())
     {
@@ -469,11 +475,8 @@ void Guide::newFITS(IBLOB *bp)
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     // Do we need to take a dark frame?
-    if (useDarkFrame)
-    {
-        if (calibration->useAutoStar() == false)
-            KMessageBox::information(NULL, i18n("If the guide camera is not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
-
+    if (Options::useGuideDarkFrame())
+    {        
         int x,y,w,h;
         int binx,biny;
 
@@ -493,8 +496,12 @@ void Guide::newFITS(IBLOB *bp)
         if (darkData)
             DarkLibrary::Instance()->subtract(darkData, currentImage, targetChip->getCaptureFilter(), offsetX, offsetY);
         else
-            DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, exposureIN->value(), offsetX, offsetY);
+        {
+            if (calibration->useAutoStar() == false)
+                KMessageBox::information(NULL, i18n("If the guide camera is not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
 
+            DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, exposureIN->value(), offsetX, offsetY);
+        }
         return;
     }
 
@@ -918,11 +925,6 @@ void Guide::setCalibrationAutoSquareSize(bool enable)
     calibration->setCalibrationAutoSquareSize(enable);
 }
 
-void Guide::setCalibrationDarkFrame(bool enable)
-{
-    calibration->setCalibrationDarkFrame(enable);
-}
-
 void Guide::setCalibrationParams(int boxSize, int pulseDuration)
 {
     calibration->setCalibrationParams(boxSize, pulseDuration);
@@ -938,7 +940,7 @@ void Guide::setGuideAlgorithm(const QString & algorithm)
     guider->setGuideOptions(guider->getBoxSize(), algorithm, guider->useSubFrame(), guider->useRapidGuide());
 }
 
-void Guide::setGuideSubFrame(bool enable)
+void Guide::setSubFrameEnabled(bool enable)
 {
     guider->setGuideOptions(guider->getBoxSize(), guider->getAlgorithm(), enable , guider->useRapidGuide());
 }
@@ -1059,6 +1061,9 @@ void Guide::updateCCDBin(int index)
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     targetChip->setBinning(index+1, index+1);
+
+    if (pmath)
+        pmath->setBinning(index+1, index+1);
 }
 
 void Guide::processCCDNumber(INumberVectorProperty *nvp)
@@ -1085,9 +1090,9 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
     }
 }
 
-void Guide::setUseDarkFrame(bool enable)
-{
-    useDarkFrame = enable;
+void Guide::setDarkFrameEnabled(bool enable)
+{    
+    Options::setUseGuideDarkFrame(enable);
 
     if (enable && calibration && calibration->useAutoStar())
         appendLogText(i18n("Warning: In auto mode, you will not be asked to cover cameras unequipped with shutters in order to capture a dark frame. The dark frame capture will proceed without warning."

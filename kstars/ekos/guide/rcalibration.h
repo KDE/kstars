@@ -64,8 +64,7 @@ public:
     bool isCalibrationSuccessful() { return (calibrationStage == CAL_FINISH); }
 
     bool useAutoStar() { return ui.autoStarCheck->isChecked(); }
-    bool useAutoSquareSize() { return ui.autoSquareSizeCheck->isChecked(); }
-    bool useDarkFrame() { return ui.darkFrameCheck->isChecked(); }
+    bool useAutoSquareSize() { return ui.autoSquareSizeCheck->isChecked(); }    
     bool useTwoAxis() { return ui.twoAxisCheck->isChecked(); }
 
     void processCalibration();
@@ -82,8 +81,7 @@ protected slots:
 	void onReticleYChanged( double val );
 	void onReticleAngChanged( double val );
 	void onStartReticleCalibrationButtonClick();
-    void toggleAutoSquareSize(bool enable);
-    void clearDarkLibrary();
+    void toggleAutoSquareSize(bool enable);    
 
 public slots:
     void capture();

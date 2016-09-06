@@ -1058,7 +1058,7 @@ void Capture::captureImage()
     }
 
     //if (useGuideHead == false && darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
-        //isDark = true;
+    //isDark = true;
 
     if (filterSlot != NULL)
     {
@@ -1073,74 +1073,68 @@ void Capture::captureImage()
         activeJob->setCurrentTemperature(temperature);
     }
 
-     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
-     connect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)), Qt::UniqueConnection);
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
+    connect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)), Qt::UniqueConnection);
 
-     if (activeJob->getFrameType() == FRAME_FLAT)
-     {
-         // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
-         if (activeJob->isPreview() == false && activeJob->getFlatFieldDuration() == DURATION_ADU && calibrationStage == CAL_PRECAPTURE_COMPLETE)
-         {
+    if (activeJob->getFrameType() == FRAME_FLAT)
+    {
+        // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
+        if (activeJob->isPreview() == false && activeJob->getFlatFieldDuration() == DURATION_ADU && calibrationStage == CAL_PRECAPTURE_COMPLETE)
+        {
             calibrationStage = CAL_CALIBRATION;
             activeJob->setPreview(true);
-         }
-     }
+        }
+    }
 
-     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
         checkSeqBoundary(activeJob->getFITSDir());
 
-     if (activeJob->isPreview() == false)
+    if (activeJob->isPreview() == false)
         emit newStatus(Ekos::CAPTURE_CAPTURING);
 
-     if (frameSettings.contains(activeJob->getActiveChip()))
-     {
-         QVariantMap settings;
-         settings["x"]      = activeJob->getSubX();
-         settings["y"]      = activeJob->getSubY();
-         settings["w"]      = activeJob->getSubW();
-         settings["h"]      = activeJob->getSubH();
-         settings["binx"]   = activeJob->getXBin();
-         settings["biny"]   = activeJob->getYBin();
+    if (frameSettings.contains(activeJob->getActiveChip()))
+    {
+        QVariantMap settings;
+        settings["x"]      = activeJob->getSubX();
+        settings["y"]      = activeJob->getSubY();
+        settings["w"]      = activeJob->getSubW();
+        settings["h"]      = activeJob->getSubH();
+        settings["binx"]   = activeJob->getXBin();
+        settings["biny"]   = activeJob->getYBin();
 
-         frameSettings[activeJob->getActiveChip()] = settings;
-     }
+        frameSettings[activeJob->getActiveChip()] = settings;
+    }
 
-     rc = activeJob->capture();
+    rc = activeJob->capture(darkSubCheck->isChecked() ? true : false);
 
-     switch (rc)
-     {
-        case SequenceJob::CAPTURE_OK:
-         connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
-         /*if (isDark)
-         {
-            calibrationState = CALIBRATE_START;
-            appendLogText(i18n("Capturing dark frame..."));
-         }
-         else*/
-           appendLogText(i18n("Capturing image..."));
-         break;
+    switch (rc)
+    {
+    case SequenceJob::CAPTURE_OK:
+        connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
+        appendLogText(i18n("Capturing image..."));
+        break;
 
-        case SequenceJob::CAPTURE_FRAME_ERROR:
-            appendLogText(i18n("Failed to set sub frame."));
-            abort();
-            break;
+    case SequenceJob::CAPTURE_FRAME_ERROR:
+        appendLogText(i18n("Failed to set sub frame."));
+        abort();
+        break;
 
-        case SequenceJob::CAPTURE_BIN_ERROR:
-            appendLogText(i18n("Failed to set binning."));
-            abort();
-            break;
+    case SequenceJob::CAPTURE_BIN_ERROR:
+        appendLogText(i18n("Failed to set binning."));
+        abort();
+        break;
 
-        case SequenceJob::CAPTURE_FILTER_BUSY:
-            // Try again in 1 second if filter is busy
-            QTimer::singleShot(1000, this, SLOT(captureImage()));
-            break;
+    case SequenceJob::CAPTURE_FILTER_BUSY:
+        // Try again in 1 second if filter is busy
+        QTimer::singleShot(1000, this, SLOT(captureImage()));
+        break;
 
-        case SequenceJob::CAPTURE_FOCUS_ERROR:
-            appendLogText(i18n("Cannot capture while module is busy."));
-            abort();
-            break;
+    case SequenceJob::CAPTURE_FOCUS_ERROR:
+        appendLogText(i18n("Cannot capture while module is busy."));
+        abort();
+        break;
 
-     }
+    }
 }
 
 void Capture::resumeCapture()

@@ -44,9 +44,7 @@ rcalibration::rcalibration(cgmath *mathObject, Ekos::Guide *parent)
 {
     int i;
 
-	ui.setupUi(this);
-
-    ui.clearDarkB->setIcon(QIcon::fromTheme("edit-delete"));
+	ui.setupUi(this);    
 
     setWindowTitle(i18n("Calibration"));
 
@@ -80,13 +78,10 @@ rcalibration::rcalibration(cgmath *mathObject, Ekos::Guide *parent)
 	connect( ui.spinBox_ReticleY, 		SIGNAL(valueChanged(double)),	this, SLOT(onReticleYChanged(double)) );
 	connect( ui.spinBox_ReticleAngle,	SIGNAL(valueChanged(double)),	this, SLOT(onReticleAngChanged(double)) );
     connect( ui.pushButton_StartCalibration, SIGNAL(clicked()), 		this, SLOT(onStartReticleCalibrationButtonClick()) );
-    connect( ui.autoModeCheck, 		SIGNAL(stateChanged(int)), 		this, SLOT(onEnableAutoMode(int)) );
-    connect (ui.darkFrameCheck, SIGNAL(toggled(bool)), pmain_wnd, SLOT(setUseDarkFrame(bool)));
+    connect( ui.autoModeCheck, 		SIGNAL(stateChanged(int)), 		this, SLOT(onEnableAutoMode(int)) );    
     connect( ui.autoStarCheck, SIGNAL(toggled(bool)), this, SLOT(toggleAutoSquareSize(bool)));
-    connect( ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));
-    connect( ui.clearDarkB, SIGNAL(clicked()), this, SLOT(clearDarkLibrary()));
+    connect( ui.captureB, SIGNAL(clicked()), this, SLOT(capture()));    
 
-    ui.darkFrameCheck->setChecked(Options::useDarkFrame());
     ui.autoModeCheck->setChecked( Options::useAutoMode() );
     ui.spinBox_Pulse->setValue( Options::calibrationPulseDuration());
 
@@ -326,8 +321,7 @@ bool rcalibration::startCalibration()
     Options::setCalibrationPulseDuration(ui.spinBox_Pulse->value());
     Options::setCalibrationSquareSizeIndex(ui.comboBox_SquareSize->currentIndex());
     Options::setUseAutoMode(ui.autoModeCheck->isChecked());
-    Options::setUseTwoAxis(ui.twoAxisCheck->isChecked());
-    Options::setUseDarkFrame(ui.darkFrameCheck->isChecked());
+    Options::setUseTwoAxis(ui.twoAxisCheck->isChecked());    
     Options::setAutoModeIterations(ui.spinBox_DriftTime->value());
     Options::setAutoStar(ui.autoStarCheck->isChecked());
     if (ui.autoStarCheck->isChecked())
@@ -401,7 +395,7 @@ void rcalibration::reset()
     ui.pushButton_StartCalibration->setText( i18n("Start") );
     ui.startCalibrationLED->setColor(idleColor);
     ui.progressBar->setVisible(false);
-    connect(pmath->get_image(), SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
+    connect(pmath->get_image(), SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
 }
 
 void rcalibration::calibrateManualReticle( void )
@@ -892,7 +886,7 @@ void rcalibration::trackingStarSelected(int x, int y)
     int square_size = guide_squares[pmath->get_square_index()].size;
 
     pmath->set_reticle_params(x, y, ui.spinBox_ReticleAngle->value());
-    pmath->move_square(x-square_size/2, y-square_size/2);
+    pmath->move_square(x-square_size/(2*pmath->getBinX()), y-square_size/(2*pmath->getBinY()));
 
     update_reticle_pos(x, y);
 
@@ -937,8 +931,7 @@ bool rcalibration::setImage(FITSView *image)
     {
         case CAL_CAPTURE_IMAGE:
         case CAL_SELECT_STAR:
-          {
-            pmath->resize_square(pmath->get_square_index());
+          {            
             pmain_wnd->appendLogText(i18n("Image captured..."));
 
             ui.captureLED->setColor(okColor);
@@ -947,18 +940,44 @@ bool rcalibration::setImage(FITSView *image)
 
             FITSData *image_data = guideFrame->getImageData();
 
-            setVideoParams(image_data->getWidth(), image_data->getHeight());
-
-            QPair<double,double> star = selectAutoStar(guideFrame);
+            setVideoParams(image_data->getWidth(), image_data->getHeight());            
 
             if (ui.autoStarCheck->isChecked())
-            {
-                trackingStarSelected(star.first, star.second);
+            {                
+                QPair<double,double> star = selectAutoStar(guideFrame);
+
+                if (star.first == 0 && star.second == 0)
+                {
+                    pmain_wnd->appendLogText(i18n("Failed to automatically select a guide star. Please select a guide star..."));
+                    connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
+                    pmath->move_square(image_data->getWidth()/2-pmath->get_square_size()/2, image_data->getHeight()/2 - pmath->get_square_size()/2);
+                    return true;
+                }
+                else
+                    trackingStarSelected(star.first, star.second);
                 return false;
             }
             else
-                connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
+            {
+                Vector square_pos = pmath->get_square_pos();
+                double currentBin = pmath->getBinX();
+                double lastBin    = pmath->getLastBinX();
 
+                if (square_pos.x == 0 && square_pos.y == 0)
+                    pmath->move_square(image_data->getWidth()/2-pmath->get_square_size()/2, image_data->getHeight()/2 - pmath->get_square_size()/2);
+                else if (currentBin != lastBin)
+                {
+                    double newX = square_pos.x * lastBin/currentBin;
+                    double newY = square_pos.y * lastBin/currentBin;
+                    //pmath->move_square(newX-pmath->get_square_size()/(2*currentBin), newY- pmath->get_square_size()/(2*currentBin));
+                    pmath->move_square(newX, newY);
+                    pmath->setBinning(currentBin, currentBin);
+                }
+                else
+                    pmath->resize_square(pmath->get_square_index());
+
+                connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
+            }
          }
             break;
 
@@ -1084,11 +1103,6 @@ void rcalibration::setCalibrationAutoSquareSize(bool enable)
     ui.autoSquareSizeCheck->setChecked(enable);
 }
 
-void rcalibration::setCalibrationDarkFrame(bool enable)
-{
-    ui.darkFrameCheck->setChecked(enable);
-}
-
 void rcalibration::setCalibrationParams(int boxSize, int pulseDuration)
 {
     for (int i=0; i < ui.comboBox_SquareSize->count(); i++)
@@ -1104,18 +1118,4 @@ void rcalibration::setCalibrationParams(int boxSize, int pulseDuration)
 void rcalibration::toggleAutoSquareSize(bool enable)
 {
     ui.autoSquareSizeCheck->setEnabled(enable);
-}
-
-void rcalibration::clearDarkLibrary()
-{
-    QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
-    QDir dir(path);
-
-    dir.setNameFilters(QStringList() << "dark-*");
-    dir.setFilter(QDir::Files);
-
-    foreach(QString dirFile, dir.entryList())
-        dir.remove(dirFile);
-
-    pmain_wnd->appendLogText(i18n("Dark library files cleared."));
 }

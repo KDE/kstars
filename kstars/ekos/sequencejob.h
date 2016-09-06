@@ -36,7 +36,7 @@ class SequenceJob : public QObject
     SequenceJob();
     ~SequenceJob() {}
 
-    CAPTUREResult capture();
+    CAPTUREResult capture(bool noCaptureFilter);
     void reset();
     void abort();
     void done();

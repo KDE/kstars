@@ -156,9 +156,15 @@ public:
 	ovr_params_t *prepare_overlays( void );
 	void move_square( double newx, double newy );
 	void resize_square( int size_idx );
+    Vector get_square_pos() { return square_pos; }
 
     void setRapidGuide(bool enable);
     void setRapidStarData(double dx, double dy);
+    void setBinning(int binx, int biny);
+    int getBinX() { return subBinX; }
+    int getBinY() { return subBinY; }
+    int getLastBinX() { return lastBinX; }
+    int getLastBinY() { return lastBinY; }
 	
 	// proc
 	void start( void );
@@ -195,6 +201,7 @@ private:
 	Vector square_pos;	// integer values in double vars.
 	int square_idx;		// index in size list
 	int square_alg_idx;		// index of threshold algorithm
+    int subBinX,subBinY, lastBinX, lastBinY;
 	
 	// sky coord. system vars.
 	Vector star_pos;	// position of star in reticle coord. system

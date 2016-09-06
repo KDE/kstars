@@ -1480,7 +1480,7 @@
            <label>Use specified filter index when performing focus regardless of current filter settings.</label>
            <default>0</default>
        </entry>
-       <entry name="FocusDarkFrame" type="Bool">
+       <entry name="UseFocusDarkFrame" type="Bool">
            <label>Take a dark frame and subtract it before running autofocus operation.</label>
            <default>false</default>
        </entry>
@@ -1621,7 +1621,7 @@
         <label>Use both axes to perform calibration.</label>
         <default>true</default>
     </entry>
-    <entry name="UseDarkFrame" type="Bool">
+    <entry name="UseGuideDarkFrame" type="Bool">
         <label>Take dark frame for autoguider images.</label>
         <default>false</default>
     </entry>

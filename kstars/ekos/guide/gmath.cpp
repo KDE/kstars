@@ -62,6 +62,8 @@ cgmath::cgmath() : QObject()
     useRapidGuide = false;
     dec_swap = false;
 
+    subBinX = subBinY = lastBinX = lastBinY = 1;
+
 	// square variables
 	square_idx		= DEFAULT_SQR;
     square_alg_idx	= SMART_THRESHOLD;
@@ -347,21 +349,24 @@ void cgmath::move_square( double newx, double newy )
     square_pos.y = newy;
 
     // check frame ranges
-    if( square_pos.x < 0 )
-        square_pos.x = 0;
-    if( square_pos.y < 0 )
-        square_pos.y = 0;
-    if( square_pos.x+(double)square_size > (double)video_width )
-        square_pos.x = (double)(video_width - square_size);
-    if( square_pos.y+(double)square_size > (double)video_height )
-        square_pos.y = (double)(video_height - square_size);
+    if (lastBinX == subBinX)
+    {
+        if( square_pos.x < 0 )
+            square_pos.x = 0;
+        if( square_pos.y < 0 )
+            square_pos.y = 0;
+        if( square_pos.x+(double)square_size > (double)video_width )
+            square_pos.x = (double)(video_width - square_size);
+        if( square_pos.y+(double)square_size > (double)video_height )
+            square_pos.y = (double)(video_height - square_size);
+    }
 
     // FITS Image takes center coords
     if (guide_frame)
     {
         guide_frame->setTrackingBoxEnabled(true);
         //guide_frame->setTrackingBoxCenter(QPointF(square_pos.x+square_size/2, square_pos.y+square_size/2));
-        guide_frame->setTrackingBox(QRect(square_pos.x, square_pos.y, square_size, square_size));
+        guide_frame->setTrackingBox(QRect(square_pos.x, square_pos.y, square_size/subBinX, square_size/subBinY));
     }
 }
 
@@ -382,10 +387,10 @@ void cgmath::resize_square( int size_idx )
 
 	// check position
     if (guide_frame)
-    {
+    {        
         guide_frame->setTrackingBoxEnabled(true);
         //guide_frame->setTrackingBoxSize(QSize(square_size,square_size));
-        guide_frame->setTrackingBox(QRect(square_pos.x, square_pos.y, square_size, square_size));
+        guide_frame->setTrackingBox(QRect(square_pos.x/subBinX, square_pos.y/subBinY, square_size/subBinX, square_size/subBinY));
     }
 
 }
@@ -984,7 +989,7 @@ void cgmath::do_processing( void )
 
 
 	// move square overlay
-    move_square( round(star_pos.x) - (double)square_size/2, round(star_pos.y) - (double)square_size/2 );
+    move_square( round(star_pos.x) - (double)square_size/(2*subBinX), round(star_pos.y) - (double)square_size/(2*subBinY) );
     //move_square( ceil(star_pos.x) - (double)square_size/2, ceil(star_pos.y) - (double)square_size/2 );
 
 	if( preview_mode )
@@ -1120,6 +1125,15 @@ const char *cgmath::get_direction_string(GuideDirection dir)
 
 }
 
+void cgmath::setBinning(int binx, int biny)
+{
+    lastBinX = subBinX;
+    lastBinY = subBinY;
+
+    subBinX = binx;
+    subBinY = biny;
+}
+
 //---------------------------------------------------------------------------------------
 cproc_in_params::cproc_in_params()
 {
@@ -1162,7 +1176,3 @@ void cproc_out_params::reset( void )
 		sigma[k] 		= 0;
 	}
 }
-
-
-
-

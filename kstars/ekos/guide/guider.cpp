@@ -458,7 +458,7 @@ bool rguider::stop()
     }
 
     if (guideFrame)
-        connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int,int)));
+        connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int,int)), Qt::UniqueConnection);
     ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
     pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
     pmath->stop();
@@ -520,16 +520,22 @@ void rguider::onStartStopButtonClick()
 
 void rguider::capture()
 {
+    int binX=1, binY=1, lastBinX=1,lastBinY=1;
+
+    int square_size = pmath->get_square_size();
+    binX = pmath->getBinX();
+    binY = pmath->getBinY();
+    lastBinX = pmath->getLastBinX();
+    lastBinY = pmath->getLastBinY();
+
     if (ui.subFrameCheck->isChecked() && m_isSubFramed == false)
     {
-        int x,y,w,h, square_size, binx, biny;
-        targetChip->getBinning(&binx, &biny);
-        pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
-        square_size = pmath->get_square_size();
-        x = (ret_x - square_size)*binx;
-        y = (ret_y - square_size)*biny;
-        w=square_size*2*binx;
-        h=square_size*2*biny;
+        int x,y,w,h;
+        pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);        
+        x = (ret_x - square_size)*binX;
+        y = (ret_y - square_size)*binY;
+        w=square_size*2*binX;
+        h=square_size*2*binY;
 
         int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
         targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
@@ -545,17 +551,34 @@ void rguider::capture()
         if ((h+y)>maxH)
             h=maxH-y;
 
-        pmath->set_video_params(w/binx, h/biny);
+        pmath->set_video_params(w/binX, h/binY);
 
         targetChip->setFrame(x, y, w, h);
 
-        trackingStarSelected(w/binx/2, h/biny/2);
+        trackingStarSelected(w/(binX*2), h/(binY*2));
     }
     else if (ui.subFrameCheck->isChecked() == false/* && is_subframed == true*/)
     {
-        m_isSubFramed = false;
-        //targetChip->setFrame(fx, fy, fw, fh);
+        m_isSubFramed = false;        
         targetChip->resetFrame();
+
+        Vector square_pos = pmath->get_square_pos();
+
+        if (square_pos.x == 0 && square_pos.y == 0)
+        {
+            int x,y,w,h;
+            targetChip->getFrame(&x,&y,&w,&h);
+            pmath->move_square(w/(2*binX) - square_size / (2*binX), h/(2*binY) - square_size / (2*binY));
+        }
+    }
+
+    if (binX != lastBinX)
+    {
+        Vector square_pos = pmath->get_square_pos();
+        double newX = square_pos.x * lastBinX/binX;
+        double newY = square_pos.y * lastBinY/binY;
+        pmath->move_square(newX, newY);
+        pmath->setBinning(binX, binY);
     }
 
     pmain_wnd->capture();
@@ -596,8 +619,10 @@ void rguider::guide( void )
              Vector star_pos = pmath->find_star_local_pos();
              int square_size = pmath->get_square_size();
              double ret_x,ret_y,ret_angle;
+             int binx=1,biny=1;
+             targetChip->getBinning(&binx, &biny);
              pmath->get_reticle_params(&ret_x, &ret_y, &ret_angle);
-             pmath->move_square( round(star_pos.x) - (double)square_size/2, round(star_pos.y) - (double)square_size/2 );
+             pmath->move_square( round(star_pos.x) - (double)square_size/(2*binx), round(star_pos.y) - (double)square_size/(2*biny) );
              pmath->set_reticle_params(star_pos.x, star_pos.y, ret_angle);
          }
          first_frame=false;
@@ -674,15 +699,18 @@ void rguider::setImage(FITSView *image)
     guideFrame = image;
 
     if (m_isReady && guideFrame && m_isStarted == false)
-        connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
+        connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
 }
 
 void rguider::trackingStarSelected(int x, int y)
 {
     int square_size = guide_squares[pmath->get_square_index()].size;
 
+    int binx=1,biny=1;
+    targetChip->getBinning(&binx, &biny);
+
     pmath->set_reticle_params(x, y, pmain_wnd->getReticleAngle());
-    pmath->move_square(x-square_size/2, y-square_size/2);
+    pmath->move_square(x-square_size/(2*binx), y-square_size/(2*biny));
 
     //disconnect(pimage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
 
