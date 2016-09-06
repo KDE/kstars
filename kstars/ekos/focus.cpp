@@ -29,6 +29,7 @@
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
 #include "ekosmanager.h"
+#include "darklibrary.h"
 
 #include "kstars.h"
 #include "focusadaptor.h"
@@ -56,8 +57,7 @@ Focus::Focus()
     currentCCD     = NULL;
     currentFilter  = NULL;
     filterName     = NULL;
-    filterSlot     = NULL;
-    darkBuffer     = NULL;
+    filterSlot     = NULL;    
 
     canAbsMove        = false;
     canRelMove        = false;
@@ -70,10 +70,7 @@ Focus::Focus()
     subFramed         = false;
     resetFocus        = false;
     m_autoFocusSuccesful = false;
-    filterPositionPending= false;
-    haveDarkFrame        = false;
-
-    calibrationState = CALIBRATE_NONE;
+    filterPositionPending= false;    
 
     rememberUploadMode = ISD::CCD::UPLOAD_CLIENT;
     HFRInc =0;
@@ -227,8 +224,6 @@ Focus::~Focus()
 {
     //qDeleteAll(HFRAbsolutePoints);
    // HFRAbsolutePoints.clear();
-
-    delete [] darkBuffer;
 }
 
 void Focus::toggleAutofocus(bool enable)
@@ -287,14 +282,14 @@ void Focus::resetFrame()
             settings["y"] = y;
             settings["w"] = w;
             settings["h"] = h;
+            settings["binx"] = 1;
+            settings["biny"] = 1;
             frameSettings[targetChip] = settings;
             //targetChip->setFocusFrame(0,0,0,0);
 
             //starSelected = false;
             starCoords = QVector3D();
-            subFramed = false;
-
-            haveDarkFrame=false;
+            subFramed = false;            
 
             FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
             if (targetImage)
@@ -387,6 +382,8 @@ void Focus::syncCCDInfo()
         int x,y,w,h;
         if (targetChip->getFrame(&x, &y, &w, &h))
         {
+            int binx=1,biny=1;
+            targetChip->getBinning(&binx, &biny);
             if (w > 0 && h > 0)
             {
                 QVariantMap settings;
@@ -395,6 +392,8 @@ void Focus::syncCCDInfo()
                 settings["y"] = y;
                 settings["w"] = w;
                 settings["h"] = h;
+                settings["binx"] = binx;
+                settings["biny"] = biny;
 
                 frameSettings[targetChip] = settings;
             }
@@ -803,7 +802,6 @@ void Focus::capture()
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
     double seqExpose = exposureIN->value();
-    CCDFrameType ccdFrame = FRAME_LIGHT;
 
     if (currentCCD->isConnected() == false)
     {
@@ -833,49 +831,32 @@ void Focus::capture()
     {
         rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
         currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
-    }
-
-    // On bin change, invalidate the dark frame
-    if (starCoords.isNull() == false && starCoords.z() != activeBin)
-        haveDarkFrame = false;
-
-    // Check if we need to capture a dark frame
-    if (inFocusLoop == false && haveDarkFrame == false && focusDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_NONE)
-    {
-        ccdFrame = FRAME_DARK;
-        calibrationState = CALIBRATE_START;
-
-        if (ISOCombo->isEnabled())
-            KMessageBox::information(NULL, i18n("Cover your telescope in order to take a dark frame..."));
-    }
+    }   
 
     targetChip->setBinning(activeBin, activeBin);
 
-    targetChip->setCaptureMode( (ccdFrame == FRAME_LIGHT) ? FITS_FOCUS : FITS_CALIBRATE);
-    targetChip->setCaptureFilter(defaultScale);
+    targetChip->setCaptureMode(FITS_FOCUS);
+
+    // Always disable filtering if using a dark frame and then re-apply after subtraction. TODO: Implement this in capture and guide and align
+    if (focusDarkFrameCheck->isChecked())
+        targetChip->setCaptureFilter(FITS_NONE);
+    else
+        targetChip->setCaptureFilter(defaultScale);
 
     if (ISOCombo->isEnabled() && ISOCombo->currentIndex() != -1 && targetChip->getISOIndex() != ISOCombo->currentIndex())
         targetChip->setISOIndex(ISOCombo->currentIndex());
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    targetChip->setFrameType(ccdFrame);
-
-    /*if (fw == 0 || fh == 0)
-        targetChip->getFrame(&fx, &fy, &fw, &fh);
-
-     targetChip->setFrame(fx, fy, fw, fh);
-
-     if (orig_x == -1)
-         targetChip->getFrame(&orig_x, &orig_y, &orig_w, &orig_h);
-
-     if (frameModified == false && (fx != orig_x || fy != orig_y || fw != orig_w || fh != orig_h))
-         frameModified = true;*/
+    targetChip->setFrameType(FRAME_LIGHT);
 
     if (frameSettings.contains(targetChip))
     {
         QVariantMap settings = frameSettings[targetChip];
         targetChip->setFrame(settings["x"].toInt(), settings["y"].toInt(), settings["w"].toInt(), settings["h"].toInt());
+        settings["binx"] = activeBin;
+        settings["biny"] = activeBin;
+        frameSettings[targetChip] = settings;
     }
 
     captureInProgress = true;
@@ -884,10 +865,7 @@ void Focus::capture()
 
     if (inFocusLoop == false)
     {
-        if (ccdFrame == FRAME_LIGHT)
-            appendLogText(i18n("Capturing image..."));
-        else
-            appendLogText(i18n("Capturing dark frame..."));
+        appendLogText(i18n("Capturing image..."));
 
         if (inAutoFocus == false)
         {
@@ -979,50 +957,43 @@ void Focus::FocusOut(int ms)
 void Focus::newFITS(IBLOB *bp)
 {
     INDI_UNUSED(bp);
-    QString HFRText;
 
     // Ignore guide head if there is any.
     if (!strcmp(bp->name, "CCD2"))
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    if (inFocusLoop == false)
+    if (focusDarkFrameCheck->isChecked())
     {
-        if (calibrationState == CALIBRATE_START)
-        {
-            calibrationState = CALIBRATE_DONE;
-            capture();
-            return;
-        }
+        FITSView *currentImage   = targetChip->getImage(FITS_FOCUS);
+        FITSData *darkData       = NULL;
+        QVariantMap settings = frameSettings[targetChip];
+        uint16_t offsetX = settings["x"].toInt() / settings["binx"].toInt();
+        uint16_t offsetY = settings["y"].toInt() / settings["biny"].toInt();
 
-        // If we're done capturing dark frame, store it.
-        if (focusDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_DONE)
-        {
-            calibrationState = CALIBRATE_NONE;
+        darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
 
-            delete [] darkBuffer;
+        connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
+        connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
 
-            FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
-            Q_ASSERT(calibrateImage != NULL);
-            FITSData *calibrateData = calibrateImage->getImageData();
+        if (darkData)
+            DarkLibrary::Instance()->subtract(darkData, currentImage, defaultScale, offsetX, offsetY);
+        else
+            DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, exposureIN->value(), offsetX, offsetY);
 
-            haveDarkFrame = true;
-            int totalSize = calibrateData->getSize()*calibrateData->getNumOfChannels();
-            darkBuffer = new float[totalSize];
-            memcpy(darkBuffer, calibrateData->getImageBuffer(), totalSize*sizeof(float));
-        }
-
-        // If we already have a dark frame, subtract it from light frame
-        if (haveDarkFrame)
-        {
-            FITSView *currentImage   = targetChip->getImage(FITS_FOCUS);
-            Q_ASSERT(currentImage != NULL);
-
-            currentImage->getImageData()->subtract(darkBuffer);
-            currentImage->rescale(ZOOM_KEEP_LEVEL);
-        }
+        return;
     }
+
+    setCaptureComplete();
+}
+
+void Focus::setCaptureComplete()
+{
+    DarkLibrary::Instance()->disconnect(this);
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
     // Always reset capture mode to NORMAL
     targetChip->setCaptureMode(FITS_NORMAL);
@@ -1069,7 +1040,7 @@ void Focus::newFITS(IBLOB *bp)
 
     FITSData *image_data = targetChip->getImageData();
 
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+
 
     starPixmap = targetImage->getTrackingBoxPixmap();
     emit newStarPixmap(starPixmap);
@@ -1112,7 +1083,7 @@ void Focus::newFITS(IBLOB *bp)
             return;
         }
 
-        HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
+        QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
         if (focusType == FOCUS_MANUAL && lastHFR == -1)
                 appendLogText(i18n("FITS received. No stars detected."));
@@ -1236,14 +1207,15 @@ void Focus::newFITS(IBLOB *bp)
                 settings["y"] = subY;
                 settings["w"] = subW;
                 settings["h"] = subH;
+                settings["binx"] = subBinX;
+                settings["biny"] = subBinY;
+
                 frameSettings[targetChip] = settings;
 
                 starCoords.setX(subW/(2*subBinX));
                 starCoords.setY(subH/(2*subBinY));
 
-                subFramed = true;
-                haveDarkFrame=false;
-                calibrationState = CALIBRATE_NONE;
+                subFramed = true;                
             }
             else
             {
@@ -2117,7 +2089,6 @@ void Focus::focusStarSelected(int x, int y)
     // If binning was changed outside of the focus module, recapture
     if (subBinX != activeBin)
     {
-        haveDarkFrame=false;
         capture();
         return;
     }
@@ -2166,12 +2137,12 @@ void Focus::focusStarSelected(int x, int y)
         settings["y"] = y;
         settings["w"] = w;
         settings["h"] = h;
+        settings["binx"] = subBinX;
+        settings["biny"] = subBinY;
+
         frameSettings[targetChip] = settings;
 
-
-        subFramed = true;
-        haveDarkFrame=false;
-        calibrationState = CALIBRATE_NONE;
+        subFramed = true;        
 
         capture();
 

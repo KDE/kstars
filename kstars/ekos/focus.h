@@ -46,7 +46,6 @@ public:
     Focus();
     ~Focus();
 
-    enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
     typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
 
@@ -165,8 +164,7 @@ public:
      */
     void addFilter(ISD::GDInterface *newFilter);
 
-    // Log
-    void appendLogText(const QString &);
+
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
 
@@ -290,6 +288,9 @@ public slots:
      */
     void filterChangeWarning(int index);
 
+    // Log
+    void appendLogText(const QString &);
+
 private slots:
     /**
      * @brief filterLockToggled Process filter locking/unlocking. Filter lock causes the autofocus process to use the selected filter whenever it runs.
@@ -327,6 +328,8 @@ private slots:
     void setThreshold(double value);
 
     void setFrames(int value);
+
+    void setCaptureComplete();
 
 signals:
         void newLog();
@@ -460,12 +463,7 @@ private:
     QVector<double> firstGausFrequencies, lastGausFrequencies;
     QCPGraph *currentGaus, *firstGaus, *lastGaus;
 
-    QVector<double> hfr_position, hfr_value;
-
-    // Calibration
-    int calibrationState;
-    bool haveDarkFrame;
-    float *darkBuffer;
+    QVector<double> hfr_position, hfr_value;    
 
     // Pixmaps
     QPixmap starPixmap;

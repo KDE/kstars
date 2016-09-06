@@ -851,16 +851,18 @@ void Capture::newFITS(IBLOB *bp)
         {
             FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
             FITSData *darkData       = NULL;
+            uint16_t offsetX = activeJob->getSubX() / activeJob->getXBin();
+            uint16_t offsetY = activeJob->getSubY() / activeJob->getYBin();
 
             darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, activeJob->getExposure());
 
-            connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setDarkCaptureComplete(bool)));
+            connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
             connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
 
             if (darkData)
-                DarkLibrary::Instance()->subtract(darkData, currentImage, activeJob->getSubX(), activeJob->getSubY());
+                DarkLibrary::Instance()->subtract(darkData, currentImage, activeJob->getCaptureFilter(), offsetX, offsetY);
             else
-                DarkLibrary::Instance()->captureAndSubtract(targetChip, activeJob->getExposure(), activeJob->getSubX(), activeJob->getSubY(), currentImage);
+                DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, activeJob->getExposure(), offsetX, offsetY);
 
             return;
         }
@@ -868,14 +870,6 @@ void Capture::newFITS(IBLOB *bp)
 
     setCaptureComplete();
 
-}
-
-void Capture::setDarkCaptureComplete(bool result)
-{
-    if (result == false)
-        appendLogText(i18n("Dark frame processing failed."));
-
-    setCaptureComplete();
 }
 
 void Capture::setCaptureComplete()

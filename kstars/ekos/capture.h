@@ -425,8 +425,7 @@ private slots:
     // Send image info
     void sendNewImage(QImage *image, ISD::CCDChip *myChip);
 
-    // Capture
-    void setDarkCaptureComplete(bool result);
+    // Capture    
     void setCaptureComplete();
 
     // Temporary for post capture script

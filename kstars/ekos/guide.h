@@ -264,6 +264,9 @@ public slots:
 
      void setStatus(Ekos::GuideState newState);
 
+     // Capture
+     void setCaptureComplete();
+
 protected slots:
         void updateCCDBin(int index);
 
@@ -296,11 +299,6 @@ signals:
 private:
     void updateGuideParams();
 
-    // Dark Library
-    bool loadDarkFrame(double exposure);
-    void saveDarkFrame();
-    void clearDarkLibrary();
-
     ISD::CCD *currentCCD;
     ISD::Telescope *currentTelescope;
     ISD::ST4* ST4Driver;
@@ -322,8 +320,6 @@ private:
     bool phd2Connected;
 
     bool useDarkFrame;
-    double darkExposure;
-    FITSData *darkImage;
 
     QStringList logText;
 

@@ -159,7 +159,7 @@ bool DarkLibrary::saveDarkFile(FITSData *darkData)
     return true;
 }
 
-bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, uint16_t offsetX, uint16_t offsetY)
+bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY)
 {
    Q_ASSERT(darkData);
    Q_ASSERT(lightImage);
@@ -189,6 +189,7 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, uint16_t of
        darkoffset  += darkW;
    }
 
+   lightData->applyFilter(filter);
    lightImage->rescale(ZOOM_KEEP_LEVEL);
    lightImage->updateFrame();
 
@@ -197,17 +198,17 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, uint16_t of
    return true;
 }
 
-void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, double duration, uint16_t offsetX, uint16_t offsetY, FITSView*targetImage)
+void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetImage, double duration, uint16_t offsetX, uint16_t offsetY)
 {
     targetChip->resetFrame();
     targetChip->setCaptureMode(FITS_CALIBRATE);
     targetChip->setFrameType(FRAME_DARK);
 
     subtractParams.targetChip = targetChip;
+    subtractParams.targetImage= targetImage;
     subtractParams.duration   = duration;
     subtractParams.offsetX    = offsetX;
     subtractParams.offsetY    = offsetY;
-    subtractParams.targetImage= targetImage;
 
     connect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
@@ -234,7 +235,7 @@ void DarkLibrary::newFITS(IBLOB *bp)
     if (calibrationData->loadFITS(calibrationView->getImageData()->getFilename()))
     {
         saveDarkFile(calibrationData);
-        subtract(calibrationData, subtractParams.targetImage, subtractParams.offsetX, subtractParams.offsetY);
+        subtract(calibrationData, subtractParams.targetImage, subtractParams.targetChip->getCaptureFilter(), subtractParams.offsetX, subtractParams.offsetY);
     }
     else
     {

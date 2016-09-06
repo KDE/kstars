@@ -23,6 +23,7 @@
 #include "guide/guider.h"
 #include "phd2.h"
 
+#include "darklibrary.h"
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"
 
@@ -49,9 +50,7 @@ Guide::Guide() : QWidget()
     useGuideHead = false;
     useDarkFrame = false;
     rapidGuideReticleSet = false;
-    isSuspended = false;
-    darkExposure = 0;
-    darkImage = NULL;
+    isSuspended = false;    
     AODriver= NULL;
     GuideDriver=NULL;
     calibration=NULL;
@@ -426,8 +425,6 @@ bool Guide::capture()
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-    CCDFrameType ccdFrame = FRAME_LIGHT;
-
     if (currentCCD->isConnected() == false)
     {
         appendLogText(i18n("Error: Lost connection to CCD."));
@@ -439,34 +436,11 @@ bool Guide::capture()
     {
         targetChip->resetFrame();
         guider->setSubFramed(false);
-    }
-
-    // Exposure changed, take a new dark
-    if (useDarkFrame && darkExposure != seqExpose)
-    {
-        darkExposure = seqExpose;
-
-        // Load an image from the dark library. If not found, then capture a dark frame
-        if (loadDarkFrame(seqExpose) == false)
-        {
-            targetChip->setFrameType(FRAME_DARK);
-
-            if (calibration->useAutoStar() == false)
-                KMessageBox::information(NULL, i18n("If the guider camera if not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
-
-            connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-            targetChip->capture(seqExpose);
-
-            appendLogText(i18n("Taking a dark frame. "));
-
-            return true;
-        }
-    }
+    }    
 
     targetChip->setCaptureMode(FITS_GUIDE);
-    targetChip->setFrameType(ccdFrame);
-    if (darkImage == NULL || calibration->useDarkFrame() == false)
-        targetChip->setCaptureFilter((FITSScale) filterCombo->currentIndex());
+    targetChip->setFrameType(FRAME_LIGHT);
+    targetChip->setCaptureFilter((FITSScale) filterCombo->currentIndex());
 
     if (guider->isGuiding())
     {
@@ -483,6 +457,7 @@ bool Guide::capture()
     return true;
 
 }
+
 void Guide::newFITS(IBLOB *bp)
 {
     INDI_UNUSED(bp);
@@ -493,25 +468,45 @@ void Guide::newFITS(IBLOB *bp)
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-    // Received a dark calibration frame
-    if (targetChip->getFrameType() == FRAME_DARK)
+    // Do we need to take a dark frame?
+    if (useDarkFrame)
     {
-        FITSView *targetImage = targetChip->getImage(FITS_CALIBRATE);
-        if (targetImage)
-        {
-            delete (darkImage);
-            darkImage = targetImage->getImageData();
+        if (calibration->useAutoStar() == false)
+            KMessageBox::information(NULL, i18n("If the guide camera is not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
 
-            // Save dark frame in the library
-            saveDarkFrame();
+        int x,y,w,h;
+        int binx,biny;
 
-            capture();
-        }
+        targetChip->getFrame(&x,&y,&w,&h);
+        targetChip->getBinning(&binx,&biny);
+
+        FITSView *currentImage   = targetChip->getImage(FITS_GUIDE);
+        FITSData *darkData       = NULL;
+        uint16_t offsetX = x / binx;
+        uint16_t offsetY = y / biny;
+
+        darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
+
+        connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
+        connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+
+        if (darkData)
+            DarkLibrary::Instance()->subtract(darkData, currentImage, targetChip->getCaptureFilter(), offsetX, offsetY);
         else
-            appendLogText(i18n("Dark frame processing failed."));
+            DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, exposureIN->value(), offsetX, offsetY);
 
         return;
     }
+
+    setCaptureComplete();
+}
+
+void Guide::setCaptureComplete()
+{
+
+    DarkLibrary::Instance()->disconnect(this);
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     FITSView *targetImage = targetChip->getImage(FITS_GUIDE);
 
@@ -524,28 +519,11 @@ void Guide::newFITS(IBLOB *bp)
         return;
     }
 
-    /*if (targetImage == NULL)
-    {
-        pmath->set_image(NULL);
-        guider->setImage(NULL);
-        calibration->setImage(NULL);
-        return;
-    }*/
-
     if (Options::guideLogging())
         qDebug() << "Guide: recieved guide frame.";
 
     FITSData *image_data = targetImage->getImageData();
-
     Q_ASSERT(image_data);
-
-    if (darkImage && darkImage->getImageBuffer() != image_data->getDarkFrame())
-    {
-        image_data->setDarkFrame(darkImage->getImageBuffer());
-        image_data->applyFilter((FITSScale) filterCombo->currentIndex());
-        targetImage->rescale(ZOOM_KEEP_LEVEL);
-        targetImage->updateFrame();
-    }
 
     pmath->set_image(targetImage);
     guider->setImage(targetImage);    
@@ -1105,27 +1083,6 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
         appendLogText(i18n("Exposure failed. Restarting exposure..."));
         targetChip->capture(exposureIN->value());
     }
-}
-
-bool Guide::loadDarkFrame(double exposure)
-{
-    QString filename = QString("dark-%1-%2.fits").arg(QString(currentCCD->getDeviceName()).replace(" ", "_")).arg(QString::number(exposure, 'f', 2));
-    QString path     = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename;
-    if (darkImage == NULL)
-        darkImage = new FITSData();
-
-    return darkImage->loadFITS(path);
-}
-
-void Guide::saveDarkFrame()
-{
-    QString filename = QString("dark-%1-%2.fits").arg(QString(currentCCD->getDeviceName()).replace(" ", "_")).arg(QString::number(darkExposure, 'f', 2));
-    QString path     = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename;
-
-    if (darkImage->saveFITS(path) == 0)
-        appendLogText(i18n("Saved new dark frame %1 to library.", path));
-    else
-        appendLogText(i18n("Failed to save dark frame to library!"));
 }
 
 void Guide::setUseDarkFrame(bool enable)

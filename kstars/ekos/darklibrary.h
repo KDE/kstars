@@ -33,8 +33,8 @@ public:
     static DarkLibrary *Instance();
 
     FITSData * getDarkFrame(ISD::CCDChip *targetChip, double duration);
-    bool subtract(FITSData *darkData, FITSView *lightImage, uint16_t offsetX, uint16_t offsetY);
-    void captureAndSubtract(ISD::CCDChip *targetChip, double duration, uint16_t offsetX, uint16_t offsetY, FITSView*targetImage);
+    bool subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY);
+    void captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetImage, double duration, uint16_t offsetX, uint16_t offsetY);
 
 signals:
     void darkFrameCompleted(bool);
@@ -65,6 +65,7 @@ private:
       uint16_t offsetX;
       uint16_t offsetY;
       FITSView *targetImage;
+      FITSScale filter;
   } subtractParams;
 
 
