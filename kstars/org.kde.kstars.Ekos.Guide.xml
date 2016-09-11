@@ -67,13 +67,12 @@
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setCalibrationParams">
-      <arg name="boxSize" type="i" direction="in"/>
+    <method name="setCalibrationPulseDuration">
       <arg name="pulseDuration" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setGuideBoxSize">
-      <arg name="boxSize" type="i" direction="in"/>
+    <method name="setGuideBoxSizeIndex">
+      <arg name="boxSizeIndex" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setGuideAlgorithm">

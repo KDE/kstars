@@ -22,21 +22,21 @@
 
 typedef struct
 {
-	bool two_axis;
-	bool auto_mode;
-	int  dift_time;
-	int  frame_count;
+    bool two_axis;
+    bool auto_mode;
+    int  dift_time;
+    int  frame_count;
 }calibrationparams_t;
 
 
 
-class rcalibration: public QWidget
+class internalCalibration: public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit rcalibration(cgmath *mathObject, Ekos::Guide *parent = 0);
-    ~rcalibration();
+    explicit internalCalibration(cgmath *mathObject, Ekos::Guide *parent = 0);
+    ~internalCalibration();
 
     enum CalibrationStage { CAL_CAPTURE_IMAGE, CAL_SELECT_STAR, CAL_FINISH, CAL_ERROR, CAL_START, CAL_RA_INC, CAL_RA_DEC, CAL_DEC_INC, CAL_DEC_DEC };
     enum CalibrationType { CAL_NONE, CAL_MANUAL, CAL_RA_AUTO, CAL_RA_DEC_AUTO };
@@ -50,21 +50,20 @@ public:
     void setCalibrationAutoStar(bool enable);
     void setCalibrationAutoSquareSize(bool enable);
     void setCalibrationDarkFrame(bool enable);
-
-    void setCalibrationParams(int boxSize, int pulseDuration);
+    void setCalibrationPulseDuration(int pulseDuration);
 
     // 2015-09-05 return false in case of auto star selection because we don't want the guide module to do any processing
     // otherwise return true
-    bool setImage(FITSView *image);
+    bool setImageView(FITSView *image);
 
     double getReticleAngle() { return ui.spinBox_ReticleAngle->value();}
 
-    bool isCalibrating();    
+    bool isCalibrating();
     bool isCalibrationComplete() { return (calibrationStage == CAL_FINISH || calibrationStage == CAL_ERROR); }
     bool isCalibrationSuccessful() { return (calibrationStage == CAL_FINISH); }
 
     bool useAutoStar() { return ui.autoStarCheck->isChecked(); }
-    bool useAutoSquareSize() { return ui.autoSquareSizeCheck->isChecked(); }    
+    bool useAutoSquareSize() { return ui.autoSquareSizeCheck->isChecked(); }
     bool useTwoAxis() { return ui.twoAxisCheck->isChecked(); }
 
     void processCalibration();
@@ -75,13 +74,12 @@ public:
     bool stopCalibration();
 
 protected slots:
-	void onSquareSizeChanged( int index );
-	void onEnableAutoMode( int state );
-	void onReticleXChanged( double val );
-	void onReticleYChanged( double val );
-	void onReticleAngChanged( double val );
-	void onStartReticleCalibrationButtonClick();
-    void toggleAutoSquareSize(bool enable);    
+    void onEnableAutoMode( int state );
+    void onReticleXChanged( double val );
+    void onReticleYChanged( double val );
+    void onReticleAngChanged( double val );
+    void onStartReticleCalibrationButtonClick();
+    void toggleAutoSquareSize(bool enable);
 
 public slots:
     void capture();
@@ -98,22 +96,22 @@ private:
     void calibrateManualReticle( void );
     void calibrateRADECRecticle( bool ra_only ); // 1 or 2-axis calibration
 
-	bool is_started;
-	
-	calibrationparams_t calibration_params;
-	int  axis;
-	int  auto_drift_time;
+    bool is_started;
+
+    calibrationparams_t calibration_params;
+    int  axis;
+    int  auto_drift_time;
     int turn_back_time;
-	double start_x1, start_y1;
-	double end_x1, end_y1;
-	double start_x2, start_y2;
-	double end_x2, end_y2;
+    double start_x1, start_y1;
+    double end_x1, end_y1;
+    double start_x2, start_y2;
+    double end_x2, end_y2;
     int iterations, dec_iterations;
     double phi;
     Matrix ROT_Z;
 
-	cgmath *pmath;
-    Ekos::Guide *pmain_wnd;
+    cgmath *pmath;
+    Ekos::Guide *guideModule;
 
     QColor idleColor, okColor, busyColor, alertColor;
 

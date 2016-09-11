@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>616</width>
-    <height>317</height>
+    <width>669</width>
+    <height>55</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -24,19 +24,6 @@
       <widget class="QComboBox" name="guiderCombo"/>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
       <widget class="Line" name="line">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -45,6 +32,9 @@
      </item>
      <item>
       <widget class="QLabel" name="label_2">
+       <property name="toolTip">
+        <string>Select which device receives the guiding correction commands.</string>
+       </property>
        <property name="text">
         <string>Via:</string>
        </property>
@@ -52,19 +42,6 @@
      </item>
      <item>
       <widget class="QComboBox" name="ST4Combo"/>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
      <item>
       <widget class="Line" name="line_2">
@@ -75,8 +52,11 @@
      </item>
      <item>
       <widget class="QLabel" name="label_3">
+       <property name="toolTip">
+        <string>Exposure time in seconds</string>
+       </property>
        <property name="text">
-        <string>Exposure:</string>
+        <string>Exp:</string>
        </property>
       </widget>
      </item>
@@ -91,19 +71,6 @@
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
       <widget class="Line" name="line_3">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -112,8 +79,11 @@
      </item>
      <item>
       <widget class="QLabel" name="label_4">
+       <property name="toolTip">
+        <string>Guide camera binning. It is recommended to set binning to 2x2 or higher.</string>
+       </property>
        <property name="text">
-        <string>Binning:</string>
+        <string>Bin:</string>
        </property>
       </widget>
      </item>
@@ -121,20 +91,53 @@
       <widget class="QComboBox" name="binningCombo"/>
      </item>
      <item>
-      <spacer name="horizontalSpacer_5">
+      <widget class="Line" name="line_4">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+      </widget>
      </item>
      <item>
-      <widget class="Line" name="line_4">
+      <widget class="QLabel" name="label_5">
+       <property name="toolTip">
+        <string>Guide star tracking box size. Box size must be set in accordance to the selected star size.</string>
+       </property>
+       <property name="text">
+        <string>Box:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="boxSizeCombo">
+       <item>
+        <property name="text">
+         <string>8</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>16</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>32</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>64</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>128</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_6">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -168,23 +171,13 @@
      </item>
      <item>
       <widget class="QCheckBox" name="darkFrameCheck">
+       <property name="toolTip">
+        <string>Subtract dark frame. If no dark frame is available, a new dark frame shall be captured and saved for future use.</string>
+       </property>
        <property name="text">
-        <string>Dark Frame</string>
+        <string>Dark</string>
        </property>
       </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_4">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>

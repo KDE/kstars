@@ -24,8 +24,8 @@
 
 class QTabWidget;
 class cgmath;
-class rcalibration;
-class rguider;
+class internalCalibration;
+class internalGuider;
 class FITSData;
 
 namespace Ekos
@@ -35,9 +35,10 @@ class PHD2;
 
 /**
  *@class Guide
- *@short Performs calibration and autoguiding using an ST4 port or directly via the INDI driver.
+ *@short Performs calibration and autoguiding using an ST4 port or directly via the INDI driver. Can be used with the following external guiding applications:
+ * PHD2
  *@author Jasem Mutlaq
- *@version 1.1
+ *@version 1.2
  */
 class Guide : public QWidget, public Ui::Guide
 {
@@ -50,7 +51,7 @@ public:
     ~Guide();
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
-    enum GuiderProcess { GUIDE_INTERNAL, GUIDE_PHD2 };    
+    enum GuiderProcess { GUIDE_INTERNAL, GUIDE_PHD2 };
 
     /** @defgroup GuideDBusInterface Ekos DBus Interface - Capture Module
      * Ekos::Guide interface provides advanced scripting capabilities to calibrate and guide a mount via a CCD camera.
@@ -140,16 +141,15 @@ public:
 
     /** DBUS interface function.
      * Set calibration parameters.
-     * @param boxSize box size in pixels around the guide star. The box size should be suitable for the size of the guide star selected.
      * @param pulseDuration Pulse duration in milliseconds to use in the calibration steps.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setCalibrationParams(int boxSize, int pulseDuration);
+    Q_SCRIPTABLE Q_NOREPLY void setCalibrationPulseDuration(int pulseDuration);
 
     /** DBUS interface function.
      * Set guiding box size. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
-     * @param boxSize box size in pixels around the guide star. The box size should be suitable for the size of the guide star selected. The boxSize is also used to select the subframe size around the guide star.
+     * @param boxSizeIndex box size index (0 to 4) for box size from 8 to 128 pixels. The box size should be suitable for the size of the guide star selected. The boxSize is also used to select the subframe size around the guide star. Default is 16 pixels
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuideBoxSize(int boxSize);
+    Q_SCRIPTABLE Q_NOREPLY void setGuideBoxSizeIndex(int boxSizeIndex);
 
     /** DBUS interface function.
      * Set guiding algorithm. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
@@ -198,11 +198,17 @@ public:
 
     void clearLog();
 
-    void setDECSwap(bool enable);    
+    void setDECSwap(bool enable);
     bool sendPulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
     bool sendPulse( GuideDirection dir, int msecs );
 
     QString getLogText() { return logText.join("\n"); }
+
+    QVector3D getStarPosition() { return starCenter; }
+
+    // Tracking Box
+    void setTrackingBoxSize(int index) { boxSizeCombo->setCurrentIndex(index); }
+    int getTrackingBoxSize() { return boxSizeCombo->currentText().toInt(); }
 
     double getReticleAngle();
 
@@ -247,14 +253,12 @@ public slots:
      void checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState state);
      void newFITS(IBLOB*);
      void newST4(int index);
-     void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);     
+     void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
      void updateGuideDriver(double delta_ra, double delta_dec);
 
      // Auto Calibration Guiding (Cablirate first then start guiding immediately)
      void startAutoCalibrateGuiding();
      void checkAutoCalibrateGuiding(bool successful);
-
-     //void viewerClosed();
 
      void dither();
      void setSuspended(bool enable);
@@ -262,6 +266,9 @@ public slots:
      void appendLogText(const QString &);
 
      void setStatus(Ekos::GuideState newState);
+
+     // Star Position
+     void setStarPosition(const QVector3D &newCenter, bool updateNow);
 
      // Capture
      void setCaptureComplete();
@@ -280,6 +287,8 @@ protected slots:
         void setDefaultCCD(QString ccd);
         void setDefaultST4(QString st4);
 
+        void updateTrackingBoxSize(int currentIndex);
+
 signals:
         void newLog();
         void newStatus(Ekos::GuideState status);
@@ -297,6 +306,7 @@ signals:
 
 private:
     void updateGuideParams();
+    void syncTrackingBoxPosition();
 
     ISD::CCD *currentCCD;
     ISD::Telescope *currentTelescope;
@@ -310,20 +320,21 @@ private:
     QTabWidget *tabWidget;
 
     cgmath *pmath;
-    rcalibration *calibration;
-    rguider *guider;
+    internalCalibration *calibration;
+    internalGuider *guider;
     PHD2 *phd2;
 
     bool useGuideHead;
     bool isSuspended;
-    bool phd2Connected;    
+
+    QVector3D starCenter;
 
     QStringList logText;
 
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, guideDeviationRA, guideDeviationDEC;
     bool rapidGuideReticleSet;
 
-    GuideState state;    
+    GuideState state;
 };
 
 }

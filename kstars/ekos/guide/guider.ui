@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>821</width>
-    <height>423</height>
+    <width>833</width>
+    <height>415</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -492,26 +492,16 @@
                </widget>
               </item>
               <item row="1" column="0">
-               <widget class="QLabel" name="l_18">
-                <property name="text">
-                 <string>Square size</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QComboBox" name="comboBox_SquareSize"/>
-              </item>
-              <item row="2" column="0">
                <widget class="QLabel" name="l_19">
                 <property name="text">
                  <string>Algorithm</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
+              <item row="1" column="1">
                <widget class="QComboBox" name="comboBox_ThresholdAlg"/>
               </item>
-              <item row="3" column="0">
+              <item row="2" column="0">
                <widget class="QCheckBox" name="subFrameCheck">
                 <property name="toolTip">
                  <string>Subframe the image around the guide star</string>
@@ -521,14 +511,14 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="1">
+              <item row="2" column="1">
                <widget class="QCheckBox" name="rapidGuideCheck">
                 <property name="text">
                  <string>Rapid Guide</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="0">
+              <item row="3" column="0">
                <widget class="QCheckBox" name="ditherCheck">
                 <property name="toolTip">
                  <string>Subframe the image around the guide star</string>
@@ -538,7 +528,7 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="1">
+              <item row="3" column="1">
                <layout class="QHBoxLayout" name="horizontalLayout_8">
                 <item>
                  <widget class="QDoubleSpinBox" name="ditherPixels">
@@ -874,7 +864,6 @@
  <tabstops>
   <tabstop>spinBox_XScale</tabstop>
   <tabstop>spinBox_YScale</tabstop>
-  <tabstop>comboBox_SquareSize</tabstop>
   <tabstop>comboBox_ThresholdAlg</tabstop>
   <tabstop>spinBox_GuideRate</tabstop>
   <tabstop>checkBox_DirRA</tabstop>

@@ -22,31 +22,31 @@
 #include "../guide.h"
 
 
-class rguider : public QWidget
+class internalGuider : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit rguider(cgmath *mathObject, Ekos::Guide *parent = 0);
-    ~rguider();
+    explicit internalGuider(cgmath *mathObject, Ekos::Guide *parent = 0);
+    ~internalGuider();
 
     void guide( void );
     bool start();
     bool stop();
-    bool abort(bool silence=false);    
+    bool abort(bool silence=false);
     void setHalfRefreshRate( bool is_half );
     bool isGuiding( void ) const;
     void setMathObject( cgmath *math );
     void setAO(bool enable);
     void setInterface( void );
-    void setImage(FITSView *image);
+    void setImageView(FITSView *image);
     void setReady(bool enable) { m_isReady = enable;}
     void setTargetChip(ISD::CCDChip *chip);
     bool isRapidGuide() { return m_useRapidGuide;}
 
     double getAOLimit();
     void setSubFramed(bool enable) { m_isSubFramed = enable;}
-    void setGuideOptions(int boxSize, const QString & algorithm, bool useSubFrame, bool useRapidGuide);
+    void setGuideOptions(const QString & algorithm, bool useSubFrame, bool useRapidGuide);
 
     // Dither
     bool isDitherChecked() { return ui.ditherCheck->isChecked(); }
@@ -55,7 +55,6 @@ public:
     void setDither(bool enable, double value);
     double getDitherPixels() { return ui.ditherPixels->value(); }
 
-    int getBoxSize();
     QString getAlgorithm();
     bool useSubFrame();
     bool useRapidGuide();
@@ -71,18 +70,17 @@ public slots:
     void setGuideState(bool guiding);
 
 protected slots:
-	void onXscaleChanged( int i );
-	void onYscaleChanged( int i );
-	void onSquareSizeChanged( int index );
-	void onThresholdChanged( int i );
-	void onInfoRateChanged( double val );
-	void onEnableDirRA( int state );
-	void onEnableDirDEC( int state );
-	void onInputParamChanged();
+    void onXscaleChanged( int i );
+    void onYscaleChanged( int i );
+    void onThresholdChanged( int i );
+    void onInfoRateChanged( double val );
+    void onEnableDirRA( int state );
+    void onEnableDirDEC( int state );
+    void onInputParamChanged();
     void onRapidGuideChanged(bool enable);
     void capture();
     void trackingStarSelected(int x, int y);
-	void onStartStopButtonClick();
+    void onStartStopButtonClick();
     void onSetDECSwap(bool enable);
 
 signals:
@@ -91,10 +89,11 @@ signals:
     void autoGuidingToggled(bool);
     void newStatus(Ekos::GuideState);
     void newProfilePixmap(QPixmap &);
+    void newStarPosition(QVector3D, bool);
 
 private:
-	cgmath *pmath;
-    Ekos::Guide *pmain_wnd;
+    cgmath *pmath;
+    Ekos::Guide *guideModule;
     Ekos::PHD2 *phd2;
 
     custom_drawer *pDriftOut;
@@ -105,7 +104,7 @@ private:
     bool m_isReady;
     bool m_isSubFramed;
     bool first_frame, first_subframe;
-	bool half_refresh_rate;
+    bool half_refresh_rate;
     int m_lostStarTries;
     bool m_useRapidGuide;
     ISD::CCDChip *targetChip;
