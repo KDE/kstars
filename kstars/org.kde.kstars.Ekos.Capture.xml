@@ -7,6 +7,10 @@
     <method name="abort">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <method name="stop">
+      <arg name="abort" type="b" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
     <method name="setCCD">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
@@ -29,6 +33,10 @@
     </method>
     <method name="getSequenceQueueStatus">
       <arg type="s" direction="out"/>
+    </method>
+    <method name="setTargetName">
+      <arg name="name" type="s" direction="in"/>
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setMaximumGuidingDeviaiton">
       <arg name="enable" type="b" direction="in"/>
