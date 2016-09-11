@@ -133,7 +133,7 @@
     </entry>
   </group>
 
-  <group name="indi">    
+  <group name="indi">
     <entry name="useGeographicUpdate" type="Bool">
       <label>Automatically updates geographic location?</label>
       <default>true</default>
@@ -155,7 +155,7 @@
       <label>Display INDI messages in the statusbar?</label>
       <whatsthis>Toggle display of INDI messages in the KStars statusbar.</whatsthis>
       <default>true</default>
-    </entry>    
+    </entry>
     <entry name="useComputerSource" type="Bool">
       <label>Use computer time and location for synchronization?</label>
       <default>true</default>
@@ -1221,7 +1221,7 @@
       <label>Log debug message to a log file</label>
       <whatsthis>Checking this option causes KStars log debug messages to a log file as specified.</whatsthis>
       <default>false</default>
-    </entry>    
+    </entry>
     <entry name="FITSLogging" type="Bool">
       <whatsthis>Log FITS Data activity.</whatsthis>
       <default>false</default>
@@ -1340,6 +1340,16 @@
     <entry name="astrometryUseJPEG" type="Bool">
       <label>Use JPEG format, instead of FITS, to upload images to the astrometry.net online service.</label>
       <default>true</default>
+    </entry>
+    <entry name="MaxDarkTemperatureDiff" type="Double">
+      <label>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</label>
+      <default>1</default>
+    </entry>
+    <entry name="shutterfulCCDs" type="StringList">
+      <label>List of CCDs with mechanical or electronic shutters.</label>
+    </entry>
+    <entry name="shutterlessCCDs" type="StringList">
+      <label>List of CCDs without mechanical or electronic shutters.</label>
     </entry>
    </group>
    <group name="Mount">
@@ -1506,16 +1516,11 @@
              <whatsthis>Specifies exposure value of CCD in seconds when performing plate solving.</whatsthis>
              <default>1</default>
         </entry>
-        <entry name="SolverXBin" type="UInt">
-           <label>Default CCD X binning while in alignment mode</label>
-              <whatsthis>Set horizontal binning of CCD camera while in alignment mode.</whatsthis>
+        <entry name="SolverBinningIndex" type="UInt">
+              <label>Default CCD binning index while in alignment mode</label>
+              <whatsthis>Set binning index of CCD camera while in alignment mode. Default values 0-3 corresponding to 1x1 to 4x4 binning</whatsthis>
               <default>1</default>
          </entry>
-         <entry name="SolverYBin" type="UInt">
-         <label>Default CCD Y binning while in alignment mode</label>
-            <whatsthis>Set vertical binning of CCD camera while in alignment mode.</whatsthis>
-               <default>1</default>
-          </entry>
           <entry name="SolverUpdateCoords" type="Bool">
               <label>Update Solver RA and DEC search coordinates.</label>
               <whatsthis>Automatically update the solver RA and Declination coordinates after telescope slew is completed.</whatsthis>
@@ -1524,6 +1529,10 @@
           <entry name="SolverPreview" type="Bool">
               <label>Display image in FITS Viewer.</label>
               <whatsthis>Display captured image in FITS Viewer before starting the plate solving process.</whatsthis>
+              <default>false</default>
+          </entry>
+          <entry name="SolverVerbose" type="Bool">
+              <whatsthis>Display detailed verbose messages of the astrometry solver process while in progress.</whatsthis>
               <default>false</default>
           </entry>
           <entry name="SolverType" type="UInt">
@@ -1541,7 +1550,7 @@
             <label>Action to take if solver if successful (Sync, Slew to Target, or None)</label>
             <default>0</default>
           </entry>
-          <entry name="WCSAlign" type="Bool">
+          <entry name="SolverWCS" type="Bool">
             <label>World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</label>
             <default>false</default>
           </entry>
@@ -1592,13 +1601,13 @@
     <entry name="PHD2Port" type="UInt">
         <label>PHD2 Event Monitoring Port</label>
         <default>4400</default>
-    </entry>    
+    </entry>
     <entry name="CalibrationPulseDuration" type="UInt">
         <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
         <default>1000</default>
     </entry>
-    <entry name="CalibrationSquareSizeIndex" type="UInt">
-        <label>Calibration square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
+    <entry name="GuideSquareSizeIndex" type="UInt">
+        <label>Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
         <default>1</default>
     </entry>
     <entry name="UseAutoMode" type="Bool">
