@@ -14,6 +14,8 @@
 #include "align.h"
 #include "dms.h"
 #include "fov.h"
+#include "darklibrary.h"
+
 #include "Options.h"
 
 #include <QFileDialog>
@@ -59,21 +61,18 @@ Align::Align()
     currentCCD     = NULL;
     currentTelescope = NULL;
     currentFilter = NULL;
-    darkBuffer=NULL;
     useGuideHead = false;
     canSync = false;
     loadSlewMode = false;
     loadSlewState=IPS_IDLE;
     m_isSolverComplete = false;
     m_isSolverSuccessful = false;
-    m_slewToTargetSelected=false;    
+    m_slewToTargetSelected=false;
     m_wcsSynced=false;
     isFocusBusy=false;
-    haveDarkFrame=false;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = sOrientation = sRA = sDEC = -1;
     decDeviation = azDeviation = altDeviation = 0;
 
-    calibrationState = CALIBRATE_NONE;
     rememberUploadMode = ISD::CCD::UPLOAD_CLIENT;
     currentFilter = NULL;
     filterPositionPending = false;
@@ -105,15 +104,7 @@ Align::Align()
 
     connect(correctAltB, SIGNAL(clicked()), this, SLOT(correctAltError()));
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
-    connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));    
-    connect(wcsCheck, SIGNAL(toggled(bool)), this, SLOT(setWCS(bool)));    
-
-    binXIN->setValue(Options::solverXBin());
-    binYIN->setValue(Options::solverYBin());
-    connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));    
-
-    kcfg_solverUpdateCoords->setChecked(Options::solverUpdateCoords());
-    kcfg_solverPreview->setChecked(Options::solverPreview());    
+    connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));
 
     unsigned int solverGotoOption = Options::solverGotoOption();
     if (solverGotoOption == 0)
@@ -132,7 +123,7 @@ Align::Align()
 
     pi = new QProgressIndicator(this);
 
-    controlLayout->addWidget(pi, 0, 3, 1, 1);
+    controlLayout->addWidget(pi, 0, 4, 1, 1);
 
     exposureIN->setValue(Options::alignExposure());
 
@@ -176,23 +167,16 @@ Align::Align()
     solverOptions->setText(Options::solverOptions());
 
     // Which telescope info to use for FOV calculations
-    kcfg_solverOTA->setChecked(Options::solverOTA());    
+    kcfg_solverOTA->setChecked(Options::solverOTA());
     connect(kcfg_solverOTA, SIGNAL(toggled(bool)), this, SLOT(syncTelescopeInfo()));
 
-    kcfg_solverOverlay->setChecked(Options::solverOverlay());
-    connect(kcfg_solverOverlay, SIGNAL(toggled(bool)), this, SLOT(setSolverOverlay(bool)));
-
     accuracySpin->setValue(Options::solverAccuracyThreshold());
-
     alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
-
-    connect(binXIN, SIGNAL(valueChanged(int)), this, SLOT(invalidateDarkFrame()));
-    connect(exposureIN, SIGNAL(valueChanged(double)), this, SLOT(invalidateDarkFrame()));
-    connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(invalidateDarkFrame()));
-    connect(alignDarkFrameCheck, SIGNAL(toggled(bool)), this, SLOT(invalidateDarkFrame()));
 
     delaySpin->setValue(Options::settlingTime());
     connect(delaySpin, SIGNAL(editingFinished()), this, SLOT(saveSettleTime()));
+
+    connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setBinningIndex(int)));
 }
 
 Align::~Align()
@@ -200,7 +184,6 @@ Align::~Align()
     delete(pi);
     delete(solverFOV);
     delete(parser);
-    delete (darkBuffer);
 }
 
 bool Align::isParserOK()
@@ -214,11 +197,6 @@ bool Align::isParserOK()
     }
 
     return rc;
-}
-
-bool Align::isVerbose()
-{
-    return kcfg_solverVerbose->isChecked();
 }
 
 void Align::setSolverType(int type)
@@ -322,10 +300,7 @@ void Align::addCCD(ISD::GDInterface *newCCD)
 
     CCDs.append(static_cast<ISD::CCD *>(newCCD));
 
-    CCDCaptureCombo->addItem(newCCD->getDeviceName());   
-    //checkCCD(CCDs.count()-1);
-    //CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
-    wcsCheck->setChecked(Options::wCSAlign());
+    CCDCaptureCombo->addItem(newCCD->getDeviceName());
 }
 
 void Align::setTelescope(ISD::GDInterface *newTelescope)
@@ -386,7 +361,7 @@ void Align::syncCCDInfo()
     int x,y;
 
     if (currentCCD == NULL)
-        return;    
+        return;
 
     if (useGuideHead)
         nvp = currentCCD->getBaseDevice()->getNumber("GUIDER_INFO");
@@ -406,39 +381,38 @@ void Align::syncCCDInfo()
         np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_Y");
         if (np && np->value >0)
             ccd_ver_pixel = np->value;
-    }    
+    }
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     ISwitchVectorProperty *svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
-    if (svp && wcsCheck->isEnabled() == false && wcsCheck->isChecked())
+    if (svp && Options::solverWCS())
     {
-        wcsCheck->setEnabled(true);
         setWCS(true);
     }
 
     targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
-    binXIN->setEnabled(targetChip->canBin());
-    binYIN->setEnabled(targetChip->canBin());
+    binningCombo->setEnabled(targetChip->canBin());
     if (targetChip->canBin())
     {
+        binningCombo->blockSignals(true);
+
         int binx=1,biny=1;
         targetChip->getMaxBin(&binx, &biny);
-        binXIN->setMaximum(binx);
-        binYIN->setMaximum(biny);
-        binXIN->setValue(Options::solverXBin());
-        binYIN->setValue(Options::solverYBin());
-    }
-    else
-    {
-        binXIN->setValue(1);
-        binYIN->setValue(1);
+        binningCombo->clear();
+
+        for (int i=0; i < binx; i++)
+            binningCombo->addItem(QString("%1x%2").arg(i+1).arg(i+1));
+
+        binningCombo->setCurrentIndex(Options::solverBinningIndex());
+
+        binningCombo->blockSignals(false);
     }
 
     if (ccd_hor_pixel == -1 || ccd_ver_pixel == -1)
         return;
 
-    if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)    
+    if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
         calculateFOV();
 
     if (currentCCD && currentTelescope)
@@ -458,7 +432,7 @@ void Align::calculateFOV()
 
     solverFOV->setSize(fov_x, fov_y);
 
-    FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));    
+    FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));
 
 }
 
@@ -625,17 +599,17 @@ bool Align::captureAndSolve()
 
     if (isFocusBusy)
     {
-        appendLogText(i18n("Cannot capture while focus module is busy."));
+        appendLogText(i18n("Cannot capture while focus module is busy! Retrying..."));
+        QTimer::singleShot(1000, this, SLOT(captureAndSolve()));
         return false;
     }
 
     if (targetChip->isCapturing())
     {
-        appendLogText(i18n("Cannot capture while CCD exposure is in progress."));
+        appendLogText(i18n("Cannot capture while CCD exposure is in progress! Retrying..."));
+        QTimer::singleShot(1000, this, SLOT(captureAndSolve()));
         return false;
     }
-
-    CCDFrameType ccdFrame = FRAME_LIGHT;
 
     if (currentCCD->isConnected() == false)
     {
@@ -647,15 +621,11 @@ bool Align::captureAndSolve()
    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
 
-   // In case of remote solver, we set mode to either UPLOAD_LOCAL (when preview is OFF) or UPLOAD_BOTH (when preview is on)
+   // In case of remote solver, we set mode to UPLOAD_BOTH
    if (solverTypeGroup->checkedId() == SOLVER_REMOTE)
    {
        rememberUploadMode = currentCCD->getUploadMode();
-
-       if (kcfg_solverPreview->isChecked())
-           currentCCD->setUploadMode(ISD::CCD::UPLOAD_BOTH);
-       else
-           currentCCD->setUploadMode(ISD::CCD::UPLOAD_LOCAL);
+       currentCCD->setUploadMode(ISD::CCD::UPLOAD_BOTH);
 
        // For solver remote we need to start solver BEFORE capture
        startSolving(QString());
@@ -667,23 +637,15 @@ bool Align::captureAndSolve()
            rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
            currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
        }
-
-       // Check if we need to capture a dark frame
-       if (haveDarkFrame == false && alignDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_NONE)
-       {
-           ccdFrame = FRAME_DARK;
-           calibrationState = CALIBRATE_START;
-       }
    }
 
    targetChip->resetFrame();
-   targetChip->setBatchMode(false);   
-   if (ccdFrame == FRAME_DARK)
-       targetChip->setCaptureMode(FITS_CALIBRATE);
-   else
-       targetChip->setCaptureMode( kcfg_solverPreview->isChecked() ? FITS_NORMAL : FITS_WCSM);
-   targetChip->setBinning(binXIN->value(), binYIN->value());
-   targetChip->setFrameType(ccdFrame);
+   targetChip->setBatchMode(false);
+   targetChip->setCaptureMode(FITS_ALIGN);
+   targetChip->setFrameType(FRAME_LIGHT);
+
+   int bin = Options::solverBinningIndex()+1;
+   targetChip->setBinning(bin, bin);
 
    targetChip->capture(seqExpose);
 
@@ -693,10 +655,7 @@ bool Align::captureAndSolve()
    stopB->setEnabled(true);
    pi->startAnimation();
 
-   if (ccdFrame == FRAME_LIGHT)
-       appendLogText(i18n("Capturing image..."));
-   else
-       appendLogText(i18n("Capturing dark frame..."));
+   appendLogText(i18n("Capturing image..."));
 
    return true;
 }
@@ -708,73 +667,58 @@ void Align::newFITS(IBLOB *bp)
         return;
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));    
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
 
     appendLogText(i18n("Image received."));
 
     if (solverTypeGroup->checkedId() != SOLVER_REMOTE)
     {
-        if (calibrationState == CALIBRATE_START)
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+        if (alignDarkFrameCheck->isChecked())
         {
-            calibrationState = CALIBRATE_DONE;
-            // Start capture again in 0.5 seconds
-            QTimer::singleShot(500, this, SLOT(captureAndSolve()));
+            int x,y,w,h,binx=1,biny=1;
+            targetChip->getFrame(&x,&y,&w,&h);
+            targetChip->getBinning(&binx, &biny);
+
+            FITSView *currentImage   = targetChip->getImage(FITS_ALIGN);
+            FITSData *darkData       = NULL;
+
+            uint16_t offsetX = x / binx;
+            uint16_t offsetY = y / biny;
+
+            darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
+
+            connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
+            connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+
+            if (darkData)
+                DarkLibrary::Instance()->subtract(darkData, currentImage, FITS_NONE, offsetX, offsetY);
+            else
+                DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, exposureIN->value(), offsetX, offsetY);
+
             return;
         }
 
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-        // If we're done capturing dark frame, store it.
-        if (alignDarkFrameCheck->isChecked() && calibrationState == CALIBRATE_DONE)
-        {
-            calibrationState = CALIBRATE_NONE;
-            delete (darkBuffer);
-
-            FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
-            if (calibrateImage == NULL)
-            {
-                captureAndSolve();
-                return;
-            }
-
-            FITSData *calibrateData = calibrateImage->getImageData();
-
-            haveDarkFrame = true;
-            int totalSize = calibrateData->getSize()*calibrateData->getNumOfChannels();
-            darkBuffer = new float[totalSize];
-            memcpy(darkBuffer, calibrateData->getImageBuffer(), totalSize*sizeof(float));
-        }
-
-        QString fitsFileName((char *) bp->aux2);
-
-        // If we already have a dark frame, subtract it from light frame
-        if (haveDarkFrame)
-        {
-            FITSData image_data;
-            bool rc = image_data.loadFITS(fitsFileName);
-            if (rc)
-            {
-                fitsFileName += "_dark_subtracted";
-                image_data.subtract(darkBuffer);
-                image_data.saveFITS(fitsFileName);
-            }
-        }
-
-        if (kcfg_solverPreview->isChecked())
-        {
-            FITSView *previewImage = targetChip->getImage(FITS_NORMAL);
-            FITSData *previewData  = previewImage->getImageData();
-
-            if (haveDarkFrame)
-                previewData->subtract(darkBuffer);
-
-            //previewData->applyFilter(FITS_AUTO_STRETCH);
-            previewImage->rescale(ZOOM_KEEP_LEVEL);
-            previewImage->updateFrame();
-        }
-
-        startSolving(fitsFileName);
+        setCaptureComplete();
     }
+}
+
+void Align::setCaptureComplete()
+{
+    DarkLibrary::Instance()->disconnect(this);
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    FITSView *currentImage   = targetChip->getImage(FITS_ALIGN);
+    FITSData *currentData    = currentImage->getImageData();
+
+    QString filename = currentData->getFilename();
+
+    // Save frame after substraction
+    if (alignDarkFrameCheck->isChecked())
+        currentImage->getImageData()->saveFITS(filename);
+
+    startSolving(filename);
 }
 
 void Align::setGOTOMode(int mode)
@@ -808,15 +752,9 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         targetCoord.setDec(dec);
     }
 
-    Options::setSolverXBin(binXIN->value());
-    Options::setSolverYBin(binYIN->value());
-    Options::setSolverUpdateCoords(kcfg_solverUpdateCoords->isChecked());
     Options::setSolverType(solverTypeGroup->checkedId());
-    Options::setSolverPreview(kcfg_solverPreview->isChecked());
     Options::setSolverOptions(solverOptions->text());
     Options::setSolverOTA(kcfg_solverOTA->isChecked());
-    Options::setWCSAlign(wcsCheck->isChecked());
-    Options::setSolverOverlay(kcfg_solverOverlay->isChecked());
     Options::setSolverAccuracyThreshold(accuracySpin->value());
     Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
 
@@ -828,7 +766,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     Options::setSolverGotoOption(solverGotoOption);
 
     m_isSolverComplete = false;
-    m_isSolverSuccessful = false;   
+    m_isSolverSuccessful = false;
 
     parser->verifyIndexFiles(fov_x, fov_y);
 
@@ -842,7 +780,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         appendLogText(i18n("Using solver options: %1", solverArgs.join(" ")));
     }
     else
-        solverArgs << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"  << "--downsample" << "2" << "-O";    
+        solverArgs << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"  << "--downsample" << "2" << "-O";
 
     if (slewR->isChecked())
         appendLogText(i18n("Solver iteration #%1", solverIterations+1));
@@ -855,7 +793,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 {
     pi->stopAnimation();
     stopB->setEnabled(false);
-    solveB->setEnabled(true);    
+    solveB->setEnabled(true);
 
     sOrientation = orientation;
     sRA  = ra;
@@ -865,12 +803,12 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     targetChip->getBinning(&binx, &biny);
 
-    if (isVerbose())
+    if (Options::solverVerbose())
         appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'g' , 5), QString::number(dec, 'g' , 5),
                             QString::number(orientation, 'g' , 5), QString::number(pixscale, 'g' , 5)));
 
     if (pixscale > 0 && loadSlewMode == false)
-    {        
+    {
         double solver_focal_length = (206.264 * ccd_hor_pixel) / pixscale * binx;
         if (fabs(focal_length - solver_focal_length) > 1)
             appendLogText(i18n("Current focal length is %1 mm while computed focal length from the solver is %2 mm. Please update the mount focal length to obtain accurate results.",
@@ -892,7 +830,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
      solverFOV->setCenter(alignCoord);
      solverFOV->setRotation(sOrientation);
-     solverFOV->setImageDisplay(kcfg_solverOverlay->isChecked());
+     solverFOV->setImageDisplay(Options::solverOverlay());
 
      QString ra_dms, dec_dms;
      getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
@@ -900,7 +838,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      SolverRAOut->setText(ra_dms);
      SolverDecOut->setText(dec_dms);
 
-     if (wcsCheck->isChecked())
+     if (Options::solverWCS())
      {
          INumberVectorProperty *ccdRotation = currentCCD->getBaseDevice()->getNumber("CCD_ROTATION");
          if (ccdRotation)
@@ -953,7 +891,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 }
 
 void Align::solverFailed()
-{    
+{
     KNotification::event( QLatin1String( "AlignFailed"), i18n("Astrometry alignment failed with errors") );
 
     pi->stopAnimation();
@@ -1045,7 +983,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
     static bool slew_dirty=false;
 
     if (!strcmp(coord->name, "EQUATORIAL_EOD_COORD"))
-    {        
+    {
         getFormattedCoords(coord->np[0].value, coord->np[1].value, ra_dms, dec_dms);
 
         telescopeCoord.setRA(coord->np[0].value);
@@ -1055,7 +993,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
 
-        if (kcfg_solverUpdateCoords->isChecked())
+        if (Options::solverUpdateCoords())
         {
             if (currentTelescope->isSlewing() && slew_dirty == false)
                 slew_dirty = true;
@@ -1065,13 +1003,13 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 copyCoordsToBoxes();
 
                 if (loadSlewMode)
-                {                    
+                {
                     loadSlewMode = false;
                     QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
                     return;
                 }
                 else if (m_slewToTargetSelected)
-                {                    
+                {
                     if (targetDiff <= accuracySpin->value())
                     {
                         m_slewToTargetSelected=false;
@@ -1141,7 +1079,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
            case ALT_CORRECTING:
             if (currentTelescope->isSlewing() == false)
-            {                
+            {
                 appendLogText(i18n("Slew complete. Please adjust altitude knob until the target is in the center of the view."));
                 altStage = ALT_INIT;
             }
@@ -1168,7 +1106,7 @@ void Align::executeMode()
 
 
 void Align::executeGOTO()
-{        
+{
     if (loadSlewMode)
     {
         //if (loadSlewIterations == loadSlewIterationsSpin->value())
@@ -1299,7 +1237,7 @@ void Align::measureAzError()
         {
             azStage = AZ_SLEWING;
             currentTelescope->Slew(telescopeCoord.ra().Hours() - RAMotion/15.0, telescopeCoord.dec().Degrees());
-        }        
+        }
 
         appendLogText(i18n("Slewing 30 arcminutes in RA..."));
         break;
@@ -1364,7 +1302,7 @@ void Align::measureAltError()
         if (KMessageBox::warningContinueCancel( 0, i18n("Point the telescope to the eastern or western horizon with a minimum altitude of 20 degrees. Press continue when ready.")
                                                 , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
                                                 "ekos_measure_alt_error")!=KMessageBox::Continue)
-            return;        
+            return;
 
         appendLogText(i18n("Solving first frame."));
         altStage = ALT_FIRST_TARGET;
@@ -1465,7 +1403,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     // Equation by Frank Berret (Measuring Polar Axis Alignment Error, page 4)
     // In degrees
     double deviation = (3.81 * (decDeviation * 3600) ) / ( RATime * cos(initDEC * dms::DegToRad)) / 60.0;
-    dms devDMS(fabs(deviation));       
+    dms devDMS(fabs(deviation));
 
     KLocalizedString deviationDirection;
 
@@ -1705,10 +1643,17 @@ void Align::setExposure(double value)
     exposureIN->setValue(value);
 }
 
-void Align::setBinning(int binX, int binY)
+void Align::setBinningIndex(int binIndex)
 {
-   binXIN->setValue(binX);
-   binYIN->setValue(binY);
+   Options::setSolverBinningIndex(binIndex);
+
+   // If sender is not our combo box, then we need to update the combobox itself
+   if ( dynamic_cast<QComboBox*>(sender()) != binningCombo)
+   {
+       binningCombo->blockSignals(true);
+       binningCombo->setCurrentIndex(binIndex);
+       binningCombo->blockSignals(false);
+   }
 }
 
 void Align::setSolverArguments(const QString & value)
@@ -1725,21 +1670,6 @@ void Align::setSolverSearchOptions(double ra, double dec, double radius)
     raBox->setText(RA.toHMSString());
     decBox->setText(DEC.toDMSString());
     radiusBox->setText(QString::number(radius));
-}
-
-void Align::setUpdateCoords(bool enabled)
-{
-    kcfg_solverUpdateCoords->setChecked(enabled);
-}
-
-void Align::setPreviewImage(bool enabled)
-{
-    kcfg_solverPreview->setChecked(enabled);
-}
-
-void Align::setVerbose(bool enabled)
-{
-    kcfg_solverVerbose->setChecked(enabled);
 }
 
 void Align::setUseOAGT(bool enabled)
@@ -1793,17 +1723,9 @@ void Align::setWCS(bool enable)
     if (currentCCD == NULL)
         return;
 
-    Options::setWCSAlign(enable);
+    Options::setSolverWCS(enable);
 
     ISwitchVectorProperty *wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
-
-    if (wcsControl == NULL)
-    {
-        //appendLogText(i18n("CCD driver does not support World System Coordinates."));
-        //wcsCheck->setChecked(false);
-        wcsCheck->setEnabled(false);
-        return;
-    }
 
     ISwitch *wcs_enable  = IUFindSwitch(wcsControl, "WCS_ENABLE");
     ISwitch *wcs_disable = IUFindSwitch(wcsControl, "WCS_DISABLE");
@@ -1820,9 +1742,9 @@ void Align::setWCS(bool enable)
 
         IUResetSwitch(wcsControl);
         if (enable)
-            wcs_enable->s  = ISS_ON;            
+            wcs_enable->s  = ISS_ON;
         else
-        {            
+        {
             wcs_disable->s = ISS_ON;
             m_wcsSynced=false;
         }
@@ -1839,7 +1761,7 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
     INDI_UNUSED(remaining);
 
     if (state == IPS_ALERT)
-    {        
+    {
         if (++retries == 3)
         {
             appendLogText(i18n("Capture error! Aborting..."));
@@ -1856,14 +1778,6 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
 void Align::updateFocusStatus(Ekos::FocusState state)
 {
     isFocusBusy = state >= Ekos::FOCUS_PROGRESS;
-}
-
-void Align::setSolverOverlay(bool enable)
-{
-    if (solverFOV)
-    {
-        solverFOV->setImageDisplay(enable);
-    }
 }
 
 QStringList Align::getSolverOptionsFromFITS(const QString &filename)
@@ -1975,25 +1889,6 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 
 
     return solver_args;
-}
-
-void Align::invalidateDarkFrame()
-{
-    haveDarkFrame = false;
-    calibrationState = CALIBRATE_NONE;
-
-    if (solverTypeGroup->checkedId() != SOLVER_REMOTE)
-    {
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-        // If capture is still in progress, let's stop that.
-        if (targetChip->isCapturing())
-        {
-            targetChip->abortExposure();
-            appendLogText(i18n("Capture restarted with updated parameters."));
-            captureAndSolve();
-        }
-    }
 }
 
 void Align::saveSettleTime()
