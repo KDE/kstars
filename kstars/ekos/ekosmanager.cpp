@@ -1354,7 +1354,7 @@ void EkosManager::initCapture()
         connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(updateFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFocusFrame()), Qt::UniqueConnection);
+        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFrame()), Qt::UniqueConnection);
     }
 
     if (alignProcess)
@@ -1431,7 +1431,7 @@ void EkosManager::initFocus()
         connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(updateFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFocusFrame()), Qt::UniqueConnection);
+        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFrame()), Qt::UniqueConnection);
     }
 
     if (guideProcess)
