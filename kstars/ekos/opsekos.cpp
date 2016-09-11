@@ -5,7 +5,7 @@
     modify it under the terms of the GNU General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-    
+
  */
 
 #include <QPushButton>
@@ -21,12 +21,13 @@
 #include "kstarsdata.h"
 #include "ekosmanager.h"
 #include "guide.h"
+#include "fov.h"
 
 OpsEkos::OpsEkos()
         : QTabWidget( KStars::Instance() )
 {
     setupUi(this);
-    
+
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
@@ -55,6 +56,11 @@ void OpsEkos::slotApply()
 
         if (guideModule)
             guideModule->setGuiderProcess(kcfg_UseEkosGuider->isChecked() ? Ekos::Guide::GUIDE_INTERNAL : Ekos::Guide::GUIDE_PHD2);
+
+        Ekos::Align *alignModule = ekosManager->alignModule();
+
+        if (alignModule && alignModule->fov())
+            alignModule->fov()->setImageDisplay(kcfg_SolverWCS->isChecked());
     }
 }
 
