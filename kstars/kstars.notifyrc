@@ -575,3 +575,7 @@ Comment[tr]=Gözlemevi kapanış sürecinde
 Comment[uk]=Обсерваторія виконує процедуру завершення роботи
 Comment[x-test]=xxObservatory is in the shutdown processxx
 Action=None
+[Event/SchedulerAborted]
+Name=Scheduler Aborted
+Sound=KDE-KStars-Alert.ogg
+Action=Sound
