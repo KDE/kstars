@@ -156,7 +156,7 @@ public:
      * @brief addFocuser Add focuser to the list of available focusers.
      * @param newFocuser pointer to focuser device.
      */
-    void addFocuser(ISD::GDInterface *newFocuser);    
+    void addFocuser(ISD::GDInterface *newFocuser);
 
     /**
      * @brief addFilter Add filter to the list of available filters.
@@ -202,11 +202,6 @@ public slots:
      */
     Q_SCRIPTABLE Q_NOREPLY void FocusOut(int ms=-1);
 
-    /** DBUS interface function.
-     * resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
-     */
-    //Q_SCRIPTABLE Q_NOREPLY void resetFocusFrame();
-
     /** @}*/
 
     /**
@@ -249,7 +244,7 @@ public slots:
     /**
      * @brief clearDataPoints Remove all data points from HFR plots
      */
-    void clearDataPoints();    
+    void clearDataPoints();
 
     /**
      * @brief focusStarSelected The user selected a focus star, save its coordinates and subframe it if subframing is enabled.
@@ -280,7 +275,7 @@ public slots:
      * @brief updateFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
      * @param status If true, the focus process finished successfully. Otherwise, it failed.
      */
-    void setAutoFocusResult(bool status);    
+    void setAutoFocusResult(bool status);
 
     /**
      * @brief filterChangeWarning Warn the user it is not a good idea to apply image filter in the filter process as they can skew the HFR calculations.
@@ -424,7 +419,7 @@ private:
     // Which filter must we use once the autofocus process kicks in?
     int lockedFilterIndex;
     // Keep track of what we're doing right now
-    bool inAutoFocus, inFocusLoop, inSequenceFocus, m_autoFocusSuccesful, resetFocus;   
+    bool inAutoFocus, inFocusLoop, inSequenceFocus, m_autoFocusSuccesful, resetFocus;
     // Did we reverse direction?
     bool reverseDir;
     // Did the user or the auto selection process finish selecting our focus star?
@@ -452,7 +447,7 @@ private:
 
     // Plot minimum and maximum positions
     int minPos, maxPos;
-    // List of V curve plot points    
+    // List of V curve plot points
     // Custom Plot object
     QCustomPlot *customPlot;
     // V-Curve graph
@@ -463,7 +458,7 @@ private:
     QVector<double> firstGausFrequencies, lastGausFrequencies;
     QCPGraph *currentGaus, *firstGaus, *lastGaus;
 
-    QVector<double> hfr_position, hfr_value;    
+    QVector<double> hfr_position, hfr_value;
 
     // Pixmaps
     QPixmap starPixmap;
@@ -479,7 +474,7 @@ private:
     QMap<ISD::CCDChip *, QVariantMap> frameSettings;
 
     // Selected star coordinates
-    QVector3D starCoords;
+    QVector3D starCenter;
 };
 
 }
