@@ -94,7 +94,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     fitsWCS.setVisible(false);
 
     statusBar()->insertPermanentWidget(FITS_WCS, &fitsWCS);
-    statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);    
+    statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);
     statusBar()->insertPermanentWidget(FITS_POSITION, &fitsPosition);
     statusBar()->insertPermanentWidget(FITS_ZOOM, &fitsZoom);
     statusBar()->insertPermanentWidget(FITS_RESOLUTION, &fitsResolution);
@@ -160,7 +160,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     KStandardAction::copy(this,   SLOT(copyFITS()),   actionCollection());
 
     KStandardAction::zoomIn(this,     SLOT(ZoomIn()),      actionCollection());
-    KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());  
+    KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());
     KStandardAction::actualSize(this, SLOT(ZoomDefault()), actionCollection());
 
     QAction *kundo = KStandardAction::undo(undoGroup, SLOT(undo()), actionCollection());
@@ -300,6 +300,10 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
       fitsTab->addTab(tab, i18n("Guide"));
       break;
 
+    case FITS_ALIGN:
+      fitsTab->addTab(tab, i18n("Align"));
+      break;
+
     default:
         break;
 
@@ -313,7 +317,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     saveFileAction->setEnabled(true);
     saveFileAsAction->setEnabled(true);
 
-    undoGroup->addStack(tab->getUndoStack());    
+    undoGroup->addStack(tab->getUndoStack());
 
     fitsTabs.push_back(tab);
 
@@ -440,7 +444,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
 
 // No need to warn users about unsaved changes in a "viewer".
 /*void FITSViewer::slotClose()
-{        
+{
     int rc=0;
     fitsTab->disconnect();
 
@@ -598,7 +602,7 @@ int FITSViewer::saveUnsaved(int index)
 
     if (index < 0 || index >= fitsTabs.size())
         return -1;
-    targetTab = fitsTabs[index];        
+    targetTab = fitsTabs[index];
 
     if (targetTab->getView()->getMode() != FITS_NORMAL)
         targetTab->getUndoStack()->clear();

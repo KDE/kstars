@@ -615,13 +615,13 @@ int FITSData::findOneStar(const QRectF &boundary)
                     pass++;
             }
 
-            qDebug() << "Testing for radius " << r << " passes # " << pass << " @ threshold " << running_threshold;
+            //qDebug() << "Testing for radius " << r << " passes # " << pass << " @ threshold " << running_threshold;
             //if (pass >= 6)
             if (pass >= 5)
             {
                     center->width = r*2;
                     break;
-            }                        
+            }
         }
 
         if (center->width > 0)
@@ -774,7 +774,7 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
                 subX = 0;
                 subY = 0;
                 subW = stats.width;
-                subH = stats.height;                
+                subH = stats.height;
             }
         }
         else
@@ -993,7 +993,7 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
             {
                 FSum += image_buffer[cen_x-k+(cen_y*stats.width)] - min;
                 //qDebug() << image_buffer[cen_x-k+(cen_y*stats.width)] - min;
-            }            
+            }
 
             // Half flux
             HF = FSum / 2.0;
