@@ -74,7 +74,7 @@ FITSData * DarkLibrary::getDarkFrame(ISD::CCDChip *targetChip, double duration)
                         double temperature=0;
                         targetChip->getCCD()->getTemperature(&temperature);
                         // TODO make this configurable value, the threshold
-                        if (fabs(map["temperature"].toDouble()-temperature) > 0.1)
+                        if (fabs(map["temperature"].toDouble()-temperature) > Options::maxDarkTemperatureDiff())
                             continue;
                     }
 
@@ -200,6 +200,37 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
 
 void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetImage, double duration, uint16_t offsetX, uint16_t offsetY)
 {
+    QStringList shutterfulCCDs  = Options::shutterfulCCDs();
+    QStringList shutterlessCCDs = Options::shutterlessCCDs();
+    QString deviceName = targetChip->getCCD()->getDeviceName();
+
+    bool hasShutter   = shutterfulCCDs.contains(deviceName);
+    bool hasNoShutter = shutterlessCCDs.contains(deviceName);
+
+    // If no information is available either way, then ask the user
+    if (hasShutter == false && hasNoShutter == false)
+    {
+        if (KMessageBox::questionYesNo(NULL, i18n("Does %1 have mechanical or electronic shutter?", deviceName), i18n("Dark Exposure")) == KMessageBox::Yes)
+        {
+            hasShutter   = true;
+            hasNoShutter = false;
+            shutterfulCCDs.append(deviceName);
+            Options::setShutterfulCCDs(shutterfulCCDs);
+        }
+        else
+        {
+            hasShutter   = false;
+            hasNoShutter = true;
+            shutterlessCCDs.append(deviceName);
+            Options::setShutterlessCCDs(shutterlessCCDs);
+        }
+    }
+
+    if (hasNoShutter)
+    {
+        KMessageBox::information(NULL, i18n("Cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
+    }
+
     targetChip->resetFrame();
     targetChip->setCaptureMode(FITS_CALIBRATE);
     targetChip->setFrameType(FRAME_DARK);
