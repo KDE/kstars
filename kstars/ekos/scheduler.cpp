@@ -3499,7 +3499,7 @@ void Scheduler::startFocusing()
         return;
     }
 
-    if (currentJob->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE)
+    if (currentJob->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE || currentJob->getStage() == SchedulerJob::STAGE_POSTALIGN_FOCUSING)
     {
         currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING);
         appendLogText(i18n("Post-alignment focusing for %1 ...", currentJob->getName()));
