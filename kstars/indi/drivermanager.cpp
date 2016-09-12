@@ -446,7 +446,7 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
     if (Options::iNDILogging())
         qDebug() << "INDI: Stopping local drivers...";
 
-     // #2 stop server
+     // #1 Disconnect all clients
     foreach(DriverInfo *dv, dList)
     {
         ClientManager *cm = dv->getClientManager();
@@ -467,6 +467,7 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
         }
     }
 
+    // #2 Disconnect all servers
     foreach(DriverInfo *dv, dList)
     {
       ServerManager *sm = dv->getServerManager();
@@ -478,7 +479,7 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
           if (sm->size() == 0)
           {
                 sm->stop();
-                servers.removeOne(sm);                
+                servers.removeOne(sm);
                 delete sm;
                 sm = NULL;
           }
@@ -624,7 +625,7 @@ void DriverManager::processClientTermination(ClientManager *client)
 
     if (manager)
     {
-        servers.removeOne(manager);        
+        servers.removeOne(manager);
         delete manager;
     }
 
