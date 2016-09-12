@@ -138,7 +138,7 @@ SkyMap* SkyMap::Instance( )
     return pinstance;
 }
 
-SkyMap::SkyMap() : 
+SkyMap::SkyMap() :
     QGraphicsView( KStars::Instance() ),
     computeSkymap(true), rulerMode(false),
     data( KStarsData::Instance() ), pmenu(0),
@@ -160,7 +160,7 @@ SkyMap::SkyMap() :
     setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
     setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-    setStyleSheet( "QGraphicsView { border-style: none; }" ); 
+    setStyleSheet( "QGraphicsView { border-style: none; }" );
 
     setMouseTracking (true); //Generate MouseMove events!
     midMouseButtonDown = false;
@@ -217,7 +217,7 @@ SkyMap::SkyMap() :
 
     m_SkyMapDraw = new SkyMapQDraw( this );
     m_SkyMapDraw->setMouseTracking( true );
-    
+
     m_SkyMapDraw->setParent( this->viewport() );
     m_SkyMapDraw->show();
 
@@ -226,7 +226,7 @@ SkyMap::SkyMap() :
     m_iboxes->setVisible( Options::showInfoBoxes() );
     m_iboxes->addInfoBox(m_timeBox);
     m_iboxes->addInfoBox(m_geoBox);
-    m_iboxes->addInfoBox(m_objBox);    
+    m_iboxes->addInfoBox(m_objBox);
 
 }
 
@@ -264,7 +264,7 @@ SkyMap::~SkyMap() {
     Options::setShadeFocusBox(    m_objBox->shaded() );
     Options::setStickyFocusBox(   m_objBox->sticky() );
     Options::setShowFocusBox(     m_objBox->isVisibleTo(m_iboxes) );
-    
+
     //store focus values in Options
     //If not tracking and using Alt/Az coords, stor the Alt/Az coordinates
     if ( Options::useAltAz() && ! Options::isTracking() ) {
@@ -321,7 +321,7 @@ void SkyMap::slotTransientLabel() {
 //Slots
 
 void SkyMap::setClickedObject( SkyObject *o ) {
-	  ClickedObject = o;
+      ClickedObject = o;
 }
 
 void SkyMap::setFocusObject( SkyObject *o ) {
@@ -337,8 +337,12 @@ void SkyMap::slotCenter() {
     TrailObject* trailObj = dynamic_cast<TrailObject*>( focusObject() );
 
     setFocusPoint( clickedPoint() );
-    if ( Options::useAltAz() ) {
-        focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+    if ( Options::useAltAz() )
+    {
+        // JM 2016-09-12: Following call has problems when ra0/dec0 of an object are not valid for example
+        // because they're solar system bodies. So it creates a lot of issues. It is disabled and centering
+        // works correctly for all different body types as I tested.
+        //focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     }
     else
@@ -487,7 +491,7 @@ void SkyMap::beginRulerMode( bool starHopRuler ) {
     starHopDefineMode = starHopRuler;
     AngularRuler.clear();
 
-    //If the cursor is near a SkyObject, reset the AngularRuler's 
+    //If the cursor is near a SkyObject, reset the AngularRuler's
     //start point to the position of the SkyObject
     double maxrad = 1000.0/Options::zoomFactor();
     SkyObject *so = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
@@ -814,7 +818,7 @@ void SkyMap::setDestinationAltAz( const dms &alt, const dms &az) {
     emit destinationChanged();
 }
 
-void SkyMap::setClickedPoint( SkyPoint *f ) { 
+void SkyMap::setClickedPoint( SkyPoint *f ) {
     ClickedPoint = *f;
 }
 
@@ -913,11 +917,11 @@ void SkyMap::slewFocus() {
                 //switch directions to go the short way around the celestial sphere, if necessary.
                 dX = KSUtils::reduceAngle(dX, -180.0, 180.0);
                 r = sqrt( dX*dX + dY*dY );
-                
+
                 //Modify step according to a cosine-shaped profile
                 //centered on the midpoint of the slew
                 //NOTE: don't allow the full range from -PI/2 to PI/2
-                //because the slew will never reach the destination as 
+                //because the slew will never reach the destination as
                 //the speed approaches zero at the end!
                 double t = dms::PI*(r - 0.5*r0)/(1.05*r0);
                 step = cos(t)*maxstep;
@@ -988,7 +992,7 @@ void SkyMap::forceUpdate( bool now )
         m_SkyMapDraw->repaint();
     else
         m_SkyMapDraw->update();
-    
+
 }
 
 float SkyMap::fov() {
