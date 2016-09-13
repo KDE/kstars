@@ -577,5 +577,12 @@ Comment[x-test]=xxObservatory is in the shutdown processxx
 Action=None
 [Event/SchedulerAborted]
 Name=Scheduler Aborted
+Name[ca]=El planificador s'ha interromput
+Name[ca@valencia]=El planificador s'ha interromput
+Name[en_GB]=Scheduler Aborted
+Name[pt]=Agendamento Interrompido
+Name[sv]=Schemaläggning avbruten
+Name[uk]=Планування перервано
+Name[x-test]=xxScheduler Abortedxx
 Sound=KDE-KStars-Alert.ogg
 Action=Sound
