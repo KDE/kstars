@@ -4235,7 +4235,8 @@ void Scheduler::updatePreDawn()
 {
     double earlyDawn = Dawn - Options::preDawnTime()/(60.0 * 24.0);
     int dayOffset=0;
-    if (KStarsData::Instance()->lt().time().hour() > 12)
+    QTime dawn = QTime(0,0,0).addSecs(Dawn*24*3600);
+    if (KStarsData::Instance()->lt().time() >= dawn)
         dayOffset=1;
     preDawnDateTime.setDate(KStarsData::Instance()->lt().date().addDays(dayOffset));
     preDawnDateTime.setTime(QTime::fromMSecsSinceStartOfDay(earlyDawn * 24 * 3600 * 1000));
