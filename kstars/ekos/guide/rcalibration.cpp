@@ -37,8 +37,6 @@
 #define MIN(a, b)  (((a) < (b)) ? (a) : (b))
 #define MAX(a, b)  (((a) > (b)) ? (a) : (b))
 
-#define MAX_GUIDE_STARS 10
-
 internalCalibration::internalCalibration(cgmath *mathObject, Ekos::Guide *parent)
     : QWidget(parent)
 {
@@ -434,8 +432,6 @@ void internalCalibration::calibrateManualReticle( void )
                     KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
                     calibrationStage = CAL_FINISH;
 
-                    emit calibrationCompleted(true);
-                    // FIXME Just one signal is enough. Remove previous signal
                     emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
 
                     guideModule->setDECSwap(dec_swap);
@@ -445,8 +441,6 @@ void internalCalibration::calibrateManualReticle( void )
                     QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
                     is_started = false;
                     calibrationStage = CAL_ERROR;
-                    emit calibrationCompleted(false);
-                    // FIXME Just one signal is enough. Remove previous signal
                     emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
                 }
             }
@@ -461,8 +455,6 @@ void internalCalibration::calibrateManualReticle( void )
                 fillInterface();
                 guideModule->appendLogText(i18n("Calibration completed."));
 
-                emit calibrationCompleted(true);
-                // FIXME Just one signal is enough. Remove previous signal
                 emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
 
                 KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
@@ -471,8 +463,6 @@ void internalCalibration::calibrateManualReticle( void )
             {
                 calibrationStage = CAL_ERROR;
 
-                emit calibrationCompleted(false);
-                // FIXME Just one signal is enough. Remove previous signal
                 emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
                 QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
@@ -626,8 +616,6 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
 
             calibrationStage = CAL_ERROR;
 
-            emit calibrationCompleted(false);
-            // FIXME Just one signal is enough. Remove previous signal
             emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
             if (ui.autoStarCheck->isChecked())
@@ -674,14 +662,12 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
             fillInterface();
             guideModule->appendLogText(i18n("Calibration completed."));
 
-            emit calibrationCompleted(true);
-            // FIXME Just one signal is enough. Remove previous signal
             emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
 
             ui.startCalibrationLED->setColor(okColor);
-            KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
+            KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
             if (ui.autoStarCheck->isChecked())
-                selectAutoStar(pmath->getImageView());
+                guideModule->selectAutoStar();
         }
         else
         {
@@ -692,8 +678,6 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
             ui.startCalibrationLED->setColor(alertColor);
             calibrationStage = CAL_ERROR;
 
-            emit calibrationCompleted(false);
-            // FIXME Just one signal is enough. Remove previous signal
             emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
             KNotification::event( QLatin1String( "CalibrationFailed" ) , i18n("Guiding calibration failed with errors"));
@@ -789,8 +773,6 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
 
             calibrationStage = CAL_ERROR;
 
-            emit calibrationCompleted(false);
-            // FIXME Just one signal is enough. Remove previous signal
             emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
             if (ui.autoStarCheck->isChecked())
@@ -815,8 +797,6 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
                 guideModule->appendLogText(i18n("DEC swap disabled."));
             guideModule->appendLogText(i18n("Calibration completed."));
 
-            emit calibrationCompleted(true);
-            // FIXME Just one signal is enough. Remove previous signal
             emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
 
             ui.startCalibrationLED->setColor(okColor);
@@ -825,7 +805,7 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
             KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
 
             if (ui.autoStarCheck->isChecked())
-                selectAutoStar(pmath->getImageView());
+                guideModule->selectAutoStar();
 
         }
         else
@@ -835,8 +815,6 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
             else
                 QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Star drift is too short."), QMessageBox::Ok );
 
-            emit calibrationCompleted(false);
-            // FIXME Just one signal is enough. Remove previous signal
             emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
 
             ui.startCalibrationLED->setColor(alertColor);
@@ -925,17 +903,16 @@ bool internalCalibration::setImageView(FITSView *image)
 
         if (ui.autoStarCheck->isChecked())
         {
-            QPair<double,double> star = selectAutoStar(guideFrame);
+            bool rc = guideModule->selectAutoStar();
 
-            if (star.first == 0 && star.second == 0)
+            if (rc == false)
             {
                 guideModule->appendLogText(i18n("Failed to automatically select a guide star. Please select a guide star..."));
                 connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
-                //pmath->moveSquare(image_data->getWidth()/2-pmath->getSquareSize()/2, image_data->getHeight()/2 - pmath->getSquareSize()/2);
                 return true;
             }
             else
-                trackingStarSelected(star.first, star.second);
+                trackingStarSelected(guideModule->getStarPosition().x(), guideModule->getStarPosition().y());
             return false;
         }
         else
@@ -950,94 +927,6 @@ bool internalCalibration::setImageView(FITSView *image)
     }
 
     return true;
-}
-
-bool brighterThan(Edge *s1, Edge *s2)
-{
-    return s1->width > s2->width;
-}
-
-QPair<double,double> internalCalibration::selectAutoStar(FITSView *image)
-{
-    Q_ASSERT(image);
-
-    //int maxVal=-1;
-    //Edge *guideStar = NULL;
-    QPair<double,double> star;
-
-    FITSData *image_data = image->getImageData();
-    image_data->findStars();
-
-    QList<Edge*> starCenters = image_data->getStarCenters();
-
-    if (starCenters.empty())
-        return star;
-
-    qSort(starCenters.begin(), starCenters.end(), brighterThan);
-
-    int maxX = image_data->getWidth();
-    int maxY = image_data->getHeight();
-
-    int scores[MAX_GUIDE_STARS];
-
-    int maxIndex = MAX_GUIDE_STARS < starCenters.count() ? MAX_GUIDE_STARS : starCenters.count();
-
-    for (int i=0; i < maxIndex; i++)
-    {
-        int score=100;
-
-        Edge *center = starCenters.at(i);
-
-        //qDebug() << "#" << i << " X: " << center->x << " Y: " << center->y << " HFR: " << center->HFR << " Width" << center->width;
-
-        // Severely reject stars close to edges
-        if (center->x < (center->width*5) || center->y < (center->width*5) || center->x > (maxX-center->width*5) || center->y > (maxY-center->width*5))
-            score-=50;
-
-        // Moderately favor brighter stars
-        score += center->width*center->width;
-
-        // Moderately reject stars close to other stars
-        foreach(Edge *edge, starCenters)
-        {
-            if (edge == center)
-                continue;
-
-            if (abs(center->x - edge->x) < center->width*2 && abs(center->y - edge->y) < center->width*2)
-            {
-                score -= 15;
-                break;
-            }
-        }
-
-        scores[i] = score;
-    }
-
-    int maxScore=0;
-    int maxScoreIndex=0;
-    for (int i=0; i < maxIndex; i++)
-    {
-        if (scores[i] > maxScore)
-        {
-            maxScore = scores[i];
-            maxScoreIndex = i;
-        }
-    }
-
-    star = qMakePair(starCenters[maxScoreIndex]->x, starCenters[maxScoreIndex]->y);
-
-    if (ui.autoSquareSizeCheck->isEnabled() && ui.autoSquareSizeCheck->isChecked())
-    {
-        // Select appropriate square size
-        int idealSize = ceil(starCenters[maxScoreIndex]->width * 1.5);
-
-        if (Options::guideLogging())
-            qDebug() << "Guide: Ideal calibration box size for star width: " << starCenters[maxScoreIndex]->width << " is " << idealSize << " pixels";
-
-        // TODO Set square size in GuideModule
-    }
-
-    return star;
 }
 
 void internalCalibration::setCalibrationTwoAxis(bool enable)

@@ -86,12 +86,9 @@ public slots:
     void trackingStarSelected(int x, int y);
 
 signals:
-    void calibrationCompleted(bool);
     void newStatus(Ekos::GuideState state);
 
 private:
-
-    QPair<double,double> selectAutoStar(FITSView *image);
     void fillInterface( void );
     void calibrateManualReticle( void );
     void calibrateRADECRecticle( bool ra_only ); // 1 or 2-axis calibration

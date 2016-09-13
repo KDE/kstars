@@ -71,7 +71,6 @@ signals:
     void newLog(const QString &);
     void connected();
     void disconnected();
-    void calibrationCompleted(bool);
     void ditherComplete();
     void ditherFailed();
     void newAxisDelta(double delta_ra, double delta_dec);

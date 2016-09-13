@@ -249,6 +249,12 @@ public slots:
      */
      Q_SCRIPTABLE bool capture();
 
+    /** DBUS interface function.
+     * Attempts to automatically select a star from the current guide frame
+     * @return Returns true if a star is selected successfully, false otherwise
+     */
+     Q_SCRIPTABLE bool selectAutoStar();
+
      void checkCCD(int ccdNum=-1);
      void checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState state);
      void newFITS(IBLOB*);
@@ -258,7 +264,7 @@ public slots:
 
      // Auto Calibration Guiding (Cablirate first then start guiding immediately)
      void startAutoCalibrateGuiding();
-     void checkAutoCalibrateGuiding(bool successful);
+     void checkAutoCalibrateGuiding(GuideState state);
 
      void dither();
      void setSuspended(bool enable);

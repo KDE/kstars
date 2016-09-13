@@ -34,6 +34,8 @@
 #include "guideadaptor.h"
 #include "kspaths.h"
 
+#define MAX_GUIDE_STARS 10
+
 namespace Ekos
 {
 
@@ -984,21 +986,26 @@ QList<double> Guide::getGuidingDeviation()
 void Guide::startAutoCalibrateGuiding()
 {
     if (Options::useEkosGuider())
-        connect(calibration, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
+        //connect(calibration, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
+        connect(calibration, SIGNAL(newStatus(GuideState)), this, SLOT(checkAutoCalibrateGuiding(GuideState)));
     else
-        connect(phd2, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
+        //connect(phd2, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
+        connect(phd2, SIGNAL(newStatus(GuideState)), this, SLOT(checkAutoCalibrateGuiding(GuideState)));
 
     startCalibration();
 }
 
-void Guide::checkAutoCalibrateGuiding(bool successful)
+void Guide::checkAutoCalibrateGuiding(GuideState state)
 {
-    if (Options::useEkosGuider())
-        disconnect(calibration, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
-    else
-        disconnect(phd2, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
+    if (state < GUIDE_CALIBRATION_SUCESS || state > GUIDE_CALIBRATION_ERROR)
+        return;
 
-    if (successful)
+    if (Options::useEkosGuider())
+        disconnect(calibration, SIGNAL(newStatus(GuideState)), this, SLOT(checkAutoCalibrateGuiding(GuideState)));
+    else
+        disconnect(phd2, SIGNAL(newStatus(GuideState)), this, SLOT(checkAutoCalibrateGuiding(GuideState)));
+
+    if (state == GUIDE_CALIBRATION_SUCESS)
     {
         appendLogText(i18n("Auto calibration successful. Starting guiding..."));
         startGuiding();
@@ -1176,6 +1183,98 @@ void Guide::updateTrackingBoxSize(int currentIndex)
     Options::setGuideSquareSizeIndex(currentIndex);
 
     syncTrackingBoxPosition();
+}
+
+bool Guide::selectAutoStar()
+{
+    if (currentCCD == NULL)
+        return false;
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    if (targetChip == NULL)
+        return false;
+
+    FITSView *targetImage    = targetChip->getImage(FITS_GUIDE);
+    if (targetImage == NULL)
+        return false;
+
+    FITSData *imageData = targetImage->getImageData();
+    if (imageData == NULL)
+        return false;
+
+    imageData->findStars();
+
+    QList<Edge*> starCenters = imageData->getStarCenters();
+
+    if (starCenters.empty())
+        return false;
+
+    qSort(starCenters.begin(), starCenters.end(), [](const Edge *a, const Edge *b){return a->width > b->width;});
+
+    int maxX = imageData->getWidth();
+    int maxY = imageData->getHeight();
+
+    int scores[MAX_GUIDE_STARS];
+
+    int maxIndex = MAX_GUIDE_STARS < starCenters.count() ? MAX_GUIDE_STARS : starCenters.count();
+
+    for (int i=0; i < maxIndex; i++)
+    {
+        int score=100;
+
+        Edge *center = starCenters.at(i);
+
+        //qDebug() << "#" << i << " X: " << center->x << " Y: " << center->y << " HFR: " << center->HFR << " Width" << center->width;
+
+        // Severely reject stars close to edges
+        if (center->x < (center->width*5) || center->y < (center->width*5) || center->x > (maxX-center->width*5) || center->y > (maxY-center->width*5))
+            score-=50;
+
+        // Moderately favor brighter stars
+        score += center->width*center->width;
+
+        // Moderately reject stars close to other stars
+        foreach(Edge *edge, starCenters)
+        {
+            if (edge == center)
+                continue;
+
+            if (abs(center->x - edge->x) < center->width*2 && abs(center->y - edge->y) < center->width*2)
+            {
+                score -= 15;
+                break;
+            }
+        }
+
+        scores[i] = score;
+    }
+
+    int maxScore=0;
+    int maxScoreIndex=0;
+    for (int i=0; i < maxIndex; i++)
+    {
+        if (scores[i] > maxScore)
+        {
+            maxScore = scores[i];
+            maxScoreIndex = i;
+        }
+    }
+
+    /*if (ui.autoSquareSizeCheck->isEnabled() && ui.autoSquareSizeCheck->isChecked())
+    {
+        // Select appropriate square size
+        int idealSize = ceil(starCenters[maxScoreIndex]->width * 1.5);
+
+        if (Options::guideLogging())
+            qDebug() << "Guide: Ideal calibration box size for star width: " << starCenters[maxScoreIndex]->width << " is " << idealSize << " pixels";
+
+        // TODO Set square size in GuideModule
+    }*/
+
+    QVector3D newStarCenter(starCenters[maxScoreIndex]->x, starCenters[maxScoreIndex]->y, 0);
+    setStarPosition(newStarCenter, false);
+
+    return true;
 }
 
 }

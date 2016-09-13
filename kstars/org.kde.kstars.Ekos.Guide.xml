@@ -16,6 +16,9 @@
     <method name="capture">
       <arg type="b" direction="out"/>
     </method>
+    <method name="selectAutoStar">
+      <arg type="b" direction="out"/>
+    </method>
     <method name="setCCD">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>

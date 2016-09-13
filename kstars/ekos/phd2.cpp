@@ -72,7 +72,7 @@ PHD2::~PHD2()
 }
 
 void PHD2::connectPHD2()
-{        
+{
     if (connection == DISCONNECTED)
     {
         connection = CONNECTING;
@@ -252,7 +252,6 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
         // It goes immediately to guiding until PHD implements a calibration-only method
         state = GUIDING;
         emit newLog(i18n("PHD2: Calibration Complete."));
-        emit calibrationCompleted(true);
         emit guideReady();
         emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
         break;
@@ -288,7 +287,6 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
     case CalibrationFailed:
         state = CALIBRATION_FAILED;
         emit newLog(i18n("PHD2: Calibration Failed (%1).", jsonEvent["Reason"].toString()));
-        emit calibrationCompleted(false);
         emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
         break;
 

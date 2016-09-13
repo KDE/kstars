@@ -682,6 +682,8 @@ Vector cgmath::findLocalStarPosition( void ) const
                 return ret;
             }
         }
+
+       return Vector(-1,-1,-1);
     }
         break;
         // Alexander's Stepanenko smart threshold algorithm
