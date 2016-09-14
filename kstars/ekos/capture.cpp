@@ -1967,7 +1967,7 @@ void Capture::setAutoguiding(bool enable)
     if (enable == false && isAutoGuiding && meridianFlipStage == MF_NONE && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
         appendLogText(i18n("Autoguiding stopped. Aborting..."));
-        stop();
+        abort();
     }
 
     isAutoGuiding = enable;
