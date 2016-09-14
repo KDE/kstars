@@ -386,10 +386,8 @@ void Align::syncCCDInfo()
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     ISwitchVectorProperty *svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
-    if (svp && Options::solverWCS())
-    {
-        setWCS(true);
-    }
+    if (svp)
+        setWCSEnabled(Options::solverWCS());
 
     targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
     binningCombo->setEnabled(targetChip->canBin());
@@ -1718,41 +1716,38 @@ void Align::processFilterNumber(INumberVectorProperty *nvp)
     }
 }
 
-void Align::setWCS(bool enable)
+void Align::setWCSEnabled(bool enable)
 {
     if (currentCCD == NULL)
         return;
-
-    Options::setSolverWCS(enable);
 
     ISwitchVectorProperty *wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
 
     ISwitch *wcs_enable  = IUFindSwitch(wcsControl, "WCS_ENABLE");
     ISwitch *wcs_disable = IUFindSwitch(wcsControl, "WCS_DISABLE");
 
-    if (wcs_enable && enable)
-        appendLogText(i18n("World Coordinate System (WCS) is enabled. CCD rotation must be set either manually in the CCD driver or by solving an image before proceeding to capture any further images, otherwise the WCS information may be invalid."));
-    else if (wcs_disable && !enable)
-        appendLogText(i18n("World Coordinate System (WCS) is disabled."));
+    if (!wcs_enable || !wcs_disable)
+        return;
 
-    if (wcs_enable && wcs_disable)
+    if ( (wcs_enable->s == ISS_ON && enable) || (wcs_disable->s == ISS_ON && !enable) )
+        return;
+
+    IUResetSwitch(wcsControl);
+    if (enable)
     {
-        if ( (enable && wcs_enable->s == ISS_ON) || (!enable && wcs_disable->s == ISS_ON))
-            return;
-
-        IUResetSwitch(wcsControl);
-        if (enable)
-            wcs_enable->s  = ISS_ON;
-        else
-        {
-            wcs_disable->s = ISS_ON;
-            m_wcsSynced=false;
-        }
-
-        ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
-
-        clientManager->sendNewSwitch(wcsControl);
+        appendLogText(i18n("World Coordinate System (WCS) is enabled. CCD rotation must be set either manually in the CCD driver or by solving an image before proceeding to capture any further images, otherwise the WCS information may be invalid."));
+        wcs_enable->s  = ISS_ON;
     }
+    else
+    {
+        wcs_disable->s = ISS_ON;
+        m_wcsSynced=false;
+        appendLogText(i18n("World Coordinate System (WCS) is disabled."));
+    }
+
+    ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
+
+    clientManager->sendNewSwitch(wcsControl);
 }
 
 void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining, IPState state)

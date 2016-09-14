@@ -254,10 +254,10 @@ public slots:
     void syncTelescopeInfo();
 
     /**
-     * @brief setWCS enables/disables World Coordinate System settings in the CCD driver.
+     * @brief setWCSEnabled enables/disables World Coordinate System settings in the CCD driver.
      * @param enable true to enable WCS, false to disable.
      */
-    void setWCS(bool enable);
+    void setWCSEnabledEnabled(bool enable);
 
     void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
 
