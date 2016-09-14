@@ -257,7 +257,7 @@ public slots:
      * @brief setWCSEnabled enables/disables World Coordinate System settings in the CCD driver.
      * @param enable true to enable WCS, false to disable.
      */
-    void setWCSEnabledEnabled(bool enable);
+    void setWCSEnabled(bool enable);
 
     void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
 
