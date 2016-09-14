@@ -614,6 +614,9 @@ Vector cgmath::findLocalStarPosition( void ) const
     if (trackingBox.isValid() == false)
         return Vector(-1,-1,-1);
 
+    if (Options::guideLogging())
+        qDebug() << "Guide: Tracking Square " << trackingBox;
+
     double square_square = trackingBox.width()*trackingBox.width();
 
     //psrc = porigin = pdata + trackingBox.y()*video_width + trackingBox.x();
