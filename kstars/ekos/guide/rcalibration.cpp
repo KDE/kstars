@@ -666,8 +666,8 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
 
             ui.startCalibrationLED->setColor(okColor);
             KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
-            if (ui.autoStarCheck->isChecked())
-                guideModule->selectAutoStar();
+            //if (ui.autoStarCheck->isChecked())
+                //guideModule->selectAutoStar();
         }
         else
         {
@@ -804,8 +804,8 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
 
             KNotification::event( QLatin1String( "CalibrationSuccessful" ) , i18n("Guiding calibration completed successfully"));
 
-            if (ui.autoStarCheck->isChecked())
-                guideModule->selectAutoStar();
+            //if (ui.autoStarCheck->isChecked())
+                //guideModule->selectAutoStar();
 
         }
         else

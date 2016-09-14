@@ -575,8 +575,7 @@ void internalGuider::guide( void )
     uint32_t tick = 0;
     double drift_x = 0, drift_y = 0;
 
-
-    assert( pmath );
+    Q_ASSERT( pmath );
 
     if (first_subframe)
     {
@@ -588,13 +587,11 @@ void internalGuider::guide( void )
         if (m_isDithering == false)
         {
             Vector star_pos = pmath->findLocalStarPosition();
-            double ret_x,ret_y,ret_angle;
-            int binx=1,biny=1;
-            targetChip->getBinning(&binx, &biny);
-            pmath->getReticleParameters(&ret_x, &ret_y, &ret_angle);
+            pmath->setReticleParameters(star_pos.x, star_pos.y, -1);
+
 
             //pmath->moveSquare( round(star_pos.x) - (double)square_size/(2*binx), round(star_pos.y) - (double)square_size/(2*biny) );
-            pmath->setReticleParameters(star_pos.x, star_pos.y, ret_angle);
+
         }
         first_frame=false;
     }
@@ -607,8 +604,8 @@ void internalGuider::guide( void )
 
     if (pmath->isStarLost() && ++m_lostStarTries > 2)
     {
+        guideModule->appendLogText(i18n("Lost track of the guide star. Try increasing the square size and check the mount."));
         onStartStopButtonClick();
-        KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size and check the mount."));
         return;
     }
     else

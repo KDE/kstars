@@ -986,16 +986,14 @@ QList<double> Guide::getGuidingDeviation()
 void Guide::startAutoCalibrateGuiding()
 {
     if (Options::useEkosGuider())
-        //connect(calibration, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
-        connect(calibration, SIGNAL(newStatus(GuideState)), this, SLOT(checkAutoCalibrateGuiding(GuideState)));
+        connect(calibration, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(checkAutoCalibrateGuiding(Ekos::GuideState)));
     else
-        //connect(phd2, SIGNAL(calibrationCompleted(bool)), this, SLOT(checkAutoCalibrateGuiding(bool)));
-        connect(phd2, SIGNAL(newStatus(GuideState)), this, SLOT(checkAutoCalibrateGuiding(GuideState)));
+        connect(phd2, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(checkAutoCalibrateGuiding(Ekos::GuideState)));
 
     startCalibration();
 }
 
-void Guide::checkAutoCalibrateGuiding(GuideState state)
+void Guide::checkAutoCalibrateGuiding(Ekos::GuideState state)
 {
     if (state < GUIDE_CALIBRATION_SUCESS || state > GUIDE_CALIBRATION_ERROR)
         return;

@@ -264,7 +264,7 @@ public slots:
 
      // Auto Calibration Guiding (Cablirate first then start guiding immediately)
      void startAutoCalibrateGuiding();
-     void checkAutoCalibrateGuiding(GuideState state);
+     void checkAutoCalibrateGuiding(Ekos::GuideState state);
 
      void dither();
      void setSuspended(bool enable);
