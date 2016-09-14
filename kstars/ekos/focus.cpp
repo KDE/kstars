@@ -938,7 +938,11 @@ void Focus::FocusOut(int ms)
 
 void Focus::newFITS(IBLOB *bp)
 {
-    INDI_UNUSED(bp);
+    if (bp == NULL)
+    {
+        capture();
+        return;
+    }
 
     // Ignore guide head if there is any.
     if (!strcmp(bp->name, "CCD2"))
