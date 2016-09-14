@@ -287,7 +287,7 @@ void Capture::toggleSequence()
         if (pauseFunction)
             (this->*pauseFunction)();
     }
-    else if (state == CAPTURE_IDLE)
+    else if (state == CAPTURE_IDLE || state == CAPTURE_COMPLETE)
     {
         start();
     }
