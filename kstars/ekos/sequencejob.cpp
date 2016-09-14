@@ -115,7 +115,9 @@ void SequenceJob::prepareCapture()
              activeChip->setISOIndex(isoIndex);
     }
 
-    if (targetFilter != -1 && activeFilter != NULL)
+    if (frameType == FRAME_DARK || frameType == FRAME_BIAS)
+        filterReady = true;
+    else if (targetFilter != -1 && activeFilter != NULL)
     {
         if (targetFilter == currentFilter)
             filterReady = true;
