@@ -972,6 +972,9 @@ void EkosManager::setDome(ISD::GDInterface *domeDevice)
 
     domeProcess->setDome(domeDevice);
 
+    if (captureProgress)
+        captureProcess->setDome(domeDevice);
+
     appendLogText(i18n("%1 is online.", domeDevice->getDeviceName()));
 }
 
@@ -1372,6 +1375,11 @@ void EkosManager::initCapture()
         // Meridian Flip
         connect(captureProcess, SIGNAL(meridianFlipStarted()), mountProcess, SLOT(disableAltLimits()), Qt::UniqueConnection);
         connect(captureProcess, SIGNAL(meridianFlipCompleted()), mountProcess, SLOT(enableAltLimits()), Qt::UniqueConnection);
+    }
+
+    if (managedDevices.contains(KSTARS_DOME))
+    {
+        captureProcess->setDome(managedDevices[KSTARS_DOME]);
     }
 
 }
