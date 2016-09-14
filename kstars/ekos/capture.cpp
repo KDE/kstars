@@ -2911,7 +2911,8 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
                 emit newStatus(Ekos::CAPTURE_ALIGNING);
 
                 meridianFlipStage = MF_ALIGNING;
-                emit meridialFlipTracked();
+                QTimer::singleShot(Options::settlingTime(), [this]() {emit meridialFlipTracked();});
+                //emit meridialFlipTracked();
                 return;
             }
 
@@ -3038,6 +3039,7 @@ void Capture::checkMeridianFlipTimeout()
         else
         {
             appendLogText(i18n("Alignment timed out."));
+            alignmentEngaged=false;
             abort();
         }
 
@@ -3052,6 +3054,7 @@ void Capture::checkMeridianFlipTimeout()
         else
         {
             appendLogText(i18n("Guiding timed out."));
+            guidingEngaged = false;
             abort();
         }
     }
