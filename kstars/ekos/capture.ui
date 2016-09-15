@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>776</width>
-    <height>438</height>
+    <height>449</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -735,6 +735,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -757,6 +760,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -779,6 +785,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -801,6 +810,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -826,6 +838,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -858,6 +873,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -880,6 +898,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -902,6 +923,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -1459,4 +1483,11 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="queueEditButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+ </buttongroups>
 </ui>

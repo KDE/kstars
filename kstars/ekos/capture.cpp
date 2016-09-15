@@ -377,6 +377,9 @@ void Capture::start()
     startB->setToolTip(i18n("Stop Sequence"));
     pauseB->setEnabled(true);
 
+    foreach (QAbstractButton *button, queueEditButtonGroup->buttons())
+        button->setEnabled(false);
+
     prepareJob(first_job);
 
 }
@@ -443,6 +446,9 @@ void Capture::stop(bool abort)
         startB->setToolTip(i18n("Start Sequence"));
         pauseB->setEnabled(false);
     }
+
+    foreach (QAbstractButton *button, queueEditButtonGroup->buttons())
+        button->setEnabled(true);
 
     seqTimer->stop();
 
