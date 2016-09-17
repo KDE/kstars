@@ -62,8 +62,6 @@
 #define ZOOM_LOW_INCR	10
 #define ZOOM_HIGH_INCR	50
 
-#define DECAY_CONSTANT  -0.04
-
 //#define FITS_DEBUG
 
 FITSLabel::FITSLabel(FITSView *img, QWidget *parent) : QLabel(parent)
@@ -252,7 +250,6 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     firstLoad = true;
     trackingBoxEnabled=false;
     trackingBoxUpdated=false;
-    gammaValue=0;
     filter = filterType;
     mode = fitsMode;    
 
@@ -343,13 +340,6 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
     maxPixel = image_data->getMax();
     minPixel = image_data->getMin();
 
-    if (gammaValue != 0 && (filter== FITS_NONE || filter >= FITS_FLIP_H))
-    {
-        double maxGammaPixel = maxPixel* (100 * exp(DECAY_CONSTANT * gammaValue))/100.0;
-        // If calculated maxPixel after gamma is different from image data max pixel, then we apply filter immediately.
-        image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
-    }
-
     if (mode == FITS_NORMAL)
     {
         if (fitsProg.wasCanceled())
@@ -413,7 +403,7 @@ int FITSView::rescale(FITSZoom type)
     float *display_buffer = image_buffer;
     unsigned int size = image_data->getSize();
 
-    if (Options::autoStretch() && filter != FITS_AUTO_STRETCH)
+    if (Options::autoStretch() && filter == FITS_NONE)
     {
         display_buffer = new float[image_data->getSize() * image_data->getNumOfChannels()];
         memset(display_buffer, 0, image_data->getSize() * image_data->getNumOfChannels() * sizeof(float));
@@ -442,11 +432,6 @@ int FITSView::rescale(FITSZoom type)
     }
     else
         image_data->getMinMax(&min, &max);
-
-    calculateMaxPixel(min, max);
-
-    min = minPixel;
-    max = maxGammaPixel;
 
     if (min == max)
     {
@@ -483,8 +468,6 @@ int FITSView::rescale(FITSZoom type)
                 for (int i = 0; i < image_width; i++)
                 {
                     val = display_buffer[j * image_width + i];
-                    if (gammaValue > 0)
-                        val = qBound(minPixel, val, maxGammaPixel);
                     scanLine[i]= (val * bscale + bzero);
                 }
             }
@@ -503,12 +486,6 @@ int FITSView::rescale(FITSZoom type)
                     rval = display_buffer[j * image_width + i];
                     gval = display_buffer[j * image_width + i + size];
                     bval = display_buffer[j * image_width + i + size * 2];
-                    if (gammaValue > 0)
-                    {
-                        rval = qBound(minPixel, rval, maxGammaPixel);
-                        gval = qBound(minPixel, gval, maxGammaPixel);
-                        gval = qBound(minPixel, gval, maxGammaPixel);
-                    }
 
                     value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
 
@@ -523,7 +500,7 @@ int FITSView::rescale(FITSZoom type)
     }
 
     if (display_buffer != image_buffer)
-        delete (display_buffer);
+        delete [] display_buffer;
 
     switch (type)
     {
@@ -739,7 +716,7 @@ void FITSView::drawTrackingBox(QPainter *painter)
     painter->setPen(QPen(Qt::green, 2));
 
     if (trackingBox.isNull())
-        return;    
+        return;
 
     int x1 = trackingBox.x() * (currentZoom / ZOOM_DEFAULT);
     int y1 = trackingBox.y() * (currentZoom / ZOOM_DEFAULT);
@@ -830,40 +807,6 @@ void FITSView::setTrackingBoxEnabled(bool enable)
         updateFrame();
     }
 }
-int FITSView::getGammaValue() const
-{
-    return gammaValue;
-}
-
-void FITSView::setGammaValue(int value)
-{
-    if (value == gammaValue)
-        return;
-
-    gammaValue = value;
-
-    calculateMaxPixel(minPixel, maxPixel);
-
-    // If calculated maxPixel after gamma is different from image data max pixel, then we apply filter immediately.
-    //image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
-    qApp->processEvents();
-    rescale(ZOOM_KEEP_LEVEL);
-    qApp->processEvents();
-    updateFrame();
-
-}
-
-void FITSView::calculateMaxPixel(double min, double max)
-{
-    minPixel=min;
-    maxPixel=max;
-
-    if (gammaValue == 0)
-        maxGammaPixel = maxPixel;
-    else
-        maxGammaPixel = maxPixel* (100 * exp(DECAY_CONSTANT * gammaValue))/100.0;
-}
-
 
 void FITSView::wheelEvent(QWheelEvent* event)
 {

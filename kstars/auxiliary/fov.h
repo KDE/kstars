@@ -81,13 +81,6 @@ public:
      */
     void draw(QPainter &p, float x, float y);
     
-    /** @short Fill list with default FOVs*/
-    static QList<FOV*> defaults();
-    /** @short Write list of FOVs to "fov.dat" */
-    static void writeFOVs(const QList<FOV*> fovs);
-    /** @short Read list of FOVs from "fov.dat" */
-    static QList<FOV*>readFOVs();
-
     SkyPoint center() const;
     void setCenter(const SkyPoint &center);
 
@@ -107,8 +100,36 @@ private:
     float   m_northPA;
     SkyPoint m_center;
     QImage m_image;
-    bool m_imageDisplay;
+    bool m_imageDisplay;    
 
+};
+
+/** @class FOVManager
+ *  A simple class handling FOVs.
+ * @note Should migrate this from file (fov.dat) to using the user sqlite database
+ *@author Jasem Mutlaq
+ *@version 1.0
+*/
+class FOVManager
+{
+public:
+    /** @short Read list of FOVs from "fov.dat" */
+    static const QList<FOV*> & readFOVs();
+    static void addFOV(FOV* newFOV) { Q_ASSERT(newFOV); m_FOVs.append(newFOV); }
+    static void removeFOV(FOV* fov) { Q_ASSERT(fov); m_FOVs.removeOne(fov); }
+    static const QList<FOV*> & getFOVs() { return m_FOVs; }
+
+    /** @short Write list of FOVs to "fov.dat" */
+    static bool save();
+
+private:
+    FOVManager();
+    ~FOVManager();
+
+    /** @short Fill list with default FOVs*/
+    static QList<FOV*> defaults();
+
+    static QList<FOV*> m_FOVs;
 };
 
 #endif

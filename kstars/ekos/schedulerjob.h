@@ -113,6 +113,9 @@ public:
     QString getProfile() const;
     void setProfile(const QString &value);
 
+    QTableWidgetItem *getEstimatedTimeCell() const;
+    void setEstimatedTimeCell(QTableWidgetItem *value);
+
 private:
 
     QString name;
@@ -140,7 +143,7 @@ private:
 
     StepPipeline stepPipeline;
 
-    QTableWidgetItem* statusCell, *startupCell;
+    QTableWidgetItem* statusCell, *startupCell, *estimatedTimeCell;
 
     int score;
     int16_t culminationOffset;
@@ -149,7 +152,7 @@ private:
     bool timeSlotAllocated;
     bool inSequenceFocus;
 
-    double Dawn, Dusk;    
+    double Dawn, Dusk;
     QString dateTimeDisplayFormat;
     QString profile;
 

@@ -140,7 +140,7 @@ ObservingList::ObservingList()
     ui->WishListView->horizontalHeader()->setStretchLastSection( true );
 
     ui->WishListView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
-    m_SessionSortModel = new SessionSortFilterProxyModel;
+    m_SessionSortModel = new SessionSortFilterProxyModel();
     m_SessionSortModel->setSourceModel( m_SessionModel );
     m_SessionSortModel->setDynamicSortFilter( true );
     ui->SessionView->setModel( m_SessionSortModel );
@@ -237,6 +237,9 @@ ObservingList::ObservingList()
 ObservingList::~ObservingList()
 {
     delete ksal;
+    delete m_SessionModel;
+    delete m_WishListModel;
+    delete m_SessionSortModel;
 }
 
 //SLOTS

@@ -169,6 +169,9 @@ public:
     int getRotCounter() const;
     void setRotCounter(int value);
 
+    // Filename
+    const QString & getFilename() { return filename; }
+
     // Horizontal flip counter. We keep count to rotate WCS keywords on save
     int getFlipHCounter() const;
     void setFlipHCounter(int value);

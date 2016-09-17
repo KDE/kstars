@@ -45,7 +45,9 @@ Supernova* Supernova::clone() const
 
 void Supernova::initPopupMenu(KSPopupMenu* pmenu)
 {
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
+    Q_UNUSED(pmenu)
+#else
     pmenu->createSupernovaMenu(this);
 #endif
 }

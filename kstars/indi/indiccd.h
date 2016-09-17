@@ -34,6 +34,8 @@ class StreamWG;
 namespace ISD
 {
 
+class CCD;
+
 /**
  * @class CCDChip
  * CCDChip class controls a particular chip in CCD device. While most amateur CCDs only have a single chip on the CCD, some
@@ -44,7 +46,7 @@ class CCDChip
 public:
     typedef enum { PRIMARY_CCD, GUIDE_CCD } ChipType;
 
-    CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cType);
+    CCDChip(ISD::CCD *ccd, ChipType cType);
 
     FITSView * getImage(FITSMode imageType);
     void setImage(FITSView *image, FITSMode imageType);
@@ -55,12 +57,12 @@ public:
     bool getFrame(int *x, int *y, int *w, int *h);
     bool getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH);
     bool setFrame(int x, int y, int w, int h);
-    bool getFocusFrame(int *x, int *y, int *w, int *h);
-    bool setFocusFrame(int x, int y, int w, int h);
+    //bool getFocusFrame(int *x, int *y, int *w, int *h);
+    //bool setFocusFrame(int x, int y, int w, int h);
     bool resetFrame();
     bool capture(double exposure);
     bool setFrameType(CCDFrameType fType);
-    bool setFrameType(const QString & name);    
+    bool setFrameType(const QString & name);
     CCDFrameType getFrameType();
     bool setBinning(int bin_x, int bin_y);
     bool setBinning(CCDBinType binType);
@@ -68,6 +70,7 @@ public:
     bool getBinning(int *bin_x, int *bin_y);
     bool getMaxBin(int *max_xbin, int *max_ybin);
     ChipType getType() const { return type; }
+    ISD::CCD *getCCD() { return parentCCD;}
 
     bool isCapturing();
     bool abortExposure();
@@ -98,7 +101,7 @@ public:
     QStringList getISOList() const;
 
 private:
-    QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage;
+    QPointer<FITSView> normalImage, focusImage, guideImage, calibrationImage, alignImage;
     FITSData *imageData;
     FITSMode captureMode;
     FITSScale captureFilter;
@@ -110,8 +113,9 @@ private:
     QStringList frameTypes;
     bool CanBin;
     bool CanSubframe;
-    bool CanAbort;    
-    int fx,fy,fw,fh;
+    bool CanAbort;
+    ISD::CCD *parentCCD;
+    //int fx,fy,fw,fh;
 
 };
 
@@ -189,7 +193,7 @@ private:
     StreamWG *streamWindow;
     int streamW, streamH;
     ISD::ST4 *ST4Driver;
-    int normalTabID, calibrationTabID, focusTabID, guideTabID;
+    int normalTabID, calibrationTabID, focusTabID, guideTabID, alignTabID;
     CCDChip *primaryChip, *guideChip;
 
     QPointer<FITSViewer> fv;

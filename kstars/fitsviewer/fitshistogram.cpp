@@ -458,8 +458,6 @@ void FITSHistogramCommand::redo()
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    gamma = image->getGammaValue();
-
     if (delta != NULL)
     {
         double min,max,stddev,average,median,snr;
@@ -590,8 +588,6 @@ void FITSHistogramCommand::undo()
 
     image->rescale(ZOOM_KEEP_LEVEL);
     image->updateFrame();
-
-    image->setGammaValue(gamma);
 
     QApplication::restoreOverrideCursor();
 

@@ -115,7 +115,9 @@ void SequenceJob::prepareCapture()
              activeChip->setISOIndex(isoIndex);
     }
 
-    if (targetFilter != -1 && activeFilter != NULL)
+    if (frameType == FRAME_DARK || frameType == FRAME_BIAS)
+        filterReady = true;
+    else if (targetFilter != -1 && activeFilter != NULL)
     {
         if (targetFilter == currentFilter)
             filterReady = true;
@@ -144,7 +146,8 @@ void SequenceJob::prepareCapture()
 
 }
 
-SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
+//SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
+SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
 {
     // If focusing is busy, return error
     //if (activeChip->getCaptureMode() == FITS_FOCUS)
@@ -178,33 +181,29 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 
    }
 
-    if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
-    {
-        status = JOB_ERROR;
+   if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
+   {
+       status = JOB_ERROR;
 
-        if (preview == false && statusCell)
-            statusCell->setText(statusStrings[status]);
+       if (preview == false && statusCell)
+           statusCell->setText(statusStrings[status]);
 
-        return CAPTURE_BIN_ERROR;
-    }
+       return CAPTURE_BIN_ERROR;
+   }
 
-    if (isDark)
-    {
-        activeChip->setFrameType(FRAME_DARK);
-        activeChip->setCaptureMode(FITS_CALIBRATE);
-    }
-    else
-    {
-        activeChip->setFrameType(frameTypeName);
-        activeChip->setCaptureMode(FITS_NORMAL);
-        activeChip->setCaptureFilter(captureFilter);
-    }
+   activeChip->setFrameType(frameTypeName);
+   activeChip->setCaptureMode(FITS_NORMAL);
 
-    // If filter is different that CCD, send the filter info
-    if (activeFilter && activeFilter != activeCCD)
-        activeCCD->setFilter(filter);
+   if (noCaptureFilter)
+       activeChip->setCaptureFilter(FITS_NONE);
+   else
+       activeChip->setCaptureFilter(captureFilter);
 
-    status = JOB_BUSY;
+   // If filter is different that CCD, send the filter info
+   if (activeFilter && activeFilter != activeCCD)
+       activeCCD->setFilter(filter);
+
+   status = JOB_BUSY;
 
     if (preview == false && statusCell)
         statusCell->setText(statusStrings[status]);

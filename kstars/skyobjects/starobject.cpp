@@ -247,7 +247,9 @@ void StarObject::setNames( QString name, QString name2 ) {
     setLongName(lname);
 }
 void StarObject::initPopupMenu( KSPopupMenu *pmenu ) {
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
+    Q_UNUSED(pmenu)
+#else
     pmenu->createStarMenu( this );
 #endif
 }

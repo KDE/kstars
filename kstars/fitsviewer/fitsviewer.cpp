@@ -89,24 +89,15 @@ FITSViewer::FITSViewer (QWidget *parent)
     fitsPosition.setAlignment(Qt::AlignCenter);
     fitsValue.setAlignment(Qt::AlignCenter);
 
-    gammaSlider.setMinimum(0);
-    gammaSlider.setMaximum(100);
-    gammaSlider.setValue(0);
-    gammaSlider.setOrientation(Qt::Horizontal);
-    gammaSlider.setFixedWidth(100);
-
     //fitsPosition.setFixedWidth(100);
     //fitsValue.setFixedWidth(100);
     fitsWCS.setVisible(false);
 
-    connect(&gammaSlider, SIGNAL(valueChanged(int)), this, SLOT(setGamma(int)));
-
     statusBar()->insertPermanentWidget(FITS_WCS, &fitsWCS);
-    statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);    
+    statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);
     statusBar()->insertPermanentWidget(FITS_POSITION, &fitsPosition);
     statusBar()->insertPermanentWidget(FITS_ZOOM, &fitsZoom);
     statusBar()->insertPermanentWidget(FITS_RESOLUTION, &fitsResolution);
-    statusBar()->insertPermanentWidget(FITS_GAMMA, &gammaSlider);
     statusBar()->insertPermanentWidget(FITS_LED, &led);
 
     QAction *action;
@@ -169,7 +160,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     KStandardAction::copy(this,   SLOT(copyFITS()),   actionCollection());
 
     KStandardAction::zoomIn(this,     SLOT(ZoomIn()),      actionCollection());
-    KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());  
+    KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());
     KStandardAction::actualSize(this, SLOT(ZoomDefault()), actionCollection());
 
     QAction *kundo = KStandardAction::undo(undoGroup, SLOT(undo()), actionCollection());
@@ -309,6 +300,10 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
       fitsTab->addTab(tab, i18n("Guide"));
       break;
 
+    case FITS_ALIGN:
+      fitsTab->addTab(tab, i18n("Align"));
+      break;
+
     default:
         break;
 
@@ -322,7 +317,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     saveFileAction->setEnabled(true);
     saveFileAsAction->setEnabled(true);
 
-    undoGroup->addStack(tab->getUndoStack());    
+    undoGroup->addStack(tab->getUndoStack());
 
     fitsTabs.push_back(tab);
 
@@ -390,7 +385,7 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
             if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
             {
                 if ( (imageName->path().startsWith("/tmp") || imageName->path().contains("/Temp")) && Options::singlePreviewFITS())
-                    fitsTab->setTabText(tabIndex, tab->getPreviewText());
+                    fitsTab->setTabText(tabIndex, tab->getPreviewText().isEmpty()? i18n("Preview") : tab->getPreviewText());
                 else
                     fitsTab->setTabText(tabIndex, imageName->fileName());
             }
@@ -449,7 +444,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
 
 // No need to warn users about unsaved changes in a "viewer".
 /*void FITSViewer::slotClose()
-{        
+{
     int rc=0;
     fitsTab->disconnect();
 
@@ -607,7 +602,7 @@ int FITSViewer::saveUnsaved(int index)
 
     if (index < 0 || index >= fitsTabs.size())
         return -1;
-    targetTab = fitsTabs[index];        
+    targetTab = fitsTabs[index];
 
     if (targetTab->getView()->getMode() != FITS_NORMAL)
         targetTab->getUndoStack()->clear();
@@ -641,8 +636,6 @@ void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
 {
     switch (id)
     {
-            case FITS_GAMMA:
-                gammaSlider.setValue(msg.toInt());
             case FITS_POSITION:
                 fitsPosition.setText(msg);
                 break;
@@ -724,8 +717,9 @@ void FITSViewer::closeTab(int index)
 
     FITSTab *tab = fitsTabs[index];
 
-    if (tab->getView()->getMode() != FITS_NORMAL)
-        return;
+    // N.B. We will allow closing of all tabs
+    //if (tab->getView()->getMode() != FITS_NORMAL)
+    //   return;
 
     /* Disabling user confirmation for saving edited FITS
        Since in most cases the modifications are done to enhance the view and not to change the data
@@ -801,14 +795,6 @@ FITSView *FITSViewer::getCurrentView()
         return NULL;
 
      return fitsTabs[fitsTab->currentIndex()]->getView();
-}
-
-void FITSViewer::setGamma(int value)
-{
-    if (fitsTab->currentIndex() < 0 || fitsTab->currentIndex() > fitsTabs.count())
-        return;
-
-        fitsTabs[fitsTab->currentIndex()]->getView()->setGammaValue(value);
 }
 
 void FITSViewer::setDebayerAction(bool enable)

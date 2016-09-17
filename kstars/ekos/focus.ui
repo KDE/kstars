@@ -551,7 +551,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_7">
             <item>
-             <widget class="QCheckBox" name="focusDarkFrameCheck">
+             <widget class="QCheckBox" name="darkFrameCheck">
               <property name="toolTip">
                <string/>
               </property>

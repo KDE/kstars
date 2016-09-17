@@ -337,8 +337,12 @@ void SkyMap::slotCenter() {
     TrailObject* trailObj = dynamic_cast<TrailObject*>( focusObject() );
 
     setFocusPoint( clickedPoint() );
-    if ( Options::useAltAz() ) {
-        focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+    if ( Options::useAltAz() )
+    {
+        // JM 2016-09-12: Following call has problems when ra0/dec0 of an object are not valid for example
+        // because they're solar system bodies. So it creates a lot of issues. It is disabled and centering
+        // works correctly for all different body types as I tested.
+        //focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     }
     else

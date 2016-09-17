@@ -27,6 +27,7 @@
 #include "skymap.h"
 
 #include "sequencejob.h"
+#include "darklibrary.h"
 
 #include "profileeditor.h"
 #include "profileinfo.h"
@@ -61,11 +62,13 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     useST4          =false;
     isStarted       = false;
     remoteManagerStart=false;
+    localMode       = true;
 
     indiConnectionStatus = EKOS_STATUS_IDLE;
     ekosStartingStatus   = EKOS_STATUS_IDLE;
 
-    profileModel = NULL;
+    profileModel = new QStandardItemModel(0, 4);
+    profileModel->setHorizontalHeaderLabels(QStringList() << "id" << "name" << "host" << "port");
 
     captureProcess = NULL;
     focusProcess   = NULL;
@@ -163,6 +166,13 @@ EkosManager::~EkosManager()
     delete mountProcess;
     delete schedulerProcess;
     delete dustCapProcess;
+    delete profileModel;
+
+    delete previewPixmap;
+    delete focusStarPixmap;
+    delete focusProfilePixmap;
+    delete guideProfilePixmap;
+    delete guideStarPixmap;
 }
 
 void EkosManager::closeEvent(QCloseEvent * /*event*/)
@@ -199,14 +209,11 @@ void EkosManager::resizeEvent(QResizeEvent *)
 
 void EkosManager::loadProfiles()
 {
-    profiles = KStarsData::Instance()->userdb()->GetAllProfiles();
+    qDeleteAll(profiles);
+    profiles.clear();
+    KStarsData::Instance()->userdb()->GetAllProfiles(profiles);
 
-    if (profileModel)
-        profileModel->clear();
-    else
-        profileModel = new QStandardItemModel(0, 4);
-
-    profileModel->setHorizontalHeaderLabels(QStringList() << "id" << "name" << "host" << "port");
+    profileModel->clear();
 
     foreach(ProfileInfo *pi, profiles)
     {
@@ -965,6 +972,9 @@ void EkosManager::setDome(ISD::GDInterface *domeDevice)
 
     domeProcess->setDome(domeDevice);
 
+    if (captureProgress)
+        captureProcess->setDome(domeDevice);
+
     appendLogText(i18n("%1 is online.", domeDevice->getDeviceName()));
 }
 
@@ -1223,8 +1233,8 @@ void EkosManager::processTabChange()
 {
     QWidget *currentWidget = toolsWidget->currentWidget();
 
-    if (focusProcess && currentWidget != focusProcess)
-         focusProcess->resetFrame();
+    //if (focusProcess && currentWidget != focusProcess)
+         //focusProcess->resetFrame();
 
     if (alignProcess && currentWidget == alignProcess)
     {
@@ -1347,7 +1357,7 @@ void EkosManager::initCapture()
         connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(updateFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFocusFrame()), Qt::UniqueConnection);
+        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFrame()), Qt::UniqueConnection);
     }
 
     if (alignProcess)
@@ -1365,6 +1375,11 @@ void EkosManager::initCapture()
         // Meridian Flip
         connect(captureProcess, SIGNAL(meridianFlipStarted()), mountProcess, SLOT(disableAltLimits()), Qt::UniqueConnection);
         connect(captureProcess, SIGNAL(meridianFlipCompleted()), mountProcess, SLOT(enableAltLimits()), Qt::UniqueConnection);
+    }
+
+    if (managedDevices.contains(KSTARS_DOME))
+    {
+        captureProcess->setDome(managedDevices[KSTARS_DOME]);
     }
 
 }
@@ -1424,7 +1439,7 @@ void EkosManager::initFocus()
         connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(updateFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFocusFrame()), Qt::UniqueConnection);
+        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFrame()), Qt::UniqueConnection);
     }
 
     if (guideProcess)
@@ -1885,7 +1900,7 @@ void EkosManager::updateFocusStatus(Ekos::FocusState status)
     focusStatus->setText(Ekos::getFocusStatusString(status));
 
     if (status >= Ekos::FOCUS_PROGRESS)
-    {        
+    {
         if (focusPI->isAnimated() == false)
             focusPI->startAnimation();
     }

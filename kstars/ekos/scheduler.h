@@ -41,7 +41,7 @@ class Scheduler : public QWidget, public Ui::Scheduler
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Scheduler")
 
 public:
-    typedef enum { SCHEDULER_IDLE, SCHEDULER_STARTUP, SCHEDULER_RUNNIG, SCHEDULER_SHUTDOWN, SCHEDULER_ABORTED } SchedulerState;
+    typedef enum { SCHEDULER_IDLE, SCHEDULER_STARTUP, SCHEDULER_RUNNIG, SCHEDULER_PAUSED, SCHEDULER_SHUTDOWN, SCHEDULER_ABORTED } SchedulerState;
     typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_READY } EkosState;
     typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_PROPERTY_CHECK, INDI_READY } INDIState;
     typedef enum { STARTUP_IDLE, STARTUP_SCRIPT, STARTUP_UNPARK_DOME, STARTUP_UNPARKING_DOME, STARTUP_UNPARK_MOUNT, STARTUP_UNPARKING_MOUNT, STARTUP_UNPARK_CAP, STARTUP_UNPARKING_CAP, STARTUP_ERROR, STARTUP_COMPLETE } StartupState;
@@ -190,9 +190,10 @@ protected slots:
      /**
       * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.
       */
-     void removeJob();     
+     void removeJob();
 
      void toggleScheduler();
+     void pause();
      void save();
      void saveAs();
      void load();
@@ -443,7 +444,7 @@ private:
          * @param path path of a file
          * @return true on success, false on failure.
          */
-        bool saveScheduler(const QUrl &fileURL);        
+        bool saveScheduler(const QUrl &fileURL);
 
         /**
          * @brief processJobInfo Process the job information from a scheduler file and populate jobs accordingly
@@ -508,7 +509,7 @@ private:
     ShutdownState shutdownState;
     ParkWaitStatus parkWaitState;
 
-    QList<SchedulerJob *> jobs;     // List of all jobs
+    QList<SchedulerJob *> jobs;     // List of all jobs as entered by the user or file
     SchedulerJob *currentJob;       // Active job
 
     QUrl schedulerURL;              // URL to store the scheduler file
@@ -520,7 +521,7 @@ private:
     QStringList logText;            // Store all log strings
 
     QProgressIndicator *pi;         // Busy indicator widget
-    bool jobUnderEdit;              // Are we editing a job right now?
+    int jobUnderEdit;               // Are we editing a job right now? Job row index
 
     KSMoon *moon;                   // Pointer to Moon object
     GeoLocation *geo;               // Pointer to Geograpic locatoin
@@ -533,8 +534,8 @@ private:
     QDateTime preDawnDateTime;      // Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
     QDateTime duskDateTime;         // Dusk date time
     bool mDirty;                    // Was job modified and needs saving?
-    IPState weatherStatus;          // Keep watch of weather status    
-    uint8_t noWeatherCounter;       // Keep track of how many times we didn't receive weather updates    
+    IPState weatherStatus;          // Keep watch of weather status
+    uint8_t noWeatherCounter;       // Keep track of how many times we didn't receive weather updates
     bool preemptiveShutdown;        // Are we shutting down until later?
     bool jobEvaluationOnly;         // Only run job evaluation
     bool loadAndSlewProgress;       // Keep track of Load & Slew operation

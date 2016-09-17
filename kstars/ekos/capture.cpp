@@ -34,6 +34,7 @@
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitsview.h"
 
+#include "darklibrary.h"
 #include "ekosmanager.h"
 #include "captureadaptor.h"
 #include "ui_calibrationoptions.h"
@@ -54,9 +55,11 @@ Capture::Capture()
     setupUi(this);
 
     new CaptureAdaptor(this);
-    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture",  this);    
+    QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture",  this);
 
     dirPath = QUrl(QDir::homePath());
+
+    state = CAPTURE_IDLE;
 
     currentCCD = NULL;
     currentTelescope = NULL;
@@ -97,7 +100,7 @@ Capture::Capture()
     jobUnderEdit    = false;
     currentFilterPosition   = -1;
 
-    calibrationState  = CALIBRATE_NONE;
+    //calibrationState  = CALIBRATE_NONE;
     meridianFlipStage = MF_NONE;
     resumeGuidingAfterFlip = false;
 
@@ -111,9 +114,13 @@ Capture::Capture()
     seqFileCount    = 0;
     //seqWatcher		= new KDirWatch();
     seqTimer = new QTimer(this);
-    connect(startB, SIGNAL(clicked()), this, SLOT(start()));
-    connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
     connect(seqTimer, SIGNAL(timeout()), this, SLOT(captureImage()));
+
+    connect(startB, SIGNAL(clicked()), this, SLOT(toggleSequence()));
+    connect(pauseB, SIGNAL(clicked()), this, SLOT(pause()));
+
+    startB->setIcon(QIcon::fromTheme("media-playback-start"));
+    pauseB->setIcon(QIcon::fromTheme("media-playback-pause"));
 
     connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
 
@@ -213,7 +220,7 @@ void Capture::addCCD(ISD::GDInterface *newCCD)
 
     CCDs.append(ccd);
 
-    CCDCaptureCombo->addItem(ccd->getDeviceName());   
+    CCDCaptureCombo->addItem(ccd->getDeviceName());
 
     if (Filters.count() > 0)
         syncFilterInfo();
@@ -249,6 +256,45 @@ void Capture::addFilter(ISD::GDInterface *newFilter)
 
     FilterCaptureCombo->setCurrentIndex(0);
 
+}
+
+void Capture::pause()
+{
+    pauseFunction=NULL;
+    state = CAPTURE_PAUSED;
+    emit newStatus(Ekos::CAPTURE_PAUSED);
+    appendLogText(i18n("Sequence shall be paused after current exposure is complete."));
+    pauseB->setEnabled(false);
+
+    startB->setIcon(QIcon::fromTheme("media-playback-start"));
+    startB->setToolTip(i18n("Resume Sequence"));
+}
+
+void Capture::toggleSequence()
+{
+    if (state == CAPTURE_PAUSED)
+    {
+        startB->setIcon(QIcon::fromTheme("media-playback-stop"));
+        startB->setToolTip(i18n("Stop Sequence"));
+        pauseB->setEnabled(true);
+
+        state = CAPTURE_CAPTURING;
+        emit newStatus(Ekos::CAPTURE_CAPTURING);
+
+        appendLogText(i18n("Sequence resumed."));
+
+        // Call from where ever we have left of when we paused
+        if (pauseFunction)
+            (this->*pauseFunction)();
+    }
+    else if (state == CAPTURE_IDLE || state == CAPTURE_COMPLETE)
+    {
+        start();
+    }
+    else
+    {
+        abort();
+    }
 }
 
 void Capture::start()
@@ -324,13 +370,21 @@ void Capture::start()
         }
     }*/
 
+    state = CAPTURE_PROGRESS;
     emit newStatus(Ekos::CAPTURE_PROGRESS);
+
+    startB->setIcon(QIcon::fromTheme("media-playback-stop"));
+    startB->setToolTip(i18n("Stop Sequence"));
+    pauseB->setEnabled(true);
+
+    foreach (QAbstractButton *button, queueEditButtonGroup->buttons())
+        button->setEnabled(false);
 
     prepareJob(first_job);
 
 }
 
-void Capture::abort()
+void Capture::stop(bool abort)
 {
 
     retries              = 0;
@@ -356,6 +410,8 @@ void Capture::abort()
         activeJob->reset();
     }
 
+    state = CAPTURE_IDLE;
+
     // Turn off any calibration light, IF they were turned on by Capture module
     if  (dustCap && dustCapLightEnabled)
     {
@@ -371,7 +427,7 @@ void Capture::abort()
     secondsLabel->clear();
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
     disconnect(currentCCD, SIGNAL(newImage(QImage*,ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*,ISD::CCDChip*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
 
     currentCCD->setFITSDir("");
 
@@ -383,6 +439,16 @@ void Capture::abort()
     exposeOUT->setText(QString());
 
     setBusy(false);
+
+    if (abort)
+    {
+        startB->setIcon(QIcon::fromTheme("media-playback-start"));
+        startB->setToolTip(i18n("Start Sequence"));
+        pauseB->setEnabled(false);
+    }
+
+    foreach (QAbstractButton *button, queueEditButtonGroup->buttons())
+        button->setEnabled(true);
 
     seqTimer->stop();
 
@@ -424,7 +490,7 @@ void Capture::checkCCD(int ccdNum)
     }
 
     if (ccdNum <= CCDs.count())
-    {                
+    {
         // Check whether main camera or guide head only
         currentCCD = CCDs.at(ccdNum);
 
@@ -540,7 +606,7 @@ void Capture::updateFrameProperties(bool reset)
         exposureIN->setMinimum(min);
         exposureIN->setMaximum(max);
         exposureIN->setSingleStep(step);
-    }    
+    }
 
     if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
     {
@@ -796,15 +862,26 @@ void Capture::syncFilterInfo()
     }
 }
 
-void Capture::startNextExposure()
+bool Capture::startNextExposure()
 {
+    if (state == CAPTURE_PAUSED)
+    {
+        pauseFunction = &Capture::startNextExposure;
+        appendLogText(i18n("Sequence paused."));
+        secondsLabel->setText(i18n("Paused..."));
+        return false;
+    }
+
     if (seqDelay > 0)
     {
         secondsLabel->setText(i18n("Waiting..."));
+        state = CAPTURE_WAITING;
         emit newStatus(Ekos::CAPTURE_WAITING);
     }
 
     seqTimer->start(seqDelay);
+
+    return true;
 }
 
 void Capture::newFITS(IBLOB *bp)
@@ -840,55 +917,67 @@ void Capture::newFITS(IBLOB *bp)
             previewB->setEnabled(true);
 
         // If the FITS is not for our device, simply ignore
-        if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
+        //if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || (startB->isEnabled() && previewB->isEnabled()))
+        if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || state == CAPTURE_IDLE)
             return;
 
         disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
         disconnect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)));
 
-        if (calibrationState == CALIBRATE_START)
+        if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
         {
-            calibrationState = CALIBRATE_DONE;
-            startNextExposure();
-            return;
-        }
-
-        if (darkSubCheck->isChecked() && calibrationState == CALIBRATE_DONE)
-        {
-            calibrationState = CALIBRATE_NONE;
-
-            FITSView *calibrateImage = targetChip->getImage(FITS_CALIBRATE);
             FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
+            FITSData *darkData       = NULL;
+            uint16_t offsetX = activeJob->getSubX() / activeJob->getXBin();
+            uint16_t offsetY = activeJob->getSubY() / activeJob->getYBin();
 
-            FITSData *image_data = NULL;
+            darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, activeJob->getExposure());
 
-            if (currentImage)
-                image_data = currentImage->getImageData();
+            connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
+            connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
 
-            if (image_data && calibrateImage && currentImage)
-                image_data->subtract(calibrateImage->getImageData()->getImageBuffer());
+            if (darkData)
+                DarkLibrary::Instance()->subtract(darkData, currentImage, activeJob->getCaptureFilter(), offsetX, offsetY);
+            else
+                DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, activeJob->getExposure(), offsetX, offsetY);
+
+            return;
         }
     }
 
-    secondsLabel->setText(i18n("Complete."));
+    setCaptureComplete();
 
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));    
+}
+
+bool Capture::setCaptureComplete()
+{
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
+    DarkLibrary::Instance()->disconnect(this);
+    secondsLabel->setText(i18n("Complete."));
 
     // If it was initially set as preview job
     if (seqTotalCount <= 0)
     {
        jobs.removeOne(activeJob);
        delete(activeJob);
-       // Reste active job pointer
+       // Reset active job pointer
        activeJob = NULL;
        abort();
-       return;
+       return true;
+    }
+
+    if (state == CAPTURE_PAUSED)
+    {
+        pauseFunction = &Capture::setCaptureComplete;
+        appendLogText(i18n("Sequence paused."));
+        secondsLabel->setText(i18n("Paused..."));
+        return false;
     }
 
     if (activeJob->getFrameType() != FRAME_LIGHT)
     {
         if (processPostCaptureCalibrationStage() == false)
-            return;
+            return true;
 
             if (calibrationStage == CAL_CALIBRATION_COMPLETE)
                 calibrationStage = CAL_CAPTURING;
@@ -900,6 +989,7 @@ void Capture::newFITS(IBLOB *bp)
 
     appendLogText(i18n("Received image %1 out of %2.", seqCurrentCount, seqTotalCount));
 
+    state = CAPTURE_IMAGE_RECEIVED;
     emit newStatus(Ekos::CAPTURE_IMAGE_RECEIVED);
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
@@ -908,12 +998,12 @@ void Capture::newFITS(IBLOB *bp)
     if (seqCurrentCount >= seqTotalCount)
     {
        processJobCompletion();
-       return;
+       return true;
     }
 
     // Check if meridian condition is met
     if (checkMeridianFlip())
-        return;
+        return true;
 
     // FIXME remove post capture script later
     if (Options::postCaptureScript().isEmpty() == false)
@@ -923,13 +1013,15 @@ void Capture::newFITS(IBLOB *bp)
     }
     else
         resumeSequence();
+
+    return true;
 }
 
 void Capture::processJobCompletion()
 {
     activeJob->done();
 
-    abort();
+    stop();
 
     // Check if meridian condition is met
     if (checkMeridianFlip())
@@ -943,6 +1035,9 @@ void Capture::processJobCompletion()
     {
         KNotification::event( QLatin1String( "CaptureSuccessful"), i18n("CCD capture sequence completed"));
 
+        abort();
+
+        state = CAPTURE_COMPLETE;
         emit newStatus(Ekos::CAPTURE_COMPLETE);
 
         if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
@@ -962,6 +1057,14 @@ void Capture::processJobCompletion()
 
 bool Capture::resumeSequence()
 {
+    if (state == CAPTURE_PAUSED)
+    {
+        pauseFunction = &Capture::resumeSequence;
+        appendLogText(i18n("Sequence paused."));
+        secondsLabel->setText(i18n("Paused..."));
+        return false;
+    }
+
     // If seqTotalCount is zero, we have to find if there are more pending jobs in the queue
     if (seqTotalCount == 0)
     {
@@ -1011,6 +1114,7 @@ bool Capture::resumeSequence()
                 secondsLabel->setText(i18n("Dithering..."));
                 emit exposureComplete();
 
+                state = CAPTURE_DITHERING;
                 emit newStatus(Ekos::CAPTURE_DITHERING);
         }
         else if (isAutoFocus && activeJob->getFrameType() == FRAME_LIGHT)
@@ -1018,13 +1122,14 @@ bool Capture::resumeSequence()
             secondsLabel->setText(i18n("Focusing..."));
             emit checkFocus(HFRPixels->value());
 
+            state = CAPTURE_FOCUSING;
             emit newStatus(Ekos::CAPTURE_FOCUSING);
         }
         else
             startNextExposure();
-
-        return true;
     }
+
+    return true;
 }
 
 void Capture::captureOne()
@@ -1043,7 +1148,7 @@ void Capture::captureOne()
 void Capture::captureImage()
 {
     seqTimer->stop();
-    bool isDark=false;
+    //bool isDark=false;
     SequenceJob::CAPTUREResult rc=SequenceJob::CAPTURE_OK;
 
     if (isFocusBusy)
@@ -1053,9 +1158,8 @@ void Capture::captureImage()
         return;
     }
 
-    if (useGuideHead == false && darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
-        isDark = true;
-
+    //if (useGuideHead == false && darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
+    //isDark = true;
 
     if (filterSlot != NULL)
     {
@@ -1070,89 +1174,96 @@ void Capture::captureImage()
         activeJob->setCurrentTemperature(temperature);
     }
 
-     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
-     connect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)), Qt::UniqueConnection);
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
+    connect(currentCCD, SIGNAL(newImage(QImage*, ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*, ISD::CCDChip*)), Qt::UniqueConnection);
 
-     if (activeJob->getFrameType() == FRAME_FLAT)
-     {
-         // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
-         if (activeJob->isPreview() == false && activeJob->getFlatFieldDuration() == DURATION_ADU && calibrationStage == CAL_PRECAPTURE_COMPLETE)
-         {
+    if (activeJob->getFrameType() == FRAME_FLAT)
+    {
+        // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
+        if (activeJob->isPreview() == false && activeJob->getFlatFieldDuration() == DURATION_ADU && calibrationStage == CAL_PRECAPTURE_COMPLETE)
+        {
             calibrationStage = CAL_CALIBRATION;
             activeJob->setPreview(true);
-         }
-     }
+        }
+    }
 
-     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+    if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
         checkSeqBoundary(activeJob->getFITSDir());
 
-     if (activeJob->isPreview() == false)
+    state = CAPTURE_CAPTURING;
+
+    if (activeJob->isPreview() == false)
         emit newStatus(Ekos::CAPTURE_CAPTURING);
 
-     if (frameSettings.contains(activeJob->getActiveChip()))
-     {
-         QVariantMap settings;
-         settings["x"]      = activeJob->getSubX();
-         settings["y"]      = activeJob->getSubY();
-         settings["w"]      = activeJob->getSubW();
-         settings["h"]      = activeJob->getSubH();
-         settings["binx"]   = activeJob->getXBin();
-         settings["biny"]   = activeJob->getYBin();
+    if (frameSettings.contains(activeJob->getActiveChip()))
+    {
+        QVariantMap settings;
+        settings["x"]      = activeJob->getSubX();
+        settings["y"]      = activeJob->getSubY();
+        settings["w"]      = activeJob->getSubW();
+        settings["h"]      = activeJob->getSubH();
+        settings["binx"]   = activeJob->getXBin();
+        settings["biny"]   = activeJob->getYBin();
 
-         frameSettings[activeJob->getActiveChip()] = settings;
-     }
+        frameSettings[activeJob->getActiveChip()] = settings;
+    }
 
-     rc = activeJob->capture(isDark);
+    rc = activeJob->capture(darkSubCheck->isChecked() ? true : false);
 
-     switch (rc)
-     {
-        case SequenceJob::CAPTURE_OK:
-         connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
-         if (isDark)
-         {
-            calibrationState = CALIBRATE_START;
-            appendLogText(i18n("Capturing dark frame..."));
-         }
-         else
-           appendLogText(i18n("Capturing image..."));
-         break;
+    switch (rc)
+    {
+    case SequenceJob::CAPTURE_OK:
+        connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
+        appendLogText(i18n("Capturing image..."));
+        break;
 
-        case SequenceJob::CAPTURE_FRAME_ERROR:
-            appendLogText(i18n("Failed to set sub frame."));
-            abort();
-            break;
+    case SequenceJob::CAPTURE_FRAME_ERROR:
+        appendLogText(i18n("Failed to set sub frame."));
+        abort();
+        break;
 
-        case SequenceJob::CAPTURE_BIN_ERROR:
-            appendLogText(i18n("Failed to set binning."));
-            abort();
-            break;
+    case SequenceJob::CAPTURE_BIN_ERROR:
+        appendLogText(i18n("Failed to set binning."));
+        abort();
+        break;
 
-        case SequenceJob::CAPTURE_FILTER_BUSY:
-            // Try again in 1 second if filter is busy
-            QTimer::singleShot(1000, this, SLOT(captureImage()));
-            break;
+    case SequenceJob::CAPTURE_FILTER_BUSY:
+        // Try again in 1 second if filter is busy
+        QTimer::singleShot(1000, this, SLOT(captureImage()));
+        break;
 
-        case SequenceJob::CAPTURE_FOCUS_ERROR:
-            appendLogText(i18n("Cannot capture while module is busy."));
-            abort();
-            break;
+    case SequenceJob::CAPTURE_FOCUS_ERROR:
+        appendLogText(i18n("Cannot capture while focus module is busy."));
+        abort();
+        break;
 
-     }
+    }
 }
 
-void Capture::resumeCapture()
+bool Capture::resumeCapture()
 {
+    if (state == CAPTURE_PAUSED)
+    {
+        pauseFunction = &Capture::resumeCapture;
+        appendLogText(i18n("Sequence paused."));
+        secondsLabel->setText(i18n("Paused..."));
+        return false;
+    }
+
     appendLogText(i18n("Dither complete."));
 
     if (isAutoFocus && autoFocusStatus == false)
     {
         secondsLabel->setText(i18n("Focusing..."));
         emit checkFocus(HFRPixels->value());
+        state = CAPTURE_FOCUSING;
         emit newStatus(Ekos::CAPTURE_FOCUSING);
-        return;
+        return true;
     }
 
     startNextExposure();
+
+    return true;
 }
 
 /*******************************************************************************/
@@ -1309,7 +1420,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
 }
 
 void Capture::updateCCDTemperature(double value)
-{    
+{
     if (temperatureCheck->isEnabled() == false)
         checkCCD();
 
@@ -1364,7 +1475,7 @@ void Capture::addJob(bool preview)
     job->setWallCoord(wallCoord);
     job->setTargetADU(targetADU);
 
-    imagePrefix = prefixIN->text();        
+    imagePrefix = prefixIN->text();
 
     constructPrefix(imagePrefix);
 
@@ -1389,29 +1500,33 @@ void Capture::addJob(bool preview)
 
     job->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value());
 
+    job->setRootFITSDir(fitsDir->text());
+
     if (jobUnderEdit == false)
     {
         jobs.append(job);
 
-        job->setRootFITSDir(fitsDir->text());
-
         // Nothing more to do if preview
         if (preview)
             return;
-
-        QString finalFITSDir = fitsDir->text() + QLatin1Literal("/") + frameTypeCombo->currentText();
-        if ( (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && job->getFilterName().isEmpty() == false)
-            finalFITSDir += QLatin1Literal("/") + job->getFilterName();
-
-        job->setFITSDir(finalFITSDir);
     }
+
+    QString finalFITSDir = fitsDir->text();
+
+    if (targetName.isEmpty())
+        finalFITSDir += QLatin1Literal("/") + frameTypeCombo->currentText();
+    else
+        finalFITSDir += QLatin1Literal("/") + targetName + QLatin1Literal("/") + frameTypeCombo->currentText();
+    if ( (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && job->getFilterName().isEmpty() == false)
+        finalFITSDir += QLatin1Literal("/") + job->getFilterName();
+
+    job->setFITSDir(finalFITSDir);
 
     int currentRow = 0;
     if (jobUnderEdit == false)
     {
-
         currentRow = queueTable->rowCount();
-        queueTable->insertRow(currentRow);        
+        queueTable->insertRow(currentRow);
     }
     else
         currentRow = queueTable->currentRow();
@@ -1622,8 +1737,8 @@ void Capture::setBusy(bool enable)
 
     enable ? pi->startAnimation() : pi->stopAnimation();
     previewB->setEnabled(!enable);
-    startB->setEnabled(!enable);
-    stopB->setEnabled(enable);
+    //startB->setEnabled(!enable);
+    //stopB->setEnabled(enable);
 }
 
 void Capture::prepareJob(SequenceJob *job)
@@ -1662,7 +1777,10 @@ void Capture::prepareJob(SequenceJob *job)
             secondsLabel->setText(i18n("Set filter..."));
 
             if (activeJob->isPreview() == false)
+            {
+                state = CAPTURE_CHANGING_FILTER;
                 emit newStatus(Ekos::CAPTURE_CHANGING_FILTER);
+            }
 
             setBusy(true);
 
@@ -1678,7 +1796,10 @@ void Capture::prepareJob(SequenceJob *job)
             secondsLabel->setText(i18n("Set %1 C...", activeJob->getTargetTemperature()));
 
             if (activeJob->isPreview() == false)
+            {
+                state = CAPTURE_SETTING_TEMPERATURE;
                 emit newStatus(Ekos::CAPTURE_SETTING_TEMPERATURE);
+            }
 
             setBusy(true);
         }
@@ -2418,7 +2539,7 @@ void Capture::resetJobs()
     foreach(SequenceJob *job, jobs)
         job->resetStatus();
 
-    abort();
+    stop();
 
     // Reste active job pointer
     activeJob = NULL;
@@ -2466,9 +2587,7 @@ void Capture::syncGUIToJob(SequenceJob *job)
    preMountPark      = job->isPreMountPark();
    preDomePark       = job->isPreDomePark();
 
-   QString rootDir = job->getRootFITSDir();
-   rootDir = rootDir.remove(QString("/%1").arg(frameTypeCombo->currentText()));
-   fitsDir->setText(rootDir);
+   fitsDir->setText(job->getRootFITSDir());
 
    if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());
@@ -2683,7 +2802,8 @@ void Capture::setTemperature()
 void Capture::clearSequenceQueue()
 {
     activeJob=NULL;
-    abort();
+    targetName = QString();
+    stop();
     while (queueTable->rowCount() > 0)
         queueTable->removeRow(0);
     jobs.clear();
@@ -2793,10 +2913,12 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
                 appendLogText(i18n("Performing post flip re-alignment..."));
                 secondsLabel->setText(i18n("Aligning..."));
 
+                state = CAPTURE_ALIGNING;
                 emit newStatus(Ekos::CAPTURE_ALIGNING);
 
                 meridianFlipStage = MF_ALIGNING;
-                emit meridialFlipTracked();
+                QTimer::singleShot(Options::settlingTime(), [this]() {emit meridialFlipTracked();});
+                //emit meridialFlipTracked();
                 return;
             }
 
@@ -2823,6 +2945,7 @@ void Capture::checkGuidingAfterFlip()
         appendLogText(i18n("Performing post flip re-calibration and guiding..."));
         secondsLabel->setText(i18n("Calibrating..."));
 
+        state = CAPTURE_CALIBRATING;
         emit newStatus(Ekos::CAPTURE_CALIBRATING);
 
         meridianFlipStage = MF_GUIDING;
@@ -2890,6 +3013,7 @@ bool Capture::checkMeridianFlip()
         currentTelescope->Slew(initialRA,dec);
         secondsLabel->setText(i18n("Meridian Flip..."));
 
+        state = CAPTURE_MERIDIAN_FLIP;
         emit newStatus(Ekos::CAPTURE_MERIDIAN_FLIP);
 
         QTimer::singleShot(MF_TIMER_TIMEOUT, this, SLOT(checkMeridianFlipTimeout()));
@@ -2921,6 +3045,7 @@ void Capture::checkMeridianFlipTimeout()
         else
         {
             appendLogText(i18n("Alignment timed out."));
+            alignmentEngaged=false;
             abort();
         }
 
@@ -2935,6 +3060,7 @@ void Capture::checkMeridianFlipTimeout()
         else
         {
             appendLogText(i18n("Guiding timed out."));
+            guidingEngaged = false;
             abort();
         }
     }
@@ -3625,6 +3751,7 @@ void Capture::startPostFilterAutoFocus()
 
     secondsLabel->setText(i18n("Focusing..."));
 
+    state = CAPTURE_FOCUSING;
     emit newStatus(Ekos::CAPTURE_FOCUSING);
 
     appendLogText(i18n("Post filter change Autofocus..."));

@@ -341,6 +341,7 @@ void KStars::initActions() {
     fovActionMenu->setText( i18n("&FOV Symbols" ) );
     fovActionMenu->setDelayed(false);
     fovActionMenu->setIcon(QIcon::fromTheme("crosshairs"));
+    FOVManager::readFOVs();
     repopulateFOV();
 
     actionCollection()->addAction("geolocation", this, SLOT( slotGeoLocator() ) )
@@ -559,18 +560,21 @@ void KStars::initActions() {
 
 void KStars::repopulateFOV() {
     // Read list of all FOVs
-    qDeleteAll( data()->availFOVs );
-    data()->availFOVs = FOV::readFOVs();
+    //qDeleteAll( data()->availFOVs );
+    data()->availFOVs = FOVManager::getFOVs();
     data()->syncFOV();
 
     // Iterate through FOVs
     fovActionMenu->menu()->clear();
-    foreach(FOV* fov, data()->availFOVs) {
+    foreach(FOV* fov, data()->availFOVs)
+    {
         KToggleAction *kta = actionCollection()->add<KToggleAction>( fov->name() );
         kta->setText( fov->name() );
-        if( Options::fOVNames().contains( fov->name() ) ) {
+        if( Options::fOVNames().contains( fov->name() ) )
+        {
             kta->setChecked(true);
         }
+
         fovActionMenu->addAction( kta );
         connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotTargetSymbol(bool) ) );
     }

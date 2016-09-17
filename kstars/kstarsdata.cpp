@@ -71,7 +71,9 @@ namespace {
     // whether he wants to continue.
     // Calls QApplication::exit if he don't
     bool nonFatalErrorMessage(QString fname) {
-        #ifndef KSTARS_LITE
+        #ifdef KSTARS_LITE
+            Q_UNUSED(fname)
+        #else
         int res = KMessageBox::warningContinueCancel(0,
                       i18n("The file %1 could not be found. "
                            "KStars can still run without this file. "
@@ -1059,14 +1061,16 @@ void KStarsData::syncFOV()
 {
     visibleFOVs.clear();
     // Add visible FOVs 
-    foreach(FOV* fov, availFOVs) {
+    foreach(FOV* fov, availFOVs)
+    {
         if( Options::fOVNames().contains( fov->name() ) ) 
             visibleFOVs.append( fov );
     }
     // Remove unavailable FOVs
     QSet<QString> names = QSet<QString>::fromList( Options::fOVNames() );
     QSet<QString> all;
-    foreach(FOV* fov, visibleFOVs) {
+    foreach(FOV* fov, visibleFOVs)
+    {
         all.insert(fov->name());
     }
     Options::setFOVNames( all.intersect(names).toList() );

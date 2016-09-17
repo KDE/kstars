@@ -335,7 +335,6 @@ void FITSTab::ZoomDefault()
 void FITSTab::tabPositionUpdated()
 {
     undoStack->setActive(true);
-    emit newStatus(QString("%1").arg(view->getGammaValue()), FITS_GAMMA);
     emit newStatus(QString("%1%").arg(view->getCurrentZoom()), FITS_ZOOM);
     emit newStatus(QString("%1x%2").arg(view->getImageData()->getWidth()).arg(view->getImageData()->getHeight()), FITS_RESOLUTION);
 }

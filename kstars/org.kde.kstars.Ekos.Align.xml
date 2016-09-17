@@ -45,9 +45,8 @@
       <arg name="value" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setBinning">
-      <arg name="binX" type="i" direction="in"/>
-      <arg name="binY" type="i" direction="in"/>
+    <method name="setBinningIndex">
+      <arg name="binningIndex" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setSolverArguments">
@@ -58,18 +57,6 @@
       <arg name="ra" type="d" direction="in"/>
       <arg name="dec" type="d" direction="in"/>
       <arg name="radius" type="d" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setUpdateCoords">
-      <arg name="enabled" type="b" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setPreviewImage">
-      <arg name="enabled" type="b" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="setVerbose">
-      <arg name="enabled" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setUseOAGT">

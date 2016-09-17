@@ -287,7 +287,9 @@ QString KSMoon::phaseName() const {
 }
 
 void KSMoon::initPopupMenu( KSPopupMenu* pmenu ) {
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
+    Q_UNUSED(pmenu)
+#else
     pmenu->createMoonMenu( this );
 #endif
 }

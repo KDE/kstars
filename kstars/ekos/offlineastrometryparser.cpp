@@ -192,7 +192,7 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
 
     align->appendLogText(i18n("Starting solver..."));
 
-    if (align->isVerbose())
+    if (Options::solverVerbose())
     {
         QString command = Options::astrometrySolver() + " " + solverArgs.join(" ");
         align->appendLogText(command);
@@ -272,9 +272,9 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
     int elapsed = (int) round(solverTimer.elapsed()/1000.0);
     align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
 
-    emit solverFinished(orientation,ra,dec, pixscale);  
+    emit solverFinished(orientation,ra,dec, pixscale);
 
-    // Remove files left over by the solver    
+    // Remove files left over by the solver
     QDir dir("/tmp");
     dir.setNameFilters(QStringList() << "fits*" << "tmp.*");
     dir.setFilter(QDir::Files);
@@ -286,7 +286,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
 
 void OfflineAstrometryParser::logSolver()
 {
-    if (align->isVerbose())
+    if (Options::solverVerbose())
         align->appendLogText(solver.readAll().trimmed());
 }
 

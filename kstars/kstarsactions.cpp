@@ -1272,8 +1272,9 @@ void KStars::slotTargetSymbol(bool flag) {
 
 void KStars::slotFOVEdit() {
     QPointer<FOVDialog> fovdlg = new FOVDialog( this );
-    if ( fovdlg->exec() == QDialog::Accepted ) {
-        fovdlg->writeFOVList();
+    if ( fovdlg->exec() == QDialog::Accepted )
+    {
+        FOVManager::save();
         repopulateFOV();
     }
     delete fovdlg;

@@ -46,7 +46,6 @@ public:
     Focus();
     ~Focus();
 
-    enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
     typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
 
@@ -157,7 +156,7 @@ public:
      * @brief addFocuser Add focuser to the list of available focusers.
      * @param newFocuser pointer to focuser device.
      */
-    void addFocuser(ISD::GDInterface *newFocuser);    
+    void addFocuser(ISD::GDInterface *newFocuser);
 
     /**
      * @brief addFilter Add filter to the list of available filters.
@@ -165,8 +164,7 @@ public:
      */
     void addFilter(ISD::GDInterface *newFilter);
 
-    // Log
-    void appendLogText(const QString &);
+
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
 
@@ -203,11 +201,6 @@ public slots:
      * @param ms If set, focus outward for ms ticks (Absolute Focuser), or ms milliseconds (Relative Focuser). If not set, it will use the value specified in the options.
      */
     Q_SCRIPTABLE Q_NOREPLY void FocusOut(int ms=-1);
-
-    /** DBUS interface function.
-     * resetFocusFrame Resets the focus frame to the CCDs original dimensions before any subframing was done.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void resetFocusFrame();
 
     /** @}*/
 
@@ -251,7 +244,7 @@ public slots:
     /**
      * @brief clearDataPoints Remove all data points from HFR plots
      */
-    void clearDataPoints();    
+    void clearDataPoints();
 
     /**
      * @brief focusStarSelected The user selected a focus star, save its coordinates and subframe it if subframing is enabled.
@@ -282,13 +275,16 @@ public slots:
      * @brief updateFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
      * @param status If true, the focus process finished successfully. Otherwise, it failed.
      */
-    void setAutoFocusResult(bool status);    
+    void setAutoFocusResult(bool status);
 
     /**
      * @brief filterChangeWarning Warn the user it is not a good idea to apply image filter in the filter process as they can skew the HFR calculations.
      * @param index Index of image filter selected by the user.
      */
     void filterChangeWarning(int index);
+
+    // Log
+    void appendLogText(const QString &);
 
 private slots:
     /**
@@ -327,6 +323,8 @@ private slots:
     void setThreshold(double value);
 
     void setFrames(int value);
+
+    void setCaptureComplete();
 
 signals:
         void newLog();
@@ -412,7 +410,7 @@ private:
     // Are we in the process of capturing an image?
     bool captureInProgress;
     // Was the frame modified by us? Better keep track since we need to return it to its previous state once we are done with the focus operation.
-    bool frameModified;
+    //bool frameModified;
     // Was the modified frame subFramed?
     bool subFramed;
     // If the autofocus process fails, let's not ruin the capture session probably taking place in the next tab. Instead, we should restart it and try again, but we keep count until we hit MAXIMUM_RESET_ITERATIONS
@@ -421,15 +419,15 @@ private:
     // Which filter must we use once the autofocus process kicks in?
     int lockedFilterIndex;
     // Keep track of what we're doing right now
-    bool inAutoFocus, inFocusLoop, inSequenceFocus, m_autoFocusSuccesful, resetFocus;   
+    bool inAutoFocus, inFocusLoop, inSequenceFocus, m_autoFocusSuccesful, resetFocus;
     // Did we reverse direction?
     bool reverseDir;
     // Did the user or the auto selection process finish selecting our focus star?
-    bool starSelected;
+    //bool starSelected;
     // Target frame dimensions
-    int fx,fy,fw,fh;
+    //int fx,fy,fw,fh;
     // Origianl frame dimensions
-    int orig_x, orig_y, orig_w, orig_h;
+    //int orig_x, orig_y, orig_w, orig_h;
     // If HFR=-1 which means no stars detected, we need to decide how many times should the re-capture process take place before we give up or reverse direction.
     int noStarCount;
     // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
@@ -449,7 +447,7 @@ private:
 
     // Plot minimum and maximum positions
     int minPos, maxPos;
-    // List of V curve plot points    
+    // List of V curve plot points
     // Custom Plot object
     QCustomPlot *customPlot;
     // V-Curve graph
@@ -462,11 +460,6 @@ private:
 
     QVector<double> hfr_position, hfr_value;
 
-    // Calibration
-    int calibrationState;
-    bool haveDarkFrame;
-    float *darkBuffer;
-
     // Pixmaps
     QPixmap starPixmap;
     QPixmap profilePixmap;
@@ -476,6 +469,12 @@ private:
 
     // FITS Scale
     FITSScale defaultScale;
+
+    // CCD Chip frame settings
+    QMap<ISD::CCDChip *, QVariantMap> frameSettings;
+
+    // Selected star coordinates
+    QVector3D starCenter;
 };
 
 }
