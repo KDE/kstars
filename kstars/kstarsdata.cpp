@@ -1048,6 +1048,9 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
     }  //end while
 
     if ( cmdCount ) return true;
+#else
+    Q_UNUSED(map)
+    Q_UNUSED(scriptname)
 #endif
     return false;
 }

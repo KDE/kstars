@@ -21,8 +21,8 @@
 #include <QObject>
 
 /**
-* @class SkyPointLite
-* Wrapper for SkyPoint to allow access of some of its properties from QML
+* @class SkyObjectLite
+* Wrapper for SkyObject to allow access of some of its properties from QML
 *
 * @author Artem Fedoskin
 * @version 1.0
@@ -32,9 +32,16 @@ class SkyObjectLite : public SkyPointLite {
     Q_OBJECT
     Q_PROPERTY(QString translatedName READ getTranslatedName NOTIFY translatedNameChanged)
 public:
+    /** Constructor **/
     SkyObjectLite();
+
+    /** @short sets SkyObject that is needed to be wrapped **/
     void setObject(SkyObject *object);
+
+    /** @return translated name of currently wrapped SkyObject **/
     Q_INVOKABLE QString getTranslatedName();
+
+    /** @return SkyObject that is being wrapped **/
     SkyObject *getObject() const { return object; }
 signals:
     void translatedNameChanged(QString translatedName);

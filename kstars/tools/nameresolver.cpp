@@ -23,6 +23,8 @@
 /* KDE Includes */
 #ifndef KSTARS_LITE
 #include <kio/filecopyjob.h>
+#else
+#include "kstarslite.h"
 #endif
 
 /* Qt Includes */
@@ -40,9 +42,13 @@ class CatalogEntryData NameResolver::resolveName( const QString &name ) {
     class CatalogEntryData data;
 
     data.long_name = name;
-
     if( !NameResolverInternals::sesameResolver( data, name ) ) {
-        qDebug() << "Error: sesameResolver failed. Could not resolve name on CDS Sesame!";
+        QString msg = xi18n("Error: sesameResolver failed. Could not resolve name on CDS Sesame!");
+        qDebug() << msg;
+
+#ifdef KSTARS_LITE
+        KStarsLite::Instance()->notificationMessage(msg);
+#endif
         return data; // default data structure with no information
     }
     // More to be done here if the resolved name is SIMBAD
@@ -54,7 +60,13 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
 
     QUrl resolverUrl = QUrl( QString( "http://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/-oxpFI/SNV?%1" ).arg( name ) );
 
-    qDebug() << "Attempting to resolve object " << name << "using CDS Sesame.";
+    QString msg = xi18n("Attempting to resolve object %1 using CDS Sesame.", name);
+    qDebug() << msg;
+
+#ifdef KSTARS_LITE
+    KStarsLite::Instance()->notificationMessage(msg);
+#endif
+
     QNetworkAccessManager manager;
     QNetworkReply *response = manager.get( QNetworkRequest( resolverUrl ) );
 
@@ -64,14 +76,24 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
     event.exec();
 
     if (response->error() != QNetworkReply::NoError) {
-        qWarning() << "Error trying to get XML response from CDS Sesame server: " << response->errorString();
+        msg = xi18n("Error trying to get XML response from CDS Sesame server: %1", response->errorString());
+        qWarning() << msg;
+
+    #ifdef KSTARS_LITE
+        KStarsLite::Instance()->notificationMessage(msg);
+    #endif
         return false;
     }
 
     QXmlStreamReader xml( response->readAll() );
     if( xml.atEnd() ) {
         // file is empty
-        qDebug() << "Empty result instead of expected XML from CDS Sesame! Maybe bad internet connection?";
+        msg = xi18n("Empty result instead of expected XML from CDS Sesame! Maybe bad internet connection?");
+        qDebug() << msg;
+
+    #ifdef KSTARS_LITE
+        KStarsLite::Instance()->notificationMessage(msg);
+    #endif
         return false;
     }
 
@@ -167,10 +189,21 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
         }
     }
     if( xml.hasError() ) {
-        qDebug() << "Error parsing XML from CDS Sesame: " << xml.errorString() << " on line " << xml.lineNumber() << " @ col = " << xml.columnNumber();
+        msg = xi18n("Error parsing XML from CDS Sesame: %1 on line %2 @ col = %3", xml.errorString(), xml.lineNumber(), xml.columnNumber());
+        qDebug() << msg;
+
+    #ifdef KSTARS_LITE
+        KStarsLite::Instance()->notificationMessage(msg);
+    #endif
         return false;
     }
-    qDebug() << "Resolved " << name << " successfully!";
+
+    msg = xi18n("Resolved %1 successfully!", name);
+    qDebug() << msg;
+
+#ifdef KSTARS_LITE
+    KStarsLite::Instance()->notificationMessage(msg);
+#endif
     qDebug() << "Object type: " << SkyObject::typeName( data.type ) << "; Coordinates: " << data.ra << ";" << data.dec;
     return true;
 }

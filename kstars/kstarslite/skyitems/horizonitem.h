@@ -21,7 +21,7 @@
 class HorizonComponent;
 class GuideLabelNode;
 
-   /** @class SkyMapLite
+   /** @class HorizonItem
     * Handles representation of HorizonComponent in SkyMapLite (lines, filled polygon and compass
     * labels).
     *
@@ -45,7 +45,7 @@ public:
     inline void setHorizonComp(HorizonComponent * hComp) { m_horizonComp = hComp; }
 
     /**
-     * @short calls update() of HorizonNode and updates/hides compass labels based on their visibility
+     * @short Call update() of HorizonNode and update/hide compass labels based on their visibility
      */
     virtual void update();
 private:

@@ -385,13 +385,10 @@ void DSOSymbolNode::initSymbol() {
             break;
         }
         if(m_symbol) addChildNode(m_symbol);
-        else {
-            qDebug() << "SHIT!";
-        }
     }
 }
 
-void DSOSymbolNode::changePos(float size, const QPointF &pos, float positionangle) {
+void DSOSymbolNode::changePos(const QPointF &pos, float positionangle) {
     QMatrix4x4 m (1,0,0,pos.x(),
                   0,1,0,pos.y(),
                   0,0,1,0,
@@ -400,7 +397,6 @@ void DSOSymbolNode::changePos(float size, const QPointF &pos, float positionangl
     if(m_rotate) {
         m.rotate(positionangle, 0, 0, 1);
     }
-    //m.translate(-0.5*size, -0.5*size);
 
     setMatrix(m);
     markDirty(QSGNode::DirtyMatrix);
@@ -413,10 +409,8 @@ void DSOSymbolNode::update(float size, const QPointF &pos, float positionangle) 
     if(m_symbol) {
         m_symbol->updateSymbol(pos.x(), pos.y(), m_dso->e(), size);
         show();
-        changePos(size, pos, positionangle);
+        changePos(pos, positionangle);
     } else {
-        /*//Just a precaution in
-        hide();*/
         qDebug() << "Symbol for object " << m_dso->name() << " wasn't created. Check DSOSymbolNode::initSymbol()";
     }
 }

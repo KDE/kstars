@@ -665,6 +665,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/satellitesitem.cpp
         kstarslite/skyitems/supernovaeitem.cpp
         kstarslite/skyitems/fovitem.cpp
+        kstarslite/skyitems/syncedcatalogitem.cpp
         #Line
         kstarslite/skyitems/lines/linesitem.cpp
         kstarslite/skyitems/lines/equatoritem.cpp

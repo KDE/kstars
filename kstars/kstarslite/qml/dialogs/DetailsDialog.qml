@@ -393,7 +393,6 @@ KSPage {
                     }
                 }
 
-
                 Button {
                     id: addInfoLandscape
                     text: xi18n("Add Link")

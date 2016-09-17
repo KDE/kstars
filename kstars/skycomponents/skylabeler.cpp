@@ -370,6 +370,9 @@ void SkyLabeler::reset()
 
 void SkyLabeler::draw(QPainter& p)
 {
+#ifdef KSTARS_LITE
+    Q_UNUSED(p)
+#else
     //FIXME: need a better soln. Apparently starting a painter
     //clears the picture.
     // But it's not like that's something that should be in the docs, right?
@@ -377,7 +380,8 @@ void SkyLabeler::draw(QPainter& p)
     if( m_p.isActive() ) { m_p.end(); }
     m_picture.play(&p); //can't replay while it's being painted on
     //this is also undocumented btw.
-    //m_p.begin(&m_picture);
+    m_p.begin(&m_picture);
+#endif
 }
 
 // We use Run Length Encoding to hold the information instead of an array of

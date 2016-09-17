@@ -40,7 +40,7 @@ public:
     AsteroidsItem(const QList<SkyObject*>& asteroidsList, RootNode *rootNode = 0);
 
     /**
-     * @short recreates the node tree (deletes old nodes and appends new ones according to
+     * @short recreates the node tree (deletes old nodes and appends new ones based on SkyObjects in
      * m_asteroidsList)
      */
     void recreateList();
@@ -48,8 +48,8 @@ public:
     /**
      * @short Determines the visibility of the object and its label and hides/updates them accordingly
      */
-
     virtual void update() override;
+
 private:
     const QList<SkyObject*>& m_asteroidsList;
 };

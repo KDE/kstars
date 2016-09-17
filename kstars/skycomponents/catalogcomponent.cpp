@@ -67,7 +67,7 @@ void CatalogComponent::_loadData( bool includeCatalogDesignation ) {
                                                        names,
                                                        this,
                                                        includeCatalogDesignation);
-    for (int iter = 0; iter < names.size(); iter++) {
+    for (int iter = 0; iter < names.size(); ++iter) {
         if (names.at(iter).first <= SkyObject::TYPE_UNKNOWN) {
             //FIXME JM 2016-06-02: inefficient and costly check
             // Need better way around this
@@ -75,6 +75,36 @@ void CatalogComponent::_loadData( bool includeCatalogDesignation ) {
                 objectNames(names.at(iter).first).append(names.at(iter).second);
         }
     }
+#ifdef KSTARS_LITE
+    //FIXME - get rid of objectNames completely. For now only KStars Lite uses objectLists
+    for(int iter = 0; iter < m_ObjectList.size(); ++iter) {
+        SkyObject *obj = m_ObjectList[iter];
+        if(obj->type() <= SkyObject::TYPE_UNKNOWN) {
+            QVector<QPair<QString, const SkyObject *>>&objects = objectLists(obj->type());
+            bool dupName = false;
+            bool dupLongname = false;
+
+            QString name = obj->name();
+            QString longname = obj->longname();
+
+            //FIXME - find a better way to check for duplicates
+            for(int i = 0; i < objects.size(); ++i) {
+                if(name == objects.at(i).first)
+                    dupName = true;
+                if(longname == objects.at(i).first)
+                    dupLongname = true;
+            }
+
+            if(!dupName) {
+                objectLists(obj->type()).append(QPair<QString, const SkyObject *>(name, obj));
+            }
+
+            if(!longname.isEmpty() && !dupLongname && name != longname) {
+                objectLists(obj->type()).append(QPair<QString, const SkyObject *>(longname, obj));
+            }
+        }
+    }
+#endif
 
     // Remove Duplicates
     foreach(QStringList list, objectNames())

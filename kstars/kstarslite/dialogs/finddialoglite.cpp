@@ -69,6 +69,7 @@ FindDialogLite::~FindDialogLite() { }
 
 void FindDialogLite::filterByType(uint typeIndex) {
     KStarsData *data = KStarsData::Instance();
+    m_typeIndex = typeIndex;
 
     switch ( typeIndex ) {
     case 0: // All object types
@@ -133,6 +134,8 @@ void FindDialogLite::filterByType(uint typeIndex) {
 }
 
 void FindDialogLite::filterList(QString searchQuery) {
+    m_searchQuery = searchQuery;
+    setIsResolveEnabled(!isInList(searchQuery));
     QString SearchText = processSearchText(searchQuery);
     m_sortModel->setFilterFixedString( SearchText );
     listFiltered = true;
@@ -169,18 +172,44 @@ QString FindDialogLite::processSearchText(QString text) {
     return searchtext;
 }
 
+bool FindDialogLite::isInList(QString searchQuery) {
+    if(searchQuery.isEmpty()) return false;
+    int size = m_sortModel->rowCount(m_sortModel->index(0,0));
+    QString stripped = searchQuery.remove(" ");
+    for(int i = 0; i < size; ++i) {
+        QString s = m_sortModel->data(m_sortModel->index(i,0), SkyObjectListModel::NameRole).toString();
+        if(s == searchQuery || s.remove(" ") == stripped) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void FindDialogLite::resolveInInternet(QString searchQuery) {
+    setIsResolveEnabled(false); //Disable "Search in Internet" button while we are searching for object
     SkyObject *selObj = 0;
     CatalogEntryData cedata;
     cedata = NameResolver::resolveName( processSearchText(searchQuery) );
     DeepSkyObject *dso = 0;
+
     if( ! std::isnan( cedata.ra ) && ! std::isnan( cedata.dec ) ) {
         dso = KStarsData::Instance()->skyComposite()->internetResolvedComponent()->addObject( cedata );
         if( dso )
             qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
         selObj = dso;
+
+        filterByType(m_typeIndex); //Reload objects list of current type
+        setIsResolveEnabled(!isInList(m_searchQuery));
     }
     if ( selObj == 0 ) {
         emit notifyMessage(i18n( "No object named %1 found.", searchQuery ));
     }
 }
+
+void FindDialogLite::setIsResolveEnabled(bool isResolveEnabled) {
+    if(m_isResolveEnabled != isResolveEnabled) {
+        m_isResolveEnabled = isResolveEnabled;
+        emit isResolveEnabledChanged(isResolveEnabled);
+    }
+}
+

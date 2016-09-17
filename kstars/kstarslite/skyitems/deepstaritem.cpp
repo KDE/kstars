@@ -36,9 +36,6 @@ DeepStarItem::DeepStarItem(DeepStarComponent *deepStarComp, RootNode *rootNode)
 {
     m_starBlockList = &m_deepStarComp->m_starBlockList;
 
-    //Test
-    Options::setShowStarMagnitudes(false);
-    Options::setShowStarNames(true);
     if(m_staticStars) {
         for(int c = 0; c < m_starBlockList->size(); ++c) {
             TrixelNode *trixel = new TrixelNode(m_starBlockList->at( c )->getTrixel());
@@ -110,8 +107,8 @@ void DeepStarItem::update() {
         MeshIterator region(m_skyMesh, DRAW_BUF);
 
         // If we are to hide the fainter stars (eg: while slewing), we set the magnitude limit to hideStarsMag.
-        //if( hideFaintStars && maglim > hideStarsMag )
-            //maglim = hideStarsMag;
+        if( hideFaintStars && maglim > hideStarsMag )
+            maglim = hideStarsMag;
 
         StarBlockFactory *m_StarBlockFactory = StarBlockFactory::Instance();
         //    m_StarBlockFactory->drawID = m_skyMesh->drawID();
@@ -125,23 +122,24 @@ void DeepStarItem::update() {
 
         // Mark used blocks in the LRU Cache. Not required for static stars
         if( !m_staticStars ) {
-            while( region.hasNext() ) {
-                Trixel currentRegion = region.next();
-                for( int i = 0; i < m_starBlockList->at( currentRegion )->getBlockCount(); ++i ) {
-                    StarBlock *prevBlock = ( ( i >= 1 ) ? m_starBlockList->at( currentRegion )->block( i - 1 ) : NULL );
-                    StarBlock *block = m_starBlockList->at( currentRegion )->block( i );
+            //Under construction
+//            while( region.hasNext() ) {
+//                Trixel currentRegion = region.next();
+//                for( int i = 0; i < m_starBlockList->at( currentRegion )->getBlockCount(); ++i ) {
+//                    StarBlock *prevBlock = ( ( i >= 1 ) ? m_starBlockList->at( currentRegion )->block( i - 1 ) : NULL );
+//                    StarBlock *block = m_starBlockList->at( currentRegion )->block( i );
 
-                    if( i == 0  &&  !m_StarBlockFactory->markFirst( block ) )
-                        qDebug() << "markFirst failed in trixel" << currentRegion;
-                    if( i > 0   &&  !m_StarBlockFactory->markNext( prevBlock, block ) )
-                        qDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
-                    if( i < m_starBlockList->at( currentRegion )->getBlockCount()
-                            && m_starBlockList->at( currentRegion )->block( i )->getFaintMag() < maglim )
-                        break;
-                }
-            }
-            //t_updateCache = t.restart();
-            region.reset();
+//                    if( i == 0  &&  !m_StarBlockFactory->markFirst( block ) )
+//                        qDebug() << "markFirst failed in trixel" << currentRegion;
+//                    if( i > 0   &&  !m_StarBlockFactory->markNext( prevBlock, block ) )
+//                        qDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
+//                    if( i < m_starBlockList->at( currentRegion )->getBlockCount()
+//                            && m_starBlockList->at( currentRegion )->block( i )->getFaintMag() < maglim )
+//                        break;
+//                }
+//            }
+//            //t_updateCache = t.restart();
+//            region.reset();
         }
 
         m_StarBlockFactory->drawID = m_skyMesh->drawID();
@@ -158,31 +156,7 @@ void DeepStarItem::update() {
 
         while( trixel != 0 ) {
             if(m_staticStars) {
-
-                /*while(n != 0) {
-                    PointSourceNode *point = static_cast<PointSourceNode *>(n);
-                    n = n->nextSibling();
-
-                    StarObject *curStar = static_cast<StarObject *>(point->skyObject());
-                    float mag = curStar->mag();
-
-                    // break loop if maglim is reached
-                    if(!hide) {
-                        if ( mag > maglim ) hide = true;
-                    }
-
-                    if(!hide) {
-                        if ( curStar->updateID != KStarsData::Instance()->updateID() )
-                            curStar->JITupdate();
-                        //point->setSizeMagLim(m_zoomMagLimit);
-                        point->update();
-                    } else {
-                        point->hide();
-                    }
-                }*/
-
                 const Projector *projector = SkyMapLite::Instance()->projector();
-
                 double delLim = SkyMapLite::deleteLimit();
 
                 if(trixelID != regionID) {
@@ -204,9 +178,7 @@ void DeepStarItem::update() {
                     }
 
                     trixel = static_cast<TrixelNode *>(trixel->nextSibling());
-
                     trixelID++;
-
                     continue;
 
                 } else {
@@ -216,11 +188,9 @@ void DeepStarItem::update() {
                         regionID = region.next();
                     }
 
-                    QLinkedList<QPair<SkyObject *, SkyNode *>> *nodes = &trixel->m_nodes;
+                    QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = (&trixel->m_nodes)->begin();
 
-                    QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = nodes->begin();
-
-                    while(i != nodes->end()) {
+                    while(i != (&trixel->m_nodes)->end()) {
                         bool hide = false;
                         bool hideSlew = false;
 
@@ -269,6 +239,7 @@ void DeepStarItem::update() {
                     }
                 }
             } else if(false) {
+                //Dynamic stars are under construction
                 if( !m_staticStars && !m_starBlockList->at( regionID )->fillToMag( maglim ) && maglim <= m_deepStarComp->m_FaintMagnitude * ( 1 - 1.5/16 ) ) {
                     qDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel "
                              << regionID << " !"<< endl;
@@ -311,21 +282,10 @@ void DeepStarItem::update() {
                 }
             }
             trixel = static_cast<TrixelNode *>(trixel->nextSibling());
-
             trixelID++;
         }
         m_skyMesh->inDraw( false );
     }
-
-    /*int count = 0;
-
-    QSGNode *n = firstChild();
-    while(n != 0) {
-        count += n->childCount();
-        n = n->nextSibling();
-    }
-
-    qDebug() << count << "Nodes - DeepStars";*/
 }
 
 

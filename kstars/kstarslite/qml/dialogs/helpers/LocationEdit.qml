@@ -52,12 +52,12 @@ KSPage {
             var errorDesc = ""
 
             if (sourceError == 2 || sourceError == 1) {
-                errorDesc = xi18n("No location service (GPS, Wi-Fi etc.) is available. Please, switch on location service and retry")
+                errorDesc = xi18n("No location service (GPS, cellular service, etc.) is available.\nPlease, switch on location service and retry")
             } else if (sourceError == 4) {
                 errorDesc = xi18n("Unknown error occured. Please contact application developer.")
             }
 
-            notification.showNotification("Location error: " + errorDesc)
+            notification.showNotification(errorDesc)
             active = false
             sourceError = positionSource.NoError
         }
@@ -76,31 +76,19 @@ KSPage {
         }
 
         onPositionChanged: {
-            if( (!positionSource.position.latitudeValid ||
-                 !positionSource.position.longitudeValid) ) {
-                latField.text = ""
-                longField.text = ""
-                if(isLoaded) {
-                    notification.showNotification(xi18n("Couldn't get latitude and longitude from GPS"))
-                }
-            } else {
+            if(isLoaded) {
+                notification.showNotification(xi18n("Found your longitude and altitude"))
                 var lat = positionSource.position.coordinate.latitude
-                var longitude = positionSource.position.coordinate.longitude
+                var lng = positionSource.position.coordinate.longitude
                 latField.text = lat
-                longField.text = longitude
-                notification.showNotification(xi18("Found your longitude and altitude"))
+                longField.text = lng
+                locationLoading.close()
             }
-
-            locationLoading.close()
         }
-
         preferredPositioningMethods: PositionSource.AllPositioningMethods
     }
 
-    /**
-      closes the popup and clears all text fields
-    */
-
+    //close the popup and clears all text fields
     onVisibleChanged: {
         if(!visible) {
             cityField.clear()
@@ -240,7 +228,7 @@ KSPage {
                 enabled: isAvailable
                 onClicked: {
                     positionSource.stop()
-                    positionSource.update()
+                    positionSource.start()
                     if(!positionSource.valid) {
                         positionSource.stop()
                         notification.showNotification(xi18("Positioning is not available on your device"))
@@ -304,8 +292,8 @@ KSPage {
                         }
                     } else {
                         if(!LocationDialogLite.editCity(geoName, cityField.text, provinceField.text, countryField.text,
-                                                       latField.text, longField.text, comboBoxTZ.currentText,
-                                                       comboBoxDST.currentText)) {
+                                                        latField.text, longField.text, comboBoxTZ.currentText,
+                                                        comboBoxDST.currentText)) {
                             notification.showNotification(xi18n("Failed to edit city"))
                             return
                         }

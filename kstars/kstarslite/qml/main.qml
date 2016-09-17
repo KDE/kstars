@@ -105,8 +105,15 @@ ApplicationWindow {
     }
 
     PassiveNotification {
-        z: 10
+        z: 2
         id: notification
+
+        Connections {
+            target: KStarsLite
+            onNotificationMessage: {
+                notification.showNotification(msg)
+            }
+        }
     }
 
     Units {

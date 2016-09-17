@@ -32,10 +32,9 @@ public:
     virtual void hide() override;
     LineList *lineList() { return m_list; }
     void setColor(QColor color);
-
 private:
-    PolyNode *m_polygonNode;
     LineList *m_list;
+    PolyNode *m_polygonNode;
 };
 
 

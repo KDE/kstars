@@ -1,7 +1,7 @@
 /** *************************************************************************
                           deepskynode.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 20/05/2016
+    begin                : 18/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -28,22 +28,16 @@
 #include "../labelsitem.h"
 #include "labelnode.h"
 
-DeepSkyNode::DeepSkyNode(DeepSkyObject * skyObject, DSOSymbolNode *symbol, Trixel trixel,
-                         LabelsItem::label_t labelType)
+DeepSkyNode::DeepSkyNode(DeepSkyObject * skyObject, DSOSymbolNode *symbol, LabelsItem::label_t labelType,
+                         short trixel)
     :m_dso(skyObject),m_objImg(0), m_symbol(symbol), m_trixel(trixel), m_labelType(labelType),
       m_label(0)
 {
     m_symbol->hide();
 }
 
-void DeepSkyNode::destroy() {
-    QSGNode *parent = m_symbol->parent();
-    parent->removeChildNode(m_symbol);
-
+DeepSkyNode::~DeepSkyNode() {
     if(m_label) SkyMapLite::rootNode()->labelsItem()->deleteLabel(m_label);
-
-    delete m_symbol;
-    delete this;
 }
 
 void DeepSkyNode::changePos(QPointF pos) {
@@ -123,7 +117,11 @@ void DeepSkyNode::update(bool drawImage, bool drawLabel, QPointF pos) {
     // Draw label
     if(drawLabel) {
         if(!m_label) {
-            m_label = SkyMapLite::rootNode()->labelsItem()->addLabel(m_dso, m_labelType, m_trixel);
+            if(m_trixel != -1) {
+                m_label = SkyMapLite::rootNode()->labelsItem()->addLabel(m_dso, m_labelType, m_trixel);
+            } else {
+                m_label = SkyMapLite::rootNode()->labelsItem()->addLabel(m_dso, m_labelType);
+            }
         }
         m_label->setLabelPos(pos);
     } else if(m_label) {

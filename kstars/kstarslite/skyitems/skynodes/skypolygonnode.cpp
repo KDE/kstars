@@ -22,7 +22,7 @@
 SkyPolygonNode::SkyPolygonNode(LineList* list)
     :m_list(list), m_polygonNode(new PolyNode)
 {
-    //addChildNode(m_polygonNode);
+    addChildNode(m_polygonNode);
 }
 
 void SkyPolygonNode::update(bool forceClip) {
@@ -88,29 +88,6 @@ void SkyPolygonNode::update(bool forceClip) {
         m_polygonNode->hide();
         return;
     }
-
-
-    /*QColor color = KStarsData::Instance()->colorScheme()->colorNamed( "HorzColor" );
-
-    m_polygonNode->setColor(color);
-    m_polygonNode->setLineWidth(2);
-
-    //QVector<Vector2f> ground = projector()->groundPoly(labelPoint, drawLabel);
-    QVector<Vector2f> ground = SkyMapLite::Instance()->projector()->groundPoly();
-    if( ground.size() ) {
-        QPolygonF groundPoly(ground.size());
-        for(int i = 0; i < ground.size(); ++i)
-            groundPoly[i] = KSUtils::vecToPoint(ground[i]);
-        if( Options::showGround() ) {
-            m_polygonNode->updateGeometry(groundPoly,true);
-        } else {
-            groundPoly.append( groundPoly.first() );
-            m_polygonNode->updateGeometry(groundPoly,false);
-        }
-    } else {
-        m_polygonNode->hide();
-        return;
-    }*/
 }
 
 void SkyPolygonNode::setColor(QColor color) {

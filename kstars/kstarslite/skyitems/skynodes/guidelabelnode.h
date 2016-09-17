@@ -26,11 +26,9 @@ class PointNode;
 class QSGSimpleTextureNode;
 class SkyLabeler;
 
-/** @class LabelNode
+/** @class GuideLabelNode
+ * Currnently this class is not used anywhere.
  *
- * A SkyNode derived class used for displaying PointNode with coordinates provided by SkyObject.
- *
- *@short A SkyNode derived class that represents stars and objects that are drawn as stars
  *@author Artem Fedoskin
  *@version 1.0
  */

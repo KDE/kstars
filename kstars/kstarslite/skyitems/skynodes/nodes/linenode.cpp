@@ -23,8 +23,8 @@
 #include <QLinkedList>
 
 LineNode::LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle)
-    :m_lineList(lineList), m_skipList(skipList), m_geometryNode(new QSGGeometryNode),
-      m_drawStyle(drawStyle), m_material(new QSGFlatColorMaterial)
+    :m_geometryNode(new QSGGeometryNode), m_lineList(lineList), m_skipList(skipList),
+      m_material(new QSGFlatColorMaterial), m_drawStyle(drawStyle)
 {
     m_geometryNode->setOpaqueMaterial(m_material);
     //m_geometryNode->setFlag(QSGNode::OwnsMaterial);

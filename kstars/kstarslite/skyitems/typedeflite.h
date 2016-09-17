@@ -7,6 +7,6 @@
 
 class SkyOpacityNode;
 
-typedef SkyOpacityNode LabelTypeNode;
+
 
 #endif

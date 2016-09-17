@@ -105,9 +105,8 @@ public:
 
 protected:
     SkyObject * m_skyObject;
-    int m_hideCount;
-
     bool m_drawLabel;
+    int m_hideCount;
 };
 
 

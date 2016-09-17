@@ -106,6 +106,15 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_manualAdditionsComponent = new SyncedCatalogComponent( this, m_manualAdditionsCat, true, 0 ), 6 );
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();
+
+    if(!allcatalogs.contains(m_internetResolvedCat)) {
+        allcatalogs.append(m_internetResolvedCat);
+    }
+    if(!allcatalogs.contains(m_manualAdditionsCat)) {
+        allcatalogs.append(m_manualAdditionsCat);
+    }
+    Options::setShowCatalogNames(allcatalogs);
+
     for ( int i=0; i < allcatalogs.size(); ++ i ) {
         if( allcatalogs.at(i) == m_internetResolvedCat || allcatalogs.at(i) == m_manualAdditionsCat ) // This is a special catalog
             continue;

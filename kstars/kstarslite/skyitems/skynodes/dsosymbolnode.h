@@ -1,7 +1,7 @@
 /** *************************************************************************
                           dsosymbolnode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 20/05/2016
+    begin                : 18/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -26,19 +26,19 @@ class QSGSimpleTextureNode;
 class EllipseNode;
 class LineNode;
 
-/** @class DSOSymbolNode
- *
- * A SkyNode derived class used for displaying PointNode with coordinates provided by SkyObject.
- *
- *@short A SkyNode derived class that represents stars and objects that are drawn as stars
- *@author Artem Fedoskin
- *@version 1.0
- */
-
 class RootNode;
 
+/**
+ * @short A base class for all symbol nodes.
+ *
+ */
 class SymbolNode : public QSGNode {
 public:
+    /**
+     * @short Update size and the symbol itself. Each SymbolNode should override this function,
+     * and call SymbolNode::updateSymbol() in the beginning of overriden updateSymbol to
+     * initialize values that are used across all symbols.
+     */
     virtual void updateSymbol(float x, float y, float e, float size);
 protected:
     SymbolNode() { }
@@ -137,18 +137,39 @@ public:
     QSGGeometryNode *lines;
 };
 
+/** @class DSOSymbolNode
+ *
+ *@short A SkyNode derived class used for Deep Sky symbols in SkyMapLite
+ *@author Artem Fedoskin
+ *@version 1.0
+ */
+
 class DSOSymbolNode : public SkyNode  {
 public:
     /**
-     * @short Constructor
-     * @param skyObject pointer to SkyObject that has to be displayed on SkyMapLite
-     * @param parentNode pointer to the top parent node, which holds texture cache
-     * @param spType spectral class of PointNode
-     * @param size initial size of PointNode
+     * @short Constructor.
+     * @param skyObject - DeepSkyObject, for which this symbol should be created
+     * @param color of the symbol
      */
     DSOSymbolNode(DeepSkyObject *skyObject, QColor color = QColor());
-    void changePos(float size, const QPointF &pos, float positionangle);
+
+    /**
+     * @short Changes position and rotation angloe of the symbol
+     * @param pos - new position
+     * @param positionangle - rotation angle
+     */
+    void changePos(const QPointF &pos, float positionangle);
+    /**
+     * @short Update size and position of the symbol
+     * @param size - new size of symbol
+     * @param pos - new position
+     * @param positionangle - new rotation angle
+     */
     void update(float size, const QPointF &pos, float positionangle);
+
+    /**
+     * @short Create SymbolNode based on the type of m_dso
+     */
     void initSymbol();
     QColor getColor() { return m_color; }
 private:

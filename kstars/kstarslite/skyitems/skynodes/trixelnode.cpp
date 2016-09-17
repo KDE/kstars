@@ -17,10 +17,27 @@
 #include "skymaplite.h"
 #include "trixelnode.h"
 #include <QSGSimpleTextureNode>
+#include "skynode.h"
 
 TrixelNode::TrixelNode(Trixel trixel)
     :m_trixel(trixel)
 {
+
+}
+
+void TrixelNode::deleteAllChildNodes() {
+    QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = m_nodes.begin();
+
+    while(i != m_nodes.end()) {
+        SkyNode *node = (*i).second;
+        if(node) {
+            removeChildNode(node);
+            delete node;
+
+            *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
+        }
+        i++;
+    }
 }
 
 void TrixelNode::hide() {

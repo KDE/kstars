@@ -45,8 +45,9 @@ class QQuickItem;
 /**
  *@class KStarsLite
  *@short This class loads QML files and connects SkyMapLite and KStarsData
- *Unlike KStars class it is not a main Window but a root object that contains the program clock and holds pointers on SkyMapLite and KStarsData objects.
- *KStarsLite is a singleton, use KStarsLite::createInstance() to create an instance and KStarsLite::Instance() to get a pointer to the instance
+ * Unlike KStars class it is not a main window (see KStarsLite::m_Engine) but a root object that contains the program clock and
+ * holds pointers to SkyMapLite and KStarsData objects.
+ * KStarsLite is a singleton, use KStarsLite::createInstance() to create an instance and KStarsLite::Instance() to get a pointer to the instance
  *@author Artem Fedoskin
  *@version 1.0
  */
@@ -91,17 +92,22 @@ public:
     /** @return pointer to KStarsData object which contains application data. */
     inline KStarsData* data() const { return m_KStarsData; }
     
+    /** @return pointer to ImageProvider that is used in QML to display image fetched from CCD **/
     inline ImageProvider *imageProvider() const { return m_imgProvider; }
     
+    /** @return pointer to QQmlApplicationEngine that runs QML **/
     inline QQmlApplicationEngine *qmlEngine() { return &m_Engine; }
     
     /** @short used from QML to update positions of sky objects and update SkyMapLite */
     Q_INVOKABLE void fullUpdate();
 
+    /** @short currently sets color scheme from config **/
     void applyConfig( bool doApplyFocus = true );
 
+    /** @short set whether tutorial should be shown on next startup **/
     void setRunTutorial(bool runTutorial);
 
+    /** @return true if tutorial should be shown **/
     bool getRunTutorial();
     
 #ifdef HAVE_INDI
@@ -170,6 +176,10 @@ signals:
     void scaleChanged(float);
 
     void runTutorialChanged();
+
+    /** Once this signal is emitted, notification with text msg will appear on the screen.
+        Use this signal to output messages to user (warnings, info etc.) **/
+    void notificationMessage(QString msg);
     
 public Q_SLOTS:
     /**
@@ -199,6 +209,7 @@ public Q_SLOTS:
     /** action slot: advance one step backward in time */
     void slotStepBackward();
     
+    /** @short start tracking clickedPoint or stop tracking if we are already tracking some object **/
     void slotTrack();
     
 private slots:

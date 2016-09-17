@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          pointsourcenode.h  -  K Desktop Planetarium
+                          constellationartnode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/05/2016
+    begin                : 02/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,8 +13,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef POINTSOURCENODE_H_
-#define POINTSOURCENODE_H_
+#ifndef CONSTELLATIONARTNODE_H
+#define CONSTELLATIONARTNODE_H
 #include "skynode.h"
 #include "../labelsitem.h"
 
@@ -25,11 +25,9 @@ class LabelNode;
 class ConstellationsArt;
 class QSGSimpleTextureNode;
 
-/** @class PointSourceNode
+/** @class ConstellationArtNode
  *
- * A SkyNode derived class used for displaying PointNode with coordinates provided by SkyObject.
- *
- *@short A SkyNode derived class that represents stars and objects that are drawn as stars
+ *@short A SkyNode derived class that represents ConstellationsArt object.
  *@author Artem Fedoskin
  *@version 1.0
  */
@@ -40,15 +38,13 @@ class ConstellationArtNode : public SkyNode  {
 public:
     /**
      * @short Constructor
-     * @param skyObject pointer to SkyObject that has to be displayed on SkyMapLite
-     * @param parentNode pointer to the top parent node, which holds texture cache
-     * @param spType spectral class of PointNode
-     * @param size initial size of PointNode
+     * @param obj - a pointer to ConstellationsArt object that is represented by this node
      */
     ConstellationArtNode(ConstellationsArt *obj);
     /**
-     * @short changePos changes the position m_point
-     * @param pos new position
+     * @short changePos change the position of this node
+     * @param pos - new position
+     * @param positionangle - an angle of ConstellationsArt image rotation
      */
     void changePos(QPointF pos, double positionangle);
 

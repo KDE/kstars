@@ -190,18 +190,7 @@ void StarItem::update() {
             label->hide();
 
             if(trixel->hideCount() > delLim) {
-                QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = trixel->m_nodes.begin();
-
-                while(i != trixel->m_nodes.end()) {
-                    SkyNode *node = (*i).second;
-                    if(node) {
-                        trixel->removeChildNode(node);
-                        delete node;
-
-                        *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
-                    }
-                    i++;
-                }
+                trixel->deleteAllChildNodes();
             }
         } else {
             trixel->show();
@@ -281,7 +270,6 @@ void StarItem::update() {
         deep = deep->nextSibling();
         deepStars->update();
     }
-
 
     QSGNode *n = m_stars->firstChild();
     while(n != 0) {

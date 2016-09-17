@@ -19,6 +19,7 @@
 
 #include <QStringListModel>
 #include <QSqlDatabase>
+#include <QGeoPositionInfo>
 
 #include "skyobjects/skyobject.h"
 
@@ -80,14 +81,33 @@ public:
      */
     dms createDms ( QString degree, bool deg, bool *ok );
 
+    /**
+     * @short setup everything needed to use GPS
+     */
+    void setupGPS();
+
+    /**
+     * Starts setting GPS fix. GPSCoordinatesChanged() signal will be emitted once coordinates are
+     * fetched.
+     */
+    Q_INVOKABLE void getCoordinatesFromGPS();
+
 public slots:
     void initCityList();
     void updateCurrentLocation();
+
+    void processNewCoordinates(QGeoPositionInfo position);
+
 signals:
     void currentLocationChanged(QString);
     void TZListChanged(QStringList);
     void DSTRulesChanged(QStringList);
     void currLocIndexChanged(int);
+
+    /** Emitted when GPS coordinates were successfully updated **/
+    void coordinatesChangedGPS(QGeoPositionInfo newPos);
+    /** Emitted when coordinates couldn't be fetched during 10 seconds **/
+    void updateTimeoutGPS();
 
 private:
     /**

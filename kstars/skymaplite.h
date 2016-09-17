@@ -75,32 +75,40 @@ class QSGTexture;
 class SkyMapLite : public QQuickItem {
 
     Q_OBJECT
+    /** magnitude limit. Used in QML **/
     Q_PROPERTY(double magLim READ getMagLim WRITE setMagLim NOTIFY magLimChanged)
 
+    /** wrappers for clickedPoint and clickedObject. Used to set clicked object and point from QML **/
     Q_PROPERTY(SkyPointLite *clickedPointLite READ getClickedPointLite NOTIFY pointLiteChanged)
     Q_PROPERTY(SkyObjectLite *clickedObjectLite READ getClickedObjectLite NOTIFY objectLiteChanged)
+    /** list of FOVSymbols that are currently available **/
     Q_PROPERTY(QStringList FOVSymbols READ getFOVSymbols NOTIFY symbolsFOVChanged)
+    /** true if SkyMapLite is being panned **/
     Q_PROPERTY(bool slewing READ getSlewing WRITE setSlewing NOTIFY slewingChanged)
 protected:
-    /**
-    *Constructor.
-    */
+    /** Constructor. **/
     explicit SkyMapLite();
 
+    /** Updates SkyMapLite by calling RootNode::update(), which in turn initiates update of all child nodes. **/
     virtual QSGNode* updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData);
 
+    /** pointer to RootNode. Use it to universally access RootNode
+     * @warning RootNode should be used solely during updatePaintNode! See Qt Quick Scene Graph documentation.
+    **/
     static RootNode *m_rootNode;
 
 public:
+    /** Creates instance of SkyMapLite (delete the old one if any) **/
     static SkyMapLite* createInstance();
 
+    /** Bind size to parent's size and initialize star images **/
     void initialize(QQuickItem *parent);
 
     static SkyMapLite* Instance() { return pinstance; }
 
     static bool IsSlewing() { return pinstance->isSlewing(); }
 
-    /** Destructor (empty) */
+    /** Destructor. Clear star images.*/
     ~SkyMapLite();
 
     /**
@@ -109,143 +117,130 @@ public:
      */
     void deleteSkyNode(SkyNode *skyNode);
 
-    /** @short Retrieve the Focus point; the position on the sky at the
-        *center of the skymap.
-        *@return a pointer to the central focus point of the sky map
-        */
-
-    /** @return the angular field of view of the sky map, in degrees.
-    *@note it must use either the height or the width of the window to calculate the
-    *FOV angle.  It chooses whichever is larger.
-    */
-    //float fov();
-
     /** @short Update the focus position according to current options. */
     void updateFocus();
 
     /** @short Retrieve the Focus point; the position on the sky at the
-        *center of the skymap.
-        *@return a pointer to the central focus point of the sky map
-        */
+     *center of the skymap.
+     *@return a pointer to the central focus point of the sky map
+     */
     SkyPoint* focus() { return &Focus; }
 
     /** @short retrieve the Destination position.
-        *
-        *The Destination is the point on the sky to which the focus will
-        *be moved.
-        *
-        *@return a pointer to the destination point of the sky map
-        */
+     *
+     *The Destination is the point on the sky to which the focus will be moved.
+     *@return a pointer to the destination point of the sky map
+     */
     SkyPoint* destination() { return &Destination; }
 
     /** @short retrieve the FocusPoint position.
-        *
-        *The FocusPoint stores the position on the sky that is to be
-        *focused next.  This is not exactly the same as the Destination
-        *point, because when the Destination is set, it will begin slewing
-        *immediately.
-        *
-        *@return a pointer to the sky point which is to be focused next.
-        */
+     *
+     *The FocusPoint stores the position on the sky that is to be
+     *focused next.  This is not exactly the same as the Destination
+     *point, because when the Destination is set, it will begin slewing
+     *immediately.
+     *
+     *@return a pointer to the sky point which is to be focused next.
+     */
     SkyPoint* focusPoint() { return &FocusPoint; }
 
     /** @short sets the central focus point of the sky map.
-        *@param f a pointer to the SkyPoint the map should be centered on
-        */
+     *@param f a pointer to the SkyPoint the map should be centered on
+     */
     void setFocus( SkyPoint *f );
 
     /** @short sets the focus point of the skymap, using ra/dec coordinates
-        *
-        *@note This function behaves essentially like the above function.
-        *It differs only in the data types of its arguments.
-        *
-        *@param ra the new right ascension
-        *@param dec the new declination
-        */
+     *
+     *@note This function behaves essentially like the above function.
+     *It differs only in the data types of its arguments.
+     *
+     *@param ra the new right ascension
+     *@param dec the new declination
+     */
     void setFocus( const dms &ra, const dms &dec );
 
     /** @short sets the focus point of the sky map, using its alt/az coordinates
-        *@param alt the new altitude
-        *@param az the new azimuth
-        */
+     *@param alt the new altitude
+     *@param az the new azimuth
+     */
     void setFocusAltAz( const dms &alt, const dms & az);
 
     /** @short sets the destination point of the sky map.
-        *@note setDestination() emits the destinationChanged() SIGNAL,
-        *which triggers the SLOT function SkyMap::slewFocus().  This
-        *function iteratively steps the Focus point toward Destination,
-        *repainting the sky at each step (if Options::useAnimatedSlewing()==true).
-        *@param f a pointer to the SkyPoint the map should slew to
-        */
+     *@note setDestination() emits the destinationChanged() SIGNAL,
+     *which triggers the SLOT function SkyMap::slewFocus().  This
+     *function iteratively steps the Focus point toward Destination,
+     *repainting the sky at each step (if Options::useAnimatedSlewing()==true).
+     *@param f a pointer to the SkyPoint the map should slew to
+     */
     void setDestination( const SkyPoint& f );
 
     /** @short sets the destination point of the skymap, using ra/dec coordinates.
-        *
-        *@note This function behaves essentially like the above function.
-        *It differs only in the data types of its arguments.
-        *
-        *@param ra the new right ascension
-        *@param dec the new declination
-        */
+     *
+     *@note This function behaves essentially like the above function.
+     *It differs only in the data types of its arguments.
+     *
+     *@param ra the new right ascension
+     *@param dec the new declination
+     */
     void setDestination( const dms &ra, const dms &dec );
 
     /** @short sets the destination point of the sky map, using its alt/az coordinates.
-        *@param alt the new altitude
-        *@param az the new azimuth
-        */
+     *@param alt the new altitude
+     *@param az the new azimuth
+     */
     void setDestinationAltAz( const dms &alt, const dms & az);
 
     /** @short set the FocusPoint; the position that is to be the next Destination.
-        *@param f a pointer to the FocusPoint SkyPoint.
-        */
+     *@param f a pointer to the FocusPoint SkyPoint.
+     */
     void setFocusPoint( SkyPoint *f ) { if ( f ) FocusPoint = *f; }
 
     /** @short Retrieve the ClickedPoint position.
-        *
-        *When the user clicks on a point in the sky map, the sky coordinates of the mouse
-        *cursor are stored in the private member ClickedPoint.  This function retrieves
-        *a pointer to ClickedPoint.
-        *@return a pointer to ClickedPoint, the sky coordinates where the user clicked.
-        */
+     *
+     *When the user clicks on a point in the sky map, the sky coordinates of the mouse
+     *cursor are stored in the private member ClickedPoint.  This function retrieves
+     *a pointer to ClickedPoint.
+     *@return a pointer to ClickedPoint, the sky coordinates where the user clicked.
+     */
     SkyPoint* clickedPoint() { return &ClickedPoint; }
 
     /** @short Set the ClickedPoint to the skypoint given as an argument.
-        *@param f pointer to the new ClickedPoint.
-        */
+     *@param f pointer to the new ClickedPoint.
+     */
     void setClickedPoint( SkyPoint *f );
 
     /** @short Retrieve the object nearest to a mouse click event.
-        *
-        *If the user clicks on the sky map, a pointer to the nearest SkyObject is stored in
-        *the private member ClickedObject.  This function returns the ClickedObject pointer,
-        *or NULL if there is no CLickedObject.
-        *@return a pointer to the object nearest to a user mouse click.
-        */
+     *
+     *If the user clicks on the sky map, a pointer to the nearest SkyObject is stored in
+     *the private member ClickedObject.  This function returns the ClickedObject pointer,
+     *or NULL if there is no CLickedObject.
+     *@return a pointer to the object nearest to a user mouse click.
+     */
     SkyObject* clickedObject() const { return ClickedObject; }
 
     /** @short Set the ClickedObject pointer to the argument.
-        *@param o pointer to the SkyObject to be assigned as the ClickedObject
-        */
+     *@param o pointer to the SkyObject to be assigned as the ClickedObject
+     */
     void setClickedObject( SkyObject *o );
 
     /** @short Retrieve the object which is centered in the sky map.
-        *
-        *If the user centers the sky map on an object (by double-clicking or using the
-        *Find Object dialog), a pointer to the "focused" object is stored in
-        *the private member FocusObject.  This function returns a pointer to the
-        *FocusObject, or NULL if there is not FocusObject.
-        *@return a pointer to the object at the center of the sky map.
-        */
+     *
+     *If the user centers the sky map on an object (by double-clicking or using the
+     *Find Object dialog), a pointer to the "focused" object is stored in
+     *the private member FocusObject.  This function returns a pointer to the
+     *FocusObject, or NULL if there is not FocusObject.
+     *@return a pointer to the object at the center of the sky map.
+     */
     SkyObject* focusObject() const { return FocusObject; }
 
     /** @short Set the FocusObject pointer to the argument.
-        *@param o pointer to the SkyObject to be assigned as the FocusObject
-        */
+     *@param o pointer to the SkyObject to be assigned as the FocusObject
+     */
     void setFocusObject( SkyObject *o );
 
     /** @ Set zoom factor.
-      *@param factor zoom factor
-      */
+     *@param factor zoom factor
+     */
     void setZoomFactor(double factor);
 
     /** @short Call to set up the projector before update of SkyItems positions begins. */
@@ -267,7 +262,6 @@ public:
      * @return QSGTexture with text
      * @note font size is set in SkyLabeler::SkyLabeler() by initializing m_stdFont with default font
      */
-
     QSGTexture *textToTexture(QString text, QColor color = QColor(255,255,255), bool zoomFont = false);
 
     /**
@@ -281,21 +275,19 @@ public:
      */
     QSGTexture* getCachedTexture(int size, char spType);
 
-    /** Called when SkyMapComposite finished loading all SkyComponents */
+    /** @short called when SkyMapComposite finished loading all SkyComponents */
     inline void loadingFinished() { m_loadingFinished = true; }
 
+    /** @return true if the map is in slewing mode or clock is active **/
     bool isSlewing() const;
 
+    /** @return current magnitude limit **/
     inline double getMagLim() { return m_magLim; }
 
+    /** @short set magnitude limit **/
     void setMagLim(double magLim);
 
-    // NOTE: This method is draw-backend independent.
-    /** @short update the geometry of the angle ruler. */
-    //void updateAngleRuler();
-
-    /*@*@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
-        */
+    /** @short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack() **/
     void stopTracking();
 
     /** Get the current projector.
@@ -317,8 +309,6 @@ public:
     static inline RootNode *rootNode() { return m_rootNode; }
 
     static inline void setRootNode(RootNode *root) { m_rootNode = root; }
-
-    static inline int updatesCount() { return m_updatesCount; }
 
     /** return limit of hides for the node to delete it **/
     static double deleteLimit();
@@ -374,20 +364,6 @@ public:
      */
     void setSlewing(bool newSlewing);
 
-    /*void setPreviewLegend(bool preview) { m_previewLegend = preview; }
-
-    void setLegend(const Legend &legend) { m_legend = legend; }
-
-    bool isInObjectPointingMode() const { return m_objPointingMode; }
-
-    void setObjectPointingMode(bool enabled) { m_objPointingMode = enabled; }
-
-    void setFovCaptureMode(bool enabled) { m_fovCaptureMode = enabled; }
-
-    bool isInFovCaptureMode() const { return m_fovCaptureMode; }
-
-    SkyPoint getCenterPoint();*/
-
 public slots:
      /** Called whenever wrappers' width or height are changed. Probably will be used to
      * update positions of items.
@@ -409,18 +385,6 @@ public slots:
      */
     void slotUpdateSky( bool now );
 
-    /** Toggle visibility of geo infobox */
-    //void slotToggleGeoBox(bool);
-
-    /** Toggle visibility of focus infobox */
-    //void slotToggleFocusBox(bool);
-
-    /** Toggle visibility of time infobox */
-    //void slotToggleTimeBox(bool);
-
-    /** Toggle visibility of all infoboxes */
-    //void slotToggleInfoboxes(bool);
-
     /** Step the Focus point toward the Destination point.  Do this iteratively, redrawing the Sky
      * Map after each step, until the Focus point is within 1 step of the Destination point.
      * For the final step, snap directly to Destination, and redraw the map.
@@ -439,38 +403,10 @@ public slots:
      */
     void slotCenter();
 
-    /** @short Popup menu function: Display 1st-Generation DSS image with the Image Viewer.
-     * @note the URL is generated using the coordinates of ClickedPoint.
-     */
-    //void slotDSS();
-
-    /** @short Popup menu function: Display Sloan Digital Sky Survey image with the Image Viewer.
-     * @note the URL is generated using the coordinates of ClickedPoint.
-     */
-    //void slotSDSS();
-
-    /** @short Popup menu function: Show webpage about ClickedObject
-     * (only available for some objects).
-     */
-    //void slotInfo();
-
-    /** @short Popup menu function: Show image of ClickedObject
-     * (only available for some objects).
-     */
-    //void slotImage();
-
-    /** @short Popup menu function: Show the Detailed Information window for ClickedObject. */
-    //void slotDetail();
-
     /** Checks whether the timestep exceeds a threshold value.  If so, sets
      * ClockSlewing=true and sets the SimClock to ManualMode.
      */
     void slotClockSlewing();
-
-  //  void slotBeginStarHop(); // TODO: Add docs
-
-    /** Render eyepiece view */
-    //void slotEyepieceView();
 
     /** Zoom in one step. */
     void slotZoomIn();
@@ -485,11 +421,6 @@ public slots:
      * Used in FindDialogLite
      */
     void slotSelectObject(SkyObject *skyObj);
-
-    /** Object pointing for Printing Wizard done */
-    //void slotObjectSelected();
-
-    //void slotCancelLegendPreviewMode();
 
     /**
      * @short slotGyroMove called when m_gyroSensor got new reading. Moves focus of SkyMapLite according
@@ -591,11 +522,6 @@ protected:
      */
     virtual void touchEvent( QTouchEvent *e);
 
-    /** If the skymap will be resized, the sky must be new computed. So this
-     * function calls explicitly new computing of the skymap.
-     */
-    //virtual void resizeEvent( QResizeEvent * );
-
 private slots:
     /** @short display tooltip for object under cursor. It's called by m_HoverTimer.
      *  if mouse didn't moved for last HOVER_INTERVAL milliseconds.
@@ -604,16 +530,6 @@ private slots:
 
     /** Set the shape of mouse cursor to a cross with 4 arrows. */
     void setMouseMoveCursor();
-
-    /** resets updates counter **/
-    void setUpdateCounter();
-
-//    /** adds telescope to TelescopeSymbolsItem **/
-//    void addTelescope(TelescopeLite *);
-
-//    /** deletes all device-related SkyItems or SkyNodes **/
-//    void removeDevice(QString device);
-
 private:
 
     /** @short Sets the shape of the default mouse cursor to a cross. */
@@ -713,26 +629,20 @@ private:
     static SkyMapLite *pinstance;
     QQuickItem *m_SkyMapLiteWrapper;
 
-    QTimer m_timer;
-    static int m_updatesCount; // To count the number of updates per second
-    static int m_updatesCountTemp;
-
-    //Holds SkyNodes that need to be deleted
+    ///Holds SkyNodes that need to be deleted
     QLinkedList<SkyNode *> m_deleteNodes;
 
     float m_sizeMagLim; //Used in PointSourceNode
     double m_magLim; //Mag limit for all objects
 
-    // Used to notify zoom-dependent labels about font size change
+    /// Used to notify zoom-dependent labels about font size change
     bool m_fontSizeChanged;
-    // Used for drawing labels
+    /// Used for drawing labels
     QPainter m_painter;
 
-    //Sensors
-    /*QTapSensor *m_tapSensor;
-    QMagnetometer *m_magnetometer;
-    QCompass *m_compass;
-    QRotationSensor *m_rotation;*/
+    /** This timer is triggered every time user touches the screen with one finger. If touch was released
+        within 500 milliseconds than it is a tap, otherwise we pan. **/
+    QTimer m_tapBeganTimer;
 
     static int starColorMode;
 

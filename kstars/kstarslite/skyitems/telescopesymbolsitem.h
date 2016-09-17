@@ -29,7 +29,7 @@ class ClientManagerLite;
 
     /**
      * @class TelescopeSymbolsItem
-     * This class handles telescope symbols in SkyMapLite
+     * This class handles representation of telescope symbols in SkyMapLite
      *
      * @author Artem Fedoskin
      * @version 1.0
@@ -39,13 +39,24 @@ class TelescopeSymbolsItem : public SkyItem {
 public:
     /**
      * @short Constructor
-     * @param asteroidsList const reference to list of asteroids
      * @param rootNode parent RootNode that instantiates PlanetsItem
      */
     TelescopeSymbolsItem(RootNode *rootNode);
 
+    /**
+     * @short Updates position and visibility of CrosshairNodes that represent telescope symbols
+     * If client is no more connected to host or device CrosshairNode is deleted.
+     */
     virtual void update() override;
+
+    /**
+     * @short Add telescope symbol for device bd
+     */
     void addTelescope(INDI::BaseDevice *bd);
+
+    /**
+     * @short Remove telescope symbol of device bd
+     */
     void removeTelescope(INDI::BaseDevice *bd);
 
 private:

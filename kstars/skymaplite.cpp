@@ -95,15 +95,12 @@ SkyMapLite *SkyMapLite::pinstance = 0;
 
 RootNode *SkyMapLite::m_rootNode = nullptr;
 
-int SkyMapLite::m_updatesCount = 0;
-int SkyMapLite::m_updatesCountTemp = 0;
-
 int SkyMapLite::starColorMode = 0;
 
 SkyMapLite::SkyMapLite()
     :m_proj(0), count(0), data(KStarsData::Instance()),
       nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0),
-      clearTextures(false), isInitialized(false)
+      isInitialized(false), clearTextures(false)
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
@@ -126,10 +123,7 @@ SkyMapLite::SkyMapLite()
     qmlRegisterType<SkyObjectLite>("KStarsLite",1,0,"SkyObjectLite");
     qmlRegisterType<SkyPointLite>("KStarsLite",1,0,"SkyPointLite");
 
-    m_timer.setInterval(1000);
-    m_timer.start();
-
-    connect(&m_timer, SIGNAL(timeout()), this, SLOT(setUpdateCounter()));
+    m_tapBeganTimer.setSingleShot(true);
 
     setupProjector();
 
@@ -145,34 +139,22 @@ SkyMapLite::SkyMapLite()
     connect(clientMng, &ClientManagerLite::telescopeAdded, [this](TelescopeLite *newTelescope){ this->m_newTelescopes.append(newTelescope->getDevice()); });
     connect(clientMng, &ClientManagerLite::telescopeRemoved, [this](TelescopeLite *newTelescope){ this->m_delTelescopes.append(newTelescope->getDevice()); });
 #endif
-
 }
-
-void SkyMapLite::setUpdateCounter() {
-    m_updatesCount = m_updatesCountTemp;
-    m_updatesCountTemp = 0;
-}
-
-//void SkyMapLite::addTelescope(TelescopeLite *) {
-
-//}
-
-//void SkyMapLite::removeDevice(QString device) {
-
-//}
 
 QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
     Q_UNUSED(updatePaintNodeData);
     RootNode *n = static_cast<RootNode*>(oldNode);
 
-    qDeleteAll(m_deleteNodes);
-    m_deleteNodes.clear();
+    /* This code deletes all nodes that are representing dynamic stars and not needed anymore (under construction) */
+    //qDeleteAll(m_deleteNodes);
+    //m_deleteNodes.clear();
 
     if(m_loadingFinished && isInitialized) {
         if(!n) {
             n = new RootNode();
             m_rootNode = n;
         }
+        /** Add or delete telescope crosshairs **/
 #ifdef HAVE_INDI
         if(m_newTelescopes.count() > 0) {
             foreach(INDI::BaseDevice *telescope, m_newTelescopes) {

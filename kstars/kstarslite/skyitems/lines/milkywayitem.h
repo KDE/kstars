@@ -24,32 +24,30 @@ class MilkyWay;
 
     /** @class MilkyWay
      *
-     * Class that handles lines (Constellation lines and boundaries and both coordinate grids) in
-     * SkyMapLite.
-     *
-     * To display lines component use addLinesComponent.
-     *
-     *@note see RootNode::RootNode() for example of adding lines
-     *@short Class that handles most of the lines in SkyMapLite
-     *@author Artem Fedoskin
-     *@version 1.0
+     * @short Class that handles drawing of MilkyWay (both filled and non-filled)
+     * @author Artem Fedoskin
+     * @version 1.0
      */
 
 class MilkyWayItem : public SkyItem {
 public:
     /**
      * @short Constructor.
-     * @param rootNode parent RootNode that instantiated this object
+     * @param mwComp - pointer to MilkyWay that handles data
+     * @param rootNode - parent RootNode that instantiated this object
      */
     MilkyWayItem(MilkyWay *mwComp, RootNode *rootNode);
 
+    /**
+     * @short If m_filled is true SkyPolygonNodes(filled) will be initialized. Otherwise MilkyWay will be
+     * drawn with LineNodes(non-filled)
+     */
     void initialize();
 
     /**
-     * @short updates all trixels that are associated with LineListIndex or hide them if selected()
-     * of this LineListIndex returns false
+     * @short Update position of all nodes that represent MilkyWay
+     * If m_filled is not equal to Options::fillMilkyWay() we reinitialize all nodes by calling initialize()
      */
-
     virtual void update();
 private:
     bool m_filled; //True if the polygon has to be filled

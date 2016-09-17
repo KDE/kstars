@@ -68,6 +68,9 @@ public:
     /** @return the unit of the flux measurements in the catalog, if any */
     inline QString fluxUnit() const { return m_catFluxUnit; }
 
+    /** @return color, which should be used for drawing objects in this catalog **/
+    inline QString catColor() { return m_catColor; }
+
     /**
      *@return true if visibility Option is set for this catalog
      *@note this is complicated for custom catalogs, because
@@ -76,6 +79,18 @@ public:
      *returns the appropriate bool value
      */
     inline bool getVisibility() { return (Options::showCatalog()[m_ccIndex] > 0) ? true : false; }
+
+    /**
+     * @see SyncedCatalogItem
+     */
+    quint32 getUpdateID() { return updateID; }
+
+    /**
+     * @brief Returns true if this catalog is to be drawn
+     * Overridden from SkyComponent::selected
+     * @return bool
+     **/
+    virtual bool selected();
 
 protected:
 
@@ -86,14 +101,6 @@ protected:
     virtual void _loadData( bool includeCatalogDesignation );
 
     // FIXME: There seems to be no way to remove catalogs from the program. -- asimha
-
-    /**
-     * @brief Returns true if this catalog is to be drawn
-     * Overridden from SkyComponent::selected
-     * @return bool
-     **/
-    virtual bool selected();
-
 
     QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
     float m_catEpoch;

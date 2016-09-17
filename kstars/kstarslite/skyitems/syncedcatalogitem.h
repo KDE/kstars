@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          satellitesitem.h  -  K Desktop Planetarium
+                          syncedcatalogitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/05/2016
+    begin                : 03/09/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -13,44 +13,45 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef SATELLITESITEM_H_
-#define SATELLITESITEM_H_
+#ifndef SYNCEDCATALOGITEM_H_
+#define SYNCEDCATALOGITEM_H_
+
+    /**
+    * @class SyncedCatalogItem
+    * This class handles representation of objects from SyncedCatalogComponent in SkyMapLite
+    *
+    * @author Artem Fedoskin
+    * @version 1.0
+    */
 
 #include "skyitem.h"
 
-class KSComet;
 class SkyObject;
-class SatellitesComponent;
+class SyncedCatalogComponent;
 
-    /**
-     * @class SatellitesItem
-     * This class handles representation of satellites in SkyMapLite
-     *
-     * @author Artem Fedoskin
-     * @version 1.0
-     */
-
-class SatellitesItem : public SkyItem {
+class SyncedCatalogItem : public SkyItem {
 public:
     /**
      * @short Constructor
-     * @param satComp - pointer to SatellitesComponent that handles data
+     * @param parent - pointer to SyncedCatalogComponent that handles data
      * @param rootNode parent RootNode that instantiates this object
      */
-    SatellitesItem(SatellitesComponent *satComp, RootNode *rootNode = 0);
+    SyncedCatalogItem(SyncedCatalogComponent *parent, RootNode *rootNode);
 
     /**
-     * @short recreates the node tree (deletes old nodes and appends new ones according to
-     * SatelliteGroups from SatellitesComponent::groups())
-     */
-    void recreateList();
-
-    /**
-     * @short Update positions and visibility of satellites
+     * @short Update positions and visibility of objects from this catalog.
+     * To check whether we need to create or delete nodes we compare m_ObjectList and
+     * SyncedCatalogComponent::objectList(). If objectList was changed we recreate the whole node tree to sync
+     * it with objectList.
      */
     virtual void update() override;
 
 private:
-    SatellitesComponent *m_satComp;
+    SyncedCatalogComponent *m_parent;
+    QList<SkyObject *> m_ObjectList;
+
+    QSGNode *stars;
+    QSGNode *dsoSymbols;
+    QSGNode *dsoNodes;
 };
 #endif

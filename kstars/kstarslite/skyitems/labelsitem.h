@@ -30,18 +30,20 @@ class TrixelNode;
 
 class SkyObject;
 
+typedef SkyOpacityNode LabelTypeNode;
+
 /**
  * @class LabelsItem
  *
  * This class is in charge of labels in SkyMapLite. Labels can be instantiated by calling addLabel with
  * either SkyObject or plain QString as a name. There are two types of label nodes available - LabelNode
- * that can't be rotated and GuideLabelNode that supports rotation (but it not used now anywhere).
+ * that can't be rotated and GuideLabelNode that supports rotation (but it is not used anywhere yet).
  *
  * To prevent labels from overlapping this class uses SkyLabeler. We check LabelNode for overlapping by
- * calling SkyLabeler::markText() (SkyLabeler::markRegion() for GuideLabelNode) update().
+ * calling SkyLabeler::markText() (SkyLabeler::markRegion() for GuideLabelNode) and update().
  *
  * Each of SkyItems that uses labels has its own label type in enum label_t (copied from SkyLabeler but
- * was a bit extended). Labels of particular type are reparented to LabelTypeNode(QSGOpacityNode) so
+ * was extended). Labels of particular type are reparented to LabelTypeNode(QSGOpacityNode) so
  * to hide all labels of some type you just need to set opacity of LabelTypeNode that corresponds to
  * this type to 0.
  *
@@ -53,7 +55,7 @@ class SkyObject;
  *
  * @note font size is set in SkyLabeler::SkyLabeler() by initializing m_stdFont with default font
  *
- * @short handles labels in SkyMapLite
+ * @short Handles labels in SkyMapLite
  * @author Artem Fedoskin
  * @version 1.0
  */
@@ -91,11 +93,13 @@ public:
         EQUATOR_LABEL,
         ECLIPTIC_LABEL,
         TELESCOPE_SYMBOL,
+        CATALOG_STAR_LABEL,
+        CATALOG_DSO_LABEL,
         NO_LABEL //used in LinesItem
     };
 
     /**
-     * creates LabelNode with given skyObject and appends it to LabelTypeNode that corresponds
+     * Create LabelNode with given skyObject and append it to LabelTypeNode that corresponds
      * to type
      * @param skyObject for which the label is created
      * @param labelType type of LabelTypeNode to which this label has to be reparented
@@ -103,8 +107,10 @@ public:
      */
     LabelNode *addLabel(SkyObject *skyObject, label_t labelType);
 
-    /** creates LabelNode and appends it to corresponding TrixelNode so that all labels
+    /** Create LabelNode and append it to corresponding TrixelNode so that all labels
      * can be hidden whenever Trixel is not displayed. Use for sky objects that are indexed by SkyMesh
+     * @param skyObject for which the label is created
+     * @param labelType type of LabelTypeNode to which this label has to be reparented
      * @param trixel id of trixel
      **/
     LabelNode *addLabel(SkyObject *skyObject, label_t labelType, Trixel trixel);
@@ -131,6 +137,7 @@ public:
 
     /**
      * @short updates child labels of LabelTypeNode that corresponds to type in m_labelsLists
+     * Labels for stars and DSOs we update labels only if corresponding TrixelNode is visible.
      * @param labelType type of LabelTypeNode (see m_labelsLists)
      */
 
@@ -179,16 +186,12 @@ public:
     /**
      * @return pointer to RootNode that instantiated this object
      */
-
     RootNode *rootNode() { return m_rootNode; }
 
 private:
     QMap<label_t, LabelTypeNode *> m_labelsLists;
 
-    /**
-     * @short because this class is not derived from SkyItem it has to store pointer to RootNode
-     */
-
+    /** @short because this class is not derived from SkyItem it has to store pointer to RootNode */
     RootNode *m_rootNode;
     SkyLabeler *skyLabeler;
 };

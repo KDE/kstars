@@ -32,12 +32,13 @@ class SkyObject;
 class SkyPointLite : public QObject {
     Q_OBJECT
 public:
+    /** Constructor **/
     SkyPointLite();
 
+    /** @short sets SkyPoint that is needed to be wrapped **/
     void setPoint(SkyPoint *point);
-    /**
-     * @return SkyPoint that is being wrapped
-     */
+
+    /** @return SkyPoint that is being wrapped **/
     Q_INVOKABLE SkyPoint *getPoint() { return point; }
 
 private:

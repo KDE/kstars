@@ -54,7 +54,7 @@ float PointSourceNode::starWidth(float mag) const
 }
 
 PointSourceNode::~PointSourceNode() {
-    if(m_label && m_labelType == LabelsItem::label_t::STAR_LABEL) {
+    if(m_label && (m_labelType == LabelsItem::label_t::STAR_LABEL || m_labelType == LabelsItem::label_t::CATALOG_STAR_LABEL)) {
         m_rootNode->labelsItem()->deleteLabel(m_label);
     }
 }

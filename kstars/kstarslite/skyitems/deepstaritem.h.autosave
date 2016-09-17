@@ -46,9 +46,6 @@ public:
      * memory consumption.
      * @see DeepSkyItem::updateDeepSkyNode()
      */
-    /**
-     * @short updates all trixels that contain stars
-     */
     virtual void update();
 
 private:

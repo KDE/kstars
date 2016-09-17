@@ -88,14 +88,18 @@ SkyObject* SkyObject::clone() const
 SkyObject::~SkyObject() {}
 
 void SkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
+    Q_UNUSED(pos)
+#else
     initPopupMenu( pmenu );
     pmenu->popup( pos );
 #endif
 }
 
 void SkyObject::initPopupMenu( KSPopupMenu *pmenu ) {
-#ifndef KSTARS_LITE
+#ifdef KSTARS_LITE
+    Q_UNUSED(pmenu)
+#else
     pmenu->createEmptyMenu( this );
 #endif
 }

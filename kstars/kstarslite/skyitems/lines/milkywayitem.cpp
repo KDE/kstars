@@ -27,7 +27,7 @@
 #include "../skynodes/trixelnode.h"
 
 MilkyWayItem::MilkyWayItem(MilkyWay *mwComp, RootNode *rootNode)
-    :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode), m_MWComp(mwComp), m_filled(Options::fillMilkyWay())
+    :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode), m_filled(Options::fillMilkyWay()), m_MWComp(mwComp)
 {
     initialize();
 }

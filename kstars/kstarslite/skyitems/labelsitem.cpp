@@ -43,6 +43,10 @@ LabelsItem::LabelsItem()
 
     m_labelsLists.insert(label_t::STAR_LABEL, stars);
 
+    LabelTypeNode *catalog_stars = new LabelTypeNode;
+    appendChildNode(catalog_stars);
+    m_labelsLists.insert(label_t::CATALOG_STAR_LABEL, catalog_stars);
+
     LabelTypeNode *asteroids = new LabelTypeNode;
     appendChildNode(asteroids);
     m_labelsLists.insert(label_t::ASTEROID_LABEL, asteroids);
@@ -82,6 +86,10 @@ LabelsItem::LabelsItem()
     LabelTypeNode *dso_other = new LabelTypeNode;
     deep_sky->appendChildNode(dso_other);
     m_labelsLists.insert(label_t::DSO_OTHER_LABEL, dso_other);
+
+    LabelTypeNode *catalog_dso = new LabelTypeNode;
+    appendChildNode(catalog_dso);
+    m_labelsLists.insert(label_t::CATALOG_DSO_LABEL, catalog_dso);
 
     LabelTypeNode *constellation = new LabelTypeNode;
     appendChildNode(constellation);
@@ -186,8 +194,10 @@ void LabelsItem::update() {
     updateChildLabels(label_t::DSO_NGC_LABEL);
     updateChildLabels(label_t::DSO_IC_LABEL);
     updateChildLabels(label_t::DSO_OTHER_LABEL);
+    updateChildLabels(label_t::CATALOG_DSO_LABEL);
 
     updateChildLabels(label_t::STAR_LABEL);
+    updateChildLabels(label_t::CATALOG_STAR_LABEL);
 }
 
 void LabelsItem::hideLabels(label_t labelType) {
@@ -265,36 +275,13 @@ void LabelsItem::deleteLabel(LabelNode *label) {
 void LabelsItem::updateChildLabels(label_t labelType) {
     LabelTypeNode *node = m_labelsLists[labelType];
     if(node->visible()) {
-
         QSGNode *n = node->firstChild();
-        /*if( labelType == label_t::HORIZON_LABEL
-            || labelType == label_t::ECLIPTIC_LABEL || labelType == label_t::EQUATOR_LABEL) {
         while( n != 0) {
-            GuideLabelNode *label = static_cast<GuideLabelNode *>(n);
-            if(label->visible()) {
-                //if(SkyLabeler::Instance()->markRegion(label->left,label->right,label->top,label->bot)) {
-                QString name = label->name();
-                if(SkyLabeler::Instance()->markText(label->labelPos, name)) {
-                    label->update();
-                } else {
-                    label->hide();
-                }
-            }
-            n = n->nextSibling();
-        }
-    } else {*/
-        while( n != 0) {
-            /*
-         *  int max = int( m_zoomMagLimit * 10.0 );
-    if ( max < 0 ) max = 0;
-    if ( max > MAX_LINENUMBER_MAG ) max = MAX_LINENUMBER_MAG;
-    */
             if(labelType == STAR_LABEL || labelType == DSO_NGC_LABEL || labelType == DSO_MESSIER_LABEL
                     || labelType == DSO_IC_LABEL || labelType == DSO_OTHER_LABEL) {
                 TrixelNode *trixel = static_cast<TrixelNode *>(n);
                 if(trixel->visible()) {
                     QSGNode *l = trixel->firstChild();
-
                     while(l != 0) {
                         LabelNode *label = static_cast<LabelNode *>(l);
                         l = l->nextSibling();
@@ -308,7 +295,6 @@ void LabelsItem::updateChildLabels(label_t labelType) {
                 }
             } else {
                 LabelNode *label = static_cast<LabelNode *>(n);
-                //n = n->nextSibling();
 
                 if(label->visible()) {
                     if(label->zoomFont()) skyLabeler->resetFont();

@@ -36,17 +36,19 @@ class RectNode;
 class FOVSymbolBase : public QSGTransformNode {
 public:
     /**
-     * @brief updateSymbol updates geometry (position, size) of elements of this FOV symbol
+     * @short updates geometry (position, size) of elements of this FOV symbol
      */
     virtual void updateSymbol(QColor color, float pixelSizeX, float pixelSizeY ) =0;
+
+    /** @short return type of this FOV symbol **/
     FOVItem::Shape type() { return m_shape; }
 protected:
     /**
      * @param shape of the symbol. Each subclass sets its own type. Returned in type()
      */
     FOVSymbolBase(FOVItem::Shape shape);
-/*    QImage m_image; //Not supported yet
-    bool m_imageDisplay;*/
+    /*    QImage m_image; //Not supported yet
+        bool m_imageDisplay;*/
     FOVItem::Shape m_shape;
 };
 
@@ -95,22 +97,25 @@ private:
     EllipseNode *el;
 };
 
-/** @class FOVSymbolNode
- *
- * A SkyNode derived class used for displaying FOV symbol. FOVSymbolNade handles creation of FOVSymbolBase
- * and its update.
- *
- *@short A SkyNode derived class that is used for displaying FOV symbol
- *@author Artem Fedoskin
- *@version 1.0
- */
+    /** @class FOVSymbolNode
+     *
+     * A SkyNode derived class used for displaying FOV symbol. FOVSymbolNade handles creation of FOVSymbolBase
+     * and its update.
+     *
+     *@short A SkyNode derived class that is used for displaying FOV symbol
+     *@author Artem Fedoskin
+     *@version 1.0
+     */
 
 class FOVSymbolNode : public SkyNode {
 public:
+    /**
+     * @short Constructor. Initialize m_symbol according to shape
+     * @param name - name of the FOV symbol (used to switch it on/off through SkyMapLite from QML)
+     */
     FOVSymbolNode(const QString &name, float a, float b, float xoffset, float yoffset, float rot, FOVItem::Shape shape = FOVItem::SQUARE, const QString &color = "#FFFFFF");
     /**
-     * @brief updates
-     * @param zoomFactor
+     * @short Update this FOV symbol according to the zoomFactor
      */
     void update(float zoomFactor);
 

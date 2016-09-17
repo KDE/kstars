@@ -315,10 +315,7 @@ void ColorScheme::saveToConfig() {
 void ColorScheme::setStarColorMode( int mode ) { 
     StarColorMode = mode;
     Options::setStarColorMode( mode );
-    //TODO Change textures after color mode was changed
-#ifdef KSTARS_LITE
-    //SkyMapLite::Instance()->initStarImages();
-#else
+#ifndef KSTARS_LITE
     SkyQPainter::initStarImages();
 #endif
 }
@@ -326,9 +323,7 @@ void ColorScheme::setStarColorMode( int mode ) {
 void ColorScheme::setStarColorIntensity( int intens ) { 
     StarColorIntensity = intens;
     Options::setStarColorIntensity( intens );
-#ifdef KSTARS_LITE
-    //SkyMapLite::Instance()->initStarImages();
-#else
+#ifndef KSTARS_LITE
     SkyQPainter::initStarImages();
 #endif
 }
@@ -338,9 +333,7 @@ void ColorScheme::setStarColorModeIntensity( int mode, int intens) {
     StarColorIntensity = intens;
     Options::setStarColorMode( mode );
     Options::setStarColorIntensity( intens );
-#ifdef KSTARS_LITE
-    //SkyMapLite::Instance()->initStarImages();
-#else
+#ifndef KSTARS_LITE
     SkyQPainter::initStarImages();
 #endif
 }

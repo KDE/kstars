@@ -50,7 +50,10 @@ Menu {
 
     KSMenuItem {
         text: xi18n("Center and Track")
-        onTriggered: SkyMapLite.slotCenter()
+        onTriggered: {
+            contextMenu.close()
+            SkyMapLite.slotCenter()
+        }
     }
 
     KSMenuItem {

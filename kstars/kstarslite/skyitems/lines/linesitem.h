@@ -67,7 +67,6 @@ public:
     virtual void update();
 private:
     QMap<LineIndexNode *, LineListIndex *> m_lineIndexes;
-    //QMap<QSGOpacityNode *, QVector<TrixelNode *> > m_trixelNodes;
 };
 #endif
 

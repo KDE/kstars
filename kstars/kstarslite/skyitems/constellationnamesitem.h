@@ -23,8 +23,8 @@
 class ConstellationNamesComponent;
 
 /**
- * @short The ConstellationName struct. It holds SkyObject (coordinate of label) and 2 labels (latin and
- * secondary names)
+ * @short The ConstellationName struct. It holds SkyObject (with coordinates of label) and 2 labels
+ * (latin and secondary names)
  */
 
 struct ConstellationName {
@@ -42,7 +42,7 @@ struct ConstellationName {
 
 /** @class ConstellationNamesItem
  *
- * This class handles representation of ConstellationNamesComponent in SkyMapLite
+ * This class represents ConstellationNamesComponent in SkyMapLite.
  * @author Artem Fedoskin
  * @version 1.0
  */
@@ -58,16 +58,16 @@ public:
     explicit ConstellationNamesItem(ConstellationNamesComponent *constComp, RootNode *rootNode = 0);
 
     /**
-     * Updates positions of labels of ConstellationName based on user settings and labels
-     * visibility. If the user chose latin names then label with secondary name won't be created until
+     * Update positions ConstellationName labels based on user settings and labels visibility.
+     * If the user chose latin names then label with secondary name won't be created until
      * settings are not changed.
      *
-     * @short updates positions of labels based on their visibility.
+     * @short updates positions of labels based on their visibility and user settings.
      */
     virtual void update();
 
     /**
-     * @short deletes all labels and recreates m_names according to object list of m_constelNamesComp
+     * @short Delete all labels and recreate m_names according to object list of m_constelNamesComp
      */
     void recreateList();
 private:

@@ -24,28 +24,6 @@
 
 LocationDialogLite::LocationDialogLite()
     :SelectedCity(nullptr), currentGeo(nullptr){
-    //    KStarsData* data = KStarsData::Instance();
-
-    //    SelectedCity = NULL;
-
-    //    setWindowTitle( i18n( "Set Geographic Location" ) );
-
-    //    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
-    //    mainLayout->addWidget(buttonBox);
-    //    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
-    //    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-
-    //    for ( int i=0; i<25; ++i )
-    //        ld->TZBox->addItem( QLocale().toString( (double)(i-12) ) );
-
-    //    //Populate DSTRuleBox
-    //    foreach( const QString& key, data->getRulebook().keys() ) {
-    //        if( !key.isEmpty() )
-    //            ld->DSTRuleBox->addItem( key );
-    //    }
-
-    //    /*ld->DSTLabel->setText( "<a href=\"showrules\">" + i18n("DST Rule:") + "</a>" );
-    //    connect( ld->DSTLabel, SIGNAL( linkActivated(const QString &) ), this, SLOT( showTZRules() ) );*/
     KStarsLite *kstars = KStarsLite::Instance();
     kstars->qmlEngine()->rootContext()->setContextProperty("CitiesModel", &m_cityList);
 
@@ -54,7 +32,23 @@ LocationDialogLite::LocationDialogLite()
     KStarsData* data = KStarsData::Instance();
     connect(data, SIGNAL(geoChanged()), this, SLOT(updateCurrentLocation()));
 
+    setupGPS();
+}
+
+void LocationDialogLite::setupGPS() {
     m_geoSrc = QGeoPositionInfoSource::createDefaultSource(this);
+
+    connect(m_geoSrc, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(processNewCoordinates(QGeoPositionInfo)));
+    connect(m_geoSrc, SIGNAL(updateTimeout()), this, SIGNAL(updateTimeoutGPS()));
+}
+
+void LocationDialogLite::processNewCoordinates(QGeoPositionInfo position) {
+//    m_geoSrc->stopUpdates();
+    emit coordinatesChangedGPS(position);
+}
+
+void LocationDialogLite::getCoordinatesFromGPS() {
+    m_geoSrc->startUpdates();
 }
 
 void LocationDialogLite::initCityList() {
@@ -65,32 +59,11 @@ void LocationDialogLite::initCityList() {
         QString name = loc->fullName();
         cities.append( name );
         filteredCityList.insert( name, loc );
-
-        //If TZ is not an even integer value, add it to listbox
-        /*if ( loc->TZ0() - int( loc->TZ0() ) && m_TZList.indexOf( QLocale().toString( loc->TZ0() ) ) != -1 ) {
-            for ( int i=0; i < m_TZList.size(); ++i ) {
-                if ( m_TZList[i].toDouble() > loc->TZ0() ) {
-                    ld->TZBox->addItem( QLocale().toString( loc->TZ0() ), i-1 );
-                    break;
-                }
-            }
-        }*/
     }
 
     //Sort the list of Cities alphabetically...note that filteredCityList may now have a different ordering!
     m_cityList.setStringList(cities);
     m_cityList.sort(0);
-
-    //ld->CountLabel->setText( i18np("One city matches search criteria","%1 cities match search criteria", ld->GeoBox->count()) );
-
-    // attempt to highlight the current kstars location in the GeoBox
-    /*ld->GeoBox->setCurrentItem( 0 );
-    for( int i=0; i < ld->GeoBox->count(); i++ ) {
-        if ( ld->GeoBox->item(i)->text() == data->geo()->fullName() ) {
-            ld->GeoBox->setCurrentRow( i );
-            break;
-        }
-    }*/
 
     QStringList TZ;
 
@@ -112,11 +85,6 @@ void LocationDialogLite::filterCity(QString city, QString province, QString coun
     QStringList cities;
     filteredCityList.clear();
 
-    /*nameModified = false;
-    dataModified = false;
-    ld->AddCityButton->setEnabled( false );
-    ld->UpdateButton->setEnabled( false );*/
-
     foreach ( GeoLocation *loc, data->getGeoList() ) {
         QString sc( loc->translatedName() );
         QString ss( loc->translatedCountry() );
@@ -135,8 +103,6 @@ void LocationDialogLite::filterCity(QString city, QString province, QString coun
     m_cityList.setStringList(cities);
     m_cityList.sort(0);
     setProperty("currLocIndex", m_cityList.stringList().indexOf(m_currentLocation));
-
-    //ld->CountLabel->setText( i18np("One city matches search criteria","%1 cities match search criteria", ld->GeoBox->count()) );
 }
 
 bool LocationDialogLite::addCity(QString city, QString province, QString country, QString latitude, QString longitude, QString TimeZoneString, QString TZRule) {
@@ -455,8 +421,6 @@ dms LocationDialogLite::createDms (QString degree, bool deg, bool *ok )
     return dmsAngle;
 }
 
-
-
 void LocationDialogLite::setCurrentLocation(QString loc) {
     if(m_currentLocation != loc) {
         m_currentLocation = loc;
@@ -468,5 +432,3 @@ void LocationDialogLite::updateCurrentLocation() {
     currentGeo = KStarsData::Instance()->geo();
     setCurrentLocation(currentGeo->fullName());
 }
-
-

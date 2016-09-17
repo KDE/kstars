@@ -17,10 +17,11 @@
 #define CROSSHAIRNODE_H_
 #include "skynode.h"
 
-/** @class CrossHairNode
- *
- *@version 1.0
- */
+    /** @class CrossHairNode
+     *
+     *  @short Represents crosshair of telescope in SkyMapLite
+     *  @version 1.0
+     */
 
 class EllipseNode;
 class LineNode;
@@ -29,11 +30,22 @@ class QSGFlatColorMaterial;
 
 class CrosshairNode : public SkyNode {
 public:
+    /**
+     * @short Constructor. Initializes lines, ellipses and labels.
+     * @param baseDevice - pointer to telescope
+     */
     CrosshairNode(INDI::BaseDevice *baseDevice, RootNode *rootNode);
+
+    /** Destructor. **/
     ~CrosshairNode();
+
+    /** @short Update position and visibility of crosshair based on the Alt, Az (or Ra and Dec)
+        of telescope **/
     virtual void update() override;
-    void setColor(QColor color);
     virtual void hide() override;
+
+    /** @short Set color of crosshair **/
+    void setColor(QColor color);    
 private:
     EllipseNode *el1;
     EllipseNode *el2;

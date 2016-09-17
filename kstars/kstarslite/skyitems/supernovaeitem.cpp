@@ -31,10 +31,7 @@
 SupernovaeItem::SupernovaeItem(SupernovaeComponent *snovaComp, RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::SATELLITE_LABEL, rootNode), m_snovaComp(snovaComp)
 {
-    foreach ( SkyObject *so, m_snovaComp->objectList() ) {
-        Supernova *sup = (Supernova*) so;
-        appendChildNode(new SupernovaNode(sup));
-    }
+    recreateList();
 }
 
 void SupernovaeItem::update() {
@@ -55,5 +52,8 @@ void SupernovaeItem::update() {
 }
 
 void SupernovaeItem::recreateList() {
-
+    foreach ( SkyObject *so, m_snovaComp->objectList() ) {
+        Supernova *sup = (Supernova*) so;
+        appendChildNode(new SupernovaNode(sup));
+    }
 }

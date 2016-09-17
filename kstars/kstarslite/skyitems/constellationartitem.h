@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          planetsitem.h  -  K Desktop Planetarium
+                          constellationartitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 02/05/2016
+    begin                : 02/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -21,9 +21,9 @@
 class RootNode;
 class ConstellationArtComponent;
     /**
-     * @class PlanetsItem
-     * This class handles planets and their moons in SkyMapLite
-     *
+     * @class ConstellationArtItem
+     * This class handles constellation art in SkyMapLite. Each constellation image is represented by ConstellationArtNode.
+     * @see ConstellationArtNode
      * @author Artem Fedoskin
      * @version 1.0
      */
@@ -31,18 +31,13 @@ class ConstellationArtComponent;
 class ConstellationArtItem : public SkyItem {
 public:
     /**
-     * @short Constructor. Takes lists of pointers to planets(SolarSystemSingleComponent) and their
-     * moons (PlanetMoonsComponent) to instantiate PlanetMoonsNodes for each of the planet.
-     *
-     * @param planets list of pointers to planets
-     * @param moons list of pointers to moons
-     * @param rootNode parent RootNode that instantiates this object
+     * @param artComp - pointer to ConstellationArtComponent instance, that handles constellation art data
+     * @param rootNode - pointer to the root node
      */
     ConstellationArtItem(ConstellationArtComponent *artComp,RootNode *rootNode = 0);
 
     /**
-     * @short calls update() of all child PlanetMoonsNodes
-     * @note see PlanetMoonsNodes::update()
+     * @short calls update() of all child ConstellationArtNodes if constellation art is on. Otherwise calls deleteNodes()
      */
     void update() override;
 

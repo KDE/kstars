@@ -39,35 +39,6 @@
 
 class FITSView;
 
-
-/*class FITSLabel : public QLabel
-{
-     Q_OBJECT
-public:
-    explicit FITSLabel(FITSView *img, QWidget *parent=NULL);
-    virtual ~FITSLabel();
-    void setSize(double w, double h);
-    void centerTelescope(double raJ2000, double decJ2000);
-
-protected:
-    virtual void mouseMoveEvent(QMouseEvent *e);
-    virtual void mousePressEvent(QMouseEvent *e);
-    virtual void mouseDoubleClickEvent(QMouseEvent *e);
-
-private:
-    FITSView *image;
-    dms ra;
-    dms dec;
-    double width,height,size;
-
-signals:
-    void newStatus(const QString &msg, FITSBar id);
-    void pointSelected(int x, int y);
-    void markerSelected(int x, int y);
-
-
-};*/
-
 class FITSViewLite : public QObject//: public QScrollArea
 {
     Q_OBJECT
@@ -91,38 +62,10 @@ public:
 
     QImage * getImageFromFITS();
 
-    // Tracking square
-    /*void setTrackingBoxEnabled(bool enable);
-    bool isTrackingBoxEnabled() { return trackingBoxEnabled; }
-    QPixmap & getTrackingBoxPixmap();
-    void setTrackingBox(const QRect & rect);
-    const QRect & getTrackingBox() { return trackingBox; }*/
-
-    // Overlay
-    /*void drawOverlay(QPainter *);
-    void drawStarCentroid(QPainter *);
-    void drawTrackingBox(QPainter *);
-    void drawMarker(QPainter *);
-    void updateFrame();
-
-    // Star Detection
-    void toggleStars(bool enable);
-
-    // FITS Mode
-    void updateMode(FITSMode mode);
-    FITSMode getMode() { return mode;}*/
-
     int getGammaValue() const;
     void setGammaValue(int value);
     void setFilter(FITSScale newFilter) { filter = newFilter;}
 
-public slots:
-    /*void ZoomIn();
-    void ZoomOut();
-    void ZoomDefault();
-
-    void processPointSelection(int x, int y);
-    void processMarkerSelection(int x, int y);*/
 private:
 
     double average();
@@ -155,20 +98,6 @@ private:
 
     // Cross hair
     QPointF markerCrosshair;
-
-    // Tracking box
-    /*bool trackingBoxEnabled;
-    bool trackingBoxUpdated;
-    QRect trackingBox;
-    QPixmap trackingBoxPixmap;*/
-
-signals:
-    /*void newStatus(const QString &msg, FITSBar id);
-    void debayerToggled(bool);
-    void actionUpdated(const QString &name, bool enable);
-    void trackingStarSelected(int x, int y);*/
-
-  //friend class FITSLabel;
 };
 
 #endif

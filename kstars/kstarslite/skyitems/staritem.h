@@ -39,7 +39,10 @@ public:
     StarItem(StarComponent *starComp, RootNode *rootNode);
 
     /**
-     * @short updates all trixels that contain stars
+     * @short Update positions of nodes that represent stars
+     * In this function we perform almost the same thing as in DeepSkyItem::updateDeepSkyNode() to reduce
+     * memory consumption.
+     * @see DeepSkyItem::updateDeepSkyNode()
      */
     virtual void update();
 

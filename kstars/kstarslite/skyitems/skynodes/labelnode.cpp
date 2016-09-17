@@ -24,14 +24,13 @@
 
 LabelNode::LabelNode(SkyObject * skyObject, LabelsItem::label_t type)
     :SkyNode(skyObject), m_name(skyObject->labelString()), m_textTexture(new QSGSimpleTextureNode),
-      m_zoomFont(false), m_labelType(type), m_fontSize(0)
+      m_labelType(type), m_fontSize(0), m_zoomFont(false)
 {
     initialize();
 }
 
 LabelNode::LabelNode(QString name, LabelsItem::label_t type)
-    :m_name(name), m_textTexture(new QSGSimpleTextureNode), m_labelType(type), m_zoomFont(false),
-      m_fontSize(0)
+    :m_name(name), m_textTexture(new QSGSimpleTextureNode), m_labelType(type), m_fontSize(0), m_zoomFont(false)
 {
     initialize();
 }
@@ -58,6 +57,7 @@ void LabelNode::initialize() {
         case LabelsItem::label_t::DSO_NGC_LABEL:
         case LabelsItem::label_t::DSO_IC_LABEL:
         case LabelsItem::label_t::DSO_OTHER_LABEL:
+        case LabelsItem::label_t::CATALOG_DSO_LABEL:
             m_schemeColor = "DSNameColor";
             m_zoomFont = true;
         break;
@@ -69,9 +69,9 @@ void LabelNode::initialize() {
             m_schemeColor = "CNameColor";
         break;
         case LabelsItem::label_t::STAR_LABEL:
+        case LabelsItem::label_t::CATALOG_STAR_LABEL:
             m_schemeColor = "SNameColor";
         break;
-
         default:
             m_schemeColor = "UserLabelColor";
         break;
@@ -141,6 +141,5 @@ void LabelNode::update() {
     if((m_zoomFont && m_fontSize != SkyLabeler::Instance()->skyFont().pointSize()) || m_color != newColor) {
         createTexture(newColor);
     }
-
     changePos(labelPos);
 }

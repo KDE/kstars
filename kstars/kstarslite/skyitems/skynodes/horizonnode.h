@@ -20,14 +20,21 @@
 class PolyNode;
 
 /** @class HorizonNode
+ *  @short This node is a parent of nodes that comprise horizon and both filled and non-filled ground
  *
- *@version 1.0
+ *  @version 1.0
+ *  @author Artem Fedoskin
  */
 
 class HorizonNode : public SkyNode {
 public:
+    /**
+     * @short Constructor.
+     * @param pointList - list of points that comprise horizon
+     */
     HorizonNode(QList<SkyPoint*>& pointList);
 
+    /** @short Update child nodes based on user settings (filled/non-filled ground) and their visibility **/
     virtual void update() override;
     virtual void hide() override;
 

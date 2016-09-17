@@ -49,11 +49,11 @@ FOVSymbolNode::FOVSymbolNode(const QString &name, float a, float b, float xoffse
     case FOVItem::BULLSEYE:
         m_symbol = new BullsEyeFOV();
         break;
-    case FOVItem::SOLIDCIRCLE: {
+    case FOVItem::SOLIDCIRCLE:
         m_symbol = new SolidCircleFOV();
         break;
-    }
-    default: ;
+    default:
+        break;
     }
 
     if(m_symbol) addChildNode(m_symbol);

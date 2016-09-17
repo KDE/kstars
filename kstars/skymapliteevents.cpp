@@ -343,16 +343,19 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
             if( !tapBegan && (e->touchPointStates() & Qt::TouchPointPressed) ) {
                 //We set tapBegan to true whenever user tapped on the screen
                 tapBegan = true;
+                m_tapBeganTimer.start(100);
             } else if((e->touchPointStates() & Qt::TouchPointMoved) || getSlewing()) {
                 //Set tapBegan to false because user doesn't tap but either pans or pinches to zoom
+                if(m_tapBeganTimer.remainingTime() > 0) {
+                    return;
+                } else {
+                    m_tapBeganTimer.stop();
+                }
                 tapBegan = false;
 
                 QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, point,
                                                      Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
-
                 mouseMoveEvent(event);
-
-
                 delete event;
 
                 //If user didn't pan and pinch to zoom tapBegan will be true

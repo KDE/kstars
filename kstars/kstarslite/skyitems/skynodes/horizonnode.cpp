@@ -19,7 +19,6 @@ void HorizonNode::update() {
     m_polygonNode->setColor(color);
     m_polygonNode->setLineWidth(2);
 
-    //QVector<Vector2f> ground = projector()->groundPoly(labelPoint, drawLabel);
     QVector<Vector2f> ground = SkyMapLite::Instance()->projector()->groundPoly();
     if( ground.size() ) {
         QPolygonF groundPoly(ground.size());
@@ -36,7 +35,6 @@ void HorizonNode::update() {
         return;
     }
     m_polygonNode->markDirty(QSGNode::DirtyGeometry);
-
 }
 
 void HorizonNode::hide() {

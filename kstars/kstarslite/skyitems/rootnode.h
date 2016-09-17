@@ -45,6 +45,8 @@ class MilkyWayItem;
 class SkyMapComposite;
 class SolarSystemComposite;
 
+class SyncedCatalogItem;
+
 class FOVItem;
 
 #ifdef HAVE_INDI
@@ -56,9 +58,9 @@ class TelescopeSymbolsItem;
  * A QSGClipNode derived class used as a container for holding pointers to nodes and for clipping.
  * Upon construction RootNode generates all textures that are used by PointNode.
  *
- *@short A container for nodes that holds collection of textures for stars and provides clipping
- *@author Artem Fedoskin
- *@version 1.0
+ * @short A container for nodes that holds collection of textures for stars and provides clipping
+ * @author Artem Fedoskin
+ * @version 1.0
  */
 
 class RootNode : public QSGClipNode {
@@ -85,7 +87,7 @@ public:
      */
     void update(bool clearTextures = false);
 
-    //Debug
+    /** Debug functions **/
     void testLeakDelete();
     void testLeakAdd();
 
@@ -122,6 +124,9 @@ private:
     ConstellationArtItem *m_artItem;
     SatellitesItem *m_satItem;
     SupernovaeItem *m_snovaItem;
+
+    SyncedCatalogItem *m_internedResolvedCatalogItem;
+    SyncedCatalogItem *m_manualAdditionsCatalogItem;
 
     HorizonItem *m_horizonItem;
     LinesItem *m_linesItem;

@@ -30,14 +30,7 @@
 SatellitesItem::SatellitesItem(SatellitesComponent *satComp, RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::SATELLITE_LABEL, rootNode), m_satComp(satComp)
 {
-    QList<SatelliteGroup*> list = m_satComp->groups();
-    //recreateList();
-    for(int i = 0; i < list.size(); ++i) {
-        SatelliteGroup *group = list.at(i);
-        for(int c = 0; c < group->size(); ++c) {
-            appendChildNode(new SatelliteNode(group->at(c), rootNode));
-        }
-    }
+    recreateList();
 }
 
 void SatellitesItem::update() {
@@ -69,5 +62,11 @@ void SatellitesItem::update() {
 }
 
 void SatellitesItem::recreateList() {
-
+    QList<SatelliteGroup*> list = m_satComp->groups();
+    for(int i = 0; i < list.size(); ++i) {
+        SatelliteGroup *group = list.at(i);
+        for(int c = 0; c < group->size(); ++c) {
+            appendChildNode(new SatelliteNode(group->at(c), rootNode()));
+        }
+    }
 }
