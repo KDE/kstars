@@ -3704,16 +3704,21 @@ bool Capture::isSequenceFileComplete(const QString &fileURL)
     if (Options::rememberJobProgress() == false)
         return false;
 
+    // We cannot know if the job is complete if the upload mode is local since we cannot inspect the files
+    if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+        return false;
+
+    if (Options::captureLogging())
+    {
+        qDebug() << "Capture: Loading sequence to check for completion: " << fileURL;
+    }
+
     bool rc = loadSequenceQueue(fileURL);
 
     if (rc == false)
         return false;
 
     ignoreJobProgress = false;
-
-    // We cannot know if the job is complete if the upload mode is local since we cannot inspect the files
-    if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-        return false;
 
     QStringList jobDirs;
     int totalJobCount = 0, totalFileCount=0;
@@ -3725,11 +3730,22 @@ bool Capture::isSequenceFileComplete(const QString &fileURL)
 
     jobDirs.removeDuplicates();
 
+    if (Options::captureLogging())
+    {
+        qDebug() << "Capture: Total Job Count --> " << totalFileCount;
+        qDebug() << "Capture: isSequenceFileComplete directories --> " << jobDirs;
+    }
+
     foreach(QString dir, jobDirs)
     {
         QDir oneDir(dir);
         oneDir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
         totalFileCount += oneDir.count();
+
+        if (Options::captureLogging())
+        {
+            qDebug() << "Capture: Directory " << dir << " file count is " << oneDir.count() << " and total count is " << totalFileCount;
+        }
     }
 
     clearSequenceQueue();
