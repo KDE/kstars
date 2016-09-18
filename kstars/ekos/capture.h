@@ -399,6 +399,13 @@ public slots:
     // Logs
     void appendLogText(const QString &);
 
+    // Auto Focus
+    void setFocusStatus(Ekos::FocusState state);
+    // Guide
+    void setGuideStatus(Ekos::GuideState state);
+    // Align
+    void setAlignStatus(Ekos::AlignState state);
+
 private slots:
 
     /**
@@ -434,8 +441,7 @@ private slots:
     void checkAlignmentSlewComplete();
     void enableAlignmentFlag();
 
-    // Auto Focus
-    void updateFocusStatus(Ekos::FocusState state);
+    // Auto Focus    
     void updateAutofocusStatus(bool status, double HFR);
     void startPostFilterAutoFocus();
 
@@ -546,7 +552,6 @@ private:
     bool isAutoFocus;
     bool autoFocusStatus;
     bool firstAutoFocus;
-    bool isFocusBusy;
 
     //Meridan flip
     double initialHA;
@@ -578,6 +583,9 @@ private:
 
     // State
     CaptureState state;
+    FocusState focusState;
+    GuideState guideState;
+    AlignState alignState;
 
     PauseFunctionPointer pauseFunction;
 

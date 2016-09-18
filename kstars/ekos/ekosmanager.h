@@ -194,7 +194,7 @@ private slots:
     void updateCaptureCountDown();
 
     // Focus summary
-    void updateFocusStatus(Ekos::FocusState status);
+    void setFocusStatus(Ekos::FocusState status);
     void updateFocusStarPixmap(QPixmap &starPixmap);
     void updateFocusProfilePixmap(QPixmap &profilePixmap);
 

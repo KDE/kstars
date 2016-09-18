@@ -58,6 +58,9 @@ Align::Align()
 
     dirPath = QDir::homePath();
 
+    state = ALIGN_IDLE;
+    focusState = FOCUS_IDLE;
+
     currentCCD     = NULL;
     currentTelescope = NULL;
     currentFilter = NULL;
@@ -65,11 +68,11 @@ Align::Align()
     canSync = false;
     loadSlewMode = false;
     loadSlewState=IPS_IDLE;
-    m_isSolverComplete = false;
-    m_isSolverSuccessful = false;
+    //m_isSolverComplete = false;
+    //m_isSolverSuccessful = false;
     m_slewToTargetSelected=false;
     m_wcsSynced=false;
-    isFocusBusy=false;
+    //isFocusBusy=false;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = sOrientation = sRA = sDEC = -1;
     decDeviation = azDeviation = altDeviation = 0;
 
@@ -106,13 +109,10 @@ Align::Align()
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
     connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));
 
-    unsigned int solverGotoOption = Options::solverGotoOption();
-    if (solverGotoOption == 0)
-        syncR->setChecked(true);
-    else if (solverGotoOption == 1)
-        slewR->setChecked(true);
-    else
-        nothingR->setChecked(true);
+    connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [=](int id){ this->currentGotoMode = static_cast<GotoMode>(id); });
+
+    currentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
+    gotoModeButtonGroup->button(currentGotoMode)->setChecked(true);
 
     syncBoxesB->setIcon(QIcon::fromTheme("edit-copy"));
     clearBoxesB->setIcon(QIcon::fromTheme("edit-clear"));
@@ -560,7 +560,7 @@ void Align::clearCoordBoxes()
 
 bool Align::captureAndSolve()
 {
-    m_isSolverComplete = false;
+    //m_isSolverComplete = false;
 
     if (currentCCD == NULL)
         return false;
@@ -595,7 +595,7 @@ bool Align::captureAndSolve()
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-    if (isFocusBusy)
+    if (focusState >= FOCUS_PROGRESS)
     {
         appendLogText(i18n("Cannot capture while focus module is busy! Retrying..."));
         QTimer::singleShot(1000, this, SLOT(captureAndSolve()));
@@ -652,6 +652,9 @@ bool Align::captureAndSolve()
    solveB->setEnabled(false);
    stopB->setEnabled(true);
    pi->startAnimation();
+
+   state = ALIGN_PROGRESS;
+   emit newStatus(state);
 
    appendLogText(i18n("Capturing image..."));
 
@@ -763,8 +766,8 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         solverGotoOption = 2;
     Options::setSolverGotoOption(solverGotoOption);
 
-    m_isSolverComplete = false;
-    m_isSolverSuccessful = false;
+    //m_isSolverComplete = false;
+    //m_isSolverSuccessful = false;
 
     parser->verifyIndexFiles(fov_x, fov_y);
 
@@ -783,7 +786,10 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     if (slewR->isChecked())
         appendLogText(i18n("Solver iteration #%1", solverIterations+1));
 
-    parser->startSovler(filename, solverArgs, isGenerated);
+    state = ALIGN_PROGRESS;
+    emit newStatus(state);
+
+    parser->startSovler(filename, solverArgs, isGenerated);        
 
 }
 
@@ -822,8 +828,11 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      // Get horizontal coords
      alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-     double raDiff = fabs(alignCoord.ra().Degrees()-targetCoord.ra().Degrees()) * 3600;
-     double deDiff = fabs(alignCoord.dec().Degrees()-targetCoord.dec().Degrees()) * 3600;
+     double raDiff = (alignCoord.ra().Degrees()-targetCoord.ra().Degrees()) * 3600;
+     double deDiff = (alignCoord.dec().Degrees()-targetCoord.dec().Degrees()) * 3600;
+
+     emit newSolutionDeviation(raDiff, deDiff);
+
      targetDiff    = sqrt(raDiff*raDiff + deDiff*deDiff);
 
      solverFOV->setCenter(alignCoord);
@@ -861,9 +870,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                  }
              }
          }
-     }
-
-     KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
+     }     
 
      retries=0;
 
@@ -874,16 +881,24 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         appendLogText(i18n("Target is within %1 degrees of solution coordinates.", diffDeg.toDMSString()));
      }
 
-     if (syncR->isChecked() || nothingR->isChecked() || targetDiff <= accuracySpin->value())
-     {
-        m_isSolverComplete = true;
-        m_isSolverSuccessful = true;
-        solverIterations=0;
-        emit solverComplete(true);
-     }
-
      if (rememberUploadMode != currentCCD->getUploadMode())
          currentCCD->setUploadMode(rememberUploadMode);
+
+     //if (syncR->isChecked() || nothingR->isChecked() || targetDiff <= accuracySpin->value())
+     // CONTINUE HERE
+     if (syncR->isChecked() || nothingR->isChecked() || targetDiff <= accuracySpin->value())
+     {
+        // FIXME remove un-needed stuff here
+        //m_isSolverComplete = true;
+        //m_isSolverSuccessful = true;
+        solverIterations=0;
+        //emit solverComplete(true);
+
+        KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
+
+        state = ALIGN_COMPLETE;
+        emit newStatus(state);
+     }
 
      executeMode();
 }
@@ -901,13 +916,16 @@ void Align::solverFailed()
 
     loadSlewMode = false;
     loadSlewState=IPS_ALERT;
-    m_isSolverComplete = true;
-    m_isSolverSuccessful = false;
+    //m_isSolverComplete = true;
+    //m_isSolverSuccessful = false;
     m_slewToTargetSelected=false;
     solverIterations=0;
     retries=0;
 
-    emit solverComplete(false);
+    //emit solverComplete(false);
+
+    state = ALIGN_FAILED;
+    emit newStatus(state);
 }
 
 void Align::abort()
@@ -922,11 +940,11 @@ void Align::abort()
 
     loadSlewMode = false;
     loadSlewState=IPS_IDLE;
-    m_isSolverComplete = false;
-    m_isSolverSuccessful = false;
+    //m_isSolverComplete = false;
+    //m_isSolverSuccessful = false;
     m_slewToTargetSelected=false;
     solverIterations=0;
-    retries=0;
+    retries=0;        
 
     //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
@@ -948,6 +966,9 @@ void Align::abort()
         int elapsed = (int) round(solverTimer.elapsed()/1000.0);
         appendLogText(i18np("Solver aborted after %1 second.", "Solver aborted after %1 seconds", elapsed));
     }
+
+    state = ALIGN_ABORTED;
+    emit newStatus(state);
 }
 
 QList<double> Align::getSolutionResult()
@@ -1140,6 +1161,9 @@ void Align::SlewToTarget()
     currentTelescope->Slew(&targetCoord);
 
     appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(), targetCoord.dec().toDMSString()));
+
+    state = ALIGN_SLEWING;
+    emit newStatus(state);
 }
 
 void Align::checkPolarAlignment()
@@ -1770,9 +1794,9 @@ void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining,
     }
 }
 
-void Align::updateFocusStatus(Ekos::FocusState state)
+void Align::setFocusStatus(Ekos::FocusState state)
 {
-    isFocusBusy = state >= Ekos::FOCUS_PROGRESS;
+    focusState = state;
 }
 
 QStringList Align::getSolverOptionsFromFITS(const QString &filename)

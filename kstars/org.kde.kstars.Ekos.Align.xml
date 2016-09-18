@@ -32,11 +32,8 @@
       <arg type="ad" direction="out"/>
       <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QList&lt;double&gt;"/>
     </method>
-    <method name="isSolverComplete">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="isSolverSuccessful">
-      <arg type="b" direction="out"/>
+    <method name="getStatus">
+        <arg type="i" direction="out"/>
     </method>
     <method name="getLoadAndSlewStatus">
       <arg type="i" direction="out"/>

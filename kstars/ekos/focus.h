@@ -272,7 +272,7 @@ public slots:
     void checkFocus(double requiredHFR);
 
     /**
-     * @brief updateFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
+     * @brief setFocusStatus Upon completion of the focusing process, set its status (fail or pass) and reset focus process to clean state.
      * @param status If true, the focus process finished successfully. Otherwise, it failed.
      */
     void setAutoFocusResult(bool status);

@@ -1354,7 +1354,7 @@ void EkosManager::initCapture()
         // Autofocus
         connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);
         connect(focusProcess, SIGNAL(autoFocusFinished(bool, double)), captureProcess, SLOT(updateAutofocusStatus(bool, double)),  Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(updateFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
 
         // Meridian Flip
         connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFrame()), Qt::UniqueConnection);
@@ -1408,7 +1408,7 @@ void EkosManager::initAlign()
     {
         // Filter lock
         connect(focusProcess, SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess, SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)) , alignProcess, SLOT(updateFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)) , alignProcess, SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
     }
 }
 
@@ -1422,7 +1422,7 @@ void EkosManager::initFocus()
     int index = toolsWidget->addTab( focusProcess, QIcon(":/icons/ekos_focus.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Focus"));
     connect(focusProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
-    connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(updateFocusStatus(Ekos::FocusState)));
+    connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(setFocusStatus(Ekos::FocusState)));
     connect(focusProcess, SIGNAL(newStarPixmap(QPixmap&)), this, SLOT(updateFocusStarPixmap(QPixmap&)));
     connect(focusProcess, SIGNAL(newProfilePixmap(QPixmap&)), this, SLOT(updateFocusProfilePixmap(QPixmap&)));
 
@@ -1436,7 +1436,7 @@ void EkosManager::initFocus()
         // Autofocus
         connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);
         connect(focusProcess, SIGNAL(autoFocusFinished(bool, double)), captureProcess, SLOT(updateAutofocusStatus(bool, double)), Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(updateFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
 
         // Meridian Flip
         connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFrame()), Qt::UniqueConnection);
@@ -1452,7 +1452,7 @@ void EkosManager::initFocus()
     {
         // Filter lock
         connect(focusProcess, SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess, SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), alignProcess, SLOT(updateFocusStatus(FocusState)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), alignProcess, SLOT(setFocusStatus(FocusState)), Qt::UniqueConnection);
     }
 
 }
@@ -1895,7 +1895,7 @@ void EkosManager::updateFocusProfilePixmap(QPixmap &profilePixmap)
     focusProfileImage->setToolTip(QString("<img src='%1'>").arg(focusProfileFile.fileName()));
 }
 
-void EkosManager::updateFocusStatus(Ekos::FocusState status)
+void EkosManager::setFocusStatus(Ekos::FocusState status)
 {
     focusStatus->setText(Ekos::getFocusStatusString(status));
 

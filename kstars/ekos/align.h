@@ -91,6 +91,13 @@ public:
     Q_SCRIPTABLE QList<double> getSolutionResult();
 
     /** DBUS interface function.
+     * Returns the solver's current status
+     * @return Returns solver status (Ekos::AlignState)
+     */
+    Q_SCRIPTABLE int getStatus() { return state; }
+
+#if 0
+    /** DBUS interface function.
      * @return Returns true if the solver process completed or aborted, false otherwise.
      */
     Q_SCRIPTABLE bool isSolverComplete() { return m_isSolverComplete; }
@@ -99,6 +106,7 @@ public:
      * @return Returns true if the solver process completed successfully, false otherwise.
      */
     Q_SCRIPTABLE bool isSolverSuccessful() { return m_isSolverSuccessful; }
+#endif
 
     /** DBUS interface function.
      * @return Returns State of load slew procedure. Idle if not started. Busy if in progress. Ok if complete. Alert if procedure failed.
@@ -261,7 +269,7 @@ public slots:
 
     void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
 
-    void updateFocusStatus(Ekos::FocusState state);
+    void setFocusStatus(Ekos::FocusState state);
 
     // Log
     void appendLogText(const QString &);
@@ -292,6 +300,8 @@ signals:
         void newLog();
         void solverComplete(bool);
         void solverSlewComplete();
+        void newStatus(Ekos::AlignState state);
+        void newSolutionDeviation(double ra_arcsecs, double de_arcsecs);
 
 private:
     /**
@@ -364,12 +374,12 @@ private:
     uint8_t solverIterations;
 
     // Keep track of solver status
-    bool m_isSolverComplete;
-    bool m_isSolverSuccessful;
+    //bool m_isSolverComplete;
+    //bool m_isSolverSuccessful;
     bool m_slewToTargetSelected;
 
     // Focus
-    bool isFocusBusy;
+    //bool isFocusBusy;
 
     // FOV
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y;
@@ -433,8 +443,14 @@ private:
     // Capture retries
     int retries;
 
+    // State
+    AlignState state;
+    FocusState focusState;
+
     // Track which upload mode the CCD is set to. If set to UPLOAD_LOCAL, then we need to switch it to UPLOAD_CLIENT in order to do focusing, and then switch it back to UPLOAD_LOCAL
     ISD::CCD::UploadMode rememberUploadMode;
+
+    GotoMode currentGotoMode;
 
     QString dirPath;
 };

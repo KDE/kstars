@@ -60,6 +60,9 @@ Capture::Capture()
     dirPath = QUrl(QDir::homePath());
 
     state = CAPTURE_IDLE;
+    focusState = FOCUS_IDLE;
+    guideState = GUIDE_IDLE;
+    alignState = ALIGN_IDLE;
 
     currentCCD = NULL;
     currentTelescope = NULL;
@@ -175,8 +178,7 @@ Capture::Capture()
     fileHFR=0;
     useGuideHead = false;
     guideDither = false;
-    firstAutoFocus = true;
-    isFocusBusy = false;
+    firstAutoFocus = true;    
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -1151,7 +1153,7 @@ void Capture::captureImage()
     //bool isDark=false;
     SequenceJob::CAPTUREResult rc=SequenceJob::CAPTURE_OK;
 
-    if (isFocusBusy)
+    if (focusState >= FOCUS_PROGRESS)
     {
         appendLogText(i18n("Cannot capture while focus module is busy."));
         abort();
@@ -1979,16 +1981,27 @@ void Capture::setAutoguiding(bool enable)
     isAutoGuiding = enable;
 }
 
-void Capture::updateFocusStatus(FocusState state)
+void Capture::setGuideStatus(GuideState state)
 {
-    isFocusBusy = state >= Ekos::FOCUS_PROGRESS;
+    guideState = state;
+}
+
+void Capture::setAlignStatus(AlignState state)
+{
+    alignState = state;
+}
+
+void Capture::setFocusStatus(FocusState state)
+{
+    focusState = state;
 }
 
 void Capture::updateAutofocusStatus(bool status, double HFR)
 {
-    autoFocusStatus = status;
+    if (focusState > FOCUS_ABORTED)
+        return;
 
-    if (status)
+    if (focusState == FOCUS_COMPLETE)
     {
         autofocusCheck->setEnabled(true);
         HFRPixels->setEnabled(true);
@@ -2003,7 +2016,7 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
 
     if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
     {
-        if (status)
+        if (focusState == FOCUS_COMPLETE)
         {
             HFRPixels->setValue(HFR + (HFR * 0.025));
             appendLogText(i18n("Focus complete."));
@@ -2021,7 +2034,7 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
 
     if (isAutoFocus && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
     {
-        if (status)
+        if (focusState == FOCUS_COMPLETE)
         {
             appendLogText(i18n("Focus complete."));
             startNextExposure();
@@ -3760,10 +3773,8 @@ void Capture::setNewRemoteFile(QString file)
 
 void Capture::startPostFilterAutoFocus()
 {
-    if (isFocusBusy)
+    if (focusState >= FOCUS_PROGRESS)
         return;
-
-    isFocusBusy = true;
 
     secondsLabel->setText(i18n("Focusing..."));
 
