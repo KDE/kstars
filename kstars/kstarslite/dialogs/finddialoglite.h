@@ -25,6 +25,13 @@ class QSortFilterProxyModel;
 class SkyObjectListModel;
 
 /** @class FindDialogLite
+ * The way we are searching for the object is as follows:
+ * Each SkyComponent in addition to QStringList of names holds QVector<QPair<QString, const SkyObject *>>.
+ * SkyObjectListModel is a class that holds SkyObjects together with their names (name and longname).
+ * Whenever user searches for an object we sort list of SkyObjects through QSortFilterProxyModel. The reason
+ * for this way of searching is that we don't need to search for an object again, as it was done previously.
+ * Instead of this, user directly selects the object in search results.
+ *
  * @short Backend for "Find Object" dialog in QML
  * @author Artem Fedoskin, Jason Harris
  * @version 1.0
@@ -35,13 +42,22 @@ class FindDialogLite : public QObject {
     //true if m_searchQuery is already in sorted list of object names
     Q_PROPERTY(bool isResolveEnabled READ getIsResolveEnabled WRITE setIsResolveEnabled NOTIFY isResolveEnabledChanged)
 public:
+    /**
+     * @short Constructor. Initialize m_filterModel with object types and initialize m_sortModel with instance of SkyObjectListModel
+     */
     explicit FindDialogLite();
 
     /** Destructor */
     virtual ~FindDialogLite();
 
+    /**
+      * @short Open context menu for object with given index from m_sortModel
+      */
     Q_INVOKABLE void selectObject(int index);
 
+    /**
+     * @return list of object types
+     */
     QStringList getFilterModel() { return m_filterModel; }
 
     /** @short pre-filter the list of objects according to the
@@ -50,7 +66,8 @@ public:
     Q_INVOKABLE void filterByType(uint typeIndex);
 
     /**
-     * @short searches for the object in internet (adopted to KStars Lite FindDialog::finishProcessing()
+     * @short searches for the object in internet (adopted to KStars Lite version of
+     * FindDialog::finishProcessing()
      */
     Q_INVOKABLE void resolveInInternet(QString searchQuery);
 
@@ -59,10 +76,10 @@ public:
      */
     Q_INVOKABLE bool isInList(QString searchQuery);
 
-    /** Getter for queryInList **/
+    /** Getter for isResolveEnabled **/
     bool getIsResolveEnabled() { return m_isResolveEnabled; }
 
-    /** Setter for queryInList **/
+    /** Setter for isResolveEnabled **/
     void setIsResolveEnabled(bool isResolveEnabled);
 signals:
     void filterModelChanged();

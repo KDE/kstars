@@ -25,18 +25,18 @@ class PointSourceNode;
 class KSPlanetBase;
 class QSGSimpleTextureNode;
 
-/** @class PlanetMoonsNode
- *
- * A SkyNode derived class used as a container for displaying a planet with its moons (if any). Unlike
- * PlanetMoons derived from SkyComponent PlanetMoonsNode represents both planet and moons. Ths PlanetNode
- * shouldn't be instantiated outside of this class (exception is AsteroidsItem). Although all SkyNodes
- * are "movable" objects (they change transform matrix to move across the SkyMapLite) this class is
- * just a container that provides z-order for moons and planets that change their positions on their own.
- *
- *@short A container for planets and moons that provides z-order.
- *@author Artem Fedoskin
- *@version 1.0
- */
+    /** @class PlanetMoonsNode
+     *
+     * A SkyNode derived class used as a container for displaying a planet with its moons (if any). Unlike
+     * PlanetMoons derived from SkyComponent PlanetMoonsNode represents both planet and moons. Ths PlanetNode
+     * shouldn't be instantiated outside of this class (exception is AsteroidsItem). Although all SkyNodes
+     * are "movable" objects (they change transform matrix to move across the SkyMapLite) this class is
+     * just a container that provides z-order for moons and planets that change their positions on their own.
+     *
+     *@short A container for planets and moons that provides z-order.
+     *@author Artem Fedoskin
+     *@version 1.0
+     */
 
 class PlanetMoonsNode : public SkyNode {
 public:
@@ -64,11 +64,6 @@ public:
      * @short Hides both planet and its moons
      */
     virtual void hide() override;
-    /**
-     * @note PlanetMoonsNode is not meant to be moved. PlanetNode and PointSourceNodes handle this on
-     * their own.
-     */
-    //virtual void changePos(QPointF pos) { }
 
     /**
      * Update position of moons if planet has them. To allow z-ordering we need to change the structure

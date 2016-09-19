@@ -52,6 +52,7 @@ void KStarsLite::datainitFinished() {
     Options::setShowHorizon(true);
     Options::setShowEcliptic(true);
     Options::setAutoSelectGrid(false);
+    Options::setShowSatellites(true);
 //    Options::setHideGrids(false);
 //    Options::setShowEquatorialGrid(true);
 //    Options::setShowHorizontalGrid(true);

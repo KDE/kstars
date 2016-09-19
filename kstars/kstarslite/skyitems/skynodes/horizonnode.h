@@ -20,7 +20,8 @@
 class PolyNode;
 
 /** @class HorizonNode
- *  @short This node is a parent of nodes that comprise horizon and both filled and non-filled ground
+ *  @short This node acts as a parent of nodes that comprise horizon and both filled and non-filled
+ *  ground
  *
  *  @version 1.0
  *  @author Artem Fedoskin

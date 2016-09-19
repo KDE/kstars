@@ -58,6 +58,12 @@ class TelescopeSymbolsItem;
  * A QSGClipNode derived class used as a container for holding pointers to nodes and for clipping.
  * Upon construction RootNode generates all textures that are used by PointNode.
  *
+ * KStars Lite has the following hierarchy:
+ * 1. RootNode - the parent of all nodes that also acts as a clipping node
+ * 2. SkyItem derived nodes that acts like SkyComponent in regular KStars
+ * 3. SkyNode derived nodes that represent SkyObjects (similar to SkyComponent::draw())
+ * 4. Simple nodes like EllipseNode or PointNode that draw basic geometry and stars
+ *
  * @short A container for nodes that holds collection of textures for stars and provides clipping
  * @author Artem Fedoskin
  * @version 1.0

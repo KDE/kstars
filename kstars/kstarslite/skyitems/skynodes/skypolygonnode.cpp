@@ -53,7 +53,6 @@ void SkyPolygonNode::update(bool forceClip) {
         return;
     }
 
-
     SkyPoint* pLast = points->last();
     QPointF   oLast = m_proj->toScreen( pLast, true, &isVisibleLast );
     // & with the result of checkVisibility to clip away things below horizon

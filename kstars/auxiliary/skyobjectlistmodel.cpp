@@ -25,16 +25,25 @@ SkyObjectListModel::SkyObjectListModel(QObject *parent)
 
 QHash<int, QByteArray> SkyObjectListModel::roleNames() const {
     QHash<int, QByteArray> roles;
-    roles[NameRole] = "name";
+    roles[Qt::DisplayRole] = "name";
     roles[SkyObjectRole] = "skyobject";
     return roles;
+}
+
+int SkyObjectListModel::indexOf(QString objectName) const {
+    for(int i = 0; i < skyObjects.size(); ++i) {
+        if(skyObjects[i].first == objectName) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 QVariant SkyObjectListModel::data(const QModelIndex &index, int role) const {
     if(!index.isValid()) {
         return QVariant();
     }
-    if(role == NameRole) {
+    if(role == Qt::DisplayRole) {
         return QVariant(skyObjects[index.row()].first);
     } else if(role == SkyObjectRole) {
         return qVariantFromValue((void *) skyObjects[index.row()].second);
@@ -42,20 +51,20 @@ QVariant SkyObjectListModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 }
 
+QStringList SkyObjectListModel::filter(QRegExp regEx) {
+    QStringList filteredList;
+    for(int i = 0; i < skyObjects.size(); ++i) {
+        if(regEx.exactMatch(skyObjects[i].first)) {
+            filteredList.append(skyObjects[i].first);
+        }
+    }
+    return filteredList;
+}
+
 void SkyObjectListModel::setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects) {
     emit beginResetModel();
     skyObjects = sObjects;
-    /*foreach(SkyObject *s, sObjects) {
-        QString name = s->name();
-        if ( ! name.isEmpty() ) {
-            skyObjects.append(QPair<QString, SkyObject *>(name, s));
-        }
 
-        QString longname = s->longname();
-        if ( ! longname.isEmpty() && longname != name) {
-            skyObjects.append(QPair<QString, SkyObject *>(longname, s));
-        }
-    }*/
     emit endResetModel();
 }
 

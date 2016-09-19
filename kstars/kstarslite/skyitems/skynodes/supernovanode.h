@@ -22,18 +22,25 @@ class Supernova;
 class PointNode;
 class QSGFlatColorMaterial;
 
-/** @class SupernovaNode
- *
- *@version 1.0
- */
+    /** @class SupernovaNode
+     *
+     * @short A SkyNode derived class that represents supernova
+     * @author Artem Fedoskin
+     * @version 1.0
+     */
 
 class SupernovaNode : public SkyNode {
 public:
+    /**
+     * @short Constructor.
+     * @param snova - pointer to supernova that needs to be represented by this node
+     */
     SupernovaNode(Supernova *snova);
 
-    void update();
-
-    void init(QColor color);
+    /**
+     * @short Update position and visibility of supernova. Initialize m_lines if not already done
+     */
+    virtual void update() override;
 
     void changePos(QPointF pos);
 

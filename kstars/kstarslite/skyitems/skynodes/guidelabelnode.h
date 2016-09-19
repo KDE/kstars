@@ -27,7 +27,7 @@ class QSGSimpleTextureNode;
 class SkyLabeler;
 
 /** @class GuideLabelNode
- * Currnently this class is not used anywhere.
+ * Currently this class is not used anywhere.
  *
  *@author Artem Fedoskin
  *@version 1.0

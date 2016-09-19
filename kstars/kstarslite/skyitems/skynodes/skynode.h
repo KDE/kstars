@@ -49,7 +49,7 @@ public:
      *  @return pointer to current projector of SkyMapLite
      */
 
-    // All children nodes allocated on heap are deleted automatically
+    // All children nodes allocated on heap are deleted when parent is destroyed
     virtual ~SkyNode() { }
 
     inline const Projector* projector() { return SkyMapLite::Instance()->projector(); }

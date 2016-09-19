@@ -23,10 +23,10 @@ class SkyMapLite;
 
 /** @class PointNode
  *
- * A QSGOpacityNode derived class used for representing stars and planets as stars. Upon
+ * A SkyOpacityNode derived class used for representing stars and planets as stars. Upon
  * construction loads the texture of star cached in parentNode
  *
- *@short QSGOpacityNode derived class that represents stars and planets using cached QSGTexture
+ *@short SkyOpacityNode derived class that represents stars and planets using cached QSGTexture
  *@author Artem Fedoskin
  *@version 1.0
  */

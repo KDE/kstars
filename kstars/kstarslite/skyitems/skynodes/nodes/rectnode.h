@@ -18,12 +18,9 @@
 
 /** @class RectNode
  *
- * A QSGGeometryNode derived node that encapsulates everything needed for drawing both filled and
- * non-filled rectangles
- *
- *@short QSGGeometryNode derived class that draws filled and non-filled rectangles
- *@author Artem Fedoskin
- *@version 1.0
+ * @short QSGGeometryNode derived class that draws filled and non-filled rectangles
+ * @author Artem Fedoskin
+ * @version 1.0
  */
 #include <QColor>
 #include <QSGGeometryNode>

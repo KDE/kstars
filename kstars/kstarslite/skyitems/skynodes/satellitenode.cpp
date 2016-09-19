@@ -37,17 +37,17 @@ void SatelliteNode::initLines() {
         delete m_point;
         m_point = 0;
     }
-
     if(!m_lines) {
         m_lines = new QSGGeometryNode;
-        m_opacity->appendChildNode(m_lines);
         m_geometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0);
         m_lines->setGeometry(m_geometry);
         m_lines->setFlag(QSGNode::OwnsGeometry);
+        m_geometry->setDrawingMode(GL_LINES);
 
         m_material = new QSGFlatColorMaterial;
         m_lines->setOpaqueMaterial(m_material);
         m_lines->setFlag(QSGNode::OwnsMaterial);
+        addChildNode(m_lines);
 
         m_geometry->allocate(8);
         QSGGeometry::Point2D * vertex = m_geometry->vertexDataAsPoint2D();
@@ -56,6 +56,9 @@ void SatelliteNode::initLines() {
         vertex[2].set( 0.5, -0.5); vertex[3].set(0.5,0.5);
         vertex[4].set( 0.5, 0.5); vertex[5].set(-0.5,0.5);
         vertex[6].set( -0.5, 0.5); vertex[7].set(-0.5,-0.5);
+
+        m_lines->markDirty(QSGNode::DirtyGeometry);
+        m_lines->markDirty(QSGNode::DirtyMaterial);
     }
 }
 
@@ -66,7 +69,7 @@ void SatelliteNode::initPoint() {
     }
     if(!m_point) {
         m_point = new PointNode(m_rootNode, 'B', 3.5);
-        m_opacity->appendChildNode(m_point);
+        addChildNode(m_point);
     }
 }
 
@@ -88,7 +91,7 @@ void SatelliteNode::update() {
         }
         show();
 
-        if ( true ) {
+        if ( Options::drawSatellitesLikeStars() ) {
             initPoint();
         } else {
             QColor color;

@@ -26,16 +26,16 @@ class PointNode;
 class LabelNode;
 #include "../labelsitem.h"
 
-/** @class PlanetNode
- *
- * A SkyNode derived class used as a container for holding two other nodes: PointNode
- * and QSGSimpleTextureNode(displays object as image) that are displayed depending according to the
- * conditions (zoom level, user options)
- *
- *@short A container for PointNode and QSGSimpleTextureNode used for displaying some solar system objects
- *@author Artem Fedoskin
- *@version 1.0
- */
+    /** @class PlanetNode
+     *
+     * A SkyNode derived class used as a container for holding two other nodes: PointNode
+     * and QSGSimpleTextureNode(displays object as image) that are displayed depending according to the
+     * conditions (zoom level, user options)
+     *
+     *@short A container for PointNode and QSGSimpleTextureNode used for displaying some solar system objects
+     *@author Artem Fedoskin
+     *@version 1.0
+     */
 
 class PlanetNode : public SkyNode {
 public:

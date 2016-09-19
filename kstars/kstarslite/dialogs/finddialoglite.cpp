@@ -56,8 +56,8 @@ FindDialogLite::FindDialogLite( ) :
     m_sortModel = new QSortFilterProxyModel(this);
     m_sortModel->setFilterCaseSensitivity( Qt::CaseInsensitive );
     m_sortModel->setSourceModel( fModel );
-    m_sortModel->setSortRole(SkyObjectListModel::NameRole);
-    m_sortModel->setFilterRole(SkyObjectListModel::NameRole);
+    m_sortModel->setSortRole(Qt::DisplayRole);
+    m_sortModel->setFilterRole(Qt::DisplayRole);
     m_sortModel->setDynamicSortFilter(true);
     KStarsLite::Instance()->qmlEngine()->rootContext()->setContextProperty("SortModel", m_sortModel);
     m_sortModel->sort( 0 );
@@ -177,7 +177,7 @@ bool FindDialogLite::isInList(QString searchQuery) {
     int size = m_sortModel->rowCount(m_sortModel->index(0,0));
     QString stripped = searchQuery.remove(" ");
     for(int i = 0; i < size; ++i) {
-        QString s = m_sortModel->data(m_sortModel->index(i,0), SkyObjectListModel::NameRole).toString();
+        QString s = m_sortModel->data(m_sortModel->index(i,0), Qt::DisplayRole).toString();
         if(s == searchQuery || s.remove(" ") == stripped) {
             return true;
         }

@@ -31,6 +31,7 @@ SatellitesItem::SatellitesItem(SatellitesComponent *satComp, RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::SATELLITE_LABEL, rootNode), m_satComp(satComp)
 {
     recreateList();
+    Options::setDrawSatellitesLikeStars(false);
 }
 
 void SatellitesItem::update() {

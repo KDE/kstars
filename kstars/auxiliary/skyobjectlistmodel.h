@@ -34,8 +34,7 @@ class SkyObjectListModel : public QAbstractListModel {
     Q_OBJECT
 public:
     enum DemoRoles {
-        NameRole = Qt::UserRole + 1,
-        SkyObjectRole
+        SkyObjectRole = Qt::UserRole + 1,
     };
 
     explicit SkyObjectListModel(QObject *parent = 0);
@@ -44,6 +43,19 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const;
 
     virtual QHash<int, QByteArray> roleNames() const;
+
+    /**
+     * @return index of object from skyObjects with name objectName. -1 if object with such
+     * name was not found
+     */
+    int indexOf(QString objectName) const;
+
+    /**
+     * @short filter
+     * @param regEx
+     * @return
+     */
+    QStringList filter(QRegExp regEx);
 
     void setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects);
 

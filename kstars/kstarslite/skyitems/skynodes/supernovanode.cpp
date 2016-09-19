@@ -29,7 +29,26 @@ SupernovaNode::SupernovaNode(Supernova *snova)
 
 }
 
-void SupernovaNode::init(QColor color) {
+void SupernovaNode::update() {
+    KStarsData *data = KStarsData::Instance();
+    const Projector *m_proj = SkyMapLite::Instance()->projector();
+    if( !m_proj->checkVisibility(m_snova) ) {
+        hide();
+        return;
+    }
+
+    bool visible = false;
+    QPointF pos = m_proj->toScreen(m_snova,true,&visible);
+    //qDebug()<<"sup->ra() = "<<(sup->ra()).toHMSString()<<"sup->dec() = "<<sup->dec().toDMSString();
+    //qDebug()<<"pos = "<<pos<<"m_proj->onScreen(pos) = "<<m_proj->onScreen(pos);
+    if( !visible || !m_proj->onScreen(pos) ) {
+        hide();
+        return;
+    }
+
+    QColor color = data->colorScheme()->colorNamed("SupernovaColor");
+
+    //Initialize m_lines if not already done
     if(!m_lines) {
         m_lines = new QSGGeometryNode;
         m_geometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0);
@@ -52,31 +71,9 @@ void SupernovaNode::init(QColor color) {
         m_material->setColor(color);
         m_lines->markDirty(QSGNode::DirtyMaterial);
     }
-}
-
-void SupernovaNode::update() {
-    KStarsData *data = KStarsData::Instance();
-    const Projector *m_proj = SkyMapLite::Instance()->projector();
-    if( !m_proj->checkVisibility(m_snova) ) {
-        hide();
-        return;
-    }
-
-    bool visible = false;
-    QPointF pos = m_proj->toScreen(m_snova,true,&visible);
-    //qDebug()<<"sup->ra() = "<<(sup->ra()).toHMSString()<<"sup->dec() = "<<sup->dec().toDMSString();
-    //qDebug()<<"pos = "<<pos<<"m_proj->onScreen(pos) = "<<m_proj->onScreen(pos);
-    if( !visible || !m_proj->onScreen(pos) ) {
-        hide();
-        return;
-    }
-
-    QColor color = data->colorScheme()->colorNamed("SupernovaColor");
-    init(color);
 
     changePos(pos);
 
-    //qDebug()<<"Here"<<endl;
     return;
 }
 

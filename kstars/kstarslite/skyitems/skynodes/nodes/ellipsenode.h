@@ -1,7 +1,7 @@
 /** *************************************************************************
                           polynode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 28/05/2016
+    begin                : 22/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -15,18 +15,14 @@
  ***************************************************************************/
 #ifndef ELLIPSENODE_H_
 #define ELLIPSENODE_H_
-//#include "../../skyopacitynode.h"
 #include <QSGNode>
 #include <QColor>
 
-/** @class PolyNode
+/** @class EllipseNode
  *
- * A QSGOpacityNode derived class used for representing stars and planets as stars. Upon
- * construction loads the texture of star cached in parentNode
- *
- *@short QSGOpacityNode derived class that represents stars and planets using cached QSGTexture
- *@author Artem Fedoskin
- *@version 1.0
+ * @short QSGTransformNode derrived node used to draw ellipses
+ * @author Artem Fedoskin
+ * @version 1.0
  */
 
 class QSGGeometryNode;
@@ -39,9 +35,12 @@ public:
 
     void setColor(QColor color);
     void setLineWidth(int width);
-    void setFillMode(bool fillMode) { m_fillMode = fillMode; }
-
+    /**
+     * @short Redraw ellipse with the given width, height and positions (x,y)
+     * @param filled - if true the ellipse will be filled with color
+     */
     void updateGeometry(float x, float y, int width, int height, bool filled);
+
 private:
     QSGGeometryNode *m_geometryNode;
     QSGGeometry *m_geometry;
@@ -52,8 +51,6 @@ private:
 
     float m_x;
     float m_y;
-
-    bool m_fillMode;
 };
 
 #endif

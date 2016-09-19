@@ -26,7 +26,9 @@ class QSortFilterProxyModel;
 class SkyObjectListModel;
 
 /** @class DetalDialogLite
- * A backend of details dialog declared in QML.
+ * A backend of details dialog declared in QML. Members of this class are the properties that are used
+ * in QML. Whenever user clicks on some object the properties are updated with the info about this object
+ * and Details dialog in QML is updated automatically as we use property binding there.
  *
  * @short Backend for Object details dialog in QML
  * @author Artem Fedoskin, Jason Harris, Jasem Mutlaq
@@ -57,7 +59,6 @@ class DetailDialogLite : public QObject {
     Q_PROPERTY(QString period MEMBER m_period NOTIFY periodChanged)
 
     //Position
-
     Q_PROPERTY(QString decLabel MEMBER m_decLabel NOTIFY decLabelChanged )
     Q_PROPERTY(QString dec MEMBER m_dec NOTIFY decChanged )
 
@@ -92,12 +93,12 @@ public:
     explicit DetailDialogLite();
 
     /**
-     * @short initialize connects SkyMapLite's signals to proper slots
+     * @short Connect SkyMapLite's signals to proper slots
      */
     void initialize();
 
     /**
-     * @short setupThumbnail sets thumbnail to SkyMapLite::clickedObjectLite's thumbnail (if any)
+     * @short Set thumbnail to SkyMapLite::clickedObjectLite's thumbnail (if any)
      */
     void setupThumbnail();
 
@@ -107,9 +108,21 @@ public:
      */
     Q_INVOKABLE void addLink(QString url, QString desc, bool isImageLink);
 
+    /**
+      * @short Remove link from user's database
+      * @param itemIndex - index of a link
+      * @param isImage - true if it is a link on image, false if it is an info link
+      */
     Q_INVOKABLE void removeLink(int itemIndex, bool isImage);
 
-    Q_INVOKABLE void editLink(int itemIndex, bool isImage, QString desc, QString url);
+    /**
+     * @short Edit link's description and URL
+     * @param itemIndex - index of a link
+     * @param isImage - true if it is a link on image, false if it is an info link
+     * @param desc - new description
+     * @param url - new URL
+     */
+    void editLink(int itemIndex, bool isImage, QString desc, QString url);
 
     /** Update the local info_url and image_url files
         @param type The URL type. 0 for Info Links, 1 for Images.
@@ -131,16 +144,25 @@ public:
      * @return URL to user added object image
      */
     Q_INVOKABLE QString getImageURL(int index);
+public slots:
+    /**
+     * @short Update properties that are shown on "General" tab
+     */
+    void createGeneralTab();
 
     /**
-     * @short viewResource checks for validity of url and opens it in device default browser
+     * @short Update properties that are shown on "Position" tab
      */
-    //Q_INVOKABLE void viewResource(int itemIndex, bool isImage);
-
-public slots:
-    void createGeneralTab();
     void createPositionTab();
+
+    /**
+     * @short Update properties that are shown on "Log" tab
+     */
     void createLogTab();
+
+    /**
+     * @short Update properties that are shown on "Links" tab
+     */
     void createLinksTab();
 
     /**

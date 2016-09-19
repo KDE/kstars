@@ -1,7 +1,7 @@
 /** *************************************************************************
-                          pointsourcenode.cpp  -  K Desktop Planetarium
+                          labelnode.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 16/06/2016
+    begin                : 09/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/

@@ -1,7 +1,7 @@
 /** *************************************************************************
                           linenode.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 05/05/2016
+    begin                : 05/06/2016
     copyright            : (C) 2016 by Artem Fedoskin
     email                : afedoskin3@gmail.com
  ***************************************************************************/
@@ -26,28 +26,23 @@ class SkipList;
 
 /** @class LineNode
  *
- * A QSGGeometryNode derived class used for representing stars and planets as stars. Upon
- * construction loads the texture of star cached in parentNode
  *
- *@short QSGOpacityNode derived class that represents stars and planets using cached QSGTexture
+ *@short SkyOpacityNode derived class that draws lines from LineList
  *@author Artem Fedoskin
  *@version 1.0
  */
 
 class LineNode : public SkyOpacityNode  {
+
 public:
     /**
      * @short Constructor
-     * @param spType spectral type
-     * @param parentNode pointer to the top parent node, which holds texture cache
-     * @param size initial size of LineNode
+     * @param lineList - lines that have to be drawn
+     * @param skipList - lines that have to be skipped
+     * @param drawStyle - not used currently
      */
     LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle);
     virtual ~LineNode();
-    /**
-     * @short setSize update size of LineNode with the given parameter
-     * @param size new size of LineNode
-     */
 
     void setColor(QColor color);
     void setWidth(int width);
@@ -55,7 +50,11 @@ public:
 
     void setStyle(QColor color, int width, Qt::PenStyle drawStyle);
 
+    /**
+     * @short Update lines based on the visibility of line segments in m_lineList
+     */
     void updateGeometry();
+
     inline LineList *lineList() { return m_lineList; }
 private:
     QSGGeometryNode *m_geometryNode;

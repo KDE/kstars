@@ -154,7 +154,7 @@ public:
     DSOSymbolNode(DeepSkyObject *skyObject, QColor color = QColor());
 
     /**
-     * @short Changes position and rotation angloe of the symbol
+     * @short Changes position and rotation angle of the symbol
      * @param pos - new position
      * @param positionangle - rotation angle
      */

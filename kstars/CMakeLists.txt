@@ -132,37 +132,38 @@ if (INDI_FOUND)
                     ekos/guide/rcalibration.ui
                 )
 
-                set(ekos_SRCS
-                    ekos/ekos.cpp
-                    ekos/schedulerjob.cpp
-                    ekos/scheduler.cpp
-                    ekos/mosaic.cpp
-                    ekos/ekosmanager.cpp
-                    ekos/capture.cpp
-                    ekos/sequencejob.cpp
-                    ekos/focus.cpp
-                    ekos/guide.cpp
-                    ekos/phd2.cpp
-                    ekos/align.cpp
-                    ekos/mount.cpp
-                    ekos/dome.cpp
-                    ekos/weather.cpp
-                    ekos/dustcap.cpp
-                    ekos/astrometryparser.cpp
-                    ekos/offlineastrometryparser.cpp
-                    ekos/onlineastrometryparser.cpp
-                    ekos/remoteastrometryparser.cpp
-                    ekos/profileeditor.cpp
-                    ekos/opsekos.cpp
-                    ekos/QProgressIndicator.cpp
-                    ekos/guide/common.cpp
-                    ekos/guide/gmath.cpp
-                    ekos/guide/guider.cpp
-                    ekos/guide/matr.cpp
-                    ekos/guide/rcalibration.cpp
-                    ekos/guide/scroll_graph.cpp
-                    ekos/guide/vect.cpp
-                )
+            set(ekos_SRCS
+                       ekos/ekos.cpp
+                       ekos/schedulerjob.cpp
+                       ekos/scheduler.cpp
+                       ekos/mosaic.cpp
+                       ekos/ekosmanager.cpp
+                       ekos/capture.cpp
+                       ekos/sequencejob.cpp
+                       ekos/focus.cpp
+                       ekos/guide.cpp
+                       ekos/phd2.cpp
+                       ekos/align.cpp
+                       ekos/mount.cpp
+                       ekos/dome.cpp
+                       ekos/weather.cpp
+                       ekos/dustcap.cpp
+                       ekos/darklibrary.cpp
+                       ekos/astrometryparser.cpp
+                       ekos/offlineastrometryparser.cpp
+                       ekos/onlineastrometryparser.cpp
+                       ekos/remoteastrometryparser.cpp
+                       ekos/profileeditor.cpp
+                       ekos/opsekos.cpp
+                       ekos/QProgressIndicator.cpp
+                       ekos/guide/common.cpp
+                       ekos/guide/gmath.cpp
+                       ekos/guide/guider.cpp
+                       ekos/guide/matr.cpp
+                       ekos/guide/rcalibration.cpp
+                       ekos/guide/scroll_graph.cpp
+                       ekos/guide/vect.cpp
+           )
             endif(CFITSIO_FOUND)
     endif(BUILD_KSTARS_LITE)
 
@@ -540,6 +541,10 @@ if(NOT BUILD_KSTARS_LITE)
     LIST(APPEND libkstarscomponents_SRCS
         skycomponents/notifyupdatesui.cpp
         )
+else(NOT BUILD_KSTARS_LITE)
+    set(libkstarstools_SRCS
+        tools/nameresolver.cpp
+        )
 endif(NOT BUILD_KSTARS_LITE)
 
 set(kstars_skyobjects_SRCS
@@ -588,6 +593,7 @@ set(kstars_extra_SRCS
     auxiliary/filedownloader.cpp
     auxiliary/kspaths.cpp
     auxiliary/QRoundProgressBar.cpp
+    auxiliary/skyobjectlistmodel.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
@@ -596,10 +602,6 @@ set(kstars_extra_SRCS
     texturemanager.cpp
     #to minimize number of indef KSTARS_LITE
     skypainter.cpp
-    )
-
-set(libkstarstools_SRCS
-    tools/nameresolver.cpp
     )
 
 if(NOT BUILD_KSTARS_LITE)
@@ -645,7 +647,6 @@ if(BUILD_KSTARS_LITE)
         kstarslite/dialogs/detaildialoglite.cpp
         kstarslite/dialogs/finddialoglite.cpp
         kstarslite/dialogs/locationdialoglite.cpp
-        kstarslite/dialogs/skyobjectlistmodel.cpp
         #RootNode
         kstarslite/skyitems/rootnode.cpp
         kstarslite/skyitems/skyopacitynode.cpp
@@ -679,7 +680,6 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/skynodes/horizonnode.cpp
         kstarslite/skyitems/skynodes/labelnode.cpp
         kstarslite/skyitems/skynodes/guidelabelnode.cpp
-        kstarslite/skyitems/skynodes/skytexturenode.cpp
         kstarslite/skyitems/skynodes/deepskynode.cpp
         kstarslite/skyitems/skynodes/dsosymbolnode.cpp
         kstarslite/skyitems/skynodes/skypolygonnode.cpp
