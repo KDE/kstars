@@ -578,6 +578,7 @@ void Scheduler::saveJob()
     {
         queueSaveAsB->setEnabled(true);
         queueSaveB->setEnabled(true);
+        startB->setEnabled(true);
         mDirty = true;
     }
 
@@ -805,6 +806,8 @@ void Scheduler::removeJob()
     {
         queueSaveAsB->setEnabled(false);
         queueSaveB->setEnabled(false);
+        startB->setEnabled(false);
+        pauseB->setEnabled(false);
 
         if (jobUnderEdit >= 0)
             resetJobEdit();
