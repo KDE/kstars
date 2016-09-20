@@ -64,7 +64,7 @@ KSPage {
             if (sourceError == 2 || sourceError == 1) {
                 errorDesc = xi18n("No location service (GPS, cellular service, etc.) is available.\nPlease, switch on location service and retry")
             } else if (sourceError == 4) {
-                errorDesc = xi18n("Unknown error occured. Please contact application developer.")
+                errorDesc = xi18n("Unknown error occurred. Please contact application developer.")
             }
 
             notification.showNotification(errorDesc)
@@ -73,7 +73,7 @@ KSPage {
         }
 
         onUpdateTimeout: {
-            notification.showNotification(xi18n("Timeout occured. Try again."))
+            notification.showNotification(xi18n("Timeout occurred. Try again."))
             locationLoading.close()
         }
 
