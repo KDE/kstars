@@ -215,14 +215,33 @@ ColumnLayout {
                     }
                 }
 
+                RowLayout {
+                    anchors.right: parent.right
                 BottomMenuButton {
                     onClicked: {
                         stackView.push(timePage)
                     }
                     visible: isWindowWidthSmall
-                    anchors.right: parent.right
 
                     iconSrc: "../../images/appointment-new.png"
+                }
+
+                Rectangle {
+                    id: separatorSearchSmall
+                    height: decreaseUnitLandscape.height*0.75
+                    color: num.sysPalette.light
+                    width: 1
+                    visible: isWindowWidthSmall
+                }
+
+                BottomMenuButton {
+                    onClicked: {
+                        stackView.push(findDialog)
+                    }
+                    visible: isWindowWidthSmall
+
+                    iconSrc: "../../images/edit-find.png"
+                }
                 }
             }
 
@@ -264,7 +283,7 @@ ColumnLayout {
                 }
 
                 Rectangle {
-                    id: separatorBar
+                    id: separator
                     height: decreaseUnitLandscape.height*0.75
                     color: num.sysPalette.light
                     width: 1
@@ -278,6 +297,23 @@ ColumnLayout {
                     visible: !isWindowWidthSmall
 
                     iconSrc: "../../images/appointment-new.png"
+                }
+
+                Rectangle {
+                    id: separatorSearchLarge
+                    height: decreaseUnitLandscape.height*0.75
+                    color: num.sysPalette.light
+                    width: 1
+                    visible: !isWindowWidthSmall
+                }
+
+                BottomMenuButton {
+                    onClicked: {
+                        stackView.push(findDialog)
+                    }
+                    visible: !isWindowWidthSmall
+
+                    iconSrc: "../../images/edit-find.png"
                 }
             }
         }

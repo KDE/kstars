@@ -124,4 +124,8 @@ install( FILES
          tutorial-arrow-vertical@2x.png
          tutorial-arrow-vertical@3x.png
          tutorial-arrow-vertical@4x.png
+         edit-find.png
+         edit-find@2x.png
+         edit-find@3x.png
+         edit-find@4x.png
          DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/images )
