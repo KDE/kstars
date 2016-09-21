@@ -46,7 +46,7 @@ public:
 
     int size() { return devices.size(); }
 
-    bool isStandardProperty(const QString &name);   
+    bool isStandardProperty(const QString &name);
 
   private:
     INDIListener(QObject *parent);

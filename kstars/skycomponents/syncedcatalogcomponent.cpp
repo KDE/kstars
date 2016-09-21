@@ -92,10 +92,12 @@ DeepSkyObject *SyncedCatalogComponent::addObject( CatalogEntryData catalogEntry 
     if( newObj->hasLongName() ) {
         //        newObj->setName( newObj->longname() );
         objectNames()[ newObj->type() ].append( newObj->longname() );
+        objectLists()[ newObj->type() ].append( QPair<QString, const SkyObject *>(newObj->longname(), newObj) );
     }
     else {
         qWarning() << "Created object with name " << newObj->name() << " which is probably fake!";
         objectNames()[ newObj->type() ].append( newObj->name() );
+        objectLists()[ newObj->type() ].append( QPair<QString, const SkyObject *>(newObj->name(), newObj) );
     }
     m_ObjectList.append( newObj );
     qDebug() << "Added new SkyObject " << newObj->name() << " to synced catalog " << m_catName << " which now contains " << m_ObjectList.count() << " objects.";

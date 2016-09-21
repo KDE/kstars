@@ -24,7 +24,10 @@
 #include <kconfig.h>
 #include <QDebug>
 #include <KLocalizedString>
+
+#ifndef KSTARS_LITE
 #include <KMessageBox>
+#endif
 
 #include <kconfiggroup.h>
 #include <KSharedConfig>
@@ -33,7 +36,11 @@
 #include "ksutils.h"
 #include "Options.h"
 #include "skyobjects/starobject.h"
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skyqpainter.h"
+#endif
 #include "kspaths.h"
 
 ColorScheme::ColorScheme() : FileName() {
@@ -238,7 +245,11 @@ bool ColorScheme::save( const QString &name ) {
 
         if ( file.exists() || !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
             QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
-            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            #ifndef KSTARS_LITE
+                KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            #else
+                qDebug() << message << i18n( "Could Not Open File" );
+            #endif
             return false;
         } else {
             QTextStream stream( &file );
@@ -253,7 +264,11 @@ bool ColorScheme::save( const QString &name ) {
 
         if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
             QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
-            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            #ifndef KSTARS_LITE
+                KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            #else
+                qDebug() << message << i18n( "Could Not Open File" );
+            #endif
             return false;
         } else {
             QTextStream stream( &file );
@@ -262,7 +277,11 @@ bool ColorScheme::save( const QString &name ) {
         }
     } else {
         QString message = i18n( "Invalid filename requested.\nScheme cannot be recorded." );
-        KMessageBox::sorry( 0, message, i18n( "Invalid Filename" ) );
+        #ifndef KSTARS_LITE
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        #else
+            qDebug() << message << i18n( "Invalid Filename" );
+        #endif
         return false;
     }
 
@@ -296,13 +315,17 @@ void ColorScheme::saveToConfig() {
 void ColorScheme::setStarColorMode( int mode ) { 
     StarColorMode = mode;
     Options::setStarColorMode( mode );
+#ifndef KSTARS_LITE
     SkyQPainter::initStarImages();
+#endif
 }
 
 void ColorScheme::setStarColorIntensity( int intens ) { 
     StarColorIntensity = intens;
     Options::setStarColorIntensity( intens );
+#ifndef KSTARS_LITE
     SkyQPainter::initStarImages();
+#endif
 }
 
 void ColorScheme::setStarColorModeIntensity( int mode, int intens) {
@@ -310,5 +333,7 @@ void ColorScheme::setStarColorModeIntensity( int mode, int intens) {
     StarColorIntensity = intens;
     Options::setStarColorMode( mode );
     Options::setStarColorIntensity( intens );
+#ifndef KSTARS_LITE
     SkyQPainter::initStarImages();
+#endif
 }

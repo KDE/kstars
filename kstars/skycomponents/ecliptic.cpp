@@ -19,7 +19,13 @@
 
 #include "ksnumbers.h"
 #include "kstarsdata.h"
+
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
+#endif
+
 #include "skyobjects/skypoint.h" 
 #include "dms.h"
 #include "Options.h"
@@ -80,6 +86,7 @@ void Ecliptic::draw( SkyPainter *skyp )
 }
 
 void Ecliptic::drawCompassLabels() {
+#ifndef KSTARS_LITE
     const Projector*  proj = SkyMap::Instance()->projector();
     KStarsData*       data = KStarsData::Instance();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
@@ -104,4 +111,5 @@ void Ecliptic::drawCompassLabels() {
             skyLabeler->drawGuideLabel( cpoint, label, 0.0 );
         }
     }
+#endif
 }

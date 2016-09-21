@@ -29,7 +29,9 @@
 #include <QFile>
 #include <QProgressDialog>
 
+#ifndef KSTARS_LITE
 #include <KMessageBox>
+#endif
 #include <KLocalizedString>
 
 #ifdef HAVE_WCSLIB

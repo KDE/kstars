@@ -24,7 +24,11 @@
 #include <KLocalizedString>
 
 #include "kstarsdata.h"
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
+#endif
 #include "skyobjects/skypoint.h"
 #include "dms.h"
 #include "Options.h"
@@ -62,8 +66,13 @@ SkipList* MilkyWay::skipList( LineList* lineList ) {
 
 bool MilkyWay::selected()
 {
+#ifndef KSTARS_LITE
     return Options::showMilkyWay() &&
            ! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMap::IsSlewing() );
+#else
+    return Options::showMilkyWay() &&
+           ! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMapLite::IsSlewing() );
+#endif
 }
 
 void MilkyWay::draw( SkyPainter *skyp )

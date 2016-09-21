@@ -93,7 +93,7 @@ void INDIListener::addClient(ClientManager *cm)
 
     connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)));
     connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), Qt::DirectConnection);
-    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));    
+    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));
     connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)));
 
     connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
@@ -143,7 +143,7 @@ void INDIListener::processDevice(DeviceInfo *dv)
 }
 
 void INDIListener::removeDevice(DeviceInfo *dv)
-{        
+{
     if (Options::iNDILogging())
         qDebug() << "INDIListener: Removing device " << dv->getBaseDevice()->getDeviceName() << " with unique label " << dv->getDriverInfo()->getUniqueLabel();
 
@@ -216,8 +216,8 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 {
                     devices.removeOne(gd);
                     gd = new ISD::Focuser(gd);
-                    devices.append(gd);                
-                }                
+                    devices.append(gd);
+                }
 
                emit newFocuser(gd);
             }

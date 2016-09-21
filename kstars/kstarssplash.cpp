@@ -21,7 +21,6 @@
 #include <QStandardPaths>
 #include "kspaths.h"
 
-
 KStarsSplash::KStarsSplash(const QString& customMessage )
         : QSplashScreen(QPixmap() )
 {

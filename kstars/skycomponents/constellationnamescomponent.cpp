@@ -19,7 +19,9 @@
 #include <QTextStream>
 
 #include "kstarsdata.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "skyobjects/skyobject.h"
 #include "skycomponents/culturelist.h"
 #include "Options.h"
@@ -29,7 +31,7 @@
 #include "projections/projector.h"
 
 ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, CultureList* cultures )
-        : ListComponent(parent )
+        : ListComponent( parent )
 {
     uint i = 0;
     bool culture = false;
@@ -86,6 +88,7 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, C
 
             //Add name to the list of object names
             objectNames(SkyObject::CONSTELLATION).append( name );
+            objectLists(SkyObject::CONSTELLATION).append(QPair<QString, const SkyObject*>(name, o));
         }
     }
 }
@@ -95,8 +98,13 @@ ConstellationNamesComponent::~ConstellationNamesComponent()
 
 bool ConstellationNamesComponent::selected()
 {
+#ifndef KSTARS_LITE
     return Options::showCNames() &&
            !( Options::hideOnSlew() && Options::hideCNames() && SkyMap::IsSlewing() );
+#else
+    return Options::showCNames() &&
+           !( Options::hideOnSlew() && Options::hideCNames() && SkyMapLite::IsSlewing());
+#endif
 }
 
 // Don't precess the location of the names
@@ -112,6 +120,7 @@ void ConstellationNamesComponent::update( KSNumbers* )
 void ConstellationNamesComponent::draw( SkyPainter *skyp )
 {
     Q_UNUSED(skyp);
+#ifndef KSTARS_LITE
     if ( ! selected() )
         return;
 
@@ -140,4 +149,5 @@ void ConstellationNamesComponent::draw( SkyPainter *skyp )
     }
 
     skyLabeler->resetFont();
+#endif
 }

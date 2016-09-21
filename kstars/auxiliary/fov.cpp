@@ -17,7 +17,9 @@
 
 #include "fov.h"
 #include "Options.h"
+#ifndef KSTARS_LITE
 #include "kstars.h"
+#endif
 #include "kstarsdata.h"
 #include "geolocation.h"
 #include "skymap.h"

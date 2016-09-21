@@ -32,7 +32,7 @@ nomadbinfile2sqlite.cpp -- Convert USNO NOMAD binary file to a SQLite database
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
-#define DEBUG true
+#define DEBUG false
 
 using namespace std;
 
@@ -176,17 +176,44 @@ bool NOMADStarDataWriter::insertStarData( unsigned int trixel, const DeepStarDat
         return false;
     }
 
-    for( int i = 0; i < ntrixels; ++i ) {
-        sprintf( query, "INSERT INTO `%s` (`Trixel`, `RA`, `Dec`, `dRA`, `dDec`, `B`, `V`, `mag`, `PM`, `Copies`) VALUES (\'%d\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%u\')", db_tbl, TrixelList[ i ], RA, Dec, dRA, dDec, B, V, mag, PM,
-                 ( (TrixelList[ i ] == originalTrixelID) ? ntrixels : 0 ) // Duplicates get a 'Copies' value of 0. The real star gets the actual value.
-                 );
-        if( sqlite3_exec( db, query, 0, 0, &errorMessage ) != SQLITE_OK ) {
-            cerr << "SQLite INSERT INTO failed! Query was: " << endl << query << endl;
-            cerr << "Error was: " << errorMessage << endl;
-            sqlite3_free( errorMessage );
-            return false;
-        }
+    sprintf( query, "INSERT INTO `%s` (`Trixel`, `RA`, `Dec`, `dRA`, `dDec`, `B`, `V`, `mag`, `PM`, `Copies`) VALUES (:Trixel, :RA, :Dec, :dRA, :dDec, :B, :V, :mag, :PM, :Copies)", db_tbl );
+    sqlite3_stmt *stmt;
+    sqlite3_prepare_v2( db, query, -1, &stmt, 0 );
+
+    if ( sqlite3_exec( db, "BEGIN TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+        cerr << "SQLite INSERT INTO failed! Query was: " << endl << query << endl;
+        cerr << "Error was: " << errorMessage << endl;
+        sqlite3_free( errorMessage );
+        return false;
     }
+
+    for( int i = 0; i < ntrixels; ++i ) {
+
+        sqlite3_bind_int( stmt, 1, TrixelList[ i ] );
+        sqlite3_bind_double( stmt, 2, RA );
+        sqlite3_bind_double( stmt, 3, Dec );
+        sqlite3_bind_double( stmt, 4, dRA );
+        sqlite3_bind_double( stmt, 5, dDec );
+        sqlite3_bind_double( stmt, 6, B );
+        sqlite3_bind_double( stmt, 7, V );
+        sqlite3_bind_double( stmt, 8, mag );
+        sqlite3_bind_double( stmt, 9, PM );
+        sqlite3_bind_int( stmt, 10, ( (TrixelList[ i ] == originalTrixelID) ? ntrixels : 0 ) );
+
+        sqlite3_step( stmt );
+        sqlite3_clear_bindings( stmt );
+        sqlite3_reset( stmt );
+    }
+
+    if ( sqlite3_exec( db, "END TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+        cerr << "SQLite INSERT INTO failed! Query was: " << endl << query << endl;
+        cerr << "Error was: " << errorMessage << endl;
+        sqlite3_free( errorMessage );
+        return false;
+    }
+
+    sqlite3_finalize( stmt );
+
     return true;
 }
 
@@ -229,6 +256,19 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
         return false;
     }
     */
+    char *errorMessage = 0;
+    char query[2048];
+
+    sprintf( query, "INSERT INTO `%s` (`Trixel`, `RA`, `Dec`, `dRA`, `dDec`, `B`, `V`, `mag`, `PM`, `Copies`) VALUES (:Trixel, :RA, :Dec, :dRA, :dDec, :B, :V, :mag, :PM, :Copies)", db_tbl );
+    sqlite3_stmt *stmt;
+    sqlite3_prepare_v2( db, query, -1, &stmt, 0 );
+
+    if ( sqlite3_exec( db, "BEGIN TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+        cerr << "SQLite BEGIN TRANSACTION failed! Query was: " << endl << query << endl;
+        cerr << "Error was: " << errorMessage << endl;
+        sqlite3_free( errorMessage );
+        return false;
+    }
 
     for( trixel = 0; trixel < ntrixels; ++trixel ) {
         fseek( DataFile, m_IndexOffset + trixel * INDEX_ENTRY_SIZE + 4 , SEEK_SET );
@@ -252,7 +292,6 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
 
             /** CODE FROM INSERTSTARDATA PASTED HERE FOR SPEED */
             {
-                char query[2048];
                 float mag;
                 float B, V, RA, Dec, dRA, dDec;
 
@@ -317,22 +356,52 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
                 }
 
                 for( int i = 0; i < nt; ++i ) {
-                    sprintf( query, "INSERT INTO `%s` (`Trixel`, `RA`, `Dec`, `dRA`, `dDec`, `B`, `V`, `mag`, `PM`, `Copies`) VALUES (\'%d\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%lf\', \'%u\')", db_tbl, TrixelList[ i ], RA, Dec, dRA, dDec, B, V, mag, PM,
-                             ( (TrixelList[ i ] == originalTrixelID) ? nt : 0 ) // Duplicates get a 'Copies' value of 0. The real star gets the actual value.
-                             );
-                    char *errorMessage = 0;
-                    if( sqlite3_exec( db, query, 0, 0, &errorMessage ) != SQLITE_OK ) {
-                        cerr << "SQLite INSERT INTO failed! Query was: " << endl << query << endl;
-                        cerr << "Error was: " << errorMessage << endl;
-                        sqlite3_free( errorMessage );
-                        return false;
-                    }
+                    sqlite3_bind_int( stmt, 1, TrixelList[ i ] );
+                    sqlite3_bind_double( stmt, 2, RA );
+                    sqlite3_bind_double( stmt, 3, Dec );
+                    sqlite3_bind_double( stmt, 4, dRA );
+                    sqlite3_bind_double( stmt, 5, dDec );
+                    sqlite3_bind_double( stmt, 6, B );
+                    sqlite3_bind_double( stmt, 7, V );
+                    sqlite3_bind_double( stmt, 8, mag );
+                    sqlite3_bind_double( stmt, 9, PM );
+                    sqlite3_bind_int( stmt, 10, ( (TrixelList[ i ] == originalTrixelID) ? ntrixels : 0 ) );
+
+                    sqlite3_step( stmt );
+                    sqlite3_clear_bindings( stmt );
+                    sqlite3_reset( stmt );
                 }
             }
         }
-        if( trixel % 100 == 0 )
+        if( trixel % 100 == 0 && trixel != 0 ) {
+            if ( sqlite3_exec( db, "END TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+                cerr << "SQLite END TRANSACTION failed! Query was: " << endl << query << endl;
+                cerr << "Error was: " << errorMessage << endl;
+                sqlite3_free( errorMessage );
+                return false;
+            }
+            sqlite3_finalize( stmt );
+            sqlite3_prepare_v2( db, query, -1, &stmt, 0 );
+
+            if ( sqlite3_exec( db, "BEGIN TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+                cerr << "SQLite BEGIN TRANSACTION failed! Query was: " << endl << query << endl;
+                cerr << "Error was: " << errorMessage << endl;
+                sqlite3_free( errorMessage );
+                return false;
+            }
+
             cout << "Finished trixel " << trixel << endl;
+        }
     }
+
+    if ( sqlite3_exec( db, "END TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+        cerr << "SQLite INSERT INTO failed! Query was: " << endl << query << endl;
+        cerr << "Error was: " << errorMessage << endl;
+        sqlite3_free( errorMessage );
+        return false;
+    }
+
+    sqlite3_finalize( stmt );
 
     return true;
 }

@@ -23,7 +23,13 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
+
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
+#endif
+
 #include "skyobjects/skypoint.h" 
 #include "dms.h"
 #include "skylabeler.h"
@@ -101,6 +107,7 @@ void HorizonComponent::draw( SkyPainter *skyp )
 }
 
 void HorizonComponent::drawCompassLabels() {
+#ifndef KSTARS_LITE
     SkyPoint c;
     QPointF cpoint;
     bool visible;
@@ -137,4 +144,5 @@ void HorizonComponent::drawCompassLabels() {
             skyLabeler->drawGuideLabel( cpoint, name[i], 0.0 );
         }
     }
+#endif
 }

@@ -380,7 +380,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 ScopeTarget->apparentCoord(KStars::Instance()->data()->ut().djd(), (long double) J2000);
 
               currentRA  = RAEle->value;
-              currentDEC = DecEle->value;              
+              currentDEC = DecEle->value;
 
               ScopeTarget->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
        }
@@ -393,7 +393,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 if (!AltEle) return false;
 
             currentAz  = AzEle->value;
-            currentAlt = AltEle->value;           
+            currentAlt = AltEle->value;
         }
 
         /* Could not find either properties! */
@@ -506,7 +506,7 @@ bool Telescope::Sync(double ra, double dec)
     SkyPoint target;
 
     target.setRA(ra);
-    target.setDec(dec);    
+    target.setDec(dec);
 
     return Sync(&target);
 }

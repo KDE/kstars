@@ -25,7 +25,9 @@
 #include "skyobjects/ksplanet.h"
 #include "skyobjects/ksplanetbase.h"
 #include "kstarsdata.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 
 SolarSystemListComponent::SolarSystemListComponent( SolarSystemComposite *p ) :
     ListComponent( p ),

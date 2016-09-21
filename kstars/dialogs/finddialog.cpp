@@ -25,6 +25,7 @@
 #include "skycomponents/syncedcatalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 #include "tools/nameresolver.h"
+#include "skyobjectlistmodel.h"
 
 #include <KMessageBox>
 
@@ -83,11 +84,15 @@ FindDialog::FindDialog( QWidget* parent ) :
 
     ui->FilterType->setCurrentIndex(0);  // show all types of objects
 
-    fModel = new QStringListModel( this );
-    sortModel = new QSortFilterProxyModel( ui->SearchList );
+    fModel = new SkyObjectListModel( this );
+    sortModel = new QSortFilterProxyModel(ui->SearchList);
     sortModel->setFilterCaseSensitivity( Qt::CaseInsensitive );
-    ui->SearchList->setModel( sortModel );
     sortModel->setSourceModel( fModel );
+    sortModel->setSortRole(Qt::DisplayRole);
+    sortModel->setFilterRole(Qt::DisplayRole);
+    sortModel->setDynamicSortFilter(true);
+    sortModel->sort( 0 );
+
     ui->SearchList->setModel( sortModel );
 
     // Connect signals to slots
@@ -128,26 +133,26 @@ void FindDialog::initSelection() {
         switch ( ui->FilterType->currentIndex() ) {
         case 0: //All objects, choose Andromeda galaxy
             {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Andromeda Galaxy") ) );
+                QModelIndex qmi = fModel->index( fModel->indexOf( i18n("Andromeda Galaxy") ) );
                 selectItem = sortModel->mapFromSource( qmi );
                 break;
             }
         case 1: //Stars, choose Aldebaran
             {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aldebaran") ) );
+                QModelIndex qmi = fModel->index( fModel->indexOf( i18n("Aldebaran") ) );
                 selectItem = sortModel->mapFromSource( qmi );
                 break;
             }
         case 2: //Solar system or Asteroids, choose Aaltje
         case 9:
             {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aaltje") ) );
+                QModelIndex qmi = fModel->index( fModel->indexOf( i18n("Aaltje") ) );
                 selectItem = sortModel->mapFromSource( qmi );
                 break;
             }
         case 8: //Comets, choose 'Aarseth-Brewington (1989 W1)'
             {
-                QModelIndex qmi = fModel->index( fModel->stringList().indexOf( i18n("Aarseth-Brewington (1989 W1)") ) );
+                QModelIndex qmi = fModel->index( fModel->indexOf( i18n("Aarseth-Brewington (1989 W1)") ) );
                 selectItem = sortModel->mapFromSource( qmi );
                 break;
             }
@@ -171,68 +176,68 @@ void FindDialog::filterByType() {
 
     switch ( ui->FilterType->currentIndex() ) {
     case 0: // All object types
-        {
-            QStringList allObjects;
-            foreach( int type, data->skyComposite()->objectNames().keys() )
-                allObjects += data->skyComposite()->objectNames( type );
-            fModel->setStringList( allObjects );
-            break;
+    {
+        QVector<QPair<QString, const SkyObject *>> allObjects;
+        foreach( int type, data->skyComposite()->objectLists().keys() ) {
+            allObjects.append(data->skyComposite()->objectLists(SkyObject::TYPE(type)));
         }
-    case 1: //Stars
-        {
-            QStringList starObjects;
-            starObjects += data->skyComposite()->objectNames( SkyObject::STAR );
-            starObjects += data->skyComposite()->objectNames( SkyObject::CATALOG_STAR );
-            fModel->setStringList( starObjects );
-            break;
-        }
-    case 2: //Solar system
-        {
-            QStringList ssObjects;
-            ssObjects += data->skyComposite()->objectNames( SkyObject::PLANET );
-            ssObjects += data->skyComposite()->objectNames( SkyObject::COMET );
-            ssObjects += data->skyComposite()->objectNames( SkyObject::ASTEROID );
-            ssObjects += data->skyComposite()->objectNames( SkyObject::MOON );
-            ssObjects += i18n("Sun");
-            fModel->setStringList( ssObjects );
-            break;
-        }
-    case 3: //Open Clusters
-        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::OPEN_CLUSTER ) );
+        fModel->setSkyObjectsList( allObjects );
         break;
-    case 4: //Open Clusters
-        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::GLOBULAR_CLUSTER ) );
+    }
+    case 1: //Stars
+    {
+        QVector<QPair<QString, const SkyObject *>> starObjects;
+        starObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
+        starObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
+        fModel->setSkyObjectsList( starObjects );
+        break;
+    }
+    case 2: //Solar system
+    {
+        QVector<QPair<QString, const SkyObject *>> ssObjects;
+        ssObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
+        ssObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
+        ssObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
+        ssObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
+
+        fModel->setSkyObjectsList(ssObjects);
+        break;
+    }
+    case 3: //Open Clusters
+        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::OPEN_CLUSTER ) );
+        break;
+    case 4: //Globular Clusters
+        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::GLOBULAR_CLUSTER ) );
         break;
     case 5: //Gaseous nebulae
-        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::GASEOUS_NEBULA ) );
+        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::GASEOUS_NEBULA ) );
         break;
     case 6: //Planetary nebula
-        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::PLANETARY_NEBULA ) );
+        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::PLANETARY_NEBULA ) );
         break;
     case 7: //Galaxies
-        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::GALAXY ) );
+        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::GALAXY ) );
         break;
     case 8: //Comets
-        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::COMET ) );
+        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::COMET ) );
         break;
     case 9: //Asteroids
-        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::ASTEROID ) );
+        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::ASTEROID ) );
         break;
     case 10: //Constellations
-        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::CONSTELLATION ) );
+        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::CONSTELLATION ) );
         break;
     case 11: //Supernovae
-        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::SUPERNOVA ) );
+        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::SUPERNOVA ) );
         break;
     case 12: //Satellites
-        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::SATELLITE ) );
+        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::SATELLITE ) );
         break;
     }
 }
 
 void FindDialog::filterList() {
-    QString SearchText;
-    SearchText = processSearchText();
+    QString SearchText = processSearchText();
     sortModel->setFilterFixedString( SearchText );
     ui->InternetSearchButton->setText( i18n( "or search the internet for %1", SearchText ) );
     filterByType();
@@ -240,11 +245,11 @@ void FindDialog::filterList() {
 
     //Select the first item in the list that begins with the filter string
     if ( !SearchText.isEmpty() ) {
-        QStringList mItems = fModel->stringList().filter( QRegExp( '^'+SearchText, Qt::CaseInsensitive ) );
+        QStringList mItems = fModel->filter( QRegExp( '^'+SearchText, Qt::CaseInsensitive ) );
         mItems.sort();
 
         if ( mItems.size() ) {
-            QModelIndex qmi = fModel->index( fModel->stringList().indexOf( mItems[0] ) );
+            QModelIndex qmi = fModel->index( fModel->indexOf( mItems[0] ) );
             QModelIndex selectItem = sortModel->mapFromSource( qmi );
 
             if ( selectItem.isValid() ) {
@@ -265,24 +270,8 @@ void FindDialog::filterList() {
 
 SkyObject* FindDialog::selectedObject() const {
     QModelIndex i = ui->SearchList->currentIndex();
-    SkyObject *obj = 0;
-    if ( i.isValid() ) {
-        QString ObjName = i.data().toString();
-        obj = KStarsData::Instance()->skyComposite()->findByName( ObjName );
-    }
-    if( !obj ) {
-        QString stext = ui->SearchBox->text();
-        if( stext.startsWith( QLatin1String( "HD" ) ) ) {
-            stext.remove( "HD" );
-            bool ok;
-            int HD = stext.toInt( &ok );
-            // Looks like the user is looking for a HD star
-            if( ok ) {
-                obj = StarComponent::Instance()->findByHDIndex( HD );
-            }
-        }
-    }
-    return obj;
+    QVariant sObj = sortModel->data(sortModel->index(i.row(), 0), SkyObjectListModel::SkyObjectRole);
+    return (SkyObject *) sObj.value<void *>();
 }
 
 void FindDialog::enqueueSearch() {
@@ -353,6 +342,7 @@ void FindDialog::finishProcessing( SkyObject *selObj, bool resolve ) {
         QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
         KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );
     } else {
+        selObj->updateCoordsNow(KStarsData::Instance()->updateNum());
         accept();
     }
 }
@@ -389,7 +379,6 @@ void FindDialog::slotDetails()
         dd->exec();
         delete dd;
     }
-
 }
 
 

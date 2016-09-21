@@ -64,10 +64,10 @@ void HighPMStarList::setIndexTime( KSNumbers *num )
     m_reindexNum = KSNumbers( *num );
 }
 
-void HighPMStarList::reindex( KSNumbers *num, StarIndex* starIndex )
+bool HighPMStarList::reindex( KSNumbers *num, StarIndex* starIndex )
 {
     if ( fabs( num->julianCenturies() -
-               m_reindexNum.julianCenturies() ) < m_reindexInterval ) return;
+               m_reindexNum.julianCenturies() ) < m_reindexInterval ) return false;
 
     m_reindexNum = KSNumbers( *num );
     m_skyMesh->setKSNumbers( num );
@@ -110,6 +110,7 @@ void HighPMStarList::reindex( KSNumbers *num, StarIndex* starIndex )
         //    printf("    %4.2f\n", list->at(j)->mag() );
         //}
     }
+    return true;
     //printf("Re-indexed %d stars at interval %6.1f\n", cnt, 100.0 * m_reindexInterval );
 }
 

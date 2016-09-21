@@ -54,6 +54,12 @@ public:
     void loadData();
 
     /**
+     * @short deletes all created ConstellationsArt objects.
+     * Used in KStars Lite to reduce memory consumption if Constellation Art is switched off
+     */
+    void deleteData();
+
+    /**
      * @short Shows the details of the constellations
      * selected skyculture
      */

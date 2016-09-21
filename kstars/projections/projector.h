@@ -29,6 +29,10 @@ using namespace Eigen;
 #include <QPointF>
 
 #include "skyobjects/skypoint.h"
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#endif
+
 #include "skymap.h"
 
 class KStarsData;
@@ -52,6 +56,7 @@ public:
  */
 class Projector
 {
+    Q_GADGET
 public:
     /** Constructor.
       * @param p the ViewParams for this projection
@@ -63,8 +68,17 @@ public:
     /** Update cached values for projector */
     void setViewParams( const ViewParams& p );
 
+    enum Projection { Lambert,
+                      AzimuthalEquidistant,
+                      Orthographic,
+                      Equirectangular,
+                      Stereographic,
+                      Gnomonic,
+                      UnknownProjection };
+    Q_ENUM(Projection)
+
     /** Return the type of this projection */
-    virtual SkyMap::Projection type() const = 0;
+    Q_INVOKABLE virtual Projection type() const = 0;
 
     /** Return the FOV of this projection */
     double fov() const;

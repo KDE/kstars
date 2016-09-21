@@ -32,7 +32,7 @@ class EquirectangularProjector : public Projector
 {
 public:
     explicit EquirectangularProjector(const ViewParams& p);
-    virtual SkyMap::Projection type() const;
+    virtual Projection type() const;
     virtual double radius() const;
     virtual bool unusablePoint( const QPointF& p) const;
     virtual Vector2f toScreenVec(const SkyPoint* o, bool oRefract = true, bool* onVisibleHemisphere = 0) const;

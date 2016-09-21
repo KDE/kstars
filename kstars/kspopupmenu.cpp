@@ -230,7 +230,7 @@ void KSPopupMenu::createSatelliteMenu( Satellite *satellite ) {
     addFancyLabel( satellite->name() );
     addFancyLabel( satellite->id() );
     addFancyLabel( i18n( "satellite" ) );
-    addFancyLabel( KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( satellite ) );
+    addFancyLabel( KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( satellite ) );
 
     addSeparator();
 
@@ -278,7 +278,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     addFancyLabel( name );
     addFancyLabel( type );
     addFancyLabel( info );
-    addFancyLabel( KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( obj ) );
+    addFancyLabel( KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( obj ) );
 
     //Insert Rise/Set/Transit labels
     SkyObject* o = obj->clone();

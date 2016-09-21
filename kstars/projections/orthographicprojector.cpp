@@ -22,12 +22,12 @@
 OrthographicProjector::OrthographicProjector(const ViewParams& p)
     : Projector(p)
 {
-
+    updateClipPoly();
 }
 
-SkyMap::Projection OrthographicProjector::type() const
+Projector::Projection OrthographicProjector::type() const
 {
-    return SkyMap::Orthographic;
+    return Orthographic;
 }
 
 double OrthographicProjector::radius() const

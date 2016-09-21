@@ -19,8 +19,15 @@
 */
 
 #include "texturemanager.h"
+#ifdef KSTARS_LITE
+#include <QStandardPaths>
+#include <QImage>
+#else
 #include "skymap.h"
 #include "kstars.h"
+#endif
+
+#include "auxiliary/kspaths.h"
 #include "kspaths.h"
 
 #ifdef HAVE_OPENGL
@@ -78,6 +85,7 @@ TextureManager::CacheIter TextureManager::findTexture(const QString& name)
                     return (TextureManager::CacheIter)m_p->m_textures.insert( name, QImage(filename,"PNG") );
                    }else {
                 // Try to load from file in main data directory
+
                 filename = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("%1.png").arg(name));
                 if( !filename.isNull() ) {
                     return (TextureManager::CacheIter)m_p->m_textures.insert( name, QImage(filename,"PNG") );

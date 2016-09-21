@@ -18,18 +18,31 @@
 
 #include <QDebug>
 #include <QPixmap>
+
+#include <QApplication>
+#include <QScreen>
+
+#ifdef KSTARS_LITE
+#include "kstarslite.h"
+#include <KLocalizedString>
+#else
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
 #include <KAboutData>
 #include <KCrash>
 #include <KLocalizedString>
-#include "kspaths.h"
 
 #include "kstars.h"
+#include "skymap.h"
+#endif
+//DELETE!
+#include "projections/projector.h"
+
+#include "kspaths.h"
+
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
-#include "skymap.h"
 #include "simclock.h"
 #include "ksnumbers.h"
 #include "version.h"
@@ -37,24 +50,28 @@
 
 
 static const char description[] =
-    I18N_NOOP("Desktop Planetarium");
+        I18N_NOOP("Desktop Planetarium");
 static const char notice[] =
-    I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
+        I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
 
 
 int main(int argc, char *argv[])
 {
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
     app.setApplicationVersion(KSTARS_VERSION);
-
     /**
     * enable high dpi support
     */
-    app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
+    QByteArray data = "1";
+
+    //qputenv("QSG_RENDER_TIMING", data);
+    KLocalizedString::setApplicationDomain("kstars");    
+#ifndef KSTARS_LITE
     KCrash::initialize();
 
-    KLocalizedString::setApplicationDomain("kstars");
 
     KAboutData aboutData( "kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
                           i18n("(c) 2001-2015, The KStars Team"), i18n(notice), "http://edu.kde.org/kstars");
@@ -81,7 +98,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Ana-Maria Constantin"), i18n("Technical documentation on Astronomy and KStars") );
     aboutData.addCredit(i18n("Andrew Stepanenko"), i18n("Guiding code based on lin_guider") );
     aboutData.addCredit(i18n("Nuno Pinheiro"), i18n("Artwork") );
-    aboutData.addCredit(i18n("Utkarsh Simha"), i18n("Improvements to observation plan execution, star hopper etc.") );    
+    aboutData.addCredit(i18n("Utkarsh Simha"), i18n("Improvements to observation plan execution, star hopper etc.") );
     aboutData.addCredit(i18n("Daniel Holler"), i18n("Extensive testing and suggestions for Ekos/INDI.") );
     aboutData.addCredit(i18n("Stephane Lucas"), i18n("Extensive testing and suggestions for Ekos Scheduler.") );
 
@@ -131,7 +148,7 @@ int main(int argc, char *argv[])
         if ( !ok ) {
             qWarning() << "Unable to parse arguments: " ;
             qWarning() << "Width: " << parser.value( "width" )
-            << "  Height: " << parser.value( "height" ) << endl;
+                       << "  Height: " << parser.value( "height" ) << endl;
             return 1;
         }
 
@@ -220,9 +237,11 @@ int main(int argc, char *argv[])
         datestring.clear();
     }
 
+#endif
     // Create writable data dir if it does not exist
     QDir writableDir;
     writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
+#ifndef KSTARS_LITE
 
     KStars::createInstance( true, ! parser.isSet( "paused" ), datestring );
 
@@ -237,8 +256,12 @@ int main(int argc, char *argv[])
             KStars::Instance()->openFITS(u);
         }
     }
-
     QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
+#else
+    //KStarsLite::createInstance( true, ! parser.isSet( "paused" ), datestring );
+    //TODO decide wheter KStars Lite should have command line parser
+    KStarsLite::createInstance( true );
+#endif
     return app.exec();
 
 }

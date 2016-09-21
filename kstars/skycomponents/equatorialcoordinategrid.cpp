@@ -23,7 +23,13 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
+
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
+#endif
+
 #include "linelist.h"
 #include "dms.h"
 
@@ -85,7 +91,6 @@ EquatorialCoordinateGrid::EquatorialCoordinateGrid( SkyComposite *parent )
             appendLine( lineList );
         }
     }
-    
     summary();
 }
 
@@ -94,8 +99,13 @@ bool EquatorialCoordinateGrid::selected()
     if ( Options::autoSelectGrid() )
         return( ! Options::useAltAz() );
     else
+#ifndef KSTARS_LITE
         return( Options::showEquatorialGrid() &&
-            ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() ) );
+                ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() ) );
+#else
+        return( Options::showEquatorialGrid() &&
+                ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMapLite::IsSlewing() ) );
+#endif
 }
 
 void EquatorialCoordinateGrid::preDraw( SkyPainter* skyp )

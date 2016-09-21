@@ -1224,17 +1224,17 @@ void KStars::slotCoordSys() {
 
 void KStars::slotMapProjection() {
     if ( sender() == actionCollection()->action("project_lambert") )
-        Options::setProjection( SkyMap::Lambert );
+        Options::setProjection( Projector::Lambert );
     if ( sender() == actionCollection()->action("project_azequidistant") )
-        Options::setProjection( SkyMap::AzimuthalEquidistant );
+        Options::setProjection( Projector::AzimuthalEquidistant );
     if ( sender() == actionCollection()->action("project_orthographic") )
-        Options::setProjection( SkyMap::Orthographic );
+        Options::setProjection( Projector::Orthographic );
     if ( sender() == actionCollection()->action("project_equirectangular") )
-        Options::setProjection( SkyMap::Equirectangular );
+        Options::setProjection( Projector::Equirectangular );
     if ( sender() == actionCollection()->action("project_stereographic") )
-        Options::setProjection( SkyMap::Stereographic );
+        Options::setProjection( Projector::Stereographic );
     if ( sender() == actionCollection()->action("project_gnomonic") )
-        Options::setProjection( SkyMap::Gnomonic );
+        Options::setProjection( Projector::Gnomonic );
 
     //DEBUG
     qDebug() << "Projection system: " << Options::projection();

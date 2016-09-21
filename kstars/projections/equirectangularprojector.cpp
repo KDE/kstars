@@ -26,12 +26,12 @@
 EquirectangularProjector::EquirectangularProjector(const ViewParams& p)
     : Projector(p)
 {
-
+    updateClipPoly();
 }
 
-SkyMap::Projection EquirectangularProjector::type() const
+Projector::Projection EquirectangularProjector::type() const
 {
-    return SkyMap::Equirectangular;
+    return Equirectangular;
 }
 
 double EquirectangularProjector::radius() const

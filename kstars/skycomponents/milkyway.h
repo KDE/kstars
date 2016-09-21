@@ -34,6 +34,8 @@
  */
 class MilkyWay : public LineListIndex
 {
+    friend class MilkyWayItem;
+
 public:
     /** @short Constructor
      * @p parent pointer to the parent SkyComposite

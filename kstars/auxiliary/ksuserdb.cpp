@@ -333,7 +333,7 @@ QSqlDatabase KSUserDB::GetDatabase()
     userdb_.open();
     return userdb_;
 }
-
+#ifndef KSTARS_LITE
 void KSUserDB::GetAllObservers(QList<Observer *> &observer_list) {
     userdb_.open();
     observer_list.clear();
@@ -354,6 +354,7 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list) {
     users.clear();
     userdb_.close();
 }
+#endif
 
 /* Dark Library Section */
 
@@ -570,7 +571,7 @@ void KSUserDB::AddScope(const QString &model, const QString &vendor,
 
     userdb_.close();
 }
-
+#ifndef KSTARS_LITE
 void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
     scope_list.clear();
 
@@ -597,7 +598,7 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
     equip.clear();
     userdb_.close();
 }
-
+#endif
 /*
  * Eyepiece section
  */
@@ -643,7 +644,7 @@ void KSUserDB::AddEyepiece(const QString &vendor, const QString &model,
 
     userdb_.close();
 }
-
+#ifndef KSTARS_LITE
 void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
     eyepiece_list.clear();
 
@@ -669,7 +670,7 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
     equip.clear();
     userdb_.close();
 }
-
+#endif
 /*
  * lens section
  */
@@ -708,7 +709,7 @@ void KSUserDB::AddLens(const QString &vendor, const QString &model,
 
     userdb_.close();
 }
-
+#ifndef KSTARS_LITE
 void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
     lens_list.clear();
 
@@ -730,7 +731,7 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
     equip.clear();
     userdb_.close();
 }
-
+#endif
 /*
  *  filter section
  */
@@ -772,7 +773,7 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model,
 
     userdb_.close();
 }
-
+#ifndef KSTARS_LITE
 void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
     userdb_.open();
     filter_list.clear();
@@ -795,7 +796,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
     userdb_.close();
     return;
 }
-
+#endif
 #if 0
 bool KSUserDB::ImportFlags() {
     QString flagfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "flags.dat";

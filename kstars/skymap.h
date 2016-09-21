@@ -55,19 +55,19 @@ class SkyMapQDraw;
 #endif
 
 /** @class SkyMap
-	*
-	*This is the canvas on which the sky is painted.  It's the main widget for KStars.
-	*Contains SkyPoint members for the map's Focus (current central position), Destination
-	*(requested central position), FocusPoint (next queued position to be focused),
-	*MousePoint (position of mouse cursor), and ClickedPoint (position of last mouse click).
-	*Also contains the InfoBoxes for on-screen data display.
-	*
-	*SkyMap handles most user interaction events (both mouse and keyboard).
-	*
-	*@short Canvas widget for displaying the sky bitmap; also handles user interaction events.
-	*@author Jason Harris
-	*@version 1.0
-	*/
+    *
+    *This is the canvas on which the sky is painted.  It's the main widget for KStars.
+    *Contains SkyPoint members for the map's Focus (current central position), Destination
+    *(requested central position), FocusPoint (next queued position to be focused),
+    *MousePoint (position of mouse cursor), and ClickedPoint (position of last mouse click).
+    *Also contains the InfoBoxes for on-screen data display.
+    *
+    *SkyMap handles most user interaction events (both mouse and keyboard).
+    *
+    *@short Canvas widget for displaying the sky bitmap; also handles user interaction events.
+    *@author Jason Harris
+    *@version 1.0
+    */
 
 class SkyMap : public QGraphicsView {
 
@@ -114,123 +114,123 @@ class SkyMap : public QGraphicsView {
     void updateFocus();
 
     /** @short Retrieve the Focus point; the position on the sky at the
-    	*center of the skymap.
-    	*@return a pointer to the central focus point of the sky map
-    	*/
+        *center of the skymap.
+        *@return a pointer to the central focus point of the sky map
+        */
     SkyPoint* focus() { return &Focus; }
 
     /** @short retrieve the Destination position.
-    	*
-    	*The Destination is the point on the sky to which the focus will
-    	*be moved.
-    	*
-    	*@return a pointer to the destination point of the sky map
-    	*/
+        *
+        *The Destination is the point on the sky to which the focus will
+        *be moved.
+        *
+        *@return a pointer to the destination point of the sky map
+        */
     SkyPoint* destination() { return &Destination; }
 
     /** @short retrieve the FocusPoint position.
-    	*
-    	*The FocusPoint stores the position on the sky that is to be
-    	*focused next.  This is not exactly the same as the Destination
-    	*point, because when the Destination is set, it will begin slewing
-    	*immediately.
-    	*
-    	*@return a pointer to the sky point which is to be focused next.
-    	*/
+        *
+        *The FocusPoint stores the position on the sky that is to be
+        *focused next.  This is not exactly the same as the Destination
+        *point, because when the Destination is set, it will begin slewing
+        *immediately.
+        *
+        *@return a pointer to the sky point which is to be focused next.
+        */
     SkyPoint* focusPoint() { return &FocusPoint; }
 
     /** @short sets the central focus point of the sky map.
-    	*@param f a pointer to the SkyPoint the map should be centered on
-    	*/
+        *@param f a pointer to the SkyPoint the map should be centered on
+        */
     void setFocus( SkyPoint *f );
 
     /** @short sets the focus point of the skymap, using ra/dec coordinates
-    	*
-    	*@note This function behaves essentially like the above function.
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param ra the new right ascension
-    	*@param dec the new declination
-    	*/
+        *
+        *@note This function behaves essentially like the above function.
+        *It differs only in the data types of its arguments.
+        *
+        *@param ra the new right ascension
+        *@param dec the new declination
+        */
     void setFocus( const dms &ra, const dms &dec );
 
     /** @short sets the focus point of the sky map, using its alt/az coordinates
-    	*@param alt the new altitude
-    	*@param az the new azimuth
-    	*/
+        *@param alt the new altitude
+        *@param az the new azimuth
+        */
     void setFocusAltAz( const dms &alt, const dms & az);
 
     /** @short sets the destination point of the sky map.
-    	*@note setDestination() emits the destinationChanged() SIGNAL,
-    	*which triggers the SLOT function SkyMap::slewFocus().  This
-    	*function iteratively steps the Focus point toward Destination,
-    	*repainting the sky at each step (if Options::useAnimatedSlewing()==true).
-    	*@param f a pointer to the SkyPoint the map should slew to
-    	*/
+        *@note setDestination() emits the destinationChanged() SIGNAL,
+        *which triggers the SLOT function SkyMap::slewFocus().  This
+        *function iteratively steps the Focus point toward Destination,
+        *repainting the sky at each step (if Options::useAnimatedSlewing()==true).
+        *@param f a pointer to the SkyPoint the map should slew to
+        */
     void setDestination( const SkyPoint& f );
 
     /** @short sets the destination point of the skymap, using ra/dec coordinates.
-    	*
-    	*@note This function behaves essentially like the above function.
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param ra the new right ascension
-    	*@param dec the new declination
-    	*/
+        *
+        *@note This function behaves essentially like the above function.
+        *It differs only in the data types of its arguments.
+        *
+        *@param ra the new right ascension
+        *@param dec the new declination
+        */
     void setDestination( const dms &ra, const dms &dec );
 
     /** @short sets the destination point of the sky map, using its alt/az coordinates.
-    	*@param alt the new altitude
-    	*@param az the new azimuth
-    	*/
+        *@param alt the new altitude
+        *@param az the new azimuth
+        */
     void setDestinationAltAz( const dms &alt, const dms & az);
 
     /** @short set the FocusPoint; the position that is to be the next Destination.
-    	*@param f a pointer to the FocusPoint SkyPoint.
-    	*/
+        *@param f a pointer to the FocusPoint SkyPoint.
+        */
     void setFocusPoint( SkyPoint *f ) { if ( f ) FocusPoint = *f; }
 
     /** @short Retrieve the ClickedPoint position.
-    	*
-    	*When the user clicks on a point in the sky map, the sky coordinates of the mouse
-    	*cursor are stored in the private member ClickedPoint.  This function retrieves
-    	*a pointer to ClickedPoint.
-    	*@return a pointer to ClickedPoint, the sky coordinates where the user clicked.
-    	*/
+        *
+        *When the user clicks on a point in the sky map, the sky coordinates of the mouse
+        *cursor are stored in the private member ClickedPoint.  This function retrieves
+        *a pointer to ClickedPoint.
+        *@return a pointer to ClickedPoint, the sky coordinates where the user clicked.
+        */
     SkyPoint* clickedPoint() { return &ClickedPoint; }
 
     /** @short Set the ClickedPoint to the skypoint given as an argument.
-    	*@param f pointer to the new ClickedPoint.
-    	*/
+        *@param f pointer to the new ClickedPoint.
+        */
     void setClickedPoint( SkyPoint *f );
 
     /** @short Retrieve the object nearest to a mouse click event.
-    	*
-    	*If the user clicks on the sky map, a pointer to the nearest SkyObject is stored in
-    	*the private member ClickedObject.  This function returns the ClickedObject pointer,
-    	*or NULL if there is no CLickedObject.
-    	*@return a pointer to the object nearest to a user mouse click.
-    	*/
+        *
+        *If the user clicks on the sky map, a pointer to the nearest SkyObject is stored in
+        *the private member ClickedObject.  This function returns the ClickedObject pointer,
+        *or NULL if there is no CLickedObject.
+        *@return a pointer to the object nearest to a user mouse click.
+        */
     SkyObject* clickedObject() const { return ClickedObject; }
 
     /** @short Set the ClickedObject pointer to the argument.
-    	*@param o pointer to the SkyObject to be assigned as the ClickedObject
-    	*/
+        *@param o pointer to the SkyObject to be assigned as the ClickedObject
+        */
     void setClickedObject( SkyObject *o );
 
     /** @short Retrieve the object which is centered in the sky map.
-    	*
-    	*If the user centers the sky map on an object (by double-clicking or using the
-    	*Find Object dialog), a pointer to the "focused" object is stored in
-    	*the private member FocusObject.  This function returns a pointer to the
-    	*FocusObject, or NULL if there is not FocusObject.
-    	*@return a pointer to the object at the center of the sky map.
-    	*/
+        *
+        *If the user centers the sky map on an object (by double-clicking or using the
+        *Find Object dialog), a pointer to the "focused" object is stored in
+        *the private member FocusObject.  This function returns a pointer to the
+        *FocusObject, or NULL if there is not FocusObject.
+        *@return a pointer to the object at the center of the sky map.
+        */
     SkyObject* focusObject() const { return FocusObject; }
 
     /** @short Set the FocusObject pointer to the argument.
-    	*@param o pointer to the SkyObject to be assigned as the FocusObject
-    	*/
+        *@param o pointer to the SkyObject to be assigned as the FocusObject
+        */
     void setFocusObject( SkyObject *o );
 
     /** @short Call to set up the projector before a draw cycle. */
@@ -248,15 +248,15 @@ class SkyMap : public QGraphicsView {
     void updateAngleRuler();
 
     /** @return true if the object currently has a user label attached.
-    	*@note this function only checks for a label explicitly added to the object
-    	*with the right-click popup menu; other kinds of labels are not detected by
-    	*this function.
-    	*@param o pointer to the sky object to be tested for a User label.
-    	*/
+        *@note this function only checks for a label explicitly added to the object
+        *with the right-click popup menu; other kinds of labels are not detected by
+        *this function.
+        *@param o pointer to the sky object to be tested for a User label.
+        */
     bool isObjectLabeled( SkyObject *o );
 
     /*@*@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
-    	*/
+        */
     void stopTracking();
 
     /** Get the current projector.

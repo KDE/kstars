@@ -26,12 +26,12 @@
 AzimuthalEquidistantProjector::AzimuthalEquidistantProjector(const ViewParams& p)
     : Projector(p)
 {
-
+    updateClipPoly();
 }
 
-SkyMap::Projection AzimuthalEquidistantProjector::type() const
+Projector::Projection AzimuthalEquidistantProjector::type() const
 {
-    return SkyMap::AzimuthalEquidistant;
+    return AzimuthalEquidistant;
 }
 
 double AzimuthalEquidistantProjector::radius() const

@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 #include "targetlistcomponent.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "Options.h"
 
 TargetListComponent::TargetListComponent( SkyComposite *parent ) : SkyComponent( parent ) {

@@ -29,7 +29,9 @@
 #include <QScrollArea>
 #include <QLabel>
 
+#ifndef KSTARS_LITE
 #include <kxmlguiwindow.h>
+#endif
 
 #ifdef WIN32
 // avoid compiler warning when windows.h is included after fitsio.h

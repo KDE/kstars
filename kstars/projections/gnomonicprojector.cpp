@@ -22,12 +22,12 @@
 GnomonicProjector::GnomonicProjector(const ViewParams& p)
     : Projector(p)
 {
-
+    updateClipPoly();
 }
 
-SkyMap::Projection GnomonicProjector::type() const
+Projector::Projection GnomonicProjector::type() const
 {
-    return SkyMap::Gnomonic;
+    return Gnomonic;
 }
 
 double GnomonicProjector::radius() const
