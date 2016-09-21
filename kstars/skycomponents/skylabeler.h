@@ -1,9 +1,9 @@
 /***************************************************************************
-						 skylabeler.h  -  K Desktop Planetarium
-							 -------------------
-	begin				: 2007-07-10
-	copyright			: (C) 2007 by James B. Bowlin
-	email				: bowlin@mindspring.com
+                         skylabeler.h  -  K Desktop Planetarium
+                             -------------------
+    begin				: 2007-07-10
+    copyright			: (C) 2007 by James B. Bowlin
+    email				: bowlin@mindspring.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -262,12 +262,13 @@ public:
      */
     void addLabel( SkyObject *obj, label_t type );
 
+#ifdef KSTARS_LITE
     /**
      * @short queues the label in the "type" buffer for later drawing. Doesn't calculate the position of
      * SkyObject but uses pos as a position of label.
      */
      void addLabel(SkyObject *obj, QPointF pos,  label_t type);
-
+#endif
     /**
      *@short draws the labels stored in all the buffers.  You can change the
      * priority by editing the .cpp file and changing the order in which
@@ -278,7 +279,7 @@ public:
 
     /**
      * @short a convenience routine that draws all the labels from a single
-     * buffer.  Currently this is only called from within draw() above.
+     * buffer. Currently this is only called from within draw() above.
      */
     void drawQueuedLabelsType( SkyLabeler::label_t type );
 
@@ -335,6 +336,7 @@ public:
 #ifdef KSTARS_LITE
     inline QFont drawFont() { return m_drawFont; }
 #endif
+
     int hits()  { return m_hits; }
     int marks() { return m_marks; }
 

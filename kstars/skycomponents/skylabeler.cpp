@@ -24,9 +24,7 @@
 
 #include "Options.h"
 #include "kstarsdata.h"   // MINZOOM
-#ifndef KSTARS_LITE
 #include "skymap.h"
-#endif
 #include "projections/projector.h"
 
 //---------------------------------------------------------------------------//
@@ -92,28 +90,18 @@ double SkyLabeler::ZoomOffset()
 //----- Constructor ---------------------------------------------------------//
 
 SkyLabeler::SkyLabeler() :
-    m_maxY(0),
-    m_size(0),
-    m_fontMetrics( QFont() ),
-    m_picture(-1),
-    labelList( NUM_LABEL_TYPES ),
-    m_proj(0)
+        m_maxY(0),
+        m_size(0),
+        m_fontMetrics( QFont() ),
+        m_picture(-1),
+        labelList( NUM_LABEL_TYPES ),
+        m_proj(0)
 {
     m_errors = 0;
     m_minDeltaX = 30;    // when to merge two adjacent regions
     m_marks = m_hits = m_misses = m_elements = 0;
-
-#ifdef KSTARS_LITE
-    //Painter is needed to get default font and we use it only once to have only one warning
-    m_stdFont = QFont();
-
-    //For some reason there is no point size in default font on Android
-#ifdef ANDROID
-    m_stdFont.setPointSize(10);
-#endif
-
-#endif
 }
+
 
 SkyLabeler::~SkyLabeler()
 {
@@ -203,21 +191,21 @@ void SkyLabeler::setFont( const QFont& font )
 
 void SkyLabeler::setPen(const QPen& pen)
 {
-#ifdef KSTARS_LITE
-    Q_UNUSED(pen);
-#else
-    m_p.setPen(pen);
-#endif
+    #ifdef KSTARS_LITE
+        Q_UNUSED(pen);
+    #else
+        m_p.setPen(pen);
+    #endif
 }
 
 void SkyLabeler::shrinkFont( int delta )
 {
-#ifndef KSTARS_LITE
-    QFont font( m_p.font() );
-#else
-    QFont font( m_drawFont );
-#endif
-    font.setPointSize( font.pointSize() - delta );
+    #ifndef KSTARS_LITE
+        QFont font( m_p.font() );
+    #else
+        QFont font( m_drawFont );
+    #endif
+        font.setPointSize( font.pointSize() - delta );
     setFont( font );
 }
 
@@ -239,15 +227,24 @@ void SkyLabeler::getMargins( const QString& text, float *left,
     float sideMargin = m_fontMetrics.width("MM") + width / 2.0;
 
     // Create the margins within which it is okay to draw the label
-    *right = m_p.window().width() - sideMargin;
+    double winHeight;
+    double winWidth;
+#ifdef KSTARS_LITE
+    winHeight = SkyMapLite::Instance()->height();
+    winWidth = SkyMapLite::Instance()->width();
+#else
+    winHeight = m_p.window().height();
+    winWidth = m_p.window().width();
+#endif
+
+    *right = winWidth - sideMargin;
     *left  = sideMargin;
     *top   = height;
-    *bot   = m_p.window().height() - 2.0 * height;
+    *bot   = winHeight - 2.0 * height;
 }
 
 void SkyLabeler::reset( SkyMap* skyMap )
 {
-
     // ----- Set up Projector ---
     m_proj = skyMap->projector();
     // ----- Set up Painter -----
@@ -265,6 +262,7 @@ void SkyLabeler::reset( SkyMap* skyMap )
     m_skyFont = m_p.font();
     m_fontMetrics = QFontMetrics( m_skyFont );
     m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
+
     // ----- Set up Zoom Dependent Offset -----
     m_offset = SkyLabeler::ZoomOffset();
 
@@ -370,18 +368,14 @@ void SkyLabeler::reset()
 
 void SkyLabeler::draw(QPainter& p)
 {
-#ifdef KSTARS_LITE
-    Q_UNUSED(p)
-#else
     //FIXME: need a better soln. Apparently starting a painter
     //clears the picture.
     // But it's not like that's something that should be in the docs, right?
     // No, that's definitely better to leave to people to figure out on their own.
     if( m_p.isActive() ) { m_p.end(); }
     m_picture.play(&p); //can't replay while it's being painted on
-    //this is also undocumented btw.
-    m_p.begin(&m_picture);
-#endif
+                        //this is also undocumented btw.
+    //m_p.begin(&m_picture);
 }
 
 // We use Run Length Encoding to hold the information instead of an array of
@@ -524,6 +518,7 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
     return true;
 }
 
+
 void SkyLabeler::addLabel( SkyObject *obj, SkyLabeler::label_t type )
 {
     bool visible = false;
@@ -532,14 +527,16 @@ void SkyLabeler::addLabel( SkyObject *obj, SkyLabeler::label_t type )
     labelList[ (int)type ].append( SkyLabel( p, obj ) );
 }
 
-void SkyLabeler::addLabel(SkyObject *obj, QPointF pos,  label_t type) {
-    labelList[ (int)type ].append( SkyLabel( pos, obj ) );
-}
+#ifdef KSTARS_LITE
+    void SkyLabeler::addLabel(SkyObject *obj, QPointF pos,  label_t type) {
+        labelList[ (int)type ].append( SkyLabel( pos, obj ) );
+    }
+#endif
 
 void SkyLabeler::drawQueuedLabels()
 {
     KStarsData* data = KStarsData::Instance();
-    
+
     resetFont();
     m_p.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
     drawQueuedLabelsType( PLANET_LABEL );

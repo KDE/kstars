@@ -85,6 +85,10 @@ class SkyMapLite : public QQuickItem {
     Q_PROPERTY(QStringList FOVSymbols READ getFOVSymbols NOTIFY symbolsFOVChanged)
     /** true if SkyMapLite is being panned **/
     Q_PROPERTY(bool slewing READ getSlewing WRITE setSlewing NOTIFY slewingChanged)
+    /**
+     * @short true if SkyMapLite is centered on an object and only pinch-to-zoom needs to be available
+    **/
+    Q_PROPERTY(bool centerLocked READ getCenterLocked WRITE setCenterLocked NOTIFY centerLockedChanged)
 protected:
     /** Constructor. **/
     explicit SkyMapLite();
@@ -340,14 +344,19 @@ public:
     void initStarImages();
 
     /**
-     * @short getClickedPointLite getter for m_ClickedPointLite
+     * @short getter for clickedPointLite
      */
     SkyPointLite *getClickedPointLite() { return m_ClickedPointLite; }
 
     /**
-     * @short getClickedObjectLite getter for m_ClickedObjectLite
+     * @short getter for clickedObjectLite
      */
     SkyObjectLite *getClickedObjectLite() { return m_ClickedObjectLite; }
+
+    /**
+     * @short getter for centerLocked
+     */
+    bool getCenterLocked() { return m_centerLocked; }
 
     /**
      * @short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
@@ -363,6 +372,11 @@ public:
      * @short sets whether SkyMapLite is being slewed
      */
     void setSlewing(bool newSlewing);
+
+    /**
+     * @short sets whether SkyMapLite is centered on an object and locked(olny pinch-to-zoom is available)
+     */
+    void setCenterLocked(bool centerLocked);
 
 public slots:
      /** Called whenever wrappers' width or height are changed. Probably will be used to
@@ -470,6 +484,7 @@ signals:
     /** Emitted when SkyMapLite is being slewed or slewing is finished **/
     void slewingChanged(bool);
 
+    void centerLockedChanged(bool);
 protected:
     /** Process keystrokes:
      * @li arrow keys  Slew the map
@@ -612,6 +627,8 @@ private:
 
     SkyPointLite *m_ClickedPointLite;
     SkyObjectLite *m_ClickedObjectLite;
+
+    bool m_centerLocked;
 
     //SkyLine AngularRuler; //The line for measuring angles in the map
     QRect ZoomRect; //The manual-focus circle.

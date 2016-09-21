@@ -242,7 +242,6 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 {
     Q_UNUSED(skyp)
 #ifndef KSTARS_LITE
-
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
 
@@ -310,7 +309,6 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     {
         m_ConstellationArt->draw( skyp );
     }
-
 
     m_CLines->draw( skyp );
 

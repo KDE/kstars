@@ -786,6 +786,11 @@ void SkyMapLite::setSlewing(bool newSlewing) {
     }
 }
 
+void SkyMapLite::setCenterLocked(bool centerLocked) {
+    m_centerLocked = centerLocked;
+    emit centerLockedChanged(centerLocked);
+}
+
 void SkyMapLite::initStarImages()
 {
     if(isInitialized) {
