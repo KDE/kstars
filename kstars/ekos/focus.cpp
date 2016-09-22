@@ -582,8 +582,8 @@ void Focus::checkFocuser(int FocuserNum)
 
     resetButtons();
 
-    if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
-        emit autoFocusFinished(true, -1);
+    //if (!inAutoFocus && !inFocusLoop && !captureInProgress && !inSequenceFocus)
+      //  emit autoFocusFinished(true, -1);
 }
 
 void Focus::addCCD(ISD::GDInterface *newCCD)
@@ -1066,6 +1066,8 @@ void Focus::setCaptureComplete()
             capture();
             return;
         }
+
+        emit newHFR(currentHFR);
 
         QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
@@ -2265,7 +2267,7 @@ void Focus::setAutoFocusResult(bool status)
 
     resetFocusIteration = 0;
 
-    emit autoFocusFinished(status, currentHFR);
+    //emit autoFocusFinished(status, currentHFR);
 
     if (status)
     {
