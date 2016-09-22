@@ -1353,7 +1353,7 @@ void EkosManager::initCapture()
     {
         // Autofocus
         connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(autoFocusFinished(bool, double)), captureProcess, SLOT(updateAutofocusStatus(bool, double)),  Qt::UniqueConnection);
+        //connect(focusProcess, SIGNAL(autoFocusFinished(bool, double)), captureProcess, SLOT(updateAutofocusStatus(bool, double)),  Qt::UniqueConnection);
         connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
 
         // Meridian Flip
@@ -1363,11 +1363,16 @@ void EkosManager::initCapture()
     if (alignProcess)
     {
         // Alignment flag
-        connect(alignProcess, SIGNAL(solverComplete(bool)), captureProcess, SLOT(enableAlignmentFlag()), Qt::UniqueConnection);
-        connect(alignProcess, SIGNAL(solverSlewComplete()), captureProcess, SLOT(checkAlignmentSlewComplete()), Qt::UniqueConnection);
+        //connect(alignProcess, SIGNAL(solverComplete(bool)), captureProcess, SLOT(enableAlignmentFlag()), Qt::UniqueConnection);
+        //connect(alignProcess, SIGNAL(solverSlewComplete()), captureProcess, SLOT(checkAlignmentSlewComplete()), Qt::UniqueConnection);
+
+        connect(alignProcess, SIGNAL(newStatus(Ekos::AlignState)), captureProcess, SLOT(setAlignStatus(Ekos::AlignState)), Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureProcess, SIGNAL(meridialFlipTracked()), alignProcess, SLOT(captureAndSolve()), Qt::UniqueConnection);
+        //connect(captureProcess, SIGNAL(meridialFlipTracked()), alignProcess, SLOT(captureAndSolve()), Qt::UniqueConnection);
+        connect(captureProcess, &Ekos::Capture::newStatus, this, [&](Ekos::CaptureState state){if (state == Ekos::CAPTURE_ALIGNING)
+            {QTimer::singleShot(Options::settlingTime(), alignProcess, SLOT(captureAndSolve()));}}, Qt::UniqueConnection);
+
     }
 
     if (mountProcess)
@@ -1397,11 +1402,16 @@ void EkosManager::initAlign()
     if (captureProcess)
     {
         // Alignment flag
-        connect(alignProcess, SIGNAL(solverComplete(bool)), captureProcess, SLOT(enableAlignmentFlag()), Qt::UniqueConnection);
-        connect(alignProcess, SIGNAL(solverSlewComplete()), captureProcess, SLOT(checkAlignmentSlewComplete()), Qt::UniqueConnection);
+        //connect(alignProcess, SIGNAL(solverComplete(bool)), captureProcess, SLOT(enableAlignmentFlag()), Qt::UniqueConnection);
+        //connect(alignProcess, SIGNAL(solverSlewComplete()), captureProcess, SLOT(checkAlignmentSlewComplete()), Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureProcess, SIGNAL(meridialFlipTracked()), alignProcess, SLOT(captureAndSolve()), Qt::UniqueConnection);
+        //connect(captureProcess, SIGNAL(meridialFlipTracked()), alignProcess, SLOT(captureAndSolve()), Qt::UniqueConnection);
+
+        connect(alignProcess, SIGNAL(newStatus(Ekos::AlignState)), captureProcess, SLOT(setAlignStatus(Ekos::AlignState)), Qt::UniqueConnection);
+
+        connect(captureProcess, &Ekos::Capture::newStatus, this, [&](Ekos::CaptureState state){if (state == Ekos::CAPTURE_ALIGNING)
+            {QTimer::singleShot(Options::settlingTime(), alignProcess, SLOT(captureAndSolve()));}}, Qt::UniqueConnection);
     }
 
     if (focusProcess)
@@ -1435,7 +1445,7 @@ void EkosManager::initFocus()
     {
         // Autofocus
         connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(autoFocusFinished(bool, double)), captureProcess, SLOT(updateAutofocusStatus(bool, double)), Qt::UniqueConnection);
+        //connect(focusProcess, SIGNAL(autoFocusFinished(bool, double)), captureProcess, SLOT(updateAutofocusStatus(bool, double)), Qt::UniqueConnection);
         connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
 
         // Meridian Flip
@@ -1452,7 +1462,7 @@ void EkosManager::initFocus()
     {
         // Filter lock
         connect(focusProcess, SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess, SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), alignProcess, SLOT(setFocusStatus(FocusState)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), alignProcess, SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
     }
 
 }
@@ -1480,6 +1490,12 @@ void EkosManager::initMount()
         // Meridian Flip
         connect(captureProcess, SIGNAL(meridianFlipStarted()), mountProcess, SLOT(disableAltLimits()), Qt::UniqueConnection);
         connect(captureProcess, SIGNAL(meridianFlipCompleted()), mountProcess, SLOT(enableAltLimits()), Qt::UniqueConnection);
+    }
+
+    if (guideProcess)
+    {
+        connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), [&](ISD::Telescope::TelescopeStatus state){if (state == ISD::Telescope::MOUNT_PARKING)
+                guideProcess->stopGuiding();}, Qt::UniqueConnection);
     }
 
 }
@@ -1516,18 +1532,19 @@ void EkosManager::initGuide()
         captureProcess->disconnect(guideProcess);
 
         // Guide Limits
-        connect(guideProcess, SIGNAL(guideReady()), captureProcess, SLOT(enableGuideLimits()));
+        //connect(guideProcess, SIGNAL(guideReady()), captureProcess, SLOT(enableGuideLimits()));
+        connect(guideProcess, SIGNAL(newStatus(Ekos::GuideState)), captureProcess, SLOT(setGuideStatus(Ekos::GuideState)));
         connect(guideProcess, SIGNAL(newAxisDelta(double,double)), captureProcess, SLOT(setGuideDeviation(double,double)));
 
         // Dithering
-        connect(guideProcess, SIGNAL(autoGuidingToggled(bool)), captureProcess, SLOT(setAutoguiding(bool)));
-        connect(guideProcess, SIGNAL(ditherComplete()), captureProcess, SLOT(resumeCapture()));
-        connect(guideProcess, SIGNAL(ditherFailed()), captureProcess, SLOT(abort()));
+        //connect(guideProcess, SIGNAL(autoGuidingToggled(bool)), captureProcess, SLOT(setAutoguiding(bool)));
+        //connect(guideProcess, SIGNAL(ditherComplete()), captureProcess, SLOT(resumeCapture()));
+        //connect(guideProcess, SIGNAL(ditherFailed()), captureProcess, SLOT(abort()));
         connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));
+        //connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
         connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
 
-        // Parking
-        connect(captureProcess, SIGNAL(mountParking()), guideProcess, SLOT(stopGuiding()));
+
 
         // Guide Head
         connect(captureProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)));
@@ -1536,6 +1553,15 @@ void EkosManager::initGuide()
         // Meridian Flip
         connect(captureProcess, SIGNAL(meridianFlipStarted()), guideProcess, SLOT(stopGuiding()), Qt::UniqueConnection);
         connect(captureProcess, SIGNAL(meridianFlipCompleted()), guideProcess, SLOT(startAutoCalibrateGuiding()), Qt::UniqueConnection);
+    }
+
+    if (mountProcess)
+    {
+        // Parking
+        //connect(captureProcess, SIGNAL(mountParking()), guideProcess, SLOT(stopGuiding()));
+        connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), [&](ISD::Telescope::TelescopeStatus state){if (state == ISD::Telescope::MOUNT_PARKING)
+                guideProcess->stopGuiding();}, Qt::UniqueConnection);
+
     }
 
     if (focusProcess)
