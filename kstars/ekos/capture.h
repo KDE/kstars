@@ -438,11 +438,11 @@ private slots:
 
     // Meridian Flip
     void checkMeridianFlipTimeout();
-    void checkAlignmentSlewComplete();
-    void enableAlignmentFlag();
+    //void checkAlignmentSlewComplete();
 
     // Auto Focus    
-    void updateAutofocusStatus(bool status, double HFR);
+    //void updateAutofocusStatus(bool status, double HFR);
+    void setHFR(double newHFR) { focusHFR = newHFR; }
     void startPostFilterAutoFocus();
 
     // Flat field
@@ -461,12 +461,11 @@ private slots:
 
 signals:
         void newLog();
-        void exposureComplete();
+        //void exposureComplete();
         void checkFocus(double);
-        void mountParking();
+        //void mountParking();
         void suspendGuiding(bool);
         void meridianFlipStarted();
-        void meridialFlipTracked();
         void meridianFlipCompleted();
         void newStatus(Ekos::CaptureState status);
         void newImage(QImage *image, Ekos::SequenceJob *job);
@@ -546,12 +545,14 @@ private:
 
     // Dither
     bool guideDither;
-    bool isAutoGuiding;
+    //bool isAutoGuiding;
 
     // Autofocus
     bool isAutoFocus;
     bool autoFocusStatus;
     bool firstAutoFocus;
+    double focusHFR;                    // HFR value as received from the Ekos focus module
+    double fileHFR;                     // HFR value as loaded from the sequence file
 
     //Meridan flip
     double initialHA;
@@ -574,8 +575,6 @@ private:
     CalibrationStage calibrationStage;
     bool dustCapLightEnabled, lightBoxLightEnabled;
 
-    // File HFR
-    double fileHFR;
     QUrl dirPath;
 
     // Misc

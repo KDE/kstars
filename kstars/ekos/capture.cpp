@@ -93,7 +93,7 @@ Capture::Capture()
 
     dustCapLightEnabled = lightBoxLightEnabled = false;
 
-    isAutoGuiding   = false;
+    //isAutoGuiding   = false;
     guideDither     = false;
     isAutoFocus     = false;
     autoFocusStatus = false;
@@ -1045,13 +1045,14 @@ void Capture::processJobCompletion()
         if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
         {
             appendLogText(i18n("Parking telescope..."));
-            emit mountParking();
+            //emit mountParking();
             currentTelescope->Park();
             return;
         }
 
         //Resume guiding if it was suspended before
-        if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        if (guideState == GUIDE_SUSPENDED && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(false);
     }
 
@@ -1086,7 +1087,8 @@ bool Capture::resumeSequence()
             prepareJob(next_job);
 
             //Resume guiding if it was suspended before
-            if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+            //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+            if (guideState == GUIDE_SUSPENDED && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
                 emit suspendGuiding(false);
 
             return true;
@@ -1108,13 +1110,15 @@ bool Capture::resumeSequence()
             HFRPixels->setValue(fileHFR);
         }
 
-        if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        // If we suspended guiding due to primary chip download, resume guide chip guiding now
+        if (guideState == GUIDE_SUSPENDED && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit suspendGuiding(false);
 
-        if (isAutoGuiding && guideDither && activeJob->getFrameType() == FRAME_LIGHT)
+        //if (isAutoGuiding && guideDither && activeJob->getFrameType() == FRAME_LIGHT)
+        if (guideState == GUIDE_GUIDING && guideDither && activeJob->getFrameType() == FRAME_LIGHT)
         {
                 secondsLabel->setText(i18n("Dithering..."));
-                emit exposureComplete();
+                //emit exposureComplete();
 
                 state = CAPTURE_DITHERING;
                 emit newStatus(Ekos::CAPTURE_DITHERING);
@@ -1403,7 +1407,8 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
             }
         }
 
-        if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        //if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        if (guideState == GUIDE_GUIDING && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
         {
             if (Options::captureLogging())
                 qDebug() << "Capture: Autoguiding suspended until primary CCD chip completes downloading...";
@@ -1893,12 +1898,6 @@ void Capture::executeJob()
     captureImage();
 }
 
-void Capture::enableGuideLimits()
-{
-    guideDeviationCheck->setEnabled(true);
-    guideDeviation->setEnabled(true);
-}
-
 void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 {
     if (guideDeviationCheck->isChecked() == false || activeJob == NULL)
@@ -1969,35 +1968,10 @@ void Capture::setGuideDither(bool enable)
     guideDither = enable;
 }
 
-void Capture::setAutoguiding(bool enable)
-{
-    // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
-    if (enable == false && isAutoGuiding && meridianFlipStage == MF_NONE && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
-    {
-        appendLogText(i18n("Autoguiding stopped. Aborting..."));
-        abort();
-    }
-
-    isAutoGuiding = enable;
-}
-
-void Capture::setGuideStatus(GuideState state)
-{
-    guideState = state;
-}
-
-void Capture::setAlignStatus(AlignState state)
-{
-    alignState = state;
-}
-
 void Capture::setFocusStatus(FocusState state)
 {
     focusState = state;
-}
 
-void Capture::updateAutofocusStatus(bool status, double HFR)
-{
     if (focusState > FOCUS_ABORTED)
         return;
 
@@ -2005,12 +1979,12 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
     {
         autofocusCheck->setEnabled(true);
         HFRPixels->setEnabled(true);
-        if (HFR > 0 && firstAutoFocus && HFRPixels->value() == 0 && fileHFR == 0)
+        if (focusHFR > 0 && firstAutoFocus && HFRPixels->value() == 0 && fileHFR == 0)
         {
            firstAutoFocus = false;
            // Add 2.5% to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
            // in case in-sequence-focusing is used.
-           HFRPixels->setValue(HFR + (HFR * 0.025));
+           HFRPixels->setValue(focusHFR + (focusHFR * 0.025));
         }
     }
 
@@ -2018,7 +1992,7 @@ void Capture::updateAutofocusStatus(bool status, double HFR)
     {
         if (focusState == FOCUS_COMPLETE)
         {
-            HFRPixels->setValue(HFR + (HFR * 0.025));
+            HFRPixels->setValue(focusHFR+ (focusHFR * 0.025));
             appendLogText(i18n("Focus complete."));
         }
         else
@@ -2930,7 +2904,7 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
                 emit newStatus(Ekos::CAPTURE_ALIGNING);
 
                 meridianFlipStage = MF_ALIGNING;
-                QTimer::singleShot(Options::settlingTime(), [this]() {emit meridialFlipTracked();});
+                //QTimer::singleShot(Options::settlingTime(), [this]() {emit meridialFlipTracked();});
                 //emit meridialFlipTracked();
                 return;
             }
@@ -3016,9 +2990,9 @@ bool Capture::checkMeridianFlip()
 //            emit suspendGuiding(false);
 
         // If we are autoguiding, we should resume autoguiding after flip
-        resumeGuidingAfterFlip = isAutoGuiding;
+        resumeGuidingAfterFlip = (guideState == GUIDE_GUIDING);
 
-        if (isAutoGuiding || isAutoFocus)
+        if ((guideState == GUIDE_GUIDING) || isAutoFocus)
             emit meridianFlipStarted();
 
         double dec;
@@ -3047,50 +3021,87 @@ void Capture::checkMeridianFlipTimeout()
     {
         appendLogText(i18n("Telescope meridian flip timed out."));
         abort();
-    }
-    else if (meridianFlipStage == MF_ALIGNING)
-    {
-        if (alignmentEngaged == false)
-        {
-            QTimer::singleShot(MF_TIMER_TIMEOUT*7, this, SLOT(checkMeridianFlipTimeout()));
-            alignmentEngaged = true;
-        }
-        else
-        {
-            appendLogText(i18n("Alignment timed out."));
-            alignmentEngaged=false;
-            abort();
-        }
-
-    }
-    else if (meridianFlipStage == MF_GUIDING)
-    {
-        if (guidingEngaged == false)
-        {
-            QTimer::singleShot(MF_TIMER_TIMEOUT*2, this, SLOT(checkMeridianFlipTimeout()));
-            guidingEngaged = true;
-        }
-        else
-        {
-            appendLogText(i18n("Guiding timed out."));
-            guidingEngaged = false;
-            abort();
-        }
-    }
+    }    
 }
 
-void Capture::enableAlignmentFlag()
+void Capture::setAlignStatus(AlignState state)
 {
+    alignState = state;
+
     resumeAlignmentAfterFlip = true;
+
+    switch (state)
+    {
+        case ALIGN_COMPLETE:
+        if (meridianFlipStage == MF_ALIGNING)
+        {
+            appendLogText(i18n("Post flip re-alignment completed successfully."));
+            checkGuidingAfterFlip();
+        }
+        break;
+
+      case ALIGN_FAILED:
+        // TODO run it 3 times before giving up
+        if (meridianFlipStage == MF_ALIGNING)
+        {
+            appendLogText(i18n("Post-flip alignment failed."));
+            abort();
+        }
+        break;
+
+        default:
+        break;
+
+    }
 }
 
-void Capture::checkAlignmentSlewComplete()
+void Capture::setGuideStatus(GuideState state)
 {
-    if (meridianFlipStage == MF_ALIGNING)
+    switch (state)
     {
-        appendLogText(i18n("Post flip re-alignment completed successfully."));
-        checkGuidingAfterFlip();
+
+    case GUIDE_IDLE:
+        // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
+        if (enable == false && guideState == GUIDE_GUIDING && meridianFlipStage == MF_NONE && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
+        {
+            appendLogText(i18n("Autoguiding stopped. Aborting..."));
+            abort();
+        }
+        //isAutoGuiding = false;
+        break;
+
+    case GUIDE_GUIDING:
+        break;
+        //isAutoGuiding = true;
+
+    case GUIDE_CALIBRATION_SUCESS:
+        guideDeviationCheck->setEnabled(true);
+        guideDeviation->setEnabled(true);
+        break;
+
+    case GUIDE_CALIBRATION_ERROR:
+    case GUIDE_ABORTED:
+        // TODO try restarting calibration a couple of times before giving up
+        if (meridianFlipStage == MF_GUIDING)
+        {
+            appendLogText(i18n("Post meridian flip calibration error. Aborting..."));
+            abort();
+        }
+        break;
+
+    case GUIDE_DITHERING_SUCCESS:
+        resumeCapture();
+        break;
+
+     case GUIDE_DITHERING_ERROR:
+        abort();
+        break;
+
+    default:
+        break;
     }
+
+    guideState = state;
 }
 
 void Capture::checkFrameType(int index)
@@ -3574,7 +3585,7 @@ IPState Capture::processPreCaptureCalibrationStage()
             if (currentTelescope->Park())
             {
                 calibrationStage = CAL_MOUNT_PARKING;
-                emit mountParking();
+                //emit mountParking();
                 appendLogText(i18n("Parking mount prior to calibration frames capture..."));
                 return IPS_BUSY;
             }
