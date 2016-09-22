@@ -66,11 +66,11 @@ Align::Align()
     currentFilter = NULL;
     useGuideHead = false;
     canSync = false;
-    loadSlewMode = false;
+    //loadSlewMode = false;
     loadSlewState=IPS_IDLE;
     //m_isSolverComplete = false;
     //m_isSolverSuccessful = false;
-    m_slewToTargetSelected=false;
+    //m_slewToTargetSelected=false;
     m_wcsSynced=false;
     //isFocusBusy=false;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = sOrientation = sRA = sDEC = -1;
@@ -110,6 +110,10 @@ Align::Align()
     connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));
 
     connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [=](int id){ this->currentGotoMode = static_cast<GotoMode>(id); });
+
+    int i=0;
+    foreach(QAbstractButton *button, gotoModeButtonGroup->buttons())
+        gotoModeButtonGroup->setId(button, i++);
 
     currentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
     gotoModeButtonGroup->button(currentGotoMode)->setChecked(true);
@@ -724,20 +728,7 @@ void Align::setCaptureComplete()
 
 void Align::setGOTOMode(int mode)
 {
-    switch (mode)
-    {
-        case 0:
-            syncR->setChecked(true);
-            break;
-
-        case 1:
-            slewR->setChecked(true);
-            break;
-
-        default:
-            nothingR->setChecked(true);
-            break;
-    }
+    gotoModeButtonGroup->button(mode)->setChecked(true);
 }
 
 void Align::startSolving(const QString &filename, bool isGenerated)
@@ -758,13 +749,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     Options::setSolverOTA(kcfg_solverOTA->isChecked());
     Options::setSolverAccuracyThreshold(accuracySpin->value());
     Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
-
-    unsigned int solverGotoOption = 0;
-    if (slewR->isChecked())
-        solverGotoOption = 1;
-    else if (nothingR->isChecked())
-        solverGotoOption = 2;
-    Options::setSolverGotoOption(solverGotoOption);
+    Options::setSolverGotoOption(currentGotoMode);
 
     //m_isSolverComplete = false;
     //m_isSolverSuccessful = false;
@@ -783,14 +768,13 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     else
         solverArgs << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"  << "--downsample" << "2" << "-O";
 
-    if (slewR->isChecked())
+    if (currentGotoMode == GOTO_SLEW)
         appendLogText(i18n("Solver iteration #%1", solverIterations+1));
 
     state = ALIGN_PROGRESS;
     emit newStatus(state);
 
-    parser->startSovler(filename, solverArgs, isGenerated);        
-
+    parser->startSovler(filename, solverArgs, isGenerated);
 }
 
 void Align::solverFinished(double orientation, double ra, double dec, double pixscale)
@@ -811,7 +795,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
         appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'g' , 5), QString::number(dec, 'g' , 5),
                             QString::number(orientation, 'g' , 5), QString::number(pixscale, 'g' , 5)));
 
-    if (pixscale > 0 && loadSlewMode == false)
+    if (pixscale > 0 && loadSlewState == IPS_IDLE)
     {
         double solver_focal_length = (206.264 * ccd_hor_pixel) / pixscale * binx;
         if (fabs(focal_length - solver_focal_length) > 1)
@@ -875,7 +859,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      retries=0;
 
      appendLogText(i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4)", alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString(), telescopeCoord.ra().toHMSString(), telescopeCoord.dec().toDMSString()));
-     if (loadSlewMode == false && slewR->isChecked())
+     if (loadSlewState == IPS_IDLE && currentGotoMode == GOTO_SLEW)
      {
         dms diffDeg(targetDiff/3600.0);
         appendLogText(i18n("Target is within %1 degrees of solution coordinates.", diffDeg.toDMSString()));
@@ -886,21 +870,43 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
      //if (syncR->isChecked() || nothingR->isChecked() || targetDiff <= accuracySpin->value())
      // CONTINUE HERE
-     if (syncR->isChecked() || nothingR->isChecked() || targetDiff <= accuracySpin->value())
+
+     switch (currentGotoMode)
      {
-        // FIXME remove un-needed stuff here
-        //m_isSolverComplete = true;
-        //m_isSolverSuccessful = true;
-        solverIterations=0;
-        //emit solverComplete(true);
+        case GOTO_SYNC:
+         executeMode();
+         break;
 
-        KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
+        case GOTO_SLEW:
+         if (targetDiff > accuracySpin->value())
+         {
+             if (loadSlewState == IPS_IDLE && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
+             {
+                 appendLogText(i18n("Maximum number of iterations reached. Solver failed."));
+                 solverFailed();
+                 return;
+             }
 
-        state = ALIGN_COMPLETE;
-        emit newStatus(state);
+             //executeMode();
+             executeGOTO();
+             return;
+         }
+
+         appendLogText(i18n("Target is within acceptable range. Astrometric solver is successful."));
+         break;
+
+        case GOTO_NOTHING:
+         break;
+
      }
 
-     executeMode();
+     KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
+     state = ALIGN_COMPLETE;
+     emit newStatus(state);
+     solverIterations=0;
+
+     if (polarR->isChecked())
+         executePolarAlign();
 }
 
 void Align::solverFailed()
@@ -914,11 +920,11 @@ void Align::solverFailed()
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
 
-    loadSlewMode = false;
-    loadSlewState=IPS_ALERT;
+    //loadSlewMode = false;
+    loadSlewState=IPS_IDLE;
     //m_isSolverComplete = true;
     //m_isSolverSuccessful = false;
-    m_slewToTargetSelected=false;
+    //m_slewToTargetSelected=false;
     solverIterations=0;
     retries=0;
 
@@ -938,11 +944,11 @@ void Align::abort()
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
 
-    loadSlewMode = false;
+    //loadSlewMode = false;
     loadSlewState=IPS_IDLE;
     //m_isSolverComplete = false;
     //m_isSolverSuccessful = false;
-    m_slewToTargetSelected=false;
+    //m_slewToTargetSelected=false;
     solverIterations=0;
     retries=0;        
 
@@ -1012,56 +1018,39 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
 
-        if (Options::solverUpdateCoords())
+        if (currentTelescope->isSlewing() && slew_dirty == false)
+            slew_dirty = true;
+        else if (currentTelescope->isSlewing() == false && slew_dirty)
         {
-            if (currentTelescope->isSlewing() && slew_dirty == false)
-                slew_dirty = true;
-            else if (currentTelescope->isSlewing() == false && slew_dirty)
-            {
-                slew_dirty = false;
+            slew_dirty = false;
+            if (Options::solverUpdateCoords())
                 copyCoordsToBoxes();
 
-                if (loadSlewMode)
+            if (state >= ALIGN_PROGRESS)
+            {
+                if (loadSlewState == IPS_BUSY)
                 {
-                    loadSlewMode = false;
+                    loadSlewState = IPS_IDLE;
                     QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
                     return;
                 }
-                else if (m_slewToTargetSelected)
+                else if (currentGotoMode == GOTO_SLEW && state == ALIGN_SLEWING)
                 {
-                    if (targetDiff <= accuracySpin->value())
-                    {
-                        m_slewToTargetSelected=false;
-                        if (loadSlewState == IPS_BUSY)
-                            loadSlewState=IPS_OK;
-                        appendLogText(i18n("Target is within acceptable range. Astrometric solver is successful."));
-                        emit solverSlewComplete();
-                    }
-                    else
-                    {
-                        if (++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
-                        {
-                            appendLogText(i18n("Maximum number of iterations reached. Solver failed."));
-                            solverFailed();
-                            return;
-                        }
-
-                        appendLogText(i18n("Target accuracy is not met, running solver again..."));
-                        QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
-                        return;
-                    }
+                    appendLogText(i18n("Target accuracy is not met, running solver again..."));
+                    QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
+                    return;
                 }
             }
         }
 
         switch (azStage)
         {
-             case AZ_SYNCING:
+        case AZ_SYNCING:
             if (currentTelescope->isSlewing())
                 azStage=AZ_SLEWING;
-                break;
+            break;
 
-            case AZ_SLEWING:
+        case AZ_SLEWING:
             if (currentTelescope->isSlewing() == false)
             {
                 azStage = AZ_SECOND_TARGET;
@@ -1070,25 +1059,25 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
             break;
 
         case AZ_CORRECTING:
-         if (currentTelescope->isSlewing() == false)
-         {
-             appendLogText(i18n("Slew complete. Please adjust azimuth knob until the target is in the center of the view."));
-             azStage = AZ_INIT;
-         }
-         break;
+            if (currentTelescope->isSlewing() == false)
+            {
+                appendLogText(i18n("Slew complete. Please adjust azimuth knob until the target is in the center of the view."));
+                azStage = AZ_INIT;
+            }
+            break;
 
-           default:
+        default:
             break;
         }
 
         switch (altStage)
         {
-           case ALT_SYNCING:
+        case ALT_SYNCING:
             if (currentTelescope->isSlewing())
                 altStage = ALT_SLEWING;
-                break;
+            break;
 
-           case ALT_SLEWING:
+        case ALT_SLEWING:
             if (currentTelescope->isSlewing() == false)
             {
                 altStage = ALT_SECOND_TARGET;
@@ -1096,19 +1085,19 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
             }
             break;
 
-           case ALT_CORRECTING:
+        case ALT_CORRECTING:
             if (currentTelescope->isSlewing() == false)
             {
                 appendLogText(i18n("Slew complete. Please adjust altitude knob until the target is in the center of the view."));
                 altStage = ALT_INIT;
             }
             break;
-
-
-           default:
+        default:
             break;
         }
+
     }
+
 
     if (!strcmp(coord->name, "TELESCOPE_INFO"))
         syncTelescopeInfo();
@@ -1126,7 +1115,7 @@ void Align::executeMode()
 
 void Align::executeGOTO()
 {
-    if (loadSlewMode)
+    if (loadSlewState == IPS_BUSY)
     {
         //if (loadSlewIterations == loadSlewIterationsSpin->value())
             //loadSlewCoord = alignCoord;
@@ -1135,9 +1124,9 @@ void Align::executeGOTO()
         targetCoord = alignCoord;
         SlewToTarget();
     }
-    else if (syncR->isChecked())
+    else if (currentGotoMode == GOTO_SYNC)
         Sync();
-    else if (slewR->isChecked())
+    else if (currentGotoMode == GOTO_SLEW)
         SlewToTarget();
 }
 
@@ -1153,10 +1142,10 @@ void Align::Sync()
 void Align::SlewToTarget()
 {
     //if (canSync && (loadSlewMode == false || (loadSlewMode == true && loadSlewIterations < loadSlewIterationsSpin->value() )))
-    if (canSync && loadSlewMode == false)
+    if (canSync && loadSlewState == IPS_IDLE)
         Sync();
 
-    m_slewToTargetSelected = slewR->isChecked();
+    //m_slewToTargetSelected = slewR->isChecked();
 
     currentTelescope->Slew(&targetCoord);
 
@@ -1648,7 +1637,7 @@ void Align::loadAndSlew(QString fileURL)
     QFileInfo fileInfo(fileURL);
     dirPath = fileInfo.absolutePath();
 
-    loadSlewMode = true;
+    //loadSlewMode = true;
     loadSlewState=IPS_BUSY;
 
     slewR->setChecked(true);

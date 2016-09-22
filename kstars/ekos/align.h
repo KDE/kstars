@@ -54,7 +54,7 @@ public:
 
     typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
-    typedef enum { ALIGN_SYNC, ALIGN_SLEW, ALIGN_SOLVE } GotoMode;
+    typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
     typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE} SolverType;
 
     /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
@@ -367,7 +367,7 @@ private:
     // Can the mount sync its coordinates to those set by Ekos?
     bool canSync;
     // LoadSlew mode is when we load an image and solve it, no capture is done.
-    bool loadSlewMode;
+    //bool loadSlewMode;
     // If load and slew is solved successfully, coordinates obtained, slewed to target, and then captured, solved, and re-slewed to target again.
     IPState loadSlewState;
     // Solver iterations count
@@ -376,7 +376,7 @@ private:
     // Keep track of solver status
     //bool m_isSolverComplete;
     //bool m_isSolverSuccessful;
-    bool m_slewToTargetSelected;
+    //bool m_slewToTargetSelected;
 
     // Focus
     //bool isFocusBusy;
