@@ -176,6 +176,6 @@ void TestFWParser::FWReadMissingFile()
   }
 }
 
-QTEST_MAIN(TestFWParser)
+QTEST_GUILESS_MAIN(TestFWParser)
 
 

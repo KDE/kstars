@@ -85,6 +85,6 @@ void TestDMS::stringCtor()
     QVERIFY(h.Hours() == d.Degrees());
 }
 
-QTEST_MAIN(TestDMS)
+QTEST_GUILESS_MAIN(TestDMS)
 
 

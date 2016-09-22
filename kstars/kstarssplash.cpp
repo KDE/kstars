@@ -34,7 +34,7 @@ KStarsSplash::~KStarsSplash() {
 }
 
 void KStarsSplash::setMessage(const QString& message) {
-    showMessage( message, Qt::AlignLeft, Qt::lightGray);
+    showMessage( message, Qt::AlignBottom | Qt::AlignHCenter, Qt::lightGray);
 }
 
 
