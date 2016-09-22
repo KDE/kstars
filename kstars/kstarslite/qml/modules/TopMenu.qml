@@ -263,6 +263,7 @@ ColumnLayout {
                 return 180
             else if(topMenu.state == "open")
                 return 0
+            return rotation //If it state is "hidden" return current rotation
         }
 
         MouseArea {

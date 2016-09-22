@@ -100,6 +100,17 @@ SkyLabeler::SkyLabeler() :
     m_errors = 0;
     m_minDeltaX = 30;    // when to merge two adjacent regions
     m_marks = m_hits = m_misses = m_elements = 0;
+
+#ifdef KSTARS_LITE
+    //Painter is needed to get default font and we use it only once to have only one warning
+    m_stdFont = QFont();
+
+    //For some reason there is no point size in default font on Android
+#ifdef ANDROID
+    m_stdFont.setPointSize(10);
+#endif
+
+#endif
 }
 
 

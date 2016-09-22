@@ -128,4 +128,12 @@ install( FILES
          edit-find@2x.png
          edit-find@3x.png
          edit-find@4x.png
+         lock-closed.png
+         lock-closed@2x.png
+         lock-closed@3x.png
+         lock-closed@4x.png
+         lock-open.png
+         lock-open@2x.png
+         lock-open@3x.png
+         lock-open@4x.png
          DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/images )

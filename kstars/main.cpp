@@ -72,9 +72,8 @@ int main(int argc, char *argv[])
 #ifndef KSTARS_LITE
     KCrash::initialize();
 
-
     KAboutData aboutData( "kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
-                          i18n("(c) 2001-2015, The KStars Team"), i18n(notice), "http://edu.kde.org/kstars");
+                          "2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team"), i18n(notice), "http://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org", "http://www.30doradus.org");
     aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"), "mutlaqja@ikarustech.com", "http://www.indilib.org");
     aboutData.addAuthor(i18n("James Bowlin"), QString(), "bowlin@mindspring.com");
@@ -93,6 +92,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Samikshan Bairagya"), QString(), "samikshan.bairagya@kdemail.net");
     aboutData.addAuthor(i18n("Rafał Kułaga"), QString(), "rl.kulaga@gmail.com");
     aboutData.addAuthor(i18n("Rishab Arora"), QString(), "ra.rishab@gmail.com");
+    aboutData.addAuthor(i18n("Artem Fedoskin"), QString(), "afedoskin3@gmail.com");
 
     aboutData.addCredit(i18n("Valery Kharitonov"), i18n("Converted labels containing technical terms to links to documentation") );
     aboutData.addCredit(i18n("Ana-Maria Constantin"), i18n("Technical documentation on Astronomy and KStars") );
@@ -101,6 +101,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Utkarsh Simha"), i18n("Improvements to observation plan execution, star hopper etc.") );
     aboutData.addCredit(i18n("Daniel Holler"), i18n("Extensive testing and suggestions for Ekos/INDI.") );
     aboutData.addCredit(i18n("Stephane Lucas"), i18n("Extensive testing and suggestions for Ekos Scheduler.") );
+    aboutData.addCredit(i18n("Yuri Fabirovskij"), i18n("Splash screen for both regular KStars and KStars Lite.") );
 
     KAboutData::setApplicationData(aboutData);
 
