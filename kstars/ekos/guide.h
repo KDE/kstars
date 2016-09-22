@@ -302,11 +302,11 @@ signals:
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
 
-        void guideReady();
+        //void guideReady();
         void newAxisDelta(double delta_ra, double delta_dec);
-        void autoGuidingToggled(bool);
-        void ditherComplete();
-        void ditherFailed();
+        //void autoGuidingToggled(bool);
+        //void ditherComplete();
+        //void ditherFailed();
         void ditherToggled(bool);
         void guideChipUpdated(ISD::CCDChip*);
 

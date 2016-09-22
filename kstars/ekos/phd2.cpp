@@ -252,7 +252,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
         // It goes immediately to guiding until PHD implements a calibration-only method
         state = GUIDING;
         emit newLog(i18n("PHD2: Calibration Complete."));
-        emit guideReady();
+        //emit guideReady();
         emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
         break;
 
@@ -264,7 +264,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             emit connected();
         }
         emit newLog(i18n("PHD2: Guiding Started."));
-        emit autoGuidingToggled(true);
+        //emit autoGuidingToggled(true);
         emit newStatus(Ekos::GUIDE_GUIDING);
         break;
 
@@ -325,12 +325,13 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             if (error)
             {
                 state = DITHER_FAILED;
-                emit ditherFailed();
+                //emit ditherFailed();
+                emit newStatus(GUIDE_DITHERING_ERROR);
             }
             else
             {
                 state = DITHER_SUCCESSFUL;
-                emit ditherComplete();
+                emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
             }
         }
     }
@@ -347,7 +348,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
     case GuidingStopped:
         emit newLog(i18n("PHD2: Guiding Stopped."));
-        emit autoGuidingToggled(false);
+        //emit autoGuidingToggled(false);
         emit newStatus(Ekos::GUIDE_IDLE);
         break;
 

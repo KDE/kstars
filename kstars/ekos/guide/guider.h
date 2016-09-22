@@ -67,7 +67,7 @@ public slots:
     void setPHD2Connected();
     void setPHD2Disconnected();
     // Only called by PHD2
-    void setGuideState(bool guiding);
+    void toggleExternalGuideStateGUI(Ekos::GuideState state);
 
 protected slots:
     void onXscaleChanged( int i );
@@ -84,9 +84,9 @@ protected slots:
     void onSetDECSwap(bool enable);
 
 signals:
-    void ditherComplete();
+    //void ditherComplete();
     void ditherToggled(bool);
-    void autoGuidingToggled(bool);
+    //void autoGuidingToggled(bool);
     void newStatus(Ekos::GuideState);
     void newProfilePixmap(QPixmap &);
     void newStarPosition(QVector3D, bool);

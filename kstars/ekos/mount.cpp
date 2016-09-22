@@ -262,7 +262,7 @@ void Mount::updateTelescopeCoords()
 
         newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text());
 
-        newStatus(currentTelescope->getStatus());
+        emit newStatus(currentTelescope->getStatus());
 
         if (currentTelescope->isConnected() == false)
             updateTimer.stop();

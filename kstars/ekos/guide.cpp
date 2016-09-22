@@ -86,8 +86,8 @@ Guide::Guide() : QWidget()
     guider = new internalGuider(pmath, this);
 
     connect(guider, SIGNAL(ditherToggled(bool)), this, SIGNAL(ditherToggled(bool)));
-    connect(guider, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
-    connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
+    //connect(guider, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
+    //connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
     connect(guider, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
     connect(guider, SIGNAL(newProfilePixmap(QPixmap &)), this, SIGNAL(newProfilePixmap(QPixmap &)));
     connect(guider, SIGNAL(newStarPosition(QVector3D,bool)), this, SLOT(setStarPosition(QVector3D,bool)));
@@ -114,12 +114,13 @@ Guide::Guide() : QWidget()
 
     connect(phd2, SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
     connect(phd2, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
+    connect(phd2, SIGNAL(newStatus(Ekos::GuideState)), guider, SLOT(toggleExternalGuideStateGUI(Ekos::GuideState)));
 
     connect(phd2, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
-    connect(phd2, SIGNAL(guideReady()), this, SIGNAL(guideReady()));
-    connect(phd2, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
-    connect(phd2, SIGNAL(autoGuidingToggled(bool)), guider, SLOT(setGuideState(bool)));
-    connect(phd2, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
+    //connect(phd2, SIGNAL(guideReady()), this, SIGNAL(guideReady()));
+    //connect(phd2, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
+    //connect(phd2, SIGNAL(autoGuidingToggled(bool)), guider, SLOT(setGuideState(bool)));
+    //connect(phd2, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
 
     if (Options::usePHD2Guider())
         phd2->connectPHD2();
@@ -576,8 +577,9 @@ void Guide::setCaptureComplete()
         if (guider->dither() == false)
         {
             appendLogText(i18n("Dithering failed. Autoguiding aborted."));
+            emit newStatus(GUIDE_DITHERING_ERROR);
             guider->abort();
-            emit ditherFailed();
+            //emit ditherFailed();
         }
     }
     else if (guider->isGuiding())
@@ -597,7 +599,7 @@ void Guide::setCaptureComplete()
         {
             guider->setReady(true);
             tabWidget->setTabEnabled(1, true);
-            emit guideReady();
+            //emit guideReady();
         }
     }
 
@@ -713,8 +715,9 @@ void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy,
         if (guider->dither() == false)
         {
             appendLogText(i18n("Dithering failed. Autoguiding aborted."));
+            emit newStatus(GUIDE_DITHERING_ERROR);
             guider->abort();
-            emit ditherFailed();
+            //emit ditherFailed();
         }
     }
     else

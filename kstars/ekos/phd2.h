@@ -71,11 +71,11 @@ signals:
     void newLog(const QString &);
     void connected();
     void disconnected();
-    void ditherComplete();
-    void ditherFailed();
+    //void ditherComplete();
+    //void ditherFailed();
     void newAxisDelta(double delta_ra, double delta_dec);
-    void autoGuidingToggled(bool);
-    void guideReady();
+    //void autoGuidingToggled(bool);
+    //void guideReady();
     void newStatus(Ekos::GuideState);
 
 private:

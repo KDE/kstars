@@ -413,8 +413,6 @@ bool internalGuider::start()
     if (m_useRapidGuide)
         guideModule->startRapidGuide();
 
-    emit autoGuidingToggled(true);
-    // FIXME use only one signal, remove the previous one
     emit newStatus(Ekos::GUIDE_GUIDING);
 
     guideModule->setSuspended(false);
@@ -436,7 +434,7 @@ bool internalGuider::stop()
     if (phd2)
     {
         ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
-        emit autoGuidingToggled(false);
+        //emit autoGuidingToggled(false);
 
         m_isDithering = false;
         m_isStarted = false;
@@ -458,8 +456,6 @@ bool internalGuider::stop()
     if (m_useRapidGuide)
         guideModule->stopRapidGuide();
 
-    emit autoGuidingToggled(false);
-    // FIXME use only one signal, remove the previous one
     emit newStatus(Ekos::GUIDE_IDLE);
 
     m_isDithering = false;
@@ -468,13 +464,13 @@ bool internalGuider::stop()
     return true;
 }
 
-void internalGuider::setGuideState(bool guiding)
+void internalGuider::toggleExternalGuideStateGUI(Ekos::GuideState state)
 {
     if (phd2 == NULL)
         return;
 
     // If not started already
-    if (m_isStarted == false && guiding)
+    if (m_isStarted == false && state == Ekos::GUIDE_GUIDING)
     {
         m_isStarted = true;
         m_useRapidGuide = ui.rapidGuideCheck->isChecked();
@@ -483,7 +479,7 @@ void internalGuider::setGuideState(bool guiding)
         guideModule->appendLogText(i18n("Autoguiding started."));
     }
     // if already started
-    else if (m_isStarted && guiding == false)
+    else if (m_isStarted && state == Ekos::GUIDE_IDLE)
     {
         ui.pushButton_StartStop->setText( i18n("Start Autoguide") );
     }
@@ -787,7 +783,8 @@ bool internalGuider::dither()
         if (Options::guideLogging())
             qDebug() << "Guide: Dither complete.";
 
-        emit ditherComplete();
+        //emit ditherComplete();
+        emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
     }
     else
     {
