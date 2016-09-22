@@ -3602,7 +3602,7 @@ void Scheduler::findNextJob()
 void Scheduler::startAstrometry()
 {
     QDBusMessage reply;
-    setGOTOMode(Align::ALIGN_SLEW);
+    setGOTOMode(Align::GOTO_SLEW);
 
     // Always turn update coords on
     QVariant arg(true);
