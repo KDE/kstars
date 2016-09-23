@@ -27,7 +27,7 @@ void SkyObjDescription::fileDownloaded(QNetworkReply* reply)
 {
     m_DownloadedData = reply->readAll();
 
-    if(m_DownloadedData != ""){
+    if(!m_DownloadedData.isEmpty()){
         QString data(m_DownloadedData);
 
         const QString descOpeing( "<Description xml:space=\"preserve\">" );

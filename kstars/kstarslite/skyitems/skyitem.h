@@ -55,7 +55,7 @@ public:
     virtual ~SkyItem();
 
     /**
-     * @short updates the coordinates and visibility of child node. Similiar to draw routine in
+     * @short updates the coordinates and visibility of child node. Similar to draw routine in
      * SkyComponent derived classes
      */
 

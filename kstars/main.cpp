@@ -260,7 +260,7 @@ int main(int argc, char *argv[])
     QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
 #else
     //KStarsLite::createInstance( true, ! parser.isSet( "paused" ), datestring );
-    //TODO decide wheter KStars Lite should have command line parser
+    //TODO decide whether KStars Lite should have command line parser
     KStarsLite::createInstance( true );
 #endif
     return app.exec();

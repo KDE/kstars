@@ -153,7 +153,7 @@ SERVICES PROVIDED HEREUNDER."
 #define LONGLONG_MIN LONG_LONG_MIN
 
 #elif defined(__LONG_LONG_MAX__)
-/* Mac OS X & CYGWIN defintion */
+/* Mac OS X & CYGWIN definition */
 #define LONGLONG_MAX __LONG_LONG_MAX__
 #define LONGLONG_MIN (-LONGLONG_MAX -1LL)
 

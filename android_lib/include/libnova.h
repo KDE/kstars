@@ -70,7 +70,7 @@
 *
 * \section help Help
 * If you are interested in helping in the future development of libnova, then please get in touch.
-* Currently, we are needing help in the folowing areas.
+* Currently, we are needing help in the following areas.
 * - Documentation. (Not just API reference, but also astronomy info for novice users)
 * - Programming (in C) astronomical solutions or algorithms.
 * - Algorithms and Solutions.
