@@ -178,7 +178,7 @@ Capture::Capture()
     fileHFR=0;
     useGuideHead = false;
     guideDither = false;
-    firstAutoFocus = true;    
+    firstAutoFocus = true;
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -2002,7 +2002,7 @@ void Capture::setFocusStatus(FocusState state)
             abort();
         }
 
-        activeJob->setFilterPostFocusReady(status);
+        activeJob->setFilterPostFocusReady(focusState == FOCUS_COMPLETE);
         return;
     }
 
@@ -2836,7 +2836,7 @@ QString Capture::getSequenceQueueStatus()
 
     if (aborted > 0)
     {
-        if (isAutoGuiding && deviationDetected)
+        if (guideState == GUIDE_GUIDING && deviationDetected)
             return "Suspended";
         else
             return "Aborted";
@@ -3012,8 +3012,6 @@ bool Capture::checkMeridianFlip()
 
 void Capture::checkMeridianFlipTimeout()
 {
-    static bool guidingEngaged = false, alignmentEngaged=false;
-
     if (meridianFlipStage == MF_NONE)
         return;
 
@@ -3021,7 +3019,7 @@ void Capture::checkMeridianFlipTimeout()
     {
         appendLogText(i18n("Telescope meridian flip timed out."));
         abort();
-    }    
+    }
 }
 
 void Capture::setAlignStatus(AlignState state)
@@ -3062,7 +3060,7 @@ void Capture::setGuideStatus(GuideState state)
 
     case GUIDE_IDLE:
         // If Autoguiding was started before and now stopped, let's abort (unless we're doing a meridian flip)
-        if (enable == false && guideState == GUIDE_GUIDING && meridianFlipStage == MF_NONE && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
+        if (guideState == GUIDE_GUIDING && meridianFlipStage == MF_NONE && activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
         {
             appendLogText(i18n("Autoguiding stopped. Aborting..."));
             abort();
@@ -3393,7 +3391,7 @@ void Capture::openCalibrationDialog()
 
 IPState Capture::processPreCaptureCalibrationStage()
 {
-    if (isAutoGuiding)
+    if (guideState == GUIDE_GUIDING)
     {
         appendLogText(i18n("Autoguiding suspended."));
         emit suspendGuiding(true);

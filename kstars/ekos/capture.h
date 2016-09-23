@@ -353,11 +353,6 @@ public slots:
     void moveJobDown();
 
     /**
-     * @brief enableGuideLimits Enable guide deviation check box and guide deviation limits spin box.
-     */
-    void enableGuideLimits();
-
-    /**
      * @brief setGuideDeviation Set the guiding deviaiton as measured by the guiding module. Abort capture if deviation exceeds user value. Resume capture if capture was aborted and guiding deviations are below user value.
      * @param delta_ra Deviation in RA in arcsecs from the selected guide star.
      * @param delta_dec Deviation in DEC in arcsecs from the selected guide star.
@@ -369,13 +364,6 @@ public slots:
      * @param enable True if dithering is enabled, false otherwise.
      */
     void setGuideDither(bool enable);
-
-    /**
-     * @brief setAutoguiding Set autoguiding status from guiding module.
-     * @param enable True if autoguiding is enabled and running, false otherwise.
-     * @param isDithering true if dithering is enabled.
-     */
-    void setAutoguiding(bool enable);
 
     /**
      * @brief resumeCapture Resume capture after dither and/or focusing processes are complete.
@@ -440,7 +428,7 @@ private slots:
     void checkMeridianFlipTimeout();
     //void checkAlignmentSlewComplete();
 
-    // Auto Focus    
+    // Auto Focus
     //void updateAutofocusStatus(bool status, double HFR);
     void setHFR(double newHFR) { focusHFR = newHFR; }
     void startPostFilterAutoFocus();
