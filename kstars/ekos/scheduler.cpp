@@ -2706,7 +2706,7 @@ void Scheduler::checkJobStage()
         if(alignReply.value())
         {
             if (Options::verboseLogging())
-                qDebug() << "Scheduler: Solver is complete, checking if successfull...";
+                qDebug() << "Scheduler: Solver is complete, checking if successful...";
 
             alignReply = alignInterface->call(QDBus::AutoDetect,"isSolverSuccessful");
             // Is solver successful?

@@ -63,6 +63,7 @@ Menu {
         onTriggered: {
             contextMenu.close()
             SkyMapLite.slotCenter()
+            SkyMapLite.centerLocked = true
         }
     }
 

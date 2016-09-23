@@ -36,7 +36,7 @@ class SymbolNode : public QSGNode {
 public:
     /**
      * @short Update size and the symbol itself. Each SymbolNode should override this function,
-     * and call SymbolNode::updateSymbol() in the beginning of overriden updateSymbol to
+     * and call SymbolNode::updateSymbol() in the beginning of overridden updateSymbol to
      * initialize values that are used across all symbols.
      */
     virtual void updateSymbol(float x, float y, float e, float size);

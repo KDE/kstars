@@ -100,7 +100,7 @@ int SkyMapLite::starColorMode = 0;
 SkyMapLite::SkyMapLite()
     :m_proj(0), count(0), data(KStarsData::Instance()),
       nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0),
-      isInitialized(false), clearTextures(false)
+      isInitialized(false), clearTextures(false), m_centerLocked(false)
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
@@ -362,6 +362,7 @@ void SkyMapLite::slotCenter() {
     //display coordinates in statusBar
     emit mousePointChanged( focusPoint() );
     //showFocusCoords(); //update FocusBox
+    //Lock center so that user could only zoom on touch-enabled devices
 }
 
 void SkyMapLite::slewFocus() {

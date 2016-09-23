@@ -472,7 +472,7 @@ signals:
     /** Emitted when a position is clicked */
     void positionClicked(SkyPoint*);
 
-    /** Emitted when user clicks on SkyMapLite (analagous to positionClicked but sends QPoint) */
+    /** Emitted when user clicks on SkyMapLite (analogous to positionClicked but sends QPoint) */
     void posClicked(QPointF pos);
 
     /** Emitted when magnitude limit is changed */

@@ -85,7 +85,7 @@ public:
     inline int hideCount() { return m_hideCount; }
 
     /**
-     * @short changes the position of SkyNode on SkyMapLite. Has to be overriden by the classes
+     * @short changes the position of SkyNode on SkyMapLite. Has to be overridden by the classes
      * that support moving
      * @param pos new position
      */
