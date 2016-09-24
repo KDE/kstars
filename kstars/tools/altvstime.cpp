@@ -433,7 +433,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
     //restore original position
     if ( o->isSolarSystem() ) {
-       o->updateCoords( oldNum, true, data->geo()->lat(), data->lst(), true );
+        o->updateCoords( oldNum, true, data->geo()->lat(), data->lst(), true );
         delete oldNum;
     }
     o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -1231,7 +1231,7 @@ void AltVsTime::drawGradient(){
 
     p.setClipping(false);
 
-    //Add vertical line indicating "now"    
+    //Add vertical line indicating "now"
     if( geoLoc )
     {
         QTime t = geoLoc->UTtoLT( KStarsDateTime::currentDateTimeUtc() ).time(); // convert the current system clock time to the TZ corresponding to geo

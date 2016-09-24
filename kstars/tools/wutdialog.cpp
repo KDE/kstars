@@ -87,7 +87,7 @@ WUTDialog::WUTDialog( QWidget *parent, bool _session, GeoLocation *_geo, KStarsD
     QString sGeo = geo->translatedName();
     if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
     sGeo += ", " + geo->translatedCountry();
-    WUT->LocationLabel->setText( i18n( "at %1", sGeo ) );    
+    WUT->LocationLabel->setText( i18n( "at %1", sGeo ) );
     WUT->DateLabel->setText( i18n( "The night of %1", QLocale().toString( Evening.date(), QLocale::LongFormat ) ) );
     m_Mag = 10.0;
     WUT->MagnitudeEdit->setValue( m_Mag );
@@ -120,7 +120,7 @@ void WUTDialog::makeConnections() {
 void WUTDialog::initCategories() {
     m_Categories << i18n( "Planets" ) << i18n( "Stars" )
     << i18n( "Nebulae" ) << i18n( "Galaxies" )
-    << i18n( "Star Clusters" ) << i18n( "Constellations" ) 
+    << i18n( "Star Clusters" ) << i18n( "Constellations" )
     << i18n( "Asteroids" ) << i18n( "Comets" );
 
     foreach ( const QString &c, m_Categories )
@@ -484,7 +484,7 @@ void WUTDialog::slotObslist()
 
 void WUTDialog::slotChangeDate() {
 
-    // Set the time T0 to the evening of today. This will make life easier for the user, who most probably 
+    // Set the time T0 to the evening of today. This will make life easier for the user, who most probably
     // wants to see what's up on the night of some date, rather than the night of the previous day
     T0.setTime( QTime( 18, 0, 0 ) ); // 6 PM
 

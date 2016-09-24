@@ -99,10 +99,10 @@ void modCalcPlanets::slotComputePosition (void)
     // Pointer to hold planet data. Pointer is used since it has to
     // hold objects of different type. It's safe to use new/delete
     // because exceptions are disallowed.
-    KSPlanetBase* p = 0;    
+    KSPlanetBase* p = 0;
 
     switch( PlanetComboBox->currentIndex() ) {
-    case 0 : 
+    case 0 :
         p = new KSPlanet(KSPlanetBase::MERCURY); break;
     case 1:
         p = new KSPlanet(KSPlanetBase::VENUS);   break;
@@ -127,10 +127,10 @@ void modCalcPlanets::slotComputePosition (void)
     }
 
     // Show data.
-    p->findPosition( &num, geoPlace->lat(), &LST, &Earth);        
-    p->EquatorialToHorizontal( &LST, geoPlace->lat());            
+    p->findPosition( &num, geoPlace->lat(), &LST, &Earth);
+    p->EquatorialToHorizontal( &LST, geoPlace->lat());
     showCoordinates( *p );
-    // Cleanup. 
+    // Cleanup.
     delete p;
 }
 
@@ -356,7 +356,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
         } else {
             latB = LatBoxBatch->createDms(true);
         }
-        if ( AllRadioBatch->isChecked() || LatCheckBatch->isChecked() ) 
+        if ( AllRadioBatch->isChecked() || LatCheckBatch->isChecked() )
             lineToWrite += latB.toDMSString() + space;
 
 
@@ -411,7 +411,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
 
         // Delete object
         delete kspb;
-   
+
         nline++;
     }
 

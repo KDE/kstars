@@ -47,7 +47,7 @@ DeepStarComponent::DeepStarComponent( SkyComposite *parent, QString fileName, fl
     ListComponent(parent),
     m_reindexNum( J2000 ),
     triggerMag( trigMag ),
-    m_FaintMagnitude(-5.0), 
+    m_FaintMagnitude(-5.0),
     staticStars( staticstars ),
     dataFileName( fileName )
 {
@@ -108,7 +108,7 @@ bool DeepStarComponent::loadStaticStars() {
         if( !SB )
             qDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel " << trixel << endl;
         m_starBlockList.at( trixel )->setStaticBlock( SB );
-        
+
         for(unsigned long j = 0; j < (unsigned long) starReader.getRecordCount(i); ++j) {
             bool fread_success = false;
             if( starReader.guessRecordSize() == 32 )
@@ -120,7 +120,7 @@ bool DeepStarComponent::loadStaticStars() {
                 qDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
             }
 
-            /* Swap Bytes when required */            
+            /* Swap Bytes when required */
             if( starReader.getByteSwap() ) {
                 if( starReader.guessRecordSize() == 32 )
                     byteSwap( &stardata );
@@ -175,7 +175,7 @@ bool openIndexFile( ) {
     return 0;
 }
 
-//This function is empty for a reason; we override the normal 
+//This function is empty for a reason; we override the normal
 //update function in favor of JiT updates for stars.
 void DeepStarComponent::update( KSNumbers * )
 {}
@@ -253,15 +253,15 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
             for( int i = 0; i < m_starBlockList.at( currentRegion )->getBlockCount(); ++i ) {
                 StarBlock *prevBlock = ( ( i >= 1 ) ? m_starBlockList.at( currentRegion )->block( i - 1 ) : NULL );
                 StarBlock *block = m_starBlockList.at( currentRegion )->block( i );
-                
+
                 if( i == 0  &&  !m_StarBlockFactory->markFirst( block ) )
                     qDebug() << "markFirst failed in trixel" << currentRegion;
                 if( i > 0   &&  !m_StarBlockFactory->markNext( prevBlock, block ) )
                     qDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
-                if( i < m_starBlockList.at( currentRegion )->getBlockCount() 
+                if( i < m_starBlockList.at( currentRegion )->getBlockCount()
                     && m_starBlockList.at( currentRegion )->block( i )->getFaintMag() < maglim )
                     break;
-                    
+
             }
         }
         t_updateCache = t.restart();
@@ -278,24 +278,24 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
         // Static stars need not execute fillToMag
 
 	if( !staticStars && !m_starBlockList.at( currentRegion )->fillToMag( maglim ) && maglim <= m_FaintMagnitude * ( 1 - 1.5/16 ) ) {
-            qDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel " 
+            qDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel "
                      << currentRegion << " !"<< endl;
 	}
 
         t_dynamicLoad += t.restart();
 
-        //        qDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has " 
+        //        qDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has "
         //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks" << endl;
 
         for( int i = 0; i < m_starBlockList.at( currentRegion )->getBlockCount(); ++i ) {
             StarBlock *block = m_starBlockList.at( currentRegion )->block( i );
-            //            qDebug() << "---> Drawing stars from block " << i << " of trixel " << 
+            //            qDebug() << "---> Drawing stars from block " << i << " of trixel " <<
             //                currentRegion << ". SB has " << block->getStarCount() << " stars" << endl;
             for( int j = 0; j < block->getStarCount(); j++ ) {
 
                 StarObject *curStar = block->star( j );
 
-                //                qDebug() << "We claim that he's from trixel " << currentRegion 
+                //                qDebug() << "We claim that he's from trixel " << currentRegion
                 //<< ", and indexStar says he's from " << m_skyMesh->indexStar( curStar );
 
                 if ( curStar->updateID != updateID )
@@ -312,7 +312,7 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
         }
 
         // DEBUG: Uncomment to identify problems with Star Block Factory / preservation of Magnitude Order in the LRU Cache
-        //        verifySBLIntegrity();        
+        //        verifySBLIntegrity();
         t_drawUnnamed += t.restart();
 
     }
@@ -414,7 +414,7 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
 #endif
                 if( !star ) continue;
                 if ( star->mag() > m_zoomMagLimit ) continue;
-                
+
                 double r = star->angularDistanceTo( p ).Degrees();
                 if ( r < maxrad ) {
                     oBest = star;
@@ -431,7 +431,7 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
     // different method and should be called after all other
     // candidates (eg: DeepSkyObject::objectNearest()) have been
     // called.
-    
+
     return oBest;
 }
 
@@ -512,13 +512,13 @@ bool DeepStarComponent::verifySBLIntegrity() {
                 faintMag = block->getBrightMag();
             // NOTE: Assumes 2 decimal places in magnitude field. TODO: Change if it ever does change
             if( block->getBrightMag() != faintMag && ( block->getBrightMag() - faintMag ) > 0.5) {
-                qDebug() << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag 
+                qDebug() << "Trixel " << trixel << ": ERROR: faintMag of prev block = " << faintMag
                          << ", brightMag of block #" << i << " = " << block->getBrightMag();
                 integrity = false;
             }
             if( i > 1 && ( !block->prev ) )
                 qDebug() << "Trixel " << trixel << ": ERROR: Block" << i << "is unlinked in LRU Cache";
-            if( block->prev && block->prev->parent == m_starBlockList[ trixel ] 
+            if( block->prev && block->prev->parent == m_starBlockList[ trixel ]
                 && block->prev != m_starBlockList[ trixel ]->block( i - 1 ) ) {
                 qDebug() << "Trixel " << trixel << ": ERROR: SBF LRU Cache linked list seems to be broken at before block " << i << endl;
                 integrity = false;
