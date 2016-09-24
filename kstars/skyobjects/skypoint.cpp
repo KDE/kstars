@@ -32,6 +32,12 @@
 
 #include <QDebug>
 
+#ifdef PROFILE_COORDINATE_CONVERSION
+#include <ctime> // For profiling, remove if not profiling.
+long unsigned SkyPoint::eqToHzCalls = 0;
+double SkyPoint::cpuTime_EqToHz = 0.;
+#endif
+
 KSSun *SkyPoint::m_Sun = 0;
 const double SkyPoint::altCrit = -1.0;
 
@@ -54,6 +60,9 @@ SkyPoint::~SkyPoint(){
 }
 
 void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
+#ifdef PROFILE_COORDINATE_CONVERSION
+    std::clock_t start = std::clock();
+#endif
     //Uncomment for spherical trig version
     double AltRad, AzRad;
     double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
@@ -78,6 +87,11 @@ void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
 
     Alt.setRadians( AltRad );
     Az.setRadians( AzRad );
+#ifdef PROFILE_COORDINATE_CONVERSION
+    std::clock_t stop = std::clock();
+    cpuTime_EqToHz += double( stop - start )/double( CLOCKS_PER_SEC ); // Accumulate time in seconds
+    ++eqToHzCalls;
+#endif
 
     // //Uncomment for XYZ version
     //  	double xr, yr, zr, xr1, zr1, sa, ca;

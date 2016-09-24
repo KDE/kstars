@@ -193,7 +193,7 @@ public:
     void setH( const double &x );
 
     /** @short Sets floating-point value of angle, in hours.
-     * 
+     *
      * Converts argument values from hours to degrees, then
      * sets floating-point value of angle, in degrees.
      * This is an overloaded member function, provided for convenience.  It

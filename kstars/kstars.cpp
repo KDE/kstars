@@ -44,6 +44,7 @@
 
 // For profiling only
 #include "auxiliary/dms.h"
+#include "skyobjects/skypoint.h"
 
 #include "kstarsadaptor.h"
 
@@ -176,6 +177,10 @@ KStars::~KStars()
 
     QSqlDatabase::removeDatabase("userdb");
     QSqlDatabase::removeDatabase("skydb");
+
+#ifdef PROFILE_COORDINATE_CONVERSION
+    qDebug() << "Spent " << SkyPoint::cpuTime_EqToHz << " seconds in " << SkyPoint::eqToHzCalls << " calls to SkyPoint::EquatorialToHorizontal, for an average of " << 1000.*( SkyPoint::cpuTime_EqToHz / SkyPoint::eqToHzCalls ) << " ms per call";
+#endif
 
 #ifdef COUNT_DMS_SINCOS_CALLS
     qDebug() << "Constructed " << dms::dms_constructor_calls << " dms objects, of which " << dms::dms_with_sincos_called << " had trigonometric functions called on them = " << ( float( dms::dms_with_sincos_called ) / float( dms::dms_constructor_calls ) ) * 100. << "%";
