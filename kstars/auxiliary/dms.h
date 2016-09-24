@@ -25,6 +25,7 @@
 
 #include <cmath>
 
+#define COUNT_DMS_SINCOS_CALLS true
 
 /** @class dms
  * @short An angle, stored as degrees, but expressible in many ways.
@@ -43,7 +44,15 @@
 class dms {
 public:
     /** Default constructor. */
-    dms() : D( NaN::d ) {}
+    dms() : D( NaN::d )
+#ifdef COUNT_DMS_SINCOS_CALLS
+        , m_sinCosCalled(false), m_sinDirty( true ), m_cosDirty( true )
+#endif
+    {
+#ifdef COUNT_DMS_SINCOS_CALLS
+        ++dms_constructor_calls;
+#endif
+    }
 
     /** @short Set the floating-point value of the angle according to the four integer arguments.
      * @param d degree portion of angle (int).  Defaults to zero.
@@ -51,14 +60,30 @@ public:
      * @param s arcsecond portion of angle (int).  Defaults to zero.
      * @param ms arcsecond portion of angle (int).  Defaults to zero.
      */
-    explicit dms( const int &d, const int &m=0, const int &s=0, const int &ms=0 ) { setD( d, m, s, ms ); }
+    explicit dms( const int &d, const int &m=0, const int &s=0, const int &ms=0 )
+#ifdef COUNT_DMS_SINCOS_CALLS
+        : m_sinCosCalled(false), m_sinDirty( true ), m_cosDirty( true )
+#endif
+    { setD( d, m, s, ms );
+#ifdef COUNT_DMS_SINCOS_CALLS
+        ++dms_constructor_calls;
+#endif
+}
 
     /** @short Construct an angle from a double value.
      *
      * Creates an angle whose value in Degrees is equal to the argument.
      * @param x angle expressed as a floating-point number (in degrees)
      */
-    explicit dms( const double &x ) : D(x) {}
+    explicit dms( const double &x ) : D(x)
+#ifdef COUNT_DMS_SINCOS_CALLS
+        , m_sinCosCalled(false), m_sinDirty( true ), m_cosDirty( true )
+#endif
+    {
+#ifdef COUNT_DMS_SINCOS_CALLS
+        ++dms_constructor_calls;
+#endif
+    }
 
     /** @short Construct an angle from a string representation.
      *
@@ -73,7 +98,15 @@ public:
      * @param isDeg if true, value is in degrees; if false, value is in hours.
      * @sa setFromString()
      */
-    explicit dms( const QString &s, bool isDeg=true ) { setFromString( s, isDeg ); }
+    explicit dms( const QString &s, bool isDeg=true )
+#ifdef COUNT_DMS_SINCOS_CALLS
+        : m_sinCosCalled(false), m_sinDirty( true ), m_cosDirty( true )
+#endif
+    { setFromString( s, isDeg );
+#ifdef COUNT_DMS_SINCOS_CALLS
+        ++dms_constructor_calls;
+#endif
+    }
 
     /** @return integer degrees portion of the angle
      */
@@ -128,7 +161,11 @@ public:
     /** Sets floating-point value of angle, in degrees.
      * @param x new angle (double)
      */
-    void setD( const double &x ) { D = x; }
+    void setD( const double &x ) {
+#ifdef COUNT_DMS_SINCOS_CALLS
+        m_sinDirty = m_cosDirty = true;
+#endif
+        D = x; }
 
     /** @short Sets floating-point value of angle, in degrees.
      * 
@@ -195,14 +232,32 @@ public:
      * @return the Sine of the angle.
      * @sa cos()
      */
-    double sin() const { return ::sin(D*DegToRad); }
+    double sin() const {
+#ifdef COUNT_DMS_SINCOS_CALLS
+        if( !m_sinCosCalled ) { m_sinCosCalled = true; ++dms_with_sincos_called; }
+        if( m_sinDirty )
+            m_sinDirty = false;
+        else
+            ++redundant_trig_function_calls;
+        ++trig_function_calls;
+#endif
+        return ::sin(D*DegToRad); }
 
     /** @short Compute the Angle's Cosine.
      *
      * @return the Cosine of the angle.
      * @sa sin()
      */
-    double cos() const { return ::cos(D*DegToRad); }
+    double cos() const {
+#ifdef COUNT_DMS_SINCOS_CALLS
+        if( !m_sinCosCalled ) { m_sinCosCalled = true; ++dms_with_sincos_called; }
+        if( m_cosDirty )
+            m_cosDirty = false;
+        else
+            ++redundant_trig_function_calls;
+        ++trig_function_calls;
+#endif
+        return ::cos(D*DegToRad); }
 
     /** @short Express the angle in radians.
      * @return the angle in radians (double)
@@ -261,8 +316,17 @@ public:
     static dms fromString(const QString & s, bool deg);
 
     dms operator - () { return dms(-D); }
+#ifdef COUNT_DMS_SINCOS_CALLS
+    static long unsigned dms_constructor_calls; // counts number of DMS constructor calls
+    static long unsigned dms_with_sincos_called;
+    static long unsigned trig_function_calls; // total number of trig function calls
+    static long unsigned redundant_trig_function_calls; // counts number of redundant trig function calls
+#endif
 private:
     double D;
+#ifdef COUNT_DMS_SINCOS_CALLS
+    mutable bool m_sinDirty, m_cosDirty, m_sinCosCalled;
+#endif
 
     friend dms operator+(dms, dms);
     friend dms operator-(dms, dms);
@@ -293,6 +357,20 @@ inline void dms::SinCos(double& s, double& c) const {
     //ANSI-compliant version
     s = ::sin( radians() );
     c = ::cos( radians() );
+#endif
+#ifdef COUNT_DMS_SINCOS_CALLS
+        if( !m_sinCosCalled ) { m_sinCosCalled = true; ++dms_with_sincos_called; }
+        if( m_sinDirty )
+            m_sinDirty = false;
+        else
+            ++redundant_trig_function_calls;
+
+        if( m_cosDirty )
+            m_cosDirty = false;
+        else
+            ++redundant_trig_function_calls;
+
+        trig_function_calls += 2;
 #endif
 }
 

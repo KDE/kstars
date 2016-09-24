@@ -23,22 +23,41 @@
 
 #include <cstdlib>
 
+#ifdef COUNT_DMS_SINCOS_CALLS
+long unsigned dms::dms_constructor_calls = 0;
+long unsigned dms::dms_with_sincos_called = 0;
+long unsigned dms::trig_function_calls = 0;
+long unsigned dms::redundant_trig_function_calls = 0;
+#endif
+
 void dms::setD(const int &d, const int &m, const int &s, const int &ms) {
     D = (double)abs(d) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.;
     if (d<0) {D = -1.0*D;}
+#ifdef COUNT_DMS_SINCOS_CALLS
+    m_cosDirty = m_sinDirty = true;
+#endif
 }
 
 void dms::setH( const double &x ) {
     setD( x*15.0 );
+#ifdef COUNT_DMS_SINCOS_CALLS
+    m_cosDirty = m_sinDirty = true;
+#endif
 }
 
 void dms::setH(const int &h, const int &m, const int &s, const int &ms) {
     D = 15.0*((double)abs(h) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.);
     if (h<0) {D = -1.0*D;}
+#ifdef COUNT_DMS_SINCOS_CALLS
+    m_cosDirty = m_sinDirty = true;
+#endif
 }
 
 void dms::setRadians( const double &Rad ) {
     setD( Rad/DegToRad );
+#ifdef COUNT_DMS_SINCOS_CALLS
+    m_cosDirty = m_sinDirty = true;
+#endif
 }
 
 bool dms::setFromString( const QString &str, bool isDeg ) {
