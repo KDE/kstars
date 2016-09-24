@@ -26,6 +26,8 @@
 #include "dms.h"
 #include "kstarsdatetime.h"
 
+#define PROFILE_COORDINATE_CONVERSION true
+
 class KSNumbers;
 class KSSun;
 class GeoLocation;
@@ -539,6 +541,11 @@ public:
      * results and the correction value is just interpolated.
      */
     static const double altCrit;
+
+#ifdef PROFILE_COORDINATE_CONVERSION
+    static double cpuTime_EqToHz;
+    static long unsigned eqToHzCalls;
+#endif
 
 protected:
     /**
