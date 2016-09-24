@@ -188,6 +188,20 @@ void SkyPoint::precess( const KSNumbers *num ) {
     s[0] = cosRA0*cosDec0;
     s[1] = sinRA0*cosDec0;
     s[2] = sinDec0;
+
+    // FIXME: 1. We should be using eigen / better algorithms for
+    //           matrix multiplication
+    //        2. We should NOT be using matrix multiplication, but use
+    //           quaternion multiplication instead!
+    //        3. But then, since we are using spherical coordinates
+    //           (ra,dec) as our primary representation inside of
+    //           KStars, we should instead be using spherical trig for
+    //           best performance!
+    //
+    // According to callgrind, the call KSNumbers::p2( int, int ),
+    // which is repeated 9 times per precess, has a similar cycle cost
+    // as atan2(), so this could be important to fix!
+
     //Multiply P2 and s to get v, the vector representing the new coords.
     for ( unsigned int i=0; i<3; ++i ) {
         v[i] = 0.0;
