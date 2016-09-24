@@ -64,6 +64,8 @@ Guide::Guide() : QWidget()
     tabWidget = new QTabWidget(this);
 
     tabLayout->addWidget(tabWidget);
+    tabLayout->setContentsMargins(3,3,3,3);
+    tabLayout->setSpacing(1);
 
     exposureIN->setValue(Options::guideExposure());
     connect(exposureIN, SIGNAL(editingFinished()), this, SLOT(saveDefaultGuideExposure()));
