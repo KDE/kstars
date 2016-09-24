@@ -19,9 +19,6 @@
 
 #include "skypoint.h"
 
-#include <QDebug>
-#include <KLocalizedString>
-
 #include "skyobject.h"
 #include "dms.h"
 #include "ksnumbers.h"
@@ -30,6 +27,10 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skycomponents/skymapcomposite.h"
+
+#include <KLocalizedString>
+
+#include <QDebug>
 
 KSSun *SkyPoint::m_Sun = 0;
 const double SkyPoint::altCrit = -1.0;
