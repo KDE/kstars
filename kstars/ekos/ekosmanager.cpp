@@ -152,7 +152,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     // dynamically. I used setMinimumSize() but it doesn't appear to make any difference.
     // Also set Layout policy to SetMinAndMaxSize as well. Any idea how to fix this?
     // FIXME
-    resize(1000,750);
+    //resize(1000,750);
 }
 
 EkosManager::~EkosManager()
@@ -1494,7 +1494,7 @@ void EkosManager::initMount()
 
     if (guideProcess)
     {
-        connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), [&](ISD::Telescope::TelescopeStatus state){if (state == ISD::Telescope::MOUNT_PARKING)
+        connect(mountProcess, &Ekos::Mount::newStatus, this, [&](ISD::Telescope::TelescopeStatus state){if (state == ISD::Telescope::MOUNT_PARKING)
                 guideProcess->stopGuiding();}, Qt::UniqueConnection);
     }
 
@@ -1559,7 +1559,7 @@ void EkosManager::initGuide()
     {
         // Parking
         //connect(captureProcess, SIGNAL(mountParking()), guideProcess, SLOT(stopGuiding()));
-        connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), [&](ISD::Telescope::TelescopeStatus state){if (state == ISD::Telescope::MOUNT_PARKING)
+        connect(mountProcess, &Ekos::Mount::newStatus, this, [&](ISD::Telescope::TelescopeStatus state){if (state == ISD::Telescope::MOUNT_PARKING)
                 guideProcess->stopGuiding();}, Qt::UniqueConnection);
 
     }
