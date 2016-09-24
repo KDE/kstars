@@ -304,18 +304,30 @@ void StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
 
     double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
 
-    double dir0 = ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() );  // Bearing, in radian
+    double dir0 = ( ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() ) );  // Bearing, in radian
 
     ( pm < 0 ) && ( pm = -pm );
 
-    double dst = pm * M_PI / ( 180.0 * 3600.0 );
+    double dst = (  pm * M_PI / ( 180.0 * 3600.0 ) );
     //    double phi = M_PI / 2.0 - dec0().radians();
 
+
+    // Note: According to callgrind, dms::dms() + dms::setRadians()
+    // takes ~ 40 CPU cycles, whereas, the advantage afforded by using
+    // sincos() instead of sin() and cos() calls seems to be about 30
+    // CPU cycles.
+
+    // So it seems like it is not worth turning dir0 and dst into dms
+    // objects and using SinCos(). However, caching the values of sin
+    // and cos if we are going to reuse them avoids expensive (~120
+    // CPU cycle) recomputation!
     dms lat1, dtheta;
-    lat1.setRadians( asin( dec0().sin() * cos( dst ) +
-                           dec0().cos() * sin( dst ) * cos( dir0 ) ) );
-    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec0().cos(),
-                              cos( dst ) - dec0().sin() * lat1.sin() ) );
+    double sinDec0, cosDec0, sinDst = sin( dst ), cosDst = cos( dst );
+    dec0().SinCos( sinDec0, cosDec0 );
+    lat1.setRadians( asin( sinDec0 * cosDst +
+                           cosDec0 * sinDst * cos( dir0 ) ) );
+    dtheta.setRadians( atan2( sin( dir0 ) * sinDst * cosDec0,
+                              cosDst - sinDec0 * lat1.sin() ) );
 
     // Using dms instead, to ensure that the numbers are in the right range.
     dms finalRA( ra0().Degrees() + dtheta.Degrees() );
