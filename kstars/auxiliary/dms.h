@@ -26,6 +26,11 @@
 #include <cmath>
 
 #define COUNT_DMS_SINCOS_CALLS true
+#define PROFILE_SINCOS true
+
+#ifdef PROFILE_SINCOS
+#include <ctime>
+#endif
 
 /** @class dms
  * @short An angle, stored as degrees, but expressible in many ways.
@@ -241,7 +246,18 @@ public:
             ++redundant_trig_function_calls;
         ++trig_function_calls;
 #endif
-        return ::sin(D*DegToRad); }
+#ifdef PROFILE_SINCOS
+        std::clock_t start, stop;
+        double s;
+        start = std::clock();
+        s = ::sin(D*DegToRad);
+        stop = std::clock();
+        seconds_in_trig += double(stop - start)/double(CLOCKS_PER_SEC);
+        return s;
+#else
+        return ::sin(D*DegToRad);
+#endif
+    }
 
     /** @short Compute the Angle's Cosine.
      *
@@ -257,7 +273,18 @@ public:
             ++redundant_trig_function_calls;
         ++trig_function_calls;
 #endif
-        return ::cos(D*DegToRad); }
+#ifdef PROFILE_SINCOS
+        std::clock_t start, stop;
+        double c;
+        start = std::clock();
+        c = ::cos(D*DegToRad);
+        stop = std::clock();
+        seconds_in_trig += double(stop - start)/double(CLOCKS_PER_SEC);
+        return c;
+#else
+        return ::cos(D*DegToRad);
+#endif
+    }
 
     /** @short Express the angle in radians.
      * @return the angle in radians (double)
@@ -321,6 +348,7 @@ public:
     static long unsigned dms_with_sincos_called;
     static long unsigned trig_function_calls; // total number of trig function calls
     static long unsigned redundant_trig_function_calls; // counts number of redundant trig function calls
+    static double seconds_in_trig; // accumulates number of seconds spent in trig function calls
 #endif
 private:
     double D;
@@ -344,6 +372,11 @@ inline dms operator - (dms a, dms b) {
 
 // Inline sincos
 inline void dms::SinCos(double& s, double& c) const {
+#ifdef PROFILE_SINCOS
+    std::clock_t start, stop;
+    start = std::clock();
+#endif
+
 #ifdef __GLIBC__
 #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 && !defined(__UCLIBC__))
     //GNU version
@@ -358,6 +391,12 @@ inline void dms::SinCos(double& s, double& c) const {
     s = ::sin( radians() );
     c = ::cos( radians() );
 #endif
+
+#ifdef PROFILE_SINCOS
+    stop = std::clock();
+    seconds_in_trig += double(stop - start)/double(CLOCKS_PER_SEC);
+#endif
+
 #ifdef COUNT_DMS_SINCOS_CALLS
         if( !m_sinCosCalled ) { m_sinCosCalled = true; ++dms_with_sincos_called; }
         if( m_sinDirty )
