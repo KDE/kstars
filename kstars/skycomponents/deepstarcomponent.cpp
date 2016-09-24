@@ -185,6 +185,10 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
 #ifndef KSTARS_LITE
     if ( !fileOpened ) return;
 
+#ifdef PROFILE_SINCOS
+    long trig_calls_here = - dms::trig_function_calls;
+    dms::seconds_in_trig = 0.;
+#endif
     SkyMap *map = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();
     UpdateID updateID = data->updateID();
@@ -313,6 +317,10 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
 
     }
     m_skyMesh->inDraw( false );
+#ifdef PROFILE_SINCOS
+    trig_calls_here += dms::trig_function_calls;
+    qDebug() << "Spent " << dms::seconds_in_trig << " seconds doing " << trig_calls_here << " trigonometric function calls amounting to an average of " << 1000.0 * dms::seconds_in_trig/double( trig_calls_here ) << " ms per call";
+#endif
 #else
     Q_UNUSED(skyp)
 #endif

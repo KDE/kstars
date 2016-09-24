@@ -28,6 +28,7 @@ long unsigned dms::dms_constructor_calls = 0;
 long unsigned dms::dms_with_sincos_called = 0;
 long unsigned dms::trig_function_calls = 0;
 long unsigned dms::redundant_trig_function_calls = 0;
+double dms::seconds_in_trig = 0;
 #endif
 
 void dms::setD(const int &d, const int &m, const int &s, const int &ms) {
