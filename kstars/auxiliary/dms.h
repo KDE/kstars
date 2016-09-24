@@ -18,12 +18,13 @@
 #ifndef DMS_H_
 #define DMS_H_
 
-#include <QDebug>
+#include "../nan.h"
 
+#include <QDebug>
 #include <QString>
 
 #include <cmath>
-#include "../nan.h"
+
 
 /** @class dms
  * @short An angle, stored as degrees, but expressible in many ways.
@@ -37,7 +38,7 @@
  * arcseconds or hours, minutes, seconds).  There is also a method
  * to set the angle according to a radian value, and to return the
  * angle expressed in radians.  Finally, a SinCos() method computes
- * the sin and cosine of the angle. 
+ * the sin and cosine of the angle.
  */
 class dms {
 public:
