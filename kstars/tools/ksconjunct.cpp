@@ -51,7 +51,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
   //  qDebug() << Object1.name() << ": RA = " << Object1.ra() -> toHMSString() << "; Dec = " << Object1.dec() -> toDMSString() << "\n";
   //  qDebug() << Object2.name() << ": RA = " << Object2.ra() -> toHMSString() << "; Dec = " << Object2.dec() -> toDMSString() << "\n";
   prevSign = 0;
-  
+
   step0 = (stopJD - startJD) / 4.0;  // I'm an idiot for having done this without having the lines that follow -- asimha
 
   // TODO: Work out a solid footing on which one can decide step0. -- asimha
@@ -68,7 +68,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
   if(Object1.name() == i18n( "Mars" ) || Object2.name() == i18n( "Mars" ))
     if (step0 > 10.0)
       step0 = 10.0;
-  if(Object1.name() == i18n( "Venus" ) || Object1.name() == i18n( "Mercury" ) || Object2.name() == i18n( "Mercury" ) || Object2.name() == i18n( "Venus" )) 
+  if(Object1.name() == i18n( "Venus" ) || Object1.name() == i18n( "Mercury" ) || Object2.name() == i18n( "Mercury" ) || Object2.name() == i18n( "Venus" ))
     if (step0 > 5.0)
       step0 = 5.0;
   if(Object1.name() == "Moon" || Object2.name() == "Moon")
@@ -76,7 +76,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
       step0 = 0.25;
 
   step = step0;
-  
+
   //	qDebug() << "Initial Separation between " << Object1.name() << " and " << Object2.name() << " = " << (prevDist.toDMSString());
 
   long double jd = startJD;
@@ -85,9 +85,9 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
   while ( jd <= stopJD ) {
     int progress = int( 100.0*(jd - startJD)/(stopJD - startJD) );
     emit madeProgress( progress );
-    
+
     Dist = findDistance(jd, &Object1, &Object2);
-    Sign = sgn(Dist - prevDist); 
+    Sign = sgn(Dist - prevDist);
     //	qDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees()) << "; Step = " << step;
 
     //How close are we to a conjunction, and how fast are we approaching one?
@@ -97,7 +97,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
     } else { //slow down, we're getting close!
         step = step0;
     }
-    
+
     if( Sign != prevSign && prevSign == -1) { //all right, we may have just passed a conjunction
         if ( step > step0 ) { //mini-loop to back up and make sure we're close enough
             //            qDebug() << "Entering slow loop: " << endl;
@@ -106,16 +106,16 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
             Sign = prevSign;
             while ( jd <= stopJD ) {
                 Dist = findDistance(jd, &Object1, &Object2);
-                Sign = sgn(Dist - prevDist); 
+                Sign = sgn(Dist - prevDist);
                 //	qDebug() << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "djd=" << (int)(jd - startJD);
                 if ( Sign != prevSign ) break;
-                
+
                 prevDist = Dist;
                 prevSign = Sign;
                 jd += step;
             }
         }
-        
+
         //	qDebug() << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
         if(findPrecise(&extremum, &Object1, &Object2, jd, step, Sign))
             if(extremum.second.radians() < maxSeparation.radians())
@@ -195,7 +195,7 @@ bool KSConjunct::findPrecise(QPair<long double, dms> *out, SkyObject *Object1, K
 
 int KSConjunct::sgn(dms a) {
 
-  // Auxiliary function used by the KSConjunct::findClosestApproach(...) 
+  // Auxiliary function used by the KSConjunct::findClosestApproach(...)
   // method and the KSConjunct::findPrecise(...) method
 
   return ((a.radians() > 0)?1:((a.radians() < 0)?-1:0));

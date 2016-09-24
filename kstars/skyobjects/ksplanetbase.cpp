@@ -245,7 +245,7 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
     SkyPoint test;
     dms newELat( ecLat().Degrees() + 1.0 );
     test.setFromEcliptic( num->obliquity(), ecLong(), newELat );
-    double dx = ra().Degrees() - test.ra().Degrees(); 
+    double dx = ra().Degrees() - test.ra().Degrees();
     double dy = test.dec().Degrees() - dec().Degrees();
     double pa;
     if ( dy ) {
