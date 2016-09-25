@@ -61,10 +61,6 @@ Guide::Guide() : QWidget()
 
     guideDeviationRA = guideDeviationDEC = 0;
 
-    tabWidget = new QTabWidget(this);
-
-    tabLayout->addWidget(tabWidget);
-
     exposureIN->setValue(Options::guideExposure());
     connect(exposureIN, SIGNAL(editingFinished()), this, SLOT(saveDefaultGuideExposure()));
 

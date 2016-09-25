@@ -117,52 +117,75 @@ if (INDI_FOUND)
 
             if (CFITSIO_FOUND)
                 set(ekosui_SRCS
-                    ekos/scheduler.ui
-                    ekos/mosaic.ui
                     ekos/opsekos.ui
                     ekos/ekosmanager.ui
-                    ekos/capture.ui
-                    ekos/calibrationoptions.ui
-                    ekos/align.ui
-                    ekos/focus.ui
-                    ekos/guide.ui
-                    ekos/mount.ui
                     ekos/profileeditor.ui
-                    ekos/guide/guider.ui
-                    ekos/guide/rcalibration.ui
+                    # Scheduler
+                    ekos/scheduler/scheduler.ui
+                    ekos/scheduler/mosaic.ui
+                    # Capture
+                    ekos/capture/capture.ui
+                    ekos/capture/calibrationoptions.ui
+                    # Align
+                    ekos/align/align.ui
+                    # Focus
+                    ekos/focus/focus.ui
+                    # Mount
+                    ekos/mount/mount.ui
+                    # Guide
+                    ekos/guide/guide.ui
+                    #TODO remove from GIT
+                    #ekos/guide/guider.ui
+                    #ekos/guide/rcalibration.ui
                 )
 
             set(ekos_SRCS
                        ekos/ekos.cpp
-                       ekos/schedulerjob.cpp
-                       ekos/scheduler.cpp
-                       ekos/mosaic.cpp
                        ekos/ekosmanager.cpp
-                       ekos/capture.cpp
-                       ekos/sequencejob.cpp
-                       ekos/focus.cpp
-                       ekos/guide.cpp
-                       ekos/phd2.cpp
-                       ekos/align.cpp
-                       ekos/mount.cpp
-                       ekos/dome.cpp
-                       ekos/weather.cpp
-                       ekos/dustcap.cpp
-                       ekos/darklibrary.cpp
-                       ekos/astrometryparser.cpp
-                       ekos/offlineastrometryparser.cpp
-                       ekos/onlineastrometryparser.cpp
-                       ekos/remoteastrometryparser.cpp
                        ekos/profileeditor.cpp
                        ekos/opsekos.cpp
-                       ekos/QProgressIndicator.cpp
-                       ekos/guide/common.cpp
-                       ekos/guide/gmath.cpp
-                       ekos/guide/guider.cpp
-                       ekos/guide/matr.cpp
-                       ekos/guide/rcalibration.cpp
-                       ekos/guide/scroll_graph.cpp
-                       ekos/guide/vect.cpp
+
+                       # Auxiliary
+                       ekos/auxiliary/QProgressIndicator.cpp
+                       ekos/auxiliary/dome.cpp
+                       ekos/auxiliary/weather.cpp
+                       ekos/auxiliary/dustcap.cpp
+                       ekos/auxiliary/darklibrary.cpp
+
+                       # Capture
+                       ekos/capture/capture.cpp
+                       ekos/capture/sequencejob.cpp
+
+                       # Scheduler
+                       ekos/scheduler/schedulerjob.cpp
+                       ekos/scheduler/scheduler.cpp
+                       ekos/scheduler/mosaic.cpp
+
+                       # Focus
+                       ekos/focus/focus.cpp
+
+                       # Mount
+                       ekos/mount/mount.cpp
+
+                       # Align
+                       ekos/align/align.cpp
+                       ekos/align/astrometryparser.cpp
+                       ekos/align/offlineastrometryparser.cpp
+                       ekos/align/onlineastrometryparser.cpp
+                       ekos/align/remoteastrometryparser.cpp
+
+                       # Guide
+                       ekos/guide/guide.cpp
+                       ekos/guide/guideinterface.cpp
+                       ekos/guide/internalguide/common.cpp
+                       ekos/guide/internalguide/gmath.cpp
+                       ekos/guide/internalguide/internalguider.cpp
+                       ekos/guide/internalguide/guider.cpp
+                       ekos/guide/internalguide/matr.cpp
+                       ekos/guide/internalguide/rcalibration.cpp
+                       ekos/guide/internalguide/scroll_graph.cpp
+                       ekos/guide/internalguide/vect.cpp
+                       ekos/guide/externalguide/phd2.cpp
            )
             endif(CFITSIO_FOUND)
     endif(BUILD_KSTARS_LITE)
@@ -184,16 +207,6 @@ if(NOT BUILD_KSTARS_LITE)
             xplanet/opsxplanet.ui
         )
     endif(XPLANET_FOUND)
-
-    #FIXME Enable OpenGL Later
-    #if(OPENGL_FOUND)
-    #    include_directories( ${OPENGL_INCLUDE_DIRS} )
-    #    set(kstars_gl_SRCS
-    #        skyglpainter.cpp
-    #        skymapgldraw.cpp
-    #    )
-    #    add_definitions(-DHAVE_OPENGL)
-    #endif( OPENGL_FOUND )
 
     ########### next target ###############
     set(libkstarstools_SRCS

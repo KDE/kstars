@@ -96,7 +96,6 @@ Align::Align()
     connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
     connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
     connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
-    connect(polarR, SIGNAL(toggled(bool)), this, SLOT(checkPolarAlignment()));
     connect(raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
     connect(decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
     connect(syncBoxesB, SIGNAL(clicked()), this, SLOT(copyCoordsToBoxes()));
@@ -127,7 +126,7 @@ Align::Align()
 
     pi = new QProgressIndicator(this);
 
-    controlLayout->addWidget(pi, 0, 4, 1, 1);
+    controlBox->layout()->addWidget(pi);
 
     exposureIN->setValue(Options::alignExposure());
 
@@ -854,7 +853,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                  }
              }
          }
-     }     
+     }
 
      retries=0;
 
@@ -874,7 +873,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      switch (currentGotoMode)
      {
         case GOTO_SYNC:
-         executeMode();
+         executeGOTO();
          break;
 
         case GOTO_SLEW:
@@ -905,7 +904,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      emit newStatus(state);
      solverIterations=0;
 
-     if (polarR->isChecked())
+     if (azStage > AZ_INIT || altStage > ALT_INIT)
          executePolarAlign();
 }
 
@@ -950,7 +949,7 @@ void Align::abort()
     //m_isSolverSuccessful = false;
     //m_slewToTargetSelected=false;
     solverIterations=0;
-    retries=0;        
+    retries=0;
 
     //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
@@ -1104,15 +1103,6 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
 }
 
-void Align::executeMode()
-{
-    if (gotoR->isChecked())
-        executeGOTO();
-    else
-        executePolarAlign();
-}
-
-
 void Align::executeGOTO()
 {
     if (loadSlewState == IPS_BUSY)
@@ -1153,22 +1143,6 @@ void Align::SlewToTarget()
 
     state = ALIGN_SLEWING;
     emit newStatus(state);
-}
-
-void Align::checkPolarAlignment()
-{
-    if (polarR->isChecked())
-    {
-        measureAltB->setEnabled(true);
-        measureAzB->setEnabled(true);
-        gotoBox->setEnabled(false);
-    }
-    else
-    {
-        measureAltB->setEnabled(false);
-        measureAzB->setEnabled(false);
-        gotoBox->setEnabled(true);
-    }
 }
 
 void Align::executePolarAlign()
@@ -1222,7 +1196,6 @@ void Align::measureAzError()
 
         appendLogText(i18n("Solving first frame near the meridian."));
         azStage = AZ_FIRST_TARGET;
-        polarR->setChecked(true);
         solveB->click();
         break;
 
@@ -1258,7 +1231,6 @@ void Align::measureAzError()
         // Let now solver for RA/DEC
         appendLogText(i18n("Solving second frame near the meridian."));
         azStage = AZ_FINISHED;
-        polarR->setChecked(true);
         solveB->click();
         break;
 
@@ -1317,7 +1289,6 @@ void Align::measureAltError()
 
         appendLogText(i18n("Solving first frame."));
         altStage = ALT_FIRST_TARGET;
-        polarR->setChecked(true);
         solveB->click();
         break;
 
@@ -1355,7 +1326,6 @@ void Align::measureAltError()
         // Let now solver for RA/DEC
         appendLogText(i18n("Solving second frame."));
         altStage = ALT_FINISHED;
-        polarR->setChecked(true);
         solveB->click();
         break;
 

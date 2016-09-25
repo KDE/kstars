@@ -323,8 +323,6 @@ private:
     QList<ISD::ST4*> ST4List;
     QList<ISD::CCD *> CCDs;
 
-    QTabWidget *tabWidget;
-
     cgmath *pmath;
     internalCalibration *calibration;
     internalGuider *guider;

@@ -6,13 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>776</width>
-    <height>449</height>
+    <width>728</width>
+    <height>413</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <property name="spacing">
+    <number>1</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_11">
+     <property name="spacing">
+      <number>1</number>
+     </property>
      <item>
       <widget class="QGroupBox" name="CCDFWGroup">
        <property name="enabled">
@@ -34,8 +52,14 @@
         <string>CCD &amp;&amp; Filter Wheel</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>1</number>
+        </property>
         <item>
          <layout class="QGridLayout" name="gridLayout">
+          <property name="spacing">
+           <number>1</number>
+          </property>
           <item row="0" column="0">
            <widget class="QLabel" name="textLabel1_6">
             <property name="toolTip">
@@ -54,6 +78,9 @@
           </item>
           <item row="0" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <property name="spacing">
+             <number>1</number>
+            </property>
             <item>
              <widget class="QLabel" name="textLabel1_5_3">
               <property name="toolTip">
@@ -139,6 +166,9 @@
           </item>
           <item row="1" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="spacing">
+             <number>1</number>
+            </property>
             <item>
              <widget class="QLabel" name="textLabel1_9">
               <property name="toolTip">
@@ -239,6 +269,9 @@
           </item>
           <item row="2" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <property name="spacing">
+             <number>1</number>
+            </property>
             <item>
              <widget class="QLabel" name="textLabel1_13">
               <property name="toolTip">
@@ -289,6 +322,9 @@
           </item>
           <item row="2" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <property name="spacing">
+             <number>1</number>
+            </property>
             <item>
              <widget class="QLabel" name="textLabel1_15">
               <property name="toolTip">
@@ -387,6 +423,9 @@
           </item>
           <item row="3" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_12">
+            <property name="spacing">
+             <number>1</number>
+            </property>
             <item>
              <widget class="QCheckBox" name="temperatureCheck">
               <property name="toolTip">
@@ -490,6 +529,9 @@
           </item>
           <item row="4" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_16">
+            <property name="spacing">
+             <number>1</number>
+            </property>
             <item>
              <widget class="QCheckBox" name="filterCheck">
               <property name="toolTip">
@@ -572,6 +614,9 @@
           </item>
           <item row="5" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="spacing">
+             <number>1</number>
+            </property>
             <item>
              <widget class="QLabel" name="textLabel1_8">
               <property name="toolTip">
@@ -627,6 +672,9 @@
           </item>
           <item row="6" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="spacing">
+             <number>1</number>
+            </property>
             <item>
              <widget class="QLabel" name="ISOLabel">
               <property name="enabled">
@@ -656,6 +704,9 @@
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <property name="spacing">
+           <number>1</number>
+          </property>
           <item>
            <widget class="QLabel" name="textLabel1_18">
             <property name="toolTip">
@@ -699,11 +750,27 @@
           </item>
          </layout>
         </item>
+        <item>
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </widget>
      </item>
      <item>
       <layout class="QVBoxLayout" name="SequenceQueue">
+       <property name="spacing">
+        <number>1</number>
+       </property>
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="sizePolicy">
@@ -716,8 +783,14 @@
           <string>Sequence Queue</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
+          <property name="spacing">
+           <number>1</number>
+          </property>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_14">
+            <property name="spacing">
+             <number>1</number>
+            </property>
             <item>
              <widget class="QPushButton" name="addToQueueB">
               <property name="minimumSize">
@@ -989,6 +1062,9 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <property name="spacing">
+          <number>1</number>
+         </property>
          <item>
           <widget class="QPushButton" name="previewB">
            <property name="toolTip">
@@ -1082,14 +1158,23 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_13">
+     <property name="spacing">
+      <number>1</number>
+     </property>
      <item>
       <widget class="QGroupBox" name="optionsGroup">
        <property name="title">
         <string>Options</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>1</number>
+        </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="spacing">
+           <number>1</number>
+          </property>
           <item>
            <widget class="QCheckBox" name="darkSubCheck">
             <property name="toolTip">
@@ -1120,6 +1205,9 @@
         </item>
         <item>
          <layout class="QGridLayout" name="gridLayout_2">
+          <property name="spacing">
+           <number>1</number>
+          </property>
           <item row="0" column="0">
            <widget class="QCheckBox" name="guideDeviationCheck">
             <property name="enabled">
@@ -1312,10 +1400,31 @@
         <string>Progress</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_7">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <property name="spacing">
+           <number>1</number>
+          </property>
           <item>
            <layout class="QGridLayout" name="progressLayout">
+            <property name="spacing">
+             <number>5</number>
+            </property>
             <item row="0" column="0">
              <widget class="QLabel" name="progressLabel_3">
               <property name="text">

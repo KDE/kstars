@@ -284,7 +284,6 @@ private slots:
     void clearCoordBoxes();
 
     /* Polar Alignment */
-    void checkPolarAlignment();
     void measureAltError();
     void measureAzError();
     void correctAzError();
@@ -308,11 +307,6 @@ private:
     * @brief Calculate Field of View of CCD+Telescope combination that we need to pass to astrometry.net solver.
     */
     void calculateFOV();
-
-    /**
-     * @brief After a solver process is completed successfully, execute the mode as set by the user (GOTO or Polar Alignment)
-     */
-    void executeMode();
 
     /**
      * @brief After a solver process is completed successfully, sync, slew to target, or do nothing as set by the user.
