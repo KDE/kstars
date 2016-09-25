@@ -74,7 +74,7 @@ void SkyPoint::EquatorialToHorizontal( const CachingDms *LST, const CachingDms *
     double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
     double sinAlt, cosAlt;
 
-    dms HourAngle = (*LST) - ra();
+    CachingDms HourAngle = (*LST) - ra(); // Using CachingDms subtraction operator to find cos/sin of HourAngle without calling sincos()
 
     lat->SinCos( sinlat, coslat );
     dec().SinCos( sindec, cosdec );
@@ -82,7 +82,9 @@ void SkyPoint::EquatorialToHorizontal( const CachingDms *LST, const CachingDms *
 
     sinAlt = sindec*sinlat + cosdec*coslat*cosHA;
     AltRad = asin( sinAlt );
-    cosAlt = cos( AltRad );
+
+    //    cosAlt = cos( AltRad );
+    cosAlt = sqrt( 1 - sinAlt * sinAlt ); // Avoid trigonometric function. Return value of asin is always in [-pi/2, pi/2] and in this domain cosine is always non-negative, so we can use this.
 
     double arg = ( sindec - sinlat*sinAlt )/( coslat*cosAlt );
     if ( arg <= -1.0 ) AzRad = dms::PI;
