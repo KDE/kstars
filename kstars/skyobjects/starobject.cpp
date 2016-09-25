@@ -272,6 +272,10 @@ void StarObject::updateCoords( const KSNumbers *num, bool , const CachingDms*, c
 
     // FIXME: Find a better way to do this without conditionals etc.
     // Having the conditional is good so we can use CachingDms on RA0 and Dec0
+
+    // FIXME: This code is very inefficient as it destroys the
+    // sine/cosine cache and repeatedly recreates it!
+
     if ( properMotionCorrections ) {
         newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
         setRA0( newRA );
