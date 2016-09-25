@@ -302,15 +302,18 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         //update(); //Apply rotation*/
 
         //Allow movement of SkyMapLite while rotating or zooming
-        QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, pinchCenter,
-                                             Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
-        if(!pinch) {
-            m_MousePoint = projector()->fromScreen( pinchCenter, data->lst(), data->geo()->lat() );
-            setClickedPoint( &m_MousePoint );
-            mouseButtonDown = true;
-            pinch = true;
+        if(!getCenterLocked()) {
+            QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, pinchCenter,
+                                                 Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
+            if(!pinch) {
+                m_MousePoint = projector()->fromScreen( pinchCenter, data->lst(), data->geo()->lat() );
+                setClickedPoint( &m_MousePoint );
+                mouseButtonDown = true;
+                pinch = true;
+            }
+            mouseMoveEvent(event);
+            delete event;
         }
-        mouseMoveEvent(event);
 
         if( e->touchPointStates() & Qt::TouchPointReleased ) {
             setSlewing(false);
@@ -319,9 +322,7 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
                 mouseButtonDown = false;
             }
         }
-
-        delete event;
-    } else if (points.length() == 1 && !pinch) {
+    } else if (points.length() == 1 && !pinch && !getCenterLocked()) {
         QPointF point = points[0].screenPos();
         //Set clicked point (needed for pan)
         if(e->type() == QEvent::TouchBegin) {

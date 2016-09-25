@@ -914,7 +914,7 @@ void Capture::newFITS(IBLOB *bp)
             return;
 
         // If this is a preview job, make sure to enable preview button after
-        // we recieve the FITS
+        // we receive the FITS
         if (activeJob->isPreview() && previewB->isEnabled() == false)
             previewB->setEnabled(true);
 

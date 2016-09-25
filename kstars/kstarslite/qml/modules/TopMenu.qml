@@ -114,7 +114,7 @@ ColumnLayout {
                 for(var i = 0; i < children.length; ++i) {
                     childrenWidth += children[i].width + spacing
                 }
-                childrenWidth += topBar.padding*2 //Acount for topBar padding to have enough space for all elements
+                childrenWidth += topBar.padding*2 //Account for topBar padding to have enough space for all elements
             }
 
             anchors {
@@ -263,6 +263,7 @@ ColumnLayout {
                 return 180
             else if(topMenu.state == "open")
                 return 0
+            return rotation //If it state is "hidden" return current rotation
         }
 
         MouseArea {

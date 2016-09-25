@@ -51,6 +51,22 @@ Item {
             }
         }
 
+        Button {
+            z: 1
+            visible: SkyMapLite.centerLocked && Qt.platform.os == "android"
+            anchors {
+                right: parent.right
+                top: parent.top
+                margins: 25
+            }
+            onClicked: SkyMapLite.centerLocked = false
+
+            Image {
+                source: "../images/lock-closed.png"
+                anchors.centerIn: parent
+            }
+        }
+
         /** Circle that appears after user taps on screen **/
         Rectangle {
             id: tapCircle

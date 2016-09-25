@@ -719,7 +719,7 @@ void Align::setCaptureComplete()
 
     QString filename = currentData->getFilename();
 
-    // Save frame after substraction
+    // Save frame after subtraction
     if (alignDarkFrameCheck->isChecked())
         currentImage->getImageData()->saveFITS(filename);
 
@@ -1595,7 +1595,7 @@ void Align::correctAzError()
     currentCoord.setAlt(currentAlt);
     currentCoord.setAz(currentAz);
 
-    // Conver Alt/Az back to equatorial coordinates
+    // Convert Alt/Az back to equatorial coordinates
     currentCoord.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
 
     // Get new RA and DEC

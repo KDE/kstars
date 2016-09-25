@@ -535,7 +535,7 @@ void Guide::setCaptureComplete()
     }
 
     if (Options::guideLogging())
-        qDebug() << "Guide: recieved guide frame.";
+        qDebug() << "Guide: received guide frame.";
 
     FITSData *image_data = targetImage->getImageData();
     Q_ASSERT(image_data);

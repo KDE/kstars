@@ -22,7 +22,6 @@
 #include "skynodes/labelnode.h"
 
 #include "rootnode.h"
-#include "labelsitem.h"
 #include "Options.h"
 
 HorizonItem::HorizonItem(HorizonComponent * hComp, RootNode *rootNode)
