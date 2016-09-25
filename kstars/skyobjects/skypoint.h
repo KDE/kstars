@@ -172,16 +172,16 @@ public:
     //// =========================
 
     /** @return a pointer to the catalog Right Ascension. */
-    inline const dms& ra0() const { return RA0; }
+    inline const CachingDms& ra0() const { return RA0; }
 
     /** @return a pointer to the catalog Declination. */
-    inline const dms& dec0() const { return Dec0; }
+    inline const CachingDms& dec0() const { return Dec0; }
 
     /** @returns a pointer to the current Right Ascension. */
-    inline const dms& ra() const { return RA; }
+    inline const CachingDms& ra() const { return RA; }
 
     /** @return a pointer to the current Declination. */
-    inline const dms& dec() const { return Dec; }
+    inline const CachingDms& dec() const { return Dec; }
 
     /** @return a pointer to the current Azimuth. */
     inline const dms& az() const { return Az; }
@@ -559,8 +559,8 @@ protected:
     void precess(const KSNumbers *num);
 
 private:
-    dms RA0, Dec0; //catalog coordinates
-    dms RA, Dec; //current true sky coordinates
+    CachingDms RA0, Dec0; //catalog coordinates
+    CachingDms RA, Dec; //current true sky coordinates
     dms Alt, Az;
     static KSSun *m_Sun;
 protected:
