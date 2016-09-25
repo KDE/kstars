@@ -204,7 +204,7 @@ private:
 #ifdef COUNT_DMS_SINCOS_CALLS
 public:
     static unsigned long cachingdms_constructor_calls;
-    static unsigned long cachingdms_delta; // difference of ( trig function calls ) - ( trig computations )
+    static long cachingdms_delta; // difference of ( trig function calls ) - ( trig computations )
 #endif
 };
 

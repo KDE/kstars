@@ -323,6 +323,8 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
     trig_redundancy_here += dms::redundant_trig_function_calls;
     qDebug() << "Spent " << dms::seconds_in_trig << " seconds doing " << trig_calls_here << " trigonometric function calls amounting to an average of " << 1000.0 * dms::seconds_in_trig/double( trig_calls_here ) << " ms per call";
     qDebug() << "Redundancy of trig calls in this draw: " << double( trig_redundancy_here ) / double( trig_calls_here ) * 100. << "%";
+    qDebug() << "CachedDms constructor calls so far: " << CachingDms::cachingdms_constructor_calls;
+    qDebug() << "Caching has prevented " << CachingDms::cachingdms_delta << " redundant trig function calls";
 #endif
 #else
     Q_UNUSED(skyp)
