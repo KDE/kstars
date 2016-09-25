@@ -22,7 +22,7 @@
 
 #include <KLocalizedString>
 
-#include "dms.h"
+#include "cachingdms.h"
 #include "timezonerule.h"
 #include "kstarsdatetime.h"
 
@@ -75,10 +75,10 @@ public:
                 double TZ=0, TimeZoneRule *TZrule=NULL, bool readOnly=false, int iEllips=4 );
 
     /** @return pointer to the longitude dms object */
-    const dms* lng() const { return &Longitude; }
+    const CachingDms* lng() const { return &Longitude; }
 
     /** @return pointer to the latitude dms object */
-    const dms* lat() const { return &Latitude; }
+    const CachingDms* lat() const { return &Latitude; }
 
     /** @return elevation above seal level (meters) */
     double height() const { return Height; }
@@ -263,7 +263,7 @@ public:
     void setReadOnly(bool value);
 
 private:
-    dms Longitude, Latitude;
+    CachingDms Longitude, Latitude;
     QString Name, Province, Country;
     TimeZoneRule *TZrule;
     double TimeZone, Height;

@@ -350,8 +350,9 @@ public:
     static long unsigned redundant_trig_function_calls; // counts number of redundant trig function calls
     static double seconds_in_trig; // accumulates number of seconds spent in trig function calls
 #endif
-private:
+protected:
     double D;
+private:
 #ifdef COUNT_DMS_SINCOS_CALLS
     mutable bool m_sinDirty, m_cosDirty, m_sinCosCalled;
 #endif
