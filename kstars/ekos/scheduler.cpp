@@ -1462,7 +1462,7 @@ double Scheduler::findAltitude(const SkyPoint & target, const QDateTime when)
 
     KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay()/1000);
 
-    dms LST = KStarsData::Instance()->geo()->GSTtoLST( myUT.gst() );
+    CachingDms LST = KStarsData::Instance()->geo()->GSTtoLST( myUT.gst() );
     p.EquatorialToHorizontal( &LST, KStarsData::Instance()->geo()->lat() );
 
     return p.alt().Degrees();
@@ -1490,7 +1490,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
 
         if (rawFrac < Dawn || rawFrac > Dusk)
         {
-            dms LST = geo->GSTtoLST( myUT.gst() );
+            CachingDms LST = geo->GSTtoLST( myUT.gst() );
             target.EquatorialToHorizontal( &LST, geo->lat() );
             altitude =  target.alt().Degrees();
 
@@ -1761,7 +1761,7 @@ double Scheduler::getCurrentMoonSeparation(SchedulerJob *job)
     QDateTime midnight( KStarsData::Instance()->lt().date(), QTime() );
     KStarsDateTime ut = geo->LTtoUT( midnight );
     KStarsDateTime myUT = ut.addSecs(KStarsData::Instance()->lt().time().msecsSinceStartOfDay()/1000);
-    dms LST = geo->GSTtoLST( myUT.gst() );
+    CachingDms LST = geo->GSTtoLST( myUT.gst() );
     p.EquatorialToHorizontal( &LST, geo->lat() );
 
     // Update moon
@@ -1783,7 +1783,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
     QDateTime midnight( when.date(), QTime() );
     KStarsDateTime ut = geo->LTtoUT( midnight );
     KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay()/1000);
-    dms LST = geo->GSTtoLST( myUT.gst() );
+    CachingDms LST = geo->GSTtoLST( myUT.gst() );
     p.EquatorialToHorizontal( &LST, geo->lat() );
     double currentAlt = p.alt().Degrees();
 

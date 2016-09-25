@@ -153,7 +153,7 @@ void WUTDialog::init() {
     //check to see if Sun is circumpolar
     KSNumbers *num = new KSNumbers( UT0.djd() );
     KSNumbers *oldNum = new KSNumbers( data->ut().djd() );
-    dms LST = geo->GSTtoLST( T0.gst() );
+    CachingDms LST = geo->GSTtoLST( T0.gst() );
 
     oSun->updateCoords( num, true, geo->lat(), &LST, true );
     if ( oSun->checkCircumpolar( geo->lat() ) ) {

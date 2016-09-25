@@ -60,6 +60,12 @@ SkyPoint::~SkyPoint(){
 }
 
 void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
+    qDebug() << "NOTE: This EquatorialToHorizontal overload (using dms pointers instead of CachingDms pointers) is deprecated and should be replaced with CachingDms prototype wherever speed is desirable!";
+    CachingDms _LST( *LST ), _lat( *lat );
+    EquatorialToHorizontal( &_LST, &_lat );
+}
+
+void SkyPoint::EquatorialToHorizontal( const CachingDms *LST, const CachingDms *lat ) {
 #ifdef PROFILE_COORDINATE_CONVERSION
     std::clock_t start = std::clock();
 #endif
@@ -356,7 +362,7 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 }
 
 // Note: This method is one of the major rate determining factors in how fast the map pans / zooms in or out
-void SkyPoint::updateCoords( const KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST, bool forceRecompute ) {
+void SkyPoint::updateCoords( const KSNumbers *num, bool /*includePlanets*/, const CachingDms *lat, const CachingDms *LST, bool forceRecompute ) {
     //Correct the catalog coordinates for the time-dependent effects
     //of precession, nutation and aberration
     bool recompute, lens;
