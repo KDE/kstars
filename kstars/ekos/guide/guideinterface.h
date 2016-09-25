@@ -41,7 +41,8 @@ public:
     virtual bool stop() = 0;
     virtual bool dither(double pixels) = 0;
 
-    virtual void setGuiderParams(double ccdpixel_x, double ccdpixel_y, double aperture, double focal);
+    virtual bool setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength);
+    virtual bool setFrameParams(uint16_t width, uint16_t height);
 
 signals:
     void newLog(const QString &);
@@ -49,8 +50,12 @@ signals:
     void newAxisDelta(double delta_ra, double delta_dec);
     void newStarPosition(QVector3D, bool);
 
+    void frameCaptureRequested();
+
 private:
     Ekos::GuideState state;
+    double ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength;
+    uint16_t ccdFrameWidth, ccdFrameHeight;
 
 };
 

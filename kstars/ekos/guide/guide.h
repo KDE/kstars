@@ -181,9 +181,9 @@ public:
 
     /** DBUS interface function.
      * Selects which guiding process to utilize for calibration & guiding.
-     * @param guideProcess Either use Ekos internal guider or external PHD2 process.
+     * @param type Type of guider process to use. 0 for internal guider, 1 for external PHD2, 2 for external lin_guider
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuguiderTypent guiderProcess);
+    Q_SCRIPTABLE Q_NOREPLY void setGuiderType(int type);
 
     /** @}*/
 
@@ -302,11 +302,12 @@ protected slots:
      void onYscaleChanged( int i );
      void onThresholdChanged( int i );
      void onInfoRateChanged( double val );
-     void onEnableDirRA( int state );
-     void onEnableDirDEC( int state );
+     void onEnableDirRA( bool enable );
+     void onEnableDirDEC( bool enable );
      void onInputParamChanged();
      void onRapidGuideChanged(bool enable);
      void onSetDECSwap(bool enable);
+     void onControlDirectionChanged(bool enable);
 
 signals:
     void newLog();
@@ -357,6 +358,9 @@ private:
 
     // Misc
     bool useGuideHead;
+
+    // Progress Activity Indicator
+    QProgressIndicator *pi;
 };
 
 }

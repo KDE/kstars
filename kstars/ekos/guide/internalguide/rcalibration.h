@@ -38,8 +38,7 @@ public:
     explicit internalCalibration(cgmath *mathObject, Ekos::Guide *parent = 0);
     ~internalCalibration();
 
-    enum CalibrationStage { CAL_CAPTURE_IMAGE, CAL_SELECT_STAR, CAL_FINISH, CAL_ERROR, CAL_START, CAL_RA_INC, CAL_RA_DEC, CAL_DEC_INC, CAL_DEC_DEC };
-    enum CalibrationType { CAL_NONE, CAL_MANUAL, CAL_RA_AUTO, CAL_RA_DEC_AUTO };
+
 
 
     bool setVideoParams( int vid_wd, int vid_ht );
@@ -89,33 +88,7 @@ signals:
     void newStatus(Ekos::GuideState state);
 
 private:
-    void fillInterface( void );
-    void calibrateManualReticle( void );
-    void calibrateRADECRecticle( bool ra_only ); // 1 or 2-axis calibration
 
-    bool is_started;
-
-    calibrationparams_t calibration_params;
-    int  axis;
-    int  auto_drift_time;
-    int turn_back_time;
-    double start_x1, start_y1;
-    double end_x1, end_y1;
-    double start_x2, start_y2;
-    double end_x2, end_y2;
-    int iterations, dec_iterations;
-    double phi;
-    Matrix ROT_Z;
-
-    cgmath *pmath;
-    Ekos::Guide *guideModule;
-
-    QColor idleColor, okColor, busyColor, alertColor;
-
-    CalibrationStage calibrationStage;
-    CalibrationType  calibrationType;
-
-    QPointer<FITSView> guideFrame;
 
     Ui::rcalibrationClass ui;
 

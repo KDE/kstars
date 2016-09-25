@@ -39,6 +39,33 @@
 namespace Ekos
 {
 
+GuideInterface::GuideInterface()
+{
+    width=height=0;
+    ccdPixelSizeX=ccdPixelSizeY=mountAperture=mountFocalLength=0;
+}
+
+bool GuideInterface::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength)
+{
+    this->ccdPixelSizeX     = ccdPixelSizeX;
+    this->ccdPixelSizeY     = ccdPixelSizeY;
+    this->mountAperture     = mountAperture;
+    this->mountFocalLength  = mountFocalLength;
+
+    return true;
+}
+
+bool GuideInterface::setFrameParams(uint16_t width, uint16_t height)
+{
+    if( width <= 0 || height <= 0 )
+        return false;
+
+    this->width  = width;
+    this->height = height;
+
+    return true;
+}
+
 Guide::Guide() : QWidget()
 {
     setupUi(this);

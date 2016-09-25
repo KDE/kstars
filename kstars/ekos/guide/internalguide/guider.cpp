@@ -29,9 +29,8 @@
 
 #include "Options.h"
 
-#define DRIFT_GRAPH_WIDTH	300
-#define DRIFT_GRAPH_HEIGHT	300
-#define MAX_DITHER_RETIRES  20
+
+
 
 internalGuider::internalGuider(cgmath *mathObject, Ekos::Guide *parent)
     : QWidget(parent)
@@ -57,22 +56,6 @@ internalGuider::internalGuider(cgmath *mathObject, Ekos::Guide *parent)
         ui.comboBox_ThresholdAlg->addItem( QString( guide_square_alg[i].name ) );
 
     // connect ui
-    connect( ui.spinBox_XScale, 		SIGNAL(valueChanged(int)),	this, SLOT(onXscaleChanged(int)) );
-    connect( ui.spinBox_YScale, 		SIGNAL(valueChanged(int)),	this, SLOT(onYscaleChanged(int)) );
-    connect( ui.comboBox_ThresholdAlg, 	SIGNAL(activated(int)),    this, SLOT(onThresholdChanged(int)) );
-    connect( ui.spinBox_GuideRate, 		SIGNAL(valueChanged(double)), this, SLOT(onInfoRateChanged(double)) );
-    connect( ui.checkBox_DirRA, 		SIGNAL(stateChanged(int)), 	this, SLOT(onEnableDirRA(int)) );
-    connect( ui.checkBox_DirDEC, 		SIGNAL(stateChanged(int)), 	this, SLOT(onEnableDirDEC(int)) );
-    connect( ui.spinBox_PropGainRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
-    connect( ui.spinBox_PropGainDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
-    connect( ui.spinBox_IntGainRA, 		SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
-    connect( ui.spinBox_IntGainDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
-    connect( ui.spinBox_DerGainRA, 		SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
-    connect( ui.spinBox_DerGainDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
-    connect( ui.spinBox_MaxPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
-    connect( ui.spinBox_MaxPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
-    connect( ui.spinBox_MinPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
-    connect( ui.spinBox_MinPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
     connect( ui.rapidGuideCheck,        SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
 
     connect( ui.connectPHD2B,           SIGNAL(clicked()), this, SLOT(connectPHD2()));
@@ -92,12 +75,14 @@ internalGuider::internalGuider(cgmath *mathObject, Ekos::Guide *parent)
     pDriftOut->setAttribute( Qt::WA_NoSystemBackground, true );
     ui.frame_Graph->setAttribute( Qt::WA_NoSystemBackground, true );
 
-    drift_graph = new ScrollGraph( this, DRIFT_GRAPH_WIDTH, DRIFT_GRAPH_HEIGHT );
-    drift_graph->set_visible_ranges( DRIFT_GRAPH_WIDTH, 60 );
+
 
     pDriftOut->set_source( drift_graph->get_buffer(), NULL );
-    drift_graph->on_paint();
 
+
+    drift_graph = new ScrollGraph( this, DRIFT_GRAPH_WIDTH, DRIFT_GRAPH_HEIGHT );
+    drift_graph->set_visible_ranges( DRIFT_GRAPH_WIDTH, 60 );
+    drift_graph->on_paint();
     ui.frame_Graph->resize( DRIFT_GRAPH_WIDTH + 2*ui.frame_Graph->frameWidth(), DRIFT_GRAPH_HEIGHT + 2*ui.frame_Graph->frameWidth() );
 
     // not UI vars
@@ -544,25 +529,6 @@ void internalGuider::trackingStarSelected(int x, int y)
     starCenter.setY(y);
 
     emit newStarPosition(starCenter, true);
-
-}
-
-void internalGuider::onRapidGuideChanged(bool enable)
-{
-    if (m_isStarted)
-    {
-        guideModule->appendLogText(i18n("You must stop auto guiding before changing this setting."));
-        return;
-    }
-
-    m_useRapidGuide = enable;
-
-    if (m_useRapidGuide)
-    {
-        guideModule->appendLogText(i18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicitly enabled by the user in the CCD driver settings."));
-    }
-    else
-        guideModule->appendLogText(i18n("Rapid Guiding is disabled."));
 
 }
 

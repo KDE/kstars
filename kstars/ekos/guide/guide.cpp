@@ -20,6 +20,7 @@
 #include "Options.h"
 
 #include "internalguide/internalguider.h"
+#include "scroll_graph.h"
 #include "externalguide/phd2.h"
 
 #include "ekos/auxiliary/darklibrary.h"
@@ -32,6 +33,9 @@
 #include "guideadaptor.h"
 #include "kspaths.h"
 
+#define driftGraph_WIDTH	300
+#define driftGraph_HEIGHT	300
+#define MAX_DITHER_RETIRES  20
 #define MAX_GUIDE_STARS 10
 
 namespace Ekos
@@ -91,8 +95,13 @@ Guide::Guide() : QWidget()
     connect( spinBox_GuideRate, 		SIGNAL(valueChanged(double)), this, SLOT(onInfoRateChanged(double)) );
 
     // RA/DEC Enable directions
-    connect( checkBox_DirRA, 		SIGNAL(stateChanged(int)), 	this, SLOT(onEnableDirRA(int)) );
-    connect( checkBox_DirDEC, 		SIGNAL(stateChanged(int)), 	this, SLOT(onEnableDirDEC(int)) );
+    connect( checkBox_DirRA, SIGNAL(toggled(bool)), this, SLOT(onEnableDirRA(bool)) );
+    connect( checkBox_DirDEC, SIGNAL(toggled(bool)), this, SLOT(onEnableDirDEC(bool)) );
+
+    connect( northControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
+    connect( southControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
+    connect( westControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
+    connect( eastControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
 
     // Declination Swap
     connect(swapCheck, SIGNAL(toggled(bool)), this, SLOT(setDECSwap(bool)));
@@ -117,13 +126,19 @@ Guide::Guide() : QWidget()
     connect( spinBox_MinPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
     connect( spinBox_MinPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 
-
-
-
     // Image Filters
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
 
+    // Progress Indicator
+    pi = new QProgressIndicator(this);
+    controlLayout->addWidget(pi, 0, 1);
+
+    // Drift Graph
+    driftGraph = new ScrollGraph( this, driftGraph_WIDTH, driftGraph_HEIGHT );
+    driftGraph->set_visible_ranges( driftGraph_WIDTH, 60 );
+    driftGraph->on_paint();
+    //ui.frame_Graph->resize( driftGraph_WIDTH + 2*ui.frame_Graph->frameWidth(), driftGraph_HEIGHT + 2*ui.frame_Graph->frameWidth() );
 
 
     guiderType = static_cast<GuiderType>(Options::GuiderType());
@@ -1310,129 +1325,137 @@ void Guide::onXscaleChanged( int i )
 {
     int rx, ry;
 
-    drift_graph->get_visible_ranges( &rx, &ry );
-    drift_graph->set_visible_ranges( i*drift_graph->get_grid_N(), ry );
+    driftGraph->get_visible_ranges( &rx, &ry );
+    driftGraph->set_visible_ranges( i*driftGraph->get_grid_N(), ry );
 
     // refresh if not started
     if( state != GUIDE_GUIDING )
-        drift_graph->on_paint();
+        driftGraph->on_paint();
 }
 
 void Guide::onYscaleChanged( int i )
 {
     int rx, ry;
 
-    drift_graph->get_visible_ranges( &rx, &ry );
-    drift_graph->set_visible_ranges( rx, i*drift_graph->get_grid_N() );
+    driftGraph->get_visible_ranges( &rx, &ry );
+    driftGraph->set_visible_ranges( rx, i*driftGraph->get_grid_N() );
 
     // refresh if not started
     if( state != GUIDE_GUIDING )
-        drift_graph->on_paint();
+        driftGraph->on_paint();
 }
 
 
-void internalGuider::onThresholdChanged( int index )
+void Guide::onThresholdChanged( int index )
 {
-    if( pmath )
-        pmath->setSquareAlgorithm( index );
+    switch (guiderType)
+    {
+    case GUIDE_INTERNAL:
+        dynamic_cast<InternalGuider*>(guider)->setSquareAlgorithm(index);
+        break;
+
+    default:
+        break;
+    }
 }
 
-
-
-// params changing stuff
-void internalGuider::onInfoRateChanged( double val )
+void Guide::onInfoRateChanged( double val )
 {
-    cproc_in_params *in_params;
+    Options::setGuidingRate(val);
 
+    double gain = 0;
 
-    if( !pmath )
-        return;
+    if( val > 0.01 )
+        gain = 1000.0 / (val * 15.0);
 
-    in_params = pmath->getInputParameters();
-
-    in_params->guiding_rate = val;
-
-    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(pmath->preCalculatePropotionalGain(in_params->guiding_rate), 'f', 2 )) );
+    l_RecommendedGain->setText( i18n("P: %1", QString().setNum(gain, 'f', 2 )) );
 }
 
-
-void internalGuider::onEnableDirRA( int state )
+void Guide::onEnableDirRA(bool enable)
 {
-    cproc_in_params *in_params;
-
-    if( !pmath )
-        return;
-
-    in_params = pmath->getInputParameters();
-    in_params->enabled[GUIDE_RA] = (state == Qt::Checked);
+    Options::setEnableRAGuide(enable);
 }
 
-
-void internalGuider::onEnableDirDEC( int state )
+void Guide::onEnableDirDEC(bool enable)
 {
-    cproc_in_params *in_params;
-
-    if( !pmath )
-        return;
-
-    in_params = pmath->getInputParameters();
-    in_params->enabled[GUIDE_DEC] = (state == Qt::Checked);
+    Options::setEnableDECGuide(enable);
 }
 
-
-void internalGuider::onInputParamChanged()
+void Guide::onInputParamChanged()
 {
-    QObject *obj;
     QSpinBox *pSB;
     QDoubleSpinBox *pDSB;
-    cproc_in_params *in_params;
 
-
-    if( !pmath )
-        return;
-
-    obj = sender();
-
-    in_params = pmath->getInputParameters();
+    QObject *obj = sender();
 
     if( (pSB = dynamic_cast<QSpinBox *>(obj)) )
     {
-        if( pSB == ui.spinBox_MaxPulseRA )
-            in_params->max_pulse_length[GUIDE_RA] = pSB->value();
-        else
-            if( pSB == ui.spinBox_MaxPulseDEC )
-                in_params->max_pulse_length[GUIDE_DEC] = pSB->value();
-            else
-                if( pSB == ui.spinBox_MinPulseRA )
-                    in_params->min_pulse_length[GUIDE_RA] = pSB->value();
-                else
-                    if( pSB == ui.spinBox_MinPulseDEC )
-                        in_params->min_pulse_length[GUIDE_DEC] = pSB->value();
+        if( pSB == spinBox_MaxPulseRA )
+            Options::setRAMaximumPulse(pSB->value());
+        else if ( pSB == spinBox_MaxPulseDEC )
+            Options::setDECMaximumPulse(pSB->value());
+        else if ( pSB == spinBox_MinPulseRA )
+            Options::setRAMinimumPulse(pSB->value());
+        else if( pSB == spinBox_MinPulseDEC )
+            Options::setDECMinimumPulse(pSB->value());
     }
-    else
-        if( (pDSB = dynamic_cast<QDoubleSpinBox *>(obj)) )
-        {
-            if( pDSB == ui.spinBox_PropGainRA )
-                in_params->proportional_gain[GUIDE_RA] = pDSB->value();
-            else
-                if( pDSB == ui.spinBox_PropGainDEC )
-                    in_params->proportional_gain[GUIDE_DEC] = pDSB->value();
-                else
-                    if( pDSB == ui.spinBox_IntGainRA )
-                        in_params->integral_gain[GUIDE_RA] = pDSB->value();
-                    else
-                        if( pDSB == ui.spinBox_IntGainDEC )
-                            in_params->integral_gain[GUIDE_DEC] = pDSB->value();
-                        else
-                            if( pDSB == ui.spinBox_DerGainRA )
-                                in_params->derivative_gain[GUIDE_RA] = pDSB->value();
-                            else
-                                if( pDSB == ui.spinBox_DerGainDEC )
-                                    in_params->derivative_gain[GUIDE_DEC] = pDSB->value();
-        }
-
+    else if( (pDSB = dynamic_cast<QDoubleSpinBox *>(obj)) )
+    {
+        if( pDSB == spinBox_PropGainRA )
+            Options::setRAPropotionalGain(pDSB->value());
+        else if ( pDSB == spinBox_PropGainDEC )
+            Options::setDECPropotionalGain(pDSB->value());
+        else if ( pDSB == spinBox_IntGainRA )
+            Options::setRAIntegralGain(pDSB->value());
+        else if( pDSB == spinBox_IntGainDEC )
+            Options::setDECIntegralGain(pDSB->value());
+        else if( pDSB == spinBox_DerGainRA )
+            Options::setRADerivativeGain(pDSB->value());
+        else if( pDSB == spinBox_DerGainDEC )
+            Options::setDECDerivativeGain(pDSB->value());
+    }
 }
 
+void Guide::onControlDirectionChanged(bool enable)
+{
+    QObject *obj = sender();
+
+    if (northControlCheck == dynamic_cast<QCheckBox*>(obj))
+    {
+        Options::setEnableNorthDECGuide(enable);
+    }
+    else if (southControlCheck == dynamic_cast<QCheckBox*>(obj))
+    {
+        Options::setEnableSouthDECGuide(enable);
+    }
+    else if (westControlCheck == dynamic_cast<QCheckBox*>(obj))
+    {
+        Options::setEnableWestRAGuide(enable);
+    }
+    else if (eastControlCheck == dynamic_cast<QCheckBox*>(obj))
+    {
+        Options::setEnableEastRAGuide(enable);
+    }
+}
+
+void internalGuider::onRapidGuideChanged(bool enable)
+{
+    if (m_isStarted)
+    {
+        guideModule->appendLogText(i18n("You must stop auto guiding before changing this setting."));
+        return;
+    }
+
+    m_useRapidGuide = enable;
+
+    if (m_useRapidGuide)
+    {
+        guideModule->appendLogText(i18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicitly enabled by the user in the CCD driver settings."));
+    }
+    else
+        guideModule->appendLogText(i18n("Rapid Guiding is disabled."));
+
+}
 
 }
 
