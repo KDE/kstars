@@ -167,7 +167,7 @@ void SkyPoint::findEcliptic( const CachingDms *Obliquity, dms &EcLong, dms &EcLa
     double y = sinRA*cosOb + tanDec*sinOb;
     double ELongRad = atan2( y, cosRA );
     EcLong.setRadians( ELongRad );
-    EcLong.reduce();
+    EcLong.reduce(); // FIXME: dms::reduce() doesn't work like this!!
     EcLat.setRadians( asin( sinDec*cosOb - cosDec*sinOb*sinRA ) );
 }
 
@@ -182,7 +182,7 @@ void SkyPoint::setFromEcliptic( const CachingDms *Obliquity, const dms& EcLong, 
     double y = sinLong*cosObliq - (sinLat/cosLat)*sinObliq;
     double RARad =  atan2( y, cosLong );
     RA.setRadians( RARad );
-    RA.reduce();
+    RA.reduce(); // FIXME: dms::reduce() doesn't work like this
     Dec.setRadians( asin(sinDec) );
 }
 
@@ -220,7 +220,7 @@ void SkyPoint::precess( const KSNumbers *num ) {
 
     //Extract RA, Dec from the vector:
     RA.setUsing_atan2( v[1], v[0] );
-    RA.reduce();
+    RA.reduce(); // FIXME!!! This is useless, because dms::reduce() does not affect the dms, it returns a new dms.
     Dec.setUsing_asin( v[2] );
 }
 
@@ -503,7 +503,7 @@ void SkyPoint::Equatorial1950ToGalactic(dms &galLong, dms &galLat) {
     Dec.SinCos(sinDEC,cosDEC);
 
     galLong.setRadians( c.radians() - atan2( sina_RA, cosa_RA*sinb-tanDEC*cosb) );
-    galLong = galLong.reduce();
+    galLong = galLong.reduce(); // FIXME!!!
 
     galLat.setRadians( asin(sinDEC*sinb+cosDEC*cosb*cosa_RA) );
 }
@@ -522,7 +522,7 @@ void SkyPoint::GalacticToEquatorial1950(const dms* galLong, const dms* galLat) {
     b.SinCos(sinb,cosb);
 
     RA.setRadians(c.radians() + atan2(singLong_a,cosgLong_a*sinb-tangLat*cosb) );
-    RA = RA.reduce();
+    RA = RA.reduce(); // FIXME!!!
 
     Dec.setRadians( asin(singLat*sinb+cosgLat*cosb*cosgLong_a) );
 }
