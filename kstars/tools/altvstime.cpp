@@ -446,7 +446,7 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
     //getDate converts the user-entered local time to UT
     KStarsDateTime ut = getDate().addSecs( hour*3600.0 );
 
-    dms LST = geo->GSTtoLST( ut.gst() );
+    CachingDms LST = geo->GSTtoLST( ut.gst() );
     p->EquatorialToHorizontal( &LST, geo->lat() );
     return p->alt().Degrees();
 }
@@ -972,7 +972,7 @@ void AltVsTime::slotUpdateDateLoc() {
     KStarsDateTime today = getDate();
     KSNumbers *num = new KSNumbers( today.djd() );
     KSNumbers *oldNum = 0;
-    dms LST = geo->GSTtoLST( today.gst() );
+    CachingDms LST = geo->GSTtoLST( today.gst() );
 
     //First determine time of sunset and sunrise
     computeSunRiseSetTimes();
@@ -1278,7 +1278,7 @@ void AltVsTime::setDawnDusk()
 {
     KStarsDateTime today = getDate();
     KSNumbers num( today.djd() );
-    dms LST = geo->GSTtoLST( today.gst() );
+    CachingDms LST = geo->GSTtoLST( today.gst() );
 
     KSSun sun;
     sun.updateCoords( &num, true, geo->lat(), &LST, true );

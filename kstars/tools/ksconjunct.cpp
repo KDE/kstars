@@ -139,7 +139,7 @@ dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *O
 
   KSPlanet *m_Earth = new KSPlanet( I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
   m_Earth -> findPosition( &num );
-  dms LST(geoPlace->GSTtoLST(t.gst()));
+  CachingDms LST(geoPlace->GSTtoLST(t.gst()));
 
   KSPlanetBase* p = dynamic_cast<KSPlanetBase*>(Object1);
   if( p )

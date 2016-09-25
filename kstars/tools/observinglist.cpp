@@ -282,7 +282,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
           obj->type() == SkyObject::PLANET) && obj->mag() == 0)
     {
         KSNumbers num( dt.djd() );
-        dms LST = geo->GSTtoLST( dt.gst() );
+        CachingDms LST = geo->GSTtoLST( dt.gst() );
         obj->updateCoords(&num, true, geo->lat(), &LST, true);
     }
 

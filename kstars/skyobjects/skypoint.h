@@ -23,7 +23,7 @@
 
 #include <QList>
 
-#include "dms.h"
+#include "cachingdms.h"
 #include "kstarsdatetime.h"
 
 #define PROFILE_COORDINATE_CONVERSION true
@@ -215,6 +215,9 @@ public:
     	*@param LST pointer to the local sidereal time
     	*@param lat pointer to the geographic latitude
     	*/
+    void EquatorialToHorizontal( const CachingDms* LST, const CachingDms* lat );
+
+    // Deprecated method provided for compatibility
     void EquatorialToHorizontal( const dms* LST, const dms* lat );
 
     /** Determine the (RA, Dec) coordinates of the
@@ -261,7 +264,7 @@ public:
     	*@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
         *@param forceRecompute reapplies precession, nutation and aberration even if the time passed since the last computation is not significant.
     	*/
-    virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
+    virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const CachingDms *lat=0, const CachingDms *LST=0, bool forceRecompute = false );
 
     /**
      * @brief updateCoordsNow Shortcut for updateCoords( const KSNumbers *num, false, NULL, NULL, true)

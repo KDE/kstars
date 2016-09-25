@@ -254,7 +254,7 @@ void StarObject::initPopupMenu( KSPopupMenu *pmenu ) {
 #endif
 }
 
-void StarObject::updateCoords( const KSNumbers *num, bool , const dms*, const dms*, bool ) {
+void StarObject::updateCoords( const KSNumbers *num, bool , const CachingDms*, const CachingDms*, bool ) {
     //Correct for proper motion of stars.  Determine RA and Dec offsets.
     //Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
     //That is numerically identical to the number of arcsec per millenium, so multiply by

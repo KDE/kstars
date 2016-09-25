@@ -103,7 +103,7 @@ void KSPlanetBase::EclipticToEquatorial( const dms *Obliquity ) {
     setFromEcliptic( Obliquity, ep.longitude, ep.latitude );
 }
 
-void KSPlanetBase::updateCoords( const KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST, bool )
+void KSPlanetBase::updateCoords( const KSNumbers *num, bool includePlanets, const CachingDms *lat, const CachingDms *LST, bool )
 {
     KStarsData *kd = KStarsData::Instance();
     if ( includePlanets ) {
@@ -120,7 +120,7 @@ void KSPlanetBase::updateCoords( const KSNumbers *num, bool includePlanets, cons
     }
 }
 
-void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms *LST, const KSPlanetBase *Earth ) {
+void KSPlanetBase::findPosition( const KSNumbers *num, const CachingDms *lat, const CachingDms *LST, const KSPlanetBase *Earth ) {
     // DEBUG edit
     findGeocentricPosition( num, Earth );  //private function, reimplemented in each subclass
     findPhase();
@@ -157,7 +157,7 @@ bool KSPlanetBase::isMajorPlanet() const {
     return false;
 }
 
-void KSPlanetBase::localizeCoords( const KSNumbers *num, const dms *lat, const dms *LST ) {
+void KSPlanetBase::localizeCoords( const KSNumbers *num, const CachingDms *lat, const CachingDms *LST ) {
     //convert geocentric coordinates to local apparent coordinates (topocentric coordinates)
     dms HA, HA2; //Hour Angle, before and after correction
     double rsinp, rcosp, u, sinHA, cosHA, sinDec, cosDec, D;
