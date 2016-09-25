@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>683</width>
-    <height>457</height>
+    <width>694</width>
+    <height>513</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -15,19 +15,19 @@
     <number>1</number>
    </property>
    <property name="leftMargin">
-    <number>1</number>
+    <number>3</number>
    </property>
    <property name="topMargin">
-    <number>1</number>
+    <number>3</number>
    </property>
    <property name="rightMargin">
-    <number>1</number>
+    <number>3</number>
    </property>
    <property name="bottomMargin">
-    <number>1</number>
+    <number>3</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="mainLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_10">
      <property name="spacing">
       <number>1</number>
      </property>
@@ -82,7 +82,7 @@
             <item row="1" column="0">
              <widget class="QPushButton" name="calibrationB">
               <property name="enabled">
-               <bool>false</bool>
+               <bool>true</bool>
               </property>
               <property name="text">
                <string>Calibrate</string>
@@ -98,6 +98,9 @@
             </item>
             <item row="2" column="0">
              <widget class="QPushButton" name="guideB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>Guide</string>
               </property>
@@ -124,9 +127,6 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1" colspan="2">
-             <widget class="QComboBox" name="guiderCombo"/>
-            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_2">
               <property name="toolTip">
@@ -136,9 +136,6 @@
                <string>Via:</string>
               </property>
              </widget>
-            </item>
-            <item row="1" column="1" colspan="2">
-             <widget class="QComboBox" name="ST4Combo"/>
             </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_3">
@@ -167,6 +164,9 @@
               </property>
               <property name="text">
                <string>Bin:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
@@ -230,6 +230,12 @@
                </property>
               </item>
              </widget>
+            </item>
+            <item row="0" column="1" colspan="3">
+             <widget class="QComboBox" name="guiderCombo"/>
+            </item>
+            <item row="1" column="1" colspan="3">
+             <widget class="QComboBox" name="ST4Combo"/>
             </item>
            </layout>
           </item>
@@ -581,154 +587,217 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="rightLayout">
-       <property name="spacing">
-        <number>1</number>
-       </property>
        <item>
-        <widget class="QFrame" name="guideFrame">
+        <widget class="FITSView" name="guideView">
          <property name="minimumSize">
           <size>
-           <width>200</width>
-           <height>200</height>
+           <width>320</width>
+           <height>240</height>
           </size>
          </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+         <property name="styleSheet">
+          <string notr="true">background-color:gray;</string>
          </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+         <property name="sizeAdjustPolicy">
+          <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
          </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>462</width>
+            <height>238</height>
+           </rect>
+          </property>
+         </widget>
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <property name="spacing">
-          <number>1</number>
-         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
-          <widget class="QDockWidget" name="dockWidget">
-           <property name="minimumSize">
-            <size>
-             <width>225</width>
-             <height>247</height>
-            </size>
-           </property>
-           <property name="features">
-            <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
-           </property>
-           <property name="windowTitle">
+          <widget class="QGroupBox" name="draftGraphicsGroup">
+           <property name="title">
             <string>Drift Graphics</string>
            </property>
-           <widget class="QWidget" name="dockWidgetContents">
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <property name="spacing">
-              <number>1</number>
-             </property>
-             <property name="leftMargin">
-              <number>3</number>
-             </property>
-             <property name="topMargin">
-              <number>3</number>
-             </property>
-             <property name="rightMargin">
-              <number>3</number>
-             </property>
-             <property name="bottomMargin">
-              <number>3</number>
-             </property>
-             <item>
-              <widget class="QFrame" name="frame_Graph">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>200</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>500</width>
-                 <height>500</height>
-                </size>
-               </property>
-               <property name="baseSize">
-                <size>
-                 <width>300</width>
-                 <height>300</height>
-                </size>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_6">
-               <item>
-                <widget class="QLabel" name="l_1">
-                 <property name="text">
-                  <string>X scale(frm.)</string>
-                 </property>
-                 <property name="margin">
-                  <number>0</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="spinBox_XScale">
-                 <property name="minimum">
-                  <number>10</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="l_2">
-                 <property name="text">
-                  <string>Y scale(&quot;)</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="spinBox_YScale">
-                 <property name="minimum">
-                  <number>5</number>
-                 </property>
-                 <property name="maximum">
-                  <number>30</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>5</number>
-                 </property>
-                 <property name="value">
-                  <number>5</number>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_4">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>13</width>
-                   <height>17</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="spacing">
+             <number>1</number>
+            </property>
+            <property name="leftMargin">
+             <number>3</number>
+            </property>
+            <property name="topMargin">
+             <number>3</number>
+            </property>
+            <property name="rightMargin">
+             <number>3</number>
+            </property>
+            <property name="bottomMargin">
+             <number>3</number>
+            </property>
+            <item>
+             <widget class="QFrame" name="frame_Graph">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>200</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="sizeIncrement">
+               <size>
+                <width>50</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="baseSize">
+               <size>
+                <width>300</width>
+                <height>300</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <property name="spacing">
+               <number>1</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="RADriftLabel">
+                <property name="minimumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="RADriftEnableC">
+                <property name="text">
+                 <string>RA</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="DEDriftLabel">
+                <property name="minimumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16</width>
+                  <height>16</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="DEDriftEnableC">
+                <property name="text">
+                 <string>DE</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="l_1">
+                <property name="text">
+                 <string>X</string>
+                </property>
+                <property name="margin">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="spinBox_XScale">
+                <property name="toolTip">
+                 <string>Horizontal scale: Number of frames per division</string>
+                </property>
+                <property name="minimum">
+                 <number>10</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="l_2">
+                <property name="text">
+                 <string>Y</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="spinBox_YScale">
+                <property name="toolTip">
+                 <string>Vertical scale: Deviation in arcseconds per division</string>
+                </property>
+                <property name="minimum">
+                 <number>5</number>
+                </property>
+                <property name="maximum">
+                 <number>30</number>
+                </property>
+                <property name="singleStep">
+                 <number>5</number>
+                </property>
+                <property name="value">
+                 <number>5</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>13</width>
+                  <height>17</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
          </item>
          <item>
@@ -738,7 +807,7 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <property name="spacing">
-             <number>1</number>
+             <number>3</number>
             </property>
             <property name="leftMargin">
              <number>3</number>
@@ -757,18 +826,14 @@
               <property name="spacing">
                <number>1</number>
               </property>
-              <item row="1" column="2">
-               <widget class="QCheckBox" name="swapCheck">
-                <property name="toolTip">
-                 <string>Swap DEC direction pulses. This value is determined automatically from the calibration procedure, only override if necessary.</string>
-                </property>
-                <property name="text">
-                 <string>Swap</string>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="2">
                <widget class="QCheckBox" name="checkBox_DirDEC">
+                <property name="toolTip">
+                 <string>Guide Declination Axis</string>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">margin-left:18;</string>
+                </property>
                 <property name="text">
                  <string>DEC</string>
                 </property>
@@ -781,10 +846,83 @@
                 </property>
                </widget>
               </item>
+              <item row="1" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <property name="spacing">
+                 <number>1</number>
+                </property>
+                <item>
+                 <widget class="QCheckBox" name="eastControlCheck">
+                  <property name="toolTip">
+                   <string>East Direction Guiding</string>
+                  </property>
+                  <property name="text">
+                   <string>E</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="westControlCheck">
+                  <property name="toolTip">
+                   <string>West Direction Guiding</string>
+                  </property>
+                  <property name="text">
+                   <string>W</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
               <item row="0" column="1">
                <widget class="QCheckBox" name="checkBox_DirRA">
+                <property name="toolTip">
+                 <string>Guide Right Ascention Axis</string>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">margin-left:18;</string>
+                </property>
                 <property name="text">
                  <string>RA</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <layout class="QHBoxLayout" name="horizontalLayout_8">
+                <property name="spacing">
+                 <number>1</number>
+                </property>
+                <item>
+                 <widget class="QCheckBox" name="northControlCheck">
+                  <property name="toolTip">
+                   <string>North Direction Guiding</string>
+                  </property>
+                  <property name="text">
+                   <string>N</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="southControlCheck">
+                  <property name="toolTip">
+                   <string>South Direction Guiding</string>
+                  </property>
+                  <property name="text">
+                   <string>S</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="2">
+               <widget class="QCheckBox" name="swapCheck">
+                <property name="toolTip">
+                 <string>Swap DEC direction pulses. This value is determined automatically from the calibration procedure, only override if necessary.</string>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">margin-left:10;</string>
+                </property>
+                <property name="text">
+                 <string>Swap</string>
                 </property>
                </widget>
               </item>
@@ -986,15 +1124,18 @@
     </spacer>
    </item>
   </layout>
-  <zorder>layoutWidget</zorder>
-  <zorder>guideFrame</zorder>
-  <zorder>dockWidget</zorder>
-  <zorder>groupBox</zorder>
   <zorder>mainVerticalSpacer</zorder>
-  <zorder>frame_Graph</zorder>
   <zorder></zorder>
-  <zorder>frame_Graph</zorder>
+  <zorder>dockWidget</zorder>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FITSView</class>
+   <extends>QScrollArea</extends>
+   <header>fitsview.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -360,12 +360,6 @@ public slots:
     void setGuideDeviation(double delta_ra, double delta_dec);
 
     /**
-     * @brief setGuideDither Set whether dithering is enable/disabled in guiding module.
-     * @param enable True if dithering is enabled, false otherwise.
-     */
-    void setGuideDither(bool enable);
-
-    /**
      * @brief resumeCapture Resume capture after dither and/or focusing processes are complete.
      */
     bool resumeCapture();
@@ -530,10 +524,6 @@ private:
     // Guide Deviation
     bool deviationDetected;
     bool spikeDetected;
-
-    // Dither
-    bool guideDither;
-    //bool isAutoGuiding;
 
     // Autofocus
     bool isAutoFocus;

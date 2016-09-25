@@ -13,32 +13,34 @@
 #include <QTimer>
 #include <QtDBus/QtDBus>
 
-#include "ekos.h"
-#include "guide/common.h"
-#include "guide.h"
-#include "fitsviewer/fitscommon.h"
+#include "ekos/ekos.h"
+
 #include "indi/indistd.h"
 #include "indi/inditelescope.h"
 #include "indi/indiccd.h"
+
+#include "guide.h"
+
+
+#include "fitsviewer/fitscommon.h"
+
 #include "ui_guide.h"
 
 class QTabWidget;
-class cgmath;
-class internalCalibration;
-class internalGuider;
 class FITSData;
+class ScrollGraph;
 
 namespace Ekos
 {
 
-class PHD2;
+class GuideInterface;
 
 /**
  *@class Guide
  *@short Performs calibration and autoguiding using an ST4 port or directly via the INDI driver. Can be used with the following external guiding applications:
  * PHD2
  *@author Jasem Mutlaq
- *@version 1.2
+ *@version 1.3
  */
 class Guide : public QWidget, public Ui::Guide
 {
@@ -51,7 +53,7 @@ public:
     ~Guide();
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
-    enum GuiderProcess { GUIDE_INTERNAL, GUIDE_PHD2 };
+    enum GuiderType { GUIDE_INTERNAL, GUIDE_PHD2, GUIDE_LINGUIDER };
 
     /** @defgroup GuideDBusInterface Ekos DBus Interface - Capture Module
      * Ekos::Guide interface provides advanced scripting capabilities to calibrate and guide a mount via a CCD camera.
@@ -181,7 +183,7 @@ public:
      * Selects which guiding process to utilize for calibration & guiding.
      * @param guideProcess Either use Ekos internal guider or external PHD2 process.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuiderProcess(int guiderProcess);
+    Q_SCRIPTABLE Q_NOREPLY void setGuguiderTypent guiderProcess);
 
     /** @}*/
 
@@ -280,65 +282,81 @@ public slots:
      void setCaptureComplete();
 
 protected slots:
-        void updateCCDBin(int index);
+     void updateCCDBin(int index);
 
-        /**
+     /**
          * @brief processCCDNumber Process number properties arriving from CCD. Currently, binning changes are processed.
          * @param nvp pointer to number property.
          */
-        void processCCDNumber(INumberVectorProperty *nvp);
+     void processCCDNumber(INumberVectorProperty *nvp);
 
-        void saveDefaultGuideExposure();
+     void saveDefaultGuideExposure();
 
-        void setDefaultCCD(QString ccd);
-        void setDefaultST4(QString st4);
+     void setDefaultCCD(QString ccd);
+     void setDefaultST4(QString st4);
 
-        void updateTrackingBoxSize(int currentIndex);
+     void updateTrackingBoxSize(int currentIndex);
+
+
+     void onXscaleChanged( int i );
+     void onYscaleChanged( int i );
+     void onThresholdChanged( int i );
+     void onInfoRateChanged( double val );
+     void onEnableDirRA( int state );
+     void onEnableDirDEC( int state );
+     void onInputParamChanged();
+     void onRapidGuideChanged(bool enable);
+     void onSetDECSwap(bool enable);
 
 signals:
-        void newLog();
-        void newStatus(Ekos::GuideState status);
+    void newLog();
+    void newStatus(Ekos::GuideState status);
 
-        void newStarPixmap(QPixmap &);
-        void newProfilePixmap(QPixmap &);
+    void newStarPixmap(QPixmap &);
+    void newProfilePixmap(QPixmap &);
 
-        //void guideReady();
-        void newAxisDelta(double delta_ra, double delta_dec);
-        //void autoGuidingToggled(bool);
-        //void ditherComplete();
-        //void ditherFailed();
-        void ditherToggled(bool);
-        void guideChipUpdated(ISD::CCDChip*);
+    void newAxisDelta(double delta_ra, double delta_dec);
+    void guideChipUpdated(ISD::CCDChip*);
 
 private:
     void updateGuideParams();
     void syncTrackingBoxPosition();
 
+    // Devices
     ISD::CCD *currentCCD;
     ISD::Telescope *currentTelescope;
     ISD::ST4* ST4Driver;
     ISD::ST4* AODriver;
     ISD::ST4* GuideDriver;
 
+    // Device Containers
     QList<ISD::ST4*> ST4List;
     QList<ISD::CCD *> CCDs;
 
-    cgmath *pmath;
-    internalCalibration *calibration;
-    internalGuider *guider;
-    PHD2 *phd2;
+    // Guider process
+    GuideInterface *guider;
+    GuiderType guiderType;
 
-    bool useGuideHead;
-    bool isSuspended;
-
+    // Star
     QVector3D starCenter;
 
-    QStringList logText;
-
+    // Guide Params
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, guideDeviationRA, guideDeviationDEC;
+
+    // Rapid Guide
     bool rapidGuideReticleSet;
 
+    // State
     GuideState state;
+
+    // Drift Graph
+    ScrollGraph *driftGraph;
+
+    // Log
+    QStringList logText;
+
+    // Misc
+    bool useGuideHead;
 };
 
 }

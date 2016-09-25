@@ -19,18 +19,16 @@
 
 #include "Options.h"
 
-#include "guide/gmath.h"
-#include "guide/guider.h"
-#include "phd2.h"
+#include "internalguide/internalguider.h"
+#include "externalguide/phd2.h"
 
-#include "darklibrary.h"
+#include "ekos/auxiliary/darklibrary.h"
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitsview.h"
 
-#include "guide/rcalibration.h"
 #include "guideadaptor.h"
 #include "kspaths.h"
 
@@ -48,78 +46,112 @@ Guide::Guide() : QWidget()
 
     currentCCD = NULL;
     currentTelescope = NULL;
-    ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
-    useGuideHead = false;
-    rapidGuideReticleSet = false;
-    isSuspended = false;
     AODriver= NULL;
     GuideDriver=NULL;
-    calibration=NULL;
-    guider=NULL;
 
-    state = GUIDE_IDLE;
-
+    ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
     guideDeviationRA = guideDeviationDEC = 0;
 
+    useGuideHead = false;
+    rapidGuideReticleSet = false;
+
+    // Exposure
     exposureIN->setValue(Options::guideExposure());
     connect(exposureIN, SIGNAL(editingFinished()), this, SLOT(saveDefaultGuideExposure()));
 
+    // Guiding Box Size
     boxSizeCombo->setCurrentIndex(Options::guideSquareSizeIndex());
     connect(boxSizeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTrackingBoxSize(int)));
 
-    // TODO must develop a parent abstract GuideProcess class that is then inherited by both the internal guider and PHD2 and any additional future guiders
-    // It should provide the interface to hook its actions and results here instead of this mess.
-    pmath = new cgmath();
+    // Guider CCD Selection
+    connect(guiderCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
+    connect(guiderCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
 
-    connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
-    connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SLOT(updateGuideDriver(double,double)));
-    connect(pmath, SIGNAL(newStarPosition(QVector3D,bool)), this, SLOT(setStarPosition(QVector3D,bool)));
+    // Dark Frame Check
+    darkFrameCheck->setChecked(Options::useGuideDarkFrame());
+    connect(darkFrameCheck, SIGNAL(toggled(bool)), this, SLOT(setDarkFrameEnabled(bool)));
 
-    calibration = new internalCalibration(pmath, this);
+    // ST4 Selection
+    connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
+    connect(ST4Combo, SIGNAL(activated(QString)), this, SLOT(setDefaultST4(QString)));
 
-    connect(calibration, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
+    // Binning Combo Selection
+    connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
 
-    guider = new internalGuider(pmath, this);
+    // Drift Graph scales
+    connect( spinBox_XScale, 		SIGNAL(valueChanged(int)),	this, SLOT(onXscaleChanged(int)) );
+    connect( spinBox_YScale, 		SIGNAL(valueChanged(int)),	this, SLOT(onYscaleChanged(int)) );
 
-    connect(guider, SIGNAL(ditherToggled(bool)), this, SIGNAL(ditherToggled(bool)));
-    //connect(guider, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
-    //connect(guider, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
+
+    // MOVE THIS TO GUIDE OPTIONS
+    connect( ui.comboBox_ThresholdAlg, 	SIGNAL(activated(int)),    this, SLOT(onThresholdChanged(int)) );
+    connect( ui.rapidGuideCheck,        SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
+
+    // Guiding Rate - Advisory only
+    connect( spinBox_GuideRate, 		SIGNAL(valueChanged(double)), this, SLOT(onInfoRateChanged(double)) );
+
+    // RA/DEC Enable directions
+    connect( checkBox_DirRA, 		SIGNAL(stateChanged(int)), 	this, SLOT(onEnableDirRA(int)) );
+    connect( checkBox_DirDEC, 		SIGNAL(stateChanged(int)), 	this, SLOT(onEnableDirDEC(int)) );
+
+    // Declination Swap
+    connect(swapCheck, SIGNAL(toggled(bool)), this, SLOT(setDECSwap(bool)));
+
+    // PID Control - Propotional Gain
+    connect( spinBox_PropGainRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+    connect( spinBox_PropGainDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+
+    // PID Control - Integral Gain
+    connect( spinBox_IntGainRA, 		SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+    connect( spinBox_IntGainDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+
+    // PID Control - Derivative Gain
+    connect( spinBox_DerGainRA, 		SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+    connect( spinBox_DerGainDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+
+    // Max Pulse Duration (ms)
+    connect( spinBox_MaxPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+    connect( spinBox_MaxPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+
+    // Min Pulse Duration (ms)
+    connect( spinBox_MinPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+    connect( spinBox_MinPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
+
+
+
+
+    // Image Filters
+    foreach(QString filter, FITSViewer::filterTypes)
+        filterCombo->addItem(filter);
+
+
+
+    guiderType = static_cast<GuiderType>(Options::GuiderType());
+
+    switch (guiderType)
+    {
+    case GUIDE_INTERNAL:
+        guider= new InternalGuider();
+        break;
+
+    case GUIDE_PHD2:
+        guider = new PHD2();
+        break;
+
+
+    case GUIDE_LINGUIDER:
+        //guider = new LINGuider();
+        break;
+    }
+
+
+    state = GUIDE_IDLE;
+
     connect(guider, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
     connect(guider, SIGNAL(newProfilePixmap(QPixmap &)), this, SIGNAL(newProfilePixmap(QPixmap &)));
     connect(guider, SIGNAL(newStarPosition(QVector3D,bool)), this, SLOT(setStarPosition(QVector3D,bool)));
 
-    tabWidget->addTab(calibration, calibration->windowTitle());
-    tabWidget->addTab(guider, guider->windowTitle());
-    tabWidget->setTabEnabled(1, false);
-
-    connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
-    connect(ST4Combo, SIGNAL(activated(QString)), this, SLOT(setDefaultST4(QString)));
-
-    connect(guiderCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
-    connect(guiderCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
-
-    connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
-
-    foreach(QString filter, FITSViewer::filterTypes)
-        filterCombo->addItem(filter);
-
-    darkFrameCheck->setChecked(Options::useGuideDarkFrame());
-    connect(darkFrameCheck, SIGNAL(toggled(bool)), this, SLOT(setDarkFrameEnabled(bool)));
-
-    phd2 = new PHD2();
-
-    connect(phd2, SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
-    connect(phd2, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
-    connect(phd2, SIGNAL(newStatus(Ekos::GuideState)), guider, SLOT(toggleExternalGuideStateGUI(Ekos::GuideState)));
-
-    connect(phd2, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
-    //connect(phd2, SIGNAL(guideReady()), this, SIGNAL(guideReady()));
-    //connect(phd2, SIGNAL(autoGuidingToggled(bool)), this, SIGNAL(autoGuidingToggled(bool)));
-    //connect(phd2, SIGNAL(autoGuidingToggled(bool)), guider, SLOT(setGuideState(bool)));
-    //connect(phd2, SIGNAL(ditherComplete()), this, SIGNAL(ditherComplete()));
-
-    if (Options::usePHD2Guider())
-        phd2->connectPHD2();
+    guider->Connect();
 }
 
 Guide::~Guide()
@@ -1273,6 +1305,134 @@ bool Guide::selectAutoStar()
 
     return true;
 }
+
+void Guide::onXscaleChanged( int i )
+{
+    int rx, ry;
+
+    drift_graph->get_visible_ranges( &rx, &ry );
+    drift_graph->set_visible_ranges( i*drift_graph->get_grid_N(), ry );
+
+    // refresh if not started
+    if( state != GUIDE_GUIDING )
+        drift_graph->on_paint();
+}
+
+void Guide::onYscaleChanged( int i )
+{
+    int rx, ry;
+
+    drift_graph->get_visible_ranges( &rx, &ry );
+    drift_graph->set_visible_ranges( rx, i*drift_graph->get_grid_N() );
+
+    // refresh if not started
+    if( state != GUIDE_GUIDING )
+        drift_graph->on_paint();
+}
+
+
+void internalGuider::onThresholdChanged( int index )
+{
+    if( pmath )
+        pmath->setSquareAlgorithm( index );
+}
+
+
+
+// params changing stuff
+void internalGuider::onInfoRateChanged( double val )
+{
+    cproc_in_params *in_params;
+
+
+    if( !pmath )
+        return;
+
+    in_params = pmath->getInputParameters();
+
+    in_params->guiding_rate = val;
+
+    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(pmath->preCalculatePropotionalGain(in_params->guiding_rate), 'f', 2 )) );
+}
+
+
+void internalGuider::onEnableDirRA( int state )
+{
+    cproc_in_params *in_params;
+
+    if( !pmath )
+        return;
+
+    in_params = pmath->getInputParameters();
+    in_params->enabled[GUIDE_RA] = (state == Qt::Checked);
+}
+
+
+void internalGuider::onEnableDirDEC( int state )
+{
+    cproc_in_params *in_params;
+
+    if( !pmath )
+        return;
+
+    in_params = pmath->getInputParameters();
+    in_params->enabled[GUIDE_DEC] = (state == Qt::Checked);
+}
+
+
+void internalGuider::onInputParamChanged()
+{
+    QObject *obj;
+    QSpinBox *pSB;
+    QDoubleSpinBox *pDSB;
+    cproc_in_params *in_params;
+
+
+    if( !pmath )
+        return;
+
+    obj = sender();
+
+    in_params = pmath->getInputParameters();
+
+    if( (pSB = dynamic_cast<QSpinBox *>(obj)) )
+    {
+        if( pSB == ui.spinBox_MaxPulseRA )
+            in_params->max_pulse_length[GUIDE_RA] = pSB->value();
+        else
+            if( pSB == ui.spinBox_MaxPulseDEC )
+                in_params->max_pulse_length[GUIDE_DEC] = pSB->value();
+            else
+                if( pSB == ui.spinBox_MinPulseRA )
+                    in_params->min_pulse_length[GUIDE_RA] = pSB->value();
+                else
+                    if( pSB == ui.spinBox_MinPulseDEC )
+                        in_params->min_pulse_length[GUIDE_DEC] = pSB->value();
+    }
+    else
+        if( (pDSB = dynamic_cast<QDoubleSpinBox *>(obj)) )
+        {
+            if( pDSB == ui.spinBox_PropGainRA )
+                in_params->proportional_gain[GUIDE_RA] = pDSB->value();
+            else
+                if( pDSB == ui.spinBox_PropGainDEC )
+                    in_params->proportional_gain[GUIDE_DEC] = pDSB->value();
+                else
+                    if( pDSB == ui.spinBox_IntGainRA )
+                        in_params->integral_gain[GUIDE_RA] = pDSB->value();
+                    else
+                        if( pDSB == ui.spinBox_IntGainDEC )
+                            in_params->integral_gain[GUIDE_DEC] = pDSB->value();
+                        else
+                            if( pDSB == ui.spinBox_DerGainRA )
+                                in_params->derivative_gain[GUIDE_RA] = pDSB->value();
+                            else
+                                if( pDSB == ui.spinBox_DerGainDEC )
+                                    in_params->derivative_gain[GUIDE_DEC] = pDSB->value();
+        }
+
+}
+
 
 }
 

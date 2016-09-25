@@ -71,7 +71,7 @@ PHD2::~PHD2()
 
 }
 
-void PHD2::connectPHD2()
+void PHD2::Connect()()
 {
     if (connection == DISCONNECTED)
     {
@@ -264,7 +264,6 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             emit connected();
         }
         emit newLog(i18n("PHD2: Guiding Started."));
-        //emit autoGuidingToggled(true);
         emit newStatus(Ekos::GUIDE_GUIDING);
         break;
 
@@ -467,9 +466,8 @@ void PHD2::setEquipmentConnected(bool enable)
     sendJSONRPCRequest("set_connected", args);
 }
 
-bool PHD2::startGuiding()
+bool PHD2::guide()
 {
-
     if (connection != EQUIPMENT_CONNECTED)
     {
         emit newLog(i18n("PHD2 Error: Equipment not connected."));
@@ -493,7 +491,7 @@ bool PHD2::startGuiding()
     return true;
 }
 
-bool PHD2::stopGuiding()
+bool PHD2::stop()
 {
     if (connection != EQUIPMENT_CONNECTED)
     {
@@ -505,7 +503,7 @@ bool PHD2::stopGuiding()
    return true;
 }
 
-bool PHD2::pauseGuiding()
+bool PHD2::suspend()
 {
     if (connection != EQUIPMENT_CONNECTED)
     {
@@ -526,7 +524,7 @@ bool PHD2::pauseGuiding()
 
 }
 
-bool PHD2::resumeGuiding()
+bool PHD2::resume()
 {
     if (connection != EQUIPMENT_CONNECTED)
     {
@@ -579,11 +577,12 @@ bool PHD2::isConnected()
     return (connection >= CONNECTED);
 }
 
-void PHD2::setCCDMountParams(double ccd_pix_w, double ccd_pix_h, double mount_focal)
+void PHD2::setCCDMountParams(double ccd_pix_w, double ccd_pix_h, double mount_aperture, double mount_focal)
 {
     ccd_pixel_width = ccd_pix_w/1000.0;
     ccd_pixel_height= ccd_pix_h/1000.0;
     focal           = mount_focal;
+    aperture        = mount_aperture;
 }
 
 }

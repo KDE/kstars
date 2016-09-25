@@ -18,7 +18,7 @@
 #include "kstarsdata.h"
 #include "colorscheme.h"
 
-cscroll_graph::cscroll_graph( QWidget *own, int client_width, int client_height )
+ScrollGraph::ScrollGraph( QWidget *own, int client_width, int client_height )
 {
 	owner = own;
 
@@ -59,7 +59,7 @@ cscroll_graph::cscroll_graph( QWidget *own, int client_width, int client_height 
 
 }
 
-cscroll_graph::~cscroll_graph()
+ScrollGraph::~ScrollGraph()
 {
 	delete buffer;
 	delete [] data.line[ RA_LINE ];
@@ -67,7 +67,7 @@ cscroll_graph::~cscroll_graph()
 }
 
 
-void cscroll_graph::init_render_vars( void )
+void ScrollGraph::init_render_vars( void )
 {
 	half_buffer_size_wd = client_rect_wd / 2;
 	half_buffer_size_ht = client_rect_ht / 2;
@@ -85,7 +85,7 @@ void cscroll_graph::init_render_vars( void )
 }
 
 
-void cscroll_graph::set_visible_ranges( int rx, int ry )
+void ScrollGraph::set_visible_ranges( int rx, int ry )
 {
      if( rx >= 10*grid_N && rx < (double)data_cnt )
      {
@@ -115,20 +115,20 @@ void cscroll_graph::set_visible_ranges( int rx, int ry )
 }
 
 
-void cscroll_graph::get_visible_ranges( int *rx, int *ry )
+void ScrollGraph::get_visible_ranges( int *rx, int *ry )
 {
 	*rx = vis_range_x;
 	*ry = vis_range_y;
 }
 
 
-int cscroll_graph::get_grid_N( void )
+int ScrollGraph::get_grid_N( void )
 {
  return grid_N;
 }
 
 
-void cscroll_graph::reset_view( void )
+void ScrollGraph::reset_view( void )
 {
 
 	set_visible_ranges( client_rect_wd, 100 );
@@ -139,7 +139,7 @@ void cscroll_graph::reset_view( void )
 }
 
 
-void cscroll_graph::reset_data( void )
+void ScrollGraph::reset_data( void )
 {
 	memset( data.line[RA_LINE], 0, sizeof(double)*data_cnt );
 	memset( data.line[DEC_LINE], 0, sizeof(double)*data_cnt );
@@ -151,20 +151,20 @@ void cscroll_graph::reset_data( void )
 
 
 
-QImage *cscroll_graph::get_buffer( void )
+QImage *ScrollGraph::get_buffer( void )
 {
  return buffer;
 }
 
 
-void cscroll_graph::get_screen_size( int *sx, int *sy )
+void ScrollGraph::get_screen_size( int *sx, int *sy )
 {
 	*sx = client_rect_wd;
 	*sy = client_rect_ht;
 }
 
 
-void cscroll_graph::on_paint( void )
+void ScrollGraph::on_paint( void )
 {
 	canvas.begin( buffer );
 
@@ -179,7 +179,7 @@ void cscroll_graph::on_paint( void )
 * Main Drawing function
 *
 **************/
-void cscroll_graph::refresh( void )
+void ScrollGraph::refresh( void )
 {
  int i, j, k;
  double kx, ky, step;
@@ -331,7 +331,7 @@ void cscroll_graph::refresh( void )
 }
 
 
-void cscroll_graph::draw_grid( double kx, double )
+void ScrollGraph::draw_grid( double kx, double )
 {
  int i, x, sx, y;
  int grid_column, val;
@@ -383,7 +383,7 @@ void cscroll_graph::draw_grid( double kx, double )
 
 
 
-bool cscroll_graph::add_point( double ra, double dec )
+bool ScrollGraph::add_point( double ra, double dec )
 {
 	data_idx++;
 

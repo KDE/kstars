@@ -13,7 +13,7 @@
 #include <QAbstractSocket>
 #include <QJsonArray>
 
-#include "guide.h"
+#include "../guideinterface.h"
 
 class QTcpSocket;
 
@@ -24,9 +24,10 @@ namespace Ekos
  * @class  PHD2
  * Uses external PHD2 for guiding.
  *
- * @authro Jasem Mutlaq
+ * @author Jasem Mutlaq
+ * @version 1.1
  */
-class PHD2 : public QObject
+class PHD2 : public GuideInterface
 {
         Q_OBJECT
 
@@ -41,44 +42,24 @@ public:
     PHD2();
     ~PHD2();
 
-    void connectPHD2();
-    void disconnectPHD2();
+    void Connect() override;
+    void Disconnect() override;
 
-    bool isConnected();
-    bool isCalibrating() { return state == CALIBRATING; }
-    bool isCalibrationComplete() { return state > CALIBRATING; }
-    bool isCalibrationSuccessful() { return state >= CALIBRATION_SUCCESSFUL; }
-    bool isGuiding()     { return state == GUIDING; }
-    bool isDithering()   { return state == DITHERING; }
-
-    void setCCDMountParams(double ccd_pix_w, double ccd_pix_h, double mount_focal);
-
-    void setEquipmentConnected(bool enable);
-
-    bool startGuiding();
-    bool stopGuiding();
-    bool pauseGuiding();
-    bool resumeGuiding();
-    bool dither(double pixels);
+    bool calibrate() override;
+    bool guide() override;
+    bool stop() override;
+    bool suspend() override;
+    bool resume() override;
+    bool dither(double pixels) override;
 
 private slots:
 
     void readPHD2();
-    void displayError(QAbstractSocket::SocketError socketError);
-
-signals:
-
-    void newLog(const QString &);
-    void connected();
-    void disconnected();
-    //void ditherComplete();
-    //void ditherFailed();
-    void newAxisDelta(double delta_ra, double delta_dec);
-    //void autoGuidingToggled(bool);
-    //void guideReady();
-    void newStatus(Ekos::GuideState);
+    void displayError(QAbstractSocket::SocketError socketError);  
 
 private:
+
+    void setEquipmentConnected(bool enable);
 
     void sendJSONRPCRequest(const QString & method, const QJsonArray args = QJsonArray());
     void processJSON(const QJsonObject &jsonObj);
@@ -96,7 +77,7 @@ private:
     PHD2Connection connection;
     PHD2Event event;
 
-    double ccd_pixel_width, ccd_pixel_height, focal;
+    double ccd_pixel_width, ccd_pixel_height, aperture, focal;
 };
 
 }

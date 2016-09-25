@@ -93,8 +93,7 @@ Capture::Capture()
 
     dustCapLightEnabled = lightBoxLightEnabled = false;
 
-    //isAutoGuiding   = false;
-    guideDither     = false;
+    //isAutoGuiding   = false;    
     isAutoFocus     = false;
     autoFocusStatus = false;
     resumeAlignmentAfterFlip= false;
@@ -176,8 +175,7 @@ Capture::Capture()
     seqCurrentCount = 0;
     seqDelay = 0;
     fileHFR=0;
-    useGuideHead = false;
-    guideDither = false;
+    useGuideHead = false;    
     firstAutoFocus = true;
 
     foreach(QString filter, FITSViewer::filterTypes)
@@ -1115,7 +1113,7 @@ bool Capture::resumeSequence()
             emit suspendGuiding(false);
 
         //if (isAutoGuiding && guideDither && activeJob->getFrameType() == FRAME_LIGHT)
-        if (guideState == GUIDE_GUIDING && guideDither && activeJob->getFrameType() == FRAME_LIGHT)
+        if (guideState == GUIDE_GUIDING && Options::useDither() && activeJob->getFrameType() == FRAME_LIGHT)
         {
                 secondsLabel->setText(i18n("Dithering..."));
                 //emit exposureComplete();
@@ -1961,11 +1959,6 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             return;
         }
     }
-}
-
-void Capture::setGuideDither(bool enable)
-{
-    guideDither = enable;
 }
 
 void Capture::setFocusStatus(FocusState state)

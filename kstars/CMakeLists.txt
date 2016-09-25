@@ -177,14 +177,16 @@ if (INDI_FOUND)
                        # Guide
                        ekos/guide/guide.cpp
                        ekos/guide/guideinterface.cpp
+                       ekos/guide/scroll_graph.cpp
+                       # Internal Guide
                        ekos/guide/internalguide/common.cpp
                        ekos/guide/internalguide/gmath.cpp
                        ekos/guide/internalguide/internalguider.cpp
                        ekos/guide/internalguide/guider.cpp
                        ekos/guide/internalguide/matr.cpp
-                       ekos/guide/internalguide/rcalibration.cpp
-                       ekos/guide/internalguide/scroll_graph.cpp
+                       ekos/guide/internalguide/rcalibration.cpp                       
                        ekos/guide/internalguide/vect.cpp
+                       # External Guide
                        ekos/guide/externalguide/phd2.cpp
            )
             endif(CFITSIO_FOUND)

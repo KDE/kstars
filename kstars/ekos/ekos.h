@@ -7,10 +7,11 @@ namespace Ekos
 {
 
     // Guide States
-    static const QStringList guideStates = { I18N_NOOP("Idle"), I18N_NOOP("Calibrating"), I18N_NOOP("Calibration successful"), I18N_NOOP("Calibration error"), I18N_NOOP("Guiding"),
-                                             I18N_NOOP("Aborted"), I18N_NOOP("Suspended"), I18N_NOOP("Dithering"), I18N_NOOP("Dithering Successful"), I18N_NOOP("Dithering error")};
+    static const QStringList guideStates = { I18N_NOOP("Idle"), I18N_NOOP("Connected"), I18N_NOOP("Disconnected"), I18N_NOOP("Calibrating"), I18N_NOOP("Calibration successful"),
+                                             I18N_NOOP("Calibration error"), I18N_NOOP("Guiding"), I18N_NOOP("Aborted"), I18N_NOOP("Suspended"), I18N_NOOP("Dithering"),
+                                             I18N_NOOP("Dithering successful"), I18N_NOOP("Dithering error")};
 
-    typedef enum { GUIDE_IDLE, GUIDE_CALIBRATING, GUIDE_CALIBRATION_SUCESS, GUIDE_CALIBRATION_ERROR, GUIDE_GUIDING,
+    typedef enum { GUIDE_IDLE, GUIDE_CONNECTED, GUIDE_DISCONNECTED, GUIDE_CALIBRATING, GUIDE_CALIBRATION_SUCESS, GUIDE_CALIBRATION_ERROR, GUIDE_GUIDING,
                    GUIDE_ABORTED, GUIDE_SUSPENDED, GUIDE_DITHERING, GUIDE_DITHERING_SUCCESS, GUIDE_DITHERING_ERROR } GuideState;
 
     const QString & getGuideStatusString(GuideState state);

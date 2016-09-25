@@ -1238,7 +1238,7 @@
       <whatsthis>Log Ekos Focus Module activity.</whatsthis>
       <default>false</default>
     </entry>
-    <entry name="GuideLogging" type="Bool">
+    <entry name="Logging" type="Bool">
       <whatsthis>Log Ekos Guide Module activity.</whatsthis>
       <default>false</default>
     </entry>
@@ -1582,25 +1582,24 @@
         <label>Guider exposure duration in seconds.</label>
         <default>1.0</default>
     </entry>
-    <entry name="UseEkosGuider" type="Bool">
-        <label>Use Ekos Internal Guider Module for guiding</label>
-        <default>true</default>
-    </entry>
-    <entry name="UsePHD2Guider" type="Bool">
-        <label>Use External PHD2 Application for guiding</label>
-        <default>false</default>
-    </entry>
-    <entry name="PHD2Exec" type="String">
-        <label>PHD2 Executable</label>
-        <default>/usr/bin/phd2</default>
-    </entry>
-    <entry name="PHD2Host" type="String">
-        <label>PHD2 Event Monitoring Host name</label>
+    <entry name="GuiderType" type="UInt">
+        <label>Which guider process to utilize for guiding (0 Internal Guider, 1 PHD2, 2 lin_guider)</label>
+        <default>0</default>
+    </entry>    
+    <entry name="ExternalGuiderHost" type="String">
+        <label>Host name of external guider service</label>
         <default>localhost</default>
+    </entry>
+    <entry name="ExternalGuiderPort" type="UInt">
+        <label>Port of external guider service</label>
     </entry>
     <entry name="PHD2Port" type="UInt">
         <label>PHD2 Event Monitoring Port</label>
         <default>4400</default>
+    </entry>
+    <entry name="LINGuiderPort" type="UInt">
+        <label>Lin_guider Event Monitoring Port</label>
+        <default>59000</default>
     </entry>
     <entry name="CalibrationPulseDuration" type="UInt">
         <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>

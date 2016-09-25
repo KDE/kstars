@@ -92,7 +92,7 @@ internalGuider::internalGuider(cgmath *mathObject, Ekos::Guide *parent)
     pDriftOut->setAttribute( Qt::WA_NoSystemBackground, true );
     ui.frame_Graph->setAttribute( Qt::WA_NoSystemBackground, true );
 
-    drift_graph = new cscroll_graph( this, DRIFT_GRAPH_WIDTH, DRIFT_GRAPH_HEIGHT );
+    drift_graph = new ScrollGraph( this, DRIFT_GRAPH_WIDTH, DRIFT_GRAPH_HEIGHT );
     drift_graph->set_visible_ranges( DRIFT_GRAPH_WIDTH, 60 );
 
     pDriftOut->set_source( drift_graph->get_buffer(), NULL );
@@ -209,140 +209,6 @@ void internalGuider::setInterface( void )
 }
 
 
-void internalGuider::onXscaleChanged( int i )
-{
-    int rx, ry;
-
-    drift_graph->get_visible_ranges( &rx, &ry );
-    drift_graph->set_visible_ranges( i*drift_graph->get_grid_N(), ry );
-
-    // refresh if not started
-    if( !m_isStarted )
-    {
-        drift_graph->on_paint();
-        //		pDriftOut->update();
-    }
-
-}
-
-
-void internalGuider::onYscaleChanged( int i )
-{
-    int rx, ry;
-
-    drift_graph->get_visible_ranges( &rx, &ry );
-    drift_graph->set_visible_ranges( rx, i*drift_graph->get_grid_N() );
-
-    // refresh if not started
-    if( !m_isStarted )
-    {
-        drift_graph->on_paint();
-        //		pDriftOut->update();
-    }
-}
-
-
-void internalGuider::onThresholdChanged( int index )
-{
-    if( pmath )
-        pmath->setSquareAlgorithm( index );
-}
-
-
-
-// params changing stuff
-void internalGuider::onInfoRateChanged( double val )
-{
-    cproc_in_params *in_params;
-
-
-    if( !pmath )
-        return;
-
-    in_params = pmath->getInputParameters();
-
-    in_params->guiding_rate = val;
-
-    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(pmath->preCalculatePropotionalGain(in_params->guiding_rate), 'f', 2 )) );
-}
-
-
-void internalGuider::onEnableDirRA( int state )
-{
-    cproc_in_params *in_params;
-
-    if( !pmath )
-        return;
-
-    in_params = pmath->getInputParameters();
-    in_params->enabled[GUIDE_RA] = (state == Qt::Checked);
-}
-
-
-void internalGuider::onEnableDirDEC( int state )
-{
-    cproc_in_params *in_params;
-
-    if( !pmath )
-        return;
-
-    in_params = pmath->getInputParameters();
-    in_params->enabled[GUIDE_DEC] = (state == Qt::Checked);
-}
-
-
-void internalGuider::onInputParamChanged()
-{
-    QObject *obj;
-    QSpinBox *pSB;
-    QDoubleSpinBox *pDSB;
-    cproc_in_params *in_params;
-
-
-    if( !pmath )
-        return;
-
-    obj = sender();
-
-    in_params = pmath->getInputParameters();
-
-    if( (pSB = dynamic_cast<QSpinBox *>(obj)) )
-    {
-        if( pSB == ui.spinBox_MaxPulseRA )
-            in_params->max_pulse_length[GUIDE_RA] = pSB->value();
-        else
-            if( pSB == ui.spinBox_MaxPulseDEC )
-                in_params->max_pulse_length[GUIDE_DEC] = pSB->value();
-            else
-                if( pSB == ui.spinBox_MinPulseRA )
-                    in_params->min_pulse_length[GUIDE_RA] = pSB->value();
-                else
-                    if( pSB == ui.spinBox_MinPulseDEC )
-                        in_params->min_pulse_length[GUIDE_DEC] = pSB->value();
-    }
-    else
-        if( (pDSB = dynamic_cast<QDoubleSpinBox *>(obj)) )
-        {
-            if( pDSB == ui.spinBox_PropGainRA )
-                in_params->proportional_gain[GUIDE_RA] = pDSB->value();
-            else
-                if( pDSB == ui.spinBox_PropGainDEC )
-                    in_params->proportional_gain[GUIDE_DEC] = pDSB->value();
-                else
-                    if( pDSB == ui.spinBox_IntGainRA )
-                        in_params->integral_gain[GUIDE_RA] = pDSB->value();
-                    else
-                        if( pDSB == ui.spinBox_IntGainDEC )
-                            in_params->integral_gain[GUIDE_DEC] = pDSB->value();
-                        else
-                            if( pDSB == ui.spinBox_DerGainRA )
-                                in_params->derivative_gain[GUIDE_RA] = pDSB->value();
-                            else
-                                if( pDSB == ui.spinBox_DerGainDEC )
-                                    in_params->derivative_gain[GUIDE_DEC] = pDSB->value();
-        }
-
-}
 
 
 

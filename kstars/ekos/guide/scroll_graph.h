@@ -9,8 +9,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef CSCROLL_GRAPH_H_
-#define CSCROLL_GRAPH_H_
+#ifndef ScrollGraph_H_
+#define ScrollGraph_H_
 
 #include <QtGui>
 #include <QWidget>
@@ -28,11 +28,11 @@ typedef struct
 
 
 
-class cscroll_graph
+class ScrollGraph
 {
 public:
-	cscroll_graph( QWidget *own, int client_width, int client_height );
-	virtual ~cscroll_graph();
+    ScrollGraph( QWidget *own, int client_width, int client_height );
+    virtual ~ScrollGraph();
 	
 	QImage *get_buffer( void );
 	bool add_point( double ra, double dec );
@@ -79,4 +79,4 @@ private:
 	
 };
 
-#endif /*CSCROLL_GRAPH_H_*/
+#endif /*ScrollGraph_H_*/
