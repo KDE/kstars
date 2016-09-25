@@ -232,13 +232,13 @@ public:
     	*The ecliptic coordinates are returned as reference arguments (since
     	*they are not stored internally)
     	*/
-    void findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat );
+    void findEcliptic( const CachingDms *Obliquity, dms &EcLong, dms &EcLat );
 
     /** Set the current (RA, Dec) coordinates of the
     	*SkyPoint, given pointers to its Ecliptic (Long, Lat) coordinates, and
     	*to the current obliquity angle (the angle between the equator and ecliptic).
     	*/
-    void setFromEcliptic( const dms *Obliquity, const dms& EcLong, const dms& EcLat );
+    void setFromEcliptic( const CachingDms *Obliquity, const dms& EcLong, const dms& EcLat );
 
     /** Computes galactic coordinates from equatorial coordinates referred to
     	* epoch 1950. RA and Dec are, therefore assumed to be B1950

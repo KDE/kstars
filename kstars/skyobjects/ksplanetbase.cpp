@@ -95,11 +95,11 @@ KSPlanetBase* KSPlanetBase::createPlanet( int n ) {
     return 0;
 }
 
-void KSPlanetBase::EquatorialToEcliptic( const dms *Obliquity ) {
+void KSPlanetBase::EquatorialToEcliptic( const CachingDms *Obliquity ) {
     findEcliptic( Obliquity, ep.longitude, ep.latitude );
 }
 
-void KSPlanetBase::EclipticToEquatorial( const dms *Obliquity ) {
+void KSPlanetBase::EclipticToEquatorial( const CachingDms *Obliquity ) {
     setFromEcliptic( Obliquity, ep.longitude, ep.latitude );
 }
 

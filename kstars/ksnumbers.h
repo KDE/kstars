@@ -22,7 +22,7 @@
 
 #define NUTTERMS 63
 
-#include "dms.h"
+#include "cachingdms.h"
 
 /** @class KSNumbers
 	*
@@ -55,7 +55,7 @@ public:
     /** @return the current Obliquity (the angle of inclination between
     	*the celestial equator and the ecliptic)
     	*/
-    const dms* obliquity() const { return &Obliquity; }
+    const CachingDms* obliquity() const { return &Obliquity; }
 
     /** @return the constant of aberration (20.49 arcsec). */
     dms constAberr() const { return K; }
@@ -125,7 +125,8 @@ public:
     double vEarth(int i) const {return vearth[i];}
 
 private:
-    dms Obliquity, K, L, L0, LM, M, M0, O, P, D, MM, F;
+    CachingDms Obliquity;
+    dms K, L, L0, LM, M, M0, O, P, D, MM, F;
     dms XP, YP, ZP, XB, YB, ZB;
     double CX, SX, CY, SY, CZ, SZ;
     double CXB, SXB, CYB, SYB, CZB, SZB;

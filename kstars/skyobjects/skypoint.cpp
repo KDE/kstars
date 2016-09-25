@@ -155,7 +155,7 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
     RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
 }
 
-void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
+void SkyPoint::findEcliptic( const CachingDms *Obliquity, dms &EcLong, dms &EcLat ) {
     double sinRA, cosRA, sinOb, cosOb, sinDec, cosDec, tanDec;
     ra().SinCos( sinRA, cosRA );
     dec().SinCos( sinDec, cosDec );
@@ -169,7 +169,7 @@ void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
     EcLat.setRadians( asin( sinDec*cosOb - cosDec*sinOb*sinRA ) );
 }
 
-void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms& EcLong, const dms& EcLat ) {
+void SkyPoint::setFromEcliptic( const CachingDms *Obliquity, const dms& EcLong, const dms& EcLat ) {
     double sinLong, cosLong, sinLat, cosLat, sinObliq, cosObliq;
     EcLong.SinCos( sinLong, cosLong );
     EcLat.SinCos( sinLat, cosLat );
