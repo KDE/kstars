@@ -219,9 +219,9 @@ void SkyPoint::precess( const KSNumbers *num ) {
     }
 
     //Extract RA, Dec from the vector:
-    RA.setRadians( atan2( v[1], v[0] ) );
+    RA.setUsing_atan2( v[1], v[0] );
     RA.reduce();
-    Dec.setRadians( asin( v[2] ) );
+    Dec.setUsing_asin( v[2] );
 }
 
 SkyPoint SkyPoint::deprecess( const KSNumbers *num, long double epoch ) {
@@ -411,11 +411,11 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
     RA.setD( RA0.Degrees() );
     Dec.setD( Dec0.Degrees() );
 
-    RA.SinCos( sinRA, cosRA );
-    Dec.SinCos( sinDec, cosDec );
-
     if (jd0 == jdf)
         return;
+
+    RA.SinCos( sinRA, cosRA );
+    Dec.SinCos( sinDec, cosDec );
 
     if ( jd0 == B1950) {
         B1950ToJ2000();
