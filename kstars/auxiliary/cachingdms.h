@@ -38,6 +38,7 @@ public:
      */
     CachingDms() : dms(), m_sin( NaN::d ), m_cos( NaN::d ) {
 #ifdef COUNT_DMS_SINCOS_CALLS
+        m_cacheUsed = true;
         ++cachingdms_constructor_calls;
 #endif
     };
@@ -65,6 +66,9 @@ public:
     inline void setD( const double &x ) { dms::setD( x ); dms::SinCos( m_sin, m_cos );
 #ifdef COUNT_DMS_SINCOS_CALLS
         cachingdms_delta -= 2;
+        if( !m_cacheUsed )
+            ++cachingdms_bad_uses;
+        m_cacheUsed = false;
 #endif
     }
 
@@ -76,6 +80,9 @@ public:
     inline void setH( const double &x ) { dms::setH( x ); dms::SinCos( m_sin, m_cos );
 #ifdef COUNT_DMS_SINCOS_CALLS
         cachingdms_delta -= 2;
+        if( !m_cacheUsed )
+            ++cachingdms_bad_uses;
+        m_cacheUsed = false;
 #endif
     }
 
@@ -96,6 +103,9 @@ public:
     inline void setFromString( const QString &s, bool isDeg = true ) { dms::setFromString( s, isDeg ); dms::SinCos( m_sin, m_cos );
 #ifdef COUNT_DMS_SINCOS_CALLS
         cachingdms_delta -= 2;
+        if( !m_cacheUsed )
+            ++cachingdms_bad_uses;
+        m_cacheUsed = false;
 #endif
     }
 
@@ -105,6 +115,9 @@ public:
     inline void setRadians( const double &a ) { dms::setRadians( a ); dms::SinCos( m_sin, m_cos );
 #ifdef COUNT_DMS_SINCOS_CALLS
         cachingdms_delta -= 2;
+        if( !m_cacheUsed )
+            ++cachingdms_bad_uses;
+        m_cacheUsed = false;
 #endif
     }
 
@@ -138,6 +151,7 @@ public:
     inline void SinCos( double &s, double &c ) const { s = m_sin; c = m_cos;
 #ifdef COUNT_DMS_SINCOS_CALLS
         cachingdms_delta += 2;
+        m_cacheUsed = true;
 #endif
     }
 
@@ -149,6 +163,7 @@ public:
     inline double sin() const {
 #ifdef COUNT_DMS_SINCOS_CALLS
         ++cachingdms_delta;
+        m_cacheUsed = true;
 #endif
         return m_sin; }
 
@@ -160,6 +175,7 @@ public:
     inline double cos() const {
 #ifdef COUNT_DMS_SINCOS_CALLS
         ++cachingdms_delta;
+        m_cacheUsed = true;
 #endif
         return m_cos; }
 
@@ -190,6 +206,7 @@ private:
         : dms( degrees ), m_sin( sine ), m_cos( cosine ) {
 #ifdef COUNT_DMS_SINCOS_CALLS
         ++cachingdms_constructor_calls;
+        m_cacheUsed = false;
 #endif
             }
 
@@ -202,9 +219,12 @@ private:
     friend CachingDms operator -(const CachingDms &, const CachingDms &);
 
 #ifdef COUNT_DMS_SINCOS_CALLS
+private:
+    mutable bool m_cacheUsed;
 public:
     static unsigned long cachingdms_constructor_calls;
     static long cachingdms_delta; // difference of ( trig function calls ) - ( trig computations )
+    static unsigned long cachingdms_bad_uses;
 #endif
 };
 

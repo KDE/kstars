@@ -29,7 +29,8 @@
 
 #ifdef COUNT_DMS_SINCOS_CALLS
 unsigned long CachingDms::cachingdms_constructor_calls = 0;
-unsigned long CachingDms::cachingdms_delta = 0; // difference of ( trig function calls ) - ( trig computations )
+long CachingDms::cachingdms_delta = 0; // difference of ( trig function calls ) - ( trig computations )
+unsigned long CachingDms::cachingdms_bad_uses = 0;
 #endif
 
 CachingDms::CachingDms( const double &x ) : dms( x )
@@ -38,6 +39,7 @@ CachingDms::CachingDms( const double &x ) : dms( x )
 #ifdef COUNT_DMS_SINCOS_CALLS
     ++cachingdms_constructor_calls;
     cachingdms_delta -= 2;
+    m_cacheUsed = false;
 #endif
 }
 
@@ -47,6 +49,7 @@ CachingDms::CachingDms(const QString& s, bool isDeg) : dms( s, isDeg ) {
 #ifdef COUNT_DMS_SINCOS_CALLS
     ++cachingdms_constructor_calls;
     cachingdms_delta -= 2;
+    m_cacheUsed = false;
 #endif
 }
 
@@ -56,6 +59,7 @@ CachingDms::CachingDms(const int &d, const int &m, const int &s, const int &ms) 
 #ifdef COUNT_DMS_SINCOS_CALLS
     ++cachingdms_constructor_calls;
     cachingdms_delta -= 2;
+    m_cacheUsed = false;
 #endif
 }
 
@@ -72,6 +76,11 @@ void CachingDms::setUsing_atan2(const double & y, const double & x) {
     m_cos = x/r;
     m_sin = y/r;
 
+#ifdef COUNT_DMS_SINCOS_CALLS
+    if( !m_cacheUsed )
+        ++cachingdms_bad_uses;
+    m_cacheUsed = false;
+#endif
     // One may be tempted to do the following:
     //   dms::setRadians( atan2( y, x ) );
     //   m_cos = dms::cos();
@@ -90,6 +99,11 @@ void CachingDms::setUsing_asin(const double & sine) {
     // Note: The below is valid because in the range of asin, which is
     // [-pi/2, pi/2], cosine is always non-negative
     m_cos = std::sqrt( 1 - sine*sine );
+#ifdef COUNT_DMS_SINCOS_CALLS
+    if( !m_cacheUsed )
+        ++cachingdms_bad_uses;
+    m_cacheUsed = false;
+#endif
 }
 
 void CachingDms::setUsing_acos(const double & cosine) {
@@ -98,6 +112,11 @@ void CachingDms::setUsing_acos(const double & cosine) {
     // Note: The below is valid because in the range of acos, which is
     // [0, pi], sine is always non-negative
     m_sin = std::sqrt( 1 - cosine*cosine );
+#ifdef COUNT_DMS_SINCOS_CALLS
+    if( !m_cacheUsed )
+        ++cachingdms_bad_uses;
+    m_cacheUsed = false;
+#endif
 }
 
 CachingDms CachingDms::fromString(const QString& s, bool deg) {
@@ -116,6 +135,7 @@ CachingDms::CachingDms(const dms& angle) {
 #ifdef COUNT_DMS_SINCOS_CALLS
     ++cachingdms_constructor_calls;
     cachingdms_delta -= 2;
+    m_cacheUsed = false;
 #endif
 }
 
