@@ -268,17 +268,25 @@ void StarObject::updateCoords( const KSNumbers *num, bool , const CachingDms*, c
 
     double newRA, newDec;
 
-    getIndexCoords( num, &newRA, &newDec );
-    newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
-    setRA0( newRA );
-    setDec0( newDec );
+    bool properMotionCorrections = getIndexCoords( num, &newRA, &newDec );
+
+    // FIXME: Find a better way to do this without conditionals etc.
+    // Having the conditional is good so we can use CachingDms on RA0 and Dec0
+    if ( properMotionCorrections ) {
+        newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
+        setRA0( newRA );
+        setDec0( newDec );
+    }
 
     SkyPoint::updateCoords( num );
-    setRA0( saveRA );
-    setDec0( saveDec );
+
+    if ( properMotionCorrections ) {
+        setRA0( saveRA );
+        setDec0( saveDec );
+    }
 }
 
-void StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
+bool StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
 {
     static double pmms;
 
@@ -299,7 +307,7 @@ void StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
         // Ignore corrections
         *ra = ra0().Degrees();
         *dec = dec0().Degrees();
-        return;
+        return false;
     }
 
     double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
@@ -337,6 +345,7 @@ void StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
 
     //    *ra = ra0().Degrees() + dra;
     //    *dec = dec0().Degrees() + ddec;
+    return true;
 }
 
 void StarObject::JITupdate()

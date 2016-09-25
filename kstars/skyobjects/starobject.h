@@ -168,9 +168,10 @@ public:
      * motion correction but without precesion and its friends.  It is used
      * in StarComponent to re-index all the stars.
      *
+     * @return true if we changed the coordinates, false otherwise
      * NOTE: ra and dec both in degrees.
      */
-    void getIndexCoords( const KSNumbers *num, double *ra, double *dec );
+    bool getIndexCoords( const KSNumbers *num, double *ra, double *dec );
 
     /** @short added for JIT updates from both StarComponent and ConstellationLines */
     void JITupdate();
