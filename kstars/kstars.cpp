@@ -185,6 +185,7 @@ KStars::~KStars()
 #ifdef COUNT_DMS_SINCOS_CALLS
     qDebug() << "Constructed " << dms::dms_constructor_calls << " dms objects, of which " << dms::dms_with_sincos_called << " had trigonometric functions called on them = " << ( float( dms::dms_with_sincos_called ) / float( dms::dms_constructor_calls ) ) * 100. << "%";
     qDebug() << "Of the " << dms::trig_function_calls << " calls to sin/cos/sincos on dms objects, " << dms::redundant_trig_function_calls << " were redundant = " << ( ( float( dms::redundant_trig_function_calls ) / float( dms::trig_function_calls ) ) * 100. ) << "%";
+    qDebug() << "We had " << CachingDms::cachingdms_bad_uses << " bad uses of CachingDms in all, compared to " << CachingDms::cachingdms_constructor_calls << " constructed CachingDms objects = " << ( float( CachingDms::cachingdms_bad_uses ) / float( CachingDms::cachingdms_constructor_calls ) ) * 100. << "% bad uses";
 #endif
 
 }
