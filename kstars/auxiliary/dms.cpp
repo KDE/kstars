@@ -34,6 +34,7 @@ double dms::seconds_in_trig = 0;
 void dms::setD(const int &d, const int &m, const int &s, const int &ms) {
     D = (double)abs(d) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.;
     if (d<0) {D = -1.0*D;}
+    m_s = m_c = NaN::d;
 #ifdef COUNT_DMS_SINCOS_CALLS
     m_cosDirty = m_sinDirty = true;
 #endif
@@ -49,6 +50,7 @@ void dms::setH( const double &x ) {
 void dms::setH(const int &h, const int &m, const int &s, const int &ms) {
     D = 15.0*((double)abs(h) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.);
     if (h<0) {D = -1.0*D;}
+    m_s = m_c = NaN::d;
 #ifdef COUNT_DMS_SINCOS_CALLS
     m_cosDirty = m_sinDirty = true;
 #endif
