@@ -53,6 +53,7 @@ public:
 #ifdef COUNT_DMS_SINCOS_CALLS
         , m_sinCosCalled(false), m_sinDirty( true ), m_cosDirty( true )
 #endif
+        , m_s( NaN::d ), m_c( NaN::d )
     {
 #ifdef COUNT_DMS_SINCOS_CALLS
         ++dms_constructor_calls;
@@ -65,15 +66,16 @@ public:
      * @param s arcsecond portion of angle (int).  Defaults to zero.
      * @param ms arcsecond portion of angle (int).  Defaults to zero.
      */
-    explicit dms( const int &d, const int &m=0, const int &s=0, const int &ms=0 )
+    explicit dms( const int &d, const int &m=0, const int &s=0, const int &ms=0 ) :
 #ifdef COUNT_DMS_SINCOS_CALLS
-        : m_sinCosCalled(false), m_sinDirty( true ), m_cosDirty( true )
+    m_sinCosCalled(false), m_sinDirty( true ), m_cosDirty( true ),
 #endif
+        m_s( NaN::d ), m_c( NaN::d )
     { setD( d, m, s, ms );
 #ifdef COUNT_DMS_SINCOS_CALLS
         ++dms_constructor_calls;
 #endif
-}
+    }
 
     /** @short Construct an angle from a double value.
      *
@@ -84,6 +86,7 @@ public:
 #ifdef COUNT_DMS_SINCOS_CALLS
         , m_sinCosCalled(false), m_sinDirty( true ), m_cosDirty( true )
 #endif
+        , m_s( NaN::d ), m_c( NaN::d )
     {
 #ifdef COUNT_DMS_SINCOS_CALLS
         ++dms_constructor_calls;
@@ -103,10 +106,11 @@ public:
      * @param isDeg if true, value is in degrees; if false, value is in hours.
      * @sa setFromString()
      */
-    explicit dms( const QString &s, bool isDeg=true )
+    explicit dms( const QString &s, bool isDeg=true ) :
 #ifdef COUNT_DMS_SINCOS_CALLS
-        : m_sinCosCalled(false), m_sinDirty( true ), m_cosDirty( true )
+    m_sinCosCalled(false), m_sinDirty( true ), m_cosDirty( true ),
 #endif
+        m_s( NaN::d ), m_c( NaN::d )
     { setFromString( s, isDeg );
 #ifdef COUNT_DMS_SINCOS_CALLS
         ++dms_constructor_calls;
@@ -170,7 +174,9 @@ public:
 #ifdef COUNT_DMS_SINCOS_CALLS
         m_sinDirty = m_cosDirty = true;
 #endif
-        D = x; }
+        m_s = m_c = NaN::d;
+        D = x;
+    }
 
     /** @short Sets floating-point value of angle, in degrees.
      * 
@@ -248,15 +254,17 @@ public:
 #endif
 #ifdef PROFILE_SINCOS
         std::clock_t start, stop;
-        double s;
         start = std::clock();
-        s = ::sin(D*DegToRad);
+#endif
+        if( std::isnan( m_s ) )
+            m_s = ::sin(D*DegToRad);
+
+#ifdef PROFILE_SINCOS
         stop = std::clock();
         seconds_in_trig += double(stop - start)/double(CLOCKS_PER_SEC);
-        return s;
-#else
-        return ::sin(D*DegToRad);
 #endif
+        Q_ASSERT( !std::isnan( m_s ) );
+        return m_s;
     }
 
     /** @short Compute the Angle's Cosine.
@@ -275,15 +283,17 @@ public:
 #endif
 #ifdef PROFILE_SINCOS
         std::clock_t start, stop;
-        double c;
         start = std::clock();
-        c = ::cos(D*DegToRad);
+#endif
+        if( std::isnan( m_c ) )
+            m_c = ::cos(D*DegToRad);
+
+#ifdef PROFILE_SINCOS
         stop = std::clock();
         seconds_in_trig += double(stop - start)/double(CLOCKS_PER_SEC);
-        return c;
-#else
-        return ::cos(D*DegToRad);
 #endif
+        Q_ASSERT( !std::isnan( m_c ) );
+        return m_c;
     }
 
     /** @short Express the angle in radians.
@@ -352,6 +362,7 @@ public:
 #endif
 private:
     double D;
+    mutable double m_s, m_c; // Trigonometric functions
 #ifdef COUNT_DMS_SINCOS_CALLS
     mutable bool m_sinDirty, m_cosDirty, m_sinCosCalled;
 #endif
@@ -380,17 +391,24 @@ inline void dms::SinCos(double& s, double& c) const {
 #ifdef __GLIBC__
 #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 && !defined(__UCLIBC__))
     //GNU version
-    sincos( radians(), &s, &c );
+    if( std::isnan( m_s ) || std::isnan( m_c ) )
+        sincos( radians(), &m_s, &m_c );
 #else
     //For older GLIBC versions
-    s = ::sin( radians() );
-    c = ::cos( radians() );
+    if( std::isnan( m_s ) )
+        m_s = ::sin( radians() );
+    if( std::isnan( m_c ) )
+        m_c = ::cos( radians() );
 #endif
 #else
     //ANSI-compliant version
-    s = ::sin( radians() );
-    c = ::cos( radians() );
+    if( std::isnan( m_s ) )
+        m_s = ::sin( radians() );
+    if( std::isnan( m_c ) )
+        m_c = ::cos( radians() );
 #endif
+    s = m_s; c = m_c;
+    Q_ASSERT( !std::isnan( m_s ) && !std::isnan( m_c ) );
 
 #ifdef PROFILE_SINCOS
     stop = std::clock();
