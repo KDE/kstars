@@ -191,6 +191,11 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
     long cachingdms_bad_uses = -CachingDms::cachingdms_bad_uses;
     dms::seconds_in_trig = 0.;
 #endif
+
+#ifdef PROFILE_UPDATECOORDS
+    StarObject::updateCoordsCpuTime = 0.;
+    StarObject::starsUpdated = 0;
+#endif
     SkyMap *map = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();
     UpdateID updateID = data->updateID();
@@ -329,6 +334,10 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
     qDebug() << "Caching has prevented " << CachingDms::cachingdms_delta << " redundant trig function calls";
     qDebug() << "Bad cache uses in this draw: " << cachingdms_bad_uses;
 #endif
+#ifdef PROFILE_UPDATECOORDS
+    qDebug() << "Spent " << StarObject::updateCoordsCpuTime << " seconds updating " << StarObject::starsUpdated << " stars' coordinates (StarObject::updateCoords) for an average of " << double( StarObject::updateCoordsCpuTime )/double( StarObject::starsUpdated ) * 1.e6 << " us per star.";
+#endif
+
 #else
     Q_UNUSED(skyp)
 #endif

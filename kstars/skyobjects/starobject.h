@@ -25,6 +25,8 @@
 #include "stardata.h"
 #include "deepstardata.h"
 
+#define PROFILE_UPDATECOORDS true
+
 class KSPopupMenu;
 
 /** @class StarObject
@@ -264,6 +266,12 @@ public:
 
     quint64 updateID;
     quint64 updateNumID;
+
+#ifdef PROFILE_UPDATECOORDS
+    static double updateCoordsCpuTime;
+    static unsigned int starsUpdated;
+#endif
+
 
 protected:
     // DEBUG EDIT. For testing proper motion, uncomment this, and related blocks

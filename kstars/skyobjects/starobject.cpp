@@ -36,6 +36,13 @@
 #include "skymap.h"
 #include "ksutils.h"
 
+#ifdef PROFILE_UPDATECOORDS
+double StarObject::updateCoordsCpuTime = 0.;
+unsigned int StarObject::starsUpdated = 0;
+#include <cstdlib>
+#include <ctime>
+#endif
+
 // DEBUG EDIT. Uncomment for testing Proper Motion
 //#include "skycomponents/skymesh.h"
 // END DEBUG
@@ -263,6 +270,10 @@ void StarObject::updateCoords( const KSNumbers *num, bool , const CachingDms*, c
     // Correction:  The method below computes the proper motion before the
     // precession.  If we precessed first then the direction of the proper
     // motion correction would depend on how far we've precessed.  -jbb
+#ifdef PROFILE_UPDATECOORDS
+    std::clock_t start, stop;
+    start = std::clock();
+#endif
     double saveRA = ra0().Hours();
     double saveDec = dec0().Degrees();
 
@@ -288,6 +299,11 @@ void StarObject::updateCoords( const KSNumbers *num, bool , const CachingDms*, c
         setRA0( saveRA );
         setDec0( saveDec );
     }
+#ifdef PROFILE_UPDATECOORDS
+    stop = std::clock();
+    updateCoordsCpuTime += double( stop - start )/double( CLOCKS_PER_SEC );
+    ++starsUpdated;
+#endif
 }
 
 bool StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
