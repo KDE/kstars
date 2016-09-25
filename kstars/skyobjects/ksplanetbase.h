@@ -111,12 +111,12 @@ public:
     /** @short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)
      */
-    void EclipticToEquatorial( const dms *Obliquity );
+    void EclipticToEquatorial( const CachingDms *Obliquity );
 
     /** @short Convert Right Ascension/Declination to Ecliptic logitude/latitude.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)
      */
-    void EquatorialToEcliptic( const dms *Obliquity );
+    void EquatorialToEcliptic( const CachingDms *Obliquity );
 
     /** @return pointer to this planet's texture */
     const QImage& image() const { return m_image; }
