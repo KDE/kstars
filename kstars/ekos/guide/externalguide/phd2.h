@@ -42,8 +42,8 @@ public:
     PHD2();
     ~PHD2();
 
-    void Connect() override;
-    void Disconnect() override;
+    bool Connect() override;
+    bool Disconnect() override;
 
     bool calibrate() override;
     bool guide() override;
@@ -55,7 +55,7 @@ public:
 private slots:
 
     void readPHD2();
-    void displayError(QAbstractSocket::SocketError socketError);  
+    void displayError(QAbstractSocket::SocketError socketError);
 
 private:
 

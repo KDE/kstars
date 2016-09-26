@@ -12,14 +12,15 @@
 
 #include <QtDBus/QtDBus>
 
+#include "ekos/ekos.h"
 #include "focus.h"
-#include "capture.h"
+//#include "capture/capture.h"
 
 #include "ui_focus.h"
 
 #include "indi/indistd.h"
 #include "indi/indifocuser.h"
-
+#include "indi/indiccd.h"
 
 namespace Ekos
 {

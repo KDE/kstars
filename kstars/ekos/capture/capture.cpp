@@ -34,12 +34,12 @@
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitsview.h"
 
-#include "darklibrary.h"
-#include "ekosmanager.h"
+#include "ekos/auxiliary/darklibrary.h"
+#include "ekos/ekosmanager.h"
 #include "captureadaptor.h"
 #include "ui_calibrationoptions.h"
 
-#include "QProgressIndicator.h"
+#include "ekos/auxiliary/QProgressIndicator.h"
 
 #define INVALID_TEMPERATURE 10000
 #define INVALID_HA          10000
@@ -93,7 +93,7 @@ Capture::Capture()
 
     dustCapLightEnabled = lightBoxLightEnabled = false;
 
-    //isAutoGuiding   = false;    
+    //isAutoGuiding   = false;
     isAutoFocus     = false;
     autoFocusStatus = false;
     resumeAlignmentAfterFlip= false;
@@ -175,7 +175,7 @@ Capture::Capture()
     seqCurrentCount = 0;
     seqDelay = 0;
     fileHFR=0;
-    useGuideHead = false;    
+    useGuideHead = false;
     firstAutoFocus = true;
 
     foreach(QString filter, FITSViewer::filterTypes)
@@ -1113,7 +1113,7 @@ bool Capture::resumeSequence()
             emit suspendGuiding(false);
 
         //if (isAutoGuiding && guideDither && activeJob->getFrameType() == FRAME_LIGHT)
-        if (guideState == GUIDE_GUIDING && Options::useDither() && activeJob->getFrameType() == FRAME_LIGHT)
+        if (guideState == GUIDE_GUIDING && Options::ditherEnabled() && activeJob->getFrameType() == FRAME_LIGHT)
         {
                 secondsLabel->setText(i18n("Dithering..."));
                 //emit exposureComplete();
@@ -1406,7 +1406,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
         }
 
         //if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-        if (guideState == GUIDE_GUIDING && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        if (guideState == GUIDE_GUIDING && Options::guiderType() == 0 && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
         {
             if (Options::captureLogging())
                 qDebug() << "Capture: Autoguiding suspended until primary CCD chip completes downloading...";

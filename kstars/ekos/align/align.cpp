@@ -14,7 +14,7 @@
 #include "align.h"
 #include "dms.h"
 #include "fov.h"
-#include "darklibrary.h"
+#include "ekos/auxiliary/darklibrary.h"
 
 #include "Options.h"
 
@@ -22,7 +22,7 @@
 #include <KMessageBox>
 #include <KNotifications/KNotification>
 
-#include "QProgressIndicator.h"
+#include "ekos/auxiliary/QProgressIndicator.h"
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
 #include "indi/clientmanager.h"
@@ -32,7 +32,7 @@
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
 
-#include "ekosmanager.h"
+#include "ekos/ekosmanager.h"
 
 #include "onlineastrometryparser.h"
 #include "offlineastrometryparser.h"

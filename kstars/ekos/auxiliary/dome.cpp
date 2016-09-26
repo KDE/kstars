@@ -8,7 +8,7 @@
  */
 
 #include "dome.h"
-#include "ekosmanager.h"
+#include "ekos/ekosmanager.h"
 #include "kstars.h"
 #include "domeadaptor.h"
 

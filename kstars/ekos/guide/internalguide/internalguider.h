@@ -12,7 +12,10 @@
 #ifndef INTERNALGUIDER_H
 #define INTERNALGUIDER_H
 
+#include "matr.h"
 #include "../guideinterface.h"
+
+class cgmath;
 
 namespace Ekos
 {
@@ -28,8 +31,8 @@ public:
     InternalGuider();
     ~InternalGuider();
 
-    void Connect() override;
-    void Disconnect() override;
+    bool Connect() override { return true; }
+    bool Disconnect() override { return true; }
 
     bool calibrate() override;
     bool guide() override;
@@ -38,7 +41,7 @@ public:
     bool resume() override;
     bool dither(double pixels) override;
 
-    void setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength) override;
+    bool setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength) override;
 
     void setSquareAlgorithm( int index );
 
@@ -46,13 +49,10 @@ public:
 
     /// IMPORTED CHECK THEM ALL
 
-    void guide( void );
     bool start();
-    bool stop();
     bool abort(bool silence=false);
     void setHalfRefreshRate( bool is_half );
     bool isGuiding( void ) const;
-    void setMathObject( cgmath *math );
     void setAO(bool enable);
     void setInterface( void );
     void setImageView(FITSView *image);
@@ -64,20 +64,9 @@ public:
     void setSubFramed(bool enable) { m_isSubFramed = enable;}
     void setGuideOptions(const QString & algorithm, bool useSubFrame, bool useRapidGuide);
 
-    // Dither
-    bool isDitherChecked() { return ui.ditherCheck->isChecked(); }
-    bool dither();
-    bool isDithering() { return m_isDithering; }
-    void setDither(bool enable, double value);
-    double getDitherPixels() { return ui.ditherPixels->value(); }
-
-    setSquareAlgorithm( index );
-
     QString getAlgorithm();
     bool useSubFrame();
     bool useRapidGuide();
-
-    void setPHD2(Ekos::PHD2 *phd);
 
 public slots:
     void setDECSwap(bool enable);
@@ -125,7 +114,6 @@ private:
 
     bool is_started;
 
-    calibrationparams_t calibration_params;
     int  axis;
     int  auto_drift_time;
     int turn_back_time;
@@ -137,7 +125,6 @@ private:
     double phi;
     Matrix ROT_Z;
 
-    cgmath *pmath;
     Ekos::Guide *guideModule;
 
     QColor idleColor, okColor, busyColor, alertColor;
@@ -145,7 +132,6 @@ private:
     CalibrationStage calibrationStage;
     CalibrationType  calibrationType;
 
-    QPointer<FITSView> guideFrame;
 };
 
 }

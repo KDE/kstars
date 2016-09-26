@@ -60,9 +60,10 @@ InternalGuider::setSquareAlgorithm(int index)
     pmath->setSquareAlgorithm(index);
 }
 
-void InternalGuider::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength)
+bool InternalGuider::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength)
 {
  // TODO
+    return true;
 }
 
 

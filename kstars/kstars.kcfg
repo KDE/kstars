@@ -1233,7 +1233,7 @@ sky map.</whatsthis>
          <whatsthis>Log Ekos Focus Module activity.</whatsthis>
          <default>false</default>
       </entry>
-      <entry name="Logging" type="Bool">
+      <entry name="GuideLogging" type="Bool">
          <whatsthis>Log Ekos Guide Module activity.</whatsthis>
          <default>false</default>
       </entry>

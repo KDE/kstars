@@ -1126,7 +1126,7 @@
   <customwidget>
    <class>FITSView</class>
    <extends>QScrollArea</extends>
-   <header>fitsview.h</header>
+   <header>fitsviewer/fitsview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

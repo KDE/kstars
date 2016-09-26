@@ -16,7 +16,7 @@
 
 #include "ui_capture.h"
 
-#include "ekos.h"
+#include "ekos/ekos.h"
 #include "fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"

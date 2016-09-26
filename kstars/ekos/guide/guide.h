@@ -29,6 +29,7 @@
 class QTabWidget;
 class FITSData;
 class ScrollGraph;
+class QProgressIndicator;
 
 namespace Ekos
 {
@@ -80,25 +81,11 @@ public:
      */
     Q_SCRIPTABLE QStringList getST4Devices();
 
-    /** DBUS interface function.
-     * @return Returns true if calibraiton is in progress.
+    /**
+     * @brief getStatus Return guide module status
+     * @return state of guide module from Ekos::GuideState
      */
-    Q_SCRIPTABLE bool isCalibrating();
-
-    /** DBUS interface function.
-     * @return Returns true if calibration procedure is complete.
-     */
-    Q_SCRIPTABLE bool isCalibrationComplete();
-
-    /** DBUS interface function.
-     * @return Returns true if calibration procedure is successful.
-     */
-    Q_SCRIPTABLE bool isCalibrationSuccessful();
-
-    /** DBUS interface function.
-     * @return Returns true if autoguiding is in progress.
-     */
-    Q_SCRIPTABLE bool isGuiding();
+    Q_SCRIPTABLE uint getStatus() { return state;}
 
     /** DBUS interface function.
      * @return Returns guiding deviation from guide star in arcsecs. First elemenet is RA guiding deviation, second element is DEC guiding deviation.
@@ -212,12 +199,8 @@ public:
     void setTrackingBoxSize(int index) { boxSizeCombo->setCurrentIndex(index); }
     int getTrackingBoxSize() { return boxSizeCombo->currentText().toInt(); }
 
-    double getReticleAngle();
-
     void startRapidGuide();
     void stopRapidGuide();
-
-    static QString getStatusString(Ekos::GuideState state);
 
 public slots:
 
