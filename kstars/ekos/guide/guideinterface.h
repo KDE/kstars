@@ -42,7 +42,7 @@ public:
     virtual bool dither(double pixels) = 0;
 
     virtual bool setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength);
-    virtual bool setFrameParams(uint16_t width, uint16_t height);
+    virtual bool setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t binX, uint8_t binY);
 
 signals:
     void newLog(const QString &);
@@ -52,10 +52,11 @@ signals:
 
     void frameCaptureRequested();
 
-private:
+protected:
     Ekos::GuideState state;
     double ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength;
-    uint16_t ccdFrameWidth, ccdFrameHeight;
+    uint16_t subX, subY, subW, subH;
+    uint8_t subBinX, subBinY;
 
 };
 

@@ -152,7 +152,7 @@ Guide::Guide() : QWidget()
         break;
 
     case GUIDE_PHD2:
-        guider = new PHD2();
+        //guider = new PHD2();
         break;
 
 
@@ -385,13 +385,14 @@ void Guide::updateGuideParams()
     }
 
     binningCombo->setEnabled(targetChip->canBin());
+    int binX=1,binY=1;
     if (targetChip->canBin())
     {
         int binX,binY, maxBinX, maxBinY;
         targetChip->getBinning(&binX, &binY);
         targetChip->getMaxBin(&maxBinX, &maxBinY);
 
-        binningCombo->disconnect();
+        binningCombo->blockSignals(true);
 
         binningCombo->clear();
 
@@ -400,7 +401,7 @@ void Guide::updateGuideParams()
 
         binningCombo->setCurrentIndex(binX-1);
 
-        connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
+        binningCombo->blockSignals(false);
     }
 
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
@@ -418,7 +419,7 @@ void Guide::updateGuideParams()
         int x,y,w,h;
         if (targetChip->getFrame(&x,&y,&w,&h))
         {
-            guider->setFrameParams(w,h);
+            guider->setFrameParams(x,y,w,h, binX, binY);
             //pmath->setVideoParameters(w, h);
         }
 
@@ -1212,6 +1213,12 @@ void Guide::syncTrackingBoxPosition()
         targetImage->setTrackingBoxEnabled(true);
         targetImage->setTrackingBox(starRect);
     }
+}
+
+bool Guide::setGuideType(int type)
+{
+    // FIXME
+    return false;
 }
 
 void Guide::updateTrackingBoxSize(int currentIndex)

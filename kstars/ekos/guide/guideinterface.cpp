@@ -41,7 +41,8 @@ namespace Ekos
 
 GuideInterface::GuideInterface()
 {
-    ccdFrameWidth=ccdFrameHeight=0;
+    subX=subY=subW=subH=0;
+    subBinX=subBinY=1;
     ccdPixelSizeX=ccdPixelSizeY=mountAperture=mountFocalLength=0;
 }
 
@@ -55,13 +56,18 @@ bool GuideInterface::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY,
     return true;
 }
 
-bool GuideInterface::setFrameParams(uint16_t width, uint16_t height)
+bool GuideInterface::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t binX, uint8_t binY)
 {
-    if( width <= 0 || height <= 0 )
+    if( w <= 0 || h <= 0 )
         return false;
 
-    ccdFrameWidth  = width;
-    ccdFrameHeight = height;
+    subX = x;
+    subY = y;
+    subW = w;
+    subH = h;
+
+    subBinX = binX;
+    subBinY = binY;
 
     return true;
 }

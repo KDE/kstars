@@ -44,6 +44,12 @@ const square_alg_t guide_square_alg[] = {
     { -1, {0} }
 };
 
+// JM: Why not use QPoint?
+typedef struct
+{
+    int x, y;
+}point_t;
+
 cgmath::cgmath() : QObject()
 {
     // sys...
@@ -1061,8 +1067,7 @@ void cproc_in_params::reset( void )
     for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
     {
         enabled[k] 			 = true;
-        accum_frame_cnt[k] 	 = 1;
-        proportional_gain[k] = cgmath::preCalculatePropotionalGain( guiding_rate );
+        accum_frame_cnt[k] 	 = 1;        
         integral_gain[k] 	 = 0;
         derivative_gain[k] 	 = 0;
         max_pulse_length[k]  = 5000;

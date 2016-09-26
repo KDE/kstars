@@ -9,6 +9,8 @@
     version 2 of the License, or (at your option) any later version.
 */
 
+#include <KMessageBox>
+
 #include "internalguider.h"
 #include "gmath.h"
 
@@ -55,7 +57,32 @@ InternalGuider::~InternalGuider()
 {
 }
 
-InternalGuider::setSquareAlgorithm(int index)
+bool InternalGuider::guide()
+{
+return false;
+}
+
+bool InternalGuider::stop()
+{
+return false;
+}
+
+bool InternalGuider::suspend()
+{
+return false;
+}
+
+bool InternalGuider::resume()
+{
+return false;
+}
+
+bool InternalGuider::dither(double pixels)
+{
+return false;
+}
+
+void InternalGuider::setSquareAlgorithm(int index)
 {
     pmath->setSquareAlgorithm(index);
 }
@@ -67,9 +94,12 @@ bool InternalGuider::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY,
 }
 
 
-void InternalGuider::calibrate()
+bool InternalGuider::calibrate()
 {
 
+    //FIXME
+
+#if 0
    /* // Capture final image
     if (calibrationType == CAL_MANUAL && calibrationStage == CAL_START)
     {
@@ -102,7 +132,7 @@ void InternalGuider::calibrate()
     bool ccdInfo=true, scopeInfo=true;
     QString errMsg;
 
-    if (ccdFrameWidth == 0 || ccdFrameHeight == 0)
+    if (subW == 0 || subH == 0)
     {
         errMsg = "CCD";
         ccdInfo = false;
@@ -131,19 +161,23 @@ void InternalGuider::calibrate()
     emit newStatus(Ekos::GUIDE_CALIBRATING);
 
     // Must reset dec swap before we run any calibration procedure!
-    guideModule->setDECSwap(false);
-    pmath->setDeclinationSwapEnabled(false);
+
+    // FIXME
+    //guideModule->setDECSwap(false);
+    //pmath->setDeclinationSwapEnabled(false);
 
     pmath->setLostStar(false);
     //pmain_wnd->capture();
 
-    Options::setCalibrationPulseDuration(ui.spinBox_Pulse->value());
+    // FIXME
+    /*Options::setCalibrationPulseDuration(ui.spinBox_Pulse->value());
     Options::setUseAutoMode(ui.autoModeCheck->isChecked());
     Options::setUseTwoAxis(ui.twoAxisCheck->isChecked());
     Options::setAutoModeIterations(ui.spinBox_DriftTime->value());
     Options::setAutoStar(ui.autoStarCheck->isChecked());
     if (ui.autoStarCheck->isChecked())
         Options::setAutoSquareSize(ui.autoSquareSizeCheck->isChecked());
+        */
 
     // manual
     if( ui.autoModeCheck->checkState() != Qt::Checked )
@@ -160,13 +194,15 @@ void InternalGuider::calibrate()
     else
         calibrateRADECRecticle(true);
 
+
+ #endif
     return true;
 
 
 
 }
 
-bool internalCalibration::stopCalibration()
+bool InternalGuider::stopCalibration()
 {
     if (!pmath)
         return false;
@@ -180,13 +216,17 @@ bool internalCalibration::stopCalibration()
     return true;
 }
 
-bool internalCalibration::startCalibration()
+bool InternalGuider::startCalibration()
 {
-
+return true;
 }
 
-void internalCalibration::processCalibration()
+void InternalGuider::processCalibration()
 {
+
+    //FIXME
+
+#if 0
     //if (pmath->get_image())
     //guide_frame->setTrackingBox(QRect(pmath-> square_pos.x, square_pos.y, square_size*2, square_size*2));
     //pmath->get_image()->setTrackingBoxSize(QSize(pmath->get_square_size(), pmath->get_square_size()));
@@ -219,31 +259,42 @@ void internalCalibration::processCalibration()
         calibrateRADECRecticle(false);
         break;
     }
+
+#endif
 }
 
-bool internalCalibration::isCalibrating()
+/*bool InternalGuider::isCalibrating()
 {
     if (calibrationStage >= CAL_START)
         return true;
 
     return false;
-}
+}*/
 
-void internalCalibration::reset()
+void InternalGuider::reset()
 {
+    //FIXME
+
+#if 0
     is_started = false;
     ui.pushButton_StartCalibration->setText( i18n("Start") );
     ui.startCalibrationLED->setColor(idleColor);
     ui.progressBar->setVisible(false);
     connect(pmath->getImageView(), SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
+
+#endif
 }
 
-void internalCalibration::calibrateManualReticle( void )
+void InternalGuider::calibrateManualReticle( void )
 {
     //----- manual mode ----
     // get start point
 
     calibrationType = CAL_MANUAL;
+
+    // FIXME
+
+#if 0
 
     if( !is_started )
     {
@@ -340,10 +391,15 @@ void internalCalibration::calibrateManualReticle( void )
         reset();
 
     }
+
+#endif
 }
 
-void internalCalibration::calibrateRADECRecticle( bool ra_only )
+void InternalGuider::calibrateRADECRecticle( bool ra_only )
 {
+
+    // FIXME
+#if 0
     bool auto_term_ok = false;
 
 
@@ -699,10 +755,15 @@ void internalCalibration::calibrateRADECRecticle( bool ra_only )
 
     }
 
+#endif
 }
 
-void internalCalibration::trackingStarSelected(int x, int y)
+void InternalGuider::trackingStarSelected(int x, int y)
 {
+
+    // FIXME
+
+#if 0
     //int square_size = guide_squares[pmath->getSquareIndex()].size;
 
     pmath->setReticleParameters(x, y, ui.spinBox_ReticleAngle->value());
@@ -726,9 +787,12 @@ void internalCalibration::trackingStarSelected(int x, int y)
 
     if (ui.autoStarCheck->isChecked())
         startCalibration();
+
+#endif
 }
 
-void internalCalibration::capture()
+#if 0
+void InternalGuider::capture()
 {
     /*
     if (isCalibrating())
@@ -749,8 +813,11 @@ void internalCalibration::capture()
     }
     */
 }
+#endif
 
-bool internalCalibration::setImageView(FITSView *image)
+//FIXME
+#if 0
+bool InternalGuider::setImageView(FITSView *image)
 {
     guideFrame = image;
 
@@ -796,31 +863,37 @@ bool internalCalibration::setImageView(FITSView *image)
 
     return true;
 }
+#endif
 
-void internalCalibration::setCalibrationTwoAxis(bool enable)
+//FIXME
+
+#if 0
+void InternalGuider::setCalibrationTwoAxis(bool enable)
 {
     ui.twoAxisCheck->setChecked(enable);
 }
 
-void internalCalibration::setCalibrationAutoStar(bool enable)
+void InternalGuider::setCalibrationAutoStar(bool enable)
 {
     ui.autoStarCheck->setChecked(enable);
 }
 
-void internalCalibration::setCalibrationAutoSquareSize(bool enable)
+void InternalGuider::setCalibrationAutoSquareSize(bool enable)
 {
     ui.autoSquareSizeCheck->setChecked(enable);
 }
 
-void internalCalibration::setCalibrationPulseDuration(int pulseDuration)
+void InternalGuider::setCalibrationPulseDuration(int pulseDuration)
 {
     ui.spinBox_Pulse->setValue(pulseDuration);
 }
 
-void internalCalibration::toggleAutoSquareSize(bool enable)
+void InternalGuider::toggleAutoSquareSize(bool enable)
 {
     ui.autoSquareSizeCheck->setEnabled(enable);
 }
+
+#endif
 
 
 }

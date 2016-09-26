@@ -13,10 +13,20 @@
 #include <QWidget>
 
 #include "scroll_graph.h"
-#include "common.h"
+//#include "common.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "colorscheme.h"
+
+// define some colors
+const uint8_t DEF_BKGD_COLOR[3] 		= {0, 0, 0};
+const uint8_t DEF_RA_COLOR[3]		= {0, 255, 0};
+const uint8_t DEF_DEC_COLOR[3]		= {0, 165, 255};
+const uint8_t DEF_GRID_COLOR[3]		= {128, 128, 128};
+const uint8_t DEF_WHITE_COLOR[3]		= {255, 255, 255};
+const uint8_t DEF_GRID_FONT_COLOR[3]	= {0, 255, 128};
+
+const uint8_t DEF_SQR_OVL_COLOR[3]	= {0, 255, 0};
 
 ScrollGraph::ScrollGraph( QWidget *own, int client_width, int client_height )
 {
@@ -95,7 +105,7 @@ void ScrollGraph::set_visible_ranges( int rx, int ry )
      }
      else
      {
-         u_msg("set_visible_ranges: must be >= %d and < %d", 10*grid_N, data_cnt);
+         qWarning() << "set_visible_ranges: must be >= " << 10*grid_N << " and < " << data_cnt;
          return;
      }
 
@@ -107,7 +117,7 @@ void ScrollGraph::set_visible_ranges( int rx, int ry )
      }
      else
      {
-         u_msg("set_visible_ranges: must be >= %d and < %d", 5*grid_N, data_cnt);
+         qWarning() << "set_visible_ranges: must be >= " << 5*grid_N << " and < " << data_cnt;
          return;
      }
 

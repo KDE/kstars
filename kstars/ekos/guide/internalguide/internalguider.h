@@ -12,6 +12,11 @@
 #ifndef INTERNALGUIDER_H
 #define INTERNALGUIDER_H
 
+#include <QFile>
+#include <QPixmap>
+
+#include "fitsviewer/fitsview.h"
+
 #include "matr.h"
 #include "../guideinterface.h"
 
@@ -54,10 +59,8 @@ public:
     void setHalfRefreshRate( bool is_half );
     bool isGuiding( void ) const;
     void setAO(bool enable);
-    void setInterface( void );
-    void setImageView(FITSView *image);
-    void setReady(bool enable) { m_isReady = enable;}
-    void setTargetChip(ISD::CCDChip *chip);
+    void setInterface( void );    
+    void setReady(bool enable) { m_isReady = enable;}    
     bool isRapidGuide() { return m_useRapidGuide;}
 
     double getAOLimit();
@@ -98,11 +101,11 @@ private:
     bool first_frame, first_subframe;
     bool half_refresh_rate;
     int m_lostStarTries;
-    bool m_useRapidGuide;
-    ISD::CCDChip *targetChip;
+    bool m_useRapidGuide;    
     int fx,fy,fw,fh;
     double ret_x, ret_y, ret_angle;
     bool m_isDithering;
+
     QFile logFile;
     QPixmap profilePixmap;
 
@@ -111,6 +114,13 @@ private:
     void fillInterface( void );
     void calibrateManualReticle( void );
     void calibrateRADECRecticle( bool ra_only ); // 1 or 2-axis calibration
+
+    bool startCalibration();
+    bool stopCalibration();
+    void processCalibration();
+
+
+    void reset();
 
     bool is_started;
 
@@ -123,9 +133,7 @@ private:
     double end_x2, end_y2;
     int iterations, dec_iterations;
     double phi;
-    Matrix ROT_Z;
-
-    Ekos::Guide *guideModule;
+    Matrix ROT_Z;    
 
     QColor idleColor, okColor, busyColor, alertColor;
 

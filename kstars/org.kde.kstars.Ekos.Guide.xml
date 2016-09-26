@@ -86,9 +86,9 @@
       <arg name="value" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setGuiderProcess">
-      <arg name="guiderProcess" type="i" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    <method name="setGuideType">
+      <arg name="guideType" type="i" direction="in"/>
+      <arg type="b" direction="out"/>
     </method>
   </interface>
 </node>

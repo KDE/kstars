@@ -169,8 +169,9 @@ public:
     /** DBUS interface function.
      * Selects which guiding process to utilize for calibration & guiding.
      * @param type Type of guider process to use. 0 for internal guider, 1 for external PHD2, 2 for external lin_guider
+     * @return True if guiding is switched to the new requested type. False otherwise.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuiderType(int type);
+    Q_SCRIPTABLE Q_NOREPLY bool setGuideType(int type);
 
     /** @}*/
 
@@ -289,7 +290,10 @@ protected slots:
      void onEnableDirDEC( bool enable );
      void onInputParamChanged();
      void onRapidGuideChanged(bool enable);
-     void onSetDECSwap(bool enable);
+
+     // FIXME
+     //void onSetDECSwap(bool enable);
+
      void onControlDirectionChanged(bool enable);
 
 signals:
