@@ -25,6 +25,9 @@
 /* Qt Includes */
 
 /* STL Includes */
+#include <ctime>
+#include <cstdlib>
+#include <cstdint>
 
 TestCachingDms::TestCachingDms(): QObject()
 {
@@ -242,6 +245,55 @@ void TestCachingDms::subtractionOperator() {
     const double coscmd = std::cos( ( c - d ) * dms::DegToRad );
     QVERIFY( fabs( ds2.sin() - sincmd ) < 1e-9 );
     QVERIFY( fabs( ds2.cos() - coscmd ) < 1e-9 );
+}
+
+
+void TestCachingDms::testFailsafeUseOfBaseClassPtr() {
+    typedef union angle { double x; int64_t y; } angle;
+    const int testCases = 5000;
+    std::srand( std::time( 0 ) );
+    for ( int k = 0; k < testCases; ++k ) {
+        angle a; CachingDms _a; dms __a;
+        a.y = std::rand();
+        _a.setD( a.x );
+        __a.setD( a.x );
+        dms *d;
+        if ( rand()%10 > 5 )
+            d = &_a;
+        else
+            d = &__a;
+        angle b;
+        b.y = std::rand();
+        switch( rand()%6 ) {
+        case 0:
+            d->setD( b.x );
+            break;
+        case 1:
+            d->setH( b.x / 15. );
+            break;
+        case 2: {
+            dms x( b.x );
+            d->setD( x.degree(), x.arcmin(), x.arcsec(), x.marcsec() );
+            break;
+        }
+        case 3: {
+            dms x( b.x );
+            d->setFromString( x.toDMSString() );
+            break;
+        }
+        case 4: {
+            dms x( b.x );
+            d->setFromString( x.toHMSString(), false );
+            break;
+        }
+        case 5:
+        default:
+            d->setRadians( b.x * dms::DegToRad );
+            break;
+        }
+        QVERIFY( fabs( d->sin() - sin( b.x * dms::DegToRad ) ) < 1e-12 );
+        QVERIFY( fabs( d->cos() - cos( b.x * dms::DegToRad ) ) < 1e-12 );
+    }
 }
 
 QTEST_GUILESS_MAIN(TestCachingDms)

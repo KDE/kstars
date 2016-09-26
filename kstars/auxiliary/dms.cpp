@@ -39,13 +39,6 @@ void dms::setD(const int &d, const int &m, const int &s, const int &ms) {
 #endif
 }
 
-void dms::setH( const double &x ) {
-    setD( x*15.0 );
-#ifdef COUNT_DMS_SINCOS_CALLS
-    m_cosDirty = m_sinDirty = true;
-#endif
-}
-
 void dms::setH(const int &h, const int &m, const int &s, const int &ms) {
     D = 15.0*((double)abs(h) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.);
     if (h<0) {D = -1.0*D;}
@@ -54,12 +47,6 @@ void dms::setH(const int &h, const int &m, const int &s, const int &ms) {
 #endif
 }
 
-void dms::setRadians( const double &Rad ) {
-    setD( Rad/DegToRad );
-#ifdef COUNT_DMS_SINCOS_CALLS
-    m_cosDirty = m_sinDirty = true;
-#endif
-}
 
 bool dms::setFromString( const QString &str, bool isDeg ) {
     int d(0), m(0);
@@ -74,23 +61,23 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 
     //empty entry returns false
     if ( entry.isEmpty() ) {
-        setD( NaN::d );
+        dms::setD( NaN::d );
         return false;
     }
 
     //try parsing a simple integer
     d = entry.toInt( &checkValue );
     if ( checkValue ) {
-        if (isDeg) setD( d, 0, 0 );
-        else setH( d, 0, 0 );
+        if (isDeg) dms::setD( d, 0, 0 );
+        else dms::setH( d, 0, 0 );
         return true;
     }
 
     //try parsing a simple double
     double x = entry.toDouble( &checkValue );
     if ( checkValue ) {
-        if ( isDeg ) setD( x );
-        else setH( x );
+        if ( isDeg ) dms::setD( x );
+        else dms::setH( x );
         return true;
     }
 
@@ -104,7 +91,7 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 
     //anything with one field is invalid!
     if ( fields.count() == 1 ) {
-        setD( NaN::d );
+        dms::setD( NaN::d );
         return false;
     }
 
@@ -122,7 +109,7 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
                 fields[1] = QString::number( int(mx) );
                 fields.append( QString::number( int( 60.0*(mx - int(mx)) ) ) );
             } else {
-                setD( NaN::d );
+                dms::setD( NaN::d );
                 return false;
             }
         }
@@ -152,12 +139,12 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
         if ( negative || d<0 || m < 0 || s<0 ) { D = -1.0*D;}
 
         if (isDeg) {
-            setD( D );
+            dms::setD( D );
         } else {
-            setH( D );
+            dms::setH( D );
         }
     } else {
-        setD( NaN::d );
+        dms::setD( NaN::d );
         return false;
     }
 

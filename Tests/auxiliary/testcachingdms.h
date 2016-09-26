@@ -58,6 +58,7 @@ private slots:
    void additionOperator();
    void subtractionOperator();
    void unaryMinusOperator();
+   void testFailsafeUseOfBaseClassPtr();
 };
 
 #endif

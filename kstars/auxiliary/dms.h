@@ -69,7 +69,7 @@ public:
 #ifdef COUNT_DMS_SINCOS_CALLS
         : m_sinCosCalled(false), m_sinDirty( true ), m_cosDirty( true )
 #endif
-    { setD( d, m, s, ms );
+    { dms::setD( d, m, s, ms );
 #ifdef COUNT_DMS_SINCOS_CALLS
         ++dms_constructor_calls;
 #endif
@@ -166,7 +166,7 @@ public:
     /** Sets floating-point value of angle, in degrees.
      * @param x new angle (double)
      */
-    void setD( const double &x ) {
+    inline virtual void setD( const double &x ) {
 #ifdef COUNT_DMS_SINCOS_CALLS
         m_sinDirty = m_cosDirty = true;
 #endif
@@ -186,7 +186,7 @@ public:
      * @param s integer arcseconds portion of angle
      * @param ms integer arcseconds portion of angle
      */
-    void setD( const int &d, const int &m, const int &s, const int &ms=0 );
+    virtual void setD( const int &d, const int &m, const int &s, const int &ms=0 );
 
     /** @short Sets floating-point value of angle, in hours.
      * 
@@ -195,7 +195,13 @@ public:
      * @param x new angle, in hours (double)
      * @sa setD()
      */
-    void setH( const double &x );
+    inline virtual void setH( const double &x ) {
+        dms::setD( x*15.0 );
+#ifdef COUNT_DMS_SINCOS_CALLS
+        m_cosDirty = m_sinDirty = true;
+#endif
+    }
+
 
     /** @short Sets floating-point value of angle, in hours.
      *
@@ -209,7 +215,7 @@ public:
      * @param ms integer milliseconds portion of angle
      * @sa setD()
      */
-    void setH( const int &h, const int &m, const int &s, const int &ms=0 );
+    virtual void setH( const int &h, const int &m, const int &s, const int &ms=0 );
 
     /** @short Attempt to parse the string argument as a dms value, and set the dms object
      * accordingly.
@@ -219,7 +225,7 @@ public:
      * @return true if sting was parsed successfully.  Otherwise, set the dms value
      * to 0.0 and return false.
      */
-    bool setFromString( const QString &s, bool isDeg=true );
+    virtual bool setFromString( const QString &s, bool isDeg=true );
 
     /** @short Compute Sine and Cosine of the angle simultaneously.
      * On machines using glibc >= 2.1, calling SinCos() is somewhat faster
@@ -289,7 +295,7 @@ public:
     /** @short Express the angle in radians.
      * @return the angle in radians (double)
      */
-    double radians() const { return D*DegToRad; }
+    inline double radians() const { return D*DegToRad; }
 
     /** @short Set angle according to the argument, in radians.
      *
@@ -297,7 +303,13 @@ public:
      * with setD().
      * @param a angle in radians
      */
-    void setRadians( const double &a );
+    inline virtual void setRadians( const double &Rad ) {
+        dms::setD( Rad/DegToRad );
+#ifdef COUNT_DMS_SINCOS_CALLS
+        m_cosDirty = m_sinDirty = true;
+#endif
+    }
+
 
     /** return the equivalent angle between 0 and 360 degrees.
      * @warning does not change the value of the parent angle itself.
@@ -352,7 +364,7 @@ public:
      */
     static dms fromString(const QString & s, bool deg);
 
-    dms operator - () { return dms(-D); }
+    inline dms operator - () { return dms(-D); }
 #ifdef COUNT_DMS_SINCOS_CALLS
     static long unsigned dms_constructor_calls; // counts number of DMS constructor calls
     static long unsigned dms_with_sincos_called;

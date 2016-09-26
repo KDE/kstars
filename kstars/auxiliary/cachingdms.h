@@ -107,13 +107,14 @@ public:
      * @short Sets the angle from string
      * @note Re-implements dms::setFromString()
      */
-    inline void setFromString( const QString &s, bool isDeg = true ) { dms::setFromString( s, isDeg ); dms::SinCos( m_sin, m_cos );
+    inline bool setFromString( const QString &s, bool isDeg = true ) { bool retval = dms::setFromString( s, isDeg ); dms::SinCos( m_sin, m_cos );
 #ifdef COUNT_DMS_SINCOS_CALLS
         cachingdms_delta -= 2;
         if( !m_cacheUsed )
             ++cachingdms_bad_uses;
         m_cacheUsed = false;
 #endif
+        return retval;
     }
 
     /**
