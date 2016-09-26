@@ -304,6 +304,16 @@ public:
      */
     const dms reduce() const;
 
+    /**
+     * @short an enum defining standard angle ranges
+     */
+    enum AngleRanges { ZERO_TO_2PI, MINUSPI_TO_PI };
+
+    /**
+     * @short Reduce _this_ angle to the given range
+     */
+    void reduceToRange( enum dms::AngleRanges range );
+
     /** @return a nicely-formatted string representation of the angle
      * in degrees, arcminutes, and arcseconds.
      * @param machineReadable uses a colon separator and produces +/-dd:mm:ss format instead

@@ -267,6 +267,18 @@ dms dms::fromString(const QString &st, bool deg) {
     //	}
 }
 
+
+void dms::reduceToRange( enum dms::AngleRanges range ) {
+    switch( range ) {
+    case MINUSPI_TO_PI:
+        D -= 360. * floor( ( D + 180. ) / 360. );
+        break;
+    case ZERO_TO_2PI:
+    default:
+        D -= 360. * floor( D / 360. );
+    }
+}
+
 // M_PI is defined in math.h
 const double dms::PI = M_PI;
 const double dms::DegToRad = PI/180.0;

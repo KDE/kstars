@@ -31,6 +31,7 @@ class TestDMS: public QObject
    void explicitSexigesimalCtor();
    void angleCtor();
    void stringCtor();
+   void testReduceToRange();
 
 };
 
