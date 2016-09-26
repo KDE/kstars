@@ -59,6 +59,13 @@ public:
      */
     explicit CachingDms( const int &d, const int &m=0, const int &s=0, const int &ms=0 );
 
+#ifdef COUNT_DMS_SINCOS_CALLS
+    /**
+     * @short Destructor must count bad cache uses
+     */
+    ~CachingDms();
+#endif
+
     /**
      * @short Sets the angle in degrees supplied as a double
      * @note Re-implements dms::setD() with sine/cosine caching
@@ -195,6 +202,14 @@ public:
      * @short Casting constructor
      */
     CachingDms( const dms &angle );
+
+#ifdef COUNT_DMS_SINCOS_CALLS
+    /**
+     * Copy constructor that sets m_cacheUsed to true
+     */
+    CachingDms( const CachingDms &o );
+    CachingDms& operator =( const CachingDms &o );
+#endif
 
 private:
     double m_sin, m_cos; // Cached values

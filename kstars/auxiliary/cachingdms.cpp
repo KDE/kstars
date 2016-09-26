@@ -43,6 +43,12 @@ CachingDms::CachingDms( const double &x ) : dms( x )
 #endif
 }
 
+#ifdef COUNT_DMS_SINCOS_CALLS
+CachingDms::~CachingDms() {
+    if ( !m_cacheUsed )
+        ++cachingdms_bad_uses;
+}
+#endif
 
 CachingDms::CachingDms(const QString& s, bool isDeg) : dms( s, isDeg ) {
     dms::SinCos( m_sin, m_cos );
@@ -139,11 +145,30 @@ CachingDms::CachingDms(const dms& angle) {
 #endif
 }
 
+#ifdef COUNT_DMS_SINCOS_CALLS
+CachingDms::CachingDms( const CachingDms &o ) {
+    m_sin = o.sin();
+    m_cos = o.cos();
+    D = o.D;
+    m_cacheUsed = false;
+}
+CachingDms& CachingDms::operator =( const CachingDms &o ) {
+    if ( !m_cacheUsed )
+        ++cachingdms_bad_uses;
+    m_sin = o.sin();
+    m_cos = o.cos();
+    D = o.D;
+    m_cacheUsed = false;
+    return ( *this );
+}
+#endif
+
+
 // Makes trig identities more readable:
-#define sinA a.m_sin
-#define cosA a.m_cos
-#define sinB b.m_sin
-#define cosB b.m_cos
+#define sinA a.sin()
+#define cosA a.cos()
+#define sinB b.sin()
+#define cosB b.cos()
 
 // We use trigonometric addition / subtraction formulae to speed up
 // computation. This way, we have no trigonometric function calls at
