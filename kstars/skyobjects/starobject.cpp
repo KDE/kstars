@@ -154,8 +154,8 @@ void StarObject::init( const starData *stardata )
     setMag( stardata->mag / 100.0 );
     setRA0( ra );
     setDec0( dec );
-    setRA( ra );
-    setDec( dec );
+    setRA( ra0() );
+    setDec( dec0() );
     SpType[0] = stardata->spec_type[0];
     SpType[1] = stardata->spec_type[1];
     PM_RA = stardata->dRA / 10.0;
@@ -274,31 +274,17 @@ void StarObject::updateCoords( const KSNumbers *num, bool , const CachingDms*, c
     std::clock_t start, stop;
     start = std::clock();
 #endif
-    double saveRA = ra0().Hours();
-    double saveDec = dec0().Degrees();
+    CachingDms saveRA = ra0(), saveDec = dec0();
+    CachingDms newRA, newDec;
 
-    double newRA, newDec;
+    getIndexCoords( num, newRA, newDec );
 
-    bool properMotionCorrections = getIndexCoords( num, &newRA, &newDec );
-
-    // FIXME: Find a better way to do this without conditionals etc.
-    // Having the conditional is good so we can use CachingDms on RA0 and Dec0
-
-    // FIXME: This code is very inefficient as it destroys the
-    // sine/cosine cache and repeatedly recreates it!
-
-    if ( properMotionCorrections ) {
-        newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
-        setRA0( newRA );
-        setDec0( newDec );
-    }
-
+    setRA0( newRA );
+    setDec0( newDec );
     SkyPoint::updateCoords( num );
+    setRA0( saveRA );
+    setDec0( saveDec );
 
-    if ( properMotionCorrections ) {
-        setRA0( saveRA );
-        setDec0( saveDec );
-    }
 #ifdef PROFILE_UPDATECOORDS
     stop = std::clock();
     updateCoordsCpuTime += double( stop - start )/double( CLOCKS_PER_SEC );
@@ -306,9 +292,106 @@ void StarObject::updateCoords( const KSNumbers *num, bool , const CachingDms*, c
 #endif
 }
 
+bool StarObject::getIndexCoords( const KSNumbers *num, CachingDms &ra, CachingDms &dec )
+{
+    static double pmms;
+
+    // =================== NOTE: CODE DUPLICATION ====================
+    // If you modify this, please also modify the other getIndexCoords
+    // ===============================================================
+    //
+    // Reason for code duplication is as follows:
+    //
+    // This method is designed to use CachingDms, i.e. we know we are
+    // going to use the sine and cosine of the returned values.
+    //
+    // The other method is designed to avoid CachingDms and try to
+    // compute as little trigonometry as possible when the ra/dec has
+    // to be returned in double (used in SkyMesh::indexStar() for
+    // example)
+    //
+    // Thus, the philosophy of writing code is different. Granted, we
+    // don't need to optimize for the smaller star catalogs (which use
+    // SkyMesh::indexStar()), but it is nevertheless a good idea,
+    // given that getIndexCoords() shows up in callgrind as one of the
+    // slightly more expensive operations.
+
+    // Old, Incorrect Proper motion Computation.  We retain this in a
+    // comment because we might want to use it to come up with a
+    // linear approximation that's faster.
+    //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0().radians() ) * 3600.0 );
+    //    double ddec = pmDec() * num->julianMillenia() / 3600.0;
+
+    // Proper Motion Correction should be implemented as motion along a great
+    // circle passing through the given (ra0, dec0) in a direction of
+    // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of
+    // PM times the number of Julian millenia since J2000.0
+
+    pmms = pmMagnitudeSquared();
+
+    if( std::isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. ) {
+        // Ignore corrections
+        ra = ra0();
+        dec = dec0();
+        return false;
+    }
+
+    double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
+
+    double dir0 = ( ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() ) );  // Bearing, in radian
+
+    ( pm < 0 ) && ( pm = -pm );
+
+    double dst = (  pm * M_PI / ( 180.0 * 3600.0 ) );
+    //    double phi = M_PI / 2.0 - dec0().radians();
+
+
+    // Note: According to callgrind, dms::dms() + dms::setRadians()
+    // takes ~ 40 CPU cycles, whereas, the advantage afforded by using
+    // sincos() instead of sin() and cos() calls seems to be about 30
+    // CPU cycles.
+
+    // So it seems like it is not worth turning dir0 and dst into dms
+    // objects and using SinCos(). However, caching the values of sin
+    // and cos if we are going to reuse them avoids expensive (~120
+    // CPU cycle) recomputation!
+    CachingDms lat1, dtheta;
+    double sinDst = sin( dst ), cosDst = cos( dst );
+    lat1.setUsing_asin( dec0().sin() * cosDst + dec0().cos() * sinDst * cos( dir0 ) );
+    dtheta.setUsing_atan2( sin( dir0 ) * sinDst * dec0().cos(),
+                              cosDst - dec0().sin() * lat1.sin() );
+
+    ra = ra0() + dtheta; // Use operator + to avoid trigonometry
+    dec = lat1; // Need variable lat1 because dec may refer to dec0, so cannot construct result in-place
+
+    //    *ra = ra0().Degrees() + dra;
+    //    *dec = dec0().Degrees() + ddec;
+    return true;
+}
+
+
 bool StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
 {
     static double pmms;
+
+    // =================== NOTE: CODE DUPLICATION ====================
+    // If you modify this, please also modify the other getIndexCoords
+    // ===============================================================
+    //
+    // Reason for code duplication is as follows:
+    //
+    // This method is designed to avoid CachingDms and try to compute
+    // as little trigonometry as possible when the ra/dec has to be
+    // returned in double (used in SkyMesh::indexStar() for example)
+    //
+    // The other method is designed to use CachingDms, i.e. we know we
+    // are going to use the sine and cosine of the returned values.
+    //
+    // Thus, the philosophy of writing code is different. Granted, we
+    // don't need to optimize for the smaller star catalogs (which use
+    // SkyMesh::indexStar()), but it is nevertheless a good idea,
+    // given that getIndexCoords() shows up in callgrind as one of the
+    // slightly more expensive operations.
 
     // Old, Incorrect Proper motion Computation.  We retain this in a
     // comment because we might want to use it to come up with a
@@ -350,12 +433,11 @@ bool StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
     // and cos if we are going to reuse them avoids expensive (~120
     // CPU cycle) recomputation!
     dms lat1, dtheta;
-    double sinDec0, cosDec0, sinDst = sin( dst ), cosDst = cos( dst );
-    dec0().SinCos( sinDec0, cosDec0 );
-    lat1.setRadians( asin( sinDec0 * cosDst +
-                           cosDec0 * sinDst * cos( dir0 ) ) );
-    dtheta.setRadians( atan2( sin( dir0 ) * sinDst * cosDec0,
-                              cosDst - sinDec0 * lat1.sin() ) );
+    double sinDst = sin( dst ), cosDst = cos( dst );
+    double sinLat1 = dec0().sin() * cosDst + dec0().cos() * sinDst * cos( dir0 );
+    lat1.setRadians( asin( sinLat1 ) );
+    dtheta.setRadians( atan2( sin( dir0 ) * sinDst * dec0().cos(),
+                              cosDst - dec0().sin() * sinLat1 ) );
 
     // Using dms instead, to ensure that the numbers are in the right range.
     dms finalRA( ra0().Degrees() + dtheta.Degrees() );

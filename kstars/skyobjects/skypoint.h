@@ -105,6 +105,7 @@ public:
     	*@param r catalog Right Ascension.
     	*/
     inline void setRA0( dms r ) { RA0 = r; }
+    inline void setRA0( CachingDms r ) { RA0 = r; }
 
     /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -116,6 +117,7 @@ public:
     	*@param d catalog Declination.
     	*/
     inline void setDec0( dms d ) { Dec0 = d; }
+    inline void setDec0( CachingDms d ) { Dec0 = d; }
 
     /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -127,6 +129,7 @@ public:
     	*@param r Right Ascension.
     	*/
     inline void setRA( dms r ) { RA = r; }
+    inline void setRA( CachingDms r ) { RA = r; }
 
     /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -138,6 +141,7 @@ public:
     	*@param d Declination.
     	*/
     inline void setDec( dms d ) { Dec = d; }
+    inline void setDec( CachingDms d ) { Dec = d; }
 
     /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.

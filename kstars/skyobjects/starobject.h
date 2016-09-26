@@ -173,6 +173,7 @@ public:
      * @return true if we changed the coordinates, false otherwise
      * NOTE: ra and dec both in degrees.
      */
+    bool getIndexCoords( const KSNumbers *num, CachingDms &ra, CachingDms &dec );
     bool getIndexCoords( const KSNumbers *num, double *ra, double *dec );
 
     /** @short added for JIT updates from both StarComponent and ConstellationLines */

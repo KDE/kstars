@@ -180,10 +180,10 @@ void SkyPoint::setFromEcliptic( const CachingDms *Obliquity, const dms& EcLong, 
     double sinDec = sinLat*cosObliq + cosLat*sinObliq*sinLong;
 
     double y = sinLong*cosObliq - (sinLat/cosLat)*sinObliq;
-    double RARad =  atan2( y, cosLong );
-    RA.setRadians( RARad );
+//    double RARad =  atan2( y, cosLong );
+    RA.setUsing_atan2( y, cosLong );
     RA.reduce(); // FIXME: dms::reduce() doesn't work like this
-    Dec.setRadians( asin(sinDec) );
+    Dec.setUsing_asin( sinDec );
 }
 
 void SkyPoint::precess( const KSNumbers *num ) {
@@ -408,8 +408,8 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
     double cosRA, sinRA, cosDec, sinDec;
     double v[3], s[3];
 
-    RA.setD( RA0.Degrees() );
-    Dec.setD( Dec0.Degrees() );
+    RA = RA0;
+    Dec = Dec0; // Is this necessary?
 
     if (jd0 == jdf)
         return;
@@ -469,11 +469,11 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
                    num.p2( 2, i )*s[2];
         }
 
-        RA.setRadians( atan2( v[1],v[0] ) );
-        Dec.setRadians( asin( v[2] ) );
+        RA.setUsing_atan2( v[1], v[0] );
+        Dec.setUsing_asin( v[2] );
 
-        if (RA.Degrees() < 0.0 )
-            RA.setD( RA.Degrees() + 360.0 );
+        // FIXME: bad practice with CachingDms
+        RA.reduceToRange( dms::ZERO_TO_2PI );
 
         return;
     }
