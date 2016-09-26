@@ -64,7 +64,13 @@ public:
                                            , lastPrecessJD( J2000 )
     {}
 
-    
+    SkyPoint( const CachingDms& r, const CachingDms& d ) : RA0(r)
+                                           , Dec0(d)
+                                           , RA(r)
+                                           , Dec(d)
+                                           , lastPrecessJD( J2000 )
+    {}
+
     /** Alternate constructor using double arguments, for convenience.
      *It behaves essentially like the default constructor.
      *@param r Right Ascension, expressed as a double

@@ -266,7 +266,7 @@ void SkyPoint::nutate(const KSNumbers *num) {
 }
 
 SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ) const {
-    dms lat1, dtheta;
+    CachingDms lat1, dtheta;
 
     if( dist == 0.0 ) {
         qDebug() << "moveAway called with zero distance!";
@@ -276,19 +276,20 @@ SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ) const {
     double dst = fabs( dist * dms::DegToRad / 3600.0 ); // In radian
 
     // Compute the bearing angle w.r.t. the RA axis ("latitude")
-    dms dRA(  ra()  - from.ra()  );
-    dms dDec( dec() - from.dec() );
+    CachingDms dRA( ra()  - from.ra()  );
+    CachingDms dDec( dec() - from.dec() );
     double bearing = atan2( dRA.sin() / dRA.cos(), dDec.sin() ); // Do not use dRA = PI / 2!!
     //double bearing = atan2( dDec.radians() , dRA.radians() );
 
+
     double dir0 = (dist >= 0 ) ? bearing : bearing + dms::PI; // in radian
     dist = fabs( dist ); // in radian
+    double sinDst = sin( dst ), cosDst = cos( dst );
 
-
-    lat1.setRadians( asin( dec().sin() * cos( dst ) +
-                           dec().cos() * sin( dst ) * cos( dir0 ) ) );
-    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec().cos(),
-                              cos( dst ) - dec().sin() * lat1.sin() ) );
+    lat1.setUsing_asin( dec().sin() * cosDst +
+                           dec().cos() * sinDst * cos( dir0 ) );
+    dtheta.setUsing_atan2( sin( dir0 ) * sinDst * dec().cos(),
+                              cosDst - dec().sin() * lat1.sin() );
 
     return SkyPoint( ra() + dtheta, lat1 );
 }
