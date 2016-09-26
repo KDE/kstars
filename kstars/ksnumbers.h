@@ -70,10 +70,10 @@ public:
     inline dms sunTrueAnomaly() const { return M0; }
 
     /** @return the true solar longitude. */
-    dms sunTrueLongitude() const { return L0; }
+    inline CachingDms sunTrueLongitude() const { return L0; }
 
     /** @return the longitude of the Earth's perihelion point. */
-    dms earthPerihelionLongitude() const { return P; }
+    inline CachingDms earthPerihelionLongitude() const { return P; }
 
     /** @return eccentricity of Earth's orbit.*/
     inline double earthEccentricity() const { return e; }
@@ -122,11 +122,11 @@ public:
      */
     inline long double getJD() const { return days; }
 
-    double vEarth(int i) const {return vearth[i];}
+    inline double vEarth(int i) const {return vearth[i];}
 
 private:
-    CachingDms Obliquity;
-    dms K, L, L0, LM, M, M0, O, P, D, MM, F;
+    CachingDms Obliquity, L0, P;
+    dms K, L, LM, M, M0, O, D, MM, F;
     dms XP, YP, ZP, XB, YB, ZB;
     double CX, SX, CY, SY, CZ, SZ;
     double CXB, SXB, CYB, SYB, CZB, SZB;
