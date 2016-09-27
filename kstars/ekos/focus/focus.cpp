@@ -28,8 +28,8 @@
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
 #include "fitsviewer/fitsview.h"
-#include "ekosmanager.h"
-#include "darklibrary.h"
+#include "ekos/ekosmanager.h"
+#include "ekos/auxiliary/darklibrary.h"
 
 #include "kstars.h"
 #include "focusadaptor.h"

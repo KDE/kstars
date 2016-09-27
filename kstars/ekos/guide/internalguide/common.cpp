@@ -14,35 +14,4 @@
 #include <QMessageBox>
 #include <sys/types.h>
 
-// define some colors
-const uint8_t DEF_BKGD_COLOR[3] 		= {0, 0, 0};
-const uint8_t DEF_RA_COLOR[3]		= {0, 255, 0};
-const uint8_t DEF_DEC_COLOR[3]		= {0, 165, 255};
-const uint8_t DEF_GRID_COLOR[3]		= {128, 128, 128};
-const uint8_t DEF_WHITE_COLOR[3]		= {255, 255, 255};
-const uint8_t DEF_GRID_FONT_COLOR[3]	= {0, 255, 128};
-
-const uint8_t DEF_SQR_OVL_COLOR[3]	= {0, 255, 0};
-
-void u_msg( const char *fmt, ...)
-{
-/*
-        va_list args;
-        char buf[1024];
-
-        va_start(args, fmt);
-        int ret = vsnprintf( buf, sizeof(buf)-1, fmt, args );
-        va_end(args);
-*/
-        va_list     argptr;
-        QString     text;
-
-        va_start (argptr,fmt);
-        text.vsprintf(fmt, argptr);
-        va_end (argptr);
-
-        QMessageBox::information( NULL, "Info...", text, QMessageBox::Ok, QMessageBox::Ok );
-
-        //QMessageBox::information( this, "Info...", QString().sprintf("test = %d", 13), QMessageBox::Ok, QMessageBox::Ok );
-}
 

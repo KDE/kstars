@@ -29,6 +29,7 @@
 class QTabWidget;
 class FITSData;
 class ScrollGraph;
+class QProgressIndicator;
 
 namespace Ekos
 {
@@ -80,25 +81,11 @@ public:
      */
     Q_SCRIPTABLE QStringList getST4Devices();
 
-    /** DBUS interface function.
-     * @return Returns true if calibraiton is in progress.
+    /**
+     * @brief getStatus Return guide module status
+     * @return state of guide module from Ekos::GuideState
      */
-    Q_SCRIPTABLE bool isCalibrating();
-
-    /** DBUS interface function.
-     * @return Returns true if calibration procedure is complete.
-     */
-    Q_SCRIPTABLE bool isCalibrationComplete();
-
-    /** DBUS interface function.
-     * @return Returns true if calibration procedure is successful.
-     */
-    Q_SCRIPTABLE bool isCalibrationSuccessful();
-
-    /** DBUS interface function.
-     * @return Returns true if autoguiding is in progress.
-     */
-    Q_SCRIPTABLE bool isGuiding();
+    Q_SCRIPTABLE uint getStatus() { return state;}
 
     /** DBUS interface function.
      * @return Returns guiding deviation from guide star in arcsecs. First elemenet is RA guiding deviation, second element is DEC guiding deviation.
@@ -181,9 +168,10 @@ public:
 
     /** DBUS interface function.
      * Selects which guiding process to utilize for calibration & guiding.
-     * @param guideProcess Either use Ekos internal guider or external PHD2 process.
+     * @param type Type of guider process to use. 0 for internal guider, 1 for external PHD2, 2 for external lin_guider
+     * @return True if guiding is switched to the new requested type. False otherwise.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuguiderTypent guiderProcess);
+    Q_SCRIPTABLE Q_NOREPLY bool setGuideType(int type);
 
     /** @}*/
 
@@ -212,12 +200,8 @@ public:
     void setTrackingBoxSize(int index) { boxSizeCombo->setCurrentIndex(index); }
     int getTrackingBoxSize() { return boxSizeCombo->currentText().toInt(); }
 
-    double getReticleAngle();
-
     void startRapidGuide();
     void stopRapidGuide();
-
-    static QString getStatusString(Ekos::GuideState state);
 
 public slots:
 
@@ -302,11 +286,15 @@ protected slots:
      void onYscaleChanged( int i );
      void onThresholdChanged( int i );
      void onInfoRateChanged( double val );
-     void onEnableDirRA( int state );
-     void onEnableDirDEC( int state );
+     void onEnableDirRA( bool enable );
+     void onEnableDirDEC( bool enable );
      void onInputParamChanged();
      void onRapidGuideChanged(bool enable);
-     void onSetDECSwap(bool enable);
+
+     // FIXME
+     //void onSetDECSwap(bool enable);
+
+     void onControlDirectionChanged(bool enable);
 
 signals:
     void newLog();
@@ -357,6 +345,9 @@ private:
 
     // Misc
     bool useGuideHead;
+
+    // Progress Activity Indicator
+    QProgressIndicator *pi;
 };
 
 }

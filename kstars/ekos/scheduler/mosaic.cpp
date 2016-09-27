@@ -13,7 +13,7 @@
 #include "projections/projector.h"
 
 #include "scheduler.h"
-#include "ekosmanager.h"
+#include "ekos/ekosmanager.h"
 
 
 #include "Options.h"
@@ -279,7 +279,7 @@ void Mosaic::calculateFOV()
     Options::setCameraPixelWidth(pixelWSizeSpin->value());
     Options::setCameraPixelHeight(pixelHSizeSpin->value());
     Options::setCameraWidth(cameraWSpin->value());
-    Options::setCameraHeight(cameraHSpin->value());    
+    Options::setCameraHeight(cameraHSpin->value());
 
     // Calculate FOV in arcmins
     double fov_x = 206264.8062470963552 * cameraWSpin->value() * pixelWSizeSpin->value() / 60000.0 / focalLenSpin->value();
@@ -471,7 +471,7 @@ void Mosaic::constructMosaic()
     if (mosaicWSpin->value() > 1 || mosaicHSpin->value() > 1)
         createJobsB->setEnabled(true);
 
-    if (mosaicTile->getWidth() != mosaicWSpin->value() || mosaicTile->getHeight() != mosaicHSpin->value() || mosaicTile->getOverlap() != overlapSpin->value() || mosaicTile->getPA() != rotationSpin->value())    
+    if (mosaicTile->getWidth() != mosaicWSpin->value() || mosaicTile->getHeight() != mosaicHSpin->value() || mosaicTile->getOverlap() != overlapSpin->value() || mosaicTile->getPA() != rotationSpin->value())
     {
         if (mosaicTile->getPA() != rotationSpin->value())
             Options::setCameraRotation(rotationSpin->value());

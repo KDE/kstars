@@ -26,12 +26,12 @@
 #include "fitsviewer/fitsviewer.h"
 #include "skymap.h"
 
-#include "sequencejob.h"
-#include "darklibrary.h"
+#include "capture/sequencejob.h"
+#include "auxiliary/darklibrary.h"
 
 #include "profileeditor.h"
 #include "profileinfo.h"
-#include "QProgressIndicator.h"
+#include "auxiliary/QProgressIndicator.h"
 
 #include "indi/clientmanager.h"
 #include "indi/indielement.h"
@@ -1959,7 +1959,9 @@ void EkosManager::updateGuideStatus(Ekos::GuideState status)
     case Ekos::GUIDE_DITHERING:
         if (guidePI->isAnimated() == false)
             guidePI->startAnimation();
+        break;
 
+    default:
         break;
     }
 }

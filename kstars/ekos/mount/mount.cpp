@@ -18,7 +18,7 @@
 
 #include "mountadaptor.h"
 
-#include "ekosmanager.h"
+#include "ekos/ekosmanager.h"
 
 #include "kstars.h"
 #include "kstarsdata.h"

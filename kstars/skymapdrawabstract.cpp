@@ -54,7 +54,7 @@
 #include "indi/driverinfo.h"
 #include "indi/indistd.h"
 #include "ekos/ekosmanager.h"
-#include "ekos/align.h"
+#include "ekos/align/align.h"
 #endif
 
 bool SkyMapDrawAbstract::m_DrawLock = false;

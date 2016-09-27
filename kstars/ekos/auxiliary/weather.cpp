@@ -8,7 +8,7 @@
  */
 
 #include "weather.h"
-#include "ekosmanager.h"
+#include "ekos/ekosmanager.h"
 #include "kstars.h"
 #include "weatheradaptor.h"
 

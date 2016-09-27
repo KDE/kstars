@@ -16,14 +16,16 @@
 
 #include <config-kstars.h>
 
-#include "capture.h"
-
 #include "ui_align.h"
 
+#include "ekos/ekos.h"
+
 #include "indi/inditelescope.h"
+#include "indi/indiccd.h"
 #include "indi/indistd.h"
 
 class FOV;
+class QProgressIndicator;
 
 namespace Ekos
 {

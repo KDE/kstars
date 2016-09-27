@@ -34,8 +34,7 @@ private slots:
 
     void slotApply();
     void slotCancel();
-    void slotSelectPHD2Exec();
-    void slotCheckGuideModule();
+    //void slotCheckAlignModule();
 
 private:
     KConfigDialog *m_ConfigDialog;

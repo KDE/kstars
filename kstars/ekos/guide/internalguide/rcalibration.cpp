@@ -842,8 +842,6 @@ void internalCalibration::trackingStarSelected(int x, int y)
     pmath->setReticleParameters(x, y, ui.spinBox_ReticleAngle->value());
     //pmath->moveSquare(x-square_size/(2*pmath->getBinX()), y-square_size/(2*pmath->getBinY()));
 
-    update_reticle_pos(x, y);
-
     if (calibrationStage == CAL_FINISH)
         return;
 

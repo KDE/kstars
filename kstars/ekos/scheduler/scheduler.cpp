@@ -23,7 +23,7 @@
 
 #include "scheduleradaptor.h"
 #include "dialogs/finddialog.h"
-#include "ekosmanager.h"
+#include "ekos/ekosmanager.h"
 #include "kstars.h"
 #include "scheduler.h"
 #include "skymapcomposite.h"
@@ -3841,7 +3841,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *job)
                              // Wild guess that each in sequence auto focus takes an average of 20 seconds. It can take any where from 2 seconds to 2+ minutes.
                              sequenceEstimatedTime += jobExposureCount * 20;
                          // If we're dithering after each exposure, that's another 10-20 seconds
-                         if (Options::useDither())
+                         if (Options::ditherEnabled())
                              sequenceEstimatedTime += jobExposureCount * 15;
                      }
                  }

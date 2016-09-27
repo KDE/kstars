@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>694</width>
-    <height>513</height>
+    <width>696</width>
+    <height>508</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -42,25 +42,10 @@
           <string>Control</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
           <item>
-           <layout class="QGridLayout" name="gridLayout_5">
+           <layout class="QGridLayout" name="controlLayout">
             <property name="spacing">
-             <number>1</number>
+             <number>5</number>
             </property>
             <item row="0" column="0">
              <widget class="QPushButton" name="captureB">
@@ -69,7 +54,41 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
+            <item row="2" column="0">
+             <widget class="QPushButton" name="calibrationB">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>Calibrate</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="calibrationOptionsB">
+              <property name="text">
+               <string>Options</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QPushButton" name="guideB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Guide</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QPushButton" name="pushButton_2">
+              <property name="text">
+               <string>Options</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
              <widget class="QCheckBox" name="darkFrameCheck">
               <property name="toolTip">
                <string>Subtract dark frame. If no dark frame is available, a new dark frame shall be captured and saved for future use.</string>
@@ -80,36 +99,12 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QPushButton" name="calibrationB">
-              <property name="enabled">
-               <bool>true</bool>
+             <widget class="QCheckBox" name="subFrameCheck">
+              <property name="toolTip">
+               <string>Subframe the image around the guide star</string>
               </property>
               <property name="text">
-               <string>Calibrate</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QPushButton" name="calibrationOptionsB">
-              <property name="text">
-               <string>Options</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QPushButton" name="guideB">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Guide</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QPushButton" name="pushButton_2">
-              <property name="text">
-               <string>Options</string>
+               <string>Subframe</string>
               </property>
              </widget>
             </item>
@@ -609,7 +604,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>462</width>
+            <width>458</width>
             <height>238</height>
            </rect>
           </property>
@@ -832,7 +827,7 @@
                  <string>Guide Declination Axis</string>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">margin-left:18;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>DEC</string>
@@ -879,7 +874,7 @@
                  <string>Guide Right Ascention Axis</string>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">margin-left:18;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>RA</string>
@@ -919,7 +914,7 @@
                  <string>Swap DEC direction pulses. This value is determined automatically from the calibration procedure, only override if necessary.</string>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">margin-left:10;</string>
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>Swap</string>
@@ -1126,13 +1121,12 @@
   </layout>
   <zorder>mainVerticalSpacer</zorder>
   <zorder></zorder>
-  <zorder>dockWidget</zorder>
  </widget>
  <customwidgets>
   <customwidget>
    <class>FITSView</class>
    <extends>QScrollArea</extends>
-   <header>fitsview.h</header>
+   <header>fitsviewer/fitsview.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

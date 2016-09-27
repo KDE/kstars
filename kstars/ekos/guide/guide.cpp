@@ -20,9 +20,12 @@
 #include "Options.h"
 
 #include "internalguide/internalguider.h"
+#include "scroll_graph.h"
 #include "externalguide/phd2.h"
 
 #include "ekos/auxiliary/darklibrary.h"
+#include "ekos/auxiliary/QProgressIndicator.h"
+
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"
 
@@ -32,6 +35,9 @@
 #include "guideadaptor.h"
 #include "kspaths.h"
 
+#define driftGraph_WIDTH	300
+#define driftGraph_HEIGHT	300
+#define MAX_DITHER_RETIRES  20
 #define MAX_GUIDE_STARS 10
 
 namespace Ekos
@@ -68,7 +74,7 @@ Guide::Guide() : QWidget()
     connect(guiderCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
 
     // Dark Frame Check
-    darkFrameCheck->setChecked(Options::useGuideDarkFrame());
+    darkFrameCheck->setChecked(Options::guideDarkFrameEnabled());
     connect(darkFrameCheck, SIGNAL(toggled(bool)), this, SLOT(setDarkFrameEnabled(bool)));
 
     // ST4 Selection
@@ -84,15 +90,20 @@ Guide::Guide() : QWidget()
 
 
     // MOVE THIS TO GUIDE OPTIONS
-    connect( ui.comboBox_ThresholdAlg, 	SIGNAL(activated(int)),    this, SLOT(onThresholdChanged(int)) );
-    connect( ui.rapidGuideCheck,        SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
+    //connect( ui.comboBox_ThresholdAlg, 	SIGNAL(activated(int)),    this, SLOT(onThresholdChanged(int)) );
+    //connect( ui.rapidGuideCheck,        SIGNAL(toggled(bool)), this, SLOT(onRapidGuideChanged(bool)));
 
     // Guiding Rate - Advisory only
     connect( spinBox_GuideRate, 		SIGNAL(valueChanged(double)), this, SLOT(onInfoRateChanged(double)) );
 
     // RA/DEC Enable directions
-    connect( checkBox_DirRA, 		SIGNAL(stateChanged(int)), 	this, SLOT(onEnableDirRA(int)) );
-    connect( checkBox_DirDEC, 		SIGNAL(stateChanged(int)), 	this, SLOT(onEnableDirDEC(int)) );
+    connect( checkBox_DirRA, SIGNAL(toggled(bool)), this, SLOT(onEnableDirRA(bool)) );
+    connect( checkBox_DirDEC, SIGNAL(toggled(bool)), this, SLOT(onEnableDirDEC(bool)) );
+
+    connect( northControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
+    connect( southControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
+    connect( westControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
+    connect( eastControlCheck, SIGNAL(toggled(bool)), this, SLOT(onControlDirectionChanged(bool)));
 
     // Declination Swap
     connect(swapCheck, SIGNAL(toggled(bool)), this, SLOT(setDECSwap(bool)));
@@ -117,16 +128,22 @@ Guide::Guide() : QWidget()
     connect( spinBox_MinPulseRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
     connect( spinBox_MinPulseDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 
-
-
-
     // Image Filters
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
 
+    // Progress Indicator
+    pi = new QProgressIndicator(this);
+    controlLayout->addWidget(pi, 0, 1, 1, 1);
+
+    // Drift Graph
+    driftGraph = new ScrollGraph( this, driftGraph_WIDTH, driftGraph_HEIGHT );
+    driftGraph->set_visible_ranges( driftGraph_WIDTH, 60 );
+    driftGraph->on_paint();
+    //ui.frame_Graph->resize( driftGraph_WIDTH + 2*ui.frame_Graph->frameWidth(), driftGraph_HEIGHT + 2*ui.frame_Graph->frameWidth() );
 
 
-    guiderType = static_cast<GuiderType>(Options::GuiderType());
+    guiderType = static_cast<GuiderType>(Options::guiderType());
 
     switch (guiderType)
     {
@@ -135,7 +152,7 @@ Guide::Guide() : QWidget()
         break;
 
     case GUIDE_PHD2:
-        guider = new PHD2();
+        //guider = new PHD2();
         break;
 
 
@@ -157,9 +174,6 @@ Guide::Guide() : QWidget()
 Guide::~Guide()
 {
     delete guider;
-    delete calibration;
-    delete pmath;
-    delete phd2;
 }
 
 void Guide::setDefaultCCD(QString ccd)
@@ -181,7 +195,7 @@ void Guide::addCCD(ISD::GDInterface *newCCD)
     //checkCCD(CCDs.count()-1);
     //guiderCombo->setCurrentIndex(CCDs.count()-1);
 
-    setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
+    // setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
 }
 
 void Guide::addGuideHead(ISD::GDInterface *newCCD)
@@ -201,7 +215,7 @@ void Guide::addGuideHead(ISD::GDInterface *newCCD)
     //checkCCD(CCDs.count()-1);
     //guiderCombo->setCurrentIndex(CCDs.count()-1);
 
-    setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
+    //setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
 
 }
 
@@ -252,7 +266,7 @@ void Guide::checkCCD(int ccdNum)
     }
 }
 
-void Guide::setGuiderProcess(int guiderProcess)
+/*void Guide::setGuiderProcess(int guiderProcess)
 {
     // Don't do anything unless we have a CCD and it is online
     if (currentCCD == NULL || currentCCD->isConnected() == false)
@@ -287,7 +301,7 @@ void Guide::setGuiderProcess(int guiderProcess)
         // Receive BLOBs from the driver
         currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), useGuideHead ? "CCD2" : "CCD1");
     }
-}
+}*/
 
 void Guide::syncCCDInfo()
 {
@@ -371,13 +385,14 @@ void Guide::updateGuideParams()
     }
 
     binningCombo->setEnabled(targetChip->canBin());
+    int binX=1,binY=1;
     if (targetChip->canBin())
     {
         int binX,binY, maxBinX, maxBinY;
         targetChip->getBinning(&binX, &binY);
         targetChip->getMaxBin(&maxBinX, &maxBinY);
 
-        binningCombo->disconnect();
+        binningCombo->blockSignals(true);
 
         binningCombo->clear();
 
@@ -386,24 +401,29 @@ void Guide::updateGuideParams()
 
         binningCombo->setCurrentIndex(binX-1);
 
-        connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
+        binningCombo->blockSignals(false);
     }
 
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
     {
-        pmath->setGuiderParameters(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
-        phd2->setCCDMountParams(ccd_hor_pixel, ccd_ver_pixel, focal_length);
+        guider->setGuiderParams(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
+        //pmath->setGuiderParameters(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
+        //phd2->setCCDMountParams(ccd_hor_pixel, ccd_ver_pixel, focal_length);
 
-        int x,y,w,h;
+
 
         emit guideChipUpdated(targetChip);
 
-        guider->setTargetChip(targetChip);
+        //guider->setTargetChip(targetChip);
 
+        int x,y,w,h;
         if (targetChip->getFrame(&x,&y,&w,&h))
-            pmath->setVideoParameters(w, h);
+        {
+            guider->setFrameParams(x,y,w,h, binX, binY);
+            //pmath->setVideoParameters(w, h);
+        }
 
-        guider->setInterface();
+        //guider->setInterface();
 
     }
 }
@@ -451,7 +471,7 @@ void Guide::newST4(int index)
 void Guide::setAO(ISD::ST4 *newAO)
 {
     AODriver = newAO;
-    guider->setAO(true);
+    //guider->setAO(true);
 }
 
 bool Guide::capture()
@@ -470,6 +490,9 @@ bool Guide::capture()
     }
 
     //If calibrating, reset frame
+
+    // FIXME
+    /*
     if (calibration->getCalibrationStage() == internalCalibration::CAL_CAPTURE_IMAGE)
     {
         targetChip->resetFrame();
@@ -495,6 +518,7 @@ bool Guide::capture()
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
     targetChip->capture(seqExpose);
+    */
 
     return true;
 
@@ -511,7 +535,7 @@ void Guide::newFITS(IBLOB *bp)
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     // Do we need to take a dark frame?
-    if (Options::useGuideDarkFrame())
+    if (Options::guideDarkFrameEnabled())
     {
         int x,y,w,h;
         int binx,biny;
@@ -546,6 +570,9 @@ void Guide::newFITS(IBLOB *bp)
 
 void Guide::setCaptureComplete()
 {
+
+    // FIXME
+    /*
 
     DarkLibrary::Instance()->disconnect(this);
 
@@ -632,6 +659,8 @@ void Guide::setCaptureComplete()
     }
 
     emit newStarPixmap(targetImage->getTrackingBoxPixmap());
+
+    */
 }
 
 void Guide::appendLogText(const QString &text)
@@ -656,18 +685,25 @@ void Guide::setDECSwap(bool enable)
     if (ST4Driver == NULL || guider == NULL)
         return;
 
+    // FIXME
+    /*
     guider->setDECSwap(enable);
     ST4Driver->setDECSwap(enable);
+    */
 
 }
 
 bool Guide::sendPulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
 {
+
     if (GuideDriver == NULL || (ra_dir == NO_DIR && dec_dir == NO_DIR))
         return false;
 
+    // FIXME
+    /*
     if (calibration->isCalibrating())
         QTimer::singleShot( (ra_msecs > dec_msecs ? ra_msecs : dec_msecs) + 100, this, SLOT(capture()));
+    */
 
     return GuideDriver->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
 }
@@ -677,8 +713,11 @@ bool Guide::sendPulse( GuideDirection dir, int msecs )
     if (GuideDriver == NULL || dir==NO_DIR)
         return false;
 
+    // FIXME
+    /*
     if (calibration->isCalibrating())
         QTimer::singleShot(msecs+100, this, SLOT(capture()));
+        */
 
     return GuideDriver->doPulse(dir, msecs);
 
@@ -694,11 +733,6 @@ QStringList Guide::getST4Devices()
     return devices;
 }
 
-double Guide::getReticleAngle()
-{
-    return calibration->getReticleAngle();
-}
-
 /*void Guide::viewerClosed()
 {
     pmath->set_image(NULL);
@@ -708,10 +742,13 @@ double Guide::getReticleAngle()
 
 void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit)
 {
+    // FIXME
+    /*
     // Check if guide star is lost
     if (dx == -1 && dy == -1 && fit == -1)
     {
         KMessageBox::error(NULL, i18n("Lost track of the guide star. Rapid guide aborted."));
+
         guider->abort();
         return;
     }
@@ -754,10 +791,15 @@ void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy,
         capture();
     }
 
+    */
+
 }
 
 void Guide::startRapidGuide()
 {
+
+    // FIXME
+    /*
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     if (currentCCD->setRapidGuide(targetChip, true) == false)
@@ -772,11 +814,15 @@ void Guide::startRapidGuide()
     pmath->setRapidGuide(true);
     currentCCD->configureRapidGuide(targetChip, true);
     connect(currentCCD, SIGNAL(newGuideStarData(ISD::CCDChip*,double,double,double)), this, SLOT(processRapidStarData(ISD::CCDChip*,double,double,double)));
+    */
 
 }
 
 void Guide::stopRapidGuide()
 {
+
+    // FIXME
+    /*
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     pmath->setRapidGuide(false);
@@ -788,17 +834,16 @@ void Guide::stopRapidGuide()
     currentCCD->configureRapidGuide(targetChip, false, false, false);
 
     currentCCD->setRapidGuide(targetChip, false);
+    */
 
 }
 
-
-bool Guide::isDithering()
-{
-    return (Options::useEkosGuider() ? guider->isDithering() : phd2->isDithering());
-}
 
 void Guide::dither()
 {
+
+    // FIXME
+    /*
     if (Options::useEkosGuider())
     {
         if (isDithering() == false)
@@ -810,10 +855,15 @@ void Guide::dither()
             phd2->dither(guider->getDitherPixels());
     }
 
+    */
+
 }
 
 void Guide::updateGuideDriver(double delta_ra, double delta_dec)
 {
+
+    // FIXME
+    /*
     guideDeviationRA  = delta_ra;
     guideDeviationDEC = delta_dec;
 
@@ -840,70 +890,58 @@ void Guide::updateGuideDriver(double delta_ra, double delta_dec)
         appendLogText(i18n("Using %1 to correct for guiding errors.", ST4Driver->getDeviceName()));
 
     GuideDriver = ST4Driver;
-}
-
-bool Guide::isCalibrationComplete()
-{
-    if (Options::useEkosGuider())
-        return calibration->isCalibrationComplete();
-    else
-        return phd2->isCalibrationComplete();
-
-}
-
-bool Guide::isCalibrationSuccessful()
-{
-    if (Options::useEkosGuider())
-        return calibration->isCalibrationSuccessful();
-    else
-        return phd2->isCalibrationSuccessful();
+    */
 }
 
 bool Guide::startCalibration()
 {
+    // FIXME
+    /*
     if (Options::useEkosGuider())
         return calibration->startCalibration();
     else
         return phd2->startGuiding();
+
+        */
+
+    return true;
 }
 
 bool Guide::stopCalibration()
 {
+    // FIXME
+    /*
     if (Options::useEkosGuider())
         return calibration->stopCalibration();
     else
         return phd2->stopGuiding();
-}
 
-bool Guide::isCalibrating()
-{
-    if (Options::useEkosGuider())
-        return calibration->isCalibrating();
-    else
-        return phd2->isCalibrating();
-}
+        */
 
-bool Guide::isGuiding()
-{
-    if (Options::useEkosGuider())
-        return guider->isGuiding();
-    else
-        return phd2->isGuiding();
+    return true;
 }
 
 bool Guide::startGuiding()
 {
+    // FIXME
+    /*
     // This will handle both internal and external guiders
     return guider->start();
 
-    /*if (Options::useEkosGuider())
+    if (Options::useEkosGuider())
         return guider->start();
     else
-        return phd2->startGuiding();*/
+        return phd2->startGuiding();
+
+        */
+return true;
+
 }
 
 bool Guide::stopGuiding()
 {
+    // FIXME
+    /*
     isSuspended=false;
 
     if (Options::useEkosGuider())
@@ -911,10 +949,14 @@ bool Guide::stopGuiding()
     else
         // guider stop will call phd2->stopGuide() and change GUI elements accordingly
         return guider->stop();
+        */
+
+    return true;
 }
 
 void Guide::setSuspended(bool enable)
 {
+    /*
     if (enable == isSuspended || (enable && isGuiding() == false))
         return;
 
@@ -942,6 +984,7 @@ void Guide::setSuspended(bool enable)
     {
         appendLogText(i18n("Guiding resumed."));
     }
+    */
 }
 
 void Guide::setExposure(double value)
@@ -962,47 +1005,47 @@ void Guide::setImageFilter(const QString & value)
 
 void Guide::setCalibrationTwoAxis(bool enable)
 {
-    calibration->setCalibrationTwoAxis(enable);
+   // calibration->setCalibrationTwoAxis(enable);
 }
 
 void Guide::setCalibrationAutoStar(bool enable)
 {
-    calibration->setCalibrationAutoStar(enable);
+    //calibration->setCalibrationAutoStar(enable);
 }
 
 void Guide::setCalibrationAutoSquareSize(bool enable)
 {
-    calibration->setCalibrationAutoSquareSize(enable);
+    //calibration->setCalibrationAutoSquareSize(enable);
 }
 
 void Guide::setCalibrationPulseDuration(int pulseDuration)
 {
-    calibration->setCalibrationPulseDuration(pulseDuration);
+   // calibration->setCalibrationPulseDuration(pulseDuration);
 }
 
 void Guide::setGuideBoxSizeIndex(int boxSize)
 {
-    boxSizeCombo->setCurrentIndex(boxSize);
+    //boxSizeCombo->setCurrentIndex(boxSize);
 }
 
 void Guide::setGuideAlgorithm(const QString & algorithm)
 {
-    guider->setGuideOptions(algorithm, guider->useSubFrame(), guider->useRapidGuide());
+    //guider->setGuideOptions(algorithm, guider->useSubFrame(), guider->useRapidGuide());
 }
 
 void Guide::setSubFrameEnabled(bool enable)
 {
-    guider->setGuideOptions(guider->getAlgorithm(), enable , guider->useRapidGuide());
+    //guider->setGuideOptions(guider->getAlgorithm(), enable , guider->useRapidGuide());
 }
 
 void Guide::setGuideRapid(bool enable)
 {
-    guider->setGuideOptions(guider->getAlgorithm(), guider->useSubFrame() , enable);
+    //guider->setGuideOptions(guider->getAlgorithm(), guider->useSubFrame() , enable);
 }
 
 void Guide::setDither(bool enable, double value)
 {
-    guider->setDither(enable, value);
+    //guider->setDither(enable, value);
 }
 
 QList<double> Guide::getGuidingDeviation()
@@ -1016,16 +1059,22 @@ QList<double> Guide::getGuidingDeviation()
 
 void Guide::startAutoCalibrateGuiding()
 {
+    // FIXME
+    /*
     if (Options::useEkosGuider())
         connect(calibration, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(checkAutoCalibrateGuiding(Ekos::GuideState)));
     else
         connect(phd2, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(checkAutoCalibrateGuiding(Ekos::GuideState)));
 
     startCalibration();
+
+    */
 }
 
 void Guide::checkAutoCalibrateGuiding(Ekos::GuideState state)
 {
+    // FIXME
+    /*
     if (state < GUIDE_CALIBRATION_SUCESS || state > GUIDE_CALIBRATION_ERROR)
         return;
 
@@ -1043,6 +1092,7 @@ void Guide::checkAutoCalibrateGuiding(Ekos::GuideState state)
     {
         appendLogText(i18n("Auto calibration failed."));
     }
+    */
 }
 
 void Guide::setStatus(Ekos::GuideState newState)
@@ -1055,65 +1105,18 @@ void Guide::setStatus(Ekos::GuideState newState)
     emit newStatus(newState);
 }
 
-QString Guide::getStatusString(Ekos::GuideState state)
-{
-
-    switch (state)
-    {
-    case GUIDE_IDLE:
-        return i18n("Idle");
-        break;
-
-    case GUIDE_CALIBRATING:
-        return i18n("Calibrating");
-        break;
-
-    case GUIDE_CALIBRATION_SUCESS:
-        return i18n("Calibration successful");
-        break;
-
-    case GUIDE_CALIBRATION_ERROR:
-        return i18n("Calibration error");
-        break;
-
-    case GUIDE_GUIDING:
-        return i18n("Guiding");
-        break;
-
-    case GUIDE_ABORTED:
-        return i18n("Aborted");
-        break;
-
-
-    case GUIDE_SUSPENDED:
-        return i18n("Suspended");
-        break;
-
-    case GUIDE_DITHERING:
-        return i18n("Dithering");
-        break;
-
-    case GUIDE_DITHERING_SUCCESS:
-        return i18n("Dithering successful");
-        break;
-
-    case GUIDE_DITHERING_ERROR:
-        return i18n("Dithering error");
-        break;
-
-    }
-
-    return i18n("Unknown");
-}
-
 void Guide::updateCCDBin(int index)
 {
+    // FIXME
+    /*
     if (currentCCD == NULL && Options::usePHD2Guider())
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     targetChip->setBinning(index+1, index+1);
+
+    */
 
 }
 
@@ -1132,6 +1135,8 @@ void Guide::processCCDNumber(INumberVectorProperty *nvp)
 
 void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState state)
 {
+    // FIXME
+    /*
     INDI_UNUSED(exposure);
 
     if (state == IPS_ALERT && (guider->isGuiding() || guider->isDithering() || calibration->isCalibrating()))
@@ -1139,12 +1144,15 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
         appendLogText(i18n("Exposure failed. Restarting exposure..."));
         targetChip->capture(exposureIN->value());
     }
+    */
 }
 
 void Guide::setDarkFrameEnabled(bool enable)
 {
+    // FIXME
+    /*
     Options::setUseGuideDarkFrame(enable);
-
+*/
     /*if (enable && calibration && calibration->useAutoStar())
         appendLogText(i18n("Warning: In auto mode, you will not be asked to cover cameras unequipped with shutters in order to capture a dark frame. The dark frame capture will proceed without warning."
                            " You can capture dark frames with auto mode off and they shall be saved in the dark library for use when ever needed."));*/
@@ -1205,6 +1213,12 @@ void Guide::syncTrackingBoxPosition()
         targetImage->setTrackingBoxEnabled(true);
         targetImage->setTrackingBox(starRect);
     }
+}
+
+bool Guide::setGuideType(int type)
+{
+    // FIXME
+    return false;
 }
 
 void Guide::updateTrackingBoxSize(int currentIndex)
@@ -1310,129 +1324,145 @@ void Guide::onXscaleChanged( int i )
 {
     int rx, ry;
 
-    drift_graph->get_visible_ranges( &rx, &ry );
-    drift_graph->set_visible_ranges( i*drift_graph->get_grid_N(), ry );
+    driftGraph->get_visible_ranges( &rx, &ry );
+    driftGraph->set_visible_ranges( i*driftGraph->get_grid_N(), ry );
 
     // refresh if not started
     if( state != GUIDE_GUIDING )
-        drift_graph->on_paint();
+        driftGraph->on_paint();
 }
 
 void Guide::onYscaleChanged( int i )
 {
     int rx, ry;
 
-    drift_graph->get_visible_ranges( &rx, &ry );
-    drift_graph->set_visible_ranges( rx, i*drift_graph->get_grid_N() );
+    driftGraph->get_visible_ranges( &rx, &ry );
+    driftGraph->set_visible_ranges( rx, i*driftGraph->get_grid_N() );
 
     // refresh if not started
     if( state != GUIDE_GUIDING )
-        drift_graph->on_paint();
+        driftGraph->on_paint();
 }
 
 
-void internalGuider::onThresholdChanged( int index )
+void Guide::onThresholdChanged( int index )
 {
-    if( pmath )
-        pmath->setSquareAlgorithm( index );
+    switch (guiderType)
+    {
+    case GUIDE_INTERNAL:
+        dynamic_cast<InternalGuider*>(guider)->setSquareAlgorithm(index);
+        break;
+
+    default:
+        break;
+    }
 }
 
-
-
-// params changing stuff
-void internalGuider::onInfoRateChanged( double val )
+void Guide::onInfoRateChanged( double val )
 {
-    cproc_in_params *in_params;
+    Options::setGuidingRate(val);
 
+    double gain = 0;
 
-    if( !pmath )
-        return;
+    if( val > 0.01 )
+        gain = 1000.0 / (val * 15.0);
 
-    in_params = pmath->getInputParameters();
-
-    in_params->guiding_rate = val;
-
-    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(pmath->preCalculatePropotionalGain(in_params->guiding_rate), 'f', 2 )) );
+    l_RecommendedGain->setText( i18n("P: %1", QString().setNum(gain, 'f', 2 )) );
 }
 
-
-void internalGuider::onEnableDirRA( int state )
+void Guide::onEnableDirRA(bool enable)
 {
-    cproc_in_params *in_params;
-
-    if( !pmath )
-        return;
-
-    in_params = pmath->getInputParameters();
-    in_params->enabled[GUIDE_RA] = (state == Qt::Checked);
+    //Options::setEnableRAGuide(enable);
 }
 
-
-void internalGuider::onEnableDirDEC( int state )
+void Guide::onEnableDirDEC(bool enable)
 {
-    cproc_in_params *in_params;
-
-    if( !pmath )
-        return;
-
-    in_params = pmath->getInputParameters();
-    in_params->enabled[GUIDE_DEC] = (state == Qt::Checked);
+    //Options::setEnableDECGuide(enable);
 }
 
-
-void internalGuider::onInputParamChanged()
+void Guide::onInputParamChanged()
 {
-    QObject *obj;
     QSpinBox *pSB;
     QDoubleSpinBox *pDSB;
-    cproc_in_params *in_params;
 
-
-    if( !pmath )
-        return;
-
-    obj = sender();
-
-    in_params = pmath->getInputParameters();
+    QObject *obj = sender();
 
     if( (pSB = dynamic_cast<QSpinBox *>(obj)) )
     {
-        if( pSB == ui.spinBox_MaxPulseRA )
-            in_params->max_pulse_length[GUIDE_RA] = pSB->value();
-        else
-            if( pSB == ui.spinBox_MaxPulseDEC )
-                in_params->max_pulse_length[GUIDE_DEC] = pSB->value();
-            else
-                if( pSB == ui.spinBox_MinPulseRA )
-                    in_params->min_pulse_length[GUIDE_RA] = pSB->value();
-                else
-                    if( pSB == ui.spinBox_MinPulseDEC )
-                        in_params->min_pulse_length[GUIDE_DEC] = pSB->value();
+        if( pSB == spinBox_MaxPulseRA )
+            Options::setRAMaximumPulse(pSB->value());
+        else if ( pSB == spinBox_MaxPulseDEC )
+            Options::setDECMaximumPulse(pSB->value());
+        else if ( pSB == spinBox_MinPulseRA )
+            Options::setRAMinimumPulse(pSB->value());
+        else if( pSB == spinBox_MinPulseDEC )
+            Options::setDECMinimumPulse(pSB->value());
     }
-    else
-        if( (pDSB = dynamic_cast<QDoubleSpinBox *>(obj)) )
-        {
-            if( pDSB == ui.spinBox_PropGainRA )
-                in_params->proportional_gain[GUIDE_RA] = pDSB->value();
-            else
-                if( pDSB == ui.spinBox_PropGainDEC )
-                    in_params->proportional_gain[GUIDE_DEC] = pDSB->value();
-                else
-                    if( pDSB == ui.spinBox_IntGainRA )
-                        in_params->integral_gain[GUIDE_RA] = pDSB->value();
-                    else
-                        if( pDSB == ui.spinBox_IntGainDEC )
-                            in_params->integral_gain[GUIDE_DEC] = pDSB->value();
-                        else
-                            if( pDSB == ui.spinBox_DerGainRA )
-                                in_params->derivative_gain[GUIDE_RA] = pDSB->value();
-                            else
-                                if( pDSB == ui.spinBox_DerGainDEC )
-                                    in_params->derivative_gain[GUIDE_DEC] = pDSB->value();
-        }
-
+    else if( (pDSB = dynamic_cast<QDoubleSpinBox *>(obj)) )
+    {
+        if( pDSB == spinBox_PropGainRA )
+            Options::setRAPropotionalGain(pDSB->value());
+        else if ( pDSB == spinBox_PropGainDEC )
+            Options::setDECPropotionalGain(pDSB->value());
+        else if ( pDSB == spinBox_IntGainRA )
+            Options::setRAIntegralGain(pDSB->value());
+        else if( pDSB == spinBox_IntGainDEC )
+            Options::setDECIntegralGain(pDSB->value());
+        else if( pDSB == spinBox_DerGainRA )
+            Options::setRADerivativeGain(pDSB->value());
+        else if( pDSB == spinBox_DerGainDEC )
+            Options::setDECDerivativeGain(pDSB->value());
+    }
 }
 
+void Guide::onControlDirectionChanged(bool enable)
+{
+    // FIXME
+    /*
+    QObject *obj = sender();
+
+    if (northControlCheck == dynamic_cast<QCheckBox*>(obj))
+    {
+        Options::setEnableNorthDECGuide(enable);
+    }
+    else if (southControlCheck == dynamic_cast<QCheckBox*>(obj))
+    {
+        Options::setEnableSouthDECGuide(enable);
+    }
+    else if (westControlCheck == dynamic_cast<QCheckBox*>(obj))
+    {
+        Options::setEnableWestRAGuide(enable);
+    }
+    else if (eastControlCheck == dynamic_cast<QCheckBox*>(obj))
+    {
+        Options::setEnableEastRAGuide(enable);
+    }
+
+    */
+}
+
+void Guide::onRapidGuideChanged(bool enable)
+{
+    // FIXME
+    /*
+    if (m_isStarted)
+    {
+        guideModule->appendLogText(i18n("You must stop auto guiding before changing this setting."));
+        return;
+    }
+
+    m_useRapidGuide = enable;
+
+    if (m_useRapidGuide)
+    {
+        guideModule->appendLogText(i18n("Rapid Guiding is enabled. Guide star will be determined automatically by the CCD driver. No frames are sent to Ekos unless explicitly enabled by the user in the CCD driver settings."));
+    }
+    else
+        guideModule->appendLogText(i18n("Rapid Guiding is disabled."));
+
+        */
+
+}
 
 }
 

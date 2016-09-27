@@ -44,6 +44,12 @@ const square_alg_t guide_square_alg[] = {
     { -1, {0} }
 };
 
+// JM: Why not use QPoint?
+typedef struct
+{
+    int x, y;
+}point_t;
+
 cgmath::cgmath() : QObject()
 {
     // sys...
@@ -220,43 +226,6 @@ int  cgmath::getSquareAlgorithmIndex( void ) const
     return square_alg_idx;
 }
 
-
-
-cproc_in_params * cgmath::getInputParameters( void )
-{
-    return &in_params;
-}
-
-
-void cgmath::setInputParameters( const cproc_in_params *v )
-{
-    //in_params.threshold_alg_idx     = v->threshold_alg_idx;
-    setSquareAlgorithm( v->threshold_alg_idx );
-    in_params.guiding_rate 			= v->guiding_rate;
-    in_params.enabled[GUIDE_RA] 			= v->enabled[GUIDE_RA];
-    in_params.enabled[GUIDE_DEC] 			= v->enabled[GUIDE_DEC];
-    in_params.average 				= v->average;
-    in_params.accum_frame_cnt[GUIDE_RA] 	= v->accum_frame_cnt[GUIDE_RA];
-    in_params.accum_frame_cnt[GUIDE_DEC] 	= v->accum_frame_cnt[GUIDE_DEC];
-    in_params.proportional_gain[GUIDE_RA] = v->proportional_gain[GUIDE_RA];
-    in_params.proportional_gain[GUIDE_DEC] = v->proportional_gain[GUIDE_DEC];
-    in_params.integral_gain[GUIDE_RA] 	= v->integral_gain[GUIDE_RA];
-    in_params.integral_gain[GUIDE_DEC] 	= v->integral_gain[GUIDE_DEC];
-    in_params.derivative_gain[GUIDE_RA] 	= v->derivative_gain[GUIDE_RA];
-    in_params.derivative_gain[GUIDE_DEC] 	= v->derivative_gain[GUIDE_DEC];
-    in_params.max_pulse_length[GUIDE_RA] 	= v->max_pulse_length[GUIDE_RA];
-    in_params.max_pulse_length[GUIDE_DEC] = v->max_pulse_length[GUIDE_DEC];
-    in_params.min_pulse_length[GUIDE_RA]	= v->min_pulse_length[GUIDE_RA];
-    in_params.min_pulse_length[GUIDE_DEC]	= v->min_pulse_length[GUIDE_DEC];
-}
-
-
-const cproc_out_params * cgmath::getOutputParameters( void ) const
-{
-    return &out_params;
-}
-
-
 info_params_t cgmath::getInfoParameters( void ) const
 {
     info_params_t ret;
@@ -383,16 +352,6 @@ Vector cgmath::point2arcsec( const Vector &p ) const
 
     return arcs;
 }
-
-
-double cgmath::preCalculatePropotionalGain( double g_rate )
-{
-    if( g_rate <= 0.01 )
-        return 0;
-
-    return 1000.0 / (g_rate * 15.0);
-}
-
 
 bool cgmath::calculateAndSetReticle1D( double start_x, double start_y, double end_x, double end_y, int totalPulse )
 {
@@ -1108,8 +1067,7 @@ void cproc_in_params::reset( void )
     for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
     {
         enabled[k] 			 = true;
-        accum_frame_cnt[k] 	 = 1;
-        proportional_gain[k] = cgmath::preCalculatePropotionalGain( guiding_rate );
+        accum_frame_cnt[k] 	 = 1;        
         integral_gain[k] 	 = 0;
         derivative_gain[k] 	 = 0;
         max_pulse_length[k]  = 5000;

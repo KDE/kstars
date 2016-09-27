@@ -97,7 +97,7 @@ private:
     Ekos::PHD2 *phd2;
 
     custom_drawer *pDriftOut;
-    ScrollGraph *drift_graph;
+    ScrollGraph *driftGraph;
 
     QPointer<FITSView> guideFrame;
     bool m_isStarted;

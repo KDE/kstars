@@ -12,7 +12,15 @@
 #ifndef INTERNALGUIDER_H
 #define INTERNALGUIDER_H
 
+#include <QFile>
+#include <QPixmap>
+
+#include "fitsviewer/fitsview.h"
+
+#include "matr.h"
 #include "../guideinterface.h"
+
+class cgmath;
 
 namespace Ekos
 {
@@ -21,11 +29,15 @@ class InternalGuider : public GuideInterface
 {
 
 public:
+
+    enum CalibrationStage { CAL_CAPTURE_IMAGE, CAL_SELECT_STAR, CAL_FINISH, CAL_ERROR, CAL_START, CAL_RA_INC, CAL_RA_DEC, CAL_DEC_INC, CAL_DEC_DEC };
+    enum CalibrationType { CAL_NONE, CAL_MANUAL, CAL_RA_AUTO, CAL_RA_DEC_AUTO };
+
     InternalGuider();
     ~InternalGuider();
 
-    void Connect() override;
-    void Disconnect() override;
+    bool Connect() override { return true; }
+    bool Disconnect() override { return true; }
 
     bool calibrate() override;
     bool guide() override;
@@ -34,41 +46,35 @@ public:
     bool resume() override;
     bool dither(double pixels) override;
 
-    void guide( void );
+    bool setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength) override;
+
+    void setSquareAlgorithm( int index );
+
+
+
+    /// IMPORTED CHECK THEM ALL
+
     bool start();
-    bool stop();
     bool abort(bool silence=false);
     void setHalfRefreshRate( bool is_half );
     bool isGuiding( void ) const;
-    void setMathObject( cgmath *math );
     void setAO(bool enable);
-    void setInterface( void );
-    void setImageView(FITSView *image);
-    void setReady(bool enable) { m_isReady = enable;}
-    void setTargetChip(ISD::CCDChip *chip);
+    void setInterface( void );    
+    void setReady(bool enable) { m_isReady = enable;}    
     bool isRapidGuide() { return m_useRapidGuide;}
 
     double getAOLimit();
     void setSubFramed(bool enable) { m_isSubFramed = enable;}
     void setGuideOptions(const QString & algorithm, bool useSubFrame, bool useRapidGuide);
 
-    // Dither
-    bool isDitherChecked() { return ui.ditherCheck->isChecked(); }
-    bool dither();
-    bool isDithering() { return m_isDithering; }
-    void setDither(bool enable, double value);
-    double getDitherPixels() { return ui.ditherPixels->value(); }
-
-    setSquareAlgorithm( index );
-
     QString getAlgorithm();
     bool useSubFrame();
     bool useRapidGuide();
 
-    void setPHD2(Ekos::PHD2 *phd);
-
 public slots:
     void setDECSwap(bool enable);
+
+    // OBSELETE
     void connectPHD2();
     void setPHD2Connected();
     void setPHD2Disconnected();
@@ -76,7 +82,8 @@ public slots:
     void toggleExternalGuideStateGUI(Ekos::GuideState state);
 
 protected slots:
-    void onStartStopButtonClick();
+    void openCalibrationOptions();
+    void openGuideOptions();
 
     void capture();
     void trackingStarSelected(int x, int y);
@@ -94,13 +101,45 @@ private:
     bool first_frame, first_subframe;
     bool half_refresh_rate;
     int m_lostStarTries;
-    bool m_useRapidGuide;
-    ISD::CCDChip *targetChip;
+    bool m_useRapidGuide;    
     int fx,fy,fw,fh;
     double ret_x, ret_y, ret_angle;
     bool m_isDithering;
+
     QFile logFile;
     QPixmap profilePixmap;
+
+
+    // IMPORTED FROM R_CALIBRATION - CLEAN UP
+    void fillInterface( void );
+    void calibrateManualReticle( void );
+    void calibrateRADECRecticle( bool ra_only ); // 1 or 2-axis calibration
+
+    bool startCalibration();
+    bool stopCalibration();
+    void processCalibration();
+
+
+    void reset();
+
+    bool is_started;
+
+    int  axis;
+    int  auto_drift_time;
+    int turn_back_time;
+    double start_x1, start_y1;
+    double end_x1, end_y1;
+    double start_x2, start_y2;
+    double end_x2, end_y2;
+    int iterations, dec_iterations;
+    double phi;
+    Matrix ROT_Z;    
+
+    QColor idleColor, okColor, busyColor, alertColor;
+
+    CalibrationStage calibrationStage;
+    CalibrationType  calibrationType;
+
 };
 
 }
