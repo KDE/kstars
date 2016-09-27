@@ -21,7 +21,6 @@
 #include <QStandardPaths>
 #include <KLocalizedString>
 #include <QDebug>
-#include <KMessageBox>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -32,6 +31,10 @@
 #include <QVariant>
 #include <QFile>
 #include <QDir>
+
+#ifndef KSTARS_LITE
+#include <KMessageBox>
+#endif
 
 #include "ksparser.h"
 #include "catalogdata.h"

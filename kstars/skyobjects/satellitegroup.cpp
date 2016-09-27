@@ -35,6 +35,7 @@ SatelliteGroup::SatelliteGroup( QString name, QString tle_filename, QUrl update_
 
 SatelliteGroup::~SatelliteGroup()
 {
+
 }
 
 void SatelliteGroup::readTLE()

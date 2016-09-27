@@ -151,7 +151,7 @@ void INDI_P::initGUI ()
 
     switch (dataProp->getType())
     {
-       case INDI_SWITCH:
+    case INDI_SWITCH:
         if (dataProp->getSwitch()->r == ISR_NOFMANY)
             guiType = PG_RADIO;
         else if (dataProp->getSwitch()->nsp > 4)

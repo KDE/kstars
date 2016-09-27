@@ -29,7 +29,9 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "skyobjects/starobject.h"
 #include "skymesh.h"
 #include "binfilehelper.h"
@@ -129,10 +131,17 @@ bool DeepStarComponent::loadStaticStars() {
             /* Initialize star with data just read. */
             StarObject* star;
             if( starReader.guessRecordSize() == 32 )
+        #ifdef KSTARS_LITE
+                star = &(SB->addStar( stardata )->star);
+        #else
                 star = SB->addStar( stardata );
+        #endif
             else
+        #ifdef KSTARS_LITE
+                star = &(SB->addStar( stardata )->star);
+        #else
                 star = SB->addStar( deepstardata );
-            
+        #endif
             if( star ) {
                 KStarsData* data = KStarsData::Instance();
                 star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -173,6 +182,7 @@ void DeepStarComponent::update( KSNumbers * )
 
 // TODO: Optimize draw, if it is worth it.
 void DeepStarComponent::draw( SkyPainter *skyp ) {
+#ifndef KSTARS_LITE
     if ( !fileOpened ) return;
 
     SkyMap *map = SkyMap::Instance();
@@ -303,7 +313,9 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
 
     }
     m_skyMesh->inDraw( false );
-
+#else
+    Q_UNUSED(skyp)
+#endif
 }
 
 bool DeepStarComponent::openDataFile() {
@@ -372,6 +384,9 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
 {
     StarObject *oBest = 0;
 
+#ifdef KSTARS_LITE
+    m_zoomMagLimit = StarComponent::zoomMagnitudeLimit();
+#endif
     if( !fileOpened )
         return NULL;
 
@@ -384,7 +399,11 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
         for( int i = 0; i < m_starBlockList.at( currentRegion )->getBlockCount(); ++i ) {
             StarBlock *block = m_starBlockList.at( currentRegion )->block( i );
             for( int j = 0; j < block->getStarCount(); ++j ) {
+#ifdef KSTARS_LITE
+                StarObject* star =  &(block->star( j )->star);
+#else
                 StarObject* star =  block->star( j );
+#endif
                 if( !star ) continue;
                 if ( star->mag() > m_zoomMagLimit ) continue;
                 
@@ -439,7 +458,11 @@ bool DeepStarComponent::starsInAperture( QList<StarObject *> &list, const SkyPoi
         for( int i = 0; i < sbl->getBlockCount(); ++i ) {
             StarBlock *block = sbl->block( i );
             for( int j = 0; j < block->getStarCount(); ++j ) {
+#ifdef KSTARS_LITE
+                StarObject *star = &(block->star( j )->star);
+#else
                 StarObject *star = block->star( j );
+#endif
                 if( star->mag() > maglim )
                     break; // Stars are organized by magnitude, so this should work
                 if( star->angularDistanceTo( &center ).Degrees() <= radius )

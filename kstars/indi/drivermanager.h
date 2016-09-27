@@ -129,8 +129,8 @@ private:
     static DriverManager * _DriverManager;
 
     ServerMode connectionMode;
-    DriverManagerUI *ui;
 
+    DriverManagerUI *ui;
     QList<DriverInfo *> driversList;
     QList<ServerManager *> servers;
     QList<ClientManager *> clients;

@@ -59,6 +59,7 @@ public:
 
 private:
     void drawCompassLabels();
+
 };
 
 #endif

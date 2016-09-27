@@ -1,0 +1,74 @@
+// Copyright (C) 2016 Artem Fedoskin <afedoskin3@gmail.com>
+/***************************************************************************
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 2 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+***************************************************************************/
+
+import QtQuick 2.7
+
+import QtQuick.Controls 2.0
+import QtQuick.Controls.Material 2.0
+import QtQuick.Controls.Universal 2.0
+
+import QtQuick.Window 2.2 as Window
+import QtQuick.Layouts 1.1
+
+Popup {
+    id: studyMode
+    contentWidth: parent.width * 0.75
+
+    focus: true
+    modal: true
+
+    Column {
+        id: studyCol
+        width: parent.width
+        height: childrenRect.height
+
+        Label {
+            width: parent.width
+            wrapMode: Text.Wrap
+            horizontalAlignment: Text.AlignHCenter
+            text: xi18n("Welcome to KStars Lite!")
+            font.pointSize: 20
+        }
+
+        Text {
+            width: parent.width
+            wrapMode: Text.Wrap
+            horizontalAlignment: Text.AlignHCenter
+            text: xi18n("KStars Lite is a free, open source, cross-platform Astronomy Software designed for mobile devices.")
+        }
+
+        Text {
+            width: parent.width
+            wrapMode: Text.Wrap
+            horizontalAlignment: Text.AlignHCenter
+            text: xi18n("A quick tutorial will introduce you to main functions of KStars Lite")
+        }
+
+        Flow {
+            property int buttonWidth: children[0].width + children[1].width + spacing * 2
+            width: parent.width > buttonWidth ? buttonWidth : parent.width
+            spacing: 5
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Button {
+                text: xi18n("Close")
+                onClicked: askExitTutorial()
+            }
+
+            Button {
+                text: xi18n("Start tutorial")
+                onClicked: {
+                    studyMode.close()
+                    step1 = true
+                }
+            }
+        }
+    }
+}

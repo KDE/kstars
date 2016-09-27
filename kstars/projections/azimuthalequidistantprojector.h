@@ -34,7 +34,7 @@ class AzimuthalEquidistantProjector : public Projector
 
 public:
     explicit AzimuthalEquidistantProjector(const ViewParams& p);
-    virtual SkyMap::Projection type() const;
+    virtual Projection type() const;
     virtual double radius() const;
     virtual double projectionK(double x) const;
     virtual double projectionL(double x) const;

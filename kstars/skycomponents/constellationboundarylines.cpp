@@ -27,7 +27,11 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
+#endif
 #include "skyobjects/skyobject.h"
 #include "ksfilereader.h"
 
@@ -147,8 +151,13 @@ ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComposite *parent )
 
 bool ConstellationBoundaryLines::selected()
 {
+#ifndef KSTARS_LITE
     return Options::showCBounds() &&
            ! ( Options::hideOnSlew() && Options::hideCBounds() && SkyMap::IsSlewing() );
+#else
+    return Options::showCBounds() &&
+           ! ( Options::hideOnSlew() && Options::hideCBounds() && SkyMapLite::IsSlewing());
+#endif
 }
 
 void ConstellationBoundaryLines::preDraw( SkyPainter* skyp )

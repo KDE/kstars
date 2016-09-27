@@ -29,7 +29,9 @@
 #include <QFile>
 #include <QProgressDialog>
 
+#ifndef KSTARS_LITE
 #include <KMessageBox>
+#endif
 #include <KLocalizedString>
 
 #ifdef HAVE_WCSLIB
@@ -678,7 +680,7 @@ int FITSData::findOneStar(const QRectF &boundary)
         if (TF >= HF)
         {
             // We have two ways to calculate HFR. The first is the correct method but it can get quite variable within 10% due to random fluctuations of the measured star.
-            // The second method is not truely HFR but is much more resistant to noise.
+            // The second method is not truly HFR but is much more resistant to noise.
 
 
             // #1 Approximate HFR, accurate and reliable but quite variable to small changes in star flux

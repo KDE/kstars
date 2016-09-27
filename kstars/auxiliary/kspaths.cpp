@@ -3,9 +3,14 @@
 #include <QDebug>
 
 QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString &fileName,
-                        QStandardPaths::LocateOptions options) {
+                        QStandardPaths::LocateOptions options)
+{
+    QString dir;
+    if( location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation ) {
+        dir = "kstars/";
+    }
 #ifdef ANDROID
-    QString file = QStandardPaths::locate(location,fileName,options);
+    QString file = QStandardPaths::locate(location, dir + fileName ,options);
     if(file.isEmpty()) {
         file = "/data/data/org.kde.kstars/qt-reserved-files/share/kstars/" + fileName;
         if (!QFileInfo(file).exists()) {
@@ -14,28 +19,26 @@ QString KSPaths::locate(QStandardPaths::StandardLocation location, const QString
     }
     return file;
 #else
-    QString file = fileName;
-    if( location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation )
-        file = "kstars/" + fileName;
-    return QStandardPaths::locate(location, file, options);
+    return QStandardPaths::locate(location, dir + fileName, options);
 #endif
 }
 
 QStringList KSPaths::locateAll(QStandardPaths::StandardLocation location, const QString &fileName,
                         QStandardPaths::LocateOptions options) {
+    QString dir;
+    if( location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation ) {
+        dir = "kstars/";
+    }
 #ifdef ANDROID
-    QStringList file = QStandardPaths::locateAll(location,fileName,options);
+    QStringList file = QStandardPaths::locateAll(location, dir + fileName,options);
     if(file.isEmpty()) {
         QString f = "/data/data/org.kde.kstars/qt-reserved-files/share/kstars/" + fileName;
         if (QFileInfo(f).exists()) {
-            file[0] = f;
+            file.append(f);
         }
     }
     return file;
 #else
-    QString file = fileName;
-    if( location == QStandardPaths::GenericDataLocation || location == QStandardPaths::GenericConfigLocation )
-        file = "kstars/" + fileName;
-    return QStandardPaths::locateAll(location, file, options);
+    return QStandardPaths::locateAll(location, dir + fileName,options);
 #endif
 }

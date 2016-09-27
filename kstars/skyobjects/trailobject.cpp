@@ -19,7 +19,9 @@
 
 #include "kstarsdata.h"
 #include "skymap.h"
+#ifndef KSTARS_LITE
 #include "kspopupmenu.h"
+#endif
 #include "skycomponents/skylabeler.h"
 #include "skypainter.h"
 #include "projections/projector.h"
@@ -54,7 +56,9 @@ void TrailObject::updateTrail( dms *LST, const dms *lat ) {
 }
 
 void TrailObject::initPopupMenu( KSPopupMenu *pmenu ) {
+#ifndef KSTARS_LITE
     pmenu->createPlanetMenu( this );
+#endif
 }
 
 void TrailObject::addToTrail( const QString &label ) {
@@ -94,6 +98,8 @@ void TrailObject::clearTrailsExcept(SkyObject* o) {
 }
 
 void TrailObject::drawTrail(SkyPainter* skyp) const {
+    Q_UNUSED(skyp)
+#ifndef KSTARS_LITE
     if( !Trail.size() )
         return;
 
@@ -117,5 +123,5 @@ void TrailObject::drawTrail(SkyPainter* skyp) const {
             labeler->drawGuideLabel( pt, m_TrailLabels[i - 1], 0.0 );
         }
     }
-
+#endif
 }

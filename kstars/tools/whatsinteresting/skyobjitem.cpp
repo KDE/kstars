@@ -129,7 +129,7 @@ QString SkyObjItem::getDesc() const
 
     if(skd)
     {
-        if(skd->downloadedData() != "")
+        if(!skd->downloadedData().isEmpty())
             return skd->downloadedData();
     }
 

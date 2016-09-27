@@ -35,6 +35,10 @@ class SkyPoint;
 class SkyMesh;
 class SkyLabeler;
 
+#ifdef KSTARS_LITE
+class DeepSkyItem;
+#endif
+
 // NOTE: Although the following symbol has nothing to do with line
 // number in any file, we use this name to keep consistency in naming
 // conventions with StarComponent
@@ -54,6 +58,10 @@ typedef QHash< int, DeepSkyList*>   DeepSkyIndex;
  */
 class DeepSkyComponent: public SkyComponent
 {
+#ifdef KSTARS_LITE
+friend class DeepSkyItem;
+#endif
+
 public:
 
     explicit DeepSkyComponent( SkyComposite* );
@@ -148,6 +156,7 @@ private:
                              const QString& colorString, bool drawImage = false);
 
     QList<DeepSkyObject*> m_DeepSkyList;
+
     QList<DeepSkyObject*> m_MessierList;
     QList<DeepSkyObject*> m_NGCList;
     QList<DeepSkyObject*> m_ICList;

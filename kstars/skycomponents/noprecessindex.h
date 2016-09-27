@@ -31,11 +31,12 @@ public:
     /** @short Constructor */
     NoPrecessIndex( SkyComposite *parent, const QString& name );
 
-protected:
+    //Moved to public because KStars Lite uses it
     /** @ short override JITupdate so we don't perform the precession
      * correction, only rotation.
      */
     virtual void JITupdate( LineList* lineList );
+protected:
 
     /** @short we need to use the buffer that does not have the
      * reverse-precession correction.

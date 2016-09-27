@@ -117,7 +117,6 @@ public:
                 COMET=9, ASTEROID=10, CONSTELLATION=11, MOON=12, ASTERISM=13,
                 GALAXY_CLUSTER=14, DARK_NEBULA=15, QUASAR=16, MULT_STAR=17, RADIO_SOURCE=18,
                 SATELLITE=19, SUPERNOVA=20, NUMBER_OF_KNOWN_TYPES=21, TYPE_UNKNOWN=255 };
-
     /**
      *@return A translated string indicating the type name for a given type number
      *@param t The type number

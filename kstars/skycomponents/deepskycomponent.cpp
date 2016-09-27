@@ -27,7 +27,10 @@
 #include "dms.h"
 #include "ksfilereader.h"
 #include "kstarsdata.h"
+#include "auxiliary/kspaths.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#endif
 #include "skylabel.h"
 #include "skylabeler.h"
 #include "Options.h"
@@ -273,7 +276,7 @@ void DeepSkyComponent::loadData()
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
         // Add the name(s) to the nameHash for fast lookup -jbb
-        if ( hasName) {
+        if ( hasName ) {
             nameHash[ name.toLower() ] = o;
             if ( ! longname.isEmpty() ) nameHash[ longname.toLower() ] = o;
             if ( ! name2.isEmpty() ) nameHash[ name2.toLower() ] = o;
@@ -305,13 +308,17 @@ void DeepSkyComponent::loadData()
 
         // JM: VERY INEFFICIENT. Disabling for now until we figure out how to deal with dups. QSet?
         //if ( ! name.isEmpty() && !objectNames(type).contains(name))
-        if ( ! name.isEmpty() )
+        if ( ! name.isEmpty() ) {
             objectNames(type).append( name );
+            objectLists(type).append( QPair<QString, SkyObject *>(name, o));
+        }
 
         //Add long name to the list of object names
         //if ( ! longname.isEmpty() && longname != name  && !objectNames(type).contains(longname))
-        if ( ! longname.isEmpty() && longname != name)
+        if ( ! longname.isEmpty() && longname != name) {
             objectNames(type).append( longname );
+            objectLists(type).append( QPair<QString, SkyObject *>(longname, o));
+        }
 
         deep_sky_parser.ShowProgress();
     }
@@ -370,6 +377,7 @@ void DeepSkyComponent::appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Tri
 
 void DeepSkyComponent::draw( SkyPainter *skyp )
 {
+#ifndef KSTARS_LITE
     if ( ! selected() ) return;
 
     bool drawFlag;
@@ -393,11 +401,15 @@ void DeepSkyComponent::draw( SkyPainter *skyp )
                ! ( Options::hideOnSlew() && Options::hideOther() && SkyMap::IsSlewing() );
 
     drawDeepSkyCatalog( skyp, drawFlag,   &m_OtherIndex,   "NGCColor" );
+#else
+    Q_UNUSED(skyp)
+#endif
 }
 
 void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
                                            DeepSkyIndex* dsIndex, const QString& colorString, bool drawImage)
-{
+{    
+#ifndef KSTARS_LITE
     if ( ! ( drawObject || drawImage ) ) return;
 
     SkyMap *map = SkyMap::Instance();
@@ -470,6 +482,13 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
             }
         }
     }
+#else
+    Q_UNUSED(skyp)
+    Q_UNUSED(drawObject)
+    Q_UNUSED(dsIndex)
+    Q_UNUSED(colorString)
+    Q_UNUSED(drawImage)
+#endif
 }
 
 void DeepSkyComponent::addLabel( const QPointF& p, DeepSkyObject *obj )
@@ -482,6 +501,7 @@ void DeepSkyComponent::addLabel( const QPointF& p, DeepSkyObject *obj )
 
 void DeepSkyComponent::drawLabels()
 {
+#ifndef KSTARS_LITE
     if ( m_hideLabels ) return;
 
     SkyLabeler *labeler = SkyLabeler::Instance();
@@ -498,7 +518,7 @@ void DeepSkyComponent::drawLabels()
         }
         list->clear();
     }
-
+#endif
 }
 
 
@@ -520,7 +540,6 @@ void DeepSkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& 
         }
     }
 }
-
 
 //we multiply each catalog's smallest angular distance by the
 //following factors before selecting the final nearest object:

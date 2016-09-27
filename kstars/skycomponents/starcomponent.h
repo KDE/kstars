@@ -46,6 +46,11 @@
 #include "starblockfactory.h"
 #include "skymesh.h"
 
+#ifdef KSTARS_LITE
+class StarItem;
+//#include "kstarslite/skyitems/staritem.h"
+#endif
+
 class SkyMesh;
 class StarObject;
 class SkyLabeler;
@@ -58,12 +63,15 @@ class MeshIterator;
 
 class StarComponent: public ListComponent
 {
+#ifdef KSTARS_LITE
+    friend class StarItem; //Needs access to faintMagnitude() and reindex()
+#endif
+
 protected:
 
     StarComponent( SkyComposite* );
 
 public:
-
     virtual ~StarComponent();
 
     // TODO: Desingletonize StarComponent
@@ -130,7 +138,7 @@ public:
      *@p center The center point of the aperture
      *@p radius The radius around the center point that defines the
      * aperture
-     *@p maglim Optional parameter indicating the limiting magnitude. 
+     *@p maglim Optional parameter indicating the limiting magnitude.
      * If magnitude limit is numerically < -28, the limiting magnitude
      * is assumed to be the limiting magnitude of the catalog (i.e. no
      * magnitude limit) 
@@ -160,7 +168,8 @@ private:
     /** @return the magnitude of the faintest star */
     float faintMagnitude() const;
 
-    void reindex( KSNumbers *num );
+    /** true if all stars(not only high PM ones) were reindexed else false**/
+    bool reindex( KSNumbers *num );
 
     
     SkyMesh*       m_skyMesh;

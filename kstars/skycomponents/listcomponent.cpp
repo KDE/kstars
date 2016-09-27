@@ -20,7 +20,9 @@
 #include <QList>
 
 #include "kstarsdata.h"
-#include "skymap.h" 
+#ifndef KSTARS_LITE
+#include "skymap.h"
+#endif
 #include "skyobjects/skyobject.h"
 
 ListComponent::ListComponent( SkyComposite *parent ) :

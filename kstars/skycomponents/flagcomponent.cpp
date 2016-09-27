@@ -26,7 +26,11 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
+#endif
 #include "skyobjects/skypoint.h"
 #include "ksfilereader.h"
 #include "skypainter.h"
@@ -184,7 +188,9 @@ void FlagComponent::remove( int index ) {
     m_LabelColors.removeAt( index );
 
     // request SkyMap update
+#ifndef KSTARS_LITE
     SkyMap::Instance()->forceUpdate();
+#endif
 }
 
 void FlagComponent::updateFlag( int index, SkyPoint *flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
@@ -272,7 +278,11 @@ QList<QImage> FlagComponent::imageList() {
 
 QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
 {
+#ifdef KSTARS_LITE
+    const Projector *proj = SkyMapLite::Instance()->projector();
+#else
     const Projector *proj = SkyMap::Instance()->projector();
+#endif
     QPointF pos = proj->toScreen(point);
     QList<int> retVal;
 

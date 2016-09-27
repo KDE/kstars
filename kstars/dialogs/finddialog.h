@@ -27,6 +27,7 @@
 class QTimer;
 class QStringListModel;
 class QSortFilterProxyModel;
+class SkyObjectListModel;
 
 class FindDialogUI : public QFrame, public Ui::FindDialog {
     Q_OBJECT
@@ -121,7 +122,7 @@ private:
     void filterByType();
 
     FindDialogUI* ui;
-    QStringListModel *fModel;
+    SkyObjectListModel *fModel;
     QSortFilterProxyModel* sortModel;
     QTimer* timer;
     bool listFiltered;

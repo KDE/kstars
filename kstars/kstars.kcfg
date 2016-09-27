@@ -654,8 +654,8 @@
     <entry name="ZoomFactor" type="Double">
       <label>Zoom Factor, in pixels per radian</label>
       <whatsthis>The zoom level, measured in pixels per radian.</whatsthis>
-      <default>1000.</default>
-      <min>200.</min><max>5000000.</max>
+      <default>250.</default>
+      <min>250.</min><max>5000000.</max>
     </entry>
     <entry name="MagLimitAsteroid" type="Double">
       <label>Faint limit for asteroids</label>
@@ -1728,6 +1728,15 @@
     <entry name="CameraRotation" type="Double">
         <label>Position angle of the camera with respect to north.</label>
         <default>0</default>
+    </entry>
+    </group>
+    <group name="INDI Lite">
+    <entry name="LastServer" type="String">
+        <label>The address of last used server</label>
+    </entry>
+    <entry name="LastServerPort" type="UInt">
+        <label>The port of last used server</label>
+        <default>7624</default>
     </entry>
     </group>
 </kcfg>
