@@ -7,38 +7,47 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#ifndef OpsEkos_H_
-#define OpsEkos_H_
+#ifndef OpsCalibration_H_
+#define OpsCalibration_H_
 
-#include "ui_opsekos.h"
+#include "ui_opscalibration.h"
 
 class KConfigDialog;
 
+namespace Ekos
+{
+
+class InternalGuider;
+
 /**
- * @class OpsEkos
+ * @class OpsCalibration
  *
- * Enables the user to set remote connection devices and options in addition to online and offline astrometry.net settings.
- * The user can also select to enable or disable audiable alarms upon capturing FITS or when an operation is completed.
+ * Enables the user to set guide calibration options
  *
  * @author Jasem Mutlaq
  */
-class OpsEkos : public QTabWidget, public Ui::OpsEkos
+class OpsCalibration : public QFrame, public Ui::OpsCalibration
 {
     Q_OBJECT
 
 public:
-    explicit OpsEkos();
-    ~OpsEkos();
+    explicit OpsCalibration(InternalGuider *guiderObject);
+    ~OpsCalibration();
+
+protected:
+    void showEvent(QShowEvent *);
 
 private slots:
 
     void slotApply();
     void slotCancel();
-    //void slotCheckAlignModule();
 
 private:
     KConfigDialog *m_ConfigDialog;
+    InternalGuider *guider;
 };
+
+}
 
 #endif
 

@@ -35,6 +35,7 @@ namespace Ekos
 {
 
 class GuideInterface;
+class OpsCalibration;
 
 /**
  *@class Guide
@@ -203,6 +204,8 @@ public:
     void startRapidGuide();
     void stopRapidGuide();
 
+    GuideInterface * getGuider() { return guider;}
+
 public slots:
 
     /** DBUS interface function.
@@ -294,7 +297,7 @@ protected slots:
      // FIXME
      //void onSetDECSwap(bool enable);
 
-     void onControlDirectionChanged(bool enable);
+     void onControlDirectionChanged(bool enable);     
 
 signals:
     void newLog();
@@ -348,6 +351,10 @@ private:
 
     // Progress Activity Indicator
     QProgressIndicator *pi;
+
+    // Options
+    OpsCalibration *opsCalibration;
+
 };
 
 }

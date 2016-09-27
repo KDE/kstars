@@ -87,6 +87,16 @@ void InternalGuider::setSquareAlgorithm(int index)
     pmath->setSquareAlgorithm(index);
 }
 
+void InternalGuider::setReticleParameters(double x, double y, double angle)
+{
+    pmath->setReticleParameters(x,y,angle);
+}
+
+bool InternalGuider::getReticleParameters(double *x, double *y, double *angle)
+{
+    return pmath->getReticleParameters(x,y,angle);
+}
+
 bool InternalGuider::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength)
 {
  // TODO

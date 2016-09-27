@@ -50,6 +50,10 @@ public:
 
     void setSquareAlgorithm( int index );
 
+    // Reticle Parameters
+    void setReticleParameters(double x, double y, double angle);
+    bool getReticleParameters(double *x, double *y, double *angle);
+
 
 
     /// IMPORTED CHECK THEM ALL

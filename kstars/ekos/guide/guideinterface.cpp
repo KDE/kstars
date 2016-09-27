@@ -56,7 +56,17 @@ bool GuideInterface::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY,
     return true;
 }
 
-bool GuideInterface::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t binX, uint8_t binY)
+bool GuideInterface::getGuiderParams(double *ccdPixelSizeX, double *ccdPixelSizeY, double *mountAperture, double *mountFocalLength)
+{
+    *ccdPixelSizeX           = this->ccdPixelSizeX;
+    *ccdPixelSizeY           = this->ccdPixelSizeY;
+    *mountAperture           = this->mountAperture;
+    *mountFocalLength        = this->mountFocalLength;
+
+    return true;
+}
+
+bool GuideInterface::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY)
 {
     if( w <= 0 || h <= 0 )
         return false;
@@ -71,6 +81,20 @@ bool GuideInterface::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t
 
     return true;
 }
+
+bool GuideInterface::getFrameParams(uint16_t *x, uint16_t *y, uint16_t *w, uint16_t *h, uint16_t *binX, uint16_t *binY)
+{
+    *x = subX;
+    *y = subY;
+    *w = subW;
+    *h = subH;
+
+    *binX = subBinX;
+    *binY = subBinY;
+
+    return true;
+}
+
 }
 
 

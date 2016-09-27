@@ -14,10 +14,12 @@
 #include <KMessageBox>
 #include <KLed>
 #include <KLocalizedString>
+#include <KConfigDialog>
 
 #include <basedevice.h>
 
 #include "Options.h"
+#include "opscalibration.h"
 
 #include "internalguide/internalguider.h"
 #include "scroll_graph.h"
@@ -50,10 +52,15 @@ Guide::Guide() : QWidget()
     new GuideAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Guide",  this);
 
+    // Devices
     currentCCD = NULL;
     currentTelescope = NULL;
+
+    // AO Driver
     AODriver= NULL;
-    GuideDriver=NULL;
+
+    // ST4 Driver
+    GuideDriver=NULL;    
 
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
     guideDeviationRA = guideDeviationDEC = 0;
@@ -148,7 +155,14 @@ Guide::Guide() : QWidget()
     switch (guiderType)
     {
     case GUIDE_INTERNAL:
+    {
         guider= new InternalGuider();
+        // Options
+        KConfigDialog* dialog = new KConfigDialog(this, "guidesettings", Options::self());
+        opsCalibration = new OpsCalibration(dynamic_cast<InternalGuider*>(guider));
+        dialog->addPage(opsCalibration, i18n("Calibration Settings"));
+        connect(calibrationOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
+    }
         break;
 
     case GUIDE_PHD2:
