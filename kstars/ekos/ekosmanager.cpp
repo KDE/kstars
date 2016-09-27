@@ -972,7 +972,7 @@ void EkosManager::setDome(ISD::GDInterface *domeDevice)
 
     domeProcess->setDome(domeDevice);
 
-    if (captureProgress)
+    if (captureProcess)
         captureProcess->setDome(domeDevice);
 
     appendLogText(i18n("%1 is online.", domeDevice->getDeviceName()));
