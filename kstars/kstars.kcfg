@@ -1599,7 +1599,7 @@ sky map.</whatsthis>
       </entry>
       <entry name="LINGuiderPort" type="UInt">
          <label>Lin_guider Event Monitoring Port</label>
-         <default>59000</default>
+         <default>5656</default>
       </entry>
       <entry name="CalibrationPulseDuration" type="UInt">
          <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
@@ -1608,7 +1608,7 @@ sky map.</whatsthis>
       <entry name="GuideSquareSizeIndex" type="UInt">
          <label>Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
          <default>1</default>
-      </entry>
+      </entry>      
       <entry name="AutoModeEnabled" type="Bool">
          <label>Automatically calibrate selected axes.</label>
          <default>true</default>

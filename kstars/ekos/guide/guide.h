@@ -36,6 +36,7 @@ namespace Ekos
 
 class GuideInterface;
 class OpsCalibration;
+class OpsGuide;
 
 /**
  *@class Guide
@@ -354,6 +355,7 @@ private:
 
     // Options
     OpsCalibration *opsCalibration;
+    OpsGuide *opsGuide;
 
 };
 

@@ -135,6 +135,7 @@ if (INDI_FOUND)
                     # Guide
                     ekos/guide/guide.ui
                     ekos/guide/opscalibration.ui
+                    ekos/guide/opsguide.ui
                     #TODO remove from GIT
                     #ekos/guide/guider.ui
                     #ekos/guide/rcalibration.ui
@@ -180,6 +181,7 @@ if (INDI_FOUND)
                        ekos/guide/guideinterface.cpp
                        ekos/guide/scroll_graph.cpp
                        ekos/guide/opscalibration.cpp
+                       ekos/guide/opsguide.cpp
                        # Internal Guide
                        ekos/guide/internalguide/common.cpp
                        ekos/guide/internalguide/gmath.cpp

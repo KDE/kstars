@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>269</width>
-    <height>210</height>
+    <height>207</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,6 +33,9 @@
           <property name="checked">
            <bool>true</bool>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">guiderTypeButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -46,6 +49,9 @@
           <property name="checked">
            <bool>false</bool>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">guiderTypeButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -53,6 +59,9 @@
           <property name="text">
            <string>lin_guider</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">guiderTypeButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -98,6 +107,9 @@
         </item>
         <item>
          <widget class="QLineEdit" name="externalPort">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -113,25 +125,63 @@
      <property name="title">
       <string>Settings</string>
      </property>
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="l_19">
-        <property name="text">
-         <string>Algorithm</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="comboBox_ThresholdAlg"/>
-      </item>
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>3</number>
+      </property>
+      <property name="rightMargin">
+       <number>3</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
       <item row="1" column="0">
-       <widget class="QCheckBox" name="kcfg_EnableDither">
+       <widget class="QCheckBox" name="kcfg_DitherEnabled">
         <property name="toolTip">
          <string>Subframe the image around the guide star</string>
         </property>
         <property name="text">
          <string>Dither</string>
         </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="kcfg_RapidGuideEnabled">
+        <property name="text">
+         <string>Rapid Guide</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="kcfg_GuideAlgorithm">
+        <item>
+         <property name="text">
+          <string>Smart</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Fast</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Auto Threshold</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>No Threshold</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string/>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="1" column="1">
@@ -161,18 +211,47 @@
         </item>
        </layout>
       </item>
-      <item row="2" column="0">
-       <widget class="QCheckBox" name="kcfg_EnableRapidGuide">
+      <item row="0" column="0">
+       <widget class="QLabel" name="l_19">
         <property name="text">
-         <string>Rapid Guide</string>
+         <string>Algorithm</string>
         </property>
        </widget>
       </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="guiderTypeButtonGroup"/>
+ </buttongroups>
 </ui>

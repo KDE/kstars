@@ -20,6 +20,7 @@
 
 #include "Options.h"
 #include "opscalibration.h"
+#include "opsguide.h"
 
 #include "internalguide/internalguider.h"
 #include "scroll_graph.h"
@@ -161,7 +162,9 @@ Guide::Guide() : QWidget()
         KConfigDialog* dialog = new KConfigDialog(this, "guidesettings", Options::self());
         opsCalibration = new OpsCalibration(dynamic_cast<InternalGuider*>(guider));
         dialog->addPage(opsCalibration, i18n("Calibration Settings"));
-        connect(calibrationOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
+        opsGuide = new OpsGuide(dynamic_cast<InternalGuider*>(guider));
+        dialog->addPage(opsGuide, i18n("Guide Settings"));
+        connect(guideOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
     }
         break;
 
