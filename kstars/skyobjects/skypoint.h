@@ -26,7 +26,7 @@
 #include "cachingdms.h"
 #include "kstarsdatetime.h"
 
-#define PROFILE_COORDINATE_CONVERSION true
+//#define PROFILE_COORDINATE_CONVERSION
 
 class KSNumbers;
 class KSSun;

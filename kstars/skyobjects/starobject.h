@@ -25,7 +25,7 @@
 #include "stardata.h"
 #include "deepstardata.h"
 
-#define PROFILE_UPDATECOORDS true
+//#define PROFILE_UPDATECOORDS
 
 class KSPopupMenu;
 
