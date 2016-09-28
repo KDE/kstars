@@ -158,9 +158,9 @@ public:
      *@return the epoch value of the Date/Time.
      *@note the epoch is shorthand for the date, expressed as a floating-point year value.
      *@sa setFromEpoch()
+     *@note The definition of Julian Epoch used here comes from http://scienceworld.wolfram.com/astronomy/JulianEpoch.html
      */
-    inline double epoch() const { return ( double( date().year() )
-                                        + double( date().dayOfYear() )/double( date().daysInYear() ) ); }
+    inline double epoch() const { return 2000.0 + (djd() - J2000)/365.25; }
 
     /**
      *Set the Date/Time from an epoch value, represented as a double.
