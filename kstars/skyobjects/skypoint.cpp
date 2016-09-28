@@ -72,7 +72,7 @@ void SkyPoint::EquatorialToHorizontal( const CachingDms *LST, const CachingDms *
     std::clock_t start = std::clock();
 #endif
     //Uncomment for spherical trig version
-    double AltRad;
+    double AltRad, AzRad;
     double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
     double sinAlt, cosAlt;
 
@@ -89,14 +89,14 @@ void SkyPoint::EquatorialToHorizontal( const CachingDms *LST, const CachingDms *
     cosAlt = sqrt( 1 - sinAlt * sinAlt ); // Avoid trigonometric function. Return value of asin is always in [-pi/2, pi/2] and in this domain cosine is always non-negative, so we can use this.
 
     double arg = ( sindec - sinlat*sinAlt )/( coslat*cosAlt );
-    if ( arg <= -1.0 ) Az.setTrigonometric( 180., 0., -1. );
-    else if ( arg >= 1.0 ) Az.setTrigonometric( 0., 0., 1. );
-    else Az.setUsing_acos( arg );
+    if ( arg <= -1.0 ) AzRad = dms::PI;
+    else if ( arg >= 1.0 ) AzRad = 0.0;
+    else AzRad = acos( arg );
 
-    if ( sinHA > 0.0 ) Az.setTrigonometric( 360. - Az.Degrees(), -Az.sin(), Az.cos() ); // resolve acos() ambiguity
+    if ( sinHA > 0.0 ) AzRad = 2.0*dms::PI - AzRad; // resolve acos() ambiguity
 
     Alt.setRadians( AltRad );
-
+    Az.setRadians( AzRad );
 #ifdef PROFILE_COORDINATE_CONVERSION
     std::clock_t stop = std::clock();
     cpuTime_EqToHz += double( stop - start )/double( CLOCKS_PER_SEC ); // Accumulate time in seconds
