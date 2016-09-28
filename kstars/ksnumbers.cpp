@@ -183,27 +183,27 @@ void KSNumbers::computeConstantValues() {
 
     //P1B is used to precess from 1984 to B1950:
 
-    P1B(0, 0) = CXB*CYB*CZB - SXB*SZB;
-    P1B(1, 0) = CXB*CYB*SZB + SXB*CZB;
-    P1B(2, 0) = CXB*SYB;
-    P1B(0, 1) = -1.0*SXB*CYB*CZB - CXB*SZB;
-    P1B(1, 1) = -1.0*SXB*CYB*SZB + CXB*CZB;
-    P1B(2, 1) = -1.0*SXB*SYB;
-    P1B(0, 2) = -1.0*SYB*CZB;
-    P1B(1, 2) = -1.0*SYB*SZB;
-    P1B(2, 2) = CYB;
+    P1B[0][0] = CXB*CYB*CZB - SXB*SZB;
+    P1B[1][0] = CXB*CYB*SZB + SXB*CZB;
+    P1B[2][0] = CXB*SYB;
+    P1B[0][1] = -1.0*SXB*CYB*CZB - CXB*SZB;
+    P1B[1][1] = -1.0*SXB*CYB*SZB + CXB*CZB;
+    P1B[2][1] = -1.0*SXB*SYB;
+    P1B[0][2] = -1.0*SYB*CZB;
+    P1B[1][2] = -1.0*SYB*SZB;
+    P1B[2][2] = CYB;
 
     //P2 is used to precess from B1950 to 1984 (it is the transpose of P1)
     // FIXME: This can be optimized by taking the transpose of P1 instead of recomputing it from scratch
-    P2B(0, 0) = CXB*CYB*CZB - SXB*SZB;
-    P2B(1, 0) = -1.0*SXB*CYB*CZB - CXB*SZB;
-    P2B(2, 0) = -1.0*SYB*CZB;
-    P2B(0, 1) = CXB*CYB*SZB + SXB*CZB;
-    P2B(1, 1) = -1.0*SXB*CYB*SZB + CXB*CZB;
-    P2B(2, 1) = -1.0*SYB*SZB;
-    P2B(0, 2) = CXB*SYB;
-    P2B(1, 2) = -1.0*SXB*SYB;
-    P2B(2, 2) = CYB;
+    P2B[0][0] = CXB*CYB*CZB - SXB*SZB;
+    P2B[1][0] = -1.0*SXB*CYB*CZB - CXB*SZB;
+    P2B[2][0] = -1.0*SYB*CZB;
+    P2B[0][1] = CXB*CYB*SZB + SXB*CZB;
+    P2B[1][1] = -1.0*SXB*CYB*SZB + CXB*CZB;
+    P2B[2][1] = -1.0*SYB*SZB;
+    P2B[0][2] = CXB*SYB;
+    P2B[1][2] = -1.0*SXB*SYB;
+    P2B[2][2] = CYB;
 }
 
 KSNumbers::~KSNumbers(){
@@ -313,30 +313,29 @@ void KSNumbers::updateValues( long double jd ) {
     ZP.SinCos( SZ, CZ );
 
     //P1 is used to precess from any epoch to J2000
-    // Note: P1 is a rotation matrix, and P2 is its transpose = inverse (also a rotation matrix)
-    P1(0, 0) = CX*CY*CZ - SX*SZ;
-    P1(1, 0) = CX*CY*SZ + SX*CZ;
-    P1(2, 0) = CX*SY;
-    P1(0, 1) = -1.0*SX*CY*CZ - CX*SZ;
-    P1(1, 1) = -1.0*SX*CY*SZ + CX*CZ;
-    P1(2, 1) = -1.0*SX*SY;
-    P1(0, 2) = -1.0*SY*CZ;
-    P1(1, 2) = -1.0*SY*SZ;
-    P1(2, 2) = CY;
+    // FIXME: Is this a rotation matrix? If so, quaternions might be more efficient
+    // A: Yes, it has to be, because the inverse is the transpose, so the matrix is orthogonal 3x3
+    P1[0][0] = CX*CY*CZ - SX*SZ;
+    P1[1][0] = CX*CY*SZ + SX*CZ;
+    P1[2][0] = CX*SY;
+    P1[0][1] = -1.0*SX*CY*CZ - CX*SZ;
+    P1[1][1] = -1.0*SX*CY*SZ + CX*CZ;
+    P1[2][1] = -1.0*SX*SY;
+    P1[0][2] = -1.0*SY*CZ;
+    P1[1][2] = -1.0*SY*SZ;
+    P1[2][2] = CY;
 
     //P2 is used to precess from J2000 to any other epoch (it is the transpose of P1)
-    // FIXME: More optimization -- just use P1(j, i) instead of P2(i, j) in code
-    P2(0, 0) = P1(0, 0);
-    P2(1, 0) = P1(0, 1);
-    P2(2, 0) = P1(0, 2);
-    P2(0, 1) = P1(1, 0);
-    P2(1, 1) = P1(1, 1);
-    P2(2, 1) = P1(1, 2);
-    P2(0, 2) = P1(2, 0);
-    P2(1, 2) = P1(2, 1);
-    P2(2, 2) = P1(2, 2);
-
-
+    // FIXME: More optimization -- just use P1[j][i] instead of P2[i][j] in code
+    P2[0][0] = P1[0][0];
+    P2[1][0] = P1[0][1];
+    P2[2][0] = P1[0][2];
+    P2[0][1] = P1[1][0];
+    P2[1][1] = P1[1][1];
+    P2[2][1] = P1[1][2];
+    P2[0][2] = P1[2][0];
+    P2[1][2] = P1[2][1];
+    P2[2][2] = P1[2][2];
 
     // Mean longitudes for the planets. radians
     //
