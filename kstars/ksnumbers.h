@@ -24,6 +24,10 @@
 
 #include "cachingdms.h"
 
+#include <Eigen/Dense>
+
+using Eigen::Matrix3d;
+
 /** @class KSNumbers
 	*
 	*There are several time-dependent values used in position calculations,
@@ -95,21 +99,23 @@ public:
     /** @return Julian Millenia since J2000*/
     inline double julianMillenia() const { return jm; }
 
-    /** @return element of P1 precession array at position [i1][i2] */
-    inline double p1( int i1, int i2 ) const { return P1[i1][i2]; }
+    /** @return element of P1 precession array at position (i1, i2) */
+    inline double p1( int i1, int i2 ) const { return P1(i1, i2); }
 
-    /** @return element of P2 precession array at position [i1][i2] */
-    inline double p2( int i1, int i2 ) const { return P2[i1][i2]; }
+    /** @return element of P2 precession array at position (i1, i2) */
+    inline double p2( int i1, int i2 ) const { return P2(i1, i2); }
 
-    /** @return element of P1B precession array at position [i1][i2] */
-    inline double p1b( int i1, int i2 ) const { return P1B[i1][i2]; }
+    /** @return element of P1B precession array at position (i1, i2) */
+    inline double p1b( int i1, int i2 ) const { return P1B(i1, i2); }
 
-    /** @return element of P2B precession array at position [i1][i2] */
-    inline double p2b( int i1, int i2 ) const { return P2B[i1][i2]; }
+    /** @return element of P2B precession array at position (i1, i2) */
+    inline double p2b( int i1, int i2 ) const { return P2B(i1, i2); }
 
-    inline const double *p1() const { return (*P1); }
-
-    inline const double *p2() const { return (*P2); }
+    /** @return the precession matrix directly **/
+    inline const Matrix3d &p2() const { return P1; }
+    inline const Matrix3d &p1() const { return P2; }
+    inline const Matrix3d &p1b() const { return P1B; }
+    inline const Matrix3d &p2b() const { return P2B; }
 
     /**
      *@short compute constant values that need to be computed only once per instance of the application
@@ -134,7 +140,7 @@ private:
     dms XP, YP, ZP, XB, YB, ZB;
     double CX, SX, CY, SY, CZ, SZ;
     double CXB, SXB, CYB, SYB, CZB, SZB;
-    double P1[3][3], P2[3][3], P1B[3][3], P2B[3][3];
+    Matrix3d P1, P2, P1B, P2B;
     double deltaObliquity, deltaEcLong;
     double e, T;
     long double days; // JD for which the last update was called

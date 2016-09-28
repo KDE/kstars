@@ -190,13 +190,8 @@ void SkyPoint::setFromEcliptic( const CachingDms *Obliquity, const dms& EcLong, 
 
 void SkyPoint::precess( const KSNumbers *num ) {
     double cosRA0, sinRA0, cosDec0, sinDec0;
-    double s[3];
-    const double *P = num->p1();
-
-    // NOTE: Since dms::sin() and dms::cos() are inline methods, one
-    // might be tempted to replace cosRA0 -> ra0().cos() etc and avoid
-    // dms::SinCos. callgrind tells me that this deteriorates performance.
-    // -- asimha
+    const Eigen::Matrix3d &precessionMatrix = num->p2();
+    Eigen::Vector3d v, s;
 
     RA0.SinCos( sinRA0, cosRA0 );
     Dec0.SinCos( sinDec0, cosDec0 );
@@ -213,16 +208,18 @@ void SkyPoint::precess( const KSNumbers *num ) {
     // there isn't much overhead in accessing them.
 
     //Multiply P2 and s to get v, the vector representing the new coords.
-#define v0 P[0] * s[0] + P[1] * s[1] + P[2] * s[2]
-#define v1 P[3] * s[0] + P[4] * s[1] + P[5] * s[2]
-#define v2 P[6] * s[0] + P[7] * s[1] + P[8] * s[2]
+    // for ( unsigned int i=0; i<3; ++i ) {
+    //     v[i] = 0.0;
+    //     for (uint j=0; j< 3; ++j) {
+    //         v[i] += num->p2( j, i )*s[j];
+    //     }
+    // }
+    v.noalias() = precessionMatrix * s;
+
     //Extract RA, Dec from the vector:
-    RA.setUsing_atan2( v1, v0 );
+    RA.setUsing_atan2( v[1], v[0] );
     RA.reduceToRange( dms::ZERO_TO_2PI );
-    Dec.setUsing_asin( v2 );
-#undef v0
-#undef v1
-#undef v2
+    Dec.setUsing_asin( v[2] );
 }
 
 SkyPoint SkyPoint::deprecess( const KSNumbers *num, long double epoch ) {
