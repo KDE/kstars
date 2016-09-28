@@ -568,6 +568,10 @@ protected:
      */
     void precess(const KSNumbers *num);
 
+#ifdef UNIT_TEST
+    friend class TestSkyPoint; // Test class
+#endif
+
 private:
     CachingDms RA0, Dec0; //catalog coordinates
     CachingDms RA, Dec; //current true sky coordinates
