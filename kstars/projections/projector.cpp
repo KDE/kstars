@@ -24,6 +24,7 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 #include "skycomponents/skylabeler.h"
+#include "auxiliary/cachingdms.h"
 
 namespace {
     void toXYZ(const SkyPoint* p, double *x, double *y, double *z) {
@@ -448,22 +449,22 @@ SkyPoint Projector::fromScreen(const QPointF& p, dms* LST, const dms* lat) const
 
 Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibleHemisphere) const
 {
-    double Y, dX;
+    CachingDms Y, dX;
     double sindX, cosdX, sinY, cosY;
 
     oRefract &= m_vp.useRefraction;
     if ( m_vp.useAltAz ) {
         if ( oRefract )
-            Y = SkyPoint::refract( o->alt() ).radians(); //account for atmospheric refraction
+            Y = SkyPoint::refract( o->alt() ); //account for atmospheric refraction
         else
-            Y = o->alt().radians();
-        dX = m_vp.focus->az().radians() - o->az().radians();
+            Y = o->alt();
+        dX = m_vp.focus->az() - o->az(); // CachingDms - operator
     } else {
-        dX = o->ra().radians() - m_vp.focus->ra().radians();
-        Y = o->dec().radians();
+        dX = o->ra() - m_vp.focus->ra(); // CachingDms - operator
+        Y = o->dec();
     }
 
-    if( !( std::isfinite( Y ) && std::isfinite( dX ) ) ) {
+    if( !( std::isfinite( Y.Degrees() ) && std::isfinite( dX.Degrees() ) ) ) {
         qDebug() << "Assert in Projector::toScreenVec failed!";
         qDebug() << "using AltAz?" << m_vp.useAltAz << " Refract? " << oRefract;
         const SkyObject *obj;
@@ -471,22 +472,18 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
         if ( (obj = dynamic_cast<const SkyObject *>(o) ) ) {
             qDebug() << "Point is object with name = " << obj->name() << " longname = " << obj->longname();
         }
-        qDebug() << "dX = " << dX << " and isfinite(dX) is" << std::isfinite(dX);
-        qDebug() << "Y = " << Y << " and isfinite(Y) is" << std::isfinite(Y);
+        qDebug() << "dX = " << dX.Degrees() << " and isfinite(dX) is" << std::isfinite(dX.Degrees());
+        qDebug() << "Y = " << Y.Degrees() << " and isfinite(Y) is" << std::isfinite(Y.Degrees());
         return Vector2f(0,0);
         //Q_ASSERT( false );
     }
 
-    dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
+//    dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
+    dX.reduceToRange( dms::MINUSPI_TO_PI );
 
     //Convert dX, Y coords to screen pixel coords, using GNU extension if available
-    #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
-    sincos( dX, &sindX, &cosdX );
-    sincos( Y, &sinY, &cosY );
-    #else
-    sindX = sin(dX);   cosdX = cos(dX);
-    sinY  = sin(Y);    cosY  = cos(Y);
-    #endif
+    dX.SinCos( sindX, cosdX );
+    Y.SinCos( sinY, cosY );
 
     //c is the cosine of the angular distance from the center
     double c = m_sinY0*sinY + m_cosY0*cosY*cosdX;

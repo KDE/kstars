@@ -171,6 +171,8 @@ public:
     	*/
     inline void setAz( dms az ) { Az = az; }
 
+    inline void setAz( const CachingDms &az ) { Az = az; }
+
     /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
     	*@param az Azimuth, expressed as a double.
@@ -194,7 +196,7 @@ public:
     inline const CachingDms& dec() const { return Dec; }
 
     /** @return a pointer to the current Azimuth. */
-    inline const dms& az() const { return Az; }
+    inline const CachingDms& az() const { return Az; }
 
     /** @return a pointer to the current Altitude. */
     inline const dms& alt() const { return Alt; }
@@ -575,7 +577,7 @@ protected:
 private:
     CachingDms RA0, Dec0; //catalog coordinates
     CachingDms RA, Dec; //current true sky coordinates
-    dms Alt, Az;
+    CachingDms Az; dms Alt; // Altitude is dms because it undergoes refraction
     static KSSun *m_Sun;
 protected:
     double   lastPrecessJD; // JD at which the last coordinate update (see updateCoords) for this SkyPoint was done

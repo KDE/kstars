@@ -152,6 +152,20 @@ public:
     void setUsing_acos( const double & cosine );
 
     /**
+     * @short Sets angle and trigonometric values
+     */
+    inline void setTrigonometric( double angleDegrees, double sine, double cosine ) {
+        D = angleDegrees;
+        m_sin = sine;
+        m_cos = cosine;
+#ifdef COUNT_DMS_SINCOS_CALLS
+        if(!m_cacheUsed)
+            ++cachingdms_bad_uses;
+        m_cacheUsed = false;
+#endif
+    }
+
+    /**
      * @short Get the sine and cosine together
      * @note Re-implements dms::SinCos()
      * @note This just uses the cached values assuming that they are good
