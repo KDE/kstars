@@ -190,7 +190,8 @@ void SkyPoint::setFromEcliptic( const CachingDms *Obliquity, const dms& EcLong, 
 
 void SkyPoint::precess( const KSNumbers *num ) {
     double cosRA0, sinRA0, cosDec0, sinDec0;
-    double v[3], s[3];
+    const Eigen::Matrix3d &precessionMatrix = num->p2();
+    Eigen::Vector3d v, s;
 
     RA0.SinCos( sinRA0, cosRA0 );
     Dec0.SinCos( sinDec0, cosDec0 );
@@ -201,24 +202,19 @@ void SkyPoint::precess( const KSNumbers *num ) {
 
     // FIXME: 1. We should be using eigen / better algorithms for
     //           matrix multiplication
-    //        2. We should NOT be using matrix multiplication, but use
-    //           quaternion multiplication instead!
-    //        3. But then, since we are using spherical coordinates
-    //           (ra,dec) as our primary representation inside of
-    //           KStars, we should instead be using spherical trig for
-    //           best performance!
-    //
+
     // According to callgrind, the call KSNumbers::p2( int, int ),
     // which is repeated 9 times per precess, has a similar cycle cost
     // as atan2(), so this could be important to fix!
 
     //Multiply P2 and s to get v, the vector representing the new coords.
-    for ( unsigned int i=0; i<3; ++i ) {
-        v[i] = 0.0;
-        for (uint j=0; j< 3; ++j) {
-            v[i] += num->p2( j, i )*s[j];
-        }
-    }
+    // for ( unsigned int i=0; i<3; ++i ) {
+    //     v[i] = 0.0;
+    //     for (uint j=0; j< 3; ++j) {
+    //         v[i] += num->p2( j, i )*s[j];
+    //     }
+    // }
+    v.noalias() = precessionMatrix * s;
 
     //Extract RA, Dec from the vector:
     RA.setUsing_atan2( v[1], v[0] );
