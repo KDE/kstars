@@ -157,13 +157,14 @@ const int KSNumbers::amp[NUTTERMS][4] = {
 KSNumbers::KSNumbers( long double jd ){
     K.setD( 20.49552 / 3600. );  //set the constant of aberration
     P.setD( 102.94719 ); // ecliptic longitude of earth's perihelion, source: http://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html; FIXME: We should correct this, as it changes with time. See the commit log for an order of magnitude estimate of the error.
+    // FIXME: FIXME above seems to have been addressed? What is deltaEcLong? -- asimha
     computeConstantValues();
     updateValues( jd );
 }
 
 void KSNumbers::computeConstantValues() {
 
-    // Compute those nubmers that need to be computed only
+    // Compute those numbers that need to be computed only
     // once.
     //
     // Ideally, these should be computed at compile-time. When we
@@ -213,6 +214,8 @@ void KSNumbers::updateValues( long double jd ) {
     double args, argc;
 
     days = jd;
+
+    // FIXME: What is the source for these algorithms / polynomials / numbers? -- asimha
 
     //Julian Centuries since J2000.0
     T = ( jd - J2000 ) / 36525.;

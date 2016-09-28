@@ -232,7 +232,7 @@ bool KStars::setGeoLocation( const QString &city, const QString &province, const
         if ( province.isEmpty() )
             qDebug() << QString("Error [D-Bus setGeoLocation]: city %1, %2 not found in database.").arg(city).arg(country);
         else
-            qDebug() << QString("Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.").arg(city).arg(province).arg(country);                
+            qDebug() << QString("Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.").arg(city).arg(province).arg(country);
     }
 
     return cityFound;
