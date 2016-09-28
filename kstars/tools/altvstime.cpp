@@ -41,6 +41,7 @@
 #include "geolocation.h"
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/starobject.h"
 
 #include <kplotwidget.h>
 #include "avtplotwidget.h"
@@ -1407,6 +1408,3 @@ QString AltVsTime::getObjectName(const SkyObject *o, bool translated)
     return finalObjectName;
 
 }
-
-
-

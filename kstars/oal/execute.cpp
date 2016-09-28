@@ -31,6 +31,7 @@
 #include "oal/lens.h"
 #include "oal/filter.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/starobject.h"
 #include "dialogs/locationdialog.h"
 #include "dialogs/finddialog.h"
 #include "skycomponents/skymapcomposite.h"

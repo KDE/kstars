@@ -21,7 +21,6 @@
 
 #include "listcomponent.h"
 #include "Options.h"
-#include "catalogdb.h"
 
 struct stat;
 

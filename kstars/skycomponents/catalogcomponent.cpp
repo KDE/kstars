@@ -17,6 +17,8 @@
 
 #include "catalogcomponent.h"
 
+#include "catalogdata.h"
+
 #include <QDebug>
 #include <KLocalizedString>
 #ifndef KSTARS_LITE
@@ -36,6 +38,7 @@
 #include "skypainter.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
+#include "catalogdb.h"
 
 
 QStringList CatalogComponent::m_Columns

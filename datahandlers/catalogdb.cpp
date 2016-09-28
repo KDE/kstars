@@ -16,9 +16,20 @@
  ***************************************************************************/
 
 #include "catalogdb.h"
+#include "catalogdata.h"
+#include "catalogentrydata.h"
 #include "kstars/version.h"
 #include "../kstars/auxiliary/kspaths.h"
+#include "starobject.h"
+#include "deepskyobject.h"
+#include "skycomponent.h"
+#include "skyobject.h"
 
+#include <QVariant>
+#include <QHash>
+#include <QSqlTableModel>
+#include <QSqlRecord>
+#include <QSqlQuery>
 
 bool CatalogDB::Initialize() {
   skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");

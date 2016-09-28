@@ -18,6 +18,7 @@
 
 /* Project Includes */
 #include "adddeepskyobject.h"
+#include "skyobjects/skyobject.h"
 
 /* KDE Includes */
 #include <KMessageBox>

@@ -20,6 +20,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/starobject.h"
 #include "skymap.h"
 #include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skymapcomposite.h"

@@ -38,6 +38,8 @@
 #include "ksdssdownloader.h"
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/starobject.h"
+#include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skycomponents/skymapcomposite.h"
 #include "simclock.h"
