@@ -200,12 +200,12 @@ void SkyPoint::precess( const KSNumbers *num ) {
     s[1] = sinRA0*cosDec0;
     s[2] = sinDec0;
 
-    // FIXME: 1. We should be using eigen / better algorithms for
-    //           matrix multiplication
 
-    // According to callgrind, the call KSNumbers::p2( int, int ),
-    // which is repeated 9 times per precess, has a similar cycle cost
-    // as atan2(), so this could be important to fix!
+    // NOTE: Rotation matrices are the fastest way to do rotations on
+    // a vector. Quaternions need more multiplications. The rotation
+    // matrix compensates in some sense by having more 'precomputed'
+    // multiplications. The matrix elements seem to cache nicely, so
+    // there isn't much overhead in accessing them.
 
     //Multiply P2 and s to get v, the vector representing the new coords.
     // for ( unsigned int i=0; i<3; ++i ) {
