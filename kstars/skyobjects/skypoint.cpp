@@ -32,6 +32,8 @@
 
 #include <QDebug>
 
+#include <cmath>
+
 #ifdef PROFILE_COORDINATE_CONVERSION
 #include <ctime> // For profiling, remove if not profiling.
 long unsigned SkyPoint::eqToHzCalls = 0;
@@ -282,7 +284,8 @@ SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ) const {
     //double bearing = atan2( dDec.radians() , dRA.radians() );
 
 
-    double dir0 = (dist >= 0 ) ? bearing : bearing + dms::PI; // in radian
+//    double dir0 = (dist >= 0 ) ? bearing : bearing + dms::PI; // in radian
+    double dir0 = bearing + std::signbit( dist ) * dms::PI; // might be faster?
     dist = fabs( dist ); // in radian
     double sinDst = sin( dst ), cosDst = cos( dst );
 
@@ -657,20 +660,26 @@ void SkyPoint::subtractEterms(void) {
 
 dms SkyPoint::angularDistanceTo(const SkyPoint *sp, double * const positionAngle) const {
 
-    double dalpha = sp->ra().radians() - ra().radians() ;
-    double ddelta = sp->dec().radians() - dec().radians();
+    // double dalpha = sp->ra().radians() - ra().radians() ;
+    // double ddelta = sp->dec().radians() - dec().radians();
+    CachingDms dalpha = sp->ra() - ra();
+    CachingDms ddelta = sp->dec() - dec();
 
-    double sa = sin(dalpha/2.);
-    double sd = sin(ddelta/2.);
+    // double sa = sin(dalpha/2.);
+    // double sd = sin(ddelta/2.);
 
-    double hava = sa*sa;
-    double havd = sd*sd;
+    // double hava = sa*sa;
+    // double havd = sd*sd;
+
+    // Compute the haversin directly:
+    double hava = ( 1 - dalpha.cos() )/2.;
+    double havd = ( 1 - ddelta.cos() )/2.;
 
      // Haversine law
-    double aux = havd + cos (sp->dec().radians()) * cos(dec().radians()) * hava;
+    double aux = havd + (sp->dec().cos()) * dec().cos() * hava;
 
     dms angDist;
-    angDist.setRadians( 2 * fabs(asin( sqrt(aux) )) );
+    angDist.setRadians( 2. * fabs(asin( sqrt(aux) )) );
 
     if( positionAngle )
     {
@@ -678,7 +687,7 @@ dms SkyPoint::angularDistanceTo(const SkyPoint *sp, double * const positionAngle
         //*positionAngle = acos( tan(-ddelta)/tan( angDist.radians() ) ); // FIXME: Might fail for large ddelta / zero angDist
         //if( -dalpha < 0 )
         //            *positionAngle = 2*M_PI - *positionAngle;
-        *positionAngle = atan2f(sin(dalpha), cos(dec().radians()) * tan(sp->dec().radians()) - sin(dec().radians()) * cos(dalpha)) * 180/M_PI;
+        *positionAngle = atan2f(dalpha.sin(), (dec().cos()) * tan(sp->dec().radians()) - (dec().sin()) * dalpha.cos()) * 180/M_PI;
     }
     return angDist;
 }
