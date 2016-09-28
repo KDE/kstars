@@ -345,18 +345,21 @@ void SkyPoint::aberrate(const KSNumbers *num) {
     Dec.SinCos( sinDec, cosDec );
 
     num->obliquity()->SinCos( sinOb, cosOb );
-    double tanOb = sinOb/cosOb;
+    // double tanOb = sinOb/cosOb;
 
     num->sunTrueLongitude().SinCos( sinL, cosL );
     num->earthPerihelionLongitude().SinCos( sinP, cosP );
 
 
     //Step 3: Aberration
-    double dRA = -1.0 * K * ( cosRA * cosL * cosOb + sinRA * sinL )/cosDec
-                  + e * K * ( cosRA * cosP * cosOb + sinRA * sinP )/cosDec;
+    // double dRA = -1.0 * K * ( cosRA * cosL * cosOb + sinRA * sinL )/cosDec
+    //               + e * K * ( cosRA * cosP * cosOb + sinRA * sinP )/cosDec;
 
-    double dDec = -1.0 * K * ( cosL * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinL )
-                   + e * K * ( cosP * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinP );
+    // double dDec = -1.0 * K * ( cosL * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinL )
+    //                + e * K * ( cosP * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinP );
+
+    double dRA = K * ( cosRA * cosOb / cosDec ) * ( e * cosP - cosL );
+    double dDec = K * ( sinRA * ( sinOb * cosDec - cosOb * sinDec ) * ( e * cosP - cosL ) + cosRA * sinDec * ( e * sinP - sinL ) );
 
     RA.setD( RA.Degrees() + dRA );
     Dec.setD( Dec.Degrees() + dDec );
