@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>696</width>
-    <height>508</height>
+    <width>702</width>
+    <height>515</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -607,7 +607,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>458</width>
+            <width>462</width>
             <height>238</height>
            </rect>
           </property>
@@ -638,44 +638,62 @@
              <number>3</number>
             </property>
             <item>
-             <widget class="QFrame" name="frame_Graph">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <property name="spacing">
+               <number>0</number>
               </property>
-              <property name="minimumSize">
-               <size>
-                <width>200</width>
-                <height>200</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="sizeIncrement">
-               <size>
-                <width>50</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="baseSize">
-               <size>
-                <width>300</width>
-                <height>300</height>
-               </size>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-             </widget>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Minimum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>1</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="ScrollGraph" name="driftGraphics" native="true">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>200</width>
+                  <height>200</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Minimum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>1</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -703,8 +721,14 @@
               </item>
               <item>
                <widget class="QCheckBox" name="RADriftEnableC">
+                <property name="toolTip">
+                 <string>Draw RA deviation</string>
+                </property>
                 <property name="text">
                  <string>RA</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -729,8 +753,14 @@
               </item>
               <item>
                <widget class="QCheckBox" name="DEDriftEnableC">
+                <property name="toolTip">
+                 <string>Draw DEC Deviation</string>
+                </property>
                 <property name="text">
                  <string>DE</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -1130,6 +1160,12 @@
    <class>FITSView</class>
    <extends>QScrollArea</extends>
    <header>fitsviewer/fitsview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ScrollGraph</class>
+   <extends>QWidget</extends>
+   <header>ekos/guide/scroll_graph.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

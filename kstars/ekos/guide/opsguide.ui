@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>269</width>
-    <height>207</height>
+    <width>275</width>
+    <height>223</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -175,11 +175,6 @@
         <item>
          <property name="text">
           <string>No Threshold</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string/>
          </property>
         </item>
        </widget>

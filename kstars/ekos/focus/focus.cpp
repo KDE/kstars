@@ -982,7 +982,8 @@ void Focus::setCaptureComplete()
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
     // Always reset capture mode to NORMAL
-    targetChip->setCaptureMode(FITS_NORMAL);
+    // JM 2016-09-28: Disable setting back to FITS_NORMAL as it might be causing issues. Each module should set capture module separately.
+    //targetChip->setCaptureMode(FITS_NORMAL);
 
     FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
 

@@ -98,7 +98,6 @@ FITSView * CCDChip::getImage(FITSMode imageType)
 
 void CCDChip::setImage(FITSView *image, FITSMode imageType)
 {
-
     switch (imageType)
     {
     case FITS_NORMAL:

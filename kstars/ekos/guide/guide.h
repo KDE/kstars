@@ -278,10 +278,7 @@ protected slots:
          */
      void processCCDNumber(INumberVectorProperty *nvp);
 
-     void saveDefaultGuideExposure();
-
-     void setDefaultCCD(QString ccd);
-     void setDefaultST4(QString st4);
+     void saveDefaultGuideExposure();     
 
      void updateTrackingBoxSize(int currentIndex);
 
@@ -311,8 +308,25 @@ signals:
     void guideChipUpdated(ISD::CCDChip*);
 
 private:
+    /**
+     * @brief updateGuideParams Update the guider and frame parameters due to any changes in the mount and/or ccd frame
+     */
     void updateGuideParams();
+
+    /**
+     * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
+     */
     void syncTrackingBoxPosition();
+
+    /**
+     * @brief loadSettings Loads and applies all settings from KStars options
+     */
+    void loadSettings();
+
+    /**
+     * @brief saveSettings Saves all current settings into KStars options
+     */
+    void saveSettings();
 
     // Devices
     ISD::CCD *currentCCD;
@@ -342,7 +356,7 @@ private:
     GuideState state;
 
     // Drift Graph
-    ScrollGraph *driftGraph;
+    //ScrollGraph *driftGraph;
 
     // Log
     QStringList logText;

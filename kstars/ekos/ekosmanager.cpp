@@ -1606,9 +1606,6 @@ void EkosManager::setST4(ISD::ST4 * st4Driver)
 
     guideProcess->addST4(st4Driver);
 
-    if (Options::defaultST4Driver().isEmpty() == false)
-        guideProcess->setST4(Options::defaultST4Driver());
-
     //if (ao && ao->getDeviceName() == st4Driver->getDeviceName())
     if (managedDevices.contains(KSTARS_ADAPTIVE_OPTICS) && (st4Driver->getDeviceName() == managedDevices[KSTARS_ADAPTIVE_OPTICS]->getDeviceName()))
         guideProcess->setAO(st4Driver);
