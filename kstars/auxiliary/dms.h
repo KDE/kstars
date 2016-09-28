@@ -25,8 +25,8 @@
 
 #include <cmath>
 
-#define COUNT_DMS_SINCOS_CALLS true
-#define PROFILE_SINCOS true
+//#define COUNT_DMS_SINCOS_CALLS true
+//#define PROFILE_SINCOS true
 
 #ifdef PROFILE_SINCOS
 #include <ctime>
