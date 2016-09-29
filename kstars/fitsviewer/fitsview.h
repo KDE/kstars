@@ -43,9 +43,6 @@
 #include "dms.h"
 #include "fitsdata.h"
 
-#define INITIAL_W	640
-#define INITIAL_H	480
-
 #define MINIMUM_PIXEL_RANGE 5
 #define MINIMUM_STDVAR  5
 

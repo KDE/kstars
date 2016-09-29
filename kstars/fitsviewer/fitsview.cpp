@@ -56,9 +56,10 @@
 #include "indi/driverinfo.h"
 #endif
 
+#define BASE_OFFSET     50
 #define ZOOM_DEFAULT	100.0
-#define ZOOM_MIN	10
-#define ZOOM_MAX	400
+#define ZOOM_MIN        10
+#define ZOOM_MAX        400
 #define ZOOM_LOW_INCR	10
 #define ZOOM_HIGH_INCR	50
 
@@ -143,36 +144,42 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
 #ifdef HAVE_INDI
     FITSData *image_data = image->getImageData();
 
-    if ( (e->buttons() & Qt::RightButton) && image_data->hasWCS())
+    if (e->buttons() & Qt::RightButton)
     {
-      QMenu fitspopup;
-      QAction *trackAction = fitspopup.addAction(i18n("Center In Telescope"));
+        if (image_data->hasWCS())
+        {
+            QMenu fitspopup;
+            QAction *trackAction = fitspopup.addAction(i18n("Center In Telescope"));
 
-      if (fitspopup.exec(e->globalPos()) == trackAction)
-      {
-          int index = x + y * width;
+            if (fitspopup.exec(e->globalPos()) == trackAction)
+            {
+                int index = x + y * width;
 
-          wcs_point * wcs_coord = image_data->getWCSCoord();
+                wcs_point * wcs_coord = image_data->getWCSCoord();
 
-          if (wcs_coord)
-          {
-              if (index > size)
-                  return;
+                if (wcs_coord)
+                {
+                    if (index > size)
+                        return;
 
-              centerTelescope(wcs_coord[index].ra/15.0, wcs_coord[index].dec);
+                    centerTelescope(wcs_coord[index].ra/15.0, wcs_coord[index].dec);
 
-              return;
-          }
-      }
+                    return;
+                }
+            }
+        }
+
+        if (fabs(image->markerCrosshair.x()-x) <= 15 && fabs(image->markerCrosshair.y()-y) <= 15)
+            emit markerSelected(0, 0);
     }
 #endif
 
-   emit pointSelected(x, y);
+    emit pointSelected(x, y);
 
-   double HFR = image->getImageData()->getHFR(x, y);
+    double HFR = image->getImageData()->getHFR(x, y);
 
-   if (HFR > 0)
-       QToolTip::showText(e->globalPos(), i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g' , 3)), this);
+    if (HFR > 0)
+        QToolTip::showText(e->globalPos(), i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g' , 3)), this);
 
 }
 
@@ -251,15 +258,17 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     trackingBoxEnabled=false;
     trackingBoxUpdated=false;
     filter = filterType;
-    mode = fitsMode;    
+    mode = fitsMode;
 
-    setBackgroundRole(QPalette::Dark);    
+    setBackgroundRole(QPalette::Dark);
 
     markerCrosshair.setX(0);
     markerCrosshair.setY(0);
 
     currentZoom = 0.0;
     markStars = false;
+
+    setBaseSize(640,480);
 
     connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
     connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
@@ -271,7 +280,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     //connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
 
     // Default size
-    resize(INITIAL_W, INITIAL_H);
+    //resize(INITIAL_W, INITIAL_H);
 }
 
 FITSView::~FITSView()
@@ -321,8 +330,8 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
             return false;
         else
         {
-           fitsProg.setValue(65);
-           qApp->processEvents();
+            fitsProg.setValue(65);
+            qApp->processEvents();
         }
     }
 
@@ -346,8 +355,8 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
             return false;
         else
         {
-           fitsProg.setValue(75);
-           qApp->processEvents();
+            fitsProg.setValue(75);
+            qApp->processEvents();
         }
     }
 
@@ -375,15 +384,15 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
             return false;
         else
         {
-           fitsProg.setValue(100);
-           qApp->processEvents();
+            fitsProg.setValue(100);
+            qApp->processEvents();
         }
     }
 
     setAlignment(Qt::AlignCenter);
 
     if (isVisible())
-    emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
+        emit newStatus(QString("%1x%2").arg(image_width).arg(image_height), FITS_RESOLUTION);
 
     return true;
 }
@@ -507,12 +516,15 @@ int FITSView::rescale(FITSZoom type)
     case ZOOM_FIT_WINDOW:
         if ((display_image->width() > width() || display_image->height() > height()))
         {
+            int w = baseSize().width() - BASE_OFFSET;
+            int h = baseSize().height() - BASE_OFFSET;
+
             // Find the zoom level which will enclose the current FITS in the default window size (640x480)
-            currentZoom = floor( (INITIAL_W / currentWidth) * 10.) * 10.;
+            currentZoom = floor( (w / currentWidth) * 10.) * 10.;
 
             /* If width is not the problem, try height */
             if (currentZoom > ZOOM_DEFAULT)
-                currentZoom = floor( (INITIAL_H / currentHeight) * 10.) * 10.;
+                currentZoom = floor( (h / currentHeight) * 10.) * 10.;
 
             currentWidth  = image_width * (currentZoom / ZOOM_DEFAULT);
             currentHeight = image_height * (currentZoom / ZOOM_DEFAULT);
@@ -547,8 +559,8 @@ int FITSView::rescale(FITSZoom type)
     setWidget(image_frame);
 
 
-   if (type != ZOOM_KEEP_LEVEL)
-       emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+    if (type != ZOOM_KEEP_LEVEL)
+        emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 
     return 0;
 
@@ -613,9 +625,9 @@ void FITSView::updateFrame()
         return;
 
     if (currentZoom != ZOOM_DEFAULT)
-            ok = displayPixmap.convertFromImage(display_image->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        else
-            ok = displayPixmap.convertFromImage(*display_image);
+        ok = displayPixmap.convertFromImage(display_image->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    else
+        ok = displayPixmap.convertFromImage(*display_image);
 
 
     if (ok == false)
@@ -650,7 +662,7 @@ void FITSView::ZoomDefault()
 void FITSView::drawOverlay(QPainter *painter)
 {
     if (markStars)
-         drawStarCentroid(painter);
+        drawStarCentroid(painter);
 
     //if (mode == FITS_GUIDE)
     if (trackingBoxEnabled)
@@ -753,37 +765,37 @@ void FITSView::setTrackingBox(const QRect & rect)
 
 void FITSView::toggleStars(bool enable)
 {
-     markStars = enable;
+    markStars = enable;
 
-     if (markStars == true)
-     {
-       QApplication::setOverrideCursor(Qt::WaitCursor);
-       emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
-       qApp->processEvents();
-       int count = -1;
+    if (markStars == true)
+    {
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+        emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
+        qApp->processEvents();
+        int count = -1;
 
-       if (trackingBoxEnabled)
-       {
-           count = image_data->findStars(trackingBox, trackingBoxUpdated);
-           trackingBoxUpdated=false;
-       }
-       else
-           count = image_data->findStars();
+        if (trackingBoxEnabled)
+        {
+            count = image_data->findStars(trackingBox, trackingBoxUpdated);
+            trackingBoxUpdated=false;
+        }
+        else
+            count = image_data->findStars();
 
 
-    //QRectF boundary(0,0, image_data->getWidth(), image_data->getHeight());
-    //count = image_data->findOneStar(boundary);
+        //QRectF boundary(0,0, image_data->getWidth(), image_data->getHeight());
+        //count = image_data->findOneStar(boundary);
 
-       if (count >= 0 && isVisible())
-               emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
-       QApplication::restoreOverrideCursor();
-     }
+        if (count >= 0 && isVisible())
+            emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
+        QApplication::restoreOverrideCursor();
+    }
 }
 
 void FITSView::processPointSelection(int x, int y)
 {
     //if (mode != FITS_GUIDE)
-        //return;
+    //return;
 
     //image_data->getCenterSelection(&x, &y);
 
@@ -793,10 +805,10 @@ void FITSView::processPointSelection(int x, int y)
 
 void FITSView::processMarkerSelection(int x, int y)
 {
-   markerCrosshair.setX(x);
-   markerCrosshair.setY(y);
+    markerCrosshair.setX(x);
+    markerCrosshair.setY(y);
 
-   updateFrame();
+    updateFrame();
 }
 
 void FITSView::setTrackingBoxEnabled(bool enable)
@@ -816,6 +828,14 @@ void FITSView::wheelEvent(QWheelEvent* event)
         ZoomOut();
 
     event->accept();
+
+    if (markerCrosshair.isNull() == false)
+    {
+        int x0 = markerCrosshair.x()  * (currentZoom / ZOOM_DEFAULT);
+        int y0 = markerCrosshair.y()  * (currentZoom / ZOOM_DEFAULT);
+
+        ensureVisible(x0,y0, image_width/2, image_height/2);
+    }
 }
 
 void FITSView::initDisplayImage()
