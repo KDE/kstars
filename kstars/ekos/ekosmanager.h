@@ -279,16 +279,16 @@ private slots:
     // Focus Summary
     QProgressIndicator *focusPI;
     QPixmap *focusStarPixmap;
-    QPixmap *focusProfilePixmap;
-    QTemporaryFile focusStarFile;
-    QTemporaryFile focusProfileFile;
+    //QPixmap *focusProfilePixmap;
+    //QTemporaryFile focusStarFile;
+    //QTemporaryFile focusProfileFile;
 
     // Guide Summary
     QProgressIndicator *guidePI;
     QPixmap *guideStarPixmap;
-    QPixmap *guideProfilePixmap;
-    QTemporaryFile guideStarFile;
-    QTemporaryFile guideProfileFile;
+    //QPixmap *guideProfilePixmap;
+    //QTemporaryFile guideStarFile;
+    //QTemporaryFile guideProfileFile;
 
 };
 

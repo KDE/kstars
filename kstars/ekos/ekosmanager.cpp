@@ -82,7 +82,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 
     ekosOption     = NULL;
 
-    focusStarPixmap=focusProfilePixmap=guideStarPixmap=guideProfilePixmap=NULL;
+    focusStarPixmap=guideStarPixmap=NULL;
 
     mountPI=capturePI=focusPI=guidePI=NULL;
 
@@ -114,11 +114,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
 
     // Summary
-    previewPixmap = new QPixmap(QPixmap(":/images/noimage.png"));
-    focusStarFile.open();
-    focusProfileFile.open();
-    guideStarFile.open();
-    guideProfileFile.open();
+    previewPixmap = new QPixmap(QPixmap(":/images/noimage.png"));    
 
     // Profiles
     connect(addProfileB, SIGNAL(clicked()), this, SLOT(addProfile()));
@@ -136,6 +132,10 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 
     // Load add driver profiles
     loadProfiles();
+
+    // INDI Control Panel and Ekos Options
+    controlPanelB->setIcon(QIcon::fromTheme("kstars_indi", QIcon(":/icons/indi.png")));
+    optionsB->setIcon(QIcon::fromTheme("configure", QIcon(":/icons/ekos_setup.png")));
 
     // Setup Tab
     toolsWidget->tabBar()->setTabIcon(0, QIcon(":/icons/ekos_setup.png"));
@@ -169,9 +169,7 @@ EkosManager::~EkosManager()
     delete profileModel;
 
     delete previewPixmap;
-    delete focusStarPixmap;
-    delete focusProfilePixmap;
-    delete guideProfilePixmap;
+    delete focusStarPixmap;    
     delete guideStarPixmap;
 }
 
@@ -198,12 +196,12 @@ void EkosManager::resizeEvent(QResizeEvent *)
     previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     if (focusStarPixmap)
         focusStarImage->setPixmap(focusStarPixmap->scaled(focusStarImage->width(), focusStarImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    if (focusProfilePixmap)
-        focusProfileImage->setPixmap(focusProfilePixmap->scaled(focusProfileImage->width(), focusProfileImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    //if (focusProfilePixmap)
+        //focusProfileImage->setPixmap(focusProfilePixmap->scaled(focusProfileImage->width(), focusProfileImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     if (guideStarPixmap)
         guideStarImage->setPixmap(guideStarPixmap->scaled(guideStarImage->width(), guideStarImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    if (guideProfilePixmap)
-        guideProfileImage->setPixmap(guideProfilePixmap->scaled(guideProfileImage->width(), guideProfileImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    //if (guideProfilePixmap)
+        //guideProfileImage->setPixmap(guideProfilePixmap->scaled(guideProfileImage->width(), guideProfileImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
 }
 
@@ -1495,7 +1493,7 @@ void EkosManager::initMount()
     if (guideProcess)
     {
         connect(mountProcess, &Ekos::Mount::newStatus, this, [&](ISD::Telescope::TelescopeStatus state){if (state == ISD::Telescope::MOUNT_PARKING)
-                guideProcess->stopGuiding();}, Qt::UniqueConnection);
+                guideProcess->abort();}, Qt::UniqueConnection);
     }
 
 }
@@ -1560,7 +1558,7 @@ void EkosManager::initGuide()
         // Parking
         //connect(captureProcess, SIGNAL(mountParking()), guideProcess, SLOT(stopGuiding()));
         connect(mountProcess, &Ekos::Mount::newStatus, this, [&](ISD::Telescope::TelescopeStatus state){if (state == ISD::Telescope::MOUNT_PARKING)
-                guideProcess->stopGuiding();}, Qt::UniqueConnection);
+                guideProcess->abort();}, Qt::UniqueConnection);
 
     }
 
@@ -1900,22 +1898,11 @@ void EkosManager::updateFocusStarPixmap(QPixmap &starPixmap)
     focusStarPixmap = new QPixmap(starPixmap);
 
     focusStarImage->setPixmap(focusStarPixmap->scaled(focusStarImage->width(), focusStarImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-    focusStarPixmap->save(focusStarFile.fileName(), "PNG", 100);
-
-    focusStarImage->setToolTip(QString("<img src='%1' width='100' height='100'>").arg(focusStarFile.fileName()));
 }
 
 void EkosManager::updateFocusProfilePixmap(QPixmap &profilePixmap)
-{
-    delete (focusProfilePixmap);
-    focusProfilePixmap = new QPixmap(profilePixmap);
-
-    focusProfileImage->setPixmap(focusProfilePixmap->scaled(focusProfileImage->width(), focusProfileImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-    focusProfilePixmap->save(focusProfileFile.fileName(), "PNG", 100);
-
-    focusProfileImage->setToolTip(QString("<img src='%1'>").arg(focusProfileFile.fileName()));
+{        
+    focusProfileImage->setPixmap(profilePixmap);
 }
 
 void EkosManager::setFocusStatus(Ekos::FocusState status)
@@ -1969,22 +1956,11 @@ void EkosManager::updateGuideStarPixmap(QPixmap & starPix)
     guideStarPixmap = new QPixmap(starPix);
 
     guideStarImage->setPixmap(guideStarPixmap->scaled(guideStarImage->width(), guideStarImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-    guideStarPixmap->save(guideStarFile.fileName(), "PNG", 100);
-
-    guideStarImage->setToolTip(QString("<img src='%1' width='100' height='100'>").arg(guideStarFile.fileName()));
 }
 
 void EkosManager::updateGuideProfilePixmap(QPixmap & profilePix)
 {
-    delete (guideProfilePixmap);
-    guideProfilePixmap = new QPixmap(profilePix);
-
-    guideProfileImage->setPixmap(guideProfilePixmap->scaled(guideProfileImage->width(), guideProfileImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-    guideProfilePixmap->save(guideProfileFile.fileName(), "PNG", 100);
-
-    guideProfileImage->setToolTip(QString("<img src='%1'>").arg(guideProfileFile.fileName()));
+    guideProfileImage->setPixmap(profilePix);
 }
 
 void EkosManager::setTarget(SkyObject *o)
