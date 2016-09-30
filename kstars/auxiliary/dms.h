@@ -59,6 +59,9 @@ public:
 #endif
     }
 
+    /** Empty virtual destructor */
+    virtual ~dms() {}
+
     /** @short Set the floating-point value of the angle according to the four integer arguments.
      * @param d degree portion of angle (int).  Defaults to zero.
      * @param m arcminute portion of angle (int).  Defaults to zero.

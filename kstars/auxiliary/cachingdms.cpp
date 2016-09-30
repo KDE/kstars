@@ -187,6 +187,23 @@ CachingDms operator -(const CachingDms &a, const CachingDms &b) {
                        sinA * cosB - cosA * sinB,
                        cosA * cosB + sinA * sinB );
 }
+
+CachingDms operator +(const dms &a, const CachingDms &b) {
+    return CachingDms( a + dms( b ) );
+}
+
+CachingDms operator -(const dms &a, const CachingDms &b) {
+    return CachingDms( a - dms( b ) );
+}
+
+CachingDms operator +(const CachingDms &a, const dms &b) {
+    return CachingDms( dms( a ) + b );
+}
+
+CachingDms operator -(const CachingDms &a, const dms &b) {
+    return CachingDms( dms( a ) - b );
+}
+
 #undef sinA
 #undef cosA
 #undef sinB

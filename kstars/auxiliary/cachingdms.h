@@ -233,6 +233,10 @@ private:
      */
     friend CachingDms operator +(const CachingDms &, const CachingDms &);
     friend CachingDms operator -(const CachingDms &, const CachingDms &);
+    friend CachingDms operator +(const dms &a, const CachingDms &b);
+    friend CachingDms operator -(const dms &a, const CachingDms &b);
+    friend CachingDms operator +(const CachingDms &a, const dms &b);
+    friend CachingDms operator -(const CachingDms &a, const dms &b);
 
 #ifdef COUNT_DMS_SINCOS_CALLS
 private:
