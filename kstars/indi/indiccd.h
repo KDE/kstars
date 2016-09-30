@@ -48,8 +48,8 @@ public:
 
     CCDChip(ISD::CCD *ccd, ChipType cType);
 
-    FITSView * getImage(FITSMode imageType);
-    void setImage(FITSView *image, FITSMode imageType);
+    FITSView * getImageView(FITSMode imageType);
+    void setImageView(FITSView *image, FITSMode imageType);
     void setCaptureMode(FITSMode mode) { captureMode = mode; }
     void setCaptureFilter(FITSScale fType) { captureFilter = fType; }
 

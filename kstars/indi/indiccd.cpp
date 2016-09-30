@@ -64,7 +64,7 @@ CCDChip::CCDChip(ISD::CCD *ccd, ChipType cType)
     normalImage = focusImage = guideImage = calibrationImage = NULL;
 }
 
-FITSView * CCDChip::getImage(FITSMode imageType)
+FITSView * CCDChip::getImageView(FITSMode imageType)
 {
     switch (imageType)
     {
@@ -96,7 +96,7 @@ FITSView * CCDChip::getImage(FITSMode imageType)
 
 }
 
-void CCDChip::setImage(FITSView *image, FITSMode imageType)
+void CCDChip::setImageView(FITSView *image, FITSMode imageType)
 {
     switch (imageType)
     {
@@ -116,7 +116,7 @@ void CCDChip::setImage(FITSView *image, FITSMode imageType)
         calibrationImage = image;
         break;
 
-     case FITS_ALIGN:
+    case FITS_ALIGN:
         alignImage = image;
         if (KStars::Instance()->ekosManager()->alignModule() && KStars::Instance()->ekosManager()->alignModule()->fov())
             KStars::Instance()->ekosManager()->alignModule()->fov()->setImage(alignImage->getDisplayImage()->copy());
@@ -1117,7 +1117,7 @@ void CCD::processBLOB(IBLOB* bp)
     QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");
 
     //if (currentDir.endsWith('/'))
-        //currentDir.truncate(currentDir.size()-1);
+    //currentDir.truncate(currentDir.size()-1);
 
     if (QDir(currentDir).exists() == false)
         QDir().mkpath(currentDir);
@@ -1282,7 +1282,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (tabRC >= 0)
             {
                 normalTabID = tabRC;
-                targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
+                targetChip->setImageView(fv->getView(normalTabID), FITS_NORMAL);
 
                 emit newImage(fv->getView(normalTabID)->getDisplayImage(), targetChip);
             }
@@ -1309,7 +1309,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (tabRC >= 0)
             {
                 focusTabID = tabRC;
-                targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
+                targetChip->setImageView(fv->getView(focusTabID), FITS_FOCUS);
 
                 emit newImage(fv->getView(focusTabID)->getDisplayImage(), targetChip);
             }
@@ -1322,6 +1322,7 @@ void CCD::processBLOB(IBLOB* bp)
             break;
 
         case FITS_GUIDE:
+            /*
             if (guideTabID == -1)
                 tabRC = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
             else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
@@ -1335,7 +1336,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (tabRC >= 0)
             {
                 guideTabID = tabRC;
-                targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
+                targetChip->setImageView(fv->getView(guideTabID), FITS_GUIDE);
 
                 emit newImage(fv->getView(guideTabID)->getDisplayImage(), targetChip);
             }
@@ -1343,7 +1344,26 @@ void CCD::processBLOB(IBLOB* bp)
             {
                 emit newExposureValue(targetChip, 0, IPS_ALERT);
                 return;
+            }*/
+        {
+            FITSView *guideView = targetChip->getImageView(FITS_GUIDE);
+            if (guideView)
+            {
+                guideView->setFilter(captureFilter);
+                bool imageLoad = guideView->loadFITS(filename, true);
+                if (imageLoad)
+                {
+                    //guideView->rescale(ZOOM_FIT_WINDOW);
+                    guideView->updateFrame();
+                    emit newImage(guideView->getDisplayImage(), targetChip);
+                }
+                else
+                {
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
+                    return;
+                }
             }
+        }
             break;
 
         case FITS_CALIBRATE:
@@ -1360,7 +1380,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (tabRC >= 0)
             {
                 calibrationTabID = tabRC;
-                targetChip->setImage(fv->getView(calibrationTabID), FITS_CALIBRATE);
+                targetChip->setImageView(fv->getView(calibrationTabID), FITS_CALIBRATE);
             }
             else
             {
@@ -1369,7 +1389,7 @@ void CCD::processBLOB(IBLOB* bp)
             }
             break;
 
-         case FITS_ALIGN:
+        case FITS_ALIGN:
             if (alignTabID == -1)
                 tabRC = fv->addFITS(&fileURL, FITS_ALIGN, captureFilter);
             else if (fv->updateFITS(&fileURL, alignTabID, captureFilter) == false)
@@ -1383,7 +1403,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (tabRC >= 0)
             {
                 alignTabID = tabRC;
-                targetChip->setImage(fv->getView(alignTabID), FITS_ALIGN);
+                targetChip->setImageView(fv->getView(alignTabID), FITS_ALIGN);
             }
             else
             {
@@ -1398,8 +1418,8 @@ void CCD::processBLOB(IBLOB* bp)
 
         }
 
-        fv->show();
-
+        if (targetChip->getCaptureMode() != FITS_GUIDE)
+            fv->show();
     }
 #endif
 
