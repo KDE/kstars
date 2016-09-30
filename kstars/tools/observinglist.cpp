@@ -125,6 +125,7 @@ ObservingList::ObservingList()
         << i18nc( "Declination", "Dec" )
         << i18nc( "Magnitude", "Mag" )
         << i18n( "Type" )
+        << i18n( "Current Altitude" )
         );
     m_SessionModel->setHorizontalHeaderLabels(
         QStringList() << i18n( "Name" )
@@ -325,6 +326,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         //dec = p.dec().toDMSString();
 
         populateItemList();
+        itemList << new QStandardItem( QString::number( p.alt().Degrees(), 'f', 2 ) );
         m_WishListModel->appendRow( itemList );
 
         //Note addition in statusbar
