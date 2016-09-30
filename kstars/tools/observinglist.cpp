@@ -298,24 +298,35 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 
     SkyPoint p = obj->recomputeCoords( dt, geo );
 
+    QList<QStandardItem*> itemList;
+
+    // Fill itemlist with items that are common to both wishlist additions and session plan additions
+    auto populateItemList = [ &itemList, &finalObjectName, &obj, &p, &smag ]() {
+        itemList.clear();
+        QStandardItem *keyItem = new QStandardItem( finalObjectName );
+        keyItem->setData( QVariant::fromValue<void *>( static_cast<void *>( obj ) ), Qt::UserRole );
+        itemList << keyItem // NOTE: The rest of the methods assume that the SkyObject pointer is available in the first column!
+        << new QStandardItem( finalObjectName )
+        << new QStandardItem( obj->translatedLongName() )
+        << new QStandardItem( p.ra().toHMSString() )
+        << new QStandardItem( p.dec().toDMSString() )
+        << new QStandardItem( smag )
+        << new QStandardItem( obj->typeName() );
+    };
+
     //Insert object in the Wish List
     if( addToWishList ) {
+
         m_WishList.append( obj );
         m_CurrentObject = obj;
-        QList<QStandardItem*> itemList;
 
         //QString ra, dec;
         //ra = "";//p.ra().toHMSString();
         //dec = p.dec().toDMSString();
 
-        itemList<< new QStandardItem( finalObjectName )
-                << new QStandardItem( obj->translatedLongName() )
-                << new QStandardItem( p.ra().toHMSString() )
-                << new QStandardItem( p.dec().toDMSString() )
-                << new QStandardItem( smag )
-                << new QStandardItem( obj->typeName() );
-
+        populateItemList();
         m_WishListModel->appendRow( itemList );
+
         //Note addition in statusbar
         KStars::Instance()->statusBar()->showMessage( i18n( "Added %1 to observing list.", finalObjectName ), 0 );
         ui->WishListView->resizeColumnsToContents();
@@ -338,23 +349,16 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
             BestTime->setData( QString( "--" ), Qt::DisplayRole );
         }
         else {*/
-            ra = p.ra().toHMSString();
-            dec = p.dec().toDMSString();
-            BestTime->setData( TimeHash.value( finalObjectName, obj->transitTime( dt, geo ) ), Qt::DisplayRole );
-            alt = p.alt().toDMSString();
-            az = p.az().toDMSString();
+        BestTime->setData( TimeHash.value( finalObjectName, obj->transitTime( dt, geo ) ), Qt::DisplayRole );
+        alt = p.alt().toDMSString();
+        az = p.az().toDMSString();
         //}
         // TODO: Change the rest of the parameters to their appropriate datatypes.
-        itemList<< new QStandardItem( finalObjectName )
-                << new QStandardItem( obj->translatedLongName() )
-                << new QStandardItem( ra )
-                << new QStandardItem( dec )
-                << new QStandardItem( smag )
-                << new QStandardItem( obj->typeName() )
-                << new QStandardItem( KSUtils::constNameToAbbrev( KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( obj ) ) )
-                << BestTime
-                << new QStandardItem( alt )
-                << new QStandardItem( az );
+        populateItemList();
+        itemList << new QStandardItem( KSUtils::constNameToAbbrev( KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( obj ) ) )
+                 << BestTime
+                 << new QStandardItem( alt )
+                 << new QStandardItem( az );
 
         m_SessionModel->appendRow( itemList );
         //Adding an object should trigger the modified flag
@@ -367,7 +371,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 }
 
 void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) {
-    if( ! update ) {
+    if( ! update ) { // EH?!
         if ( ! o )
             o = SkyMap::Instance()->clickedObject();
         else if( sessionView ) //else if is needed as clickedObject should not be removed from the session list.
@@ -430,14 +434,9 @@ void ObservingList::slotRemoveSelectedObjects() {
             QModelIndex sortIndex, index;
             sortIndex = getActiveSortModel()->index( irow, 0 );
             index = getActiveSortModel()->mapToSource( sortIndex );
-
-            foreach ( SkyObject *o, getActiveList() ) {
-                //Stars named "star" must be matched by coordinates
-                if (getObjectName(o) == index.data().toString() ) {
-                    slotRemoveObject(o, sessionView);
-                    break;
-                }
-            }
+            SkyObject *o = static_cast<SkyObject *>( index.data( Qt::UserRole ).value<void *>() );
+            Q_ASSERT( o );
+            slotRemoveObject(o, sessionView);
         }
     }
 
@@ -698,34 +697,19 @@ void ObservingList::slotEyepieceView() {
 void ObservingList::slotAVT() {
     QModelIndexList selectedItems;
     // TODO: Think and see if there's a more effecient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
-    if( sessionView ) {
+    selectedItems = ( sessionView ? m_SessionSortModel->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes() : m_WishListSortModel->mapSelectionToSource( ui->WishListView->selectionModel()->selection() ).indexes() );
+
+    if ( selectedItems.size() ) {
         QPointer<AltVsTime> avt = new AltVsTime( KStars::Instance() );
-        for ( int irow = m_SessionModel->rowCount()-1; irow >= 0; --irow ) {
-            if ( ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
-                QModelIndex mSortIndex = m_SessionSortModel->index( irow, 0 );
-                QModelIndex mIndex = m_SessionSortModel->mapToSource( mSortIndex );
-                foreach ( SkyObject *o, sessionList() ) {
-                    if ( getObjectName(o) == mIndex.data().toString() ) {
-                        avt->processObject( o );
-                        break;
-                    }
-                }
+        foreach ( const QModelIndex &i, selectedItems ) {
+            if ( i.column() == 0 ) {
+                SkyObject *o = static_cast<SkyObject *>( i.data( Qt::UserRole ).value<void *>() );
+                Q_ASSERT( o );
+                avt->processObject( o );
             }
         }
         avt->exec();
         delete avt;
-    } else {
-        selectedItems = m_WishListSortModel->mapSelectionToSource( ui->WishListView->selectionModel()->selection() ).indexes();
-        if ( selectedItems.size() ) {
-            QPointer<AltVsTime> avt = new AltVsTime( KStars::Instance() );
-            foreach ( const QModelIndex &i, selectedItems ) { // FIXME: This code is repeated too many times. We should find a better way to do it.
-                foreach ( SkyObject *o, obsList() )
-                    if ( getObjectName(o) == i.data().toString() )
-                        avt->processObject( o );
-            }
-            avt->exec();
-            delete avt;
-        }
     }
 }
 
