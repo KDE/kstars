@@ -307,7 +307,6 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         QStandardItem *keyItem = new QStandardItem( finalObjectName );
         keyItem->setData( QVariant::fromValue<void *>( static_cast<void *>( obj ) ), Qt::UserRole );
         itemList << keyItem // NOTE: The rest of the methods assume that the SkyObject pointer is available in the first column!
-        << new QStandardItem( finalObjectName )
         << new QStandardItem( obj->translatedLongName() )
         << new QStandardItem( p.ra().toHMSString() )
         << new QStandardItem( p.dec().toDMSString() )
