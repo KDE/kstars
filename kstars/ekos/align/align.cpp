@@ -685,7 +685,7 @@ void Align::newFITS(IBLOB *bp)
             targetChip->getFrame(&x,&y,&w,&h);
             targetChip->getBinning(&binx, &biny);
 
-            FITSView *currentImage   = targetChip->getImage(FITS_ALIGN);
+            FITSView *currentImage   = targetChip->getImageView(FITS_ALIGN);
             FITSData *darkData       = NULL;
 
             uint16_t offsetX = x / binx;
@@ -713,7 +713,7 @@ void Align::setCaptureComplete()
     DarkLibrary::Instance()->disconnect(this);
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-    FITSView *currentImage   = targetChip->getImage(FITS_ALIGN);
+    FITSView *currentImage   = targetChip->getImageView(FITS_ALIGN);
     FITSData *currentData    = currentImage->getImageData();
 
     QString filename = currentData->getFilename();
