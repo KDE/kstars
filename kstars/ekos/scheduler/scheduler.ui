@@ -6,11 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>634</width>
-    <height>459</height>
+    <width>626</width>
+    <height>447</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
@@ -995,14 +1010,6 @@
      <zorder></zorder>
      <zorder>line</zorder>
      <zorder></zorder>
-     <zorder>groupBox_2</zorder>
-     <zorder>groupBox_10</zorder>
-     <zorder>startupGroup</zorder>
-     <zorder>contraintsGroup</zorder>
-     <zorder>completionGroup</zorder>
-     <zorder>line_2</zorder>
-     <zorder>groupBox_2</zorder>
-     <zorder>groupBox_10</zorder>
     </widget>
    </item>
    <item>
@@ -1441,24 +1448,24 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="startupProcedureButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="constraintButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="shutdownProcedureGroup">
+  <buttongroup name="startupProcedureButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="completionButtonGroup"/>
   <buttongroup name="stepsButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="shutdownProcedureGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>

@@ -3691,7 +3691,7 @@ void Scheduler::stopGuiding()
 {
     if ( (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) && (currentJob->getStage() == SchedulerJob::STAGE_GUIDING ||  currentJob->getStage() == SchedulerJob::STAGE_CAPTURING) )
     {
-        guideInterface->call(QDBus::AutoDetect,"stopGuiding");
+        guideInterface->call(QDBus::AutoDetect,"stop");
         guideFailureCount=0;
     }
 }
