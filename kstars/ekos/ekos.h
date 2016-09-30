@@ -7,12 +7,12 @@ namespace Ekos
 {
 
     // Guide States
-    static const QStringList guideStates = { I18N_NOOP("Idle"), I18N_NOOP("Connected"), I18N_NOOP("Disconnected"), I18N_NOOP("Calibrating"), I18N_NOOP("Calibration successful"),
-                                             I18N_NOOP("Calibration error"), I18N_NOOP("Guiding"), I18N_NOOP("Aborted"), I18N_NOOP("Suspended"), I18N_NOOP("Dithering"),
-                                             I18N_NOOP("Dithering successful"), I18N_NOOP("Dithering error")};
+    static const QStringList guideStates = { I18N_NOOP("Idle"), I18N_NOOP("Aborted"), I18N_NOOP("Connected"), I18N_NOOP("Disconnected"), I18N_NOOP("Capturing")
+                                             I18N_NOOP("Selecting star"), I18N_NOOP("Calibrating"), I18N_NOOP("Calibration error"), I18N_NOOP("Calibration successful"), I18N_NOOP("Guiding"),
+                                             I18N_NOOP("Suspended"), I18N_NOOP("Dithering"), I18N_NOOP("Dithering error"), I18N_NOOP("Dithering successful")};
 
-    typedef enum { GUIDE_IDLE, GUIDE_CONNECTED, GUIDE_DISCONNECTED, GUIDE_CALIBRATING, GUIDE_CALIBRATION_SUCESS, GUIDE_CALIBRATION_ERROR, GUIDE_GUIDING,
-                   GUIDE_ABORTED, GUIDE_SUSPENDED, GUIDE_DITHERING, GUIDE_DITHERING_SUCCESS, GUIDE_DITHERING_ERROR } GuideState;
+    typedef enum { GUIDE_IDLE, GUIDE_ABORTED, GUIDE_CONNECTED, GUIDE_DISCONNECTED, GUIDE_CALIBRATION_CAPTURE, GUIDE_CALIBRATION_STAR, GUIDE_CALIBRATING, GUIDE_CALIBRATION_ERROR,
+                   GUIDE_CALIBRATION_SUCESS, GUIDE_GUIDING, GUIDE_SUSPENDED, GUIDE_DITHERING, GUIDE_DITHERING_ERROR, GUIDE_DITHERING_SUCCESS} GuideState;
 
     const QString & getGuideStatusString(GuideState state);
 
