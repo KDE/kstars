@@ -117,22 +117,28 @@ ObservingList::ObservingList()
     //Set up the Table Views
     m_WishListModel = new QStandardItemModel( 0, 5, this );
     m_SessionModel = new QStandardItemModel( 0, 5 );
-    m_WishListModel->setHorizontalHeaderLabels( QStringList() << i18n( "Name" )
-                                        << i18n( "Alternate Name" )
-                                        << i18nc( "Right Ascension", "RA" )
-                                        << i18nc( "Declination", "Dec" )
-                                        << i18nc( "Magnitude", "Mag" )
-                                        << i18n( "Type" ) );
-    m_SessionModel->setHorizontalHeaderLabels( QStringList() << i18n( "Name" )
-                                          << i18n( "Alternate Name" )
-                                          << i18nc( "Right Ascension", "RA" )
-                                          << i18nc( "Declination", "Dec" )
-                                          << i18nc( "Magnitude", "Mag" )
-                                          << i18n( "Type" )
-                                          << i18nc( "Constellation", "Constell." )
-                                          << i18n( "Time" )
-                                          << i18nc( "Altitude", "Alt" )
-                                          << i18nc( "Azimuth", "Az" ));
+
+    m_WishListModel->setHorizontalHeaderLabels(
+        QStringList() << i18n( "Name" )
+        << i18n( "Alternate Name" )
+        << i18nc( "Right Ascension", "RA" )
+        << i18nc( "Declination", "Dec" )
+        << i18nc( "Magnitude", "Mag" )
+        << i18n( "Type" )
+        );
+    m_SessionModel->setHorizontalHeaderLabels(
+        QStringList() << i18n( "Name" )
+        << i18n( "Alternate Name" )
+        << i18nc( "Right Ascension", "RA" )
+        << i18nc( "Declination", "Dec" )
+        << i18nc( "Magnitude", "Mag" )
+        << i18n( "Type" )
+        << i18nc( "Constellation", "Constell." )
+        << i18n( "Time" )
+        << i18nc( "Altitude", "Alt" )
+        << i18nc( "Azimuth", "Az" )
+        );
+
     m_WishListSortModel = new QSortFilterProxyModel( this );
     m_WishListSortModel->setSourceModel( m_WishListModel );
     m_WishListSortModel->setDynamicSortFilter( true );
