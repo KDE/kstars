@@ -256,7 +256,7 @@ void DarkLibrary::newFITS(IBLOB *bp)
 
     disconnect(subtractParams.targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    FITSView *calibrationView = subtractParams.targetChip->getImage(FITS_CALIBRATE);
+    FITSView *calibrationView = subtractParams.targetChip->getImageView(FITS_CALIBRATE);
 
     emit newLog(i18n("Dark frame received."));
 

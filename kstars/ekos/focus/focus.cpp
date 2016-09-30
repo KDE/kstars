@@ -273,7 +273,7 @@ void Focus::resetFrame()
             starCenter = QVector3D();
             subFramed = false;
 
-            FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+            FITSView *targetImage = targetChip->getImageView(FITS_FOCUS);
             if (targetImage)
                 targetImage->setTrackingBox(QRect());
         }
@@ -758,7 +758,7 @@ void Focus::abort()
 
     //resetFrame();
 
-    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+    FITSView *targetImage = targetChip->getImageView(FITS_FOCUS);
     if (targetImage)
         targetImage->updateMode(FITS_FOCUS);
 
@@ -953,7 +953,7 @@ void Focus::newFITS(IBLOB *bp)
 
     if (darkFrameCheck->isChecked())
     {
-        FITSView *currentImage   = targetChip->getImage(FITS_FOCUS);
+        FITSView *currentImage   = targetChip->getImageView(FITS_FOCUS);
         FITSData *darkData       = NULL;
         QVariantMap settings = frameSettings[targetChip];
         uint16_t offsetX = settings["x"].toInt() / settings["binx"].toInt();
@@ -985,7 +985,7 @@ void Focus::setCaptureComplete()
     // JM 2016-09-28: Disable setting back to FITS_NORMAL as it might be causing issues. Each module should set capture module separately.
     //targetChip->setCaptureMode(FITS_NORMAL);
 
-    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+    FITSView *targetImage = targetChip->getImageView(FITS_FOCUS);
 
     if (targetImage == NULL)
     {
@@ -2056,7 +2056,7 @@ void Focus::updateBoxSize(int value)
     if (targetChip == NULL)
         return;
 
-    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+    FITSView *targetImage = targetChip->getImageView(FITS_FOCUS);
     if (targetImage == NULL)
         return;
 
@@ -2088,7 +2088,7 @@ void Focus::focusStarSelected(int x, int y)
 
     int offset = focusBoxSize->value()/subBinX;
 
-    FITSView *targetImage = targetChip->getImage(FITS_FOCUS);
+    FITSView *targetImage = targetChip->getImageView(FITS_FOCUS);
 
     //targetImage->updateMode(FITS_FOCUS);
 
