@@ -264,7 +264,7 @@ void TestCachingDms::testFailsafeUseOfBaseClassPtr() {
             d = &__a;
         angle b;
         b.y = std::rand();
-        switch( rand()%6 ) {
+        switch( rand()%7 ) {
         case 0:
             d->setD( b.x );
             break;
@@ -286,7 +286,12 @@ void TestCachingDms::testFailsafeUseOfBaseClassPtr() {
             d->setFromString( x.toHMSString(), false );
             break;
         }
-        case 5:
+        case 5: {
+            dms x( b.x );
+            dms y( 0.0 );
+            *d = x + y;
+        }
+        case 6:
         default:
             d->setRadians( b.x * dms::DegToRad );
             break;
