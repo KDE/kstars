@@ -109,8 +109,7 @@ public:
     virtual ~cgmath();
 
     // functions
-    bool setVideoParameters( int vid_wd, int vid_ht );
-    float *getDataBuffer( int *width, int *height, int *length, int *size );
+    bool setVideoParameters( int vid_wd, int vid_ht );    
     bool setGuiderParameters( double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal );
     void getGuiderParameters( double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal );
     bool setReticleParameters( double x, double y, double ang );
@@ -127,11 +126,10 @@ public:
     info_params_t getInfoParameters( void ) const;
     uint32_t getTicks( void ) const;
 
-    void setDataBuffer(float *buffer);
-    void setImageView(FITSView *image);
+    void setGuideView(FITSView *image);
     bool declinationSwapEnabled() { return dec_swap;}
     void setDeclinationSwapEnabled(bool enable) { dec_swap = enable;}
-    FITSView *getImageView() { return guideView; }
+    FITSView *getGuideView() { return guideView; }
     void setPreviewMode(bool enable) { preview_mode = enable;}
 
     /*void moveSquare( double newx, double newy );
@@ -176,8 +174,7 @@ signals:
 
 private:
     // sys...
-    uint32_t ticks;		// global channel ticker
-    float *pdata;		// pointer to data buffer
+    uint32_t ticks;		// global channel ticker    
     QPointer<FITSView> guideView;   // pointer to image
     int video_width, video_height;	// video frame dimensions
     double ccd_pixel_width, ccd_pixel_height, aperture, focal;

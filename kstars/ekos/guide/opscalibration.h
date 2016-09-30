@@ -40,7 +40,6 @@ protected:
 private slots:
 
     void slotApply();
-    void slotCancel();
 
 private:
     KConfigDialog *m_ConfigDialog;

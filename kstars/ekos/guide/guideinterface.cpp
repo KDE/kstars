@@ -95,6 +95,11 @@ bool GuideInterface::getFrameParams(uint16_t *x, uint16_t *y, uint16_t *w, uint1
     return true;
 }
 
+void GuideInterface::setStarPosition(QVector3D starCenter)
+{
+    INDI_UNUSED(starCenter);
+}
+
 }
 
 

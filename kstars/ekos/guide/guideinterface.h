@@ -38,7 +38,7 @@ public:
     virtual bool guide() = 0;
     virtual bool suspend() = 0;
     virtual bool resume() = 0;
-    virtual bool stop() = 0;
+    virtual bool abort() = 0;
     virtual bool dither(double pixels) = 0;
 
     virtual bool setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength);
@@ -46,6 +46,8 @@ public:
 
     virtual bool setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY);
     virtual bool getFrameParams(uint16_t *x, uint16_t *y, uint16_t *w, uint16_t *h, uint16_t *binX, uint16_t *binY);
+
+    virtual void setStarPosition(QVector3D starCenter);
 
 signals:
     void newLog(const QString &);

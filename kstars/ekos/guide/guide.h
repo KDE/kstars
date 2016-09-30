@@ -27,7 +27,7 @@
 #include "ui_guide.h"
 
 class QTabWidget;
-class FITSData;
+class FITSView;
 class ScrollGraph;
 class QProgressIndicator;
 
@@ -158,7 +158,7 @@ public:
      * Set rapid guiding option. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
      * @param enable if true, it will activate RapidGuide in the CCD driver. When Rapid Guide is used, no frames are sent to Ekos for analysis and the centeroid calculations are done in the CCD driver.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuideRapid(bool enable);
+    Q_SCRIPTABLE Q_NOREPLY void setGuideRapidEnabled(bool enable);
 
     /** DBUS interface function.
      * Enable or disables dithering
@@ -190,9 +190,7 @@ public:
 
     void clearLog();
 
-    void setDECSwap(bool enable);
-    bool sendPulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
-    bool sendPulse( GuideDirection dir, int msecs );
+    void setDECSwap(bool enable);    
 
     QString getLogText() { return logText.join("\n"); }
 
@@ -205,6 +203,11 @@ public:
     void startRapidGuide();
     void stopRapidGuide();
 
+    /**
+     * @brief refreshColorScheme Update any colors that depend on updates in the color scheme
+     */
+    void refreshColorScheme();
+
     GuideInterface * getGuider() { return guider;}
 
 public slots:
@@ -216,22 +219,16 @@ public slots:
      Q_SCRIPTABLE bool startGuiding();
 
     /** DBUS interface function.
-     * Stop the autoguiding operation.
-     * @return Returns true if guiding stopped successfully, false otherwise.
+     * Stop any active calibration, guiding, or dithering operation
+     * @return Returns true if operation is stopped successfully, false otherwise.
      */
-     Q_SCRIPTABLE bool stopGuiding();
+     Q_SCRIPTABLE bool abort();
 
     /** DBUS interface function.
      * Start the calibration operation.
      * @return Returns true if calibration started successfully, false otherwise.
      */
-     Q_SCRIPTABLE bool startCalibration();
-
-    /** DBUS interface function.
-     * Stop the calibration operation.
-     * @return Returns true if calibration stopped successfully, false otherwise.
-     */
-     Q_SCRIPTABLE bool stopCalibration();
+     Q_SCRIPTABLE bool calibrate();
 
     /** DBUS interface function.
      * Capture a guide frame
@@ -259,8 +256,10 @@ public slots:
      void dither();
      void setSuspended(bool enable);
 
+     // Append Log entry
      void appendLogText(const QString &);
 
+     // Update Guide module status
      void setStatus(Ekos::GuideState newState);
 
      // Star Position
@@ -268,6 +267,10 @@ public slots:
 
      // Capture
      void setCaptureComplete();
+
+     // Send pulse to ST4 driver
+     bool sendPulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
+     bool sendPulse( GuideDirection dir, int msecs );
 
 protected slots:
      void updateCCDBin(int index);
@@ -277,6 +280,13 @@ protected slots:
          * @param nvp pointer to number property.
          */
      void processCCDNumber(INumberVectorProperty *nvp);
+
+     /**
+      * @brief setTrackingStar Gets called when the user select a star in the guide frame
+      * @param x X coordinate of star
+      * @param y Y coordinate of star
+      */
+     void setTrackingStar(int x, int y);
 
      void saveDefaultGuideExposure();     
 
@@ -328,6 +338,12 @@ private:
      */
     void saveSettings();
 
+    /**
+     * @brief setBusy Indicate busy status within the module visually
+     * @param enable True if module is busy, false otherwise
+     */
+    void setBusy(bool enable);
+
     // Devices
     ISD::CCD *currentCCD;
     ISD::Telescope *currentTelescope;
@@ -370,6 +386,12 @@ private:
     // Options
     OpsCalibration *opsCalibration;
     OpsGuide *opsGuide;
+
+    // Guide Frame
+    FITSView *guideView;
+
+    // Auto star operation
+    bool autoStarCaptured;
 
 };
 

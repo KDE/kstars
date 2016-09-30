@@ -36,8 +36,7 @@ OpsCalibration::OpsCalibration(InternalGuider *guiderObject)  : QFrame( KStars::
     m_ConfigDialog = KConfigDialog::exists( "guidesettings" );
 
     connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
+    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );    
 }
 
 
@@ -62,10 +61,6 @@ void OpsCalibration::showEvent(QShowEvent *)
 void OpsCalibration::slotApply()
 {
     guider->setReticleParameters(spinBox_ReticleX->value(), spinBox_ReticleY->value(), spinBox_ReticleAngle->value());
-}
-
-void OpsCalibration::slotCancel()
-{
 }
 
 }

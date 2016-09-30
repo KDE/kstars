@@ -47,7 +47,7 @@ public:
 
     bool calibrate() override;
     bool guide() override;
-    bool stop() override;
+    bool abort() override;
     bool suspend() override;
     bool resume() override;
     bool dither(double pixels) override;

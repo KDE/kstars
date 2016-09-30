@@ -4,13 +4,10 @@
     <method name="startGuiding">
       <arg type="b" direction="out"/>
     </method>
-    <method name="stopGuiding">
+    <method name="abort">
       <arg type="b" direction="out"/>
     </method>
-    <method name="startCalibration">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="stopCalibration">
+    <method name="calibrate">
       <arg type="b" direction="out"/>
     </method>
     <method name="capture">
@@ -77,7 +74,7 @@
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setGuideRapid">
+    <method name="setGuideRapidEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>

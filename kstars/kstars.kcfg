@@ -1608,11 +1608,7 @@ sky map.</whatsthis>
       <entry name="GuideSquareSizeIndex" type="UInt">
          <label>Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
          <default>1</default>
-      </entry>      
-      <entry name="AutoModeEnabled" type="Bool">
-         <label>Automatically calibrate selected axes.</label>
-         <default>true</default>
-      </entry>
+      </entry>            
       <entry name="AutoStarEnabled" type="Bool">
          <label>Automatically select calibration star and perform calibration.</label>
          <default>false</default>

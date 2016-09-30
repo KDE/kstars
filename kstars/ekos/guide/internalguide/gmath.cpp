@@ -53,8 +53,7 @@ typedef struct
 cgmath::cgmath() : QObject()
 {
     // sys...
-    ticks = 0;
-    pdata = NULL;
+    ticks = 0;    
     video_width  = -1;
     video_height = -1;
     ccd_pixel_width  = 0;
@@ -123,37 +122,17 @@ bool cgmath::setVideoParameters( int vid_wd, int vid_ht )
     return true;
 }
 
-void cgmath::setDataBuffer(float *buffer)
-{
-    pdata = buffer;
-}
-
-void cgmath::setImageView(FITSView *image)
+void cgmath::setGuideView(FITSView *image)
 {
     guideView = image;
 
-    if (guideView)
+    /*if (guideView)
     {
         FITSData *image_data = guideView->getImageData();
         setDataBuffer(image_data->getImageBuffer());
         setVideoParameters(image_data->getWidth(), image_data->getHeight());
-    }
+    }*/
 }
-
-float *cgmath::getDataBuffer( int *width, int *height, int *length, int *size )
-{
-    if( width )
-        *width = video_width;
-    if( height )
-        *height = video_height;
-    if( length )
-        *length = video_width * video_height;
-    if( size )
-        *size = video_width * video_height * sizeof(float);
-
-    return pdata;
-}
-
 
 bool cgmath::setGuiderParameters( double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal )
 {
@@ -215,7 +194,8 @@ bool cgmath::getReticleParameters( double *x, double *y, double *ang ) const
     *x = reticle_pos.x;
     *y = reticle_pos.y;
 
-    *ang = reticle_angle;
+    if (ang)
+        *ang = reticle_angle;
 
     return true;
 }
@@ -572,6 +552,16 @@ Vector cgmath::findLocalStarPosition( void ) const
     QRect trackingBox = guideView->getTrackingBox();
     if (trackingBox.isValid() == false)
         return Vector(-1,-1,-1);
+
+    FITSData *imageData = guideView->getImageData();
+    if (imageData == NULL)
+    {
+        if (Options::guideLogging())
+            qDebug() << "Guide: Cannot process a NULL image.";
+        return Vector(-1,-1,-1);
+    }
+
+    float *pdata = imageData->getImageBuffer();
 
     if (Options::guideLogging())
         qDebug() << "Guide: Tracking Square " << trackingBox;
