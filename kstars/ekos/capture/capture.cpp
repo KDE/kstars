@@ -926,7 +926,7 @@ void Capture::newFITS(IBLOB *bp)
 
         if (useGuideHead == false && darkSubCheck->isChecked() && activeJob->isPreview())
         {
-            FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
+            FITSView *currentImage   = targetChip->getImageView(FITS_NORMAL);
             FITSData *darkData       = NULL;
             uint16_t offsetX = activeJob->getSubX() / activeJob->getXBin();
             uint16_t offsetY = activeJob->getSubY() / activeJob->getYBin();
@@ -3646,7 +3646,7 @@ bool Capture::processPostCaptureCalibrationStage()
     if (activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldDuration() == DURATION_ADU && activeJob->getTargetADU() > 0)
     {
         FITSData *image_data = NULL;
-        FITSView *currentImage   = targetChip->getImage(FITS_NORMAL);
+        FITSView *currentImage   = targetChip->getImageView(FITS_NORMAL);
         if (currentImage)
         {
             image_data = currentImage->getImageData();
