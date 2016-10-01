@@ -54,7 +54,7 @@ Mount::Mount()
     maxAltLimit->setValue(Options::maximumAltLimit());
 
     northwestB->setIcon(QIcon(":/icons/go-nw.png"));
-    northeastB->setIcon(QIcon(":/icons/go-nw.png"));
+    northeastB->setIcon(QIcon(":/icons/go-ne.png"));
     southwestB->setIcon(QIcon(":/icons/go-sw.png"));
     southeastB->setIcon(QIcon(":/icons/go-se.png"));
 
