@@ -31,7 +31,6 @@
         <file>icons/supernovae.png</file>
         <file>icons/xplanet.png</file>
         <file>icons/advanced.png</file>
-        <file>icons/breeze/index.theme</file>
         <file>icons/breeze/default/accessories-calculator.svg</file>
         <file>icons/breeze/default/application-exit.svg</file>
         <file>icons/breeze/default/applications-internet.svg</file>
@@ -132,6 +131,12 @@
         <file>icons/breeze/default/kstars_fitsviewer.svg</file>
         <file>icons/breeze/default/kstars_xplanet.svg</file>
         <file>icons/breeze/default/kstars_flag.svg</file>
+        <file>icons/glstarbase.png</file>
+        <file>icons/go-ne.png</file>
+        <file>icons/go-nw.png</file>
+        <file>icons/go-se.png</file>
+        <file>icons/go-sw.png</file>
+        <file>icons/histogram.png</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>
