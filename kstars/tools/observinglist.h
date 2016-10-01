@@ -24,9 +24,12 @@
 #include <QAbstractTableModel>
 
 #include <QDialog>
+#include <QTimer>
 //#include <KIO/CopyJob>
 
 #include "ui_observinglist.h"
+
+#include <functional>
 
 class KSAlmanac;
 class QSortFilterProxyModel;
@@ -349,6 +352,11 @@ public slots:
      */
     void slotEyepieceView();
 
+    /**
+     * @short Recalculate and update the values of the altitude in the wishlist for the current time
+     */
+    void slotUpdateAltitudes();
+
 
 protected slots:
     void slotClose();
@@ -401,6 +409,8 @@ private:
     KSDssDownloader *m_dl;
     QHash<SkyObject *, QPixmap> ImagePreviewHash;
     QPixmap m_NoImagePixmap;
+    QTimer *m_altitudeUpdater;
+    std::function<QStandardItem *(const SkyPoint &)> m_altCostHelper;
 };
 
 #endif // OBSERVINGLIST_H_

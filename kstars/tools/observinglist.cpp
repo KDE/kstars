@@ -144,6 +144,7 @@ ObservingList::ObservingList()
     m_WishListSortModel = new QSortFilterProxyModel( this );
     m_WishListSortModel->setSourceModel( m_WishListModel );
     m_WishListSortModel->setDynamicSortFilter( true );
+    m_WishListSortModel->setSortRole( Qt::UserRole );
     ui->WishListView->setModel( m_WishListSortModel );
     ui->WishListView->horizontalHeader()->setStretchLastSection( true );
 
@@ -231,6 +232,28 @@ ObservingList::ObservingList()
 
     m_NoImagePixmap = QPixmap(":/images/noimage.png").scaledToHeight(ui->ImagePreview->width());
 
+    m_altCostHelper = [ this ]( const SkyPoint &p ) -> QStandardItem * {
+        double inf = std::numeric_limits<double>::infinity();
+        double altCost = 0.;
+        QString itemText;
+        qDebug() << "p has Dec" << p.dec().toDMSString() << "and p.maxAlt( " << geo->lat()->toDMSString() << " ) returns " << p.maxAlt( *( geo->lat() ) );
+        if ( p.maxAlt( *( geo->lat() ) ) <= 0. ) {
+            altCost = -inf;
+            itemText = i18n( "Never rises" );
+        }
+        else {
+            altCost = ( p.alt().Degrees() / p.maxAlt( *( geo->lat() ) ) ) * 100.;
+            if ( altCost < 0 )
+                itemText = i18nc( "Short text to describe that object has not risen yet", "Not risen" );
+            else
+                itemText = QString::number( altCost, 'f', 0 ) + '%';
+        }
+
+        QStandardItem *altItem = new QStandardItem( itemText  );
+        altItem->setData( altCost, Qt::UserRole );
+        return altItem;
+    };
+
     slotLoadWishList(); //Load the wishlist from disk if present
     m_CurrentObject = 0;
     setSaveImagesButton();
@@ -240,6 +263,11 @@ ObservingList::ObservingList()
     // Set up for the large-size view
     bIsLarge = false;
     slotToggleSize();
+
+    m_altitudeUpdater = new QTimer( this );
+    connect( m_altitudeUpdater, SIGNAL( timeout() ), this, SLOT( slotUpdateAltitudes() ) );
+    m_altitudeUpdater->start( 120000 ); // update altitudes every 2 minutes
+
 }
 
 ObservingList::~ObservingList()
@@ -302,17 +330,23 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 
     QList<QStandardItem*> itemList;
 
+    auto getItemWithUserRole = [] ( const QString &itemText ) -> QStandardItem * {
+        QStandardItem *ret = new QStandardItem( itemText );
+        ret->setData( itemText, Qt::UserRole );
+        return ret;
+    };
+
     // Fill itemlist with items that are common to both wishlist additions and session plan additions
-    auto populateItemList = [ &itemList, &finalObjectName, &obj, &p, &smag ]() {
+    auto populateItemList = [ &getItemWithUserRole, &itemList, &finalObjectName, &obj, &p, &smag ]() {
         itemList.clear();
-        QStandardItem *keyItem = new QStandardItem( finalObjectName );
-        keyItem->setData( QVariant::fromValue<void *>( static_cast<void *>( obj ) ), Qt::UserRole );
+        QStandardItem *keyItem = getItemWithUserRole( finalObjectName );
+        keyItem->setData( QVariant::fromValue<void *>( static_cast<void *>( obj ) ), Qt::UserRole + 1 );
         itemList << keyItem // NOTE: The rest of the methods assume that the SkyObject pointer is available in the first column!
-        << new QStandardItem( obj->translatedLongName() )
-        << new QStandardItem( p.ra().toHMSString() )
-        << new QStandardItem( p.dec().toDMSString() )
-        << new QStandardItem( smag )
-        << new QStandardItem( obj->typeName() );
+        << getItemWithUserRole( obj->translatedLongName() )
+        << getItemWithUserRole( p.ra().toHMSString() )
+        << getItemWithUserRole( p.dec().toDMSString() )
+        << getItemWithUserRole( smag )
+        << getItemWithUserRole( obj->typeName() );
     };
 
     //Insert object in the Wish List
@@ -326,7 +360,12 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         //dec = p.dec().toDMSString();
 
         populateItemList();
-        itemList << new QStandardItem( QString::number( p.alt().Degrees(), 'f', 2 ) );
+        // FIXME: Instead sort by a "clever" observability score, calculated as follows:
+        //     - First sort by (max altitude) - (current altitude) rounded off to the nearest
+        //     - Weight by declination - latitude (in the northern hemisphere, southern objects get higher precedence)
+        //     - Demote objects in the hole
+        SkyPoint p = obj->recomputeCoords( KStarsDateTime( QDateTime::currentDateTime() ), geo ); // Current => now
+        itemList << m_altCostHelper( p );
         m_WishListModel->appendRow( itemList );
 
         //Note addition in statusbar
@@ -357,10 +396,10 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         //}
         // TODO: Change the rest of the parameters to their appropriate datatypes.
         populateItemList();
-        itemList << new QStandardItem( KSUtils::constNameToAbbrev( KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( obj ) ) )
+        itemList << getItemWithUserRole( KSUtils::constNameToAbbrev( KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( obj ) ) )
                  << BestTime
-                 << new QStandardItem( alt )
-                 << new QStandardItem( az );
+                 << getItemWithUserRole( alt )
+                 << getItemWithUserRole( az );
 
         m_SessionModel->appendRow( itemList );
         //Adding an object should trigger the modified flag
@@ -436,7 +475,7 @@ void ObservingList::slotRemoveSelectedObjects() {
             QModelIndex sortIndex, index;
             sortIndex = getActiveSortModel()->index( irow, 0 );
             index = getActiveSortModel()->mapToSource( sortIndex );
-            SkyObject *o = static_cast<SkyObject *>( index.data( Qt::UserRole ).value<void *>() );
+            SkyObject *o = static_cast<SkyObject *>( index.data( Qt::UserRole + 1 ).value<void *>() );
             Q_ASSERT( o );
             slotRemoveObject(o, sessionView);
         }
@@ -705,7 +744,7 @@ void ObservingList::slotAVT() {
         QPointer<AltVsTime> avt = new AltVsTime( KStars::Instance() );
         foreach ( const QModelIndex &i, selectedItems ) {
             if ( i.column() == 0 ) {
-                SkyObject *o = static_cast<SkyObject *>( i.data( Qt::UserRole ).value<void *>() );
+                SkyObject *o = static_cast<SkyObject *>( i.data( Qt::UserRole + 1 ).value<void *>() );
                 Q_ASSERT( o );
                 avt->processObject( o );
             }
@@ -1451,4 +1490,22 @@ QString ObservingList::getObjectName(const SkyObject *o, bool translated)
 
     return finalObjectName;
 
+}
+
+
+void ObservingList::slotUpdateAltitudes() {
+    // FIXME: Update upon gaining visibility, do not update when not visible
+    KStarsDateTime now( QDateTime::currentDateTime() );
+    qDebug() << "Updating altitudes in observation planner.";
+    for ( int irow = m_WishListModel->rowCount() - 1; irow >= 0; --irow ) {
+        QModelIndex idx = m_WishListSortModel->mapToSource( m_WishListSortModel->index( irow, 0 ) );
+        SkyObject *o = static_cast<SkyObject *>( idx.data( Qt::UserRole + 1 ).value<void *>() );
+        Q_ASSERT( o );
+        SkyPoint p = o->recomputeCoords( now, geo );
+        idx = m_WishListSortModel->mapToSource( m_WishListSortModel->index( irow, m_WishListSortModel->columnCount() - 1 ) );
+        QStandardItem *replacement = m_altCostHelper( p );
+        m_WishListModel->setData( idx, replacement->data( Qt::DisplayRole ), Qt::DisplayRole  );
+        m_WishListModel->setData( idx, replacement->data( Qt::UserRole ), Qt::UserRole );
+        delete replacement;
+    }
 }
