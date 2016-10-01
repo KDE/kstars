@@ -31,11 +31,12 @@
 #include <Eigen/Core>
 #include <QPointF>
 #include "dms.h"
-#include "skyobjects/starobject.h"
 
 class QFile;
 class QString;
 class SkyPoint;
+class SkyObject;
+class StarObject;
 
 namespace KSUtils {
     /** Attempt to open the data file named filename, using the QFile object "file".

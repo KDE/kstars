@@ -18,6 +18,8 @@
 #ifndef OBSERVINGLIST_H_
 #define OBSERVINGLIST_H_
 
+#include "kstarsdatetime.h"
+
 #include <QList>
 #include <QAbstractTableModel>
 
@@ -25,7 +27,6 @@
 //#include <KIO/CopyJob>
 
 #include "ui_observinglist.h"
-#include "kstarsdatetime.h"
 
 class KSAlmanac;
 class QSortFilterProxyModel;
@@ -37,6 +38,7 @@ class ObsListPopupMenu;
 class SkyPoint;
 class SkyObject;
 class KSDssDownloader;
+class QStandardItem;
 
 class ObservingListUI : public QFrame, public Ui::ObservingList {
     Q_OBJECT

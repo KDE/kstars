@@ -32,6 +32,7 @@
 #include "ksalmanac.h"
 #include "ksutils.h"
 #include "mosaic.h"
+#include "skyobjects/starobject.h"
 
 #define BAD_SCORE                       -1000
 #define MAX_FAILURE_ATTEMPTS            3

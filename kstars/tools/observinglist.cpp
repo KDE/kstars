@@ -65,6 +65,7 @@
 #include <QDir>
 #include <QFrame>
 #include <QTextStream>
+#include <QStandardItem>
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include <QHeaderView>

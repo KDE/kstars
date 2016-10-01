@@ -13,11 +13,10 @@
 #include <QTimer>
 #include <QtDBus/QtDBus>
 
+#include "indi/indistd.h"
 #include "ekos.h"
 #include "guide/common.h"
-#include "guide.h"
 #include "fitsviewer/fitscommon.h"
-#include "indi/indistd.h"
 #include "indi/inditelescope.h"
 #include "indi/indiccd.h"
 #include "ui_guide.h"
