@@ -1,0 +1,8 @@
+[Icon Theme]
+Name=Breeze
+Inherits=default
+Directories=default
+
+[default]
+Size=32
+
