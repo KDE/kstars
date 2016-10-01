@@ -236,7 +236,6 @@ ObservingList::ObservingList()
         double inf = std::numeric_limits<double>::infinity();
         double altCost = 0.;
         QString itemText;
-        qDebug() << "p has Dec" << p.dec().toDMSString() << "and p.maxAlt( " << geo->lat()->toDMSString() << " ) returns " << p.maxAlt( *( geo->lat() ) );
         if ( p.maxAlt( *( geo->lat() ) ) <= 0. ) {
             altCost = -inf;
             itemText = i18n( "Never rises" );
@@ -251,6 +250,7 @@ ObservingList::ObservingList()
 
         QStandardItem *altItem = new QStandardItem( itemText  );
         altItem->setData( altCost, Qt::UserRole );
+        qDebug() << "Updating altitude for " << p.ra().toHMSString() << " " << p.dec().toDMSString() << " alt = " << p.alt().toDMSString() << " info to " << itemText;
         return altItem;
     };
 
@@ -264,6 +264,7 @@ ObservingList::ObservingList()
     bIsLarge = false;
     slotToggleSize();
 
+    slotUpdateAltitudes();
     m_altitudeUpdater = new QTimer( this );
     connect( m_altitudeUpdater, SIGNAL( timeout() ), this, SLOT( slotUpdateAltitudes() ) );
     m_altitudeUpdater->start( 120000 ); // update altitudes every 2 minutes
@@ -326,7 +327,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     if (  - 30.0 < obj->mag() && obj->mag() < 90.0 )
         smag = QString::number( obj->mag(), 'f', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
 
-    SkyPoint p = obj->recomputeCoords( dt, geo );
+    SkyPoint p = obj->recomputeHorizontalCoords( dt, geo );
 
     QList<QStandardItem*> itemList;
 
@@ -364,7 +365,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         //     - First sort by (max altitude) - (current altitude) rounded off to the nearest
         //     - Weight by declination - latitude (in the northern hemisphere, southern objects get higher precedence)
         //     - Demote objects in the hole
-        SkyPoint p = obj->recomputeCoords( KStarsDateTime( QDateTime::currentDateTime() ), geo ); // Current => now
+        SkyPoint p = obj->recomputeHorizontalCoords( KStarsDateTime::currentDateTimeUtc(), geo ); // Current => now
         itemList << m_altCostHelper( p );
         m_WishListModel->appendRow( itemList );
 
@@ -1495,17 +1496,19 @@ QString ObservingList::getObjectName(const SkyObject *o, bool translated)
 
 void ObservingList::slotUpdateAltitudes() {
     // FIXME: Update upon gaining visibility, do not update when not visible
-    KStarsDateTime now( QDateTime::currentDateTime() );
-    qDebug() << "Updating altitudes in observation planner.";
+    KStarsDateTime now = KStarsDateTime::currentDateTimeUtc();
+    qDebug() << "Updating altitudes in observation planner @ JD - J2000 = " << double( now.djd() - J2000 );
     for ( int irow = m_WishListModel->rowCount() - 1; irow >= 0; --irow ) {
         QModelIndex idx = m_WishListSortModel->mapToSource( m_WishListSortModel->index( irow, 0 ) );
         SkyObject *o = static_cast<SkyObject *>( idx.data( Qt::UserRole + 1 ).value<void *>() );
         Q_ASSERT( o );
-        SkyPoint p = o->recomputeCoords( now, geo );
+        SkyPoint p = o->recomputeHorizontalCoords( now, geo );
         idx = m_WishListSortModel->mapToSource( m_WishListSortModel->index( irow, m_WishListSortModel->columnCount() - 1 ) );
         QStandardItem *replacement = m_altCostHelper( p );
         m_WishListModel->setData( idx, replacement->data( Qt::DisplayRole ), Qt::DisplayRole  );
         m_WishListModel->setData( idx, replacement->data( Qt::UserRole ), Qt::UserRole );
         delete replacement;
     }
+    emit m_WishListModel->dataChanged( m_WishListModel->index( 0, m_WishListModel->columnCount() - 1 ),
+                                       m_WishListModel->index( m_WishListModel->rowCount() - 1, m_WishListModel->columnCount() - 1 ) );
 }
