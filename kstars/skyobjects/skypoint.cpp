@@ -885,4 +885,5 @@ double SkyPoint::minAlt(const dms& lat) const {
     if ( retval < -90. )
         retval = 180. + retval;
     return retval;
+
 }

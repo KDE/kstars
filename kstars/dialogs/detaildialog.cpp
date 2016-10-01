@@ -210,7 +210,7 @@ void DetailDialog::createGeneralTab()
                 Data->Illumination->setText(QString("%1 %").arg(QLocale().toString(((KSMoon*)selectedObject)->illum()*100., 'f', 0)));
                 ((KSMoon *)selectedObject)->updateMag();
             }
-        
+
             // JM: Shouldn't we use the calculated magnitude? Disabling the following
             /*
             if(selectedObject->type() == SkyObject::COMET){
@@ -450,11 +450,12 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     //Coordinates Section:
     //Don't use KLocale::formatNumber() for the epoch string,
     //because we don't want a thousands-place separator!
-    QString sEpoch = QString::number( ut.epoch(), 'f', 1 );
+    selectedObject->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+    QString sEpoch = QString::number( KStarsDateTime::jdToEpoch( selectedObject->getLastPrecessJD() ), 'f', 1 );
     //Replace the decimal point with localized decimal symbol
-    sEpoch.replace( '.', QLocale().decimalPoint() );
-    
-    qDebug() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).ra0().toHMSString() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).dec0().toDMSString() << endl;
+    sEpoch.replace( '.', QLocale().decimalPoint() ); // Is this necessary? -- asimha Oct 2016
+
+    qDebug() << (selectedObject->deprecess(data->updateNum())).ra0().toHMSString() << (selectedObject->deprecess(data->updateNum())).dec0().toDMSString() << endl;
     //qDebug() << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString() << endl;
     Pos->RALabel->setText( i18n( "RA (%1):", sEpoch ) );
     Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
