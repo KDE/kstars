@@ -42,6 +42,10 @@
 #include "observinglist.h"
 //#include "whatsinteresting/wiview.h"
 
+// For profiling only
+#include "auxiliary/dms.h"
+#include "skyobjects/skypoint.h"
+
 #include "kstarsadaptor.h"
 
 #include <config-kstars.h>
@@ -173,6 +177,17 @@ KStars::~KStars()
 
     QSqlDatabase::removeDatabase("userdb");
     QSqlDatabase::removeDatabase("skydb");
+
+#ifdef PROFILE_COORDINATE_CONVERSION
+    qDebug() << "Spent " << SkyPoint::cpuTime_EqToHz << " seconds in " << SkyPoint::eqToHzCalls << " calls to SkyPoint::EquatorialToHorizontal, for an average of " << 1000.*( SkyPoint::cpuTime_EqToHz / SkyPoint::eqToHzCalls ) << " ms per call";
+#endif
+
+#ifdef COUNT_DMS_SINCOS_CALLS
+    qDebug() << "Constructed " << dms::dms_constructor_calls << " dms objects, of which " << dms::dms_with_sincos_called << " had trigonometric functions called on them = " << ( float( dms::dms_with_sincos_called ) / float( dms::dms_constructor_calls ) ) * 100. << "%";
+    qDebug() << "Of the " << dms::trig_function_calls << " calls to sin/cos/sincos on dms objects, " << dms::redundant_trig_function_calls << " were redundant = " << ( ( float( dms::redundant_trig_function_calls ) / float( dms::trig_function_calls ) ) * 100. ) << "%";
+    qDebug() << "We had " << CachingDms::cachingdms_bad_uses << " bad uses of CachingDms in all, compared to " << CachingDms::cachingdms_constructor_calls << " constructed CachingDms objects = " << ( float( CachingDms::cachingdms_bad_uses ) / float( CachingDms::cachingdms_constructor_calls ) ) * 100. << "% bad uses";
+#endif
+
 }
 
 void KStars::clearCachedFindDialog() {
@@ -191,11 +206,11 @@ void KStars::clearCachedFindDialog() {
 void KStars::applyConfig( bool doApplyFocus ) {
     if ( Options::isTracking() ) {
         actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.png")) );
     }
 
     actionCollection()->action("coordsys")->setText(
-        Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)") );    
+        Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)") );
 
     actionCollection()->action("show_time_box"        )->setChecked( Options::showTimeBox() );
     actionCollection()->action("show_location_box"    )->setChecked( Options::showGeoBox() );

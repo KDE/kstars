@@ -21,6 +21,7 @@
 #include "Options.h"
 #include "detaildialog.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/deepskyobject.h"
 #include "skycomponents/starcomponent.h"
 #include "skycomponents/syncedcatalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"

@@ -168,7 +168,7 @@ public:
     Q_INVOKABLE SimClock *clock() { return &Clock; }
 
     /** @return pointer to the local sidereal time: a dms object */
-    dms *lst() { return &LST; }
+    CachingDms *lst() { return &LST; }
 
     /** @return pointer to the GeoLocation object*/
     GeoLocation *geo() { return &m_Geo; }
@@ -370,7 +370,7 @@ private:
 
     //KLocale *locale;
 
-    dms LST;
+    CachingDms LST;
 
     QKeySequence resumeKey;
 

@@ -52,30 +52,3 @@ void OpsEkos::slotApply()
     }
 }
 
-void OpsEkos::slotCancel()
-{
-}
-
-/*
-void OpsEkos::slotCheckAlignModule()
-{
-    EkosManager *ekosManager = KStars::Instance()->ekosManager();
-
-    if (ekosManager)
-    {
-        Ekos::Guide *guideModule = ekosManager->guideModule();
-
-        if (guideModule == NULL)
-            return;
-
-        if (guideModule->isCalibrating() || guideModule->isGuiding())
-        {
-           kcfg_UseEkosGuider->disconnect();
-           kcfg_UseEkosGuider->setChecked(!kcfg_UseEkosGuider->isChecked());
-           connect( kcfg_UseEkosGuider, SIGNAL(toggled(bool)), this, SLOT(slotCheckGuideModule()));
-
-           KMessageBox::error(KStars::Instance(), i18n("Cannot change guider while guiding process is busy."));
-        }
-    }
-}
-*/

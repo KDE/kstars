@@ -39,8 +39,8 @@ OpsINDI::OpsINDI()
     else
         kcfg_fitsDir->setText ( Options::fitsDir());
 
-    selectFITSDirB->setIcon( QIcon::fromTheme( "document-open-folder" ) );
-    selectDriversDirB->setIcon( QIcon::fromTheme( "document-open-folder" ) );
+    selectFITSDirB->setIcon( QIcon::fromTheme( "document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.png")) );
+    selectDriversDirB->setIcon( QIcon::fromTheme( "document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.png")) );
 
     connect(selectFITSDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
     connect(selectDriversDirB, SIGNAL(clicked()), this, SLOT(saveDriversDirectory()));    

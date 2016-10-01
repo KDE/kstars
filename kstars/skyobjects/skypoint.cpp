@@ -19,9 +19,6 @@
 
 #include "skypoint.h"
 
-#include <QDebug>
-#include <KLocalizedString>
-
 #include "skyobject.h"
 #include "dms.h"
 #include "ksnumbers.h"
@@ -30,6 +27,18 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skycomponents/skymapcomposite.h"
+
+#include <KLocalizedString>
+
+#include <QDebug>
+
+#include <cmath>
+
+#ifdef PROFILE_COORDINATE_CONVERSION
+#include <ctime> // For profiling, remove if not profiling.
+long unsigned SkyPoint::eqToHzCalls = 0;
+double SkyPoint::cpuTime_EqToHz = 0.;
+#endif
 
 KSSun *SkyPoint::m_Sun = 0;
 const double SkyPoint::altCrit = -1.0;
@@ -53,12 +62,21 @@ SkyPoint::~SkyPoint(){
 }
 
 void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
+    qDebug() << "NOTE: This EquatorialToHorizontal overload (using dms pointers instead of CachingDms pointers) is deprecated and should be replaced with CachingDms prototype wherever speed is desirable!";
+    CachingDms _LST( *LST ), _lat( *lat );
+    EquatorialToHorizontal( &_LST, &_lat );
+}
+
+void SkyPoint::EquatorialToHorizontal( const CachingDms *LST, const CachingDms *lat ) {
+#ifdef PROFILE_COORDINATE_CONVERSION
+    std::clock_t start = std::clock();
+#endif
     //Uncomment for spherical trig version
     double AltRad, AzRad;
     double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
     double sinAlt, cosAlt;
 
-    dms HourAngle = (*LST) - ra();
+    CachingDms HourAngle = (*LST) - ra(); // Using CachingDms subtraction operator to find cos/sin of HourAngle without calling sincos()
 
     lat->SinCos( sinlat, coslat );
     dec().SinCos( sindec, cosdec );
@@ -66,7 +84,9 @@ void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
 
     sinAlt = sindec*sinlat + cosdec*coslat*cosHA;
     AltRad = asin( sinAlt );
-    cosAlt = cos( AltRad );
+
+    //    cosAlt = cos( AltRad );
+    cosAlt = sqrt( 1 - sinAlt * sinAlt ); // Avoid trigonometric function. Return value of asin is always in [-pi/2, pi/2] and in this domain cosine is always non-negative, so we can use this.
 
     double arg = ( sindec - sinlat*sinAlt )/( coslat*cosAlt );
     if ( arg <= -1.0 ) AzRad = dms::PI;
@@ -77,6 +97,11 @@ void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
 
     Alt.setRadians( AltRad );
     Az.setRadians( AzRad );
+#ifdef PROFILE_COORDINATE_CONVERSION
+    std::clock_t stop = std::clock();
+    cpuTime_EqToHz += double( stop - start )/double( CLOCKS_PER_SEC ); // Accumulate time in seconds
+    ++eqToHzCalls;
+#endif
 
     // //Uncomment for XYZ version
     //  	double xr, yr, zr, xr1, zr1, sa, ca;
@@ -131,10 +156,10 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
     if ( sinAz > 0.0 ) HARad = 2.0*dms::PI - HARad; // resolve acos() ambiguity
 
     RA.setRadians( LST->radians() - HARad );
-    RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
+    RA.reduceToRange( dms::ZERO_TO_2PI );
 }
 
-void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
+void SkyPoint::findEcliptic( const CachingDms *Obliquity, dms &EcLong, dms &EcLat ) {
     double sinRA, cosRA, sinOb, cosOb, sinDec, cosDec, tanDec;
     ra().SinCos( sinRA, cosRA );
     dec().SinCos( sinDec, cosDec );
@@ -144,11 +169,11 @@ void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
     double y = sinRA*cosOb + tanDec*sinOb;
     double ELongRad = atan2( y, cosRA );
     EcLong.setRadians( ELongRad );
-    EcLong.reduce();
+    EcLong.reduceToRange( dms::ZERO_TO_2PI );
     EcLat.setRadians( asin( sinDec*cosOb - cosDec*sinOb*sinRA ) );
 }
 
-void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms& EcLong, const dms& EcLat ) {
+void SkyPoint::setFromEcliptic( const CachingDms *Obliquity, const dms& EcLong, const dms& EcLat ) {
     double sinLong, cosLong, sinLat, cosLat, sinObliq, cosObliq;
     EcLong.SinCos( sinLong, cosLong );
     EcLat.SinCos( sinLat, cosLat );
@@ -157,15 +182,16 @@ void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms& EcLong, const d
     double sinDec = sinLat*cosObliq + cosLat*sinObliq*sinLong;
 
     double y = sinLong*cosObliq - (sinLat/cosLat)*sinObliq;
-    double RARad =  atan2( y, cosLong );
-    RA.setRadians( RARad );
-    RA.reduce();
-    Dec.setRadians( asin(sinDec) );
+//    double RARad =  atan2( y, cosLong );
+    RA.setUsing_atan2( y, cosLong );
+    RA.reduceToRange( dms::ZERO_TO_2PI );
+    Dec.setUsing_asin( sinDec );
 }
 
 void SkyPoint::precess( const KSNumbers *num ) {
     double cosRA0, sinRA0, cosDec0, sinDec0;
-    double v[3], s[3];
+    const Eigen::Matrix3d &precessionMatrix = num->p2();
+    Eigen::Vector3d v, s;
 
     RA0.SinCos( sinRA0, cosRA0 );
     Dec0.SinCos( sinDec0, cosDec0 );
@@ -173,18 +199,27 @@ void SkyPoint::precess( const KSNumbers *num ) {
     s[0] = cosRA0*cosDec0;
     s[1] = sinRA0*cosDec0;
     s[2] = sinDec0;
+
+
+    // NOTE: Rotation matrices are the fastest way to do rotations on
+    // a vector. Quaternions need more multiplications. The rotation
+    // matrix compensates in some sense by having more 'precomputed'
+    // multiplications. The matrix elements seem to cache nicely, so
+    // there isn't much overhead in accessing them.
+
     //Multiply P2 and s to get v, the vector representing the new coords.
-    for ( unsigned int i=0; i<3; ++i ) {
-        v[i] = 0.0;
-        for (uint j=0; j< 3; ++j) {
-            v[i] += num->p2( j, i )*s[j];
-        }
-    }
+    // for ( unsigned int i=0; i<3; ++i ) {
+    //     v[i] = 0.0;
+    //     for (uint j=0; j< 3; ++j) {
+    //         v[i] += num->p2( j, i )*s[j];
+    //     }
+    // }
+    v.noalias() = precessionMatrix * s;
 
     //Extract RA, Dec from the vector:
-    RA.setRadians( atan2( v[1], v[0] ) );
-    RA.reduce();
-    Dec.setRadians( asin( v[2] ) );
+    RA.setUsing_atan2( v[1], v[0] );
+    RA.reduceToRange( dms::ZERO_TO_2PI );
+    Dec.setUsing_asin( v[2] );
 }
 
 SkyPoint SkyPoint::deprecess( const KSNumbers *num, long double epoch ) {
@@ -229,7 +264,7 @@ void SkyPoint::nutate(const KSNumbers *num) {
 }
 
 SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ) const {
-    dms lat1, dtheta;
+    CachingDms lat1, dtheta;
 
     if( dist == 0.0 ) {
         qDebug() << "moveAway called with zero distance!";
@@ -239,19 +274,21 @@ SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ) const {
     double dst = fabs( dist * dms::DegToRad / 3600.0 ); // In radian
 
     // Compute the bearing angle w.r.t. the RA axis ("latitude")
-    dms dRA(  ra()  - from.ra()  );
-    dms dDec( dec() - from.dec() );
+    CachingDms dRA( ra()  - from.ra()  );
+    CachingDms dDec( dec() - from.dec() );
     double bearing = atan2( dRA.sin() / dRA.cos(), dDec.sin() ); // Do not use dRA = PI / 2!!
     //double bearing = atan2( dDec.radians() , dRA.radians() );
 
-    double dir0 = (dist >= 0 ) ? bearing : bearing + dms::PI; // in radian
+
+//    double dir0 = (dist >= 0 ) ? bearing : bearing + dms::PI; // in radian
+    double dir0 = bearing + std::signbit( dist ) * dms::PI; // might be faster?
     dist = fabs( dist ); // in radian
+    double sinDst = sin( dst ), cosDst = cos( dst );
 
-
-    lat1.setRadians( asin( dec().sin() * cos( dst ) +
-                           dec().cos() * sin( dst ) * cos( dir0 ) ) );
-    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec().cos(),
-                              cos( dst ) - dec().sin() * lat1.sin() ) );
+    lat1.setUsing_asin( dec().sin() * cosDst +
+                           dec().cos() * sinDst * cos( dir0 ) );
+    dtheta.setUsing_atan2( sin( dir0 ) * sinDst * dec().cos(),
+                              cosDst - dec().sin() * lat1.sin() );
 
     return SkyPoint( ra() + dtheta, lat1 );
 }
@@ -308,18 +345,21 @@ void SkyPoint::aberrate(const KSNumbers *num) {
     Dec.SinCos( sinDec, cosDec );
 
     num->obliquity()->SinCos( sinOb, cosOb );
-    double tanOb = sinOb/cosOb;
+    // double tanOb = sinOb/cosOb;
 
     num->sunTrueLongitude().SinCos( sinL, cosL );
     num->earthPerihelionLongitude().SinCos( sinP, cosP );
 
 
     //Step 3: Aberration
-    double dRA = -1.0 * K * ( cosRA * cosL * cosOb + sinRA * sinL )/cosDec
-                  + e * K * ( cosRA * cosP * cosOb + sinRA * sinP )/cosDec;
+    // double dRA = -1.0 * K * ( cosRA * cosL * cosOb + sinRA * sinL )/cosDec
+    //               + e * K * ( cosRA * cosP * cosOb + sinRA * sinP )/cosDec;
 
-    double dDec = -1.0 * K * ( cosL * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinL )
-                   + e * K * ( cosP * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinP );
+    // double dDec = -1.0 * K * ( cosL * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinL )
+    //                + e * K * ( cosP * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinP );
+
+    double dRA = K * ( cosRA * cosOb / cosDec ) * ( e * cosP - cosL );
+    double dDec = K * ( sinRA * ( sinOb * cosDec - cosOb * sinDec ) * ( e * cosP - cosL ) + cosRA * sinDec * ( e * sinP - sinL ) );
 
     RA.setD( RA.Degrees() + dRA );
     Dec.setD( Dec.Degrees() + dDec );
@@ -327,7 +367,7 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 }
 
 // Note: This method is one of the major rate determining factors in how fast the map pans / zooms in or out
-void SkyPoint::updateCoords( const KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST, bool forceRecompute ) {
+void SkyPoint::updateCoords( const KSNumbers *num, bool /*includePlanets*/, const CachingDms *lat, const CachingDms *LST, bool forceRecompute ) {
     //Correct the catalog coordinates for the time-dependent effects
     //of precession, nutation and aberration
     bool recompute, lens;
@@ -371,14 +411,14 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
     double cosRA, sinRA, cosDec, sinDec;
     double v[3], s[3];
 
-    RA.setD( RA0.Degrees() );
-    Dec.setD( Dec0.Degrees() );
-
-    RA.SinCos( sinRA, cosRA );
-    Dec.SinCos( sinDec, cosDec );
+    RA = RA0;
+    Dec = Dec0; // Is this necessary?
 
     if (jd0 == jdf)
         return;
+
+    RA.SinCos( sinRA, cosRA );
+    Dec.SinCos( sinDec, cosDec );
 
     if ( jd0 == B1950) {
         B1950ToJ2000();
@@ -432,11 +472,10 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
                    num.p2( 2, i )*s[2];
         }
 
-        RA.setRadians( atan2( v[1],v[0] ) );
-        Dec.setRadians( asin( v[2] ) );
+        RA.setUsing_atan2( v[1], v[0] );
+        Dec.setUsing_asin( v[2] );
 
-        if (RA.Degrees() < 0.0 )
-            RA.setD( RA.Degrees() + 360.0 );
+        RA.reduceToRange( dms::ZERO_TO_2PI );
 
         return;
     }
@@ -466,7 +505,7 @@ void SkyPoint::Equatorial1950ToGalactic(dms &galLong, dms &galLat) {
     Dec.SinCos(sinDEC,cosDEC);
 
     galLong.setRadians( c.radians() - atan2( sina_RA, cosa_RA*sinb-tanDEC*cosb) );
-    galLong = galLong.reduce();
+    galLong.reduceToRange( dms::ZERO_TO_2PI );
 
     galLat.setRadians( asin(sinDEC*sinb+cosDEC*cosb*cosa_RA) );
 }
@@ -485,7 +524,7 @@ void SkyPoint::GalacticToEquatorial1950(const dms* galLong, const dms* galLat) {
     b.SinCos(sinb,cosb);
 
     RA.setRadians(c.radians() + atan2(singLong_a,cosgLong_a*sinb-tangLat*cosb) );
-    RA = RA.reduce();
+    RA.reduceToRange( dms::ZERO_TO_2PI );
 
     Dec.setRadians( asin(singLat*sinb+cosgLat*cosb*cosgLong_a) );
 }
@@ -620,20 +659,26 @@ void SkyPoint::subtractEterms(void) {
 
 dms SkyPoint::angularDistanceTo(const SkyPoint *sp, double * const positionAngle) const {
 
-    double dalpha = sp->ra().radians() - ra().radians() ;
-    double ddelta = sp->dec().radians() - dec().radians();
+    // double dalpha = sp->ra().radians() - ra().radians() ;
+    // double ddelta = sp->dec().radians() - dec().radians();
+    CachingDms dalpha = sp->ra() - ra();
+    CachingDms ddelta = sp->dec() - dec();
 
-    double sa = sin(dalpha/2.);
-    double sd = sin(ddelta/2.);
+    // double sa = sin(dalpha/2.);
+    // double sd = sin(ddelta/2.);
 
-    double hava = sa*sa;
-    double havd = sd*sd;
+    // double hava = sa*sa;
+    // double havd = sd*sd;
+
+    // Compute the haversin directly:
+    double hava = ( 1 - dalpha.cos() )/2.;
+    double havd = ( 1 - ddelta.cos() )/2.;
 
      // Haversine law
-    double aux = havd + cos (sp->dec().radians()) * cos(dec().radians()) * hava;
+    double aux = havd + (sp->dec().cos()) * dec().cos() * hava;
 
     dms angDist;
-    angDist.setRadians( 2 * fabs(asin( sqrt(aux) )) );
+    angDist.setRadians( 2. * fabs(asin( sqrt(aux) )) );
 
     if( positionAngle )
     {
@@ -641,7 +686,7 @@ dms SkyPoint::angularDistanceTo(const SkyPoint *sp, double * const positionAngle
         //*positionAngle = acos( tan(-ddelta)/tan( angDist.radians() ) ); // FIXME: Might fail for large ddelta / zero angDist
         //if( -dalpha < 0 )
         //            *positionAngle = 2*M_PI - *positionAngle;
-        *positionAngle = atan2f(sin(dalpha), cos(dec().radians()) * tan(sp->dec().radians()) - sin(dec().radians()) * cos(dalpha)) * 180/M_PI;
+        *positionAngle = atan2f(dalpha.sin(), (dec().cos()) * tan(sp->dec().radians()) - (dec().sin()) * dalpha.cos()) * 180/M_PI;
     }
     return angDist;
 }
@@ -825,4 +870,19 @@ SkyPoint SkyPoint::timeTransformed( const SkyPoint *p, const KStarsDateTime &dt,
     sp.EquatorialToHorizontal( &LST, geo->lat() );
     return sp;
 
+}
+
+
+double SkyPoint::maxAlt(const dms& lat) const {
+    double retval = ( lat.Degrees() + 90. - dec().Degrees() );
+    if ( retval > 90. )
+        retval = 180. - retval;
+    return retval;
+}
+
+double SkyPoint::minAlt(const dms& lat) const {
+    double retval = ( lat.Degrees() - 90. + dec().Degrees() );
+    if ( retval < -90. )
+        retval = 180. + retval;
+    return retval;
 }

@@ -133,49 +133,63 @@ namespace {
 
 void KStars::initActions() {
     //KIconLoader::global()->addAppDir( "kstars" );
+    
+    //This will check if there is an icon for a very common action to see if a theme is loaded.
+    //If one is not detected, it tries to set the theme to the one specified here.
+    static const char * GENERIC_ICON_TO_CHECK = "document-open";
+    static const char * ICON_THEME = "breeze";
+    if (!QIcon::hasThemeIcon(GENERIC_ICON_TO_CHECK)) {
+        QIcon::setThemeName(ICON_THEME);
+    }
+    
+    
     QAction *ka;
 
     // ==== File menu ================
     ka = KNS3::standardAction(i18n("Download New Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data")
         << QKeySequence( Qt::CTRL+Qt::Key_N );
+    ka ->setIcon(QIcon::fromTheme("favorites" , QIcon(":/icons/breeze/default/favorites.png")));
     ka->setWhatsThis(i18n("Downloads new data"));
     ka->setToolTip(ka->whatsThis());
     ka->setStatusTip(ka->whatsThis());
 
+    
 #ifdef HAVE_CFITSIO
     actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()) )
         << i18n("Open FITS...")
-        << QIcon::fromTheme("document-open")
+        << QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.png"))
         << QKeySequence( Qt::CTRL+Qt::Key_O );
 #endif
     actionCollection()->addAction("export_image", this, SLOT( slotExportImage() ) )
         << i18n("&Save Sky Image...")
-        << QIcon::fromTheme("document-export-image")
+        << QIcon::fromTheme("document-export-image", QIcon(":/icons/breeze/default/document-export.png"))
         << QKeySequence( Qt::CTRL+Qt::Key_I );
     actionCollection()->addAction("run_script", this, SLOT( slotRunScript() ))
         << i18n("&Run Script...")
-        << QIcon::fromTheme("system-run" )
+        << QIcon::fromTheme("system-run", QIcon(":/icons/breeze/default/system-run.png"))
         << QKeySequence( Qt::CTRL+Qt::Key_R );
     actionCollection()->addAction("printing_wizard", this, SLOT(slotPrintingWizard() ) )
             << i18nc("start Printing Wizard", "Printing &Wizard");
-    actionCollection()->addAction( KStandardAction::Print, "print", this, SLOT( slotPrint() ) );
+    ka = actionCollection()->addAction( KStandardAction::Print, "print", this, SLOT( slotPrint() ) );
+    ka->setIcon( QIcon::fromTheme("document-print", QIcon(":/icons/breeze/default/document-print.png")));
     //actionCollection()->addAction( KStandardAction::Quit,  "quit",  this, SLOT(close) );
-    actionCollection()->addAction( KStandardAction::Quit,  "quit",  qApp, SLOT(closeAllWindows()));
+    ka = actionCollection()->addAction( KStandardAction::Quit,  "quit",  qApp, SLOT(closeAllWindows()));
+    ka->setIcon( QIcon::fromTheme("application-exit", QIcon(":/icons/breeze/default/application-exit.png")));
 
     // ==== Time Menu ================
     actionCollection()->addAction("time_to_now", this, SLOT( slotSetTimeToNow() ))
         << i18n("Set Time to &Now")
         << QKeySequence( Qt::CTRL+Qt::Key_E )
-        << QIcon::fromTheme("clock");
+        << QIcon::fromTheme("clock", QIcon(":/icons/breeze/default/clock.png"));
 
     actionCollection()->addAction("time_dialog", this, SLOT( slotSetTime() ) )
         << i18nc("set Clock to New Time", "&Set Time..." )
         << QKeySequence( Qt::CTRL+Qt::Key_S )
-        << QIcon::fromTheme("view-history");
+        << QIcon::fromTheme("view-history", QIcon(":/icons/breeze/default/view-history.png"));
 
     ka = actionCollection()->add<KToggleAction>("clock_startstop")
         << i18n("Stop &Clock" )
-        << QIcon::fromTheme("media-playback-pause" );
+        << QIcon::fromTheme("media-playback-pause" , QIcon(":/icons/breeze/default/media-playback-pause.png"));
     if ( ! StartClockRunning )
         ka->toggle();
     QObject::connect( ka, SIGNAL( triggered() ), this, SLOT( slotToggleTimer() ) );
@@ -184,11 +198,11 @@ void KStars::initActions() {
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), this, SLOT(updateTime()) );
     actionCollection()->addAction("time_step_forward", this, SLOT( slotStepForward() ) )
         << i18n("Advance one step forward in time")
-        << QIcon::fromTheme("media-skip-forward" )
+        << QIcon::fromTheme("media-skip-forward" , QIcon(":/icons/breeze/default/media-skip-forward.png"))
         << QKeySequence( Qt::Key_Greater, Qt::Key_Period );
     actionCollection()->addAction("time_step_backward", this, SLOT( slotStepBackward() ) )
         << i18n("Advance one step backward in time")
-        << QIcon::fromTheme("media-skip-backward" )
+        << QIcon::fromTheme("media-skip-backward" , QIcon(":/icons/breeze/default/media-skip-backward.png"))
         << QKeySequence( Qt::Key_Less, Qt::Key_Comma );
 
     // ==== Pointing Menu ================
@@ -210,29 +224,36 @@ void KStars::initActions() {
 
     actionCollection()->addAction("find_object", this, SLOT( slotFind() ) )
         << i18n("&Find Object...")
-        << QIcon::fromTheme("edit-find")
+        << QIcon::fromTheme("edit-find", QIcon(":/icons/breeze/default/edit-find.png") )
         << QKeySequence( Qt::CTRL+Qt::Key_F );
     actionCollection()->addAction("track_object", this, SLOT( slotTrack() ) )
         << i18n("Engage &Tracking")
-        << QIcon::fromTheme("object-locked" )
+        << QIcon::fromTheme("object-locked", QIcon(":/icons/breeze/default/object-locked.png"))
         << QKeySequence( Qt::CTRL+Qt::Key_T  );
     actionCollection()->addAction("manual_focus", this, SLOT( slotManualFocus() ) )
         << i18n("Set Coordinates &Manually..." )
         << QKeySequence( Qt::CTRL+Qt::Key_M );
 
+    QAction *action;
+    
     // ==== View Menu ================
-    actionCollection()->addAction( KStandardAction::ZoomIn,  "zoom_in",  map(), SLOT( slotZoomIn() ) );
-    actionCollection()->addAction( KStandardAction::ZoomOut, "zoom_out", map(), SLOT( slotZoomOut() ) );
+    action = actionCollection()->addAction( KStandardAction::ZoomIn,  "zoom_in",  map(), SLOT( slotZoomIn() ) );
+    action->setIcon(QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.png")));
+
+    action = actionCollection()->addAction( KStandardAction::ZoomOut, "zoom_out", map(), SLOT( slotZoomOut() ) );
+    action->setIcon(QIcon::fromTheme("zoom-out", QIcon(":/icons/breeze/default/zoom-out.png")));
+    
     actionCollection()->addAction("zoom_default", map(), SLOT( slotZoomDefault() ) )
         << i18n("&Default Zoom")
-        << QIcon::fromTheme("zoom-fit-best" )
+        << QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg"))
         << QKeySequence( Qt::CTRL+Qt::Key_Z );
     actionCollection()->addAction("zoom_set", this, SLOT( slotSetZoom() ) )
         << i18n("&Zoom to Angular Size..." )
-        << QIcon::fromTheme("zoom-original" )
+        << QIcon::fromTheme("zoom-original", QIcon(":/icons/breeze/default/zoom-original.png"))
         << QKeySequence( Qt::CTRL+Qt::SHIFT+Qt::Key_Z );
 
-    actionCollection()->addAction( KStandardAction::FullScreen, this, SLOT( slotFullScreen() ) );
+    action = actionCollection()->addAction( KStandardAction::FullScreen, this, SLOT( slotFullScreen() ) );
+    action->setIcon( QIcon::fromTheme("view-fullscreen", QIcon(":/icons/breeze/default/view-fullscreen.png")));
 
     actionCollection()->addAction("coordsys", this, SLOT( slotCoordSys() ) )
         << (Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)"))
@@ -340,18 +361,21 @@ void KStars::initActions() {
     fovActionMenu = actionCollection()->add<KActionMenu>("fovsymbols" );
     fovActionMenu->setText( i18n("&FOV Symbols" ) );
     fovActionMenu->setDelayed(false);
-    fovActionMenu->setIcon(QIcon::fromTheme("crosshairs"));
+    fovActionMenu->setIcon(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.png")));
     FOVManager::readFOVs();
     repopulateFOV();
 
     actionCollection()->addAction("geolocation", this, SLOT( slotGeoLocator() ) )
         << i18nc("Location on Earth", "&Geographic..." )
-        << QIcon::fromTheme("applications-internet" )
+        << QIcon::fromTheme("kstars_planets" , QIcon(":/icons/breeze/default/applications-internet.png"))
         << QKeySequence( Qt::CTRL+Qt::Key_G );
-    actionCollection()->addAction( KStandardAction::Preferences, "configure", this, SLOT( slotViewOps() ) );
+    ka = actionCollection()->addAction( KStandardAction::Preferences, "configure", this, SLOT( slotViewOps() ) );
+    //I am not sure what icon preferences is supposed to be.
+    //ka->setIcon( QIcon::fromTheme("", QIcon(":/icons/breeze/default/.png")));
+    
     actionCollection()->addAction("startwizard", this, SLOT( slotWizard() ) )
         << i18n("Startup Wizard..." )
-        << QIcon::fromTheme("tools-wizard" );
+        << QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.png"));
 
     // Manual data entry
     actionCollection()->addAction( "manual_add_dso", this, SLOT( slotAddDeepSkyObject() ) )
@@ -370,7 +394,7 @@ void KStars::initActions() {
     //Tools Menu:
     actionCollection()->addAction("astrocalculator", this, SLOT( slotCalculator() ) )
         << i18n("Calculator")
-        << QIcon::fromTheme("accessories-calculator" )
+        << QIcon::fromTheme("accessories-calculator", QIcon(":/icons/breeze/default/accessories-calculator.png"))
         << QKeySequence( Qt::CTRL+Qt::Key_C );
 
    /* FIXME Enable once port to KF5 is complete for moonphasetool
@@ -446,11 +470,11 @@ void KStars::initActions() {
 #ifndef Q_OS_WIN
         actionCollection()->addAction("telescope_wizard", this, SLOT( slotTelescopeWizard() ) )
             << i18n("Telescope Wizard...")
-            << QIcon::fromTheme("tools-wizard" );
+            << QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.png"));
 #endif
         actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
             << i18n("Device Manager...")
-            << QIcon::fromTheme("network-server" )
+            << QIcon::fromTheme("network-server", QIcon(":/icons/breeze/default/network-server.png"))
             << QKeySequence(Qt::CTRL+Qt::Key_D);
         ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
             << i18n("INDI Control Panel...");
@@ -462,9 +486,9 @@ void KStars::initActions() {
 #endif
 
     //Help Menu:
-    actionCollection()->addAction( KStandardAction::TipofDay, "help_tipofday", this, SLOT( slotTipOfDay() ) )
-	->setWhatsThis(i18n("Displays the Tip of the Day"));
-
+    ka = actionCollection()->addAction( KStandardAction::TipofDay, "help_tipofday", this, SLOT( slotTipOfDay() ) );
+	ka->setWhatsThis(i18n("Displays the Tip of the Day"));
+    ka->setIcon( QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.png")));
     //	KStandardAction::help(this, SLOT( appHelpActivated() ), actionCollection(), "help_contents" );
 
     //Add timestep widget for toolbar

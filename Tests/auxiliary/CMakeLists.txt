@@ -11,3 +11,7 @@ ADD_TEST( NAME FixedWidthParserTest COMMAND testfwparser )
 ADD_EXECUTABLE( testdms testdms.cpp )
 TARGET_LINK_LIBRARIES( testdms ${TEST_LIBRARIES})
 ADD_TEST( NAME DMSTest COMMAND testdms )
+
+ADD_EXECUTABLE( testcachingdms testcachingdms.cpp )
+TARGET_LINK_LIBRARIES( testcachingdms ${TEST_LIBRARIES})
+ADD_TEST( NAME TestCachingDms COMMAND testcachingdms )

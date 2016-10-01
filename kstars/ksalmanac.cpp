@@ -73,7 +73,7 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QT
     //       them back.
 
     KSNumbers num( dt.djd() );
-    dms LST = geo->GSTtoLST( dt.gst() );
+    CachingDms LST = geo->GSTtoLST( dt.gst() );
     o->updateCoords( &num, true, geo->lat(), &LST, true );
     if ( o->checkCircumpolar( geo->lat() ) ) {
         if ( o->alt().Degrees() > 0.0 ) {
@@ -96,7 +96,7 @@ void KSAlmanac::findDawnDusk() {
 
     KStarsDateTime today = dt;
     KSNumbers num( today.djd() );
-    dms LST = geo->GSTtoLST( today.gst() );
+    CachingDms LST = geo->GSTtoLST( today.gst() );
 
     m_Sun.updateCoords( &num, true, geo->lat(), &LST, true ); // We can abuse our own copy of the sun
     double dawn, da, dusk, du, max_alt, min_alt;
@@ -140,7 +140,7 @@ void KSAlmanac::findDawnDusk() {
 void KSAlmanac::findMoonPhase() {
     const KStarsDateTime today = dt;
     KSNumbers num( today.djd() );
-    dms LST = geo->GSTtoLST( today.gst() );
+    CachingDms LST = geo->GSTtoLST( today.gst() );
 
     m_Sun.updateCoords( &num, true, geo->lat(), &LST, true ); // We can abuse our own copy of the sun and/or moon
     m_Moon.updateCoords( &num, true, geo->lat(), &LST, true );

@@ -323,7 +323,7 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
     // the passing of lat and LST
 
     if ( isSolarSystem() && geo ) {
-        dms LST = geo->GSTtoLST( dt.gst() );
+        CachingDms LST = geo->GSTtoLST( dt.gst() );
         c->updateCoords( &num, true, geo->lat(), &LST );
     } else {
         c->updateCoords( &num );

@@ -28,7 +28,6 @@
 
 #include <kpagedialog.h>
 
-#include "skyobjects/skyobject.h"
 //UI headers
 #include "ui_details_data.h"
 #include "ui_details_data_comet.h"
@@ -45,6 +44,7 @@ class QString;
 class QStringList;
 class KStars;
 class KStarsDateTime;
+class SkyObject;
 
 class DataWidget;
 class DataCometWidget;

@@ -57,7 +57,9 @@ static const char notice[] =
 
 int main(int argc, char *argv[])
 {
+#ifdef KSTARS_LITE
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
     QApplication app(argc, argv);
     app.setApplicationVersion(KSTARS_VERSION);
     /**
@@ -259,8 +261,6 @@ int main(int argc, char *argv[])
     }
     QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
 #else
-    //KStarsLite::createInstance( true, ! parser.isSet( "paused" ), datestring );
-    //TODO decide whether KStars Lite should have command line parser
     KStarsLite::createInstance( true );
 #endif
     return app.exec();

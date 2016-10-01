@@ -19,6 +19,7 @@
 
 #include "deepskyobject.h"
 #include "skyobject.h"
+#include "starobject.h"
 #include "Options.h"
 
 #include <QFile>

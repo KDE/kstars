@@ -41,6 +41,7 @@
 #include "geolocation.h"
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/starobject.h"
 
 #include <kplotwidget.h>
 #include "avtplotwidget.h"
@@ -163,7 +164,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     topLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QPushButton *printB = new QPushButton(QIcon::fromTheme("document-print"), i18n("&Print..."));
+    QPushButton *printB = new QPushButton(QIcon::fromTheme("document-print", QIcon(":/icons/breeze/default/document-print.png")), i18n("&Print..."));
     printB->setToolTip(i18n("Print the Altitude vs. time plot"));
     buttonBox->addButton(printB, QDialogButtonBox::ActionRole);
     connect(printB, SIGNAL(clicked()), this, SLOT(slotPrint()));
@@ -433,7 +434,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
     //restore original position
     if ( o->isSolarSystem() ) {
-       o->updateCoords( oldNum, true, data->geo()->lat(), data->lst(), true );
+        o->updateCoords( oldNum, true, data->geo()->lat(), data->lst(), true );
         delete oldNum;
     }
     o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -446,7 +447,7 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
     //getDate converts the user-entered local time to UT
     KStarsDateTime ut = getDate().addSecs( hour*3600.0 );
 
-    dms LST = geo->GSTtoLST( ut.gst() );
+    CachingDms LST = geo->GSTtoLST( ut.gst() );
     p->EquatorialToHorizontal( &LST, geo->lat() );
     return p->alt().Degrees();
 }
@@ -972,7 +973,7 @@ void AltVsTime::slotUpdateDateLoc() {
     KStarsDateTime today = getDate();
     KSNumbers *num = new KSNumbers( today.djd() );
     KSNumbers *oldNum = 0;
-    dms LST = geo->GSTtoLST( today.gst() );
+    CachingDms LST = geo->GSTtoLST( today.gst() );
 
     //First determine time of sunset and sunrise
     computeSunRiseSetTimes();
@@ -1231,7 +1232,7 @@ void AltVsTime::drawGradient(){
 
     p.setClipping(false);
 
-    //Add vertical line indicating "now"    
+    //Add vertical line indicating "now"
     if( geoLoc )
     {
         QTime t = geoLoc->UTtoLT( KStarsDateTime::currentDateTimeUtc() ).time(); // convert the current system clock time to the TZ corresponding to geo
@@ -1278,7 +1279,7 @@ void AltVsTime::setDawnDusk()
 {
     KStarsDateTime today = getDate();
     KSNumbers num( today.djd() );
-    dms LST = geo->GSTtoLST( today.gst() );
+    CachingDms LST = geo->GSTtoLST( today.gst() );
 
     KSSun sun;
     sun.updateCoords( &num, true, geo->lat(), &LST, true );
@@ -1407,6 +1408,3 @@ QString AltVsTime::getObjectName(const SkyObject *o, bool translated)
     return finalObjectName;
 
 }
-
-
-

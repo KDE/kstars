@@ -21,7 +21,6 @@
 #define LAMBERTPROJECTOR_H
 
 #include "projector.h"
-#include "skymap.h"
 
 /**
  * @class LambertProjector

@@ -25,6 +25,7 @@
 #include "dms.h"
 #include "widgets/dmsbox.h"
 #include "skyobjects/skypoint.h"
+#include "skyobjects/skyobject.h"
 #include "dialogs/finddialog.h"
 #include "kstars.h"
 

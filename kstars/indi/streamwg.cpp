@@ -49,9 +49,9 @@ StreamWG::StreamWG(QWidget * parent) : QWidget(parent)
 
     streamFrame      = new VideoWG(videoFrame);
 
-    playPix    = QIcon::fromTheme( "media-playback-start" );
-    pausePix   = QIcon::fromTheme( "media-playback-pause" );
-    capturePix = QIcon::fromTheme( "media-record" );
+    playPix    = QIcon::fromTheme( "media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.png"));
+    pausePix   = QIcon::fromTheme( "media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.png"));
+    capturePix = QIcon::fromTheme( "media-record", QIcon(":/icons/breeze/default/media-record.png"));
 
     foreach (const QByteArray &format, QImageWriter::supportedImageFormats())
     imgFormatCombo->addItem(QString(format));

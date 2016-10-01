@@ -111,12 +111,12 @@ public:
     /** @short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)
      */
-    void EclipticToEquatorial( const dms *Obliquity );
+    void EclipticToEquatorial( const CachingDms *Obliquity );
 
     /** @short Convert Right Ascension/Declination to Ecliptic logitude/latitude.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)
      */
-    void EquatorialToEcliptic( const dms *Obliquity );
+    void EquatorialToEcliptic( const CachingDms *Obliquity );
 
     /** @return pointer to this planet's texture */
     const QImage& image() const { return m_image; }
@@ -148,7 +148,7 @@ public:
      * @param lat pointer to the geographic latitude; if NULL, we skip localizeCoords()
      * @param LST pointer to the local sidereal time; if NULL, we skip localizeCoords()
      */
-    virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
+    virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const CachingDms *lat=0, const CachingDms *LST=0, bool forceRecompute = false );
 
     /** @short Find position, including correction for Figure-of-the-Earth.
      * @param num KSNumbers pointer for the target date/time
@@ -156,7 +156,7 @@ public:
      * @param LST pointer to the local sidereal time; if NULL, we skip localizeCoords()
      * @param Earth pointer to the Earth (not used for the Moon)
      */
-    void findPosition( const KSNumbers *num, const dms *lat=0, const dms *LST=0, const KSPlanetBase *Earth = 0 );
+    void findPosition( const KSNumbers *num, const CachingDms *lat=0, const CachingDms *LST=0, const KSPlanetBase *Earth = 0 );
 
     /** @return the Planet's position angle. */
     virtual double pa() const { return PositionAngle; }
@@ -253,7 +253,7 @@ private:
      * @param lat pointer to the geographic latitude of the location.
      * @param LST pointer to the local sidereal time.
      */
-    void localizeCoords( const KSNumbers *num, const dms *lat, const dms *LST );
+    void localizeCoords( const KSNumbers *num, const CachingDms *lat, const CachingDms *LST );
 
     double PositionAngle, AngularSize, PhysicalSize;
     QColor m_Color;

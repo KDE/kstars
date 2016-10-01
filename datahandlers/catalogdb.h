@@ -22,13 +22,7 @@
 #include <KLocalizedString>
 #include <QDebug>
 #include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlRecord>
-#include <QSqlTableModel>
-#include <QString>
-#include <QHash>
 #include <QSqlError>
-#include <QVariant>
 #include <QFile>
 #include <QDir>
 
@@ -37,11 +31,18 @@
 #endif
 
 #include "ksparser.h"
-#include "catalogdata.h"
-#include "catalogentrydata.h"
-#include "starobject.h"
-#include "deepskyobject.h"
-#include "skycomponent.h"
+
+#include <QString>
+#include <QStringList>
+#include <QList>
+#include <QPair>
+#include <QSqlQuery>
+
+
+class SkyObject;
+class CatalogComponent;
+class CatalogData;
+class CatalogEntryData;
 
 /* Some notes about the database. (skycomponents.sqlite)
  * 1) The uid for Object Designation is the uid being used by objects in KStars

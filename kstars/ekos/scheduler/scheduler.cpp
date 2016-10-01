@@ -32,6 +32,7 @@
 #include "ksalmanac.h"
 #include "ksutils.h"
 #include "mosaic.h"
+#include "skyobjects/starobject.h"
 
 #define BAD_SCORE                       -1000
 #define MAX_FAILURE_ATTEMPTS            3
@@ -128,7 +129,7 @@ Scheduler::Scheduler()
 
     moon = dynamic_cast<KSMoon*> (KStarsData::Instance()->skyComposite()->findByName("Moon"));
 
-    sleepLabel->setPixmap(QIcon::fromTheme("chronometer").pixmap(QSize(32,32)));
+    sleepLabel->setPixmap(QIcon::fromTheme("chronometer", QIcon(":/icons/breeze/default/chronometer.png")).pixmap(QSize(32,32)));
     sleepLabel->hide();
 
     schedulerTimer.setInterval(UPDATE_PERIOD_MS);
@@ -145,26 +146,26 @@ Scheduler::Scheduler()
     raBox->setDegType(false); //RA box should be HMS-style
 
 
-    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+    addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.png")));
     addToQueueB->setToolTip(i18n("Add observation job to list."));
 
-    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
+    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.png")));
     removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
 
-    evaluateOnlyB->setIcon(QIcon::fromTheme("tools-wizard"));
-    mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
+    evaluateOnlyB->setIcon(QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.png")));
+    mosaicB->setIcon(QIcon::fromTheme("zoom-draw", QIcon(":/icons/breeze/default/zoom-draw.png")));
 
-    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
-    queueSaveB->setIcon(QIcon::fromTheme("document-save"));
-    queueLoadB->setIcon(QIcon::fromTheme("document-open"));
+    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.png")));
+    queueSaveB->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.png")));
+    queueLoadB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.png")));
 
-    loadSequenceB->setIcon(QIcon::fromTheme("document-open"));
-    selectStartupScriptB->setIcon(QIcon::fromTheme("document-open"));
-    selectShutdownScriptB->setIcon(QIcon::fromTheme("document-open"));
-    selectFITSB->setIcon(QIcon::fromTheme("document-open"));
+    loadSequenceB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.png")));
+    selectStartupScriptB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.png")));
+    selectShutdownScriptB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.png")));
+    selectFITSB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.png")));
 
-    startupB->setIcon(QIcon::fromTheme("media-playback-start"));
-    shutdownB->setIcon(QIcon::fromTheme("media-playback-start"));
+    startupB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.png")));
+    shutdownB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.png")));
 
     connect(startupB, SIGNAL(clicked()), this, SLOT(runStartupProcedure()));
     connect(shutdownB, SIGNAL(clicked()), this, SLOT(runShutdownProcedure()));
@@ -182,8 +183,8 @@ Scheduler::Scheduler()
     connect(queueTable, SIGNAL(clicked(QModelIndex)), this, SLOT(loadJob(QModelIndex)));
     connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(resetJobState(QModelIndex)));
 
-    startB->setIcon(QIcon::fromTheme("media-playback-start"));
-    pauseB->setIcon(QIcon::fromTheme("media-playback-pause"));
+    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.png")));
+    pauseB->setIcon(QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.png")));
 
     connect(startB,SIGNAL(clicked()),this,SLOT(toggleScheduler()));
     connect(pauseB,SIGNAL(clicked()),this,SLOT(pause()));
@@ -731,7 +732,7 @@ void Scheduler::loadJob(QModelIndex i)
 
    appendLogText(i18n("Editing job #%1...", i.row()+1));
 
-   addToQueueB->setIcon(QIcon::fromTheme("edit-undo"));
+   addToQueueB->setIcon(QIcon::fromTheme("edit-undo", QIcon(":/icons/breeze/default/edit-undo.png")));
    addToQueueB->setStyleSheet("background-color:orange;}");
    addToQueueB->setEnabled(true);
    startB->setEnabled(false);
@@ -754,7 +755,7 @@ void Scheduler::resetJobEdit()
 
     watchJobChanges(false);
 
-    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+    addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.png")));
     addToQueueB->setStyleSheet(QString());
     addToQueueB->setToolTip(i18n("Add observation job to list."));
     queueTable->clearSelection();
@@ -917,7 +918,7 @@ void Scheduler::stop()
     sleepLabel->hide();
     pi->stopAnimation();
 
-    startB->setIcon(QIcon::fromTheme("media-playback-start"));
+    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.png")));
     startB->setToolTip(i18n("Start Scheduler"));
     pauseB->setEnabled(false);
     //startB->setText("Start Scheduler");
@@ -938,7 +939,7 @@ void Scheduler::start()
         state = SCHEDULER_RUNNIG;
         appendLogText(i18n("Scheduler resumed."));
 
-        startB->setIcon(QIcon::fromTheme("media-playback-stop"));
+        startB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.png")));
         startB->setToolTip(i18n("Stop Scheduler"));
         return;
     }
@@ -965,7 +966,7 @@ void Scheduler::start()
     sleepLabel->hide();
 
     //startB->setText("Stop Scheduler");
-    startB->setIcon(QIcon::fromTheme("media-playback-stop"));
+    startB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.png")));
     startB->setToolTip(i18n("Stop Scheduler"));
     pauseB->setEnabled(true);
 
@@ -1005,7 +1006,7 @@ void Scheduler::pause()
     appendLogText(i18n("Scheduler paused."));
     pauseB->setEnabled(false);
 
-    startB->setIcon(QIcon::fromTheme("media-playback-start"));
+    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.png")));
     startB->setToolTip(i18n("Resume Scheduler"));
 }
 
@@ -1462,7 +1463,7 @@ double Scheduler::findAltitude(const SkyPoint & target, const QDateTime when)
 
     KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay()/1000);
 
-    dms LST = KStarsData::Instance()->geo()->GSTtoLST( myUT.gst() );
+    CachingDms LST = KStarsData::Instance()->geo()->GSTtoLST( myUT.gst() );
     p.EquatorialToHorizontal( &LST, KStarsData::Instance()->geo()->lat() );
 
     return p.alt().Degrees();
@@ -1490,7 +1491,7 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
 
         if (rawFrac < Dawn || rawFrac > Dusk)
         {
-            dms LST = geo->GSTtoLST( myUT.gst() );
+            CachingDms LST = geo->GSTtoLST( myUT.gst() );
             target.EquatorialToHorizontal( &LST, geo->lat() );
             altitude =  target.alt().Degrees();
 
@@ -1614,19 +1615,19 @@ void Scheduler::checkWeather()
                 qDebug() << "Scheduler: " << statusString;
 
             if (weatherStatus == IPS_OK)
-                weatherLabel->setPixmap(QIcon::fromTheme("security-high").pixmap(QSize(32,32)));
+                weatherLabel->setPixmap(QIcon::fromTheme("security-high", QIcon(":/icons/breeze/default/security-high.png")).pixmap(QSize(32,32)));
             else if (weatherStatus == IPS_BUSY)
             {
-                weatherLabel->setPixmap(QIcon::fromTheme("security-medium").pixmap(QSize(32,32)));
+                weatherLabel->setPixmap(QIcon::fromTheme("security-medium", QIcon(":/icons/breeze/default/security-medium.png")).pixmap(QSize(32,32)));
                 KNotification::event( QLatin1String( "WeatherWarning" ) , i18n("Weather conditions in warning zone"));
             }
             else if (weatherStatus == IPS_ALERT)
             {
-                weatherLabel->setPixmap(QIcon::fromTheme("security-low").pixmap(QSize(32,32)));
+                weatherLabel->setPixmap(QIcon::fromTheme("security-low", QIcon(":/icons/breeze/default/security-low.png")).pixmap(QSize(32,32)));
                 KNotification::event( QLatin1String( "WeatherAlert" ) , i18n("Weather conditions are critical. Observatory shutdown is imminent"));
             }
             else
-                weatherLabel->setPixmap(QIcon::fromTheme("chronometer").pixmap(QSize(32,32)));
+                weatherLabel->setPixmap(QIcon::fromTheme("chronometer", QIcon(":/icons/breeze/default/chronometer.png")).pixmap(QSize(32,32)));
 
             weatherLabel->show();
             weatherLabel->setToolTip(statusString);
@@ -1761,7 +1762,7 @@ double Scheduler::getCurrentMoonSeparation(SchedulerJob *job)
     QDateTime midnight( KStarsData::Instance()->lt().date(), QTime() );
     KStarsDateTime ut = geo->LTtoUT( midnight );
     KStarsDateTime myUT = ut.addSecs(KStarsData::Instance()->lt().time().msecsSinceStartOfDay()/1000);
-    dms LST = geo->GSTtoLST( myUT.gst() );
+    CachingDms LST = geo->GSTtoLST( myUT.gst() );
     p.EquatorialToHorizontal( &LST, geo->lat() );
 
     // Update moon
@@ -1783,7 +1784,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
     QDateTime midnight( when.date(), QTime() );
     KStarsDateTime ut = geo->LTtoUT( midnight );
     KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay()/1000);
-    dms LST = geo->GSTtoLST( myUT.gst() );
+    CachingDms LST = geo->GSTtoLST( myUT.gst() );
     p.EquatorialToHorizontal( &LST, geo->lat() );
     double currentAlt = p.alt().Degrees();
 
@@ -4500,7 +4501,7 @@ void Scheduler::checkStartupProcedure()
             else if (startupState == STARTUP_ERROR)
                 appendLogText(i18n("Manual startup procedure terminated due to errors."));
 
-            startupB->setIcon(QIcon::fromTheme("media-playback-start"));
+            startupB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.png")));
         }
 }
 
@@ -4511,7 +4512,7 @@ void Scheduler::runStartupProcedure()
         if (KMessageBox::questionYesNo(NULL, i18n("Are you sure you want to execute the startup procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning! Executing startup procedure manually..."));
-            startupB->setIcon(QIcon::fromTheme("media-playback-stop"));
+            startupB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.png")));
             startupState = STARTUP_IDLE;
             checkStartupState();
             QTimer::singleShot(1000, this, SLOT(checkStartupProcedure()));
@@ -4576,7 +4577,7 @@ void Scheduler::checkShutdownProcedure()
                 appendLogText(i18n("Manual shutdown procedure terminated due to errors."));
 
             shutdownState = SHUTDOWN_IDLE;
-            shutdownB->setIcon(QIcon::fromTheme("media-playback-start"));
+            shutdownB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.png")));
         }
 
 }
@@ -4588,7 +4589,7 @@ void Scheduler::runShutdownProcedure()
         if (KMessageBox::questionYesNo(NULL, i18n("Are you sure you want to execute the shutdown procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning! Executing shutdown procedure manually..."));
-            shutdownB->setIcon(QIcon::fromTheme("media-playback-stop"));
+            shutdownB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.png")));
             shutdownState = SHUTDOWN_IDLE;
             checkShutdownState();
             QTimer::singleShot(1000, this, SLOT(checkShutdownProcedure()));

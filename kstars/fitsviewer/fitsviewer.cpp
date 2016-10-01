@@ -77,7 +77,7 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     fitsTab->setTabsClosable(true);
 
-    setWindowIcon(QIcon::fromTheme("kstars_fitsviewer"));
+    setWindowIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/fitsviewer.png")));
 
     setCentralWidget(fitsTab);
 
@@ -104,48 +104,45 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     action = actionCollection()->addAction("rotate_right", this, SLOT(rotateCW()));
     action->setText(i18n("Rotate Right"));
-    action->setIcon(QIcon::fromTheme("object-rotate-right"));
+    action->setIcon(QIcon::fromTheme("object-rotate-right", QIcon(":/icons/breeze/default/object-rotate-right.png")));
 
     action = actionCollection()->addAction("rotate_left", this, SLOT(rotateCCW()));
     action->setText(i18n("Rotate Left"));
-    action->setIcon(QIcon::fromTheme("object-rotate-left"));
+    action->setIcon(QIcon::fromTheme("object-rotate-left", QIcon(":/icons/breeze/default/object-rotate-left.png")));
 
     action = actionCollection()->addAction("flip_horizontal", this, SLOT(flipHorizontal()));
     action->setText(i18n("Flip Horizontal"));
-    action->setIcon(QIcon::fromTheme("object-flip-horizontal"));
+    action->setIcon(QIcon::fromTheme("object-flip-horizontal", QIcon(":/icons/breeze/default/object-flip-horizontal.png")));
 
     action = actionCollection()->addAction("flip_vertical", this, SLOT(flipVertical()));
     action->setText(i18n("Flip Vertical"));
-    action->setIcon(QIcon::fromTheme("object-flip-vertical"));
-
-    QFile tempFile;
+    action->setIcon(QIcon::fromTheme("object-flip-vertical", QIcon(":/icons/breeze/default/object-flip-vertical.png")));
 
     action = actionCollection()->addAction("image_histogram");
     action->setText(i18n("Histogram"));
     connect(action, SIGNAL(triggered(bool)), SLOT (histoFITS()));
     actionCollection()->setDefaultShortcut(action, QKeySequence::Replace);
 
-    if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
-    {
-        action->setIcon(QIcon(tempFile.fileName()));
-        tempFile.close();
-    }
-    else
-        action->setIcon(QIcon::fromTheme("tools-wizard"));
+    action->setIcon(QIcon(":/icons/histogram.png"));
 
-    KStandardAction::open(this,   SLOT(openFile()),   actionCollection());
+    action = KStandardAction::open(this,   SLOT(openFile()),   actionCollection());
+    action->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.png")));
+    
     saveFileAction    = KStandardAction::save(this,   SLOT(saveFile()),   actionCollection());
-    saveFileAsAction  = KStandardAction::saveAs(this, SLOT(saveFileAs()), actionCollection());
+    saveFileAction->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.png")));
+
+    action=saveFileAsAction  = KStandardAction::saveAs(this, SLOT(saveFileAs()), actionCollection());
+    saveFileAsAction->setIcon(QIcon::fromTheme("document-save_as", QIcon(":/icons/breeze/default/document-save-as.png")));
 
     action = actionCollection()->addAction("fits_header");
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_H));
-    action->setIcon(QIcon::fromTheme("document-properties"));
+    action->setIcon(QIcon::fromTheme("document-properties", QIcon(":/icons/breeze/default/document-properties.png")));
     action->setText(i18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(headerFITS()));
 
     action = actionCollection()->addAction("fits_debayer");
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_D));
-    action->setIcon(QIcon::fromTheme("view-preview"));
+    action->setIcon(QIcon::fromTheme("view-preview", QIcon(":/icons/breeze/default/view-preview.png")));
     action->setText(i18n( "Debayer..."));
     connect(action, SIGNAL(triggered(bool) ), SLOT(debayerFITS()));
 
@@ -153,24 +150,34 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setText(i18n("Auto stretch"));
     connect(action, SIGNAL(triggered(bool)), SLOT (stretchFITS()));
     actionCollection()->setDefaultShortcut(action, QKeySequence::SelectAll);
-    action->setIcon(QIcon::fromTheme("transform-move"));
+    action->setIcon(QIcon::fromTheme("transform-move", QIcon(":/icons/breeze/default/transform-move.png")));
 
-    KStandardAction::close(this,  SLOT(close()),  actionCollection());
-
-    KStandardAction::copy(this,   SLOT(copyFITS()),   actionCollection());
-
-    KStandardAction::zoomIn(this,     SLOT(ZoomIn()),      actionCollection());
-    KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());
-    KStandardAction::actualSize(this, SLOT(ZoomDefault()), actionCollection());
+    action = KStandardAction::close(this,  SLOT(close()),  actionCollection());
+    action->setIcon(QIcon::fromTheme("window-close", QIcon(":/icons/breeze/default/window-close.png")));
+    
+    action = KStandardAction::copy(this,   SLOT(copyFITS()),   actionCollection());
+    action->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.png")));
+    
+    action=KStandardAction::zoomIn(this,     SLOT(ZoomIn()),      actionCollection());
+    action->setIcon(QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.png")));
+    
+    action=KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());
+    action->setIcon(QIcon::fromTheme("zoom-out", QIcon(":/icons/breeze/default/zoom-out.png")));
+    
+    action=KStandardAction::actualSize(this, SLOT(ZoomDefault()), actionCollection());
+    action->setIcon(QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg")));
 
     QAction *kundo = KStandardAction::undo(undoGroup, SLOT(undo()), actionCollection());
+    kundo->setIcon(QIcon::fromTheme("edit-undo", QIcon(":/icons/breeze/default/edit-undo.png")));
+    
     QAction *kredo = KStandardAction::redo(undoGroup, SLOT(redo()), actionCollection());
+    kredo->setIcon(QIcon::fromTheme("edit-redo", QIcon(":/icons/breeze/default/edit-redo.png")));
 
     connect(undoGroup, SIGNAL(canUndoChanged(bool)), kundo, SLOT(setEnabled(bool)));
     connect(undoGroup, SIGNAL(canRedoChanged(bool)), kredo, SLOT(setEnabled(bool)));
 
     action = actionCollection()->addAction("image_stats");
-    action->setIcon(QIcon::fromTheme("view-statistics"));
+    action->setIcon(QIcon::fromTheme("view-statistics", QIcon(":/icons/breeze/default/view-statistics.png")));
     action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(statFITS()));
 

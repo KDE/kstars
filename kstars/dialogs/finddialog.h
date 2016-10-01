@@ -22,12 +22,12 @@
 #include <QDialog>
 
 #include "ui_finddialog.h"
-#include "skyobjects/skyobject.h"
 
 class QTimer;
 class QStringListModel;
 class QSortFilterProxyModel;
 class SkyObjectListModel;
+class SkyObject;
 
 class FindDialogUI : public QFrame, public Ui::FindDialog {
     Q_OBJECT

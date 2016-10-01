@@ -20,6 +20,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/starobject.h"
 #include "skymap.h"
 #include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skymapcomposite.h"
@@ -226,7 +227,7 @@ void OAL::Log::writeSite( OAL::Site *s ) {
 }
 void OAL::Log::writeSession( OAL::Session *s ) {
     writer->writeStartElement( "session" );
-    writer->writeAttribute( "id", s->id() ); 
+    writer->writeAttribute( "id", s->id() );
     writer->writeStartElement( "begin" );
     writer->writeCharacters( s->begin().date().toString( "yyyy-MM-dd" ) + 'T' + s->begin().time().toString( "hh:mm:ss" ) );
     writer->writeEndElement();
@@ -249,7 +250,7 @@ void OAL::Log::writeSession( OAL::Session *s ) {
 }
 void OAL::Log::writeScope( OAL::Scope *s ) {
     writer->writeStartElement( "scope" );
-    writer->writeAttribute( "id", s->id() ); 
+    writer->writeAttribute( "id", s->id() );
     writer->writeStartElement( "model" );
     writer->writeCDATA( s->model() );
     writer->writeEndElement();
@@ -277,7 +278,7 @@ void OAL::Log::writeScope( OAL::Scope *s ) {
 }
 void OAL::Log::writeEyepiece( OAL::Eyepiece *ep ) {
     writer->writeStartElement( "eyepiece" );
-    writer->writeAttribute( "id", ep->id() ); 
+    writer->writeAttribute( "id", ep->id() );
     writer->writeStartElement( "model" );
     writer->writeCDATA( ep->model() );
     writer->writeEndElement();
@@ -400,7 +401,7 @@ void OAL::Log::readBegin( QString input ) {
 void OAL::Log::readUnknownElement() {
     while( ! reader->atEnd() ) {
         reader->readNext();
-        
+
         if( reader->isEndElement() )
             break;
 

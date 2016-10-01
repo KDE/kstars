@@ -653,20 +653,35 @@ void KStars::slotViewOps() {
     opcolors     = new OpsColors();
     opadvanced   = new OpsAdvanced();
 
-    dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
-    dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
-    dialog->addPage(opssatellites, i18n("Satellites"), "kstars_satellites");
-    dialog->addPage(opssupernovae, i18n("Supernovae"), "kstars_supernovae");
-    dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
-    dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
+    KPageWidgetItem *page;
+    
+    page = dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
+    page->setIcon(QIcon::fromTheme("kstars_catalog", QIcon(":/icons/catalog.png")));
+                         
+    page = dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
+    page->setIcon(QIcon::fromTheme("kstars_solarsystem", QIcon(":/icons/solarsystem.png")));
+    
+    page = dialog->addPage(opssatellites, i18n("Satellites"), "kstars_satellites");
+    page->setIcon(QIcon::fromTheme("kstars_satellites", QIcon(":/icons/satellites.png")));
+    
+    page = dialog->addPage(opssupernovae, i18n("Supernovae"), "kstars_supernovae");
+    page->setIcon(QIcon::fromTheme("kstars_supernovae", QIcon(":/icons/supernovae.png")));
+    
+    page = dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
+    page->setIcon(QIcon::fromTheme("kstars_guides", QIcon(":/icons/guides.png")));
+    
+    page = dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
+    page->setIcon(QIcon::fromTheme("kstars_colors", QIcon(":/icons/colors.png")));
 
     #ifdef HAVE_INDI
     opsindi = new OpsINDI();
-    dialog->addPage(opsindi, i18n("INDI"), "kstars_indi");
+    page= dialog->addPage(opsindi, i18n("INDI"), "kstars_indi");
+    page->setIcon(QIcon::fromTheme("kstars_indi", QIcon(":/icons/indi.png")));
 
     #ifdef HAVE_CFITSIO
     opsekos = new OpsEkos();
     KPageWidgetItem *ekosOption = dialog->addPage(opsekos, i18n("Ekos"), "kstars_ekos");
+    ekosOption->setIcon(QIcon::fromTheme("kstars_ekos", QIcon(":/icons/ekos.png")));
     if (m_EkosManager)
         m_EkosManager->setOptionsWidget(ekosOption);
     #endif
@@ -675,10 +690,12 @@ void KStars::slotViewOps() {
 
 #ifdef HAVE_XPLANET
     opsxplanet = new OpsXplanet( this );
-    dialog->addPage(opsxplanet, i18n("Xplanet"), "kstars_xplanet");
+    page = dialog->addPage(opsxplanet, i18n("Xplanet"), "kstars_xplanet");
+    page->setIcon(QIcon::fromTheme("kstars_xplanet", QIcon(":/icons/xplanet.png")));
 #endif
 
-    dialog->addPage(opadvanced, i18n("Advanced"), "kstars_advanced");
+    page=dialog->addPage(opadvanced, i18n("Advanced"), "kstars_advanced");
+    page->setIcon(QIcon::fromTheme("kstars_advanced", QIcon(":/icons/advanced.png")));
 
     dialog->show();
 }
@@ -1086,7 +1103,7 @@ void KStars::slotTrack() {
     if ( Options::isTracking() ) {
         Options::setIsTracking( false );
         actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-decrypt") );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-decrypt", QIcon(":/icons/breeze/default/document-encrypt.png")) );
 
         KSPlanetBase* planet = dynamic_cast<KSPlanetBase*>( map()->focusObject() );
         if( planet && data()->temporaryTrail ) {
@@ -1104,7 +1121,7 @@ void KStars::slotTrack() {
         map()->setFocusPoint( map()->clickedPoint() );
         Options::setIsTracking( true );
         actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.png")) );
     }
 
     map()->forceUpdate();

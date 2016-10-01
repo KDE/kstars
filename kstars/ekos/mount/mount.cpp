@@ -42,43 +42,21 @@ Mount::Mount()
 
     currentTelescope = NULL;
 
-    stopB->setIcon(QIcon::fromTheme("process-stop"));
-    northB->setIcon(QIcon::fromTheme("go-up"));
-    westB->setIcon(QIcon::fromTheme("go-previous"));
-    eastB->setIcon(QIcon::fromTheme("go-next"));
-    southB->setIcon(QIcon::fromTheme("go-down"));
+    stopB->setIcon(QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.png")));
+    northB->setIcon(QIcon::fromTheme("go-up", QIcon(":/icons/breeze/default/go-up.png")));
+    westB->setIcon(QIcon::fromTheme("go-previous", QIcon(":/icons/breeze/default/go-previous.png")));
+    eastB->setIcon(QIcon::fromTheme("go-next", QIcon(":/icons/breeze/default/go-next.png")));
+    southB->setIcon(QIcon::fromTheme("go-down", QIcon(":/icons/breeze/default/go-down.png")));
 
     abortDispatch = -1;
 
     minAltLimit->setValue(Options::minimumAltLimit());
     maxAltLimit->setValue(Options::maximumAltLimit());
 
-
-    QFile tempFile;
-
-    if (KSUtils::openDataFile( tempFile, "go-nw.png" ) )
-    {
-        northwestB->setIcon(QIcon(tempFile.fileName()));
-        tempFile.close();
-    }
-
-    if (KSUtils::openDataFile( tempFile, "go-ne.png" ) )
-    {
-        northeastB->setIcon(QIcon(tempFile.fileName()));
-        tempFile.close();
-    }
-
-    if (KSUtils::openDataFile( tempFile, "go-sw.png" ) )
-    {
-        southwestB->setIcon(QIcon(tempFile.fileName()));
-        tempFile.close();
-    }
-
-    if (KSUtils::openDataFile( tempFile, "go-se.png" ) )
-    {
-        southeastB->setIcon(QIcon(tempFile.fileName()));
-        tempFile.close();
-    }
+    northwestB->setIcon(QIcon(":/icons/go-nw.png"));
+    northeastB->setIcon(QIcon(":/icons/go-nw.png"));
+    southwestB->setIcon(QIcon(":/icons/go-sw.png"));
+    southeastB->setIcon(QIcon(":/icons/go-se.png"));
 
     connect(northB, SIGNAL(pressed()), this, SLOT(move()));
     connect(northB, SIGNAL(released()), this, SLOT(stop()));

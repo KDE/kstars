@@ -33,8 +33,6 @@ public:
 private slots:
 
     void slotApply();
-    void slotCancel();
-    //void slotCheckAlignModule();
 
 private:
     KConfigDialog *m_ConfigDialog;

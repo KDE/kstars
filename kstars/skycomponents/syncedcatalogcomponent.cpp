@@ -18,9 +18,10 @@
 
 /* Project Includes */
 #include "syncedcatalogcomponent.h"
-#include "catalogdb.h"
 #include "kstarsdata.h"
+#include "deepskyobject.h"
 #include "Options.h"
+#include "catalogdata.h"
 
 /* KDE Includes */
 

@@ -135,8 +135,8 @@ void GenericDevice::registerProperty(INDI::Property *prop)
 
             if (connected && nvp->np[0].value > 0)
             {
-                // Reset timer 15 seconds before it is due
-                watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
+                // Send immediately a heart beat
+                watchDogTimer->start(0);
             }
         }
     }
@@ -167,8 +167,8 @@ void GenericDevice::processSwitch(ISwitchVectorProperty * svp)
                 INumberVectorProperty *nvp = baseDevice->getNumber("WATCHDOG_HEARTBEAT");
                 if (nvp && nvp->np[0].value > 0)
                 {
-                    // Reset timer 15 seconds before it is due
-                    watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
+                    // Send immediately
+                    watchDogTimer->start(0);
                 }
             }
         }
@@ -648,11 +648,8 @@ void GenericDevice::resetWatchdog()
     INumberVectorProperty *nvp = baseDevice->getNumber("WATCHDOG_HEARTBEAT");
 
     if (nvp)
-    {
-        // Reset timer 15 seconds before it is due
-        watchDogTimer->start(nvp->np[0].value*60*1000 - 15*1000);
-        clientManager->sendNewNumber(nvp);
-    }
+       // Send heartbeat to driver
+       clientManager->sendNewNumber(nvp);
 }
 
 DeviceDecorator::DeviceDecorator(GDInterface *iPtr)

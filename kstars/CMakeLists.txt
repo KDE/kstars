@@ -601,6 +601,7 @@ set(kstars_projection_SRCS
 set(kstars_extra_SRCS
     auxiliary/colorscheme.cpp
     auxiliary/dms.cpp
+    auxiliary/cachingdms.cpp
     auxiliary/geolocation.cpp
     auxiliary/ksfilereader.cpp
     auxiliary/ksuserdb.cpp

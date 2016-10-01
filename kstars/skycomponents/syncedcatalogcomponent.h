@@ -21,7 +21,10 @@
 #define SYNCEDCATALOGCOMPONENT_H
 
 #include "catalogcomponent.h"
+#include "catalogentrydata.h"
 
+class DeepSkyObject;
+class SkyComposite;
 /**
  * @class SyncedCatalogComponent
  *

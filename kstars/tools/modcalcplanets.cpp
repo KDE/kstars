@@ -84,7 +84,7 @@ void modCalcPlanets::slotComputePosition (void)
     KStarsDateTime dt = DateTimeBox->dateTime();
     long double julianDay = dt.djd();
     KSNumbers num( julianDay );
-    dms LST( geoPlace->GSTtoLST( dt.gst() ) );
+    CachingDms LST( geoPlace->GSTtoLST( dt.gst() ) );
 
     // Earth
     KSPlanet Earth( I18N_NOOP( "Earth" ));
@@ -99,10 +99,10 @@ void modCalcPlanets::slotComputePosition (void)
     // Pointer to hold planet data. Pointer is used since it has to
     // hold objects of different type. It's safe to use new/delete
     // because exceptions are disallowed.
-    KSPlanetBase* p = 0;    
+    KSPlanetBase* p = 0;
 
     switch( PlanetComboBox->currentIndex() ) {
-    case 0 : 
+    case 0 :
         p = new KSPlanet(KSPlanetBase::MERCURY); break;
     case 1:
         p = new KSPlanet(KSPlanetBase::VENUS);   break;
@@ -127,10 +127,10 @@ void modCalcPlanets::slotComputePosition (void)
     }
 
     // Show data.
-    p->findPosition( &num, geoPlace->lat(), &LST, &Earth);        
-    p->EquatorialToHorizontal( &LST, geoPlace->lat());            
+    p->findPosition( &num, geoPlace->lat(), &LST, &Earth);
+    p->EquatorialToHorizontal( &LST, geoPlace->lat());
     showCoordinates( *p );
-    // Cleanup. 
+    // Cleanup.
     delete p;
 }
 
@@ -250,7 +250,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
     unsigned int i = 0, nline = 0;
     QTime utB;
     QDate dtB;
-    dms longB, latB, hlongB, hlatB, glongB, glatB, raB, decB, azmB, altB;
+    CachingDms longB, latB, hlongB, hlatB, glongB, glatB, raB, decB, azmB, altB;
     double rSunB(0.0), rEarthB(0.0);
 
     //Initialize planet names
@@ -341,7 +341,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
         // Read Longitude and write in ostream if corresponds
 
         if (LongCheckBatch->isChecked() ) {
-            longB = dms::fromString( fields[i],true);
+            longB = CachingDms::fromString( fields[i],true);
             i++;
         } else {
             longB = LongBoxBatch->createDms(true);
@@ -351,17 +351,17 @@ void modCalcPlanets::processLines( QTextStream &istream )
 
         // Read Latitude
         if (LatCheckBatch->isChecked() ) {
-            latB = dms::fromString( fields[i], true);
+            latB = CachingDms::fromString( fields[i], true);
             i++;
         } else {
             latB = LatBoxBatch->createDms(true);
         }
-        if ( AllRadioBatch->isChecked() || LatCheckBatch->isChecked() ) 
+        if ( AllRadioBatch->isChecked() || LatCheckBatch->isChecked() )
             lineToWrite += latB.toDMSString() + space;
 
 
         KStarsDateTime edt( dtB, utB );
-        dms LST = edt.gst() + longB;
+        CachingDms LST = edt.gst() + longB;
 
         KSNumbers num( edt.djd() );
         KSPlanet Earth( I18N_NOOP( "Earth" ));
@@ -411,7 +411,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
 
         // Delete object
         delete kspb;
-   
+
         nline++;
     }
 
