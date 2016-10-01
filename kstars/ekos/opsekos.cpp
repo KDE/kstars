@@ -31,7 +31,7 @@ OpsEkos::OpsEkos()
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
-    selectPHD2B->setIcon(QIcon::fromTheme("document-open"));
+    selectPHD2B->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.png")));
 
     connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );

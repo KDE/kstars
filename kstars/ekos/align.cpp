@@ -114,8 +114,8 @@ Align::Align()
     else
         nothingR->setChecked(true);
 
-    syncBoxesB->setIcon(QIcon::fromTheme("edit-copy"));
-    clearBoxesB->setIcon(QIcon::fromTheme("edit-clear"));
+    syncBoxesB->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.png")));
+    clearBoxesB->setIcon(QIcon::fromTheme("edit-clear", QIcon(":/icons/breeze/default/edit-clear.png")));
 
     raBox->setDegType(false); //RA box should be HMS-style
 

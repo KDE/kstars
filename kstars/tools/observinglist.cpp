@@ -214,11 +214,11 @@ ObservingList::ObservingList()
     connect( ui->OALExport, SIGNAL( clicked() ),
              this, SLOT( slotOALExport() ) );
     //Add icons to Push Buttons
-    ui->OpenButton->setIcon( QIcon::fromTheme("document-open") );
-    ui->SaveButton->setIcon( QIcon::fromTheme("document-save") );
-    ui->SaveAsButton->setIcon( QIcon::fromTheme("document-save-as") );
-    ui->WizardButton->setIcon( QIcon::fromTheme("tools-wizard") );
-    ui->MiniButton->setIcon( QIcon::fromTheme("view-restore") );
+    ui->OpenButton->setIcon( QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.png")) );
+    ui->SaveButton->setIcon( QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.png")) );
+    ui->SaveAsButton->setIcon( QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.png")) );
+    ui->WizardButton->setIcon( QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.png")) );
+    ui->MiniButton->setIcon( QIcon::fromTheme("view-restore", QIcon(":/icons/breeze/default/view-restore.png")) );
     noSelection = true;
     showScope = false;
     ui->NotesLabel->setEnabled( false );
@@ -1006,15 +1006,15 @@ double ObservingList::findAltitude( SkyPoint *p, double hour ) {
 
 void ObservingList::slotToggleSize() {
     if ( isLarge() ) {
-        ui->MiniButton->setIcon( QIcon::fromTheme("view-fullscreen") );
+        ui->MiniButton->setIcon( QIcon::fromTheme("view-fullscreen", QIcon(":/icons/breeze/default/view-fullscreen.png")) );
         //Abbreviate text on each button
         ui->FindButton->setText( "" );
-        ui->FindButton->setIcon( QIcon::fromTheme("edit-find") );
+        ui->FindButton->setIcon( QIcon::fromTheme("edit-find", QIcon(":/icons/breeze/default/edit-find.png")) );
         ui->WUTButton->setText( i18nc( "Abbreviation of What's Up Tonight", "WUT" ) );
         ui->saveImages->setText( "" );
         ui->DeleteAllImages->setText( "" );
-        ui->saveImages->setIcon( QIcon::fromTheme( "download" ) );
-        ui->DeleteAllImages->setIcon( QIcon::fromTheme( "edit-delete" ) );
+        ui->saveImages->setIcon( QIcon::fromTheme( "download", QIcon(":/icons/breeze/default/download.png")) );
+        ui->DeleteAllImages->setIcon( QIcon::fromTheme( "edit-delete", QIcon(":/icons/breeze/default/edit-delete.png")) );
         ui->refLabel->setText( i18nc( "Abbreviation for Reference Images:", "RefImg:" ) );
         ui->addLabel->setText( i18nc( "Add objects to a list", "Add:" ) );
         //Hide columns 1-5
@@ -1052,7 +1052,7 @@ void ObservingList::slotToggleSize() {
         this->resize( 400, this->height() );
         update();
     } else {
-        ui->MiniButton->setIcon( QIcon::fromTheme( "view-restore" ) );
+        ui->MiniButton->setIcon( QIcon::fromTheme( "view-restore", QIcon(":/icons/breeze/default/view-restore.png")) );
         //Show columns 1-5
         ui->WishListView->showColumn(1);
         ui->WishListView->showColumn(2);

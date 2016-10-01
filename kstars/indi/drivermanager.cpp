@@ -60,13 +60,13 @@ DriverManagerUI::DriverManagerUI(QWidget *parent) : QFrame(parent)
 
     clientTreeWidget->setSortingEnabled(false);
 
-    runningPix = QIcon::fromTheme( "system-run" );
-    stopPix    = QIcon::fromTheme( "dialog-cancel" );
-    localMode  = QIcon::fromTheme( "computer" );
-    serverMode = QIcon::fromTheme( "network-server" );
+    runningPix = QIcon::fromTheme( "system-run" , QIcon(":/icons/breeze/default/system-run.png"));
+    stopPix    = QIcon::fromTheme( "dialog-cancel" , QIcon(":/icons/breeze/default/dialog-cancel.png"));
+    localMode  = QIcon::fromTheme( "computer" , QIcon(":/icons/breeze/default/computer.png"));
+    serverMode = QIcon::fromTheme( "network-server" , QIcon(":/icons/breeze/default/network-server.png"));
 
-    connected           = QIcon::fromTheme( "network-connect" );
-    disconnected        = QIcon::fromTheme( "network-disconnect" );
+    connected           = QIcon::fromTheme( "network-connect" , QIcon(":/icons/breeze/default/network-connect.png"));
+    disconnected        = QIcon::fromTheme( "network-disconnect" , QIcon(":/icons/breeze/default/network-disconnect.png"));
 
     connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(makePortEditable(QTreeWidgetItem*,int)));
 }

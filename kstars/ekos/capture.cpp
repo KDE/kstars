@@ -119,8 +119,8 @@ Capture::Capture()
     connect(startB, SIGNAL(clicked()), this, SLOT(toggleSequence()));
     connect(pauseB, SIGNAL(clicked()), this, SLOT(pause()));
 
-    startB->setIcon(QIcon::fromTheme("media-playback-start"));
-    pauseB->setIcon(QIcon::fromTheme("media-playback-pause"));
+    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.png") ));
+    pauseB->setIcon(QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.png") ));
 
     connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
 
@@ -151,17 +151,17 @@ Capture::Capture()
     connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
     connect(calibrationB, SIGNAL(clicked()), this, SLOT(openCalibrationDialog()));
 
-    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
-    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
-    queueUpB->setIcon(QIcon::fromTheme("go-up"));
-    queueDownB->setIcon(QIcon::fromTheme("go-down"));
-    selectFITSDirB->setIcon(QIcon::fromTheme("document-open-folder"));
-    queueLoadB->setIcon(QIcon::fromTheme("document-open"));
-    queueSaveB->setIcon(QIcon::fromTheme("document-save"));
-    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
-    resetB->setIcon(QIcon::fromTheme("system-reboot"));
-    resetFrameB->setIcon(QIcon::fromTheme("view-refresh"));
-    calibrationB->setIcon(QIcon::fromTheme("run-build"));
+    addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.png") ));
+    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.png") ));
+    queueUpB->setIcon(QIcon::fromTheme("go-up", QIcon(":/icons/breeze/default/go-up.png") ));
+    queueDownB->setIcon(QIcon::fromTheme("go-down", QIcon(":/icons/go-down.png") ));
+    selectFITSDirB->setIcon(QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.png") ));
+    queueLoadB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.png") ));
+    queueSaveB->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.png") ));
+    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.png") ));
+    resetB->setIcon(QIcon::fromTheme("system-reboot", QIcon(":/icons/breeze/default/system-reboot.png") ));
+    resetFrameB->setIcon(QIcon::fromTheme("view-refresh", QIcon(":/icons/breeze/default/view-refresh.png") ));
+    calibrationB->setIcon(QIcon::fromTheme("run-build", QIcon(":/icons/breeze/default/run-build.png") ));
 
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
     removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));
@@ -266,7 +266,7 @@ void Capture::pause()
     appendLogText(i18n("Sequence shall be paused after current exposure is complete."));
     pauseB->setEnabled(false);
 
-    startB->setIcon(QIcon::fromTheme("media-playback-start"));
+    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.png") ));
     startB->setToolTip(i18n("Resume Sequence"));
 }
 
@@ -274,7 +274,7 @@ void Capture::toggleSequence()
 {
     if (state == CAPTURE_PAUSED)
     {
-        startB->setIcon(QIcon::fromTheme("media-playback-stop"));
+        startB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.png") ));
         startB->setToolTip(i18n("Stop Sequence"));
         pauseB->setEnabled(true);
 
@@ -373,7 +373,7 @@ void Capture::start()
     state = CAPTURE_PROGRESS;
     emit newStatus(Ekos::CAPTURE_PROGRESS);
 
-    startB->setIcon(QIcon::fromTheme("media-playback-stop"));
+    startB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.png") ));
     startB->setToolTip(i18n("Stop Sequence"));
     pauseB->setEnabled(true);
 
@@ -442,7 +442,7 @@ void Capture::stop(bool abort)
 
     if (abort)
     {
-        startB->setIcon(QIcon::fromTheme("media-playback-start"));
+        startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.png") ));
         startB->setToolTip(i18n("Start Sequence"));
         pauseB->setEnabled(false);
     }
@@ -2604,7 +2604,7 @@ void Capture::editJob(QModelIndex i)
 
    appendLogText(i18n("Editing job #%1...", i.row()+1));
 
-   addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply"));
+   addToQueueB->setIcon(QIcon::fromTheme("dialog-ok-apply", QIcon(":/icons/breeze/default/dialog-ok-apply.png") ));
    addToQueueB->setToolTip(i18n("Apply job changes."));
    removeFromQueueB->setToolTip(i18n("Cancel job changes."));
 
@@ -2618,7 +2618,7 @@ void Capture::resetJobEdit()
        appendLogText(i18n("Editing job canceled."));
 
    jobUnderEdit = false;
-   addToQueueB->setIcon(QIcon::fromTheme("list-add"));
+   addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.png") ));
 
    addToQueueB->setToolTip(i18n("Add job to sequence queue"));
    removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));

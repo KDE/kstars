@@ -41,8 +41,8 @@ ObserverAdd::ObserverAdd() {
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    ui.AddObserverB->setIcon(QIcon::fromTheme("list-add"));
-    ui.RemoveObserverB->setIcon(QIcon::fromTheme("list-remove"));
+    ui.AddObserverB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.png")));
+    ui.RemoveObserverB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.png")));
 
     nextObserver = 0;
 

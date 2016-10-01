@@ -70,9 +70,9 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     pw->TimeStep->setDaysOnly( true );
     pw->TimeStep->tsbox()->setValue( 1 ); //start with 1-day timestep
 
-    pw->RunButton->setIcon( QIcon::fromTheme("arrow-right") );
-    pw->ZoomInButton->setIcon( QIcon::fromTheme("zoom-in") );
-    pw->ZoomOutButton->setIcon( QIcon::fromTheme("zoom-out") );
+    pw->RunButton->setIcon( QIcon::fromTheme("arrow-right", QIcon(":/icons/breeze/default/arrow-right.png")) );
+    pw->ZoomInButton->setIcon( QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.png")) );
+    pw->ZoomOutButton->setIcon( QIcon::fromTheme("zoom-out", QIcon(":/icons/breeze/default/zoom-out.png")) );
     pw->DateBox->setDate( data->lt().date() );
 
     resize( 500, 500 );
@@ -145,11 +145,11 @@ void PlanetViewer::slotRunClock() {
     isClockRunning = !isClockRunning;
 
     if ( isClockRunning ) {
-        pw->RunButton->setIcon( QIcon::fromTheme("media-playback-pause") );
+        pw->RunButton->setIcon( QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.png")) );
         tmr.start( 100 );
         //		pw->DateBox->setEnabled( false );
     } else {
-        pw->RunButton->setIcon( QIcon::fromTheme("arrow-right") );
+        pw->RunButton->setIcon( QIcon::fromTheme("arrow-right", QIcon(":/icons/breeze/default/arrow-right.png")) );
         tmr.stop();
         //		pw->DateBox->setEnabled( true );
     }
@@ -165,7 +165,7 @@ void PlanetViewer::slotCloseWindow() {
     if ( isClockRunning ) {
         tmr.stop();
         isClockRunning = false;
-        pw->RunButton->setIcon( QIcon::fromTheme("arrow-right") );
+        pw->RunButton->setIcon( QIcon::fromTheme("arrow-right", QIcon(":/icons/breeze/default/arrow-right.png")) );
     }
 }
 

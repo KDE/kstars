@@ -220,7 +220,7 @@ Mosaic::Mosaic(Scheduler *scheduler)
     scene.addItem(mosaicTile);
     mosaicView->setScene(&scene);
 
-    selectJobsDirB->setIcon(QIcon::fromTheme("document-open-folder"));
+    selectJobsDirB->setIcon(QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.png")));
 
     //mosaicView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
 
