@@ -555,6 +555,20 @@ public:
      */
     static const double altCrit;
 
+    /**
+     * @short Return the object's altitude at the upper culmination for the given latitude
+     * @return the maximum altitude in degrees
+     */
+    double maxAlt( const dms &lat ) const;
+
+    /**
+     * @short Return the object's altitude at the lower culmination for the given latitude
+     * @return the minimum altitude in degrees
+     */
+    double minAlt( const dms &lat ) const;
+
+
+
 #ifdef PROFILE_COORDINATE_CONVERSION
     static double cpuTime_EqToHz;
     static long unsigned eqToHzCalls;

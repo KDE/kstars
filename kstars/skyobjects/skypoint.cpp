@@ -871,3 +871,18 @@ SkyPoint SkyPoint::timeTransformed( const SkyPoint *p, const KStarsDateTime &dt,
     return sp;
 
 }
+
+
+double SkyPoint::maxAlt(const dms& lat) const {
+    double retval = ( lat.Degrees() + 90. - dec().Degrees() );
+    if ( retval > 90. )
+        retval = 180. - retval;
+    return retval;
+}
+
+double SkyPoint::minAlt(const dms& lat) const {
+    double retval = ( lat.Degrees() - 90. + dec().Degrees() );
+    if ( retval < -90. )
+        retval = 180. + retval;
+    return retval;
+}
