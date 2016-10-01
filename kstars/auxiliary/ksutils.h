@@ -29,7 +29,6 @@
 
 #include <cstddef>
 #include <Eigen/Core>
-using namespace Eigen;
 #include <QPointF>
 #include "dms.h"
 #include "skyobjects/starobject.h"
@@ -80,22 +79,22 @@ namespace KSUtils {
     /** Convert from spherical to cartesian coordiate system.
      *  Resulting vector have unit length
      */
-    inline Vector3d fromSperical(dms longitude, dms latitude) {
+    inline Eigen::Vector3d fromSperical(dms longitude, dms latitude) {
         double sinL, sinB;
         double cosL, cosB;
         longitude.SinCos( sinL, cosL );
         latitude.SinCos(  sinB, cosB );
-        return Vector3d(cosB*cosL, cosB*sinL, sinB);
+        return Eigen::Vector3d(cosB*cosL, cosB*sinL, sinB);
     }
 
     /** Convert a vector to a point */
-    inline QPointF vecToPoint(const Vector2f& vec) {
+    inline QPointF vecToPoint(const Eigen::Vector2f& vec) {
         return QPointF( vec[0], vec[1] );
     }
 
     /** Convert a point to a vector */
-    inline Vector2f pointToVec(const QPointF& p) {
-        return Vector2f(p.x(),p.y());
+    inline Eigen::Vector2f pointToVec(const QPointF& p) {
+        return Eigen::Vector2f(p.x(),p.y());
     }
 
     /**

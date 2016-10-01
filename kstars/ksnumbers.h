@@ -26,8 +26,6 @@
 
 #include <Eigen/Dense>
 
-using Eigen::Matrix3d;
-
 /** @class KSNumbers
 	*
 	*There are several time-dependent values used in position calculations,
@@ -112,10 +110,10 @@ public:
     inline double p2b( int i1, int i2 ) const { return P2B(i1, i2); }
 
     /** @return the precession matrix directly **/
-    inline const Matrix3d &p2() const { return P1; }
-    inline const Matrix3d &p1() const { return P2; }
-    inline const Matrix3d &p1b() const { return P1B; }
-    inline const Matrix3d &p2b() const { return P2B; }
+    inline const Eigen::Matrix3d &p2() const { return P1; }
+    inline const Eigen::Matrix3d &p1() const { return P2; }
+    inline const Eigen::Matrix3d &p1b() const { return P1B; }
+    inline const Eigen::Matrix3d &p2b() const { return P2B; }
 
     /**
      *@short compute constant values that need to be computed only once per instance of the application
@@ -140,7 +138,7 @@ private:
     dms XP, YP, ZP, XB, YB, ZB;
     double CX, SX, CY, SY, CZ, SZ;
     double CXB, SXB, CYB, SYB, CZB, SZB;
-    Matrix3d P1, P2, P1B, P2B;
+    Eigen::Matrix3d P1, P2, P1B, P2B;
     double deltaObliquity, deltaEcLong;
     double e, T;
     long double days; // JD for which the last update was called
