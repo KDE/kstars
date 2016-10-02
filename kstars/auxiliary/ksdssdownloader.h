@@ -27,6 +27,8 @@
 #include <QStringList>
 #include <QTemporaryFile>
 
+#include <functional>
+
 class FileDownloader;
 class SkyPoint;
 class dms;
@@ -54,12 +56,12 @@ class KSDssDownloader : public QObject {
     KSDssDownloader( QObject *parent = 0 );
 
     /**
-     * @short Constructor that initiates a "standard" DSS download job, and finally self destructs
+     * @short Constructor that initiates a "standard" DSS download job, calls the downloadReady slot, and finally self destructs
      * @note Very important that if you create with this constructor,
      * the object will self-destruct. Avoid keeping pointers to it, or
      * things may segfault!
      */
-    KSDssDownloader( const SkyPoint * const p, const QString &destFileName, QObject *parent = 0 );
+    KSDssDownloader( const SkyPoint * const p, const QString &destFileName, const std::function<void(bool)> &slotDownloadReady, QObject *parent = 0 );
 
     /**
      * @short Stateful single-download of a supplied URL. Use when the flexibility is required

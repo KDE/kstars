@@ -38,13 +38,16 @@ KSDssDownloader::KSDssDownloader( QObject *parent ) : QObject( parent ) {
     m_VersionPreference << "poss2ukstu_blue" << "poss2ukstu_red" << "poss1_blue" << "poss1_red" << "quickv" << "poss2ukstu_ir";
     m_TempFile.open();
 }
-KSDssDownloader::KSDssDownloader(const SkyPoint * const p, const QString &destFileName, QObject *parent ) : QObject( parent ) {
+
+KSDssDownloader::KSDssDownloader(const SkyPoint * const p, const QString &destFileName, const std::function<void( bool )> &slotDownloadReady, QObject *parent ) : QObject( parent ) {
     // Initialize version preferences. FIXME: This must be made a
     // user-changeable option just in case someone likes red
     m_VersionPreference << "poss2ukstu_blue" << "poss2ukstu_red" << "poss1_blue" << "poss1_red" << "quickv" << "poss2ukstu_ir";
     m_TempFile.open();
+    connect( this, &KSDssDownloader::downloadComplete, slotDownloadReady );
     startDownload( p, destFileName );
 }
+
 
 QString KSDssDownloader::getDSSURL( const SkyPoint * const p, const QString &version, struct KSDssImage::Metadata *md ) {
         const DeepSkyObject *dso = 0;

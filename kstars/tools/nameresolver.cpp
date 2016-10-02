@@ -69,6 +69,7 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
 
     QNetworkAccessManager manager;
     QNetworkReply *response = manager.get( QNetworkRequest( resolverUrl ) );
+    Q_ASSERT( response );
 
     // Wait synchronously
     QEventLoop event;
