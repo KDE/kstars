@@ -154,7 +154,7 @@ void ImageViewer::init(QString caption, QString capText)
 
     QPushButton *invertB = new QPushButton(i18n("Invert colors"));
     invertB->setToolTip(i18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving."));
-    QPushButton *saveB   = new QPushButton(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.png")), i18n("Save"));
+    QPushButton *saveB   = new QPushButton(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")), i18n("Save"));
     saveB->setToolTip(i18n("Save the image to disk"));
 
     buttonBox->addButton(invertB, QDialogButtonBox::ActionRole);

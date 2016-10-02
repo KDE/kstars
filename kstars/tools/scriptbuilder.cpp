@@ -217,16 +217,16 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     sb->FunctionTree->setSortingEnabled( false );
 
     //Add icons to Push Buttons
-    sb->NewButton->setIcon( QIcon::fromTheme( "document-new", QIcon(":/icons/breeze/default/document-new.png")) );
-    sb->OpenButton->setIcon( QIcon::fromTheme( "document-open" , QIcon(":/icons/breeze/default/document-open.png")) );
-    sb->SaveButton->setIcon( QIcon::fromTheme( "document-save" , QIcon(":/icons/breeze/default/document-save.png")) );
-    sb->SaveAsButton->setIcon( QIcon::fromTheme( "document-save-as" , QIcon(":/icons/breeze/default/document-save-as.png")) );
-    sb->RunButton->setIcon( QIcon::fromTheme( "system-run" , QIcon(":/icons/breeze/default/system-run.png")) );
-    sb->CopyButton->setIcon( QIcon::fromTheme( "view-refresh" , QIcon(":/icons/breeze/default/view-refresh.png")) );
-    sb->AddButton->setIcon( QIcon::fromTheme( "go-previous" , QIcon(":/icons/breeze/default/go-previous.png")) );
-    sb->RemoveButton->setIcon( QIcon::fromTheme( "go-next" , QIcon(":/icons/breeze/default/go-next.png")) );
-    sb->UpButton->setIcon( QIcon::fromTheme( "go-up" , QIcon(":/icons/breeze/default/go-up.png")) );
-    sb->DownButton->setIcon( QIcon::fromTheme( "go-down" , QIcon(":/icons/breeze/default/go-down.png")) );
+    sb->NewButton->setIcon( QIcon::fromTheme( "document-new", QIcon(":/icons/breeze/default/document-new.svg")) );
+    sb->OpenButton->setIcon( QIcon::fromTheme( "document-open" , QIcon(":/icons/breeze/default/document-open.svg")) );
+    sb->SaveButton->setIcon( QIcon::fromTheme( "document-save" , QIcon(":/icons/breeze/default/document-save.svg")) );
+    sb->SaveAsButton->setIcon( QIcon::fromTheme( "document-save-as" , QIcon(":/icons/breeze/default/document-save-as.svg")) );
+    sb->RunButton->setIcon( QIcon::fromTheme( "system-run" , QIcon(":/icons/breeze/default/system-run.svg")) );
+    sb->CopyButton->setIcon( QIcon::fromTheme( "view-refresh" , QIcon(":/icons/breeze/default/view-refresh.svg")) );
+    sb->AddButton->setIcon( QIcon::fromTheme( "go-previous" , QIcon(":/icons/breeze/default/go-previous.svg")) );
+    sb->RemoveButton->setIcon( QIcon::fromTheme( "go-next" , QIcon(":/icons/breeze/default/go-next.svg")) );
+    sb->UpButton->setIcon( QIcon::fromTheme( "go-up" , QIcon(":/icons/breeze/default/go-up.svg")) );
+    sb->DownButton->setIcon( QIcon::fromTheme( "go-down" , QIcon(":/icons/breeze/default/go-down.svg")) );
 
     //Prepare the widget stack
     argBlank = new QWidget();

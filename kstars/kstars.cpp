@@ -206,7 +206,7 @@ void KStars::clearCachedFindDialog() {
 void KStars::applyConfig( bool doApplyFocus ) {
     if ( Options::isTracking() ) {
         actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.png")) );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.svg")) );
     }
 
     actionCollection()->action("coordsys")->setText(

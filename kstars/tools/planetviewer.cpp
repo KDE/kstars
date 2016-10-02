@@ -70,9 +70,9 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     pw->TimeStep->setDaysOnly( true );
     pw->TimeStep->tsbox()->setValue( 1 ); //start with 1-day timestep
 
-    pw->RunButton->setIcon( QIcon::fromTheme("arrow-right", QIcon(":/icons/breeze/default/arrow-right.png")) );
-    pw->ZoomInButton->setIcon( QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.png")) );
-    pw->ZoomOutButton->setIcon( QIcon::fromTheme("zoom-out", QIcon(":/icons/breeze/default/zoom-out.png")) );
+    pw->RunButton->setIcon( QIcon::fromTheme("arrow-right", QIcon(":/icons/breeze/default/arrow-right.svg")) );
+    pw->ZoomInButton->setIcon( QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.svg")) );
+    pw->ZoomOutButton->setIcon( QIcon::fromTheme("zoom-out", QIcon(":/icons/breeze/default/zoom-out.svg")) );
     pw->DateBox->setDate( data->lt().date() );
 
     resize( 500, 500 );
@@ -145,11 +145,11 @@ void PlanetViewer::slotRunClock() {
     isClockRunning = !isClockRunning;
 
     if ( isClockRunning ) {
-        pw->RunButton->setIcon( QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.png")) );
+        pw->RunButton->setIcon( QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg")) );
         tmr.start( 100 );
         //		pw->DateBox->setEnabled( false );
     } else {
-        pw->RunButton->setIcon( QIcon::fromTheme("arrow-right", QIcon(":/icons/breeze/default/arrow-right.png")) );
+        pw->RunButton->setIcon( QIcon::fromTheme("arrow-right", QIcon(":/icons/breeze/default/arrow-right.svg")) );
         tmr.stop();
         //		pw->DateBox->setEnabled( true );
     }
@@ -165,7 +165,7 @@ void PlanetViewer::slotCloseWindow() {
     if ( isClockRunning ) {
         tmr.stop();
         isClockRunning = false;
-        pw->RunButton->setIcon( QIcon::fromTheme("arrow-right", QIcon(":/icons/breeze/default/arrow-right.png")) );
+        pw->RunButton->setIcon( QIcon::fromTheme("arrow-right", QIcon(":/icons/breeze/default/arrow-right.svg")) );
     }
 }
 

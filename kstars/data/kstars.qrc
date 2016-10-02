@@ -1,36 +1,19 @@
 <RCC>
     <qresource prefix="/">
-        <file>icons/catalog.png</file>
-        <file>icons/cbound.png</file>
-        <file>icons/clines.png</file>
-        <file>icons/cnames.png</file>
-        <file>icons/colors.png</file>
-        <file>icons/constellationart.png</file>
-        <file>icons/deepsky.png</file>
         <file>icons/ekos_align.png</file>
         <file>icons/ekos_ccd.png</file>
         <file>icons/ekos_focus.png</file>
+        <file>icons/go-nw.svg</file>
+        <file>icons/go-ne.svg</file>
+        <file>icons/go-sw.svg</file>
+        <file>icons/go-se.svg</file>
         <file>icons/ekos_guide.png</file>
         <file>icons/ekos_mount.png</file>
         <file>icons/ekos_scheduler.png</file>
         <file>icons/ekos_setup.png</file>
-        <file>icons/ekos.png</file>
-        <file>icons/fitsviewer.png</file>
-        <file>icons/flag.png</file>
         <file>icons/fov.png</file>
-        <file>icons/grid.png</file>
-        <file>icons/guides.png</file>
-        <file>icons/hgrid.png</file>
-        <file>icons/horizon.png</file>
-        <file>icons/indi.png</file>
-        <file>icons/mw.png</file>
-        <file>icons/planets.png</file>
-        <file>icons/satellites.png</file>
-        <file>icons/solarsystem.png</file>
-        <file>icons/stars.png</file>
-        <file>icons/supernovae.png</file>
-        <file>icons/xplanet.png</file>
-        <file>icons/advanced.png</file>
+		<file>icons/histogram.png</file>
+        <file>icons/breeze/index.theme</file>
         <file>icons/breeze/default/accessories-calculator.svg</file>
         <file>icons/breeze/default/application-exit.svg</file>
         <file>icons/breeze/default/applications-internet.svg</file>

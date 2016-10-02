@@ -60,13 +60,13 @@ DriverManagerUI::DriverManagerUI(QWidget *parent) : QFrame(parent)
 
     clientTreeWidget->setSortingEnabled(false);
 
-    runningPix = QIcon::fromTheme( "system-run" , QIcon(":/icons/breeze/default/system-run.png"));
-    stopPix    = QIcon::fromTheme( "dialog-cancel" , QIcon(":/icons/breeze/default/dialog-cancel.png"));
-    localMode  = QIcon::fromTheme( "computer" , QIcon(":/icons/breeze/default/computer.png"));
-    serverMode = QIcon::fromTheme( "network-server" , QIcon(":/icons/breeze/default/network-server.png"));
+    runningPix = QIcon::fromTheme( "system-run" , QIcon(":/icons/breeze/default/system-run.svg"));
+    stopPix    = QIcon::fromTheme( "dialog-cancel" , QIcon(":/icons/breeze/default/dialog-cancel.svg"));
+    localMode  = QIcon::fromTheme( "computer" , QIcon(":/icons/breeze/default/computer.svg"));
+    serverMode = QIcon::fromTheme( "network-server" , QIcon(":/icons/breeze/default/network-server.svg"));
 
-    connected           = QIcon::fromTheme( "network-connect" , QIcon(":/icons/breeze/default/network-connect.png"));
-    disconnected        = QIcon::fromTheme( "network-disconnect" , QIcon(":/icons/breeze/default/network-disconnect.png"));
+    connected           = QIcon::fromTheme( "network-connect" , QIcon(":/icons/breeze/default/network-connect.svg"));
+    disconnected        = QIcon::fromTheme( "network-disconnect" , QIcon(":/icons/breeze/default/network-disconnect.svg"));
 
     connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(makePortEditable(QTreeWidgetItem*,int)));
 }
