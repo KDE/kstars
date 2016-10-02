@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>584</width>
-    <height>473</height>
+    <width>723</width>
+    <height>486</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
     <widget class="QTabWidget" name="AdvancedOptionsTabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -280,7 +280,7 @@
              <string>Enable regular debug output</string>
             </property>
             <property name="text">
-             <string>Regular</string>
+             <string>Reg&amp;ular</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -329,7 +329,7 @@
              <string>Disable all logging output</string>
             </property>
             <property name="text">
-             <string>Disable</string>
+             <string>&amp;Disable</string>
             </property>
             <property name="checked">
              <bool>false</bool>
@@ -404,7 +404,7 @@
              <string>Log debug messages to default output device used by the platform (e.g. Standard Error)</string>
             </property>
             <property name="text">
-             <string>Default</string>
+             <string>Defaul&amp;t</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -865,7 +865,7 @@
           <item>
            <widget class="QRadioButton" name="kcfg_ObsListSymbol">
             <property name="text">
-             <string>Sy&amp;mbol</string>
+             <string>S&amp;ymbol</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -928,9 +928,74 @@
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>Sloan Digital Sky Sur&amp;vey (SDSS)</string>
+             <string>Sloan &amp;Digital Sky Survey (SDSS)</string>
             </property>
            </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="ObsListMiscOptions">
+         <property name="title">
+          <string>Miscellaneous</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QCheckBox" name="kcfg_ObsListDemoteHole">
+            <property name="text">
+             <string>While sorting by percentage altitude, demote objects present in the Dobsonian hole</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <spacer name="holeSizeSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="holeSizeLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Hole size in degrees:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QDoubleSpinBox" name="kcfg_ObsListHoleSize">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximum">
+               <double>89.989999999999995</double>
+              </property>
+              <property name="value">
+               <double>15.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -999,12 +1064,12 @@
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="logbuttonGroup"/>
   <buttongroup name="modulesGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
   <buttongroup name="verbosityButtonGroup"/>
-  <buttongroup name="logbuttonGroup"/>
  </buttongroups>
 </ui>

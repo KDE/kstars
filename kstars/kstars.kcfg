@@ -757,6 +757,21 @@
       <whatsthis>The observing list will prefer SDSS imagery while downloading imagery.</whatsthis>
       <default>false</default>
     </entry>
+    <entry name="ObsListDemoteHole" type="Bool">
+      <label>While sorting by percentage altitude in the observing list, demote objects present in the Dobsonian hole</label>
+      <whatsthis>Check this if you use a large Dobsonian telescope.
+        Sorting by percentage current altitude is an easy way of determining what objects are well-placed for observation.
+      However, when using a large Dobsonian telescope, objects close to the zenith are hard to observe.
+      Since tracking there corresponds to a rotation in azimuith, it is both counterintuitive and requires the observer to frequently move the ladder.
+      The region around the zenith where this is particularly frustrating is called the Dobsonian hole.
+      This checkbox makes the observing list consider objects present in the hole as unfit for observation.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="ObsListHoleSize" type="Double">
+      <label>This is the angular distance from the zenith, in degrees, below which you can easily point your telescope.</label>
+      <whatsthis>This specifies the angular radius of the Dobsonian hole, i.e. the region where a large Dobsonian telescope cannot be pointed easily.</whatsthis>
+      <default>15.00</default>
+    </entry>
   </group>
   <group name="Colors">
     <entry name="ColorSchemeFile" type="String">

@@ -233,22 +233,31 @@ ObservingList::ObservingList()
     m_NoImagePixmap = QPixmap(":/images/noimage.png").scaledToHeight(ui->ImagePreview->width());
 
     m_altCostHelper = [ this ]( const SkyPoint &p ) -> QStandardItem * {
-        double inf = std::numeric_limits<double>::infinity();
+        const double inf = std::numeric_limits<double>::infinity();
         double altCost = 0.;
         QString itemText;
-        if ( p.maxAlt( *( geo->lat() ) ) <= 0. ) {
+        double maxAlt = p.maxAlt( *( geo->lat() ) );
+        if ( Options::obsListDemoteHole() && maxAlt > 90. - Options::obsListHoleSize() )
+            maxAlt = 90. - Options::obsListHoleSize();
+        if (  maxAlt <= 0. ) {
             altCost = -inf;
             itemText = i18n( "Never rises" );
         }
         else {
-            altCost = ( p.alt().Degrees() / p.maxAlt( *( geo->lat() ) ) ) * 100.;
+            altCost = ( p.alt().Degrees() / maxAlt ) * 100.;
             if ( altCost < 0 )
                 itemText = i18nc( "Short text to describe that object has not risen yet", "Not risen" );
-            else
-                itemText = QString::number( altCost, 'f', 0 ) + '%';
+            else {
+                if ( altCost > 100. ) {
+                    altCost = -inf;
+                    itemText = i18nc( "Object is in the Dobsonian hole", "In hole" );
+                }
+                else
+                    itemText = QString::number( altCost, 'f', 0 ) + '%';
+            }
         }
 
-        QStandardItem *altItem = new QStandardItem( itemText  );
+        QStandardItem *altItem = new QStandardItem( itemText );
         altItem->setData( altCost, Qt::UserRole );
         qDebug() << "Updating altitude for " << p.ra().toHMSString() << " " << p.dec().toDMSString() << " alt = " << p.alt().toDMSString() << " info to " << itemText;
         return altItem;
