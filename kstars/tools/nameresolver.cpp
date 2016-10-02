@@ -86,6 +86,7 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
     }
 
     QXmlStreamReader xml( response->readAll() );
+    response->deleteLater();
     if( xml.atEnd() ) {
         // file is empty
         msg = xi18n("Empty result instead of expected XML from CDS Sesame! Maybe bad internet connection?");

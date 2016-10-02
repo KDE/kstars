@@ -232,7 +232,7 @@ void KSDssDownloader::singleDownloadFinished()
     m_TempFile.open();
     m_TempFile.write(downloadJob->downloadedData());
     m_TempFile.close();
-    delete (downloadJob);
+    downloadJob->deleteLater();
 
     // Check if we have a proper DSS image or the DSS server failed
     QMimeDatabase mdb;
@@ -256,7 +256,7 @@ void KSDssDownloader::downloadAttemptFinished()
         // FIXME: do SDSS-y things
         emit downloadComplete( false );
         deleteLater();
-        delete (downloadJob);
+        downloadJob->deleteLater();
         return;
     }
     else
@@ -264,7 +264,7 @@ void KSDssDownloader::downloadAttemptFinished()
         m_TempFile.open();
         m_TempFile.write(downloadJob->downloadedData());
         m_TempFile.close();
-        delete (downloadJob);
+        downloadJob->deleteLater();
 
         // Check if we have a proper DSS image or the DSS server failed
         QMimeDatabase mdb;
