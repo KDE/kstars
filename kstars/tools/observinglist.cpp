@@ -122,8 +122,8 @@ ObservingList::ObservingList()
     m_WishListModel->setHorizontalHeaderLabels(
         QStringList() << i18n( "Name" )
         << i18n( "Alternate Name" )
-        << i18nc( "Right Ascension", "RA" )
-        << i18nc( "Declination", "Dec" )
+        << i18nc( "Right Ascension", "RA (J2000)" )
+        << i18nc( "Declination", "Dec (J2000)" )
         << i18nc( "Magnitude", "Mag" )
         << i18n( "Type" )
         << i18n( "Current Altitude" )
@@ -131,8 +131,8 @@ ObservingList::ObservingList()
     m_SessionModel->setHorizontalHeaderLabels(
         QStringList() << i18n( "Name" )
         << i18n( "Alternate Name" )
-        << i18nc( "Right Ascension", "RA" )
-        << i18nc( "Declination", "Dec" )
+        << i18nc( "Right Ascension", "RA (J2000)" )
+        << i18nc( "Declination", "Dec (J2000)" )
         << i18nc( "Magnitude", "Mag" )
         << i18n( "Type" )
         << i18nc( "Constellation", "Constell." )
@@ -344,8 +344,8 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         keyItem->setData( QVariant::fromValue<void *>( static_cast<void *>( obj ) ), Qt::UserRole + 1 );
         itemList << keyItem // NOTE: The rest of the methods assume that the SkyObject pointer is available in the first column!
         << getItemWithUserRole( obj->translatedLongName() )
-        << getItemWithUserRole( p.ra().toHMSString() )
-        << getItemWithUserRole( p.dec().toDMSString() )
+        << getItemWithUserRole( p.ra0().toHMSString() )
+        << getItemWithUserRole( p.dec0().toDMSString() )
         << getItemWithUserRole( smag )
         << getItemWithUserRole( obj->typeName() );
     };
@@ -380,7 +380,6 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         dt.setTime( TimeHash.value( finalObjectName, obj->transitTime( dt, geo ) ) );
         dms lst(geo->GSTtoLST( dt.gst() ));
         p.EquatorialToHorizontal( &lst, geo->lat() );
-        QList<QStandardItem*> itemList;
 
         QString ra, dec, time = "--", alt = "--", az = "--";
 
