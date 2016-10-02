@@ -257,13 +257,19 @@ public:
     dms transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo ) const;
 
     /**
-     *The coordinates for the object on date dt are computed and returned,
+     *The equatorial coordinates for the object on date dt are computed and returned,
      *but the object's internal coordinates are not modified.
      *@return the coordinates of the selected object for the time given by jd
      *@param dt  date/time for which the coords will be computed.
      *@param geo pointer to geographic location (used for solar system only)
+     *@note Does not update the horizontal coordinates. Call EquatorialToHorizontal for that.
      */
     SkyPoint recomputeCoords( const KStarsDateTime &dt, const GeoLocation *geo=0 ) const;
+
+    /**
+     * @short Like recomputeCoords, but also calls EquatorialToHorizontal before returning
+     */
+    SkyPoint recomputeHorizontalCoords( const KStarsDateTime &dt, const GeoLocation *geo ) const;
 
     inline bool hasName() const { return ! Name.isEmpty(); }
 

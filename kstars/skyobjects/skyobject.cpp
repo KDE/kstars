@@ -339,6 +339,15 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
     return p;
 }
 
+
+SkyPoint SkyObject::recomputeHorizontalCoords(const KStarsDateTime& dt, const GeoLocation  *geo) const {
+    Q_ASSERT( geo );
+    SkyPoint ret = recomputeCoords( dt, geo );
+    CachingDms LST = geo->GSTtoLST( dt.gst() );
+    ret.EquatorialToHorizontal( &LST, geo->lat() );
+    return ret;
+}
+
 QString SkyObject::typeName( int t ) {
 
     switch( t ) {

@@ -227,10 +227,12 @@ SkyPoint SkyPoint::deprecess( const KSNumbers *num, long double epoch ) {
     long double now = num->julianDay();
     p1.precessFromAnyEpoch( now, epoch );
     if( ( std::isnan( RA0.Degrees() ) || std::isnan( Dec0.Degrees() ) ) ||
-        ( !std::isnan( Dec0.Degrees() ) && fabs( Dec0.Degrees() ) > 90.0 ) ) {
-        // We have invalid RA0 and Dec0, so set them.
-        RA0 = p1.ra();
-        Dec0 = p1.dec();
+        ( !std::isnan( Dec0.Degrees() ) && fabs( Dec0.Degrees() ) > 90.0 ) )  {
+        // We have invalid RA0 and Dec0, so set them if epoch = J2000. Otherwise, do not touch.
+        if ( epoch == J2000 ) {
+            RA0 = p1.ra();
+            Dec0 = p1.dec();
+        }
     }
     return p1;
 }
@@ -885,4 +887,5 @@ double SkyPoint::minAlt(const dms& lat) const {
     if ( retval < -90. )
         retval = 180. + retval;
     return retval;
+
 }

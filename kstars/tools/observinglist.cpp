@@ -214,11 +214,11 @@ ObservingList::ObservingList()
     connect( ui->OALExport, SIGNAL( clicked() ),
              this, SLOT( slotOALExport() ) );
     //Add icons to Push Buttons
-    ui->OpenButton->setIcon( QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.png")) );
-    ui->SaveButton->setIcon( QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.png")) );
-    ui->SaveAsButton->setIcon( QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.png")) );
-    ui->WizardButton->setIcon( QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.png")) );
-    ui->MiniButton->setIcon( QIcon::fromTheme("view-restore", QIcon(":/icons/breeze/default/view-restore.png")) );
+    ui->OpenButton->setIcon( QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")) );
+    ui->SaveButton->setIcon( QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")) );
+    ui->SaveAsButton->setIcon( QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg")) );
+    ui->WizardButton->setIcon( QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg")) );
+    ui->MiniButton->setIcon( QIcon::fromTheme("view-restore", QIcon(":/icons/breeze/default/view-restore.svg")) );
     noSelection = true;
     showScope = false;
     ui->NotesLabel->setEnabled( false );
@@ -236,7 +236,6 @@ ObservingList::ObservingList()
         double inf = std::numeric_limits<double>::infinity();
         double altCost = 0.;
         QString itemText;
-        qDebug() << "p has Dec" << p.dec().toDMSString() << "and p.maxAlt( " << geo->lat()->toDMSString() << " ) returns " << p.maxAlt( *( geo->lat() ) );
         if ( p.maxAlt( *( geo->lat() ) ) <= 0. ) {
             altCost = -inf;
             itemText = i18n( "Never rises" );
@@ -251,6 +250,7 @@ ObservingList::ObservingList()
 
         QStandardItem *altItem = new QStandardItem( itemText  );
         altItem->setData( altCost, Qt::UserRole );
+        qDebug() << "Updating altitude for " << p.ra().toHMSString() << " " << p.dec().toDMSString() << " alt = " << p.alt().toDMSString() << " info to " << itemText;
         return altItem;
     };
 
@@ -264,6 +264,7 @@ ObservingList::ObservingList()
     bIsLarge = false;
     slotToggleSize();
 
+    slotUpdateAltitudes();
     m_altitudeUpdater = new QTimer( this );
     connect( m_altitudeUpdater, SIGNAL( timeout() ), this, SLOT( slotUpdateAltitudes() ) );
     m_altitudeUpdater->start( 120000 ); // update altitudes every 2 minutes
@@ -326,7 +327,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     if (  - 30.0 < obj->mag() && obj->mag() < 90.0 )
         smag = QString::number( obj->mag(), 'f', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
 
-    SkyPoint p = obj->recomputeCoords( dt, geo );
+    SkyPoint p = obj->recomputeHorizontalCoords( dt, geo );
 
     QList<QStandardItem*> itemList;
 
@@ -364,7 +365,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         //     - First sort by (max altitude) - (current altitude) rounded off to the nearest
         //     - Weight by declination - latitude (in the northern hemisphere, southern objects get higher precedence)
         //     - Demote objects in the hole
-        SkyPoint p = obj->recomputeCoords( KStarsDateTime( QDateTime::currentDateTime() ), geo ); // Current => now
+        SkyPoint p = obj->recomputeHorizontalCoords( KStarsDateTime::currentDateTimeUtc(), geo ); // Current => now
         itemList << m_altCostHelper( p );
         m_WishListModel->appendRow( itemList );
 
@@ -1006,15 +1007,15 @@ double ObservingList::findAltitude( SkyPoint *p, double hour ) {
 
 void ObservingList::slotToggleSize() {
     if ( isLarge() ) {
-        ui->MiniButton->setIcon( QIcon::fromTheme("view-fullscreen", QIcon(":/icons/breeze/default/view-fullscreen.png")) );
+        ui->MiniButton->setIcon( QIcon::fromTheme("view-fullscreen", QIcon(":/icons/breeze/default/view-fullscreen.svg")) );
         //Abbreviate text on each button
         ui->FindButton->setText( "" );
-        ui->FindButton->setIcon( QIcon::fromTheme("edit-find", QIcon(":/icons/breeze/default/edit-find.png")) );
+        ui->FindButton->setIcon( QIcon::fromTheme("edit-find", QIcon(":/icons/breeze/default/edit-find.svg")) );
         ui->WUTButton->setText( i18nc( "Abbreviation of What's Up Tonight", "WUT" ) );
         ui->saveImages->setText( "" );
         ui->DeleteAllImages->setText( "" );
-        ui->saveImages->setIcon( QIcon::fromTheme( "download", QIcon(":/icons/breeze/default/download.png")) );
-        ui->DeleteAllImages->setIcon( QIcon::fromTheme( "edit-delete", QIcon(":/icons/breeze/default/edit-delete.png")) );
+        ui->saveImages->setIcon( QIcon::fromTheme( "download", QIcon(":/icons/breeze/default/download.svg")) );
+        ui->DeleteAllImages->setIcon( QIcon::fromTheme( "edit-delete", QIcon(":/icons/breeze/default/edit-delete.svg")) );
         ui->refLabel->setText( i18nc( "Abbreviation for Reference Images:", "RefImg:" ) );
         ui->addLabel->setText( i18nc( "Add objects to a list", "Add:" ) );
         //Hide columns 1-5
@@ -1052,7 +1053,7 @@ void ObservingList::slotToggleSize() {
         this->resize( 400, this->height() );
         update();
     } else {
-        ui->MiniButton->setIcon( QIcon::fromTheme( "view-restore", QIcon(":/icons/breeze/default/view-restore.png")) );
+        ui->MiniButton->setIcon( QIcon::fromTheme( "view-restore", QIcon(":/icons/breeze/default/view-restore.svg")) );
         //Show columns 1-5
         ui->WishListView->showColumn(1);
         ui->WishListView->showColumn(2);
@@ -1495,17 +1496,19 @@ QString ObservingList::getObjectName(const SkyObject *o, bool translated)
 
 void ObservingList::slotUpdateAltitudes() {
     // FIXME: Update upon gaining visibility, do not update when not visible
-    KStarsDateTime now( QDateTime::currentDateTime() );
-    qDebug() << "Updating altitudes in observation planner.";
+    KStarsDateTime now = KStarsDateTime::currentDateTimeUtc();
+    qDebug() << "Updating altitudes in observation planner @ JD - J2000 = " << double( now.djd() - J2000 );
     for ( int irow = m_WishListModel->rowCount() - 1; irow >= 0; --irow ) {
         QModelIndex idx = m_WishListSortModel->mapToSource( m_WishListSortModel->index( irow, 0 ) );
         SkyObject *o = static_cast<SkyObject *>( idx.data( Qt::UserRole + 1 ).value<void *>() );
         Q_ASSERT( o );
-        SkyPoint p = o->recomputeCoords( now, geo );
+        SkyPoint p = o->recomputeHorizontalCoords( now, geo );
         idx = m_WishListSortModel->mapToSource( m_WishListSortModel->index( irow, m_WishListSortModel->columnCount() - 1 ) );
         QStandardItem *replacement = m_altCostHelper( p );
         m_WishListModel->setData( idx, replacement->data( Qt::DisplayRole ), Qt::DisplayRole  );
         m_WishListModel->setData( idx, replacement->data( Qt::UserRole ), Qt::UserRole );
         delete replacement;
     }
+    emit m_WishListModel->dataChanged( m_WishListModel->index( 0, m_WishListModel->columnCount() - 1 ),
+                                       m_WishListModel->index( m_WishListModel->rowCount() - 1, m_WishListModel->columnCount() - 1 ) );
 }

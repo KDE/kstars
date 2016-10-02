@@ -42,21 +42,21 @@ Mount::Mount()
 
     currentTelescope = NULL;
 
-    stopB->setIcon(QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.png")));
-    northB->setIcon(QIcon::fromTheme("go-up", QIcon(":/icons/breeze/default/go-up.png")));
-    westB->setIcon(QIcon::fromTheme("go-previous", QIcon(":/icons/breeze/default/go-previous.png")));
-    eastB->setIcon(QIcon::fromTheme("go-next", QIcon(":/icons/breeze/default/go-next.png")));
-    southB->setIcon(QIcon::fromTheme("go-down", QIcon(":/icons/breeze/default/go-down.png")));
+    stopB->setIcon(QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg")));
+    northB->setIcon(QIcon::fromTheme("go-up", QIcon(":/icons/breeze/default/go-up.svg")));
+    westB->setIcon(QIcon::fromTheme("go-previous", QIcon(":/icons/breeze/default/go-previous.svg")));
+    eastB->setIcon(QIcon::fromTheme("go-next", QIcon(":/icons/breeze/default/go-next.svg")));
+    southB->setIcon(QIcon::fromTheme("go-down", QIcon(":/icons/breeze/default/go-down.svg")));
 
     abortDispatch = -1;
 
     minAltLimit->setValue(Options::minimumAltLimit());
     maxAltLimit->setValue(Options::maximumAltLimit());
 
-    northwestB->setIcon(QIcon(":/icons/go-nw.png"));
-    northeastB->setIcon(QIcon(":/icons/go-nw.png"));
-    southwestB->setIcon(QIcon(":/icons/go-sw.png"));
-    southeastB->setIcon(QIcon(":/icons/go-se.png"));
+    northwestB->setIcon(QIcon(":/icons/go-nw.svg"));
+    northeastB->setIcon(QIcon(":/icons/go-ne.svg"));
+    southwestB->setIcon(QIcon(":/icons/go-sw.svg"));
+    southeastB->setIcon(QIcon(":/icons/go-se.svg"));
 
     connect(northB, SIGNAL(pressed()), this, SLOT(move()));
     connect(northB, SIGNAL(released()), this, SLOT(stop()));

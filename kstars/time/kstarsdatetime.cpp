@@ -47,6 +47,7 @@ KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt ) : QDateTime()
 KStarsDateTime::KStarsDateTime( const QDateTime &qdt ) :
     QDateTime( qdt )//, QDateTime::Spec::UTC() )
 {
+    // FIXME: This method might be buggy. Need to write some tests -- asimha (Oct 2016)
     QTime _t = qdt.time();
     QDate _d = qdt.date();
     long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;

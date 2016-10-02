@@ -68,9 +68,9 @@ LocationDialog::LocationDialog( QWidget* parent ) :
             ld->DSTRuleBox->addItem( key );
     }
 
-    ld->AddCityButton->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.png")));
-    ld->RemoveButton->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.png")));
-    ld->UpdateButton->setIcon(QIcon::fromTheme("svn-update", QIcon(":/icons/breeze/default/svn-update.png")));
+    ld->AddCityButton->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    ld->RemoveButton->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
+    ld->UpdateButton->setIcon(QIcon::fromTheme("svn-update", QIcon(":/icons/breeze/default/svn-update.svg")));
 
     connect( ld->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( enqueueFilterCity() ) );
     connect( ld->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( enqueueFilterCity() ) );
