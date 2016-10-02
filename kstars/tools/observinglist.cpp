@@ -512,6 +512,7 @@ void ObservingList::slotNewSelection() {
     QModelIndexList selectedItems;
     QString newName;
     SkyObject *o;
+    QString labelText;
     ui->DeleteImage->setEnabled( false );
 
     selectedItems = getActiveSortModel()->mapSelectionToSource( getActiveView()->selectionModel()->selection() ).indexes();
@@ -603,12 +604,25 @@ void ObservingList::slotNewSelection() {
                 setDefaultImage();
                 ui->dssMetadataLabel->setText( i18n( "No image available. Click on the placeholder image to download one." ) );
             }
+            QString cname = KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( o );
+            if ( o->type() != SkyObject::CONSTELLATION ) {
+                labelText = "<b>";
+                if ( o->type() == SkyObject::PLANET )
+                    labelText += o->translatedName();
+                else
+                    labelText += o->name();
+                if ( std::isfinite( o->mag() ) && o->mag() <= 30. )
+                    labelText += ":</b> " + i18nc("%1 magnitude of object, %2 type of sky object (planet, asteroid etc), %3 name of a constellation", "%1 mag %2 in %3", o->mag(), o->typeName().toLower(), cname );
+                else
+                    labelText += ":</b> " + i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", o->typeName(), cname );
+            }
         }
         else
         {
             setDefaultImage();
             qDebug() << "Object " << newName << " not found in list.";
         }
+        ui->quickInfoLabel->setText( labelText );
     } else {
         if ( selectedItems.size() == 0 ) {//Nothing selected
             //Disable buttons
@@ -638,6 +652,7 @@ void ObservingList::slotNewSelection() {
             //Clear the user log text box.
             saveCurrentUserLog();
             ui->NotesEdit->setPlainText("");
+            ui->quickInfoLabel->setText( QString() );
         }
     }
 }
