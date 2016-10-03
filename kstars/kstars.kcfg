@@ -762,7 +762,7 @@
       <whatsthis>Check this if you use a large Dobsonian telescope.
         Sorting by percentage current altitude is an easy way of determining what objects are well-placed for observation.
       However, when using a large Dobsonian telescope, objects close to the zenith are hard to observe.
-      Since tracking there corresponds to a rotation in azimuith, it is both counterintuitive and requires the observer to frequently move the ladder.
+      Since tracking there corresponds to a rotation in azimuth, it is both counterintuitive and requires the observer to frequently move the ladder.
       The region around the zenith where this is particularly frustrating is called the Dobsonian hole.
       This checkbox makes the observing list consider objects present in the hole as unfit for observation.</whatsthis>
       <default>false</default>
