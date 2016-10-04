@@ -122,8 +122,8 @@ ObservingList::ObservingList()
     m_WishListModel->setHorizontalHeaderLabels(
         QStringList() << i18n( "Name" )
         << i18n( "Alternate Name" )
-        << i18nc( "Right Ascension", "RA" )
-        << i18nc( "Declination", "Dec" )
+        << i18nc( "Right Ascension", "RA (J2000)" )
+        << i18nc( "Declination", "Dec (J2000)" )
         << i18nc( "Magnitude", "Mag" )
         << i18n( "Type" )
         << i18n( "Current Altitude" )
@@ -131,8 +131,8 @@ ObservingList::ObservingList()
     m_SessionModel->setHorizontalHeaderLabels(
         QStringList() << i18n( "Name" )
         << i18n( "Alternate Name" )
-        << i18nc( "Right Ascension", "RA" )
-        << i18nc( "Declination", "Dec" )
+        << i18nc( "Right Ascension", "RA (J2000)" )
+        << i18nc( "Declination", "Dec (J2000)" )
         << i18nc( "Magnitude", "Mag" )
         << i18n( "Type" )
         << i18nc( "Constellation", "Constell." )
@@ -233,22 +233,31 @@ ObservingList::ObservingList()
     m_NoImagePixmap = QPixmap(":/images/noimage.png").scaledToHeight(ui->ImagePreview->width());
 
     m_altCostHelper = [ this ]( const SkyPoint &p ) -> QStandardItem * {
-        double inf = std::numeric_limits<double>::infinity();
+        const double inf = std::numeric_limits<double>::infinity();
         double altCost = 0.;
         QString itemText;
-        if ( p.maxAlt( *( geo->lat() ) ) <= 0. ) {
+        double maxAlt = p.maxAlt( *( geo->lat() ) );
+        if ( Options::obsListDemoteHole() && maxAlt > 90. - Options::obsListHoleSize() )
+            maxAlt = 90. - Options::obsListHoleSize();
+        if (  maxAlt <= 0. ) {
             altCost = -inf;
             itemText = i18n( "Never rises" );
         }
         else {
-            altCost = ( p.alt().Degrees() / p.maxAlt( *( geo->lat() ) ) ) * 100.;
+            altCost = ( p.alt().Degrees() / maxAlt ) * 100.;
             if ( altCost < 0 )
                 itemText = i18nc( "Short text to describe that object has not risen yet", "Not risen" );
-            else
-                itemText = QString::number( altCost, 'f', 0 ) + '%';
+            else {
+                if ( altCost > 100. ) {
+                    altCost = -inf;
+                    itemText = i18nc( "Object is in the Dobsonian hole", "In hole" );
+                }
+                else
+                    itemText = QString::number( altCost, 'f', 0 ) + '%';
+            }
         }
 
-        QStandardItem *altItem = new QStandardItem( itemText  );
+        QStandardItem *altItem = new QStandardItem( itemText );
         altItem->setData( altCost, Qt::UserRole );
         qDebug() << "Updating altitude for " << p.ra().toHMSString() << " " << p.dec().toDMSString() << " alt = " << p.alt().toDMSString() << " info to " << itemText;
         return altItem;
@@ -344,8 +353,8 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         keyItem->setData( QVariant::fromValue<void *>( static_cast<void *>( obj ) ), Qt::UserRole + 1 );
         itemList << keyItem // NOTE: The rest of the methods assume that the SkyObject pointer is available in the first column!
         << getItemWithUserRole( obj->translatedLongName() )
-        << getItemWithUserRole( p.ra().toHMSString() )
-        << getItemWithUserRole( p.dec().toDMSString() )
+        << getItemWithUserRole( p.ra0().toHMSString() )
+        << getItemWithUserRole( p.dec0().toDMSString() )
         << getItemWithUserRole( smag )
         << getItemWithUserRole( obj->typeName() );
     };
@@ -380,7 +389,6 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         dt.setTime( TimeHash.value( finalObjectName, obj->transitTime( dt, geo ) ) );
         dms lst(geo->GSTtoLST( dt.gst() ));
         p.EquatorialToHorizontal( &lst, geo->lat() );
-        QList<QStandardItem*> itemList;
 
         QString ra, dec, time = "--", alt = "--", az = "--";
 
@@ -504,6 +512,7 @@ void ObservingList::slotNewSelection() {
     QModelIndexList selectedItems;
     QString newName;
     SkyObject *o;
+    QString labelText;
     ui->DeleteImage->setEnabled( false );
 
     selectedItems = getActiveSortModel()->mapSelectionToSource( getActiveView()->selectionModel()->selection() ).indexes();
@@ -595,12 +604,25 @@ void ObservingList::slotNewSelection() {
                 setDefaultImage();
                 ui->dssMetadataLabel->setText( i18n( "No image available. Click on the placeholder image to download one." ) );
             }
+            QString cname = KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( o );
+            if ( o->type() != SkyObject::CONSTELLATION ) {
+                labelText = "<b>";
+                if ( o->type() == SkyObject::PLANET )
+                    labelText += o->translatedName();
+                else
+                    labelText += o->name();
+                if ( std::isfinite( o->mag() ) && o->mag() <= 30. )
+                    labelText += ":</b> " + i18nc("%1 magnitude of object, %2 type of sky object (planet, asteroid etc), %3 name of a constellation", "%1 mag %2 in %3", o->mag(), o->typeName().toLower(), cname );
+                else
+                    labelText += ":</b> " + i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", o->typeName(), cname );
+            }
         }
         else
         {
             setDefaultImage();
             qDebug() << "Object " << newName << " not found in list.";
         }
+        ui->quickInfoLabel->setText( labelText );
     } else {
         if ( selectedItems.size() == 0 ) {//Nothing selected
             //Disable buttons
@@ -630,6 +652,7 @@ void ObservingList::slotNewSelection() {
             //Clear the user log text box.
             saveCurrentUserLog();
             ui->NotesEdit->setPlainText("");
+            ui->quickInfoLabel->setText( QString() );
         }
     }
 }
@@ -1181,8 +1204,8 @@ void ObservingList::slotGetImage( bool _dss, const SkyObject *o ) {
     //QUrl url;
     dss = true;
     qWarning() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
-    KSDssDownloader *dler = new KSDssDownloader( o, currentImagePath );
-    connect( dler, SIGNAL( downloadComplete( bool ) ), SLOT( downloadReady( bool ) ) );
+    std::function<void( bool )> slot = std::bind( &ObservingList::downloadReady, this, std::placeholders::_1 );
+    KSDssDownloader *dler = new KSDssDownloader( o, currentImagePath, slot, this );
 }
 
 void ObservingList::downloadReady( bool success ) {

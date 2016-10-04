@@ -35,6 +35,7 @@
 #include "indi/indistd.h"
 #include "indi/driverinfo.h"
 #endif
+#include <QImage>
 
 #define ZOOM_DEFAULT	100.0
 #define ZOOM_MIN	10

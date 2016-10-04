@@ -78,7 +78,7 @@ void CatalogComponent::_loadData( bool includeCatalogDesignation ) {
                 objectNames(names.at(iter).first).append(names.at(iter).second);
         }
     }
-#ifdef KSTARS_LITE
+
     //FIXME - get rid of objectNames completely. For now only KStars Lite uses objectLists
     for(int iter = 0; iter < m_ObjectList.size(); ++iter) {
         SkyObject *obj = m_ObjectList[iter];
@@ -107,7 +107,6 @@ void CatalogComponent::_loadData( bool includeCatalogDesignation ) {
             }
         }
     }
-#endif
 
     // Remove Duplicates
     foreach(QStringList list, objectNames())

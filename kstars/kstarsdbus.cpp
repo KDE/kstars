@@ -604,9 +604,12 @@ void KStars::renderEyepieceView( const QString &objectName, const QString &destP
         if( !QFile::exists( imagePath ) ) {
             // We must download a DSS image
             tempFile.open();
-            KSDssDownloader *dler = new KSDssDownloader( target, tempFile.fileName() );
             QEventLoop loop;
-            connect( dler, SIGNAL( downloadComplete( bool ) ), &loop, SLOT( quit() ) );
+            std::function<void( bool )> slot = [ &loop ]( bool unused ) {
+                Q_UNUSED( unused );
+                loop.quit();
+            };
+            new KSDssDownloader( target, tempFile.fileName(), slot, this );
             qDebug() << "DSS download requested. Waiting for download to complete...";
             loop.exec(); // wait for download to complete
             imagePath = tempFile.fileName();

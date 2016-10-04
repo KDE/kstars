@@ -69,6 +69,7 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
 
     QNetworkAccessManager manager;
     QNetworkReply *response = manager.get( QNetworkRequest( resolverUrl ) );
+    Q_ASSERT( response );
 
     // Wait synchronously
     QEventLoop event;
@@ -86,6 +87,7 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
     }
 
     QXmlStreamReader xml( response->readAll() );
+    response->deleteLater();
     if( xml.atEnd() ) {
         // file is empty
         msg = xi18n("Empty result instead of expected XML from CDS Sesame! Maybe bad internet connection?");

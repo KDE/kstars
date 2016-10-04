@@ -1,5 +1,12 @@
 [Icon Theme]
 Name=Breeze
+Name[ca]=Brisa
+Name[es]=Brisa
+Name[nl]=Breeze
+Name[pt]=Brisa
+Name[sv]=Breeze
+Name[uk]=Breeze
+Name[x-test]=xxBreezexx
 Inherits=default
 Directories=default
 

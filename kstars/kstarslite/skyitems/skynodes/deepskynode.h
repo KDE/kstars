@@ -36,6 +36,7 @@ class DSOSymbolNode;
  */
 
 class RootNode;
+class DeepSkyObject;
 
 class DeepSkyNode : public SkyNode  {
 public:

@@ -51,6 +51,10 @@ OpsAdvanced::OpsAdvanced()
 
     connect(showLogsB, SIGNAL(clicked()), this, SLOT(slotShowLogFiles()));
 
+    connect( kcfg_ObsListDemoteHole, &QCheckBox::toggled, [this]( bool state ) {
+            kcfg_ObsListHoleSize->setEnabled( state );
+        } );
+
     foreach(QAbstractButton *b, modulesGroup->buttons())
         b->setEnabled(kcfg_VerboseLogging->isChecked());
 }
@@ -83,12 +87,12 @@ void OpsAdvanced::slotToggleVerbosityOptions()
 void OpsAdvanced::slotToggleOutputOptions()
 {
     if (kcfg_LogToDefault->isChecked())
-    {        
+    {
 
         if (kcfg_DisableLogging->isChecked() == false)
             KSUtils::Logging::UseDefault();
     }
-    else    
+    else
             KSUtils::Logging::UseFile();
 }
 

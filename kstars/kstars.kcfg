@@ -1,6 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
    <kcfgfile name="kstarsrc" />
+
    <group name="GUI">
       <entry name="PositionTimeBox" type="Point">
          <label>Position of the time InfoBox.</label>
@@ -54,21 +56,21 @@
       </entry>
       <entry name="StickyTimeBox" type="Int">
          <label>Time InfoBox anchor flag</label>
-         <whatsthis>Is the Time InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
+         <whatsthis>Is the Time InfoBox anchored to a window edge? 0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
          <default>0</default>
          <min>0</min>
          <max>3</max>
       </entry>
       <entry name="StickyFocusBox" type="Int">
          <label>Time InfoBox anchor flag</label>
-         <whatsthis>Is the Focus InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
+         <whatsthis>Is the Focus InfoBox anchored to a window edge? 0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
          <default>1</default>
          <min>0</min>
          <max>3</max>
       </entry>
       <entry name="StickyGeoBox" type="Int">
          <label>Geographic InfoBox anchor flag</label>
-         <whatsthis>Is the Geographic Location InfoBox anchored to a window edge?  0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
+         <whatsthis>Is the Geographic Location InfoBox anchored to a window edge? 0 = not anchored; 1 = anchored to right edge; 2 = anchored to bottom edge; 3 = anchored to bottom and right edges.</whatsthis>
          <default>2</default>
          <min>0</min>
          <max>3</max>
@@ -85,14 +87,12 @@
       </entry>
       <entry name="ShowRADecField" type="Bool">
          <label>Display RA/Dec coordinates in the statusbar?</label>
-         <whatsthis>Toggle display of the Equatorial coordinates of the
-mouse cursor at the current epoch in the status bar.</whatsthis>
+         <whatsthis>Toggle display of the Equatorial coordinates of the mouse cursor at the current epoch in the status bar.</whatsthis>
          <default>true</default>
       </entry>
       <entry name="ShowJ2000RADecField" type="Bool">
          <label>Display J2000.0 RA/Dec coordinates in the statusbar?</label>
-         <whatsthis>Toggle display of the Equatorial coordinates of the
-mouse cursor at the standard epoch in the status bar.</whatsthis>
+         <whatsthis>Toggle display of the Equatorial coordinates of the mouse cursor at the standard epoch in the status bar.</whatsthis>
          <default>true</default>
       </entry>
       <entry name="WindowWidth" type="UInt">
@@ -108,6 +108,7 @@ mouse cursor at the standard epoch in the status bar.</whatsthis>
          <default>true</default>
       </entry>
    </group>
+
    <group name="Catalogs">
       <entry name="CatalogFile" type="StringList">
          <label>Filenames of defined custom object catalogs.</label>
@@ -123,13 +124,11 @@ mouse cursor at the standard epoch in the status bar.</whatsthis>
       </entry>
       <entry name="ResolveNamesOnline" type="Bool">
          <label>Resolve names using online services.</label>
-         <whatsthis>Names of objects entered into the find dialog are
-resolved using online services and stored in the database. This
-option also toggles the display of such resolved objects on the
-sky map.</whatsthis>
+         <whatsthis>Names of objects entered into the find dialog are resolved using online services and stored in the database. This option also toggles the display of such resolved objects on the sky map.</whatsthis>
          <default>true</default>
       </entry>
    </group>
+
    <group name="indi">
       <entry name="useGeographicUpdate" type="Bool">
          <label>Automatically updates geographic location?</label>
@@ -164,7 +163,7 @@ sky map.</whatsthis>
       <entry name="fitsDir" type="String">
          <label>FITS Default directory</label>
          <whatsthis>The default location of saved FITS files</whatsthis>
-         <default />
+         <default></default>
       </entry>
       <entry name="serverPortStart" type="String">
          <label>INDI Server Start Port</label>
@@ -190,6 +189,7 @@ sky map.</whatsthis>
          <whatsthis>PATH to indi drivers directory</whatsthis>
       </entry>
    </group>
+
    <group name="Location">
       <entry name="CityName" type="String">
          <label>City name of geographic location.</label>
@@ -198,8 +198,8 @@ sky map.</whatsthis>
       </entry>
       <entry name="ProvinceName" type="String">
          <label>Province name of geographic location.</label>
-         <whatsthis>The Province name of the current geographic location.  This is the name of the state for locations in the U. S.</whatsthis>
-         <default />
+         <whatsthis>The Province name of the current geographic location. This is the name of the state for locations in the U. S.</whatsthis>
+         <default> </default>
       </entry>
       <entry name="CountryName" type="String">
          <label>Country name of geographic location.</label>
@@ -230,15 +230,16 @@ sky map.</whatsthis>
          <default>--</default>
       </entry>
    </group>
+
    <group name="View">
       <entry name="UseAnimatedSlewing" type="Bool">
          <label>Use animated slewing effects when changing focus position?</label>
-         <whatsthis>If true, focus changes will cause the sky to visibly spin to the new position.  Otherwise, the display will "snap" instantly to the new position.</whatsthis>
+         <whatsthis>If true, focus changes will cause the sky to visibly spin to the new position. Otherwise, the display will "snap" instantly to the new position.</whatsthis>
          <default>true</default>
       </entry>
       <entry name="FOVNames" type="StringList">
          <label>Name of selected FOV indicators</label>
-         <whatsthis>The names of the currently selected field-of-view indicators.  The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
+         <whatsthis>The names of the currently selected field-of-view indicators. The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
          <default>Telrad</default>
       </entry>
       <entry name="FadePlanetTrails" type="Bool">
@@ -248,22 +249,22 @@ sky map.</whatsthis>
       </entry>
       <entry name="FocusRA" type="Double">
          <label>Right Ascension of focus position</label>
-         <whatsthis>The right ascension of the initial focus position of the sky map, in decimal hours.  This value is volatile; it is reset whenever the program shuts down.</whatsthis>
+         <whatsthis>The right ascension of the initial focus position of the sky map, in decimal hours. This value is volatile; it is reset whenever the program shuts down.</whatsthis>
          <default>180.0</default>
       </entry>
       <entry name="FocusDec" type="Double">
          <label>Declination of focus position</label>
-         <whatsthis>The declination of the initial focus position of the sky map, in decimal degrees.  This value is volatile; it is reset whenever the program shuts down.</whatsthis>
+         <whatsthis>The declination of the initial focus position of the sky map, in decimal degrees. This value is volatile; it is reset whenever the program shuts down.</whatsthis>
          <default>45.0</default>
       </entry>
       <entry name="FocusObject" type="String">
          <label>Name of focused object</label>
-         <whatsthis>The name of the object that should be centered and tracked on startup.  If no object should be centered, set to "nothing".  This value is volatile; it is reset whenever the program shuts down.</whatsthis>
+         <whatsthis>The name of the object that should be centered and tracked on startup. If no object should be centered, set to "nothing". This value is volatile; it is reset whenever the program shuts down.</whatsthis>
          <default>nothing</default>
       </entry>
       <entry name="IsTracking" type="Bool">
          <label>Is tracking engaged?</label>
-         <whatsthis>True if the skymap should track on its initial position on startup.  This value is volatile; it is reset whenever the program shuts down.</whatsthis>
+         <whatsthis>True if the skymap should track on its initial position on startup. This value is volatile; it is reset whenever the program shuts down.</whatsthis>
          <default>false</default>
       </entry>
       <entry name="HideOnSlew" type="Bool">
@@ -488,7 +489,7 @@ sky map.</whatsthis>
       </entry>
       <entry name="FillMilkyWay" type="Bool">
          <label>Fill Milky Way contour? (false means use outline only)</label>
-         <whatsthis>Toggle whether the Milky Way contour is filled.  When this option is false, the Milky Way is shown as an outline.</whatsthis>
+         <whatsthis>Toggle whether the Milky Way contour is filled. When this option is false, the Milky Way is shown as an outline.</whatsthis>
          <default>true</default>
       </entry>
       <entry name="ShowSolarSystem" type="Bool">
@@ -643,7 +644,7 @@ sky map.</whatsthis>
       </entry>
       <entry name="UseAntialias" type="Bool">
          <label>Use antialiasing when drawing the screen?</label>
-         <whatsthis>Toggle whether the sky is rendered using antialiasing.  Lines and shapes are smoother with antialiasing, but rendering the screen will take more time.</whatsthis>
+         <whatsthis>Toggle whether the sky is rendered using antialiasing. Lines and shapes are smoother with antialiasing, but rendering the screen will take more time.</whatsthis>
          <default>true</default>
       </entry>
       <entry name="ZoomFactor" type="Double">
@@ -679,22 +680,23 @@ sky map.</whatsthis>
          <default>true</default>
       </entry>
       <!--
-<entry name="MagLimitDrawStar" type="Double">
-<label>Faint limit for stars</label>
-<whatsthis>The faint magnitude limit for drawing stars, when fully zoomed in.</whatsthis>
-<default>8.0</default>
--->
+        <entry name="MagLimitDrawStar" type="Double">
+        <label>Faint limit for stars</label>
+        <whatsthis>The faint magnitude limit for drawing stars, when fully zoomed in.</whatsthis>
+        <default>8.0</default>
+    -->
       <entry name="StarDensity" type="Int">
          <label>Density of stars in the field of view</label>
          <whatsthis>Sets the density of stars in the field of view</whatsthis>
          <default>5</default>
       </entry>
+
       <!--                <entry name="MagLimitDrawStarZoomOut" type="Double">
-<label>Faint limit for stars when zoomed out</label>
-<whatsthis>The faint magnitude limit for drawing stars, when fully zoomed out.</whatsthis>
-<default>6.0</default>
-</entry>
--->
+        <label>Faint limit for stars when zoomed out</label>
+        <whatsthis>The faint magnitude limit for drawing stars, when fully zoomed out.</whatsthis>
+        <default>6.0</default>
+        </entry>
+    -->
       <entry name="MagLimitHideStar" type="Double">
          <label>Faint limit for stars when slewing</label>
          <whatsthis>The faint magnitude limit for drawing stars, when the map is in motion (only applicable if faint stars are set to be hidden while the map is in motion).</whatsthis>
@@ -751,6 +753,16 @@ sky map.</whatsthis>
          <label>Prefer Sloan Digital Sky Survey imagery in the observing list</label>
          <whatsthis>The observing list will prefer SDSS imagery while downloading imagery.</whatsthis>
          <default>false</default>
+      </entry>
+      <entry name="ObsListDemoteHole" type="Bool">
+         <label>While sorting by percentage altitude in the observing list, demote objects present in the Dobsonian hole</label>
+         <whatsthis>Check this if you use a large Dobsonian telescope. Sorting by percentage current altitude is an easy way of determining what objects are well-placed for observation. However, when using a large Dobsonian telescope, objects close to the zenith are hard to observe. Since tracking there corresponds to a rotation in azimuth, it is both counterintuitive and requires the observer to frequently move the ladder. The region around the zenith where this is particularly frustrating is called the Dobsonian hole. This checkbox makes the observing list consider objects present in the hole as unfit for observation.</whatsthis>
+         <default>false</default>
+      </entry>
+      <entry name="ObsListHoleSize" type="Double">
+         <label>This is the angular distance from the zenith, in degrees, below which you can easily point your telescope.</label>
+         <whatsthis>This specifies the angular radius of the Dobsonian hole, i.e. the region where a large Dobsonian telescope cannot be pointed easily.</whatsthis>
+         <default>15.00</default>
       </entry>
    </group>
    <group name="Colors">
@@ -951,12 +963,12 @@ sky map.</whatsthis>
       <entry name="XplanetPath" type="String">
          <label>Path to xplanet binary</label>
          <whatsthis>Xplanet binary path</whatsthis>
-         <default />
+         <default></default>
       </entry>
       <entry name="XplanetTitle" type="String">
          <label>Window title</label>
          <whatsthis>Set the window’s title.</whatsthis>
-         <default />
+         <default></default>
       </entry>
       <entry name="XplanetWidth" type="String">
          <label>Width of xplanet window</label>
@@ -985,8 +997,8 @@ sky map.</whatsthis>
       </entry>
       <entry name="XplanetLabelString" type="String">
          <label>Planet string</label>
-         <whatsthis>Specify the text of the first line of the label. By default, it says something like "Looking at Earth".  Any instances of %t will be replaced by the target name, and any instances of %o will be replaced by the origin name.</whatsthis>
-         <default />
+         <whatsthis>Specify the text of the first line of the label. By default, it says something like "Looking at Earth". Any instances of %t will be replaced by the target name, and any instances of %o will be replaced by the origin name.</whatsthis>
+         <default></default>
       </entry>
       <entry name="XplanetFontSize" type="String">
          <label>Font Size</label>
@@ -1000,7 +1012,7 @@ sky map.</whatsthis>
       </entry>
       <entry name="XplanetDateFormat" type="String">
          <label>Date format</label>
-         <whatsthis>Specify the format for the date/time label.  This format string is passed to strftime(3).  The default is "%c %Z", which shows the date, time, and time zone in the locale’s appropriate date and time representation.</whatsthis>
+         <whatsthis>Specify the format for the date/time label. This format string is passed to strftime(3). The default is "%c %Z", which shows the date, time, and time zone in the locale’s appropriate date and time representation.</whatsthis>
          <default>%c %Z</default>
       </entry>
       <entry name="XplanetLabelTL" type="Bool">
@@ -1021,7 +1033,7 @@ sky map.</whatsthis>
       </entry>
       <entry name="XplanetGlare" type="String">
          <label>Sun Glare</label>
-         <whatsthis>Draw a glare around the sun with a radius of the specified value larger than the Sun.  The default value is 28.</whatsthis>
+         <whatsthis>Draw a glare around the sun with a radius of the specified value larger than the Sun. The default value is 28.</whatsthis>
          <default>28</default>
       </entry>
       <entry name="XplanetRandom" type="Bool">
@@ -1036,17 +1048,17 @@ sky map.</whatsthis>
       </entry>
       <entry name="XplanetLatitude" type="String">
          <label>Latitude in degrees</label>
-         <whatsthis>Render the target body as seen from above the specified latitude (in degrees).  The default value is 0.</whatsthis>
+         <whatsthis>Render the target body as seen from above the specified latitude (in degrees). The default value is 0.</whatsthis>
          <default>0</default>
       </entry>
       <entry name="XplanetLongitude" type="String">
          <label>Longitude in degrees</label>
-         <whatsthis>Place the observer above the specified longitude (in degrees).  Longitude is positive going east, negative going west (for the earth and moon), so for example Los Angeles is at -118 or 242.  The default value is 0.</whatsthis>
+         <whatsthis>Place the observer above the specified longitude (in degrees). Longitude is positive going east, negative going west (for the earth and moon), so for example Los Angeles is at -118 or 242. The default value is 0.</whatsthis>
          <default>0</default>
       </entry>
       <entry name="XplanetProjection" type="UInt">
          <label>Projection</label>
-         <whatsthis>The default is no projection.  Multiple bodies will not be shown if this option is specified, although shadows will still be drawn.</whatsthis>
+         <whatsthis>The default is no projection. Multiple bodies will not be shown if this option is specified, although shadows will still be drawn.</whatsthis>
          <default>0</default>
       </entry>
       <entry name="XplanetWait" type="Bool">
@@ -1072,7 +1084,7 @@ sky map.</whatsthis>
       <entry name="XplanetBackgroundImagePath" type="String">
          <label>Background image path</label>
          <whatsthis>The path of the background image.</whatsthis>
-         <default />
+         <default></default>
       </entry>
       <entry name="XplanetBackgroundColor" type="Bool">
          <label>Use background color</label>
@@ -1097,7 +1109,7 @@ sky map.</whatsthis>
       <entry name="XplanetArcFilePath" type="String">
          <label>Path to arc file</label>
          <whatsthis>Specify an arc file to be plotted against the background stars.</whatsthis>
-         <default />
+         <default></default>
       </entry>
       <entry name="XplanetConfigFile" type="Bool">
          <label>Config file</label>
@@ -1107,7 +1119,7 @@ sky map.</whatsthis>
       <entry name="XplanetConfigFilePath" type="String">
          <label>Path to config file</label>
          <whatsthis>Use the specified configuration file.</whatsthis>
-         <default />
+         <default></default>
       </entry>
       <entry name="XplanetFOV" type="Bool">
          <label>Use kstars's FOV</label>
@@ -1122,7 +1134,7 @@ sky map.</whatsthis>
       <entry name="XplanetMarkerFilePath" type="String">
          <label>Marker file path</label>
          <whatsthis>Specify a file containing user-defined marker data to display against the background stars.</whatsthis>
-         <default />
+         <default></default>
       </entry>
       <entry name="XplanetMarkerBounds" type="Bool">
          <label>Write marker bounds</label>
@@ -1132,7 +1144,7 @@ sky map.</whatsthis>
       <entry name="XplanetMarkerBoundsPath" type="String">
          <label>Marker bounds file path</label>
          <whatsthis>Write coordinates of the bounding box for each marker to this file.</whatsthis>
-         <default />
+         <default></default>
       </entry>
       <entry name="XplanetStarmap" type="Bool">
          <label>Star map</label>
@@ -1142,7 +1154,7 @@ sky map.</whatsthis>
       <entry name="XplanetStarmapPath" type="String">
          <label>Star map file path</label>
          <whatsthis>Star map file path</whatsthis>
-         <default />
+         <default></default>
       </entry>
       <entry name="XplanetQuality" type="String">
          <label>Output file quality</label>
@@ -1608,7 +1620,7 @@ sky map.</whatsthis>
       <entry name="GuideSquareSizeIndex" type="UInt">
          <label>Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
          <default>1</default>
-      </entry>            
+      </entry>
       <entry name="AutoStarEnabled" type="Bool">
          <label>Automatically select calibration star and perform calibration.</label>
          <default>false</default>

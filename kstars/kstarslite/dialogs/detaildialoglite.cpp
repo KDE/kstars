@@ -26,6 +26,9 @@
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/supernova.h"
 
+#include "deepskyobject.h"
+#include "starobject.h"
+
 #include <QTemporaryFile>
 #include <QDesktopServices>
 

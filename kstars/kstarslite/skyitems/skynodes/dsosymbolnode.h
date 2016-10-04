@@ -25,6 +25,7 @@ class LabelNode;
 class QSGSimpleTextureNode;
 class EllipseNode;
 class LineNode;
+class DeepSkyObject;
 
 class RootNode;
 

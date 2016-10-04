@@ -38,13 +38,16 @@ KSDssDownloader::KSDssDownloader( QObject *parent ) : QObject( parent ) {
     m_VersionPreference << "poss2ukstu_blue" << "poss2ukstu_red" << "poss1_blue" << "poss1_red" << "quickv" << "poss2ukstu_ir";
     m_TempFile.open();
 }
-KSDssDownloader::KSDssDownloader(const SkyPoint * const p, const QString &destFileName, QObject *parent ) : QObject( parent ) {
+
+KSDssDownloader::KSDssDownloader(const SkyPoint * const p, const QString &destFileName, const std::function<void( bool )> &slotDownloadReady, QObject *parent ) : QObject( parent ) {
     // Initialize version preferences. FIXME: This must be made a
     // user-changeable option just in case someone likes red
     m_VersionPreference << "poss2ukstu_blue" << "poss2ukstu_red" << "poss1_blue" << "poss1_red" << "quickv" << "poss2ukstu_ir";
     m_TempFile.open();
+    connect( this, &KSDssDownloader::downloadComplete, slotDownloadReady );
     startDownload( p, destFileName );
 }
+
 
 QString KSDssDownloader::getDSSURL( const SkyPoint * const p, const QString &version, struct KSDssImage::Metadata *md ) {
         const DeepSkyObject *dso = 0;
@@ -232,7 +235,7 @@ void KSDssDownloader::singleDownloadFinished()
     m_TempFile.open();
     m_TempFile.write(downloadJob->downloadedData());
     m_TempFile.close();
-    delete (downloadJob);
+    downloadJob->deleteLater();
 
     // Check if we have a proper DSS image or the DSS server failed
     QMimeDatabase mdb;
@@ -256,7 +259,7 @@ void KSDssDownloader::downloadAttemptFinished()
         // FIXME: do SDSS-y things
         emit downloadComplete( false );
         deleteLater();
-        delete (downloadJob);
+        downloadJob->deleteLater();
         return;
     }
     else
@@ -264,7 +267,7 @@ void KSDssDownloader::downloadAttemptFinished()
         m_TempFile.open();
         m_TempFile.write(downloadJob->downloadedData());
         m_TempFile.close();
-        delete (downloadJob);
+        downloadJob->deleteLater();
 
         // Check if we have a proper DSS image or the DSS server failed
         QMimeDatabase mdb;
