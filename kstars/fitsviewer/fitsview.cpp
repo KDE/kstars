@@ -836,6 +836,13 @@ void FITSView::wheelEvent(QWheelEvent* event)
 
         ensureVisible(x0,y0, image_width/2, image_height/2);
     }
+    else if (trackingBoxEnabled)
+    {
+        int x0 = trackingBox.x()  * (currentZoom / ZOOM_DEFAULT);
+        int y0 = trackingBox.y()  * (currentZoom / ZOOM_DEFAULT);
+
+        ensureVisible(x0,y0, image_width/2, image_height/2);
+    }
 }
 
 void FITSView::initDisplayImage()
