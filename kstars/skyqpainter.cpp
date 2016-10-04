@@ -270,8 +270,16 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
             doSkip = skipList->skip(j);
         }
 
+        bool pointsVisible = false;
+        //Temporary solution to avoid random lines in Gnomonic projection and draw lines up to horizon
+        if(SkyMap::Instance()->projector()->type() == Projector::Gnomonic) {
+            if ( isVisible && isVisibleLast ) pointsVisible = true;
+        } else {
+            if ( isVisible || isVisibleLast ) pointsVisible = true;
+        }
+
         if ( !doSkip ) {
-            if ( isVisible && isVisibleLast ) {
+            if(pointsVisible) {
                 drawLine( oLast, oThis );
                 if ( label )
                     label->updateLabelCandidates( oThis.x(), oThis.y(), list, j );
