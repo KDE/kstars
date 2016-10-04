@@ -57,7 +57,95 @@ InternalGuider::~InternalGuider()
 
 bool InternalGuider::guide()
 {
-return false;
+#if 0
+    Options::setUseDither(ui.ditherCheck->isChecked());
+    Options::setDitherPixels(ui.ditherPixels->value());
+    Options::setAOLimit(ui.spinBox_AOLimit->value());
+    Options::setGuidingRate(ui.spinBox_GuideRate->value());
+    Options::setEnableRAGuide(ui.checkBox_DirRA->isChecked());
+    Options::setEnableDECGuide(ui.checkBox_DirDEC->isChecked());
+    Options::setRAPropotionalGain(ui.spinBox_PropGainRA->value());
+    Options::setDECPropotionalGain(ui.spinBox_PropGainDEC->value());
+    Options::setRAIntegralGain(ui.spinBox_IntGainRA->value());
+    Options::setDECIntegralGain(ui.spinBox_IntGainDEC->value());
+    Options::setRADerivativeGain(ui.spinBox_DerGainRA->value());
+    Options::setDECDerivativeGain(ui.spinBox_DerGainDEC->value());
+    Options::setRAMaximumPulse(ui.spinBox_MaxPulseRA->value());
+    Options::setDECMaximumPulse(ui.spinBox_MaxPulseDEC->value());
+    Options::setRAMinimumPulse(ui.spinBox_MinPulseRA->value());
+    Options::setDECMinimumPulse(ui.spinBox_MinPulseDEC->value());
+#endif
+
+    guideFrame->disconnect(this);
+    //disconnect(guideFrame, SIGNAL(trackingStarSelected(int,int)), 0, 0);
+
+    // Let everyone know about dither option status
+    //emit ditherToggled(ui.ditherCheck->isChecked());
+
+#if 0
+    if (phd2)
+    {
+        phd2->startGuiding();
+
+        m_isStarted = true;
+        m_useRapidGuide = ui.rapidGuideCheck->isChecked();
+
+        //pmain_wnd->setSuspended(false);
+
+        ui.pushButton_StartStop->setText( i18n("Stop") );
+        guideModule->appendLogText(i18n("Autoguiding started."));
+
+        return true;
+    }
+
+#endif
+
+    logFile.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream out(&logFile);
+
+    /* FIXME Have to re-enable guide logging file
+
+    out << "Guiding rate,x15 arcsec/sec: " << ui.spinBox_GuideRate->value() << endl;
+    out << "Focal,mm: " << ui.l_Focal->text() << endl;
+    out << "Aperture,mm: " << ui.l_Aperture->text() << endl;
+    out << "F/D: " << ui.l_FbyD->text() << endl;
+    out << "FOV: " << ui.l_FOV->text() << endl;
+    out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error (arcsec), DEC Correction (ms), DEC Correction Direction"  << endl;
+
+    */
+
+    //drift_graph->reset_data();
+    //ui.pushButton_StartStop->setText( i18n("Stop") );
+
+    //guideModule->appendLogText(i18n("Autoguiding started."));
+
+    pmath->start();
+
+    m_lostStarTries=0;
+
+    // FIXME
+#if 0
+    m_isStarted = true;
+    m_useRapidGuide = ui.rapidGuideCheck->isChecked();
+    if (m_useRapidGuide)
+        guideModule->startRapidGuide();
+
+    emit newStatus(Ekos::GUIDE_GUIDING);
+
+    guideModule->setSuspended(false);
+
+    first_frame = true;
+
+    if (ui.subFrameCheck->isEnabled() && ui.subFrameCheck->isChecked() && m_isSubFramed == false)
+        first_subframe = true;
+
+    capture();
+
+#endif
+
+    pmath->setLogFile(&logFile);
+
+    return true;
 }
 
 bool InternalGuider::abort()
@@ -79,48 +167,6 @@ return false;
 bool InternalGuider::dither(double pixels)
 {
 return false;
-}
-
-void InternalGuider::setSquareAlgorithm(int index)
-{
-    pmath->setSquareAlgorithm(index);
-}
-
-void InternalGuider::setReticleParameters(double x, double y, double angle)
-{
-    pmath->setReticleParameters(x,y,angle);
-}
-
-bool InternalGuider::getReticleParameters(double *x, double *y, double *angle)
-{
-    return pmath->getReticleParameters(x,y,angle);
-}
-
-bool InternalGuider::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength)
-{
-    this->ccdPixelSizeX     = ccdPixelSizeX;
-    this->ccdPixelSizeY     = ccdPixelSizeY;
-    this->mountAperture     = mountAperture;
-    this->mountFocalLength  = mountFocalLength;
-    return pmath->setGuiderParameters(ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength);
-}
-
-bool InternalGuider::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY)
-{
-    if( w <= 0 || h <= 0 )
-        return false;
-
-    subX = x;
-    subY = y;
-    subW = w;
-    subH = h;
-
-    subBinX = binX;
-    subBinY = binY;
-
-    pmath->setVideoParameters(w, h);
-
-    return true;
 }
 
 bool InternalGuider::calibrate()
@@ -186,7 +232,8 @@ bool InternalGuider::calibrate()
         return true;
     }
 
-    disconnect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
+    //disconnect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)));
+    guideFrame->disconnect(this);
 
     // Must reset dec swap before we run any calibration procedure!
 
@@ -765,4 +812,47 @@ void InternalGuider::setDECSwap(bool enable)
 {
     pmath->setDeclinationSwapEnabled(enable);
 }
+
+void InternalGuider::setSquareAlgorithm(int index)
+{
+    pmath->setSquareAlgorithm(index);
+}
+
+void InternalGuider::setReticleParameters(double x, double y, double angle)
+{
+    pmath->setReticleParameters(x,y,angle);
+}
+
+bool InternalGuider::getReticleParameters(double *x, double *y, double *angle)
+{
+    return pmath->getReticleParameters(x,y,angle);
+}
+
+bool InternalGuider::setGuiderParams(double ccdPixelSizeX, double ccdPixelSizeY, double mountAperture, double mountFocalLength)
+{
+    this->ccdPixelSizeX     = ccdPixelSizeX;
+    this->ccdPixelSizeY     = ccdPixelSizeY;
+    this->mountAperture     = mountAperture;
+    this->mountFocalLength  = mountFocalLength;
+    return pmath->setGuiderParameters(ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength);
+}
+
+bool InternalGuider::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t binX, uint16_t binY)
+{
+    if( w <= 0 || h <= 0 )
+        return false;
+
+    subX = x;
+    subY = y;
+    subW = w;
+    subH = h;
+
+    subBinX = binX;
+    subBinY = binY;
+
+    pmath->setVideoParameters(w, h);
+
+    return true;
+}
+
 }

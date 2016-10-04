@@ -2804,7 +2804,7 @@ void Scheduler::checkJobStage()
             {
                 appendLogText(i18n("%1 calibration is complete.", currentJob->getName()));
 
-                guideReply = guideInterface->call(QDBus::AutoDetect,"startGuiding");
+                guideReply = guideInterface->call(QDBus::AutoDetect,"guide");
                 if(guideReply.value() == false)
                 {
                     appendLogText(i18n("%1 guiding failed!", currentJob->getName()));

@@ -605,6 +605,9 @@ bool Guide::capture()
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
     targetChip->capture(seqExpose);*/
 
+    guideView->setBaseSize(guideWidget->size());
+    setBusy(true);
+
     switch (state)
     {
     case GUIDE_GUIDING:
@@ -616,14 +619,10 @@ bool Guide::capture()
 
     default:
         break;
-    }
+    }   
 
-    guideView->setBaseSize(guideWidget->size());
-
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
     targetChip->capture(seqExpose);
-
-    setBusy(true);
 
     return true;
 }
@@ -1119,24 +1118,19 @@ bool Guide::calibrate()
     return rc;
 }
 
-bool Guide::startGuiding()
+bool Guide::guide()
 {
-
     saveSettings();
 
-    // FIXME
-    /*
-    // This will handle both internal and external guiders
-    return guider->start();
+    bool rc = guider->guide();
 
-    if (Options::useEkosGuider())
-        return guider->start();
-    else
-        return phd2->startGuiding();
+    if (rc)
+    {
+        appendLogText(i18n("Autoguiding started."));
+        driftGraphics->resetData();
+    }
 
-        */
-    return true;
-
+    return rc;
 }
 
 void Guide::setSuspended(bool enable)

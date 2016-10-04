@@ -216,7 +216,7 @@ public slots:
      * Start the autoguiding operation.
      * @return Returns true if guiding started successfully, false otherwise.
      */
-     Q_SCRIPTABLE bool startGuiding();
+     Q_SCRIPTABLE bool guide();
 
     /** DBUS interface function.
      * Stop any active calibration, guiding, or dithering operation
