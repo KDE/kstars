@@ -1,5 +1,5 @@
 /***************************************************************************
-                       noprecessindex.h  -  K Desktop Planetarium
+                       noprecessindex.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 2007-08-04
     copyright            : (C) 2007 James B. Bowlin
