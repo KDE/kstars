@@ -23,7 +23,7 @@
 #include "nodes/pointnode.h"
 #include "dsosymbolnode.h"
 #include "trixelnode.h"
-
+#include "deepskyobject.h"
 #include "../rootnode.h"
 #include "../labelsitem.h"
 #include "labelnode.h"

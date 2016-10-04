@@ -23,6 +23,7 @@
 #include "deepstaritem.h"
 #include "skynodes/dsosymbolnode.h"
 
+#include "deepskyobject.h"
 #include "starcomponent.h"
 #include "starblockfactory.h"
 #include "skymesh.h"

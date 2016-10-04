@@ -20,6 +20,7 @@
 
 #include "dsosymbolnode.h"
 #include "nodes/ellipsenode.h"
+#include "deepskyobject.h"
 
 #include "../rootnode.h"
 #include "../labelsitem.h"

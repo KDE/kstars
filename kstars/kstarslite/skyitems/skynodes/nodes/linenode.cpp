@@ -96,8 +96,16 @@ void LineNode::updateGeometry() {
                 doSkip = m_skipList->skip(j);
             }
 
+            bool pointsVisible = false;
+            //Temporary solution to avoid random lines in Gnomonic projection and draw lines up to horizon
+            if(SkyMapLite::Instance()->projector()->type() == Projector::Gnomonic) {
+                if ( isVisible && isVisibleLast ) pointsVisible = true;
+            } else {
+                if ( isVisible || isVisibleLast ) pointsVisible = true;
+            }
+
             if ( !doSkip ) {
-                if ( (isVisible ) ) {
+                if(pointsVisible) {
                     newPoints.append(oLast);
                     newPoints.append(oThis);
                 }

@@ -5,6 +5,9 @@
 #include "skynodes/deepskynode.h"
 #include "skynodes/dsosymbolnode.h"
 
+#include "deepskyobject.h"
+#include "starobject.h"
+
 SyncedCatalogItem::SyncedCatalogItem(SyncedCatalogComponent *parent, RootNode *rootNode)
     :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode), m_parent(parent), //It has NO_LABEL type because it handles two types of labels (CATALOG_STAR_LABEL and CATALOG_DSO_LABEL)
       stars(new QSGNode), dsoSymbols(new QSGNode), dsoNodes(new QSGNode)

@@ -23,6 +23,7 @@
 #include "skycomponents/skymapcomposite.h"
 #include "skymaplite.h"
 #include "kstarslite.h"
+#include"deepskyobject.h"
 
 #include "solarsystemcomposite.h"
 //Resolver
