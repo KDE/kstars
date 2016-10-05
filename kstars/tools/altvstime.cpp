@@ -105,13 +105,17 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->View->xAxis2->setLabel("Local Sidereal Time");
     avtUI->View->xAxis2->setVisible(true);
     avtUI->View->yAxis2->setVisible(true);
-    avtUI->View->yAxis2->setAutoTicks(false);
+    //avtUI->View->yAxis2->setAutoTicks(false);
     avtUI->View->yAxis2->setTickLength(0, 0);
     avtUI->View->xAxis->setLabel("Local Time");
     avtUI->View->yAxis->setLabel("Altitude");
     avtUI->View->xAxis->setRange(43200, 129600);
     avtUI->View->xAxis2->setRange(61200, 147600);
-    avtUI->View->xAxis->setDateTimeSpec(Qt::UTC);
+
+
+    // FIXME user QCPAxisTickerTime here
+
+    /*avtUI->View->xAxis->setDateTimeSpec(Qt::UTC);
     avtUI->View->xAxis2->setDateTimeSpec(Qt::UTC);
     avtUI->View->xAxis->setTickLabelType(QCPAxis::ltDateTime);
     avtUI->View->xAxis2->setTickLabelType(QCPAxis::ltDateTime);
@@ -120,7 +124,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->View->xAxis->setAutoTickStep(false);
     avtUI->View->xAxis->setTickStep(7200);
     avtUI->View->xAxis2->setAutoTickStep(false);
-    avtUI->View->xAxis2->setTickStep(7200);
+    avtUI->View->xAxis2->setTickStep(7200);*/
 
     // set up the Zoom/Pan features for the Top X Axis
     avtUI->View->axisRect()->setRangeDragAxes(avtUI->View->xAxis2, avtUI->View->yAxis);
@@ -148,7 +152,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     background->setScaled(true,Qt::IgnoreAspectRatio);
     background->setLayer("background");
     background->setVisible(true);
-    avtUI->View->addItem(background);
+    //avtUI->View->addItem(background);
 
     avtUI->raBox->setDegType( false );
     avtUI->decBox->setDegType( true );
@@ -506,6 +510,9 @@ void AltVsTime::onXRangeChanged(const QCPRange &range){
         avtUI->View->replot();
     }
 
+    // FIXME
+
+#if 0
     // set up the Tick Step depending on Zoom level
     if(avtUI->View->xAxis->range().size() < 12500){
         avtUI->View->xAxis->setTickStep(1800);
@@ -522,6 +529,8 @@ void AltVsTime::onXRangeChanged(const QCPRange &range){
                 avtUI->View->xAxis->setTickStep(7200);
                 avtUI->View->xAxis2->setTickStep(7200);
             }
+
+#endif
 }
 
 void AltVsTime::onYRangeChanged(const QCPRange &range){
@@ -573,27 +582,6 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEv
             }
         }
     }
-}
-
-QCPRange QCPRange::bounded(double lowerBound, double upperBound) const{
-    if(lowerBound > upperBound)
-        qSwap(lowerBound, upperBound);
-
-    QCPRange result(lower, upper);
-    if(result.lower < lowerBound){
-        result.lower = lowerBound;
-        result.upper = lowerBound + size();
-    if(result.upper > upperBound || qFuzzyCompare(size(), upperBound-lowerBound))
-        result.upper = upperBound;
-    }else
-        if(result.upper > upperBound){
-            result.upper = upperBound;
-            result.lower = upperBound - size();
-        if(result.lower < lowerBound || qFuzzyCompare(size(), upperBound-lowerBound))
-            result.lower = lowerBound;
-        }
-
-  return result;
 }
 
 //move input focus to the next logical widget
@@ -648,7 +636,11 @@ void AltVsTime::slotClearBoxes() {
     avtUI->epochName->clear();
 }
 
-void AltVsTime::slotComputeAltitudeByTime(){
+void AltVsTime::slotComputeAltitudeByTime()
+{
+
+// FIXME Migrate to QCustomPlot 2.0
+#if 0
     // check if at least one graph exists in the plot
     if( avtUI->View->graphCount() > 0 ){
         // get the time from the time spin box
@@ -690,6 +682,7 @@ void AltVsTime::slotComputeAltitudeByTime(){
         // set the altitude in the altitude box
         avtUI->altitudeBox->setText( QString::number(averageAltitude, 'f', 2) );
     }
+#endif
 }
 
 void AltVsTime::slotMarkRiseTime(){
@@ -722,7 +715,9 @@ void AltVsTime::slotMarkRiseTime(){
                 hours += 24;
             time = hours * 3600 + minutes * 60;
             riseTimeTracer = new QCPItemTracer(avtUI->View);
-            avtUI->View->addItem(riseTimeTracer);
+
+            //avtUI->View->add addItem(riseTimeTracer);
+
             riseTimeTracer->setLayer("markersLayer");
             riseTimeTracer->setGraph(selectedGraph);
             riseTimeTracer->setInterpolating(true);
@@ -772,7 +767,7 @@ void AltVsTime::slotMarkSetTime(){
                 hours += 24;
             time = hours * 3600 + minutes * 60;
             setTimeTracer = new QCPItemTracer(avtUI->View);
-            avtUI->View->addItem(setTimeTracer);
+            //avtUI->View->addItem(setTimeTracer);
             setTimeTracer->setLayer("markersLayer");
             setTimeTracer->setGraph(selectedGraph);
             setTimeTracer->setInterpolating(true);
@@ -822,7 +817,7 @@ void AltVsTime::slotMarkTransitTime(){
             hours += 24;
         time = hours * 3600 + minutes * 60;
         transitTimeTracer = new QCPItemTracer(avtUI->View);
-        avtUI->View->addItem(transitTimeTracer);
+        //avtUI->View->addItem(transitTimeTracer);
         transitTimeTracer->setLayer("markersLayer");
         transitTimeTracer->setGraph(selectedGraph);
         transitTimeTracer->setInterpolating(true);
