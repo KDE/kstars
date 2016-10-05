@@ -143,18 +143,21 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     acStack->addWidget( splashScreen );
 
     // Load icons
+    // JM 2016-10-02: Those are missing, disabling the icons for now
+    /*
     QIcon jdIcon = QIcon ("jd.png");
     QIcon geodIcon = QIcon ("geodetic.png");
     QIcon solarIcon = QIcon ("geodetic.png");
     // QIcon sunsetIcon = QIcon ("sunset.png"); // Its usage is commented out.
-    QIcon timeIcon = QIcon ("sunclock.png");
+    QIcon timeIcon = QIcon ("sunclock.png");*/
     
     /* Populate the tree widget and widget stack */
     // Time-related entries
     QTreeWidgetItem * timeItem = addTreeTopItem(navigationPanel, i18n("Time Calculators"), messageTime);
-    timeItem->setIcon(0,timeIcon);
+    //timeItem->setIcon(0,timeIcon);
 
-    addTreeItem<modCalcJD>       (timeItem, i18n("Julian Day"))->setIcon(0,jdIcon);
+    //addTreeItem<modCalcJD>       (timeItem, i18n("Julian Day"))->setIcon(0,jdIcon);
+    addTreeItem<modCalcJD>       (timeItem, i18n("Julian Day"));
     addTreeItem<modCalcSidTime>  (timeItem, i18n("Sidereal Time"));
     addTreeItem<modCalcDayLength>(timeItem, i18n("Almanac"));
     addTreeItem<modCalcEquinox>  (timeItem, i18n("Equinoxes & Solstices"));
@@ -172,7 +175,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
     // Solar System related entries
     QTreeWidgetItem * solarItem = addTreeTopItem(navigationPanel, i18n("Solar System"), messageSolar);
-    solarItem->setIcon(0,solarIcon);
+    //solarItem->setIcon(0,solarIcon);
     addTreeItem<modCalcPlanets>  (solarItem, i18n("Planets Coordinates"));
     addTreeItem<ConjunctionsTool>(solarItem, i18n("Conjunctions"));
     
