@@ -72,6 +72,7 @@ FITSData::FITSData(FITSMode fitsMode)
     bayer_buffer = NULL;
     wcs_coord    = NULL;
     fptr = NULL;
+    histogram = NULL;
     maxHFRStar = NULL;
     darkFrame = NULL;
     tempFile  = false;
@@ -706,7 +707,9 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
     int pixVal=0;
     int minimumEdgeCount = MINIMUM_EDGE_LIMIT;
 
-    double JMIndex = histogram->getJMIndex();
+    double JMIndex = 100;
+    if (histogram)
+        JMIndex = histogram->getJMIndex();
     float dispersion_ratio=1.5;
 
     QList<Edge*> edges;
@@ -1440,8 +1443,8 @@ void FITSData::subtract(float *dark_buffer)
 
 int FITSData::findStars(const QRectF &boundary, bool force)
 {
-    if (histogram == NULL)
-        return -1;
+    //if (histogram == NULL)
+        //return -1;
 
     if (starsSearched == false || force)
     {
