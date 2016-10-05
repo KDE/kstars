@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>697</width>
-    <height>510</height>
+    <width>682</width>
+    <height>506</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -664,21 +664,18 @@
                </spacer>
               </item>
               <item>
-               <widget class="ScrollGraph" name="driftGraphics" native="true">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
+               <widget class="QCustomPlot" name="driftGraph" native="true">
                 <property name="minimumSize">
                  <size>
                   <width>200</width>
                   <height>200</height>
                  </size>
                 </property>
-                <property name="styleSheet">
-                 <string notr="true"/>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                </widget>
               </item>
@@ -703,7 +700,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_6">
               <property name="spacing">
-               <number>1</number>
+               <number>5</number>
               </property>
               <item>
                <widget class="QLabel" name="RADriftLabel">
@@ -786,52 +783,6 @@
                <widget class="Line" name="line_4">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="l_1">
-                <property name="text">
-                 <string>X</string>
-                </property>
-                <property name="margin">
-                 <number>0</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="spinBox_XScale">
-                <property name="toolTip">
-                 <string>Horizontal scale: Number of frames per division</string>
-                </property>
-                <property name="minimum">
-                 <number>10</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="l_2">
-                <property name="text">
-                 <string>Y</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSpinBox" name="spinBox_YScale">
-                <property name="toolTip">
-                 <string>Vertical scale: Deviation in arcseconds per division</string>
-                </property>
-                <property name="minimum">
-                 <number>5</number>
-                </property>
-                <property name="maximum">
-                 <number>30</number>
-                </property>
-                <property name="singleStep">
-                 <number>5</number>
-                </property>
-                <property name="value">
-                 <number>5</number>
                 </property>
                </widget>
               </item>
@@ -1182,12 +1133,48 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ScrollGraph</class>
+   <class>QCustomPlot</class>
    <extends>QWidget</extends>
-   <header>ekos/guide/scroll_graph.h</header>
+   <header>auxiliary/qcustomplot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>captureB</tabstop>
+  <tabstop>subFrameCheck</tabstop>
+  <tabstop>darkFrameCheck</tabstop>
+  <tabstop>calibrateB</tabstop>
+  <tabstop>guideB</tabstop>
+  <tabstop>stopB</tabstop>
+  <tabstop>guideOptionsB</tabstop>
+  <tabstop>guiderCombo</tabstop>
+  <tabstop>ST4Combo</tabstop>
+  <tabstop>exposureIN</tabstop>
+  <tabstop>binningCombo</tabstop>
+  <tabstop>boxSizeCombo</tabstop>
+  <tabstop>filterCombo</tabstop>
+  <tabstop>spinBox_GuideRate</tabstop>
+  <tabstop>RADriftEnableC</tabstop>
+  <tabstop>DEDriftEnableC</tabstop>
+  <tabstop>checkBox_DirRA</tabstop>
+  <tabstop>checkBox_DirDEC</tabstop>
+  <tabstop>eastControlCheck</tabstop>
+  <tabstop>westControlCheck</tabstop>
+  <tabstop>northControlCheck</tabstop>
+  <tabstop>southControlCheck</tabstop>
+  <tabstop>swapCheck</tabstop>
+  <tabstop>spinBox_PropGainRA</tabstop>
+  <tabstop>spinBox_PropGainDEC</tabstop>
+  <tabstop>spinBox_IntGainRA</tabstop>
+  <tabstop>spinBox_IntGainDEC</tabstop>
+  <tabstop>spinBox_DerGainRA</tabstop>
+  <tabstop>spinBox_DerGainDEC</tabstop>
+  <tabstop>spinBox_MaxPulseRA</tabstop>
+  <tabstop>spinBox_MaxPulseDEC</tabstop>
+  <tabstop>spinBox_MinPulseRA</tabstop>
+  <tabstop>spinBox_MinPulseDEC</tabstop>
+  <tabstop>spinBox_AOLimit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

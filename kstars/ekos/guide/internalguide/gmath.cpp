@@ -794,6 +794,24 @@ void cgmath::process_axes( void  )
     if (Options::guideLogging())
         qDebug() << "Guide: Processing Axes";
 
+    in_params.proportional_gain[0] = Options::rAPropotionalGain();
+    in_params.proportional_gain[1] = Options::dECPropotionalGain();
+
+    in_params.integral_gain[0]     = Options::rAIntegralGain();
+    in_params.integral_gain[1]     = Options::rAIntegralGain();
+
+    in_params.derivative_gain[0]   = Options::rADerivativeGain();
+    in_params.derivative_gain[1]   = Options::dECDerivativeGain();
+
+    in_params.enabled[0]           = Options::rAGuideEnabled();
+    in_params.enabled[1]           = Options::dECGuideEnabled();
+
+    in_params.min_pulse_length[0]  = Options::rAMinimumPulse();
+    in_params.min_pulse_length[1]  = Options::dECMinimumPulse();
+
+    in_params.max_pulse_length[0]  = Options::rAMaximumPulse();
+    in_params.max_pulse_length[1]  = Options::dECMaximumPulse();
+
     // process axes...
     for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
     {

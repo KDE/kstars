@@ -333,8 +333,8 @@ protected slots:
      void updateTrackingBoxSize(int currentIndex);
 
 
-     void onXscaleChanged( int i );
-     void onYscaleChanged( int i );
+     //void onXscaleChanged( int i );
+     //void onYscaleChanged( int i );
      void onThresholdChanged( int i );
      void onInfoRateChanged( double val );
      void onEnableDirRA( bool enable );

@@ -10,6 +10,7 @@
 #include "guide.h"
 
 #include <QDateTime>
+#include <QSharedPointer>
 
 #include <KMessageBox>
 #include <KLed>
@@ -38,6 +39,7 @@
 #include "guideadaptor.h"
 #include "kspaths.h"
 #include "kstarsdata.h"
+#include "auxiliary/qcustomplot.h"
 
 #define driftGraph_WIDTH	200
 #define driftGraph_HEIGHT	200
@@ -118,8 +120,8 @@ Guide::Guide() : QWidget()
     connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
 
     // Drift Graph scales
-    connect( spinBox_XScale, 		SIGNAL(valueChanged(int)),	this, SLOT(onXscaleChanged(int)) );
-    connect( spinBox_YScale, 		SIGNAL(valueChanged(int)),	this, SLOT(onYscaleChanged(int)) );            
+    //connect( spinBox_XScale, 		SIGNAL(valueChanged(int)),	this, SLOT(onXscaleChanged(int)) );
+    //connect( spinBox_YScale, 		SIGNAL(valueChanged(int)),	this, SLOT(onYscaleChanged(int)) );
 
     // Guiding Rate - Advisory only
     connect( spinBox_GuideRate, 		SIGNAL(valueChanged(double)), this, SLOT(onInfoRateChanged(double)) );
@@ -170,6 +172,44 @@ Guide::Guide() : QWidget()
     connect(guideB, SIGNAL(clicked()), this, SLOT(guide()));
 
     // Drift Graph
+
+    /*driftGraph->setBackground(QBrush(Qt::black));
+    driftGraph->xAxis->setBasePen(QPen(Qt::white, 1));
+    driftGraph->yAxis->setBasePen(QPen(Qt::white, 1));
+    driftGraph->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    driftGraph->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    driftGraph->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    driftGraph->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    driftGraph->xAxis->grid()->setZeroLinePen(Qt::NoPen);
+    driftGraph->yAxis->grid()->setZeroLinePen(Qt::NoPen);
+    driftGraph->xAxis->setBasePen(QPen(Qt::white, 1));
+    driftGraph->yAxis->setBasePen(QPen(Qt::white, 1));
+    driftGraph->xAxis->setTickPen(QPen(Qt::white, 1));
+    driftGraph->yAxis->setTickPen(QPen(Qt::white, 1));
+    driftGraph->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    driftGraph->yAxis->setSubTickPen(QPen(Qt::white, 1));
+    driftGraph->xAxis->setTickLabelColor(Qt::white);
+    driftGraph->yAxis->setTickLabelColor(Qt::white);
+    driftGraph->xAxis->setLabelColor(Qt::white);
+    driftGraph->yAxis->setLabelColor(Qt::white);*/
+
+    driftGraph->addGraph(); // blue line
+    driftGraph->graph(0)->setPen(QPen(QColor(40, 110, 255)));
+    driftGraph->addGraph(); // red line
+    driftGraph->graph(1)->setPen(QPen(QColor(255, 110, 40)));
+
+    QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
+    timeTicker->setTimeFormat("%m:%s");
+    driftGraph->xAxis->setTicker(timeTicker);
+    driftGraph->axisRect()->setupFullAxesBox();
+    //driftGraph->yAxis->setRange(-3, 3);
+
+    // make left and bottom axes transfer their ranges to right and top axes:
+    connect(driftGraph->xAxis, SIGNAL(rangeChanged(QCPRange)), driftGraph->xAxis2, SLOT(setRange(QCPRange)));
+    connect(driftGraph->yAxis, SIGNAL(rangeChanged(QCPRange)), driftGraph->yAxis2, SLOT(setRange(QCPRange)));
+
+
+
     //driftGraph = new ScrollGraph( this, driftGraph_WIDTH, driftGraph_HEIGHT );
     //driftGraphics->setSize(driftGraph_WIDTH, driftGraph_HEIGHT);
     //driftGraphics->setSize(200, 200);
@@ -1088,7 +1128,8 @@ bool Guide::guide()
 
     if (rc)
     {
-        driftGraphics->resetData();
+        //TODO reset data?
+        //driftGraphics->resetData();
     }
 
     return rc;
@@ -1477,6 +1518,7 @@ bool Guide::selectAutoStar()
     return true;
 }
 
+/*
 void Guide::onXscaleChanged( int i )
 {
     int rx, ry;
@@ -1495,6 +1537,7 @@ void Guide::onYscaleChanged( int i )
     driftGraphics->setVisibleRanges( rx, i*driftGraphics->getGridN() );
     driftGraphics->update();
 }
+*/
 
 
 void Guide::onThresholdChanged( int index )
@@ -1705,8 +1748,19 @@ void Guide::setTrackingStar(int x, int y)
 
 void Guide::setAxisDelta(double ra, double de)
 {
-    driftGraphics->addPoint(ra, de);
-    driftGraphics->update();
+    static QTime time(QTime::currentTime());
+    // calculate two new data points:
+    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
+
+    driftGraph->graph(0)->addData(key, ra);
+    driftGraph->graph(1)->addData(key, de);
+
+    driftGraph->xAxis->setRange(key, 8, Qt::AlignRight);
+    driftGraph->replot();
+    //driftGraphics->addPoint(ra, de);
+    //driftGraphics->update();
+
+
 
     l_DeltaRA->setText(QString::number(ra, 'f', 2));
     l_DeltaDEC->setText(QString::number(de, 'f', 2));

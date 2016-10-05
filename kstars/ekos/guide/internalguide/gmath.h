@@ -119,9 +119,7 @@ public:
     int  getSquareSize() { return squareSize; }
     void setSquareAlgorithm( int alg_idx );
 
-    Matrix getROTZ() { return ROT_Z; }
-    cproc_in_params *getInputParameters( void );
-    void setInputParameters( const cproc_in_params *v );
+    Matrix getROTZ() { return ROT_Z; }        
     const cproc_out_params *getOutputParameters() const { return &out_params; }
     info_params_t getInfoParameters( void ) const;
     uint32_t getTicks( void ) const;
