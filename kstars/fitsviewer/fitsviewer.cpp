@@ -77,7 +77,7 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     fitsTab->setTabsClosable(true);
 
-    setWindowIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/fitsviewer.png")));
+    setWindowIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
 
     setCentralWidget(fitsTab);
 

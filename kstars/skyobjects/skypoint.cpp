@@ -62,7 +62,7 @@ SkyPoint::~SkyPoint(){
 }
 
 void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
-    qDebug() << "NOTE: This EquatorialToHorizontal overload (using dms pointers instead of CachingDms pointers) is deprecated and should be replaced with CachingDms prototype wherever speed is desirable!";
+//    qDebug() << "NOTE: This EquatorialToHorizontal overload (using dms pointers instead of CachingDms pointers) is deprecated and should be replaced with CachingDms prototype wherever speed is desirable!";
     CachingDms _LST( *LST ), _lat( *lat );
     EquatorialToHorizontal( &_LST, &_lat );
 }
@@ -85,8 +85,8 @@ void SkyPoint::EquatorialToHorizontal( const CachingDms *LST, const CachingDms *
     sinAlt = sindec*sinlat + cosdec*coslat*cosHA;
     AltRad = asin( sinAlt );
 
-    //    cosAlt = cos( AltRad );
     cosAlt = sqrt( 1 - sinAlt * sinAlt ); // Avoid trigonometric function. Return value of asin is always in [-pi/2, pi/2] and in this domain cosine is always non-negative, so we can use this.
+    if(cosAlt == 0) cosAlt = cos( AltRad );
 
     double arg = ( sindec - sinlat*sinAlt )/( coslat*cosAlt );
     if ( arg <= -1.0 ) AzRad = dms::PI;
@@ -747,12 +747,12 @@ double SkyPoint::vREarth(long double jd0)
     double sinRA, sinDec, cosRA, cosDec;
 
     /* u_radial = unitary vector in the direction of the source
-    	Vlsr 	= Vhel + Vsun.u_radial
-    		= Vgeo + VEarth.u_radial + Vsun.u_radial  =>
+        Vlsr 	= Vhel + Vsun.u_radial
+            = Vgeo + VEarth.u_radial + Vsun.u_radial  =>
 
-    	Vgeo 	= (Vlsr -Vsun.u_radial) - VEarth.u_radial
-    		=  Vhel - VEarth.u_radial
-    		=  Vhel - (vx, vy, vz).(cos d cos a,cos d sen a,sen d)
+        Vgeo 	= (Vlsr -Vsun.u_radial) - VEarth.u_radial
+            =  Vhel - VEarth.u_radial
+            =  Vhel - (vx, vy, vz).(cos d cos a,cos d sen a,sen d)
     */
 
     /* We need an auxiliary SkyPoint since we need the

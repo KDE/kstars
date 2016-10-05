@@ -54,7 +54,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     new EkosAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos",  this);
 
-    setWindowIcon(QIcon::fromTheme("kstars_ekos", QIcon(":/icons/ekos.png")));
+    setWindowIcon(QIcon::fromTheme("kstars_ekos", QIcon(":/icons/breeze/default/kstars_ekos.svg")));
 
     nDevices=0;
     nConnectedDevices=0;
@@ -124,7 +124,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 
     // Set Profile icons
     addProfileB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
-    editProfileB->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/indi.png")));
+    editProfileB->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/kstars_ekos/document-edit.svg")));
     deleteProfileB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
 
     // Load all drivers
