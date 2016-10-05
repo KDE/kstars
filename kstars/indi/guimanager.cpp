@@ -64,7 +64,7 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 
     mainLayout->addWidget(mainTabWidget);
 
-    setWindowIcon(QIcon::fromTheme("kstars_indi", QIcon(":/icons/indi.png")));
+    setWindowIcon(QIcon::fromTheme("kstars_indi", QIcon(":/icons/breeze/default/kstars_indi.svg")));
 
     setWindowTitle(i18n("INDI Control Panel"));
     setAttribute(Qt::WA_ShowModal, false);

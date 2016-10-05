@@ -152,21 +152,17 @@ bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
 
     QTextStream in(&confFile);
     QString line;
-    QStringList confOptions;
     while ( !in.atEnd() )
     {
       line = in.readLine();
-      if (line.startsWith("#"))
+      if (line.isEmpty() || line.startsWith("#"))
           continue;
 
-      confOptions = line.split(" ");
-      if (confOptions.size() == 2)
+      line = line.trimmed();
+      if (line.startsWith("add_path"))
       {
-          if (confOptions[0] == "add_path")
-          {
-              dataDir = confOptions[1];
-              return true;
-          }
+          dataDir = line.mid(9).trimmed();
+          return true;
       }
    }
 
@@ -178,8 +174,16 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
 {
     INDI_UNUSED(generated);
 
+    #ifdef Q_OS_OSX
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    QStringList envlist = env.toStringList();
+    envlist.replaceInStrings(QRegularExpression("^(?i)PATH=(.*)"), "PATH=/usr/local/bin:\\1");
+    solver.setEnvironment(envlist);
+    #endif
+
     QStringList solverArgs = args;
-    solverArgs << "-W" << "/tmp/solution.wcs" << filename;
+    QString solutionFile = QStandardPaths::TempLocation + "/solution.wcs";
+    solverArgs << "-W" <<  solutionFile << filename;
 
     connect(&solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
     connect(&solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
@@ -215,7 +219,8 @@ void OfflineAstrometryParser::solverComplete(int exist_status)
     solver.disconnect();
 
     // TODO use QTemporaryFile later
-    QFileInfo solution("/tmp/solution.wcs");
+    QString solutionFile = QStandardPaths::TempLocation + "/solution.wcs";
+    QFileInfo solution(solutionFile);
 
     if (exist_status != 0 || solution.exists() == false)
     {
@@ -227,7 +232,7 @@ void OfflineAstrometryParser::solverComplete(int exist_status)
 
     connect(&wcsinfo, SIGNAL(finished(int)), this, SLOT(wcsinfoComplete(int)));
 
-    wcsinfo.start(Options::astrometryWCSInfo(), QStringList("/tmp/solution.wcs"));
+    wcsinfo.start(Options::astrometryWCSInfo(), QStringList(solutionFile));
 }
 
 void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
