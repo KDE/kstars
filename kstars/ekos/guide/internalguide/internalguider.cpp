@@ -28,15 +28,15 @@ InternalGuider::InternalGuider()
     // Create math object
     pmath = new cgmath();
 
-    connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
-    connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SLOT(updateGuideDriver(double,double)));
+    //connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
+    //connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SLOT(updateGuideDriver(double,double)));
     //connect(pmath, SIGNAL(newStarPosition(QVector3D,bool)), this, SLOT(setStarPosition(QVector3D,bool)));
     connect(pmath, SIGNAL(newStarPosition(QVector3D,bool)), this, SIGNAL(newStarPosition(QVector3D,bool)));
 
     // Calibration
     calibrationStage = CAL_IDLE;
 
-    is_started = false;
+    //is_started = false;
     axis = GUIDE_RA;
     auto_drift_time = 5;
 
@@ -75,6 +75,11 @@ bool InternalGuider::guide()
     Options::setRAMinimumPulse(ui.spinBox_MinPulseRA->value());
     Options::setDECMinimumPulse(ui.spinBox_MinPulseDEC->value());
 #endif
+
+    if (state >= GUIDE_GUIDING)
+    {
+        return processGuiding();
+    }
 
     guideFrame->disconnect(this);
     //disconnect(guideFrame, SIGNAL(trackingStarSelected(int,int)), 0, 0);
@@ -145,12 +150,25 @@ bool InternalGuider::guide()
 
     pmath->setLogFile(&logFile);
 
+    state = GUIDE_GUIDING;
+    emit newStatus(state);
+
+    emit frameCaptureRequested();
+
     return true;
 }
 
 bool InternalGuider::abort()
 {
     calibrationStage = CAL_IDLE;
+
+    if (state == GUIDE_CALIBRATING || state == GUIDE_GUIDING || state == GUIDE_DITHERING)
+        emit newStatus(GUIDE_ABORTED);
+    else
+        emit newStatus(GUIDE_IDLE);
+
+    state = GUIDE_IDLE;
+
     return true;
 }
 
@@ -332,7 +350,7 @@ void InternalGuider::reset()
 {
     //FIXME
 
-    is_started = false;
+    //is_started = false;
     state = GUIDE_IDLE;
     //calibrationStage = CAL_IDLE;
     connect(guideFrame, SIGNAL(trackingStarSelected(int,int)), this, SLOT(trackingStarSelected(int, int)), Qt::UniqueConnection);
@@ -851,6 +869,113 @@ bool InternalGuider::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t
     subBinY = binY;
 
     pmath->setVideoParameters(w, h);
+
+    return true;
+}
+
+bool InternalGuider::processGuiding()
+{
+    static int maxPulseCounter=0;
+    const cproc_out_params *out;
+    QString str;
+    uint32_t tick = 0;
+    double drift_x = 0, drift_y = 0;
+
+    /*Q_ASSERT( pmath );
+
+    if (first_subframe)
+    {
+        first_subframe = false;
+        return;
+    }
+    else if (first_frame)
+    {
+        if (m_isDithering == false)
+        {
+            Vector star_pos = pmath->findLocalStarPosition();
+            pmath->setReticleParameters(star_pos.x, star_pos.y, -1);
+
+
+            //pmath->moveSquare( round(star_pos.x) - (double)square_size/(2*binx), round(star_pos.y) - (double)square_size/(2*biny) );
+
+        }
+        first_frame=false;
+    }
+    */
+
+    // calc math. it tracks square
+    pmath->performProcessing();
+
+    //if(!m_isStarted )
+        //return true;
+
+    if (pmath->isStarLost() && ++m_lostStarTries > 2)
+    {
+        emit newLog(i18n("Lost track of the guide star. Try increasing the square size and check the mount."));
+        abort();
+        return false;
+    }
+    else
+        m_lostStarTries = 0;
+
+    // do pulse
+    out = pmath->getOutputParameters();
+
+    if (out->pulse_length[GUIDE_RA] == Options::rAMaximumPulse() || out->pulse_length[GUIDE_DEC] == Options::dECMaximumPulse())
+        maxPulseCounter++;
+    else
+        maxPulseCounter=0;
+
+    if (maxPulseCounter > 3)
+    {
+        emit newLog(i18n("Lost track of the guide star. Aborting guiding..."));
+        abort();
+        maxPulseCounter=0;
+        return false;
+    }
+
+    emit newPulse( out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC] );
+
+    emit frameCaptureRequested();
+
+    //if (m_isDithering)
+    if (state == GUIDE_DITHERING)
+        return true;
+
+    //pmath->getStarDrift( &drift_x, &drift_y );
+
+    //drift_graph->add_point( drift_x, drift_y );
+
+    tick = pmath->getTicks();
+
+    if( tick & 1 )
+    {
+        // draw some params in window
+        emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
+
+        //ui.l_DeltaRA->setText(str.setNum(out->delta[GUIDE_RA], 'f', 2) );
+        //ui.l_DeltaDEC->setText(str.setNum(out->delta[GUIDE_DEC], 'f', 2) );
+
+        emit newAxisPulse(out->pulse_length[GUIDE_RA], out->pulse_length[GUIDE_DEC]);
+
+        //ui.l_PulseRA->setText(str.setNum(out->pulse_length[GUIDE_RA]) );
+        //ui.l_PulseDEC->setText(str.setNum(out->pulse_length[GUIDE_DEC]) );
+
+        //ui.l_ErrRA->setText( str.setNum(out->sigma[GUIDE_RA], 'g', 3));
+        //ui.l_ErrDEC->setText( str.setNum(out->sigma[GUIDE_DEC], 'g', 3 ));
+
+        emit newAxisSigma(out->sigma[GUIDE_RA], out->sigma[GUIDE_DEC]);
+    }
+
+    // skip half frames
+    //if( half_refresh_rate && (tick & 1) )
+        //return;
+
+    //drift_graph->on_paint();
+    //pDriftOut->update();
+
+    //profilePixmap = pDriftOut->grab(QRect(QPoint(0, 100), QSize(pDriftOut->width(), 101)));
+    //emit newProfilePixmap(profilePixmap);
 
     return true;
 }

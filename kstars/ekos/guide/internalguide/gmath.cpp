@@ -223,19 +223,16 @@ info_params_t cgmath::getInfoParameters( void ) const
     return ret;
 }
 
-
 uint32_t cgmath::getTicks( void ) const
 {
     return ticks;
 }
-
 
 void cgmath::getStarDrift( double *dx, double *dy ) const
 {
     *dx = star_pos.x;
     *dy = star_pos.y;
 }
-
 
 void cgmath::getStarScreenPosition( double *dx, double *dy ) const
 {
@@ -871,7 +868,7 @@ void cgmath::process_axes( void  )
 
     }
 
-    emit newAxisDelta(out_params.delta[0], out_params.delta[1]);
+    //emit newAxisDelta(out_params.delta[0], out_params.delta[1]);
 
     QTextStream out(logFile);
     out << ticks << "," << logTime.elapsed() << "," << out_params.delta[0] << "," << out_params.pulse_length[0] << "," << get_direction_string(out_params.pulse_dir[0])

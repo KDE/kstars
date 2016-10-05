@@ -179,7 +179,7 @@ public:
 
     void addCCD(ISD::GDInterface *newCCD);
     void setTelescope(ISD::GDInterface *newTelescope);
-    void addST4(ISD::ST4 *newST4);
+    void addST4(ISD::ST4 *setST4);
     void setAO(ISD::ST4 *newAO);
 
     bool isDithering();
@@ -188,12 +188,26 @@ public:
     void syncTelescopeInfo();
     void syncCCDInfo();
 
+    /**
+     * @brief clearLog As the name suggests
+     */
     void clearLog();
 
+    /**
+     * @brief setDECSwap Change ST4 declination pulse direction. +DEC pulses increase DEC if swap is OFF. When on +DEC pulses result in decreasing DEC.
+     * @param enable True to enable DEC swap. Off to disable it.
+     */
     void setDECSwap(bool enable);    
 
+    /**
+     * @return Return curent log text of guide module
+     */
     QString getLogText() { return logText.join("\n"); }
 
+    /**
+     * @brief getStarPosition Return star center as selected by the user or auto-detected by KStars
+     * @return QVector3D of starCenter. The 3rd parameter is used to store current bin settings and in unrelated to the star position.
+     */
     QVector3D getStarPosition() { return starCenter; }
 
     // Tracking Box
@@ -242,18 +256,44 @@ public slots:
      */
      Q_SCRIPTABLE bool selectAutoStar();
 
+    /**
+      * @brief checkCCD Check all CCD parameters and ensure all variables are updated to reflect the selected CCD
+      * @param ccdNum CCD index number in the CCD selection combo box
+      */
      void checkCCD(int ccdNum=-1);
+
+     /**
+      * @brief checkExposureValue This function is called by the INDI framework whenever there is a new exposure value. We use it to know if there is a problem with the exposure
+      * @param targetChip Chip for which the exposure is undergoing
+      * @param exposure numbers of seconds left in the exposure
+      * @param state State of the exposure property
+      */
      void checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState state);
+
+     /**
+      * @brief newFITS is called by the INDI framework whenever there is a new BLOB arriving
+      */
      void newFITS(IBLOB*);
-     void newST4(int index);
+
+     /**
+      * @brief setST4 Sets a new ST4 device from the combobox index
+      * @param index Index of selected ST4 in the combobox
+      */
+     void setST4(int index);
+
+     /**
+      * @brief processRapidStarData is called by INDI framework when we receive new Rapid Guide data
+      * @param targetChip target Chip for which rapid guide is enabled
+      * @param dx Deviation in X
+      * @param dy Deviation in Y
+      * @param fit fitting score
+      */
      void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
-     void updateGuideDriver(double delta_ra, double delta_dec);
 
      // Auto Calibration Guiding (Cablirate first then start guiding immediately)
      void startAutoCalibrateGuiding();
      void checkAutoCalibrateGuiding(Ekos::GuideState state);
 
-     void dither();
      void setSuspended(bool enable);
 
      // Append Log entry
@@ -301,6 +341,10 @@ protected slots:
      void onEnableDirDEC( bool enable );
      void onInputParamChanged();
      void onRapidGuideChanged(bool enable);
+
+     void setAxisDelta(double ra, double de);
+     void setAxisSigma(double ra, double de);
+     void setAxisPulse(double ra, double de);
 
      // FIXME
      //void onSetDECSwap(bool enable);
@@ -363,7 +407,7 @@ private:
     QVector3D starCenter;
 
     // Guide Params
-    double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, guideDeviationRA, guideDeviationDEC;
+    double ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength, guideDeviationRA, guideDeviationDEC, pixScaleX, pixScaleY;
 
     // Rapid Guide
     bool rapidGuideReticleSet;

@@ -69,8 +69,8 @@ public:
     /// IMPORTED CHECK THEM ALL
 
     bool start();
-    bool abort(bool silence=false);
-    void setHalfRefreshRate( bool is_half );
+    //bool abort(bool silence=false);
+
     bool isGuiding( void ) const;
     void setAO(bool enable);
     void setInterface( void );    
@@ -110,6 +110,14 @@ signals:
     void DESwapChanged(bool enable);
 
 private:
+
+    // Calibration
+    void calibrateRADECRecticle( bool ra_only ); // 1 or 2-axis calibration
+    void processCalibration();
+
+    // Guiding
+    bool processGuiding();
+
     cgmath *pmath;
     QPointer<FITSView> guideFrame;
     bool m_isStarted;
@@ -129,17 +137,16 @@ private:
 
     // IMPORTED FROM R_CALIBRATION - CLEAN UP
     //void fillInterface( void );
-    void calibrateManualReticle( void );
-    void calibrateRADECRecticle( bool ra_only ); // 1 or 2-axis calibration
+
 
     bool startCalibration();
     bool stopCalibration();
-    void processCalibration();
+
 
 
     void reset();
 
-    bool is_started;
+    //bool is_started;
 
     int  axis;
     int  auto_drift_time;

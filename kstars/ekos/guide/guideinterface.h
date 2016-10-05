@@ -53,6 +53,8 @@ signals:
     void newLog(const QString &);
     void newStatus(Ekos::GuideState);
     void newAxisDelta(double delta_ra, double delta_dec);
+    void newAxisSigma(double sigma_ra, double sigma_dec);
+    void newAxisPulse(double pulse_ra, double pulse_dec);
     void newStarPosition(QVector3D, bool);
 
     void frameCaptureRequested();

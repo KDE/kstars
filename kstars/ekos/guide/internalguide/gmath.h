@@ -122,7 +122,7 @@ public:
     Matrix getROTZ() { return ROT_Z; }
     cproc_in_params *getInputParameters( void );
     void setInputParameters( const cproc_in_params *v );
-    const cproc_out_params *getOutputParameters( void ) const;
+    const cproc_out_params *getOutputParameters() const { return &out_params; }
     info_params_t getInfoParameters( void ) const;
     uint32_t getTicks( void ) const;
 

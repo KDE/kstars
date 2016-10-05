@@ -75,7 +75,7 @@ Guide::Guide() : QWidget()
     guideWidget->setLayout(vlayout);
     connect(guideView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setTrackingStar(int,int)));
 
-    ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
+    ccdPixelSizeX =  ccdPixelSizeY =  mountAperture =  mountFocalLength = pixScaleX = pixScaleY = -1;
     guideDeviationRA = guideDeviationDEC = 0;
 
     useGuideHead = false;
@@ -110,7 +110,7 @@ Guide::Guide() : QWidget()
     connect(darkFrameCheck, SIGNAL(toggled(bool)), this, SLOT(setDarkFrameEnabled(bool)));
 
     // ST4 Selection
-    connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
+    connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(setST4(int)));
     //connect(ST4Combo, SIGNAL(activated(QString)), this, SLOT(setDefaultST4(QString)));
     //connect(ST4Combo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, [&](const QString & st4){Options::setDefaultST4Driver(st4);});
 
@@ -165,6 +165,9 @@ Guide::Guide() : QWidget()
 
     // Calibrate
     connect(calibrateB, SIGNAL(clicked()), this, SLOT(calibrate()));
+
+    // Guide
+    connect(guideB, SIGNAL(clicked()), this, SLOT(guide()));
 
     // Drift Graph
     //driftGraph = new ScrollGraph( this, driftGraph_WIDTH, driftGraph_HEIGHT );
@@ -231,6 +234,10 @@ Guide::Guide() : QWidget()
     connect(guider, SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
     connect(guider, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(setStatus(Ekos::GuideState)));
     connect(guider, SIGNAL(newStarPosition(QVector3D,bool)), this, SLOT(setStarPosition(QVector3D,bool)));
+
+    connect(guider, SIGNAL(newAxisDelta(double,double)), this, SLOT(setAxisDelta(double,double)));
+    connect(guider, SIGNAL(newAxisPulse(double,double)), this, SLOT(setAxisPulse(double,double)));
+    connect(guider, SIGNAL(newAxisSigma(double,double)), this, SLOT(setAxisSigma(double,double)));
 
     // FIXME we emit this directly TODO
     //connect(guider, SIGNAL(newProfilePixmap(QPixmap &)), this, SIGNAL(newProfilePixmap(QPixmap &)));
@@ -399,15 +406,15 @@ void Guide::syncCCDInfo()
     {
         INumber *np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_X");
         if (np)
-            ccd_hor_pixel = np->value;
+            ccdPixelSizeX = np->value;
 
         np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_Y");
         if (np)
-            ccd_ver_pixel = np->value;
+            ccdPixelSizeY = np->value;
 
         np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_Y");
         if (np)
-            ccd_ver_pixel = np->value;
+            ccdPixelSizeY = np->value;
     }
 
     updateGuideParams();
@@ -425,22 +432,22 @@ void Guide::syncTelescopeInfo()
         INumber *np = IUFindNumber(nvp, "GUIDER_APERTURE");
 
         if (np && np->value != 0)
-            aperture = np->value;
+            mountAperture = np->value;
         else
         {
             np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
             if (np)
-                aperture = np->value;
+                mountAperture = np->value;
         }
 
         np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
         if (np && np->value != 0)
-            focal_length = np->value;
+            mountFocalLength = np->value;
         else
         {
             np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
             if (np)
-                focal_length = np->value;
+                mountFocalLength = np->value;
         }
     }
 
@@ -484,9 +491,9 @@ void Guide::updateGuideParams()
         binningCombo->blockSignals(false);
     }
 
-    if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
+    if (ccdPixelSizeX != -1 && ccdPixelSizeY != -1 && mountAperture != -1 && mountFocalLength != -1)
     {
-        guider->setGuiderParams(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
+        guider->setGuiderParams(ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength);
         //pmath->setGuiderParameters(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
         //phd2->setCCDMountParams(ccd_hor_pixel, ccd_ver_pixel, focal_length);
 
@@ -503,6 +510,19 @@ void Guide::updateGuideParams()
 
         //guider->setInterface();
 
+        l_Focal->setText(QString::number(mountFocalLength, 'f', 1));
+        l_Aperture->setText(QString::number(mountAperture, 'f', 1));
+        l_FbyD->setText(QString::number(mountFocalLength/mountAperture, 'f', 1));
+
+        // Pixel scale in arcsec/pixel
+        pixScaleX = 206264.8062470963552 * ccdPixelSizeX / 1000.0 / mountFocalLength;
+        pixScaleY = 206264.8062470963552 * ccdPixelSizeY / 1000.0 / mountFocalLength;
+
+        // FOV in arcmin
+        double fov_w = (w*pixScaleX)/60.0;
+        double fov_h = (h*pixScaleY)/60.0;
+
+        l_FOV->setText(QString("%1x%2").arg(QString::number(fov_w, 'f', 1)).arg(QString::number(fov_h, 'f', 1)));
     }
 }
 
@@ -538,7 +558,7 @@ bool Guide::setST4(QString device)
     return false;
 }
 
-void Guide::newST4(int index)
+void Guide::setST4(int index)
 {
     if (ST4List.empty() || index >= ST4List.count())
         return;
@@ -645,20 +665,12 @@ bool Guide::abort()
     case GUIDE_CALIBRATING:
     case GUIDE_CALIBRATION_STAR:
     case GUIDE_CALIBRATION_CAPTURE:
+    case GUIDE_GUIDING:
         guider->abort();
     default:
         break;
 
     }
-
-
-    // Maybe set this above?
-    if (state >= GUIDE_CALIBRATING)
-        state = GUIDE_ABORTED;
-    else
-        state = GUIDE_IDLE;
-
-    emit newStatus(state);
 
     return true;
 }
@@ -820,6 +832,10 @@ void Guide::setCaptureComplete()
         case GUIDE_CALIBRATING:
             guider->calibrate();
             break;
+
+        case GUIDE_GUIDING:
+            guider->guide();
+        break;
 
         default:
         break;
@@ -1040,60 +1056,6 @@ void Guide::stopRapidGuide()
 }
 
 
-void Guide::dither()
-{
-
-    // FIXME
-    /*
-    if (Options::useEkosGuider())
-    {
-        if (isDithering() == false)
-            guider->dither();
-    }
-    else
-    {
-        if (isDithering() == false)
-            phd2->dither(guider->getDitherPixels());
-    }
-
-    */
-
-}
-
-void Guide::updateGuideDriver(double delta_ra, double delta_dec)
-{
-
-    // FIXME
-    /*
-    guideDeviationRA  = delta_ra;
-    guideDeviationDEC = delta_dec;
-
-    // If using PHD2 or not guiding, no need to go further on
-    if (Options::usePHD2Guider() || isGuiding() == false)
-        return;
-
-    if (isDithering())
-    {
-        GuideDriver = ST4Driver;
-        return;
-    }
-
-    // Guide via AO only if guiding deviation is below AO limit
-    if (AODriver != NULL && (fabs(delta_ra) < guider->getAOLimit()) && (fabs(delta_dec) < guider->getAOLimit()))
-    {
-        if (AODriver != GuideDriver)
-            appendLogText(i18n("Using %1 to correct for guiding errors.", AODriver->getDeviceName()));
-        GuideDriver = AODriver;
-        return;
-    }
-
-    if (GuideDriver != ST4Driver)
-        appendLogText(i18n("Using %1 to correct for guiding errors.", ST4Driver->getDeviceName()));
-
-    GuideDriver = ST4Driver;
-    */
-}
-
 bool Guide::calibrate()
 {
     saveSettings();
@@ -1126,7 +1088,6 @@ bool Guide::guide()
 
     if (rc)
     {
-        appendLogText(i18n("Autoguiding started."));
         driftGraphics->resetData();
     }
 
@@ -1289,6 +1250,11 @@ void Guide::setStatus(Ekos::GuideState newState)
 
           case GUIDE_CALIBRATION_ERROR:
             setBusy(false);
+        break;
+
+        case GUIDE_GUIDING:
+            appendLogText(i18n("Autoguiding started."));
+            setBusy(true);
         break;
 
     default:
@@ -1735,6 +1701,29 @@ void Guide::setTrackingStar(int x, int y)
         guider->setStarPosition(newStarPosition);
         guider->calibrate();
     }
+}
+
+void Guide::setAxisDelta(double ra, double de)
+{
+    driftGraphics->addPoint(ra, de);
+    driftGraphics->update();
+
+    l_DeltaRA->setText(QString::number(ra, 'f', 2));
+    l_DeltaDEC->setText(QString::number(de, 'f', 2));
+
+    emit newAxisDelta(ra,de);
+}
+
+void Guide::setAxisSigma(double ra, double de)
+{
+    l_ErrRA->setText(QString::number(ra, 'f', 2));
+    l_ErrDEC->setText(QString::number(de, 'f', 2));
+}
+
+void Guide::setAxisPulse(double ra, double de)
+{
+    l_PulseRA->setText(QString::number(static_cast<int>(ra)));
+    l_PulseDEC->setText(QString::number(static_cast<int>(de)));
 }
 
 }
