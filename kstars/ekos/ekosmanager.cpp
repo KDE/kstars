@@ -57,7 +57,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     setWindowIcon(QIcon::fromTheme("kstars_ekos", QIcon(":/icons/breeze/default/kstars_ekos.svg")));
 
     nDevices=0;
-    nConnectedDevices=0;
+    //nConnectedDevices=0;
     useGuideHead    =false;
     useST4          =false;
     isStarted       = false;
@@ -247,7 +247,7 @@ void EkosManager::loadDrivers()
 void EkosManager::reset()
 {
     nDevices=0;
-    nConnectedDevices=0;
+    //nConnectedDevices=0;
     nRemoteDevices=0;
 
     useGuideHead           = false;
@@ -626,7 +626,6 @@ void EkosManager::checkINDITimeout()
 
 void EkosManager::connectDevices()
 {
-
     indiConnectionStatus = EKOS_STATUS_PENDING;
 
     foreach(ISD::GDInterface *device, genericDevices)
@@ -726,20 +725,28 @@ void EkosManager::deviceConnected()
 
     processINDIB->setEnabled(false);
 
-    nConnectedDevices++;
-
     if (Options::verboseLogging())
     {
         ISD::GDInterface *device = (ISD::GDInterface *) sender();
-        qDebug() << device->getDeviceName() << " is connected.";
-        qDebug() << "Managed Devices: " << managedDrivers.count() << " Remote Devices: " << nRemoteDevices;
-        qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
+        qDebug() << "Ekos: " << device->getDeviceName() << " is connected.";
+        //qDebug() << "Managed Devices: " << managedDrivers.count() << " Remote Devices: " << nRemoteDevices;
+        //qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
     }
 
     ProfileInfo *pi = getCurrentProfile();
     //if (nConnectedDevices == managedDrivers.count() || (nDevices <=0 && nConnectedDevices == nRemoteDevices))
+
+    int nConnectedDevices=0;
+    foreach(ISD::GDInterface *device, genericDevices)
+    {
+        if (device->isConnected())
+            nConnectedDevices++;
+    }
+
     if (nConnectedDevices >= pi->drivers.count())
         indiConnectionStatus = EKOS_STATUS_SUCCESS;
+
+    qDebug() << "Ekos: " << nConnectedDevices << " devices connected out of " << genericDevices.count();
 
     ISD::GDInterface *dev = static_cast<ISD::GDInterface *> (sender());
 
@@ -794,21 +801,21 @@ void EkosManager::deviceDisconnected()
             indiConnectionStatus = EKOS_STATUS_PENDING;
         else
             indiConnectionStatus = EKOS_STATUS_IDLE;
+
+        if (Options::verboseLogging())
+        {
+            qDebug() << "Ekos: " << dev->getDeviceName() << " is disconnected.";
+            //qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
+        }
     }
     else
         indiConnectionStatus = EKOS_STATUS_IDLE;
 
-    if (Options::verboseLogging())
-    {
-        qDebug() << dev->getDeviceName() << " is disconnected.";
-        qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
-    }
+    //if (indiConnectionStatus == EKOS_STATUS_IDLE)
+        //nConnectedDevices--;
 
-    if (indiConnectionStatus == EKOS_STATUS_IDLE)
-        nConnectedDevices--;
-
-    if (nConnectedDevices < 0)
-        nConnectedDevices = 0;
+    //if (nConnectedDevices < 0)
+        //nConnectedDevices = 0;
 
     connectB->setEnabled(true);
     disconnectB->setEnabled(false);
