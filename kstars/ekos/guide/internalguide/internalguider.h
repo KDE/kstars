@@ -123,7 +123,7 @@ private:
     bool m_isStarted;
     bool m_isReady;
     bool m_isSubFramed;
-    bool first_frame, first_subframe;
+    bool isFirstFrame, first_subframe;
     bool half_refresh_rate;
     int m_lostStarTries;
     bool m_useRapidGuide;    

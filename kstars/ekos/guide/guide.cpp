@@ -81,13 +81,10 @@ Guide::Guide() : QWidget()
     guideDeviationRA = guideDeviationDEC = 0;
 
     useGuideHead = false;
-    rapidGuideReticleSet = false;        
+    rapidGuideReticleSet = false;
 
     // Load all settings
     loadSettings();
-
-    // Set color scheme
-    refreshColorScheme();
 
     // Image Filters
     foreach(QString filter, FITSViewer::filterTypes)
@@ -173,7 +170,7 @@ Guide::Guide() : QWidget()
 
     // Drift Graph
 
-    /*driftGraph->setBackground(QBrush(Qt::black));
+    driftGraph->setBackground(QBrush(Qt::black));
     driftGraph->xAxis->setBasePen(QPen(Qt::white, 1));
     driftGraph->yAxis->setBasePen(QPen(Qt::white, 1));
     driftGraph->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
@@ -191,24 +188,40 @@ Guide::Guide() : QWidget()
     driftGraph->xAxis->setTickLabelColor(Qt::white);
     driftGraph->yAxis->setTickLabelColor(Qt::white);
     driftGraph->xAxis->setLabelColor(Qt::white);
-    driftGraph->yAxis->setLabelColor(Qt::white);*/
+    driftGraph->yAxis->setLabelColor(Qt::white);
 
-    driftGraph->addGraph(); // blue line
-    driftGraph->graph(0)->setPen(QPen(QColor(40, 110, 255)));
-    driftGraph->addGraph(); // red line
-    driftGraph->graph(1)->setPen(QPen(QColor(255, 110, 40)));
+    driftGraph->xAxis->setRange(0, 120, Qt::AlignRight);
+
+    driftGraph->legend->setVisible(true);
+    driftGraph->legend->setFont(QFont("Helvetica",9));
+    driftGraph->legend->setTextColor(Qt::white);
+    driftGraph->legend->setBrush(QBrush(Qt::black));
+
+    // RA Curve
+    driftGraph->addGraph();
+    driftGraph->graph(0)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+    driftGraph->graph(0)->setName("RA");
+    driftGraph->graph(0)->setLineStyle(QCPGraph::lsStepLeft);
+
+    // DE Curve
+    driftGraph->addGraph();
+    driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+    driftGraph->graph(1)->setName("DE");
+    driftGraph->graph(1)->setLineStyle(QCPGraph::lsStepLeft);
 
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%m:%s");
     driftGraph->xAxis->setTicker(timeTicker);
     driftGraph->axisRect()->setupFullAxesBox();
-    //driftGraph->yAxis->setRange(-3, 3);
+    driftGraph->yAxis->setRange(-3, 3);
 
     // make left and bottom axes transfer their ranges to right and top axes:
     connect(driftGraph->xAxis, SIGNAL(rangeChanged(QCPRange)), driftGraph->xAxis2, SLOT(setRange(QCPRange)));
     connect(driftGraph->yAxis, SIGNAL(rangeChanged(QCPRange)), driftGraph->yAxis2, SLOT(setRange(QCPRange)));
 
+    driftGraph->setInteractions(QCP::iRangeZoom);
 
+    connect(driftGraph, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(mouseOverLine(QMouseEvent*)));
 
     //driftGraph = new ScrollGraph( this, driftGraph_WIDTH, driftGraph_HEIGHT );
     //driftGraphics->setSize(driftGraph_WIDTH, driftGraph_HEIGHT);
@@ -1128,11 +1141,20 @@ bool Guide::guide()
 
     if (rc)
     {
+        driftGraph->graph(0)->data().clear();
+        driftGraph->graph(1)->data().clear();
+        guideTimer = QTime::currentTime();
+        refreshColorScheme();
         //TODO reset data?
         //driftGraphics->resetData();
     }
 
     return rc;
+}
+
+bool Guide::dither()
+{
+    return false;
 }
 
 void Guide::setSuspended(bool enable)
@@ -1727,13 +1749,6 @@ void Guide::saveSettings()
     Options::setDECMinimumPulse(spinBox_MinPulseDEC->value());
 }
 
-void Guide::refreshColorScheme()
-{
-    // Drift color legend
-    RADriftLabel->setStyleSheet(QString("background-color: %1;").arg(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError").name(QColor::HexRgb)));
-    DEDriftLabel->setStyleSheet(QString("background-color: %1;").arg(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError").name(QColor::HexRgb)));
-}
-
 void Guide::setTrackingStar(int x, int y)
 {
     QVector3D newStarPosition(x,y, -1);
@@ -1748,19 +1763,20 @@ void Guide::setTrackingStar(int x, int y)
 
 void Guide::setAxisDelta(double ra, double de)
 {
-    static QTime time(QTime::currentTime());
-    // calculate two new data points:
-    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
+    // Time since timer started.
+    double key = guideTimer.elapsed()/1000.0;
 
     driftGraph->graph(0)->addData(key, ra);
     driftGraph->graph(1)->addData(key, de);
 
-    driftGraph->xAxis->setRange(key, 8, Qt::AlignRight);
+    // Expand range if it doesn't fit already
+    if (driftGraph->yAxis->range().contains(de) == false)
+        driftGraph->yAxis->setRange(-1.25*de, 1.25*de);
+
+    // Show last 120 seconds
+    //driftGraph->xAxis->setRange(key, 120, Qt::AlignRight);
+    driftGraph->xAxis->setRange(key, driftGraph->xAxis->range().size(), Qt::AlignRight);
     driftGraph->replot();
-    //driftGraphics->addPoint(ra, de);
-    //driftGraphics->update();
-
-
 
     l_DeltaRA->setText(QString::number(ra, 'f', 2));
     l_DeltaDEC->setText(QString::number(de, 'f', 2));
@@ -1779,6 +1795,56 @@ void Guide::setAxisPulse(double ra, double de)
     l_PulseRA->setText(QString::number(static_cast<int>(ra)));
     l_PulseDEC->setText(QString::number(static_cast<int>(de)));
 }
+
+void Guide::refreshColorScheme()
+{
+    // Drift color legend
+    //RADriftLabel->setStyleSheet(QString("background-color: %1;").arg(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError").name(QColor::HexRgb)));
+    //DEDriftLabel->setStyleSheet(QString("background-color: %1;").arg(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError").name(QColor::HexRgb)));
+
+
+    driftGraph->graph(0)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+    driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+}
+
+void Guide::mouseOverLine(QMouseEvent *event)
+{
+    double key      = driftGraph->xAxis->pixelToCoord(event->localPos().x());
+
+    if (driftGraph->xAxis->range().contains(key))
+    {
+        QCPGraph *graph = qobject_cast<QCPGraph *>(driftGraph->plottableAt(event->pos(), false));
+
+        if(graph)
+        {
+            int    raIndex  = driftGraph->graph(0)->findBegin(key);
+            int    deIndex  = driftGraph->graph(1)->findBegin(key);
+
+            double raDelta  = driftGraph->graph(0)->dataMainValue(raIndex);
+            double deDelta  = driftGraph->graph(1)->dataMainValue(deIndex);
+
+            // Compute time value:
+            QTime localTime = guideTimer;
+
+            localTime = localTime.addSecs(key);
+
+            QToolTip::hideText();
+            QToolTip::showText(event->globalPos(),
+                               i18nc("Drift graphics tooltip; %1 is local time; %2 is RA deviation; %3 is DE deviation in arcseconds",
+                                     "<table>"
+                                     "<tr><td>LT:   </td><td>%1</td></tr>"
+                                     "<tr><td>RA:   </td><td>%2 \"</td></tr>"
+                                     "<tr><td>DE:   </td><td>%3 \"</td></tr>"
+                                     "</table>", localTime.toString("hh:mm:ss AP"), QString::number(raDelta, 'f', 2), QString::number(deDelta, 'f', 2)));
+        }
+        else
+            QToolTip::hideText();
+
+        driftGraph->replot();
+    }
+
+}
+
 
 }
 

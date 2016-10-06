@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>682</width>
-    <height>506</height>
+    <width>686</width>
+    <height>505</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -264,21 +264,6 @@
           <string>Guide Info</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
             <property name="spacing">
@@ -290,12 +275,15 @@
                <string>Mount guiding rate</string>
               </property>
               <property name="text">
-               <string>Guiding rate,x15&quot;/sec</string>
+               <string>Guiding rate</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="spinBox_GuideRate">
+              <property name="toolTip">
+               <string>Guiding rate (x15&quot;/sec)</string>
+              </property>
               <property name="decimals">
                <number>3</number>
               </property>
@@ -313,29 +301,39 @@
             <item>
              <widget class="QLabel" name="l_RecommendedGain">
               <property name="toolTip">
-               <string>Recommended proportional rate</string>
+               <string>&lt;b&gt;Recommended&lt;/b&gt; proportional rate given the selected guiding rate</string>
               </property>
               <property name="text">
                <string notr="true">P=xxx</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>
            </layout>
           </item>
           <item>
-           <layout class="QGridLayout" name="gridLayout_4">
-            <property name="spacing">
-             <number>1</number>
+           <widget class="Line" name="line_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_4">
             <item row="0" column="0">
              <widget class="QLabel" name="l_5">
               <property name="text">
-               <string>Focal,mm</string>
+               <string>Focal</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
              <widget class="QLabel" name="l_Focal">
+              <property name="toolTip">
+               <string>Focal Length (mm)</string>
+              </property>
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -353,15 +351,18 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="2" colspan="2">
+            <item row="0" column="2">
              <widget class="QLabel" name="l_6">
               <property name="text">
-               <string>Aperture,mm</string>
+               <string>Aperture</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="4">
+            <item row="0" column="3">
              <widget class="QLabel" name="l_Aperture">
+              <property name="toolTip">
+               <string>Aperture (mm)</string>
+              </property>
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -378,6 +379,9 @@
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="l_7">
+              <property name="toolTip">
+               <string>Focal Ratio</string>
+              </property>
               <property name="text">
                <string>F/D</string>
               </property>
@@ -402,12 +406,15 @@
             <item row="1" column="2">
              <widget class="QLabel" name="l_8">
               <property name="text">
-               <string>FOV,'</string>
+               <string>FOV</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="3" colspan="2">
+            <item row="1" column="3">
              <widget class="QLabel" name="l_FOV">
+              <property name="toolTip">
+               <string>Field of View (arcmin)</string>
+              </property>
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -433,13 +440,10 @@
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout">
-            <property name="spacing">
-             <number>1</number>
-            </property>
             <item row="0" column="0">
              <widget class="QLabel" name="l_16">
               <property name="text">
-               <string>Delta ,&quot;</string>
+               <string>Guiding Delta &quot;</string>
               </property>
              </widget>
             </item>
@@ -485,7 +489,7 @@
             <item row="1" column="0">
              <widget class="QLabel" name="l_17">
               <property name="text">
-               <string>Pulse duration, ms</string>
+               <string>Pulse Length (ms)</string>
               </property>
              </widget>
             </item>
@@ -530,9 +534,6 @@
             </item>
             <item row="2" column="0">
              <layout class="QHBoxLayout" name="horizontalLayout">
-              <property name="spacing">
-               <number>1</number>
-              </property>
               <item>
                <widget class="QLabel" name="l_20">
                 <property name="text">
@@ -563,9 +564,6 @@
             </item>
             <item row="2" column="1">
              <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <property name="spacing">
-               <number>1</number>
-              </property>
               <item>
                <widget class="QLabel" name="l_21">
                 <property name="text">
@@ -691,110 +689,6 @@
                  <size>
                   <width>1</width>
                   <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_6">
-              <property name="spacing">
-               <number>5</number>
-              </property>
-              <item>
-               <widget class="QLabel" name="RADriftLabel">
-                <property name="minimumSize">
-                 <size>
-                  <width>16</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="RADriftEnableC">
-                <property name="toolTip">
-                 <string>Draw RA deviation</string>
-                </property>
-                <property name="text">
-                 <string>RA</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="Line" name="line_3">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="DEDriftLabel">
-                <property name="minimumSize">
-                 <size>
-                  <width>16</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16</width>
-                  <height>16</height>
-                 </size>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="DEDriftEnableC">
-                <property name="toolTip">
-                 <string>Draw DEC Deviation</string>
-                </property>
-                <property name="text">
-                 <string>DE</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="Line" name="line_4">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_4">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>13</width>
-                  <height>17</height>
                  </size>
                 </property>
                </spacer>
@@ -1154,8 +1048,6 @@
   <tabstop>boxSizeCombo</tabstop>
   <tabstop>filterCombo</tabstop>
   <tabstop>spinBox_GuideRate</tabstop>
-  <tabstop>RADriftEnableC</tabstop>
-  <tabstop>DEDriftEnableC</tabstop>
   <tabstop>checkBox_DirRA</tabstop>
   <tabstop>checkBox_DirDEC</tabstop>
   <tabstop>eastControlCheck</tabstop>

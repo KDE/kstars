@@ -191,13 +191,7 @@ public:
     /**
      * @brief clearLog As the name suggests
      */
-    void clearLog();
-
-    /**
-     * @brief setDECSwap Change ST4 declination pulse direction. +DEC pulses increase DEC if swap is OFF. When on +DEC pulses result in decreasing DEC.
-     * @param enable True to enable DEC swap. Off to disable it.
-     */
-    void setDECSwap(bool enable);    
+    void clearLog();    
 
     /**
      * @return Return curent log text of guide module
@@ -216,11 +210,6 @@ public:
 
     void startRapidGuide();
     void stopRapidGuide();
-
-    /**
-     * @brief refreshColorScheme Update any colors that depend on updates in the color scheme
-     */
-    void refreshColorScheme();
 
     GuideInterface * getGuider() { return guider;}
 
@@ -243,6 +232,12 @@ public slots:
      * @return Returns true if calibration started successfully, false otherwise.
      */
      Q_SCRIPTABLE bool calibrate();
+
+    /** BUS interface function.
+     * @brief dither Starts dithering process in a random direction restricted by the number of pixels specified in dither options
+     * @return True if dither started successfully, false otherwise.
+     */
+    Q_SCRIPTABLE bool dither();
 
     /** DBUS interface function.
      * Capture a guide frame
@@ -312,6 +307,12 @@ public slots:
      bool sendPulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
      bool sendPulse( GuideDirection dir, int msecs );
 
+     /**
+      * @brief setDECSwap Change ST4 declination pulse direction. +DEC pulses increase DEC if swap is OFF. When on +DEC pulses result in decreasing DEC.
+      * @param enable True to enable DEC swap. Off to disable it.
+      */
+     void setDECSwap(bool enable);
+
 protected slots:
      void updateCCDBin(int index);
 
@@ -332,6 +333,8 @@ protected slots:
 
      void updateTrackingBoxSize(int currentIndex);
 
+     // Display guide information when hovering over the drift graph
+     void mouseOverLine(QMouseEvent *event);
 
      //void onXscaleChanged( int i );
      //void onYscaleChanged( int i );
@@ -388,6 +391,8 @@ private:
      */
     void setBusy(bool enable);
 
+    void refreshColorScheme();
+
     // Devices
     ISD::CCD *currentCCD;
     ISD::Telescope *currentTelescope;
@@ -414,6 +419,9 @@ private:
 
     // State
     GuideState state;
+
+    // Guide timer
+    QTime guideTimer;
 
     // Drift Graph
     //ScrollGraph *driftGraph;

@@ -105,8 +105,8 @@ bool InternalGuider::guide()
 
 #endif
 
-    logFile.open(QIODevice::WriteOnly | QIODevice::Text);
-    QTextStream out(&logFile);
+    //logFile.open(QIODevice::WriteOnly | QIODevice::Text);
+    //QTextStream out(&logFile);
 
     /* FIXME Have to re-enable guide logging file
 
@@ -148,7 +148,9 @@ bool InternalGuider::guide()
 
 #endif
 
-    pmath->setLogFile(&logFile);
+    //pmath->setLogFile(&logFile);
+
+    isFirstFrame = true;
 
     state = GUIDE_GUIDING;
     emit newStatus(state);
@@ -902,6 +904,18 @@ bool InternalGuider::processGuiding()
         first_frame=false;
     }
     */
+
+    // On first frame, center the box (reticle) around the star so we do not start with an offset the results in
+    // unnecessary guiding pulses.
+    if (isFirstFrame)
+    {
+        if (state == GUIDE_GUIDING)
+        {
+            Vector star_pos = pmath->findLocalStarPosition();
+            pmath->setReticleParameters(star_pos.x, star_pos.y, -1);
+        }
+        isFirstFrame=false;
+    }
 
     // calc math. it tracks square
     pmath->performProcessing();

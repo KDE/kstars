@@ -36,8 +36,7 @@ OpsGuide::OpsGuide(InternalGuider *guiderObject)  : QFrame( KStars::Instance() )
     m_ConfigDialog = KConfigDialog::exists( "guidesettings" );
 
     connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
+    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );    
 
     guiderTypeButtonGroup->setId(internalGuideR, Guide::GUIDE_INTERNAL);
     guiderTypeButtonGroup->setId(PHD2GuideR, Guide::GUIDE_PHD2);
