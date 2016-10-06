@@ -1538,10 +1538,12 @@ void EkosManager::initGuide()
         //connect(guideProcess, SIGNAL(autoGuidingToggled(bool)), captureProcess, SLOT(setAutoguiding(bool)));
         //connect(guideProcess, SIGNAL(ditherComplete()), captureProcess, SLOT(resumeCapture()));
         //connect(guideProcess, SIGNAL(ditherFailed()), captureProcess, SLOT(abort()));
-        connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));
+        //connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));
         //connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
-        connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
+        //connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
 
+        connect(captureProcess, &Ekos::Capture::newStatus, this, [&](Ekos::CaptureState state){if (state == Ekos::CAPTURE_DITHERING)
+            {guideProcess->dither();}}, Qt::UniqueConnection);
 
 
         // Guide Head
@@ -1549,7 +1551,7 @@ void EkosManager::initGuide()
         connect(guideProcess, SIGNAL(guideChipUpdated(ISD::CCDChip*)), captureProcess, SLOT(setGuideChip(ISD::CCDChip*)));
 
         // Meridian Flip
-        connect(captureProcess, SIGNAL(meridianFlipStarted()), guideProcess, SLOT(stopGuiding()), Qt::UniqueConnection);
+        connect(captureProcess, SIGNAL(meridianFlipStarted()), guideProcess, SLOT(abort()), Qt::UniqueConnection);
         connect(captureProcess, SIGNAL(meridianFlipCompleted()), guideProcess, SLOT(startAutoCalibrateGuiding()), Qt::UniqueConnection);
     }
 
