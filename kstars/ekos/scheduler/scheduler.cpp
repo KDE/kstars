@@ -1915,6 +1915,9 @@ bool    Scheduler::checkEkosState()
         {
             ekosInterface->call(QDBus::AutoDetect,"start");
             ekosState = EKOS_STARTING;
+
+            currentOperationTime = QTime::currentTime();
+
             return false;
         }
         }
@@ -1934,6 +1937,13 @@ bool    Scheduler::checkEkosState()
             else if(isEkosStarted.value()== EkosManager::EKOS_STATUS_ERROR)
             {
                 appendLogText(i18n("Ekos failed to start."));
+                stop();
+                return false;
+            }
+            // If a minute passed, give up
+            else if (currentOperationTime.elapsed() > 60)
+            {
+                appendLogText(i18n("Ekos timed out."));
                 stop();
                 return false;
             }
@@ -1977,6 +1987,8 @@ bool    Scheduler::checkINDIState()
             ekosInterface->call(QDBus::AutoDetect,"connectDevices");
             indiState = INDI_CONNECTING;
 
+            currentOperationTime = QTime::currentTime();
+
             if (Options::verboseLogging())
                 qDebug() << "Scheduler: Connecting INDI Devices";
 
@@ -2004,6 +2016,13 @@ bool    Scheduler::checkINDIState()
             }
 
             appendLogText(i18n("INDI devices failed to connect. Check INDI control panel for details."));
+            stop();
+            return false;
+        }
+        // If a minute passed, we give up
+        else if (currentOperationTime.elapsed() > 60)
+        {
+            appendLogText(i18n("INDI devices connection timed out. Check INDI control panel for details."));
             stop();
             return false;
         }

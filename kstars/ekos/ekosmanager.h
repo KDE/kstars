@@ -254,7 +254,7 @@ private slots:
     bool localMode, isStarted, remoteManagerStart;
 
     int nDevices, nRemoteDevices;
-    QAtomicInt nConnectedDevices;
+    //QAtomicInt nConnectedDevices;
 
     QStringList logText;
     KPageWidgetItem *ekosOption;
