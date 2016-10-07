@@ -572,7 +572,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
                <number>3</number>
               </property>
               <item row="0" column="0">
-               <widget class="QCheckBox" name="kcfg_autoSelectStar">
+               <widget class="QCheckBox" name="autoStarCheck">
                 <property name="toolTip">
                  <string>Automatically select the best focus star from the image</string>
                 </property>

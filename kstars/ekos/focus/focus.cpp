@@ -206,7 +206,7 @@ Focus::Focus()
     exposureIN->setValue(Options::focusExposure());
     toleranceIN->setValue(Options::focusTolerance());
     stepIN->setValue(Options::focusTicks());
-    kcfg_autoSelectStar->setChecked(Options::autoSelectStar());
+    autoStarCheck->setChecked(Options::focusAutoStarEnabled());
     focusBoxSize->setValue(Options::focusBoxSize());
     maxTravelIN->setValue(Options::focusMaxTravel());
     kcfg_subFrame->setChecked(Options::focusSubFrame());
@@ -316,7 +316,7 @@ void Focus::checkCCD(int ccdNum)
         {
             binningCombo->setEnabled(targetChip->canBin());
             kcfg_subFrame->setEnabled(targetChip->canSubframe());
-            kcfg_autoSelectStar->setEnabled(targetChip->canSubframe());
+            autoStarCheck->setEnabled(targetChip->canSubframe());
             if (targetChip->canBin())
             {
                 int subBinX=1,subBinY=1;
@@ -688,7 +688,7 @@ void Focus::start()
     Options::setFocusMaxTravel(maxTravelIN->value());
 
     Options::setFocusSubFrame(kcfg_subFrame->isChecked());
-    Options::setAutoSelectStar(kcfg_autoSelectStar->isChecked());
+    Options::setFocusAutoStarEnabled(autoStarCheck->isChecked());
     Options::setSuspendGuiding(suspendGuideCheck->isChecked());
     Options::setLockFocusFilter(lockFilterCheck->isChecked());
     Options::setUseFocusDarkFrame(darkFrameCheck->isChecked());
@@ -697,7 +697,7 @@ void Focus::start()
         qDebug() << "Focus: Starting focus with box size: " << focusBoxSize->value() << " Step Size: " <<  stepIN->value() << " Threshold: " << thresholdSpin->value() << " Tolerance: "  << toleranceIN->value()
                  << " Frames: " << focusFramesSpin->value() << " Maximum Travel: " << maxTravelIN->value();
 
-    if (kcfg_autoSelectStar->isChecked())
+    if (autoStarCheck->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
     else
         appendLogText(i18n("Please wait until image capture is complete..."));
@@ -1134,7 +1134,7 @@ void Focus::setCaptureComplete()
         else
             targetChip->getFrame(&x, &y, &w, &h);
 
-        if (kcfg_autoSelectStar->isEnabled() && kcfg_autoSelectStar->isChecked() && focusType == FOCUS_AUTO)
+        if (autoStarCheck->isEnabled() && autoStarCheck->isChecked() && focusType == FOCUS_AUTO)
         {
             Edge *maxStar = image_data->getMaxHFRStar();
             if (maxStar == NULL)
@@ -2173,7 +2173,7 @@ void Focus::toggleSubframe(bool enable)
     if (enable == false)
     {
         resetFrame();
-        kcfg_autoSelectStar->setChecked(false);
+        autoStarCheck->setChecked(false);
     }
 
     //starSelected = false;
@@ -2214,7 +2214,7 @@ void Focus::setImageFilter(const QString & value)
 
 void Focus::setAutoFocusStar(bool enable)
 {
-    kcfg_autoSelectStar->setChecked(enable);
+    autoStarCheck->setChecked(enable);
 }
 
 void Focus::setAutoFocusSubFrame(bool enable)
