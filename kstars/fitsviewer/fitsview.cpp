@@ -829,6 +829,7 @@ void FITSView::wheelEvent(QWheelEvent* event)
 
     event->accept();
 
+    // Center toward marked crosshair
     if (markerCrosshair.isNull() == false)
     {
         int x0 = markerCrosshair.x()  * (currentZoom / ZOOM_DEFAULT);
@@ -836,11 +837,20 @@ void FITSView::wheelEvent(QWheelEvent* event)
 
         ensureVisible(x0,y0, image_width/2, image_height/2);
     }
+    // Otherwise tracking box
     else if (trackingBoxEnabled)
     {
         int x0 = trackingBox.x()  * (currentZoom / ZOOM_DEFAULT);
         int y0 = trackingBox.y()  * (currentZoom / ZOOM_DEFAULT);
 
+        ensureVisible(x0,y0, image_width/2, image_height/2);
+    }
+    // Other just center
+    else
+    {
+        QPoint center = viewport()->rect().center();
+        int x0 = center.x()  * (currentZoom / ZOOM_DEFAULT);
+        int y0 = center.y()  * (currentZoom / ZOOM_DEFAULT);
         ensureVisible(x0,y0, image_width/2, image_height/2);
     }
 }
