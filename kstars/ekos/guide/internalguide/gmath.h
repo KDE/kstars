@@ -20,10 +20,10 @@
 #include <QPointer>
 
 #include "fitsviewer/fitsview.h"
+#include "indi/indicommon.h"
 
 #include "vect.h"
 #include "matr.h"
-#include "common.h"
 
 typedef struct
 {
@@ -68,6 +68,8 @@ public:
     int       threshold_alg_idx;
     double    guiding_rate;
     bool      enabled[CHANNEL_CNT];
+    bool      enabled_axis1[CHANNEL_CNT];
+    bool      enabled_axis2[CHANNEL_CNT];
     bool      average;
     uint32_t  accum_frame_cnt[CHANNEL_CNT];
     double    proportional_gain[CHANNEL_CNT];

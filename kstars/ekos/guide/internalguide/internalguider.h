@@ -103,8 +103,7 @@ protected slots:
     void trackingStarSelected(int x, int y);
 
 
-signals:
-    void newProfilePixmap(QPixmap &);
+signals:    
     void newPulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
     void newPulse( GuideDirection dir, int msecs );
     void DESwapChanged(bool enable);
@@ -131,22 +130,9 @@ private:
     double ret_x, ret_y, ret_angle;
     bool m_isDithering;
 
-    QFile logFile;
-    QPixmap profilePixmap;
-
-
-    // IMPORTED FROM R_CALIBRATION - CLEAN UP
-    //void fillInterface( void );
-
-
-    bool startCalibration();
-    bool stopCalibration();
-
-
+    QFile logFile;    
 
     void reset();
-
-    //bool is_started;
 
     int  axis;
     int  auto_drift_time;
@@ -157,9 +143,7 @@ private:
     double end_x2, end_y2;
     int iterations, dec_iterations;
     double phi;
-    Matrix ROT_Z;    
-
-    QColor idleColor, okColor, busyColor, alertColor;
+    Matrix ROT_Z;        
 
     CalibrationStage calibrationStage;
     CalibrationType  calibrationType;

@@ -1151,8 +1151,10 @@ void Capture::captureOne()
 
 void Capture::captureImage()
 {
-    seqTimer->stop();
-    //bool isDark=false;
+    if (activeJob == NULL)
+        return;
+
+    seqTimer->stop();    
     SequenceJob::CAPTUREResult rc=SequenceJob::CAPTURE_OK;
 
     if (focusState >= FOCUS_PROGRESS)
@@ -1161,9 +1163,6 @@ void Capture::captureImage()
         abort();
         return;
     }
-
-    //if (useGuideHead == false && darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
-    //isDark = true;
 
     if (filterSlot != NULL)
     {

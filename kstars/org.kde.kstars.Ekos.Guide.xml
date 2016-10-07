@@ -13,8 +13,20 @@
     <method name="capture">
       <arg type="b" direction="out"/>
     </method>
+    <method name="dither">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="suspend">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="resume">
+      <arg type="b" direction="out"/>
+    </method>
     <method name="selectAutoStar">
       <arg type="b" direction="out"/>
+    </method>
+    <method name="startAutoCalibrateGuide">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setCCD">
       <arg type="b" direction="out"/>
@@ -26,7 +38,7 @@
     </method>
     <method name="getST4Devices">
       <arg type="as" direction="out"/>
-    </method>
+    </method>    
     <method name="getStatus">
       <arg type="ui" direction="out"/>
     </method>
@@ -74,11 +86,13 @@
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
+    <!--
     <method name="setGuideRapidEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setDither">
+    !-->
+    <method name="setDitherSettings">
       <arg name="enable" type="b" direction="in"/>
       <arg name="value" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>

@@ -37,6 +37,9 @@ namespace Ekos
 class GuideInterface;
 class OpsCalibration;
 class OpsGuide;
+class InternalGuider;
+class PHD2;
+class LinGuider;
 
 /**
  *@class Guide
@@ -138,34 +141,28 @@ public:
 
     /** DBUS interface function.
      * Set guiding box size. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
-     * @param boxSizeIndex box size index (0 to 4) for box size from 8 to 128 pixels. The box size should be suitable for the size of the guide star selected. The boxSize is also used to select the subframe size around the guide star. Default is 16 pixels
+     * @param index box size index (0 to 4) for box size from 8 to 128 pixels. The box size should be suitable for the size of the guide star selected. The boxSize is also used to select the subframe size around the guide star. Default is 16 pixels
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuideBoxSizeIndex(int boxSizeIndex);
+    Q_SCRIPTABLE Q_NOREPLY void setGuideBoxSizeIndex(int index);
 
     /** DBUS interface function.
      * Set guiding algorithm. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
      * @param algorithm Select the algorithm used to calculate the centroid of the guide star (Smart, Fast, Auto, No thresh).
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuideAlgorithm(const QString & algorithm);
-
-    /** DBUS interface function.
-     * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
-     * @param enable if true, it will select a subframe around the guide star depending on the boxSize size.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setSubFrameEnabled(bool enable);
+    Q_SCRIPTABLE Q_NOREPLY void setGuideAlgorithm(const QString & algorithm);    
 
     /** DBUS interface function.
      * Set rapid guiding option. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
      * @param enable if true, it will activate RapidGuide in the CCD driver. When Rapid Guide is used, no frames are sent to Ekos for analysis and the centeroid calculations are done in the CCD driver.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuideRapidEnabled(bool enable);
+    //Q_SCRIPTABLE Q_NOREPLY void setGuideRapidEnabled(bool enable);
 
     /** DBUS interface function.
-     * Enable or disables dithering
+     * Enable or disables dithering. Set dither range
      * @param enable if true, dithering is enabled and is performed after each exposure is complete. Otheriese, dithering is disabled.
      * @param value dithering range in pixels. Ekos will move the guide star in a random direction for the specified dithering value in pixels.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setDither(bool enable, double value);
+    Q_SCRIPTABLE Q_NOREPLY void setDitherSettings(bool enable, double value);
 
 
     /** DBUS interface function.
@@ -208,8 +205,8 @@ public:
     void setTrackingBoxSize(int index) { boxSizeCombo->setCurrentIndex(index); }
     int getTrackingBoxSize() { return boxSizeCombo->currentText().toInt(); }
 
-    void startRapidGuide();
-    void stopRapidGuide();
+    //void startRapidGuide();
+    //void stopRapidGuide();
 
     GuideInterface * getGuider() { return guider;}
 
@@ -233,11 +230,23 @@ public slots:
      */
      Q_SCRIPTABLE bool calibrate();
 
-    /** BUS interface function.
+    /** DBUS interface function.
      * @brief dither Starts dithering process in a random direction restricted by the number of pixels specified in dither options
      * @return True if dither started successfully, false otherwise.
      */
     Q_SCRIPTABLE bool dither();
+
+    /** DBUS interface function.
+     * @brief suspend Suspend autoguiding
+     * @return True if successful, false otherwise.
+     */
+    Q_SCRIPTABLE bool suspend();
+
+    /** DBUS interface function.
+     * @brief resume Resume autoguiding
+     * @return True if successful, false otherwise.
+     */
+    Q_SCRIPTABLE bool resume();
 
     /** DBUS interface function.
      * Capture a guide frame
@@ -250,6 +259,17 @@ public slots:
      * @return Returns true if a star is selected successfully, false otherwise
      */
      Q_SCRIPTABLE bool selectAutoStar();
+
+    /** DBUS interface function.
+     * Set guiding options. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
+     * @param enable if true, it will select a subframe around the guide star depending on the boxSize size.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setSubFrameEnabled(bool enable);
+
+    /** DBUS interface function.
+     * @brief startAutoCalibrateGuide Start calibration with auto star selected followed immediately by guiding.
+     */
+    Q_SCRIPTABLE Q_NOREPLY void startAutoCalibrateGuide();
 
     /**
       * @brief checkCCD Check all CCD parameters and ensure all variables are updated to reflect the selected CCD
@@ -274,7 +294,7 @@ public slots:
       * @brief setST4 Sets a new ST4 device from the combobox index
       * @param index Index of selected ST4 in the combobox
       */
-     void setST4(int index);
+     void setST4(int index);     
 
      /**
       * @brief processRapidStarData is called by INDI framework when we receive new Rapid Guide data
@@ -283,13 +303,7 @@ public slots:
       * @param dy Deviation in Y
       * @param fit fitting score
       */
-     void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
-
-     // Auto Calibration Guiding (Cablirate first then start guiding immediately)
-     void startAutoCalibrateGuiding();
-     void checkAutoCalibrateGuiding(Ekos::GuideState state);
-
-     void setSuspended(bool enable);
+     //void processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit);
 
      // Append Log entry
      void appendLogText(const QString &);
@@ -334,7 +348,10 @@ protected slots:
      void updateTrackingBoxSize(int currentIndex);
 
      // Display guide information when hovering over the drift graph
-     void mouseOverLine(QMouseEvent *event);
+     void driftMouseOverLine(QMouseEvent *event);
+
+     // Reset graph if right clicked
+     void driftMouseClicked(QMouseEvent *event);
 
      //void onXscaleChanged( int i );
      //void onYscaleChanged( int i );
@@ -343,7 +360,8 @@ protected slots:
      void onEnableDirRA( bool enable );
      void onEnableDirDEC( bool enable );
      void onInputParamChanged();
-     void onRapidGuideChanged(bool enable);
+
+     //void onRapidGuideChanged(bool enable);
 
      void setAxisDelta(double ra, double de);
      void setAxisSigma(double ra, double de);
@@ -391,6 +409,13 @@ private:
      */
     void setBusy(bool enable);
 
+    void buildOperationStack(GuideState operation);
+    bool executeOperationStack();
+    bool executeOneOperation(GuideState operation);
+
+    bool captureOneFrame();
+
+
     void refreshColorScheme();
 
     // Devices
@@ -415,7 +440,7 @@ private:
     double ccdPixelSizeX, ccdPixelSizeY, mountAperture, mountFocalLength, guideDeviationRA, guideDeviationDEC, pixScaleX, pixScaleY;
 
     // Rapid Guide
-    bool rapidGuideReticleSet;
+    //bool rapidGuideReticleSet;
 
     // State
     GuideState state;
@@ -445,6 +470,26 @@ private:
     // Auto star operation
     bool autoStarCaptured;
 
+    // Was the modified frame subFramed?
+    bool subFramed;
+
+    // Operation stack
+    QStack<GuideState> operationStack;
+
+    // CCD Chip frame settings
+    QMap<ISD::CCDChip *, QVariantMap> frameSettings;
+
+    // Profile Pixmap
+    QPixmap profilePixmap;
+
+    // Flag to start auto calibration followed immediately by guiding
+    bool autoCalibrateGuide;
+
+    // Pointers of guider processes
+    QPointer<InternalGuider> internalGuider;
+    // TODO implement those
+    //QPointer<PHD2> phd2Guider;
+    //QPointer<LinGuider> linGuider;
 };
 
 }

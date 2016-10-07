@@ -78,7 +78,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="kcfg_AutoStarEnabled">
+       <widget class="QCheckBox" name="kcfg_GuideAutoStarEnabled">
         <property name="toolTip">
          <string>Automatically select the calibration star.</string>
         </property>
@@ -91,7 +91,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="kcfg_AutoSquareSizeEnabled">
+       <widget class="QCheckBox" name="kcfg_GuideAutoSquareSizeEnabled">
         <property name="enabled">
          <bool>false</bool>
         </property>

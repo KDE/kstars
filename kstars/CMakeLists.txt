@@ -178,12 +178,10 @@ if (INDI_FOUND)
 
                        # Guide
                        ekos/guide/guide.cpp
-                       ekos/guide/guideinterface.cpp
-                       ekos/guide/scroll_graph.cpp
+                       ekos/guide/guideinterface.cpp                       
                        ekos/guide/opscalibration.cpp
                        ekos/guide/opsguide.cpp
-                       # Internal Guide
-                       ekos/guide/internalguide/common.cpp
+                       # Internal Guide                       
                        ekos/guide/internalguide/gmath.cpp
                        ekos/guide/internalguide/internalguider.cpp
                        #ekos/guide/internalguide/guider.cpp

@@ -812,6 +812,18 @@ void cgmath::process_axes( void  )
     in_params.max_pulse_length[0]  = Options::rAMaximumPulse();
     in_params.max_pulse_length[1]  = Options::dECMaximumPulse();
 
+    // RA W/E enable
+    // East RA+ enabled?
+    in_params.enabled_axis1[0]     = Options::eastRAGuideEnabled();
+    // West RA- enabled?
+    in_params.enabled_axis2[0]     = Options::westRAGuideEnabled();
+
+    // DEC N/S enable
+    // North DEC+ enabled?
+    in_params.enabled_axis1[1]     = Options::northDECGuideEnabled();
+    // South DEC- enabled?
+    in_params.enabled_axis2[1]     = Options::southDECGuideEnabled();
+
     // process axes...
     for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
     {
@@ -859,9 +871,11 @@ void cgmath::process_axes( void  )
             qDebug() << "Guide: pulse_length  [" << k << "]= "  << out_params.pulse_length[k];
 
         // calc direction
-        if( !in_params.enabled[k] )
+        // We do not send pulse if direction is disabled completely, or if direction in a specific axis (e.g. N or S) is disabled
+        if ( !in_params.enabled[k] || (out_params.delta[k] > 0 && !in_params.enabled_axis1[k]) || (out_params.delta[k] < 0 && !in_params.enabled_axis2[k]))
         {
             out_params.pulse_dir[k] = NO_DIR;
+            out_params.pulse_length[k] = 0;
             continue;
         }
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>686</width>
-    <height>505</height>
+    <width>681</width>
+    <height>486</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -755,7 +755,7 @@
                    <string>East Direction Guiding</string>
                   </property>
                   <property name="text">
-                   <string>E</string>
+                   <string>+</string>
                   </property>
                  </widget>
                 </item>
@@ -765,7 +765,7 @@
                    <string>West Direction Guiding</string>
                   </property>
                   <property name="text">
-                   <string>W</string>
+                   <string>-</string>
                   </property>
                  </widget>
                 </item>
@@ -795,7 +795,7 @@
                    <string>North Direction Guiding</string>
                   </property>
                   <property name="text">
-                   <string>N</string>
+                   <string>+</string>
                   </property>
                  </widget>
                 </item>
@@ -805,7 +805,7 @@
                    <string>South Direction Guiding</string>
                   </property>
                   <property name="text">
-                   <string>S</string>
+                   <string>-</string>
                   </property>
                  </widget>
                 </item>

@@ -150,6 +150,9 @@
       </item>
       <item row="2" column="0">
        <widget class="QCheckBox" name="kcfg_RapidGuideEnabled">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Rapid Guide</string>
         </property>
