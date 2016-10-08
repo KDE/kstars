@@ -797,7 +797,7 @@ void KStars::slotOpenFITS()
 {
 #ifdef HAVE_CFITSIO
 
-    static QUrl path;
+    static QUrl path = QUrl::fromLocalFile(QDir::homePath());
     QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open FITS"), path, "FITS (*.fits *.fit *.fts)");
 
     if (fileURL.isEmpty())
