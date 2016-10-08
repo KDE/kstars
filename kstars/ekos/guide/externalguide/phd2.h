@@ -75,9 +75,7 @@ private:
 
     PHD2State state;
     PHD2Connection connection;
-    PHD2Event event;
-
-    double ccd_pixel_width, ccd_pixel_height, aperture, focal;
+    PHD2Event event;    
 };
 
 }

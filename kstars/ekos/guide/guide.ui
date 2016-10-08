@@ -136,12 +136,18 @@
             <property name="verticalSpacing">
              <number>5</number>
             </property>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label">
+            <item row="3" column="2">
+             <widget class="QLabel" name="label_8">
+              <property name="toolTip">
+               <string>Apply filter to image after capture to enhance it</string>
+              </property>
               <property name="text">
-               <string>Guider:</string>
+               <string>Filters:</string>
               </property>
              </widget>
+            </item>
+            <item row="1" column="1" colspan="3">
+             <widget class="QComboBox" name="ST4Combo"/>
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_2">
@@ -150,6 +156,19 @@
               </property>
               <property name="text">
                <string>Via:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" colspan="3">
+             <widget class="QComboBox" name="guiderCombo"/>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="toolTip">
+               <string>Guide star tracking box size. Box size must be set in accordance to the selected star size.</string>
+              </property>
+              <property name="text">
+               <string>Box:</string>
               </property>
              </widget>
             </item>
@@ -163,14 +182,16 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
-             <widget class="QDoubleSpinBox" name="exposureIN">
-              <property name="maximum">
-               <double>60.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>1.000000000000000</double>
-              </property>
+            <item row="2" column="3">
+             <widget class="QComboBox" name="binningCombo"/>
+            </item>
+            <item row="3" column="3">
+             <widget class="QComboBox" name="filterCombo">
+              <item>
+               <property name="text">
+                <string>--</string>
+               </property>
+              </item>
              </widget>
             </item>
             <item row="2" column="2">
@@ -186,16 +207,20 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="3">
-             <widget class="QComboBox" name="binningCombo"/>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_5">
-              <property name="toolTip">
-               <string>Guide star tracking box size. Box size must be set in accordance to the selected star size.</string>
+            <item row="2" column="1">
+             <widget class="QDoubleSpinBox" name="exposureIN">
+              <property name="maximum">
+               <double>60.000000000000000</double>
               </property>
+              <property name="value">
+               <double>1.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label">
               <property name="text">
-               <string>Box:</string>
+               <string>Guider:</string>
               </property>
              </widget>
             </item>
@@ -228,30 +253,31 @@
               </item>
              </widget>
             </item>
-            <item row="3" column="2">
-             <widget class="QLabel" name="label_8">
+            <item row="4" column="2" colspan="2">
+             <widget class="QPushButton" name="externalDisconnectB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="toolTip">
-               <string>Apply filter to image after capture to enhance it</string>
+               <string>Disconnect from external guiding application.</string>
               </property>
               <property name="text">
-               <string>Filters:</string>
+               <string>Disconnect</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="3">
-             <widget class="QComboBox" name="filterCombo">
-              <item>
-               <property name="text">
-                <string>--</string>
-               </property>
-              </item>
+            <item row="4" column="0" colspan="2">
+             <widget class="QPushButton" name="externalConnectB">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="toolTip">
+               <string>Connect to external guiding application.</string>
+              </property>
+              <property name="text">
+               <string>Connect</string>
+              </property>
              </widget>
-            </item>
-            <item row="0" column="1" colspan="3">
-             <widget class="QComboBox" name="guiderCombo"/>
-            </item>
-            <item row="1" column="1" colspan="3">
-             <widget class="QComboBox" name="ST4Combo"/>
             </item>
            </layout>
           </item>

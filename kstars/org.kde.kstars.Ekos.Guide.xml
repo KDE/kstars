@@ -97,7 +97,7 @@
       <arg name="value" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setGuideType">
+    <method name="setGuiderType">
       <arg name="guideType" type="i" direction="in"/>
       <arg type="b" direction="out"/>
     </method>

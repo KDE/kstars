@@ -164,14 +164,6 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY void setDitherSettings(bool enable, double value);
 
-
-    /** DBUS interface function.
-     * Selects which guiding process to utilize for calibration & guiding.
-     * @param type Type of guider process to use. 0 for internal guider, 1 for external PHD2, 2 for external lin_guider
-     * @return True if guiding is switched to the new requested type. False otherwise.
-     */
-    Q_SCRIPTABLE Q_NOREPLY bool setGuideType(int type);
-
     /** @}*/
 
     void addCCD(ISD::GDInterface *newCCD);
@@ -271,6 +263,13 @@ public slots:
      */
     Q_SCRIPTABLE Q_NOREPLY void startAutoCalibrateGuide();
 
+    /** DBUS interface function.
+     * Selects which guiding process to utilize for calibration & guiding.
+     * @param type Type of guider process to use. 0 for internal guider, 1 for external PHD2, 2 for external lin_guider
+     * @return True if guiding is switched to the new requested type. False otherwise.
+     */
+    Q_SCRIPTABLE bool setGuiderType(int type);
+
     /**
       * @brief checkCCD Check all CCD parameters and ensure all variables are updated to reflect the selected CCD
       * @param ccdNum CCD index number in the CCD selection combo box
@@ -367,8 +366,7 @@ protected slots:
      void setAxisSigma(double ra, double de);
      void setAxisPulse(double ra, double de);
 
-     // FIXME
-     //void onSetDECSwap(bool enable);
+     void processGuideOptions();
 
      void onControlDirectionChanged(bool enable);     
 
@@ -487,8 +485,8 @@ private:
 
     // Pointers of guider processes
     QPointer<InternalGuider> internalGuider;
-    // TODO implement those
-    //QPointer<PHD2> phd2Guider;
+    QPointer<PHD2> phd2Guider;
+    // TODO implement those    
     //QPointer<LinGuider> linGuider;
 };
 

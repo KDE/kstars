@@ -189,7 +189,7 @@ if (INDI_FOUND)
                        #ekos/guide/internalguide/rcalibration.cpp
                        ekos/guide/internalguide/vect.cpp
                        # External Guide
-                       #ekos/guide/externalguide/phd2.cpp
+                       ekos/guide/externalguide/phd2.cpp
            )
             endif(CFITSIO_FOUND)
     endif(BUILD_KSTARS_LITE)

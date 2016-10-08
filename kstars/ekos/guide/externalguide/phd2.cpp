@@ -71,7 +71,7 @@ PHD2::~PHD2()
 
 }
 
-void PHD2::Connect()()
+bool PHD2::Connect()
 {
     if (connection == DISCONNECTED)
     {
@@ -81,15 +81,21 @@ void PHD2::Connect()()
     // Already connected, let's connect equipment
     else
         setEquipmentConnected(true);
+
+    return true;
 }
 
-void PHD2::disconnectPHD2()
+bool PHD2::Disconnect()
 {
    if (connection == EQUIPMENT_CONNECTED)
        setEquipmentConnected(false);
 
    connection = DISCONNECTED;
    tcpSocket->disconnectFromHost();
+
+   emit newStatus(GUIDE_DISCONNECTED);
+
+   return true;
 }
 
 void PHD2::displayError(QAbstractSocket::SocketError socketError)
@@ -99,10 +105,12 @@ void PHD2::displayError(QAbstractSocket::SocketError socketError)
     case QAbstractSocket::RemoteHostClosedError:
         break;
     case QAbstractSocket::HostNotFoundError:
-        emit newLog(i18n("The host was not found. Please check the host name and port settings in Ekos options."));
+        emit newLog(i18n("The host was not found. Please check the host name and port settings in Guide options."));
+        emit newStatus(GUIDE_DISCONNECTED);
         break;
     case QAbstractSocket::ConnectionRefusedError:
         emit newLog(i18n("The connection was refused by the peer. Make sure the PHD2 is running, and check that the host name and port settings are correct."));
+        emit newStatus(GUIDE_DISCONNECTED);
         break;
     default:
         emit newLog(i18n("The following error occurred: %1.", tcpSocket->errorString()));
@@ -180,11 +188,12 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
         else if (state == GUIDING)
         {
             connection = EQUIPMENT_CONNECTED;
-            emit connected();
+            emit newStatus(Ekos::GUIDE_CONNECTED);
         }
         return;
 
     case DISCONNECTED:
+        emit newStatus(Ekos::GUIDE_DISCONNECTED);
         break;
 
     case EQUIPMENT_CONNECTING:
@@ -193,12 +202,12 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
             if (result)
             {
                 connection = EQUIPMENT_CONNECTED;
-                emit connected();
+                emit newStatus(Ekos::GUIDE_CONNECTED);
             }
             else
             {
                 connection = EQUIPMENT_DISCONNECTED;
-                emit disconnected();
+                emit newStatus(Ekos::GUIDE_DISCONNECTED);
             }
         }
         return;
@@ -261,7 +270,7 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
         if (connection != EQUIPMENT_CONNECTED)
         {
             connection = EQUIPMENT_CONNECTED;
-            emit connected();
+            emit newStatus(Ekos::GUIDE_CONNECTED);
         }
         emit newLog(i18n("PHD2: Guiding Started."));
         emit newStatus(Ekos::GUIDE_GUIDING);
@@ -361,10 +370,10 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
     {
         double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs;
         diff_ra_pixels = jsonEvent["RADistanceRaw"].toDouble();
-        diff_de_pixels = jsonEvent["DecDistanceRaw"].toDouble();
+        diff_de_pixels = jsonEvent["DECDistanceRaw"].toDouble();
 
-        diff_ra_arcsecs = 206264.8062470963552 * diff_ra_pixels * ccd_pixel_width / focal;
-        diff_de_arcsecs = 206264.8062470963552 * diff_de_pixels * ccd_pixel_height / focal;
+        diff_ra_arcsecs = 206.26480624709 * diff_ra_pixels * ccdPixelSizeX / mountFocalLength;
+        diff_de_arcsecs = 206.26480624709 * diff_de_pixels * ccdPixelSizeY / mountFocalLength;
 
         emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
     }
@@ -466,6 +475,13 @@ void PHD2::setEquipmentConnected(bool enable)
     sendJSONRPCRequest("set_connected", args);
 }
 
+bool PHD2::calibrate()
+{
+    // We don't explicitly do calibration since it is done in the guide step by PHD2 anyway
+    emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+    return true;
+}
+
 bool PHD2::guide()
 {
     if (connection != EQUIPMENT_CONNECTED)
@@ -491,7 +507,7 @@ bool PHD2::guide()
     return true;
 }
 
-bool PHD2::stop()
+bool PHD2::abort()
 {
     if (connection != EQUIPMENT_CONNECTED)
     {
@@ -570,19 +586,6 @@ bool PHD2::dither(double pixels)
     sendJSONRPCRequest("dither", args);
 
     return true;
-}
-
-bool PHD2::isConnected()
-{
-    return (connection >= CONNECTED);
-}
-
-void PHD2::setCCDMountParams(double ccd_pix_w, double ccd_pix_h, double mount_aperture, double mount_focal)
-{
-    ccd_pixel_width = ccd_pix_w/1000.0;
-    ccd_pixel_height= ccd_pix_h/1000.0;
-    focal           = mount_focal;
-    aperture        = mount_aperture;
 }
 
 }
