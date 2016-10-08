@@ -112,6 +112,10 @@ public:
     void drawMarker(QPainter *);
     void updateFrame();
 
+    // Zoom related
+    void cleanUpZoom(QPoint viewCenter);
+    QPoint getImagePoint(QPoint viewPortPoint);
+
     // Star Detection
     void toggleStars(bool enable);
 
@@ -127,7 +131,7 @@ protected:
 public slots:
     void ZoomIn();
     void ZoomOut();
-    void ZoomDefault();
+    void ZoomDefault();    
 
     void processPointSelection(int x, int y);
     void processMarkerSelection(int x, int y);

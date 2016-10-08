@@ -319,12 +319,16 @@ bool FITSTab::saveFileAs()
 
 void FITSTab::ZoomIn()
 {
-   view->ZoomIn();
+    QPoint oldCenter=view->getImagePoint(view->viewport()->rect().center());
+    view->ZoomIn();
+    view->cleanUpZoom(oldCenter);
 }
 
 void FITSTab::ZoomOut()
 {
-  view->ZoomOut();
+    QPoint oldCenter=view->getImagePoint(view->viewport()->rect().center());
+    view->ZoomOut();
+    view->cleanUpZoom(oldCenter);
 }
 
 void FITSTab::ZoomDefault()

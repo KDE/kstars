@@ -822,6 +822,8 @@ void FITSView::setTrackingBoxEnabled(bool enable)
 
 void FITSView::wheelEvent(QWheelEvent* event)
 {
+     QPoint mouseCenter=getImagePoint(event->pos());
+
     if (event->angleDelta().y() > 0)
         ZoomIn();
     else
@@ -829,30 +831,37 @@ void FITSView::wheelEvent(QWheelEvent* event)
 
     event->accept();
 
-    // Center toward marked crosshair
+    cleanUpZoom(mouseCenter);
+}
+
+void FITSView::cleanUpZoom(QPoint viewCenter)
+{
+    int x0=0;
+    int y0=0;
+    double scale = (currentZoom / ZOOM_DEFAULT);
     if (markerCrosshair.isNull() == false)
     {
-        int x0 = markerCrosshair.x()  * (currentZoom / ZOOM_DEFAULT);
-        int y0 = markerCrosshair.y()  * (currentZoom / ZOOM_DEFAULT);
-
-        ensureVisible(x0,y0, image_width/2, image_height/2);
+        x0 = markerCrosshair.x()  * scale;
+        y0 = markerCrosshair.y()  * scale;
     }
-    // Otherwise tracking box
     else if (trackingBoxEnabled)
     {
-        int x0 = trackingBox.x()  * (currentZoom / ZOOM_DEFAULT);
-        int y0 = trackingBox.y()  * (currentZoom / ZOOM_DEFAULT);
-
-        ensureVisible(x0,y0, image_width/2, image_height/2);
-    }
-    // Other just center
-    else
+        x0 = trackingBox.center().x()  * scale;
+        y0 = trackingBox.center().y()  * scale;
+    } else
     {
-        QPoint center = viewport()->rect().center();
-        int x0 = center.x()  * (currentZoom / ZOOM_DEFAULT);
-        int y0 = center.y()  * (currentZoom / ZOOM_DEFAULT);
-        ensureVisible(x0,y0, image_width/2, image_height/2);
+        x0 = viewCenter.x()  * scale;
+        y0 = viewCenter.y()  * scale;
     }
+    ensureVisible(x0,y0, width()/2 , height()/2);
+}
+
+QPoint FITSView::getImagePoint(QPoint viewPortPoint)
+{
+    double scale = (currentZoom / ZOOM_DEFAULT);
+    QPoint widgetPoint = widget()->mapFromParent(viewPortPoint);
+    QPoint imagePoint = QPoint(widgetPoint.x() / scale , widgetPoint.y() / scale);
+    return imagePoint;
 }
 
 void FITSView::initDisplayImage()
