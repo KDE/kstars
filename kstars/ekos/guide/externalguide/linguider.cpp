@@ -76,7 +76,7 @@ bool LinGuider::Connect()
     if (connection == DISCONNECTED)
     {
         connection = CONNECTING;
-        tcpSocket->connectToHost(Options::LinGuiderHost(),  Options::LinGuiderPort());
+        tcpSocket->connectToHost(Options::linGuiderHost(),  Options::linGuiderPort());
     }
     // Already connected, let's connect equipment
     else
@@ -151,12 +151,12 @@ void LinGuider::readLinGuider()
 
 void LinGuider::processJSON(const QJsonObject &jsonObj)
 {
-    LinGuiderMessageType messageType = LinGuider_UNKNOWN;
+    LinGuiderMessageType messageType = LINGUIDER_UNKNOWN;
     bool result = false;
 
     if (jsonObj.contains("Event"))
     {
-        messageType = LinGuider_EVENT;
+        messageType = LINGUIDER_EVENT;
         processLinGuiderEvent(jsonObj);
 
         if (event == Alert)
@@ -164,13 +164,13 @@ void LinGuider::processJSON(const QJsonObject &jsonObj)
     }
     else if (jsonObj.contains("error"))
     {
-        messageType = LinGuider_ERROR;
+        messageType = LINGUIDER_ERROR;
         result = false;
         processLinGuiderError(jsonObj);
     }
     else if (jsonObj.contains("result"))
     {
-        messageType = LinGuider_RESULT;
+        messageType = LINGUIDER_RESULT;
         result = true;
     }
 
@@ -197,7 +197,7 @@ void LinGuider::processJSON(const QJsonObject &jsonObj)
         break;
 
     case EQUIPMENT_CONNECTING:
-        if (messageType == LinGuider_RESULT)
+        if (messageType == LINGUIDER_RESULT)
         {
             if (result)
             {
