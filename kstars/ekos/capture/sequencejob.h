@@ -144,6 +144,9 @@ class SequenceJob : public QObject
     bool getFilterPostFocusReady() const;
     void setFilterPostFocusReady(bool value);
 
+    QString getPostCaptureScript() const;
+    void setPostCaptureScript(const QString &value);
+
 signals:
     void prepareComplete();
     void checkFocus();
@@ -179,6 +182,7 @@ private:
     QTableWidgetItem *statusCell;
     QString fitsDir;
     QString rootFITSDir;
+    QString postCaptureScript;
 
     bool typePrefixEnabled, filterPrefixEnabled, expPrefixEnabled, timeStampPrefixEnabled;
     QString rawPrefix;

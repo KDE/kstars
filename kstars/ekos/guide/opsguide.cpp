@@ -73,8 +73,8 @@ void OpsGuide::slotLoadSettings(Guide::GuiderType guiderType)
         LinGuiderR->setChecked(true);
         externalHost->setEnabled(true);
         externalPort->setEnabled(true);
-        externalHost->setText(Options::lINGuiderHost());
-        externalPort->setText(QString::number(Options::lINGuiderPort()));
+        externalHost->setText(Options::linGuiderHost());
+        externalPort->setText(QString::number(Options::linGuiderPort()));
         break;
     }        
 }
@@ -100,8 +100,8 @@ void OpsGuide::slotApply()
     case Guide::GUIDE_LINGUIDER:
         type = Guide::GUIDE_LINGUIDER;
         Options::setGuiderType(Guide::GUIDE_LINGUIDER);
-        Options::setLINGuiderHost(externalHost->text());
-        Options::setLINGuiderPort(externalPort->text().toInt());        
+        Options::setLinGuiderHost(externalHost->text());
+        Options::setLinGuiderPort(externalPort->text().toInt());
         break;
     }
 

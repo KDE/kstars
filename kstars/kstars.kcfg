@@ -1434,9 +1434,6 @@
          <label>Perform auto stretch on captured images in FITS Viewer.</label>
          <default>true</default>
       </entry>
-      <entry name="PostCaptureScript" type="String">
-         <label>Script to execute after an image is captured. The capture process halts until the script is complete.</label>
-      </entry>
    </group>
    <group name="Focus">
       <entry name="DefaultFocusCCD" type="String">
@@ -1605,11 +1602,11 @@
          <label>PHD2 Event Monitoring Port</label>
          <default>4400</default>
       </entry>
-      <entry name="LINGuiderHost" type="String">
+      <entry name="LinGuiderHost" type="String">
          <label>Host name of external lin_guider service</label>
          <default>localhost</default>
       </entry>
-      <entry name="LINGuiderPort" type="UInt">
+      <entry name="LinGuiderPort" type="UInt">
          <label>Lin_guider Event Monitoring Port</label>
          <default>5656</default>
       </entry>

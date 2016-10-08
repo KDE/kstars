@@ -388,6 +388,16 @@ void SequenceJob::setFilterPostFocusReady(bool value)
     }
 }
 
+QString SequenceJob::getPostCaptureScript() const
+{
+    return postCaptureScript;
+}
+
+void SequenceJob::setPostCaptureScript(const QString &value)
+{
+    postCaptureScript = value;
+}
+
 int SequenceJob::getISOIndex() const
 {
     return isoIndex;

@@ -1005,11 +1005,10 @@ bool Capture::setCaptureComplete()
     if (checkMeridianFlip())
         return true;
 
-    // FIXME remove post capture script later
-    if (Options::postCaptureScript().isEmpty() == false)
+    if (activeJob->getPostCaptureScript().isEmpty() == false)
     {
-        postCaptureScript.start(Options::postCaptureScript());
-        appendLogText(i18n("Executing post capture script %1", Options::postCaptureScript()));
+        postCaptureScript.start(activeJob->getPostCaptureScript());
+        appendLogText(i18n("Executing post capture script %1", activeJob->getPostCaptureScript()));
     }
     else
         resumeSequence();
@@ -1472,6 +1471,7 @@ void Capture::addJob(bool preview)
 
     job->setCaptureFilter((FITSScale)  filterCombo->currentIndex());
 
+    job->setPostCaptureScript(postCaptureScriptIN->text());
     job->setFlatFieldDuration(flatFieldDuration);
     job->setFlatFieldSource(flatFieldSource);
     job->setPreMountPark(preMountPark);
@@ -2261,6 +2261,10 @@ bool Capture::processJobInfo(XMLEle *root)
         {
             delayIN->setValue(atoi(pcdataXMLEle(ep)));
         }
+        else if (!strcmp(tagXMLEle(ep), "PostCaptureScript"))
+        {
+            postCaptureScriptIN->setText(pcdataXMLEle(ep));
+        }
         else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
         {
             fitsDir->setText(pcdataXMLEle(ep));
@@ -2424,7 +2428,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     QTextStream outstream(&file);
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SequenceQueue version='1.3'>" << endl;
+    outstream << "<SequenceQueue version='1.4'>" << endl;
     outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>" << guideDeviation->value() << "</GuideDeviation>" << endl;
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>" << HFRPixels->value() << "</Autofocus>" << endl;
     outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>" << meridianHours->value() << "</MeridianFlip>" << endl;
@@ -2461,6 +2465,8 @@ bool Capture::saveSequenceQueue(const QString &path)
         outstream << "<Count>" << job->getCount() << "</Count>" << endl;
         // ms to seconds
         outstream << "<Delay>" << job->getDelay()/1000 << "</Delay>" << endl;
+        if (job->getPostCaptureScript().isEmpty() == false)
+            outstream << "<PostCaptureScript>" << job->getPostCaptureScript() << "</PostCaptureScript>" << endl;
         QString rootDir = job->getRootFITSDir();
         outstream << "<FITSDirectory>" << rootDir << "</FITSDirectory>" << endl;
         if (job->getISOIndex() != -1)
@@ -2553,6 +2559,7 @@ void Capture::syncGUIToJob(SequenceJob *job)
    ISOCheck->setChecked(tsEnabled);
    countIN->setValue(job->getCount());
    delayIN->setValue(job->getDelay()/1000);
+   postCaptureScriptIN->setText(job->getPostCaptureScript());
 
    // Temperature Options
    temperatureCheck->setChecked(job->getEnforceTemperature());
