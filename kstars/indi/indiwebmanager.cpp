@@ -121,12 +121,19 @@ namespace WebManager
        {
            QJsonArray array = json.array();
 
+           if (array.isEmpty())
+               return false;
+
            QStringList piExecDrivers;
            QMapIterator<QString, QString> i(pi->drivers);
            while (i.hasNext())
            {
                QString name = i.next().value();
-               piExecDrivers << DriverManager::Instance()->findDriverByName(name)->getDriver();
+               DriverInfo *driver = DriverManager::Instance()->findDriverByName(name);
+               if (driver == NULL)
+                   driver = DriverManager::Instance()->findDriverByLabel(name);
+               if (driver)
+                   piExecDrivers << driver->getDriver();
            }
 
            if (array.count() < piExecDrivers.count())
