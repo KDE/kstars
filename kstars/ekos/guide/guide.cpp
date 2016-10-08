@@ -25,6 +25,7 @@
 
 #include "internalguide/internalguider.h"
 #include "externalguide/phd2.h"
+#include "externalguide/linguider.h"
 
 #include "ekos/auxiliary/darklibrary.h"
 #include "ekos/auxiliary/QProgressIndicator.h"
@@ -1299,7 +1300,7 @@ bool Guide::setGuiderType(int type)
         break;
 
     case GUIDE_LINGUIDER:
-        //guider = new LINGuider();
+        guider = new LinGuider();
 
         if (currentCCD)
         {

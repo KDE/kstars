@@ -45,8 +45,9 @@ class LinGuider;
  *@class Guide
  *@short Performs calibration and autoguiding using an ST4 port or directly via the INDI driver. Can be used with the following external guiding applications:
  * PHD2
+ * LinGuider
  *@author Jasem Mutlaq
- *@version 1.3
+ *@version 1.4
  */
 class Guide : public QWidget, public Ui::Guide
 {
@@ -486,8 +487,7 @@ private:
     // Pointers of guider processes
     QPointer<InternalGuider> internalGuider;
     QPointer<PHD2> phd2Guider;
-    // TODO implement those    
-    //QPointer<LinGuider> linGuider;
+    QPointer<LinGuider> linGuider;
 };
 
 }
