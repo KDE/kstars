@@ -18,7 +18,6 @@
 
 #include "Options.h"
 #include "opsguide.h"
-#include "guide.h"
 #include "kstars.h"
 
 #include "internalguide/internalguider.h"
@@ -26,11 +25,9 @@
 namespace Ekos
 {
 
-OpsGuide::OpsGuide(InternalGuider *guiderObject)  : QFrame( KStars::Instance() )
+OpsGuide::OpsGuide()  : QFrame( KStars::Instance() )
 {
     setupUi(this);
-
-    guider = guiderObject;
 
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists( "guidesettings" );
@@ -49,10 +46,10 @@ OpsGuide::~OpsGuide() {}
 
 void OpsGuide::showEvent(QShowEvent *)
 {
-    slotLoadSettings(Options::guiderType());
+    slotLoadSettings(static_cast<Guide::GuiderType>(Options::guiderType()));
 }
 
-void OpsGuide::slotLoadSettings(int guiderType)
+void OpsGuide::slotLoadSettings(Guide::GuiderType guiderType)
 {
     switch (guiderType)
     {
@@ -79,29 +76,36 @@ void OpsGuide::slotLoadSettings(int guiderType)
         externalHost->setText(Options::lINGuiderHost());
         externalPort->setText(QString::number(Options::lINGuiderPort()));
         break;
-    }
+    }        
 }
 
 void OpsGuide::slotApply()
 {
+    Guide::GuiderType type;
+
     switch (guiderTypeButtonGroup->checkedId())
     {
     case Guide::GUIDE_INTERNAL:
+        type = Guide::GUIDE_INTERNAL;
         Options::setGuiderType(Guide::GUIDE_INTERNAL);        
         break;
 
     case Guide::GUIDE_PHD2:
-        Options::setGuiderType(Guide::GUIDE_INTERNAL);
+        type = Guide::GUIDE_PHD2;
+        Options::setGuiderType(Guide::GUIDE_PHD2);
         Options::setPHD2Host(externalHost->text());
         Options::setPHD2Port(externalPort->text().toInt());        
         break;
 
     case Guide::GUIDE_LINGUIDER:
-        Options::setGuiderType(Guide::GUIDE_INTERNAL);
+        type = Guide::GUIDE_LINGUIDER;
+        Options::setGuiderType(Guide::GUIDE_LINGUIDER);
         Options::setLINGuiderHost(externalHost->text());
         Options::setLINGuiderPort(externalPort->text().toInt());        
         break;
     }
+
+    emit guiderTypeChanged(type);
 }
 
 }

@@ -11,13 +11,12 @@
 #define OpsGuide_H_
 
 #include "ui_opsguide.h"
+#include "guide.h"
 
 class KConfigDialog;
 
 namespace Ekos
 {
-
-class InternalGuider;
 
 /**
  * @class OpsGuide
@@ -31,7 +30,7 @@ class OpsGuide : public QFrame, public Ui::OpsGuide
     Q_OBJECT
 
 public:
-    explicit OpsGuide(InternalGuider *guiderObject);
+    explicit OpsGuide();
     ~OpsGuide();
 
 protected:
@@ -40,11 +39,13 @@ protected:
 private slots:
 
     void slotApply();
-    void slotLoadSettings(int guiderType);
+    void slotLoadSettings(Guide::GuiderType guiderType);
+
+signals:
+    void guiderTypeChanged(Guide::GuiderType guiderType);
 
 private:
-    KConfigDialog *m_ConfigDialog;
-    InternalGuider *guider;
+    KConfigDialog *m_ConfigDialog;    
 };
 
 }

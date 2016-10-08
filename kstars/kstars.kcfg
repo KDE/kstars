@@ -1629,6 +1629,10 @@
          <label>Automatically select the square size based on the selected star width.</label>
          <default>false</default>
       </entry>
+      <entry name="GuideRemoteImagesEnabled" type="Bool">
+         <label>When using external guiders, enable reception of remote images in Ekos guide module. By default, remote images are disabled.</label>
+         <default>false</default>
+      </entry>
       <entry name="AutoModeIterations" type="UInt">
          <label>Number of automode iterations for calibration process.</label>
          <default>5</default>
