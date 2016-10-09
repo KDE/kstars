@@ -333,7 +333,9 @@ void FITSTab::ZoomOut()
 
 void FITSTab::ZoomDefault()
 {
-  view->ZoomDefault();
+    QPoint oldCenter=view->getImagePoint(view->viewport()->rect().center());
+    view->ZoomDefault();
+    view->cleanUpZoom(oldCenter);
 }
 
 void FITSTab::tabPositionUpdated()

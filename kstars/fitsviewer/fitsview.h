@@ -110,6 +110,11 @@ public:
     void drawStarCentroid(QPainter *);
     void drawTrackingBox(QPainter *);
     void drawMarker(QPainter *);
+    bool isCrosshairShown();
+    bool isEQGridShown();
+
+    void drawCrosshair(QPainter *);
+    void drawEQGrid(QPainter *);
     void updateFrame();
 
     // Zoom related
@@ -118,6 +123,8 @@ public:
 
     // Star Detection
     void toggleStars(bool enable);
+    void toggleEQGrid();
+    void toggleCrosshair();
 
     // FITS Mode
     void updateMode(FITSMode mode);
@@ -131,7 +138,8 @@ protected:
 public slots:
     void ZoomIn();
     void ZoomOut();
-    void ZoomDefault();    
+    void ZoomDefault();
+    void ZoomToFit();
 
     void processPointSelection(int x, int y);
     void processMarkerSelection(int x, int y);
@@ -159,6 +167,8 @@ private:
 
     bool firstLoad;
     bool markStars;
+    bool showCrosshair=false;
+    bool showEQGrid=false;
     bool starsSearched;
     bool hasWCS;
 

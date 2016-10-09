@@ -181,6 +181,23 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(statFITS()));
 
+    action = actionCollection()->addAction("view_crosshair");
+    action->setIcon(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")));
+    action->setText(i18n( "Show Cross Hairs"));
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(toggleCrossHair()));
+
+    action = actionCollection()->addAction("view_eq_grid");
+    action->setIcon(QIcon::fromTheme("map-flat", QIcon(":/icons/breeze/default/map-flat.svg")));
+    action->setText(i18n( "Show Equatorial Gridlines"));
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(toggleEQGrid()));
+
+    action = actionCollection()->addAction("view_zoom_fit");
+    action->setIcon(QIcon::fromTheme("zoom-fit-width", QIcon(":/icons/breeze/default/zoom-fit-width.svg")));
+    action->setText(i18n( "Zoom To Fit"));
+    connect(action, SIGNAL(triggered(bool)), SLOT(ZoomToFit()));
+
     action = actionCollection()->addAction("mark_stars");
     action->setText(i18n( "Mark Stars"));
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
@@ -446,6 +463,9 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         actionCollection()->action("fits_debayer")->setEnabled(false);
 
     updateStatusBar("", FITS_WCS);
+    updateButtonStatus("view_crosshair", "Cross Hairs", getCurrentView()->isCrosshairShown());
+    updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
+
 
 }
 
@@ -693,6 +713,14 @@ void FITSViewer::ZoomDefault()
   fitsTabs[fitsTab->currentIndex()]->ZoomDefault();
 }
 
+void FITSViewer::ZoomToFit()
+{
+    if (fitsTabs.empty())
+        return;
+
+  getCurrentView()->ZoomToFit();
+}
+
 void FITSViewer::updateAction(const QString &name, bool enable)
 {
     QAction *toolAction = NULL;
@@ -747,10 +775,32 @@ void FITSViewer::closeTab(int index)
     }
 }
 
+void FITSViewer::updateButtonStatus(QString action, QString item, bool showing){
+    QAction *a=actionCollection()->action(action);
+    if (showing)
+    {
+        a->setText( "Hide " + item );
+        a->setChecked(true);
+    }
+    else
+    {
+        a->setText( "Show " + item );
+        a->setChecked(false);
+    }
+}
+
+void FITSViewer::toggleCrossHair()
+{
+    getCurrentView()->toggleCrosshair();
+    updateButtonStatus("view_crosshair", "Cross Hairs", getCurrentView()->isCrosshairShown());
+}
+void FITSViewer::toggleEQGrid()
+{
+    getCurrentView()->toggleEQGrid();
+    updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
+}
 void FITSViewer::toggleStars()
 {
-
-
     if (markStars)
     {
         markStars = false;

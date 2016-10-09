@@ -519,7 +519,12 @@ int FITSView::rescale(FITSZoom type)
             int w = baseSize().width() - BASE_OFFSET;
             int h = baseSize().height() - BASE_OFFSET;
 
-            // Find the zoom level which will enclose the current FITS in the default window size (640x480)
+            if(!firstLoad){
+                w = viewport()->rect().width() - BASE_OFFSET;
+                h = viewport()->rect().height() - BASE_OFFSET;
+            }
+
+            // Find the zoom level which will enclose the current FITS in the current window size
             currentZoom = floor( (w / currentWidth) * 10.) * 10.;
 
             /* If width is not the problem, try height */
@@ -615,6 +620,12 @@ void FITSView::ZoomOut()
     newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 }
 
+void FITSView::ZoomToFit()
+{
+    rescale(ZOOM_FIT_WINDOW);
+    updateFrame();
+}
+
 void FITSView::updateFrame()
 {
 
@@ -670,6 +681,12 @@ void FITSView::drawOverlay(QPainter *painter)
 
     if (markerCrosshair.isNull() == false)
         drawMarker(painter);
+
+    if (showCrosshair)
+        drawCrosshair(painter);
+    if (showEQGrid)
+        drawEQGrid(painter);
+
 }
 
 void FITSView::updateMode(FITSMode fmode)
@@ -738,6 +755,42 @@ void FITSView::drawTrackingBox(QPainter *painter)
     painter->drawRect(x1, y1, w, h);
 }
 
+void FITSView::drawCrosshair(QPainter *painter){
+
+    float scale=(currentZoom / ZOOM_DEFAULT);
+    QPointF c=QPointF(image_width/2 *scale,image_height/2 * scale);
+    float midX=image_width/2 * scale;
+    float midY=image_height/2 * scale;
+    float maxX=image_width * scale;
+    float maxY=image_height * scale;
+    float r=50*scale;
+
+
+     painter->setPen( QPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed("TargetColor" ) ) ) );
+
+    //Horizontal Line to Circle
+    painter->drawLine(0, midY, midX - r, midY);
+
+    //Horizontal Line past Circle
+    painter->drawLine(midX + r, midY, maxX, midY);
+
+    //Vertical Line to Circle
+    painter->drawLine(midX, 0, midX, midY - r);
+
+    //Vertical Line past Circle
+    painter->drawLine(midX, midY + r, midX, maxY);
+
+    //Circles
+    painter->drawEllipse(c,r,r);
+    painter->drawEllipse(c, r/2, r/2);
+
+}
+
+void FITSView::drawEQGrid(QPainter *painter){
+
+
+}
+
 QPixmap & FITSView::getTrackingBoxPixmap()
 {
     if (trackingBox.isNull())
@@ -761,6 +814,29 @@ void FITSView::setTrackingBox(const QRect & rect)
         trackingBox = rect;
         updateFrame();
     }
+}
+
+bool FITSView::isCrosshairShown()
+{
+   return showCrosshair;
+}
+
+bool FITSView::isEQGridShown()
+{
+   return showEQGrid;
+}
+
+void FITSView::toggleCrosshair()
+{
+   showCrosshair=!showCrosshair;
+   updateFrame();
+}
+
+void FITSView::toggleEQGrid()
+{
+    showEQGrid=!showEQGrid;
+    updateFrame();
+
 }
 
 void FITSView::toggleStars(bool enable)

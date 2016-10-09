@@ -104,11 +104,14 @@ public slots:
     void ZoomIn();
     void ZoomOut();
     void ZoomDefault();
+    void ZoomToFit();
     void updateAction(const QString &name, bool enable);
     void updateTabStatus(bool clean);
     int saveUnsaved(int index);
     void closeTab(int index);
     void toggleStars();
+    void toggleCrossHair();
+    void toggleEQGrid();
     void applyFilter(int ftype);
     void rotateCW();
     void rotateCCW();
@@ -129,6 +132,7 @@ private:
     bool markStars;
     QMap<int, FITSTab*> fitsMap;
     QUrl lastURL;
+    void updateButtonStatus(QString action, QString item, bool showing);
 
 signals:
     void trackingStarSelected(int x, int y);
