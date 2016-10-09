@@ -139,7 +139,7 @@ void PHD2::readPHD2()
             continue;
         }
 
-        if (Options::verboseLogging())
+        if (Options::guideLogging())
             emit newLog(rawString);
 
         processJSON(jdoc.object());
