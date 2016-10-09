@@ -39,10 +39,10 @@ protected:
 private slots:
 
     void slotApply();
-    void slotLoadSettings(Guide::GuiderType guiderType);
+    void slotLoadSettings(int guiderType);
 
 signals:
-    void guiderTypeChanged(Guide::GuiderType guiderType);
+    void guiderTypeChanged(int guiderType);
 
 private:
     KConfigDialog *m_ConfigDialog;    

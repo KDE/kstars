@@ -12,10 +12,7 @@
 #include <QUrl>
 #include <QVariantMap>
 #include <QDebug>
-#include <QHttpMultiPart>
 #include <QFile>
-#include <QJsonObject>
-#include <QJsonDocument>
 
 #include <KMessageBox>
 #include <KLocalizedString>
@@ -34,36 +31,10 @@ LinGuider::LinGuider()
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readLinGuider()));
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 
-    connect(tcpSocket, SIGNAL(connected()), this, SIGNAL(connected()));
-    connect(tcpSocket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
+    connect(tcpSocket, SIGNAL(connected()), this, SLOT(onConnected()));
 
-    methodID=1;
-    state = STOPPED;
+    state = IDLE;
     connection = DISCONNECTED;
-    event = Alert;
-
-    events["Version"] = Version;
-    events["LockPositionSet"] = LockPositionSet;
-    events["CalibrationComplete"] = CalibrationComplete;
-    events["StarSelected"] = StarSelected;
-    events["StartGuiding"] = StartGuiding;
-    events["Paused"] = Paused;
-    events["StartCalibration"] = StartCalibration;
-    events["AppState"] = AppState;
-    events["CalibrationFailed"] = CalibrationFailed;
-    events["CalibrationDataFlipped"] = CalibrationDataFlipped;
-    events["LoopingExposures"] = LoopingExposures;
-    events["LoopingExposuresStopped"] = LoopingExposuresStopped;
-    events["Settling"] = Settling;
-    events["SettleDone"] = SettleDone;
-    events["StarLost"] = StarLost;
-    events["GuidingStopped"] = GuidingStopped;
-    events["Resumed"] = Resumed;
-    events["GuideStep"] = GuideStep;
-    events["GuidingDithered"] = GuidingDithered;
-    events["LockPositionLost"] = LockPositionLost;
-    events["Alert"] = Alert;
-
 }
 
 LinGuider::~LinGuider()
@@ -80,22 +51,19 @@ bool LinGuider::Connect()
     }
     // Already connected, let's connect equipment
     else
-        setEquipmentConnected(true);
+        emit newStatus(GUIDE_CONNECTED);
 
     return true;
 }
 
 bool LinGuider::Disconnect()
-{
-   if (connection == EQUIPMENT_CONNECTED)
-       setEquipmentConnected(false);
+{   
+    connection = DISCONNECTED;
+    tcpSocket->disconnectFromHost();
 
-   connection = DISCONNECTED;
-   tcpSocket->disconnectFromHost();
+    emit newStatus(GUIDE_DISCONNECTED);
 
-   emit newStatus(GUIDE_DISCONNECTED);
-
-   return true;
+    return true;
 }
 
 void LinGuider::displayError(QAbstractSocket::SocketError socketError)
@@ -124,8 +92,6 @@ void LinGuider::readLinGuider()
 {
     QTextStream stream(tcpSocket);
 
-    QJsonParseError qjsonError;
-
     while (stream.atEnd() == false)
     {
         QString rawString = stream.readLine();
@@ -133,408 +99,140 @@ void LinGuider::readLinGuider()
         if (rawString.isEmpty())
             continue;
 
-        QJsonDocument jdoc = QJsonDocument::fromJson(rawString.toLatin1(), &qjsonError);
-
-        if (qjsonError.error != QJsonParseError::NoError)
-        {
+        if (Options::verboseLogging())
             emit newLog(rawString);
-            emit newLog(qjsonError.errorString());
+
+        qint16 magicNumber = *(reinterpret_cast<qint16*>(rawString.toLatin1().data()));
+        if (magicNumber != 0x02)
+        {
+            emit newLog(i18n("Invalid response."));
             continue;
         }
 
-        emit newLog(rawString);
+        qint16 command = *(reinterpret_cast<qint16*>(rawString.toLatin1().data()+2));
+        if (command < GET_VER || command > GET_RA_DEC_DRIFT)
+        {
+            emit newLog(i18n("Invalid response."));
+            continue;
+        }
 
-        processJSON(jdoc.object());
+        QString reply = rawString.mid(8);
+
+        processResponse(static_cast<LinGuiderCommand>(command), reply);
     }
-
 }
 
-void LinGuider::processJSON(const QJsonObject &jsonObj)
+void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
 {
-    LinGuiderMessageType messageType = LINGUIDER_UNKNOWN;
-    bool result = false;
-
-    if (jsonObj.contains("Event"))
+    switch (command)
     {
-        messageType = LINGUIDER_EVENT;
-        processLinGuiderEvent(jsonObj);
-
-        if (event == Alert)
-            return;
-    }
-    else if (jsonObj.contains("error"))
-    {
-        messageType = LINGUIDER_ERROR;
-        result = false;
-        processLinGuiderError(jsonObj);
-    }
-    else if (jsonObj.contains("result"))
-    {
-        messageType = LINGUIDER_RESULT;
-        result = true;
-    }
-
-    switch (connection)
-    {
-    case CONNECTING:
-        if (event == Version)
-            connection = CONNECTED;
-        return;
-
-    case CONNECTED:
-        // If initial state is STOPPED, let us connect equipment
-        if (state == STOPPED)
-            setEquipmentConnected(true);
-        else if (state == GUIDING)
+    case GET_VER:
+        emit newLog(i18n("Connected to LinGuider %1", reply));
+        if (reply < "v.4.1.0")
         {
-            connection = EQUIPMENT_CONNECTED;
-            emit newStatus(Ekos::GUIDE_CONNECTED);
+            emit newLog(i18n("Only LinGuider v4.1.0 or higher is supported. Please upgrade LinGuider and try again."));
+            Disconnect();
         }
-        return;
-
-    case DISCONNECTED:
-        emit newStatus(Ekos::GUIDE_DISCONNECTED);
         break;
 
-    case EQUIPMENT_CONNECTING:
-        if (messageType == LINGUIDER_RESULT)
-        {
-            if (result)
-            {
-                connection = EQUIPMENT_CONNECTED;
-                emit newStatus(Ekos::GUIDE_CONNECTED);
-            }
-            else
-            {
-                connection = EQUIPMENT_DISCONNECTED;
-                emit newStatus(Ekos::GUIDE_DISCONNECTED);
-            }
-        }
-        return;
-
-    case EQUIPMENT_CONNECTED:
-    case EQUIPMENT_DISCONNECTED:
-        break;
-
-    case EQUIPMENT_DISCONNECTING:
-        connection = EQUIPMENT_DISCONNECTED;
-        //emit disconnected();
-        return;
-    }
-
-    switch (state)
+    case FIND_STAR:
     {
-    case GUIDING:
+        emit newLog(i18n("Auto star selected %1", reply));
+        QStringList pos = reply.split(' ');
+        if (pos.count() == 2)
+        {
+            starCenter = reply;
+            sendCommand(SET_GUIDER_RETICLE_POS, reply);
+        }
+        else
+        {
+            emit newLog(i18n("Failed to process star position."));
+            emit newStatus(GUIDE_CALIBRATION_ERROR);
+        }
+    }
         break;
 
-    case PAUSED:
+    case SET_GUIDER_RETICLE_POS:
+        if (reply == "OK")
+        {
+            sendCommand(SET_GUIDER_OVLS_POS, starCenter);
+        }
+        else
+        {
+            emit newLog(i18n("Failed to set guider reticle position."));
+            emit newStatus(GUIDE_CALIBRATION_ERROR);
+        }
         break;
-
-    case STOPPED:
-        break;
-
     default:
         break;
     }
 }
 
-void LinGuider::processLinGuiderEvent(const QJsonObject &jsonEvent)
+void LinGuider::onConnected()
 {
-    QString eventName = jsonEvent["Event"].toString();
+    emit newStatus(GUIDE_CONNECTED);
+    // Get version
 
-    if (events.contains(eventName) == false)
-    {
-        emit newLog(i18n("Unknown LinGuider event: %1", eventName));
-        return;
-    }
-
-    event = events.value(eventName);
-
-    switch (event)
-    {
-    case Version:
-        emit newLog(i18n("LinGuider: Version %1", jsonEvent["PHDVersion"].toString()));
-        break;
-
-    case CalibrationComplete:
-        //state = CALIBRATION_SUCCESSFUL;
-        // It goes immediately to guiding until PHD implements a calibration-only method
-        state = GUIDING;
-        emit newLog(i18n("LinGuider: Calibration Complete."));
-        //emit guideReady();
-        emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
-        break;
-
-    case StartGuiding:
-        state = GUIDING;
-        if (connection != EQUIPMENT_CONNECTED)
-        {
-            connection = EQUIPMENT_CONNECTED;
-            emit newStatus(Ekos::GUIDE_CONNECTED);
-        }
-        emit newLog(i18n("LinGuider: Guiding Started."));
-        emit newStatus(Ekos::GUIDE_GUIDING);
-        break;
-
-    case Paused:
-        state = PAUSED;
-        emit newLog(i18n("LinGuider: Guiding Paused."));
-        emit newStatus(Ekos::GUIDE_SUSPENDED);
-        break;
-
-    case StartCalibration:
-        state = CALIBRATING;
-        emit newLog(i18n("LinGuider: Calibration Started."));
-        emit newStatus(Ekos::GUIDE_CALIBRATING);
-        break;
-
-    case AppState:
-        processLinGuiderState(jsonEvent["State"].toString());
-        break;
-
-    case CalibrationFailed:
-        state = CALIBRATION_FAILED;
-        emit newLog(i18n("LinGuider: Calibration Failed (%1).", jsonEvent["Reason"].toString()));
-        emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
-        break;
-
-    case CalibrationDataFlipped:
-        emit newLog(i18n("Calibration Data Flipped."));
-        break;
-
-    case LoopingExposures:
-        //emit newLog(i18n("LinGuider: Looping Exposures."));
-        break;
-
-    case LoopingExposuresStopped:
-        emit newLog(i18n("LinGuider: Looping Exposures Stopped."));
-        break;
-
-    case Settling:
-        break;
-
-    case SettleDone:
-    {
-        bool error=false;
-
-        if (jsonEvent["Status"].toInt() != 0)
-        {
-            error = true;
-            emit newLog(i18n("LinGuider: Settling failed (%1).", jsonEvent["Error"].toString()));
-        }
-
-        if (state == GUIDING)
-        {
-            if (error)
-                state = STOPPED;
-        }
-        else if (state == DITHERING)
-        {
-            if (error)
-            {
-                state = DITHER_FAILED;
-                //emit ditherFailed();
-                emit newStatus(GUIDE_DITHERING_ERROR);
-            }
-            else
-            {
-                state = DITHER_SUCCESSFUL;
-                emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
-            }
-        }
-    }
-    break;
-
-    case StarSelected:
-        emit newLog(i18n("LinGuider: Star Selected."));
-        break;
-
-    case StarLost:
-        emit newLog(i18n("LinGuider: Star Lost."));
-        emit newStatus(Ekos::GUIDE_ABORTED);
-        break;
-
-    case GuidingStopped:
-        emit newLog(i18n("LinGuider: Guiding Stopped."));
-        //emit autoGuidingToggled(false);
-        emit newStatus(Ekos::GUIDE_IDLE);
-        break;
-
-    case Resumed:
-        emit newLog(i18n("LinGuider: Guiding Resumed."));
-        emit newStatus(Ekos::GUIDE_GUIDING);
-        state = GUIDING;
-        break;
-
-    case GuideStep:
-    {
-        double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs;
-        diff_ra_pixels = jsonEvent["RADistanceRaw"].toDouble();
-        diff_de_pixels = jsonEvent["DECDistanceRaw"].toDouble();
-
-        diff_ra_arcsecs = 206.26480624709 * diff_ra_pixels * ccdPixelSizeX / mountFocalLength;
-        diff_de_arcsecs = 206.26480624709 * diff_de_pixels * ccdPixelSizeY / mountFocalLength;
-
-        emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
-    }
-        break;
-
-    case GuidingDithered:
-        emit newLog(i18n("LinGuider: Guide Dithering."));
-        emit newStatus(Ekos::GUIDE_DITHERING);
-        break;
-
-    case LockPositionSet:
-        emit newLog(i18n("LinGuider: Lock Position Set."));
-        break;
-
-    case LockPositionLost:
-        emit newLog(i18n("LinGuider: Lock Position Lost."));
-        emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
-        break;
-
-    case Alert:
-        emit newLog(i18n("LinGuider %1: %2", jsonEvent["Type"].toString(), jsonEvent["Msg"].toString()));
-        break;
-
-    }
+    sendCommand(GET_VER);
 }
 
-void LinGuider::processLinGuiderState(const QString &LinGuiderState)
-{
-    if (LinGuiderState == "Stopped")
-        state = STOPPED;
-    else if (LinGuiderState == "Selected")
-        state = SELECTED;
-    else if (LinGuiderState == "Calibrating")
-        state = CALIBRATING;
-    else if (LinGuiderState == "GUIDING")
-        state = GUIDING;
-    else if (LinGuiderState == "LostLock")
-        state = LOSTLOCK;
-    else if (LinGuiderState == "Paused")
-        state = PAUSED;
-    else if (LinGuiderState == "Looping")
-        state = LOOPING;
-}
+void LinGuider::sendCommand(LinGuiderCommand command, const QString &args)
+{    
+    //emit newLog(json_doc.toJson(QJsonDocument::Compact));
 
-void LinGuider::processLinGuiderError(const QJsonObject &jsonError)
-{
-    QJsonObject jsonErrorObject = jsonError["error"].toObject();
+    //tcpSocket->write(json_doc.toJson(QJsonDocument::Compact));
 
-    emit newLog(i18n("LinGuider Error: %1", jsonErrorObject["message"].toString()));
+    // Command format: Magic Number (0x00 0x02), cmd (2 bytes), len_of_param (4 bytes), param (ascii)
 
-   /* switch (connection)
-    {
-        case CONNECTING:
-        case CONNECTED:
-            emit disconnected();
-        break;
+    int size = 8 + args.size();
 
-        default:
-            break;
-    }*/
-}
+    QByteArray cmd(size, 0);
 
-void LinGuider::sendJSONRPCRequest(const QString & method, const QJsonArray args)
-{
+    // Magic number
+    cmd[0] = 0x02;
+    cmd[1] = 0x00;
 
-    QJsonObject jsonRPC;
+    // Command
+    cmd[2] = command;
+    cmd[3] = 0x00;
 
-    jsonRPC.insert("jsonrpc", "2.0");
-    jsonRPC.insert("method", method);
+    // Len
+    qint32 len = args.size();
+    memcpy(cmd.data()+4, &len, 4);
 
-    if (args.empty() == false)
-        jsonRPC.insert("params", args);
+    // Params
+    if (args.isEmpty() == false)
+        memcpy(cmd.data()+8, args.toLatin1().data(), args.size());
 
-    jsonRPC.insert("id", methodID++);
-
-    QJsonDocument json_doc(jsonRPC);
-
-    emit newLog(json_doc.toJson(QJsonDocument::Compact));
-
-    tcpSocket->write(json_doc.toJson(QJsonDocument::Compact));
-    tcpSocket->write("\r\n");
-}
-
-void LinGuider::setEquipmentConnected(bool enable)
-{
-    if ( (connection == EQUIPMENT_CONNECTED && enable == true) || (connection == EQUIPMENT_DISCONNECTED && enable == false) )
-        return;
-
-    if (enable)
-        connection = EQUIPMENT_CONNECTING;
-    else
-        connection = EQUIPMENT_DISCONNECTING;
-
-    QJsonArray args;
-
-    // connected = enable
-    args << enable;
-
-    sendJSONRPCRequest("set_connected", args);
+    tcpSocket->write(cmd);
 }
 
 bool LinGuider::calibrate()
 {
-    // We don't explicitly do calibration since it is done in the guide step by LinGuider anyway
-    emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+    // Let's start calibraiton. It is already calibrated but in this step we auto-select and star and set the square
+    emit newStatus(Ekos::GUIDE_CALIBRATING);
+
+    sendCommand(FIND_STAR);
+
     return true;
 }
 
 bool LinGuider::guide()
 {
-    if (connection != EQUIPMENT_CONNECTED)
-    {
-        emit newLog(i18n("LinGuider Error: Equipment not connected."));
-        return false;
-    }
 
-    QJsonArray args;
-    QJsonObject settle;
-
-    settle.insert("pixels", 1.5);
-    settle.insert("time", 8);
-    settle.insert("timeout", 45);
-
-    // Settle param
-    args << settle;
-    // Recalibrate param
-    args << false;
-
-    sendJSONRPCRequest("guide", args);
+    //
 
     return true;
 }
 
 bool LinGuider::abort()
 {
-    if (connection != EQUIPMENT_CONNECTED)
-    {
-        emit newLog(i18n("LinGuider Error: Equipment not connected."));
-        return false;
-    }
 
-   sendJSONRPCRequest("stop_capture");
-   return true;
+    return true;
 }
 
 bool LinGuider::suspend()
 {
-    if (connection != EQUIPMENT_CONNECTED)
-    {
-        emit newLog(i18n("LinGuider Error: Equipment not connected."));
-        return false;
-    }
-
-    QJsonArray args;
-
-    // Paused param
-    args << true;
-    // FULL param
-    args << "full";
-
-    sendJSONRPCRequest("set_paused", args);
 
     return true;
 
@@ -542,18 +240,6 @@ bool LinGuider::suspend()
 
 bool LinGuider::resume()
 {
-    if (connection != EQUIPMENT_CONNECTED)
-    {
-        emit newLog(i18n("LinGuider Error: Equipment not connected."));
-        return false;
-    }
-
-    QJsonArray args;
-
-    // Paused param
-    args << false;
-
-    sendJSONRPCRequest("set_paused", args);
 
     return true;
 
@@ -561,29 +247,7 @@ bool LinGuider::resume()
 
 bool LinGuider::dither(double pixels)
 {
-    if (connection != EQUIPMENT_CONNECTED)
-    {
-        emit newLog(i18n("LinGuider Error: Equipment not connected."));
-        return false;
-    }
 
-    QJsonArray args;
-    QJsonObject settle;
-
-    settle.insert("pixels", 1.5);
-    settle.insert("time", 8);
-    settle.insert("timeout", 45);
-
-    // Pixels
-    args << pixels;
-    // RA Only?
-    args << false;
-    // Settle
-    args << settle;
-
-    state = DITHERING;
-
-    sendJSONRPCRequest("dither", args);
 
     return true;
 }

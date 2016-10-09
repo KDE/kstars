@@ -49,9 +49,9 @@ void OpsGuide::showEvent(QShowEvent *)
     slotLoadSettings(static_cast<Guide::GuiderType>(Options::guiderType()));
 }
 
-void OpsGuide::slotLoadSettings(Guide::GuiderType guiderType)
+void OpsGuide::slotLoadSettings(int guiderType)
 {
-    switch (guiderType)
+    switch (static_cast<Guide::GuiderType>(guiderType))
     {
     case Guide::GUIDE_INTERNAL:
         internalGuideR->setChecked(true);
@@ -76,36 +76,31 @@ void OpsGuide::slotLoadSettings(Guide::GuiderType guiderType)
         externalHost->setText(Options::linGuiderHost());
         externalPort->setText(QString::number(Options::linGuiderPort()));
         break;
-    }        
+    }
 }
 
 void OpsGuide::slotApply()
-{
-    Guide::GuiderType type;
-
+{    
     switch (guiderTypeButtonGroup->checkedId())
     {
     case Guide::GUIDE_INTERNAL:
-        type = Guide::GUIDE_INTERNAL;
         Options::setGuiderType(Guide::GUIDE_INTERNAL);        
         break;
 
     case Guide::GUIDE_PHD2:
-        type = Guide::GUIDE_PHD2;
         Options::setGuiderType(Guide::GUIDE_PHD2);
         Options::setPHD2Host(externalHost->text());
         Options::setPHD2Port(externalPort->text().toInt());        
         break;
 
     case Guide::GUIDE_LINGUIDER:
-        type = Guide::GUIDE_LINGUIDER;
         Options::setGuiderType(Guide::GUIDE_LINGUIDER);
         Options::setLinGuiderHost(externalHost->text());
         Options::setLinGuiderPort(externalPort->text().toInt());
         break;
     }
 
-    emit guiderTypeChanged(type);
+    emit guiderTypeChanged(guiderTypeButtonGroup->checkedId());
 }
 
 }

@@ -240,7 +240,7 @@ Guide::Guide() : QWidget()
     opsGuide = new OpsGuide();
     dialog->addPage(opsGuide, i18n("Guide Settings"));
     connect(guideOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
-    connect(opsGuide, SIGNAL(guiderTypeChanged(Guide::GuiderType)), this, SLOT(setGuiderType(int)));
+    connect(opsGuide, SIGNAL(guiderTypeChanged(int)), this, SLOT(setGuiderType(int)));
 
     internalGuider->setGuideView(guideView);
 
@@ -689,11 +689,14 @@ void Guide::setBusy(bool enable)
     {
         if (guiderType == GUIDE_INTERNAL)
         {
-            calibrateB->setEnabled(true);
             captureB->setEnabled(true);
             darkFrameCheck->setEnabled(true);
             subFrameCheck->setEnabled(true);
         }
+
+        // All can calibrate except for PHD2
+        if (guiderType != GUIDE_PHD2)
+            calibrateB->setEnabled(true);
 
         if (state >= GUIDE_CALIBRATION_SUCESS || guiderType != GUIDE_INTERNAL)
             guideB->setEnabled(true);
@@ -1310,7 +1313,7 @@ bool Guide::setGuiderType(int type)
                 currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), useGuideHead ? "CCD2" : "CCD1");
         }
 
-        calibrateB->setEnabled(false);
+        calibrateB->setEnabled(true);
         captureB->setEnabled(false);
         darkFrameCheck->setEnabled(false);
         subFrameCheck->setEnabled(false);
@@ -1768,7 +1771,7 @@ void Guide::buildOperationStack(GuideState operation)
 
     case GUIDE_CALIBRATING:
         operationStack.push(GUIDE_CALIBRATING);
-        if (starCenter.isNull() || (Options::guideAutoStarEnabled()))
+        if (guiderType == GUIDE_INTERNAL && (starCenter.isNull() || (Options::guideAutoStarEnabled())))
         {
             if (Options::guideDarkFrameEnabled())
                 operationStack.push(GUIDE_DARK);
@@ -1821,10 +1824,12 @@ bool Guide::executeOperationStack()
         break;
 
     case GUIDE_CALIBRATING:
-        guider->setStarPosition(starCenter);
+        if (guiderType == GUIDE_INTERNAL)
+            guider->setStarPosition(starCenter);
         if (guider->calibrate())
         {
-            disconnect(guideView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setTrackingStar(int,int)));
+            if (guiderType == GUIDE_INTERNAL)
+                disconnect(guideView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setTrackingStar(int,int)));
             setBusy(true);
         }
         else

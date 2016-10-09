@@ -32,10 +32,7 @@ PHD2::PHD2()
     tcpSocket = new QTcpSocket(this);
 
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readPHD2()));
-    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
-
-    connect(tcpSocket, SIGNAL(connected()), this, SIGNAL(connected()));
-    connect(tcpSocket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
+    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));    
 
     methodID=1;
     state = STOPPED;
@@ -142,7 +139,8 @@ void PHD2::readPHD2()
             continue;
         }
 
-        emit newLog(rawString);
+        if (Options::verboseLogging())
+            emit newLog(rawString);
 
         processJSON(jdoc.object());
     }

@@ -11,7 +11,7 @@
 #define LinGuider_H
 
 #include <QAbstractSocket>
-#include <QJsonArray>
+#include <QTimer>
 
 #include "../guideinterface.h"
 
@@ -25,7 +25,7 @@ namespace Ekos
  * Uses external LinGuider for guiding.
  *
  * @author Jasem Mutlaq
- * @version 1.1
+ * @version 1.0
  */
 class LinGuider : public GuideInterface
 {
@@ -33,11 +33,10 @@ class LinGuider : public GuideInterface
 
 public:
 
-    typedef enum { Version, LockPositionSet, CalibrationComplete, StarSelected, StartGuiding, Paused, StartCalibration, AppState, CalibrationFailed, CalibrationDataFlipped, LoopingExposures,
-                   LoopingExposuresStopped, Settling, SettleDone, StarLost, GuidingStopped, Resumed, GuideStep, GuidingDithered, LockPositionLost, Alert } LinGuiderEvent;
-    typedef enum { STOPPED, SELECTED, LOSTLOCK, PAUSED, LOOPING, CALIBRATING, CALIBRATION_FAILED, CALIBRATION_SUCCESSFUL, GUIDING, DITHERING, DITHER_FAILED, DITHER_SUCCESSFUL } LinGuiderState;
-    typedef enum { DISCONNECTED, CONNECTING, CONNECTED, EQUIPMENT_DISCONNECTING, EQUIPMENT_DISCONNECTED, EQUIPMENT_CONNECTING, EQUIPMENT_CONNECTED  } LinGuiderConnection;
-    typedef enum { LINGUIDER_UNKNOWN, LINGUIDER_RESULT, LINGUIDER_EVENT, LINGUIDER_ERROR } LinGuiderMessageType;
+    typedef enum { GET_VER = 1, SET_GUIDER_SQUARE_POS, SAVE_FRAME, DITHER, DITHER_NO_WAIT_XY, GET_DISTANCE, SAVE_FRAME_DECORATED,
+                   GUIDER, GET_GUIDER_STATE, SET_GUIDER_OVLS_POS, SET_GUIDER_RETICLE_POS, FIND_STAR, SET_DITHERING_RANGE, GET_RA_DEC_DRIFT} LinGuiderCommand;
+    typedef enum { IDLE, GUIDING} LinGuiderState;
+    typedef enum { DISCONNECTED, CONNECTING, CONNECTED} LinGuiderConnection;
 
     LinGuider();
     ~LinGuider();
@@ -55,27 +54,21 @@ public:
 private slots:
 
     void readLinGuider();
+    void onConnected();
     void displayError(QAbstractSocket::SocketError socketError);
 
 private:
-
-    void setEquipmentConnected(bool enable);
-
-    void sendJSONRPCRequest(const QString & method, const QJsonArray args = QJsonArray());
-    void processJSON(const QJsonObject &jsonObj);
-
-    void processLinGuiderEvent(const QJsonObject &jsonEvent);
-    void processLinGuiderState(const QString &LinGuiderState);
-    void processLinGuiderError(const QJsonObject &jsonError);
+    void sendCommand(LinGuiderCommand command, const QString &args = QString());
+    void processResponse(LinGuiderCommand command, const QString &reply);
 
     QTcpSocket *tcpSocket;
-    qint64 methodID;
 
-    QHash<QString, LinGuiderEvent> events;
 
     LinGuiderState state;
     LinGuiderConnection connection;
-    LinGuiderEvent event;
+
+    QTimer deviationTimer;
+    QString starCenter;
 };
 
 }
