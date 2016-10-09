@@ -140,6 +140,22 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
             emit newLog(i18n("Only LinGuider v4.1.0 or higher is supported. Please upgrade LinGuider and try again."));
             Disconnect();
         }
+
+        sendCommand(GET_GUIDER_STATE);
+        break;
+
+    case GET_GUIDER_STATE:
+        if (reply == "GUIDING")
+        {
+            state = GUIDING;
+            emit newStatus(GUIDE_GUIDING);
+            deviationTimer.start();
+        }
+        else
+        {
+            state = IDLE;
+            deviationTimer.stop();
+        }
         break;
 
     case FIND_STAR:
@@ -212,6 +228,12 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
 
     case GET_RA_DEC_DRIFT:
     {
+        if (state != GUIDING)
+        {
+            state = GUIDING;
+            emit newStatus(GUIDE_GUIDING);
+        }
+
         QStringList pos = reply.split(' ');
         if (pos.count() == 2)
         {

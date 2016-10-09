@@ -949,14 +949,6 @@ bool Guide::guide()
 
     bool rc = guider->guide();
 
-    if (rc)
-    {
-        driftGraph->graph(0)->data().clear();
-        driftGraph->graph(1)->data().clear();
-        guideTimer = QTime::currentTime();
-        refreshColorScheme();
-    }
-
     return rc;
 }
 
@@ -1120,6 +1112,11 @@ void Guide::setStatus(Ekos::GuideState newState)
         {
             appendLogText(i18n("Autoguiding started."));
             setBusy(true);
+
+            driftGraph->graph(0)->data().clear();
+            driftGraph->graph(1)->data().clear();
+            guideTimer = QTime::currentTime();
+            refreshColorScheme();
         }
 
         break;
@@ -1289,7 +1286,8 @@ bool Guide::setGuiderType(int type)
            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), useGuideHead ? "CCD2" : "CCD1");
         }
 
-        calibrateB->setEnabled(true);
+        calibrateB->setEnabled(true);        
+        guideB->setEnabled(false);
         captureB->setEnabled(true);
         darkFrameCheck->setEnabled(true);
         subFrameCheck->setEnabled(true);
@@ -1298,6 +1296,8 @@ bool Guide::setGuiderType(int type)
         externalDisconnectB->setEnabled(false);
 
         controlGroup->setEnabled(true);
+
+        updateGuideParams();
     }
         break;
 
@@ -1859,7 +1859,12 @@ bool Guide::executeOperationStack()
             setBusy(true);
         }
         else
+        {
+            emit newStatus(GUIDE_CALIBRATION_ERROR);
+            state = GUIDE_IDLE;
             appendLogText(i18n("Calibration failed to start!"));
+            setBusy(false);
+        }
         break;
 
     default:
