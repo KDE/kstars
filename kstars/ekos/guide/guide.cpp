@@ -1080,12 +1080,17 @@ void Guide::setStatus(Ekos::GuideState newState)
         appendLogText(i18n("External guider connected."));
         externalConnectB->setEnabled(false);
         externalDisconnectB->setEnabled(true);
+        if (guiderType == GUIDE_LINGUIDER)
+            calibrateB->setEnabled(true);
+        guideB->setEnabled(true);
         break;
 
     case GUIDE_DISCONNECTED:
         appendLogText(i18n("External guider disconnected."));
         externalConnectB->setEnabled(true);
         externalDisconnectB->setEnabled(false);
+        calibrateB->setEnabled(false);
+        guideB->setEnabled(false);
         break;
 
     case GUIDE_CALIBRATION_SUCESS:
@@ -1259,14 +1264,14 @@ bool Guide::setGuiderType(int type)
     else if (type == guiderType)
         return true;
 
-    if (state > GUIDE_ABORTED)
+    if (state == GUIDE_CALIBRATING || state == GUIDE_GUIDING || state == GUIDE_DITHERING)
     {
         appendLogText(i18n("Cannot change guider type while active."));
         return false;
     }
 
     if (guider)
-        guider->disconnect(this);
+        guider->disconnect();
 
     switch (type)
     {
@@ -1277,6 +1282,12 @@ bool Guide::setGuiderType(int type)
         connect(internalGuider, SIGNAL(DESwapChanged(bool)), swapCheck, SLOT(setChecked(bool)));
 
         guider = internalGuider;
+
+        // Receive BLOBs from the driver
+        if (currentCCD)
+        {
+           currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), useGuideHead ? "CCD2" : "CCD1");
+        }
 
         calibrateB->setEnabled(true);
         captureB->setEnabled(true);
@@ -1292,9 +1303,7 @@ bool Guide::setGuiderType(int type)
 
     case GUIDE_PHD2:
         if (phd2Guider.isNull())
-        {
             phd2Guider = new PHD2();
-        }
 
         guider = phd2Guider;
 
@@ -1317,7 +1326,10 @@ bool Guide::setGuiderType(int type)
         break;
 
     case GUIDE_LINGUIDER:
-        guider = new LinGuider();
+        if (linGuider.isNull())
+            linGuider = new LinGuider();
+
+        guider = linGuider;
 
         if (currentCCD)
         {
