@@ -124,7 +124,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 
     // Set Profile icons
     addProfileB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
-    editProfileB->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/kstars_ekos/document-edit.svg")));
+    editProfileB->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/breeze/default/document-edit.svg")));
     deleteProfileB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
 
     // Load all drivers
@@ -1460,7 +1460,8 @@ void EkosManager::initFocus()
     if (guideProcess)
     {
         // Suspend
-        connect(focusProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(suspendGuiding()), guideProcess, SLOT(suspend()), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(resumeGuiding()), guideProcess, SLOT(resume()), Qt::UniqueConnection);
     }
 
     if (alignProcess)
@@ -1554,12 +1555,13 @@ void EkosManager::initGuide()
 
 
         // Guide Head
-        connect(captureProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)));
+        connect(captureProcess, SIGNAL(suspendGuiding()), guideProcess, SLOT(suspend()));
+        connect(captureProcess, SIGNAL(resumeGuiding()), guideProcess, SLOT(resume()));
         connect(guideProcess, SIGNAL(guideChipUpdated(ISD::CCDChip*)), captureProcess, SLOT(setGuideChip(ISD::CCDChip*)));
 
         // Meridian Flip
         connect(captureProcess, SIGNAL(meridianFlipStarted()), guideProcess, SLOT(abort()), Qt::UniqueConnection);
-        connect(captureProcess, SIGNAL(meridianFlipCompleted()), guideProcess, SLOT(startAutoCalibrateGuiding()), Qt::UniqueConnection);
+        connect(captureProcess, SIGNAL(meridianFlipCompleted()), guideProcess, SLOT(startAutoCalibrateGuide()), Qt::UniqueConnection);
     }
 
     if (mountProcess)
@@ -1574,7 +1576,8 @@ void EkosManager::initGuide()
     if (focusProcess)
     {
         // Suspend
-        connect(focusProcess, SIGNAL(suspendGuiding(bool)), guideProcess, SLOT(setSuspended(bool)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(suspendGuiding()), guideProcess, SLOT(suspend()), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(resumeGuiding()), guideProcess, SLOT(resume()), Qt::UniqueConnection);
     }
 
 }
