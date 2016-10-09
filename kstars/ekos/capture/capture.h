@@ -443,10 +443,9 @@ private slots:
 
 signals:
         void newLog();
-        //void exposureComplete();
-        void checkFocus(double);
-        //void mountParking();
-        void suspendGuiding(bool);
+        void checkFocus(double);        
+        void suspendGuiding();
+        void resumeGuiding();
         void meridianFlipStarted();
         void meridianFlipCompleted();
         void newStatus(Ekos::CaptureState status);

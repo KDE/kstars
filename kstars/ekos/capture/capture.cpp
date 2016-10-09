@@ -1050,7 +1050,7 @@ void Capture::processJobCompletion()
         //Resume guiding if it was suspended before
         //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
         if (guideState == GUIDE_SUSPENDED && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-            emit suspendGuiding(false);
+            emit resumeGuiding();
     }
 
 }
@@ -1086,7 +1086,7 @@ bool Capture::resumeSequence()
             //Resume guiding if it was suspended before
             //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             if (guideState == GUIDE_SUSPENDED && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-                emit suspendGuiding(false);
+                emit resumeGuiding();
 
             return true;
         }
@@ -1109,7 +1109,7 @@ bool Capture::resumeSequence()
 
         // If we suspended guiding due to primary chip download, resume guide chip guiding now
         if (guideState == GUIDE_SUSPENDED && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-            emit suspendGuiding(false);
+            emit resumeGuiding();
 
         //if (isAutoGuiding && guideDither && activeJob->getFrameType() == FRAME_LIGHT)
         if (guideState == GUIDE_GUIDING && Options::ditherEnabled() && activeJob->getFrameType() == FRAME_LIGHT)
@@ -1408,7 +1408,7 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
         {
             if (Options::captureLogging())
                 qDebug() << "Capture: Autoguiding suspended until primary CCD chip completes downloading...";
-            emit suspendGuiding(true);
+            emit suspendGuiding();
         }
 
            secondsLabel->setText(i18n("Downloading..."));
@@ -3393,7 +3393,7 @@ IPState Capture::processPreCaptureCalibrationStage()
     if (guideState == GUIDE_GUIDING)
     {
         appendLogText(i18n("Autoguiding suspended."));
-        emit suspendGuiding(true);
+        emit suspendGuiding();
     }
 
     // Let's check what actions to be taken, if any, for the flat field source

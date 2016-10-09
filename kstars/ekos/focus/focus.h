@@ -330,7 +330,8 @@ private slots:
 signals:
         void newLog();
         //void autoFocusFinished(bool status, double finalHFR);
-        void suspendGuiding(bool suspend);
+        void suspendGuiding();
+        void resumeGuiding();
         void filterLockUpdated(ISD::GDInterface *filter, int lockedIndex);
         void newStatus(Ekos::FocusState state);
         void newStarPixmap(QPixmap &);

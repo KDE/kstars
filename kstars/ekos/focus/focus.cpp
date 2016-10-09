@@ -703,7 +703,7 @@ void Focus::start()
         appendLogText(i18n("Please wait until image capture is complete..."));
 
     if (suspendGuideCheck->isChecked())
-         emit suspendGuiding(true);
+         emit suspendGuiding();
 
     //emit statusUpdated(true);
     state = Ekos::FOCUS_PROGRESS;
@@ -1505,7 +1505,7 @@ void Focus::autoFocusAbs()
                 {
                     appendLogText(i18n("Autofocus complete."));
                     abort();
-                    emit suspendGuiding(false);
+                    emit resumeGuiding();
                     setAutoFocusResult(true);
                 }
                 break;
@@ -1673,7 +1673,7 @@ void Focus::autoFocusAbs()
         {
             appendLogText(i18n("Autofocus complete."));
             abort();
-            emit suspendGuiding(false);
+            emit resumeGuiding();
             setAutoFocusResult(true);
             return;
         }
@@ -1767,7 +1767,7 @@ void Focus::autoFocusRel()
             {
                 appendLogText(i18n("Autofocus complete."));
                 abort();
-                emit suspendGuiding(false);
+                emit resumeGuiding();
                 setAutoFocusResult(true);
                 break;
             }
@@ -1809,7 +1809,7 @@ void Focus::autoFocusRel()
         {
             appendLogText(i18n("Autofocus complete."));
             abort();
-            emit suspendGuiding(false);
+            emit resumeGuiding();
             setAutoFocusResult(true);
             break;
         }
