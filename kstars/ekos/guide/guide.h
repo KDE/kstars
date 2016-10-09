@@ -266,7 +266,7 @@ public slots:
 
     /** DBUS interface function.
      * Selects which guiding process to utilize for calibration & guiding.
-     * @param type Type of guider process to use. 0 for internal guider, 1 for external PHD2, 2 for external lin_guider
+     * @param type Type of guider process to use. 0 for internal guider, 1 for external PHD2, 2 for external lin_guider. Pass -1 to select default guider in options.
      * @return True if guiding is switched to the new requested type. False otherwise.
      */
     Q_SCRIPTABLE bool setGuiderType(int type);

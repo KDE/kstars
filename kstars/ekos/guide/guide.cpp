@@ -244,11 +244,8 @@ Guide::Guide() : QWidget()
 
     internalGuider->setGuideView(guideView);
 
-    // Get current saved type
-    guiderType = static_cast<GuiderType>(Options::guiderType());
-
     // Set current guide type
-    setGuiderType(guiderType);
+    setGuiderType(-1);
 
     state = GUIDE_IDLE;
 }
@@ -764,7 +761,6 @@ void Guide::setCaptureComplete()
     case GUIDE_CALIBRATION_SUCESS:
     case GUIDE_CALIBRATION_ERROR:
     case GUIDE_DITHERING_ERROR:
-    case GUIDE_DITHERING_SUCCESS:
         setBusy(false);
         break;
 
@@ -1138,6 +1134,12 @@ void Guide::setStatus(Ekos::GuideState newState)
 
     case GUIDE_DITHERING_ERROR:
         appendLogText(i18n("Dithering failed!"));
+        // LinGuider guide continue after dithering failure
+        if (guiderType != GUIDE_LINGUIDER)
+        {
+            state = GUIDE_IDLE;
+            setBusy(false);
+        }
         break;
 
     case GUIDE_DITHERING_SUCCESS:
@@ -1250,7 +1252,19 @@ void Guide::syncTrackingBoxPosition()
 }
 
 bool Guide::setGuiderType(int type)
-{    
+{
+    // Use default guider option
+    if (type == -1)
+        type = Options::guiderType();
+    else if (type == guiderType)
+        return true;
+
+    if (state > GUIDE_ABORTED)
+    {
+        appendLogText(i18n("Cannot change guider type while active."));
+        return false;
+    }
+
     if (guider)
         guider->disconnect(this);
 

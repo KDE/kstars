@@ -35,6 +35,9 @@ LinGuider::LinGuider()
 
     state = IDLE;
     connection = DISCONNECTED;
+
+    deviationTimer.setInterval(1000);
+    connect(&deviationTimer, &QTimer::timeout, this, [&](){sendCommand(GET_RA_DEC_DRIFT);});
 }
 
 LinGuider::~LinGuider()
@@ -92,14 +95,16 @@ void LinGuider::readLinGuider()
 {
     QTextStream stream(tcpSocket);
 
+    QString rawString;
+
     while (stream.atEnd() == false)
     {
-        QString rawString = stream.readLine();
+        rawString += stream.readLine();
 
-        if (rawString.isEmpty())
+        if (rawString.count() < 8)
             continue;
 
-        if (Options::verboseLogging())
+        if (Options::guideLogging())
             emit newLog(rawString);
 
         qint16 magicNumber = *(reinterpret_cast<qint16*>(rawString.toLatin1().data()));
@@ -119,6 +124,8 @@ void LinGuider::readLinGuider()
         QString reply = rawString.mid(8);
 
         processResponse(static_cast<LinGuiderCommand>(command), reply);
+
+        rawString.clear();
     }
 }
 
@@ -155,7 +162,7 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
     case SET_GUIDER_RETICLE_POS:
         if (reply == "OK")
         {
-            sendCommand(SET_GUIDER_OVLS_POS, starCenter);
+            sendCommand(SET_GUIDER_SQUARE_POS, starCenter);
         }
         else
         {
@@ -163,6 +170,89 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
             emit newStatus(GUIDE_CALIBRATION_ERROR);
         }
         break;
+
+    case SET_GUIDER_SQUARE_POS:
+        if (reply == "OK")
+        {
+            emit newStatus(GUIDE_CALIBRATION_SUCESS);
+        }
+        else
+        {
+            emit newLog(i18n("Failed to set guider square position."));
+            emit newStatus(GUIDE_CALIBRATION_ERROR);
+        }
+        break;
+
+    case GUIDER:
+        if (reply == "OK")
+        {
+            if (state == IDLE)
+            {
+                emit newStatus(GUIDE_GUIDING);
+                state = GUIDING;
+
+                deviationTimer.start();
+            }
+            else
+            {
+                emit newStatus(GUIDE_IDLE);
+                state = IDLE;
+
+                deviationTimer.stop();
+            }
+        }
+        else
+        {
+            if (state == IDLE)
+                emit newLog(i18n("Failed to start guider."));
+            else
+                emit newLog(i18n("Failed to stop guider."));
+        }
+        break;
+
+    case GET_RA_DEC_DRIFT:
+    {
+        QStringList pos = reply.split(' ');
+        if (pos.count() == 2)
+        {
+            bool raOK=false, deOK=false;
+
+            double raDev = pos[0].toDouble(&raOK);
+            double deDev = pos[1].toDouble(&deOK);
+
+            if (raDev && deDev)
+                emit newAxisDelta(raDev, deDev);
+        }
+        else
+        {
+            emit newLog(i18n("Failed to get RA/DEC Drift."));
+        }
+    }
+        break;
+
+    case SET_DITHERING_RANGE:
+        if (reply == "OK")
+        {
+            sendCommand(DITHER);
+
+            deviationTimer.stop();
+        }
+        else
+        {
+            emit newLog(i18n("Failed to set dither range."));
+        }
+        break;
+
+    case DITHER:
+        if (reply == "OK")
+            emit newStatus(GUIDE_DITHERING_SUCCESS);
+        else
+            emit newStatus(GUIDE_DITHERING_ERROR);
+
+        state = GUIDING;
+        deviationTimer.start();
+        break;
+
     default:
         break;
     }
@@ -178,10 +268,6 @@ void LinGuider::onConnected()
 
 void LinGuider::sendCommand(LinGuiderCommand command, const QString &args)
 {    
-    //emit newLog(json_doc.toJson(QJsonDocument::Compact));
-
-    //tcpSocket->write(json_doc.toJson(QJsonDocument::Compact));
-
     // Command format: Magic Number (0x00 0x02), cmd (2 bytes), len_of_param (4 bytes), param (ascii)
 
     int size = 8 + args.size();
@@ -219,35 +305,32 @@ bool LinGuider::calibrate()
 
 bool LinGuider::guide()
 {
-
-    //
-
+    sendCommand(GUIDER, "start");
     return true;
 }
 
 bool LinGuider::abort()
 {
-
+    sendCommand(GUIDER, "stop");
     return true;
 }
 
 bool LinGuider::suspend()
 {
-
-    return true;
-
+    return abort();
 }
 
 bool LinGuider::resume()
 {
-
-    return true;
-
+    return guide();
 }
 
 bool LinGuider::dither(double pixels)
 {
+    QString pixelsString = QString::number(pixels, 'f', 2);
+    QString args = QString("%1 %2").arg(pixelsString).arg(pixelsString);
 
+    sendCommand(SET_DITHERING_RANGE, args);
 
     return true;
 }
