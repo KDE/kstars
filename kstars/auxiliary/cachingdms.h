@@ -80,6 +80,18 @@ public:
     }
 
     /**
+     * @short Overrides dms::setD()
+     */
+    inline void setD( const int &d, const int &m, const int &s, const int &ms=0 ) { dms::setD( d, m, s, ms ); dms::SinCos( m_sin, m_cos );
+#ifdef COUNT_DMS_SINCOS_CALLS
+        cachingdms_delta -= 2;
+        if( !m_cacheUsed )
+            ++cachingdms_bad_uses;
+        m_cacheUsed = false;
+#endif
+    }
+
+    /**
      * @short Sets the angle in hours, supplied as a double
      * @note Re-implements dms::setH() with sine/cosine caching
      * @note While this and other methods internally call setD, we want to avoid unnecessary vtable lookups. We'd rather have inline than virtual when speed matters in general.
