@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>626</width>
-    <height>447</height>
+    <width>634</width>
+    <height>509</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -28,10 +28,16 @@
    </property>
    <item>
     <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Object &amp;&amp; Sequence Selection</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_10">
+     <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,1,2">
       <property name="spacing">
        <number>3</number>
       </property>
@@ -50,17 +56,17 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <property name="spacing">
-         <number>1</number>
+         <number>5</number>
         </property>
         <item>
          <layout class="QGridLayout" name="gridLayout_2">
           <property name="spacing">
-           <number>1</number>
+           <number>5</number>
           </property>
           <item row="1" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_17">
             <property name="spacing">
-             <number>1</number>
+             <number>5</number>
             </property>
             <item>
              <widget class="QLabel" name="label_6">
@@ -95,7 +101,7 @@
           <item row="2" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_13">
             <property name="spacing">
-             <number>1</number>
+             <number>5</number>
             </property>
             <item>
              <widget class="QLineEdit" name="fitsEdit">
@@ -135,7 +141,7 @@
           <item row="5" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_11">
             <property name="spacing">
-             <number>1</number>
+             <number>5</number>
             </property>
             <item>
              <widget class="QCheckBox" name="trackStepCheck">
@@ -219,7 +225,7 @@
           <item row="0" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <property name="spacing">
-             <number>1</number>
+             <number>5</number>
             </property>
             <item>
              <widget class="QLineEdit" name="nameEdit"/>
@@ -289,7 +295,7 @@
           <item row="3" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_15">
             <property name="spacing">
-             <number>1</number>
+             <number>5</number>
             </property>
             <item>
              <widget class="QLineEdit" name="sequenceEdit">
@@ -1481,10 +1487,13 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Preferred</enum>
+     </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>40</height>
+       <height>1</height>
       </size>
      </property>
     </spacer>
@@ -1499,30 +1508,84 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>nameEdit</tabstop>
+  <tabstop>selectObjectB</tabstop>
+  <tabstop>prioritySpin</tabstop>
+  <tabstop>raBox</tabstop>
+  <tabstop>decBox</tabstop>
+  <tabstop>fitsEdit</tabstop>
+  <tabstop>selectFITSB</tabstop>
+  <tabstop>sequenceEdit</tabstop>
+  <tabstop>loadSequenceB</tabstop>
+  <tabstop>profileCombo</tabstop>
+  <tabstop>trackStepCheck</tabstop>
+  <tabstop>focusStepCheck</tabstop>
+  <tabstop>alignStepCheck</tabstop>
+  <tabstop>guideStepCheck</tabstop>
+  <tabstop>unparkDomeCheck</tabstop>
+  <tabstop>unparkMountCheck</tabstop>
+  <tabstop>uncapCheck</tabstop>
+  <tabstop>startupB</tabstop>
+  <tabstop>startupScript</tabstop>
+  <tabstop>selectStartupScriptB</tabstop>
+  <tabstop>warmCCDCheck</tabstop>
+  <tabstop>capCheck</tabstop>
+  <tabstop>parkMountCheck</tabstop>
+  <tabstop>parkDomeCheck</tabstop>
+  <tabstop>shutdownB</tabstop>
+  <tabstop>shutdownScript</tabstop>
+  <tabstop>selectShutdownScriptB</tabstop>
+  <tabstop>addToQueueB</tabstop>
+  <tabstop>removeFromQueueB</tabstop>
+  <tabstop>evaluateOnlyB</tabstop>
+  <tabstop>mosaicB</tabstop>
+  <tabstop>queueLoadB</tabstop>
+  <tabstop>queueSaveB</tabstop>
+  <tabstop>queueSaveAsB</tabstop>
+  <tabstop>queueTable</tabstop>
+  <tabstop>startB</tabstop>
+  <tabstop>pauseB</tabstop>
+  <tabstop>asapConditionR</tabstop>
+  <tabstop>culminationConditionR</tabstop>
+  <tabstop>culminationOffset</tabstop>
+  <tabstop>startupTimeConditionR</tabstop>
+  <tabstop>startupTimeEdit</tabstop>
+  <tabstop>altConstraintCheck</tabstop>
+  <tabstop>minAltitude</tabstop>
+  <tabstop>moonSeparationCheck</tabstop>
+  <tabstop>minMoonSeparation</tabstop>
+  <tabstop>twilightCheck</tabstop>
+  <tabstop>weatherCheck</tabstop>
+  <tabstop>sequenceCompletionR</tabstop>
+  <tabstop>loopCompletionR</tabstop>
+  <tabstop>timeCompletionR</tabstop>
+  <tabstop>completionTimeEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="shutdownProcedureGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="startupProcedureButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
-  <buttongroup name="completionButtonGroup"/>
-  <buttongroup name="constraintButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="shutdownProcedureGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="completionButtonGroup"/>
+  <buttongroup name="startupProcedureButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="constraintButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="startupButtonGroup"/>
  </buttongroups>
 </ui>
