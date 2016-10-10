@@ -35,7 +35,7 @@ struct HFRPoint
  *@class Focus
  *@short Supports manual focusing and auto focusing using relative and absolute INDI focusers.
  *@author Jasem Mutlaq
- *@version 1.1
+ *@version 1.2
  */
 class Focus : public QWidget, public Ui::Focus
 {
@@ -478,6 +478,9 @@ private:
 
     // Selected star coordinates
     QVector3D starCenter;
+
+    // Focus Frame
+    FITSView *focusView;
 };
 
 }

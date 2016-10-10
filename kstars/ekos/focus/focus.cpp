@@ -218,6 +218,14 @@ Focus::Focus()
 
     connect(thresholdSpin, SIGNAL(valueChanged(double)), this, SLOT(setThreshold(double)));
     connect(focusFramesSpin, SIGNAL(valueChanged(int)), this, SLOT(setFrames(int)));
+
+    focusView = new FITSView(focusingWidget);
+    focusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    focusView->setBaseSize(focusingWidget->size());
+    QVBoxLayout *vlayout = new QVBoxLayout();
+    vlayout->addWidget(focusView);
+    focusingWidget->setLayout(vlayout);
+    connect(focusView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int,int)), Qt::UniqueConnection);
 }
 
 Focus::~Focus()
@@ -273,9 +281,7 @@ void Focus::resetFrame()
             starCenter = QVector3D();
             subFramed = false;
 
-            FITSView *targetImage = targetChip->getImageView(FITS_FOCUS);
-            if (targetImage)
-                targetImage->setTrackingBox(QRect());
+            focusView->setTrackingBox(QRect());
         }
     }
 }
@@ -314,6 +320,8 @@ void Focus::checkCCD(int ccdNum)
         ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
         if (targetChip)
         {
+            targetChip->setImageView(focusView, FITS_FOCUS);
+
             binningCombo->setEnabled(targetChip->canBin());
             kcfg_subFrame->setEnabled(targetChip->canSubframe());
             autoStarCheck->setEnabled(targetChip->canSubframe());
@@ -758,10 +766,6 @@ void Focus::abort()
 
     //resetFrame();
 
-    FITSView *targetImage = targetChip->getImageView(FITS_FOCUS);
-    if (targetImage)
-        targetImage->updateMode(FITS_FOCUS);
-
     resetButtons();
 
     absIterations = 0;
@@ -842,6 +846,8 @@ void Focus::capture()
     }
 
     captureInProgress = true;
+
+    focusView->setBaseSize(focusingWidget->size());
 
     targetChip->capture(seqExpose);
 
@@ -952,8 +958,7 @@ void Focus::newFITS(IBLOB *bp)
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     if (darkFrameCheck->isChecked())
-    {
-        FITSView *currentImage   = targetChip->getImageView(FITS_FOCUS);
+    {        
         FITSData *darkData       = NULL;
         QVariantMap settings = frameSettings[targetChip];
         uint16_t offsetX = settings["x"].toInt() / settings["binx"].toInt();
@@ -965,9 +970,9 @@ void Focus::newFITS(IBLOB *bp)
         connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
 
         if (darkData)
-            DarkLibrary::Instance()->subtract(darkData, currentImage, defaultScale, offsetX, offsetY);
+            DarkLibrary::Instance()->subtract(darkData, focusView, defaultScale, offsetX, offsetY);
         else
-            DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, exposureIN->value(), offsetX, offsetY);
+            DarkLibrary::Instance()->captureAndSubtract(targetChip, focusView, exposureIN->value(), offsetX, offsetY);
 
         return;
     }
@@ -985,15 +990,6 @@ void Focus::setCaptureComplete()
     // JM 2016-09-28: Disable setting back to FITS_NORMAL as it might be causing issues. Each module should set capture module separately.
     //targetChip->setCaptureMode(FITS_NORMAL);
 
-    FITSView *targetImage = targetChip->getImageView(FITS_FOCUS);
-
-    if (targetImage == NULL)
-    {
-        appendLogText(i18n("FITS image failed to load, aborting..."));
-        abort();
-        return;
-    }
-
     int subBinX=1, subBinY=1;
     targetChip->getBinning(&subBinX, &subBinY);
 
@@ -1008,10 +1004,10 @@ void Focus::setCaptureComplete()
         }
 
         QRect starRect = QRect( (starCenter.x()-focusBoxSize->value()/(2*subBinX)), starCenter.y()-focusBoxSize->value()/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
-        targetImage->setTrackingBox(starRect);
+        focusView->setTrackingBox(starRect);
     }
 
-    connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
+    //connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
 
     if (inFocusLoop == false)
         appendLogText(i18n("Image received."));
@@ -1025,18 +1021,18 @@ void Focus::setCaptureComplete()
 
     captureInProgress = false;
 
-    FITSData *image_data = targetChip->getImageData();
+    FITSData *image_data = focusView->getImageData();
 
-    starPixmap = targetImage->getTrackingBoxPixmap();
+    starPixmap = focusView->getTrackingBoxPixmap();
     emit newStarPixmap(starPixmap);
 
     // If we're not framing, let's try to detect stars
-    if (inFocusLoop == false || (inFocusLoop && targetImage->isTrackingBoxEnabled()))
+    if (inFocusLoop == false || (inFocusLoop && focusView->isTrackingBoxEnabled()))
     {
         if (image_data->areStarsSearched() == false)
         {
-            if (targetImage->isTrackingBoxEnabled())
-                image_data->findStars(targetImage->getTrackingBox());
+            if (focusView->isTrackingBoxEnabled())
+                image_data->findStars(focusView->getTrackingBox());
             else
                 image_data->findStars();
         }
@@ -1093,7 +1089,7 @@ void Focus::setCaptureComplete()
                     //targetImage->setTrackingBox(QRect(x, y, focusBoxSize->value(), focusBoxSize->value()));
                     starCenter.setX(qMax(0, static_cast<int>(maxStarHFR->x)));
                     starCenter.setY(qMax(0, static_cast<int>(maxStarHFR->y)));
-                    targetImage->setTrackingBox(QRect( (starCenter.x()-focusBoxSize->value()/(2*subBinX)), starCenter.y()-focusBoxSize->value()/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY));
+                    focusView->setTrackingBox(QRect( (starCenter.x()-focusBoxSize->value()/(2*subBinX)), starCenter.y()-focusBoxSize->value()/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY));
                 }
             }
 
@@ -1145,8 +1141,8 @@ void Focus::setCaptureComplete()
                     //targetChip->getFrame(&fx, &fy, &fw, &fh);
 
                 //targetImage->setTrackingBox(QRect((fw-focusBoxSize->value())/2, (fh-focusBoxSize->value())/2, focusBoxSize->value(), focusBoxSize->value()));
-                targetImage->setTrackingBox(QRect(w-focusBoxSize->value()/(subBinX*2), h-focusBoxSize->value()/(subBinY*2), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY));
-                targetImage->setTrackingBoxEnabled(true);
+                focusView->setTrackingBox(QRect(w-focusBoxSize->value()/(subBinX*2), h-focusBoxSize->value()/(subBinY*2), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY));
+                focusView->setTrackingBoxEnabled(true);
 
                 state = Ekos::FOCUS_WAITING;
                 emit newStatus(state);
@@ -1215,7 +1211,7 @@ void Focus::setCaptureComplete()
                 //targetChip->getFrame(&fx, &fy, &fw, &fh);
 
             //targetImage->setTrackingBox(QRect((w-focusBoxSize->value())/(subBinX*2), (h-focusBoxSize->value())/(subBinY*2), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinX));
-            targetImage->setTrackingBoxEnabled(true);
+            focusView->setTrackingBoxEnabled(true);
 
             //starSelected=true;
 
@@ -1237,9 +1233,9 @@ void Focus::setCaptureComplete()
             int subBinX=1,subBinY=1;
             targetChip->getBinning(&subBinX, &subBinY);
 
-            targetImage->setTrackingBox(QRect((w-focusBoxSize->value())/(subBinX*2), (h-focusBoxSize->value())/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY));
-            targetImage->setTrackingBoxEnabled(true);
-            connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
+            focusView->setTrackingBox(QRect((w-focusBoxSize->value())/(subBinX*2), (h-focusBoxSize->value())/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY));
+            focusView->setTrackingBoxEnabled(true);
+            //connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
             return;
         }
     }
@@ -1291,7 +1287,7 @@ void Focus::setCaptureComplete()
         dir.mkpath(path);
         QString name = "autofocus_frame_" + QDateTime::currentDateTime().toString("HH:mm:ss") + ".fits";
         QString filename = path + QStringLiteral("/") + name;
-        targetImage->getImageData()->saveFITS(filename);
+        focusView->getImageData()->saveFITS(filename);
     }
 
     if (canAbsMove || canRelMove)
@@ -2056,17 +2052,13 @@ void Focus::updateBoxSize(int value)
     if (targetChip == NULL)
         return;
 
-    FITSView *targetImage = targetChip->getImageView(FITS_FOCUS);
-    if (targetImage == NULL)
-        return;
-
-    QRect trackBox = targetImage->getTrackingBox();
+    QRect trackBox = focusView->getTrackingBox();
     trackBox.setX(trackBox.x()+(trackBox.width()-value)/2);
     trackBox.setY(trackBox.y()+(trackBox.height()-value)/2);
     trackBox.setWidth(value);
     trackBox.setHeight(value);
 
-    targetImage->setTrackingBox(trackBox);
+    focusView->setTrackingBox(trackBox);
 }
 
 void Focus::focusStarSelected(int x, int y)
@@ -2087,10 +2079,6 @@ void Focus::focusStarSelected(int x, int y)
     }
 
     int offset = focusBoxSize->value()/subBinX;
-
-    FITSView *targetImage = targetChip->getImageView(FITS_FOCUS);
-
-    //targetImage->updateMode(FITS_FOCUS);
 
     QRect starRect;
 
@@ -2149,7 +2137,7 @@ void Focus::focusStarSelected(int x, int y)
         starCenter.setX(x);
         starCenter.setY(y);
         starRect = QRect( starCenter.x()-focusBoxSize->value()/(2*subBinX), starCenter.y()-focusBoxSize->value()/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
-        targetImage->setTrackingBox(starRect);
+        focusView->setTrackingBox(starRect);
     }
 
     starCenter.setZ(subBinX);

@@ -1296,6 +1296,7 @@ void CCD::processBLOB(IBLOB* bp)
             break;
 
         case FITS_FOCUS:
+            /*
             if (focusTabID == -1)
                 tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
             else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
@@ -1319,6 +1320,27 @@ void CCD::processBLOB(IBLOB* bp)
                 // If there is problem loading image then BLOB is not valid so let's return
                 return;
             }
+            */
+
+        {
+            FITSView *focusView = targetChip->getImageView(FITS_FOCUS);
+            if (focusView)
+            {
+                focusView->setFilter(captureFilter);
+                bool imageLoad = focusView->loadFITS(filename, true);
+                if (imageLoad)
+                {
+                    //focusView->rescale(ZOOM_FIT_WINDOW);
+                    focusView->updateFrame();
+                    emit newImage(focusView->getDisplayImage(), targetChip);
+                }
+                else
+                {
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
+                    return;
+                }
+            }
+        }
             break;
 
         case FITS_GUIDE:
@@ -1418,7 +1440,7 @@ void CCD::processBLOB(IBLOB* bp)
 
         }
 
-        if (targetChip->getCaptureMode() != FITS_GUIDE)
+        if (targetChip->getCaptureMode() != FITS_GUIDE && targetChip->getCaptureMode() != FITS_FOCUS)
             fv->show();
     }
 #endif
