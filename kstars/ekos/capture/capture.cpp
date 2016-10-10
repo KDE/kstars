@@ -183,8 +183,7 @@ Capture::Capture()
 
     guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
     guideDeviation->setValue(Options::guideDeviation());
-    autofocusCheck->setChecked(Options::enforceAutofocus());
-    parkCheck->setChecked(Options::autoParkTelescope());
+    autofocusCheck->setChecked(Options::enforceAutofocus());    
     meridianCheck->setChecked(Options::autoMeridianFlip());
     meridianHours->setValue(Options::autoMeridianHours());
 
@@ -194,8 +193,6 @@ Capture::Capture()
     connect(guideDeviation, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
     connect(meridianCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(meridianHours, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
-    connect(parkCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
-
 
     // FIXME remove this later
     connect(&postCaptureScript, SIGNAL(finished(int)), this, SLOT(postScriptFinished(int)));
@@ -309,8 +306,7 @@ void Capture::start()
     Options::setEnforceGuideDeviation(guideDeviationCheck->isChecked());
     Options::setEnforceAutofocus(autofocusCheck->isChecked());
     Options::setAutoMeridianFlip(meridianCheck->isChecked());
-    Options::setAutoMeridianHours(meridianHours->value());
-    Options::setAutoParkTelescope(parkCheck->isChecked());
+    Options::setAutoMeridianHours(meridianHours->value());    
 
     if (queueTable->rowCount() ==0)
         addJob();
@@ -1038,14 +1034,6 @@ void Capture::processJobCompletion()
 
         state = CAPTURE_COMPLETE;
         emit newStatus(Ekos::CAPTURE_COMPLETE);
-
-        if (parkCheck->isChecked() && currentTelescope && currentTelescope->canPark())
-        {
-            appendLogText(i18n("Parking telescope..."));
-            //emit mountParking();
-            currentTelescope->Park();
-            return;
-        }
 
         //Resume guiding if it was suspended before
         //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
@@ -2030,8 +2018,6 @@ void Capture::syncTelescopeInfo()
 {
     if (currentCCD && currentTelescope && currentTelescope->isConnected())
     {
-        parkCheck->setEnabled(currentTelescope->canPark());
-
         ITextVectorProperty *activeDevices = currentCCD->getBaseDevice()->getText("ACTIVE_DEVICES");
         if (activeDevices)
         {
@@ -2148,15 +2134,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
                      else
                          meridianCheck->setChecked(false);
 
-                 }
-                 else if (!strcmp(tagXMLEle(ep), "Park"))
-                 {
-                      if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
-                         parkCheck->setChecked(true);
-                     else
-                         parkCheck->setChecked(false);
-
-                 }
+                 }                 
                  else
                  {
                      processJobInfo(ep);
@@ -2431,8 +2409,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     outstream << "<SequenceQueue version='1.4'>" << endl;
     outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>" << guideDeviation->value() << "</GuideDeviation>" << endl;
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>" << HFRPixels->value() << "</Autofocus>" << endl;
-    outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>" << meridianHours->value() << "</MeridianFlip>" << endl;
-    outstream << "<Park enabled='" << (parkCheck->isChecked() ? "true" : "false") << "'></Park>" << endl;
+    outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>" << meridianHours->value() << "</MeridianFlip>" << endl;    
     foreach(SequenceJob *job, jobs)
     {
         job->getPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
@@ -2771,12 +2748,6 @@ void Capture::setInSequenceFocus(bool enable, double HFR)
         if (enable)
             HFRPixels->setValue(HFR);
     }
-}
-
-void Capture::setParkOnComplete(bool enable)
-{
-    if (parkCheck->isEnabled())
-        parkCheck->setChecked(enable);
 }
 
 void Capture::setTemperature()

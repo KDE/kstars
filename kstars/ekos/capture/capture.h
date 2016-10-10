@@ -152,12 +152,6 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setInSequenceFocus(bool enable, double HFR);
 
     /** DBUS interface function.
-     * Enables or disables park on complete option.
-     * @param enable If true, mount shall be commanded to parking position after all jobs are complete in the sequence queue.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setParkOnComplete(bool enable);
-
-    /** DBUS interface function.
      * Enable or Disable meridian flip, and sets its activation hour.
      * @param enable If true, meridian flip will be command after user-configurable number of hours.
      */
