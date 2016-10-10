@@ -962,7 +962,10 @@ bool Guide::suspend()
     if (state == GUIDE_SUSPENDED)
         return true;
 
-    return guider->suspend();
+    if (state == GUIDE_GUIDING)
+        return guider->suspend();
+    else
+        return false;
 }
 
 bool Guide::resume()
@@ -970,7 +973,10 @@ bool Guide::resume()
     if (state == GUIDE_GUIDING)
         return true;
 
-    return guider->resume();
+    if (state == GUIDE_SUSPENDED)
+        return guider->resume();
+    else
+        return false;
 }
 
 void Guide::setExposure(double value)
