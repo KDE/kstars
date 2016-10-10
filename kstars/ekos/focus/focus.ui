@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>644</width>
-    <height>579</height>
+    <width>647</width>
+    <height>575</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0">
@@ -54,10 +54,44 @@
           <property name="bottomMargin">
            <number>5</number>
           </property>
+          <item row="2" column="2">
+           <widget class="QPushButton" name="startLoopB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Framing</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QPushButton" name="captureB">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Capture</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_16">
+            <property name="text">
+             <string>Ticks:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_22">
+            <property name="text">
+             <string>Start:</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="2">
            <widget class="QPushButton" name="focusInB">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>Focus In</string>
@@ -94,45 +128,8 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
-           <widget class="QPushButton" name="stopFocusB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Stop</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QPushButton" name="startLoopB">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Start Framing</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1">
            <widget class="QComboBox" name="focuserCombo"/>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_15">
-            <property name="text">
-             <string>Mode:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QRadioButton" name="manualModeR">
-            <property name="text">
-             <string>&amp;Manual</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
           </item>
           <item row="2" column="1">
            <widget class="QPushButton" name="startFocusB">
@@ -140,51 +137,27 @@
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>Start Focus</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QRadioButton" name="AutoModeR">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>A&amp;uto</string>
+             <string>Auto Focus</string>
             </property>
            </widget>
           </item>
           <item row="0" column="3">
            <widget class="QPushButton" name="focusOutB">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>Focus Out</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_16">
-            <property name="text">
-             <string>Ticks:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3">
-           <widget class="QPushButton" name="captureB">
+          <item row="3" column="1" colspan="3">
+           <widget class="QPushButton" name="stopFocusB">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>Capture</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_22">
-            <property name="text">
-             <string>Action:</string>
+             <string>Stop</string>
             </property>
            </widget>
           </item>
@@ -848,8 +821,6 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
     </spacer>
    </item>
   </layout>
-  <zorder>focusingWidget</zorder>
-  <zorder>HFRPlot</zorder>
   <zorder>verticalSpacer</zorder>
  </widget>
  <customwidgets>
@@ -866,12 +837,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
   <tabstop>focusOutB</tabstop>
   <tabstop>absTicksSpin</tabstop>
   <tabstop>setAbsTicksB</tabstop>
-  <tabstop>captureB</tabstop>
   <tabstop>startFocusB</tabstop>
-  <tabstop>stopFocusB</tabstop>
-  <tabstop>startLoopB</tabstop>
-  <tabstop>manualModeR</tabstop>
-  <tabstop>AutoModeR</tabstop>
   <tabstop>CCDCaptureCombo</tabstop>
   <tabstop>exposureIN</tabstop>
   <tabstop>binningCombo</tabstop>
