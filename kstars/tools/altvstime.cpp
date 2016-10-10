@@ -112,8 +112,22 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->View->xAxis->setRange(43200, 129600);
     avtUI->View->xAxis2->setRange(61200, 147600);
 
+    // configure the bottom axis to show time instead of number:
+    QSharedPointer<QCPAxisTickerTime> xAxisTimeTicker(new QCPAxisTickerTime);
+    xAxisTimeTicker->setTimeFormat("%h:%m");
+    // TODO: limit the hour values to 23
+    xAxisTimeTicker->setTickCount(12);
+    xAxisTimeTicker->setTickStepStrategy(QCPAxisTicker::tssReadability);
+    xAxisTimeTicker->setTickOrigin(Qt::UTC);
+    avtUI->View->xAxis->setTicker(xAxisTimeTicker);
 
-    // FIXME user QCPAxisTickerTime here
+    // configure the top axis to show time instead of number:
+    QSharedPointer<QCPAxisTickerTime> xAxis2TimeTicker(new QCPAxisTickerTime);
+    xAxis2TimeTicker->setTimeFormat("%h:%m");
+    xAxis2TimeTicker->setTickCount(12);
+    xAxis2TimeTicker->setTickStepStrategy(QCPAxisTicker::tssReadability);
+    xAxis2TimeTicker->setTickOrigin(Qt::UTC);
+    avtUI->View->xAxis2->setTicker(xAxis2TimeTicker);
 
     /*avtUI->View->xAxis->setDateTimeSpec(Qt::UTC);
     avtUI->View->xAxis2->setDateTimeSpec(Qt::UTC);
