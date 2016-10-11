@@ -125,8 +125,9 @@ DriverManager::DriverManager(QWidget *parent)
     QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientTab()));
     QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
 
+    // Do not use KSPaths here, this is for INDI
     if (Options::indiDriversDir().isEmpty())
-        Options::setIndiDriversDir(KSPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory));
+        Options::setIndiDriversDir(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory));
 
     readXMLDrivers();
 
