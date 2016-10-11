@@ -48,7 +48,7 @@ public:
     ~Focus();
 
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
-    typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
+    typedef enum { FOCUS_AUTO, FOCUS_LOOP } FocusType;
 
     /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
      * Ekos::Focus interface provides advanced scripting capabilities to perform manual and automatic focusing operations.
@@ -91,12 +91,6 @@ public:
      * @return Returns Half-Flux-Radius in pixels.
      */
     Q_SCRIPTABLE double getHFR() { return currentHFR; }
-
-    /** DBUS interface function.
-     * Set Focus mode (Manual or Auto)
-     * @param mode 0 for manual, any other value for auto.
-     */
-    Q_SCRIPTABLE bool setFocusMode(int mode);
 
     /** DBUS interface function.
      * Set CCD exposure value
@@ -346,6 +340,11 @@ private:
     void autoFocusRel();
     void resetButtons();
 
+    /**
+     * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
+     */
+    void syncTrackingBoxPosition();
+
     // Devices needed for Focus operation
     ISD::Focuser *currentFocuser;
     ISD::CCD *currentCCD;
@@ -426,7 +425,7 @@ private:
     // Did we reverse direction?
     bool reverseDir;
     // Did the user or the auto selection process finish selecting our focus star?
-    //bool starSelected;
+    bool starSelected;
     // Target frame dimensions
     //int fx,fy,fw,fh;
     // Origianl frame dimensions
