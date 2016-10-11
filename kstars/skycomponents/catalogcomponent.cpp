@@ -55,6 +55,27 @@ CatalogComponent::CatalogComponent(SkyComposite *parent,
 }
 
 CatalogComponent::~CatalogComponent() {
+    // EH? WHY IS THIS EMPTY? -- AS
+
+    // FIXME: Check this and implement it properly when you're not as
+    // desperate to sleep as I am right now. -- AS
+
+    /*
+    auto removeFromContainer = []( auto &thingToRemove, auto &container ) {
+        container.remove( container.indexOf( thingToRemove ) );
+    };
+
+    foreach ( SkyObject *obj, m_ObjectList ) {
+        // FIXME: Should the name removal be done here!? What part of this giant edifice of code is supposed to take care of this? SkyMapComposite? -- AS
+        // FIXME: Removing from any of these containers is VERY SLOW (QList will be O(N) to find and O(1) to remove, whereas QVector will be O(N) to find and O(N) to remove...) -- AS
+        removeFromComtainer( objectNames( obj->type() ), obj->name() );
+        removeFromContainer( objectLists(obj->type()), QPair<QString, const SkyObject *>(obj->name(), obj) );
+        removeFromContainer( objectLists(obj->type()), QPair<QString, const SkyObject *>(obj->longname(), obj) );
+
+        delete obj;
+    }
+    */
+
 }
 
 void CatalogComponent::_loadData( bool includeCatalogDesignation ) {
@@ -75,13 +96,30 @@ void CatalogComponent::_loadData( bool includeCatalogDesignation ) {
             //FIXME JM 2016-06-02: inefficient and costly check
             // Need better way around this
             //if (!objectNames(names.at(iter).first).contains(names.at(iter).second))
-                objectNames(names.at(iter).first).append(names.at(iter).second);
+
+            // AS: FIXME -- after Artem Fedoskin introduced the
+            // objectLists, which is definitely better, we should
+            // really work towards doing away with this.
+
+            // N.B. It might be better to use a std::multiset instead
+            // of QVector<QPair<>>, because it allows for inexpensive
+            // O(log N) lookups, but the filter and find will be very
+            // quick because of the binary search tree. HOWEVER, it
+            // will come at the cost of a lot of code complexity,
+            // since std:: containers may not work well out of the box
+            // with Qt's MVC system, so this would be desirable only
+            // if N (number of named objects in KStars) becomes very
+            // very large such that the filtering in Find Dialog takes
+            // too long. -- AS
+
+            objectNames(names.at(iter).first).append(names.at(iter).second);
         }
     }
 
     //FIXME - get rid of objectNames completely. For now only KStars Lite uses objectLists
     for(int iter = 0; iter < m_ObjectList.size(); ++iter) {
         SkyObject *obj = m_ObjectList[iter];
+        Q_ASSERT( obj );
         if(obj->type() <= SkyObject::TYPE_UNKNOWN) {
             QVector<QPair<QString, const SkyObject *>>&objects = objectLists(obj->type());
             bool dupName = false;
@@ -91,6 +129,15 @@ void CatalogComponent::_loadData( bool includeCatalogDesignation ) {
             QString longname = obj->longname();
 
             //FIXME - find a better way to check for duplicates
+
+            // FIXME: AS: There is an argument for why we may not want
+            // to remove duplicates -- when the object is removed, all
+            // names seem to be removed, so if there are two objects
+            // in KStars with the same name in two different catalogs
+            // (e.g. Arp 148 from Arp catalog, and Arp 148 from some
+            // miscellaneous catalog), then disabling one catalog
+            // removes the name entirely from the list.
+
             for(int i = 0; i < objects.size(); ++i) {
                 if(name == objects.at(i).first)
                     dupName = true;
@@ -108,7 +155,7 @@ void CatalogComponent::_loadData( bool includeCatalogDesignation ) {
         }
     }
 
-    // Remove Duplicates
+    // Remove Duplicates (see FIXME by AS above)
     foreach(QStringList list, objectNames())
         list.removeDuplicates();
 
