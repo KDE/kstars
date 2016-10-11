@@ -105,7 +105,6 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->View->xAxis2->setLabel("Local Sidereal Time");
     avtUI->View->xAxis2->setVisible(true);
     avtUI->View->yAxis2->setVisible(true);
-    //avtUI->View->yAxis2->setAutoTicks(false);
     avtUI->View->yAxis2->setTickLength(0, 0);
     avtUI->View->xAxis->setLabel("Local Time");
     avtUI->View->yAxis->setLabel("Altitude");
@@ -115,7 +114,6 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     // configure the bottom axis to show time instead of number:
     QSharedPointer<QCPAxisTickerTime> xAxisTimeTicker(new QCPAxisTickerTime);
     xAxisTimeTicker->setTimeFormat("%h:%m");
-    // TODO: limit the hour values to 23
     xAxisTimeTicker->setTickCount(12);
     xAxisTimeTicker->setTickStepStrategy(QCPAxisTicker::tssReadability);
     xAxisTimeTicker->setTickOrigin(Qt::UTC);
@@ -128,17 +126,6 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     xAxis2TimeTicker->setTickStepStrategy(QCPAxisTicker::tssReadability);
     xAxis2TimeTicker->setTickOrigin(Qt::UTC);
     avtUI->View->xAxis2->setTicker(xAxis2TimeTicker);
-
-    /*avtUI->View->xAxis->setDateTimeSpec(Qt::UTC);
-    avtUI->View->xAxis2->setDateTimeSpec(Qt::UTC);
-    avtUI->View->xAxis->setTickLabelType(QCPAxis::ltDateTime);
-    avtUI->View->xAxis2->setTickLabelType(QCPAxis::ltDateTime);
-    avtUI->View->xAxis->setDateTimeFormat("h:mm");
-    avtUI->View->xAxis2->setDateTimeFormat("h:mm");
-    avtUI->View->xAxis->setAutoTickStep(false);
-    avtUI->View->xAxis->setTickStep(7200);
-    avtUI->View->xAxis2->setAutoTickStep(false);
-    avtUI->View->xAxis2->setTickStep(7200);*/
 
     // set up the Zoom/Pan features for the Top X Axis
     avtUI->View->axisRect()->setRangeDragAxes(avtUI->View->xAxis2, avtUI->View->yAxis);
@@ -166,7 +153,6 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     background->setScaled(true,Qt::IgnoreAspectRatio);
     background->setLayer("background");
     background->setVisible(true);
-    //avtUI->View->addItem(background);
 
     avtUI->raBox->setDegType( false );
     avtUI->decBox->setDegType( true );
@@ -204,10 +190,10 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     setLSTLimits();
     setDawnDusk();
 
-    connect( avtUI->View->yAxis,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onYRangeChanged(QCPRange)));
-    connect( avtUI->View->xAxis2,    SIGNAL(rangeChanged(QCPRange)), this,   SLOT( onXRangeChanged(QCPRange)));
+    connect( avtUI->View->yAxis,    SIGNAL( rangeChanged(QCPRange)), this,   SLOT( onYRangeChanged(QCPRange)));
+    connect( avtUI->View->xAxis2,    SIGNAL( rangeChanged(QCPRange)), this,   SLOT( onXRangeChanged(QCPRange)));
     connect( avtUI->View, SIGNAL( plottableClick(QCPAbstractPlottable*,QMouseEvent*)), this, SLOT(plotMousePress(QCPAbstractPlottable *, QMouseEvent *)) );
-    connect( avtUI->View, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(mouseOverLine(QMouseEvent*)));
+    connect( avtUI->View, SIGNAL( mouseMove(QMouseEvent*)), this, SLOT(mouseOverLine(QMouseEvent*)));
 
     connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
     connect( avtUI->cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
@@ -512,7 +498,6 @@ void AltVsTime::onXRangeChanged(const QCPRange &range){
     QCPRange aux = avtUI->View->xAxis2->range();
     avtUI->View->xAxis->setRange(aux -= 18000 );
     avtUI->View->xAxis2->setRange(range.bounded(61200, 147600));
-
     // if ZOOM is detected then remove the gold lines that indicate current position:
     if(avtUI->View->xAxis->range().size() != 86400){
         // Refresh the background:
@@ -524,27 +509,6 @@ void AltVsTime::onXRangeChanged(const QCPRange &range){
         avtUI->View->replot();
     }
 
-    // FIXME
-
-#if 0
-    // set up the Tick Step depending on Zoom level
-    if(avtUI->View->xAxis->range().size() < 12500){
-        avtUI->View->xAxis->setTickStep(1800);
-        avtUI->View->xAxis2->setTickStep(1800);
-    }else
-        if(avtUI->View->xAxis->range().size() < 33200){
-            avtUI->View->xAxis->setTickStep(3600);
-            avtUI->View->xAxis2->setTickStep(3600);
-        }else
-            if(avtUI->View->xAxis->range().size() < 63200){
-                avtUI->View->xAxis->setTickStep(5400);
-                avtUI->View->xAxis2->setTickStep(5400);
-            }else{
-                avtUI->View->xAxis->setTickStep(7200);
-                avtUI->View->xAxis2->setTickStep(7200);
-            }
-
-#endif
 }
 
 void AltVsTime::onYRangeChanged(const QCPRange &range){
@@ -729,9 +693,6 @@ void AltVsTime::slotMarkRiseTime(){
                 hours += 24;
             time = hours * 3600 + minutes * 60;
             riseTimeTracer = new QCPItemTracer(avtUI->View);
-
-            //avtUI->View->add addItem(riseTimeTracer);
-
             riseTimeTracer->setLayer("markersLayer");
             riseTimeTracer->setGraph(selectedGraph);
             riseTimeTracer->setInterpolating(true);
@@ -781,7 +742,6 @@ void AltVsTime::slotMarkSetTime(){
                 hours += 24;
             time = hours * 3600 + minutes * 60;
             setTimeTracer = new QCPItemTracer(avtUI->View);
-            //avtUI->View->addItem(setTimeTracer);
             setTimeTracer->setLayer("markersLayer");
             setTimeTracer->setGraph(selectedGraph);
             setTimeTracer->setInterpolating(true);
@@ -831,7 +791,6 @@ void AltVsTime::slotMarkTransitTime(){
             hours += 24;
         time = hours * 3600 + minutes * 60;
         transitTimeTracer = new QCPItemTracer(avtUI->View);
-        //avtUI->View->addItem(transitTimeTracer);
         transitTimeTracer->setLayer("markersLayer");
         transitTimeTracer->setGraph(selectedGraph);
         transitTimeTracer->setInterpolating(true);
