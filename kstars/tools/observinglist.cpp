@@ -888,13 +888,10 @@ void ObservingList::slotSaveList() {
     QFile f;
     // FIXME: Move wishlist into a database.
     // TODO: Support multiple wishlists.
-    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist" ) ;
-    if ( ! f.open( QIODevice::WriteOnly ) ) {
-        qDebug() << "Cannot write list to  file"; // TODO: This should be presented as a message box to the user
-        return;
-    }
-    QTextStream ostream( &f );
-    foreach ( SkyObject* o, obsList() ) {
+
+    QString fileContents;
+    QTextStream ostream( &fileContents ); // We first write to a QString to prevent truncating the file in case there is a crash.
+    foreach ( const SkyObject* o, obsList() ) {
         if ( !o ) {
             qWarning() << "Null entry in observing wishlist! Skipping!";
             continue;
@@ -903,7 +900,8 @@ void ObservingList::slotSaveList() {
             //ostream << o->name() << "  " << o->ra0().Hours() << "  " << o->dec0().Degrees() << endl;
             ostream << getObjectName(o, false) << endl;
         } else if ( o->type() == SkyObject::STAR ) {
-            StarObject *s = (StarObject*)o;
+            Q_ASSERT( dynamic_cast<const StarObject *>( o ) );
+            const StarObject *s = static_cast<const StarObject *>( o );
             if ( s->name() == s->gname() )
                 ostream << s->name2() << endl;
             else
@@ -912,6 +910,13 @@ void ObservingList::slotSaveList() {
             ostream << o->name() << endl;
         }
     }
+    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist" ) ;
+    if ( ! f.open( QIODevice::WriteOnly ) ) {
+        qWarning() << "Cannot save wish list to file!"; // TODO: This should be presented as a message box to the user
+        return;
+    }
+    QTextStream writeemall( &f );
+    writeemall << fileContents;
     f.close();
 }
 

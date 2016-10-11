@@ -828,6 +828,11 @@ void CatalogDB::GetAllObjects(const QString &catalog,
         RA = t.ra();
         Dec = t.dec();
 
+        // FIXME: It is a bad idea to create objects in one class
+        // (using new) and delete them in another! The objects created
+        // here are usually deleted by CatalogComponent! See
+        // CatalogComponent::loadData for more information!
+
         if (iType == 0) {  // Add a star
             StarObject *o = new StarObject(RA, Dec, mag, lname);
             sky_list.append(o);
