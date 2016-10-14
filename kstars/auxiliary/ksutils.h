@@ -136,6 +136,17 @@ namespace KSUtils {
      */
     QList<SkyObject *> * castStarObjListToSkyObjList( QList<StarObject *> *starObjList );
 
+
+    /**
+     *@note Avoid using this method for the same reasons as QSharedPointer::data()
+     */
+    template <typename T> QList<T*> makeVanillaPointerList( const QList<QSharedPointer<T>> &spList ) {
+        QList<T *> vpList;
+        foreach( QSharedPointer<T> sp, spList )
+            vpList.append( sp.data() );
+        return vpList;
+    }
+
     /**
      *@short Return the genetive form of constellation name, given the abbreviation
      *@param code Three-letter IAU abbreviation of the constellation
