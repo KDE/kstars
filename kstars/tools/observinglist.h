@@ -94,22 +94,17 @@ public:
         */
     ~ObservingList();
 
-    /** @return true if the object is in the observing list
-        *@p o pointer to the object to test.
-        */
-    inline bool contains( const SkyObject *o ) { return m_WishList.contains( const_cast<SkyObject*>(o) ); }
-
     /** @return true if the window is in its default "large" state.
         */
     bool isLarge() const { return bIsLarge; }
 
     /** @return reference to the current observing list
         */
-    QList<SkyObject*>& obsList() { return m_WishList; }
+    QList<QSharedPointer<SkyObject>>& obsList() { return m_WishList; }
 
     /** @return reference to the current observing list
         */
-    QList<SkyObject*>& sessionList() { return m_SessionList; }
+    QList<QSharedPointer<SkyObject>>& sessionList() { return m_SessionList; }
 
     /** @return pointer to the currently-selected object in the observing list
         *@note if more than one object is selected, this function returns 0.
@@ -189,13 +184,20 @@ public:
      */
     QString getObjectName(const SkyObject *o, bool translated=true);
 
+    /**
+     * @return true if the selected list contains the given object
+     */
+    inline bool contains( const SkyObject *o, bool session = false ) { return bool( findObject( o, session ) ); }
+
+    QSharedPointer<SkyObject> findObject( const SkyObject *o, bool session = false );
+
 public slots:
     /** @short add a new object to list
         *@p o pointer to the object to add to the list
         *@p session flag toggle adding the object to the session list
         *@p update flag to toggle the call of slotSaveList
         */
-    void slotAddObject( SkyObject *o=NULL, bool session=false, bool update=false );
+    void slotAddObject( const SkyObject *o=NULL, bool session=false, bool update=false );
 
     /** @short Remove skyobjects which are highlighted in the
         *observing list tool from the observing list.
@@ -209,7 +211,7 @@ public slots:
         *@p update flag to toggle the call of slotSaveList
         *Use SkyMap::clickedObject() if o is NULL (default)
         */
-    void slotRemoveObject( SkyObject *o=NULL, bool session=false, bool update=false );
+    void slotRemoveObject( const SkyObject *o=NULL, bool session=false, bool update=false );
 
     /** @short center the selected object in the display
         */
@@ -368,7 +370,7 @@ private:
      * @short Return the active list
      * @return The session list or the wish list depending on which tab is currently being viewed.
      */
-    inline QList<SkyObject *>& getActiveList() { return ( ( sessionView ) ? m_SessionList : m_WishList ); }
+    inline QList<QSharedPointer<SkyObject>>& getActiveList() { return ( ( sessionView ) ? m_SessionList : m_WishList ); }
 
     /**
      * @short Return the active itemmodel
@@ -396,7 +398,7 @@ private:
 
     KSAlmanac *ksal;
     ObservingListUI *ui;
-    QList<SkyObject*> m_WishList, m_SessionList;
+    QList<QSharedPointer<SkyObject>> m_WishList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
     QString m_listFileName, m_currentImageFileName, ThumbImage;

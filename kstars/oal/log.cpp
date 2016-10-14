@@ -18,6 +18,7 @@
 
 #include "oal/log.h"
 #include "kstars.h"
+#include "ksutils.h"
 #include "kstarsdata.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
@@ -30,7 +31,7 @@
 void OAL::Log::writeBegin()
 {
     output = "";
-    m_targetList = KStarsData::Instance()->observingList()->sessionList();
+    m_targetList = KSUtils::makeVanillaPointerList( KStarsData::Instance()->observingList()->sessionList() );
     writer = new QXmlStreamWriter(&output);
     writer->setAutoFormatting( true );
     writer->writeStartDocument();

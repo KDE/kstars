@@ -24,6 +24,7 @@
 #include "kstarsdata.h"
 #ifndef KSTARS_LITE
 #include "skymap.h"
+#include "ksutils.h"
 #endif
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
@@ -287,10 +288,14 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     // map->infoBoxes()->reserveBoxes( psky );
 
     if( KStars::Instance() ) {
-        const QList<SkyObject*> obsList = KStarsData::Instance()->observingList()->sessionList();
+        auto& obsList = KStarsData::Instance()->observingList()->sessionList();
         if( Options::obsListText() )
-            foreach( SkyObject* obj, obsList ) {
-                SkyLabeler::AddLabel( obj, SkyLabeler::RUDE_LABEL );
+            foreach( QSharedPointer<SkyObject> obj_clone, obsList ) {
+                // Find the "original" obj
+                SkyObject *o = findByName( obj_clone->name() ); // FIXME: This is sloww.... and can also fail!!!
+                if ( !o )
+                    continue;
+                SkyLabeler::AddLabel( o, SkyLabeler::RUDE_LABEL );
             }
     }
 
@@ -340,7 +345,7 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_ObservingList->pen = QPen( QColor(data->colorScheme()->colorNamed( "ObsListColor" )), 1. );
     if( KStars::Instance() && !m_ObservingList->list )
-        m_ObservingList->list = &KStarsData::Instance()->observingList()->sessionList();
+        m_ObservingList->list = new SkyObjectList( KSUtils::makeVanillaPointerList( KStarsData::Instance()->observingList()->sessionList() ) ); // Make sure we never delete the pointers in m_ObservingList->list!
     if( m_ObservingList )
         m_ObservingList->draw( skyp );
 
