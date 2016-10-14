@@ -659,7 +659,11 @@ void SkyMapComposite::reloadDeepSky() {
     current_map->setClickedPoint( current_map->clickedObject() );
     current_map->slotCenter();
 
-    //Remove and Regenerate set of catalog objects
+    // Remove and Regenerate set of catalog objects
+    //
+    // FIXME: Why should we do this? Because it messes up observing
+    // list really bad to delete and regenerate SkyObjects.
+
     SkyMapDrawAbstract::setDrawLock(true);
     delete m_CustomCatalogs;
     m_CustomCatalogs = new SkyComposite( this );
@@ -673,6 +677,13 @@ void SkyMapComposite::reloadDeepSky() {
             continue;
         m_CustomCatalogs->addComponent( new CatalogComponent( this, allcatalogs.at(i), false, i ), 5 ); // FIXME: Should this be 6 or 5? See SkyMapComposite::SkyMapComposite()
     }
+
+    // FIXME: We should also reload anything that refers to SkyObject
+    // * in memory, because all the old SkyObjects are now gone! This
+    // includes the observing list. Otherwise, expect a bad, bad crash
+    // that is hard to debug! -- AS
+
+
     SkyMapDrawAbstract::setDrawLock(false);
 #endif
 }
