@@ -139,6 +139,13 @@ public:
      */
     Q_SCRIPTABLE Q_NOREPLY  void resetFrame();
 
+    /** DBUS interface function.
+    * Return state of Focuser modue (Ekos::FocusState)
+    */
+
+    Q_SCRIPTABLE int getStatus() { return state; }
+
+
     /** @}*/
 
     /**
