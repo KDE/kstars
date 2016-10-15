@@ -40,7 +40,7 @@
       <arg type="as" direction="out"/>
     </method>    
     <method name="getStatus">
-      <arg type="ui" direction="out"/>
+      <arg type="i" direction="out"/>
     </method>
     <method name="getGuidingDeviation">
       <arg type="ad" direction="out"/>
