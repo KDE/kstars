@@ -2613,7 +2613,7 @@ void Scheduler::checkJobStage()
     case SchedulerJob::STAGE_FOCUSING:
     case SchedulerJob::STAGE_POSTALIGN_FOCUSING:
     {
-        QDBusReply<bool> focusReply = focusInterface->call(QDBus::AutoDetect,"isAutoFocusComplete");
+        QDBusReply<int> focusReply = focusInterface->call(QDBus::AutoDetect,"getStatus");
 
         if (focusReply.error().type() == QDBusError::UnknownObject)
         {
@@ -2626,7 +2626,50 @@ void Scheduler::checkJobStage()
         if (Options::verboseLogging())
             qDebug() << "Scheduler: Focus stage...";
 
+        Ekos::FocusState focusStatus = static_cast<Ekos::FocusState>(focusReply.value());
+
         // Is focus complete?
+        if(focusStatus == Ekos::FOCUS_COMPLETE)
+        {
+                appendLogText(i18n("%1 focusing is complete.", currentJob->getName()));
+
+                autofocusCompleted = true;
+
+                if (currentJob->getStage() == SchedulerJob::STAGE_FOCUSING)
+                {
+                    // Reset frame to original size.
+                    //focusInterface->call(QDBus::AutoDetect,"resetFrame");
+                    currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
+                }
+                else
+                    currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE);
+
+                getNextAction();
+                return;
+         }
+            else if (focusStatus == Ekos::FOCUS_FAILED || focusStatus == Ekos::FOCUS_ABORTED)
+            {
+                appendLogText(i18n("%1 focusing failed!", currentJob->getName()));
+
+                if (focusFailureCount++ < MAX_FAILURE_ATTEMPTS)
+                {
+                    appendLogText(i18n("Restarting %1 focusing procedure...", currentJob->getName()));
+                    // Reset frame to original size.
+                    focusInterface->call(QDBus::AutoDetect,"resetFrame");
+                    // Restart focusing
+                    startFocusing();
+                    return;
+                }
+
+                currentJob->setState(SchedulerJob::JOB_ERROR);
+
+                findNextJob();
+                return;
+            }
+        }
+
+        // Is focus complete?
+        #if 0
         if(focusReply.value())
         {
             focusReply = focusInterface->call(QDBus::AutoDetect,"isAutoFocusSuccessful");
@@ -2669,16 +2712,17 @@ void Scheduler::checkJobStage()
                 return;
             }
         }
-    }
+    #endif
         break;
 
     case SchedulerJob::STAGE_ALIGNING:
     {
-       QDBusReply<bool> alignReply;
+       QDBusReply<int> alignReply;
 
        if (Options::verboseLogging())
            qDebug() << "Scheduler: Alignment stage...";
 
+    #if 0
        if (currentJob->getFITSFile().isEmpty() == false && loadAndSlewProgress)
        {
            QDBusReply<int> loadSlewReply = alignInterface->call(QDBus::AutoDetect,"getLoadAndSlewStatus");
@@ -2712,7 +2756,9 @@ void Scheduler::checkJobStage()
            return;
        }
        else
-            alignReply = alignInterface->call(QDBus::AutoDetect,"isSolverComplete");
+       #endif
+
+       alignReply = alignInterface->call(QDBus::AutoDetect,"getStatus");
 
        if (alignReply.error().type() == QDBusError::UnknownObject)
        {
@@ -2722,23 +2768,19 @@ void Scheduler::checkJobStage()
            return;
        }
 
-       // Is solver complete?
-        if(alignReply.value())
-        {
-            if (Options::verboseLogging())
-                qDebug() << "Scheduler: Solver is complete, checking if successful...";
+       Ekos::AlignState alignStatus = static_cast<Ekos::AlignState>(alignReply.value());
 
-            alignReply = alignInterface->call(QDBus::AutoDetect,"isSolverSuccessful");
-            // Is solver successful?
-            if(alignReply.value())
-            {
+       // Is solver complete?
+        if(alignStatus == Ekos::ALIGN_COMPLETE)
+        {
+
                 appendLogText(i18n("%1 alignment is complete.", currentJob->getName()));
 
                 currentJob->setStage(SchedulerJob::STAGE_ALIGN_COMPLETE);
                 getNextAction();
                 return;
             }
-            else
+            else if (alignStatus == Ekos::ALIGN_FAILED || alignStatus == Ekos::ALIGN_ABORTED)
             {
                 appendLogText(i18n("%1 alignment failed!", currentJob->getName()));
 
@@ -2753,7 +2795,6 @@ void Scheduler::checkJobStage()
 
                 findNextJob();
             }
-        }
     }
     break;
 
@@ -2799,6 +2840,55 @@ void Scheduler::checkJobStage()
     }
         break;
 
+    case SchedulerJob::STAGE_GUIDING:
+    {
+        QDBusReply<int> guideReply = guideInterface->call(QDBus::AutoDetect,"getStatus");
+
+        if (Options::verboseLogging())
+            qDebug() << "Scheduler: Calibration & Guide stage...";
+
+        if (guideReply.error().type() == QDBusError::UnknownObject)
+        {
+            appendLogText(i18n("Connection to INDI is lost. Aborting..."));
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            checkShutdownState();
+            return;
+        }
+
+        Ekos::GuideState guideStatus = static_cast<Ekos::GuideState>(guideReply.value());
+
+        // If calibration stage complete?
+        if(guideStatus == Ekos::GUIDE_GUIDING)
+        {
+            appendLogText(i18n("%1 guiding is in progress...", currentJob->getName()));
+
+            currentJob->setStage(SchedulerJob::STAGE_GUIDING_COMPLETE);
+            getNextAction();
+            return;
+        }
+        else if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR || guideStatus == Ekos::GUIDE_ABORTED)
+        {
+            if (guideStatus == Ekos::GUIDE_ABORTED)
+                appendLogText(i18n("%1 guiding failed!", currentJob->getName()));
+            else
+                appendLogText(i18n("%1 calibration failed!", currentJob->getName()));
+
+            if (guideFailureCount++ < MAX_FAILURE_ATTEMPTS)
+            {
+                appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
+                startGuiding();
+                return;
+            }
+
+                    currentJob->setState(SchedulerJob::JOB_ERROR);
+
+                    findNextJob();
+                    return;
+         }
+    }
+    break;
+
+    #if 0
     case SchedulerJob::STAGE_CALIBRATING:
     {
         QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isCalibrationComplete");
@@ -2859,6 +2949,7 @@ void Scheduler::checkJobStage()
         }
     }
     break;
+    #endif
 
     case SchedulerJob::STAGE_CAPTURING:
     {
@@ -2880,12 +2971,13 @@ void Scheduler::checkJobStage()
              if ( (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) && captureFailureCount++ < MAX_FAILURE_ATTEMPTS)
              {
                  // Check if it is guiding related.
-                 QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"isGuiding");
+                 QDBusReply<int> guideReply = guideInterface->call(QDBus::AutoDetect,"getStatus");
+                 if (guideReply.value() == Ekos::GUIDE_ABORTED || guideReply.value() == Ekos::GUIDE_CALIBRATION_ERROR || guideReply.value() == GUIDE_DITHERING_ERROR)
                  // If guiding failed, let's restart it
-                 if(guideReply.value() == false)
+                 //if(guideReply.value() == false)
                  {
                     appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
-                    currentJob->setStage(SchedulerJob::STAGE_CALIBRATING);
+                    currentJob->setStage(SchedulerJob::STAGE_GUIDING);
                     return;
                  }
              }
@@ -2929,7 +3021,7 @@ void Scheduler::getNextAction()
         else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
             startAstrometry();
         else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-            startCalibrating();
+            startGuiding();
         else
             startCapture();
         break;
@@ -2940,7 +3032,7 @@ void Scheduler::getNextAction()
         else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
             startAstrometry();
         else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-            startCalibrating();
+            startGuiding();
         else
             startCapture();
         break;
@@ -2949,7 +3041,7 @@ void Scheduler::getNextAction()
         if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
              startAstrometry();
          else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-             startCalibrating();
+             startGuiding();
          else
              startCapture();
         break;
@@ -2965,19 +3057,19 @@ void Scheduler::getNextAction()
             // Post alignment re-focusing
             startFocusing();
         else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-           startCalibrating();
+           startGuiding();
         else
            startCapture();
         break;
 
     case SchedulerJob::STAGE_POSTALIGN_FOCUSING_COMPLETE:
         if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-           startCalibrating();
+           startGuiding();
         else
            startCapture();
         break;
 
-    case SchedulerJob::STAGE_GUIDING:
+    case SchedulerJob::STAGE_GUIDING_COMPLETE:
         startCapture();
         break;
 
@@ -3008,9 +3100,9 @@ void Scheduler::stopCurrentJobAction()
        alignInterface->call(QDBus::AutoDetect,"abort");
        break;
 
-    case SchedulerJob::STAGE_CALIBRATING:
-        guideInterface->call(QDBus::AutoDetect,"stopCalibration");
-    break;
+    //case SchedulerJob::STAGE_CALIBRATING:
+//        guideInterface->call(QDBus::AutoDetect,"stopCalibration");
+//    break;
 
     case SchedulerJob::STAGE_GUIDING:
         stopGuiding();
@@ -3657,24 +3749,25 @@ void Scheduler::startAstrometry()
     currentJob->setStage(SchedulerJob::STAGE_ALIGNING);
 }
 
-void Scheduler::startCalibrating()
+void Scheduler::startGuiding()
 {
     // Make sure calibration is auto
-    QVariant arg(true);
-    guideInterface->call(QDBus::AutoDetect,"setCalibrationAutoStar", arg);
+    //QVariant arg(true);
+    //guideInterface->call(QDBus::AutoDetect,"setCalibrationAutoStar", arg);
 
-    QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"startCalibration");
-    if (guideReply.value() == false)
+    //QDBusReply<bool> guideReply = guideInterface->call(QDBus::AutoDetect,"startAutoCalibrateGuide");
+    guideInterface->call(QDBus::AutoDetect,"startAutoCalibrateGuide");
+    /*if (guideReply.value() == false)
     {
         appendLogText(i18n("Starting guide calibration failed. If using external guide application, ensure it is up and running."));
         currentJob->setState(SchedulerJob::JOB_ERROR);
     }
     else
-    {
-        currentJob->setStage(SchedulerJob::STAGE_CALIBRATING);
+    {*/
+        currentJob->setStage(SchedulerJob::STAGE_GUIDING);
 
-        appendLogText(i18n("Calibrating %1 ...", currentJob->getName()));
-    }
+        appendLogText(i18n("Starting guiding procedure for %1 ...", currentJob->getName()));
+    //}
 }
 
 void Scheduler::startCapture()
@@ -3709,7 +3802,7 @@ void Scheduler::startCapture()
 
 void Scheduler::stopGuiding()
 {
-    if ( (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) && (currentJob->getStage() == SchedulerJob::STAGE_GUIDING ||  currentJob->getStage() == SchedulerJob::STAGE_CAPTURING) )
+    if ( (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) && (currentJob->getStage() == SchedulerJob::STAGE_GUIDING_COMPLETE ||  currentJob->getStage() == SchedulerJob::STAGE_CAPTURING) )
     {
         guideInterface->call(QDBus::AutoDetect,"stop");
         guideFailureCount=0;

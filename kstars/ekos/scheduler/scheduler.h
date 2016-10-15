@@ -33,7 +33,7 @@ namespace Ekos
 /**
  * @brief The Ekos scheduler is a simple scheduler class to orchestrate automated multi object observation jobs.
  * @author Jasem Mutlaq
- * @version 1.1
+ * @version 1.2
  */
 class Scheduler : public QWidget, public Ui::Scheduler
 {
@@ -76,7 +76,7 @@ public:
      /**
       * @brief startGuiding After ekos is fed the calibration options, we start the guiging process
       */
-     void startCalibrating();
+     void startGuiding();
 
      /**
       * @brief startCapture The current job file name is solved to an url which is fed to ekos. We then start the capture process

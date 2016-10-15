@@ -313,9 +313,9 @@ void SchedulerJob::setStage(const JOBStage &value)
             statusCell->setText(i18n("Repositioning complete"));
             break;
 
-        case STAGE_CALIBRATING:
+        /*case STAGE_CALIBRATING:
             statusCell->setText(i18n("Calibrating"));
-            break;
+            break;*/
 
         case STAGE_GUIDING:
             statusCell->setText(i18n("Guiding"));
