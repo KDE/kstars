@@ -112,12 +112,17 @@ public slots:
     void toggleStars();
     void toggleCrossHair();
     void toggleEQGrid();
+    void togglePixelGrid();
+    void centerTelescope();
+    void updateWCSFunctions();
     void applyFilter(int ftype);
     void rotateCW();
     void rotateCCW();
     void flipHorizontal();
     void flipVertical();
     void setDebayerAction(bool);
+    void updateScopeButton();
+
 
 private:
 
@@ -133,6 +138,7 @@ private:
     QMap<int, FITSTab*> fitsMap;
     QUrl lastURL;
     void updateButtonStatus(QString action, QString item, bool showing);
+
 
 signals:
     void trackingStarSelected(int x, int y);

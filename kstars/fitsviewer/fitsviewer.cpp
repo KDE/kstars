@@ -57,6 +57,10 @@
 #include "fitshistogram.h"
 #include "ksutils.h"
 #include "Options.h"
+#include "indi/indilistener.h"
+
+#define INITIAL_W	750
+#define INITIAL_H	650
 
 QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast")
                                                     << I18N_NOOP("Equalize") << I18N_NOOP("High Pass") << I18N_NOOP("Median")
@@ -83,6 +87,12 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     connect(fitsTab, SIGNAL(currentChanged(int)), this, SLOT(tabFocusUpdated(int)));
     connect(fitsTab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+
+    //These two connections will enable or disable the scope button if a scope is available or not.
+    //Of course this is also dependent on the presence of WCS data in the image.
+    connect(INDIListener::Instance(), SIGNAL(newTelescope(ISD::GDInterface *)), this, SLOT(updateWCSFunctions()));
+    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface *)), this, SLOT(updateWCSFunctions()));
+
 
     led.setColor(Qt::green);
 
@@ -187,11 +197,25 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setCheckable(true);
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleCrossHair()));
 
-    action = actionCollection()->addAction("view_eq_grid");
+    action = actionCollection()->addAction("view_pixel_grid");
     action->setIcon(QIcon::fromTheme("map-flat", QIcon(":/icons/breeze/default/map-flat.svg")));
+    action->setText(i18n( "Show Pixel Gridlines"));
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(togglePixelGrid()));
+
+    action = actionCollection()->addAction("view_eq_grid");
+    action->setIcon(QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg")));
     action->setText(i18n( "Show Equatorial Gridlines"));
     action->setCheckable(true);
+    action->setDisabled(true);
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleEQGrid()));
+
+    action = actionCollection()->addAction("center_telescope");
+    action->setIcon(QIcon(":/icons/breeze/default/kstars_telescope.svg"));
+    action->setText(i18n( "Center Telescope\n*No Telescopes Detected*"));
+    action->setDisabled(true);
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(centerTelescope()));
 
     action = actionCollection()->addAction("view_zoom_fit");
     action->setIcon(QIcon::fromTheme("zoom-fit-width", QIcon(":/icons/breeze/default/zoom-fit-width.svg")));
@@ -234,6 +258,7 @@ FITSViewer::~FITSViewer()
 
     qDeleteAll(fitsTabs);
 }
+
 
 void FITSViewer::closeEvent(QCloseEvent * /*event*/)
 {
@@ -359,6 +384,9 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
 
     updateStatusBar(i18n("Ready."), FITS_MESSAGE);
 
+    updateWCSFunctions();
+    tab->getView()->setMouseMode(FITSView::dragMouse);
+
     return (fitsID++);
 }
 
@@ -465,6 +493,9 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
     updateStatusBar("", FITS_WCS);
     updateButtonStatus("view_crosshair", "Cross Hairs", getCurrentView()->isCrosshairShown());
     updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
+    updateButtonStatus("view_pixel_grid", "Pixel Gridines", getCurrentView()->isPixelGridShown());
+    updateScopeButton();
+    updateWCSFunctions();
 
 
 }
@@ -775,6 +806,12 @@ void FITSViewer::closeTab(int index)
     }
 }
 
+/**
+ This is helper function to make it really easy to make the update the state of toggle buttons
+ that either show or hide information in the Current view.  This method would get called both
+ when one of them gets pushed and also when tabs are switched.
+ */
+
 void FITSViewer::updateButtonStatus(QString action, QString item, bool showing){
     QAction *a=actionCollection()->action(action);
     if (showing)
@@ -789,6 +826,57 @@ void FITSViewer::updateButtonStatus(QString action, QString item, bool showing){
     }
 }
 
+/**
+This is a method that either enables or disables the WCS based features in the Current View.
+ */
+
+void FITSViewer::updateWCSFunctions(){
+    if(getCurrentView()->imageHasWCS()){
+        actionCollection()->action("view_eq_grid")->setDisabled(false);
+        actionCollection()->action("view_eq_grid")->setText( i18n( "Show Equatorial Gridlines" ));
+        if(getCurrentView()->isTelescopeActive()){
+            actionCollection()->action("center_telescope")->setDisabled(false);
+
+            actionCollection()->action("center_telescope")->setText( i18n( "Center Telescope\n*Ready*" ));
+        }
+        else{
+            actionCollection()->action("center_telescope")->setDisabled(true);
+            actionCollection()->action("center_telescope")->setText( i18n( "Center Telescope\n*No Telescopes Detected*" ));
+        }
+    }
+    else{
+        actionCollection()->action("view_eq_grid")->setDisabled(true);
+        actionCollection()->action("view_eq_grid")->setText( i18n( "Show Equatorial Gridlines\n*No WCS Info*" ));
+        actionCollection()->action("center_telescope")->setDisabled(true);
+        actionCollection()->action("center_telescope")->setText( i18n( "Center Telescope\n*No WCS Info*" ));
+    }
+
+}
+
+void FITSViewer::updateScopeButton(){
+    if(getCurrentView()->getMouseMode()==FITSView::scopeMouse){
+        actionCollection()->action("center_telescope")->setChecked(true);
+    } else{
+        actionCollection()->action("center_telescope")->setChecked(false);
+    }
+}
+
+/**
+ This methood either enables or disables the scope mouse mode so you can slew your scope to coordinates
+ just by clicking the mouse on a spot in the image.
+ */
+
+void FITSViewer::centerTelescope(){
+    if(getCurrentView()->getMouseMode()==FITSView::scopeMouse){
+        getCurrentView()->setMouseMode(FITSView::dragMouse);
+    } else{
+        getCurrentView()->setMouseMode(FITSView::scopeMouse);
+    }
+    updateScopeButton();
+}
+
+
+
 void FITSViewer::toggleCrossHair()
 {
     getCurrentView()->toggleCrosshair();
@@ -799,6 +887,13 @@ void FITSViewer::toggleEQGrid()
     getCurrentView()->toggleEQGrid();
     updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
 }
+
+void FITSViewer::togglePixelGrid()
+{
+    getCurrentView()->togglePixelGrid();
+    updateButtonStatus("view_pixel_grid", "Pixel Gridines", getCurrentView()->isPixelGridShown());
+}
+
 void FITSViewer::toggleStars()
 {
     if (markStars)

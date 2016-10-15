@@ -26,6 +26,12 @@
 #include <QMouseEvent>
 #include <QResizeEvent>
 #include <QPaintEvent>
+
+#include <QEvent>
+#include <QGestureEvent>
+#include <QGestureEvent>
+#include <QPinchGesture>
+
 #include <QScrollArea>
 #include <QLabel>
 
@@ -61,9 +67,12 @@ public:
 protected:
     virtual void mouseMoveEvent(QMouseEvent *e);
     virtual void mousePressEvent(QMouseEvent *e);
+    virtual void mouseReleaseEvent(QMouseEvent *e);
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
 private:
+    bool mouseButtonDown=false;
+    QPoint lastMousePoint;
     FITSView *image;
     dms ra;
     dms dec;
@@ -112,10 +121,23 @@ public:
     void drawMarker(QPainter *);
     bool isCrosshairShown();
     bool isEQGridShown();
+    bool isPixelGridShown();
+    bool imageHasWCS();
 
     void drawCrosshair(QPainter *);
     void drawEQGrid(QPainter *);
+    void drawPixelGrid(QPainter *painter);
     void updateFrame();
+
+    bool isTelescopeActive();
+
+    int getMouseMode();
+    void setMouseMode(int mode);
+    void updateMouseCursor();
+    static const int dragMouse=0;
+    static const int selectMouse=1;
+    static const int scopeMouse=2;
+
 
     // Zoom related
     void cleanUpZoom(QPoint viewCenter);
@@ -124,6 +146,7 @@ public:
     // Star Detection
     void toggleStars(bool enable);
     void toggleEQGrid();
+    void togglePixelGrid();
     void toggleCrosshair();
 
     // FITS Mode
@@ -145,11 +168,18 @@ public slots:
     void processMarkerSelection(int x, int y);
 
 private:
+    bool event(QEvent *event);
+    bool gestureEvent(QGestureEvent *event);
+    void pinchTriggered(QPinchGesture *gesture);
 
     double average();
     double stddev();
     void calculateMaxPixel(double min, double max);
     void initDisplayImage();
+    void drawEQGridline(QPainter *painter, wcs_point *wcs_coord, bool isRA, double targetRA);
+    void drawEQGridlineAtRA(QPainter *painter, wcs_point *wcs_coord, double targetRA);
+    void drawEQGridlineAtDec(QPainter *painter, wcs_point *wcs_coord, double targetRA);
+    bool pointIsNearWCSTargetPoint(wcs_point *wcs_coord, double target, int x, int y, bool isRA, bool vertical);
 
     FITSLabel *image_frame;
     FITSData *image_data;
@@ -169,8 +199,13 @@ private:
     bool markStars;
     bool showCrosshair=false;
     bool showEQGrid=false;
+    bool showPixelGrid=false;
     bool starsSearched;
     bool hasWCS;
+
+    int mouseMode=1;
+    bool zooming=false;
+    QPoint zoomLocation;
 
     QString filename;
     FITSMode mode;

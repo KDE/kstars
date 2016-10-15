@@ -38,7 +38,12 @@
 #include <QAction>
 #include <QStatusBar>
 #include <QFileDialog>
+
 #include <QWheelEvent>
+#include <QEvent>
+#include <QGestureEvent>
+#include <QPinchGesture>
+
 #include <QMenu>
 
 #include <KActionCollection>
@@ -80,8 +85,71 @@ void FITSLabel::setSize(double w, double h)
 
 FITSLabel::~FITSLabel() {}
 
+/**
+This method looks at what mouse mode is currently selected and updates the cursor to match.
+ */
+
+void FITSView::updateMouseCursor(){
+    if(mouseMode==dragMouse)
+        viewport()->setCursor(Qt::OpenHandCursor);
+    if(mouseMode==selectMouse){
+        viewport()->setCursor(Qt::CrossCursor);
+    }
+    if(mouseMode==scopeMouse){
+        QPixmap scope_pix=QPixmap(":/icons/32-apps-kstars.png");
+        viewport()->setCursor(QCursor(scope_pix,0,0));
+    }
+}
+
+/**
+This is how the mouse mode gets set.
+The default for a FITSView in a FITSViewer should be the dragMouse
+The default for a FITSView in the Focus or Align module should be the selectMouse
+The different defaults are accomplished by putting making the dactual default mouseMode
+the selectMouse, but when a FITSViewer loads an image, it immediately makes it the dragMouse.
+ */
+
+void FITSView::setMouseMode(int mode){
+    if(mode>-1&&mode<3){
+        mouseMode=mode;
+        updateMouseCursor();
+    }
+}
+
+int FITSView::getMouseMode(){
+    return mouseMode;
+}
+
+/**
+This method was added to make the panning function work.
+If the mouse button is released, it resets mouseButtonDown variable and the mouse cursor.
+ */
+void FITSLabel::mouseReleaseEvent(QMouseEvent *e){
+    if(image->getMouseMode()==FITSView::dragMouse){
+        mouseButtonDown=false;
+        image->viewport()->setCursor(Qt::OpenHandCursor);
+    }
+}
+/**
+I added some things to the top of this method to allow panning and Scope slewing to function.
+If you are in the dragMouse mode and the mousebutton is pressed, The method checks the difference
+between the location of the last point stored and the current event point to see how the mouse has moved.
+Then it moves the scrollbars and thus the image to the right location.
+Then it stores the current point so next time it can do it again.
+ */
 void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 {
+
+    if(image->getMouseMode()==FITSView::dragMouse&&mouseButtonDown){
+        QPoint newPoint=e->globalPos();
+        int dx=newPoint.x()-lastMousePoint.x();
+        int dy=newPoint.y()-lastMousePoint.y();
+        image->horizontalScrollBar()->setValue(image->horizontalScrollBar()->value()-dx);
+        image->verticalScrollBar()->setValue(image->verticalScrollBar()->value()-dy);
+
+        lastMousePoint=newPoint;
+    }
+
     double x,y;
     FITSData *image_data = image->getImageData();
 
@@ -126,13 +194,49 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
         }
     }
 
-    setCursor(Qt::CrossCursor);
+    //setCursor(Qt::CrossCursor);
 
     e->accept();
 }
 
+/**
+I added some things to the top of this method to allow panning and Scope slewing to function.
+If in dragMouse mode, the Panning function works by storing the cursor position when the mouse was pressed and setting
+the mouseButtonDown variable to true.
+If in ScopeMouse mode and the mouse is clicked, if there is WCS data and a scope is available, the method will verify that you actually
+do want to slew to the WCS coordinates associated with the click location.  If so, it calls the centerTelescope function.
+ */
+
 void FITSLabel::mousePressEvent(QMouseEvent *e)
 {
+    if(image->getMouseMode()==FITSView::dragMouse)
+    {
+        mouseButtonDown=true;
+        lastMousePoint=e->globalPos();
+        image->viewport()->setCursor(Qt::ClosedHandCursor);
+    } else if(image->getMouseMode()==FITSView::scopeMouse)
+    {
+#ifdef HAVE_INDI
+        FITSData *image_data = image->getImageData();
+        if (image_data->hasWCS())
+        {
+
+            wcs_point * wcs_coord = image_data->getWCSCoord();
+            double x,y;
+            x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
+            y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
+
+            x = KSUtils::clamp(x, 1.0, width);
+            y = KSUtils::clamp(y, 1.0, height);
+            int index = x + y * width;
+            if(KMessageBox::Continue==KMessageBox::warningContinueCancel(NULL, "Slewing to Coordinates: \nRA: " + dms(wcs_coord[index].ra).toHMSString() + "\nDec: " + dms(wcs_coord[index].dec).toDMSString(),
+                                 i18n("Continue Slew"),  KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "continue_slew_warning")){
+                centerTelescope(wcs_coord[index].ra/15.0, wcs_coord[index].dec);
+            }
+        }
+#endif
+    }
+
     double x,y;
 
     x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
@@ -141,11 +245,14 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     x = KSUtils::clamp(x, 1.0, width);
     y = KSUtils::clamp(y, 1.0, height);
 
+    /*  The section below can probably be removed.
+
 #ifdef HAVE_INDI
     FITSData *image_data = image->getImageData();
 
     if (e->buttons() & Qt::RightButton)
     {
+        mouseReleaseEvent(e);
         if (image_data->hasWCS())
         {
             QMenu fitspopup;
@@ -173,6 +280,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
             emit markerSelected(0, 0);
     }
 #endif
+*/
 
     emit pointSelected(x, y);
 
@@ -196,6 +304,35 @@ void FITSLabel::mouseDoubleClickEvent(QMouseEvent *e)
     emit markerSelected(x, y);
 
     return;
+}
+
+/**
+This method just verifies if INDI is online, a telescope present, and is connected
+ */
+
+bool FITSView::isTelescopeActive(){
+#ifdef HAVE_INDI
+    if (INDIListener::Instance()->size() == 0)
+    {
+        return false;
+    }
+
+    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    {
+        INDI::BaseDevice *bd = gd->getBaseDevice();
+
+        if (gd->getType() != KSTARS_TELESCOPE)
+            continue;
+
+        if (bd == NULL)
+            continue;
+
+        return bd->isConnected();
+    }
+    return false;
+#else
+    return false;
+#endif
 }
 
 void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
@@ -251,6 +388,9 @@ void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
 
 FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent) , zoomFactor(1.2)
 {
+
+    grabGesture(Qt::PinchGesture);
+
     image_frame = new FITSLabel(this);
     image_data  = NULL;
     display_image = NULL;
@@ -268,13 +408,14 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     currentZoom = 0.0;
     markStars = false;
 
-    setBaseSize(640,480);
+    setBaseSize(750,650);
 
     connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
     connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
     connect(image_frame, SIGNAL(markerSelected(int,int)), this, SLOT(processMarkerSelection(int,int)));
 
     image_frame->setMouseTracking(true);
+    setMouseMode(selectMouse);//This is the default mode because the Focus and Align FitsViews should not be in dragMouse mode
 
     //if (fitsMode == FITS_GUIDE)
     //connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
@@ -672,6 +813,8 @@ void FITSView::ZoomDefault()
 
 void FITSView::drawOverlay(QPainter *painter)
 {
+    painter->setRenderHint( QPainter::Antialiasing, Options::useAntialias() );
+
     if (markStars)
         drawStarCentroid(painter);
 
@@ -684,8 +827,12 @@ void FITSView::drawOverlay(QPainter *painter)
 
     if (showCrosshair)
         drawCrosshair(painter);
-    if (showEQGrid)
+    if (showEQGrid){
         drawEQGrid(painter);
+    }
+    if (showPixelGrid)
+        drawPixelGrid(painter);
+
 
 }
 
@@ -755,6 +902,10 @@ void FITSView::drawTrackingBox(QPainter *painter)
     painter->drawRect(x1, y1, w, h);
 }
 
+/**
+This Method draws a large Crosshair in the center of the image, it is like a set of axes.
+ */
+
 void FITSView::drawCrosshair(QPainter *painter){
 
     float scale=(currentZoom / ZOOM_DEFAULT);
@@ -786,9 +937,200 @@ void FITSView::drawCrosshair(QPainter *painter){
 
 }
 
+/**
+This method is intended to draw a pixel grid onto the image.  It first determines useful information
+from the image.  Then it draws the axes on the image if the crosshairs are not displayed.
+Finally it draws the gridlines so that there will be 4 Gridlines on either side of the axes.
+Note: This has to start drawing at the center not at the edges because the center axes must
+be in the center of the image.
+ */
+
+void FITSView::drawPixelGrid(QPainter *painter){
+    float scale=(currentZoom / ZOOM_DEFAULT);
+    double width=image_width*scale;
+    double height=image_height*scale;
+    double cX=width/2;
+    double cY=height/2;
+    double deltaX=width/10;
+    double deltaY=height/10;
+    //draw the Axes
+    painter->setPen(QPen(Qt::red));
+    painter->drawText(cX-30,height-5,QString::number((int)((cX)/scale)));
+    painter->drawText(width-30,cY-5,QString::number((int)((cY)/scale)));
+    if(!showCrosshair)
+    {
+        painter->drawLine(cX,0,cX,height);
+        painter->drawLine(0,cY,width,cY);
+    }
+    painter->setPen(QPen(Qt::gray));
+    //Start one iteration past the Center and draw 4 lines on either side of 0
+    for(int x=deltaX;x<cX-deltaX;x+=deltaX){
+        painter->drawText(cX+x-30,height-5,QString::number((int)((cX+x)/scale)));
+        painter->drawText(cX-x-30,height-5,QString::number((int)((cX-x)/scale)));
+        painter->drawLine(cX-x,0,cX-x,height);
+        painter->drawLine(cX+x,0,cX+x,height);
+    }
+    //Start one iteration past the Center and draw 4 lines on either side of 0
+    for(int y=deltaY;y<cY-deltaY;y+=deltaY){
+        painter->drawText(width-30,cY+y-5,QString::number((int)((cY+y)/scale)));
+        painter->drawText(width-30,cY-y-5,QString::number((int)((cY-y)/scale)));
+        painter->drawLine(0,cY+y,width,cY+y);
+        painter->drawLine(0,cY-y,width,cY-y);
+    }
+}
+
+bool FITSView::imageHasWCS(){
+    return hasWCS;
+}
+
+/**
+This method will paint EQ Gridlines in an overlay if there is WCS data present.
+It determines the minimum and maximum RA and DEC, then it uses that information to
+judge which gridLines to draw.  Then it calls the drawEQGridlines methods below
+to draw gridlines at those specific RA and Dec values.
+ */
+
 void FITSView::drawEQGrid(QPainter *painter){
 
+   if (image_data->hasWCS())
+       {
+           wcs_point * wcs_coord = image_data->getWCSCoord();
+           if (wcs_coord)
+           {
+               int size=image_width*image_height;
+               double maxRA=-1000; double minRA=1000; double maxDec=-1000; double minDec=1000;
 
+               for(int i=0;i<(size);i++)
+               {
+                   double ra = wcs_coord[i].ra;
+                   double dec = wcs_coord[i].dec;
+                   if(ra>maxRA)
+                       maxRA=ra;
+                   if(ra<minRA)
+                       minRA=ra;
+                   if(dec>maxDec)
+                       maxDec=dec;
+                   if(dec<minDec)
+                       minDec=dec;
+               }
+               painter->setPen( QPen( Qt::yellow) );
+
+
+               if (maxDec>80){
+                   int minRAMinutes=(int)(minRA/15);//This will force the scale to whole hours of RA near the pole
+                   int maxRAMinutes=(int)(maxRA/15);
+                   for(int targetRA=minRAMinutes;targetRA<=maxRAMinutes;targetRA++)
+                       drawEQGridlineAtRA(painter,wcs_coord,targetRA*15);
+               }else{
+                   int minRAMinutes=(int)(minRA/15*60);//This will force the scale to whole minutes of RA
+                   int maxRAMinutes=(int)(maxRA/15*60);
+                   for(int targetRA=minRAMinutes;targetRA<=maxRAMinutes;targetRA++)
+                       drawEQGridlineAtRA(painter,wcs_coord,targetRA*15/60.0);
+               }
+
+
+               int minDecMinutes=(int)(minDec*4);//This will force the Dec Scale to 15 arc minutes
+               int maxDecMinutes=(int)(maxDec*4);
+               for(int targetDec=minDecMinutes;targetDec<=maxDecMinutes;targetDec++)
+                    drawEQGridlineAtDec(painter,wcs_coord,targetDec/4.0);
+           }
+       }
+}
+
+void FITSView::drawEQGridlineAtRA(QPainter *painter,wcs_point *wcs_coord, double target){
+    drawEQGridline(painter,wcs_coord,true,target);
+}
+
+void FITSView::drawEQGridlineAtDec(QPainter *painter,wcs_point *wcs_coord, double target){
+    drawEQGridline(painter,wcs_coord,false,target);
+}
+
+/**
+This method is intended to search all the sides of an image to locate two points that have the target
+RA or DEC value and then draw a gridLine connecting thost two points.  There should be exactly 2.
+If it fails to find two points, it just doesn't draw a line.  It makes heavy use of the helper method
+pointIsNearWCSTargetPoint to simplify the if statements, which is defined below.
+ */
+
+void FITSView::drawEQGridline(QPainter *painter,wcs_point *wcs_coord, bool isRA, double target){
+    float scale=(currentZoom / ZOOM_DEFAULT);
+    int num=0;
+    QPoint pt[2];
+    bool vertical=true;
+    //Search along top of image
+    for(int x=1;x<image_width-1;x++){
+        int y=1;
+        if(pointIsNearWCSTargetPoint(wcs_coord,target,x,y,isRA,!vertical)){
+            pt[num] = QPoint(x * scale,y * scale);
+            num++;
+            break;
+        }
+    }
+    //Search along left side of image
+    for(int y=1;y<image_height-1;y++){
+            int x=1;
+            if(pointIsNearWCSTargetPoint(wcs_coord,target,x,y,isRA,vertical)){
+                    pt[num] = QPoint(x * scale,y * scale);
+                    num++;
+                    break;
+
+            }
+    }
+    //Search along bottom of image
+    for(int x=1;x<image_width-1;x++){
+        int y=image_height-2;
+        if(pointIsNearWCSTargetPoint(wcs_coord,target,x,y,isRA,!vertical)){
+            pt[num] = QPoint(x * scale,y * scale);
+            num++;
+            break;
+        }
+    }
+    //Search along right side of image
+        for(int y=1;y<image_height-1;y++){
+            int x=image_width-2;
+            if(pointIsNearWCSTargetPoint(wcs_coord,target,x,y,isRA,vertical)){
+                    pt[num] = QPoint(x * scale,y * scale);
+                    num++;
+                    break;
+            }
+        }
+    if(num==2){
+        if(isRA)
+            painter->drawText(pt[1].x()-40,pt[1].y()-10,QString::number(dms(target).hour())+"h "+QString::number(dms(target).minute())+"'");
+        else
+            painter->drawText(pt[1].x()-40,pt[1].y()-10,QString::number(dms(target).degree())+"° "+QString::number(dms(target).arcmin())+"'");
+        painter->drawLine(pt[0],pt[1]);
+    }
+}
+
+/**
+This method is intended to help find the X,Y Coordinates of a certain RA or DEC in an image.
+Since the exact RA or DEC we are looking for probably does not match the exact RA or DEC for
+a specific pixel, we have to compare the RA or DEC that we are looking for to the RA and DEC
+in the WCS info of the surrounding pixels.  The method returns true if the position
+ approximates the target RA or DEC.  To use the method, you need to specify the target number,
+ whether you are looking horizontally or vertically, and whether you are looking at RA or DEC,
+ in addition to giving the wcs_coord array and the x and y coordinates.
+ */
+
+bool FITSView::pointIsNearWCSTargetPoint(wcs_point *wcs_coord, double target, int x, int y, bool isRA, bool vertical){
+    int i = x + y * image_width;
+    int shift;//The Number of index values to the next point to compare
+    if(vertical)
+        shift=image_width;//Vertically it is a full row to the next point
+    else
+        shift=1;//Horizontally it is the next point
+    double nextPoint;
+    double prevPoint;
+    if(isRA){
+        nextPoint=wcs_coord[i+shift].ra;
+        prevPoint=wcs_coord[i-shift].ra;
+    } else{
+        nextPoint=wcs_coord[i+shift].dec;
+        prevPoint=wcs_coord[i-shift].dec;
+    }
+
+   return (target>nextPoint&&target<prevPoint)||(target>prevPoint&&target<nextPoint);
 }
 
 QPixmap & FITSView::getTrackingBoxPixmap()
@@ -826,6 +1168,11 @@ bool FITSView::isEQGridShown()
    return showEQGrid;
 }
 
+bool FITSView::isPixelGridShown()
+{
+   return showPixelGrid;
+}
+
 void FITSView::toggleCrosshair()
 {
    showCrosshair=!showCrosshair;
@@ -835,6 +1182,13 @@ void FITSView::toggleCrosshair()
 void FITSView::toggleEQGrid()
 {
     showEQGrid=!showEQGrid;
+    updateFrame();
+
+}
+
+void FITSView::togglePixelGrid()
+{
+    showPixelGrid=!showPixelGrid;
     updateFrame();
 
 }
@@ -898,17 +1252,26 @@ void FITSView::setTrackingBoxEnabled(bool enable)
 
 void FITSView::wheelEvent(QWheelEvent* event)
 {
-     QPoint mouseCenter=getImagePoint(event->pos());
-
-    if (event->angleDelta().y() > 0)
-        ZoomIn();
-    else
-        ZoomOut();
-
-    event->accept();
-
-    cleanUpZoom(mouseCenter);
+    //This attempts to send the wheel event back to the Scroll Area if it was taken from a trackpad
+    //It should still do the zoom if it is a mouse wheel
+    if(event->source()==Qt::MouseEventSynthesizedBySystem){
+        QScrollArea::wheelEvent(event);
+    } else{
+        QPoint mouseCenter=getImagePoint(event->pos());
+        if (event->angleDelta().y() > 0)
+            ZoomIn();
+        else
+            ZoomOut();
+        event->accept();
+        cleanUpZoom(mouseCenter);
+    }
 }
+
+/**
+This method is intended to keep key locations in an image centered on the screen while zooming.
+If there is a marker or tracking box, it centers on those.  If not, it uses the point called
+viewCenter that was passed as a parameter.
+ */
 
 void FITSView::cleanUpZoom(QPoint viewCenter)
 {
@@ -931,6 +1294,11 @@ void FITSView::cleanUpZoom(QPoint viewCenter)
     }
     ensureVisible(x0,y0, width()/2 , height()/2);
 }
+
+/**
+This method converts a point from the ViewPort Coordinate System to the
+Image Coordinate System.
+ */
 
 QPoint FITSView::getImagePoint(QPoint viewPortPoint)
 {
@@ -958,3 +1326,48 @@ void FITSView::initDisplayImage()
         display_image = new QImage(image_width, image_height, QImage::Format_RGB32);
     }
 }
+
+/**
+The Following two methods allow gestures to work with trackpads.
+Specifically, we are targeting the pinch events, so that if one is generated,
+Then the pinchTriggered method will be called.  If the event is not a pinch gesture,
+then the event is passed back to the other event handlers.
+ */
+
+bool FITSView::event(QEvent *event)
+{
+    if (event->type() == QEvent::Gesture)
+           return gestureEvent(static_cast<QGestureEvent*>(event));
+    return QScrollArea::event(event);
+}
+
+bool FITSView::gestureEvent(QGestureEvent *event)
+{
+
+    if (QGesture *pinch = event->gesture(Qt::PinchGesture))
+        pinchTriggered(static_cast<QPinchGesture *>(pinch));
+    return true;
+}
+
+/**
+This Method works with Trackpads to use the pinch gesture to scroll in and out
+It stores a point to keep track of the location where the gesture started so that
+while you are zooming, it tries to keep that initial point centered in the view.
+**/
+void FITSView::pinchTriggered(QPinchGesture *gesture)
+{
+    if(!zooming){
+        zoomLocation=getImagePoint(mapFromGlobal(QCursor::pos()));
+        zooming=true;
+    }
+    if (gesture->state() == Qt::GestureFinished) {
+        zooming=false;
+    }
+    if(gesture->totalScaleFactor()>1)
+        ZoomIn();
+    else
+        ZoomOut();
+    cleanUpZoom(zoomLocation);
+
+}
+

@@ -70,12 +70,16 @@
         <Action name="flip_vertical" />
         <Separator/>
         <Action name="view_crosshair" />
+        <Action name="view_pixel_grid" />
+        <Separator/>
         <Action name="view_eq_grid" />
+        <Action name="center_telescope" />
+
         <Separator/>
 </ToolBar>
 	
 <ToolBar noMerge="1" name="processToolBar" iconText="icononly"><text>Process ToolBar</text>
-
+        <Separator/>
 	<Action name="image_histogram" />
         <Action name="image_stats" />
         <Action name="image_stretch" />
