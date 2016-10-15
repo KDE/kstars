@@ -633,7 +633,7 @@ void KStars::renderEyepieceView( const QString &objectName, const QString &destP
 }
 QString KStars::getObservingWishListObjectNames() {
     QString output;
-    foreach( const SkyObject *object,  KStarsData::Instance()->observingList()->obsList() ) {
+    foreach( QSharedPointer<SkyObject> object,  KStarsData::Instance()->observingList()->obsList() ) {
         output.append( object->name() + '\n' );
     }
     return output;
@@ -641,7 +641,7 @@ QString KStars::getObservingWishListObjectNames() {
 
 QString KStars::getObservingSessionPlanObjectNames() {
     QString output;
-    foreach( const SkyObject *object,  KStarsData::Instance()->observingList()->sessionList() ) {
+    foreach( QSharedPointer<SkyObject> object,  KStarsData::Instance()->observingList()->sessionList() ) {
         output.append( object->name() + '\n' );
     }
     return output;

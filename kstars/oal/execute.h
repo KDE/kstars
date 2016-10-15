@@ -89,13 +89,6 @@ Q_OBJECT
          */
         void sortTargetList();
 
-        /** @short Custom LessThan function for the sort by time
-         * This compares the times of the two skyobjects
-         * using an edited QTime as next day 01:00 should
-         * come later than previous night 23:00
-         */
-        static bool timeLessThan( SkyObject *, SkyObject * );
-
         /** @short set the currentTarget when the user selection
          * is changed in the target combo box
          */

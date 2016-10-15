@@ -218,8 +218,8 @@ void Execute::slotLocation() {
 void Execute::loadTargets() {
     ui.Target->clear();
     sortTargetList();
-    foreach( SkyObject *o, KStarsData::Instance()->observingList()->sessionList() ) {
-        ui.Target->addItem( getObjectName(o, false) );
+    foreach( QSharedPointer<SkyObject> o, KStarsData::Instance()->observingList()->sessionList() ) {
+        ui.Target->addItem( getObjectName(o.data(), false) );
     }
 }
 
@@ -245,23 +245,22 @@ void Execute::loadObservers() {
 }
 
 void Execute::sortTargetList() {
-    qSort( KStarsData::Instance()->observingList()->sessionList().begin(), KStarsData::Instance()->observingList()->sessionList().end(), Execute::timeLessThan );
-}
+    auto timeLessThan =  []( QSharedPointer<SkyObject> o1, QSharedPointer<SkyObject> o2 ) {
+        QTime t1 = KStarsData::Instance()->observingList()->scheduledTime( o1.data() );
+        QTime t2 = KStarsData::Instance()->observingList()->scheduledTime( o2.data() );
 
-bool Execute::timeLessThan ( SkyObject *o1, SkyObject *o2 )
-{
-    QTime t1 = KStarsData::Instance()->observingList()->scheduledTime( o1 );
-    QTime t2 = KStarsData::Instance()->observingList()->scheduledTime( o2 );
+        if( t1 < QTime(12,0,0) )
+            t1.setHMS( t1.hour()+12, t1.minute(), t1.second() );
+        else
+            t1.setHMS( t1.hour()-12, t1.minute(), t1.second() );
+        if( t2 < QTime(12,0,0) )
+            t2.setHMS( t2.hour()+12, t2.minute(), t2.second() );
+        else
+            t2.setHMS( t2.hour()-12, t2.minute(), t2.second() );
+        return ( t1 < t2 ) ;
+    };
 
-    if( t1 < QTime(12,0,0) )
-        t1.setHMS( t1.hour()+12, t1.minute(), t1.second() );
-    else
-        t1.setHMS( t1.hour()-12, t1.minute(), t1.second() );
-    if( t2 < QTime(12,0,0) )
-        t2.setHMS( t2.hour()+12, t2.minute(), t2.second() );
-    else
-        t2.setHMS( t2.hour()-12, t2.minute(), t2.second() );
-    return ( t1 < t2 ) ;
+    qSort( KStarsData::Instance()->observingList()->sessionList().begin(), KStarsData::Instance()->observingList()->sessionList().end(), timeLessThan );
 }
 
 void Execute::addTargetNotes() {
