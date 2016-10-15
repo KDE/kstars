@@ -46,9 +46,6 @@
 #include "dms.h"
 #include "bayer.h"
 
-#define INITIAL_W	640
-#define INITIAL_H	480
-
 #define MINIMUM_PIXEL_RANGE 5
 #define MINIMUM_STDVAR  5
 
@@ -159,6 +156,8 @@ public:
     // FITS Record
     int getFITSRecord(QString &recordList, int &nkeys);
 
+   // QVariant getFITSHeaderValue(QString &keyword);
+
     // Histogram
     void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
 
@@ -209,6 +208,13 @@ private:
     void checkWCS();
     bool checkDebayer();
     void readWCSKeys();
+
+    // Canny Edge detector by Gonzalo Exequiel Pedone
+    void sobel(const QImage &image, QVector<int> &gradient, QVector<int> &direction);
+    QVector<int> thinning(int width, int height, const QVector<int> &gradient, const QVector<int> &direction);
+    QVector<int> threshold(int thLow, int thHi, const QVector<int> &image);
+    void trace(int width, int height, QVector<int> &image, int x, int y);
+    QVector<int> hysteresis(int width, int height, const QVector<int> &image);
 
     FITSHistogram *histogram;           // Pointer to the FITS data histogram
     fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
