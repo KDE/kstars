@@ -381,7 +381,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
        <item>
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
-          <string>Autofocus Options</string>
+          <string>Settings</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <property name="spacing">

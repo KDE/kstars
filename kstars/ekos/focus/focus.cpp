@@ -1009,12 +1009,24 @@ void Focus::setCaptureComplete()
         if (image_data->areStarsSearched() == false)
         {
             if (starSelected == false && autoStarCheck->isChecked())
+            {
                 image_data->findStars();
+                currentHFR= image_data->getHFR(HFR_MAX);
+            }
             else if (focusView->isTrackingBoxEnabled())
-                image_data->findStars(focusView->getTrackingBox());                
+            {
+                Edge *center = FITSData::findCannyStar(image_data, focusView->getTrackingBox());
+                if (center)
+                    currentHFR = center->HFR;
+                else
+                    currentHFR = -1;
+
+                focusView->toggleStars(true);
+                //image_data->findStars(focusView->getTrackingBox());
+            }
         }
 
-        currentHFR= image_data->getHFR(HFR_MAX);
+
 
         /*if (currentHFR == -1)
         {

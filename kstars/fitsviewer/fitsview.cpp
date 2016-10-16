@@ -563,7 +563,7 @@ int FITSView::rescale(FITSZoom type)
     double min, max;
     float *image_buffer = image_data->getImageBuffer();
     float *display_buffer = image_buffer;
-    unsigned int size = image_data->getSize();
+    uint32_t size = image_data->getSize();
 
     if (Options::autoStretch() && filter == FITS_NONE)
     {
@@ -572,8 +572,8 @@ int FITSView::rescale(FITSZoom type)
 
         float data_min   = image_data->getMean(0) - image_data->getStdDev(0);
         float data_max   = image_data->getMean(0) + image_data->getStdDev(0) * 3;
-        int   data_w     = image_data->getWidth();
-        int   data_h     = image_data->getHeight();
+        uint16_t   data_w     = image_data->getWidth();
+        uint16_t   data_h     = image_data->getHeight();
 
         for (int i=0; i < image_data->getNumOfChannels(); i++)
         {
@@ -678,15 +678,14 @@ int FITSView::rescale(FITSZoom type)
             }
 
             // Find the zoom level which will enclose the current FITS in the current window size
-            currentZoom = floor( (w / currentWidth) * 10.) * 10.;
+            currentZoom = floor( (w / static_cast<double>(currentWidth)) * 10.) * 10.;
 
             /* If width is not the problem, try height */
             if (currentZoom > ZOOM_DEFAULT)
-                currentZoom = floor( (h / currentHeight) * 10.) * 10.;
+                currentZoom = floor( (h / static_cast<double>(currentHeight)) * 10.) * 10.;
 
             currentWidth  = image_width * (currentZoom / ZOOM_DEFAULT);
             currentHeight = image_height * (currentZoom / ZOOM_DEFAULT);
-
 
             if (currentZoom <= ZOOM_MIN)
                 emit actionUpdated("view_zoom_out", false);
@@ -789,7 +788,7 @@ void FITSView::updateFrame()
         return;
 
     if (currentZoom != ZOOM_DEFAULT)
-        ok = displayPixmap.convertFromImage(display_image->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        ok = displayPixmap.convertFromImage(display_image->scaled(currentWidth, currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     else
         ok = displayPixmap.convertFromImage(*display_image);
 
@@ -802,7 +801,7 @@ void FITSView::updateFrame()
     drawOverlay(&painter);
 
     image_frame->setPixmap(displayPixmap);
-    image_frame->resize( (int) currentWidth, (int) currentHeight);
+    image_frame->resize(currentWidth,currentHeight);
 }
 
 void FITSView::ZoomDefault()
@@ -1228,7 +1227,7 @@ void FITSView::toggleStars(bool enable)
 
         //QRectF boundary(0,0, image_data->getWidth(), image_data->getHeight());
         //count = image_data->findOneStar(boundary);
-        count = FITSData::findCannyStar(image_data);
+        FITSData::findCannyStar(image_data);
 
         if (count >= 0 && isVisible())
             emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);

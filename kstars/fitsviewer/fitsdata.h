@@ -132,7 +132,7 @@ public:
     int findOneStar(const QRectF &boundary);
 
     // Find single star based on partially customized Canny edge detection
-    static int findCannyStar(FITSData *data, const QRectF &boundary = QRectF());
+    static Edge *findCannyStar(FITSData *data, const QRect &boundary = QRect());
 
     // Half Flux Radius
     Edge * getMaxHFRStar() { return maxHFRStar;}

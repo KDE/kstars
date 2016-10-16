@@ -556,7 +556,7 @@ bool FITSData::checkCollision(Edge* s1, Edge*s2)
     return false;
 }
 
-int FITSData::findCannyStar(FITSData *data, const QRectF &boundary)
+Edge* FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 {
     int subX = boundary.isNull() ? 0 : boundary.x();
     int subY = boundary.isNull() ? 0 : boundary.y();
@@ -569,7 +569,7 @@ int FITSData::findCannyStar(FITSData *data, const QRectF &boundary)
 
     // #2 Create new buffer
     float *buffer = new float[size];
-    memcpy(buffer, data->getImageBuffer() + offset, size);
+    memcpy(buffer, data->getImageBuffer() + offset, size * sizeof(float));
 
     // #3 Create new FITSData to hold it
     FITSData *boundedImage = new FITSData();
@@ -591,6 +591,9 @@ int FITSData::findCannyStar(FITSData *data, const QRectF &boundary)
     // #6 Perform Sobel to find gradients and their directions
     QVector<float> gradients;
     QVector<float> directions;
+
+    // TODO Must trace neighbours and assign IDs to each shape so that they can be centered massed
+    // and discarded whenever necessary. It won't work on noisy images unless this is done.
     boundedImage->sobel(gradients, directions);
 
     // #7 Calculate center of mass
@@ -608,11 +611,7 @@ int FITSData::findCannyStar(FITSData *data, const QRectF &boundary)
         }
     }
 
-    qDebug() << "Weighted Center is X: " << massX/totalMass << " Y: " << massY/totalMass;
-
-    return 1;
-
-#if 0
+    qDebug() << "Weighted Center is X: " << massX/totalMass << " Y: " << massY/totalMass;    
 
     Edge *center = new Edge;
     center->width = -1;
@@ -623,55 +622,39 @@ int FITSData::findCannyStar(FITSData *data, const QRectF &boundary)
     // Maximum Radius
     int maxR = qMin(subW-1, subH-1) / 2;
 
-    // Critical threshold
-    double critical_threshold = threshold * 0.7;
-    double running_threshold = threshold;
-
-    while (running_threshold >= critical_threshold)
+    for (int r=maxR; r > 1; r--)
     {
-        for (int r=maxR; r > 1; r--)
+        int pass=0;
+
+        for (float theta=0; theta < 2*M_PI; theta += (2*M_PI)/10.0)
         {
-            int pass=0;
+            int testX = center->x + cos(theta) * r;
+            int testY = center->y + sin(theta) * r;
 
-            for (float theta=0; theta < 2*M_PI; theta += (2*M_PI)/10.0)
-            {
-                int testX = center->x + cos(theta) * r;
-                int testY = center->y + sin(theta) * r;
+            // if out of bound, break;
+            if (testX < subX || testX >= subW || testY < subY || testY >= subH)
+                break;
 
-                // if out of bound, break;
-                if (testX < subX || testX > subW || testY < subY || testY > subH)
-                    break;
-
-                if (image_buffer[testX + testY * stats.width] > running_threshold)
-                    pass++;
-            }
-
-            //qDebug() << "Testing for radius " << r << " passes # " << pass << " @ threshold " << running_threshold;
-            //if (pass >= 6)
-            if (pass >= 5)
-            {
-                    center->width = r*2;
-                    break;
-            }
+            if (gradients[testX + testY * subW] > 0)
+                pass++;
         }
 
-        if (center->width > 0)
+        if (pass >= 5)
+        {
+            center->width = r*2;
             break;
-
-        // Increase threshold fuzziness by 10%
-        running_threshold -= running_threshold * 0.1;
+        }
     }
 
     // If no stars were detected
     if (center->width == -1)
-        return 0;
+        return NULL;
 
     // 30% fuzzy
     //center->width += center->width*0.3 * (running_threshold / threshold);
 
-    starCenters.append(center);
 
-    double FSum=0, HF=0, TF=0, min = stats.min[0];
+    double FSum=0, HF=0, TF=0;
     const double resolution = 1.0/20.0;
 
     int cen_y = round(center->y);
@@ -680,12 +663,14 @@ int FITSData::findCannyStar(FITSData *data, const QRectF &boundary)
     double leftEdge  = center->x - center->width / 2.0;
 
     QVector<double> subPixels;
-    subPixels.reserve(center->width / resolution);
+    subPixels.reserve(center->width / resolution);    
+
+    const float *origBuffer = data->getImageBuffer() + offset;
 
     for (double x=leftEdge; x <= rightEdge; x += resolution)
     {
         //subPixels[x] = resolution * (image_buffer[static_cast<int>(floor(x)) + cen_y * stats.width] - min);
-        double slice = resolution * (image_buffer[static_cast<int>(floor(x)) + cen_y * stats.width] - min);
+        double slice = resolution * (origBuffer[static_cast<int>(floor(x)) + cen_y * subW]);
         FSum += slice;
         subPixels.append(slice);
     }
@@ -708,24 +693,15 @@ int FITSData::findCannyStar(FITSData *data, const QRectF &boundary)
 
         if (TF >= HF)
         {
-            // We have two ways to calculate HFR. The first is the correct method but it can get quite variable within 10% due to random fluctuations of the measured star.
-            // The second method is not truly HFR but is much more resistant to noise.
-
-
-            // #1 Approximate HFR, accurate and reliable but quite variable to small changes in star flux
-            center->HFR = (k - 1 + ( (HF-lastTF)/(TF-lastTF) ) ) * resolution;
-
-            // #2 Not exactly HFR, but much more stable
-            //center->HFR = (k*resolution) * (HF/TF);
+            // We overpassed HF, let's calculate from last TF how much until we reach HF
+            center->HFR = (k - 1 + ( (HF-lastTF)/(TF-lastTF) )*2 ) * resolution;
             break;
         }
 
         lastTF = TF;
     }
 
-    return starCenters.size();
-
-#endif
+    return center;
 
 }
 
