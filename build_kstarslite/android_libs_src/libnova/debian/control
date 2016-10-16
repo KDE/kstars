@@ -1,0 +1,29 @@
+Source: libnova
+Priority: optional
+Maintainer: Petr Kubanek <petr@kubanek.net>
+Build-Depends: debhelper (>= 4.0.0)
+Standards-Version: 3.6.1
+
+Package: libnova-dev
+Section: libdev
+Architecture: any
+Depends: libnova (= ${Source-Version})
+Description:  Celestial Mechanics and Astronomical Calculation Library
+ libnova is a general purpose, double precision, celestial mechanics and astronomical calculation library.
+ .
+ The intended audience of libnova is C / C++ programmers, astronomers and anyone else interested in calculating positions of astronomical objects or celestial mechanics.
+ .  
+ libnova is the calculation engine used by the Nova (http://nova.sf.net) project and most importantly, is free software.
+ .
+ This package contains development files.
+
+Package: libnova
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}
+Description:  Celestial Mechanics and Astronomical Calculation Library
+ libnova is a general purpose, double precision, celestial mechanics and astronomical calculation library.
+ .
+ The intended audience of libnova is C / C++ programmers, astronomers and anyone else interested in calculating positions of astronomical objects or celestial mechanics.
+ .  
+ libnova is the calculation engine used by the Nova (http://nova.sf.net) project and most importantly, is free software.
