@@ -102,7 +102,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
         rc = image_data->loadFITS(in_filename);
         if (rc)
         {
-            double image_width,image_height;
+            uint16_t image_width,image_height;
             double bscale, bzero;
             double min, max;
             int val;

@@ -90,13 +90,21 @@ This method looks at what mouse mode is currently selected and updates the curso
  */
 
 void FITSView::updateMouseCursor(){
-    if(mouseMode==dragMouse)
-        viewport()->setCursor(Qt::OpenHandCursor);
+    if(mouseMode==dragMouse){
+        if(horizontalScrollBar()->maximum()>0||verticalScrollBar()->maximum()>0){
+            if(!image_frame->getMouseButtonDown())
+                viewport()->setCursor(Qt::PointingHandCursor);
+            else
+                viewport()->setCursor(Qt::ClosedHandCursor);
+        }
+        else
+            viewport()->setCursor(Qt::CrossCursor);
+    }
     if(mouseMode==selectMouse){
         viewport()->setCursor(Qt::CrossCursor);
     }
     if(mouseMode==scopeMouse){
-        QPixmap scope_pix=QPixmap(":/icons/32-apps-kstars.png");
+        QPixmap scope_pix=QPixmap(":/icons/breeze/default/kstars_telescope.svg").scaled(32,32,Qt::KeepAspectRatio,Qt::FastTransformation);
         viewport()->setCursor(QCursor(scope_pix,0,0));
     }
 }
@@ -116,6 +124,10 @@ void FITSView::setMouseMode(int mode){
     }
 }
 
+bool FITSLabel::getMouseButtonDown(){
+    return mouseButtonDown;
+}
+
 int FITSView::getMouseMode(){
     return mouseMode;
 }
@@ -127,7 +139,7 @@ If the mouse button is released, it resets mouseButtonDown variable and the mous
 void FITSLabel::mouseReleaseEvent(QMouseEvent *e){
     if(image->getMouseMode()==FITSView::dragMouse){
         mouseButtonDown=false;
-        image->viewport()->setCursor(Qt::OpenHandCursor);
+        image->updateMouseCursor();
     }
 }
 /**
@@ -213,7 +225,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     {
         mouseButtonDown=true;
         lastMousePoint=e->globalPos();
-        image->viewport()->setCursor(Qt::ClosedHandCursor);
+        image->updateMouseCursor();
     } else if(image->getMouseMode()==FITSView::scopeMouse)
     {
 #ifdef HAVE_INDI
@@ -1204,6 +1216,7 @@ void FITSView::toggleStars(bool enable)
         qApp->processEvents();
         int count = -1;
 
+        #if 0
         if (trackingBoxEnabled)
         {
             count = image_data->findStars(trackingBox, trackingBoxUpdated);
@@ -1211,10 +1224,11 @@ void FITSView::toggleStars(bool enable)
         }
         else
             count = image_data->findStars();
-
+        #endif
 
         //QRectF boundary(0,0, image_data->getWidth(), image_data->getHeight());
         //count = image_data->findOneStar(boundary);
+        count = FITSData::findCannyStar(image_data);
 
         if (count >= 0 && isVisible())
             emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
@@ -1293,6 +1307,7 @@ void FITSView::cleanUpZoom(QPoint viewCenter)
         y0 = viewCenter.y()  * scale;
     }
     ensureVisible(x0,y0, width()/2 , height()/2);
+    updateMouseCursor();
 }
 
 /**

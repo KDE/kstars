@@ -63,6 +63,7 @@ public:
     virtual ~FITSLabel();
     void setSize(double w, double h);
     void centerTelescope(double raJ2000, double decJ2000);
+    bool getMouseButtonDown();
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent *e);
@@ -185,7 +186,7 @@ private:
     FITSData *image_data;
     int image_width, image_height;
 
-    double currentWidth,currentHeight; /* Current width and height due to zoom */
+    uint16_t currentWidth,currentHeight; /* Current width and height due to zoom */
     const double zoomFactor;           /* Image zoom factor */
     double currentZoom;                /* Current Zoom level */
 

@@ -90,10 +90,6 @@ public:
     void runningAverageStdDev();
 
     // Access functions
-    //double getValue(float *buffer, int i);
-    //void setValue(float *buffer, int i, double value);
-    //double getValue(int i);
-    //void setValue(int i, float value);
     void clearImageBuffers();
     void setImageBuffer(float *buffer);
     float * getImageBuffer();
@@ -101,11 +97,11 @@ public:
     // Stats
     int getDataType() { return data_type; }
     unsigned int getSize() { return stats.samples_per_channel; }
-    void getDimensions(double *w, double *h) { *w = stats.width; *h = stats.height; }
-    void setWidth(long w) { stats.width = w;}
-    void setHeight(long h) { stats.height = h;}
-    long getWidth() { return stats.width; }
-    long getHeight() { return stats.height; }
+    void getDimensions(uint16_t *w, uint16_t *h) { *w = stats.width; *h = stats.height; }
+    void setWidth(uint16_t w) { stats.width = w; stats.samples_per_channel = stats.width * stats.height;}
+    void setHeight(uint16_t h) { stats.height = h; stats.samples_per_channel = stats.width * stats.height;}
+    uint16_t getWidth() { return stats.width; }
+    uint16_t getHeight() { return stats.height; }
 
     // Statistics
     int getNumOfChannels() { return channels;}
@@ -134,6 +130,9 @@ public:
     void findCentroid(const QRectF &boundary = QRectF(), int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
     void getCenterSelection(int *x, int *y);
     int findOneStar(const QRectF &boundary);
+
+    // Find single star based on partially customized Canny edge detection
+    static int findCannyStar(FITSData *data, const QRectF &boundary = QRectF());
 
     // Half Flux Radius
     Edge * getMaxHFRStar() { return maxHFRStar;}
@@ -179,26 +178,6 @@ public:
     int getFlipVCounter() const;
     void setFlipVCounter(int value);
 
-    // Dark frame
-    float *getDarkFrame() const;
-    void setDarkFrame(float *value);
-    void subtract(float *darkFrame);
-
-    /* stats struct to hold statisical data about the FITS data */
-    struct
-    {
-        double min[3], max[3];
-        double mean[3];
-        double stddev[3];
-        double median[3];
-        double SNR;
-        int bitpix;
-        int ndim;
-        uint32_t samples_per_channel;
-        uint16_t width;
-        uint16_t height;
-    } stats;
-
 private:
 
     bool rotFITS (int rotate, int mirror);
@@ -210,19 +189,20 @@ private:
     void readWCSKeys();
 
     // Canny Edge detector by Gonzalo Exequiel Pedone
-    void sobel(const QImage &image, QVector<int> &gradient, QVector<int> &direction);
+    void sobel(QVector<float> &gradient, QVector<float> &direction);
+    #if 0
     QVector<int> thinning(int width, int height, const QVector<int> &gradient, const QVector<int> &direction);
     QVector<int> threshold(int thLow, int thHi, const QVector<int> &image);
     void trace(int width, int height, QVector<int> &image, int x, int y);
     QVector<int> hysteresis(int width, int height, const QVector<int> &image);
+    #endif
 
     FITSHistogram *histogram;           // Pointer to the FITS data histogram
     fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
 
-    int data_type;                      // FITS image data type    
+    int data_type;                      // FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONGLONG, TDOUBLE)
     int channels;                       // Number of channels    
-    float *image_buffer;         		// Current image buffer
-    float *darkFrame;                    // Optional dark frame pointer
+    float *image_buffer;         		// Current image buffer    
 
 
     bool tempFile;                      // Is this a tempoprary file or one loaded from disk?
@@ -244,6 +224,21 @@ private:
 
     float *bayer_buffer;                // Bayer buffer
     BayerParams debayerParams;          // Bayer parameters
+
+    /* stats struct to hold statisical data about the FITS data */
+    struct
+    {
+        double min[3], max[3];
+        double mean[3];
+        double stddev[3];
+        double median[3];
+        double SNR;
+        int bitpix;
+        int ndim;
+        uint32_t samples_per_channel;
+        uint16_t width;
+        uint16_t height;
+    } stats;
 
 };
 

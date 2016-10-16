@@ -100,7 +100,7 @@ FITSHistogram::~FITSHistogram()
 
 void FITSHistogram::constructHistogram()
 {    
-    double fits_w=0, fits_h=0;
+    uint16_t fits_w=0, fits_h=0;
 
     FITSData *image_data = tab->getView()->getImageData();
     float *buffer = image_data->getImageBuffer();

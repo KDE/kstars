@@ -73,13 +73,16 @@ FITSData::FITSData(FITSMode fitsMode)
     wcs_coord    = NULL;
     fptr = NULL;
     histogram = NULL;
-    maxHFRStar = NULL;
-    darkFrame = NULL;
+    maxHFRStar = NULL;    
     tempFile  = false;
     starsSearched = false;
     HasWCS = false;
     HasDebayer=false;
     mode = fitsMode;
+    channels=1;
+
+    stats.bitpix=8;
+    stats.ndim = 2;
 
     debayerParams.method  = DC1394_BAYER_METHOD_NEAREST;
     debayerParams.filter  = DC1394_COLOR_FILTER_RGGB;
@@ -242,11 +245,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         return false;
     }
 
-    if (darkFrame != NULL)
-        subtract(darkFrame);
-
-    if (darkFrame == NULL)
-        calculateStats();
+    calculateStats();
 
     if (mode == FITS_NORMAL)
         checkWCS();
@@ -417,7 +416,7 @@ int FITSData::calculateMinMax(bool refresh)
 
     status = 0;
 
-    if (refresh == false)
+    if (fptr && refresh == false)
     {
         if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min[0]), NULL, &status) ==0)
             nfound++;
@@ -555,6 +554,179 @@ bool FITSData::checkCollision(Edge* s1, Edge*s2)
 
     //no collision
     return false;
+}
+
+int FITSData::findCannyStar(FITSData *data, const QRectF &boundary)
+{
+    int subX = boundary.isNull() ? 0 : boundary.x();
+    int subY = boundary.isNull() ? 0 : boundary.y();
+    int subW = subX + (boundary.isNull() ? data->getWidth() : boundary.width());
+    int subH = subY + (boundary.isNull() ? data->getHeight(): boundary.height());
+
+    // #1 Find offsets
+    uint32_t size   = subW * subH;
+    uint32_t offset = subX + subY * subW;
+
+    // #2 Create new buffer
+    float *buffer = new float[size];
+    memcpy(buffer, data->getImageBuffer() + offset, size);
+
+    // #3 Create new FITSData to hold it
+    FITSData *boundedImage = new FITSData();
+    boundedImage->stats.width = subW;
+    boundedImage->stats.height = subH;
+    boundedImage->stats.bitpix = data->stats.bitpix;
+    boundedImage->stats.samples_per_channel = size;
+    boundedImage->stats.ndim = 2;
+
+    // #4 Set image buffer and calculate stats.
+    boundedImage->setImageBuffer(buffer);
+
+    boundedImage->calculateStats(true);
+
+    // #5 Apply Median + High Contrast filter to remove noise and move data to non-linear domain
+    boundedImage->applyFilter(FITS_MEDIAN);
+    boundedImage->applyFilter(FITS_HIGH_CONTRAST);
+
+    // #6 Perform Sobel to find gradients and their directions
+    QVector<float> gradients;
+    QVector<float> directions;
+    boundedImage->sobel(gradients, directions);
+
+    // #7 Calculate center of mass
+    float massX=0, massY=0, totalMass=0;
+
+    for (int y=subY; y < subH; y++)
+    {
+        for (int x=subX; x < subW; x++)
+        {
+            float pixel = gradients[x+y*subW];
+
+                totalMass += pixel;
+                massX     += x * pixel;
+                massY     += y * pixel;
+        }
+    }
+
+    qDebug() << "Weighted Center is X: " << massX/totalMass << " Y: " << massY/totalMass;
+
+    return 1;
+
+#if 0
+
+    Edge *center = new Edge;
+    center->width = -1;
+    center->x     = massX/totalMass + 0.5;
+    center->y     = massY/totalMass + 0.5;
+    center->HFR   = 1;
+
+    // Maximum Radius
+    int maxR = qMin(subW-1, subH-1) / 2;
+
+    // Critical threshold
+    double critical_threshold = threshold * 0.7;
+    double running_threshold = threshold;
+
+    while (running_threshold >= critical_threshold)
+    {
+        for (int r=maxR; r > 1; r--)
+        {
+            int pass=0;
+
+            for (float theta=0; theta < 2*M_PI; theta += (2*M_PI)/10.0)
+            {
+                int testX = center->x + cos(theta) * r;
+                int testY = center->y + sin(theta) * r;
+
+                // if out of bound, break;
+                if (testX < subX || testX > subW || testY < subY || testY > subH)
+                    break;
+
+                if (image_buffer[testX + testY * stats.width] > running_threshold)
+                    pass++;
+            }
+
+            //qDebug() << "Testing for radius " << r << " passes # " << pass << " @ threshold " << running_threshold;
+            //if (pass >= 6)
+            if (pass >= 5)
+            {
+                    center->width = r*2;
+                    break;
+            }
+        }
+
+        if (center->width > 0)
+            break;
+
+        // Increase threshold fuzziness by 10%
+        running_threshold -= running_threshold * 0.1;
+    }
+
+    // If no stars were detected
+    if (center->width == -1)
+        return 0;
+
+    // 30% fuzzy
+    //center->width += center->width*0.3 * (running_threshold / threshold);
+
+    starCenters.append(center);
+
+    double FSum=0, HF=0, TF=0, min = stats.min[0];
+    const double resolution = 1.0/20.0;
+
+    int cen_y = round(center->y);
+
+    double rightEdge = center->x + center->width / 2.0;
+    double leftEdge  = center->x - center->width / 2.0;
+
+    QVector<double> subPixels;
+    subPixels.reserve(center->width / resolution);
+
+    for (double x=leftEdge; x <= rightEdge; x += resolution)
+    {
+        //subPixels[x] = resolution * (image_buffer[static_cast<int>(floor(x)) + cen_y * stats.width] - min);
+        double slice = resolution * (image_buffer[static_cast<int>(floor(x)) + cen_y * stats.width] - min);
+        FSum += slice;
+        subPixels.append(slice);
+    }
+
+    // Half flux
+    HF = FSum / 2.0;
+
+    //double subPixelCenter = center->x - fmod(center->x,resolution);
+    int subPixelCenter = (center->width / resolution) / 2;
+
+    // Start from center
+    TF = subPixels[subPixelCenter];
+    double lastTF = TF;
+    // Integrate flux along radius axis until we reach half flux
+    //for (double k=resolution; k < (center->width/(2*resolution)); k += resolution)
+    for (int k=1; k < subPixelCenter; k ++)
+    {
+        TF += subPixels[subPixelCenter+k];
+        TF += subPixels[subPixelCenter-k];
+
+        if (TF >= HF)
+        {
+            // We have two ways to calculate HFR. The first is the correct method but it can get quite variable within 10% due to random fluctuations of the measured star.
+            // The second method is not truly HFR but is much more resistant to noise.
+
+
+            // #1 Approximate HFR, accurate and reliable but quite variable to small changes in star flux
+            center->HFR = (k - 1 + ( (HF-lastTF)/(TF-lastTF) ) ) * resolution;
+
+            // #2 Not exactly HFR, but much more stable
+            //center->HFR = (k*resolution) * (HF/TF);
+            break;
+        }
+
+        lastTF = TF;
+    }
+
+    return starCenters.size();
+
+#endif
+
 }
 
 int FITSData::findOneStar(const QRectF &boundary)
@@ -1429,18 +1601,6 @@ void FITSData::applyFilter(FITSScale type, float *image, float min, float max)
 
 }
 
-void FITSData::subtract(float *dark_buffer)
-{
-    for (int i=0; i < stats.width*stats.height; i++)
-    {
-        image_buffer[i] -= dark_buffer[i];
-        if (image_buffer[i] < 0)
-            image_buffer[i] = 0;
-    }
-
-    calculateStats(true);
-}
-
 int FITSData::findStars(const QRectF &boundary, bool force)
 {
     //if (histogram == NULL)
@@ -1555,15 +1715,6 @@ void FITSData::checkWCS()
     }
 #endif
 
-}
-float *FITSData::getDarkFrame() const
-{
-    return darkFrame;
-}
-
-void FITSData::setDarkFrame(float *value)
-{
-    darkFrame = value;
 }
 
 int FITSData::getFlipVCounter() const
@@ -2309,6 +2460,7 @@ double FITSData::getADU()
  * Web-Site: http://github.com/hipersayanX/CannyDetector
  */
 
+#if 0
 void FITSData::sobel(const QImage &image, QVector<int> &gradient, QVector<int> &direction)
 {
     int size = image.width() * image.height();
@@ -2390,7 +2542,94 @@ void FITSData::sobel(const QImage &image, QVector<int> &gradient, QVector<int> &
         }
     }
 }
+#endif
 
+void FITSData::sobel(QVector<float> &gradient, QVector<float> &direction)
+{
+    //int size = image.width() * image.height();
+    gradient.resize(stats.samples_per_channel);
+    direction.resize(stats.samples_per_channel);
+
+    for (int y = 0; y < stats.height; y++)
+    {
+        size_t yOffset = y * stats.width;
+        const float *grayLine = image_buffer + yOffset;
+
+        const float *grayLine_m1 = y < 1? grayLine: grayLine - stats.width;
+        const float *grayLine_p1 = y >= stats.height - 1? grayLine: grayLine + stats.width;
+
+        float *gradientLine = gradient.data() + yOffset;
+        float *directionLine = direction.data() + yOffset;
+
+        for (int x = 0; x < stats.width; x++)
+        {
+            int x_m1 = x < 1? x: x - 1;
+            int x_p1 = x >= stats.width - 1? x: x + 1;
+
+            int gradX = grayLine_m1[x_p1]
+                      + 2 * grayLine[x_p1]
+                      + grayLine_p1[x_p1]
+                      - grayLine_m1[x_m1]
+                      - 2 * grayLine[x_m1]
+                      - grayLine_p1[x_m1];
+
+            int gradY = grayLine_m1[x_m1]
+                      + 2 * grayLine_m1[x]
+                      + grayLine_m1[x_p1]
+                      - grayLine_p1[x_m1]
+                      - 2 * grayLine_p1[x]
+                      - grayLine_p1[x_p1];
+
+            gradientLine[x] = qAbs(gradX) + qAbs(gradY);
+
+            /* Gradient directions are classified in 4 possible cases
+             *
+             * dir 0
+             *
+             * x x x
+             * - - -
+             * x x x
+             *
+             * dir 1
+             *
+             * x x /
+             * x / x
+             * / x x
+             *
+             * dir 2
+             *
+             * \ x x
+             * x \ x
+             * x x \
+             *
+             * dir 3
+             *
+             * x | x
+             * x | x
+             * x | x
+             */
+            if (gradX == 0 && gradY == 0)
+                directionLine[x] = 0;
+            else if (gradX == 0)
+                directionLine[x] = 3;
+            else
+            {
+                qreal a = 180. * atan(qreal(gradY) / gradX) / M_PI;
+
+                if (a >= -22.5 && a < 22.5)
+                    directionLine[x] = 0;
+                else if (a >= 22.5 && a < 67.5)
+                    directionLine[x] = 2;
+                else if (a >= -67.5 && a < -22.5)
+                    directionLine[x] = 1;
+                else
+                    directionLine[x] = 3;
+            }
+        }
+    }
+}
+
+#if 0
 QVector<int> FITSData::thinning(int width, int height, const QVector<int> &gradient, const QVector<int> &direction)
 {
     QVector<int> thinned(gradient.size());
@@ -2519,3 +2758,5 @@ QVector<int> FITSData::hysteresis(int width, int height, const QVector<int> &ima
 
     return canny;
 }
+
+#endif
