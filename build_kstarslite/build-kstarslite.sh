@@ -1,6 +1,6 @@
 #!/bin/bash
 . build-config #load values from config file
-
+mkdir android_libs -p
 # Ask user what libraries should be downloaded/built
 if [ -z "$download_kf5" ]
 then
