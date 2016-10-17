@@ -542,6 +542,8 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
         }
     }
 
+    starsSearched = false;
+
     setAlignment(Qt::AlignCenter);
 
     if (isVisible())
@@ -1204,30 +1206,56 @@ void FITSView::togglePixelGrid()
 
 }
 
+int FITSView::findStars(StarAlgorithm algorithm)
+{
+    int count = 0;
+
+    if (trackingBoxEnabled)
+    {
+        switch (algorithm)
+        {
+        case ALGORITHM_GRADIENT:
+            count = FITSData::findCannyStar(image_data, trackingBox);
+            break;
+
+        case ALGORITHM_CENTROID:
+            count = image_data->findStars(trackingBox);
+            break;
+
+        case ALGORITHM_THRESHOLD:
+            count = image_data->findOneStar(trackingBox);
+            break;
+        }
+    }
+    else if (algorithm == ALGORITHM_GRADIENT)
+    {
+        QRect boundary(0,0, image_data->getWidth(), image_data->getHeight());
+        count = FITSData::findCannyStar(image_data, boundary);
+    }
+    else
+    {
+        count = image_data->findStars();
+    }
+
+    starAlgorithm = algorithm;
+
+    starsSearched = true;
+
+    return count;
+}
+
 void FITSView::toggleStars(bool enable)
 {
     markStars = enable;
 
-    if (markStars == true)
+    if (markStars == true && starsSearched == false)
     {
         QApplication::setOverrideCursor(Qt::WaitCursor);
         emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
         qApp->processEvents();
         int count = -1;
 
-        #if 0
-        if (trackingBoxEnabled)
-        {
-            count = image_data->findStars(trackingBox, trackingBoxUpdated);
-            trackingBoxUpdated=false;
-        }
-        else
-            count = image_data->findStars();
-        #endif
-
-        //QRectF boundary(0,0, image_data->getWidth(), image_data->getHeight());
-        //count = image_data->findOneStar(boundary);
-        FITSData::findCannyStar(image_data);
+        count = findStars(starAlgorithm);
 
         if (count >= 0 && isVisible())
             emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);

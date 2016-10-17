@@ -73,7 +73,7 @@ class FITSData
 {
 public:
 
-    typedef enum { CHANNEL_ONE, CHANNEL_TWO, CHANNEL_THREE } ColorChannel;
+    typedef enum { CHANNEL_ONE, CHANNEL_TWO, CHANNEL_THREE } ColorChannel;    
 
     FITSData(FITSMode mode=FITS_NORMAL);
     ~FITSData();
@@ -133,7 +133,7 @@ public:
     int findOneStar(const QRectF &boundary);
 
     // Find single star based on partially customized Canny edge detection
-    static Edge *findCannyStar(FITSData *data, const QRect &boundary = QRect());
+    static int findCannyStar(FITSData *data, const QRect &boundary = QRect());
 
     // Half Flux Radius
     Edge * getMaxHFRStar() { return maxHFRStar;}

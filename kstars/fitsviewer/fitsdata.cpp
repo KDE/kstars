@@ -556,16 +556,18 @@ bool FITSData::checkCollision(Edge* s1, Edge*s2)
     return false;
 }
 
-Edge* FITSData::findCannyStar(FITSData *data, const QRect &boundary)
+int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 {
     int subX = boundary.isNull() ? 0 : boundary.x();
     int subY = boundary.isNull() ? 0 : boundary.y();
-    int subW = subX + (boundary.isNull() ? data->getWidth() : boundary.width());
-    int subH = subY + (boundary.isNull() ? data->getHeight(): boundary.height());
+    int subW = (boundary.isNull() ? data->getWidth() : boundary.width());
+    int subH = (boundary.isNull() ? data->getHeight(): boundary.height());
+
+    uint16_t dataWidth = data->getWidth();
 
     // #1 Find offsets
     uint32_t size   = subW * subH;
-    uint32_t offset = subX + subY * subW;
+    uint32_t offset = subX + subY * dataWidth;
 
     // #2 Create new buffer
     float *buffer = new float[size];
@@ -596,6 +598,9 @@ Edge* FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     // and discarded whenever necessary. It won't work on noisy images unless this is done.
     boundedImage->sobel(gradients, directions);
 
+    // Not needed anymore
+    delete boundedImage;
+
     // #7 Calculate center of mass
     float massX=0, massY=0, totalMass=0;
 
@@ -609,19 +614,16 @@ Edge* FITSData::findCannyStar(FITSData *data, const QRect &boundary)
                 massX     += x * pixel;
                 massY     += y * pixel;
         }
-    }
-
-    qDebug() << "Weighted Center is X: " << massX/totalMass << " Y: " << massY/totalMass;    
+    }    
 
     Edge *center = new Edge;
     center->width = -1;
     center->x     = massX/totalMass + 0.5;
     center->y     = massY/totalMass + 0.5;
-    center->HFR   = 1;
+    center->HFR   = 1;    
 
     // Maximum Radius
     int maxR = qMin(subW-1, subH-1) / 2;
-
 
     for (int r=maxR; r > 1; r--)
     {
@@ -649,13 +651,17 @@ Edge* FITSData::findCannyStar(FITSData *data, const QRect &boundary)
         }
     }
 
+    qDebug() << "Weighted Center is X: " << center->x << " Y: " << center->y << " Width: " << center->width;
+
     // If no stars were detected
     if (center->width == -1)
-        return NULL;
+    {
+        delete center;
+        return 0;
+    }
 
     // 30% fuzzy
     //center->width += center->width*0.3 * (running_threshold / threshold);
-
 
     double FSum=0, HF=0, TF=0;
     const double resolution = 1.0/20.0;
@@ -672,13 +678,13 @@ Edge* FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 
     QDebug deb = qDebug();
 
-    for (int i=0; i < subW; i++)
-        deb << origBuffer[i + cen_y * subW] << ",";
+    for (int i=subX; i < (subX+subW); i++)
+        deb << origBuffer[i + cen_y * dataWidth] << ",";
 
     for (double x=leftEdge; x <= rightEdge; x += resolution)
     {
         //subPixels[x] = resolution * (image_buffer[static_cast<int>(floor(x)) + cen_y * stats.width] - min);
-        double slice = resolution * (origBuffer[static_cast<int>(floor(x)) + cen_y * subW]);
+        double slice = resolution * (origBuffer[static_cast<int>(floor(x)) + cen_y * dataWidth]);
         FSum += slice;
         subPixels.append(slice);
     }
@@ -710,7 +716,8 @@ Edge* FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     }
 
     data->appendStar(center);
-    return center;
+
+    return 1;
 
 }
 
@@ -842,7 +849,7 @@ int FITSData::findOneStar(const QRectF &boundary)
 
 
             // #1 Approximate HFR, accurate and reliable but quite variable to small changes in star flux
-            center->HFR = (k - 1 + ( (HF-lastTF)/(TF-lastTF) ) ) * resolution;
+            center->HFR = (k - 1 + ( (HF-lastTF)/(TF-lastTF) )*2 ) * resolution;
 
             // #2 Not exactly HFR, but much more stable
             //center->HFR = (k*resolution) * (HF/TF);
@@ -852,8 +859,7 @@ int FITSData::findOneStar(const QRectF &boundary)
         lastTF = TF;
     }
 
-    return starCenters.size();
-
+    return 1;
 }
 
 /*** Find center of stars and calculate Half Flux Radius */
@@ -1595,7 +1601,6 @@ int FITSData::findStars(const QRectF &boundary, bool force)
     {
         qDeleteAll(starCenters);
         starCenters.clear();
-
         findCentroid(boundary);
         getHFR();
     }

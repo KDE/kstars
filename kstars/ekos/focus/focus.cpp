@@ -77,6 +77,8 @@ Focus::Focus()
     reverseDir = false;
     initialFocuserAbsPosition = -1;
 
+    focusAlgorithm = ALGORITHM_GRADIENT;
+
     state = Ekos::FOCUS_IDLE;
 
     pulseDuration = 1000;
@@ -119,6 +121,16 @@ Focus::Focus()
 
     // Reset star center on auto star check toggle
     connect(autoStarCheck, &QCheckBox::toggled, this, [&](){starCenter = QVector3D();});
+
+    focusAlgorithm = static_cast<StarAlgorithm>(Options::focusAlgorithm());
+    focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
+
+    connect(focusAlgorithmCombo, static_cast<void (QComboBox::*) (int)>(&QComboBox::activated), this, [&](int index)
+    {
+        focusAlgorithm=static_cast<StarAlgorithm>(index);
+        thresholdSpin->setEnabled(focusAlgorithm == ALGORITHM_THRESHOLD);
+        Options::setFocusAlgorithm(index);
+    });
 
     activeBin=Options::focusXBin();
     binningCombo->setCurrentIndex(activeBin-1);
@@ -214,10 +226,10 @@ Focus::Focus()
     lockFilterCheck->setChecked(Options::lockFocusFilter());
     darkFrameCheck->setChecked(Options::useFocusDarkFrame());
     thresholdSpin->setValue(Options::focusThreshold());
-    focusFramesSpin->setValue(Options::focusFrames());
+    //focusFramesSpin->setValue(Options::focusFrames());
 
     connect(thresholdSpin, SIGNAL(valueChanged(double)), this, SLOT(setThreshold(double)));
-    connect(focusFramesSpin, SIGNAL(valueChanged(int)), this, SLOT(setFrames(int)));
+    //connect(focusFramesSpin, SIGNAL(valueChanged(int)), this, SLOT(setFrames(int)));
 
     focusView = new FITSView(focusingWidget);
     focusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -226,6 +238,8 @@ Focus::Focus()
     vlayout->addWidget(focusView);
     focusingWidget->setLayout(vlayout);
     connect(focusView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int,int)), Qt::UniqueConnection);
+
+    focusView->setStarsEnabled(true);
 }
 
 Focus::~Focus()
@@ -696,7 +710,7 @@ void Focus::start()
 
     if (Options::focusLogging())
         qDebug() << "Focus: Starting focus with box size: " << focusBoxSize->value() << " Step Size: " <<  stepIN->value() << " Threshold: " << thresholdSpin->value() << " Tolerance: "  << toleranceIN->value()
-                 << " Frames: " << focusFramesSpin->value() << " Maximum Travel: " << maxTravelIN->value();
+                 << " Frames: " << 1 /*focusFramesSpin->value()*/ << " Maximum Travel: " << maxTravelIN->value();
 
     if (autoStarCheck->isChecked())
         appendLogText(i18n("Autofocus in progress..."));
@@ -1011,37 +1025,21 @@ void Focus::setCaptureComplete()
     {
         if (image_data->areStarsSearched() == false)
         {
-            if (starSelected == false && autoStarCheck->isChecked())
-            {
-                image_data->findStars();
-                currentHFR= image_data->getHFR(HFR_MAX);
-            }
+            if (starSelected == false && autoStarCheck->isChecked() && subFramed == false)
+                focusView->findStars(ALGORITHM_CENTROID);
             else if (focusView->isTrackingBoxEnabled())
-            {
-                Edge *center = FITSData::findCannyStar(image_data, focusView->getTrackingBox());
-                if (center)
-                    currentHFR = center->HFR;
-                else
-                    currentHFR = -1;
+                focusView->findStars(focusAlgorithm);
 
-                focusView->toggleStars(true);
-                //image_data->findStars(focusView->getTrackingBox());
-            }
+            focusView->updateFrame();
+            currentHFR= image_data->getHFR(HFR_MAX);
         }
-
-
-
-        /*if (currentHFR == -1)
-        {
-            currentHFR = image_data->getHFR();
-        }*/
 
         if (Options::focusLogging())
             qDebug() << "Focus newFITS #" << frameNum+1 << ": Current HFR " << currentHFR;
 
         HFRFrames[frameNum++] = currentHFR;
 
-        if (frameNum >= focusFramesSpin->value())
+        if (frameNum >= 1 /*focusFramesSpin->value()*/)
         {
             currentHFR=0;
             for (int i=0; i < frameNum; i++)
@@ -1261,9 +1259,6 @@ void Focus::setCaptureComplete()
 
     drawProfilePlot();
 
-    if (inAutoFocus==false)
-        return;
-
     if (Options::focusLogging())
     {
         QDir dir;
@@ -1273,6 +1268,9 @@ void Focus::setCaptureComplete()
         QString filename = path + QStringLiteral("/") + name;
         focusView->getImageData()->saveFITS(filename);
     }
+
+    if (inAutoFocus==false)
+        return;
 
     if (state != Ekos::FOCUS_PROGRESS)
     {
@@ -2301,10 +2299,11 @@ void Focus::setThreshold(double value)
     Options::setFocusThreshold(value);
 }
 
-void Focus::setFrames(int value)
+// TODO remove from kstars.kcfg
+/*void Focus::setFrames(int value)
 {
     Options::setFocusFrames(value);
-}
+}*/
 
 void Focus::syncTrackingBoxPosition()
 {

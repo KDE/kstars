@@ -90,8 +90,9 @@ signals:
 class FITSView : public QScrollArea
 {
     Q_OBJECT
-public:
-    FITSView(QWidget *parent = 0, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);
+public:    
+
+    FITSView(QWidget *parent = 0, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);    
     ~FITSView();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
@@ -145,7 +146,11 @@ public:
     QPoint getImagePoint(QPoint viewPortPoint);
 
     // Star Detection
+    int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID);
     void toggleStars(bool enable);
+    void setStarsEnabled(bool enable) { markStars  = enable; }
+
+    // Grids
     void toggleEQGrid();
     void togglePixelGrid();
     void toggleCrosshair();
@@ -201,7 +206,7 @@ private:
     bool showCrosshair=false;
     bool showEQGrid=false;
     bool showPixelGrid=false;
-    bool starsSearched;
+    bool starsSearched=false;
     bool hasWCS;
 
     int mouseMode=1;
@@ -214,6 +219,9 @@ private:
 
     // Cross hair
     QPointF markerCrosshair;
+
+    // Star selection algorithm
+    StarAlgorithm starAlgorithm = ALGORITHM_GRADIENT;
 
     // Tracking box
     bool trackingBoxEnabled;

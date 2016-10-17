@@ -48,7 +48,7 @@ public:
     ~Focus();
 
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
-    typedef enum { FOCUS_AUTO, FOCUS_LOOP } FocusType;
+    typedef enum { FOCUS_AUTO, FOCUS_LOOP } FocusType;    
 
     /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
      * Ekos::Focus interface provides advanced scripting capabilities to perform manual and automatic focusing operations.
@@ -324,7 +324,7 @@ private slots:
 
     void setThreshold(double value);
 
-    void setFrames(int value);
+    //void setFrames(int value);
 
     void setCaptureComplete();
 
@@ -374,6 +374,8 @@ private:
     FocusDirection lastFocusDirection;
     // What type of focusing are we doing right now?
     FocusType focusType;
+    // Focus HFR & Centeroid algorithms
+    StarAlgorithm focusAlgorithm = ALGORITHM_GRADIENT;
 
     /*********************
     * HFR Club variables
