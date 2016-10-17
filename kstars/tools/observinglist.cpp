@@ -259,7 +259,7 @@ ObservingList::ObservingList()
 
         QStandardItem *altItem = new QStandardItem( itemText );
         altItem->setData( altCost, Qt::UserRole );
-        qDebug() << "Updating altitude for " << p.ra().toHMSString() << " " << p.dec().toDMSString() << " alt = " << p.alt().toDMSString() << " info to " << itemText;
+//        qDebug() << "Updating altitude for " << p.ra().toHMSString() << " " << p.dec().toDMSString() << " alt = " << p.alt().toDMSString() << " info to " << itemText;
         return altItem;
     };
 
@@ -1536,7 +1536,7 @@ QString ObservingList::getObjectName(const SkyObject *o, bool translated)
 void ObservingList::slotUpdateAltitudes() {
     // FIXME: Update upon gaining visibility, do not update when not visible
     KStarsDateTime now = KStarsDateTime::currentDateTimeUtc();
-    qDebug() << "Updating altitudes in observation planner @ JD - J2000 = " << double( now.djd() - J2000 );
+//    qDebug() << "Updating altitudes in observation planner @ JD - J2000 = " << double( now.djd() - J2000 );
     for ( int irow = m_WishListModel->rowCount() - 1; irow >= 0; --irow ) {
         QModelIndex idx = m_WishListSortModel->mapToSource( m_WishListSortModel->index( irow, 0 ) );
         SkyObject *o = static_cast<SkyObject *>( idx.data( Qt::UserRole + 1 ).value<void *>() );
