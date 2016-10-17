@@ -622,11 +622,12 @@ Edge* FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     // Maximum Radius
     int maxR = qMin(subW-1, subH-1) / 2;
 
+
     for (int r=maxR; r > 1; r--)
     {
         int pass=0;
 
-        for (float theta=0; theta < 2*M_PI; theta += (2*M_PI)/10.0)
+        for (float theta=0; theta < 2*M_PI; theta += (2*M_PI)/36.0)
         {
             int testX = center->x + cos(theta) * r;
             int testY = center->y + sin(theta) * r;
@@ -636,13 +637,15 @@ Edge* FITSData::findCannyStar(FITSData *data, const QRect &boundary)
                 break;
 
             if (gradients[testX + testY * subW] > 0)
-                pass++;
-        }
-
-        if (pass >= 5)
-        {
-            center->width = r*2;
-            break;
+            {
+                if (++pass >= 24)
+                {
+                    center->width = r*2;
+                    // Break of outer loop
+                    r=0;
+                    break;
+                }
+            }
         }
     }
 
@@ -666,6 +669,11 @@ Edge* FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     subPixels.reserve(center->width / resolution);    
 
     const float *origBuffer = data->getImageBuffer() + offset;
+
+    QDebug deb = qDebug();
+
+    for (int i=0; i < subW; i++)
+        deb << origBuffer[i + cen_y * subW] << ",";
 
     for (double x=leftEdge; x <= rightEdge; x += resolution)
     {
@@ -701,6 +709,7 @@ Edge* FITSData::findCannyStar(FITSData *data, const QRect &boundary)
         lastTF = TF;
     }
 
+    data->appendStar(center);
     return center;
 
 }
