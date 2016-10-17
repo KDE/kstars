@@ -1314,16 +1314,16 @@ void Capture::checkSeqBoundary(const QString &path)
 
         seqFileCount++;
 
-        tempName = tempName.remove(seqPrefix);
+        int lastUnderScoreIndex = tempName.lastIndexOf("_");
+        if (lastUnderScoreIndex > 0)
+        {
+            bool indexOK = false;
 
-        if (tempName.startsWith("_"))
-            tempName = tempName.remove(0, 1);
+            newFileIndex = tempName.mid(lastUnderScoreIndex+1).toInt(&indexOK);
+            if (indexOK && newFileIndex >= nextSequenceID)
+                nextSequenceID = newFileIndex + 1;
+        }
 
-        bool indexOK = false;
-        newFileIndex = tempName.mid(0, 3).toInt(&indexOK);
-
-        if (indexOK && newFileIndex >= nextSequenceID)
-            nextSequenceID = newFileIndex + 1;
     }
 
     currentCCD->setNextSequenceID(nextSequenceID);
