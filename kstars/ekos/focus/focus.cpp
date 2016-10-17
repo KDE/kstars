@@ -550,6 +550,9 @@ void Focus::checkFocuser(int FocuserNum)
     if (FocuserNum == -1)
         FocuserNum = focuserCombo->currentIndex();
 
+    if (FocuserNum == -1)
+        return;
+
     if (FocuserNum <= Focusers.count())
         currentFocuser = Focusers.at(FocuserNum);
 

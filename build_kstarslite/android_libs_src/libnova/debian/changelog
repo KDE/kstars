@@ -1,0 +1,50 @@
+libnova (0.14.0-1) stable; urgency=medium
+  * Added ln_get_alt_from_airmass function
+  * Generate input doxyfile from doxyfile.in
+  * Fix problem with double transformation of degrees to hours, pointed by Edward Falk
+
+ -- Petr Kubanek <petr@kubanek.net>  Sat, 30 Jul 2011 17:24:12 +0000
+
+libnova (0.13.0-1) unstable; urgency=medium
+  * Heliocentric corrections calculations
+  * Solaris patch
+
+ -- Petr Kubanek <petr@kubanek.net>  Fri, 15 May 2009 00:24:12 +0000
+
+libnova (0.12.3-1) unstable; urgency=low
+  * MS Windows source patches
+
+ -- Petr Kubanek <petr@kubanek.net>  Sun, 14 Jan 2009 00:14:00 +0000
+
+libnova (0.12.2-1) unstable; urgency=low
+  * Fixed bug #1838359.
+  * Fixed time.h issues.
+  * Fixed bug in julian_day.c, reported by Michael Richmod.
+  * [ 1644739 ] DEC coordinate error in ln_get_equ_pm_epoch
+
+ -- Petr Kubanek <petr@kubanek.net>  Sun, 13 Jan 2008 16:00:00 +0000
+
+libnova (0.12.1-1) unstable; urgency=medium
+  * bug-fix elliptic motion
+
+ -- Petr Kubanek <petr@kubanek.net>  Sun, 10 Jun 2006 14:00:00 +0000
+
+libnova (0.12.0-1) unstable; urgency=low
+
+  * precission functions
+  * airmass functions
+
+ -- Petr Kubanek <petr@kubanek.net>  Mon, 12 Sep 2005 20:00:01 +0200
+ 
+libnova (0.11.0-1) unstable; urgency=low
+  
+  * Bug fixes.
+ 
+ -- Petr Kubanek <petr@kubanek.net>  Fri, 4 Aug 2005 10:52:42 +0200
+
+libnova (0.10.1-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Petr Kubanek <petr@kubanek.net>  Sun, 16 Oct 2004 00:10:29 +0100
+
