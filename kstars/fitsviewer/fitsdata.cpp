@@ -571,7 +571,21 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 
     // #2 Create new buffer
     float *buffer = new float[size];
-    memcpy(buffer, data->getImageBuffer() + offset, size * sizeof(float));
+    // If there is no offset, copy whole buffer in one go
+    if (offset == 0)
+        memcpy(buffer, data->getImageBuffer(), size * sizeof(float));
+    else
+    {
+        float *dataPtr     = buffer;
+        float *origDataPtr = data->getImageBuffer();
+        // Copy data line by line
+        for (int height=subY; height < (subY+subH); height++)
+        {
+            uint16_t lineOffset = subX + height * dataWidth;
+            memcpy(dataPtr, origDataPtr + lineOffset, subW * sizeof(float));
+            dataPtr += subW;
+        }
+    }
 
     // #3 Create new FITSData to hold it
     FITSData *boundedImage = new FITSData();
@@ -598,24 +612,47 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     // and discarded whenever necessary. It won't work on noisy images unless this is done.
     boundedImage->sobel(gradients, directions);
 
+    QVector<int> ids(gradients.size());
+
+    int maxID = boundedImage->partition(subW, subH, gradients, ids);
+
+    //QVector<float> thresholded = boundedImage->threshold(boundedImage->stats.mean[0], boundedImage->stats.max[0], gradients);
+
     // Not needed anymore
     delete boundedImage;
+
+    typedef struct
+    {
+        float massX=0;
+        float massY=0;
+        float totalMass=0;
+    } masses;
+
+    masses region[maxID];
 
     // #7 Calculate center of mass
     float massX=0, massY=0, totalMass=0;
 
-    for (int y=subY; y < subH; y++)
+    for (int y=0; y < subH; y++)
     {
-        for (int x=subX; x < subW; x++)
+        for (int x=0; x < subW; x++)
         {
-            float pixel = gradients[x+y*subW];
+            int index = x+y*subW;
+            float pixel = gradients[index];
+            //float pixel = thresholded[x+y*subW];
 
-                totalMass += pixel;
-                massX     += x * pixel;
-                massY     += y * pixel;
+            //totalMass += pixel;
+            //massX     += x * pixel;
+            //massY     += y * pixel;
+
+            int regionID = ids[index];
+            region[regionID].totalMass += pixel;
+            region[regionID].massX += x * pixel;
+            region[regionID].massY += y * pixel;
         }
-    }    
+    }
 
+    // TODO Next create multiple "centers" and select the one with the highest totalMass
     Edge *center = new Edge;
     center->width = -1;
     center->x     = massX/totalMass + 0.5;
@@ -635,10 +672,11 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
             int testY = center->y + sin(theta) * r;
 
             // if out of bound, break;
-            if (testX < subX || testX >= subW || testY < subY || testY >= subH)
+            if (testX < 0 || testX >= subW || testY < 0 || testY >= subH)
                 break;
 
             if (gradients[testX + testY * subW] > 0)
+            //if (thresholded[testX + testY * subW] > 0)
             {
                 if (++pass >= 24)
                 {
@@ -678,12 +716,11 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 
     QDebug deb = qDebug();
 
-    for (int i=subX; i < (subX+subW); i++)
+    for (int i=0; i < subW; i++)
         deb << origBuffer[i + cen_y * dataWidth] << ",";
 
     for (double x=leftEdge; x <= rightEdge; x += resolution)
     {
-        //subPixels[x] = resolution * (image_buffer[static_cast<int>(floor(x)) + cen_y * stats.width] - min);
         double slice = resolution * (origBuffer[static_cast<int>(floor(x)) + cen_y * dataWidth]);
         FSum += slice;
         subPixels.append(slice);
@@ -692,7 +729,6 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     // Half flux
     HF = FSum / 2.0;
 
-    //double subPixelCenter = center->x - fmod(center->x,resolution);
     int subPixelCenter = (center->width / resolution) / 2;
 
     // Start from center
@@ -708,17 +744,27 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
         if (TF >= HF)
         {
             // We overpassed HF, let's calculate from last TF how much until we reach HF
+
+            // #1 Accurate calculation, but very sensitive to small variations of flux
             center->HFR = (k - 1 + ( (HF-lastTF)/(TF-lastTF) )*2 ) * resolution;
+
+            // #2 Less accurate calculation, but stable against small variations of flux
+            center->HFR = (k - 1) * resolution;
             break;
         }
 
         lastTF = TF;
     }
 
+    // Correct center for subX and subY
+    center->x += subX;
+    center->y += subY;
+
     data->appendStar(center);
 
-    return 1;
+    qDebug() << "Flux: " << FSum << " Half-Flux: " << HF << " HFR: " << center->HFR;
 
+    return 1;
 }
 
 int FITSData::findOneStar(const QRectF &boundary)
@@ -2619,6 +2665,65 @@ void FITSData::sobel(QVector<float> &gradient, QVector<float> &direction)
     }
 }
 
+int FITSData::partition(int width, int height, QVector<float> &gradient, QVector<int> &ids)
+{
+    int id = 1;
+
+    for (int y=1; y < height-1; y++)
+    {
+
+        for (int x=1; x < width-1; x++)
+        {
+            int index = x+y*width;
+            float val  = gradient[index];
+            if (val > 0 && ids[index] == 0)
+            {
+               trace(width, height, id++, gradient, ids, x, y);
+            }
+
+        }
+    }
+
+    // Return max id
+    return id;
+}
+
+void FITSData::trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y)
+{
+    int yOffset = y * width;
+    float *cannyLine = image.data() + yOffset;
+    int *idLine    = ids.data() + yOffset;
+
+    if (idLine[x] != 0)
+        return;
+
+    idLine[x] = id;
+
+    for (int j = -1; j < 2; j++)
+    {
+        int nextY = y + j;
+
+        if (nextY < 0 || nextY >= height)
+            continue;
+
+        float *cannyLineNext = cannyLine + j * width;
+
+        for (int i = -1; i < 2; i++)
+        {
+            int nextX = x + i;
+
+            if (i == j || nextX < 0 || nextX >= width)
+                continue;
+
+            if (cannyLineNext[nextX] > 0)
+            {
+                // Trace neighbors.
+                trace(width, height, id, image, ids, nextX, nextY);
+            }
+        }
+    }
+}
+
 #if 0
 QVector<int> FITSData::thinning(int width, int height, const QVector<int> &gradient, const QVector<int> &direction)
 {
@@ -2688,9 +2793,9 @@ QVector<int> FITSData::thinning(int width, int height, const QVector<int> &gradi
     return thinned;
 }
 
-QVector<int> FITSData::threshold(int thLow, int thHi, const QVector<int> &image)
+QVector<float> FITSData::threshold(int thLow, int thHi, const QVector<float> &image)
 {
-    QVector<int> thresholded(image.size());
+    QVector<float> thresholded(image.size());
 
     for (int i = 0; i < image.size(); i++)
         thresholded[i] = image[i] <= thLow? 0:
@@ -2698,39 +2803,6 @@ QVector<int> FITSData::threshold(int thLow, int thHi, const QVector<int> &image)
                                            127;
 
     return thresholded;
-}
-
-void FITSData::trace(int width, int height, QVector<int> &image, int x, int y)
-{
-    int yOffset = y * width;
-    int *cannyLine = image.data() + yOffset;
-
-    if (cannyLine[x] != 255)
-        return;
-
-    for (int j = -1; j < 2; j++) {
-        int nextY = y + j;
-
-        if (nextY < 0 || nextY >= height)
-            continue;
-
-        int *cannyLineNext = cannyLine + j * width;
-
-        for (int i = -1; i < 2; i++) {
-            int nextX = x + i;
-
-            if (i == j || nextX < 0 || nextX >= width)
-                continue;
-
-            if (cannyLineNext[nextX] == 127) {
-                // Mark pixel as white.
-                cannyLineNext[nextX] = 255;
-
-                // Trace neighbors.
-                trace(width, height, image, nextX, nextY);
-            }
-        }
-    }
 }
 
 QVector<int> FITSData::hysteresis(int width, int height, const QVector<int> &image)
@@ -2750,3 +2822,5 @@ QVector<int> FITSData::hysteresis(int width, int height, const QVector<int> &ima
 }
 
 #endif
+
+

@@ -830,7 +830,11 @@ void FITSViewer::updateButtonStatus(QString action, QString item, bool showing){
 This is a method that either enables or disables the WCS based features in the Current View.
  */
 
-void FITSViewer::updateWCSFunctions(){
+void FITSViewer::updateWCSFunctions()
+{
+    if (getCurrentView() == NULL)
+        return;
+
     if(getCurrentView()->imageHasWCS()){
         actionCollection()->action("view_eq_grid")->setDisabled(false);
         actionCollection()->action("view_eq_grid")->setText( i18n( "Show Equatorial Gridlines" ));

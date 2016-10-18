@@ -189,13 +189,17 @@ private:
     bool checkDebayer();
     void readWCSKeys();
 
-    // Canny Edge detector by Gonzalo Exequiel Pedone
+    // Sobel detector by Gonzalo Exequiel Pedone
     void sobel(QVector<float> &gradient, QVector<float> &direction);
+
+    // Give unique IDs to each contigous region
+    int partition(int width, int height, QVector<float> &gradient, QVector<int> &ids);
+    void trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y);
+
     #if 0
     QVector<int> thinning(int width, int height, const QVector<int> &gradient, const QVector<int> &direction);
-    QVector<int> threshold(int thLow, int thHi, const QVector<int> &image);
-    void trace(int width, int height, QVector<int> &image, int x, int y);
-    QVector<int> hysteresis(int width, int height, const QVector<int> &image);
+    QVector<float> threshold(int thLow, int thHi, const QVector<float> &image);
+    QVector<int> hysteresis(int width, int height, const QVector<int> &image);    
     #endif
 
     FITSHistogram *histogram;           // Pointer to the FITS data histogram
