@@ -628,17 +628,19 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
         float totalMass=0;
     } masses;
 
-    masses region[maxID];
+    // Too many regions, just noise
+    if (maxID >= 10)
+        return 0;
 
-    // #7 Calculate center of mass
-    float massX=0, massY=0, totalMass=0;
+    masses region[maxID-1];
 
+    // #7 Calculate center of mass for all detected regions
     for (int y=0; y < subH; y++)
     {
         for (int x=0; x < subW; x++)
         {
             int index = x+y*subW;
-            float pixel = gradients[index];
+
             //float pixel = thresholded[x+y*subW];
 
             //totalMass += pixel;
@@ -646,17 +648,38 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
             //massY     += y * pixel;
 
             int regionID = ids[index];
-            region[regionID].totalMass += pixel;
-            region[regionID].massX += x * pixel;
-            region[regionID].massY += y * pixel;
+            if (regionID > 0)
+            {
+                regionID--;
+                float pixel = gradients[index];
+                region[regionID].totalMass += pixel;
+                region[regionID].massX += x * pixel;
+                region[regionID].massY += y * pixel;
+            }
         }
     }
 
-    // TODO Next create multiple "centers" and select the one with the highest totalMass
+    // Compare multiple masses, and only select the highest total mass one as the desired star
+    int maxRegionID=-1;
+    int maxTotalMass=-1;
+    for (int i=0; i < maxID; i++)
+    {
+        if (region[i].totalMass > maxTotalMass)
+        {
+            maxTotalMass = region[i].totalMass;
+            maxRegionID = i;
+        }
+    }
+
+    if (maxRegionID == -1)
+        return 0;
+
     Edge *center = new Edge;
     center->width = -1;
-    center->x     = massX/totalMass + 0.5;
-    center->y     = massY/totalMass + 0.5;
+    //center->x     = massX/totalMass + 0.5;
+    //center->y     = massY/totalMass + 0.5;
+    center->x     = region[maxRegionID].massX / region[maxRegionID].totalMass + 0.5;
+    center->y     = region[maxRegionID].massY / region[maxRegionID].totalMass + 0.5;
     center->HFR   = 1;    
 
     // Maximum Radius
@@ -689,7 +712,8 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
         }
     }
 
-    qDebug() << "Weighted Center is X: " << center->x << " Y: " << center->y << " Width: " << center->width;
+    if (Options::fITSLogging())
+        qDebug() << "FITS: Weighted Center is X: " << center->x << " Y: " << center->y << " Width: " << center->width;
 
     // If no stars were detected
     if (center->width == -1)
@@ -749,7 +773,7 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
             center->HFR = (k - 1 + ( (HF-lastTF)/(TF-lastTF) )*2 ) * resolution;
 
             // #2 Less accurate calculation, but stable against small variations of flux
-            center->HFR = (k - 1) * resolution;
+            //center->HFR = (k - 1) * resolution;
             break;
         }
 
@@ -762,7 +786,8 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 
     data->appendStar(center);
 
-    qDebug() << "Flux: " << FSum << " Half-Flux: " << HF << " HFR: " << center->HFR;
+    if (Options::fITSLogging())
+        qDebug() << "Flux: " << FSum << " Half-Flux: " << HF << " HFR: " << center->HFR;
 
     return 1;
 }
