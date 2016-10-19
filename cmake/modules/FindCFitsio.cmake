@@ -29,7 +29,8 @@ else (CFITSIO_INCLUDE_DIR AND CFITSIO_LIBRARIES)
 
   find_path(CFITSIO_INCLUDE_DIR fitsio.h
     if(ANDROID)
-        ${CMAKE_SOURCE_DIR}/android_lib/
+        ${CMAKE_SOURCE_DIR}/build_kstarslite/include
+        NO_DEFAULT_PATH
     elseif(ANDROID)
          ${PC_CFITSIO_INCLUDE_DIRS}
          ${_obIncDir}
@@ -40,7 +41,7 @@ else (CFITSIO_INCLUDE_DIR AND CFITSIO_LIBRARIES)
   find_library(CFITSIO_LIBRARIES NAMES cfitsio libcfitsio
     PATHS
     if(ANDROID)
-          ${CMAKE_SOURCE_DIR}/android_lib
+          ${CMAKE_SOURCE_DIR}/build_kstarslite/android_libs/${ANDROID_ARCHITECTURE}
     else(ANDROID)
         ${PC_CFITSIO_INCLUDE_DIRS}
         ${_obIncDir}

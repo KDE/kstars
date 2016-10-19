@@ -209,6 +209,8 @@ fi
 # Build INDI
 if [ "$build_indi" = "Y" ] || [ "$build_indi" = "y" ] || [ "$build_indi" = "Yes" ] || [ "$build_indi" = "yes" ]
 then
+	cd $indi_location/indi/
+	git pull
 	mkdir $indi_location/indi/build-android -p
 	cd $indi_location/indi/build-android
 	rm CMakeCache.txt
@@ -224,19 +226,19 @@ then
 	rm CMakeCache.txt
 	make clean
 	cd "${kstars_DIR}/build_kstarslite/android_libs/${ANDROID_ARCHITECTURE}"
-	mv libindi.a _libindi.a
 	
 	# Combine libindi and liblibnova
 ar -M <<EOM
-    CREATE libindi.a
+    CREATE libindiclientandroid.a
     ADDLIB liblibnova.a
-    ADDLIB _libindi.a
+    ADDLIB libindiclientqt.a
+    ADDLIB libindi.a
     SAVE
     END
 EOM
-ranlib libindi.a
-rm _libindi.a
-
+ranlib libindiclientandroid.a
+rm libindiclientqt.a
+rm libindi.a
 fi
 
 #Build LibRAW
@@ -261,7 +263,7 @@ make clean
 rm -rf "${build_dir}/export"
 mkdir "${build_dir}/export" -p
 
-cmake "${kstars_DIR}" -DCMAKE_TOOLCHAIN_FILE="${kstars_DIR}/build_kstarslite/android_libs_src/AndroidToolchain.cmake" \
+ccmake "${kstars_DIR}" -DCMAKE_TOOLCHAIN_FILE="${kstars_DIR}/build_kstarslite/android_libs_src/AndroidToolchain.cmake" \
 	-DANDROID_ARCHITECTURE=${ANDROID_ARCHITECTURE} \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_PREFIX_PATH=${qt_android_libs} \

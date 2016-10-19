@@ -54,7 +54,7 @@ if(NOT BUILD_KSTARS_LITE)
             indi/streamform.ui
             fitsviewer/fitshistogramui.ui
             )
-        include_directories(${CFITSIO_INCLUDE_DIR})
+        include_directories(${})
     endif(CFITSIO_FOUND)
 endif(NOT BUILD_KSTARS_LITE)
 
@@ -66,7 +66,7 @@ if (INDI_FOUND)
                 fitsviewer/bayer.c
                 )
             if(ANDROID)
-                include_directories(${kstars_SOURCE_DIR}/android_lib/include)
+                include_directories(${kstars_SOURCE_DIR}/build_kstarslite/include)
             else()
                 #if it is not Android we need only CFITSIO
                 include_directories(${CFITSIO_INCLUDE_DIR})
@@ -724,13 +724,18 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/modules/BottomMenu.qml
         kstarslite/qml/modules/KSPage.qml
         kstarslite/qml/modules/KSListView.qml
+        kstarslite/qml/modules/KSLabel.qml
+        kstarslite/qml/modules/KSText.qml
+        kstarslite/qml/modules/KSTabButton.qml
+        kstarslite/qml/modules/KSTab.qml
+        kstarslite/qml/modules/KSTextField.qml
+        kstarslite/qml/modules/KSButton.qml
         kstarslite/qml/modules/TopMenu.qml
         kstarslite/qml/modules/helpers/TopMenuButton.qml
         kstarslite/qml/modules/helpers/BottomMenuButton.qml
         kstarslite/qml/modules/Splash.qml
         kstarslite/qml/modules/helpers/TimeSpinBox.qml
         kstarslite/qml/modules/TimePage.qml
-        kstarslite/qml/modules/KSTab.qml
         #Popups
         kstarslite/qml/modules/popups/ProjectionsPopup.qml
         kstarslite/qml/modules/popups/FOVPopup.qml
@@ -868,7 +873,7 @@ if(BUILD_KSTARS_LITE)
         if(ANDROID)
             #RAWExtractor is needed for converting RAW photos to JPEG in INDI Lite
             add_library(RAWExtractor SHARED IMPORTED)
-            set_property(TARGET RAWExtractor PROPERTY IMPORTED_LOCATION ${kstars_SOURCE_DIR}/android_lib/libRAWExtractor.so)
+            set_property(TARGET RAWExtractor PROPERTY IMPORTED_LOCATION ${kstars_SOURCE_DIR}/build_kstarslite/android_libs/${ANDROID_ARCHITECTURE}/libRAWExtractor.so)
             target_link_libraries(KStarsLib RAWExtractor)
         endif(ANDROID)
     endif(INDI_FOUND)
@@ -904,31 +909,30 @@ endif(CFITSIO_FOUND)
 
 if(INDI_FOUND)
     if(BUILD_KSTARS_LITE)
-        find_package(Nova REQUIRED)
-        target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} ${NOVA_LIBRARIES})
+#        find_package(Nova REQUIRED)
+#        target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} ${NOVA_LIBRARIES})
+        target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} )
     else(BUILD_KSTARS_LITE)
         target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
     endif(BUILD_KSTARS_LITE)
 
-    if(ANDROID)
+    if(WIN32 OR ANDROID)
         add_definitions(-DUSE_QT5_INDI)
-        target_link_libraries(KStarsLib ${INDI_CLIENT_ANDROID_LIBRARIES})
-    else(ANDROID)
-        if(WIN32)
-            add_definitions(-DUSE_QT5_INDI)
-            find_package(Nova REQUIRED)
+        find_package(Nova REQUIRED)
+        if(ANDROID)
+            target_link_libraries(KStarsLib ${NOVA_LIBRARIES} ${INDI_CLIENT_ANDROID_LIBRARIES})
+        else(ANDROID)
             target_link_libraries(KStarsLib ${NOVA_LIBRARIES} ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES})
-        else(WIN32)
-            # If INDI Qt5 Client is found, use it.
-
-            if (INDI_CLIENT_QT_LIBRARIES)
-                add_definitions(-DUSE_QT5_INDI)
-                target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES} z)
-            else(INDI_CLIENT_QT_LIBRARIES)
-                target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
-            endif(INDI_CLIENT_QT_LIBRARIES)
-        endif(WIN32)
-    endif(ANDROID)
+        endif(ANDROID)
+    else(WIN32 OR ANDROID)
+        # If INDI Qt5 Client is found, use it.
+        if (INDI_CLIENT_QT_LIBRARIES)
+            add_definitions(-DUSE_QT5_INDI)
+            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES} z)
+        else(INDI_CLIENT_QT_LIBRARIES)
+            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
+        endif(INDI_CLIENT_QT_LIBRARIES)
+    endif(WIN32 OR ANDROID)
 
 endif(INDI_FOUND)
 

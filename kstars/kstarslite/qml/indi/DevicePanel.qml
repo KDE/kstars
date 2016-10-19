@@ -20,10 +20,6 @@ KSPage {
     id: devicesPage
     title: devicesPage.deviceName + " - " + tabBar.currentItem.text
 
-    onTitleChanged: {
-        console.log(title)
-    }
-
     property string deviceName
     property ImagePreview imagePreview: null
 
@@ -33,6 +29,11 @@ KSPage {
         TabBar {
             id: tabBar
             Layout.fillWidth: true
+
+            background: Rectangle {
+                anchors.fill: parent
+                color: num.sysPalette.base
+            }
         }
 
         SwipeView {
@@ -67,10 +68,10 @@ KSPage {
                                                                 }', newTab.contentItem)
 
                             newTab.rootItem = columnForTab
-
                             var tabButton = Qt.createQmlObject('import QtQuick 2.7;
                                                                 import QtQuick.Controls 2.0
-                                                                TabButton {}',
+                                                                import "../modules"
+                                                                KSTabButton {}',
                                                                tabBar);
                             tabButton.text = groupName
                             if(tabBar.count == 1) {

@@ -22,6 +22,11 @@ Popup {
     width: projList.implicitWidth
     height: parent.height > projList.implicitHeight ? projList.implicitHeight : parent.height
 
+    background: Rectangle {
+        anchors.fill: parent
+        color: num.sysPalette.base
+    }
+
     KSListView {
         id: projList
         anchors {

@@ -22,7 +22,7 @@ SpinBox {
         text: control.textFromValue(control.value, control.locale)
 
         font: control.font
-        color: num.sysPalette.light
+        color: num.sysPalette.baseText
         selectionColor: num.sysPalette.highlight
         selectedTextColor: num.sysPalette.highlightedText
         horizontalAlignment: Qt.AlignHCenter

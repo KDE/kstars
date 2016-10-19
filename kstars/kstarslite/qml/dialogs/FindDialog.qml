@@ -40,10 +40,10 @@ KSPage {
                 left: parent.left
                 right: parent.right
             }
-            Label {
+            KSLabel {
                 text: xi18n("Filter by name: ")
             }
-            TextField {
+            KSTextField {
                 id: searchQuery
                 Layout.fillWidth: true
                 onTextChanged: {
@@ -57,7 +57,7 @@ KSPage {
                 left: parent.left
                 right: parent.right
             }
-            Label {
+            KSLabel {
                 text: "Filter by type: "
             }
 

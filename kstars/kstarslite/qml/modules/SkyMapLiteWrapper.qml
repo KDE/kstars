@@ -59,7 +59,25 @@ Item {
                 top: parent.top
                 margins: 25
             }
-            onClicked: SkyMapLite.centerLocked = false
+            onClicked: {
+                SkyMapLite.centerLocked = false
+            }
+            onPressedChanged: {
+                if(pressed)
+                    lockBG.color = "#D40000"
+                else
+                    lockBG.color = "red"
+            }
+
+            background: Rectangle {
+                id: lockBG
+                color: "red"
+                implicitWidth: 100
+                implicitHeight: 70
+                radius: 4
+                border.width: 3
+                border.color: "#AA0000"
+            }
 
             Image {
                 source: "../images/lock-closed.png"

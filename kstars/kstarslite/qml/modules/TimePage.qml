@@ -105,7 +105,7 @@ KSPage {
                     }
                 }
 
-                Text {
+                KSText {
                     font.pointSize: 14
                     text: Qt.locale().standaloneMonthName(userMonth) + " " + monthGrid.year
                     anchors.centerIn: parent
@@ -182,7 +182,7 @@ KSPage {
                             color: "#DCDCDC"
                         }
 
-                        Text {
+                        KSText {
                             anchors.centerIn: parent
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
@@ -235,7 +235,7 @@ KSPage {
                         Layout.fillWidth: true
 
                         ColumnLayout {
-                            Label {
+                            KSLabel {
                                 id:labelYear
                                 text: "Year"
                             }
@@ -277,7 +277,7 @@ KSPage {
 
                         ColumnLayout {
                             Layout.fillHeight: true
-                            Label {
+                            KSLabel {
                                 id:labelMonth
                                 text: "Month"
                             }
@@ -330,7 +330,7 @@ KSPage {
 
                         ColumnLayout {
                             visible: false
-                            Label {
+                            KSLabel {
                                 id:labelWeek
                                 text: "Week"
                             }
@@ -376,7 +376,7 @@ KSPage {
                         }
 
                         ColumnLayout {
-                            Label {
+                            KSLabel {
                                 id:labelDay
                                 text: "Day"
                             }
@@ -450,7 +450,7 @@ KSPage {
                         RowLayout {
                             Layout.fillWidth: true
                             ColumnLayout {
-                                Label {
+                                KSLabel {
                                     id: labelHour
                                     text: "Hour"
                                 }
@@ -462,7 +462,7 @@ KSPage {
                                     implicitWidth: tumblersGrid.tumblerWidth
                                     anchors.horizontalCenter: labelHour.horizontalCenter
 
-                                    delegate: Text {
+                                    delegate: KSText {
                                         text: modelData < 10 ? "0" + modelData : modelData
                                         font: tumblerHour.font
                                         horizontalAlignment: Text.AlignHCenter
@@ -481,7 +481,7 @@ KSPage {
                             }
 
                             ColumnLayout {
-                                Label {
+                                KSLabel {
                                     id:labelMinute
                                     text: "Min."
                                 }
@@ -493,7 +493,7 @@ KSPage {
                                     implicitWidth: tumblersGrid.tumblerWidth
                                     anchors.horizontalCenter: labelMinute.horizontalCenter
 
-                                    delegate: Text {
+                                    delegate: KSText {
                                         text: modelData < 10 ? "0" + modelData : modelData
                                         font: tumblerHour.font
                                         horizontalAlignment: Text.AlignHCenter

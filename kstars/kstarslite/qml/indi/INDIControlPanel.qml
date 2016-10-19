@@ -22,11 +22,11 @@ KSPage {
 
     property bool connected: ClientManagerLite.connected
 
-    Component.onCompleted: {
-        if(Qt.platform.os != "android") {
-            //ClientManagerLite.setHost("localhost", parseInt(7624))
-        }
-    }
+//    Component.onCompleted: {
+//        if(Qt.platform.os != "android") {
+//            ClientManagerLite.setHost("localhost", parseInt(7624))
+//        }
+//    }
 
     onConnectedChanged: {
         if(!indiPage.connected) {
@@ -51,7 +51,7 @@ KSPage {
                 right: parent.right
             }
 
-            Label {
+            KSLabel {
                 text: xi18n("INDI Host")
             }
 
@@ -61,7 +61,7 @@ KSPage {
                     right: parent.right
                 }
 
-                TextField {
+                KSTextField {
                     id:ipHost
                     placeholderText: xi18n("IP")
                     Layout.alignment: Qt.AlignHCenter
@@ -70,7 +70,7 @@ KSPage {
                     text: ClientManagerLite.lastUsedServer
                 }
 
-                TextField {
+                KSTextField {
                     id:portHost
                     placeholderText: xi18n("Port")
                     Layout.alignment: Qt.AlignHCenter
@@ -81,7 +81,7 @@ KSPage {
             }
         }
 
-        Label {
+        KSLabel {
             id: connectedTo
             visible: indiPage.connected
             text: xi18n("Connected to ") + ClientManagerLite.connectedHost
@@ -115,7 +115,7 @@ KSPage {
                 color: "gray"
             }
 
-            Label {
+            KSLabel {
                 id: devicesLabel
                 text: xi18n("Available Devices")
             }

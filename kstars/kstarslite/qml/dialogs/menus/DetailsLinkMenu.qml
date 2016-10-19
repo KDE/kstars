@@ -21,6 +21,11 @@ Menu {
     padding: 5
     property int itemIndex: -1
     property bool isImage: false
+    background: Rectangle {
+        implicitWidth: 200
+        color: num.sysPalette.base
+        radius: 5
+    }
 
     function openForImage(index) {
         isImage = true

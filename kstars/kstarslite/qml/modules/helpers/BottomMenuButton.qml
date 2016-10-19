@@ -35,7 +35,7 @@ AbstractButton {
         }
         color: "black"
         border {
-            color: "grey"
+            color: num.sysPalette.light
             width: 1
         }
     }

@@ -21,6 +21,11 @@ Popup {
     focus: true
     modal: true
 
+    background: Rectangle {
+        anchors.fill: parent
+        color: num.sysPalette.base
+    }
+
     ColumnLayout {
         id: aboutDialog
         focus: true
@@ -34,7 +39,7 @@ Popup {
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
-            Label {
+            KSLabel {
                 id: fetchText
                 width: parent.width
                 wrapMode: Label.Wrap

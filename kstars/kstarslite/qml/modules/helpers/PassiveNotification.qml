@@ -22,6 +22,7 @@ import QtQuick.Controls 2.0 as Controls
 import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 import "../../constants" 1.0
+import "../../modules"
 
 MouseArea {
     id: root
@@ -113,7 +114,9 @@ MouseArea {
             id: backgroundRect
             anchors.centerIn: parent
             radius: units.smallSpacing
-            color: num.sysPalette.windowText
+            color: num.sysPalette.base
+            border.color: num.sysPalette.light
+            border.width: 1
             opacity: 0.6
             width: mainLayout.width + Math.round((height - mainLayout.height))
             height: Math.max(mainLayout.height + units.smallSpacing*2, units.gridUnit*2)
@@ -122,11 +125,9 @@ MouseArea {
         RowLayout {
             id: mainLayout
             anchors.centerIn: parent
-            Controls.Label {
+            KSLabel {
                 id: messageLabel
                 width: Math.min(root.parent.width - units.largeSpacing*2, implicitWidth)
-
-                color: num.sysPalette.window
             }
             Controls.Button {
                 id: actionButton
@@ -148,7 +149,7 @@ MouseArea {
             verticalOffset: 0
             radius: units.gridUnit
             samples: 32
-            color: Qt.rgba(0, 0, 0, 0.5)
+            color: num.sysPalette.shadow//Qt.rgba(0, 0, 0, 0.5)
         }
     }
 }

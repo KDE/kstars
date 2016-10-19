@@ -41,8 +41,9 @@
 #ifdef HAVE_INDI
 //Symbols
 #include "kstarslite/skyitems/telescopesymbolsitem.h"
-#include "kstarslite/skyitems/fovitem.h"
 #endif
+
+#include "kstarslite/skyitems/fovitem.h"
 
 #include <QSGFlatColorMaterial>
 

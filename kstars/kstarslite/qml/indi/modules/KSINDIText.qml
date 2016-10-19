@@ -12,6 +12,7 @@ import QtQuick 2.6
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.2
 import "../../constants" 1.0
+import "../../modules"
 
 Column {
     id: columnTextProp
@@ -20,7 +21,7 @@ Column {
     spacing: 5 * num.dp
     property string propLabel: ""
 
-    Label {
+    KSLabel {
         text: propLabel
     }
 
@@ -45,7 +46,8 @@ Column {
                 textItem = Qt.createQmlObject('import QtQuick 2.6
                                         import QtQuick.Layouts 1.2
                                         import "../../constants" 1.0
-                                    Text {
+                                        import "../../modules"
+                                    KSText {
                                     }', this)
                 textItem.text = propText
         }

@@ -19,4 +19,9 @@ import "../constants" 1.0
 Pane {
     property string title: ""
     visible: false
+
+    background: Rectangle {
+        anchors.fill: parent
+        color: num.sysPalette.base
+    }
 }

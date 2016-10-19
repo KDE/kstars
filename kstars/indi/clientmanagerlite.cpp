@@ -38,7 +38,7 @@
 const char *libindi_strings_context = "string from libindi, used in the config dialog";
 
 #ifdef Q_OS_ANDROID
-#include "../../android_lib/include/libraw/libraw.h"
+#include "libraw/libraw.h"
 #endif
 
 DeviceInfoLite::DeviceInfoLite(INDI::BaseDevice *dev)

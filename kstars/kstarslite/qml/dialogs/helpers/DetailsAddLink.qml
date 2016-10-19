@@ -70,20 +70,20 @@ KSPage {
             }
         }
 
-        Label {
+        KSLabel {
             text: xi18n("Description")
         }
 
-        TextField {
+        KSTextField {
             id: descField
             Layout.fillWidth: true
         }
 
-        Label {
+        KSLabel {
             text: xi18n("URL")
         }
 
-        TextField {
+        KSTextField {
             id: urlField
             Layout.fillWidth: true
         }

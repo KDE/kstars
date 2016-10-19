@@ -13,12 +13,18 @@ import QtQuick 2.7
 import QtQuick.Layouts 1.1
 import "../../constants" 1.0
 import "../helpers"
+import "../../modules"
 
 Menu {
     id: contextMenu
     modal: true
     transformOrigin: Menu.Center
     padding: 5
+    background: Rectangle {
+        implicitWidth: 200
+        color: num.sysPalette.base
+        radius: 5
+    }
 
     property bool isPoint: false
 
@@ -36,7 +42,7 @@ Menu {
         width: parent.width
         spacing: 10
 
-        Label {
+        KSLabel {
             id: objectName
             text: isPoint ? xi18n("Empty Sky") : SkyMapLite.clickedObjectLite.translatedName
             wrapMode: Label.WrapAtWordBoundaryOrAnywhere
@@ -49,7 +55,7 @@ Menu {
         }
 
         Rectangle {
-            color: "grey"
+            color: num.sysPalette.light
             width: parent.width - 10
             height: 1
             anchors {
@@ -104,7 +110,7 @@ Menu {
             }
         }
 
-        Text {
+        KSText {
             id: telescopeName
             visible: telescopeCol.isTelescope
             wrapMode: Text.Wrap
@@ -116,7 +122,7 @@ Menu {
         }
 
         Rectangle {
-            color: "grey"
+            color: num.sysPalette.light
             visible: telescopeCol.isTelescope
             width: parent.width - 10
             height: 1

@@ -14,6 +14,11 @@ install( FILES modules/BottomMenu.qml
     modules/KSListView.qml
     modules/SkyMapLiteWrapper.qml
     modules/TimePage.qml
+    modules/KSLabel.qml
+    modules/KSTabButton.qml
+    modules/KSText.qml
+    modules/KSTextField.qml
+    modules/KSButton.qml
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/modules )
 
 install( FILES dialogs/FindDialog.qml
