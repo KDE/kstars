@@ -628,10 +628,6 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
         float totalMass=0;
     } masses;
 
-    // Too many regions, just noise
-    if (maxID >= 10)
-        return 0;
-
     masses region[maxID-1];
 
     // #7 Calculate center of mass for all detected regions
@@ -662,16 +658,23 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     // Compare multiple masses, and only select the highest total mass one as the desired star
     int maxRegionID=-1;
     int maxTotalMass=-1;
+    double totalMassRatio=0;
     for (int i=0; i < maxID; i++)
     {
         if (region[i].totalMass > maxTotalMass)
         {
+            if (maxTotalMass != -1)
+                totalMassRatio = region[i].totalMass / maxTotalMass;
+
             maxTotalMass = region[i].totalMass;
             maxRegionID = i;
         }
     }
 
-    if (maxRegionID == -1)
+    // If there is no max region ID or if we have many (> 10) regions, we need to check if it is not just noise
+    // so the ratio among regions should be relatively high (> 5 is arbitrary) only if there is a central star
+    // with big enough total mass to increase the ratio. Otherwise, it's just noise and we didn't find any stars.
+    if (maxRegionID == -1 || (maxID > 10 && totalMassRatio < 5))
         return 0;
 
     Edge *center = new Edge;
@@ -1001,7 +1004,7 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
 
         if (boundary.isNull())
         {
-            if (mode == FITS_GUIDE)
+            if (mode == FITS_GUIDE || mode == FITS_FOCUS)
             {
                 subX = stats.width/10;
                 subY = stats.height/10;
@@ -1018,10 +1021,6 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
         }
         else
         {
-            // Only find a single star within the boundary
-            findOneStar(boundary);
-            return;
-
             subX = boundary.x();
             subY = boundary.y();
             subW = subX + boundary.width();
