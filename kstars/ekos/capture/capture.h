@@ -377,6 +377,8 @@ public slots:
 
     // Auto Focus
     void setFocusStatus(Ekos::FocusState state);
+    void setHFR(double newHFR) { focusHFR = newHFR; }
+
     // Guide
     void setGuideStatus(Ekos::GuideState state);
     // Align
@@ -417,8 +419,7 @@ private slots:
     //void checkAlignmentSlewComplete();
 
     // Auto Focus
-    //void updateAutofocusStatus(bool status, double HFR);
-    void setHFR(double newHFR) { focusHFR = newHFR; }
+    //void updateAutofocusStatus(bool status, double HFR);    
     void startPostFilterAutoFocus();
 
     // Flat field

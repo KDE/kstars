@@ -1912,7 +1912,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
 
     QString deviationText = QString("%1").arg(deviation_rms, 0, 'g', 3);
 
-    if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
+    if (activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getFrameType() == FRAME_LIGHT)
     {
         if (deviation_rms > guideDeviation->value())
         {
@@ -1975,7 +1975,7 @@ void Capture::setFocusStatus(FocusState state)
             HFRPixels->setValue(focusHFR+ (focusHFR * 0.025));
             appendLogText(i18n("Focus complete."));
         }
-        else
+        else if (focusState == FOCUS_FAILED)
         {
             appendLogText(i18n("Autofocus failed. Aborting exposure..."));
             secondsLabel->setText("");
@@ -1993,7 +1993,7 @@ void Capture::setFocusStatus(FocusState state)
             appendLogText(i18n("Focus complete."));
             startNextExposure();
         }
-        else
+        else if (focusState == FOCUS_FAILED)
         {
             appendLogText(i18n("Autofocus failed. Aborting exposure..."));
             secondsLabel->setText("");
