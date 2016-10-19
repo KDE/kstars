@@ -16,6 +16,7 @@ import QtQuick.Controls.Universal 2.0
 
 import QtQuick.Window 2.2 as Window
 import QtQuick.Layouts 1.1
+import "../../modules"
 
 Pane {
     property string title
@@ -26,7 +27,7 @@ Pane {
         width: parent.width
         height: childrenRect.height
 
-        Label {
+        KSLabel {
             width: parent.width
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
@@ -34,7 +35,7 @@ Pane {
             font.pointSize: 20
         }
 
-        Text {
+        KSText {
             width: parent.width
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter

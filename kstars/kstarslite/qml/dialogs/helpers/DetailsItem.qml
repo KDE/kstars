@@ -10,6 +10,7 @@
 
 import QtQuick 2.7
 import QtQuick.Controls 2.0
+import "../../modules"
 
 Column {
     property string label
@@ -19,7 +20,7 @@ Column {
 
     width: parent.width
 
-    Label {
+    KSLabel {
         text: label
         font.pointSize: 13
     }
@@ -30,7 +31,7 @@ Column {
         color: "grey"
     }
 
-    Label {
+    KSLabel {
         font.pointSize: 11
         text: value
     }

@@ -55,7 +55,7 @@ Row {
         anchors.verticalCenter: parent.verticalCenter
     }
 
-    Label {
+    KSLabel {
         text: ledRow.label
         anchors.verticalCenter: parent.verticalCenter
     }

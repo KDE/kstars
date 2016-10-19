@@ -128,11 +128,11 @@ KSPage {
                 Layout.maximumWidth: window.isPortrait ? parent.width : parent.width/2
 
                 RowLayout {
-                    Label {
+                    KSLabel {
                         text: xi18n("City: ")
                     }
 
-                    TextField {
+                    KSTextField {
                         id: cityField
                         Layout.fillWidth: true
                         onTextChanged: fieldsChanged = true
@@ -141,11 +141,11 @@ KSPage {
                 }
 
                 RowLayout {
-                    Label {
+                    KSLabel {
                         text: xi18n("Province: ")
                     }
 
-                    TextField {
+                    KSTextField {
                         id: provinceField
                         Layout.fillWidth: true
                         onTextChanged: fieldsChanged = true
@@ -154,11 +154,11 @@ KSPage {
                 }
 
                 RowLayout {
-                    Label {
+                    KSLabel {
                         text: xi18n("Country: ")
                     }
 
-                    TextField {
+                    KSTextField {
                         id: countryField
                         Layout.fillWidth: true
                         onTextChanged: fieldsChanged = true
@@ -175,11 +175,11 @@ KSPage {
                 Layout.maximumWidth: window.isPortrait ? parent.width : parent.width/2
 
                 RowLayout {
-                    Label {
+                    KSLabel {
                         text: xi18n("Latitude: ")
                     }
 
-                    TextField {
+                    KSTextField {
                         id: latField
                         Layout.fillWidth: true
                         readOnly: isReadOnly
@@ -188,11 +188,11 @@ KSPage {
 
                 RowLayout {
 
-                    Label {
+                    KSLabel {
                         text: xi18n("Longitude: ")
                     }
 
-                    TextField {
+                    KSTextField {
                         id: longField
                         Layout.fillWidth: true
                         readOnly: isReadOnly
@@ -204,7 +204,7 @@ KSPage {
                     spacing: 10
 
                     RowLayout {
-                        Label {
+                        KSLabel {
                             text: xi18n("UT offset: ")
                         }
 
@@ -215,7 +215,7 @@ KSPage {
                     }
 
                     RowLayout {
-                        Label {
+                        KSLabel {
                             text: xi18n("DST Rule: ")
                         }
 

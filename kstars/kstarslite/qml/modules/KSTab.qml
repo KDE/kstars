@@ -11,7 +11,6 @@
 import QtQuick 2.6
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.0
-//import QtQuick.Controls 1.4
 import "../constants" 1.0
 
 Pane {
@@ -20,6 +19,10 @@ Pane {
     clip: true
     property Item flickableItem: flickable
     padding: 0
+
+    background: Rectangle {
+        color: num.sysPalette.base
+    }
 
     //contentItem is already used by Pane so be it rootItem
     property Item rootItem

@@ -96,7 +96,7 @@ ColumnLayout {
 
         background: Rectangle {
             id: menuRect
-            color: num.sysPalette.dark
+            color: num.sysPalette.base
             border {
                 width: 2
                 color: num.sysPalette.light

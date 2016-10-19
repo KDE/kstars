@@ -10,11 +10,11 @@
 
 import QtQuick 2.6
 import QtQuick.Layouts 1.2
-import "../../constants" 1.0
-
-import QtQuick 2.6
-import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
+
+import "../../constants" 1.0
+import "../../modules"
+
 
 Flow {
     id: textRow
@@ -31,7 +31,7 @@ Flow {
     property string propName
     property string fieldName
 
-    TextField {
+    KSTextField {
         id: field
     }
 

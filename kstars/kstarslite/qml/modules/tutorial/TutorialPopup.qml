@@ -17,6 +17,9 @@ import QtQuick.Controls.Universal 2.0
 import QtQuick.Window 2.2 as Window
 import QtQuick.Layouts 1.1
 
+import "../../constants" 1.0
+import "../../modules"
+
 Popup {
     id: studyMode
     contentWidth: parent.width * 0.75
@@ -24,12 +27,16 @@ Popup {
     focus: true
     modal: true
 
+    background: Rectangle {
+        color: num.sysPalette.base
+    }
+
     Column {
         id: studyCol
         width: parent.width
         height: childrenRect.height
 
-        Label {
+        KSLabel {
             width: parent.width
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
@@ -37,14 +44,14 @@ Popup {
             font.pointSize: 20
         }
 
-        Text {
+        KSText {
             width: parent.width
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter
             text: xi18n("KStars Lite is a free, open source, cross-platform Astronomy Software designed for mobile devices.")
         }
 
-        Text {
+        KSText {
             width: parent.width
             wrapMode: Text.Wrap
             horizontalAlignment: Text.AlignHCenter

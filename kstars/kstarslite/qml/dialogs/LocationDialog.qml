@@ -43,11 +43,11 @@ KSPage {
                 right: parent.right
             }
 
-            Label {
+            KSLabel {
                 text: xi18n("Current Location: ")
             }
 
-            Label {
+            KSLabel {
                 text: LocationDialogLite.currentLocation
             }
         }
@@ -67,10 +67,10 @@ KSPage {
             RowLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Label {
+                KSLabel {
                     text: xi18n("City filter: ")
                 }
-                TextField {
+                KSTextField {
                     id: cityFilter
                     Layout.fillWidth: true
                     onTextChanged: {
@@ -82,11 +82,11 @@ KSPage {
             RowLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Label {
+                KSLabel {
                     text: xi18n("Province filter: ")
                 }
 
-                TextField {
+                KSTextField {
                     id: provinceFilter
                     Layout.fillWidth: true
                     onTextChanged: {
@@ -98,10 +98,10 @@ KSPage {
             RowLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Label {
+                KSLabel {
                     text: xi18n("Country filter: ")
                 }
-                TextField {
+                KSTextField {
                     id: countryFilter
                     Layout.fillWidth: true
                     onTextChanged: {

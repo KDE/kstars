@@ -31,16 +31,20 @@ KSPage {
                 left: parent.left
                 right: parent.right
             }
+            background: Rectangle {
+                anchors.fill: parent
+                color: num.sysPalette.base
+            }
 
-            TabButton {
+            KSTabButton {
                 text: xi18n("General")
             }
 
-            TabButton {
+            KSTabButton {
                 text: xi18n("Position")
             }
 
-            TabButton {
+            KSTabButton {
                 Component.onCompleted: {
                     var oldParent = parent
                     parent = Qt.binding(function() { return DetailDialogLite.isLinksOn ? oldParent : null })
@@ -49,7 +53,7 @@ KSPage {
                 text: xi18n("Links")
             }
 
-            TabButton {
+            KSTabButton {
                 Component.onCompleted: {
                     var oldParent = parent
                     parent = Qt.binding(function() { return DetailDialogLite.isLogOn ? oldParent : null })
@@ -74,6 +78,11 @@ KSPage {
             Pane {
                 clip: true
 
+                background: Rectangle {
+                    anchors.fill: parent
+                    color: num.sysPalette.base
+                }
+
                 Flickable {
                     anchors.fill: parent
                     ScrollBar.vertical: ScrollBar { }
@@ -86,7 +95,7 @@ KSPage {
                         width: parent.width
                         spacing: 15
 
-                        Text {
+                        KSText {
                             text: DetailDialogLite.name
                             font.pointSize: 16
                             width: parent.width
@@ -99,7 +108,7 @@ KSPage {
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
 
-                        Text {
+                        KSText {
                             text: DetailDialogLite.typeInConstellation
                             anchors.horizontalCenter: parent.horizontalCenter
                             font.pointSize: 12
@@ -212,6 +221,11 @@ KSPage {
             Pane {
                 clip: true
 
+                background: Rectangle {
+                    anchors.fill: parent
+                    color: num.sysPalette.base
+                }
+
                 Flickable {
                     anchors.fill: parent
                     ScrollBar.vertical: ScrollBar { }
@@ -224,7 +238,7 @@ KSPage {
                         width: parent.width
                         spacing: 15
 
-                        Text {
+                        KSText {
                             text: xi18n("Coordinates")
                             font {
                                 pointSize: 16
@@ -272,7 +286,7 @@ KSPage {
                             value: DetailDialogLite.airmass
                         }
 
-                        Text {
+                        KSText {
                             text: xi18n("Rise/Set/Transit")
                             font {
                                 pointSize: 16
@@ -318,6 +332,11 @@ KSPage {
                 clip: true
                 id: links
 
+                background: Rectangle {
+                    anchors.fill: parent
+                    color: num.sysPalette.base
+                }
+
                 GridLayout {
                     id: linkCol
                     rowSpacing: 15
@@ -339,7 +358,7 @@ KSPage {
 
                         spacing: 10
 
-                        Text {
+                        KSText {
                             id: infoLabel
                             text: xi18n("Information Links")
 
@@ -375,7 +394,7 @@ KSPage {
 
                         spacing: 10
 
-                        Text {
+                        KSText {
                             id: imgLabel
                             text: xi18n("Image Links")
 
@@ -419,6 +438,11 @@ KSPage {
                 parent: DetailDialogLite.isLogOn ? detailsSwipeView : null
                 clip: true
 
+                background: Rectangle {
+                    anchors.fill: parent
+                    color: num.sysPalette.base
+                }
+
                 Flickable {
                     anchors.fill: parent
                     ScrollBar.vertical: ScrollBar { }
@@ -431,7 +455,7 @@ KSPage {
                         width: parent.width
                         spacing: 15
 
-                        Text {
+                        KSText {
                             text: xi18n("Log")
                             font {
                                 pointSize: 16

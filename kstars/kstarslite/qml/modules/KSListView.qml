@@ -11,7 +11,7 @@
 import QtQuick 2.6
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.0
-import "../constants" 1.0
+import "../constants/" 1.0
 
 ListView {
     id: listView
@@ -25,6 +25,9 @@ ListView {
     implicitWidth: maxWidth
     //To skip the case when contentItem.height equals to 99000+
     implicitHeight: contentItem.height >= window.height ? window.height : contentItem.height
+
+    //For some reason we can't use num constant inside states so we wrap sysPalette as property
+    property SystemPalette sysPalette: num.sysPalette
 
     onCountChanged: {
         for(var child in listView.contentItem.children) {
@@ -51,9 +54,10 @@ ListView {
         property int textWidth: objRow.width + objRow.anchors.leftMargin*2
         property bool checked: false
         property string visibleText: objName.text
+        color: sysPalette.base
 
         border {
-            color: "#becad5"
+            color: num.sysPalette.light//"#becad5"
             width: 1
         }
 
@@ -66,33 +70,33 @@ ListView {
                 name: "hovered"
                 PropertyChanges {
                     target: delegateRect
-                    color: "#d0e8fa"
+                    color: sysPalette.highlight //"#d0e8fa"
                 }
                 PropertyChanges {
                     target: objName
-                    color: "#31363b"
+                    color: sysPalette.highlightedText //"#31363b"
                 }
             },
             State {
                 name: "selected"
                 PropertyChanges {
                     target: delegateRect
-                    color: "#2196F3"
+                    color: sysPalette.button//"#2196F3"
                 }
                 PropertyChanges {
                     target: objName
-                    color: "#eff0fa"
+                    color: sysPalette.buttonText//"#eff0fa"
                 }
             },
             State {
                 name: "default"
                 PropertyChanges {
                     target: delegateRect
-                    color: "white"
+                    color: sysPalette.base//"white"
                 }
                 PropertyChanges {
                     target: objName
-                    color: "black"
+                    color: sysPalette.text//"black"
                 }
             }
         ]
@@ -140,13 +144,13 @@ ListView {
 
             Rectangle {
                 visible: (checkCurrent && listView.currentIndex == model.index) || (checkable && delegateRect.checked)
-                color: "#2173f3"
+                color: num.sysPalette.base //"#2173f3"
                 width: height
                 height: objName.font.pixelSize/2
                 radius: width * 0.5
             }
 
-            Text {
+            KSText {
                 id: objName
 
                 text: textRole == "" ? modelData : listView.modelIsArray ? modelData[textRole] : model[textRole]

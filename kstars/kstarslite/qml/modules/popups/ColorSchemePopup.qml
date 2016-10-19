@@ -22,8 +22,15 @@ Popup {
     height: parent.height > colorsList.implicitHeight ? colorsList.implicitHeight : parent.height
     signal colorSchemeChanged()
 
+    property string currentCScheme: colorsModel.get(colorsList.currentIndex).scheme
+
     function formatColorScheme(schemeName) {
         return schemeName.substring(3) + ".colors"
+    }
+
+    background: Rectangle {
+        anchors.fill: parent
+        color: num.sysPalette.base
     }
 
     KSListView {

@@ -21,6 +21,11 @@ Popup {
     modal: true
     width: fovList.implicitWidth
     height: parent.height > fovList.implicitHeight ? fovList.implicitHeight : parent.height
+    background: Rectangle {
+        anchors.fill: parent
+        color: num.sysPalette.base
+    }
+
 
     KSListView {
         id: fovList

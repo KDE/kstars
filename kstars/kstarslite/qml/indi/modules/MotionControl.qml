@@ -14,6 +14,7 @@ import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.0
 import TelescopeLiteEnums 1.0
 import "../../constants" 1.0
+import "../../modules"
 
 ColumnLayout {
     id: motionCColumn
@@ -274,7 +275,7 @@ ColumnLayout {
 
             text: xi18n("-")
         }
-        Text {
+        KSText {
             height: parent.height * 0.15
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter

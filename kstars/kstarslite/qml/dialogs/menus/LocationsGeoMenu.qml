@@ -22,6 +22,11 @@ Menu {
     padding: 0
     property string locName
     property bool isReadOnly
+    background: Rectangle {
+        implicitWidth: 200
+        color: num.sysPalette.base
+        radius: 5
+    }
 
     function openMenu(name) {
         locName = name
@@ -34,7 +39,7 @@ Menu {
         width: parent.width
         spacing: 10
 
-        Label {
+        KSLabel {
             id: name
             text: locName
             wrapMode: Label.WrapAtWordBoundaryOrAnywhere

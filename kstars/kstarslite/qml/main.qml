@@ -57,6 +57,11 @@ ApplicationWindow {
         height: stackView.currentItem != initPage ? backButton.height : 0
         visible: stackView.currentItem != initPage
 
+        background: Rectangle {
+            anchors.fill: parent
+            color: num.sysPalette.dark
+        }
+
         Behavior on height {
             NumberAnimation {
                 duration: 200
@@ -83,7 +88,7 @@ ApplicationWindow {
                 }
             }
 
-            Label {
+            KSLabel {
                 id: titleLabel
                 text: stackView.currentItem.title
 
@@ -241,6 +246,10 @@ ApplicationWindow {
         height: window.height
         //Disable drawer while loading
         dragMargin: isLoaded ? Qt.styleHints.startDragDistance : -Qt.styleHints.startDragDistance
+        background: Rectangle {
+            anchors.fill: parent
+            color: num.sysPalette.base
+        }
 
         onOpened: {
             contextDrawer.close()
@@ -259,6 +268,7 @@ ApplicationWindow {
         }
 
         ListView {
+            clip: true
             id: pagesList
             anchors {
                 left: parent.left
@@ -268,6 +278,7 @@ ApplicationWindow {
             }
 
             delegate: ItemDelegate {
+                id: globalDrawerControl
                 Rectangle {
                     anchors {
                         horizontalCenter: parent.horizontalCenter
@@ -276,6 +287,16 @@ ApplicationWindow {
                     width: parent.width - 10
                     color: "#E8E8E8"
                     height: 1
+                }
+
+                contentItem: KSText {
+                    rightPadding: globalDrawerControl.spacing
+                         text: globalDrawerControl.text
+                         font: globalDrawerControl.font
+                         elide: Text.ElideRight
+                         visible: globalDrawerControl.text
+                         horizontalAlignment: Text.AlignLeft
+                         verticalAlignment: Text.AlignVCenter
                 }
 
                 width: parent.width
@@ -351,12 +372,16 @@ ApplicationWindow {
         //Disable drawer while loading and if SkyMapLite is not visible
         dragMargin: isSkyMapVisible && isLoaded ? Qt.styleHints.startDragDistance + 15 : -Qt.styleHints.startDragDistance
         edge: Qt.RightEdge
+        background: Rectangle {
+            anchors.fill: parent
+            color: num.sysPalette.base
+        }
 
         onOpened: {
             globalDrawer.close()
         }
 
-        Label {
+        KSLabel {
             id: contextTitle
             anchors {
                 top: parent.top
@@ -380,6 +405,7 @@ ApplicationWindow {
             model: drawerModel
 
             delegate: ItemDelegate {
+                id: contextDrawerControl
                 Rectangle {
                     anchors {
                         horizontalCenter: parent.horizontalCenter
@@ -397,6 +423,16 @@ ApplicationWindow {
                         objID.open()
                     }
                     contextDrawer.close()
+                }
+
+                contentItem: KSText {
+                    rightPadding: contextDrawerControl.spacing
+                         text: contextDrawerControl.text
+                         font: contextDrawerControl.font
+                         elide: Text.ElideRight
+                         visible: contextDrawerControl.text
+                         horizontalAlignment: Text.AlignLeft
+                         verticalAlignment: Text.AlignVCenter
                 }
             }
 
@@ -420,13 +456,15 @@ ApplicationWindow {
             }
 
             RowLayout {
-                id: row
+                id: magnitudeRow
                 anchors {
                     leftMargin: 10
                     left: parent.left
                     rightMargin: 10
                     right: parent.right
                 }
+
+                property color magnitudeColor: colorSchemePopup.currentCScheme == "cs_night" ? "white" : "black"
 
                 Rectangle {
                     anchors{
@@ -437,7 +475,7 @@ ApplicationWindow {
                     width: 24
                     height: 24
                     radius: width * 0.5
-                    color: "black"
+                    color: magnitudeRow.magnitudeColor
                 }
 
                 Rectangle {
@@ -449,7 +487,7 @@ ApplicationWindow {
                     width: 16
                     height: 16
                     radius: width * 0.5
-                    color: "black"
+                    color: magnitudeRow.magnitudeColor
                 }
 
                 Rectangle {
@@ -463,7 +501,7 @@ ApplicationWindow {
                     width: 8
                     height: 8
                     radius: width * 0.5
-                    color: "black"
+                    color: magnitudeRow.magnitudeColor
                 }
             }
 
@@ -480,6 +518,7 @@ ApplicationWindow {
 
                 onValueChanged: {
                     SkyMapLite.magLim = value
+                    console.log(colorSchemePopup.currentCScheme)
                 }
             }
         }
