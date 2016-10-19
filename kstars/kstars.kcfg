@@ -1458,7 +1458,7 @@
       <entry name="FocusBoxSize" type="UInt">
          <label>Default Focuser star selection box size</label>
          <whatsthis>Set box size to select a focus star.</whatsthis>
-         <default>64</default>
+         <default>32</default>
       </entry>
       <entry name="FocusXBin" type="UInt">
          <label>Default CCD X binning in focus mode</label>
