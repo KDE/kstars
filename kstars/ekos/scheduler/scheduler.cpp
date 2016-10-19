@@ -3563,16 +3563,13 @@ void Scheduler::startSlew()
 
 void Scheduler::startFocusing()
 {
-    // Set focus mode to auto (1). Check if autofocus is available
-    QList<QVariant> focusMode;
-    focusMode.append(1);
-
+    // Check if autofocus is supported
     QDBusReply<bool> focusModeReply;
-    focusModeReply = focusInterface->callWithArgumentList(QDBus::AutoDetect,"setFocusMode",focusMode);
+    focusModeReply = focusInterface->call(QDBus::AutoDetect,"canAutoFocus");
 
     if ( focusModeReply.error().type() != QDBusError::NoError)
     {
-        appendLogText(i18n("setFocusMode DBUS error: %1", QDBusError::errorString(focusModeReply.error().type())));
+        appendLogText(i18n("canAutoFocus DBUS error: %1", QDBusError::errorString(focusModeReply.error().type())));
         return;
     }
 
@@ -3601,7 +3598,7 @@ void Scheduler::startFocusing()
     // Set autostar & use subframe
     QList<QVariant> autoStar;
     autoStar.append(true);
-    if ( (reply = focusInterface->callWithArgumentList(QDBus::AutoDetect,"setAutoFocusStar",autoStar)).type() == QDBusMessage::ErrorMessage)
+    if ( (reply = focusInterface->callWithArgumentList(QDBus::AutoDetect,"setAutoStarEnabled",autoStar)).type() == QDBusMessage::ErrorMessage)
     {
         appendLogText(i18n("setAutoFocusStar DBUS error: %1", reply.errorMessage()));
         return;
