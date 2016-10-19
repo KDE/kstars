@@ -157,7 +157,13 @@ bool Focuser::canRelMove()
         return true;
 }
 
-
-
+bool Focuser::canTimerMove()
+{
+    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_TIMER");
+    if (focusProp == NULL)
+        return false;
+    else
+        return true;
+}
 
 }

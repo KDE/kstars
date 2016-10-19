@@ -13,19 +13,22 @@
     <method name="capture">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="FocusIn">
+    <method name="focusIn">
       <arg name="ms" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="FocusIn">
+    <method name="focusIn">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="FocusOut">
+    <method name="focusOut">
       <arg name="ms" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="FocusOut">
+    <method name="focusOut">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="canAutoFocus">
+      <arg type="b" direction="out"/>
     </method>
     <method name="setCCD">
       <arg type="b" direction="out"/>
@@ -56,11 +59,11 @@
       <arg name="value" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setAutoFocusStar">
+    <method name="setAutoStarEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setAutoFocusSubFrame">
+    <method name="setAutoSubFrameEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>

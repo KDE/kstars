@@ -48,7 +48,7 @@ public:
     ~Focus();
 
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
-    typedef enum { FOCUS_AUTO, FOCUS_LOOP } FocusType;    
+    typedef enum { FOCUS_MANUAL, FOCUS_AUTO} FocusType;
 
     /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
      * Ekos::Focus interface provides advanced scripting capabilities to perform manual and automatic focusing operations.
@@ -78,14 +78,9 @@ public:
     Q_SCRIPTABLE bool setFilter(QString device, int filterSlot);
 
     /** DBUS interface function.
-     * @return Returns true if autofocus operation is complete. False otherwise.
+     * @return Returns True if current focuser supports auto-focusing
      */
-    Q_SCRIPTABLE bool isAutoFocusComplete() { return (inAutoFocus == false);}
-
-    /** DBUS interface function.
-     * @return Returns true if autofocus operation is successful. False otherwise.
-     */
-    Q_SCRIPTABLE bool isAutoFocusSuccessful() { return m_autoFocusSuccesful;}
+    bool canAutoFocus() { return (focusType == FOCUS_AUTO); }
 
     /** DBUS interface function.
      * @return Returns Half-Flux-Radius in pixels.
@@ -115,14 +110,14 @@ public:
      * Set Auto Focus options. The options must be set before starting the autofocus operation. If no options are set, the options loaded from the user configuration are used.
      * @param enable If true, Ekos will attempt to automatically select the best focus star in the frame. If it fails to select a star, the user will be asked to select a star manually.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setAutoFocusStar(bool enable);
+    Q_SCRIPTABLE Q_NOREPLY void setAutoStarEnabled(bool enable);
 
 
     /** DBUS interface function.
      * Set Auto Focus options. The options must be set before starting the autofocus operation. If no options are set, the options loaded from the user configuration are used.
      * @param enable if true, Ekos will capture a subframe around the selected focus star. The subframe size is determined by the boxSize parameter.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setAutoFocusSubFrame(bool enable);
+    Q_SCRIPTABLE Q_NOREPLY void setAutoSubFrameEnabled(bool enable);
 
     /** DBUS interface function.
      * Set Autofocus parameters
@@ -196,13 +191,13 @@ public slots:
      * Focus inward
      * @param ms If set, focus inward for ms ticks (Absolute Focuser), or ms milliseconds (Relative Focuser). If not set, it will use the value specified in the options.
      */
-    Q_SCRIPTABLE Q_NOREPLY void FocusIn(int ms=-1);
+    Q_SCRIPTABLE Q_NOREPLY void focusIn(int ms=-1);
 
     /** DBUS interface function.
      * Focus outward
      * @param ms If set, focus outward for ms ticks (Absolute Focuser), or ms milliseconds (Relative Focuser). If not set, it will use the value specified in the options.
      */
-    Q_SCRIPTABLE Q_NOREPLY void FocusOut(int ms=-1);
+    Q_SCRIPTABLE Q_NOREPLY void focusOut(int ms=-1);
 
     /** @}*/
 
@@ -301,12 +296,6 @@ private slots:
     void updateFilterPos(int index);
 
     /**
-     * @brief toggleAutofocus Process switching between manual and automated focus.
-     * @param enable If true, auto focus is selected, if false, manual mode is selected.
-     */
-    void toggleAutofocus(bool enable);
-
-    /**
      * @brief toggleSubframe Process enabling and disabling subframing.
      * @param enable If true, subframing is enabled. If false, subframing is disabled. Even if subframing is enabled, it must be supported by the CCD driver.
      */
@@ -346,6 +335,7 @@ private:
     void autoFocusAbs();
     void autoFocusRel();
     void resetButtons();
+    void stop(bool aborted=false);
 
     /**
      * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
@@ -409,6 +399,8 @@ private:
     bool canAbsMove;
     // Does the focuser support relative motion?
     bool canRelMove;
+    // Does the focuser support timer-based motion?
+    bool canTimerMove;
     // Range of motion for our lovely absolute focuser
     double absMotionMax, absMotionMin;
     // How many iterations have we completed now in our absolute autofocus algorithm? We can't go forever

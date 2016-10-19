@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>647</width>
-    <height>575</height>
+    <height>579</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0">
@@ -571,7 +571,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
                <number>16</number>
               </property>
               <property name="value">
-               <number>64</number>
+               <number>32</number>
               </property>
              </widget>
             </item>

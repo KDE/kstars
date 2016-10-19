@@ -61,6 +61,7 @@ Focus::Focus()
 
     canAbsMove        = false;
     canRelMove        = false;
+    canTimerMove      = false;
     inAutoFocus       = false;
     inFocusLoop       = false;
     captureInProgress = false;
@@ -97,8 +98,8 @@ Focus::Focus()
     connect(startFocusB, SIGNAL(clicked()), this, SLOT(start()));
     connect(stopFocusB, SIGNAL(clicked()), this, SLOT(checkStopFocus()));
 
-    connect(focusOutB, SIGNAL(clicked()), this, SLOT(FocusOut()));
-    connect(focusInB, SIGNAL(clicked()), this, SLOT(FocusIn()));
+    connect(focusOutB, SIGNAL(clicked()), this, SLOT(focusOut()));
+    connect(focusInB, SIGNAL(clicked()), this, SLOT(focusIn()));
 
     connect(captureB, SIGNAL(clicked()), this, SLOT(capture()));    
 
@@ -139,7 +140,7 @@ Focus::Focus()
 
     lastFocusDirection = FOCUS_NONE;
 
-    focusType = FOCUS_AUTO;
+    focusType = FOCUS_MANUAL;
 
     profilePlot->setBackground(QBrush(Qt::black));
     profilePlot->xAxis->setBasePen(QPen(Qt::white, 1));
@@ -248,18 +249,6 @@ Focus::~Focus()
    // HFRAbsolutePoints.clear();
 }
 
-void Focus::toggleAutofocus(bool enable)
-{
-    if (enable)
-        drawHFRPlot();
-
-
-    if (inFocusLoop || inAutoFocus)
-        abort();
-    else
-        resetButtons();
-}
-
 void Focus::resetFrame()
 {
     if (currentCCD)
@@ -331,7 +320,6 @@ void Focus::checkCCD(int ccdNum)
 
             binningCombo->setEnabled(targetChip->canBin());
             kcfg_subFrame->setEnabled(targetChip->canSubframe());
-            autoStarCheck->setEnabled(targetChip->canSubframe());
             if (targetChip->canBin())
             {
                 int subBinX=1,subBinY=1;
@@ -368,11 +356,12 @@ void Focus::checkCCD(int ccdNum)
 
 void Focus::syncCCDInfo()
 {
-
     if (currentCCD == NULL)
         return;
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
+    kcfg_subFrame->setEnabled(targetChip->canSubframe());
 
     if (frameSettings.contains(targetChip) == false)
     {
@@ -594,6 +583,10 @@ void Focus::checkFocuser(int FocuserNum)
         absMotionMin  = 0;
     }
 
+    canTimerMove = currentFocuser->canTimerMove();
+
+    focusType = (canRelMove || canAbsMove || canTimerMove) ? FOCUS_AUTO : FOCUS_MANUAL;
+
     connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusNumber(INumberVectorProperty*)), Qt::UniqueConnection);    
 
     resetButtons();
@@ -610,9 +603,6 @@ void Focus::addCCD(ISD::GDInterface *newCCD)
     CCDs.append(static_cast<ISD::CCD *>(newCCD));
 
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
-
-    //checkCCD(CCDs.count()-1);
-    //CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
 }
 
 void Focus::getAbsFocusPosition()
@@ -751,6 +741,11 @@ void Focus::checkStopFocus()
 
 void Focus::abort()
 {
+    stop(true);
+}
+
+void Focus::stop(bool aborted)
+{
     if (Options::focusLogging())
         qDebug() << "Focus: Stopppig Focus";
 
@@ -780,8 +775,11 @@ void Focus::abort()
     reverseDir = false;
 
     //emit statusUpdated(false);
-    state = Ekos::FOCUS_ABORTED;
-    emit newStatus(state);
+    if (aborted)
+    {
+        state = Ekos::FOCUS_ABORTED;
+        emit newStatus(state);
+    }
 }
 
 void Focus::capture()
@@ -870,7 +868,7 @@ void Focus::capture()
     }
 }
 
-void Focus::FocusIn(int ms)
+void Focus::focusIn(int ms)
 {
   if (currentFocuser == NULL)
        return;
@@ -911,7 +909,7 @@ void Focus::FocusIn(int ms)
 
 }
 
-void Focus::FocusOut(int ms)
+void Focus::focusOut(int ms)
 {
     if (currentFocuser == NULL)
          return;
@@ -1082,16 +1080,18 @@ void Focus::setCaptureComplete()
             }
 
             if (currentHFR > maxHFR)
-                maxHFR = currentHFR;
+                maxHFR = currentHFR;            
 
-            if (hfr_position.empty())
-                hfr_position.append(1);
-            else
-                hfr_position.append(hfr_position.last()+1);
-            hfr_value.append(currentHFR);
+            if (inFocusLoop || (inAutoFocus && canAbsMove == false && canRelMove == false))
+            {
+                if (hfr_position.empty())
+                    hfr_position.append(1);
+                else
+                    hfr_position.append(hfr_position.last()+1);
+                hfr_value.append(currentHFR);
 
-            if (focusType == FOCUS_LOOP || (inAutoFocus && canAbsMove == false && canRelMove == false))
                 drawHFRPlot();
+            }
         }
     }
 
@@ -1118,7 +1118,7 @@ void Focus::setCaptureComplete()
         else
             targetChip->getFrame(&x, &y, &w, &h);
 
-        if (autoStarCheck->isEnabled() && autoStarCheck->isChecked() && focusType == FOCUS_AUTO)
+        if (autoStarCheck->isChecked())
         {
             Edge *maxStar = image_data->getMaxHFRStar();
             if (maxStar == NULL)
@@ -1282,7 +1282,6 @@ void Focus::setCaptureComplete()
         autoFocusAbs();
     else
         autoFocusRel();
-
 }
 
 void Focus::clearDataPoints()
@@ -1298,7 +1297,7 @@ void Focus::drawHFRPlot()
 {
     v_graph->setData(hfr_position, hfr_value);
 
-    if (canAbsMove || canRelMove)
+    if (inFocusLoop == false && (canAbsMove || canRelMove))
     {
         //HFRPlot->xAxis->setLabel(i18n("Position"));
         HFRPlot->xAxis->setRange(minPos-pulseDuration, maxPos+pulseDuration);
@@ -1308,7 +1307,7 @@ void Focus::drawHFRPlot()
     {
         //HFRPlot->xAxis->setLabel(i18n("Iteration"));
         HFRPlot->xAxis->setRange(1, hfr_value.count()+1);
-        HFRPlot->yAxis->setRange(currentHFR/1.5, maxHFR);
+        HFRPlot->yAxis->setRange(currentHFR/1.5, maxHFR*1.25);
     }
 
     HFRPlot->replot();
@@ -1466,7 +1465,7 @@ void Focus::autoFocusAbs()
             HFRInc=0;
             focusOutLimit=0;
             focusInLimit=0;
-            FocusOut(pulseDuration);
+            focusOut(pulseDuration);
             break;
 
         case FOCUS_IN:
@@ -1488,7 +1487,7 @@ void Focus::autoFocusAbs()
                 else
                 {
                     appendLogText(i18n("Autofocus complete."));
-                    abort();
+                    stop();
                     emit resumeGuiding();
                     setAutoFocusResult(true);
                 }
@@ -1656,7 +1655,7 @@ void Focus::autoFocusAbs()
         if (targetPosition == currentPosition)
         {
             appendLogText(i18n("Autofocus complete."));
-            abort();
+            stop();
             emit resumeGuiding();
             setAutoFocusResult(true);
             return;
@@ -1695,9 +1694,9 @@ void Focus::autoFocusAbs()
 
         // Now cross your fingers and wait
        if (delta > 0)
-            FocusOut(delta);
+            focusOut(delta);
         else
-          FocusIn(fabs(delta));
+          focusIn(fabs(delta));
         break;
 
     }
@@ -1742,7 +1741,7 @@ void Focus::autoFocusRel()
         case FOCUS_NONE:
             lastHFR = currentHFR;
             minHFR=1e6;
-            FocusIn(pulseDuration);
+            focusIn(pulseDuration);
             break;
 
         case FOCUS_IN:
@@ -1750,7 +1749,7 @@ void Focus::autoFocusRel()
             if (fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             {
                 appendLogText(i18n("Autofocus complete."));
-                abort();
+                stop();
                 emit resumeGuiding();
                 setAutoFocusResult(true);
                 break;
@@ -1761,7 +1760,7 @@ void Focus::autoFocusRel()
                     minHFR = currentHFR;
 
                 lastHFR = currentHFR;
-                FocusIn(pulseDuration);
+                focusIn(pulseDuration);
                 HFRInc=0;
             }
             else
@@ -1781,7 +1780,7 @@ void Focus::autoFocusRel()
                     HFRInc=0;
 
                     pulseDuration *= 0.75;
-                    FocusOut(pulseDuration);
+                    focusOut(pulseDuration);
                 //}
             }
 
@@ -1792,7 +1791,7 @@ void Focus::autoFocusRel()
         //if (fabs(currentHFR - lastHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
         {
             appendLogText(i18n("Autofocus complete."));
-            abort();
+            stop();
             emit resumeGuiding();
             setAutoFocusResult(true);
             break;
@@ -1803,7 +1802,7 @@ void Focus::autoFocusRel()
                 minHFR = currentHFR;
 
             lastHFR = currentHFR;
-            FocusOut(pulseDuration);
+            focusOut(pulseDuration);
             HFRInc=0;
         }
         else
@@ -1820,7 +1819,7 @@ void Focus::autoFocusRel()
                 HFRInc=0;
 
                 pulseDuration *= 0.75;
-                FocusIn(pulseDuration);
+                focusIn(pulseDuration);
             //}
         }
 
@@ -1966,6 +1965,8 @@ void Focus::startFraming()
     inFocusLoop = true;
     frameNum=0;
 
+    clearDataPoints();
+
     //emit statusUpdated(true);
     state = Ekos::FOCUS_FRAMING;
     emit newStatus(state);
@@ -2036,6 +2037,9 @@ void Focus::resetButtons()
 
 void Focus::updateBoxSize(int value)
 {
+    if (currentCCD == NULL)
+        return;
+
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     if (targetChip == NULL)
         return;
@@ -2206,12 +2210,12 @@ void Focus::setImageFilter(const QString & value)
         }
 }
 
-void Focus::setAutoFocusStar(bool enable)
+void Focus::setAutoStarEnabled(bool enable)
 {
     autoStarCheck->setChecked(enable);
 }
 
-void Focus::setAutoFocusSubFrame(bool enable)
+void Focus::setAutoSubFrameEnabled(bool enable)
 {
     kcfg_subFrame->setChecked(enable);
 }
