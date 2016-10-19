@@ -850,6 +850,9 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
   <tabstop>absTicksSpin</tabstop>
   <tabstop>setAbsTicksB</tabstop>
   <tabstop>startFocusB</tabstop>
+  <tabstop>startLoopB</tabstop>
+  <tabstop>captureB</tabstop>
+  <tabstop>stopFocusB</tabstop>
   <tabstop>CCDCaptureCombo</tabstop>
   <tabstop>exposureIN</tabstop>
   <tabstop>binningCombo</tabstop>
@@ -868,6 +871,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
   <tabstop>stepIN</tabstop>
   <tabstop>toleranceIN</tabstop>
   <tabstop>thresholdSpin</tabstop>
+  <tabstop>focusAlgorithmCombo</tabstop>
   <tabstop>HFROut</tabstop>
   <tabstop>clearDataB</tabstop>
  </tabstops>

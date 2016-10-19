@@ -1629,12 +1629,15 @@
   <tabstop>exposureIN</tabstop>
   <tabstop>binXIN</tabstop>
   <tabstop>binYIN</tabstop>
+  <tabstop>countIN</tabstop>
+  <tabstop>delayIN</tabstop>
+  <tabstop>frameTypeCombo</tabstop>
+  <tabstop>ISOCombo</tabstop>
   <tabstop>frameXIN</tabstop>
   <tabstop>frameYIN</tabstop>
   <tabstop>frameWIN</tabstop>
   <tabstop>frameHIN</tabstop>
   <tabstop>resetFrameB</tabstop>
-  <tabstop>calibrationB</tabstop>
   <tabstop>temperatureCheck</tabstop>
   <tabstop>temperatureIN</tabstop>
   <tabstop>setTemperatureB</tabstop>
@@ -1642,8 +1645,8 @@
   <tabstop>filterCheck</tabstop>
   <tabstop>expDurationCheck</tabstop>
   <tabstop>ISOCheck</tabstop>
-  <tabstop>delayIN</tabstop>
-  <tabstop>ISOCombo</tabstop>
+  <tabstop>filterCombo</tabstop>
+  <tabstop>calibrationB</tabstop>
   <tabstop>postCaptureScriptIN</tabstop>
   <tabstop>fitsDir</tabstop>
   <tabstop>selectFITSDirB</tabstop>
@@ -1659,8 +1662,11 @@
   <tabstop>previewB</tabstop>
   <tabstop>startB</tabstop>
   <tabstop>pauseB</tabstop>
+  <tabstop>darkSubCheck</tabstop>
   <tabstop>guideDeviationCheck</tabstop>
   <tabstop>guideDeviation</tabstop>
+  <tabstop>autofocusCheck</tabstop>
+  <tabstop>HFRPixels</tabstop>
   <tabstop>meridianCheck</tabstop>
   <tabstop>meridianHours</tabstop>
  </tabstops>

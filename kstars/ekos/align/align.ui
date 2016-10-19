@@ -840,10 +840,46 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>solveB</tabstop>
+  <tabstop>loadSlewB</tabstop>
+  <tabstop>stopB</tabstop>
+  <tabstop>syncR</tabstop>
+  <tabstop>slewR</tabstop>
+  <tabstop>nothingR</tabstop>
+  <tabstop>CCDCaptureCombo</tabstop>
+  <tabstop>exposureIN</tabstop>
+  <tabstop>binningCombo</tabstop>
+  <tabstop>alignDarkFrameCheck</tabstop>
+  <tabstop>raBox</tabstop>
+  <tabstop>decBox</tabstop>
+  <tabstop>radiusBox</tabstop>
+  <tabstop>syncBoxesB</tabstop>
+  <tabstop>clearBoxesB</tabstop>
+  <tabstop>solverOptions</tabstop>
+  <tabstop>onlineSolverR</tabstop>
+  <tabstop>offlineSolverR</tabstop>
+  <tabstop>remoteSolverR</tabstop>
+  <tabstop>SolverRAOut</tabstop>
+  <tabstop>SolverDecOut</tabstop>
+  <tabstop>FOVOut</tabstop>
+  <tabstop>kcfg_solverOTA</tabstop>
+  <tabstop>RotOut</tabstop>
+  <tabstop>ScopeRAOut</tabstop>
+  <tabstop>ScopeDecOut</tabstop>
+  <tabstop>accuracySpin</tabstop>
+  <tabstop>delaySpin</tabstop>
+  <tabstop>azError</tabstop>
+  <tabstop>altError</tabstop>
+  <tabstop>measureAzB</tabstop>
+  <tabstop>correctAzB</tabstop>
+  <tabstop>measureAltB</tabstop>
+  <tabstop>correctAltB</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="solverTypeGroup"/>
   <buttongroup name="gotoModeButtonGroup"/>
+  <buttongroup name="solverTypeGroup"/>
  </buttongroups>
 </ui>

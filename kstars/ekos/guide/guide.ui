@@ -1082,6 +1082,8 @@
   <tabstop>binningCombo</tabstop>
   <tabstop>boxSizeCombo</tabstop>
   <tabstop>filterCombo</tabstop>
+  <tabstop>externalConnectB</tabstop>
+  <tabstop>externalDisconnectB</tabstop>
   <tabstop>spinBox_GuideRate</tabstop>
   <tabstop>checkBox_DirRA</tabstop>
   <tabstop>checkBox_DirDEC</tabstop>
