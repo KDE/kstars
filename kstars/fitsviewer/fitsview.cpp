@@ -1227,11 +1227,11 @@ int FITSView::findStars(StarAlgorithm algorithm)
             break;
         }
     }
-    else if (algorithm == ALGORITHM_GRADIENT)
+    /*else if (algorithm == ALGORITHM_GRADIENT)
     {
         QRect boundary(0,0, image_data->getWidth(), image_data->getHeight());
         count = FITSData::findCannyStar(image_data, boundary);
-    }
+    }*/
     else
     {
         count = image_data->findStars();
