@@ -621,14 +621,17 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
     // Not needed anymore
     delete boundedImage;
 
+    if (maxID == 0)
+        return 0;
+
     typedef struct
     {
         float massX=0;
         float massY=0;
         float totalMass=0;
-    } masses;
+    } massInfo;
 
-    masses region[maxID-1];
+    QMap<int, massInfo> masses;
 
     // #7 Calculate center of mass for all detected regions
     for (int y=0; y < subH; y++)
@@ -637,53 +640,43 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
         {
             int index = x+y*subW;
 
-            //float pixel = thresholded[x+y*subW];
-
-            //totalMass += pixel;
-            //massX     += x * pixel;
-            //massY     += y * pixel;
-
             int regionID = ids[index];
             if (regionID > 0)
             {
-                regionID--;
                 float pixel = gradients[index];
-                region[regionID].totalMass += pixel;
-                region[regionID].massX += x * pixel;
-                region[regionID].massY += y * pixel;
+
+                masses[regionID].totalMass += pixel;
+                masses[regionID].massX += x * pixel;
+                masses[regionID].massY += y * pixel;
             }
         }
     }
 
     // Compare multiple masses, and only select the highest total mass one as the desired star
-    int maxRegionID=-1;
-    int maxTotalMass=-1;
-    double totalMassRatio=0;
-    for (int i=0; i < maxID; i++)
+    int maxRegionID=1;
+    int maxTotalMass=masses[1].totalMass;
+    double totalMassRatio=1e6;
+    for (auto key : masses.keys())
     {
-        if (region[i].totalMass > maxTotalMass)
+        massInfo oneMass = masses.value(key);
+        if (oneMass.totalMass > maxTotalMass)
         {
-            if (maxTotalMass != -1)
-                totalMassRatio = region[i].totalMass / maxTotalMass;
-
-            maxTotalMass = region[i].totalMass;
-            maxRegionID = i;
+            totalMassRatio = oneMass.totalMass / maxTotalMass;
+            maxTotalMass = oneMass.totalMass;
+            maxRegionID = key;
         }
     }
 
-    // If there is no max region ID or if we have many (> 10) regions, we need to check if it is not just noise
-    // so the ratio among regions should be relatively high (> 5 is arbitrary) only if there is a central star
-    // with big enough total mass to increase the ratio. Otherwise, it's just noise and we didn't find any stars.
-    if (maxRegionID == -1 || (maxID > 10 && totalMassRatio < 5))
+    // If image has many regions and there is no significant relative center of mass then it's just noise and no stars
+    // are probably there above a useful threshold.
+    if (maxID > 10 && totalMassRatio < 1.5)
         return 0;
 
     Edge *center = new Edge;
     center->width = -1;
-    //center->x     = massX/totalMass + 0.5;
-    //center->y     = massY/totalMass + 0.5;
-    center->x     = region[maxRegionID].massX / region[maxRegionID].totalMass + 0.5;
-    center->y     = region[maxRegionID].massY / region[maxRegionID].totalMass + 0.5;
-    center->HFR   = 1;    
+    center->x     = masses[maxRegionID].massX / masses[maxRegionID].totalMass + 0.5;
+    center->y     = masses[maxRegionID].massY / masses[maxRegionID].totalMass + 0.5;
+    center->HFR   = 1;
 
     // Maximum Radius
     int maxR = qMin(subW-1, subH-1) / 2;
@@ -2691,7 +2684,7 @@ void FITSData::sobel(QVector<float> &gradient, QVector<float> &direction)
 
 int FITSData::partition(int width, int height, QVector<float> &gradient, QVector<int> &ids)
 {
-    int id = 1;
+    int id = 0;
 
     for (int y=1; y < height-1; y++)
     {
@@ -2702,7 +2695,7 @@ int FITSData::partition(int width, int height, QVector<float> &gradient, QVector
             float val  = gradient[index];
             if (val > 0 && ids[index] == 0)
             {
-               trace(width, height, id++, gradient, ids, x, y);
+               trace(width, height, ++id, gradient, ids, x, y);
             }
 
         }
