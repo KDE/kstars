@@ -193,9 +193,14 @@ Capture::Capture()
     connect(guideDeviation, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
     connect(meridianCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(meridianHours, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
+    connect(uploadModeCombo, SIGNAL(activated(int)), this, SLOT(setDirty()));
+    connect(remoteDirIN, SIGNAL(editingFinished()), this, SLOT(setDirty()));
 
-    // FIXME remove this later
+    // Post capture script
     connect(&postCaptureScript, SIGNAL(finished(int)), this, SLOT(postScriptFinished(int)));
+
+    // Remote directory
+    connect(uploadModeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index){remoteDirIN->setEnabled(index != 0);});
 }
 
 Capture::~Capture()
@@ -221,9 +226,6 @@ void Capture::addCCD(ISD::GDInterface *newCCD)
 
     if (Filters.count() > 0)
         syncFilterInfo();
-    //checkCCD(CCDs.count()-1);
-    //CCDCaptureCombo->setCurrentIndex(CCDs.count()-1);
-
 }
 
 void Capture::addGuideHead(ISD::GDInterface *newCCD)
@@ -1125,7 +1127,8 @@ bool Capture::resumeSequence()
 
 void Capture::captureOne()
 {
-    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    if (uploadModeCombo->currentIndex() != 0)
     {
         appendLogText(i18n("Cannot take preview image while CCD upload mode is set to local. Please change upload mode to client and try again."));
         return;
@@ -1459,6 +1462,8 @@ void Capture::addJob(bool preview)
 
     job->setCaptureFilter((FITSScale)  filterCombo->currentIndex());
 
+    job->setUploadMode(static_cast<ISD::CCD::UploadMode>(uploadModeCombo->currentIndex()));
+    job->setRemoteDir(remoteDirIN->text());
     job->setPostCaptureScript(postCaptureScriptIN->text());
     job->setFlatFieldDuration(flatFieldDuration);
     job->setFlatFieldSource(flatFieldSource);
@@ -2247,6 +2252,14 @@ bool Capture::processJobInfo(XMLEle *root)
         {
             fitsDir->setText(pcdataXMLEle(ep));
         }
+        else if (!strcmp(tagXMLEle(ep), "RemoteDirectory"))
+        {
+            remoteDirIN->setText(pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "UploadMode"))
+        {
+            uploadModeCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+        }
         else if (!strcmp(tagXMLEle(ep), "ISOIndex"))
         {
             if (ISOCombo->isEnabled())
@@ -2446,6 +2459,9 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<PostCaptureScript>" << job->getPostCaptureScript() << "</PostCaptureScript>" << endl;
         QString rootDir = job->getRootFITSDir();
         outstream << "<FITSDirectory>" << rootDir << "</FITSDirectory>" << endl;
+        outstream << "<UploadMode>" << job->getUploadMode() << "</UploadMode>" << endl;
+        if (job->getRemoteDir().isEmpty() == false)
+            outstream << "<RemoteDirectory>" << job->getRemoteDir() << "</RemoteDirectory>" << endl;
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
 

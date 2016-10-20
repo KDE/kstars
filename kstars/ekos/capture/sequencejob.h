@@ -145,7 +145,13 @@ class SequenceJob : public QObject
     void setFilterPostFocusReady(bool value);
 
     QString getPostCaptureScript() const;
-    void setPostCaptureScript(const QString &value);
+    void setPostCaptureScript(const QString &value);            
+
+    ISD::CCD::UploadMode getUploadMode() const;
+    void setUploadMode(const ISD::CCD::UploadMode &value);
+
+    QString getRemoteDir() const;
+    void setRemoteDir(const QString &value);
 
 signals:
     void prepareComplete();
@@ -183,6 +189,12 @@ private:
     QString fitsDir;
     QString rootFITSDir;
     QString postCaptureScript;
+
+    //TODO getters and setters
+    ISD::CCD::UploadMode uploadMode = ISD::CCD::UPLOAD_CLIENT;
+
+    // TODO getters and settings
+    QString remoteDir;
 
     bool typePrefixEnabled, filterPrefixEnabled, expPrefixEnabled, timeStampPrefixEnabled;
     QString rawPrefix;

@@ -158,7 +158,7 @@ public:
     void setFilter(const QString & newFilter) { filter = newFilter;}
     bool configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage=false, bool showMarker=false);
     bool setRapidGuide(CCDChip *targetChip, bool enable);
-    void updateUploadSettings();
+    void updateUploadSettings(const QString &remoteDir);
     UploadMode getUploadMode();
     bool setUploadMode(UploadMode mode);
 

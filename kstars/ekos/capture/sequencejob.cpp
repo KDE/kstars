@@ -106,8 +106,10 @@ void SequenceJob::prepareCapture()
 
     activeCCD->setSeqPrefix(fullPrefix);
 
+    activeCCD->setUploadMode(uploadMode);
+
     if (activeChip->isBatchMode())
-        activeCCD->updateUploadSettings();
+        activeCCD->updateUploadSettings(remoteDir);
 
     if (isoIndex != -1)
     {
@@ -396,6 +398,26 @@ QString SequenceJob::getPostCaptureScript() const
 void SequenceJob::setPostCaptureScript(const QString &value)
 {
     postCaptureScript = value;
+}
+
+ISD::CCD::UploadMode SequenceJob::getUploadMode() const
+{
+    return uploadMode;
+}
+
+void SequenceJob::setUploadMode(const ISD::CCD::UploadMode &value)
+{
+    uploadMode = value;
+}
+
+QString SequenceJob::getRemoteDir() const
+{
+    return remoteDir;
+}
+
+void SequenceJob::setRemoteDir(const QString &value)
+{
+    remoteDir = value;
 }
 
 int SequenceJob::getISOIndex() const

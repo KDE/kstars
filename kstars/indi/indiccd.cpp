@@ -1621,7 +1621,7 @@ bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage
     return true;
 }
 
-void CCD::updateUploadSettings()
+void CCD::updateUploadSettings(const QString &remoteDir)
 {
     QString filename = seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("XXX");
 
@@ -1632,14 +1632,12 @@ void CCD::updateUploadSettings()
     if (uploadSettingsTP)
     {
         uploadT = IUFindText(uploadSettingsTP, "UPLOAD_DIR");
-        if (uploadT)
-            IUSaveText(uploadT, fitsDir.toLatin1().constData());
+        if (uploadT && remoteDir.isEmpty() == false)
+            IUSaveText(uploadT, remoteDir.toLatin1().constData());
 
         uploadT = IUFindText(uploadSettingsTP, "UPLOAD_PREFIX");
         if (uploadT)
             IUSaveText(uploadT, filename.toLatin1().constData());
-
-
 
         clientManager->sendNewText(uploadSettingsTP);
     }
