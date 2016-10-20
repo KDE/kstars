@@ -62,9 +62,11 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
 
     for (int i=0; i < solverSettings->ntp; i++)
     {
-        if (!strcmp(solverSettings->tp[i].name, "ASTROMETRY_SETTINGS_BINARY"))
-            IUSaveText(&solverSettings->tp[i], Options::astrometrySolver().toLatin1().constData());
-        else if (!strcmp(solverSettings->tp[i].name, "ASTROMETRY_SETTINGS_OPTIONS"))
+        // 2016-10-20: Disable setting this automatically since remote device might have different
+        // settings
+        /*if (!strcmp(solverSettings->tp[i].name, "ASTROMETRY_SETTINGS_BINARY"))
+            IUSaveText(&solverSettings->tp[i], Options::astrometrySolver().toLatin1().constData());*/
+        if (!strcmp(solverSettings->tp[i].name, "ASTROMETRY_SETTINGS_OPTIONS"))
             IUSaveText(&solverSettings->tp[i], args.join(" ").toLatin1().constData());
     }
 
