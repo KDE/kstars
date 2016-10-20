@@ -2868,7 +2868,7 @@ void Scheduler::checkJobStage()
         }
         else if (guideStatus == Ekos::GUIDE_CALIBRATION_ERROR || guideStatus == Ekos::GUIDE_ABORTED)
         {
-            if (guideStatus == Ekos::GUIDE_ABORTED)
+            if (guideStatus == Ekos::GUIDE_ABORTED || guideStatus == Ekos::GUIDE_CALIBRATION_ERROR)
                 appendLogText(i18n("%1 guiding failed!", currentJob->getName()));
             else
                 appendLogText(i18n("%1 calibration failed!", currentJob->getName()));
@@ -2880,11 +2880,11 @@ void Scheduler::checkJobStage()
                 return;
             }
 
-                    currentJob->setState(SchedulerJob::JOB_ERROR);
+            currentJob->setState(SchedulerJob::JOB_ERROR);
 
-                    findNextJob();
-                    return;
-         }
+            findNextJob();
+            return;
+        }
     }
     break;
 
@@ -2977,7 +2977,8 @@ void Scheduler::checkJobStage()
                  //if(guideReply.value() == false)
                  {
                     appendLogText(i18n("Restarting %1 guiding procedure...", currentJob->getName()));
-                    currentJob->setStage(SchedulerJob::STAGE_GUIDING);
+                    //currentJob->setStage(SchedulerJob::STAGE_GUIDING);
+                    startGuiding();
                     return;
                  }
              }
@@ -3801,7 +3802,7 @@ void Scheduler::stopGuiding()
 {
     if ( (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE) && (currentJob->getStage() == SchedulerJob::STAGE_GUIDING_COMPLETE ||  currentJob->getStage() == SchedulerJob::STAGE_CAPTURING) )
     {
-        guideInterface->call(QDBus::AutoDetect,"stop");
+        guideInterface->call(QDBus::AutoDetect,"abort");
         guideFailureCount=0;
     }
 }
