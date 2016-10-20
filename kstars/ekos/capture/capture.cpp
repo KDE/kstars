@@ -2806,7 +2806,7 @@ QString Capture::getSequenceQueueStatus()
 
     if (aborted > 0)
     {
-        if (guideState == GUIDE_GUIDING && deviationDetected)
+        if (guideState >= GUIDE_GUIDING && deviationDetected)
             return "Suspended";
         else
             return "Aborted";
