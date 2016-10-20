@@ -338,6 +338,9 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
             {
                 state = DITHER_SUCCESSFUL;
                 emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
+
+                // Back to guiding
+                emit newStatus(Ekos::GUIDE_GUIDING);
             }
         }
     }

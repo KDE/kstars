@@ -272,6 +272,8 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
             emit newStatus(GUIDE_DITHERING_ERROR);
 
         state = GUIDING;
+        // Back to guiding
+        emit newStatus(GUIDE_GUIDING);
         deviationTimer.start();
         break;
 

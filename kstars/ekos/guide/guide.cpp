@@ -934,7 +934,7 @@ void Guide::stopRapidGuide()
 
 bool Guide::calibrate()
 {
-    saveSettings();
+    saveSettings();        
 
     buildOperationStack(GUIDE_CALIBRATING);
 
@@ -1058,6 +1058,10 @@ void Guide::startAutoCalibrateGuide()
     Options::setGuideAutoStarEnabled(true);
 
     autoCalibrateGuide = true;
+
+    // Set status to idle and let the operations change it as they get executed
+    state = GUIDE_IDLE;
+    emit newStatus(state);
 
     calibrate();
 }

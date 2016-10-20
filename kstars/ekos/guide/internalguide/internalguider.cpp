@@ -200,16 +200,17 @@ bool InternalGuider::dither(double pixels)
 
     if (fabs(star_pos.x) < 1 && fabs(star_pos.y) < 1)
     {
-        pmath->setReticleParameters(cur_x, cur_y, ret_angle);
-
-        // Back to guiding
-        state = GUIDE_GUIDING;
-
+        pmath->setReticleParameters(cur_x, cur_y, ret_angle);        
         if (Options::guideLogging())
             qDebug() << "Guide: Dither complete.";
 
         //emit ditherComplete();
         emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
+
+        // Back to guiding
+        state = GUIDE_GUIDING;
+        emit newStatus(state);
+
     }
     else
     {
