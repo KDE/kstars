@@ -1196,6 +1196,9 @@ void Focus::setCaptureComplete()
                 starCenter.setX(maxStar->x);
                 starCenter.setY(maxStar->y);
                 starCenter.setZ(subBinX);
+
+                if (inAutoFocus)
+                    capture();
             }
 
             syncTrackingBoxPosition();
