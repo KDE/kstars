@@ -153,31 +153,31 @@ bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *mi
     if (arg == NULL)
         return false;
 
-    *minX = arg->min;
-    *maxX = arg->max;
+    if (minX) *minX = arg->min;
+    if (maxX) *maxX = arg->max;
 
 
     arg = IUFindNumber(frameProp, "Y");
     if (arg == NULL)
         return false;
 
-    *minY = arg->min;
-    *maxY = arg->max;
+    if (minY) *minY = arg->min;
+    if (maxY) *maxY = arg->max;
 
     arg = IUFindNumber(frameProp, "WIDTH");
     if (arg == NULL)
         return false;
 
-    *minW = arg->min;
-    *maxW = arg->max;
+    if (minW) *minW = arg->min;
+    if (maxW) *maxW = arg->max;
 
 
     arg = IUFindNumber(frameProp, "HEIGHT");
     if (arg == NULL)
         return false;
 
-    *minH = arg->min;
-    *maxH = arg->max;
+    if (minH) *minH = arg->min;
+    if (maxH) *maxH = arg->max;
 
     return true;
 
