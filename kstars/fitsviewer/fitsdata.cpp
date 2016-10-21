@@ -19,14 +19,18 @@
 
 #include <config-kstars.h>
 #include "fitsdata.h"
+#include "skymapcomposite.h"
+#include "kstarsdata.h"
 
 #include <cmath>
 #include <cstdlib>
 #include <climits>
 
 #include <QApplication>
+#include <QStringList>
 #include <QLocale>
 #include <QFile>
+#include <QTime>
 #include <QProgressDialog>
 
 #ifndef KSTARS_LITE
@@ -99,6 +103,9 @@ FITSData::~FITSData()
         qDeleteAll(starCenters);
 
     delete[] wcs_coord;
+
+    if (objList.count() > 0)
+        qDeleteAll(objList);
 
     if (fptr)
     {
@@ -1754,8 +1761,7 @@ void FITSData::checkWCS()
 
             if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])))
             {
-                fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status,
-                        wcs_errmsg[status]);
+                fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status,  wcs_errmsg[status]);
             }
             else
             {
@@ -1766,8 +1772,151 @@ void FITSData::checkWCS()
             }
         }
     }
+    findObjectsInImage(wcs, &world[0], phi, theta, &imgcrd[0], &pixcrd[0], &stat[0]);
 #endif
 
+}
+
+void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]){
+    int width=getWidth();
+    int height=getHeight();
+    int status=0;
+
+    char date[64];
+    KSNumbers *num = NULL;
+
+    if (fits_read_keyword(fptr, "DATE-OBS", date, NULL, &status) == 0)
+    {
+        QString tsString(date);
+        tsString = tsString.remove("'").trimmed();
+
+        QDateTime ts = QDateTime::fromString(tsString, Qt::ISODate);
+        /*QString dateTime=QString(date).remove(QChar('\''), Qt::CaseInsensitive);
+        QStringList dateTimeStringList=dateTime.split("T", QString::SkipEmptyParts );
+        if(dateTimeStringList.size()>1){
+              QTime t = QTime::fromString(dateTimeStringList[1],Qt::TextDate);
+              QDate d = QDate::fromString(dateTimeStringList[0],"yyyy-MM-dd");
+              num=new KSNumbers(KStarsDateTime(d,t).djd());*/
+        if (ts.isValid())
+            num = new KSNumbers(KStarsDateTime(ts).djd());
+        //}
+    }
+    if (num == NULL)
+        num=new KSNumbers(KStarsData::Instance()->ut().djd());//Set to current time if the above does not work.
+
+    int sampleSize=100;
+
+    SkyMapComposite *map=KStarsData::Instance()->skyComposite();
+
+    wcs_point * wcs_coord = getWCSCoord();
+    if (wcs_coord)
+    {
+        int size=width*height;
+
+        if(sampleSize>width)//Should also check if the wcs_coord is not big enough!
+            return;
+
+        double decSample=wcs_coord[sampleSize].dec-wcs_coord[0].dec;
+        double raSample=wcs_coord[sampleSize].ra-wcs_coord[0].ra;
+        double defaultSearchRadius=sqrt(decSample*decSample+raSample*raSample)*2;//Doubling it just to cast a wider net
+
+        objList.clear();
+
+        for(int i=0;i<(size);i+=sampleSize)//This makes the x go in increments of the sample size
+        {
+            if ((i>width) && (i % width < sampleSize))
+            {//This checks if it is just on the next row.
+                i+=(sampleSize)*width;//This makes it skip a few rows so the y goes in increments of the sample size.
+                i-=i % width;//This corrects for diagonal drift when the image width is not divisible by the sample size
+            }
+
+            if(i>size)
+                break;
+
+            double ra = wcs_coord[i].ra;
+            double dec = wcs_coord[i].dec;
+            double searchRadius=defaultSearchRadius;//Because searchRadius gets reset each time you run Object Nearest!
+
+            SkyPoint point;// = new SkyPoint();
+            point.setRA0(dms(ra));
+            point.setDec0(dms(dec));
+            point.updateCoordsNow(num);
+            SkyObject *object=(map->objectNearest(&point,searchRadius));
+
+            if(object)
+            {
+
+                bool objInList=false;
+                foreach(FITSSkyObject *listObject, objList)
+                {
+                    if(listObject->skyObject()->getUID()==object->getUID())
+                        objInList=true;
+                }
+
+                int type=object->type();
+                if(type==SkyObject::PLANET||type==SkyObject::ASTEROID||type==SkyObject::COMET||type==SkyObject::SUPERNOVA||type==SkyObject::MOON||type==SkyObject::SATELLITE){
+                    //DO NOT DISPLAY, at least for now, becaus these things move and change.
+                }
+                else if(!objInList)
+                {
+                    int x=(i % width);//If the coordinate transform doesn't work, we will use the position we found.
+                    int y=(i / width);
+
+                    world[0]=object->ra0().Degrees();
+                    world[1]=object->dec0().Degrees();
+
+                    if ((status = wcss2p(wcs, 1, 2, &world[0],  &phi, &theta, &imgcrd[0], &pixcrd[0], &stat[0])))
+                    {
+                        fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status,  wcs_errmsg[status]);
+                    }
+                    else
+                    {
+                        x = pixcrd[0];//The X and Y are set to the found position if it does work.
+                        y = pixcrd[1];
+                    }
+
+                    //objList.insert(objList.size(),new FITSSkyObject(object,x,y));
+                    objList.append(new FITSSkyObject(object,x,y));
+                }
+            }
+        }
+
+    }
+
+    delete (num);
+
+}
+
+QList<FITSSkyObject *> FITSData::getSkyObjects(){
+    return objList;
+}
+
+
+FITSSkyObject::FITSSkyObject(SkyObject *object, int xPos, int yPos) : QObject()
+{
+    skyObjectStored=object;
+    xLoc=xPos;
+    yLoc=yPos;
+}
+
+SkyObject *FITSSkyObject::skyObject(){
+    return skyObjectStored;
+}
+
+int FITSSkyObject::x(){
+    return xLoc;
+}
+
+int FITSSkyObject::y(){
+    return yLoc;
+}
+
+void FITSSkyObject::setX(int xPos){
+    xLoc=xPos;
+}
+
+void FITSSkyObject::setY(int yPos){
+    yLoc=yPos;
 }
 
 int FITSData::getFlipVCounter() const

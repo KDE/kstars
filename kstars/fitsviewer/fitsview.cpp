@@ -204,6 +204,13 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
             emit newStatus(QString("%1 , %2").arg( ra.toHMSString()).arg(dec.toDMSString()), FITS_WCS);
         }
+
+        foreach(FITSSkyObject *listObject, image_data->objList){
+            if((abs(listObject->x()-x)<50)&&(abs(listObject->y()-y)<50)){
+                QToolTip::showText(e->globalPos(), listObject->skyObject()->name(), this);
+                break;
+            }
+        }
     }
 
     //setCursor(Qt::CrossCursor);
@@ -996,6 +1003,17 @@ bool FITSView::imageHasWCS(){
     return hasWCS;
 }
 
+void FITSView::drawObjectNames(QPainter *painter)
+{
+    painter->setPen( QPen( Qt::green) );
+    float scale=(currentZoom / ZOOM_DEFAULT);
+    foreach(FITSSkyObject *listObject, image_data->getSkyObjects())
+    {
+        if (listObject->skyObject()->name() != i18n("star"))
+            painter->drawText(listObject->x()*scale,listObject->y()*scale,listObject->skyObject()->name());
+    }
+}
+
 /**
 This method will paint EQ Gridlines in an overlay if there is WCS data present.
 It determines the minimum and maximum RA and DEC, then it uses that information to
@@ -1004,6 +1022,8 @@ to draw gridlines at those specific RA and Dec values.
  */
 
 void FITSView::drawEQGrid(QPainter *painter){
+
+    drawObjectNames(painter);
 
    if (image_data->hasWCS())
        {
@@ -1027,7 +1047,6 @@ void FITSView::drawEQGrid(QPainter *painter){
                        minDec=dec;
                }
                painter->setPen( QPen( Qt::yellow) );
-
 
                if (maxDec>80){
                    int minRAMinutes=(int)(minRA/15);//This will force the scale to whole hours of RA near the pole
@@ -1227,11 +1246,11 @@ int FITSView::findStars(StarAlgorithm algorithm)
             break;
         }
     }
-    /*else if (algorithm == ALGORITHM_GRADIENT)
+    else if (algorithm == ALGORITHM_GRADIENT)
     {
         QRect boundary(0,0, image_data->getWidth(), image_data->getHeight());
         count = FITSData::findCannyStar(image_data, boundary);
-    }*/
+    }
     else
     {
         count = image_data->findStars();

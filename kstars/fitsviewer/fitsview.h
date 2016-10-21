@@ -126,8 +126,10 @@ public:
     bool isPixelGridShown();
     bool imageHasWCS();
 
+
     void drawCrosshair(QPainter *);
     void drawEQGrid(QPainter *);
+    void drawObjectNames(QPainter *painter);
     void drawPixelGrid(QPainter *painter);
     void updateFrame();
 

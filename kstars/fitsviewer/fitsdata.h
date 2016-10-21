@@ -20,6 +20,7 @@
 #ifndef FITSDATA_H_
 #define FITSDATA_H_
 
+#include "skyobject.h"
 #include <QFrame>
 #include <QImage>
 #include <QPixmap>
@@ -28,6 +29,11 @@
 #include <QPaintEvent>
 #include <QScrollArea>
 #include <QLabel>
+#include <QStringList>
+
+#ifdef HAVE_WCSLIB
+#include <wcs.h>
+#endif
 
 #ifndef KSTARS_LITE
 #include <kxmlguiwindow.h>
@@ -68,6 +74,24 @@ public:
     float HFR;
     float sum;
 };
+
+class FITSSkyObject : public QObject{
+    Q_OBJECT
+public:
+    explicit FITSSkyObject(SkyObject *skyObject, int xPos, int yPos);
+    SkyObject *skyObject();
+    int x();
+    int y();
+    void setX(int xPos);
+    void setY(int yPos);
+
+private:
+    SkyObject *skyObjectStored;
+    int xLoc;
+    int yLoc;
+
+};
+
 
 class FITSData
 {
@@ -179,6 +203,10 @@ public:
     int getFlipVCounter() const;
     void setFlipVCounter(int value);
 
+    void findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]);
+    QList<FITSSkyObject *> getSkyObjects();
+    QList<FITSSkyObject*> objList;//Does this need to be public??
+
 private:
 
     bool rotFITS (int rotate, int mirror);
@@ -244,6 +272,8 @@ private:
         uint16_t width;
         uint16_t height;
     } stats;
+
+
 
 };
 
