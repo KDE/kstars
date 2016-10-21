@@ -136,7 +136,8 @@ void GenericDevice::registerProperty(INDI::Property *prop)
             if (connected && nvp->np[0].value > 0)
             {
                 // Send immediately a heart beat
-                watchDogTimer->start(0);
+                clientManager->sendNewNumber(nvp);
+                //watchDogTimer->start(0);
             }
         }
     }
@@ -168,7 +169,8 @@ void GenericDevice::processSwitch(ISwitchVectorProperty * svp)
                 if (nvp && nvp->np[0].value > 0)
                 {
                     // Send immediately
-                    watchDogTimer->start(0);
+                    clientManager->sendNewNumber(nvp);
+                    //watchDogTimer->start(0);
                 }
             }
         }
