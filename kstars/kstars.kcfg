@@ -1458,7 +1458,7 @@
       <entry name="FocusBoxSize" type="UInt">
          <label>Default Focuser star selection box size</label>
          <whatsthis>Set box size to select a focus star.</whatsthis>
-         <default>32</default>
+         <default>64</default>
       </entry>
       <entry name="FocusXBin" type="UInt">
          <label>Default CCD X binning in focus mode</label>
@@ -1612,7 +1612,7 @@
       </entry>
       <entry name="GuideSquareSizeIndex" type="UInt">
          <label>Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
-         <default>1</default>
+         <default>2</default>
       </entry>
       <entry name="GuideAutoStarEnabled" type="Bool">
          <label>Automatically select calibration star and perform calibration.</label>
