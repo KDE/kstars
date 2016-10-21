@@ -163,6 +163,8 @@ public:
 
     void setFilter(FITSScale newFilter) { filter = newFilter;}
 
+    void setFirstLoad(bool value);
+
 protected:
     void wheelEvent(QWheelEvent* event);
 

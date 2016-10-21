@@ -678,20 +678,23 @@ int FITSView::rescale(FITSZoom type)
     case ZOOM_FIT_WINDOW:
         if ((display_image->width() > width() || display_image->height() > height()))
         {
-            int w = baseSize().width() - BASE_OFFSET;
-            int h = baseSize().height() - BASE_OFFSET;
+            double w = baseSize().width() - BASE_OFFSET;
+            double h = baseSize().height() - BASE_OFFSET;
 
-            if(!firstLoad){
+            if(firstLoad == false)
+            {
                 w = viewport()->rect().width() - BASE_OFFSET;
                 h = viewport()->rect().height() - BASE_OFFSET;
             }
 
             // Find the zoom level which will enclose the current FITS in the current window size
-            currentZoom = floor( (w / static_cast<double>(currentWidth)) * 10.) * 10.;
+            //currentZoom = floor( (w / static_cast<double>(currentWidth)) * 10.) * 10.;
+            currentZoom = floor( (w / static_cast<double>(currentWidth)) * 100.);
 
             /* If width is not the problem, try height */
             if (currentZoom > ZOOM_DEFAULT)
-                currentZoom = floor( (h / static_cast<double>(currentHeight)) * 10.) * 10.;
+                //currentZoom = floor( (h / static_cast<double>(currentHeight)) * 10.) * 10.;
+                currentZoom = floor( (h / static_cast<double>(currentHeight)) * 100.);
 
             currentWidth  = image_width * (currentZoom / ZOOM_DEFAULT);
             currentHeight = image_height * (currentZoom / ZOOM_DEFAULT);
@@ -1165,6 +1168,11 @@ bool FITSView::pointIsNearWCSTargetPoint(wcs_point *wcs_coord, double target, in
    return (target>nextPoint&&target<prevPoint)||(target>prevPoint&&target<nextPoint);
 }
 
+void FITSView::setFirstLoad(bool value)
+{
+    firstLoad = value;
+}
+
 QPixmap & FITSView::getTrackingBoxPixmap()
 {
     if (trackingBox.isNull())
@@ -1246,11 +1254,11 @@ int FITSView::findStars(StarAlgorithm algorithm)
             break;
         }
     }
-    else if (algorithm == ALGORITHM_GRADIENT)
+    /*else if (algorithm == ALGORITHM_GRADIENT)
     {
         QRect boundary(0,0, image_data->getWidth(), image_data->getHeight());
         count = FITSData::findCannyStar(image_data, boundary);
-    }
+    }*/
     else
     {
         count = image_data->findStars();
