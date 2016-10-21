@@ -392,7 +392,8 @@ void Align::syncCCDInfo()
     if (svp)
         setWCSEnabled(Options::solverWCS());
 
-    targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
+    targetChip->getFrameMinMax(NULL, NULL, NULL, NULL, NULL, &ccd_width, NULL, &ccd_height);
+    //targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
     binningCombo->setEnabled(targetChip->canBin());
     if (targetChip->canBin())
     {
