@@ -41,6 +41,7 @@
 #include "geolocation.h"
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/starobject.h"
 
 #include <kplotwidget.h>
 #include "avtplotwidget.h"
@@ -163,7 +164,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     topLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QPushButton *printB = new QPushButton(QIcon::fromTheme("document-print"), i18n("&Print..."));
+    QPushButton *printB = new QPushButton(QIcon::fromTheme("document-print", QIcon(":/icons/breeze/default/document-print.svg")), i18n("&Print..."));
     printB->setToolTip(i18n("Print the Altitude vs. time plot"));
     buttonBox->addButton(printB, QDialogButtonBox::ActionRole);
     connect(printB, SIGNAL(clicked()), this, SLOT(slotPrint()));
@@ -336,7 +337,7 @@ void AltVsTime::slotAddSource() {
 void AltVsTime::slotBrowseObject() {
     QPointer<FindDialog> fd = new FindDialog(this);
     if ( fd->exec() == QDialog::Accepted ) {
-        SkyObject *o = fd->selectedObject();
+        SkyObject *o = fd->targetObject();
         processObject( o );
     }
     delete fd;
@@ -433,7 +434,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
     //restore original position
     if ( o->isSolarSystem() ) {
-       o->updateCoords( oldNum, true, data->geo()->lat(), data->lst(), true );
+        o->updateCoords( oldNum, true, data->geo()->lat(), data->lst(), true );
         delete oldNum;
     }
     o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -446,7 +447,7 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
     //getDate converts the user-entered local time to UT
     KStarsDateTime ut = getDate().addSecs( hour*3600.0 );
 
-    dms LST = geo->GSTtoLST( ut.gst() );
+    CachingDms LST = geo->GSTtoLST( ut.gst() );
     p->EquatorialToHorizontal( &LST, geo->lat() );
     return p->alt().Degrees();
 }
@@ -972,7 +973,7 @@ void AltVsTime::slotUpdateDateLoc() {
     KStarsDateTime today = getDate();
     KSNumbers *num = new KSNumbers( today.djd() );
     KSNumbers *oldNum = 0;
-    dms LST = geo->GSTtoLST( today.gst() );
+    CachingDms LST = geo->GSTtoLST( today.gst() );
 
     //First determine time of sunset and sunrise
     computeSunRiseSetTimes();
@@ -1046,16 +1047,19 @@ void AltVsTime::slotChooseCity() {
     delete ld;
 }
 
+// FIXME: should we remove this method?
 void AltVsTime::setLSTLimits() {
+    /*
     //UT at noon on target date
-    KStarsDateTime ut = getDate().addSecs( ((double)DayOffset + 0.5)*86400. );
+    KStarsDateTime ut = getDate().addSecs(((double)DayOffset + 0.5)*86400.);
 
-    dms lst = geo->GSTtoLST( ut.gst() );
+    dms lst = geo->GSTtoLST(ut.gst());
     double h1 = lst.Hours();
-    if( h1 > 12.0 )
+    if(h1 > 12.0)
         h1 -= 24.0;
     double h2 = h1 + 24.0;
-   // avtUI->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
+    avtUI->View->setSecondaryLimits(h1, h2, -90.0, 90.0);
+    */
 }
 
 void AltVsTime::showCurrentDate()
@@ -1228,7 +1232,7 @@ void AltVsTime::drawGradient(){
 
     p.setClipping(false);
 
-    //Add vertical line indicating "now"    
+    //Add vertical line indicating "now"
     if( geoLoc )
     {
         QTime t = geoLoc->UTtoLT( KStarsDateTime::currentDateTimeUtc() ).time(); // convert the current system clock time to the TZ corresponding to geo
@@ -1275,19 +1279,21 @@ void AltVsTime::setDawnDusk()
 {
     KStarsDateTime today = getDate();
     KSNumbers num( today.djd() );
-    dms LST = geo->GSTtoLST( today.gst() );
+    CachingDms LST = geo->GSTtoLST( today.gst() );
 
     KSSun sun;
     sun.updateCoords( &num, true, geo->lat(), &LST, true );
-    double dawn, da, dusk, du, max_alt, min_alt;
+
+    /* TODO:
     double last_h = -12.0;
     double last_alt = findAltitude( &sun, last_h );
-    dawn = dusk = -13.0;
-    max_alt = -100.0;
-    min_alt = 100.0;
+    double dawn = -13.0;
+    double dusk = -13.0;
+    double max_alt = -100.0;
+    double min_alt = 100.0;
     for ( double h=-11.95; h<=12.0; h+=0.05 ) {
         double alt = findAltitude( &sun, h );
-        bool   asc = alt - last_alt > 0;
+        bool asc = alt - last_alt > 0;
         if ( alt > max_alt )
             max_alt = alt;
         if ( alt < min_alt )
@@ -1309,9 +1315,9 @@ void AltVsTime::setDawnDusk()
         da = dawn / 24.0;
         du = ( dusk + 24.0 ) / 24.0;
     }
-    // TODO:
-    // avtUI->View->setDawnDuskTimes( da, du );
-    // avtUI->View->setMinMaxSunAlt( min_alt, max_alt );
+    avtUI->View->setDawnDuskTimes( da, du );
+    avtUI->View->setMinMaxSunAlt( min_alt, max_alt );
+    */
 }
 
 void AltVsTime::slotPrint()
@@ -1402,6 +1408,3 @@ QString AltVsTime::getObjectName(const SkyObject *o, bool translated)
     return finalObjectName;
 
 }
-
-
-

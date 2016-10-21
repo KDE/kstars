@@ -212,6 +212,7 @@ public slots:
 signals:
     void newLog();
     void newCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
+    void newTarget(const QString &name);
     void newStatus(ISD::Telescope::TelescopeStatus status);
 
 private:
@@ -220,6 +221,7 @@ private:
     QStringList logText;
     SkyPoint telescopeCoord;
     QString lastNotificationMessage;
+    QTimer updateTimer;
     double lastAlt;
     int abortDispatch;
     bool altLimitEnabled;

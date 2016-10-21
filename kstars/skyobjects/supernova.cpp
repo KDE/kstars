@@ -18,7 +18,9 @@
 #include "supernova.h"
 
 #include <typeinfo>
+#ifndef KSTARS_LITE
 #include "kspopupmenu.h"
+#endif
 
 Supernova::Supernova(dms ra, dms dec, const QString& date ,float m, const QString& serialNo,
                      const QString& type, const QString& hostGalaxy, const QString& offset,
@@ -43,5 +45,9 @@ Supernova* Supernova::clone() const
 
 void Supernova::initPopupMenu(KSPopupMenu* pmenu)
 {
+#ifdef KSTARS_LITE
+    Q_UNUSED(pmenu)
+#else
     pmenu->createSupernovaMenu(this);
+#endif
 }

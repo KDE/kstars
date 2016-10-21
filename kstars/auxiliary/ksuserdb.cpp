@@ -115,6 +115,20 @@ bool KSUserDB::Initialize() {
                 if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('Focuser Simulator', 'Focuser', 1)"))
                     qDebug() << query.lastError();
            }
+
+           // If prior to 2.6.1 upgrade database for dark library tables
+           if (record.value("Version").toString() < "2.6.1")
+           {
+                QSqlQuery query(userdb_);
+                QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
+
+                if (!query.exec(versionQuery))
+                    qDebug() << query.lastError();
+
+                // Dark Frame
+                if (!query.exec("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, ccd TEXT NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, duration REAL, filename TEXT NOT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)"))
+                    qDebug() << query.lastError();
+           }
         }
     }
     userdb_.close();
@@ -240,6 +254,8 @@ bool KSUserDB::RebuildDB() {
      tables.append("INSERT INTO driver (label, role, profile) VALUES ('CCD Simulator', 'CCD', 1)");
      tables.append("INSERT INTO driver (label, role, profile) VALUES ('Focuser Simulator', 'Focuser', 1)");
 
+     tables.append("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, ccd TEXT NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, duration REAL, filename TEXT NOT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
+
     for (int i = 0; i < tables.count(); ++i) {
         QSqlQuery query(userdb_);
         if (!query.exec(tables[i])) {
@@ -280,7 +296,7 @@ void KSUserDB::AddObserver(const QString& name, const QString& surname,
     userdb_.close();
 }
 
-int KSUserDB::FindObserver(const QString &name, const QString &surname) {
+bool KSUserDB::FindObserver(const QString &name, const QString &surname) {
     userdb_.open();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
@@ -317,7 +333,7 @@ QSqlDatabase KSUserDB::GetDatabase()
     userdb_.open();
     return userdb_;
 }
-
+#ifndef KSTARS_LITE
 void KSUserDB::GetAllObservers(QList<Observer *> &observer_list) {
     userdb_.open();
     observer_list.clear();
@@ -336,6 +352,72 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list) {
     }
 
     users.clear();
+    userdb_.close();
+}
+#endif
+
+/* Dark Library Section */
+
+void KSUserDB::AddDarkFrame(const QVariantMap &oneFrame)
+{
+    userdb_.open();
+    QSqlTableModel darkframe(0, userdb_);
+    darkframe.setTable("darkframe");
+    darkframe.select();
+
+    QSqlRecord record = darkframe.record();
+
+    // Remove PK so that it gets auto-incremented later
+    record.remove(0);
+    // Remove timestamp so that it gets auto-generated
+    record.remove(7);
+
+    for(QVariantMap::const_iterator iter = oneFrame.begin(); iter != oneFrame.end(); ++iter)
+        record.setValue(iter.key(), iter.value());
+
+    darkframe.insertRecord(-1, record);
+
+    darkframe.submitAll();
+
+    userdb_.close();
+}
+
+bool KSUserDB::DeleteDarkFrame(const QString &filename)
+{
+    userdb_.open();
+    QSqlTableModel darkframe(0, userdb_);
+    darkframe.setTable("darkframe");
+    darkframe.setFilter("filename = \'"+filename+"\'");
+
+    darkframe.select();
+
+    darkframe.removeRows(0, 1);
+    darkframe.submitAll();
+
+    userdb_.close();
+
+    return true;
+}
+
+void KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
+{
+    darkFrames.clear();
+
+    userdb_.open();
+    QSqlTableModel darkframe(0, userdb_);
+    darkframe.setTable("darkframe");
+    darkframe.select();
+
+    for (int i =0; i < darkframe.rowCount(); ++i)
+    {
+        QVariantMap recordMap;
+        QSqlRecord record = darkframe.record(i);
+        for (int j=1; j < record.count(); j++)
+            recordMap[record.fieldName(j)] = record.value(j);
+
+        darkFrames.append(recordMap);
+    }
+
     userdb_.close();
 }
 
@@ -489,7 +571,7 @@ void KSUserDB::AddScope(const QString &model, const QString &vendor,
 
     userdb_.close();
 }
-
+#ifndef KSTARS_LITE
 void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
     scope_list.clear();
 
@@ -516,7 +598,7 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
     equip.clear();
     userdb_.close();
 }
-
+#endif
 /*
  * Eyepiece section
  */
@@ -562,7 +644,7 @@ void KSUserDB::AddEyepiece(const QString &vendor, const QString &model,
 
     userdb_.close();
 }
-
+#ifndef KSTARS_LITE
 void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
     eyepiece_list.clear();
 
@@ -588,7 +670,7 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
     equip.clear();
     userdb_.close();
 }
-
+#endif
 /*
  * lens section
  */
@@ -627,7 +709,7 @@ void KSUserDB::AddLens(const QString &vendor, const QString &model,
 
     userdb_.close();
 }
-
+#ifndef KSTARS_LITE
 void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
     lens_list.clear();
 
@@ -649,7 +731,7 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
     equip.clear();
     userdb_.close();
 }
-
+#endif
 /*
  *  filter section
  */
@@ -691,7 +773,7 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model,
 
     userdb_.close();
 }
-
+#ifndef KSTARS_LITE
 void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
     userdb_.open();
     filter_list.clear();
@@ -714,7 +796,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
     userdb_.close();
     return;
 }
-
+#endif
 #if 0
 bool KSUserDB::ImportFlags() {
     QString flagfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "flags.dat";
@@ -802,7 +884,7 @@ bool KSUserDB::ImportUsers() {
                }
             }
         }
-    }    
+    }
     delete reader_;
     usersfile.close();
     return true;
@@ -934,7 +1016,7 @@ void KSUserDB::readScope() {
                  driver = reader_->readElementText();
         }
     }
-    
+
     AddScope(model, vendor, driver, type, focalLength, aperture);
 }
 
@@ -959,7 +1041,7 @@ void KSUserDB::readEyepiece() {
             }
         }
     }
-    
+
     AddEyepiece(vendor, model, focalLength.toDouble(), fov.toDouble(), fovUnit);
 }
 
@@ -981,7 +1063,7 @@ void KSUserDB::readLens() {
             }
         }
     }
-    
+
     AddLens(vendor, model, factor.toDouble());
 }
 
@@ -1104,7 +1186,7 @@ void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
     QSqlQuery query(userdb_);
     query.exec(tableQuery);
 
-    QSqlTableModel points(0, userdb_);    
+    QSqlTableModel points(0, userdb_);
 
     points.setTable(tableName);
 
@@ -1211,10 +1293,8 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
 }
 
 
-QList<ProfileInfo *> KSUserDB::GetAllProfiles()
+void KSUserDB::GetAllProfiles(QList<ProfileInfo *> &profiles)
 {
-    QList<ProfileInfo *> profiles;
-
     userdb_.open();
     QSqlTableModel profile(0, userdb_);
     profile.setTable("profile");
@@ -1227,6 +1307,7 @@ QList<ProfileInfo *> KSUserDB::GetAllProfiles()
         int     id   = record.value("id").toInt();
         QString name = record.value("name").toString();
 
+        // FIXME: This still shows 562 bytes lost in Valgrind, why? Investigate
         ProfileInfo *pi = new ProfileInfo(id, name);
 
         // Add host and port
@@ -1249,7 +1330,6 @@ QList<ProfileInfo *> KSUserDB::GetAllProfiles()
     profile.clear();
     userdb_.close();
 
-    return profiles;
 }
 
 void KSUserDB::GetProfileDrivers(ProfileInfo* pi)

@@ -24,8 +24,10 @@
 #include "kstarsdata.h"
 #include "auxiliary/ksuserdb.h"
 #include "fitsviewer/fitsviewer.h"
+#include "skymap.h"
 
 #include "sequencejob.h"
+#include "darklibrary.h"
 
 #include "profileeditor.h"
 #include "profileinfo.h"
@@ -45,26 +47,28 @@
 #define MAX_REMOTE_INDI_TIMEOUT 15000
 #define MAX_LOCAL_INDI_TIMEOUT 5000
 
-EkosManager::EkosManager()
-    : QDialog(KStars::Instance())
+EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
 
     new EkosAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos",  this);
 
-    setWindowIcon(QIcon::fromTheme("kstars_ekos", QIcon(":/icons/ekos.png")));
+    setWindowIcon(QIcon::fromTheme("kstars_ekos", QIcon(":/icons/breeze/default/kstars_ekos.svg")));
 
     nDevices=0;
-    nConnectedDevices=0;
+    //nConnectedDevices=0;
     useGuideHead    =false;
     useST4          =false;
+    isStarted       = false;
     remoteManagerStart=false;
+    localMode       = true;
 
     indiConnectionStatus = EKOS_STATUS_IDLE;
     ekosStartingStatus   = EKOS_STATUS_IDLE;
 
-    profileModel = NULL;
+    profileModel = new QStandardItemModel(0, 4);
+    profileModel->setHorizontalHeaderLabels(QStringList() << "id" << "name" << "host" << "port");
 
     captureProcess = NULL;
     focusProcess   = NULL;
@@ -84,6 +88,7 @@ EkosManager::EkosManager()
 
     captureProgress->setValue(0);
     sequenceProgress->setValue(0);
+    sequenceProgress->setDecimals(0);
     sequenceProgress->setFormat("%v");
     countdownTimer.setInterval(1000);
     connect(&countdownTimer, SIGNAL(timeout()), this, SLOT(updateCaptureCountDown()));
@@ -122,9 +127,9 @@ EkosManager::EkosManager()
     connect(profileCombo, SIGNAL(activated(QString)), this, SLOT(saveDefaultProfile(QString)));
 
     // Set Profile icons
-    addProfileB->setIcon(QIcon::fromTheme("list-add"));
-    editProfileB->setIcon(QIcon::fromTheme("edit-entry"));
-    deleteProfileB->setIcon(QIcon::fromTheme("list-remove"));
+    addProfileB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    editProfileB->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/kstars_ekos/document-edit.svg")));
+    deleteProfileB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
 
     // Load all drivers
     loadDrivers();
@@ -141,6 +146,7 @@ EkosManager::EkosManager()
     toolsWidget->addTab( schedulerProcess, QIcon(":/icons/ekos_scheduler.png"), "");
     toolsWidget->tabBar()->setTabToolTip(1, i18n("Scheduler"));
     connect(schedulerProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+    connect(schedulerProcess, SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
 
     // Temporary fix. Not sure how to resize Ekos Dialog to fit contents of the various tabs in the QScrollArea which are added
     // dynamically. I used setMinimumSize() but it doesn't appear to make any difference.
@@ -160,6 +166,13 @@ EkosManager::~EkosManager()
     delete mountProcess;
     delete schedulerProcess;
     delete dustCapProcess;
+    delete profileModel;
+
+    delete previewPixmap;
+    delete focusStarPixmap;
+    delete focusProfilePixmap;
+    delete guideProfilePixmap;
+    delete guideStarPixmap;
 }
 
 void EkosManager::closeEvent(QCloseEvent * /*event*/)
@@ -196,14 +209,11 @@ void EkosManager::resizeEvent(QResizeEvent *)
 
 void EkosManager::loadProfiles()
 {
-    profiles = KStarsData::Instance()->userdb()->GetAllProfiles();
+    qDeleteAll(profiles);
+    profiles.clear();
+    KStarsData::Instance()->userdb()->GetAllProfiles(profiles);
 
-    if (profileModel)
-        profileModel->clear();
-    else
-        profileModel = new QStandardItemModel(0, 4);
-
-    profileModel->setHorizontalHeaderLabels(QStringList() << "id" << "name" << "host" << "port");
+    profileModel->clear();
 
     foreach(ProfileInfo *pi, profiles)
     {
@@ -237,7 +247,7 @@ void EkosManager::loadDrivers()
 void EkosManager::reset()
 {
     nDevices=0;
-    nConnectedDevices=0;
+    //nConnectedDevices=0;
     nRemoteDevices=0;
 
     useGuideHead           = false;
@@ -287,17 +297,16 @@ void EkosManager::reset()
     if (guidePI)
         guidePI->stopAnimation();
 
+    isStarted = false;
     processINDIB->setText(i18n("Start INDI"));
 }
 
 void EkosManager::processINDI()
 {
-    if (ekosStartingStatus == EKOS_STATUS_SUCCESS || ekosStartingStatus == EKOS_STATUS_PENDING)
-    {
-        stop();
-    }
-    else
+    if (isStarted == false)
         start();
+    else
+        stop();
 }
 
 bool EkosManager::stop()
@@ -479,9 +488,7 @@ bool EkosManager::start()
 
         appendLogText(i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
 
-
         QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
-
     }
     else
     {
@@ -533,7 +540,6 @@ bool EkosManager::start()
         appendLogText(i18n("INDI services started. Connection to remote INDI server is successful. Waiting for devices..."));
 
         QTimer::singleShot(MAX_REMOTE_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
-
     }
 
     connectB->setEnabled(false);
@@ -542,6 +548,7 @@ bool EkosManager::start()
 
     profileGroup->setEnabled(false);
 
+    isStarted = true;
     processINDIB->setText(i18n("Stop INDI"));
 
     return true;
@@ -619,7 +626,6 @@ void EkosManager::checkINDITimeout()
 
 void EkosManager::connectDevices()
 {
-
     indiConnectionStatus = EKOS_STATUS_PENDING;
 
     foreach(ISD::GDInterface *device, genericDevices)
@@ -652,7 +658,7 @@ void EkosManager::processServerTermination(const QString &host, const QString &p
 
 void EkosManager::cleanDevices(bool stopDrivers)
 {
-    if (ekosStartingStatus != EKOS_STATUS_SUCCESS)
+    if (ekosStartingStatus == EKOS_STATUS_IDLE)
         return;
 
     INDIListener::Instance()->disconnect(this);
@@ -681,11 +687,6 @@ void EkosManager::cleanDevices(bool stopDrivers)
 
     reset();
 
-    processINDIB->setText(i18n("Start INDI"));
-    processINDIB->setEnabled(true);
-    connectB->setEnabled(false);
-    disconnectB->setEnabled(false);
-    controlPanelB->setEnabled(false);
     profileGroup->setEnabled(true);
 
     appendLogText(i18n("INDI services stopped."));
@@ -724,20 +725,28 @@ void EkosManager::deviceConnected()
 
     processINDIB->setEnabled(false);
 
-    nConnectedDevices++;
-
     if (Options::verboseLogging())
     {
         ISD::GDInterface *device = (ISD::GDInterface *) sender();
-        qDebug() << device->getDeviceName() << " is connected.";
-        qDebug() << "Managed Devices: " << managedDrivers.count() << " Remote Devices: " << nRemoteDevices;
-        qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
+        qDebug() << "Ekos: " << device->getDeviceName() << " is connected.";
+        //qDebug() << "Managed Devices: " << managedDrivers.count() << " Remote Devices: " << nRemoteDevices;
+        //qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
     }
 
     ProfileInfo *pi = getCurrentProfile();
     //if (nConnectedDevices == managedDrivers.count() || (nDevices <=0 && nConnectedDevices == nRemoteDevices))
+
+    int nConnectedDevices=0;
+    foreach(ISD::GDInterface *device, genericDevices)
+    {
+        if (device->isConnected())
+            nConnectedDevices++;
+    }
+
     if (nConnectedDevices >= pi->drivers.count())
         indiConnectionStatus = EKOS_STATUS_SUCCESS;
+
+    qDebug() << "Ekos: " << nConnectedDevices << " devices connected out of " << genericDevices.count();
 
     ISD::GDInterface *dev = static_cast<ISD::GDInterface *> (sender());
 
@@ -792,21 +801,21 @@ void EkosManager::deviceDisconnected()
             indiConnectionStatus = EKOS_STATUS_PENDING;
         else
             indiConnectionStatus = EKOS_STATUS_IDLE;
+
+        if (Options::verboseLogging())
+        {
+            qDebug() << "Ekos: " << dev->getDeviceName() << " is disconnected.";
+            //qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
+        }
     }
     else
         indiConnectionStatus = EKOS_STATUS_IDLE;
 
-    if (Options::verboseLogging())
-    {
-        qDebug() << dev->getDeviceName() << " is disconnected.";
-        qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
-    }
+    //if (indiConnectionStatus == EKOS_STATUS_IDLE)
+        //nConnectedDevices--;
 
-    if (indiConnectionStatus == EKOS_STATUS_IDLE)
-        nConnectedDevices--;
-
-    if (nConnectedDevices < 0)
-        nConnectedDevices = 0;
+    //if (nConnectedDevices < 0)
+        //nConnectedDevices = 0;
 
     connectB->setEnabled(true);
     disconnectB->setEnabled(false);
@@ -969,6 +978,9 @@ void EkosManager::setDome(ISD::GDInterface *domeDevice)
     initDome();
 
     domeProcess->setDome(domeDevice);
+
+    if (captureProcess)
+        captureProcess->setDome(domeDevice);
 
     appendLogText(i18n("%1 is online.", domeDevice->getDeviceName()));
 }
@@ -1228,11 +1240,8 @@ void EkosManager::processTabChange()
 {
     QWidget *currentWidget = toolsWidget->currentWidget();
 
-    if (focusProcess && currentWidget != focusProcess)
-    {
-        if (focusProcess)
-            focusProcess->resetFrame();
-    }
+    //if (focusProcess && currentWidget != focusProcess)
+         //focusProcess->resetFrame();
 
     if (alignProcess && currentWidget == alignProcess)
     {
@@ -1331,7 +1340,7 @@ void EkosManager::initCapture()
     toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
     connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
     connect(captureProcess, SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(updateCaptureStatus(Ekos::CaptureState)));
-    connect(captureProcess, SIGNAL(newImage(QImage*, Ekos::SequenceJob*)), this, SLOT(updateCaptureImage(QImage*, Ekos::SequenceJob*)));
+    connect(captureProcess, SIGNAL(newImage(QImage*, Ekos::SequenceJob*)), this, SLOT(updateCaptureProgress(QImage*, Ekos::SequenceJob*)));
     captureGroup->setEnabled(true);
     sequenceProgress->setEnabled(true);
     captureProgress->setEnabled(true);
@@ -1352,10 +1361,10 @@ void EkosManager::initCapture()
         // Autofocus
         connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);
         connect(focusProcess, SIGNAL(autoFocusFinished(bool, double)), captureProcess, SLOT(updateAutofocusStatus(bool, double)),  Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(statusUpdated(bool)), captureProcess, SLOT(updateFocusStatus(bool)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(updateFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFocusFrame()), Qt::UniqueConnection);
+        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFrame()), Qt::UniqueConnection);
     }
 
     if (alignProcess)
@@ -1373,6 +1382,11 @@ void EkosManager::initCapture()
         // Meridian Flip
         connect(captureProcess, SIGNAL(meridianFlipStarted()), mountProcess, SLOT(disableAltLimits()), Qt::UniqueConnection);
         connect(captureProcess, SIGNAL(meridianFlipCompleted()), mountProcess, SLOT(enableAltLimits()), Qt::UniqueConnection);
+    }
+
+    if (managedDevices.contains(KSTARS_DOME))
+    {
+        captureProcess->setDome(managedDevices[KSTARS_DOME]);
     }
 
 }
@@ -1401,7 +1415,7 @@ void EkosManager::initAlign()
     {
         // Filter lock
         connect(focusProcess, SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess, SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(statusUpdated(bool)), alignProcess, SLOT(updateFocusStatus(bool)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)) , alignProcess, SLOT(updateFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
     }
 }
 
@@ -1415,7 +1429,7 @@ void EkosManager::initFocus()
     int index = toolsWidget->addTab( focusProcess, QIcon(":/icons/ekos_focus.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Focus"));
     connect(focusProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
-    connect(focusProcess, SIGNAL(statusUpdated(bool)), this, SLOT(updateFocusStatus(bool)));
+    connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(updateFocusStatus(Ekos::FocusState)));
     connect(focusProcess, SIGNAL(newStarPixmap(QPixmap&)), this, SLOT(updateFocusStarPixmap(QPixmap&)));
     connect(focusProcess, SIGNAL(newProfilePixmap(QPixmap&)), this, SLOT(updateFocusProfilePixmap(QPixmap&)));
 
@@ -1429,10 +1443,10 @@ void EkosManager::initFocus()
         // Autofocus
         connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);
         connect(focusProcess, SIGNAL(autoFocusFinished(bool, double)), captureProcess, SLOT(updateAutofocusStatus(bool, double)), Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(statusUpdated(bool)), captureProcess, SLOT(updateFocusStatus(bool)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(updateFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
 
         // Meridian Flip
-        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFocusFrame()), Qt::UniqueConnection);
+        connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFrame()), Qt::UniqueConnection);
     }
 
     if (guideProcess)
@@ -1445,7 +1459,7 @@ void EkosManager::initFocus()
     {
         // Filter lock
         connect(focusProcess, SIGNAL(filterLockUpdated(ISD::GDInterface*,int)), alignProcess, SLOT(setLockedFilter(ISD::GDInterface*,int)), Qt::UniqueConnection);
-        connect(focusProcess, SIGNAL(statusUpdated(bool)), alignProcess, SLOT(updateFocusStatus(bool)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), alignProcess, SLOT(updateFocusStatus(FocusState)), Qt::UniqueConnection);
     }
 
 }
@@ -1458,9 +1472,12 @@ void EkosManager::initMount()
     mountProcess = new Ekos::Mount();
     int index = toolsWidget->addTab(mountProcess, QIcon(":/icons/ekos_mount.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Mount"));
+
     connect(mountProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
     connect(mountProcess, SIGNAL(newCoords(QString,QString,QString,QString)), this, SLOT(updateMountCoords(QString,QString,QString,QString)));
     connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this, SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
+    connect(mountProcess, SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
+
     mountPI = new QProgressIndicator(mountProcess);
     mountStatusLayout->addWidget(mountPI);
     mountGroup->setEnabled(true);
@@ -1826,17 +1843,24 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
     }
 }
 
-void EkosManager::updateCaptureImage(QImage *image, Ekos::SequenceJob *job)
+void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
 {
-    delete (previewPixmap);
-    previewPixmap = new QPixmap(QPixmap::fromImage(*image));
-    previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    if (image)
+    {
+        delete (previewPixmap);
+        previewPixmap = new QPixmap(QPixmap::fromImage(*image));
+        previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
+
 
     if (job->isPreview() == false)
     {
-        sequenceLabel->setText(QString("# %1/%2 %3").arg(captureProcess->getActiveJobID()+1).arg(captureProcess->getJobCount()).arg(job->getPrefix()));
+        // Image is set to NULL only on initial capture start up
+        int completed   = (image == NULL) ? job->getCompleted() : job->getCompleted()+1;
+
+        sequenceLabel->setText(QString("Job # %1/%2 %3 (%4/%5)").arg(captureProcess->getActiveJobID()+1).arg(captureProcess->getJobCount()).arg(job->getPrefix()).arg(completed).arg(job->getCount()));
         sequenceProgress->setRange(0, job->getCount());
-        sequenceProgress->setValue(static_cast<int>(job->getCompleted()+1));
+        sequenceProgress->setValue(completed);
     }
 }
 
@@ -1878,17 +1902,17 @@ void EkosManager::updateFocusProfilePixmap(QPixmap &profilePixmap)
     focusProfileImage->setToolTip(QString("<img src='%1'>").arg(focusProfileFile.fileName()));
 }
 
-void EkosManager::updateFocusStatus(bool status)
+void EkosManager::updateFocusStatus(Ekos::FocusState status)
 {
-    if (status)
+    focusStatus->setText(Ekos::getFocusStatusString(status));
+
+    if (status >= Ekos::FOCUS_PROGRESS)
     {
-        focusStatus->setText(i18n("In Progress"));
         if (focusPI->isAnimated() == false)
             focusPI->startAnimation();
     }
     else
     {
-        focusStatus->setText(i18n("Stopped"));
         if (focusPI->isAnimated())
             focusPI->stopAnimation();
     }
@@ -1943,4 +1967,9 @@ void EkosManager::updateGuideProfilePixmap(QPixmap & profilePix)
     guideProfilePixmap->save(guideProfileFile.fileName(), "PNG", 100);
 
     guideProfileImage->setToolTip(QString("<img src='%1'>").arg(guideProfileFile.fileName()));
+}
+
+void EkosManager::setTarget(SkyObject *o)
+{
+    mountTarget->setText(o->name());
 }

@@ -23,14 +23,14 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QStandardPaths>
-
+#ifndef KSTARS_LITE
 #include <KMessageBox>
+#endif
 #include <KLocalizedString>
 
 #include "Options.h"
 #include "dms.h"
 #include "fov.h"
-#include "skymap.h"
 #include "ksutils.h"
 #include "ksfilereader.h"
 #include "ksnumbers.h"
@@ -38,26 +38,32 @@
 #include "skyobjects/skyobject.h"
 #include "skycomponents/supernovaecomponent.h"
 #include "skycomponents/skymapcomposite.h"
-#include "oal/execute.h"
 #include "simclock.h"
 #include "timezonerule.h"
+#ifndef KSTARS_LITE
+#include "skymap.h"
+#include "oal/execute.h"
 #include "imageexporter.h"
 #include "observinglist.h"
+#include "dialogs/detaildialog.h"
+#endif
 
 #include <config-kstars.h>
-#include "dialogs/detaildialog.h"
 
 namespace {
-
     // Report fatal error during data loading to user
     // Calls QApplication::exit
     void fatalErrorMessage(QString fname) {
+        #ifndef KSTARS_LITE
+
         KMessageBox::sorry(0, i18n("The file  %1 could not be found. "
                                    "KStars cannot run properly without this file. "
                                    "KStars searches for this file in following locations:\n\n\t"
                                    "%2\n\n"
                                    "It appears that your setup is broken.", fname, QStandardPaths::standardLocations( QStandardPaths::DataLocation ).join("\n\t") ),
                            i18n( "Critical File Not Found: %1", fname ));  // FIXME: Must list locations depending on file type
+        #endif
+        qDebug() << i18n( "Critical File Not Found: %1", fname );
         qApp->exit(1);
     }
 
@@ -65,6 +71,9 @@ namespace {
     // whether he wants to continue.
     // Calls QApplication::exit if he don't
     bool nonFatalErrorMessage(QString fname) {
+        #ifdef KSTARS_LITE
+            Q_UNUSED(fname)
+        #else
         int res = KMessageBox::warningContinueCancel(0,
                       i18n("The file %1 could not be found. "
                            "KStars can still run without this file. "
@@ -76,6 +85,8 @@ namespace {
         if( res != KMessageBox::Continue )
             qApp->exit(1);
         return res == KMessageBox::Continue;
+        #endif
+        return true;
     }
 }
 
@@ -102,16 +113,20 @@ KStarsData::KStarsData() :
     m_Geo(dms(0), dms(0)),
     m_ksuserdb(),
     m_catalogdb(),
+    #ifndef KSTARS_LITE
     m_ObservingList(0),
     m_Execute(0),
     m_ImageExporter(0),
+    #endif
     temporaryTrail( false ),
     //locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
     m_preUpdateNumID(0),     m_updateNumID(0),
     m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
+    #ifndef KSTARS_LITE
     m_LogObject = new OAL::Log;
+    #endif
     // at startup times run forward
     setTimeDirection( 0.0 );
 
@@ -121,11 +136,12 @@ KStarsData::~KStarsData() {
     Q_ASSERT( pinstance );
 
     //delete locale;
+#ifndef KSTARS_LITE
     delete m_LogObject;
     delete m_Execute;
     delete m_ObservingList;
     delete m_ImageExporter;
-
+#endif
     qDeleteAll( geoList );
     qDeleteAll( ADVtreeList );
 
@@ -158,7 +174,8 @@ bool KStarsData::initialize() {
     emit progressText(i18n("Loading sky objects" ) );
     m_SkyComposite = new SkyMapComposite(0);
     //Load Image URLs//
-
+//#ifndef Q_OS_ANDROID
+    //On Android these 2 calls produce segfault. FIX IT!
     emit progressText( i18n("Loading Image URLs" ) );
     if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
         return false;
@@ -167,7 +184,7 @@ bool KStarsData::initialize() {
     emit progressText( i18n("Loading Information URLs" ) );
     if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
         return false;
-
+//#endif
     emit progressText( i18n("Loading Variable Stars" ) );
 
     //Update supernovae list if enabled
@@ -176,13 +193,16 @@ bool KStarsData::initialize() {
         skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
     }
 
+#ifndef KSTARS_LITE
     //Initialize Observing List
     m_ObservingList = new ObservingList();
+#endif
 
     readUserLog();
 
+#ifndef KSTARS_LITE
     readADVTreeData();
-
+#endif
     return true;
 }
 
@@ -470,6 +490,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
             QFileInfo fi_local( file.fileName() );
 
             QStringList flist = KSPaths::locateAll(QStandardPaths::DataLocation, urlfile);
+
             for ( int i=0; i< flist.size(); i++ ) {
                 if ( flist[i] != file.fileName() ) {
                     QFileInfo fi_global( flist[i] );
@@ -555,6 +576,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
     return fileFound;
 }
 
+// FIXME: This is a significant contributor to KStars start-up time
 bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) {
     QFile file;
     if (!openUrlFile(urlfile, file)) return false;
@@ -600,6 +622,28 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
     return true;
 }
 
+// FIXME: Improve the user log system
+
+// Note: It might be very nice to keep the log in plaintext files, for
+// portability, human-readability, and greppability. However, it takes
+// a lot of time to parse and look up, is very messy from the
+// reliability and programming point of view, needs to be parsed at
+// start, can become corrupt easily because of a missing bracket...
+
+// An SQLite database is a good compromise. A user can easily view it
+// using an SQLite browser. There is no need to read at start-up, one
+// can read the log when required. Easy to edit logs / update logs
+// etc. Will not become corrupt. Needn't be parsed.
+
+// However, IMHO, it is best to put these kinds of things in separate
+// databases, instead of unifying them as a table under the user
+// database. This ensures portability and a certain robustness that if
+// a user opens it, they cannot incorrectly edit a part of the DB they
+// did not intend to edit.
+
+// --asimha 2016 Aug 17
+
+// FIXME: This is a significant contributor to KStars startup time.
 bool KStarsData::readUserLog()
 {
     QFile file;
@@ -616,7 +660,7 @@ bool KStarsData::readUserLog()
         int startIndex, endIndex;
 
         startIndex = buffer.indexOf(QLatin1String("[KSLABEL:"));
-        sub = buffer.mid(startIndex);
+        sub = buffer.mid(startIndex); // FIXME: This is inefficient because we are making a copy of a huge string!
         endIndex = sub.indexOf(QLatin1String("[KSLogEnd]"));
 
         // Read name after KSLABEL identifer
@@ -709,6 +753,7 @@ bool KStarsData::readADVTreeData()
 //there is no KStars object, so none of the DBus functions can be called 
 //directly.
 bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
+#ifndef KSTARS_LITE
     int cmdCount(0);
 
     QFile f( scriptname );
@@ -1005,6 +1050,10 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
     }  //end while
 
     if ( cmdCount ) return true;
+#else
+    Q_UNUSED(map)
+    Q_UNUSED(scriptname)
+#endif
     return false;
 }
 
@@ -1012,19 +1061,21 @@ void KStarsData::syncFOV()
 {
     visibleFOVs.clear();
     // Add visible FOVs 
-    foreach(FOV* fov, availFOVs) {
+    foreach(FOV* fov, availFOVs)
+    {
         if( Options::fOVNames().contains( fov->name() ) ) 
             visibleFOVs.append( fov );
     }
     // Remove unavailable FOVs
     QSet<QString> names = QSet<QString>::fromList( Options::fOVNames() );
     QSet<QString> all;
-    foreach(FOV* fov, visibleFOVs) {
+    foreach(FOV* fov, visibleFOVs)
+    {
         all.insert(fov->name());
     }
     Options::setFOVNames( all.intersect(names).toList() );
 }
-
+#ifndef KSTARS_LITE
 // FIXME: Why does KStarsData store the Execute instance??? -- asimha
 Execute* KStarsData::executeSession() {
     if( !m_Execute )
@@ -1041,5 +1092,6 @@ ImageExporter * KStarsData::imageExporter()
 
     return m_ImageExporter;
 }
+#endif
 
 

@@ -1,0 +1,62 @@
+#SN     ,Host Galaxy     ,Date       , R.A.  , Decl.,   Offset  ,Mag.,  Disc. Ref.     ,      SN Position      ,  Posn. Ref.      ,Typ,  SN     ,Discoverer(s)
+
+2015bh ,NGC 2770        ,2015 02 07 ,09 09.6,+33 07,  16E   4S ,19.1,  CBET 4229      ,09 09 35.06 +33 07 22.1,  CBET 4229       ,IIn,  2015bh ,Howerton, Drake et al. (Catalina Real-time Transient Survey)
+2015bg ,Anon.           ,2015 12 16 ,02 47.6,+34 55,  13E   4N ,17.8,  CBET 4226      ,02 47 34.51 +34 54 33.6,  CBET 4226       ,Ia ,  2015bg ,Maticic (PIKA)
+2015bf ,NGC 7653        ,2015 12 12 ,23 24.8,+15 17,   4W  20N ,17.3,  CBET 4219      ,23 24 49.03 +15 16 52.0,  CBET 4219       ,IIn,  2015bf ,Itagaki
+2015be ,NGC 1843        ,2015 12 06 ,05 14.1,-10 38,   1E   6N ,18.0,  CBET 4218      ,05 14 06.24 -10 37 30.0,  CBET 4218       ,IIP,  2015be ,Stegman, Zheng, Filippenko (LOSS)
+2015bd ,NGC 3662        ,2015 12 07 ,11 23.8,-01 06,   8W   3S ,15.9,  CBET 4217      ,11 23 45.88 -01 06 21.2,  CBET 4217       ,Ia ,  2015bd ,Itagaki
+2015bc ,UGC 3301        ,2015 12 02 ,05 23.0,-00 08,  12E   9N ,18.1,  CBET 4214      ,05 22 59.91 -00 08 17.4,  CBET 4214       ,II ,  2015bc ,Gagliano, Post, Newton, Puckett
+2015bb ,NGC 5772        ,2015 11 16 ,14 51.6,+40 36,  12W   6S ,17.0,  CBET 4211      ,14 51 37.83 +40 35 51.4,  CBET 4211       ,Ib/,  2015bb ,Shima
+2015ba ,IC 1029         ,2015 11 28 ,14 32.5,+49 54,  19E  42S ,16.7,  CBET 4209      ,14 32 29.19 +49 53 34.5,  CBET 4209       ,II ,  2015ba ,Itagaki
+2015az ,IC 290          ,2015 11 30 ,03 09.7,+40 58,   1W   1N ,17.6,  CBET 4208      ,03 09 42.51 +40 58 29.3,  CBET 4208       ,Ia ,  2015az ,Gagliano, Post, Newton, Puckett
+2015ay ,UGC 722         ,2015 10 03 ,01 09.8,+13 18,  12E   3S ,16.8,  CBET 4204      ,01 09 46.77 +13 18 28.9,  CBET 4204       ,II ,  2015ay ,Liao, Chen, Xu, Sun, Gao
+2015ax ,Anon.           ,2015 10 30 ,01 18.3,+15 06,  12E   2N ,17.2,  CBET 4203      ,01 18 15.60 +15 05 58.8,  CBET 4203       ,Ia ,  2015ax ,Kugel
+2015aw ,ESO 197-G24     ,2015 07 12 ,02 06.4,-52 01,  16E  14N ,15.9,  CBET 4202      ,02 06 22.53 -52 01 26.7,  CBET 4202       ,Ia ,  2015aw ,Parker
+2015av ,ESO 285-G20     ,2015 11 16 ,20 29.6,-43 50,  13W   1N ,17.6,  CBET 4199      ,20 29 36.45 -43 50 27.7,  CBET 4199       ,Ic ,  2015av ,Parker
+2015au ,NGC 7300        ,2015 11 10 ,22 31.0,-14 00,   7W  18N ,17.7,  CBET 4198      ,22 30 59.42 -13 59 56.1,  CBET 4198       ,IIb,  2015au ,Bock
+2015at ,IC 900          ,2015 07 11 ,13 34.7,+09 20,   2E   6N ,16.6,  CBET 4197      ,13 34 43.16 +09 20 19.4,  CBET 4197       ,II ,  2015at ,Bock
+2015as ,UGC 5460        ,2015 11 15 ,10 08.2,+51 51,           ,16.0,  CBET 4194      ,10 08 11.37 +51 50 40.9,  CBET 4194       ,II ,  2015as ,K. Nishimura
+2015ar ,NGC 383         ,2015 11 11 ,01 07.3,+32 24,  58W  46S ,18.8,  CBET 4193      ,01 07 20.38 +32 23 59.8,  CBET 4193       ,Ia ,  2015ar ,Conseil, Arlic
+2015aq ,UGC 5015        ,2015 09 21 ,09 25.7,+34 17,  43W   2S ,15.6,  CBET 4192      ,09 25 44.53 +34 16 36.1,  CBET 4192       ,IIP,  2015aq ,Lipunov, Shumkov (MASTER)
+2015ap ,IC 1776         ,2015 09 08 ,02 05.2,+06 06,  29W  16S ,17.3,  CBET 4190      ,02 05 13.32 +06 06 08.4,  CBET 4190       ,Ib ,  2015ap ,Ross, Zheng, Filippenko (LOSS)
+2015ao ,ESO 354-G3      ,2015 10 06 ,01 50.9,-36 01,  12E  15N ,17.7,  CBET 4189      ,01 50 53.56 -36 00 30.8,  CBET 4189       ,Ia-,  2015ao ,Bock
+2015an ,IC 2367         ,2015 09 13 ,08 24.3,-18 46,  71E   4N ,15.2,  CBET 4188      ,08 24 15.02 -18 46 28.1,  CBET 4188       ,II-,  2015an ,Monard
+2015am ,UGC 1641        ,2015 08 13 ,02 09.2,+32 00,   3W  12N ,18.7,  CBET 4187      ,02 09 09.90 +31 59 51.5,  CBET 4187       ,IIP,  2015am ,Campaner
+2015al ,Anon.           ,2015 08 10 ,19 25.2,-53 36,   4E   5S ,18.5,  CBET 4185      ,19 25 12.69 -53 36 02.8,  CBET 4185       ,Ia ,  2015al ,Parker
+2015ak ,ESO 108-21      ,2015 08 18 ,22 15.3,-65 33,  18E   6N ,16.0,  CBET 4184      ,22 15 19.67 -65 32 53.4,  CBET 4184       ,Ia ,  2015ak ,Marples
+2015aj ,UGC 3460        ,2015 09 02 ,06 28.1,+74 19,  18E  28N ,18.3,  CBET 4183      ,06 28 03.68 +74 18 33.8,  CBET 4183       ,II ,  2015aj ,Campaner
+2015ai ,UGC 8734        ,2015 07 02 ,13 48.1,+61 49,   7W  20S ,16.3,  CBET 4182      ,13 48 04.90 +61 49 15.3,  CBET 4182       ,Ia ,  2015ai ,Briggs, Post, Puckett, Newton
+2015ah ,UGC 12295       ,2015 08 06 ,23 00.4,+01 38,  14E   1N ,15.9,  CBET 4181      ,23 00 24.63 +01 37 36.8,  CBET 4181       ,Ib-,  2015ah ,Lipunov, Gress (MASTER)
+2015ag ,IC 43           ,2015 08 06 ,00 42.4,+29 39,   1W  12N ,19.1,  CBET 4180      ,00 42 21.86 +29 38 41.5,  CBET 4180       ,Ic ,  2015ag ,Campaner
+2015af ,NGC 6801        ,2015 08 09 ,19 27.6,+54 23,  17E  12N ,18.4,  CBET 4179      ,19 27 37.70 +54 22 34.0,  CBET 4179       ,II ,  2015af ,Campaner
+2015ae ,NGC 7753        ,2015 08 06 ,23 47.1,+29 29,  18E   7N ,17.3,  CBET 4178      ,23 47 06.15 +29 29 07.4,  CBET 4178       ,II ,  2015ae ,Itagaki
+2015ad ,UGC 2282        ,2015 07 29 ,02 48.7,+14 19,   3E   9S ,17.5,  CBET 4176      ,02 48 42.34 +14 18 45.4,  CBET 4176       ,Ia ,  2015ad ,Leonini et al.
+2015ac ,UGC 12474       ,2015 07 28 ,23 16.7,+34 00,   1W   3N ,17.5,  CBET 4175      ,23 16 43.32 +33 59 47.6,  CBET 4175       ,Ia ,  2015ac ,Emmanouilidi, Koukioglou
+2015ab ,NGC 938         ,2015 07 10 ,02 28.5,+20 17,   9W   6N ,17.3,  CBET 4173      ,02 28 32.86 +20 17 07.7,  CBET 4173       ,Ia ,  2015ab ,Itagaki
+2015aa ,Anon.           ,2015 05 19 ,13 12.9,+28 48,   2E   0S ,20.6,  CBET 4172      ,13 12 53.70 +28 47 55.3,  CBET 4172       ,Ia ,  2015aa ,Morokuma et al. (Kiso Supernova Survey)
+2015Z  ,NGC 5837        ,2015 06 16 ,15 04.7,+12 38,   3E  16S ,17.5,  CBET 4171      ,15 04 40.78 +12 37 43.6,  CBET 4171       ,IIn,  2015Z  ,Arbour
+2015Y  ,NGC 2735        ,2015 04 11 ,09 02.6,+25 56,  10W   0S ,17.9,  CBET 4170      ,09 02 37.87 +25 56 04.2,  CBET 4170       ,Ib ,  2015Y  ,Halevi, Hughes, Zheng, Filippenko (LOSS)
+2015X  ,UGC 3777        ,2015 02 23 ,07 16.7,+29 51,   4W   5S ,17.2,  CBET 4169      ,07 16 42.58 +29 51 22.7,  CBET 4169       ,II ,  2015X  ,Hughes, Zheng, Filippenko (LOSS)
+2015W  ,UGC 3617        ,2015 01 12 ,06 57.7,+13 35,  32W  15N ,16.8,  CBET 4168      ,06 57 43.03 +13 34 45.7,  CBET 4168       ,IIP,  2015W  ,Kim, Zheng, Filippenko (LOSS)
+2015V  ,UGC 11000       ,2015 04 04 ,17 49.5,+36 09,   5E   7S ,15.9,  CBET 4167      ,17 49 27.05 +36 08 36.0,  CBET 4167       ,IIP,  2015V  ,Halevi, Zheng, Filippenko (LOSS)
+2015U  ,NGC 2388        ,2015 02 13 ,07 28.9,+33 49,   6E   2N ,16.4,  CBET 4164      ,07 28 53.87 +33 49 10.6,  CBET 4164       ,Ibn,  2015U  ,Kumar, Yuk, Zheng, Filippenko (LOSS)
+2015T  ,ESO 147-G20A    ,2015 06 16 ,23 07.4,-61 29,   6E   5S ,17.3,  CBET 4133      ,23 07 24.07 -61 29 21.2,  CBET 4133       ,II ,  2015T  ,Parker
+2015S  ,Anon.           ,2015 07 22 ,00 31.4,-49 36,   8E  10S ,17.1,  CBET 4130      ,00 31 26.07 -49 35 34.6,  CBET 4130       ,IIP,  2015S  ,Marples, Parker
+2015R  ,UGC 8690        ,2015 04 09 ,13 44.6,+04 47,   5W  22N ,17.8,  CBET 4129      ,13 44 33.67 +04 46 53.5,  CBET 4129       ,II ,  2015R  ,Ciabattari, Mazzoni, Donati
+2015Q  ,NGC 3888        ,2015 06 17 ,11 47.6,+55 58,   6E  13N ,16.0,  CBET 4128      ,11 47 35.08 +55 58 14.7,  CBET 4128       ,Ib ,  2015Q  ,Wiggins
+2015P  ,MCG -02-33-20   ,2015 06 07 ,12 50.5,-10 53,  19E  84S ,18.2,  CBET 4126      ,12 50 30.72 -10 52 40.5,  CBET 4126       ,IIP,  2015P  ,Parker
+2015O  ,Anon.           ,2015 06 22 ,18 13.8,+13 14,   5E   6S ,18.3,  CBET 4125      ,18 13 49.23 +13 14 15.9,  CBET 4125       ,IIP,  2015O  ,Ross, Zheng, Filippenko (LOSS)
+2015N  ,UGC 11797       ,2015 07 06 ,21 43.3,+43 35,  36W  13N ,17.6,  CBET 4124      ,21 43 16.89 +43 34 47.6,  CBET 4124       ,Ia ,  2015N  ,Stegman, Zheng, Filippenko (LOSS)
+2015M  ,Anon.           ,2015 05 13 ,13 00.5,+27 59,           ,17.2,  CBET 4123      ,13 00 32.30 +27 58 41.1,  CBET 4123       ,Ia ,  2015M  ,Itagaki
+2015L  ,Anon.           ,2015 06 14 ,22 02.3,-61 40,   0E   0S ,17.0,  CBET 4120      ,22 02 15.45 -61 39 34.6,  CBET 4120       ,I-p,  2015L  ,Dong et al. (All Sky Automated Survey for SuperNovae)
+2015K  ,NGC 7712        ,2015 04 25 ,23 35.9,+23 37,   8E  15S ,16.3,  CBET 4116      ,23 35 52.26 +23 36 52.1,  CBET 4116       ,Ic ,  2015K  ,Itagaki
+2015J  ,Anon.           ,2015 04 27 ,07 35.1,-69 08,           ,19.3,  CBET 4115      ,07 35 05.18 -69 07 53.1,  CBET 4115       ,IIn,  2015J  ,Scalzo, Childress et al.
+2015I  ,NGC 2357        ,2015 05 02 ,07 17.8,+23 21,  66E  43S ,15.7,  CBET 4106      ,07 17 45.70 +23 20 40.6,  CBET 4106       ,Ia ,  2015I  ,Noguchi
+2015H  ,NGC 3464        ,2015 02 10 ,10 54.7,-21 04,  30E  14S ,16.9,  CBET 4093      ,10 54 42.16 -21 04 13.8,  CBET 4093       ,Ia ,  2015H  ,Parker
+2015G  ,NGC 6951        ,2015 03 23 ,20 37.4,+66 07,  69E  51N ,15.5,  CBET 4087      ,20 37 25.58 +66 07 11.5,  CBET 4087       ,Ibn,  2015G  ,Shima
+2015F  ,NGC 2442        ,2015 03 09 ,07 36.3,-69 30,  40W  84N ,16.8,  CBET 4081      ,07 36 15.76 -69 30 23.0,  CBET 4081       ,Ia ,  2015F  ,Monard
+2015E  ,Anon.           ,2015 01 13 ,03 13.6,+00 15,   1W   1N ,17.0,  CBET 4053      ,03 13 35.31 +00 15 03.1,  CBET 4053       ,Ia ,  2015E  ,Morokuma et al. (Kiso Supernova Survey)
+2015D  ,NGC 5020        ,2015 01 18 ,13 12.7,+12 36,  14E   3N ,17.5,  CBET 4051      ,13 12 41.16 +12 36 01.8,  CBET 4051       ,IIP,  2015D  ,Jin, Gao (Xingming Sky Survey)
+2015C  ,IC 4221         ,2015 01 07 ,13 18.5,-14 37,   2E  12S ,16.4,  CBET 4049      ,13 18 30.47 -14 36 44.6,  CBET 4049       ,IIP,  2015C  ,Pina, Zheng, Filippenko (LOSS)
+2015B  ,NGC 4782        ,2015 01 05 ,12 54.6,-12 34,   2W  10S ,15.0,  CBET 4046      ,12 54 35.53 -12 34 18.6,  CBET 4046       ,Ia ,  2015B  ,Leonini et al.
+2015A  ,NGC 2955        ,2015 01 09 ,09 41.3,+35 53,  12W  21N ,16.6,  CBET 4045      ,09 41 15.55 +35 53 17.4,  CBET 4045       ,Ia ,  2015A  ,Itagaki

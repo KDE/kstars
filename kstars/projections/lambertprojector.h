@@ -21,7 +21,6 @@
 #define LAMBERTPROJECTOR_H
 
 #include "projector.h"
-#include "skymap.h"
 
 /**
  * @class LambertProjector
@@ -34,7 +33,7 @@ class LambertProjector : public Projector
 public:
     explicit LambertProjector(const ViewParams& p);
     virtual ~LambertProjector() {}
-    virtual SkyMap::Projection type() const;
+    virtual Projection type() const;
     virtual double radius() const;
     virtual double projectionK(double x) const;
     virtual double projectionL(double x) const;

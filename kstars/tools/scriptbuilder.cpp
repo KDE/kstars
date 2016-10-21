@@ -217,16 +217,16 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     sb->FunctionTree->setSortingEnabled( false );
 
     //Add icons to Push Buttons
-    sb->NewButton->setIcon( QIcon::fromTheme( "document-new" ) );
-    sb->OpenButton->setIcon( QIcon::fromTheme( "document-open" ) );
-    sb->SaveButton->setIcon( QIcon::fromTheme( "document-save" ) );
-    sb->SaveAsButton->setIcon( QIcon::fromTheme( "document-save-as" ) );
-    sb->RunButton->setIcon( QIcon::fromTheme( "system-run" ) );
-    sb->CopyButton->setIcon( QIcon::fromTheme( "view-refresh" ) );
-    sb->AddButton->setIcon( QIcon::fromTheme( "go-previous" ) );
-    sb->RemoveButton->setIcon( QIcon::fromTheme( "go-next" ) );
-    sb->UpButton->setIcon( QIcon::fromTheme( "go-up" ) );
-    sb->DownButton->setIcon( QIcon::fromTheme( "go-down" ) );
+    sb->NewButton->setIcon( QIcon::fromTheme( "document-new", QIcon(":/icons/breeze/default/document-new.svg")) );
+    sb->OpenButton->setIcon( QIcon::fromTheme( "document-open" , QIcon(":/icons/breeze/default/document-open.svg")) );
+    sb->SaveButton->setIcon( QIcon::fromTheme( "document-save" , QIcon(":/icons/breeze/default/document-save.svg")) );
+    sb->SaveAsButton->setIcon( QIcon::fromTheme( "document-save-as" , QIcon(":/icons/breeze/default/document-save-as.svg")) );
+    sb->RunButton->setIcon( QIcon::fromTheme( "system-run" , QIcon(":/icons/breeze/default/system-run.svg")) );
+    sb->CopyButton->setIcon( QIcon::fromTheme( "view-refresh" , QIcon(":/icons/breeze/default/view-refresh.svg")) );
+    sb->AddButton->setIcon( QIcon::fromTheme( "go-previous" , QIcon(":/icons/breeze/default/go-previous.svg")) );
+    sb->RemoveButton->setIcon( QIcon::fromTheme( "go-next" , QIcon(":/icons/breeze/default/go-next.svg")) );
+    sb->UpButton->setIcon( QIcon::fromTheme( "go-up" , QIcon(":/icons/breeze/default/go-up.svg")) );
+    sb->DownButton->setIcon( QIcon::fromTheme( "go-down" , QIcon(":/icons/breeze/default/go-down.svg")) );
 
     //Prepare the widget stack
     argBlank = new QWidget();
@@ -756,7 +756,7 @@ void ScriptBuilder::slotOpen() {
 
         if ( currentFileURL.isValid() )
         {
-            currentDir = currentFileURL.path();
+            currentDir = currentFileURL.toLocalFile();
 
             ScriptList.clear();
             sb->ScriptListBox->clear();
@@ -819,13 +819,13 @@ void ScriptBuilder::slotSave()
     }
 
     if ( currentFileURL.isValid() ) {
-        currentDir = currentFileURL.path();
+        currentDir = currentFileURL.toLocalFile();
 
         if ( currentFileURL.isLocalFile() ) {
             fname = currentFileURL.toLocalFile();
 
             //Warn user if file exists
-            if (newFilename == true && QFile::exists(currentFileURL.path())) {
+            if (newFilename == true && QFile::exists(currentFileURL.toLocalFile())) {
                 int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
                         i18n( "A file named \"%1\" already exists. "
                               "Overwrite it?" , currentFileURL.fileName()),
@@ -1528,13 +1528,13 @@ void ScriptBuilder::slotFindCity() {
 void ScriptBuilder::slotFindObject() {
     QPointer<FindDialog> fd = new FindDialog( ks );
 
-    if ( fd->exec() == QDialog::Accepted && fd->selectedObject() ) {
+    if ( fd->exec() == QDialog::Accepted && fd->targetObject() ) {
         setUnsavedChanges( true );
 
         if (sender() == argLookToward->FindButton)
-            argLookToward->FocusEdit->setEditText( fd->selectedObject()->name() );
+            argLookToward->FocusEdit->setEditText( fd->targetObject()->name() );
         else
-            argFindObject->NameEdit->setText(fd->selectedObject()->name());
+            argFindObject->NameEdit->setText(fd->targetObject()->name());
     }
     delete fd;
 }

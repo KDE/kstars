@@ -23,12 +23,15 @@
 #include <QPushButton>
 #include <QTcpServer>
 
+#ifndef KSTARS_LITE
 #include <KMessageBox>
 #include <KActionCollection>
 #include <KNotifications/KNotification>
+#endif
 
 #include "oal/log.h"
 #include "oal/scope.h"
+
 
 #include "ui_indihostconf.h"
 #include "servermanager.h"
@@ -57,13 +60,13 @@ DriverManagerUI::DriverManagerUI(QWidget *parent) : QFrame(parent)
 
     clientTreeWidget->setSortingEnabled(false);
 
-    runningPix = QIcon::fromTheme( "system-run" );
-    stopPix    = QIcon::fromTheme( "dialog-cancel" );
-    localMode  = QIcon::fromTheme( "computer" );
-    serverMode = QIcon::fromTheme( "network-server" );
+    runningPix = QIcon::fromTheme( "system-run" , QIcon(":/icons/breeze/default/system-run.svg"));
+    stopPix    = QIcon::fromTheme( "dialog-cancel" , QIcon(":/icons/breeze/default/dialog-cancel.svg"));
+    localMode  = QIcon::fromTheme( "computer" , QIcon(":/icons/breeze/default/computer.svg"));
+    serverMode = QIcon::fromTheme( "network-server" , QIcon(":/icons/breeze/default/network-server.svg"));
 
-    connected           = QIcon::fromTheme( "network-connect" );
-    disconnected        = QIcon::fromTheme( "network-disconnect" );
+    connected           = QIcon::fromTheme( "network-connect" , QIcon(":/icons/breeze/default/network-connect.svg"));
+    disconnected        = QIcon::fromTheme( "network-disconnect" , QIcon(":/icons/breeze/default/network-disconnect.svg"));
 
     connect(localTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(makePortEditable(QTreeWidgetItem*,int)));
 }
@@ -82,13 +85,13 @@ DriverManager * DriverManager::_DriverManager = NULL;
 DriverManager * DriverManager::Instance()
 {
     if (_DriverManager == NULL)
-        _DriverManager = new DriverManager();
+        _DriverManager = new DriverManager(KStars::Instance());
 
     return _DriverManager;
 }
 
-DriverManager::DriverManager()
-        : QDialog( KStars::Instance() )
+DriverManager::DriverManager(QWidget *parent)
+        : QDialog( parent )
 {
 
     currentPort = Options::serverPortStart().toInt()-1;
@@ -122,6 +125,7 @@ DriverManager::DriverManager()
     QObject::connect(ui->clientTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(updateClientTab()));
     QObject::connect(ui->localTreeWidget, SIGNAL(expanded(const QModelIndex &)), this, SLOT(resizeDeviceColumn()));
 
+    // Do not use KSPaths here, this is for INDI
     if (Options::indiDriversDir().isEmpty())
         Options::setIndiDriversDir(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory));
 
@@ -134,6 +138,12 @@ DriverManager::DriverManager()
     #ifdef Q_OS_WIN
     ui->localTreeWidget->setEnabled(false);
     #endif
+}
+
+DriverManager::~DriverManager()
+{
+    clearServers();
+    qDeleteAll(driversList);
 }
 
 void DriverManager::processDeviceStatus(DriverInfo *dv)
@@ -440,7 +450,7 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
     if (Options::iNDILogging())
         qDebug() << "INDI: Stopping local drivers...";
 
-     // #2 stop server
+     // #1 Disconnect all clients
     foreach(DriverInfo *dv, dList)
     {
         ClientManager *cm = dv->getClientManager();
@@ -461,6 +471,7 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
         }
     }
 
+    // #2 Disconnect all servers
     foreach(DriverInfo *dv, dList)
     {
       ServerManager *sm = dv->getServerManager();
@@ -472,7 +483,7 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
           if (sm->size() == 0)
           {
                 sm->stop();
-                servers.removeOne(sm);                
+                servers.removeOne(sm);
                 delete sm;
                 sm = NULL;
           }
@@ -618,7 +629,7 @@ void DriverManager::processClientTermination(ClientManager *client)
 
     if (manager)
     {
-        servers.removeOne(manager);        
+        servers.removeOne(manager);
         delete manager;
     }
 
@@ -855,7 +866,6 @@ bool DriverManager::readINDIHosts()
     XMLAtt *ap;
     QString hName, hHost, hPort;
     lastGroup = NULL;
-
 
     file.setFileName( KSPaths::locate(QStandardPaths::GenericDataLocation, indiFile ) );
     if ( file.fileName().isEmpty() || !file.open( QIODevice::ReadOnly ) )

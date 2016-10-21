@@ -40,6 +40,8 @@
 #include "driverinfo.h"
 #include "deviceinfo.h"
 
+#include "Options.h"
+
 extern const char *libindi_strings_context;
 
 GUIManager * GUIManager::_GUIManager = NULL;
@@ -47,7 +49,7 @@ GUIManager * GUIManager::_GUIManager = NULL;
 GUIManager * GUIManager::Instance()
 {
     if (_GUIManager == NULL)
-        _GUIManager = new GUIManager(KStars::Instance());
+        _GUIManager = new GUIManager(Options::independentWindowINDI() ? NULL : KStars::Instance());
 
     return _GUIManager;
 }
@@ -62,7 +64,7 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 
     mainLayout->addWidget(mainTabWidget);
 
-    setWindowIcon(QIcon::fromTheme("kstars_indi"));
+    setWindowIcon(QIcon::fromTheme("kstars_indi", QIcon(":/icons/breeze/default/kstars_indi.svg")));
 
     setWindowTitle(i18n("INDI Control Panel"));
     setAttribute(Qt::WA_ShowModal, false);
@@ -85,14 +87,25 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 
 void GUIManager::closeEvent(QCloseEvent * /*event*/)
 {
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
-    a->setChecked(false);
+    KStars *ks = KStars::Instance();
+
+    if (ks)
+    {
+        QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+        a->setChecked(false);
+    }
+
 }
 
 void GUIManager::hideEvent(QHideEvent * /*event*/)
 {
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
-    a->setChecked(false);
+    KStars *ks = KStars::Instance();
+
+    if (ks)
+    {
+        QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+        a->setChecked(false);
+    }
 }
 
 void GUIManager::showEvent(QShowEvent * /*event*/)

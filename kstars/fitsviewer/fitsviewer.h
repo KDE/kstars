@@ -114,7 +114,6 @@ public slots:
     void rotateCCW();
     void flipHorizontal();
     void flipVertical();
-    void setGamma(int value);
     void setDebayerAction(bool);
 
 private:
@@ -124,7 +123,6 @@ private:
     FITSDebayer *debayerDialog;
     KLed led;
     QLabel fitsPosition, fitsValue, fitsResolution, fitsZoom, fitsWCS, fitsMessage;
-    QSlider gammaSlider;
     QAction *saveFileAction, *saveFileAsAction;
     QList<FITSTab*> fitsTabs;
     int fitsID;

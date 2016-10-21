@@ -42,43 +42,21 @@ Mount::Mount()
 
     currentTelescope = NULL;
 
-    stopB->setIcon(QIcon::fromTheme("process-stop"));
-    northB->setIcon(QIcon::fromTheme("go-up"));
-    westB->setIcon(QIcon::fromTheme("go-previous"));
-    eastB->setIcon(QIcon::fromTheme("go-next"));
-    southB->setIcon(QIcon::fromTheme("go-down"));
+    stopB->setIcon(QIcon::fromTheme("process-stop", QIcon(":/icons/breeze/default/process-stop.svg")));
+    northB->setIcon(QIcon::fromTheme("go-up", QIcon(":/icons/breeze/default/go-up.svg")));
+    westB->setIcon(QIcon::fromTheme("go-previous", QIcon(":/icons/breeze/default/go-previous.svg")));
+    eastB->setIcon(QIcon::fromTheme("go-next", QIcon(":/icons/breeze/default/go-next.svg")));
+    southB->setIcon(QIcon::fromTheme("go-down", QIcon(":/icons/breeze/default/go-down.svg")));
 
     abortDispatch = -1;
 
     minAltLimit->setValue(Options::minimumAltLimit());
     maxAltLimit->setValue(Options::maximumAltLimit());
 
-
-    QFile tempFile;
-
-    if (KSUtils::openDataFile( tempFile, "go-nw.png" ) )
-    {
-        northwestB->setIcon(QIcon(tempFile.fileName()));
-        tempFile.close();
-    }
-
-    if (KSUtils::openDataFile( tempFile, "go-ne.png" ) )
-    {
-        northeastB->setIcon(QIcon(tempFile.fileName()));
-        tempFile.close();
-    }
-
-    if (KSUtils::openDataFile( tempFile, "go-sw.png" ) )
-    {
-        southwestB->setIcon(QIcon(tempFile.fileName()));
-        tempFile.close();
-    }
-
-    if (KSUtils::openDataFile( tempFile, "go-se.png" ) )
-    {
-        southeastB->setIcon(QIcon(tempFile.fileName()));
-        tempFile.close();
-    }
+    northwestB->setIcon(QIcon(":/icons/go-nw.svg"));
+    northeastB->setIcon(QIcon(":/icons/go-ne.svg"));
+    southwestB->setIcon(QIcon(":/icons/go-sw.svg"));
+    southeastB->setIcon(QIcon(":/icons/go-se.svg"));
 
     connect(northB, SIGNAL(pressed()), this, SLOT(move()));
     connect(northB, SIGNAL(released()), this, SLOT(stop()));
@@ -105,11 +83,13 @@ Mount::Mount()
     connect(enableLimitsCheck, SIGNAL(toggled(bool)), this, SLOT(enableAltitudeLimits(bool)));
     enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
     altLimitEnabled = enableLimitsCheck->isChecked();
+
+    updateTimer.setInterval(UPDATE_DELAY);
+    connect(&updateTimer, SIGNAL(timeout()), this, SLOT(updateTelescopeCoords()));
 }
 
 Mount::~Mount()
 {
-
 }
 
 void Mount::setTelescope(ISD::GDInterface *newTelescope)
@@ -118,6 +98,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
 
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(updateSwitch(ISwitchVectorProperty*)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(newTarget(QString)), this, SIGNAL(newTarget(QString)), Qt::UniqueConnection);
 
     //Disable this for now since ALL INDI drivers now log their messages to verbose output
     //connect(currentTelescope, SIGNAL(messageUpdated(int)), this, SLOT(updateLog(int)), Qt::UniqueConnection);
@@ -125,7 +106,7 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
     if (enableLimitsCheck->isChecked())
         currentTelescope->setAltLimits(minAltLimit->value(), maxAltLimit->value());
 
-    QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
+    updateTimer.start();
 
     syncTelescopeInfo();
 }
@@ -261,9 +242,13 @@ void Mount::updateTelescopeCoords()
 
         newStatus(currentTelescope->getStatus());
 
-        if (currentTelescope->isConnected())
-            QTimer::singleShot(UPDATE_DELAY, this, SLOT(updateTelescopeCoords()));
+        if (currentTelescope->isConnected() == false)
+            updateTimer.stop();
+        else if (updateTimer.isActive() == false)
+            updateTimer.start();
     }
+    else
+        updateTimer.stop();
 }
 
 void Mount::updateNumber(INumberVectorProperty *nvp)

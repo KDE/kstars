@@ -10,7 +10,7 @@ include_directories(
 
 FIND_PACKAGE(Qt5Test REQUIRED)
 
-SET( TEST_LIBRARIES 
+SET( TEST_LIBRARIES
         Qt5::Core
         Qt5::Test
         LibKSDataHandlers
@@ -20,4 +20,4 @@ SET( TEST_LIBRARIES
 )
 
 add_subdirectory(auxiliary)
-
+add_subdirectory(skyobjects)

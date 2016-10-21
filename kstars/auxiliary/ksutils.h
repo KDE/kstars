@@ -29,14 +29,14 @@
 
 #include <cstddef>
 #include <Eigen/Core>
-using namespace Eigen;
 #include <QPointF>
 #include "dms.h"
-#include "skyobjects/starobject.h"
 
 class QFile;
 class QString;
 class SkyPoint;
+class SkyObject;
+class StarObject;
 
 namespace KSUtils {
     /** Attempt to open the data file named filename, using the QFile object "file".
@@ -80,22 +80,22 @@ namespace KSUtils {
     /** Convert from spherical to cartesian coordiate system.
      *  Resulting vector have unit length
      */
-    inline Vector3d fromSperical(dms longitude, dms latitude) {
+    inline Eigen::Vector3d fromSperical(dms longitude, dms latitude) {
         double sinL, sinB;
         double cosL, cosB;
         longitude.SinCos( sinL, cosL );
         latitude.SinCos(  sinB, cosB );
-        return Vector3d(cosB*cosL, cosB*sinL, sinB);
+        return Eigen::Vector3d(cosB*cosL, cosB*sinL, sinB);
     }
 
     /** Convert a vector to a point */
-    inline QPointF vecToPoint(const Vector2f& vec) {
+    inline QPointF vecToPoint(const Eigen::Vector2f& vec) {
         return QPointF( vec[0], vec[1] );
     }
 
     /** Convert a point to a vector */
-    inline Vector2f pointToVec(const QPointF& p) {
-        return Vector2f(p.x(),p.y());
+    inline Eigen::Vector2f pointToVec(const QPointF& p) {
+        return Eigen::Vector2f(p.x(),p.y());
     }
 
     /**
@@ -135,6 +135,17 @@ namespace KSUtils {
      *@note Used for Star-Hopper
      */
     QList<SkyObject *> * castStarObjListToSkyObjList( QList<StarObject *> *starObjList );
+
+
+    /**
+     *@note Avoid using this method for the same reasons as QSharedPointer::data()
+     */
+    template <typename T> QList<T*> makeVanillaPointerList( const QList<QSharedPointer<T>> &spList ) {
+        QList<T *> vpList;
+        foreach( QSharedPointer<T> sp, spList )
+            vpList.append( sp.data() );
+        return vpList;
+    }
 
     /**
      *@short Return the genetive form of constellation name, given the abbreviation

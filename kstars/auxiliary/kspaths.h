@@ -23,8 +23,8 @@
  *@class KSPaths
  *@short Wrapper for QStandardPaths with Android assets support
  *The purpose of this class is to search for resources on some platforms with paths that are not
- *provided by QStandardPaths (e.g. assets:/ on Android that).
- *@author Artem Fedoskin
+ *provided by QStandardPaths (e.g. assets:/ on Android).
+ *@author Artem Fedoskin, Jasem Mutlaq
  *@version 1.0
  */
 

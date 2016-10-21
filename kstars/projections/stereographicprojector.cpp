@@ -22,12 +22,12 @@
 StereographicProjector::StereographicProjector(const ViewParams& p)
     : Projector(p)
 {
-    
+    updateClipPoly();
 }
 
-SkyMap::Projection StereographicProjector::type() const
+Projector::Projection StereographicProjector::type() const
 {
-    return SkyMap::Stereographic;
+    return Stereographic;
 }
 
 double StereographicProjector::radius() const

@@ -60,7 +60,7 @@ void PWizObjectSelectionUI::slotSelectFromList()
     QPointer<FindDialog> findDlg( new FindDialog( this ) );
     if(findDlg->exec() == QDialog::Accepted && findDlg)
     {
-        SkyObject *obj = findDlg->selectedObject();
+        SkyObject *obj = findDlg->targetObject();
         if(obj)
         {
             setSkyObject(obj);

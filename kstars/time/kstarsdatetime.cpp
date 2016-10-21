@@ -47,6 +47,7 @@ KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt ) : QDateTime()
 KStarsDateTime::KStarsDateTime( const QDateTime &qdt ) :
     QDateTime( qdt )//, QDateTime::Spec::UTC() )
 {
+    // FIXME: This method might be buggy. Need to write some tests -- asimha (Oct 2016)
     QTime _t = qdt.time();
     QDate _d = qdt.date();
     long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
@@ -138,7 +139,7 @@ void KStarsDateTime::setDate( const QDate &_d ) {
     setDJD( (long double)_d.toJulianDay() + jdFrac );
 }
 
-KStarsDateTime KStarsDateTime::addSecs( double s ) const { 
+KStarsDateTime KStarsDateTime::addSecs( double s ) const {
     long double ds = (long double)s/86400.;
     KStarsDateTime kdt( djd() + ds );
     return kdt;
@@ -206,31 +207,73 @@ QTime KStarsDateTime::GSTtoUT( dms GST ) const {
     return( QTime( hr, mn, sc, ms ) );
 }
 
-bool KStarsDateTime::setFromEpoch( double epoch ) {
-    if (epoch == 1950.0) {
-        setDJD( 2433282.4235 );
-        return true;
-    } else if ( epoch == 2000.0 ) {
-        setDJD( J2000 );
-        return true;
-    } else {
-        int year = int( epoch );
-        KStarsDateTime dt( QDate( year, 1, 1 ), QTime( 0, 0, 0 ) );
-        double days = (double)(dt.date().daysInYear())*( epoch - (double)year );
-        dt = dt.addSecs( days*86400. ); //set date and time based on the number of days into the year
+void KStarsDateTime::setFromEpoch( double epoch ) {
+    if ( epoch == 1950.0 ) // Assume Besselian
+        setFromEpoch( epoch, BESSELIAN );
+    else
+        setFromEpoch( epoch, JULIAN ); // Assume Julian
+}
 
-        if ( dt.isValid() ) {
-            setDJD( dt.djd() );
-            return true;
-        } else
-            return false;
-    }
+bool KStarsDateTime::setFromEpoch( double epoch, EpochType type ) {
+    if ( type != JULIAN && type != BESSELIAN )
+        return false;
+    else
+        setDJD( epochToJd( epoch, type ) );
+    return true;
 }
 
 bool KStarsDateTime::setFromEpoch( const QString &eName ) {
     bool result;
-    double epoch = eName.toDouble(&result);
+    double epoch;
+    epoch = stringToEpoch( eName, result );
+
     if( !result )
         return false;
-    return setFromEpoch( epoch );
+    return setFromEpoch( epoch, JULIAN ); // We've already converted
+}
+
+
+long double KStarsDateTime::epochToJd(double epoch, EpochType type) {
+    switch( type ) {
+    case BESSELIAN:
+        return B1900 + ( epoch - 1900.0 ) * JD_PER_BYEAR;
+    case JULIAN:
+        return J2000 + ( epoch - 2000.0 ) * 365.25;
+    default:
+        return NaN::d;
+    }
+}
+
+
+double KStarsDateTime::jdToEpoch(long double jd, KStarsDateTime::EpochType type) {
+    // Definitions for conversion formulas are from:
+    //
+    // * http://scienceworld.wolfram.com/astronomy/BesselianEpoch.html
+    // * http://scienceworld.wolfram.com/astronomy/JulianEpoch.html
+    //
+
+    switch( type ) {
+    case KStarsDateTime::BESSELIAN:
+        return 1900.0 + ( jd - KStarsDateTime::B1900 )/KStarsDateTime::JD_PER_BYEAR;
+    case KStarsDateTime::JULIAN:
+        return 2000.0 + ( jd - J2000 )/365.24;
+    default:
+        return NaN::d;
+    }
+}
+
+
+double KStarsDateTime::stringToEpoch(const QString& eName, bool &ok) {
+    double epoch;
+    if ( eName.isEmpty() ) // By default, assume J2000
+        return J2000;
+
+    if ( eName.startsWith( 'J' ) )
+        epoch = eName.mid( 1 ).toDouble(&ok);
+    else if ( eName.startsWith( 'B' ) ) {
+        epoch = eName.mid( 1 ).toDouble(&ok);
+        epoch = jdToEpoch( epochToJd( epoch, BESSELIAN ), JULIAN ); // Convert Besselian epoch to Julian epoch
+    }
+
+    return epoch;
 }

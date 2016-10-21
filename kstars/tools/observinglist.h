@@ -18,14 +18,18 @@
 #ifndef OBSERVINGLIST_H_
 #define OBSERVINGLIST_H_
 
+#include "kstarsdatetime.h"
+
 #include <QList>
 #include <QAbstractTableModel>
 
 #include <QDialog>
+#include <QTimer>
 //#include <KIO/CopyJob>
 
 #include "ui_observinglist.h"
-#include "kstarsdatetime.h"
+
+#include <functional>
 
 class KSAlmanac;
 class QSortFilterProxyModel;
@@ -37,6 +41,7 @@ class ObsListPopupMenu;
 class SkyPoint;
 class SkyObject;
 class KSDssDownloader;
+class QStandardItem;
 
 class ObservingListUI : public QFrame, public Ui::ObservingList {
     Q_OBJECT
@@ -89,22 +94,17 @@ public:
         */
     ~ObservingList();
 
-    /** @return true if the object is in the observing list
-        *@p o pointer to the object to test.
-        */
-    inline bool contains( const SkyObject *o ) { return m_WishList.contains( const_cast<SkyObject*>(o) ); }
-
     /** @return true if the window is in its default "large" state.
         */
     bool isLarge() const { return bIsLarge; }
 
     /** @return reference to the current observing list
         */
-    QList<SkyObject*>& obsList() { return m_WishList; }
+    QList<QSharedPointer<SkyObject>>& obsList() { return m_WishList; }
 
     /** @return reference to the current observing list
         */
-    QList<SkyObject*>& sessionList() { return m_SessionList; }
+    QList<QSharedPointer<SkyObject>>& sessionList() { return m_SessionList; }
 
     /** @return pointer to the currently-selected object in the observing list
         *@note if more than one object is selected, this function returns 0.
@@ -131,6 +131,11 @@ public:
         *@p o The passed object for setting the parameters
         */
     void setCurrentImage( const SkyObject *o );
+
+    /**
+     * @short Returns a path to the current image, or a writable image.
+     */
+    QString getCurrentImagePath();
 
     /** @short Save the user log text to a file.
         *@note the log is attached to the current object in obsList.
@@ -179,13 +184,20 @@ public:
      */
     QString getObjectName(const SkyObject *o, bool translated=true);
 
+    /**
+     * @return true if the selected list contains the given object
+     */
+    inline bool contains( const SkyObject *o, bool session = false ) { return bool( findObject( o, session ) ); }
+
+    QSharedPointer<SkyObject> findObject( const SkyObject *o, bool session = false );
+
 public slots:
     /** @short add a new object to list
         *@p o pointer to the object to add to the list
         *@p session flag toggle adding the object to the session list
         *@p update flag to toggle the call of slotSaveList
         */
-    void slotAddObject( SkyObject *o=NULL, bool session=false, bool update=false );
+    void slotAddObject( const SkyObject *o=NULL, bool session=false, bool update=false );
 
     /** @short Remove skyobjects which are highlighted in the
         *observing list tool from the observing list.
@@ -199,7 +211,7 @@ public slots:
         *@p update flag to toggle the call of slotSaveList
         *Use SkyMap::clickedObject() if o is NULL (default)
         */
-    void slotRemoveObject( SkyObject *o=NULL, bool session=false, bool update=false );
+    void slotRemoveObject( const SkyObject *o=NULL, bool session=false, bool update=false );
 
     /** @short center the selected object in the display
         */
@@ -342,6 +354,11 @@ public slots:
      */
     void slotEyepieceView();
 
+    /**
+     * @short Recalculate and update the values of the altitude in the wishlist for the current time
+     */
+    void slotUpdateAltitudes();
+
 
 protected slots:
     void slotClose();
@@ -353,7 +370,7 @@ private:
      * @short Return the active list
      * @return The session list or the wish list depending on which tab is currently being viewed.
      */
-    inline QList<SkyObject *>& getActiveList() { return ( ( sessionView ) ? m_SessionList : m_WishList ); }
+    inline QList<QSharedPointer<SkyObject>>& getActiveList() { return ( ( sessionView ) ? m_SessionList : m_WishList ); }
 
     /**
      * @short Return the active itemmodel
@@ -371,7 +388,7 @@ private:
      * @short Return the active view
      * @return the active view in the UI -- session view or wishlist view depending on which one is active.
      */
-    inline QTableView *getActiveView() const { return ( ( sessionView ) ? ( ui->SessionView ) : ( ui->TableView ) ); }
+    inline QTableView *getActiveView() const { return ( ( sessionView ) ? ( ui->SessionView ) : ( ui->WishListView ) ); }
 
     /**
      * @short Get the currently selected item indexes
@@ -381,10 +398,10 @@ private:
 
     KSAlmanac *ksal;
     ObservingListUI *ui;
-    QList<SkyObject*> m_WishList, m_SessionList;
+    QList<QSharedPointer<SkyObject>> m_WishList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
-    QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath;
+    QString m_listFileName, m_currentImageFileName, ThumbImage;
     KStarsDateTime dt;
     GeoLocation *geo;
     QStandardItemModel *m_WishListModel, *m_SessionModel;
@@ -394,6 +411,8 @@ private:
     KSDssDownloader *m_dl;
     QHash<SkyObject *, QPixmap> ImagePreviewHash;
     QPixmap m_NoImagePixmap;
+    QTimer *m_altitudeUpdater;
+    std::function<QStandardItem *(const SkyPoint &)> m_altCostHelper;
 };
 
 #endif // OBSERVINGLIST_H_

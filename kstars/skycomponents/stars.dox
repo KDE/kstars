@@ -31,8 +31,8 @@
 
   A third categorization is "shallow" and "deep" stars. Shallow stars
   are the brighter stars, which have enough catalog data to require a
-  32-bit data structure (starData) to hold them. Deep stars are the
-  fainter ones, data for which can be fit into a 16-bit structure
+  32-byte data structure (starData) to hold them. Deep stars are the
+  fainter ones, data for which can be fit into a 16-byte structure
   (deepStarData). All named stars and all static stars are shallow. All
   deep stars are dynamic and unnamed. StarComponent manages only shallow
   stars. DeepStarComponent manages both shallow and deep stars.

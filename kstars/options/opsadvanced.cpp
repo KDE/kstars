@@ -21,6 +21,7 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QRadioButton>
+#include <QDesktopServices>
 
 #include "Options.h"
 #include "kstars.h"
@@ -47,6 +48,12 @@ OpsAdvanced::OpsAdvanced()
     connect (kcfg_VerboseLogging, SIGNAL(toggled(bool)), this, SLOT(slotToggleVerbosityOptions()));
 
     connect(kcfg_LogToFile, SIGNAL(toggled(bool)), this, SLOT(slotToggleOutputOptions()));
+
+    connect(showLogsB, SIGNAL(clicked()), this, SLOT(slotShowLogFiles()));
+
+    connect( kcfg_ObsListDemoteHole, &QCheckBox::toggled, [this]( bool state ) {
+            kcfg_ObsListHoleSize->setEnabled( state );
+        } );
 
     foreach(QAbstractButton *b, modulesGroup->buttons())
         b->setEnabled(kcfg_VerboseLogging->isChecked());
@@ -80,12 +87,18 @@ void OpsAdvanced::slotToggleVerbosityOptions()
 void OpsAdvanced::slotToggleOutputOptions()
 {
     if (kcfg_LogToDefault->isChecked())
-    {        
+    {
 
         if (kcfg_DisableLogging->isChecked() == false)
             KSUtils::Logging::UseDefault();
     }
-    else    
+    else
             KSUtils::Logging::UseFile();
 }
 
+void OpsAdvanced::slotShowLogFiles()
+{
+    QUrl path = QUrl::fromLocalFile(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs");
+
+    QDesktopServices::openUrl(path);
+}

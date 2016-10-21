@@ -81,6 +81,7 @@
 
         <Menu name="data" noMerge="1"><text>&amp;Data</text>
                 <Action name="get_data" />
+                <Action name="manual_add_dso" />
                 <Menu name="updates"><text>&amp;Updates</text>
                 <Action name="update_comets" />
                 <Action name="update_asteroids" />

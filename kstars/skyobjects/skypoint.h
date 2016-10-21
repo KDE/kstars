@@ -23,8 +23,10 @@
 
 #include <QList>
 
-#include "dms.h"
+#include "cachingdms.h"
 #include "kstarsdatetime.h"
+
+//#define PROFILE_COORDINATE_CONVERSION
 
 class KSNumbers;
 class KSSun;
@@ -62,7 +64,13 @@ public:
                                            , lastPrecessJD( J2000 )
     {}
 
-    
+    SkyPoint( const CachingDms& r, const CachingDms& d ) : RA0(r)
+                                           , Dec0(d)
+                                           , RA(r)
+                                           , Dec(d)
+                                           , lastPrecessJD( J2000 )
+    {}
+
     /** Alternate constructor using double arguments, for convenience.
      *It behaves essentially like the default constructor.
      *@param r Right Ascension, expressed as a double
@@ -103,6 +111,7 @@ public:
     	*@param r catalog Right Ascension.
     	*/
     inline void setRA0( dms r ) { RA0 = r; }
+    inline void setRA0( CachingDms r ) { RA0 = r; }
 
     /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -114,6 +123,7 @@ public:
     	*@param d catalog Declination.
     	*/
     inline void setDec0( dms d ) { Dec0 = d; }
+    inline void setDec0( const CachingDms &d ) { Dec0 = d; }
 
     /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -125,6 +135,7 @@ public:
     	*@param r Right Ascension.
     	*/
     inline void setRA( dms r ) { RA = r; }
+    inline void setRA( const CachingDms &r ) { RA = r; }
 
     /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -136,6 +147,7 @@ public:
     	*@param d Declination.
     	*/
     inline void setDec( dms d ) { Dec = d; }
+    inline void setDec( const CachingDms &d ) { Dec = d; }
 
     /** Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -170,16 +182,16 @@ public:
     //// =========================
 
     /** @return a pointer to the catalog Right Ascension. */
-    inline const dms& ra0() const { return RA0; }
+    inline const CachingDms& ra0() const { return RA0; }
 
     /** @return a pointer to the catalog Declination. */
-    inline const dms& dec0() const { return Dec0; }
+    inline const CachingDms& dec0() const { return Dec0; }
 
     /** @returns a pointer to the current Right Ascension. */
-    inline const dms& ra() const { return RA; }
+    inline const CachingDms& ra() const { return RA; }
 
     /** @return a pointer to the current Declination. */
-    inline const dms& dec() const { return Dec; }
+    inline const CachingDms& dec() const { return Dec; }
 
     /** @return a pointer to the current Azimuth. */
     inline const dms& az() const { return Az; }
@@ -213,6 +225,9 @@ public:
     	*@param LST pointer to the local sidereal time
     	*@param lat pointer to the geographic latitude
     	*/
+    void EquatorialToHorizontal( const CachingDms* LST, const CachingDms* lat );
+
+    // Deprecated method provided for compatibility
     void EquatorialToHorizontal( const dms* LST, const dms* lat );
 
     /** Determine the (RA, Dec) coordinates of the
@@ -227,13 +242,13 @@ public:
     	*The ecliptic coordinates are returned as reference arguments (since
     	*they are not stored internally)
     	*/
-    void findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat );
+    void findEcliptic( const CachingDms *Obliquity, dms &EcLong, dms &EcLat );
 
     /** Set the current (RA, Dec) coordinates of the
     	*SkyPoint, given pointers to its Ecliptic (Long, Lat) coordinates, and
     	*to the current obliquity angle (the angle between the equator and ecliptic).
     	*/
-    void setFromEcliptic( const dms *Obliquity, const dms& EcLong, const dms& EcLat );
+    void setFromEcliptic( const CachingDms *Obliquity, const dms& EcLong, const dms& EcLat );
 
     /** Computes galactic coordinates from equatorial coordinates referred to
     	* epoch 1950. RA and Dec are, therefore assumed to be B1950
@@ -259,7 +274,7 @@ public:
     	*@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
         *@param forceRecompute reapplies precession, nutation and aberration even if the time passed since the last computation is not significant.
     	*/
-    virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
+    virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const CachingDms *lat=0, const CachingDms *LST=0, bool forceRecompute = false );
 
     /**
      * @brief updateCoordsNow Shortcut for updateCoords( const KSNumbers *num, false, NULL, NULL, true)
@@ -302,7 +317,7 @@ public:
     /**
      *@short Obtain a Skypoint with RA0 and Dec0 set from the RA, Dec
      * of this skypoint. Also set the RA0, Dec0 of this SkyPoint if not
-     * set already.
+     * set already and the target epoch is J2000.
      */
     SkyPoint deprecess( const KSNumbers *num, long double epoch=J2000 );
 
@@ -540,6 +555,25 @@ public:
      */
     static const double altCrit;
 
+    /**
+     * @short Return the object's altitude at the upper culmination for the given latitude
+     * @return the maximum altitude in degrees
+     */
+    double maxAlt( const dms &lat ) const;
+
+    /**
+     * @short Return the object's altitude at the lower culmination for the given latitude
+     * @return the minimum altitude in degrees
+     */
+    double minAlt( const dms &lat ) const;
+
+
+
+#ifdef PROFILE_COORDINATE_CONVERSION
+    static double cpuTime_EqToHz;
+    static long unsigned eqToHzCalls;
+#endif
+
 protected:
     /**
      * Precess this SkyPoint's catalog coordinates to the epoch described by the
@@ -548,9 +582,13 @@ protected:
      */
     void precess(const KSNumbers *num);
 
+#ifdef UNIT_TEST
+    friend class TestSkyPoint; // Test class
+#endif
+
 private:
-    dms RA0, Dec0; //catalog coordinates
-    dms RA, Dec; //current true sky coordinates
+    CachingDms RA0, Dec0; //catalog coordinates
+    CachingDms RA, Dec; //current true sky coordinates
     dms Alt, Az;
     static KSSun *m_Sun;
 protected:

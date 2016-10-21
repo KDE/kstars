@@ -19,8 +19,12 @@
 
 #include "ksnumbers.h"
 #include "kstarsdata.h"
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
-#include "skyobjects/skypoint.h" 
+#endif
+#include "skyobjects/skypoint.h"
 #include "dms.h"
 #include "Options.h"
 #include "linelist.h"
@@ -81,6 +85,7 @@ void Equator::draw( SkyPainter *skyp )
 }
 
 void Equator::drawCompassLabels() {
+#ifndef KSTARS_LITE
     QString label;
 
     const Projector *proj  = SkyMap::Instance()->projector();
@@ -101,4 +106,5 @@ void Equator::drawCompassLabels() {
             skyLabeler->drawGuideLabel( cpoint, label, 0.0 );
         }
     }
+#endif
 }

@@ -38,6 +38,8 @@
 #include "ksdssdownloader.h"
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/starobject.h"
+#include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skycomponents/skymapcomposite.h"
 #include "simclock.h"
@@ -230,7 +232,7 @@ bool KStars::setGeoLocation( const QString &city, const QString &province, const
         if ( province.isEmpty() )
             qDebug() << QString("Error [D-Bus setGeoLocation]: city %1, %2 not found in database.").arg(city).arg(country);
         else
-            qDebug() << QString("Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.").arg(city).arg(province).arg(country);                
+            qDebug() << QString("Error [D-Bus setGeoLocation]: city %1, %2, %3 not found in database.").arg(city).arg(province).arg(country);
     }
 
     return cityFound;
@@ -459,7 +461,7 @@ QString KStars::getObjectDataXML( const QString &objectName ) {
     stream.writeTextElement( "Name", target->name() );
     stream.writeTextElement( "Alt_Name", target->name2() );
     stream.writeTextElement( "Long_Name", target->longname() );
-    stream.writeTextElement( "Constellation", KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( target ) );
+    stream.writeTextElement( "Constellation", KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( target ) );
     stream.writeTextElement( "RA_Dec_Epoch_JD", QString::number( target->getLastPrecessJD(), 'f', 3 ) );
     stream.writeTextElement( "RA_HMS", target->ra().toHMSString() );
     stream.writeTextElement( "Dec_DMS", target->dec().toDMSString() );
@@ -602,9 +604,12 @@ void KStars::renderEyepieceView( const QString &objectName, const QString &destP
         if( !QFile::exists( imagePath ) ) {
             // We must download a DSS image
             tempFile.open();
-            KSDssDownloader *dler = new KSDssDownloader( target, tempFile.fileName() );
             QEventLoop loop;
-            connect( dler, SIGNAL( downloadComplete( bool ) ), &loop, SLOT( quit() ) );
+            std::function<void( bool )> slot = [ &loop ]( bool unused ) {
+                Q_UNUSED( unused );
+                loop.quit();
+            };
+            new KSDssDownloader( target, tempFile.fileName(), slot, this );
             qDebug() << "DSS download requested. Waiting for download to complete...";
             loop.exec(); // wait for download to complete
             imagePath = tempFile.fileName();
@@ -628,7 +633,7 @@ void KStars::renderEyepieceView( const QString &objectName, const QString &destP
 }
 QString KStars::getObservingWishListObjectNames() {
     QString output;
-    foreach( const SkyObject *object,  KStarsData::Instance()->observingList()->obsList() ) {
+    foreach( QSharedPointer<SkyObject> object,  KStarsData::Instance()->observingList()->obsList() ) {
         output.append( object->name() + '\n' );
     }
     return output;
@@ -636,7 +641,7 @@ QString KStars::getObservingWishListObjectNames() {
 
 QString KStars::getObservingSessionPlanObjectNames() {
     QString output;
-    foreach( const SkyObject *object,  KStarsData::Instance()->observingList()->sessionList() ) {
+    foreach( QSharedPointer<SkyObject> object,  KStarsData::Instance()->observingList()->sessionList() ) {
         output.append( object->name() + '\n' );
     }
     return output;
@@ -713,7 +718,7 @@ bool KStars::openFITS(const QUrl &imageURL)
     if (Options::singleWindowOpenedFITS())
         fv = genericFITSViewer();
     else
-        fv = new FITSViewer(this);
+        fv = new FITSViewer((Options::independentWindowFITS()) ? NULL : this);
     // Error opening file
     if (fv->addFITS(&imageURL) == -2)
     {

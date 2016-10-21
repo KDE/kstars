@@ -103,8 +103,9 @@ void FocusDialog::validatePoint() {
         }
 
         Point.set( ra, dec );
-        double epoch0 = getEpoch( fd->epochBox->text() );
-        long double jd0 = epochToJd ( epoch0 );
+        bool ok; // Ignored. FIXME: Make a version of KStarsDateTime::stringToEpoch that doesn't mandate the ok arg
+        double epoch0 = KStarsDateTime::stringToEpoch( fd->epochBox->text(), ok );
+        long double jd0 = KStarsDateTime::epochToJd ( epoch0 );
         Point.apparentCoord(jd0, ks->data()->ut().djd() );
         Point.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
 
@@ -136,31 +137,6 @@ void FocusDialog::validatePoint() {
         }
     }
 }
-
-double FocusDialog::getEpoch (const QString &eName) {
-    //If eName is empty (or not a number) assume 2000.0
-    bool ok(false);
-    double epoch = eName.toDouble( &ok );
-    if ( eName.isEmpty() || ! ok )
-        return 2000.0;
-
-    return epoch;
-}
-
-long double FocusDialog::epochToJd (double epoch) {
-
-    double yearsTo2000 = 2000.0 - epoch;
-
-    if (epoch == 1950.0) {
-        return 2433282.4235;
-    } else if ( epoch == 2000.0 ) {
-        return J2000;
-    } else {
-        return ( J2000 - yearsTo2000 * 365.2425 );
-    }
-
-}
-
 
 QSize FocusDialog::sizeHint() const
 {

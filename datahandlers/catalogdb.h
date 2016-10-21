@@ -21,24 +21,28 @@
 #include <QStandardPaths>
 #include <KLocalizedString>
 #include <QDebug>
-#include <KMessageBox>
 #include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlRecord>
-#include <QSqlTableModel>
-#include <QString>
-#include <QHash>
 #include <QSqlError>
-#include <QVariant>
 #include <QFile>
 #include <QDir>
 
+#ifndef KSTARS_LITE
+#include <KMessageBox>
+#endif
+
 #include "ksparser.h"
-#include "catalogdata.h"
-#include "catalogentrydata.h"
-#include "starobject.h"
-#include "deepskyobject.h"
-#include "skycomponent.h"
+
+#include <QString>
+#include <QStringList>
+#include <QList>
+#include <QPair>
+#include <QSqlQuery>
+
+
+class SkyObject;
+class CatalogComponent;
+class CatalogData;
+class CatalogEntryData;
 
 /* Some notes about the database. (skycomponents.sqlite)
  * 1) The uid for Object Designation is the uid being used by objects in KStars
@@ -109,15 +113,6 @@ class CatalogDB {
                      const double magnitude);
 
   /**
-   * @brief Used to add a cross referenced entry into the database
-   *
-   * @param catalog_entry Data structure with entry details
-   * @param catid Category ID in the database
-   * @return void
-   **/
-  void AddEntry(const CatalogEntryData &catalog_entry, int catid);
-
-  /**
    * @brief Removes the catalog from the database and refreshes the listing.
    *
    * @param catalog_name Name of the catalog
@@ -133,12 +128,21 @@ class CatalogDB {
    * @param names List of named objects in database (assigns)
    * @param catalog_pointer pointer to the catalogcomponent objects
    *                        (needed for building skyobjects)
+   * @param includeCatalogDesignation This is useful when using 'fake'
+   *   catalogs to bundle up catalogs. Imagine a "Misc" catalog with a
+   *   bunch of miscellaneous objects. We don't want the designations
+   *   "Misc 1", "Misc 2" etc. So the only proper designations are the
+   *   long name. When this is the case, this flag is set to false,
+   *   and the catalog designation (cat_prefix + cat_id) will not be
+   *   included in the object_names returned.
+   *
    * @return void
    **/
   void GetAllObjects(const QString &catalog_name,
                      QList< SkyObject* > &sky_list,
                      QList < QPair <int, QString> > &object_names,
-                     CatalogComponent *catalog_pointer);
+                     CatalogComponent *catalog_pointer,
+                     bool includeCatalogDesignation = true );
 
   /**
    * @brief Get information about the catalog like Prefix etc
@@ -150,7 +154,47 @@ class CatalogDB {
   void GetCatalogData(const QString& catalog_name,
                       CatalogData& catalog_data);
 
+  /**
+   * @brief Used to add a cross referenced entry into the database
+   *
+   * @note This public method opens and closes the database.
+   *
+   * @param catalog_entry Data structure with entry details
+   * @param catid Category ID in the database
+   * @return false if adding was unsuccessful
+   **/
+  bool AddEntry(const CatalogEntryData &catalog_entry, int catid);
+
+  /**
+   * @brief Returns database ID of the required catalog.
+   * Returns -1 if not found.
+   *
+   * @param name Name of the class being searched
+   * @return int
+   **/
+  int FindCatalog(const QString &catalog_name);
+
+  /**
+   * @brief Add the catalog with given details into the database
+   *
+   * @param catalog_data CatalogData object encompassing all catalog info
+   * @return void
+   **/
+  void AddCatalog(const CatalogData& catalog_data);
+
  private:
+  /**
+   * @brief Used to add a cross referenced entry into the database
+   *
+   * @note This private method is useful when calling the method
+   * repeatedly on an already-opened DB.
+   *
+   * @param catalog_entry Data structure with entry details
+   * @param catid Category ID in the database
+   * @return false if adding was unsuccessful
+   **/
+  bool _AddEntry(const CatalogEntryData &catalog_entry, int catid);
+
   /**
    * @brief Database object for the sky object. Assigned and Initialized by
    *        Initialize()
@@ -171,15 +215,6 @@ class CatalogDB {
   QStringList catalog_list_;
 
   /**
-   * @brief Returns database ID of the required catalog.
-   * Returns -1 if not found.
-   *
-   * @param name Name of the class being searched
-   * @return int
-   **/
-  int FindCatalog(const QString &catalog_name);
-
-  /**
    * @short Add the catalog name and details to the db.
    * This does not store the contents. It only adds the catalog info
    * to the database. Hence, it is step 1 in AddCatalogContents
@@ -192,14 +227,6 @@ class CatalogDB {
    **/
   bool ParseCatalogInfoToDB(const QStringList &lines, QStringList &columns,
                             QString &catalog_name, char &delimiter);
-
-  /**
-   * @brief Add the catalog with given details into the database
-   *
-   * @param catalog_data CatalogData object encompassing all catalog info
-   * @return void
-   **/
-  void AddCatalog(const CatalogData& catalog_data);
 
   /**
    * @brief Prepares the sequence required by KSParser according to header.

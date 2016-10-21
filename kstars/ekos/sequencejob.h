@@ -36,7 +36,7 @@ class SequenceJob : public QObject
     SequenceJob();
     ~SequenceJob() {}
 
-    CAPTUREResult capture(bool isDark=false);
+    CAPTUREResult capture(bool noCaptureFilter);
     void reset();
     void abort();
     void done();
@@ -70,22 +70,28 @@ class SequenceJob : public QObject
     void setCurrentFilter(int value);
 
     const QString &getFilterName() { return filter; }
+
     void setFrameType(int type, const QString & name);
     int getFrameType() { return frameType;}
+
     void setCaptureFilter(FITSScale capFilter) { captureFilter = capFilter; }
+    FITSScale getCaptureFilter() { return captureFilter;}
+
     void setPreview(bool enable) { preview = enable; }
     void setFullPrefix(const QString &cprefix) { fullPrefix = cprefix;}
     void setFrame(int in_x, int in_y, int in_w, int in_h) { x=in_x; y=in_y; w=in_w; h=in_h; }
+
     int getSubX() { return x;}
     int getSubY() { return y;}
     int getSubW() { return w;}
     int getSubH() { return h;}
+
     void setBin(int xbin, int ybin) { binX = xbin; binY=ybin;}
     int getXBin() { return binX; }
     int getYBin() { return binY; }
+
     void setDelay(int in_delay) { delay = in_delay; }
-    void setCount(int in_count) { count = in_count;}
-    void setImageType(int type) { imageType = type;}
+    void setCount(int in_count) { count = in_count;}    
     void setExposure(double duration) { exposure = duration;}
     void setStatusCell(QTableWidgetItem *cell) { statusCell = cell; }
     void setCompleted(unsigned int in_completed) { completed = in_completed;}
@@ -155,15 +161,14 @@ private:
     int targetFilter;
     int currentFilter;
 
-    QString filter;
-    int imageType;
+    QString filter;    
     int binX, binY;
     int x,y,w,h;
     QString fullPrefix;
     int count;
     int delay;    
     bool preview;
-    bool filterReady, temperatureReady, filterPostFocusReady;
+    bool filterReady, temperatureReady, filterPostFocusReady, prepareReady;
     bool enforceTemperature;
     int isoIndex;
     int captureRetires;

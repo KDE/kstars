@@ -26,13 +26,22 @@
 #include <QPixmap>
 #include <QDebug>
 
+#ifndef KSTARS_LITE
 #include "kspopupmenu.h"
+#endif
 #include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "Options.h"
 #include "skymap.h"
 #include "ksutils.h"
+
+#ifdef PROFILE_UPDATECOORDS
+double StarObject::updateCoordsCpuTime = 0.;
+unsigned int StarObject::starsUpdated = 0;
+#include <cstdlib>
+#include <ctime>
+#endif
 
 // DEBUG EDIT. Uncomment for testing Proper Motion
 //#include "skycomponents/skymesh.h"
@@ -145,8 +154,8 @@ void StarObject::init( const starData *stardata )
     setMag( stardata->mag / 100.0 );
     setRA0( ra );
     setDec0( dec );
-    setRA( ra );
-    setDec( dec );
+    setRA( ra0() );
+    setDec( dec0() );
     SpType[0] = stardata->spec_type[0];
     SpType[1] = stardata->spec_type[1];
     PM_RA = stardata->dRA / 10.0;
@@ -244,12 +253,15 @@ void StarObject::setNames( QString name, QString name2 ) {
         lname = gname();
     setLongName(lname);
 }
-
 void StarObject::initPopupMenu( KSPopupMenu *pmenu ) {
+#ifdef KSTARS_LITE
+    Q_UNUSED(pmenu)
+#else
     pmenu->createStarMenu( this );
+#endif
 }
 
-void StarObject::updateCoords( const KSNumbers *num, bool , const dms*, const dms*, bool ) {
+void StarObject::updateCoords( const KSNumbers *num, bool , const CachingDms*, const CachingDms*, bool ) {
     //Correct for proper motion of stars.  Determine RA and Dec offsets.
     //Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
     //That is numerically identical to the number of arcsec per millenium, so multiply by
@@ -258,24 +270,128 @@ void StarObject::updateCoords( const KSNumbers *num, bool , const dms*, const dm
     // Correction:  The method below computes the proper motion before the
     // precession.  If we precessed first then the direction of the proper
     // motion correction would depend on how far we've precessed.  -jbb
-    double saveRA = ra0().Hours();
-    double saveDec = dec0().Degrees();
+#ifdef PROFILE_UPDATECOORDS
+    std::clock_t start, stop;
+    start = std::clock();
+#endif
+    CachingDms saveRA = ra0(), saveDec = dec0();
+    CachingDms newRA, newDec;
 
-    double newRA, newDec;
+    getIndexCoords( num, newRA, newDec );
 
-    getIndexCoords( num, &newRA, &newDec );
-    newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
     setRA0( newRA );
     setDec0( newDec );
-
     SkyPoint::updateCoords( num );
     setRA0( saveRA );
     setDec0( saveDec );
+
+#ifdef PROFILE_UPDATECOORDS
+    stop = std::clock();
+    updateCoordsCpuTime += double( stop - start )/double( CLOCKS_PER_SEC );
+    ++starsUpdated;
+#endif
 }
 
-void StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
+bool StarObject::getIndexCoords( const KSNumbers *num, CachingDms &ra, CachingDms &dec )
 {
     static double pmms;
+
+    // =================== NOTE: CODE DUPLICATION ====================
+    // If you modify this, please also modify the other getIndexCoords
+    // ===============================================================
+    //
+    // Reason for code duplication is as follows:
+    //
+    // This method is designed to use CachingDms, i.e. we know we are
+    // going to use the sine and cosine of the returned values.
+    //
+    // The other method is designed to avoid CachingDms and try to
+    // compute as little trigonometry as possible when the ra/dec has
+    // to be returned in double (used in SkyMesh::indexStar() for
+    // example)
+    //
+    // Thus, the philosophy of writing code is different. Granted, we
+    // don't need to optimize for the smaller star catalogs (which use
+    // SkyMesh::indexStar()), but it is nevertheless a good idea,
+    // given that getIndexCoords() shows up in callgrind as one of the
+    // slightly more expensive operations.
+
+    // Old, Incorrect Proper motion Computation.  We retain this in a
+    // comment because we might want to use it to come up with a
+    // linear approximation that's faster.
+    //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0().radians() ) * 3600.0 );
+    //    double ddec = pmDec() * num->julianMillenia() / 3600.0;
+
+    // Proper Motion Correction should be implemented as motion along a great
+    // circle passing through the given (ra0, dec0) in a direction of
+    // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of
+    // PM times the number of Julian millenia since J2000.0
+
+    pmms = pmMagnitudeSquared();
+
+    if( std::isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. ) {
+        // Ignore corrections
+        ra = ra0();
+        dec = dec0();
+        return false;
+    }
+
+    double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
+
+    double dir0 = ( ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() ) );  // Bearing, in radian
+
+    ( pm < 0 ) && ( pm = -pm );
+
+    double dst = (  pm * M_PI / ( 180.0 * 3600.0 ) );
+    //    double phi = M_PI / 2.0 - dec0().radians();
+
+
+    // Note: According to callgrind, dms::dms() + dms::setRadians()
+    // takes ~ 40 CPU cycles, whereas, the advantage afforded by using
+    // sincos() instead of sin() and cos() calls seems to be about 30
+    // CPU cycles.
+
+    // So it seems like it is not worth turning dir0 and dst into dms
+    // objects and using SinCos(). However, caching the values of sin
+    // and cos if we are going to reuse them avoids expensive (~120
+    // CPU cycle) recomputation!
+    CachingDms lat1, dtheta;
+    double sinDst = sin( dst ), cosDst = cos( dst );
+    lat1.setUsing_asin( dec0().sin() * cosDst + dec0().cos() * sinDst * cos( dir0 ) );
+    dtheta.setUsing_atan2( sin( dir0 ) * sinDst * dec0().cos(),
+                              cosDst - dec0().sin() * lat1.sin() );
+
+    ra = ra0() + dtheta; // Use operator + to avoid trigonometry
+    dec = lat1; // Need variable lat1 because dec may refer to dec0, so cannot construct result in-place
+
+    //    *ra = ra0().Degrees() + dra;
+    //    *dec = dec0().Degrees() + ddec;
+    return true;
+}
+
+
+bool StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
+{
+    static double pmms;
+
+    // =================== NOTE: CODE DUPLICATION ====================
+    // If you modify this, please also modify the other getIndexCoords
+    // ===============================================================
+    //
+    // Reason for code duplication is as follows:
+    //
+    // This method is designed to avoid CachingDms and try to compute
+    // as little trigonometry as possible when the ra/dec has to be
+    // returned in double (used in SkyMesh::indexStar() for example)
+    //
+    // The other method is designed to use CachingDms, i.e. we know we
+    // are going to use the sine and cosine of the returned values.
+    //
+    // Thus, the philosophy of writing code is different. Granted, we
+    // don't need to optimize for the smaller star catalogs (which use
+    // SkyMesh::indexStar()), but it is nevertheless a good idea,
+    // given that getIndexCoords() shows up in callgrind as one of the
+    // slightly more expensive operations.
 
     // Old, Incorrect Proper motion Computation.  We retain this in a
     // comment because we might want to use it to come up with a
@@ -294,23 +410,34 @@ void StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
         // Ignore corrections
         *ra = ra0().Degrees();
         *dec = dec0().Degrees();
-        return;
+        return false;
     }
 
     double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
 
-    double dir0 = ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() );  // Bearing, in radian
+    double dir0 = ( ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() ) );  // Bearing, in radian
 
     ( pm < 0 ) && ( pm = -pm );
 
-    double dst = pm * M_PI / ( 180.0 * 3600.0 );
+    double dst = (  pm * M_PI / ( 180.0 * 3600.0 ) );
     //    double phi = M_PI / 2.0 - dec0().radians();
 
+
+    // Note: According to callgrind, dms::dms() + dms::setRadians()
+    // takes ~ 40 CPU cycles, whereas, the advantage afforded by using
+    // sincos() instead of sin() and cos() calls seems to be about 30
+    // CPU cycles.
+
+    // So it seems like it is not worth turning dir0 and dst into dms
+    // objects and using SinCos(). However, caching the values of sin
+    // and cos if we are going to reuse them avoids expensive (~120
+    // CPU cycle) recomputation!
     dms lat1, dtheta;
-    lat1.setRadians( asin( dec0().sin() * cos( dst ) +
-                           dec0().cos() * sin( dst ) * cos( dir0 ) ) );
-    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec0().cos(),
-                              cos( dst ) - dec0().sin() * lat1.sin() ) );
+    double sinDst = sin( dst ), cosDst = cos( dst );
+    double sinLat1 = dec0().sin() * cosDst + dec0().cos() * sinDst * cos( dir0 );
+    lat1.setRadians( asin( sinLat1 ) );
+    dtheta.setRadians( atan2( sin( dir0 ) * sinDst * dec0().cos(),
+                              cosDst - dec0().sin() * sinLat1 ) );
 
     // Using dms instead, to ensure that the numbers are in the right range.
     dms finalRA( ra0().Degrees() + dtheta.Degrees() );
@@ -320,6 +447,7 @@ void StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
 
     //    *ra = ra0().Degrees() + dra;
     //    *dec = dec0().Degrees() + ddec;
+    return true;
 }
 
 void StarObject::JITupdate()
@@ -366,32 +494,36 @@ QString StarObject::greekLetter( bool gchar ) const {
     QString letter = code;  //in case genitive name is *not* a Greek letter
     int alpha = 0x03B1;
 
-    if ( code == "alp" ) gchar ? letter = QString( QChar(alpha + 0) ) : letter = i18n("alpha");
-    if ( code == "bet" ) gchar ? letter = QString( QChar(alpha + 1) ) : letter = i18n("beta");
-    if ( code == "gam" ) gchar ? letter = QString( QChar(alpha + 2) ) : letter = i18n("gamma");
-    if ( code == "del" ) gchar ? letter = QString( QChar(alpha + 3) ) : letter = i18n("delta");
-    if ( code == "eps" ) gchar ? letter = QString( QChar(alpha + 4) ) : letter = i18n("epsilon");
-    if ( code == "zet" ) gchar ? letter = QString( QChar(alpha + 5) ) : letter = i18n("zeta");
-    if ( code == "eta" ) gchar ? letter = QString( QChar(alpha + 6) ) : letter = i18n("eta");
-    if ( code == "the" ) gchar ? letter = QString( QChar(alpha + 7) ) : letter = i18n("theta");
-    if ( code == "iot" ) gchar ? letter = QString( QChar(alpha + 8) ) : letter = i18n("iota");
-    if ( code == "kap" ) gchar ? letter = QString( QChar(alpha + 9) ) : letter = i18n("kappa");
-    if ( code == "lam" ) gchar ? letter = QString( QChar(alpha +10) ) : letter = i18n("lambda");
-    if ( code == "mu " ) gchar ? letter = QString( QChar(alpha +11) ) : letter = i18n("mu");
-    if ( code == "nu " ) gchar ? letter = QString( QChar(alpha +12) ) : letter = i18n("nu");
-    if ( code == "xi " ) gchar ? letter = QString( QChar(alpha +13) ) : letter = i18n("xi");
-    if ( code == "omi" ) gchar ? letter = QString( QChar(alpha +14) ) : letter = i18n("omicron");
-    if ( code == "pi " ) gchar ? letter = QString( QChar(alpha +15) ) : letter = i18n("pi");
-    if ( code == "rho" ) gchar ? letter = QString( QChar(alpha +16) ) : letter = i18n("rho");
+    auto checkAndGreekify = [&code, gchar, alpha, &letter]( const QString &abbrev, int unicodeOffset, const QString &expansion ) {
+        if ( code == abbrev ) gchar ? letter = QString( QChar( alpha + unicodeOffset ) ) : letter = expansion;
+    };
+
+    checkAndGreekify( "alp", 0, i18n("alpha") );
+    checkAndGreekify( "bet", 1, i18n("beta") );
+    checkAndGreekify( "gam", 2, i18n("gamma") );
+    checkAndGreekify( "del", 3, i18n("delta") );
+    checkAndGreekify( "eps", 4, i18n("epsilon") );
+    checkAndGreekify( "zet", 5, i18n("zeta") );
+    checkAndGreekify( "eta", 6, i18n("eta") );
+    checkAndGreekify( "the", 7, i18n("theta") );
+    checkAndGreekify( "iot", 8, i18n("iota") );
+    checkAndGreekify( "kap", 9, i18n("kappa") );
+    checkAndGreekify( "lam",10, i18n("lambda") );
+    checkAndGreekify( "mu ",11, i18n("mu") );
+    checkAndGreekify( "nu ",12, i18n("nu") );
+    checkAndGreekify( "xi ",13, i18n("xi") );
+    checkAndGreekify( "omi",14, i18n("omicron") );
+    checkAndGreekify( "pi ",15, i18n("pi") );
+    checkAndGreekify( "rho",16, i18n("rho") );
     //there are two unicode symbols for sigma;
     //skip the first one, the second is more widely used
-    if ( code == "sig" ) gchar ? letter = QString( QChar(alpha +18) ) : letter = i18n("sigma");
-    if ( code == "tau" ) gchar ? letter = QString( QChar(alpha +19) ) : letter = i18n("tau");
-    if ( code == "ups" ) gchar ? letter = QString( QChar(alpha +20) ) : letter = i18n("upsilon");
-    if ( code == "phi" ) gchar ? letter = QString( QChar(alpha +21) ) : letter = i18n("phi");
-    if ( code == "chi" ) gchar ? letter = QString( QChar(alpha +22) ) : letter = i18n("chi");
-    if ( code == "psi" ) gchar ? letter = QString( QChar(alpha +23) ) : letter = i18n("psi");
-    if ( code == "ome" ) gchar ? letter = QString( QChar(alpha +24) ) : letter = i18n("omega");
+    checkAndGreekify( "sig",18, i18n("sigma") );
+    checkAndGreekify( "tau",19, i18n("tau") );
+    checkAndGreekify( "ups",20, i18n("upsilon") );
+    checkAndGreekify( "phi",21, i18n("phi") );
+    checkAndGreekify( "chi",22, i18n("chi") );
+    checkAndGreekify( "psi",23, i18n("psi") );
+    checkAndGreekify( "ome",24, i18n("omega") );
 
     if ( name2().length() && name2().mid(3,1) != " " )
         letter += '[' + name2().mid(3,1) + ']';

@@ -25,6 +25,7 @@
 #include "fitsviewer/fitsdata.h"
 #endif
 
+#include "driverinfo.h"
 #include "clientmanager.h"
 #include "streamwg.h"
 #include "indiccd.h"
@@ -42,10 +43,11 @@ const int MAX_FILENAME_LEN = 1024;
 namespace ISD
 {
 
-CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cType)
+CCDChip::CCDChip(ISD::CCD *ccd, ChipType cType)
 {
-    baseDevice    = bDevice;
-    clientManager = cManager;
+    baseDevice    = ccd->getBaseDevice();
+    clientManager = ccd->getDriverInfo()->getClientManager();
+    parentCCD     = ccd;
     type          = cType;
     batchMode     = false;
     displayFITS   = true;
@@ -57,7 +59,7 @@ CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cT
     captureMode   = FITS_NORMAL;
     captureFilter = FITS_NONE;
 
-    fx=fy=fw=fh=0;
+    //fx=fy=fw=fh=0;
 
     normalImage = focusImage = guideImage = calibrationImage = NULL;
 }
@@ -82,6 +84,10 @@ FITSView * CCDChip::getImage(FITSMode imageType)
         return calibrationImage;
         break;
 
+    case FITS_ALIGN:
+        return alignImage;
+        break;
+
     default:
         break;
     }
@@ -97,34 +103,32 @@ void CCDChip::setImage(FITSView *image, FITSMode imageType)
     {
     case FITS_NORMAL:
         normalImage = image;
-        if (normalImage)
-            imageData = normalImage->getImageData();
-        if (KStars::Instance()->ekosManager()->alignModule() && KStars::Instance()->ekosManager()->alignModule()->fov())
-            KStars::Instance()->ekosManager()->alignModule()->fov()->setImage(normalImage->getDisplayImage()->copy());
         break;
 
     case FITS_FOCUS:
         focusImage = image;
-        if (focusImage)
-            imageData = focusImage->getImageData();
         break;
 
     case FITS_GUIDE:
         guideImage = image;
-        if (guideImage)
-            imageData = guideImage->getImageData();
         break;
 
     case FITS_CALIBRATE:
         calibrationImage = image;
-        if (calibrationImage)
-            imageData = calibrationImage->getImageData();
+        break;
+
+     case FITS_ALIGN:
+        alignImage = image;
+        if (KStars::Instance()->ekosManager()->alignModule() && KStars::Instance()->ekosManager()->alignModule()->fov())
+            KStars::Instance()->ekosManager()->alignModule()->fov()->setImage(alignImage->getDisplayImage()->copy());
         break;
 
     default:
         break;
     }
 
+    if (image)
+        imageData = image->getImageData();
 }
 
 bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH)
@@ -395,7 +399,7 @@ bool CCDChip::canAbort() const
     return CanAbort;
 }
 
-bool CCDChip::getFocusFrame(int *x, int *y, int *w, int *h)
+/*bool CCDChip::getFocusFrame(int *x, int *y, int *w, int *h)
 {
     *x = fx;
     *y = fy;
@@ -413,7 +417,7 @@ bool CCDChip::setFocusFrame(int x, int y, int w, int h)
     fh=h;
 
     return true;
-}
+}*/
 
 void CCDChip::setCanAbort(bool value)
 {
@@ -469,7 +473,7 @@ QStringList CCDChip::getISOList() const
 bool CCDChip::isCapturing()
 {
     INumberVectorProperty *expProp = NULL;
-    
+
     switch (type)
     {
     case PRIMARY_CCD:
@@ -782,9 +786,9 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     ST4Driver = NULL;
     nextSequenceID  = 0 ;
 
-    primaryChip = new CCDChip(baseDevice, clientManager, CCDChip::PRIMARY_CCD);
+    primaryChip = new CCDChip(this, CCDChip::PRIMARY_CCD);
 
-    normalTabID = calibrationTabID = focusTabID = guideTabID = -1;
+    normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
     guideChip   = NULL;
 
 }
@@ -804,7 +808,7 @@ void CCD::registerProperty(INDI::Property *prop)
     if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
     {
         HasGuideHead = true;
-        guideChip = new CCDChip(baseDevice, clientManager, CCDChip::GUIDE_CCD);
+        guideChip = new CCDChip(this, CCDChip::GUIDE_CCD);
     }
     else if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))
     {
@@ -1113,13 +1117,15 @@ void CCD::processBLOB(IBLOB* bp)
     int nr, n=0;
     QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");
 
-    if (currentDir.endsWith('/'))
-        currentDir.truncate(sizeof(currentDir)-1);
+    //if (currentDir.endsWith('/'))
+        //currentDir.truncate(currentDir.size()-1);
 
     if (QDir(currentDir).exists() == false)
         QDir().mkpath(currentDir);
 
-    QString filename(currentDir + '/');
+    QString filename(currentDir);
+    if (filename.endsWith('/') == false)
+        filename.append('/');
 
     // Create temporary name if ANY of the following conditions are met:
     // 1. file is preview or batch mode is not enabled
@@ -1183,6 +1189,7 @@ void CCD::processBLOB(IBLOB* bp)
     if (targetChip->getCaptureMode() == FITS_NORMAL && targetChip->isBatchMode() == true)
         KStars::Instance()->statusBar()->showMessage( i18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
 
+    // FIXME: Why is this leaking memory in Valgrind??!
     KNotification::event( QLatin1String( "FITSReceived" ) , i18n("FITS file is received"));
 
     /*if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
@@ -1224,22 +1231,21 @@ void CCD::processBLOB(IBLOB* bp)
             imageViewer = new ImageViewer(getDeviceName(), KStars::Instance());
 
         imageViewer->loadImage(filename);
-        QFile::remove(filename);
     }
     // Unless we have cfitsio, we're done.
 #ifdef HAVE_CFITSIO
-    if (BType == BLOB_FITS && targetChip->getCaptureMode() != FITS_WCSM)
+    if (BType == BLOB_FITS)
     {
         QUrl fileURL(filename);
 
         if (fv.isNull())
         {
-            normalTabID = calibrationTabID = focusTabID = guideTabID = -1;
+            normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
 
             if (Options::singleWindowCapturedFITS())
                 fv = KStars::Instance()->genericFITSViewer();
             else
-                fv = new FITSViewer(KStars::Instance());
+                fv = new FITSViewer(Options::independentWindowFITS() ? NULL : KStars::Instance());
 
             //connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
             //connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
@@ -1258,23 +1264,18 @@ void CCD::processBLOB(IBLOB* bp)
                 previewTitle = i18n("Preview");
         }
 
-
         int tabRC = -1;
 
         switch (targetChip->getCaptureMode())
         {
         case FITS_NORMAL:
         {
-            FITSScale actualFilter = captureFilter;
-            if (Options::autoStretch() && captureFilter == FITS_NONE)
-                actualFilter = FITS_AUTO_STRETCH;
-
             if (normalTabID == -1 || Options::singlePreviewFITS() == false)
-                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, actualFilter, previewTitle);
-            else if (fv->updateFITS(&fileURL, normalTabID, actualFilter) == false)
+                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+            else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
             {
                 fv->removeFITS(normalTabID);
-                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, actualFilter, previewTitle);
+                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
             }
             else
                 tabRC = normalTabID;
@@ -1284,11 +1285,14 @@ void CCD::processBLOB(IBLOB* bp)
                 normalTabID = tabRC;
                 targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
 
-                emit newImage(fv->getView(normalTabID)->getDisplayImage());
+                emit newImage(fv->getView(normalTabID)->getDisplayImage(), targetChip);
             }
             else
+            {
                 // If opening file fails, we treat it the same as exposure failure and recapture again if possible
                 emit newExposureValue(targetChip, 0, IPS_ALERT);
+                return;
+            }
         }
             break;
 
@@ -1308,10 +1312,14 @@ void CCD::processBLOB(IBLOB* bp)
                 focusTabID = tabRC;
                 targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
 
-                emit newImage(fv->getView(focusTabID)->getDisplayImage());
+                emit newImage(fv->getView(focusTabID)->getDisplayImage(), targetChip);
             }
             else
+            {
                 emit newExposureValue(targetChip, 0, IPS_ALERT);
+                // If there is problem loading image then BLOB is not valid so let's return
+                return;
+            }
             break;
 
         case FITS_GUIDE:
@@ -1330,10 +1338,13 @@ void CCD::processBLOB(IBLOB* bp)
                 guideTabID = tabRC;
                 targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
 
-                emit newImage(fv->getView(guideTabID)->getDisplayImage());
+                emit newImage(fv->getView(guideTabID)->getDisplayImage(), targetChip);
             }
             else
+            {
                 emit newExposureValue(targetChip, 0, IPS_ALERT);
+                return;
+            }
             break;
 
         case FITS_CALIBRATE:
@@ -1353,7 +1364,33 @@ void CCD::processBLOB(IBLOB* bp)
                 targetChip->setImage(fv->getView(calibrationTabID), FITS_CALIBRATE);
             }
             else
+            {
                 emit newExposureValue(targetChip, 0, IPS_ALERT);
+                return;
+            }
+            break;
+
+         case FITS_ALIGN:
+            if (alignTabID == -1)
+                tabRC = fv->addFITS(&fileURL, FITS_ALIGN, captureFilter);
+            else if (fv->updateFITS(&fileURL, alignTabID, captureFilter) == false)
+            {
+                fv->removeFITS(alignTabID);
+                tabRC = fv->addFITS(&fileURL, FITS_ALIGN, captureFilter);
+            }
+            else
+                tabRC = alignTabID;
+
+            if (tabRC >= 0)
+            {
+                alignTabID = tabRC;
+                targetChip->setImage(fv->getView(alignTabID), FITS_ALIGN);
+            }
+            else
+            {
+                emit newExposureValue(targetChip, 0, IPS_ALERT);
+                return;
+            }
             break;
 
 
@@ -1405,7 +1442,7 @@ void CCD::addFITSKeywords(QString filename)
 void CCD::FITSViewerDestroyed()
 {
     fv = NULL;
-    normalTabID = calibrationTabID = focusTabID = guideTabID = -1;
+    normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
 }
 
 void CCD::StreamWindowHidden()

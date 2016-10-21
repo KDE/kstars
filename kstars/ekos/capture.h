@@ -56,10 +56,10 @@ class KDirWatch;
  * The primary class is EkosManager. It handles startup and shutdown of local and remote INDI devices, manages and orchesterates the various Ekos modules, and provides advanced DBus
  * interface to enable unattended scripting.
 *@author Jasem Mutlaq
- *@version 1.2
+ *@version 1.3
  */
 namespace Ekos
-{   
+{
 
 class SequenceJob;
 
@@ -83,7 +83,8 @@ public:
 
     enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { MF_NONE, MF_INITIATED, MF_FLIPPING, MF_SLEWING, MF_ALIGNING, MF_GUIDING } MFStage;
-    typedef enum { CAL_NONE, CAL_DUSTCAP_PARKING, CAL_DUSTCAP_PARKED, CAL_LIGHTBOX_ON, CAL_SLEWING, CAL_SLEWING_COMPLETE, CAL_MOUNT_PARKING, CAL_MOUNT_PARKED, CAL_DOME_PARKING, CAL_DOME_PARKED, CAL_PRECAPTURE_COMPLETE, CAL_CALIBRATION, CAL_CALIBRATION_COMPLETE, CAL_CAPTURING} CalibrationStage;
+    typedef enum { CAL_NONE, CAL_DUSTCAP_PARKING, CAL_DUSTCAP_PARKED, CAL_LIGHTBOX_ON, CAL_SLEWING, CAL_SLEWING_COMPLETE, CAL_MOUNT_PARKING, CAL_MOUNT_PARKED, CAL_DOME_PARKING, CAL_DOME_PARKED, CAL_PRECAPTURE_COMPLETE, CAL_CALIBRATION, CAL_CALIBRATION_COMPLETE, CAL_CAPTURING, CAL_DUSTCAP_UNPARKING, CAL_DUSTCAP_UNPARKED} CalibrationStage;
+    typedef bool (Capture::*PauseFunctionPointer)();
 
     Capture();
     ~Capture();
@@ -128,6 +129,13 @@ public:
      * @param fileURL full URL of the filename
      */
     Q_SCRIPTABLE bool loadSequenceQueue(const QString &fileURL);
+
+    /** DBUS interface function.
+     * Sets target name. The target name shall be appended to the root directory specified by the user.
+     * e.g. If root directory is /home/jasem and target is M31, then root directory becomes /home/jasem/M31
+     * @param name Name of desired target
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &name) { targetName = name; }
 
     /** DBUS interface function.
      * Enables or disables the maximum guiding deviation and sets its value.
@@ -190,12 +198,12 @@ public:
     /** DBUS interface function.
      * @return Returns time left in seconds until active job is estimated to be complete.
      */
-    int getActiveJobRemainingTime();
+    Q_SCRIPTABLE int getActiveJobRemainingTime();
 
     /** DBUS interface function.
      * @return Returns overall time left in seconds until all jobs are estimated to be complete
      */
-    int getOverallRemainingTime();
+    Q_SCRIPTABLE int getOverallRemainingTime();
 
     /** DBUS interface function.
      * @param id job number. Job IDs start from 0 to N-1.
@@ -251,13 +259,17 @@ public:
     void syncTelescopeInfo();
     void syncFilterInfo();
 
-    void appendLogText(const QString &);
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
 
     /* Capture */
     void updateSequencePrefix( const QString &newPrefix, const QString &dir);
+
 public slots:
+
+    /** \addtogroup CaptureDBusInterface
+     *  @{
+     */
 
     /* Capture */
     /** DBUS interface function.
@@ -266,9 +278,18 @@ public slots:
     Q_SCRIPTABLE Q_NOREPLY void start();
 
     /** DBUS interface function.
-     * Aborts all jobs and set current job status to Aborted if it was In Progress.
+     * Stop all jobs and set current job status to aborted if abort is set to true, otherwise status is idle until
+     * sequence is resumed or restarted.
+     * @param abort abort jobs if in progress
      */
-    Q_SCRIPTABLE Q_NOREPLY void abort();
+    Q_SCRIPTABLE Q_NOREPLY void stop(bool abort=false);
+
+    /** DBUS interface function.
+     * Aborts all jobs. It simply calls stop(true)
+     */
+    Q_SCRIPTABLE Q_NOREPLY void abort() { stop(true); }
+
+    /** @}*/
 
     /**
      * @brief captureOne Capture one preview image
@@ -359,7 +380,7 @@ public slots:
     /**
      * @brief resumeCapture Resume capture after dither and/or focusing processes are complete.
      */
-    void resumeCapture();
+    bool resumeCapture();
 
     /**
      * @brief updateCCDTemperature Update CCD temperature in capture module.
@@ -372,6 +393,12 @@ public slots:
      */
     void setTemperature();
 
+    // Pause Sequence Queue
+    void pause();
+
+    // Logs
+    void appendLogText(const QString &);
+
 private slots:
 
     /**
@@ -379,14 +406,16 @@ private slots:
      */
     void setDirty();
 
+    void toggleSequence();
+
+
     void checkFrameType(int index);
-    void resetFrame();    
+    void resetFrame();
     void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);
     void saveFITSDirectory();
     void setDefaultCCD(QString ccd);
     void setNewRemoteFile(QString file);
-
     void setGuideChip(ISD::CCDChip* chip) { guideChip = chip; }
 
     // Sequence Queue
@@ -406,7 +435,7 @@ private slots:
     void enableAlignmentFlag();
 
     // Auto Focus
-    void updateFocusStatus(bool status);
+    void updateFocusStatus(Ekos::FocusState state);
     void updateAutofocusStatus(bool status, double HFR);
     void startPostFilterAutoFocus();
 
@@ -416,7 +445,13 @@ private slots:
     bool processPostCaptureCalibrationStage();
 
     // Send image info
-    void sendNewImage(QImage *image);
+    void sendNewImage(QImage *image, ISD::CCDChip *myChip);
+
+    // Capture
+    bool setCaptureComplete();
+
+    // Temporary for post capture script
+    void postScriptFinished(int exitCode);
 
 signals:
         void newLog();
@@ -434,8 +469,8 @@ private:
 
     void setBusy(bool enable);
     bool resumeSequence();
-    void startNextExposure();
-    void updateFrameProperties();
+    bool startNextExposure();
+    void updateFrameProperties(bool reset=false);
     void prepareJob(SequenceJob *job);
     void syncGUIToJob(SequenceJob *job);
     bool processJobInfo(XMLEle *root);
@@ -465,8 +500,10 @@ private:
     int         seqFileCount;
     bool        isBusy;
 
-    int calibrationState;
+    //int calibrationState;
     bool useGuideHead;
+
+    QString targetName;
 
     SequenceJob *activeJob;
 
@@ -538,6 +575,17 @@ private:
 
     // Misc
     bool ignoreJobProgress;
+
+    // State
+    CaptureState state;
+
+    PauseFunctionPointer pauseFunction;
+
+    // CCD Chip frame settings
+    QMap<ISD::CCDChip *, QVariantMap> frameSettings;
+
+    // Temporary Only
+    QProcess postCaptureScript;
 
 
 };

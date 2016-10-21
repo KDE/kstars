@@ -42,12 +42,17 @@
 #include "observinglist.h"
 //#include "whatsinteresting/wiview.h"
 
+// For profiling only
+#include "auxiliary/dms.h"
+#include "skyobjects/skypoint.h"
+
 #include "kstarsadaptor.h"
 
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI
 #include "indi/drivermanager.h"
+#include "indi/guimanager.h"
 #include "ekos/ekosmanager.h"
 #endif
 
@@ -59,15 +64,9 @@ KStars *KStars::pinstance = 0;
 
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     : KXmlGuiWindow(), colorActionMenu(0), fovActionMenu(0), m_KStarsData(0), m_SkyMap(0), m_TimeStepBox(0),
-      m_ExportImageDialog(0),  m_PrintingWizard(0), m_FindDialog(0),
-      m_AstroCalc(0), m_AltVsTime(0), m_SkyCalendar(0), m_ScriptBuilder(0),
+      m_ExportImageDialog(0),  m_PrintingWizard(0), m_FindDialog(0), m_AstroCalc(0), m_AltVsTime(0), m_SkyCalendar(0), m_ScriptBuilder(0),
       m_PlanetViewer(0), m_WUTDialog(0), m_JMoonTool(0), m_MoonPhaseTool(0), m_FlagManager(0), m_HorizonManager(0), m_EyepieceView(0),
-      //FIXME Port to QML2
-      //#if 0
-      m_WIView(0), m_ObsConditions(0), m_wiDock(0),
-      //#endif
-      DialogIsObsolete(false), StartClockRunning( clockrun ),
-      StartDateString( startdate )
+      m_addDSODialog(0), m_WIView(0), m_ObsConditions(0), m_wiDock(0), DialogIsObsolete(false), StartClockRunning( clockrun ), StartDateString( startdate )
 {
     // Initialize logging settings
     if (Options::disableLogging())
@@ -83,11 +82,11 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     QDBusConnection::sessionBus().registerService("org.kde.kstars");
 
     #ifdef HAVE_CFITSIO
-    genericViewer = NULL;
+    m_GenericFITSViewer.clear();
     #endif
 
     #ifdef HAVE_INDI
-    m_EkosManager = NULL;
+    m_EkosManager.clear();
     #endif
 
     // Set pinstance to yourself
@@ -168,17 +167,27 @@ KStars::~KStars()
 {
     Q_ASSERT( pinstance );
 
-    #ifdef HAVE_INDI
-    delete m_EkosManager;
-    DriverManager::Instance()->clearServers();
-    DriverManager::Instance()->close();
-    #endif
-
     delete m_KStarsData;
     pinstance = 0;
 
+    #ifdef HAVE_INDI
+    delete m_EkosManager;
+    GUIManager::Instance()->close();
+    #endif
+
     QSqlDatabase::removeDatabase("userdb");
     QSqlDatabase::removeDatabase("skydb");
+
+#ifdef PROFILE_COORDINATE_CONVERSION
+    qDebug() << "Spent " << SkyPoint::cpuTime_EqToHz << " seconds in " << SkyPoint::eqToHzCalls << " calls to SkyPoint::EquatorialToHorizontal, for an average of " << 1000.*( SkyPoint::cpuTime_EqToHz / SkyPoint::eqToHzCalls ) << " ms per call";
+#endif
+
+#ifdef COUNT_DMS_SINCOS_CALLS
+    qDebug() << "Constructed " << dms::dms_constructor_calls << " dms objects, of which " << dms::dms_with_sincos_called << " had trigonometric functions called on them = " << ( float( dms::dms_with_sincos_called ) / float( dms::dms_constructor_calls ) ) * 100. << "%";
+    qDebug() << "Of the " << dms::trig_function_calls << " calls to sin/cos/sincos on dms objects, " << dms::redundant_trig_function_calls << " were redundant = " << ( ( float( dms::redundant_trig_function_calls ) / float( dms::trig_function_calls ) ) * 100. ) << "%";
+    qDebug() << "We had " << CachingDms::cachingdms_bad_uses << " bad uses of CachingDms in all, compared to " << CachingDms::cachingdms_constructor_calls << " constructed CachingDms objects = " << ( float( CachingDms::cachingdms_bad_uses ) / float( CachingDms::cachingdms_constructor_calls ) ) * 100. << "% bad uses";
+#endif
+
 }
 
 void KStars::clearCachedFindDialog() {
@@ -197,17 +206,11 @@ void KStars::clearCachedFindDialog() {
 void KStars::applyConfig( bool doApplyFocus ) {
     if ( Options::isTracking() ) {
         actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.svg")) );
     }
 
     actionCollection()->action("coordsys")->setText(
         Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)") );
-
-    #ifdef HAVE_OPENGL
-    Q_ASSERT( SkyMap::Instance() ); // This assert should not fail, because SkyMap is already created by now. Just throwing it in anyway.
-    actionCollection()->action("opengl")->setText( (Options::useGL() ? i18n("Switch to QPainter backend"): i18n("Switch to OpenGL backend")) );
-    #endif
-
 
     actionCollection()->action("show_time_box"        )->setChecked( Options::showTimeBox() );
     actionCollection()->action("show_location_box"    )->setChecked( Options::showGeoBox() );
@@ -399,21 +402,21 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 #ifdef HAVE_CFITSIO
 FITSViewer * KStars::genericFITSViewer()
 {
-    if (genericViewer == NULL)
+    if (m_GenericFITSViewer.isNull())
     {
-        genericViewer = new FITSViewer(this);
-        genericViewer->setAttribute(Qt::WA_DeleteOnClose);
+        m_GenericFITSViewer = new FITSViewer(Options::independentWindowFITS() ? NULL : this);
+        m_GenericFITSViewer->setAttribute(Qt::WA_DeleteOnClose);
     }
 
-    return genericViewer;
+    return m_GenericFITSViewer;
 }
 #endif
 
 #ifdef HAVE_INDI
 EkosManager *KStars::ekosManager()
 {
-    if (!m_EkosManager)
-        m_EkosManager   = new EkosManager();
+    if (m_EkosManager.isNull())
+        m_EkosManager   = new EkosManager(Options::independentWindowEkos() ? NULL : this);
 
     return m_EkosManager;
 }

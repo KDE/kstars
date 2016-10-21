@@ -28,6 +28,7 @@ SchedulerJob::SchedulerJob()
 
     statusCell          = NULL;
     startupCell         = NULL;
+    estimatedTimeCell   = NULL;
     minAltitude         = -1;
     minMoonSeparation   = -1;
     estimatedTime       = -1;
@@ -61,7 +62,7 @@ SchedulerJob::StartupCondition SchedulerJob::getStartupCondition() const
 
 void SchedulerJob::setStartupCondition(const StartupCondition &value)
 {
-    startupCondition = value;    
+    startupCondition = value;
 }
 
 QDateTime SchedulerJob::getStartupTime() const
@@ -191,7 +192,7 @@ void SchedulerJob::setState(const JOBStatus &value)
             break;
 
         case JOB_ABORTED:
-            statusCell->setText(i18n("Aborted"));                       
+            statusCell->setText(i18n("Aborted"));
             break;
 
         case JOB_ERROR:
@@ -346,6 +347,12 @@ double SchedulerJob::getEstimatedTime() const
 void SchedulerJob::setEstimatedTime(const double &value)
 {
     estimatedTime = value;
+
+    if (estimatedTimeCell)
+    {
+        QTime estimatedTime = QTime::fromMSecsSinceStartOfDay(value*3600);
+        estimatedTimeCell->setText(estimatedTime.toString("HH:mm:ss"));
+    }
 }
 bool SchedulerJob::getTimeSlotAllocated() const
 {
@@ -397,13 +404,23 @@ void SchedulerJob::setProfile(const QString &value)
     profile = value;
 }
 
+QTableWidgetItem *SchedulerJob::getEstimatedTimeCell() const
+{
+    return estimatedTimeCell;
+}
+
+void SchedulerJob::setEstimatedTimeCell(QTableWidgetItem *value)
+{
+    estimatedTimeCell = value;
+}
+
 
 
 void SchedulerJob::setTargetCoords(dms ra, dms dec)
 {
     targetCoords.setRA0(ra);
     targetCoords.setDec0(dec);
-    
+
     targetCoords.updateCoordsNow(KStarsData::Instance()->updateNum());
 }
 

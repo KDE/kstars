@@ -38,7 +38,7 @@ SequenceJob::SequenceJob()
     currentTemperature=targetTemperature=INVALID_TEMPERATURE;
     captureFilter=FITS_NONE;
     preview=false;
-    filterReady=temperatureReady=filterPostFocusReady=true;
+    filterReady=temperatureReady=filterPostFocusReady=prepareReady=true;
     enforceTemperature=false;
     activeChip=NULL;
     activeCCD=NULL;
@@ -96,6 +96,8 @@ void SequenceJob::done()
 
 void SequenceJob::prepareCapture()
 {
+    prepareReady=false;
+
     activeChip->setBatchMode(!preview);
 
     activeCCD->setFITSDir(fitsDir);
@@ -113,35 +115,39 @@ void SequenceJob::prepareCapture()
              activeChip->setISOIndex(isoIndex);
     }
 
-    if (targetFilter != -1 && activeFilter != NULL)
+    if (frameType == FRAME_DARK || frameType == FRAME_BIAS)
+        filterReady = true;
+    else if (targetFilter != -1 && activeFilter != NULL)
     {
         if (targetFilter == currentFilter)
-            //emit prepareComplete();
             filterReady = true;
         else
         {
             filterReady = false;
 
-            // Post Focus on Filter change
-            filterPostFocusReady = !Options::autoFocusOnFilterChange();
+            // Post Focus on Filter change. If frame is NOT light, then we do not perform autofocusing on filter change
+            filterPostFocusReady = (!Options::autoFocusOnFilterChange() || frameType != FRAME_LIGHT);
 
             activeFilter->runCommand(INDI_SET_FILTER, &targetFilter);
         }
     }
 
-
-    if (enforceTemperature && targetTemperature != currentTemperature)
+    if (enforceTemperature && fabs(targetTemperature - currentTemperature) > Options::maxTemperatureDiff())
     {
         temperatureReady = false;
         activeCCD->setTemperature(targetTemperature);
     }
 
-    if (temperatureReady && filterReady)
+    if (prepareReady == false && temperatureReady && filterReady)
+    {
+        prepareReady = true;
         emit prepareComplete();
+    }
 
 }
 
-SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
+//SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
+SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
 {
     // If focusing is busy, return error
     //if (activeChip->getCaptureMode() == FITS_FOCUS)
@@ -175,33 +181,29 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool isDark)
 
    }
 
-    if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
-    {
-        status = JOB_ERROR;
+   if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
+   {
+       status = JOB_ERROR;
 
-        if (preview == false && statusCell)
-            statusCell->setText(statusStrings[status]);
+       if (preview == false && statusCell)
+           statusCell->setText(statusStrings[status]);
 
-        return CAPTURE_BIN_ERROR;
-    }
+       return CAPTURE_BIN_ERROR;
+   }
 
-    if (isDark)
-    {
-        activeChip->setFrameType(FRAME_DARK);
-        activeChip->setCaptureMode(FITS_CALIBRATE);
-    }
-    else
-    {
-        activeChip->setFrameType(frameTypeName);
-        activeChip->setCaptureMode(FITS_NORMAL);
-        activeChip->setCaptureFilter(captureFilter);
-    }
+   activeChip->setFrameType(frameTypeName);
+   activeChip->setCaptureMode(FITS_NORMAL);
 
-    // If filter is different that CCD, send the filter info
-    if (activeFilter && activeFilter != activeCCD)
-        activeCCD->setFilter(filter);
+   if (noCaptureFilter)
+       activeChip->setCaptureFilter(FITS_NONE);
+   else
+       activeChip->setCaptureFilter(captureFilter);
 
-    status = JOB_BUSY;
+   // If filter is different that CCD, send the filter info
+   if (activeFilter && activeFilter != activeCCD)
+       activeCCD->setFilter(filter);
+
+   status = JOB_BUSY;
 
     if (preview == false && statusCell)
         statusCell->setText(statusStrings[status]);
@@ -264,8 +266,11 @@ void SequenceJob::setCurrentTemperature(double value)
     if (enforceTemperature == false || fabs(targetTemperature - currentTemperature) <= Options::maxTemperatureDiff())
         temperatureReady = true;
 
-    if (filterReady && temperatureReady && filterPostFocusReady && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && filterReady && temperatureReady && filterPostFocusReady && (status == JOB_IDLE || status == JOB_ABORTED))
+    {
+        prepareReady = true;
         emit prepareComplete();
+    }
 }
 
 double SequenceJob::getTargetTemperature() const
@@ -376,8 +381,11 @@ void SequenceJob::setFilterPostFocusReady(bool value)
 {
     filterPostFocusReady = value;
 
-    if (filterPostFocusReady && filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && filterPostFocusReady && filterReady && temperatureReady && (status == JOB_IDLE || status == JOB_ABORTED))
+    {
+        prepareReady = true;
         emit prepareComplete();
+    }
 }
 
 int SequenceJob::getISOIndex() const
@@ -402,8 +410,11 @@ void SequenceJob::setCurrentFilter(int value)
     if (currentFilter == targetFilter)
         filterReady = true;
 
-    if (filterReady && temperatureReady && filterPostFocusReady && (status == JOB_IDLE || status == JOB_ABORTED))
+    if (prepareReady == false && filterReady && temperatureReady && filterPostFocusReady && (status == JOB_IDLE || status == JOB_ABORTED))
+    {
+        prepareReady = true;
         emit prepareComplete();
+    }
     else if (filterReady && filterPostFocusReady == false)
         emit checkFocus();
 }

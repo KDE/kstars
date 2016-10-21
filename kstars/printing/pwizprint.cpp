@@ -82,7 +82,7 @@ void PWizPrintUI::slotExport()
     }
 
     //Warn user if file exists!
-    if(QFile::exists(url.path()))
+    if(QFile::exists(url.toLocalFile()))
     {
         int r=KMessageBox::warningContinueCancel(parentWidget(),
                 i18n( "A file named \"%1\" already exists. Overwrite it?" , url.fileName()),

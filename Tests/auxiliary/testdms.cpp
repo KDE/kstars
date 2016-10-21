@@ -85,6 +85,46 @@ void TestDMS::stringCtor()
     QVERIFY(h.Hours() == d.Degrees());
 }
 
-QTEST_MAIN(TestDMS)
 
+void TestDMS::testReduceToRange() {
+    double base = 67.8;
+    double a = 360.0 * 11. + base;
+    double b = -360.0 * 12. + base;
 
+    dms d;
+    d.setD( a );
+    d.reduceToRange( dms::ZERO_TO_2PI );
+    QVERIFY( fabs( d.Degrees() - base ) < 1e-9 );
+
+    d.setD( b );
+    d.reduceToRange( dms::ZERO_TO_2PI );
+    QVERIFY( fabs( d.Degrees() - base ) < 1e-9 );
+
+    d.setD( 360.0 );
+    d.reduceToRange( dms::ZERO_TO_2PI );
+    QVERIFY( fabs( d.Degrees() - 0. ) < 1e-9 );
+
+    double c = 180.0 * 13. + base;
+    double e = 180.0 * 14. + base;
+    double f = -180.0 * 15. + base;
+    double g = -180.0 * 16. + base;
+
+    d.setD( c );
+    d.reduceToRange( dms::MINUSPI_TO_PI );
+    QVERIFY( fabs( d.Degrees() - ( base - 180.0 ) ) < 1e-9 );
+
+    d.setD( e );
+    d.reduceToRange( dms::MINUSPI_TO_PI );
+    QVERIFY( fabs( d.Degrees() - base ) < 1e-9 );
+
+    d.setD( f );
+    d.reduceToRange( dms::MINUSPI_TO_PI );
+    QVERIFY( fabs( d.Degrees() - ( base - 180.0 ) ) < 1e-9 );
+
+    d.setD( g );
+    d.reduceToRange( dms::MINUSPI_TO_PI );
+    QVERIFY( fabs( d.Degrees() - base ) < 1e-9 );
+
+}
+
+QTEST_GUILESS_MAIN(TestDMS)

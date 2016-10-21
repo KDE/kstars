@@ -73,9 +73,11 @@ FITSViewer::FITSViewer (QWidget *parent)
     debayerDialog= NULL;
     markStars = false;
 
+    lastURL = QUrl(QDir::homePath());
+
     fitsTab->setTabsClosable(true);
 
-    setWindowIcon(QIcon::fromTheme("kstars_fitsviewer"));
+    setWindowIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
 
     setCentralWidget(fitsTab);
 
@@ -87,72 +89,60 @@ FITSViewer::FITSViewer (QWidget *parent)
     fitsPosition.setAlignment(Qt::AlignCenter);
     fitsValue.setAlignment(Qt::AlignCenter);
 
-    gammaSlider.setMinimum(0);
-    gammaSlider.setMaximum(100);
-    gammaSlider.setValue(0);
-    gammaSlider.setOrientation(Qt::Horizontal);
-    gammaSlider.setFixedWidth(100);
-
     //fitsPosition.setFixedWidth(100);
     //fitsValue.setFixedWidth(100);
     fitsWCS.setVisible(false);
 
-    connect(&gammaSlider, SIGNAL(valueChanged(int)), this, SLOT(setGamma(int)));
-
     statusBar()->insertPermanentWidget(FITS_WCS, &fitsWCS);
-    statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);    
+    statusBar()->insertPermanentWidget(FITS_VALUE, &fitsValue);
     statusBar()->insertPermanentWidget(FITS_POSITION, &fitsPosition);
     statusBar()->insertPermanentWidget(FITS_ZOOM, &fitsZoom);
     statusBar()->insertPermanentWidget(FITS_RESOLUTION, &fitsResolution);
-    statusBar()->insertPermanentWidget(FITS_GAMMA, &gammaSlider);
     statusBar()->insertPermanentWidget(FITS_LED, &led);
 
     QAction *action;
 
     action = actionCollection()->addAction("rotate_right", this, SLOT(rotateCW()));
     action->setText(i18n("Rotate Right"));
-    action->setIcon(QIcon::fromTheme("object-rotate-right"));
+    action->setIcon(QIcon::fromTheme("object-rotate-right", QIcon(":/icons/breeze/default/object-rotate-right.svg")));
 
     action = actionCollection()->addAction("rotate_left", this, SLOT(rotateCCW()));
     action->setText(i18n("Rotate Left"));
-    action->setIcon(QIcon::fromTheme("object-rotate-left"));
+    action->setIcon(QIcon::fromTheme("object-rotate-left", QIcon(":/icons/breeze/default/object-rotate-left.svg")));
 
     action = actionCollection()->addAction("flip_horizontal", this, SLOT(flipHorizontal()));
     action->setText(i18n("Flip Horizontal"));
-    action->setIcon(QIcon::fromTheme("object-flip-horizontal"));
+    action->setIcon(QIcon::fromTheme("object-flip-horizontal", QIcon(":/icons/breeze/default/object-flip-horizontal.svg")));
 
     action = actionCollection()->addAction("flip_vertical", this, SLOT(flipVertical()));
     action->setText(i18n("Flip Vertical"));
-    action->setIcon(QIcon::fromTheme("object-flip-vertical"));
-
-    QFile tempFile;
+    action->setIcon(QIcon::fromTheme("object-flip-vertical", QIcon(":/icons/breeze/default/object-flip-vertical.svg")));
 
     action = actionCollection()->addAction("image_histogram");
     action->setText(i18n("Histogram"));
     connect(action, SIGNAL(triggered(bool)), SLOT (histoFITS()));
     actionCollection()->setDefaultShortcut(action, QKeySequence::Replace);
 
-    if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
-    {
-        action->setIcon(QIcon(tempFile.fileName()));
-        tempFile.close();
-    }
-    else
-        action->setIcon(QIcon::fromTheme("tools-wizard"));
+    action->setIcon(QIcon(":/icons/histogram.png"));
 
-    KStandardAction::open(this,   SLOT(openFile()),   actionCollection());
+    action = KStandardAction::open(this,   SLOT(openFile()),   actionCollection());
+    action->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    
     saveFileAction    = KStandardAction::save(this,   SLOT(saveFile()),   actionCollection());
-    saveFileAsAction  = KStandardAction::saveAs(this, SLOT(saveFileAs()), actionCollection());
+    saveFileAction->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")));
+
+    action=saveFileAsAction  = KStandardAction::saveAs(this, SLOT(saveFileAs()), actionCollection());
+    saveFileAsAction->setIcon(QIcon::fromTheme("document-save_as", QIcon(":/icons/breeze/default/document-save-as.svg")));
 
     action = actionCollection()->addAction("fits_header");
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_H));
-    action->setIcon(QIcon::fromTheme("document-properties"));
+    action->setIcon(QIcon::fromTheme("document-properties", QIcon(":/icons/breeze/default/document-properties.svg")));
     action->setText(i18n( "FITS Header"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(headerFITS()));
 
     action = actionCollection()->addAction("fits_debayer");
     actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_D));
-    action->setIcon(QIcon::fromTheme("view-preview"));
+    action->setIcon(QIcon::fromTheme("view-preview", QIcon(":/icons/breeze/default/view-preview.svg")));
     action->setText(i18n( "Debayer..."));
     connect(action, SIGNAL(triggered(bool) ), SLOT(debayerFITS()));
 
@@ -160,24 +150,34 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setText(i18n("Auto stretch"));
     connect(action, SIGNAL(triggered(bool)), SLOT (stretchFITS()));
     actionCollection()->setDefaultShortcut(action, QKeySequence::SelectAll);
-    action->setIcon(QIcon::fromTheme("transform-move"));
+    action->setIcon(QIcon::fromTheme("transform-move", QIcon(":/icons/breeze/default/transform-move.svg")));
 
-    KStandardAction::close(this,  SLOT(close()),  actionCollection());
-
-    KStandardAction::copy(this,   SLOT(copyFITS()),   actionCollection());
-
-    KStandardAction::zoomIn(this,     SLOT(ZoomIn()),      actionCollection());
-    KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());  
-    KStandardAction::actualSize(this, SLOT(ZoomDefault()), actionCollection());
+    action = KStandardAction::close(this,  SLOT(close()),  actionCollection());
+    action->setIcon(QIcon::fromTheme("window-close", QIcon(":/icons/breeze/default/window-close.svg")));
+    
+    action = KStandardAction::copy(this,   SLOT(copyFITS()),   actionCollection());
+    action->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
+    
+    action=KStandardAction::zoomIn(this,     SLOT(ZoomIn()),      actionCollection());
+    action->setIcon(QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.svg")));
+    
+    action=KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());
+    action->setIcon(QIcon::fromTheme("zoom-out", QIcon(":/icons/breeze/default/zoom-out.svg")));
+    
+    action=KStandardAction::actualSize(this, SLOT(ZoomDefault()), actionCollection());
+    action->setIcon(QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg")));
 
     QAction *kundo = KStandardAction::undo(undoGroup, SLOT(undo()), actionCollection());
+    kundo->setIcon(QIcon::fromTheme("edit-undo", QIcon(":/icons/breeze/default/edit-undo.svg")));
+    
     QAction *kredo = KStandardAction::redo(undoGroup, SLOT(redo()), actionCollection());
+    kredo->setIcon(QIcon::fromTheme("edit-redo", QIcon(":/icons/breeze/default/edit-redo.svg")));
 
     connect(undoGroup, SIGNAL(canUndoChanged(bool)), kundo, SLOT(setEnabled(bool)));
     connect(undoGroup, SIGNAL(canRedoChanged(bool)), kredo, SLOT(setEnabled(bool)));
 
     action = actionCollection()->addAction("image_stats");
-    action->setIcon(QIcon::fromTheme("view-statistics"));
+    action->setIcon(QIcon::fromTheme("view-statistics", QIcon(":/icons/breeze/default/view-statistics.svg")));
     action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(statFITS()));
 
@@ -220,25 +220,35 @@ FITSViewer::~FITSViewer()
 
 void FITSViewer::closeEvent(QCloseEvent * /*event*/)
 {
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
-    QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+    KStars *ks = KStars::Instance();
 
-    if (a && viewers.count() == 1)
+    if (ks)
     {
-        a->setEnabled(false);
-        a->setChecked(false);
+        QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+        QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+
+        if (a && viewers.count() == 1)
+        {
+            a->setEnabled(false);
+            a->setChecked(false);
+        }
     }
 }
 
 void FITSViewer::hideEvent(QHideEvent * /*event*/)
 {
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
-    if (a)
-    {
-        QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+    KStars *ks = KStars::Instance();
 
-        if (viewers.count() == 1)
-            a->setChecked(false);
+    if (ks)
+    {
+        QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+        if (a)
+        {
+            QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
+
+            if (viewers.count() == 1)
+                a->setChecked(false);
+        }
     }
 }
 
@@ -254,7 +264,6 @@ void FITSViewer::showEvent(QShowEvent * /*event*/)
 
 int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
 {
-
     FITSTab *tab = new FITSTab(this);
 
     led.setColor(Qt::yellow);
@@ -274,6 +283,8 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
 
         return -1;
     }
+
+    lastURL = QUrl(imageName->url(QUrl::RemoveFilename));
 
     QApplication::restoreOverrideCursor();
     tab->setPreviewText(previewText);
@@ -296,6 +307,10 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
       fitsTab->addTab(tab, i18n("Guide"));
       break;
 
+    case FITS_ALIGN:
+      fitsTab->addTab(tab, i18n("Align"));
+      break;
+
     default:
         break;
 
@@ -309,7 +324,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     saveFileAction->setEnabled(true);
     saveFileAsAction->setEnabled(true);
 
-    undoGroup->addStack(tab->getUndoStack());    
+    undoGroup->addStack(tab->getUndoStack());
 
     fitsTabs.push_back(tab);
 
@@ -377,7 +392,7 @@ bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter
             if (tabIndex != -1 && tab->getView()->getMode() == FITS_NORMAL)
             {
                 if ( (imageName->path().startsWith("/tmp") || imageName->path().contains("/Temp")) && Options::singlePreviewFITS())
-                    fitsTab->setTabText(tabIndex, tab->getPreviewText());
+                    fitsTab->setTabText(tabIndex, tab->getPreviewText().isEmpty()? i18n("Preview") : tab->getPreviewText());
                 else
                     fitsTab->setTabText(tabIndex, imageName->fileName());
             }
@@ -436,7 +451,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
 
 // No need to warn users about unsaved changes in a "viewer".
 /*void FITSViewer::slotClose()
-{        
+{
     int rc=0;
     fitsTab->disconnect();
 
@@ -476,8 +491,8 @@ void FITSViewer::openFile()
     if (fileURL.isEmpty())
         return;
 
-    lastURL = fileURL;
-    QString fpath = fileURL.path();
+    lastURL = QUrl(fileURL.url(QUrl::RemoveFilename));
+    QString fpath = fileURL.toLocalFile();
     QString cpath;
 
 
@@ -594,7 +609,7 @@ int FITSViewer::saveUnsaved(int index)
 
     if (index < 0 || index >= fitsTabs.size())
         return -1;
-    targetTab = fitsTabs[index];        
+    targetTab = fitsTabs[index];
 
     if (targetTab->getView()->getMode() != FITS_NORMAL)
         targetTab->getUndoStack()->clear();
@@ -628,8 +643,6 @@ void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
 {
     switch (id)
     {
-            case FITS_GAMMA:
-                gammaSlider.setValue(msg.toInt());
             case FITS_POSITION:
                 fitsPosition.setText(msg);
                 break;
@@ -711,8 +724,9 @@ void FITSViewer::closeTab(int index)
 
     FITSTab *tab = fitsTabs[index];
 
-    if (tab->getView()->getMode() != FITS_NORMAL)
-        return;
+    // N.B. We will allow closing of all tabs
+    //if (tab->getView()->getMode() != FITS_NORMAL)
+    //   return;
 
     /* Disabling user confirmation for saving edited FITS
        Since in most cases the modifications are done to enhance the view and not to change the data
@@ -788,14 +802,6 @@ FITSView *FITSViewer::getCurrentView()
         return NULL;
 
      return fitsTabs[fitsTab->currentIndex()]->getView();
-}
-
-void FITSViewer::setGamma(int value)
-{
-    if (fitsTab->currentIndex() < 0 || fitsTab->currentIndex() > fitsTabs.count())
-        return;
-
-        fitsTabs[fitsTab->currentIndex()]->getView()->setGammaValue(value);
 }
 
 void FITSViewer::setDebayerAction(bool enable)

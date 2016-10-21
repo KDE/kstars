@@ -98,7 +98,8 @@ private:
     bool m_vectorStars;
     QSize m_size;
     static int starColorMode;
-
+    static QColor m_starColor;
+    static QMap<char, QColor> ColorMap;
 };
 
 #endif

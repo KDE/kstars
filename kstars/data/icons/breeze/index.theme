@@ -1,0 +1,21 @@
+[Icon Theme]
+Name=Breeze
+Name[ca]=Brisa
+Name[ca@valencia]=Brisa
+Name[cs]=Breeze
+Name[en_GB]=Breeze
+Name[es]=Brisa
+Name[nl]=Breeze
+Name[nn]=Breeze
+Name[pl]=Bryza
+Name[pt]=Brisa
+Name[sk]=Vánok
+Name[sv]=Breeze
+Name[uk]=Breeze
+Name[x-test]=xxBreezexx
+Inherits=default
+Directories=default
+
+[default]
+Size=32
+

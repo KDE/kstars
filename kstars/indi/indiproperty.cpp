@@ -151,7 +151,7 @@ void INDI_P::initGUI ()
 
     switch (dataProp->getType())
     {
-       case INDI_SWITCH:
+    case INDI_SWITCH:
         if (dataProp->getSwitch()->r == ISR_NOFMANY)
             guiType = PG_RADIO;
         else if (dataProp->getSwitch()->nsp > 4)
@@ -341,7 +341,7 @@ void INDI_P::buildBLOBGUI()
     PHBox->addItem(horSpacer);
 
     enableBLOBC = new QCheckBox();
-    enableBLOBC->setIcon(QIcon::fromTheme("modem"));
+    enableBLOBC->setIcon(QIcon::fromTheme("modem", QIcon(":/icons/breeze/default/modem.svg")));
     enableBLOBC->setChecked(true);
     enableBLOBC->setToolTip(i18n("Enable binary data transfer from this property to KStars and vice-versa."));
 

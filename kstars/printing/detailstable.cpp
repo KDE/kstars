@@ -268,6 +268,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
             if(dso->type() == SkyObject::RADIO_SOURCE)
             {
+                Q_ASSERT( dso->customCatalog() );
                 objMagLabel = i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency());
                 objMagVal = i18nc("integrated flux value", "%1 %2", QLocale().toString(dso->flux(), 1),
                                   dso->customCatalog()->fluxUnit()); //show to tenths place
@@ -309,13 +310,13 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
     //Common to all types:
     if(obj->type() == SkyObject::CONSTELLATION )
     {
-        objTypeVal = KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName(obj);
+        objTypeVal = KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName(obj);
     }
 
     else
     {
         objTypeVal = i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objTypeVal,
-                           KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName(obj));
+                           KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName(obj));
     }
 
     QVector<QTextLength> constraints;

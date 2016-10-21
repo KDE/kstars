@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>747</width>
-    <height>407</height>
+    <width>812</width>
+    <height>374</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
+    <layout class="QGridLayout" name="gridLayout_5">
+     <item row="0" column="0">
       <widget class="QGroupBox" name="ccdGroup">
        <property name="title">
         <string>CCD &amp;&amp; Filter Wheel</string>
@@ -206,7 +206,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
        </layout>
       </widget>
      </item>
-     <item>
+     <item row="0" column="1" colspan="2">
       <widget class="QGroupBox" name="controlGroup">
        <property name="title">
         <string>Focuser</string>
@@ -267,6 +267,19 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
                  <string>A&amp;uto</string>
                 </property>
                </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
              </layout>
             </item>
@@ -378,24 +391,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
        </layout>
       </widget>
      </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
-     <item>
+     <item row="1" column="0">
       <widget class="QGroupBox" name="groupBox_4">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
@@ -480,7 +476,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
        </layout>
       </widget>
      </item>
-     <item>
+     <item row="1" column="1">
       <widget class="QGroupBox" name="profileGroup">
        <property name="sizePolicy">
         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -517,7 +513,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
        </layout>
       </widget>
      </item>
-     <item>
+     <item row="1" column="2">
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
         <string>Autofocus Options</string>
@@ -555,7 +551,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_7">
             <item>
-             <widget class="QCheckBox" name="focusDarkFrameCheck">
+             <widget class="QCheckBox" name="darkFrameCheck">
               <property name="toolTip">
                <string/>
               </property>
@@ -580,97 +576,10 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
         </item>
         <item>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_10">
-            <property name="whatsThis">
-             <string>Delay between two consequent focus images</string>
-            </property>
-            <property name="text">
-             <string>Box Size:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>ticks</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QSpinBox" name="kcfg_focusBoxSize">
-            <property name="minimum">
-             <number>16</number>
-            </property>
-            <property name="maximum">
-             <number>256</number>
-            </property>
-            <property name="singleStep">
-             <number>16</number>
-            </property>
-            <property name="value">
-             <number>64</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLabel" name="label_11">
-            <property name="text">
-             <string>pixels</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QDoubleSpinBox" name="maxTravelIN">
-            <property name="minimum">
-             <double>10.000000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>50000.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>100.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>10000.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>Max Travel:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="6">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>ticks</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="4">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Tolerance:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="4">
-           <widget class="QLabel" name="label">
-            <property name="whatsThis">
-             <string>Delay between two consequent focus images</string>
-            </property>
-            <property name="text">
-             <string>Step:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="6">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>%</string>
+          <item row="0" column="3">
+           <widget class="Line" name="line_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
            </widget>
           </item>
@@ -690,6 +599,36 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
             </property>
            </widget>
           </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="focusBoxSize">
+            <property name="minimum">
+             <number>16</number>
+            </property>
+            <property name="maximum">
+             <number>256</number>
+            </property>
+            <property name="singleStep">
+             <number>16</number>
+            </property>
+            <property name="value">
+             <number>64</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>ticks</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="label_11">
+            <property name="text">
+             <string>pixels</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="5">
            <widget class="QSpinBox" name="stepIN">
             <property name="minimum">
@@ -706,10 +645,76 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
             </property>
            </widget>
           </item>
-          <item row="0" column="3">
-           <widget class="Line" name="line_2">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
+          <item row="2" column="4">
+           <widget class="QLabel" name="label_4">
+            <property name="toolTip">
+             <string>Decrease value to narrow optimal focus point solution radius. Increase to expand solution radius</string>
+            </property>
+            <property name="text">
+             <string>Tolerance:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="6">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>%</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_10">
+            <property name="whatsThis">
+             <string>Delay between two consequent focus images</string>
+            </property>
+            <property name="text">
+             <string>Box Size:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>ticks</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_12">
+            <property name="toolTip">
+             <string>Maximum travel in ticks before the autofocus process aborts</string>
+            </property>
+            <property name="text">
+             <string>Max Travel:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QDoubleSpinBox" name="maxTravelIN">
+            <property name="minimum">
+             <double>10.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>50000.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>100.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>10000.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QLabel" name="label">
+            <property name="toolTip">
+             <string>&lt;b&gt;Initial&lt;/b&gt; step size in ticks to cause a noticeable change in HFR value. For timer based focuser, it is the initial time in milliseconds to move the focuser inward or outward</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Step:</string>
             </property>
            </widget>
           </item>
@@ -717,6 +722,66 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
            <widget class="Line" name="line_3">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_19">
+            <property name="toolTip">
+             <string>Increase to restrict the centroid to bright cores. Decrease to enclose fuzzy stars.</string>
+            </property>
+            <property name="text">
+             <string>Threshold:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QDoubleSpinBox" name="thresholdSpin">
+            <property name="minimum">
+             <double>90.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>500.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>10.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>150.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>%</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="4">
+           <widget class="QLabel" name="label_21">
+            <property name="toolTip">
+             <string>Number of frames to average</string>
+            </property>
+            <property name="text">
+             <string>Frames:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="Line" name="line_4">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="5">
+           <widget class="QSpinBox" name="focusFramesSpin">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>5</number>
             </property>
            </widget>
           </item>
@@ -735,7 +800,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>0</height>
+       <height>1</height>
       </size>
      </property>
     </spacer>

@@ -30,7 +30,12 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 #include "ksfilereader.h"
+#include "auxiliary/kspaths.h"
+#ifndef KSTARS_LITE
 #include "skymap.h"
+#else
+#include "kstarslite.h"
+#endif
 #include "skylabeler.h"
 #include "skypainter.h"
 #include "projections/projector.h"
@@ -88,6 +93,7 @@ void CometsComponent::loadData() {
 
     emitProgressText(i18n("Loading comets"));
     objectNames(SkyObject::COMET).clear();
+    objectLists(SkyObject::COMET).clear();
 
     QList< QPair<QString, KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
@@ -171,11 +177,14 @@ void CometsComponent::loadData() {
 
         // Add *short* name to the list of object names
         objectNames( SkyObject::COMET ).append( com->name() );
+        objectLists( SkyObject::COMET ).append(QPair<QString, const SkyObject*>(com->name(),com));
     }
 }
 
 void CometsComponent::draw( SkyPainter *skyp )
 {
+    Q_UNUSED(skyp)
+#ifndef KSTARS_LITE
     if( !selected() || Options::zoomFactor() < 10*MINZOOM )
         return;
 
@@ -198,6 +207,7 @@ void CometsComponent::draw( SkyPainter *skyp )
                 SkyLabeler::AddLabel( com, SkyLabeler::COMET_LABEL );
         }
     }
+#endif
 }
 
 void CometsComponent::updateDataFile()
@@ -238,14 +248,21 @@ void CometsComponent::downloadReady()
     // Reload asteroids
     loadData();
 
+#ifdef KSTARS_LITE
+    KStarsLite::Instance()->data()->setFullTimeUpdate();
+#else
     KStars::Instance()->data()->setFullTimeUpdate();
+#endif
 
     downloadJob->deleteLater();
 }
 
 void CometsComponent::downloadError(const QString &errorString)
 {
-    KMessageBox::error(0, i18n("Error downloading comets data: %1", errorString));
-
+#ifndef KSTARS_LITE
+    KMessageBox::error(0, i18n("Error downloading asteroids data: %1", errorString));
+#else
+    qDebug() << i18n("Error downloading comets data: %1", errorString);
+#endif
     downloadJob->deleteLater();
 }

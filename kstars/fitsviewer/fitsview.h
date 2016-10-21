@@ -103,9 +103,10 @@ public:
 
     // Tracking square
     void setTrackingBoxEnabled(bool enable);
+    bool isTrackingBoxEnabled() { return trackingBoxEnabled; }
     QPixmap & getTrackingBoxPixmap();
-    void setTrackingBoxSize(const QSize size);
-    void setTrackingBoxCenter(const QPointF &center);
+    void setTrackingBox(const QRect & rect);
+    const QRect & getTrackingBox() { return trackingBox; }
 
     // Overlay
     void drawOverlay(QPainter *);
@@ -121,8 +122,6 @@ public:
     void updateMode(FITSMode mode);
     FITSMode getMode() { return mode;}
 
-    int getGammaValue() const;
-    void setGammaValue(int value);
     void setFilter(FITSScale newFilter) { filter = newFilter;}
 
 protected:
@@ -155,8 +154,7 @@ private:
     QImage  *display_image;            /* FITS image that is displayed in the GUI */
     FITSHistogram *histogram;
 
-    int gammaValue;
-    double maxPixel, maxGammaPixel, minPixel;
+    double maxPixel, minPixel;
 
     bool firstLoad;
     bool markStars;
@@ -172,8 +170,8 @@ private:
 
     // Tracking box
     bool trackingBoxEnabled;
-    QSize trackingBoxSize;
-    QPointF trackingBoxCenter;
+    bool trackingBoxUpdated;
+    QRect trackingBox;
     QPixmap trackingBoxPixmap;
 
 signals:

@@ -123,9 +123,17 @@
       <label>List for displaying custom object catalogs.</label>
       <whatsthis>List of names for which custom catalogs are to be displayed.</whatsthis>
     </entry>
+    <entry name="ResolveNamesOnline" type="Bool">
+      <label>Resolve names using online services.</label>
+      <whatsthis>Names of objects entered into the find dialog are
+      resolved using online services and stored in the database. This
+      option also toggles the display of such resolved objects on the
+      sky map.</whatsthis>
+      <default>true</default>
+    </entry>
   </group>
 
-  <group name="indi">    
+  <group name="indi">
     <entry name="useGeographicUpdate" type="Bool">
       <label>Automatically updates geographic location?</label>
       <default>true</default>
@@ -133,6 +141,10 @@
     <entry name="useTimeUpdate" type="Bool">
       <label>Automatically updates time and date?</label>
       <default>true</default>
+    </entry>
+    <entry name="independentWindowINDI" type="Bool">
+      <label>Make INDI Control Panel window independent of KStars main window</label>
+      <default>false</default>
     </entry>
     <entry name="showTargetCrosshair" type="Bool">
       <label>Draw crosshairs at telescope position in the sky map?</label>
@@ -143,7 +155,7 @@
       <label>Display INDI messages in the statusbar?</label>
       <whatsthis>Toggle display of INDI messages in the KStars statusbar.</whatsthis>
       <default>true</default>
-    </entry>    
+    </entry>
     <entry name="useComputerSource" type="Bool">
       <label>Use computer time and location for synchronization?</label>
       <default>true</default>
@@ -642,8 +654,8 @@
     <entry name="ZoomFactor" type="Double">
       <label>Zoom Factor, in pixels per radian</label>
       <whatsthis>The zoom level, measured in pixels per radian.</whatsthis>
-      <default>1000.</default>
-      <min>200.</min><max>5000000.</max>
+      <default>250.</default>
+      <min>250.</min><max>5000000.</max>
     </entry>
     <entry name="MagLimitAsteroid" type="Double">
       <label>Faint limit for asteroids</label>
@@ -745,6 +757,21 @@
       <whatsthis>The observing list will prefer SDSS imagery while downloading imagery.</whatsthis>
       <default>false</default>
     </entry>
+    <entry name="ObsListDemoteHole" type="Bool">
+      <label>While sorting by percentage altitude in the observing list, demote objects present in the Dobsonian hole</label>
+      <whatsthis>Check this if you use a large Dobsonian telescope.
+        Sorting by percentage current altitude is an easy way of determining what objects are well-placed for observation.
+      However, when using a large Dobsonian telescope, objects close to the zenith are hard to observe.
+      Since tracking there corresponds to a rotation in azimuth, it is both counterintuitive and requires the observer to frequently move the ladder.
+      The region around the zenith where this is particularly frustrating is called the Dobsonian hole.
+      This checkbox makes the observing list consider objects present in the hole as unfit for observation.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="ObsListHoleSize" type="Double">
+      <label>This is the angular distance from the zenith, in degrees, below which you can easily point your telescope.</label>
+      <whatsthis>This specifies the angular radius of the Dobsonian hole, i.e. the region where a large Dobsonian telescope cannot be pointed easily.</whatsthis>
+      <default>15.00</default>
+    </entry>
   </group>
   <group name="Colors">
     <entry name="ColorSchemeFile" type="String">
@@ -759,9 +786,9 @@
     </entry>
     <entry name="StarColorMode" type="UInt">
       <label>Mode for rendering stars</label>
-      <whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"</whatsthis>
+      <whatsthis>The method for rendering stars: 0="realistic colors"; 1="solid red"; 2="solid black"; 3="solid white"; 4="solid real colors"</whatsthis>
       <default>0</default>
-      <max>3</max>
+      <max>4</max>
     </entry>
     <entry name="StarColorIntensity" type="UInt">
       <label>Saturation level of star colors</label>
@@ -1209,7 +1236,7 @@
       <label>Log debug message to a log file</label>
       <whatsthis>Checking this option causes KStars log debug messages to a log file as specified.</whatsthis>
       <default>false</default>
-    </entry>    
+    </entry>
     <entry name="FITSLogging" type="Bool">
       <whatsthis>Log FITS Data activity.</whatsthis>
       <default>false</default>
@@ -1253,6 +1280,10 @@
       <whatsthis>Display all opened FITS images in a single FITS Viewer window.</whatsthis>
       <default>true</default>
     </entry>
+    <entry name="independentWindowFITS" type="Bool">
+      <label>Make FITS Viewer window independent of KStars main window</label>
+      <default>false</default>
+    </entry>
   </group>
   <group name="WISettings">
       <entry name="BortleClass" type="UInt">
@@ -1277,6 +1308,10 @@
       </entry>
   </group>
   <group name="Ekos">
+    <entry name="independentWindowEkos" type="Bool">
+      <label>Make Ekos window independent of KStars main window</label>
+      <default>false</default>
+    </entry>
     <entry name="profile" type="String">
         <label>Ekos drivers profile</label>
         <default>Simulators</default>
@@ -1320,6 +1355,16 @@
     <entry name="astrometryUseJPEG" type="Bool">
       <label>Use JPEG format, instead of FITS, to upload images to the astrometry.net online service.</label>
       <default>true</default>
+    </entry>
+    <entry name="MaxDarkTemperatureDiff" type="Double">
+      <label>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</label>
+      <default>1</default>
+    </entry>
+    <entry name="shutterfulCCDs" type="StringList">
+      <label>List of CCDs with mechanical or electronic shutters.</label>
+    </entry>
+    <entry name="shutterlessCCDs" type="StringList">
+      <label>List of CCDs without mechanical or electronic shutters.</label>
     </entry>
    </group>
    <group name="Mount">
@@ -1385,6 +1430,10 @@
        <label>When starting a new capture job, check if files were previously captured and resume capture afterwards.</label>
        <default>true</default>
      </entry>
+     <entry name="DarkLibraryDuration" type="UInt">
+       <label>Reuse dark frames from the dark library for this many days. If exceeded, a new dark frame shall be captured and stored for future use.</label>
+       <default>30</default>
+     </entry>
      <entry name="AutoFocusOnFilterChange" type="Bool">
        <label>Perform an autofocus operation when changing filter wheels during an exposure sequence.</label>
        <default>false</default>
@@ -1392,6 +1441,9 @@
      <entry name="AutoStretch" type="Bool">
        <label>Perform auto stretch on captured images in FITS Viewer.</label>
        <default>true</default>
+     </entry>
+     <entry name="PostCaptureScript" type="String">
+       <label>Script to execute after an image is captured. The capture process halts until the script is complete.</label>
      </entry>
    </group>
    <group name="Focus">
@@ -1453,10 +1505,22 @@
            <label>Use specified filter index when performing focus regardless of current filter settings.</label>
            <default>0</default>
        </entry>
-       <entry name="FocusDarkFrame" type="Bool">
+       <entry name="UseFocusDarkFrame" type="Bool">
            <label>Take a dark frame and subtract it before running autofocus operation.</label>
            <default>false</default>
        </entry>
+       <entry name="FocusEffect" type="UInt">
+           <label>Image filter to be applied to focus image upon loading.</label>
+           <default>0</default>
+       </entry>
+       <entry name="FocusThreshold" type="Double">
+          <label>Relative percentage strength of centroid edge pixel strength to average pixel value.</label>
+          <default>150</default>
+        </entry>
+        <entry name="FocusFrames" type="UInt">
+           <label>Number of frames to average</label>
+           <default>1</default>
+         </entry>
     </group>
     <group name="Align">
     <entry name="DefaultAlignCCD" type="String">
@@ -1467,16 +1531,11 @@
              <whatsthis>Specifies exposure value of CCD in seconds when performing plate solving.</whatsthis>
              <default>1</default>
         </entry>
-        <entry name="SolverXBin" type="UInt">
-           <label>Default CCD X binning while in alignment mode</label>
-              <whatsthis>Set horizontal binning of CCD camera while in alignment mode.</whatsthis>
+        <entry name="SolverBinningIndex" type="UInt">
+              <label>Default CCD binning index while in alignment mode</label>
+              <whatsthis>Set binning index of CCD camera while in alignment mode. Default values 0-3 corresponding to 1x1 to 4x4 binning</whatsthis>
               <default>1</default>
          </entry>
-         <entry name="SolverYBin" type="UInt">
-         <label>Default CCD Y binning while in alignment mode</label>
-            <whatsthis>Set vertical binning of CCD camera while in alignment mode.</whatsthis>
-               <default>1</default>
-          </entry>
           <entry name="SolverUpdateCoords" type="Bool">
               <label>Update Solver RA and DEC search coordinates.</label>
               <whatsthis>Automatically update the solver RA and Declination coordinates after telescope slew is completed.</whatsthis>
@@ -1485,6 +1544,10 @@
           <entry name="SolverPreview" type="Bool">
               <label>Display image in FITS Viewer.</label>
               <whatsthis>Display captured image in FITS Viewer before starting the plate solving process.</whatsthis>
+              <default>false</default>
+          </entry>
+          <entry name="SolverVerbose" type="Bool">
+              <whatsthis>Display detailed verbose messages of the astrometry solver process while in progress.</whatsthis>
               <default>false</default>
           </entry>
           <entry name="SolverType" type="UInt">
@@ -1502,7 +1565,7 @@
             <label>Action to take if solver if successful (Sync, Slew to Target, or None)</label>
             <default>0</default>
           </entry>
-          <entry name="WCSAlign" type="Bool">
+          <entry name="SolverWCS" type="Bool">
             <label>World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</label>
             <default>false</default>
           </entry>
@@ -1517,6 +1580,10 @@
           <entry name="AlignDarkFrame" type="Bool">
               <label>Take a dark frame and subtract it before running astrometry operation.</label>
               <default>false</default>
+          </entry>
+          <entry name="SettlingTime" type="UInt">
+              <label>Time to wait in milliseconds after telescope slewing is complete before starting the next capture.</label>
+              <default>1500</default>
           </entry>
     </group>
     <group name="Guide">
@@ -1549,13 +1616,13 @@
     <entry name="PHD2Port" type="UInt">
         <label>PHD2 Event Monitoring Port</label>
         <default>4400</default>
-    </entry>    
+    </entry>
     <entry name="CalibrationPulseDuration" type="UInt">
         <label>Pulse duration in milliseconds used for guiding pulses during calibration stage.</label>
         <default>1000</default>
     </entry>
-    <entry name="CalibrationSquareSizeIndex" type="UInt">
-        <label>Calibration square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
+    <entry name="GuideSquareSizeIndex" type="UInt">
+        <label>Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
         <default>1</default>
     </entry>
     <entry name="UseAutoMode" type="Bool">
@@ -1578,7 +1645,7 @@
         <label>Use both axes to perform calibration.</label>
         <default>true</default>
     </entry>
-    <entry name="UseDarkFrame" type="Bool">
+    <entry name="UseGuideDarkFrame" type="Bool">
         <label>Take dark frame for autoguider images.</label>
         <default>false</default>
     </entry>
@@ -1676,6 +1743,15 @@
     <entry name="CameraRotation" type="Double">
         <label>Position angle of the camera with respect to north.</label>
         <default>0</default>
+    </entry>
+    </group>
+    <group name="INDI Lite">
+    <entry name="LastServer" type="String">
+        <label>The address of last used server</label>
+    </entry>
+    <entry name="LastServerPort" type="UInt">
+        <label>The port of last used server</label>
+        <default>7624</default>
     </entry>
     </group>
 </kcfg>

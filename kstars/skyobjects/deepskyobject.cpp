@@ -29,10 +29,13 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "dms.h"
+#ifndef KSTARS_LITE
 #include "kspopupmenu.h"
+#endif
 #include "Options.h"
 #include "skymap.h"
 #include "texturemanager.h"
+#include "catalogentrydata.h"
 
 #include <QDebug>
 #include <KLocalizedString>
@@ -48,7 +51,8 @@ DeepSkyObject::DeepSkyObject( const DeepSkyObject &o )
     , Catalog( o.Catalog )
 {
     customCat = NULL;
-    Flux = 0;
+    Flux = o.flux();
+    setMag( o.mag() );
     updateID = updateNumID = 0;
 }
 
@@ -70,6 +74,34 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
     loadImage();
 }
 
+DeepSkyObject::DeepSkyObject( const CatalogEntryData &data, CatalogComponent *cat )
+{
+    // FIXME: This assumes that CatalogEntryData coordinates have
+    // J2000.0 as epoch as opposed to the catalog's epoch!!! -- asimha
+    qWarning() << "Creating a DeepSkyObject from CatalogEntryData assumes that coordinates are J2000.0";
+    setType( data.type );
+    setRA0( data.ra/15.0 ); // NOTE: CatalogEntryData stores RA in degrees, whereas setRA0() wants it in hours.
+    setDec0( data.dec );
+    setLongName( data.long_name );
+    if( ! data.catalog_name.isEmpty() )
+        setName( data.catalog_name + ' ' + QString::number( data.ID ) );
+    else {
+        setName( data.long_name );
+        setLongName( QString() );
+    }
+    MajorAxis = data.major_axis;
+    MinorAxis = data.minor_axis;
+    PositionAngle = data.position_angle;
+    setMag( data.magnitude );
+    PGC = 0;
+    UGC = 0;
+    setCatalog( data.catalog_name );
+    updateID = updateNumID = 0;
+    customCat = cat;
+    Flux = data.flux;
+    loadImage();
+}
+
 DeepSkyObject* DeepSkyObject::clone() const
 {
     Q_ASSERT( typeid( this ) == typeid( static_cast<const DeepSkyObject *>( this ) ) ); // Ensure we are not slicing a derived class
@@ -77,7 +109,9 @@ DeepSkyObject* DeepSkyObject::clone() const
 }
 
 void DeepSkyObject::initPopupMenu( KSPopupMenu *pmenu ) {
+#ifndef KSTARS_LITE
     pmenu->createDeepSkyObjectMenu( this );
+#endif
 }
 
 float DeepSkyObject::e() const {
@@ -98,7 +132,7 @@ void DeepSkyObject::setCatalog( const QString &cat ) {
     else if ( cat.toUpper() == "NGC" ) Catalog = (unsigned char)CAT_NGC;
     else if ( cat.toUpper() == "IC"  ) Catalog = (unsigned char)CAT_IC;
     else Catalog = (unsigned char)CAT_UNKNOWN;
-}   
+}
 
 void DeepSkyObject::loadImage()
 {
@@ -140,7 +174,7 @@ QString DeepSkyObject::labelString() const {
 SkyObject::UID DeepSkyObject::getUID() const
 {
     // mag takes 10 bit
-    SkyObject::UID m = mag()*10; 
+    SkyObject::UID m = mag()*10;
     if( m < 0 ) m = 0;
 
     // Both RA & dec fits in 24-bits
@@ -151,7 +185,7 @@ SkyObject::UID DeepSkyObject::getUID() const
     assert("RA should fit into 24bits"  && ra>=0  && ra <(1<<24));
     assert("Dec should fit into 24bits" && dec>=0 && dec<(1<<24));
 
-    // Choose kind of 
+    // Choose kind of
     SkyObject::UID kind = type() == SkyObject::GALAXY ? SkyObject::UID_GALAXY : SkyObject::UID_DEEPSKY;
     return (kind << 60) | (m << 48) | (ra << 24) | dec;
 }

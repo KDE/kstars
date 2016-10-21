@@ -23,7 +23,7 @@
 #include "skyobjects/skyobject.h"
 
 class SkyLabel;
-typedef QList<SkyLabel>                LabelList;
+typedef QList<SkyLabel> LabelList;
 
 class SkyLabel {
 

@@ -138,7 +138,7 @@ SkyMap* SkyMap::Instance( )
     return pinstance;
 }
 
-SkyMap::SkyMap() : 
+SkyMap::SkyMap() :
     QGraphicsView( KStars::Instance() ),
     computeSkymap(true), rulerMode(false),
     data( KStarsData::Instance() ), pmenu(0),
@@ -160,7 +160,7 @@ SkyMap::SkyMap() :
     setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
     setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-    setStyleSheet( "QGraphicsView { border-style: none; }" ); 
+    setStyleSheet( "QGraphicsView { border-style: none; }" );
 
     setMouseTracking (true); //Generate MouseMove events!
     midMouseButtonDown = false;
@@ -215,52 +215,18 @@ SkyMap::SkyMap() :
     connect(this,     SIGNAL( positionChanged( SkyPoint*) ),
             m_objBox, SLOT(   slotPointChanged(SkyPoint*) ) );
 
-#ifdef HAVE_OPENGL
-    m_SkyMapQDraw  = new SkyMapQDraw( this );
-    m_SkyMapQDraw->setMouseTracking( true );
-    m_SkyMapGLDraw = new SkyMapGLDraw( this );
-    m_SkyMapGLDraw->setMouseTracking( true );
-    m_SkyMapGLDraw->hide();
-    m_SkyMapQDraw->hide();
-
-    if( Options::useGL() )
-        m_SkyMapDraw = m_SkyMapGLDraw;
-    else
-        m_SkyMapDraw = m_SkyMapQDraw;
-#else
     m_SkyMapDraw = new SkyMapQDraw( this );
     m_SkyMapDraw->setMouseTracking( true );
-#endif
-    
+
     m_SkyMapDraw->setParent( this->viewport() );
     m_SkyMapDraw->show();
 
-    /*
-    m_Scene = new QGraphicsScene( rect() );
-    setScene( m_Scene );
-    */
-
-#ifdef HAVE_OPENGL
-    // If GL is enabled, the InfoBoxes work only with native painting.
-    m_iboxes = new InfoBoxes( m_SkyMapQDraw );
-#else
     m_iboxes = new InfoBoxes( m_SkyMapDraw );
-#endif
 
     m_iboxes->setVisible( Options::showInfoBoxes() );
     m_iboxes->addInfoBox(m_timeBox);
     m_iboxes->addInfoBox(m_geoBox);
     m_iboxes->addInfoBox(m_objBox);
-    /*
-    ( m_Scene->addWidget( m_iboxes ) )->setAcceptedMouseButtons( Qt::NoButton );
-    */
-
-    // JM 2016-05-03: What is this needed for? why update skymap every 30 ms? It is now disabled since it degrades performance significantly.
-    //The update timer will be destructed when SkyMap is..
-    //QTimer *update = new QTimer(this);
-    //update->setInterval(30);
-    //connect(update, SIGNAL(timeout()), this, SLOT(update()) );
-    //update->start();
 
 }
 
@@ -298,7 +264,7 @@ SkyMap::~SkyMap() {
     Options::setShadeFocusBox(    m_objBox->shaded() );
     Options::setStickyFocusBox(   m_objBox->sticky() );
     Options::setShowFocusBox(     m_objBox->isVisibleTo(m_iboxes) );
-    
+
     //store focus values in Options
     //If not tracking and using Alt/Az coords, stor the Alt/Az coordinates
     if ( Options::useAltAz() && ! Options::isTracking() ) {
@@ -355,7 +321,7 @@ void SkyMap::slotTransientLabel() {
 //Slots
 
 void SkyMap::setClickedObject( SkyObject *o ) {
-	  ClickedObject = o;
+      ClickedObject = o;
 }
 
 void SkyMap::setFocusObject( SkyObject *o ) {
@@ -371,8 +337,12 @@ void SkyMap::slotCenter() {
     TrailObject* trailObj = dynamic_cast<TrailObject*>( focusObject() );
 
     setFocusPoint( clickedPoint() );
-    if ( Options::useAltAz() ) {
-        focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+    if ( Options::useAltAz() )
+    {
+        // JM 2016-09-12: Following call has problems when ra0/dec0 of an object are not valid for example
+        // because they're solar system bodies. So it creates a lot of issues. It is disabled and centering
+        // works correctly for all different body types as I tested.
+        //focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     }
     else
@@ -407,7 +377,7 @@ void SkyMap::slotCenter() {
     setFocusObject( ClickedObject );
     Options::setIsTracking( true );
     if ( kstars ) {
-        kstars->actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
+        kstars->actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.svg")) );
         kstars->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
     }
 
@@ -521,7 +491,7 @@ void SkyMap::beginRulerMode( bool starHopRuler ) {
     starHopDefineMode = starHopRuler;
     AngularRuler.clear();
 
-    //If the cursor is near a SkyObject, reset the AngularRuler's 
+    //If the cursor is near a SkyObject, reset the AngularRuler's
     //start point to the position of the SkyObject
     double maxrad = 1000.0/Options::zoomFactor();
     SkyObject *so = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
@@ -848,7 +818,7 @@ void SkyMap::setDestinationAltAz( const dms &alt, const dms &az) {
     emit destinationChanged();
 }
 
-void SkyMap::setClickedPoint( SkyPoint *f ) { 
+void SkyMap::setClickedPoint( SkyPoint *f ) {
     ClickedPoint = *f;
 }
 
@@ -947,11 +917,11 @@ void SkyMap::slewFocus() {
                 //switch directions to go the short way around the celestial sphere, if necessary.
                 dX = KSUtils::reduceAngle(dX, -180.0, 180.0);
                 r = sqrt( dX*dX + dY*dY );
-                
+
                 //Modify step according to a cosine-shaped profile
                 //centered on the midpoint of the slew
                 //NOTE: don't allow the full range from -PI/2 to PI/2
-                //because the slew will never reach the destination as 
+                //because the slew will never reach the destination as
                 //the speed approaches zero at the end!
                 double t = dms::PI*(r - 0.5*r0)/(1.05*r0);
                 step = cos(t)*maxstep;
@@ -1022,7 +992,7 @@ void SkyMap::forceUpdate( bool now )
         m_SkyMapDraw->repaint();
     else
         m_SkyMapDraw->update();
-    
+
 }
 
 float SkyMap::fov() {
@@ -1103,50 +1073,6 @@ void SkyMap::updateAngleRuler() {
 bool SkyMap::isSlewing() const  {
     return (slewing || ( clockSlewing && data->clock()->isActive() ) );
 }
-
-#ifdef HAVE_OPENGL
-void SkyMap::slotToggleGL() {
-
-    Q_ASSERT( m_SkyMapGLDraw );
-    Q_ASSERT( m_SkyMapQDraw );
-
-    m_SkyMapDraw->setParent( 0 );
-    m_SkyMapDraw->hide();
-
-    if( Options::useGL() ) {
-        // Do NOT use GL
-        Options::setUseGL( false );
-        m_SkyMapDraw = m_SkyMapQDraw;
-        KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to OpenGL backend"));
-    }
-    else {
-        // Use GL
-        QString message = i18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works "
-                               "much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?");
-
-        int result = KMessageBox::warningYesNo( this, message,
-                                                i18n("Switch to OpenGL backend"),
-                                                KStandardGuiItem::yes(),
-                                                KStandardGuiItem::no(),
-                                                "dag_opengl_switch" );
-
-        if ( result == KMessageBox::Yes ) {
-
-            KMessageBox::information( this, i18n("Infoboxes will be disabled as they do not work correctly when using OpenGL backends as of this version"),
-                                      i18n("Switch to OpenGL backend"),
-                                      "dag_opengl_infoboxes" );
-
-            Options::setUseGL( true );
-
-            m_SkyMapDraw = m_SkyMapGLDraw;
-            KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to QPainter backend"));
-        }
-    }
-    m_SkyMapDraw->setParent( viewport() );
-    m_SkyMapDraw->show();
-    m_SkyMapDraw->resize( size() );
-}
-#endif
 
 #ifdef HAVE_XPLANET
 void SkyMap::startXplanet( const QString & outputFile ) {

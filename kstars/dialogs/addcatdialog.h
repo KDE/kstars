@@ -60,7 +60,7 @@ public:
     /**
       *@return the filename of the custom catalog.
     	*/
-    QString filename() const { return acd->CatalogURL->url().path(); }
+    QString filename() const { return acd->CatalogURL->url().toLocalFile(); }
 
 private slots:
     /**

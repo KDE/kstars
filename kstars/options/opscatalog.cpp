@@ -235,6 +235,7 @@ void OpsCatalog::slotApply() {
     updateCustomCatalogs();
 
     // JM: Why are we calling this if no deep sky stuff was changed?
+    // AS: It's possible that custom catalogs have changed, which is probably why.
     KStars::Instance()->data()->skyComposite()->reloadDeepSky();
 
     Options::setShowMessier( m_ShowMessier );
@@ -346,5 +347,4 @@ void OpsCatalog::populateCustomCatalogs() {
           newItem->setCheckState( Qt::Unchecked );
         }
     }
-
 }

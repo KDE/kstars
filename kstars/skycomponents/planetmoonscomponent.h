@@ -67,6 +67,12 @@ public:
      */
     SkyObject* findByName( const QString &name );
 
+    /** Return pointer to stored planet object. */
+    KSPlanetBase* getPlanet() const;
+
+    /** Return pointer to stored moons object. */
+    inline PlanetMoons* getMoons() const { return pmoons; }
+
 protected:
     virtual void drawTrails( SkyPainter* skyp );
 

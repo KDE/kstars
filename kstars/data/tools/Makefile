@@ -69,6 +69,8 @@ nomadbinfiletester: nomadbinfiletester.c
 readnomadbindump: readnomadbindump.c
 	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) $@.c $(LDFLAGS) -lm -o $@
 
+nomadbinfile2sqlite: nomadbinfile2sqlite.cpp
+	$(CXX) -D_FILE_OFFSET_BITS=64 $(CXXFLAGS) -l sqlite3 -I../../htmesh -I../..  nomadbinfile2sqlite.cpp $(KDEINSTALLDIR)/lib/libhtmesh.a -o $@
 clean:
 	-rm binfiletester mysql2bin nomadmysql2bin nomadmysql2bin-split nomadmysql2bin-merge nomadbinfiletester readnomadbindump nomadbinfile2mysql
 	-rm ushf usdf nshf nsdf nf dsdf dshf

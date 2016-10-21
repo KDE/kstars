@@ -250,7 +250,7 @@ bool FITSTab::saveFile()
     QUrl currentDir(Options::fitsDir());
     currentDir.setScheme("file");
 
-    if (currentURL.path().startsWith("/tmp/") || currentURL.path().contains("/Temp"))
+    if (currentURL.toLocalFile().startsWith("/tmp/") || currentURL.toLocalFile().contains("/Temp"))
         currentURL.clear();
 
     // If no changes made, return.
@@ -267,10 +267,10 @@ bool FITSTab::saveFile()
             return false;
         }
 
-        if (currentURL.path().contains('.') == 0)
-            currentURL.setPath(currentURL.path() + ".fits");
+        if (currentURL.toLocalFile().contains('.') == 0)
+            currentURL.setPath(currentURL.toLocalFile() + ".fits");
 
-        if (QFile::exists(currentURL.path()))
+        if (QFile::exists(currentURL.toLocalFile()))
         {
             int r = KMessageBox::warningContinueCancel(0,
                         i18n( "A file named \"%1\" already exists. "
@@ -285,7 +285,7 @@ bool FITSTab::saveFile()
 
     if ( currentURL.isValid() )
     {
-        if ( (err_status = saveFITS('!' + currentURL.path())) != 0)
+        if ( (err_status = saveFITS('!' + currentURL.toLocalFile())) != 0)
         {
             // -1000 = user canceled
             if (err_status == -1000)
@@ -335,7 +335,6 @@ void FITSTab::ZoomDefault()
 void FITSTab::tabPositionUpdated()
 {
     undoStack->setActive(true);
-    emit newStatus(QString("%1").arg(view->getGammaValue()), FITS_GAMMA);
     emit newStatus(QString("%1%").arg(view->getCurrentZoom()), FITS_ZOOM);
     emit newStatus(QString("%1x%2").arg(view->getImageData()->getWidth()).arg(view->getImageData()->getHeight()), FITS_RESOLUTION);
 }

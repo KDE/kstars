@@ -23,7 +23,9 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
+#ifndef KSTARS_LITE
 #include <KJobUiDelegate>
+#endif
 #include <KLocalizedString>
 
 #include "satellitegroup.h"
@@ -42,7 +44,6 @@ SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
     if ( ! fileReader.open( "satellites.dat" ) ) return;
 
     emitProgressText( i18n("Loading satellites" ) );
-    
 
     while ( fileReader.hasMoreLines() ) {
         line = fileReader.readLine();
@@ -53,6 +54,7 @@ SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
     }
 
     objectNames(SkyObject::SATELLITE).clear();
+    objectLists(SkyObject::SATELLITE).clear();
 
     foreach( SatelliteGroup *group, m_groups )
     {
@@ -62,6 +64,7 @@ SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
             if ( sat->selected() && nameHash.contains(sat->name().toLower()) == false)
             {
                 objectNames(SkyObject::SATELLITE).append(sat->name());
+                objectLists(SkyObject::SATELLITE).append(QPair<QString, const SkyObject*>(sat->name(), sat));
                 nameHash[sat->name().toLower()] = sat;
             }
         }
@@ -148,7 +151,7 @@ void SatellitesComponent::updateTLEs()
 
         if (response->error() == QNetworkReply::NoError)
         {
-            QFile file(group->tleFilename().path());
+            QFile file(group->tleFilename().toLocalFile());
             if (file.open(QFile::WriteOnly))
             {
                 file.write(response->readAll());
@@ -159,14 +162,22 @@ void SatellitesComponent::updateTLEs()
             }
             else
             {
+            #ifndef KSTARS_LITE
                 KMessageBox::error(0, file.errorString());
+            #else
+                qDebug() << file.errorString();
+            #endif
                 return;
             }
 
         }
         else
         {
-            KMessageBox::error(0, response->errorString());
+            #ifndef KSTARS_LITE
+                KMessageBox::error(0, response->errorString());
+            #else
+                qDebug() << response->errorString();
+            #endif
             return;
         }
     }

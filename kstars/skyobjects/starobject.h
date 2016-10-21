@@ -25,6 +25,8 @@
 #include "stardata.h"
 #include "deepstardata.h"
 
+//#define PROFILE_UPDATECOORDS
+
 class KSPopupMenu;
 
 /** @class StarObject
@@ -162,15 +164,17 @@ public:
      * @param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
      * @param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
      */
-    virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
+    virtual void updateCoords( const KSNumbers *num, bool includePlanets=true, const CachingDms *lat=0, const CachingDms *LST=0, bool forceRecompute = false );
 
     /** @short fills ra and dec with the coordinates of the star with the proper
      * motion correction but without precesion and its friends.  It is used
      * in StarComponent to re-index all the stars.
      *
+     * @return true if we changed the coordinates, false otherwise
      * NOTE: ra and dec both in degrees.
      */
-    void getIndexCoords( const KSNumbers *num, double *ra, double *dec );
+    bool getIndexCoords( const KSNumbers *num, CachingDms &ra, CachingDms &dec );
+    bool getIndexCoords( const KSNumbers *num, double *ra, double *dec );
 
     /** @short added for JIT updates from both StarComponent and ConstellationLines */
     void JITupdate();
@@ -263,6 +267,12 @@ public:
 
     quint64 updateID;
     quint64 updateNumID;
+
+#ifdef PROFILE_UPDATECOORDS
+    static double updateCoordsCpuTime;
+    static unsigned int starsUpdated;
+#endif
+
 
 protected:
     // DEBUG EDIT. For testing proper motion, uncomment this, and related blocks

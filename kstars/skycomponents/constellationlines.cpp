@@ -28,7 +28,12 @@
 #include "skyobjects/starobject.h"
 #include "skycomponents/starcomponent.h"
 #include "skycomponents/culturelist.h"
+
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#else
 #include "skymap.h"
+#endif
 
 #include "skymesh.h"
 #include "ksfilereader.h"
@@ -115,8 +120,13 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
 
 bool ConstellationLines::selected()
 {
+#ifndef KSTARS_LITE
     return Options::showCLines() &&
            ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing() );
+#else
+    return Options::showCLines() &&
+           ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMapLite::IsSlewing() );
+#endif
 }
 
 void ConstellationLines::preDraw( SkyPainter* skyp )

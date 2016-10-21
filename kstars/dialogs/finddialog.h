@@ -22,11 +22,12 @@
 #include <QDialog>
 
 #include "ui_finddialog.h"
-#include "skyobjects/skyobject.h"
 
 class QTimer;
 class QStringListModel;
 class QSortFilterProxyModel;
+class SkyObjectListModel;
+class SkyObject;
 
 class FindDialogUI : public QFrame, public Ui::FindDialog {
     Q_OBJECT
@@ -54,8 +55,12 @@ public:
     /** Destructor */
     virtual ~FindDialog();
 
-    /** @return the currently-selected item from the listbox of named objects */
-    SkyObject* selectedObject() const;
+    /**
+     * @return the target object (need not be the same as currently selected object!)
+     *
+     * @note Avoid using selectedObject()
+     */
+    inline SkyObject *targetObject() { return m_targetObject; }
 
 public slots:
     /**When Text is entered in the QLineEdit, filter the List of objects
@@ -65,11 +70,17 @@ public slots:
 
     //FIXME: Still valid for QDialog?  i.e., does QDialog have a slotOk() ?
     /**
-     *Overloading the Standard QDialogBase slotOk() to show a "sorry" message
-     *box if no object is selected when the user presses Ok.  The window is
-     *not closed in this case.
+     *Overloading the Standard QDialogBase slotOk() to show a "sorry"
+     *message box if no object is selected and internet resolution was
+     *disabled/failed when the user presses Ok.  The window is not
+     *closed in this case.
      */
     void slotOk();
+
+    /**
+     * @short This slot resolves the object on the internet, ignoring the selection on the list
+     */
+    void slotResolve();
 
 private slots:
     /** Init object list after opening dialog. */
@@ -90,6 +101,9 @@ protected:
      */
     void keyPressEvent( QKeyEvent *e );
 
+    /** @return the currently-selected item from the listbox of named objects */
+    SkyObject* selectedObject() const;
+
 private:
 
     /** @short Do some post processing on the search text to interpret what the user meant
@@ -97,17 +111,23 @@ private:
      */
      QString processSearchText();
 
+     /**
+      * @short Finishes the processing towards closing the dialog initiated by slotOk() or slotResolve()
+      */
+     void finishProcessing( SkyObject *selObj = 0, bool resolve = true );
+
     /** @short pre-filter the list of objects according to the
      * selected object type.
      */
     void filterByType();
 
     FindDialogUI* ui;
-    QStringListModel *fModel;
+    SkyObjectListModel *fModel;
     QSortFilterProxyModel* sortModel;
     QTimer* timer;
     bool listFiltered;
     QPushButton *okB;
+    SkyObject *m_targetObject;
 };
 
 #endif

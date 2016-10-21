@@ -22,6 +22,7 @@
 
 #include "skycomposite.h"
 #include "ksnumbers.h"
+#include "skyobject.h"
 
 class SkyMesh;
 class SkyLabeler;
@@ -55,6 +56,7 @@ class DeepSkyObject;
 class KSPlanetBase;
 class KSPlanet;
 class ConstellationsArt;
+class SyncedCatalogComponent;
 
 /** @class SkyMapComposite
 *SkyMapComposite is the root object in the object hierarchy of the sky map.
@@ -174,6 +176,31 @@ public:
     SupernovaeComponent* supernovaeComponent();
     ArtificialHorizonComponent* artificialHorizon();
 
+    /** Getters for SkyComponents **/
+    inline HorizonComponent* horizon() { return m_Horizon; }
+
+    inline ConstellationBoundaryLines* constellationBoundary() { return m_CBoundLines; }
+    inline ConstellationLines* constellationLines() { return m_CLines; }
+
+    inline Ecliptic* ecliptic() { return m_Ecliptic; }
+    inline Equator* equator() { return m_Equator; }
+
+    inline EquatorialCoordinateGrid* equatorialCoordGrid() { return m_EquatorialCoordinateGrid; }
+    inline HorizontalCoordinateGrid* horizontalCoordGrid() { return m_HorizontalCoordinateGrid; }
+
+    inline ConstellationArtComponent * constellationArt() { return m_ConstellationArt; }
+
+    inline SolarSystemComposite* solarSystemComposite() { return m_SolarSystem; }
+
+    inline ConstellationNamesComponent* constellationNamesComponent() { return m_CNames; }
+
+    inline DeepSkyComponent* deepSkyComponent() { return m_DeepSky; }
+
+    inline MilkyWay *milkyWay() { return m_MilkyWay; }
+
+    inline SyncedCatalogComponent* internetResolvedComponent() { return m_internetResolvedComponent; }
+    inline SyncedCatalogComponent* manualAdditionsComponent() { return m_manualAdditionsComponent; }
+
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
     virtual void emitProgressText( const QString &message );
@@ -185,6 +212,10 @@ public:
     const QList<SkyObject*>& asteroids() const;
     const QList<SkyObject*>& comets() const;
     const QList<SkyObject*>& supernovae() const;
+    QList<SkyObject*> planets();
+    QList<SkyObject*> moons();
+
+    const QList<SkyObject*> *getSkyObjectsList(SkyObject::TYPE t);
 
     KSPlanet* earth();
     KSPlanetBase* planet( int n );
@@ -196,16 +227,13 @@ public:
 
     QList<SkyComponent*> customCatalogs();
 
-    ConstellationBoundaryLines* getConstellationBoundary() { return m_CBoundLines; }
     inline TargetListComponent *getStarHopRouteList() { return m_StarHopRouteList; }
-
-    SolarSystemComposite *solarSystemComposite();
-
 signals:
     void progressText( const QString &message );
 
 private:
     virtual QHash<int, QStringList>& getObjectNames();
+    virtual QHash<int, QVector<QPair<QString, const SkyObject*>>>& getObjectLists();
     
     CultureList                 *m_Cultures;
     ConstellationBoundaryLines  *m_CBoundLines;
@@ -228,6 +256,8 @@ private:
     TargetListComponent         *m_StarHopRouteList;
     SatellitesComponent         *m_Satellites;
     SupernovaeComponent         *m_Supernovae;
+    SyncedCatalogComponent      *m_internetResolvedComponent;
+    SyncedCatalogComponent      *m_manualAdditionsComponent;
 
     SkyMesh*                m_skyMesh;
     SkyLabeler*             m_skyLabeler;
@@ -238,7 +268,10 @@ private:
 
     QList<SkyObject*>       m_LabeledObjects;
     QHash<int, QStringList> m_ObjectNames;
+    QHash<int, QVector<QPair<QString, const SkyObject*>>> m_ObjectLists;
     QHash<QString, QString> m_ConstellationNames;
+    QString m_internetResolvedCat; // Holds the name of the internet resolved catalog
+    QString m_manualAdditionsCat;
 };
 
 #endif

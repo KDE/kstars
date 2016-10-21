@@ -14,6 +14,7 @@
 #include "inditelescope.h"
 #include "kstars.h"
 #include "skymap.h"
+#include "skymapcomposite.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
 
@@ -110,6 +111,7 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
 
         currentCoord.setRA(RA->value);
         currentCoord.setDec(DEC->value);
+        currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
 
         KStars::Instance()->map()->update();
 
@@ -311,7 +313,7 @@ bool Telescope::runCommand(int command, void *ptr)
 
     switch (command)
     {
-       case INDI_SEND_COORDS:
+    case INDI_SEND_COORDS:
         if (ptr == NULL)
             sendCoords(KStars::Instance()->map()->clickedPoint());
         else
@@ -319,15 +321,19 @@ bool Telescope::runCommand(int command, void *ptr)
 
         break;
 
+    case INDI_ENGAGE_TRACKING:
+        {
+            SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
+            J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), (long double) J2000);
+            currentCoord.setRA0(J2000Coord.ra());
+            currentCoord.setDec0(J2000Coord.dec());
+            KStars::Instance()->map()->setDestination(currentCoord);
+        }
+        break;
 
-        case INDI_ENGAGE_TRACKING:
-            KStars::Instance()->map()->setClickedPoint(&currentCoord);
-            KStars::Instance()->map()->slotCenter();
-            break;
-
-        default:
-            return DeviceDecorator::runCommand(command, ptr);
-            break;
+    default:
+        return DeviceDecorator::runCommand(command, ptr);
+        break;
 
     }
 
@@ -374,7 +380,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 ScopeTarget->apparentCoord(KStars::Instance()->data()->ut().djd(), (long double) J2000);
 
               currentRA  = RAEle->value;
-              currentDEC = DecEle->value;              
+              currentDEC = DecEle->value;
 
               ScopeTarget->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
        }
@@ -387,7 +393,7 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
                 if (!AltEle) return false;
 
             currentAz  = AzEle->value;
-            currentAlt = AltEle->value;           
+            currentAlt = AltEle->value;
         }
 
         /* Could not find either properties! */
@@ -449,6 +455,11 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
             AltEle->value = currentAlt;
         }
 
+        double maxrad = 1000.0/Options::zoomFactor();
+        SkyObject *so = KStarsData::Instance()->skyComposite()->objectNearest(ScopeTarget, maxrad );
+        if (so)
+            emit newTarget(so->name());
+
         return true;
 
 }
@@ -495,7 +506,7 @@ bool Telescope::Sync(double ra, double dec)
     SkyPoint target;
 
     target.setRA(ra);
-    target.setDec(dec);    
+    target.setDec(dec);
 
     return Sync(&target);
 }

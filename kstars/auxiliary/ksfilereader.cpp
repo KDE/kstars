@@ -22,7 +22,9 @@
 #include <QFile>
 
 #include <QDebug>
+#ifndef KSTARS_LITE
 #include "kstars.h"
+#endif
 #include "kstarsdata.h"
 #include "ksutils.h"
 

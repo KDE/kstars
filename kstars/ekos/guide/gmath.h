@@ -27,8 +27,8 @@
 
 typedef struct
 {
-	int size;
-	double square;
+    int size;
+    double square;
 }guide_square_t;
 
 #define SMART_THRESHOLD 0
@@ -38,8 +38,8 @@ typedef struct
 
 typedef struct
 {
-	int idx;
-	const char name[32];
+    int idx;
+    const char name[32];
 }square_alg_t;
 
 // smart threshold algorithm param
@@ -58,41 +58,23 @@ typedef struct
 extern const guide_square_t guide_squares[];
 extern const square_alg_t guide_square_alg[];
 
-
-
-typedef struct
-{
-	enum type_t
-	{
-		OVR_SQUARE = 1,
-		OVR_RETICLE = 2
-	};
-	int visible;
-	int square_size;
-	point_t square_pos;
-	point_t reticle_axis_ra[2];
-	point_t reticle_axis_dec[2];
-	point_t reticle_pos;
-}ovr_params_t;
-
-
 // input params
 class cproc_in_params
 {
 public:
-	cproc_in_params();
-	void reset( void );
+    cproc_in_params();
+    void reset( void );
 
-	int       threshold_alg_idx;
-	double    guiding_rate;
-	bool      enabled[CHANNEL_CNT];
-	bool      average;
-	uint32_t  accum_frame_cnt[CHANNEL_CNT];
-	double    proportional_gain[CHANNEL_CNT];
-	double    integral_gain[CHANNEL_CNT];
-	double    derivative_gain[CHANNEL_CNT];
-	int       max_pulse_length[CHANNEL_CNT];
-	int       min_pulse_length[CHANNEL_CNT];
+    int       threshold_alg_idx;
+    double    guiding_rate;
+    bool      enabled[CHANNEL_CNT];
+    bool      average;
+    uint32_t  accum_frame_cnt[CHANNEL_CNT];
+    double    proportional_gain[CHANNEL_CNT];
+    double    integral_gain[CHANNEL_CNT];
+    double    derivative_gain[CHANNEL_CNT];
+    int       max_pulse_length[CHANNEL_CNT];
+    int       min_pulse_length[CHANNEL_CNT];
 };
 
 
@@ -100,13 +82,13 @@ public:
 class cproc_out_params
 {
 public:
-	cproc_out_params();
-	void reset( void );
+    cproc_out_params();
+    void reset( void );
 
-	double  	delta[2];
+    double  	delta[2];
     GuideDirection 	pulse_dir[2];
-	int	    	pulse_length[2];
-	double		sigma[2];
+    int	    	pulse_length[2];
+    double		sigma[2];
 };
 
 
@@ -123,107 +105,118 @@ class cgmath : public QObject
     Q_OBJECT
 
 public:
-	cgmath();
-	virtual ~cgmath();
-	
-	// functions
-	bool set_video_params( int vid_wd, int vid_ht );
-    float *get_data_buffer( int *width, int *height, int *length, int *size );
-	bool set_guider_params( double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal );
-    void get_guider_params( double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal );
-	bool set_reticle_params( double x, double y, double ang );
-	bool get_reticle_params( double *x, double *y, double *ang ) const;
-	int  get_square_index( void ) const;
-	int  get_square_algorithm_index( void ) const;
-    int  get_square_size() { return square_size; }
-	void set_square_algorithm( int alg_idx );
-    Matrix get_ROTZ() { return ROT_Z; }
-	cproc_in_params *get_in_params( void );
-	void set_in_params( const cproc_in_params *v );
-	const cproc_out_params *get_out_params( void ) const;
-	info_params_t get_info_params( void ) const;
-	uint32_t get_ticks( void ) const;
-	void get_star_drift( double *dx, double *dy ) const;
-	void get_star_screen_pos( double *dx, double *dy ) const;
-	bool reset( void );
-    void set_buffer(float *buffer);
-    void set_image(FITSView *image);
-    bool get_dec_swap() { return dec_swap;}
-    void set_dec_swap(bool enable) { dec_swap = enable;}
-    FITSView *get_image() { return guide_frame; }
-    void set_preview_mode(bool enable) { preview_mode = enable;}
-	
-	ovr_params_t *prepare_overlays( void );
-	void move_square( double newx, double newy );
-	void resize_square( int size_idx );
+    cgmath();
+    virtual ~cgmath();
 
+    // functions
+    bool setVideoParameters( int vid_wd, int vid_ht );
+    float *getDataBuffer( int *width, int *height, int *length, int *size );
+    bool setGuiderParameters( double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal );
+    void getGuiderParameters( double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal );
+    bool setReticleParameters( double x, double y, double ang );
+    bool getReticleParameters( double *x, double *y, double *ang ) const;
+    int  getSquareIndex( void ) const;
+    int  getSquareAlgorithmIndex( void ) const;
+    int  getSquareSize() { return squareSize; }
+    void setSquareAlgorithm( int alg_idx );
+
+    Matrix getROTZ() { return ROT_Z; }
+    cproc_in_params *getInputParameters( void );
+    void setInputParameters( const cproc_in_params *v );
+    const cproc_out_params *getOutputParameters( void ) const;
+    info_params_t getInfoParameters( void ) const;
+    uint32_t getTicks( void ) const;
+
+    void setDataBuffer(float *buffer);
+    void setImageView(FITSView *image);
+    bool declinationSwapEnabled() { return dec_swap;}
+    void setDeclinationSwapEnabled(bool enable) { dec_swap = enable;}
+    FITSView *getImageView() { return guideView; }
+    void setPreviewMode(bool enable) { preview_mode = enable;}
+
+    /*void moveSquare( double newx, double newy );
+    void resizeSquare( int size_idx );
+    Vector getSquarePosition() { return square_pos; }*/
+
+    // Rapid Guide
     void setRapidGuide(bool enable);
     void setRapidStarData(double dx, double dy);
-	
-	// proc
-	void start( void );
-	void stop( void );
-	void suspend( bool mode );
-	bool is_suspended( void ) const;
-    bool is_lost_star(void) const;
-    void set_lost_star(bool is_lost);
-	void do_processing( void );
-	static double precalc_proportional_gain( double g_rate );
-    bool calc_and_set_reticle( double start_x, double start_y, double end_x, double end_y, int totalPulse=-1);
-    bool calc_and_set_reticle2( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec, int totalPulse=-1);
-	double calc_phi( double start_x, double start_y, double end_x, double end_y ) const;
-    Vector find_star_local_pos( void ) const;
-    double get_dither_rate(int axis);
-    void set_log_file(QFile *file);
+
+    // Operations
+    void start( void );
+    void stop( void );
+    bool reset( void );
+    void suspend( bool mode );
+    bool isSuspended( void ) const;
+
+    // Star tracking
+    void getStarDrift( double *dx, double *dy ) const;
+    void getStarScreenPosition( double *dx, double *dy ) const;
+    Vector findLocalStarPosition( void ) const;
+    bool isStarLost(void) const;
+    void setLostStar(bool is_lost);
+
+    // Main processing function
+    void performProcessing( void );
+
+    // Math
+    static double preCalculatePropotionalGain( double g_rate );
+    bool calculateAndSetReticle1D( double start_x, double start_y, double end_x, double end_y, int totalPulse=-1);
+    bool calculateAndSetReticle2D( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec, int totalPulse=-1);
+    double calculatePhi( double start_x, double start_y, double end_x, double end_y ) const;
+
+    // Dither
+    double getDitherRate(int axis);
+
+    // Logging
+    void setLogFile(QFile *file);
 
 signals:
     void newAxisDelta(double delta_ra, double delta_dec);
+    void newStarPosition(QVector3D, bool);
 
 private:
-	// sys...
-	uint32_t ticks;		// global channel ticker
+    // sys...
+    uint32_t ticks;		// global channel ticker
     float *pdata;		// pointer to data buffer
-    QPointer<FITSView> guide_frame;   // pointer to image
-	int video_width, video_height;	// video frame dimensions
-	double ccd_pixel_width, ccd_pixel_height, aperture, focal;
-	Matrix	ROT_Z;
+    QPointer<FITSView> guideView;   // pointer to image
+    int video_width, video_height;	// video frame dimensions
+    double ccd_pixel_width, ccd_pixel_height, aperture, focal;
+    Matrix	ROT_Z;
     bool preview_mode, suspended, lost_star, dec_swap;
-	
-	// square variables
-	int square_size;	// size of analysing square
-	double square_square; // square of guiding rect
-	Vector square_pos;	// integer values in double vars.
-	int square_idx;		// index in size list
-	int square_alg_idx;		// index of threshold algorithm
-	
-	// sky coord. system vars.
-	Vector star_pos;	// position of star in reticle coord. system
-	Vector scr_star_pos; // sctreen star position
-	Vector reticle_pos;
-	Vector reticle_orts[2];
-	double reticle_angle;
-	
-	// processing
-	uint32_t  channel_ticks[2];
-	uint32_t  accum_ticks[2];
-	double *drift[2];
-	double drift_integral[2];
-	
-	// overlays...
-	ovr_params_t overlays;
-	cproc_in_params  in_params;
-	cproc_out_params out_params;
-	
-	// stat math...
-	bool do_statistics;
-	double sum, sqr_sum;
-	double delta_prev, sigma_prev, sigma;
 
-	// proc
-	void do_ticks( void );
-	Vector point2arcsec( const Vector &p ) const;	
-	void process_axes( void );
-	void calc_square_err( void );
+    // square variables
+    int squareSize;	// size of analysing square
+    int square_alg_idx;		// index of threshold algorithm
+    int subBinX,subBinY, lastBinX, lastBinY;
+
+    // sky coord. system vars.
+    Vector star_pos;	// position of star in reticle coord. system
+    Vector scr_star_pos; // sctreen star position
+    Vector reticle_pos;
+    Vector reticle_orts[2];
+    double reticle_angle;
+
+    // processing
+    uint32_t  channel_ticks[2];
+    uint32_t  accum_ticks[2];
+    double *drift[2];
+    double drift_integral[2];
+
+    // overlays...
+    cproc_in_params  in_params;
+    cproc_out_params out_params;
+
+    // stat math...
+    bool do_statistics;
+    double sum, sqr_sum;
+    double delta_prev, sigma_prev, sigma;
+
+    // proc
+    void do_ticks( void );
+    Vector point2arcsec( const Vector &p ) const;
+    void process_axes( void );
+    void calc_square_err( void );
     const char *get_direction_string(GuideDirection dir);
 
     // rapid guide
@@ -235,7 +228,7 @@ private:
 
     QFile *logFile;
     QTime logTime;
-	
+
 };
 
 #endif /*GMATH_H_*/

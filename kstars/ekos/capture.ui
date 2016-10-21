@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>776</width>
-    <height>438</height>
+    <height>449</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -735,6 +735,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -757,6 +760,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -779,6 +785,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -801,6 +810,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -826,6 +838,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -858,6 +873,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -880,6 +898,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
             <item>
@@ -902,6 +923,9 @@
               <property name="text">
                <string/>
               </property>
+              <attribute name="buttonGroup">
+               <string notr="true">queueEditButtonGroup</string>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -966,6 +990,16 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <item>
+          <widget class="QPushButton" name="previewB">
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="text">
+            <string>Preview</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="buttonSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -982,22 +1016,24 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="previewB">
-           <property name="toolTip">
-            <string/>
-           </property>
-           <property name="text">
-            <string>Preview</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QPushButton" name="startB">
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
            <property name="toolTip">
-            <string/>
+            <string>Start Sequence</string>
            </property>
            <property name="text">
-            <string>&amp;Start Sequence</string>
+            <string/>
            </property>
            <property name="autoDefault">
             <bool>true</bool>
@@ -1008,12 +1044,27 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="stopB">
+          <widget class="QPushButton" name="pauseB">
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Pause Sequence</string>
+           </property>
            <property name="text">
-            <string>S&amp;top</string>
+            <string/>
            </property>
            <property name="autoDefault">
             <bool>true</bool>
@@ -1428,11 +1479,15 @@
     </spacer>
    </item>
   </layout>
-  <zorder>optionsGroup</zorder>
-  <zorder>progressGroup</zorder>
-  <zorder>CCDFWGroup</zorder>
   <zorder>verticalSpacer</zorder>
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="queueEditButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+ </buttongroups>
 </ui>

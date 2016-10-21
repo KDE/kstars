@@ -29,7 +29,11 @@
 
 #include "starobject.h" //needed in saveUserLog()
 #include "ksnumbers.h"
+
+#ifndef KSTARS_LITE
 #include "kspopupmenu.h"
+#endif
+
 #include "dms.h"
 #include "geolocation.h"
 #include "kstarsdatetime.h"
@@ -84,12 +88,20 @@ SkyObject* SkyObject::clone() const
 SkyObject::~SkyObject() {}
 
 void SkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
+#ifdef KSTARS_LITE
+    Q_UNUSED(pos)
+#else
     initPopupMenu( pmenu );
     pmenu->popup( pos );
+#endif
 }
 
 void SkyObject::initPopupMenu( KSPopupMenu *pmenu ) {
+#ifdef KSTARS_LITE
+    Q_UNUSED(pmenu)
+#else
     pmenu->createEmptyMenu( this );
+#endif
 }
 
 void SkyObject::setLongName( const QString &longname ) {
@@ -311,7 +323,7 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
     // the passing of lat and LST
 
     if ( isSolarSystem() && geo ) {
-        dms LST = geo->GSTtoLST( dt.gst() );
+        CachingDms LST = geo->GSTtoLST( dt.gst() );
         c->updateCoords( &num, true, geo->lat(), &LST );
     } else {
         c->updateCoords( &num );
@@ -325,6 +337,15 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
 
     // Return the SkyPoint
     return p;
+}
+
+
+SkyPoint SkyObject::recomputeHorizontalCoords(const KStarsDateTime& dt, const GeoLocation  *geo) const {
+    Q_ASSERT( geo );
+    SkyPoint ret = recomputeCoords( dt, geo );
+    CachingDms LST = geo->GSTtoLST( dt.gst() );
+    ret.EquatorialToHorizontal( &LST, geo->lat() );
+    return ret;
 }
 
 QString SkyObject::typeName( int t ) {

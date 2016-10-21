@@ -17,7 +17,9 @@
 
 #include "fov.h"
 #include "Options.h"
+#ifndef KSTARS_LITE
 #include "kstars.h"
+#endif
 #include "kstarsdata.h"
 #include "geolocation.h"
 #include "skymap.h"
@@ -31,6 +33,129 @@
 #include <QDebug>
 #include <QStandardPaths>
 #include "kspaths.h"
+
+QList<FOV*> FOVManager::m_FOVs;
+
+FOVManager::FOVManager()
+{
+}
+
+FOVManager::~FOVManager()
+{
+ qDeleteAll(m_FOVs);
+}
+
+QList<FOV*> FOVManager::defaults()
+{
+    QList<FOV*> fovs;
+    fovs << new FOV(i18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
+                    558,  558, 0,0,0, FOV::CIRCLE,"#AAAAAA")
+         << new FOV(i18nc("use a Telrad field-of-view indicator", "Telrad" ),
+                    30,   30, 0,0,0,   FOV::BULLSEYE,"#AA0000")
+         << new FOV(i18nc("use 1-degree field-of-view indicator", "One Degree"),
+                    60,   60, 0,0,0,  FOV::CIRCLE,"#AAAAAA")
+         << new FOV(i18nc("use HST field-of-view indicator", "HST WFPC2"),
+                    2.4,  2.4, 0,0,0, FOV::SQUARE,"#AAAAAA")
+         << new FOV(i18nc("use Radiotelescope HPBW", "30m at 1.3cm" ),
+                    1.79, 1.79, 0,0,0, FOV::SQUARE,"#AAAAAA");
+    return fovs;
+}
+
+bool FOVManager::save()
+{
+    QFile f;
+
+    // TODO: Move FOVs to user database instead of file!!
+    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "fov.dat" ) ;
+
+    if ( ! f.open( QIODevice::WriteOnly ) )
+    {
+        qDebug() << "Could not open fov.dat.";
+        return false;
+    }
+
+    QTextStream ostream(&f);
+    foreach(FOV* fov, m_FOVs)
+    {
+        ostream << fov->name()  << ':'
+                << fov->sizeX() << ':'
+                << fov->sizeY() << ':'
+                << fov->offsetX() << ':'
+                << fov->offsetY() << ':'
+                << fov->rotation() << ':'
+                << QString::number( fov->shape() ) << ':' //FIXME: is this needed???
+                << fov->color() << endl;
+    }
+    f.close();
+
+    return true;
+}
+
+const QList<FOV*> & FOVManager::readFOVs()
+{
+    qDeleteAll(m_FOVs);
+    m_FOVs.clear();
+
+    QFile f;
+    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "fov.dat" ) ;
+
+    if( !f.exists() )
+    {
+        m_FOVs = defaults();
+        save();
+        return m_FOVs;
+    }
+
+    if( f.open(QIODevice::ReadOnly) )
+    {
+        QTextStream istream(&f);
+        while( !istream.atEnd() ) {
+            QStringList fields = istream.readLine().split(':');
+            bool ok;
+            QString name, color;
+            float   sizeX, sizeY, xoffset, yoffset, rot;
+            FOV::Shape   shape;
+            if( fields.count() == 8 )
+            {
+                name = fields[0];
+                sizeX = fields[1].toFloat(&ok);
+                if( !ok ) {
+                    return m_FOVs;
+                }
+                sizeY = fields[2].toFloat(&ok);
+                if( !ok ) {
+                    return m_FOVs;
+                }
+                xoffset = fields[3].toFloat(&ok);
+                if( !ok ) {
+                    return m_FOVs;
+                }
+
+                yoffset = fields[4].toFloat(&ok);
+                if( !ok ) {
+                    return m_FOVs;
+                }
+
+                rot = fields[5].toFloat(&ok);
+                if( !ok ) {
+                    return m_FOVs;
+                }
+
+                shape = FOV::intToShape( fields[6].toInt(&ok) );
+                if( !ok ) {
+                    return m_FOVs;
+                }
+                color = fields[7];
+            } else {
+                continue;
+            }
+
+            //FIXME: This still shows lost blocks in Valgrind despite the fact memory is always cleared?
+            m_FOVs.append( new FOV(name, sizeX, sizeY, xoffset, yoffset, rot, shape, color) );
+        }
+    }
+    return m_FOVs;
+}
 
 
 FOV::Shape FOV::intToShape(int s)
@@ -168,106 +293,6 @@ void FOV::setShape( int s)
     m_shape = intToShape(s);
 }
 
-
-QList<FOV*> FOV::defaults()
-{
-    QList<FOV*> fovs;
-    fovs << new FOV(i18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
-                    558,  558, 0,0,0, CIRCLE,"#AAAAAA")
-         << new FOV(i18nc("use a Telrad field-of-view indicator", "Telrad" ),
-                    30,   30, 0,0,0,   BULLSEYE,"#AA0000")
-         << new FOV(i18nc("use 1-degree field-of-view indicator", "One Degree"),
-                    60,   60, 0,0,0,  CIRCLE,"#AAAAAA")
-         << new FOV(i18nc("use HST field-of-view indicator", "HST WFPC2"),
-                    2.4,  2.4, 0,0,0, SQUARE,"#AAAAAA")
-         << new FOV(i18nc("use Radiotelescope HPBW", "30m at 1.3cm" ),
-                    1.79, 1.79, 0,0,0, SQUARE,"#AAAAAA");
-    return fovs;
-}
-
-void FOV::writeFOVs(const QList<FOV*> fovs)
-{
-    QFile f;
-    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "fov.dat" ) ;
-
-    if ( ! f.open( QIODevice::WriteOnly ) ) {
-        qDebug() << "Could not open fov.dat.";
-        return;
-    }
-    QTextStream ostream(&f);
-    foreach(FOV* fov, fovs) {
-        ostream << fov->name()  << ':'
-                << fov->sizeX() << ':'
-                << fov->sizeY() << ':'
-                << fov->offsetX() << ':'
-                << fov->offsetY() << ':'
-                << fov->rotation() << ':'
-                << QString::number( fov->shape() ) << ':' //FIXME: is this needed???
-                << fov->color() << endl;
-    }
-    f.close();
-}
-
-QList<FOV*> FOV::readFOVs()
-{
-    QFile f;
-    QList<FOV*> fovs;
-    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "fov.dat" ) ;
-
-    if( !f.exists() ) {
-        fovs = defaults();
-        writeFOVs(fovs);
-        return fovs;
-    }
-
-    if( f.open(QIODevice::ReadOnly) ) {
-        fovs.clear();
-        QTextStream istream(&f);
-        while( !istream.atEnd() ) {
-            QStringList fields = istream.readLine().split(':');
-            bool ok;
-            QString name, color;
-            float   sizeX, sizeY, xoffset, yoffset, rot;
-            Shape   shape;
-            if( fields.count() == 8 )
-            {
-                name = fields[0];
-                sizeX = fields[1].toFloat(&ok);
-                if( !ok ) {
-                    return QList<FOV*>();
-                }
-                sizeY = fields[2].toFloat(&ok);
-                if( !ok ) {
-                    return QList<FOV*>();
-                }
-                xoffset = fields[3].toFloat(&ok);
-                if( !ok ) {
-                    return QList<FOV*>();
-                }
-
-                yoffset = fields[4].toFloat(&ok);
-                if( !ok ) {
-                    return QList<FOV*>();
-                }
-
-                rot = fields[5].toFloat(&ok);
-                if( !ok ) {
-                    return QList<FOV*>();
-                }
-
-                shape = intToShape( fields[6].toInt(&ok) );
-                if( !ok ) {
-                    return QList<FOV*>();
-                }
-                color = fields[7];
-            } else {
-                continue;
-            }
-            fovs.append( new FOV(name, sizeX, sizeY, xoffset, yoffset, rot, shape, color) );
-        }
-    }
-    return fovs;
-}
 SkyPoint FOV::center() const
 {
     return m_center;

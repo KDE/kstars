@@ -41,8 +41,8 @@ ObserverAdd::ObserverAdd() {
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    ui.AddObserverB->setIcon(QIcon::fromTheme("list-add"));
-    ui.RemoveObserverB->setIcon(QIcon::fromTheme("list-remove"));
+    ui.AddObserverB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    ui.RemoveObserverB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
 
     nextObserver = 0;
 
@@ -60,11 +60,11 @@ ObserverAdd::ObserverAdd() {
     ui.RemoveObserverB->setEnabled(false);
     ui.tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     // Make connections
-    connect( ui.AddObserverB, SIGNAL( clicked() ), this, SLOT( slotAddObserverB() ) );
-    connect( ui.RemoveObserverB, SIGNAL( clicked() ), this, SLOT( slotRemoveObserverB() ) );
+    connect( ui.AddObserverB, SIGNAL( clicked() ), this, SLOT(slotAddObserver()));
+    connect( ui.RemoveObserverB, SIGNAL( clicked() ), this, SLOT(slotRemoveObserver()));
     connect (ui.Name,SIGNAL(textChanged(QString)),this,SLOT(checkObserverInfo() ) );
     connect (ui.Surname,SIGNAL(textChanged(QString)),this,SLOT(checkObserverInfo() ) );
-    connect (ui.tableView->verticalHeader(),SIGNAL(sectionClicked(int)),this,SLOT(checkTableInfo()));
+    //connect (ui.tableView->verticalHeader(),SIGNAL(sectionClicked(int)),this,SLOT(checkTableInfo()));
     connect (ui.tableView,SIGNAL(clicked(QModelIndex)),this,SLOT(auxSlot()) );
 }
 void ObserverAdd::auxSlot(){

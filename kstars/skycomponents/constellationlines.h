@@ -50,6 +50,8 @@ public:
 
     void reindex( KSNumbers *num );
 
+    virtual bool selected();
+
 protected:
     const IndexHash& getIndexHash(LineList* lineList );
 
@@ -60,8 +62,6 @@ protected:
 
     /** @short Set the QColor and QPen for drawing. */
     virtual void preDraw( SkyPainter* skyp );
-
-    bool selected();
 
 private:
 

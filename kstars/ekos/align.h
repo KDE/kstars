@@ -52,7 +52,6 @@ public:
     Align();
     ~Align();
 
-    enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
     typedef enum { AZ_INIT, AZ_FIRST_TARGET, AZ_SYNCING, AZ_SLEWING, AZ_SECOND_TARGET, AZ_CORRECTING, AZ_FINISHED } AZStage;
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
     typedef enum { ALIGN_SYNC, ALIGN_SLEW, ALIGN_SOLVE } GotoMode;
@@ -77,7 +76,7 @@ public:
      * @param isGenerated Set to true if filename is generated from a CCD capture operation. If the file is loaded from any storage or network media, pass false.
      * @return Returns true if device if found and selected, false otherwise.
      */
-    Q_SCRIPTABLE Q_NOREPLY void startSovling(const QString &filename, bool isGenerated=true);
+    Q_SCRIPTABLE Q_NOREPLY void startSolving(const QString &filename, bool isGenerated=true);
 
     /** DBUS interface function.
      * Select Goto Mode of Solver. The solver mode is the action the solver performs upon successful solving.
@@ -113,13 +112,6 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setExposure(double value);
 
     /** DBUS interface function.
-     * Sets the binning of the selected CCD device.
-     * @param binX horizontal binning
-     * @param binY vertical binning
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setBinning(int binX, int binY);
-
-    /** DBUS interface function.
      * Sets the arguments that gets passed to the astrometry.net offline solver.
      * @param value space-separated arguments.
      */
@@ -132,24 +124,6 @@ public:
      * @param radius radius of search pattern, in degrees.
      */
     Q_SCRIPTABLE Q_NOREPLY void setSolverSearchOptions(double ra, double dec, double radius);
-
-    /** DBUS interface function.
-     * Sets the solver's option
-     * @param enabled if true, the telescope coordinates are automatically incorporated into the search pattern whenever the telescope completes slewing.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setUpdateCoords(bool enabled);
-
-    /** DBUS interface function.
-     * Sets the solver's option
-     * @param enabled if true, the captured image is viewed in the FITSViewer tool before getting passed to the solver.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setPreviewImage(bool enabled);
-
-    /** DBUS interface function.
-     * Sets the solver's option
-     * @param verbose if true, extended information will be displayed in the logger window.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void setVerbose(bool enabled);
 
     /** DBUS interface function.
      * Sets the solver's option
@@ -170,7 +144,7 @@ public:
      * @brief Set the current telescope
      * @newTelescope pointer to telescope device.
      */
-    void setTelescope(ISD::GDInterface *newTelescope);    
+    void setTelescope(ISD::GDInterface *newTelescope);
 
     /**
      * @brief CCD information is updated, sync them.
@@ -180,20 +154,14 @@ public:
     /**
      * @brief Generate arguments we pass to the online and offline solvers. Keep user own arguments in place.
      */
-    void generateArgs();        
+    void generateArgs();
 
     /**
      * @brief Does our parser exist in the system?
      */
     bool isParserOK();
 
-    /**
-     * @brief Are we displaying verbose information?
-     */
-    bool isVerbose();
-
     // Log
-    void appendLogText(const QString &);
     QString getLogText() { return logText.join("\n"); }
     void clearLog();
 
@@ -230,6 +198,10 @@ public slots:
      */
     void newFITS(IBLOB *bp);
 
+    /** \addtogroup AlignDBusInterface
+     *  @{
+     */
+
     /** DBUS interface function.
      * Aborts the solving operation.
      */
@@ -246,6 +218,21 @@ public slots:
      * @return Returns true if the procedure started successful, false otherwise.
      */
     Q_SCRIPTABLE bool captureAndSolve();
+
+    /** DBUS interface function.
+     * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
+     * the telescope is pointing to the same coordinates of the image.
+     * @param fileURL URL to the image to solve
+     */
+     Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QString fileURL = QString());
+
+    /** DBUS interface function.
+     * Sets the binning of the selected CCD device.
+     * @param binIndex Index of binning value. Default values range from 0 (binning 1x1) to 3 (binning 4x4)
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setBinningIndex(int binIndex);
+
+    /** @}*/
 
     /**
      * @brief Solver finished successfully, process the data and execute the required actions depending on the mode.
@@ -267,22 +254,20 @@ public slots:
     void syncTelescopeInfo();
 
     /**
-     * @brief setWCS enables/disables World Coordinate System settings in the CCD driver.
+     * @brief setWCSEnabled enables/disables World Coordinate System settings in the CCD driver.
      * @param enable true to enable WCS, false to disable.
      */
-    void setWCS(bool enable);
+    void setWCSEnabled(bool enable);
 
+    void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);
 
-    /** DBUS interface function.
-     * Loads an image (FITS or JPG/TIFF) and solve its coordinates, then it slews to the solved coordinates and an image is captured and solved to ensure
-     * the telescope is pointing to the same coordinates of the image.
-     * @param fileURL URL to the image to solve
-     */
-     Q_SCRIPTABLE Q_NOREPLY void loadAndSlew(QString fileURL = QString());
+    void updateFocusStatus(Ekos::FocusState state);
 
-    void setLockedFilter(ISD::GDInterface *filter, int lockedPosition);    
+    // Log
+    void appendLogText(const QString &);
 
-    void updateFocusStatus(bool status);
+    // Capture
+    void setCaptureComplete();
 
 private slots:
     /* Solver Options */
@@ -299,12 +284,9 @@ private slots:
 
     void processFilterNumber(INumberVectorProperty *nvp);
 
-    void setSolverOverlay(bool enable);
-
     void setDefaultCCD(QString ccd);
 
-    /* We need to take a dark frame when CCD, Frame size, or exposure time changes */
-    void invalidateDarkFrame();
+    void saveSettleTime();
 
 signals:
         void newLog();
@@ -455,12 +437,6 @@ private:
     ISD::CCD::UploadMode rememberUploadMode;
 
     QString dirPath;
-
-    // Dark Frame
-    int calibrationState;
-    bool haveDarkFrame;
-    float *darkBuffer;
-
 };
 
 }

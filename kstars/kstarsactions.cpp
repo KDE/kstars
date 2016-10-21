@@ -80,6 +80,7 @@
 #include "tools/wutdialog.h"
 #include "tools/observinglist.h"
 #include "tools/eyepiecefield.h"
+#include "tools/adddeepskyobject.h"
 
 #ifdef HAVE_KF5WIT
 #include "tools/whatsinteresting/wiview.h"
@@ -652,20 +653,35 @@ void KStars::slotViewOps() {
     opcolors     = new OpsColors();
     opadvanced   = new OpsAdvanced();
 
-    dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
-    dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
-    dialog->addPage(opssatellites, i18n("Satellites"), "kstars_satellites");
-    dialog->addPage(opssupernovae, i18n("Supernovae"), "kstars_supernovae");
-    dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
-    dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
+    KPageWidgetItem *page;
+    
+    page = dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
+    page->setIcon(QIcon::fromTheme("kstars_catalog", QIcon(":/icons/breeze/default/kstars_catalog.svg")));
+                         
+    page = dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
+    page->setIcon(QIcon::fromTheme("kstars_solarsystem", QIcon(":/icons/breeze/default/kstars_solarsystem.svg")));
+    
+    page = dialog->addPage(opssatellites, i18n("Satellites"), "kstars_satellites");
+    page->setIcon(QIcon::fromTheme("kstars_satellites", QIcon(":/icons/breeze/default/kstars_satellites.svg")));
+    
+    page = dialog->addPage(opssupernovae, i18n("Supernovae"), "kstars_supernovae");
+    page->setIcon(QIcon::fromTheme("kstars_supernovae", QIcon(":/icons/breeze/default/kstars_supernovae.svg")));
+    
+    page = dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
+    page->setIcon(QIcon::fromTheme("kstars_guides", QIcon(":/icons/breeze/default/kstars_guides.svg")));
+    
+    page = dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
+    page->setIcon(QIcon::fromTheme("kstars_colors", QIcon(":/icons/breeze/default/kstars_colors.svg")));
 
     #ifdef HAVE_INDI
     opsindi = new OpsINDI();
-    dialog->addPage(opsindi, i18n("INDI"), "kstars_indi");
+    page= dialog->addPage(opsindi, i18n("INDI"), "kstars_indi");
+    page->setIcon(QIcon::fromTheme("kstars_indi", QIcon(":/icons/breeze/default/kstars_indi.svg")));
 
     #ifdef HAVE_CFITSIO
     opsekos = new OpsEkos();
     KPageWidgetItem *ekosOption = dialog->addPage(opsekos, i18n("Ekos"), "kstars_ekos");
+    ekosOption->setIcon(QIcon::fromTheme("kstars_ekos", QIcon(":/icons/breeze/default/kstars_ekos.svg")));
     if (m_EkosManager)
         m_EkosManager->setOptionsWidget(ekosOption);
     #endif
@@ -674,10 +690,12 @@ void KStars::slotViewOps() {
 
 #ifdef HAVE_XPLANET
     opsxplanet = new OpsXplanet( this );
-    dialog->addPage(opsxplanet, i18n("Xplanet"), "kstars_xplanet");
+    page = dialog->addPage(opsxplanet, i18n("Xplanet"), "kstars_xplanet");
+    page->setIcon(QIcon::fromTheme("kstars_xplanet", QIcon(":/icons/breeze/default/kstars_xplanet.svg")));
 #endif
 
-    dialog->addPage(opadvanced, i18n("Advanced"), "kstars_advanced");
+    page=dialog->addPage(opadvanced, i18n("Advanced"), "kstars_advanced");
+    page->setIcon(QIcon::fromTheme("kstars_advanced", QIcon(":/icons/breeze/default/kstars_advanced.svg")));
 
     dialog->show();
 }
@@ -764,7 +782,7 @@ void KStars::slotFind() {
 
     if ( !m_FindDialog ) qWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) ;
     SkyObject *targetObject;
-    if ( m_FindDialog->exec() == QDialog::Accepted && ( targetObject = m_FindDialog->selectedObject() ) ) {
+    if ( m_FindDialog->exec() == QDialog::Accepted && ( targetObject = m_FindDialog->targetObject() ) ) {
         map()->setClickedObject( targetObject );
         map()->setClickedPoint( map()->clickedObject() );
         map()->slotCenter();
@@ -789,14 +807,14 @@ void KStars::slotOpenFITS()
     // Reported as fixed in Qt 5.6
     // Emerged Qt 5.5 with patch is not working
     #ifdef Q_OS_WIN
-    if (fileURL.path().startsWith("/"))
-        fileURL.setPath(fileURL.path().right(fileURL.path().count()-1));
+    if (fileURL.toLocalFile().startsWith("/"))
+        fileURL.setPath(fileURL.toLocalFile().right(fileURL.toLocalFile().count()-1));
     #endif
 
     // Remember last directory
-    path.setUrl(fileURL.path());
+    path.setUrl(fileURL.toLocalFile());
 
-    FITSViewer * fv = new FITSViewer(this);
+    FITSViewer * fv = new FITSViewer((Options::independentWindowFITS()) ? NULL : this);
     // Error opening file
     if (fv->addFITS(&fileURL, FITS_NORMAL, FITS_NONE, QString(), false) == -2)
         delete (fv);
@@ -819,7 +837,7 @@ void KStars::slotExportImage() {
     }
 
     //Warn user if file exists!
-    if (QFile::exists(fileURL.path()))
+    if (QFile::exists(fileURL.toLocalFile()))
     {
         int r=KMessageBox::warningContinueCancel(parentWidget(),
                 i18n( "A file named \"%1\" already exists. Overwrite it?" , fileURL.fileName()),
@@ -836,9 +854,9 @@ void KStars::slotExportImage() {
         //m_ImageExporter = new ImageExporter( this );
 
     if ( !m_ExportImageDialog ) {
-        m_ExportImageDialog = new ExportImageDialog( fileURL.url(), QSize( map()->width(), map()->height() ), KStarsData::Instance()->imageExporter() );
+        m_ExportImageDialog = new ExportImageDialog( fileURL.toLocalFile(), QSize( map()->width(), map()->height() ), KStarsData::Instance()->imageExporter() );
     } else {
-        m_ExportImageDialog->setOutputUrl( fileURL.url() );
+        m_ExportImageDialog->setOutputUrl( fileURL.toLocalFile() );
         m_ExportImageDialog->setOutputSize( QSize ( map()->width(), map()->height() ) );
     }
 
@@ -1085,7 +1103,7 @@ void KStars::slotTrack() {
     if ( Options::isTracking() ) {
         Options::setIsTracking( false );
         actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-decrypt") );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-decrypt", QIcon(":/icons/breeze/default/document-encrypt.svg")) );
 
         KSPlanetBase* planet = dynamic_cast<KSPlanetBase*>( map()->focusObject() );
         if( planet && data()->temporaryTrail ) {
@@ -1103,7 +1121,7 @@ void KStars::slotTrack() {
         map()->setFocusPoint( map()->clickedPoint() );
         Options::setIsTracking( true );
         actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
-        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt") );
+        actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.svg")) );
     }
 
     map()->forceUpdate();
@@ -1223,17 +1241,17 @@ void KStars::slotCoordSys() {
 
 void KStars::slotMapProjection() {
     if ( sender() == actionCollection()->action("project_lambert") )
-        Options::setProjection( SkyMap::Lambert );
+        Options::setProjection( Projector::Lambert );
     if ( sender() == actionCollection()->action("project_azequidistant") )
-        Options::setProjection( SkyMap::AzimuthalEquidistant );
+        Options::setProjection( Projector::AzimuthalEquidistant );
     if ( sender() == actionCollection()->action("project_orthographic") )
-        Options::setProjection( SkyMap::Orthographic );
+        Options::setProjection( Projector::Orthographic );
     if ( sender() == actionCollection()->action("project_equirectangular") )
-        Options::setProjection( SkyMap::Equirectangular );
+        Options::setProjection( Projector::Equirectangular );
     if ( sender() == actionCollection()->action("project_stereographic") )
-        Options::setProjection( SkyMap::Stereographic );
+        Options::setProjection( Projector::Stereographic );
     if ( sender() == actionCollection()->action("project_gnomonic") )
-        Options::setProjection( SkyMap::Gnomonic );
+        Options::setProjection( Projector::Gnomonic );
 
     //DEBUG
     qDebug() << "Projection system: " << Options::projection();
@@ -1271,8 +1289,9 @@ void KStars::slotTargetSymbol(bool flag) {
 
 void KStars::slotFOVEdit() {
     QPointer<FOVDialog> fovdlg = new FOVDialog( this );
-    if ( fovdlg->exec() == QDialog::Accepted ) {
-        fovdlg->writeFOVList();
+    if ( fovdlg->exec() == QDialog::Accepted )
+    {
+        FOVManager::save();
         repopulateFOV();
     }
     delete fovdlg;
@@ -1485,4 +1504,12 @@ void KStars::slotUpdateSupernovae()
 void KStars::slotUpdateSatellites()
 {
     data()->skyComposite()->satellites()->updateTLEs();
+}
+
+void KStars::slotAddDeepSkyObject() {
+    if( ! m_addDSODialog ) {
+        Q_ASSERT( data() && data()->skyComposite() && data()->skyComposite()->manualAdditionsComponent() );
+        m_addDSODialog = new AddDeepSkyObject( this, data()->skyComposite()->manualAdditionsComponent() );
+    }
+    m_addDSODialog->show();
 }

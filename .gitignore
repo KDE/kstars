@@ -17,4 +17,8 @@
 # Vim swapfiles
 .*.swp
 
+# KStars Lite Android libraries
+build_kstarslite/android_libs/*
+build_kstarslite/android_libs_src/libnova/build/*
+
 CMakeLists.txt.user

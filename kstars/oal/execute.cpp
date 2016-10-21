@@ -31,6 +31,7 @@
 #include "oal/lens.h"
 #include "oal/filter.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/starobject.h"
 #include "dialogs/locationdialog.h"
 #include "dialogs/finddialog.h"
 #include "skycomponents/skymapcomposite.h"
@@ -217,8 +218,8 @@ void Execute::slotLocation() {
 void Execute::loadTargets() {
     ui.Target->clear();
     sortTargetList();
-    foreach( SkyObject *o, KStarsData::Instance()->observingList()->sessionList() ) {
-        ui.Target->addItem( getObjectName(o, false) );
+    foreach( QSharedPointer<SkyObject> o, KStarsData::Instance()->observingList()->sessionList() ) {
+        ui.Target->addItem( getObjectName(o.data(), false) );
     }
 }
 
@@ -244,23 +245,22 @@ void Execute::loadObservers() {
 }
 
 void Execute::sortTargetList() {
-    qSort( KStarsData::Instance()->observingList()->sessionList().begin(), KStarsData::Instance()->observingList()->sessionList().end(), Execute::timeLessThan );
-}
+    auto timeLessThan =  []( QSharedPointer<SkyObject> o1, QSharedPointer<SkyObject> o2 ) {
+        QTime t1 = KStarsData::Instance()->observingList()->scheduledTime( o1.data() );
+        QTime t2 = KStarsData::Instance()->observingList()->scheduledTime( o2.data() );
 
-bool Execute::timeLessThan ( SkyObject *o1, SkyObject *o2 )
-{
-    QTime t1 = KStarsData::Instance()->observingList()->scheduledTime( o1 );
-    QTime t2 = KStarsData::Instance()->observingList()->scheduledTime( o2 );
+        if( t1 < QTime(12,0,0) )
+            t1.setHMS( t1.hour()+12, t1.minute(), t1.second() );
+        else
+            t1.setHMS( t1.hour()-12, t1.minute(), t1.second() );
+        if( t2 < QTime(12,0,0) )
+            t2.setHMS( t2.hour()+12, t2.minute(), t2.second() );
+        else
+            t2.setHMS( t2.hour()-12, t2.minute(), t2.second() );
+        return ( t1 < t2 ) ;
+    };
 
-    if( t1 < QTime(12,0,0) )
-        t1.setHMS( t1.hour()+12, t1.minute(), t1.second() );
-    else
-        t1.setHMS( t1.hour()-12, t1.minute(), t1.second() );
-    if( t2 < QTime(12,0,0) )
-        t2.setHMS( t2.hour()+12, t2.minute(), t2.second() );
-    else
-        t2.setHMS( t2.hour()-12, t2.minute(), t2.second() );
-    return ( t1 < t2 ) ;
+    qSort( KStarsData::Instance()->observingList()->sessionList().begin(), KStarsData::Instance()->observingList()->sessionList().end(), timeLessThan );
 }
 
 void Execute::addTargetNotes() {
@@ -308,7 +308,7 @@ void Execute::slotEndSession() {
 
         if( fileURL.isValid() ) {
 
-            QFile f( fileURL.path() );
+            QFile f( fileURL.toLocalFile() );
             if( ! f.open( QIODevice::WriteOnly ) ) {
                 QString message = i18n( "Could not open file %1", f.fileName() );
                 KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
@@ -403,7 +403,7 @@ void Execute::slotShowTargets() {
 void Execute::slotAddObject() {
    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
    if ( fd->exec() == QDialog::Accepted ) {
-       SkyObject *o = fd->selectedObject();
+       SkyObject *o = fd->targetObject();
        if( o != 0 ) {
            KStarsData::Instance()->observingList()->slotAddObject( o, true );
            init();

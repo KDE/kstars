@@ -65,6 +65,7 @@
 #include <QDir>
 #include <QFrame>
 #include <QTextStream>
+#include <QStandardItem>
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include <QHeaderView>
@@ -112,35 +113,43 @@ ObservingList::ObservingList()
     setFocusPolicy(Qt::StrongFocus);
     geo = KStarsData::Instance()->geo();
     sessionView = false;
-    FileName = "";
+    m_listFileName = QString();
     pmenu = new ObsListPopupMenu();
     //Set up the Table Views
     m_WishListModel = new QStandardItemModel( 0, 5, this );
     m_SessionModel = new QStandardItemModel( 0, 5 );
-    m_WishListModel->setHorizontalHeaderLabels( QStringList() << i18n( "Name" )
-                                        << i18n( "Alternate Name" )
-                                        << i18nc( "Right Ascension", "RA" )
-                                        << i18nc( "Declination", "Dec" )
-                                        << i18nc( "Magnitude", "Mag" )
-                                        << i18n( "Type" ) );
-    m_SessionModel->setHorizontalHeaderLabels( QStringList() << i18n( "Name" )
-                                          << i18n( "Alternate Name" )
-                                          << i18nc( "Right Ascension", "RA" )
-                                          << i18nc( "Declination", "Dec" )
-                                          << i18nc( "Magnitude", "Mag" )
-                                          << i18n( "Type" )
-                                          << i18nc( "Constellation", "Constell." )
-                                          << i18n( "Time" )
-                                          << i18nc( "Altitude", "Alt" )
-                                          << i18nc( "Azimuth", "Az" ));
+
+    m_WishListModel->setHorizontalHeaderLabels(
+        QStringList() << i18n( "Name" )
+        << i18n( "Alternate Name" )
+        << i18nc( "Right Ascension", "RA (J2000)" )
+        << i18nc( "Declination", "Dec (J2000)" )
+        << i18nc( "Magnitude", "Mag" )
+        << i18n( "Type" )
+        << i18n( "Current Altitude" )
+        );
+    m_SessionModel->setHorizontalHeaderLabels(
+        QStringList() << i18n( "Name" )
+        << i18n( "Alternate Name" )
+        << i18nc( "Right Ascension", "RA (J2000)" )
+        << i18nc( "Declination", "Dec (J2000)" )
+        << i18nc( "Magnitude", "Mag" )
+        << i18n( "Type" )
+        << i18nc( "Constellation", "Constell." )
+        << i18n( "Time" )
+        << i18nc( "Altitude", "Alt" )
+        << i18nc( "Azimuth", "Az" )
+        );
+
     m_WishListSortModel = new QSortFilterProxyModel( this );
     m_WishListSortModel->setSourceModel( m_WishListModel );
     m_WishListSortModel->setDynamicSortFilter( true );
-    ui->TableView->setModel( m_WishListSortModel );
-    ui->TableView->horizontalHeader()->setStretchLastSection( true );
+    m_WishListSortModel->setSortRole( Qt::UserRole );
+    ui->WishListView->setModel( m_WishListSortModel );
+    ui->WishListView->horizontalHeader()->setStretchLastSection( true );
 
-    ui->TableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
-    m_SessionSortModel = new SessionSortFilterProxyModel;
+    ui->WishListView->horizontalHeader()->setSectionResizeMode( QHeaderView::Interactive );
+    m_SessionSortModel = new SessionSortFilterProxyModel();
     m_SessionSortModel->setSourceModel( m_SessionModel );
     m_SessionSortModel->setDynamicSortFilter( true );
     ui->SessionView->setModel( m_SessionSortModel );
@@ -158,15 +167,15 @@ ObservingList::ObservingList()
     ui->DateEdit->setDate(dt.date());
     ui->SetLocation->setText( geo -> fullName() );
     ui->ImagePreview->installEventFilter( this );
-    ui->TableView->viewport()->installEventFilter( this );
-    ui->TableView->installEventFilter( this );
+    ui->WishListView->viewport()->installEventFilter( this );
+    ui->WishListView->installEventFilter( this );
     ui->SessionView->viewport()->installEventFilter( this );
     ui->SessionView->installEventFilter( this );
     // setDefaultImage();
     //Connections
-    connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
+    connect( ui->WishListView, SIGNAL( doubleClicked( const QModelIndex& ) ),
              this, SLOT( slotCenterObject() ) );
-    connect( ui->TableView->selectionModel(),
+    connect( ui->WishListView->selectionModel(),
             SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
             this, SLOT( slotNewSelection() ) );
     connect( ui->SessionView->selectionModel(),
@@ -205,11 +214,11 @@ ObservingList::ObservingList()
     connect( ui->OALExport, SIGNAL( clicked() ),
              this, SLOT( slotOALExport() ) );
     //Add icons to Push Buttons
-    ui->OpenButton->setIcon( QIcon::fromTheme("document-open") );
-    ui->SaveButton->setIcon( QIcon::fromTheme("document-save") );
-    ui->SaveAsButton->setIcon( QIcon::fromTheme("document-save-as") );
-    ui->WizardButton->setIcon( QIcon::fromTheme("games-solve") ); //is there a better icon for this button?
-    ui->MiniButton->setIcon( QIcon::fromTheme("view-restore") );
+    ui->OpenButton->setIcon( QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")) );
+    ui->SaveButton->setIcon( QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")) );
+    ui->SaveAsButton->setIcon( QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg")) );
+    ui->WizardButton->setIcon( QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg")) );
+    ui->MiniButton->setIcon( QIcon::fromTheme("view-restore", QIcon(":/icons/breeze/default/view-restore.svg")) );
     noSelection = true;
     showScope = false;
     ui->NotesLabel->setEnabled( false );
@@ -223,6 +232,37 @@ ObservingList::ObservingList()
 
     m_NoImagePixmap = QPixmap(":/images/noimage.png").scaledToHeight(ui->ImagePreview->width());
 
+    m_altCostHelper = [ this ]( const SkyPoint &p ) -> QStandardItem * {
+        const double inf = std::numeric_limits<double>::infinity();
+        double altCost = 0.;
+        QString itemText;
+        double maxAlt = p.maxAlt( *( geo->lat() ) );
+        if ( Options::obsListDemoteHole() && maxAlt > 90. - Options::obsListHoleSize() )
+            maxAlt = 90. - Options::obsListHoleSize();
+        if (  maxAlt <= 0. ) {
+            altCost = -inf;
+            itemText = i18n( "Never rises" );
+        }
+        else {
+            altCost = ( p.alt().Degrees() / maxAlt ) * 100.;
+            if ( altCost < 0 )
+                itemText = i18nc( "Short text to describe that object has not risen yet", "Not risen" );
+            else {
+                if ( altCost > 100. ) {
+                    altCost = -inf;
+                    itemText = i18nc( "Object is in the Dobsonian hole", "In hole" );
+                }
+                else
+                    itemText = QString::number( altCost, 'f', 0 ) + '%';
+            }
+        }
+
+        QStandardItem *altItem = new QStandardItem( itemText );
+        altItem->setData( altCost, Qt::UserRole );
+//        qDebug() << "Updating altitude for " << p.ra().toHMSString() << " " << p.dec().toDMSString() << " alt = " << p.alt().toDMSString() << " info to " << itemText;
+        return altItem;
+    };
+
     slotLoadWishList(); //Load the wishlist from disk if present
     m_CurrentObject = 0;
     setSaveImagesButton();
@@ -232,26 +272,35 @@ ObservingList::ObservingList()
     // Set up for the large-size view
     bIsLarge = false;
     slotToggleSize();
+
+    slotUpdateAltitudes();
+    m_altitudeUpdater = new QTimer( this );
+    connect( m_altitudeUpdater, SIGNAL( timeout() ), this, SLOT( slotUpdateAltitudes() ) );
+    m_altitudeUpdater->start( 120000 ); // update altitudes every 2 minutes
+
 }
 
 ObservingList::~ObservingList()
 {
     delete ksal;
+    delete m_SessionModel;
+    delete m_WishListModel;
+    delete m_SessionSortModel;
 }
 
 //SLOTS
 
-void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
+void ObservingList::slotAddObject( const SkyObject *_obj, bool session, bool update ) {
     bool addToWishList=true;
-    if( ! obj )
-        obj = SkyMap::Instance()->clickedObject(); // Eh? Why? Weird default behavior.
+    if( ! _obj )
+        _obj = SkyMap::Instance()->clickedObject(); // Eh? Why? Weird default behavior.
 
-    if ( !obj ) {
+    if ( !_obj ) {
         qWarning() << "Trying to add null object to observing list! Ignoring.";
         return;
     }
 
-    QString finalObjectName = getObjectName(obj);
+    QString finalObjectName = getObjectName( _obj );
 
     if (finalObjectName.isEmpty())
     {
@@ -260,18 +309,26 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     }
 
     //First, make sure object is not already in the list
-    if ( obsList().contains( obj ) ) {
+    QSharedPointer<SkyObject> obj = findObject( _obj );
+    if ( obj ) {
         addToWishList = false;
         if( ! session ) {
-            KStars::Instance()->statusBar()->showMessage( i18n( "%1 is already in your wishlist.", finalObjectName ), 0 );
+            KStars::Instance()->statusBar()->showMessage( i18n( "%1 is already in your wishlist.", finalObjectName ), 0 ); // FIXME: This message is too inconspicuous if using the Find dialog to add
             return;
         }
     }
+    else {
+        assert( !findObject( _obj, true ) );
+        qDebug() << "Cloned object " << finalObjectName << " to add to observing list.";
+        obj = QSharedPointer<SkyObject>( _obj->clone() ); // Use a clone in case the original SkyObject is deleted due to change in catalog configuration.
+    }
+
 
     if ( session && sessionList().contains( obj ) ) {
         KStars::Instance()->statusBar()->showMessage( i18n( "%1 is already in the session plan.", finalObjectName ), 0 );
         return;
     }
+
 
     // JM: If we are loading observing list from disk, solar system objects magnitudes are not calculated until later
     // Therefore, we manual invoke updateCoords to force computation of magnitude.
@@ -279,7 +336,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
           obj->type() == SkyObject::PLANET) && obj->mag() == 0)
     {
         KSNumbers num( dt.djd() );
-        dms LST = geo->GSTtoLST( dt.gst() );
+        CachingDms LST = geo->GSTtoLST( dt.gst() );
         obj->updateCoords(&num, true, geo->lat(), &LST, true);
     }
 
@@ -287,29 +344,51 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     if (  - 30.0 < obj->mag() && obj->mag() < 90.0 )
         smag = QString::number( obj->mag(), 'f', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
 
-    SkyPoint p = obj->recomputeCoords( dt, geo );
+    SkyPoint p = obj->recomputeHorizontalCoords( dt, geo );
+
+    QList<QStandardItem*> itemList;
+
+    auto getItemWithUserRole = [] ( const QString &itemText ) -> QStandardItem * {
+        QStandardItem *ret = new QStandardItem( itemText );
+        ret->setData( itemText, Qt::UserRole );
+        return ret;
+    };
+
+    // Fill itemlist with items that are common to both wishlist additions and session plan additions
+    auto populateItemList = [ &getItemWithUserRole, &itemList, &finalObjectName, obj, &p, &smag ]() {
+        itemList.clear();
+        QStandardItem *keyItem = getItemWithUserRole( finalObjectName );
+        keyItem->setData( QVariant::fromValue<void *>( static_cast<void *>( obj.data() ) ), Qt::UserRole + 1 );
+        itemList << keyItem // NOTE: The rest of the methods assume that the SkyObject pointer is available in the first column!
+        << getItemWithUserRole( obj->translatedLongName() )
+        << getItemWithUserRole( p.ra0().toHMSString() )
+        << getItemWithUserRole( p.dec0().toDMSString() )
+        << getItemWithUserRole( smag )
+        << getItemWithUserRole( obj->typeName() );
+    };
 
     //Insert object in the Wish List
     if( addToWishList ) {
+
         m_WishList.append( obj );
-        m_CurrentObject = obj;
-        QList<QStandardItem*> itemList;
+        m_CurrentObject = obj.data();
 
         //QString ra, dec;
         //ra = "";//p.ra().toHMSString();
         //dec = p.dec().toDMSString();
 
-        itemList<< new QStandardItem( finalObjectName )
-                << new QStandardItem( obj->translatedLongName() )
-                << new QStandardItem( p.ra().toHMSString() )
-                << new QStandardItem( p.dec().toDMSString() )
-                << new QStandardItem( smag )
-                << new QStandardItem( obj->typeName() );
-
+        populateItemList();
+        // FIXME: Instead sort by a "clever" observability score, calculated as follows:
+        //     - First sort by (max altitude) - (current altitude) rounded off to the nearest
+        //     - Weight by declination - latitude (in the northern hemisphere, southern objects get higher precedence)
+        //     - Demote objects in the hole
+        SkyPoint p = obj->recomputeHorizontalCoords( KStarsDateTime::currentDateTimeUtc(), geo ); // Current => now
+        itemList << m_altCostHelper( p );
         m_WishListModel->appendRow( itemList );
+
         //Note addition in statusbar
         KStars::Instance()->statusBar()->showMessage( i18n( "Added %1 to observing list.", finalObjectName ), 0 );
-        ui->TableView->resizeColumnsToContents();
+        ui->WishListView->resizeColumnsToContents();
         if( ! update ) slotSaveList();
     }
     //Insert object in the Session List
@@ -318,7 +397,6 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         dt.setTime( TimeHash.value( finalObjectName, obj->transitTime( dt, geo ) ) );
         dms lst(geo->GSTtoLST( dt.gst() ));
         p.EquatorialToHorizontal( &lst, geo->lat() );
-        QList<QStandardItem*> itemList;
 
         QString ra, dec, time = "--", alt = "--", az = "--";
 
@@ -329,23 +407,16 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
             BestTime->setData( QString( "--" ), Qt::DisplayRole );
         }
         else {*/
-            ra = p.ra().toHMSString();
-            dec = p.dec().toDMSString();
-            BestTime->setData( TimeHash.value( finalObjectName, obj->transitTime( dt, geo ) ), Qt::DisplayRole );
-            alt = p.alt().toDMSString();
-            az = p.az().toDMSString();
+        BestTime->setData( TimeHash.value( finalObjectName, obj->transitTime( dt, geo ) ), Qt::DisplayRole );
+        alt = p.alt().toDMSString();
+        az = p.az().toDMSString();
         //}
         // TODO: Change the rest of the parameters to their appropriate datatypes.
-        itemList<< new QStandardItem( finalObjectName )
-                << new QStandardItem( obj->translatedLongName() )
-                << new QStandardItem( ra )
-                << new QStandardItem( dec )
-                << new QStandardItem( smag )
-                << new QStandardItem( obj->typeName() )
-                << new QStandardItem( KSUtils::constNameToAbbrev( KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( obj ) ) )
-                << BestTime
-                << new QStandardItem( alt )
-                << new QStandardItem( az );
+        populateItemList();
+        itemList << getItemWithUserRole( KSUtils::constNameToAbbrev( KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( obj.data() ) ) )
+                 << BestTime
+                 << getItemWithUserRole( alt )
+                 << getItemWithUserRole( az );
 
         m_SessionModel->appendRow( itemList );
         //Adding an object should trigger the modified flag
@@ -357,34 +428,37 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     setSaveImagesButton();
 }
 
-void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) {
-    if( ! update ) {
-        if ( ! o )
-            o = SkyMap::Instance()->clickedObject();
+void ObservingList::slotRemoveObject( const SkyObject *_o, bool session, bool update ) {
+    if( ! update ) { // EH?!
+        if ( ! _o )
+            _o = SkyMap::Instance()->clickedObject();
         else if( sessionView ) //else if is needed as clickedObject should not be removed from the session list.
             session = true;
     }
 
+    // Is the pointer supplied in our own lists?
+    const QList<QSharedPointer<SkyObject>> &list = ( session ? sessionList() : obsList() );
+    QStandardItemModel *currentModel = ( session ? m_SessionModel : m_WishListModel );
+
+    QSharedPointer<SkyObject> o = findObject( _o, session );
+    if ( !o ) {
+        qWarning() << "Object (name: " << getObjectName( o.data() ) << ") supplied to ObservingList::slotRemoveObject() was not found in the " << QString( session ? "session" : "observing" ) << " list!";
+        return;
+    }
+
+    int k = list.indexOf( o );
+    assert( k >= 0 );
+
     // Remove from hash
-    ImagePreviewHash.remove(o);
+    ImagePreviewHash.remove( o.data() );
 
-    QStandardItemModel *currentModel;
+    if ( o.data() == LogObject ) saveCurrentUserLog();
 
-    int k;
-    if (! session) {
-        currentModel = m_WishListModel;
-        k = obsList().indexOf( o );
-    }
-    else {
-        currentModel = m_SessionModel;
-        k = sessionList().indexOf( o );
-    }
-
-    if ( o == LogObject ) saveCurrentUserLog();
     //Remove row from the TableView model
+    // FIXME: Is there no faster way?
     for ( int irow = 0; irow < currentModel->rowCount(); ++irow ) {
         QString name = currentModel->item(irow, 0)->text();
-        if ( getObjectName(o) == name ) {
+        if ( getObjectName(o.data()) == name ) {
             currentModel->removeRow(irow);
             break;
         }
@@ -393,7 +467,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
     if( ! session ) {
         obsList().removeAt(k);
         ui->avt->removeAllPlotObjects();
-        ui->TableView->resizeColumnsToContents();
+        ui->WishListView->resizeColumnsToContents();
         if( ! update )
             slotSaveList();
     } else {
@@ -415,20 +489,15 @@ void ObservingList::slotRemoveSelectedObjects() {
         if ( sessionView )
             rowSelected = ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() );
         else
-            rowSelected = ui->TableView->selectionModel()->isRowSelected( irow, QModelIndex() );
+            rowSelected = ui->WishListView->selectionModel()->isRowSelected( irow, QModelIndex() );
 
         if ( rowSelected ) {
             QModelIndex sortIndex, index;
             sortIndex = getActiveSortModel()->index( irow, 0 );
             index = getActiveSortModel()->mapToSource( sortIndex );
-
-            foreach ( SkyObject *o, getActiveList() ) {
-                //Stars named "star" must be matched by coordinates
-                if (getObjectName(o) == index.data().toString() ) {
-                    slotRemoveObject(o, sessionView);
-                    break;
-                }
-            }
+            SkyObject *o = static_cast<SkyObject *>( index.data( Qt::UserRole + 1 ).value<void *>() );
+            Q_ASSERT( o );
+            slotRemoveObject(o, sessionView);
         }
     }
 
@@ -453,7 +522,8 @@ void ObservingList::slotNewSelection() {
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
     QModelIndexList selectedItems;
     QString newName;
-    SkyObject *o;
+    QSharedPointer<SkyObject> o;
+    QString labelText;
     ui->DeleteImage->setEnabled( false );
 
     selectedItems = getActiveSortModel()->mapSelectionToSource( getActiveView()->selectionModel()->selection() ).indexes();
@@ -465,7 +535,7 @@ void ObservingList::slotNewSelection() {
         //then break the loop.  Now SessionList.current()
         //points to the new selected object (until now it was the previous object)
         foreach ( o,  getActiveList() ) {
-            if ( getObjectName(o) == newName ) {
+            if ( getObjectName( o.data() ) == newName ) {
                 found = true;
                 break;
             }
@@ -477,14 +547,14 @@ void ObservingList::slotNewSelection() {
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
         #ifdef HAVE_INDI
             showScope = true;
-        #endif        
+        #endif
         if ( found )
         {
-            m_CurrentObject = o;
+            m_CurrentObject = o.data();
             //QPoint pos(0,0);
-            plot( o );
-            //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
-            setCurrentImage( o );
+            plot( o.data() );
+            //Change the m_currentImageFileName, DSS/SDSS Url to correspond to the new object
+            setCurrentImage( o.data() );
             ui->SearchImage->setEnabled( true );
             if ( newName != i18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
@@ -514,9 +584,8 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->setEnabled( false );
                 ui->SearchImage->setEnabled( false );
             }
-            QString BasePath=  KSPaths::writableLocation(QStandardPaths::GenericDataLocation);
-            QString ImagePath;
-            if( QFile( ImagePath = BasePath + CurrentImage ).exists() )  {
+            QString ImagePath = getCurrentImagePath();
+            if( QFile::exists( getCurrentImagePath() ) )  {
                 ;
             }
             else
@@ -527,11 +596,11 @@ void ObservingList::slotNewSelection() {
                 KSDssImage ksdi( ImagePath );
                 KSDssImage::Metadata md = ksdi.getMetadata();
                 //ui->ImagePreview->showPreview( QUrl::fromLocalFile( ksdi.getFileName() ) );
-                if (ImagePreviewHash.contains(o) == false)
-                    ImagePreviewHash[o] = QPixmap(ksdi.getFileName()).scaledToHeight(ui->ImagePreview->width());
+                if (ImagePreviewHash.contains(o.data()) == false)
+                    ImagePreviewHash[o.data()] = QPixmap(ksdi.getFileName()).scaledToHeight(ui->ImagePreview->width());
 
                 //ui->ImagePreview->setPixmap(QPixmap(ksdi.getFileName()).scaledToHeight(ui->ImagePreview->width()));
-                ui->ImagePreview->setPixmap(ImagePreviewHash[o]);
+                ui->ImagePreview->setPixmap(ImagePreviewHash[o.data()]);
                 if( md.width != 0 ) {// FIXME: Need better test for meta data presence
                     ui->dssMetadataLabel->setText( i18n( "DSS Image metadata: \n Size: %1\' x %2\' \n Photometric band: %3 \n Version: %4",
                                                          QString::number( md.width ), QString::number( md.height ), QString() + md.band, md.version ) );
@@ -546,12 +615,25 @@ void ObservingList::slotNewSelection() {
                 setDefaultImage();
                 ui->dssMetadataLabel->setText( i18n( "No image available. Click on the placeholder image to download one." ) );
             }
+            QString cname = KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( o.data() );
+            if ( o->type() != SkyObject::CONSTELLATION ) {
+                labelText = "<b>";
+                if ( o->type() == SkyObject::PLANET )
+                    labelText += o->translatedName();
+                else
+                    labelText += o->name();
+                if ( std::isfinite( o->mag() ) && o->mag() <= 30. )
+                    labelText += ":</b> " + i18nc("%1 magnitude of object, %2 type of sky object (planet, asteroid etc), %3 name of a constellation", "%1 mag %2 in %3", o->mag(), o->typeName().toLower(), cname );
+                else
+                    labelText += ":</b> " + i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", o->typeName(), cname );
+            }
         }
         else
         {
             setDefaultImage();
             qDebug() << "Object " << newName << " not found in list.";
         }
+        ui->quickInfoLabel->setText( labelText );
     } else {
         if ( selectedItems.size() == 0 ) {//Nothing selected
             //Disable buttons
@@ -581,6 +663,7 @@ void ObservingList::slotNewSelection() {
             //Clear the user log text box.
             saveCurrentUserLog();
             ui->NotesEdit->setPlainText("");
+            ui->quickInfoLabel->setText( QString() );
         }
     }
 }
@@ -664,10 +747,9 @@ void ObservingList::slotAddToSession() {
     Q_ASSERT( ! sessionView );
     if ( getSelectedItems().size() ) {
         foreach ( const QModelIndex &i, getSelectedItems() ) {
-            foreach ( SkyObject *o, obsList() )
-                if ( getObjectName(o) == i.data().toString() )
-                    slotAddObject( o, true );
-
+            foreach ( QSharedPointer<SkyObject> o, obsList() )
+                if ( getObjectName( o.data() ) == i.data().toString() )
+                    slotAddObject( o.data(), true ); // FIXME: Would be good to have a wrapper that accepts QSharedPointer<SkyObject>
         }
     }
 }
@@ -675,7 +757,7 @@ void ObservingList::slotAddToSession() {
 void ObservingList::slotFind() {
    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
    if ( fd->exec() == QDialog::Accepted ) {
-       SkyObject *o = fd->selectedObject();
+       SkyObject *o = fd->targetObject();
        if( o != 0 ) {
            slotAddObject( o, sessionView );
        }
@@ -684,40 +766,25 @@ void ObservingList::slotFind() {
 }
 
 void ObservingList::slotEyepieceView() {
-    KStars::Instance()->slotEyepieceView( currentObject(), CurrentImagePath );
+    KStars::Instance()->slotEyepieceView( currentObject(), getCurrentImagePath() );
 }
 
 void ObservingList::slotAVT() {
     QModelIndexList selectedItems;
     // TODO: Think and see if there's a more effecient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
-    if( sessionView ) {
+    selectedItems = ( sessionView ? m_SessionSortModel->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes() : m_WishListSortModel->mapSelectionToSource( ui->WishListView->selectionModel()->selection() ).indexes() );
+
+    if ( selectedItems.size() ) {
         QPointer<AltVsTime> avt = new AltVsTime( KStars::Instance() );
-        for ( int irow = m_SessionModel->rowCount()-1; irow >= 0; --irow ) {
-            if ( ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
-                QModelIndex mSortIndex = m_SessionSortModel->index( irow, 0 );
-                QModelIndex mIndex = m_SessionSortModel->mapToSource( mSortIndex );
-                foreach ( SkyObject *o, sessionList() ) {
-                    if ( getObjectName(o) == mIndex.data().toString() ) {
-                        avt->processObject( o );
-                        break;
-                    }
-                }
+        foreach ( const QModelIndex &i, selectedItems ) {
+            if ( i.column() == 0 ) {
+                SkyObject *o = static_cast<SkyObject *>( i.data( Qt::UserRole + 1 ).value<void *>() );
+                Q_ASSERT( o );
+                avt->processObject( o );
             }
         }
         avt->exec();
         delete avt;
-    } else {
-        selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
-        if ( selectedItems.size() ) {
-            QPointer<AltVsTime> avt = new AltVsTime( KStars::Instance() );
-            foreach ( const QModelIndex &i, selectedItems ) { // FIXME: This code is repeated too many times. We should find a better way to do it.
-                foreach ( SkyObject *o, obsList() )
-                    if ( getObjectName(o) == i.data().toString() )
-                        avt->processObject( o );
-            }
-            avt->exec();
-            delete avt;
-        }
     }
 }
 
@@ -727,7 +794,7 @@ void ObservingList::slotClose() {
     saveCurrentUserLog();
     ui->avt->removeAllPlotObjects();
     slotNewSelection();
-    saveCurrentList();    
+    saveCurrentList();
     hide();
 }
 
@@ -750,7 +817,7 @@ void ObservingList::slotOpenList()
     if ( fileURL.isValid() )
     {
 
-        f.setFileName( fileURL.path() );
+        f.setFileName( fileURL.toLocalFile() );
         //FIXME do we still need to do this?
         /*
         if ( ! fileURL.isLocalFile() ) {
@@ -758,13 +825,13 @@ void ObservingList::slotOpenList()
             QTemporaryFile tmpfile;
             tmpfile.setAutoRemove(false);
             tmpfile.open();
-            FileName = tmpfile.fileName();
-            if( KIO::NetAccess::download( fileURL, FileName, this ) )
-                f.setFileName( FileName );
+            m_listFileName = tmpfile.fileName();
+            if( KIO::NetAccess::download( fileURL, m_listFileName, this ) )
+                f.setFileName( m_listFileName );
 
         } else {
-            FileName = fileURL.toLocalFile();
-            f.setFileName( FileName );
+            m_listFileName = fileURL.toLocalFile();
+            f.setFileName( m_listFileName );
         }
         */
 
@@ -776,6 +843,7 @@ void ObservingList::slotOpenList()
         saveCurrentList();//See if the current list needs to be saved before opening the new one
         ui->tabWidget->setCurrentIndex(1);
         slotChangeTab(1);
+
         sessionList().clear();
         TimeHash.clear();
         m_CurrentObject = 0;
@@ -792,13 +860,13 @@ void ObservingList::slotOpenList()
         geo = logObject.geoLocation();
         dt = logObject.dateTime();
         foreach( SkyObject *o, *( logObject.targetList() ) )
-        slotAddObject( o, true );
+            slotAddObject( o, true );
         //Update the location and user set times from file
         slotUpdate();
         //Newly-opened list should not trigger isModified flag
         isModified = false;
         f.close();
-    } else if ( ! fileURL.path().isEmpty() ) {
+    } else if ( ! fileURL.toLocalFile().isEmpty() ) {
         KMessageBox::sorry( 0 , i18n( "The specified file is invalid" ) );
     }
 }
@@ -817,31 +885,34 @@ void ObservingList::saveCurrentList() {
 }
 
 void ObservingList::slotSaveSessionAs(bool nativeSave) {
+    if (sessionList().isEmpty())
+       return;
+
     QUrl fileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Observing List"), QUrl(), "KStars Observing List (*.obslist)" );
     if ( fileURL.isValid() ) {
-        FileName = fileURL.path();
+        m_listFileName = fileURL.toLocalFile();
         slotSaveSession(nativeSave);
     }
 }
 
 void ObservingList::slotSaveList() {
     QFile f;
-    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist" ) ;
-    if ( ! f.open( QIODevice::WriteOnly ) ) {
-        qDebug() << "Cannot write list to  file"; // TODO: This should be presented as a message box to the user
-        return;
-    }
-    QTextStream ostream( &f );
-    foreach ( SkyObject* o, obsList() ) {
+    // FIXME: Move wishlist into a database.
+    // TODO: Support multiple wishlists.
+
+    QString fileContents;
+    QTextStream ostream( &fileContents ); // We first write to a QString to prevent truncating the file in case there is a crash.
+    foreach ( const QSharedPointer<SkyObject> o, obsList() ) {
         if ( !o ) {
             qWarning() << "Null entry in observing wishlist! Skipping!";
             continue;
         }
         if ( o->name() == "star" ) {
             //ostream << o->name() << "  " << o->ra0().Hours() << "  " << o->dec0().Degrees() << endl;
-            ostream << getObjectName(o, false) << endl;
+            ostream << getObjectName(o.data(), false) << endl;
         } else if ( o->type() == SkyObject::STAR ) {
-            StarObject *s = (StarObject*)o;
+            Q_ASSERT( dynamic_cast<const StarObject *>( o.data() ) );
+            const QSharedPointer<StarObject> s = qSharedPointerCast<StarObject>( o );
             if ( s->name() == s->gname() )
                 ostream << s->name2() << endl;
             else
@@ -850,6 +921,13 @@ void ObservingList::slotSaveList() {
             ostream << o->name() << endl;
         }
     }
+    f.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "wishlist.obslist" ) ;
+    if ( ! f.open( QIODevice::WriteOnly ) ) {
+        qWarning() << "Cannot save wish list to file!"; // TODO: This should be presented as a message box to the user
+        return;
+    }
+    QTextStream writeemall( &f );
+    writeemall << fileContents;
     f.close();
 }
 
@@ -886,15 +964,21 @@ void ObservingList::slotLoadWishList() {
 }
 
 void ObservingList::slotSaveSession(bool nativeSave) {
-    if ( FileName.isEmpty() ) {
+    if (sessionList().isEmpty())
+    {
+        KMessageBox::error(0, i18n("Cannot save an empty session list!"));
+        return;
+    }
+
+    if ( m_listFileName.isEmpty() ) {
         slotSaveSessionAs(nativeSave);
         return;
     }
-    QFile f( FileName );
+    QFile f( m_listFileName );
     if( ! f.open( QIODevice::WriteOnly ) ) {
         QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
         if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), KGuiItem(i18n("Try Different")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
-            FileName.clear();
+            m_listFileName.clear();
             slotSaveSessionAs(nativeSave);
         }
     return;
@@ -962,26 +1046,26 @@ double ObservingList::findAltitude( SkyPoint *p, double hour ) {
 
 void ObservingList::slotToggleSize() {
     if ( isLarge() ) {
-        ui->MiniButton->setIcon( QIcon::fromTheme("view-fullscreen") );
+        ui->MiniButton->setIcon( QIcon::fromTheme("view-fullscreen", QIcon(":/icons/breeze/default/view-fullscreen.svg")) );
         //Abbreviate text on each button
         ui->FindButton->setText( "" );
-        ui->FindButton->setIcon( QIcon::fromTheme("edit-find") );
+        ui->FindButton->setIcon( QIcon::fromTheme("edit-find", QIcon(":/icons/breeze/default/edit-find.svg")) );
         ui->WUTButton->setText( i18nc( "Abbreviation of What's Up Tonight", "WUT" ) );
         ui->saveImages->setText( "" );
         ui->DeleteAllImages->setText( "" );
-        ui->saveImages->setIcon( QIcon::fromTheme( "download" ) );
-        ui->DeleteAllImages->setIcon( QIcon::fromTheme( "edit-delete" ) );
+        ui->saveImages->setIcon( QIcon::fromTheme( "download", QIcon(":/icons/breeze/default/download.svg")) );
+        ui->DeleteAllImages->setIcon( QIcon::fromTheme( "edit-delete", QIcon(":/icons/breeze/default/edit-delete.svg")) );
         ui->refLabel->setText( i18nc( "Abbreviation for Reference Images:", "RefImg:" ) );
         ui->addLabel->setText( i18nc( "Add objects to a list", "Add:" ) );
         //Hide columns 1-5
-        ui->TableView->hideColumn(1);
-        ui->TableView->hideColumn(2);
-        ui->TableView->hideColumn(3);
-        ui->TableView->hideColumn(4);
-        ui->TableView->hideColumn(5);
+        ui->WishListView->hideColumn(1);
+        ui->WishListView->hideColumn(2);
+        ui->WishListView->hideColumn(3);
+        ui->WishListView->hideColumn(4);
+        ui->WishListView->hideColumn(5);
         //Hide the headers
-        ui->TableView->horizontalHeader()->hide();
-        ui->TableView->verticalHeader()->hide();
+        ui->WishListView->horizontalHeader()->hide();
+        ui->WishListView->verticalHeader()->hide();
         //Hide Observing notes
         ui->NotesLabel->hide();
         ui->NotesEdit->hide();
@@ -993,10 +1077,10 @@ void ObservingList::slotToggleSize() {
         //or the width of column 1, whichever is larger
         /*
         int w = 5*ui->MiniButton->width();
-        if ( ui->TableView->columnWidth(0) > w ) {
-            w = ui->TableView->columnWidth(0);
+        if ( ui->WishListView->columnWidth(0) > w ) {
+            w = ui->WishListView->columnWidth(0);
         } else {
-            ui->TableView->setColumnWidth(0, w);
+            ui->WishListView->setColumnWidth(0, w);
         }
         int left, right, top, bottom;
         ui->layout()->getContentsMargins( &left, &top, &right, &bottom );
@@ -1008,15 +1092,15 @@ void ObservingList::slotToggleSize() {
         this->resize( 400, this->height() );
         update();
     } else {
-        ui->MiniButton->setIcon( QIcon::fromTheme( "view-restore" ) );
+        ui->MiniButton->setIcon( QIcon::fromTheme( "view-restore", QIcon(":/icons/breeze/default/view-restore.svg")) );
         //Show columns 1-5
-        ui->TableView->showColumn(1);
-        ui->TableView->showColumn(2);
-        ui->TableView->showColumn(3);
-        ui->TableView->showColumn(4);
-        ui->TableView->showColumn(5);
+        ui->WishListView->showColumn(1);
+        ui->WishListView->showColumn(2);
+        ui->WishListView->showColumn(3);
+        ui->WishListView->showColumn(4);
+        ui->WishListView->showColumn(5);
         //Show the horizontal header
-        ui->TableView->horizontalHeader()->show();
+        ui->WishListView->horizontalHeader()->show();
         //Expand text on each button
         ui->FindButton->setText( i18n( "Find &Object") );
         ui->saveImages->setText( i18n( "Download all Images" ) );
@@ -1056,7 +1140,7 @@ void ObservingList::slotChangeTab(int index) {
     ui->WizardButton->setEnabled( ! sessionView );//wizard adds only to the Wish List
     ui->OALExport->setEnabled( sessionView );
     //Clear the selection in the Tables
-    ui->TableView->clearSelection();
+    ui->WishListView->clearSelection();
     ui->SessionView->clearSelection();
     //Clear the user log text box.
     saveCurrentUserLog();
@@ -1077,17 +1161,17 @@ void ObservingList::slotUpdate() {
     dt.setDate( ui->DateEdit->date() );
     ui->avt->removeAllPlotObjects();
     //Creating a copy of the lists, we can't use the original lists as they'll keep getting modified as the loop iterates
-    QList<SkyObject*> _obsList=m_WishList, _SessionList=m_SessionList;
-    foreach ( SkyObject *o, _obsList ) {
+    QList<QSharedPointer<SkyObject>> _obsList=m_WishList, _SessionList=m_SessionList;
+    foreach ( QSharedPointer<SkyObject> o, _obsList ) {
         if( o->name() != "star" ) {
-            slotRemoveObject( o, false, true );
-            slotAddObject( o, false, true );
+            slotRemoveObject( o.data(), false, true );
+            slotAddObject( o.data(), false, true );
         }
     }
-    foreach ( SkyObject *obj, _SessionList ) {
+    foreach ( QSharedPointer<SkyObject> obj, _SessionList ) {
         if( obj->name() != "star" ) {
-            slotRemoveObject( obj, true, true );
-            slotAddObject( obj, true, true );
+            slotRemoveObject( obj.data(), true, true );
+            slotAddObject( obj.data(), true, true );
         }
     }
 }
@@ -1113,30 +1197,31 @@ void ObservingList::slotCustomDSS() {
     QString version = QInputDialog::getItem(this, i18n("Customized DSS Download"), i18n("Specify version: "), strList, 0, false, &ok );
 
     QUrl srcUrl( KSDssDownloader::getDSSURL( currentObject()->ra0(), currentObject()->dec0(), width, height, "gif", version, &md ) );
-    QString CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
 
     delete m_dl;
     m_dl = new KSDssDownloader();
     connect( m_dl, SIGNAL ( downloadComplete( bool ) ), SLOT ( downloadReady( bool ) ) );
-    m_dl->startSingleDownload( srcUrl, CurrentImagePath, md );
+    m_dl->startSingleDownload( srcUrl, getCurrentImagePath(), md );
 
 }
 
 void ObservingList::slotGetImage( bool _dss, const SkyObject *o ) {
     dss = _dss;
+    Q_ASSERT( !o || o == currentObject() ); // FIXME: Meaningless to operate on m_currentImageFileName unless o == currentObject()!
     if( !o )
         o = currentObject();
     ui->SearchImage->setEnabled( false );
     //ui->ImagePreview->clearPreview();
     ui->ImagePreview->setPixmap(QPixmap());
-    if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage ) )
-        setCurrentImage( o );
-    QFile::remove( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage ) ;
+    setCurrentImage( o );
+    QString currentImagePath = getCurrentImagePath();
+    if ( QFile::exists( currentImagePath ) )
+        QFile::remove( currentImagePath ) ;
     //QUrl url;
     dss = true;
-    qDebug() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
-    KSDssDownloader *dler = new KSDssDownloader( o, KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage );
-    connect( dler, SIGNAL( downloadComplete( bool ) ), SLOT( downloadReady( bool ) ) );
+    qWarning() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
+    std::function<void( bool )> slot = std::bind( &ObservingList::downloadReady, this, std::placeholders::_1 );
+    KSDssDownloader *dler = new KSDssDownloader( o, currentImagePath, slot, this );
 }
 
 void ObservingList::downloadReady( bool success ) {
@@ -1151,12 +1236,11 @@ void ObservingList::downloadReady( bool success ) {
     else {
 
         /*
-          if( QFile( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + CurrentImage ).size() > 13000)
+          if( QFile( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + m_currentImageFileName ).size() > 13000)
           //The default image is around 8689 bytes
         */
-        CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
-        //ui->ImagePreview->showPreview( QUrl::fromLocalFile( CurrentImagePath ) );
-        ui->ImagePreview->setPixmap(QPixmap(CurrentImagePath).scaledToHeight(ui->ImagePreview->width()));
+        //ui->ImagePreview->showPreview( QUrl::fromLocalFile( getCurrentImagePath() ) );
+        ui->ImagePreview->setPixmap(QPixmap( getCurrentImagePath() ).scaledToHeight(ui->ImagePreview->width()));
         saveThumbImage();
         ui->ImagePreview->show();
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
@@ -1170,21 +1254,23 @@ void ObservingList::downloadReady( bool success ) {
 }
 
 void ObservingList::setCurrentImage( const SkyObject *o  ) {
-    // TODO: Remove code duplication -- we have the same stuff
-    // implemented in SkyMap::slotDSS in skymap.cpp; must try to
-    // de-duplicate as much as possible.
-
-    CurrentImage = "Image_" +  o->name().remove(' ');
-    ThumbImage = "thumb-" + o->name().toLower().remove(' ') + ".png";
+    QString sanitizedName = o->name().remove(' ').remove( '\'' ).remove( '\"' );
+    m_currentImageFileName = "Image_" +  sanitizedName;
+    ThumbImage = "thumb-" + sanitizedName.toLower() + ".png";
     if( o->name() == "star" ) {
         QString RAString( o->ra0().toHMSString() );
         QString DecString( o->dec0().toDMSString() );
-        CurrentImage = "Image" + RAString.remove(' ') + DecString.remove(' ');
-        QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
-        CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
+        m_currentImageFileName = "Image_J" + RAString.remove(' ').remove( ':' ) + DecString.remove(' ').remove( ':' ); // Note: Changed naming convention to standard 2016-08-25 asimha; old images shall have to be re-downloaded.
+        // Unnecessary complication below:
+        // QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
+        // m_currentImageFileName = m_currentImageFileName.remove('+').remove('-') + decsgn;
     }
-    CurrentImagePath = KSPaths::locate( QStandardPaths::DataLocation , CurrentImage );
-    DSSUrl = KSDssDownloader::getDSSURL( o );
+    QString imagePath;
+    if ( QFile::exists( imagePath = getCurrentImagePath() ) ) { // New convention -- append filename extension so file is usable on Windows etc.
+        QFile::rename( imagePath, imagePath + ".png" );
+    }
+    m_currentImageFileName += ".png";
+    // DSSUrl = KSDssDownloader::getDSSURL( o );
     // QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
     // QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
 
@@ -1195,22 +1281,33 @@ void ObservingList::setCurrentImage( const SkyObject *o  ) {
     // SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
 }
 
+QString ObservingList::getCurrentImagePath() {
+    QString currentImagePath = KSPaths::locate( QStandardPaths::GenericDataLocation , m_currentImageFileName );
+    if ( QFile::exists( currentImagePath ) ) {
+        return currentImagePath;
+    }
+    else
+        return ( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_currentImageFileName );
+
+}
+
 void ObservingList::slotSaveAllImages() {
     ui->SearchImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
     //Clear the selection in the Tables
-    ui->TableView->clearSelection();
+    ui->WishListView->clearSelection();
     ui->SessionView->clearSelection();
 
-    foreach( SkyObject *o, getActiveList() ) {
+    foreach( QSharedPointer<SkyObject> o, getActiveList() ) {
         if( !o )
             continue; // FIXME: Why would we have null objects? But appears that we do.
-        setCurrentImage( o );
-        QString img( CurrentImagePath  );
-        QUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl );
+        setCurrentImage( o.data() );
+        QString img( getCurrentImagePath()  );
+        //        QUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl ); // FIXME: We have removed SDSS support!
+        QUrl url( KSDssDownloader::getDSSURL( o.data() ) );
         if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
-            saveImage( url, img, o );
+            saveImage( url, img, o.data() );
     }
 }
 
@@ -1220,7 +1317,7 @@ void ObservingList::saveImage( QUrl /*url*/, QString /*filename*/, const SkyObje
     if( !o )
         o = currentObject();
     Q_ASSERT( o );
-    if( ! QFile::exists( CurrentImagePath  ) )
+    if( ! QFile::exists( getCurrentImagePath()  ) )
     {
         // Call the DSS downloader
         slotGetImage( true, o );
@@ -1231,9 +1328,10 @@ void ObservingList::saveImage( QUrl /*url*/, QString /*filename*/, const SkyObje
 void ObservingList::slotImageViewer()
 {
     QPointer<ImageViewer> iv;
-    if( QFile::exists( CurrentImagePath ) )
+    QString currentImagePath = getCurrentImagePath();
+    if( QFile::exists( currentImagePath ) )
     {
-        QUrl url = QUrl::fromLocalFile(CurrentImagePath);
+        QUrl url = QUrl::fromLocalFile( currentImagePath );
         iv = new ImageViewer( url );
     }
 
@@ -1249,7 +1347,7 @@ void ObservingList::slotDeleteAllImages() {
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
     //Clear the selection in the Tables
-    ui->TableView->clearSelection();
+    ui->WishListView->clearSelection();
     ui->SessionView->clearSelection();
     //ui->ImagePreview->clearPreview();
     ui->ImagePreview->setPixmap(QPixmap());
@@ -1272,12 +1370,14 @@ void ObservingList::setSaveImagesButton() {
 // FIXME: Is there a reason to implement these as an event filter,
 // instead of as a signal-slot connection? Shouldn't we just use slots
 // to subscribe to various events from the Table / Session view?
-
+//
+// NOTE: ui->ImagePreview is a QLabel, which has no clicked() event or
+// public mouseReleaseEvent(), so eventFilter makes sense.
 bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
             if( currentObject() ) {
-                if( !QFile::exists( CurrentImagePath ) ) {
+                if( !QFile::exists( getCurrentImagePath() ) ) {
                     if( ! currentObject()->isSolarSystem() )
                         slotGetImage( Options::obsListPreferDSS() );
                     else
@@ -1289,7 +1389,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
             return true;
         }
     }
-    if( obj == ui->TableView->viewport() || obj == ui->SessionView->viewport() ) {
+    if( obj == ui->WishListView->viewport() || obj == ui->SessionView->viewport() ) {
         bool sessionViewEvent = ( obj == ui->SessionView->viewport() );
 
         if( event->type() == QEvent::MouseButtonRelease  ) { // Mouse button release event
@@ -1306,7 +1406,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
         }
     }
 
-    if( obj == ui->TableView || obj == ui->SessionView )
+    if( obj == ui->WishListView || obj == ui->SessionView )
     {
         if (event->type() == QEvent::KeyPress)
         {
@@ -1327,8 +1427,8 @@ void ObservingList::slotSearchImage() {
     QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, i18n( "Image Chooser" ) );
     if ( tp->exec() == QDialog::Accepted )
     {
-        CurrentImagePath = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + CurrentImage;
-        QFile f( CurrentImagePath );
+        QString currentImagePath = getCurrentImagePath();
+        QFile f( currentImagePath );
 
         //If a real image was set, save it.
         if ( tp->imageFound() ) {
@@ -1343,14 +1443,14 @@ void ObservingList::slotSearchImage() {
 }
 
 void ObservingList::slotDeleteCurrentImage() {
-    QFile::remove( CurrentImagePath );
+    QFile::remove( getCurrentImagePath() );
     ImagePreviewHash.remove(m_CurrentObject);
     slotNewSelection();
 }
 
 void ObservingList::saveThumbImage() {
     if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + ThumbImage ) )  {
-        QImage img( CurrentImagePath );
+        QImage img( getCurrentImagePath() );
         img = img.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
         img.save( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + ThumbImage ) ;
     }
@@ -1379,20 +1479,20 @@ void ObservingList::slotAddVisibleObj() {
     QPointer<WUTDialog> w = new WUTDialog( KStars::Instance(), sessionView, geo, lt );
     w->init();
     QModelIndexList selectedItems;
-    selectedItems = m_WishListSortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+    selectedItems = m_WishListSortModel->mapSelectionToSource( ui->WishListView->selectionModel()->selection() ).indexes();
     if ( selectedItems.size() )
         foreach ( const QModelIndex &i, selectedItems ) {
-            foreach ( SkyObject *o, obsList() )
-                if ( getObjectName(o) == i.data().toString() && w->checkVisibility( o ) )
-                    slotAddObject( o, true );
+            foreach ( QSharedPointer<SkyObject> o, obsList() )
+                if ( getObjectName( o.data() ) == i.data().toString() && w->checkVisibility( o.data() ) )
+                    slotAddObject( o.data(), true ); // FIXME: Better if there is a QSharedPointer override for this, although the check will ensure that we don't duplicate.
         }
     delete w;
 }
 
 SkyObject* ObservingList::findObjectByName( QString name ) {
-    foreach( SkyObject* o, sessionList() )
-        if( getObjectName(o, false) == name )
-            return o;
+    foreach( QSharedPointer<SkyObject> o, sessionList() )
+        if( getObjectName(o.data(), false) == name )
+            return o.data();
     return NULL;
 }
 
@@ -1430,4 +1530,34 @@ QString ObservingList::getObjectName(const SkyObject *o, bool translated)
 
     return finalObjectName;
 
+}
+
+
+void ObservingList::slotUpdateAltitudes() {
+    // FIXME: Update upon gaining visibility, do not update when not visible
+    KStarsDateTime now = KStarsDateTime::currentDateTimeUtc();
+//    qDebug() << "Updating altitudes in observation planner @ JD - J2000 = " << double( now.djd() - J2000 );
+    for ( int irow = m_WishListModel->rowCount() - 1; irow >= 0; --irow ) {
+        QModelIndex idx = m_WishListSortModel->mapToSource( m_WishListSortModel->index( irow, 0 ) );
+        SkyObject *o = static_cast<SkyObject *>( idx.data( Qt::UserRole + 1 ).value<void *>() );
+        Q_ASSERT( o );
+        SkyPoint p = o->recomputeHorizontalCoords( now, geo );
+        idx = m_WishListSortModel->mapToSource( m_WishListSortModel->index( irow, m_WishListSortModel->columnCount() - 1 ) );
+        QStandardItem *replacement = m_altCostHelper( p );
+        m_WishListModel->setData( idx, replacement->data( Qt::DisplayRole ), Qt::DisplayRole  );
+        m_WishListModel->setData( idx, replacement->data( Qt::UserRole ), Qt::UserRole );
+        delete replacement;
+    }
+    emit m_WishListModel->dataChanged( m_WishListModel->index( 0, m_WishListModel->columnCount() - 1 ),
+                                       m_WishListModel->index( m_WishListModel->rowCount() - 1, m_WishListModel->columnCount() - 1 ) );
+}
+
+QSharedPointer<SkyObject> ObservingList::findObject( const SkyObject* o, bool session ) {
+    const QList<QSharedPointer<SkyObject>> &list = ( session ? sessionList() : obsList() );
+    const QString &target = getObjectName( o );
+    foreach( QSharedPointer<SkyObject> obj, list ) {
+        if ( getObjectName( obj.data() ) == target )
+            return obj;
+    }
+    return QSharedPointer<SkyObject>(); // null pointer
 }

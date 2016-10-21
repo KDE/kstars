@@ -25,6 +25,7 @@
 #include "dms.h"
 #include "widgets/dmsbox.h"
 #include "skyobjects/skypoint.h"
+#include "skyobjects/skyobject.h"
 #include "dialogs/finddialog.h"
 #include "kstars.h"
 
@@ -96,7 +97,7 @@ void modCalcAngDist::slotValidatePositions(){
 void modCalcAngDist::slotObjectButton() {
     QPointer<FindDialog> fd = new FindDialog( this );
     if ( fd->exec() == QDialog::Accepted ) {
-        SkyObject *o = fd->selectedObject();
+        SkyObject *o = fd->targetObject();
         if ( sender()->objectName() == QString("FirstObjectButton") ) {
             FirstRA->showInHours( o->ra() );
             FirstDec->showInDegrees( o->dec() );

@@ -107,13 +107,16 @@ public:
     /**
      *@enum TYPE
      *The type classification of the SkyObject.
+     * @note Keep TYPE_UNKNOWN at 255. To find out how many known
+     * types exist, keep the NUMBER_OF_KNOWN_TYPES at the highest
+     * non-Unknown value. This is a fake type that can be used in
+     * comparisons and for loops.
      */
     enum TYPE { STAR=0, CATALOG_STAR=1, PLANET=2, OPEN_CLUSTER=3, GLOBULAR_CLUSTER=4,
                 GASEOUS_NEBULA=5, PLANETARY_NEBULA=6, SUPERNOVA_REMNANT=7, GALAXY=8,
                 COMET=9, ASTEROID=10, CONSTELLATION=11, MOON=12, ASTERISM=13,
                 GALAXY_CLUSTER=14, DARK_NEBULA=15, QUASAR=16, MULT_STAR=17, RADIO_SOURCE=18,
-                SATELLITE=19, SUPERNOVA=20, TYPE_UNKNOWN=255 };
-
+                SATELLITE=19, SUPERNOVA=20, NUMBER_OF_KNOWN_TYPES=21, TYPE_UNKNOWN=255 };
     /**
      *@return A translated string indicating the type name for a given type number
      *@param t The type number
@@ -254,13 +257,19 @@ public:
     dms transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo ) const;
 
     /**
-     *The coordinates for the object on date dt are computed and returned,
+     *The equatorial coordinates for the object on date dt are computed and returned,
      *but the object's internal coordinates are not modified.
      *@return the coordinates of the selected object for the time given by jd
      *@param dt  date/time for which the coords will be computed.
      *@param geo pointer to geographic location (used for solar system only)
+     *@note Does not update the horizontal coordinates. Call EquatorialToHorizontal for that.
      */
     SkyPoint recomputeCoords( const KStarsDateTime &dt, const GeoLocation *geo=0 ) const;
+
+    /**
+     * @short Like recomputeCoords, but also calls EquatorialToHorizontal before returning
+     */
+    SkyPoint recomputeHorizontalCoords( const KStarsDateTime &dt, const GeoLocation *geo ) const;
 
     inline bool hasName() const { return ! Name.isEmpty(); }
 
@@ -403,6 +412,7 @@ protected:
     /**Set the object's sorting magnitude.
      * @param m the object's magnitude. */
     inline void setMag( float m ) { sortMagnitude = m < 36.0 ? m : NaN::f; } // Updating faintest sane magnitude to 36.0 (faintest visual magnitude visible with E-ELT, acc. to Wikipedia on Apparent Magnitude.)
+    // FIXME: We claim sortMagnitude should not be NaN, but we are setting it to NaN above!! ^
 
     /**Set the object's primary name.
      * @param name the object's primary name */

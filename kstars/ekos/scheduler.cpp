@@ -32,6 +32,7 @@
 #include "ksalmanac.h"
 #include "ksutils.h"
 #include "mosaic.h"
+#include "skyobjects/starobject.h"
 
 #define BAD_SCORE                       -1000
 #define MAX_FAILURE_ATTEMPTS            3
@@ -83,7 +84,7 @@ Scheduler::Scheduler()
     currentJob   = NULL;
     geo          = NULL;
     captureBatch = 0;
-    jobUnderEdit = false;
+    jobUnderEdit = -1;
     mDirty       = false;
     jobEvaluationOnly=false;
     loadAndSlewProgress=false;
@@ -128,7 +129,7 @@ Scheduler::Scheduler()
 
     moon = dynamic_cast<KSMoon*> (KStarsData::Instance()->skyComposite()->findByName("Moon"));
 
-    sleepLabel->setPixmap(QIcon::fromTheme("chronometer").pixmap(QSize(32,32)));
+    sleepLabel->setPixmap(QIcon::fromTheme("chronometer", QIcon(":/icons/breeze/default/chronometer.svg")).pixmap(QSize(32,32)));
     sleepLabel->hide();
 
     schedulerTimer.setInterval(UPDATE_PERIOD_MS);
@@ -144,26 +145,27 @@ Scheduler::Scheduler()
 
     raBox->setDegType(false); //RA box should be HMS-style
 
-    addToQueueB->setIcon(QIcon::fromTheme("list-add"));
-    addToQueueB->setToolTip(i18n("Add observation job to list."));    
 
-    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove"));
+    addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    addToQueueB->setToolTip(i18n("Add observation job to list."));
+
+    removeFromQueueB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
     removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
 
-    evaluateOnlyB->setIcon(QIcon::fromTheme("tools-wizard"));
-    mosaicB->setIcon(QIcon::fromTheme("zoom-draw"));
+    evaluateOnlyB->setIcon(QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg")));
+    mosaicB->setIcon(QIcon::fromTheme("zoom-draw", QIcon(":/icons/breeze/default/zoom-draw.svg")));
 
-    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as"));
-    queueSaveB->setIcon(QIcon::fromTheme("document-save"));
-    queueLoadB->setIcon(QIcon::fromTheme("document-open"));
+    queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg")));
+    queueSaveB->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")));
+    queueLoadB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
 
-    loadSequenceB->setIcon(QIcon::fromTheme("document-open"));
-    selectStartupScriptB->setIcon(QIcon::fromTheme("document-open"));
-    selectShutdownScriptB->setIcon(QIcon::fromTheme("document-open"));
-    selectFITSB->setIcon(QIcon::fromTheme("document-open"));
+    loadSequenceB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    selectStartupScriptB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    selectShutdownScriptB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    selectFITSB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
 
-    startupB->setIcon(QIcon::fromTheme("media-playback-start"));
-    shutdownB->setIcon(QIcon::fromTheme("media-playback-start"));
+    startupB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    shutdownB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
 
     connect(startupB, SIGNAL(clicked()), this, SLOT(runStartupProcedure()));
     connect(shutdownB, SIGNAL(clicked()), this, SLOT(runShutdownProcedure()));
@@ -181,7 +183,12 @@ Scheduler::Scheduler()
     connect(queueTable, SIGNAL(clicked(QModelIndex)), this, SLOT(loadJob(QModelIndex)));
     connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(resetJobState(QModelIndex)));
 
+    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    pauseB->setIcon(QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg")));
+
     connect(startB,SIGNAL(clicked()),this,SLOT(toggleScheduler()));
+    connect(pauseB,SIGNAL(clicked()),this,SLOT(pause()));
+
     connect(queueSaveAsB,SIGNAL(clicked()),this,SLOT(saveAs()));
     connect(queueSaveB,SIGNAL(clicked()),this,SLOT(save()));
     connect(queueLoadB,SIGNAL(clicked()),this,SLOT(load()));
@@ -271,7 +278,7 @@ void Scheduler::selectObject()
     QPointer<FindDialog> fd = new FindDialog( this );
     if ( fd->exec() == QDialog::Accepted )
     {
-        SkyObject *object = fd->selectedObject();
+        SkyObject *object = fd->targetObject();
         addObject(object);
     }
 
@@ -280,7 +287,7 @@ void Scheduler::selectObject()
 }
 
 void Scheduler::addObject(SkyObject *object)
-{        
+{
     if( object != NULL )
     {
         QString finalObjectName(object->name());
@@ -310,18 +317,15 @@ void Scheduler::selectFITS()
 
     dirPath = QUrl(fitsURL.url(QUrl::RemoveFilename));
 
-    setDirty();
-
-    fitsEdit->setText(fitsURL.path());
-
-    //raBox->clear();
-    //decBox->clear();
+    fitsEdit->setText(fitsURL.toLocalFile());
 
     if (nameEdit->text().isEmpty())
         nameEdit->setText(fitsURL.fileName());
 
     addToQueueB->setEnabled(sequenceEdit->text().isEmpty() == false);
     mosaicB->setEnabled(sequenceEdit->text().isEmpty() == false);
+
+    setDirty();
 }
 
 void Scheduler::selectSequence()
@@ -332,9 +336,7 @@ void Scheduler::selectSequence()
 
     dirPath = QUrl(sequenceURL.url(QUrl::RemoveFilename));
 
-    setDirty();
-
-    sequenceEdit->setText(sequenceURL.path());
+    sequenceEdit->setText(sequenceURL.toLocalFile());
 
     // For object selection, all fields must be filled
     if ( (raBox->isEmpty() == false && decBox->isEmpty() == false && nameEdit->text().isEmpty() == false)
@@ -344,6 +346,8 @@ void Scheduler::selectSequence()
                 addToQueueB->setEnabled(true);
                 mosaicB->setEnabled(true);
     }
+
+    setDirty();
 }
 
 void Scheduler::selectStartupScript()
@@ -355,7 +359,7 @@ void Scheduler::selectStartupScript()
     dirPath = QUrl(startupScriptURL.url(QUrl::RemoveFilename));
 
     mDirty=true;
-    startupScript->setText(startupScriptURL.path());
+    startupScript->setText(startupScriptURL.toLocalFile());
 }
 
 void Scheduler::selectShutdownScript()
@@ -367,12 +371,12 @@ void Scheduler::selectShutdownScript()
     dirPath = QUrl(shutdownScriptURL.url(QUrl::RemoveFilename));
 
     mDirty=true;
-    shutdownScript->setText(shutdownScriptURL.path());    
+    shutdownScript->setText(shutdownScriptURL.toLocalFile());
 }
 
 void Scheduler::addJob()
 {
-    if (jobUnderEdit)
+    if (jobUnderEdit >= 0)
     {
         resetJobEdit();
         return;
@@ -389,7 +393,7 @@ void Scheduler::saveJob()
     {
         appendLogText(i18n("You cannot add or modify a job while the scheduler is running."));
         return;
-    }       
+    }
 
     watchJobChanges(false);
 
@@ -415,7 +419,7 @@ void Scheduler::saveJob()
     // Create or Update a scheduler job
     SchedulerJob *job = NULL;
 
-    if (jobUnderEdit)
+    if (jobUnderEdit >= 0)
         job = jobs.at(queueTable->currentRow());
     else
         job = new SchedulerJob();
@@ -509,11 +513,11 @@ void Scheduler::saveJob()
 
 
     // Add job to queue if it is new
-    if (jobUnderEdit == false)
+    if (jobUnderEdit == -1)
         jobs.append(job);
 
     int currentRow = 0;
-    if (jobUnderEdit == false)
+    if (jobUnderEdit == -1)
     {
         currentRow = queueTable->rowCount();
         queueTable->insertRow(currentRow);
@@ -521,19 +525,19 @@ void Scheduler::saveJob()
     else
         currentRow = queueTable->currentRow();
 
-    QTableWidgetItem *nameCell = jobUnderEdit ? queueTable->item(currentRow, 0) : new QTableWidgetItem();
+    QTableWidgetItem *nameCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, 0) : new QTableWidgetItem();
     nameCell->setText(job->getName());
     nameCell->setTextAlignment(Qt::AlignHCenter);
     nameCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QTableWidgetItem *statusCell = jobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
+    QTableWidgetItem *statusCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
     statusCell->setTextAlignment(Qt::AlignHCenter);
     statusCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setStatusCell(statusCell);
     // Refresh state
     job->setState(job->getState());
 
-    QTableWidgetItem *startupCell = jobUnderEdit ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
+    QTableWidgetItem *startupCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, 2) : new QTableWidgetItem();
     if (startupTimeConditionR->isChecked())
         startupCell->setText(startupTimeEdit->text());
     else
@@ -542,7 +546,7 @@ void Scheduler::saveJob()
     startupCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     job->setStartupCell(startupCell);
 
-    QTableWidgetItem *completionCell = jobUnderEdit ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
+    QTableWidgetItem *completionCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, 3) : new QTableWidgetItem();
     if (timeCompletionR->isChecked())
         completionCell->setText(completionTimeEdit->text());
     else
@@ -550,24 +554,38 @@ void Scheduler::saveJob()
     completionCell->setTextAlignment(Qt::AlignHCenter);
     completionCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    if (jobUnderEdit == false)
+    QTableWidgetItem *estimatedTimeCell = (jobUnderEdit >= 0) ? queueTable->item(currentRow, 4) : new QTableWidgetItem();
+    if (job->getEstimatedTime() > 0)
+    {
+        QTime estimatedTime = QTime::fromMSecsSinceStartOfDay(job->getEstimatedTime()*3600);
+        estimatedTimeCell->setText(estimatedTime.toString("HH:mm:ss"));
+    }
+    else
+        estimatedTimeCell->setText(QString());
+    estimatedTimeCell->setTextAlignment(Qt::AlignHCenter);
+    estimatedTimeCell->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    job->setEstimatedTimeCell(estimatedTimeCell);
+
+    if (jobUnderEdit == -1)
     {
         queueTable->setItem(currentRow, 0, nameCell);
         queueTable->setItem(currentRow, 1, statusCell);
         queueTable->setItem(currentRow, 2, startupCell);
         queueTable->setItem(currentRow, 3, completionCell);
-    }    
+        queueTable->setItem(currentRow, 4, estimatedTimeCell);
+    }
 
     if (queueTable->rowCount() > 0)
     {
         queueSaveAsB->setEnabled(true);
         queueSaveB->setEnabled(true);
+        startB->setEnabled(true);
         mDirty = true;
     }
 
     removeFromQueueB->setEnabled(true);
 
-    if (jobUnderEdit == false)
+    if (jobUnderEdit == -1)
     {
         startB->setEnabled(true);
         evaluateOnlyB->setEnabled(true);
@@ -602,6 +620,9 @@ void Scheduler::resetJobState(QModelIndex i)
 
 void Scheduler::loadJob(QModelIndex i)
 {
+    if (jobUnderEdit == i.row())
+        return;
+
     if (state == SCHEDULER_RUNNIG)
     {
         appendLogText(i18n("You cannot add or modify a job while the scheduler is running."));
@@ -609,8 +630,9 @@ void Scheduler::loadJob(QModelIndex i)
     }
 
     SchedulerJob *job = jobs.at(i.row());
+
     if (job == NULL)
-        return;    
+        return;
 
     watchJobChanges(false);
 
@@ -626,7 +648,7 @@ void Scheduler::loadJob(QModelIndex i)
 
     if (job->getFITSFile().isEmpty() == false)
     {
-        fitsEdit->setText(job->getFITSFile().path());
+        fitsEdit->setText(job->getFITSFile().toLocalFile());
         fitsURL = job->getFITSFile();
     }
     else
@@ -635,7 +657,7 @@ void Scheduler::loadJob(QModelIndex i)
         fitsURL = QUrl();
     }
 
-    sequenceEdit->setText(job->getSequenceFile().path());
+    sequenceEdit->setText(job->getSequenceFile().toLocalFile());
     sequenceURL = job->getSequenceFile();
 
     profileCombo->setCurrentText(job->getProfile());
@@ -710,40 +732,38 @@ void Scheduler::loadJob(QModelIndex i)
 
    appendLogText(i18n("Editing job #%1...", i.row()+1));
 
-   addToQueueB->setIcon(QIcon::fromTheme("edit-undo"));
+   addToQueueB->setIcon(QIcon::fromTheme("edit-undo", QIcon(":/icons/breeze/default/edit-undo.svg")));
    addToQueueB->setStyleSheet("background-color:orange;}");
    addToQueueB->setEnabled(true);
    startB->setEnabled(false);
    evaluateOnlyB->setEnabled(false);
    addToQueueB->setToolTip(i18n("Exit edit mode"));
 
-   jobUnderEdit = true;
+   jobUnderEdit = i.row();
 
-    watchJobChanges(true);
-
+   watchJobChanges(true);
 }
 
 void Scheduler::resetJobEdit()
 {
-       if (jobUnderEdit == false)
-           return;
+    if (jobUnderEdit == -1)
+        return;
 
-       appendLogText(i18n("Edit mode cancelled."));
+    appendLogText(i18n("Edit mode cancelled."));
 
-       jobUnderEdit = false;
+    jobUnderEdit = -1;
 
-       watchJobChanges(false);
+    watchJobChanges(false);
 
-       addToQueueB->setIcon(QIcon::fromTheme("list-add"));
-       addToQueueB->setStyleSheet(QString());
-       addToQueueB->setToolTip(i18n("Add observation job to list."));
-       queueTable->clearSelection();
+    addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    addToQueueB->setStyleSheet(QString());
+    addToQueueB->setToolTip(i18n("Add observation job to list."));
+    queueTable->clearSelection();
 
-       evaluateOnlyB->setEnabled(true);
-       startB->setEnabled(true);
+    evaluateOnlyB->setEnabled(true);
+    startB->setEnabled(true);
 
-       //removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
-
+    //removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
 }
 
 void Scheduler::removeJob()
@@ -767,7 +787,7 @@ void Scheduler::removeJob()
 
     SchedulerJob *job = jobs.at(currentRow);
     jobs.removeOne(job);
-    delete (job);        
+    delete (job);
 
     if (queueTable->rowCount() == 0)
     {
@@ -787,8 +807,10 @@ void Scheduler::removeJob()
     {
         queueSaveAsB->setEnabled(false);
         queueSaveB->setEnabled(false);
+        startB->setEnabled(false);
+        pauseB->setEnabled(false);
 
-        if (jobUnderEdit)
+        if (jobUnderEdit >= 0)
             resetJobEdit();
     }
     else
@@ -821,6 +843,7 @@ void Scheduler::stop()
     // in case of soft shutdown we skip this
     if (preemptiveShutdown == false)
     {
+        bool wasAborted = false;
         foreach(SchedulerJob *job, jobs)
         {
             if (job == currentJob)
@@ -830,9 +853,15 @@ void Scheduler::stop()
             }
 
             if (job->getState() <= SchedulerJob::JOB_BUSY)
+            {
                 job->setState(SchedulerJob::JOB_ABORTED);
+                job->setStartupCondition(job->getFileStartupCondition());
+                wasAborted = true;
+            }
         }
 
+        if (wasAborted)
+            KNotification::event( QLatin1String( "SchedulerAborted" ) , i18n("Scheduler aborted."));
     }
 
     schedulerTimer.stop();
@@ -888,10 +917,14 @@ void Scheduler::stop()
     sleepTimer.disconnect();
     sleepLabel->hide();
     pi->stopAnimation();
-    startB->setText("Start Scheduler");
+
+    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    startB->setToolTip(i18n("Start Scheduler"));
+    pauseB->setEnabled(false);
+    //startB->setText("Start Scheduler");
 
     queueLoadB->setEnabled(true);
-    addToQueueB->setEnabled(true);    
+    addToQueueB->setEnabled(true);
     removeFromQueueB->setEnabled(true);
     mosaicB->setEnabled(true);
     evaluateOnlyB->setEnabled(true);
@@ -901,6 +934,15 @@ void Scheduler::start()
 {
     if(state == SCHEDULER_RUNNIG)
         return;
+    else if (state == SCHEDULER_PAUSED)
+    {
+        state = SCHEDULER_RUNNIG;
+        appendLogText(i18n("Scheduler resumed."));
+
+        startB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+        startB->setToolTip(i18n("Stop Scheduler"));
+        return;
+    }
 
     startupScriptURL = QUrl::fromUserInput(startupScript->text());
     if (startupScript->text().isEmpty() == false && startupScriptURL.isValid() == false)
@@ -923,7 +965,10 @@ void Scheduler::start()
 
     sleepLabel->hide();
 
-    startB->setText("Stop Scheduler");   
+    //startB->setText("Stop Scheduler");
+    startB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
+    startB->setToolTip(i18n("Stop Scheduler"));
+    pauseB->setEnabled(true);
 
     if (Dawn < 0)
         calculateDawnDusk();
@@ -941,7 +986,7 @@ void Scheduler::start()
             job->setState(SchedulerJob::JOB_IDLE);
             job->setStage(SchedulerJob::STAGE_IDLE);
         }
-    }   
+    }
 
     queueLoadB->setEnabled(false);
     addToQueueB->setEnabled(false);
@@ -953,6 +998,16 @@ void Scheduler::start()
     shutdownB->setEnabled(false);
 
     schedulerTimer.start();
+}
+
+void Scheduler::pause()
+{
+    state = SCHEDULER_PAUSED;
+    appendLogText(i18n("Scheduler paused."));
+    pauseB->setEnabled(false);
+
+    startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    startB->setToolTip(i18n("Resume Scheduler"));
 }
 
 void Scheduler::evaluateJobs()
@@ -1055,12 +1110,12 @@ void Scheduler::evaluateJobs()
                         dms passedUp( timeUntil / 3600.0);
                         if (job->getState() == SchedulerJob::JOB_EVALUATION)
                         {
-                            appendLogText(i18n("%1 start up time already passed by %2. Job is marked as invalid.", job->getName(), passedUp.toHMSString()));
+                            appendLogText(i18n("%1 startup time already passed by %2. Job is marked as invalid.", job->getName(), passedUp.toHMSString()));
                             job->setState(SchedulerJob::JOB_INVALID);
                         }
                         else
                         {
-                            appendLogText(i18n("%1 start up time already passed by %2. Aborting job...", job->getName(), passedUp.toHMSString()));
+                            appendLogText(i18n("%1 startup time already passed by %2. Aborting job...", job->getName(), passedUp.toHMSString()));
                             job->setState(SchedulerJob::JOB_ABORTED);
                         }
 
@@ -1192,13 +1247,15 @@ void Scheduler::evaluateJobs()
 
     updatePreDawn();
 
+    QList<SchedulerJob*> sortedJobs = jobs;
+
     // Order by altitude first
-    qSort(jobs.begin(), jobs.end(), altitudeHigherThan);
+    qSort(sortedJobs.begin(), sortedJobs.end(), altitudeHigherThan);
     // Then by priority
-    qSort(jobs.begin(), jobs.end(), priorityHigherThan);
+    qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
 
 
-    SchedulerJob *firstJob      = jobs.first();
+    SchedulerJob *firstJob      = sortedJobs.first();
     QDateTime firstStartTime    = firstJob->getStartupTime();
     QDateTime lastStartTime     = firstJob->getStartupTime();
     double lastJobEstimatedTime = firstJob->getEstimatedTime();
@@ -1206,7 +1263,7 @@ void Scheduler::evaluateJobs()
 
 
     // Make sure no two jobs have the same scheduled time or overlap with other jobs
-    foreach(SchedulerJob *job, jobs)
+    foreach(SchedulerJob *job, sortedJobs)
     {
         // If this job is not scheduled, continue
         // If this job startup conditon is not to start at a specific time, continue
@@ -1277,11 +1334,11 @@ void Scheduler::evaluateJobs()
     }*/
 
     // Order by score first
-    qSort(jobs.begin(), jobs.end(), scoreHigherThan);
+    qSort(sortedJobs.begin(), sortedJobs.end(), scoreHigherThan);
     // Then by priority
-    qSort(jobs.begin(), jobs.end(), priorityHigherThan);
+    qSort(sortedJobs.begin(), sortedJobs.end(), priorityHigherThan);
 
-    foreach(SchedulerJob *job, jobs)
+    foreach(SchedulerJob *job, sortedJobs)
     {
         if (job->getState() != SchedulerJob::JOB_SCHEDULED || job->getScore() <= 0)
             continue;
@@ -1375,7 +1432,7 @@ void Scheduler::evaluateJobs()
 }
 
 void Scheduler::wakeUpScheduler()
-{    
+{
     sleepLabel->hide();
     sleepTimer.stop();
 
@@ -1387,7 +1444,11 @@ void Scheduler::wakeUpScheduler()
     }
     else
     {
-        appendLogText(i18n("Scheduler is awake. Jobs shall be started when ready..."));
+        if (state == SCHEDULER_RUNNIG)
+            appendLogText(i18n("Scheduler is awake. Jobs shall be started when ready..."));
+        else
+            appendLogText(i18n("Scheduler is awake. Jobs shall be started when scheduler is resumed."));
+
         schedulerTimer.start();
     }
 
@@ -1402,7 +1463,7 @@ double Scheduler::findAltitude(const SkyPoint & target, const QDateTime when)
 
     KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay()/1000);
 
-    dms LST = KStarsData::Instance()->geo()->GSTtoLST( myUT.gst() );
+    CachingDms LST = KStarsData::Instance()->geo()->GSTtoLST( myUT.gst() );
     p.EquatorialToHorizontal( &LST, KStarsData::Instance()->geo()->lat() );
 
     return p.alt().Degrees();
@@ -1430,9 +1491,9 @@ bool Scheduler::calculateAltitudeTime(SchedulerJob *job, double minAltitude, dou
 
         if (rawFrac < Dawn || rawFrac > Dusk)
         {
-            dms LST = geo->GSTtoLST( myUT.gst() );
+            CachingDms LST = geo->GSTtoLST( myUT.gst() );
             target.EquatorialToHorizontal( &LST, geo->lat() );
-            altitude =  target.alt().Degrees();                        
+            altitude =  target.alt().Degrees();
 
             if (altitude > minAltitude)
             {
@@ -1554,19 +1615,19 @@ void Scheduler::checkWeather()
                 qDebug() << "Scheduler: " << statusString;
 
             if (weatherStatus == IPS_OK)
-                weatherLabel->setPixmap(QIcon::fromTheme("security-high").pixmap(QSize(32,32)));
+                weatherLabel->setPixmap(QIcon::fromTheme("security-high", QIcon(":/icons/breeze/default/security-high.svg")).pixmap(QSize(32,32)));
             else if (weatherStatus == IPS_BUSY)
             {
-                weatherLabel->setPixmap(QIcon::fromTheme("security-medium").pixmap(QSize(32,32)));
+                weatherLabel->setPixmap(QIcon::fromTheme("security-medium", QIcon(":/icons/breeze/default/security-medium.svg")).pixmap(QSize(32,32)));
                 KNotification::event( QLatin1String( "WeatherWarning" ) , i18n("Weather conditions in warning zone"));
             }
             else if (weatherStatus == IPS_ALERT)
             {
-                weatherLabel->setPixmap(QIcon::fromTheme("security-low").pixmap(QSize(32,32)));
+                weatherLabel->setPixmap(QIcon::fromTheme("security-low", QIcon(":/icons/breeze/default/security-low.svg")).pixmap(QSize(32,32)));
                 KNotification::event( QLatin1String( "WeatherAlert" ) , i18n("Weather conditions are critical. Observatory shutdown is imminent"));
             }
             else
-                weatherLabel->setPixmap(QIcon::fromTheme("chronometer").pixmap(QSize(32,32)));
+                weatherLabel->setPixmap(QIcon::fromTheme("chronometer", QIcon(":/icons/breeze/default/chronometer.svg")).pixmap(QSize(32,32)));
 
             weatherLabel->show();
             weatherLabel->setToolTip(statusString);
@@ -1585,7 +1646,7 @@ void Scheduler::checkWeather()
                 stopGuiding();
                 jobTimer.stop();
                 currentJob->setState(SchedulerJob::JOB_ABORTED);
-                currentJob->setStage(SchedulerJob::STAGE_IDLE);                
+                currentJob->setStage(SchedulerJob::STAGE_IDLE);
             }
             checkShutdownState();
             //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
@@ -1701,7 +1762,7 @@ double Scheduler::getCurrentMoonSeparation(SchedulerJob *job)
     QDateTime midnight( KStarsData::Instance()->lt().date(), QTime() );
     KStarsDateTime ut = geo->LTtoUT( midnight );
     KStarsDateTime myUT = ut.addSecs(KStarsData::Instance()->lt().time().msecsSinceStartOfDay()/1000);
-    dms LST = geo->GSTtoLST( myUT.gst() );
+    CachingDms LST = geo->GSTtoLST( myUT.gst() );
     p.EquatorialToHorizontal( &LST, geo->lat() );
 
     // Update moon
@@ -1715,15 +1776,15 @@ double Scheduler::getCurrentMoonSeparation(SchedulerJob *job)
 }
 
 int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
-{    
-    int16_t score=0;    
+{
+    int16_t score=0;
 
     // Get target altitude given the time
     SkyPoint p = job->getTargetCoords();
     QDateTime midnight( when.date(), QTime() );
     KStarsDateTime ut = geo->LTtoUT( midnight );
     KStarsDateTime myUT = ut.addSecs(when.time().msecsSinceStartOfDay()/1000);
-    dms LST = geo->GSTtoLST( myUT.gst() );
+    CachingDms LST = geo->GSTtoLST( myUT.gst() );
     p.EquatorialToHorizontal( &LST, geo->lat() );
     double currentAlt = p.alt().Degrees();
 
@@ -1755,7 +1816,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
         double moonEffect = ( pow(separation, 1.7) * pow(zMoon, 0.5) ) / ( pow(zTarget, 1.1) * pow(illum, 0.5) );
 
         // Limit to 0 to 100 range.
-        moonEffect = KSUtils::clamp(moonEffect, 0.0, 100.0);        
+        moonEffect = KSUtils::clamp(moonEffect, 0.0, 100.0);
 
         if (job->getMinMoonSeparation() > 0)
         {
@@ -1772,7 +1833,7 @@ int16_t Scheduler::getMoonSeparationScore(SchedulerJob *job, QDateTime when)
     // Limit to 0 to 20
     score /= 5.0;
 
-    appendLogText(i18n("%1 Moon score %2 (separation %3).", job->getName(), score, separation));       
+    appendLogText(i18n("%1 Moon score %2 (separation %3).", job->getName(), score, separation));
 
     return score;
 
@@ -1799,6 +1860,11 @@ void Scheduler::executeJob(SchedulerJob *job)
 {
     if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE && Options::rememberJobProgress())
     {
+        QString targetName = job->getName().replace(" ", "");
+        QList<QVariant> targetArgs;
+        targetArgs.append(targetName);
+        captureInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetName", targetArgs);
+
         QString url = job->getSequenceFile().toString(QUrl::PreferLocalFile);
         QList<QVariant> dbusargs;
         dbusargs.append(url);
@@ -1830,6 +1896,9 @@ void Scheduler::executeJob(SchedulerJob *job)
 
 bool    Scheduler::checkEkosState()
 {
+    if (state == SCHEDULER_PAUSED)
+        return false;
+
     switch (ekosState)
     {
         case EKOS_IDLE:
@@ -1846,6 +1915,9 @@ bool    Scheduler::checkEkosState()
         {
             ekosInterface->call(QDBus::AutoDetect,"start");
             ekosState = EKOS_STARTING;
+
+            currentOperationTime = QTime::currentTime();
+
             return false;
         }
         }
@@ -1868,6 +1940,13 @@ bool    Scheduler::checkEkosState()
                 stop();
                 return false;
             }
+            // If a minute passed, give up
+            else if (currentOperationTime.elapsed() > 60)
+            {
+                appendLogText(i18n("Ekos timed out."));
+                stop();
+                return false;
+            }
         }
         break;
 
@@ -1882,6 +1961,9 @@ bool    Scheduler::checkEkosState()
 
 bool    Scheduler::checkINDIState()
 {
+    if (state == SCHEDULER_PAUSED)
+        return false;
+
     if (Options::verboseLogging())
         qDebug() << "Scheduler: Checking INDI State...";
 
@@ -1904,6 +1986,8 @@ bool    Scheduler::checkINDIState()
         {
             ekosInterface->call(QDBus::AutoDetect,"connectDevices");
             indiState = INDI_CONNECTING;
+
+            currentOperationTime = QTime::currentTime();
 
             if (Options::verboseLogging())
                 qDebug() << "Scheduler: Connecting INDI Devices";
@@ -1932,6 +2016,13 @@ bool    Scheduler::checkINDIState()
             }
 
             appendLogText(i18n("INDI devices failed to connect. Check INDI control panel for details."));
+            stop();
+            return false;
+        }
+        // If a minute passed, we give up
+        else if (currentOperationTime.elapsed() > 60)
+        {
+            appendLogText(i18n("INDI devices connection timed out. Check INDI control panel for details."));
             stop();
             return false;
         }
@@ -2000,6 +2091,9 @@ bool    Scheduler::checkINDIState()
 
 bool Scheduler::checkStartupState()
 {
+    if (state == SCHEDULER_PAUSED)
+        return false;
+
     if (Options::verboseLogging())
         qDebug() << "Scheduler: Checking Startup State...";
 
@@ -2094,6 +2188,9 @@ bool Scheduler::checkStartupState()
 
 bool Scheduler::checkShutdownState()
 {
+    if (state == SCHEDULER_PAUSED)
+        return false;
+
     if (Options::verboseLogging())
         qDebug() << "Scheduler: Checking shutown state...";
 
@@ -2221,7 +2318,10 @@ bool Scheduler::checkShutdownState()
 }
 
 bool Scheduler::checkParkWaitState()
-{    
+{
+    if (state == SCHEDULER_PAUSED)
+        return false;
+
     if (Options::verboseLogging())
         qDebug() << "Scheduler: Checking Park Wait State...";
 
@@ -2307,6 +2407,8 @@ void Scheduler::checkProcessExit(int exitCode)
 
 void Scheduler::checkStatus()
 {
+    if (state == SCHEDULER_PAUSED)
+        return;
 
     // #1 If no current job selected, let's check if we need to shutdown or evaluate jobs
     if (currentJob == NULL)
@@ -2324,7 +2426,7 @@ void Scheduler::checkStatus()
                 stopEkos();
 
             // Stop Scheduler
-            stop();            
+            stop();
 
             return;
         }
@@ -2343,7 +2445,7 @@ void Scheduler::checkStatus()
         // #2.4 If not in shutdown state, evaluate the jobs
         evaluateJobs();
     }
-    else        
+    else
     {
         // #3 Check if startup procedure has failed.
         if (startupState == STARTUP_ERROR)
@@ -2363,7 +2465,7 @@ void Scheduler::checkStatus()
 
         // #6 Check if INDI devices are connected.
         if (checkINDIState() == false)
-            return;       
+            return;
 
         // #7 Check if startup procedure Phase #2 is complete (Unparking phase)
         if (startupState > STARTUP_SCRIPT && startupState < STARTUP_ERROR && checkStartupState() == false)
@@ -2376,6 +2478,9 @@ void Scheduler::checkStatus()
 
 void Scheduler::checkJobStage()
 {
+    if (state == SCHEDULER_PAUSED)
+        return;
+
     Q_ASSERT(currentJob != NULL);
 
     // #1 Check if we need to stop at some point
@@ -2535,7 +2640,7 @@ void Scheduler::checkJobStage()
                 if (currentJob->getStage() == SchedulerJob::STAGE_FOCUSING)
                 {
                     // Reset frame to original size.
-                    //focusInterface->call(QDBus::AutoDetect,"resetFocusFrame");
+                    //focusInterface->call(QDBus::AutoDetect,"resetFrame");
                     currentJob->setStage(SchedulerJob::STAGE_FOCUS_COMPLETE);
                 }
                 else
@@ -2552,7 +2657,7 @@ void Scheduler::checkJobStage()
                 {
                     appendLogText(i18n("Restarting %1 focusing procedure...", currentJob->getName()));
                     // Reset frame to original size.
-                    focusInterface->call(QDBus::AutoDetect,"resetFocusFrame");
+                    focusInterface->call(QDBus::AutoDetect,"resetFrame");
                     // Restart focusing
                     startFocusing();
                     return;
@@ -2621,7 +2726,7 @@ void Scheduler::checkJobStage()
         if(alignReply.value())
         {
             if (Options::verboseLogging())
-                qDebug() << "Scheduler: Solver is complete, checking if successfull...";
+                qDebug() << "Scheduler: Solver is complete, checking if successful...";
 
             alignReply = alignInterface->call(QDBus::AutoDetect,"isSolverSuccessful");
             // Is solver successful?
@@ -2654,7 +2759,7 @@ void Scheduler::checkJobStage()
 
 
     case SchedulerJob::STAGE_RESLEWING:
-    {        
+    {
         QDBusReply<int> slewStatus = mountInterface->call(QDBus::AutoDetect,"getSlewStatus");
         bool isDomeMoving=false;
 
@@ -2816,7 +2921,7 @@ void Scheduler::getNextAction()
     switch(currentJob->getStage())
     {
 
-    case SchedulerJob::STAGE_IDLE:        
+    case SchedulerJob::STAGE_IDLE:
         if  (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK)
             startSlew();
         else if  (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
@@ -2929,14 +3034,14 @@ void Scheduler::load()
 
     if (fileURL.isValid() == false)
     {
-       QString message = i18n( "Invalid URL: %1", fileURL.path() );
+       QString message = i18n( "Invalid URL: %1", fileURL.toLocalFile() );
        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
        return;
     }
 
     dirPath = QUrl(fileURL.url(QUrl::RemoveFilename));
 
-    loadScheduler(fileURL.path());
+    loadScheduler(fileURL.toLocalFile());
 }
 
 bool Scheduler::loadScheduler(const QString &fileURL)
@@ -2951,7 +3056,7 @@ bool Scheduler::loadScheduler(const QString &fileURL)
         return false;
     }
 
-    if (jobUnderEdit)
+    if (jobUnderEdit >= 0)
         resetJobEdit();
 
     qDeleteAll(jobs);
@@ -3082,7 +3187,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
         else if (!strcmp(tagXMLEle(ep), "Sequence"))
         {
             sequenceEdit->setText(pcdataXMLEle(ep));
-            sequenceURL = QUrl(sequenceEdit->text());
+            sequenceURL = QUrl::fromUserInput(sequenceEdit->text());
         }
         else if (!strcmp(tagXMLEle(ep), "FITS"))
         {
@@ -3094,7 +3199,7 @@ bool Scheduler::processJobInfo(XMLEle *root)
             for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
             {
                 if (!strcmp("ASAP", pcdataXMLEle(subEP)))
-                    asapConditionR->setChecked(true);                
+                    asapConditionR->setChecked(true);
                 else if (!strcmp("Culmination", pcdataXMLEle(subEP)))
                 {
                     culminationConditionR->setChecked(true);
@@ -3188,7 +3293,7 @@ void Scheduler::save()
 {
     QUrl backupCurrent = schedulerURL;
 
-    if (schedulerURL.path().startsWith("/tmp/") || schedulerURL.path().contains("/Temp"))
+    if (schedulerURL.toLocalFile().startsWith("/tmp/") || schedulerURL.toLocalFile().contains("/Temp"))
         schedulerURL.clear();
 
     // If no changes made, return.
@@ -3207,10 +3312,10 @@ void Scheduler::save()
 
         dirPath = QUrl(schedulerURL.url(QUrl::RemoveFilename));
 
-        if (schedulerURL.path().contains('.') == 0)
-            schedulerURL.setPath(schedulerURL.path() + ".esl");
+        if (schedulerURL.toLocalFile().contains('.') == 0)
+            schedulerURL.setPath(schedulerURL.toLocalFile() + ".esl");
 
-        if (QFile::exists(schedulerURL.path()))
+        if (QFile::exists(schedulerURL.toLocalFile()))
         {
             int r = KMessageBox::warningContinueCancel(0,
                         i18n( "A file named \"%1\" already exists. "
@@ -3241,11 +3346,11 @@ void Scheduler::save()
 bool Scheduler::saveScheduler(const QUrl &fileURL)
 {
     QFile file;
-    file.setFileName(fileURL.path());
+    file.setFileName(fileURL.toLocalFile());
 
     if ( !file.open( QIODevice::WriteOnly))
     {
-        QString message = i18n( "Unable to write to file %1",  fileURL.path());
+        QString message = i18n( "Unable to write to file %1",  fileURL.toLocalFile());
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         return false;
     }
@@ -3267,13 +3372,13 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
          outstream << "</Coordinates>" << endl;
 
          if (job->getFITSFile().isValid() && job->getFITSFile().isEmpty() == false)
-             outstream << "<FITS>" << job->getFITSFile().path() << "</FITS>" << endl;
+             outstream << "<FITS>" << job->getFITSFile().toLocalFile() << "</FITS>" << endl;
 
-         outstream << "<Sequence>" << job->getSequenceFile().path() << "</Sequence>" << endl;
+         outstream << "<Sequence>" << job->getSequenceFile().toLocalFile() << "</Sequence>" << endl;
 
          outstream << "<StartupCondition>" << endl;
         if (job->getFileStartupCondition() == SchedulerJob::START_ASAP)
-            outstream << "<Condition>ASAP</Condition>" << endl;        
+            outstream << "<Condition>ASAP</Condition>" << endl;
         else if (job->getFileStartupCondition() == SchedulerJob::START_CULMINATION)
             outstream << "<Condition value='" << job->getCulminationOffset() << "'>Culmination</Condition>" << endl;
         else if (job->getFileStartupCondition() == SchedulerJob::START_AT)
@@ -3337,11 +3442,11 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
             outstream << "<Procedure>ParkDome</Procedure>" << endl;
         if (shutdownScript->text().isEmpty() == false)
         outstream << "<Procedure value='" << shutdownScript->text() << "'>ShutdownScript</Procedure>" << endl;
-    outstream << "</ShutdownProcedure>" << endl;   
+    outstream << "</ShutdownProcedure>" << endl;
 
     outstream << "</SchedulerList>" << endl;
 
-    appendLogText(i18n("Scheduler list saved to %1", fileURL.path()));
+    appendLogText(i18n("Scheduler list saved to %1", fileURL.toLocalFile()));
     file.close();
     return true;
 }
@@ -3365,7 +3470,7 @@ void Scheduler::startSlew()
 }
 
 void Scheduler::startFocusing()
-{        
+{
     // Set focus mode to auto (1). Check if autofocus is available
     QList<QVariant> focusMode;
     focusMode.append(1);
@@ -3394,9 +3499,9 @@ void Scheduler::startFocusing()
     QDBusMessage reply;
 
     // We always need to reset frame first
-    if ( (reply = focusInterface->call(QDBus::AutoDetect,"resetFocusFrame")).type() == QDBusMessage::ErrorMessage)
+    if ( (reply = focusInterface->call(QDBus::AutoDetect,"resetFrame")).type() == QDBusMessage::ErrorMessage)
     {
-        appendLogText(i18n("resetFocusFrame DBUS error: %1", reply.errorMessage()));
+        appendLogText(i18n("resetFrame DBUS error: %1", reply.errorMessage()));
         return;
     }
 
@@ -3417,7 +3522,7 @@ void Scheduler::startFocusing()
         return;
     }
 
-    if (currentJob->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE)
+    if (currentJob->getStage() == SchedulerJob::STAGE_RESLEWING_COMPLETE || currentJob->getStage() == SchedulerJob::STAGE_POSTALIGN_FOCUSING)
     {
         currentJob->setStage(SchedulerJob::STAGE_POSTALIGN_FOCUSING);
         appendLogText(i18n("Post-alignment focusing for %1 ...", currentJob->getName()));
@@ -3473,7 +3578,7 @@ void Scheduler::findNextJob()
     }
 
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
-    {        
+    {
         currentJob->setState(SchedulerJob::JOB_BUSY);
         currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
         captureBatch++;
@@ -3484,7 +3589,7 @@ void Scheduler::findNextJob()
     }
 
     if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
-    {        
+    {
         if (KStarsData::Instance()->lt().secsTo(currentJob->getCompletionTime()) <= 0)
         {
             appendLogText(i18np("%1 observation job reached completion time with #%2 batch done. Stopping...",
@@ -3500,7 +3605,7 @@ void Scheduler::findNextJob()
             return;
         }
         else
-        {            
+        {
             appendLogText(i18n("%1 observation job completed and will restart now...", currentJob->getName()));
             currentJob->setState(SchedulerJob::JOB_BUSY);
             currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
@@ -3515,7 +3620,7 @@ void Scheduler::findNextJob()
 }
 
 void Scheduler::startAstrometry()
-{   
+{
     QDBusMessage reply;
     setGOTOMode(Align::ALIGN_SLEW);
 
@@ -3553,7 +3658,7 @@ void Scheduler::startAstrometry()
 }
 
 void Scheduler::startCalibrating()
-{        
+{
     // Make sure calibration is auto
     QVariant arg(true);
     guideInterface->call(QDBus::AutoDetect,"setCalibrationAutoStar", arg);
@@ -3576,7 +3681,12 @@ void Scheduler::startCapture()
 {
     captureInterface->call(QDBus::AutoDetect,"clearSequenceQueue");
 
-    QString url = currentJob->getSequenceFile().path();
+    QString targetName = currentJob->getName().replace(" ", "");
+    QList<QVariant> targetArgs;
+    targetArgs.append(targetName);
+    captureInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetName", targetArgs);
+
+    QString url = currentJob->getSequenceFile().toLocalFile();
 
     QList<QVariant> dbusargs;
     dbusargs.append(url);
@@ -3633,14 +3743,14 @@ void Scheduler::setDirty()
     if (sender() == startupProcedureButtonGroup || sender() == shutdownProcedureGroup)
         return;
 
-    if (jobUnderEdit == true && state != SCHEDULER_RUNNIG && queueTable->selectedItems().isEmpty() == false)
+    if (jobUnderEdit >= 0 && state != SCHEDULER_RUNNIG && queueTable->selectedItems().isEmpty() == false)
         saveJob();
 }
 
 bool Scheduler::estimateJobTime(SchedulerJob *job)
 {
     QFile sFile;
-    sFile.setFileName(job->getSequenceFile().path());
+    sFile.setFileName(job->getSequenceFile().toLocalFile());
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {
@@ -4112,7 +4222,7 @@ void Scheduler::checkCapParkingStatus()
         if (startupState == STARTUP_UNPARKING_CAP)
         {
            startupState = STARTUP_COMPLETE;
-           appendLogText(i18n("Cap unparked."));           
+           appendLogText(i18n("Cap unparked."));
         }
          break;
 
@@ -4137,7 +4247,7 @@ void Scheduler::checkCapParkingStatus()
 }
 
 void Scheduler::startJobEvaluation()
-{    
+{
     jobEvaluationOnly = true;
     if (Dawn < 0)
         calculateDawnDusk();
@@ -4148,7 +4258,8 @@ void Scheduler::updatePreDawn()
 {
     double earlyDawn = Dawn - Options::preDawnTime()/(60.0 * 24.0);
     int dayOffset=0;
-    if (KStarsData::Instance()->lt().time().hour() > 12)
+    QTime dawn = QTime(0,0,0).addSecs(Dawn*24*3600);
+    if (KStarsData::Instance()->lt().time() >= dawn)
         dayOffset=1;
     preDawnDateTime.setDate(KStarsData::Instance()->lt().date().addDays(dayOffset));
     preDawnDateTime.setTime(QTime::fromMSecsSinceStartOfDay(earlyDawn * 24 * 3600 * 1000));
@@ -4216,14 +4327,14 @@ void Scheduler::startMosaicTool()
     center.setDec0(dec);
 
     mosaicTool.setCenter(center);
-    mosaicTool.calculateFOV();    
+    mosaicTool.calculateFOV();
     mosaicTool.adjustSize();
 
     int batchCount=1;
 
     if (mosaicTool.exec() == QDialog::Accepted)
     {
-        // #1 Edit Sequence File
+        // #1 Edit Sequence File ---> Not needed as of 2016-09-12 since Scheduler can send Target Name to Capture module it will append it to root dir
         // #1.1 Set prefix to Target-Part#
         // #1.2 Set directory to output/Target-Part#
 
@@ -4255,7 +4366,7 @@ void Scheduler::startMosaicTool()
 
             QString filename  = QString("%1/%2.esq").arg(outputDir).arg(prefix);
             sequenceEdit->setText(filename);
-            sequenceURL = QUrl(filename);
+            sequenceURL = QUrl::fromLocalFile(filename);
 
             raBox->setText(oneJob->skyCenter.ra0().toHMSString());
             decBox->setText(oneJob->skyCenter.dec0().toDMSString());
@@ -4272,16 +4383,15 @@ void Scheduler::startMosaicTool()
             queueTable->removeRow(0);
         }
 
-        QUrl mosaicURL;
-        mosaicURL.setPath(QString("%1/%2_mosaic.esl").arg(outputDir).arg(targetName));        
+        QUrl mosaicURL = QUrl::fromLocalFile((QString("%1/%2_mosaic.esl").arg(outputDir).arg(targetName)));
 
         if (saveScheduler(mosaicURL))
         {
-            appendLogText(i18n("Mosaic file %1 saved successfully.", mosaicURL.path()));                                    
+            appendLogText(i18n("Mosaic file %1 saved successfully.", mosaicURL.toLocalFile()));
         }
         else
         {
-            appendLogText(i18n("Error saving mosaic file %1. Please reload job.", mosaicURL.path()));
+            appendLogText(i18n("Error saving mosaic file %1. Please reload job.", mosaicURL.toLocalFile()));
         }
     }
 }
@@ -4289,7 +4399,7 @@ void Scheduler::startMosaicTool()
 XMLEle * Scheduler::getSequenceJobRoot()
 {
     QFile sFile;
-    sFile.setFileName(sequenceURL.path());
+    sFile.setFileName(sequenceURL.toLocalFile());
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {
@@ -4318,7 +4428,7 @@ XMLEle * Scheduler::getSequenceJobRoot()
 bool Scheduler::createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir)
 {
     QFile sFile;
-    sFile.setFileName(sequenceURL.path());
+    sFile.setFileName(sequenceURL.toLocalFile());
 
     if ( !sFile.open( QIODevice::ReadOnly))
     {
@@ -4383,7 +4493,10 @@ void Scheduler::resetAllJobs()
         return;
 
     foreach(SchedulerJob *job, jobs)
+    {
         job->setState(SchedulerJob::JOB_IDLE);
+        job->setStartupCondition(job->getFileStartupCondition());
+    }
 }
 
 void Scheduler::checkTwilightWarning(bool enabled)
@@ -4407,7 +4520,7 @@ void Scheduler::checkStartupProcedure()
             else if (startupState == STARTUP_ERROR)
                 appendLogText(i18n("Manual startup procedure terminated due to errors."));
 
-            startupB->setIcon(QIcon::fromTheme("media-playback-start"));
+            startupB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
         }
 }
 
@@ -4418,7 +4531,7 @@ void Scheduler::runStartupProcedure()
         if (KMessageBox::questionYesNo(NULL, i18n("Are you sure you want to execute the startup procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning! Executing startup procedure manually..."));
-            startupB->setIcon(QIcon::fromTheme("media-playback-stop"));
+            startupB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
             startupState = STARTUP_IDLE;
             checkStartupState();
             QTimer::singleShot(1000, this, SLOT(checkStartupProcedure()));
@@ -4483,7 +4596,7 @@ void Scheduler::checkShutdownProcedure()
                 appendLogText(i18n("Manual shutdown procedure terminated due to errors."));
 
             shutdownState = SHUTDOWN_IDLE;
-            shutdownB->setIcon(QIcon::fromTheme("media-playback-start"));
+            shutdownB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
         }
 
 }
@@ -4495,7 +4608,7 @@ void Scheduler::runShutdownProcedure()
         if (KMessageBox::questionYesNo(NULL, i18n("Are you sure you want to execute the shutdown procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning! Executing shutdown procedure manually..."));
-            shutdownB->setIcon(QIcon::fromTheme("media-playback-stop"));
+            shutdownB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg")));
             shutdownState = SHUTDOWN_IDLE;
             checkShutdownState();
             QTimer::singleShot(1000, this, SLOT(checkShutdownProcedure()));

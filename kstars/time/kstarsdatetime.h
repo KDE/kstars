@@ -153,22 +153,29 @@ public:
      */
     QTime GSTtoUT( dms GST ) const; // FIXME: Shouldn't this be static?
 
+    /**
+     *@enum Epoch description options
+     *@note After 1976, the IAU standard for epochs is Julian Years.
+     */
+    enum EpochType {
+        JULIAN, /**< Julian epoch (see http://scienceworld.wolfram.com/astronomy/JulianEpoch.html) */
+        BESSELIAN, /**< Besselian epoch (see http://scienceworld.wolfram.com/astronomy/BesselianEpoch.html) */
+    };
 
     /**
-     *@return the epoch value of the Date/Time.
-     *@note the epoch is shorthand for the date, expressed as a floating-point year value.
+     *@return the (Julian) epoch value of the Date/Time.
+     *@short This is (approximately) the year expressed as a floating-point value
      *@sa setFromEpoch()
+     *@note The definition of Julian Epoch used here comes from http://scienceworld.wolfram.com/astronomy/JulianEpoch.html
      */
-    inline double epoch() const { return ( double( date().year() )
-                                        + double( date().dayOfYear() )/double( date().daysInYear() ) ); }
+    inline double epoch() const { return 2000.0 + (djd() - J2000)/365.25; }
 
     /**
      *Set the Date/Time from an epoch value, represented as a double.
      *@p e the epoch value
-     *@return true if date set successfully
      *@sa epoch()
      */
-    bool setFromEpoch( double e );
+    bool setFromEpoch( double e, EpochType type );
 
     /**
      *Set the Date/Time from an epoch value, represented as a string.
@@ -178,7 +185,41 @@ public:
      */
     bool setFromEpoch( const QString &e );
 
+    /**
+     *Set the Date/Time from an epoch value, represented as a double.
+     *@p e the epoch value
+     *@note This method assumes that the epoch 1950.0 is Besselian, otherwise assumes that the epoch is a Julian epoch. This is provided for backward compatibility, and because custom catalogs may still use 1950.0 to mean B1950.0 despite the IAU standard for epochs being Julian.
+     *@sa epoch()
+     */
+    void setFromEpoch( double e );
 
+    /**
+     *@short Takes in an epoch and returns a Julian Date
+     *@return the Julian Date (date with fraction)
+     *@param epoch A floating-point year value specifying the Epoch
+     *@param type JULIAN or BESSELIAN depending on what convention the epoch is specified in
+     */
+    static long double epochToJd( double epoch, EpochType type=JULIAN );
+
+    /**
+     *@short Takes in a Julian Date and returns the corresponding epoch year in the given system
+     *@return the epoch as a floating-point year value
+     *@param jd Julian date
+     *@param type Epoch system (KStarsDateTime::JULIAN or KStarsDateTime::BESSELIAN)
+     */
+    static double jdToEpoch( long double jd, EpochType type=JULIAN );
+
+    /**
+     *@short Takes in a string and returns a Julian epoch
+     */
+    static double stringToEpoch( const QString &eName, bool &ok );
+
+    /**
+     * The following values were obtained from Eric Weisstein's world of science:
+     * http://scienceworld.wolfram.com/astronomy/BesselianEpoch.html
+     */
+    constexpr static const double B1900 = 2415020.31352; // Julian date of B1900 epoch
+    constexpr static const double JD_PER_BYEAR = 365.242198781; // Julian days in a Besselian year
 private:
     /**
      *@return the Greenwich Sidereal Time at 0h UT on this object's Date
@@ -187,7 +228,7 @@ private:
     dms GSTat0hUT() const;
 
     long double DJD;
+
 };
 
 #endif  //KSTARSDATETIME_H_
-

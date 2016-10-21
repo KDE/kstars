@@ -61,7 +61,7 @@ private:
     void authenticate();
 
     WorkflowStage workflowStage;
-    QNetworkAccessManager networkManager;
+    QNetworkAccessManager *networkManager;
 
     QString sessionKey;
     int subID;
@@ -69,7 +69,7 @@ private:
     int job_retries, solver_retries;
 
     QTime solverTimer;
-    QString filename, apiURL;
+    QString filename;
     double lowerScale, upperScale, center_ra, center_dec, radius, pixscale;
     double parity,ra,dec,orientation;
     int downsample_factor;

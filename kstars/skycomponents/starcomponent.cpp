@@ -26,7 +26,9 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skyobjects/starobject.h"
+#ifndef KSTARS_LITE
 #include "skyqpainter.h"
+#endif
 #include "skypainter.h"
 
 #include "skymesh.h"
@@ -74,7 +76,10 @@ StarComponent::StarComponent(SkyComposite *parent )
     loadStaticData();
     // Load any deep star catalogs that are available
     loadDeepStarCatalogs();
+    //In KStars Lite star images are initialized in SkyMapLite
+#ifndef KSTARS_LITE
     SkyQPainter::initStarImages();
+#endif
 }
 
 StarComponent::~StarComponent() {
@@ -125,20 +130,22 @@ void StarComponent::update( KSNumbers*)
 // We use the update hook to re-index all the stars when the date has changed by
 // more than 150 years.
 
-void StarComponent::reindex( KSNumbers *num )
+bool StarComponent::reindex( KSNumbers *num )
 {
-    if ( ! num ) return;
+    if ( ! num ) return false;
 
     // for large time steps we re-index all points
     if ( fabs( num->julianCenturies() -
                m_reindexNum.julianCenturies() ) > m_reindexInterval ) {
         reindexAll( num );
-        return;
+        return true;
     }
 
+    bool highPM = true;
     // otherwise we just re-index fast movers as needed
     for ( int j = 0; j < m_highPMStars.size(); j++ )
-        m_highPMStars.at( j )->reindex( num, m_starIndex );
+        highPM &= !(m_highPMStars.at( j )->reindex( num, m_starIndex ));
+    return !(highPM);
 }
 
 void StarComponent::reindexAll( KSNumbers *num )
@@ -229,6 +236,7 @@ float StarComponent::zoomMagnitudeLimit() {
 
 void StarComponent::draw( SkyPainter *skyp )
 {
+#ifndef KSTARS_LITE
     if( !selected() )
         return;
 
@@ -325,6 +333,9 @@ void StarComponent::draw( SkyPainter *skyp )
     for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
         m_DeepStarComponents.at( i )->draw( skyp );
     }
+#else
+    Q_UNUSED(skyp)
+#endif
 }
 
 void StarComponent::addLabel( const QPointF& p, StarObject *star )
@@ -468,9 +479,12 @@ bool StarComponent::loadStaticData()
 
             if ( ! name.isEmpty() && name != i18n("star")) {
                 objectNames(SkyObject::STAR).append( name );
+                objectLists(SkyObject::STAR).append(QPair<QString, const SkyObject*>(name,star));
             }
             if ( ! visibleName.isEmpty() && gname != name ) {
-                objectNames(SkyObject::STAR).append( star -> gname(false) );
+                QString gName = star -> gname(false);
+                objectNames(SkyObject::STAR).append( gName );
+                objectLists(SkyObject::STAR).append(QPair<QString, const SkyObject*>(gName,star));
             }
 
             m_ObjectList.append( star );
@@ -583,6 +597,8 @@ StarObject *StarComponent::findByHDIndex( int HDnum ) {
 //
 SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
 {
+    m_zoomMagLimit = zoomMagnitudeLimit();
+
     SkyObject *oBest = 0;
 
     MeshIterator region( m_skyMesh, OBJ_NEAREST_BUF );

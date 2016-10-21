@@ -16,6 +16,9 @@
     <method name="capture">
       <arg type="b" direction="out"/>
     </method>
+    <method name="selectAutoStar">
+      <arg type="b" direction="out"/>
+    </method>
     <method name="setCCD">
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
@@ -63,24 +66,23 @@
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setCalibrationDarkFrame">
+    <method name="setDarkFrameEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setCalibrationParams">
-      <arg name="boxSize" type="i" direction="in"/>
+    <method name="setCalibrationPulseDuration">
       <arg name="pulseDuration" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setGuideBoxSize">
-      <arg name="boxSize" type="i" direction="in"/>
+    <method name="setGuideBoxSizeIndex">
+      <arg name="boxSizeIndex" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setGuideAlgorithm">
       <arg name="algorithm" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setGuideSubFrame">
+    <method name="setSubFrameEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>

@@ -29,7 +29,9 @@
 #include <QScrollArea>
 #include <QLabel>
 
+#ifndef KSTARS_LITE
 #include <kxmlguiwindow.h>
+#endif
 
 #ifdef WIN32
 // avoid compiler warning when windows.h is included after fitsio.h
@@ -129,10 +131,12 @@ public:
 
     // Star detection
     int getDetectedStars() { return starCenters.count(); }
-    QList<Edge*> getStarCenters() { return starCenters;}\
-    int findStars();
-    void findCentroid(int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
+    bool areStarsSearched() { return starsSearched; }
+    QList<Edge*> getStarCenters() { return starCenters;}
+    int findStars(const QRectF &boundary = QRectF(), bool force=false);
+    void findCentroid(const QRectF &boundary = QRectF(), int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
     void getCenterSelection(int *x, int *y);
+    int findOneStar(const QRectF &boundary);
 
     // Half Flux Radius
     Edge * getMaxHFRStar() { return maxHFRStar;}
@@ -164,6 +168,9 @@ public:
     // Rotation counter. We keep count to rotate WCS keywords on save
     int getRotCounter() const;
     void setRotCounter(int value);
+
+    // Filename
+    const QString & getFilename() { return filename; }
 
     // Horizontal flip counter. We keep count to rotate WCS keywords on save
     int getFlipHCounter() const;

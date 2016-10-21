@@ -50,7 +50,7 @@
 #include "Options.h"
 
 #ifdef HAVE_INDI
-#include <basedevice.h>
+#include "basedevice.h"
 #include "indi/indilistener.h"
 #include "indi/indistd.h"
 #include "indi/driverinfo.h"
@@ -61,8 +61,6 @@
 #define ZOOM_MAX	400
 #define ZOOM_LOW_INCR	10
 #define ZOOM_HIGH_INCR	50
-
-#define DECAY_CONSTANT  -0.04
 
 //#define FITS_DEBUG
 
@@ -251,16 +249,11 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     display_image = NULL;
     firstLoad = true;
     trackingBoxEnabled=false;
-    gammaValue=0;
+    trackingBoxUpdated=false;
     filter = filterType;
-    mode = fitsMode;
+    mode = fitsMode;    
 
-    setBackgroundRole(QPalette::Dark);
-
-    trackingBoxCenter.setX(0);
-    trackingBoxCenter.setY(0);
-    trackingBoxSize.setWidth(-1);
-    trackingBoxSize.setHeight(-1);
+    setBackgroundRole(QPalette::Dark);    
 
     markerCrosshair.setX(0);
     markerCrosshair.setY(0);
@@ -275,7 +268,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     image_frame->setMouseTracking(true);
 
     //if (fitsMode == FITS_GUIDE)
-    connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
+    //connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
 
     // Default size
     resize(INITIAL_W, INITIAL_H);
@@ -347,13 +340,6 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
     maxPixel = image_data->getMax();
     minPixel = image_data->getMin();
 
-    if (gammaValue != 0 && (filter== FITS_NONE || filter >= FITS_FLIP_H))
-    {
-        double maxGammaPixel = maxPixel* (100 * exp(DECAY_CONSTANT * gammaValue))/100.0;
-        // If calculated maxPixel after gamma is different from image data max pixel, then we apply filter immediately.
-        image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
-    }
-
     if (mode == FITS_NORMAL)
     {
         if (fitsProg.wasCanceled())
@@ -413,13 +399,39 @@ int FITSView::rescale(FITSZoom type)
     double val=0;
     double bscale, bzero;
     double min, max;
+    float *image_buffer = image_data->getImageBuffer();
+    float *display_buffer = image_buffer;
     unsigned int size = image_data->getSize();
-    image_data->getMinMax(&min, &max);
 
-    calculateMaxPixel(min, max);
+    if (Options::autoStretch() && filter == FITS_NONE)
+    {
+        display_buffer = new float[image_data->getSize() * image_data->getNumOfChannels()];
+        memset(display_buffer, 0, image_data->getSize() * image_data->getNumOfChannels() * sizeof(float));
 
-    min = minPixel;
-    max = maxGammaPixel;
+        float data_min   = image_data->getMean(0) - image_data->getStdDev(0);
+        float data_max   = image_data->getMean(0) + image_data->getStdDev(0) * 3;
+        int   data_w     = image_data->getWidth();
+        int   data_h     = image_data->getHeight();
+
+        for (int i=0; i < image_data->getNumOfChannels(); i++)
+        {
+            int offset = i*size;
+            for (int j=0; j < data_h; j++)
+            {
+                int row = offset + j * data_w;
+                for (int k=0; k < data_w; k++)
+                {
+                    int index=k + row;
+                    display_buffer[index] = qBound(data_min, image_buffer[index], data_max);
+                }
+            }
+        }
+
+        min = data_min;
+        max = data_max;
+    }
+    else
+        image_data->getMinMax(&min, &max);
 
     if (min == max)
     {
@@ -446,8 +458,6 @@ int FITSView::rescale(FITSZoom type)
         currentWidth  = display_image->width();
         currentHeight = display_image->height();
 
-        float *image_buffer = image_data->getImageBuffer();
-
         if (image_data->getNumOfChannels() == 1)
         {
             /* Fill in pixel values using indexed map, linear scale */
@@ -457,9 +467,7 @@ int FITSView::rescale(FITSZoom type)
 
                 for (int i = 0; i < image_width; i++)
                 {
-                    val = image_buffer[j * image_width + i];
-                    if (gammaValue > 0)
-                        val = qBound(minPixel, val, maxGammaPixel);
+                    val = display_buffer[j * image_width + i];
                     scanLine[i]= (val * bscale + bzero);
                 }
             }
@@ -475,15 +483,9 @@ int FITSView::rescale(FITSZoom type)
 
                 for (int i = 0; i < image_width; i++)
                 {
-                    rval = image_buffer[j * image_width + i];
-                    gval = image_buffer[j * image_width + i + size];
-                    bval = image_buffer[j * image_width + i + size * 2];
-                    if (gammaValue > 0)
-                    {
-                        rval = qBound(minPixel, rval, maxGammaPixel);
-                        gval = qBound(minPixel, gval, maxGammaPixel);
-                        gval = qBound(minPixel, gval, maxGammaPixel);
-                    }
+                    rval = display_buffer[j * image_width + i];
+                    gval = display_buffer[j * image_width + i + size];
+                    bval = display_buffer[j * image_width + i + size * 2];
 
                     value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
 
@@ -496,6 +498,9 @@ int FITSView::rescale(FITSZoom type)
         }
 
     }
+
+    if (display_buffer != image_buffer)
+        delete [] display_buffer;
 
     switch (type)
     {
@@ -515,8 +520,6 @@ int FITSView::rescale(FITSZoom type)
 
             if (currentZoom <= ZOOM_MIN)
                 emit actionUpdated("view_zoom_out", false);
-
-
         }
         else
         {
@@ -712,46 +715,38 @@ void FITSView::drawTrackingBox(QPainter *painter)
 {
     painter->setPen(QPen(Qt::green, 2));
 
-    if (trackingBoxCenter.isNull() || trackingBoxSize.isValid() == false)
+    if (trackingBox.isNull())
         return;
 
-    int x1 = (trackingBoxCenter.x()-trackingBoxSize.width()/2) * (currentZoom / ZOOM_DEFAULT);
-    int y1 = (trackingBoxCenter.y()-trackingBoxSize.height()/2) * (currentZoom / ZOOM_DEFAULT);
-    int w  = trackingBoxSize.width() * (currentZoom / ZOOM_DEFAULT);
-    int h  = trackingBoxSize.height() * (currentZoom / ZOOM_DEFAULT);
+    int x1 = trackingBox.x() * (currentZoom / ZOOM_DEFAULT);
+    int y1 = trackingBox.y() * (currentZoom / ZOOM_DEFAULT);
+    int w  = trackingBox.width() * (currentZoom / ZOOM_DEFAULT);
+    int h  = trackingBox.height() * (currentZoom / ZOOM_DEFAULT);
 
     painter->drawRect(x1, y1, w, h);
 }
 
 QPixmap & FITSView::getTrackingBoxPixmap()
 {
-    if (trackingBoxCenter.isNull() || trackingBoxSize.isValid() == false)
+    if (trackingBox.isNull())
         return trackingBoxPixmap;
 
-    int x1 = (trackingBoxCenter.x()-trackingBoxSize.width()/2) * (currentZoom / ZOOM_DEFAULT);
-    int y1 = (trackingBoxCenter.y()-trackingBoxSize.height()/2) * (currentZoom / ZOOM_DEFAULT);
-    int w  = trackingBoxSize.width() * (currentZoom / ZOOM_DEFAULT);
-    int h  = trackingBoxSize.height() * (currentZoom / ZOOM_DEFAULT);
+    int x1 = trackingBox.x() * (currentZoom / ZOOM_DEFAULT);
+    int y1 = trackingBox.y() * (currentZoom / ZOOM_DEFAULT);
+    int w  = trackingBox.width() * (currentZoom / ZOOM_DEFAULT);
+    int h  = trackingBox.height() * (currentZoom / ZOOM_DEFAULT);
 
-    trackingBoxPixmap = image_frame->grab(QRect(QPoint(x1-w, y1-h), QSize(w*3, h*3)));
+    trackingBoxPixmap = image_frame->grab(QRect(x1, y1, w, h));
 
     return trackingBoxPixmap;
 }
 
-void FITSView::setTrackingBoxCenter(const QPointF &center)
+void FITSView::setTrackingBox(const QRect & rect)
 {
-    if (center != trackingBoxCenter)
+    if (rect != trackingBox)
     {
-        trackingBoxCenter = center;
-        updateFrame();
-    }
-}
-
-void FITSView::setTrackingBoxSize(const QSize size)
-{
-    if (size != trackingBoxSize)
-    {
-        trackingBoxSize = size;
+        trackingBoxUpdated=true;
+        trackingBox = rect;
         updateFrame();
     }
 }
@@ -765,7 +760,20 @@ void FITSView::toggleStars(bool enable)
        QApplication::setOverrideCursor(Qt::WaitCursor);
        emit newStatus(i18n("Finding stars..."), FITS_MESSAGE);
        qApp->processEvents();
-       int count = image_data->findStars();
+       int count = -1;
+
+       if (trackingBoxEnabled)
+       {
+           count = image_data->findStars(trackingBox, trackingBoxUpdated);
+           trackingBoxUpdated=false;
+       }
+       else
+           count = image_data->findStars();
+
+
+    //QRectF boundary(0,0, image_data->getWidth(), image_data->getHeight());
+    //count = image_data->findOneStar(boundary);
+
        if (count >= 0 && isVisible())
                emit newStatus(i18np("1 star detected.", "%1 stars detected.", count), FITS_MESSAGE);
        QApplication::restoreOverrideCursor();
@@ -777,7 +785,7 @@ void FITSView::processPointSelection(int x, int y)
     //if (mode != FITS_GUIDE)
         //return;
 
-    image_data->getCenterSelection(&x, &y);
+    //image_data->getCenterSelection(&x, &y);
 
     //setGuideSquare(x,y);
     emit trackingStarSelected(x,y);
@@ -799,40 +807,6 @@ void FITSView::setTrackingBoxEnabled(bool enable)
         updateFrame();
     }
 }
-int FITSView::getGammaValue() const
-{
-    return gammaValue;
-}
-
-void FITSView::setGammaValue(int value)
-{
-    if (value == gammaValue)
-        return;
-
-    gammaValue = value;
-
-    calculateMaxPixel(minPixel, maxPixel);
-
-    // If calculated maxPixel after gamma is different from image data max pixel, then we apply filter immediately.
-    //image_data->applyFilter(FITS_LINEAR, NULL, minPixel, maxGammaPixel);
-    qApp->processEvents();
-    rescale(ZOOM_KEEP_LEVEL);
-    qApp->processEvents();
-    updateFrame();
-
-}
-
-void FITSView::calculateMaxPixel(double min, double max)
-{
-    minPixel=min;
-    maxPixel=max;
-
-    if (gammaValue == 0)
-        maxGammaPixel = maxPixel;
-    else
-        maxGammaPixel = maxPixel* (100 * exp(DECAY_CONSTANT * gammaValue))/100.0;
-}
-
 
 void FITSView::wheelEvent(QWheelEvent* event)
 {

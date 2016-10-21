@@ -28,7 +28,9 @@
 #include "skymapcomposite.h"
 #include "kssun.h"
 #include "Options.h"
+#ifndef KSTARS_LITE
 #include "kspopupmenu.h"
+#endif
 
 // Define some constants
 //  WGS-72 constants
@@ -1244,7 +1246,9 @@ void Satellite::setSelected( bool selected )
 }
 
 void Satellite::initPopupMenu( KSPopupMenu *pmenu ) {
+#ifndef KSTARS_LITE
     pmenu->createSatelliteMenu( this );
+#endif
 }
 
 double Satellite::velocity()

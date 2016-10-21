@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>502</width>
-    <height>444</height>
+    <width>504</width>
+    <height>489</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>1</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="generalTab">
    <attribute name="title">
@@ -66,6 +66,16 @@
      </layout>
     </item>
     <item>
+     <widget class="QCheckBox" name="kcfg_independentWindowEkos">
+      <property name="toolTip">
+       <string>Make Ekos window independent from KStars main window. Requires restart to take effect.</string>
+      </property>
+      <property name="text">
+       <string>Independent Window</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <spacer name="verticalSpacer_2">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -84,75 +94,175 @@
    <attribute name="title">
     <string>Modules</string>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout_8">
+   <layout class="QVBoxLayout" name="verticalLayout_9">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
       <item>
-       <widget class="QGroupBox" name="groupBox_6">
-        <property name="title">
-         <string>Scheduler</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_6">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="QGroupBox" name="groupBox_6">
+          <property name="title">
+           <string>Scheduler</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
-            <widget class="QLabel" name="leadTimeLabel">
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lead time is the minimum time in minutes between jobs. The scheduler starts execution of a job before its scheduled startup time by this lead time. Early execution is useful as focusing, alignment, and guiding procedures may take prolonged periods to time to complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="text">
-              <string>Lead Time:</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="leadTimeLabel">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lead time is the minimum time in minutes between jobs. The scheduler starts execution of a job before its scheduled startup time by this lead time. Early execution is useful as focusing, alignment, and guiding procedures may take prolonged periods to time to complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Lead Time:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="kcfg_LeadTime"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="preDawnLabel">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled or executed past this many minutes before dawn.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Pre-dawn</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="kcfg_PreDawnTime"/>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QDoubleSpinBox" name="kcfg_LeadTime"/>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QCheckBox" name="kcfg_PreemptiveShutdown">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In case no scheduler job is scheduled for this many hours, perform a complete shutdown procedure and restart observatory operations once the next job is ready.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>Pre-emptive shutdown</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="kcfg_PreemptiveShutdownTime">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pre-emptive shutdown hours&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QLabel" name="preDawnLabel">
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled or executed past this many minutes before dawn.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
              </property>
-             <property name="text">
-              <string>Pre-dawn</string>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
              </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="kcfg_PreDawnTime"/>
+            </spacer>
            </item>
           </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>Dark Library</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
-            <widget class="QCheckBox" name="kcfg_PreemptiveShutdown">
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In case no scheduler job is scheduled for this many hours, perform a complete shutdown procedure and restart observatory operations once the next job is ready.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-             <property name="text">
-              <string>Pre-emptive shutdown</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="toolTip">
+                <string>Reuse dark frames from the dark library for this many days. If exceeded, a new dark frame shall be captured and stored for future use.</string>
+               </property>
+               <property name="text">
+                <string>Dark Validity</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="kcfg_DarkLibraryDuration">
+               <property name="maximum">
+                <number>365</number>
+               </property>
+               <property name="singleStep">
+                <number>10</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QDoubleSpinBox" name="kcfg_PreemptiveShutdownTime">
-             <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pre-emptive shutdown hours&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QLabel" name="label_7">
+               <property name="toolTip">
+                <string>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</string>
+               </property>
+               <property name="text">
+                <string>Temperature Threshold:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="kcfg_MaxDarkTemperatureDiff">
+               <property name="minimum">
+                <double>0.100000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>5.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
+               </property>
+               <property name="value">
+                <double>0.100000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>° C</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
-         </item>
-        </layout>
-       </widget>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QGroupBox" name="groupBox_5">
         <property name="title">
          <string>Capture</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
+        <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
@@ -191,34 +301,17 @@
           </layout>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <item>
-            <widget class="QCheckBox" name="kcfg_RememberJobProgress">
-             <property name="toolTip">
-              <string>When loading a sequence file,  resume the sequence starting from the last captured image, if any.</string>
-             </property>
-             <property name="text">
-              <string>Remember Job Progress</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>17</width>
-               <height>17</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
+          <widget class="QCheckBox" name="kcfg_RememberJobProgress">
+           <property name="toolTip">
+            <string>When loading a sequence file,  resume the sequence starting from the last captured image, if any.</string>
+           </property>
+           <property name="text">
+            <string>Remember Job Progress</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QCheckBox" name="kcfg_AutoFocusOnFilterChange">
@@ -239,6 +332,33 @@
             <string>Auto Stretch</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Post Capture Script</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="kcfg_PostCaptureScript"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </widget>
@@ -375,15 +495,15 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
           <widget class="QLabel" name="label_15">
            <property name="text">
             <string>solver:</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="1">
           <widget class="QLineEdit" name="kcfg_astrometrySolver">
            <property name="toolTip">
             <string>Astrometry.net solve-field binary</string>
@@ -393,14 +513,14 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="2">
           <widget class="QLabel" name="label_16">
            <property name="text">
             <string>wcsinfo:</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="0" column="3">
           <widget class="QLineEdit" name="kcfg_astrometryWCSInfo">
            <property name="toolTip">
             <string>Astrometry.net wcsinfo binary</string>
@@ -410,18 +530,14 @@
            </property>
           </widget>
          </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <item>
+         <item row="1" column="0">
           <widget class="QLabel" name="label_14">
            <property name="text">
             <string>config:</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="1" column="1">
           <widget class="QLineEdit" name="kcfg_astrometryConfFile">
            <property name="toolTip">
             <string>Astrometry.net configuration file</string>
@@ -431,14 +547,14 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="1" column="2">
           <widget class="QLabel" name="label_17">
            <property name="text">
             <string>API Key:</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="1" column="3">
           <widget class="QLineEdit" name="kcfg_astrometryAPIKey">
            <property name="toolTip">
             <string>Astrometry.net configuration file</string>
@@ -448,18 +564,14 @@
            </property>
           </widget>
          </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
+         <item row="2" column="0">
           <widget class="QLabel" name="label_18">
            <property name="text">
             <string>API URL:</string>
            </property>
           </widget>
          </item>
-         <item>
+         <item row="2" column="1">
           <widget class="QLineEdit" name="kcfg_astrometryAPIURL">
            <property name="toolTip">
             <string>Astrometry.net configuration file</string>
@@ -469,20 +581,83 @@
            </property>
           </widget>
          </item>
+         <item row="2" column="3">
+          <widget class="QCheckBox" name="kcfg_astrometryUseJPEG">
+           <property name="toolTip">
+            <string>Use JPEG format, instead of FITS, to upload images to the online astrometry.net service</string>
+           </property>
+           <property name="text">
+            <string>Use JPG for upload</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="kcfg_astrometryUseJPEG">
-         <property name="toolTip">
-          <string>Use JPEG format, instead of FITS, to upload images to the online astrometry.net service</string>
-         </property>
-         <property name="text">
-          <string>Use JPG for upload</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QCheckBox" name="kcfg_SolverUpdateCoords">
+           <property name="toolTip">
+            <string>Automatically update the solver's RA &amp; Declination coordinates after telescope slew is completed.</string>
+           </property>
+           <property name="statusTip">
+            <string>Automatically update the solver's RA &amp; Declination coordinates after telescope slew is completed.</string>
+           </property>
+           <property name="text">
+            <string>Update Coords</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="kcfg_SolverWCS">
+           <property name="toolTip">
+            <string>enable World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</string>
+           </property>
+           <property name="text">
+            <string>WCS</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="kcfg_SolverVerbose">
+           <property name="toolTip">
+            <string>Log verbose solver output</string>
+           </property>
+           <property name="statusTip">
+            <string/>
+           </property>
+           <property name="text">
+            <string>Verbose</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="kcfg_SolverOverlay">
+           <property name="toolTip">
+            <string>Display received FITS images unto solver FOV rectangle in the sky map</string>
+           </property>
+           <property name="text">
+            <string>Overlay</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>

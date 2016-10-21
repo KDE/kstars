@@ -97,7 +97,8 @@ FOVDialog::FOVDialog( QWidget* p ) :
     connect( fov->RemoveButton, SIGNAL( clicked() ), SLOT( slotRemoveFOV() ) );
 
     // Read list of FOVs and for each FOV create listbox entry, which stores it.
-    foreach(FOV* f, FOV::readFOVs() ) {
+    foreach(FOV* f, FOVManager::getFOVs() )
+    {
         addListWidget(f);
     }
 }
@@ -105,9 +106,9 @@ FOVDialog::FOVDialog( QWidget* p ) :
 FOVDialog::~FOVDialog()
 {
     // Delete FOVs 
-    for(int i = 0; i < fov->FOVListBox->count(); i++) {
-        delete getFOV( fov->FOVListBox->item(i) );
-    }
+    //for(int i = 0; i < fov->FOVListBox->count(); i++) {
+        //delete getFOV( fov->FOVListBox->item(i) );
+    //}
 }
 
 QListWidgetItem* FOVDialog::addListWidget(FOV* f)
@@ -115,14 +116,6 @@ QListWidgetItem* FOVDialog::addListWidget(FOV* f)
     QListWidgetItem* item = new QListWidgetItem( f->name(), fov->FOVListBox );
     item->setData( Qt::UserRole, QVariant::fromValue<FOV*>(f) );
     return item;
-}
-
-void FOVDialog::writeFOVList() {
-    QList<FOV*> fovs;
-    for(int i = 0; i < fov->FOVListBox->count(); i++) {
-        fovs << getFOV( fov->FOVListBox->item(i) );
-    }
-    FOV::writeFOVs(fovs);
 }
 
 void FOVDialog::slotSelect( int irow ) {
@@ -138,8 +131,10 @@ void FOVDialog::slotSelect( int irow ) {
 
 void FOVDialog::slotNewFOV() {
     QPointer<NewFOV> newfdlg = new NewFOV( this );
-    if ( newfdlg->exec() == QDialog::Accepted ) {
+    if ( newfdlg->exec() == QDialog::Accepted )
+    {
         FOV *newfov = new FOV( newfdlg->getFOV() );
+        FOVManager::addFOV(newfov);
         addListWidget( newfov );
         fov->FOVListBox->setCurrentRow( fov->FOVListBox->count() -1 );
     }
@@ -163,11 +158,13 @@ void FOVDialog::slotEditFOV() {
     delete newfdlg;
 }
 
-void FOVDialog::slotRemoveFOV() {
+void FOVDialog::slotRemoveFOV()
+{
     int i = fov->FOVListBox->currentRow();
-    if( i >= 0 ) {
+    if( i >= 0 )
+    {
         QListWidgetItem* item = fov->FOVListBox->takeItem(i);
-        delete getFOV(item);
+        FOVManager::removeFOV(getFOV(item));
         delete item;
     }
 }
@@ -272,7 +269,7 @@ void NewFOV::slotUpdateFOV() {
     f.setColor( ui->ColorButton->color().name() );
 
     okB->setEnabled(!f.name().isEmpty() && okX && okY );
-    
+
     ui->ViewBox->setFOV( &f );
     ui->ViewBox->update();
 }

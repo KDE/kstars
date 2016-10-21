@@ -32,7 +32,9 @@
 #include "ksutils.h"
 #include "kssun.h"
 #include "kstarsdata.h"
+#ifndef KSTARS_LITE
 #include "kspopupmenu.h"
+#endif
 #include "skycomponents/skymapcomposite.h"
 #include "texturemanager.h"
 
@@ -285,7 +287,11 @@ QString KSMoon::phaseName() const {
 }
 
 void KSMoon::initPopupMenu( KSPopupMenu* pmenu ) {
+#ifdef KSTARS_LITE
+    Q_UNUSED(pmenu)
+#else
     pmenu->createMoonMenu( this );
+#endif
 }
 
 SkyObject::UID KSMoon::getUID() const

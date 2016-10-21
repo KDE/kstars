@@ -27,7 +27,7 @@
 #include "fitsviewer/fitsdata.h"
 
 #define JOB_RETRY_DURATION      2000 /* 2000 ms */
-#define JOB_RETRY_ATTEMPTS      10
+#define JOB_RETRY_ATTEMPTS      15
 #define SOLVER_RETRY_DURATION   2000 /* 2000 ms */
 #define SOLVER_RETRY_ATTEMPTS   90
 
@@ -40,7 +40,7 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     job_retries=0;
     solver_retries=0;
 
-    connect(&networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onResult(QNetworkReply*)));
+    networkManager = new QNetworkAccessManager(this);
 
     connect(this, SIGNAL(authenticateFinished()), this, SLOT(uploadFile()));
     connect(this, SIGNAL(uploadFinished()), this, SLOT(getJobID()));
@@ -49,8 +49,6 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
 
     connect(this, SIGNAL(solverFailed()), this, SLOT(resetSolver()));
     connect(this, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(resetSolver()));
-
-    apiURL = QString("%1/api/").arg(Options::astrometryAPIURL());
 
     downsample_factor = 0;
     isGenerated = true;
@@ -78,7 +76,9 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
 
     isGenerated = generated;
 
-    if (networkManager.networkAccessible() == false)
+    job_retries=0;
+
+    if (networkManager->networkAccessible() == false)
     {
         align->appendLogText(i18n("Error: No connection to the internet."));
         emit solverFailed();
@@ -133,12 +133,19 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
 
             finalFileName.remove(finalFileName.lastIndexOf('.'), finalFileName.length());
             finalFileName.append(".jpg");
-            display_image->save(finalFileName, "jpg");
-
-            if (isGenerated)
-                QFile::remove(in_filename);
+            bool isFileSaved = display_image->save(finalFileName, "JPG");
+            if (isFileSaved == false)
+            {
+                align->appendLogText(i18n("Warning: Converting FITS to JPEG failed. Uploading original FITS image."));
+                finalFileName = in_filename;
+            }
             else
-                isGenerated = true;
+            {
+                if (isGenerated)
+                    QFile::remove(in_filename);
+                else
+                    isGenerated = true;
+            }
 
             delete (display_image);
         }
@@ -167,6 +174,8 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
             downsample_factor = args[i+1].toInt(&ok);
     }
 
+    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onResult(QNetworkReply*)));
+
     solverTimer.start();
 
     if (sessionKey.isEmpty())
@@ -189,6 +198,8 @@ bool OnlineAstrometryParser::stopSolver()
     workflowStage = NO_STAGE;
     solver_retries=0;
 
+    disconnect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onResult(QNetworkReply*)));
+
     return true;
 }
 
@@ -198,9 +209,8 @@ void OnlineAstrometryParser::authenticate()
     //request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
-    QUrl url(apiURL);
-    QString method = "login";
-    url.setPath(QString("%1%2").arg(url.path()).arg(method));
+    QUrl url(Options::astrometryAPIURL());
+    url.setPath("/api/login");
     request.setUrl(url);
 
     QVariantMap apiReq;
@@ -213,28 +223,28 @@ void OnlineAstrometryParser::authenticate()
 
     workflowStage = AUTH_STAGE;
 
-    networkManager.post(request, json_request.toUtf8());
+    networkManager->post(request, json_request.toUtf8());
 }
 
 void OnlineAstrometryParser::uploadFile()
 {
     QNetworkRequest request;
 
-    QFile fitsFile(filename);
-    bool rc = fitsFile.open(QIODevice::ReadOnly);
+    QFile *fitsFile = new QFile(filename);
+    bool rc = fitsFile->open(QIODevice::ReadOnly);
     if (rc == false)
     {
-        align->appendLogText(i18n("Failed to open file %1. %2", filename, fitsFile.errorString()));
+        align->appendLogText(i18n("Failed to open file %1. %2", filename, fitsFile->errorString()));
+        delete (fitsFile);
         emit solverFailed();
         return;
     }
 
-    QUrl url(apiURL);
-    QString method = "upload/";
-    url.setPath(QString("%1%2").arg(url.path()).arg(method));
+    QUrl url(Options::astrometryAPIURL());
+    url.setPath("/api/upload");
     request.setUrl(url);
 
-    QHttpMultiPart reqEntity(QHttpMultiPart::FormDataType);
+    QHttpMultiPart *reqEntity = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
     QVariantMap uploadReq;
     uploadReq.insert("publicly_visible", "n");
@@ -264,31 +274,34 @@ void OnlineAstrometryParser::uploadFile()
 
     filePart.setHeader(QNetworkRequest::ContentTypeHeader,"application/octet-stream");
     filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QString("form-data; name=\"file\"; filename=\"%1\"").arg(filename));
-    filePart.setBodyDevice(&fitsFile);
+    filePart.setBodyDevice(fitsFile);
 
-    reqEntity.append(jsonPart);
-    reqEntity.append(filePart);
+    // Re-parent so that it get deleted later
+    fitsFile->setParent(reqEntity);
+
+    reqEntity->append(jsonPart);
+    reqEntity->append(filePart);
 
     workflowStage = UPLOAD_STAGE;
 
     align->appendLogText(i18n("Uploading file..."));
 
-    QEventLoop loop;
-    networkManager.post(request, &reqEntity);
-    loop.exec();
+    QNetworkReply *reply = networkManager->post(request, reqEntity);
 
+    // The entity should be deleted when reply is finished
+    reqEntity->setParent(reply);
 }
 
 void OnlineAstrometryParser::getJobID()
 {
     QNetworkRequest request;
-    QUrl getJobID(QString("%1/submissions/%2").arg(apiURL).arg(subID));
+    QUrl getJobID = QUrl(QString("%1/api/submissions/%2").arg(Options::astrometryAPIURL()).arg(subID));
 
     request.setUrl(getJobID);
 
     workflowStage = JOB_ID_STAGE;
 
-    networkManager.get(request);
+    networkManager->get(request);
 }
 
 void OnlineAstrometryParser::checkJobs()
@@ -296,13 +309,13 @@ void OnlineAstrometryParser::checkJobs()
     //qDebug() << "with jobID " << jobID << endl;
 
     QNetworkRequest request;
-    QUrl getJobStatus(QString("%1/jobs/%2").arg(apiURL).arg(jobID));
+    QUrl getJobStatus = QUrl(QString("%1/api/jobs/%2").arg(Options::astrometryAPIURL()).arg(jobID));
 
     request.setUrl(getJobStatus);
 
     workflowStage = JOB_STATUS_STAGE;
 
-    networkManager.get(request);
+    networkManager->get(request);
 
 }
 
@@ -310,13 +323,13 @@ void OnlineAstrometryParser::checkJobCalibration()
 {
 
     QNetworkRequest request;
-    QUrl getCablirationResult(QString("%1/jobs/%2/calibration").arg(apiURL).arg(jobID));
+    QUrl getCablirationResult = QUrl(QString("%1/api/jobs/%2/calibration").arg(Options::astrometryAPIURL()).arg(jobID));
 
     request.setUrl(getCablirationResult);
 
     workflowStage = JOB_CALIBRATION_STAGE;
 
-    networkManager.get(request);
+    networkManager->get(request);
 }
 
 void OnlineAstrometryParser::onResult(QNetworkReply* reply)
@@ -328,7 +341,10 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
     int elapsed;
 
     if (workflowStage == NO_STAGE)
+    {
+        reply->abort();
         return;
+    }
 
     if (reply->error() != QNetworkReply::NoError)
     {
@@ -351,7 +367,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
      QVariant json_result = json_doc.toVariant();
      QVariantMap result = json_result.toMap();
 
-     if (align->isVerbose())
+     if (Options::solverVerbose())
          align->appendLogText(json_doc.toJson(QJsonDocument::Compact));
 
      switch (workflowStage)
@@ -367,7 +383,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
 
          sessionKey = result["session"].toString();
 
-         if (align->isVerbose())
+         if (Options::solverVerbose())
             align->appendLogText(i18n("Authentication to astrometry.net is successful. Session: %1", sessionKey));
 
          emit authenticateFinished();
@@ -449,7 +465,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
              align->appendLogText(i18np("Solver failed after %1 second.", "Solver failed after %1 seconds.", elapsed));
              emit solverFailed();
              return;
-         }         
+         }
          break;
 
      case JOB_CALIBRATION_STAGE:
