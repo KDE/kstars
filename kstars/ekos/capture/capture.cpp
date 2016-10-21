@@ -2553,6 +2553,9 @@ void Capture::syncGUIToJob(SequenceJob *job)
    countIN->setValue(job->getCount());
    delayIN->setValue(job->getDelay()/1000);
    postCaptureScriptIN->setText(job->getPostCaptureScript());
+   uploadModeCombo->setCurrentIndex(job->getUploadMode());
+   remoteDirIN->setEnabled(uploadModeCombo->currentIndex() != 0);
+   remoteDirIN->setText(job->getRemoteDir());
 
    // Temperature Options
    temperatureCheck->setChecked(job->getEnforceTemperature());
