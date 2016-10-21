@@ -726,7 +726,7 @@ void EkosManager::deviceConnected()
     if (Options::verboseLogging())
     {
         ISD::GDInterface *device = (ISD::GDInterface *) sender();
-        qDebug() << "Ekos: " << device->getDeviceName() << " is connected.";
+        qDebug() << "Ekos: " << device->getDeviceName() << "is connected.";
         //qDebug() << "Managed Devices: " << managedDrivers.count() << " Remote Devices: " << nRemoteDevices;
         //qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
     }
