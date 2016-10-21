@@ -691,7 +691,7 @@ void Focus::start()
     Options::setFocusExposure(exposureIN->value());
     Options::setFocusXBin(activeBin);
     Options::setFocusMaxTravel(maxTravelIN->value());
-
+    Options::setFocusBoxSize(focusBoxSize->value());
     Options::setFocusSubFrame(kcfg_subFrame->isChecked());
     Options::setFocusAutoStarEnabled(autoStarCheck->isChecked());
     Options::setSuspendGuiding(suspendGuideCheck->isChecked());
@@ -1143,10 +1143,10 @@ void Focus::setCaptureComplete()
             if (subFramed == false && kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
             {
                 int offset = focusBoxSize->value();
-                int subX=(maxStar->x - offset) * subBinX;
-                int subY=(maxStar->y - offset) * subBinY;
-                int subW=offset*2*subBinX;
-                int subH=offset*2*subBinY;
+                int subX=(maxStar->x - offset*1.5) * subBinX;
+                int subY=(maxStar->y - offset*1.5) * subBinY;
+                int subW=offset*3*subBinX;
+                int subH=offset*3*subBinY;
 
                 int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
                 targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
@@ -1188,6 +1188,8 @@ void Focus::setCaptureComplete()
                 starCenter.setZ(subBinX);
 
                 subFramed = true;
+
+                focusView->setFirstLoad(true);
 
                 capture();
             }
@@ -2086,10 +2088,10 @@ void Focus::focusStarSelected(int x, int y)
         targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
         //targetChip->getFrame(&fx, &fy, &fw, &fy);
 
-        x = (x - offset) * subBinX;
-        y = (y - offset) * subBinY;
-        int w=offset*2*subBinX;
-        int h=offset*2*subBinY;
+        x = (x - offset*1.5) * subBinX;
+        y = (y - offset*1.5) * subBinY;
+        int w=offset*3*subBinX;
+        int h=offset*3*subBinY;
 
         if (x<minX)
             x=minX;
@@ -2121,6 +2123,8 @@ void Focus::focusStarSelected(int x, int y)
         frameSettings[targetChip] = settings;
 
         subFramed = true;
+
+        focusView->setFirstLoad(true);
 
         capture();
 
