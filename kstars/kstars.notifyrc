@@ -60,7 +60,7 @@ Comment[sv]=Automatisk fokuseringsåtgärd avslutades med lyckat resultat
 Comment[tr]=Otomatik odaklama işlemi başarıyla tamamlandı
 Comment[uk]=Дію з автофокусування успішно виконано
 Comment[x-test]=xxAutofocus operation completed successfullyxx
-Sound=KDE-K3B-Finish-Success.ogg
+Sound=Oxygen-K3B-Finish-Success.ogg
 Action=Sound
 [Event/FocusFailed]
 Name=Autofocus Failure
@@ -101,7 +101,7 @@ Comment[sv]=Automatisk fokuseringsåtgärd misslyckades med fel
 Comment[tr]=Otomatik odaklama işlemi başarısız oldu
 Comment[uk]=Не вдалося виконати дію з автофокусування — помилки
 Comment[x-test]=xxAutofocus operation failed with errorsxx
-Sound=KDE-Sys-App-Error-Serious.ogg
+Sound=Oxygen-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/AlignSuccessful]
 Name=Alignment Success
@@ -141,7 +141,7 @@ Comment[sv]=Inriktning för astrometri avslutades med lyckat resultat
 Comment[tr]=Gök ölçümü hizalaması başarıyla tamamlandı
 Comment[uk]=Астрометричне вирівнювання успішно завершено.
 Comment[x-test]=xxAstrometry alignment completed successfullyxx
-Sound=KDE-K3B-Finish-Success.ogg
+Sound=Oxygen-K3B-Finish-Success.ogg
 Action=Sound
 [Event/AlignFailed]
 Name=Alignment Failure
@@ -182,7 +182,7 @@ Comment[sv]=Inriktning för astrometri misslyckades med fel
 Comment[tr]=Gök ölçümü hizalaması başarısız oldu
 Comment[uk]=Не вдалося виконати астрометричне вирівнювання — помилки
 Comment[x-test]=xxAstrometry alignment failed with errorsxx
-Sound=KDE-Sys-App-Error-Serious.ogg
+Sound=Oxygen-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/CalibrationSuccessful]
 Name=Calibration Success
@@ -223,7 +223,7 @@ Comment[sv]=Kalibrering för guidning avslutades med lyckat resultat
 Comment[tr]=Kalibrasyon işlemi başarıyla tamamlandı
 Comment[uk]=Калібрування наведення успішно виконано
 Comment[x-test]=xxGuiding calibration completed successfullyxx
-Sound=KDE-K3B-Finish-Success.ogg
+Sound=Oxygen-K3B-Finish-Success.ogg
 Action=Sound
 [Event/CalibrationFailed]
 Name=Calibration Failure
@@ -263,7 +263,7 @@ Comment[sv]=Kalibrering för guidning misslyckades med fel
 Comment[tr]=Kalibrasyon işlemi başarısız oldu
 Comment[uk]=Не вдалося виконати калібування наведення — помилки
 Comment[x-test]=xxGuiding calibration failed with errorsxx
-Sound=KDE-Sys-App-Error-Serious.ogg
+Sound=Oxygen-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/GuideFailed]
 Name=Guiding Failure
@@ -304,7 +304,7 @@ Comment[sv]=Automatisk guidning misslyckades med fel
 Comment[tr]=Otomatik kılavuzluk işlemi başarısız oldu
 Comment[uk]=Не вдалося виконати автоматичне наведення — помилки
 Comment[x-test]=xxAutoguiding failed with errorsxx
-Sound=KDE-Sys-App-Error-Serious.ogg
+Sound=Oxygen-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/CaptureSuccessful]
 Name=Capture Success
@@ -343,7 +343,7 @@ Comment[sv]=CCD-tagning utfördes med lyckat resultat
 Comment[tr]=CCD Yakalama başarıyla tamamlandı
 Comment[uk]=Захоплення з ПЗЗ виконано успішно
 Comment[x-test]=xxCCD Capture completed successfullyxx
-Sound=KDE-K3B-Finish-Success.ogg
+Sound=Oxygen-K3B-Finish-Success.ogg
 Action=Sound
 [Event/CaptureFailed]
 Name=Capture Failure
@@ -384,7 +384,7 @@ Comment[sv]=CCD-tagning misslyckades med fel
 Comment[tr]=CCD yakalama işlemi başarısız oldu
 Comment[uk]=Не вдалося виконати захоплення зображень з ПЗЗ — помилки
 Comment[x-test]=xxCCD capture failed with errorsxx
-Sound=KDE-Sys-App-Error-Serious.ogg
+Sound=Oxygen-Sys-App-Error-Serious.ogg
 Action=Sound
 [Event/FITSReceived]
 Name=FITS Received
@@ -425,7 +425,7 @@ Comment[sv]=FITS-fil har tagits emot
 Comment[tr]=FITS dosyası alındı
 Comment[uk]=Отримано файл FITS
 Comment[x-test]=xxFITS file is receivedxx
-Sound=KDE-Sys-App-Message.ogg
+Sound=Oxygen-Sys-App-Message.ogg
 Action=Sound
 [Event/WeatherWarning]
 Name=Weather Warning
