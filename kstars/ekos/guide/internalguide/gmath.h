@@ -111,7 +111,7 @@ public:
     virtual ~cgmath();
 
     // functions
-    bool setVideoParameters( int vid_wd, int vid_ht );    
+    bool setVideoParameters( int vid_wd, int vid_ht, int binX, int binY );
     bool setGuiderParameters( double ccd_pix_wd, double ccd_pix_ht, double guider_aperture, double guider_focal );
     void getGuiderParameters( double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal );
     bool setReticleParameters( double x, double y, double ang );
@@ -152,7 +152,7 @@ public:
     void getStarScreenPosition( double *dx, double *dy ) const;
     Vector findLocalStarPosition( void ) const;
     bool isStarLost(void) const;
-    void setLostStar(bool is_lost);
+    void setLostStar(bool is_lost);    
 
     // Main processing function
     void performProcessing( void );
@@ -184,7 +184,7 @@ private:
     // square variables
     int squareSize;	// size of analysing square
     int square_alg_idx;		// index of threshold algorithm
-    int subBinX,subBinY, lastBinX, lastBinY;
+    int subBinX,subBinY;
 
     // sky coord. system vars.
     Vector star_pos;	// position of star in reticle coord. system

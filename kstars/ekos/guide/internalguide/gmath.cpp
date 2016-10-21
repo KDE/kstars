@@ -67,7 +67,7 @@ cgmath::cgmath() : QObject()
     useRapidGuide = false;
     dec_swap = false;
 
-    subBinX = subBinY = lastBinX = lastBinY = 1;
+    subBinX = subBinY = 1;
 
     // square variables
     square_alg_idx	= SMART_THRESHOLD;
@@ -109,13 +109,16 @@ cgmath::~cgmath()
 }
 
 
-bool cgmath::setVideoParameters( int vid_wd, int vid_ht )
+bool cgmath::setVideoParameters(int vid_wd, int vid_ht , int binX, int binY)
 {
     if( vid_wd <= 0 || vid_ht <= 0 )
         return false;
 
-    video_width  = vid_wd;
-    video_height = vid_ht;
+    video_width  = vid_wd/binX;
+    video_height = vid_ht/binY;
+
+    subBinX = binX;
+    subBinY = binY;
 
     //set_reticle_params( video_width/2, video_height/2, -1 ); // keep orientation
 
@@ -565,8 +568,7 @@ Vector cgmath::findLocalStarPosition( void ) const
 
     double square_square = trackingBox.width()*trackingBox.width();
 
-    //psrc = porigin = pdata + trackingBox.y()*video_width + trackingBox.x();
-    psrc = porigin = pdata + trackingBox.y()*video_width + trackingBox.x();
+    psrc = porigin = pdata + trackingBox.y()* video_width + trackingBox.x();
 
     resx = resy = 0;
     threshold = mass = 0;
@@ -920,7 +922,7 @@ void cgmath::performProcessing( void )
     // find guiding star location in
     scr_star_pos = star_pos = findLocalStarPosition();
 
-    if (star_pos.x == -1 || star_pos.y == -1)
+    if (star_pos.x == -1 || std::isnan(star_pos.x))
     {
         lost_star = true;
         return;

@@ -725,7 +725,7 @@ bool InternalGuider::setFrameParams(uint16_t x, uint16_t y, uint16_t w, uint16_t
     subBinX = binX;
     subBinY = binY;
 
-    pmath->setVideoParameters(w, h);
+    pmath->setVideoParameters(w, h, subBinX, subBinY);
 
     return true;
 }
