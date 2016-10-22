@@ -54,7 +54,7 @@ if(NOT BUILD_KSTARS_LITE)
             indi/streamform.ui
             fitsviewer/fitshistogramui.ui
             )
-        include_directories(${})
+        include_directories(${CFITSIO_INCLUDE_DIR})
     endif(CFITSIO_FOUND)
 endif(NOT BUILD_KSTARS_LITE)
 
