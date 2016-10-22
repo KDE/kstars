@@ -12,6 +12,8 @@
 #include <KMessageBox>
 #include <KNotification>
 
+#include "auxiliary/kspaths.h"
+
 #include "internalguider.h"
 #include "gmath.h"
 
@@ -63,6 +65,8 @@ bool InternalGuider::guide()
 
     guideFrame->disconnect(this);
 
+    QString logFileName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/guide_log.txt";
+    logFile.setFileName(logFileName);
     logFile.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&logFile);
 
@@ -72,8 +76,9 @@ bool InternalGuider::guide()
     out << "F/D: " << mountFocalLength/mountAperture << endl;
     out << "Frame #, Time Elapsed (ms), RA Error (arcsec), RA Correction (ms), RA Correction Direction, DEC Error (arcsec), DEC Correction (ms), DEC Correction Direction"  << endl;
 
-    pmath->start();
     pmath->setLogFile(&logFile);
+
+    pmath->start();
 
     m_lostStarTries=0;
 
