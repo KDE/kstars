@@ -378,8 +378,7 @@ void Capture::start()
     startB->setToolTip(i18n("Stop Sequence"));
     pauseB->setEnabled(true);
 
-    foreach (QAbstractButton *button, queueEditButtonGroup->buttons())
-        button->setEnabled(false);
+    setBusy(true);
 
     prepareJob(first_job);
 
@@ -448,8 +447,8 @@ void Capture::stop(bool abort)
         pauseB->setEnabled(false);
     }
 
-    foreach (QAbstractButton *button, queueEditButtonGroup->buttons())
-        button->setEnabled(true);
+    //foreach (QAbstractButton *button, queueEditButtonGroup->buttons())
+        //button->setEnabled(true);
 
     seqTimer->stop();
 
@@ -1737,8 +1736,9 @@ void Capture::setBusy(bool enable)
 
     enable ? pi->startAnimation() : pi->stopAnimation();
     previewB->setEnabled(!enable);
-    //startB->setEnabled(!enable);
-    //stopB->setEnabled(enable);
+
+    foreach (QAbstractButton *button, queueEditButtonGroup->buttons())
+        button->setEnabled(!enable);
 }
 
 void Capture::prepareJob(SequenceJob *job)
@@ -2523,10 +2523,10 @@ void Capture::resetJobs()
     foreach(SequenceJob *job, jobs)
         job->resetStatus();
 
-    stop();
-
-    // Reste active job pointer
+    // Reset active job pointer
     activeJob = NULL;
+
+    stop();
 
     ignoreJobProgress=true;
 }
