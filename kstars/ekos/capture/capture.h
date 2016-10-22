@@ -56,7 +56,7 @@ class KDirWatch;
  * The primary class is EkosManager. It handles startup and shutdown of local and remote INDI devices, manages and orchesterates the various Ekos modules, and provides advanced DBus
  * interface to enable unattended scripting.
 *@author Jasem Mutlaq
- *@version 1.3
+ *@version 1.4
  */
 namespace Ekos
 {
@@ -71,7 +71,7 @@ class SequenceJob;
  * is exceeded, it automatically trigger autofocus operation. The capture process can also be linked with guide module. If guiding deviations exceed a certain threshold, the capture operation aborts until
  * the guiding deviation resume to acceptable levels and the capture operation is resumed.
  *@author Jasem Mutlaq
- *@version 1.2
+ *@version 1.3
  */
 class Capture : public QWidget, public Ui::Capture
 {
@@ -177,17 +177,17 @@ public:
     /** DBUS interface function.
      * @return Returns the percentage of completed captures in all active jobs
      */
-    Q_SCRIPTABLE double            getProgressPercentage();
+    Q_SCRIPTABLE double getProgressPercentage();
 
     /** DBUS interface function.
      * @return Returns the number of jobs in the sequence queue.
      */
-    Q_SCRIPTABLE int            getJobCount() { return jobs.count(); }
+    Q_SCRIPTABLE int getJobCount() { return jobs.count(); }
 
     /** DBUS interface function.
      * @return Returns ID of current active job if any, or -1 if there are no active jobs.
      */
-    Q_SCRIPTABLE int            getActiveJobID();
+    Q_SCRIPTABLE int getActiveJobID();
 
     /** DBUS interface function.
      * @return Returns time left in seconds until active job is estimated to be complete.
@@ -418,6 +418,9 @@ private slots:
     void checkMeridianFlipTimeout();
     //void checkAlignmentSlewComplete();
 
+    // AutoGuide
+    void checkGuideDeviationTimeout();
+
     // Auto Focus
     //void updateAutofocusStatus(bool status, double HFR);    
     void startPostFilterAutoFocus();
@@ -518,6 +521,7 @@ private:
     // Guide Deviation
     bool deviationDetected;
     bool spikeDetected;
+    QTimer guideDeviationTimer;
 
     // Autofocus
     bool isAutoFocus;
@@ -534,9 +538,6 @@ private:
     MFStage meridianFlipStage;
 
     // Flat field automation
-    /*double ExpRaw1, ExpRaw2;
-    double ADURaw1, ADURaw2;
-    double ADUSlope;*/
     QList<double> ExpRaw;
     QList<double> ADURaw;
     double targetADU;

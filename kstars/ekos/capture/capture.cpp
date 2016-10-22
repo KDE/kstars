@@ -44,6 +44,7 @@
 #define INVALID_TEMPERATURE 10000
 #define INVALID_HA          10000
 #define MF_TIMER_TIMEOUT    90000
+#define GD_TIMER_TIMEOUT    60000
 #define MF_RA_DIFF_LIMIT    4
 #define MAX_CAPTURE_RETRIES 3
 
@@ -129,6 +130,8 @@ Capture::Capture()
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
     connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
 
+    guideDeviationTimer.setInterval(GD_TIMER_TIMEOUT);
+    connect(&guideDeviationTimer, SIGNAL(timeout()), this, SLOT(checkGuideDeviationTimeout()));
 
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
 
@@ -1932,6 +1935,7 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
             deviationDetected = true;
             appendLogText(i18n("Guiding deviation %1 exceeded limit value of %2 arcsecs, aborting exposure.", deviationText, guideDeviation->value()));
             abort();
+            guideDeviationTimer.start();
         }
         return;
     }
@@ -1940,6 +1944,8 @@ void Capture::setGuideDeviation(double delta_ra, double delta_dec)
     {
         if (deviation_rms <= guideDeviation->value())
         {
+            guideDeviationTimer.stop();
+
             if (seqDelay == 0)
                 appendLogText(i18n("Guiding deviation %1 is now lower than limit value of %2 arcsecs, resuming exposure.", deviationText, guideDeviation->value()));
             else
@@ -3010,6 +3016,16 @@ void Capture::checkMeridianFlipTimeout()
         abort();
     }
 }
+
+void Capture::checkGuideDeviationTimeout()
+{
+    if (activeJob && activeJob->getStatus() == SequenceJob::JOB_ABORTED && deviationDetected)
+    {
+        appendLogText(i18n("Guide module timed out."));
+        deviationDetected=false;
+    }
+}
+
 
 void Capture::setAlignStatus(AlignState state)
 {
