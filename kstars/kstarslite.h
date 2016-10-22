@@ -152,6 +152,8 @@ public:
      */
     Q_INVOKABLE QColor getColor(QString name);
 
+    Q_INVOKABLE QString getConfigCScheme();
+
     /**
      * @short toggles on/off objects of group toToggle
      * @see ObjectsToToggle

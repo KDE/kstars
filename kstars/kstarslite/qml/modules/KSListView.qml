@@ -144,7 +144,7 @@ ListView {
 
             Rectangle {
                 visible: (checkCurrent && listView.currentIndex == model.index) || (checkable && delegateRect.checked)
-                color: num.sysPalette.base //"#2173f3"
+                color: objName.color //"#2173f3"
                 width: height
                 height: objName.font.pixelSize/2
                 radius: width * 0.5

@@ -16,20 +16,75 @@ SpinBox {
     id: control
     from: -41
     to: 41
+    anchors.verticalCenter: parent.verticalCenter
+    editable: false
 
-    contentItem: TextInput {
+    background: Rectangle {
+        implicitWidth: 160
+        color: num.sysPalette.base
+    }
+
+    contentItem: Text {
         z: 2
         text: control.textFromValue(control.value, control.locale)
+        anchors.verticalCenter: parent.verticalCenter
 
         font: control.font
-        color: num.sysPalette.baseText
-        selectionColor: num.sysPalette.highlight
-        selectedTextColor: num.sysPalette.highlightedText
+        color: num.sysPalette.text
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
+    }
 
-        readOnly: true
-        validator: control.validator
+    property int spacingg: 0
+
+    Connections {
+        target: up
+        onPressed: {
+            console.log(up.pressed)
+        }
+    }
+
+    up.indicator: Rectangle {
+        z: 0
+        x: control.mirrored ? -spacingg : parent.width - width + spacingg
+        anchors.verticalCenter: parent.verticalCenter
+        implicitWidth: 37
+        implicitHeight: 37
+        color: up.pressed || !enabled ? num.sysPalette.light : num.sysPalette.base
+        border.color: up.pressed || !enabled ? num.sysPalette.base : num.sysPalette.light
+        radius: 5
+
+        Text {
+            z: 1
+            text: "+"
+            font.pixelSize: control.font.pixelSize * 2
+            color: up.pressed || !enabled ? num.sysPalette.dark : num.sysPalette.text
+            anchors.fill: parent
+            fontSizeMode: Text.Fit
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+    }
+
+    down.indicator: Rectangle {
+        z: 0
+        x: control.mirrored ? parent.width - width + spacingg : -spacingg
+        anchors.verticalCenter: parent.verticalCenter
+        implicitWidth: 37
+        implicitHeight: 37
+        color: down.pressed || !enabled ? num.sysPalette.light : num.sysPalette.base
+        border.color: down.pressed || !enabled ? num.sysPalette.base : num.sysPalette.light
+        radius: 5
+
+        Text {
+            text: "-"
+            font.pixelSize: control.font.pixelSize * 2
+            color: down.pressed || !enabled ? num.sysPalette.dark : num.sysPalette.text
+            anchors.fill: parent
+            fontSizeMode: Text.Fit
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
     }
 
     property bool daysOnly: false
