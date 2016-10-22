@@ -536,10 +536,10 @@ void Guide::addST4(ISD::ST4 *newST4)
     ST4Combo->addItem(newST4->getDeviceName());
     ST4Combo->blockSignals(false);
 
-    ST4Driver=GuideDriver=newST4;
-
-    if (Options::defaultST4Driver().isEmpty() == false)
-        setST4(Options::defaultST4Driver());
+    // Always set the ST4Driver to the first added driver. If the default driver
+    // is at another index, setST4(device) will be called from Ekos which will set a new index and that will then
+    // trigger setST4(index) to update the final ST4 driver.
+    ST4Driver=GuideDriver=ST4List[0];
 }
 
 bool Guide::setST4(QString device)
@@ -695,7 +695,7 @@ void Guide::setBusy(bool enable)
         if (guiderType != GUIDE_PHD2)
             calibrateB->setEnabled(true);
 
-        if (state >= GUIDE_CALIBRATION_SUCESS || guiderType != GUIDE_INTERNAL)
+        if (state == GUIDE_CALIBRATION_SUCESS || state == GUIDE_ABORTED || guiderType != GUIDE_INTERNAL)
             guideB->setEnabled(true);
 
         stopB->setEnabled(false);
@@ -833,7 +833,6 @@ bool Guide::sendPulse( GuideDirection dir, int msecs )
         QTimer::singleShot(msecs+100, this, SLOT(capture()));
 
     return GuideDriver->doPulse(dir, msecs);
-
 }
 
 QStringList Guide::getST4Devices()
@@ -1149,7 +1148,8 @@ void Guide::setStatus(Ekos::GuideState newState)
         // LinGuider guide continue after dithering failure
         if (guiderType != GUIDE_LINGUIDER)
         {
-            state = GUIDE_IDLE;
+            //state = GUIDE_IDLE;
+            state = GUIDE_ABORTED;
             setBusy(false);
         }
         break;
