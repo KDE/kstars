@@ -273,8 +273,8 @@ void Focus::resetFrame()
             frameSettings[targetChip] = settings;
             //targetChip->setFocusFrame(0,0,0,0);
 
-            //starSelected = false;
-            starCenter = QVector3D();
+            starSelected = false;
+            starCenter = QVector3D();            
             subFramed = false;
 
             focusView->setTrackingBox(QRect());
@@ -1023,13 +1023,22 @@ void Focus::setCaptureComplete()
     {
         if (image_data->areStarsSearched() == false)
         {
-            if (starSelected == false && autoStarCheck->isChecked() && subFramed == false)
-                focusView->findStars(ALGORITHM_CENTROID);
-            else if (focusView->isTrackingBoxEnabled())
-                focusView->findStars(focusAlgorithm);
+            //if (starSelected == false && autoStarCheck->isChecked() && subFramed == false)
+            //if (autoStarCheck->isChecked() && subFramed == false)
+                //focusView->findStars(ALGORITHM_CENTROID);
 
-            focusView->updateFrame();
-            currentHFR= image_data->getHFR(HFR_MAX);
+            if (subFramed && focusView->isTrackingBoxEnabled())
+            {
+                focusView->findStars(focusAlgorithm);
+                focusView->updateFrame();
+                currentHFR= image_data->getHFR(HFR_MAX);
+            }
+            else if (autoStarCheck->isChecked())
+            {
+                focusView->findStars(ALGORITHM_CENTROID);
+                focusView->updateFrame();
+                currentHFR= image_data->getHFR(HFR_MAX);
+            }
         }
 
         if (Options::focusLogging())
@@ -1065,7 +1074,7 @@ void Focus::setCaptureComplete()
         {
             // Center tracking box around selected star
             //if (starSelected && inAutoFocus)
-            if (starCenter.isNull() == false && inAutoFocus)
+            if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0))
             {
                 Edge *maxStarHFR = image_data->getMaxHFRStar();
 
@@ -1142,11 +1151,11 @@ void Focus::setCaptureComplete()
 
             if (subFramed == false && kcfg_subFrame->isEnabled() && kcfg_subFrame->isChecked())
             {
-                int offset = focusBoxSize->value();
-                int subX=(maxStar->x - offset*1.5) * subBinX;
-                int subY=(maxStar->y - offset*1.5) * subBinY;
-                int subW=offset*3*subBinX;
-                int subH=offset*3*subBinY;
+                int offset = (static_cast<double>(focusBoxSize->value()) / subBinX) * 1.5;
+                int subX=(maxStar->x - offset) * subBinX;
+                int subY=(maxStar->y - offset) * subBinY;
+                int subW=offset*2*subBinX;
+                int subH=offset*2*subBinY;
 
                 int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
                 targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
@@ -2075,7 +2084,7 @@ void Focus::focusStarSelected(int x, int y)
         return;
     }
 
-    int offset = focusBoxSize->value()/subBinX;
+    int offset = (static_cast<double>(focusBoxSize->value())/subBinX) * 1.5;
 
     QRect starRect;
 
@@ -2088,10 +2097,10 @@ void Focus::focusStarSelected(int x, int y)
         targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
         //targetChip->getFrame(&fx, &fy, &fw, &fy);
 
-        x = (x - offset*1.5) * subBinX;
-        y = (y - offset*1.5) * subBinY;
-        int w=offset*3*subBinX;
-        int h=offset*3*subBinY;
+        x = (x - offset) * subBinX;
+        y = (y - offset) * subBinY;
+        int w=offset*2*subBinX;
+        int h=offset*2*subBinY;
 
         if (x<minX)
             x=minX;
@@ -2139,6 +2148,7 @@ void Focus::focusStarSelected(int x, int y)
         squareMovedOutside = (dist > (focusBoxSize->value()/subBinX));
         starCenter.setX(x);
         starCenter.setY(y);
+        //starRect = QRect( starCenter.x()-focusBoxSize->value()/(2*subBinX), starCenter.y()-focusBoxSize->value()/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
         starRect = QRect( starCenter.x()-focusBoxSize->value()/(2*subBinX), starCenter.y()-focusBoxSize->value()/(2*subBinY), focusBoxSize->value()/subBinX, focusBoxSize->value()/subBinY);
         focusView->setTrackingBox(starRect);
 
