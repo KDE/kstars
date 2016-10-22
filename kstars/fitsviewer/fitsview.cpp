@@ -28,6 +28,7 @@
 
 #include <QApplication>
 #include <QPaintEvent>
+#include <QtConcurrent>
 #include <QScrollArea>
 #include <QFile>
 #include <QCursor>
@@ -427,6 +428,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
     connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
     connect(image_frame, SIGNAL(markerSelected(int,int)), this, SLOT(processMarkerSelection(int,int)));
+    connect(&wcsWatcher, SIGNAL(finished()), this, SLOT(handleWCSCompletion()));
 
     image_frame->setMouseTracking(true);
     setMouseMode(selectMouse);//This is the default mode because the Focus and Align FitsViews should not be in dragMouse mode
@@ -499,7 +501,7 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
 
     image_frame->setSize(image_width, image_height);
 
-    hasWCS = image_data->hasWCS();
+    //hasWCS = image_data->hasWCS();
 
     maxPixel = image_data->getMax();
     minPixel = image_data->getMin();
@@ -510,6 +512,8 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
             return false;
         else
         {
+            QFuture<bool> future = QtConcurrent::run(image_data, &FITSData::checkWCS);
+            wcsWatcher.setFuture(future);
             fitsProg.setValue(75);
             qApp->processEvents();
         }
@@ -1447,3 +1451,8 @@ void FITSView::pinchTriggered(QPinchGesture *gesture)
 
 }
 
+void FITSView::handleWCSCompletion()
+{
+    hasWCS = wcsWatcher.result();
+    emit wcsToggled(hasWCS);
+}

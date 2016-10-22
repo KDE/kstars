@@ -369,6 +369,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     connect(tab->getView(), SIGNAL(actionUpdated(QString,bool)), this, SLOT(updateAction(QString,bool)));
     connect(tab, SIGNAL(changeStatus(bool)), this, SLOT(updateTabStatus(bool)));
     connect(tab, SIGNAL(debayerToggled(bool)), this, SLOT(setDebayerAction(bool)));
+    connect(tab->getView(), SIGNAL(wcsToggled(bool)), this, SLOT(updateWCSFunctions()));
 
     saveFileAction->setEnabled(true);
     saveFileAsAction->setEnabled(true);

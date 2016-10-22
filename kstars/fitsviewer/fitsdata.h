@@ -168,6 +168,7 @@ public:
     FITSMode getMode() { return mode;}
 
     // WCS
+    bool checkWCS();
     bool hasWCS() { return HasWCS; }
     wcs_point *getWCSCoord()  { return wcs_coord; }
 
@@ -201,7 +202,7 @@ public:
 
     // Horizontal flip counter. We keep count to rotate WCS keywords on save
     int getFlipVCounter() const;
-    void setFlipVCounter(int value);
+    void setFlipVCounter(int value);        
 
     void findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]);
     QList<FITSSkyObject *> getSkyObjects();
@@ -212,8 +213,7 @@ private:
     bool rotFITS (int rotate, int mirror);
     void rotWCSFITS (int angle, int mirror);
     bool checkCollision(Edge* s1, Edge*s2);
-    int calculateMinMax(bool refresh=false);
-    void checkWCS();
+    int calculateMinMax(bool refresh=false);    
     bool checkDebayer();
     void readWCSKeys();
 

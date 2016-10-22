@@ -254,8 +254,8 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
 
     calculateStats();
 
-    if (mode == FITS_NORMAL)
-        checkWCS();
+    //if (mode == FITS_NORMAL)
+        //checkWCS();
 
     if (checkDebayer())
         debayer();
@@ -1702,7 +1702,7 @@ void FITSData::getCenterSelection(int *x, int *y)
     delete (pEdge);
 }
 
-void FITSData::checkWCS()
+bool FITSData::checkWCS()
 {
 #ifdef HAVE_WCSLIB
 
@@ -1717,13 +1717,13 @@ void FITSData::checkWCS()
     if (fits_hdr2str(fptr, 1, NULL, 0, &header, &nkeyrec, &status))
     {
         fits_report_error(stderr, status);
-        return;
+        return false;
     }
 
     if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
     {
         fprintf(stderr, "wcspih ERROR %d: %s.\n", status, wcshdr_errmsg[status]);
-        return;
+        return false;
     }
 
     free(header);
@@ -1731,19 +1731,17 @@ void FITSData::checkWCS()
     if (wcs == 0)
     {
         //fprintf(stderr, "No world coordinate systems found.\n");
-        return;
+        return false;
     }
 
     // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
     if (wcs->crpix[0] == 0)
-        return;
-
-    HasWCS = true;
+        return false;
 
     if ((status = wcsset(wcs)))
     {
         fprintf(stderr, "wcsset ERROR %d: %s.\n", status, wcs_errmsg[status]);
-        return;
+        return false;
     }
 
     delete[] wcs_coord;
@@ -1772,9 +1770,12 @@ void FITSData::checkWCS()
             }
         }
     }
-    findObjectsInImage(wcs, &world[0], phi, theta, &imgcrd[0], &pixcrd[0], &stat[0]);
-#endif
 
+    findObjectsInImage(wcs, &world[0], phi, theta, &imgcrd[0], &pixcrd[0], &stat[0]);
+
+    HasWCS = true;
+    return HasWCS;
+#endif
 }
 
 void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]){

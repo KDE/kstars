@@ -27,6 +27,7 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 
+#include <QFutureWatcher>
 #include <QEvent>
 #include <QGestureEvent>
 #include <QGestureEvent>
@@ -179,6 +180,9 @@ public slots:
     void processPointSelection(int x, int y);
     void processMarkerSelection(int x, int y);
 
+protected slots:
+    void handleWCSCompletion();
+
 private:
     bool event(QEvent *event);
     bool gestureEvent(QGestureEvent *event);
@@ -236,9 +240,13 @@ private:
     QRect trackingBox;
     QPixmap trackingBoxPixmap;
 
+    // WCS Future Watch
+    QFutureWatcher<bool> wcsWatcher;
+
 signals:
     void newStatus(const QString &msg, FITSBar id);
     void debayerToggled(bool);
+    void wcsToggled(bool);
     void actionUpdated(const QString &name, bool enable);
     void trackingStarSelected(int x, int y);
 
