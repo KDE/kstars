@@ -112,6 +112,7 @@ public slots:
     void toggleStars();
     void toggleCrossHair();
     void toggleEQGrid();
+    void toggleObjects();
     void togglePixelGrid();
     void centerTelescope();
     void updateWCSFunctions();

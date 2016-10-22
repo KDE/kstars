@@ -20,6 +20,8 @@
 #include <config-kstars.h>
 
 #include "fitsview.h"
+#include "kspopupmenu.h"
+#include "skymap.h"
 
 #include <cmath>
 #include <cstdlib>
@@ -104,7 +106,7 @@ void FITSView::updateMouseCursor(){
         viewport()->setCursor(Qt::CrossCursor);
     }
     if(mouseMode==scopeMouse){
-        QPixmap scope_pix=QPixmap(":/icons/breeze/default/kstars_telescope.svg").scaled(32,32,Qt::KeepAspectRatio,Qt::FastTransformation);
+        QPixmap scope_pix=QPixmap(":/icons/center_telescope.svg").scaled(32,32,Qt::KeepAspectRatio,Qt::FastTransformation);
         viewport()->setCursor(QCursor(scope_pix,0,0));
     }
 }
@@ -188,7 +190,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
         emit newStatus(QLocale().toString(buffer[(int) (y * width + x)], 'f', 2), FITS_VALUE);
 
 
-    if (image_data->hasWCS())
+    if (image_data->hasWCS()&&image->getMouseMode()!=FITSView::selectMouse)
     {
         int index = x + y * width;
 
@@ -205,12 +207,16 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             emit newStatus(QString("%1 , %2").arg( ra.toHMSString()).arg(dec.toDMSString()), FITS_WCS);
         }
 
+        bool objFound=false;
         foreach(FITSSkyObject *listObject, image_data->objList){
-            if((abs(listObject->x()-x)<50)&&(abs(listObject->y()-y)<50)){
+            if((abs(listObject->x()-x)<20)&&(abs(listObject->y()-y)<20)){
                 QToolTip::showText(e->globalPos(), listObject->skyObject()->name(), this);
+                objFound=true;
                 break;
             }
         }
+        if(!objFound)
+            QToolTip::hideText();
     }
 
     //setCursor(Qt::CrossCursor);
@@ -264,33 +270,22 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     x = KSUtils::clamp(x, 1.0, width);
     y = KSUtils::clamp(y, 1.0, height);
 
-    /*  The section below can probably be removed.
-
 #ifdef HAVE_INDI
     FITSData *image_data = image->getImageData();
 
-    if (e->buttons() & Qt::RightButton)
+    if (e->buttons() & Qt::RightButton&&image->getMouseMode()!=FITSView::selectMouse)
     {
         mouseReleaseEvent(e);
         if (image_data->hasWCS())
         {
-            QMenu fitspopup;
-            QAction *trackAction = fitspopup.addAction(i18n("Center In Telescope"));
-
-            if (fitspopup.exec(e->globalPos()) == trackAction)
-            {
-                int index = x + y * width;
-
-                wcs_point * wcs_coord = image_data->getWCSCoord();
-
-                if (wcs_coord)
-                {
-                    if (index > size)
-                        return;
-
-                    centerTelescope(wcs_coord[index].ra/15.0, wcs_coord[index].dec);
-
-                    return;
+            foreach(FITSSkyObject *listObject, image_data->objList){
+                if((abs(listObject->x()-x)<20)&&(abs(listObject->y()-y)<20)){
+                    SkyObject *object=listObject->skyObject();
+                    KSPopupMenu *pmenu;
+                    pmenu=new KSPopupMenu();
+                    object->showPopupMenu(pmenu,e->globalPos());
+                    KStars::Instance()->map()->setClickedObject(object);
+                    break;
                 }
             }
         }
@@ -299,7 +294,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
             emit markerSelected(0, 0);
     }
 #endif
-*/
+
 
     emit pointSelected(x, y);
 
@@ -850,9 +845,13 @@ void FITSView::drawOverlay(QPainter *painter)
 
     if (showCrosshair)
         drawCrosshair(painter);
-    if (showEQGrid){
+
+    if(showObjects)
+        drawObjectNames(painter);
+
+    if (showEQGrid)
         drawEQGrid(painter);
-    }
+
     if (showPixelGrid)
         drawPixelGrid(painter);
 
@@ -1012,8 +1011,7 @@ void FITSView::drawObjectNames(QPainter *painter)
     float scale=(currentZoom / ZOOM_DEFAULT);
     foreach(FITSSkyObject *listObject, image_data->getSkyObjects())
     {
-        if (listObject->skyObject()->name() != i18n("star"))
-            painter->drawText(listObject->x()*scale,listObject->y()*scale,listObject->skyObject()->name());
+         painter->drawText(listObject->x()*scale+10,listObject->y()*scale+10,listObject->skyObject()->name());
     }
 }
 
@@ -1025,8 +1023,6 @@ to draw gridlines at those specific RA and Dec values.
  */
 
 void FITSView::drawEQGrid(QPainter *painter){
-
-    drawObjectNames(painter);
 
    if (image_data->hasWCS())
        {
@@ -1208,6 +1204,11 @@ bool FITSView::isEQGridShown()
    return showEQGrid;
 }
 
+bool FITSView::areObjectsShown()
+{
+   return showObjects;
+}
+
 bool FITSView::isPixelGridShown()
 {
    return showPixelGrid;
@@ -1222,6 +1223,12 @@ void FITSView::toggleCrosshair()
 void FITSView::toggleEQGrid()
 {
     showEQGrid=!showEQGrid;
+    updateFrame();
+
+}
+void FITSView::toggleObjects()
+{
+    showObjects=!showObjects;
     updateFrame();
 
 }

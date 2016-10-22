@@ -122,6 +122,7 @@ public:
     void drawTrackingBox(QPainter *);
     void drawMarker(QPainter *);
     bool isCrosshairShown();
+    bool areObjectsShown();
     bool isEQGridShown();
     bool isPixelGridShown();
     bool imageHasWCS();
@@ -154,6 +155,7 @@ public:
 
     // Grids
     void toggleEQGrid();
+    void toggleObjects();
     void togglePixelGrid();
     void toggleCrosshair();
 
@@ -208,6 +210,7 @@ private:
     bool firstLoad;
     bool markStars;
     bool showCrosshair=false;
+    bool showObjects=false;
     bool showEQGrid=false;
     bool showPixelGrid=false;
     bool starsSearched=false;

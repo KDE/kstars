@@ -59,7 +59,7 @@
 #include "Options.h"
 #include "indi/indilistener.h"
 
-#define INITIAL_W	750
+#define INITIAL_W	785
 #define INITIAL_H	650
 
 QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast")
@@ -210,8 +210,15 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setDisabled(true);
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleEQGrid()));
 
+    action = actionCollection()->addAction("view_objects");
+    action->setIcon(QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")));
+    action->setText(i18n( "Show Objects in Image"));
+    action->setCheckable(true);
+    action->setDisabled(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(toggleObjects()));
+
     action = actionCollection()->addAction("center_telescope");
-    action->setIcon(QIcon(":/icons/breeze/default/kstars_telescope.svg"));
+    action->setIcon(QIcon(":/icons/center_telescope.svg"));
     action->setText(i18n( "Center Telescope\n*No Telescopes Detected*"));
     action->setDisabled(true);
     action->setCheckable(true);
@@ -493,6 +500,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
     updateStatusBar("", FITS_WCS);
     updateButtonStatus("view_crosshair", "Cross Hairs", getCurrentView()->isCrosshairShown());
     updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
+    updateButtonStatus("view_objects", "Objects in Image", getCurrentView()->areObjectsShown());
     updateButtonStatus("view_pixel_grid", "Pixel Gridines", getCurrentView()->isPixelGridShown());
     updateScopeButton();
     updateWCSFunctions();
@@ -838,6 +846,8 @@ void FITSViewer::updateWCSFunctions()
     if(getCurrentView()->imageHasWCS()){
         actionCollection()->action("view_eq_grid")->setDisabled(false);
         actionCollection()->action("view_eq_grid")->setText( i18n( "Show Equatorial Gridlines" ));
+        actionCollection()->action("view_objects")->setDisabled(false);
+        actionCollection()->action("view_objects")->setText( i18n( "Show Objects in Image" ));
         if(getCurrentView()->isTelescopeActive()){
             actionCollection()->action("center_telescope")->setDisabled(false);
 
@@ -853,6 +863,8 @@ void FITSViewer::updateWCSFunctions()
         actionCollection()->action("view_eq_grid")->setText( i18n( "Show Equatorial Gridlines\n*No WCS Info*" ));
         actionCollection()->action("center_telescope")->setDisabled(true);
         actionCollection()->action("center_telescope")->setText( i18n( "Center Telescope\n*No WCS Info*" ));
+        actionCollection()->action("view_objects")->setDisabled(false);
+        actionCollection()->action("view_objects")->setText( i18n( "Show Objects in Image\n*No WCS Info*" ));
     }
 
 }
@@ -890,6 +902,12 @@ void FITSViewer::toggleEQGrid()
 {
     getCurrentView()->toggleEQGrid();
     updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
+}
+
+void FITSViewer::toggleObjects()
+{
+    getCurrentView()->toggleObjects();
+    updateButtonStatus("view_objects", "Objects in Image", getCurrentView()->areObjectsShown());
 }
 
 void FITSViewer::togglePixelGrid()

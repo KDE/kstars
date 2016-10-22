@@ -122,6 +122,7 @@
         <file>icons/breeze/default/zoom-fit-width.svg</file>
         <file>icons/breeze/default/map-flat.svg</file>
         <file>icons/breeze/default/kstars_telescope.svg</file>
+        <file>icons/center_telescope.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>

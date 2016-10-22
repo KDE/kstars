@@ -73,6 +73,7 @@
         <Action name="view_pixel_grid" />
         <Separator/>
         <Action name="view_eq_grid" />
+        <Action name="view_objects" />
         <Action name="center_telescope" />
 
         <Separator/>
