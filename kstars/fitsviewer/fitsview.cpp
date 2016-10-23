@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include <config-kstars.h>
-
 #include "fitsview.h"
 #include "kspopupmenu.h"
 #include "skymap.h"
@@ -154,6 +153,7 @@ Then it stores the current point so next time it can do it again.
  */
 void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 {
+    float scale=(image->getCurrentZoom() / ZOOM_DEFAULT);
 
     if(image->getMouseMode()==FITSView::dragMouse&&mouseButtonDown){
         QPoint newPoint=e->globalPos();
@@ -173,8 +173,8 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     if (buffer == NULL)
         return;
 
-    x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
-    y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
+    x = round(e->x() / scale);
+    y = round(e->y() / scale);
 
     x = KSUtils::clamp(x, 1.0, width);
     y = KSUtils::clamp(y, 1.0, height);
@@ -210,8 +210,8 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
         bool objFound=false;
         foreach(FITSSkyObject *listObject, image_data->objList){
-            if((abs(listObject->x()-x)<20)&&(abs(listObject->y()-y)<20)){
-                QToolTip::showText(e->globalPos(), listObject->skyObject()->name(), this);
+            if((abs(listObject->x()-x)<5/scale)&&(abs(listObject->y()-y)<5/scale)){
+                QToolTip::showText(e->globalPos(), listObject->skyObject()->name() +"\n"+listObject->skyObject()->longname() , this);
                 objFound=true;
                 break;
             }
@@ -235,6 +235,8 @@ do want to slew to the WCS coordinates associated with the click location.  If s
 
 void FITSLabel::mousePressEvent(QMouseEvent *e)
 {
+    float scale=(image->getCurrentZoom() / ZOOM_DEFAULT);
+
     if(image->getMouseMode()==FITSView::dragMouse)
     {
         mouseButtonDown=true;
@@ -249,8 +251,8 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
 
             wcs_point * wcs_coord = image_data->getWCSCoord();
             double x,y;
-            x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
-            y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
+            x = round(e->x() / scale);
+            y = round(e->y() / scale);
 
             x = KSUtils::clamp(x, 1.0, width);
             y = KSUtils::clamp(y, 1.0, height);
@@ -265,8 +267,8 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
 
     double x,y;
 
-    x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
-    y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
+    x = round(e->x() / scale);
+    y = round(e->y() / scale);
 
     x = KSUtils::clamp(x, 1.0, width);
     y = KSUtils::clamp(y, 1.0, height);
@@ -280,11 +282,22 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
         if (image_data->hasWCS())
         {
             foreach(FITSSkyObject *listObject, image_data->objList){
-                if((abs(listObject->x()-x)<20)&&(abs(listObject->y()-y)<20)){
+                if((abs(listObject->x()-x)<5/scale)&&(abs(listObject->y()-y)<5/scale)){
                     SkyObject *object=listObject->skyObject();
                     KSPopupMenu *pmenu;
                     pmenu=new KSPopupMenu();
                     object->showPopupMenu(pmenu,e->globalPos());
+                    QList<QAction *> actions= pmenu->actions();
+                    foreach(QAction *action,actions){
+                        if(action->text().left(7)=="Starhop")
+                            pmenu->removeAction(action);
+                        if(action->text().left(7)=="Angular")
+                            pmenu->removeAction(action);
+                        if(action->text().left(8)=="Add flag")
+                            pmenu->removeAction(action);
+                        if(action->text().left(12)=="Attach Label")
+                            pmenu->removeAction(action);
+                    }
                     KStars::Instance()->map()->setClickedObject(object);
                     break;
                 }
@@ -1011,11 +1024,12 @@ bool FITSView::imageHasWCS(){
 
 void FITSView::drawObjectNames(QPainter *painter)
 {
-    painter->setPen( QPen( Qt::green) );
+    painter->setPen( QPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed("FITSObjectLabelColor" ) ) ) );
     float scale=(currentZoom / ZOOM_DEFAULT);
     foreach(FITSSkyObject *listObject, image_data->getSkyObjects())
     {
-         painter->drawText(listObject->x()*scale+10,listObject->y()*scale+10,listObject->skyObject()->name());
+        painter->drawRect(listObject->x()*scale-5,listObject->y()*scale-5,10,10);
+        painter->drawText(listObject->x()*scale+10,listObject->y()*scale+10,listObject->skyObject()->name());
     }
 }
 

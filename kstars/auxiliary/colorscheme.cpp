@@ -93,6 +93,7 @@ ColorScheme::ColorScheme() : FileName() {
     appendItem("RAGuideError",     i18n("RA Guide Error"),         "#00FF00");
     appendItem("DEGuideError",     i18n("DEC Guide Error"),        "#00A5FF");
     appendItem("SolverFOVColor",     i18n("Solver FOV"),        "#FFFFFF");
+    appendItem("FITSObjectLabelColor",     i18n("FITS Image Object Label"),        "#00FF00");
 
     //Load colors from config object
     loadFromConfig();

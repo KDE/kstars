@@ -864,7 +864,7 @@ void FITSViewer::updateWCSFunctions()
         actionCollection()->action("view_eq_grid")->setText( i18n( "Show Equatorial Gridlines\n*No WCS Info*" ));
         actionCollection()->action("center_telescope")->setDisabled(true);
         actionCollection()->action("center_telescope")->setText( i18n( "Center Telescope\n*No WCS Info*" ));
-        actionCollection()->action("view_objects")->setDisabled(false);
+        actionCollection()->action("view_objects")->setDisabled(true);
         actionCollection()->action("view_objects")->setText( i18n( "Show Objects in Image\n*No WCS Info*" ));
     }
 
