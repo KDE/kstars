@@ -4043,6 +4043,8 @@ void    Scheduler::parkMount()
         {
             mountInterface->call(QDBus::AutoDetect,"park");
             appendLogText(i18n("Parking mount..."));
+
+            currentOperationTime.start();
         }
 
         if (shutdownState == SHUTDOWN_PARK_MOUNT)
@@ -4076,6 +4078,8 @@ void    Scheduler::unParkMount()
         {
             mountInterface->call(QDBus::AutoDetect,"unpark");
             appendLogText(i18n("Unparking mount..."));
+
+            currentOperationTime.start();
         }
 
         if (startupState == STARTUP_UNPARK_MOUNT)
@@ -4098,6 +4102,7 @@ void    Scheduler::unParkMount()
 
 void Scheduler::checkMountParkingStatus()
 {
+    static int parkingFailureCount=0;
     QDBusReply<int> mountReply = mountInterface->call(QDBus::AutoDetect, "getParkingStatus");
     Mount::ParkingStatus status = (Mount::ParkingStatus) mountReply.value();
 
@@ -4112,6 +4117,7 @@ void Scheduler::checkMountParkingStatus()
                shutdownState = SHUTDOWN_PARK_DOME;
             else if (parkWaitState == PARKWAIT_PARKING)
                 parkWaitState = PARKWAIT_PARKED;
+            parkingFailureCount=0;
         break;
 
         case Mount::UNPARKING_OK:
@@ -4120,8 +4126,26 @@ void Scheduler::checkMountParkingStatus()
                 startupState = STARTUP_UNPARK_CAP;
         else if (parkWaitState == PARKWAIT_UNPARKING)
             parkWaitState = PARKWAIT_UNPARKED;
+        parkingFailureCount=0;
          break;
 
+       case Mount::PARKING_BUSY:
+       case Mount::UNPARKING_BUSY:
+        // TODO make the timeouts configurable by the user
+        if (currentOperationTime.elapsed() > (60*1000))
+        {
+             if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
+             {
+                 appendLogText(i18n("Operation timeout. Restarting operation..."));
+                 if (status == Mount::PARKING_BUSY)
+                     parkMount();
+                 else
+                     unParkMount();
+                 break;
+             }
+        }
+        else
+            break;
        case Mount::PARKING_ERROR:
         if (startupState == STARTUP_UNPARKING_MOUNT)
         {
@@ -4143,6 +4167,7 @@ void Scheduler::checkMountParkingStatus()
             appendLogText(i18n("Mount unparking error."));
             parkWaitState = PARKWAIT_ERROR;
         }
+        parkingFailureCount=0;
         break;
 
        default:
@@ -4175,6 +4200,8 @@ void    Scheduler::parkDome()
        shutdownState = SHUTDOWN_PARKING_DOME;
         domeInterface->call(QDBus::AutoDetect,"park");
         appendLogText(i18n("Parking dome..."));
+
+        currentOperationTime.start();
     }
     else if (status == Dome::PARKING_OK)
     {
@@ -4193,6 +4220,8 @@ void    Scheduler::unParkDome()
         startupState = STARTUP_UNPARKING_DOME;
         domeInterface->call(QDBus::AutoDetect,"unpark");
         appendLogText(i18n("Unparking dome..."));
+
+        currentOperationTime.start();
     }
     else if (status == Dome::UNPARKING_OK)
     {
@@ -4204,6 +4233,7 @@ void    Scheduler::unParkDome()
 
 void Scheduler::checkDomeParkingStatus()
 {
+    static int parkingFailureCount=0;
     QDBusReply<int> domeReply = domeInterface->call(QDBus::AutoDetect, "getParkingStatus");
     Dome::ParkingStatus status = (Dome::ParkingStatus) domeReply.value();
 
@@ -4216,8 +4246,10 @@ void Scheduler::checkDomeParkingStatus()
             if (shutdownState == SHUTDOWN_PARKING_DOME)
             {
                 appendLogText(i18n("Dome parked."));
+
                 shutdownState = SHUTDOWN_SCRIPT;
             }
+            parkingFailureCount=0;
         break;
 
         case Dome::UNPARKING_OK:
@@ -4226,8 +4258,26 @@ void Scheduler::checkDomeParkingStatus()
            startupState = STARTUP_UNPARK_MOUNT;
            appendLogText(i18n("Dome unparked."));
         }
+        parkingFailureCount=0;
          break;
 
+    case Dome::PARKING_BUSY:
+    case Dome::UNPARKING_BUSY:
+     // TODO make the timeouts configurable by the user
+     if (currentOperationTime.elapsed() > (120*1000))
+     {
+          if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
+          {
+              appendLogText(i18n("Operation timeout. Restarting operation..."));
+              if (status == Dome::PARKING_BUSY)
+                  parkDome();
+              else
+                  unParkDome();
+              break;
+          }
+     }
+     else
+         break;
 
        case Dome::PARKING_ERROR:
         if (shutdownState == SHUTDOWN_PARKING_DOME)
@@ -4240,6 +4290,7 @@ void Scheduler::checkDomeParkingStatus()
             appendLogText(i18n("Dome unparking error."));
             startupState = STARTUP_ERROR;
         }
+        parkingFailureCount=0;
         break;
 
        default:
@@ -4272,6 +4323,8 @@ void    Scheduler::parkCap()
         shutdownState = SHUTDOWN_PARKING_CAP;
         capInterface->call(QDBus::AutoDetect,"park");
         appendLogText(i18n("Parking Cap..."));
+
+        currentOperationTime.start();
     }
     else if (status == DustCap::PARKING_OK)
     {
@@ -4290,6 +4343,8 @@ void    Scheduler::unParkCap()
         startupState = STARTUP_UNPARKING_CAP;
         capInterface->call(QDBus::AutoDetect,"unpark");
         appendLogText(i18n("Unparking cap..."));
+
+        currentOperationTime.start();
     }
     else if (status == DustCap::UNPARKING_OK)
     {
@@ -4300,6 +4355,7 @@ void    Scheduler::unParkCap()
 
 void Scheduler::checkCapParkingStatus()
 {
+    static int parkingFailureCount=0;
     QDBusReply<int> capReply = capInterface->call(QDBus::AutoDetect, "getParkingStatus");
     DustCap::ParkingStatus status = (DustCap::ParkingStatus) capReply.value();
 
@@ -4314,6 +4370,7 @@ void Scheduler::checkCapParkingStatus()
                 appendLogText(i18n("Cap parked."));
                 shutdownState = SHUTDOWN_PARK_MOUNT;
             }
+            parkingFailureCount=0;
         break;
 
         case DustCap::UNPARKING_OK:
@@ -4322,8 +4379,26 @@ void Scheduler::checkCapParkingStatus()
            startupState = STARTUP_COMPLETE;
            appendLogText(i18n("Cap unparked."));
         }
+        parkingFailureCount=0;
          break;
 
+    case DustCap::PARKING_BUSY:
+    case DustCap::UNPARKING_BUSY:
+    // TODO make the timeouts configurable by the user
+     if (currentOperationTime.elapsed() > (60*1000))
+     {
+          if (parkingFailureCount++ < MAX_FAILURE_ATTEMPTS)
+          {
+              appendLogText(i18n("Operation timeout. Restarting operation..."));
+              if (status == DustCap::PARKING_BUSY)
+                  parkCap();
+              else
+                  unParkCap();
+              break;
+          }
+     }
+     else
+         break;
 
        case DustCap::PARKING_ERROR:
         if (shutdownState == SHUTDOWN_PARKING_CAP)
@@ -4336,6 +4411,7 @@ void Scheduler::checkCapParkingStatus()
             appendLogText(i18n("Cap unparking error."));
             startupState = STARTUP_ERROR;
         }
+        parkingFailureCount=0;
         break;
 
        default:

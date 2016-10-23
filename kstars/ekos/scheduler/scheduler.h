@@ -552,7 +552,7 @@ private:
     QTimer schedulerTimer;          // To call checkStatus
     QTimer jobTimer;                // To call checkJobStage
 
-    QTime currentOperationTime;     // Generic time to track timeout of current operation in progress
+    QTime currentOperationTime;     // Generic time to track timeout of current operation in progress    
 
     QUrl dirPath;
 
