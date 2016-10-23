@@ -14,6 +14,7 @@
 #include <KLocalizedString>
 #include "Options.h"
 
+#include "auxiliary/kspaths.h"
 #include "offlineastrometryparser.h"
 #include "align.h"
 
@@ -182,7 +183,7 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
     #endif
 
     QStringList solverArgs = args;
-    QString solutionFile = QStandardPaths::TempLocation + "/solution.wcs";
+    QString solutionFile = KSPaths::writableLocation(QStandardPaths::TempLocation) + "solution.wcs";
     solverArgs << "-W" <<  solutionFile << filename;
 
     connect(&solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
@@ -219,7 +220,7 @@ void OfflineAstrometryParser::solverComplete(int exist_status)
     solver.disconnect();
 
     // TODO use QTemporaryFile later
-    QString solutionFile = QStandardPaths::TempLocation + "/solution.wcs";
+    QString solutionFile = KSPaths::writableLocation(QStandardPaths::TempLocation) + "solution.wcs";
     QFileInfo solution(solutionFile);
 
     if (exist_status != 0 || solution.exists() == false)
@@ -280,14 +281,14 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
     emit solverFinished(orientation,ra,dec, pixscale);
 
     // Remove files left over by the solver
-    QDir dir("/tmp");
+    //QDir dir("/tmp");
+    QDir dir(KSPaths::writableLocation(QStandardPaths::TempLocation));
     dir.setNameFilters(QStringList() << "fits*" << "tmp.*");
     dir.setFilter(QDir::Files);
     foreach(QString dirFile, dir.entryList())
             dir.remove(dirFile);
 
 }
-
 
 void OfflineAstrometryParser::logSolver()
 {
