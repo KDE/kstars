@@ -695,7 +695,7 @@ void Guide::setBusy(bool enable)
         if (guiderType != GUIDE_PHD2)
             calibrateB->setEnabled(true);
 
-        if (state == GUIDE_CALIBRATION_SUCESS || state == GUIDE_ABORTED || guiderType != GUIDE_INTERNAL)
+        if (state == GUIDE_CALIBRATION_SUCESS || state == GUIDE_GUIDING || state == GUIDE_ABORTED || guiderType != GUIDE_INTERNAL)
             guideB->setEnabled(true);
 
         stopB->setEnabled(false);
@@ -953,7 +953,9 @@ bool Guide::guide()
 
 bool Guide::dither()
 {
-    return guider->dither(Options::ditherPixels());
+    //return guider->dither(Options::ditherPixels());
+    state = GUIDE_DITHERING;
+    return true;
 }
 
 bool Guide::suspend()
