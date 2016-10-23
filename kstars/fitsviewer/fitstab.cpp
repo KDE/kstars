@@ -131,7 +131,6 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
         view->updateFrame();
     }
 
-
     return imageLoad;
 }
 

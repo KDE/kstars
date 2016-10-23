@@ -286,7 +286,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
                     SkyObject *object=listObject->skyObject();
                     KSPopupMenu *pmenu;
                     pmenu=new KSPopupMenu();
-                    object->showPopupMenu(pmenu,e->globalPos());
+                    object->initPopupMenu(pmenu);
                     QList<QAction *> actions= pmenu->actions();
                     foreach(QAction *action,actions){
                         if(action->text().left(7)=="Starhop")
@@ -298,6 +298,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
                         if(action->text().left(12)=="Attach Label")
                             pmenu->removeAction(action);
                     }
+                    pmenu->popup(e->globalPos());
                     KStars::Instance()->map()->setClickedObject(object);
                     break;
                 }
