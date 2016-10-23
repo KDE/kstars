@@ -45,6 +45,14 @@ OfflineAstrometryParser::OfflineAstrometryParser() : AstrometryParser()
     astrometryIndex[2000] = "index-4219";
 
     astrometryFilesOK = false;
+
+    connect(&solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
+    connect(&solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
+    connect(&solver, &QProcess::errorOccurred, this, [&]()
+    {
+        align->appendLogText(i18n("Error starting solver: %1", solver.errorString()));
+        emit solverFailed();
+    });
 }
 
 OfflineAstrometryParser::~OfflineAstrometryParser()
@@ -183,11 +191,8 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
     #endif
 
     QStringList solverArgs = args;
-    QString solutionFile = KSPaths::writableLocation(QStandardPaths::TempLocation) + "solution.wcs";
+    QString solutionFile = QDir::tempPath() + "/solution.wcs";
     solverArgs << "-W" <<  solutionFile << filename;
-
-    connect(&solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
-    connect(&solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
 
     fitsFile = filename;
 
@@ -212,7 +217,6 @@ bool OfflineAstrometryParser::stopSolver()
     solver.disconnect();
 
     return true;
-
 }
 
 void OfflineAstrometryParser::solverComplete(int exist_status)
@@ -220,7 +224,7 @@ void OfflineAstrometryParser::solverComplete(int exist_status)
     solver.disconnect();
 
     // TODO use QTemporaryFile later
-    QString solutionFile = KSPaths::writableLocation(QStandardPaths::TempLocation) + "solution.wcs";
+    QString solutionFile = QDir::tempPath() + "/solution.wcs";
     QFileInfo solution(solutionFile);
 
     if (exist_status != 0 || solution.exists() == false)
@@ -282,7 +286,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
 
     // Remove files left over by the solver
     //QDir dir("/tmp");
-    QDir dir(KSPaths::writableLocation(QStandardPaths::TempLocation));
+    QDir dir(QDir::tempPath());
     dir.setNameFilters(QStringList() << "fits*" << "tmp.*");
     dir.setFilter(QDir::Files);
     foreach(QString dirFile, dir.entryList())
