@@ -695,7 +695,7 @@ void Guide::setBusy(bool enable)
         if (guiderType != GUIDE_PHD2)
             calibrateB->setEnabled(true);
 
-        if (state == GUIDE_CALIBRATION_SUCESS || state == GUIDE_GUIDING || state == GUIDE_ABORTED || guiderType != GUIDE_INTERNAL)
+        if (calibrationComplete || guiderType != GUIDE_INTERNAL)
             guideB->setEnabled(true);
 
         stopB->setEnabled(false);
@@ -1065,6 +1065,7 @@ void Guide::startAutoCalibrateGuide()
     // A must for auto stuff
     Options::setGuideAutoStarEnabled(true);
 
+    calibrationComplete = false;
     autoCalibrateGuide = true;
 
     // Set status to idle and let the operations change it as they get executed
@@ -1105,6 +1106,7 @@ void Guide::setStatus(Ekos::GuideState newState)
 
     case GUIDE_CALIBRATION_SUCESS:
         appendLogText(i18n("Calibration completed."));
+        calibrationComplete = true;
         if (autoCalibrateGuide)
         {
             autoCalibrateGuide = false;
@@ -1996,19 +1998,12 @@ bool Guide::executeOneOperation(GuideState operation)
             connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
             connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
 
-            if (darkData)
-            {
-                DarkLibrary::Instance()->subtract(darkData, guideView, targetChip->getCaptureFilter(), offsetX, offsetY);
-                setCaptureComplete();
-            }
-            else
-            {
-                //if (calibration->useAutoStar() == false)
-                //KMessageBox::information(NULL, i18n("If the guide camera is not equipped with a shutter, cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"), "dark_exposure_dialog_notification");
+            actionRequired = true;
 
+            if (darkData)
+                DarkLibrary::Instance()->subtract(darkData, guideView, targetChip->getCaptureFilter(), offsetX, offsetY);
+            else
                 DarkLibrary::Instance()->captureAndSubtract(targetChip, guideView, exposureIN->value(), offsetX, offsetY);
-                actionRequired = true;
-            }
         }
     }
         break;

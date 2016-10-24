@@ -408,14 +408,17 @@ private:
      */
     void setBusy(bool enable);
 
+    // Operation stack
     void buildOperationStack(GuideState operation);
     bool executeOperationStack();
     bool executeOneOperation(GuideState operation);
 
     bool captureOneFrame();
 
-
     void refreshColorScheme();
+
+    // Operation Stack
+    QStack<GuideState> operationStack;
 
     // Devices
     ISD::CCD *currentCCD;
@@ -447,9 +450,6 @@ private:
     // Guide timer
     QTime guideTimer;
 
-    // Drift Graph
-    //ScrollGraph *driftGraph;
-
     // Log
     QStringList logText;
 
@@ -469,11 +469,11 @@ private:
     // Auto star operation
     bool autoStarCaptured;
 
-    // Was the modified frame subFramed?
-    bool subFramed;
+    // Calibration done already?
+    bool calibrationComplete = false;
 
-    // Operation stack
-    QStack<GuideState> operationStack;
+    // Was the modified frame subFramed?
+    bool subFramed;       
 
     // CCD Chip frame settings
     QMap<ISD::CCDChip *, QVariantMap> frameSettings;
