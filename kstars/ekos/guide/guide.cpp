@@ -1036,6 +1036,8 @@ void Guide::setGuideAlgorithm(const QString & algorithm)
 void Guide::setSubFrameEnabled(bool enable)
 {
     Options::setGuideSubframeEnabled(enable);
+    if (subFrameCheck->isChecked() != enable)
+        subFrameCheck->setChecked(enable);
 }
 
 #if 0
@@ -1046,7 +1048,7 @@ void Guide::setGuideRapidEnabled(bool enable)
 #endif
 
 void Guide::setDitherSettings(bool enable, double value)
-{
+{    
     Options::setDitherEnabled(enable);
     Options::setDitherPixels(value);
 }
@@ -1064,6 +1066,23 @@ void Guide::startAutoCalibrateGuide()
 {
     // A must for auto stuff
     Options::setGuideAutoStarEnabled(true);
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    if (frameSettings.contains(targetChip))
+    {
+        targetChip->resetFrame();
+        int x,y,w,h;
+        targetChip->getFrame(&x, &y, &w, &h);
+        QVariantMap settings = frameSettings[targetChip];
+        settings["x"] = x;
+        settings["y"] = y;
+        settings["w"] = w;
+        settings["h"] = h;
+        frameSettings[targetChip] = settings;
+
+        subFramed = false;
+    }
 
     calibrationComplete = false;
     autoCalibrateGuide = true;
@@ -1217,6 +1236,8 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
 void Guide::setDarkFrameEnabled(bool enable)
 {
     Options::setGuideDarkFrameEnabled(enable);
+    if (darkFrameCheck->isChecked() != enable)
+        darkFrameCheck->setChecked(enable);
 }
 
 void Guide::saveDefaultGuideExposure()
@@ -1845,7 +1866,7 @@ void Guide::buildOperationStack(GuideState operation)
 
 bool Guide::executeOperationStack()
 {
-    if (operationStack.isEmpty())
+    if (operationStack.isEmpty() || state == GUIDE_ABORTED)
         return false;
 
     GuideState nextOperation = operationStack.pop();
