@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>435</width>
+    <width>444</width>
     <height>350</height>
    </rect>
   </property>
@@ -378,6 +378,13 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="showLogsB">
+          <property name="text">
+           <string>Show INDI Logs</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
