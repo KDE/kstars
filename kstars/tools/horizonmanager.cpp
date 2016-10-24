@@ -37,6 +37,9 @@ HorizonManager::HorizonManager( QWidget *w )
         : QDialog( w )
 {    
 
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
     ui = new HorizonManagerUI( this );
 
     ui->setStyleSheet("QPushButton:checked { background-color: red; }");

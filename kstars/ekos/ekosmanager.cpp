@@ -49,6 +49,12 @@
 
 EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 {
+#ifdef Q_OS_OSX
+    if(Options::independentWindowEkos())
+        setWindowFlags(Qt::Window);
+    else
+        setWindowFlags(Qt::Tool);
+#endif
     setupUi(this);
 
     new EkosAdaptor(this);

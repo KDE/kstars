@@ -47,6 +47,9 @@
 
 OptionsTreeViewWidget::OptionsTreeViewWidget( QWidget *p ) : QFrame( p ) {
     setupUi( this );
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
 }
 
 OptionsTreeView::OptionsTreeView( QWidget *p )
@@ -115,6 +118,9 @@ ScriptNameWidget::ScriptNameWidget( QWidget *p ) : QFrame( p ) {
 ScriptNameDialog::ScriptNameDialog( QWidget *p )
         : QDialog( p )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
     snw = new ScriptNameWidget( this );
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
@@ -152,6 +158,9 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
         currentFileURL(), currentDir( QDir::homePath() ),
         currentScriptName(), currentAuthor()
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
     ks = (KStars*)parent;
     sb = new ScriptBuilderUI(this);
 

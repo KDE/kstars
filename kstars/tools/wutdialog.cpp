@@ -52,6 +52,9 @@ WUTDialog::WUTDialog( QWidget *parent, bool _session, GeoLocation *_geo, KStarsD
         EveningFlag(0),
         timer(NULL)
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
     WUT = new WUTDialogUI( this );
 
     QVBoxLayout *mainLayout = new QVBoxLayout;

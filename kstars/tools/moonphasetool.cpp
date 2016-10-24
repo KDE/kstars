@@ -22,6 +22,9 @@
 MoonPhaseTool::MoonPhaseTool(QWidget *parent)
     : QDialog( parent, Qt::Dialog )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
 
     //KStarsDateTime dtStart ( KStarsDateTime::currentDateTime() );
     m_Moon = new KSMoon;

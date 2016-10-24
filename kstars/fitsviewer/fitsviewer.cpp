@@ -70,6 +70,13 @@ QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch")
 FITSViewer::FITSViewer (QWidget *parent)
         : KXmlGuiWindow (parent)
 {
+#ifdef Q_OS_OSX
+    if(Options::independentWindowFITS())
+        setWindowFlags(Qt::Window);
+    else
+        setWindowFlags(Qt::Tool);
+#endif
+
     fitsTab   = new QTabWidget(this);
     undoGroup = new QUndoGroup(this);
 

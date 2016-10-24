@@ -44,6 +44,10 @@ SkyCalendarUI::SkyCalendarUI( QWidget *parent )
 SkyCalendar::SkyCalendar( QWidget *parent )
     : QDialog( parent )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
+
     scUI = new SkyCalendarUI( this );
 
     QVBoxLayout *mainLayout = new QVBoxLayout;

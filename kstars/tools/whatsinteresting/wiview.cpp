@@ -29,6 +29,8 @@
 
 WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs), m_CurCategorySelected(-1)
 {
+
+
     m_ModManager = new ModelManager(m_Obs);
 
     m_BaseView = new QQuickView();

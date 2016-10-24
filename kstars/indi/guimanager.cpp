@@ -56,6 +56,13 @@ GUIManager * GUIManager::Instance()
 
 GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 {    
+#ifdef Q_OS_OSX
+    if(Options::independentWindowINDI())
+        setWindowFlags(Qt::Window);
+    else
+        setWindowFlags(Qt::Tool);
+#endif
+
     mainLayout    = new QVBoxLayout(this);
     mainLayout->setMargin(10);
     mainLayout->setSpacing(10);

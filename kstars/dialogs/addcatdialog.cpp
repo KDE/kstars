@@ -40,6 +40,9 @@ AddCatDialogUI::AddCatDialogUI( QWidget *parent ) : QFrame( parent ) {
 AddCatDialog::AddCatDialog( KStars *_ks )
         : QDialog( ( QWidget* )_ks )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
     QDir::setCurrent( QDir::homePath() );
     acd = new AddCatDialogUI(this);
 

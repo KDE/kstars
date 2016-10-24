@@ -37,6 +37,10 @@
 
 ExportEyepieceView::ExportEyepieceView( const SkyPoint *_sp, const KStarsDateTime &dt, const QPixmap *renderImage, const QPixmap *renderChart,
                                         QWidget *parent ) : QDialog( parent ), m_dt( dt ) {
+
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
     m_sp = new SkyPoint( *_sp ); // Work on a copy.
 
     Q_ASSERT( renderChart );

@@ -60,6 +60,9 @@ FindDialog::FindDialog( QWidget* parent ) :
     timer(0),
     m_targetObject( 0 )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
     ui = new FindDialogUI( this );
 
     setWindowTitle( i18n( "Find Object" ) );

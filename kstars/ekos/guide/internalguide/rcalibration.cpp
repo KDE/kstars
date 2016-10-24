@@ -40,6 +40,9 @@
 internalCalibration::internalCalibration(cgmath *mathObject, Ekos::Guide *parent)
     : QWidget(parent)
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
     ui.setupUi(this);
 
     setWindowTitle(i18n("Calibration"));

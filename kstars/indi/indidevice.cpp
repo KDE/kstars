@@ -52,6 +52,11 @@ const char *libindi_strings_context = "string from libindi, used in the config d
 INDI_D::INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_dv, ClientManager *in_cm) : QDialog( 0 )
   {
 
+#ifdef Q_OS_OSX
+       setWindowFlags(Qt::Tool);
+#endif
+
+
     guiManager		= in_manager;
     dv           	= in_dv;
     clientManager       = in_cm;

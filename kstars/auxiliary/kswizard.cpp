@@ -53,6 +53,10 @@ WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
 KSWizard::KSWizard( QWidget *parent ) :
     QDialog( parent )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
+
     wizardStack = new QStackedWidget( this );
 
     setWindowTitle( i18n("Setup Wizard") );

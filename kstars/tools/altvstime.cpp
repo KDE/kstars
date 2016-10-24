@@ -57,6 +57,10 @@ AltVsTimeUI::AltVsTimeUI( QWidget *p ) :
 AltVsTime::AltVsTime( QWidget* parent)  :
     QDialog( parent )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool);
+#endif
+
     setWindowTitle(i18n( "Altitude vs. Time" ) );
 
     setModal( false );
