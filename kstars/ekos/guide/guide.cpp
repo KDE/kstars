@@ -742,14 +742,21 @@ void Guide::newFITS(IBLOB *bp)
 
     syncTrackingBoxPosition();
 
-    if (operationStack.isEmpty())
+    setCaptureComplete();
+    /*if (operationStack.isEmpty())
         setCaptureComplete();
     else
-        executeOperationStack();
+        executeOperationStack();*/
 }
 
 void Guide::setCaptureComplete()
 {
+    if (operationStack.isEmpty() == false)
+    {
+        executeOperationStack();
+        return;
+    }
+
     DarkLibrary::Instance()->disconnect(this);
 
     switch (state)
