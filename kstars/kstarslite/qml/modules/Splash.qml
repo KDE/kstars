@@ -19,21 +19,41 @@ Rectangle {
     state: "Inivisble"
 
     Image {
-        id: splashImage
-        source: "../images/splash.png"
-        anchors.centerIn: parent
+        id: splashBG
+        source: "../images/bg.png"
+        anchors {
+            fill: parent
+        }
+
+        fillMode: Image.PreserveAspectCrop
 
         width: sourceSize.width/num.pixelRatio
         height: sourceSize.height/num.pixelRatio
 
+        Image {
+            id: kdeLogo
+            source: "../images/kde-logo.png"
+            anchors {
+                right: parent.right
+                top: parent.top
+                margins: 15
+            }
+        }
+
+        Image {
+            id: splashLogo
+            source: "../images/splash.png"
+            anchors.centerIn: parent
+        }
+
         Text {
             id: progress
-            color: "#000"
+            color: "#999"
 
             anchors {
-                top: parent.bottom
+                bottom: parent.bottom
                 horizontalCenter: parent.horizontalCenter
-                margins: 10
+                margins: 5
             }
         }
     }

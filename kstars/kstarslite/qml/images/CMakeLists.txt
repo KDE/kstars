@@ -112,10 +112,15 @@ install( FILES
 	 media-skip-forward@2x.png
 	 media-skip-forward@3x.png
 	 media-skip-forward@4x.png
+         bg.png
 	 splash.png
 	 splash@2x.png
 	 splash@3x.png
 	 splash@4x.png
+         kde-logo.png
+         kde-logo@2x.png
+         kde-logo@3x.png
+         kde-logo@4x.png
          tutorial-arrow-horizontal.png
          tutorial-arrow-horizontal@2x.png
          tutorial-arrow-horizontal@3x.png
@@ -135,5 +140,5 @@ install( FILES
          lock-open.png
          lock-open@2x.png
          lock-open@3x.png
-         lock-open@4x.png
+         lock-open@4x.png         
          DESTINATION ${KDE_INSTALL_DATADIR}/kstars/kstarslite/qml/images )
