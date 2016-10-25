@@ -145,27 +145,39 @@ Scheduler::Scheduler()
 
     raBox->setDegType(false); //RA box should be HMS-style
 
-
     addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
     addToQueueB->setToolTip(i18n("Add observation job to list."));
+    addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
     removeFromQueueB->setToolTip(i18n("Remove observation job from list."));
+    removeFromQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     evaluateOnlyB->setIcon(QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg")));
+    evaluateOnlyB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     mosaicB->setIcon(QIcon::fromTheme("zoom-draw", QIcon(":/icons/breeze/default/zoom-draw.svg")));
+    mosaicB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg")));
+    queueSaveAsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueSaveB->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")));
+    queueSaveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueLoadB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    queueLoadB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     loadSequenceB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    loadSequenceB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectStartupScriptB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    selectStartupScriptB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectShutdownScriptB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    selectShutdownScriptB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectFITSB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
+    selectFITSB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     startupB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    startupB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     shutdownB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    shutdownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     connect(startupB, SIGNAL(clicked()), this, SLOT(runStartupProcedure()));
     connect(shutdownB, SIGNAL(clicked()), this, SLOT(runShutdownProcedure()));
@@ -184,7 +196,9 @@ Scheduler::Scheduler()
     connect(queueTable, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(resetJobState(QModelIndex)));
 
     startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+    startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     pauseB->setIcon(QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg")));
+    pauseB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     connect(startB,SIGNAL(clicked()),this,SLOT(toggleScheduler()));
     connect(pauseB,SIGNAL(clicked()),this,SLOT(pause()));

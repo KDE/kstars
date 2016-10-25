@@ -123,7 +123,9 @@ Capture::Capture()
     connect(pauseB, SIGNAL(clicked()), this, SLOT(pause()));
 
     startB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg") ));
+    startB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     pauseB->setIcon(QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg") ));
+    pauseB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
 
@@ -157,16 +159,27 @@ Capture::Capture()
     connect(calibrationB, SIGNAL(clicked()), this, SLOT(openCalibrationDialog()));
 
     addToQueueB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg") ));
+    addToQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     removeFromQueueB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg") ));
+    removeFromQueueB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueUpB->setIcon(QIcon::fromTheme("go-up", QIcon(":/icons/breeze/default/go-up.svg") ));
+    queueUpB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueDownB->setIcon(QIcon::fromTheme("go-down", QIcon(":/icons/breeze/default/go-down.svg") ));
+    queueDownB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectFITSDirB->setIcon(QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg") ));
+    selectFITSDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueLoadB->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg") ));
+    queueLoadB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueSaveB->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg") ));
+    queueSaveB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     queueSaveAsB->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg") ));
+    queueSaveAsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     resetB->setIcon(QIcon::fromTheme("system-reboot", QIcon(":/icons/breeze/default/system-reboot.svg") ));
+    resetB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     resetFrameB->setIcon(QIcon::fromTheme("view-refresh", QIcon(":/icons/breeze/default/view-refresh.svg") ));
+    resetFrameB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     calibrationB->setIcon(QIcon::fromTheme("run-build", QIcon(":/icons/breeze/default/run-build.svg") ));
+    calibrationB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
     removeFromQueueB->setToolTip(i18n("Remove job from sequence queue"));

@@ -128,10 +128,17 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(deleteProfileB, SIGNAL(clicked()), this, SLOT(deleteProfile()));
     connect(profileCombo, SIGNAL(activated(QString)), this, SLOT(saveDefaultProfile(QString)));
 
+    addProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    editProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    deleteProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
     // Set Profile icons
     addProfileB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg")));
+    addProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     editProfileB->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/breeze/default/document-edit.svg")));
+    editProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     deleteProfileB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
+    deleteProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     // Load all drivers
     loadDrivers();
