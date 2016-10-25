@@ -945,12 +945,13 @@ if(INDI_FOUND)
         endif(ANDROID)
     else(WIN32 OR ANDROID)
         # If INDI Qt5 Client is found, use it.
-        if (INDI_CLIENT_QT_LIBRARIES)
-            add_definitions(-DUSE_QT5_INDI)
-            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES} z)
-        else(INDI_CLIENT_QT_LIBRARIES)
+        # Do not use Qt5 client on Linux for now
+        #if (INDI_CLIENT_QT_LIBRARIES)
+            #add_definitions(-DUSE_QT5_INDI)
+            #target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES} z)
+        #else(INDI_CLIENT_QT_LIBRARIES)
             target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
-        endif(INDI_CLIENT_QT_LIBRARIES)
+        #endif(INDI_CLIENT_QT_LIBRARIES)
     endif(WIN32 OR ANDROID)
 
 endif(INDI_FOUND)
