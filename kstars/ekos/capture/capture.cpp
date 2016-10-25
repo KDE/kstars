@@ -594,7 +594,7 @@ void Capture::checkCCD(int ccdNum)
     }
 }
 
-void Capture::updateFrameProperties(bool reset)
+void Capture::updateFrameProperties(int reset)
 {
     int x,y,w,h;
     int binx=1,biny=1;
@@ -698,7 +698,7 @@ void Capture::updateFrameProperties(bool reset)
     else
         return;
 
-    if (reset || frameSettings.contains(targetChip) == false)
+    if (reset == 1 || frameSettings.contains(targetChip) == false)
     {
         QVariantMap settings;
 
@@ -708,6 +708,29 @@ void Capture::updateFrameProperties(bool reset)
         settings["h"] = frameHIN->maximum();
         settings["binx"] = 1;
         settings["biny"] = 1;
+
+        frameSettings[targetChip] = settings;
+    }
+    else if (reset == 2 && frameSettings.contains(targetChip))
+    {
+        QVariantMap settings = frameSettings[targetChip];
+        int x,y,w,h;
+
+        x = settings["x"].toInt();
+        y = settings["y"].toInt();
+        w = settings["w"].toInt();
+        h = settings["h"].toInt();
+
+        // Bound them
+        x = qBound(frameXIN->minimum(), x, frameXIN->maximum()-1);
+        y = qBound(frameYIN->minimum(), y, frameYIN->maximum()-1);
+        w = qBound(frameWIN->minimum(), w, frameWIN->maximum());
+        h = qBound(frameHIN->minimum(), h, frameHIN->maximum());
+
+        settings["x"] = x;
+        settings["y"] = y;
+        settings["w"] = w;
+        settings["h"] = h;
 
         frameSettings[targetChip] = settings;
     }
@@ -749,15 +772,20 @@ void Capture::updateFrameProperties(bool reset)
 
 void Capture::processCCDNumber(INumberVectorProperty *nvp)
 {
-    if (currentCCD && ( (!strcmp(nvp->name, "CCD_FRAME") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_FRAME") && useGuideHead)))
+    if (currentCCD == NULL)
+        return;
+
+    if ((!strcmp(nvp->name, "CCD_FRAME") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_FRAME") && useGuideHead))
         updateFrameProperties();
+    else if ((!strcmp(nvp->name, "CCD_INFO") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_INFO") && useGuideHead))
+        updateFrameProperties(2);
 }
 
 void Capture::resetFrame()
 {
     targetChip = useGuideHead ? currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) : currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     targetChip->resetFrame();
-    updateFrameProperties(true);
+    updateFrameProperties(1);
 }
 
 void Capture::syncFrameType(ISD::GDInterface *ccd)
@@ -1145,7 +1173,7 @@ void Capture::captureOne()
     //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
     if (uploadModeCombo->currentIndex() != 0)
     {
-        appendLogText(i18n("Cannot take preview image while CCD upload mode is set to local. Please change upload mode to client and try again."));
+        appendLogText(i18n("Cannot take preview image while CCD upload mode is set to local or both. Please change upload mode to client and try again."));
         return;
     }
 

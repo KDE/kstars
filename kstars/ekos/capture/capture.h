@@ -454,7 +454,10 @@ private:
     void setBusy(bool enable);
     bool resumeSequence();
     bool startNextExposure();
-    void updateFrameProperties(bool reset=false);
+    // reset = 0 --> Do not reset
+    // reset = 1 --> Full reset
+    // reset = 2 --> Only update limits if needed
+    void updateFrameProperties(int reset=0);
     void prepareJob(SequenceJob *job);
     void syncGUIToJob(SequenceJob *job);
     bool processJobInfo(XMLEle *root);
