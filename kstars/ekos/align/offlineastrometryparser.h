@@ -52,6 +52,7 @@ private:
     bool getAstrometryDataDir(QString &dataDir);
 
     QMap<float, QString> astrometryIndex;
+    QString parity;
     QProcess solver;
     QProcess wcsinfo;
     QTime solverTimer;

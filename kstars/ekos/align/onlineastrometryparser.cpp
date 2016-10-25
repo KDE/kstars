@@ -47,6 +47,9 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     connect(this, SIGNAL(jobIDFinished()), this, SLOT(checkJobs()));
     connect(this, SIGNAL(jobFinished()), this, SLOT(checkJobCalibration()));
 
+    // Reset parity on solver failure
+    connect(this, &OnlineAstrometryParser::solverFailed, this, [&]() { parity = -1;});
+
     connect(this, SIGNAL(solverFailed()), this, SLOT(resetSolver()));
     connect(this, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(resetSolver()));
 
@@ -172,6 +175,16 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
             radius = args[i+1].toDouble(&ok);
         else if (args[i] == "--downsample")
             downsample_factor = args[i+1].toInt(&ok);
+        else if (args[i] == "--parity")
+        {
+            QString arg = args[i+1];
+            if (arg == "both")
+                parity = 2;
+            else if (arg == "pos")
+                parity = 0;
+            else
+                parity = 1;
+        }
     }
 
     connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onResult(QNetworkReply*)));
@@ -260,6 +273,8 @@ void OnlineAstrometryParser::uploadFile()
     uploadReq.insert("radius", radius);
     if (downsample_factor != 0)
         uploadReq.insert("downsample_factor", downsample_factor);
+    if (parity != -1)
+        uploadReq.insert("parity", parity);
 
     QJsonObject json = QJsonObject::fromVariantMap(uploadReq);
     QJsonDocument json_doc(json);
@@ -469,7 +484,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
          break;
 
      case JOB_CALIBRATION_STAGE:
-         parity = result["parity"].toDouble(&ok);
+         parity = result["parity"].toInt(&ok);
          if (ok == false)
          {
              align->appendLogText(i18n("Error parsing parity."));

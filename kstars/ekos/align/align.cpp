@@ -110,6 +110,10 @@ Align::Align()
 
     connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [=](int id){ this->currentGotoMode = static_cast<GotoMode>(id); });
 
+    // TODO make this configurable, 3 minutes timeout
+    alignTimer.setInterval(180*1000);
+    connect(&alignTimer, SIGNAL(timeout()), this, SLOT(checkAlignmentTimeout()));
+
     int i=0;
     foreach(QAbstractButton *button, gotoModeButtonGroup->buttons())
         gotoModeButtonGroup->setId(button, i++);
@@ -200,6 +204,14 @@ bool Align::isParserOK()
     }
 
     return rc;
+}
+
+void Align::checkAlignmentTimeout()
+{
+    if (loadSlewState != IPS_IDLE || ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
+        abort();
+    else if (loadSlewState == IPS_IDLE)
+            captureAndSolve();
 }
 
 void Align::setSolverType(int type)
@@ -758,6 +770,8 @@ void Align::startSolving(const QString &filename, bool isGenerated)
 
     solverTimer.start();
 
+    alignTimer.start();
+
     if (isGenerated)
         solverArgs = solverOptions->text().split(" ");
     else if (filename.endsWith("fits") || filename.endsWith("fit"))
@@ -786,6 +800,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     sOrientation = orientation;
     sRA  = ra;
     sDEC = dec;
+
+    alignTimer.stop();
 
     int binx, biny;
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
@@ -951,6 +967,7 @@ void Align::abort()
     //m_slewToTargetSelected=false;
     solverIterations=0;
     retries=0;
+    alignTimer.stop();
 
     //currentCCD->disconnect(this);
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));

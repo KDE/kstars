@@ -71,7 +71,8 @@ private:
     QTime solverTimer;
     QString filename;
     double lowerScale, upperScale, center_ra, center_dec, radius, pixscale;
-    double parity,ra,dec,orientation;
+    int parity = -1;
+    double ra,dec,orientation;
     int downsample_factor;
     bool isGenerated;
     Align *align;

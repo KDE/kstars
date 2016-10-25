@@ -48,6 +48,10 @@ OfflineAstrometryParser::OfflineAstrometryParser() : AstrometryParser()
 
     connect(&solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
     connect(&solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
+
+    // Reset parity on solver failure
+    connect(this, &OfflineAstrometryParser::solverFailed, this, [&]() { parity = QString();});
+
     connect(&solver, &QProcess::errorOccurred, this, [&]()
     {
         align->appendLogText(i18n("Error starting solver: %1", solver.errorString()));
@@ -191,10 +195,15 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
     #endif
 
     QStringList solverArgs = args;
+    // Add parity option if none is give and we already know parity before
+    if (parity.isEmpty() == false && args.contains("parity") == false)
+        solverArgs << "--parity" << parity;
     QString solutionFile = QDir::tempPath() + "/solution.wcs";
     solverArgs << "-W" <<  solutionFile << filename;
 
     fitsFile = filename;
+
+    solver.kill();
 
     solverTimer.start();
 
@@ -258,7 +267,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
 
     QStringList key_value;
 
-    double ra=0, dec=0, orientation=0, pixscale=0;
+    double ra=0, dec=0, orientation=0, pixscale=0;    
 
     foreach(QString key, wcskeys)
     {
@@ -274,9 +283,9 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
                 orientation = key_value[1].toDouble();
             else if (key_value[0] == "pixscale")
                 pixscale = key_value[1].toDouble();
-
+            else if (key_value[0] == "parity")
+                parity = (key_value[1].toInt() > 0) ? "pos" : "neg";
         }
-
     }
 
     int elapsed = (int) round(solverTimer.elapsed()/1000.0);

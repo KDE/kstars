@@ -297,6 +297,9 @@ private slots:
 
     void saveSettleTime();
 
+    // Solver timeout
+    void checkAlignmentTimeout();
+
 signals:
         void newLog();
         void solverComplete(bool);
@@ -449,6 +452,9 @@ private:
     GotoMode currentGotoMode;
 
     QString dirPath;
+
+    // Timer
+    QTimer alignTimer;
 };
 
 }
