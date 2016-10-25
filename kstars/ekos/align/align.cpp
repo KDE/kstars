@@ -211,7 +211,11 @@ void Align::checkAlignmentTimeout()
     if (loadSlewState != IPS_IDLE || ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
         abort();
     else if (loadSlewState == IPS_IDLE)
-            captureAndSolve();
+    {
+        appendLogText(i18n("Solver timed out"));
+        captureAndSolve();
+    }
+    // TODO must also account for loadAndSlew. Retain file name
 }
 
 void Align::setSolverType(int type)
