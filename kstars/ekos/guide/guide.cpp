@@ -940,6 +940,10 @@ void Guide::stopRapidGuide()
 
 bool Guide::calibrate()
 {
+    // Set status to idle and let the operations change it as they get executed
+    state = GUIDE_IDLE;
+    emit newStatus(state);
+
     saveSettings();        
 
     buildOperationStack(GUIDE_CALIBRATING);
@@ -1086,10 +1090,6 @@ void Guide::startAutoCalibrateGuide()
 
     calibrationComplete = false;
     autoCalibrateGuide = true;
-
-    // Set status to idle and let the operations change it as they get executed
-    state = GUIDE_IDLE;
-    emit newStatus(state);
 
     calibrate();
 }
@@ -1438,6 +1438,9 @@ bool Guide::selectAutoStar()
 
     if (starCenters.empty())
         return false;
+
+    guideView->setStarsEnabled(true);
+    guideView->updateFrame();
 
     qSort(starCenters.begin(), starCenters.end(), [](const Edge *a, const Edge *b){return a->width > b->width;});
 
