@@ -937,6 +937,8 @@ void Align::solverFailed()
     stopB->setEnabled(false);
     solveB->setEnabled(true);
 
+    alignTimer.stop();
+
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
 
