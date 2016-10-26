@@ -50,10 +50,14 @@
 EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
-    if(Options::independentWindowEkos())
+
+   if(Options::independentWindowEkos())
         setWindowFlags(Qt::Window);
-    else
-        setWindowFlags(Qt::Tool);
+    else{
+       setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+       connect(QApplication::instance(), SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(changeAlwaysOnTop(Qt::ApplicationState)));
+    }
+
 #endif
     setupUi(this);
 
@@ -166,6 +170,17 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     // Also set Layout policy to SetMinAndMaxSize as well. Any idea how to fix this?
     // FIXME
     //resize(1000,750);
+}
+
+void EkosManager::changeAlwaysOnTop(Qt::ApplicationState state)
+{
+    if(isVisible()){
+        if (state == Qt::ApplicationActive)
+            setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+        else
+            setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
+        show();
+    }
 }
 
 EkosManager::~EkosManager()

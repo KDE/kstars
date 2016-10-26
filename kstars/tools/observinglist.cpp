@@ -96,7 +96,7 @@ ObservingList::ObservingList()
           isModified(false), bIsLarge(true), m_dl( 0 )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     ui = new ObservingListUI( this );
     QVBoxLayout *mainLayout= new QVBoxLayout;

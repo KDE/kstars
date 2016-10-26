@@ -41,7 +41,7 @@ AddCatDialog::AddCatDialog( KStars *_ks )
         : QDialog( ( QWidget* )_ks )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     QDir::setCurrent( QDir::homePath() );
     acd = new AddCatDialogUI(this);

@@ -38,7 +38,7 @@ HorizonManager::HorizonManager( QWidget *w )
 {    
 
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     ui = new HorizonManagerUI( this );
 

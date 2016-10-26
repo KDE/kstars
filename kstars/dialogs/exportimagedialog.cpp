@@ -38,7 +38,7 @@ ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, Imag
     : QDialog((QWidget*) KStars::Instance()), m_KStars(KStars::Instance()), m_Url(url), m_Size(size)
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     m_DialogUI = new ExportImageDialogUI(this);
 

@@ -48,7 +48,7 @@
 OptionsTreeViewWidget::OptionsTreeViewWidget( QWidget *p ) : QFrame( p ) {
     setupUi( this );
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 }
 
@@ -119,7 +119,7 @@ ScriptNameDialog::ScriptNameDialog( QWidget *p )
         : QDialog( p )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     snw = new ScriptNameWidget( this );
 
@@ -159,7 +159,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
         currentScriptName(), currentAuthor()
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     ks = (KStars*)parent;
     sb = new ScriptBuilderUI(this);

@@ -39,7 +39,7 @@ ExportEyepieceView::ExportEyepieceView( const SkyPoint *_sp, const KStarsDateTim
                                         QWidget *parent ) : QDialog( parent ), m_dt( dt ) {
 
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     m_sp = new SkyPoint( *_sp ); // Work on a copy.
 

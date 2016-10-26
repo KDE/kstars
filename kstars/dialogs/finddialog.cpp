@@ -61,7 +61,7 @@ FindDialog::FindDialog( QWidget* parent ) :
     m_targetObject( 0 )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     ui = new FindDialogUI( this );
 

@@ -53,7 +53,7 @@ INDI_D::INDI_D(GUIManager *in_manager, INDI::BaseDevice *in_dv, ClientManager *i
   {
 
 #ifdef Q_OS_OSX
-       setWindowFlags(Qt::Tool);
+       setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
 

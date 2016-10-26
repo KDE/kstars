@@ -70,6 +70,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
 {
     setWindowTitle(i18n("KStars"));
 
+
     // Initialize logging settings
     if (Options::disableLogging())
         KSUtils::Logging::Disable();

@@ -29,7 +29,7 @@
 AddDeepSkyObject::AddDeepSkyObject( QWidget *parent, SyncedCatalogComponent *catalog ) :
     QDialog( parent ), m_catalog( catalog ), ui( new Ui::AddDeepSkyObject ) {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     Q_ASSERT( catalog );
     ui->setupUi( this );

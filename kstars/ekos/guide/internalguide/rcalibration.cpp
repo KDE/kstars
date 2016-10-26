@@ -41,7 +41,7 @@ internalCalibration::internalCalibration(cgmath *mathObject, Ekos::Guide *parent
     : QWidget(parent)
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     ui.setupUi(this);
 

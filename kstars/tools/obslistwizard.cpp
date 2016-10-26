@@ -42,7 +42,7 @@ ObsListWizard::ObsListWizard( QWidget *ksparent ) :
     QDialog( ksparent )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     olw = new ObsListWizardUI( this );
     QVBoxLayout *mainLayout = new QVBoxLayout;

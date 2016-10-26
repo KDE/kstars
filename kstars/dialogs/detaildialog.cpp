@@ -75,7 +75,7 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
     Data(0), DataComet(0), Pos(0), Links(0), Adv(0), Log(0)
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     setFaceType( Tabbed );
     setBackgroundRole( QPalette::Base );

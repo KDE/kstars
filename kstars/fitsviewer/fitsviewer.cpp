@@ -72,9 +72,11 @@ FITSViewer::FITSViewer (QWidget *parent)
 {
 #ifdef Q_OS_OSX
     if(Options::independentWindowFITS())
-        setWindowFlags(Qt::Window);
-    else
-        setWindowFlags(Qt::Tool);
+         setWindowFlags(Qt::Window);
+     else{
+        setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+        connect(QApplication::instance(), SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(changeAlwaysOnTop(Qt::ApplicationState)));
+     }
 #endif
 
     fitsTab   = new QTabWidget(this);
@@ -264,6 +266,17 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     /* initially resize in accord with KDE rules */
     resize(INITIAL_W, INITIAL_H);
+}
+
+void FITSViewer::changeAlwaysOnTop(Qt::ApplicationState state)
+{
+    if(isVisible()){
+        if (state == Qt::ApplicationActive)
+            setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+        else
+            setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
+        show();
+    }
 }
 
 FITSViewer::~FITSViewer()

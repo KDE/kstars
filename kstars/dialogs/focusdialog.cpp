@@ -36,7 +36,7 @@ FocusDialog::FocusDialog( KStars *_ks )
         : QDialog( _ks ), ks( _ks )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     //initialize point to the current focus position
     Point = *ks->map()->focus();

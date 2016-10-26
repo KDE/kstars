@@ -643,7 +643,7 @@ void KStars::slotViewOps() {
     KConfigDialog* dialog = new KConfigDialog( this, "settings",
                             Options::self() );
     #ifdef Q_OS_OSX
-        dialog->setWindowFlags(Qt::Tool);
+        dialog->setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
     #endif
 
     connect( dialog, SIGNAL( settingsChanged( const QString &) ), this, SLOT( slotApplyConfigChanges() ) );

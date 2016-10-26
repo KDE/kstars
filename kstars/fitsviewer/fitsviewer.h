@@ -88,7 +88,7 @@ protected:
     void showEvent(QShowEvent *);
 
 public slots:
-
+    void changeAlwaysOnTop(Qt::ApplicationState state);
     void openFile();
     void saveFile();
     void saveFileAs();

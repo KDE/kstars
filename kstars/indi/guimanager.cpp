@@ -58,9 +58,11 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
 {    
 #ifdef Q_OS_OSX
     if(Options::independentWindowINDI())
-        setWindowFlags(Qt::Window);
-    else
-        setWindowFlags(Qt::Tool);
+         setWindowFlags(Qt::Window);
+     else{
+        setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+        connect(QApplication::instance(), SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(changeAlwaysOnTop(Qt::ApplicationState)));
+     }
 #endif
 
     mainLayout    = new QVBoxLayout(this);
@@ -90,6 +92,17 @@ GUIManager::GUIManager(QWidget *parent) : QWidget(parent, Qt::Window)
     connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
 
     resize( 640, 480);
+}
+
+void GUIManager::changeAlwaysOnTop(Qt::ApplicationState state)
+{
+    if(isVisible()){
+        if (state == Qt::ApplicationActive)
+            setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+        else
+            setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
+        show();
+    }
 }
 
 void GUIManager::closeEvent(QCloseEvent * /*event*/)

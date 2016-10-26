@@ -34,7 +34,7 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
         : QDialog( parent ),  ObjectName( oname )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     ald = new AddLinkDialogUI(this);
 

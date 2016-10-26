@@ -48,7 +48,7 @@
 EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
     setWindowTitle( i18n( "Eyepiece Field View" ) );

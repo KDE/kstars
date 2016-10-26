@@ -76,7 +76,7 @@ FOVDialog::FOVDialog( QWidget* p ) :
     QDialog( p )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     // Register FOV* data type
     if( fovID == -1 )

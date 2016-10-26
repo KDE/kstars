@@ -49,7 +49,7 @@ FlagManager::FlagManager( QWidget *ks )
         : QDialog( ks )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     QList<QStandardItem*> itemList;
     QList<QImage> imageList;

@@ -42,7 +42,7 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     QDialog( parent ), timer( 0 )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     KStarsData* data = KStarsData::Instance();
 

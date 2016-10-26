@@ -45,7 +45,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
         QDialog( parent )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool);
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
     // List of messages. Maybe there is better place for it...

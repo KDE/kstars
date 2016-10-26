@@ -152,6 +152,8 @@ public slots:
 
 private slots:
 
+    void changeAlwaysOnTop(Qt::ApplicationState state);
+
     void updateLog();
     void clearLog();
 
