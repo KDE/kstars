@@ -64,8 +64,8 @@ AbstractButton {
     Image {
         id: icon
         source: iconSrc
-        width: sourceSize.width/num.pixelRatio
-        height: sourceSize.height/num.pixelRatio
+        width: sourceSize.width
+        height: sourceSize.height
         anchors.centerIn: iconRect
     }
 

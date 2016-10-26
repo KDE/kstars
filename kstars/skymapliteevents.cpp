@@ -12,7 +12,7 @@
 #include "projections/projector.h"
 #include "skymapcomposite.h"
 #include "ksutils.h"
-#include <QTapSensor>
+//#include <QTapSensor>
 
 void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
     if ( ( e->modifiers() & Qt::ControlModifier ) && (e->button() == Qt::LeftButton) ) {
