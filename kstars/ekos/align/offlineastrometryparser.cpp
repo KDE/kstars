@@ -46,17 +46,6 @@ OfflineAstrometryParser::OfflineAstrometryParser() : AstrometryParser()
 
     astrometryFilesOK = false;
 
-    connect(&solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
-    connect(&solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
-
-    // Reset parity on solver failure
-    connect(this, &OfflineAstrometryParser::solverFailed, this, [&]() { parity = QString();});
-
-    connect(&solver, &QProcess::errorOccurred, this, [&]()
-    {
-        align->appendLogText(i18n("Error starting solver: %1", solver.errorString()));
-        emit solverFailed();
-    });
 }
 
 OfflineAstrometryParser::~OfflineAstrometryParser()
@@ -203,7 +192,17 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
 
     fitsFile = filename;
 
-    solver.kill();
+    connect(&solver, SIGNAL(finished(int)), this, SLOT(solverComplete(int)));
+    connect(&solver, SIGNAL(readyReadStandardOutput()), this, SLOT(logSolver()));
+
+    // Reset parity on solver failure
+    connect(this, &OfflineAstrometryParser::solverFailed, this, [&]() { parity = QString();});
+
+    connect(&solver, &QProcess::errorOccurred, this, [&]()
+    {
+        align->appendLogText(i18n("Error starting solver: %1", solver.errorString()));
+        emit solverFailed();
+    });
 
     solverTimer.start();
 
@@ -284,7 +283,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
             else if (key_value[0] == "pixscale")
                 pixscale = key_value[1].toDouble();
             else if (key_value[0] == "parity")
-                parity = (key_value[1].toInt() > 0) ? "pos" : "neg";
+                parity = (key_value[1].toInt() == 0) ? "pos" : "neg";
         }
     }
 
