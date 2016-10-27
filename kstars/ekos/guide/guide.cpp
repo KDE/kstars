@@ -177,6 +177,9 @@ Guide::Guide() : QWidget()
     connect(externalConnectB, &QPushButton::clicked, this, [&](){guider->Connect();});
     connect(externalDisconnectB, &QPushButton::clicked, this, [&](){guider->Disconnect();});
 
+    // Pulse Timer
+    connect(&pulseTimer, SIGNAL(timeout()), this, SLOT(capture()));
+
     // Drift Graph
     driftGraph->setBackground(QBrush(Qt::black));
     driftGraph->xAxis->setBasePen(QPen(Qt::white, 1));
@@ -634,7 +637,13 @@ bool Guide::captureOneFrame()
 
 bool Guide::abort()
 {
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    if (guiderType == GUIDE_INTERNAL)
+    {
+        pulseTimer.stop();
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        if (targetChip->isCapturing())
+            targetChip->abortExposure();
+    }
 
     setBusy(false);
 
@@ -643,8 +652,6 @@ bool Guide::abort()
     case GUIDE_IDLE:
     case GUIDE_CONNECTED:
     case GUIDE_DISCONNECTED:
-        if (targetChip->isCapturing())
-            targetChip->abortExposure();
         break;
 
     case GUIDE_CALIBRATING:
@@ -826,7 +833,7 @@ bool Guide::sendPulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_d
         return false;
 
     if (state == GUIDE_CALIBRATING)
-        QTimer::singleShot( (ra_msecs > dec_msecs ? ra_msecs : dec_msecs) + 100, this, SLOT(capture()));
+        pulseTimer.start( (ra_msecs > dec_msecs ? ra_msecs : dec_msecs) + 100);
 
     return GuideDriver->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
 }
@@ -837,7 +844,7 @@ bool Guide::sendPulse( GuideDirection dir, int msecs )
         return false;
 
     if (state == GUIDE_CALIBRATING)
-        QTimer::singleShot(msecs+100, this, SLOT(capture()));
+        pulseTimer.start(msecs+100);
 
     return GuideDriver->doPulse(dir, msecs);
 }
@@ -943,6 +950,23 @@ bool Guide::calibrate()
     // Set status to idle and let the operations change it as they get executed
     state = GUIDE_IDLE;
     emit newStatus(state);
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+    if (frameSettings.contains(targetChip))
+    {
+        targetChip->resetFrame();
+        int x,y,w,h;
+        targetChip->getFrame(&x, &y, &w, &h);
+        QVariantMap settings = frameSettings[targetChip];
+        settings["x"] = x;
+        settings["y"] = y;
+        settings["w"] = w;
+        settings["h"] = h;
+        frameSettings[targetChip] = settings;
+
+        subFramed = false;
+    }
 
     saveSettings();        
 
@@ -1070,23 +1094,6 @@ void Guide::startAutoCalibrateGuide()
 {
     // A must for auto stuff
     Options::setGuideAutoStarEnabled(true);
-
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-    if (frameSettings.contains(targetChip))
-    {
-        targetChip->resetFrame();
-        int x,y,w,h;
-        targetChip->getFrame(&x, &y, &w, &h);
-        QVariantMap settings = frameSettings[targetChip];
-        settings["x"] = x;
-        settings["y"] = y;
-        settings["w"] = w;
-        settings["h"] = h;
-        frameSettings[targetChip] = settings;
-
-        subFramed = false;
-    }
 
     calibrationComplete = false;
     autoCalibrateGuide = true;
@@ -1869,7 +1876,7 @@ void Guide::buildOperationStack(GuideState operation)
 
 bool Guide::executeOperationStack()
 {
-    if (operationStack.isEmpty() || state == GUIDE_ABORTED)
+    if (operationStack.isEmpty())
         return false;
 
     GuideState nextOperation = operationStack.pop();

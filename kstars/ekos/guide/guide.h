@@ -450,6 +450,9 @@ private:
     // Guide timer
     QTime guideTimer;
 
+    // Pulse Timer
+    QTimer pulseTimer;
+
     // Log
     QStringList logText;
 
