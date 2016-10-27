@@ -78,6 +78,13 @@ int main(int argc, char *argv[])
                           "2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team"), i18n(notice), "http://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org", "http://www.30doradus.org");
     aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"), "mutlaqja@ikarustech.com", "http://www.indilib.org");
+
+    // Active developers
+    aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org", "http://www.ph.utexas.edu/~asimha");
+    aboutData.addAuthor(i18n("Artem Fedoskin"), i18n("KStars Lite"), "afedoskin3@gmail.com");
+    aboutData.addAuthor(i18n("Robert Lancaster"), i18n("FITSViewer Improvements. KStars OSX Port"), "rlancaste@gmail.com");
+
+    // Inactive developers
     aboutData.addAuthor(i18n("James Bowlin"), QString(), "bowlin@mindspring.com");
     aboutData.addAuthor(i18n("Pablo de Vicente"), QString(), "pvicentea@wanadoo.es");
     aboutData.addAuthor(i18n("Thomas Kabelmann"), QString(), "tk78@gmx.de");
@@ -85,8 +92,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Carsten Niehaus"), QString(), "cniehaus@gmx.de");
     aboutData.addAuthor(i18n("Mark Hollomon"), QString(), "mhh@mindspring.com");
     aboutData.addAuthor(i18n("Alexey Khudyakov"), QString(), "alexey.skladnoy@gmail.com");
-    aboutData.addAuthor(i18n("M&eacute;d&eacute;ric Boquien"), QString(), "mboquien@free.fr");
-    aboutData.addAuthor(i18n("Akarsh Simha"), QString(), "akarsh@kde.org", "http://www.ph.utexas.edu/~asimha");
+    aboutData.addAuthor(i18n("M&eacute;d&eacute;ric Boquien"), QString(), "mboquien@free.fr");    
     aboutData.addAuthor(i18n("J&eacute;r&ocirc;me Sonrier"), QString(), "jsid@emor3j.fr.eu.org");
     aboutData.addAuthor(i18n("Prakash Mohan"), QString(), "prakash.mohan@kdemail.net");
     aboutData.addAuthor(i18n("Victor Cărbune"), QString(), "victor.carbune@kdemail.net");
@@ -94,8 +100,8 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Samikshan Bairagya"), QString(), "samikshan.bairagya@kdemail.net");
     aboutData.addAuthor(i18n("Rafał Kułaga"), QString(), "rl.kulaga@gmail.com");
     aboutData.addAuthor(i18n("Rishab Arora"), QString(), "ra.rishab@gmail.com");
-    aboutData.addAuthor(i18n("Artem Fedoskin"), QString(), "afedoskin3@gmail.com");
 
+    // Contributors
     aboutData.addCredit(i18n("Valery Kharitonov"), i18n("Converted labels containing technical terms to links to documentation") );
     aboutData.addCredit(i18n("Ana-Maria Constantin"), i18n("Technical documentation on Astronomy and KStars") );
     aboutData.addCredit(i18n("Andrew Stepanenko"), i18n("Guiding code based on lin_guider") );
