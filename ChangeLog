@@ -1,5 +1,340 @@
 KStars Revision History
 
+2.7.0 (Menkab):
+ ===================----------------------------------
+13c1993 2016-10-27	Jasem Mutlaq	Adding missing list icons
+70c3d29 2016-10-27	Robert Lancaster	Add two missing icons required for KNewStuff
+524d99a 2016-10-27	Jasem Mutlaq	Bump version to 2.7.0 and arrange developers
+3ec33f0 2016-10-27	Jasem Mutlaq	Change start to stop for preview as well
+34d5920 2016-10-27	Jasem Mutlaq	No need to unpack full image when we only need thumbnails
+523dfed 2016-10-27	Jasem Mutlaq	Also disable temperature checkbox if there is no cooler
+dc9fb7e 2016-10-27	Jasem Mutlaq	Fix reading raw files bugs
+eaafa93 2016-10-27	Jasem Mutlaq	Always reset frame when doing calibration. Use pulseTimer instead of single shot so that we can stop it on abort
+bef4d86 2016-10-27	Jasem Mutlaq	Add LibRaw as optional dependency to handle reading of RAW files recieved from cameras. This enables multiplatform support for handling RAW files as libraw is available in major platforms
+0dbb399 2016-10-27	Robert Lancaster	KLauncher handling on OSX
+f27f7b4 2016-10-27	Jasem Mutlaq	Add support to NEF handlign. I probably need to utilize libraw instead of dcraw so that this can work multiplatform
+ed8bc05 2016-10-26	Artem Fedoskin	Update icons in KStars Lite
+cc5fc1c 2016-10-26	Robert Lancaster	More OSX window fixes to stay on top
+40ad456 2016-10-26	Jasem Mutlaq	Stop align timer on solve fail
+f758660 2016-10-26	Jasem Mutlaq	Put connect statements when we run solver since we disconnect the slots upon exist
+db63f1a 2016-10-25	Robert Lancaster	Fix GUI of add deep sky
+4e245ad 2016-10-25	Jasem Mutlaq	Retain frame value when receving updated CCD_INFO property unless they are out of bounds
+4031709 2016-10-25	Jasem Mutlaq	Always use the POSIX INDI client under Linux to match what users use by default
+3b0bf48 2016-10-25	Jasem Mutlaq	Add log comment when timing out. Must find solution for loadAndSlew condition on timeout
+6dfa89a 2016-10-25	Jasem Mutlaq	Add parity detection to astrometry modules and it is reused on next captures unless a solver fails then it gets reset to both. Adding alignment solver timer as well to watch for timeout
+931a353 2016-10-25	Jasem Mutlaq	Reset the guide state on calibrate. Show detected stars when doing auto-star selection
+f9846aa 2016-10-25	Robert Lancaster	Fix buttons in OSX
+de60e6f 2016-10-25	Robert Lancaster	Make Windows as tools on OSX to workaround some Qt bug where they get behind main window
+fe65e03 2016-10-25	Artem Fedoskin	Added new splash screen and icon in KStars Lite
+684cb82 2016-10-24	Jasem Mutlaq	Fixing more issues with guiding and subframing in auto-calibrate-guide mode
+65db5ce 2016-10-24	Jasem Mutlaq	Use flag to know if calibration was ever completed instead of checkin for prior status. Fix dark frame bug
+c9930ea 2016-10-24	Jasem Mutlaq	Some fixes to guiding with dark frames
+fc982bf 2016-10-24	Jasem Mutlaq	Use continue cancel dialog
+d26bea3 2016-10-24	Jasem Mutlaq	Add button to display INDI logs
+043e2e6 2016-10-23	Robert Lancaster	Fix context menu location in FITSViewer
+3ec82dd 2016-10-23	Jasem Mutlaq	For dithering, just set initial state and let the workflow handle it
+b3633c3 2016-10-23	Jasem Mutlaq	Better use QDir::tempPath() directly. Also monitor if process was started at all or if an error occured and handle it
+77352b6 2016-10-23	Jasem Mutlaq	Add timeout to each stage of the startup/shutdown and restart procedure in case it timeouts
+3e0de03 2016-10-23	Jasem Mutlaq	Use system temp path from QStandardPaths
+9e0e602 2016-10-23	Robert Lancaster	Adding context menu to FITSViewer just like SkyMap. Label fixes. New center telescope icon
+09e751f 2016-10-23	Jasem Mutlaq	Fix crash due to activeJob pointer not being reset. Make sure all queue icons are disabled during sequence execution
+36c6899 2016-10-22	Jasem Mutlaq	Use a timer to check if guiding deviation are still not resolved after 1 minute. If that happens then complete abort of the sequence occurs
+8d5cca1 2016-10-22	Jasem Mutlaq	Gradient algorithm should only be run on subframes as running on full frame images would make it impossible to run
+e5abf7c 2016-10-22	Jasem Mutlaq	Set ST4 default driver
+1545e48 2016-10-22	Jasem Mutlaq	Fix setting of ST4 driver
+2632b0c 2016-10-22	Jasem Mutlaq	Enable guide log file
+abce52f 2016-10-22	Artem Fedoskin	Added support for dark theme in KStars Lite
+b1404a2 2016-10-22	Jasem Mutlaq	Using QtConcurrent to parallelize some aspects of KStars. Now WCS is running in a seprate thread and this brought opening time from 5 seconds to less than 1 second in WCS-enabled frames
+099173e 2016-10-22	Robert Lancaster	Separating object info and gridlines. New telescope center icon. Speed improvements
+699a1b7 2016-10-21	Jasem Mutlaq	Fix currentZoom being set to 0 if view width is a lot smaller than image width due to using floor()
+4b6d88b 2016-10-21	Jasem Mutlaq	Reset default focus square to 64 and guide square to 32
+f1e5848 2016-10-21	Jasem Mutlaq	Immediately send heart beat upon connection, do not rely on timeout
+0a4bb6b 2016-10-21	Jasem Mutlaq	If null is sent to any param, ignore it
+69c6da9 2016-10-21	Jasem Mutlaq	Set binning in cmath to calculate final frame w and h
+dc272db 2016-10-21	Jasem Mutlaq	Use correct timeout for INDI and Ekos timeouts
+d7d7258 2016-10-21	Jasem Mutlaq	Increase subframe capture size since star can sometimes move a bit around and we do not want to lose it. Also reset first load upon subframing so that the frame is adjusted properly
+139cc1c 2016-10-21	Jasem Mutlaq	Remove space
+5121015 2016-10-21	Jasem Mutlaq	Always use full width & height in Align module
+6f8ef3e 2016-10-21	Artem Fedoskin	Fix building error
+816026d 2016-10-21	Robert Lancaster	Add support to identifying objects within a WCS enabled image
+c5862ad 2016-10-21	Jasem Mutlaq	Sync job to gui should include remote dir and upload mode combos
+918e01d 2016-10-20	Jasem Mutlaq	Add upload mode and remote dir options to capture jobs
+944a3c7 2016-10-20	Jasem Mutlaq	Do not update remote astrometry binary file automatically
+9e8cb4a 2016-10-20	Jasem Mutlaq	Fix few issues with guiding restart and stop
+2529647 2016-10-20	Jasem Mutlaq	Reduce massRatio threshold to 1.5 to include stars in noisy images
+8bd4d47 2016-10-20	Jasem Mutlaq	If we are in autofocus, we need to proceed with capture after autostar is selected without subframe
+38d88a1 2016-10-20	Jasem Mutlaq	Reset state to GUIDE_GUIDING after a successful dithering
+2c71703 2016-10-20	Jasem Mutlaq	If guide status > GUIDE_GUIDING set aborted state as suspended
+6033a71 2016-10-19	Jasem Mutlaq	Fixing multiple focus issues
+4098038 2016-10-19	Jasem Mutlaq	Commenting out test case
+60590cc 2016-10-19	Jasem Mutlaq	Update focus DBus function calls
+f05f6fd 2016-10-19	Jasem Mutlaq	Restrict search area for stars also in focus mode as to avoid edge cases. In canny detector, calculate total mass ratio among potential regions and select one with the highest mass ratio. If the ratio is small then it is most likely just noise
+01ec464 2016-10-19	Jasem Mutlaq	Set default focus box size to 32
+349557d 2016-10-19	Jasem Mutlaq	Connect focus newHFR to capture module
+f442343 2016-10-19	Jasem Mutlaq	Only abort due to guiding errors if we are taking a light frame. Also check for focus status failure flag
+5e935c6 2016-10-19	Artem Fedoskin	Use colors from current color scheme in KStars Lite pages, drawers and context menus. Change the way INDI client is built and included in Android version
+f6022ae 2016-10-19	Jasem Mutlaq	Fixing tab order
+9817e1b 2016-10-18	Jasem Mutlaq	New gradient-based sobel algorithm is mostly working now, need mass testing
+c971a38 2016-10-18	Jasem Mutlaq	Algorithm mostly working but would fail if multiple stars within same frame. Trying out region partitioning later on
+84fcffa 2016-10-18	Jasem Mutlaq	libnova documentation interfers with KStars, so removing it
+b661e44 2016-10-18	Jasem Mutlaq	More progress on gradient star detection. Adding option to select which algorithm to use in Focus module
+a12e12f 2016-10-17	Akarsh Simha	Reduce debug output
+a663435 2016-10-17	Jasem Mutlaq	More work on canny star
+80b6a2a 2016-10-17	Jasem Mutlaq	Always make generated file sequence number last so we can easily parse it and lift artificial limit of 999
+53b3eec 2016-10-17	Jasem Mutlaq	Improving the GUI a bit and grouping comming settings togeather
+7c266f1 2016-10-16	Artem Fedoskin	Create android_libs folder on startup of build-kstarslite.sh
+5686e05 2016-10-16	Artem Fedoskin	Added KStars Lite building script
+6486d96 2016-10-16	Jasem Mutlaq	More progress on the gradient based detector
+46999cd 2016-10-16	Jasem Mutlaq	Starting on canny based single star detector
+8980355 2016-10-16	l10n daemon script	SVN_SILENT made messages (after extraction)
+42391b1 2016-10-16	Jasem Mutlaq	If there is no focuser still then return
+5934307 2016-10-15	Robert Lancaster	Adding support to panning and trackpad gestures for panning and zooming plus other improvements
+c63569a 2016-10-15	Jasem Mutlaq	Adding initial canny edge detector
+4ad48a3 2016-10-15	Jasem Mutlaq	Add necessary getStatus functions
+b57daae 2016-10-15	Jasem Mutlaq	Add getStatus function
+4c66d46 2016-10-15	Jasem Mutlaq	Update the scheduler to use commands of updated Ekos modules
+f11601a 2016-10-14	Akarsh Simha	Fix crash in observing list whenever catalog configuration was changed.
+42d4149 2016-10-14	Akarsh Simha	Add utility method to create a QList<T *> from QList<QSharedPointer<T>>
+e108f42 2016-10-14	Akarsh Simha	More FIXMEs
+c1247ca 2016-10-14	Jasem Mutlaq	Updating icons to latest and fixed Breeze icons
+ab6be7b 2016-10-11	Jasem Mutlaq	Use QStandardPaths to find INDI paths
+ddb83b1 2016-10-11	Akarsh Simha	A commit full of FIXMEs and hardly anything else
+30862b9 2016-10-11	Akarsh Simha	Avoid truncating the wishlist if there's a crash while saving it.
+1daa4f7 2016-10-11	Raphael Cojocaru	More work on porting Altvstime to QCP 2.0
+5ca9db7 2016-10-10	Jasem Mutlaq	GUI changes, simplifyig interface and operations. Lots of fixes given multiple options
+a47364f 2016-10-10	Raphael Cojocaru	Start working on porting Altvstime to QCP 2.0
+7958708 2016-10-10	Jasem Mutlaq	Focus uses its own fits frame like guide module. Improve GUI
+60755c2 2016-10-10	Jasem Mutlaq	Improve GUI a bit
+183aca0 2016-10-10	Jasem Mutlaq	Remove auto park since it is done in scheduler. Improve GUI
+b19391e 2016-10-10	Jasem Mutlaq	Improve GUI. Fix resume/suspend action
+682bf87 2016-10-10	Akarsh Simha	Add missing overload for CachingDms::setD()
+f40ddf7 2016-10-09	Robert Lancaster	Adding zoom to fit and central crosshair. Grid lines TODO
+6d23b0c 2016-10-09	Jasem Mutlaq	FIx issues when switching guiders and connecting to guider with existing guide state
+144b2f3 2016-10-09	Jasem Mutlaq	few fixes
+de269d3 2016-10-09	Jasem Mutlaq	LinGuider is now supported. Needs more testing of course
+deaf6c7 2016-10-09	Jasem Mutlaq	Display logs only when guide logging is enabled
+22b6ead 2016-10-09	Jasem Mutlaq	More progress on linguider. small fix in phd2
+90c09b9 2016-10-09	Jasem Mutlaq	Use new signals for guide
+b7b5b9a 2016-10-09	Jasem Mutlaq	Fix signal/slots connections
+25c6335 2016-10-09	Jasem Mutlaq	Moving post capture script to sequence queue where it belongs
+e9a3db1 2016-10-09	Jasem Mutlaq	Fix wrong state names. Need to change them all anyway
+8652a42 2016-10-09	Jasem Mutlaq	Should be at first tab
+095e5e8 2016-10-09	Jasem Mutlaq	Adding initial skeleton for linguider support based on PHD2
+0a7a4d8 2016-10-08	Jasem Mutlaq	PHD2 is mostly working now in the Ekos updated guide module
+d56d662 2016-10-08	Jasem Mutlaq	Adding option to enable/disable guide images coming from external guide applications
+be7dc22 2016-10-08	Jasem Mutlaq	Add missing breeze icon
+e774127 2016-10-08	Jasem Mutlaq	Search by name and then by label and only if found add it to pi exec drivers.
+eb99d58 2016-10-08	Robert Lancaster	Fix zoom to center to correctly reflect coordinates of the viewport
+dfd322c 2016-10-08	Jasem Mutlaq	Init FITS url path to be the user home directory
+9d9d749 2016-10-08	Jasem Mutlaq	More progress on internal guider implementation
+484f8f5 2016-10-08	Jasem Mutlaq	Use fixed size for all buttons
+a1c4eee 2016-10-08	Jasem Mutlaq	Refactor name to be more standard
+d208d82 2016-10-08	Jasem Mutlaq	Zoom to center by default
+367b94c 2016-10-07	Jasem Mutlaq	Set button policies to fixed
+ab1f936 2016-10-06	Jasem Mutlaq	Checking for timeout in both Ekos starting phase and when connecting INDI devices. Better fail than wait forever
+08f5350 2016-10-06	Jasem Mutlaq	More reliable way of checking if Ekos devices are connected
+c146cc9 2016-10-06	Jasem Mutlaq	More progress on guide graph
+a3baa10 2016-10-06	Jasem Mutlaq	Update slots
+fcc87c1 2016-10-06	Jasem Mutlaq	More progress on guide module
+fb55ed2 2016-10-06	Jasem Mutlaq	Disabling a few calls uncompatible with the new QCustomPlot. Need to update it to use QCPAxisTickerTime later on
+4e3fd8c 2016-10-06	Jasem Mutlaq	Update to 2.0 beta of QCustomPlot
+83e4670 2016-10-05	Jasem Mutlaq	Fixing slot issue with observer manage. BUGS:370061
+82eb842 2016-10-05	Jasem Mutlaq	Disabling some icons which are missing
+40b5cc7 2016-10-05	Jasem Mutlaq	More progress on guide operation. Now internal guiding basically works. Need to use QCustomPlot for plotting instead of legacy one
+8e30648 2016-10-05	Jasem Mutlaq	Histogram object is not strictly necessary in star finding
+e78a098 2016-10-05	Robert Lancaster	Various fixes for OSX and icons
+6852392 2016-10-04	Artem Fedoskin	Fix bug with horizontal grid (revert to old way of calculating cosAlt if new way produced 0 value)
+bbd21bd 2016-10-04	Jasem Mutlaq	Starting work on guide module after calibration is almost done in internal guider
+05f6fa0 2016-10-04	Jasem Mutlaq	If no crosshair is present, center around the tracking box on mouse wheel events
+373c3eb 2016-10-04	Jasem Mutlaq	Master sync
+fe69ba4 2016-10-04	Artem Fedoskin	Fix issue with lines not extended to horizon in KStars Lite
+94b829b 2016-10-04	Artem Fedoskin	Fixed issue when lines were not extended up to horizon.
+3bccca1 2016-10-03	Yuri Chornoivan	Fix minor typo
+0bdaf2d 2016-10-02	Akarsh Simha	Prevent unsafe connect by accepting slot in KSDssDownloader constructor
+55a83c0 2016-10-02	Akarsh Simha	Fix crashes in KSDssDownloader
+f5a4b8c 2016-10-02	Akarsh Simha	Show some basic info about the object in a easy-to-access label
+5f9bd2e 2016-10-02	Akarsh Simha	Allow to demote objects in the Dobsonian hole
+cec7c8f 2016-10-02	Akarsh Simha	Fix missing columns in Session View. Also show J2000 coords instead.
+c990d40 2016-10-02	Akarsh Simha	Finish up restructuring of Observing List UI
+cf1767b 2016-10-01	Akarsh Simha	Restruct. Obs. Planner: More vertical real estate for the Table Views.
+81e3011 2016-10-02	Akarsh Simha	Fix custom catalog handling regression introduced by b32c9417353
+98649c6 2016-10-02	Jasem Mutlaq	Master sync
+3ff4e34 2016-10-02	Jasem Mutlaq	Robert fixes to to use only svg fallback all over instead of png oxygen
+9c7736d 2016-10-01	Akarsh Simha	Fix the altitude % display in the observation planner.
+64ff47c 2016-10-01	Akarsh Simha	Change behavior of deprecess to update RA0, Dec0 only if they are J2000
+b1adcc8 2016-10-01	Akarsh Simha	Convenience method: recomputes both equatorial and horiz. coordinates
+7cb8bda 2016-10-01	Akarsh Simha	Show the correct epoch in Details Dialog, and also the correct coords.
+79fac9a 2016-10-02	Jasem Mutlaq	Fix typo
+5497c1e 2016-10-02	Jasem Mutlaq	Add some missing icons to the QRC
+e252eea 2016-10-02	Jasem Mutlaq	Syncing with master
+bc11836 2016-10-02	Robert Lancaster	Adding missing icons
+5b821a2 2016-10-02	Robert Lancaster	Fixes icons on systems that cannot load icons from system  themes using the fromTheme method like OS X, Windows, and some Linux Distros.   If there is no system theme, it tries to set the theme to one of the bundled  themes if possible, but also adds the fallback method for loading icons  without a theme to each icon if that doesn't work.   Added an icons directory  to keep the theme icons and toolbar icons separate from the other data.  Included two bundled custom themes, based on breeze and oxygen.  Also fixed  the call to the "geographic" icon and the "edit indi profile" icon since they  may have been referencing the wrong icons.
+b10766d 2016-10-01	Akarsh Simha	New workflow in the Observation Planner: Sort by % max. alt achieved
+94dc45f 2016-10-01	Akarsh Simha	Add methods: SkyPoint::maxAlt() and SkyPoint::minAlt()
+922657a 2016-10-01	Akarsh Simha	Replace includes by forward delcarations, change include order etc.
+a10ba5e 2016-10-01	Akarsh Simha	Avoid polluting the global namespace with Eigen stuff.
+29f66bf 2016-09-30	Jasem Mutlaq	Calibration mostly works now in internal guider. Need to test all cases after guiding and dithering are complete
+e191630 2016-09-30	Jasem Mutlaq	Minor GUI update
+a8a8b94 2016-09-30	Jasem Mutlaq	Minor GUI update to utilize space. Refactor sync
+c67aceb 2016-09-30	Jasem Mutlaq	Minor GUI change. Need to update to reflect guiding changes
+3549507 2016-09-30	Jasem Mutlaq	Refactor update
+68711ba 2016-09-30	Jasem Mutlaq	Loading guide frame in its own separate view without need for FITSViewer window
+12a6c78 2016-09-30	Jasem Mutlaq	Rearranging Guide states
+b291c29 2016-09-30	Jasem Mutlaq	Refactor changes
+f06e813 2016-09-30	Jasem Mutlaq	Streamline focus GUI in a grid
+4d0ae87 2016-09-30	Akarsh Simha	Fix headers <---> items in Observation Planner
+18580ad 2016-09-30	Jasem Mutlaq	Make profile images scalable without keeping aspect ratio, keep star images expandable with aspect ratio set. Use icons for Ekos options
+765ac46 2016-09-30	Akarsh Simha	CachingDms test case for implicit conversion from dms
+74541e1 2016-09-30	Akarsh Simha	New colum in the Wish List view for the new workflow: Current Altitude
+e2a39fe 2016-09-30	Akarsh Simha	Refactor and simplify code in Observation Planner
+99841a7 2016-09-30	Akarsh Simha	Cosmetic: Reorganize code in a more readable manner.
+de54636 2016-09-30	Akarsh Simha	warnings--, fix compile error on Mac OS X.
+cce4f30 2016-09-29	Jasem Mutlaq	Right-click now removes the crosshairs. Also, if there is a crosshair present then zoom in or out will try to center the view on the crosshair location
+531ec87 2016-09-29	Artem Fedoskin	Fixing http://indilib.org/forum/general/1549-qt-error-when-building-kstars-from-source.html. Made Qt::AA_EnableHighDpiScaling used only in KStars Lite
+14dc85d 2016-09-28	Akarsh Simha	Disable dms and CachingDms counting instrumentation
+5a978fd 2016-09-28	Akarsh Simha	Revert "Experiment: Make Azimuth CachingDms"
+b85333a 2016-09-28	Akarsh Simha	constify CachingDms setters
+fdf1cac 2016-09-28	Akarsh Simha	Experiment: Make Azimuth CachingDms
+4fd4a00 2016-09-28	Akarsh Simha	Revert "Experiment: Explicitly write out the computations of precession"
+66a7ea2 2016-09-28	Akarsh Simha	Experiment: Explicitly write out the computations of precession
+743cba7 2016-09-28	Akarsh Simha	Disable time-measuring instrumentation in SkyPoint and StarObject
+c5e709b 2016-09-28	Akarsh Simha	Reduce number of multiplications in SkyPoint::aberrate() by factoring
+c1dc0b4 2016-09-28	Akarsh Simha	Update comments in SkyPoint::precess()
+d9158d4 2016-09-28	Akarsh Simha	Experiment: Is using Eigen::Matrix3d faster than 2D array and for loop?
+32de274 2016-09-28	Akarsh Simha	Improve efficiency of SkyPoint::angularDistanceTo() etc.
+d470574 2016-09-28	Akarsh Simha	Reduce coordinates to the range properly
+7a5cca4 2016-09-28	Akarsh Simha	FIXME comments and cosmetic changes
+aa7dda0 2016-09-28	Akarsh Simha	Add tests to check SkyPoint::precess() and related routines.
+5ca4464 2016-09-28	Akarsh Simha	Reduce unnecessary include dependencies, use forward declarations.
+1a6d50b 2016-09-26	Akarsh Simha	Virtualize dms setters to prevent wrong results if we convert to dms*
+5c0232b 2016-09-26	Akarsh Simha	Improve CachingDms use in SkyPoint
+b3d5b61 2016-09-26	Akarsh Simha	Fix accounting of bad cache uses.
+27d32e1 2016-09-25	Akarsh Simha	Change some KSNumbers values to CachingDms to improve re-use
+6b9ddf7 2016-09-25	Akarsh Simha	Improve use of CachingDms
+2029a90 2016-09-25	Akarsh Simha	Inline inlinable methods in KSNumbers
+8fd7073 2016-09-25	Akarsh Simha	A dms::reduceToRange() method.
+6e4fff4 2016-09-25	Akarsh Simha	Profiling code to estimate the time spent in StarObject::udpateCoords()
+f838f26 2016-09-25	Akarsh Simha	FIXME! dms::reduce() doesn't modify the dms, it returns a new one
+e01f22a 2016-09-25	Akarsh Simha	Some minor optimizations.
+786e4fc 2016-09-25	Akarsh Simha	Make EquatorialToHorizontal faster by a number of improvements
+69caa28 2016-09-25	Akarsh Simha	Avoid resetting "catalog" coordinates if no proper motion was applied
+284282f 2016-09-25	Akarsh Simha	Make KSNumbers::obliquity() return CachingDms
+13ac9e9 2016-09-25	Akarsh Simha	Change LST and latitude to CachingDms -- this saves a lot of trig calls!
+5a9c6a4 2016-09-25	Akarsh Simha	Show global number of bad CachingDms uses
+d9ec631 2016-09-25	Akarsh Simha	Add profiling code to catch bad uses of CachingDms
+62b1e6a 2016-09-25	Akarsh Simha	Profiling: Show caching information.
+da8bcf7 2016-09-25	Akarsh Simha	Tests for CachingDms
+8c2dffa 2016-09-25	Akarsh Simha	A CachingDms class that caches trigonometric values.
+37ba58d 2016-09-24	Akarsh Simha	Calculate trig function redundancy within DeepStarComponent::draw()
+33b0361 2016-09-24	Akarsh Simha	Revert "Experiment 1: Can we cache trig values during first computation?"
+2d4f65a 2016-09-24	Akarsh Simha	Experiment 1: Can we cache trig values during first computation?
+5da196c 2016-09-24	Akarsh Simha	Optimizations in StarObject::getIndexCoords()
+e7e88e1 2016-09-24	Akarsh Simha	Cosmetics
+b91a0c3 2016-09-24	Akarsh Simha	Profile trigonometric function calls to dms objects
+0860ef6 2016-09-24	Akarsh Simha	Profiling Code: Determine time spent in EquatorialToHorizontal
+25b07e4 2016-09-24	Akarsh Simha	Profiling Code: Count trigonometric calls on dms, and profile them.
+4549930 2016-09-24	Akarsh Simha	Fix include order; and cosmetic changes. (++krazy::happiness;)
+f1be36f 2016-09-28	Akarsh Simha	Use KStarsDateTime::stringToEpoch etc. in FocusDialog
+3aedbf0 2016-09-28	Akarsh Simha	Fix epoch problems in KStarsDateTime
+90e7e72 2016-09-27	Akarsh Simha	Fix the definition of Julian Epoch in KStarsDateTime
+22eefeb 2016-09-28	Jasem Mutlaq	More progress in guide module. Load & Save settings now work
+ac085a8 2016-09-28	Jasem Mutlaq	More progress on guide and calibration options
+5351890 2016-09-28	Jasem Mutlaq	Send heartbeat imediately upon reception of watchdog device. Then set the timer only when receiving back the heartbeat value
+e06921b 2016-09-27	Jasem Mutlaq	Fix typo that was causing a crash
+642bbc6 2016-09-27	Jasem Mutlaq	Working on implementing calibration and guiding options
+8a971e3 2016-09-27	Jasem Mutlaq	Updated splashscreen from Yuri
+cb0af55 2016-09-26	Jasem Mutlaq	Now it compiles but nothing works as most functions disabled. Need to work next on calibration and guiding options setup
+e90f2e5 2016-09-26	Jasem Mutlaq	More re-organization to the Ekos code base. Should be ready in a few days
+5b52774 2016-09-25	Jasem Mutlaq	More progress of migrating guide stuff to new architecture, still a lot of way to go. Nothing compiles yet
+120af42 2016-09-25	Jasem Mutlaq	More progress on migrating guide stuff
+e901f7d 2016-09-24	Jasem Mutlaq	Add new guide interface files. Organizing Ekos hierarchy
+9ee9a4c 2016-09-24	Jasem Mutlaq	Ekos GUI updates
+8a9983e 2016-09-24	Jasem Mutlaq	Ekos re-organization
+e1f76e5 2016-09-24	Jasem Mutlaq	Moving all mount module files to their own dedicated directly
+c35aeef 2016-09-24	Jasem Mutlaq	Moving all scheduler module files to their own dedicated directly
+abcbcd8 2016-09-24	Jasem Mutlaq	Moving all guide module files to their own dedicated directly. Separating external vs internal guiding tools. Started on creating internal to unify all guiding commands so that they can be used for either internal or external guiding tools equally. Major redesign of guide module tab to make all information available in one place. Still lots of work in progress
+aeb0239 2016-09-24	Jasem Mutlaq	Moving all focus module files to their own dedicated directly
+f19e281 2016-09-24	Jasem Mutlaq	Moving all align module files to their own dedicated directly. GUI is simplified even more
+37fecee 2016-09-24	Jasem Mutlaq	Moving all capture module files to their own dedicated directly
+030e485 2016-09-24	Jasem Mutlaq	Moving common Ekos files to the auxiliary directory for better organization
+ab7cc64 2016-09-24	Jasem Mutlaq	Removing polar alignment mode since it can be done directly so now less user hassle to switch modes
+4212cea 2016-09-24	Jasem Mutlaq	Draw FOV even while alignment is in progress to display mid progress results on the sky map
+82083ae 2016-09-24	Jasem Mutlaq	Several changes to the guiding GUI to make it more compact, still needs further improvements maybe with embedded FITS View
+fcdf2f9 2016-09-24	Jasem Mutlaq	Move and rename startup and shutdown procedure to make GUI more compact. Reduce spacings and margins
+685791e 2016-09-24	Jasem Mutlaq	Re-order groups to make it more compact
+c808d92 2016-09-24	Jasem Mutlaq	GUI improvement to make Ekos viewable on low resolution displays
+cbb8de7 2016-09-24	Jasem Mutlaq	Remove unused functions, compact GUI
+880bbb6 2016-09-24	Jasem Mutlaq	Compact align UI, needs further improvement in layout
+cee6680 2016-09-23	Yuri Chornoivan	Fix EBN issues
+6db7a79 2016-09-22	Artem Fedoskin	Added author and credits. Added lock for centering in KStars Lite (if you center and track some object on Android you will be able only to pinch-to-zoom while the lock is on)
+270a2b7 2016-09-22	Jasem Mutlaq	Get rid of unnecessary signals since it is all being tracked now by the state
+1a46021 2016-09-22	Jasem Mutlaq	Use state change to signal actual events instead of different signals for all various status changes
+6c580c2 2016-09-22	Jasem Mutlaq	Use refactored name
+8840a60 2016-09-22	Jasem Mutlaq	Remove unused signals since we rely mostly on module states now
+bd27846 2016-09-22	Jasem Mutlaq	Get rid of obsolete signals and use lambdas where possible. keep track of modules states
+0585d04 2016-09-22	Jasem Mutlaq	Use align status to indicate actual changes in status. Fix order of solving and delays to announce the solution
+06e7889 2016-09-21	Artem Fedoskin	Set new splash screen in regular KStars
+bbd70f6 2016-09-22	Michael Palimaka	Fix regression where INDI version check is ignored
+f9e75a6 2016-08-14	Heiko Becker	tests: Use QTEST_GUILESS_MAIN
+d0ff31b 2016-09-21	Artem Fedoskin	Probable fix of bug with disappearing and re-appearing labels in regular KStars. Need to test on other devices
+7d0b855 2016-09-21	Artem Fedoskin	KStars Lite. Added "Find Object" icon to bottom drawer
+950a626 2016-09-20	Yuri Chornoivan	Fix minor typo
+548a0ac 2016-09-20	Akarsh Simha	Drastically speed up binary file -> SQLite database generation
+b32c941 2016-09-20	Artem Fedoskin	Final commit before merging to master. Added comments to the rest of SkyNodes, basic nodes and dialogs. Adopted KStars Lite way of searching to regular KStars.
+67128ca 2016-09-18	Jasem Mutlaq	All modules should use status to indicate what they are doing
+928d184 2016-09-18	l10n daemon script	SVN_SILENT made messages (.desktop file) - always resolve ours
+1deb1f2 2016-09-18	Jasem Mutlaq	Add more logging to isSequenceFileComplete to diagnose any future issues
+55f164c 2016-09-17	Jasem Mutlaq	Disable and enable start button based on number of jobs
+353d5f8 2016-09-17	Artem Fedoskin	Added comments to all SkyItem derrived classes. Started to add comments to SkyNode derrived classes. Added function for deleting all childNodes to TrixelNode
+31a7b6d 2016-09-16	Jasem Mutlaq	Disable all queue edit buttons while sequence is in progress
+d210c12 2016-09-15	Jasem Mutlaq	Start sequence as well if state is capture complete
+e52c841 2016-09-15	Jasem Mutlaq	Always set filterReady to true if the frame type is either bias or dark
+020015c 2016-09-15	Jasem Mutlaq	Fix typo
+d40a345 2016-09-14	Jasem Mutlaq	Set dome device in capture module
+630156c 2016-09-14	Jasem Mutlaq	on guide abort, abort the capture completely
+4d33442 2016-09-14	Jasem Mutlaq	Fix typo
+2c94014 2016-09-14	Jasem Mutlaq	Debug tracking box
+ba36ebd 2016-09-14	Jasem Mutlaq	Fix signal/slot connection. Disabled selecting autostar after calibration as guide would do it anyway
+c547d10 2016-09-14	Jasem Mutlaq	Using lambda to signal alignment startup after configured delay
+7ae00e2 2016-09-14	Jasem Mutlaq	Do not process a NULL BLOB
+3642c4b 2016-09-14	Jasem Mutlaq	Fix setWCS enable/disable notification
+898be9d 2016-09-14	Jasem Mutlaq	If we cannot load the file, do not signal we have a BLOB
+91b5bfe 2016-09-13	Jasem Mutlaq	Get rid of obsolete signals. Move selectAutoStar to guide module instead of calibration
+83a192a 2016-09-13	Jasem Mutlaq	Add the day offset if we are past dawn instead of hardcoded 12
+40f1ec3 2016-09-13	Jasem Mutlaq	If focus fails at post-alignment stage, we need to set state back to post-alignment so that it proceeds correctly
+bda8ab1 2016-09-13	Jasem Mutlaq	fix comments
+ab4b451 2016-09-12	Jasem Mutlaq	Disable call to updateCoords since it creates problem when ra0/dec0 are not valid for some objects
+ee5669c 2016-09-12	Jasem Mutlaq	Major overhaul of guiding module to make it work better with the FITSView tracking box that is used by all modules now. Use Dark Library to capture darks whenever necessary. Tweaked GUI a bit. Subframing on different binning and box size variations work a lot more reliably now
+18e7dce 2016-09-12	Jasem Mutlaq	Improved scheduler GUI. Add ability to pause the scheduler. Fix bug with jobs being re-shuffled after scoring is complete. Fix single click vs double click issue when it comes to editing a job and resetting its status. Add KDE event in case scheduler is aborted due to whatever reason
+dde6847 2016-09-12	Jasem Mutlaq	Fix slot name
+b75dd9e 2016-09-12	Jasem Mutlaq	Fix astronomy.net online solving issues. Use asynchronous transfer since sync. causes a lot of event loop issues.
+ab78d97 2016-09-12	Jasem Mutlaq	Use options verbose to check for verbosity settings
+542f789 2016-09-12	Jasem Mutlaq	Add dark library options. Add options taken from Ekos align module
+e29969e 2016-09-12	Jasem Mutlaq	Add capture paused state
+1e647c4 2016-09-12	Jasem Mutlaq	Distinguish between shutterful and shutterless CCDs. Ask the user if the CCD has a shutter or not as to avoid asking the user to cover the telescope if it already has a shutter
+a05de10 2016-09-12	Jasem Mutlaq	Focus module no longer have to actively revert to whatever frame settings it initially started with since this created more unnecessary complexities. Each module is separately responsible for their own frame settings. Subframing works correctly with dark frames
+3954632 2016-09-12	Jasem Mutlaq	Added ability to pause sequences and then resume them later. The module now accepts an optional target name which it will append to the root directory of the sequence file. This way the scheduler or other scripts can still use the same sequence files but with different targets
+32fe363 2016-09-12	Jasem Mutlaq	Reworked GUI, reduced clutter and darks are now taken from the Dark Library
+81d5949 2016-09-12	Jasem Mutlaq	Add FITS Align support to the CCD interface
+2b77d52 2016-09-12	Jasem Mutlaq	Add align tab so it can be inspected separately from preview or batch images
+61283b4 2016-09-12	Jasem Mutlaq	Add Dark Library options and moved some seldom used options away from Ekos to reduce clutter to the settings screen instead
+24f5007 2016-09-12	Jasem Mutlaq	Add Ekos abort event
+9499956 2016-09-06	Jasem Mutlaq	More progress on dark frame library. Now it works across capture, guide, and focus modules
+4e290af 2016-09-06	Jasem Mutlaq	More progress on dark frame library
+38e52bb 2016-09-06	Jasem Mutlaq	+ Dark Library working in capture module. + Fix issues with setting FITS dir + Fix issue with Preview tab title being hidden after a capture when the previous capture is a batch image. + Autostretch only runs on FITS_NONE images. + Remove useless and broken gamma slider. + White space cleanups.
+842b534 2016-09-05	Jasem Mutlaq	Use FOVManager to handle how FOVs are stored. This fixes a number of memory related bugs. Need to migrate this to SQLite instead of file
+b524e15 2016-09-05	Akarsh Simha	Code to put USNO NOMAD binary data file contents into a SQLite database
+3c99412 2016-09-05	Yuri Chornoivan	Complete the sentence
+7f7d2d2 2016-09-05	Jasem Mutlaq	Initial work for dark library
+0acf553 2016-09-04	Jasem Mutlaq	Fixing some issues with memory as reported by Valgrind, need to check more. Please double check.
+eeb3f9e 2016-09-02	Jasem Mutlaq	Fix few focus box selection issues especially with different bin settings
+66106b0 2016-09-01	Artem Fedoskin	Added tutorial mode. Fixed bug when context window for object was appearing while zooming.
+d53f6ff 2016-08-31	Jasem Mutlaq	Reject invalid frame requests
+4b23f1e 2016-08-31	Jasem Mutlaq	Save the frame settings for the current session for all the CCDs. Settings are saved when an image is captured. Needs testing
+3518013 2016-08-31	Jasem Mutlaq	No need to be redundant here
+5bae8f5 2016-08-31	Jasem Mutlaq	Introduce 1500ms delay between slew motion completion and start of capturing for next astrometry image to avoid residual motion from the mount
+46cfa92 2016-08-30	Jasem Mutlaq	1. Making INDI Control Panel independent as an option 2. Reparent stuff to avoid problems closing them down after KStars is shutdown 3. Add show logs button to advanced options
+
 2.6.0 (Ikarus):
  ===================----------------------------------
 
