@@ -25,6 +25,10 @@
 #include "fitsviewer/fitsdata.h"
 #endif
 
+#ifdef HAVE_LIBRAW
+#include <libraw/libraw.h>
+#endif
+
 #include "driverinfo.h"
 #include "clientmanager.h"
 #include "streamwg.h"
@@ -38,7 +42,9 @@
 
 #include "Options.h"
 
+
 const int MAX_FILENAME_LEN = 1024;
+const QStringList RAWFormats = { "cr2", "crw", "nef", "raf", "dng" };
 
 namespace ISD
 {
@@ -1055,7 +1061,7 @@ void CCD::processText(ITextVectorProperty *tvp)
 void CCD::processBLOB(IBLOB* bp)
 {
 
-    enum blobType { BLOB_IMAGE, BLOB_FITS, BLOB_CR2, BLOB_NEF, BLOB_OTHER} BType;
+    enum blobType { BLOB_IMAGE, BLOB_FITS, BLOB_RAW, BLOB_OTHER} BType;
 
     BType = BLOB_OTHER;
 
@@ -1090,10 +1096,8 @@ void CCD::processBLOB(IBLOB* bp)
         BType = BLOB_IMAGE;
     else if (format.contains("fits"))
         BType = BLOB_FITS;
-    else if (format.contains("cr2"))
-        BType = BLOB_CR2;
-    else if (format.contains("nef"))
-        BType = BLOB_NEF;
+    else if (RAWFormats.contains(format))
+        BType = BLOB_RAW;
 
     if (BType == BLOB_OTHER)
     {
@@ -1191,7 +1195,7 @@ void CCD::processBLOB(IBLOB* bp)
         KStars::Instance()->statusBar()->showMessage( i18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
 
     // FIXME: Why is this leaking memory in Valgrind??!
-    KNotification::event( QLatin1String( "FITSReceived" ) , i18n("FITS file is received"));
+    KNotification::event( QLatin1String( "FITSReceived" ) , i18n("Image file is received"));
 
     /*if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
     {
@@ -1199,33 +1203,76 @@ void CCD::processBLOB(IBLOB* bp)
         return;
     }*/
 
-    if (BType == BLOB_IMAGE || BType == BLOB_CR2 || BType == BLOB_NEF)
+    if (BType == BLOB_IMAGE || BType == BLOB_RAW)
     {
-        if (BType == BLOB_CR2 || BType == BLOB_NEF)
-        {
-            if (QStandardPaths::findExecutable("dcraw").isEmpty() == false && QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
-            {
-                QProcess dcraw;
-                QString rawFileName = filename;
-                rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
-                QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
-                QTemporaryFile jpgPreview(templateName);
-                jpgPreview.setAutoRemove(false);
-                jpgPreview.open();
-                jpgPreview.close();
-                QString jpeg_filename = jpgPreview.fileName();
+        if (BType == BLOB_RAW)
+        {           
+            #ifdef HAVE_LIBRAW
 
-                QString cmd = QString("/bin/sh -c \"dcraw -c -q 0 -w -H 5 -b 8 %1 | cjpeg -quality 80 > %2\"").arg(filename).arg(jpeg_filename);
-                dcraw.start(cmd);
-                dcraw.waitForFinished();
-                filename = jpeg_filename;
-            }
-            else
+            QString rawFileName = filename;
+            rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
+            QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
+            QTemporaryFile imgPreview(templateName);
+            imgPreview.setAutoRemove(false);
+            imgPreview.open();
+            imgPreview.close();
+            QString preview_filename = imgPreview.fileName();
+
+            int  ret=0;
+            // Creation of image processing object
+            LibRaw RawProcessor;
+
+            // Let us open the file
+            if( (ret = RawProcessor.open_file(rawFileName.toLatin1().data())) != LIBRAW_SUCCESS)
             {
-                KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG."));
+                KStars::Instance()->statusBar()->showMessage(i18n("Cannot open %1: %2", rawFileName, libraw_strerror(ret)));
+                RawProcessor.recycle();
                 emit BLOBUpdated(bp);
                 return;
             }
+
+            // Let us unpack the image
+            if( (ret = RawProcessor.unpack() ) != LIBRAW_SUCCESS)
+            {
+                KStars::Instance()->statusBar()->showMessage(i18n("Cannot unpack_thumb %1: %2", rawFileName, libraw_strerror(ret)));
+                if(LIBRAW_FATAL_ERROR(ret))
+                {
+                    RawProcessor.recycle();
+                    emit BLOBUpdated(bp);
+                    return;
+                }
+                // if there has been a non-fatal error, we will try to continue
+            }
+
+            // Let us unpack the thumbnail
+            if( (ret = RawProcessor.unpack_thumb() ) != LIBRAW_SUCCESS)
+            {
+                KStars::Instance()->statusBar()->showMessage(i18n("Cannot unpack_thumb %1: %2", rawFileName, libraw_strerror(ret)));
+                    RawProcessor.recycle();
+                    emit BLOBUpdated(bp);
+                    return;
+            }
+            else
+                // We have successfully unpacked the thumbnail, now let us write it to a file
+            {
+                //snprintf(thumbfn,sizeof(thumbfn),"%s.%s",av[i],T.tformat == LIBRAW_THUMBNAIL_JPEG ? "thumb.jpg" : "thumb.ppm");
+                if( LIBRAW_SUCCESS != (ret = RawProcessor.dcraw_thumb_writer(preview_filename.toLatin1().data())))
+                {
+                    KStars::Instance()->statusBar()->showMessage(i18n("Cannot write %s %1: %2", preview_filename, libraw_strerror(ret)));
+                    RawProcessor.recycle();
+                    emit BLOBUpdated(bp);
+                    return;
+                }
+            }
+
+            filename = preview_filename;
+
+            #else
+                // Silenty fail if KStars was not compiled with libraw
+                //KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG."));
+                emit BLOBUpdated(bp);
+                return;
+            #endif
         }
 
         if (imageViewer.isNull())

@@ -960,6 +960,12 @@ if(WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})
 endif (WCSLIB_FOUND)
 
+if(LibRaw_FOUND)
+if(NOT BUILD_KSTARS_LITE)
+    target_link_libraries(KStarsLib ${LibRaw_LIBRARIES})
+endif(NOT BUILD_KSTARS_LITE)
+endif (LibRaw_FOUND)
+
 #FIXME Enable OpenGL Later
 #if( OPENGL_FOUND )
 #    target_link_libraries(KStarsLib

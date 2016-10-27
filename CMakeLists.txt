@@ -96,14 +96,22 @@ set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "htt
 
 find_package(INDI 1.2.0)
 #FIXME is there a better way to do this?
-if (INDI_FOUND)
-#FIXME is the following the right way of doing this?
+if (INDI_FOUND)    
 SET(HAVE_INDI 1)
 else(INDI_FOUND)
 SET(HAVE_INDI 0)
 endif(INDI_FOUND)
 
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "http://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
+
+find_package(LibRaw)
+if (LibRaw_FOUND)
+SET(HAVE_LIBRAW 1)
+else (LibRaw_FOUND)
+SET(HAVE_LIBRAW 0)
+endif(LibRaw_FOUND)
+
+set_package_properties(LibRaw PROPERTIES DESCRIPTION "Library for reading RAW files" URL "http://www.libraw.org" TYPE OPTIONAL PURPOSE "Support for reading and displaying RAW files in KStars.")
 
 find_package(WCSLIB)
 if (WCSLIB_FOUND)
