@@ -100,7 +100,7 @@ KSPage {
         }
 
         RowLayout {
-            Button {
+            KSButton {
                 id: searchInInternet
                 enabled: searchQuery.text.length > 0 && FindDialogLite.isResolveEnabled
 
@@ -110,7 +110,7 @@ KSPage {
                 }
             }
 
-            Button {
+            KSButton {
                 text: "Cancel"
                 onClicked: {
                     stackView.pop()

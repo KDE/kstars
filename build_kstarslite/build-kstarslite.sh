@@ -258,12 +258,11 @@ mkdir ${build_dir} -p
 rm "${build_dir}/build/CMakeCache.txt"
 mkdir "${build_dir}/build" -p
 cd "${build_dir}/build"
-make clean
 
 rm -rf "${build_dir}/export"
 mkdir "${build_dir}/export" -p
 
-ccmake "${kstars_DIR}" -DCMAKE_TOOLCHAIN_FILE="${kstars_DIR}/build_kstarslite/android_libs_src/AndroidToolchain.cmake" \
+cmake "${kstars_DIR}" -DCMAKE_TOOLCHAIN_FILE="${kstars_DIR}/build_kstarslite/android_libs_src/AndroidToolchain.cmake" \
 	-DANDROID_ARCHITECTURE=${ANDROID_ARCHITECTURE} \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_PREFIX_PATH=${qt_android_libs} \

@@ -26,7 +26,6 @@ Popup {
         color: num.sysPalette.base
     }
 
-
     KSListView {
         id: fovList
         anchors {

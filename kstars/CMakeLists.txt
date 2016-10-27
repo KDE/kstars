@@ -882,7 +882,6 @@ if(BUILD_KSTARS_LITE)
         Qt5::Sql
         Qt5::Qml
         Qt5::Quick
-        Qt5::Sensors
         Qt5::QuickControls2
         Qt5::Positioning
         ${ZLIB_LIBRARIES}
