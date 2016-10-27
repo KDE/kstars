@@ -178,6 +178,7 @@ Guide::Guide() : QWidget()
     connect(externalDisconnectB, &QPushButton::clicked, this, [&](){guider->Disconnect();});
 
     // Pulse Timer
+    pulseTimer.setSingleShot(true);
     connect(&pulseTimer, SIGNAL(timeout()), this, SLOT(capture()));
 
     // Drift Graph
