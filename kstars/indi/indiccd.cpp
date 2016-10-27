@@ -1055,7 +1055,7 @@ void CCD::processText(ITextVectorProperty *tvp)
 void CCD::processBLOB(IBLOB* bp)
 {
 
-    enum blobType { BLOB_IMAGE, BLOB_FITS, BLOB_CR2, BLOB_OTHER} BType;
+    enum blobType { BLOB_IMAGE, BLOB_FITS, BLOB_CR2, BLOB_NEF, BLOB_OTHER} BType;
 
     BType = BLOB_OTHER;
 
@@ -1092,6 +1092,8 @@ void CCD::processBLOB(IBLOB* bp)
         BType = BLOB_FITS;
     else if (format.contains("cr2"))
         BType = BLOB_CR2;
+    else if (format.contains("nef"))
+        BType = BLOB_NEF;
 
     if (BType == BLOB_OTHER)
     {
@@ -1197,9 +1199,9 @@ void CCD::processBLOB(IBLOB* bp)
         return;
     }*/
 
-    if (BType == BLOB_IMAGE || BType == BLOB_CR2)
+    if (BType == BLOB_IMAGE || BType == BLOB_CR2 || BType == BLOB_NEF)
     {
-        if (BType == BLOB_CR2)
+        if (BType == BLOB_CR2 || BType == BLOB_NEF)
         {
             if (QStandardPaths::findExecutable("dcraw").isEmpty() == false && QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
             {
@@ -1220,7 +1222,7 @@ void CCD::processBLOB(IBLOB* bp)
             }
             else
             {
-                KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
+                KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG."));
                 emit BLOBUpdated(bp);
                 return;
             }
