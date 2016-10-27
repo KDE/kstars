@@ -1232,7 +1232,7 @@ void CCD::processBLOB(IBLOB* bp)
             }
 
             // Let us unpack the image
-            if( (ret = RawProcessor.unpack() ) != LIBRAW_SUCCESS)
+            /*if( (ret = RawProcessor.unpack() ) != LIBRAW_SUCCESS)
             {
                 KStars::Instance()->statusBar()->showMessage(i18n("Cannot unpack_thumb %1: %2", rawFileName, libraw_strerror(ret)));
                 if(LIBRAW_FATAL_ERROR(ret))
@@ -1242,7 +1242,7 @@ void CCD::processBLOB(IBLOB* bp)
                     return;
                 }
                 // if there has been a non-fatal error, we will try to continue
-            }
+            }*/
 
             // Let us unpack the thumbnail
             if( (ret = RawProcessor.unpack_thumb() ) != LIBRAW_SUCCESS)
