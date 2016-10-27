@@ -1096,7 +1096,7 @@ void CCD::processBLOB(IBLOB* bp)
         BType = BLOB_IMAGE;
     else if (format.contains("fits"))
         BType = BLOB_FITS;
-    else if (RAWFormats.contains(format))
+    else if (RAWFormats.contains(fmt))
         BType = BLOB_RAW;
 
     if (BType == BLOB_OTHER)
@@ -1223,7 +1223,7 @@ void CCD::processBLOB(IBLOB* bp)
             LibRaw RawProcessor;
 
             // Let us open the file
-            if( (ret = RawProcessor.open_file(rawFileName.toLatin1().data())) != LIBRAW_SUCCESS)
+            if( (ret = RawProcessor.open_file(filename.toLatin1().data())) != LIBRAW_SUCCESS)
             {
                 KStars::Instance()->statusBar()->showMessage(i18n("Cannot open %1: %2", rawFileName, libraw_strerror(ret)));
                 RawProcessor.recycle();
