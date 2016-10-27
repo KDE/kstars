@@ -530,6 +530,7 @@ void Capture::checkCCD(int ccdNum)
                 double min,max,step;
                 setTemperatureB->setEnabled(true);
                 temperatureIN->setReadOnly(false);
+                temperatureCheck->setEnabled(true);
                 currentCCD->getMinMaxStep("CCD_TEMPERATURE", "CCD_TEMPERATURE_VALUE", &min, &max, &step);
                 temperatureIN->setMinimum(min);
                 temperatureIN->setMaximum(max);
@@ -539,6 +540,7 @@ void Capture::checkCCD(int ccdNum)
             {
                 setTemperatureB->setEnabled(false);
                 temperatureIN->setReadOnly(true);
+                temperatureCheck->setEnabled(false);
             }
 
             double temperature=0;
