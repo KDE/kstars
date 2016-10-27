@@ -1911,6 +1911,12 @@ void Capture::executeJob()
     // Update button status
     setBusy(true);
 
+    if (activeJob->isPreview())
+    {
+        startB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg") ));
+        startB->setToolTip(i18n("Stop"));
+    }
+
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
     // Check flat field frame requirements
