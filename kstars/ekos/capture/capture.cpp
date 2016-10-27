@@ -538,6 +538,7 @@ void Capture::checkCCD(int ccdNum)
             }
             else
             {
+                temperatureOUT->clear();
                 setTemperatureB->setEnabled(false);
                 temperatureIN->setReadOnly(true);
                 temperatureCheck->setEnabled(false);
