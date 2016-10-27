@@ -1456,6 +1456,18 @@ void KStars::slotAboutToQuit()
     //synch the config file with the Config object
     writeConfig();
 
+    //Terminate Child Processes if on OS X
+#ifdef Q_OS_OSX
+    QProcess* quit = new QProcess(this);
+    quit->start("killall kdeinit5");
+    quit->waitForFinished(1000);
+    quit->start("killall klauncher");
+    quit->waitForFinished(1000);
+    quit->start("killall kioslave");
+    quit->waitForFinished(1000);
+    delete quit;
+#endif
+
 }
 
 void KStars::slotShowPositionBar(SkyPoint* p )
