@@ -521,7 +521,6 @@ void Capture::checkCCD(int ccdNum)
 
         if (currentCCD->hasCooler())
         {
-
             temperatureCheck->setEnabled(true);
             temperatureIN->setEnabled(true);
 
@@ -538,7 +537,6 @@ void Capture::checkCCD(int ccdNum)
             }
             else
             {
-                temperatureOUT->clear();
                 setTemperatureB->setEnabled(false);
                 temperatureIN->setReadOnly(true);
                 temperatureCheck->setEnabled(false);
@@ -557,6 +555,7 @@ void Capture::checkCCD(int ccdNum)
             temperatureCheck->setEnabled(false);
             temperatureIN->setEnabled(false);
             temperatureIN->clear();
+            temperatureOUT->clear();
             setTemperatureB->setEnabled(false);
         }
 
@@ -597,6 +596,25 @@ void Capture::checkCCD(int ccdNum)
     }
 }
 
+void Capture::resetFrameToZero()
+{
+    frameXIN->setMinimum(0);
+    frameXIN->setMaximum(0);
+    frameXIN->setValue(0);
+
+    frameYIN->setMinimum(0);
+    frameYIN->setMaximum(0);
+    frameYIN->setValue(0);
+
+    frameWIN->setMinimum(0);
+    frameWIN->setMaximum(0);
+    frameWIN->setValue(0);
+
+    frameHIN->setMinimum(0);
+    frameHIN->setMaximum(0);
+    frameHIN->setValue(0);
+}
+
 void Capture::updateFrameProperties(int reset)
 {
     int x,y,w,h;
@@ -626,9 +644,11 @@ void Capture::updateFrameProperties(int reset)
 
     if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
     {
-
-        if (min == max)
+        if (min >= max)
+        {
+            resetFrameToZero();
             return;
+        }
 
         if (step == 0)
             xstep = (int) max * 0.05;
@@ -647,8 +667,11 @@ void Capture::updateFrameProperties(int reset)
 
     if (currentCCD->getMinMaxStep(frameProp, "HEIGHT", &min, &max, &step))
     {
-        if (min == max)
+        if (min >= max)
+        {
+            resetFrameToZero();
             return;
+        }
 
         if (step == 0)
             ystep = (int) max * 0.05;
@@ -667,8 +690,11 @@ void Capture::updateFrameProperties(int reset)
 
     if (currentCCD->getMinMaxStep(frameProp, "X", &min, &max, &step))
     {
-        if (min == max)
+        if (min >= max)
+        {
+            resetFrameToZero();
             return;
+        }
 
         if (step == 0)
             step = xstep;
@@ -685,8 +711,11 @@ void Capture::updateFrameProperties(int reset)
 
     if (currentCCD->getMinMaxStep(frameProp, "Y", &min, &max, &step))
     {
-        if (min == max)
+        if (min >= max)
+        {
+            resetFrameToZero();
             return;
+        }
 
         if (step == 0)
             step = ystep;
@@ -1462,9 +1491,15 @@ void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState 
 void Capture::updateCCDTemperature(double value)
 {
     if (temperatureCheck->isEnabled() == false)
-        checkCCD();
+    {
+        if (currentCCD->getBaseDevice()->getPropertyPermission("CCD_TEMPERATURE") != IP_RO)
+            checkCCD();
+    }
 
     temperatureOUT->setText(QString::number(value, 'f', 2));
+
+    if (temperatureIN->cleanText().isEmpty())
+        temperatureIN->setValue(value);
 
     if (activeJob && (activeJob->getStatus() == SequenceJob::JOB_ABORTED || activeJob->getStatus() == SequenceJob::JOB_IDLE))
         activeJob->setCurrentTemperature(value);

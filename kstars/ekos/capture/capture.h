@@ -475,6 +475,8 @@ private:
     // Remaining Time in seconds
     int getJobRemainingTime(SequenceJob *job);
 
+    void resetFrameToZero();
+
     /* Capture */
     double	seqExpose;
     int	seqTotalCount;
