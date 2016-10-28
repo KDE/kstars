@@ -200,13 +200,13 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
 
 #if QT_VERSION > QT_VERSION_CHECK(5,6,0)
     connect(&solver, &QProcess::errorOccurred, this, [&]()
-#else
-    connect(&solver, &QProcess::error, this, [&]()
-#endif
     {
         align->appendLogText(i18n("Error starting solver: %1", solver.errorString()));
         emit solverFailed();
     });
+#else
+    connect(&solver, SIGNAL(error(QProcess::ProcessError)), this, SIGNAL(solverFailed()));
+#endif
 
     solverTimer.start();
 
