@@ -210,7 +210,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
         bool objFound=false;
         foreach(FITSSkyObject *listObject, image_data->objList){
-            if((abs(listObject->x()-x)<5/scale)&&(abs(listObject->y()-y)<5/scale)){
+            if((std::abs(listObject->x()-x)<5/scale)&&(std::abs(listObject->y()-y)<5/scale)){
                 QToolTip::showText(e->globalPos(), listObject->skyObject()->name() +"\n"+listObject->skyObject()->longname() , this);
                 objFound=true;
                 break;
@@ -282,7 +282,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
         if (image_data->hasWCS())
         {
             foreach(FITSSkyObject *listObject, image_data->objList){
-                if((abs(listObject->x()-x)<5/scale)&&(abs(listObject->y()-y)<5/scale)){
+                if((std::abs(listObject->x()-x)<5/scale)&&(std::abs(listObject->y()-y)<5/scale)){
                     SkyObject *object=listObject->skyObject();
                     KSPopupMenu *pmenu;
                     pmenu=new KSPopupMenu();
