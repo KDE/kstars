@@ -806,16 +806,8 @@ void KStars::slotOpenFITS()
     if (fileURL.isEmpty())
         return;
 
-    // Workaround for "/C:/foo/bar" Qt Bug
-    // Reported as fixed in Qt 5.6
-    // Emerged Qt 5.5 with patch is not working
-    #ifdef Q_OS_WIN
-    if (fileURL.toLocalFile().startsWith("/"))
-        fileURL.setPath(fileURL.toLocalFile().right(fileURL.toLocalFile().count()-1));
-    #endif
-
     // Remember last directory
-    path.setUrl(fileURL.toLocalFile());
+    path.setUrl(fileURL.url(QUrl::RemoveFilename));
 
     FITSViewer * fv = new FITSViewer((Options::independentWindowFITS()) ? NULL : this);
     // Error opening file
