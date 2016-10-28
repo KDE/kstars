@@ -47,6 +47,9 @@ ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {
 ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent, double _w, double _h, QString cap )
         : QDialog( parent ), SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
     wid = _w;
     ht = _h;
     Image = new QPixmap( current );

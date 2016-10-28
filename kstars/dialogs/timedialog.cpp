@@ -36,6 +36,9 @@
 TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *parent, bool UTCFrame )
         : QDialog( parent ), geo( _geo )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
     UTCNow = UTCFrame;
 
     QFrame *page = new QFrame(this);

@@ -81,6 +81,7 @@ protected:
     QList<INDI_D*> guidevices;    
 
   public slots:
+    void changeAlwaysOnTop(Qt::ApplicationState state);
     void clearLog();
     void buildDevice(DeviceInfo *di);
     void removeDevice(DeviceInfo *di);

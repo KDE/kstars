@@ -68,6 +68,16 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
       m_PlanetViewer(0), m_WUTDialog(0), m_JMoonTool(0), m_MoonPhaseTool(0), m_FlagManager(0), m_HorizonManager(0), m_EyepieceView(0),
       m_addDSODialog(0), m_WIView(0), m_ObsConditions(0), m_wiDock(0), DialogIsObsolete(false), StartClockRunning( clockrun ), StartDateString( startdate )
 {
+    setWindowTitle(i18n("KStars"));
+
+
+    //On OS X, need to launch kdeinit5 so you can get KLauncher and KIOSlave so you can download new data.
+    //Note:  You need to make sure the environment variables for KStars are set correctly to get this running properly.
+#ifdef Q_OS_OSX
+    QProcess* klauncher = new QProcess(this);
+    klauncher->start("kdeinit5");
+#endif
+
     // Initialize logging settings
     if (Options::disableLogging())
         KSUtils::Logging::Disable();

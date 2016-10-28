@@ -21,15 +21,15 @@
 
 #include "ekos.h"
 #include "indi/indistd.h"
-#include "capture.h"
-#include "focus.h"
-#include "guide.h"
-#include "align.h"
-#include "mount.h"
-#include "dome.h"
-#include "weather.h"
-#include "dustcap.h"
-#include "scheduler.h"
+#include "capture/capture.h"
+#include "focus/focus.h"
+#include "guide/guide.h"
+#include "align/align.h"
+#include "mount/mount.h"
+#include "auxiliary/dome.h"
+#include "auxiliary/weather.h"
+#include "auxiliary/dustcap.h"
+#include "scheduler/scheduler.h"
 
 #include <QDialog>
 #include <QHash>
@@ -142,7 +142,7 @@ public slots:
 
     /** @}*/
 
-    void processINDI();   
+    void processINDI();
     void cleanDevices(bool stopDrivers=true);
 
     void processNewDevice(ISD::GDInterface*);
@@ -151,6 +151,8 @@ public slots:
     void processNewText(ITextVectorProperty *tvp);
 
 private slots:
+
+    void changeAlwaysOnTop(Qt::ApplicationState state);
 
     void updateLog();
     void clearLog();
@@ -185,7 +187,7 @@ private slots:
 
     // Mount Summary
     void updateMountCoords(const QString &ra, const QString &dec ,const QString &az ,const QString &alt);
-    void updateMountStatus(ISD::Telescope::TelescopeStatus status);    
+    void updateMountStatus(ISD::Telescope::TelescopeStatus status);
     void setTarget(SkyObject *o);
 
     // Capture Summary
@@ -194,7 +196,7 @@ private slots:
     void updateCaptureCountDown();
 
     // Focus summary
-    void updateFocusStatus(Ekos::FocusState status);
+    void setFocusStatus(Ekos::FocusState status);
     void updateFocusStarPixmap(QPixmap &starPixmap);
     void updateFocusProfilePixmap(QPixmap &profilePixmap);
 
@@ -279,16 +281,16 @@ private slots:
     // Focus Summary
     QProgressIndicator *focusPI;
     QPixmap *focusStarPixmap;
-    QPixmap *focusProfilePixmap;
-    QTemporaryFile focusStarFile;
-    QTemporaryFile focusProfileFile;
+    //QPixmap *focusProfilePixmap;
+    //QTemporaryFile focusStarFile;
+    //QTemporaryFile focusProfileFile;
 
     // Guide Summary
     QProgressIndicator *guidePI;
     QPixmap *guideStarPixmap;
-    QPixmap *guideProfilePixmap;
-    QTemporaryFile guideStarFile;
-    QTemporaryFile guideProfileFile;
+    //QPixmap *guideProfilePixmap;
+    //QTemporaryFile guideStarFile;
+    //QTemporaryFile guideProfileFile;
 
 };
 

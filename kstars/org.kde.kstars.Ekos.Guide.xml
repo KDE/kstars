@@ -1,23 +1,32 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Guide">
-    <method name="startGuiding">
+    <method name="guide">
       <arg type="b" direction="out"/>
     </method>
-    <method name="stopGuiding">
+    <method name="abort">
       <arg type="b" direction="out"/>
     </method>
-    <method name="startCalibration">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="stopCalibration">
+    <method name="calibrate">
       <arg type="b" direction="out"/>
     </method>
     <method name="capture">
       <arg type="b" direction="out"/>
     </method>
+    <method name="dither">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="suspend">
+      <arg type="b" direction="out"/>
+    </method>
+    <method name="resume">
+      <arg type="b" direction="out"/>
+    </method>
     <method name="selectAutoStar">
       <arg type="b" direction="out"/>
+    </method>
+    <method name="startAutoCalibrateGuide">
+      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setCCD">
       <arg type="b" direction="out"/>
@@ -29,18 +38,9 @@
     </method>
     <method name="getST4Devices">
       <arg type="as" direction="out"/>
-    </method>
-    <method name="isCalibrationComplete">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="isCalibrationSuccessful">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="isCalibrating">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="isGuiding">
-      <arg type="b" direction="out"/>
+    </method>    
+    <method name="getStatus">
+      <arg type="i" direction="out"/>
     </method>
     <method name="getGuidingDeviation">
       <arg type="ad" direction="out"/>
@@ -86,18 +86,20 @@
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setGuideRapid">
+    <!--
+    <method name="setGuideRapidEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setDither">
+    !-->
+    <method name="setDitherSettings">
       <arg name="enable" type="b" direction="in"/>
       <arg name="value" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setGuiderProcess">
-      <arg name="guiderProcess" type="i" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    <method name="setGuiderType">
+      <arg name="guideType" type="i" direction="in"/>
+      <arg type="b" direction="out"/>
     </method>
   </interface>
 </node>

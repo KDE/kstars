@@ -62,6 +62,9 @@
 DeviceManagerUI::DeviceManagerUI(QWidget *parent) : QFrame(parent)
 {
 
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
     setupUi(this);
 
     localTreeWidget->setSortingEnabled(false);

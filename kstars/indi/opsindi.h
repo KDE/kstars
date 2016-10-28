@@ -33,6 +33,7 @@ public:
 private slots:
     void saveFITSDirectory();
     void saveDriversDirectory();
+    void slotShowLogFiles();
 
 private:
     KConfigDialog *m_ConfigDialog;

@@ -93,6 +93,9 @@ DriverManager * DriverManager::Instance()
 DriverManager::DriverManager(QWidget *parent)
         : QDialog( parent )
 {
+#ifdef Q_OS_OSX
+       setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+   #endif
 
     currentPort = Options::serverPortStart().toInt()-1;
     lastGroup = NULL;

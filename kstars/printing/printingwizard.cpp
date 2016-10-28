@@ -396,6 +396,9 @@ void PrintingWizard::slotNextPage()
 
 void PrintingWizard::setupWidgets()
 {
+    #ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    #endif
     m_WizardStack = new QStackedWidget(this);
 
     setWindowTitle(i18n("Printing Wizard"));

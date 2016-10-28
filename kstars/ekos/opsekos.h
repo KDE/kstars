@@ -1,5 +1,5 @@
-/*  INDI Options (subclass)
-    Copyright (C) 2005 Jasem Mutlaq <mutlaqja@ikarustech.com>
+/*  Ekos Options
+    Copyright (C) 2016 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public
@@ -33,9 +33,6 @@ public:
 private slots:
 
     void slotApply();
-    void slotCancel();
-    void slotSelectPHD2Exec();
-    void slotCheckGuideModule();
 
 private:
     KConfigDialog *m_ConfigDialog;

@@ -14,7 +14,7 @@
    <item>
     <widget class="QTabWidget" name="AdvancedOptionsTabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -1065,11 +1065,11 @@
  <connections/>
  <buttongroups>
   <buttongroup name="logbuttonGroup"/>
+  <buttongroup name="verbosityButtonGroup"/>
   <buttongroup name="modulesGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="verbosityButtonGroup"/>
  </buttongroups>
 </ui>

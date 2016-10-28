@@ -91,8 +91,9 @@ public:
      */
     inline QString getDate() const { return date; }
 
-private:
     void initPopupMenu(KSPopupMenu*);
+private:
+
     QString serialNumber, type, hostGalaxy, offset, discoverers, date;
     dms RA, Dec;
     float Magnitude;

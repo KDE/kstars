@@ -642,6 +642,9 @@ void KStars::slotViewOps() {
     //KConfigDialog didn't find an instance of this dialog, so lets create it :
     KConfigDialog* dialog = new KConfigDialog( this, "settings",
                             Options::self() );
+    #ifdef Q_OS_OSX
+        dialog->setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    #endif
 
     connect( dialog, SIGNAL( settingsChanged( const QString &) ), this, SLOT( slotApplyConfigChanges() ) );
 
@@ -797,22 +800,14 @@ void KStars::slotOpenFITS()
 {
 #ifdef HAVE_CFITSIO
 
-    static QUrl path;
+    static QUrl path = QUrl::fromLocalFile(QDir::homePath());
     QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open FITS"), path, "FITS (*.fits *.fit *.fts)");
 
     if (fileURL.isEmpty())
         return;
 
-    // Workaround for "/C:/foo/bar" Qt Bug
-    // Reported as fixed in Qt 5.6
-    // Emerged Qt 5.5 with patch is not working
-    #ifdef Q_OS_WIN
-    if (fileURL.toLocalFile().startsWith("/"))
-        fileURL.setPath(fileURL.toLocalFile().right(fileURL.toLocalFile().count()-1));
-    #endif
-
     // Remember last directory
-    path.setUrl(fileURL.toLocalFile());
+    path.setUrl(fileURL.url(QUrl::RemoveFilename));
 
     FITSViewer * fv = new FITSViewer((Options::independentWindowFITS()) ? NULL : this);
     // Error opening file
@@ -1452,6 +1447,18 @@ void KStars::slotAboutToQuit()
 
     //synch the config file with the Config object
     writeConfig();
+
+    //Terminate Child Processes if on OS X
+#ifdef Q_OS_OSX
+    QProcess* quit = new QProcess(this);
+    quit->start("killall kdeinit5");
+    quit->waitForFinished(1000);
+    quit->start("killall klauncher");
+    quit->waitForFinished(1000);
+    quit->start("killall kioslave");
+    quit->waitForFinished(1000);
+    delete quit;
+#endif
 
 }
 

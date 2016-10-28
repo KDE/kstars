@@ -273,6 +273,7 @@ public:
     static unsigned int starsUpdated;
 #endif
 
+    virtual void initPopupMenu( KSPopupMenu *pmenu);
 
 protected:
     // DEBUG EDIT. For testing proper motion, uncomment this, and related blocks
@@ -282,7 +283,7 @@ protected:
     // END DEBUG
 
 private:
-    virtual void initPopupMenu( KSPopupMenu *pmenu);
+
 
     double PM_RA, PM_Dec, Parallax;  //, VRange, VPeriod;
     bool Multiplicity, Variability;

@@ -12,7 +12,8 @@
 
 #include <QPushButton>
 #include <QFileDialog>
-//#include <KLineEdit>
+#include <QDesktopServices>
+
 #include <KConfigDialog>
 
 #include <QCheckBox>
@@ -44,6 +45,7 @@ OpsINDI::OpsINDI()
 
     connect(selectFITSDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
     connect(selectDriversDirB, SIGNAL(clicked()), this, SLOT(saveDriversDirectory()));    
+    connect(showLogsB, SIGNAL(clicked()), this, SLOT(slotShowLogFiles()));
 
     #ifdef Q_OS_WIN
     kcfg_indiServer->setEnabled(false);
@@ -67,5 +69,12 @@ void OpsINDI::saveDriversDirectory()
 
     if (!dir.isEmpty())
         kcfg_indiDriversDir->setText(dir);
+}
+
+void OpsINDI::slotShowLogFiles()
+{
+    QUrl path = QUrl::fromLocalFile(QDir::homePath() + "/.indi/logs");
+
+    QDesktopServices::openUrl(path);
 }
 

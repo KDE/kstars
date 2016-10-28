@@ -196,6 +196,12 @@ public:
     /** *@return true if the object is a solar system body. */
     inline bool isSolarSystem() const { return ( type() == 2 || type() == 9 || type() == 10 || type() == 12 ); }
 
+    /** Initialize the popup menut. This function should call correct
+     * initialization function in KSPopupMenu. By overloading the
+     * function, we don't have to check the object type when we need
+     * the menu. */
+    virtual void initPopupMenu(KSPopupMenu* pmenu);
+
     /** Show Type-specific popup menu. Oveloading is done in the function initPopupMenu */
     void showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos );
 
@@ -336,11 +342,7 @@ public:
     virtual UID getUID() const;
 
 private:
-    /** Initialize the popup menut. This function should call correct
-     * initialization function in KSPopupMenu. By overloading the
-     * function, we don't have to check the object type when we need
-     * the menu. */
-    virtual void initPopupMenu(KSPopupMenu* pmenu);
+
 
     /**
      *Compute the UT time when the object will rise or set. It is an auxiliary

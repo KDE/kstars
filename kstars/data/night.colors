@@ -33,3 +33,4 @@
 #00FF00 :RAGuideError
 #00A5FF :DEGuideError
 #FFFF00 :SolverFOV
+#950000 :FITSObjectLabelColor

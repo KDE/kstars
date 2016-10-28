@@ -48,6 +48,9 @@ FlagManagerUI::FlagManagerUI( QWidget *p ) : QFrame( p ) {
 FlagManager::FlagManager( QWidget *ks )
         : QDialog( ks )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
     QList<QStandardItem*> itemList;
     QList<QImage> imageList;
     QStringList flagNames;

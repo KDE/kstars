@@ -41,11 +41,15 @@
 JMoonTool::JMoonTool(QWidget *parent)
         : QDialog( parent )
 {
+
     ksw = (KStars*)parent;
     QFrame *page = new QFrame(this);
 
     setWindowTitle( i18n("Jupiter Moons Tool") );
     setModal( false );
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
 
     QVBoxLayout *vlay = new QVBoxLayout;
     vlay->setMargin( 0 );

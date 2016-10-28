@@ -88,8 +88,10 @@ public:
      */
     void updateMag() { findMagnitude(NULL); }
 
-private:
     virtual void initPopupMenu( KSPopupMenu* pmenu );
+
+private:
+
     virtual void findMagnitude(const KSNumbers*);
 
     static bool data_loaded;

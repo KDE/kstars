@@ -62,15 +62,25 @@
 	<Action name="view_zoom_in" />
 	<Action name="view_zoom_out" />	
 	<Action name="view_actual_size"/>
+        <Action name="view_zoom_fit"/>
         <Separator/>
         <Action name="rotate_right" />
         <Action name="rotate_left" />
         <Action name="flip_horizontal" />
         <Action name="flip_vertical" />
         <Separator/>
+        <Action name="view_crosshair" />
+        <Action name="view_pixel_grid" />
+        <Separator/>
+        <Action name="view_eq_grid" />
+        <Action name="view_objects" />
+        <Action name="center_telescope" />
+
+        <Separator/>
 </ToolBar>
 	
-<ToolBar noMerge="1" name="processToolBar"><text>Process ToolBar</text>
+<ToolBar noMerge="1" name="processToolBar" iconText="icononly"><text>Process ToolBar</text>
+        <Separator/>
 	<Action name="image_histogram" />
         <Action name="image_stats" />
         <Action name="image_stretch" />

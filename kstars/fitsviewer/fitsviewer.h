@@ -88,7 +88,7 @@ protected:
     void showEvent(QShowEvent *);
 
 public slots:
-
+    void changeAlwaysOnTop(Qt::ApplicationState state);
     void openFile();
     void saveFile();
     void saveFileAs();
@@ -104,17 +104,26 @@ public slots:
     void ZoomIn();
     void ZoomOut();
     void ZoomDefault();
+    void ZoomToFit();
     void updateAction(const QString &name, bool enable);
     void updateTabStatus(bool clean);
     int saveUnsaved(int index);
     void closeTab(int index);
     void toggleStars();
+    void toggleCrossHair();
+    void toggleEQGrid();
+    void toggleObjects();
+    void togglePixelGrid();
+    void centerTelescope();
+    void updateWCSFunctions();
     void applyFilter(int ftype);
     void rotateCW();
     void rotateCCW();
     void flipHorizontal();
     void flipVertical();
     void setDebayerAction(bool);
+    void updateScopeButton();
+
 
 private:
 
@@ -129,6 +138,8 @@ private:
     bool markStars;
     QMap<int, FITSTab*> fitsMap;
     QUrl lastURL;
+    void updateButtonStatus(QString action, QString item, bool showing);
+
 
 signals:
     void trackingStarSelected(int x, int y);

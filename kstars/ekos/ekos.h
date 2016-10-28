@@ -7,11 +7,12 @@ namespace Ekos
 {
 
     // Guide States
-    static const QStringList guideStates = { I18N_NOOP("Idle"), I18N_NOOP("Calibrating"), I18N_NOOP("Calibration successful"), I18N_NOOP("Calibration error"), I18N_NOOP("Guiding"),
-                                             I18N_NOOP("Aborted"), I18N_NOOP("Suspended"), I18N_NOOP("Dithering"), I18N_NOOP("Dithering Successful"), I18N_NOOP("Dithering error")};
+    static const QStringList guideStates = { I18N_NOOP("Idle"), I18N_NOOP("Aborted"), I18N_NOOP("Connected"), I18N_NOOP("Disconnected"), I18N_NOOP("Capturing"), I18N_NOOP("Subtracting"), I18N_NOOP("Subframing"),
+                                             I18N_NOOP("Selecting star"), I18N_NOOP("Calibrating"), I18N_NOOP("Calibration error"), I18N_NOOP("Calibration successful"), I18N_NOOP("Guiding"),
+                                             I18N_NOOP("Suspended"), I18N_NOOP("Dithering"), I18N_NOOP("Dithering error"), I18N_NOOP("Dithering successful")};
 
-    typedef enum { GUIDE_IDLE, GUIDE_CALIBRATING, GUIDE_CALIBRATION_SUCESS, GUIDE_CALIBRATION_ERROR, GUIDE_GUIDING,
-                   GUIDE_ABORTED, GUIDE_SUSPENDED, GUIDE_DITHERING, GUIDE_DITHERING_SUCCESS, GUIDE_DITHERING_ERROR } GuideState;
+    typedef enum { GUIDE_IDLE, GUIDE_ABORTED, GUIDE_CONNECTED, GUIDE_DISCONNECTED, GUIDE_CAPTURE, GUIDE_DARK, GUIDE_SUBFRAME, GUIDE_STAR_SELECT, GUIDE_CALIBRATING, GUIDE_CALIBRATION_ERROR,
+                   GUIDE_CALIBRATION_SUCESS, GUIDE_GUIDING, GUIDE_SUSPENDED, GUIDE_DITHERING, GUIDE_DITHERING_ERROR, GUIDE_DITHERING_SUCCESS} GuideState;
 
     const QString & getGuideStatusString(GuideState state);
 
@@ -34,6 +35,12 @@ namespace Ekos
 
     const QString &getFocusStatusString(FocusState state);
 
+    // Align States
+    static const QStringList alignStates = { I18N_NOOP("Idle"), I18N_NOOP("Complete"), I18N_NOOP("Failed"), I18N_NOOP("Aborted"), I18N_NOOP("In Progress"), I18N_NOOP("Slewing")};
+
+    typedef enum { ALIGN_IDLE, ALIGN_COMPLETE, ALIGN_FAILED, ALIGN_ABORTED, ALIGN_PROGRESS, ALIGN_SLEWING} AlignState;
+
+    const QString &getAlignStatusString(AlignState state);
 }
 
 #endif // EKOS_H

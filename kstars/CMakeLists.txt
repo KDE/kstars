@@ -117,52 +117,80 @@ if (INDI_FOUND)
 
             if (CFITSIO_FOUND)
                 set(ekosui_SRCS
-                    ekos/scheduler.ui
-                    ekos/mosaic.ui
                     ekos/opsekos.ui
                     ekos/ekosmanager.ui
-                    ekos/capture.ui
-                    ekos/calibrationoptions.ui
-                    ekos/align.ui
-                    ekos/focus.ui
-                    ekos/guide.ui
-                    ekos/mount.ui
                     ekos/profileeditor.ui
-                    ekos/guide/guider.ui
-                    ekos/guide/rcalibration.ui
+                    # Scheduler
+                    ekos/scheduler/scheduler.ui
+                    ekos/scheduler/mosaic.ui
+                    # Capture
+                    ekos/capture/capture.ui
+                    ekos/capture/calibrationoptions.ui
+                    # Align
+                    ekos/align/align.ui
+                    # Focus
+                    ekos/focus/focus.ui
+                    # Mount
+                    ekos/mount/mount.ui
+                    # Guide
+                    ekos/guide/guide.ui
+                    ekos/guide/opscalibration.ui
+                    ekos/guide/opsguide.ui
+                    #TODO remove from GIT
+                    #ekos/guide/guider.ui
+                    #ekos/guide/rcalibration.ui
                 )
 
             set(ekos_SRCS
                        ekos/ekos.cpp
-                       ekos/schedulerjob.cpp
-                       ekos/scheduler.cpp
-                       ekos/mosaic.cpp
                        ekos/ekosmanager.cpp
-                       ekos/capture.cpp
-                       ekos/sequencejob.cpp
-                       ekos/focus.cpp
-                       ekos/guide.cpp
-                       ekos/phd2.cpp
-                       ekos/align.cpp
-                       ekos/mount.cpp
-                       ekos/dome.cpp
-                       ekos/weather.cpp
-                       ekos/dustcap.cpp
-                       ekos/darklibrary.cpp
-                       ekos/astrometryparser.cpp
-                       ekos/offlineastrometryparser.cpp
-                       ekos/onlineastrometryparser.cpp
-                       ekos/remoteastrometryparser.cpp
                        ekos/profileeditor.cpp
                        ekos/opsekos.cpp
-                       ekos/QProgressIndicator.cpp
-                       ekos/guide/common.cpp
-                       ekos/guide/gmath.cpp
-                       ekos/guide/guider.cpp
-                       ekos/guide/matr.cpp
-                       ekos/guide/rcalibration.cpp
-                       ekos/guide/scroll_graph.cpp
-                       ekos/guide/vect.cpp
+
+                       # Auxiliary
+                       ekos/auxiliary/QProgressIndicator.cpp
+                       ekos/auxiliary/dome.cpp
+                       ekos/auxiliary/weather.cpp
+                       ekos/auxiliary/dustcap.cpp
+                       ekos/auxiliary/darklibrary.cpp
+
+                       # Capture
+                       ekos/capture/capture.cpp
+                       ekos/capture/sequencejob.cpp
+
+                       # Scheduler
+                       ekos/scheduler/schedulerjob.cpp
+                       ekos/scheduler/scheduler.cpp
+                       ekos/scheduler/mosaic.cpp
+
+                       # Focus
+                       ekos/focus/focus.cpp
+
+                       # Mount
+                       ekos/mount/mount.cpp
+
+                       # Align
+                       ekos/align/align.cpp
+                       ekos/align/astrometryparser.cpp
+                       ekos/align/offlineastrometryparser.cpp
+                       ekos/align/onlineastrometryparser.cpp
+                       ekos/align/remoteastrometryparser.cpp
+
+                       # Guide
+                       ekos/guide/guide.cpp
+                       ekos/guide/guideinterface.cpp                       
+                       ekos/guide/opscalibration.cpp
+                       ekos/guide/opsguide.cpp
+                       # Internal Guide                       
+                       ekos/guide/internalguide/gmath.cpp
+                       ekos/guide/internalguide/internalguider.cpp
+                       #ekos/guide/internalguide/guider.cpp
+                       ekos/guide/internalguide/matr.cpp
+                       #ekos/guide/internalguide/rcalibration.cpp
+                       ekos/guide/internalguide/vect.cpp
+                       # External Guide
+                       ekos/guide/externalguide/phd2.cpp
+                       ekos/guide/externalguide/linguider.cpp
            )
             endif(CFITSIO_FOUND)
     endif(BUILD_KSTARS_LITE)
@@ -184,16 +212,6 @@ if(NOT BUILD_KSTARS_LITE)
             xplanet/opsxplanet.ui
         )
     endif(XPLANET_FOUND)
-
-    #FIXME Enable OpenGL Later
-    #if(OPENGL_FOUND)
-    #    include_directories( ${OPENGL_INCLUDE_DIRS} )
-    #    set(kstars_gl_SRCS
-    #        skyglpainter.cpp
-    #        skymapgldraw.cpp
-    #    )
-    #    add_definitions(-DHAVE_OPENGL)
-    #endif( OPENGL_FOUND )
 
     ########### next target ###############
     set(libkstarstools_SRCS
@@ -822,15 +840,15 @@ if(NOT BUILD_KSTARS_LITE)
     if (INDI_FOUND)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.INDI.xml indi/indidbus.h INDIDBus)
         qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.xml ekos/ekosmanager.h EkosManager)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture.h Ekos::Capture)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus.h Ekos::Focus)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide.h Ekos::Guide)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align.h Ekos::Align)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount.h Ekos::Mount)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/dome.h Ekos::Dome)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/weather.h Ekos::Weather)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/dustcap.h Ekos::DustCap)
-        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler.h Ekos::Scheduler)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Capture.xml ekos/capture/capture.h Ekos::Capture)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Focus.xml ekos/focus/focus.h Ekos::Focus)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Guide.xml ekos/guide/guide.h Ekos::Guide)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Align.xml ekos/align/align.h Ekos::Align)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Mount.xml ekos/mount/mount.h Ekos::Mount)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Dome.xml ekos/auxiliary/dome.h Ekos::Dome)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Weather.xml ekos/auxiliary/weather.h Ekos::Weather)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.DustCap.xml ekos/auxiliary/dustcap.h Ekos::DustCap)
+        qt5_add_dbus_adaptor(kstars_SRCS org.kde.kstars.Ekos.Scheduler.xml ekos/scheduler/scheduler.h Ekos::Scheduler)
     endif(INDI_FOUND)
 
     ki18n_wrap_ui(kstars_SRCS
@@ -894,6 +912,7 @@ else(BUILD_KSTARS_LITE)
         Qt5::Qml
         Qt5::Quick
         Qt5::Network
+        Qt5::Concurrent
         ${ZLIB_LIBRARIES}
         )
 endif(BUILD_KSTARS_LITE)
@@ -925,12 +944,13 @@ if(INDI_FOUND)
         endif(ANDROID)
     else(WIN32 OR ANDROID)
         # If INDI Qt5 Client is found, use it.
-        if (INDI_CLIENT_QT_LIBRARIES)
-            add_definitions(-DUSE_QT5_INDI)
-            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES} z)
-        else(INDI_CLIENT_QT_LIBRARIES)
+        # Do not use Qt5 client on Linux for now
+        #if (INDI_CLIENT_QT_LIBRARIES)
+            #add_definitions(-DUSE_QT5_INDI)
+            #target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES} z)
+        #else(INDI_CLIENT_QT_LIBRARIES)
             target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
-        endif(INDI_CLIENT_QT_LIBRARIES)
+        #endif(INDI_CLIENT_QT_LIBRARIES)
     endif(WIN32 OR ANDROID)
 
 endif(INDI_FOUND)
@@ -938,6 +958,12 @@ endif(INDI_FOUND)
 if(WCSLIB_FOUND)
     target_link_libraries(KStarsLib ${WCSLIB_LIBRARIES})
 endif (WCSLIB_FOUND)
+
+if(LibRaw_FOUND)
+if(NOT BUILD_KSTARS_LITE)
+    target_link_libraries(KStarsLib ${LibRaw_LIBRARIES})
+endif(NOT BUILD_KSTARS_LITE)
+endif (LibRaw_FOUND)
 
 #FIXME Enable OpenGL Later
 #if( OPENGL_FOUND )

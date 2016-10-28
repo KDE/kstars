@@ -46,6 +46,7 @@ public:
 
     bool canAbsMove();
     bool canRelMove();
+    bool canTimerMove();
 
     bool getFocusDirection(FocusDirection *dir);
 

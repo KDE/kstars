@@ -26,6 +26,13 @@
 #include <QMouseEvent>
 #include <QResizeEvent>
 #include <QPaintEvent>
+
+#include <QFutureWatcher>
+#include <QEvent>
+#include <QGestureEvent>
+#include <QGestureEvent>
+#include <QPinchGesture>
+
 #include <QScrollArea>
 #include <QLabel>
 
@@ -43,9 +50,6 @@
 #include "dms.h"
 #include "fitsdata.h"
 
-#define INITIAL_W	640
-#define INITIAL_H	480
-
 #define MINIMUM_PIXEL_RANGE 5
 #define MINIMUM_STDVAR  5
 
@@ -60,13 +64,17 @@ public:
     virtual ~FITSLabel();
     void setSize(double w, double h);
     void centerTelescope(double raJ2000, double decJ2000);
+    bool getMouseButtonDown();
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent *e);
     virtual void mousePressEvent(QMouseEvent *e);
+    virtual void mouseReleaseEvent(QMouseEvent *e);
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
 private:
+    bool mouseButtonDown=false;
+    QPoint lastMousePoint;
     FITSView *image;
     dms ra;
     dms dec;
@@ -83,8 +91,9 @@ signals:
 class FITSView : public QScrollArea
 {
     Q_OBJECT
-public:
-    FITSView(QWidget *parent = 0, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);
+public:    
+
+    FITSView(QWidget *parent = 0, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);    
     ~FITSView();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
@@ -113,16 +122,51 @@ public:
     void drawStarCentroid(QPainter *);
     void drawTrackingBox(QPainter *);
     void drawMarker(QPainter *);
+    bool isCrosshairShown();
+    bool areObjectsShown();
+    bool isEQGridShown();
+    bool isPixelGridShown();
+    bool imageHasWCS();
+
+
+    void drawCrosshair(QPainter *);
+    void drawEQGrid(QPainter *);
+    void drawObjectNames(QPainter *painter);
+    void drawPixelGrid(QPainter *painter);
     void updateFrame();
 
+    bool isTelescopeActive();
+
+    int getMouseMode();
+    void setMouseMode(int mode);
+    void updateMouseCursor();
+    static const int dragMouse=0;
+    static const int selectMouse=1;
+    static const int scopeMouse=2;
+
+
+    // Zoom related
+    void cleanUpZoom(QPoint viewCenter);
+    QPoint getImagePoint(QPoint viewPortPoint);
+
     // Star Detection
+    int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID);
     void toggleStars(bool enable);
+    void setStarsEnabled(bool enable) { markStars  = enable; }
+
+    // Grids
+    void toggleEQGrid();
+    void toggleObjects();
+    void togglePixelGrid();
+    void toggleCrosshair();
 
     // FITS Mode
     void updateMode(FITSMode mode);
     FITSMode getMode() { return mode;}
 
     void setFilter(FITSScale newFilter) { filter = newFilter;}
+
+    void setFirstLoad(bool value);
 
 protected:
     void wheelEvent(QWheelEvent* event);
@@ -131,22 +175,33 @@ public slots:
     void ZoomIn();
     void ZoomOut();
     void ZoomDefault();
+    void ZoomToFit();
 
     void processPointSelection(int x, int y);
     void processMarkerSelection(int x, int y);
 
+protected slots:
+    void handleWCSCompletion();
+
 private:
+    bool event(QEvent *event);
+    bool gestureEvent(QGestureEvent *event);
+    void pinchTriggered(QPinchGesture *gesture);
 
     double average();
     double stddev();
     void calculateMaxPixel(double min, double max);
     void initDisplayImage();
+    void drawEQGridline(QPainter *painter, wcs_point *wcs_coord, bool isRA, double targetRA);
+    void drawEQGridlineAtRA(QPainter *painter, wcs_point *wcs_coord, double targetRA);
+    void drawEQGridlineAtDec(QPainter *painter, wcs_point *wcs_coord, double targetRA);
+    bool pointIsNearWCSTargetPoint(wcs_point *wcs_coord, double target, int x, int y, bool isRA, bool vertical);
 
     FITSLabel *image_frame;
     FITSData *image_data;
     int image_width, image_height;
 
-    double currentWidth,currentHeight; /* Current width and height due to zoom */
+    uint16_t currentWidth,currentHeight; /* Current width and height due to zoom */
     const double zoomFactor;           /* Image zoom factor */
     double currentZoom;                /* Current Zoom level */
 
@@ -158,8 +213,16 @@ private:
 
     bool firstLoad;
     bool markStars;
-    bool starsSearched;
+    bool showCrosshair=false;
+    bool showObjects=false;
+    bool showEQGrid=false;
+    bool showPixelGrid=false;
+    bool starsSearched=false;
     bool hasWCS;
+
+    int mouseMode=1;
+    bool zooming=false;
+    QPoint zoomLocation;
 
     QString filename;
     FITSMode mode;
@@ -168,15 +231,22 @@ private:
     // Cross hair
     QPointF markerCrosshair;
 
+    // Star selection algorithm
+    StarAlgorithm starAlgorithm = ALGORITHM_GRADIENT;
+
     // Tracking box
     bool trackingBoxEnabled;
     bool trackingBoxUpdated;
     QRect trackingBox;
     QPixmap trackingBoxPixmap;
 
+    // WCS Future Watch
+    QFutureWatcher<bool> wcsWatcher;
+
 signals:
     void newStatus(const QString &msg, FITSBar id);
     void debayerToggled(bool);
+    void wcsToggled(bool);
     void actionUpdated(const QString &name, bool enable);
     void trackingStarSelected(int x, int y);
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>567</width>
-    <height>335</height>
+    <width>748</width>
+    <height>394</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,6 +41,15 @@
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>3</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>0</number>
+       </property>
        <item row="3" column="3" colspan="3">
         <widget class="QLineEdit" name="longNameEdit"/>
        </item>

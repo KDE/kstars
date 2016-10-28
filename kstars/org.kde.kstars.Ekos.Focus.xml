@@ -1,6 +1,9 @@
 <!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.kstars.Ekos.Focus">
+    <method name="getStatus">
+      <arg type="i" direction="out"/>
+    </method>
     <method name="start">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
@@ -10,19 +13,22 @@
     <method name="capture">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="FocusIn">
+    <method name="focusIn">
       <arg name="ms" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="FocusIn">
+    <method name="focusIn">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="FocusOut">
+    <method name="focusOut">
       <arg name="ms" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="FocusOut">
+    <method name="focusOut">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    </method>
+    <method name="canAutoFocus">
+      <arg type="b" direction="out"/>
     </method>
     <method name="setCCD">
       <arg type="b" direction="out"/>
@@ -36,20 +42,10 @@
       <arg type="b" direction="out"/>
       <arg name="device" type="s" direction="in"/>
       <arg name="filterSlot" type="i" direction="in"/>
-    </method>
-    <method name="isAutoFocusComplete">
-      <arg type="b" direction="out"/>
-    </method>
-    <method name="isAutoFocusSuccessful">
-      <arg type="b" direction="out"/>
-    </method>
+    </method>    
     <method name="getHFR">
       <arg type="d" direction="out"/>
-    </method>
-    <method name="setFocusMode">
-      <arg name="mode" type="i" direction="in"/>
-      <arg type="b" direction="out"/>
-    </method>
+    </method>    
     <method name="setExposure">
       <arg name="value" type="d" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
@@ -63,11 +59,11 @@
       <arg name="value" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setAutoFocusStar">
+    <method name="setAutoStarEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setAutoFocusSubFrame">
+    <method name="setAutoSubFrameEnabled">
       <arg name="enable" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>

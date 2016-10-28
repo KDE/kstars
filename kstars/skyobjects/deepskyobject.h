@@ -194,8 +194,9 @@ public:
     quint64 updateID;
     quint64 updateNumID;
 
+     virtual void initPopupMenu( KSPopupMenu *pmenu );
 private:
-    virtual void initPopupMenu( KSPopupMenu *pmenu );
+
 
     double PositionAngle;
     QImage m_image;

@@ -33,6 +33,9 @@ AddLinkDialogUI::AddLinkDialogUI( QWidget *parent ) : QFrame( parent ) {
 AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
         : QDialog( parent ),  ObjectName( oname )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
     ald = new AddLinkDialogUI(this);
 
     setWindowTitle( i18n( "Add Custom URL to %1", oname ) );

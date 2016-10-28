@@ -98,6 +98,8 @@ public:
      */
     QString sgp4ErrorString(int code);
 
+    virtual void initPopupMenu( KSPopupMenu *pmenu );
+
 private:
     /**
      *@short Compute non time dependant parameters
@@ -128,7 +130,7 @@ private:
     double Modulus(double arg1, double arg2);
 
     
-    virtual void initPopupMenu( KSPopupMenu *pmenu );
+
     
     // TLE
     int     m_number;           // Satellite Number

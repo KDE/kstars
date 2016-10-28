@@ -50,6 +50,9 @@ PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
 PlanetViewer::PlanetViewer(QWidget *parent)
         : QDialog( parent ), scale(1.0), isClockRunning(false), tmr(this)
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
     KStarsData *data = KStarsData::Instance();
     pw = new PlanetViewerUI( this );
 

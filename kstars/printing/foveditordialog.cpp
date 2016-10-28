@@ -29,6 +29,9 @@
 FovEditorDialogUI::FovEditorDialogUI(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
 
     setWindowTitle(i18n("Field of View Snapshot Browser"));
 }

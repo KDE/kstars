@@ -30,6 +30,9 @@ ProfileEditorUI::ProfileEditorUI( QWidget *p ) : QFrame( p )
 
 ProfileEditor::ProfileEditor(QWidget *w )  : QDialog( w )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
     ui = new ProfileEditorUI( this );
 
     pi = NULL;

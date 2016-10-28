@@ -37,6 +37,9 @@ ThumbnailEditorUI::ThumbnailEditorUI( QWidget *parent ) : QFrame( parent ) {
 ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp, double _w, double _h )
         : QDialog( _tp ),  tp( _tp )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
     ui = new ThumbnailEditorUI( this );
     w = _w;
     h = _h;

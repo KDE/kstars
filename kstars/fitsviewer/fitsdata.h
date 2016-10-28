@@ -20,6 +20,7 @@
 #ifndef FITSDATA_H_
 #define FITSDATA_H_
 
+#include "skyobject.h"
 #include <QFrame>
 #include <QImage>
 #include <QPixmap>
@@ -28,6 +29,11 @@
 #include <QPaintEvent>
 #include <QScrollArea>
 #include <QLabel>
+#include <QStringList>
+
+#ifdef HAVE_WCSLIB
+#include <wcs.h>
+#endif
 
 #ifndef KSTARS_LITE
 #include <kxmlguiwindow.h>
@@ -45,9 +51,6 @@
 #include "skypoint.h"
 #include "dms.h"
 #include "bayer.h"
-
-#define INITIAL_W	640
-#define INITIAL_H	480
 
 #define MINIMUM_PIXEL_RANGE 5
 #define MINIMUM_STDVAR  5
@@ -72,11 +75,29 @@ public:
     float sum;
 };
 
+class FITSSkyObject : public QObject{
+    Q_OBJECT
+public:
+    explicit FITSSkyObject(SkyObject *skyObject, int xPos, int yPos);
+    SkyObject *skyObject();
+    int x();
+    int y();
+    void setX(int xPos);
+    void setY(int yPos);
+
+private:
+    SkyObject *skyObjectStored;
+    int xLoc;
+    int yLoc;
+
+};
+
+
 class FITSData
 {
 public:
 
-    typedef enum { CHANNEL_ONE, CHANNEL_TWO, CHANNEL_THREE } ColorChannel;
+    typedef enum { CHANNEL_ONE, CHANNEL_TWO, CHANNEL_THREE } ColorChannel;    
 
     FITSData(FITSMode mode=FITS_NORMAL);
     ~FITSData();
@@ -93,10 +114,6 @@ public:
     void runningAverageStdDev();
 
     // Access functions
-    //double getValue(float *buffer, int i);
-    //void setValue(float *buffer, int i, double value);
-    //double getValue(int i);
-    //void setValue(int i, float value);
     void clearImageBuffers();
     void setImageBuffer(float *buffer);
     float * getImageBuffer();
@@ -104,11 +121,11 @@ public:
     // Stats
     int getDataType() { return data_type; }
     unsigned int getSize() { return stats.samples_per_channel; }
-    void getDimensions(double *w, double *h) { *w = stats.width; *h = stats.height; }
-    void setWidth(long w) { stats.width = w;}
-    void setHeight(long h) { stats.height = h;}
-    long getWidth() { return stats.width; }
-    long getHeight() { return stats.height; }
+    void getDimensions(uint16_t *w, uint16_t *h) { *w = stats.width; *h = stats.height; }
+    void setWidth(uint16_t w) { stats.width = w; stats.samples_per_channel = stats.width * stats.height;}
+    void setHeight(uint16_t h) { stats.height = h; stats.samples_per_channel = stats.width * stats.height;}
+    uint16_t getWidth() { return stats.width; }
+    uint16_t getHeight() { return stats.height; }
 
     // Statistics
     int getNumOfChannels() { return channels;}
@@ -132,11 +149,15 @@ public:
     // Star detection
     int getDetectedStars() { return starCenters.count(); }
     bool areStarsSearched() { return starsSearched; }
+    void appendStar(Edge* newCenter) { starCenters.append(newCenter); }
     QList<Edge*> getStarCenters() { return starCenters;}
     int findStars(const QRectF &boundary = QRectF(), bool force=false);
     void findCentroid(const QRectF &boundary = QRectF(), int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
     void getCenterSelection(int *x, int *y);
     int findOneStar(const QRectF &boundary);
+
+    // Find single star based on partially customized Canny edge detection
+    static int findCannyStar(FITSData *data, const QRect &boundary = QRect());
 
     // Half Flux Radius
     Edge * getMaxHFRStar() { return maxHFRStar;}
@@ -147,6 +168,7 @@ public:
     FITSMode getMode() { return mode;}
 
     // WCS
+    bool checkWCS();
     bool hasWCS() { return HasWCS; }
     wcs_point *getWCSCoord()  { return wcs_coord; }
 
@@ -158,6 +180,8 @@ public:
 
     // FITS Record
     int getFITSRecord(QString &recordList, int &nkeys);
+
+   // QVariant getFITSHeaderValue(QString &keyword);
 
     // Histogram
     void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
@@ -178,45 +202,40 @@ public:
 
     // Horizontal flip counter. We keep count to rotate WCS keywords on save
     int getFlipVCounter() const;
-    void setFlipVCounter(int value);
+    void setFlipVCounter(int value);        
 
-    // Dark frame
-    float *getDarkFrame() const;
-    void setDarkFrame(float *value);
-    void subtract(float *darkFrame);
-
-    /* stats struct to hold statisical data about the FITS data */
-    struct
-    {
-        double min[3], max[3];
-        double mean[3];
-        double stddev[3];
-        double median[3];
-        double SNR;
-        int bitpix;
-        int ndim;
-        uint32_t samples_per_channel;
-        uint16_t width;
-        uint16_t height;
-    } stats;
+    void findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]);
+    QList<FITSSkyObject *> getSkyObjects();
+    QList<FITSSkyObject*> objList;//Does this need to be public??
 
 private:
 
     bool rotFITS (int rotate, int mirror);
     void rotWCSFITS (int angle, int mirror);
     bool checkCollision(Edge* s1, Edge*s2);
-    int calculateMinMax(bool refresh=false);
-    void checkWCS();
+    int calculateMinMax(bool refresh=false);    
     bool checkDebayer();
     void readWCSKeys();
+
+    // Sobel detector by Gonzalo Exequiel Pedone
+    void sobel(QVector<float> &gradient, QVector<float> &direction);
+
+    // Give unique IDs to each contigous region
+    int partition(int width, int height, QVector<float> &gradient, QVector<int> &ids);
+    void trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y);
+
+    #if 0
+    QVector<int> thinning(int width, int height, const QVector<int> &gradient, const QVector<int> &direction);
+    QVector<float> threshold(int thLow, int thHi, const QVector<float> &image);
+    QVector<int> hysteresis(int width, int height, const QVector<int> &image);    
+    #endif
 
     FITSHistogram *histogram;           // Pointer to the FITS data histogram
     fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
 
-    int data_type;                      // FITS image data type    
+    int data_type;                      // FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONGLONG, TDOUBLE)
     int channels;                       // Number of channels    
-    float *image_buffer;         		// Current image buffer
-    float *darkFrame;                    // Optional dark frame pointer
+    float *image_buffer;         		// Current image buffer    
 
 
     bool tempFile;                      // Is this a tempoprary file or one loaded from disk?
@@ -238,6 +257,23 @@ private:
 
     float *bayer_buffer;                // Bayer buffer
     BayerParams debayerParams;          // Bayer parameters
+
+    /* stats struct to hold statisical data about the FITS data */
+    struct
+    {
+        double min[3], max[3];
+        double mean[3];
+        double stddev[3];
+        double median[3];
+        double SNR;
+        int bitpix;
+        int ndim;
+        uint32_t samples_per_channel;
+        uint16_t width;
+        uint16_t height;
+    } stats;
+
+
 
 };
 

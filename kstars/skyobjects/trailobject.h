@@ -68,13 +68,16 @@ public:
 
     /** Maximum trail size */
     static const int MaxTrail = 400;
+
+    virtual void initPopupMenu( KSPopupMenu *pmenu );
+
 protected:
     QList<SkyPoint> Trail;
     QList<QString> m_TrailLabels;
     /// Store list of objects with trails.
     static QSet<TrailObject*> trailObjects;
 private:
-    virtual void initPopupMenu( KSPopupMenu *pmenu );
+
 };
 
 #endif

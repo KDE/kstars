@@ -75,6 +75,9 @@ NewFOVUI::NewFOVUI( QWidget *parent ) : QFrame( parent ) {
 FOVDialog::FOVDialog( QWidget* p ) :
     QDialog( p )
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
     // Register FOV* data type
     if( fovID == -1 )
         fovID = qRegisterMetaType<FOV*>("FOV*");

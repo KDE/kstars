@@ -12,7 +12,7 @@
         <file>icons/ekos_scheduler.png</file>
         <file>icons/ekos_setup.png</file>
         <file>icons/fov.png</file>
-		<file>icons/histogram.png</file>
+        <file>icons/histogram.png</file>
         <file>icons/breeze/index.theme</file>
         <file>icons/breeze/default/accessories-calculator.svg</file>
         <file>icons/breeze/default/application-exit.svg</file>
@@ -119,7 +119,12 @@
         <file>icons/go-nw.png</file>
         <file>icons/go-se.png</file>
         <file>icons/go-sw.png</file>
-        <file>icons/histogram.png</file>
+        <file>icons/breeze/default/zoom-fit-width.svg</file>
+        <file>icons/breeze/default/map-flat.svg</file>
+        <file>icons/breeze/default/kstars_telescope.svg</file>
+        <file>icons/center_telescope.svg</file>
+        <file>icons/breeze/default/view-list-details.svg</file>
+        <file>icons/breeze/default/view-list-icons.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>

@@ -54,7 +54,7 @@
 #include "indi/driverinfo.h"
 #include "indi/indistd.h"
 #include "ekos/ekosmanager.h"
-#include "ekos/align.h"
+#include "ekos/align/align.h"
 #endif
 
 bool SkyMapDrawAbstract::m_DrawLock = false;
@@ -187,14 +187,15 @@ void SkyMapDrawAbstract::drawSolverFOV(QPainter &psky)
     #ifdef HAVE_INDI
 
     Ekos::Align *align = KStars::Instance()->ekosManager()->alignModule();
-    if (align && align->isSolverComplete())
+    //if (align && align->isSolverComplete())
+    if (align && (align->getStatus() == Ekos::ALIGN_COMPLETE || align->getStatus() == Ekos::ALIGN_PROGRESS))
     {
         bool isVisible = false;
         FOV * fov = align->fov();
         if (fov == NULL)
             return;
 
-        SkyPoint p = fov->center();        
+        SkyPoint p = fov->center();
         if (std::isnan(p.ra().Degrees()))
             return;
 

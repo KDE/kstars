@@ -40,6 +40,9 @@
 Execute::Execute() {
     QWidget *w = new QWidget;
     ui.setupUi( w );
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(w);

@@ -108,7 +108,7 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
 
     view->setFilter(filter);
 
-    bool imageLoad = view->loadFITS(imageURL->url(), silent);
+    bool imageLoad = view->loadFITS(imageURL->toLocalFile(), silent);
 
     if (imageLoad)
     {
@@ -130,7 +130,6 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
 
         view->updateFrame();
     }
-
 
     return imageLoad;
 }
@@ -319,17 +318,23 @@ bool FITSTab::saveFileAs()
 
 void FITSTab::ZoomIn()
 {
-   view->ZoomIn();
+    QPoint oldCenter=view->getImagePoint(view->viewport()->rect().center());
+    view->ZoomIn();
+    view->cleanUpZoom(oldCenter);
 }
 
 void FITSTab::ZoomOut()
 {
-  view->ZoomOut();
+    QPoint oldCenter=view->getImagePoint(view->viewport()->rect().center());
+    view->ZoomOut();
+    view->cleanUpZoom(oldCenter);
 }
 
 void FITSTab::ZoomDefault()
 {
-  view->ZoomDefault();
+    QPoint oldCenter=view->getImagePoint(view->viewport()->rect().center());
+    view->ZoomDefault();
+    view->cleanUpZoom(oldCenter);
 }
 
 void FITSTab::tabPositionUpdated()

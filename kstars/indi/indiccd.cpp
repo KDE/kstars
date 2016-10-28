@@ -25,6 +25,10 @@
 #include "fitsviewer/fitsdata.h"
 #endif
 
+#ifdef HAVE_LIBRAW
+#include <libraw/libraw.h>
+#endif
+
 #include "driverinfo.h"
 #include "clientmanager.h"
 #include "streamwg.h"
@@ -38,7 +42,9 @@
 
 #include "Options.h"
 
+
 const int MAX_FILENAME_LEN = 1024;
+const QStringList RAWFormats = { "cr2", "crw", "nef", "raf", "dng" };
 
 namespace ISD
 {
@@ -64,7 +70,7 @@ CCDChip::CCDChip(ISD::CCD *ccd, ChipType cType)
     normalImage = focusImage = guideImage = calibrationImage = NULL;
 }
 
-FITSView * CCDChip::getImage(FITSMode imageType)
+FITSView * CCDChip::getImageView(FITSMode imageType)
 {
     switch (imageType)
     {
@@ -96,9 +102,8 @@ FITSView * CCDChip::getImage(FITSMode imageType)
 
 }
 
-void CCDChip::setImage(FITSView *image, FITSMode imageType)
+void CCDChip::setImageView(FITSView *image, FITSMode imageType)
 {
-
     switch (imageType)
     {
     case FITS_NORMAL:
@@ -117,7 +122,7 @@ void CCDChip::setImage(FITSView *image, FITSMode imageType)
         calibrationImage = image;
         break;
 
-     case FITS_ALIGN:
+    case FITS_ALIGN:
         alignImage = image;
         if (KStars::Instance()->ekosManager()->alignModule() && KStars::Instance()->ekosManager()->alignModule()->fov())
             KStars::Instance()->ekosManager()->alignModule()->fov()->setImage(alignImage->getDisplayImage()->copy());
@@ -154,31 +159,31 @@ bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *mi
     if (arg == NULL)
         return false;
 
-    *minX = arg->min;
-    *maxX = arg->max;
+    if (minX) *minX = arg->min;
+    if (maxX) *maxX = arg->max;
 
 
     arg = IUFindNumber(frameProp, "Y");
     if (arg == NULL)
         return false;
 
-    *minY = arg->min;
-    *maxY = arg->max;
+    if (minY) *minY = arg->min;
+    if (maxY) *maxY = arg->max;
 
     arg = IUFindNumber(frameProp, "WIDTH");
     if (arg == NULL)
         return false;
 
-    *minW = arg->min;
-    *maxW = arg->max;
+    if (minW) *minW = arg->min;
+    if (maxW) *maxW = arg->max;
 
 
     arg = IUFindNumber(frameProp, "HEIGHT");
     if (arg == NULL)
         return false;
 
-    *minH = arg->min;
-    *maxH = arg->max;
+    if (minH) *minH = arg->min;
+    if (maxH) *maxH = arg->max;
 
     return true;
 
@@ -1056,7 +1061,7 @@ void CCD::processText(ITextVectorProperty *tvp)
 void CCD::processBLOB(IBLOB* bp)
 {
 
-    enum blobType { BLOB_IMAGE, BLOB_FITS, BLOB_CR2, BLOB_OTHER} BType;
+    enum blobType { BLOB_IMAGE, BLOB_FITS, BLOB_RAW, BLOB_OTHER} BType;
 
     BType = BLOB_OTHER;
 
@@ -1091,8 +1096,8 @@ void CCD::processBLOB(IBLOB* bp)
         BType = BLOB_IMAGE;
     else if (format.contains("fits"))
         BType = BLOB_FITS;
-    else if (format.contains("cr2"))
-        BType = BLOB_CR2;
+    else if (RAWFormats.contains(fmt))
+        BType = BLOB_RAW;
 
     if (BType == BLOB_OTHER)
     {
@@ -1118,7 +1123,7 @@ void CCD::processBLOB(IBLOB* bp)
     QTemporaryFile tmpFile(QDir::tempPath() + "/fitsXXXXXX");
 
     //if (currentDir.endsWith('/'))
-        //currentDir.truncate(currentDir.size()-1);
+    //currentDir.truncate(currentDir.size()-1);
 
     if (QDir(currentDir).exists() == false)
         QDir().mkpath(currentDir);
@@ -1161,7 +1166,7 @@ void CCD::processBLOB(IBLOB* bp)
         if (ISOMode == false)
             filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%03d", nextSequenceID)).arg(QString(fmt));
         else
-            filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(QString().sprintf("%03d", nextSequenceID)).arg(ts).arg(QString(fmt));
+            filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(ts).arg(QString().sprintf("%03d", nextSequenceID)).arg(QString(fmt));
 
         QFile fits_temp_file(filename);
         if (!fits_temp_file.open(QIODevice::WriteOnly))
@@ -1190,7 +1195,7 @@ void CCD::processBLOB(IBLOB* bp)
         KStars::Instance()->statusBar()->showMessage( i18n("%1 file saved to %2", QString(fmt).toUpper(), filename ), 0);
 
     // FIXME: Why is this leaking memory in Valgrind??!
-    KNotification::event( QLatin1String( "FITSReceived" ) , i18n("FITS file is received"));
+    KNotification::event( QLatin1String( "FITSReceived" ) , i18n("Image file is received"));
 
     /*if (targetChip->showFITS() == false && targetChip->getCaptureMode() == FITS_NORMAL)
     {
@@ -1198,33 +1203,76 @@ void CCD::processBLOB(IBLOB* bp)
         return;
     }*/
 
-    if (BType == BLOB_IMAGE || BType == BLOB_CR2)
+    if (BType == BLOB_IMAGE || BType == BLOB_RAW)
     {
-        if (BType == BLOB_CR2)
-        {
-            if (QStandardPaths::findExecutable("dcraw").isEmpty() == false && QStandardPaths::findExecutable("cjpeg").isEmpty() == false)
-            {
-                QProcess dcraw;
-                QString rawFileName = filename;
-                rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
-                QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
-                QTemporaryFile jpgPreview(templateName);
-                jpgPreview.setAutoRemove(false);
-                jpgPreview.open();
-                jpgPreview.close();
-                QString jpeg_filename = jpgPreview.fileName();
+        if (BType == BLOB_RAW)
+        {           
+            #ifdef HAVE_LIBRAW
 
-                QString cmd = QString("/bin/sh -c \"dcraw -c -q 0 -w -H 5 -b 8 %1 | cjpeg -quality 80 > %2\"").arg(filename).arg(jpeg_filename);
-                dcraw.start(cmd);
-                dcraw.waitForFinished();
-                filename = jpeg_filename;
-            }
-            else
+            QString rawFileName = filename;
+            rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
+            QString templateName = QString("%1/%2.XXXXXX").arg(QDir::tempPath()).arg(rawFileName);
+            QTemporaryFile imgPreview(templateName);
+            imgPreview.setAutoRemove(false);
+            imgPreview.open();
+            imgPreview.close();
+            QString preview_filename = imgPreview.fileName();
+
+            int  ret=0;
+            // Creation of image processing object
+            LibRaw RawProcessor;
+
+            // Let us open the file
+            if( (ret = RawProcessor.open_file(filename.toLatin1().data())) != LIBRAW_SUCCESS)
             {
-                KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2 to JPEG."));
+                KStars::Instance()->statusBar()->showMessage(i18n("Cannot open %1: %2", rawFileName, libraw_strerror(ret)));
+                RawProcessor.recycle();
                 emit BLOBUpdated(bp);
                 return;
             }
+
+            // Let us unpack the image
+            /*if( (ret = RawProcessor.unpack() ) != LIBRAW_SUCCESS)
+            {
+                KStars::Instance()->statusBar()->showMessage(i18n("Cannot unpack_thumb %1: %2", rawFileName, libraw_strerror(ret)));
+                if(LIBRAW_FATAL_ERROR(ret))
+                {
+                    RawProcessor.recycle();
+                    emit BLOBUpdated(bp);
+                    return;
+                }
+                // if there has been a non-fatal error, we will try to continue
+            }*/
+
+            // Let us unpack the thumbnail
+            if( (ret = RawProcessor.unpack_thumb() ) != LIBRAW_SUCCESS)
+            {
+                KStars::Instance()->statusBar()->showMessage(i18n("Cannot unpack_thumb %1: %2", rawFileName, libraw_strerror(ret)));
+                    RawProcessor.recycle();
+                    emit BLOBUpdated(bp);
+                    return;
+            }
+            else
+                // We have successfully unpacked the thumbnail, now let us write it to a file
+            {
+                //snprintf(thumbfn,sizeof(thumbfn),"%s.%s",av[i],T.tformat == LIBRAW_THUMBNAIL_JPEG ? "thumb.jpg" : "thumb.ppm");
+                if( LIBRAW_SUCCESS != (ret = RawProcessor.dcraw_thumb_writer(preview_filename.toLatin1().data())))
+                {
+                    KStars::Instance()->statusBar()->showMessage(i18n("Cannot write %s %1: %2", preview_filename, libraw_strerror(ret)));
+                    RawProcessor.recycle();
+                    emit BLOBUpdated(bp);
+                    return;
+                }
+            }
+
+            filename = preview_filename;
+
+            #else
+                // Silenty fail if KStars was not compiled with libraw
+                //KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG."));
+                emit BLOBUpdated(bp);
+                return;
+            #endif
         }
 
         if (imageViewer.isNull())
@@ -1283,7 +1331,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (tabRC >= 0)
             {
                 normalTabID = tabRC;
-                targetChip->setImage(fv->getView(normalTabID), FITS_NORMAL);
+                targetChip->setImageView(fv->getView(normalTabID), FITS_NORMAL);
 
                 emit newImage(fv->getView(normalTabID)->getDisplayImage(), targetChip);
             }
@@ -1297,6 +1345,7 @@ void CCD::processBLOB(IBLOB* bp)
             break;
 
         case FITS_FOCUS:
+            /*
             if (focusTabID == -1)
                 tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
             else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
@@ -1310,7 +1359,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (tabRC >= 0)
             {
                 focusTabID = tabRC;
-                targetChip->setImage(fv->getView(focusTabID), FITS_FOCUS);
+                targetChip->setImageView(fv->getView(focusTabID), FITS_FOCUS);
 
                 emit newImage(fv->getView(focusTabID)->getDisplayImage(), targetChip);
             }
@@ -1320,9 +1369,31 @@ void CCD::processBLOB(IBLOB* bp)
                 // If there is problem loading image then BLOB is not valid so let's return
                 return;
             }
+            */
+
+        {
+            FITSView *focusView = targetChip->getImageView(FITS_FOCUS);
+            if (focusView)
+            {
+                focusView->setFilter(captureFilter);
+                bool imageLoad = focusView->loadFITS(filename, true);
+                if (imageLoad)
+                {
+                    //focusView->rescale(ZOOM_FIT_WINDOW);
+                    focusView->updateFrame();
+                    emit newImage(focusView->getDisplayImage(), targetChip);
+                }
+                else
+                {
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
+                    return;
+                }
+            }
+        }
             break;
 
         case FITS_GUIDE:
+            /*
             if (guideTabID == -1)
                 tabRC = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
             else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
@@ -1336,7 +1407,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (tabRC >= 0)
             {
                 guideTabID = tabRC;
-                targetChip->setImage(fv->getView(guideTabID), FITS_GUIDE);
+                targetChip->setImageView(fv->getView(guideTabID), FITS_GUIDE);
 
                 emit newImage(fv->getView(guideTabID)->getDisplayImage(), targetChip);
             }
@@ -1344,7 +1415,26 @@ void CCD::processBLOB(IBLOB* bp)
             {
                 emit newExposureValue(targetChip, 0, IPS_ALERT);
                 return;
+            }*/
+        {
+            FITSView *guideView = targetChip->getImageView(FITS_GUIDE);
+            if (guideView)
+            {
+                guideView->setFilter(captureFilter);
+                bool imageLoad = guideView->loadFITS(filename, true);
+                if (imageLoad)
+                {
+                    //guideView->rescale(ZOOM_FIT_WINDOW);
+                    guideView->updateFrame();
+                    emit newImage(guideView->getDisplayImage(), targetChip);
+                }
+                else
+                {
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
+                    return;
+                }
             }
+        }
             break;
 
         case FITS_CALIBRATE:
@@ -1361,7 +1451,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (tabRC >= 0)
             {
                 calibrationTabID = tabRC;
-                targetChip->setImage(fv->getView(calibrationTabID), FITS_CALIBRATE);
+                targetChip->setImageView(fv->getView(calibrationTabID), FITS_CALIBRATE);
             }
             else
             {
@@ -1370,7 +1460,7 @@ void CCD::processBLOB(IBLOB* bp)
             }
             break;
 
-         case FITS_ALIGN:
+        case FITS_ALIGN:
             if (alignTabID == -1)
                 tabRC = fv->addFITS(&fileURL, FITS_ALIGN, captureFilter);
             else if (fv->updateFITS(&fileURL, alignTabID, captureFilter) == false)
@@ -1384,7 +1474,7 @@ void CCD::processBLOB(IBLOB* bp)
             if (tabRC >= 0)
             {
                 alignTabID = tabRC;
-                targetChip->setImage(fv->getView(alignTabID), FITS_ALIGN);
+                targetChip->setImageView(fv->getView(alignTabID), FITS_ALIGN);
             }
             else
             {
@@ -1399,8 +1489,8 @@ void CCD::processBLOB(IBLOB* bp)
 
         }
 
-        fv->show();
-
+        if (targetChip->getCaptureMode() != FITS_GUIDE && targetChip->getCaptureMode() != FITS_FOCUS)
+            fv->show();
     }
 #endif
 
@@ -1580,7 +1670,7 @@ bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage
     return true;
 }
 
-void CCD::updateUploadSettings()
+void CCD::updateUploadSettings(const QString &remoteDir)
 {
     QString filename = seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("XXX");
 
@@ -1591,14 +1681,12 @@ void CCD::updateUploadSettings()
     if (uploadSettingsTP)
     {
         uploadT = IUFindText(uploadSettingsTP, "UPLOAD_DIR");
-        if (uploadT)
-            IUSaveText(uploadT, fitsDir.toLatin1().constData());
+        if (uploadT && remoteDir.isEmpty() == false)
+            IUSaveText(uploadT, remoteDir.toLatin1().constData());
 
         uploadT = IUFindText(uploadSettingsTP, "UPLOAD_PREFIX");
         if (uploadT)
             IUSaveText(uploadT, filename.toLatin1().constData());
-
-
 
         clientManager->sendNewText(uploadSettingsTP);
     }

@@ -57,6 +57,10 @@
 #include "fitshistogram.h"
 #include "ksutils.h"
 #include "Options.h"
+#include "indi/indilistener.h"
+
+#define INITIAL_W	785
+#define INITIAL_H	650
 
 QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast")
                                                     << I18N_NOOP("Equalize") << I18N_NOOP("High Pass") << I18N_NOOP("Median")
@@ -66,6 +70,15 @@ QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch")
 FITSViewer::FITSViewer (QWidget *parent)
         : KXmlGuiWindow (parent)
 {
+#ifdef Q_OS_OSX
+    if(Options::independentWindowFITS())
+         setWindowFlags(Qt::Window);
+     else{
+        setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+        connect(QApplication::instance(), SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(changeAlwaysOnTop(Qt::ApplicationState)));
+     }
+#endif
+
     fitsTab   = new QTabWidget(this);
     undoGroup = new QUndoGroup(this);
 
@@ -83,6 +96,12 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     connect(fitsTab, SIGNAL(currentChanged(int)), this, SLOT(tabFocusUpdated(int)));
     connect(fitsTab, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+
+    //These two connections will enable or disable the scope button if a scope is available or not.
+    //Of course this is also dependent on the presence of WCS data in the image.
+    connect(INDIListener::Instance(), SIGNAL(newTelescope(ISD::GDInterface *)), this, SLOT(updateWCSFunctions()));
+    connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface *)), this, SLOT(updateWCSFunctions()));
+
 
     led.setColor(Qt::green);
 
@@ -181,6 +200,44 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(statFITS()));
 
+    action = actionCollection()->addAction("view_crosshair");
+    action->setIcon(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")));
+    action->setText(i18n( "Show Cross Hairs"));
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(toggleCrossHair()));
+
+    action = actionCollection()->addAction("view_pixel_grid");
+    action->setIcon(QIcon::fromTheme("map-flat", QIcon(":/icons/breeze/default/map-flat.svg")));
+    action->setText(i18n( "Show Pixel Gridlines"));
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(togglePixelGrid()));
+
+    action = actionCollection()->addAction("view_eq_grid");
+    action->setIcon(QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg")));
+    action->setText(i18n( "Show Equatorial Gridlines"));
+    action->setCheckable(true);
+    action->setDisabled(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(toggleEQGrid()));
+
+    action = actionCollection()->addAction("view_objects");
+    action->setIcon(QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")));
+    action->setText(i18n( "Show Objects in Image"));
+    action->setCheckable(true);
+    action->setDisabled(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(toggleObjects()));
+
+    action = actionCollection()->addAction("center_telescope");
+    action->setIcon(QIcon(":/icons/center_telescope.svg"));
+    action->setText(i18n( "Center Telescope\n*No Telescopes Detected*"));
+    action->setDisabled(true);
+    action->setCheckable(true);
+    connect(action, SIGNAL(triggered(bool)), SLOT(centerTelescope()));
+
+    action = actionCollection()->addAction("view_zoom_fit");
+    action->setIcon(QIcon::fromTheme("zoom-fit-width", QIcon(":/icons/breeze/default/zoom-fit-width.svg")));
+    action->setText(i18n( "Zoom To Fit"));
+    connect(action, SIGNAL(triggered(bool)), SLOT(ZoomToFit()));
+
     action = actionCollection()->addAction("mark_stars");
     action->setText(i18n( "Mark Stars"));
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
@@ -211,12 +268,24 @@ FITSViewer::FITSViewer (QWidget *parent)
     resize(INITIAL_W, INITIAL_H);
 }
 
+void FITSViewer::changeAlwaysOnTop(Qt::ApplicationState state)
+{
+    if(isVisible()){
+        if (state == Qt::ApplicationActive)
+            setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
+        else
+            setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
+        show();
+    }
+}
+
 FITSViewer::~FITSViewer()
 {
     fitsTab->disconnect();
 
     qDeleteAll(fitsTabs);
 }
+
 
 void FITSViewer::closeEvent(QCloseEvent * /*event*/)
 {
@@ -320,6 +389,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     connect(tab->getView(), SIGNAL(actionUpdated(QString,bool)), this, SLOT(updateAction(QString,bool)));
     connect(tab, SIGNAL(changeStatus(bool)), this, SLOT(updateTabStatus(bool)));
     connect(tab, SIGNAL(debayerToggled(bool)), this, SLOT(setDebayerAction(bool)));
+    connect(tab->getView(), SIGNAL(wcsToggled(bool)), this, SLOT(updateWCSFunctions()));
 
     saveFileAction->setEnabled(true);
     saveFileAsAction->setEnabled(true);
@@ -341,6 +411,9 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     led.setColor(Qt::green);
 
     updateStatusBar(i18n("Ready."), FITS_MESSAGE);
+
+    updateWCSFunctions();
+    tab->getView()->setMouseMode(FITSView::dragMouse);
 
     return (fitsID++);
 }
@@ -446,6 +519,13 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         actionCollection()->action("fits_debayer")->setEnabled(false);
 
     updateStatusBar("", FITS_WCS);
+    updateButtonStatus("view_crosshair", "Cross Hairs", getCurrentView()->isCrosshairShown());
+    updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
+    updateButtonStatus("view_objects", "Objects in Image", getCurrentView()->areObjectsShown());
+    updateButtonStatus("view_pixel_grid", "Pixel Gridines", getCurrentView()->isPixelGridShown());
+    updateScopeButton();
+    updateWCSFunctions();
+
 
 }
 
@@ -693,6 +773,14 @@ void FITSViewer::ZoomDefault()
   fitsTabs[fitsTab->currentIndex()]->ZoomDefault();
 }
 
+void FITSViewer::ZoomToFit()
+{
+    if (fitsTabs.empty())
+        return;
+
+  getCurrentView()->ZoomToFit();
+}
+
 void FITSViewer::updateAction(const QString &name, bool enable)
 {
     QAction *toolAction = NULL;
@@ -747,10 +835,110 @@ void FITSViewer::closeTab(int index)
     }
 }
 
+/**
+ This is helper function to make it really easy to make the update the state of toggle buttons
+ that either show or hide information in the Current view.  This method would get called both
+ when one of them gets pushed and also when tabs are switched.
+ */
+
+void FITSViewer::updateButtonStatus(QString action, QString item, bool showing){
+    QAction *a=actionCollection()->action(action);
+    if (showing)
+    {
+        a->setText( "Hide " + item );
+        a->setChecked(true);
+    }
+    else
+    {
+        a->setText( "Show " + item );
+        a->setChecked(false);
+    }
+}
+
+/**
+This is a method that either enables or disables the WCS based features in the Current View.
+ */
+
+void FITSViewer::updateWCSFunctions()
+{
+    if (getCurrentView() == NULL)
+        return;
+
+    if(getCurrentView()->imageHasWCS()){
+        actionCollection()->action("view_eq_grid")->setDisabled(false);
+        actionCollection()->action("view_eq_grid")->setText( i18n( "Show Equatorial Gridlines" ));
+        actionCollection()->action("view_objects")->setDisabled(false);
+        actionCollection()->action("view_objects")->setText( i18n( "Show Objects in Image" ));
+        if(getCurrentView()->isTelescopeActive()){
+            actionCollection()->action("center_telescope")->setDisabled(false);
+
+            actionCollection()->action("center_telescope")->setText( i18n( "Center Telescope\n*Ready*" ));
+        }
+        else{
+            actionCollection()->action("center_telescope")->setDisabled(true);
+            actionCollection()->action("center_telescope")->setText( i18n( "Center Telescope\n*No Telescopes Detected*" ));
+        }
+    }
+    else{
+        actionCollection()->action("view_eq_grid")->setDisabled(true);
+        actionCollection()->action("view_eq_grid")->setText( i18n( "Show Equatorial Gridlines\n*No WCS Info*" ));
+        actionCollection()->action("center_telescope")->setDisabled(true);
+        actionCollection()->action("center_telescope")->setText( i18n( "Center Telescope\n*No WCS Info*" ));
+        actionCollection()->action("view_objects")->setDisabled(true);
+        actionCollection()->action("view_objects")->setText( i18n( "Show Objects in Image\n*No WCS Info*" ));
+    }
+
+}
+
+void FITSViewer::updateScopeButton(){
+    if(getCurrentView()->getMouseMode()==FITSView::scopeMouse){
+        actionCollection()->action("center_telescope")->setChecked(true);
+    } else{
+        actionCollection()->action("center_telescope")->setChecked(false);
+    }
+}
+
+/**
+ This methood either enables or disables the scope mouse mode so you can slew your scope to coordinates
+ just by clicking the mouse on a spot in the image.
+ */
+
+void FITSViewer::centerTelescope(){
+    if(getCurrentView()->getMouseMode()==FITSView::scopeMouse){
+        getCurrentView()->setMouseMode(FITSView::dragMouse);
+    } else{
+        getCurrentView()->setMouseMode(FITSView::scopeMouse);
+    }
+    updateScopeButton();
+}
+
+
+
+void FITSViewer::toggleCrossHair()
+{
+    getCurrentView()->toggleCrosshair();
+    updateButtonStatus("view_crosshair", "Cross Hairs", getCurrentView()->isCrosshairShown());
+}
+void FITSViewer::toggleEQGrid()
+{
+    getCurrentView()->toggleEQGrid();
+    updateButtonStatus("view_eq_grid", "Equatorial Gridines", getCurrentView()->isEQGridShown());
+}
+
+void FITSViewer::toggleObjects()
+{
+    getCurrentView()->toggleObjects();
+    updateButtonStatus("view_objects", "Objects in Image", getCurrentView()->areObjectsShown());
+}
+
+void FITSViewer::togglePixelGrid()
+{
+    getCurrentView()->togglePixelGrid();
+    updateButtonStatus("view_pixel_grid", "Pixel Gridines", getCurrentView()->isPixelGridShown());
+}
+
 void FITSViewer::toggleStars()
 {
-
-
     if (markStars)
     {
         markStars = false;
