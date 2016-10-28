@@ -198,7 +198,11 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
     // Reset parity on solver failure
     connect(this, &OfflineAstrometryParser::solverFailed, this, [&]() { parity = QString();});
 
+#if QT_VERSION > QT_VERSION_CHECK(5,6,0)
     connect(&solver, &QProcess::errorOccurred, this, [&]()
+#else
+    connect(&solver, &QProcess::error, this, [&]()
+#endif
     {
         align->appendLogText(i18n("Error starting solver: %1", solver.errorString()));
         emit solverFailed();
