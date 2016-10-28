@@ -30,8 +30,7 @@ else (CFITSIO_INCLUDE_DIR AND CFITSIO_LIBRARIES)
   find_path(CFITSIO_INCLUDE_DIR fitsio.h
     if(ANDROID)
         ${CMAKE_SOURCE_DIR}/build_kstarslite/include
-        NO_DEFAULT_PATH
-    elseif(ANDROID)
+    else(ANDROID)
          ${PC_CFITSIO_INCLUDE_DIRS}
          ${_obIncDir}
          ${GNUWIN32_DIR}/include
@@ -43,7 +42,7 @@ else (CFITSIO_INCLUDE_DIR AND CFITSIO_LIBRARIES)
     if(ANDROID)
           ${CMAKE_SOURCE_DIR}/build_kstarslite/android_libs/${ANDROID_ARCHITECTURE}
     else(ANDROID)
-        ${PC_CFITSIO_INCLUDE_DIRS}
+        ${PC_CFITSIO_LIBRARY_DIRS}
         ${_obIncDir}
         ${GNUWIN32_DIR}/include
     endif(ANDROID)
@@ -55,14 +54,13 @@ else (CFITSIO_INCLUDE_DIR AND CFITSIO_LIBRARIES)
     set(CFITSIO_FOUND FALSE)
   endif(CFITSIO_INCLUDE_DIR AND CFITSIO_LIBRARIES)
 
-
   if (CFITSIO_FOUND)
     if (NOT CFitsio_FIND_QUIETLY)
       message(STATUS "Found CFITSIO: ${CFITSIO_LIBRARIES}")
     endif (NOT CFitsio_FIND_QUIETLY)
   else (CFITSIO_FOUND)
     if (CFitsio_FIND_REQUIRED)
-      message(FATAL_ERROR "CFITSIO not found. Please install libcfitsio0-devel and try again. http://indi.sf.net")
+      message(FATAL_ERROR "CFITSIO not found. Please install libcfitsio-dev and try again.")
     endif (CFitsio_FIND_REQUIRED)
   endif (CFITSIO_FOUND)
 
