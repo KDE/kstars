@@ -108,7 +108,7 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
 
     view->setFilter(filter);
 
-    bool imageLoad = view->loadFITS(imageURL->url(), silent);
+    bool imageLoad = view->loadFITS(imageURL->toLocalFile(), silent);
 
     if (imageLoad)
     {
