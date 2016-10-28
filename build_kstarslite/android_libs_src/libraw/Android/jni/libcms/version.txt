@@ -1,3 +1,0 @@
-lcms2-2.7
-
-http://www.littlecms.com/
