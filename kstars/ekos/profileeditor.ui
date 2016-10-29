@@ -458,6 +458,8 @@
   <tabstop>remoteMode</tabstop>
   <tabstop>remoteHost</tabstop>
   <tabstop>remotePort</tabstop>
+  <tabstop>INDIWebManagerCheck</tabstop>
+  <tabstop>INDIWebManagerPort</tabstop>
   <tabstop>mountCombo</tabstop>
   <tabstop>ccdCombo</tabstop>
   <tabstop>guiderCombo</tabstop>
@@ -470,6 +472,7 @@
   <tabstop>aux2Combo</tabstop>
   <tabstop>aux3Combo</tabstop>
   <tabstop>aux4Combo</tabstop>
+  <tabstop>loadSiteCheck</tabstop>
  </tabstops>
  <resources/>
  <connections/>
