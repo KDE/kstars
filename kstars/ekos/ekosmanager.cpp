@@ -779,7 +779,11 @@ void EkosManager::deviceConnected()
     if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)
     {
         if (mountProcess)
+        {
             mountProcess->setEnabled(true);
+            if (alignProcess)
+                alignProcess->setEnabled(true);
+        }
     }
     else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
     {
@@ -788,7 +792,12 @@ void EkosManager::deviceConnected()
         if (focusProcess)
             focusProcess->setEnabled(true);
         if (alignProcess)
-            alignProcess->setEnabled(true);
+        {
+            if (mountProcess && mountProcess->isEnabled())
+                alignProcess->setEnabled(true);
+            else
+                alignProcess->setEnabled(false);
+        }
         if (guideProcess)
             guideProcess->setEnabled(true);
     }
@@ -930,7 +939,6 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
         rc = focusProcess->setCCD(Options::defaultFocusCCD());
     if (rc == false && primaryCCD.isEmpty() == false)
         focusProcess->setCCD(primaryCCD);
-
 
     initAlign();
 
@@ -1273,7 +1281,7 @@ void EkosManager::processTabChange()
     {
         if (alignProcess->isEnabled() == false && captureProcess->isEnabled())
         {
-            if (managedDevices[KSTARS_CCD]->isConnected() && alignProcess->isParserOK())
+            if (managedDevices[KSTARS_CCD]->isConnected() && managedDevices.contains(KSTARS_TELESCOPE) && alignProcess->isParserOK())
                 alignProcess->setEnabled(true);
         }
 
@@ -1428,6 +1436,7 @@ void EkosManager::initAlign()
         return;
 
     alignProcess = new Ekos::Align();
+    alignProcess->setEnabled(false);
     int index = toolsWidget->addTab( alignProcess, QIcon(":/icons/ekos_align.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Align"));
     connect(alignProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
