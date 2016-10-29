@@ -1284,7 +1284,7 @@ void CCD::processBLOB(IBLOB* bp)
 #ifdef HAVE_CFITSIO
     if (BType == BLOB_FITS)
     {
-        QUrl fileURL(filename);
+        QUrl fileURL = QUrl::fromLocalFile(filename);
 
         if (fv.isNull())
         {
