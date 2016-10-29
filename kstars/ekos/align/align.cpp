@@ -745,6 +745,7 @@ void Align::setCaptureComplete()
 void Align::setGOTOMode(int mode)
 {
     gotoModeButtonGroup->button(mode)->setChecked(true);
+    currentGotoMode = static_cast<GotoMode>(mode);
 }
 
 void Align::startSolving(const QString &filename, bool isGenerated)
