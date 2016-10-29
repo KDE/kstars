@@ -455,6 +455,10 @@ private:
 
     // Timer
     QTimer alignTimer;
+
+    // BLOB Type
+    ISD::CCD::BlobType blobType;
+    QString blobFileName;
 };
 
 }

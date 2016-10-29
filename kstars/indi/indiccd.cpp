@@ -1060,9 +1060,6 @@ void CCD::processText(ITextVectorProperty *tvp)
 
 void CCD::processBLOB(IBLOB* bp)
 {
-
-    enum blobType { BLOB_IMAGE, BLOB_FITS, BLOB_RAW, BLOB_OTHER} BType;
-
     BType = BLOB_OTHER;
 
     QString format(bp->format);
@@ -1189,6 +1186,7 @@ void CCD::processBLOB(IBLOB* bp)
 
     // store file name
     strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
+    bp->aux1 = &BType;
     bp->aux2 = BLOBFilename;
 
     if (targetChip->getCaptureMode() == FITS_NORMAL && targetChip->isBatchMode() == true)
@@ -1274,6 +1272,11 @@ void CCD::processBLOB(IBLOB* bp)
                 return;
             #endif
         }
+
+        // store file name in
+        strncpy(BLOBFilename, filename.toLatin1(), MAXINDIFILENAME);
+        bp->aux1 = &BType;
+        bp->aux2 = BLOBFilename;
 
         if (imageViewer.isNull())
             imageViewer = new ImageViewer(getDeviceName(), KStars::Instance());

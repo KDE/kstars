@@ -136,6 +136,8 @@ public:
     ~CCD();
 
     typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
+    enum BlobType { BLOB_IMAGE, BLOB_FITS, BLOB_RAW, BLOB_OTHER} BType;
+
     void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty* tvp);

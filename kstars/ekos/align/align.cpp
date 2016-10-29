@@ -692,33 +692,39 @@ void Align::newFITS(IBLOB *bp)
 
     appendLogText(i18n("Image received."));
 
+    blobType = *(static_cast<ISD::CCD::BlobType*>(bp->aux1));
+    blobFileName = QString(static_cast<char*>(bp->aux2));
+
     if (solverTypeGroup->checkedId() != SOLVER_REMOTE)
     {
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-
-        if (alignDarkFrameCheck->isChecked())
+        if (blobType == ISD::CCD::BLOB_FITS)
         {
-            int x,y,w,h,binx=1,biny=1;
-            targetChip->getFrame(&x,&y,&w,&h);
-            targetChip->getBinning(&binx, &biny);
+            ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-            FITSView *currentImage   = targetChip->getImageView(FITS_ALIGN);
-            FITSData *darkData       = NULL;
+            if (alignDarkFrameCheck->isChecked())
+            {
+                int x,y,w,h,binx=1,biny=1;
+                targetChip->getFrame(&x,&y,&w,&h);
+                targetChip->getBinning(&binx, &biny);
 
-            uint16_t offsetX = x / binx;
-            uint16_t offsetY = y / biny;
+                FITSView *currentImage   = targetChip->getImageView(FITS_ALIGN);
+                FITSData *darkData       = NULL;
 
-            darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
+                uint16_t offsetX = x / binx;
+                uint16_t offsetY = y / biny;
 
-            connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
-            connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+                darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
 
-            if (darkData)
-                DarkLibrary::Instance()->subtract(darkData, currentImage, FITS_NONE, offsetX, offsetY);
-            else
-                DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, exposureIN->value(), offsetX, offsetY);
+                connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
+                connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
 
-            return;
+                if (darkData)
+                    DarkLibrary::Instance()->subtract(darkData, currentImage, FITS_NONE, offsetX, offsetY);
+                else
+                    DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, exposureIN->value(), offsetX, offsetY);
+
+                return;
+            }
         }
 
         setCaptureComplete();
@@ -727,19 +733,9 @@ void Align::newFITS(IBLOB *bp)
 
 void Align::setCaptureComplete()
 {
-    DarkLibrary::Instance()->disconnect(this);
+    DarkLibrary::Instance()->disconnect(this);   
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
-    FITSView *currentImage   = targetChip->getImageView(FITS_ALIGN);
-    FITSData *currentData    = currentImage->getImageData();
-
-    QString filename = currentData->getFilename();
-
-    // Save frame after subtraction
-    if (alignDarkFrameCheck->isChecked())
-        currentImage->getImageData()->saveFITS(filename);
-
-    startSolving(filename);
+    startSolving(blobFileName);
 }
 
 void Align::setGOTOMode(int mode)
