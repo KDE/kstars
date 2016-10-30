@@ -631,6 +631,9 @@ bool Guide::captureOneFrame()
 #endif
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
+    if (Options::guideLogging())
+        qDebug() << "Guide: Capturing frame...";
+
     targetChip->capture(seqExpose);
 
     return true;
@@ -989,18 +992,25 @@ bool Guide::guide()
 
 bool Guide::dither()
 {
-    //return guider->dither(Options::ditherPixels());
-    state = GUIDE_DITHERING;
-    return true;
+    if (guiderType == GUIDE_INTERNAL)
+    {
+        if (state != GUIDE_GUIDING)
+            capture();
+
+        state = GUIDE_DITHERING;
+
+        return true;
+    }
+    else
+        return guider->dither(Options::ditherPixels());
 }
 
 bool Guide::suspend()
 {
     if (state == GUIDE_SUSPENDED)
         return true;
-
-    if (state == GUIDE_GUIDING)
-        return guider->suspend();
+    else if (state >= GUIDE_CAPTURE)
+       return guider->suspend();
     else
         return false;
 }
@@ -1009,8 +1019,7 @@ bool Guide::resume()
 {
     if (state == GUIDE_GUIDING)
         return true;
-
-    if (state == GUIDE_SUSPENDED)
+    else if (state == GUIDE_SUSPENDED)
         return guider->resume();
     else
         return false;
@@ -1193,8 +1202,11 @@ void Guide::setStatus(Ekos::GuideState newState)
         break;
 
     case GUIDE_DITHERING_SUCCESS:
-        appendLogText(i18n("Dithering completed successfully."));
+        appendLogText(i18n("Dithering completed successfully. Resuming guiding..."));
+        emit newStatus(state);
+        // Go back to guiding state immediately
         state = GUIDE_GUIDING;
+        emit newStatus(state);
         capture();
         break;
     default:

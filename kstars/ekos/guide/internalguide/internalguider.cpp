@@ -214,8 +214,6 @@ bool InternalGuider::dither(double pixels)
 
         // Back to guiding
         state = GUIDE_GUIDING;
-        emit newStatus(state);
-
     }
     else
     {
