@@ -1984,7 +1984,6 @@ void EkosManager::updateGuideStatus(Ekos::GuideState status)
     case Ekos::GUIDE_SUSPENDED:
     case Ekos::GUIDE_DITHERING_ERROR:
     case Ekos::GUIDE_CALIBRATION_SUCESS:
-    case Ekos::GUIDE_DITHERING_SUCCESS:
         if (guidePI->isAnimated())
             guidePI->stopAnimation();
         break;
@@ -1992,6 +1991,7 @@ void EkosManager::updateGuideStatus(Ekos::GuideState status)
     case Ekos::GUIDE_CALIBRATING:
     case Ekos::GUIDE_GUIDING:
     case Ekos::GUIDE_DITHERING:
+    case Ekos::GUIDE_DITHERING_SUCCESS:
         if (guidePI->isAnimated() == false)
             guidePI->startAnimation();
         break;
