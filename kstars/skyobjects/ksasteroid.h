@@ -98,7 +98,7 @@ public:
     void setEarthMOID( double earth_moid );
 
     /**
-     *@return the asteroid's earth minimum orbit intersection distance in km
+     *@return the asteroid's earth minimum orbit intersection distance in AU
      */
     inline double getEarthMOID() const { return EarthMOID; }
 
