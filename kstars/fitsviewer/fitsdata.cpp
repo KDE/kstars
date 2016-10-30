@@ -1006,8 +1006,8 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
         {
             if (mode == FITS_GUIDE || mode == FITS_FOCUS)
             {
-                subX = stats.width/10;
-                subY = stats.height/10;
+                subX = round(stats.width/15.0);
+                subY = round(stats.height/15.0);
                 subW = stats.width - subX;
                 subH = stats.height - subY;
             }
