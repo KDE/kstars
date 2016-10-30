@@ -603,13 +603,32 @@ void SkyMap::slotCancelRulerMode(void) {
     AngularRuler.clear();
 }
 
-void SkyMap::slotAddFlag() {
+void SkyMap::slotAddFlag()
+{
     KStars *ks = KStars::Instance();
 
     // popup FlagManager window and update coordinates
     ks->slotFlagManager();
     ks->flagManager()->clearFields();
-    ks->flagManager()->setRaDec( clickedPoint()->ra0(), clickedPoint()->dec0() );
+
+    //ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
+    //if we clicked on empty sky, we need to precess to J2000.
+
+    dms J2000RA, J2000DE;
+
+    if ( clickedObject() )
+    {
+        J2000RA = clickedObject()->ra0();
+        J2000DE = clickedObject()->dec0();
+    }
+    else
+    {
+        SkyPoint deprecessedPoint = clickedPoint()->deprecess( data->updateNum() );
+        J2000RA  = deprecessedPoint.ra();
+        J2000DE = deprecessedPoint.dec();
+    }
+
+    ks->flagManager()->setRaDec(J2000RA, J2000DE);
 }
 
 void SkyMap::slotEditFlag( int flagIdx ) {
