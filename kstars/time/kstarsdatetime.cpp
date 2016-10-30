@@ -263,17 +263,24 @@ double KStarsDateTime::jdToEpoch(long double jd, KStarsDateTime::EpochType type)
 }
 
 
-double KStarsDateTime::stringToEpoch(const QString& eName, bool &ok) {
-    double epoch;
+double KStarsDateTime::stringToEpoch(const QString& eName, bool &ok)
+{
+    double epoch = J2000;
+    ok = false;
+
     if ( eName.isEmpty() ) // By default, assume J2000
-        return J2000;
+        return epoch;
 
     if ( eName.startsWith( 'J' ) )
         epoch = eName.mid( 1 ).toDouble(&ok);
-    else if ( eName.startsWith( 'B' ) ) {
+    else if ( eName.startsWith( 'B' ) )
+    {
         epoch = eName.mid( 1 ).toDouble(&ok);
         epoch = jdToEpoch( epochToJd( epoch, BESSELIAN ), JULIAN ); // Convert Besselian epoch to Julian epoch
     }
+    // Assume it's Julian
+    else
+        epoch = eName.toDouble(&ok);
 
     return epoch;
 }

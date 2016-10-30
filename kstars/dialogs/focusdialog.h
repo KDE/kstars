@@ -41,13 +41,13 @@ class FocusDialog : public QDialog {
     Q_OBJECT
 public:
     /**Constructor. */
-    explicit FocusDialog( KStars *_ks );
+    explicit FocusDialog();
 
     /**Destructor (empty). */
     ~FocusDialog();
 
     /** @return pointer to the SkyPoint described by the entered RA, Dec */
-    inline SkyPoint& point() { return Point; }
+    inline SkyPoint* point() { return Point; }
 
     /** @return suggested size of focus window. */
     QSize sizeHint() const;
@@ -70,8 +70,7 @@ public slots:
     void validatePoint();
 
 private:
-    KStars *ks;
-    SkyPoint Point;
+    SkyPoint *Point;
     FocusDialogUI *fd;
     bool UsedAltAz;
     QPushButton *okB;

@@ -32,14 +32,14 @@ FocusDialogUI::FocusDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
 }
 
-FocusDialog::FocusDialog( KStars *_ks )
-        : QDialog( _ks ), ks( _ks )
+FocusDialog::FocusDialog()
+        : QDialog(KStars::Instance())
 {
 #ifdef Q_OS_OSX
         setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     //initialize point to the current focus position
-    Point = *ks->map()->focus();
+    Point = SkyMap::Instance()->focus();
 
     UsedAltAz = false; //assume RA/Dec by default
 
@@ -75,26 +75,33 @@ FocusDialog::FocusDialog( KStars *_ks )
 FocusDialog::~FocusDialog(){
 }
 
-void FocusDialog::checkLineEdits() {
+void FocusDialog::checkLineEdits()
+{
     bool raOk(false), decOk(false), azOk(false), altOk(false);
+
     fd->raBox->createDms( false, &raOk );
     fd->decBox->createDms( true, &decOk );
     fd->azBox->createDms( true, &azOk );
     fd->altBox->createDms( true, &altOk );
 
     if ( ( raOk && decOk ) || ( azOk && altOk ) )
-        okB->setEnabled(true );
+        okB->setEnabled(true);
     else
         okB->setEnabled(false);
 }
 
-void FocusDialog::validatePoint() {
+void FocusDialog::validatePoint()
+{
     bool raOk(false), decOk(false), azOk(false), altOk(false);
-    dms ra( fd->raBox->createDms( false, &raOk ) ); //false means expressed in hours
+
+     //false means expressed in hours
+    dms ra( fd->raBox->createDms( false, &raOk ) );
     dms dec( fd->decBox->createDms( true, &decOk ) );
+
     QString message;
 
-    if ( raOk && decOk ) {
+    if ( raOk && decOk )
+    {
         //make sure values are in valid range
         if ( ra.Hours() < 0.0 || ra.Hours() > 24.0 )
             message = i18n( "The Right Ascension value must be between 0.0 and 24.0." );
@@ -105,12 +112,13 @@ void FocusDialog::validatePoint() {
             return;
         }
 
-        Point.set( ra, dec );
-        bool ok; // Ignored. FIXME: Make a version of KStarsDateTime::stringToEpoch that doesn't mandate the ok arg
+        Point->set( ra, dec );
+        bool ok;
+
         double epoch0 = KStarsDateTime::stringToEpoch( fd->epochBox->text(), ok );
         long double jd0 = KStarsDateTime::epochToJd ( epoch0 );
-        Point.apparentCoord(jd0, ks->data()->ut().djd() );
-        Point.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
+        Point->apparentCoord(jd0, KStarsData::Instance()->ut().djd() );
+        Point->EquatorialToHorizontal( KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat() );
 
         QDialog::accept();
     } else {
@@ -128,9 +136,9 @@ void FocusDialog::validatePoint() {
                 return;
             }
 
-            Point.setAz( az );
-            Point.setAlt( alt );
-            Point.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
+            Point->setAz( az );
+            Point->setAlt( alt );
+            Point->HorizontalToEquatorial( KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat() );
 
             UsedAltAz = true;
 
