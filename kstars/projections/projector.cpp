@@ -463,7 +463,13 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
         Y = o->dec().radians();
     }
 
-    if( !( std::isfinite( Y ) && std::isfinite( dX ) ) ) {
+    if( !( std::isfinite( Y ) && std::isfinite( dX ) ) )
+    {
+        return Vector2f(0,0);
+
+        // JM: Enable this again later when trying to find a solution for it
+        //     As it is now creating too much noise in the log file.
+        /*
         qDebug() << "Assert in Projector::toScreenVec failed!";
         qDebug() << "using AltAz?" << m_vp.useAltAz << " Refract? " << oRefract;
         const SkyObject *obj;
@@ -473,8 +479,9 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
         }
         qDebug() << "dX = " << dX << " and isfinite(dX) is" << std::isfinite(dX);
         qDebug() << "Y = " << Y << " and isfinite(Y) is" << std::isfinite(Y);
-        return Vector2f(0,0);
+
         //Q_ASSERT( false );
+        */
     }
 
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
