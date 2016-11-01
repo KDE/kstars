@@ -1403,16 +1403,11 @@ void EkosManager::initCapture()
 
     if (alignProcess)
     {
-        // Alignment flag
-        //connect(alignProcess, SIGNAL(solverComplete(bool)), captureProcess, SLOT(enableAlignmentFlag()), Qt::UniqueConnection);
-        //connect(alignProcess, SIGNAL(solverSlewComplete()), captureProcess, SLOT(checkAlignmentSlewComplete()), Qt::UniqueConnection);
-
+        // Alignment flag       
         connect(alignProcess, SIGNAL(newStatus(Ekos::AlignState)), captureProcess, SLOT(setAlignStatus(Ekos::AlignState)), Qt::UniqueConnection);
 
-        // Meridian Flip
-        //connect(captureProcess, SIGNAL(meridialFlipTracked()), alignProcess, SLOT(captureAndSolve()), Qt::UniqueConnection);
-        connect(captureProcess, &Ekos::Capture::newStatus, this, [&](Ekos::CaptureState state){if (state == Ekos::CAPTURE_ALIGNING)
-            {QTimer::singleShot(Options::settlingTime(), alignProcess, SLOT(captureAndSolve()));}}, Qt::UniqueConnection);
+        // Capture Status
+        connect(captureProcess, SIGNAL(newStatus(Ekos::CaptureState)), alignProcess, SLOT(setCaptureStatus(Ekos::CaptureState)), Qt::UniqueConnection);
 
     }
 
@@ -1443,17 +1438,10 @@ void EkosManager::initAlign()
 
     if (captureProcess)
     {
-        // Alignment flag
-        //connect(alignProcess, SIGNAL(solverComplete(bool)), captureProcess, SLOT(enableAlignmentFlag()), Qt::UniqueConnection);
-        //connect(alignProcess, SIGNAL(solverSlewComplete()), captureProcess, SLOT(checkAlignmentSlewComplete()), Qt::UniqueConnection);
-
-        // Meridian Flip
-        //connect(captureProcess, SIGNAL(meridialFlipTracked()), alignProcess, SLOT(captureAndSolve()), Qt::UniqueConnection);
-
+        // Align Status
         connect(alignProcess, SIGNAL(newStatus(Ekos::AlignState)), captureProcess, SLOT(setAlignStatus(Ekos::AlignState)), Qt::UniqueConnection);
-
-        connect(captureProcess, &Ekos::Capture::newStatus, this, [&](Ekos::CaptureState state){if (state == Ekos::CAPTURE_ALIGNING)
-            {QTimer::singleShot(Options::settlingTime(), alignProcess, SLOT(captureAndSolve()));}}, Qt::UniqueConnection);
+        // Capture Status
+        connect(captureProcess, SIGNAL(newStatus(Ekos::CaptureState)), alignProcess, SLOT(setCaptureStatus(Ekos::CaptureState)), Qt::UniqueConnection);
     }
 
     if (focusProcess)
@@ -1537,8 +1525,7 @@ void EkosManager::initMount()
 
     if (guideProcess)
     {
-        connect(mountProcess, &Ekos::Mount::newStatus, this, [&](ISD::Telescope::TelescopeStatus state){if (state == ISD::Telescope::MOUNT_PARKING)
-                guideProcess->abort();}, Qt::UniqueConnection);
+        connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), guideProcess, SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
     }
 
 }
@@ -1580,15 +1567,7 @@ void EkosManager::initGuide()
         connect(guideProcess, SIGNAL(newAxisDelta(double,double)), captureProcess, SLOT(setGuideDeviation(double,double)));
 
         // Dithering
-        //connect(guideProcess, SIGNAL(autoGuidingToggled(bool)), captureProcess, SLOT(setAutoguiding(bool)));
-        //connect(guideProcess, SIGNAL(ditherComplete()), captureProcess, SLOT(resumeCapture()));
-        //connect(guideProcess, SIGNAL(ditherFailed()), captureProcess, SLOT(abort()));
-        //connect(guideProcess, SIGNAL(ditherToggled(bool)), captureProcess, SLOT(setGuideDither(bool)));
-        //connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
-        //connect(captureProcess, SIGNAL(exposureComplete()), guideProcess, SLOT(dither()));
-
-        connect(captureProcess, &Ekos::Capture::newStatus, this, [&](Ekos::CaptureState state){if (state == Ekos::CAPTURE_DITHERING)
-            {guideProcess->dither();}}, Qt::UniqueConnection);
+        connect(captureProcess, SIGNAL(newStatus(Ekos::CaptureState)), guideProcess, SLOT(setCaptureStatus(Ekos::CaptureState)), Qt::UniqueConnection);
 
 
         // Guide Head
@@ -1604,10 +1583,7 @@ void EkosManager::initGuide()
     if (mountProcess)
     {
         // Parking
-        //connect(captureProcess, SIGNAL(mountParking()), guideProcess, SLOT(stopGuiding()));
-        connect(mountProcess, &Ekos::Mount::newStatus, this, [&](ISD::Telescope::TelescopeStatus state){if (state == ISD::Telescope::MOUNT_PARKING)
-                guideProcess->abort();}, Qt::UniqueConnection);
-
+        connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), guideProcess, SLOT(setMountStatus(ISD::Telescope::TelescopeStatus)), Qt::UniqueConnection);
     }
 
     if (focusProcess)

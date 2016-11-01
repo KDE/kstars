@@ -279,6 +279,9 @@ public slots:
     // Capture
     void setCaptureComplete();
 
+    // Update Capture Module status
+    void setCaptureStatus(Ekos::CaptureState newState);
+
 private slots:
     /* Solver Options */
     void checkLineEdits();
