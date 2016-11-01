@@ -283,7 +283,7 @@ public slots:
       * @param exposure numbers of seconds left in the exposure
       * @param state State of the exposure property
       */
-     void checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState state);
+     void checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState expState);
 
      /**
       * @brief newFITS is called by the INDI framework whenever there is a new BLOB arriving
@@ -310,6 +310,11 @@ public slots:
 
      // Update Guide module status
      void setStatus(Ekos::GuideState newState);
+
+     // Update Capture Module status
+     void setCaptureStatus(Ekos::CaptureState newState);
+     // Update Mount module status
+     void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
      // Star Position
      void setStarPosition(const QVector3D &newCenter, bool updateNow);

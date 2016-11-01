@@ -992,6 +992,9 @@ bool Guide::guide()
 
 bool Guide::dither()
 {
+    if (state == GUIDE_DITHERING)
+        return true;
+
     if (guiderType == GUIDE_INTERNAL)
     {
         if (state != GUIDE_GUIDING)
@@ -1023,6 +1026,32 @@ bool Guide::resume()
         return guider->resume();
     else
         return false;
+}
+
+void Guide::setCaptureStatus(CaptureState newState)
+{
+    switch (newState)
+    {
+    case CAPTURE_DITHERING:
+        dither();
+        break;
+
+    default:
+        break;
+    }
+}
+
+void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
+{
+    switch (newState)
+    {
+        case ISD::Telescope::MOUNT_PARKING:
+            abort();
+        break;
+
+        default:
+        break;
+    }
 }
 
 void Guide::setExposure(double value)
@@ -1242,11 +1271,11 @@ void Guide::processCCDNumber(INumberVectorProperty *nvp)
     }
 }
 
-void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState state)
+void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState expState)
 {
     INDI_UNUSED(exposure);
 
-    if (state == IPS_ALERT && (state == GUIDE_GUIDING) || (state == GUIDE_DITHERING) || (state == GUIDE_CALIBRATING))
+    if (expState == IPS_ALERT && ( (state == GUIDE_GUIDING) || (state == GUIDE_DITHERING) || (state == GUIDE_CALIBRATING)) )
     {
         appendLogText(i18n("Exposure failed. Restarting exposure..."));
         targetChip->capture(exposureIN->value());

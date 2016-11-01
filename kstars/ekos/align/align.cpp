@@ -1895,6 +1895,19 @@ void Align::saveSettleTime()
     Options::setSettlingTime(delaySpin->value());
 }
 
+void Align::setCaptureStatus(CaptureState newState)
+{
+    switch (newState)
+    {
+    case CAPTURE_ALIGNING:
+        QTimer::singleShot(Options::settlingTime(), this, SLOT(captureAndSolve()));
+        break;
+
+    default:
+        break;
+    }
+}
+
 }
 
 
