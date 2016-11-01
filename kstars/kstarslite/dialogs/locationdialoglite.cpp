@@ -21,6 +21,16 @@
 #include "kspaths.h"
 #include <QGeoPositionInfoSource>
 #include "Options.h"
+#include <QNetworkAccessManager>
+#include <QNetworkSession>
+#include <QNetworkConfigurationManager>
+#include <QUrlQuery>
+#include <QNetworkReply>
+
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonObject>
+#include <QJsonArray>
 
 LocationDialogLite::LocationDialogLite()
     :SelectedCity(nullptr), currentGeo(nullptr){
@@ -32,23 +42,52 @@ LocationDialogLite::LocationDialogLite()
     KStarsData* data = KStarsData::Instance();
     connect(data, SIGNAL(geoChanged()), this, SLOT(updateCurrentLocation()));
 
-    setupGPS();
+    nam = new QNetworkAccessManager(this);
+    connect(nam, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(processLocationNameData(QNetworkReply*)));
 }
 
-void LocationDialogLite::setupGPS() {
-    m_geoSrc = QGeoPositionInfoSource::createDefaultSource(this);
+void LocationDialogLite::getNameFromCoordinates(double latitude, double longitude) {
+    QString lat = QString::number(latitude);
+    QString lon = QString::number(longitude);
+    QString latlng (lat + ", " + lon);
 
-    connect(m_geoSrc, SIGNAL(positionUpdated(QGeoPositionInfo)), this, SLOT(processNewCoordinates(QGeoPositionInfo)));
-    connect(m_geoSrc, SIGNAL(updateTimeout()), this, SIGNAL(updateTimeoutGPS()));
+    QUrl url("http://maps.googleapis.com/maps/api/geocode/json");
+    QUrlQuery query;
+    query.addQueryItem("latlng", latlng);
+    url.setQuery(query);
+    qDebug() << "submitting request";
+
+    nam->get(QNetworkRequest(url));
+    connect(nam, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(processLocationNameData(QNetworkReply*)));
 }
 
-void LocationDialogLite::processNewCoordinates(QGeoPositionInfo position) {
-//    m_geoSrc->stopUpdates();
-    emit coordinatesChangedGPS(position);
-}
+void LocationDialogLite::processLocationNameData(QNetworkReply *networkReply) {
+    if (!networkReply)
+        return;
 
-void LocationDialogLite::getCoordinatesFromGPS() {
-    m_geoSrc->startUpdates();
+    if (!networkReply->error()) {
+        QJsonDocument document = QJsonDocument::fromJson(networkReply->readAll());
+
+        if (document.isObject()) {
+            QJsonObject obj = document.object();
+            QJsonValue val;
+
+            if (obj.contains(QStringLiteral("results"))) {
+                val = obj["results"];
+
+                QString city = val.toArray()[0].toObject()["address_components"].toArray()[2].toObject()["long_name"].toString();
+                QString region = val.toArray()[0].toObject()["address_components"].toArray()[3].toObject()["long_name"].toString();
+                QString country = val.toArray()[0].toObject()["address_components"].toArray()[4].toObject()["long_name"].toString();
+
+                emit newNameFromCoordinates(city, region, country);
+            } else {
+
+            }
+        }
+    }
+    networkReply->deleteLater();
 }
 
 void LocationDialogLite::initCityList() {
@@ -102,6 +141,7 @@ void LocationDialogLite::filterCity(QString city, QString province, QString coun
     }
     m_cityList.setStringList(cities);
     m_cityList.sort(0);
+
     setProperty("currLocIndex", m_cityList.stringList().indexOf(m_currentLocation));
 }
 
@@ -109,6 +149,23 @@ bool LocationDialogLite::addCity(QString city, QString province, QString country
     QSqlDatabase mycitydb = getDB();
 
     if( mycitydb.isValid() ) {
+        QString fullName;
+        if(!city.isEmpty()) {
+            fullName += city;
+        }
+
+        if(!province.isEmpty()) {
+            fullName += ", " + province;
+        }
+
+        if(!country.isEmpty()) {
+            fullName += ", " + country;
+        }
+
+        if(m_cityList.stringList().contains(fullName)) {
+            return editCity(fullName, city, province, country, latitude, longitude, TimeZoneString, TZRule);
+        }
+
         bool latOk(false), lngOk(false), tzOk(false);
         dms lat = createDms( latitude, true, &latOk );
         dms lng = createDms( longitude, true, &lngOk );
@@ -366,6 +423,7 @@ bool LocationDialogLite::checkLongLat(QString longitude, QString latitude) {
 
 bool LocationDialogLite::setLocation(QString fullName) {
     KStarsData *data = KStarsData::Instance();
+
     GeoLocation *geo = filteredCityList.value(fullName);
     if(!geo) {
         foreach ( GeoLocation *loc, data->getGeoList() )

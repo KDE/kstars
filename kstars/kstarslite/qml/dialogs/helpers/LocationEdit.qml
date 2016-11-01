@@ -23,6 +23,94 @@ KSPage {
     property bool isReadOnly: false
     property string geoName
     property bool fieldsChanged: false //true whenever either city, province or country fields are changed. Turned to false every time this page is opened
+    property string loadingText //Text used in location loading popup
+    property string fetchingCoordinatesLoading: xi18n("Please, wait while we are fetching coordinates")
+
+    property bool fetchingName: false // true when we are fetchingN name of location
+    property bool addAutomatically: false //true if user wants add location automatically without manually editing the fields
+
+    signal locationFetched(var _lat, var _lng) //emitted when location is fetched in auto mode
+    signal locNameFetched(var _city, var _region, var _country) //emitted when location nane is fetched or was failed to fetch in auto mode
+
+    /*This function sets coordinates from GPS automatically, without asking user to fill information
+    about location */
+    function setAutomaticallyFromGPS() {
+        addAutomatically = true
+        positionSource.stop()
+        positionSource.start()
+        loadingText = fetchingCoordinatesLoading
+        if(!positionSource.valid) {
+            positionSource.stop()
+            notification.showNotification(xi18("Positioning is not available on your device"))
+        }
+    }
+
+    property double lat
+    property double lng
+    property string city
+    property string region
+    property string country
+    property int tz
+
+    onLocationFetched: {
+        lat = _lat
+        lng = _lng
+    }
+
+    Timer {
+        id: nameFetchTimeout
+        interval: 20000;
+        onTriggered: {
+            locationLoading.close()
+            var city = xi18n("Default city")
+            var province = xi18n("Default province")
+            var country = xi18n("Default country")
+            if(addAutomatically) {
+                notification.showNotification(xi18n("Couldn't fetch location name (check your internet connection). Added with default name"))
+                if(!LocationDialogLite.addCity(city, province, country,
+                                               lat, lng, tz,
+                                               "--")) {
+                    notification.showNotification(xi18n("Failed to set location"))
+                    return
+                }
+
+                if(LocationDialogLite.setLocation(city + ", " + province + ", " + country)) {
+                    notification.showNotification(xi18n("Successfully set your location"))
+                } else {
+                    notification.showNotification(xi18n("Couldn't set your location"))
+                }
+            } else {
+                notification.showNotification(xi18n("Couldn't fetch location name (check your internet connection). Set default name"))
+                cityField.text = city
+                provinceField.text = province
+                countryField.text = country
+                comboBoxTZ.currentIndex = comboBoxTZ.find(tz)
+            }
+            fetchingName = false
+            addAutomatically = false
+        }
+    }
+
+    onLocNameFetched: {
+        nameFetchTimeout.running = false
+        city = _city
+        region = _region
+        country = _country
+
+        if(!LocationDialogLite.addCity(city, region, country,
+                                       lat, lng, tz,
+                                       "--")) {
+            notification.showNotification(xi18n("Failed to set location"))
+        }
+
+        if(LocationDialogLite.setLocation(city + ", " + region + ", " + country)) {
+            notification.showNotification(xi18n("Successfully set your location"))
+        } else {
+            notification.showNotification(xi18n("Couldn't set your location"))
+        }
+
+        addAutomatically = false
+    }
 
     function openAdd() {
         editMode = false
@@ -70,6 +158,7 @@ KSPage {
             notification.showNotification(errorDesc)
             active = false
             sourceError = positionSource.NoError
+            locationLoading.close()
         }
 
         onUpdateTimeout: {
@@ -80,7 +169,7 @@ KSPage {
         onActiveChanged: {
             if(positionSource.active) {
                 locationLoading.open()
-            } else {
+            } else if (!fetchingName) {
                 locationLoading.close()
             }
         }
@@ -92,10 +181,40 @@ KSPage {
                 var lng = positionSource.position.coordinate.longitude
                 latField.text = lat
                 longField.text = lng
-                locationLoading.close()
+                if(addAutomatically) {
+                    locationFetched(lat, lng)
+                }
+
+                tz = new Date().getTimezoneOffset()/60
+                loadingText = xi18n("Please, wait while we are retrieving location name")
+                fetchingName = true // must be set to true before we are stopping positioning service
+                positionSource.stop()
+                LocationDialogLite.getNameFromCoordinates(lat, lng)
+                nameFetchTimeout.running = true
+                setTZComboBox(new Date().getTimezoneOffset())
             }
         }
         preferredPositioningMethods: PositionSource.AllPositioningMethods
+    }
+
+    function setTZComboBox(TZMinutes) {
+        var TZ = TZMinutes/60
+        comboBoxTZ.currentIndex = comboBoxTZ.find(TZ)
+    }
+
+    Connections {
+        target: LocationDialogLite
+        onNewNameFromCoordinates: {
+            if(addAutomatically) {
+                locNameFetched(city, region, country)
+            }
+            cityField.text = city
+            provinceField.text = region
+            countryField.text = country
+            fetchingName = false
+            locationLoading.close()
+            addAutomatically = false
+        }
     }
 
     //close the popup and clears all text fields
@@ -239,6 +358,7 @@ KSPage {
                 onClicked: {
                     positionSource.stop()
                     positionSource.start()
+                    loadingText = fetchingCoordinatesLoading
                     if(!positionSource.valid) {
                         positionSource.stop()
                         notification.showNotification(xi18("Positioning is not available on your device"))

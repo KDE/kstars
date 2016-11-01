@@ -21,7 +21,7 @@ else (NOVA_INCLUDE_DIR AND NOVA_LIBRARIES)
 
   find_path(NOVA_INCLUDE_DIR libnova.h
     if(ANDROID)
-      ${CMAKE_SOURCE_DIR}/build_kstarslite/include
+      ${BUILD_KSTARSLITE_DIR}/include
     endif(ANDROID)
     PATH_SUFFIXES libnova
     ${_obIncDir}
@@ -31,7 +31,7 @@ else (NOVA_INCLUDE_DIR AND NOVA_LIBRARIES)
   find_library(NOVA_LIBRARIES NAMES nova libnova
     PATHS
     if(ANDROID)
-    ${CMAKE_SOURCE_DIR}/build_kstarslite/android_libs/${ANDROID_ARCHITECTURE}/
+    ${BUILD_KSTARSLITE_DIR}/android_libs/${ANDROID_ARCHITECTURE}/
     else(ANDROID)
     ${_obLinkDir}
     ${GNUWIN32_DIR}/lib

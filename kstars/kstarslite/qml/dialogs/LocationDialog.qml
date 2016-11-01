@@ -137,5 +137,17 @@ KSPage {
                 locationEdit.openAdd()
             }
         }
+
+        Button {
+            anchors {
+                bottom: parent.bottom
+                right: parent.right
+            }
+
+            text: "Set from GPS"
+            onClicked: {
+                locationEdit.setAutomaticallyFromGPS()
+            }
+        }
     }
 }

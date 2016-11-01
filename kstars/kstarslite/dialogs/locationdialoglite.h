@@ -34,6 +34,10 @@
 class GeoLocation;
 class QGeoPositionInfoSource;
 
+class QNetworkAccessManager;
+class QNetworkSession;
+class QNetworkReply;
+
 class LocationDialogLite : public QObject {
     Q_OBJECT
     Q_PROPERTY(QString currentLocation READ getCurrentLocation WRITE setCurrentLocation NOTIFY currentLocationChanged)
@@ -82,33 +86,23 @@ public:
     dms createDms ( QString degree, bool deg, bool *ok );
 
     /**
-     * @short setup everything needed to use GPS
+     * @short retrieve name of location by latitude and longitude. Name will be sent with sendNameFromCoordinates signal
      */
-    void setupGPS();
+    Q_INVOKABLE void getNameFromCoordinates(double latitude, double longitude);
 
-    /**
-     * Starts setting GPS fix. GPSCoordinatesChanged() signal will be emitted once coordinates are
-     * fetched.
-     */
-    Q_INVOKABLE void getCoordinatesFromGPS();
 
 public slots:
     void initCityList();
     void updateCurrentLocation();
 
-    void processNewCoordinates(QGeoPositionInfo position);
+    void processLocationNameData(QNetworkReply *rep);
 
 signals:
     void currentLocationChanged(QString);
     void TZListChanged(QStringList);
     void DSTRulesChanged(QStringList);
     void currLocIndexChanged(int);
-
-    /** Emitted when GPS coordinates were successfully updated **/
-    void coordinatesChangedGPS(QGeoPositionInfo newPos);
-    /** Emitted when coordinates couldn't be fetched during 10 seconds **/
-    void updateTimeoutGPS();
-
+    void newNameFromCoordinates(QString city, QString region, QString country);
 private:
     /**
      * @short checks whether database with cities is already created. Creates a new otherwise
@@ -125,7 +119,9 @@ private:
 
     QStringList m_TZList;
     QStringList m_DSTRules;
-    QGeoPositionInfoSource *m_geoSrc;
+
+    //Retrieve the name of city
+    QNetworkAccessManager *nam;
 };
 
 #endif

@@ -79,7 +79,7 @@ if (INDI_INCLUDE_DIR)
 if(ANDROID)
       find_library(INDI_CLIENT_ANDROID_LIBRARIES NAMES indiclientandroid
           PATHS
-          ${CMAKE_SOURCE_DIR}/build_kstarslite/android_libs/${ANDROID_ARCHITECTURE}/
+          ${BUILD_KSTARSLITE_DIR}/android_libs/${ANDROID_ARCHITECTURE}/
       )
 else(ANDROID)
     find_library(INDI_LIBRARIES NAMES indi

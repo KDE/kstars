@@ -65,12 +65,8 @@ if (INDI_FOUND)
                 fitsviewer/fitsviewlite.cpp
                 fitsviewer/bayer.c
                 )
-            if(ANDROID)
-                include_directories(${kstars_SOURCE_DIR}/build_kstarslite/include)
-            else()
-                #if it is not Android we need only CFITSIO
                 include_directories(${CFITSIO_INCLUDE_DIR})
-            endif()
+                include_directories(${NOVA_INCLUDE_DIR})
 
             set (indi_SRCS
                 indi/clientmanagerlite.cpp
@@ -890,7 +886,8 @@ if(BUILD_KSTARS_LITE)
         if(ANDROID)
             #RAWExtractor is needed for converting RAW photos to JPEG in INDI Lite
             add_library(RAWExtractor SHARED IMPORTED)
-            set_property(TARGET RAWExtractor PROPERTY IMPORTED_LOCATION ${kstars_SOURCE_DIR}/build_kstarslite/android_libs/${ANDROID_ARCHITECTURE}/libRAWExtractor.so)
+            include_directories(${BUILD_KSTARSLITE_DIR}/include/libraw)
+            set_property(TARGET RAWExtractor PROPERTY IMPORTED_LOCATION ${BUILD_KSTARSLITE_DIR}/android_libs/${ANDROID_ARCHITECTURE}/libRAWExtractor.so)
             target_link_libraries(KStarsLib RAWExtractor)
         endif(ANDROID)
     endif(INDI_FOUND)
@@ -944,13 +941,13 @@ if(INDI_FOUND)
         endif(ANDROID)
     else(WIN32 OR ANDROID)
         # If INDI Qt5 Client is found, use it.
-        # Do not use Qt5 client on Linux for now
-        #if (INDI_CLIENT_QT_LIBRARIES)
-            #add_definitions(-DUSE_QT5_INDI)
-            #target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES} z)
-        #else(INDI_CLIENT_QT_LIBRARIES)
+        # Do not use Qt5 client on Linux for now (But KStars Lite needs it - polaris 31.10.2016)
+        if(BUILD_KSTARS_LITE)
+            add_definitions(-DUSE_QT5_INDI)
+            target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_QT_LIBRARIES} z)
+        else(BUILD_KSTARS_LITE)
             target_link_libraries(KStarsLib ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
-        #endif(INDI_CLIENT_QT_LIBRARIES)
+        endif(BUILD_KSTARS_LITE)
     endif(WIN32 OR ANDROID)
 
 endif(INDI_FOUND)

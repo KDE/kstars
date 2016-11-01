@@ -44,7 +44,7 @@ Popup {
                 width: parent.width
                 wrapMode: Label.Wrap
                 horizontalAlignment: Label.AlignHCenter
-                text: xi18n("Please, wait while we are fetching coordinates")
+                text: locationEdit.loadingText
             }
 
             Button {

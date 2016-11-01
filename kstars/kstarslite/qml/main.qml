@@ -517,7 +517,6 @@ ApplicationWindow {
 
                 onValueChanged: {
                     SkyMapLite.magLim = value
-                    console.log(colorSchemePopup.currentCScheme)
                 }
             }
         }
