@@ -49,9 +49,7 @@ class SyncedCatalogItem;
 
 class FOVItem;
 
-#ifdef HAVE_INDI
 class TelescopeSymbolsItem;
-#endif
 
 /** @class RootNode
  *
@@ -107,9 +105,7 @@ public:
      */
     void genCachedTextures();
 
-#ifdef HAVE_INDI
     inline TelescopeSymbolsItem *telescopeSymbolsItem() { return m_telescopeSymbols; }
-#endif
 private:
     QVector<QVector<QSGTexture *>> m_textureCache;
     QVector<QVector<QSGTexture *>> m_oldTextureCache;
@@ -145,8 +141,6 @@ private:
     QSGGeometryNode *m_visualizeClipping;
 
     FOVItem *m_FOVItem;
-#ifdef HAVE_INDI
     TelescopeSymbolsItem *m_telescopeSymbols;
-#endif
 };
 #endif

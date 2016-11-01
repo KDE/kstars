@@ -98,6 +98,7 @@ KSPage {
                         notification.showNotification(xi18n("Couldn't connect to the server"))
                     }
                 } else {
+
                     ClientManagerLite.disconnectHost()
                 }
                 Qt.inputMethod.hide()

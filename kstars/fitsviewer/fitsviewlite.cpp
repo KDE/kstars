@@ -29,12 +29,10 @@
 #include "ksutils.h"
 #include "Options.h"
 
-#ifdef HAVE_INDI
 #include <basedevice.h>
 #include "indi/indilistener.h"
 #include "indi/indistd.h"
 #include "indi/driverinfo.h"
-#endif
 #include <QImage>
 
 #define ZOOM_DEFAULT	100.0

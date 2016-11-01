@@ -27,9 +27,7 @@
 #include "ksplanetbase.h"
 #include <QScreen>
 
-#ifdef HAVE_INDI
 #include "indi/clientmanagerlite.h"
-#endif
 
 #include "kspaths.h"
 
@@ -59,11 +57,9 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_KStarsData = KStarsData::Create();
     Q_ASSERT( m_KStarsData );
 
-#ifdef HAVE_INDI
     //INDI Android Client
     m_clientManager = new ClientManagerLite;
     m_Engine.rootContext()->setContextProperty("ClientManagerLite", m_clientManager);
-#endif
 
     //Make instance of KStarsLite and KStarsData available to QML
     m_Engine.rootContext()->setContextProperty("KStarsLite", this);

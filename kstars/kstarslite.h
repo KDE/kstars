@@ -36,9 +36,7 @@ class FindDialogLite;
 class DetailDialogLite;
 class LocationDialogLite;
 
-#ifdef HAVE_INDI
 class ClientManagerLite;
-#endif
 
 class QQuickItem;
 
@@ -110,10 +108,8 @@ public:
     /** @return true if tutorial should be shown **/
     bool getRunTutorial();
     
-#ifdef HAVE_INDI
     /** @return pointer to KStarsData object which handles connection to INDI server. */
     inline ClientManagerLite *clientManagerLite() const { return m_clientManager; }
-#endif
 
     /** @defgroup kconfigwrappers QML wrappers around KConfig
      *  @{
@@ -241,9 +237,7 @@ private:
     DetailDialogLite *m_detailDialogLite;
     LocationDialogLite *m_locationDialogLite;
 
-#ifdef HAVE_INDI
     ClientManagerLite *m_clientManager;
-#endif
 };
 
 #endif

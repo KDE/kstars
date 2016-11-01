@@ -18,11 +18,9 @@
 #include "kstarsdata.h"
 #include "kstarslite.h"
 
-#ifdef HAVE_INDI
 #include "indi/inditelescopelite.h"
 #include "indi/clientmanagerlite.h"
 #include "kstarslite/skyitems/telescopesymbolsitem.h"
-#endif
 
 #include "projections/projector.h"
 #include "projections/lambertprojector.h"
@@ -133,12 +131,10 @@ SkyMapLite::SkyMapLite()
     connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
     connect( KStarsData::Instance(), SIGNAL( skyUpdate( bool ) ), this, SLOT( slotUpdateSky( bool ) ) );
 
-#ifdef HAVE_INDI
     ClientManagerLite *clientMng = KStarsLite::Instance()->clientManagerLite();
 
     connect(clientMng, &ClientManagerLite::telescopeAdded, [this](TelescopeLite *newTelescope){ this->m_newTelescopes.append(newTelescope->getDevice()); });
     connect(clientMng, &ClientManagerLite::telescopeRemoved, [this](TelescopeLite *newTelescope){ this->m_delTelescopes.append(newTelescope->getDevice()); });
-#endif
 }
 
 QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
@@ -155,7 +151,6 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
             m_rootNode = n;
         }
         /** Add or delete telescope crosshairs **/
-#ifdef HAVE_INDI
         if(m_newTelescopes.count() > 0) {
             foreach(INDI::BaseDevice *telescope, m_newTelescopes) {
                 n->telescopeSymbolsItem()->addTelescope(telescope);
@@ -169,7 +164,6 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
             }
             m_delTelescopes.clear();
         }
-#endif
         //Notify RootNode that textures for point node should be recreated
         n->update(clearTextures);
         clearTextures = false;

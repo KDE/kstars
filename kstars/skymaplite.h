@@ -30,9 +30,7 @@
 #include "kstarsdata.h"
 #include "kstarslite/skyitems/rootnode.h"
 
-#ifdef HAVE_INDI
 #include "basedevice.h"
-#endif
 
 class dms;
 class KStarsData;
@@ -684,10 +682,8 @@ private:
 
     bool tapBegan;
 
-#ifdef HAVE_INDI
     QList<INDI::BaseDevice *> m_newTelescopes;
     QList<INDI::BaseDevice *> m_delTelescopes;
-#endif
 };
 
 #endif

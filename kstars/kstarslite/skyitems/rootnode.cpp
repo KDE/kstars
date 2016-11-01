@@ -38,10 +38,8 @@
 #include "kstarslite/skyitems/lines/eclipticitem.h"
 #include "kstarslite/skyitems/lines/milkywayitem.h"
 
-#ifdef HAVE_INDI
 //Symbols
 #include "kstarslite/skyitems/telescopesymbolsitem.h"
-#endif
 
 #include "kstarslite/skyitems/fovitem.h"
 
@@ -98,9 +96,7 @@ RootNode::RootNode()
     m_internedResolvedCatalogItem = new SyncedCatalogItem(m_skyComposite->internetResolvedComponent(), this);
     m_manualAdditionsCatalogItem = new SyncedCatalogItem(m_skyComposite->manualAdditionsComponent(), this);
 
-#ifdef HAVE_INDI
     m_telescopeSymbols = new TelescopeSymbolsItem(this);
-#endif
 
     setIsRectangular(false);
     updateClipPoly();
@@ -268,9 +264,7 @@ void RootNode::update(bool clearTextures) {
     m_internedResolvedCatalogItem->update();
     m_manualAdditionsCatalogItem->update();
 
-#ifdef HAVE_INDI
     m_telescopeSymbols->update();
-#endif
     m_labelsItem->update();
 
     m_FOVItem->update();

@@ -83,7 +83,7 @@ add_definitions(${EIGEN_DEFINITIONS})
 include_directories(${EIGEN3_INCLUDE_DIR})
 
 if(BUILD_KSTARS_LITE)
-    find_package(CFitsio) #REQUIRED)
+    find_package(CFitsio REQUIRED)
 else()
     find_package(CFitsio)
 endif()
