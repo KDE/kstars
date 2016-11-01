@@ -25,6 +25,8 @@
 #include <QDebug>
 #include <QScrollArea>
 
+#include <KLocalizedString>
+
 /*******************************************************************
 ** INDI Group: a tab widget for common properties. All properties
 ** belong to a group, whether they have one or not but how the group
@@ -33,7 +35,7 @@
 INDI_G::INDI_G(INDI_D *idv, const QString &inName)
 {
     dp = idv;
-    name = inName;
+    name = (inName.isEmpty()) ? i18n("Unknown") : inName;
 
     propertyContainer = new QFrame(idv);
     propertyLayout    = new QVBoxLayout(propertyContainer);
@@ -78,8 +80,6 @@ bool INDI_G::addProperty(INDI::Property *prop)
 
 bool INDI_G::removeProperty(const QString &probName)
 {
-
-
     foreach(INDI_P * pp, propList)
     {
         if (pp->getName() == probName)
