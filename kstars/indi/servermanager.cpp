@@ -71,8 +71,23 @@ bool ServerManager::start()
     bool connected=false;
     int fd=0;
 
-    if (serverProcess == NULL)
+    if (serverProcess == NULL){
         serverProcess = new QProcess(this);
+        #ifdef Q_OS_OSX
+        QString driversDir=Options::indiDriversDir();
+        if(driversDir=="*Internal INDI Drivers*")
+            driversDir=QCoreApplication::applicationDirPath()+"/indi";
+        QString indiServerDir=Options::indiServer();
+        if(indiServerDir=="*Internal INDI Server*")
+            indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
+        else if(indiServerDir.length()>10)
+            indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        QStringList envlist = env.toStringList();
+        envlist.replaceInStrings(QRegularExpression("^(?i)PATH=(.*)"), "PATH=/usr/bin:/usr/local/bin:" + driversDir + ":" + indiServerDir + ":\\1");
+        serverProcess->setEnvironment(envlist);
+        #endif
+    }
 
     QStringList args;
 
@@ -101,7 +116,13 @@ bool ServerManager::start()
     serverProcess->setProcessChannelMode(QProcess::SeparateChannels);
     serverProcess->setReadChannel(QProcess::StandardError);
 
-    serverProcess->start(Options::indiServer(), args);
+    #ifdef Q_OS_OSX
+    if(Options::indiServer()=="*Internal INDI Server*")
+        serverProcess->start(QCoreApplication::applicationDirPath()+"/indi/indiserver", args);
+    else
+    #endif
+        serverProcess->start(Options::indiServer(), args);
+
 
     connected = serverProcess->waitForStarted();
 
@@ -147,18 +168,38 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
     managedDrivers.append(dv);
     dv->setServerManager(this);
+    
+    QString driversDir=Options::indiDriversDir();
+    QString indiServerDir=Options::indiServer();
+
+
+     #ifdef Q_OS_OSX
+    if(driversDir=="*Internal INDI Drivers*")
+        driversDir=QCoreApplication::applicationDirPath()+"/indi";
+    if(indiServerDir=="*Internal INDI Server*")
+        indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
+    else if(indiServerDir.length()>10)
+        indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+    #endif
+
+    QStringList paths;
+    paths << "/usr/bin" << "/usr/local/bin" << driversDir << indiServerDir;
+
 
     if (QStandardPaths::findExecutable(dv->getDriver()).isEmpty())
     {
-         KMessageBox::error(NULL, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
-         return false;
+        if(QStandardPaths::findExecutable(dv->getDriver(),paths).isEmpty()){
+            KMessageBox::error(NULL, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
+            return false;
+        }
     }
+
 
         out << "start " << dv->getDriver();
         if (dv->getUniqueLabel().isEmpty() == false)
             out << " -n \"" << dv->getUniqueLabel() << "\"";
         if (dv->getSkeletonFile().isEmpty() == false)
-            out << " -s \"" << Options::indiDriversDir() << QDir::separator() << dv->getSkeletonFile() << "\"";
+            out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
         out << endl;
 
         out.flush();

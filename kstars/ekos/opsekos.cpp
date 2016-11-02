@@ -31,6 +31,21 @@ OpsEkos::OpsEkos()
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
+#ifdef Q_OS_OSX
+connect(solverInternal, SIGNAL(clicked()), this, SLOT(toggleSolverInternal()));
+solverInternal->setToolTip(i18n("Internal or External Plate Solver."));
+
+connect(configInternal, SIGNAL(clicked()), this, SLOT(toggleConfigInternal()));
+configInternal->setToolTip(i18n("Internal or External Astrometry.cfg."));
+
+connect(wcsInternal, SIGNAL(clicked()), this, SLOT(toggleWCSInternal()));
+wcsInternal->setToolTip(i18n("Internal or External WCS Info."));
+#else
+solverInternal->setVisible(false);
+configInternal->setVisible(false);
+wcsInternal->setVisible(false);
+#endif
+
     connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
@@ -38,6 +53,33 @@ OpsEkos::OpsEkos()
 
 
 OpsEkos::~OpsEkos() {}
+
+void OpsEkos::toggleSolverInternal()
+{
+    kcfg_astrometrySolver->setEnabled(!solverInternal->isChecked());
+    if(solverInternal->isChecked())
+        kcfg_astrometrySolver->setText("*Internal Solver*");
+    else
+        kcfg_astrometrySolver->setText("/usr/local/bin/solve-field");
+}
+
+void OpsEkos::toggleConfigInternal()
+{
+    kcfg_astrometryConfFile->setEnabled(!configInternal->isChecked());
+    if(configInternal->isChecked())
+        kcfg_astrometryConfFile->setText("*Internal astrometry.cfg*");
+    else
+        kcfg_astrometryConfFile->setText("/etc/astrometry.cfg");
+}
+
+void OpsEkos::toggleWCSInternal()
+{
+    kcfg_astrometryWCSInfo->setEnabled(!wcsInternal->isChecked());
+    if(wcsInternal->isChecked())
+        kcfg_astrometryWCSInfo->setText("*Internal wcsinfo*");
+    else
+        kcfg_astrometryWCSInfo->setText("/usr/local/bin/wcsinfo");
+}
 
 void OpsEkos::slotApply()
 {

@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>504</width>
-    <height>372</height>
+    <width>658</width>
+    <height>506</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>0</number>
+   <number>1</number>
   </property>
   <widget class="QWidget" name="generalTab">
    <attribute name="title">
@@ -359,14 +359,7 @@
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_15">
-           <property name="text">
-            <string>solver:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
+         <item row="0" column="2">
           <widget class="QLineEdit" name="kcfg_astrometrySolver">
            <property name="toolTip">
             <string>Astrometry.net solve-field binary</string>
@@ -376,14 +369,68 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="label_16">
+         <item row="1" column="5">
+          <widget class="QLineEdit" name="kcfg_astrometryAPIKey">
+           <property name="toolTip">
+            <string>Astrometry.net configuration file</string>
+           </property>
            <property name="text">
-            <string>wcsinfo:</string>
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="5">
+          <widget class="QCheckBox" name="kcfg_astrometryUseJPEG">
+           <property name="toolTip">
+            <string>Use JPEG format, instead of FITS, to upload images to the online astrometry.net service</string>
+           </property>
+           <property name="text">
+            <string>Use JPG for upload</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
          <item row="0" column="3">
+          <widget class="QCheckBox" name="wcsInternal">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QLabel" name="label_17">
+           <property name="text">
+            <string>API Key:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLineEdit" name="kcfg_astrometryConfFile">
+           <property name="toolTip">
+            <string>Astrometry.net configuration file</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>config:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="label_18">
+           <property name="text">
+            <string>API URL:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
           <widget class="QLineEdit" name="kcfg_astrometryWCSInfo">
            <property name="toolTip">
             <string>Astrometry.net wcsinfo binary</string>
@@ -394,47 +441,27 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_14">
-           <property name="text">
-            <string>config:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="kcfg_astrometryConfFile">
-           <property name="toolTip">
-            <string>Astrometry.net configuration file</string>
-           </property>
+          <widget class="QCheckBox" name="configInternal">
            <property name="text">
             <string/>
            </property>
           </widget>
          </item>
-         <item row="1" column="2">
-          <widget class="QLabel" name="label_17">
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_15">
            <property name="text">
-            <string>API Key:</string>
+            <string>solver:</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="3">
-          <widget class="QLineEdit" name="kcfg_astrometryAPIKey">
-           <property name="toolTip">
-            <string>Astrometry.net configuration file</string>
-           </property>
+         <item row="0" column="4">
+          <widget class="QLabel" name="label_16">
            <property name="text">
-            <string/>
+            <string>wcsinfo:</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_18">
-           <property name="text">
-            <string>API URL:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
+         <item row="2" column="2">
           <widget class="QLineEdit" name="kcfg_astrometryAPIURL">
            <property name="toolTip">
             <string>Astrometry.net configuration file</string>
@@ -444,16 +471,10 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="3">
-          <widget class="QCheckBox" name="kcfg_astrometryUseJPEG">
-           <property name="toolTip">
-            <string>Use JPEG format, instead of FITS, to upload images to the online astrometry.net service</string>
-           </property>
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="solverInternal">
            <property name="text">
-            <string>Use JPG for upload</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
+            <string/>
            </property>
           </widget>
          </item>

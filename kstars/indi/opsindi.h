@@ -34,6 +34,8 @@ private slots:
     void saveFITSDirectory();
     void saveDriversDirectory();
     void slotShowLogFiles();
+    void toggleINDIInternal();
+    void toggleDriversInternal();
 
 private:
     KConfigDialog *m_ConfigDialog;

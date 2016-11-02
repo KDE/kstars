@@ -33,6 +33,9 @@ public:
 private slots:
 
     void slotApply();
+    void toggleSolverInternal();
+    void toggleConfigInternal();
+    void toggleWCSInternal();
 
 private:
     KConfigDialog *m_ConfigDialog;

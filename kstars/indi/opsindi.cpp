@@ -41,7 +41,19 @@ OpsINDI::OpsINDI()
         kcfg_fitsDir->setText ( Options::fitsDir());
 
     selectFITSDirB->setIcon( QIcon::fromTheme( "document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")) );
+    selectFITSDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectDriversDirB->setIcon( QIcon::fromTheme( "document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")) );
+    selectDriversDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    #ifdef Q_OS_OSX
+    connect(indiInternal, SIGNAL(clicked()), this, SLOT(toggleINDIInternal()));
+    indiInternal->setToolTip(i18n("Internal or External INDI Server."));
+    connect(driversInternal, SIGNAL(clicked()), this, SLOT(toggleDriversInternal()));
+    driversInternal->setToolTip(i18n("Internal or External INDI Drivers."));
+    #else
+    indiInternal->setVisible(false);
+    driversInternal->setVisible(false);
+    #endif
 
     connect(selectFITSDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
     connect(selectDriversDirB, SIGNAL(clicked()), this, SLOT(saveDriversDirectory()));    
@@ -54,6 +66,24 @@ OpsINDI::OpsINDI()
 
 
 OpsINDI::~OpsINDI() {}
+
+void OpsINDI::toggleINDIInternal()
+{
+    kcfg_indiServer->setEnabled(!indiInternal->isChecked());
+    if(indiInternal->isChecked())
+        kcfg_indiServer->setText("*Internal INDI Server*");
+    else
+        kcfg_indiServer->setText("/usr/local/bin/indiserver");
+}
+
+void OpsINDI::toggleDriversInternal()
+{
+    kcfg_indiDriversDir->setEnabled(!driversInternal->isChecked());
+    if(driversInternal->isChecked())
+        kcfg_indiDriversDir->setText("*Internal INDI Drivers*");
+    else
+        kcfg_indiDriversDir->setText("/usr/local/bin/");
+}
 
 void OpsINDI::saveFITSDirectory()
 {
