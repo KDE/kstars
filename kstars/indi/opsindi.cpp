@@ -50,6 +50,16 @@ OpsINDI::OpsINDI()
     indiInternal->setToolTip(i18n("Internal or External INDI Server."));
     connect(driversInternal, SIGNAL(clicked()), this, SLOT(toggleDriversInternal()));
     driversInternal->setToolTip(i18n("Internal or External INDI Drivers."));
+
+    if(Options::indiServerIsInternal()){
+        indiInternal->setChecked(true);
+        kcfg_indiServer->setEnabled(false);
+    }
+    if(Options::indiDriversAreInternal()){
+        driversInternal->setChecked(true);
+        kcfg_indiDriversDir->setEnabled(false);
+    }
+
     #else
     indiInternal->setVisible(false);
     driversInternal->setVisible(false);

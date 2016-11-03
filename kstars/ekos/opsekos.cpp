@@ -34,12 +34,24 @@ OpsEkos::OpsEkos()
 #ifdef Q_OS_OSX
 connect(solverInternal, SIGNAL(clicked()), this, SLOT(toggleSolverInternal()));
 solverInternal->setToolTip(i18n("Internal or External Plate Solver."));
+if(Options::astrometrySolverIsInternal()){
+    solverInternal->setChecked(true);
+    kcfg_astrometrySolver->setEnabled(false);
+}
 
 connect(configInternal, SIGNAL(clicked()), this, SLOT(toggleConfigInternal()));
 configInternal->setToolTip(i18n("Internal or External Astrometry.cfg."));
+if(Options::astrometryConfFileIsInternal()){
+    configInternal->setChecked(true);
+    kcfg_astrometryConfFile->setEnabled(false);
+}
 
 connect(wcsInternal, SIGNAL(clicked()), this, SLOT(toggleWCSInternal()));
 wcsInternal->setToolTip(i18n("Internal or External WCS Info."));
+if(Options::wcsIsInternal()){
+    wcsInternal->setChecked(true);
+    kcfg_astrometryWCSInfo->setEnabled(false);
+}
 #else
 solverInternal->setVisible(false);
 configInternal->setVisible(false);

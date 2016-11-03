@@ -75,10 +75,10 @@ bool ServerManager::start()
         serverProcess = new QProcess(this);
         #ifdef Q_OS_OSX
         QString driversDir=Options::indiDriversDir();
-        if(driversDir=="*Internal INDI Drivers*")
+        if(Options::indiDriversAreInternal())
             driversDir=QCoreApplication::applicationDirPath()+"/indi";
         QString indiServerDir=Options::indiServer();
-        if(indiServerDir=="*Internal INDI Server*")
+        if(Options::indiServerIsInternal())
             indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
         else if(indiServerDir.length()>10)
             indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
@@ -117,7 +117,7 @@ bool ServerManager::start()
     serverProcess->setReadChannel(QProcess::StandardError);
 
     #ifdef Q_OS_OSX
-    if(Options::indiServer()=="*Internal INDI Server*")
+    if(Options::indiServerIsInternal())
         serverProcess->start(QCoreApplication::applicationDirPath()+"/indi/indiserver", args);
     else
     #endif
@@ -174,9 +174,9 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
 
      #ifdef Q_OS_OSX
-    if(driversDir=="*Internal INDI Drivers*")
+    if(Options::indiServerIsInternal())
         driversDir=QCoreApplication::applicationDirPath()+"/indi";
-    if(indiServerDir=="*Internal INDI Server*")
+    if(Options::indiDriversAreInternal())
         indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
     else if(indiServerDir.length()>10)
         indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
