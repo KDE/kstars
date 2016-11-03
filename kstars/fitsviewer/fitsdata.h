@@ -20,7 +20,8 @@
 #ifndef FITSDATA_H_
 #define FITSDATA_H_
 
-#include "skyobject.h"
+#include <config-kstars.h>
+
 #include <QFrame>
 #include <QImage>
 #include <QPixmap>
@@ -30,6 +31,8 @@
 #include <QScrollArea>
 #include <QLabel>
 #include <QStringList>
+
+#include "skyobject.h"
 
 #ifdef HAVE_WCSLIB
 #include <wcs.h>
@@ -91,7 +94,6 @@ private:
     int yLoc;
 
 };
-
 
 class FITSData
 {
@@ -204,9 +206,12 @@ public:
     int getFlipVCounter() const;
     void setFlipVCounter(int value);        
 
+    #ifdef HAVE_WCSLIB
     void findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]);
+    #endif
     QList<FITSSkyObject *> getSkyObjects();
     QList<FITSSkyObject*> objList;//Does this need to be public??
+
 
 private:
 

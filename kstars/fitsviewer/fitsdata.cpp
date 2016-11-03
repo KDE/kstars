@@ -17,7 +17,6 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
-#include <config-kstars.h>
 #include "fitsdata.h"
 #include "skymapcomposite.h"
 #include "kstarsdata.h"
@@ -41,7 +40,6 @@
 #ifdef HAVE_WCSLIB
 #include <wcshdr.h>
 #include <wcsfix.h>
-#include <wcs.h>
 #endif
 
 #include "ksutils.h"
@@ -1780,10 +1778,9 @@ bool FITSData::checkWCS()
     return false;
 }
 
+#ifdef HAVE_WCSLIB
 void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[])
 {
-    #ifdef HAVE_WCSLIB
-
     int width=getWidth();
     int height=getHeight();
     int status=0;
@@ -1853,10 +1850,8 @@ void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi
     }
 
     delete (num);
-
-#endif
-
 }
+#endif
 
 QList<FITSSkyObject *> FITSData::getSkyObjects(){
     return objList;
