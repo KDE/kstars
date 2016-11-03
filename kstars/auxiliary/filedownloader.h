@@ -15,9 +15,12 @@
 
 #include <QObject>
 #include <QByteArray>
+#include <QFile>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+
+class QProgressDialog;
 
 class FileDownloader : public QObject
 {
@@ -32,18 +35,39 @@ public:
 
     QByteArray downloadedData() const;
 
+    QUrl getDownloadedFileURL() const;
+    bool setDownloadedFileURL(const QUrl &DownloadedFile);
+
+    void setProgressDialogEnabled(bool ShowProgressDialog, const QString &textTitle = QString(), const QString &textLabel = QString());
+
 signals:
     void downloaded();
+    void canceled();
     void error(const QString &errorString);
+    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
-
-private slots:
-    void fileDownloaded(QNetworkReply* pReply);
+private slots:    
+    void dataFinished(QNetworkReply* pReply);
+    void dataReady();
     void slotError();
+    void setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
 private:
     QNetworkAccessManager m_WebCtrl;
     QByteArray m_DownloadedData;
+
+    // Downloaded file
+    QUrl m_DownloadedFileURL;
+    QFile m_DownloadedFile;
+
+    // Network reply
+    QNetworkReply *m_Reply = NULL;
+
+    // Optional Progress dialog
+    bool m_ShowProgressDialog = false;
+    QProgressDialog* progressDialog = NULL;
+    bool isCancelled = false;
+    QString label, title;
 };
 
 #endif // FILEDOWNLOADER_H

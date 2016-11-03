@@ -11,12 +11,16 @@
  */
 
 #include <QFile>
+#include <QProgressDialog>
+
+#include <KLocalizedString>
 
 #include "filedownloader.h"
+#include "kstars.h"
 
 FileDownloader::FileDownloader(QObject *parent) :  QObject(parent)
 {
-    connect(&m_WebCtrl, SIGNAL (finished(QNetworkReply*)), this, SLOT (fileDownloaded(QNetworkReply*)));
+    connect(&m_WebCtrl, SIGNAL (finished(QNetworkReply*)), this, SLOT (dataFinished(QNetworkReply*)));
 }
 
 FileDownloader::~FileDownloader()
@@ -26,41 +30,122 @@ FileDownloader::~FileDownloader()
 void FileDownloader::get(const QUrl & fileUrl)
 {
     QNetworkRequest request(fileUrl);
-    QNetworkReply *reply = m_WebCtrl.get(request);
+    m_DownloadedData.clear();
+    isCancelled = false;
+    m_Reply = m_WebCtrl.get(request);
 
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
+    connect(m_Reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
 }
 
 void FileDownloader::post(const QUrl &fileUrl, QByteArray & data)
 {
     QNetworkRequest request(fileUrl);
-    QNetworkReply *reply = m_WebCtrl.post(request, data);
+    m_DownloadedData.clear();
+    isCancelled = false;
+    m_Reply = m_WebCtrl.post(request, data);
 
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
+    connect(m_Reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
 }
 
 void FileDownloader::post(const QUrl & fileUrl, QHttpMultiPart *parts)
 {
     QNetworkRequest request(fileUrl);
-    QNetworkReply *reply = m_WebCtrl.post(request, parts);
+    m_DownloadedData.clear();
+    isCancelled = false;
+    m_Reply = m_WebCtrl.post(request, parts);
 
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
+    connect(m_Reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(slotError()));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
+    connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
 }
 
-
-void FileDownloader::fileDownloaded(QNetworkReply* pReply)
+void FileDownloader::dataReady()
 {
-    m_DownloadedData = pReply->readAll();
+   if (m_DownloadedFile.isOpen())
+       m_DownloadedFile.write(m_Reply->readAll());
+   else
+       m_DownloadedData += m_Reply->readAll();
+}
+
+void FileDownloader::dataFinished(QNetworkReply* pReply)
+{
+    if (isCancelled == false)
+        emit downloaded();
+
     pReply->deleteLater();
-    //emit a signal    
-    emit downloaded();
 }
 
 void FileDownloader::slotError()
 {
-    QNetworkReply *pReply = static_cast<QNetworkReply *>(sender());
-    pReply->deleteLater();
-    emit error(pReply->errorString());
+    m_Reply->deleteLater();
+    emit error(m_Reply->errorString());
+}
+
+void FileDownloader::setProgressDialogEnabled(bool ShowProgressDialog, const QString& textTitle, const QString &textLabel)
+{
+    m_ShowProgressDialog = ShowProgressDialog;
+
+    if (title.isEmpty())
+        title = i18n("Downloading");
+    else
+        title = textTitle;
+
+    if (textLabel.isEmpty())
+       label = i18n("Downloading Data...");
+    else
+        label = textLabel;
+}
+
+QUrl FileDownloader::getDownloadedFileURL() const
+{
+    return m_DownloadedFileURL;
+}
+
+bool FileDownloader::setDownloadedFileURL(const QUrl &DownloadedFile)
+{
+    m_DownloadedFileURL = DownloadedFile;
+
+    if (m_DownloadedFileURL.isEmpty() == false)
+    {
+        m_DownloadedFile.setFileName(m_DownloadedFileURL.toLocalFile());
+        bool rc = m_DownloadedFile.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
+
+        if (rc == false)
+            qWarning() << m_DownloadedFile.errorString();
+
+        return rc;
+    }
+
+    m_DownloadedFile.close();
+    return true;
+}
+
+void FileDownloader::setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+{
+    if (m_ShowProgressDialog)
+    {
+        if (progressDialog == NULL)
+        {
+            isCancelled = false;
+            progressDialog = new QProgressDialog(KStars::Instance());
+            progressDialog->setWindowTitle(title);
+            progressDialog->setLabelText(label);
+            connect(progressDialog, SIGNAL(canceled()), this, SIGNAL(canceled()));
+            connect(progressDialog, &QProgressDialog::canceled, this, [&]() { isCancelled = true; m_Reply->abort(); });
+            progressDialog->setMinimum(0);
+            progressDialog->show();
+        }
+
+        progressDialog->setMaximum(bytesTotal);
+        progressDialog->setValue(bytesReceived);
+    }
 }
 
 QByteArray FileDownloader::downloadedData() const
