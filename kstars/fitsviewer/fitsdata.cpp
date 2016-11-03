@@ -1776,9 +1776,14 @@ bool FITSData::checkWCS()
     HasWCS = true;
     return HasWCS;
 #endif
+
+    return false;
 }
 
-void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]){
+void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[])
+{
+    #ifdef HAVE_WCSLIB
+
     int width=getWidth();
     int height=getHeight();
     int status=0;
@@ -1848,6 +1853,8 @@ void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi
     }
 
     delete (num);
+
+#endif
 
 }
 
