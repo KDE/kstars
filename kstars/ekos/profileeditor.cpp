@@ -118,65 +118,65 @@ void ProfileEditor::saveProfile()
       pi->country.clear();
    }
 
-   if (ui->mountCombo->currentText() != "--")
-       pi->drivers["Mount"] = ui->mountCombo->currentText();
-   else
+   if (ui->mountCombo->currentText().isEmpty() || ui->mountCombo->currentText() == "--")
        pi->drivers.remove("Mount");
-
-   if (ui->ccdCombo->currentText() != "--")
-       pi->drivers["CCD"] = ui->ccdCombo->currentText();
    else
+       pi->drivers["Mount"] = ui->mountCombo->currentText();
+
+   if (ui->ccdCombo->currentText().isEmpty() || ui->ccdCombo->currentText() == "--")
        pi->drivers.remove("CCD");
-
-   if (ui->guiderCombo->currentText() != "--")
-       pi->drivers["Guider"] = ui->guiderCombo->currentText();
    else
+       pi->drivers["CCD"] = ui->ccdCombo->currentText();
+
+   if (ui->guiderCombo->currentText().isEmpty() || ui->guiderCombo->currentText() == "--")
        pi->drivers.remove("Guider");
-
-   if (ui->focuserCombo->currentText() != "--")
-       pi->drivers["Focuser"] = ui->focuserCombo->currentText();
    else
+       pi->drivers["Guider"] = ui->guiderCombo->currentText();
+
+   if (ui->focuserCombo->currentText().isEmpty() || ui->focuserCombo->currentText() == "--")
        pi->drivers.remove("Focuser");
-
-   if (ui->filterCombo->currentText() != "--")
-       pi->drivers["Filter"] = ui->filterCombo->currentText();
    else
+       pi->drivers["Focuser"] = ui->focuserCombo->currentText();
+
+   if (ui->filterCombo->currentText().isEmpty() || ui->filterCombo->currentText() == "--")
        pi->drivers.remove("Filter");
-
-   if (ui->AOCombo->currentText() != "--")
-       pi->drivers["AO"] = ui->AOCombo->currentText();
    else
+       pi->drivers["Filter"] = ui->filterCombo->currentText();
+
+   if (ui->AOCombo->currentText().isEmpty() || ui->AOCombo->currentText() == "--")
        pi->drivers.remove("AO");
-
-   if (ui->domeCombo->currentText() != "--")
-       pi->drivers["Dome"] = ui->domeCombo->currentText();
    else
+       pi->drivers["AO"] = ui->AOCombo->currentText();
+
+   if (ui->domeCombo->currentText().isEmpty() || ui->domeCombo->currentText() == "--")
        pi->drivers.remove("Dome");
-
-   if (ui->weatherCombo->currentText() != "--")
-       pi->drivers["Weather"] = ui->weatherCombo->currentText();
    else
+       pi->drivers["Dome"] = ui->domeCombo->currentText();
+
+   if (ui->weatherCombo->currentText().isEmpty() || ui->weatherCombo->currentText() == "--")
        pi->drivers.remove("Weather");
-
-   if (ui->aux1Combo->currentText() != "--")
-       pi->drivers["Aux1"] = ui->aux1Combo->currentText();
    else
+       pi->drivers["Weather"] = ui->weatherCombo->currentText();
+
+   if (ui->aux1Combo->currentText().isEmpty() || ui->aux1Combo->currentText() == "--")
        pi->drivers.remove("Aux1");
-
-   if (ui->aux2Combo->currentText() != "--")
-       pi->drivers["Aux2"] = ui->aux2Combo->currentText();
    else
+       pi->drivers["Aux1"] = ui->aux1Combo->currentText();
+
+   if (ui->aux2Combo->currentText().isEmpty() || ui->aux2Combo->currentText() == "--")
        pi->drivers.remove("Aux2");
-
-   if (ui->aux3Combo->currentText() != "--")
-       pi->drivers["Aux3"] = ui->aux3Combo->currentText();
    else
+       pi->drivers["Aux2"] = ui->aux2Combo->currentText();
+
+   if (ui->aux3Combo->currentText().isEmpty() || ui->aux3Combo->currentText() == "--")
        pi->drivers.remove("Aux3");
-
-   if (ui->aux4Combo->currentText() != "--")
-       pi->drivers["Aux4"] = ui->aux4Combo->currentText();
    else
+       pi->drivers["Aux3"] = ui->aux3Combo->currentText();
+
+   if (ui->aux4Combo->currentText().isEmpty() || ui->aux4Combo->currentText() == "--")
        pi->drivers.remove("Aux4");
+   else
+       pi->drivers["Aux4"] = ui->aux4Combo->currentText();
 
    KStarsData::Instance()->userdb()->SaveProfile(pi);
 
