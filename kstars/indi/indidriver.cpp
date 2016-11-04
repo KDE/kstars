@@ -505,7 +505,7 @@ bool INDIDriver::readXMLDrivers()
 
     if (indiDir.cd(driversDir) == false)
     {
-        KMessageBox::error(0, xi18n("Unable to find INDI Drivers directory: %1\nPlease make sure to set the correct path in KStars configuration", Options::indiDriversDir()));
+        KMessageBox::error(0, xi18n("Unable to find INDI Drivers directory: %1\nPlease make sure to set the correct path in KStars configuration", driversDir));
           return false;
      }
 

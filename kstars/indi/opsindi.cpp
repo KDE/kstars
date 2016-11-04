@@ -46,23 +46,19 @@ OpsINDI::OpsINDI()
     selectDriversDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     #ifdef Q_OS_OSX
-    connect(indiInternal, SIGNAL(clicked()), this, SLOT(toggleINDIInternal()));
-    indiInternal->setToolTip(i18n("Internal or External INDI Server."));
-    connect(driversInternal, SIGNAL(clicked()), this, SLOT(toggleDriversInternal()));
-    driversInternal->setToolTip(i18n("Internal or External INDI Drivers."));
+    connect(kcfg_indiServerIsInternal, SIGNAL(clicked()), this, SLOT(toggleINDIInternal()));
+    kcfg_indiServerIsInternal->setToolTip(i18n("Internal or External INDI Server?"));
+    connect(kcfg_indiDriversAreInternal, SIGNAL(clicked()), this, SLOT(toggleDriversInternal()));
+    kcfg_indiDriversAreInternal->setToolTip(i18n("Internal or External INDI Drivers?"));
 
-    if(Options::indiServerIsInternal()){
-        indiInternal->setChecked(true);
+    if(Options::indiServerIsInternal())
         kcfg_indiServer->setEnabled(false);
-    }
-    if(Options::indiDriversAreInternal()){
-        driversInternal->setChecked(true);
+    if(Options::indiDriversAreInternal())
         kcfg_indiDriversDir->setEnabled(false);
-    }
 
     #else
-    indiInternal->setVisible(false);
-    driversInternal->setVisible(false);
+    kcfg_indiServerIsInternal->setVisible(false);
+    kcfg_indiDriversAreInternal->setVisible(false);
     #endif
 
     connect(selectFITSDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
@@ -79,8 +75,8 @@ OpsINDI::~OpsINDI() {}
 
 void OpsINDI::toggleINDIInternal()
 {
-    kcfg_indiServer->setEnabled(!indiInternal->isChecked());
-    if(indiInternal->isChecked())
+    kcfg_indiServer->setEnabled(!kcfg_indiServerIsInternal->isChecked());
+    if(kcfg_indiServerIsInternal->isChecked())
         kcfg_indiServer->setText("*Internal INDI Server*");
     else
         kcfg_indiServer->setText("/usr/local/bin/indiserver");
@@ -88,8 +84,8 @@ void OpsINDI::toggleINDIInternal()
 
 void OpsINDI::toggleDriversInternal()
 {
-    kcfg_indiDriversDir->setEnabled(!driversInternal->isChecked());
-    if(driversInternal->isChecked())
+    kcfg_indiDriversDir->setEnabled(!kcfg_indiDriversAreInternal->isChecked());
+    if(kcfg_indiDriversAreInternal->isChecked())
         kcfg_indiDriversDir->setText("*Internal INDI Drivers*");
     else
         kcfg_indiDriversDir->setText("/usr/local/bin/");

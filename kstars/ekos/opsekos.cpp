@@ -32,30 +32,24 @@ OpsEkos::OpsEkos()
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
 #ifdef Q_OS_OSX
-connect(solverInternal, SIGNAL(clicked()), this, SLOT(toggleSolverInternal()));
-solverInternal->setToolTip(i18n("Internal or External Plate Solver."));
-if(Options::astrometrySolverIsInternal()){
-    solverInternal->setChecked(true);
+connect(kcfg_astrometrySolverIsInternal, SIGNAL(clicked()), this, SLOT(toggleSolverInternal()));
+kcfg_astrometrySolverIsInternal->setToolTip(i18n("Internal or External Plate Solver?"));
+if(Options::astrometrySolverIsInternal())
     kcfg_astrometrySolver->setEnabled(false);
-}
 
-connect(configInternal, SIGNAL(clicked()), this, SLOT(toggleConfigInternal()));
-configInternal->setToolTip(i18n("Internal or External Astrometry.cfg."));
-if(Options::astrometryConfFileIsInternal()){
-    configInternal->setChecked(true);
+connect(kcfg_astrometryConfFileIsInternal, SIGNAL(clicked()), this, SLOT(toggleConfigInternal()));
+kcfg_astrometryConfFileIsInternal->setToolTip(i18n("Internal or External astrometry.cfg?"));
+if(Options::astrometryConfFileIsInternal())
     kcfg_astrometryConfFile->setEnabled(false);
-}
 
-connect(wcsInternal, SIGNAL(clicked()), this, SLOT(toggleWCSInternal()));
-wcsInternal->setToolTip(i18n("Internal or External WCS Info."));
-if(Options::wcsIsInternal()){
-    wcsInternal->setChecked(true);
+connect(kcfg_wcsIsInternal, SIGNAL(clicked()), this, SLOT(toggleWCSInternal()));
+kcfg_wcsIsInternal->setToolTip(i18n("Internal or External wcsinfo?"));
+if(Options::wcsIsInternal())
     kcfg_astrometryWCSInfo->setEnabled(false);
-}
 #else
-solverInternal->setVisible(false);
-configInternal->setVisible(false);
-wcsInternal->setVisible(false);
+kcfg_astrometrySolverIsInternal->setVisible(false);
+kcfg_astrometryConfFileIsInternal->setVisible(false);
+kcfg_wcsIsInternal->setVisible(false);
 #endif
 
     connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
@@ -68,8 +62,8 @@ OpsEkos::~OpsEkos() {}
 
 void OpsEkos::toggleSolverInternal()
 {
-    kcfg_astrometrySolver->setEnabled(!solverInternal->isChecked());
-    if(solverInternal->isChecked())
+    kcfg_astrometrySolver->setEnabled(!kcfg_astrometrySolverIsInternal->isChecked());
+    if(kcfg_astrometrySolverIsInternal->isChecked())
         kcfg_astrometrySolver->setText("*Internal Solver*");
     else
         kcfg_astrometrySolver->setText("/usr/local/bin/solve-field");
@@ -77,8 +71,8 @@ void OpsEkos::toggleSolverInternal()
 
 void OpsEkos::toggleConfigInternal()
 {
-    kcfg_astrometryConfFile->setEnabled(!configInternal->isChecked());
-    if(configInternal->isChecked())
+    kcfg_astrometryConfFile->setEnabled(!kcfg_astrometryConfFileIsInternal->isChecked());
+    if(kcfg_astrometryConfFileIsInternal->isChecked())
         kcfg_astrometryConfFile->setText("*Internal astrometry.cfg*");
     else
         kcfg_astrometryConfFile->setText("/etc/astrometry.cfg");
@@ -86,8 +80,8 @@ void OpsEkos::toggleConfigInternal()
 
 void OpsEkos::toggleWCSInternal()
 {
-    kcfg_astrometryWCSInfo->setEnabled(!wcsInternal->isChecked());
-    if(wcsInternal->isChecked())
+    kcfg_astrometryWCSInfo->setEnabled(!kcfg_wcsIsInternal->isChecked());
+    if(kcfg_wcsIsInternal->isChecked())
         kcfg_astrometryWCSInfo->setText("*Internal wcsinfo*");
     else
         kcfg_astrometryWCSInfo->setText("/usr/local/bin/wcsinfo");

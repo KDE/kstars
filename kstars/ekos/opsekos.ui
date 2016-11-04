@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>658</width>
-    <height>506</height>
+    <height>508</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -393,7 +393,7 @@
           </widget>
          </item>
          <item row="0" column="3">
-          <widget class="QCheckBox" name="wcsInternal">
+          <widget class="QCheckBox" name="kcfg_wcsIsInternal">
            <property name="text">
             <string/>
            </property>
@@ -441,7 +441,7 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QCheckBox" name="configInternal">
+          <widget class="QCheckBox" name="kcfg_astrometryConfFileIsInternal">
            <property name="text">
             <string/>
            </property>
@@ -472,7 +472,7 @@
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QCheckBox" name="solverInternal">
+          <widget class="QCheckBox" name="kcfg_astrometrySolverIsInternal">
            <property name="text">
             <string/>
            </property>
