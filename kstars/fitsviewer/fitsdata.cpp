@@ -252,10 +252,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
 
     calculateStats();
 
-    //if (mode == FITS_NORMAL)
-        //checkWCS();
-
-    if (checkDebayer())
+    if (Options::autoDebayerFITS() && checkDebayer())
         debayer();
 
     starsSearched = false;
