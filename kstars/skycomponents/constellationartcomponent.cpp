@@ -50,7 +50,11 @@ void ConstellationArtComponent::deleteData()
 void ConstellationArtComponent::loadData(){
     if(m_ConstList.isEmpty()) {
         QSqlDatabase skydb = QSqlDatabase::addDatabase("QSQLITE", "skycultures");
+        #ifdef Q_OS_OSX
+        QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, "/skycultures/skycultures.sqlite");
+        #else
         QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, "skycultures.sqlite");
+        #endif
 
         skydb.setDatabaseName(dbfile);
         if (skydb.open() == false)

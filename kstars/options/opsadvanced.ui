@@ -170,80 +170,94 @@
          <property name="title">
           <string>FITS Viewer</string>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
-           <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
-            <property name="toolTip">
-             <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
-            </property>
-            <property name="statusTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
+              <property name="toolTip">
+               <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
+              </property>
+              <property name="statusTip">
+               <string/>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Preview Mode</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="kcfg_singleWindowCapturedFITS">
+              <property name="toolTip">
+               <string>Display captured FITS images from all cameras in a single FITS Viewer window instead of a dedicated window to each camera.</string>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Single Window Capture</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="kcfg_singleWindowOpenedFITS">
+              <property name="toolTip">
+               <string>Display opened FITS images in a single FITS Viewer window instead of a dedicated window to each file.</string>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Single Window Open</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="kcfg_independentWindowFITS">
+              <property name="toolTip">
+               <string>Make FITS Viewer window independent from KStars</string>
+              </property>
+              <property name="text">
+               <string>Independent Window</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_autoDebayerFITS">
             <property name="text">
-             <string>Preview Mode</string>
+             <string>Auto Debayer</string>
             </property>
             <property name="checked">
              <bool>true</bool>
             </property>
            </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="kcfg_singleWindowCapturedFITS">
-            <property name="toolTip">
-             <string>Display captured FITS images from all cameras in a single FITS Viewer window instead of a dedicated window to each camera.</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Single Window Capture</string>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="kcfg_singleWindowOpenedFITS">
-            <property name="toolTip">
-             <string>Display opened FITS images in a single FITS Viewer window instead of a dedicated window to each file.</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Single Window Open</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="kcfg_independentWindowFITS">
-            <property name="toolTip">
-             <string>Make FITS Viewer window independent from KStars</string>
-            </property>
-            <property name="text">
-             <string>Independent Window</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
@@ -1064,12 +1078,12 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="logbuttonGroup"/>
-  <buttongroup name="verbosityButtonGroup"/>
   <buttongroup name="modulesGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="logbuttonGroup"/>
+  <buttongroup name="verbosityButtonGroup"/>
  </buttongroups>
 </ui>

@@ -75,11 +75,22 @@ bool OfflineAstrometryParser::astrometryNetOK()
 {
     bool solverOK=false, wcsinfoOK=false;
 
-    QFileInfo solver(Options::astrometrySolver());
-    solverOK = solver.exists() && solver.isFile();
+    if(Options::astrometrySolverIsInternal()){
+        QFileInfo solver(QCoreApplication::applicationDirPath()+"/astrometry/bin/solve-field");
+        solverOK = solver.exists() && solver.isFile();
+    }
+    else{
+        QFileInfo solver(Options::astrometrySolver());
+        solverOK = solver.exists() && solver.isFile();
+    }
 
-    QFileInfo wcsinfo(Options::astrometryWCSInfo());
-    wcsinfoOK  = wcsinfo.exists() && wcsinfo.isFile();
+    if(Options::wcsIsInternal()){
+        QFileInfo wcsinfo(QCoreApplication::applicationDirPath()+"/astrometry/bin/wcsinfo");
+        wcsinfoOK  = wcsinfo.exists() && wcsinfo.isFile();
+    }else{
+        QFileInfo wcsinfo(Options::astrometryWCSInfo());
+        wcsinfoOK  = wcsinfo.exists() && wcsinfo.isFile();
+    }
 
     return (solverOK && wcsinfoOK);
 }
@@ -144,7 +155,14 @@ void OfflineAstrometryParser::verifyIndexFiles(double fov_x, double fov_y)
 
 bool OfflineAstrometryParser::getAstrometryDataDir(QString &dataDir)
 {
-    QFile confFile(Options::astrometryConfFile());
+    QString confPath;
+
+    if(Options::astrometryConfFileIsInternal())
+        confPath = QCoreApplication::applicationDirPath()+"/astrometry/bin/astrometry.cfg";
+    else
+        confPath = Options::astrometryConfFile();
+
+    QFile confFile(confPath);
 
     if (confFile.open(QIODevice::ReadOnly) == false)
     {
@@ -210,13 +228,20 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
 
     solverTimer.start();
 
-    solver.start(Options::astrometrySolver(), solverArgs);
+    QString solverPath;
+
+    if(Options::astrometrySolverIsInternal())
+        solverPath=QCoreApplication::applicationDirPath()+"/astrometry/bin/solve-field";
+    else
+        solverPath=Options::astrometrySolver();
+
+    solver.start(solverPath, solverArgs);
 
     align->appendLogText(i18n("Starting solver..."));
 
     if (Options::solverVerbose())
     {
-        QString command = Options::astrometrySolver() + " " + solverArgs.join(" ");
+        QString command = solverPath + " " + solverArgs.join(" ");
         align->appendLogText(command);
     }
 
@@ -249,7 +274,14 @@ void OfflineAstrometryParser::solverComplete(int exist_status)
 
     connect(&wcsinfo, SIGNAL(finished(int)), this, SLOT(wcsinfoComplete(int)));
 
-    wcsinfo.start(Options::astrometryWCSInfo(), QStringList(solutionFile));
+    QString wcsPath;
+
+    if(Options::wcsIsInternal())
+        wcsPath = QCoreApplication::applicationDirPath()+"/astrometry/bin/wcsinfo";
+    else
+        wcsPath = Options::astrometryWCSInfo();
+
+    wcsinfo.start(wcsPath, QStringList(solutionFile));
 }
 
 void OfflineAstrometryParser::wcsinfoComplete(int exist_status)

@@ -184,9 +184,17 @@
          <whatsthis>PATH to indiserver binary</whatsthis>
          <default>/usr/bin/indiserver</default>
       </entry>
+      <entry name="indiServerIsInternal" type="Bool">
+         <label>Internal or External INDI Server?</label>
+         <default>false</default>
+      </entry>
       <entry name="indiDriversDir" type="String">
          <label>PATH to indi drivers directory</label>
          <whatsthis>PATH to indi drivers directory</whatsthis>
+      </entry>
+      <entry name="indiDriversAreInternal" type="Bool">
+         <label>Internal or External Astrometry Solver?</label>
+         <default>false</default>
       </entry>
    </group>
 
@@ -1276,6 +1284,10 @@
          <label>Make FITS Viewer window independent of KStars main window</label>
          <default>false</default>
       </entry>
+      <entry name="autoDebayerFITS" type="Bool">
+         <label>Automatically debayer a FITS image if it is contains a bayer pattern</label>
+         <default>true</default>
+      </entry>
    </group>
    <group name="WISettings">
       <entry name="BortleClass" type="UInt">
@@ -1325,15 +1337,27 @@
          <whatsthis>Path to astrometry.net solver location.</whatsthis>
          <default>/usr/bin/solve-field</default>
       </entry>
+      <entry name="astrometrySolverIsInternal" type="Bool">
+         <label>Internal or External Astrometry Solver?</label>
+         <default>false</default>
+      </entry>
       <entry name="astrometryWCSInfo" type="String">
          <label>astrometry.net wcsinfo binary</label>
          <whatsthis>Path to astrometry.net wcsinfo location.</whatsthis>
          <default>/usr/bin/wcsinfo</default>
       </entry>
+      <entry name="wcsIsInternal" type="Bool">
+         <label>Internal or External wcsinfo?</label>
+         <default>false</default>
+      </entry>
       <entry name="astrometryConfFile" type="String">
          <label>astrometry.net configuration file</label>
          <whatsthis>Path to astrometry.net file location.</whatsthis>
          <default>/etc/astrometry.cfg</default>
+      </entry>
+      <entry name="astrometryConfFileIsInternal" type="Bool">
+         <label>Internal or External Astrometry.net Conf File?</label>
+         <default>false</default>
       </entry>
       <entry name="astrometryAPIKey" type="String">
          <label>astrometry.net API Key</label>

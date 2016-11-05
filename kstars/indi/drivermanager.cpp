@@ -951,9 +951,15 @@ bool DriverManager::readXMLDrivers()
     QDir indiDir;
     QString driverName;
 
-    if (indiDir.cd(Options::indiDriversDir()) == false)
+    QString driversDir=Options::indiDriversDir();
+     #ifdef Q_OS_OSX
+    if(Options::indiDriversAreInternal())
+        driversDir=QCoreApplication::applicationDirPath()+"/indi";
+    #endif
+
+    if (indiDir.cd(driversDir) == false)
     {
-        KMessageBox::error(0, i18n("Unable to find INDI Drivers directory: %1\nPlease make sure to set the correct path in KStars configuration", Options::indiDriversDir()));
+        KMessageBox::error(0, i18n("Unable to find INDI Drivers directory: %1\nPlease make sure to set the correct path in KStars configuration", driversDir));
           return false;
      }
 
@@ -980,7 +986,7 @@ bool DriverManager::readXMLDrivers()
             }
         }
 
-                driverName = QString("%1/%2").arg(Options::indiDriversDir()).arg(fileInfo.fileName());
+                driverName = QString("%1/%2").arg(driversDir).arg(fileInfo.fileName());
                 processXMLDriver(driverName);
 
     }

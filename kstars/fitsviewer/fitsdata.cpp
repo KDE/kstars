@@ -17,7 +17,6 @@
  *   See http://members.aol.com/pkirchg for more details.                  *
  ***************************************************************************/
 
-#include <config-kstars.h>
 #include "fitsdata.h"
 #include "skymapcomposite.h"
 #include "kstarsdata.h"
@@ -41,7 +40,6 @@
 #ifdef HAVE_WCSLIB
 #include <wcshdr.h>
 #include <wcsfix.h>
-#include <wcs.h>
 #endif
 
 #include "ksutils.h"
@@ -254,10 +252,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
 
     calculateStats();
 
-    //if (mode == FITS_NORMAL)
-        //checkWCS();
-
-    if (checkDebayer())
+    if (Options::autoDebayerFITS() && checkDebayer())
         debayer();
 
     starsSearched = false;
@@ -1776,9 +1771,13 @@ bool FITSData::checkWCS()
     HasWCS = true;
     return HasWCS;
 #endif
+
+    return false;
 }
 
-void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]){
+#ifdef HAVE_WCSLIB
+void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[])
+{
     int width=getWidth();
     int height=getHeight();
     int status=0;
@@ -1848,8 +1847,8 @@ void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi
     }
 
     delete (num);
-
 }
+#endif
 
 QList<FITSSkyObject *> FITSData::getSkyObjects(){
     return objList;

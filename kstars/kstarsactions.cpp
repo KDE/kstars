@@ -529,10 +529,25 @@ void KStars::slotTelescopeWizard()
 {
 #ifdef HAVE_INDI
     #ifndef Q_OS_WIN
+
+    QString indiServerDir=Options::indiServer();
+
+     #ifdef Q_OS_OSX
+    if(Options::indiServerIsInternal())
+        indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
+    else if(indiServerDir.length()>10)
+        indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+    #endif
+
+    QStringList paths;
+    paths << "/usr/bin" << "/usr/local/bin" << indiServerDir;
+
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
-        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
-        return;
+        if(QStandardPaths::findExecutable("indiserver",paths).isEmpty()){
+            KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+            return;
+        }
     }
     #endif
 
@@ -546,10 +561,25 @@ void KStars::slotINDIPanel()
 {
 #ifdef HAVE_INDI
     #ifndef Q_OS_WIN
+
+    QString indiServerDir=Options::indiServer();
+
+     #ifdef Q_OS_OSX
+    if(Options::indiServerIsInternal())
+        indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
+    else if(indiServerDir.length()>10)
+        indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+    #endif
+
+    QStringList paths;
+    paths << "/usr/bin" << "/usr/local/bin" << indiServerDir;
+
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
-        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
-        return;
+        if(QStandardPaths::findExecutable("indiserver",paths).isEmpty()){
+            KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+            return;
+        }
     }
     #endif
     GUIManager::Instance()->updateStatus();
@@ -560,10 +590,25 @@ void KStars::slotINDIDriver()
 {
 #ifdef HAVE_INDI
     #ifndef Q_OS_WIN
+
+    QString indiServerDir=Options::indiServer();
+
+     #ifdef Q_OS_OSX
+    if(Options::indiServerIsInternal())
+        indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
+    else if(indiServerDir.length()>10)
+        indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+    #endif
+
+    QStringList paths;
+    paths << "/usr/bin" << "/usr/local/bin" << indiServerDir;
+
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
-        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
-        return;
+        if(QStandardPaths::findExecutable("indiserver",paths).isEmpty()){
+            KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+            return;
+        }
     }
     #endif
 
@@ -580,10 +625,25 @@ void KStars::slotEkos()
 #ifdef HAVE_INDI
 
     #ifndef Q_OS_WIN
+
+    QString indiServerDir=Options::indiServer();
+
+     #ifdef Q_OS_OSX
+    if(Options::indiServerIsInternal())
+        indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
+    else if(indiServerDir.length()>10)
+        indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+    #endif
+
+    QStringList paths;
+    paths << "/usr/bin" << "/usr/local/bin" << indiServerDir;
+
     if (QStandardPaths::findExecutable("indiserver").isEmpty())
     {
-        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
-        return;
+        if(QStandardPaths::findExecutable("indiserver",paths).isEmpty()){
+            KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+            return;
+        }
     }
     #endif
 

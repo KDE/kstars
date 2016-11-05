@@ -85,8 +85,12 @@ void DeviceManager::startServer()
 	kWarning() << "managed_devices was not set! Cannot start server!";
         return;
       }
-  
-    *serverProcess << Options::indiServer();
+     #ifdef Q_OS_OSX
+    if(Options::indiServerIsInternal())
+        *serverProcess << QCoreApplication::applicationDirPath()+"/indi/indiserver";
+    else
+    #endif
+        *serverProcess << Options::indiServer();
     *serverProcess << "-v" << "-p" << QString::number(port);
 
 

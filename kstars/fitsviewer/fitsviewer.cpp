@@ -57,7 +57,10 @@
 #include "fitshistogram.h"
 #include "ksutils.h"
 #include "Options.h"
+
+#ifdef HAVE_INDI
 #include "indi/indilistener.h"
+#endif
 
 #define INITIAL_W	785
 #define INITIAL_H	650
@@ -99,9 +102,11 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     //These two connections will enable or disable the scope button if a scope is available or not.
     //Of course this is also dependent on the presence of WCS data in the image.
+
+    #ifdef HAVE_INDI
     connect(INDIListener::Instance(), SIGNAL(newTelescope(ISD::GDInterface *)), this, SLOT(updateWCSFunctions()));
     connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface *)), this, SLOT(updateWCSFunctions()));
-
+    #endif
 
     led.setColor(Qt::green);
 

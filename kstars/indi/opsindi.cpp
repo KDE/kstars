@@ -41,7 +41,25 @@ OpsINDI::OpsINDI()
         kcfg_fitsDir->setText ( Options::fitsDir());
 
     selectFITSDirB->setIcon( QIcon::fromTheme( "document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")) );
+    selectFITSDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectDriversDirB->setIcon( QIcon::fromTheme( "document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")) );
+    selectDriversDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    #ifdef Q_OS_OSX
+    connect(kcfg_indiServerIsInternal, SIGNAL(clicked()), this, SLOT(toggleINDIInternal()));
+    kcfg_indiServerIsInternal->setToolTip(i18n("Internal or External INDI Server?"));
+    connect(kcfg_indiDriversAreInternal, SIGNAL(clicked()), this, SLOT(toggleDriversInternal()));
+    kcfg_indiDriversAreInternal->setToolTip(i18n("Internal or External INDI Drivers?"));
+
+    if(Options::indiServerIsInternal())
+        kcfg_indiServer->setEnabled(false);
+    if(Options::indiDriversAreInternal())
+        kcfg_indiDriversDir->setEnabled(false);
+
+    #else
+    kcfg_indiServerIsInternal->setVisible(false);
+    kcfg_indiDriversAreInternal->setVisible(false);
+    #endif
 
     connect(selectFITSDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
     connect(selectDriversDirB, SIGNAL(clicked()), this, SLOT(saveDriversDirectory()));    
@@ -54,6 +72,24 @@ OpsINDI::OpsINDI()
 
 
 OpsINDI::~OpsINDI() {}
+
+void OpsINDI::toggleINDIInternal()
+{
+    kcfg_indiServer->setEnabled(!kcfg_indiServerIsInternal->isChecked());
+    if(kcfg_indiServerIsInternal->isChecked())
+        kcfg_indiServer->setText("*Internal INDI Server*");
+    else
+        kcfg_indiServer->setText("/usr/local/bin/indiserver");
+}
+
+void OpsINDI::toggleDriversInternal()
+{
+    kcfg_indiDriversDir->setEnabled(!kcfg_indiDriversAreInternal->isChecked());
+    if(kcfg_indiDriversAreInternal->isChecked())
+        kcfg_indiDriversDir->setText("*Internal INDI Drivers*");
+    else
+        kcfg_indiDriversDir->setText("/usr/local/bin/");
+}
 
 void OpsINDI::saveFITSDirectory()
 {
