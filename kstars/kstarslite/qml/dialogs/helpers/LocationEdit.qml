@@ -143,6 +143,8 @@ KSPage {
     PositionSource {
         id: positionSource
 
+        property bool error: false
+
         onSourceErrorChanged: {
             if (sourceError == PositionSource.NoError)
                 return
@@ -156,8 +158,8 @@ KSPage {
             }
 
             notification.showNotification(errorDesc)
-            active = false
-            sourceError = positionSource.NoError
+            positionSource.stop()
+            error = true
             locationLoading.close()
         }
 
@@ -167,10 +169,11 @@ KSPage {
         }
 
         onActiveChanged: {
-            if(positionSource.active) {
+            if(positionSource.active && !error) {
                 locationLoading.open()
             } else if (!fetchingName) {
                 locationLoading.close()
+                error = false
             }
         }
 
@@ -185,7 +188,7 @@ KSPage {
                     locationFetched(lat, lng)
                 }
 
-                tz = new Date().getTimezoneOffset()/60
+                tz = (new Date().getTimezoneOffset()/60)*-1
                 loadingText = xi18n("Please, wait while we are retrieving location name")
                 fetchingName = true // must be set to true before we are stopping positioning service
                 positionSource.stop()
@@ -198,7 +201,7 @@ KSPage {
     }
 
     function setTZComboBox(TZMinutes) {
-        var TZ = TZMinutes/60
+        var TZ = (TZMinutes/60)*-1
         comboBoxTZ.currentIndex = comboBoxTZ.find(TZ)
     }
 
