@@ -493,6 +493,9 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
     delete (image_data);
     image_data = NULL;
 
+    filterStack.clear();
+    filterStack.push(FITS_NONE);
+
     image_data = new FITSData(mode);
 
     if (setBayerParams)
@@ -677,8 +680,8 @@ template<typename T>  int FITSView::rescale(FITSZoom type)
 
                 for (int i = 0; i < image_width; i++)
                 {
-                    val = buffer[j * image_width + i];
-                    scanLine[i]= (val * bscale + bzero);
+                    val = buffer[j * image_width + i] * bscale + bzero;
+                    scanLine[i]= qBound(0.0, val, 255.0);
                 }
             }
         }

@@ -1470,6 +1470,9 @@ void FITSData::applyFilter(FITSScale type, uint8_t *image, float *min, float *ma
     {
         dataMin = stats.mean[0] - stats.stddev[0];
         dataMax = stats.mean[0] + stats.stddev[0] * 3;
+
+        //dataMin = stats.min[0] + stats.stddev[0];
+        //dataMax = stats.mean[0]*2;
         //dataMin = 0;
         //dataMax = pow(2, stats.bitpix) - 1;
     }
