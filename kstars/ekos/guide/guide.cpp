@@ -248,10 +248,10 @@ Guide::Guide() : QWidget()
 
     internalGuider->setGuideView(guideView);
 
+    state = GUIDE_IDLE;
+
     // Set current guide type
     setGuiderType(-1);
-
-    state = GUIDE_IDLE;
 }
 
 Guide::~Guide()

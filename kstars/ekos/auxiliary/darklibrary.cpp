@@ -164,38 +164,60 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
    Q_ASSERT(darkData);
    Q_ASSERT(lightImage);
 
-   FITSData *lightData = lightImage->getImageData();
-
-   float *darkBuffer     = darkData->getImageBuffer();
-   float *lightBuffer    = lightData->getImageBuffer();
-
-   int darkoffset   = offsetX + offsetY * darkData->getWidth();
-   int darkW        = darkData->getWidth();
-
-   int lightOffset  = 0;
-   int lightW       = lightData->getWidth();
-   int lightH       = lightData->getHeight();
-
-   for (int i=0; i < lightH; i++)
+   switch (darkData->getDataType())
    {
-       for (int j=0; j < lightW; j++)
-       {
-           lightBuffer[j+lightOffset] -= darkBuffer[j+darkoffset];
-           if (lightBuffer[j+lightOffset] < 0)
-               lightBuffer[j+lightOffset] = 0;
-       }
+        case TBYTE:
+            return subtract<uint8_t>(darkData, lightImage, filter, offsetX, offsetY);
+       break;
 
-       lightOffset += lightW;
-       darkoffset  += darkW;
+        case TUSHORT:
+            return subtract<uint16_t>(darkData, lightImage, filter, offsetX, offsetY);
+       break;
+
+       default:
+       return false;
+
    }
+}
 
-   lightData->applyFilter(filter);
-   lightImage->rescale(ZOOM_KEEP_LEVEL);
-   lightImage->updateFrame();
+template<typename T> bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY)
+{
+    FITSData *lightData = lightImage->getImageData();
 
-   emit darkFrameCompleted(true);
+    T *darkBuffer     = reinterpret_cast<T*>(darkData->getImageBuffer());
+    T *lightBuffer    = reinterpret_cast<T*>(lightData->getImageBuffer());
 
-   return true;
+    int darkoffset   = offsetX + offsetY * darkData->getWidth();
+    int darkW        = darkData->getWidth();
+
+    int lightOffset  = 0;
+    int lightW       = lightData->getWidth();
+    int lightH       = lightData->getHeight();
+
+    for (int i=0; i < lightH; i++)
+    {
+        for (int j=0; j < lightW; j++)
+        {
+            if (lightBuffer[j+lightOffset] > darkBuffer[j+darkoffset])
+                lightBuffer[j+lightOffset] -= darkBuffer[j+darkoffset];
+            else
+                lightBuffer[j+lightOffset] = 0;
+        }
+
+        lightOffset += lightW;
+        darkoffset  += darkW;
+    }
+
+    lightData->applyFilter(filter);
+    if (filter == FITS_NONE)
+        lightData->calculateStats(true);
+    lightImage->rescale(ZOOM_KEEP_LEVEL);
+    lightImage->updateFrame();
+
+    emit darkFrameCompleted(true);
+
+    return true;
+
 }
 
 void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetImage, double duration, uint16_t offsetX, uint16_t offsetY)
@@ -233,6 +255,7 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetIm
                 == KMessageBox::Cancel)
         {
             emit newLog(i18n("Dark frame capture cancelled."));
+            disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
             emit darkFrameCompleted(false);
         }
     }

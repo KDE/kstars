@@ -55,6 +55,8 @@ private:
   bool loadDarkFile(const QString &filename);
   bool saveDarkFile(FITSData *darkData);
 
+  template<typename T> bool subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY);
+
   QList<QVariantMap> darkFrames;
   QHash<QString, FITSData *> darkFiles;
 

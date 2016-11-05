@@ -168,7 +168,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     double x,y;
     FITSData *image_data = image->getImageData();
 
-    float *buffer = image_data->getImageBuffer();
+    uint8_t *buffer = image_data->getImageBuffer();
 
     if (buffer == NULL)
         return;
@@ -185,10 +185,24 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     x -= 1;
     y -= 1;
 
-    if (image_data->getBPP() == -32 || image_data->getBPP() == 32)
-        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)], 'f', 4), FITS_VALUE);
-    else
-        emit newStatus(QLocale().toString(buffer[(int) (y * width + x)], 'f', 2), FITS_VALUE);
+    QString stringValue;
+
+    switch(image_data->getDataType())
+    {
+        case TBYTE:
+        {
+            stringValue = QLocale().toString(buffer[(int) (y * width + x)]);
+        }
+        break;
+
+        case TUSHORT:
+        {
+            stringValue = QLocale().toString( (reinterpret_cast<uint16_t*>(buffer)) [(int) (y * width + x)]);
+        }
+        break;
+    }
+
+        emit newStatus(stringValue, FITS_VALUE);
 
 
     if (image_data->hasWCS()&&image->getMouseMode()!=FITSView::selectMouse)
@@ -429,6 +443,8 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     filter = filterType;
     mode = fitsMode;
 
+    filterStack.push(filterType);
+
     setBackgroundRole(QPalette::Dark);
 
     markerCrosshair.setX(0);
@@ -580,42 +596,52 @@ int FITSView::saveFITS( const QString &newFilename )
 
 int FITSView::rescale(FITSZoom type)
 {
+    switch(image_data->getDataType())
+    {
+           case TBYTE:
+            return rescale<uint8_t>(type);
+
+           case TUSHORT:
+           return rescale<uint16_t>(type);
+
+    }
+
+    return 0;
+}
+
+template<typename T>  int FITSView::rescale(FITSZoom type)
+{
     double val=0;
     double bscale, bzero;
     double min, max;
-    float *image_buffer = image_data->getImageBuffer();
-    float *display_buffer = image_buffer;
+    bool displayBuffer = false;
+
+    uint8_t *image_buffer = image_data->getImageBuffer();
+
     uint32_t size = image_data->getSize();
+    int BBP = image_data->getBytesPerPixel();
 
-    if (Options::autoStretch() && filter == FITS_NONE)
+    filter = filterStack.last();
+
+    if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V )))
     {
-        display_buffer = new float[image_data->getSize() * image_data->getNumOfChannels()];
-        memset(display_buffer, 0, image_data->getSize() * image_data->getNumOfChannels() * sizeof(float));
+        image_buffer = new uint8_t[image_data->getSize() * image_data->getNumOfChannels() * BBP];
+        memcpy(image_buffer, image_data->getImageBuffer(), image_data->getSize() * image_data->getNumOfChannels() * BBP);
 
-        float data_min   = image_data->getMean(0) - image_data->getStdDev(0);
-        float data_max   = image_data->getMean(0) + image_data->getStdDev(0) * 3;
-        uint16_t   data_w     = image_data->getWidth();
-        uint16_t   data_h     = image_data->getHeight();
+        displayBuffer = true;
 
-        for (int i=0; i < image_data->getNumOfChannels(); i++)
-        {
-            int offset = i*size;
-            for (int j=0; j < data_h; j++)
-            {
-                int row = offset + j * data_w;
-                for (int k=0; k < data_w; k++)
-                {
-                    int index=k + row;
-                    display_buffer[index] = qBound(data_min, image_buffer[index], data_max);
-                }
-            }
-        }
+        float data_min   = -1;
+        float data_max   = -1;
+
+        image_data->applyFilter(FITS_AUTO_STRETCH, image_buffer, &data_min, &data_max);
 
         min = data_min;
         max = data_max;
     }
     else
         image_data->getMinMax(&min, &max);
+
+    T *buffer = reinterpret_cast<T*>(image_buffer);
 
     if (min == max)
     {
@@ -651,7 +677,7 @@ int FITSView::rescale(FITSZoom type)
 
                 for (int i = 0; i < image_width; i++)
                 {
-                    val = display_buffer[j * image_width + i];
+                    val = buffer[j * image_width + i];
                     scanLine[i]= (val * bscale + bzero);
                 }
             }
@@ -667,24 +693,20 @@ int FITSView::rescale(FITSZoom type)
 
                 for (int i = 0; i < image_width; i++)
                 {
-                    rval = display_buffer[j * image_width + i];
-                    gval = display_buffer[j * image_width + i + size];
-                    bval = display_buffer[j * image_width + i + size * 2];
+                    rval = buffer[j * image_width + i];
+                    gval = buffer[j * image_width + i + size];
+                    bval = buffer[j * image_width + i + size * 2];
 
                     value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
 
-                    //display_image->setPixel(i, j, value);
                     scanLine[i] = value;
-
                 }
             }
-
         }
-
     }
 
-    if (display_buffer != image_buffer)
-        delete [] display_buffer;
+    if (displayBuffer)
+        delete [] image_buffer;
 
     switch (type)
     {

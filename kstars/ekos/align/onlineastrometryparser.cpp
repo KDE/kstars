@@ -88,79 +88,8 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
         return false;
     }
 
-    QString finalFileName(in_filename);
+    filename = in_filename;
 
-    if (Options::astrometryUseJPEG() && in_filename.endsWith(".jpg") == false && in_filename.endsWith(".jpeg") == false)
-    {
-        QFile fitsFile(in_filename);
-        bool rc = fitsFile.open(QIODevice::ReadOnly);
-        if (rc == false)
-        {
-            align->appendLogText(i18n("Failed to open file %1. %2", filename, fitsFile.errorString()));
-            emit solverFailed();
-            return false;
-        }
-
-        FITSData *image_data = new FITSData();
-        rc = image_data->loadFITS(in_filename);
-        if (rc)
-        {
-            uint16_t image_width,image_height;
-            double bscale, bzero;
-            double min, max;
-            int val;
-
-            image_data->getDimensions(&image_width, &image_height);
-            QImage *display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
-
-            display_image->setColorCount(256);
-            for (int i=0; i < 256; i++)
-                display_image->setColor(i, qRgb(i,i,i));
-
-            image_data->getMinMax(&min, &max);
-            float *image_buffer = image_data->getImageBuffer();
-
-            bscale = 255. / (max - min);
-            bzero  = (-min) * (255. / (max - min));
-
-            int w = image_width;
-            int h = image_height;
-
-            /* Fill in pixel values using indexed map, linear scale */
-            for (int j = 0; j < h; j++)
-                for (int i = 0; i < w; i++)
-                {
-                    val = image_buffer[j * w + i];
-                    display_image->setPixel(i, j, ((int) (val * bscale + bzero)));
-                }
-
-            finalFileName.remove(finalFileName.lastIndexOf('.'), finalFileName.length());
-            finalFileName.append(".jpg");
-            bool isFileSaved = display_image->save(finalFileName, "JPG");
-            if (isFileSaved == false)
-            {
-                align->appendLogText(i18n("Warning: Converting FITS to JPEG failed. Uploading original FITS image."));
-                finalFileName = in_filename;
-            }
-            else
-            {
-                if (isGenerated)
-                    QFile::remove(in_filename);
-                else
-                    isGenerated = true;
-            }
-
-            delete (display_image);
-        }
-        else
-        {
-            align->appendLogText(i18n("Warning: Converting FITS to JPEG failed. Uploading original FITS image."));
-        }
-
-        delete (image_data);
-    }
-
-    filename = finalFileName;
     for (int i=0; i < args.count(); i++)
     {
         if (args[i] == "-L")

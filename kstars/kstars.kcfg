@@ -1288,6 +1288,10 @@
          <label>Automatically debayer a FITS image if it is contains a bayer pattern</label>
          <default>true</default>
       </entry>
+      <entry name="auto3DCube" type="Bool">
+         <label>Process 3D FITS Cube (RGB). If false, only first channel is processed.</label>
+         <default>true</default>
+      </entry>
    </group>
    <group name="WISettings">
       <entry name="BortleClass" type="UInt">

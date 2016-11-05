@@ -733,7 +733,23 @@ void Align::newFITS(IBLOB *bp)
 
 void Align::setCaptureComplete()
 {
-    DarkLibrary::Instance()->disconnect(this);   
+    DarkLibrary::Instance()->disconnect(this);
+
+    if (solverTypeGroup->checkedId() == SOLVER_ONLINE && Options::astrometryUseJPEG())
+    {
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        if (targetChip)
+        {
+            FITSView *view = targetChip->getImageView(FITS_ALIGN);
+            if (view)
+            {
+                QString jpegFile = blobFileName + ".jpg";
+                bool rc = view->getDisplayImage()->save(jpegFile, "JPG");
+                if (rc)
+                    blobFileName = jpegFile;
+            }
+        }
+    }
 
     startSolving(blobFileName);
 }

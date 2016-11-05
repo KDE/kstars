@@ -173,6 +173,9 @@ signals:
     void newStarPosition(QVector3D, bool);
 
 private:
+
+    // Templated functions
+    template<typename T> Vector findLocalStarPosition( void ) const;
     // sys...
     uint32_t ticks;		// global channel ticker    
     QPointer<FITSView> guideView;   // pointer to image

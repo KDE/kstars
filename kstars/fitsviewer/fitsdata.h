@@ -111,17 +111,17 @@ public:
     /* Rescale image lineary from image_buffer, fit to window if desired */
     int rescale(FITSZoom type);
     /* Calculate stats */
-    void calculateStats(bool refresh=false);
-    /* Calculate running average & standard deviation using Welford’s method for computing variance */
-    void runningAverageStdDev();
+    void calculateStats(bool refresh=false);    
 
     // Access functions
     void clearImageBuffers();
-    void setImageBuffer(float *buffer);
-    float * getImageBuffer();
+    void setImageBuffer(uint8_t *buffer);
+    uint8_t * getImageBuffer();
+
+    int getDataType() { return data_type; }
+    void setDataType(int value) { data_type = value; }
 
     // Stats
-    int getDataType() { return data_type; }
     unsigned int getSize() { return stats.samples_per_channel; }
     void getDimensions(uint16_t *w, uint16_t *h) { *w = stats.width; *h = stats.height; }
     void setWidth(uint16_t w) { stats.width = w; stats.samples_per_channel = stats.width * stats.height;}
@@ -142,6 +142,7 @@ public:
     void setMedian(double val, uint8_t channel=0) { stats.median[channel] = val;}
     double getMedian(uint8_t channel=0) { return stats.median[channel];}
 
+    int getBytesPerPixel() { return stats.bytesPerPixel; }
     void setSNR(double val) { stats.SNR = val;}
     double getSNR() { return stats.SNR;}
     void setBPP(int value) { stats.bitpix = value;}
@@ -160,6 +161,7 @@ public:
 
     // Find single star based on partially customized Canny edge detection
     static int findCannyStar(FITSData *data, const QRect &boundary = QRect());
+    template<typename T> static int findCannyStar(FITSData *data, const QRect &boundary);
 
     // Half Flux Radius
     Edge * getMaxHFRStar() { return maxHFRStar;}
@@ -177,6 +179,8 @@ public:
     // Debayer
     bool hasDebayer() { return HasDebayer; }
     bool debayer();
+    bool debayer_8bit();
+    bool debayer_16bit();
     void getBayerParams(BayerParams *param);
     void setBayerParams(BayerParams *param);
 
@@ -189,7 +193,7 @@ public:
     void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
 
     // Filter
-    void applyFilter(FITSScale type, float *image=NULL, float min=-1, float max=-1);
+    void applyFilter(FITSScale type, uint8_t *image=NULL, float * min= NULL, float * max= NULL);
 
     // Rotation counter. We keep count to rotate WCS keywords on save
     int getRotCounter() const;
@@ -215,15 +219,33 @@ public:
 
 private:
 
-    bool rotFITS (int rotate, int mirror);
+
     void rotWCSFITS (int angle, int mirror);
     bool checkCollision(Edge* s1, Edge*s2);
     int calculateMinMax(bool refresh=false);    
     bool checkDebayer();
     void readWCSKeys();
 
+    // Templated functions
+
+    template<typename T> bool debayer();
+
+    template<typename T> bool rotFITS (int rotate, int mirror);
+
+    // Apply Filter
+    template<typename T> void applyFilter(FITSScale type, uint8_t *targetImage, float image_min, float image_max);
+    // Star Detect - Centroid
+    template<typename T> void findCentroid(const QRectF &boundary, int initStdDev, int minEdgeWidth);
+    // Star Detect - Threshold
+    template<typename T> int findOneStar(const QRectF &boundary);
+
+
+    template<typename T> void calculateMinMax();
+    /* Calculate running average & standard deviation using Welford’s method for computing variance */
+    template<typename T> void runningAverageStdDev();
+
     // Sobel detector by Gonzalo Exequiel Pedone
-    void sobel(QVector<float> &gradient, QVector<float> &direction);
+    template<typename T> void sobel(QVector<float> &gradient, QVector<float> &direction);
 
     // Give unique IDs to each contigous region
     int partition(int width, int height, QVector<float> &gradient, QVector<int> &ids);
@@ -240,7 +262,7 @@ private:
 
     int data_type;                      // FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONGLONG, TDOUBLE)
     int channels;                       // Number of channels    
-    float *image_buffer;         		// Current image buffer    
+    uint8_t *imageBuffer = NULL;        // Generic data image buffer
 
 
     bool tempFile;                      // Is this a tempoprary file or one loaded from disk?
@@ -260,7 +282,7 @@ private:
     QList<Edge*> starCenters;           // All the stars we detected, if any.
     Edge* maxHFRStar;                   // The biggest fattest star in the image.
 
-    float *bayer_buffer;                // Bayer buffer
+    uint8_t *bayerBuffer = NULL;
     BayerParams debayerParams;          // Bayer parameters
 
     /* stats struct to hold statisical data about the FITS data */
@@ -272,14 +294,12 @@ private:
         double median[3];
         double SNR;
         int bitpix;
+        int bytesPerPixel;
         int ndim;
         uint32_t samples_per_channel;
         uint16_t width;
         uint16_t height;
     } stats;
-
-
-
 };
 
 #endif
