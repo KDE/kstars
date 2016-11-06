@@ -34,11 +34,12 @@
 
 #include "skyobject.h"
 
+#ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
 #include <wcs.h>
 #endif
 
-#ifndef KSTARS_LITE
+
 #include <kxmlguiwindow.h>
 #endif
 
@@ -190,7 +191,9 @@ public:
    // QVariant getFITSHeaderValue(QString &keyword);
 
     // Histogram
+    #ifndef KSTARS_LITE
     void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
+    #endif
 
     // Filter
     void applyFilter(FITSScale type, uint8_t *image=NULL, float * min= NULL, float * max= NULL);
@@ -210,15 +213,18 @@ public:
     int getFlipVCounter() const;
     void setFlipVCounter(int value);        
 
+    #ifndef KSTARS_LITE
     #ifdef HAVE_WCSLIB
     void findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]);
+    #endif
     #endif
     QList<FITSSkyObject *> getSkyObjects();
     QList<FITSSkyObject*> objList;//Does this need to be public??
 
+    // Create autostretch image from FITS File
+    static QImage FITSToImage(const QString &filename);
 
 private:
-
 
     void rotWCSFITS (int angle, int mirror);
     bool checkCollision(Edge* s1, Edge*s2);
@@ -257,7 +263,9 @@ private:
     QVector<int> hysteresis(int width, int height, const QVector<int> &image);    
     #endif
 
-    FITSHistogram *histogram;           // Pointer to the FITS data histogram
+    #ifndef KSTARS_LITE
+    FITSHistogram *histogram = NULL;    // Pointer to the FITS data histogram
+    #endif
     fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
 
     int data_type;                      // FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONGLONG, TDOUBLE)

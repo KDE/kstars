@@ -34,13 +34,13 @@
 
 #ifndef KSTARS_LITE
 #include <KMessageBox>
-#endif
-#include <KLocalizedString>
-
 #ifdef HAVE_WCSLIB
 #include <wcshdr.h>
 #include <wcsfix.h>
 #endif
+#endif
+
+#include <KLocalizedString>
 
 #include "ksutils.h"
 #include "Options.h"
@@ -72,7 +72,6 @@ FITSData::FITSData(FITSMode fitsMode)
     channels = 0;
     wcs_coord    = NULL;
     fptr = NULL;
-    histogram = NULL;
     maxHFRStar = NULL;
     tempFile  = false;
     starsSearched = false;
@@ -144,8 +143,10 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
         errMessage = i18n("Could not open file %1. Error %2", filename, QString::fromUtf8(error_status));
+#ifndef KSTARS_LITE
         if (silent == false)
             KMessageBox::error(0, errMessage, i18n("FITS Open"));
+#endif
         if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
@@ -156,8 +157,10 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
         errMessage = i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status));
+#ifndef KSTARS_LITE
         if (silent == false)
             KMessageBox::error(0, errMessage, i18n("FITS Open"));
+#endif
         if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
@@ -166,8 +169,10 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
     if (stats.ndim < 2)
     {
         errMessage = i18n("1D FITS images are not supported in KStars.");
+#ifndef KSTARS_LITE
         if (silent == false)
             KMessageBox::error(0, errMessage, i18n("FITS Open"));
+#endif
         if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
@@ -200,8 +205,10 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         stats.bytesPerPixel = sizeof(double_t);
     default:
         errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
+#ifndef KSTARS_LITE
         if (silent == false)
             KMessageBox::error(NULL, errMessage, i18n("FITS Open"));
+#endif
         if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
@@ -214,8 +221,10 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
     if (naxes[0] == 0 || naxes[1] == 0)
     {
         errMessage = i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]);
+#ifndef KSTARS_LITE
         if (silent == false)
             KMessageBox::error(0, errMessage, i18n("FITS Open"));
+#endif
         if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
@@ -253,8 +262,10 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         char errmsg[512];
         fits_get_errstatus(status, errmsg);
         errMessage = i18n("Error reading image: %1", QString(errmsg));
+#ifndef KSTARS_LITE
         if (silent == false)
             KMessageBox::error(NULL, errMessage, i18n("FITS Open"));
+#endif
         fits_report_error(stderr, status);
         if (Options::fITSLogging())
             qDebug() << errMessage;
@@ -1027,7 +1038,7 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
 }
 
 template<typename T> void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeWidth)
-{
+{    
     double threshold=0,sum=0,avg=0,min=0;
     int starDiameter=0;
     int pixVal=0;
@@ -1036,8 +1047,10 @@ template<typename T> void FITSData::findCentroid(const QRectF &boundary, int ini
     T *buffer = reinterpret_cast<T*>(imageBuffer);
 
     double JMIndex = 100;
+    #ifndef KSTARS_LITE
     if (histogram)
         JMIndex = histogram->getJMIndex();
+    #endif
 
     float dispersion_ratio=1.5;
 
@@ -1639,7 +1652,7 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
         break;
 
     case FITS_AUTO_STRETCH:
-    {        
+    {
         /*double alpha = (pow(2, stats.bitpix) - 1) / (stats.max[0]-stats.min[0]);
         double beta  = (-1 * stats.min[0]) * alpha;
 
@@ -1706,6 +1719,7 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
 
     case FITS_EQUALIZE:
     {
+        #ifndef KSTARS_LITE
         if (histogram == NULL)
             return;
         QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
@@ -1731,6 +1745,7 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
                 }
             }
         }
+        #endif
     }
         if (calcStats)
             calculateStats(true);
@@ -1897,6 +1912,7 @@ void FITSData::getCenterSelection(int *x, int *y)
 
 bool FITSData::checkWCS()
 {
+#ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
 
     int status=0;
@@ -1970,10 +1986,12 @@ bool FITSData::checkWCS()
     HasWCS = true;
     return HasWCS;
 #endif
+#endif
 
     return false;
 }
 
+#ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
 void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[])
 {
@@ -2047,6 +2065,7 @@ void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi
 
     delete (num);
 }
+#endif
 #endif
 
 QList<FITSSkyObject *> FITSData::getSkyObjects(){
@@ -2686,7 +2705,9 @@ bool FITSData::checkDebayer()
 
     if (stats.bitpix != 16 && stats.bitpix != 8)
     {
+#ifndef KSTARS_LITE
         KMessageBox::error(NULL, i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
+#endif
         return false;
     }
     QString pattern(bayerPattern);
@@ -2699,7 +2720,7 @@ bool FITSData::checkDebayer()
     else if (pattern == "GRBG")
         debayerParams.filter = DC1394_COLOR_FILTER_GRBG;
     else if (pattern == "BGGR")
-        debayerParams.filter = DC1394_COLOR_FILTER_BGGR;    
+        debayerParams.filter = DC1394_COLOR_FILTER_BGGR;
     // We return unless we find a valid pattern
     else
         return false;
@@ -2740,20 +2761,22 @@ bool FITSData::debayer()
         {
             char errmsg[512];
             fits_get_errstatus(status, errmsg);
+#ifndef KSTARS_LITE
             KMessageBox::error(NULL, i18n("Error reading image: %1", QString(errmsg)));
+#endif
             return false;
         }
     }
 
     switch (data_type)
     {
-        case TBYTE:
-            return debayer_8bit();
+    case TBYTE:
+        return debayer_8bit();
 
-        case TUSHORT:
-            return debayer_16bit();
+    case TUSHORT:
+        return debayer_16bit();
 
-        default:
+    default:
         return false;
     }
 
@@ -2769,7 +2792,9 @@ bool FITSData::debayer_8bit()
 
     if (destinationBuffer == NULL)
     {
+#ifndef KSTARS_LITE
         KMessageBox::error(NULL, i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer Error"));
+#endif
         return false;
     }
 
@@ -2791,7 +2816,9 @@ bool FITSData::debayer_8bit()
 
     if ( error_code != DC1394_SUCCESS)
     {
+#ifndef KSTARS_LITE
         KMessageBox::error(NULL, i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
+#endif
         channels=1;
         delete[] destinationBuffer;
         return false;
@@ -2805,7 +2832,9 @@ bool FITSData::debayer_8bit()
         if (imageBuffer == NULL)
         {
             delete[] destinationBuffer;
+#ifndef KSTARS_LITE
             KMessageBox::error(NULL, i18n("Unable to allocate memory for debayerd buffer."), i18n("Debayer Error"));
+#endif
             return false;
         }
     }
@@ -2842,7 +2871,9 @@ bool FITSData::debayer_16bit()
 
     if (destinationBuffer == NULL)
     {
+#ifndef KSTARS_LITE
         KMessageBox::error(NULL, i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer Error"));
+#endif
         return false;
     }
 
@@ -2864,7 +2895,9 @@ bool FITSData::debayer_16bit()
 
     if ( error_code != DC1394_SUCCESS)
     {
+#ifndef KSTARS_LITE
         KMessageBox::error(NULL, i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
+#endif
         channels=1;
         delete[] destinationBuffer;
         return false;
@@ -2878,7 +2911,9 @@ bool FITSData::debayer_16bit()
         if (imageBuffer == NULL)
         {
             delete[] destinationBuffer;
+#ifndef KSTARS_LITE
             KMessageBox::error(NULL, i18n("Unable to allocate memory for debayerd buffer."), i18n("Debayer Error"));
+#endif
             return false;
         }
     }
@@ -3262,3 +3297,144 @@ QVector<int> FITSData::hysteresis(int width, int height, const QVector<int> &ima
 #endif
 
 
+QImage FITSData::FITSToImage(const QString &filename)
+{
+    QImage fitsImage;
+    double min, max, val;
+
+    FITSData data;
+
+    bool rc = data.loadFITS(filename);
+    if (rc == false)
+        return fitsImage;
+
+    data.getMinMax(&min, &max);
+
+    if (min == max)
+    {
+        fitsImage.fill(Qt::white);
+        return fitsImage;
+    }
+
+    if (data.getNumOfChannels() == 1)
+    {
+        fitsImage = QImage(data.getWidth(), data.getHeight(), QImage::Format_Indexed8);
+
+        fitsImage.setColorCount(256);
+        for (int i=0; i < 256; i++)
+            fitsImage.setColor(i, qRgb(i,i,i));
+    }
+    else
+    {
+        fitsImage =  QImage(data.getWidth(), data.getHeight(), QImage::Format_RGB32);
+    }
+
+    uint16_t w = data.getWidth();
+    uint16_t h = data.getHeight();
+    uint32_t size = data.getSize();
+
+    double dataMin = data.stats.mean[0] - data.stats.stddev[0];
+    double dataMax = data.stats.mean[0] + data.stats.stddev[0] * 3;
+
+    double bscale = 255. / (dataMax - dataMin);
+    double bzero  = (-dataMin) * (255. / (dataMax - dataMin));
+
+    // Long way to do this since we do not want to use templated functions here
+    switch (data.getDataType())
+    {
+
+    case TBYTE:
+    {
+        uint8_t *buffer = data.getImageBuffer();
+        uint8_t bMin = dataMin < 0 ? 0 : dataMin;
+        uint8_t bMax = dataMax > 255 ? 255 : dataMax;
+        if (data.getNumOfChannels() == 1)
+        {
+            /* Fill in pixel values using indexed map, linear scale */
+            for (int j = 0; j < h; j++)
+            {
+                unsigned char *scanLine = fitsImage.scanLine(j);
+
+                for (int i = 0; i < w; i++)
+                {
+                    val = qBound(bMin, buffer[j * w + i], bMax);
+                    val = val * bscale + bzero;
+                    scanLine[i]= qBound(0.0, val, 255.0);
+                }
+            }
+        }
+        else
+        {
+            double val=0,rval=0,gval=0,bval=0;
+            QRgb value;
+            /* Fill in pixel values using indexed map, linear scale */
+            for (int j = 0; j < h; j++)
+            {
+                QRgb *scanLine = reinterpret_cast<QRgb*>((fitsImage.scanLine(j)));
+
+                for (int i = 0; i < w; i++)
+                {
+                    rval = qBound(bMin, buffer[j * w + i], bMax);
+                    gval = qBound(bMin, buffer[j * w + i + size], bMax);
+                    bval = qBound(bMin, buffer[j * w + i + size *2], bMax);;
+
+                    value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
+
+                    scanLine[i] = value;
+                }
+            }
+        }
+    }
+        break;
+
+
+    case TUSHORT:
+    {
+        uint16_t *buffer = reinterpret_cast<uint16_t*>(data.getImageBuffer());
+        uint16_t bMin = dataMin < 0 ? 0 : dataMin;
+        uint16_t bMax = dataMax > USHRT_MAX ? USHRT_MAX : dataMax;
+        if (data.getNumOfChannels() == 1)
+        {
+            /* Fill in pixel values using indexed map, linear scale */
+            for (int j = 0; j < h; j++)
+            {
+                unsigned char *scanLine = fitsImage.scanLine(j);
+
+                for (int i = 0; i < w; i++)
+                {
+                    val = qBound(bMin, buffer[j * w + i], bMax);
+                    val = val * bscale + bzero;
+                    scanLine[i]= qBound(0.0, val, 255.0);
+                }
+            }
+        }
+        else
+        {
+            double rval=0,gval=0,bval=0;
+            QRgb value;
+            /* Fill in pixel values using indexed map, linear scale */
+            for (int j = 0; j < h; j++)
+            {
+                QRgb *scanLine = reinterpret_cast<QRgb*>((fitsImage.scanLine(j)));
+
+                for (int i = 0; i < w; i++)
+                {
+                    rval = qBound(bMin, buffer[j * w + i], bMax);
+                    gval = qBound(bMin, buffer[j * w + i + size], bMax);
+                    bval = qBound(bMin, buffer[j * w + i + size *2], bMax);
+
+                    value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
+
+                    scanLine[i] = value;
+                }
+            }
+        }
+    }
+    break;
+
+   default:
+        break;
+    }
+
+    return fitsImage;
+}
