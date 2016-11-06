@@ -41,7 +41,7 @@ namespace KSNotification
         #ifdef KSTARS_LITE
         KStarsLite::Instance()->notificationMessage(value);
         #else
-        KMessageBox::info(0, value);
+        KMessageBox::information(0, value);
         #endif
     }
 }
