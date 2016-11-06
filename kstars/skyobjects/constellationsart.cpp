@@ -26,7 +26,8 @@ ConstellationsArt::ConstellationsArt(dms midpointra, dms midpointdec, double pa,
 
     width = w;
     height = h;
-    loadImage();
+
+    //loadImage();
 
     //This sets both current and J2000 RA/DEC to the values ra and dec.
     setRA(midpointra);
@@ -39,7 +40,6 @@ ConstellationsArt::~ConstellationsArt()
 
 void ConstellationsArt::loadImage()
 {
-        constellationArtImage = TextureManager::getImage( imageFileName );
-       // qDebug()<<"The Unscaled image is"<<unscaled.width()<<unscaled.height();
-       // qDebug()<<"The scaled image is"<<constellationArtImage.width(),constellationArtImage.height();
+    constellationArtImage = TextureManager::getImage( imageFileName );
+    imageLoaded=true;
 }

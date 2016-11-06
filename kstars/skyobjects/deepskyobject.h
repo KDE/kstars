@@ -161,7 +161,7 @@ public:
     inline int pgc() const { return PGC; }
 
     /** @return an object's image */
-    const QImage& image() const { return m_image; }
+    const QImage& image() { if (imageLoaded) return m_image; else { loadImage(); return m_image;} }
 
     /** Try to load the object's image */
     void loadImage();
@@ -210,6 +210,7 @@ private:
     int UGC, PGC;
     float MajorAxis, MinorAxis, Flux;
     unsigned char Catalog;
+    bool imageLoaded=false;
 };
 
 #endif

@@ -71,7 +71,9 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
     updateID = updateNumID = 0;
     customCat = NULL;
     Flux = 0;
-    loadImage();
+
+    // Disable image loading on init
+    //loadImage();
 }
 
 DeepSkyObject::DeepSkyObject( const CatalogEntryData &data, CatalogComponent *cat )
@@ -99,7 +101,9 @@ DeepSkyObject::DeepSkyObject( const CatalogEntryData &data, CatalogComponent *ca
     updateID = updateNumID = 0;
     customCat = cat;
     Flux = data.flux;
-    loadImage();
+
+    // Disable image loading on init
+    //loadImage();
 }
 
 DeepSkyObject* DeepSkyObject::clone() const
@@ -138,6 +142,7 @@ void DeepSkyObject::loadImage()
 {
     QString tname = name().toLower().remove(' ');
     m_image = TextureManager::getImage( tname );
+    imageLoaded=true;
 }
 
 double DeepSkyObject::labelOffset() const {

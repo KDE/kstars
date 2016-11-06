@@ -17,6 +17,7 @@
 #include "constellationnamescomponent.h"
 
 #include <QTextStream>
+#include <QtConcurrent>
 
 #include "kstarsdata.h"
 #ifndef KSTARS_LITE
@@ -33,6 +34,14 @@
 ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, CultureList* cultures )
         : ListComponent( parent )
 {
+    QtConcurrent::run(this, &ConstellationNamesComponent::loadData, cultures);
+}
+
+ConstellationNamesComponent::~ConstellationNamesComponent()
+{}
+
+void ConstellationNamesComponent::loadData(CultureList* cultures)
+{
     uint i = 0;
     bool culture = false;
     KSFileReader fileReader;
@@ -42,7 +51,7 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, C
         return;
 
     emitProgressText( i18n("Loading constellation names" ) );
-    
+
     localCNames = Options::useLocalConstellNames();
 
     while ( fileReader.hasMoreLines() ) {
@@ -92,9 +101,6 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, C
         }
     }
 }
-
-ConstellationNamesComponent::~ConstellationNamesComponent()
-{}
 
 bool ConstellationNamesComponent::selected()
 {

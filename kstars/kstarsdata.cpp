@@ -23,6 +23,7 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QStandardPaths>
+#include <QtConcurrent>
 #ifndef KSTARS_LITE
 #include <KMessageBox>
 #endif
@@ -70,7 +71,9 @@ namespace {
     // Report non-fatal error during data loading to user and ask
     // whether he wants to continue.
     // Calls QApplication::exit if he don't
-    bool nonFatalErrorMessage(QString fname) {
+#if 0
+    bool nonFatalErrorMessage(QString fname)
+    {
         #ifdef KSTARS_LITE
             Q_UNUSED(fname)
         #else
@@ -88,6 +91,7 @@ namespace {
         #endif
         return true;
     }
+#endif
 }
 
 KStarsData* KStarsData::pinstance = 0;
@@ -177,15 +181,19 @@ bool KStarsData::initialize() {
     //#ifndef Q_OS_ANDROID
     //On Android these 2 calls produce segfault. WARNING
     emit progressText( i18n("Loading Image URLs" ) );
-    if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
-        return false;
+
+    //if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
+    //    return false;
+    QtConcurrent::run(this, &KStarsData::readURLData, QString("image_url.dat"), 0, false);
 
     //Load Information URLs//
     emit progressText( i18n("Loading Information URLs" ) );
-    if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
-        return false;
+    //if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
+    //    return false;
+    QtConcurrent::run(this, &KStarsData::readURLData, QString("info_url.dat"), 1, false);
+
     //#endif
-    emit progressText( i18n("Loading Variable Stars" ) );
+    //emit progressText( i18n("Loading Variable Stars" ) );
 
     //Update supernovae list if enabled
     if( Options::updateSupernovaeOnStartup() ) {
