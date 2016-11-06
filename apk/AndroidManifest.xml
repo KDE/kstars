@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="0.0.3" package="org.kde.kstars" android:installLocation="auto" android:versionCode="7">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.0" package="org.kde.kstars" android:installLocation="auto" android:versionCode="7">
         <application android:name="org.qtproject.qt5.android.bindings.QtApplication"
                      android:label="KStars Lite"
                      android:icon="@drawable/icon">
