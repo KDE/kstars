@@ -289,15 +289,14 @@ void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
 
 INDI_D::~INDI_D()
 {
-  /*  while ( ! gl.isEmpty() ) delete gl.takeFirst();
+   while ( ! groupsList.isEmpty() ) delete groupsList.takeFirst();
 
-    delete(deviceVBox);
+    /*delete(deviceVBox);
     delete (stdDev);
     free (dataBuffer);
     dataBuffer = NULL;
     deviceVBox = NULL;
-    stdDev     = NULL;
-    */
+    stdDev     = NULL;*/
 }
 
 INDI_G * INDI_D::getGroup (const QString & groupName)

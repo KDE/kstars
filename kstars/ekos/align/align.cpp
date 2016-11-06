@@ -733,7 +733,23 @@ void Align::newFITS(IBLOB *bp)
 
 void Align::setCaptureComplete()
 {
-    DarkLibrary::Instance()->disconnect(this);   
+    DarkLibrary::Instance()->disconnect(this);
+
+    if (solverTypeGroup->checkedId() == SOLVER_ONLINE && Options::astrometryUseJPEG())
+    {
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        if (targetChip)
+        {
+            FITSView *view = targetChip->getImageView(FITS_ALIGN);
+            if (view)
+            {
+                QString jpegFile = blobFileName + ".jpg";
+                bool rc = view->getDisplayImage()->save(jpegFile, "JPG");
+                if (rc)
+                    blobFileName = jpegFile;
+            }
+        }
+    }
 
     startSolving(blobFileName);
 }
@@ -1038,11 +1054,23 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
 
+        if (Options::alignmentLogging())
+            qDebug() << "Alignment: State is " << Ekos::getAlignStatusString(state) << " isSlewing? " << currentTelescope->isSlewing() << " slew Dirty? " << slew_dirty
+                     << " Current GOTO Mode? " << currentGotoMode << " LoadSlewState? " << pstateStr(loadSlewState);
+
         if (currentTelescope->isSlewing() && slew_dirty == false)
+        {
             slew_dirty = true;
+            if (Options::alignmentLogging())
+                qDebug() << "Alignment: slew dirty is true.";
+        }
         else if (currentTelescope->isSlewing() == false && slew_dirty)
         {
             slew_dirty = false;
+
+            if (Options::alignmentLogging())
+                qDebug() << "Alignment: slew dirty is false.";
+
             if (Options::solverUpdateCoords())
                 copyCoordsToBoxes();
 
@@ -1051,12 +1079,23 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 if (loadSlewState == IPS_BUSY)
                 {
                     loadSlewState = IPS_IDLE;
+
+                    if (Options::alignmentLogging())
+                        qDebug() << "Alignment: loadSlewState is IDLE.";
+
+                    state = ALIGN_PROGRESS;
+                    emit newStatus(state);
+
                     QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
                     return;
                 }
                 else if (currentGotoMode == GOTO_SLEW && state == ALIGN_SLEWING)
                 {
                     appendLogText(i18n("Target accuracy is not met, running solver again..."));
+
+                    state = ALIGN_PROGRESS;
+                    emit newStatus(state);
+
                     QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
                     return;
                 }
@@ -1152,18 +1191,15 @@ void Align::Sync()
 
 void Align::SlewToTarget()
 {
-    //if (canSync && (loadSlewMode == false || (loadSlewMode == true && loadSlewIterations < loadSlewIterationsSpin->value() )))
     if (canSync && loadSlewState == IPS_IDLE)
         Sync();
 
-    //m_slewToTargetSelected = slewR->isChecked();
+    state = ALIGN_SLEWING;
+    emit newStatus(state);
 
     currentTelescope->Slew(&targetCoord);
 
-    appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(), targetCoord.dec().toDMSString()));
-
-    state = ALIGN_SLEWING;
-    emit newStatus(state);
+    appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(), targetCoord.dec().toDMSString()));    
 }
 
 void Align::executePolarAlign()

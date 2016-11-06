@@ -69,6 +69,8 @@ public:
 
     virtual bool selected();
 
+    void loadData(CultureList* cultures);
+
 private:
     bool localCNames;
 };

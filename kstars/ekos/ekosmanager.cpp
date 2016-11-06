@@ -199,6 +199,8 @@ EkosManager::~EkosManager()
     delete previewPixmap;
     delete focusStarPixmap;    
     delete guideStarPixmap;
+
+    qDeleteAll(profiles);
 }
 
 void EkosManager::closeEvent(QCloseEvent * /*event*/)
@@ -1277,7 +1279,7 @@ void EkosManager::processTabChange()
     //if (focusProcess && currentWidget != focusProcess)
          //focusProcess->resetFrame();
 
-    if (alignProcess && currentWidget == alignProcess)
+    if (alignProcess && alignProcess == currentWidget)
     {
         if (alignProcess->isEnabled() == false && captureProcess->isEnabled())
         {

@@ -99,11 +99,27 @@ FITSHistogram::~FITSHistogram()
 }
 
 void FITSHistogram::constructHistogram()
-{    
-    uint16_t fits_w=0, fits_h=0;
-
+{
     FITSData *image_data = tab->getView()->getImageData();
-    float *buffer = image_data->getImageBuffer();
+
+    switch (image_data->getDataType())
+    {
+            case TBYTE:
+                constructHistogram<uint8_t>();
+                break;
+
+            case TUSHORT:
+                constructHistogram<uint16_t>();
+                break;
+    }
+}
+
+template<typename T> void FITSHistogram::constructHistogram()
+{
+    uint16_t fits_w=0, fits_h=0;
+    FITSData *image_data = tab->getView()->getImageData();
+
+    T *buffer = reinterpret_cast<T*>(image_data->getImageBuffer());
 
     image_data->getDimensions(&fits_w, &fits_h);
     image_data->getMinMax(&fits_min, &fits_max);
@@ -154,7 +170,6 @@ void FITSHistogram::constructHistogram()
             b_frequency[b_id >= binCount ? binCount - 1 : b_id]++;
         }
     }
-
 
     // Cumuliative Frequency
     for (int i=0; i < binCount; i++)
@@ -357,16 +372,15 @@ FITSHistogramCommand::~FITSHistogramCommand()
     delete(delta);
 }
 
-bool FITSHistogramCommand::calculateDelta(unsigned char *buffer)
+bool FITSHistogramCommand::calculateDelta(uint8_t *buffer)
 {
     FITSData *image_data = tab->getView()->getImageData();
 
-    unsigned char *image_buffer = (unsigned char *) image_data->getImageBuffer();
+    uint8_t *image_buffer = image_data->getImageBuffer();
     int totalPixels = image_data->getSize() * image_data->getNumOfChannels();
-    unsigned long totalBytes = totalPixels * sizeof(float);
-    //qDebug() << "raw total bytes " << totalBytes << " bytes" << endl;
+    unsigned long totalBytes = totalPixels * image_data->getBytesPerPixel();
 
-    unsigned char *raw_delta = new unsigned char[totalBytes];
+    uint8_t *raw_delta = new uint8_t[totalBytes];
     if (raw_delta == NULL)
     {
         qWarning() << "Error! not enough memory to create image delta" << endl;
@@ -376,13 +390,13 @@ bool FITSHistogramCommand::calculateDelta(unsigned char *buffer)
     for (unsigned int i=0; i < totalBytes; i++)
         raw_delta[i] = buffer[i] ^ image_buffer[i];
 
-    compressedBytes = sizeof(char) * totalBytes + totalBytes / 64 + 16 + 3;
-    delete(delta);
-    delta = new unsigned char[compressedBytes];
+    compressedBytes = sizeof(uint8_t) * totalBytes + totalBytes / 64 + 16 + 3;
+    delete [] delta;
+    delta = new uint8_t[compressedBytes];
 
     if (delta == NULL)
     {
-        delete(raw_delta);
+        delete [] raw_delta;
         qDebug() << "FITSHistogram Error: Ran out of memory compressing delta" << endl;
         return false;
     }
@@ -397,7 +411,7 @@ bool FITSHistogramCommand::calculateDelta(unsigned char *buffer)
 
     //qDebug() << "compressed bytes size " << compressedBytes << " bytes" << endl;
 
-    delete(raw_delta);
+    delete [] raw_delta;
 
     return true;
 }
@@ -406,22 +420,22 @@ bool FITSHistogramCommand::reverseDelta()
 {
     FITSView *image = tab->getView();
     FITSData *image_data = image->getImageData();
-    unsigned char *image_buffer = (unsigned char *) (image_data->getImageBuffer());
+    uint8_t *image_buffer = (image_data->getImageBuffer());
 
     unsigned int size = image_data->getSize();
     int channels = image_data->getNumOfChannels();
 
     int totalPixels = size * channels;
-    unsigned long totalBytes = totalPixels * sizeof(float);
+    unsigned long totalBytes = totalPixels * image_data->getBytesPerPixel();
 
-    unsigned char *output_image = new unsigned char[totalBytes];
+    uint8_t *output_image = new uint8_t[totalBytes];
     if (output_image == NULL)
     {
         qWarning() << "Error! not enough memory to create output image" << endl;
         return false;
     }
 
-    unsigned char *raw_delta = new unsigned char[totalBytes];
+    uint8_t *raw_delta = new uint8_t[totalBytes];
     if (raw_delta == NULL)
     {
         delete(output_image);
@@ -433,16 +447,16 @@ bool FITSHistogramCommand::reverseDelta()
     if (r != Z_OK)
     {
         qDebug() << "FITSHistogram compression error in reverseDelta()" << endl;
-        delete(raw_delta);
+        delete [] raw_delta;
         return false;
     }
 
     for (unsigned int i=0; i < totalBytes; i++)
         output_image[i] = raw_delta[i] ^ image_buffer[i];
 
-    image_data->setImageBuffer((float *)output_image);
+    image_data->setImageBuffer(output_image);
 
-    delete(raw_delta);
+    delete [] raw_delta;
 
     return true;
 }
@@ -452,9 +466,10 @@ void FITSHistogramCommand::redo()
     FITSView *image = tab->getView();
     FITSData *image_data = image->getImageData();
 
-    float *image_buffer = image_data->getImageBuffer();    
+    uint8_t *image_buffer = image_data->getImageBuffer();
     unsigned int size = image_data->getSize();
-    int channels = image_data->getNumOfChannels();   
+    int channels = image_data->getNumOfChannels();
+    int BBP = image_data->getBytesPerPixel();
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
@@ -485,7 +500,7 @@ void FITSHistogramCommand::redo()
         }
         else
         {
-            float *buffer = new float[size * channels];
+            uint8_t *buffer = new uint8_t[size * channels * BBP];
             if (buffer == NULL)
             {
                 qWarning() << "Error! not enough memory to create image buffer in redo()" << endl;
@@ -493,30 +508,31 @@ void FITSHistogramCommand::redo()
                 return;
             }
 
-            memcpy(buffer, image_buffer, size * channels * sizeof(float));
+            memcpy(buffer, image_buffer, size * channels * BBP);
+            float dataMin = min, dataMax = max;
 
             switch (type)
             {
             case FITS_AUTO:
             case FITS_LINEAR:
-                image_data->applyFilter(FITS_LINEAR, image_buffer, min, max);
+                image_data->applyFilter(FITS_LINEAR, NULL, &dataMin, &dataMax);
                 break;
 
             case FITS_LOG:
-                image_data->applyFilter(FITS_LOG, image_buffer, min, max);
+                image_data->applyFilter(FITS_LOG, NULL, &dataMin, &dataMax);
                 break;
 
             case FITS_SQRT:
-                image_data->applyFilter(FITS_SQRT, image_buffer, min, max);
+                image_data->applyFilter(FITS_SQRT, NULL, &dataMin, &dataMax);
                 break;
 
             default:
-               image_data->applyFilter(type, image_buffer);
+               image_data->applyFilter(type);
                break;
             }
 
-            calculateDelta( (unsigned char *) buffer);
-            delete (buffer);
+            calculateDelta(buffer);
+            delete [] buffer;
         }
     }
 
@@ -528,11 +544,11 @@ void FITSHistogramCommand::redo()
             image_data->findStars();
     }
 
+    image->pushFilter(type);
     image->rescale(ZOOM_KEEP_LEVEL);
     image->updateFrame();
 
     QApplication::restoreOverrideCursor();
-
 }
 
 void FITSHistogramCommand::undo()
@@ -586,6 +602,7 @@ void FITSHistogramCommand::undo()
             image_data->findStars();
     }
 
+    image->popFilter();
     image->rescale(ZOOM_KEEP_LEVEL);
     image->updateFrame();
 

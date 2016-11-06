@@ -536,24 +536,45 @@ void cgmath::setLostStar(bool is_lost)
 
 Vector cgmath::findLocalStarPosition( void ) const
 {
+    if (useRapidGuide)
+    {
+        return Vector(rapidDX , rapidDY, 0);
+    }
+
+    FITSData *imageData = guideView->getImageData();
+
+    switch (imageData->getDataType())
+    {
+        case TBYTE:
+            return findLocalStarPosition<uint8_t>();
+
+        case TUSHORT:
+            return findLocalStarPosition<uint16_t>();
+
+        default:
+        break;
+    }
+
+    return Vector(-1,-1,-1);
+}
+
+template<typename T> Vector cgmath::findLocalStarPosition( void ) const
+{
     static double P0 = 0.906, P1 = 0.584, P2 = 0.365, P3 = 0.117, P4 = 0.049, P5 = -0.05, P6 = -0.064, P7 = -0.074, P8 = -0.094;
 
     Vector ret;
     int i, j;
     double resx, resy, mass, threshold, pval;
-    float *psrc = NULL, *porigin = NULL;
-    float *pptr;
-
-    if (useRapidGuide)
-    {
-        return (ret = Vector(rapidDX , rapidDY, 0));
-    }
+    T *psrc = NULL, *porigin = NULL;
+    T *pptr;
 
     QRect trackingBox = guideView->getTrackingBox();
+
     if (trackingBox.isValid() == false)
         return Vector(-1,-1,-1);
 
     FITSData *imageData = guideView->getImageData();
+
     if (imageData == NULL)
     {
         if (Options::guideLogging())
@@ -561,7 +582,7 @@ Vector cgmath::findLocalStarPosition( void ) const
         return Vector(-1,-1,-1);
     }
 
-    float *pdata = imageData->getImageBuffer();
+    T *pdata = reinterpret_cast<T*>(imageData->getImageBuffer());
 
     if (Options::guideLogging())
         qDebug() << "Guide: Tracking Square " << trackingBox;
@@ -583,7 +604,7 @@ Vector cgmath::findLocalStarPosition( void ) const
         float i0, i1, i2, i3, i4, i5, i6, i7, i8;
         int ix = 0, iy = 0;
         int xM4;
-        float *p;
+        T *p;
         double average, fit, bestFit = 0;
         int minx = 0;
         int maxx = width;

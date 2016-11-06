@@ -20,6 +20,7 @@
 #endif
 #include "starcomponent.h"
 
+#include <QtConcurrent>
 #include <qplatformdefs.h>
 
 #include "Options.h"
@@ -73,9 +74,14 @@ StarComponent::StarComponent(SkyComposite *parent )
 
     // Actually load data
     emitProgressText( i18n("Loading stars" ) );
+
     loadStaticData();
     // Load any deep star catalogs that are available
     loadDeepStarCatalogs();
+
+    // The following works but can cause crashes sometimes
+    //QtConcurrent::run(this, &StarComponent::loadDeepStarCatalogs);
+
     //In KStars Lite star images are initialized in SkyMapLite
 #ifndef KSTARS_LITE
     SkyQPainter::initStarImages();

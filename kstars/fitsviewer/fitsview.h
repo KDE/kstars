@@ -168,6 +168,9 @@ public:
 
     void setFirstLoad(bool value);
 
+    void pushFilter(FITSScale value) { filterStack.push(value); }
+    FITSScale popFilter() { return filterStack.pop(); }
+
 protected:
     void wheelEvent(QWheelEvent* event);
 
@@ -187,6 +190,8 @@ private:
     bool event(QEvent *event);
     bool gestureEvent(QGestureEvent *event);
     void pinchTriggered(QPinchGesture *gesture);
+
+    template<typename T> int rescale(FITSZoom type);
 
     double average();
     double stddev();
@@ -227,6 +232,8 @@ private:
     QString filename;
     FITSMode mode;
     FITSScale filter;
+
+    QStack<FITSScale> filterStack;
 
     // Cross hair
     QPointF markerCrosshair;

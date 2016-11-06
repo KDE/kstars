@@ -77,6 +77,8 @@ public slots:
 
 private:
 
+    template<typename T> void constructHistogram();
+
     histogramUI *ui;
     FITSTab *tab;
 
@@ -122,7 +124,7 @@ private:
         long dim[2];
     } stats;
 
-    bool calculateDelta(unsigned char *buffer);
+    bool calculateDelta(uint8_t *buffer);
     bool reverseDelta();
     void saveStats(double min, double max, double stddev, double mean, double median, double SNR);
     void restoreStats();
@@ -134,7 +136,7 @@ private:
 
     unsigned char *delta;
     unsigned long compressedBytes;
-    float *original_buffer;
+    uint8_t *original_buffer;
     FITSTab *tab;
 };
 

@@ -51,6 +51,7 @@ InternalGuider::InternalGuider()
 
 InternalGuider::~InternalGuider()
 {
+    delete (pmath);
 }
 
 bool InternalGuider::guide()

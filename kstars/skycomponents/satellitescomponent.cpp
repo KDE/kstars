@@ -22,6 +22,7 @@
 #include <QProgressDialog>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QtConcurrent>
 
 #ifndef KSTARS_LITE
 #include <KJobUiDelegate>
@@ -37,10 +38,20 @@
 SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
     SkyComponent( parent )
 {
+    QtConcurrent::run(this, &SatellitesComponent::loadData);
+}
+
+SatellitesComponent::~SatellitesComponent()
+{
+
+}
+
+void SatellitesComponent::loadData()
+{
     KSFileReader fileReader;
     QString line;
     QStringList group_infos;
-    
+
     if ( ! fileReader.open( "satellites.dat" ) ) return;
 
     emitProgressText( i18n("Loading satellites" ) );
@@ -69,11 +80,6 @@ SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
             }
         }
     }
-}
-
-SatellitesComponent::~SatellitesComponent()
-{
-
 }
 
 bool SatellitesComponent::selected() {

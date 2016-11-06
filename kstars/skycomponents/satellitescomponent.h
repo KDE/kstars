@@ -103,6 +103,8 @@ public:
      */
     SkyObject* findByName( const QString &name );
 
+    void loadData();
+
 protected:
     virtual void drawTrails( SkyPainter* skyp );
 

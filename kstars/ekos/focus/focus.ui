@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>647</width>
+    <width>646</width>
     <height>579</height>
    </rect>
   </property>
@@ -91,7 +91,7 @@
           <item row="0" column="2">
            <widget class="QPushButton" name="focusInB">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="text">
              <string>Focus In</string>
@@ -144,7 +144,7 @@
           <item row="0" column="3">
            <widget class="QPushButton" name="focusOutB">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="text">
              <string>Focus Out</string>

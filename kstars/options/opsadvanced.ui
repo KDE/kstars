@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>723</width>
-    <height>486</height>
+    <width>584</width>
+    <height>418</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -170,92 +170,98 @@
          <property name="title">
           <string>FITS Viewer</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_7">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
-              <property name="toolTip">
-               <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
-              </property>
-              <property name="statusTip">
-               <string/>
-              </property>
-              <property name="whatsThis">
-               <string/>
-              </property>
-              <property name="text">
-               <string>Preview Mode</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="kcfg_singleWindowCapturedFITS">
-              <property name="toolTip">
-               <string>Display captured FITS images from all cameras in a single FITS Viewer window instead of a dedicated window to each camera.</string>
-              </property>
-              <property name="whatsThis">
-               <string/>
-              </property>
-              <property name="text">
-               <string>Single Window Capture</string>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="kcfg_singleWindowOpenedFITS">
-              <property name="toolTip">
-               <string>Display opened FITS images in a single FITS Viewer window instead of a dedicated window to each file.</string>
-              </property>
-              <property name="whatsThis">
-               <string/>
-              </property>
-              <property name="text">
-               <string>Single Window Open</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="kcfg_independentWindowFITS">
-              <property name="toolTip">
-               <string>Make FITS Viewer window independent from KStars</string>
-              </property>
-              <property name="text">
-               <string>Independent Window</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
+            <property name="toolTip">
+             <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
+            </property>
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Preview Mode</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
-          <item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="kcfg_singleWindowCapturedFITS">
+            <property name="toolTip">
+             <string>Display captured FITS images from all cameras in a single FITS Viewer window instead of a dedicated window to each camera.</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Single Window Capture</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="kcfg_singleWindowOpenedFITS">
+            <property name="toolTip">
+             <string>Display opened FITS images in a single FITS Viewer window instead of a dedicated window to each file.</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Single Window Open</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QCheckBox" name="kcfg_independentWindowFITS">
+            <property name="toolTip">
+             <string>Make FITS Viewer window independent from KStars</string>
+            </property>
+            <property name="text">
+             <string>Independent Window</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="kcfg_AutoStretch">
+            <property name="toolTip">
+             <string>Always apply auto stretch to images in FITS Viewer</string>
+            </property>
+            <property name="text">
+             <string>Auto Stretch</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
            <widget class="QCheckBox" name="kcfg_autoDebayerFITS">
+            <property name="toolTip">
+             <string>Automatially debayer captured image if it contains a bayer pattern</string>
+            </property>
             <property name="text">
              <string>Auto Debayer</string>
             </property>
             <property name="checked">
              <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="kcfg_auto3DCube">
+            <property name="toolTip">
+             <string>Process 3D (RGB) FITS images. If unchecked, only first channel is processed.</string>
+            </property>
+            <property name="text">
+             <string>3D Cube</string>
             </property>
            </widget>
           </item>

@@ -1007,11 +1007,10 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
 
         }
 
-        streamWindow->disconnect();
-        connect(streamWindow, SIGNAL(hidden()), this, SLOT(StreamWindowHidden()));
-
         if (streamWindow)
         {
+            connect(streamWindow, SIGNAL(hidden()), this, SLOT(StreamWindowHidden()), Qt::UniqueConnection);
+
             if (svp->sp[0].s == ISS_ON)
                 streamWindow->enableStream(true);
             else

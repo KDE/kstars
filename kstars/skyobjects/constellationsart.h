@@ -49,6 +49,7 @@ private:
     QString abbrev, imageFileName;
     QImage constellationArtImage;
     double positionAngle, width, height;
+    bool imageLoaded=false;
 
 public:
 
@@ -68,7 +69,7 @@ public:
      ~ConstellationsArt();
 
     /** @return an object's image */
-    const QImage& image() const { return constellationArtImage; }
+    const QImage& image() { if (imageLoaded) return constellationArtImage; else { loadImage(); return constellationArtImage;}}
 
     /** Load the object's image. This also scales the object's image to 1024x1024 pixels. */
     void loadImage();
