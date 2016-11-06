@@ -1994,7 +1994,6 @@ void Focus::startFraming()
 
 void Focus::resetButtons()
 {
-
     if (inFocusLoop)
     {
         startFocusB->setEnabled(false);
@@ -2002,8 +2001,6 @@ void Focus::resetButtons()
         stopFocusB->setEnabled(true);
 
         captureB->setEnabled(false);
-        focusOutB->setEnabled(true);
-        focusInB->setEnabled(true);
 
         return;
     }
@@ -2017,34 +2014,23 @@ void Focus::resetButtons()
         captureB->setEnabled(false);
         focusOutB->setEnabled(false);
         focusInB->setEnabled(false);
+        setAbsTicksB->setEnabled(false);
 
         return;
     }
 
-    if (focusType == FOCUS_AUTO && currentFocuser)
-        startFocusB->setEnabled(true);
-    else
-        startFocusB->setEnabled(false);
+    if (currentFocuser)
+    {
+        focusOutB->setEnabled(true);
+        focusInB->setEnabled(true);
+
+        startFocusB->setEnabled(focusType == FOCUS_AUTO);
+        setAbsTicksB->setEnabled(canAbsMove || canRelMove);
+
+    }
 
     stopFocusB->setEnabled(false);
     startLoopB->setEnabled(true);
-
-
-    /*if (focusType == FOCUS_MANUAL)
-    {
-        if (currentFocuser)
-        {
-            focusOutB->setEnabled(true);
-            focusInB->setEnabled(true);
-        }
-
-        startLoopB->setEnabled(true);
-    }
-    else
-    {
-        focusOutB->setEnabled(false);
-        focusInB->setEnabled(false);
-    }*/
 
     captureB->setEnabled(true);
 }
