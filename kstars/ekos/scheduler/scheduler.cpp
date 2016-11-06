@@ -4158,8 +4158,8 @@ void Scheduler::checkMountParkingStatus()
                  break;
              }
         }
-        else
-            break;
+       break;
+
        case Mount::PARKING_ERROR:
         if (startupState == STARTUP_UNPARKING_MOUNT)
         {
@@ -4290,8 +4290,7 @@ void Scheduler::checkDomeParkingStatus()
               break;
           }
      }
-     else
-         break;
+     break;
 
        case Dome::PARKING_ERROR:
         if (shutdownState == SHUTDOWN_PARKING_DOME)
@@ -4411,8 +4410,7 @@ void Scheduler::checkCapParkingStatus()
               break;
           }
      }
-     else
-         break;
+     break;
 
        case DustCap::PARKING_ERROR:
         if (shutdownState == SHUTDOWN_PARKING_CAP)
