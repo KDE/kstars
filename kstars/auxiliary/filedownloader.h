@@ -65,7 +65,10 @@ private:
 
     // Optional Progress dialog
     bool m_ShowProgressDialog = false;
+
+    #ifndef KSTARS_LITE
     QProgressDialog* progressDialog = NULL;
+    #endif
     bool isCancelled = false;
     QString label, title;
 };

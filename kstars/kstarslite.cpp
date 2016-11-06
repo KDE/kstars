@@ -235,7 +235,9 @@ void KStarsLite::updateTime( const bool automaticDSTchange ) {
 }
 
 void KStarsLite::writeConfig() {
-    Options::self()->save();
+   bool rc = Options::self()->save();
+   if (rc == false)
+       int i=0;
     //Store current simulation time
     //Refer to // FIXME: Used in kstarsdcop.cpp only in kstarsdata.cpp
     //data()->StoredDate = data()->lt();

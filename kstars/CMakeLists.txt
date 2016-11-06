@@ -61,8 +61,7 @@ endif(NOT BUILD_KSTARS_LITE)
 if (INDI_FOUND)
     if(BUILD_KSTARS_LITE)
             set (fits_SRCS
-                fitsviewer/fitsdatalite.cpp
-                fitsviewer/fitsviewlite.cpp
+                fitsviewer/fitsdata.cpp
                 fitsviewer/bayer.c
                 )
                 include_directories(${CFITSIO_INCLUDE_DIR})
@@ -609,6 +608,7 @@ set(kstars_extra_SRCS
     auxiliary/kspaths.cpp
     auxiliary/QRoundProgressBar.cpp
     auxiliary/skyobjectlistmodel.cpp
+    auxiliary/ksnotification.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp
@@ -880,6 +880,7 @@ if(BUILD_KSTARS_LITE)
         Qt5::Quick
         Qt5::QuickControls2
         Qt5::Positioning
+        Qt5::Concurrent
         ${ZLIB_LIBRARIES}
         )
     if(INDI_FOUND)

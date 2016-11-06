@@ -16,7 +16,10 @@
 #include <KLocalizedString>
 
 #include "filedownloader.h"
+
+#ifndef KSTARS_LITE
 #include "kstars.h"
+#endif
 
 FileDownloader::FileDownloader(QObject *parent) :  QObject(parent)
 {
@@ -129,6 +132,7 @@ bool FileDownloader::setDownloadedFileURL(const QUrl &DownloadedFile)
 
 void FileDownloader::setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
+#ifndef KSTARS_LITE
     if (m_ShowProgressDialog)
     {
         if (progressDialog == NULL)
@@ -146,6 +150,7 @@ void FileDownloader::setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal
         progressDialog->setMaximum(bytesTotal);
         progressDialog->setValue(bytesReceived);
     }
+#endif
 }
 
 QByteArray FileDownloader::downloadedData() const

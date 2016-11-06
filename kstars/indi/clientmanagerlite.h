@@ -24,7 +24,6 @@
 #include "indistd.h"
 #include <QImage>
 
-class FITSViewLite;
 class QFileDialog;
 
 using namespace INDI;
@@ -164,8 +163,7 @@ private:
 
     QList<DeviceInfoLite *> m_devices;
     QString m_connectedHost;
-    bool m_connected;
-    FITSViewLite *fitsView;
+    bool m_connected;    
     char BLOBFilename[MAXINDIFILENAME];
     QImage displayImage;
 #ifdef ANDROID

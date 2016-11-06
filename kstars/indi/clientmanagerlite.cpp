@@ -27,8 +27,7 @@
 #include <QImageReader>
 #include <QTemporaryFile>
 #include "kspaths.h"
-#include "fitsviewer/fitsdatalite.h"
-#include "fitsviewer/fitsviewlite.h"
+#include "fitsviewer/fitsdata.h"
 #include "kstarslite/imageprovider.h"
 #include <QProcess>
 #include <QFileDialog>
@@ -60,9 +59,7 @@ ClientManagerLite::ClientManagerLite()
 #endif
     qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeNS");
     qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeWE");
-    qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeCommand");
-
-    fitsView = new FITSViewLite();
+    qmlRegisterType<TelescopeLite>("TelescopeLiteEnums", 1, 0, "TelescopeCommand");    
 }
 
 ClientManagerLite::~ClientManagerLite()
@@ -853,7 +850,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB *bp) {
         return true;
 
     } else if (BType == BLOB_FITS) {
-        displayImage = *(fitsView->loadFITS(filename));
+        displayImage = FITSData::FITSToImage(filename);
         QFile::remove(filename);
         KStarsLite::Instance()->imageProvider()->addImage("ccdPreview", displayImage);
         emit newINDIBLOBImage(deviceName, true);
