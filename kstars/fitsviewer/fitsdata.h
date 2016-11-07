@@ -41,6 +41,7 @@
 
 
 #include <kxmlguiwindow.h>
+#include "fitshistogram.h"
 #endif
 
 #ifdef WIN32
@@ -49,7 +50,6 @@
 #endif
 
 #include <fitsio.h>
-#include "fitshistogram.h"
 #include "fitscommon.h"
 
 #include "skypoint.h"
