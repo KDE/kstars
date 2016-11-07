@@ -194,7 +194,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         break;
     case -32:
         data_type = TFLOAT;
-        stats.bytesPerPixel = sizeof(float_t);
+        stats.bytesPerPixel = sizeof(float);
         break;
     case 64:
         data_type = TLONGLONG;
@@ -202,7 +202,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         break;
     case -64:
         data_type = TDOUBLE;
-        stats.bytesPerPixel = sizeof(double_t);
+        stats.bytesPerPixel = sizeof(double);
     default:
         errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
 #ifndef KSTARS_LITE
