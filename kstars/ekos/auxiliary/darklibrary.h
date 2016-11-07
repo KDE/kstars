@@ -34,7 +34,8 @@ public:
 
     FITSData * getDarkFrame(ISD::CCDChip *targetChip, double duration);
     bool subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY);
-    void captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetImage, double duration, uint16_t offsetX, uint16_t offsetY);
+    // Return false if canceled. True if dark capture proceeds
+    bool captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetImage, double duration, uint16_t offsetX, uint16_t offsetY);
 
 signals:
     void darkFrameCompleted(bool);

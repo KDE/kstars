@@ -245,7 +245,7 @@ template<typename T> bool DarkLibrary::subtract(FITSData *darkData, FITSView *li
 
 }
 
-void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetImage, double duration, uint16_t offsetX, uint16_t offsetY)
+bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetImage, double duration, uint16_t offsetX, uint16_t offsetY)
 {
     QStringList shutterfulCCDs  = Options::shutterfulCCDs();
     QStringList shutterlessCCDs = Options::shutterlessCCDs();
@@ -275,13 +275,13 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetIm
 
     if (hasNoShutter)
     {
-        if ( (KMessageBox::warningContinueCancel(NULL, i18n("Cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"),
-                                                 KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "dark_exposure_dialog_notification"))
-                == KMessageBox::Cancel)
+        if ( KMessageBox::warningContinueCancel(NULL, i18n("Cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"),
+                                                 KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "dark_exposure_dialog_notification") == KMessageBox::Cancel)
         {
             emit newLog(i18n("Dark frame capture cancelled."));
             disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
             emit darkFrameCompleted(false);
+            return false;
         }
     }
 
@@ -300,6 +300,8 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetIm
     emit newLog(i18n("Capturing dark frame..."));
 
     targetChip->capture(duration);
+
+    return true;
 }
 
 void DarkLibrary::newFITS(IBLOB *bp)

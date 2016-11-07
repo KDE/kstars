@@ -769,12 +769,13 @@ bool InternalGuider::processGuiding()
     // do pulse
     out = pmath->getOutputParameters();
 
-    if (out->pulse_length[GUIDE_RA] == Options::rAMaximumPulse() || out->pulse_length[GUIDE_DEC] == Options::dECMaximumPulse())
+    // If within 90% of max pulse repeatedly, let's abort
+    if (out->pulse_length[GUIDE_RA] >=  (0.9 * Options::rAMaximumPulse()) || out->pulse_length[GUIDE_DEC] >= (0.9 * Options::dECMaximumPulse()))
         maxPulseCounter++;
     else
         maxPulseCounter=0;
 
-    if (maxPulseCounter > 3)
+    if (maxPulseCounter >= 3)
     {
         emit newLog(i18n("Lost track of the guide star. Aborting guiding..."));
         abort();

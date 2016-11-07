@@ -960,7 +960,7 @@ void cgmath::process_axes( void  )
 
 void cgmath::performProcessing( void )
 {
-    Vector arc_star_pos, arc_reticle_pos, pos, p;
+    Vector arc_star_pos, arc_reticle_pos;
 
     // do nothing if suspended
     if( suspended )

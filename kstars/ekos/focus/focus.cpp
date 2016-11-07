@@ -977,7 +977,10 @@ void Focus::newFITS(IBLOB *bp)
         if (darkData)
             DarkLibrary::Instance()->subtract(darkData, focusView, defaultScale, offsetX, offsetY);
         else
-            DarkLibrary::Instance()->captureAndSubtract(targetChip, focusView, exposureIN->value(), offsetX, offsetY);
+        {
+            bool rc = DarkLibrary::Instance()->captureAndSubtract(targetChip, focusView, exposureIN->value(), offsetX, offsetY);
+            darkFrameCheck->setChecked(rc);
+        }
 
         return;
     }
