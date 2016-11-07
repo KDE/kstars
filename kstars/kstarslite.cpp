@@ -54,6 +54,9 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     // Unlike KStars class we set pinstance at the beginning because SkyMapLite needs access to ClientManagerLite
     pinstance = this;
 
+    if ( doSplash )
+        showSplash();
+
     m_KStarsData = KStarsData::Create();
     Q_ASSERT( m_KStarsData );
 
@@ -133,11 +136,7 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     if ( startClock ) StartClockRunning =  Options::runClock();
 
     // Setup splash screen
-    if ( doSplash ) {
-        showSplash();
-    } else {
-        connect( m_KStarsData, SIGNAL( progressText(QString) ), m_KStarsData, SLOT( slotConsoleMessage(QString) ) );
-    }
+    connect( m_KStarsData, SIGNAL( progressText(QString) ), m_KStarsData, SLOT( slotConsoleMessage(QString) ) );
 
     //set up Dark color scheme for application windows
     DarkPalette = QPalette(QColor("darkred"), QColor("darkred"));
@@ -235,9 +234,7 @@ void KStarsLite::updateTime( const bool automaticDSTchange ) {
 }
 
 void KStarsLite::writeConfig() {
-   bool rc = Options::self()->save();
-   if (rc == false)
-       int i=0;
+   Options::self()->save();
     //Store current simulation time
     //Refer to // FIXME: Used in kstarsdcop.cpp only in kstarsdata.cpp
     //data()->StoredDate = data()->lt();
