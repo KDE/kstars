@@ -721,7 +721,10 @@ void Align::newFITS(IBLOB *bp)
                 if (darkData)
                     DarkLibrary::Instance()->subtract(darkData, currentImage, FITS_NONE, offsetX, offsetY);
                 else
-                    DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, exposureIN->value(), offsetX, offsetY);
+                {
+                    bool rc = DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, exposureIN->value(), offsetX, offsetY);
+                    alignDarkFrameCheck->setChecked(rc);
+                }
 
                 return;
             }
@@ -911,7 +914,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
          break;
 
         case GOTO_SLEW:
-         if (targetDiff > accuracySpin->value())
+         if (loadSlewState == IPS_BUSY || targetDiff > accuracySpin->value())
          {
              if (loadSlewState == IPS_IDLE && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
              {
