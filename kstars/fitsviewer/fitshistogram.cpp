@@ -104,13 +104,40 @@ void FITSHistogram::constructHistogram()
 
     switch (image_data->getDataType())
     {
-            case TBYTE:
-                constructHistogram<uint8_t>();
-                break;
+        case TBYTE:
+            constructHistogram<uint8_t>();
+            break;
 
-            case TUSHORT:
-                constructHistogram<uint16_t>();
-                break;
+        case TSHORT:
+            constructHistogram<int16_t>();
+            break;
+
+        case TUSHORT:
+            constructHistogram<uint16_t>();
+            break;
+
+        case TLONG:
+            constructHistogram<int32_t>();
+            break;
+
+        case TULONG:
+            constructHistogram<uint32_t>();
+            break;
+
+        case TFLOAT:
+            constructHistogram<float>();
+            break;
+
+        case TLONGLONG:
+            constructHistogram<int64_t>();
+            break;
+
+        case TDOUBLE:
+            constructHistogram<double>();
+        break;
+
+        default:
+        break;
     }
 }
 

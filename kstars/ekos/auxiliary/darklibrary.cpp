@@ -164,20 +164,45 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
    Q_ASSERT(darkData);
    Q_ASSERT(lightImage);
 
-   switch (darkData->getDataType())
-   {
+    switch (darkData->getDataType())
+    {
         case TBYTE:
             return subtract<uint8_t>(darkData, lightImage, filter, offsetX, offsetY);
-       break;
+            break;
+
+        case TSHORT:
+            return subtract<int16_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
         case TUSHORT:
             return subtract<uint16_t>(darkData, lightImage, filter, offsetX, offsetY);
-       break;
+            break;
 
-       default:
-       return false;
+        case TLONG:
+            return subtract<int32_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
-   }
+        case TULONG:
+            return subtract<uint32_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
+
+        case TFLOAT:
+            return subtract<float>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
+
+        case TLONGLONG:
+            return subtract<int64_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
+
+        case TDOUBLE:
+            return subtract<double>(darkData, lightImage, filter, offsetX, offsetY);
+        break;
+
+        default:
+        break;
+    }
+
+    return false;
 }
 
 template<typename T> bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY)
