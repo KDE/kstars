@@ -626,7 +626,7 @@ QString constGenetiveToAbbrev( const QString &genetive_ ) {
   }
 
 #ifdef Q_OS_OSX
-void KStarsData::copyDataFolderFromAppBundleIfNeeded()
+void copyDataFolderFromAppBundleIfNeeded()
 {
 
     QString dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
@@ -645,7 +645,7 @@ void KStarsData::copyDataFolderFromAppBundleIfNeeded()
     }
 }
 
-bool KStarsData::copyRecursively(QString sourceFolder, QString destFolder)
+bool copyRecursively(QString sourceFolder, QString destFolder)
 {
     bool success = false;
     QDir sourceDir(sourceFolder);
