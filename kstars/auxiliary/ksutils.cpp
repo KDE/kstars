@@ -625,4 +625,60 @@ QString constGenetiveToAbbrev( const QString &genetive_ ) {
   {
   }
 
+#ifdef Q_OS_OSX
+void KStarsData::copyDataFolderFromAppBundleIfNeeded()
+{
+
+    QString dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
+    if(dataLocation.isEmpty()) { //If there is no kstars data directory
+        QString dataSourceLocation=QDir(QCoreApplication::applicationDirPath()+"/../Resources/data").absolutePath();
+        QDir writableDir;
+        writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
+        dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
+        if(!dataLocation.isEmpty()&&!dataSourceLocation.isEmpty()){ //If both the users data directory and the default data directory are found.
+            KMessageBox::sorry(0, i18n("No Data Directory in /Library/Application Support/, creating a new one"));
+            KSUtils::copyRecursively(dataSourceLocation, dataLocation);
+        } else{
+             KMessageBox::sorry(0, i18n("Error, no data directories found!"));
+        }
+
+    }
+}
+
+bool KStarsData::copyRecursively(QString sourceFolder, QString destFolder)
+{
+    bool success = false;
+    QDir sourceDir(sourceFolder);
+
+    if(!sourceDir.exists())
+        return false;
+
+    QDir destDir(destFolder);
+    if(!destDir.exists())
+        destDir.mkdir(destFolder);
+
+    QStringList files = sourceDir.entryList(QDir::Files);
+    for(int i = 0; i< files.count(); i++) {
+        QString srcName = sourceFolder + QDir::separator() + files[i];
+        QString destName = destFolder + QDir::separator() + files[i];
+        success = QFile::copy(srcName, destName);
+        if(!success)
+            return false;
+    }
+
+    files.clear();
+    files = sourceDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+    for(int i = 0; i< files.count(); i++)
+    {
+        QString srcName = sourceFolder + QDir::separator() + files[i];
+        QString destName = destFolder + QDir::separator() + files[i];
+        success = copyRecursively(srcName, destName);
+        if(!success)
+            return false;
+    }
+
+    return true;
+}
+#endif
+
 }
