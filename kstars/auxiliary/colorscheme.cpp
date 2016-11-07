@@ -311,6 +311,7 @@ void ColorScheme::saveToConfig() {
 
     cg.writeEntry( "StarColorMode", starColorMode() );
     cg.writeEntry( "StarColorIntensity", starColorIntensity() );
+    cg.writeEntry( "ColorSchemeFile", FileName);
 }
 
 void ColorScheme::setStarColorMode( int mode ) { 
