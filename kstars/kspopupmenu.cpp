@@ -342,11 +342,11 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     addSeparator();
 #ifdef HAVE_XPLANET
     if ( obj->isSolarSystem() && obj->type() != SkyObject::COMET ) { // FIXME: We now have asteroids -- so should this not be isMajorPlanet() || Pluto?
-        QMenu *xplanetSubmenu = new QMenu();
-        xplanetSubmenu->setTitle( i18n( "Print Xplanet view" ) );
-        xplanetSubmenu->addAction( i18n( "To screen" ), map, SLOT( slotXplanetToScreen() ) );
-        xplanetSubmenu->addAction( i18n( "To file..." ), map, SLOT( slotXplanetToFile() ) );
-        addMenu( xplanetSubmenu );
+        //QMenu *xplanetSubmenu = new QMenu();
+        //xplanetSubmenu->setTitle( i18n( "Print Xplanet view" ) );
+        addAction( i18n( "View in XPlanet" ), map, SLOT( slotXplanetToWindow() ) );
+        //xplanetSubmenu->addAction( i18n( "To file..." ), map, SLOT( slotXplanetToFile() ) );
+        //addMenu( xplanetSubmenu );
     }
 #endif
     addSeparator();

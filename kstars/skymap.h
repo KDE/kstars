@@ -437,8 +437,8 @@ public slots:
 #endif
 
 #ifdef HAVE_XPLANET
-    /** Run Xplanet to print a view on the screen*/
-    void slotXplanetToScreen();
+    /** Run Xplanet to print a view in a Window*/
+    void slotXplanetToWindow();
 
     /** Run Xplanet to print a view in a file */
     void slotXplanetToFile();

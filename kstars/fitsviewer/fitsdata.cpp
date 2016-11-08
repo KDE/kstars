@@ -3569,7 +3569,7 @@ QImage FITSData::FITSToImage(const QString &filename)
         }
         else
         {
-            double val=0,rval=0,gval=0,bval=0;
+            double rval=0,gval=0,bval=0;
             QRgb value;
             /* Fill in pixel values using indexed map, linear scale */
             for (int j = 0; j < h; j++)

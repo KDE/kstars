@@ -225,8 +225,8 @@ namespace KSUtils {
       };
 
     #ifdef Q_OS_OSX
-    static void copyDataFolderFromAppBundleIfNeeded();
-    static bool copyRecursively(QString sourceFolder, QString destFolder);
+    void copyDataFolderFromAppBundleIfNeeded();
+    bool copyRecursively(QString sourceFolder, QString destFolder);
     #endif
 
 }

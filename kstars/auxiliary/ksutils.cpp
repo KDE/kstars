@@ -27,6 +27,10 @@
 #include <QUrl>
 #include <QStandardPaths>
 
+#ifndef KSTARS_LITE
+#include <KMessageBox>
+#endif
+
 #include <cmath>
 #include "auxiliary/kspaths.h"
 
