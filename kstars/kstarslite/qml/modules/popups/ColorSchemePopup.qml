@@ -74,7 +74,7 @@ Popup {
                 for(var i = 0; i < colorsList.model.count; ++i) {
                     if(formatColorScheme(colorsList.model.get(i).scheme) == colorScheme) {
                         colorsList.currentIndex = i
-                        KStarsLite.loadColorScheme(colorScheme)
+                        //KStarsLite.loadColorScheme(colorScheme)
                     }
                 }
             }

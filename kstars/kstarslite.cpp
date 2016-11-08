@@ -119,7 +119,8 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
     mainWindow->setFormat(format);
 
-    connect( qApp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
+
+    connect(qApp, SIGNAL(applicationStateChanged(Qt::ApplicationState)), SLOT(handleStateChange(Qt::ApplicationState)));
 
     //Initialize Time and Date
     if (startDateString.isEmpty() == false)
@@ -151,11 +152,6 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     if( !m_KStarsData->initialize() ) return;
     datainitFinished();
 
-#if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
-    qDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()";
-#else
-    qDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions.";
-#endif
 }
 
 void KStarsLite::slotTrack() {
@@ -233,30 +229,41 @@ void KStarsLite::updateTime( const bool automaticDSTchange ) {
     }
 }
 
-void KStarsLite::writeConfig() {
+bool KStarsLite::writeConfig()
+{
+   // It seems two config files are saved to android. Must call them both to save all options
+   // First one save color information, 2nd one rest of config. Bug?
+   // /data/user/0/org.kde.kstars/files/settings/kstarsrc is used by KSharedConfig::openConfig()
+   KSharedConfig::openConfig()->sync();
+   // /data/data/org.kde.kstars/files/settings/kstarsrc is used by Options::self()
    Options::self()->save();
+
     //Store current simulation time
     //Refer to // FIXME: Used in kstarsdcop.cpp only in kstarsdata.cpp
     //data()->StoredDate = data()->lt();
 }
 
-void KStarsLite::slotAboutToQuit()
+void KStarsLite::handleStateChange(Qt::ApplicationState state)
 {
-    // Delete skymaplite. This required to run destructors and save
-    // current state in the option.
-    delete m_SkyMapLite;
+    if (state == Qt::ApplicationSuspended)
+    {
+        // Delete skymaplite. This required to run destructors and save
+        // current state in the option.
+        //delete m_SkyMapLite;
 
-    //Store Window geometry in Options object
-    //Options::setWindowWidth( m_RootObject->width() );
-    //Options::setWindowHeight( m_RootObject->height() );
+        //Store Window geometry in Options object
+        //Options::setWindowWidth( m_RootObject->width() );
+        //Options::setWindowHeight( m_RootObject->height() );
 
-    //explicitly save the colorscheme data to the config file
-    data()->colorScheme()->saveToConfig();
-    //synch the config file with the Config object
-    writeConfig();
+        //explicitly save the colorscheme data to the config file
+        //data()->colorScheme()->saveToConfig();
+        //synch the config file with the Config object
+        writeConfig();
+    }
 }
 
-void KStarsLite::loadColorScheme( const QString &name ) {
+void KStarsLite::loadColorScheme( const QString &name )
+{
     bool ok = data()->colorScheme()->load( name );
     QString filename = data()->colorScheme()->fileName();
 
@@ -274,6 +281,10 @@ void KStarsLite::loadColorScheme( const QString &name ) {
         }
 
         Options::setColorSchemeFile( name );
+
+        data()->colorScheme()->saveToConfig();
+
+        //writeConfig();
 
         //Reinitialize stars textures
         map()->initStarImages();
