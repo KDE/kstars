@@ -1322,7 +1322,9 @@ void Guide::syncTrackingBoxPosition()
         // If box size is larger than image size, set it to lower index
         if (boxSize/subBinX >= w || boxSize/subBinY >= h)
         {
-            boxSizeCombo->setCurrentIndex(boxSizeCombo->currentIndex()-1);
+            int newIndex = boxSizeCombo->currentIndex()-1;
+            if (newIndex >= 0)
+                boxSizeCombo->setCurrentIndex(newIndex);
             return;
         }
 
@@ -1459,9 +1461,11 @@ bool Guide::setGuiderType(int type)
 
 void Guide::updateTrackingBoxSize(int currentIndex)
 {
-    Options::setGuideSquareSizeIndex(currentIndex);
-
-    syncTrackingBoxPosition();
+    if (currentIndex >= 0)
+    {
+        Options::setGuideSquareSizeIndex(currentIndex);
+        syncTrackingBoxPosition();
+    }
 }
 
 bool Guide::selectAutoStar()
@@ -1989,12 +1993,10 @@ bool Guide::executeOneOperation(GuideState operation)
         // Do not subframe if we are capturing calibration frame
         if (subFramed == false && Options::guideSubframeEnabled() == true && targetChip->canSubframe())
         {
-            int minX, maxX, minY, maxY, minW, maxW, minH, maxH;//, fx,fy,fw,fh;
+            int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
             targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
 
-            int offset = boxSizeCombo->currentText().toInt()/subBinX;
-            //int x = guideView->getTrackingBox().x() + guideView->getTrackingBox().width()/2;
-            //int y = guideView->getTrackingBox().y() + guideView->getTrackingBox().height()/2;
+            int offset = boxSizeCombo->currentText().toInt()/subBinX;            
 
             int x = starCenter.x();
             int y = starCenter.y();
