@@ -1093,7 +1093,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 if (slew_dirty == false)
                     break;
 
-                slew_dirty == false;
+                slew_dirty = false;
                 if (loadSlewState == IPS_BUSY)
                 {
                     loadSlewState = IPS_IDLE;
@@ -1109,7 +1109,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 }
                 else if(currentGotoMode == GOTO_SLEW)
                 {
-                    appendLogText(i18n("Target accuracy is not met, running solver again..."));
+                    appendLogText(i18n("Slew complete. Target accuracy is not met, running solver again..."));
 
                     state = ALIGN_PROGRESS;
                     emit newStatus(state);
