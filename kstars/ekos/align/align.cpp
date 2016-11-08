@@ -108,15 +108,15 @@ Align::Align()
     connect(correctAzB, SIGNAL(clicked()), this, SLOT(correctAzError()));
     connect(loadSlewB, SIGNAL(clicked()), this, SLOT(loadAndSlew()));
 
+    gotoModeButtonGroup->setId(syncR, GOTO_SYNC);
+    gotoModeButtonGroup->setId(slewR, GOTO_SLEW);
+    gotoModeButtonGroup->setId(nothingR, GOTO_NOTHING);
+
     connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [=](int id){ this->currentGotoMode = static_cast<GotoMode>(id); });
 
     // TODO make this configurable, 3 minutes timeout
     alignTimer.setInterval(180*1000);
     connect(&alignTimer, SIGNAL(timeout()), this, SLOT(checkAlignmentTimeout()));
-
-    int i=0;
-    foreach(QAbstractButton *button, gotoModeButtonGroup->buttons())
-        gotoModeButtonGroup->setId(button, i++);
 
     currentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
     gotoModeButtonGroup->button(currentGotoMode)->setChecked(true);
@@ -911,6 +911,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      {
         case GOTO_SYNC:
          executeGOTO();
+         return;
          break;
 
         case GOTO_SLEW:
@@ -1057,28 +1058,42 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
         ScopeRAOut->setText(ra_dms);
         ScopeDecOut->setText(dec_dms);
 
-        if (Options::alignmentLogging())
-            qDebug() << "Alignment: State is " << Ekos::getAlignStatusString(state) << " isSlewing? " << currentTelescope->isSlewing() << " slew Dirty? " << slew_dirty
-                     << " Current GOTO Mode? " << currentGotoMode << " LoadSlewState? " << pstateStr(loadSlewState);
-
-        if (currentTelescope->isSlewing() && slew_dirty == false)
+        switch (coord->s)
         {
-            slew_dirty = true;
-            if (Options::alignmentLogging())
-                qDebug() << "Alignment: slew dirty is true.";
-        }
-        else if (currentTelescope->isSlewing() == false && slew_dirty)
+        case IPS_OK:
         {
-            slew_dirty = false;
-
-            if (Options::alignmentLogging())
-                qDebug() << "Alignment: slew dirty is false.";
-
-            if (Options::solverUpdateCoords())
+            // Update the boxes as the mount just finished slewing
+            if (slew_dirty && Options::solverUpdateCoords())
                 copyCoordsToBoxes();
 
-            if (state >= ALIGN_PROGRESS)
+            switch (state)
             {
+            case ALIGN_PROGRESS:
+                break;
+
+            case ALIGN_SYNCING:
+            {
+                slew_dirty = false;
+                if (currentGotoMode == GOTO_SLEW)
+                {
+                    Slew();
+                    return;
+                }
+                else
+                {
+                    appendLogText(i18n("Mount is synced to solution coordinates. Astrometric solver is successful."));
+                    KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
+                    state = ALIGN_COMPLETE;
+                    emit newStatus(state);
+                }
+            }
+            break;
+
+            case ALIGN_SLEWING:
+                if (slew_dirty == false)
+                    break;
+
+                slew_dirty == false;
                 if (loadSlewState == IPS_BUSY)
                 {
                     loadSlewState = IPS_IDLE;
@@ -1092,7 +1107,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                     QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
                     return;
                 }
-                else if (currentGotoMode == GOTO_SLEW && state == ALIGN_SLEWING)
+                else if(currentGotoMode == GOTO_SLEW)
                 {
                     appendLogText(i18n("Target accuracy is not met, running solver again..."));
 
@@ -1102,8 +1117,59 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                     QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
                     return;
                 }
+                break;
+
+            default:
+            {
+                slew_dirty = false;
+            }
+            break;
             }
         }
+        break;
+
+        case IPS_BUSY:
+        {
+            slew_dirty = true;
+
+        }
+        break;
+
+        case IPS_ALERT:
+        {
+            if (state == ALIGN_SYNCING || state == ALIGN_SLEWING)
+            {
+                if (state == ALIGN_SYNCING)
+                    appendLogText(i18n("Syncing failed!"));
+                else
+                    appendLogText(i18n("Slewing failed!"));
+
+                if (++retries == 3)
+                {
+                    abort();
+                    return;
+                }
+                else
+                {
+                    if (currentGotoMode == GOTO_SLEW)
+                        Slew();
+                    else
+                        Sync();
+                }
+            }
+
+            return;
+        }
+        break;
+
+        default:
+        break;
+        }
+
+
+        if (Options::alignmentLogging())
+            qDebug() << "Alignment: State is " << Ekos::getAlignStatusString(state) << " isSlewing? " << currentTelescope->isSlewing() << " slew Dirty? " << slew_dirty
+                     << " Current GOTO Mode? " << currentGotoMode << " LoadSlewState? " << pstateStr(loadSlewState);
 
         switch (azStage)
         {
@@ -1185,24 +1251,40 @@ void Align::executeGOTO()
 
 void Align::Sync()
 {
-    if (currentTelescope->Sync(&alignCoord))
-        appendLogText(i18n("Syncing to RA (%1) DEC (%2) is successful.", alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString()));
-    else
-        appendLogText(i18n("Syncing failed."));
+    state = ALIGN_SYNCING;
 
+    if (currentTelescope->Sync(&alignCoord))    
+    {
+        emit newStatus(state);
+        appendLogText(i18n("Syncing to RA (%1) DEC (%2)", alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString()));
+    }
+    else
+    {
+        state = ALIGN_IDLE;
+        emit newStatus(state);
+        appendLogText(i18n("Syncing failed."));
+    }
 }
 
-void Align::SlewToTarget()
+void Align::Slew()
 {
-    if (canSync && loadSlewState == IPS_IDLE)
-        Sync();
-
     state = ALIGN_SLEWING;
     emit newStatus(state);
 
     currentTelescope->Slew(&targetCoord);
 
-    appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(), targetCoord.dec().toDMSString()));    
+    appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(), targetCoord.dec().toDMSString()));
+}
+
+void Align::SlewToTarget()
+{
+    if (canSync && loadSlewState == IPS_IDLE)
+    {
+        Sync();
+        return;
+    }
+
+    Slew();
 }
 
 void Align::executePolarAlign()
@@ -1671,6 +1753,7 @@ void Align::loadAndSlew(QString fileURL)
     loadSlewState=IPS_BUSY;
 
     slewR->setChecked(true);
+    currentGotoMode = GOTO_SLEW;
 
     solveB->setEnabled(false);
     stopB->setEnabled(true);
