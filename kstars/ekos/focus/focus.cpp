@@ -2280,6 +2280,11 @@ void Focus::checkAutoStarTimeout()
         abort();
         setAutoFocusResult(false);
     }
+    else if (state == FOCUS_WAITING)
+    {
+        state = FOCUS_IDLE;
+        emit newStatus(state);
+    }
 }
 
 void Focus::setAbsoluteFocusTicks()
