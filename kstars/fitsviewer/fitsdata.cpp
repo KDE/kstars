@@ -725,8 +725,8 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 
 template<typename T> int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 {
-    int subX = boundary.isNull() ? 0 : boundary.x();
-    int subY = boundary.isNull() ? 0 : boundary.y();
+    int subX = qMax(0, boundary.isNull() ? 0 : boundary.x());
+    int subY = qMax(0, boundary.isNull() ? 0 : boundary.y());
     int subW = (boundary.isNull() ? data->getWidth() : boundary.width());
     int subH = (boundary.isNull() ? data->getHeight(): boundary.height());
 
