@@ -440,7 +440,7 @@ void Capture::stop(bool abort)
     secondsLabel->clear();
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
     disconnect(currentCCD, SIGNAL(newImage(QImage*,ISD::CCDChip*)), this, SLOT(sendNewImage(QImage*,ISD::CCDChip*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double, IPState)), this, SLOT(setExposureProgress(ISD::CCDChip*,double,IPState)));
 
     currentCCD->setFITSDir("");
 
@@ -1024,7 +1024,7 @@ void Capture::newFITS(IBLOB *bp)
 
 bool Capture::setCaptureComplete()
 {
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(setExposureProgress(ISD::CCDChip*,double,IPState)));
     DarkLibrary::Instance()->disconnect(this);
     secondsLabel->setText(i18n("Complete."));
 
@@ -1281,7 +1281,7 @@ void Capture::captureImage()
     switch (rc)
     {
     case SequenceJob::CAPTURE_OK:
-        connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(updateCaptureProgress(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(setExposureProgress(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
         appendLogText(i18n("Capturing image..."));
         break;
 
@@ -1423,16 +1423,19 @@ void Capture::clearLog()
     emit newLog();
 }
 
-void Capture::updateCaptureProgress(ISD::CCDChip * tChip, double value, IPState state)
+void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState state)
 {
-
     if (targetChip != tChip || targetChip->getCaptureMode() != FITS_NORMAL || meridianFlipStage >= MF_ALIGNING)
         return;
 
     exposeOUT->setText(QString::number(value, 'd', 2));
 
     if (activeJob)
+    {
         activeJob->setExposeLeft(value);
+
+        emit newExposureProgress(activeJob);
+    }
 
     if (activeJob && state == IPS_ALERT)
     {
@@ -1712,6 +1715,8 @@ void Capture::removeJob()
 
     SequenceJob *job = jobs.at(currentRow);
     jobs.removeOne(job);
+    if (job == activeJob)
+        activeJob = NULL;
     delete (job);
 
     if (queueTable->rowCount() == 0)
@@ -2980,6 +2985,7 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
                 appendLogText(i18n("Performing post flip re-alignment..."));
                 secondsLabel->setText(i18n("Aligning..."));
 
+                retries = 0;
                 state = CAPTURE_ALIGNING;
                 emit newStatus(Ekos::CAPTURE_ALIGNING);
 
@@ -2989,6 +2995,7 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
                 return;
             }
 
+            retries = 0;
             checkGuidingAfterFlip();
             break;
 
@@ -3124,6 +3131,7 @@ void Capture::setAlignStatus(AlignState state)
         if (meridianFlipStage == MF_ALIGNING)
         {
             appendLogText(i18n("Post flip re-alignment completed successfully."));
+            retries = 0;
             checkGuidingAfterFlip();
         }
         break;
@@ -3132,8 +3140,21 @@ void Capture::setAlignStatus(AlignState state)
         // TODO run it 3 times before giving up
         if (meridianFlipStage == MF_ALIGNING)
         {
-            appendLogText(i18n("Post-flip alignment failed."));
-            abort();
+            if (++retries == 3)
+            {
+                appendLogText(i18n("Post-flip alignment failed."));
+                abort();
+            }
+            else
+            {
+                appendLogText(i18n("Post-flip alignment failed. Retrying..."));
+                secondsLabel->setText(i18n("Aligning..."));
+
+                this->state = CAPTURE_ALIGNING;
+                emit newStatus(Ekos::CAPTURE_ALIGNING);
+
+                meridianFlipStage = MF_ALIGNING;
+            }
         }
         break;
 
@@ -3172,8 +3193,16 @@ void Capture::setGuideStatus(GuideState state)
         // TODO try restarting calibration a couple of times before giving up
         if (meridianFlipStage == MF_GUIDING)
         {
-            appendLogText(i18n("Post meridian flip calibration error. Aborting..."));
-            abort();
+            if (++retries == 3)
+            {
+                appendLogText(i18n("Post meridian flip calibration error. Aborting..."));
+                abort();
+            }
+            else
+            {
+                appendLogText(i18n("Post meridian flip calibration error. Restarting..."));
+                checkGuidingAfterFlip();
+            }
         }
         break;
 

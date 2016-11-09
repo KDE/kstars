@@ -396,7 +396,7 @@ private slots:
 
     void checkFrameType(int index);
     void resetFrame();
-    void updateCaptureProgress(ISD::CCDChip *tChip, double value, IPState state);
+    void setExposureProgress(ISD::CCDChip *tChip, double value, IPState state);
     void checkSeqBoundary(const QString &path);
     void saveFITSDirectory();
     void setDefaultCCD(QString ccd);
@@ -448,6 +448,7 @@ signals:
         void meridianFlipCompleted();
         void newStatus(Ekos::CaptureState status);
         void newImage(QImage *image, Ekos::SequenceJob *job);
+        void newExposureProgress(Ekos::SequenceJob *job);
 
 private:
 
