@@ -24,6 +24,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <climits>
+#include <float.h>
 
 #include <QApplication>
 #include <QStringList>
@@ -180,29 +181,39 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
 
     switch (stats.bitpix)
     {
-    case 8:
+    case BYTE_IMG:
         data_type = TBYTE;
         stats.bytesPerPixel = sizeof(uint8_t);
         break;
-    case 16:
+    case SHORT_IMG:
+        // Read SHORT image as USHORT
+        data_type = TUSHORT;
+        stats.bytesPerPixel = sizeof(int16_t);
+        break;
+    case USHORT_IMG:
         data_type = TUSHORT;
         stats.bytesPerPixel = sizeof(uint16_t);
         break;
-    case 32:
-        data_type = TINT;
+    case LONG_IMG:
+        // Read LONG image as ULONG
+        data_type = TULONG;
+        stats.bytesPerPixel = sizeof(int32_t);
+        break;
+    case ULONG_IMG:
+        data_type = TULONG;
         stats.bytesPerPixel = sizeof(uint32_t);
         break;
-    case -32:
+    case FLOAT_IMG:
         data_type = TFLOAT;
-        stats.bytesPerPixel = sizeof(float_t);
+        stats.bytesPerPixel = sizeof(float);
         break;
-    case 64:
+    case LONGLONG_IMG:
         data_type = TLONGLONG;
-        stats.bytesPerPixel = sizeof(long long);
+        stats.bytesPerPixel = sizeof(int64_t);
         break;
-    case -64:
+    case DOUBLE_IMG:
         data_type = TDOUBLE;
-        stats.bytesPerPixel = sizeof(double_t);
+        stats.bytesPerPixel = sizeof(double);
     default:
         errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
 #ifndef KSTARS_LITE
@@ -449,15 +460,42 @@ void FITSData::calculateStats(bool refresh)
     calculateMinMax(refresh);
 
     // Get standard deviation and mean in one run
-    switch(data_type)
+    switch (data_type)
     {
-    case TBYTE:
-        runningAverageStdDev<uint8_t>();
+        case TBYTE:
+            runningAverageStdDev<uint8_t>();
+            break;
+
+        case TSHORT:
+            runningAverageStdDev<int16_t>();
+            break;
+
+        case TUSHORT:
+            runningAverageStdDev<uint16_t>();
+            break;
+
+        case TLONG:
+            runningAverageStdDev<int32_t>();
+            break;
+
+        case TULONG:
+            runningAverageStdDev<uint32_t>();
+            break;
+
+        case TFLOAT:
+            runningAverageStdDev<float>();
+            break;
+
+        case TLONGLONG:
+            runningAverageStdDev<int64_t>();
+            break;
+
+        case TDOUBLE:
+            runningAverageStdDev<double>();
         break;
 
-    case TUSHORT:
-        runningAverageStdDev<uint16_t>();
-        break;
+        default:
+        return;
     }
 
     stats.SNR = stats.mean[0] / stats.stddev[0];
@@ -495,14 +533,41 @@ int FITSData::calculateMinMax(bool refresh)
     stats.min[2]= 1.0E30;
     stats.max[2]= -1.0E30;
 
-    switch(data_type)
+    switch (data_type)
     {
-    case TBYTE:
-        calculateMinMax<uint8_t>();
+        case TBYTE:
+            calculateMinMax<uint8_t>();
+            break;
+
+        case TSHORT:
+            calculateMinMax<int16_t>();
+            break;
+
+        case TUSHORT:
+            calculateMinMax<uint16_t>();
+            break;
+
+        case TLONG:
+            calculateMinMax<int32_t>();
+            break;
+
+        case TULONG:
+            calculateMinMax<uint32_t>();
+            break;
+
+        case TFLOAT:
+            calculateMinMax<float>();
+            break;
+
+        case TLONGLONG:
+            calculateMinMax<int64_t>();
+            break;
+
+        case TDOUBLE:
+            calculateMinMax<double>();
         break;
 
-    case TUSHORT:
-        calculateMinMax<uint16_t>();
+        default:
         break;
     }
 
@@ -617,13 +682,42 @@ bool FITSData::checkCollision(Edge* s1, Edge*s2)
 
 int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
 {
-    switch(data->getDataType())
+    switch (data->getDataType())
     {
-    case TBYTE:
-        return FITSData::findCannyStar<uint8_t>(data, boundary);
+        case TBYTE:
+            return FITSData::findCannyStar<uint8_t>(data, boundary);
+            break;
 
-    case TUSHORT:
-        return FITSData::findCannyStar<uint16_t>(data, boundary);
+        case TSHORT:
+            return FITSData::findCannyStar<int16_t>(data, boundary);
+            break;
+
+        case TUSHORT:
+            return FITSData::findCannyStar<uint16_t>(data, boundary);
+            break;
+
+        case TLONG:
+            return FITSData::findCannyStar<int32_t>(data, boundary);
+            break;
+
+        case TULONG:
+            return FITSData::findCannyStar<uint16_t>(data, boundary);
+            break;
+
+        case TFLOAT:
+            return FITSData::findCannyStar<float>(data, boundary);
+            break;
+
+        case TLONGLONG:
+            return FITSData::findCannyStar<int64_t>(data, boundary);
+            break;
+
+        case TDOUBLE:
+        return FITSData::findCannyStar<double>(data, boundary);
+        break;
+
+        default:
+        return 0;
     }
 
     return 0;
@@ -870,11 +964,40 @@ int FITSData::findOneStar(const QRectF &boundary)
 {
     switch (data_type)
     {
-    case TBYTE:
-        return findOneStar<uint8_t>(boundary);
+        case TBYTE:
+            return findOneStar<uint8_t>(boundary);
+            break;
 
-    case TUSHORT:
-        return findOneStar<uint16_t>(boundary);
+        case TSHORT:
+            return findOneStar<int16_t>(boundary);
+            break;
+
+        case TUSHORT:
+            return findOneStar<uint16_t>(boundary);
+            break;
+
+        case TLONG:
+            return findOneStar<int32_t>(boundary);
+            break;
+
+        case TULONG:
+            return findOneStar<uint32_t>(boundary);
+            break;
+
+        case TFLOAT:
+            return findOneStar<float>(boundary);
+            break;
+
+        case TLONGLONG:
+            return findOneStar<int64_t>(boundary);
+            break;
+
+        case TDOUBLE:
+            return findOneStar<double>(boundary);
+        break;
+
+        default:
+        break;
     }
 
     return 0;
@@ -1027,13 +1150,40 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
 {
     switch (data_type)
     {
-    case TBYTE:
-        findCentroid<uint8_t>(boundary, initStdDev, minEdgeWidth);
+        case TBYTE:
+            findCentroid<uint8_t>(boundary, initStdDev, minEdgeWidth);
+            break;
+
+        case TSHORT:
+            findCentroid<int16_t>(boundary, initStdDev, minEdgeWidth);
+            break;
+
+        case TUSHORT:
+            findCentroid<uint16_t>(boundary, initStdDev, minEdgeWidth);
+            break;
+
+        case TLONG:
+            findCentroid<int32_t>(boundary, initStdDev, minEdgeWidth);
+            break;
+
+        case TULONG:
+            findCentroid<uint32_t>(boundary, initStdDev, minEdgeWidth);
+            break;
+
+        case TFLOAT:
+            findCentroid<float>(boundary, initStdDev, minEdgeWidth);
+            break;
+
+        case TLONGLONG:
+            findCentroid<int64_t>(boundary, initStdDev, minEdgeWidth);
+            break;
+
+        case TDOUBLE:
+            findCentroid<double>(boundary, initStdDev, minEdgeWidth);
         break;
 
-    case TUSHORT:
-        findCentroid<uint16_t>(boundary, initStdDev, minEdgeWidth);
-        break;
+        default:
+        return;
     }
 }
 
@@ -1519,6 +1669,15 @@ void FITSData::applyFilter(FITSScale type, uint8_t *image, float *min, float *ma
     }
         break;
 
+    case TSHORT:
+    {
+        dataMin = dataMin < INT16_MIN ? INT16_MIN : dataMin;
+        dataMax = dataMax > INT16_MAX ? INT16_MAX : dataMax;
+        applyFilter<uint16_t>(type, image, dataMin, dataMax);
+    }
+
+        break;
+
     case TUSHORT:
     {
         dataMin = dataMin < 0 ? 0 : dataMin;
@@ -1526,7 +1685,52 @@ void FITSData::applyFilter(FITSScale type, uint8_t *image, float *min, float *ma
         applyFilter<uint16_t>(type, image, dataMin, dataMax);
     }
         break;
+
+    case TLONG:
+    {
+        dataMin = dataMin < INT_MIN ? INT_MIN : dataMin;
+        dataMax = dataMax > INT_MAX ? INT_MAX : dataMax;
+        applyFilter<uint16_t>(type, image, dataMin, dataMax);
     }
+        break;
+
+    case TULONG:
+    {
+        dataMin = dataMin < 0 ? 0 : dataMin;
+        dataMax = dataMax > UINT_MAX ? UINT_MAX : dataMax;
+        applyFilter<uint16_t>(type, image, dataMin, dataMax);
+    }
+        break;
+
+    case TFLOAT:
+    {
+        dataMin = dataMin < FLT_MIN ? FLT_MIN : dataMin;
+        dataMax = dataMax > FLT_MAX ? FLT_MAX : dataMax;
+        applyFilter<float>(type, image, dataMin, dataMax);
+    }
+        break;
+
+    case TLONGLONG:
+    {
+        dataMin = dataMin < LLONG_MIN ? LLONG_MIN : dataMin;
+        dataMax = dataMax > LLONG_MAX ? LLONG_MAX : dataMax;
+        applyFilter<long>(type, image, dataMin, dataMax);
+    }
+        break;
+
+    case TDOUBLE:
+    {
+        dataMin = dataMin < DBL_MIN ? DBL_MIN : dataMin;
+        dataMax = dataMax > DBL_MAX ? DBL_MAX : dataMax;
+        applyFilter<double>(type, image, dataMin, dataMax);
+    }
+
+        break;
+
+    default:
+        return;
+    }
+
 
     if (min)
         *min = dataMin;
@@ -3365,7 +3569,7 @@ QImage FITSData::FITSToImage(const QString &filename)
         }
         else
         {
-            double val=0,rval=0,gval=0,bval=0;
+            double rval=0,gval=0,bval=0;
             QRgb value;
             /* Fill in pixel values using indexed map, linear scale */
             for (int j = 0; j < h; j++)

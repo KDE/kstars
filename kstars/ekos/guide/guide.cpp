@@ -2078,7 +2078,10 @@ bool Guide::executeOneOperation(GuideState operation)
             if (darkData)
                 DarkLibrary::Instance()->subtract(darkData, guideView, targetChip->getCaptureFilter(), offsetX, offsetY);
             else
-                DarkLibrary::Instance()->captureAndSubtract(targetChip, guideView, exposureIN->value(), offsetX, offsetY);
+            {
+                bool rc = DarkLibrary::Instance()->captureAndSubtract(targetChip, guideView, exposureIN->value(), offsetX, offsetY);
+                setDarkFrameEnabled(rc);
+            }
         }
     }
         break;

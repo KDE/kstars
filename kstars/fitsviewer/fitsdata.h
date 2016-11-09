@@ -268,7 +268,7 @@ private:
     #endif
     fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
 
-    int data_type;                      // FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONGLONG, TDOUBLE)
+    int data_type;                      // FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
     int channels;                       // Number of channels    
     uint8_t *imageBuffer = NULL;        // Generic data image buffer
 

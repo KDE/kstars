@@ -187,23 +187,46 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
     QString stringValue;
 
-    switch(image_data->getDataType())
+    switch (image_data->getDataType())
     {
         case TBYTE:
-        {
             stringValue = QLocale().toString(buffer[(int) (y * width + x)]);
-        }
-        break;
+            break;
+
+        case TSHORT:
+            stringValue = QLocale().toString( (reinterpret_cast<int16_t*>(buffer)) [(int) (y * width + x)]);
+            break;
 
         case TUSHORT:
-        {
             stringValue = QLocale().toString( (reinterpret_cast<uint16_t*>(buffer)) [(int) (y * width + x)]);
-        }
+            break;
+
+        case TLONG:
+            stringValue = QLocale().toString( (reinterpret_cast<int32_t*>(buffer)) [(int) (y * width + x)]);
+            break;
+
+        case TULONG:
+            stringValue = QLocale().toString( (reinterpret_cast<uint32_t*>(buffer)) [(int) (y * width + x)]);
+            break;
+
+        case TFLOAT:
+            stringValue = QLocale().toString( (reinterpret_cast<float*>(buffer)) [(int) (y * width + x)], 'f', 5);
+            break;
+
+        case TLONGLONG:
+            stringValue = QLocale().toString(static_cast<int>((reinterpret_cast<int64_t*>(buffer)) [(int) (y * width + x)]));
+            break;
+
+        case TDOUBLE:
+            stringValue = QLocale().toString( (reinterpret_cast<float*>(buffer)) [(int) (y * width + x)], 'f', 5);
+
+        break;
+
+        default:
         break;
     }
 
-        emit newStatus(stringValue, FITS_VALUE);
-
+    emit newStatus(stringValue, FITS_VALUE);
 
     if (image_data->hasWCS()&&image->getMouseMode()!=FITSView::selectMouse)
     {
@@ -599,14 +622,42 @@ int FITSView::saveFITS( const QString &newFilename )
 
 int FITSView::rescale(FITSZoom type)
 {
-    switch(image_data->getDataType())
+    switch (image_data->getDataType())
     {
-           case TBYTE:
+        case TBYTE:
             return rescale<uint8_t>(type);
+            break;
 
-           case TUSHORT:
-           return rescale<uint16_t>(type);
+        case TSHORT:
+            return rescale<int16_t>(type);
+            break;
 
+        case TUSHORT:
+            return rescale<uint16_t>(type);
+            break;
+
+        case TLONG:
+            return rescale<int32_t>(type);
+            break;
+
+        case TULONG:
+            return rescale<uint32_t>(type);
+            break;
+
+        case TFLOAT:
+            return rescale<float>(type);
+            break;
+
+        case TLONGLONG:
+            return rescale<int64_t>(type);
+            break;
+
+        case TDOUBLE:
+            return rescale<double>(type);
+        break;
+
+        default:
+        break;
     }
 
     return 0;

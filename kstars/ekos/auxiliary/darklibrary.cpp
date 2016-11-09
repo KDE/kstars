@@ -164,20 +164,45 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
    Q_ASSERT(darkData);
    Q_ASSERT(lightImage);
 
-   switch (darkData->getDataType())
-   {
+    switch (darkData->getDataType())
+    {
         case TBYTE:
             return subtract<uint8_t>(darkData, lightImage, filter, offsetX, offsetY);
-       break;
+            break;
+
+        case TSHORT:
+            return subtract<int16_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
         case TUSHORT:
             return subtract<uint16_t>(darkData, lightImage, filter, offsetX, offsetY);
-       break;
+            break;
 
-       default:
-       return false;
+        case TLONG:
+            return subtract<int32_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
 
-   }
+        case TULONG:
+            return subtract<uint32_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
+
+        case TFLOAT:
+            return subtract<float>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
+
+        case TLONGLONG:
+            return subtract<int64_t>(darkData, lightImage, filter, offsetX, offsetY);
+            break;
+
+        case TDOUBLE:
+            return subtract<double>(darkData, lightImage, filter, offsetX, offsetY);
+        break;
+
+        default:
+        break;
+    }
+
+    return false;
 }
 
 template<typename T> bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY)
@@ -220,7 +245,7 @@ template<typename T> bool DarkLibrary::subtract(FITSData *darkData, FITSView *li
 
 }
 
-void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetImage, double duration, uint16_t offsetX, uint16_t offsetY)
+bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetImage, double duration, uint16_t offsetX, uint16_t offsetY)
 {
     QStringList shutterfulCCDs  = Options::shutterfulCCDs();
     QStringList shutterlessCCDs = Options::shutterlessCCDs();
@@ -250,13 +275,13 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetIm
 
     if (hasNoShutter)
     {
-        if ( (KMessageBox::warningContinueCancel(NULL, i18n("Cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"),
-                                                 KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "dark_exposure_dialog_notification"))
-                == KMessageBox::Cancel)
+        if ( KMessageBox::warningContinueCancel(NULL, i18n("Cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"),
+                                                 KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "dark_exposure_dialog_notification") == KMessageBox::Cancel)
         {
             emit newLog(i18n("Dark frame capture cancelled."));
             disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
             emit darkFrameCompleted(false);
+            return false;
         }
     }
 
@@ -275,6 +300,8 @@ void DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetIm
     emit newLog(i18n("Capturing dark frame..."));
 
     targetChip->capture(duration);
+
+    return true;
 }
 
 void DarkLibrary::newFITS(IBLOB *bp)

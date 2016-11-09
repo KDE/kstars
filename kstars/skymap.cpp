@@ -45,6 +45,7 @@
 
 #include "Options.h"
 #include "kstars.h"
+#include "kspaths.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksdssdownloader.h"
@@ -1206,10 +1207,21 @@ void SkyMap::startXplanet( const QString & outputFile ) {
     // Run xplanet
     //qDebug() << "Run:" << xplanetProc->program().join(" ");
     xplanetProc->start(Options::xplanetPath(), args);
+    if(xplanetProc){
+        xplanetProc->waitForFinished(1000);
+        ImageViewer *iv = new ImageViewer( QUrl::fromLocalFile(outputFile),
+                "XPlanet View: "+ clickedObject()->name() + ",  " + data->lt().date().toString() + ",  "+ data->lt().time().toString(),
+                this );
+        iv->show();
+    }
 }
 
-void SkyMap::slotXplanetToScreen() {
-    startXplanet();
+void SkyMap::slotXplanetToWindow() {
+    QDir writableDir;
+    QString xPlanetDirPath=KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "xplanet";
+    writableDir.mkpath(xPlanetDirPath);
+    QString xPlanetPath=xPlanetDirPath + QDir::separator() + clickedObject()->name() + ".png";
+    startXplanet(xPlanetPath);
 }
 
 void SkyMap::slotXplanetToFile() {

@@ -547,9 +547,35 @@ Vector cgmath::findLocalStarPosition( void ) const
     {
         case TBYTE:
             return findLocalStarPosition<uint8_t>();
+            break;
+
+        case TSHORT:
+            return findLocalStarPosition<int16_t>();
+            break;
 
         case TUSHORT:
             return findLocalStarPosition<uint16_t>();
+            break;
+
+        case TLONG:
+            return findLocalStarPosition<int32_t>();
+            break;
+
+        case TULONG:
+            return findLocalStarPosition<uint32_t>();
+            break;
+
+        case TFLOAT:
+            return findLocalStarPosition<float>();
+            break;
+
+        case TLONGLONG:
+            return findLocalStarPosition<int64_t>();
+            break;
+
+        case TDOUBLE:
+            return findLocalStarPosition<double>();
+        break;
 
         default:
         break;
@@ -934,7 +960,7 @@ void cgmath::process_axes( void  )
 
 void cgmath::performProcessing( void )
 {
-    Vector arc_star_pos, arc_reticle_pos, pos, p;
+    Vector arc_star_pos, arc_reticle_pos;
 
     // do nothing if suspended
     if( suspended )
