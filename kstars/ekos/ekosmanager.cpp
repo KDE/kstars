@@ -107,7 +107,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     countdownTimer.setInterval(1000);
     connect(&countdownTimer, SIGNAL(timeout()), this, SLOT(updateCaptureCountDown()));
 
-    toolsWidget->setIconSize(QSize(64,64));
+    toolsWidget->setIconSize(QSize(48,48));
     connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(processTabChange()));
 
     // Enable scheduler Tab
@@ -1887,6 +1887,7 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
             capturePI->stopAnimation();
             countdownTimer.stop();
 
+            imageProgress->setValue(0);
             imageRemainingTime->setText("--:--:--");
             overallRemainingTime->setText("--:--:--");
             sequenceRemainingTime->setText("--:--:--");
