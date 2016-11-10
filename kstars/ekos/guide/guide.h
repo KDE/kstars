@@ -195,7 +195,6 @@ public:
     QVector3D getStarPosition() { return starCenter; }
 
     // Tracking Box
-    void setTrackingBoxSize(int index) { boxSizeCombo->setCurrentIndex(index); }
     int getTrackingBoxSize() { return boxSizeCombo->currentText().toInt(); }
 
     //void startRapidGuide();
