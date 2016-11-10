@@ -1167,9 +1167,9 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
         }
 
 
-        if (Options::alignmentLogging())
+        /*if (Options::alignmentLogging())
             qDebug() << "Alignment: State is " << Ekos::getAlignStatusString(state) << " isSlewing? " << currentTelescope->isSlewing() << " slew Dirty? " << slew_dirty
-                     << " Current GOTO Mode? " << currentGotoMode << " LoadSlewState? " << pstateStr(loadSlewState);
+                     << " Current GOTO Mode? " << currentGotoMode << " LoadSlewState? " << pstateStr(loadSlewState);*/
 
         switch (azStage)
         {

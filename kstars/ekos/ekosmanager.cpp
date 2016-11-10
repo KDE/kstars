@@ -97,9 +97,13 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     mountPI=capturePI=focusPI=guidePI=NULL;
 
     captureProgress->setValue(0);
-    sequenceProgress->setValue(0);
+    sequenceProgress->setValue(0);    
     sequenceProgress->setDecimals(0);
     sequenceProgress->setFormat("%v");
+    imageProgress->setValue(0);
+    imageProgress->setDecimals(1);
+    imageProgress->setFormat("%v");
+    imageProgress->setBarStyle(QRoundProgressBar::StyleLine);
     countdownTimer.setInterval(1000);
     connect(&countdownTimer, SIGNAL(timeout()), this, SLOT(updateCaptureCountDown()));
 
@@ -312,6 +316,7 @@ void EkosManager::reset()
     captureProgress->setValue(0);
     overallRemainingTime->setText("--:--:--");
     sequenceRemainingTime->setText("--:--:--");
+    imageRemainingTime->setText("--:--:--");
     mountStatus->setText(i18n("Idle"));
     captureStatus->setText(i18n("Idle"));
     focusStatus->setText(i18n("Idle"));
@@ -1377,9 +1382,11 @@ void EkosManager::initCapture()
     connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
     connect(captureProcess, SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(updateCaptureStatus(Ekos::CaptureState)));
     connect(captureProcess, SIGNAL(newImage(QImage*, Ekos::SequenceJob*)), this, SLOT(updateCaptureProgress(QImage*, Ekos::SequenceJob*)));
+    connect(captureProcess, SIGNAL(newExposureProgress(Ekos::SequenceJob*)), this, SLOT(updateExposureProgress(Ekos::SequenceJob*)));
     captureGroup->setEnabled(true);
     sequenceProgress->setEnabled(true);
     captureProgress->setEnabled(true);
+    imageProgress->setEnabled(true);
 
     capturePI = new QProgressIndicator(captureProcess);
     captureStatusLayout->addWidget(capturePI);
@@ -1880,6 +1887,7 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
             capturePI->stopAnimation();
             countdownTimer.stop();
 
+            imageRemainingTime->setText("--:--:--");
             overallRemainingTime->setText("--:--:--");
             sequenceRemainingTime->setText("--:--:--");
         }
@@ -1895,11 +1903,10 @@ void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
         previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
 
-
     if (job->isPreview() == false)
     {
         // Image is set to NULL only on initial capture start up
-        int completed   = (image == NULL) ? job->getCompleted() : job->getCompleted()+1;
+        int completed   = (image == NULL) ? job->getCompleted() : job->getCompleted()+1;        
 
         sequenceLabel->setText(QString("Job # %1/%2 %3 (%4/%5)").arg(captureProcess->getActiveJobID()+1).arg(captureProcess->getJobCount()).arg(job->getPrefix()).arg(completed).arg(job->getCount()));
         sequenceProgress->setRange(0, job->getCount());
@@ -1907,8 +1914,21 @@ void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
     }
 }
 
-void EkosManager::updateCaptureCountDown()
+void EkosManager::updateExposureProgress(Ekos::SequenceJob *job)
 {
+    imageCountDown.setHMS(0,0,0);
+    imageCountDown = imageCountDown.addSecs(job->getExposeLeft());
+    if (imageCountDown.hour() == 23)
+        imageCountDown.setHMS(0,0,0);
+
+    imageProgress->setRange(0, job->getExposure());
+    imageProgress->setValue(job->getExposeLeft());
+
+    imageRemainingTime->setText(imageCountDown.toString("hh:mm:ss"));
+}
+
+void EkosManager::updateCaptureCountDown()
+{        
     overallCountDown  = overallCountDown.addSecs(-1);
     if (overallCountDown.hour() == 23)
         overallCountDown.setHMS(0,0,0);
@@ -1918,7 +1938,7 @@ void EkosManager::updateCaptureCountDown()
         sequenceCountDown.setHMS(0,0,0);
 
     overallRemainingTime->setText(overallCountDown.toString("hh:mm:ss"));
-    sequenceRemainingTime->setText(sequenceCountDown.toString("hh:mm:ss"));
+    sequenceRemainingTime->setText(sequenceCountDown.toString("hh:mm:ss"));    
 }
 
 void EkosManager::updateFocusStarPixmap(QPixmap &starPixmap)

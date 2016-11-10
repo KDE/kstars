@@ -1000,7 +1000,7 @@ bool Guide::dither()
         if (state != GUIDE_GUIDING)
             capture();
 
-        state = GUIDE_DITHERING;
+        setStatus(GUIDE_DITHERING);
 
         return true;
     }
@@ -1191,7 +1191,7 @@ void Guide::setStatus(Ekos::GuideState newState)
         break;
 
     case GUIDE_GUIDING:
-        if (previousState == GUIDE_SUSPENDED)
+        if (previousState == GUIDE_SUSPENDED || previousState == GUIDE_DITHERING_SUCCESS)
             appendLogText(i18n("Guiding resumed."));
         else
         {
@@ -1231,11 +1231,9 @@ void Guide::setStatus(Ekos::GuideState newState)
         break;
 
     case GUIDE_DITHERING_SUCCESS:
-        appendLogText(i18n("Dithering completed successfully. Resuming guiding..."));
-        emit newStatus(state);
+        appendLogText(i18n("Dithering completed successfully."));
         // Go back to guiding state immediately
-        state = GUIDE_GUIDING;
-        emit newStatus(state);
+        setStatus(GUIDE_GUIDING);
         capture();
         break;
     default:
@@ -1809,7 +1807,7 @@ void Guide::setAxisDelta(double ra, double de)
 
     emit newAxisDelta(ra,de);
 
-    profilePixmap = driftGraph->grab(QRect(QPoint(0, 50), QSize(driftGraph->width(), 101)));
+    profilePixmap = driftGraph->grab(QRect(QPoint(0, 50), QSize(driftGraph->width(), 150)));
     emit newProfilePixmap(profilePixmap);
 
 }

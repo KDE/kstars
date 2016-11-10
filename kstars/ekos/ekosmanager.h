@@ -193,6 +193,7 @@ private slots:
     // Capture Summary
     void updateCaptureStatus(Ekos::CaptureState status);
     void updateCaptureProgress(QImage *image, Ekos::SequenceJob *job);
+    void updateExposureProgress(Ekos::SequenceJob *job);
     void updateCaptureCountDown();
 
     // Focus summary
@@ -272,6 +273,7 @@ private slots:
     QProgressIndicator *mountPI;
 
     // Capture Summary
+    QTime imageCountDown;
     QTime overallCountDown;
     QTime sequenceCountDown;
     QTimer countdownTimer;
