@@ -20,7 +20,7 @@ Rectangle {
 
     Image {
         id: splashBG
-        source: "../images/bg.png"
+        source: "../images/splash_bg.jpeg"
         anchors {
             fill: parent
         }

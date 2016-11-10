@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <shape android:shape="rectangle" >
-            <solid android:color="#000"/>
-        </shape>
-    </item>
+         <bitmap android:src="@drawable/splash_bg" android:gravity="bottom|center|fill_vertical" />
+	</item>
+	<item>
+         <bitmap android:src="@drawable/splash_logo" android:gravity="center" />
+	</item>
+	<item android:top="15dp" android:right="15dp">
+         <bitmap android:src="@drawable/kde_logo" android:gravity="top|right" />
+	</item>
 </layer-list>

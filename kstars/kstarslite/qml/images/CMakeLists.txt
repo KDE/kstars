@@ -112,7 +112,10 @@ install( FILES
 	 media-skip-forward@2x.png
 	 media-skip-forward@3x.png
 	 media-skip-forward@4x.png
-         bg.png
+     splash_bg.jpeg
+     splash_bg@2x.jpeg
+     splash_bg@3x.jpeg
+     splash_bg@4x.jpeg
 	 splash.png
 	 splash@2x.png
 	 splash@3x.png
