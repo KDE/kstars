@@ -974,6 +974,8 @@ void Focus::newFITS(IBLOB *bp)
         connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
         connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
 
+        targetChip->setCaptureFilter(defaultScale);
+
         if (darkData)
             DarkLibrary::Instance()->subtract(darkData, focusView, defaultScale, offsetX, offsetY);
         else

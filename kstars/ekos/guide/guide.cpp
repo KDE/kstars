@@ -2073,6 +2073,8 @@ bool Guide::executeOneOperation(GuideState operation)
 
             actionRequired = true;
 
+            targetChip->setCaptureFilter((FITSScale) filterCombo->currentIndex());
+
             if (darkData)
                 DarkLibrary::Instance()->subtract(darkData, guideView, targetChip->getCaptureFilter(), offsetX, offsetY);
             else
