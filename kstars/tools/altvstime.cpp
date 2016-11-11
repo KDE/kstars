@@ -460,7 +460,11 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
     return p->alt().Degrees();
 }
 
-void AltVsTime::slotHighlight( int row ) {
+void AltVsTime::slotHighlight( int row )
+{
+    if (row < 0)
+        return;
+
     int rowIndex = 0;
     //highlight the curve of the selected object
     for ( int i=0; i<avtUI->View->graphCount(); i++ ) {
@@ -999,7 +1003,7 @@ void AltVsTime::slotUpdateDateLoc() {
     else
         DayOffset = 0;
 
-    setLSTLimits();
+    setLSTLimits();    
     slotHighlight( avtUI->PlotList->currentRow() );
     avtUI->View->update();
 
