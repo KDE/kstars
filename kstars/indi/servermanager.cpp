@@ -34,6 +34,7 @@
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdatetime.h"
+#include "kspaths.h"
 
 
 const int INDI_MAX_TRIES=3;
@@ -83,9 +84,10 @@ bool ServerManager::start()
         else if(indiServerDir.length()>10)
             indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        QStringList envlist = env.toStringList();
-        envlist.replaceInStrings(QRegularExpression("^(?i)PATH=(.*)"), "PATH=/usr/bin:/usr/local/bin:" + driversDir + ":" + indiServerDir + ":\\1");
-        serverProcess->setEnvironment(envlist);
+        env.insert("PATH", "/usr/local/bin:/usr/bin:" + driversDir + ":" + indiServerDir);
+        QString gscDirPath=KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "gsc";
+        env.insert("GSCDAT", gscDirPath);
+        serverProcess->setProcessEnvironment(env);
         #endif
     }
 

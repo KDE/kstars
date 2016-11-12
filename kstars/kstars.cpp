@@ -255,6 +255,40 @@ void KStars::applyConfig( bool doApplyFocus ) {
     m_KStarsData->colorScheme()->loadFromConfig();
     QApplication::setPalette( Options::darkAppColors() ? DarkPalette : OriginalPalette );
 
+    //Note:  This uses style sheets to set the dark colors, this should be cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
+    //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
+    //This is also in KStarsDbus.cpp.  If you change it, change it in BOTH places.
+    #ifdef Q_OS_OSX
+    if(Options::darkAppColors())
+        qApp->setStyleSheet("QWidget { background-color: black; color:red; selection-background-color:rgb(30,30,30);selection-color:white}" \
+                            "QToolBar { border:none }" \
+                            "QTabBar::tab:selected { background-color:rgb(50,50,50) }" \
+                            "QTabBar::tab:!selected { background-color:rgb(30,30,30) }" \
+                            "QPushButton { background-color:rgb(50,50,50);border-width:1px; border-style:solid;border-color:black}" \
+                            "QPushButton::disabled { background-color:rgb(10,10,10);border-width:1px; border-style:solid;border-color:black }" \
+                            "QToolButton:Checked { background-color:rgb(30,30,30); border:none }" \
+                            "QComboBox { background-color:rgb(30,30,30); }" \
+                            "QComboBox::disabled { background-color:rgb(10,10,10) }" \
+                            "QScrollBar::handle { background: rgb(30,30,30) }" \
+                            "QSpinBox { border-width: 1px; border-style:solid; border-color:rgb(30,30,30) }" \
+                            "QDoubleSpinBox { border-width:1px; border-style:solid; border-color:rgb(30,30,30) }" \
+                            "QLineEdit { border-width: 1px; border-style: solid; border-color:rgb(30,30,30) }" \
+                            "QCheckBox::indicator:unchecked { background-color:rgb(30,30,30);border-width:1px; border-style:solid;border-color:black }" \
+                            "QCheckBox::indicator:checked { background-color:red;border-width:1px; border-style:solid;border-color:black }" \
+                            "QRadioButton::indicator:unchecked { background-color:rgb(30,30,30) }" \
+                            "QRadioButton::indicator:checked { background-color:red }" \
+                            "QRoundProgressBar { alternate-background-color:black }" \
+                            "QDateTimeEdit {background-color:rgb(30,30,30); border-width: 1px; border-style:solid; border-color:rgb(30,30,30) }" \
+                            "QHeaderView { color:red;background-color:black }" \
+                            "QHeaderView::Section { background-color:rgb(30,30,30) }" \
+                            "QTableCornerButton::section{ background-color:rgb(30,30,30) }" \
+                            "");
+    else
+        qApp->setStyleSheet("QRoundProgressBar { background-color: rgb(208,208,208) }" \
+                            "");
+    #endif
+
+
     //Set toolbar options from config file
     toolBar("kstarsToolBar")->applySettings( KSharedConfig::openConfig()->group( "MainToolBar" ) );
     toolBar( "viewToolBar" )->applySettings( KSharedConfig::openConfig()->group( "ViewToolBar" ) );

@@ -107,7 +107,7 @@ void FITSView::updateMouseCursor(){
     }
     if(mouseMode==scopeMouse){
         QPixmap scope_pix=QPixmap(":/icons/center_telescope.svg").scaled(32,32,Qt::KeepAspectRatio,Qt::FastTransformation);
-        viewport()->setCursor(QCursor(scope_pix,0,0));
+        viewport()->setCursor(QCursor(scope_pix,10,10));
     }
 }
 
