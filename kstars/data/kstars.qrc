@@ -125,6 +125,7 @@
         <file>icons/center_telescope.svg</file>
         <file>icons/breeze/default/view-list-details.svg</file>
         <file>icons/breeze/default/view-list-icons.svg</file>
+        <file>icons/breeze/default/go-jump-today.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>
