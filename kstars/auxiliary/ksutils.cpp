@@ -549,12 +549,12 @@ QString constGenetiveToAbbrev( const QString &genetive_ ) {
           dir.mkpath(path);
           QString name = "log_" + QDateTime::currentDateTime().toString("HH:mm:ss") + ".txt";
           _filename = path + QStringLiteral("/") + name;
-      }
 
-      // Clear file contents
-      QFile file(_filename);
-      file.open(QFile::WriteOnly);
-      file.close();
+          // Clear file contents
+          QFile file(_filename);
+          file.open(QFile::WriteOnly);
+          file.close();
+      }
 
       qInstallMessageHandler(File);
   }
