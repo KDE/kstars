@@ -15,16 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QDebug>
+
 #include "starblock.h"
 #include "skyobjects/starobject.h"
 #include "starcomponent.h"
 #include "skyobjects/stardata.h"
 #include "skyobjects/deepstardata.h"
-#include "skymaplite.h"
-
-#include <QDebug>
 
 #ifdef KSTARS_LITE
+#include "skymaplite.h"
 #include "kstarslite/skyitems/skynodes/pointsourcenode.h"
 
 StarNode::StarNode()

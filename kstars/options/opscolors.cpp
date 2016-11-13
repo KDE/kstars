@@ -17,6 +17,8 @@
 
 #include "opscolors.h"
 
+#include <config-kstars.h>
+
 #include <QFile>
 #include <QPixmap>
 #include <QTextStream>
@@ -36,8 +38,12 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "colorscheme.h"
+
+#ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitsview.h"
+#endif
+
 #include "skyobjects/starobject.h"
 
 static int ItemColorData = Qt::UserRole + 1;
@@ -129,10 +135,13 @@ void OpsColors::newColor( QListWidgetItem *item ) {
     }
 
     KStars::Instance()->map()->forceUpdate();
+
+    #ifdef HAVE_CFITSIO
     QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
     foreach(FITSViewer *viewer, viewers){
         viewer->getCurrentView()->updateFrame();
     }
+    #endif
 }
 
 void OpsColors::slotPreset( int index ) {
