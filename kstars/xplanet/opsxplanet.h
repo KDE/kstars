@@ -42,6 +42,7 @@ private slots:
     void slotMarkerBoundsWidgets( bool on );
     void slotProjectionWidgets( int index );
     void slotBackgroundWidgets( bool on );
+    void toggleXPlanetInternal();
 };
 
 #endif // OPSGUIDES_H_

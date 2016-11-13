@@ -1206,13 +1206,25 @@ void SkyMap::startXplanet( const QString & outputFile ) {
 
     // Run xplanet
     //qDebug() << "Run:" << xplanetProc->program().join(" ");
-    xplanetProc->start(Options::xplanetPath(), args);
+
+    QString xPlanetLocation=Options::xplanetPath();
+
+    #ifdef Q_OS_OSX
+    if(Options::xplanetIsInternal()){
+        xPlanetLocation=QCoreApplication::applicationDirPath()+"/xplanet/bin/xplanet";
+        QString searchDir=QCoreApplication::applicationDirPath()+"/xplanet/share/xplanet/";
+        args << "-searchdir" << searchDir;
+    }
+    #endif
+    xplanetProc->start(xPlanetLocation, args);
     if(xplanetProc){
         xplanetProc->waitForFinished(1000);
         ImageViewer *iv = new ImageViewer( QUrl::fromLocalFile(outputFile),
                 "XPlanet View: "+ clickedObject()->name() + ",  " + data->lt().date().toString() + ",  "+ data->lt().time().toString(),
                 this );
         iv->show();
+    } else{
+        KMessageBox::sorry( this, i18n("XPlanet Program Error"));
     }
 }
 

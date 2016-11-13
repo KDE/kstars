@@ -642,6 +642,11 @@ void copyDataFolderFromAppBundleIfNeeded()
         if(!dataLocation.isEmpty()&&!dataSourceLocation.isEmpty()){ //If both the users data directory and the default data directory are found.
             KMessageBox::sorry(0, i18n("No Data Directory in /Library/Application Support/, creating a new one"));
             KSUtils::copyRecursively(dataSourceLocation, dataLocation);
+            Options::setIndiServerIsInternal(true);
+            Options::setAstrometrySolverIsInternal(true);
+            Options::setAstrometryConfFileIsInternal(true);
+            Options::setWcsIsInternal(true);
+            Options::setXplanetIsInternal(true);
         } else{
              KMessageBox::sorry(0, i18n("Error, no data directories found!"));
         }

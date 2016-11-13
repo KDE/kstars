@@ -968,6 +968,10 @@
       </entry>
    </group>
    <group name="Xplanet">
+      <entry name="xplanetIsInternal" type="Bool">
+         <label>Internal or External XPlanet?</label>
+         <default>false</default>
+      </entry>
       <entry name="XplanetPath" type="String">
          <label>Path to xplanet binary</label>
          <whatsthis>Xplanet binary path</whatsthis>

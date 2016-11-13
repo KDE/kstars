@@ -25,6 +25,17 @@ OpsXplanet::OpsXplanet( KStars *_ks )
 {
     setupUi( this );
 
+    #ifdef Q_OS_OSX
+    connect(kcfg_xplanetIsInternal, SIGNAL(clicked()), this, SLOT(toggleXPlanetInternal()));
+    kcfg_xplanetIsInternal->setToolTip(i18n("Internal or External XPlanet?"));
+
+    if(Options::xplanetIsInternal())
+        kcfg_XplanetPath->setEnabled(false);
+
+    #else
+     kcfg_xplanetIsInternal->setVisible(false);
+    #endif
+
     // Init projections combobox
     kcfg_XplanetProjection->addItem( i18nc("Map projection method", "No projection"), "no projection");
     kcfg_XplanetProjection->addItem( i18nc("Map projection method", "Ancient"), "ancient");
@@ -90,6 +101,15 @@ OpsXplanet::OpsXplanet( KStars *_ks )
 
 OpsXplanet::~OpsXplanet()
 {}
+
+void OpsXplanet::toggleXPlanetInternal()
+{
+    kcfg_XplanetPath->setEnabled(!kcfg_xplanetIsInternal->isChecked());
+    if(kcfg_xplanetIsInternal->isChecked())
+        kcfg_XplanetPath->setText("*Internal XPlanet*");
+    else
+        kcfg_XplanetPath->setText("/usr/local/bin/xplanet");
+}
 
 void OpsXplanet::slotUpdateWidgets( bool on ) {
     kcfg_XplanetWaitValue->setEnabled( on );
