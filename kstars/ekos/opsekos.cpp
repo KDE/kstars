@@ -53,8 +53,7 @@ kcfg_wcsIsInternal->setVisible(false);
 #endif
 
     connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
+    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );    
 }
 
 
@@ -99,4 +98,3 @@ void OpsEkos::slotApply()
             alignModule->fov()->setImageDisplay(kcfg_SolverWCS->isChecked());
     }
 }
-
