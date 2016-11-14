@@ -225,7 +225,8 @@ namespace KSUtils {
       };
 
     #ifdef Q_OS_OSX
-    void copyDataFolderFromAppBundleIfNeeded();
+    bool copyDataFolderFromAppBundleIfNeeded();//The boolean returns true if the data folders are good to go.
+    void configureDefaultAstrometry();
     bool copyRecursively(QString sourceFolder, QString destFolder);
     #endif
 

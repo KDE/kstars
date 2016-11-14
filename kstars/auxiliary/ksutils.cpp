@@ -630,27 +630,93 @@ QString constGenetiveToAbbrev( const QString &genetive_ ) {
   }
 
 #ifdef Q_OS_OSX
-void copyDataFolderFromAppBundleIfNeeded()
+bool copyDataFolderFromAppBundleIfNeeded()  //The method returns true if the data directory is good to go.
 {
-
     QString dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-    if(dataLocation.isEmpty()) { //If there is no kstars data directory
-        QString dataSourceLocation=QDir(QCoreApplication::applicationDirPath()+"/../Resources/data").absolutePath();
-        QDir writableDir;
-        writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
-        dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-        if(!dataLocation.isEmpty()&&!dataSourceLocation.isEmpty()){ //If both the users data directory and the default data directory are found.
-            KMessageBox::sorry(0, i18n("No Data Directory in /Library/Application Support/, creating a new one"));
+    if(dataLocation.isEmpty()) { //If there is no kstars user data directory
+        if (KMessageBox::warningYesNo(0,
+                          i18n("There is not a KStars User Data Directory currently at ~/Library/Application Support/kstars \n" \
+                               "Do you want to create a new one?"),
+                          i18n("KStars User Data Directory Error."))
+            == KMessageBox::No) {
+                return false;
+        } else {
+            QString dataSourceLocation=QDir(QCoreApplication::applicationDirPath()+"/../Resources/data").absolutePath();
+            if(dataSourceLocation.isEmpty()){ //If there is no default data directory in the app bundle
+                KMessageBox::sorry(0, i18n("Error! There was no default data directory found in the app bundle!"));
+                return false;
+            }
+            QDir writableDir;
+            writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
+            dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
+            if(dataLocation.isEmpty()){  //If there *still* is not a kstars data directory
+                KMessageBox::sorry(0, i18n("Error! There was a problem creating the data directory ~/Library/Application Support/ !"));
+                return false;
+            }
             KSUtils::copyRecursively(dataSourceLocation, dataLocation);
             Options::setIndiServerIsInternal(true);
             Options::setAstrometrySolverIsInternal(true);
             Options::setAstrometryConfFileIsInternal(true);
             Options::setWcsIsInternal(true);
             Options::setXplanetIsInternal(true);
-        } else{
-             KMessageBox::sorry(0, i18n("Error, no data directories found!"));
+            KMessageBox::sorry(0, "KStars User Data Directory created at: " + dataLocation);
+            if (KMessageBox::warningYesNo(0,i18n("Do you want to set up the internal Astrometry.net for plate solving images?"))== KMessageBox::Yes)
+                configureDefaultAstrometry();
+            return true;  //This means the data directory is good to go now that we created it from the default.
         }
+    }
+    return true;//This means the data directory was good to go from the start.
+}
 
+void configureDefaultAstrometry(){
+    QDir writableDir;
+    QString astrometryPath=QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/Astrometry/";
+    if(!astrometryPath.isEmpty()){
+        writableDir.mkdir(astrometryPath);
+        astrometryPath=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "Astrometry", QStandardPaths::LocateDirectory);
+        if(astrometryPath.isEmpty())
+            KMessageBox::sorry(0, i18n("Error!  The Astrometry Index File Directory was not able to be created."));
+        else{
+            KMessageBox::sorry(0, "Astrometry Index Directory is at: " + astrometryPath +"\n Be sure to put Astrometry index files there in order to solve images.");
+            QString confPath=QCoreApplication::applicationDirPath()+"/astrometry/bin/astrometry.cfg";
+            QFile confFile(confPath);
+            QString contents;
+            if (confFile.open(QIODevice::ReadOnly) == false)
+                KMessageBox::error(0, i18n("Internal Astrometry Configuration File Read Error."));
+            else{
+                QTextStream in(&confFile);
+                QString line;
+                bool foundPathBefore=false;
+                bool fileNeedsUpdating=false;
+                while ( !in.atEnd() )
+                {
+                      line = in.readLine();
+                      if (line.trimmed().startsWith("add_path"))
+                      {
+                          if(!foundPathBefore){  //This will ensure there is not more than one add_path line in the file.
+                              foundPathBefore=true;
+                              QString dataDir = line.trimmed().mid(9).trimmed();
+                              if(dataDir!=astrometryPath){ //Update to the correct path.
+                                  contents += "add_path " + astrometryPath + "\n";
+                                  fileNeedsUpdating=true;
+                              }
+                          }
+                      }else{
+                          contents += line + "\n";
+                      }
+                 }
+                confFile.close();
+                if(fileNeedsUpdating){
+                    if (confFile.open(QIODevice::WriteOnly) == false)
+                        KMessageBox::error(0, i18n("Internal Astrometry Configuration File Write Error."));
+                    else{
+                        QTextStream out(&confFile);
+                        out << contents;
+                        confFile.close();
+                    }
+                }
+            }
+        }
     }
 }
 
