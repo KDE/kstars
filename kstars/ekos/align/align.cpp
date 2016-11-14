@@ -167,8 +167,8 @@ Align::Align()
         setEnabled(false);
     else
     {
-        connect(parser, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(solverFinished(double,double,double, double)));
-        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()));
+        connect(parser, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(solverFinished(double,double,double, double)), Qt::UniqueConnection);
+        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
     }
 
     solverOptions->setText(Options::solverOptions());
@@ -199,8 +199,8 @@ bool Align::isParserOK()
 
     if (rc)
     {
-        connect(parser, SIGNAL(solverFinished(double,double,double)), this, SLOT(solverFinished(double,double,double)));
-        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()));
+        connect(parser, SIGNAL(solverFinished(double,double,double,double)), this, SLOT(solverFinished(double,double,double,double)), Qt::UniqueConnection);
+        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
     }
 
     return rc;
@@ -262,8 +262,8 @@ void Align::setSolverType(int type)
     parser->setAlign(this);
     if (parser->init())
     {
-        connect(parser, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(solverFinished(double,double,double, double)));
-        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()));
+        connect(parser, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(solverFinished(double,double,double, double)), Qt::UniqueConnection);
+        connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
     }
     else
         parser->disconnect();
@@ -377,7 +377,6 @@ void Align::syncTelescopeInfo()
 void Align::syncCCDInfo()
 {
     INumberVectorProperty * nvp = NULL;
-    int x,y;
 
     if (currentCCD == NULL)
         return;
