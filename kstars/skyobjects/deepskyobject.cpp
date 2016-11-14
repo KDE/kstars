@@ -157,19 +157,22 @@ double DeepSkyObject::labelOffset() const {
     return 0.5*size + 4.;
 }
 
-QString DeepSkyObject::labelString() const {
+QString DeepSkyObject::labelString() const
+{
     QString oName;
-    if( Options::showDeepSkyNames() ) {
+    if( Options::showDeepSkyNames() )
+    {
         if( Options::deepSkyLongLabels() && translatedLongName() != translatedName() )
             oName = translatedLongName() + " (" + translatedName() + ')';
         else
             oName = translatedName();
     }
 
-    if( Options::showDeepSkyMagnitudes() ) {
+    if( Options::showDeepSkyMagnitudes() )
+    {
         if( Options::showDeepSkyNames() )
-            oName += "; ";
-        oName += QLocale().toString( mag(), 1 );
+            oName += " ";
+        oName += "[" + QLocale().toString( mag(), 'f', 1 ) + "m]";
     }
 
     return oName;

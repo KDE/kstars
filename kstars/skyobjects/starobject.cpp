@@ -552,14 +552,14 @@ QString StarObject::nameLabel( bool drawName, bool drawMag ) const
             sName = gname( true );
         else {
             if ( drawMag )
-                return QLocale().toString( mag(), 1 );
+                return ("[" + QLocale().toString( mag(), 'f', 1 ) + "m]");
         }
         if ( ! drawMag )
             return sName;
         else
-            return sName + ' ' + QLocale().toString( mag(), 1 );
+            return sName + " [" + QLocale().toString( mag(), 'f', 1 ) + "m]";
     }
-    return QLocale().toString( mag(), 1 );
+    return ("[" + QLocale().toString( mag(), 'f', 1 ) + "m]");
 }
 
 //If this works, we can maybe get rid of customLabel() and nameLabel()??
