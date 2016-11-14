@@ -1829,6 +1829,13 @@ void Capture::prepareJob(SequenceJob *job)
 {
     activeJob = job;
 
+    if (currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName()) == B_NEVER)
+    {
+        appendLogText(i18n("Image transfer is disabled for this camera. For guide cameras configured for external guiding applications, please enable remote images in Guide module options."));
+        setBusy(false);
+        return;
+    }
+
     // Just notification of active job stating up
     emit newImage(NULL, activeJob);
 
