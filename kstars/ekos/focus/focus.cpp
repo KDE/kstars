@@ -232,7 +232,7 @@ Focus::Focus()
     connect(thresholdSpin, SIGNAL(valueChanged(double)), this, SLOT(setThreshold(double)));
     //connect(focusFramesSpin, SIGNAL(valueChanged(int)), this, SLOT(setFrames(int)));
 
-    focusView = new FITSView(focusingWidget);
+    focusView = new FITSView(focusingWidget, FITS_FOCUS);
     focusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     focusView->setBaseSize(focusingWidget->size());
     QVBoxLayout *vlayout = new QVBoxLayout();

@@ -75,7 +75,7 @@ Guide::Guide() : QWidget()
     // To do calibrate + guide in one command
     autoCalibrateGuide = false;
 
-    guideView = new FITSView(guideWidget);
+    guideView = new FITSView(guideWidget, FITS_GUIDE);
     guideView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     guideView->setBaseSize(guideWidget->size());
     QVBoxLayout *vlayout = new QVBoxLayout();
