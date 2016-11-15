@@ -1682,6 +1682,10 @@
          <label>How many pixels to move between subsequent exposures under auto dithering mode.</label>
          <default>2</default>
       </entry>
+      <entry name="DitherFrames" type="UInt">
+         <label>Dither after this many frames.</label>
+         <default>1</default>
+      </entry>
       <entry name="DitherEnabled" type="Bool">
          <label>Use Auto Dithering when guiding.</label>
          <default>false</default>

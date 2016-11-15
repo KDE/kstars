@@ -573,7 +573,7 @@ private:
     // Temporary Only
     QProcess postCaptureScript;
 
-
+    uint8_t ditherCounter;
 };
 
 }

@@ -365,6 +365,7 @@ void Capture::start()
     deviationDetected = false;
     spikeDetected     = false;
 
+    ditherCounter     = Options::ditherFrames();
     initialHA = getCurrentHA();
     meridianFlipStage = MF_NONE;
 
@@ -1176,14 +1177,14 @@ bool Capture::resumeSequence()
         if (guideState == GUIDE_SUSPENDED && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
             emit resumeGuiding();
 
-        //if (isAutoGuiding && guideDither && activeJob->getFrameType() == FRAME_LIGHT)
-        if (guideState == GUIDE_GUIDING && Options::ditherEnabled() && activeJob->getFrameType() == FRAME_LIGHT)
+        if (guideState == GUIDE_GUIDING && Options::ditherEnabled() && activeJob->getFrameType() == FRAME_LIGHT && --ditherCounter == 0)
         {
-                secondsLabel->setText(i18n("Dithering..."));
-                //emit exposureComplete();
+            ditherCounter = Options::ditherFrames();
 
-                state = CAPTURE_DITHERING;
-                emit newStatus(Ekos::CAPTURE_DITHERING);
+            secondsLabel->setText(i18n("Dithering..."));
+
+            state = CAPTURE_DITHERING;
+            emit newStatus(Ekos::CAPTURE_DITHERING);
         }
         else if (isAutoFocus && activeJob->getFrameType() == FRAME_LIGHT)
         {
