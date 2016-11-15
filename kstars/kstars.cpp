@@ -129,8 +129,11 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
         else
             data()->changeDateTime( KStarsDateTime::currentDateTimeUtc() );
     }
+    // JM 2016-11-15: Not need to set it again as it was initialized in the ctor of SimClock
+    /*
     else
         data()->changeDateTime( KStarsDateTime::currentDateTimeUtc() );
+    */
 
     // Initialize clock. If --paused is not in the comand line, look in options
     if ( clockrun )
