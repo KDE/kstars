@@ -1545,5 +1545,7 @@ void FITSView::pinchTriggered(QPinchGesture *gesture)
 void FITSView::handleWCSCompletion()
 {
     hasWCS = wcsWatcher.result();
+    if(hasWCS)
+          this->updateFrame();
     emit wcsToggled(hasWCS);
 }
