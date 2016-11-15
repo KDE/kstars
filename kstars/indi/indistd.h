@@ -38,19 +38,8 @@ class GDSetCommand : public QObject
     Q_OBJECT
 
 public:
-#ifdef INDI_VERSION_MAJOR
-#if (INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 1)
     GDSetCommand(INDI_PROPERTY_TYPE inPropertyType, const QString & inProperty, const QString & inElement, QVariant qValue, QObject *parent);
     INDI_PROPERTY_TYPE   propType;
-#else
-    GDSetCommand(INDI_TYPE inPropertyType, const QString & inProperty, const QString & inElement, QVariant qValue, QObject *parent);
-    INDI_TYPE   propType;
-#endif
-#else
-    GDSetCommand(INDI_TYPE inPropertyType, const QString & inProperty, const QString & inElement, QVariant qValue, QObject *parent);
-    INDI_TYPE   propType;
-#endif
-
 
     QString indiProperty;
     QString indiElement;

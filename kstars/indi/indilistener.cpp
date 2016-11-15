@@ -257,7 +257,6 @@ void INDIListener::registerProperty(INDI::Property *prop)
             }
             else if (!strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
             {
-                #if (INDI_VERSION_MAJOR >= 1 && INDI_VERSION_MINOR >= 2)
                 // If light box part of dust cap
                 if (gd->getType() == KSTARS_UNKNOWN)
                 {
@@ -279,7 +278,6 @@ void INDIListener::registerProperty(INDI::Property *prop)
                         emit newLightBox(gd);
                     }
                 }
-                #endif
             }
 
             if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))
