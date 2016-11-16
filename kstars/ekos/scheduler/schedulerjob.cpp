@@ -414,6 +414,16 @@ void SchedulerJob::setEstimatedTimeCell(QTableWidgetItem *value)
     estimatedTimeCell = value;
 }
 
+bool SchedulerJob::getLightFramesRequired() const
+{
+    return lightFramesRequired;
+}
+
+void SchedulerJob::setLightFramesRequired(bool value)
+{
+    lightFramesRequired = value;
+}
+
 
 
 void SchedulerJob::setTargetCoords(dms ra, dms dec)

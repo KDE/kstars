@@ -23,6 +23,7 @@
 
 #include "scheduleradaptor.h"
 #include "dialogs/finddialog.h"
+#include "ekos/capture/sequencejob.h"
 #include "ekos/ekosmanager.h"
 #include "kstars.h"
 #include "scheduler.h"
@@ -71,7 +72,7 @@ Scheduler::Scheduler()
     new SchedulerAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Scheduler",  this);
 
-    dirPath     = QUrl(QDir::homePath());
+    dirPath     = QUrl::fromLocalFile(QDir::homePath());
     state       = SCHEDULER_IDLE;
     ekosState   = EKOS_IDLE;
     indiState   = INDI_IDLE;
@@ -1057,12 +1058,13 @@ void Scheduler::evaluateJobs()
         switch (job->getStartupCondition())
         {
                 // #1.1 ASAP?
-                case SchedulerJob::START_ASAP:
-                    /*altScore     = getAltitudeScore(job, now);
-                    moonScore    = getMoonSeparationScore(job, now);
-                    darkScore    = getDarkSkyScore(now);
-                    score = altScore + moonScore + darkScore;*/
-                    score = calculateJobScore(job, now);
+                case SchedulerJob::START_ASAP:           
+                    // If not light frames are required, run it now
+                    if (job->getLightFramesRequired())
+                        score = calculateJobScore(job, now);
+                    else
+                        score = 1000;
+
                     job->setScore(score);
 
                     // If we can't start now, let's schedule it
@@ -1879,21 +1881,6 @@ void Scheduler::executeJob(SchedulerJob *job)
         targetArgs.append(targetName);
         captureInterface->callWithArgumentList(QDBus::AutoDetect, "setTargetName", targetArgs);
 
-        QString url = job->getSequenceFile().toString(QUrl::PreferLocalFile);
-        QList<QVariant> dbusargs;
-        dbusargs.append(url);
-        QDBusReply<bool> isJobComplete = captureInterface->callWithArgumentList(QDBus::AutoDetect,"isSequenceFileComplete",dbusargs);
-
-        if (isJobComplete.error().type() == QDBusError::NoError)
-        {
-            // If it is already complete
-            if (isJobComplete.value())
-            {
-                currentJob = NULL;
-                job->setState(SchedulerJob::JOB_COMPLETE);
-                return;
-            }
-        }
     }
 
     currentJob = job;
@@ -2127,14 +2114,19 @@ bool Scheduler::checkStartupState()
         if (Options::verboseLogging())
             qDebug() << "Scheduler: Startup Idle. Starting startup process...";
 
-        // If Ekos is already started, we skip the script and move on to mount unpark step
+        // If Ekos is already started, we skip the script and move on to dome unpark step
+        // unless we do not have light frames, then we skip all
         QDBusReply<int> isEkosStarted;
         isEkosStarted = ekosInterface->call(QDBus::AutoDetect,"getEkosStartingStatus");
         if (isEkosStarted.value() == EkosManager::EKOS_STATUS_SUCCESS)
         {
             if (startupScriptURL.isEmpty() == false)
                 appendLogText(i18n("Ekos is already started, skipping startup script..."));
-            startupState = STARTUP_UNPARK_DOME;
+
+            if (currentJob->getLightFramesRequired())
+                startupState = STARTUP_UNPARK_DOME;
+            else
+                startupState = STARTUP_COMPLETE;
             return true;
         }
 
@@ -2162,10 +2154,19 @@ bool Scheduler::checkStartupState()
         break;
 
     case STARTUP_UNPARK_DOME:
-        if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
-            unParkDome();
+        if (currentJob->getLightFramesRequired())
+        {
+            if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
+                unParkDome();
+            else
+                startupState = STARTUP_UNPARK_MOUNT;
+        }
         else
-            startupState = STARTUP_UNPARK_MOUNT;
+        {
+            startupState = STARTUP_COMPLETE;
+            return true;
+        }
+
         break;
 
     case STARTUP_UNPARKING_DOME:
@@ -2515,74 +2516,74 @@ void Scheduler::checkJobStage()
         }
     }
 
-        // #2 Check if altitude restriction still holds true
-        if (currentJob->getMinAltitude() > 0 )
+    // #2 Check if altitude restriction still holds true
+    if (currentJob->getMinAltitude() > 0)
+    {
+        SkyPoint p = currentJob->getTargetCoords();
+
+        p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
+
+        if (p.alt().Degrees() < currentJob->getMinAltitude())
         {
-            SkyPoint p = currentJob->getTargetCoords();
-
-            p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
-
-            if (p.alt().Degrees() < currentJob->getMinAltitude())
+            // Only terminate job due to altitude limitation if mount is NOT parked.
+            if (isMountParked() == false)
             {
-                // Only terminate job due to altitude limitation if mount is NOT parked.
-                if (isMountParked() == false)
-                {
-                    appendLogText(i18n("%1 current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), aborting job...", currentJob->getName(),
-                                       p.alt().Degrees(), currentJob->getMinAltitude()));
+                appendLogText(i18n("%1 current altitude (%2 degrees) crossed minimum constraint altitude (%3 degrees), aborting job...", currentJob->getName(),
+                                   p.alt().Degrees(), currentJob->getMinAltitude()));
 
-                    currentJob->setState(SchedulerJob::JOB_ABORTED);
-                    stopCurrentJobAction();
-                    stopGuiding();
-                    findNextJob();
-                    return;
-                }
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
+                stopCurrentJobAction();
+                stopGuiding();
+                findNextJob();
+                return;
             }
         }
+    }
 
-        // #3 Check if moon separation is still valid
-        if (currentJob->getMinMoonSeparation() > 0)
+    // #3 Check if moon separation is still valid
+    if (currentJob->getMinMoonSeparation() > 0)
+    {
+        SkyPoint p = currentJob->getTargetCoords();
+        p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
+
+        double moonSeparation = getCurrentMoonSeparation(currentJob);
+
+        if (moonSeparation < currentJob->getMinMoonSeparation())
         {
-            SkyPoint p = currentJob->getTargetCoords();
-            p.EquatorialToHorizontal(KStarsData::Instance()->lst(), geo->lat());
-
-            double moonSeparation = getCurrentMoonSeparation(currentJob);
-
-            if (moonSeparation < currentJob->getMinMoonSeparation())
+            // Only terminate job due to moon separation limitation if mount is NOT parked.
+            if (isMountParked() == false)
             {
-                // Only terminate job due to moon separation limitation if mount is NOT parked.
-                if (isMountParked() == false)
-                {
-                    appendLogText(i18n("Current moon separation (%1 degrees) is lower than %2 minimum constraint (%3 degrees), aborting job...", moonSeparation, currentJob->getName(),
-                                       currentJob->getMinMoonSeparation()));
+                appendLogText(i18n("Current moon separation (%1 degrees) is lower than %2 minimum constraint (%3 degrees), aborting job...", moonSeparation, currentJob->getName(),
+                                   currentJob->getMinMoonSeparation()));
 
-                    currentJob->setState(SchedulerJob::JOB_ABORTED);
-                    stopCurrentJobAction();
-                    stopGuiding();
-                    findNextJob();
-                    return;
-                }
+                currentJob->setState(SchedulerJob::JOB_ABORTED);
+                stopCurrentJobAction();
+                stopGuiding();
+                findNextJob();
+                return;
             }
         }
+    }
 
-        // #4 Check if we're not at dawn
-         if (currentJob->getEnforceTwilight() && KStarsData::Instance()->lt() > preDawnDateTime)
-         {
-             // If either mount or dome are not parked, we shutdown if we approach dawn
-             if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
-             {
-                 // Minute is a DOUBLE value, do not use i18np
-                 appendLogText(i18n("Approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), aborting all jobs...", preDawnDateTime.toString(), Options::preDawnTime()));
+    // #4 Check if we're not at dawn
+    if (currentJob->getEnforceTwilight() && KStarsData::Instance()->lt() > preDawnDateTime)
+    {
+        // If either mount or dome are not parked, we shutdown if we approach dawn
+        if (isMountParked() == false || (parkDomeCheck->isEnabled() && isDomeParked() == false))
+        {
+            // Minute is a DOUBLE value, do not use i18np
+            appendLogText(i18n("Approaching astronomical twilight rise limit at %1 (%2 minutes safety margin), aborting all jobs...", preDawnDateTime.toString(), Options::preDawnTime()));
 
-                 currentJob->setState(SchedulerJob::JOB_ABORTED);
-                 stopCurrentJobAction();
-                 stopGuiding();
-                 checkShutdownState();
+            currentJob->setState(SchedulerJob::JOB_ABORTED);
+            stopCurrentJobAction();
+            stopGuiding();
+            checkShutdownState();
 
-                 //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
-                 //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
-                 return;
-             }
-         }
+            //disconnect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkJobStage()), Qt::UniqueConnection);
+            //connect(KStars::Instance()->data()->clock(), SIGNAL(timeAdvanced()), this, SLOT(checkStatus()), Qt::UniqueConnection);
+            return;
+        }
+    }
 
     switch(currentJob->getStage())
     {
@@ -3036,16 +3037,26 @@ void Scheduler::getNextAction()
     {
 
     case SchedulerJob::STAGE_IDLE:
-        if  (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK)
-            startSlew();
-        else if  (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
-            startFocusing();
-        else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
-            startAstrometry();
-        else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
-            startGuiding();
+        if (currentJob->getLightFramesRequired())
+        {
+            if  (currentJob->getStepPipeline() & SchedulerJob::USE_TRACK)
+                startSlew();
+            else if  (currentJob->getStepPipeline() & SchedulerJob::USE_FOCUS && autofocusCompleted == false)
+                startFocusing();
+            else if (currentJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
+                startAstrometry();
+            else if (currentJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
+                startGuiding();
+            else
+                startCapture();
+        }
         else
+        {
+            if (currentJob->getStepPipeline())
+                appendLogText(i18n("Proceeding directly to capture stage because only calibration frames are pending."));
             startCapture();
+        }
+
         break;
 
     case SchedulerJob::STAGE_SLEW_COMPLETE:
@@ -3859,189 +3870,87 @@ void Scheduler::setDirty()
         saveJob();
 }
 
-bool Scheduler::estimateJobTime(SchedulerJob *job)
+bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 {
-    QFile sFile;
-    sFile.setFileName(job->getSequenceFile().toLocalFile());
-
-    if ( !sFile.open( QIODevice::ReadOnly))
-    {
-        KMessageBox::sorry(KStars::Instance(), i18n( "Unable to open file %1",  sFile.fileName()), i18n( "Could Not Open File" ) );
+    // We can't estimate times that do not finish when sequence is done
+    if (schedJob->getCompletionCondition() != SchedulerJob::FINISH_SEQUENCE)
         return false;
-    }
 
-    LilXML *xmlParser = newLilXML();
-    char errmsg[MAXRBUF];
-    XMLEle *root = NULL;
-    XMLEle *ep;
-    char c;
+    QList<SequenceJob*> jobs;
+    bool hasAutoFocus = false;
 
-    double sequenceEstimatedTime = 0;
-    bool inSequenceFocus = false;
-    int jobExposureCount=0;
-    double seqCompletePercentage=0;
+    if (loadSequenceQueue(schedJob->getSequenceFile().toLocalFile(),schedJob, jobs, hasAutoFocus) == false)
+        return false;
 
-    while ( sFile.getChar(&c))
+    bool lightFramesRequired = false;
+
+    int totalSequenceCount=0, totalCompletedCount=0;
+    double totalImagingTime=0;
+    foreach (SequenceJob *job, jobs)
     {
-        root = readXMLEle(xmlParser, c, errmsg);
-
-        if (root)
+        if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {
-            // If the job finishes with the sequence, we check if all the sequence files were captured or not first
-            // If all are captured, then job is complete, otherwise we continuce to estimate time
-            if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
-            {
-                int totalSequenceCount=0;
-                int totalSequenceCompleted=0;
-                QStringList fitsDirectories;
-
-                for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
-                {
-                    if (!strcmp(tagXMLEle(ep), "Job"))
-                    {
-                        XMLEle *subEP=NULL;
-                        for (subEP = nextXMLEle(ep, 1) ; subEP != NULL ; subEP = nextXMLEle(ep, 0))
-                        {
-                            if (!strcmp(tagXMLEle(subEP), "Count"))
-                                totalSequenceCount += atoi(pcdataXMLEle(subEP));
-                            else if (!strcmp(tagXMLEle(subEP), "FITSDirectory"))
-                                fitsDirectories << QString(pcdataXMLEle(subEP));
-                        }
-                    }
-                }
-
-                fitsDirectories.removeDuplicates();
-                foreach(QString dir, fitsDirectories)
-                {
-                    QDir fitsDir(dir);
-
-                    totalSequenceCompleted += fitsDir.entryInfoList(QStringList("*.fits"), QDir::Files).count();
-
-                    QStringList folderList = fitsDir.entryList(QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot);
-
-                    foreach (QString oneFolder, folderList)
-                    {
-                        QDir folder(dir + QLatin1Literal("/") + oneFolder);
-                        totalSequenceCompleted += folder.entryInfoList(QStringList("*.fits"), QDir::Files).count();
-                    }
-                }
-
-                if (totalSequenceCompleted > 0 && totalSequenceCompleted >= totalSequenceCount)
-                {
-                    appendLogText(i18n("%1 observation job is already complete.", job->getName()));
-                    job->setEstimatedTime(0);
-                    return true;
-                }
-
-                seqCompletePercentage = (double) totalSequenceCompleted / (double) totalSequenceCount;
-            }
-
-             for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
-             {
-                 if (!strcmp(tagXMLEle(ep), "Autofocus"))
-                 {
-                      if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
-                         inSequenceFocus = true;
-                     else
-                         inSequenceFocus = false;
-
-                      job->setInSequenceFocus(inSequenceFocus);
-
-                 }
-                 else if (!strcmp(tagXMLEle(ep), "Job"))
-                 {
-                     double oneJobEstimation = estimateSequenceTime(ep, &jobExposureCount);
-
-                     if (oneJobEstimation < 0)
-                     {
-                         sequenceEstimatedTime = -1;
-                         sFile.close();
-                         break;
-                     }
-
-                     sequenceEstimatedTime += oneJobEstimation;
-
-                     XMLEle *frameEP = findXMLEle(ep, "Type");
-                     QString frameType = "Light";
-                     if (frameEP)
-                         frameType = QString(pcdataXMLEle(frameEP));
-
-                     if (frameType == "Light")
-                     {
-                         // If inSequenceFocus is true
-                         if (inSequenceFocus)
-                             // Wild guess that each in sequence auto focus takes an average of 20 seconds. It can take any where from 2 seconds to 2+ minutes.
-                             sequenceEstimatedTime += jobExposureCount * 20;
-                         // If we're dithering after each exposure, that's another 10-20 seconds
-                         if (Options::ditherEnabled())
-                             sequenceEstimatedTime += jobExposureCount * 15;
-                     }
-                 }
-
-             }
-             delXMLEle(root);
-        }
-        else if (errmsg[0])
-        {
-            appendLogText(QString(errmsg));
-            delLilXML(xmlParser);
+            appendLogText(i18n("Cannot estimate time since the sequence saves the files remotely."));
+            qDeleteAll(jobs);
             return false;
         }
+
+        int completed = getCompletedFiles(job->getFITSDir(), job->getFullPrefix());
+
+        // If we have a LIGHT frame that still has remaining images then return false
+        if (job->getFrameType() == FRAME_LIGHT && completed < job->getCount())
+            lightFramesRequired = true;
+
+        totalSequenceCount  += job->getCount();
+        totalCompletedCount += completed;
+        totalImagingTime    += fabs((job->getExposure() + job->getDelay()) * (job->getCount() - completed));
+
+        if (completed < job->getCount() && job->getFrameType() == FRAME_LIGHT)
+        {
+            // If inSequenceFocus is true
+            if (hasAutoFocus)
+                // Wild guess that each in sequence auto focus takes an average of 30 seconds. It can take any where from 2 seconds to 2+ minutes.
+                totalImagingTime += (job->getCount() - completed) * 30;
+            // If we're dithering after each exposure, that's another 10-20 seconds
+            if (schedJob->getStepPipeline() & SchedulerJob::USE_GUIDE && Options::ditherEnabled())
+                totalImagingTime += ((job->getCount() - completed) * 15) / Options::ditherFrames();
+        }
     }
 
-    if (sequenceEstimatedTime < 0)
+    schedJob->setLightFramesRequired(lightFramesRequired);
+
+    qDeleteAll(jobs);
+
+    if (totalCompletedCount > 0 && totalCompletedCount >= totalSequenceCount)
     {
-        appendLogText(i18n("Failed to estimate time for %1 observation job.", job->getName()));
-        return false;
+        appendLogText(i18n("%1 observation job is already complete.", schedJob->getName()));
+        schedJob->setEstimatedTime(0);
+        return true;
     }
 
-    sequenceEstimatedTime = sequenceEstimatedTime - (sequenceEstimatedTime * seqCompletePercentage);
-
-    // Are we doing tracking? It takes about 30 seconds
-    if (job->getStepPipeline() & SchedulerJob::USE_TRACK)
-        sequenceEstimatedTime += 30;
-    // Are we doing initial focusing? That can take about 2 minutes
-    if (job->getStepPipeline() & SchedulerJob::USE_FOCUS)
-        sequenceEstimatedTime += 120;
-    // Are we doing astrometry? That can take about 30 seconds
-    if (job->getStepPipeline() & SchedulerJob::USE_ALIGN)
-        sequenceEstimatedTime += 30;
-    // Are we doing guiding? Calibration process can take about 2 mins
-    if (job->getStepPipeline() & SchedulerJob::USE_GUIDE)
-        sequenceEstimatedTime += 120;
+    if (lightFramesRequired)
+    {
+        // Are we doing tracking? It takes about 30 seconds
+        if (schedJob->getStepPipeline() & SchedulerJob::USE_TRACK)
+            totalImagingTime += 30;
+        // Are we doing initial focusing? That can take about 2 minutes
+        if (schedJob->getStepPipeline() & SchedulerJob::USE_FOCUS)
+            totalImagingTime += 120;
+        // Are we doing astrometry? That can take about 30 seconds
+        if (schedJob->getStepPipeline() & SchedulerJob::USE_ALIGN)
+            totalImagingTime += 30;
+        // Are we doing guiding? Calibration process can take about 2 mins
+        if (schedJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
+            totalImagingTime += 120;
+    }
 
     dms estimatedTime;
-    estimatedTime.setH(sequenceEstimatedTime/3600.0);
-    appendLogText(i18n("%1 observation job is estimated to take %2 to complete.", job->getName(), estimatedTime.toHMSString()));
+    estimatedTime.setH(totalImagingTime/3600.0);
+    appendLogText(i18n("%1 observation job is estimated to take %2 to complete.", schedJob->getName(), estimatedTime.toHMSString()));
 
-    job->setEstimatedTime(sequenceEstimatedTime);
+    schedJob->setEstimatedTime(totalImagingTime);
 
     return true;
-
-}
-
-double Scheduler::estimateSequenceTime(XMLEle *root, int *totalCount)
-{
-    XMLEle *ep;
-
-    double totalTime;
-
-    int count=0;
-    double exposure=0, delay=0;
-
-    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
-    {
-        if (!strcmp(tagXMLEle(ep), "Exposure"))
-            exposure = atof(pcdataXMLEle(ep));
-        else if (!strcmp(tagXMLEle(ep), "Count"))
-            count = *totalCount = atoi(pcdataXMLEle(ep));
-        else if (!strcmp(tagXMLEle(ep), "Delay"))
-            delay = atoi(pcdataXMLEle(ep));
-    }
-
-    totalTime = (exposure + delay) * count;
-
-    return totalTime;
 }
 
 void    Scheduler::parkMount()
@@ -4864,6 +4773,177 @@ void Scheduler::loadProfiles()
         profileCombo->setCurrentText(currentProfile);
         profileCombo->blockSignals(false);
     }
+}
+
+bool Scheduler::loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob*> &jobs, bool &hasAutoFocus)
+{
+    QFile sFile;
+    sFile.setFileName(fileURL);
+
+    if ( !sFile.open( QIODevice::ReadOnly))
+    {
+        appendLogText(i18n( "Unable to open file %1",  fileURL));
+        return false;
+    }
+
+    LilXML *xmlParser = newLilXML();
+    char errmsg[MAXRBUF];
+    XMLEle *root = NULL;
+    XMLEle *ep;
+    char c;
+
+    while ( sFile.getChar(&c))
+    {
+        root = readXMLEle(xmlParser, c, errmsg);
+
+        if (root)
+        {
+             for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+             {
+                 if (!strcmp(tagXMLEle(ep), "Autofocus"))
+                     hasAutoFocus = (!strcmp(findXMLAttValu(ep, "enabled"), "true"));
+                 else if (!strcmp(tagXMLEle(ep), "Job"))
+                    jobs.append(processJobInfo(ep, schedJob));
+             }
+             delXMLEle(root);
+        }
+        else if (errmsg[0])
+        {
+            appendLogText(QString(errmsg));
+            delLilXML(xmlParser);
+            qDeleteAll(jobs);
+            return false;
+        }
+    }
+
+    return true;
+
+}
+
+SequenceJob * Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
+{
+    XMLEle *ep;
+    XMLEle *subEP;
+
+    const QMap<QString,int> frameTypes = { {"Light" , FRAME_LIGHT}, {"Dark", FRAME_DARK}, {"Bias", FRAME_BIAS}, {"Flat", FRAME_FLAT}};
+
+    SequenceJob *job = new SequenceJob();
+    QString rawPrefix, frameType, filterType;
+    double exposure=0;
+    bool filterEnabled=false, expEnabled=false, tsEnabled=false;
+
+    for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+    {
+        if (!strcmp(tagXMLEle(ep), "Exposure"))
+        {
+            exposure = atof(pcdataXMLEle(ep));
+            job->setExposure(exposure);
+        }
+        else if (!strcmp(tagXMLEle(ep), "Filter"))
+        {
+            filterType = QString(pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Type"))
+        {
+            frameType = QString(pcdataXMLEle(ep));
+            job->setFrameType(frameTypes[frameType], frameType);
+        }
+        else if (!strcmp(tagXMLEle(ep), "Prefix"))
+        {
+            subEP = findXMLEle(ep, "RawPrefix");
+            if (subEP)
+                rawPrefix = QString(pcdataXMLEle(subEP));
+
+            subEP = findXMLEle(ep, "FilterEnabled");
+            if (subEP)
+                filterEnabled = !strcmp("1", pcdataXMLEle(subEP));
+
+            subEP = findXMLEle(ep, "ExpEnabled");
+            if (subEP)
+                expEnabled = ( !strcmp("1", pcdataXMLEle(subEP)));
+
+            subEP = findXMLEle(ep, "TimeStampEnabled");
+            if (subEP)
+                tsEnabled = ( !strcmp("1", pcdataXMLEle(subEP)));
+
+            job->setPrefixSettings(rawPrefix, filterEnabled, expEnabled, tsEnabled);
+        }
+        else if (!strcmp(tagXMLEle(ep), "Count"))
+        {
+            job->setCount(atoi(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Delay"))
+        {
+            job->setDelay(atoi(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "FITSDirectory"))
+        {
+            job->setFITSDir(pcdataXMLEle(ep));
+        }
+        else if (!strcmp(tagXMLEle(ep), "UploadMode"))
+        {
+            job->setUploadMode(static_cast<ISD::CCD::UploadMode>(atoi(pcdataXMLEle(ep))));
+        }
+    }
+
+    // Make full prefix
+    QString imagePrefix = rawPrefix;
+
+    if (imagePrefix.isEmpty() == false)
+        imagePrefix += '_';
+
+    imagePrefix += frameType;
+
+    if (filterEnabled && filterType.isEmpty() == false && (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT))
+    {
+        imagePrefix += '_';
+
+        imagePrefix += filterType;
+    }
+
+    if (expEnabled)
+    {
+        imagePrefix += '_';
+
+        imagePrefix += QString::number(exposure, 'd', 0) + QString("_secs");
+    }
+
+    job->setFullPrefix(imagePrefix);
+
+    // FITS Dir
+    QString finalFITSDir = job->getFITSDir();
+
+    QString targetName = schedJob->getName().remove(" ");
+    finalFITSDir += QLatin1Literal("/") + targetName + QLatin1Literal("/") + frameType;
+    if ( (job->getFrameType() == FRAME_LIGHT || job->getFrameType() == FRAME_FLAT) && filterType.isEmpty() == false)
+        finalFITSDir += QLatin1Literal("/") + filterType;
+
+    job->setFITSDir(finalFITSDir);
+
+    return job;
+}
+
+int Scheduler::getCompletedFiles(const QString &path, const QString &seqPrefix)
+{
+    QString tempName;
+    int seqFileCount=0;
+
+    QDirIterator it(path, QDir::Files);
+
+    while (it.hasNext())
+    {
+        tempName = it.next();
+        QFileInfo info(tempName);
+        tempName = info.baseName();
+
+        // find the prefix first
+        if (tempName.startsWith(seqPrefix) == false)
+            continue;
+
+        seqFileCount++;
+    }
+
+    return seqFileCount;
 }
 
 }

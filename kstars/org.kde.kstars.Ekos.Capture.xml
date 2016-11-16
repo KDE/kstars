@@ -23,11 +23,7 @@
     <method name="loadSequenceQueue">
       <arg type="b" direction="out"/>
       <arg name="fileURL" type="s" direction="in"/>
-    </method>
-    <method name="isSequenceFileComplete">
-      <arg type="b" direction="out"/>
-      <arg name="fileURL" type="s" direction="in"/>
-    </method>
+    </method> 
     <method name="clearSequenceQueue">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>

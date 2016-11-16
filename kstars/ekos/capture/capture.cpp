@@ -48,6 +48,8 @@
 #define MF_RA_DIFF_LIMIT    4
 #define MAX_CAPTURE_RETRIES 3
 
+#define SQ_FORMAT_VERSION   1.5
+
 namespace Ekos
 {
 
@@ -58,7 +60,7 @@ Capture::Capture()
     new CaptureAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/Ekos/Capture",  this);
 
-    dirPath = QUrl(QDir::homePath());
+    dirPath     = QUrl::fromLocalFile(QDir::homePath());
 
     state = CAPTURE_IDLE;
     focusState = FOCUS_IDLE;
@@ -1257,7 +1259,10 @@ void Capture::captureImage()
     }
 
     if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
+    {
         checkSeqBoundary(activeJob->getFITSDir());
+        currentCCD->setNextSequenceID(nextSequenceID);
+    }
 
     state = CAPTURE_CAPTURING;
 
@@ -1340,30 +1345,13 @@ bool Capture::resumeCapture()
 /*******************************************************************************/
 void Capture::updateSequencePrefix( const QString &newPrefix, const QString &dir)
 {
-    //static QString lastDir=QDir::homePath();
-
     seqPrefix = newPrefix;
 
     // If it doesn't exist, create it
     QDir().mkpath(dir);
 
-    /*if (dir != lastDir)
-    {
-        seqWatcher->removeDir(lastDir);
-        lastDir = dir;
-    }
-
-    seqWatcher->addDir(dir, KDirWatch::WatchFiles);*/
-
     nextSequenceID = 1;
-
-    //checkSeqBoundary(dir);
 }
-
-/*void Capture::checkSeqFile(const QString &path)
-{
-    checkSeqBoundary(QFileInfo(path).absolutePath());
-}*/
 
 /*******************************************************************************/
 /* Determine the next file number sequence. That is, if we have file1.png      */
@@ -1403,9 +1391,7 @@ void Capture::checkSeqBoundary(const QString &path)
                 nextSequenceID = newFileIndex + 1;
         }
 
-    }
-
-    currentCCD->setNextSequenceID(nextSequenceID);
+    }    
 }
 
 void Capture::appendLogText(const QString &text)
@@ -1926,11 +1912,12 @@ void Capture::executeJob()
         imgProgress->setValue(seqCurrentCount);
 
         if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_LOCAL)
-            updateSequencePrefix(activeJob->getPrefix(), activeJob->getFITSDir());
+            updateSequencePrefix(activeJob->getFullPrefix(), activeJob->getFITSDir());
     }
 
     // We check if the job is already fully or partially complete by checking how many files of its type exist on the file system unless ignoreJobProgress is set to true
-    if (ignoreJobProgress == false && Options::rememberJobProgress() && activeJob->isPreview() == false)
+    //if (ignoreJobProgress == false && Options::rememberJobProgress() && activeJob->isPreview() == false)
+    if (ignoreJobProgress == false && activeJob->isPreview() == false)
     {
         checkSeqBoundary(activeJob->getFITSDir());
 
@@ -1955,6 +1942,8 @@ void Capture::executeJob()
             // Emit progress update
             emit newImage(NULL, activeJob);
         }
+
+        currentCCD->setNextSequenceID(nextSequenceID);
     }
 
     // Update button status
@@ -2191,6 +2180,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
         queueTable->removeRow(0);
 
     LilXML *xmlParser = newLilXML();
+
     char errmsg[MAXRBUF];
     XMLEle *root = NULL;
     XMLEle *ep;
@@ -2202,6 +2192,13 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
 
         if (root)
         {
+            double sqVersion= atof(findXMLAttValu(root, "version"));
+            if (sqVersion < SQ_FORMAT_VERSION)
+            {
+                appendLogText(i18n("Deprecated sequence file format version %1. Please construct a new sequence file.", sqVersion));
+                return false;
+            }
+
              for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
              {
                  if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
@@ -2264,8 +2261,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
     mDirty = false;
     delLilXML(xmlParser);
 
-    if (Options::rememberJobProgress())
-        ignoreJobProgress = false;
+    ignoreJobProgress = !(Options::rememberJobProgress());
 
     return true;
 
@@ -2319,7 +2315,8 @@ bool Capture::processJobInfo(XMLEle *root)
         }
         else if (!strcmp(tagXMLEle(ep), "Filter"))
         {
-            FilterPosCombo->setCurrentIndex(atoi(pcdataXMLEle(ep))-1);
+            //FilterPosCombo->setCurrentIndex(atoi(pcdataXMLEle(ep))-1);
+            FilterPosCombo->setCurrentText(pcdataXMLEle(ep));
         }
         else if (!strcmp(tagXMLEle(ep), "Type"))
         {
@@ -2523,7 +2520,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     QTextStream outstream(&file);
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SequenceQueue version='1.4'>" << endl;
+    outstream << "<SequenceQueue version='" << SQ_FORMAT_VERSION << "'>" << endl;
     outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>" << guideDeviation->value() << "</GuideDeviation>" << endl;
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>" << HFRPixels->value() << "</Autofocus>" << endl;
     outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>" << meridianHours->value() << "</MeridianFlip>" << endl;    
@@ -2547,7 +2544,8 @@ bool Capture::saveSequenceQueue(const QString &path)
         if (job->getTargetTemperature() != INVALID_TEMPERATURE)
             outstream << "<Temperature force='" << (job->getEnforceTemperature() ? "true":"false") << "'>" << job->getTargetTemperature() << "</Temperature>" << endl;
         if (job->getTargetFilter() >= 0)
-            outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
+            //outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
+            outstream << "<Filter>" << job->getFilterName() << "</Filter>" << endl;
         outstream << "<Type>" << frameTypeCombo->itemText(job->getFrameType()) << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
             //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
@@ -3845,61 +3843,6 @@ bool Capture::processPostCaptureCalibrationStage()
 
     calibrationStage = CAL_CALIBRATION_COMPLETE;
     return true;
-}
-
-bool Capture::isSequenceFileComplete(const QString &fileURL)
-{
-    // If we don't remember job progress, then no sequence would be complete
-    if (Options::rememberJobProgress() == false)
-        return false;
-
-    // We cannot know if the job is complete if the upload mode is local since we cannot inspect the files
-    if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-        return false;
-
-    if (Options::captureLogging())
-    {
-        qDebug() << "Capture: Loading sequence to check for completion: " << fileURL;
-    }
-
-    bool rc = loadSequenceQueue(fileURL);
-
-    if (rc == false)
-        return false;
-
-    ignoreJobProgress = false;
-
-    QStringList jobDirs;
-    int totalJobCount = 0, totalFileCount=0;
-    foreach(SequenceJob *job, jobs)
-    {
-        jobDirs << job->getFITSDir();
-        totalJobCount   += job->getCount();
-    }
-
-    jobDirs.removeDuplicates();
-
-    if (Options::captureLogging())
-    {
-        qDebug() << "Capture: Total Job Count --> " << totalFileCount;
-        qDebug() << "Capture: isSequenceFileComplete directories --> " << jobDirs;
-    }
-
-    foreach(QString dir, jobDirs)
-    {
-        QDir oneDir(dir);
-        oneDir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
-        totalFileCount += oneDir.count();
-
-        if (Options::captureLogging())
-        {
-            qDebug() << "Capture: Directory " << dir << " file count is " << oneDir.count() << " and total count is " << totalFileCount;
-        }
-    }
-
-    clearSequenceQueue();
-
-    return (totalFileCount >= totalJobCount);
 }
 
 void Capture::setNewRemoteFile(QString file)

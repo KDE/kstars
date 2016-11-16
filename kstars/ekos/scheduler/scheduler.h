@@ -30,6 +30,8 @@ class SkyObject;
 namespace Ekos
 {
 
+class SequenceJob;
+
 /**
  * @brief The Ekos scheduler is a simple scheduler class to orchestrate automated multi object observation jobs.
  * @author Jasem Mutlaq
@@ -470,8 +472,7 @@ private:
          * @param job target job
          * @return Estimated time in seconds.
          */
-        bool estimateJobTime(SchedulerJob *job);
-        double estimateSequenceTime(XMLEle *root, int *totalCount);
+        bool estimateJobTime(SchedulerJob *schedJob);
 
         /**
          * @brief createJobSequence Creates a job sequence for the mosaic tool given the prefix and output dir. The currently selected sequence file is modified
@@ -487,6 +488,10 @@ private:
         XMLEle * getSequenceJobRoot();
 
         bool isWeatherOK(SchedulerJob *job);
+
+        SequenceJob * processJobInfo(XMLEle *root, SchedulerJob *schedJob);
+        bool loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob*> &jobs, bool &hasAutoFocus);
+        int getCompletedFiles(const QString &path, const QString &seqPrefix);
 
     Ekos::Scheduler *ui;
 

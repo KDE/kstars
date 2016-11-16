@@ -240,22 +240,22 @@ void SequenceJob::setExposeLeft(double value)
     exposeLeft = value;
 }
 
-void SequenceJob::setPrefixSettings(const QString &prefix, bool filterEnabled, bool exposureEnabled, bool tsEnabled)
+void SequenceJob::setPrefixSettings(const QString &rawFilePrefix, bool filterEnabled, bool exposureEnabled, bool tsEnabled)
 {
-    rawPrefix               = prefix;
+    rawPrefix               = rawFilePrefix;
     filterPrefixEnabled     = filterEnabled;
     expPrefixEnabled        = exposureEnabled;
-    timeStampPrefixEnabled        = tsEnabled;
+    timeStampPrefixEnabled  = tsEnabled;
 }
 
-void SequenceJob::getPrefixSettings(QString &prefix, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled)
+void SequenceJob::getPrefixSettings(QString &rawFilePrefix, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled)
 {
-    prefix          = rawPrefix;
-
+    rawFilePrefix   = rawPrefix;
     filterEnabled   = filterPrefixEnabled;
     exposureEnabled = expPrefixEnabled;
     tsEnabled       = timeStampPrefixEnabled;
 }
+
 double SequenceJob::getCurrentTemperature() const
 {
     return currentTemperature;

@@ -47,8 +47,7 @@ class SequenceJob : public QObject
     bool isPreview() { return preview;}
     int getDelay() { return delay;}
     int getCount() { return count;}
-    unsigned int getCompleted() { return completed; }
-    const QString & getPrefix() { return fullPrefix;}
+    unsigned int getCompleted() { return completed; }    
     const QString & getRawPrefix() { return rawPrefix;}
     double getExposure() const { return exposure;}
 
@@ -79,6 +78,7 @@ class SequenceJob : public QObject
 
     void setPreview(bool enable) { preview = enable; }
     void setFullPrefix(const QString &cprefix) { fullPrefix = cprefix;}
+    const QString & getFullPrefix() { return fullPrefix;}
     void setFrame(int in_x, int in_y, int in_w, int in_h) { x=in_x; y=in_y; w=in_w; h=in_h; }
 
     int getSubX() { return x;}
@@ -101,8 +101,9 @@ class SequenceJob : public QObject
     double getExposeLeft() const;
     void setExposeLeft(double value);
     void resetStatus();
-    void setPrefixSettings(const QString &fullPrefix, bool filterEnabled, bool exposureEnabled, bool tsEnabled);
-    void getPrefixSettings(QString &fullPrefix, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled);
+
+    void setPrefixSettings(const QString &rawFilePrefix, bool filterEnabled, bool exposureEnabled, bool tsEnabled);
+    void getPrefixSettings(QString &rawFilePrefix, bool &filterEnabled, bool &exposureEnabled, bool &tsEnabled);
 
     bool isFilterPrefixEnabled() { return filterPrefixEnabled; }
     bool isExposurePrefixEnabled() { return expPrefixEnabled; }

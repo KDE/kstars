@@ -75,9 +75,6 @@ public:
     JOBStatus getState() const;
     void setState(const JOBStatus &value);
 
-    //FITSStatus getFITSState() const;
-    //void setFITSState(const FITSStatus &value);
-
     int getScore() const;
     void setScore(int value);
 
@@ -116,12 +113,14 @@ public:
     QTableWidgetItem *getEstimatedTimeCell() const;
     void setEstimatedTimeCell(QTableWidgetItem *value);
 
+    bool getLightFramesRequired() const;
+    void setLightFramesRequired(bool value);
+
 private:
 
     QString name;
     SkyPoint targetCoords;
     JOBStatus state;
-    //FITSStatus fitsState;
 
     JOBStage stage;
 
@@ -156,7 +155,7 @@ private:
     QString dateTimeDisplayFormat;
     QString profile;
 
-
+    bool lightFramesRequired = false;
 };
 
 #endif // SchedulerJob_H
