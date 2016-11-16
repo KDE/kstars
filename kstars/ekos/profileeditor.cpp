@@ -456,6 +456,11 @@ void ProfileEditor::loadDrivers()
         case KSTARS_WEATHER:
         {
             ui->weatherCombo->addItem(dv->getTreeLabel());
+
+            ui->aux1Combo->addItem(dv->getTreeLabel());
+            ui->aux2Combo->addItem(dv->getTreeLabel());
+            ui->aux3Combo->addItem(dv->getTreeLabel());
+            ui->aux4Combo->addItem(dv->getTreeLabel());
         }
         break;
 
