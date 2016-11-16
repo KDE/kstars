@@ -1157,7 +1157,9 @@ void CCD::processBLOB(IBLOB* bp)
     // Create file name for others
     else
     {
-        QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
+        // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
+        // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
+        QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
 
         if (ISOMode == false)
             filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%03d", nextSequenceID)).arg(QString(fmt));
