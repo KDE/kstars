@@ -138,7 +138,9 @@ int FITSView::getMouseMode(){
 This method was added to make the panning function work.
 If the mouse button is released, it resets mouseButtonDown variable and the mouse cursor.
  */
-void FITSLabel::mouseReleaseEvent(QMouseEvent *e){
+void FITSLabel::mouseReleaseEvent(QMouseEvent *e)
+{
+    Q_UNUSED(e);
     if(image->getMouseMode()==FITSView::dragMouse){
         mouseButtonDown=false;
         image->updateMouseCursor();
