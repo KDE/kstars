@@ -146,10 +146,10 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
     if ( x < -1.0 && x > -1.000001 ) HARad = dms::PI;
     else if ( x > 1.0 && x < 1.000001 ) HARad = 0.0;
     else if ( x < -1.0 ) {
-        qWarning() << i18n( "Coordinate out of range." ) << endl;
+        //qWarning() << "Coordinate out of range.";
         HARad = dms::PI;
     } else if ( x > 1.0 ) {
-        qWarning() << i18n( "Coordinate out of range." ) << endl;
+        //qWarning() << "Coordinate out of range.";
         HARad = 0.0;
     } else HARad = acos( x );
 
