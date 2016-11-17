@@ -1082,10 +1082,9 @@ void Guide::setGuideBoxSizeIndex(int index)
     Options::setGuideSquareSizeIndex(index);
 }
 
-void Guide::setGuideAlgorithm(const QString & algorithm)
+void Guide::setGuideAlgorithmIndex(int index)
 {
-    //TODO
-    //guider->setGuideOptions(algorithm, guider->useSubFrame(), guider->useRapidGuide());
+    Options::setGuideAlgorithm(index);
 }
 
 void Guide::setSubFrameEnabled(bool enable)

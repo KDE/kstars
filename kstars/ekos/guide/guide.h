@@ -148,9 +148,9 @@ public:
 
     /** DBUS interface function.
      * Set guiding algorithm. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.
-     * @param algorithm Select the algorithm used to calculate the centroid of the guide star (Smart, Fast, Auto, No thresh).
+     * @param index Select the algorithm used to calculate the centroid of the guide star (0 --> Smart, 1 --> Fast, 2 --> Auto, 3 --> No thresh).
      */
-    Q_SCRIPTABLE Q_NOREPLY void setGuideAlgorithm(const QString & algorithm);    
+    Q_SCRIPTABLE Q_NOREPLY void setGuideAlgorithmIndex(int index);
 
     /** DBUS interface function.
      * Set rapid guiding option. The options must be set before starting the guiding operation. If no options are set, the options loaded from the user configuration are used.

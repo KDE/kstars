@@ -78,8 +78,8 @@
       <arg name="boxSizeIndex" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setGuideAlgorithm">
-      <arg name="algorithm" type="s" direction="in"/>
+    <method name="setGuideAlgorithmIndex">
+      <arg name="index" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="setSubFrameEnabled">
