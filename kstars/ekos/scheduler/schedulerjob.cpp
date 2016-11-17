@@ -350,7 +350,8 @@ void SchedulerJob::setEstimatedTime(const double &value)
 
     if (estimatedTimeCell)
     {
-        QTime estimatedTime = QTime::fromMSecsSinceStartOfDay(value*3600);
+        // Seconds to ms
+        QTime estimatedTime = QTime::fromMSecsSinceStartOfDay(value*1000);
         estimatedTimeCell->setText(estimatedTime.toString("HH:mm:ss"));
     }
 }
