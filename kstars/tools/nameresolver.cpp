@@ -110,7 +110,7 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
 
             if( xml.name() == "Resolver" ) {
                 // This is the section we want
-                char resolver;
+                char resolver=0;
                 QXmlStreamAttributes attributes = xml.attributes();
                 if( attributes.hasAttribute( "name" ) )
                     resolver = attributes.value("name").at( 0 ).toLatin1(); // Expected to be S (Simbad), V (VizieR), or N (NED)
@@ -118,7 +118,8 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
                     resolver = 0; // NUL character for unknown resolver
                     qWarning() << "Warning: Unknown resolver " << attributes.value( "name " ) << " while reading output from CDS Sesame";
                 }
-                qDebug() << "Resolved by " << attributes.value( "name" ) << "!";
+
+                qDebug() << "Resolved by " << resolver << attributes.value( "name" ) << "!";
 
                 // Start reading the data to pick out the relevant ones
                 while( xml.readNextStartElement() ) {
