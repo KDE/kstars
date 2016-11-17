@@ -185,7 +185,7 @@
         <item>
          <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>Capture Settings</string>
+           <string>&lt;b&gt;Capture Settings&lt;/b&gt;</string>
           </property>
          </widget>
         </item>
@@ -659,7 +659,7 @@
         <item>
          <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>File Settings</string>
+           <string>&lt;b&gt;File Settings&lt;/b&gt;</string>
           </property>
          </widget>
         </item>
