@@ -1324,8 +1324,8 @@ void EkosManager::processTabChange()
 
 void EkosManager::updateLog()
 {
-    if (enableLoggingCheck->isChecked() == false)
-        return;
+    //if (enableLoggingCheck->isChecked() == false)
+        //return;
 
     QWidget *currentWidget = toolsWidget->currentWidget();
 
