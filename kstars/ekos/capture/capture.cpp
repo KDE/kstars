@@ -180,7 +180,7 @@ Capture::Capture()
     resetB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     resetFrameB->setIcon(QIcon::fromTheme("view-refresh", QIcon(":/icons/breeze/default/view-refresh.svg") ));
     resetFrameB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    //calibrationB->setIcon(QIcon::fromTheme("run-build", QIcon(":/icons/breeze/default/run-build.svg") ));
+    calibrationB->setIcon(QIcon::fromTheme("run-build", QIcon(":/icons/breeze/default/run-build.svg") ));
     calibrationB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     addToQueueB->setToolTip(i18n("Add job to sequence queue"));
@@ -583,12 +583,12 @@ void Capture::checkCCD(int ccdNum)
         if (isoList.isEmpty())
         {
             ISOCombo->setEnabled(false);
-            //ISOLabel->setEnabled(false);
+            ISOLabel->setEnabled(false);
         }
         else
         {
             ISOCombo->setEnabled(true);
-            //ISOLabel->setEnabled(true);
+            ISOLabel->setEnabled(true);
             ISOCombo->addItems(isoList);
             ISOCombo->setCurrentIndex(targetChip->getISOIndex());
         }

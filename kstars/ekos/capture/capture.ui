@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>583</width>
-    <height>542</height>
+    <width>587</width>
+    <height>532</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout_5" columnstretch="1,2">
+  <layout class="QGridLayout" name="gridLayout_5">
    <property name="leftMargin">
     <number>3</number>
    </property>
@@ -179,6 +179,9 @@
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
         <item>
          <widget class="QLabel" name="label_5">
           <property name="text">
@@ -203,6 +206,9 @@
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
         <item row="0" column="0">
          <widget class="QLabel" name="exposureLabel_2">
           <property name="toolTip">
@@ -371,6 +377,12 @@
           <property name="text">
            <string>Calibration</string>
           </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
          </widget>
         </item>
         <item row="3" column="0">
@@ -432,63 +444,39 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="6" rowspan="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_9">
-          <item>
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>1</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="resetFrameB">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Reset CCD frame values to default values</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>1</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
+        <item row="3" column="6">
+         <widget class="QPushButton" name="resetFrameB">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Reset CCD frame &amp; size values to default values</string>
+          </property>
+          <property name="text">
+           <string>Reset</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="4" column="0">
          <widget class="QLabel" name="textLabel1_19">
@@ -552,7 +540,17 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="0" rowspan="2">
+        <item row="4" column="6">
+         <widget class="QLabel" name="ISOLabel">
+          <property name="text">
+           <string>ISO</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
          <widget class="QLabel" name="textLabel1_9">
           <property name="toolTip">
            <string>Horizontal and Vertical binning</string>
@@ -565,7 +563,7 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="1" rowspan="2">
+        <item row="5" column="1">
          <widget class="QLabel" name="textLabel1_10">
           <property name="toolTip">
            <string/>
@@ -578,7 +576,7 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="2" rowspan="2">
+        <item row="5" column="2">
          <widget class="QSpinBox" name="binXIN">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -600,7 +598,7 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="3" rowspan="2">
+        <item row="5" column="3">
          <widget class="QLabel" name="textLabel1_11">
           <property name="toolTip">
            <string/>
@@ -613,7 +611,7 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="4" rowspan="2" colspan="2">
+        <item row="5" column="4" colspan="2">
          <widget class="QSpinBox" name="binYIN">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -635,7 +633,7 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="6" rowspan="2">
+        <item row="5" column="6">
          <widget class="QComboBox" name="ISOCombo">
           <property name="enabled">
            <bool>false</bool>
@@ -655,6 +653,9 @@
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="spacing">
+         <number>3</number>
+        </property>
         <item>
          <widget class="QLabel" name="label_6">
           <property name="text">
@@ -701,7 +702,14 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="4" rowspan="2">
+        <item row="0" column="1" colspan="2">
+         <widget class="QLineEdit" name="prefixIN">
+          <property name="placeholderText">
+           <string>Target</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3" rowspan="2" colspan="2">
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <property name="spacing">
            <number>1</number>
@@ -751,8 +759,24 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1" colspan="3">
+        <item row="1" column="1" colspan="2">
          <widget class="QLineEdit" name="postCaptureScriptIN"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="textLabel1_18">
+          <property name="toolTip">
+           <string>Local directory to save sequence images</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Directory:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" colspan="3">
+         <widget class="QLineEdit" name="fitsDir"/>
         </item>
         <item row="2" column="4">
          <widget class="QPushButton" name="selectFITSDirB">
@@ -795,10 +819,10 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="1" colspan="2">
+        <item row="3" column="1">
          <widget class="QComboBox" name="uploadModeCombo">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -820,7 +844,7 @@
           </item>
          </widget>
         </item>
-        <item row="3" column="3">
+        <item row="3" column="2">
          <widget class="QLabel" name="label_2">
           <property name="toolTip">
            <string>When storing images on remote devices, specify the directory where captured images are saved to.</string>
@@ -828,9 +852,12 @@
           <property name="text">
            <string>Remote:</string>
           </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
          </widget>
         </item>
-        <item row="3" column="4">
+        <item row="3" column="3" colspan="2">
          <widget class="QLineEdit" name="remoteDirIN">
           <property name="enabled">
            <bool>false</bool>
@@ -840,62 +867,9 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1" colspan="3">
-         <widget class="QLineEdit" name="prefixIN">
-          <property name="placeholderText">
-           <string>Target</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="textLabel1_18">
-          <property name="toolTip">
-           <string>Local directory to save sequence images</string>
-          </property>
-          <property name="whatsThis">
-           <string/>
-          </property>
-          <property name="text">
-           <string>Directory:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1" colspan="3">
-         <widget class="QLineEdit" name="fitsDir"/>
-        </item>
        </layout>
       </item>
      </layout>
-     <zorder>uploadModeCombo</zorder>
-     <zorder>textLabel1_18</zorder>
-     <zorder>fitsDir</zorder>
-     <zorder>label_4</zorder>
-     <zorder>frameTypeCombo</zorder>
-     <zorder>textLabel1_4</zorder>
-     <zorder>exposureIN</zorder>
-     <zorder>textLabel1_7</zorder>
-     <zorder>label</zorder>
-     <zorder>CCDCaptureCombo</zorder>
-     <zorder>textLabel1_6</zorder>
-     <zorder>line_4</zorder>
-     <zorder>countIN</zorder>
-     <zorder>prefixIN</zorder>
-     <zorder>exposureLabel_2</zorder>
-     <zorder>textLabel1_12</zorder>
-     <zorder>textLabel1_17</zorder>
-     <zorder>line_3</zorder>
-     <zorder>selectFITSDirB</zorder>
-     <zorder>label_3</zorder>
-     <zorder>postCaptureScriptIN</zorder>
-     <zorder>label_2</zorder>
-     <zorder>remoteDirIN</zorder>
-     <zorder>setTemperatureB</zorder>
-     <zorder>label_5</zorder>
-     <zorder>label_6</zorder>
-     <zorder>label_6</zorder>
-     <zorder>textLabel1_19</zorder>
-     <zorder>horizontalSpacer_2</zorder>
-     <zorder>horizontalSpacer_3</zorder>
     </widget>
    </item>
    <item row="0" column="1">
@@ -1774,10 +1748,7 @@
    </item>
   </layout>
   <zorder>optionsGroup</zorder>
-  <zorder>progressGroup</zorder>
   <zorder>CCDFWGroup</zorder>
-  <zorder>groupBox_2</zorder>
-  <zorder>groupBox</zorder>
  </widget>
  <tabstops>
   <tabstop>CCDCaptureCombo</tabstop>
