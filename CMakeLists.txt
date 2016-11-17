@@ -151,6 +151,9 @@ add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
 if (UNIX)
 add_definitions(-Dfexceptions)
+
+# TEMPORARY: To disable QCustomPlot warning until 2.0.0 is released which fixes these warnings
+add_definitions(-Wno-non-virtual-dtor)
 endif(UNIX)
 
 configure_file(
