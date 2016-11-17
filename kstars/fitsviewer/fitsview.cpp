@@ -466,8 +466,6 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     filter = filterType;
     mode = fitsMode;
 
-    filterStack.push(filterType);
-
     setBackgroundRole(QPalette::Dark);
 
     markerCrosshair.setX(0);
@@ -518,6 +516,8 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
 
     filterStack.clear();
     filterStack.push(FITS_NONE);
+    if (filter != FITS_NONE)
+        filterStack.push(filter);
 
     image_data = new FITSData(mode);
 
