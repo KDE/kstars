@@ -738,9 +738,7 @@ bool InternalGuider::processGuiding()
 {
     static int maxPulseCounter=0;
     const cproc_out_params *out;
-    QString str;
     uint32_t tick = 0;
-    double drift_x = 0, drift_y = 0;
 
     // On first frame, center the box (reticle) around the star so we do not start with an offset the results in
     // unnecessary guiding pulses.
