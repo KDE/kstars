@@ -730,6 +730,9 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
     if (Options::verboseLogging())
         qDebug() << "Ekos received a new device: " << devInterface->getDeviceName();
 
+    // Always reset INDI Connection status if we receive a new device
+    indiConnectionStatus = EKOS_STATUS_IDLE;
+
     genericDevices.append(devInterface);
 
     nDevices--;
@@ -766,7 +769,7 @@ void EkosManager::deviceConnected()
         //qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
     }
 
-    ProfileInfo *pi = getCurrentProfile();
+    //ProfileInfo *pi = getCurrentProfile();
     //if (nConnectedDevices == managedDrivers.count() || (nDevices <=0 && nConnectedDevices == nRemoteDevices))
 
     int nConnectedDevices=0;
@@ -776,10 +779,18 @@ void EkosManager::deviceConnected()
             nConnectedDevices++;
     }
 
-    if (nConnectedDevices >= pi->drivers.count())
-        indiConnectionStatus = EKOS_STATUS_SUCCESS;
-
     qDebug() << "Ekos: " << nConnectedDevices << " devices connected out of " << genericDevices.count();
+
+    //if (nConnectedDevices >= pi->drivers.count())
+    if (nConnectedDevices >= genericDevices.count())
+    {
+        indiConnectionStatus = EKOS_STATUS_SUCCESS;
+        qDebug() << "Ekos: All INDI devices are now connected.";
+    }
+    else
+        indiConnectionStatus = EKOS_STATUS_PENDING;
+
+
 
     ISD::GDInterface *dev = static_cast<ISD::GDInterface *> (sender());
 
