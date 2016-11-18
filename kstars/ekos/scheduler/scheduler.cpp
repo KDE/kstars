@@ -3886,6 +3886,7 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 
     int totalSequenceCount=0, totalCompletedCount=0;
     double totalImagingTime=0;
+    bool rememberJobProgress = Options::rememberJobProgress();
     foreach (SequenceJob *job, jobs)
     {
         if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
@@ -3895,14 +3896,16 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
             return false;
         }
 
-        int completed = getCompletedFiles(job->getFITSDir(), job->getFullPrefix());
+        int completed = 0;
+        if (rememberJobProgress)
+            completed = getCompletedFiles(job->getFITSDir(), job->getFullPrefix());
 
         // If we have a LIGHT frame that still has remaining images then return false
         if (job->getFrameType() == FRAME_LIGHT && completed < job->getCount())
             lightFramesRequired = true;
 
         totalSequenceCount  += job->getCount();
-        totalCompletedCount += completed;
+        totalCompletedCount += rememberJobProgress ? completed : 0;
         totalImagingTime    += fabs((job->getExposure() + job->getDelay()) * (job->getCount() - completed));
 
         if (completed < job->getCount() && job->getFrameType() == FRAME_LIGHT)
