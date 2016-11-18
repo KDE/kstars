@@ -175,9 +175,11 @@ bool OpsColors::setColors( const QString &filename ) {
     }
 
     KStars::Instance()->map()->forceUpdate();
+    #ifdef HAVE_CFITSIO
     QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
     foreach(FITSViewer *viewer, viewers){
         viewer->getCurrentView()->updateFrame();
+    #endif
     }
     return true;
 }
