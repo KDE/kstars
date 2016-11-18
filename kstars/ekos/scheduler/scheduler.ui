@@ -6,26 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>634</width>
-    <height>509</height>
+    <width>668</width>
+    <height>499</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
-   <property name="spacing">
-    <number>3</number>
-   </property>
-   <property name="leftMargin">
-    <number>3</number>
-   </property>
-   <property name="topMargin">
-    <number>3</number>
-   </property>
-   <property name="rightMargin">
-    <number>3</number>
-   </property>
-   <property name="bottomMargin">
-    <number>3</number>
-   </property>
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="sizePolicy">
@@ -37,7 +22,7 @@
      <property name="title">
       <string>Object &amp;&amp; Sequence Selection</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,1,2">
+     <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="2,3">
       <property name="spacing">
        <number>3</number>
       </property>
@@ -54,655 +39,315 @@
        <number>3</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
-        <property name="spacing">
-         <number>5</number>
-        </property>
-        <item>
-         <layout class="QGridLayout" name="gridLayout_2">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="targetLabel">
+          <property name="text">
+           <string>Target:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_3">
+          <property name="styleSheet">
+           <string notr="true">color:red</string>
+          </property>
+          <property name="text">
+           <string>*</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
           <property name="spacing">
            <number>5</number>
           </property>
-          <item row="1" column="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_17">
-            <property name="spacing">
-             <number>5</number>
-            </property>
-            <item>
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>RA</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="dmsBox" name="raBox">
-              <property name="toolTip">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>DEC</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="dmsBox" name="decBox">
-              <property name="toolTip">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
+          <item>
+           <widget class="QLineEdit" name="nameEdit"/>
           </item>
-          <item row="2" column="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_13">
-            <property name="spacing">
-             <number>5</number>
+          <item>
+           <widget class="QPushButton" name="selectObjectB">
+            <property name="minimumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
             </property>
-            <item>
-             <widget class="QLineEdit" name="fitsEdit">
-              <property name="readOnly">
-               <bool>false</bool>
-              </property>
-              <property name="clearButtonEnabled">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="selectFITSB">
-              <property name="maximumSize">
-               <size>
-                <width>22</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label">
-            <property name="toolTip">
-             <string>Target coordinates in J2000 Epoch</string>
+            <property name="maximumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
             </property>
             <property name="text">
-             <string>J2000:</string>
+             <string/>
             </property>
-           </widget>
-          </item>
-          <item row="5" column="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
-            <property name="spacing">
-             <number>5</number>
-            </property>
-            <item>
-             <widget class="QCheckBox" name="trackStepCheck">
-              <property name="toolTip">
-               <string>Slew to the target and track it before proceeding to the next step.</string>
-              </property>
-              <property name="text">
-               <string>Track</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">stepsButtonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="focusStepCheck">
-              <property name="toolTip">
-               <string>Perform autofocusing before proceeding to the next step.</string>
-              </property>
-              <property name="text">
-               <string>Focus</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">stepsButtonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="alignStepCheck">
-              <property name="toolTip">
-               <string>Perform alignment using astrometry solver before proceeding to the next step.</string>
-              </property>
-              <property name="text">
-               <string>Align</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">stepsButtonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="guideStepCheck">
-              <property name="toolTip">
-               <string>Perform calibration and autoguiding before proceeding to the next step.</string>
-              </property>
-              <property name="text">
-               <string>Guide</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">stepsButtonGroup</string>
-              </attribute>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_9">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item row="0" column="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <property name="spacing">
-             <number>5</number>
-            </property>
-            <item>
-             <widget class="QLineEdit" name="nameEdit"/>
-            </item>
-            <item>
-             <widget class="QPushButton" name="selectObjectB">
-              <property name="text">
-               <string>Find...</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>Priority:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="prioritySpin">
-              <property name="toolTip">
-               <string>Assigned priority to each job with 1 being the highest priority and 20 being the lowest priority</string>
-              </property>
-              <property name="whatsThis">
-               <string/>
-              </property>
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>20</number>
-              </property>
-              <property name="value">
-               <number>10</number>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="sequenceLabel">
-            <property name="toolTip">
-             <string>Ekos Sequence File</string>
-            </property>
-            <property name="text">
-             <string>Sequence:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="FITSLabel">
-            <property name="toolTip">
-             <string>Select optional FITS file to be used for alignment. When using FITS, specify the object or the estimated coordinates which are used to slew the mount.</string>
-            </property>
-            <property name="text">
-             <string>FITS File:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="targetLabel">
-            <property name="text">
-             <string>Target:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_15">
-            <property name="spacing">
-             <number>5</number>
-            </property>
-            <item>
-             <widget class="QLineEdit" name="sequenceEdit">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="loadSequenceB">
-              <property name="maximumSize">
-               <size>
-                <width>22</width>
-                <height>22</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string>Load the image sequence queue.</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="toolTip">
-             <string>Select which steps to execute before starting the capture process.</string>
-            </property>
-            <property name="text">
-             <string>Steps:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label_3">
-            <property name="styleSheet">
-             <string notr="true">color:red</string>
-            </property>
-            <property name="text">
-             <string>*</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="label_5">
-            <property name="styleSheet">
-             <string notr="true">color:red</string>
-            </property>
-            <property name="text">
-             <string>*</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="toolTip">
-             <string>Ekos Device Profile</string>
-            </property>
-            <property name="text">
-             <string>Profile:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2">
-           <widget class="QComboBox" name="profileCombo">
-            <item>
-             <property name="text">
-              <string>Default</string>
-             </property>
-            </item>
            </widget>
           </item>
          </layout>
         </item>
-        <item>
-         <widget class="Line" name="line_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label">
+          <property name="toolTip">
+           <string>Target coordinates in J2000 Epoch</string>
+          </property>
+          <property name="text">
+           <string>J2000:</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_2">
+        <item row="1" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_17">
+          <property name="spacing">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>RA</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="dmsBox" name="raBox">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>DEC</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="dmsBox" name="decBox">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="FITSLabel">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time startup procedure to be executed before starting Ekos. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;before&lt;/span&gt; the startup procedures (e.g. unpark scope), if selected, are executed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Select optional FITS file to be used for alignment. When using FITS, specify the object or the estimated coordinates which are used to slew the mount.</string>
           </property>
-          <property name="title">
-           <string>Observatory Startup Procedure</string>
+          <property name="text">
+           <string>FITS File:</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <property name="spacing">
-            <number>1</number>
-           </property>
-           <property name="leftMargin">
-            <number>3</number>
-           </property>
-           <property name="topMargin">
-            <number>3</number>
-           </property>
-           <property name="rightMargin">
-            <number>3</number>
-           </property>
-           <property name="bottomMargin">
-            <number>3</number>
-           </property>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_16">
-             <property name="spacing">
-              <number>1</number>
-             </property>
-             <item>
-              <widget class="QCheckBox" name="unparkDomeCheck">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="toolTip">
-                <string>Park dome to home position</string>
-               </property>
-               <property name="text">
-                <string>UnPark Dome</string>
-               </property>
-               <attribute name="buttonGroup">
-                <string notr="true">startupProcedureButtonGroup</string>
-               </attribute>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="unparkMountCheck">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="toolTip">
-                <string>Park telescope to home position.</string>
-               </property>
-               <property name="text">
-                <string>UnPark Mount</string>
-               </property>
-               <attribute name="buttonGroup">
-                <string notr="true">startupProcedureButtonGroup</string>
-               </attribute>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="uncapCheck">
-               <property name="toolTip">
-                <string>Open dust cover</string>
-               </property>
-               <property name="text">
-                <string>UnCap</string>
-               </property>
-               <attribute name="buttonGroup">
-                <string notr="true">startupProcedureButtonGroup</string>
-               </attribute>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_10">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="startupB">
-               <property name="maximumSize">
-                <size>
-                 <width>32</width>
-                 <height>32</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_12">
-             <property name="spacing">
-              <number>1</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_8">
-               <property name="text">
-                <string>Script:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="startupScript">
-               <property name="readOnly">
-                <bool>false</bool>
-               </property>
-               <property name="clearButtonEnabled">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="selectStartupScriptB">
-               <property name="maximumSize">
-                <size>
-                 <width>32</width>
-                 <height>32</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
          </widget>
         </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_10">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
+        <item row="2" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <property name="spacing">
+           <number>5</number>
           </property>
+          <item>
+           <widget class="QLineEdit" name="fitsEdit">
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectFITSB">
+            <property name="maximumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="sequenceLabel">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time shutdown procedure to be executed after all scheduler jobs are completed. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;after&lt;/span&gt; the shutdown procedures (e.g. parking), if selected, are completed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Ekos Sequence File</string>
           </property>
-          <property name="title">
-           <string>Observatory Shutdown Procedure</string>
+          <property name="text">
+           <string>Sequence:</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <property name="spacing">
-            <number>1</number>
-           </property>
-           <property name="leftMargin">
-            <number>3</number>
-           </property>
-           <property name="topMargin">
-            <number>3</number>
-           </property>
-           <property name="rightMargin">
-            <number>3</number>
-           </property>
-           <property name="bottomMargin">
-            <number>3</number>
-           </property>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <property name="spacing">
-              <number>1</number>
-             </property>
-             <item>
-              <widget class="QCheckBox" name="warmCCDCheck">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="toolTip">
-                <string>Turn off CCD cooler.</string>
-               </property>
-               <property name="text">
-                <string>Warm CCD</string>
-               </property>
-               <attribute name="buttonGroup">
-                <string notr="true">shutdownProcedureGroup</string>
-               </attribute>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="capCheck">
-               <property name="toolTip">
-                <string>Close dust cover</string>
-               </property>
-               <property name="text">
-                <string>Cap</string>
-               </property>
-               <attribute name="buttonGroup">
-                <string notr="true">shutdownProcedureGroup</string>
-               </attribute>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="parkMountCheck">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="toolTip">
-                <string>Park telescope to home position.</string>
-               </property>
-               <property name="text">
-                <string>Park Mount</string>
-               </property>
-               <attribute name="buttonGroup">
-                <string notr="true">shutdownProcedureGroup</string>
-               </attribute>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="parkDomeCheck">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="toolTip">
-                <string>Park dome to home position</string>
-               </property>
-               <property name="text">
-                <string>Park Dome</string>
-               </property>
-               <attribute name="buttonGroup">
-                <string notr="true">shutdownProcedureGroup</string>
-               </attribute>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_8">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="shutdownB">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>32</width>
-                 <height>32</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <property name="spacing">
-              <number>1</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_13">
-               <property name="text">
-                <string>Script:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="shutdownScript">
-               <property name="readOnly">
-                <bool>false</bool>
-               </property>
-               <property name="clearButtonEnabled">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="selectShutdownScriptB">
-               <property name="maximumSize">
-                <size>
-                 <width>32</width>
-                 <height>32</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
          </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="label_5">
+          <property name="styleSheet">
+           <string notr="true">color:red</string>
+          </property>
+          <property name="text">
+           <string>*</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_15">
+          <property name="spacing">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QLineEdit" name="sequenceEdit">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="loadSequenceB">
+            <property name="maximumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Load the image sequence queue.</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>Priority:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2">
+         <widget class="QSpinBox" name="prioritySpin">
+          <property name="toolTip">
+           <string>Assigned priority to each job with 1 being the highest priority and 20 being the lowest priority</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>20</number>
+          </property>
+          <property name="value">
+           <number>10</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="toolTip">
+           <string>Ekos Device Profile</string>
+          </property>
+          <property name="text">
+           <string>Profile:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2">
+         <widget class="QComboBox" name="profileCombo">
+          <item>
+           <property name="text">
+            <string>Default</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="toolTip">
+           <string>Select which steps to execute before starting the capture process.</string>
+          </property>
+          <property name="text">
+           <string>Steps:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QCheckBox" name="trackStepCheck">
+            <property name="toolTip">
+             <string>Slew to the target and track it before proceeding to the next step.</string>
+            </property>
+            <property name="text">
+             <string>Track</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="focusStepCheck">
+            <property name="toolTip">
+             <string>Perform autofocusing before proceeding to the next step.</string>
+            </property>
+            <property name="text">
+             <string>Focus</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="alignStepCheck">
+            <property name="toolTip">
+             <string>Perform alignment using astrometry solver before proceeding to the next step.</string>
+            </property>
+            <property name="text">
+             <string>Align</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="guideStepCheck">
+            <property name="toolTip">
+             <string>Perform calibration and autoguiding before proceeding to the next step.</string>
+            </property>
+            <property name="text">
+             <string>Guide</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">stepsButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
-      </item>
-      <item>
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -1068,7 +713,6 @@
       </item>
      </layout>
      <zorder></zorder>
-     <zorder>line</zorder>
      <zorder></zorder>
     </widget>
    </item>
@@ -1483,6 +1127,325 @@
     </layout>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_18">
+     <property name="spacing">
+      <number>3</number>
+     </property>
+     <item>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time startup procedure to be executed before starting Ekos. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;before&lt;/span&gt; the startup procedures (e.g. unpark scope), if selected, are executed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="title">
+        <string>Observatory Startup Procedure</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_16">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <widget class="QCheckBox" name="unparkDomeCheck">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Park dome to home position</string>
+            </property>
+            <property name="text">
+             <string>UnPark Dome</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="unparkMountCheck">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Park telescope to home position.</string>
+            </property>
+            <property name="text">
+             <string>UnPark Mount</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="uncapCheck">
+            <property name="toolTip">
+             <string>Open dust cover</string>
+            </property>
+            <property name="text">
+             <string>UnCap</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">startupProcedureButtonGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="startupB">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Script:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="startupScript">
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectStartupScriptB">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_10">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;One-time shutdown procedure to be executed after all scheduler jobs are completed. The script is executed &lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;after&lt;/span&gt; the shutdown procedures (e.g. parking), if selected, are completed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="title">
+        <string>Observatory Shutdown Procedure</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <property name="leftMargin">
+         <number>3</number>
+        </property>
+        <property name="topMargin">
+         <number>3</number>
+        </property>
+        <property name="rightMargin">
+         <number>3</number>
+        </property>
+        <property name="bottomMargin">
+         <number>3</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <widget class="QCheckBox" name="warmCCDCheck">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Turn off CCD cooler.</string>
+            </property>
+            <property name="text">
+             <string>Warm CCD</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="capCheck">
+            <property name="toolTip">
+             <string>Close dust cover</string>
+            </property>
+            <property name="text">
+             <string>Cap</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="parkMountCheck">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Park telescope to home position.</string>
+            </property>
+            <property name="text">
+             <string>Park Mount</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="parkDomeCheck">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>Park dome to home position</string>
+            </property>
+            <property name="text">
+             <string>Park Dome</string>
+            </property>
+            <attribute name="buttonGroup">
+             <string notr="true">shutdownProcedureGroup</string>
+            </attribute>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="shutdownB">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>1</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>Script:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="shutdownScript">
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+            <property name="clearButtonEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="selectShutdownScriptB">
+            <property name="maximumSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -1511,7 +1474,6 @@
  <tabstops>
   <tabstop>nameEdit</tabstop>
   <tabstop>selectObjectB</tabstop>
-  <tabstop>prioritySpin</tabstop>
   <tabstop>raBox</tabstop>
   <tabstop>decBox</tabstop>
   <tabstop>fitsEdit</tabstop>
@@ -1565,18 +1527,9 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="stepsButtonGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
-  <buttongroup name="shutdownProcedureGroup">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="completionButtonGroup"/>
-  <buttongroup name="startupProcedureButtonGroup">
+  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="stepsButtonGroup">
    <property name="exclusive">
     <bool>false</bool>
    </property>
@@ -1586,6 +1539,15 @@
     <bool>false</bool>
    </property>
   </buttongroup>
-  <buttongroup name="startupButtonGroup"/>
+  <buttongroup name="startupProcedureButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="shutdownProcedureGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
  </buttongroups>
 </ui>
