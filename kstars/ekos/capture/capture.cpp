@@ -1816,6 +1816,11 @@ void Capture::prepareJob(SequenceJob *job)
 {
     activeJob = job;
 
+    if (activeJob->getActiveCCD() != currentCCD)
+    {
+        setCCD(activeJob->getActiveCCD()->getDeviceName());
+    }
+
     if (currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName(), "CCD1") == B_NEVER)
     {
         if (KMessageBox::questionYesNo(0, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) == KMessageBox::Yes)
