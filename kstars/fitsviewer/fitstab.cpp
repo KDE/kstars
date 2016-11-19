@@ -269,7 +269,8 @@ bool FITSTab::saveFile()
         if (currentURL.toLocalFile().contains('.') == 0)
             currentURL.setPath(currentURL.toLocalFile() + ".fits");
 
-        if (QFile::exists(currentURL.toLocalFile()))
+        // Already display by dialog
+        /*if (QFile::exists(currentURL.toLocalFile()))
         {
             int r = KMessageBox::warningContinueCancel(0,
                         i18n( "A file named \"%1\" already exists. "
@@ -279,7 +280,7 @@ bool FITSTab::saveFile()
             if(r==KMessageBox::Cancel)
                 return false;
 
-        }
+        }*/
     }
 
     if ( currentURL.isValid() )
