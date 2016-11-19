@@ -72,6 +72,9 @@ Focus::Focus()
     resetFocus        = false;    
     filterPositionPending= false;
 
+    waitStarSelectTimer.setInterval(AUTO_STAR_TIMEOUT);
+    connect(&waitStarSelectTimer, SIGNAL(timeout()), this, SLOT(checkAutoStarTimeout()));
+
     rememberUploadMode = ISD::CCD::UPLOAD_CLIENT;
     HFRInc =0;
     noStarCount=0;
@@ -638,6 +641,8 @@ void Focus::start()
 
     lastFocusDirection = FOCUS_NONE;
 
+    waitStarSelectTimer.stop();
+
     lastHFR = 0;
 
     if (canAbsMove)
@@ -789,6 +794,8 @@ void Focus::capture()
         appendLogText(i18n("No CCD connected."));
         return;
     }
+
+    waitStarSelectTimer.stop();
 
     ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
 
@@ -1149,7 +1156,7 @@ void Focus::setCaptureComplete()
                 state = Ekos::FOCUS_WAITING;
                 emit newStatus(state);
 
-                QTimer::singleShot(AUTO_STAR_TIMEOUT, this, SLOT(checkAutoStarTimeout()));
+                waitStarSelectTimer.start();
 
                 return;
             }
@@ -1237,6 +1244,8 @@ void Focus::setCaptureComplete()
 
             state = Ekos::FOCUS_WAITING;
             emit newStatus(state);
+
+            waitStarSelectTimer.start();
             //connect(targetImage, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int, int)), Qt::UniqueConnection);
             return;
         }
@@ -1981,6 +1990,8 @@ void Focus::startFraming()
         return;
     }
 
+    waitStarSelectTimer.stop();
+
     inFocusLoop = true;
     frameNum=0;
 
@@ -2167,7 +2178,10 @@ void Focus::focusStarSelected(int x, int y)
         starSelected = false;
     }
 
-    //targetImage->setTrackingBox(starRect);
+    waitStarSelectTimer.stop();
+    state = inAutoFocus ? FOCUS_PROGRESS : FOCUS_IDLE;
+
+    emit newStatus(state);
 }
 
 void Focus::checkFocus(double requiredHFR)
@@ -2361,5 +2375,3 @@ void Focus::syncTrackingBoxPosition()
 }
 
 }
-
-

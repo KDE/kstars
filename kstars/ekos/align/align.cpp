@@ -617,7 +617,7 @@ bool Align::captureAndSolve()
     if (focusState >= FOCUS_PROGRESS)
     {
         appendLogText(i18n("Cannot capture while focus module is busy! Retrying..."));
-        QTimer::singleShot(1000, this, SLOT(captureAndSolve()));
+        QTimer::singleShot(5000, this, SLOT(captureAndSolve()));
         return false;
     }
 

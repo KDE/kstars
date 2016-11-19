@@ -481,6 +481,9 @@ private:
 
     // Focus Frame
     FITSView *focusView;
+
+    // Star Select Timer
+    QTimer waitStarSelectTimer;
 };
 
 }
