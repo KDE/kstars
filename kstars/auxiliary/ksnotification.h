@@ -12,12 +12,13 @@
 #define KSNotifications_H
 
 #include <QString>
+#include <KLocalizedString>
 
 namespace KSNotification
 {
-    void error(const QString &value);
-    void sorry(const QString &value);
-    void info(const QString &value);
+    void error(const QString &message, const QString &title = i18n("Error") );
+    void sorry(const QString &message, const QString &title = i18n("Sorry") );
+    void info(const QString &message, const QString &title = i18n("Info") );
 }
 
 #endif // KSNotifications_H

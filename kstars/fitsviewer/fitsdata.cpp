@@ -34,7 +34,6 @@
 #include <QProgressDialog>
 
 #ifndef KSTARS_LITE
-#include <KMessageBox>
 #ifdef HAVE_WCSLIB
 #include <wcshdr.h>
 #include <wcsfix.h>
@@ -43,6 +42,7 @@
 
 #include <KLocalizedString>
 
+#include "auxiliary/ksnotification.h"
 #include "ksutils.h"
 #include "Options.h"
 
@@ -144,10 +144,8 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
         errMessage = i18n("Could not open file %1. Error %2", filename, QString::fromUtf8(error_status));
-#ifndef KSTARS_LITE
         if (silent == false)
-            KMessageBox::error(0, errMessage, i18n("FITS Open"));
-#endif
+            KSNotification::error(errMessage, i18n("FITS Open"));
         if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
@@ -158,10 +156,8 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
         errMessage = i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status));
-#ifndef KSTARS_LITE
         if (silent == false)
-            KMessageBox::error(0, errMessage, i18n("FITS Open"));
-#endif
+            KSNotification::error(errMessage, i18n("FITS Open"));
         if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
@@ -170,10 +166,8 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
     if (stats.ndim < 2)
     {
         errMessage = i18n("1D FITS images are not supported in KStars.");
-#ifndef KSTARS_LITE
         if (silent == false)
-            KMessageBox::error(0, errMessage, i18n("FITS Open"));
-#endif
+            KSNotification::error(errMessage, i18n("FITS Open"));
         if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
@@ -216,10 +210,8 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         stats.bytesPerPixel = sizeof(double);
     default:
         errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
-#ifndef KSTARS_LITE
         if (silent == false)
-            KMessageBox::error(NULL, errMessage, i18n("FITS Open"));
-#endif
+            KSNotification::error(errMessage, i18n("FITS Open"));
         if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
@@ -232,10 +224,8 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
     if (naxes[0] == 0 || naxes[1] == 0)
     {
         errMessage = i18n("Image has invalid dimensions %1x%2", naxes[0], naxes[1]);
-#ifndef KSTARS_LITE
         if (silent == false)
-            KMessageBox::error(0, errMessage, i18n("FITS Open"));
-#endif
+            KSNotification::error(errMessage, i18n("FITS Open"));
         if (Options::fITSLogging())
             qDebug() << errMessage;
         return false;
@@ -273,10 +263,8 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
         char errmsg[512];
         fits_get_errstatus(status, errmsg);
         errMessage = i18n("Error reading image: %1", QString(errmsg));
-#ifndef KSTARS_LITE
         if (silent == false)
-            KMessageBox::error(NULL, errMessage, i18n("FITS Open"));
-#endif
+            KSNotification::error(errMessage, i18n("FITS Open"));
         fits_report_error(stderr, status);
         if (Options::fITSLogging())
             qDebug() << errMessage;
@@ -2909,9 +2897,7 @@ bool FITSData::checkDebayer()
 
     if (stats.bitpix != 16 && stats.bitpix != 8)
     {
-#ifndef KSTARS_LITE
-        KMessageBox::error(NULL, i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
-#endif
+        KSNotification::error(i18n("Only 8 and 16 bits bayered images supported."), i18n("Debayer error"));
         return false;
     }
     QString pattern(bayerPattern);
@@ -2927,7 +2913,10 @@ bool FITSData::checkDebayer()
         debayerParams.filter = DC1394_COLOR_FILTER_BGGR;
     // We return unless we find a valid pattern
     else
+    {
+        KSNotification::error(i18n("Unsupported bayer pattern %1.", pattern), i18n("Debayer error"));
         return false;
+    }
 
     fits_read_key(fptr, TINT, "XBAYROFF", &debayerParams.offsetX, NULL, &status);
     fits_read_key(fptr, TINT, "YBAYROFF", &debayerParams.offsetY, NULL, &status);
@@ -2965,9 +2954,7 @@ bool FITSData::debayer()
         {
             char errmsg[512];
             fits_get_errstatus(status, errmsg);
-#ifndef KSTARS_LITE
-            KMessageBox::error(NULL, i18n("Error reading image: %1", QString(errmsg)));
-#endif
+            KSNotification::error(i18n("Error reading image: %1", QString(errmsg)), i18n("Debayer error"));
             return false;
         }
     }
@@ -2996,9 +2983,7 @@ bool FITSData::debayer_8bit()
 
     if (destinationBuffer == NULL)
     {
-#ifndef KSTARS_LITE
-        KMessageBox::error(NULL, i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer Error"));
-#endif
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
         return false;
     }
 
@@ -3020,9 +3005,7 @@ bool FITSData::debayer_8bit()
 
     if ( error_code != DC1394_SUCCESS)
     {
-#ifndef KSTARS_LITE
-        KMessageBox::error(NULL, i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
-#endif
+        KSNotification::error(i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
         channels=1;
         delete[] destinationBuffer;
         return false;
@@ -3036,9 +3019,7 @@ bool FITSData::debayer_8bit()
         if (imageBuffer == NULL)
         {
             delete[] destinationBuffer;
-#ifndef KSTARS_LITE
-            KMessageBox::error(NULL, i18n("Unable to allocate memory for debayerd buffer."), i18n("Debayer Error"));
-#endif
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
             return false;
         }
     }
@@ -3075,9 +3056,7 @@ bool FITSData::debayer_16bit()
 
     if (destinationBuffer == NULL)
     {
-#ifndef KSTARS_LITE
-        KMessageBox::error(NULL, i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer Error"));
-#endif
+        KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
         return false;
     }
 
@@ -3099,9 +3078,7 @@ bool FITSData::debayer_16bit()
 
     if ( error_code != DC1394_SUCCESS)
     {
-#ifndef KSTARS_LITE
-        KMessageBox::error(NULL, i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
-#endif
+        KSNotification::error(i18n("Debayer failed (%1)", error_code), i18n("Debayer error"));
         channels=1;
         delete[] destinationBuffer;
         return false;
@@ -3115,9 +3092,7 @@ bool FITSData::debayer_16bit()
         if (imageBuffer == NULL)
         {
             delete[] destinationBuffer;
-#ifndef KSTARS_LITE
-            KMessageBox::error(NULL, i18n("Unable to allocate memory for debayerd buffer."), i18n("Debayer Error"));
-#endif
+            KSNotification::error(i18n("Unable to allocate memory for temporary bayer buffer."), i18n("Debayer error"));
             return false;
         }
     }

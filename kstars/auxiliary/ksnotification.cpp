@@ -18,30 +18,33 @@
 
 namespace KSNotification
 {
-    void error(const QString &value)
+    void error(const QString &message, const QString &title)
     {
         #ifdef KSTARS_LITE
-        KStarsLite::Instance()->notificationMessage(value);
+        Q_UNUSED(title);
+        KStarsLite::Instance()->notificationMessage(message);
         #else
-        KMessageBox::error(0, value);
+        KMessageBox::error(0, message, title);
         #endif
     }
 
-    void sorry(const QString &value)
+    void sorry(const QString &message, const QString &title)
     {
         #ifdef KSTARS_LITE
-        KStarsLite::Instance()->notificationMessage(value);
+        Q_UNUSED(title);
+        KStarsLite::Instance()->notificationMessage(message);
         #else
-        KMessageBox::sorry(0, value);
+        KMessageBox::sorry(0, message, title);
         #endif
     }
 
-    void info(const QString &value)
-    {
+    void info(const QString &message, const QString &title)
+    {        
         #ifdef KSTARS_LITE
-        KStarsLite::Instance()->notificationMessage(value);
+        Q_UNUSED(title);
+        KStarsLite::Instance()->notificationMessage(message);
         #else
-        KMessageBox::information(0, value);
+        KMessageBox::information(0, message, title);
         #endif
     }
 }
