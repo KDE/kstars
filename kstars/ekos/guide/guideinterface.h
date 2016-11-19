@@ -33,6 +33,7 @@ public:
 
     virtual bool Connect() = 0;
     virtual bool Disconnect() = 0;
+    virtual bool isConnected() = 0;
 
     virtual bool calibrate() = 0;
     virtual bool guide() = 0;

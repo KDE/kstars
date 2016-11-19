@@ -610,6 +610,19 @@ bool Align::captureAndSolve()
         }
     }
 
+    if (currentCCD->getDriverInfo()->getClientManager()->getBLOBMode(currentCCD->getDeviceName(), "CCD1") == B_NEVER)
+    {
+        if (KMessageBox::questionYesNo(0, i18n("Image transfer is disabled for this camera. Would you like to enable it?")) == KMessageBox::Yes)
+        {
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     double seqExpose = exposureIN->value();
 
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);

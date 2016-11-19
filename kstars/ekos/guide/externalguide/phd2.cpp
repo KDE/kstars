@@ -140,7 +140,7 @@ void PHD2::readPHD2()
         }
 
         if (Options::guideLogging())
-            emit newLog(rawString);
+            qDebug() << "Guide: " << rawString;
 
         processJSON(jdoc.object());
     }

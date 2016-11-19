@@ -44,6 +44,7 @@ public:
 
     bool Connect() override;
     bool Disconnect() override;
+    bool isConnected() override { return (connection == CONNECTED); }
 
     bool calibrate() override;
     bool guide() override;

@@ -40,6 +40,7 @@ public:
 
     bool Connect() override { return true; }
     bool Disconnect() override { return true; }
+    bool isConnected() override { return true; }
 
     bool calibrate() override;
     bool guide() override;

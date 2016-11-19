@@ -270,7 +270,6 @@ void Guide::addCCD(ISD::GDInterface *newCCD)
 
     guiderCombo->addItem(ccd->getDeviceName());
 
-
     /*
      *
      * Check if this is necessary to save bandwidth
@@ -350,6 +349,29 @@ void Guide::checkCCD(int ccdNum)
         connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkExposureValue(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
 
+        // If guider is external and already connected and remote images option was disabled AND it was already
+        // disabled, then let's go ahead and disable it.
+        if (guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false && guider->isConnected())
+        {
+            for (int i=0; i < CCDs.count(); i++)
+            {
+               ISD::CCD *oneCCD = CCDs[i];
+               if (i == ccdNum && oneCCD->getDriverInfo()->getClientManager()->getBLOBMode(oneCCD->getDeviceName(), "CCD1") != B_NEVER)
+               {
+                   appendLogText(i18n("Disabling remote image reception from %1", oneCCD->getDeviceName()));
+                   oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, oneCCD->getDeviceName(), "CCD1");
+                   oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, oneCCD->getDeviceName(), "CCD2");
+               }
+               // If it was already disabled, enable it back
+               else if (i != ccdNum && oneCCD->getDriverInfo()->getClientManager()->getBLOBMode(oneCCD->getDeviceName(), "CCD1") == B_NEVER)
+               {
+                   appendLogText(i18n("Enabling remote image reception from %1", oneCCD->getDeviceName()));
+                   oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, oneCCD->getDeviceName(), "CCD1");
+                   oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, oneCCD->getDeviceName(), "CCD2");
+               }
+            }
+        }
+
         if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
             useGuideHead=true;
         else
@@ -357,8 +379,6 @@ void Guide::checkCCD(int ccdNum)
 
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         targetChip->setImageView(guideView, FITS_GUIDE);
-
-        updateCCDBlobMode(guiderType);
 
         syncCCDInfo();
     }
@@ -643,7 +663,13 @@ bool Guide::abort()
     {
     case GUIDE_IDLE:
     case GUIDE_CONNECTED:
+        break;
     case GUIDE_DISCONNECTED:
+        if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
+        {
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
+        }
         break;
 
     case GUIDE_CALIBRATING:
@@ -1146,6 +1172,12 @@ void Guide::setStatus(Ekos::GuideState newState)
         if (guiderType == GUIDE_LINGUIDER)
             calibrateB->setEnabled(true);
         guideB->setEnabled(true);
+        if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
+        {
+            appendLogText(i18n("Disabling remote image reception from %1", currentCCD->getDeviceName()));
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), "CCD1");
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), "CCD2");
+        }
         break;
 
     case GUIDE_DISCONNECTED:
@@ -1154,6 +1186,12 @@ void Guide::setStatus(Ekos::GuideState newState)
         externalDisconnectB->setEnabled(false);
         calibrateB->setEnabled(false);
         guideB->setEnabled(false);
+        if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
+        {
+            appendLogText(i18n("Enabling remote image reception from %1", currentCCD->getDeviceName()));
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
+            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
+        }
         break;
 
     case GUIDE_CALIBRATION_SUCESS:
@@ -1337,10 +1375,7 @@ bool Guide::setGuiderType(int type)
     if (type == -1)
         type = Options::guiderType();
     else if (type == guiderType)
-    {
-        updateCCDBlobMode(type);
         return true;
-    }
 
     if (state == GUIDE_CALIBRATING || state == GUIDE_GUIDING || state == GUIDE_DITHERING)
     {
@@ -1360,8 +1395,6 @@ bool Guide::setGuiderType(int type)
         connect(internalGuider, SIGNAL(DESwapChanged(bool)), swapCheck, SLOT(setChecked(bool)));
 
         guider = internalGuider;
-
-        updateCCDBlobMode(type);
 
         calibrateB->setEnabled(true);        
         guideB->setEnabled(false);
@@ -1384,9 +1417,6 @@ bool Guide::setGuiderType(int type)
 
         guider = phd2Guider;
 
-        // Do NOT receive BLOBs from the driver
-        updateCCDBlobMode(type);
-
         calibrateB->setEnabled(false);
         captureB->setEnabled(false);
         darkFrameCheck->setEnabled(false);
@@ -1401,8 +1431,6 @@ bool Guide::setGuiderType(int type)
             linGuider = new LinGuider();
 
         guider = linGuider;
-
-        updateCCDBlobMode(type);
 
         calibrateB->setEnabled(true);
         captureB->setEnabled(false);
@@ -1429,22 +1457,6 @@ bool Guide::setGuiderType(int type)
     guiderType = static_cast<GuiderType>(type);
 
     return true;
-}
-
-void Guide::updateCCDBlobMode(int type)
-{
-    if (currentCCD)
-    {
-        bool enabled = true;
-
-        if (type != GUIDE_INTERNAL)
-        {
-            // Receive remote BLOBs despite external guider
-            enabled = Options::guideRemoteImagesEnabled();
-        }
-
-        currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(enabled ? B_ALSO : B_NEVER, currentCCD->getDeviceName());
-    }
 }
 
 void Guide::updateTrackingBoxSize(int currentIndex)

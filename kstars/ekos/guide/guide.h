@@ -412,8 +412,6 @@ private:
      */
     void setBusy(bool enable);
 
-    void updateCCDBlobMode(int type);
-
     // Operation stack
     void buildOperationStack(GuideState operation);
     bool executeOperationStack();
