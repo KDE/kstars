@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>646</width>
-    <height>579</height>
+    <width>647</width>
+    <height>575</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0">
@@ -43,16 +43,19 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
           <property name="leftMargin">
-           <number>5</number>
+           <number>3</number>
           </property>
           <property name="topMargin">
-           <number>5</number>
+           <number>3</number>
           </property>
           <property name="rightMargin">
-           <number>5</number>
+           <number>3</number>
           </property>
           <property name="bottomMargin">
-           <number>5</number>
+           <number>3</number>
+          </property>
+          <property name="spacing">
+           <number>3</number>
           </property>
           <item row="2" column="2">
            <widget class="QPushButton" name="startLoopB">
@@ -171,20 +174,141 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
           <property name="leftMargin">
-           <number>5</number>
+           <number>3</number>
           </property>
           <property name="topMargin">
-           <number>5</number>
+           <number>3</number>
           </property>
           <property name="rightMargin">
-           <number>5</number>
+           <number>3</number>
           </property>
           <property name="bottomMargin">
-           <number>5</number>
+           <number>3</number>
           </property>
           <property name="spacing">
            <number>3</number>
           </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="textLabel1_6">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>CCD:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="CCDCaptureCombo"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="label_7">
+            <property name="toolTip">
+             <string>Exposure time in seconds</string>
+            </property>
+            <property name="text">
+             <string>Exp:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="spacing">
+             <number>1</number>
+            </property>
+            <item>
+             <widget class="QDoubleSpinBox" name="exposureIN">
+              <property name="decimals">
+               <number>3</number>
+              </property>
+              <property name="minimum">
+               <double>0.001000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>300.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.100000000000000</double>
+              </property>
+              <property name="value">
+               <double>0.500000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="showFITSViewerB">
+              <property name="minimumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Show in FITS Viewer</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>Bin:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="binningCombo">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="ISOLabel">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>ISO:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QComboBox" name="ISOCombo">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="FilterCaptureLabel">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Filter Wheel</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>FW:</string>
+            </property>
+           </widget>
+          </item>
           <item row="2" column="1">
            <widget class="QComboBox" name="FilterCaptureCombo">
             <property name="enabled">
@@ -204,7 +328,7 @@
              <string/>
             </property>
             <property name="text">
-             <string>Filter #:</string>
+             <string>Filter:</string>
             </property>
            </widget>
           </item>
@@ -255,93 +379,10 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
             </item>
            </widget>
           </item>
-          <item row="1" column="3">
-           <widget class="QComboBox" name="ISOCombo">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QComboBox" name="CCDCaptureCombo"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="FilterCaptureLabel">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="toolTip">
-             <string>Filter Wheel</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
+          <item row="3" column="2">
+           <widget class="QLabel" name="label_17">
             <property name="text">
-             <string>FW:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>Exposure:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <property name="spacing">
-             <number>1</number>
-            </property>
-            <item>
-             <widget class="QDoubleSpinBox" name="exposureIN">
-              <property name="decimals">
-               <number>3</number>
-              </property>
-              <property name="minimum">
-               <double>0.001000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>300.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>0.100000000000000</double>
-              </property>
-              <property name="value">
-               <double>0.500000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_13">
-              <property name="text">
-               <string>secs</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_18">
-            <property name="text">
-             <string>Bin:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="binningCombo">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLabel" name="ISOLabel">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>ISO:</string>
+             <string>Frame:</string>
             </property>
            </widget>
           </item>
@@ -352,26 +393,6 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
             </property>
             <property name="text">
              <string>Reset</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="textLabel1_6">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>CCD:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="label_17">
-            <property name="text">
-             <string>Frame:</string>
             </property>
            </widget>
           </item>

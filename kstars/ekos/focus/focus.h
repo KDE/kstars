@@ -317,6 +317,8 @@ private slots:
 
     void setCaptureComplete();
 
+    void showFITSViewer();
+
 signals:
         void newLog();
         //void autoFocusFinished(bool status, double finalHFR);
@@ -484,6 +486,9 @@ private:
 
     // Star Select Timer
     QTimer waitStarSelectTimer;
+
+    // FITS Viewer in case user want to display in it instead of internal view
+    QPointer<FITSViewer> fv;
 };
 
 }

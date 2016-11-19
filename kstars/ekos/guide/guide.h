@@ -373,7 +373,9 @@ protected slots:
 
      void processGuideOptions();
 
-     void onControlDirectionChanged(bool enable);     
+     void onControlDirectionChanged(bool enable);
+
+     void showFITSViewer();
 
 signals:
     void newLog();
@@ -495,6 +497,7 @@ private:
     QPointer<InternalGuider> internalGuider;
     QPointer<PHD2> phd2Guider;
     QPointer<LinGuider> linGuider;
+    QPointer<FITSViewer> fv;
 };
 
 }

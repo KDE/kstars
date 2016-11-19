@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>686</width>
-    <height>505</height>
+    <width>681</width>
+    <height>486</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -60,7 +60,7 @@
           <item>
            <layout class="QGridLayout" name="controlLayout">
             <property name="spacing">
-             <number>5</number>
+             <number>3</number>
             </property>
             <item row="0" column="0">
              <widget class="QPushButton" name="captureB">
@@ -69,23 +69,25 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QPushButton" name="calibrateB">
-              <property name="enabled">
-               <bool>true</bool>
+            <item row="0" column="2">
+             <widget class="QPushButton" name="showFITSViewerB">
+              <property name="minimumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
               </property>
-              <property name="text">
-               <string>Calibrate</string>
+              <property name="maximumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
               </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QCheckBox" name="darkFrameCheck">
               <property name="toolTip">
-               <string>Subtract dark frame. If no dark frame is available, a new dark frame shall be captured and saved for future use.</string>
+               <string>Show in FITS Viewer</string>
               </property>
               <property name="text">
-               <string>Dark</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -99,14 +101,27 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="1">
-             <widget class="QPushButton" name="guideOptionsB">
+            <item row="1" column="1">
+             <widget class="QCheckBox" name="darkFrameCheck">
+              <property name="toolTip">
+               <string>Subtract dark frame. If no dark frame is available, a new dark frame shall be captured and saved for future use.</string>
+              </property>
               <property name="text">
-               <string>Options</string>
+               <string>Dark</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
+            <item row="2" column="0">
+             <widget class="QPushButton" name="calibrateB">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>Calibrate</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1" colspan="2">
              <widget class="QPushButton" name="guideB">
               <property name="enabled">
                <bool>false</bool>
@@ -123,6 +138,13 @@
               </property>
               <property name="text">
                <string>Stop</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1" colspan="2">
+             <widget class="QPushButton" name="guideOptionsB">
+              <property name="text">
+               <string>Options</string>
               </property>
              </widget>
             </item>

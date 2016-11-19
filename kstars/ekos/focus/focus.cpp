@@ -98,6 +98,9 @@ Focus::Focus()
     maxPos=0;
     frameNum=0;
 
+    showFITSViewerB->setIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
+    connect(showFITSViewerB, SIGNAL(clicked()), this, SLOT(showFITSViewer()));
+
     connect(startFocusB, SIGNAL(clicked()), this, SLOT(start()));
     connect(stopFocusB, SIGNAL(clicked()), this, SLOT(checkStopFocus()));
 
@@ -2371,6 +2374,29 @@ void Focus::syncTrackingBoxPosition()
         QRect starRect = QRect( starCenter.x()-boxSize/(2*subBinX), starCenter.y()-boxSize/(2*subBinY), boxSize/subBinX, boxSize/subBinY);
         focusView->setTrackingBoxEnabled(true);
         focusView->setTrackingBox(starRect);
+    }
+}
+
+void Focus::showFITSViewer()
+{
+    FITSData *data = focusView->getImageData();
+    if (data)
+    {
+        QUrl url = QUrl::fromLocalFile(data->getFilename());
+
+        if (fv.isNull())
+        {
+            if (Options::singleWindowCapturedFITS())
+                fv = KStars::Instance()->genericFITSViewer();
+            else
+                fv = new FITSViewer(Options::independentWindowFITS() ? NULL : KStars::Instance());
+
+            fv->addFITS(&url);
+        }
+        else
+            fv->updateFITS(&url, 0);
+
+        fv->show();
     }
 }
 

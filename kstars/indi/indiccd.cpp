@@ -1290,7 +1290,9 @@ void CCD::processBLOB(IBLOB* bp)
     {
         QUrl fileURL = QUrl::fromLocalFile(filename);
 
-        if (fv.isNull())
+        // If there is no FITSViewer, create it. Unless it is a dedicated Focus or Guide frame
+        // then no need for a FITS Viewer as they get displayed inside Ekos
+        if (fv.isNull() && targetChip->getCaptureMode() != FITS_GUIDE && targetChip->getCaptureMode() != FITS_FOCUS)
         {
             normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
 

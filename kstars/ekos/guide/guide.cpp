@@ -100,6 +100,9 @@ Guide::Guide() : QWidget()
     pi = new QProgressIndicator(this);
     controlLayout->addWidget(pi, 0, 1, 1, 1);
 
+    showFITSViewerB->setIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
+    connect(showFITSViewerB, SIGNAL(clicked()), this, SLOT(showFITSViewer()));
+
     // Exposure
     connect(exposureIN, SIGNAL(editingFinished()), this, SLOT(saveDefaultGuideExposure()));
 
@@ -2129,6 +2132,29 @@ void Guide::processGuideOptions()
     {
         guiderType = static_cast<GuiderType>(Options::guiderType());
         setGuiderType(Options::guiderType());
+    }
+}
+
+void Guide::showFITSViewer()
+{
+    FITSData *data = guideView->getImageData();
+    if (data)
+    {
+        QUrl url = QUrl::fromLocalFile(data->getFilename());
+
+        if (fv.isNull())
+        {
+            if (Options::singleWindowCapturedFITS())
+                fv = KStars::Instance()->genericFITSViewer();
+            else
+                fv = new FITSViewer(Options::independentWindowFITS() ? NULL : KStars::Instance());
+
+            fv->addFITS(&url);
+        }
+        else
+            fv->updateFITS(&url, 0);
+
+        fv->show();
     }
 }
 }
