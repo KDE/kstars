@@ -138,6 +138,12 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     // Initialize clock. If --paused is not in the comand line, look in options
     if ( clockrun )
         StartClockRunning =  Options::runClock();
+    // If we are starting paused, we need to change datetime in data
+    if (StartClockRunning == false)
+    {
+        qDebug() << "KStars is started in paused state.";
+        data()->changeDateTime( KStarsDateTime::currentDateTimeUtc() );
+    }
 
     // Setup splash screen
     KStarsSplash *splash = 0;
