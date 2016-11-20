@@ -357,6 +357,13 @@ bool EkosManager::start()
         qDeleteAll(managedDrivers);
     managedDrivers.clear();
 
+    // If clock was paused, unpaused it and sync time
+    if (KStarsData::Instance()->clock()->isActive() == false)
+    {
+        KStarsData::Instance()->changeDateTime( KStarsDateTime::currentDateTimeUtc() );
+        KStarsData::Instance()->clock()->start();
+    }
+
     reset();
 
     ProfileInfo *currentProfile = getCurrentProfile();

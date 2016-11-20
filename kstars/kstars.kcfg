@@ -93,7 +93,7 @@
       <entry name="ShowJ2000RADecField" type="Bool">
          <label>Display J2000.0 RA/Dec coordinates in the statusbar?</label>
          <whatsthis>Toggle display of the Equatorial coordinates of the mouse cursor at the standard epoch in the status bar.</whatsthis>
-         <default>true</default>
+         <default>false</default>
       </entry>
       <entry name="WindowWidth" type="UInt">
          <label>Width of main window, in pixels</label>
