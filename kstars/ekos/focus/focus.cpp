@@ -126,9 +126,6 @@ Focus::Focus()
     connect(binningCombo, SIGNAL(activated(int)), this, SLOT(setActiveBinning(int)));
     connect(focusBoxSize, SIGNAL(valueChanged(int)), this, SLOT(updateBoxSize(int)));
 
-    // Reset star center on auto star check toggle
-    connect(autoStarCheck, &QCheckBox::toggled, this, [&](){starCenter = QVector3D();});
-
     focusAlgorithm = static_cast<StarAlgorithm>(Options::focusAlgorithm());
     focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
 
@@ -247,6 +244,9 @@ Focus::Focus()
     connect(focusView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(focusStarSelected(int,int)), Qt::UniqueConnection);
 
     focusView->setStarsEnabled(true);
+
+    // Reset star center on auto star check toggle
+    connect(autoStarCheck, &QCheckBox::toggled, this, [&](bool enabled){if (enabled) { starCenter = QVector3D(); starSelected=false; focusView->setTrackingBox(QRect());}});
 }
 
 Focus::~Focus()
@@ -1042,6 +1042,21 @@ void Focus::setCaptureComplete()
             //if (autoStarCheck->isChecked() && subFramed == false)
                 //focusView->findStars(ALGORITHM_CENTROID);
 
+            currentHFR = -1;
+
+            if (starSelected)
+            {
+                focusView->findStars(focusAlgorithm);
+                focusView->updateFrame();
+                currentHFR= image_data->getHFR(HFR_MAX);
+            }
+            else
+            {
+                focusView->findStars(ALGORITHM_CENTROID);
+                focusView->updateFrame();
+                currentHFR= image_data->getHFR(HFR_MAX);
+            }
+            /*
             if (subFramed && focusView->isTrackingBoxEnabled())
             {
                 focusView->findStars(focusAlgorithm);
@@ -1053,7 +1068,7 @@ void Focus::setCaptureComplete()
                 focusView->findStars(ALGORITHM_CENTROID);
                 focusView->updateFrame();
                 currentHFR= image_data->getHFR(HFR_MAX);
-            }
+            }*/
         }
 
         if (Options::focusLogging())
