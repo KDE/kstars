@@ -780,6 +780,30 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     QStringList solverArgs;
     double ra,dec;
 
+    if (isGenerated)
+        solverArgs = solverOptions->text().split(" ");
+    else if (filename.endsWith("fits") || filename.endsWith("fit"))
+    {
+        solverArgs = getSolverOptionsFromFITS(filename);
+        appendLogText(i18n("Using solver options: %1", solverArgs.join(" ")));
+    }
+    else
+    {
+        KGuiItem blindItem(i18n("Blind solver"), QString(), i18n("Blind solver takes a very long time to solve but can reliably solve any image any where in the sky given enough time."));
+        KGuiItem existingItem(i18n("Use existing settings"), QString(), i18n("Mount must be pointing close to the target location and current field of view must match the image's field of view."));
+        int rc = KMessageBox::questionYesNoCancel(0, i18n("No metadata is available in this image. Do you want to use the blind solver or the existing solver settings?"), i18n("Astrometry solver"),
+                                         blindItem, existingItem, KStandardGuiItem::cancel(), "blind_solver_or_existing_solver_option");
+        if (rc == KMessageBox::Yes)
+            solverArgs << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"  << "--downsample" << "2" << "-O";
+        else if (rc == KMessageBox::No)
+            solverArgs = solverOptions->text().split(" ");
+        else
+        {
+            abort();
+            return;
+        }
+    }
+
     currentTelescope->getEqCoords(&ra, &dec);
 
     if (solverIterations == 0)
@@ -803,16 +827,6 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     solverTimer.start();
 
     alignTimer.start();
-
-    if (isGenerated)
-        solverArgs = solverOptions->text().split(" ");
-    else if (filename.endsWith("fits") || filename.endsWith("fit"))
-    {
-        solverArgs = getSolverOptionsFromFITS(filename);
-        appendLogText(i18n("Using solver options: %1", solverArgs.join(" ")));
-    }
-    else
-        solverArgs << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"  << "--downsample" << "2" << "-O";
 
     if (currentGotoMode == GOTO_SLEW)
         appendLogText(i18n("Solver iteration #%1", solverIterations+1));
