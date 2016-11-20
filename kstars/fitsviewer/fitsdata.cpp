@@ -735,10 +735,11 @@ template<typename T> int FITSData::findCannyStar(FITSData *data, const QRect &bo
     {
         uint8_t *dataPtr     = buffer;
         uint8_t *origDataPtr = data->getImageBuffer();
+        uint32_t lineOffset  = 0;
         // Copy data line by line
         for (int height=subY; height < (subY+subH); height++)
         {
-            uint16_t lineOffset = (subX + height * dataWidth) * BBP;
+            lineOffset = (subX + height * dataWidth) * BBP;
             memcpy(dataPtr, origDataPtr + lineOffset, subW * BBP);
             dataPtr += (subW * BBP);
         }
