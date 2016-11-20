@@ -44,7 +44,7 @@
 
 
 const int MAX_FILENAME_LEN = 1024;
-const QStringList RAWFormats = { "cr2", "crw", "nef", "raf", "dng" };
+const QStringList RAWFormats = { "cr2", "crw", "nef", "raf", "dng", "arw" };
 
 namespace ISD
 {
