@@ -367,7 +367,7 @@ void KStars::initActions() {
 
     actionCollection()->addAction("geolocation", this, SLOT( slotGeoLocator() ) )
         << i18nc("Location on Earth", "&Geographic..." )
-        << QIcon::fromTheme("kstars_planets" , QIcon(":/icons/breeze/default/kstars_planets.svg"))
+        << QIcon::fromTheme("kstars_xplanet" , QIcon(":/icons/breeze/default/kstars_xplanet.svg"))
         << QKeySequence( Qt::CTRL+Qt::Key_G );
     ka = actionCollection()->addAction( KStandardAction::Preferences, "configure", this, SLOT( slotViewOps() ) );
     //I am not sure what icon preferences is supposed to be.
