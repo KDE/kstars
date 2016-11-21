@@ -20,6 +20,8 @@
 #include <QStringList>
 #include <QComboBox>
 
+#include "ksnotification.h"
+
 #include "Options.h"
 
 #include "kstars.h"
@@ -64,6 +66,7 @@ OpsINDI::OpsINDI()
     connect(selectFITSDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
     connect(selectDriversDirB, SIGNAL(clicked()), this, SLOT(saveDriversDirectory()));    
     connect(showLogsB, SIGNAL(clicked()), this, SLOT(slotShowLogFiles()));
+    connect(kcfg_indiServer, SIGNAL(editingFinished()), this, SLOT(verifyINDIServer()));
 
     #ifdef Q_OS_WIN
     kcfg_indiServer->setEnabled(false);
@@ -79,7 +82,11 @@ void OpsINDI::toggleINDIInternal()
     if(kcfg_indiServerIsInternal->isChecked())
         kcfg_indiServer->setText("*Internal INDI Server*");
     else
+        #ifdef Q_OS_OSX
         kcfg_indiServer->setText("/usr/local/bin/indiserver");
+        #else
+        kcfg_indiServer->setText("/usr/bin/indiserver");
+        #endif
 }
 
 void OpsINDI::toggleDriversInternal()
@@ -112,5 +119,19 @@ void OpsINDI::slotShowLogFiles()
     QUrl path = QUrl::fromLocalFile(QDir::homePath() + "/.indi/logs");
 
     QDesktopServices::openUrl(path);
+}
+
+void OpsINDI::verifyINDIServer()
+{
+    // Do not verify internal
+    if (kcfg_indiServerIsInternal->isChecked())
+        return;
+
+    QFileInfo indiserver(kcfg_indiServer->text());
+
+    if (indiserver.exists() && indiserver.isFile() && indiserver.baseName() == "indiserver")
+        return;
+
+    KSNotification::error(i18n("%1 is not a valid INDI server binary!", kcfg_indiServer->text()));
 }
 

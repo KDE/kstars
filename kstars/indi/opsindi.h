@@ -36,6 +36,7 @@ private slots:
     void slotShowLogFiles();
     void toggleINDIInternal();
     void toggleDriversInternal();
+    void verifyINDIServer();
 
 private:
     KConfigDialog *m_ConfigDialog;
