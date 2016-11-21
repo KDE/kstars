@@ -655,6 +655,7 @@ bool copyDataFolderFromAppBundleIfNeeded()  //The method returns true if the dat
             }
             KSUtils::copyRecursively(dataSourceLocation, dataLocation);
             Options::setIndiServerIsInternal(true);
+            Options::setIndiDriversAreInternal(true);
             Options::setAstrometrySolverIsInternal(true);
             Options::setAstrometryConfFileIsInternal(true);
             Options::setWcsIsInternal(true);
@@ -675,9 +676,11 @@ void configureDefaultAstrometry(){
         writableDir.mkdir(astrometryPath);
         astrometryPath=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "Astrometry", QStandardPaths::LocateDirectory);
         if(astrometryPath.isEmpty())
-            KMessageBox::sorry(0, i18n("Error!  The Astrometry Index File Directory was not able to be created."));
+            KMessageBox::sorry(0, i18n("Error!  The Astrometry Index File Directory does not exist and was not able to be created."));
         else{
-            KMessageBox::sorry(0, "Astrometry Index Directory is at: " + astrometryPath +"\n Be sure to put Astrometry index files there in order to solve images.");
+            if(QDir(astrometryPath).count()<3)
+                KMessageBox::sorry(0, "Astrometry Index Directory is at: " + astrometryPath +"\n Be sure to put Astrometry index files there in order to solve images.");
+
             QString confPath=QCoreApplication::applicationDirPath()+"/astrometry/bin/astrometry.cfg";
             QFile confFile(confPath);
             QString contents;

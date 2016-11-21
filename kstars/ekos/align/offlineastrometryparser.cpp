@@ -17,6 +17,7 @@
 #include "auxiliary/kspaths.h"
 #include "offlineastrometryparser.h"
 #include "align.h"
+#include "ksutils.h"
 
 namespace Ekos
 {
@@ -55,6 +56,12 @@ OfflineAstrometryParser::~OfflineAstrometryParser()
 
 bool OfflineAstrometryParser::init()
 {
+
+    #ifdef Q_OS_OSX
+    if(Options::astrometryConfFileIsInternal())
+        KSUtils::configureDefaultAstrometry();
+    #endif
+
     if (astrometryFilesOK)
         return true;
 
