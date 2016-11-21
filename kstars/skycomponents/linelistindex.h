@@ -20,6 +20,7 @@
 
 #include <QList>
 #include <QHash>
+#include <QMutex>
 
 #include "skycomponent.h"
 #include "skymesh.h"
@@ -174,6 +175,8 @@ private:
     LineListHash* m_polyIndex;
 
     LineListList  m_listList;
+
+    QMutex mutex;
 };
 
 #endif

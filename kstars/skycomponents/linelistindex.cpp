@@ -34,8 +34,9 @@
 #include "linelistindex.h"
 
 #include <QBrush>
-
+#include <QMutexLocker>
 #include <QDebug>
+
 #include <KLocalizedString>
 
 #include "Options.h"
@@ -127,6 +128,7 @@ void LineListIndex::appendPoly(LineList* lineList, int debug)
 
 void LineListIndex::appendBoth(LineList* lineList, int debug)
 {
+    QMutexLocker m1(&mutex);
     appendLine( lineList, debug );
     appendPoly( lineList, debug );
 }
