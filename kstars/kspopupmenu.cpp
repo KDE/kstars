@@ -261,7 +261,8 @@ void KSPopupMenu::createSupernovaMenu(Supernova* supernova)
     QString name=supernova->name();
     float mag = supernova->mag();
     QString type = supernova->getType();
-    initPopupMenu( supernova, name, i18n( "supernova" ), i18n("%1<sup>m</sup>, %2", mag, type) );
+
+    initPopupMenu( supernova, name, i18n( "supernova" ), i18n("%1<sup>m</sup> %2 z: %3", mag, type, QString::number(supernova->getRedShift(), 'f', 2)));
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,

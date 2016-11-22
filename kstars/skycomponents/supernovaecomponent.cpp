@@ -1,21 +1,20 @@
-/***************************************************************************
-                          supernovaecomponent.cpp  -  K Desktop Planetarium
-                             -------------------
-    begin                : 2011/18/06
-    copyright            : (C) 2011 by Samikshan Bairagya
-    email                : samikshan@gmail.com
- ***************************************************************************/
+/*  Supernova Component
+    Copyright (C) 2016 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    Based on Samikshan Bairagya GSoC work.
+
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+ */
 
 #include "supernovaecomponent.h"
+
+#include <QtConcurrent>
+#include <QJsonDocument>
+#include <QJsonValue>
+
 #ifndef KSTARS_LITE
 #include "skymap.h"
 #else
@@ -29,14 +28,13 @@
 #include "Options.h"
 #include "notifyupdatesui.h"
 
-#include "ksfilereader.h"
-#include "QStandardPaths"
 #include "kstarsdata.h"
 #include "auxiliary/kspaths.h"
 
-SupernovaeComponent::SupernovaeComponent(SkyComposite* parent): ListComponent(parent), m_Parser(0)
+SupernovaeComponent::SupernovaeComponent(SkyComposite* parent): ListComponent(parent)
 {
-    loadData();
+    QtConcurrent::run(this, &SupernovaeComponent::loadData);
+    //loadData();
 }
 
 SupernovaeComponent::~SupernovaeComponent() {}
@@ -45,8 +43,10 @@ void SupernovaeComponent::update(KSNumbers* num)
 {
     if ( ! selected() )
         return;
+
     KStarsData *data = KStarsData::Instance();
-    foreach ( SkyObject *so, m_ObjectList ) {
+    foreach ( SkyObject *so, m_ObjectList )
+    {
         if( num )
             so->updateCoords( num );
         so->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -60,7 +60,7 @@ bool SupernovaeComponent::selected()
 
 void SupernovaeComponent::loadData()
 {
-    QString serialNo, hostGalaxy, date, type, offset, SNPosition, discoverers ;
+   /* QString serialNo, hostGalaxy, date, type, offset, SNPosition, discoverers ;
     dms ra, dec;
     float magnitude;
     qDebug()<<"Loading Supernovae data";
@@ -85,51 +85,74 @@ void SupernovaeComponent::loadData()
     sequence.append(qMakePair(QString("ignore3"),       KSParser::D_SKIP));
     sequence.append(qMakePair(QString("discoverers"),   KSParser::D_QSTRING));
 
-    QString file_name = KSPaths::locate(QStandardPaths::GenericDataLocation,
-                                               QString("supernovae.dat"));
-    KSParser snParser(file_name, '#', sequence);
+    //KSParser snParser(file_name, '#', sequence);
 
-    QHash<QString, QVariant> row_content;
-    while (snParser.HasNextRow()){
-        row_content = snParser.ReadNextRow();
+    */
 
-        if(row_content["serialNo"].toString() == "Null")
+    objectNames(SkyObject::SUPERNOVA).clear();
+    qDeleteAll(m_ObjectList);
+    objectLists(SkyObject::SUPERNOVA).clear();
+
+    QString name, type, host, date, ra, de;
+    float z, mag;
+
+    QString sFileName = KSPaths::locate(QStandardPaths::GenericDataLocation, QString("catalog.min.json"));
+
+    QFile sNovaFile(sFileName);
+
+    if (sNovaFile.open(QIODevice::ReadOnly) == false)
+    {
+        qCritical() << "Unable to open supernova file" << sFileName;
+        return;
+    }
+
+    QJsonParseError pError;
+    QJsonDocument sNova = QJsonDocument::fromJson(sNovaFile.readAll(), &pError);
+
+    if (pError.error !=  QJsonParseError::NoError)
+    {
+        qCritical() << "Error parsing json document" << pError.errorString();
+        return;
+    }
+
+    if (sNova.isArray() == false)
+    {
+        qCritical() << "Invalid document format! No JSON array.";
+        return;
+    }
+
+    QJsonArray sArray = sNova.array();
+
+    foreach (const QJsonValue& snValue, sArray)
+    {
+        const QJsonObject propObject = snValue.toObject();
+        mag=99.9;
+        z=0;
+
+        if (propObject.contains("claimedtype") == false)
             continue;
 
-        serialNo    = row_content["serialNo"].toString().trimmed();
-        hostGalaxy  = row_content["hostGalaxy"].toString();
-        date        = row_content["date"].toString();
-        ra          = dms(row_content["ra"].toString(), false);
-        dec         = dms(row_content["dec"].toString());
-        offset      = row_content["offset"].toString();
-        magnitude   = row_content["magnitude"].toFloat();
-        SNPosition  = row_content["SNPosition"].toString();
-        type        = row_content["type"].toString();
-        discoverers = row_content["discoverers"].toString();
+        ra   = ((propObject["ra"].toArray()[0]).toObject()["value"]).toString();
+        if (ra.isEmpty())
+            continue;
+        de   = ((propObject["dec"].toArray()[0]).toObject()["value"]).toString();
+        name = propObject["name"].toString();        
+        type = ((propObject["claimedtype"].toArray()[0]).toObject()["value"]).toString();
+        host = ((propObject["host"].toArray()[0]).toObject()["value"]).toString();
+        date = ((propObject["discoverdate"].toArray()[0]).toObject()["value"]).toString();
+        z    = ((propObject["redshift"].toArray()[0]).toObject()["value"]).toString().toDouble();
+        mag  = ((propObject["maxappmag"].toArray()[0]).toObject()["value"]).toString().toDouble();
 
-        if (magnitude == KSParser::EBROKEN_FLOAT)
-            magnitude = 99.9;
+        Supernova * sup = new Supernova(name, dms::fromString(ra, false), dms::fromString(de, true), type, host, date, z, mag);
 
-        Supernova *sup = static_cast<Supernova*>(findByName(serialNo));
+        //sup->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-        if (m_ObjectList.empty() || !sup)
-        {
-            sup = new Supernova(ra, dec, date, magnitude, serialNo,
-                    type, hostGalaxy, offset, discoverers);
+        objectNames(SkyObject::SUPERNOVA).append(name);
 
-            sup->EquatorialToHorizontal(KStarsData::Instance()->lst(),
-                                        KStarsData::Instance()->geo()->lat());
-
-            m_ObjectList.append(sup);
-            latest.append(sup);
-        }
-
-        if(sup) objectLists(SkyObject::SUPERNOVA).append(QPair<QString, const SkyObject*>(serialNo, sup));
-        objectNames(SkyObject::SUPERNOVA).append(serialNo);
-    }
-    //notifyNewSupernovae();
+        m_ObjectList.append(sup);
+        objectLists( SkyObject::SUPERNOVA ).append(QPair<QString, const SkyObject*>(name,sup));
+    }   
 }
-
 
 SkyObject* SupernovaeComponent::findByName(const QString& name)
 {
@@ -194,6 +217,7 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
     }
 }
 
+#if 0
 void SupernovaeComponent::notifyNewSupernovae()
 {
 #ifndef KSTARS_LITE
@@ -222,10 +246,11 @@ void SupernovaeComponent::notifyNewSupernovae()
 //         KMessageBox::informationList(0, i18n("New Supernovae discovered!"), latestList, i18n("New Supernovae discovered!"));
 #endif
 }
-
+#endif
 
 void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
+    /*
     QString output  = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "supernovae.dat";
     QString filename= KSPaths::locate(QStandardPaths::GenericDataLocation, "scripts/supernova_updates_parser.py") ;
     QStringList args;
@@ -234,8 +259,10 @@ void SupernovaeComponent::slotTriggerDataFileUpdate()
     m_Parser = new QProcess;
     connect( m_Parser, SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( slotDataFileUpdateFinished( int, QProcess::ExitStatus ) ) );
     m_Parser->start("python2", args);
+    */
 }
 
+/*
 void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::ExitStatus exitStatus )
 {
     Q_UNUSED(exitStatus)
@@ -271,3 +298,4 @@ void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::Ex
     delete m_Parser;
     m_Parser = 0;
 }
+*/

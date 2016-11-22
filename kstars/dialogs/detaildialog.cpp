@@ -89,7 +89,9 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 
     setWindowTitle( i18n( "Object Details" ) );
 
-    setStandardButtons(QDialogButtonBox::Close);
+    // JM 2016-11-22: Do we really need a close button?
+    //setStandardButtons(QDialogButtonBox::Close);
+    setStandardButtons(QDialogButtonBox::NoButton);
 
     createGeneralTab();
     createPositionTab( ut, geo );
@@ -255,9 +257,28 @@ void DetailDialog::createGeneralTab()
 
             objecttyp = i18n("Supernova");
             Data->Names->setText(sup->name());
-            Data->Magnitude->setText(i18nc("number in magnitudes", "%1 mag",
-                                           QLocale().toString(sup->mag(), 'f', 2)));
-            Data->Distance->setText("---");
+            Data->Magnitude->setText(i18nc("number in magnitudes", "%1 mag", QLocale().toString(sup->mag(), 'f', 2)));
+
+            Data->DistanceLabel->setVisible(false);
+            Data->Distance->setVisible(false);
+
+            Data->AngSizeLabel->setVisible(false);
+            Data->AngSize->setVisible(false);
+
+            QLabel *discoveryDateLabel = new QLabel(i18n("Discovery Date:"), this);
+            QLabel *discoveryDate      = new QLabel(sup->getDate(), this);
+            Data->dataGridLayout->addWidget(discoveryDateLabel, 1, 0);
+            Data->dataGridLayout->addWidget(discoveryDate, 1, 1);
+
+            QLabel *typeLabel          = new QLabel(i18n("Type:"), this);
+            QLabel *type               = new QLabel(sup->getType(), this);
+            Data->dataGridLayout->addWidget(typeLabel, 2, 0);
+            Data->dataGridLayout->addWidget(type, 2, 1);
+
+            QLabel *hostGalaxyLabel    = new QLabel(i18n("Host Galaxy:"), this);
+            QLabel *hostGalaxy         = new QLabel(sup->getHostGalaxy(), this);
+            Data->dataGridLayout->addWidget(hostGalaxyLabel, 3, 0);
+            Data->dataGridLayout->addWidget(hostGalaxy, 3, 1);
 
             break;
         }

@@ -1,51 +1,44 @@
-/***************************************************************************
-                          supernova.h  -  K Desktop Planetarium
-                             -------------------
-    begin                : Sunday, 19th June, 2011
-    copyright            : (C) 2011 by Samikshan Bairagya
-    email                : samikshan@gmail.com
- ***************************************************************************/
+/*  Supernova Object
+    Copyright (C) 2016 Jasem Mutlaq <mutlaqja@ikarustech.com>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+    Based on Samikshan Bairagya GSoC work.
+
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+ */
 
 #ifndef SUPERNOVA_H
 #define SUPERNOVA_H
 
 #include "skyobject.h"
 
-#include <qvarlengtharray.h>
-
 /**
  * @class Supernova
  * Represents the supernova object. It is a subclass of the SkyObject class.
  * This class has the information for different supernovae.
+ *
+ * N.B. This was modified to use the Open Supernova Project
  * @author Samikshan Bairagya
+ * @author Jasem Mutlaq
  */
-
 /**
  * @note The Data File Contains the following parameters
+ * @li sName        Designation
  * @li RA           Right Ascension
  * @li Dec          Declination
- * @li Magnitude    Magnitude at discovery
- * @li serialNumber Serial Number for the Supernova
  * @li type         Supernova Type
  * @li hostGalaxy   Host Galaxy for the supernova
- * @li offset       Offset from the nucleus of the host galaxy as reported at time of discovery
- * @li discoverer   Discoverer(s) of the supernova
- * @li date         Date of observation of the supernova
+ * @li date         Discovery date yyyy/mm/dd
+ * @li sRedShift    Redshift
+ * @li sMag         Maximum Apparent magnitude
  */
 class Supernova : public SkyObject
 {
 public:
-    explicit Supernova( dms ra, dms dec, const QString& date, float m = 0.0, const QString& serialNo=QString(),
-                        const QString& type=QString(), const QString& hostGalaxy=QString(), const QString& offset=QString(),const QString& discoverer=QString() );
+    explicit Supernova(const QString &sName, dms ra, dms dec, const QString& type=QString(), const QString& hostGalaxy=QString(),
+                       const QString& date=QString(), float sRedShift = 0.0, float sMag = 99.9);
     /**
      * @return a clone of this object
      * @note See SkyObject::clone()
@@ -53,28 +46,7 @@ public:
     virtual Supernova* clone() const;
 
     /** Destructor(Empty) */
-    virtual ~Supernova() {}
-
-    /** @return true if the star has a serial number */
-    inline bool hasName() const { return ( !serialNumber.isEmpty());  }
-
-    /** @return the Serial Number of the Supernova */
-    inline virtual QString name( void ) const { return serialNumber;}
-
-    /**
-     *@return the Right Ascension
-     */
-    inline dms getRA() const { return RA ; }
-
-    /**
-     *@return the Declination
-     */
-    inline dms getDec() const { return Dec ; }
-
-    /**
-     * @return Magnitude for the Supernova
-     */
-    inline float getMagnitude() const { return Magnitude ; }
+    virtual ~Supernova() {}    
 
     /**
      * @return the type of the supernova
@@ -91,12 +63,16 @@ public:
      */
     inline QString getDate() const { return date; }
 
-    void initPopupMenu(KSPopupMenu*);
-private:
+    /**
+     * @return the date the supernova was observed
+     */
+    inline float getRedShift() const { return redShift; }
 
-    QString serialNumber, type, hostGalaxy, offset, discoverers, date;
-    dms RA, Dec;
-    float Magnitude;
+    void initPopupMenu(KSPopupMenu*);
+
+private:
+    QString type, hostGalaxy, date;
+    float redShift;
 };
 
 #endif

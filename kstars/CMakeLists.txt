@@ -552,7 +552,7 @@ set(libkstarscomponents_SRCS
 
 if(NOT BUILD_KSTARS_LITE)
     LIST(APPEND libkstarscomponents_SRCS
-        skycomponents/notifyupdatesui.cpp
+        #skycomponents/notifyupdatesui.cpp
         )
 else(NOT BUILD_KSTARS_LITE)
     set(libkstarstools_SRCS
@@ -861,7 +861,7 @@ if(NOT BUILD_KSTARS_LITE)
         oal/observeradd.ui
         oal/equipmentwriter.ui
         oal/execute.ui
-        skycomponents/notifyupdatesui.ui
+        #skycomponents/notifyupdatesui.ui
     )
 endif(NOT BUILD_KSTARS_LITE)
 
