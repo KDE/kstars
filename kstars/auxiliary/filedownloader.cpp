@@ -79,6 +79,13 @@ void FileDownloader::dataReady()
 
 void FileDownloader::dataFinished(QNetworkReply* pReply)
 {
+    dataReady();
+    if (m_DownloadedFile.isOpen())
+    {
+        m_DownloadedFile.flush();
+        m_DownloadedFile.close();
+    }
+
     if (isCancelled == false)
         emit downloaded();
 
@@ -88,7 +95,19 @@ void FileDownloader::dataFinished(QNetworkReply* pReply)
 void FileDownloader::slotError()
 {
     m_Reply->deleteLater();
-    emit error(m_Reply->errorString());
+
+    if (isCancelled)
+    {
+        // Remove partially downloaded file, should we download to %tmp first?
+        if (m_DownloadedFile.isOpen())
+        {
+            m_DownloadedFile.close();
+            QFile::remove(m_DownloadedFileURL.toLocalFile());
+        }
+        emit canceled();
+    }
+    else
+        emit error(m_Reply->errorString());
 }
 
 void FileDownloader::setProgressDialogEnabled(bool ShowProgressDialog, const QString& textTitle, const QString &textLabel)
@@ -147,8 +166,15 @@ void FileDownloader::setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal
             progressDialog->show();
         }
 
-        progressDialog->setMaximum(bytesTotal);
-        progressDialog->setValue(bytesReceived);
+        if (bytesTotal > 0)
+        {
+            progressDialog->setMaximum(bytesTotal);
+            progressDialog->setValue(bytesReceived);
+        }
+        else
+        {
+            progressDialog->setMaximum(0);
+        }
     }
 #endif
 }
