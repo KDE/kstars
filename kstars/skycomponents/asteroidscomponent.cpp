@@ -41,6 +41,7 @@
 #include "kstarsdata.h"
 #include "ksfilereader.h"
 #include "auxiliary/kspaths.h"
+#include "auxiliary/ksnotification.h"
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent) : SolarSystemListComponent(parent)
 {
@@ -95,9 +96,12 @@ void AsteroidsComponent::loadData()
     emitProgressText( i18n("Loading asteroids") );
 
     // Clear lists
+    qDeleteAll(m_ObjectList);
     m_ObjectList.clear();
-    objectNames( SkyObject::ASTEROID ).clear();
+
     objectLists( SkyObject::ASTEROID ).clear();
+    objectNames( SkyObject::ASTEROID ).clear();
+
 
     QList< QPair<QString, KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
@@ -257,6 +261,8 @@ void AsteroidsComponent::updateDataFile()
 {
     downloadJob = new FileDownloader();
 
+    downloadJob->setProgressDialogEnabled(true, i18n("Asteroid Update"), i18n("Downloading asteroids updates..."));
+
     QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
@@ -297,10 +303,7 @@ void AsteroidsComponent::downloadReady()
 
 void AsteroidsComponent::downloadError(const QString &errorString)
 {
-#ifndef KSTARS_LITE
-    KMessageBox::error(0, i18n("Error downloading asteroids data: %1", errorString));
-#else
+    KSNotification::error(i18n("Error downloading asteroids data: %1", errorString));
     qDebug() << i18n("Error downloading asteroids data: %1", errorString);
-#endif
     downloadJob->deleteLater();
 }

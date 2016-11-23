@@ -92,6 +92,10 @@ void CometsComponent::loadData() {
     float M1, M2, K1, K2, diameter, albedo, rot_period, period;
 
     emitProgressText(i18n("Loading comets"));
+
+    qDeleteAll(m_ObjectList);
+    m_ObjectList.clear();
+
     objectNames(SkyObject::COMET).clear();
     objectLists(SkyObject::COMET).clear();
 
@@ -213,6 +217,8 @@ void CometsComponent::draw( SkyPainter *skyp )
 void CometsComponent::updateDataFile()
 {
     downloadJob = new FileDownloader();
+
+    downloadJob->setProgressDialogEnabled(true, i18n("Comets Update"), i18n("Downloading comets updates..."));
 
     connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
