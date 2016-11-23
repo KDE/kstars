@@ -26,7 +26,9 @@
 #include "projections/projector.h"
 #include "dms.h"
 #include "Options.h"
-#include "notifyupdatesui.h"
+#include "auxiliary/filedownloader.h"
+#include "ksnotification.h"
+//#include "notifyupdatesui.h"
 
 #include "kstarsdata.h"
 #include "auxiliary/kspaths.h"
@@ -60,37 +62,10 @@ bool SupernovaeComponent::selected()
 
 void SupernovaeComponent::loadData()
 {
-   /* QString serialNo, hostGalaxy, date, type, offset, SNPosition, discoverers ;
-    dms ra, dec;
-    float magnitude;
-    qDebug()<<"Loading Supernovae data";
-    //m_ObjectList.clear();
-    latest.clear();
-    objectNames(SkyObject::SUPERNOVA).clear();
-    objectLists(SkyObject::SUPERNOVA).clear();
-
-    //SN,  Host Galaxy,  Date,  R.A.,  Dec.,  Offset,  Mag.,  Disc.Ref.,  SN Position,  Posn.Ref.,  Typ,  SN,  Discoverer(s)
-    QList< QPair<QString,KSParser::DataTypes> > sequence;
-    sequence.append(qMakePair(QString("serialNo"),      KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("hostGalaxy"),    KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("date"),          KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("ra"),            KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("dec"),           KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("offset"),        KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("magnitude"),     KSParser::D_FLOAT));
-    sequence.append(qMakePair(QString("ignore1"),       KSParser::D_SKIP));
-    sequence.append(qMakePair(QString("SNPosition"),    KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("ignore2"),       KSParser::D_SKIP));
-    sequence.append(qMakePair(QString("type"),          KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("ignore3"),       KSParser::D_SKIP));
-    sequence.append(qMakePair(QString("discoverers"),   KSParser::D_QSTRING));
-
-    //KSParser snParser(file_name, '#', sequence);
-
-    */
-
-    objectNames(SkyObject::SUPERNOVA).clear();
     qDeleteAll(m_ObjectList);
+    m_ObjectList.clear();
+
+    objectNames(SkyObject::SUPERNOVA).clear();    
     objectLists(SkyObject::SUPERNOVA).clear();
 
     QString name, type, host, date, ra, de;
@@ -104,7 +79,7 @@ void SupernovaeComponent::loadData()
     {
         qCritical() << "Unable to open supernova file" << sFileName;
         return;
-    }
+    }        
 
     QJsonParseError pError;
     QJsonDocument sNova = QJsonDocument::fromJson(sNovaFile.readAll(), &pError);
@@ -122,6 +97,7 @@ void SupernovaeComponent::loadData()
     }
 
     QJsonArray sArray = sNova.array();
+    bool ok=false;
 
     foreach (const QJsonValue& snValue, sArray)
     {
@@ -133,25 +109,28 @@ void SupernovaeComponent::loadData()
             continue;
 
         ra   = ((propObject["ra"].toArray()[0]).toObject()["value"]).toString();
-        if (ra.isEmpty())
-            continue;
         de   = ((propObject["dec"].toArray()[0]).toObject()["value"]).toString();
+        if (ra.isEmpty() || de.isEmpty())
+            continue;
+
         name = propObject["name"].toString();        
         type = ((propObject["claimedtype"].toArray()[0]).toObject()["value"]).toString();
         host = ((propObject["host"].toArray()[0]).toObject()["value"]).toString();
         date = ((propObject["discoverdate"].toArray()[0]).toObject()["value"]).toString();
-        z    = ((propObject["redshift"].toArray()[0]).toObject()["value"]).toString().toDouble();
-        mag  = ((propObject["maxappmag"].toArray()[0]).toObject()["value"]).toString().toDouble();
+        z    = ((propObject["redshift"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
+        if (ok == false)
+            z = 99.9;
+        mag  = ((propObject["maxappmag"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
+        if (ok == false)
+            mag = 99.9;
 
         Supernova * sup = new Supernova(name, dms::fromString(ra, false), dms::fromString(de, true), type, host, date, z, mag);
-
-        //sup->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
         objectNames(SkyObject::SUPERNOVA).append(name);
 
         m_ObjectList.append(sup);
         objectLists( SkyObject::SUPERNOVA ).append(QPair<QString, const SkyObject*>(name,sup));
-    }   
+    }
 }
 
 SkyObject* SupernovaeComponent::findByName(const QString& name)
@@ -162,7 +141,7 @@ SkyObject* SupernovaeComponent::findByName(const QString& name)
              return o;
     }
     //if no object is found then..
-    return 0;
+    return NULL;
 }
 
 SkyObject* SupernovaeComponent::objectNearest(SkyPoint* p, double& maxrad)
@@ -203,16 +182,16 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
 
     double maglim = zoomMagnitudeLimit();
 
-    foreach ( SkyObject *so, m_ObjectList ) {
+    foreach ( SkyObject *so, m_ObjectList )
+    {
         Supernova *sup = (Supernova*) so;
         float mag = sup->mag();
 
         if (mag > float( Options::magnitudeLimitShowSupernovae())) continue;
 
         //Do not draw if mag>maglim
-        if ( mag > maglim ) {
+        if ( mag > maglim )
             continue;
-        }
         skyp->drawSupernova(sup);
     }
 }
@@ -250,52 +229,34 @@ void SupernovaeComponent::notifyNewSupernovae()
 
 void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
-    /*
-    QString output  = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "supernovae.dat";
-    QString filename= KSPaths::locate(QStandardPaths::GenericDataLocation, "scripts/supernova_updates_parser.py") ;
-    QStringList args;
-    args << filename << output;
-    //qDebug()<<filename;
-    m_Parser = new QProcess;
-    connect( m_Parser, SIGNAL( finished( int, QProcess::ExitStatus ) ), this, SLOT( slotDataFileUpdateFinished( int, QProcess::ExitStatus ) ) );
-    m_Parser->start("python2", args);
-    */
+    downloadJob = new FileDownloader();
+
+    downloadJob->setProgressDialogEnabled(true, i18n("Supernove Update"), i18n("Downloading Supernovae updates..."));
+
+    QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
+    QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
+
+    QString output  = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "catalog.min.json";
+
+    downloadJob->setDownloadedFileURL(QUrl::fromLocalFile(output));
+
+    downloadJob->get(QUrl("https://sne.space/astrocats/astrocats/supernovae/output/catalog.min.json"));
 }
 
-/*
-void SupernovaeComponent::slotDataFileUpdateFinished( int exitCode, QProcess::ExitStatus exitStatus )
+void SupernovaeComponent::downloadReady()
 {
-    Q_UNUSED(exitStatus)
-
-    if ( exitCode ) {
-        QString errmsg;
-        switch ( exitCode ) {
-            case -2:
-                errmsg = i18n("Could not run python to update supernova information. This could be because you do not have python2 installed, or the python2 binary could not be found in the usual locations.");       
-                break;
-            case -1:
-                errmsg = i18n("Python process that updates the supernova information crashed");
-                break;
-            default:
-                errmsg = i18n( "Python process that updates the supernova information failed with error code %1. This could likely be because the computer is not connected to the internet or because the server containing supernova information is not responding.", QString::number( exitCode ) );
-                break;
-        }
-        #ifndef KSTARS_LITE
-        if( KStars::Instance() && SkyMap::Instance() ) // Displaying a message box causes entry of control into the Qt event loop. Can lead to segfault if we are checking for supernovae alerts during initialization!
-            KMessageBox::sorry( 0, errmsg, i18n("Supernova information update failed") );
-        // FIXME: There should be a better way to check if KStars is fully initialized. Maybe we should have a static boolean in the KStars class. --asimha
-        #else
-        if( KStarsLite::Instance() && SkyMapLite::Instance() ) // Displaying a message box causes entry of control into the Qt event loop. Can lead to segfault if we are checking for supernovae alerts during initialization!
-            qDebug() << errmsg << i18n("Supernova information update failed");
-        #endif
-    }
-    else {
-        //qDebug()<<"HERE";
-        latest.clear();
-        loadData();
-        notifyNewSupernovae();
-    }
-    delete m_Parser;
-    m_Parser = 0;
+    // Reload Supernova
+    loadData();
+#ifdef KSTARS_LITE
+    KStarsLite::Instance()->data()->setFullTimeUpdate();
+#else
+    KStars::Instance()->data()->setFullTimeUpdate();
+#endif
+    downloadJob->deleteLater();
 }
-*/
+
+void SupernovaeComponent::downloadError(const QString &errorString)
+{
+    KSNotification::error(i18n("Error downloading asteroids data: %1", errorString));
+    downloadJob->deleteLater();
+}

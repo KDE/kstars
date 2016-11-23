@@ -276,9 +276,14 @@ void DetailDialog::createGeneralTab()
             Data->dataGridLayout->addWidget(type, 2, 1);
 
             QLabel *hostGalaxyLabel    = new QLabel(i18n("Host Galaxy:"), this);
-            QLabel *hostGalaxy         = new QLabel(sup->getHostGalaxy(), this);
+            QLabel *hostGalaxy         = new QLabel(sup->getHostGalaxy().isEmpty() ? "--" : sup->getHostGalaxy(), this);
             Data->dataGridLayout->addWidget(hostGalaxyLabel, 3, 0);
             Data->dataGridLayout->addWidget(hostGalaxy, 3, 1);
+
+            QLabel *redShiftLabel    = new QLabel(i18n("Red Shift:"), this);
+            QLabel *redShift         = new QLabel( (sup->getRedShift() < 99) ? QString::number(sup->getRedShift(), 'f', 2) : QString("--"), this);
+            Data->dataGridLayout->addWidget(redShiftLabel, 4, 0);
+            Data->dataGridLayout->addWidget(redShift, 4, 1);
 
             break;
         }

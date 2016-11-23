@@ -389,12 +389,7 @@
          <label>Set magnitude limit for supernovae to be alerted</label>
          <whatsthis>Set magnitude limit for supernovae to be alerted.</whatsthis>
          <default>13</default>
-      </entry>
-      <entry name="UpdateSupernovaeOnStartup" type="Bool">
-         <label>Update recent supernovae list on startup?</label>
-         <whatsthis>Toggle whether supernovae list is updated on startup</whatsthis>
-         <default>true</default>
-      </entry>
+      </entry>      
       <entry name="ShowCBounds" type="Bool">
          <label>Draw constellation boundaries in the sky map?</label>
          <whatsthis>Toggle whether constellation boundaries are drawn in the sky map.</whatsthis>

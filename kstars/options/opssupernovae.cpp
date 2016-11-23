@@ -20,13 +20,8 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymapcomposite.h"
-#include "skycomponents/supernovaecomponent.h"
 
 OpsSupernovae::OpsSupernovae() : QFrame(KStars::Instance())
 {
-    setupUi(this);
-
-    // Signals and slots connections
-    connect(supUpdateButton, SIGNAL(clicked()),
-            KStarsData::Instance()->skyComposite()->supernovaeComponent(), SLOT(slotTriggerDataFileUpdate()));
+    setupUi(this);    
 }

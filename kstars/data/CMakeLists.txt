@@ -63,7 +63,7 @@ install(FILES
     wzstars.png wzgeo.png wzscope.png wzdownload.png chart.colors
     classic.colors moonless-night.colors night.colors
     tips TZrules.dat valaav.txt Interesting.dat PlanetFacts.dat
-    advinterface.dat satellites.dat glossary.xml defaultflag.gif
+    advinterface.dat catalog.min.json satellites.dat glossary.xml defaultflag.gif
     DESTINATION  ${KDE_INSTALL_DATADIR}/kstars
 )
 
@@ -127,10 +127,10 @@ install(FILES
     DESTINATION ${KDE_INSTALL_DATADIR}/kstars/textures
 )
 
-install(FILES
-    scripts/supernova_updates_parser.py
-    DESTINATION ${KDE_INSTALL_DATADIR}/kstars/scripts
-)
+#install(FILES
+#    scripts/supernova_updates_parser.py
+#    DESTINATION ${KDE_INSTALL_DATADIR}/kstars/scripts
+#)
 
 install(FILES
     skycultures/western/andromeda.png

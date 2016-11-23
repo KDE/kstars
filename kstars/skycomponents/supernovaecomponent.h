@@ -28,6 +28,7 @@
  */
 
 class Supernova;
+class FileDownloader;
 
 class SupernovaeComponent : public QObject, public ListComponent
 {
@@ -59,15 +60,14 @@ public slots:
      */
     void slotTriggerDataFileUpdate();
 
-private slots:
-
-    /**
-     * @short This is a slot to be called upon completion of the supernovae data file update
-     */
-    //void slotDataFileUpdateFinished( int exitCode, QProcess::ExitStatus exitStatus );
+protected slots:
+    void downloadReady();
+    void downloadError(const QString &errorString);
 
 private:
     void loadData();
+
+    FileDownloader* downloadJob = NULL;
 };
 
 #endif

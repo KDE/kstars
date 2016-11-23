@@ -1,28 +1,28 @@
 
       *****************************************************
-      **   KStars 2.5.0: A Desktop Planetarium for KDE   **
+      **   KStars 2.7.2: A Desktop Planetarium for KDE   **
       *****************************************************
 
-Copyright (c) 2001 - 2016 by The KStars Team:
+Copyright (c) 2001 - 2017 by The KStars Team:
 
-             Jason Harris <kstars@30doradus.org>
-             Heiko Evermann <heiko@evermann.de>
-             Thomas Kabelmann <tk78@gmx.de>
-             Pablo de Vicente <pvicentea@wanadoo.es>
-             Jasem Mutlaq <mutlaqja@ikarustech.com>
-             Mark Hollomon <mhh@mindspring.com>
-             Carsten Niehaus <cniehaus@gmx.de>
-             James Bowlin <bowlin@mindspring.com>
-             Médéric Boquien <mboquien@free.fr>
-             Akarsh Simha <akarsh.simha@kdemail.net>
-             Alexey Khudyakov <alexey.skladnoy@gmail.com>
-             Jérôme Sonrier <jsid@emor3j.fr.eu.org>
-             Harry de Valence <hdevalence@gmail.com>
-             Victor Carbune <victor.carbune@kdemail.net>
-	     Rafał Kułaga <rl.kulaga@gmail.com>
-	     Samikshan Bairagya <samikshan@gmail.com>
-	     Rishab Arora <ra.rishab@gmail.com>
-
+Jason Harris <kstars@30doradus.org>
+Jasem Mutlaq <mutlaqja@ikarustech.com>
+Akarsh Simha <akarsh.simha@kdemail.net>
+James Bowlin <bowlin@mindspring.com>
+Heiko Evermann <heiko@evermann.de>
+Thomas Kabelmann <tk78@gmx.de>
+Pablo de Vicente <pvicentea@wanadoo.es>
+Mark Hollomon <mhh@mindspring.com>
+Carsten Niehaus <cniehaus@kde.org>
+Médéric Boquien <mboquien@free.fr>
+Alexey Khudyakov <alexey.skladnoy@gmail.com>
+Jérôme Sonrier <jsid@emor3j.fr.eu.org>
+Harry de Valence <hdevalence@gmail.com>
+Victor Carbune <victor.carbune@kdemail.net>
+Rafał Kułaga <rl.kulaga@gmail.com>
+Samikshan Bairagya <samikshan@gmail.com>
+Rishab Arora <ra.rishab@gmail.com>
+Robert Lancaster <rlancaste@gmail.com>
 
 KStars is Free Software, released under the GNU Public License.
 See COPYING for GPL license information.
@@ -64,15 +64,15 @@ A. The KStars Team
 
 Main contributors:
    Jason Harris <kstars@30doradus.org>
+   Jasem Mutlaq <mutlaqja@ikarustech.com>
+   Akarsh Simha <akarsh.simha@kdemail.net>
+   James Bowlin <bowlin@mindspring.com>
    Heiko Evermann <heiko@evermann.de>
    Thomas Kabelmann <tk78@gmx.de>
-   Pablo de Vicente <pvicentea@wanadoo.es>
-   Jasem Mutlaq <mutlaqja@ikarustech.com>
+   Pablo de Vicente <pvicentea@wanadoo.es>   
    Mark Hollomon <mhh@mindspring.com>
-   Carsten Niehaus <cniehaus@kde.org>
-   James Bowlin <bowlin@mindspring.com>
-   Médéric Boquien <mboquien@free.fr>
-   Akarsh Simha <akarsh.simha@kdemail.net>
+   Carsten Niehaus <cniehaus@kde.org>   
+   Médéric Boquien <mboquien@free.fr>   
    Alexey Khudyakov <alexey.skladnoy@gmail.com>
    Jérôme Sonrier <jsid@emor3j.fr.eu.org>
    Harry de Valence <hdevalence@gmail.com>
@@ -80,14 +80,16 @@ Main contributors:
    Rafał Kułaga <rl.kulaga@gmail.com>
    Samikshan Bairagya <samikshan@gmail.com>
    Rishab Arora <ra.rishab@gmail.com>
-
-
+   Robert Lancaster <rlancaste@gmail.com>
 
 B. Data Sources:
 
  Most of the catalog data came from the Astronomical Data Center, run by
  NASA.  The website is:
  http://adc.gsfc.nasa.gov/
+
+ Supernovae data is from the Open Supernova Catalog project at https://sne.space
+ Please refer to the published paper here: http://adsabs.harvard.edu/abs/2016arXiv160501054G
 
  KStars links to the excellent image collections and HTML pages put together
  by the Students for the Exploration and Development of Space, at:

@@ -193,13 +193,7 @@ bool KStarsData::initialize() {
     QtConcurrent::run(this, &KStarsData::readURLData, QString("info_url.dat"), 1, false);
 
     //#endif
-    //emit progressText( i18n("Loading Variable Stars" ) );
-
-    //Update supernovae list if enabled
-    if( Options::updateSupernovaeOnStartup() ) {
-        emit progressText( i18n("Queueing update of list of supernovae from the internet") );
-        skyComposite()->supernovaeComponent()->slotTriggerDataFileUpdate();
-    }
+    //emit progressText( i18n("Loading Variable Stars" ) );    
 
 #ifndef KSTARS_LITE
     //Initialize Observing List
