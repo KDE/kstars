@@ -19,7 +19,6 @@
 #include <QDialog>
 
 #include <QFrame>
-#include <QTimer>
 #include <QTabWidget>
 #include <QVBoxLayout>
 #include <QDebug>

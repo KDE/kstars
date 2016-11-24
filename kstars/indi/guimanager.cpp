@@ -18,7 +18,6 @@
 #include <QLayout>
 #include <QSocketNotifier>
 #include <QDateTime>
-#include <QTimer>
 #include <QSplitter>
 #include <QLocale>
 #include <KMessageBox>
@@ -194,8 +193,6 @@ void GUIManager::addClient(ClientManager *cm)
     #endif
 
     connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), Qt::DirectConnection);
-
-    //updateStatus();
 }
 
 void GUIManager::removeClient(ClientManager *cm)
@@ -233,6 +230,11 @@ void GUIManager::removeDevice(DeviceInfo *di)
     if (dp == NULL)
         return;
 
+    // Hack to give mainTabWidget sometime to remove its item as these calls are coming from a different thread
+    // the clientmanager thread. Sometimes removeTab() requires sometime to be removed properly and hence the wait.
+    if (mainTabWidget->count() != guidevices.count())
+        QThread::msleep(100);
+
     for (int i=0; i < mainTabWidget->count(); i++)
     {
         if (mainTabWidget->tabText(i).remove("&") == QString(deviceName))
@@ -250,6 +252,7 @@ void GUIManager::removeDevice(DeviceInfo *di)
         QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
         a->setEnabled(false);
     }
+
 }
 
 void GUIManager::buildDevice(DeviceInfo *di)

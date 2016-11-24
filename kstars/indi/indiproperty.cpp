@@ -36,7 +36,6 @@
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QLabel>
-#include <QTimer>
 #include <QFile>
 #include <QDataStream>
 #include <QFrame>
