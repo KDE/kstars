@@ -616,7 +616,7 @@ void QCPAbstractPaintBuffer::setInvalidated(bool invalidated)
 }
 
 /*!
-  Sets the the device pixel ratio to \a ratio. This is useful to render on high-DPI output devices.
+  Sets the device pixel ratio to \a ratio. This is useful to render on high-DPI output devices.
   The ratio is automatically set to the device pixel ratio used by the parent QCustomPlot instance.
 
   The buffer is reallocated (by calling \ref reallocateBuffer), so any painters that were obtained
@@ -20911,7 +20911,7 @@ void QCPGraph::removeFillBasePoints(QVector<QPointF> *lines) const
   infinity. So this case is handled separately by just closing the fill polygon on the axis which
   lies in the direction towards the zero value.
   
-  \a lowerKey will be the the key (in pixels) of the returned point. Depending on whether the key
+  \a lowerKey will be the key (in pixels) of the returned point. Depending on whether the key
   axis is horizontal or vertical, \a lowerKey will end up as the x or y value of the returned
   point, respectively.
   
@@ -20976,7 +20976,7 @@ QPointF QCPGraph::lowerFillBasePoint(double lowerKey) const
   negative infinity. So this case is handled separately by just closing the fill polygon on the
   axis which lies in the direction towards the zero value.
 
-  \a upperKey will be the the key (in pixels) of the returned point. Depending on whether the key
+  \a upperKey will be the key (in pixels) of the returned point. Depending on whether the key
   axis is horizontal or vertical, \a upperKey will end up as the x or y value of the returned
   point, respectively.
   

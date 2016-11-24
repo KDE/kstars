@@ -231,7 +231,7 @@ void SupernovaeComponent::slotTriggerDataFileUpdate()
 {
     downloadJob = new FileDownloader();
 
-    downloadJob->setProgressDialogEnabled(true, i18n("Supernove Update"), i18n("Downloading Supernovae updates..."));
+    downloadJob->setProgressDialogEnabled(true, i18n("Supernovae Update"), i18n("Downloading Supernovae updates..."));
 
     QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
