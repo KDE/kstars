@@ -321,7 +321,6 @@ double FITSHistogram::getJMIndex() const
 
 void FITSHistogram::applyScale()
 {
-
     double min = ui->minEdit->value();
     double max = ui->maxEdit->value();
 

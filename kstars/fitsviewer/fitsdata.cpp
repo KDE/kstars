@@ -1733,7 +1733,10 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
     double coeff=0;
     bool calcStats = false;
 
-    T bufferVal =0, val= 0;
+    T bufferVal =0;
+
+    // Intermediate value
+    double ival= 0;
 
     T *image = NULL;
 
@@ -1767,10 +1770,7 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
                 for (int k=0; k < width; k++)
                 {
                     index=k + row;
-                    bufferVal = image[index];
-                    if (bufferVal < min) bufferVal = min;
-                    else if (bufferVal > max) bufferVal = max;
-                    image[index] = bufferVal;
+                    image[index] = qBound(min, image[index], max);
                 }
             }
         }
@@ -1797,14 +1797,10 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
                 for (int k=0; k < width; k++)
                 {
                     index=k + row;
-                    bufferVal = image[index];
-                    if (bufferVal < min) bufferVal = min;
-                    else if (bufferVal > max) bufferVal = max;
-                    val = (coeff * log(1 + qBound(min, image[index], max)));
-                    image[index] = qBound(min, val, max);
+                    ival = coeff * log(1 + qBound(min, image[index], max));
+                    image[index] = qBound(min, static_cast<T>(round(ival)), max);
                 }
             }
-
         }
 
         if (calcStats)
@@ -1829,8 +1825,8 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
                 for (int k=0; k < width; k++)
                 {
                     index=k + row;
-                    val = (int) (coeff * sqrt(qBound(min, image[index], max)));
-                    image[index] = val;
+                    ival = coeff * image[index];
+                    image[index] = qBound(min, static_cast<T>(round(ival)), max);
                 }
             }
         }
@@ -1844,26 +1840,10 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
     }
         break;
 
+    // Only difference is how min and max are set
     case FITS_AUTO_STRETCH:
+    case FITS_HIGH_CONTRAST:
     {
-        /*double alpha = (pow(2, stats.bitpix) - 1) / (stats.max[0]-stats.min[0]);
-        double beta  = (-1 * stats.min[0]) * alpha;
-
-        for (int i=0; i < channels; i++)
-        {
-            offset = i*size;
-            for (int j=0; j < height; j++)
-            {
-                row = offset + j * width;
-                for (int k=0; k < width; k++)
-                {
-                    index=k + row;
-                    //image[index] = qBound(min, image[index], max);
-                    image[index] = static_cast<T>((alpha * image[index] + beta));
-                }
-            }
-        }*/
-
         for (int i=0; i < channels; i++)
         {
             offset = i*size;
@@ -1884,32 +1864,6 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
     }
         break;
 
-    case FITS_HIGH_CONTRAST:
-    {
-        for (int i=0; i < channels; i++)
-        {
-            offset = i*size;
-            for (int j=0; j < height; j++)
-            {
-                row = offset + j * width;
-                for (int k=0; k < width; k++)
-                {
-                    index=k + row;
-                    image[index] = qBound(min, image[index], max);
-                }
-            }
-        }
-
-        if (calcStats)
-        {
-            stats.min[0] = min;
-            stats.max[0] = max;
-            runningAverageStdDev<T>();
-        }
-
-    }
-        break;
-
     case FITS_EQUALIZE:
     {
         #ifndef KSTARS_LITE
@@ -1927,14 +1881,14 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
                 for (int k=0; k < width; k++)
                 {
                     index=k + row;
-                    bufferVal = (int) (image[index] - min) / histogram->getBinWidth();
+                    bufferVal = (image[index] - min) / histogram->getBinWidth();
 
                     if (bufferVal >= cumulativeFreq.size())
                         bufferVal = cumulativeFreq.size()-1;
 
-                    val = (int) (coeff * cumulativeFreq[bufferVal]);
+                    ival = coeff * cumulativeFreq[bufferVal];
 
-                    image[index] = val;
+                    image[index] = qBound(min, static_cast<T>(round(ival)), max);
                 }
             }
         }
@@ -1968,9 +1922,9 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
             runningAverageStdDev<T>();
         }
     }
-        break;
+    break;
 
-        // Based on http://www.librow.com/articles/article-1
+    // Based on http://www.librow.com/articles/article-1
     case FITS_MEDIAN:
     {
         int BBP = stats.bytesPerPixel;
