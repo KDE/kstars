@@ -82,7 +82,7 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
     r_graph->setPen(QPen(Qt::red));
     //r_graph->setLineStyle(QCPGraph::lsImpulse);
 
-    connect(ui->applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(applyScale()));
 
     connect(customPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(updateValues(QMouseEvent*)));
 
