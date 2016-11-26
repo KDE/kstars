@@ -1475,8 +1475,11 @@ Image Coordinate System.
 
 QPoint FITSView::getImagePoint(QPoint viewPortPoint)
 {
+    QWidget *w = widget();
+    if (w == NULL)
+        return QPoint(0,0);
     double scale = (currentZoom / ZOOM_DEFAULT);
-    QPoint widgetPoint = widget()->mapFromParent(viewPortPoint);
+    QPoint widgetPoint = w->mapFromParent(viewPortPoint);
     QPoint imagePoint = QPoint(widgetPoint.x() / scale , widgetPoint.y() / scale);
     return imagePoint;
 }
