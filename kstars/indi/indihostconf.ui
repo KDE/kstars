@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>INDIHostConf</class>
- <widget class="QDialog" name="INDIHostConf" >
-  <property name="geometry" >
+ <widget class="QDialog" name="INDIHostConf">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,188 +10,98 @@
     <height>178</height>
    </rect>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="spacing" >
-    <number>6</number>
-   </property>
-   <property name="margin" >
-    <number>11</number>
-   </property>
-   <item>
-    <layout class="QHBoxLayout" >
-     <property name="spacing" >
-      <number>6</number>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="textLabel1_3">
+     <property name="text">
+      <string>Name:</string>
      </property>
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <item>
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <property name="margin" >
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="textLabel1_3" >
-         <property name="text" >
-          <string>Name:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="textLabel1" >
-         <property name="text" >
-          <string>Host:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="textLabel1_2" >
-         <property name="text" >
-          <string>Port:</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <property name="margin" >
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QLineEdit" name="nameIN" />
-       </item>
-       <item>
-        <widget class="QLineEdit" name="hostname" />
-       </item>
-       <item>
-        <widget class="QLineEdit" name="portnumber" />
-       </item>
-      </layout>
-     </item>
-    </layout>
+    </widget>
    </item>
-   <item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="nameIN"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="textLabel1">
+     <property name="text">
+      <string>Host:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="hostname"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="textLabel1_2">
+     <property name="text">
+      <string>Port:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="portnumber"/>
+   </item>
+   <item row="3" column="1">
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeType" >
-      <enum>QSizePolicy::Expanding</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
-       <width>30</width>
-       <height>35</height>
+       <width>10</width>
+       <height>10</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item>
-    <layout class="QHBoxLayout" >
-     <property name="spacing" >
-      <number>6</number>
+   <item row="4" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0" >
-        <size>
-         <width>20</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="buttonOk" >
-       <property name="text" >
-        <string>&amp;OK</string>
-       </property>
-       <property name="autoDefault" >
-        <bool>true</bool>
-       </property>
-       <property name="default" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="buttonCancel" >
-       <property name="text" >
-        <string>&amp;Cancel</string>
-       </property>
-       <property name="autoDefault" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    </widget>
    </item>
   </layout>
  </widget>
-  <customwidgets>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>nameIN</tabstop>
   <tabstop>hostname</tabstop>
   <tabstop>portnumber</tabstop>
-  <tabstop>buttonOk</tabstop>
-  <tabstop>buttonCancel</tabstop>
  </tabstops>
  <resources/>
  <connections>
   <connection>
-   <sender>buttonOk</sender>
-   <signal>clicked()</signal>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
    <receiver>INDIHostConf</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
-     <x>288</x>
-     <y>149</y>
+    <hint type="sourcelabel">
+     <x>276</x>
+     <y>196</y>
     </hint>
-    <hint type="destinationlabel" >
-     <x>162</x>
-     <y>151</y>
+    <hint type="destinationlabel">
+     <x>114</x>
+     <y>213</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>buttonCancel</sender>
-   <signal>clicked()</signal>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
    <receiver>INDIHostConf</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
-     <x>386</x>
-     <y>147</y>
+    <hint type="sourcelabel">
+     <x>374</x>
+     <y>192</y>
     </hint>
-    <hint type="destinationlabel" >
-     <x>386</x>
-     <y>101</y>
+    <hint type="destinationlabel">
+     <x>349</x>
+     <y>217</y>
     </hint>
    </hints>
   </connection>

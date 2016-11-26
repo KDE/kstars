@@ -184,7 +184,7 @@
         <item>
          <widget class="QRadioButton" name="linearR">
           <property name="text">
-           <string>Linear</string>
+           <string>L&amp;inear</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -217,62 +217,11 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout">
-     <property name="spacing">
-      <number>6</number>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Close</set>
      </property>
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <property name="rightMargin">
-      <number>0</number>
-     </property>
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <spacer>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>270</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="applyB">
-       <property name="text">
-        <string>&amp;Apply</string>
-       </property>
-       <property name="autoDefault">
-        <bool>true</bool>
-       </property>
-       <property name="default">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="cancelB">
-       <property name="text">
-        <string>&amp;Close</string>
-       </property>
-       <property name="autoDefault">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -287,18 +236,18 @@
  <resources/>
  <connections>
   <connection>
-   <sender>cancelB</sender>
-   <signal>clicked()</signal>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
    <receiver>FITSHistogramUI</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>592</x>
-     <y>303</y>
+     <x>589</x>
+     <y>336</y>
     </hint>
     <hint type="destinationlabel">
-     <x>591</x>
-     <y>316</y>
+     <x>579</x>
+     <y>357</y>
     </hint>
    </hints>
   </connection>
