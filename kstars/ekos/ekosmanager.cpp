@@ -897,11 +897,11 @@ void EkosManager::deviceDisconnected()
         if (guideProcess)
             guideProcess->setEnabled(false);
     }
-    else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
+    /*else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
     {
         if (focusProcess)
             focusProcess->setEnabled(false);
-    }
+    }*/
 }
 
 void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
