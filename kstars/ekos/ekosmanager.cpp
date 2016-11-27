@@ -863,19 +863,12 @@ void EkosManager::deviceDisconnected()
             indiConnectionStatus = EKOS_STATUS_IDLE;
 
         if (Options::verboseLogging())
-        {
             qDebug() << "Ekos: " << dev->getDeviceName() << " is disconnected.";
-            //qDebug() << "Connected Devices: " << nConnectedDevices << " nDevices: " << nDevices;
-        }
+
+        appendLogText(i18n("%1 is disconnected.", dev->getDeviceName()));
     }
     else
-        indiConnectionStatus = EKOS_STATUS_IDLE;
-
-    //if (indiConnectionStatus == EKOS_STATUS_IDLE)
-        //nConnectedDevices--;
-
-    //if (nConnectedDevices < 0)
-        //nConnectedDevices = 0;
+        indiConnectionStatus = EKOS_STATUS_IDLE;    
 
     connectB->setEnabled(true);
     disconnectB->setEnabled(false);
@@ -886,6 +879,8 @@ void EkosManager::deviceDisconnected()
         if (mountProcess)
             mountProcess->setEnabled(false);
     }
+    // Do not disable modules on device connection loss, let them handle it
+    /*
     else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::CCD_INTERFACE)
     {
         if (captureProcess)
@@ -897,7 +892,7 @@ void EkosManager::deviceDisconnected()
         if (guideProcess)
             guideProcess->setEnabled(false);
     }
-    /*else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
+    else if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::FOCUSER_INTERFACE)
     {
         if (focusProcess)
             focusProcess->setEnabled(false);

@@ -584,6 +584,13 @@ bool Align::captureAndSolve()
     if (currentCCD == NULL)
         return false;
 
+    if (currentCCD->isConnected() == false)
+    {
+        appendLogText(i18n("Error: Lost connection to CCD."));
+        KNotification::event( QLatin1String( "AlignFailed"), i18n("Astrometry alignment failed") );
+        return false;
+    }
+
     if (parser->init() == false)
         return false;
 
@@ -638,13 +645,6 @@ bool Align::captureAndSolve()
     {
         appendLogText(i18n("Cannot capture while CCD exposure is in progress! Retrying..."));
         QTimer::singleShot(1000, this, SLOT(captureAndSolve()));
-        return false;
-    }
-
-    if (currentCCD->isConnected() == false)
-    {
-        appendLogText(i18n("Error: Lost connection to CCD."));
-        KNotification::event( QLatin1String( "AlignFailed"), i18n("Astrometry alignment failed") );
         return false;
     }
 
