@@ -1225,6 +1225,13 @@ void Capture::captureImage()
     seqTimer->stop();    
     SequenceJob::CAPTUREResult rc=SequenceJob::CAPTURE_OK;
 
+    if (currentCCD->isConnected() == false)
+    {
+        appendLogText(i18n("Error: Lost connection to CCD."));
+        abort();
+        return;
+    }
+
     if (focusState >= FOCUS_PROGRESS)
     {
         appendLogText(i18n("Cannot capture while focus module is busy."));
