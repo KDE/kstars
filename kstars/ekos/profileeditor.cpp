@@ -438,12 +438,22 @@ void ProfileEditor::loadDrivers()
         case KSTARS_FOCUSER:
         {
             ui->focuserCombo->addItem(dv->getTreeLabel());
+
+            ui->aux1Combo->addItem(dv->getTreeLabel());
+            ui->aux2Combo->addItem(dv->getTreeLabel());
+            ui->aux3Combo->addItem(dv->getTreeLabel());
+            ui->aux4Combo->addItem(dv->getTreeLabel());
         }
         break;
 
         case KSTARS_FILTER:
         {
             ui->filterCombo->addItem(dv->getTreeLabel());
+
+            ui->aux1Combo->addItem(dv->getTreeLabel());
+            ui->aux2Combo->addItem(dv->getTreeLabel());
+            ui->aux3Combo->addItem(dv->getTreeLabel());
+            ui->aux4Combo->addItem(dv->getTreeLabel());
         }
         break;
 
