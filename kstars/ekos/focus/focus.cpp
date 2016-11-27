@@ -887,16 +887,16 @@ void Focus::capture()
     }
 }
 
-void Focus::focusIn(int ms)
+bool Focus::focusIn(int ms)
 {
-  if (currentFocuser == NULL)
-       return;
+    if (currentFocuser == NULL)
+        return false;
 
-  if (currentFocuser->isConnected() == false)
-  {
-            appendLogText(i18n("Error: Lost connection to Focuser."));
-            return;
-  }
+    if (currentFocuser->isConnected() == false)
+    {
+        appendLogText(i18n("Error: Lost connection to Focuser."));
+        return false;
+    }
 
     if (ms == -1)
         ms = stepIN->value();
@@ -906,37 +906,36 @@ void Focus::focusIn(int ms)
 
     lastFocusDirection = FOCUS_IN;
 
-     currentFocuser->focusIn();
+    currentFocuser->focusIn();
 
-     if (canAbsMove)
-     {
-         currentFocuser->moveAbs(currentPosition-ms);
-         appendLogText(i18n("Focusing inward..."));
-     }
-     else if (canRelMove)
-     {
-         currentFocuser->moveRel(ms);
-         appendLogText(i18n("Focusing inward..."));
-     }
-     else
-     {
-       currentFocuser->moveByTimer(ms);
-       appendLogText(i18n("Focusing inward by %1 ms...", ms));
-     }
+    if (canAbsMove)
+    {
+        currentFocuser->moveAbs(currentPosition-ms);
+        appendLogText(i18n("Focusing inward..."));
+    }
+    else if (canRelMove)
+    {
+        currentFocuser->moveRel(ms);
+        appendLogText(i18n("Focusing inward..."));
+    }
+    else
+    {
+        currentFocuser->moveByTimer(ms);
+        appendLogText(i18n("Focusing inward by %1 ms...", ms));
+    }
 
-
-
+    return true;
 }
 
-void Focus::focusOut(int ms)
+bool Focus::focusOut(int ms)
 {
     if (currentFocuser == NULL)
-         return;
+        return false;
 
     if (currentFocuser->isConnected() == false)
     {
-       appendLogText(i18n("Error: Lost connection to Focuser."));
-       return;
+        appendLogText(i18n("Error: Lost connection to Focuser."));
+        return false;
     }
 
     lastFocusDirection = FOCUS_OUT;
@@ -947,23 +946,25 @@ void Focus::focusOut(int ms)
     if (Options::focusLogging())
         qDebug() << "Focus: Focus out (" << ms << ")" ;
 
-     currentFocuser->focusOut();
+    currentFocuser->focusOut();
 
     if (canAbsMove)
     {
-           currentFocuser->moveAbs(currentPosition+ms);
-           appendLogText(i18n("Focusing outward..."));
+        currentFocuser->moveAbs(currentPosition+ms);
+        appendLogText(i18n("Focusing outward..."));
     }
     else if (canRelMove)
     {
-            currentFocuser->moveRel(ms);
-            appendLogText(i18n("Focusing outward..."));
+        currentFocuser->moveRel(ms);
+        appendLogText(i18n("Focusing outward..."));
     }
     else
     {
-            currentFocuser->moveByTimer(ms);
-            appendLogText(i18n("Focusing outward by %1 ms...", ms));
+        currentFocuser->moveByTimer(ms);
+        appendLogText(i18n("Focusing outward by %1 ms...", ms));
     }
+
+    return true;
 }
 
 void Focus::newFITS(IBLOB *bp)
@@ -1520,7 +1521,11 @@ void Focus::autoFocusAbs()
             HFRInc=0;
             focusOutLimit=0;
             focusInLimit=0;
-            focusOut(pulseDuration);
+            if (focusOut(pulseDuration) == false)
+            {
+                abort();
+                setAutoFocusResult(false);
+            }
             break;
 
         case FOCUS_IN:
@@ -1748,14 +1753,19 @@ void Focus::autoFocusAbs()
         }
 
         // Now cross your fingers and wait
+        bool rc= false;
        if (delta > 0)
-            focusOut(delta);
+           rc = focusOut(delta);
         else
-          focusIn(fabs(delta));
-        break;
+           rc = focusIn(fabs(delta));
 
+       if (rc == false)
+       {
+           abort();
+           setAutoFocusResult(false);
+       }
+       break;
     }
-
 }
 
 void Focus::autoFocusRel()
@@ -1835,7 +1845,11 @@ void Focus::autoFocusRel()
                     HFRInc=0;
 
                     pulseDuration *= 0.75;
-                    focusOut(pulseDuration);
+                    if (focusOut(pulseDuration) == false)
+                    {
+                        abort();
+                        setAutoFocusResult(false);
+                    }
                 //}
             }
 
@@ -1874,7 +1888,11 @@ void Focus::autoFocusRel()
                 HFRInc=0;
 
                 pulseDuration *= 0.75;
-                focusIn(pulseDuration);
+                if (focusIn(pulseDuration) == false)
+                {
+                    abort();
+                    setAutoFocusResult(false);
+                }
             //}
         }
 
@@ -2283,7 +2301,7 @@ void Focus::setAutoFocusParameters(int boxSize, int stepSize, int maxTravel, dou
 void Focus::setAutoFocusResult(bool status)
 {    
     // In case of failure, go back to last position if the focuser is absolute
-    if (status == false &&  canAbsMove && currentFocuser && initialFocuserAbsPosition >= 0)
+    if (status == false &&  canAbsMove && currentFocuser && currentFocuser->isConnected() && initialFocuserAbsPosition >= 0)
     {
         currentFocuser->moveAbs(initialFocuserAbsPosition);
         appendLogText(i18n("Autofocus failed, moving back to initial focus position %1.", initialFocuserAbsPosition));

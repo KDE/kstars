@@ -191,13 +191,13 @@ public slots:
      * Focus inward
      * @param ms If set, focus inward for ms ticks (Absolute Focuser), or ms milliseconds (Relative Focuser). If not set, it will use the value specified in the options.
      */
-    Q_SCRIPTABLE Q_NOREPLY void focusIn(int ms=-1);
+    Q_SCRIPTABLE bool focusIn(int ms=-1);
 
     /** DBUS interface function.
      * Focus outward
      * @param ms If set, focus outward for ms ticks (Absolute Focuser), or ms milliseconds (Relative Focuser). If not set, it will use the value specified in the options.
      */
-    Q_SCRIPTABLE Q_NOREPLY void focusOut(int ms=-1);
+    Q_SCRIPTABLE bool focusOut(int ms=-1);
 
     /** @}*/
 
