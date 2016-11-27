@@ -533,11 +533,16 @@ void Focus::updateFilterPos(int index)
 
 void Focus::addFocuser(ISD::GDInterface *newFocuser)
 {
-    focuserCombo->addItem(newFocuser->getDeviceName());
+    ISD::Focuser* oneFocuser = static_cast<ISD::Focuser*>(newFocuser);
 
-    Focusers.append(static_cast<ISD::Focuser*>(newFocuser));
+    if (Focusers.contains(oneFocuser))
+        return;
 
-    currentFocuser = static_cast<ISD::Focuser *> (newFocuser);
+    focuserCombo->addItem(oneFocuser->getDeviceName());
+
+    Focusers.append(oneFocuser);
+
+    currentFocuser = oneFocuser;
 
     checkFocuser();
 }
@@ -564,6 +569,10 @@ void Focus::checkFocuser(int FocuserNum)
 
     if (FocuserNum <= Focusers.count())
         currentFocuser = Focusers.at(FocuserNum);
+
+    // Disconnect all focusers
+    foreach(ISD::Focuser *oneFocuser, Focusers)
+        disconnect(oneFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusNumber(INumberVectorProperty*)));
 
     if (currentFocuser->canAbsMove())
     {
@@ -1877,6 +1886,9 @@ void Focus::autoFocusRel()
 
 void Focus::processFocusNumber(INumberVectorProperty *nvp)
 {
+    // Return if it is not our current focuser
+    if (strcmp(nvp->device, currentFocuser->getDeviceName() ))
+        return;
 
     if (canAbsMove == false && currentFocuser->canAbsMove())
     {
