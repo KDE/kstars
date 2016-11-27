@@ -14,15 +14,12 @@
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="focusIn">
+      <arg type="b" direction="out"/>
       <arg name="ms" type="i" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
-    <method name="focusIn">
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
-    </method>
+    </method>    
     <method name="focusOut">
+      <arg type="b" direction="out"/>
       <arg name="ms" type="i" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
     <method name="focusOut">
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
