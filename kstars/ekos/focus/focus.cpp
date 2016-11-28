@@ -574,9 +574,10 @@ void Focus::checkFocuser(int FocuserNum)
     foreach(ISD::Focuser *oneFocuser, Focusers)
         disconnect(oneFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusNumber(INumberVectorProperty*)));
 
-    if (currentFocuser->canAbsMove())
+    canAbsMove = currentFocuser->canAbsMove();
+
+    if (canAbsMove)
     {
-        canAbsMove = true;
         getAbsFocusPosition();
 
         absTicksSpin->setEnabled(true);
@@ -584,15 +585,17 @@ void Focus::checkFocuser(int FocuserNum)
     }
     else
     {
-        canAbsMove = false;
         absTicksSpin->setEnabled(false);
         setAbsTicksB->setEnabled(false);
     }
 
-    if (currentFocuser->canRelMove())
+    canRelMove = currentFocuser->canRelMove();
+
+    // In case we have a purely relative focuser, we pretend
+    // it is an absolute focuser with initial point set at 50,000
+    // This is done we can use the same algorithm used for absolute focuser
+    if (canAbsMove == false && canRelMove == true)
     {
-        // We pretend this is an absolute focuser
-        canRelMove = true;
         currentPosition = 50000;
         absMotionMax  = 100000;
         absMotionMin  = 0;
@@ -1810,7 +1813,7 @@ void Focus::autoFocusRel()
             break;
 
         case FOCUS_IN:
-            //if (fabs(currentHFR - lastHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
+        case FOCUS_OUT:
             if (fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             {
                 appendLogText(i18n("Autofocus complete."));
@@ -1825,81 +1828,40 @@ void Focus::autoFocusRel()
                     minHFR = currentHFR;
 
                 lastHFR = currentHFR;
-                focusIn(pulseDuration);
+                if (lastFocusDirection == FOCUS_IN)
+                    focusIn(pulseDuration);
+                else
+                    focusOut(pulseDuration);
                 HFRInc=0;
             }
             else
             {
                 HFRInc++;
 
-                /*if (HFRInc <= 1)
-                {
-                    capture();
-                    return;
-                }
-                else
-                {*/
-
-                    lastHFR = currentHFR;
-
-                    HFRInc=0;
-
-                    pulseDuration *= 0.75;
-                    if (focusOut(pulseDuration) == false)
-                    {
-                        abort();
-                        setAutoFocusResult(false);
-                    }
-                //}
-            }
-
-            break;
-
-    case FOCUS_OUT:
-        if (fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
-        //if (fabs(currentHFR - lastHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
-        {
-            appendLogText(i18n("Autofocus complete."));
-            stop();
-            emit resumeGuiding();
-            setAutoFocusResult(true);
-            break;
-        }
-        else if (currentHFR < lastHFR)
-        {
-            if (currentHFR < minHFR)
-                minHFR = currentHFR;
-
-            lastHFR = currentHFR;
-            focusOut(pulseDuration);
-            HFRInc=0;
-        }
-        else
-        {
-            HFRInc++;
-
-            /*if (HFRInc <= 1)
-                capture();
-            else
-            {*/
-
                 lastHFR = currentHFR;
 
                 HFRInc=0;
 
                 pulseDuration *= 0.75;
-                if (focusIn(pulseDuration) == false)
+
+                bool rc=false;
+
+                if (lastFocusDirection == FOCUS_IN)
+                    rc = focusOut(pulseDuration);
+                else
+                    rc = focusIn(pulseDuration);
+
+                if (rc == false)
                 {
                     abort();
                     setAutoFocusResult(false);
                 }
-            //}
-        }
+            }
+            break;
 
-        break;
-
+         default:
+            break;
     }
-
 }
 
 void Focus::processFocusNumber(INumberVectorProperty *nvp)
@@ -1908,6 +1870,8 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     if (strcmp(nvp->device, currentFocuser->getDeviceName() ))
         return;
 
+    // Do not make unnecessary function call
+    // Check if current focuser supports absolute mode
     if (canAbsMove == false && currentFocuser->canAbsMove())
     {
         canAbsMove = true;
@@ -1917,6 +1881,8 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         setAbsTicksB->setEnabled(true);
     }
 
+    // Do not make unnecessary function call
+    // Check if current focuser supports relative mode
     if (canRelMove == false && currentFocuser->canRelMove())
         canRelMove = true;
 
@@ -1946,9 +1912,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
                abort();
                setAutoFocusResult(false);
            }
-
        }
-
        return;
     }
 
@@ -2089,8 +2053,7 @@ void Focus::resetButtons()
         focusInB->setEnabled(true);
 
         startFocusB->setEnabled(focusType == FOCUS_AUTO);
-        setAbsTicksB->setEnabled(canAbsMove || canRelMove);
-
+        setAbsTicksB->setEnabled(canAbsMove);
     }
 
     stopFocusB->setEnabled(false);
