@@ -1,9 +1,6 @@
 <chapter id="faq">
 <title>Questions and Answers</title>
 
-&reporting.bugs;
-&updating.documentation;
-
 <qandaset id="faqlist">
 
 <qandaentry>
@@ -244,7 +241,7 @@ It depends on the image, but many of the images restrict against commercial usag
 Yes, definitely!  Introduce yourself on our mailing list:
 <email>kstars-devel@kde.org</email>.  If you want to
 help with the coding, download the latest <ulink
-url="http://techbase.kde.org/Projects/Edu/KStars/Building_KStars">&kstars; Git</ulink> version of the
+url="http://techbase.kde.org/Projects/Edu/KStars/Building_KStars_KF5">&kstars; Git</ulink> version of the
 code and dive right in.  There are several README files in the
 distribution that explain some of the code's subsystems.  If you
 need ideas of what to work on, see the TODO file.  You can submit
