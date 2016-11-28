@@ -1039,8 +1039,10 @@ of the &kde; Fundamentals.
 
 <sect2 id="helpmenu">
 <title>Help Menu</title>
-
-&help.menu.documentation;
+<para>
+&kstars; has the common &kde; <guimenu>Help</guimenu> menu item, for more information read the section
+about the <ulink url="help:/fundamentals/ui.html#menus-help">Help Menu</ulink> of the &kde; Fundamentals.
+</para>
 
 </sect2>
 
