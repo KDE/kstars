@@ -1040,7 +1040,10 @@ void Scheduler::evaluateJobs()
 
         QDateTime now = KStarsData::Instance()->lt();
 
-        if (job->getEstimatedTime() < 0)
+        // -1 = Job is not estimated yet
+        // -2 = Job is estimated but time is unknown
+        // > 0  Job is estimated and time is known
+        if (job->getEstimatedTime() == -1)
         {
             if (estimateJobTime(job) == false)
             {
@@ -3873,10 +3876,6 @@ void Scheduler::setDirty()
 
 bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
 {
-    // We can't estimate times that do not finish when sequence is done
-    if (schedJob->getCompletionCondition() != SchedulerJob::FINISH_SEQUENCE)
-        return false;
-
     QList<SequenceJob*> jobs;
     bool hasAutoFocus = false;
 
@@ -3893,17 +3892,29 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {
             appendLogText(i18n("Cannot estimate time since the sequence saves the files remotely."));
+            schedJob->setEstimatedTime(-2);
             qDeleteAll(jobs);
-            return false;
+            return true;
         }
 
         int completed = 0;
         if (rememberJobProgress)
             completed = getCompletedFiles(job->getFITSDir(), job->getFullPrefix());
 
-        // If we have a LIGHT frame that still has remaining images then return false
-        if (job->getFrameType() == FRAME_LIGHT && completed < job->getCount())
+        // Check if we still need any light frames. Because light frames changes the flow of the observatory startup
+        // Without light frames, there is no need to do focusing, alignment, guiding...etc
+        // We check if the frame type is LIGHT and if either the number of completed frames is less than required
+        // OR if the completion condition is set to LOOP so it is never complete due to looping.
+        if (job->getFrameType() == FRAME_LIGHT && (completed < job->getCount() || schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP))
+        {
             lightFramesRequired = true;
+
+            // In some cases we do not need to calculate time we just need to know
+            // if light frames are required or not. So we break out
+            if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP ||
+               (schedJob->getStartupCondition() == SchedulerJob::START_AT && schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT))
+                break;
+        }
 
         totalSequenceCount  += job->getCount();
         totalCompletedCount += rememberJobProgress ? completed : 0;
@@ -3924,6 +3935,22 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     schedJob->setLightFramesRequired(lightFramesRequired);
 
     qDeleteAll(jobs);
+
+    // We can't estimate times that do not finish when sequence is done
+    if (schedJob->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
+    {
+        // We can't know estimated time if it is looping indefinitely
+        schedJob->setEstimatedTime(-2);
+        return true;
+    }
+
+    // If we know startup and finish times, we can estimate time right away
+    if (schedJob->getStartupCondition() == SchedulerJob::START_AT && schedJob->getCompletionCondition() == SchedulerJob::FINISH_AT)
+    {
+        qint64 diff = schedJob->getStartupTime().secsTo(schedJob->getCompletionTime());
+        schedJob->setEstimatedTime(diff);
+        return true;
+    }
 
     if (totalCompletedCount > 0 && totalCompletedCount >= totalSequenceCount)
     {
