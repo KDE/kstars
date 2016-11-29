@@ -92,8 +92,8 @@ public:
     StartupCondition getFileStartupCondition() const;
     void setFileStartupCondition(const StartupCondition &value);
 
-    double getEstimatedTime() const;
-    void setEstimatedTime(const double &value);
+    int64_t getEstimatedTime() const;
+    void setEstimatedTime(const int64_t &value);
 
     bool getTimeSlotAllocated() const;
     void setTimeSlotAllocated(bool value);
@@ -147,7 +147,7 @@ private:
     int score;
     int16_t culminationOffset;
     uint8_t priority;
-    double estimatedTime;
+    int64_t estimatedTime;
     bool timeSlotAllocated;
     bool inSequenceFocus;
 

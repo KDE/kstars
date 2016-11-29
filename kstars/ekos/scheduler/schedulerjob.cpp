@@ -339,12 +339,13 @@ void SchedulerJob::setFileStartupCondition(const StartupCondition &value)
 {
     fileStartupCondition = value;
 }
-double SchedulerJob::getEstimatedTime() const
+
+int64_t SchedulerJob::getEstimatedTime() const
 {
     return estimatedTime;
 }
 
-void SchedulerJob::setEstimatedTime(const double &value)
+void SchedulerJob::setEstimatedTime(const int64_t &value)
 {
     estimatedTime = value;
 
