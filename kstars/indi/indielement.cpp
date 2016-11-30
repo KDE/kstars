@@ -280,6 +280,11 @@ void INDI_E::syncText()
         else
             read_w->setText(tp->text);
     }
+    // If write-only
+    else
+    {
+        write_w->setText(tp->text);
+    }
 }
 
 void INDI_E::syncNumber()
