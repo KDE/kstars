@@ -105,8 +105,8 @@ void SupernovaeComponent::loadData()
         mag=99.9;
         z=0;
 
-        if (propObject.contains("claimedtype") == false)
-            continue;
+        //if (propObject.contains("claimedtype") == false)
+            //continue;
 
         ra   = ((propObject["ra"].toArray()[0]).toObject()["value"]).toString();
         de   = ((propObject["dec"].toArray()[0]).toObject()["value"]).toString();
