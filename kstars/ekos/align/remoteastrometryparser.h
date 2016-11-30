@@ -52,6 +52,7 @@ private:
     bool captureRunning;
     Align *align;
     QTime solverTimer;
+    QString parity;
 
 };
 

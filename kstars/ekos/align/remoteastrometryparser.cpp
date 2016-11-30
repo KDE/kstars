@@ -16,10 +16,11 @@
 #include <basedevice.h>
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
+#include "indi/guimanager.h"
+#include "indi/indidevice.h"
 
 #include "remoteastrometryparser.h"
 #include "align.h"
-
 
 namespace Ekos
 {
@@ -60,6 +61,11 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
         return false;
     }
 
+    QStringList solverArgs = args;
+    // Add parity option if none is give and we already know parity before
+    if (parity.isEmpty() == false && args.contains("parity") == false)
+        solverArgs << "--parity" << parity;
+
     for (int i=0; i < solverSettings->ntp; i++)
     {
         // 2016-10-20: Disable setting this automatically since remote device might have different
@@ -67,10 +73,13 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
         /*if (!strcmp(solverSettings->tp[i].name, "ASTROMETRY_SETTINGS_BINARY"))
             IUSaveText(&solverSettings->tp[i], Options::astrometrySolver().toLatin1().constData());*/
         if (!strcmp(solverSettings->tp[i].name, "ASTROMETRY_SETTINGS_OPTIONS"))
-            IUSaveText(&solverSettings->tp[i], args.join(" ").toLatin1().constData());
+            IUSaveText(&solverSettings->tp[i], solverArgs.join(" ").toLatin1().constData());
     }
 
     currentCCD->getDriverInfo()->getClientManager()->sendNewText(solverSettings);
+    INDI_D *guiDevice = GUIManager::Instance()->findGUIDevice(currentCCD->getDeviceName());
+    if (guiDevice)
+        guiDevice->updateTextGUI(solverSettings);
 
     ISwitch *enableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_ENABLE");
     if (enableSW->s == ISS_OFF)
@@ -152,6 +161,13 @@ void RemoteAstrometryParser::checkCCDResults(INumberVectorProperty * nvp)
             ra = nvp->np[i].value;
         else if (!strcmp(nvp->np[i].name, "ASTROMETRY_RESULTS_DE"))
             de = nvp->np[i].value;
+        else if (!strcmp(nvp->np[i].name, "ASTROMETRY_RESULTS_PARITY"))
+        {
+            if (nvp->np[i].value == 1)
+                parity = "pos";
+            else if (nvp->np[i].value == -1)
+                parity = "neg";
+        }
     }
 
     if (pixscale != -1000 && ra != -1000 && de != -1000 && orientation != -1000)
