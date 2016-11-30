@@ -6,17 +6,47 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>273</width>
-    <height>168</height>
+    <width>272</width>
+    <height>170</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>5</number>
+   </property>
+   <property name="leftMargin">
+    <number>5</number>
+   </property>
+   <property name="topMargin">
+    <number>5</number>
+   </property>
+   <property name="rightMargin">
+    <number>5</number>
+   </property>
+   <property name="bottomMargin">
+    <number>5</number>
+   </property>
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Settings</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>3</number>
+      </property>
+      <property name="leftMargin">
+       <number>5</number>
+      </property>
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <property name="rightMargin">
+       <number>5</number>
+      </property>
+      <property name="bottomMargin">
+       <number>5</number>
+      </property>
       <item>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="1">
@@ -130,7 +160,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QDoubleSpinBox" name="spinBox_ReticleX"/>
+       <widget class="QDoubleSpinBox" name="spinBox_ReticleX">
+        <property name="maximum">
+         <double>5000.000000000000000</double>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="l_27">
@@ -140,7 +174,11 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="spinBox_ReticleY"/>
+       <widget class="QDoubleSpinBox" name="spinBox_ReticleY">
+        <property name="maximum">
+         <double>5000.000000000000000</double>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="l_28">
