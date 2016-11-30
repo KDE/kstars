@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>681</width>
-    <height>486</height>
+    <width>686</width>
+    <height>505</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -94,7 +94,7 @@
             <item row="1" column="0">
              <widget class="QCheckBox" name="subFrameCheck">
               <property name="toolTip">
-               <string>Subframe the image around the guide star</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subframe the image around the guide star. Before checking this option, you must &lt;span style=&quot; font-weight:600;&quot;&gt;first&lt;/span&gt; capture an image and select a guide star. Uncheck it to take a full frame again.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Subframe</string>
@@ -104,7 +104,7 @@
             <item row="1" column="1">
              <widget class="QCheckBox" name="darkFrameCheck">
               <property name="toolTip">
-               <string>Subtract dark frame. If no dark frame is available, a new dark frame shall be captured and saved for future use.</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subtract dark frame. If no dark frame is available, a new dark frame shall be captured and saved for future use.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Dark</string>
@@ -164,7 +164,7 @@
                <string>Apply filter to image after capture to enhance it</string>
               </property>
               <property name="text">
-               <string>Filters:</string>
+               <string>Effects</string>
               </property>
              </widget>
             </item>
@@ -320,7 +320,7 @@
             <item>
              <widget class="QLabel" name="l_3">
               <property name="toolTip">
-               <string>Mount guiding rate</string>
+               <string>Mount guiding rate. Find out the guiding rate used by your mount and update the value here to get the &lt;b&gt;recommended&lt;/b&gt; value of propotional gain suitable for your mount. Setting this value &lt;b&gt;does not&lt;/b&gt; change your mount guiding rate!</string>
               </property>
               <property name="text">
                <string>Guiding rate</string>
@@ -330,7 +330,7 @@
             <item>
              <widget class="QDoubleSpinBox" name="spinBox_GuideRate">
               <property name="toolTip">
-               <string>Guiding rate (x15&quot;/sec)</string>
+               <string>Mount guiding rate (x15&quot;/sec)</string>
               </property>
               <property name="decimals">
                <number>3</number>
@@ -349,7 +349,7 @@
             <item>
              <widget class="QLabel" name="l_RecommendedGain">
               <property name="toolTip">
-               <string>&lt;b&gt;Recommended&lt;/b&gt; proportional rate given the selected guiding rate</string>
+               <string>&lt;b&gt;Recommended&lt;/b&gt; proportional rate given the selected guiding rate.</string>
               </property>
               <property name="text">
                <string notr="true">P=xxx</string>
@@ -502,6 +502,9 @@
               </property>
               <item>
                <widget class="QLabel" name="l_DeltaRA">
+                <property name="toolTip">
+                 <string>Immediate Guiding RA deviation in arcseconds</string>
+                </property>
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
@@ -518,6 +521,9 @@
               </item>
               <item>
                <widget class="QLabel" name="l_DeltaDEC">
+                <property name="toolTip">
+                 <string>Immediate Guiding DEC deviation in arcseconds</string>
+                </property>
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
@@ -548,6 +554,9 @@
               </property>
               <item>
                <widget class="QLabel" name="l_PulseRA">
+                <property name="toolTip">
+                 <string>Generated RA pulse</string>
+                </property>
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
@@ -564,6 +573,9 @@
               </item>
               <item>
                <widget class="QLabel" name="l_PulseDEC">
+                <property name="toolTip">
+                 <string>Generated DEC pulse</string>
+                </property>
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
                 </property>
@@ -584,6 +596,9 @@
              <layout class="QHBoxLayout" name="horizontalLayout">
               <item>
                <widget class="QLabel" name="l_20">
+                <property name="toolTip">
+                 <string>RA Guiding RMS error</string>
+                </property>
                 <property name="text">
                  <string>Sig(RA)&quot;</string>
                 </property>
@@ -614,6 +629,9 @@
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
                <widget class="QLabel" name="l_21">
+                <property name="toolTip">
+                 <string>DEC Guiding RMS error</string>
+                </property>
                 <property name="text">
                  <string>Sig(DEC)&quot;</string>
                 </property>
@@ -894,6 +912,9 @@
               </property>
               <item row="0" column="0">
                <widget class="QLabel" name="l_11">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Propotional term accounts for present values of the error. For example, if the error is large and positive, the guider corrective pulse will also be large and positive.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string>Proportional gain</string>
                 </property>
@@ -921,6 +942,9 @@
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="l_12">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Propotional term accounts for past values of the error. For example, if the current pulse is not sufficiently strong, the integral of the error will accumulate over time, and the guider will respond by applying a stronger action.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string>Integral gain</string>
                 </property>
@@ -948,6 +972,12 @@
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="l_13">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="toolTip">
+                 <string>Derivative term accounts for possible future trends of the error, based on its current rate of change.</string>
+                </property>
                 <property name="text">
                  <string>Derivative gain</string>
                 </property>
@@ -955,6 +985,9 @@
               </item>
               <item row="2" column="1">
                <widget class="QDoubleSpinBox" name="spinBox_DerGainRA">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="decimals">
                  <number>1</number>
                 </property>
@@ -965,6 +998,9 @@
               </item>
               <item row="2" column="2">
                <widget class="QDoubleSpinBox" name="spinBox_DerGainDEC">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="decimals">
                  <number>1</number>
                 </property>
@@ -975,6 +1011,9 @@
               </item>
               <item row="3" column="0">
                <widget class="QLabel" name="l_14">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Maximum guide pulse that is generated by the guider and sent to the mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string>Maximum pulse</string>
                 </property>
@@ -996,6 +1035,9 @@
               </item>
               <item row="4" column="0">
                <widget class="QLabel" name="l_15">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Minimum guide pulse that is sent to the mount. If the generated pulse is less than this value, then no pulse is sent to the mount.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
                 <property name="text">
                  <string>Minimum pulse</string>
                 </property>
@@ -1017,6 +1059,9 @@
               </item>
               <item row="5" column="0">
                <widget class="QLabel" name="l_23">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>AO Limits</string>
                 </property>
@@ -1046,6 +1091,9 @@
               </item>
               <item row="5" column="2">
                <widget class="QLabel" name="l_24">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>arcsecs</string>
                 </property>
