@@ -89,6 +89,9 @@ Guide::Guide() : QWidget()
     useGuideHead = false;
     //rapidGuideReticleSet = false;
 
+    // Guiding Rate - Advisory only
+    connect( spinBox_GuideRate, 		SIGNAL(valueChanged(double)), this, SLOT(onInfoRateChanged(double)) );
+
     // Load all settings
     loadSettings();
 
@@ -127,9 +130,6 @@ Guide::Guide() : QWidget()
 
     // Binning Combo Selection
     connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateCCDBin(int)));
-
-    // Guiding Rate - Advisory only
-    connect( spinBox_GuideRate, 		SIGNAL(valueChanged(double)), this, SLOT(onInfoRateChanged(double)) );
 
     // RA/DEC Enable directions
     connect( checkBox_DirRA, SIGNAL(toggled(bool)), this, SLOT(onEnableDirRA(bool)) );
@@ -1710,6 +1710,8 @@ void Guide::loadSettings()
     darkFrameCheck->setChecked(Options::guideDarkFrameEnabled());
     // Subframed?
     subFrameCheck->setChecked(Options::guideSubframeEnabled());
+    // Guiding Rate
+    spinBox_GuideRate->setValue(Options::guidingRate());
     // RA/DEC enabled?
     checkBox_DirRA->setChecked(Options::rAGuideEnabled());
     checkBox_DirDEC->setChecked(Options::dECGuideEnabled());
@@ -1746,6 +1748,8 @@ void Guide::saveSettings()
     Options::setGuideDarkFrameEnabled(darkFrameCheck->isChecked());
     // Subframed?
     Options::setGuideSubframeEnabled(subFrameCheck->isChecked());
+    // Guiding Rate?
+    Options::setGuidingRate(spinBox_GuideRate->value());
     // RA/DEC enabled?
     Options::setRAGuideEnabled(checkBox_DirRA->isChecked());
     Options::setDECGuideEnabled(checkBox_DirDEC->isChecked());
