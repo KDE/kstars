@@ -48,37 +48,41 @@ struct StarNode {
  *@author  Akarsh Simha
  *@version 1.0
  */
+
 class StarBlock
 {
 public:
+
+    // StarBlockEntry is the data type held by the StarBlock's QVector
+#ifdef KSTARS_LITE
+    typedef StarNode StarBlockEntry;
+#else
+    typedef StarObject StarBlockEntry;
+#endif
+
     /** Constructor
      *  Initializes values of various parameters and creates nstars number of stars
      *  @param nstars   Number of stars to hold in this StarBlock
      */
     explicit StarBlock( int nstars = 100 );
 
-    /**                                                                                 
-     * Destructor                                                                       
-     * Deletes all stored stars                                                         
+    /**
+     * Destructor
+     * Deletes all stored stars
      */
     ~StarBlock();
 
-    /** @short Initialize another star with data. 
+    /** @short Initialize another star with data.
      *
      *  FIXME: StarObject::init doesn't reset object name(s). It
      *  shouldn't be issue since stars which are swapped in/out do not
-     *  have names. 
+     *  have names.
      *
      *@param  data    data to initialize star with.
      *@return pointer to star initialized with data. NULL if block is full.
      */
-#ifdef KSTARS_LITE
-    StarNode* addStar(const starData& data);
-    StarNode* addStar(const deepStarData& data);
-#else
-    StarObject* addStar(const starData& data);
-    StarObject* addStar(const deepStarData& data);
-#endif
+    StarBlockEntry* addStar(const starData& data);
+    StarBlockEntry* addStar(const deepStarData& data);
 
     /**
      *@short Returns true if the StarBlock is full
@@ -104,11 +108,15 @@ public:
      *@param  Index of StarBlock to return
      *@return A pointer to the i-th StarObject
      */
-#ifdef KSTARS_LITE
-    inline StarNode *star( int i ) { return &stars[i]; }
-#else
-    inline StarObject *star( int i ) { return &stars[i]; }
-#endif
+    inline StarBlockEntry *star( int i ) { return &stars[i]; }
+
+    /**
+     *@return a reference to the internal container of this
+     *@note This is bad -- is there a way of providing non-const access to the list's elements without allowing altering of the list alone?
+     */
+
+    inline QVector<StarBlockEntry> &contents() { return stars; }
+
     // These methods are there because we might want to make faintMag and brightMag private at some point
     /**
      *@short  Return the magnitude of the brightest star in this StarBlock
@@ -150,11 +158,7 @@ public:
     /** Number of initialized stars in StarBlock. */
     int nStars;
     /** Array of stars. */
-#ifdef KSTARS_LITE
-    QVector<StarNode> stars;
-#else
-    QVector<StarObject> stars;
-#endif
+    QVector<StarBlockEntry> stars;
 };
 
 #endif
