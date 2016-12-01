@@ -323,6 +323,7 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
         t_drawUnnamed += t.restart();
 
     }
+    qDebug() << "Time elapsed in drawing unnamed stars: " << t_drawUnnamed;
     m_skyMesh->inDraw( false );
 #ifdef PROFILE_SINCOS
     trig_calls_here += dms::trig_function_calls;
