@@ -144,7 +144,7 @@ Guide::Guide() : QWidget()
     // Declination Swap
     connect(swapCheck, SIGNAL(toggled(bool)), this, SLOT(setDECSwap(bool)));
 
-    // PID Control - Propotional Gain
+    // PID Control - Proportional Gain
     connect( spinBox_PropGainRA, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
     connect( spinBox_PropGainDEC, 	SIGNAL(editingFinished()), this, SLOT(onInputParamChanged()) );
 
@@ -1644,9 +1644,9 @@ void Guide::onInputParamChanged()
     else if( (pDSB = dynamic_cast<QDoubleSpinBox *>(obj)) )
     {
         if( pDSB == spinBox_PropGainRA )
-            Options::setRAPropotionalGain(pDSB->value());
+            Options::setRAProportionalGain(pDSB->value());
         else if ( pDSB == spinBox_PropGainDEC )
-            Options::setDECPropotionalGain(pDSB->value());
+            Options::setDECProportionalGain(pDSB->value());
         else if ( pDSB == spinBox_IntGainRA )
             Options::setRAIntegralGain(pDSB->value());
         else if( pDSB == spinBox_IntGainDEC )
@@ -1721,9 +1721,9 @@ void Guide::loadSettings()
     // W/E enabled?
     westControlCheck->setChecked(Options::westRAGuideEnabled());
     eastControlCheck->setChecked(Options::eastRAGuideEnabled());
-    // PID Control - Propotional Gain
-    spinBox_PropGainRA->setValue(Options::rAPropotionalGain());
-    spinBox_PropGainDEC->setValue(Options::dECPropotionalGain());
+    // PID Control - Proportional Gain
+    spinBox_PropGainRA->setValue(Options::rAProportionalGain());
+    spinBox_PropGainDEC->setValue(Options::dECProportionalGain());
     // PID Control - Integral Gain
     spinBox_IntGainRA->setValue(Options::rAIntegralGain());
     spinBox_IntGainDEC->setValue(Options::dECIntegralGain());
@@ -1759,9 +1759,9 @@ void Guide::saveSettings()
     // W/E enabled?
     Options::setWestRAGuideEnabled(westControlCheck->isChecked());
     Options::setEastRAGuideEnabled(eastControlCheck->isChecked());
-    // PID Control - Propotional Gain
-    Options::setRAPropotionalGain(spinBox_PropGainRA->value());
-    Options::setDECPropotionalGain(spinBox_PropGainDEC->value());
+    // PID Control - Proportional Gain
+    Options::setRAProportionalGain(spinBox_PropGainRA->value());
+    Options::setDECProportionalGain(spinBox_PropGainDEC->value());
     // PID Control - Integral Gain
     Options::setRAIntegralGain(spinBox_IntGainRA->value());
     Options::setDECIntegralGain(spinBox_IntGainDEC->value());
