@@ -26,6 +26,7 @@
 #include "skymapcomposite.h"
 #include "skycomponents/satellitescomponent.h"
 #include "satellitegroup.h"
+#include "skymap.h"
 
 static const char *satgroup_strings_context = "Satellite group name";
 
@@ -154,18 +155,22 @@ void OpsSatellites::slotApply()
     QStandardItem* sat_item;
     
     // Retrieve each satellite in the list and select it if checkbox is checked
-    for ( int i=0; i<m_Model->rowCount( SatListTreeView->rootIndex() ); ++i ) {
+    for ( int i=0; i<m_Model->rowCount( SatListTreeView->rootIndex() ); ++i )
+    {
         group_index = m_Model->index( i, 0, SatListTreeView->rootIndex() );
         group_item = m_Model->itemFromIndex( group_index );
 
-        for ( int j=0; j<m_Model->rowCount( group_item->index() ); ++j ) {
+        for ( int j=0; j<m_Model->rowCount( group_item->index() ); ++j )
+        {
             sat_index = m_Model->index( j, 0, group_index );
             sat_item = m_Model->itemFromIndex( sat_index );
             sat_name = sat_item->data( 0 ).toString();
             
             Satellite *sat = data->skyComposite()->satellites()->findSatellite( sat_name );
-            if ( sat ) {
-                if ( sat_item->checkState() == Qt::Checked ) {                    
+            if ( sat )
+            {
+                if ( sat_item->checkState() == Qt::Checked )
+                {
                     int rc = sat->updatePos();
                     // If position calculation fails, unselect it
                     if (rc == 0)
@@ -179,7 +184,9 @@ void OpsSatellites::slotApply()
                         sat->setSelected( false );
                         sat_item->setCheckState(Qt::Unchecked);
                     }
-                } else {
+                }
+                else
+                {
                     sat->setSelected( false );
                 }
             }
@@ -187,6 +194,12 @@ void OpsSatellites::slotApply()
     }
 
     Options::setSelectedSatellites( selected_satellites );
+
+    // update time for all objects because they might be not initialized
+    // it's needed when using horizontal coordinates
+    KStars::Instance()->data()->setFullTimeUpdate();
+    KStars::Instance()->updateTime();
+    KStars::Instance()->map()->forceUpdate();
 }
 
 void OpsSatellites::slotCancel()

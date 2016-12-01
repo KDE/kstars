@@ -142,7 +142,7 @@ public:
 
     /** @short Draw a satellite
         */
-    virtual void drawSatellite( Satellite* sat ) = 0;
+    virtual bool drawSatellite( Satellite* sat ) = 0;
 
     /** @short Draw a Supernova
      */

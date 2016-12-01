@@ -793,25 +793,31 @@ void SkyQPainter::drawHorizon(bool filled, SkyPoint* labelPoint, bool* drawLabel
     }
 }
 
-void SkyQPainter::drawSatellite( Satellite* sat ) {
-    KStarsData *data = KStarsData::Instance();
+bool SkyQPainter::drawSatellite( Satellite* sat )
+{
+    if( !m_proj->checkVisibility(sat) )
+        return false;
+
     QPointF pos;
     bool visible = false;
 
-    sat->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+    //sat->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 
     pos = m_proj->toScreen( sat, true, &visible );
 
     if( !visible || !m_proj->onScreen( pos ) )
-        return;
+        return false;
 
-    if ( Options::drawSatellitesLikeStars() ) {
+    if ( Options::drawSatellitesLikeStars() )
+    {
         drawPointSource(pos, 3.5, 'B');
-    } else {
+    }
+    else
+    {
         if ( sat->isVisible() )
-            setPen( data->colorScheme()->colorNamed( "VisibleSatColor" ) );
+            setPen( KStarsData::Instance()->colorScheme()->colorNamed( "VisibleSatColor" ) );
         else
-            setPen( data->colorScheme()->colorNamed( "SatColor" ) );
+            setPen( KStarsData::Instance()->colorScheme()->colorNamed( "SatColor" ) );
 
         drawLine( QPoint( pos.x() - 0.5, pos.y() - 0.5 ), QPoint( pos.x() + 0.5, pos.y() - 0.5 ) );
         drawLine( QPoint( pos.x() + 0.5, pos.y() - 0.5 ), QPoint( pos.x() + 0.5, pos.y() + 0.5 ) );
@@ -819,8 +825,10 @@ void SkyQPainter::drawSatellite( Satellite* sat ) {
         drawLine( QPoint( pos.x() - 0.5, pos.y() + 0.5 ), QPoint( pos.x() - 0.5, pos.y() - 0.5 ) );
     }
 
-    if ( Options::showSatellitesLabels() )
-        data->skyComposite()->satellites()->drawLabel( sat, pos );
+    return true;
+
+    //if ( Options::showSatellitesLabels() )
+        //data->skyComposite()->satellites()->drawLabel( sat, pos );
 }
 
 bool SkyQPainter::drawSupernova(Supernova* sup)
