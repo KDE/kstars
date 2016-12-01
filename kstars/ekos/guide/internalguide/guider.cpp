@@ -154,7 +154,7 @@ void internalGuider::setInterface( void )
 
     ui.comboBox_ThresholdAlg->setCurrentIndex( pmath->getSquareAlgorithmIndex() );
 
-    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(cgmath::preCalculatePropotionalGain(Options::guidingRate()), 'f', 2 )) );
+    ui.l_RecommendedGain->setText( i18n("P: %1", QString().setNum(cgmath::preCalculateProportionalGain(Options::guidingRate()), 'f', 2 )) );
     ui.spinBox_GuideRate->setValue( Options::guidingRate() );
 
     // info params...
@@ -167,8 +167,8 @@ void internalGuider::setInterface( void )
     ui.checkBox_DirRA->setChecked( Options::enableRAGuide() );
     ui.checkBox_DirDEC->setChecked( Options::enableDECGuide() );
 
-    ui.spinBox_PropGainRA->setValue( Options::rAPropotionalGain() );
-    ui.spinBox_PropGainDEC->setValue( Options::dECPropotionalGain()  );
+    ui.spinBox_PropGainRA->setValue( Options::rAProportionalGain() );
+    ui.spinBox_PropGainDEC->setValue( Options::dECProportionalGain()  );
 
     ui.spinBox_IntGainRA->setValue( Options::rAIntegralGain() );
     ui.spinBox_IntGainDEC->setValue( Options::dECIntegralGain() );
@@ -213,8 +213,8 @@ bool internalGuider::start()
     Options::setGuidingRate(ui.spinBox_GuideRate->value());
     Options::setEnableRAGuide(ui.checkBox_DirRA->isChecked());
     Options::setEnableDECGuide(ui.checkBox_DirDEC->isChecked());
-    Options::setRAPropotionalGain(ui.spinBox_PropGainRA->value());
-    Options::setDECPropotionalGain(ui.spinBox_PropGainDEC->value());
+    Options::setRAProportionalGain(ui.spinBox_PropGainRA->value());
+    Options::setDECProportionalGain(ui.spinBox_PropGainDEC->value());
     Options::setRAIntegralGain(ui.spinBox_IntGainRA->value());
     Options::setDECIntegralGain(ui.spinBox_IntGainDEC->value());
     Options::setRADerivativeGain(ui.spinBox_DerGainRA->value());

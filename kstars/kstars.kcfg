@@ -1713,10 +1713,10 @@
          <label>Enable West autoguiding in the RA axis.</label>
          <default>true</default>
       </entry>
-      <entry name="RAPropotionalGain" type="Double">
+      <entry name="RAProportionalGain" type="Double">
          <default>133.33</default>
       </entry>
-      <entry name="DECPropotionalGain" type="Double">
+      <entry name="DECProportionalGain" type="Double">
          <default>133.33</default>
       </entry>
       <entry name="RAIntegralGain" type="Double">

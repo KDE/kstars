@@ -843,8 +843,8 @@ void cgmath::process_axes( void  )
     if (Options::guideLogging())
         qDebug() << "Guide: Processing Axes";
 
-    in_params.proportional_gain[0] = Options::rAPropotionalGain();
-    in_params.proportional_gain[1] = Options::dECPropotionalGain();
+    in_params.proportional_gain[0] = Options::rAProportionalGain();
+    in_params.proportional_gain[1] = Options::dECProportionalGain();
 
     in_params.integral_gain[0]     = Options::rAIntegralGain();
     in_params.integral_gain[1]     = Options::rAIntegralGain();
