@@ -23,6 +23,7 @@
 #include <QPixmap>
 #include <QRectF>
 #include <QFontMetricsF>
+#include <QtConcurrent>
 
 //NOTE Added this for QT_FSEEK, should we be including another file?
 #include <qplatformdefs.h>
@@ -294,7 +295,20 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
         //        qDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has "
         //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks" << endl;
 
+        // REMARK: The following should never carry state, except for const parameters like updateID and maglim
+        std::function<void( StarBlock * )> mapFunction = [&updateID, &maglim]( StarBlock *myBlock ) {
+            for ( StarObject &star : myBlock->contents() ) {
+                if ( star.updateID != updateID )
+                    star.JITupdate();
+                if ( star.mag() > maglim )
+                    break;
+            }
+        };
+
+        QtConcurrent::blockingMap( m_starBlockList.at( currentRegion )->contents(), mapFunction );
+
         for( int i = 0; i < m_starBlockList.at( currentRegion )->getBlockCount(); ++i ) {
+
             StarBlock *block = m_starBlockList.at( currentRegion )->block( i );
             //            qDebug() << "---> Drawing stars from block " << i << " of trixel " <<
             //                currentRegion << ". SB has " << block->getStarCount() << " stars" << endl;
@@ -304,9 +318,6 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
 
                 //                qDebug() << "We claim that he's from trixel " << currentRegion
                 //<< ", and indexStar says he's from " << m_skyMesh->indexStar( curStar );
-
-                if ( curStar->updateID != updateID )
-                    curStar->JITupdate();
 
                 float mag = curStar->mag();
 
