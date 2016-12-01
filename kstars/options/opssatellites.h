@@ -64,6 +64,7 @@ private:
     KConfigDialog *m_ConfigDialog;
     QStandardItemModel *m_Model;
     QSortFilterProxyModel *m_SortModel;
+    bool isDirty=false;
 
 private slots:
     void slotUpdateTLEs();

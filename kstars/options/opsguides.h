@@ -19,7 +19,7 @@
 
 #include "ui_opsguides.h"
 
-class KStars;
+class KConfigDialog;
 
 /**
  * @class OpsGuides
@@ -35,11 +35,16 @@ public:
     ~OpsGuides();
 
 private slots:
+    void slotApply();
     void slotToggleConstellOptions( bool state );
     void slotToggleConstellationArt(bool state );
     void slotToggleMilkyWayOptions( bool state );
     void slotToggleOpaqueGround( bool state );
     void slotToggleAutoSelectGrid( bool state );
+
+private:
+    KConfigDialog *m_ConfigDialog;
+    bool isDirty = false;
 
 };
 
