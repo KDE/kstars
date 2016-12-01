@@ -119,6 +119,10 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="satelliteButtonGroup"/>
+  <buttongroup name="satelliteButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
  </buttongroups>
 </ui>

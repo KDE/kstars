@@ -564,10 +564,16 @@ void SkyLabeler::drawQueuedLabels()
         resetFont();
     }
 
+    // No colors for these fellas? Just following planets along?
     drawQueuedLabelsType( ASTEROID_LABEL );
     drawQueuedLabelsType( COMET_LABEL );
 
+    m_p.setPen( QColor( data->colorScheme()->colorNamed( "SatLabelColor" ) ) );
+    drawQueuedLabelsType( SATELLITE_LABEL );
 
+    // Whelp we're here and we don't have a Rude Label color?
+    // Will just set it to Planet color since this is how it used to be!!
+    m_p.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
     LabelList list = labelList[ RUDE_LABEL ];
     for ( int i = 0; i < list.size(); i ++ ) {
         drawRudeNameLabel( list.at(i).obj, list.at(i).o );

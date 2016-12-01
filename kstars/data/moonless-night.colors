@@ -28,7 +28,7 @@
 #FF0000 :ObsListColor
 #00FF00 :VisibleSatColor
 #FF0000 :SatColor
-#640000 :SatLabelColor
+#AAAA7F :SatLabelColor
 #FFA500 :SupernovaColor
 #00FF00 :RAGuideError
 #00A5FF :DEGuideError

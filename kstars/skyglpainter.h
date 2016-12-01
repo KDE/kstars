@@ -48,7 +48,7 @@ public:
     virtual void setBrush(const QBrush& brush);
     virtual void setPen(const QPen& pen);
     virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0);
-    virtual void drawSatellite( Satellite* sat );
+    virtual bool drawSatellite( Satellite* sat );
     virtual bool drawSupernova(Supernova* sup);
     void drawText( int x, int y, const QString text, QFont font, QColor color );
     virtual bool drawConstellationArtImage(ConstellationsArt *obj);

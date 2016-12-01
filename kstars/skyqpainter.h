@@ -82,7 +82,7 @@ public:
     virtual void drawObservingList(const QList<SkyObject*>& obs);
     virtual void drawFlags();
     virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0);
-    virtual void drawSatellite( Satellite* sat );
+    virtual bool drawSatellite( Satellite* sat );
     virtual void drawDeepSkySymbol(const QPointF& pos, int type, float size, float e,
                                          float positionAngle);
     virtual bool drawSupernova(Supernova* sup);

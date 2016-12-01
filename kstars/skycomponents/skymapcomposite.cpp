@@ -287,7 +287,9 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     // FIXME: REGRESSION. Labeler now know nothing about infoboxes
     // map->infoBoxes()->reserveBoxes( psky );
 
-    if( KStars::Instance() ) {
+    // JM 2016-12-01: Why is this done this way?!! It's too inefficient
+    if( KStars::Instance() )
+    {
         auto& obsList = KStarsData::Instance()->observingList()->sessionList();
         if( Options::obsListText() )
             foreach( QSharedPointer<SkyObject> obj_clone, obsList ) {

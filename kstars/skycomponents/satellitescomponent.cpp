@@ -34,6 +34,7 @@
 #include "ksfilereader.h"
 #include "skylabeler.h"
 #include "kstarsdata.h"
+#include "skymap.h"
 
 SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
     SkyComponent( parent )
@@ -103,16 +104,28 @@ void SatellitesComponent::draw( SkyPainter *skyp )
     if( ! selected() )
         return;
 
-    foreach( SatelliteGroup *group, m_groups ) {
-        for ( int i=0; i<group->size(); i++ ) {
+    bool hideLabels =  (!Options::showSatellitesLabels() || ( SkyMap::Instance()->isSlewing() && Options::hideLabels() ));
+
+    foreach( SatelliteGroup *group, m_groups )
+    {
+        for ( int i=0; i<group->size(); i++ )
+        {
             Satellite *sat = group->at( i );
-            if ( sat->selected() ) {
-                if ( Options::showVisibleSatellites() ) {
+            if ( sat->selected() )
+            {
+                bool drawn = false;
+                if ( Options::showVisibleSatellites() )
+                {
                     if ( sat->isVisible() )
-                        skyp->drawSatellite( sat );
-                } else {
-                    skyp->drawSatellite( sat );
+                        drawn = skyp->drawSatellite( sat );
                 }
+                else
+                {
+                    drawn = skyp->drawSatellite( sat );
+                }
+
+                if (drawn && !hideLabels)
+                    SkyLabeler::AddLabel( sat, SkyLabeler::SATELLITE_LABEL );
             }
         }
     }
