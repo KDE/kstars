@@ -110,6 +110,13 @@ public:
      */
     inline StarBlockEntry *star( int i ) { return &stars[i]; }
 
+    /**
+     *@return a reference to the internal container of this
+     *@note This is bad -- is there a way of providing non-const access to the list's elements without allowing altering of the list alone?
+     */
+
+    inline QVector<StarBlockEntry> &contents() { return stars; }
+
     // These methods are there because we might want to make faintMag and brightMag private at some point
     /**
      *@short  Return the magnitude of the brightest star in this StarBlock

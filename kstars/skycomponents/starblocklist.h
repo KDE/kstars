@@ -88,6 +88,11 @@ class StarBlockList {
     inline StarBlock *block( unsigned int i ) { return ( ( i < nBlocks ) ? blocks[ i ] : NULL ); }
 
     /**
+     *@return a const reference to the contents of this StarBlockList
+     */
+    inline const QList<StarBlock *> &contents() const { return blocks; }
+
+    /**
      *@short  Returns the total number of stars in this StarBlockList
      *@return Total number of stars in this StarBlockList
      */
