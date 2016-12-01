@@ -73,6 +73,10 @@ OpsSatellites::OpsSatellites()
     connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
     connect( FilterEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterReg( const QString & ) ) );
     connect( m_Model, SIGNAL( itemChanged( QStandardItem* ) ), this, SLOT( slotItemChanged( QStandardItem* ) ) );
+
+    connect( satelliteButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&](){ isDirty = true;});
+
+    isDirty = false;
 }
 
 OpsSatellites::~OpsSatellites() {
@@ -83,6 +87,8 @@ void OpsSatellites::slotUpdateTLEs()
 {
     // Get new data files
     KStarsData::Instance()->skyComposite()->satellites()->updateTLEs();
+
+    isDirty = true;
 
     // Refresh satellites list
     updateListView();
@@ -135,6 +141,11 @@ void OpsSatellites::updateListView()
 
 void OpsSatellites::slotApply()
 {
+    if (isDirty == false)
+        return;
+
+    isDirty = false;
+
     KStarsData* data = KStarsData::Instance();
     QString sat_name;
     QStringList selected_satellites;
@@ -186,6 +197,7 @@ void OpsSatellites::slotCancel()
 
 void OpsSatellites::slotShowSatellites( bool on )
 {
+    isDirty = true;
     kcfg_ShowVisibleSatellites->setEnabled( on );
     kcfg_ShowSatellitesLabels->setEnabled( on );
     kcfg_DrawSatellitesLikeStars->setEnabled( on );
@@ -196,6 +208,8 @@ void OpsSatellites::slotFilterReg( const QString& filter )
     m_SortModel->setFilterRegExp( QRegExp( filter, Qt::CaseInsensitive, QRegExp::RegExp ) );
     m_SortModel->setFilterKeyColumn( -1 );
     
+    isDirty = true;
+
     // Expand all categories when the user use filter
     if ( filter.length() > 0 )
         SatListTreeView->expandAll();
@@ -208,6 +222,8 @@ void OpsSatellites::slotItemChanged( QStandardItem* item )
     if( item->parent() == 0 && !item->hasChildren() ) {
         return;
     }
+
+    isDirty = true;
 
     QModelIndex sat_index;
     QStandardItem* sat_item;

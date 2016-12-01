@@ -74,6 +74,7 @@ private:
     QList<int> m_ShowCustomCatalog;
     float m_StarDensity;
     bool m_ShowMessier, m_ShowMessImages, m_ShowNGC, m_ShowIC;
+    bool isDirty=false;
 };
 
 #endif  //OPSCATALOG_H_

@@ -29,6 +29,9 @@
             <property name="text">
              <string>Show satellites</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">satelliteButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -36,6 +39,9 @@
             <property name="text">
              <string>Show only visible satellites</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">satelliteButtonGroup</string>
+            </attribute>
            </widget>
           </item>
          </layout>
@@ -47,6 +53,9 @@
             <property name="text">
              <string>Show labels</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">satelliteButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -54,6 +63,9 @@
             <property name="text">
              <string>Draw satellites like stars</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">satelliteButtonGroup</string>
+            </attribute>
            </widget>
           </item>
          </layout>
@@ -106,4 +118,7 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="satelliteButtonGroup"/>
+ </buttongroups>
 </ui>

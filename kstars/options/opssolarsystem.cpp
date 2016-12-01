@@ -15,10 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <KActionCollection>
+#include <KConfigDialog>
+
 #include "opssolarsystem.h"
 #include "kstars.h"
-
-#include <KActionCollection>
+#include "kstarsdata.h"
+#include "skymap.h"
 
 OpsSolarSystem::OpsSolarSystem()
         : QFrame(KStars::Instance())
@@ -37,8 +40,16 @@ OpsSolarSystem::OpsSolarSystem()
 
     slotAsteroidWidgets( kcfg_ShowAsteroids->isChecked() );
     slotCometWidgets( kcfg_ShowComets->isChecked() );
-}
 
+    //Get a pointer to the KConfigDialog
+    m_ConfigDialog = KConfigDialog::exists( "settings" );
+
+    connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
+    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
+    connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
+
+    connect( solarButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&](){ isDirty = true;});
+}
 
 OpsSolarSystem::~OpsSolarSystem()
 {
@@ -81,3 +92,18 @@ void OpsSolarSystem::slotSelectPlanets() {
     kcfg_ShowNeptune->setChecked( b );
     //kcfg_ShowPluto->setChecked( b );
 }
+
+void OpsSolarSystem::slotApply()
+{
+    if (isDirty == false)
+        return;
+
+    isDirty = false;
+
+    // update time for all objects because they might be not initialized
+    // it's needed when using horizontal coordinates
+    KStars::Instance()->data()->setFullTimeUpdate();
+    KStars::Instance()->updateTime();
+    KStars::Instance()->map()->forceUpdate();
+}
+

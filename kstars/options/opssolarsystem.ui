@@ -16,6 +16,9 @@
      <property name="text">
       <string>Show solar system objects</string>
      </property>
+     <attribute name="buttonGroup">
+      <string notr="true">solarButtonGroup</string>
+     </attribute>
     </widget>
    </item>
    <item>
@@ -37,6 +40,9 @@
           <property name="text">
            <string>Saturn</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="3" column="2">
@@ -63,6 +69,9 @@
           <property name="text">
            <string>Mars</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="2" column="2">
@@ -115,6 +124,9 @@
           <property name="text">
            <string>Venus</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="0" column="0">
@@ -128,6 +140,9 @@
           <property name="text">
            <string>The sun</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="0" column="1">
@@ -141,6 +156,9 @@
           <property name="text">
            <string>Jupiter</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="1" column="0">
@@ -154,6 +172,9 @@
           <property name="text">
            <string>The moon</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="2" column="0">
@@ -167,6 +188,9 @@
           <property name="text">
            <string>Mercury</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="3" column="1">
@@ -180,6 +204,9 @@
           <property name="text">
            <string>Neptune</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="4" column="2">
@@ -209,6 +236,9 @@
           <property name="text">
            <string>Uranus</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
        </layout>
@@ -251,6 +281,9 @@
           <property name="text">
            <string>Asteroids</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="0" column="1">
@@ -319,6 +352,9 @@
             <property name="text">
              <string>Show names</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">solarButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -367,6 +403,9 @@
           <property name="text">
            <string>Comets</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="2" column="1">
@@ -380,6 +419,9 @@
           <property name="text">
            <string>Show names of comets within</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="2" column="2">
@@ -444,6 +486,9 @@
         <property name="text">
          <string>Always show trail when tracking a solar system body</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">solarButtonGroup</string>
+        </attribute>
        </widget>
       </item>
       <item>
@@ -459,6 +504,9 @@
           <property name="text">
            <string>Fade trails to background color</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -513,6 +561,9 @@
         <property name="text">
          <string>Earth satellite tracks</string>
         </property>
+        <attribute name="buttonGroup">
+         <string notr="true">solarButtonGroup</string>
+        </attribute>
        </widget>
       </item>
       <item>
@@ -569,4 +620,11 @@
  </tabstops>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="solarButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+ </buttongroups>
 </ui>

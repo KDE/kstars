@@ -763,25 +763,14 @@ void KStars::slotViewOps() {
     dialog->show();
 }
 
-void KStars::slotApplyConfigChanges() {
-    Options::self()->save();
-
-    // If the focus object was a constellation and the sky culture has changed, remove the focus object
-    if( map()->focusObject() && map()->focusObject()->type() == SkyObject::CONSTELLATION ) {
-        if( m_KStarsData->skyComposite()->currentCulture() != m_KStarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) || m_KStarsData->skyComposite()->isLocalCNames() != Options::useLocalConstellNames() ) {
-            map()->setClickedObject( NULL );
-            map()->setFocusObject( NULL );
-        }
-    }
+void KStars::slotApplyConfigChanges()
+{
+    Options::self()->save();    
 
     applyConfig();
-    data()->setFullTimeUpdate();
-    map()->forceUpdate();
 
-    m_KStarsData->skyComposite()->setCurrentCulture(  m_KStarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) );
-    m_KStarsData->skyComposite()->reloadCLines();
-    m_KStarsData->skyComposite()->reloadCNames();
-    m_KStarsData->skyComposite()->reloadConstellationArt();
+    //data()->setFullTimeUpdate();
+    //map()->forceUpdate();
 }
 
 void KStars::slotApplyWIConfigChanges() {

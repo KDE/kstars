@@ -24,6 +24,9 @@
           <property name="text">
            <string>&amp;Star Catalogs</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">catalogButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -125,6 +128,9 @@
             <property name="text">
              <string>Show &amp;name</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">catalogButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item row="1" column="1">
@@ -132,6 +138,9 @@
             <property name="text">
              <string>Show ma&amp;gnitude</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">catalogButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item row="0" column="0">
@@ -257,6 +266,9 @@
           <property name="text">
            <string>Deep-Sky Catalogs</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">catalogButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -285,6 +297,9 @@
             <property name="text">
              <string>Show na&amp;me</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">catalogButtonGroup</string>
+            </attribute>
            </widget>
           </item>
          </layout>
@@ -315,6 +330,9 @@
             <property name="text">
              <string>Show &amp;long names</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">catalogButtonGroup</string>
+            </attribute>
            </widget>
           </item>
           <item>
@@ -358,6 +376,9 @@
             <property name="text">
              <string>Show magni&amp;tude</string>
             </property>
+            <attribute name="buttonGroup">
+             <string notr="true">catalogButtonGroup</string>
+            </attribute>
            </widget>
           </item>
          </layout>
@@ -503,19 +524,19 @@
        </layout>
       </item>
       <item>
-        <layout class="QHBoxLayout">
-          <item>
-            <widget class="QCheckBox" name="kcfg_ResolveNamesOnline">
-              <property name="text">
-                <string>Resolve names not known to KStars using online services</string>
-              </property>
-              <property name="toolTip">
-                <string>If this checkbox is checked, when an object name unknown to KStars is entered in the Find Dialog, KStars will contact online services (such as CDS Sesame) to learn about the object and then add it to the database.
+       <layout class="QHBoxLayout">
+        <item>
+         <widget class="QCheckBox" name="kcfg_ResolveNamesOnline">
+          <property name="toolTip">
+           <string>If this checkbox is checked, when an object name unknown to KStars is entered in the Find Dialog, KStars will contact online services (such as CDS Sesame) to learn about the object and then add it to the database.
                 The objects acquired in this manner are stored under a catalog that is called _Internet_Resolved as of this writing.</string>
-              </property>
-            </widget>
-          </item>
-        </layout>
+          </property>
+          <property name="text">
+           <string>Resolve names not known to KStars using online services</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <layout class="QHBoxLayout">
@@ -634,6 +655,9 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
           <property name="text">
            <string>Show objects of unknown magnitude</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">catalogButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -665,4 +689,11 @@ These magnitude limits do not affect IC objects, as the magnitudes for many IC o
  </customwidgets>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="catalogButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+ </buttongroups>
 </ui>

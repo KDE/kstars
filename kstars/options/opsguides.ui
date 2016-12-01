@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
-    <height>262</height>
+    <width>454</width>
+    <height>279</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -28,6 +28,9 @@
            <property name="text">
             <string>&amp;Constellation lines</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">constellationButtonGroup</string>
+           </attribute>
           </widget>
          </item>
          <item>
@@ -57,6 +60,9 @@
          <property name="text">
           <string>Constellation &amp;boundaries</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">constellationButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -64,6 +70,9 @@
          <property name="text">
           <string>Constellation Art</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">constellationButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -71,6 +80,9 @@
          <property name="text">
           <string>Highlight central constellation boundary</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">constellationButtonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -84,6 +96,9 @@
          <property name="text">
           <string>Constellation &amp;names</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">constellationButtonGroup</string>
+         </attribute>
         </widget>
        </item>
       </layout>
@@ -120,6 +135,9 @@
           <property name="text">
            <string>L&amp;atin</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">nameButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -133,6 +151,9 @@
           <property name="text">
            <string>Localized</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">nameButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item>
@@ -146,6 +167,9 @@
           <property name="text">
            <string>Abbre&amp;viated</string>
           </property>
+          <attribute name="buttonGroup">
+           <string notr="true">nameButtonGroup</string>
+          </attribute>
          </widget>
         </item>
        </layout>
@@ -182,6 +206,9 @@
        <property name="text">
         <string>Ecliptic</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">constellationButtonGroup</string>
+       </attribute>
       </widget>
      </item>
      <item row="2" column="0">
@@ -195,6 +222,9 @@
        <property name="text">
         <string>Fill Milk&amp;y Way</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">constellationButtonGroup</string>
+       </attribute>
       </widget>
      </item>
      <item row="0" column="1">
@@ -208,6 +238,9 @@
        <property name="text">
         <string>Hori&amp;zon (line)</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">constellationButtonGroup</string>
+       </attribute>
       </widget>
      </item>
      <item row="0" column="0">
@@ -221,6 +254,9 @@
        <property name="text">
         <string>Mil&amp;ky Way</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">constellationButtonGroup</string>
+       </attribute>
       </widget>
      </item>
      <item row="0" column="2">
@@ -234,6 +270,9 @@
        <property name="text">
         <string>Automatically select coordinate grid</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">constellationButtonGroup</string>
+       </attribute>
       </widget>
      </item>
      <item row="6" column="0">
@@ -247,6 +286,9 @@
        <property name="text">
         <string>Flags</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">constellationButtonGroup</string>
+       </attribute>
       </widget>
      </item>
      <item row="2" column="2">
@@ -260,6 +302,9 @@
        <property name="text">
         <string>Equatorial coordinate grid</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">constellationButtonGroup</string>
+       </attribute>
       </widget>
      </item>
      <item row="4" column="2">
@@ -273,6 +318,9 @@
        <property name="text">
         <string>Horizontal coor&amp;dinate grid</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">constellationButtonGroup</string>
+       </attribute>
       </widget>
      </item>
      <item row="2" column="1">
@@ -286,6 +334,9 @@
        <property name="text">
         <string>Opaque &amp;ground</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">constellationButtonGroup</string>
+       </attribute>
       </widget>
      </item>
      <item row="4" column="0">
@@ -299,6 +350,9 @@
        <property name="text">
         <string>Celestial e&amp;quator</string>
        </property>
+       <attribute name="buttonGroup">
+        <string notr="true">constellationButtonGroup</string>
+       </attribute>
       </widget>
      </item>
     </layout>
@@ -336,4 +390,12 @@
  </tabstops>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="constellationButtonGroup">
+   <property name="exclusive">
+    <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="nameButtonGroup"/>
+ </buttongroups>
 </ui>

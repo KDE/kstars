@@ -19,7 +19,7 @@
 
 #include "ui_opssolarsystem.h"
 
-class KStars;
+class KConfigDialog;
 
 /** @class OpsSolarSystem
 	*The Solar System page for the Options window.  This page allows the user
@@ -43,6 +43,11 @@ private slots:
     void slotCometWidgets(bool on);
     void slotSelectPlanets();
 
+    void slotApply();
+
+private:
+    bool isDirty=false;
+    KConfigDialog *m_ConfigDialog;
 };
 
 #endif

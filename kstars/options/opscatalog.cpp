@@ -76,7 +76,7 @@ OpsCatalog::OpsCatalog()
     populateCustomCatalogs();
 
     connect( CatalogList, SIGNAL( itemClicked( QListWidgetItem* ) ), this, SLOT( updateCustomCatalogs() ) );
-    connect( CatalogList, SIGNAL( itemSelectionChanged() ), this, SLOT( selectCatalog() ) );
+    connect( CatalogList, SIGNAL( itemSelectionChanged() ), this, SLOT( selectCatalog() ) );    
     connect( AddCatalog, SIGNAL( clicked() ), this, SLOT( slotAddCatalog() ) );
     connect( LoadCatalog, SIGNAL( clicked() ), this, SLOT( slotLoadCatalog() ) );
     connect( RemoveCatalog, SIGNAL( clicked() ), this, SLOT( slotRemoveCatalog() ) );
@@ -93,6 +93,12 @@ OpsCatalog::OpsCatalog()
     connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
+
+    // Keep track of changes
+    connect( CatalogList, &QListWidget::itemChanged, this, [&](){ isDirty = true;});
+    connect( catalogButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&](){ isDirty = true;});
+
+    isDirty = false;
 }
 
 //empty destructor
@@ -119,12 +125,21 @@ void OpsCatalog::updateCustomCatalogs() {
          * not contain the name. If it does, we remove it.
         */
         if (l.count() == 0) continue;  // skip the name if no match found
-        if ( l[0]->checkState()==Qt::Checked ) {
+        if ( l[0]->checkState()==Qt::Checked )
+        {
             if (!m_CheckedCatalogNames.contains(name))
+            {
                 m_CheckedCatalogNames.append(name);
-        } else if ( l[0]->checkState()==Qt::Unchecked ){
+                //isDirty = true;
+            }
+        }
+        else if ( l[0]->checkState()==Qt::Unchecked )
+        {
             if (m_CheckedCatalogNames.contains(name))
+            {
                 m_CheckedCatalogNames.removeAll(name);
+                //isDirty = true;
+            }
         }
     }
 
@@ -132,15 +147,20 @@ void OpsCatalog::updateCustomCatalogs() {
 }
 
 
-void OpsCatalog::selectCatalog() {
+void OpsCatalog::selectCatalog()
+{
     //If selected item is a custom catalog, enable the remove button (otherwise, disable it)
-    RemoveCatalog->setEnabled( false );
+    RemoveCatalog->setEnabled( false );    
 
     if ( ! CatalogList->currentItem() ) return;
 
-    foreach ( SkyComponent *sc, KStars::Instance()->data()->skyComposite()->customCatalogs() ) {
+    //isDirty = true;
+
+    foreach ( SkyComponent *sc, KStars::Instance()->data()->skyComposite()->customCatalogs() )
+    {
         CatalogComponent *cc = (CatalogComponent*)sc;
-        if ( CatalogList->currentItem()->text() == cc->name() ) {
+        if ( CatalogList->currentItem()->text() == cc->name() )
+        {
             RemoveCatalog->setEnabled( true );
             break;
         }
@@ -148,21 +168,27 @@ void OpsCatalog::selectCatalog() {
 }
 
 
-void OpsCatalog::slotAddCatalog() {
+void OpsCatalog::slotAddCatalog()
+{
     QPointer<AddCatDialog> ac = new AddCatDialog( KStars::Instance() );
-    if ( ac->exec()==QDialog::Accepted ) {
-        KStars::Instance()->data()->catalogdb()->AddCatalogContents( ac->filename() );
+    if ( ac->exec()==QDialog::Accepted )
+    {
+        KStars::Instance()->data()->catalogdb()->AddCatalogContents( ac->filename() );        
         refreshCatalogList();
+        isDirty=true;
     }
     delete ac;
 }
 
 
-void OpsCatalog::slotLoadCatalog() {
+void OpsCatalog::slotLoadCatalog()
+{
     //Get the filename from the user
     QString filename = QFileDialog::getOpenFileName(KStars::Instance(), QString(),  QDir::homePath(), "*");
-    if ( ! filename.isEmpty() ) {
+    if ( ! filename.isEmpty() )
+    {
         KStars::Instance()->data()->catalogdb()->AddCatalogContents(filename);
+        isDirty = true;
         refreshCatalogList();
     }
 
@@ -170,28 +196,31 @@ void OpsCatalog::slotLoadCatalog() {
 }
 
 
-void OpsCatalog::refreshCatalogList() {
+void OpsCatalog::refreshCatalogList()
+{
     KStars::Instance()->data()->catalogdb()->Catalogs();
     populateCustomCatalogs();
 }
 
 
-void OpsCatalog::slotRemoveCatalog() {
-    if (KMessageBox::warningYesNo(0,
-                     i18n("The selected database will be removed. "
-                           "This action cannot be reversed! Delete Catalog?"),
-                          i18n("Delete Catalog?") )
-            == KMessageBox::No) {
+void OpsCatalog::slotRemoveCatalog()
+{
+    if (KMessageBox::warningYesNo(0,  i18n("The selected database will be removed. This action cannot be reversed! Delete Catalog?"), i18n("Delete Catalog?") ) == KMessageBox::No)
+    {
             KMessageBox::information(0, "Catalog deletion cancelled.");
             return;
     }
+
+    isDirty = true;
+
     //Ask DB to remove catalog
     KStars::Instance()->data()->catalogdb()->RemoveCatalog( CatalogList->currentItem()->text() );
 
     // Remove from Options if it exists in it (i.e. was marked as visible)
     // This does not remove it from the database or from the widget in Options
     QList<QString> checkedlist = Options::showCatalogNames();
-    if (checkedlist.contains(CatalogList->currentItem()->text())) {
+    if (checkedlist.contains(CatalogList->currentItem()->text()))
+    {
         checkedlist.removeAll(CatalogList->currentItem()->text());
         Options::setShowCatalogNames(checkedlist);
     }
@@ -218,9 +247,14 @@ void OpsCatalog::slotSetDrawStarZoomOutMagnitude(double newValue) {
 }
 */
 
-void OpsCatalog::slotApply() {
-    refreshCatalogList();
-    Options::setShowCatalogNames(m_CheckedCatalogNames);
+void OpsCatalog::slotApply()
+{
+    if (isDirty == false)
+        return;
+
+    isDirty = false;
+
+    refreshCatalogList();    
 
     Options::setStarDensity( kcfg_StarDensity->value() );
     //    Options::setMagLimitDrawStarZoomOut( kcfg_MagLimitDrawStarZoomOut->value() );
@@ -228,26 +262,27 @@ void OpsCatalog::slotApply() {
     //FIXME: need to add the ShowDeepSky meta-option to the config dialog!
     //For now, I'll set showDeepSky to true if any catalog options changed
     if ( m_ShowMessier != Options::showMessier() || m_ShowMessImages != Options::showMessierImages()
-         || m_ShowNGC != Options::showNGC() || m_ShowIC != Options::showIC() ) {
+         || m_ShowNGC != Options::showNGC() || m_ShowIC != Options::showIC() )
+    {
         Options::setShowDeepSky( true );
     }
 
     updateCustomCatalogs();
 
-    // JM: Why are we calling this if no deep sky stuff was changed?
-    // AS: It's possible that custom catalogs have changed, which is probably why.
     KStars::Instance()->data()->skyComposite()->reloadDeepSky();
-
-    Options::setShowMessier( m_ShowMessier );
-    Options::setShowMessierImages( m_ShowMessImages );
-    Options::setShowNGC( m_ShowNGC );
-    Options::setShowIC( m_ShowIC );
 
     // update time for all objects because they might be not initialized
     // it's needed when using horizontal coordinates
     KStars::Instance()->data()->setFullTimeUpdate();
     KStars::Instance()->updateTime();
     KStars::Instance()->map()->forceUpdate();
+
+    Options::setShowCatalogNames(m_CheckedCatalogNames);
+
+    Options::setShowMessier( m_ShowMessier );
+    Options::setShowMessierImages( m_ShowMessImages );
+    Options::setShowNGC( m_ShowNGC );
+    Options::setShowIC( m_ShowIC );
 }
 
 

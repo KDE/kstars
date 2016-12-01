@@ -56,7 +56,7 @@ private slots:
 private:
     bool setColors( const QString &filename );
 
-    QStringList PresetFileList;
+    QStringList PresetFileList;    
 };
 
 #endif  //OPSCOLORS_H_
