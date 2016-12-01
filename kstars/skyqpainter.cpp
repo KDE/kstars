@@ -73,6 +73,8 @@ namespace {
     //
     // These pixmaps are never deallocated. Not really good...
     QPixmap* imageCache[nSPclasses][nStarSizes] = {{0}};
+
+    QPixmap  *visibleSatPixmap=0, *invisibleSatPixmap=0;
 }
 
 int SkyQPainter::starColorMode = 0;
@@ -225,6 +227,9 @@ void SkyQPainter::initStarImages()
         }
     }
     starColorMode = Options::starColorMode();
+
+    visibleSatPixmap = new QPixmap(":/icons/breeze/default/kstars_satellites_visible.svg");
+    invisibleSatPixmap = new QPixmap(":/icons/breeze/default/kstars_satellites_invisible.svg");
 }
 
 void SkyQPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
@@ -815,14 +820,15 @@ bool SkyQPainter::drawSatellite( Satellite* sat )
     else
     {
         if ( sat->isVisible() )
-            setPen( KStarsData::Instance()->colorScheme()->colorNamed( "VisibleSatColor" ) );
+            drawPixmap(QPoint( pos.x() - 15, pos.y() - 11 ), *visibleSatPixmap);
         else
-            setPen( KStarsData::Instance()->colorScheme()->colorNamed( "SatColor" ) );
+            drawPixmap(QPoint( pos.x() - 15, pos.y() - 11 ), *invisibleSatPixmap);
 
-        drawLine( QPoint( pos.x() - 0.5, pos.y() - 0.5 ), QPoint( pos.x() + 0.5, pos.y() - 0.5 ) );
+        //drawPixmap(pos, *genericSatPixmap);
+        /*drawLine( QPoint( pos.x() - 0.5, pos.y() - 0.5 ), QPoint( pos.x() + 0.5, pos.y() - 0.5 ) );
         drawLine( QPoint( pos.x() + 0.5, pos.y() - 0.5 ), QPoint( pos.x() + 0.5, pos.y() + 0.5 ) );
         drawLine( QPoint( pos.x() + 0.5, pos.y() + 0.5 ), QPoint( pos.x() - 0.5, pos.y() + 0.5 ) );
-        drawLine( QPoint( pos.x() - 0.5, pos.y() + 0.5 ), QPoint( pos.x() - 0.5, pos.y() - 0.5 ) );
+        drawLine( QPoint( pos.x() - 0.5, pos.y() + 0.5 ), QPoint( pos.x() - 0.5, pos.y() - 0.5 ) );*/
     }
 
     return true;
