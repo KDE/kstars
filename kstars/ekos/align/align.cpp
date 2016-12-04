@@ -484,7 +484,7 @@ void Align::generateArgs()
 
     if (solverOptions->text().isEmpty())
     {
-        solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"
+        solver_args << "--no-verify" << "--no-plots" << "--resort"
                     << "--downsample" << "2" << "-O" << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
     }
     else
@@ -794,7 +794,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         int rc = KMessageBox::questionYesNoCancel(0, i18n("No metadata is available in this image. Do you want to use the blind solver or the existing solver settings?"), i18n("Astrometry solver"),
                                          blindItem, existingItem, KStandardGuiItem::cancel(), "blind_solver_or_existing_solver_option");
         if (rc == KMessageBox::Yes)
-            solverArgs << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"  << "--downsample" << "2" << "-O";
+            solverArgs << "--no-verify" << "--no-plots" << "--resort"  << "--downsample" << "2" << "-O";
         else if (rc == KMessageBox::No)
             solverArgs = solverOptions->text().split(" ");
         else
@@ -1937,7 +1937,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     QStringList solver_args;
 
     // Default arguments
-    solver_args << "--no-verify" << "--no-plots" << "--no-fits2fits" << "--resort"  << "--downsample" << "2" << "-O";
+    solver_args << "--no-verify" << "--no-plots" << "--resort"  << "--downsample" << "2" << "-O";
 
     if (fits_open_image(&fptr, filename.toLatin1(), READONLY, &status))
     {
