@@ -2492,7 +2492,7 @@ void Capture::saveSequenceQueue()
                         i18n( "A file named \"%1\" already exists. "
                               "Overwrite it?", sequenceURL.fileName() ),
                         i18n( "Overwrite File?" ),
-                        KGuiItem(i18n( "&Overwrite" )) );
+                        KStandardGuiItem::overwrite() );
             if(r==KMessageBox::Cancel) return;
         }
     }
