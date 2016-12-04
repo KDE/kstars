@@ -3882,6 +3882,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
     if (loadSequenceQueue(schedJob->getSequenceFile().toLocalFile(),schedJob, jobs, hasAutoFocus) == false)
         return false;
 
+    schedJob->setInSequenceFocus(hasAutoFocus);
+
     bool lightFramesRequired = false;
 
     int totalSequenceCount=0, totalCompletedCount=0;
