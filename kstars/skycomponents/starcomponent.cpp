@@ -380,7 +380,7 @@ bool StarComponent::loadStaticData()
     // We also avoid C++ constructors for the same reason.
     KStarsData* data = KStarsData::Instance();
     FILE *dataFile, *nameFile;
-    bool swapBytes = false;
+    bool swapBytes = false, named=false, gnamed=false;
     BinFileHelper dataReader, nameReader;
     QString name, gname, visibleName;
     StarObject *star;
@@ -443,8 +443,10 @@ bool StarComponent::loadStaticData()
     for(int i = 0; i < m_skyMesh -> size(); ++i) {
 
         Trixel trixel = i;// = ( ( i >= 256 ) ? ( i - 256 ) : ( i + 256 ) );
-        for(unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j) {
-            if(!fread(&stardata, sizeof(starData), 1, dataFile)){
+        for(unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j)
+        {
+            if(!fread(&stardata, sizeof(starData), 1, dataFile))
+            {
                 qDebug() << "FILE FORMAT ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
             }
 
@@ -452,19 +454,32 @@ bool StarComponent::loadStaticData()
             if(swapBytes)
                 byteSwap( &stardata );
 
-            if(stardata.flags & 0x01) {
-                /* Named Star - Read the nameFile */
+            named=false;
+            gnamed=false;
+
+            /* Named Star - Read the nameFile */
+            if(stardata.flags & 0x01)
+            {
                 visibleName = "";
                 if(!fread(&starname, sizeof( starName ), 1, nameFile))
                     qDebug() << "ERROR: fread() call on nameFile failed in trixel " << trixel << " star " << j << endl;
+
                 name = QByteArray(starname.longName, 32);
+                named = !name.isEmpty();
+
                 gname = QByteArray(starname.bayerName, 8);
-                if ( ! gname.isEmpty() && gname.at(0) != '.')
+                gnamed = !gname.isEmpty();
+
+                if ( gnamed && starname.bayerName[0] != '.')
                     visibleName = gname;
-                if(! name.isEmpty() ) {
+
+                if(named)
+                {
                     // HEV: look up star name in internationalization filesource
                     name = i18nc("star name", name.toLocal8Bit().data());
-                } else {
+                }
+                else
+                {
                     name = i18n("star");
                 }
             }
@@ -474,20 +489,33 @@ bool StarComponent::loadStaticData()
             /* Create the new StarObject */
             star = new StarObject;
             star->init( &stardata );
-            if( star->getHDIndex() != 0 && name == i18n("star"))
-                name = QString("HD %1").arg(star->getHDIndex());
+            //if( star->getHDIndex() != 0 && name == i18n("star"))
+            if (stardata.HD)
+            {
+                m_HDHash.insert(stardata.HD, star);
+                if (named==false)
+                {
+                    name = QString("HD %1").arg(stardata.HD);
+                    named = true;
+                }
+            }
 
             star->setNames( name, visibleName );
-            star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            //star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             ++nstars;
 
-            if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
+            if ( gnamed )
+                m_genName.insert( gname, star );
 
-            if ( ! name.isEmpty() && name != i18n("star")) {
+            //if ( ! name.isEmpty() && name != i18n("star"))
+            if (named)
+            {
                 objectNames(SkyObject::STAR).append( name );
                 objectLists(SkyObject::STAR).append(QPair<QString, const SkyObject*>(name,star));
             }
-            if ( ! visibleName.isEmpty() && gname != name ) {
+
+            if ( ! visibleName.isEmpty() && gname != name )
+            {
                 QString gName = star -> gname(false);
                 objectNames(SkyObject::STAR).append( gName );
                 objectLists(SkyObject::STAR).append(QPair<QString, const SkyObject*>(gName,star));
@@ -497,14 +525,12 @@ bool StarComponent::loadStaticData()
 
             m_starIndex->at( trixel )->append( star );
             double pm = star->pmMagnitude();
-            for (int j = 0; j < m_highPMStars.size(); j++ ) {
-                HighPMStarList* list = m_highPMStars.at( j );
-                if ( list->append( trixel, star, pm ) ) break;
+            for (int z = 0; z < m_highPMStars.size(); z++ )
+            {
+                HighPMStarList* list = m_highPMStars.at( z );
+                if ( list->append( trixel, star, pm ) )
+                    break;
             }
-
-            if( star->getHDIndex() != 0 )
-                m_HDHash.insert( star->getHDIndex(), star );
-
         }
 
     }
