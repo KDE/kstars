@@ -87,15 +87,21 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     dataElement *de;
 
     // Read the preamble
-    if(!fileHandle) 
+    if(!fileHandle)
         return ERR_FILEOPEN;
 
     rewind(fileHandle);
 
+    // Read the first 124 bytes of the binary file which contains a general text about the binary data.
+    // e.g. "KStars Star Data v1.0. To be read using the 32-bit starData structure only"
     fread(ASCII_text, 124, 1, fileHandle);
     ASCII_text[124] = '\0';
     headerText = ASCII_text;
 
+    // Find out endianess from reading "KS" 0x4B53 in the binary file which was encoded on a little endian machine
+    // Therefore, in the binary file it is written as 53 4B (little endian as least significant byte is stored first),
+    // and when read on a little endian machine then it results in 0x4B53 (least significant byte is stored first in memory),
+    // whereas a big endian machine would read it as 0x534B (most significant byte is stored first in memory).
     fread(&endian_id, 2, 1, fileHandle);
     if(endian_id != 0x4B53)
         byteswap = 1;
@@ -112,6 +118,8 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     for(i = 0; i < nfields; ++i) {
         // FIXME: Valgrind shows 176 bytes lost here in 11 blocks. Why? Investigate
         de = new dataElement;
+
+        // Read 16 byte dataElement that describe each field (name[8], size[1], type[1], scale[4])
         if(!fread(de, sizeof(dataElement), 1, fileHandle))
         {
             delete de;
@@ -142,6 +150,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     quint32 nrecs;
     quint32 prev_nrecs;
 
+    // Find out current offset so far in the binary file (how many bytes we read so far)
     itableOffset = ftell(fileHandle);
 
     prev_offset = 0;
@@ -155,6 +164,9 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
         errorMessage.sprintf( "Zero index size!" );
         return ERR_INDEX_TRUNC;
     }
+
+    // We read each 12-byte index entry (ID[4], Offset[4] within file in Byte, nrec[4] # of Records).
+    // After reading all the indexes, we are (itableOffset + indexSize * 12) bytes within the file
     for(j = 0; j < indexSize; ++j) {
         if(!fread(&ID, 4, 1, fileHandle)) {
             errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);

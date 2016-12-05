@@ -75,7 +75,9 @@ bool DeepStarComponent::loadStaticStars() {
         return false;
     }
 
-    if( starReader.guessRecordSize() != 16 && starReader.guessRecordSize() != 32 ) {
+    quint8 recordSize = starReader.guessRecordSize();
+    if( recordSize != 16 && recordSize != 32 )
+    {
         qDebug() << "Cannot understand catalog file " << dataFileName << endl;
         return false;
     }
@@ -102,28 +104,34 @@ bool DeepStarComponent::loadStaticStars() {
     if( htm_level != m_skyMesh->level() )
         qDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
 
-    for(Trixel i = 0; i < (unsigned int)m_skyMesh->size(); ++i) {
-
+    for(Trixel i = 0; i < (unsigned int)m_skyMesh->size(); ++i)
+    {
         Trixel trixel = i;
-        StarBlock *SB = new StarBlock( starReader.getRecordCount( i ) );
+        quint64 records = starReader.getRecordCount( i );
+        StarBlock *SB = new StarBlock( records );
+
         if( !SB )
             qDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel " << trixel << endl;
+
         m_starBlockList.at( trixel )->setStaticBlock( SB );
 
-        for(unsigned long j = 0; j < (unsigned long) starReader.getRecordCount(i); ++j) {
+        for(quint64 j = 0; j < records; ++j)
+        {
             bool fread_success = false;
-            if( starReader.guessRecordSize() == 32 )
+            if( recordSize == 32 )
                 fread_success = fread( &stardata, sizeof( starData ), 1, dataFile );
-            else if( starReader.guessRecordSize() == 16 )
+            else if( recordSize == 16 )
                 fread_success = fread( &deepstardata, sizeof( deepStarData ), 1, dataFile );
 
-            if( !fread_success ) {
+            if( !fread_success )
+            {
                 qDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
             }
 
             /* Swap Bytes when required */
-            if( starReader.getByteSwap() ) {
-                if( starReader.guessRecordSize() == 32 )
+            if( starReader.getByteSwap() )
+            {
+                if( recordSize == 32 )
                     byteSwap( &stardata );
                 else
                     byteSwap( &deepstardata );
@@ -131,7 +139,7 @@ bool DeepStarComponent::loadStaticStars() {
 
             /* Initialize star with data just read. */
             StarObject* star;
-            if( starReader.guessRecordSize() == 32 )
+            if( recordSize == 32 )
         #ifdef KSTARS_LITE
                 star = &(SB->addStar( stardata )->star);
         #else
@@ -143,12 +151,16 @@ bool DeepStarComponent::loadStaticStars() {
         #else
                 star = SB->addStar( deepstardata );
         #endif
-            if( star ) {
-                KStarsData* data = KStarsData::Instance();
-                star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-                if( star->getHDIndex() != 0 )
-                    m_CatalogNumber.insert( star->getHDIndex(), star );
-            } else {
+            if( star )
+            {
+                //KStarsData* data = KStarsData::Instance();
+                //star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+                //if( star->getHDIndex() != 0 )
+                if (stardata.HD)
+                    m_CatalogNumber.insert( stardata.HD, star );
+            }
+            else
+            {
                 qDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel << " than we allocated space for!" << endl;
             }
         }
