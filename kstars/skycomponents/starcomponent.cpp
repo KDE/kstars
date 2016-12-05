@@ -377,8 +377,7 @@ void StarComponent::drawLabels()
 bool StarComponent::loadStaticData()
 {
     // We break from Qt / KDE API and use traditional file handling here, to obtain speed.
-    // We also avoid C++ constructors for the same reason.
-    KStarsData* data = KStarsData::Instance();
+    // We also avoid C++ constructors for the same reason.    
     FILE *dataFile, *nameFile;
     bool swapBytes = false, named=false, gnamed=false;
     BinFileHelper dataReader, nameReader;
