@@ -257,7 +257,10 @@ void DetailDialog::createGeneralTab()
 
             objecttyp = i18n("Supernova");
             Data->Names->setText(sup->name());
-            Data->Magnitude->setText(i18nc("number in magnitudes", "%1 mag", QLocale().toString(sup->mag(), 'f', 2)));
+            if (sup->mag() < 99)
+                Data->Magnitude->setText(i18nc("number in magnitudes", "%1 mag", QLocale().toString(sup->mag(), 'f', 2)));
+            else
+                Data->Magnitude->setText("--");
 
             Data->DistanceLabel->setVisible(false);
             Data->Distance->setVisible(false);

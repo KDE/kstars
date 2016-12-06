@@ -104,64 +104,104 @@ bool DeepStarComponent::loadStaticStars() {
     if( htm_level != m_skyMesh->level() )
         qDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
 
-    for(Trixel i = 0; i < (unsigned int)m_skyMesh->size(); ++i)
+    // JM 2012-12-05: Breaking into into 2 loops instead of one previously with multiple IF checks for recordSize
+    // While the CPU branch prediction might not suffer any penalities since the branch prediction after a few times
+    // should always gets it right. It's better to do it this way to avoid any chances since the compiler might not optimize it.
+    if (recordSize == 32)
     {
-        Trixel trixel = i;
-        quint64 records = starReader.getRecordCount( i );
-        StarBlock *SB = new StarBlock( records );
-
-        if( !SB )
-            qDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel " << trixel << endl;
-
-        m_starBlockList.at( trixel )->setStaticBlock( SB );
-
-        for(quint64 j = 0; j < records; ++j)
+        for(Trixel i = 0; i < (unsigned int)m_skyMesh->size(); ++i)
         {
-            bool fread_success = false;
-            if( recordSize == 32 )
+            Trixel trixel = i;
+            quint64 records = starReader.getRecordCount( i );
+            StarBlock *SB = new StarBlock( records );
+
+            if( !SB )
+                qDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel " << trixel << endl;
+
+            m_starBlockList.at( trixel )->setStaticBlock( SB );
+
+            for(quint64 j = 0; j < records; ++j)
+            {
+                bool fread_success = false;
                 fread_success = fread( &stardata, sizeof( starData ), 1, dataFile );
-            else if( recordSize == 16 )
+
+                if( !fread_success )
+                {
+                    qDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
+                }
+
+                /* Swap Bytes when required */
+                if( starReader.getByteSwap() )
+                    byteSwap( &stardata );
+
+                /* Initialize star with data just read. */
+                StarObject* star;
+                #ifdef KSTARS_LITE
+                star = &(SB->addStar( stardata )->star);
+                #else
+                star = SB->addStar( stardata );
+                #endif
+                if( star )
+                {
+                    //KStarsData* data = KStarsData::Instance();
+                    //star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+                    //if( star->getHDIndex() != 0 )
+                    if (stardata.HD)
+                        m_CatalogNumber.insert( stardata.HD, star );
+                }
+                else
+                {
+                    qDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel << " than we allocated space for!" << endl;
+                }
+            }
+        }
+    }
+    else
+    {
+        for(Trixel i = 0; i < (unsigned int)m_skyMesh->size(); ++i)
+        {
+            Trixel trixel = i;
+            quint64 records = starReader.getRecordCount( i );
+            StarBlock *SB = new StarBlock( records );
+
+            if( !SB )
+                qDebug() << "ERROR: Could not allocate new StarBlock to hold shallow unnamed stars for trixel " << trixel << endl;
+
+            m_starBlockList.at( trixel )->setStaticBlock( SB );
+
+            for(quint64 j = 0; j < records; ++j)
+            {
+                bool fread_success = false;
                 fread_success = fread( &deepstardata, sizeof( deepStarData ), 1, dataFile );
 
-            if( !fread_success )
-            {
-                qDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
-            }
+                if( !fread_success )
+                {
+                    qDebug() << "ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
+                }
 
-            /* Swap Bytes when required */
-            if( starReader.getByteSwap() )
-            {
-                if( recordSize == 32 )
-                    byteSwap( &stardata );
-                else
+                /* Swap Bytes when required */
+                if( starReader.getByteSwap() )
                     byteSwap( &deepstardata );
-            }
 
-            /* Initialize star with data just read. */
-            StarObject* star;
-            if( recordSize == 32 )
-        #ifdef KSTARS_LITE
+                /* Initialize star with data just read. */
+                StarObject* star;
+                #ifdef KSTARS_LITE
                 star = &(SB->addStar( stardata )->star);
-        #else
-                star = SB->addStar( stardata );
-        #endif
-            else
-        #ifdef KSTARS_LITE
-                star = &(SB->addStar( stardata )->star);
-        #else
+                #else
                 star = SB->addStar( deepstardata );
-        #endif
-            if( star )
-            {
-                //KStarsData* data = KStarsData::Instance();
-                //star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-                //if( star->getHDIndex() != 0 )
-                if (stardata.HD)
-                    m_CatalogNumber.insert( stardata.HD, star );
-            }
-            else
-            {
-                qDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel << " than we allocated space for!" << endl;
+                #endif
+                if( star )
+                {
+                    //KStarsData* data = KStarsData::Instance();
+                    //star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+                    //if( star->getHDIndex() != 0 )
+                    if (stardata.HD)
+                        m_CatalogNumber.insert( stardata.HD, star );
+                }
+                else
+                {
+                    qDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel << " than we allocated space for!" << endl;
+                }
             }
         }
     }

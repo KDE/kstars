@@ -165,33 +165,49 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
         return ERR_INDEX_TRUNC;
     }
 
-    // We read each 12-byte index entry (ID[4], Offset[4] within file in Byte, nrec[4] # of Records).
+    // We read each 12-byte index entry (ID[4], Offset[4] within file in bytes, nrec[4] # of Records).
     // After reading all the indexes, we are (itableOffset + indexSize * 12) bytes within the file
-    for(j = 0; j < indexSize; ++j) {
-        if(!fread(&ID, 4, 1, fileHandle)) {
+    // indexSize is usually the size of the HTM level (eg. HTM level 3 --> 512)
+    for(j = 0; j < indexSize; ++j)
+    {
+        if(!fread(&ID, 4, 1, fileHandle))
+        {
             errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
             return ERR_INDEX_TRUNC;
         }
+
         if( byteswap ) ID = bswap_32( ID );
-        if(ID >= indexSize) {
+
+        if(ID >= indexSize)
+        {
             errorMessage.sprintf("ID %u is greater than the expected number of expected entries (%u)", ID, indexSize);
             return ERR_INDEX_BADID;
         }
-        if(ID != j) {
+
+        if(ID != j)
+        {
             errorMessage.sprintf("Found ID %u, at the location where ID %u was expected", ID, j);
             return ERR_INDEX_IDMISMATCH;
         }
-        if(!fread(&offset, 4, 1, fileHandle)) {
+
+        if(!fread(&offset, 4, 1, fileHandle))
+        {
             errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
             return ERR_BADSEEK;
         }
+
         if( byteswap ) offset = bswap_32( offset );
-        if(!fread(&nrecs, 4, 1, fileHandle)) {
+
+        if(!fread(&nrecs, 4, 1, fileHandle))
+        {
             errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", j);
             return ERR_BADSEEK;
         }
+
         if( byteswap ) nrecs = bswap_32( nrecs );
-        if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/recordSize) { 
+
+        if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/recordSize)
+        {
             errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u", 
                                     (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, j - 1);
             return ERR_INDEX_BADOFFSET;
