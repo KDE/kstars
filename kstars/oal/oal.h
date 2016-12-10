@@ -25,6 +25,7 @@
 #include <kmessagebox.h>
 #endif
 #include <KLocalizedString>
+#include <KStandardGuiItem>
 
 /**
  * @namespace OAL
@@ -52,7 +53,7 @@ namespace OAL
     inline int warningOverwrite( QString message )
     {
     #ifndef KSTARS_LITE
-        return KMessageBox::warningYesNo( 0, message, xi18n("Overwrite"), KGuiItem(xi18n("Overwrite")), KGuiItem(xi18n("Cancel")) );
+        return KMessageBox::warningYesNo( 0, message, xi18n("Overwrite"), KStandardGuiItem::overwrite(), KStandardGuiItem::cancel() );
     #else
         return 0;
     #endif
