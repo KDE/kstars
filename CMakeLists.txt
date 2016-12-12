@@ -148,6 +148,9 @@ endif()
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  add_definitions(-DQT_STRICT_ITERATORS)
+endif()
 
 if (UNIX)
 add_definitions(-Dfexceptions)
