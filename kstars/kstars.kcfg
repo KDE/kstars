@@ -1748,8 +1748,12 @@
       </entry>
    </group>
    <group name="Scheduler">
+    <entry name="StopEkosAfterShutdown" type="Bool">
+          <label>After shutdown procedure is successfully executed, shutdown INDI and Ekos.</label>
+          <default>true</default>
+    </entry>
       <entry name="PreemptiveShutdown" type="Bool">
-         <label>Perform pre-emptive strike if no jobs are due for a number of hours.</label>
+         <label>Perform pre-emptive shutdown if no jobs are due for a number of hours.</label>
          <default>false</default>
       </entry>
       <entry name="PreemptiveShutdownTime" type="Double">
