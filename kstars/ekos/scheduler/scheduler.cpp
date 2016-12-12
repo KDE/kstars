@@ -2316,10 +2316,7 @@ bool Scheduler::checkShutdownState()
 
     case SHUTDOWN_SCRIPT:
         if (shutdownScriptURL.isEmpty() == false)
-        {
-            // Disconnect devices
-            stopEkos();
-
+        {            
             shutdownState = SHUTDOWN_SCRIPT_RUNNING;
             executeScript(shutdownScriptURL.toString(QUrl::PreferLocalFile));
         }
@@ -2330,7 +2327,7 @@ bool Scheduler::checkShutdownState()
     case SHUTDOWN_SCRIPT_RUNNING:
         return false;
 
-    case SHUTDOWN_COMPLETE:
+    case SHUTDOWN_COMPLETE:        
         return true;
 
     case SHUTDOWN_ERROR:
@@ -2448,7 +2445,7 @@ void Scheduler::checkStatus()
                 appendLogText(i18n("Shutdown procedure failed, aborting..."));
 
             // Stop Ekos if there is no shutdown script since stopEkos is called right before executing the shutdown script
-            if (shutdownScriptURL.isEmpty())
+            if (shutdownScriptURL.isEmpty() && Options::stopEkosAfterShutdown())
                 stopEkos();
 
             // Stop Scheduler
@@ -4719,12 +4716,17 @@ void Scheduler::checkShutdownProcedure()
         else
         {
             if (shutdownState == SHUTDOWN_COMPLETE)
+            {
                 appendLogText(i18n("Manual shutdown procedure completed successfully."));
+                // Stop Ekos
+                if (Options::stopEkosAfterShutdown())
+                    stopEkos();
+            }
             else if (shutdownState == SHUTDOWN_ERROR)
                 appendLogText(i18n("Manual shutdown procedure terminated due to errors."));
 
             shutdownState = SHUTDOWN_IDLE;
-            shutdownB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));
+            shutdownB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg")));                        
         }
 
 }
