@@ -1224,7 +1224,7 @@ void ObservingList::slotGetImage( bool _dss, const SkyObject *o ) {
     dss = true;
     qWarning() << "FIXME: Removed support for SDSS. Until reintroduction, we will supply a DSS image";
     std::function<void( bool )> slot = std::bind( &ObservingList::downloadReady, this, std::placeholders::_1 );
-    KSDssDownloader *dler = new KSDssDownloader( o, currentImagePath, slot, this );
+    new KSDssDownloader( o, currentImagePath, slot, this );
 }
 
 void ObservingList::downloadReady( bool success ) {
