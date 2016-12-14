@@ -335,6 +335,19 @@ void Align::setTelescope(ISD::GDInterface *newTelescope)
 
 void Align::syncTelescopeInfo()
 {
+    if (currentTelescope == NULL)
+        return;
+
+    canSync = currentTelescope->canSync();
+
+    if (canSync == false && syncR->isEnabled())
+    {
+        slewR->setChecked(true);
+        appendLogText(i18n("Mount does not support syncing."));
+    }
+
+    syncR->setEnabled(canSync);
+
     INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
     if (nvp)
@@ -364,15 +377,8 @@ void Align::syncTelescopeInfo()
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
         calculateFOV();
 
-    if (currentCCD && currentTelescope)
+    if (currentCCD)
         generateArgs();
-
-    if (syncR->isEnabled() && (canSync = currentTelescope->canSync()) == false)
-    {
-        syncR->setEnabled(false);
-        slewR->setChecked(true);
-        appendLogText(i18n("Telescope does not support syncing."));
-    }
 }
 
 
