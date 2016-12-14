@@ -186,13 +186,14 @@ void GUIManager::addClient(ClientManager *cm)
 {
     clients.append(cm);
 
+    Qt::ConnectionType type = Qt::BlockingQueuedConnection;
+
     #ifdef USE_QT5_INDI
-    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), Qt::DirectConnection);
-    #else
-    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), Qt::BlockingQueuedConnection);
+    type = Qt::DirectConnection;
     #endif
 
-    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), Qt::DirectConnection);
+    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(buildDevice(DeviceInfo*)), type);
+    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), type);
 }
 
 void GUIManager::removeClient(ClientManager *cm)
@@ -230,6 +231,10 @@ void GUIManager::removeDevice(DeviceInfo *di)
     if (dp == NULL)
         return;
 
+    ClientManager *cm = di->getDriverInfo()->getClientManager();
+    if (cm)
+        cm->disconnect(dp);
+
     // Hack to give mainTabWidget sometime to remove its item as these calls are coming from a different thread
     // the clientmanager thread. Sometimes removeTab() requires sometime to be removed properly and hence the wait.
     if (mainTabWidget->count() != guidevices.count())
@@ -262,19 +267,21 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     if (cm == NULL)
     {
-        qDebug() << "Error clientManager is null in build device!" << endl;
+        qCritical() << "ClientManager is null in build device!" << endl;
         return;
-
     }
 
     INDI_D *gdm = new INDI_D(this, di->getBaseDevice(), cm);
 
-    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), gdm, SLOT(buildProperty(INDI::Property*)));
+    Qt::ConnectionType type = Qt::BlockingQueuedConnection;
+
     #ifdef USE_QT5_INDI
-    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), gdm, SLOT(removeProperty(INDI::Property*)), Qt::DirectConnection);
-    #else
-    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), gdm, SLOT(removeProperty(INDI::Property*)), Qt::BlockingQueuedConnection);
+    type = Qt::DirectConnection;
     #endif
+
+    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), gdm, SLOT(buildProperty(INDI::Property*)), type);
+    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), gdm, SLOT(removeProperty(INDI::Property*)), type);
+
     connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), gdm, SLOT(updateSwitchGUI(ISwitchVectorProperty*)));
     connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), gdm, SLOT(updateTextGUI(ITextVectorProperty*)));
     connect(cm, SIGNAL(newINDINumber(INumberVectorProperty*)), gdm, SLOT(updateNumberGUI(INumberVectorProperty*)));
@@ -287,9 +294,5 @@ void GUIManager::buildDevice(DeviceInfo *di)
 
     guidevices.append(gdm);
 
-    //QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
-    //a->setEnabled(true);
-
     updateStatus();
-
 }
