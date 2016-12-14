@@ -328,6 +328,8 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
     ks->setApproxFOV( ( ( fovWidth > fovHeight ) ? fovWidth : fovHeight ) / 15.0 );
 
     //    map->setFocus( sp ); // FIXME: Why does setFocus() need a non-const SkyPoint pointer?
+    KStarsData * const data = KStarsData::Instance();
+    sp->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
     map->setClickedPoint(sp);
     map->slotCenter();
     qApp->processEvents();
@@ -403,6 +405,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
 
         if( Options::useAltAz() ) {
             // Need to rotate the image so that up is towards zenith rather than north.
+            sp->EquatorialToHorizontal( KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat() );
             dms northBearing = findNorthAngle( sp, KStarsData::Instance()->geo()->lat() );
             qDebug() << "North angle = " << northBearing.toDMSString();
 
