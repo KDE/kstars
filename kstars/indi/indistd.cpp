@@ -90,11 +90,16 @@ void GenericDevice::registerProperty(INDI::Property *prop)
         ISwitchVectorProperty *svp = prop->getSwitch();
         if (svp == NULL)
             return;
+
+        // Still connecting/disconnecting...
+        if (svp->s == IPS_BUSY)
+            return;
+
         ISwitch *conSP = IUFindSwitch(svp, "CONNECT");
         if (conSP == NULL)
             return;
 
-        if (conSP->s == ISS_ON)
+        if (svp->s == IPS_OK && conSP->s == ISS_ON)
         {
             connected = true;
             emit Connected();
@@ -149,7 +154,11 @@ void GenericDevice::processSwitch(ISwitchVectorProperty * svp)
         if (conSP == NULL)
             return;
 
-        if (conSP->s == ISS_ON)
+        // Still connecting/disconnecting...
+        if (svp->s == IPS_BUSY)
+            return;
+
+        if (svp->s == IPS_OK && conSP->s == ISS_ON)
         {
             connected = true;
             emit Connected();

@@ -85,16 +85,21 @@ ISD::GDInterface * INDIListener::getDevice(const QString &name)
 
 void INDIListener::addClient(ClientManager *cm)
 {
-
     if (Options::iNDILogging())
         qDebug() << "INDIListener: Adding a new client manager to INDI listener..";
 
+    Qt::ConnectionType type = Qt::BlockingQueuedConnection;
+
+    #ifdef USE_QT5_INDI
+    type = Qt::DirectConnection;
+    #endif
+
     clients.append(cm);
 
-    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)));
-    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), Qt::DirectConnection);
-    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));
-    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)));
+    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)), type);
+    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), type);
+    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)), type);
+    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)), type);
 
     connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
     connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));
@@ -102,7 +107,6 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), this, SLOT(processLight(ILightVectorProperty*)));
     connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), this, SLOT(processBLOB(IBLOB*)));
     connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*,int)), this, SLOT(processMessage(INDI::BaseDevice*,int)));
-
 }
 
 void INDIListener::removeClient(ClientManager *cm)
@@ -295,7 +299,6 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
 void INDIListener::removeProperty(INDI::Property *prop)
 {
-
     if (prop == NULL)
         return;
 

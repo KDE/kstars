@@ -190,11 +190,13 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
 
     foreach(DeviceInfo *di, dv->getDevices())
     {
-        emit removeINDIDevice(di);
+        //emit removeINDIDevice(di);
+        INDIListener::Instance()->removeDevice(di);
+        GUIManager::Instance()->removeDevice(di);
         dv->removeDevice(di);
     }
 
-    foreach(DriverInfo *dv, managedDrivers)
+    /*foreach(DriverInfo *dv, managedDrivers)
     {
         if (dv->getDriverSource() == GENERATED_SOURCE)
         {
@@ -202,9 +204,11 @@ void ClientManager::removeManagedDriver(DriverInfo *dv)
             delete (dv);
             return;
         }
-    }
+    }*/
 
     managedDrivers.removeOne(dv);
+    if (dv->getDriverSource() == GENERATED_SOURCE)
+        delete (dv);
 }
 
 

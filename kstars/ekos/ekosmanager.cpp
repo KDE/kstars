@@ -874,7 +874,7 @@ void EkosManager::deviceDisconnected()
     disconnectB->setEnabled(false);
     processINDIB->setEnabled(true);
 
-    if (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE)
+    if (dev->getBaseDevice() && (dev->getBaseDevice()->getDriverInterface() & INDI::BaseDevice::TELESCOPE_INTERFACE))
     {
         if (mountProcess)
             mountProcess->setEnabled(false);

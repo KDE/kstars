@@ -46,7 +46,18 @@ public:
     ClientManager();
     virtual ~ClientManager();
 
+    /**
+     * @brief appendManagedDriver Add driver to pool of managed drivers by this client manager.
+     * @param dv pointer to driver info instance.
+     * @note This function is ALWAYS called from the main KStars thread.
+     */
     void appendManagedDriver(DriverInfo *dv);
+
+    /**
+     * @brief removeManagedDriver Remove managed driver from pool of drivers managed by this client manager.
+     * @param dv pointer to driver info instance.
+     * @note This function is ALWAYS called from the main KStars thread.
+     */
     void removeManagedDriver(DriverInfo *dv);
 
     int count() { return managedDrivers.count(); }
@@ -84,6 +95,10 @@ signals:
     void connectionSuccessful();
     void connectionFailure(ClientManager *);
 
+    // @note If using INDI Posix client, the following newINDIDevice/Property and removeINDIDevice/Property signals
+    // must be connected to slots using Qt::BlockingQueuedConnection to ensure operation is fully completed before
+    // resuming the INDI client thread. For Qt Based INDI client, Qt::DirectConnection should be used.
+
     void newINDIDevice(DeviceInfo *dv);
     void removeINDIDevice(DeviceInfo *dv);
 
@@ -96,9 +111,6 @@ signals:
     void newINDIText(ITextVectorProperty *tvp);
     void newINDILight(ILightVectorProperty *lvp);
     void newINDIMessage(INDI::BaseDevice *dp, int messageID);
-
-    //void INDIDeviceRemoved(DeviceInfo *dv);
-
 };
 
 #endif // CLIENTMANAGER_H
