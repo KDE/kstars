@@ -71,14 +71,15 @@ QString KSDssDownloader::getDSSURL( const SkyPoint * const p, const QString &ver
             double a, b, pa;
             a = dso->a();
             b = dso->a() * dso->e(); // Use a * e instead of b, since e() returns 1 whenever one of the dimensions is zero. This is important for circular objects
+            Q_ASSERT( a >= b );
             pa = dso->pa() * dms::DegToRad;
 
             // We now want to convert a, b, and pa into an image
             // height and width -- i.e. a dRA and dDec.
             // DSS uses dDec for height and dRA for width. (i.e. "top" is north in the DSS images, AFAICT)
             // From some trigonometry, assuming we have a rectangular object (worst case), we need:
-            width = a * sin( pa ) + b * cos( pa );
-            height = a * cos( pa ) + b * sin( pa );
+            width = a * sin( pa ) + b * fabs( cos( pa ) );
+            height = a * fabs( cos( pa ) ) + b * sin( pa );
             // 'a' and 'b' are in arcminutes, so height and width are in arcminutes
 
             // Pad the RA and Dec, so that we show more of the sky than just the object.
