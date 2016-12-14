@@ -35,6 +35,7 @@
 #include "auxiliary/filedownloader.h"
 
 KSDssDownloader::KSDssDownloader( QObject *parent ) : QObject( parent ) {
+    connect(this, &KSDssDownloader::downloadCanceled, this, [&](){deleteLater();});
     m_VersionPreference << "poss2ukstu_blue" << "poss2ukstu_red" << "poss1_blue" << "poss1_red" << "quickv" << "poss2ukstu_ir";
     m_TempFile.open();
 }
@@ -42,6 +43,9 @@ KSDssDownloader::KSDssDownloader( QObject *parent ) : QObject( parent ) {
 KSDssDownloader::KSDssDownloader(const SkyPoint * const p, const QString &destFileName, const std::function<void( bool )> &slotDownloadReady, QObject *parent ) : QObject( parent ) {
     // Initialize version preferences. FIXME: This must be made a
     // user-changeable option just in case someone likes red
+
+    connect(this, &KSDssDownloader::downloadCanceled, this, [&](){deleteLater();});
+
     m_VersionPreference << "poss2ukstu_blue" << "poss2ukstu_red" << "poss1_blue" << "poss1_red" << "quickv" << "poss2ukstu_ir";
     m_TempFile.open();
     connect( this, &KSDssDownloader::downloadComplete, slotDownloadReady );
@@ -190,6 +194,8 @@ void KSDssDownloader::initiateSingleDownloadAttempt( QUrl srcUrl ) {
 
     downloadJob = new FileDownloader();
 
+    downloadJob->setProgressDialogEnabled(true, i18n("DSS Download"), i18n("Please wait while DSS image is being downloaded..."));
+    connect(downloadJob, SIGNAL(canceled()), this, SIGNAL(downloadCanceled()));
     connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadAttemptFinished()));
     connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
@@ -214,6 +220,8 @@ void KSDssDownloader::startSingleDownload( const QUrl srcUrl, const QString &des
 
     downloadJob = new FileDownloader();
 
+    downloadJob->setProgressDialogEnabled(true, i18n("DSS Download"), i18n("Please wait while DSS image is being downloaded..."));
+    connect(downloadJob, SIGNAL(canceled()), this, SIGNAL(downloadCanceled()));
     connect(downloadJob, SIGNAL(downloaded()), this, SLOT(singleDownloadFinished()));
     connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 

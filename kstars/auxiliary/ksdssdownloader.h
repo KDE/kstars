@@ -115,6 +115,7 @@ class KSDssDownloader : public QObject {
 
  signals:
      void downloadComplete( bool success );
+     void downloadCanceled();
 
  private slots:
      void downloadAttemptFinished();

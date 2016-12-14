@@ -432,11 +432,8 @@ void SkyMap::slotDSS() {
     QUrl url ( urlstring );
 
     KStars* kstars = KStars::Instance();
-    if( kstars ) {
-        ImageViewer *iv = new ImageViewer( url,
-            i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." ),
-            this );
-        iv->show();
+    if( kstars ) { new ImageViewer( url,i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." ), this );
+        //iv->show();
     }
 }
 
@@ -469,10 +466,8 @@ void SkyMap::slotSDSS() {
 
     KStars* kstars = KStars::Instance();
     if( kstars ) {
-        ImageViewer *iv = new ImageViewer( url,
-                                           i18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." ),
-                                           this );
-        iv->show();
+        new ImageViewer( url, i18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." ), this );
+        //iv->show();
     }
 }
 
@@ -1219,10 +1214,9 @@ void SkyMap::startXplanet( const QString & outputFile ) {
     xplanetProc->start(xPlanetLocation, args);
     if(xplanetProc){
         xplanetProc->waitForFinished(1000);
-        ImageViewer *iv = new ImageViewer( QUrl::fromLocalFile(outputFile),
-                "XPlanet View: "+ clickedObject()->name() + ",  " + data->lt().date().toString() + ",  "+ data->lt().time().toString(),
+        new ImageViewer( QUrl::fromLocalFile(outputFile), "XPlanet View: "+ clickedObject()->name() + ",  " + data->lt().date().toString() + ",  "+ data->lt().time().toString(),
                 this );
-        iv->show();
+        //iv->show();
     } else{
         KMessageBox::sorry( this, i18n("XPlanet Program Error"));
     }
