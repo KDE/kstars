@@ -210,11 +210,13 @@ void ImageViewer::loadImageFromURL()
     QUrl saveURL = QUrl::fromLocalFile(file.fileName() );
 
     if (!saveURL.isValid())
-        qDebug()<<"tempfile-URL is malformed\n";
+        qWarning() << "tempfile-URL is malformed";
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
+    downloadJob.setProgressDialogEnabled(true, i18n("Download"), i18n("Please wait while image is being downloaded..."));
     connect(&downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
+    connect(&downloadJob, SIGNAL(canceled()), this, SLOT(close()));
     connect(&downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
     downloadJob.get(m_ImageUrl);
@@ -310,6 +312,7 @@ bool ImageViewer::showImage()
 
     resize(w, image.height());
     update();
+    show();
 
     return true;
 #else

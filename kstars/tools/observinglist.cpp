@@ -1215,7 +1215,7 @@ void ObservingList::slotGetImage( bool _dss, const SkyObject *o ) {
         o = currentObject();
     ui->SearchImage->setEnabled( false );
     //ui->ImagePreview->clearPreview();
-    ui->ImagePreview->setPixmap(QPixmap());
+    //ui->ImagePreview->setPixmap(QPixmap());
     setCurrentImage( o );
     QString currentImagePath = getCurrentImagePath();
     if ( QFile::exists( currentImagePath ) )
