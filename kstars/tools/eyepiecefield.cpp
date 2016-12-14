@@ -533,7 +533,7 @@ void EyepieceField::slotDownloadDss() {
     }
     else if( m_currentFOV ) {
         fovWidth = m_currentFOV->sizeX();
-        fovWidth = m_currentFOV->sizeY();
+        fovHeight = m_currentFOV->sizeY();
     }
     if( !m_dler ) {
         m_dler = new KSDssDownloader( this );
