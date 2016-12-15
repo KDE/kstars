@@ -53,6 +53,7 @@
   <!ENTITY telescopes SYSTEM "telescopes.docbook">
   <!ENTITY timezones SYSTEM "timezones.docbook">
   <!ENTITY tool-altvstime SYSTEM "altvstime.docbook">
+  <!ENTITY tool-eyepieceview SYSTEM "eyepieceview.docbook">
   <!ENTITY tool-calculator SYSTEM "calculator.docbook">
   <!ENTITY tool-details SYSTEM "details.docbook">
   <!ENTITY tool-whatsup SYSTEM "wut.docbook">
@@ -86,6 +87,15 @@
 <surname>Mutlaq</surname>
 <affiliation>
 <address><email>mutlaqja AT ikarustech DOT com</email></address>
+</affiliation>
+<contrib>Core Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Akarsh</firstname>
+<surname>Simha</surname>
+<affiliation>
+<address><email>akarshsimha AT gmail dot com</email></address>
 </affiliation>
 <contrib>Core Developer</contrib>
 </othercredit>
@@ -149,14 +159,14 @@
 </authorgroup>
 
 <copyright>
-<year>2001-2016</year>
+<year>2001-2017</year>
 <holder>&Jason.Harris; and the &kstars; Team</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2016-08-08</date>
-<releaseinfo>2.6.0 (Applications 16.08)</releaseinfo>
+<date>2016-12-14</date>
+<releaseinfo>2.7.2 (Applications 17.04)</releaseinfo>
 
 <abstract>
 <para>
@@ -183,8 +193,7 @@ Included with &kstars; is Ekos astrophotography suite, a complete astrophotograp
 <title>Introduction</title>
 
 <para>
-&kstars; lets you explore the night sky from
-the comfort of your computer chair.  It provides an accurate graphical
+&kstars; lets you explore the night sky from the comfort of your computer chair.  It provides an accurate graphical
 representation of the night sky for any date, from any location on
 Earth.  The display includes 126,000 stars to 9th magnitude (100 million with addon catalogs), 13,000 deep-sky objects (Messier, NGC, and IC catalogs), all planets, the Sun and Moon, hundreds of comets and
 asteroids, the Milky Way, 88 constellations, and guide lines such as the <link linkend="ai-cequator">celestial equator</link>, the <link linkend="ai-horizon">horizon</link> and the <link linkend="ai-ecliptic">ecliptic</link>.
@@ -201,7 +210,7 @@ Our <link linkend="tool-calculator">Astrocalculator</link> tool provides direct 
 </para>
 <para>
 You can plan an observing session using our <link linkend="tool-altvstime">Altitude vs. Time</link> tool, which will plot curves representing the Altitude as a function of time for any group of objects.  If that is too much detail, we also provide a <link linkend="tool-whatsup">What's Up Tonight?</link> tool that summarizes the objects that you will be able to see from your location on any given night. You can add your favorite objects to your
-observing wish-list using the <link linkend="tool-obsplanner">Observation Planner</link> tool, which allows you to plan your observation sessions professionally.
+observing wish-list using the <link linkend="tool-obsplanner">Observation Planner</link> tool, which allows you to plan your observation sessions professionally. To see how object appears in the eyepiece under different telescopes and field of views, use the <link linkend="tool-eyepieceview">Simulate Eyepiece View</link> tool to render a simulated view of what you see.
 </para>
 <para>
 &kstars; also provides a <link linkend="tool-solarsys">Solar System Viewer</link>, which shows the current configuration of the major planets in our solar system. There is also a <link
@@ -233,11 +242,11 @@ We are very interested in your feedback; please report bugs or feature requests 
 &quicktour;   <!--A Quick Tour of &kstars;-->
 &config;      <!--Configuring &kstars;-->
 &commands;    <!--Command Reference-->
-&astroinfo;   <!--AstroInfo Articles-->
 &tools;       <!--&kstars; Tools-->
 &dumpmode;    <!--Command-line image-dump mode-->
 &indi;        <!-- INDI-->
 &faq;         <!--Questions and Answers-->
+&astroinfo;   <!--AstroInfo Articles-->
 &credits;     <!--Credits and License-->
 
 &documentation.index;

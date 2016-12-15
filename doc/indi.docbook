@@ -332,8 +332,8 @@ The window is divided into several main categories: General, Device Updates, Dis
  <itemizedlist>
    <listitem><para>General</para>
       <itemizedlist>
-         <listitem><para><option>INDI Server:</option> Specify the directory where INDI server 
-is located in your system. By default, &kstars; uses <quote>/usr/bin/indiserver</quote> directory.
+         <listitem><para><option>INDI Server:</option> Specify the binary of installed INDI server 
+in your system. By default, &kstars; uses <quote>/usr/bin/indiserver</quote> binary.
 	 </para></listitem>
          <listitem><para><option>INDI Drivers Directory:</option> Specify the directory where INDI 
 drivers are located in your system. By default, &kstars; uses <quote>/usr/share/indi</quote> directory.
