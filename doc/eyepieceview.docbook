@@ -18,13 +18,13 @@ Simulate eyepiece view
     </phrase>
   </textobject>
   <caption>
-      On the left hand side is the sky map shot from KStars. On the right hand side is the POSS (DSS) image of the same region. The orientation in the above example has been adjusted to match the view through a Dobsonian telescope at the location and time of the simulation in KStars.
+      On the left hand side is the sky map shot from &kstars;. On the right hand side is the POSS (DSS) image of the same region. The orientation in the above example has been adjusted to match the view through a Dobsonian telescope at the location and time of the simulation in &kstars;.
   </caption>
 </mediaobject>
 </screenshot>
 
 <para>
-This tool simulates how an object looks through your eyepeice. In addition to rendering the eyepiece field, &kstars; can also fetch and overlay the DSS imagery. Additionally, if you are using a Dobsonian telescope, you can rotate the field of view to match the eyepiece view.
+This tool simulates how an object looks through your eyepiece. In addition to rendering the eyepiece field, &kstars; can also fetch and overlay the DSS imagery. Additionally, if you are using a Dobsonian telescope, you can rotate the field of view to match the eyepiece view.
 </para>
 
 <para>To use this feature, first define your eyepieces' fields of view using the <link linkend="customize">FOV Symbol editor</link>.</para>
