@@ -60,6 +60,11 @@ private:
      * Refresh satellites list
      */
     void updateListView();
+
+    /**
+     * @brief saveSatellitesList Saves list of checked satellites in the configuration file
+     */
+    void saveSatellitesList();
     
     KConfigDialog *m_ConfigDialog;
     QStandardItemModel *m_Model;

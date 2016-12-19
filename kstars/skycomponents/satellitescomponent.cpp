@@ -35,6 +35,7 @@
 #include "skylabeler.h"
 #include "kstarsdata.h"
 #include "skymap.h"
+#include "ksnotification.h"
 
 SatellitesComponent::SatellitesComponent( SkyComposite *parent ) :
     SkyComponent( parent )
@@ -181,22 +182,13 @@ void SatellitesComponent::updateTLEs()
             }
             else
             {
-            #ifndef KSTARS_LITE
-                KMessageBox::error(0, file.errorString());
-            #else
-                qDebug() << file.errorString();
-            #endif
+                KSNotification::error(file.errorString());
                 return;
             }
-
         }
         else
         {
-            #ifndef KSTARS_LITE
-                KMessageBox::error(0, response->errorString());
-            #else
-                qDebug() << response->errorString();
-            #endif
+            KSNotification::error(response->errorString());
             return;
         }
     }

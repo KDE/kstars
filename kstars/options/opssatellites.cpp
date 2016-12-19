@@ -86,6 +86,9 @@ OpsSatellites::~OpsSatellites() {
 
 void OpsSatellites::slotUpdateTLEs()
 {
+    // Save existing satellites
+    saveSatellitesList();
+
     // Get new data files
     KStarsData::Instance()->skyComposite()->satellites()->updateTLEs();
 
@@ -140,20 +143,15 @@ void OpsSatellites::updateListView()
     }
 }
 
-void OpsSatellites::slotApply()
+void OpsSatellites::saveSatellitesList()
 {
-    if (isDirty == false)
-        return;
-
-    isDirty = false;
-
     KStarsData* data = KStarsData::Instance();
     QString sat_name;
     QStringList selected_satellites;
     QModelIndex group_index, sat_index;
     QStandardItem* group_item;
     QStandardItem* sat_item;
-    
+
     // Retrieve each satellite in the list and select it if checkbox is checked
     for ( int i=0; i<m_Model->rowCount( SatListTreeView->rootIndex() ); ++i )
     {
@@ -165,7 +163,7 @@ void OpsSatellites::slotApply()
             sat_index = m_Model->index( j, 0, group_index );
             sat_item = m_Model->itemFromIndex( sat_index );
             sat_name = sat_item->data( 0 ).toString();
-            
+
             Satellite *sat = data->skyComposite()->satellites()->findSatellite( sat_name );
             if ( sat )
             {
@@ -194,6 +192,16 @@ void OpsSatellites::slotApply()
     }
 
     Options::setSelectedSatellites( selected_satellites );
+}
+
+void OpsSatellites::slotApply()
+{
+    if (isDirty == false)
+        return;
+
+    isDirty = false;
+
+    saveSatellitesList();
 
     // update time for all objects because they might be not initialized
     // it's needed when using horizontal coordinates
