@@ -1,6 +1,7 @@
 [Global]
 IconName=kstars
 Comment=KStars
+Comment[ast]=KStars
 Comment[ca]=KStars
 Comment[ca@valencia]=KStars
 Comment[cs]=KStars
@@ -153,7 +154,6 @@ Sound=Oxygen-K3B-Finish-Success.ogg
 Action=Sound
 [Event/AlignFailed]
 Name=Alignment Failure
-Name[ast]=Fallu d'alliniamientu
 Name[ca]=Ha fallat l'alineació
 Name[ca@valencia]=Ha fallat l'alineació
 Name[de]=Ausrichtung fehlgeschlagen
