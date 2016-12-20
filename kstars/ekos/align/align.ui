@@ -688,7 +688,7 @@
                <string>After telescope completes slewing, delay capture of next image</string>
               </property>
               <property name="maximum">
-               <number>5000</number>
+               <number>15000</number>
               </property>
               <property name="singleStep">
                <number>100</number>
