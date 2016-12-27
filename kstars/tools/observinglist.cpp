@@ -604,7 +604,7 @@ void ObservingList::slotNewSelection() {
 
                 //ui->ImagePreview->setPixmap(QPixmap(ksdi.getFileName()).scaledToHeight(ui->ImagePreview->width()));
                 ui->ImagePreview->setPixmap(ImagePreviewHash[o.data()]);
-                if( md.width != 0 ) {// FIXME: Need better test for meta data presence
+                if( md.isValid() ) {
                     ui->dssMetadataLabel->setText( i18n( "DSS Image metadata: \n Size: %1\' x %2\' \n Photometric band: %3 \n Version: %4",
                                                          QString::number( md.width ), QString::number( md.height ), QString() + md.band, md.version ) );
                 }

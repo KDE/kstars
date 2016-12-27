@@ -76,6 +76,10 @@ class KSDssImage {
         float width; // width in arcminutes
         char band; // photometric band (UBVRI...) Use "?" for unknown.
         int gen; // generation for DSS images, data release for SDSS; use -1 for unknown.
+        bool valid; // is this data valid?
+
+        Metadata(); // default constructor
+        inline bool isValid() const { return valid; } // convenience method
     };
 
     inline QImage getImage() const { return m_Image; }

@@ -303,7 +303,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
         KSDssImage dssImage( imagePath );
         dssWidth = dssImage.getMetadata().width;
         dssHeight = dssImage.getMetadata().height;
-        if( dssWidth == 0 || dssHeight == 0 ) {
+        if( !dssImage.getMetadata().isValid() || dssWidth == 0 || dssHeight == 0 ) {
             // Metadata unavailable, guess based on most common DSS arcsec/pixel
             //const double dssArcSecPerPixel = 1.01;
             dssWidth = dssImage.getImage().width()*1.01/60.0;
