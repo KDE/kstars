@@ -402,11 +402,13 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
         }
 
         QImage img = rawImg.scaled( arcMinToScreen * dssWidth * 2.0, arcMinToScreen * dssHeight * 2.0, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+        const auto ksd = KStarsData::Instance();
+        sp->updateCoordsNow( ksd->updateNum() );
 
         if( Options::useAltAz() ) {
             // Need to rotate the image so that up is towards zenith rather than north.
-            sp->EquatorialToHorizontal( KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat() );
-            dms northBearing = findNorthAngle( sp, KStarsData::Instance()->geo()->lat() );
+            sp->EquatorialToHorizontal( ksd->lst(), ksd->geo()->lat() );
+            dms northBearing = findNorthAngle( sp, ksd->geo()->lat() );
             qDebug() << "North angle = " << northBearing.toDMSString();
 
             QTransform transform;
