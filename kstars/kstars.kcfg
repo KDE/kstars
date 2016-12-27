@@ -1752,6 +1752,10 @@
           <label>After shutdown procedure is successfully executed, shutdown INDI and Ekos.</label>
           <default>true</default>
     </entry>
+    <entry name="ShutdownScriptTerminatesINDI" type="Bool">
+          <label>Whether shutdown script, if exists, terminates INDI server in the process.</label>
+          <default>false</default>
+    </entry>
       <entry name="PreemptiveShutdown" type="Bool">
          <label>Perform pre-emptive shutdown if no jobs are due for a number of hours.</label>
          <default>false</default>

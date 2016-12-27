@@ -34,6 +34,7 @@
 #include "ksutils.h"
 #include "mosaic.h"
 #include "skyobjects/starobject.h"
+#include "ksnotification.h"
 
 #define BAD_SCORE                       -1000
 #define MAX_FAILURE_ATTEMPTS            3
@@ -2158,7 +2159,10 @@ bool Scheduler::checkStartupState()
         break;
 
     case STARTUP_UNPARK_DOME:
-        if (currentJob->getLightFramesRequired())
+        // If there is no job in case of manual startup procedure,
+        // or if the job requires light frames, let's proceed with
+        // unparking the dome, otherwise startup process is complete.
+        if (currentJob == NULL || currentJob->getLightFramesRequired())
         {
             if (unparkDomeCheck->isEnabled() && unparkDomeCheck->isChecked())
                 unParkDome();
@@ -2316,7 +2320,14 @@ bool Scheduler::checkShutdownState()
 
     case SHUTDOWN_SCRIPT:
         if (shutdownScriptURL.isEmpty() == false)
-        {            
+        {
+            // Need to stop Ekos now before executing script if it happens to stop INDI
+            if (ekosState != EKOS_IDLE && Options::stopEkosAfterShutdown() && Options::shutdownScriptTerminatesINDI())
+            {
+                stopEkos();
+                return false;
+            }
+
             shutdownState = SHUTDOWN_SCRIPT_RUNNING;
             executeScript(shutdownScriptURL.toString(QUrl::PreferLocalFile));
         }
@@ -2444,8 +2455,8 @@ void Scheduler::checkStatus()
             else
                 appendLogText(i18n("Shutdown procedure failed, aborting..."));
 
-            // Stop Ekos if there is no shutdown script since stopEkos is called right before executing the shutdown script
-            if (shutdownScriptURL.isEmpty() && Options::stopEkosAfterShutdown())
+            // Stop Ekos if required.
+            if (ekosState != EKOS_IDLE && Options::stopEkosAfterShutdown())
                 stopEkos();
 
             // Stop Scheduler
@@ -3855,9 +3866,11 @@ void Scheduler::stopEkos()
     ekosInterface->call(QDBus::AutoDetect,"disconnectDevices");
     ekosInterface->call(QDBus::AutoDetect,"stop");
 
-    startupState = STARTUP_IDLE;
-    shutdownState= SHUTDOWN_IDLE;
-    weatherStatus= IPS_IDLE;
+    ekosState = EKOS_IDLE;
+    indiState = INDI_IDLE;
+    //startupState = STARTUP_IDLE;
+    //shutdownState= SHUTDOWN_IDLE;
+    //weatherStatus= IPS_IDLE;
 }
 
 void Scheduler::setDirty()
@@ -4653,6 +4666,12 @@ void Scheduler::runStartupProcedure()
 {
     if (startupState == STARTUP_IDLE || startupState == STARTUP_ERROR || startupState == STARTUP_COMPLETE)
     {
+        if (indiState == INDI_IDLE)
+        {
+            KSNotification::sorry(i18n("Cannot run startup procedure while INDI devices are not online."));
+            return;
+        }
+
         if (KMessageBox::questionYesNo(NULL, i18n("Are you sure you want to execute the startup procedure manually?")) == KMessageBox::Yes)
         {
             appendLogText(i18n("Warning! Executing startup procedure manually..."));
