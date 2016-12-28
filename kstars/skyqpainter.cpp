@@ -595,7 +595,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
     case 1: //catalog star
         //Some NGC/IC objects are stars...changed their type to 1 (was double star)
         if (size<2.) size = 2.;
-        lambdaDrawEllipse( x1, y1, size/2., size/2. );
+        lambdaDrawEllipse( x - size/2., y - size/2., size, size );
         break;
     case 2: //Planet
         break;
@@ -608,7 +608,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
         if ( size > 50. )  psize *= 2.;
         if ( size > 100. ) psize *= 2.;
         auto putDot = [this, psize, &lambdaDrawEllipse]( float x, float y ) {
-            lambdaDrawEllipse( x, y, psize, psize );
+            lambdaDrawEllipse( x - psize/2., y - psize/2., psize, psize );
         };
         putDot( xa, y1 );
         putDot( xb, y1 );
