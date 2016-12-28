@@ -85,12 +85,11 @@ void InfoBoxWidget::slotTimeChanged() {
     m_strings.clear();
     m_strings <<
         i18nc( "Local Time", "LT: " ) +
-        QLocale().toString( data->lt().time() ) + "   " +
+        data->lt().time().toString( QLocale().timeFormat().remove( 't' ) ) + "   " + // Remove timezone, as timezone of geolocation in KStars might not be same as system locale timezone
         QLocale().toString( data->lt().date() );
+
     m_strings <<
-        i18nc( "Universal Time", "UT: " ) +
-        QLocale().toString( data->ut().time() ) + "   " +
-        QLocale().toString( data->ut().date() );
+        i18nc( "Universal Time", "UT: " ) + data->ut().time().toString( "HH:mm:ss" ) + "   " + QLocale().toString( data->ut().date() ); // Do not format UTC according to locale
 
     QString STString;
     STString = STString.sprintf( "%02d:%02d:%02d   ", data->lst()->hour(), data->lst()->minute(), data->lst()->second() );
