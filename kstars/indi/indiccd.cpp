@@ -1001,7 +1001,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
                 rawBP->bp[0].aux0 = &(streamW);
                 rawBP->bp[0].aux1 = &(streamH);
 
-                if (streamWindow->getWidth() != streamW || streamWindow->getHeight() != streamH)
+                if (streamWindow->getStreamWidth() != streamW || streamWindow->getStreamHeight() != streamH)
                     streamWindow->setSize(streamW, streamH);
             }
 
@@ -1077,7 +1077,7 @@ void CCD::processBLOB(IBLOB* bp)
         streamW = w / binx;
         streamH = h / biny;
 
-        if (streamWindow->getWidth() != streamW || streamWindow->getHeight() != streamH)
+        if (streamWindow->getStreamWidth() != streamW || streamWindow->getStreamHeight() != streamH)
             streamWindow->setSize(streamW, streamH);
 
         streamWindow->show();
