@@ -196,6 +196,14 @@
          <label>Internal or External Astrometry Solver?</label>
          <default>false</default>
       </entry>
+      <entry name="streamWindowWidth" type="UInt">
+         <label>Video streaming window width</label>
+         <default>320</default>
+      </entry>
+      <entry name="streamWindowHeight" type="UInt">
+         <label>Video streaming window height</label>
+         <default>240</default>
+      </entry>
    </group>
 
    <group name="Location">

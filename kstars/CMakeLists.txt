@@ -107,6 +107,7 @@ if (INDI_FOUND)
                 indi/opsindi.cpp
                 indi/telescopewizardprocess.cpp
                 indi/streamwg.cpp
+                indi/videowg.cpp
                 indi/indiwebmanager.cpp
             )
 
