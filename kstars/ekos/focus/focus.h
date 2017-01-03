@@ -489,6 +489,9 @@ private:
 
     // FITS Viewer in case user want to display in it instead of internal view
     QPointer<FITSViewer> fv;
+
+    // Track star position and HFR to know if we're detecting bogus stars due to detection algorithm false positive results
+    QVector<QVector3D> starsHFR;
 };
 
 }
