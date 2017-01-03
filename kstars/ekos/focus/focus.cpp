@@ -658,6 +658,8 @@ void Focus::start()
 
     waitStarSelectTimer.stop();
 
+    starsHFR.clear();
+
     lastHFR = 0;
 
     if (canAbsMove)
@@ -1115,20 +1117,27 @@ void Focus::setCaptureComplete()
 
         if (currentHFR > 0)
         {
+            Edge *maxStarHFR = NULL;
             // Center tracking box around selected star
             //if (starSelected && inAutoFocus)
-            if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0))
+            if (starCenter.isNull() == false && (inAutoFocus || minimumRequiredHFR >= 0) && (maxStarHFR = image_data->getMaxHFRStar()) != NULL)
             {
-                Edge *maxStarHFR = image_data->getMaxHFRStar();
+                starSelected=true;
+                starCenter.setX(qMax(0, static_cast<int>(maxStarHFR->x)));
+                starCenter.setY(qMax(0, static_cast<int>(maxStarHFR->y)));
 
-                if (maxStarHFR)
-                {
-                    starSelected=true;
-                    starCenter.setX(qMax(0, static_cast<int>(maxStarHFR->x)));
-                    starCenter.setY(qMax(0, static_cast<int>(maxStarHFR->y)));
+                syncTrackingBoxPosition();
 
-                    syncTrackingBoxPosition();
-                }
+                // Record information to know if we have bogus results
+                QVector3D oneStar = starCenter;
+                oneStar.setZ(currentHFR);
+                starsHFR.append(oneStar);
+            }
+            else
+            {
+                // Record information to know if we have bogus results
+                QVector3D oneStar(starCenter.x(), starCenter.y(), currentHFR);
+                starsHFR.append(oneStar);
             }
 
             if (currentHFR > maxHFR)
@@ -1143,6 +1152,40 @@ void Focus::setCaptureComplete()
                 hfr_value.append(currentHFR);
 
                 drawHFRPlot();
+            }
+        }
+        else
+        {
+            QVector3D oneStar(starCenter.x(), starCenter.y(), -1);
+            starsHFR.append(oneStar);
+        }
+
+        // Try to average values and find if we have bogus results
+        if (inFocusLoop == false && starsHFR.count() > 3)
+        {
+            float mean=0, sum=0, stddev=0, noHFR=0;
+
+            for (int i=0; i < starsHFR.count(); i++)
+            {
+                sum += starsHFR[i].x();
+                if (starsHFR[i].z() == -1)
+                    noHFR++;
+            }
+
+            mean = sum/starsHFR.count();
+
+            // Calculate standard deviation
+            for (int i=0; i < starsHFR.count(); i++)
+                stddev += pow(starsHFR[i].x() - mean, 2);
+
+            stddev = sqrt(stddev / starsHFR.count());
+
+            if (stddev > focusBoxSize->value()/10.0 || noHFR/starsHFR.count() > 0.75)
+            {
+                appendLogText(i18n("No reliable star is detected. Aborting..."));
+                abort();
+                setAutoFocusResult(false);
+                return;
             }
         }
     }
@@ -1232,6 +1275,8 @@ void Focus::setCaptureComplete()
                 settings["h"] = subH;
                 settings["binx"] = subBinX;
                 settings["biny"] = subBinY;
+
+                starsHFR.clear();
 
                 frameSettings[targetChip] = settings;
 
@@ -2167,6 +2212,8 @@ void Focus::focusStarSelected(int x, int y)
 
 
     }
+
+    starsHFR.clear();
 
     starCenter.setZ(subBinX);
 
