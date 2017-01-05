@@ -80,6 +80,7 @@ private:
     SkyPoint currentCoord;
     double minAlt,maxAlt;
     bool IsParked;
+    IPState EqCoordPreviousState, LastParkingState;
 
 };
 

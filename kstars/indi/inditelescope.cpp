@@ -7,6 +7,8 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include <KNotification>
+
 #include <indi/indidevice.h>
 
 #include "Options.h"
@@ -27,6 +29,8 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     minAlt=-1;
     maxAlt=-1;
     IsParked=false;
+    EqCoordPreviousState=IPS_IDLE;
+    LastParkingState=IPS_IDLE;
 }
 
 Telescope::~Telescope()
@@ -109,6 +113,18 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         if (RA == NULL || DEC == NULL)
             return;
 
+        if (nvp->s == IPS_BUSY && EqCoordPreviousState != IPS_BUSY)
+        {
+            if (getStatus() != MOUNT_PARKING)
+                   KNotification::event( QLatin1String( "SlewStarted" ) , i18n("Mount is slewing to target location"));
+        }
+        else if (EqCoordPreviousState == IPS_BUSY && nvp->s == IPS_OK)
+        {
+                 KNotification::event( QLatin1String( "SlewComplete" ) , i18n("Mount arrived at target location"));
+        }
+
+        EqCoordPreviousState = nvp->s;
+
         currentCoord.setRA(RA->value);
         currentCoord.setDec(DEC->value);
         currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
@@ -144,7 +160,6 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
 
 void Telescope::processSwitch(ISwitchVectorProperty *svp)
 {
-
     if (!strcmp(svp->name, "TELESCOPE_PARK"))
     {
         ISwitch *sp = IUFindSwitch(svp, "PARK");
@@ -153,10 +168,19 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
             IsParked = ( (sp->s == ISS_ON) && svp->s == IPS_OK);
         }
 
+        if (svp->s == IPS_ALERT)
+            KNotification::event( QLatin1String( "ParkingMountFailed" ) , i18n("Mount parking failed"));
+        else if (svp->s == IPS_BUSY && LastParkingState != IPS_BUSY)
+            KNotification::event( QLatin1String( "ParkingMount" ) , i18n("Mount parking is in progress"));
+        else if (LastParkingState == IPS_BUSY && IsParked)
+            KNotification::event( QLatin1String( "MountParked" ) , i18n("Mount parked"));
+        else if (LastParkingState == IPS_BUSY && IsParked == false)
+            KNotification::event( QLatin1String( "MountUnparked" ) , i18n("Mount unparked"));
+
+        LastParkingState = svp->s;
+
         emit switchUpdated(svp);
-
         return;
-
     }
 
     DeviceDecorator::processSwitch(svp);
