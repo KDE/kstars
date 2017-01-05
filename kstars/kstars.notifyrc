@@ -24,6 +24,10 @@ Comment[tr]=KStars
 Comment[uk]=KStars
 Comment[x-test]=xxKStarsxx
 Comment[zh_TW]=天文_KStars
+[Event/FocusStarted]
+Name=Focus started
+Comment=Autofocus operation started
+Action=None
 [Event/FocusSuccessful]
 Name=Autofocus Success
 Name[ca]=L'enfocament automàtic ha estat correcte
@@ -631,3 +635,47 @@ Name[x-test]=xxScheduler Abortedxx
 Name[zh_TW]=排程器已中止
 Sound=KDE-KStars-Alert.ogg
 Action=Sound
+[Event/SlewStarted]
+Name=Slew Started
+Comment=Mount is slewing to target location
+Action=None
+[Event/SlewCompleted]
+Name=Slew Completed
+Comment=Mount arrived at target location
+Name[x-test]=xxSlew Completedxx
+Action=None
+[Event/MountParking]
+Name=Mount Parking
+Comment=Mount parking is in progress
+Action=None
+[Event/MountParked]
+Name=Parking Mount Completed
+Comment=Mount parked
+Action=None
+[Event/MountParkingFailed]
+Name=Mount parking failed
+Comment=Mount parking failed
+Action=None
+[Event/MountUnparked]
+Name=Mount unparked
+Comment=Mount unparked
+Action=None
+[Event/DomeParking]
+Name=Dome Parking
+Comment=Parking dome is in progress
+Action=None
+[Event/DomeParked]
+Name=Dome Parked
+Comment=Parking dome is complete
+Action=None
+[Event/DomeUnparking]
+Name=Dome Unparking
+Comment=Unparking dome is in progress
+Action=None
+[Event/DomeUnparked]
+Name=Dome unparked
+Comment=Unparking dome is complete
+Action=None
+[Event/FilterWheelChanged]
+Name=Filter Wheel Changed
+Action=None

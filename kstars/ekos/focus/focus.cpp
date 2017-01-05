@@ -739,6 +739,8 @@ void Focus::start()
     // Denoise with median filter
     //defaultScale = FITS_MEDIAN;
 
+    KNotification::event( QLatin1String( "FocusStarted" ) , i18n("Autofocus operation started"));
+
     capture();
 }
 
