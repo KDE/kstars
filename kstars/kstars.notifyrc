@@ -642,7 +642,6 @@ Action=None
 [Event/SlewCompleted]
 Name=Slew Completed
 Comment=Mount arrived at target location
-Name[x-test]=xxSlew Completedxx
 Action=None
 [Event/MountParking]
 Name=Mount Parking
