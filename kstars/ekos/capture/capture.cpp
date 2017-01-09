@@ -129,6 +129,9 @@ Capture::Capture()
     pauseB->setIcon(QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg") ));
     pauseB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
+    filterOffsetB->setIcon(QIcon::fromTheme("view-filter", QIcon(":/icons/breeze/default/view-filter.svg") ));
+    connect(filterOffsetB, SIGNAL(clicked()), this, SLOT(showFilterOffsetDialog()));
+
     connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
 
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
@@ -268,6 +271,8 @@ void Capture::addFilter(ISD::GDInterface *newFilter)
     FilterCaptureCombo->addItem(newFilter->getDeviceName());
 
     Filters.append(static_cast<ISD::Filter *>(newFilter));
+
+    filterOffsetB->setEnabled(true);
 
     checkFilter(0);
 
@@ -3889,6 +3894,62 @@ void Capture::postScriptFinished(int exitCode)
 {
     appendLogText(i18n("Post capture script finished with code %1. Resuming sequence...", exitCode));
     resumeSequence();
+}
+
+void Capture::showFilterOffsetDialog()
+{
+    // If there is no map, create one
+    if (filterFocusOffsets.empty())
+    {
+        for (int i=0; i < FilterPosCombo->count(); i++)
+        {
+            FocusOffset *oneOffset = new FocusOffset;
+            oneOffset->filter = FilterPosCombo->itemText(i);
+            oneOffset->offset = 0;
+
+            filterFocusOffsets.append(oneOffset);
+        }
+    }
+
+    QDialog filterOffsetDialog;
+
+    filterOffsetDialog.setWindowTitle(i18n("Filter Focus Offsets"));
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel, Qt::Horizontal, &filterOffsetDialog);
+
+    connect(buttonBox, SIGNAL(accepted()), &filterOffsetDialog, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), &filterOffsetDialog, SLOT(reject()));
+
+    QVBoxLayout *mainLayout = new QVBoxLayout(&filterOffsetDialog);
+    QGridLayout *grid = new QGridLayout(&filterOffsetDialog);
+
+    mainLayout->addLayout(grid);
+    mainLayout->addWidget(buttonBox);
+
+    filterOffsetDialog.setLayout(mainLayout);
+
+    for (int i=0; i < filterFocusOffsets.count(); i++)
+    {
+        FocusOffset *oneOffset = filterFocusOffsets.at(i);
+
+        QLabel *label     = new QLabel(oneOffset->filter, &filterOffsetDialog);
+        QSpinBox *spin    = new QSpinBox(&filterOffsetDialog);
+        spin->setMinimum(-1000);
+        spin->setMaximum(1000);
+        spin->setValue(oneOffset->offset);
+
+        grid->addWidget(label, i, 0);
+        grid->addWidget(spin, i, 1);
+    }
+
+    if (filterOffsetDialog.exec() == QDialog::Accepted)
+    {
+        for (int i=0; i < filterFocusOffsets.count(); i++)
+        {
+            FocusOffset *oneOffset = filterFocusOffsets.at(i);
+            oneOffset->offset = static_cast<QSpinBox*>(grid->itemAtPosition(i, 1)->widget())->value();
+        }
+    }
 }
 
 }

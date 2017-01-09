@@ -387,7 +387,6 @@ private slots:
 
     void toggleSequence();
 
-
     void checkFrameType(int index);
     void resetFrame();
     void setExposureProgress(ISD::CCDChip *tChip, double value, IPState state);
@@ -430,8 +429,11 @@ private slots:
     // Capture
     bool setCaptureComplete();
 
-    // Temporary for post capture script
+    // post capture script
     void postScriptFinished(int exitCode);
+
+    // Filter focus offset
+    void showFilterOffsetDialog();
 
 signals:
         void newLog();
@@ -564,10 +566,21 @@ private:
     // CCD Chip frame settings
     QMap<ISD::CCDChip *, QVariantMap> frameSettings;
 
-    // Temporary Only
+    // Post capture script
     QProcess postCaptureScript;
 
+    // How many images to capture before dithering operation is executed?
     uint8_t ditherCounter;
+
+    // Map of filter focus offsets
+    struct FocusOffset
+    {
+        QString filter;
+        int16_t offset;
+    };
+
+    QList<FocusOffset*> filterFocusOffsets;
+    int16_t globalFilterOffset=0;
 };
 
 }
