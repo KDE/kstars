@@ -304,7 +304,11 @@ int FITSData::saveFITS( const QString &newFilename )
         }
 
         // Skip "!" in the beginning of the new file name
-        QFile::copy(filename, newFilename.mid(1));
+        if (QFile::copy(filename, newFilename.mid(1)) == false)
+        {
+            qCritical() << "FITS: Failed to copy " << filename << " to " << newFilename.mid(1);
+            return -1;
+        }
 
         if (tempFile)
         {
