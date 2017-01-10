@@ -41,22 +41,6 @@ void FileDownloader::get(const QUrl & fileUrl)
     connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
     connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
     connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
-
-    #ifndef KSTARS_LITE
-    if (progressDialog == NULL)
-    {
-        isCancelled = false;
-        progressDialog = new QProgressDialog(KStars::Instance());
-        progressDialog->setWindowTitle(title);
-        progressDialog->setLabelText(label);
-        connect(progressDialog, SIGNAL(canceled()), this, SIGNAL(canceled()));
-        connect(progressDialog, &QProgressDialog::canceled, this, [&]() { isCancelled = true; m_Reply->abort(); progressDialog->close(); });
-        progressDialog->setMinimum(0);
-        progressDialog->setMaximum(0);
-        progressDialog->show();
-        progressDialog->raise();
-    }
-    #endif
 }
 
 void FileDownloader::post(const QUrl &fileUrl, QByteArray & data)
@@ -170,6 +154,20 @@ void FileDownloader::setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal
 #ifndef KSTARS_LITE
     if (m_ShowProgressDialog)
     {
+        if (progressDialog == NULL)
+        {
+            isCancelled = false;
+            progressDialog = new QProgressDialog(KStars::Instance());
+            progressDialog->setWindowTitle(title);
+            progressDialog->setLabelText(label);
+            connect(progressDialog, SIGNAL(canceled()), this, SIGNAL(canceled()));
+            connect(progressDialog, &QProgressDialog::canceled, this, [&]() { isCancelled = true; m_Reply->abort(); progressDialog->close(); });
+            progressDialog->setMinimum(0);
+            progressDialog->setMaximum(0);
+            progressDialog->show();
+            progressDialog->raise();
+        }
+
         if (bytesTotal > 0)
         {
             progressDialog->setMaximum(bytesTotal);
