@@ -129,6 +129,15 @@ bool KSUserDB::Initialize() {
                 if (!query.exec("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, ccd TEXT NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, duration REAL, filename TEXT NOT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)"))
                     qDebug() << query.lastError();
            }
+
+           // If prior to 2.7.3 upgrade database to add column for focus offset
+           if (record.value("Version").toString() < "2.7.3")
+           {
+               QSqlQuery query(userdb_);
+               QString columnQuery = QString("ALTER TABLE filter ADD COLUMN Offset TEXT");
+
+               query.exec(columnQuery);
+           }
         }
     }
     userdb_.close();
@@ -205,6 +214,7 @@ bool KSUserDB::RebuildDB() {
                   "Vendor TEXT DEFAULT NULL, "
                   "Model TEXT DEFAULT NULL, "
                   "Type TEXT DEFAULT NULL, "
+                  "Offset TEXT DEFAULT NULL, "
                   "Color TEXT DEFAULT NULL)");
 
     tables.append("CREATE TABLE wishlist ( "
@@ -736,7 +746,7 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
  *  filter section
  */
 void KSUserDB::AddFilter(const QString &vendor, const QString &model,
-                         const QString &type, const QString &color) {
+                         const QString &type, const QString &offset, const QString &color) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("filter");
@@ -746,15 +756,17 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model,
     equip.setData(equip.index(row, 1), vendor);  // row,0 is autoincerement ID
     equip.setData(equip.index(row, 2), model);
     equip.setData(equip.index(row, 3), type);
-    equip.setData(equip.index(row, 4), color);
-    equip.submitAll();
+    equip.setData(equip.index(row, 4), offset);
+    equip.setData(equip.index(row, 5), color);
+    if (equip.submitAll() == false)
+        qCritical() << "AddFilter:" << equip.lastError();
 
     equip.clear();
     userdb_.close();
 }
 
 void KSUserDB::AddFilter(const QString &vendor, const QString &model,
-                         const QString &type, const QString &color,
+                         const QString &type, const QString &offset, const QString &color,
                          const QString &id) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
@@ -767,8 +779,11 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model,
         record.setValue(1, vendor);
         record.setValue(2, model);
         record.setValue(3, type);
-        record.setValue(4, color);
-        equip.submitAll();
+        record.setValue(4, offset);
+        record.setValue(5, color);
+        equip.setRecord(0, record);
+        if (equip.submitAll() == false)
+            qCritical() << "AddFilter:" << equip.lastError();
     }
 
     userdb_.close();
@@ -788,7 +803,8 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
         QString model = record.value("Model").toString();
         QString type = record.value("Type").toString();
         QString color = record.value("Color").toString();
-        OAL::Filter *o= new OAL::Filter(id, model, vendor, type, color);
+        QString offset = record.value("Offset").toString();
+        OAL::Filter *o= new OAL::Filter(id, model, vendor, type, offset, color);
         filter_list.append(o);
     }
 
@@ -1068,7 +1084,7 @@ void KSUserDB::readLens() {
 }
 
 void KSUserDB::readFilter() {
-    QString model, vendor, type, color;
+    QString model, vendor, type, offset, color;
     while( ! reader_->atEnd() ) {
         reader_->readNext();
 
@@ -1082,12 +1098,14 @@ void KSUserDB::readFilter() {
                 vendor = reader_->readElementText() ;
             } else if( reader_->name() == "type" ) {
                 type = reader_->readElementText() ;
+            } else if( reader_->name() == "offset" ) {
+                offset = reader_->readElementText();
             } else if( reader_->name() == "color" ) {
                 color = reader_->readElementText() ;
             }
         }
     }
-    AddFilter(vendor, model, type, color );
+    AddFilter(vendor, model, type, offset, color );
 }
 
 QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()

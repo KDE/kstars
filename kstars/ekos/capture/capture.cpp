@@ -21,6 +21,8 @@
 
 #include "Options.h"
 
+#include "oal/log.h"
+
 #include "kstars.h"
 #include "kstarsdata.h"
 
@@ -371,6 +373,8 @@ void Capture::start()
 
     deviationDetected = false;
     spikeDetected     = false;
+
+    lastFilterOffset  = 0;
 
     ditherCounter     = Options::ditherFrames();
     initialHA = getCurrentHA();
@@ -1871,6 +1875,46 @@ void Capture::prepareJob(SequenceJob *job)
             return;
         }
 
+        if (currentFilterPosition != activeJob->getTargetFilter() && filterFocusOffsets.empty() == false)
+        {
+            int16_t targetFilterOffset=0;
+            foreach(FocusOffset *offset, filterFocusOffsets)
+            {
+                if (offset->filter == activeJob->getFilterName())
+                {
+                    targetFilterOffset = offset->offset - lastFilterOffset;
+                    lastFilterOffset   = offset->offset;
+                    break;
+                }
+            }
+
+            if (targetFilterOffset != 0 && (activeJob->getFrameType() == FRAME_LIGHT || activeJob->getFrameType() == FRAME_FLAT))
+            {
+                appendLogText(i18n("Adjust focus offset by %1 steps", targetFilterOffset));
+                secondsLabel->setText(i18n("Adjusting filter offset"));
+
+                if (activeJob->isPreview() == false)
+                {
+                    state = CAPTURE_FILTER_FOCUS;
+                    emit newStatus(Ekos::CAPTURE_FILTER_FOCUS);
+                }
+
+                setBusy(true);
+
+                emit newFocusOffset(targetFilterOffset);
+
+                return;
+            }
+        }
+    }
+
+    prepareFilterTemperature();
+}
+
+void Capture::prepareFilterTemperature()
+{
+    if (currentFilterPosition > 0)
+    {
         activeJob->setCurrentFilter(currentFilterPosition);
 
         if (currentFilterPosition != activeJob->getTargetFilter())
@@ -1909,7 +1953,7 @@ void Capture::prepareJob(SequenceJob *job)
 
     connect(activeJob, SIGNAL(prepareComplete()), this, SLOT(executeJob()));
 
-    job->prepareCapture();
+    activeJob->prepareCapture();
 }
 
 void Capture::executeJob()
@@ -3901,11 +3945,24 @@ void Capture::showFilterOffsetDialog()
     // If there is no map, create one
     if (filterFocusOffsets.empty())
     {
+        // Get all OAL equipment filter list
+       KStarsData::Instance()->userdb()->GetAllFilters(m_filterList);
+
         for (int i=0; i < FilterPosCombo->count(); i++)
         {
             FocusOffset *oneOffset = new FocusOffset;
             oneOffset->filter = FilterPosCombo->itemText(i);
             oneOffset->offset = 0;
+
+            // Find matching filter if any and loads its offset
+            foreach( OAL::Filter *o, m_filterList )
+            {
+                if (o->vendor() == FilterCaptureCombo->currentText() && o->color() == oneOffset->filter)
+                {
+                    oneOffset->offset = o->offset().toInt();
+                    break;
+                }
+            }
 
             filterFocusOffsets.append(oneOffset);
         }
@@ -3922,11 +3979,24 @@ void Capture::showFilterOffsetDialog()
 
     QVBoxLayout *mainLayout = new QVBoxLayout(&filterOffsetDialog);
     QGridLayout *grid = new QGridLayout(&filterOffsetDialog);
+    QHBoxLayout *tipLayout = new QHBoxLayout(&filterOffsetDialog);
+
+    QLabel *tipIcon = new QLabel(&filterOffsetDialog);
+    QLabel *tipText = new QLabel(&filterOffsetDialog);
+
+    tipIcon->setPixmap(QIcon::fromTheme("kstars_flag", QIcon(":/icons/breeze/default/kstars_flag.svg")).pixmap(QSize(32,32)));
+    tipIcon->setFixedSize(32,32);
+
+    tipText->setText(i18n("Set <em>relative</em> filter focus offset in steps."));
+
+    tipLayout->addWidget(tipIcon);
+    tipLayout->addWidget(tipText);
 
     mainLayout->addLayout(grid);
+    mainLayout->addLayout(tipLayout);
     mainLayout->addWidget(buttonBox);
 
-    filterOffsetDialog.setLayout(mainLayout);
+    //filterOffsetDialog.setLayout(mainLayout);
 
     for (int i=0; i < filterFocusOffsets.count(); i++)
     {
@@ -3948,6 +4018,30 @@ void Capture::showFilterOffsetDialog()
         {
             FocusOffset *oneOffset = filterFocusOffsets.at(i);
             oneOffset->offset = static_cast<QSpinBox*>(grid->itemAtPosition(i, 1)->widget())->value();
+
+            // Find matching filter if any and save its offset
+            OAL::Filter *matchedFilter=NULL;
+            foreach( OAL::Filter *o, m_filterList )
+            {
+                if (o->vendor() == FilterCaptureCombo->currentText() && o->color() == oneOffset->filter)
+                {
+                    o->setOffset(QString::number(oneOffset->offset));
+                    matchedFilter = o;
+                    break;
+                }
+            }
+
+            // If no filter exists, let's create one
+            if (matchedFilter == NULL)
+            {
+                KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", QString::number(oneOffset->offset), oneOffset->filter);
+            }
+            // Or update Existing one
+            else
+            {
+                KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", QString::number(oneOffset->offset), oneOffset->filter, matchedFilter->id());
+            }
+
         }
     }
 }

@@ -1,7 +1,7 @@
 PROJECT(kstars CXX C)
 set (KStars_VERSION_MAJOR 2)
 set (KStars_VERSION_MINOR 7)
-set (KStars_VERSION_REVISION 2)
+set (KStars_VERSION_REVISION 3)
 set (CMAKE_CXX_STANDARD 11)
 #Build KStars Lite with -DKSTARS_LITE=ON
 option(BUILD_KSTARS_LITE "Build KStars Lite" OFF)

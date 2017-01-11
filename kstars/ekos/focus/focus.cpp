@@ -1942,6 +1942,13 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
            absTicksSpin->setValue(currentPosition);
        }
 
+       if (adjustFocus && nvp->s == IPS_OK)
+       {
+           adjustFocus = false;
+           emit focusPositionAdjusted();
+           return;
+       }
+
        if (resetFocus && nvp->s == IPS_OK)
        {
            resetFocus = false;
@@ -1971,6 +1978,13 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         INumber *pos = IUFindNumber(nvp, "FOCUS_RELATIVE_POSITION");
         if (pos && nvp->s == IPS_OK)
             currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
+
+        if (adjustFocus && nvp->s == IPS_OK)
+        {
+            adjustFocus = false;
+            emit focusPositionAdjusted();
+            return;
+        }
 
         if (resetFocus && nvp->s == IPS_OK)
         {
@@ -2455,6 +2469,16 @@ void Focus::showFITSViewer()
 
         fv->show();
     }
+}
+
+void Focus::adjustRelativeFocus(int16_t offset)
+{
+    adjustFocus = true;
+
+    if (offset > 0)
+        focusOut(offset);
+    else
+        focusIn(abs(offset));
 }
 
 }
