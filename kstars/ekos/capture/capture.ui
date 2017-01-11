@@ -831,7 +831,7 @@
            <string>&lt;p&gt;Select how captured images are uploaded:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;Client&lt;/strong&gt;: Captured images are only uploaded to Ekos.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Local&lt;/strong&gt;: Captured images are only saved locally on the remote device.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Local&lt;/strong&gt;: Captured images are only saved locally on the remote computer.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Both&lt;/strong&gt;: Captured images are saved on remote device &lt;b&gt;and&lt;/b&gt; uploaded to Ekos.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;When selecting &lt;i&gt;Local&lt;/i&gt; or &lt;i&gt;Both&lt;/i&gt;, you must specify the remote directory where the remote images are saved to. By default, all captured images are uploaded to Ekos.</string>

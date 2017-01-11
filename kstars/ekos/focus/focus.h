@@ -283,6 +283,9 @@ public slots:
     // Log
     void appendLogText(const QString &);
 
+    // Adjust relative focus position
+    void adjustRelativeFocus(int16_t offset);
+
 private slots:
     /**
      * @brief filterLockToggled Process filter locking/unlocking. Filter lock causes the autofocus process to use the selected filter whenever it runs.
@@ -329,6 +332,7 @@ signals:
         void newStarPixmap(QPixmap &);
         void newProfilePixmap(QPixmap &);
         void newHFR(double hfr);
+        void focusPositionAdjusted();
 
 private:
     void drawHFRPlot();
@@ -429,6 +433,8 @@ private:
     bool reverseDir;
     // Did the user or the auto selection process finish selecting our focus star?
     bool starSelected;
+    // Adjust the focus position to a target value
+    bool adjustFocus = false;
     // Target frame dimensions
     //int fx,fy,fw,fh;
     // Origianl frame dimensions

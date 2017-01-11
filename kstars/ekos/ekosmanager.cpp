@@ -1419,6 +1419,10 @@ void EkosManager::initCapture()
         connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
         connect(focusProcess, &Ekos::Focus::newHFR, captureProcess, &Ekos::Capture::setHFR, Qt::UniqueConnection);
 
+        // Adjust focus position
+        connect(captureProcess, SIGNAL(newFocusOffset(int16_t)), focusProcess, SLOT(adjustRelativeFocus(int16_t)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(focusPositionAdjusted()), captureProcess, SLOT(prepareFilterTemperature()), Qt::UniqueConnection);
+
         // Meridian Flip
         connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFrame()), Qt::UniqueConnection);
     }
@@ -1499,6 +1503,10 @@ void EkosManager::initFocus()
         connect(captureProcess, SIGNAL(checkFocus(double)), focusProcess, SLOT(checkFocus(double)), Qt::UniqueConnection);
         connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), captureProcess, SLOT(setFocusStatus(Ekos::FocusState)), Qt::UniqueConnection);
         connect(focusProcess, &Ekos::Focus::newHFR, captureProcess, &Ekos::Capture::setHFR, Qt::UniqueConnection);
+
+        // Adjust focus position
+        connect(captureProcess, SIGNAL(newFocusOffset(int16_t)), focusProcess, SLOT(adjustRelativeFocus(int16_t)), Qt::UniqueConnection);
+        connect(focusProcess, SIGNAL(focusPositionAdjusted()), captureProcess, SLOT(prepareFilterTemperature()), Qt::UniqueConnection);
 
         // Meridian Flip
         connect(captureProcess, SIGNAL(meridianFlipStarted()), focusProcess, SLOT(resetFrame()), Qt::UniqueConnection);

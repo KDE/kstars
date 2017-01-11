@@ -245,12 +245,13 @@ void EquipmentWriter::slotNewLens() {
 
 void EquipmentWriter::slotAddFilter() {
     KStarsData::Instance()->userdb()->AddFilter( ui.f_Vendor->text(), ui.f_Model->text(),
-                                     ui.f_Type->text(), ui.f_Color->text());
+                                     ui.f_Type->text(), ui.f_Offset->text(), ui.f_Color->text());
     loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();
     ui.f_Vendor->clear();
     ui.f_Type->clear();
+    ui.f_Offset->clear();
     ui.f_Color->clear();
 }
 
@@ -261,6 +262,7 @@ void EquipmentWriter::slotRemoveFilter() {
     ui.f_Model->clear();
     ui.f_Vendor->clear();
     ui.f_Type->clear();
+    ui.f_Offset->clear();
     ui.f_Color->clear();
     ui.FilterList->clear();
     foreach( OAL::Filter *f, *( KStarsData::Instance()->logObject()->filterList() ) )
@@ -282,6 +284,7 @@ void EquipmentWriter::slotSetFilter( QString name ) {
         ui.f_Model->setText( f->model() );
         ui.f_Vendor->setText( f->vendor() );
         ui.f_Type->setText( f->type() );
+        ui.f_Offset->setText(f->offset());
         ui.f_Color->setText( f->color() );
         newFilter = false;
     }
@@ -292,6 +295,7 @@ void EquipmentWriter::slotNewFilter() {
     ui.f_Model->clear();
     ui.f_Vendor->clear();
     ui.f_Type->clear();
+    ui.f_Model->clear();
     ui.f_Color->clear();
     ui.FilterList->selectionModel()->clear();
     newFilter = true;

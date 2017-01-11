@@ -20,7 +20,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -603,14 +603,14 @@
            <item row="4" column="1">
             <widget class="QLineEdit" name="f_Type"/>
            </item>
-           <item row="5" column="0">
+           <item row="6" column="0">
             <widget class="QLabel" name="label_12">
              <property name="text">
               <string>Color:</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
+           <item row="6" column="1">
             <widget class="QLineEdit" name="f_Color"/>
            </item>
            <item row="3" column="1">
@@ -622,6 +622,16 @@
               <string>Model:</string>
              </property>
             </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>Offset:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QLineEdit" name="f_Offset"/>
            </item>
           </layout>
          </item>

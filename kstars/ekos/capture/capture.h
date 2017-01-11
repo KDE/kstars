@@ -16,6 +16,8 @@
 
 #include "ui_capture.h"
 
+#include "oal/filter.h"
+
 #include "ekos/ekos.h"
 #include "fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
@@ -363,6 +365,11 @@ public slots:
      */
     void setTemperature();
 
+    /**
+     * @brief prepareFilterTemperature Check if we need to update filter position or CCD temperature before starting capture process
+     */
+    void prepareFilterTemperature();
+
     // Pause Sequence Queue
     void pause();
 
@@ -372,6 +379,8 @@ public slots:
     // Auto Focus
     void setFocusStatus(Ekos::FocusState state);
     void setHFR(double newHFR) { focusHFR = newHFR; }
+
+
 
     // Guide
     void setGuideStatus(Ekos::GuideState state);
@@ -445,6 +454,7 @@ signals:
         void newStatus(Ekos::CaptureState status);
         void newImage(QImage *image, Ekos::SequenceJob *job);
         void newExposureProgress(Ekos::SequenceJob *job);
+        void newFocusOffset(int16_t offset);
 
 private:
 
@@ -580,7 +590,9 @@ private:
     };
 
     QList<FocusOffset*> filterFocusOffsets;
-    int16_t globalFilterOffset=0;
+    int16_t lastFilterOffset=0;
+
+    QList<OAL::Filter *> m_filterList;
 };
 
 }

@@ -322,6 +322,9 @@ void OAL::Log::writeFilter( OAL::Filter *f ) {
     writer->writeStartElement( "type" );
     writer->writeCDATA( f->type() );
     writer->writeEndElement();
+    writer->writeStartElement( "offset" );
+    writer->writeCDATA( f->offset() );
+    writer->writeEndElement();
     writer->writeStartElement( "color" );
     writer->writeCDATA( f->color() );
     writer->writeEndElement();
