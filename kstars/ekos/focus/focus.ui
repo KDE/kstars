@@ -239,6 +239,28 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="toggleFullScreenB">
+              <property name="minimumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Toggle Fulll Screen</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="showFITSViewerB">
               <property name="minimumSize">
                <size>
@@ -652,7 +674,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="rightLayout">
        <property name="spacing">
         <number>1</number>
        </property>

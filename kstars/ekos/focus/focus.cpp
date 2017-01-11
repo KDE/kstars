@@ -101,6 +101,9 @@ Focus::Focus()
     showFITSViewerB->setIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
     connect(showFITSViewerB, SIGNAL(clicked()), this, SLOT(showFITSViewer()));
 
+    toggleFullScreenB->setIcon(QIcon::fromTheme("view-fullscreen", QIcon(":/icons/breeze/default/view-fullscreen.svg")));
+    connect(toggleFullScreenB, SIGNAL(clicked()), this, SLOT(toggleFocusingWidgetFullScreen()));
+
     connect(startFocusB, SIGNAL(clicked()), this, SLOT(start()));
     connect(stopFocusB, SIGNAL(clicked()), this, SLOT(checkStopFocus()));
 
@@ -2479,6 +2482,23 @@ void Focus::adjustRelativeFocus(int16_t offset)
         focusOut(offset);
     else
         focusIn(abs(offset));
+}
+
+void Focus::toggleFocusingWidgetFullScreen()
+{
+    if (focusingWidget->parent() == NULL)
+    {
+        focusingWidget->setParent(this);
+        rightLayout->insertWidget(0, focusingWidget);
+        focusingWidget->showNormal();
+    }
+    else
+    {
+        focusingWidget->setParent(0);
+        focusingWidget->setWindowFlags(Qt::FramelessWindowHint);
+        focusingWidget->showMaximized();
+        focusingWidget->show();
+    }
 }
 
 }
