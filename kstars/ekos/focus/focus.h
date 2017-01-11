@@ -322,6 +322,8 @@ private slots:
 
     void showFITSViewer();
 
+    void toggleFocusingWidgetFullScreen();
+
 signals:
         void newLog();
         //void autoFocusFinished(bool status, double finalHFR);
