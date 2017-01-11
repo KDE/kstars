@@ -1624,10 +1624,11 @@ void Capture::addJob(bool preview)
 
     QTableWidgetItem *filter = jobUnderEdit ? queueTable->item(currentRow, 1) : new QTableWidgetItem();
     filter->setText("--");
-    if (frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
+    /*if (frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
             frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive) &&
-            FilterPosCombo->count() > 0)
-        filter->setText(FilterPosCombo->currentText());
+            FilterPosCombo->count() > 0)*/
+     if (FilterPosCombo->count() > 0 && (frameTypeCombo->currentIndex() == FRAME_LIGHT || frameTypeCombo->currentIndex() == FRAME_FLAT))
+         filter->setText(FilterPosCombo->currentText());
 
     filter->setTextAlignment(Qt::AlignHCenter);
     filter->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -2778,19 +2779,18 @@ void Capture::resetJobEdit()
 
 void Capture::constructPrefix(QString &imagePrefix)
 {
-
     if (imagePrefix.isEmpty() == false)
         imagePrefix += '_';
 
     imagePrefix += frameTypeCombo->currentText();
 
-    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
+    /*if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
             frameTypeCombo->currentText().compare("Bias", Qt::CaseInsensitive) &&
-            frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))
+            frameTypeCombo->currentText().compare("Dark", Qt::CaseInsensitive))*/
+    if (filterCheck->isChecked() && FilterPosCombo->currentText().isEmpty() == false &&
+            (frameTypeCombo->currentIndex() == FRAME_LIGHT || frameTypeCombo->currentIndex() == FRAME_FLAT))
     {
-        //if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
         imagePrefix += '_';
-
         imagePrefix += FilterPosCombo->currentText();
     }
     if (expDurationCheck->isChecked())
