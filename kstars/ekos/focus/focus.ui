@@ -253,7 +253,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>Toggle Fulll Screen</string>
+               <string>Toggle Full Screen</string>
               </property>
               <property name="text">
                <string/>
