@@ -1965,6 +1965,9 @@ void EkosManager::updateCaptureCountDown()
 
 void EkosManager::updateFocusStarPixmap(QPixmap &starPixmap)
 {
+    if (starPixmap.isNull())
+        return;
+
     delete(focusStarPixmap);
     focusStarPixmap = new QPixmap(starPixmap);
 
@@ -1972,7 +1975,10 @@ void EkosManager::updateFocusStarPixmap(QPixmap &starPixmap)
 }
 
 void EkosManager::updateFocusProfilePixmap(QPixmap &profilePixmap)
-{        
+{
+    if (profilePixmap.isNull())
+        return;
+
     focusProfileImage->setPixmap(profilePixmap);
 }
 
@@ -2023,6 +2029,9 @@ void EkosManager::updateGuideStatus(Ekos::GuideState status)
 
 void EkosManager::updateGuideStarPixmap(QPixmap & starPix)
 {
+    if (starPix.isNull())
+        return;
+
     delete (guideStarPixmap);
     guideStarPixmap = new QPixmap(starPix);
 
@@ -2031,6 +2040,9 @@ void EkosManager::updateGuideStarPixmap(QPixmap & starPix)
 
 void EkosManager::updateGuideProfilePixmap(QPixmap & profilePix)
 {
+    if (profilePix.isNull())
+        return;
+
     guideProfileImage->setPixmap(profilePix);
 }
 
