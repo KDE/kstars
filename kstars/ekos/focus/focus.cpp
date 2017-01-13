@@ -256,6 +256,8 @@ Focus::~Focus()
 {
     //qDeleteAll(HFRAbsolutePoints);
    // HFRAbsolutePoints.clear();
+   if (focusingWidget->parent() == NULL)
+       toggleFocusingWidgetFullScreen();
 }
 
 void Focus::resetFrame()
