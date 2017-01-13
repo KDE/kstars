@@ -59,7 +59,8 @@ bool VideoWG::newFrame(IBLOB *bp)
 
     if (rc)
     {
-        setPixmap(QPixmap::fromImage(streamImage->scaled(size(), Qt::KeepAspectRatio)));
+        kPix = QPixmap::fromImage(streamImage->scaled(size(), Qt::KeepAspectRatio));
+        setPixmap(kPix);
     }
 
     return rc;
