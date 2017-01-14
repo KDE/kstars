@@ -1944,8 +1944,12 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     QString fov_low,fov_high;
     QStringList solver_args;
 
-    // Default arguments
-    solver_args << "--no-verify" << "--no-plots" << "--resort" << "--no-fits2fits" << "--downsample" << "2" << "-O";
+    // If existing options have no-fits2fits then we use it, otherwise we discard it
+    // as no-fits2fits is only works for astrometry.net v0.67 or less
+    if (solverOptions->text().contains("no-fits2fits"))
+        solver_args << "--no-verify" << "--no-plots" << "--resort" << "--no-fits2fits" << "--downsample" << "2" << "-O";
+    else
+        solver_args << "--no-verify" << "--no-plots" << "--resort" << "--downsample" << "2" << "-O";
 
     if (fits_open_image(&fptr, filename.toLatin1(), READONLY, &status))
     {
