@@ -215,7 +215,7 @@ if(NOT BUILD_KSTARS_LITE)
         tools/avtplotwidget.cpp
         tools/calendarwidget.cpp
         tools/conjunctions.cpp
-        tools/jmoontool.cpp
+#        tools/jmoontool.cpp
         tools/ksconjunct.cpp
         tools/eqplotwidget.cpp
         tools/astrocalc.cpp
@@ -564,8 +564,8 @@ endif(NOT BUILD_KSTARS_LITE)
 set(kstars_skyobjects_SRCS
     skyobjects/constellationsart.cpp
     skyobjects/deepskyobject.cpp
-    skyobjects/jupitermoons.cpp
-    skyobjects/planetmoons.cpp
+#    skyobjects/jupitermoons.cpp
+#    skyobjects/planetmoons.cpp
     skyobjects/ksasteroid.cpp
     skyobjects/kscomet.cpp
     skyobjects/ksmoon.cpp

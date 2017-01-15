@@ -70,7 +70,7 @@ KStars *KStars::pinstance = 0;
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     : KXmlGuiWindow(), colorActionMenu(0), fovActionMenu(0), m_KStarsData(0), m_SkyMap(0), m_TimeStepBox(0),
       m_ExportImageDialog(0),  m_PrintingWizard(0), m_FindDialog(0), m_AstroCalc(0), m_AltVsTime(0), m_SkyCalendar(0), m_ScriptBuilder(0),
-      m_PlanetViewer(0), m_WUTDialog(0), m_JMoonTool(0), m_MoonPhaseTool(0), m_FlagManager(0), m_HorizonManager(0), m_EyepieceView(0),
+      m_PlanetViewer(0), m_WUTDialog(0), /*m_JMoonTool(0),*/ m_MoonPhaseTool(0), m_FlagManager(0), m_HorizonManager(0), m_EyepieceView(0),
       m_addDSODialog(0), m_WIView(0), m_ObsConditions(0), m_wiDock(0), DialogIsObsolete(false), StartClockRunning( clockrun ), StartDateString( startdate )
 {
     setWindowTitle(i18n("KStars"));
