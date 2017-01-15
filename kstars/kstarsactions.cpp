@@ -91,7 +91,7 @@
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
-#include "tools/jmoontool.h"
+//#include "tools/jmoontool.h"
 //FIXME Port to KF5
 //#include "tools/moonphasetool.h"
 #include "tools/flagmanager.h"
@@ -508,11 +508,12 @@ void KStars::slotSolarSystem() {
     if ( ! m_PlanetViewer ) m_PlanetViewer = new PlanetViewer(this);
     m_PlanetViewer->show();
 }
-
+/*
 void KStars::slotJMoonTool() {
     if ( ! m_JMoonTool ) m_JMoonTool = new JMoonTool(this);
     m_JMoonTool->show();
 }
+*/
 
 void KStars::slotMoonPhaseTool() {
     //FIXME Port to KF5

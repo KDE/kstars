@@ -24,7 +24,7 @@
 class KSPlanet;
 class KSSun;
 class KSMoon;
-class JupiterMoonsComponent;
+//class JupiterMoonsComponent;
 class AsteroidsComponent;
 class CometsComponent;
 class SkyLabeler;
@@ -71,7 +71,7 @@ private:
     KSPlanet *m_Earth;
     KSSun *m_Sun;
     KSMoon *m_Moon;
-    PlanetMoonsComponent *m_JupiterMoons;
+//    PlanetMoonsComponent *m_JupiterMoons;
     AsteroidsComponent *m_AsteroidsComponent;
     CometsComponent *m_CometsComponent;
     QList<SolarSystemSingleComponent *> m_planets;

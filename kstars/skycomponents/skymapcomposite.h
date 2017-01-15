@@ -111,7 +111,7 @@ public:
     	*@sa updatePlanets()
     	*@sa SolarSystemComposite::updateMoons()
     	*/
-    virtual void updateMoons( KSNumbers *num );
+//    virtual void updateMoons( KSNumbers *num );
 
     /**
     	*@short Delegate draw requests to all sub components
@@ -213,7 +213,7 @@ public:
     const QList<SkyObject*>& comets() const;
     const QList<SkyObject*>& supernovae() const;
     QList<SkyObject*> planets();
-    QList<SkyObject*> moons();
+//    QList<SkyObject*> moons();
 
     const QList<SkyObject*> *getSkyObjectsList(SkyObject::TYPE t);
 

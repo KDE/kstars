@@ -56,7 +56,7 @@ PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
     */
     Q_ASSERT( planet == KSPlanetBase::JUPITER );
     delete pmoons;
-    pmoons = new JupiterMoons();
+//    pmoons = new JupiterMoons();
     int nmoons = pmoons->nMoons();
     for ( int i=0; i<nmoons; ++i ) {
         objectNames(SkyObject::MOON).append( pmoons->name(i) );
