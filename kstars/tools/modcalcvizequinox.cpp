@@ -171,6 +171,18 @@ void modCalcEquinox::slotCompute()
     ce->addPoint( 366.0, 0.0 );
     Plot->addPlotObject( ce );
 
+    // Tropic of cancer
+    KPlotObject *tcan = new KPlotObject( data->colorScheme()->colorNamed( "EqColor" ), KPlotObject::Lines, 2.0 );
+    tcan->addPoint( 0.0, 23.5 );
+    tcan->addPoint( 366.0, 23.5 );
+    Plot->addPlotObject( tcan );
+
+    // Tropic of capricorn
+    KPlotObject *tcap = new KPlotObject( data->colorScheme()->colorNamed( "EqColor" ), KPlotObject::Lines, 2.0 );
+    tcap->addPoint( 0.0, -23.5 );
+    tcap->addPoint( 366.0, -23.5 );
+    Plot->addPlotObject( tcap );
+
     //Add Ecliptic.  This is more complicated than simply incrementing the
     //ecliptic longitude, because we want the x-axis to be time, not RA.
     //For each day in the year, compute the Sun's position.
