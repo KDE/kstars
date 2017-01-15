@@ -6573,15 +6573,17 @@ QVector<double> QCPAxisTickerText::createTickVector(double tickStep, const QCPRa
   QVector<double> result;
   if (mTicks.isEmpty())
     return result;
-  
-  QMap<double, QString>::const_iterator start = mTicks.lowerBound(range.lower);
-  QMap<double, QString>::const_iterator end = mTicks.upperBound(range.upper);
+
+  const QMap<double, QString> constTicks = mTicks;
+
+  QMap<double, QString>::const_iterator start = constTicks.lowerBound(range.lower);
+  QMap<double, QString>::const_iterator end = constTicks.upperBound(range.upper);
   // this method should try to give one tick outside of range so proper subticks can be generated:
   if (start != mTicks.constBegin()) --start;
   if (end != mTicks.constEnd()) ++end;
   for (QMap<double, QString>::const_iterator it = start; it != end; ++it)
     result.append(it.key());
-  
+
   return result;
 }
 /* end of 'src/axis/axistickertext.cpp' */
@@ -16007,7 +16009,7 @@ void QCPColorGradient::updateColorBuffer()
     for (int i=0; i<mLevelCount; ++i)
     {
       double position = i*indexToPosFactor;
-      QMap<double, QColor>::const_iterator it = mColorStops.lowerBound(position);
+      QMap<double, QColor>::const_iterator it = const_cast<const QMap<double, QColor> &>(mColorStops).lowerBound(position);
       if (it == mColorStops.constEnd()) // position is on or after last stop, use color of last stop
       {
         mColorBuffer[i] = (it-1).value().rgba();

@@ -3817,6 +3817,7 @@ Q_DECLARE_METATYPE(QCustomPlot::RefreshPriority)
 class QCP_LIB_DECL QCPPlottableInterface1D
 {
 public:
+  virtual ~QCPPlottableInterface1D() {}
   // introduced pure virtual methods:
   virtual int dataCount() const = 0;
   virtual double dataMainKey(int index) const = 0;
