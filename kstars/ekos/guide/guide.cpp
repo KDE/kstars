@@ -652,7 +652,7 @@ bool Guide::captureOneFrame()
 
 bool Guide::abort()
 {
-    if (guiderType == GUIDE_INTERNAL)
+    if (currentCCD && guiderType == GUIDE_INTERNAL)
     {
         pulseTimer.stop();
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
