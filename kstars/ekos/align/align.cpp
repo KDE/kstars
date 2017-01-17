@@ -678,6 +678,8 @@ bool Align::captureAndSolve()
        }
    }
 
+   currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+
    targetChip->resetFrame();
    targetChip->setBatchMode(false);
    targetChip->setCaptureMode(FITS_ALIGN);

@@ -855,6 +855,8 @@ void Focus::capture()
         currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
     }
 
+    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+
     targetChip->setBinning(activeBin, activeBin);
 
     targetChip->setCaptureMode(FITS_FOCUS);
@@ -2497,7 +2499,8 @@ void Focus::toggleFocusingWidgetFullScreen()
     else
     {
         focusingWidget->setParent(0);
-        focusingWidget->setWindowFlags(Qt::FramelessWindowHint);
+        focusingWidget->setWindowTitle(i18n("Focus Frame"));
+        focusingWidget->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
         focusingWidget->showMaximized();
         focusingWidget->show();
     }

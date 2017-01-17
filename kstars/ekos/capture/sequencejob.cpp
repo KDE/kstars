@@ -173,25 +173,29 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
             activeChip->setISOIndex(isoIndex);
    }
 
-   if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
+   // Only attempt to set ROI and Binning if CCD transfer format is FITS
+   if (activeCCD->getTransferFormat() == ISD::CCD::FORMAT_FITS)
    {
-        status = JOB_ERROR;
+       if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
+       {
+            status = JOB_ERROR;
 
-        if (preview == false && statusCell)
-            statusCell->setText(statusStrings[status]);
+            if (preview == false && statusCell)
+                statusCell->setText(statusStrings[status]);
 
-        return CAPTURE_FRAME_ERROR;
+            return CAPTURE_FRAME_ERROR;
 
-   }
+       }
 
-   if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
-   {
-       status = JOB_ERROR;
+       if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
+       {
+           status = JOB_ERROR;
 
-       if (preview == false && statusCell)
-           statusCell->setText(statusStrings[status]);
+           if (preview == false && statusCell)
+               statusCell->setText(statusStrings[status]);
 
-       return CAPTURE_BIN_ERROR;
+           return CAPTURE_BIN_ERROR;
+       }
    }
 
    activeChip->setFrameType(frameType);

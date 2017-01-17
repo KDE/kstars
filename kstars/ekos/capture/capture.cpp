@@ -1221,6 +1221,12 @@ void Capture::captureOne()
         return;
     }
 
+    if (currentCCD->getTransferFormat() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
+    {
+        appendLogText(i18n("Cannot perform auto dark substraction of native DSLR formats."));
+        return;
+    }
+
     addJob(true);
 
     prepareJob(jobs.last());
@@ -1269,6 +1275,13 @@ void Capture::captureImage()
         // If we have to calibrate ADU levels, first capture must be preview and not in batch mode
         if (activeJob->isPreview() == false && activeJob->getFlatFieldDuration() == DURATION_ADU && calibrationStage == CAL_PRECAPTURE_COMPLETE)
         {
+            if (currentCCD->getTransferFormat() == ISD::CCD::FORMAT_NATIVE)
+            {
+                appendLogText(i18n("Cannot calculate ADU levels in non-FITS images."));
+                abort();
+                return;
+            }
+
             calibrationStage = CAL_CALIBRATION;
             activeJob->setPreview(true);
         }
@@ -1297,6 +1310,9 @@ void Capture::captureImage()
 
         frameSettings[activeJob->getActiveChip()] = settings;
     }
+
+    // If using DSLR, make sure it is set to correct transfer format
+    currentCCD->setTransformFormat(Options::dSLRFormatFITS() ? ISD::CCD::FORMAT_FITS : ISD::CCD::FORMAT_NATIVE);
 
     rc = activeJob->capture(darkSubCheck->isChecked() ? true : false);
 
@@ -2129,9 +2145,9 @@ void Capture::setFocusStatus(FocusState state)
         if (focusHFR > 0 && firstAutoFocus && HFRPixels->value() == 0 && fileHFR == 0)
         {
            firstAutoFocus = false;
-           // Add 2.5% to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
+           // Add 2.5% (default) to the automatic initial HFR value to allow for minute changes in HFR without need to refocus
            // in case in-sequence-focusing is used.
-           HFRPixels->setValue(focusHFR + (focusHFR * 0.025));
+           HFRPixels->setValue(focusHFR + (focusHFR * (Options::hFRThresholdPercentage()/100.0)));
         }
     }
 

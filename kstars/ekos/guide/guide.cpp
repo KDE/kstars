@@ -641,6 +641,8 @@ bool Guide::captureOneFrame()
     }
 #endif
 
+    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
     if (Options::guideLogging())
         qDebug() << "Guide: Capturing frame...";
@@ -1304,6 +1306,7 @@ void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPStat
     if (expState == IPS_ALERT && ( (state == GUIDE_GUIDING) || (state == GUIDE_DITHERING) || (state == GUIDE_CALIBRATING)) )
     {
         appendLogText(i18n("Exposure failed. Restarting exposure..."));
+        currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
         targetChip->capture(exposureIN->value());
     }
 }
