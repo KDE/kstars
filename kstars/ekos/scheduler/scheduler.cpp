@@ -4879,7 +4879,7 @@ SequenceJob * Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
     XMLEle *ep;
     XMLEle *subEP;
 
-    const QMap<QString,int> frameTypes = { {"Light" , FRAME_LIGHT}, {"Dark", FRAME_DARK}, {"Bias", FRAME_BIAS}, {"Flat", FRAME_FLAT}};
+    const QMap<QString,CCDFrameType> frameTypes = { {"Light" , FRAME_LIGHT}, {"Dark", FRAME_DARK}, {"Bias", FRAME_BIAS}, {"Flat", FRAME_FLAT}};
 
     SequenceJob *job = new SequenceJob();
     QString rawPrefix, frameType, filterType;
@@ -4900,7 +4900,7 @@ SequenceJob * Scheduler::processJobInfo(XMLEle *root, SchedulerJob *schedJob)
         else if (!strcmp(tagXMLEle(ep), "Type"))
         {
             frameType = QString(pcdataXMLEle(ep));
-            job->setFrameType(frameTypes[frameType], frameType);
+            job->setFrameType(frameTypes[frameType]);
         }
         else if (!strcmp(tagXMLEle(ep), "Prefix"))
         {
