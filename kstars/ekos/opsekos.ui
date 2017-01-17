@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>504</width>
-    <height>416</height>
+    <width>509</width>
+    <height>414</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -94,201 +94,151 @@
    <attribute name="title">
     <string>Modules</string>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout_9">
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_6">
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_8">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_8">
-        <item>
-         <widget class="QGroupBox" name="groupBox_6">
-          <property name="title">
-           <string>Scheduler</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
+       <widget class="QGroupBox" name="groupBox_6">
+        <property name="title">
+         <string>Scheduler</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <item>
-              <widget class="QLabel" name="leadTimeLabel">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lead time is the minimum time in minutes between jobs. The scheduler starts execution of a job before its scheduled startup time by this lead time. Early execution is useful as focusing, alignment, and guiding procedures may take prolonged periods to time to complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Lead Time:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDoubleSpinBox" name="kcfg_LeadTime"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="preDawnLabel">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled or executed past this many minutes before dawn.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Pre-dawn</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDoubleSpinBox" name="kcfg_PreDawnTime"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_8">
-             <item>
-              <widget class="QCheckBox" name="kcfg_PreemptiveShutdown">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In case no scheduler job is scheduled for this many hours, perform a complete shutdown procedure and restart observatory operations once the next job is ready.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="text">
-                <string>Pre-emptive shutdown</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDoubleSpinBox" name="kcfg_PreemptiveShutdownTime">
-               <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pre-emptive shutdown hours&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="kcfg_StopEkosAfterShutdown">
+            <widget class="QLabel" name="leadTimeLabel">
              <property name="toolTip">
-              <string>After shutdown procedure is successfully executed, stop INDI and Ekos.</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lead time is the minimum time in minutes between jobs. The scheduler starts execution of a job before its scheduled startup time by this lead time. Early execution is useful as focusing, alignment, and guiding procedures may take prolonged periods to time to complete.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Stop Ekos After Shutdown</string>
+              <string>Lead Time:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="kcfg_ShutdownScriptTerminatesINDI">
+            <widget class="QDoubleSpinBox" name="kcfg_LeadTime"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="preDawnLabel">
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the shutdown script terminates INDI server, enable this option so that no disconnection errors are generated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not permit jobs to be scheduled or executed past this many minutes before dawn.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Shutdown Script Terminates INDI</string>
+              <string>Pre-dawn</string>
              </property>
             </widget>
            </item>
            <item>
-            <spacer name="verticalSpacer">
+            <widget class="QDoubleSpinBox" name="kcfg_PreDawnTime"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QCheckBox" name="kcfg_PreemptiveShutdown">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In case no scheduler job is scheduled for this many hours, perform a complete shutdown procedure and restart observatory operations once the next job is ready.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="text">
+              <string>Pre-emptive shutdown</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="kcfg_PreemptiveShutdownTime">
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pre-emptive shutdown hours&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="kcfg_StopEkosAfterShutdown">
+           <property name="toolTip">
+            <string>After shutdown procedure is successfully executed, stop INDI and Ekos.</string>
+           </property>
+           <property name="text">
+            <string>Stop Ekos After Shutdown</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="kcfg_ShutdownScriptTerminatesINDI">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the shutdown script terminates INDI server, enable this option so that no disconnection errors are generated.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>Shutdown Script Terminates INDI</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="title">
+         <string>Dark Library</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QLabel" name="label_6">
+             <property name="toolTip">
+              <string>Reuse dark frames from the dark library for this many days. If exceeded, a new dark frame shall be captured and stored for future use.</string>
+             </property>
+             <property name="text">
+              <string>Dark Validity</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="kcfg_DarkLibraryDuration">
+             <property name="maximum">
+              <number>365</number>
+             </property>
+             <property name="singleStep">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_3">
              <property name="orientation">
-              <enum>Qt::Vertical</enum>
+              <enum>Qt::Horizontal</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>20</width>
-               <height>40</height>
+               <width>40</width>
+               <height>20</height>
               </size>
              </property>
             </spacer>
            </item>
           </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_2">
-          <property name="title">
-           <string>Dark Library</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_12">
-             <item>
-              <widget class="QLabel" name="label_6">
-               <property name="toolTip">
-                <string>Reuse dark frames from the dark library for this many days. If exceeded, a new dark frame shall be captured and stored for future use.</string>
-               </property>
-               <property name="text">
-                <string>Dark Validity</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="kcfg_DarkLibraryDuration">
-               <property name="maximum">
-                <number>365</number>
-               </property>
-               <property name="singleStep">
-                <number>10</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
-              <widget class="QLabel" name="label_7">
-               <property name="toolTip">
-                <string>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</string>
-               </property>
-               <property name="text">
-                <string>Temperature Threshold:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QDoubleSpinBox" name="kcfg_MaxDarkTemperatureDiff">
-               <property name="minimum">
-                <double>0.100000000000000</double>
-               </property>
-               <property name="maximum">
-                <double>5.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.100000000000000</double>
-               </property>
-               <property name="value">
-                <double>0.100000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_8">
-               <property name="text">
-                <string>° C</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox_5">
-        <property name="title">
-         <string>Capture</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
+         </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
            <item>
-            <widget class="QLabel" name="label">
+            <widget class="QLabel" name="label_7">
              <property name="toolTip">
-              <string>Maximum acceptable difference between requested and measured temperature set point. When the temperature threshold is below this value, the temperature set point request is deemed successful.</string>
+              <string>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</string>
              </property>
              <property name="text">
               <string>Temperature Threshold:</string>
@@ -296,7 +246,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QDoubleSpinBox" name="kcfg_MaxTemperatureDiff">
+            <widget class="QDoubleSpinBox" name="kcfg_MaxDarkTemperatureDiff">
              <property name="minimum">
               <double>0.100000000000000</double>
              </property>
@@ -312,7 +262,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_3">
+            <widget class="QLabel" name="label_8">
              <property name="text">
               <string>° C</string>
              </property>
@@ -320,48 +270,142 @@
            </item>
           </layout>
          </item>
-         <item>
-          <widget class="QCheckBox" name="kcfg_RememberJobProgress">
-           <property name="toolTip">
-            <string>When loading a sequence file,  resume the sequence starting from the last captured image, if any.</string>
-           </property>
-           <property name="text">
-            <string>Remember Job Progress</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="kcfg_AutoFocusOnFilterChange">
-           <property name="toolTip">
-            <string>Perform Autofocus when changing filter wheels during exposure sequence.</string>
-           </property>
-           <property name="text">
-            <string>Autofocus on Filter Change</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
         </layout>
        </widget>
       </item>
      </layout>
     </item>
-    <item>
+    <item row="0" column="1">
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="title">
+       <string>Capture</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0" colspan="2">
+          <widget class="QLabel" name="label">
+           <property name="toolTip">
+            <string>Maximum acceptable difference between requested and measured temperature set point. When the temperature threshold is below this value, the temperature set point request is deemed successful.</string>
+           </property>
+           <property name="text">
+            <string>Temperature Threshold:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2" colspan="2">
+          <widget class="QDoubleSpinBox" name="kcfg_MaxTemperatureDiff">
+           <property name="minimum">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="maximum">
+            <double>5.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.100000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.100000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>° C</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="2">
+          <widget class="QLabel" name="label_5">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set HFR Threshold percentage gain. When an autofocus operation is completed, the autofocus HFR value is increased by this threshold percentage value and stored within the capture module. If In-Sequence-Focus is engaged, the autofocus module only performs autofocusing procedure if current HFR value exceeds the capture module HFR threshold. Increase value to permit more relaxed changes in HFR values without requiring a full autofocus run.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>HFR Threshold:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2" colspan="2">
+          <widget class="QDoubleSpinBox" name="kcfg_HFRThresholdPercentage">
+           <property name="maximum">
+            <double>50.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>%</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the format of captured DSLR images within the Capture Module.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>DSLR Format:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QRadioButton" name="kcfg_DSLRFormatFITS">
+           <property name="text">
+            <string>FITS</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2" colspan="3">
+          <widget class="QRadioButton" name="kcfg_DSLRFormatNative">
+           <property name="text">
+            <string>Native</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_RememberJobProgress">
+         <property name="toolTip">
+          <string>When loading a sequence file,  resume the sequence starting from the last captured image, if any.</string>
+         </property>
+         <property name="text">
+          <string>Remember Job Progress</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="kcfg_AutoFocusOnFilterChange">
+         <property name="toolTip">
+          <string>Perform Autofocus when changing filter wheels during exposure sequence.</string>
+         </property>
+         <property name="text">
+          <string>Autofocus on Filter Change</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="2">
      <widget class="QGroupBox" name="groupBox">
       <property name="title">
        <string>Astrometry.net</string>
@@ -556,7 +600,7 @@
       </layout>
      </widget>
     </item>
-    <item>
+    <item row="2" column="0" colspan="2">
      <spacer name="verticalSpacer_4">
       <property name="orientation">
        <enum>Qt::Vertical</enum>

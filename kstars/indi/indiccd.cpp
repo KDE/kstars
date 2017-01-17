@@ -796,6 +796,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
     guideChip   = NULL;
 
+    transferFormat = FORMAT_FITS;
 }
 
 CCD::~CCD()
@@ -871,6 +872,18 @@ void CCD::registerProperty(INDI::Property *prop)
     {
         // Can turn cooling on/off
         HasCoolerControl = true;
+    }
+    else if (!strcmp(prop->getName(), "CCD_TRANSFER_FORMAT"))
+    {
+        ISwitchVectorProperty *sp = prop->getSwitch();
+        if (sp)
+        {
+            ISwitch *format = IUFindSwitch(sp, "FORMAT_NATIVE");
+            if (format && format->s == ISS_ON)
+                transferFormat = FORMAT_NATIVE;
+            else
+                transferFormat = FORMAT_FITS;
+        }
     }
 
     DeviceDecorator::registerProperty(prop);
@@ -1019,6 +1032,18 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
 
 
         emit switchUpdated(svp);
+
+        return;
+    }
+
+    if (!strcmp(svp->name, "CCD_TRANSFER_FORMAT"))
+    {
+        ISwitch *format = IUFindSwitch(svp, "FORMAT_NATIVE");
+
+        if (format && format->s == ISS_ON)
+            transferFormat = FORMAT_NATIVE;
+        else
+            transferFormat = FORMAT_FITS;
 
         return;
     }
@@ -1807,6 +1832,31 @@ bool CCD::setTemperature(double value)
     np->value = value;
 
     clientManager->sendNewNumber(nvp);
+
+    return true;
+}
+
+bool CCD::setTransformFormat(CCD::TransferFormat format)
+{
+    if (format == transferFormat)
+        return true;
+
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("CCD_TRANSFER_FORMAT");
+    if (svp == NULL)
+        return false;
+
+    ISwitch *formatFITS   = IUFindSwitch(svp, "FORMAT_FITS");
+    ISwitch *formatNative = IUFindSwitch(svp, "FORMAT_NATIVE");
+
+    if (formatFITS  == NULL || formatNative == NULL)
+        return false;
+
+    transferFormat = format;
+
+    formatFITS->s   = (transferFormat == FORMAT_FITS) ? ISS_ON : ISS_OFF;
+    formatNative->s = (transferFormat == FORMAT_FITS) ? ISS_OFF : ISS_ON;
+
+    clientManager->sendNewSwitch(svp);
 
     return true;
 }

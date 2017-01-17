@@ -136,6 +136,7 @@ public:
     ~CCD();
 
     typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
+    typedef enum { FORMAT_FITS, FORMAT_NATIVE } TransferFormat;
     enum BlobType { BLOB_IMAGE, BLOB_FITS, BLOB_RAW, BLOB_OTHER} BType;
 
     void registerProperty(INDI::Property *prop);
@@ -158,11 +159,19 @@ public:
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
     void setNextSequenceID(int count) { nextSequenceID = count; }
     void setFilter(const QString & newFilter) { filter = newFilter;}
+
+    // Rapid Guide
     bool configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage=false, bool showMarker=false);
     bool setRapidGuide(CCDChip *targetChip, bool enable);
+
+    // Upload Settings
     void updateUploadSettings(const QString &remoteDir);
     UploadMode getUploadMode();
     bool setUploadMode(UploadMode mode);
+
+    // Transfer Format
+    TransferFormat getTransferFormat() { return transferFormat; }
+    bool setTransformFormat(CCD::TransferFormat format);
 
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
@@ -197,6 +206,7 @@ private:
     ISD::ST4 *ST4Driver;
     int normalTabID, calibrationTabID, focusTabID, guideTabID, alignTabID;
     CCDChip *primaryChip, *guideChip;
+    TransferFormat transferFormat;
 
     QPointer<FITSViewer> fv;
     QPointer<ImageViewer> imageViewer;

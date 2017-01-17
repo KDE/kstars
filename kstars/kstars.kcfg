@@ -1453,6 +1453,18 @@
          <label>When starting a new capture job, check if files were previously captured and resume capture afterwards.</label>
          <default>true</default>
       </entry>
+      <entry name="DSLRFormatFITS" type="Bool">
+         <label>Enforce FITS format when capturing from DSLR camera.</label>
+         <default>true</default>
+      </entry>
+      <entry name="DSLRFormatNative" type="Bool">
+         <label>Enforce native format when capturing from DSLR camera.</label>
+         <default>false</default>
+      </entry>
+      <entry name="HFRThresholdPercentage" type="Double">
+         <label>Increase autofocus HFR value by this percentage gain and store it in Capture Module.</label>
+         <default>2.5</default>
+      </entry>
       <entry name="DarkLibraryDuration" type="UInt">
          <label>Reuse dark frames from the dark library for this many days. If exceeded, a new dark frame shall be captured and stored for future use.</label>
          <default>30</default>
