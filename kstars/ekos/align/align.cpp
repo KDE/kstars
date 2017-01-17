@@ -185,7 +185,8 @@ Align::Align()
 
     connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setBinningIndex(int)));
 
-    appendLogText(i18n("Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));
+    if (solverOptions->text().contains("no-fits2fits"))
+        appendLogText(i18n("Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));
 }
 
 Align::~Align()
