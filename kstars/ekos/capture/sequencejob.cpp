@@ -34,7 +34,8 @@ SequenceJob::SequenceJob()
 {
     statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted") << i18n("Complete");
     status = JOB_IDLE;
-    exposure=count=delay=frameType=targetFilter=isoIndex=-1;
+    exposure=count=delay=targetFilter=isoIndex=-1;
+    frameType=FRAME_LIGHT;
     currentTemperature=targetTemperature=INVALID_TEMPERATURE;
     captureFilter=FITS_NONE;
     preview=false;
@@ -193,7 +194,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
        return CAPTURE_BIN_ERROR;
    }
 
-   activeChip->setFrameType(frameTypeName);
+   activeChip->setFrameType(frameType);
    activeChip->setCaptureMode(FITS_NORMAL);
 
    if (noCaptureFilter)
@@ -224,10 +225,9 @@ void SequenceJob::setTargetFilter(int pos, const QString & name)
     filter    = name;
 }
 
-void SequenceJob::setFrameType(int type, const QString & name)
+void SequenceJob::setFrameType(CCDFrameType type)
 {
     frameType = type;
-    frameTypeName = name;
 }
 
 double SequenceJob::getExposeLeft() const

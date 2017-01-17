@@ -1564,7 +1564,7 @@ void Capture::addJob(bool preview)
     constructPrefix(imagePrefix);
 
     job->setPrefixSettings(prefixIN->text(), filterCheck->isChecked(), expDurationCheck->isChecked(), ISOCheck->isChecked());
-    job->setFrameType(frameTypeCombo->currentIndex(), frameTypeCombo->currentText());
+    job->setFrameType(static_cast<CCDFrameType>(frameTypeCombo->currentIndex()));
     job->setFullPrefix(imagePrefix);
 
     if (filterSlot != NULL && currentFilter != NULL)
@@ -2576,6 +2576,7 @@ bool Capture::saveSequenceQueue(const QString &path)
     QFile file;
     QString rawPrefix;
     bool filterEnabled, expEnabled, tsEnabled;
+    const QMap<QString,CCDFrameType> frameTypes = { {"Light" , FRAME_LIGHT}, {"Dark", FRAME_DARK}, {"Bias", FRAME_BIAS}, {"Flat", FRAME_FLAT}};
 
     file.setFileName(path);
 
@@ -2615,7 +2616,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         if (job->getTargetFilter() >= 0)
             //outstream << "<Filter>" << job->getTargetFilter() << "</Filter>" << endl;
             outstream << "<Filter>" << job->getFilterName() << "</Filter>" << endl;
-        outstream << "<Type>" << frameTypeCombo->itemText(job->getFrameType()) << "</Type>" << endl;
+        outstream << "<Type>" << frameTypes.key(job->getFrameType()) << "</Type>" << endl;
         outstream << "<Prefix>" << endl;
             //outstream << "<CompletePrefix>" << job->getPrefix() << "</CompletePrefix>" << endl;
             outstream << "<RawPrefix>" << rawPrefix << "</RawPrefix>" << endl;

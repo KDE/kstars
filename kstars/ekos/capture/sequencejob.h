@@ -70,8 +70,8 @@ class SequenceJob : public QObject
 
     const QString &getFilterName() { return filter; }
 
-    void setFrameType(int type, const QString & name);
-    int getFrameType() { return frameType;}
+    void setFrameType(CCDFrameType type);
+    CCDFrameType getFrameType() { return frameType;}
 
     void setCaptureFilter(FITSScale capFilter) { captureFilter = capFilter; }
     FITSScale getCaptureFilter() { return captureFilter;}
@@ -166,8 +166,7 @@ private:
     ISD::GDInterface *activeFilter;
 
     double exposure;
-    int frameType;
-    QString frameTypeName;
+    CCDFrameType frameType;
     int targetFilter;
     int currentFilter;
 
