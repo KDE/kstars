@@ -155,8 +155,10 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     loadProfiles();
 
     // INDI Control Panel and Ekos Options
-    controlPanelB->setIcon(QIcon::fromTheme("kstars_indi", QIcon(":/icons/indi.png")));
+    controlPanelB->setIcon(QIcon::fromTheme("kstars_indi", QIcon(":/icons/breeze/default/kstars_indi.svg")));
+    controlPanelB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     optionsB->setIcon(QIcon::fromTheme("configure", QIcon(":/icons/ekos_setup.png")));
+    optionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     // Setup Tab
     toolsWidget->tabBar()->setTabIcon(0, QIcon(":/icons/ekos_setup.png"));

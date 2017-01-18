@@ -237,6 +237,17 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     sb->UpButton->setIcon( QIcon::fromTheme( "go-up" , QIcon(":/icons/breeze/default/go-up.svg")) );
     sb->DownButton->setIcon( QIcon::fromTheme( "go-down" , QIcon(":/icons/breeze/default/go-down.svg")) );
 
+    sb->NewButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    sb->OpenButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    sb->SaveButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    sb->SaveAsButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    sb->RunButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    sb->CopyButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    sb->AddButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    sb->RemoveButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    sb->UpButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    sb->DownButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
     //Prepare the widget stack
     argBlank = new QWidget();
     argLookToward = new ArgLookToward( sb->ArgStack );
