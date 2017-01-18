@@ -1224,7 +1224,7 @@ void Capture::captureOne()
 
     if (currentCCD->getTransferFormat() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
     {
-        appendLogText(i18n("Cannot perform auto dark substraction of native DSLR formats."));
+        appendLogText(i18n("Cannot perform auto dark subtraction of native DSLR formats."));
         return;
     }
 
