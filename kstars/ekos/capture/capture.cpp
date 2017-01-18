@@ -133,6 +133,7 @@ Capture::Capture()
 
     filterOffsetB->setIcon(QIcon::fromTheme("view-filter", QIcon(":/icons/breeze/default/view-filter.svg") ));
     connect(filterOffsetB, SIGNAL(clicked()), this, SLOT(showFilterOffsetDialog()));
+    filterOffsetB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     connect(binXIN, SIGNAL(valueChanged(int)), binYIN, SLOT(setValue(int)));
 
