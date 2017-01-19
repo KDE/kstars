@@ -1513,6 +1513,8 @@ void KStars::slotAboutToQuit()
     quit->waitForFinished(1000);
     quit->start("killall kioslave");
     quit->waitForFinished(1000);
+    quit->start("killall kio_http_cache_cleaner");
+    quit->waitForFinished(1000);
     delete quit;
 #endif
 

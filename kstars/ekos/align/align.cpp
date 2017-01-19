@@ -122,7 +122,9 @@ Align::Align()
     gotoModeButtonGroup->button(currentGotoMode)->setChecked(true);
 
     syncBoxesB->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
+    syncBoxesB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     clearBoxesB->setIcon(QIcon::fromTheme("edit-clear", QIcon(":/icons/breeze/default/edit-clear.svg")));
+    clearBoxesB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     raBox->setDegType(false); //RA box should be HMS-style
 
