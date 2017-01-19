@@ -124,7 +124,7 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
             Year->setValue( year );
 
             //Write to output file
-            ostream << 
+            ostream <<
                 QLocale().toString( dSpring.date(), QLocale::LongFormat ) << "\t"
             << QLocale().toString( dSummer.date(), QLocale::LongFormat ) << "\t"
             << QLocale().toString( dAutumn.date(), QLocale::LongFormat ) << "\t"

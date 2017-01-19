@@ -718,22 +718,22 @@ void KStars::slotViewOps() {
     opadvanced   = new OpsAdvanced();
 
     KPageWidgetItem *page;
-    
+
     page = dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
     page->setIcon(QIcon::fromTheme("kstars_catalog", QIcon(":/icons/breeze/default/kstars_catalog.svg")));
-                         
+
     page = dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
     page->setIcon(QIcon::fromTheme("kstars_solarsystem", QIcon(":/icons/breeze/default/kstars_solarsystem.svg")));
-    
+
     page = dialog->addPage(opssatellites, i18n("Satellites"), "kstars_satellites");
     page->setIcon(QIcon::fromTheme("kstars_satellites", QIcon(":/icons/breeze/default/kstars_satellites.svg")));
-    
+
     page = dialog->addPage(opssupernovae, i18n("Supernovae"), "kstars_supernovae");
     page->setIcon(QIcon::fromTheme("kstars_supernovae", QIcon(":/icons/breeze/default/kstars_supernovae.svg")));
-    
+
     page = dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
     page->setIcon(QIcon::fromTheme("kstars_guides", QIcon(":/icons/breeze/default/kstars_guides.svg")));
-    
+
     page = dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
     page->setIcon(QIcon::fromTheme("kstars_colors", QIcon(":/icons/breeze/default/kstars_colors.svg")));
 
@@ -766,7 +766,7 @@ void KStars::slotViewOps() {
 
 void KStars::slotApplyConfigChanges()
 {
-    Options::self()->save();    
+    Options::self()->save();
 
     applyConfig();
 
