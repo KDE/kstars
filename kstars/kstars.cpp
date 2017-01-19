@@ -80,10 +80,6 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     //Note:  You need to make sure the environment variables for KStars are set correctly to get this running properly.
 #ifdef Q_OS_OSX
     QProcess* klauncher = new QProcess(this);
-   // QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-   // QString stringPath = QCoreApplication::applicationDirPath();
-   // env.insert("QT_PLUGIN_PATH", stringPath + "/../plugins");
-   // klauncher->setProcessEnvironment(env);
     klauncher->start("kdeinit5");
 #endif
 

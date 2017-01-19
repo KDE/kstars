@@ -218,9 +218,13 @@ ObservingList::ObservingList()
              this, SLOT( slotOALExport() ) );
     //Add icons to Push Buttons
     ui->OpenButton->setIcon( QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")) );
+    ui->OpenButton ->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ui->SaveButton->setIcon( QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")) );
+    ui->SaveButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ui->SaveAsButton->setIcon( QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg")) );
+    ui->SaveAsButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ui->WizardButton->setIcon( QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg")) );
+    ui->WizardButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     ui->MiniButton->setIcon( QIcon::fromTheme("view-restore", QIcon(":/icons/breeze/default/view-restore.svg")) );
     noSelection = true;
     showScope = false;
