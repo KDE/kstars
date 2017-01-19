@@ -29,8 +29,8 @@
 #else
 #include "skymap.h"
 #endif
-#include "skyobjects/skypoint.h" 
-#include "skyobjects/trailobject.h" 
+#include "skyobjects/skypoint.h"
+#include "skyobjects/trailobject.h"
 #include "dms.h"
 #include "Options.h"
 #include "solarsystemsinglecomponent.h"
@@ -89,10 +89,10 @@ void PlanetMoonsComponent::updateMoons( KSNumbers *num )
 
 SkyObject* PlanetMoonsComponent::findByName( const QString &name ) {
     int nmoons = pmoons->nMoons();
-    
+
     for ( int i=0; i<nmoons; ++i ) {
         TrailObject *moon = pmoons->moon(i);
-        if ( QString::compare( moon->name(), name, Qt::CaseInsensitive ) == 0 || 
+        if ( QString::compare( moon->name(), name, Qt::CaseInsensitive ) == 0 ||
             QString::compare( moon->longname(), name, Qt::CaseInsensitive ) == 0 ||
             QString::compare( moon->name2(), name, Qt::CaseInsensitive ) == 0 )
             return moon;
@@ -107,10 +107,10 @@ KSPlanetBase* PlanetMoonsComponent::getPlanet() const {
 }
 #endif
 
-SkyObject* PlanetMoonsComponent::objectNearest( SkyPoint *p, double &maxrad ) { 
+SkyObject* PlanetMoonsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
     SkyObject *oBest = 0;
     int nmoons = pmoons->nMoons();
-    
+
     if (Options::zoomFactor() < 3000)
         return NULL;
 
@@ -129,13 +129,13 @@ void PlanetMoonsComponent::draw( SkyPainter *skyp )
 {
     if( !(planet == KSPlanetBase::JUPITER && Options::showJupiter() ) )
         return;
-    
+
     //In order to get the z-order right for the moons and the planet,
     //we need to first draw the moons that are further away than the planet,
     //then re-draw the planet, then draw the moons nearer than the planet.
     QList<TrailObject*> frontMoons;
     int nmoons = pmoons->nMoons();
-    
+
     for ( int i=0; i<nmoons; ++i ) {
         if ( pmoons->z(i) < 0.0 ) { //Moon is nearer than the planet
             frontMoons.append( pmoons->moon(i) );

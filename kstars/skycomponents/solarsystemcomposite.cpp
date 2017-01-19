@@ -141,7 +141,7 @@ void SolarSystemComposite::updateSolarSystemBodies( KSNumbers *num )
 void SolarSystemComposite::updateMoons( KSNumbers *num )
 {
 	//    if ( ! selected() ) return;
-    KStarsData *data = KStarsData::Instance(); 
+    KStarsData *data = KStarsData::Instance();
     m_Sun->findPosition( num );
     m_Moon->findPosition( num, data->geo()->lat(), data->lst() );
     m_Moon->findPhase(0);
