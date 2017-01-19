@@ -72,7 +72,7 @@ public:
 
     void appendLogText(const QString &);
     //void refreshRemoteDrivers();
-    void setOptionsWidget(KPageWidgetItem *ops) { ekosOption = ops; }
+    void setOptionsWidget(KPageWidgetItem *ops) { ekosOptionsWidget = ops; }
     void addObjectToScheduler(SkyObject *object);
 
     Ekos::Capture *captureModule() { return captureProcess;}
@@ -153,6 +153,8 @@ public slots:
 private slots:
 
     void changeAlwaysOnTop(Qt::ApplicationState state);
+
+    void showEkosOptions();
 
     void updateLog();
     void clearLog();
@@ -260,7 +262,7 @@ private slots:
     //QAtomicInt nConnectedDevices;
 
     QStringList logText;
-    KPageWidgetItem *ekosOption;
+    KPageWidgetItem *ekosOptionsWidget;
     CommunicationStatus ekosStartingStatus, indiConnectionStatus;
 
     QStandardItemModel *profileModel;

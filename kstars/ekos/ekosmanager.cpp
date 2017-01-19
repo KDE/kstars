@@ -20,6 +20,7 @@
 #include "ekosmanager.h"
 
 #include "Options.h"
+#include "opsekos.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "auxiliary/ksuserdb.h"
@@ -90,7 +91,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     weatherProcess = NULL;
     dustCapProcess = NULL;
 
-    ekosOption     = NULL;
+    ekosOptionsWidget     = NULL;
 
     focusStarPixmap=guideStarPixmap=NULL;
 
@@ -123,6 +124,8 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     // INDI Control Panel
     connect(controlPanelB, SIGNAL(clicked()), GUIManager::Instance(), SLOT(show()));
     connect(optionsB, SIGNAL(clicked()), KStars::Instance(), SLOT(slotViewOps()));
+    // Save as above, but it appears in all modules
+    connect(ekosOptionsB, SIGNAL(clicked()), SLOT(showEkosOptions()));
 
     // Clear Ekos Log
     connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
@@ -2051,4 +2054,16 @@ void EkosManager::updateGuideProfilePixmap(QPixmap & profilePix)
 void EkosManager::setTarget(SkyObject *o)
 {
     mountTarget->setText(o->name());
+}
+
+void EkosManager::showEkosOptions()
+{
+    if (ekosOptionsWidget == NULL)
+        optionsB->click();
+
+    if (ekosOptionsWidget && KConfigDialog::showDialog( "settings" ))
+    {
+        KConfigDialog *cDialog = KConfigDialog::exists("settings");
+        cDialog->setCurrentPage(ekosOptionsWidget);
+    }
 }
