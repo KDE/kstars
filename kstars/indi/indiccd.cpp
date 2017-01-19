@@ -786,6 +786,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     HasGuideHead = false;
     HasCooler    = false;
     HasCoolerControl = false;
+    HasVideoStream = false;
     fv          = NULL;
     streamWindow      = NULL;
     ST4Driver = NULL;
@@ -872,6 +873,11 @@ void CCD::registerProperty(INDI::Property *prop)
     {
         // Can turn cooling on/off
         HasCoolerControl = true;
+    }
+    else if (!strcmp(prop->getName(), "CCD_VIDEO_STREAM"))
+    {
+        // Has Video Stream
+        HasVideoStream = true;
     }
     else if (!strcmp(prop->getName(), "CCD_TRANSFER_FORMAT"))
     {
@@ -991,10 +997,13 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     {
         // Can turn cooling on/off
         HasCoolerControl = true;
+        return;
     }
 
     if (!strcmp(svp->name, "CCD_VIDEO_STREAM") || !strcmp(svp->name, "VIDEO_STREAM"))
     {
+        HasVideoStream = true;
+
         if (streamWindow == NULL && svp->sp[0].s == ISS_ON)
         {
             streamWindow = new StreamWG();
@@ -1024,12 +1033,9 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         {
             connect(streamWindow, SIGNAL(hidden()), this, SLOT(StreamWindowHidden()), Qt::UniqueConnection);
 
-            if (svp->sp[0].s == ISS_ON)
-                streamWindow->enableStream(true);
-            else
-                streamWindow->enableStream(false);
+            streamWindow->enableStream(svp->sp[0].s == ISS_ON);
+            emit videoStreamToggled(svp->sp[0].s == ISS_ON);
         }
-
 
         emit switchUpdated(svp);
 
@@ -1055,6 +1061,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         if (dSwitch && dSwitch->s == ISS_ON && streamWindow != NULL)
         {
             streamWindow->enableStream(false);
+            emit videoStreamToggled(false);
             streamWindow->close();
             delete(streamWindow);
             streamWindow = NULL;
@@ -1855,6 +1862,27 @@ bool CCD::setTransformFormat(CCD::TransferFormat format)
 
     formatFITS->s   = (transferFormat == FORMAT_FITS) ? ISS_ON : ISS_OFF;
     formatNative->s = (transferFormat == FORMAT_FITS) ? ISS_OFF : ISS_ON;
+
+    clientManager->sendNewSwitch(svp);
+
+    return true;
+}
+
+bool CCD::setVideoStreamEnabled(bool enable)
+{
+    if (HasVideoStream == false)
+        return false;
+
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("CCD_VIDEO_STREAM");
+    if (svp == NULL)
+        return false;
+
+    // If already on and enable is set or vice versa no need to change anything we return true
+    if ( (enable && svp->sp[0].s == ISS_ON) || (!enable && svp->sp[1].s == ISS_ON))
+         return true;
+
+    svp->sp[0].s = enable ? ISS_ON : ISS_OFF;
+    svp->sp[1].s = enable ? ISS_OFF : ISS_ON;
 
     clientManager->sendNewSwitch(svp);
 

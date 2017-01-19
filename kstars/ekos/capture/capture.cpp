@@ -140,6 +140,8 @@ Capture::Capture()
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
     connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
 
+    connect(liveVideoB, SIGNAL(clicked(bool)), this, SLOT(toggleVideoStream(bool)));
+
     guideDeviationTimer.setInterval(GD_TIMER_TIMEOUT);
     connect(&guideDeviationTimer, SIGNAL(timeout()), this, SLOT(checkGuideDeviationTimeout()));
 
@@ -513,6 +515,7 @@ void Capture::checkCCD(int ccdNum)
         disconnect(ccd, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)));
         disconnect(ccd, SIGNAL(newTemperatureValue(double)), this, SLOT(updateCCDTemperature(double)));
         disconnect(ccd, SIGNAL(newRemoteFile(QString)), this, SLOT(setNewRemoteFile(QString)));
+        disconnect(ccd, SIGNAL(videoStreamToggled(bool)), this, SLOT(setVideoStreamEnabled(bool)));
     }
 
     if (ccdNum <= CCDs.count())
@@ -603,9 +606,12 @@ void Capture::checkCCD(int ccdNum)
             ISOCombo->setCurrentIndex(targetChip->getISOIndex());
         }
 
+        liveVideoB->setEnabled(currentCCD->hasVideoStream());
+
         connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(newTemperatureValue(double)), this, SLOT(updateCCDTemperature(double)), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(newRemoteFile(QString)), this, SLOT(setNewRemoteFile(QString)));
+        connect(currentCCD, SIGNAL(videoStreamToggled(bool)), this, SLOT(setVideoStreamEnabled(bool)));
     }
 }
 
@@ -4061,6 +4067,28 @@ void Capture::showFilterOffsetDialog()
             }
 
         }
+    }
+}
+
+void Capture::toggleVideoStream(bool enable)
+{
+    if (currentCCD == NULL)
+        return;
+
+    currentCCD->setVideoStreamEnabled(enable);
+}
+
+void Capture::setVideoStreamEnabled(bool enabled)
+{
+    if (enabled)
+    {
+        liveVideoB->setChecked(true);
+        liveVideoB->setStyleSheet("color:red;");
+    }
+    else
+    {
+        liveVideoB->setChecked(false);
+        liveVideoB->setStyleSheet(QString());
     }
 }
 

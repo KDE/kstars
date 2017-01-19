@@ -380,8 +380,6 @@ public slots:
     void setFocusStatus(Ekos::FocusState state);
     void setHFR(double newHFR) { focusHFR = newHFR; }
 
-
-
     // Guide
     void setGuideStatus(Ekos::GuideState state);
     // Align
@@ -443,6 +441,10 @@ private slots:
 
     // Filter focus offset
     void showFilterOffsetDialog();
+
+    // Live Video Preview
+    void toggleVideoStream(bool enable);
+    void setVideoStreamEnabled(bool enabled);
 
 signals:
         void newLog();

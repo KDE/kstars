@@ -150,6 +150,7 @@ public:
     bool hasGuideHead();
     bool hasCooler();
     bool hasCoolerControl();
+    bool hasVideoStream() { return HasVideoStream; }
     bool setCoolerControl(bool enable);
 
     // Utitlity functions
@@ -173,6 +174,9 @@ public:
     TransferFormat getTransferFormat() { return transferFormat; }
     bool setTransformFormat(CCD::TransferFormat format);
 
+    // Video Stream
+    bool setVideoStreamEnabled(bool enable);
+
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
     void setFITSDir(const QString &dir) { fitsDir = dir;}
@@ -188,6 +192,7 @@ signals:
     void newGuideStarData(ISD::CCDChip *chip, double dx, double dy, double fit);
     void newRemoteFile(QString);
     void newImage(QImage *image, ISD::CCDChip *targetChip);
+    void videoStreamToggled(bool enabled);
 
 private:
     void addFITSKeywords(QString filename);
@@ -197,6 +202,7 @@ private:
     bool HasGuideHead;
     bool HasCooler;
     bool HasCoolerControl;
+    bool HasVideoStream;
     QString		seqPrefix;
     QString     fitsDir;
     char BLOBFilename[MAXINDIFILENAME];
