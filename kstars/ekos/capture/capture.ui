@@ -1258,6 +1258,28 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="liveVideoB">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Live Video</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="buttonSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -1775,23 +1797,33 @@
  <tabstops>
   <tabstop>CCDCaptureCombo</tabstop>
   <tabstop>FilterCaptureCombo</tabstop>
-  <tabstop>FilterPosCombo</tabstop>
+  <tabstop>filterOffsetB</tabstop>
+  <tabstop>temperatureCheck</tabstop>
+  <tabstop>temperatureIN</tabstop>
+  <tabstop>setTemperatureB</tabstop>
   <tabstop>exposureIN</tabstop>
-  <tabstop>binXIN</tabstop>
-  <tabstop>binYIN</tabstop>
+  <tabstop>FilterPosCombo</tabstop>
   <tabstop>countIN</tabstop>
   <tabstop>delayIN</tabstop>
   <tabstop>frameTypeCombo</tabstop>
+  <tabstop>calibrationB</tabstop>
   <tabstop>frameXIN</tabstop>
   <tabstop>frameYIN</tabstop>
+  <tabstop>resetFrameB</tabstop>
   <tabstop>frameWIN</tabstop>
   <tabstop>frameHIN</tabstop>
-  <tabstop>temperatureCheck</tabstop>
-  <tabstop>temperatureIN</tabstop>
+  <tabstop>binXIN</tabstop>
+  <tabstop>binYIN</tabstop>
+  <tabstop>ISOCombo</tabstop>
   <tabstop>prefixIN</tabstop>
   <tabstop>filterCheck</tabstop>
   <tabstop>expDurationCheck</tabstop>
   <tabstop>ISOCheck</tabstop>
+  <tabstop>postCaptureScriptIN</tabstop>
+  <tabstop>fitsDir</tabstop>
+  <tabstop>selectFITSDirB</tabstop>
+  <tabstop>uploadModeCombo</tabstop>
+  <tabstop>remoteDirIN</tabstop>
   <tabstop>addToQueueB</tabstop>
   <tabstop>removeFromQueueB</tabstop>
   <tabstop>queueUpB</tabstop>
@@ -1802,11 +1834,17 @@
   <tabstop>queueSaveAsB</tabstop>
   <tabstop>queueTable</tabstop>
   <tabstop>previewB</tabstop>
+  <tabstop>liveVideoB</tabstop>
   <tabstop>startB</tabstop>
   <tabstop>pauseB</tabstop>
   <tabstop>guideDeviationCheck</tabstop>
+  <tabstop>guideDeviation</tabstop>
   <tabstop>autofocusCheck</tabstop>
+  <tabstop>HFRPixels</tabstop>
   <tabstop>meridianCheck</tabstop>
+  <tabstop>meridianHours</tabstop>
+  <tabstop>darkSubCheck</tabstop>
+  <tabstop>filterCombo</tabstop>
  </tabstops>
  <resources/>
  <connections/>
