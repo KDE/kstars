@@ -500,7 +500,8 @@ void Align::generateArgs()
     }
     else
     {
-        solver_args = solverOptions->text().split(" ");
+        QString options = solverOptions->text().simplified();
+        solver_args = options.split(" ");
         int fov_low_index = solver_args.indexOf("-L");
         if (fov_low_index != -1)
             solver_args.replace(fov_low_index+1, fov_low);
@@ -793,8 +794,10 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     QStringList solverArgs;
     double ra,dec;
 
+    QString options = solverOptions->text().simplified();
+
     if (isGenerated)
-        solverArgs = solverOptions->text().split(" ");
+        solverArgs = options.split(" ");
     else if (filename.endsWith("fits") || filename.endsWith("fit"))
     {
         solverArgs = getSolverOptionsFromFITS(filename);
@@ -809,7 +812,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         if (rc == KMessageBox::Yes)
             solverArgs << "--no-verify" << "--no-plots" << "--resort" << "--no-fits2fits" << "--downsample" << "2" << "-O";
         else if (rc == KMessageBox::No)
-            solverArgs = solverOptions->text().split(" ");
+            solverArgs = options.split(" ");
         else
         {
             abort();
