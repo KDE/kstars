@@ -997,6 +997,11 @@ bool Guide::calibrate()
 
     executeOperationStack();
 
+    if (Options::guideLogging())
+    {
+        qDebug() << "Guide: Starting calibration via " << ST4Combo->currentText();
+    }
+
     return true;
 }
 

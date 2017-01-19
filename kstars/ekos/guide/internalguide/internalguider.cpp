@@ -372,7 +372,7 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
         emit newPulse( RA_INC_DIR, pulseDuration );
 
         if (Options::guideLogging())
-            qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+            qDebug() << "Guide: Iteration " << iterations << " Direction: RA_INC_DIR" << " Duration: " << pulseDuration << " ms.";
 
         iterations++;
 
@@ -389,7 +389,7 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
             double cur_x, cur_y;
             pmath->getStarScreenPosition( &cur_x, &cur_y );
             qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
-            qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+            qDebug() << "Guide: Iteration " << iterations << " Direction: RA_INC_DIR" << " Duration: " << pulseDuration << " ms.";
         }
 
         iterations++;
@@ -446,7 +446,7 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
                     double cur_x, cur_y;
                     pmath->getStarScreenPosition( &cur_x, &cur_y );
                     qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
-                    qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                    qDebug() << "Guide: Iteration " << iterations << " Direction: RA_DEC_DIR" << " Duration: " << pulseDuration << " ms.";
                 }
 
                 iterations++;
@@ -481,7 +481,7 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
                 double cur_x, cur_y;
                 pmath->getStarScreenPosition( &cur_x, &cur_y );
                 qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
-                qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_INC_DIR" << " Duration: " << pulseDuration << " ms.";
             }
 
             iterations++;
@@ -527,7 +527,7 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
             double cur_x, cur_y;
             pmath->getStarScreenPosition( &cur_x, &cur_y );
             qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
-            qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+            qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_INC_DIR" << " Duration: " << pulseDuration << " ms.";
         }
 
         iterations++;
@@ -589,7 +589,7 @@ void InternalGuider::calibrateRADECRecticle( bool ra_only )
                     double cur_x, cur_y;
                     pmath->getStarScreenPosition( &cur_x, &cur_y );
                     qDebug() << "Guide: Iteration #" << iterations-1 << ": STAR " << cur_x << "," << cur_y;
-                    qDebug() << "Guide: Iteration " << iterations << " Direction: " << RA_INC_DIR << " Duration: " << pulseDuration << " ms.";
+                    qDebug() << "Guide: Iteration " << iterations << " Direction: DEC_DEC_DIR" << " Duration: " << pulseDuration << " ms.";
                 }
 
                 iterations++;
