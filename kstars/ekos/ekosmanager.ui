@@ -2356,6 +2356,16 @@
         </spacer>
        </item>
        <item>
+        <widget class="QPushButton" name="ekosOptionsB">
+         <property name="toolTip">
+          <string>Advanced Ekos Options</string>
+         </property>
+         <property name="text">
+          <string>Options...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="clearB">
          <property name="text">
           <string>Clear</string>
