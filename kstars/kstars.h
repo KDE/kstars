@@ -473,7 +473,10 @@ public Q_SLOTS:
     /** Show the add deep-sky object dialog */
     void slotAddDeepSkyObject();
 
+    /** action slot: open KStars setup wizard */
+    void slotWizard();
 
+    void updateLocationFromWizard(GeoLocation geo);
 private slots:
     /** action slot: open a dialog for setting the time and date */
     void slotSetTime();
@@ -489,9 +492,6 @@ private slots:
 
     /** action slot: open dialog for finding a named object */
     void slotFind();
-
-    /** action slot: open KStars setup wizard */
-    void slotWizard();
 
     /** action slot: open KNewStuff window to download extra data. */
     void slotDownload();

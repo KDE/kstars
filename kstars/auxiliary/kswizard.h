@@ -19,10 +19,13 @@
 #define KSWIZARD_H_
 
 #include <QDialog>
+#include <QDialogButtonBox>
 
 #include "ui_wizwelcome.h"
 #include "ui_wizlocation.h"
 #include "ui_wizdownload.h"
+#include "ui_wizdata.h"
+#include "ui_wizastrometry.h"
 
 class GeoLocation;
 class QStackedWidget;
@@ -37,6 +40,18 @@ class WizLocationUI : public QFrame, public Ui::WizLocation {
     Q_OBJECT
 public:
     explicit WizLocationUI( QWidget *parent=0 );
+};
+
+class WizDataUI : public QFrame, public Ui::WizData {
+    Q_OBJECT
+public:
+    explicit WizDataUI( QWidget *parent=0 );
+};
+
+class WizAstrometryUI : public QFrame, public Ui::WizAstrometry {
+    Q_OBJECT
+public:
+    explicit WizAstrometryUI( QWidget *parent=0 );
 };
 
 class WizDownloadUI : public QFrame, public Ui::WizDownload {
@@ -84,7 +99,25 @@ private slots:
      */
     void slotFilterCities();
 
-    void slotDownload();
+    void slotDownload();    
+
+    void finishWizard();
+
+    #ifdef Q_OS_OSX
+    void slotOpenOrCreateAstrometryFolder();
+
+    void slotInstallPip();
+
+    void slotInstallPyfits();
+
+    void slotInstallNetpbm();
+
+    void updateAstrometryButtons();
+
+    void updateDataButtons();
+
+    void copyKStarsDataDirectory();
+    #endif
 
 private:
     /** @short Initialize the geographic location page.
@@ -97,10 +130,30 @@ private:
 
     QStackedWidget *wizardStack;
     WizLocationUI  *location;
+    WizDataUI* data;
+    WizAstrometryUI* astrometry;
     QPushButton *nextB,*backB;
+    QDialogButtonBox *buttonBox;
+
 
     GeoLocation *Geo;
     QList<GeoLocation*> filteredCityList;
+
+    #ifdef Q_OS_OSX
+    bool brewExists();
+
+    bool pythonExists();
+
+    bool pipExists();
+
+    bool pyfitsExists();
+
+    bool netpbmExists();
+
+    bool dataDirExists();
+    bool astrometryDirExists();
+    #endif
+
 };
 
 #endif
