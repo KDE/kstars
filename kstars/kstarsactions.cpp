@@ -303,36 +303,38 @@ void KStars::slotWizard() {
     QPointer<KSWizard> wizard = new KSWizard(this);
     if ( wizard->exec() == QDialog::Accepted ) {
         Options::setRunStartupWizard( false );  //don't run on startup next time
-
-        data()->setLocation( *(wizard->geo()) );
-
-        // adjust local time to keep UT the same.
-        // create new LT without DST offset
-        KStarsDateTime ltime = data()->geo()->UTtoLT( data()->ut() );
-
-        // reset timezonerule to compute next dst change
-        data()->geo()->tzrule()->reset_with_ltime( ltime, data()->geo()->TZ0(), data()->isTimeRunningForward() );
-
-        // reset next dst change time
-        data()->setNextDSTChange( data()->geo()->tzrule()->nextDSTChange() );
-
-        // reset local sideral time
-        data()->syncLST();
-
-        // Make sure Numbers, Moon, planets, and sky objects are updated immediately
-        data()->setFullTimeUpdate();
-
-        // If the sky is in Horizontal mode and not tracking, reset focus such that
-        // Alt/Az remain constant.
-        if ( ! Options::isTracking() && Options::useAltAz() ) {
-            map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
-        }
-
-        // recalculate new times and objects
-        data()->setSnapNextFocus();
-        updateTime();
+        updateLocationFromWizard(*(wizard->geo()));
     }
     delete wizard;
+}
+
+void KStars::updateLocationFromWizard(GeoLocation geo){
+    data()->setLocation( geo );
+    // adjust local time to keep UT the same.
+    // create new LT without DST offset
+    KStarsDateTime ltime = data()->geo()->UTtoLT( data()->ut() );
+
+    // reset timezonerule to compute next dst change
+    data()->geo()->tzrule()->reset_with_ltime( ltime, data()->geo()->TZ0(), data()->isTimeRunningForward() );
+
+    // reset next dst change time
+    data()->setNextDSTChange( data()->geo()->tzrule()->nextDSTChange() );
+
+    // reset local sideral time
+    data()->syncLST();
+
+    // Make sure Numbers, Moon, planets, and sky objects are updated immediately
+    data()->setFullTimeUpdate();
+
+    // If the sky is in Horizontal mode and not tracking, reset focus such that
+    // Alt/Az remain constant.
+    if ( ! Options::isTracking() && Options::useAltAz() ) {
+        map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
+    }
+
+    // recalculate new times and objects
+    data()->setSnapNextFocus();
+    updateTime();
 }
 
 void KStars::slotDownload() {

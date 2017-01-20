@@ -34,6 +34,9 @@
 #include <cmath>
 #include "auxiliary/kspaths.h"
 
+#include "kswizard.h"
+#include <QPointer>
+
 namespace KSUtils {
 
 
@@ -634,39 +637,28 @@ bool copyDataFolderFromAppBundleIfNeeded()  //The method returns true if the dat
 {
     QString dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     if(dataLocation.isEmpty()) { //If there is no kstars user data directory
-        if (KMessageBox::warningYesNo(0,
-                          i18n("There is not a KStars User Data Directory currently at ~/Library/Application Support/kstars \n" \
-                               "Do you want to create a new one?"),
-                          i18n("KStars User Data Directory Error."))
-            == KMessageBox::No) {
-                return false;
-        } else {
-            QString dataSourceLocation=QDir(QCoreApplication::applicationDirPath()+"/../Resources/data").absolutePath();
-            if(dataSourceLocation.isEmpty()){ //If there is no default data directory in the app bundle
-                KMessageBox::sorry(0, i18n("Error! There was no default data directory found in the app bundle!"));
-                return false;
-            }
-            QDir writableDir;
-            writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
-            dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-            if(dataLocation.isEmpty()){  //If there *still* is not a kstars data directory
-                KMessageBox::sorry(0, i18n("Error! There was a problem creating the data directory ~/Library/Application Support/ !"));
-                return false;
-            }
-            KSUtils::copyRecursively(dataSourceLocation, dataLocation);
-            Options::setIndiServerIsInternal(true);
-            Options::setIndiDriversAreInternal(true);
-            Options::setAstrometrySolverIsInternal(true);
-            Options::setAstrometryConfFileIsInternal(true);
-            Options::setWcsIsInternal(true);
-            Options::setXplanetIsInternal(true);
-            KMessageBox::sorry(0, "KStars User Data Directory created at: " + dataLocation);
-            if (KMessageBox::warningYesNo(0,i18n("Do you want to set up the internal Astrometry.net for plate solving images?"))== KMessageBox::Yes)
-                configureDefaultAstrometry();
-            return true;  //This means the data directory is good to go now that we created it from the default.
-        }
+
+        QPointer<KSWizard> wizard = new KSWizard(new QFrame());
+        wizard->exec();//This will pause the startup until the user installs the data directory from the Wizard.
+
+        dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
+        if(dataLocation.isEmpty())
+            return false;
+
+        //This sets some important OS X options.
+        Options::setIndiServerIsInternal(true);
+        Options::setIndiDriversAreInternal(true);
+        Options::setAstrometrySolverIsInternal(true);
+        Options::setAstrometryConfFileIsInternal(true);
+        Options::setWcsIsInternal(true);
+        Options::setXplanetIsInternal(true);
+        Options::setRunStartupWizard( false );  //don't run on startup because we are doing it now.
+
+
+        return true;  //This means the data directory is good to go now that we created it from the default.
+
     }
-    return true;//This means the data directory was good to go from the start.
+    return true;//This means the data directory was good to go from the start and the wizard did not run.
 }
 
 void configureDefaultAstrometry(){
@@ -678,9 +670,6 @@ void configureDefaultAstrometry(){
         if(astrometryPath.isEmpty())
             KMessageBox::sorry(0, i18n("Error!  The Astrometry Index File Directory does not exist and was not able to be created."));
         else{
-            if(QDir(astrometryPath).count()<3)
-                KMessageBox::sorry(0, "Astrometry Index Directory is at: " + astrometryPath +"\n Be sure to put Astrometry index files there in order to solve images.");
-
             QString confPath=QCoreApplication::applicationDirPath()+"/astrometry/bin/astrometry.cfg";
             QFile confFile(confPath);
             QString contents;
