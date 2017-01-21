@@ -20,12 +20,15 @@
 
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QProcess>
+#include <QPlainTextEdit>
 
 #include "ui_wizwelcome.h"
 #include "ui_wizlocation.h"
 #include "ui_wizdownload.h"
 #include "ui_wizdata.h"
 #include "ui_wizastrometry.h"
+#include "ekos/auxiliary/QProgressIndicator.h"
 
 class GeoLocation;
 class QStackedWidget;
@@ -103,7 +106,9 @@ private slots:
 
     void finishWizard();
 
-    #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
+    void updateText();
+
     void slotOpenOrCreateAstrometryFolder();
 
     void slotInstallPip();
@@ -112,12 +117,12 @@ private slots:
 
     void slotInstallNetpbm();
 
-    void updateAstrometryButtons();
+    void installerFinished();
 
     void updateDataButtons();
 
-    void copyKStarsDataDirectory();
-    #endif
+    void slotOpenOrCopyKStarsDataDirectory();
+#endif
 
 private:
     /** @short Initialize the geographic location page.
@@ -134,12 +139,16 @@ private:
     WizAstrometryUI* astrometry;
     QPushButton *nextB,*backB;
     QDialogButtonBox *buttonBox;
+    QProcess* install;
+    QProgressIndicator *installMonitor;
 
 
     GeoLocation *Geo;
     QList<GeoLocation*> filteredCityList;
 
     #ifdef Q_OS_OSX
+
+
     bool brewExists();
 
     bool pythonExists();
@@ -152,6 +161,8 @@ private:
 
     bool dataDirExists();
     bool astrometryDirExists();
+    void updateAstrometryButtons();
+
     #endif
 
 };

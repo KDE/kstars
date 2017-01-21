@@ -25,7 +25,6 @@
 #include <kns3/downloaddialog.h>
 #include <QStandardPaths>
 #include <QDesktopServices>
-#include <QProcess>
 
 #include "kspaths.h"
 #include "kstarsdata.h"
@@ -140,12 +139,21 @@ KSWizard::KSWizard( QWidget *parent ) :
     astrometry->astrometryPath->setText(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString(), QStandardPaths::LocateDirectory)+"Astrometry");
     updateAstrometryButtons();
 
-    connect(data->copyKStarsData, SIGNAL(clicked()), this, SLOT(copyKStarsDataDirectory()));
+    connect(data->copyKStarsData, SIGNAL(clicked()), this, SLOT(slotOpenOrCopyKStarsDataDirectory()));
     connect(astrometry->astrometryButton, SIGNAL(clicked()), this, SLOT(slotOpenOrCreateAstrometryFolder()));
     connect(astrometry->pipInstall, SIGNAL(clicked()), this, SLOT(slotInstallPip()));
     connect(astrometry->pyfitsInstall, SIGNAL(clicked()), this, SLOT(slotInstallPyfits()));
     connect(astrometry->netpbmInstall, SIGNAL(clicked()), this, SLOT(slotInstallNetpbm()));
     connect(this,SIGNAL(accepted()),this,SLOT(finishWizard()));
+
+    install = new QProcess(this);
+    install->setProcessChannelMode ( QProcess::MergedChannels );
+    connect(install, SIGNAL(readyReadStandardOutput()), this, SLOT(updateText()));
+    connect(install, SIGNAL(readyReadStandardError()), this, SLOT(updateText()));
+    connect(install, SIGNAL(finished(int)), this, SLOT(installerFinished()));
+
+    installMonitor = new QProgressIndicator(astrometry);
+    astrometry->installersLayout->addWidget(installMonitor);
 
     #endif
 
@@ -269,37 +277,39 @@ void KSWizard::finishWizard(){
 }
 
 #ifdef Q_OS_OSX
-void KSWizard::copyKStarsDataDirectory(){
-    QString dataSourceLocation=QDir(QCoreApplication::applicationDirPath()+"/../Resources/data").absolutePath();
-    if(dataSourceLocation.isEmpty()){ //If there is no default data directory in the app bundle
-        KMessageBox::sorry(0, i18n("Error! There was no default data directory found in the app bundle!"));
-        return;
-    }
-    QDir writableDir;
-    writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
+void KSWizard::slotOpenOrCopyKStarsDataDirectory(){
     QString dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-    if(dataLocation.isEmpty()){  //If there *still* is not a kstars data directory
-        KMessageBox::sorry(0, i18n("Error! There was a problem creating the data directory ~/Library/Application Support/ !"));
-        return;
+    if(dataLocation.isEmpty()) {
+        QString dataSourceLocation=QDir(QCoreApplication::applicationDirPath()+"/../Resources/data").absolutePath();
+        if(dataSourceLocation.isEmpty()){ //If there is no default data directory in the app bundle
+            KMessageBox::sorry(0, i18n("Error! There was no default data directory found in the app bundle!"));
+            return;
+        }
+        QDir writableDir;
+        writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
+        dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
+        if(dataLocation.isEmpty()){  //If there *still* is not a kstars data directory
+            KMessageBox::sorry(0, i18n("Error! There was a problem creating the data directory ~/Library/Application Support/ !"));
+            return;
+        }
+        KSUtils::copyRecursively(dataSourceLocation, dataLocation);
+        updateDataButtons();
+
+        //This will let the program load after the data folder is copied
+        hide();
+        setModal(false);
+        show();
+
+        //Enable the buttons so you can go to the next page or click ok.
+        nextB->setEnabled(true);
+        buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+    } else{
+        QUrl path = QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory));
+        QDesktopServices::openUrl(path);
     }
-    KSUtils::copyRecursively(dataSourceLocation, dataLocation);
-    updateDataButtons();
-
-    //This will let the program load after the data folder is copied
-    hide();
-    setModal(false);
-    show();
-
-    //Enable the buttons so you can go to the next page or click ok.
-    nextB->setEnabled(true);
-    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 
 
 }
-
-
-
-
 
 void KSWizard::slotOpenOrCreateAstrometryFolder()
 {
@@ -315,43 +325,67 @@ void KSWizard::slotOpenOrCreateAstrometryFolder()
 
 void KSWizard::slotInstallPip()
 {
+    astrometry->programOutput->appendPlainText("🔭 INSTALLING PIP:\n");
     if(!pythonExists()){
-        KMessageBox::sorry(0,"Python is not installed.  Please install python to /usr/local/bin first.");
+        if(brewExists()){
+            astrometry->programOutput->appendPlainText("brew install python\n");
+             install->start("brew" , QStringList() << "install" << "python");
+             installMonitor->startAnimation();
+         } else
+            KMessageBox::sorry(0,"Python is not installed.  Please install python to /usr/local/bin first, or install homebrew and click again.");
     }else{
         if(!pipExists()){
-            QProcess* install = new QProcess();
-            connect(install, SIGNAL(finished(int)), this, SLOT(updateAstrometryButtons()));
-            install->start("easy_install" , QStringList() << "pip");
+            if(brewExists()){
+                astrometry->programOutput->appendPlainText("brew install python\n");
+                 install->start("brew" , QStringList() << "install" << "python");
+                 installMonitor->startAnimation();
+             } else if(QProcess::execute("type easy_install")==QProcess::NormalExit){
+                astrometry->programOutput->appendPlainText("easy_install pip\n");
+                install->start("easy_install" , QStringList() << "pip");
+                installMonitor->startAnimation();
+            } else{
+                KMessageBox::sorry(0,"pip failed to install with homebrew and easy_install.  Try installing homebrew and clicking again.");
+            }
+
         }
     }
 }
 
 void KSWizard::slotInstallPyfits()
 {
+    astrometry->programOutput->appendPlainText("🔭 INSTALLING PYFITS:\n");
+
     if(!pythonExists()){
-        KMessageBox::sorry(0,"Python is not installed.  Please install python to /usr/local/bin first.");
+        KMessageBox::sorry(0,"Python is not installed.  Please install python first.");
     }else if(!pipExists()){
         KMessageBox::sorry(0,"Pip is not installed.  Please install pip first.");
     } else{
-        QProcess* install = new QProcess();
-        connect(install, SIGNAL(finished(int)), this, SLOT(updateAstrometryButtons()));
+        astrometry->programOutput->appendPlainText("pip install pyfits\n");
         install->start("pip" , QStringList() << "install" << "pyfits");
+        installMonitor->startAnimation();
     }
 
 }
 
 void KSWizard::slotInstallNetpbm()
 {
-    QProcess* install = new QProcess();
-    connect(install, SIGNAL(finished(int)), this, SLOT(updateAstrometryButtons()));
+    astrometry->programOutput->appendPlainText("🔭 INSTALLING NETPBM:\n");
 
-    if(brewExists()){
+   if(brewExists()){
         install->start("brew" , QStringList() << "install" << "netpbm");
+        installMonitor->startAnimation();
     } else{
-        install->start("ruby", QStringList() << "-e" << "'$(curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install)'" << "<" << "/dev/null" << "2>" << "/dev/null");
-        install->waitForFinished();
-        install->start("brew" , QStringList() << "install" << "netpbm");
+        //install->start("ruby", QStringList() << "-e" << "'$(curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install)'" << "<" << "/dev/null" << "2>" << "/dev/null");
+        //install->waitForFinished();
+        //install->start("brew" , QStringList() << "install" << "netpbm");
+       KMessageBox::sorry(0,"homebrew is not installed.  Try installing homebrew and clicking again.");
     }
+}
+
+void KSWizard::updateText()
+{
+   QByteArray data = install->readAllStandardOutput();
+   astrometry->programOutput->appendPlainText(QString(data));
 }
 
 bool KSWizard::dataDirExists(){
@@ -392,26 +426,31 @@ bool KSWizard::brewExists(){
 void KSWizard::updateDataButtons(){
     if(dataDirExists()) {
         data->dataDirFound->setChecked(true);
-        data->copyKStarsData->setDisabled(true);
+        data->copyKStarsData->setText("Open KStars Data Directory");
         data->foundFeedback1->setText("The KStars Data Directory called kstars is located at:");
-        data->foundFeedback2->setText("Your data directory was found.  If you have any problems with it, you can always delete this data directory and KStars will give you a new data directory.");
+        data->foundFeedback2->setText("Your data directory was found.  If you have any problems with it, you can always delete this data directory and KStars will give you a new data directory.  You can click this button to open the data directory, just be careful not to delete any important files.");
      } else{
         data->dataDirFound->setChecked(false);
-        data->copyKStarsData->setDisabled(false);
         data->foundFeedback1->setText("The KStars Data Directory called kstars should be located at:");
-        data->foundFeedback2->setText("Your data directory was not found. You can click the button below to copy a default KStars data directory to the correct location, or if you have a KStars directory already some place else, you can exit KStars and copy it to that location yourself.");
+        data->foundFeedback2->setText("<html><head/><body><p>Your data directory was not found. You can click the button below to copy a default KStars data directory to the correct location, or if you have a KStars directory already some place else, you can exit KStars and copy it to that location yourself.</p></body></html>");
     }
+}
+
+void KSWizard::installerFinished(){
+    astrometry->programOutput->appendPlainText("🔭 Installer Finished!\n");
+    updateAstrometryButtons();
+    installMonitor->stopAnimation();
 }
 
 void KSWizard::updateAstrometryButtons(){
      if(astrometryDirExists()) {
          astrometry->astrometryFound->setChecked(true);
          astrometry->astrometryButton->setText("Open Folder");
-         astrometry->astrometryFeedback->setText("");
+         astrometry->astrometryFeedback->setText("<html><head/><body><p>To plate solve, you need to put index files in the following folder. See the documentation at this link: <a href=http://astrometry.net/doc/readme.html>Astrometry Readme</a> for details on how to get files.</p></body></html>");
     } else{
         astrometry->astrometryFound->setChecked(false);
         astrometry->astrometryButton->setText("Create Folder");
-        astrometry->astrometryFeedback->setText("Note: Currently your Astrometry Folder does not exist, please click 'Create Folder' to make it.");
+        astrometry->astrometryFeedback->setText("KStars needs to configure the astrometry.cfg file and create a folder for the index files. Please click the button below to complete this task.");
     }
 
     if(!pythonExists()){

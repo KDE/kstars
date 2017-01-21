@@ -81,7 +81,7 @@
      <item>
       <widget class="QLabel" name="WelcomeText">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;KStars makes use of Astrometry.net to plate solve images to aid with telescope alignment. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;KStars makes use of Astrometry.net to plate solve images to aid with telescope alignment.  KStars for Mac includes Astrometry.net. To run it, you need to install some programs and configure astrometry.net&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -89,14 +89,20 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="installersLayout">
        <property name="topMargin">
         <number>0</number>
        </property>
        <item>
         <widget class="QLabel" name="label">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Mac Version of KStars is bundled with an internal Astrometry.net package. However, to get it to run, you will need to have the following programs installed on your computer. You can click the button to install each of them (still experimental) or you can install them yourself from an installer, from the command line, and/or from homebrew.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The buttons to the right should install needed programs (still experimental) or you can install them yourself from an installer, from the command line, and/or from homebrew.  Output appears below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -108,7 +114,7 @@
          <item>
           <widget class="QPushButton" name="pipInstall">
            <property name="text">
-            <string>pip</string>
+            <string>python/pip</string>
            </property>
           </widget>
          </item>
@@ -130,6 +136,9 @@
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>-1</number>
+         </property>
          <item>
           <widget class="QCheckBox" name="pipFound">
            <property name="enabled">
@@ -165,11 +174,24 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
+      <widget class="QPlainTextEdit" name="programOutput">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="astrometryFeedback">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In order to solve images, Astrometry will need some index files. See the documentation at this link: &lt;a href=&quot;http://astrometry.net/doc/readme.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Astrometry Readme&lt;/span&gt;&lt;/a&gt; for details on how to get files. You will need to copy the index files into this folder:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To plate solve, you need to put index files in the following folder. See the documentation at this link: &lt;a href=&quot;http://astrometry.net/doc/readme.html&quot;&gt;Astrometry Readme&lt;/a&gt; for details on how to get files.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="openExternalLinks">
         <bool>true</bool>
        </property>
       </widget>
@@ -204,16 +226,6 @@
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="astrometryFeedback">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Note: Currently your Astrometry Folder does not exist, please click 'Create Folder' to make it and to initialize astrometry.cfg which is located inside KStars.app.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
      </item>
      <item>
       <spacer>
