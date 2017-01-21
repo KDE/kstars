@@ -607,6 +607,7 @@ void Capture::checkCCD(int ccdNum)
         }
 
         liveVideoB->setEnabled(currentCCD->hasVideoStream());
+        setVideoStreamEnabled(currentCCD->isStreamingEnabled());
 
         connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
         connect(currentCCD, SIGNAL(newTemperatureValue(double)), this, SLOT(updateCCDTemperature(double)), Qt::UniqueConnection);
