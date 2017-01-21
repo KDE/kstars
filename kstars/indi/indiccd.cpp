@@ -1889,4 +1889,12 @@ bool CCD::setVideoStreamEnabled(bool enable)
     return true;
 }
 
+bool CCD::isStreamingEnabled()
+{
+    if (HasVideoStream == false || streamWindow == NULL)
+        return false;
+
+    return streamWindow->isStreamEnabled();
+}
+
 }

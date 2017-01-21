@@ -176,6 +176,7 @@ public:
 
     // Video Stream
     bool setVideoStreamEnabled(bool enable);
+    bool isStreamingEnabled();
 
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
