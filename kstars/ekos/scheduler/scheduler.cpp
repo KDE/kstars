@@ -927,6 +927,9 @@ void Scheduler::stop()
         return;
     }
 
+    // Clear target name in capture interface upon stopping
+    captureInterface->call(QDBus::AutoDetect, "setTargetName", QString());
+
     if (scriptProcess.state() == QProcess::Running)
         scriptProcess.terminate();
 

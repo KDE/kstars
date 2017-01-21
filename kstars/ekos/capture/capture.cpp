@@ -2973,7 +2973,7 @@ void Capture::setTemperature()
 void Capture::clearSequenceQueue()
 {
     activeJob=NULL;
-    targetName = QString();
+    targetName.clear();
     stop();
     while (queueTable->rowCount() > 0)
         queueTable->removeRow(0);
