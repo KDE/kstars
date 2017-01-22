@@ -1583,13 +1583,15 @@ void CCD::StreamWindowHidden()
         if (streamSP)
         {
             IUResetSwitch(streamSP);
+            streamSP->sp[0].s = ISS_OFF;
             streamSP->sp[1].s = ISS_ON;
             streamSP->s = IPS_IDLE;
             clientManager->sendNewSwitch(streamSP);
         }
     }
 
-    streamWindow->disconnect();
+    if (streamWindow)
+            streamWindow->disconnect();
 }
 
 bool CCD::hasGuideHead()
