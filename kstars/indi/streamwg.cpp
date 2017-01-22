@@ -43,6 +43,10 @@ StreamWG::StreamWG(QWidget * parent) : QWidget(parent)
     streamWidth    = streamHeight = -1;
     processStream  = colorFrame = false;
 
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
+
     playPix    = QIcon::fromTheme( "media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg"));
     pausePix   = QIcon::fromTheme( "media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg"));
     capturePix = QIcon::fromTheme( "media-record", QIcon(":/icons/breeze/default/media-record.svg"));
@@ -66,6 +70,7 @@ StreamWG::~StreamWG()
 void StreamWG::closeEvent ( QCloseEvent * ev )
 {
     processStream = false;
+
 
     Options::setStreamWindowWidth(videoFrame->width());
     Options::setStreamWindowHeight(videoFrame->height());
