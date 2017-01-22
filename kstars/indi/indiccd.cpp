@@ -1109,6 +1109,13 @@ void CCD::processBLOB(IBLOB* bp)
         streamW = w / binx;
         streamH = h / biny;
 
+        IBLOBVectorProperty *rawBP = baseDevice->getBLOB("CCD1");
+        if (rawBP)
+        {
+            rawBP->bp[0].aux0 = &(streamW);
+            rawBP->bp[0].aux1 = &(streamH);
+        }
+
         if (streamWindow->getStreamWidth() != streamW || streamWindow->getStreamHeight() != streamH)
             streamWindow->setSize(streamW, streamH);
 
