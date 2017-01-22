@@ -18,10 +18,13 @@
 #ifndef KSWIZARD_H_
 #define KSWIZARD_H_
 
+
+
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QProcess>
 #include <QPlainTextEdit>
+#include <QtCore/qsystemdetection.h>
 
 #include "ui_wizwelcome.h"
 #include "ui_wizlocation.h"
@@ -104,10 +107,9 @@ private slots:
 
     void slotDownload();    
 
-    void finishWizard();
+    void slotFinishWizard();
 
-#ifdef Q_OS_OSX
-    void updateText();
+    void slotUpdateText();
 
     void slotOpenOrCreateAstrometryFolder();
 
@@ -117,13 +119,11 @@ private slots:
 
     void slotInstallNetpbm();
 
-    void installerFinished();
+    void slotInstallerFinished();
 
-    void updateDataButtons();
+    void slotUpdateDataButtons();
 
     void slotOpenOrCopyKStarsDataDirectory();
-#endif
-
 private:
     /** @short Initialize the geographic location page.
      * Populate the city list box, and highlight the current location in the list.

@@ -129,6 +129,7 @@
         <file>icons/breeze/default/kstars_satellites_invisible.svg</file>
         <file>icons/breeze/default/kstars_satellites_visible.svg</file>
         <file>icons/breeze/default/view-filter.svg</file>
+        <file>icons/breeze/default/media-record.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>

@@ -130,6 +130,19 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Optional Files for the Data directory:&lt;/p&gt;&lt;p&gt;GSC: &lt;a href=&quot;https://drive.google.com/file/d/0B_ivMJINsdQ8cDhNcU5ESkZMZ0E/view?usp=sharing&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Guide Star Catalog&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Installing this in your data directory will enable the CCD Simulator in KStars to take realistic images. This is useful for testing sequences, plate solving, and learning to use KStars. Just unzip the zip file and place the gsc folder in the data directory.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="openExternalLinks">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
