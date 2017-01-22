@@ -147,6 +147,10 @@ KSWizard::KSWizard( QWidget *parent ) :
     connect(this,SIGNAL(accepted()),this,SLOT(slotFinishWizard()));
 
     install = new QProcess(this);
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    QStringList envlist = env.toStringList();
+    envlist.replaceInStrings(QRegularExpression("^(?i)PATH=(.*)"), "PATH=/usr/local/bin:\\1");
+    install->setEnvironment(envlist);
     install->setProcessChannelMode ( QProcess::MergedChannels );
     connect(install, SIGNAL(readyReadStandardOutput()), this, SLOT(slotUpdateText()));
     connect(install, SIGNAL(readyReadStandardError()), this, SLOT(slotUpdateText()));
