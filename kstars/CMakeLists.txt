@@ -903,6 +903,7 @@ else(BUILD_KSTARS_LITE)
         KF5::Crash
         KF5::I18n
         KF5::NewStuff
+	KF5::NotifyConfig
         KF5::KIOFileWidgets
         KF5::WidgetsAddons
         KF5::Plotting
@@ -932,7 +933,7 @@ if(INDI_FOUND)
 #        target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} ${NOVA_LIBRARIES})
         target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} )
     else(BUILD_KSTARS_LITE)
-        target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications KF5::NotifyConfig)
+        target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
     endif(BUILD_KSTARS_LITE)
 
     if(WIN32 OR ANDROID)
