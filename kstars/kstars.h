@@ -634,6 +634,9 @@ private slots:
     /** Update satellites orbital elements*/
     void slotUpdateSatellites();
 
+    /** Configure Notifications */
+    void slotConfigureNotifications();
+
 private:
     /** Load FOV information and repopulate menu. */
     void repopulateFOV();

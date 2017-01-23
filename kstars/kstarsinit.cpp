@@ -369,6 +369,10 @@ void KStars::initActions() {
         << i18nc("Location on Earth", "&Geographic..." )
         << QIcon::fromTheme("kstars_xplanet" , QIcon(":/icons/breeze/default/kstars_xplanet.svg"))
         << QKeySequence( Qt::CTRL+Qt::Key_G );
+
+    // Configure Notifications
+    KStandardAction::configureNotifications(this, SLOT(slotConfigureNotifications()), actionCollection());
+
     ka = actionCollection()->addAction( KStandardAction::Preferences, "configure", this, SLOT( slotViewOps() ) );
     //I am not sure what icon preferences is supposed to be.
     //ka->setIcon( QIcon::fromTheme("", QIcon(":/icons/breeze/default/.svg")));
@@ -443,9 +447,12 @@ void KStars::initActions() {
     actionCollection()->addAction("solarsystem", this, SLOT( slotSolarSystem() ) )
         << i18n("Solar System")
         << QKeySequence(Qt::CTRL+Qt::Key_Y );
-    actionCollection()->addAction("jmoontool", this, SLOT( slotJMoonTool() ) )
+
+    // Disabled until fixed later
+    /*actionCollection()->addAction("jmoontool", this, SLOT( slotJMoonTool() ) )
         << i18n("Jupiter's Moons")
-        << QKeySequence(Qt::CTRL+Qt::Key_J );
+        << QKeySequence(Qt::CTRL+Qt::Key_J );*/
+
     actionCollection()->addAction("flagmanager", this, SLOT( slotFlagManager() ) )
         << i18n("Flags");
 

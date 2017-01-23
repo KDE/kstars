@@ -74,6 +74,7 @@ else(BUILD_KSTARS_LITE)
       XmlGui
       Plotting
       Notifications
+      NotifyConfig
       #IconThemes
     )
 endif(BUILD_KSTARS_LITE)
