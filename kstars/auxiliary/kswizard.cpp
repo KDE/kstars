@@ -90,7 +90,7 @@ KSWizard::KSWizard( QWidget *parent ) :
     mainLayout->addWidget(buttonBox);
 
 
-    WizWelcomeUI* welcome = new WizWelcomeUI( wizardStack );
+    welcome = new WizWelcomeUI( wizardStack );
 #ifdef Q_OS_OSX
     data = new WizDataUI( wizardStack );
     astrometry = new WizAstrometryUI( wizardStack );
@@ -148,9 +148,9 @@ KSWizard::KSWizard( QWidget *parent ) :
 
     install = new QProcess(this);
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    QStringList envlist = env.toStringList();
-    envlist.replaceInStrings(QRegularExpression("^(?i)PATH=(.*)"), "PATH=/usr/local/bin:\\1");
-    install->setEnvironment(envlist);
+    QString path=env.value("PATH","");
+    env.insert("PATH","/usr/local/bin:" + path);
+    install->setProcessEnvironment(env);
     install->setProcessChannelMode ( QProcess::MergedChannels );
     connect(install, SIGNAL(readyReadStandardOutput()), this, SLOT(slotUpdateText()));
     connect(install, SIGNAL(readyReadStandardError()), this, SLOT(slotUpdateText()));

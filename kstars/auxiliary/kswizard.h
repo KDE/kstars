@@ -134,6 +134,7 @@ private:
     void setButtonsEnabled();
 
     QStackedWidget *wizardStack;
+    WizWelcomeUI* welcome;
     WizLocationUI  *location;
     WizDataUI* data;
     WizAstrometryUI* astrometry;
