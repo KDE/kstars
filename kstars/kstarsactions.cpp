@@ -48,6 +48,7 @@
 #include <KMessageBox>
 #include <KTipDialog>
 #include <KConfigDialog>
+#include <KNotifyConfigWidget>
 
 #include <kns3/downloaddialog.h>
 
@@ -1580,4 +1581,9 @@ void KStars::slotAddDeepSkyObject() {
         m_addDSODialog = new AddDeepSkyObject( this, data()->skyComposite()->manualAdditionsComponent() );
     }
     m_addDSODialog->show();
+}
+
+void KStars::slotConfigureNotifications()
+{
+    KNotifyConfigWidget::configure(this);
 }

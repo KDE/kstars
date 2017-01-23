@@ -932,7 +932,7 @@ if(INDI_FOUND)
 #        target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} ${NOVA_LIBRARIES})
         target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} )
     else(BUILD_KSTARS_LITE)
-        target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications)
+        target_link_libraries(KStarsLib ${CMAKE_THREAD_LIBS_INIT} KF5::Notifications KF5::NotifyConfig)
     endif(BUILD_KSTARS_LITE)
 
     if(WIN32 OR ANDROID)
