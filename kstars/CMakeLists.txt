@@ -903,7 +903,7 @@ else(BUILD_KSTARS_LITE)
         KF5::Crash
         KF5::I18n
         KF5::NewStuff
-	KF5::NotifyConfig
+        KF5::NotifyConfig
         KF5::KIOFileWidgets
         KF5::WidgetsAddons
         KF5::Plotting
