@@ -159,6 +159,10 @@ KSWizard::KSWizard( QWidget *parent ) :
     installMonitor = new QProgressIndicator(astrometry);
     astrometry->installersLayout->addWidget(installMonitor);
 
+    astrometry->programOutput->appendPlainText("Available Paths:");
+    astrometry->programOutput->appendPlainText(env.value("PATH","No Paths!"));
+    astrometry->programOutput->appendPlainText("🔭 Installer Ready!\n");
+
     #endif
 
     //connect signals/slots
@@ -188,7 +192,7 @@ void KSWizard::setButtonsEnabled() {
     backB->setEnabled(wizardStack->currentIndex() > 0 );
 
      #ifdef Q_OS_OSX
-    if((wizardStack->currentWidget()==data) &&(!dataDirExists())){
+    if((wizardStack->currentWidget()==data||wizardStack->currentWidget()==welcome) &&(!dataDirExists())){
         nextB->setEnabled(false);
         buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     }
@@ -338,23 +342,23 @@ void KSWizard::slotInstallPip()
     astrometry->programOutput->appendPlainText("🔭 INSTALLING PIP:\n");
     if(!pythonExists()){
         if(brewExists()){
-            astrometry->programOutput->appendPlainText("brew install python\n");
-             install->start("brew" , QStringList() << "install" << "python");
+            astrometry->programOutput->appendPlainText("/usr/local/bin/brew install python\n");
+             install->start("/usr/local/bin/brew" , QStringList() << "install" << "python");
              installMonitor->startAnimation();
          } else
-            KMessageBox::sorry(0,"Python is not installed.  Please install python to /usr/local/bin first, or install homebrew and click again.");
+            KMessageBox::sorry(0,"Python is not installed.  Please install python to /usr/local/bin first, or <a href=http://brew.sh>install homebrew</a> and click again.", "", KMessageBox::AllowLink);
     }else{
         if(!pipExists()){
             if(brewExists()){
-                astrometry->programOutput->appendPlainText("brew install python\n");
-                 install->start("brew" , QStringList() << "install" << "python");
+                astrometry->programOutput->appendPlainText("/usr/local/bin/brew install python\n");
+                 install->start("/usr/local/bin/brew" , QStringList() << "install" << "python");
                  installMonitor->startAnimation();
-             } else if(QProcess::execute("type easy_install")==QProcess::NormalExit){
-                astrometry->programOutput->appendPlainText("easy_install pip\n");
-                install->start("easy_install" , QStringList() << "pip");
+             } else if(QProcess::execute("type /usr/local/bin/easy_install")==QProcess::NormalExit){
+                astrometry->programOutput->appendPlainText("/usr/local/bin/easy_install pip\n");
+                install->start("/usr/local/bin/easy_install" , QStringList() << "pip");
                 installMonitor->startAnimation();
             } else{
-                KMessageBox::sorry(0,"pip failed to install with homebrew and easy_install.  Try installing homebrew and clicking again.");
+                KMessageBox::sorry(0,"pip failed to install with homebrew and easy_install.  Try <a href=http://brew.sh>installing homebrew</a> and clicking again.", "", KMessageBox::AllowLink);
             }
 
         }
@@ -368,12 +372,12 @@ void KSWizard::slotInstallPyfits()
     astrometry->programOutput->appendPlainText("🔭 INSTALLING PYFITS:\n");
 
     if(!pythonExists()){
-        KMessageBox::sorry(0,"Python is not installed.  Please install python first.");
+        KMessageBox::sorry(0,"/usr/local/bin/python is not installed.  Please install python first.");
     }else if(!pipExists()){
-        KMessageBox::sorry(0,"Pip is not installed.  Please install pip first.");
+        KMessageBox::sorry(0,"/usr/local/bin/pip is not installed.  Please install pip first.");
     } else{
-        astrometry->programOutput->appendPlainText("pip install pyfits\n");
-        install->start("pip" , QStringList() << "install" << "pyfits");
+        astrometry->programOutput->appendPlainText("/usr/local/bin/pip install pyfits\n");
+        install->start("/usr/local/bin/pip" , QStringList() << "install" << "pyfits");
         installMonitor->startAnimation();
     }
 #endif
@@ -385,13 +389,13 @@ void KSWizard::slotInstallNetpbm()
     astrometry->programOutput->appendPlainText("🔭 INSTALLING NETPBM:\n");
 
    if(brewExists()){
-        install->start("brew" , QStringList() << "install" << "netpbm");
+        install->start("/usr/local/bin/brew" , QStringList() << "install" << "netpbm");
         installMonitor->startAnimation();
     } else{
         //install->start("ruby", QStringList() << "-e" << "'$(curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install)'" << "<" << "/dev/null" << "2>" << "/dev/null");
         //install->waitForFinished();
-        //install->start("brew" , QStringList() << "install" << "netpbm");
-       KMessageBox::sorry(0,"homebrew is not installed.  Try installing homebrew and clicking again.");
+        //install->start("/usr/local/bin/brew" , QStringList() << "install" << "netpbm");
+       KMessageBox::sorry(0,"homebrew is not installed.  Try <a href=http://brew.sh>installing homebrew</a> and clicking again.", "", KMessageBox::AllowLink);
     }
 #endif
 }
@@ -417,16 +421,16 @@ bool KSWizard::astrometryDirExists(){
 }
 
 bool KSWizard::pythonExists(){
-    return QProcess::execute("type python")==QProcess::NormalExit;
+    return QProcess::execute("type /usr/local/bin/python")==QProcess::NormalExit;
 }
 
 bool KSWizard::pipExists(){
-    return QProcess::execute("type pip")==QProcess::NormalExit;
+    return QProcess::execute("type /usr/local/bin/pip")==QProcess::NormalExit;
 }
 
 bool KSWizard::pyfitsExists(){
     QProcess testPyfits;
-    testPyfits.start("pip list");
+    testPyfits.start("/usr/local/bin/pip list");
     testPyfits.waitForFinished();
     QString listPip(testPyfits.readAllStandardOutput());
     qDebug()<<listPip;
@@ -434,11 +438,11 @@ bool KSWizard::pyfitsExists(){
 }
 
 bool KSWizard::netpbmExists(){
-    return QProcess::execute("type jpegtopnm")==QProcess::NormalExit;
+    return QProcess::execute("type /usr/local/bin/jpegtopnm")==QProcess::NormalExit;
 }
 
 bool KSWizard::brewExists(){
-    return QProcess::execute("type brew")==QProcess::NormalExit;
+    return QProcess::execute("type /usr/local/bin/brew")==QProcess::NormalExit;
 }
 
 void KSWizard::updateAstrometryButtons(){
