@@ -902,8 +902,7 @@ else(BUILD_KSTARS_LITE)
         htmesh
         KF5::Crash
         KF5::I18n
-        KF5::NewStuff
-        KF5::NotifyConfig
+        KF5::NewStuff        
         KF5::KIOFileWidgets
         KF5::WidgetsAddons
         KF5::Plotting
@@ -917,6 +916,10 @@ else(BUILD_KSTARS_LITE)
         Qt5::Concurrent
         ${ZLIB_LIBRARIES}
         )
+
+    if (KF5NotifyConfig_FOUND)
+        target_link_libraries(KStarsLib KF5::NotifyConfig)
+    endif(KF5NotifyConfig_FOUND)
 endif(BUILD_KSTARS_LITE)
 
 if(NOT WIN32)

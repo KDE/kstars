@@ -39,6 +39,7 @@ endif()
 include(ECMInstallIcons)
 include(ECMAddAppIcon)
 include(KDEInstallDirs)
+include(MacroBoolTo01)
 if(NOT ANDROID)
     #We get error "could not find main method" with this module
     include(KDECompilerSettings NO_POLICY_SCOPE)
@@ -63,6 +64,10 @@ if(ANDROID)
      include_directories(SYSTEM ${OpenMP_INCLUDE_PATH})
 endif()
 else(BUILD_KSTARS_LITE)
+    # Find Optional package NotifyConfig for desktop notifications
+    find_package(KF5 COMPONENTS NotifyConfig)
+    MACRO_BOOL_TO_01(KF5NotifyConfig_FOUND HAVE_NOTIFYCONFIG)
+
     find_package(KF5 REQUIRED COMPONENTS
       Config
       Crash
@@ -73,75 +78,54 @@ else(BUILD_KSTARS_LITE)
       KIO
       XmlGui
       Plotting
-      Notifications
-      NotifyConfig
-      #IconThemes
-    )
+      Notifications      
+    )    
 endif(BUILD_KSTARS_LITE)
 
+## Eigen3 Library
 find_package(Eigen3 REQUIRED)
 add_definitions(${EIGEN_DEFINITIONS})
 include_directories(${EIGEN3_INCLUDE_DIR})
 
+## CFITSIO Library
 if(BUILD_KSTARS_LITE)
     find_package(CFitsio REQUIRED)
 else()
     find_package(CFitsio)
 endif()
-if (CFITSIO_FOUND)
-set(HAVE_CFITSIO 1)
-else(CFITSIO_FOUND)
-set(HAVE_CFITSIO 0)
-endif(CFITSIO_FOUND)
+MACRO_BOOL_TO_01(CFITSIO_FOUND HAVE_CFITSIO)
 set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "http://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" TYPE OPTIONAL PURPOSE "Support for the FITS (Flexible Image Transport System) data format in KStars.")
 
+## INDI Library
 find_package(INDI 1.3.1)
-#FIXME is there a better way to do this?
-if (INDI_FOUND)    
-SET(HAVE_INDI 1)
-else(INDI_FOUND)
-SET(HAVE_INDI 0)
-endif(INDI_FOUND)
-
+MACRO_BOOL_TO_01(INDI_FOUND HAVE_INDI)
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "http://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
 
+## Libraw
 find_package(LibRaw)
-if (LibRaw_FOUND)
-SET(HAVE_LIBRAW 1)
-else (LibRaw_FOUND)
-SET(HAVE_LIBRAW 0)
-endif(LibRaw_FOUND)
-
+MACRO_BOOL_TO_01(LibRaw_FOUND HAVE_LIBRAW)
 set_package_properties(LibRaw PROPERTIES DESCRIPTION "Library for reading RAW files" URL "http://www.libraw.org" TYPE OPTIONAL PURPOSE "Support for reading and displaying RAW files in KStars.")
 
+## WCS Library
 find_package(WCSLIB)
-if (WCSLIB_FOUND)
-set(HAVE_WCSLIB 1)
-else(WCSLIB_FOUND)
-set(HAVE_WCSLIB 0)
-endif(WCSLIB_FOUND)
+MACRO_BOOL_TO_01(WCSLIB_FOUND HAVE_WCSLIB)
 set_package_properties(WCSLIB PROPERTIES DESCRIPTION "World Coordinate System library" URL "http://www.atnf.csiro.au/people/mcalabre/WCS" TYPE OPTIONAL PURPOSE "WCS enables KStars to read and process world coordinate systems in FITS header.")
 
+## XPlanet
 find_package(Xplanet)
-if (XPLANET_FOUND)
-set(HAVE_XPLANET 1)
-else(XPLANET_FOUND)
-set(HAVE_XPLANET 0)
-endif(XPLANET_FOUND)
+MACRO_BOOL_TO_01(XPLANET_FOUND HAVE_XPLANET)
 set_package_properties(Xplanet PROPERTIES DESCRIPTION "Renders an image of all the major planets and most satellites" URL "http://xplanet.sourceforge.net" TYPE OPTIONAL PURPOSE "Gives KStars support for xplanet.")
 
+## Astrometry.net
 find_package(AstrometryNet)
-if (ASTROMETRYNET_FOUND)
-set(HAVE_ASTROMETRYNET 1)
-else(ASTROMETRYNET_FOUND)
-set(HAVE_ASTROMETRYNET 0)
-endif(ASTROMETRYNET_FOUND)
+MACRO_BOOL_TO_01(ASTROMETRYNET_FOUND HAVE_ASTROMETRYNET)
 set_package_properties(AstrometryNet PROPERTIES DESCRIPTION "Astrometrics Library" URL "http://www.astrometry.net" TYPE OPTIONAL PURPOSE "Support for plate solving in KStars.")
 
+## OpenGL
 find_package(OpenGL)
 set_package_properties(OpenGL PROPERTIES DESCRIPTION "Open Graphics Library" URL "http://www.opengl.org" TYPE OPTIONAL PURPOSE "Support for hardware rendering in KStars.")
 
-if (${KF5_VERSION} VERSION_EQUAL 5.18.0 OR ${KF5_VERSION} VERSION_GREATER 5.18.0)
+if (${KF5_VERSION} VERSION_GREATER 5.17.0)
 SET(HAVE_KF5WIT 1)
 else()
 SET(HAVE_KF5WIT 0)
