@@ -178,6 +178,14 @@ public:
     bool setVideoStreamEnabled(bool enable);
     bool isStreamingEnabled();
 
+    // Video Recording
+    bool setSERNameDirectory(const QString &filename, const QString &directory);
+    bool getSERNameDirectory(QString &filename, QString &directory);
+    bool startRecording();
+    bool startDurationRecording(double duration);
+    bool startFramesRecording(uint32_t frames);
+    bool stopRecording();
+
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
     void setFITSDir(const QString &dir) { fitsDir = dir;}
@@ -194,6 +202,7 @@ signals:
     void newRemoteFile(QString);
     void newImage(QImage *image, ISD::CCDChip *targetChip);
     void videoStreamToggled(bool enabled);
+    void videoRecordToggled(bool enabled);
 
 private:
     void addFITSKeywords(QString filename);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>328</width>
-    <height>312</height>
+    <width>510</width>
+    <height>325</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,58 +19,86 @@
   <property name="windowTitle">
    <string>Video Stream</string>
   </property>
-  <layout class="QVBoxLayout">
-   <property name="spacing">
-    <number>3</number>
-   </property>
-   <property name="leftMargin">
-    <number>3</number>
-   </property>
-   <property name="topMargin">
-    <number>3</number>
-   </property>
-   <property name="rightMargin">
-    <number>3</number>
-   </property>
-   <property name="bottomMargin">
-    <number>3</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QVBoxLayout">
-     <property name="spacing">
-      <number>5</number>
-     </property>
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <property name="rightMargin">
-      <number>0</number>
-     </property>
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <layout class="QHBoxLayout">
-       <property name="spacing">
-        <number>3</number>
+      <widget class="QPushButton" name="recordB">
+       <property name="minimumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
        </property>
-       <property name="leftMargin">
-        <number>0</number>
+       <property name="maximumSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
        </property>
-       <property name="topMargin">
-        <number>0</number>
+       <property name="toolTip">
+        <string>Start recording</string>
        </property>
-       <property name="rightMargin">
-        <number>0</number>
+       <property name="whatsThis">
+        <string/>
        </property>
-       <property name="bottomMargin">
-        <number>0</number>
+       <property name="iconSize">
+        <size>
+         <width>64</width>
+         <height>64</height>
+        </size>
        </property>
-       <item>
-        <widget class="QPushButton" name="playB">
+      </widget>
+     </item>
+     <item>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>File Name:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2">
+        <widget class="QLineEdit" name="recordFilenameEdit">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+&lt;p&gt;Set SER video file name. Record files may contain some patterns to make them dynamic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;_D_&lt;/b&gt; for the date in YYYY-MM-DD.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_H_&lt;/b&gt; for time in HH:MM:SS.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_T_&lt;/b&gt; for ISO8601 time stamp.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_F_&lt;/b&gt; for filter name, if any.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Dir:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4" colspan="3">
+        <widget class="QLineEdit" name="recordDirectoryEdit">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+&lt;p&gt;Set SER video &lt;b&gt;remote&lt;/b&gt; directory name. If INDI server is running locally, then a local directory can be selected. However, if you are connected to a remote INDI server, then the directory must be a valid directory on the remote file system where it is saved.&lt;/p&gt;
+&lt;p&gt;Record directories may contain some patterns to make them dynamic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;_D_&lt;/b&gt; for the date in YYYY-MM-DD.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_H_&lt;/b&gt; for time in HH:MM:SS.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_T_&lt;/b&gt; for ISO8601 time stamp.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_F_&lt;/b&gt; for filter name, if any.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="7">
+        <widget class="QPushButton" name="selectDirB">
          <property name="minimumSize">
           <size>
            <width>32</width>
@@ -91,91 +119,122 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="captureB">
-         <property name="minimumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>Capture Image</string>
-         </property>
-         <property name="whatsThis">
-          <string/>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Record:</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QComboBox" name="imgFormatCombo">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>0</height>
-          </size>
-         </property>
+       <item row="1" column="1">
+        <widget class="QRadioButton" name="recordUntilStoppedR">
          <property name="toolTip">
-          <string>Image Format</string>
+          <string>Record stream until manually stopped</string>
+         </property>
+         <property name="text">
+          <string>Until Stopped</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">recordButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="1" column="2" colspan="3">
+        <widget class="QRadioButton" name="recordDurationR">
+         <property name="toolTip">
+          <string>Record stream for specified duration in seconds</string>
+         </property>
+         <property name="text">
+          <string>Duration</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">recordButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QDoubleSpinBox" name="durationSpin">
+         <property name="maximum">
+          <double>3600.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>60.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>30.000000000000000</double>
          </property>
         </widget>
        </item>
-       <item>
-        <spacer>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="1" column="6">
+        <widget class="QRadioButton" name="recordFramesR">
+         <property name="toolTip">
+          <string>Record stream until this many frames are captured</string>
          </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
+         <property name="text">
+          <string>Frames</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>116</width>
-           <height>57</height>
-          </size>
+         <attribute name="buttonGroup">
+          <string notr="true">recordButtonGroup</string>
+         </attribute>
+        </widget>
+       </item>
+       <item row="1" column="7">
+        <widget class="QSpinBox" name="framesSpin">
+         <property name="minimum">
+          <number>1</number>
          </property>
-        </spacer>
+         <property name="maximum">
+          <number>1000</number>
+         </property>
+         <property name="value">
+          <number>30</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
      <item>
-      <widget class="VideoWG" name="videoFrame">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="minimumSize">
+       <property name="sizeHint" stdset="0">
         <size>
-         <width>320</width>
-         <height>240</height>
+         <width>40</width>
+         <height>20</height>
         </size>
        </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
+      </spacer>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="VideoWG" name="videoFrame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>320</width>
+       <height>240</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -188,4 +247,7 @@
  </customwidgets>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="recordButtonGroup"/>
+ </buttongroups>
 </ui>
