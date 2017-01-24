@@ -54,6 +54,17 @@
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
         <widget class="QLabel" name="label">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+&lt;p&gt;Set SER video file name. Record files may contain some patterns to make them dynamic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;_D_&lt;/b&gt; for the date in YYYY-MM-DD.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_H_&lt;/b&gt; for time in HH:MM:SS.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_T_&lt;/b&gt; for ISO8601 time stamp.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_F_&lt;/b&gt; for filter name, if any.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>File Name:</string>
          </property>
@@ -76,6 +87,18 @@
        </item>
        <item row="0" column="3">
         <widget class="QLabel" name="label_2">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;
+&lt;p&gt;Set SER video &lt;b&gt;remote&lt;/b&gt; directory name. If INDI server is running locally, then a local directory can be selected. However, if you are connected to a remote INDI server, then the directory must be a valid directory on the remote file system where it is saved.&lt;/p&gt;
+&lt;p&gt;Record directories may contain some patterns to make them dynamic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;b&gt;_D_&lt;/b&gt; for the date in YYYY-MM-DD.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_H_&lt;/b&gt; for time in HH:MM:SS.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_T_&lt;/b&gt; for ISO8601 time stamp.&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;_F_&lt;/b&gt; for filter name, if any.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>Dir:</string>
          </property>
@@ -157,6 +180,9 @@
        </item>
        <item row="1" column="5">
         <widget class="QDoubleSpinBox" name="durationSpin">
+         <property name="toolTip">
+          <string>Record stream for specified duration in seconds</string>
+         </property>
          <property name="maximum">
           <double>3600.000000000000000</double>
          </property>
@@ -183,6 +209,9 @@
        </item>
        <item row="1" column="7">
         <widget class="QSpinBox" name="framesSpin">
+         <property name="toolTip">
+          <string>Record stream until this many frames are captured</string>
+         </property>
          <property name="minimum">
           <number>1</number>
          </property>
