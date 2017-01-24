@@ -25,12 +25,14 @@
 
 #include "ui_streamform.h"
 
-class StreamWG : public QWidget, public Ui::streamForm
+#include "indi/indiccd.h"
+
+class StreamWG : public QDialog, public Ui::streamForm
 {
     Q_OBJECT
 
 public:
-    explicit StreamWG(QWidget * parent =0);
+    explicit StreamWG(ISD::CCD *ccd);
     ~StreamWG();
 
     void setColorFrame(bool color);
@@ -44,22 +46,25 @@ public:
     int getStreamWidth() { return streamWidth; }
     int getStreamHeight() { return streamHeight; }
 
-private:
-    bool	processStream;
-    int     streamWidth, streamHeight;
-    bool	colorFrame;
-    QIcon   playPix, pausePix, capturePix;
-
 protected:
     void closeEvent ( QCloseEvent * ev );
-    //void resizeEvent( QResizeEvent *ev );
 
 public slots:
-    void playPressed();
-    void captureImage();
+    void toggleRecord();
+    void updateRecordStatus(bool enabled);
+    void selectRecordDirectory();
 
 signals:
     void hidden();
+
+private:
+    bool	processStream;
+    int     streamWidth, streamHeight;
+    bool	colorFrame, isRecording;
+    QIcon   recordIcon, stopIcon;
+    ISD::CCD *currentCCD;
+    QUrl dirPath;
+
 };
 
 #endif
