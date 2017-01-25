@@ -887,9 +887,7 @@ Name[x-test]=xxFilter Wheel Changedxx
 Action=None
 [Event/RecordingStarted]
 Name=Video Recording Started
-Name[x-test]=xxVideo Recording Startedxx
 Action=None
 [Event/RecordingStopped]
 Name=Video Recording Stopped
-Name[x-test]=xxVideo Recording Stoppedxx
 Action=None
