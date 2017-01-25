@@ -236,7 +236,7 @@ bool KStarsLite::writeConfig()
    // /data/user/0/org.kde.kstars/files/settings/kstarsrc is used by KSharedConfig::openConfig()
    KSharedConfig::openConfig()->sync();
    // /data/data/org.kde.kstars/files/settings/kstarsrc is used by Options::self()
-   Options::self()->save();
+   return Options::self()->save();
 
     //Store current simulation time
     //Refer to // FIXME: Used in kstarsdcop.cpp only in kstarsdata.cpp

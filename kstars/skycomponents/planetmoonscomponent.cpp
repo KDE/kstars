@@ -59,8 +59,8 @@ PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
 //    pmoons = new JupiterMoons();
     int nmoons = pmoons->nMoons();
     for ( int i=0; i<nmoons; ++i ) {
-        objectNames(SkyObject::MOON).append( pmoons->name(i) );
-        objectLists(SkyObject::MOON).append( QPair<QString, const SkyObject*>(pmoons->name(i),pmoons->moon(i)) );
+//        objectNames(SkyObject::MOON).append( pmoons->name(i) );
+//        objectLists(SkyObject::MOON).append( QPair<QString, const SkyObject*>(pmoons->name(i),pmoons->moon(i)) );
     }
 }
 
@@ -73,12 +73,14 @@ bool PlanetMoonsComponent::selected() {
     return m_Planet->selected();
 }
 
+#ifndef KSTARS_LITE
 void PlanetMoonsComponent::update( KSNumbers * )
 {
     KStarsData *data = KStarsData::Instance();
     if ( selected() )
         pmoons->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
+#endif
 
 void PlanetMoonsComponent::updateMoons( KSNumbers *num )
 {

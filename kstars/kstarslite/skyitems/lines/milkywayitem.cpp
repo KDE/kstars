@@ -36,9 +36,9 @@ void MilkyWayItem::initialize() {
     LineListHash *trixels = m_MWComp->polyIndex();
     while(QSGNode *n = firstChild()) { removeChildNode(n); delete n; }
 
-    QHash< Trixel, LineListList *>::const_iterator i = trixels->begin();
+    QHash< Trixel, LineListList *>::const_iterator i = trixels->cbegin();
     QList<LineList *> addedLines;
-    while( i != trixels->end()) {
+    while( i != trixels->cend()) {
         LineListList *linesList = *i;
 
         if(linesList->size()) {

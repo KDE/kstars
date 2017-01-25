@@ -18,6 +18,7 @@
 #include <QSGGeometry>
 #include <QSGFlatColorMaterial>
 #include <QPolygon>
+#include <QtMath>
 
 #include "ellipsenode.h"
 

@@ -30,6 +30,7 @@ class TelescopeLite : public QObject
     Q_OBJECT
     Q_PROPERTY(bool slewDecreasable READ isSlewDecreasable WRITE setSlewDecreasable NOTIFY slewDecreasableChanged)
     Q_PROPERTY(bool slewIncreasable READ isSlewIncreasable WRITE setSlewIncreasable NOTIFY slewIncreasableChanged)
+    Q_PROPERTY(QString slewRateLabel READ getSlewRateLabel WRITE setSlewRateLabel NOTIFY slewRateLabelChanged)
     Q_PROPERTY(QString deviceName READ getDeviceName WRITE setDeviceName NOTIFY deviceNameChanged)
 public:
     TelescopeLite(INDI::BaseDevice *device);
@@ -57,8 +58,12 @@ public:
     bool isSlewDecreasable() { return m_slewDecreasable; }
     bool isSlewIncreasable() { return m_slewIncreasable; }
 
+    QString getSlewRateLabel() { return m_slewRateLabel; }
+
     void setSlewDecreasable(bool slewDecreasable);
     void setSlewIncreasable(bool slewIncreasable);
+
+    void setSlewRateLabel(QString slewRateLabel);
 
     Q_INVOKABLE bool decreaseSlewRate();
     Q_INVOKABLE bool increaseSlewRate();
@@ -92,10 +97,12 @@ public slots:
     bool park();
     bool unPark();
     bool setSlewRate(int index);
+    void updateSlewRate(QString deviceName, QString propName);
 
 signals:
     void slewDecreasableChanged(bool);
     void slewIncreasableChanged(bool);
+    void slewRateLabelChanged(QString);
     void deviceNameChanged(QString);
     void newTelescopeLiteCreated(TelescopeLite *);
 
@@ -111,6 +118,7 @@ private:
 
     bool m_slewDecreasable;
     bool m_slewIncreasable;
+    QString m_slewRateLabel;
 };
 
 #endif // INDITELESCOPE_H

@@ -68,9 +68,9 @@ void HorizonItem::update() {
         const Projector *proj = SkyMapLite::Instance()->projector();
         KStarsData *data = KStarsData::Instance();
 
-        QMap<SkyPoint *,LabelNode *>::iterator i = m_compassLabels.begin();
+        QMap<SkyPoint *,LabelNode *>::const_iterator i = m_compassLabels.cbegin();
 
-        while (  i != m_compassLabels.end() ) {
+        while (  i != m_compassLabels.cend() ) {
             SkyPoint *c = i.key();
             if ( !Options::useAltAz() ) {
                 c->HorizontalToEquatorial( data->lst(), data->geo()->lat() );

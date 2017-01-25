@@ -45,15 +45,15 @@ void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int w
     //Sort by trixels
     QMap<Trixel, LineListList*> trixels;
 
-    QHash< Trixel, LineListList *>::const_iterator s = list->begin();
-    while(s != list->end()) {
+    QHash<Trixel, LineListList* >::const_iterator s = list->cbegin();
+    while(s != list->cend()) {
         trixels.insert(s.key(), *s);
         s++;
     }
 
-    QMap< Trixel, LineListList *>::const_iterator i = trixels.begin();
+    QMap<Trixel, LineListList* >::const_iterator i = trixels.cbegin();
     QList<LineList *> addedLines;
-    while( i != trixels.end()) {
+    while( i != trixels.cend()) {
         LineListList *linesList = *i;
 
         if(linesList->size()) {
@@ -74,7 +74,7 @@ void LinesItem::addLinesComponent(LineListIndex *linesComp, QString color, int w
 }
 
 void LinesItem::update() {
-    QMap< LineIndexNode *, LineListIndex *>::const_iterator i = m_lineIndexes.begin();
+    QMap< LineIndexNode *, LineListIndex *>::iterator i = m_lineIndexes.begin();
 
     SkyMapLite *map = SkyMapLite::Instance();
 

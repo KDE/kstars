@@ -280,7 +280,7 @@ ColumnLayout {
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
 
-            text: xi18n("Slewing speed control")
+            text: xi18n("Slew rate: " + telescope.slewRateLabel)
         }
 
         Button {

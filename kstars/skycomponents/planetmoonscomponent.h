@@ -54,7 +54,9 @@ public:
 
     virtual bool selected();
     virtual void draw( SkyPainter *skyp );
+#ifndef KSTARS_LITE
     virtual void update( KSNumbers *num );
+#endif
     virtual void updateMoons( KSNumbers *num );
 
     SkyObject* objectNearest( SkyPoint *p, double &maxrad );

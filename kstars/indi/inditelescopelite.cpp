@@ -18,19 +18,27 @@
 #include "skymaplite.h"
 
 TelescopeLite::TelescopeLite(INDI::BaseDevice *device)
-    :slewRateIndex(0)
+    :minAlt(-1), maxAlt(-1), IsParked(false), clientManager(KStarsLite::Instance()->clientManagerLite()),
+      baseDevice(device), slewRateIndex(0)
 {
-    baseDevice = device;
-    minAlt=-1;
-    maxAlt=-1;
-    IsParked=false;
-    clientManager = KStarsLite::Instance()->clientManagerLite();
-
-    setSlewRate(0);
-
-    setSlewDecreasable(false);
-    setSlewIncreasable(true);
     setDeviceName(device->getDeviceName());
+    //Whenever slew rate is changed (or once it was initialized) we update it
+    connect(clientManager, &ClientManagerLite::newINDIProperty, this, &TelescopeLite::updateSlewRate);
+    connect(clientManager, &ClientManagerLite::newINDISwitch, this, &TelescopeLite::updateSlewRate);
+}
+
+void TelescopeLite::updateSlewRate(QString deviceName, QString propName) {
+    if(deviceName == baseDevice->getDeviceName() && propName == "TELESCOPE_SLEW_RATE") {
+        ISwitchVectorProperty *slewRateSP = baseDevice->getSwitch("TELESCOPE_SLEW_RATE");
+        int index = 0;
+        for(int i = 0; i < slewRateSP->nsp; ++i) {
+            if(slewRateSP->sp[i].s == ISS_ON) {
+                index = i;
+                break;
+            }
+        }
+        setSlewRate(index);
+    }
 }
 
 TelescopeLite::~TelescopeLite()
@@ -52,6 +60,13 @@ void TelescopeLite::setSlewIncreasable(bool slewIncreasable) {
     }
 }
 
+void TelescopeLite::setSlewRateLabel(QString slewRateLabel) {
+    if(m_slewRateLabel != slewRateLabel) {
+        m_slewRateLabel = slewRateLabel;
+        emit slewRateLabelChanged(slewRateLabel);
+    }
+}
+
 void TelescopeLite::setDeviceName(QString deviceName) {
     if(m_deviceName != deviceName) {
         m_deviceName = deviceName;
@@ -67,8 +82,8 @@ void TelescopeLite::registerProperty(INDI::Property *prop)
         if (ti == NULL)
             return;
 
-//        bool aperture_ok=false, focal_ok=false;
-//        double temp=0;
+        //        bool aperture_ok=false, focal_ok=false;
+        //        double temp=0;
     }
 
     if (!strcmp(prop->getName(), "TELESCOPE_PARK"))
@@ -282,7 +297,7 @@ bool TelescopeLite::sendCoords(SkyPoint *ScopeTarget)
     if (targetAlt < 0)
     {
         if (false/*KMessageBox::warningContinueCancel(NULL, i18n("Requested altitude is below the horizon. Are you sure you want to proceed?"), i18n("Telescope Motion"),
-                                                                           KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QString("telescope_coordintes_below_horizon_warning")) == KMessageBox::Cancel*/)
+                                                                                   KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QString("telescope_coordintes_below_horizon_warning")) == KMessageBox::Cancel*/)
         {
             if (EqProp)
             {
@@ -569,6 +584,7 @@ bool TelescopeLite::setSlewRate(int index)
         slewRateSP->sp[index].s = ISS_ON;
 
         slewRateIndex = index;
+        setSlewRateLabel(slewRateSP->sp[index].label);
         setSlewDecreasable(index != 0);
         setSlewIncreasable(index != maxSlewRate - 1);
 

@@ -29,12 +29,12 @@
 
 #ifndef KSTARS_LITE
 #include <KMessageBox>
+#include "kswizard.h"
 #endif
 
 #include <cmath>
 #include "auxiliary/kspaths.h"
 
-#include "kswizard.h"
 #include <QPointer>
 
 namespace KSUtils {

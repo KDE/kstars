@@ -48,7 +48,7 @@ typedef QHash< Trixel, bool>           SkyRegion;
 typedef QList< StarObject*>            StarList;
 typedef QVector< StarList*>            StarIndex;
 typedef QVector< LineList*>            LineListList;
-typedef QHash< Trixel, LineListList*>  LineListHash;  // Wanted LineListIndex, but that is used by a class
+typedef QHash<Trixel, LineListList*>   LineListHash;  // Wanted LineListIndex, but that is used by a class
 typedef QList< SkyObject *>            SkyObjectList;
 
 #endif

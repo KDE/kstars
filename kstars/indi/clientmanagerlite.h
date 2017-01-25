@@ -17,7 +17,7 @@
 #ifndef CLIENTMANAGERLITE_H
 #define CLIENTMANAGERLITE_H
 
-#include <baseclientqt.h>
+#include "baseclientqt.h"
 #include "inditelescopelite.h"
 #include "indicommon.h"
 #include "Options.h"
