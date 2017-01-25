@@ -240,6 +240,7 @@ Focus::Focus()
     focusView = new FITSView(focusingWidget, FITS_FOCUS);
     focusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     focusView->setBaseSize(focusingWidget->size());
+    focusView->createFloatingToolBar();
     QVBoxLayout *vlayout = new QVBoxLayout();
     vlayout->addWidget(focusView);
     focusingWidget->setLayout(vlayout);

@@ -128,7 +128,6 @@ public:
     bool isPixelGridShown();
     bool imageHasWCS();
 
-
     void drawCrosshair(QPainter *);
     void drawEQGrid(QPainter *);
     void drawObjectNames(QPainter *painter);
@@ -144,7 +143,6 @@ public:
     static const int selectMouse=1;
     static const int scopeMouse=2;
 
-
     // Zoom related
     void cleanUpZoom(QPoint viewCenter);
     QPoint getImagePoint(QPoint viewPortPoint);
@@ -153,12 +151,6 @@ public:
     int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID);
     void toggleStars(bool enable);
     void setStarsEnabled(bool enable) { markStars  = enable; }
-
-    // Grids
-    void toggleEQGrid();
-    void toggleObjects();
-    void togglePixelGrid();
-    void toggleCrosshair();
 
     // FITS Mode
     void updateMode(FITSMode mode);
@@ -171,6 +163,9 @@ public:
     void pushFilter(FITSScale value) { filterStack.push(value); }
     FITSScale popFilter() { return filterStack.pop(); }
 
+    // Floating toolbar
+    void createFloatingToolBar();
+
 protected:
     void wheelEvent(QWheelEvent* event);
 
@@ -179,6 +174,14 @@ public slots:
     void ZoomOut();
     void ZoomDefault();
     void ZoomToFit();
+
+    // Grids
+    void toggleEQGrid();
+    void toggleObjects();
+    void togglePixelGrid();
+    void toggleCrosshair();
+
+    void centerTelescope();
 
     void processPointSelection(int x, int y);
     void processMarkerSelection(int x, int y);
@@ -190,6 +193,7 @@ private:
     bool event(QEvent *event);
     bool gestureEvent(QGestureEvent *event);
     void pinchTriggered(QPinchGesture *gesture);
+    void updateScopeButton();
 
     template<typename T> int rescale(FITSZoom type);
 
@@ -246,6 +250,10 @@ private:
     bool trackingBoxUpdated;
     QRect trackingBox;
     QPixmap trackingBoxPixmap;
+
+    // Floating toolbar
+    QToolBar *floatingToolBar = NULL;
+    QAction *centerTelescopeAction = NULL;
 
     // WCS Future Watch
     QFutureWatcher<bool> wcsWatcher;

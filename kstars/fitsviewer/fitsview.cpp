@@ -460,6 +460,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     grabGesture(Qt::PinchGesture);
 
     image_frame = new FITSLabel(this);
+    floatingToolBar = NULL;
     image_data  = NULL;
     display_image = NULL;
     firstLoad = true;
@@ -1553,4 +1554,75 @@ void FITSView::handleWCSCompletion()
     if(hasWCS)
           this->updateFrame();
     emit wcsToggled(hasWCS);
+}
+
+void FITSView::createFloatingToolBar()
+{
+    if (floatingToolBar)
+        return;
+
+    floatingToolBar = new QToolBar(this);
+    floatingToolBar->setFloatable(true);
+    //floatingToolBar->setMovable(true);
+
+    QAction *action=NULL;
+
+    floatingToolBar->addAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.svg")), i18n("Zoom In"), this, SLOT(ZoomIn()));
+
+    floatingToolBar->addAction(QIcon::fromTheme("zoom-out", QIcon(":/icons/breeze/default/zoom-out.svg")), i18n("Zoom Out"), this, SLOT(ZoomOut()));
+
+    floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg")), i18n("Default Zoom"), this, SLOT(ZoomDefault()));
+
+    floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-width", QIcon(":/icons/breeze/default/view-fit-width.svg")), i18n("Zoom to Fit"), this, SLOT(ZoomToFit()));
+
+    floatingToolBar->addSeparator();
+
+    action = floatingToolBar->addAction(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), i18n("Show Cross Hairs"), this, SLOT(toggleCrosshair()));
+    action->setCheckable(true);
+
+    action = floatingToolBar->addAction(QIcon::fromTheme("map-flat", QIcon(":/icons/breeze/default/map-flat.svg")), i18n("Show Pixel Gridlines"), this, SLOT(togglePixelGrid()));
+    action->setCheckable(true);
+
+    floatingToolBar->addSeparator();
+
+    action = floatingToolBar->addAction(QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg")), i18n("Show Equatorial Gridlines"), this, SLOT(toggleEQGrid()));
+    action->setCheckable(true);
+
+    action = floatingToolBar->addAction(QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")), i18n("Show Objects in Image"), this, SLOT(toggleObjects()));
+    action->setCheckable(true);
+
+    centerTelescopeAction = floatingToolBar->addAction(QIcon::fromTheme("center_telescope", QIcon(":/icons/breeze/default/center_telescope.svg")), i18n("Center Telescope"), this, SLOT(centerTelescope()));
+    centerTelescopeAction->setDisabled(true);
+    centerTelescopeAction->setCheckable(true);
+}
+
+/**
+ This methood either enables or disables the scope mouse mode so you can slew your scope to coordinates
+ just by clicking the mouse on a spot in the image.
+ */
+
+void FITSView::centerTelescope()
+{
+    if(getMouseMode()==FITSView::scopeMouse)
+    {
+        setMouseMode(FITSView::dragMouse);
+    }
+    else
+    {
+        setMouseMode(FITSView::scopeMouse);
+    }
+
+    updateScopeButton();
+}
+
+void FITSView::updateScopeButton()
+{
+    if(getMouseMode()==FITSView::scopeMouse)
+    {
+       centerTelescopeAction->setChecked(true);
+    }
+    else
+    {
+       centerTelescopeAction->setChecked(false);
+    }
 }
