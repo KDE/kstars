@@ -22,9 +22,6 @@
 
 #include <KLocalizedString>
 #include <QDialog>
-#include <KPlotting/KPlotObject>
-#include <KPlotting/KPlotAxis>
-#include <KPlotting/KPlotWidget>
 #include <QPainter>
 #include <QtPrintSupport/QPrinter>
 #include <QtPrintSupport/QPrintDialog>

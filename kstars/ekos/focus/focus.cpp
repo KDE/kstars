@@ -12,9 +12,6 @@
 
 #include <KMessageBox>
 #include <KLocalizedString>
-#include <KPlotting/KPlotWidget>
-#include <KPlotting/KPlotObject>
-#include <KPlotting/KPlotAxis>
 
 #include <KNotifications/KNotification>
 
