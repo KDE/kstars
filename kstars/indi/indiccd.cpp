@@ -1000,7 +1000,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         return;
     }
 
-    if (!strcmp(svp->name, "CCD_VIDEO_STREAM") || !strcmp(svp->name, "VIDEO_STREAM"))
+    if (QString(svp->name).endsWith("VIDEO_STREAM"))
     {
         HasVideoStream = true;
 
@@ -1602,9 +1602,28 @@ void CCD::StreamWindowHidden()
 {
     if (baseDevice->isConnected())
     {
+        // We can have more than one *_VIDEO_STREAM property active so disable them all
         ISwitchVectorProperty *streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
-        if (streamSP == NULL)
-            streamSP = baseDevice->getSwitch("VIDEO_STREAM");
+        if (streamSP)
+        {
+            IUResetSwitch(streamSP);
+            streamSP->sp[0].s = ISS_OFF;
+            streamSP->sp[1].s = ISS_ON;
+            streamSP->s = IPS_IDLE;
+            clientManager->sendNewSwitch(streamSP);
+        }
+
+        streamSP = baseDevice->getSwitch("VIDEO_STREAM");
+        if (streamSP)
+        {
+            IUResetSwitch(streamSP);
+            streamSP->sp[0].s = ISS_OFF;
+            streamSP->sp[1].s = ISS_ON;
+            streamSP->s = IPS_IDLE;
+            clientManager->sendNewSwitch(streamSP);
+        }
+
+        streamSP = baseDevice->getSwitch("AUX_VIDEO_STREAM");
         if (streamSP)
         {
             IUResetSwitch(streamSP);
