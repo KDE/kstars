@@ -36,29 +36,37 @@
 #include "kstars.h"
 #include "Options.h"
 
-StreamWG::StreamWG(QWidget * parent) : QWidget(parent)
+StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
 {
-
     setupUi(this);
+    currentCCD     = ccd;
     streamWidth    = streamHeight = -1;
-    processStream  = colorFrame = false;
+    processStream  = colorFrame = isRecording = false;
+
+    dirPath     = QUrl::fromLocalFile(QDir::homePath());
+
+    setWindowTitle(i18n("%1 Live Video", ccd->getDeviceName()));
+
+    QString filename, directory;
+    ccd->getSERNameDirectory(filename, directory);
+
+    recordFilenameEdit->setText(filename);
+    recordDirectoryEdit->setText(directory);
 
 #ifdef Q_OS_OSX
         setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
-    playPix    = QIcon::fromTheme( "media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg"));
-    pausePix   = QIcon::fromTheme( "media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg"));
-    capturePix = QIcon::fromTheme( "media-record", QIcon(":/icons/breeze/default/media-record.svg"));
+    selectDirB->setIcon(QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")));
+    connect(selectDirB, SIGNAL(clicked()), this, SLOT(selectRecordDirectory()));
 
-    foreach (const QByteArray &format, QImageWriter::supportedImageFormats())
-    imgFormatCombo->addItem(QString(format));
+    recordIcon   = QIcon::fromTheme( "media-record", QIcon(":/icons/breeze/default/media-record.svg"));
+    stopIcon     = QIcon::fromTheme( "media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg"));
 
-    playB->setIcon(pausePix);
-    captureB->setIcon(capturePix);
+    recordB->setIcon(recordIcon);
 
-    connect(playB, SIGNAL(clicked()), this, SLOT(playPressed()));
-    connect(captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
+    connect(recordB, SIGNAL(clicked()), this, SLOT(toggleRecord()));
+    connect(ccd, SIGNAL(videoRecordToggled(bool)), this, SLOT(updateRecordStatus(bool)));
 
     videoFrame->resize(Options::streamWindowWidth(), Options::streamWindowHeight());
 }
@@ -71,13 +79,22 @@ void StreamWG::closeEvent ( QCloseEvent * ev )
 {
     processStream = false;
 
-
     Options::setStreamWindowWidth(videoFrame->width());
     Options::setStreamWindowHeight(videoFrame->height());
 
     ev->accept();
 
     emit hidden();
+}
+
+void StreamWG::selectRecordDirectory()
+{
+    QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("SER Record Directory"), dirPath.toLocalFile());
+
+    if (dir.isEmpty())
+        return;
+
+    recordDirectoryEdit->setText(dir);
 }
 
 void StreamWG::setColorFrame(bool color)
@@ -95,7 +112,7 @@ void StreamWG::enableStream(bool enable)
     else
     {
         processStream = false;
-        playB->setIcon(pausePix);
+        //playB->setIcon(pausePix);
         hide();
     }
 
@@ -104,19 +121,14 @@ void StreamWG::enableStream(bool enable)
 void StreamWG::setSize(int wd, int ht)
 {
     // Initial resize
-    if (streamWidth == -1)
+    /*if (streamWidth == -1)
         resize(Options::streamWindowWidth() + layout()->margin() * 2,
-               Options::streamWindowHeight()+ playB->height() + layout()->margin() * 4 + layout()->spacing());
+               Options::streamWindowHeight()+ playB->height() + layout()->margin() * 4 + layout()->spacing());*/
 
     streamWidth = wd;
     streamHeight = ht;
 
     videoFrame->setTotalBaseCount(wd * ht);
-
-    //resize(wd + layout()->margin() * 2 , ht + playB->height() + layout()->margin() * 4 + layout()->spacing());
-    //videoFrame->resize(Options::streamWindowWidth(), Options::streamWindowHeight());
-
-    //videoFrame->update();
 }
 
 /*void StreamWG::resizeEvent(QResizeEvent *ev)
@@ -125,20 +137,58 @@ void StreamWG::setSize(int wd, int ht)
 
 }*/
 
-void StreamWG::playPressed()
+void StreamWG::updateRecordStatus(bool enabled)
 {
+    if ( (enabled && isRecording) || (!enabled && !isRecording))
+        return;
 
-    if (processStream)
+    isRecording = enabled;
+
+    if (isRecording)
     {
-        playB->setIcon(playPix);
-        processStream = false;
+        recordB->setIcon(stopIcon);
+        recordB->setToolTip(i18n("Stop recording"));
     }
     else
     {
-        playB->setIcon(pausePix);
-        processStream = true;
+        recordB->setIcon(recordIcon);
+        recordB->setToolTip(i18n("Start recording"));
     }
+}
 
+void StreamWG::toggleRecord()
+{
+    if (isRecording)
+    {
+        recordB->setIcon(recordIcon);
+        isRecording = false;
+        recordB->setToolTip(i18n("Start recording"));
+
+        currentCCD->stopRecording();
+    }
+    else
+    {
+        currentCCD->setSERNameDirectory(recordFilenameEdit->text(), recordDirectoryEdit->text());
+
+        if (recordUntilStoppedR->isChecked())
+        {
+            isRecording = currentCCD->startRecording();
+        }
+        else if (recordDurationR->isChecked())
+        {
+            isRecording = currentCCD->startDurationRecording(durationSpin->value());
+        }
+        else
+        {
+            isRecording = currentCCD->startFramesRecording(framesSpin->value());
+        }
+
+        if (isRecording)
+        {
+            recordB->setIcon(stopIcon);
+            recordB->setToolTip(i18n("Stop recording"));
+        }
+    }
 }
 
 void StreamWG::newFrame(IBLOB *bp)
@@ -149,28 +199,5 @@ void StreamWG::newFrame(IBLOB *bp)
     {        
         KMessageBox::error(0, i18n("Unable to load video stream."));
         close();
-    }
-}
-
-void StreamWG::captureImage()
-{
-    QString fmt;
-    QUrl currentFileURL;
-    QUrl currentDir(Options::fitsDir());
-
-    fmt = imgFormatCombo->currentText();
-
-    currentFileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Image"), currentDir, fmt );
-
-    if (currentFileURL.isEmpty()) return;
-
-    if ( currentFileURL.isValid() )
-    {
-        videoFrame->save(currentFileURL.toLocalFile(), fmt.toLatin1());
-    }
-    else
-    {
-        QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
-        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
     }
 }

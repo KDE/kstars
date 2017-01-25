@@ -63,22 +63,6 @@
       </widget>
      </item>
      <item>
-      <spacer>
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>12</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
       <widget class="QLabel" name="foundFeedback1">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The KStars Data Directory called kstars should be located at:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -130,14 +114,80 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Optional Files for the Data directory:&lt;/p&gt;&lt;p&gt;GSC: &lt;a href=&quot;https://drive.google.com/file/d/0B_ivMJINsdQ8cDhNcU5ESkZMZ0E/view?usp=sharing&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Guide Star Catalog&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Installing this in your data directory will enable the CCD Simulator in KStars to take realistic images. This is useful for testing sequences, plate solving, and learning to use KStars. Just unzip the zip file and place the gsc folder in the data directory.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Optional Files for the Data directory:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="GSCLayout">
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;GSC: &lt;a href=&quot;https://drive.google.com/file/d/0B_ivMJINsdQ8cDhNcU5ESkZMZ0E/view?usp=sharing&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Guide Star Catalog&lt;/span&gt;&lt;/a&gt; (305 MB)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="installGSC">
+         <property name="text">
+          <string>GSC</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="GSCFound">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QProgressBar" name="downloadProgress">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximum">
+          <number>240</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="GSCFeedback">
+       <property name="text">
+        <string>Installing this in your data directory will enable the CCD Simulator in KStars to take realistic images. This is useful for testing sequences, plate solving, and learning to use KStars. Just click the button to install or unzip the zip file and place the gsc folder in the data directory.</string>
        </property>
        <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-       <property name="openExternalLinks">
         <bool>true</bool>
        </property>
       </widget>

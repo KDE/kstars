@@ -371,7 +371,9 @@ void KStars::initActions() {
         << QKeySequence( Qt::CTRL+Qt::Key_G );
 
     // Configure Notifications
+#ifdef HAVE_NOTIFYCONFIG
     KStandardAction::configureNotifications(this, SLOT(slotConfigureNotifications()), actionCollection());
+#endif
 
     ka = actionCollection()->addAction( KStandardAction::Preferences, "configure", this, SLOT( slotViewOps() ) );
     //I am not sure what icon preferences is supposed to be.

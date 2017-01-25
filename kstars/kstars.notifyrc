@@ -885,3 +885,9 @@ Name[sv]=Filterhjul ändrat
 Name[uk]=Змінено барабан з фільтрами
 Name[x-test]=xxFilter Wheel Changedxx
 Action=None
+[Event/RecordingStarted]
+Name=Video Recording Started
+Action=None
+[Event/RecordingStopped]
+Name=Video Recording Stopped
+Action=None
