@@ -28,7 +28,7 @@ TrixelNode::TrixelNode(Trixel trixel)
 void TrixelNode::deleteAllChildNodes() {
     QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = m_nodes.begin();
 
-    while(i != m_nodes.end()) {
+    while(i != m_nodes.cend()) {
         SkyNode *node = (*i).second;
         if(node) {
             removeChildNode(node);

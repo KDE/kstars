@@ -24,20 +24,20 @@
 #include "skynodes/planetnode.h"
 #include "Options.h"
 
-PlanetsItem::PlanetsItem(QList<SolarSystemSingleComponent *> planets, QList<PlanetMoonsComponent *> moons, RootNode *rootNode)
-    :SkyItem(LabelsItem::label_t::PLANET_LABEL, rootNode), m_planetComponents(planets), m_moonsComponents(moons)
+PlanetsItem::PlanetsItem(QList<SolarSystemSingleComponent *> planets,/* QList<PlanetMoonsComponent *> moons, */RootNode *rootNode)
+    :SkyItem(LabelsItem::label_t::PLANET_LABEL, rootNode), m_planetComponents(planets)/*, m_moonsComponents(moons)*/
 {
     foreach(SolarSystemSingleComponent * planetComp, m_planetComponents) {
         KSPlanetBase *planet = planetComp->planet();
         PlanetMoonsNode *pNode = new PlanetMoonsNode(planet, rootNode);
         appendChildNode(pNode);
 
-        foreach(PlanetMoonsComponent * moonsComp, m_moonsComponents) {
-            // Find planet of moons
-            if(planet == moonsComp->getPlanet()) {
-                pNode->addMoons(moonsComp->getMoons());
-            }
-        }
+//        foreach(PlanetMoonsComponent * moonsComp, m_moonsComponents) {
+//            // Find planet of moons
+//            if(planet == moonsComp->getPlanet()) {
+//                pNode->addMoons(moonsComp->getMoons());
+//            }
+//        }
     }
 }
 

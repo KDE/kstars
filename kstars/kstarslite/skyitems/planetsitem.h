@@ -41,7 +41,7 @@ public:
      * @param moons list of pointers to moons
      * @param rootNode parent RootNode that instantiates this object
      */
-    PlanetsItem(QList<SolarSystemSingleComponent *> planets, QList<PlanetMoonsComponent *> moons, RootNode *rootNode = 0);
+    PlanetsItem(QList<SolarSystemSingleComponent *> planets, /*QList<PlanetMoonsComponent *> moons,*/ RootNode *rootNode = 0);
 
     /**
      * @short returns SolarSystemSingleComponent that corresponds to the planet. Used to determine
@@ -71,6 +71,6 @@ public:
 
 private:
     QList<SolarSystemSingleComponent *> m_planetComponents;
-    QList<PlanetMoonsComponent *> m_moonsComponents;
+//    QList<PlanetMoonsComponent *> m_moonsComponents;
 };
 #endif

@@ -101,6 +101,7 @@ void SatellitesComponent::update( KSNumbers * )
 
 void SatellitesComponent::draw( SkyPainter *skyp )
 {
+#ifndef KSTARS_LITE
     // Return if satellites must not be draw
     if( ! selected() )
         return;
@@ -130,6 +131,7 @@ void SatellitesComponent::draw( SkyPainter *skyp )
             }
         }
     }
+#endif
 }
 
 void SatellitesComponent::drawLabel( Satellite *sat, QPointF pos )

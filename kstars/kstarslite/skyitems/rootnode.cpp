@@ -80,7 +80,7 @@ RootNode::RootNode()
 
     m_solarSystem = m_skyComposite->solarSystemComposite();
 
-    m_planetsItem = new PlanetsItem(m_solarSystem->planets(), m_solarSystem->planetMoonsComponent(), this);
+    m_planetsItem = new PlanetsItem(m_solarSystem->planets(),/* m_solarSystem->planetMoonsComponent(),*/ this);
     m_asteroidsItem = new AsteroidsItem(m_solarSystem->asteroids(), this);
     m_cometsItem = new CometsItem(m_solarSystem->comets(), this);
 

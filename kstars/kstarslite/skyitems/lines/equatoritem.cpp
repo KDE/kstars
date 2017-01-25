@@ -32,8 +32,8 @@ EquatorItem::EquatorItem(Equator *equatorComp, RootNode *rootNode)
 {
     LineListHash *trixels = equatorComp->lineIndex();
 
-    QHash< Trixel, LineListList *>::const_iterator i = trixels->begin();
-    while( i != trixels->end()) {
+    QHash< Trixel, LineListList *>::const_iterator i = trixels->cbegin();
+    while( i != trixels->cend()) {
         LineListList *linesList = *i;
 
         QList<LineList *> addedLines;

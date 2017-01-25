@@ -243,14 +243,14 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
             return;
 
         //Pinch to zoom
-        double x_old_diff = abs(points[1].lastPos().x() - points[0].lastPos().x());
-        double y_old_diff = abs(points[1].lastPos().y() - points[0].lastPos().y());
+        double x_old_diff = qFabs(points[1].lastPos().x() - points[0].lastPos().x());
+        double y_old_diff = qFabs(points[1].lastPos().y() - points[0].lastPos().y());
 
         //Manhattan distance of old points
         double md_old = x_old_diff + y_old_diff;
 
-        double x_diff = abs(points[1].pos().x() - points[0].pos().x());
-        double y_diff = abs(points[1].pos().y() - points[0].pos().y());
+        double x_diff = qFabs(points[1].pos().x() - points[0].pos().x());
+        double y_diff = qFabs(points[1].pos().y() - points[0].pos().y());
 
         //Manhattan distance of new points
         double md_new = x_diff + y_diff;
