@@ -113,6 +113,14 @@ private slots:
 
     void slotOpenOrCreateAstrometryFolder();
 
+    void slotInstallGSC();
+
+    void slotExtractGSC();
+
+    void slotCheckDownloadProgress();
+
+     void slotGSCInstallerFinished();
+
     void slotInstallPip();
 
     void slotInstallPyfits();
@@ -140,8 +148,8 @@ private:
     WizAstrometryUI* astrometry;
     QPushButton *nextB,*backB;
     QDialogButtonBox *buttonBox;
-    QProcess* install;
-    QProgressIndicator *installMonitor;
+
+
 
 
     GeoLocation *Geo;
@@ -149,10 +157,17 @@ private:
 
     #ifdef Q_OS_OSX
 
+    QProcess* install;
+    QProgressIndicator *installMonitor;
+    QProgressIndicator *gscMonitor;
+    QTimer *downloadMonitor;
+    QString gscZipPath;
 
     bool brewExists();
 
     bool pythonExists();
+
+    bool GSCExists();
 
     bool pipExists();
 

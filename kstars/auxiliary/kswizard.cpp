@@ -141,6 +141,7 @@ KSWizard::KSWizard( QWidget *parent ) :
 
     connect(data->copyKStarsData, SIGNAL(clicked()), this, SLOT(slotOpenOrCopyKStarsDataDirectory()));
     connect(astrometry->astrometryButton, SIGNAL(clicked()), this, SLOT(slotOpenOrCreateAstrometryFolder()));
+    connect(data->installGSC, SIGNAL(clicked()), this, SLOT(slotInstallGSC()));
     connect(astrometry->pipInstall, SIGNAL(clicked()), this, SLOT(slotInstallPip()));
     connect(astrometry->pyfitsInstall, SIGNAL(clicked()), this, SLOT(slotInstallPyfits()));
     connect(astrometry->netpbmInstall, SIGNAL(clicked()), this, SLOT(slotInstallNetpbm()));
@@ -156,6 +157,11 @@ KSWizard::KSWizard( QWidget *parent ) :
     connect(install, SIGNAL(readyReadStandardError()), this, SLOT(slotUpdateText()));
     connect(install, SIGNAL(finished(int)), this, SLOT(slotInstallerFinished()));
 
+    gscMonitor = new QProgressIndicator(data);
+    data->GSCLayout->addWidget(gscMonitor);
+    data->downloadProgress->setValue(0);
+    data->downloadProgress->setEnabled(false);
+    data->downloadProgress->setVisible(false);
     installMonitor = new QProgressIndicator(astrometry);
     astrometry->installersLayout->addWidget(installMonitor);
 
@@ -192,9 +198,9 @@ void KSWizard::setButtonsEnabled() {
     backB->setEnabled(wizardStack->currentIndex() > 0 );
 
      #ifdef Q_OS_OSX
-    if((wizardStack->currentWidget()==data||wizardStack->currentWidget()==welcome) &&(!dataDirExists())){
+    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(dataDirExists());
+    if((wizardStack->currentWidget()==data) &&(!dataDirExists())){
         nextB->setEnabled(false);
-        buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     }
     if(wizardStack->currentWidget()==location){
             if(KStars::Instance()){
@@ -280,7 +286,8 @@ void KSWizard::slotDownload() {
 
 
 void KSWizard::slotFinishWizard(){
-    KStars::Instance()->updateLocationFromWizard(*(geo()));
+    if(KStars::Instance())
+        KStars::Instance()->updateLocationFromWizard(*(geo()));
     delete this;
 }
 
@@ -302,6 +309,7 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory(){
             return;
         }
         KSUtils::copyRecursively(dataSourceLocation, dataLocation);
+        //This will update the next, ok, and copy kstars dir buttons.
         slotUpdateDataButtons();
 
         //This will let the program load after the data folder is copied
@@ -309,11 +317,6 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory(){
         setModal(false);
         setWindowFlags(Qt::Dialog|Qt::WindowStaysOnTopHint);
         show();
-
-
-        //Enable the buttons so you can go to the next page or click ok.
-        nextB->setEnabled(true);
-        buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
     } else{
         QUrl path = QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory));
         QDesktopServices::openUrl(path);
@@ -335,6 +338,65 @@ void KSWizard::slotOpenOrCreateAstrometryFolder()
     }
 #endif
 }
+
+void KSWizard::slotInstallGSC(){
+    #ifdef Q_OS_OSX
+    QString location=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
+    gscZipPath=location+"/gsc.zip";
+    QProcess *downloadGSC=new QProcess();
+    downloadGSC->setWorkingDirectory(location);
+    connect(downloadGSC, SIGNAL(finished(int)), this, SLOT(slotExtractGSC()));
+    connect(downloadGSC, SIGNAL(finished(int)), this, SLOT(downloadGSC.deleteLater()));
+    downloadGSC->start("wget", QStringList() << "-O" << "gsc.zip" << "http://mactelescope.com/gsc.zip" );
+    data->GSCFeedback->setText("downloading GSC . . .");
+
+    downloadMonitor=new QTimer(this);
+    connect(downloadMonitor, SIGNAL(timeout()), this, SLOT(slotCheckDownloadProgress()));
+    downloadMonitor->start(1000);
+    gscMonitor->startAnimation();
+    data->downloadProgress->setVisible(true);
+    data->downloadProgress->setEnabled(true);
+    data->downloadProgress->setMaximum(240);
+    data->downloadProgress->setValue(0);
+   #endif
+}
+
+void KSWizard::slotExtractGSC(){
+#ifdef Q_OS_OSX
+    QString location=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
+    QProcess *gscExtractor=new QProcess();
+    connect(gscExtractor, SIGNAL(finished(int)), this, SLOT(slotGSCInstallerFinished()));
+    connect(gscExtractor, SIGNAL(finished(int)), this, SLOT(gscExtractor.deleteLater()));
+    gscExtractor->setWorkingDirectory(location);
+    gscExtractor->start("unzip", QStringList() << "-ao" << "gsc.zip");
+    gscMonitor->startAnimation();
+ #endif
+}
+
+void KSWizard::slotCheckDownloadProgress(){
+#ifdef Q_OS_OSX
+    if(QFileInfo(gscZipPath).exists());
+        data->downloadProgress->setValue(QFileInfo(gscZipPath).size()/1048576);
+#endif
+}
+
+void KSWizard::slotGSCInstallerFinished(){
+#ifdef Q_OS_OSX
+    if(downloadMonitor){
+        downloadMonitor->stop();
+        delete downloadMonitor;
+    }
+    data->downloadProgress->setEnabled(false);
+    data->downloadProgress->setValue(0);
+    data->downloadProgress->setVisible(false);
+    gscMonitor->stopAnimation();
+    slotUpdateDataButtons();
+    if(QFile(gscZipPath).exists())
+        QFile(gscZipPath).remove();
+#endif
+}
+
+
 
 void KSWizard::slotInstallPip()
 {
@@ -423,6 +485,10 @@ bool KSWizard::astrometryDirExists(){
 bool KSWizard::pythonExists(){
     return QProcess::execute("type /usr/local/bin/python")==QProcess::NormalExit;
 }
+bool KSWizard::GSCExists(){
+    QString GSCLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars/gsc", QStandardPaths::LocateDirectory);
+    return !GSCLocation.isEmpty();
+}
 
 bool KSWizard::pipExists(){
     return QProcess::execute("type /usr/local/bin/pip")==QProcess::NormalExit;
@@ -446,12 +512,11 @@ bool KSWizard::brewExists(){
 }
 
 void KSWizard::updateAstrometryButtons(){
+     astrometry->astrometryFound->setChecked(astrometryDirExists());
      if(astrometryDirExists()) {
-         astrometry->astrometryFound->setChecked(true);
          astrometry->astrometryButton->setText("Open Folder");
          astrometry->astrometryFeedback->setText("<html><head/><body><p>To plate solve, you need to put index files in the following folder. See the documentation at this link: <a href=http://astrometry.net/doc/readme.html>Astrometry Readme</a> for details on how to get files.</p></body></html>");
     } else{
-        astrometry->astrometryFound->setChecked(false);
         astrometry->astrometryButton->setText("Create Folder");
         astrometry->astrometryFeedback->setText("KStars needs to configure the astrometry.cfg file and create a folder for the index files. Please click the button below to complete this task.");
     }
@@ -463,47 +528,40 @@ void KSWizard::updateAstrometryButtons(){
         astrometry->pyfitsInstall->setDisabled(false);
     }
     else{
-        if(pipExists()){
-            astrometry->pipFound->setChecked(true);
-            astrometry->pipInstall->setDisabled(true);
-            if(pyfitsExists()){
-                astrometry->pyfitsFound->setChecked(true);
-                astrometry->pyfitsInstall->setDisabled(true);
-            }else{
-                astrometry->pyfitsFound->setChecked(false);
-                astrometry->pyfitsInstall->setDisabled(false);
-            }
-        }else{
-            astrometry->pipFound->setChecked(false);
-            astrometry->pipInstall->setDisabled(false);
-            astrometry->pyfitsFound->setChecked(false);
-            astrometry->pyfitsInstall->setDisabled(false);
+        bool ifPipExists=pipExists();
+        astrometry->pipFound->setChecked(ifPipExists);
+        astrometry->pipInstall->setDisabled(ifPipExists);
+        if(ifPipExists){
+            bool ifPyfitsExists=pyfitsExists();
+            astrometry->pyfitsFound->setChecked(ifPyfitsExists);
+            astrometry->pyfitsInstall->setDisabled(ifPyfitsExists);
         }
     }
 
     //Testing a random netpbm command.
-    if(netpbmExists()){
-        astrometry->netpbmFound->setChecked(true);
-        astrometry->netpbmInstall->setDisabled(true);
-    }else{
-        astrometry->netpbmFound->setChecked(false);
-        astrometry->netpbmInstall->setDisabled(false);
-    }
+    bool ifNetpbmExists=netpbmExists();
+    astrometry->netpbmFound->setChecked(ifNetpbmExists);
+    astrometry->netpbmInstall->setDisabled(ifNetpbmExists);
 }
 #endif
 
 void KSWizard::slotUpdateDataButtons(){
 #ifdef Q_OS_OSX
+    data->dataDirFound->setChecked(dataDirExists());
     if(dataDirExists()) {
-        data->dataDirFound->setChecked(true);
         data->copyKStarsData->setText("Open KStars Data Directory");
         data->foundFeedback1->setText("The KStars Data Directory called kstars is located at:");
         data->foundFeedback2->setText("Your data directory was found.  If you have any problems with it, you can always delete this data directory and KStars will give you a new data directory.  You can click this button to open the data directory, just be careful not to delete any important files.");
      } else{
-        data->dataDirFound->setChecked(false);
         data->foundFeedback1->setText("The KStars Data Directory called kstars should be located at:");
         data->foundFeedback2->setText("<html><head/><body><p>Your data directory was not found. You can click the button below to copy a default KStars data directory to the correct location, or if you have a KStars directory already some place else, you can exit KStars and copy it to that location yourself.</p></body></html>");
     }
+    bool ifGSCExists=GSCExists();
+    data->GSCFound->setChecked(ifGSCExists);
+    data->installGSC->setDisabled(ifGSCExists||!dataDirExists());
+    if(ifGSCExists)
+        data->GSCFeedback->setText("GSC was found on your system.  To use it, just take an image in the CCD simulator. To uninstall, just delete the gsc folder from your data directory above.");
+    setButtonsEnabled();
 #endif
 }
 
@@ -514,3 +572,4 @@ void KSWizard::slotInstallerFinished(){
     installMonitor->stopAnimation();
 #endif
 }
+
