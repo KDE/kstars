@@ -114,8 +114,9 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Nuno Pinheiro"), i18n("Artwork") );
     aboutData.addCredit(i18n("Utkarsh Simha"), i18n("Improvements to observation plan execution, star hopper etc.") );
     aboutData.addCredit(i18n("Daniel Holler"), i18n("Extensive testing and suggestions for Ekos/INDI.") );
-    aboutData.addCredit(i18n("Stephane Lucas"), i18n("Extensive testing and suggestions for Ekos Scheduler.") );
+    aboutData.addCredit(i18n("Stephane Lucas"), i18n("Extensive testing and suggestions for Ekos Scheduler. KStars OSX Port") );
     aboutData.addCredit(i18n("Yuri Fabirovsky"), i18n("Splash screen for both regular KStars and KStars Lite.") );
+    aboutData.addCredit(i18n("Jamie Smith"), i18n("KStars OSX Port.") );
 
     KAboutData::setApplicationData(aboutData);
 

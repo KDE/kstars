@@ -1006,7 +1006,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
 
         if (streamWindow == NULL && svp->sp[0].s == ISS_ON)
         {
-            streamWindow = new StreamWG();
+            streamWindow = new StreamWG(this);
 
             // Only use CCD dimensions if we are receing raw stream and not stream of images (i.e. mjpeg..etc)
             IBLOBVectorProperty *rawBP = baseDevice->getBLOB("CCD1");
@@ -1050,6 +1050,24 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             transferFormat = FORMAT_NATIVE;
         else
             transferFormat = FORMAT_FITS;
+
+        return;
+    }
+
+    if (!strcmp(svp->name, "RECORD_STREAM"))
+    {
+        ISwitch *recordOFF = IUFindSwitch(svp, "RECORD_OFF");
+
+        if (recordOFF && recordOFF->s == ISS_ON)
+        {
+            emit videoRecordToggled(false);
+            KNotification::event( QLatin1String( "RecordingStopped" ) , i18n("Video Recording Stopped"));
+        }
+        else
+        {
+            emit videoRecordToggled(true);
+            KNotification::event( QLatin1String( "RecordingStarted" ) , i18n("Video Recording Started"));
+        }
 
         return;
     }
@@ -1904,6 +1922,151 @@ bool CCD::isStreamingEnabled()
         return false;
 
     return streamWindow->isStreamEnabled();
+}
+
+bool CCD::setSERNameDirectory(const QString &filename, const QString &directory)
+{
+    ITextVectorProperty *tvp = baseDevice->getText("RECORD_FILE");
+    if (tvp == NULL)
+        return false;
+
+    IText *filenameT = IUFindText(tvp, "RECORD_FILE_NAME");
+    IText *dirT      = IUFindText(tvp, "RECORD_FILE_DIR");
+
+    if (filenameT == NULL || dirT == NULL)
+        return false;
+
+    IUSaveText(filenameT, filename.toLatin1().data());
+    IUSaveText(dirT, directory.toLatin1().data());
+
+    clientManager->sendNewText(tvp);
+
+    return true;
+}
+
+bool CCD::getSERNameDirectory(QString &filename, QString &directory)
+{
+    ITextVectorProperty *tvp = baseDevice->getText("RECORD_FILE");
+    if (tvp == NULL)
+        return false;
+
+    IText *filenameT = IUFindText(tvp, "RECORD_FILE_NAME");
+    IText *dirT      = IUFindText(tvp, "RECORD_FILE_DIR");
+
+    if (filenameT == NULL || dirT == NULL)
+        return false;
+
+    filename = QString(filenameT->text);
+    directory= QString(dirT->text);
+
+    return true;
+}
+
+bool CCD::startRecording()
+{
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("RECORD_STREAM");
+    if (svp == NULL)
+        return false;
+
+    ISwitch *recordON = IUFindSwitch(svp, "RECORD_ON");
+    if (recordON == NULL)
+        return false;
+
+    if (recordON->s == ISS_ON)
+        return true;
+
+    IUResetSwitch(svp);
+    recordON->s = ISS_ON;
+
+    clientManager->sendNewSwitch(svp);
+
+    return true;
+}
+
+bool CCD::startDurationRecording(double duration)
+{
+    INumberVectorProperty *nvp = baseDevice->getNumber("RECORD_OPTIONS");
+    if (nvp == NULL)
+        return false;
+
+    INumber *durationN = IUFindNumber(nvp, "RECORD_DURATION");
+    if (durationN == NULL)
+        return false;
+
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("RECORD_STREAM");
+    if (svp == NULL)
+        return false;
+
+    ISwitch *recordON = IUFindSwitch(svp, "RECORD_DURATION_ON");
+    if (recordON == NULL)
+        return false;
+
+    if (recordON->s == ISS_ON)
+        return true;
+
+    durationN->value = duration;
+    clientManager->sendNewNumber(nvp);
+
+    IUResetSwitch(svp);
+    recordON->s = ISS_ON;
+
+    clientManager->sendNewSwitch(svp);
+
+    return true;
+}
+
+bool CCD::startFramesRecording(uint32_t frames)
+{
+    INumberVectorProperty *nvp = baseDevice->getNumber("RECORD_OPTIONS");
+    if (nvp == NULL)
+        return false;
+
+    INumber *frameN = IUFindNumber(nvp, "RECORD_FRAME_TOTAL");
+    if (frameN == NULL)
+        return false;
+
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("RECORD_STREAM");
+    if (svp == NULL)
+        return false;
+
+    ISwitch *recordON = IUFindSwitch(svp, "RECORD_FRAME_ON");
+    if (recordON == NULL)
+        return false;
+
+    if (recordON->s == ISS_ON)
+        return true;
+
+    frameN->value = frames;
+    clientManager->sendNewNumber(nvp);
+
+    IUResetSwitch(svp);
+    recordON->s = ISS_ON;
+
+    clientManager->sendNewSwitch(svp);
+
+    return true;
+}
+
+bool CCD::stopRecording()
+{
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("RECORD_STREAM");
+    if (svp == NULL)
+        return false;
+
+    ISwitch *recordOFF = IUFindSwitch(svp, "RECORD_OFF");
+    if (recordOFF == NULL)
+        return false;
+
+    // If already set
+    if (recordOFF->s == ISS_ON)
+        return true;
+
+    IUResetSwitch(svp);
+    recordOFF->s = ISS_ON;
+
+    clientManager->sendNewSwitch(svp);
+
+    return true;
 }
 
 }

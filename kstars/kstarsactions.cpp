@@ -22,6 +22,7 @@
 #undef interface
 #endif
 #include <sys/stat.h>
+#include <config-kstars.h>
 
 #include <QCheckBox>
 #include <QDir>
@@ -48,7 +49,6 @@
 #include <KMessageBox>
 #include <KTipDialog>
 #include <KConfigDialog>
-#include <KNotifyConfigWidget>
 
 #include <kns3/downloaddialog.h>
 
@@ -101,7 +101,6 @@
 #include "projections/projector.h"
 #include "imageexporter.h"
 
-#include <config-kstars.h>
 #include <KSharedConfig>
 
 #ifdef HAVE_INDI
@@ -109,6 +108,10 @@
 #include "indi/opsindi.h"
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
+#endif
+
+#ifdef HAVE_NOTIFYCONFIG
+#include <KNotifyConfigWidget>
 #endif
 
 #include "skycomponents/catalogcomponent.h"
@@ -1585,5 +1588,7 @@ void KStars::slotAddDeepSkyObject() {
 
 void KStars::slotConfigureNotifications()
 {
+    #ifdef HAVE_NOTIFYCONFIG
     KNotifyConfigWidget::configure(this);
+    #endif
 }

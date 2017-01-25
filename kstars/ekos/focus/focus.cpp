@@ -12,9 +12,6 @@
 
 #include <KMessageBox>
 #include <KLocalizedString>
-#include <KPlotting/KPlotWidget>
-#include <KPlotting/KPlotObject>
-#include <KPlotting/KPlotAxis>
 
 #include <KNotifications/KNotification>
 
@@ -243,6 +240,7 @@ Focus::Focus()
     focusView = new FITSView(focusingWidget, FITS_FOCUS);
     focusView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     focusView->setBaseSize(focusingWidget->size());
+    focusView->createFloatingToolBar();
     QVBoxLayout *vlayout = new QVBoxLayout();
     vlayout->addWidget(focusView);
     focusingWidget->setLayout(vlayout);

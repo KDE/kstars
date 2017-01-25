@@ -78,6 +78,7 @@ Guide::Guide() : QWidget()
     guideView = new FITSView(guideWidget, FITS_GUIDE);
     guideView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     guideView->setBaseSize(guideWidget->size());
+    guideView->createFloatingToolBar();
     QVBoxLayout *vlayout = new QVBoxLayout();
     vlayout->addWidget(guideView);
     guideWidget->setLayout(vlayout);
