@@ -347,7 +347,7 @@ void KSWizard::slotInstallGSC(){
     downloadGSC->setWorkingDirectory(location);
     connect(downloadGSC, SIGNAL(finished(int)), this, SLOT(slotExtractGSC()));
     connect(downloadGSC, SIGNAL(finished(int)), this, SLOT(downloadGSC.deleteLater()));
-    downloadGSC->start("wget", QStringList() << "-O" << "gsc.zip" << "http://mactelescope.com/gsc.zip" );
+    downloadGSC->start("curl", QStringList() << "-o" << "gsc.zip" << "http://mactelescope.com/gsc.zip" );
     data->GSCFeedback->setText("downloading GSC . . .");
 
     downloadMonitor=new QTimer(this);

@@ -231,6 +231,7 @@ private:
 
     int mouseMode=1;
     bool zooming=false;
+    int zoomTime=0;
     QPoint zoomLocation;
 
     QString filename;
