@@ -322,7 +322,7 @@ private slots:
 
     void showFITSViewer();
 
-    void toggleFocusingWidgetFullScreen();
+    void toggleFocusingWidgetFullScreen();    
 
 signals:
         void newLog();
@@ -500,6 +500,10 @@ private:
 
     // Track star position and HFR to know if we're detecting bogus stars due to detection algorithm false positive results
     QVector<QVector3D> starsHFR;
+
+    // Relative Profile
+    QCustomPlot *profilePlot;
+    QDialog *profileDialog;
 };
 
 }
