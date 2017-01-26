@@ -887,7 +887,19 @@ Name[x-test]=xxFilter Wheel Changedxx
 Action=None
 [Event/RecordingStarted]
 Name=Video Recording Started
+Name[ca]=Ha començat la gravació de vídeo
+Name[es]=Se ha iniciado la grabación de vídeo
+Name[pt]=Gravação do Vídeo Iniciada
+Name[sv]=Videoinspelning startad
+Name[uk]=Розпочато запис відео
+Name[x-test]=xxVideo Recording Startedxx
 Action=None
 [Event/RecordingStopped]
 Name=Video Recording Stopped
+Name[ca]=S'ha aturat la gravació de vídeo
+Name[es]=Se ha detenido la grabación de vídeo
+Name[pt]=Gravação do Vídeo Parada
+Name[sv]=Videoinspelning stoppad
+Name[uk]=Припинено запис відео
+Name[x-test]=xxVideo Recording Stoppedxx
 Action=None
