@@ -147,6 +147,11 @@ Focus::Focus()
 
     focusType = FOCUS_MANUAL;
 
+    profileDialog = new QDialog(this);
+    QVBoxLayout *profileLayout = new QVBoxLayout(profileDialog);
+    profileDialog->setWindowTitle(i18n("Relative Profile"));
+
+    profilePlot = new QCustomPlot(profileDialog);
     profilePlot->setBackground(QBrush(Qt::black));
     profilePlot->xAxis->setBasePen(QPen(Qt::white, 1));
     profilePlot->yAxis->setBasePen(QPen(Qt::white, 1));
@@ -166,6 +171,12 @@ Focus::Focus()
     profilePlot->yAxis->setTickLabelColor(Qt::white);
     profilePlot->xAxis->setLabelColor(Qt::white);
     profilePlot->yAxis->setLabelColor(Qt::white);
+
+    profileLayout->addWidget(profilePlot);
+    profileDialog->setLayout(profileLayout);
+    profileDialog->resize(400,300);
+
+    connect(relativeProfileB, SIGNAL(clicked()), profileDialog, SLOT(show()));
 
     firstGaus   = NULL;
 
@@ -1471,7 +1482,7 @@ void Focus::drawProfilePlot()
     lastGausIndexes      = currentIndexes;
     lastGausFrequencies  = currentFrequencies;
 
-    profilePixmap = profilePlot->grab();
+    profilePixmap = profilePlot->grab();//.scaled(200, 200, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     emit newProfilePixmap(profilePixmap);
 }
 
