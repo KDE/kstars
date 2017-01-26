@@ -1540,10 +1540,15 @@ void FITSView::pinchTriggered(QPinchGesture *gesture)
     if (gesture->state() == Qt::GestureFinished) {
         zooming=false;
     }
-    if(gesture->totalScaleFactor()>1)
-        ZoomIn();
-    else
-        ZoomOut();
+    zoomTime++; //zoomTime is meant to slow down the zooming with a pinch gesture.
+    if(zoomTime>10000)//This ensures zoomtime never gets too big.
+        zoomTime=0;
+    if(zooming&&(zoomTime%10==0)){//zoomTime is set to slow it by a factor of 10.
+        if(gesture->totalScaleFactor()>1)
+            ZoomIn();
+        else
+            ZoomOut();
+    }
     cleanUpZoom(zoomLocation);
 
 }
@@ -1562,10 +1567,15 @@ void FITSView::createFloatingToolBar()
         return;
 
     floatingToolBar = new QToolBar(this);
+    floatingToolBar->setAttribute(Qt::WA_TranslucentBackground);
+    floatingToolBar->setStyleSheet("QToolBar{background: rgba(150, 150, 150, 210); border:none; color: yellow}"
+                                   "QToolButton:hover{background: rgba(200, 200, 200, 255); color: yellow}");
     floatingToolBar->setFloatable(true);
+    floatingToolBar->setIconSize(QSize(25,25));
     //floatingToolBar->setMovable(true);
 
     QAction *action=NULL;
+
 
     floatingToolBar->addAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.svg")), i18n("Zoom In"), this, SLOT(ZoomIn()));
 
@@ -1573,12 +1583,13 @@ void FITSView::createFloatingToolBar()
 
     floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg")), i18n("Default Zoom"), this, SLOT(ZoomDefault()));
 
-    floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-width", QIcon(":/icons/breeze/default/view-fit-width.svg")), i18n("Zoom to Fit"), this, SLOT(ZoomToFit()));
+    floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-width", QIcon(":/icons/breeze/default/zoom-fit-width.svg")), i18n("Zoom to Fit"), this, SLOT(ZoomToFit()));
 
     floatingToolBar->addSeparator();
 
     action = floatingToolBar->addAction(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), i18n("Show Cross Hairs"), this, SLOT(toggleCrosshair()));
     action->setCheckable(true);
+
 
     action = floatingToolBar->addAction(QIcon::fromTheme("map-flat", QIcon(":/icons/breeze/default/map-flat.svg")), i18n("Show Pixel Gridlines"), this, SLOT(togglePixelGrid()));
     action->setCheckable(true);
@@ -1591,10 +1602,13 @@ void FITSView::createFloatingToolBar()
     action = floatingToolBar->addAction(QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")), i18n("Show Objects in Image"), this, SLOT(toggleObjects()));
     action->setCheckable(true);
 
-    centerTelescopeAction = floatingToolBar->addAction(QIcon::fromTheme("center_telescope", QIcon(":/icons/breeze/default/center_telescope.svg")), i18n("Center Telescope"), this, SLOT(centerTelescope()));
+    centerTelescopeAction = floatingToolBar->addAction(QIcon::fromTheme("center_telescope", QIcon(":/icons/center_telescope.svg")), i18n("Center Telescope"), this, SLOT(centerTelescope()));
     centerTelescopeAction->setDisabled(true);
     centerTelescopeAction->setCheckable(true);
 }
+
+
+
 
 /**
  This methood either enables or disables the scope mouse mode so you can slew your scope to coordinates
