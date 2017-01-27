@@ -540,6 +540,7 @@ bool EkosManager::start()
         // If we need to use INDI Web Manager
         if (currentProfile->INDIWebManagerPort > 0)
         {
+            appendLogText(i18n("Establishing communication with remote INDI Web Manager..."));
             remoteManagerStart = false;
             if (INDI::WebManager::isOnline(currentProfile))
             {
