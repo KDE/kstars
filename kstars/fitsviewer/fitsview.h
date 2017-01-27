@@ -227,7 +227,6 @@ private:
     bool showEQGrid=false;
     bool showPixelGrid=false;
     bool starsSearched=false;
-    bool hasWCS;
 
     int mouseMode=1;
     bool zooming=false;

@@ -12624,6 +12624,8 @@ QCustomPlot::QCustomPlot(QWidget *parent) :
 {
   setAttribute(Qt::WA_NoMousePropagation);
   setAttribute(Qt::WA_OpaquePaintEvent);
+  setAttribute( Qt::WA_AcceptTouchEvents );
+  grabGesture( Qt::PinchGesture );
   setFocusPolicy(Qt::ClickFocus);
   setMouseTracking(true);
   QLocale currentLocale = locale();
@@ -14478,6 +14480,32 @@ void QCustomPlot::resizeEvent(QResizeEvent *event)
   setViewport(rect());
   replot(rpQueuedRefresh); // queued refresh is important here, to prevent painting issues in some contexts (e.g. MDI subwindow)
 }
+
+bool QCustomPlot::event( QEvent *event ){
+    switch( event->type() ){
+        case QEvent::Gesture: {
+            QGestureEvent *gestureEve = static_cast<QGestureEvent*>(event);
+            if( QGesture *pinch = gestureEve->gesture(Qt::PinchGesture) ){
+                QPinchGesture *pinchEve = static_cast<QPinchGesture *>(pinch);
+                qreal scaleFactor = pinchEve->totalScaleFactor( );
+                if( scaleFactor > 1.0 ){
+                    scaleFactor *= 5;
+                }else{
+                    scaleFactor *= -15;
+                }
+                QWheelEvent *wheelEve = new QWheelEvent(this->mapFromGlobal(QCursor::pos()), scaleFactor, Qt::NoButton, Qt::NoModifier, Qt::Vertical );
+                this->wheelEvent( wheelEve );
+            }
+            return true;
+        }
+        default: {
+            break;
+        }
+    }
+
+    return QWidget::event( event );
+}
+
 
 /*! \internal
   
