@@ -203,9 +203,9 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
 
     #ifdef Q_OS_OSX
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    QStringList envlist = env.toStringList();
-    envlist.replaceInStrings(QRegularExpression("^(?i)PATH=(.*)"), "PATH=/usr/local/bin:\\1");
-    solver.setEnvironment(envlist);
+    QString path=env.value("PATH","");
+    env.insert("PATH","/usr/local/bin:" + path);
+    solver.setProcessEnvironment(env);
     #endif
 
     QStringList solverArgs = args;
