@@ -18,7 +18,7 @@ import QtQuick.Dialogs 1.2 as Dialogs
 
 KSPage {
     id: imagePreview
-    contentItem: imgPreviewColumn
+    anchors.fill: parent
     title: "Image Preview - " + deviceName
 
     property string deviceName

@@ -18,7 +18,6 @@ import "../constants" 1.0
 import "../modules"
 
 KSPage {
-    contentItem: locationColumn
     title: xi18n("Set Geolocation")
 
     function filterCities() {
@@ -33,7 +32,7 @@ KSPage {
         id: locationColumn
         spacing: 5 * num.dp
         anchors{
-            bottom: parent.bottom
+            fill: parent
             bottomMargin: 15 * num.dp
         }
 

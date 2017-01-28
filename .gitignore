@@ -21,4 +21,7 @@
 build_kstarslite/android_libs/*
 build_kstarslite/android_libs_src/libnova/build/*
 
+#QML compiled files
+*.qmlc
+
 CMakeLists.txt.user

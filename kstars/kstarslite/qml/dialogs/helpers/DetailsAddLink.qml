@@ -8,11 +8,12 @@
 *                                                                         *
 ***************************************************************************/
 
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.1
+import QtQuick.Controls 1.4
 import QtQuick 2.7
 import QtQuick.Layouts 1.1
 import "../../constants" 1.0
-import "../../modules" //Import modules
+import "../../modules"
 
 KSPage {
     id: addLink

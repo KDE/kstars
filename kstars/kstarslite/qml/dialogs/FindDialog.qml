@@ -18,7 +18,6 @@ import "../constants" 1.0
 import "../modules"
 
 KSPage {
-    contentItem: findColumn
     title: xi18n("Find an Object")
     onVisibleChanged: {
         if(visible) {
@@ -29,6 +28,7 @@ KSPage {
 
     ColumnLayout {
         id: findColumn
+        anchors.fill: parent
         spacing: 5 * num.dp
         anchors{
             bottom: parent.bottom

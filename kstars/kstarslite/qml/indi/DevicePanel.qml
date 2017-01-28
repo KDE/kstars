@@ -8,13 +8,12 @@
 *                                                                         *
 ***************************************************************************/
 
-import QtQuick 2.6
+import QtQuick 2.8
 import QtQuick.Window 2.2
 import "../modules"
 import "../constants" 1.0
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.0
-import QtQuick.Controls 1.4
 
 KSPage {
     id: devicesPage
@@ -26,13 +25,64 @@ KSPage {
     ColumnLayout {
         anchors.fill: parent
 
-        TabBar {
-            id: tabBar
-            Layout.fillWidth: true
+        Item {
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            height: tabBar.height
 
-            background: Rectangle {
-                anchors.fill: parent
-                color: num.sysPalette.base
+            KSTabBarArrow {
+                imgSource: "../images/left-arrow.png"
+                tabBar: tabBar
+                state: {
+                    if(!tabBar.contentItem.atXBeginning) {
+                        return "Visible"
+                    } else {
+                        return "Invisible"
+                    }
+                }
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+            }
+
+            KSTabBarArrow {
+                imgSource: "../images/right-arrow.png"
+                tabBar: tabBar
+                state: {
+                    if(!tabBar.contentItem.atXEnd) {
+                        return "Visible"
+                    } else {
+                        return "Invisible"
+                    }
+                }
+                anchors {
+                    right: parent.right
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+                flickSpeed: -1000
+            }
+
+            TabBar {
+                id: tabBar
+                Layout.fillHeight: true
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                clip: true
+                spacing: 20
+                Component.onCompleted: {
+                    contentItem.flickDeceleration = 1000
+                }
+
+                background: Rectangle {
+                    color: num.sysPalette.base
+                }
             }
         }
 

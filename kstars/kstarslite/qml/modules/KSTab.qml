@@ -33,7 +33,10 @@ Pane {
 
     Flickable {
         id: flickable
-        anchors.fill: parent
+        anchors{
+            fill: parent
+            margins: num.marginsKStab
+        }
         ScrollBar.vertical: ScrollBar { id: scrollBar }
         flickableDirection: Flickable.VerticalFlick
         contentWidth: rootItem != undefined ? rootItem.width : 0

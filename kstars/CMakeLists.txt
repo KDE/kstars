@@ -745,6 +745,7 @@ if(BUILD_KSTARS_LITE)
         kstarslite/qml/modules/KSText.qml
         kstarslite/qml/modules/KSTabButton.qml
         kstarslite/qml/modules/KSTab.qml
+        kstarslite/qml/modules/KSTabBarArrow.qml
         kstarslite/qml/modules/KSTextField.qml
         kstarslite/qml/modules/KSButton.qml
         kstarslite/qml/modules/TopMenu.qml
