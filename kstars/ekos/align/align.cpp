@@ -92,6 +92,22 @@ Align::Align()
     offlineParser = NULL;
     remoteParser = NULL;
 
+    showFITSViewerB->setIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
+    showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(showFITSViewerB, SIGNAL(clicked()), this, SLOT(showFITSViewer()));
+
+    toggleFullScreenB->setIcon(QIcon::fromTheme("view-fullscreen", QIcon(":/icons/breeze/default/view-fullscreen.svg")));
+    toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(toggleFullScreenB, SIGNAL(clicked()), this, SLOT(toggleAlignWidgetFullScreen()));
+
+    alignView = new FITSView(alignWidget, FITS_ALIGN);
+    alignView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    alignView->setBaseSize(alignWidget->size());
+    alignView->createFloatingToolBar();
+    QVBoxLayout *vlayout = new QVBoxLayout();
+    vlayout->addWidget(alignView);
+    alignWidget->setLayout(vlayout);
+
     connect(solveB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
     connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
     connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
@@ -132,7 +148,7 @@ Align::Align()
 
     pi = new QProgressIndicator(this);
 
-    controlBox->layout()->addWidget(pi);
+    stopLayout->addWidget(pi);
 
     exposureIN->setValue(Options::alignExposure());
 
@@ -196,6 +212,13 @@ Align::~Align()
     delete(pi);
     delete(solverFOV);
     delete(parser);
+
+    // Remove temporary FITS files left before by the solver
+    QDir dir(QDir::tempPath());
+    dir.setNameFilters(QStringList() << "fits*" << "tmp.*");
+    dir.setFilter(QDir::Files);
+    foreach(QString dirFile, dir.entryList())
+        dir.remove(dirFile);
 }
 
 bool Align::isParserOK()
@@ -417,6 +440,8 @@ void Align::syncCCDInfo()
     ISwitchVectorProperty *svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
     if (svp)
         setWCSEnabled(Options::solverWCS());
+
+    targetChip->setImageView(alignView, FITS_ALIGN);
 
     targetChip->getFrameMinMax(NULL, NULL, NULL, NULL, NULL, &ccd_width, NULL, &ccd_height);
     //targetChip->getFrame(&x,&y,&ccd_width,&ccd_height);
@@ -660,6 +685,8 @@ bool Align::captureAndSolve()
         return false;
     }
 
+   alignView->setBaseSize(alignWidget->size());
+
    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
 
@@ -679,6 +706,13 @@ bool Align::captureAndSolve()
            rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
            currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
        }
+
+       // Remove temporary FITS files left before by the solver
+       QDir dir(QDir::tempPath());
+       dir.setNameFilters(QStringList() << "fits*" << "tmp.*");
+       dir.setFilter(QDir::Files);
+       foreach(QString dirFile, dir.entryList())
+           dir.remove(dirFile);
    }
 
    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
@@ -733,7 +767,6 @@ void Align::newFITS(IBLOB *bp)
                 targetChip->getFrame(&x,&y,&w,&h);
                 targetChip->getBinning(&binx, &biny);
 
-                FITSView *currentImage   = targetChip->getImageView(FITS_ALIGN);
                 FITSData *darkData       = NULL;
 
                 uint16_t offsetX = x / binx;
@@ -745,10 +778,10 @@ void Align::newFITS(IBLOB *bp)
                 connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
 
                 if (darkData)
-                    DarkLibrary::Instance()->subtract(darkData, currentImage, FITS_NONE, offsetX, offsetY);
+                    DarkLibrary::Instance()->subtract(darkData, alignView, FITS_NONE, offsetX, offsetY);
                 else
                 {
-                    bool rc = DarkLibrary::Instance()->captureAndSubtract(targetChip, currentImage, exposureIN->value(), offsetX, offsetY);
+                    bool rc = DarkLibrary::Instance()->captureAndSubtract(targetChip, alignView, exposureIN->value(), offsetX, offsetY);
                     alignDarkFrameCheck->setChecked(rc);
                 }
 
@@ -769,16 +802,15 @@ void Align::setCaptureComplete()
         ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         if (targetChip)
         {
-            FITSView *view = targetChip->getImageView(FITS_ALIGN);
-            if (view)
-            {
-                QString jpegFile = blobFileName + ".jpg";
-                bool rc = view->getDisplayImage()->save(jpegFile, "JPG");
-                if (rc)
-                    blobFileName = jpegFile;
-            }
+            QString jpegFile = blobFileName + ".jpg";
+            bool rc = alignView->getDisplayImage()->save(jpegFile, "JPG");
+            if (rc)
+                blobFileName = jpegFile;
         }
     }
+
+    if (fov())
+        fov()->setImageDisplay(alignView->getDisplayImage());
 
     startSolving(blobFileName);
 }
@@ -892,6 +924,10 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
      double raDiff = (alignCoord.ra().Degrees()-targetCoord.ra().Degrees()) * 3600;
      double deDiff = (alignCoord.dec().Degrees()-targetCoord.dec().Degrees()) * 3600;
+
+     dms RADiff(raDiff/3600.0), DEDiff(deDiff/3600.0);
+     dRAOut->setText(RADiff.toDMSString());
+     dDEOut->setText(DEDiff.toDMSString());
 
      emit newSolutionDeviation(raDiff, deDiff);
 
@@ -2073,6 +2109,49 @@ void Align::setCaptureStatus(CaptureState newState)
 
     default:
         break;
+    }
+}
+
+void Align::showFITSViewer()
+{
+    FITSData *data = alignView->getImageData();
+    if (data)
+    {
+        QUrl url = QUrl::fromLocalFile(data->getFilename());
+
+        if (fv.isNull())
+        {
+            if (Options::singleWindowCapturedFITS())
+                fv = KStars::Instance()->genericFITSViewer();
+            else
+                fv = new FITSViewer(Options::independentWindowFITS() ? NULL : KStars::Instance());
+
+            fv->addFITS(&url);
+        }
+        else
+            fv->updateFITS(&url, 0);
+
+        fv->show();
+    }
+}
+
+void Align::toggleAlignWidgetFullScreen()
+{
+    if (alignWidget->parent() == NULL)
+    {
+        alignWidget->setParent(this);
+        rightLayout->insertWidget(0, alignWidget);
+        rightLayout->setStretch(0, 2);
+        rightLayout->setStretch(1, 1);
+        alignWidget->showNormal();
+    }
+    else
+    {
+        alignWidget->setParent(0);
+        alignWidget->setWindowTitle(i18n("Focus Frame"));
+        alignWidget->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+        alignWidget->showMaximized();
+        alignWidget->show();
     }
 }
 

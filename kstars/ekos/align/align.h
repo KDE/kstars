@@ -303,6 +303,10 @@ private slots:
     // Solver timeout
     void checkAlignmentTimeout();
 
+    void showFITSViewer();
+
+    void toggleAlignWidgetFullScreen();
+
 signals:
         void newLog();
         void solverComplete(bool);
@@ -467,6 +471,12 @@ private:
     // BLOB Type
     ISD::CCD::BlobType blobType;
     QString blobFileName;
+
+    // Align Frame
+    FITSView *alignView;
+
+    // FITS Viewer in case user want to display in it instead of internal view
+    QPointer<FITSViewer> fv;
 };
 
 }

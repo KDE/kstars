@@ -123,9 +123,7 @@ void CCDChip::setImageView(FITSView *image, FITSMode imageType)
         break;
 
     case FITS_ALIGN:
-        alignImage = image;
-        if (KStars::Instance()->ekosManager()->alignModule() && KStars::Instance()->ekosManager()->alignModule()->fov())
-            KStars::Instance()->ekosManager()->alignModule()->fov()->setImage(alignImage->getDisplayImage()->copy());
+        alignImage = image;        
         break;
 
     default:
@@ -1524,6 +1522,7 @@ void CCD::processBLOB(IBLOB* bp)
             break;
 
         case FITS_ALIGN:
+            /*
             if (alignTabID == -1)
                 tabRC = fv->addFITS(&fileURL, FITS_ALIGN, captureFilter);
             else if (fv->updateFITS(&fileURL, alignTabID, captureFilter) == false)
@@ -1543,16 +1542,35 @@ void CCD::processBLOB(IBLOB* bp)
             {
                 emit newExposureValue(targetChip, 0, IPS_ALERT);
                 return;
-            }
-            break;
+            }*/
 
+        {
+            FITSView *alignView = targetChip->getImageView(FITS_ALIGN);
+            if (alignView)
+            {
+                alignView->setFilter(captureFilter);
+                bool imageLoad = alignView->loadFITS(filename, true);
+                if (imageLoad)
+                {
+                    //alignView->rescale(ZOOM_FIT_WINDOW);
+                    alignView->updateFrame();
+                    emit newImage(alignView->getDisplayImage(), targetChip);
+                }
+                else
+                {
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
+                    return;
+                }
+            }
+        }
+        break;
 
         default:
             break;
 
         }
 
-        if (targetChip->getCaptureMode() != FITS_GUIDE && targetChip->getCaptureMode() != FITS_FOCUS)
+        if (targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE)
             fv->show();
     }
 #endif
