@@ -236,6 +236,7 @@ Guide::Guide() : QWidget()
     connect(driftGraph->yAxis, SIGNAL(rangeChanged(QCPRange)), driftGraph->yAxis2, SLOT(setRange(QCPRange)));
 
     driftGraph->setInteractions(QCP::iRangeZoom);
+    driftGraph->setInteraction(QCP::iRangeDrag, true);
 
     connect(driftGraph, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(driftMouseOverLine(QMouseEvent*)));
     connect(driftGraph, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(driftMouseClicked(QMouseEvent*)));

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>647</width>
+    <width>745</width>
     <height>575</height>
    </rect>
   </property>
@@ -674,7 +674,7 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="rightLayout">
+      <layout class="QVBoxLayout" name="rightLayout" stretch="4,3">
        <property name="spacing">
         <number>1</number>
        </property>
@@ -698,58 +698,6 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
            <height>30</height>
           </size>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="profileGroup">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="title">
-          <string>Relative Profile</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <property name="spacing">
-           <number>1</number>
-          </property>
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
-          <item>
-           <widget class="QCustomPlot" name="profilePlot" native="true">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>100</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </widget>
        </item>
        <item>
@@ -842,6 +790,13 @@ Otherwise, the autofocus process will utilize whatever filter currently set by t
                </size>
               </property>
              </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="relativeProfileB">
+              <property name="text">
+               <string>Relative Profile...</string>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QPushButton" name="clearDataB">

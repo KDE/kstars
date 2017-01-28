@@ -604,6 +604,11 @@ void Capture::checkCCD(int ccdNum)
             ISOLabel->setEnabled(true);
             ISOCombo->addItems(isoList);
             ISOCombo->setCurrentIndex(targetChip->getISOIndex());
+
+            if (currentCCD->getTransferFormat() == ISD::CCD::FORMAT_FITS)
+                appendLogText(i18n("Using FITS transfer format from DSLR camera. Configure DSLR transfer format in options."));
+            else
+                appendLogText(i18n("Using native transfer format from DSLR camera. Configure DSLR transfer format in options."));
         }
 
         liveVideoB->setEnabled(currentCCD->hasVideoStream());

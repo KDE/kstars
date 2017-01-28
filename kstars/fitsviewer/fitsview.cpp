@@ -281,7 +281,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
         mouseButtonDown=true;
         lastMousePoint=e->globalPos();
         image->updateMouseCursor();
-    } else if(image->getMouseMode()==FITSView::scopeMouse)
+    } else if(e->buttons() & Qt::LeftButton&&image->getMouseMode()==FITSView::scopeMouse)
     {
 #ifdef HAVE_INDI
         FITSData *image_data = image->getImageData();
@@ -315,7 +315,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
 #ifdef HAVE_INDI
     FITSData *image_data = image->getImageData();
 
-    if (e->buttons() & Qt::RightButton&&image->getMouseMode()!=FITSView::selectMouse)
+    if (e->buttons() & Qt::RightButton&&image->getMouseMode()!=FITSView::scopeMouse)
     {
         mouseReleaseEvent(e);
         if (image_data->hasWCS())
@@ -349,13 +349,15 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     }
 #endif
 
+    if (e->buttons() & Qt::LeftButton&&image->getMouseMode()==FITSView::selectMouse)
+    {
+        emit pointSelected(x, y);
 
-    emit pointSelected(x, y);
+        double HFR = image->getImageData()->getHFR(x, y);
 
-    double HFR = image->getImageData()->getHFR(x, y);
-
-    if (HFR > 0)
-        QToolTip::showText(e->globalPos(), i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g' , 3)), this);
+        if (HFR > 0)
+            QToolTip::showText(e->globalPos(), i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g' , 3)), this);
+    }
 
 }
 
@@ -560,23 +562,21 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
 
     image_frame->setSize(image_width, image_height);
 
-    //hasWCS = image_data->hasWCS();
-
     maxPixel = image_data->getMax();
     minPixel = image_data->getMin();
 
-    if (mode == FITS_NORMAL)
-    {
-        if (fitsProg.wasCanceled())
-            return false;
-        else
-        {
+      if (mode != FITS_GUIDE)
+      {
+          if (fitsProg.wasCanceled())
+              return false;
+          else
+          {
             QFuture<bool> future = QtConcurrent::run(image_data, &FITSData::checkWCS);
             wcsWatcher.setFuture(future);
             fitsProg.setValue(75);
             qApp->processEvents();
-        }
-    }
+          }
+      }
 
     initDisplayImage();
 
@@ -672,6 +672,9 @@ template<typename T>  int FITSView::rescale(FITSZoom type)
     double bscale, bzero;
     double min, max;
     bool displayBuffer = false;
+
+    if(display_image==NULL)
+        return -1;
 
     uint8_t *image_buffer = image_data->getImageBuffer();
 
@@ -878,8 +881,10 @@ void FITSView::ZoomOut()
 
 void FITSView::ZoomToFit()
 {
-    rescale(ZOOM_FIT_WINDOW);
-    updateFrame();
+    if(display_image){
+        rescale(ZOOM_FIT_WINDOW);
+        updateFrame();
+    }
 }
 
 void FITSView::updateFrame()
@@ -910,19 +915,21 @@ void FITSView::updateFrame()
 
 void FITSView::ZoomDefault()
 {
-    emit actionUpdated("view_zoom_out", true);
-    emit actionUpdated("view_zoom_in", true);
+    if(image_frame){
+        emit actionUpdated("view_zoom_out", true);
+        emit actionUpdated("view_zoom_in", true);
 
 
-    currentZoom   = ZOOM_DEFAULT;
-    currentWidth  = image_width;
-    currentHeight = image_height;
+        currentZoom   = ZOOM_DEFAULT;
+        currentWidth  = image_width;
+        currentHeight = image_height;
 
-    updateFrame();
+        updateFrame();
 
-    newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+        newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 
-    update();
+        update();
+    }
 
 }
 
@@ -933,8 +940,7 @@ void FITSView::drawOverlay(QPainter *painter)
     if (markStars)
         drawStarCentroid(painter);
 
-    //if (mode == FITS_GUIDE)
-    if (trackingBoxEnabled)
+    if (trackingBoxEnabled&&getMouseMode()!=FITSView::scopeMouse)
         drawTrackingBox(painter);
 
     if (markerCrosshair.isNull() == false)
@@ -1099,7 +1105,9 @@ void FITSView::drawPixelGrid(QPainter *painter){
 }
 
 bool FITSView::imageHasWCS(){
-    return hasWCS;
+    if(image_data)
+        return image_data->hasWCS();
+    return false;
 }
 
 void FITSView::drawObjectNames(QPainter *painter)
@@ -1321,13 +1329,14 @@ void FITSView::toggleCrosshair()
 void FITSView::toggleEQGrid()
 {
     showEQGrid=!showEQGrid;
-    updateFrame();
-
+    if(image_frame)
+        updateFrame();
 }
 void FITSView::toggleObjects()
 {
     showObjects=!showObjects;
-    updateFrame();
+    if(image_frame)
+        updateFrame();
 
 }
 
@@ -1540,20 +1549,25 @@ void FITSView::pinchTriggered(QPinchGesture *gesture)
     if (gesture->state() == Qt::GestureFinished) {
         zooming=false;
     }
-    if(gesture->totalScaleFactor()>1)
-        ZoomIn();
-    else
-        ZoomOut();
+    zoomTime++; //zoomTime is meant to slow down the zooming with a pinch gesture.
+    if(zoomTime>10000)//This ensures zoomtime never gets too big.
+        zoomTime=0;
+    if(zooming&&(zoomTime%10==0)){//zoomTime is set to slow it by a factor of 10.
+        if(gesture->totalScaleFactor()>1)
+            ZoomIn();
+        else
+            ZoomOut();
+    }
     cleanUpZoom(zoomLocation);
 
 }
 
 void FITSView::handleWCSCompletion()
 {
-    hasWCS = wcsWatcher.result();
-    if(hasWCS)
+    bool hasWCS = wcsWatcher.result();
+    if(image_data->hasWCS())
           this->updateFrame();
-    emit wcsToggled(hasWCS);
+    emit wcsToggled(image_data->hasWCS());
 }
 
 void FITSView::createFloatingToolBar()
@@ -1562,10 +1576,15 @@ void FITSView::createFloatingToolBar()
         return;
 
     floatingToolBar = new QToolBar(this);
+    floatingToolBar->setAttribute(Qt::WA_TranslucentBackground);
+    floatingToolBar->setStyleSheet("QToolBar{background: rgba(150, 150, 150, 210); border:none; color: yellow}"
+                                   "QToolButton:hover{background: rgba(200, 200, 200, 255); color: yellow}");
     floatingToolBar->setFloatable(true);
+    floatingToolBar->setIconSize(QSize(25,25));
     //floatingToolBar->setMovable(true);
 
     QAction *action=NULL;
+
 
     floatingToolBar->addAction(QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.svg")), i18n("Zoom In"), this, SLOT(ZoomIn()));
 
@@ -1573,28 +1592,35 @@ void FITSView::createFloatingToolBar()
 
     floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg")), i18n("Default Zoom"), this, SLOT(ZoomDefault()));
 
-    floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-width", QIcon(":/icons/breeze/default/view-fit-width.svg")), i18n("Zoom to Fit"), this, SLOT(ZoomToFit()));
+    floatingToolBar->addAction(QIcon::fromTheme("zoom-fit-width", QIcon(":/icons/breeze/default/zoom-fit-width.svg")), i18n("Zoom to Fit"), this, SLOT(ZoomToFit()));
 
     floatingToolBar->addSeparator();
 
     action = floatingToolBar->addAction(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), i18n("Show Cross Hairs"), this, SLOT(toggleCrosshair()));
     action->setCheckable(true);
 
+
     action = floatingToolBar->addAction(QIcon::fromTheme("map-flat", QIcon(":/icons/breeze/default/map-flat.svg")), i18n("Show Pixel Gridlines"), this, SLOT(togglePixelGrid()));
     action->setCheckable(true);
 
-    floatingToolBar->addSeparator();
+    if (mode != FITS_GUIDE)
+    {
+        floatingToolBar->addSeparator();
 
-    action = floatingToolBar->addAction(QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg")), i18n("Show Equatorial Gridlines"), this, SLOT(toggleEQGrid()));
-    action->setCheckable(true);
+        action = floatingToolBar->addAction(QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg")), i18n("Show Equatorial Gridlines"), this, SLOT(toggleEQGrid()));
+        action->setCheckable(true);
 
-    action = floatingToolBar->addAction(QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")), i18n("Show Objects in Image"), this, SLOT(toggleObjects()));
-    action->setCheckable(true);
+        action = floatingToolBar->addAction(QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")), i18n("Show Objects in Image"), this, SLOT(toggleObjects()));
+        action->setCheckable(true);
 
-    centerTelescopeAction = floatingToolBar->addAction(QIcon::fromTheme("center_telescope", QIcon(":/icons/breeze/default/center_telescope.svg")), i18n("Center Telescope"), this, SLOT(centerTelescope()));
-    centerTelescopeAction->setDisabled(true);
-    centerTelescopeAction->setCheckable(true);
+        centerTelescopeAction = floatingToolBar->addAction(QIcon::fromTheme("center_telescope", QIcon(":/icons/center_telescope.svg")), i18n("Center Telescope"), this, SLOT(centerTelescope()));
+        centerTelescopeAction->setCheckable(true);
+
+    }
 }
+
+
+
 
 /**
  This methood either enables or disables the scope mouse mode so you can slew your scope to coordinates
@@ -1603,15 +1629,18 @@ void FITSView::createFloatingToolBar()
 
 void FITSView::centerTelescope()
 {
-    if(getMouseMode()==FITSView::scopeMouse)
-    {
-        setMouseMode(FITSView::dragMouse);
-    }
-    else
-    {
-        setMouseMode(FITSView::scopeMouse);
-    }
+    if(imageHasWCS()){
+        if(getMouseMode()==FITSView::scopeMouse)
+        {
+            setMouseMode(FITSView::selectMouse);
+        }
+        else
+        {
+            setMouseMode(FITSView::scopeMouse);
+        }
+        updateFrame();
 
+    }
     updateScopeButton();
 }
 

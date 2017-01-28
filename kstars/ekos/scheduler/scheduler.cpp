@@ -3908,6 +3908,17 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         {
             appendLogText(i18n("Cannot estimate time since the sequence saves the files remotely."));
             schedJob->setEstimatedTime(-2);
+            // Iterate over all jobs, if just one requires FRAME_LIGHT then we set it as is and return
+            foreach(SequenceJob *oneJob, jobs)
+            {
+                if (oneJob->getFrameType() == FRAME_LIGHT)
+                {
+                    lightFramesRequired = true;
+                    break;
+                }
+            }
+
+            schedJob->setLightFramesRequired(lightFramesRequired);
             qDeleteAll(jobs);
             return true;
         }
