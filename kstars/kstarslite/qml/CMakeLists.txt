@@ -15,6 +15,7 @@ install( FILES modules/BottomMenu.qml
     modules/SkyMapLiteWrapper.qml
     modules/TimePage.qml
     modules/KSLabel.qml
+    modules/KSTabBarArrow.qml
     modules/KSTabButton.qml
     modules/KSText.qml
     modules/KSTextField.qml

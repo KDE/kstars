@@ -22,11 +22,10 @@ KSPage {
 
     property bool connected: ClientManagerLite.connected
 
-//    Component.onCompleted: {
-//        if(Qt.platform.os != "android") {
-//            ClientManagerLite.setHost("localhost", parseInt(7624))
-//        }
-//    }
+    Component.onCompleted: {
+        //Debug purposes
+        ClientManagerLite.setHost("localhost", 7624)
+    }
 
     onConnectedChanged: {
         if(!indiPage.connected) {
@@ -38,9 +37,9 @@ KSPage {
             notification.showNotification("Disconnected from the server")
         }
     }
-    contentItem: cPanelColumn
 
     ColumnLayout {
+        anchors.fill: parent
         id: cPanelColumn
         spacing: 5 * num.dp
 

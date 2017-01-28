@@ -19,6 +19,14 @@ install( FILES
 	 back@2x.png
 	 back@3x.png
 	 back@4x.png
+         left-arrow.png
+         left-arrow@2x.png
+         left-arrow@3x.png
+         left-arrow@4x.png
+         right-arrow.png
+         right-arrow@2x.png
+         right-arrow@3x.png
+         right-arrow@4x.png
 	 draw-star.png
 	 draw-star@2x.png
 	 draw-star@3x.png
