@@ -333,15 +333,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
     int elapsed = (int) round(solverTimer.elapsed()/1000.0);
     align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
 
-    emit solverFinished(orientation,ra,dec, pixscale);
-
-    // Remove files left over by the solver
-    //QDir dir("/tmp");
-    QDir dir(QDir::tempPath());
-    dir.setNameFilters(QStringList() << "fits*" << "tmp.*");
-    dir.setFilter(QDir::Files);
-    foreach(QString dirFile, dir.entryList())
-            dir.remove(dirFile);
+    emit solverFinished(orientation,ra,dec, pixscale);    
 
 }
 
