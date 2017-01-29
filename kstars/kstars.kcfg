@@ -1477,6 +1477,10 @@
          <label>Perform auto stretch on captured images in FITS Viewer.</label>
          <default>true</default>
       </entry>
+      <entry name="useFITSViewerInCapture" type="Bool">
+         <label>Display every image captured in the sequence in a FitsViewer window.</label>
+         <default>true</default>
+      </entry>
    </group>
    <group name="Focus">
       <entry name="DefaultFocusCCD" type="String">

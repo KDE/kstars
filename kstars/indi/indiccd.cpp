@@ -1347,17 +1347,19 @@ void CCD::processBLOB(IBLOB* bp)
 
         // If there is no FITSViewer, create it. Unless it is a dedicated Focus or Guide frame
         // then no need for a FITS Viewer as they get displayed inside Ekos
-        if (fv.isNull() && targetChip->getCaptureMode() != FITS_GUIDE && targetChip->getCaptureMode() != FITS_FOCUS)
-        {
-            normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
+        if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode()){
+            if (fv.isNull() && targetChip->getCaptureMode() != FITS_GUIDE && targetChip->getCaptureMode() != FITS_FOCUS)
+            {
+                normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
 
-            if (Options::singleWindowCapturedFITS())
-                fv = KStars::Instance()->genericFITSViewer();
-            else
-                fv = new FITSViewer(Options::independentWindowFITS() ? NULL : KStars::Instance());
+                if (Options::singleWindowCapturedFITS())
+                    fv = KStars::Instance()->genericFITSViewer();
+                else
+                    fv = new FITSViewer(Options::independentWindowFITS() ? NULL : KStars::Instance());
 
-            //connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
-            //connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
+                //connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
+                //connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
+            }
         }
 
         FITSScale captureFilter = targetChip->getCaptureFilter();
@@ -1379,28 +1381,41 @@ void CCD::processBLOB(IBLOB* bp)
         {
         case FITS_NORMAL:
         {
-            if (normalTabID == -1 || Options::singlePreviewFITS() == false)
-                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
-            else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
+            //This is how to get the image to show up in the EkosManger preview FitsView.
+            FITSView *previewView = KStars::Instance()->ekosManager()->getPreviewView();
+            if (previewView)
             {
-                fv->removeFITS(normalTabID);
-                tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+                previewView->setFilter(captureFilter);
+                bool imageLoad = previewView->loadFITS(filename, true);
+                if (imageLoad)
+                    previewView->updateFrame();
             }
-            else
-                tabRC = normalTabID;
+            if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode()){
+                if (normalTabID == -1 || Options::singlePreviewFITS() == false)
+                    tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+                else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
+                {
+                    fv->removeFITS(normalTabID);
+                    tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+                }
+                else
+                    tabRC = normalTabID;
 
-            if (tabRC >= 0)
-            {
-                normalTabID = tabRC;
-                targetChip->setImageView(fv->getView(normalTabID), FITS_NORMAL);
+                if (tabRC >= 0)
+                {
+                    normalTabID = tabRC;
+                    targetChip->setImageView(fv->getView(normalTabID), FITS_NORMAL);
 
-                emit newImage(fv->getView(normalTabID)->getDisplayImage(), targetChip);
-            }
-            else
-            {
-                // If opening file fails, we treat it the same as exposure failure and recapture again if possible
-                emit newExposureValue(targetChip, 0, IPS_ALERT);
-                return;
+                    emit newImage(fv->getView(normalTabID)->getDisplayImage(), targetChip);
+                }
+                else
+                {
+                    // If opening file fails, we treat it the same as exposure failure and recapture again if possible
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
+                    return;
+                }
+            } else{
+                targetChip->setImageView(KStars::Instance()->ekosManager()->getPreviewView(),FITS_NORMAL);
             }
         }
             break;
@@ -1499,26 +1514,28 @@ void CCD::processBLOB(IBLOB* bp)
             break;
 
         case FITS_CALIBRATE:
-            if (calibrationTabID == -1)
-                tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
-            else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
-            {
-                fv->removeFITS(calibrationTabID);
-                tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
-            }
-            else
-                tabRC = calibrationTabID;
+            if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode()){
+                if (calibrationTabID == -1)
+                    tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+                else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
+                {
+                    fv->removeFITS(calibrationTabID);
+                    tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+                }
+                else
+                    tabRC = calibrationTabID;
 
-            if (tabRC >= 0)
-            {
-                calibrationTabID = tabRC;
-                targetChip->setImageView(fv->getView(calibrationTabID), FITS_CALIBRATE);
-            }
-            else
-            {
-                emit newExposureValue(targetChip, 0, IPS_ALERT);
-                return;
-            }
+                if (tabRC >= 0)
+                {
+                    calibrationTabID = tabRC;
+                    targetChip->setImageView(fv->getView(calibrationTabID), FITS_CALIBRATE);
+                }
+                else
+                {
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
+                    return;
+                }
+          }
             break;
 
         case FITS_ALIGN:
@@ -1570,8 +1587,10 @@ void CCD::processBLOB(IBLOB* bp)
 
         }
 
-        if (targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE)
-            fv->show();
+        if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode()){
+            if (targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE)
+                fv->show();
+        }
     }
 #endif
 

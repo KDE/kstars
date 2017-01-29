@@ -212,6 +212,7 @@ Capture::Capture()
     autofocusCheck->setChecked(Options::enforceAutofocus());    
     meridianCheck->setChecked(Options::autoMeridianFlip());
     meridianHours->setValue(Options::autoMeridianHours());
+    useFITSViewerInCapture->setChecked(Options::useFITSViewerInCapture());
 
     connect(autofocusCheck, SIGNAL(toggled(bool)), this, SLOT(setDirty()));
     connect(HFRPixels, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
@@ -221,6 +222,7 @@ Capture::Capture()
     connect(meridianHours, SIGNAL(valueChanged(double)), this, SLOT(setDirty()));
     connect(uploadModeCombo, SIGNAL(activated(int)), this, SLOT(setDirty()));
     connect(remoteDirIN, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+
 
     // Post capture script
     connect(&postCaptureScript, SIGNAL(finished(int)), this, SLOT(postScriptFinished(int)));
@@ -337,6 +339,7 @@ void Capture::start()
     Options::setEnforceAutofocus(autofocusCheck->isChecked());
     Options::setAutoMeridianFlip(meridianCheck->isChecked());
     Options::setAutoMeridianHours(meridianHours->value());    
+    Options::setUseFITSViewerInCapture(useFITSViewerInCapture->isChecked());
 
     if (queueTable->rowCount() ==0)
         addJob();
@@ -1227,6 +1230,8 @@ bool Capture::resumeSequence()
 
 void Capture::captureOne()
 {
+    Options::setUseFITSViewerInCapture(useFITSViewerInCapture->isChecked());
+
     //if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
     if (uploadModeCombo->currentIndex() != 0)
     {

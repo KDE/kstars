@@ -134,6 +134,33 @@ int FITSView::getMouseMode(){
     return mouseMode;
 }
 
+
+void FITSView::enterEvent(QEvent * event){
+    if(floatingToolBar){
+        QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
+        floatingToolBar->setGraphicsEffect(eff);
+        QPropertyAnimation *a = new QPropertyAnimation(eff,"opacity");
+        a->setDuration(500);
+        a->setStartValue(0.2);
+        a->setEndValue(1);
+        a->setEasingCurve(QEasingCurve::InBack);
+        a->start(QPropertyAnimation::DeleteWhenStopped);    }
+}
+
+void FITSView::leaveEvent(QEvent * event){
+    if(floatingToolBar){
+        QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
+        floatingToolBar->setGraphicsEffect(eff);
+        QPropertyAnimation *a = new QPropertyAnimation(eff,"opacity");
+        a->setDuration(500);
+        a->setStartValue(1);
+        a->setEndValue(0.2);
+        a->setEasingCurve(QEasingCurve::OutBack);
+        a->start(QPropertyAnimation::DeleteWhenStopped);
+    }
+
+}
+
 /**
 This method was added to make the panning function work.
 If the mouse button is released, it resets mouseButtonDown variable and the mouse cursor.
@@ -1576,8 +1603,11 @@ void FITSView::createFloatingToolBar()
         return;
 
     floatingToolBar = new QToolBar(this);
-    floatingToolBar->setAttribute(Qt::WA_TranslucentBackground);
+    QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
+    floatingToolBar->setGraphicsEffect(eff);
+    eff->setOpacity(0.2);
     floatingToolBar->setStyleSheet("QToolBar{background: rgba(150, 150, 150, 210); border:none; color: yellow}"
+                                   "QToolButton{background: transparent; color: yellow}"
                                    "QToolButton:hover{background: rgba(200, 200, 200, 255); color: yellow}");
     floatingToolBar->setFloatable(true);
     floatingToolBar->setIconSize(QSize(25,25));
