@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>587</width>
-    <height>544</height>
+    <width>736</width>
+    <height>590</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_5" columnstretch="1,2">
@@ -1547,12 +1547,34 @@
          <number>3</number>
         </property>
         <item>
+         <widget class="QCheckBox" name="useFITSViewerInCapture">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Use FITS Viewer </string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QCheckBox" name="darkSubCheck">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="toolTip">
            <string>Perform automatic dark subtraction in preview mode</string>
           </property>
           <property name="text">
-           <string>Auto dark subtract</string>
+           <string>Auto dark subtract </string>
           </property>
           <property name="checked">
            <bool>false</bool>

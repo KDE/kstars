@@ -67,6 +67,7 @@ public:
     bool getMouseButtonDown();
 
 protected:
+
     virtual void mouseMoveEvent(QMouseEvent *e);
     virtual void mousePressEvent(QMouseEvent *e);
     virtual void mouseReleaseEvent(QMouseEvent *e);
@@ -136,6 +137,8 @@ public:
 
     bool isTelescopeActive();
 
+    void enterEvent(QEvent * event);
+    void leaveEvent(QEvent * event);
     int getMouseMode();
     void setMouseMode(int mode);
     void updateMouseCursor();

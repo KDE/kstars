@@ -80,6 +80,7 @@ public:
     Ekos::Guide *guideModule() { return guideProcess;}
     Ekos::Align *alignModule() { return alignProcess;}
     Ekos::Mount *mountModule() { return mountProcess;}
+    FITSView *getPreviewView() { return previewView; }
 
     /** @defgroup EkosDBusInterface Ekos DBus Interface
      * EkosManager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
@@ -121,6 +122,8 @@ public:
      * If connection mode is local, the function terminates the local INDI server and drivers. For remote, it disconnects from the remote INDI server.
      */
     Q_SCRIPTABLE bool stop();
+
+
 
 protected:
     void closeEvent(QCloseEvent *);
@@ -281,6 +284,8 @@ private slots:
     QTimer countdownTimer;
     QPixmap *previewPixmap;
     QProgressIndicator *capturePI;
+    // Preview Frame
+    FITSView *previewView;
 
     // Focus Summary
     QProgressIndicator *focusPI;

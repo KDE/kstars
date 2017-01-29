@@ -25,6 +25,8 @@
 #include "kstarsdata.h"
 #include "auxiliary/ksuserdb.h"
 #include "fitsviewer/fitsviewer.h"
+#include "fitsviewer/fitstab.h"
+#include "fitsviewer/fitsview.h"
 #include "skymap.h"
 
 #include "capture/sequencejob.h"
@@ -179,6 +181,15 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     // Also set Layout policy to SetMinAndMaxSize as well. Any idea how to fix this?
     // FIXME
     //resize(1000,750);
+
+    previewView = new FITSView(previewWidget, FITS_NORMAL);
+    previewWidget->setContentsMargins(0,0,0,0);
+    previewView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    previewView->setBaseSize(previewWidget->size());
+    previewView->createFloatingToolBar();
+    QVBoxLayout *vlayout = new QVBoxLayout();
+    vlayout->addWidget(previewView);
+    previewWidget->setLayout(vlayout);
 }
 
 void EkosManager::changeAlwaysOnTop(Qt::ApplicationState state)
@@ -232,7 +243,7 @@ void EkosManager::showEvent(QShowEvent * /*event*/)
 
 void EkosManager::resizeEvent(QResizeEvent *)
 {
-    previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    //previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     if (focusStarPixmap)
         focusStarImage->setPixmap(focusStarPixmap->scaled(focusStarImage->width(), focusStarImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     //if (focusProfilePixmap)
@@ -1926,9 +1937,9 @@ void EkosManager::updateCaptureProgress(QImage *image, Ekos::SequenceJob *job)
 {
     if (image)
     {
-        delete (previewPixmap);
-        previewPixmap = new QPixmap(QPixmap::fromImage(*image));
-        previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        //delete (previewPixmap);
+        //previewPixmap = new QPixmap(QPixmap::fromImage(*image));
+        //previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
 
     if (job->isPreview() == false)
