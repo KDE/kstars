@@ -888,6 +888,7 @@ Action=None
 [Event/RecordingStarted]
 Name=Video Recording Started
 Name[ca]=Ha començat la gravació de vídeo
+Name[ca@valencia]=Ha començat la gravació de vídeo
 Name[es]=Se ha iniciado la grabación de vídeo
 Name[nl]=Video-opname gestart
 Name[pt]=Gravação do Vídeo Iniciada
@@ -898,6 +899,7 @@ Action=None
 [Event/RecordingStopped]
 Name=Video Recording Stopped
 Name[ca]=S'ha aturat la gravació de vídeo
+Name[ca@valencia]=S'ha aturat la gravació de vídeo
 Name[es]=Se ha detenido la grabación de vídeo
 Name[nl]=Video-opname gestopt
 Name[pt]=Gravação do Vídeo Parada
