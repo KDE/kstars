@@ -52,7 +52,7 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 #endif
     wid = _w;
     ht = _h;
-    Image = new QPixmap( current );
+    Image = new QPixmap(current.scaled( dd->thumbnail()->width(), dd->thumbnail()->height(),Qt::KeepAspectRatio,Qt::FastTransformation));
     ImageRect = new QRect( 0, 0, 200, 200 );
 
     ui = new ThumbnailPickerUI( this );
@@ -273,14 +273,18 @@ void ThumbnailPicker::slotEditImage() {
 }
 
 void ThumbnailPicker::slotUnsetImage() {
-    QFile file;
-    if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
-        file.close();
-        Image->load( file.fileName(), "PNG" );
-    } else {
-        *Image = Image->scaled( dd->thumbnail()->width(), dd->thumbnail()->height() );
-        Image->fill( dd->palette().color( QPalette::Window ) );
-    }
+  //  QFile file;
+    //if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
+    //    file.close();
+   //     Image->load( file.fileName(), "PNG" );
+   // } else {
+   //     *Image = Image->scaled( dd->thumbnail()->width(), dd->thumbnail()->height() );
+  //      Image->fill( dd->palette().color( QPalette::Window ) );
+  //  }
+
+    QPixmap noImage;
+    noImage.load( ":/images/noimage.png" );
+    Image=new QPixmap(noImage.scaled( dd->thumbnail()->width(), dd->thumbnail()->height(),Qt::KeepAspectRatio,Qt::FastTransformation));
 
     ui->EditButton->setEnabled( false );
     ui->CurrentImage->setPixmap( *Image );

@@ -237,8 +237,7 @@ ObservingList::ObservingList()
     ui->DeleteImage->setEnabled( false );
     ui->OALExport->setEnabled( false );
 
-    m_NoImagePixmap = QPixmap(":/images/noimage.png").scaledToHeight(ui->ImagePreview->width());
-
+    m_NoImagePixmap = QPixmap(":/images/noimage.png").scaled(ui->ImagePreview->width(), ui->ImagePreview->height(),Qt::KeepAspectRatio,Qt::FastTransformation);
     m_altCostHelper = [ this ]( const SkyPoint &p ) -> QStandardItem * {
         const double inf = std::numeric_limits<double>::infinity();
         double altCost = 0.;
@@ -1519,6 +1518,7 @@ void ObservingList::selectObject( const SkyObject *o ) {
 void ObservingList::setDefaultImage()
 {
     ui->ImagePreview->setPixmap(m_NoImagePixmap);
+    ui->ImagePreview->update();
 }
 
 QString ObservingList::getObjectName(const SkyObject *o, bool translated)

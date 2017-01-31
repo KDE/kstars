@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ThumbnailPicker</class>
- <widget class="QWidget" name="ThumbnailPicker" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ThumbnailPicker">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,48 +10,30 @@
     <height>374</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Thumbnail Picker</string>
   </property>
-  <layout class="QHBoxLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
-   <property name="spacing" >
-    <number>6</number>
-   </property>
+  <layout class="QHBoxLayout">
    <item>
-    <layout class="QVBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
+    <layout class="QVBoxLayout">
      <item>
-      <layout class="QHBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
+      <layout class="QHBoxLayout">
        <item>
-        <widget class="QLabel" name="SearchLabel" >
-         <property name="text" >
+        <widget class="QLabel" name="SearchLabel">
+         <property name="text">
           <string>Search results:</string>
          </property>
         </widget>
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>41</width>
            <height>20</height>
@@ -59,11 +42,11 @@
         </spacer>
        </item>
        <item>
-        <widget class="QProgressBar" name="SearchProgress" >
-         <property name="value" >
+        <widget class="QProgressBar" name="SearchProgress">
+         <property name="value">
           <number>24</number>
          </property>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
@@ -71,8 +54,8 @@
       </layout>
      </item>
      <item>
-      <widget class="QListWidget" name="ImageList" >
-       <property name="minimumSize" >
+      <widget class="QListWidget" name="ImageList">
+       <property name="minimumSize">
         <size>
          <width>300</width>
          <height>0</height>
@@ -81,42 +64,30 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="textLabel3" >
-       <property name="text" >
+      <widget class="QLabel" name="textLabel3">
+       <property name="text">
         <string>Specify image location:</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KUrlRequester" name="ImageURLBox" />
+      <widget class="KUrlRequester" name="ImageURLBox" native="true"/>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QVBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
+    <layout class="QVBoxLayout">
      <item>
-      <layout class="QHBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
+      <layout class="QHBoxLayout">
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>53</width>
            <height>20</height>
@@ -125,47 +96,39 @@
         </spacer>
        </item>
        <item>
-        <layout class="QVBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
+        <layout class="QVBoxLayout">
          <item>
-          <widget class="QLabel" name="textLabel1" >
-           <property name="text" >
+          <widget class="QLabel" name="textLabel1">
+           <property name="text">
             <string>Current thumbnail:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="CurrentImage" >
-           <property name="sizePolicy" >
-            <sizepolicy>
-             <hsizetype>0</hsizetype>
-             <vsizetype>0</vsizetype>
+          <widget class="QLabel" name="CurrentImage">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="minimumSize" >
+           <property name="minimumSize">
             <size>
              <width>200</width>
              <height>200</height>
             </size>
            </property>
-           <property name="maximumSize" >
+           <property name="maximumSize">
             <size>
              <width>200</width>
              <height>200</height>
             </size>
            </property>
-           <property name="frameShape" >
+           <property name="frameShape">
             <enum>QFrame::Box</enum>
            </property>
-           <property name="scaledContents" >
-            <bool>true</bool>
+           <property name="scaledContents">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -173,13 +136,13 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>53</width>
            <height>20</height>
@@ -190,22 +153,16 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
+      <layout class="QHBoxLayout">
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>40</width>
            <height>20</height>
@@ -214,23 +171,17 @@
         </spacer>
        </item>
        <item>
-        <layout class="QVBoxLayout" >
-         <property name="margin" >
-          <number>0</number>
-         </property>
-         <property name="spacing" >
-          <number>6</number>
-         </property>
+        <layout class="QVBoxLayout">
          <item>
-          <widget class="QPushButton" name="EditButton" >
-           <property name="text" >
+          <widget class="QPushButton" name="EditButton">
+           <property name="text">
             <string>Edit Ima&amp;ge...</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="UnsetButton" >
-           <property name="text" >
+          <widget class="QPushButton" name="UnsetButton">
+           <property name="text">
             <string>Unset Image</string>
            </property>
           </widget>
@@ -239,13 +190,13 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>40</width>
            <height>20</height>
@@ -257,13 +208,13 @@
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
          <height>233</height>
@@ -275,12 +226,11 @@
    </item>
   </layout>
  </widget>
-  <customwidgets>
+ <customwidgets>
   <customwidget>
    <class>KUrlRequester</class>
+   <extends></extends>
    <header>kurlrequester.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
  </customwidgets>
  <resources/>

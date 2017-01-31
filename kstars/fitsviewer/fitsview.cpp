@@ -135,8 +135,9 @@ int FITSView::getMouseMode(){
 }
 
 
-void FITSView::enterEvent(QEvent * event){
-    if(floatingToolBar){
+void FITSView::enterEvent(QEvent *)
+{
+    if(floatingToolBar&&image_data){
         QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
         floatingToolBar->setGraphicsEffect(eff);
         QPropertyAnimation *a = new QPropertyAnimation(eff,"opacity");
@@ -144,11 +145,13 @@ void FITSView::enterEvent(QEvent * event){
         a->setStartValue(0.2);
         a->setEndValue(1);
         a->setEasingCurve(QEasingCurve::InBack);
-        a->start(QPropertyAnimation::DeleteWhenStopped);    }
+        a->start(QPropertyAnimation::DeleteWhenStopped);
+    }
 }
 
-void FITSView::leaveEvent(QEvent * event){
-    if(floatingToolBar){
+void FITSView::leaveEvent(QEvent *)
+{
+    if(floatingToolBar&&image_data){
         QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
         floatingToolBar->setGraphicsEffect(eff);
         QPropertyAnimation *a = new QPropertyAnimation(eff,"opacity");
@@ -516,6 +519,12 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     image_frame->setMouseTracking(true);
     setMouseMode(selectMouse);//This is the default mode because the Focus and Align FitsViews should not be in dragMouse mode
 
+    noImageLabel=new QLabel();
+    noImage.load(":/images/noimage.png");
+    noImageLabel->setPixmap(noImage);
+    noImageLabel->setAlignment(Qt::AlignCenter);
+    this->setWidget(noImageLabel);
+
     //if (fitsMode == FITS_GUIDE)
     //connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
 
@@ -530,8 +539,21 @@ FITSView::~FITSView()
     delete(display_image);
 }
 
+void FITSView::resizeEvent(QResizeEvent * event){
+    if(!image_data&&noImageLabel){
+        noImageLabel->setPixmap(noImage.scaled( width()-20, height()-20,Qt::KeepAspectRatio,Qt::FastTransformation));
+        noImageLabel->setFixedSize(width()-5,height()-5);
+    }
+
+    QScrollArea::resizeEvent(event);
+
+}
+
 bool FITSView::loadFITS (const QString &inFilename , bool silent)
 {
+    if(floatingToolBar)
+        floatingToolBar->setVisible(true);
+
     QProgressDialog fitsProg(this);
 
     bool setBayerParams=false;
@@ -1591,7 +1613,7 @@ void FITSView::pinchTriggered(QPinchGesture *gesture)
 
 void FITSView::handleWCSCompletion()
 {
-    bool hasWCS = wcsWatcher.result();
+    //bool hasWCS = wcsWatcher.result();
     if(image_data->hasWCS())
           this->updateFrame();
     emit wcsToggled(image_data->hasWCS());
@@ -1606,6 +1628,7 @@ void FITSView::createFloatingToolBar()
     QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
     floatingToolBar->setGraphicsEffect(eff);
     eff->setOpacity(0.2);
+    floatingToolBar->setVisible(false);
     floatingToolBar->setStyleSheet("QToolBar{background: rgba(150, 150, 150, 210); border:none; color: yellow}"
                                    "QToolButton{background: transparent; color: yellow}"
                                    "QToolButton:hover{background: rgba(200, 200, 200, 255); color: yellow}");

@@ -137,8 +137,8 @@ public:
 
     bool isTelescopeActive();
 
-    void enterEvent(QEvent * event);
-    void leaveEvent(QEvent * event);
+    void enterEvent(QEvent *);
+    void leaveEvent(QEvent *);
     int getMouseMode();
     void setMouseMode(int mode);
     void updateMouseCursor();
@@ -171,6 +171,7 @@ public:
 
 protected:
     void wheelEvent(QWheelEvent* event);
+    void resizeEvent(QResizeEvent * event);
 
 public slots:
     void ZoomIn();
@@ -193,6 +194,9 @@ protected slots:
     void handleWCSCompletion();
 
 private:
+    QLabel *noImageLabel=new QLabel();
+    QPixmap noImage;
+
     bool event(QEvent *event);
     bool gestureEvent(QGestureEvent *event);
     void pinchTriggered(QPinchGesture *gesture);

@@ -1174,7 +1174,9 @@ void DetailDialog::showThumbnail() {
     } else
         Thumbnail->load( ":/images/noimage.png" );
 
-    Data->Image->setPixmap( *Thumbnail );
+    *Thumbnail=Thumbnail->scaled( Data->Image->width(), Data->Image->height(),Qt::KeepAspectRatio,Qt::FastTransformation);
+
+    Data->Image->setPixmap(*Thumbnail);
 }
 
 void DetailDialog::updateThumbnail() {
