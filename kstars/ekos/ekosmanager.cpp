@@ -133,7 +133,7 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
 
     // Summary
-    previewPixmap = new QPixmap(QPixmap(":/images/noimage.png"));    
+   // previewPixmap = new QPixmap(QPixmap(":/images/noimage.png"));
 
     // Profiles
     connect(addProfileB, SIGNAL(clicked()), this, SLOT(addProfile()));
@@ -216,7 +216,8 @@ EkosManager::~EkosManager()
     delete dustCapProcess;
     delete profileModel;
 
-    delete previewPixmap;
+    //delete previewPixmap;
+    delete previewView;
     delete focusStarPixmap;    
     delete guideStarPixmap;
 
