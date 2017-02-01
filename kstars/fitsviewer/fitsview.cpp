@@ -881,6 +881,11 @@ template<typename T>  int FITSView::rescale(FITSZoom type)
 
 void FITSView::ZoomIn()
 {
+    if (currentZoom >= ZOOM_DEFAULT && Options::limitedMemoryMode())
+    {
+        emit newStatus(i18n("Cannot zoom in further due to active limited memory mode."), FITS_MESSAGE);
+        return;
+    }
 
     if (currentZoom < ZOOM_DEFAULT)
         currentZoom += ZOOM_LOW_INCR;
