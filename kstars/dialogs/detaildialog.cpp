@@ -490,7 +490,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     qDebug() << (selectedObject->deprecess(data->updateNum())).ra0().toHMSString() << (selectedObject->deprecess(data->updateNum())).dec0().toDMSString() << endl;
     //qDebug() << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString() << endl;
     Pos->RALabel->setText( i18n( "RA (%1):", sEpoch ) );
-    Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
+    Pos->DecLabel->setText( i18n( "DE (%1):", sEpoch ) );
     Pos->RA->setText( selectedObject->ra().toHMSString() );
     Pos->Dec->setText( selectedObject->dec().toDMSString() );
 

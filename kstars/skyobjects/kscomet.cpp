@@ -160,13 +160,15 @@ void KSComet::findPhysicalParameters() {
 bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
     double v(0.0), r(0.0);
 
+    lastPrecessJD = num->julianDay();
+
     //Precess the longitude of the Ascending Node to the desired epoch:
-    dms n = dms( double(N.Degrees() - 3.82394E-5 * ( num->julianDay() - J2000 )) ).reduce();
+    dms n = dms( double(N.Degrees() - 3.82394E-5 * ( lastPrecessJD - J2000 )) ).reduce();
 
     if ( e > 0.98 ) {
         //Use near-parabolic approximation
         double k = 0.01720209895; //Gauss gravitational constant
-        double a = 0.75 * ( num->julianDay() - JDp ) * k * sqrt( (1+e)/(q*q*q) );
+        double a = 0.75 * ( lastPrecessJD - JDp ) * k * sqrt( (1+e)/(q*q*q) );
         double b = sqrt( 1.0 + a*a );
         double W = pow((b+a),1.0/3.0) - pow((b-a),1.0/3.0);
         double c = 1.0 + 1.0/(W*W);
@@ -183,7 +185,7 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
     } else {
         //Use normal ellipse method
         //Determine Mean anomaly for desired date:
-        dms m = dms( double(360.0*( num->julianDay() - JDp )/P) ).reduce();
+        dms m = dms( double(360.0*( lastPrecessJD - JDp )/P) ).reduce();
         double sinm, cosm;
         m.SinCos( sinm, cosm );
 
