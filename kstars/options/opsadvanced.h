@@ -48,6 +48,7 @@ private slots:
     void slotToggleVerbosityOptions();
     void slotToggleOutputOptions();
     void slotShowLogFiles();
+    void slotToggleLimitedMemoryMode(bool enabled);
 };
 
 #endif  //OPSADVANCED_H_

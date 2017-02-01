@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>584</width>
+    <width>591</width>
     <height>418</height>
    </rect>
   </property>
@@ -233,6 +233,16 @@
            </widget>
           </item>
           <item row="1" column="0">
+           <widget class="QCheckBox" name="kcfg_LimitedMemoryMode">
+            <property name="toolTip">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable limited memory mode to turn off any memory-intensive operations. This mode is mostly useful on embedded devices with limited memory.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="text">
+             <string>Limited Memory Mode</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
            <widget class="QCheckBox" name="kcfg_AutoStretch">
             <property name="toolTip">
              <string>Always apply auto stretch to images in FITS Viewer</string>
@@ -242,7 +252,7 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
+          <item row="1" column="2">
            <widget class="QCheckBox" name="kcfg_autoDebayerFITS">
             <property name="toolTip">
              <string>Automatically debayer captured image if it contains a bayer pattern</string>
@@ -255,7 +265,7 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
+          <item row="1" column="3">
            <widget class="QCheckBox" name="kcfg_auto3DCube">
             <property name="toolTip">
              <string>Process 3D (RGB) FITS images. If unchecked, only first channel is processed.</string>

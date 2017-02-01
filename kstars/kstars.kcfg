@@ -1271,34 +1271,40 @@
       <entry name="MountLogging" type="Bool">
          <whatsthis>Log Ekos Mount Module activity.</whatsthis>
          <default>false</default>
-      </entry>
-      <entry name="singlePreviewFITS" type="Bool">
-         <label>Preview FITS in a single tab?</label>
-         <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="singleWindowCapturedFITS" type="Bool">
-         <label>Display all captured FITS in one window?</label>
-         <whatsthis>Display all captured FITS images in a single FITS Viewer window. By default each camera create its own FITS Viewer instance</whatsthis>
-         <default>false</default>
-      </entry>
-      <entry name="singleWindowOpenedFITS" type="Bool">
-         <label>Display all opened FITS in one window?</label>
-         <whatsthis>Display all opened FITS images in a single FITS Viewer window.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="independentWindowFITS" type="Bool">
-         <label>Make FITS Viewer window independent of KStars main window</label>
-         <default>false</default>
-      </entry>
-      <entry name="autoDebayerFITS" type="Bool">
-         <label>Automatically debayer a FITS image if it is contains a bayer pattern</label>
-         <default>true</default>
-      </entry>
-      <entry name="auto3DCube" type="Bool">
-         <label>Process 3D FITS Cube (RGB). If false, only first channel is processed.</label>
-         <default>true</default>
-      </entry>
+      </entry>      
+   </group>
+   <group name="FITSViewer">
+   <entry name="singlePreviewFITS" type="Bool">
+      <label>Preview FITS in a single tab?</label>
+      <whatsthis>Display all captured FITS images in a single tab instead of multiple tabs per image.</whatsthis>
+      <default>true</default>
+   </entry>
+   <entry name="singleWindowCapturedFITS" type="Bool">
+      <label>Display all captured FITS in one window?</label>
+      <whatsthis>Display all captured FITS images in a single FITS Viewer window. By default each camera create its own FITS Viewer instance</whatsthis>
+      <default>false</default>
+   </entry>
+   <entry name="singleWindowOpenedFITS" type="Bool">
+      <label>Display all opened FITS in one window?</label>
+      <whatsthis>Display all opened FITS images in a single FITS Viewer window.</whatsthis>
+      <default>true</default>
+   </entry>
+   <entry name="independentWindowFITS" type="Bool">
+      <label>Make FITS Viewer window independent of KStars main window</label>
+      <default>false</default>
+   </entry>
+   <entry name="autoDebayerFITS" type="Bool">
+      <label>Automatically debayer a FITS image if it is contains a bayer pattern</label>
+      <default>true</default>
+   </entry>
+   <entry name="auto3DCube" type="Bool">
+      <label>Process 3D FITS Cube (RGB). If false, only first channel is processed.</label>
+      <default>true</default>
+   </entry>
+   <entry name="LimitedMemoryMode" type="Bool">
+      <label>Conserve memory by disabling all memory-intensive features in FITS Viewer</label>
+      <default>false</default>
+   </entry>
    </group>
    <group name="WISettings">
       <entry name="BortleClass" type="UInt">

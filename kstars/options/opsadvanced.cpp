@@ -51,6 +51,8 @@ OpsAdvanced::OpsAdvanced()
 
     connect(showLogsB, SIGNAL(clicked()), this, SLOT(slotShowLogFiles()));
 
+    connect(kcfg_LimitedMemoryMode, SIGNAL(toggled(bool)), this, SLOT(slotToggleLimitedMemoryMode(bool)));
+
     connect( kcfg_ObsListDemoteHole, &QCheckBox::toggled, [this]( bool state ) {
             kcfg_ObsListHoleSize->setEnabled( state );
         } );
@@ -101,4 +103,10 @@ void OpsAdvanced::slotShowLogFiles()
     QUrl path = QUrl::fromLocalFile(KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs");
 
     QDesktopServices::openUrl(path);
+}
+
+void OpsAdvanced::slotToggleLimitedMemoryMode(bool enabled)
+{
+    kcfg_auto3DCube->setChecked(!enabled);
+    kcfg_autoDebayerFITS->setChecked(!enabled);
 }
