@@ -1112,16 +1112,29 @@ void Focus::setCaptureComplete()
         if (Options::focusLogging())
             qDebug() << "Focus newFITS #" << frameNum+1 << ": Current HFR " << currentHFR;
 
-        HFRFrames[frameNum++] = currentHFR;
 
-        if (frameNum >= 1 /*focusFramesSpin->value()*/)
+        frameNum++;
+        if (currentHFR != -1)
+            HFRFrames.append(currentHFR);
+
+        // Check if we need to average more than a single frame
+        if (frameNum >= focusFramesSpin->value())
         {
             currentHFR=0;
-            for (int i=0; i < frameNum; i++)
+            // Sort all HFRs
+            qSort(HFRFrames.begin(), HFRFrames.end(), [](double a, double b){return a < b;});
+            // Reject 10% outliers for frames > 3
+            int cutOff=0;
+            if (HFRFrames.count() > 3)
+                cutOff = ceil(HFRFrames.count() * 0.1);
+
+            for (int i=cutOff; i < HFRFrames.count()-cutOff; i++)
                 currentHFR+= HFRFrames[i];
 
-            currentHFR /= frameNum;
+                currentHFR /= (HFRFrames.count() - (2 * cutOff));
+
             frameNum =0;
+            HFRFrames.clear();
         }
         else
         {
