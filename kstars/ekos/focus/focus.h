@@ -448,7 +448,7 @@ private:
     // Previous binning setting
     int activeBin;
     // HFR values for captured frames before averages
-    double HFRFrames[5];
+    QVector<double> HFRFrames;
 
     QStringList logText;
     ITextVectorProperty *filterName;
