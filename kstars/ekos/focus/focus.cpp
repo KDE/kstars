@@ -600,11 +600,15 @@ void Focus::checkFocuser(int FocuserNum)
         getAbsFocusPosition();
 
         absTicksSpin->setEnabled(true);
+        absTicksLabel->setEnabled(true);
         setAbsTicksB->setEnabled(true);
+
+        absTicksSpin->setValue(currentPosition);
     }
     else
     {
         absTicksSpin->setEnabled(false);
+        absTicksLabel->setEnabled(false);
         setAbsTicksB->setEnabled(false);
     }
 
@@ -659,7 +663,8 @@ void Focus::getAbsFocusPosition()
            absTicksSpin->setMaximum(absMove->np[0].max);
            absTicksSpin->setSingleStep(absMove->np[0].step);
 
-           absTicksSpin->setValue(currentPosition);
+           absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+           //absTicksSpin->setValue(currentPosition);
         }
     }
 
@@ -1959,6 +1964,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
         getAbsFocusPosition();
 
         absTicksSpin->setEnabled(true);
+        absTicksLabel->setEnabled(true);
         setAbsTicksB->setEnabled(true);
     }
 
@@ -1973,7 +1979,7 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
        if (pos)
        {
            currentPosition = pos->value;
-           absTicksSpin->setValue(currentPosition);
+           absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
        }
 
        if (adjustFocus && nvp->s == IPS_OK)
@@ -2011,7 +2017,10 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     {
         INumber *pos = IUFindNumber(nvp, "FOCUS_RELATIVE_POSITION");
         if (pos && nvp->s == IPS_OK)
+        {
             currentPosition += pos->value * (lastFocusDirection == FOCUS_IN ? -1 : 1);
+            absTicksLabel->setText(QString::number(static_cast<int>(currentPosition)));
+        }
 
         if (adjustFocus && nvp->s == IPS_OK)
         {
