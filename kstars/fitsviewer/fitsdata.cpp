@@ -2145,6 +2145,67 @@ bool FITSData::checkWCS()
     return false;
 }
 
+bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPoint &wcsPoint)
+{
+#ifndef KSTARS_LITE
+#ifdef HAVE_WCSLIB
+
+    int status=0;
+    char *header;
+    int nkeyrec, nreject, nwcs, stat[2];
+    double imgcrd[2], worldcrd[2], pixcrd[2], phi[2], theta[2];
+    struct wcsprm *wcs=0;
+
+    if (fits_hdr2str(fptr, 1, NULL, 0, &header, &nkeyrec, &status))
+    {
+        fits_report_error(stderr, status);
+        return false;
+    }
+
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
+    {
+        free(header);
+        fprintf(stderr, "wcspih ERROR %d: %s.\n", status, wcshdr_errmsg[status]);
+        return false;
+    }
+
+    free(header);
+
+    if (wcs == 0)
+    {
+        //fprintf(stderr, "No world coordinate systems found.\n");
+        return false;
+    }
+
+    // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
+    if (wcs->crpix[0] == 0)
+        return false;
+
+    if ((status = wcsset(wcs)))
+    {
+        fprintf(stderr, "wcsset ERROR %d: %s.\n", status, wcs_errmsg[status]);
+        return false;
+    }
+
+    worldcrd[0]= wcsCoord.ra0().Degrees();
+    worldcrd[1]= wcsCoord.dec0().Degrees();
+
+    if ((status = wcss2p(wcs, 1, 2, &worldcrd[0], &phi[0], &theta[0], &imgcrd[0], &pixcrd[0], &stat[0])))
+    {
+        fprintf(stderr, "wcss2p ERROR %d: %s.\n", status,  wcs_errmsg[status]);
+        return false;
+    }
+
+    wcsPoint.setX(pixcrd[0]);
+    wcsPoint.setY(pixcrd[1]);
+    return true;
+
+#endif
+#endif
+
+    return false;
+}
+
 #ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
 void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[])
