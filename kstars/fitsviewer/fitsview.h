@@ -103,6 +103,8 @@ public:
     int saveFITS(const QString &filename);
     /* Rescale image lineary from image_buffer, fit to window if desired */
     int rescale(FITSZoom type);
+    /* Calculate WCS header info and update WCS info */
+    bool updateWCS(double orientation, double ra, double dec, double pixscale);
 
     void setImageData(FITSData *d) { image_data = d; }
 

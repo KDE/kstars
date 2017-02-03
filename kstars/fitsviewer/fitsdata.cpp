@@ -3579,3 +3579,48 @@ QImage FITSData::FITSToImage(const QString &filename)
 
     return fitsImage;
 }
+
+bool FITSData::updateWCS(double orientation, double ra, double dec, double pixscale)
+{
+    int status=0;
+
+    fits_update_key(fptr, TDOUBLE, "CRVAL1", &ra, "CRVAL1", &status);
+    fits_update_key(fptr, TDOUBLE, "CRVAL2", &dec, "CRVAL1", &status);
+
+    char radecsys[8] = "FK5";
+    char ctype1[16]  = "RA---TAN";
+    char ctype2[16]  = "DEC--TAN";
+
+    fits_update_key(fptr, TSTRING, "RADECSYS", radecsys, "RADECSYS", &status);
+    fits_update_key(fptr, TSTRING, "CTYPE1", ctype1, "CTYPE1", &status);
+    fits_update_key(fptr, TSTRING, "CTYPE2", ctype2, "CTYPE2", &status);
+
+    double crpix1 = getWidth()/2.0;
+    double crpix2 = getHeight()/2.0;
+
+    fits_update_key(fptr, TDOUBLE, "CRPIX1", &crpix1, "CRPIX1", &status);
+    fits_update_key(fptr, TDOUBLE, "CRPIX2", &crpix2, "CRPIX2", &status);
+
+    // Arcsecs per Pixel
+    double secpix1 = pixscale;
+    double secpix2 = pixscale;
+
+    fits_update_key(fptr, TDOUBLE, "SECPIX1", &secpix1, "SECPIX1", &status);
+    fits_update_key(fptr, TDOUBLE, "SECPIX2", &secpix2, "SECPIX2", &status);
+
+    double degpix1 =  secpix1 / 3600.0;
+    double degpix2 =  secpix2 / 3600.0;
+
+    fits_update_key(fptr, TDOUBLE, "CDELT1", &degpix1, "CDELT1", &status);
+    fits_update_key(fptr, TDOUBLE, "CDELT2", &degpix2, "CDELT2", &status);
+
+    // Rotation is CW, we need to convert it to CCW per CROTA1 definition
+    double rotation = 360 - orientation;
+    if (rotation > 360)
+        rotation -= 360;
+
+    fits_update_key(fptr, TDOUBLE, "CROTA1", &rotation, "CROTA1", &status);
+    fits_update_key(fptr, TDOUBLE, "CROTA2", &rotation, "CROTA2", &status);
+
+    return true;
+}

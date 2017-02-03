@@ -40,6 +40,7 @@
 
 #include <basedevice.h>
 
+#define PAH_CUTOFF_FOV              60                   // Minimum FOV width in arcminutes for PAH to work
 #define MAXIMUM_SOLVER_ITERATIONS   10
 
 namespace Ekos
@@ -60,6 +61,7 @@ Align::Align()
 
     state = ALIGN_IDLE;
     focusState = FOCUS_IDLE;
+    pahStage = PAH_IDLE;
 
     currentCCD     = NULL;
     currentTelescope = NULL;
@@ -203,8 +205,15 @@ Align::Align()
 
     connect(binningCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(setBinningIndex(int)));
 
+    // PAH Connections
+    connect(PAHRestartB, SIGNAL(clicked()), this, SLOT(restartPAHProcess()));
+    connect(PAHStartB, SIGNAL(clicked()), this, SLOT(startPAHProcess()));
+    connect(PAHFirstCaptureB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
+    connect(PAHSecondCaptureB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
+    connect(PAHRotateB, SIGNAL(clicked()), this, SLOT(rotatePAH()));
+
     if (solverOptions->text().contains("no-fits2fits"))
-        appendLogText(i18n("Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));
+        appendLogText(i18n("Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));        
 }
 
 Align::~Align()
@@ -487,6 +496,17 @@ void Align::calculateFOV()
 
     FOVOut->setText(QString("%1' x %2'").arg(fov_x, 0, 'g', 3).arg(fov_y, 0, 'g', 3));
 
+    if ( ((fov_x + fov_y) / 2.0) > PAH_CUTOFF_FOV)
+    {
+        PAHWidgets->setEnabled(true);
+        PAHWidgets->setToolTip(QString());
+    }
+    else
+    {
+        PAHWidgets->setEnabled(false);
+        PAHWidgets->setToolTip(i18n("<p>Polar Alignment Helper tool requires the following:</p><p>1. German Equatorial Mount</p><p>2. Wide FOV &gt;"
+                                    " 1 degrees</p><p>For small FOVs, use the Legacy Polar Alignment Tool.</p>"));
+    }
 }
 
 void Align::generateArgs()
@@ -829,7 +849,22 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     QString options = solverOptions->text().simplified();
 
     if (isGenerated)
+    {
         solverArgs = options.split(" ");
+        // Replace RA and DE with LST & 90/-90 pole
+        if (pahStage == PAH_FIRST_CAPTURE)
+        {
+            for (int i=0; i <solverArgs.count(); i++)
+            {
+                // RA
+                if (solverArgs[i] == "-3")
+                    solverArgs[i+1] = QString::number(KStarsData::Instance()->lst()->Degrees());
+                // DE. +90 for Northern hemisphere. -90 for southern hemisphere
+                else if (solverArgs[i] == "-4")
+                    solverArgs[i+1] = QString::number(KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 90 : -90);
+            }
+        }
+    }
     else if (filename.endsWith("fits") || filename.endsWith("fit"))
     {
         solverArgs = getSolverOptionsFromFITS(filename);
@@ -1020,7 +1055,27 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      emit newStatus(state);
      solverIterations=0;
 
-     if (azStage > AZ_INIT || altStage > ALT_INIT)
+     if (pahStage == PAH_FIRST_CAPTURE)
+     {
+         alignView->updateWCS(orientation, ra, dec, pixscale);
+         firstPAHCenter.setRA0(alignCoord.ra0());
+         firstPAHCenter.setDec0(alignCoord.dec0());
+
+         pahStage = PAH_ROTATE;
+         PAHWidgets->setCurrentWidget(PAHRotatePage);
+     }
+     else if (pahStage == PAH_SECOND_CAPTURE)
+     {
+         alignView->updateWCS(orientation, ra, dec, pixscale);
+         secondPAHCenter.setRA0(alignCoord.ra0());
+         secondPAHCenter.setDec0(alignCoord.dec0());
+
+         pahStage = PAH_REFRESH;
+         PAHWidgets->setCurrentWidget(PAHRefreshPage);
+
+         calculatePAHError();
+     }
+     else if (azStage > AZ_INIT || altStage > ALT_INIT)
          executePolarAlign();
 }
 
@@ -1143,6 +1198,17 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
             // Update the boxes as the mount just finished slewing
             if (slew_dirty && Options::solverUpdateCoords())
                 copyCoordsToBoxes();
+
+            if (slew_dirty && pahStage == PAH_ROTATE)
+            {
+                slew_dirty = false;
+
+                appendLogText(i18n("Mount rotation is complete."));
+
+                pahStage = PAH_SECOND_CAPTURE;
+
+                PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
+            }
 
             switch (state)
             {
@@ -2153,6 +2219,80 @@ void Align::toggleAlignWidgetFullScreen()
         alignWidget->showMaximized();
         alignWidget->show();
     }
+}
+
+void Align::startPAHProcess()
+{
+    pahStage = PAH_FIRST_CAPTURE;
+    nothingR->setChecked(true);
+    currentGotoMode = GOTO_NOTHING;
+
+    PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
+}
+
+void Align::restartPAHProcess()
+{
+    pahStage = PAH_IDLE;
+
+    PAHFirstCapturePage->setEnabled(true);
+
+    PAHWidgets->setCurrentWidget(PAHIntroPage);
+}
+
+void Align::rotatePAH()
+{
+    expectedPAHCenter.setRA0(alignCoord.ra0());
+    expectedPAHCenter.setDec0(alignCoord.dec0());
+
+    double ra0 = expectedPAHCenter.ra0().Degrees();
+    double dec0= expectedPAHCenter.dec0().Degrees();
+
+    int hemisphere = (KStarsData::Instance()->geo()->lat()->Degrees() > 0) ? 0 : -1;
+
+    // North
+    if (hemisphere == 0)
+    {
+        // West
+        if (PAHWestMeridianR->isChecked())
+            ra0 -= PAHRotationSpin->value();
+        // East
+        else
+            ra0 += PAHRotationSpin->value();
+    }
+    // South
+    else
+    {
+        // West
+        if (PAHWestMeridianR->isChecked())
+            ra0 += PAHRotationSpin->value();
+        // East
+        else
+            ra0 -= PAHRotationSpin->value();
+    }
+
+    // This is we expect the center of the image after the rotation assuming a PERFECT polar alignment
+    // RA only changes by the rotation amount
+    // DE remains as well in a perfectly aligned mount.
+    expectedPAHCenter.setRA0(ra0/15.0);
+
+    SkyPoint targetPAH;
+
+    targetPAH.setRA0(ra0/15.0);
+    targetPAH.setDec0(dec0);
+
+    // Convert to JNow
+    targetPAH.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
+    // Get horizontal coords
+    targetPAH.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+
+    currentTelescope->Slew(&targetPAH);
+
+    appendLogText(i18n("Please wait until mount completes rotating to RA %1 DE %2 ...", targetPAH.ra().toHMSString(), targetPAH.dec().toDMSString()));
+}
+
+void Align::calculatePAHError()
+{
+
 }
 
 }

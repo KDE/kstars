@@ -1713,3 +1713,12 @@ void FITSView::updateScopeButton()
        centerTelescopeAction->setChecked(false);
     }
 }
+
+bool FITSView::updateWCS(double orientation, double ra, double dec, double pixscale)
+{
+    image_data->updateWCS(orientation, ra, dec, pixscale);
+
+    QFuture<bool> future = QtConcurrent::run(image_data, &FITSData::checkWCS);
+    wcsWatcher.setFuture(future);
+    return true;
+}
