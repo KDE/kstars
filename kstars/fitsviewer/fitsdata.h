@@ -112,9 +112,7 @@ public:
     /* Rescale image lineary from image_buffer, fit to window if desired */
     int rescale(FITSZoom type);
     /* Calculate stats */
-    void calculateStats(bool refresh=false);    
-    /* Update WCS */
-    bool updateWCS(double orientation, double ra, double dec, double pixscale);
+    void calculateStats(bool refresh=false);        
 
     // Access functions
     void clearImageBuffers();
@@ -178,6 +176,9 @@ public:
     bool checkWCS();
     bool hasWCS() { return HasWCS; }
     wcs_point *getWCSCoord()  { return wcs_coord; }
+    bool wcsToPixel(SkyPoint &wcsCoord, QPoint &wcsPoint);
+    /* Update WCS header with new data. Overwrites existing data if present */
+    bool updateWCS(double orientation, double ra, double dec, double pixscale);
 
     // Debayer
     bool hasDebayer() { return HasDebayer; }

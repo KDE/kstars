@@ -850,7 +850,7 @@
              <enum>QFrame::NoFrame</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>6</number>
             </property>
             <widget class="QWidget" name="PAHIntroPage">
              <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -872,7 +872,7 @@
               <item>
                <widget class="QLabel" name="label_5">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. Unpark your mount and point toward celestial pole. Tracking must be engaged.&lt;/p&gt;&lt;p&gt;Click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This tool provides a simple method to polar align a German equatorial mount. &lt;span style=&quot; font-weight:600;&quot;&gt;Unpark&lt;/span&gt; your mount, &lt;span style=&quot; font-weight:600;&quot;&gt;Point&lt;/span&gt; toward the celestial pole, and &lt;span style=&quot; font-weight:600;&quot;&gt;Engage &lt;/span&gt;sidereal tracking.&lt;/p&gt;&lt;p&gt;Click &lt;span style=&quot; font-weight:600;&quot;&gt;Start&lt;/span&gt; to begin the process.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
@@ -1134,7 +1134,7 @@
                <number>3</number>
               </property>
               <item>
-               <widget class="QLabel" name="PAHErrorLabel">
+               <widget class="QLabel" name="PAHErrorDescriptionLabel">
                 <property name="text">
                  <string>Error Occured</string>
                 </property>
@@ -1174,21 +1174,6 @@
             </widget>
             <widget class="QWidget" name="PAHCorrectionPage">
              <layout class="QVBoxLayout" name="verticalLayout_14">
-              <property name="spacing">
-               <number>3</number>
-              </property>
-              <property name="leftMargin">
-               <number>3</number>
-              </property>
-              <property name="topMargin">
-               <number>3</number>
-              </property>
-              <property name="rightMargin">
-               <number>3</number>
-              </property>
-              <property name="bottomMargin">
-               <number>3</number>
-              </property>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_14">
                 <property name="spacing">
@@ -1196,22 +1181,18 @@
                 </property>
                 <item>
                  <widget class="QLabel" name="label_23">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Angle between expected perfectly aligned mount center and and actual center&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
                   <property name="text">
-                   <string>Polar Alignment Error:</string>
+                   <string>Displacement Angle</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="PAHErrorDegrees">
+                 <widget class="QLabel" name="PAHErrorLabel">
                   <property name="text">
                    <string>0</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_25">
-                  <property name="text">
-                   <string>Degrees</string>
                   </property>
                  </widget>
                 </item>
@@ -1231,14 +1212,34 @@
                </layout>
               </item>
               <item>
-               <widget class="QLabel" name="label_26">
-                <property name="text">
-                 <string>Correction vector is plotted above. Select a bright star to overlay adjustment correction guide.</string>
+               <layout class="QHBoxLayout" name="horizontalLayout_16">
+                <property name="spacing">
+                 <number>3</number>
                 </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
-                </property>
-               </widget>
+                <item>
+                 <widget class="QLabel" name="label_26">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Correction vector is plotted above. Select a bright star to reposition the the correction vector. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; when done.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="PAHCorrectionsNextB">
+                  <property name="text">
+                   <string>Next</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </widget>
@@ -1262,7 +1263,7 @@
               <item>
                <widget class="QLabel" name="label_24">
                 <property name="text">
-                 <string>Adjust mount's Altitude and Azimuth knobs until the selected stars is centered within the crosshair. Click Refresh to begin continious capture. Click done when star is centered.</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Adjust mount's Altitude and Azimuth knobs until the selected star is centered within the crosshair. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Refresh&lt;/span&gt; to begin continious capture. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Done&lt;/span&gt; when star is centered.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
@@ -1275,6 +1276,26 @@
                  <number>3</number>
                 </property>
                 <item>
+                 <widget class="QPushButton" name="PAHRefreshB">
+                  <property name="text">
+                   <string>Refresh</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="PAHExposure">
+                  <property name="toolTip">
+                   <string>Exposure duration in seconds during refresh phase</string>
+                  </property>
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>30</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <spacer name="horizontalSpacer_7">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
@@ -1286,13 +1307,6 @@
                    </size>
                   </property>
                  </spacer>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="PAHRefreshB">
-                  <property name="text">
-                   <string>Refresh</string>
-                  </property>
-                 </widget>
                 </item>
                 <item>
                  <widget class="QPushButton" name="PAHDoneB">

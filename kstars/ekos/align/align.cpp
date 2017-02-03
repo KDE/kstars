@@ -211,6 +211,9 @@ Align::Align()
     connect(PAHFirstCaptureB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
     connect(PAHSecondCaptureB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
     connect(PAHRotateB, SIGNAL(clicked()), this, SLOT(rotatePAH()));
+    connect(PAHCorrectionsNextB, SIGNAL(clicked()), this, SLOT(setPAHCorrectionSelectionComplete()));
+    connect(PAHRefreshB, SIGNAL(clicked()), this, SLOT(startPAHRefreshProcess()));
+    connect(PAHDoneB, SIGNAL(clicked()), this, SLOT(setPAHRefreshComplete()));
 
     if (solverOptions->text().contains("no-fits2fits"))
         appendLogText(i18n("Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));        
@@ -745,7 +748,11 @@ bool Align::captureAndSolve()
    int bin = Options::solverBinningIndex()+1;
    targetChip->setBinning(bin, bin);
 
-   targetChip->capture(seqExpose);
+   // In case we're in refresh phase of the polar alignment helper then we use capture value from there
+   if (pahStage == PAH_REFRESH)
+       targetChip->capture(PAHExposure->value());
+   else
+       targetChip->capture(seqExpose);
 
    Options::setAlignExposure(seqExpose);
 
@@ -816,6 +823,16 @@ void Align::newFITS(IBLOB *bp)
 void Align::setCaptureComplete()
 {
     DarkLibrary::Instance()->disconnect(this);
+
+    if (pahStage == PAH_REFRESH)
+    {
+        alignView->setCorrectionParams(correctionVector, correctionExpectedPoint);
+        if (correctionOffset.isNull() == false)
+            alignView->setCorrectionOffset(correctionOffset);
+
+        captureAndSolve();
+        return;
+    }
 
     if (solverTypeGroup->checkedId() == SOLVER_ONLINE && Options::astrometryUseJPEG())
     {
@@ -1070,8 +1087,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
          secondPAHCenter.setRA0(alignCoord.ra0());
          secondPAHCenter.setDec0(alignCoord.dec0());
 
-         pahStage = PAH_REFRESH;
-         PAHWidgets->setCurrentWidget(PAHRefreshPage);
+         pahStage = PAH_STAR_SELECT;
+         PAHWidgets->setCurrentWidget(PAHCorrectionPage);
 
          calculatePAHError();
      }
@@ -1135,15 +1152,25 @@ void Align::abort()
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     // If capture is still in progress, let's stop that.
-    if (targetChip->isCapturing())
+    if (pahStage == PAH_REFRESH)
     {
-        targetChip->abortExposure();
-        appendLogText(i18n("Capture aborted."));
+        if (targetChip->isCapturing())
+            targetChip->abortExposure();
+
+        appendLogText(i18n("Refresh is complete."));
     }
     else
     {
-        int elapsed = (int) round(solverTimer.elapsed()/1000.0);
-        appendLogText(i18np("Solver aborted after %1 second.", "Solver aborted after %1 seconds", elapsed));
+        if (targetChip->isCapturing())
+        {
+            targetChip->abortExposure();
+            appendLogText(i18n("Capture aborted."));
+        }
+        else
+        {
+            int elapsed = (int) round(solverTimer.elapsed()/1000.0);
+            appendLogText(i18np("Solver aborted after %1 second.", "Solver aborted after %1 seconds", elapsed));
+        }
     }
 
     state = ALIGN_ABORTED;
@@ -2245,7 +2272,8 @@ void Align::rotatePAH()
     expectedPAHCenter.setDec0(alignCoord.dec0());
 
     double ra0 = expectedPAHCenter.ra0().Degrees();
-    double dec0= expectedPAHCenter.dec0().Degrees();
+
+    double raDiff = PAHRotationSpin->value();
 
     int hemisphere = (KStarsData::Instance()->geo()->lat()->Degrees() > 0) ? 0 : -1;
 
@@ -2254,45 +2282,124 @@ void Align::rotatePAH()
     {
         // West
         if (PAHWestMeridianR->isChecked())
-            ra0 -= PAHRotationSpin->value();
+            raDiff *= -1;
         // East
         else
-            ra0 += PAHRotationSpin->value();
+            raDiff *= 1;
     }
     // South
     else
     {
         // West
         if (PAHWestMeridianR->isChecked())
-            ra0 += PAHRotationSpin->value();
+            raDiff *= 1;
         // East
         else
-            ra0 -= PAHRotationSpin->value();
+            raDiff *= -1;
     }
 
     // This is we expect the center of the image after the rotation assuming a PERFECT polar alignment
     // RA only changes by the rotation amount
     // DE remains as well in a perfectly aligned mount.
-    expectedPAHCenter.setRA0(ra0/15.0);
+    expectedPAHCenter.setRA0((ra0+raDiff)/15.0);
+
+    if (Options::alignmentLogging())
+        qDebug() << "Alignment: Expected J2000 coordinates after rotation RA (" << expectedPAHCenter.ra0().toHMSString()
+                 << ") DE (" << expectedPAHCenter.dec0().toDMSString() << ")";
 
     SkyPoint targetPAH;
 
-    targetPAH.setRA0(ra0/15.0);
-    targetPAH.setDec0(dec0);
+    double newTelescopeRA = (telescopeCoord.ra().Degrees() + raDiff) / 15.0;
+
+    targetPAH.setRA(newTelescopeRA);
+    targetPAH.setDec(telescopeCoord.dec());
 
     // Convert to JNow
-    targetPAH.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
+    //targetPAH.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
     // Get horizontal coords
-    targetPAH.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    //targetPAH.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
     currentTelescope->Slew(&targetPAH);
 
-    appendLogText(i18n("Please wait until mount completes rotating to RA %1 DE %2 ...", targetPAH.ra().toHMSString(), targetPAH.dec().toDMSString()));
+    appendLogText(i18n("Please wait until mount completes rotating to RA (%1) DE (%2)", targetPAH.ra().toHMSString(), targetPAH.dec().toDMSString()));
 }
 
 void Align::calculatePAHError()
 {
+    double ra0 = expectedPAHCenter.ra0().Degrees();
+    double de0 = expectedPAHCenter.dec0().Degrees();
 
+    double ra1 = secondPAHCenter.ra0().Degrees();
+    double de1 = secondPAHCenter.dec0().Degrees();
+
+    double diffRA = ra0 - ra1;
+    double diffDE = de0 - de1;
+
+    double diff = sqrt(diffRA*diffRA + diffDE*diffDE);
+
+    dms diffAngle;
+    diffAngle.setD(diff);
+
+    PAHErrorLabel->setText(diffAngle.toDMSString());
+
+    FITSData *fitsData = alignView->getImageData();
+
+    // World to Pixel conversion
+    bool rc = fitsData->wcsToPixel(expectedPAHCenter, correctionExpectedPoint);
+
+    if (rc == false)
+    {
+        // Do something here
+    }
+
+    // Center point in image
+    QPoint centerPoint;
+
+    centerPoint.setX(fitsData->getWidth()/2);
+    centerPoint.setY(fitsData->getHeight()/2);
+
+    correctionVector.setP1(centerPoint);
+    correctionVector.setP2(correctionExpectedPoint);
+
+    alignView->setCorrectionParams(correctionVector, correctionExpectedPoint);
+
+    connect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
+}
+
+void Align::setPAHCorrectionOffset(int x, int y)
+{
+    correctionOffset.setX(x);
+    correctionOffset.setY(y);
+
+    alignView->setCorrectionOffset(correctionOffset);
+}
+
+void Align::setPAHCorrectionSelectionComplete()
+{
+    pahStage = PAH_PRE_REFRESH;
+
+    PAHWidgets->setCurrentWidget(PAHRefreshPage);
+
+    disconnect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
+}
+
+void Align::startPAHRefreshProcess()
+{
+    pahStage = PAH_REFRESH;
+
+    // We for refresh, just capture really
+    captureAndSolve();
+}
+
+void Align::setPAHRefreshComplete()
+{
+    correctionVector = QLine();
+    correctionOffset = QPoint();
+    correctionExpectedPoint = QPoint();
+
+    abort();
+
+    restartPAHProcess();
 }
 
 }

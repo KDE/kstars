@@ -61,7 +61,7 @@ public:
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
     typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
     typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE} SolverType;
-    typedef enum { PAH_IDLE, PAH_FIRST_CAPTURE, PAH_ROTATE, PAH_SECOND_CAPTURE, PAH_REFRESH, PAH_ERROR } PAHStage;
+    typedef enum { PAH_IDLE, PAH_FIRST_CAPTURE, PAH_ROTATE, PAH_SECOND_CAPTURE, PAH_STAR_SELECT, PAH_PRE_REFRESH, PAH_REFRESH, PAH_ERROR } PAHStage;
 
     /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
      * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net
@@ -315,6 +315,10 @@ private slots:
     void startPAHProcess();
     void restartPAHProcess();
     void rotatePAH();
+    void setPAHCorrectionOffset(int x, int y);
+    void setPAHCorrectionSelectionComplete();
+    void startPAHRefreshProcess();
+    void setPAHRefreshComplete();
 
 signals:
         void newLog();
@@ -495,6 +499,12 @@ private:
     // Polar Alignment Helper
     PAHStage pahStage;
     SkyPoint firstPAHCenter, expectedPAHCenter, secondPAHCenter;
+    // Expected position of center in image after rotation
+    QPoint correctionExpectedPoint;
+    // User desired offset when selecting a bright star in the image
+    QPoint correctionOffset;
+    // Correction vector line between image center and expected point
+    QLine correctionVector;
 };
 
 }

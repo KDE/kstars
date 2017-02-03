@@ -1012,7 +1012,8 @@ void FITSView::drawOverlay(QPainter *painter)
     if (showPixelGrid)
         drawPixelGrid(painter);
 
-
+    if (correctionLine.isNull() == false)
+        drawLine(painter);
 }
 
 void FITSView::updateMode(FITSMode fmode)
@@ -1721,4 +1722,55 @@ bool FITSView::updateWCS(double orientation, double ra, double dec, double pixsc
     QFuture<bool> future = QtConcurrent::run(image_data, &FITSData::checkWCS);
     wcsWatcher.setFuture(future);
     return true;
+}
+
+void FITSView::setCorrectionParams(QLine line, QPoint center)
+{
+    correctionLine = line;
+
+    correctionCenter = center;
+
+    markerCrosshair.setX(correctionCenter.x());
+    markerCrosshair.setY(correctionCenter.y());
+
+    updateFrame();
+}
+
+void FITSView::setCorrectionOffset(QPoint newOffset)
+{
+    int offsetX = newOffset.x() - image_data->getWidth()/2;
+    int offsetY = newOffset.y() - image_data->getHeight()/2;
+
+    correctionOffset.setX(offsetX);
+    correctionOffset.setY(offsetY);
+
+    markerCrosshair.setX(correctionCenter.x() + correctionOffset.x());
+    markerCrosshair.setY(correctionCenter.y() + correctionOffset.y());
+
+    updateFrame();
+}
+
+void FITSView::drawLine(QPainter *painter)
+{
+    painter->setPen( QPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed("TargetColor" ) ) ) );
+    painter->setBrush( Qt::NoBrush );
+    double zoomFactor = (currentZoom / ZOOM_DEFAULT);
+
+    int offsetX = 0, offsetY=0;
+
+    if (correctionOffset.isNull() == false)
+    {
+        offsetX = correctionOffset.x();
+        offsetY = correctionOffset.y();
+    }
+
+    double x1 = (correctionLine.p1().x() + offsetX) * zoomFactor;
+    double y1 = (correctionLine.p1().y() + offsetY) * zoomFactor;
+
+    double x2 = (correctionLine.p2().x() + offsetX) * zoomFactor;
+    double y2 = (correctionLine.p2().y() + offsetY) * zoomFactor;
+
+    QLineF zoomedLine(x1, y1, x2, y2);
+
+    painter->drawLine(zoomedLine);
 }

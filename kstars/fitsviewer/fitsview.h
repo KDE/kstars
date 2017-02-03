@@ -131,6 +131,11 @@ public:
     bool isPixelGridShown();
     bool imageHasWCS();
 
+    // Correction line
+    void setCorrectionParams(QLine line, QPoint center);
+    void setCorrectionOffset(QPoint newOffset);
+    void drawLine(QPainter *painter);
+
     void drawCrosshair(QPainter *);
     void drawEQGrid(QPainter *);
     void drawObjectNames(QPainter *painter);
@@ -264,8 +269,12 @@ private:
     QToolBar *floatingToolBar = NULL;
     QAction *centerTelescopeAction = NULL;
 
-    // WCS Future Watch
+    // WCS Future Watch        
     QFutureWatcher<bool> wcsWatcher;
+
+    // Correction Line
+    QLine correctionLine;
+    QPoint correctionCenter, correctionOffset;
 
 signals:
     void newStatus(const QString &msg, FITSBar id);
