@@ -113,6 +113,8 @@ public:
     int rescale(FITSZoom type);
     /* Calculate stats */
     void calculateStats(bool refresh=false);    
+    /* Update WCS */
+    bool updateWCS(double orientation, double ra, double dec, double pixscale);
 
     // Access functions
     void clearImageBuffers();

@@ -39,10 +39,13 @@ class RemoteAstrometryParser;
  *@class Align
  *@short Align class handles plate-solving and polar alignment measurement and correction using astrometry.net
  * The align class can capture images from the CCD and use either online or offline astrometry.net engine to solve the plate constants and find the center RA/DEC coordinates. The user selects the action
- * to perform when the solver completes successfully. Measurement of polar alignment errors is performed by capturing two images on selected points in the sky and measuring the declination drift to calculate
+ * to perform when the solver completes successfully.
+ * Align module provide Polar Align Helper tool which enables easy-to-follow polar alignment procedure given wide FOVs (> 1.5 degrees)
+ * For small FOVs, the Legacy polar alignment measurement should be used.
+ * LEGACY: Measurement of polar alignment errors is performed by capturing two images on selected points in the sky and measuring the declination drift to calculate
  * the error in the mount's azimutn and altitude displacement from optimal. Correction is carried by asking the user to re-center a star by adjusting the telescope's azimuth and/or altitude knobs.
  *@author Jasem Mutlaq
- *@version 1.2
+ *@version 1.3
  */
 class Align : public QWidget, public Ui::Align
 {
@@ -58,6 +61,7 @@ public:
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
     typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
     typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE} SolverType;
+    typedef enum { PAH_IDLE, PAH_FIRST_CAPTURE, PAH_ROTATE, PAH_SECOND_CAPTURE, PAH_REFRESH, PAH_ERROR } PAHStage;
 
     /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
      * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net
@@ -303,9 +307,14 @@ private slots:
     // Solver timeout
     void checkAlignmentTimeout();
 
+    // External View
     void showFITSViewer();
-
     void toggleAlignWidgetFullScreen();
+
+    // Polar Alignment Helper slots
+    void startPAHProcess();
+    void restartPAHProcess();
+    void rotatePAH();
 
 signals:
         void newLog();
@@ -372,6 +381,11 @@ private:
      * @return List of Solver options
      */
     QStringList getSolverOptionsFromFITS(const QString &filename);
+
+    /**
+     * @brief calculatePAHError Calculate polar alignment error in the Polar Alignment Helper (PAH) method
+     */
+    void calculatePAHError();
 
     // Which chip should we invoke in the current CCD?
     bool useGuideHead;
@@ -477,6 +491,10 @@ private:
 
     // FITS Viewer in case user want to display in it instead of internal view
     QPointer<FITSViewer> fv;
+
+    // Polar Alignment Helper
+    PAHStage pahStage;
+    SkyPoint firstPAHCenter, expectedPAHCenter, secondPAHCenter;
 };
 
 }
