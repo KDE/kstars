@@ -591,7 +591,10 @@ void Focus::checkFocuser(int FocuserNum)
 
     // Disconnect all focusers
     foreach(ISD::Focuser *oneFocuser, Focusers)
+    {
         disconnect(oneFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusNumber(INumberVectorProperty*)));
+        //disconnect(oneFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(registerFocusProperty(INDI::Property*)));
+    }
 
     canAbsMove = currentFocuser->canAbsMove();
 
@@ -628,7 +631,8 @@ void Focus::checkFocuser(int FocuserNum)
 
     focusType = (canRelMove || canAbsMove || canTimerMove) ? FOCUS_AUTO : FOCUS_MANUAL;
 
-    connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusNumber(INumberVectorProperty*)), Qt::UniqueConnection);    
+    connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+    //connect(currentFocuser, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(registerFocusProperty(INDI::Property*)), Qt::UniqueConnection);
 
     resetButtons();
 
@@ -1979,10 +1983,10 @@ void Focus::autoFocusRel()
     }
 }
 
-void Focus::processFocusNumber(INumberVectorProperty *nvp)
+/*void Focus::registerFocusProperty(INDI::Property *prop)
 {
     // Return if it is not our current focuser
-    if (strcmp(nvp->device, currentFocuser->getDeviceName() ))
+    if (strcmp(prop->getDeviceName(), currentFocuser->getDeviceName()))
         return;
 
     // Do not make unnecessary function call
@@ -2001,6 +2005,19 @@ void Focus::processFocusNumber(INumberVectorProperty *nvp)
     // Check if current focuser supports relative mode
     if (canRelMove == false && currentFocuser->canRelMove())
         canRelMove = true;
+
+    if (canTimerMove == false && currentFocuser->canTimerMove())
+    {
+        canTimerMove = true;
+        resetButtons();
+    }
+}*/
+
+void Focus::processFocusNumber(INumberVectorProperty *nvp)
+{
+    // Return if it is not our current focuser
+    if (strcmp(nvp->device, currentFocuser->getDeviceName() ))
+        return;
 
     if (!strcmp(nvp->name, "ABS_FOCUS_POSITION"))
     {
