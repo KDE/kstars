@@ -1117,27 +1117,57 @@ void Focus::setCaptureComplete()
         if (Options::focusLogging())
             qDebug() << "Focus newFITS #" << HFRFrames.count()+1 << ": Current HFR " << currentHFR;
 
-
-        if (currentHFR != -1)
-            HFRFrames.append(currentHFR);
+        HFRFrames.append(currentHFR);
 
         // Check if we need to average more than a single frame
         if (HFRFrames.count() >= focusFramesSpin->value())
         {
             currentHFR=0;
-            // Sort all HFRs
-            qSort(HFRFrames.begin(), HFRFrames.end(), [](double a, double b){return a < b;});
-            // Reject 10% outliers for frames > 3
-            int cutOff=0;
-            if (HFRFrames.count() > 3)
-                cutOff = ceil(HFRFrames.count() * 0.1);
 
-            for (int i=cutOff; i < HFRFrames.count()-cutOff; i++)
-                currentHFR+= HFRFrames[i];
+            // Remove all -1
+            QMutableVectorIterator<double> i(HFRFrames);
+            while (i.hasNext())
+            {
+                if (i.next() == -1)
+                    i.remove();
+            }
 
-            currentHFR /= (HFRFrames.count() - (2 * cutOff));
+            if (HFRFrames.isEmpty())
+                currentHFR = -1;
+            else
+            {
+                // Perform simple sigma clipping if frames count > 3
+                if (HFRFrames.count() > 3)
+                {
+                    // Sort all HFRs
+                    std::sort(HFRFrames.begin(), HFRFrames.end());
+                    const auto median = HFRFrames.size()%2   ? HFRFrames[HFRFrames.size() / 2]
+                                                             : ((double)HFRFrames[HFRFrames.size() / 2 - 1] + HFRFrames[HFRFrames.size() / 2]) * .5;
+                    const auto mean = std::accumulate(HFRFrames.begin(), HFRFrames.end(), .0) / HFRFrames.size();
+                    double variance =0;
+                    foreach(auto val, HFRFrames)
+                        variance += (val-mean)*(val-mean);
+                    const double stddev = sqrt(variance/HFRFrames.size());
 
-            HFRFrames.clear();
+                    // Reject those 2 sigma away from median
+                    const double sigmaHigh = median + stddev*2;
+                    const double sigmaLow  = median - stddev*2;
+
+                    QMutableVectorIterator<double> i(HFRFrames);
+                    while (i.hasNext())
+                    {
+                        auto val = i.next();
+                        if (val > sigmaHigh || val < sigmaLow)
+                            i.remove();
+                    }
+                }
+
+                // Find average HFR
+                currentHFR = std::accumulate(HFRFrames.begin(), HFRFrames.end(), .0) / HFRFrames.size();
+
+                HFRFrames.clear();
+            }
+
         }
         else
         {
@@ -1147,7 +1177,7 @@ void Focus::setCaptureComplete()
 
         emit newHFR(currentHFR);
 
-        QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
+        QString HFRText = QString("%1").arg(currentHFR, 0,'f', 2);
 
         if (/*focusType == FOCUS_MANUAL && */ lastHFR == -1)
                 appendLogText(i18n("FITS received. No stars detected."));

@@ -146,6 +146,9 @@
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="toolTip">
+             <string>Set desired absolute focus position</string>
+            </property>
             <property name="text">
              <string>Set</string>
             </property>
@@ -162,18 +165,21 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="toolTip">
+             <string>Desired absolute focus position</string>
+            </property>
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLabel" name="absTicksLabel">
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
+           <widget class="QLineEdit" name="absTicksLabel">
+            <property name="enabled">
+             <bool>false</bool>
             </property>
-            <property name="frameShadow">
-             <enum>QFrame::Sunken</enum>
+            <property name="toolTip">
+             <string>Current absolute focuser position</string>
             </property>
-            <property name="text">
-             <string/>
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
