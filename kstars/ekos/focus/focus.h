@@ -322,7 +322,9 @@ private slots:
 
     void showFITSViewer();
 
-    void toggleFocusingWidgetFullScreen();    
+    void toggleFocusingWidgetFullScreen();
+
+    //void registerFocusProperty(INDI::Property *prop);
 
 signals:
         void newLog();
