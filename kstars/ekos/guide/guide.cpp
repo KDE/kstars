@@ -1835,6 +1835,7 @@ void Guide::setAxisSigma(double ra, double de)
 {
     l_ErrRA->setText(QString::number(ra, 'f', 2));
     l_ErrDEC->setText(QString::number(de, 'f', 2));
+    emit sigmasUpdated(ra,de);
 }
 
 void Guide::setAxisPulse(double ra, double de)

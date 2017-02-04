@@ -93,7 +93,7 @@ Focus::Focus()
     currentFilterIndex=-1;
     minPos=1e6;
     maxPos=0;
-    frameNum=0;
+    HFRFrames.clear();
 
     showFITSViewerB->setIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
     showFITSViewerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -713,7 +713,7 @@ void Focus::start()
     }
 
     inAutoFocus = true;    
-    frameNum=0;
+    HFRFrames.clear();
 
     resetButtons();
 
@@ -804,7 +804,7 @@ void Focus::stop(bool aborted)
     starSelected= false;
     minimumRequiredHFR    = -1;
     noStarCount = 0;
-    frameNum=0;
+    HFRFrames.clear();
     //maxHFR=1;
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
@@ -1115,15 +1115,14 @@ void Focus::setCaptureComplete()
         }
 
         if (Options::focusLogging())
-            qDebug() << "Focus newFITS #" << frameNum+1 << ": Current HFR " << currentHFR;
+            qDebug() << "Focus newFITS #" << HFRFrames.count()+1 << ": Current HFR " << currentHFR;
 
 
-        frameNum++;
         if (currentHFR != -1)
             HFRFrames.append(currentHFR);
 
         // Check if we need to average more than a single frame
-        if (frameNum >= focusFramesSpin->value())
+        if (HFRFrames.count() >= focusFramesSpin->value())
         {
             currentHFR=0;
             // Sort all HFRs
@@ -1136,9 +1135,8 @@ void Focus::setCaptureComplete()
             for (int i=cutOff; i < HFRFrames.count()-cutOff; i++)
                 currentHFR+= HFRFrames[i];
 
-                currentHFR /= (HFRFrames.count() - (2 * cutOff));
+            currentHFR /= (HFRFrames.count() - (2 * cutOff));
 
-            frameNum =0;
             HFRFrames.clear();
         }
         else
@@ -1395,6 +1393,7 @@ void Focus::setCaptureComplete()
         else
         {
             setAutoFocusResult(true);
+            drawProfilePlot();
         }
 
         minimumRequiredHFR = -1;
@@ -2109,7 +2108,7 @@ void Focus::startFraming()
     waitStarSelectTimer.stop();
 
     inFocusLoop = true;
-    frameNum=0;
+    HFRFrames.clear();
 
     clearDataPoints();
 

@@ -205,11 +205,13 @@ private slots:
     void setFocusStatus(Ekos::FocusState status);
     void updateFocusStarPixmap(QPixmap &starPixmap);
     void updateFocusProfilePixmap(QPixmap &profilePixmap);
+    void updateCurrentHFR(double newHFR);
 
     // Guide Summary
     void updateGuideStatus(Ekos::GuideState status);
     void updateGuideStarPixmap(QPixmap &starPix);
     void updateGuideProfilePixmap(QPixmap &profilePix);
+    void updateSigmas(double ra, double de);
 
  private:
 

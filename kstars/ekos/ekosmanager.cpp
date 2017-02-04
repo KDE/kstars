@@ -1419,8 +1419,10 @@ void EkosManager::initCapture()
     captureProgress->setEnabled(true);
     imageProgress->setEnabled(true);
 
-    capturePI = new QProgressIndicator(captureProcess);
-    captureStatusLayout->addWidget(capturePI);
+    if(!capturePI){
+        capturePI = new QProgressIndicator(captureProcess);
+        captureStatusLayout->insertWidget(0,capturePI);
+    }
 
     foreach(ISD::GDInterface *device, findDevices(KSTARS_AUXILIARY))
     {
@@ -1509,11 +1511,14 @@ void EkosManager::initFocus()
     connect(focusProcess, SIGNAL(newStatus(Ekos::FocusState)), this, SLOT(setFocusStatus(Ekos::FocusState)));
     connect(focusProcess, SIGNAL(newStarPixmap(QPixmap&)), this, SLOT(updateFocusStarPixmap(QPixmap&)));
     connect(focusProcess, SIGNAL(newProfilePixmap(QPixmap&)), this, SLOT(updateFocusProfilePixmap(QPixmap&)));
+    connect(focusProcess, SIGNAL(newHFR(double)), this, SLOT(updateCurrentHFR(double)));
 
     focusGroup->setEnabled(true);
 
-    focusPI = new QProgressIndicator(focusProcess);
-    focusStatusLayout->addWidget(focusPI);
+    if(!focusPI){
+        focusPI = new QProgressIndicator(focusProcess);
+        focusStatusLayout->insertWidget(0,focusPI);
+    }
 
     if (captureProcess)
     {
@@ -1546,6 +1551,15 @@ void EkosManager::initFocus()
 
 }
 
+void EkosManager::updateCurrentHFR(double newHFR){
+    currentHFR->setText(QString("%1").arg(newHFR, 0,'f', 2)+" px");
+}
+
+void EkosManager::updateSigmas(double ra, double de){
+    errRA->setText(QString::number(ra, 'f', 2)+"\"");
+    errDEC->setText(QString::number(de, 'f', 2)+"\"");
+}
+
 void EkosManager::initMount()
 {
     if (mountProcess)
@@ -1560,9 +1574,13 @@ void EkosManager::initMount()
     connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this, SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
     connect(mountProcess, SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
 
-    mountPI = new QProgressIndicator(mountProcess);
-    mountStatusLayout->addWidget(mountPI);
+    if(!mountPI){
+        mountPI = new QProgressIndicator(mountProcess);
+        mountStatusLayout->insertWidget(0,mountPI);
+    }
+
     mountGroup->setEnabled(true);
+
 
     if (captureProcess)
     {
@@ -1596,12 +1614,15 @@ void EkosManager::initGuide()
         connect(guideProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
         guideGroup->setEnabled(true);
 
-        guidePI = new QProgressIndicator(guideProcess);
-        guideStatusLayout->addWidget(guidePI);
+        if(!guidePI){
+            guidePI = new QProgressIndicator(guideProcess);
+            guideStatusLayout->insertWidget(0,guidePI);
+        }
 
         connect(guideProcess, SIGNAL(newStatus(Ekos::GuideState)), this, SLOT(updateGuideStatus(Ekos::GuideState)));
         connect(guideProcess, SIGNAL(newStarPixmap(QPixmap&)), this, SLOT(updateGuideStarPixmap(QPixmap&)));
         connect(guideProcess, SIGNAL(newProfilePixmap(QPixmap&)), this, SLOT(updateGuideProfilePixmap(QPixmap&)));
+        connect(guideProcess, SIGNAL(sigmasUpdated(double,double)), this, SLOT(updateSigmas(double,double)));
     }
 
     if (captureProcess)
@@ -1913,6 +1934,10 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
 
     if (status != Ekos::CAPTURE_ABORTED && status != Ekos::CAPTURE_COMPLETE)
     {
+        if (status==Ekos::CAPTURE_CAPTURING)
+            capturePI->setColor(Qt::darkGreen);
+        else
+            capturePI->setColor(QColor( KStarsData::Instance()->colorScheme()->colorNamed("TargetColor" )));
         if (capturePI->isAnimated() == false)
         {
             capturePI->startAnimation();
@@ -1925,6 +1950,11 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
         {
             capturePI->stopAnimation();
             countdownTimer.stop();
+
+            if(focusStatus->text()=="Complete"){
+                if (focusPI->isAnimated())
+                    focusPI->stopAnimation();
+            }
 
             imageProgress->setValue(0);
             imageRemainingTime->setText("--:--:--");
@@ -2006,8 +2036,15 @@ void EkosManager::setFocusStatus(Ekos::FocusState status)
 
     if (status >= Ekos::FOCUS_PROGRESS)
     {
+        focusPI->setColor(QColor( KStarsData::Instance()->colorScheme()->colorNamed("TargetColor" )));
         if (focusPI->isAnimated() == false)
             focusPI->startAnimation();
+    }
+    else if(status == Ekos::FOCUS_COMPLETE&&Options::enforceAutofocus()&&captureProcess->getActiveJobID()!=-1)
+    {
+         focusPI->setColor(Qt::darkGreen);
+         if (focusPI->isAnimated() == false)
+             focusPI->startAnimation();
     }
     else
     {
@@ -2033,14 +2070,29 @@ void EkosManager::updateGuideStatus(Ekos::GuideState status)
         break;
 
     case Ekos::GUIDE_CALIBRATING:
+        guidePI->setColor(QColor( KStarsData::Instance()->colorScheme()->colorNamed("TargetColor" )));
+        if (guidePI->isAnimated() == false)
+            guidePI->startAnimation();
+        break;
     case Ekos::GUIDE_GUIDING:
+        guidePI->setColor(Qt::darkGreen);
+        if (guidePI->isAnimated() == false)
+            guidePI->startAnimation();
+        break;
     case Ekos::GUIDE_DITHERING:
+        guidePI->setColor(QColor( KStarsData::Instance()->colorScheme()->colorNamed("TargetColor" )));
+        if (guidePI->isAnimated() == false)
+            guidePI->startAnimation();
+        break;
     case Ekos::GUIDE_DITHERING_SUCCESS:
+        guidePI->setColor(Qt::darkGreen);
         if (guidePI->isAnimated() == false)
             guidePI->startAnimation();
         break;
 
     default:
+        if (guidePI->isAnimated())
+            guidePI->stopAnimation();
         break;
     }
 }
