@@ -2264,6 +2264,8 @@ void Align::restartPAHProcess()
     PAHFirstCapturePage->setEnabled(true);
 
     PAHWidgets->setCurrentWidget(PAHIntroPage);
+
+    disconnect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
 }
 
 void Align::rotatePAH()
@@ -2379,8 +2381,6 @@ void Align::setPAHCorrectionSelectionComplete()
     pahStage = PAH_PRE_REFRESH;
 
     PAHWidgets->setCurrentWidget(PAHRefreshPage);
-
-    disconnect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
 }
 
 void Align::startPAHRefreshProcess()
@@ -2396,6 +2396,9 @@ void Align::setPAHRefreshComplete()
     correctionVector = QLine();
     correctionOffset = QPoint();
     correctionExpectedPoint = QPoint();
+
+    alignView->setCorrectionParams(correctionVector, correctionExpectedPoint);
+    alignView->setCorrectionOffset(correctionOffset);
 
     abort();
 
