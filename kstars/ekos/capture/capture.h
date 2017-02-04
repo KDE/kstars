@@ -255,6 +255,8 @@ public:
     /* Capture */
     void updateSequencePrefix( const QString &newPrefix, const QString &dir);
 
+    bool currentCCDHasVideo() {return currentCCD->hasVideoStream();}
+
 public slots:
 
     /** \addtogroup CaptureDBusInterface
