@@ -1182,7 +1182,7 @@
                 <item>
                  <widget class="QLabel" name="label_23">
                   <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Angle between expected perfectly aligned mount center and and actual center&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Angle between expected perfectly aligned mount center and the actual center&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="text">
                    <string>Displacement Angle</string>

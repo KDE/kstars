@@ -699,7 +699,7 @@ void DetailDialog::createAdvancedTab()
 
 void DetailDialog::createLogTab()
 {
-    //Don't create a a log tab for an unnamed star
+    //Don't create a log tab for an unnamed star
     if ( selectedObject->name() == QString("star") )
         return;
 
