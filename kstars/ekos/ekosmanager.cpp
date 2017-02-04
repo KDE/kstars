@@ -1897,11 +1897,35 @@ void EkosManager::updateMountStatus(ISD::Telescope::TelescopeStatus status)
         mountPI->setColor(QColor( KStarsData::Instance()->colorScheme()->colorNamed("TargetColor" )));
         if (mountPI->isAnimated() == false)
             mountPI->startAnimation();
+        //This code will disable a bunch of buttons in the Ekos modules while the scope is slewing.
+        //Pressing these buttons while slewing will cause problems in the images that result because either the stars will be streaked or they won't be the right stars.
+        //It might be better to do this in each module, but this is more centralized.
+        alignProcess->solveB->setEnabled(false);
+        alignProcess->loadSlewB->setEnabled(false);
+        captureProcess->previewB->setEnabled(false);
+        captureProcess->liveVideoB->setEnabled(false);
+        captureProcess->startB->setEnabled(false);
+        focusProcess->captureB->setEnabled(false);
+        focusProcess->startFocusB->setEnabled(false);
+        focusProcess->startLoopB->setEnabled(false);
+        guideProcess->captureB->setEnabled(false);
+        guideProcess->calibrateB->setEnabled(false);
         break;
     case ISD::Telescope::MOUNT_TRACKING:
         mountPI->setColor(Qt::darkGreen);
         if (mountPI->isAnimated() == false)
             mountPI->startAnimation();
+        //This will re-enabled the disabled buttons
+        alignProcess->solveB->setEnabled(true);
+        alignProcess->loadSlewB->setEnabled(true);
+        captureProcess->previewB->setEnabled(true);
+        captureProcess->liveVideoB->setEnabled(captureProcess->currentCCDHasVideo());
+        captureProcess->startB->setEnabled(true);
+        focusProcess->captureB->setEnabled(true);
+        focusProcess->startFocusB->setEnabled(true);
+        focusProcess->startLoopB->setEnabled(true);
+        guideProcess->captureB->setEnabled(true);
+        guideProcess->calibrateB->setEnabled(true);
         break;
 
     default:
