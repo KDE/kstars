@@ -820,7 +820,7 @@
           </size>
          </property>
          <property name="title">
-          <string>Polar Alignment Helper</string>
+          <string>Polar Alignment Helper (Beta)</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <property name="spacing">
@@ -850,7 +850,7 @@
              <enum>QFrame::NoFrame</enum>
             </property>
             <property name="currentIndex">
-             <number>6</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="PAHIntroPage">
              <layout class="QVBoxLayout" name="verticalLayout_3">

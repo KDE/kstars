@@ -1726,8 +1726,7 @@ bool FITSView::updateWCS(double orientation, double ra, double dec, double pixsc
 
 void FITSView::setCorrectionParams(QLine line, QPoint center)
 {
-    correctionLine = line;
-
+    correctionLine   = line;
     correctionCenter = center;
 
     markerCrosshair.setX(correctionCenter.x());
@@ -1738,21 +1737,30 @@ void FITSView::setCorrectionParams(QLine line, QPoint center)
 
 void FITSView::setCorrectionOffset(QPoint newOffset)
 {
-    int offsetX = newOffset.x() - image_data->getWidth()/2;
-    int offsetY = newOffset.y() - image_data->getHeight()/2;
+    if (newOffset.isNull() == false)
+    {
+        int offsetX = newOffset.x() - image_data->getWidth()/2;
+        int offsetY = newOffset.y() - image_data->getHeight()/2;
 
-    correctionOffset.setX(offsetX);
-    correctionOffset.setY(offsetY);
+        correctionOffset.setX(offsetX);
+        correctionOffset.setY(offsetY);
 
-    markerCrosshair.setX(correctionCenter.x() + correctionOffset.x());
-    markerCrosshair.setY(correctionCenter.y() + correctionOffset.y());
+        markerCrosshair.setX(correctionCenter.x() + correctionOffset.x());
+        markerCrosshair.setY(correctionCenter.y() + correctionOffset.y());
+    }
+    // Clear points
+    else
+    {
+        correctionOffset = newOffset;
+        markerCrosshair  = newOffset;
+    }
 
     updateFrame();
 }
 
 void FITSView::drawLine(QPainter *painter)
 {
-    painter->setPen( QPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed("TargetColor" ) ) ) );
+    painter->setPen(QPen( Qt::yellow , 2));
     painter->setBrush( Qt::NoBrush );
     double zoomFactor = (currentZoom / ZOOM_DEFAULT);
 
