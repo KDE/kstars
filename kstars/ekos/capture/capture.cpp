@@ -612,6 +612,13 @@ void Capture::checkCCD(int ccdNum)
                 appendLogText(i18n("Using FITS transfer format from DSLR camera. Configure DSLR transfer format in options."));
             else
                 appendLogText(i18n("Using native transfer format from DSLR camera. Configure DSLR transfer format in options."));
+
+            double pixelX=0, pixelY=0;
+            bool rc = targetChip->getPixelSize(pixelX, pixelY);
+            if (rc == false || pixelX == 0 || pixelY == 0)
+            {
+                appendLogText(i18n("DSLR CCD Information is incomplete. Please update CCD Information in Image Info section in the INDI Control Panel."));
+            }
         }
 
         liveVideoB->setEnabled(currentCCD->hasVideoStream());
@@ -1480,7 +1487,7 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
 
         activeJob->setCaptureRetires(retries);
 
-        appendLogText(i18n("Capture failed."));
+        appendLogText(i18n("Capture failed. Check INDI Control Panel for details."));
 
         if (retries == 3)
         {
