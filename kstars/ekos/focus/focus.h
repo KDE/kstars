@@ -391,8 +391,6 @@ private:
     int HFRInc;
     // If HFR decreasing? Well, good job. Once HFR start decreasing, we can start calculating HFR slope and estimating our next move.
     int HFRDec;
-    // How many frames have we captured thus far? Do we need to average them?
-    uint8_t frameNum;
 
     /****************************
     * Absolute position focusers

@@ -385,6 +385,7 @@ signals:
     void newProfilePixmap(QPixmap &);
 
     void newAxisDelta(double delta_ra, double delta_dec);
+    void sigmasUpdated(double ra, double dec);
     void guideChipUpdated(ISD::CCDChip*);
 
 private:
