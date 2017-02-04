@@ -101,6 +101,7 @@ ColorScheme::ColorScheme() : FileName() {
     //Default values for integer variables:
     StarColorMode = 0;
     StarColorIntensity = 4;
+    DarkPalette = 0;
 }
 
 void ColorScheme::appendItem(QString key, QString name, QString def) {
@@ -178,15 +179,32 @@ bool ColorScheme::load( const QString &name ) {
     //If we reach here, the file should have been successfully opened
     QTextStream stream( &file );
 
-    //first line is the star-color mode and star color intensity
+    //first line is the star-color mode and star color intensity and dark palette
     QString line = stream.readLine();
-    int newmode = line.left(1).toInt( &ok );
-    if( ok )
-        setStarColorMode( newmode );
-    if( line.contains(':') ) {
-        int newintens = line.mid( line.indexOf(':')+1, 2 ).toInt( &ok );
+    QStringList modes = line.split(":");
+
+    // Star Color Mode
+    if (modes.count() > 0)
+    {
+        int newmode = modes[0].toInt( &ok );
+        if( ok )
+            setStarColorMode( newmode );
+    }
+
+    // Star Intensity
+    if (modes.count() > 1)
+    {
+        int newintens = modes[1].toInt( &ok );
         if ( ok )
             setStarColorIntensity( newintens );
+    }
+
+    // Dark Palette
+    if (modes.count() > 2)
+    {
+        int newintens = modes[2].toInt( &ok );
+        if ( ok )
+            setDarkPalette(newintens == 1);
     }
 
     //More flexible method for reading in color values.  Any order is acceptable, and
@@ -254,7 +272,7 @@ bool ColorScheme::save( const QString &name ) {
             return false;
         } else {
             QTextStream stream( &file );
-            stream << StarColorMode << ":" << StarColorIntensity << endl;
+            stream << StarColorMode << ":" << StarColorIntensity << ":" << DarkPalette << endl;
 
             foreach(const QString& key, KeyName )
                 stream << Palette[ key ] << " :" << key << endl;
@@ -298,6 +316,7 @@ void ColorScheme::loadFromConfig() {
         setColor( KeyName.at(i), cg.readEntry( KeyName.at(i).toUtf8().constData(), Default.at( i ) ) );
 
     setStarColorModeIntensity( cg.readEntry( "StarColorMode", 0 ), cg.readEntry( "StarColorIntensity", 5 ) );
+    setDarkPalette(cg.readEntry("DarkAppColors", false));
 
     FileName = cg.readEntry( "ColorSchemeFile", "moonless-night.colors" );
 }
@@ -312,11 +331,20 @@ void ColorScheme::saveToConfig() {
     cg.writeEntry( "StarColorMode", starColorMode() );
     cg.writeEntry( "StarColorIntensity", starColorIntensity() );
     cg.writeEntry( "ColorSchemeFile", FileName);
+    cg.writeEntry( "DarkAppColors", useDarkPalette());
 }
 
 void ColorScheme::setStarColorMode( int mode ) { 
     StarColorMode = mode;
     Options::setStarColorMode( mode );
+#ifndef KSTARS_LITE
+    SkyQPainter::initStarImages();
+#endif
+}
+
+void ColorScheme::setDarkPalette( bool enable ) {
+    DarkPalette = enable ? 1 : 0 ;
+    Options::setDarkAppColors(enable);
 #ifndef KSTARS_LITE
     SkyQPainter::initStarImages();
 #endif

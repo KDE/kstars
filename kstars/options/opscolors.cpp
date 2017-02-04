@@ -102,9 +102,12 @@ OpsColors::OpsColors()
     else
         kcfg_StarColorIntensity->setEnabled( true );
 
+    kcfg_DarkAppColors->setChecked(KStarsData::Instance()->colorScheme()->useDarkPalette());
+
     connect( ColorPalette, SIGNAL( itemClicked( QListWidgetItem* ) ), this, SLOT( newColor( QListWidgetItem* ) ) );
     connect( kcfg_StarColorIntensity, SIGNAL( valueChanged( int ) ), this, SLOT( slotStarColorIntensity( int ) ) );
     connect( kcfg_StarColorMode, SIGNAL( activated( int ) ), this, SLOT( slotStarColorMode( int ) ) );
+    connect( kcfg_DarkAppColors, SIGNAL(toggled(bool)), this, SLOT(slotDarkAppColors(bool)));
     connect( PresetBox, SIGNAL( currentRowChanged( int ) ), this, SLOT( slotPreset( int ) ) );
     connect( AddPreset, SIGNAL( clicked() ), this, SLOT( slotAddPreset() ) );
     connect( RemovePreset, SIGNAL( clicked() ), this, SLOT( slotRemovePreset() ) );
@@ -165,6 +168,7 @@ bool OpsColors::setColors( const QString &filename ) {
 
     kcfg_StarColorMode->setCurrentIndex( KStarsData::Instance()->colorScheme()->starColorMode() );
     kcfg_StarColorIntensity->setValue( KStarsData::Instance()->colorScheme()->starColorIntensity() );
+    kcfg_DarkAppColors->setChecked(KStarsData::Instance()->colorScheme()->useDarkPalette());
 
     for ( unsigned int i=0; i < KStarsData::Instance()->colorScheme()->numberOfColors(); ++i ) {
         QColor itemColor( KStarsData::Instance()->colorScheme()->colorAt( i ) );
@@ -272,6 +276,11 @@ void OpsColors::slotStarColorMode( int i ) {
 
 void OpsColors::slotStarColorIntensity( int i ) {
     KStarsData::Instance()->colorScheme()->setStarColorIntensity( i );
+}
+
+void OpsColors::slotDarkAppColors(bool enable)
+{
+    KStarsData::Instance()->colorScheme()->setDarkPalette(enable);
 }
 
 

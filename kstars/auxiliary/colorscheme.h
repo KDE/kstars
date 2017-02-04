@@ -104,6 +104,9 @@ public:
     /** @return the star color mode used by the color scheme */
     int starColorMode() const { return StarColorMode; }
 
+    /** @return True if dark palette colors are used by the color scheme */
+    bool useDarkPalette() const { return DarkPalette == 1; }
+
     /** @return the star color intensity value used by the color scheme */
     int starColorIntensity() const { return StarColorIntensity; }
 
@@ -123,11 +126,17 @@ public:
      */
     void setStarColorModeIntensity( int mode, int intens);
 
+    /**
+     * @brief setDarkPalette Set whether the color schemes uses dark palette
+     * @param enable True to use dark palette. False to use application default palette
+     */
+    void setDarkPalette( bool enable );
+
 private:
     /** Append items to all string lists. */
     void appendItem(QString key, QString name, QString def);
 
-    int StarColorMode, StarColorIntensity;
+    int StarColorMode, StarColorIntensity, DarkPalette;
     QString FileName;
     QStringList KeyName, Name, Default;
     QMap<QString,QString> Palette;
