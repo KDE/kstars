@@ -490,7 +490,7 @@ public:
      *
      * @param dist Distance to move through in arcseconds
      * @param from The SkyPoint to move away from
-     * @return a SkyPoint that is at the dist away from this SkyPoint in the direction away from from
+     * @return a SkyPoint that is at the dist away from this SkyPoint in the direction away from
      */
     SkyPoint moveAway( const SkyPoint &from, double dist ) const;
 

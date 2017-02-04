@@ -476,7 +476,7 @@ void DetailDialogLite::createPositionTab() {
 void DetailDialogLite::createLogTab()
 {
     SkyObject *selectedObject = SkyMapLite::Instance()->getClickedObjectLite()->getObject();
-    //Don't create a a log tab for an unnamed star
+    //Don't create a log tab for an unnamed star
     if ( selectedObject->name() == QString("star") ) {
         setProperty("isLogOn",false);
         return;
