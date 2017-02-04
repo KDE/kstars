@@ -60,7 +60,7 @@ void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
             return ; // exit because the pixmap is repainted and that's all what we want
         }
 
-    // FIXME: used to to notify infobox about possible change of object coordinates
+    // FIXME: used to notify infobox about possible change of object coordinates
     // Not elegant at all. Should find better option
     m_SkyMap->showFocusCoords();
     m_SkyMap->setupProjector();

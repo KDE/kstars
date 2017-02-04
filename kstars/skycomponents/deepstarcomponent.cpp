@@ -104,7 +104,7 @@ bool DeepStarComponent::loadStaticStars() {
     if( htm_level != m_skyMesh->level() )
         qDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
 
-    // JM 2012-12-05: Breaking into into 2 loops instead of one previously with multiple IF checks for recordSize
+    // JM 2012-12-05: Breaking into 2 loops instead of one previously with multiple IF checks for recordSize
     // While the CPU branch prediction might not suffer any penalities since the branch prediction after a few times
     // should always gets it right. It's better to do it this way to avoid any chances since the compiler might not optimize it.
     if (recordSize == 32)
