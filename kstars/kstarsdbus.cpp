@@ -400,13 +400,16 @@ void KStars::setColor( const QString &name, const QString &value ) {
 
 void KStars::loadColorScheme( const QString &name ) {
     bool ok = data()->colorScheme()->load( name );
-    QString filename = data()->colorScheme()->fileName();
+    //QString filename = data()->colorScheme()->fileName();
 
-    if ( ok ) {
+    if ( ok )
+    {
         //set the application colors for the Night Vision scheme
-        if ( Options::darkAppColors() == false && filename == "night.colors" )  {
-            Options::setDarkAppColors( true );
-            OriginalPalette = QApplication::palette();
+        //if ( Options::darkAppColors() == false && filename == "night.colors" )  {
+            //Options::setDarkAppColors( true );
+        if (Options::darkAppColors())
+        {
+            //OriginalPalette = QApplication::palette();
             QApplication::setPalette( DarkPalette );
             //Note:  This uses style sheets to set the dark colors, this is cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
             //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
@@ -437,9 +440,10 @@ void KStars::loadColorScheme( const QString &name ) {
                                 "");
             #endif
         }
-
-        if ( Options::darkAppColors() && filename != "night.colors" ) {
-            Options::setDarkAppColors( false );
+        else
+        {
+        //if ( Options::darkAppColors() && filename != "night.colors" ) {
+            //Options::setDarkAppColors( false );
             QApplication::setPalette( OriginalPalette );
             #ifdef Q_OS_OSX
             qApp->setStyleSheet("QRoundProgressBar { background-color: rgb(208,208,208) }" \
