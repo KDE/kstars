@@ -187,6 +187,37 @@ bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *mi
 
 }
 
+bool CCDChip::getPixelSize(double & x, double & y)
+{
+    INumberVectorProperty *ccdInfoProp = NULL;
+
+    switch (type)
+    {
+    case PRIMARY_CCD:
+        ccdInfoProp = baseDevice->getNumber("CCD_INFO");
+        break;
+
+    case GUIDE_CCD:
+        ccdInfoProp = baseDevice->getNumber("GUIDER_INFO");
+        break;
+
+    }
+
+    if (ccdInfoProp == NULL)
+        return false;
+
+    INumber *pixelX = IUFindNumber(ccdInfoProp, "CCD_PIXEL_SIZE_X");
+    INumber *pixelY = IUFindNumber(ccdInfoProp, "CCD_PIXEL_SIZE_Y");
+
+    if (pixelX == NULL || pixelY == NULL)
+        return false;
+
+    x = pixelX->value;
+    y = pixelY->value;
+
+    return true;
+}
+
 bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
 {
 
