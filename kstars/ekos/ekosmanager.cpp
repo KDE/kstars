@@ -1013,7 +1013,6 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
 void EkosManager::setFilter(ISD::GDInterface *filterDevice)
 {
-
     managedDevices.insertMulti(KSTARS_FILTER, filterDevice);
 
     appendLogText(i18n("%1 filter is online.", filterDevice->getDeviceName()));
@@ -1040,7 +1039,7 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 
     focusProcess->addFocuser(focuserDevice);
 
-    appendLogText(i18n("%1 is online.", focuserDevice->getDeviceName()));
+    appendLogText(i18n("%1 focuser is online.", focuserDevice->getDeviceName()));
 }
 
 void EkosManager::setDome(ISD::GDInterface *domeDevice)
@@ -1284,12 +1283,10 @@ void EkosManager::processNewProperty(INDI::Property* prop)
         return;
     }
 
-    if (strstr(prop->getName(), "FOCUS_POSITION"))
+    if (focusProcess && strstr(prop->getName(), "FOCUS_"))
     {
-        if (focusProcess)
-            focusProcess->checkFocuser();
+        focusProcess->checkFocuser();
     }
-
 }
 
 QList<ISD::GDInterface*> EkosManager::findDevices(DeviceFamily type)
