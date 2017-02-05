@@ -699,6 +699,12 @@ Comment[sv]=Stativ har nått målposition
 Comment[uk]=Лафет навів телескоп на точку цілі
 Comment[x-test]=xxMount arrived at target locationxx
 Action=None
+[Event/MountAborted]
+Name=Mount Aborted
+Name[x-test]=xxMount Abortedxx
+Comment=Mount motion was aborted
+Comment[x-test]=xxMount motion was abortedxx
+Action=None
 [Event/MountParking]
 Name=Mount Parking
 Name[ca]=Aparcament de la muntura
@@ -916,3 +922,11 @@ Name[sv]=Videoinspelning stoppad
 Name[uk]=Припинено запис відео
 Name[x-test]=xxVideo Recording Stoppedxx
 Action=None
+[Event/MeridianFlipStarted]
+Name=Meridian Flip Started
+Action=None
+[Event/MeridianFlipCompleted]
+Name=Meridian Flip Completed
+Action=None
+[Event/MeridianFlipFailed]
+Name=Meridian Flip Failed

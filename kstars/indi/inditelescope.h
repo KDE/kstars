@@ -34,6 +34,7 @@ public:
     typedef enum { MOTION_WEST, MOTION_EAST } TelescopeMotionWE;
     typedef enum { MOTION_START, MOTION_STOP } TelescopeMotionCommand;
     typedef enum { MOUNT_IDLE, MOUNT_SLEWING, MOUNT_TRACKING, MOUNT_PARKING, MOUNT_PARKED, MOUNT_ERROR } TelescopeStatus;
+    typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNPARKED } ParkStatus;
 
     void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
@@ -53,7 +54,8 @@ public:
     bool canSync();
     bool canPark();
     bool isSlewing();
-    bool isParked();
+    bool isParked() { return parkStatus == PARK_PARKED; }
+    ParkStatus getParkStatus() { return parkStatus; }
     bool isInMotion();
     TelescopeStatus getStatus();
     bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
@@ -79,8 +81,8 @@ signals:
 private:
     SkyPoint currentCoord;
     double minAlt,maxAlt;
-    bool IsParked;
-    IPState EqCoordPreviousState, LastParkingState;
+    ParkStatus parkStatus = PARK_UNKNOWN;
+    IPState EqCoordPreviousState;
 
 };
 
