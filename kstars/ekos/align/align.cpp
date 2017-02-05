@@ -1491,6 +1491,13 @@ void Align::measureAzError()
     static double initRA=0, initDEC=0, finalRA=0, finalDEC=0, initAz=0;
     int hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 0 : 1;
 
+    if (pahStage != PAH_IDLE &&
+        (KMessageBox::warningContinueCancel(KStars::Instance(),
+         i18n("Polar Alignment Helper is still active. Do you want to continue using legacy polar alignment tool?"))!=KMessageBox::Continue))
+        return;
+
+    pahStage = PAH_IDLE;
+
     if (Options::alignmentLogging())
         qDebug() << "Polar Alignment: Measureing Azimuth Error...";
 
@@ -1585,6 +1592,13 @@ void Align::measureAzError()
 void Align::measureAltError()
 {
     static double initRA=0, initDEC=0, finalRA=0, finalDEC=0, initAz=0;
+
+    if (pahStage != PAH_IDLE &&
+        (KMessageBox::warningContinueCancel(KStars::Instance(),
+         i18n("Polar Alignment Helper is still active. Do you want to continue using legacy polar alignment tool?"))!=KMessageBox::Continue))
+        return;
+
+    pahStage = PAH_IDLE;
 
     if (Options::alignmentLogging())
         qDebug() << "Polar Alignment: Measureing Altitude Error...";
@@ -2265,6 +2279,13 @@ void Align::restartPAHProcess()
 
     PAHWidgets->setCurrentWidget(PAHIntroPage);
 
+    correctionVector = QLine();
+    correctionOffset = QPoint();
+    correctionExpectedPoint = QPoint();
+
+    alignView->setCorrectionParams(correctionVector, correctionExpectedPoint);
+    alignView->setCorrectionOffset(correctionOffset);
+
     disconnect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
 }
 
@@ -2393,13 +2414,6 @@ void Align::startPAHRefreshProcess()
 
 void Align::setPAHRefreshComplete()
 {
-    correctionVector = QLine();
-    correctionOffset = QPoint();
-    correctionExpectedPoint = QPoint();
-
-    alignView->setCorrectionParams(correctionVector, correctionExpectedPoint);
-    alignView->setCorrectionOffset(correctionOffset);
-
     abort();
 
     restartPAHProcess();
