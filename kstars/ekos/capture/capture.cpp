@@ -3096,6 +3096,8 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
 
             appendLogText(i18n("Telescope completed the meridian flip."));
 
+            KNotification::event( QLatin1String( "MeridianFlipCompleted" ) , i18n("Meridian flip is successfully completed"));
+
             if (resumeAlignmentAfterFlip == true)
             {
                 appendLogText(i18n("Performing post flip re-alignment..."));
@@ -3188,6 +3190,8 @@ bool Capture::checkMeridianFlip()
         appendLogText(i18n("Current hour angle %1 hours exceeds meridian flip limit of %2 hours. Auto meridian flip is initiated.", QString::number(currentHA, 'f', 2), meridianHours->value()));
         meridianFlipStage = MF_INITIATED;
 
+        KNotification::event( QLatin1String( "MeridianFlipStarted" ) , i18n("Meridian flip started"));
+
         // Suspend guiding first before commanding a meridian flip
         //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
 //            emit suspendGuiding(false);
@@ -3221,6 +3225,9 @@ void Capture::checkMeridianFlipTimeout()
     if (meridianFlipStage < MF_ALIGNING)
     {
         appendLogText(i18n("Telescope meridian flip timed out."));
+
+        KNotification::event( QLatin1String( "MeridianFlipFailed" ) , i18n("Meridian flip failed"));
+
         abort();
     }
 }

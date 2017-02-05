@@ -27,10 +27,8 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
 {
     dType = KSTARS_TELESCOPE;
     minAlt=-1;
-    maxAlt=-1;
-    IsParked=false;
-    EqCoordPreviousState=IPS_IDLE;
-    LastParkingState=IPS_IDLE;
+    maxAlt=-1;    
+    EqCoordPreviousState=IPS_IDLE;    
 }
 
 Telescope::~Telescope()
@@ -95,7 +93,10 @@ void Telescope::registerProperty(INDI::Property *prop)
              ISwitch *sp = IUFindSwitch(svp, "PARK");
              if (sp)
              {
-                 IsParked = ( (sp->s == ISS_ON) && svp->s == IPS_OK);
+                 if ( (sp->s == ISS_ON) && svp->s == IPS_OK)
+                     parkStatus = PARK_PARKED;
+                 else if ( (sp->s == ISS_OFF) && svp->s == IPS_OK)
+                     parkStatus = PARK_UNPARKED;
              }
          }
     }
@@ -120,7 +121,7 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         }
         else if (EqCoordPreviousState == IPS_BUSY && nvp->s == IPS_OK)
         {
-                 KNotification::event( QLatin1String( "SlewComplete" ) , i18n("Mount arrived at target location"));
+                 KNotification::event( QLatin1String( "SlewCompleted" ) , i18n("Mount arrived at target location"));
         }
 
         EqCoordPreviousState = nvp->s;
@@ -165,22 +166,48 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
         ISwitch *sp = IUFindSwitch(svp, "PARK");
         if (sp)
         {
-            IsParked = ( (sp->s == ISS_ON) && svp->s == IPS_OK);
+            if (svp->s == IPS_ALERT)
+            {
+                // If alert, set park status to whatever it was opposite to. That is, if it was parking and failed
+                // then we set status to unparked since it did not successfully complete parking.
+                if (parkStatus == PARK_PARKING)
+                    parkStatus = PARK_UNPARKED;
+                else if (parkStatus == PARK_UNPARKING)
+                    parkStatus = PARK_PARKED;
+
+                KNotification::event( QLatin1String( "MountParkingFailed" ) , i18n("Mount parking failed"));
+            }
+            else if (svp->s == IPS_BUSY && sp->s == ISS_ON && parkStatus != PARK_PARKING)
+            {
+                parkStatus = PARK_PARKING;
+                KNotification::event( QLatin1String( "MountParking" ) , i18n("Mount parking is in progress"));
+            }
+            else if (svp->s == IPS_BUSY && sp->s == ISS_OFF && parkStatus != PARK_UNPARKING)
+            {
+                parkStatus = PARK_UNPARKING;
+                KNotification::event( QLatin1String( "MountUnParking" ) , i18n("Mount unparking is in progress"));
+            }
+            else if (svp->s == IPS_OK && sp->s == ISS_ON && parkStatus != PARK_PARKED)
+            {
+                parkStatus = PARK_PARKED;
+                KNotification::event( QLatin1String( "MountParked" ) , i18n("Mount parked"));
+            }
+            else if (svp->s == IPS_OK && sp->s == ISS_OFF && parkStatus != PARK_UNPARKED)
+            {
+                parkStatus = PARK_UNPARKED;
+                KNotification::event( QLatin1String( "MountUnparked" ) , i18n("Mount unparked"));
+            }
         }
-
-        if (svp->s == IPS_ALERT)
-            KNotification::event( QLatin1String( "ParkingMountFailed" ) , i18n("Mount parking failed"));
-        else if (svp->s == IPS_BUSY && LastParkingState != IPS_BUSY)
-            KNotification::event( QLatin1String( "ParkingMount" ) , i18n("Mount parking is in progress"));
-        else if (LastParkingState == IPS_BUSY && IsParked)
-            KNotification::event( QLatin1String( "MountParked" ) , i18n("Mount parked"));
-        else if (LastParkingState == IPS_BUSY && IsParked == false)
-            KNotification::event( QLatin1String( "MountUnparked" ) , i18n("Mount unparked"));
-
-        LastParkingState = svp->s;
 
         emit switchUpdated(svp);
         return;
+    }
+    else if (!strcmp(svp->name, "TELESCOPE_ABORT_MOTION"))
+    {
+        if (svp->s == IPS_OK)
+        {
+            KNotification::event( QLatin1String( "MountAborted" ) , i18n("Mount motion was aborted"));
+        }
     }
 
     DeviceDecorator::processSwitch(svp);
@@ -731,11 +758,6 @@ void Telescope::setAltLimits(double minAltitude, double maxAltitude)
 {
     minAlt=minAltitude;
     maxAlt=maxAltitude;
-}
-
-bool Telescope::isParked()
-{
-    return IsParked;
 }
 
 Telescope::TelescopeStatus Telescope::getStatus()
