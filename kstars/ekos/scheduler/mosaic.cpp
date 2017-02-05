@@ -462,11 +462,11 @@ void Mosaic::constructMosaic()
     if (focalLenSpin->value() == 0 || cameraWSpin->value() == 0 || pixelHSizeSpin->value() == 0)
         return;
 
-    if (cameraWFOVSpin->value() == 0)
-    {
+    //if (cameraWFOVSpin->value() == 0)
+    //{
         calculateFOV();
         showEvent(NULL);
-    }
+    //}
 
     if (mosaicWSpin->value() > 1 || mosaicHSpin->value() > 1)
         createJobsB->setEnabled(true);
