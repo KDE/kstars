@@ -1446,7 +1446,10 @@ void CCD::processBLOB(IBLOB* bp)
                     return;
                 }
             } else{
-                targetChip->setImageView(KStars::Instance()->ekosManager()->getPreviewView(),FITS_NORMAL);
+                if(previewView){
+                    targetChip->setImageView(previewView,FITS_NORMAL);
+                    emit newImage(previewView->getDisplayImage(), targetChip);
+                }
             }
         }
             break;
