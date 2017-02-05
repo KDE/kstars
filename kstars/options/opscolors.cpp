@@ -281,6 +281,7 @@ void OpsColors::slotStarColorIntensity( int i ) {
 void OpsColors::slotDarkAppColors(bool enable)
 {
     KStarsData::Instance()->colorScheme()->setDarkPalette(enable);
+    KStars::Instance()->loadColorScheme( KStars::Instance()->data()->colorScheme()->fileName());
 }
 
 

@@ -289,6 +289,11 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
             QToolTip::hideText();
     }
 
+    double HFR = image->getImageData()->getHFR(x, y);
+
+    if (HFR > 0)
+        QToolTip::showText(e->globalPos(), i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g' , 3)), this);
+
     //setCursor(Qt::CrossCursor);
 
     e->accept();
@@ -382,11 +387,6 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
     if (e->buttons() & Qt::LeftButton&&image->getMouseMode()==FITSView::selectMouse)
     {
         emit pointSelected(x, y);
-
-        double HFR = image->getImageData()->getHFR(x, y);
-
-        if (HFR > 0)
-            QToolTip::showText(e->globalPos(), i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g' , 3)), this);
     }
 
 }
