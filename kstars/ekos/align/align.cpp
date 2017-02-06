@@ -102,7 +102,7 @@ Align::Align()
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(toggleFullScreenB, SIGNAL(clicked()), this, SLOT(toggleAlignWidgetFullScreen()));
 
-    alignView = new FITSView(alignWidget, FITS_ALIGN);
+    alignView = new AlignView(alignWidget, FITS_ALIGN);
     alignView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     alignView->setBaseSize(alignWidget->size());
     alignView->createFloatingToolBar();
@@ -1072,26 +1072,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      emit newStatus(state);
      solverIterations=0;
 
-     if (pahStage == PAH_FIRST_CAPTURE)
-     {
-         alignView->updateWCS(orientation, ra, dec, pixscale);
-         firstPAHCenter.setRA0(alignCoord.ra0());
-         firstPAHCenter.setDec0(alignCoord.dec0());
-
-         pahStage = PAH_ROTATE;
-         PAHWidgets->setCurrentWidget(PAHRotatePage);
-     }
-     else if (pahStage == PAH_SECOND_CAPTURE)
-     {
-         alignView->updateWCS(orientation, ra, dec, pixscale);
-         secondPAHCenter.setRA0(alignCoord.ra0());
-         secondPAHCenter.setDec0(alignCoord.dec0());
-
-         pahStage = PAH_STAR_SELECT;
-         PAHWidgets->setCurrentWidget(PAHCorrectionPage);
-
-         calculatePAHError();
-     }
+     if (pahStage != PAH_IDLE)
+         processPAHStage(orientation, ra, dec, pixscale);
      else if (azStage > AZ_INIT || altStage > ALT_INIT)
          executePolarAlign();
 }
@@ -2255,7 +2237,7 @@ void Align::toggleAlignWidgetFullScreen()
     else
     {
         alignWidget->setParent(0);
-        alignWidget->setWindowTitle(i18n("Focus Frame"));
+        alignWidget->setWindowTitle(i18n("Align Frame"));
         alignWidget->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
         alignWidget->showMaximized();
         alignWidget->show();
@@ -2349,6 +2331,7 @@ void Align::rotatePAH()
 
 void Align::calculatePAHError()
 {
+#if 0
     double ra0 = expectedPAHCenter.ra0().Degrees();
     double de0 = expectedPAHCenter.dec0().Degrees();
 
@@ -2387,6 +2370,8 @@ void Align::calculatePAHError()
     alignView->setCorrectionParams(correctionVector, correctionExpectedPoint);
 
     connect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
+
+ #endif
 }
 
 void Align::setPAHCorrectionOffset(int x, int y)
@@ -2417,6 +2402,51 @@ void Align::setPAHRefreshComplete()
     abort();
 
     restartPAHProcess();
+}
+
+void Align::processPAHStage(double orientation, double ra, double dec, double pixscale)
+{
+    if (pahStage == PAH_FIRST_CAPTURE)
+    {
+        alignView->updateWCS(orientation, ra, dec, pixscale);
+        firstPAHCenter.setRA0(alignCoord.ra0());
+        firstPAHCenter.setDec0(alignCoord.dec0());
+
+        QPoint pixelPoint, imagePoint;
+        FITSData *imageData = alignView->getImageData();
+
+        bool rc = imageData->wcsToPixel(firstPAHCenter, pixelPoint, imagePoint);
+
+        if (rc == false)
+        {
+            appendLogText(i18n("Failed to process WCS data in file. Capture again."));
+            return;
+        }
+
+        SkyPoint NCP(0, 90);
+
+        rc = imageData->wcsToPixel(NCP, pixelPoint, imagePoint);
+
+        if (rc == false)
+        {
+            appendLogText(i18n("Warning: Celestial pole is not located within the image. Please adjust the mount until the celestial pole is close to the center."));
+            return;
+        }
+
+        pahStage = PAH_ROTATE;
+        PAHWidgets->setCurrentWidget(PAHRotatePage);
+    }
+    else if (pahStage == PAH_SECOND_CAPTURE)
+    {
+        alignView->updateWCS(orientation, ra, dec, pixscale);
+        secondPAHCenter.setRA0(alignCoord.ra0());
+        secondPAHCenter.setDec0(alignCoord.dec0());
+
+        pahStage = PAH_STAR_SELECT;
+        PAHWidgets->setCurrentWidget(PAHCorrectionPage);
+
+        calculatePAHError();
+    }
 }
 
 }

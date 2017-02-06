@@ -167,6 +167,7 @@ if (INDI_FOUND)
 
                        # Align
                        ekos/align/align.cpp
+                       ekos/align/alignview.cpp
                        ekos/align/astrometryparser.cpp
                        ekos/align/offlineastrometryparser.cpp
                        ekos/align/onlineastrometryparser.cpp

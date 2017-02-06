@@ -137,7 +137,7 @@ int FITSView::getMouseMode(){
 
 void FITSView::enterEvent(QEvent *)
 {
-    if(floatingToolBar&&image_data){
+    if(floatingToolBar&&imageData){
         QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
         floatingToolBar->setGraphicsEffect(eff);
         QPropertyAnimation *a = new QPropertyAnimation(eff,"opacity");
@@ -151,7 +151,7 @@ void FITSView::enterEvent(QEvent *)
 
 void FITSView::leaveEvent(QEvent *)
 {
-    if(floatingToolBar&&image_data){
+    if(floatingToolBar&&imageData){
         QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
         floatingToolBar->setGraphicsEffect(eff);
         QPropertyAnimation *a = new QPropertyAnimation(eff,"opacity");
@@ -493,7 +493,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
     image_frame = new FITSLabel(this);
     floatingToolBar = NULL;
-    image_data  = NULL;
+    imageData  = NULL;
     display_image = NULL;
     firstLoad = true;
     trackingBoxEnabled=false;
@@ -535,12 +535,12 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 FITSView::~FITSView()
 {
     delete(image_frame);
-    delete(image_data);
+    delete(imageData);
     delete(display_image);
 }
 
 void FITSView::resizeEvent(QResizeEvent * event){
-    if(!image_data&&noImageLabel){
+    if(!imageData&&noImageLabel){
         noImageLabel->setPixmap(noImage.scaled( width()-20, height()-20,Qt::KeepAspectRatio,Qt::FastTransformation));
         noImageLabel->setFixedSize(width()-5,height()-5);
     }
@@ -559,24 +559,24 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
     bool setBayerParams=false;
 
     BayerParams param;
-    if (image_data && image_data->hasDebayer())
+    if (imageData && imageData->hasDebayer())
     {
         setBayerParams=true;
-        image_data->getBayerParams(&param);
+        imageData->getBayerParams(&param);
     }
 
-    delete (image_data);
-    image_data = NULL;
+    delete (imageData);
+    imageData = NULL;
 
     filterStack.clear();
     filterStack.push(FITS_NONE);
     if (filter != FITS_NONE)
         filterStack.push(filter);
 
-    image_data = new FITSData(mode);
+    imageData = new FITSData(mode);
 
     if (setBayerParams)
-        image_data->setBayerParams(&param);
+        imageData->setBayerParams(&param);
 
     if (mode == FITS_NORMAL)
     {
@@ -587,7 +587,7 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
         qApp->processEvents();
     }
 
-    if (image_data->loadFITS(inFilename, silent) == false)
+    if (imageData->loadFITS(inFilename, silent) == false)
         return false;
 
 
@@ -602,17 +602,17 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
         }
     }
 
-    emit debayerToggled(image_data->hasDebayer());
+    emit debayerToggled(imageData->hasDebayer());
 
-    image_data->getDimensions(&currentWidth, &currentHeight);
+    imageData->getDimensions(&currentWidth, &currentHeight);
 
     image_width  = currentWidth;
     image_height = currentHeight;
 
     image_frame->setSize(image_width, image_height);
 
-    maxPixel = image_data->getMax();
-    minPixel = image_data->getMin();
+    maxPixel = imageData->getMax();
+    minPixel = imageData->getMin();
 
       if (mode != FITS_GUIDE)
       {
@@ -620,7 +620,7 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
               return false;
           else
           {
-            QFuture<bool> future = QtConcurrent::run(image_data, &FITSData::checkWCS);
+            QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::checkWCS);
             wcsWatcher.setFuture(future);
             fitsProg.setValue(75);
             qApp->processEvents();
@@ -668,13 +668,13 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
 
 int FITSView::saveFITS( const QString &newFilename )
 {
-    return image_data->saveFITS(newFilename);
+    return imageData->saveFITS(newFilename);
 }
 
 
 int FITSView::rescale(FITSZoom type)
 {
-    switch (image_data->getDataType())
+    switch (imageData->getDataType())
     {
         case TBYTE:
             return rescale<uint8_t>(type);
@@ -725,30 +725,30 @@ template<typename T>  int FITSView::rescale(FITSZoom type)
     if(display_image==NULL)
         return -1;
 
-    uint8_t *image_buffer = image_data->getImageBuffer();
+    uint8_t *image_buffer = imageData->getImageBuffer();
 
-    uint32_t size = image_data->getSize();
-    int BBP = image_data->getBytesPerPixel();
+    uint32_t size = imageData->getSize();
+    int BBP = imageData->getBytesPerPixel();
 
     filter = filterStack.last();
 
     if (Options::autoStretch() && (filter == FITS_NONE || (filter >= FITS_ROTATE_CW && filter <= FITS_FLIP_V )))
     {
-        image_buffer = new uint8_t[image_data->getSize() * image_data->getNumOfChannels() * BBP];
-        memcpy(image_buffer, image_data->getImageBuffer(), image_data->getSize() * image_data->getNumOfChannels() * BBP);
+        image_buffer = new uint8_t[imageData->getSize() * imageData->getNumOfChannels() * BBP];
+        memcpy(image_buffer, imageData->getImageBuffer(), imageData->getSize() * imageData->getNumOfChannels() * BBP);
 
         displayBuffer = true;
 
         float data_min   = -1;
         float data_max   = -1;
 
-        image_data->applyFilter(FITS_AUTO_STRETCH, image_buffer, &data_min, &data_max);
+        imageData->applyFilter(FITS_AUTO_STRETCH, image_buffer, &data_min, &data_max);
 
         min = data_min;
         max = data_max;
     }
     else
-        image_data->getMinMax(&min, &max);
+        imageData->getMinMax(&min, &max);
 
     T *buffer = reinterpret_cast<T*>(image_buffer);
 
@@ -762,10 +762,10 @@ template<typename T>  int FITSView::rescale(FITSZoom type)
         bscale = 255. / (max - min);
         bzero  = (-min) * (255. / (max - min));
 
-        if (image_height != image_data->getHeight() || image_width != image_data->getWidth())
+        if (image_height != imageData->getHeight() || image_width != imageData->getWidth())
         {
-            image_width  = image_data->getWidth();
-            image_height = image_data->getHeight();
+            image_width  = imageData->getWidth();
+            image_height = imageData->getHeight();
 
             initDisplayImage();
 
@@ -777,7 +777,7 @@ template<typename T>  int FITSView::rescale(FITSZoom type)
         currentWidth  = display_image->width();
         currentHeight = display_image->height();
 
-        if (image_data->getNumOfChannels() == 1)
+        if (imageData->getNumOfChannels() == 1)
         {
             /* Fill in pixel values using indexed map, linear scale */
             for (int j = 0; j < image_height; j++)
@@ -1011,9 +1011,6 @@ void FITSView::drawOverlay(QPainter *painter)
 
     if (showPixelGrid)
         drawPixelGrid(painter);
-
-    if (correctionLine.isNull() == false)
-        drawLine(painter);
 }
 
 void FITSView::updateMode(FITSMode fmode)
@@ -1055,7 +1052,7 @@ void FITSView::drawStarCentroid(QPainter *painter)
 
     // image_data->getStarCenter();
 
-    QList<Edge*> starCenters = image_data->getStarCenters();
+    QList<Edge*> starCenters = imageData->getStarCenters();
 
     for (int i=0; i < starCenters.count() ; i++)
     {
@@ -1160,8 +1157,8 @@ void FITSView::drawPixelGrid(QPainter *painter){
 }
 
 bool FITSView::imageHasWCS(){
-    if(image_data)
-        return image_data->hasWCS();
+    if(imageData)
+        return imageData->hasWCS();
     return false;
 }
 
@@ -1169,7 +1166,7 @@ void FITSView::drawObjectNames(QPainter *painter)
 {
     painter->setPen( QPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed("FITSObjectLabelColor" ) ) ) );
     float scale=(currentZoom / ZOOM_DEFAULT);
-    foreach(FITSSkyObject *listObject, image_data->getSkyObjects())
+    foreach(FITSSkyObject *listObject, imageData->getSkyObjects())
     {
         painter->drawRect(listObject->x()*scale-5,listObject->y()*scale-5,10,10);
         painter->drawText(listObject->x()*scale+10,listObject->y()*scale+10,listObject->skyObject()->name());
@@ -1185,9 +1182,9 @@ to draw gridlines at those specific RA and Dec values.
 
 void FITSView::drawEQGrid(QPainter *painter){
 
-   if (image_data->hasWCS())
+   if (imageData->hasWCS())
        {
-           wcs_point * wcs_coord = image_data->getWCSCoord();
+           wcs_point * wcs_coord = imageData->getWCSCoord();
            if (wcs_coord)
            {
                int size=image_width*image_height;
@@ -1411,15 +1408,15 @@ int FITSView::findStars(StarAlgorithm algorithm)
         switch (algorithm)
         {
         case ALGORITHM_GRADIENT:
-            count = FITSData::findCannyStar(image_data, trackingBox);
+            count = FITSData::findCannyStar(imageData, trackingBox);
             break;
 
         case ALGORITHM_CENTROID:
-            count = image_data->findStars(trackingBox);
+            count = imageData->findStars(trackingBox);
             break;
 
         case ALGORITHM_THRESHOLD:
-            count = image_data->findOneStar(trackingBox);
+            count = imageData->findOneStar(trackingBox);
             break;
         }
     }
@@ -1430,7 +1427,7 @@ int FITSView::findStars(StarAlgorithm algorithm)
     }*/
     else
     {
-        count = image_data->findStars();
+        count = imageData->findStars();
     }
 
     starAlgorithm = algorithm;
@@ -1554,7 +1551,7 @@ void FITSView::initDisplayImage()
     delete (display_image);
     display_image = NULL;
 
-    if (image_data->getNumOfChannels() == 1)
+    if (imageData->getNumOfChannels() == 1)
     {
         display_image = new QImage(image_width, image_height, QImage::Format_Indexed8);
 
@@ -1620,9 +1617,9 @@ void FITSView::pinchTriggered(QPinchGesture *gesture)
 void FITSView::handleWCSCompletion()
 {
     //bool hasWCS = wcsWatcher.result();
-    if(image_data->hasWCS())
+    if(imageData->hasWCS())
           this->updateFrame();
-    emit wcsToggled(image_data->hasWCS());
+    emit wcsToggled(imageData->hasWCS());
 }
 
 void FITSView::createFloatingToolBar()
@@ -1715,70 +1712,3 @@ void FITSView::updateScopeButton()
     }
 }
 
-bool FITSView::updateWCS(double orientation, double ra, double dec, double pixscale)
-{
-    image_data->updateWCS(orientation, ra, dec, pixscale);
-
-    QFuture<bool> future = QtConcurrent::run(image_data, &FITSData::checkWCS);
-    wcsWatcher.setFuture(future);
-    return true;
-}
-
-void FITSView::setCorrectionParams(QLine line, QPoint center)
-{
-    correctionLine   = line;
-    correctionCenter = center;
-
-    markerCrosshair.setX(correctionCenter.x());
-    markerCrosshair.setY(correctionCenter.y());
-
-    updateFrame();
-}
-
-void FITSView::setCorrectionOffset(QPoint newOffset)
-{
-    if (newOffset.isNull() == false)
-    {
-        int offsetX = newOffset.x() - image_data->getWidth()/2;
-        int offsetY = newOffset.y() - image_data->getHeight()/2;
-
-        correctionOffset.setX(offsetX);
-        correctionOffset.setY(offsetY);
-
-        markerCrosshair.setX(correctionCenter.x() + correctionOffset.x());
-        markerCrosshair.setY(correctionCenter.y() + correctionOffset.y());
-    }
-    // Clear points
-    else
-    {
-        correctionOffset = newOffset;
-        markerCrosshair  = newOffset;
-    }
-
-    updateFrame();
-}
-
-void FITSView::drawLine(QPainter *painter)
-{
-    painter->setPen(QPen( Qt::yellow , 2));
-    painter->setBrush( Qt::NoBrush );
-    double zoomFactor = (currentZoom / ZOOM_DEFAULT);
-
-    int offsetX = 0, offsetY=0;
-
-    if (correctionOffset.isNull() == false)
-    {
-        offsetX = correctionOffset.x();
-        offsetY = correctionOffset.y();
-    }
-
-    double x1 = (correctionLine.p1().x() + offsetX) * zoomFactor;
-    double y1 = (correctionLine.p1().y() + offsetY) * zoomFactor;
-
-    double x2 = (correctionLine.p2().x() + offsetX) * zoomFactor;
-    double y2 = (correctionLine.p2().y() + offsetY) * zoomFactor;
-
-    QLineF zoomedLine(x1, y1, x2, y2);
-
-    painter->drawLine(zoomedLine);
-}
