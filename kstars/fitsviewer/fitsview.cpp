@@ -620,7 +620,7 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
               return false;
           else
           {
-            QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::checkWCS);
+            QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
             wcsWatcher.setFuture(future);
             fitsProg.setValue(75);
             qApp->processEvents();

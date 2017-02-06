@@ -2064,7 +2064,7 @@ void FITSData::getCenterSelection(int *x, int *y)
     delete (pEdge);
 }
 
-bool FITSData::checkWCS()
+bool FITSData::loadWCS()
 {
 #ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
@@ -3687,5 +3687,8 @@ bool FITSData::updateWCS(double orientation, double ra, double dec, double pixsc
     fits_update_key(fptr, TDOUBLE, "CROTA1", &rotation, "CROTA1", &status);
     fits_update_key(fptr, TDOUBLE, "CROTA2", &rotation, "CROTA2", &status);
 
-    return true;
+    if (status == 0)
+        return loadWCS();
+
+    return false;
 }

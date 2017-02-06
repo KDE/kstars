@@ -388,6 +388,9 @@ void Align::syncTelescopeInfo()
 
     INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
+    if (currentCCD)
+        currentCCD->setTelescopeType(kcfg_solverOTA->isChecked() ? ISD::CCD::TELESCOPE_GUIDE : ISD::CCD::TELESCOPE_PRIMARY);
+
     if (nvp)
     {
         INumber *np = NULL;
@@ -2408,6 +2411,8 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 {
     if (pahStage == PAH_FIRST_CAPTURE)
     {
+        // TODO: Check if this really produces valid WCS file? It seems the first it is done it fails?
+        // Maybe some missing keywords?
         alignView->updateWCS(orientation, ra, dec, pixscale);
         firstPAHCenter.setRA0(alignCoord.ra0());
         firstPAHCenter.setDec0(alignCoord.dec0());
@@ -2415,6 +2420,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         QPoint pixelPoint, imagePoint;
         FITSData *imageData = alignView->getImageData();
 
+        // TODO Maybe use QPointF instead for more accuracy?
         bool rc = imageData->wcsToPixel(firstPAHCenter, pixelPoint, imagePoint);
 
         if (rc == false)
@@ -2423,7 +2429,8 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
             return;
         }
 
-        SkyPoint NCP(0, 90);
+        // TODO: Search for Celestial pole from WCS Info? Can it be reliable? or manual search? how close?
+        SkyPoint NCP(12, 89.99999999);
 
         rc = imageData->wcsToPixel(NCP, pixelPoint, imagePoint);
 
