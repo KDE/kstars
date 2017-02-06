@@ -173,7 +173,7 @@ public:
     FITSMode getMode() { return mode;}
 
     // WCS
-    bool checkWCS();
+    bool loadWCS();
     bool hasWCS() { return HasWCS; }
     wcs_point *getWCSCoord()  { return wcs_coord; }
     bool wcsToPixel(SkyPoint &wcsCoord, QPoint &wcsPixelPoint, QPoint &wcsImagePoint);

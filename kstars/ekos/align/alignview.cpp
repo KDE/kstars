@@ -37,11 +37,7 @@ void AlignView::drawOverlay(QPainter *painter)
 
 bool AlignView::updateWCS(double orientation, double ra, double dec, double pixscale)
 {
-    imageData->updateWCS(orientation, ra, dec, pixscale);
-
-    QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::checkWCS);
-    wcsWatcher.setFuture(future);
-    return true;
+    return imageData->updateWCS(orientation, ra, dec, pixscale);
 }
 
 void AlignView::setCorrectionParams(QLine line, QPoint center)
