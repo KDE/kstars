@@ -194,8 +194,9 @@ Align::Align()
     solverOptions->setText(Options::solverOptions());
 
     // Which telescope info to use for FOV calculations
-    kcfg_solverOTA->setChecked(Options::solverOTA());
-    connect(kcfg_solverOTA, SIGNAL(toggled(bool)), this, SLOT(syncTelescopeInfo()));
+    //kcfg_solverOTA->setChecked(Options::solverOTA());
+    guideScopeCCDs = Options::guideScopeCCDs();
+    connect(useGuideScopeCheck, SIGNAL(toggled(bool)), this, SLOT(updateGuideScopeCCDs(bool)));
 
     accuracySpin->setValue(Options::solverAccuracyThreshold());
     alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
@@ -345,6 +346,8 @@ void Align::checkCCD(int ccdNum)
             (dynamic_cast<RemoteAstrometryParser*>(parser))->setCCD(currentCCD);
     }
 
+    useGuideScopeCheck->setChecked(guideScopeCCDs.contains(currentCCD->getDeviceName()));
+
     syncCCDInfo();
 
 }
@@ -388,14 +391,11 @@ void Align::syncTelescopeInfo()
 
     INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
-    if (currentCCD)
-        currentCCD->setTelescopeType(kcfg_solverOTA->isChecked() ? ISD::CCD::TELESCOPE_GUIDE : ISD::CCD::TELESCOPE_PRIMARY);
-
     if (nvp)
     {
         INumber *np = NULL;
 
-        if (kcfg_solverOTA->isChecked())
+        if (currentCCD && Options::guideScopeCCDs().contains(currentCCD->getDeviceName()))
             np = IUFindNumber(nvp, "GUIDER_APERTURE");
         else
             np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
@@ -403,7 +403,7 @@ void Align::syncTelescopeInfo()
         if (np && np->value > 0)
             aperture = np->value;
 
-        if (kcfg_solverOTA->isChecked())
+        if (currentCCD && Options::guideScopeCCDs().contains(currentCCD->getDeviceName()))
             np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
         else
             np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
@@ -917,7 +917,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
 
     Options::setSolverType(solverTypeGroup->checkedId());
     Options::setSolverOptions(solverOptions->text());
-    Options::setSolverOTA(kcfg_solverOTA->isChecked());
+    Options::setGuideScopeCCDs(guideScopeCCDs);
     Options::setSolverAccuracyThreshold(accuracySpin->value());
     Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
     Options::setSolverGotoOption(currentGotoMode);
@@ -1409,7 +1409,7 @@ void Align::Sync()
 {
     state = ALIGN_SYNCING;
 
-    if (currentTelescope->Sync(&alignCoord))    
+    if (currentTelescope->Sync(&alignCoord))
     {
         emit newStatus(state);
         appendLogText(i18n("Syncing to RA (%1) DEC (%2)", alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString()));
@@ -1968,7 +1968,7 @@ void Align::setSolverSearchOptions(double ra, double dec, double radius)
 
 void Align::setUseOAGT(bool enabled)
 {
-    kcfg_solverOTA->setChecked(enabled);
+    useGuideScopeCheck->setChecked(enabled);
 }
 
 FOV* Align::fov()
@@ -2207,6 +2207,8 @@ void Align::setCaptureStatus(CaptureState newState)
 void Align::showFITSViewer()
 {
     FITSData *data = alignView->getImageData();
+    data->setAutoRemoveTemporaryFITS(false);
+
     if (data)
     {
         QUrl url = QUrl::fromLocalFile(data->getFilename());
@@ -2462,6 +2464,26 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
         calculatePAHError();
     }
+}
+
+void Align::updateGuideScopeCCDs(bool toggled)
+{
+    if (currentCCD == NULL)
+        return;
+
+    if (toggled && guideScopeCCDs.contains(currentCCD->getDeviceName()) == false)
+        guideScopeCCDs.append(currentCCD->getDeviceName());
+    else if (toggled == false)
+        guideScopeCCDs.removeOne(currentCCD->getDeviceName());
+
+    if (guideScopeCCDs.contains(currentCCD->getDeviceName()))
+        currentCCD->setTelescopeType(ISD::CCD::TELESCOPE_GUIDE);
+    else
+        currentCCD->setTelescopeType(ISD::CCD::TELESCOPE_PRIMARY);
+
+    Options::setGuideScopeCCDs(guideScopeCCDs);
+
+    syncTelescopeInfo();
 }
 
 }

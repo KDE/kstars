@@ -682,7 +682,7 @@
                </widget>
               </item>
               <item row="2" column="3">
-               <widget class="QCheckBox" name="kcfg_solverOTA">
+               <widget class="QCheckBox" name="useGuideScopeCheck">
                 <property name="toolTip">
                  <string>Use Off-Axis Guide Telescope for FOV calculations</string>
                 </property>
@@ -1493,7 +1493,7 @@
   <tabstop>alignDarkFrameCheck</tabstop>
   <tabstop>toggleFullScreenB</tabstop>
   <tabstop>binningCombo</tabstop>
-  <tabstop>kcfg_solverOTA</tabstop>
+  <tabstop>useGuideScopeCheck</tabstop>
   <tabstop>raBox</tabstop>
   <tabstop>decBox</tabstop>
   <tabstop>clearBoxesB</tabstop>
@@ -1514,7 +1514,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="gotoModeButtonGroup"/>
   <buttongroup name="solverTypeGroup"/>
+  <buttongroup name="gotoModeButtonGroup"/>
  </buttongroups>
 </ui>

@@ -1599,9 +1599,8 @@
       <entry name="SolverOptions" type="String">
          <label>Options passed to the astrometry solver.</label>
       </entry>
-      <entry name="SolverOTA" type="Bool">
-         <label>Use Off-Axis Guide Telescope for Alignment FOV calculations</label>
-         <default>false</default>
+      <entry name="GuideScopeCCDs" type="StringList">
+         <label>List of CCDs using Guide Scope parameters instead of Primary Scope</label>
       </entry>
       <entry name="SolverGotoOption" type="UInt">
          <label>Action to take if solver if successful (Sync, Slew to Target, or None)</label>
