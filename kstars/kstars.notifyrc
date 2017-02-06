@@ -701,9 +701,7 @@ Comment[x-test]=xxMount arrived at target locationxx
 Action=None
 [Event/MountAborted]
 Name=Mount Aborted
-Name[x-test]=xxMount Abortedxx
 Comment=Mount motion was aborted
-Comment[x-test]=xxMount motion was abortedxx
 Action=None
 [Event/MountParking]
 Name=Mount Parking
