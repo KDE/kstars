@@ -178,7 +178,7 @@ public:
     wcs_point *getWCSCoord()  { return wcs_coord; }
     bool wcsToPixel(SkyPoint &wcsCoord, QPoint &wcsPixelPoint, QPoint &wcsImagePoint);
     /* Update WCS header with new data. Overwrites existing data if present */
-    bool updateWCS(double orientation, double ra, double dec, double pixscale);
+    bool createWCSFile(const QString & newWCSFile, double orientation, double ra, double dec, double pixscale);
 
     // Debayer
     bool hasDebayer() { return HasDebayer; }

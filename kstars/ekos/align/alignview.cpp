@@ -35,9 +35,9 @@ void AlignView::drawOverlay(QPainter *painter)
         drawLine(painter);
 }
 
-bool AlignView::updateWCS(double orientation, double ra, double dec, double pixscale)
+bool AlignView::createWCSFile(const QString & newWCSFile, double orientation, double ra, double dec, double pixscale)
 {
-    return imageData->updateWCS(orientation, ra, dec, pixscale);
+    return imageData->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
 }
 
 void AlignView::setCorrectionParams(QLine line, QPoint center)

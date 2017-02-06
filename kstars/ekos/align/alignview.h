@@ -23,7 +23,7 @@ public:
     ~AlignView();
 
     /* Calculate WCS header info and update WCS info */
-    bool updateWCS(double orientation, double ra, double dec, double pixscale);
+    bool createWCSFile(const QString & newWCSFile, double orientation, double ra, double dec, double pixscale);
 
     void drawOverlay(QPainter *) override;
 
