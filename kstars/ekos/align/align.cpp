@@ -2409,11 +2409,18 @@ void Align::setPAHRefreshComplete()
 
 void Align::processPAHStage(double orientation, double ra, double dec, double pixscale)
 {
+    // Create temporary file to hold all WCS data
+    QTemporaryFile tmpFile(QDir::tempPath() + "/fitswcsXXXXXX");
+    tmpFile.setAutoRemove(false);
+    tmpFile.open();
+    QString newWCSFile = tmpFile.fileName();
+    tmpFile.close();
+
     if (pahStage == PAH_FIRST_CAPTURE)
     {
-        // TODO: Check if this really produces valid WCS file? It seems the first it is done it fails?
-        // Maybe some missing keywords?
-        alignView->updateWCS(orientation, ra, dec, pixscale);
+        alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+
+        // Set PAH Center
         firstPAHCenter.setRA0(alignCoord.ra0());
         firstPAHCenter.setDec0(alignCoord.dec0());
 
@@ -2430,7 +2437,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         }
 
         // TODO: Search for Celestial pole from WCS Info? Can it be reliable? or manual search? how close?
-        SkyPoint NCP(12, 89.99999999);
+        SkyPoint NCP(0, 90);
 
         rc = imageData->wcsToPixel(NCP, pixelPoint, imagePoint);
 
@@ -2445,7 +2452,8 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     }
     else if (pahStage == PAH_SECOND_CAPTURE)
     {
-        alignView->updateWCS(orientation, ra, dec, pixscale);
+        alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+
         secondPAHCenter.setRA0(alignCoord.ra0());
         secondPAHCenter.setDec0(alignCoord.dec0());
 
