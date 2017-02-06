@@ -108,7 +108,7 @@ FITSData::~FITSData()
     {
         fits_close_file(fptr, &status);
 
-        if (tempFile)
+        if (tempFile && autoRemoveTemporaryFITS)
             QFile::remove(filename);
 
     }
@@ -128,7 +128,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
     {
         fits_close_file(fptr, &status);
 
-        if (tempFile)
+        if (tempFile && autoRemoveTemporaryFITS)
             QFile::remove(filename);
     }
 
@@ -310,7 +310,7 @@ int FITSData::saveFITS( const QString &newFilename )
             return -1;
         }
 
-        if (tempFile)
+        if (tempFile && autoRemoveTemporaryFITS)
         {
             QFile::remove(filename);
             tempFile = false;
@@ -353,7 +353,7 @@ int FITSData::saveFITS( const QString &newFilename )
 
     status=0;
 
-    if (tempFile)
+    if (tempFile && autoRemoveTemporaryFITS)
     {
         QFile::remove(filename);
         tempFile = false;
@@ -3403,6 +3403,16 @@ void FITSData::trace(int width, int height, int id, QVector<float> &image, QVect
     }
 }
 
+bool FITSData::getAutoRemoveTemporaryFITS() const
+{
+    return autoRemoveTemporaryFITS;
+}
+
+void FITSData::setAutoRemoveTemporaryFITS(bool value)
+{
+    autoRemoveTemporaryFITS = value;
+}
+
 #if 0
 QVector<int> FITSData::thinning(int width, int height, const QVector<int> &gradient, const QVector<int> &direction)
 {
@@ -3681,7 +3691,7 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
 
     status=0;
 
-    if (tempFile)
+    if (tempFile && autoRemoveTemporaryFITS)
     {
         QFile::remove(filename);
         tempFile = false;

@@ -227,6 +227,9 @@ public:
     // Create autostretch image from FITS File
     static QImage FITSToImage(const QString &filename);
 
+    bool getAutoRemoveTemporaryFITS() const;
+    void setAutoRemoveTemporaryFITS(bool value);
+
 private:
 
     void rotWCSFITS (int angle, int mirror);
@@ -311,6 +314,9 @@ private:
         uint16_t width;
         uint16_t height;
     } stats;
+
+    // Remove temproray files after closing
+    bool autoRemoveTemporaryFITS=true;
 };
 
 #endif
