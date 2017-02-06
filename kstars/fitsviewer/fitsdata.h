@@ -176,7 +176,7 @@ public:
     bool checkWCS();
     bool hasWCS() { return HasWCS; }
     wcs_point *getWCSCoord()  { return wcs_coord; }
-    bool wcsToPixel(SkyPoint &wcsCoord, QPoint &wcsPoint);
+    bool wcsToPixel(SkyPoint &wcsCoord, QPoint &wcsPixelPoint, QPoint &wcsImagePoint);
     /* Update WCS header with new data. Overwrites existing data if present */
     bool updateWCS(double orientation, double ra, double dec, double pixscale);
 

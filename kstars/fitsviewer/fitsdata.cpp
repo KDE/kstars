@@ -2145,7 +2145,7 @@ bool FITSData::checkWCS()
     return false;
 }
 
-bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPoint &wcsPoint)
+bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPoint &wcsPixelPoint, QPoint &wcsImagePoint)
 {
 #ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
@@ -2196,8 +2196,12 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPoint &wcsPoint)
         return false;
     }
 
-    wcsPoint.setX(pixcrd[0]);
-    wcsPoint.setY(pixcrd[1]);
+    wcsImagePoint.setX(imgcrd[0]);
+    wcsImagePoint.setY(imgcrd[1]);
+
+    wcsPixelPoint.setX(pixcrd[0]);
+    wcsPixelPoint.setY(pixcrd[1]);
+
     return true;
 
 #endif

@@ -85,8 +85,6 @@ signals:
     void newStatus(const QString &msg, FITSBar id);
     void pointSelected(int x, int y);
     void markerSelected(int x, int y);
-
-
 };
 
 class FITSView : public QScrollArea
@@ -94,7 +92,7 @@ class FITSView : public QScrollArea
     Q_OBJECT
 public:    
 
-    FITSView(QWidget *parent = 0, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);    
+    FITSView(QWidget *parent = 0, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);
     ~FITSView();
 
     /* Loads FITS image, scales it, and displays it in the GUI */
@@ -102,14 +100,12 @@ public:
     /* Save FITS */
     int saveFITS(const QString &filename);
     /* Rescale image lineary from image_buffer, fit to window if desired */
-    int rescale(FITSZoom type);
-    /* Calculate WCS header info and update WCS info */
-    bool updateWCS(double orientation, double ra, double dec, double pixscale);
+    int rescale(FITSZoom type);    
 
-    void setImageData(FITSData *d) { image_data = d; }
+    void setImageData(FITSData *d) { imageData = d; }
 
     // Access functions
-    FITSData *getImageData() { return image_data; }
+    FITSData *getImageData() { return imageData; }
     double getCurrentZoom() { return currentZoom; }
     QImage * getDisplayImage() { return display_image; }    
 
@@ -121,25 +117,23 @@ public:
     const QRect & getTrackingBox() { return trackingBox; }
 
     // Overlay
-    void drawOverlay(QPainter *);
+    virtual void drawOverlay(QPainter *);
+
+    // Overlay objects
     void drawStarCentroid(QPainter *);
     void drawTrackingBox(QPainter *);
-    void drawMarker(QPainter *);
-    bool isCrosshairShown();
-    bool areObjectsShown();
-    bool isEQGridShown();
-    bool isPixelGridShown();
-    bool imageHasWCS();
-
-    // Correction line
-    void setCorrectionParams(QLine line, QPoint center);
-    void setCorrectionOffset(QPoint newOffset);
-    void drawLine(QPainter *painter);
-
+    void drawMarker(QPainter *);    
     void drawCrosshair(QPainter *);
     void drawEQGrid(QPainter *);
     void drawObjectNames(QPainter *painter);
     void drawPixelGrid(QPainter *painter);
+
+    bool isCrosshairShown();
+    bool areObjectsShown();
+    bool isEQGridShown();
+    bool isPixelGridShown();
+    bool imageHasWCS();    
+
     void updateFrame();
 
     bool isTelescopeActive();
@@ -149,6 +143,7 @@ public:
     int getMouseMode();
     void setMouseMode(int mode);
     void updateMouseCursor();
+
     static const int dragMouse=0;
     static const int selectMouse=1;
     static const int scopeMouse=2;
@@ -179,6 +174,11 @@ public:
 protected:
     void wheelEvent(QWheelEvent* event);
     void resizeEvent(QResizeEvent * event);
+
+    QFutureWatcher<bool> wcsWatcher;                // WCS Future Watcher
+    QPointF markerCrosshair;                        // Cross hair
+    FITSData *imageData;                            // Pointer to FITSData object
+    double currentZoom;                             // Current zoom level
 
 public slots:
     void ZoomIn();
@@ -221,12 +221,11 @@ private:
     bool pointIsNearWCSTargetPoint(wcs_point *wcs_coord, double target, int x, int y, bool isRA, bool vertical);
 
     FITSLabel *image_frame;
-    FITSData *image_data;
+
     int image_width, image_height;
 
     uint16_t currentWidth,currentHeight; /* Current width and height due to zoom */
-    const double zoomFactor;           /* Image zoom factor */
-    double currentZoom;                /* Current Zoom level */
+    const double zoomFactor;           /* Image zoom factor */    
 
     int data_type;                     /* FITS data type when opened */
     QImage  *display_image;            /* FITS image that is displayed in the GUI */
@@ -253,8 +252,7 @@ private:
 
     QStack<FITSScale> filterStack;
 
-    // Cross hair
-    QPointF markerCrosshair;
+
 
     // Star selection algorithm
     StarAlgorithm starAlgorithm = ALGORITHM_GRADIENT;
@@ -267,14 +265,7 @@ private:
 
     // Floating toolbar
     QToolBar *floatingToolBar = NULL;
-    QAction *centerTelescopeAction = NULL;
-
-    // WCS Future Watch        
-    QFutureWatcher<bool> wcsWatcher;
-
-    // Correction Line
-    QLine correctionLine;
-    QPoint correctionCenter, correctionOffset;
+    QAction *centerTelescopeAction = NULL;    
 
 signals:
     void newStatus(const QString &msg, FITSBar id);

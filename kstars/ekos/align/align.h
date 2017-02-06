@@ -18,6 +18,7 @@
 
 #include "ui_align.h"
 
+#include "alignview.h"
 #include "ekos/ekos.h"
 
 #include "indi/inditelescope.h"
@@ -391,6 +392,11 @@ private:
      */
     void calculatePAHError();
 
+    /**
+     * @brief processPAHStage After solver is complete, handle PAH Stage processing
+     */
+    void processPAHStage(double orientation, double ra, double dec, double pixscale);
+
     // Which chip should we invoke in the current CCD?
     bool useGuideHead;
     // Can the mount sync its coordinates to those set by Ekos?
@@ -491,7 +497,7 @@ private:
     QString blobFileName;
 
     // Align Frame
-    FITSView *alignView;
+    AlignView *alignView;
 
     // FITS Viewer in case user want to display in it instead of internal view
     QPointer<FITSViewer> fv;

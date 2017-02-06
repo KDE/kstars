@@ -820,7 +820,7 @@
           </size>
          </property>
          <property name="title">
-          <string>Polar Alignment Helper (Beta)</string>
+          <string>Polar Alignment Helper (Experimental)</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <property name="spacing">
