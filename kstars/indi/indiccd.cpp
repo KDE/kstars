@@ -920,6 +920,18 @@ void CCD::registerProperty(INDI::Property *prop)
                 transferFormat = FORMAT_FITS;
         }
     }
+    else if (!strcmp(prop->getName(), "TELESCOPE_TYPE"))
+    {
+        ISwitchVectorProperty *sp = prop->getSwitch();
+        if (sp)
+        {
+            ISwitch *format = IUFindSwitch(sp, "TELESCOPE_PRIMARY");
+            if (format && format->s == ISS_ON)
+                telescopeType = TELESCOPE_PRIMARY;
+            else
+                telescopeType = TELESCOPE_GUIDE;
+        }
+    }
 
     DeviceDecorator::registerProperty(prop);
 }
@@ -1097,6 +1109,17 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             emit videoRecordToggled(true);
             KNotification::event( QLatin1String( "RecordingStarted" ) , i18n("Video Recording Started"));
         }
+
+        return;
+    }
+
+    if (!strcmp(svp->name, "TELESCOPE_TYPE"))
+    {
+        ISwitch *format = IUFindSwitch(svp, "TELESCOPE_PRIMARY");
+        if (format && format->s == ISS_ON)
+            telescopeType = TELESCOPE_PRIMARY;
+        else
+            telescopeType = TELESCOPE_GUIDE;
 
         return;
     }
@@ -1979,6 +2002,31 @@ bool CCD::setTransformFormat(CCD::TransferFormat format)
 
     formatFITS->s   = (transferFormat == FORMAT_FITS) ? ISS_ON : ISS_OFF;
     formatNative->s = (transferFormat == FORMAT_FITS) ? ISS_OFF : ISS_ON;
+
+    clientManager->sendNewSwitch(svp);
+
+    return true;
+}
+
+bool CCD::setTelescopeType(TelescopeType type)
+{
+    if (type == telescopeType)
+        return true;
+
+    ISwitchVectorProperty *svp = baseDevice->getSwitch("TELESCOPE_TYPE");
+    if (svp == NULL)
+        return false;
+
+    ISwitch *typePrimary   = IUFindSwitch(svp, "TELESCOPE_PRIMARY");
+    ISwitch *typeGuide     = IUFindSwitch(svp, "TELESCOPE_GUIDE");
+
+    if (typePrimary  == NULL || typeGuide == NULL)
+        return false;
+
+    telescopeType = type;
+
+    typePrimary->s   = (telescopeType == TELESCOPE_PRIMARY) ? ISS_ON : ISS_OFF;
+    typeGuide->s     = (telescopeType == TELESCOPE_PRIMARY) ? ISS_OFF : ISS_ON;
 
     clientManager->sendNewSwitch(svp);
 

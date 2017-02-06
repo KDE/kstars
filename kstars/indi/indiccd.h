@@ -142,6 +142,7 @@ public:
     typedef enum { UPLOAD_CLIENT, UPLOAD_LOCAL, UPLOAD_BOTH } UploadMode;
     typedef enum { FORMAT_FITS, FORMAT_NATIVE } TransferFormat;
     enum BlobType { BLOB_IMAGE, BLOB_FITS, BLOB_RAW, BLOB_OTHER} BType;
+    typedef enum { TELESCOPE_PRIMARY, TELESCOPE_GUIDE } TelescopeType;
 
     void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
@@ -190,6 +191,10 @@ public:
     bool startFramesRecording(uint32_t frames);
     bool stopRecording();
 
+    // Telescope type
+    TelescopeType getTelescopeType() { return telescopeType; }
+    bool setTelescopeType(TelescopeType type);
+
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
     void setFITSDir(const QString &dir) { fitsDir = dir;}
@@ -227,6 +232,7 @@ private:
     int normalTabID, calibrationTabID, focusTabID, guideTabID, alignTabID;
     CCDChip *primaryChip, *guideChip;
     TransferFormat transferFormat;
+    TelescopeType telescopeType = TELESCOPE_PRIMARY;
 
     QPointer<FITSViewer> fv;
     QPointer<ImageViewer> imageViewer;
