@@ -308,6 +308,8 @@ private slots:
     // Solver timeout
     void checkAlignmentTimeout();
 
+    void updateGuideScopeCCDs(bool toggled);
+
     // External View
     void showFITSViewer();
     void toggleAlignWidgetFullScreen();
@@ -511,6 +513,9 @@ private:
     QPoint correctionOffset;
     // Correction vector line between image center and expected point
     QLine correctionVector;
+
+    // CCDs using Guide Scope for parameters
+    QStringList guideScopeCCDs;
 };
 
 }
