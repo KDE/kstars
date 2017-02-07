@@ -303,7 +303,17 @@ bool SkyPoint::checkBendLight() {
     static const dms maxAngle( 1.75 * ( 30.0 / 200.0) / dms::DegToRad );
 
     if( !m_Sun )
-        m_Sun = (KSSun*) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
+    {
+        SkyComposite *skycomopsite = KStarsData::Instance()->skyComposite();
+
+        if (skycomopsite == NULL)
+            return false;
+
+        m_Sun = (KSSun*) skycomopsite->findByName( "Sun" );
+
+        if (m_Sun == NULL)
+            return false;
+    }
 
     // TODO: This can be optimized further. We only need a ballpark estimate of the distance to the sun to start with.
     return ( fabs( angularDistanceTo( static_cast<const SkyPoint *>(m_Sun) ).Degrees() ) <= maxAngle.Degrees() ); // NOTE: dynamic_cast is slow and not important here.
