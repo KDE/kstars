@@ -2371,17 +2371,25 @@ void Align::calculatePAHError()
     firstCelstialPolePoint.setY(firstPAHPoint.y() + firstCelstialPolePointOffset.y());
 
     // #5 Find Distance between PAH center points in the two images
-    double PAHPointsDistance = std::hypotf(secondPAHPoint.y()-firstPAHPoint.y(), secondPAHPoint.y()-firstPAHPoint.x());
+    double PAHPointsDistance = distance(firstPAHPoint, secondPAHPoint);
 
     // #6 Final Radius given angle of rotaion and distance. S = R * Theta (radians)
     double PAHPointRadius = PAHPointsDistance / (2 * M_PI * PAHRotationSpin->value());
 
-    QPair<QPointF, QPointF> RAAxisSolution;
+    QPair<QPointF, QPointF> RAAxisSolutions;
 
     // #7 Find Circle solutions from TWO Points and Radius for PAH Centers
-    //rc = findCircleSolutions()
+    CircleSolution PAHSolutionResult = findCircleSolutions(firstPAHPoint, secondPAHPoint, PAHPointRadius, RAAxisSolutions);
 
-    // #8 Find Circle solution from TWO Points and Radius for poles
+    // #8 Find Distance between celestial pole points in the two images
+    double CelestialPolesDistance = distance(firstCelstialPolePoint, secondCelestialPolePoint);
+
+    // #9 Find Radius given angle of rotation and distance.
+    double CelestialPointRadius = CelestialPolesDistance / (2 * M_PI * PAHRotationSpin->value());
+
+    // #10 Find Circle solution from TWO Points and Radius for poles
+    QPair<QPointF, QPointF> CelestialPolesSolutions;
+    CircleSolution CelestialPoleSolutionResult = findCircleSolutions(firstCelstialPolePoint, secondCelestialPolePoint, CelestialPointRadius, CelestialPolesSolutions);
 
     // #9 Find ONE solution that matches the two above (RA Axis Center)
 
@@ -2536,6 +2544,63 @@ void Align::updateGuideScopeCCDs(bool toggled)
     Options::setGuideScopeCCDs(guideScopeCCDs);
 
     syncTelescopeInfo();
+}
+
+// Function adapted from https://rosettacode.org/wiki/Circles_of_given_radius_through_two_points
+Align::CircleSolution Align::findCircleSolutions(const QPointF & p1, const QPointF p2, double radius, QPair<QPointF,QPointF> circleSolutions)
+{
+    QPointF solutionOne(1,1), solutionTwo(1,1);
+
+    if (p1 == p2)
+    {
+        if (radius == 0)
+        {
+            circleSolutions = qMakePair(p1, p2);
+            appendLogText(i18n("Only one solution is found."));
+            return ONE_CIRCLE_SOLUTION;
+        }
+        else
+        {
+            circleSolutions = qMakePair(solutionOne, solutionTwo);
+            appendLogText(i18n("Infinite number of solutions found."));
+            return INFINITE_CIRCLE_SOLUTION;
+        }
+    }
+
+    QPointF center( p1.x()/2 + p2.x()/2, p1.y() + p2.y());
+
+    double halfDistance = distance(center, p1);
+
+    if (halfDistance > radius)
+    {
+        circleSolutions = qMakePair(solutionOne, solutionTwo);
+        appendLogText(i18n("No solution is found. Points are too far away"));
+        return NO_CIRCLE_SOLUTION;
+    }
+
+    if (halfDistance - radius == 0)
+    {
+        circleSolutions = qMakePair(center, solutionTwo);
+        appendLogText(i18n("Only one solution is found."));
+        return ONE_CIRCLE_SOLUTION;
+    }
+
+    double root = std::hypotf(radius, halfDistance) / distance (p1, p2);
+
+    solutionOne.setX(center.x() + root * (p1.y() - p2.y()));
+    solutionOne.setY(center.y() + root * (p2.x() - p1.x()));
+
+    solutionTwo.setX(center.x() - root * (p1.y() - p2.y()));
+    solutionTwo.setY(center.y() - root * (p2.x() - p1.x()));
+
+    circleSolutions = qMakePair(solutionOne, solutionTwo);
+
+    return TWO_CIRCLE_SOLUTION;
+}
+
+double Align::distance(const QPointF & p1, const QPointF & p2)
+{
+    return std::hypotf(p2.x()-p1.x(), p2.y()-p2.y());
 }
 
 }

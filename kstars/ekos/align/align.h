@@ -65,6 +65,8 @@ public:
     typedef enum { PAH_IDLE, PAH_FIRST_CAPTURE, PAH_ROTATE, PAH_SECOND_CAPTURE, PAH_STAR_SELECT, PAH_PRE_REFRESH, PAH_REFRESH, PAH_ERROR } PAHStage;
     typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
 
+    enum CircleSolution { NO_CIRCLE_SOLUTION, ONE_CIRCLE_SOLUTION, TWO_CIRCLE_SOLUTION, INFINITE_CIRCLE_SOLUTION };
+
     /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
      * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net
     */
@@ -399,6 +401,10 @@ private:
      * @brief processPAHStage After solver is complete, handle PAH Stage processing
      */
     void processPAHStage(double orientation, double ra, double dec, double pixscale);
+
+    CircleSolution findCircleSolutions(const QPointF & p1, const QPointF p2, double radius, QPair<QPointF,QPointF> circleSolutions);
+
+    double distance(const QPointF & p1, const QPointF & p2);
 
     // Which chip should we invoke in the current CCD?
     bool useGuideHead;
