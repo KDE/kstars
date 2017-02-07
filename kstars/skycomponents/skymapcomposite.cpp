@@ -221,6 +221,8 @@ void SkyMapComposite::update(KSNumbers *num )
     m_Supernovae->update(num);
     //15. Horizon
     m_Horizon->update( num );
+    //16. Flags
+    m_Flags->update(num);
 }
 
 void SkyMapComposite::updateSolarSystemBodies(KSNumbers *num )

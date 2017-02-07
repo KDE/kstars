@@ -99,7 +99,9 @@ void FlagComponent::loadFromFile() {
         SkyPoint* flagPoint = new SkyPoint( r, d );
 
         // Convert to JNow
-        toJNow(flagPoint, flagEntry.at( 2 ));
+        toJ2000(flagPoint, flagEntry.at( 2 ));
+
+        flagPoint->updateCoordsNow(KStarsData::Instance()->updateNum());
 
         pointList().append( flagPoint );
 
@@ -155,14 +157,20 @@ void FlagComponent::saveToFile() {
     }
 }
 
-void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
+void FlagComponent::add( const SkyPoint & flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
 
     //JM 2015-02-21: Insert original coords in list and convert skypint to JNow
-    m_EpochCoords.append(qMakePair(flagPoint->ra().Degrees(), flagPoint->dec().Degrees()));
+    // JM 2017-02-07: Discard above! We add RAW epoch coordinates to list.
+    // If not J2000, we convert to J2000
+    m_EpochCoords.append(qMakePair(flagPoint.ra().Degrees(), flagPoint.dec().Degrees()));
 
-    toJNow(flagPoint, epoch);
+    SkyPoint *newFlagPoint = new SkyPoint(flagPoint.ra(), flagPoint.dec());
 
-    pointList().append( flagPoint );
+    toJ2000(newFlagPoint, epoch);
+
+    newFlagPoint->updateCoordsNow(KStarsData::Instance()->updateNum());
+
+    pointList().append( newFlagPoint );
     m_Epoch.append( epoch );
 
     for(int i = 0; i<m_Names.size(); i++ ) {
@@ -176,7 +184,8 @@ void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QStr
 
 void FlagComponent::remove( int index ) {
     // check if flag of required index exists
-    if ( index > pointList().size() - 1 ) {
+    if ( index > pointList().size() - 1 )
+    {
         return;
     }
 
@@ -193,17 +202,22 @@ void FlagComponent::remove( int index ) {
 #endif
 }
 
-void FlagComponent::updateFlag( int index, SkyPoint *flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
-    if ( index > pointList().size() -1 ) {
+void FlagComponent::updateFlag( int index, const SkyPoint &flagPoint, QString epoch, QString image, QString label, QColor labelColor )
+{
+    if ( index > pointList().size() -1 )
         return;
-    }
-    delete pointList().at( index );
 
-    m_EpochCoords.replace(index, qMakePair(flagPoint->ra().Degrees(), flagPoint->dec().Degrees()));
+    SkyPoint *existingFlag = pointList().at( index );
 
-    toJNow(flagPoint, epoch);
+    existingFlag->setRA0(flagPoint.ra());
+    existingFlag->setDec0(flagPoint.dec());
 
-    pointList().replace( index, flagPoint);
+    // If epoch not J2000, to convert to J2000
+    toJ2000(existingFlag, epoch);
+
+    existingFlag->updateCoordsNow(KStarsData::Instance()->updateNum());
+
+    m_EpochCoords.replace(index, qMakePair(flagPoint.ra().Degrees(), flagPoint.dec().Degrees()));
 
     m_Epoch.replace( index, epoch );
 
@@ -314,12 +328,19 @@ QImage FlagComponent::imageList( int index ) {
     return m_Images.at( index );
 }
 
-void FlagComponent::toJNow(SkyPoint *p, QString epoch)
+void FlagComponent::toJ2000(SkyPoint *p, QString epoch)
 {
     KStarsDateTime dt;
     dt.setFromEpoch(epoch);
 
-    p->apparentCoord(dt.djd(), KStarsData::Instance()->ut().djd());
+    if (dt.djd() == J2000)
+        return;
+
+    p->apparentCoord(dt.djd(), J2000);
+
+    // Store J2000 coords in RA0, DEC0
+    p->setRA0(p->ra());
+    p->setDec0(p->dec());
 }
 
 QPair<double, double> FlagComponent::epochCoords(int index)
@@ -330,4 +351,17 @@ QPair<double, double> FlagComponent::epochCoords(int index)
     }
 
     return m_EpochCoords.at(index);
+}
+
+void FlagComponent::update( KSNumbers *num )
+{
+    if ( ! selected() )
+        return;
+    KStarsData *data = KStarsData::Instance();
+    foreach ( SkyPoint *p, pointList() )
+    {
+        if (num)
+            p->updateCoordsNow(num);
+        p->EquatorialToHorizontal(data->lst(), data->geo()->lat() );
+    }
 }

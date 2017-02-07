@@ -55,13 +55,15 @@ public:
 
     virtual bool selected();
 
+    virtual void update( KSNumbers *num=0 );
+
     /** @short Add a flag.
-     * @param SkyPoint Reference to the SkyPoint used to store coordinates
+     * @param SkyPoint Sky point in epoch coordinates
      * @param epoch Moment for which celestial coordinates are specified
      * @param image Image name
      * @param label Label of the flag
      */
-    void add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor );
+    void add( const SkyPoint & flagPoint, QString epoch, QString image, QString label, QColor labelColor );
 
     /** @short Remove a flag.
      * @param index Index of the flag to be remove.
@@ -70,13 +72,12 @@ public:
 
     /** @short Update a flag.
       *@param index index of the flag to be updated.
-      *@param flagPoint new flag point.
       *@param epoch new flag epoch.
       *@param image new flag image.
       *@param label new flag label.
       *@param labelColor new flag label color.
       */
-    void updateFlag ( int index, SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor );
+    void updateFlag(int index, const SkyPoint &flagPoint, QString epoch, QString image, QString label, QColor labelColor );
 
     /** @short Return image names.
      * @return the list of all image names
@@ -149,7 +150,8 @@ public:
     void saveToFile();
 
 private:
-    void toJNow(SkyPoint *p, QString epoch);
+    // Convert from given epoch to J2000. If epoch is already J2000, do nothing
+    void toJ2000(SkyPoint *p, QString epoch);
 
     QStringList                     m_Epoch;        /**< List of epochs                  */
     QList<QPair<double, double>>    m_EpochCoords;  /**< RA/DEC stored in original Epoch */
