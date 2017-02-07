@@ -40,10 +40,10 @@ bool AlignView::createWCSFile(const QString & newWCSFile, double orientation, do
     return imageData->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
 }
 
-void AlignView::setCorrectionParams(QLine line, QPoint center)
+void AlignView::setCorrectionParams(QLineF line)
 {
     correctionLine   = line;
-    correctionCenter = center;
+    correctionCenter = line.p2();
 
     markerCrosshair.setX(correctionCenter.x());
     markerCrosshair.setY(correctionCenter.y());
@@ -51,12 +51,12 @@ void AlignView::setCorrectionParams(QLine line, QPoint center)
     updateFrame();
 }
 
-void AlignView::setCorrectionOffset(QPoint newOffset)
+void AlignView::setCorrectionOffset(QPointF newOffset)
 {
     if (newOffset.isNull() == false)
     {
-        int offsetX = newOffset.x() - imageData->getWidth()/2;
-        int offsetY = newOffset.y() - imageData->getHeight()/2;
+        double offsetX = newOffset.x() - imageData->getWidth()/2;
+        double offsetY = newOffset.y() - imageData->getHeight()/2;
 
         correctionOffset.setX(offsetX);
         correctionOffset.setY(offsetY);

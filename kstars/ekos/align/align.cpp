@@ -217,7 +217,9 @@ Align::Align()
     connect(PAHDoneB, SIGNAL(clicked()), this, SLOT(setPAHRefreshComplete()));
 
     if (solverOptions->text().contains("no-fits2fits"))
-        appendLogText(i18n("Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));        
+        appendLogText(i18n("Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));
+
+    hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? NORTH_HEMISPHERE : SOUTH_HEMISPHERE;
 }
 
 Align::~Align()
@@ -829,7 +831,7 @@ void Align::setCaptureComplete()
 
     if (pahStage == PAH_REFRESH)
     {
-        alignView->setCorrectionParams(correctionVector, correctionExpectedPoint);
+        alignView->setCorrectionParams(correctionVector);
         if (correctionOffset.isNull() == false)
             alignView->setCorrectionOffset(correctionOffset);
 
@@ -881,7 +883,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
                     solverArgs[i+1] = QString::number(KStarsData::Instance()->lst()->Degrees());
                 // DE. +90 for Northern hemisphere. -90 for southern hemisphere
                 else if (solverArgs[i] == "-4")
-                    solverArgs[i+1] = QString::number(KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 90 : -90);
+                    solverArgs[i+1] = QString::number(hemisphere == NORTH_HEMISPHERE ? 90 : -90);
             }
         }
     }
@@ -1474,7 +1476,6 @@ void Align::executePolarAlign()
 void Align::measureAzError()
 {
     static double initRA=0, initDEC=0, finalRA=0, finalDEC=0, initAz=0;
-    int hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 0 : 1;
 
     if (pahStage != PAH_IDLE &&
         (KMessageBox::warningContinueCancel(KStars::Instance(),
@@ -1492,7 +1493,7 @@ void Align::measureAzError()
 
         // Display message box confirming user point scope near meridian and south
 
-        if (KMessageBox::warningContinueCancel( 0, hemisphere == 0
+        if (KMessageBox::warningContinueCancel( 0, hemisphere == NORTH_HEMISPHERE
                                                    ? i18n("Point the telescope at the southern meridian. Press continue when ready.")
                                                    : i18n("Point the telescope at the northern meridian. Press continue when ready.")
                                                 , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
@@ -1681,8 +1682,6 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     double raMotion = finalRA - initRA;
     decDeviation = finalDEC - initDEC;
 
-    // Northern/Southern hemisphere
-    int hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? 0 : 1;
     // East/West of meridian
     int horizon    = (initAz > 0 && initAz <= 180) ? 0 : 1;
 
@@ -1703,7 +1702,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     switch (hemisphere)
     {
         // Northern hemisphere
-        case 0:
+        case NORTH_HEMISPHERE:
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
@@ -1739,7 +1738,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
         break;
 
         // Southern hemisphere
-        case 1:
+        case SOUTH_HEMISPHERE:
         if (azStage == AZ_FINISHED)
         {
             if (decDeviation > 0)
@@ -1780,7 +1779,7 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
 
     if (Options::alignmentLogging())
     {
-        qDebug() << "Polar Alignment: Hemisphere is " << ((hemisphere == 0) ? "North" : "South") << " --- initAz " << initAz;
+        qDebug() << "Polar Alignment: Hemisphere is " << ((hemisphere == NORTH_HEMISPHERE) ? "North" : "South") << " --- initAz " << initAz;
         qDebug() << "Polar Alignment: initRA " << initRA << " initDEC " << initDEC << " finalRA " << finalRA << " finalDEC " << finalDEC;
         qDebug() << "Polar Alignment: decDeviation " << decDeviation*3600 << " arcsec " << " RATime " << RATime << " minutes";
         qDebug() << "Polar Alignment: Raw Deviaiton " << deviation << " degrees.";
@@ -2266,11 +2265,10 @@ void Align::restartPAHProcess()
 
     PAHWidgets->setCurrentWidget(PAHIntroPage);
 
-    correctionVector = QLine();
-    correctionOffset = QPoint();
-    correctionExpectedPoint = QPoint();
+    correctionVector = QLineF();
+    correctionOffset = QPointF();
 
-    alignView->setCorrectionParams(correctionVector, correctionExpectedPoint);
+    alignView->setCorrectionParams(correctionVector);
     alignView->setCorrectionOffset(correctionOffset);
 
     disconnect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
@@ -2285,10 +2283,8 @@ void Align::rotatePAH()
 
     double raDiff = PAHRotationSpin->value();
 
-    int hemisphere = (KStarsData::Instance()->geo()->lat()->Degrees() > 0) ? 0 : -1;
-
     // North
-    if (hemisphere == 0)
+    if (hemisphere == NORTH_HEMISPHERE)
     {
         // West
         if (PAHWestMeridianR->isChecked())
@@ -2336,6 +2332,63 @@ void Align::rotatePAH()
 
 void Align::calculatePAHError()
 {
+    FITSData *imageData = alignView->getImageData();
+    double width = imageData->getWidth();
+    double height= imageData->getHeight();
+
+    // #1 In the SECOND image, the Second PAH center (solution center coordinates) is located smack in the center of the image
+    secondPAHPoint.setX(width/2.0);
+    secondPAHPoint.setY(height/2.0);
+
+    // #2 Find where the FIRST PAH Center is located within the reference frame of the SECOND image
+    QPointF imagePoint;
+
+    bool rc = imageData->wcsToPixel(firstPAHCenter, firstPAHPoint, imagePoint);
+
+    if (rc == false)
+    {
+        appendLogText(i18n("Failed to locate the first center coordinates within the second frame."));
+        restartPAHProcess();
+        return;
+    }
+
+    // #3 Find Second Celestial Pole in the SECOND Image
+    // Find Celstial pole location
+    SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
+
+    rc = imageData->wcsToPixel(CP, secondCelestialPolePoint, imagePoint);
+
+    if (rc == false)
+    {
+        appendLogText(i18n("Failed to locate celestial pole. Move mount closer to the celestial pole and try again."));
+        restartPAHProcess();
+        return;
+    }
+
+    // #4 Find First Celestial Pole in the SECOND image reference frame
+    // AdjustedFirstCelestialPole = AdjustedFirstPAHPoint + firstCelstialPolePointOffset
+    firstCelstialPolePoint.setX(firstPAHPoint.x() + firstCelstialPolePointOffset.x());
+    firstCelstialPolePoint.setY(firstPAHPoint.y() + firstCelstialPolePointOffset.y());
+
+    // #5 Find Distance between PAH center points in the two images
+    double PAHPointsDistance = std::hypotf(secondPAHPoint.y()-firstPAHPoint.y(), secondPAHPoint.y()-firstPAHPoint.x());
+
+    // #6 Final Radius given angle of rotaion and distance. S = R * Theta (radians)
+    double PAHPointRadius = PAHPointsDistance / (2 * M_PI * PAHRotationSpin->value());
+
+    QPair<QPointF, QPointF> RAAxisSolution;
+
+    // #7 Find Circle solutions from TWO Points and Radius for PAH Centers
+    //rc = findCircleSolutions()
+
+    // #8 Find Circle solution from TWO Points and Radius for poles
+
+    // #9 Find ONE solution that matches the two above (RA Axis Center)
+
+    // #10 Find Vector from the ONE solutoin above and secondCelestialPolePoint
+
+    // #11 This is the correction vector!! Done ... or so I think!!
+
 #if 0
     double ra0 = expectedPAHCenter.ra0().Degrees();
     double de0 = expectedPAHCenter.dec0().Degrees();
@@ -2379,7 +2432,7 @@ void Align::calculatePAHError()
  #endif
 }
 
-void Align::setPAHCorrectionOffset(int x, int y)
+void Align::setPAHCorrectionOffset(double x, double y)
 {
     correctionOffset.setX(x);
     correctionOffset.setY(y);
@@ -2418,36 +2471,34 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     QString newWCSFile = tmpFile.fileName();
     tmpFile.close();
 
+    double width = alignView->getImageData()->getWidth();
+    double height= alignView->getImageData()->getHeight();
+
     if (pahStage == PAH_FIRST_CAPTURE)
     {
         alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
 
-        // Set PAH Center
+        // Set First PAH Center
         firstPAHCenter.setRA0(alignCoord.ra0());
         firstPAHCenter.setDec0(alignCoord.dec0());
 
-        QPoint pixelPoint, imagePoint;
+        // Find Celstial pole location
+        SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
+
         FITSData *imageData = alignView->getImageData();
+        QPointF imagePoint;
 
-        // TODO Maybe use QPointF instead for more accuracy?
-        bool rc = imageData->wcsToPixel(firstPAHCenter, pixelPoint, imagePoint);
-
-        if (rc == false)
-        {
-            appendLogText(i18n("Failed to process WCS data in file. Capture again."));
-            return;
-        }
-
-        // TODO: Search for Celestial pole from WCS Info? Can it be reliable? or manual search? how close?
-        SkyPoint NCP(0, 90);
-
-        rc = imageData->wcsToPixel(NCP, pixelPoint, imagePoint);
+        bool rc = imageData->wcsToPixel(CP, firstCelstialPolePoint, imagePoint);
 
         if (rc == false)
         {
-            appendLogText(i18n("Warning: Celestial pole is not located within the image. Please adjust the mount until the celestial pole is close to the center."));
+            appendLogText(i18n("Failed to locate celestial pole. Move mount closer to the celestial pole and try again."));
             return;
         }
+
+        // Find offset between Image Center and Celestial Pole
+        firstCelstialPolePointOffset.setX(firstCelstialPolePoint.x()-width/2.0);
+        firstCelstialPolePointOffset.setY(firstCelstialPolePoint.y()-height/2.0);
 
         pahStage = PAH_ROTATE;
         PAHWidgets->setCurrentWidget(PAHRotatePage);
@@ -2456,13 +2507,14 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     {
         alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
 
+        // Set Second PAH Center
         secondPAHCenter.setRA0(alignCoord.ra0());
         secondPAHCenter.setDec0(alignCoord.dec0());
 
-        pahStage = PAH_STAR_SELECT;
-        PAHWidgets->setCurrentWidget(PAHCorrectionPage);
-
         calculatePAHError();
+
+        pahStage = PAH_STAR_SELECT;
+        PAHWidgets->setCurrentWidget(PAHCorrectionPage);       
     }
 }
 

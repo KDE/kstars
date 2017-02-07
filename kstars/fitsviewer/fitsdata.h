@@ -176,8 +176,28 @@ public:
     bool loadWCS();
     bool hasWCS() { return HasWCS; }
     wcs_point *getWCSCoord()  { return wcs_coord; }
-    bool wcsToPixel(SkyPoint &wcsCoord, QPoint &wcsPixelPoint, QPoint &wcsImagePoint);
-    /* Update WCS header with new data. Overwrites existing data if present */
+
+    /**
+     * @brief wcsToPixel Given J2000 (RA0,DE0) coordinates. Find in the image the corresponding pixel (XY Image) and image (XY FITS) location
+     * XY FITS are the format FITS Standard location in which the (0,0) point is BOTTOM, LEFT so the Y axis increses from bottom to up.
+     * XY Image are the regular image pixel coordinates in which (0,0) point is TOP, LEFT so the Y axis increase from up to bottom.
+     * @param wcsCoord Coordinates of target
+     * @param wcsPixelPoint Return XY Image coordinates
+     * @param wcsImagePoint Return XY FITS coordinates
+     * @return True if conversion is successfull, false otherwise.
+     */
+    bool wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint);
+
+    /**
+     * @brief createWCSFile Create a new FITS file given the WCS information supplied. Construct the necessary WCS keywords and save the
+     * new file as the current active file
+     * @param newWCSFile New file name
+     * @param orientation Solver orientation, degrees E of N.
+     * @param ra J2000 Right Ascension
+     * @param dec J2000 Declination
+     * @param pixscale Pixel scale in arcsecs per pixel
+     * @return  True if file is successfully created and saved, false otherwise.
+     */
     bool createWCSFile(const QString & newWCSFile, double orientation, double ra, double dec, double pixscale);
 
     // Debayer
