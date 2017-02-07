@@ -63,6 +63,7 @@ public:
     typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
     typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE} SolverType;
     typedef enum { PAH_IDLE, PAH_FIRST_CAPTURE, PAH_ROTATE, PAH_SECOND_CAPTURE, PAH_STAR_SELECT, PAH_PRE_REFRESH, PAH_REFRESH, PAH_ERROR } PAHStage;
+    typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
 
     /** @defgroup AlignDBusInterface Ekos DBus Interface - Align Module
      * Ekos::Align interface provides advanced scripting capabilities to solve images using online or offline astrometry.net
@@ -318,7 +319,7 @@ private slots:
     void startPAHProcess();
     void restartPAHProcess();
     void rotatePAH();
-    void setPAHCorrectionOffset(int x, int y);
+    void setPAHCorrectionOffset(double x, double y);
     void setPAHCorrectionSelectionComplete();
     void startPAHRefreshProcess();
     void setPAHRefreshComplete();
@@ -507,15 +508,18 @@ private:
     // Polar Alignment Helper
     PAHStage pahStage;
     SkyPoint firstPAHCenter, expectedPAHCenter, secondPAHCenter;
-    // Expected position of center in image after rotation
-    QPoint correctionExpectedPoint;
+    // Points of interest within the image
+    QPointF firstPAHPoint, secondPAHPoint, firstCelstialPolePoint, firstCelstialPolePointOffset, secondCelestialPolePoint;
     // User desired offset when selecting a bright star in the image
-    QPoint correctionOffset;
-    // Correction vector line between image center and expected point
-    QLine correctionVector;
+    QPointF correctionOffset;
+    // Correction vector line between mount RA Axis and celestial pole
+    QLineF correctionVector;
 
     // CCDs using Guide Scope for parameters
     QStringList guideScopeCCDs;
+
+    // Which hemisphere are we located on?
+    HemisphereType hemisphere;
 };
 
 }

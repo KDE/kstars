@@ -28,16 +28,16 @@ public:
     void drawOverlay(QPainter *) override;
 
     // Correction line
-    void setCorrectionParams(QLine line, QPoint center);
-    void setCorrectionOffset(QPoint newOffset);
+    void setCorrectionParams(QLineF line);
+    void setCorrectionOffset(QPointF newOffset);
 
 protected:
     void drawLine(QPainter *painter);
 
 private:
     // Correction Line
-    QLine correctionLine;
-    QPoint correctionCenter, correctionOffset;
+    QLineF correctionLine;
+    QPointF correctionCenter, correctionOffset;
 };
 
 #endif // ALIGNVIEW_H
