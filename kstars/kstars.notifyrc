@@ -701,7 +701,17 @@ Comment[x-test]=xxMount arrived at target locationxx
 Action=None
 [Event/MountAborted]
 Name=Mount Aborted
+Name[ca]=La muntura s'ha interromput
+Name[nl]=Opstellen afgebroken
+Name[pt]=Montagem Interrompida
+Name[uk]=Рух лафета перервано
+Name[x-test]=xxMount Abortedxx
 Comment=Mount motion was aborted
+Comment[ca]=El moviment de la muntura s'ha interromput
+Comment[nl]=Wijzigen opstellen afgebroken
+Comment[pt]=O movimento da montagem foi interrompido
+Comment[uk]=Рух лафета було перервано
+Comment[x-test]=xxMount motion was abortedxx
 Action=None
 [Event/MountParking]
 Name=Mount Parking
@@ -922,9 +932,24 @@ Name[x-test]=xxVideo Recording Stoppedxx
 Action=None
 [Event/MeridianFlipStarted]
 Name=Meridian Flip Started
+Name[ca]=S'ha iniciat la inversió del meridià
+Name[nl]=Meridiaanflip gestart
+Name[pt]=Inversão do Meridiano Iniciada
+Name[uk]=Розпочато перехід за меридіаном
+Name[x-test]=xxMeridian Flip Startedxx
 Action=None
 [Event/MeridianFlipCompleted]
 Name=Meridian Flip Completed
+Name[ca]=S'ha completat la inversió del meridià
+Name[nl]=Meridiaanflip voltooid
+Name[pt]=Inversão do Meridiano Completa
+Name[uk]=Перехід за меридіаном завершено
+Name[x-test]=xxMeridian Flip Completedxx
 Action=None
 [Event/MeridianFlipFailed]
 Name=Meridian Flip Failed
+Name[ca]=La inversió del meridià ha fallat
+Name[nl]=Meridiaanflip mislukt
+Name[pt]=Inversão do Meridiano sem Sucesso
+Name[uk]=Помилка переходу за меридіаном
+Name[x-test]=xxMeridian Flip Failedxx
