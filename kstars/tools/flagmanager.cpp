@@ -206,13 +206,13 @@ void FlagManager::deleteFlagItem( int flagIdx ) {
 
 void FlagManager::slotAddFlag() {
     dms ra( ui->raBox->createDms( false) ); //false means expressed in hours
-    dms dec( ui->decBox->createDms( true ) );
-    SkyPoint* flagPoint = new SkyPoint( ra, dec );
+    dms dec( ui->decBox->createDms( true ) );    
 
     insertFlag( true );
 
     FlagComponent *flags = m_Ks->data()->skyComposite()->flags();
     //Add flag in FlagComponent
+    SkyPoint flagPoint( ra, dec );
     flags->add( flagPoint, ui->epochBox->text(), ui->flagCombobox->currentText(), ui->flagLabel->text(), ui->labelColorcombo->color() );
 
     ui->flagList->selectRow( m_Model->rowCount() - 1 );
@@ -304,7 +304,7 @@ void FlagManager::slotSaveChanges() {
     dms ra( ui->raBox->createDms( false) ); //false means expressed in hours
     dms dec( ui->decBox->createDms( true ) );
 
-    SkyPoint* flagPoint = new SkyPoint( ra, dec );
+    SkyPoint flagPoint( ra, dec );
 
     //Update FlagComponent
     m_Ks->data()->skyComposite()->flags()->updateFlag( row, flagPoint, ui->epochBox->text(), ui->flagCombobox->currentText(),
