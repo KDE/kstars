@@ -179,6 +179,12 @@ public:
      */
     bool isParserOK();
 
+    /**
+     * @brief syncGuideScopeCCDs When TELESCOPE_TYPE is first defined by the CCD driver, update its value given the current state of useGuideScope checkbox
+     * If checked, we set TELESCOPE_TYPE to GUIDE, otherwise it is set to PRIMARY
+     */
+    void syncGuideScopeCCDs();
+
     // Log
     QString getLogText() { return logText.join("\n"); }
     void clearLog();
@@ -402,7 +408,7 @@ private:
      */
     void processPAHStage(double orientation, double ra, double dec, double pixscale);
 
-    CircleSolution findCircleSolutions(const QPointF & p1, const QPointF p2, double radius, QPair<QPointF,QPointF> circleSolutions);
+    CircleSolution findCircleSolutions(const QPointF & p1, const QPointF p2, double angle, QPair<QPointF,QPointF> & circleSolutions);
 
     double distance(const QPointF & p1, const QPointF & p2);
 
@@ -514,6 +520,7 @@ private:
     // Polar Alignment Helper
     PAHStage pahStage;
     SkyPoint firstPAHCenter, expectedPAHCenter, secondPAHCenter;
+    double firstOrientation, secondOrientation;
     // Points of interest within the image
     QPointF firstPAHPoint, secondPAHPoint, firstCelstialPolePoint, firstCelstialPolePointOffset, secondCelestialPolePoint;
     // User desired offset when selecting a bright star in the image

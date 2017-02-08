@@ -2352,12 +2352,14 @@ void Align::calculatePAHError()
         return;
     }
 
-    // #3 Find Second Celestial Pole in the SECOND Image
-    // Find Celstial pole location
+    // #3 Find EXPECTED center in the SECOND image
+    QPointF expectedPAHPoint;
+
+    rc = imageData->wcsToPixel(expectedPAHCenter, expectedPAHPoint, imagePoint);
+
+    // #4 Find Second Celestial Pole in the SECOND Image
     SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
-
     rc = imageData->wcsToPixel(CP, secondCelestialPolePoint, imagePoint);
-
     if (rc == false)
     {
         appendLogText(i18n("Failed to locate celestial pole. Move mount closer to the celestial pole and try again."));
@@ -2365,31 +2367,24 @@ void Align::calculatePAHError()
         return;
     }
 
-    // #4 Find First Celestial Pole in the SECOND image reference frame
-    // AdjustedFirstCelestialPole = AdjustedFirstPAHPoint + firstCelstialPolePointOffset
+    // #4 Find Circle solutions from TWO Points and Radius for PAH Centers
+    QPair<QPointF, QPointF> RAAxisSolutions;
+    CircleSolution PAHSolutionResult = findCircleSolutions(firstPAHPoint, secondPAHPoint, PAHRotationSpin->value(), RAAxisSolutions);
+
+
+    // Center offset from second image to first
+    QPointF centerOffset = secondPAHPoint - firstPAHPoint;
+
+    //firstCelstialPolePoint.setX(firstPAHPoint.x() + firstCelstialPolePointOffset.x() + centerOffset.x());
+    //firstCelstialPolePoint.setY(firstPAHPoint.y() + firstCelstialPolePointOffset.y() + centerOffset.y());
+
     firstCelstialPolePoint.setX(firstPAHPoint.x() + firstCelstialPolePointOffset.x());
     firstCelstialPolePoint.setY(firstPAHPoint.y() + firstCelstialPolePointOffset.y());
 
-    // #5 Find Distance between PAH center points in the two images
-    double PAHPointsDistance = distance(firstPAHPoint, secondPAHPoint);
+    QPair<QPointF, QPointF> CelestialPoleSolutions;
+    CircleSolution CelestialPoleSolutionsResult = findCircleSolutions(firstCelstialPolePoint, secondCelestialPolePoint, PAHRotationSpin->value(), CelestialPoleSolutions);
 
-    // #6 Final Radius given angle of rotaion and distance. S = R * Theta (radians)
-    double PAHPointRadius = PAHPointsDistance / (2 * M_PI * PAHRotationSpin->value());
-
-    QPair<QPointF, QPointF> RAAxisSolutions;
-
-    // #7 Find Circle solutions from TWO Points and Radius for PAH Centers
-    CircleSolution PAHSolutionResult = findCircleSolutions(firstPAHPoint, secondPAHPoint, PAHPointRadius, RAAxisSolutions);
-
-    // #8 Find Distance between celestial pole points in the two images
-    double CelestialPolesDistance = distance(firstCelstialPolePoint, secondCelestialPolePoint);
-
-    // #9 Find Radius given angle of rotation and distance.
-    double CelestialPointRadius = CelestialPolesDistance / (2 * M_PI * PAHRotationSpin->value());
-
-    // #10 Find Circle solution from TWO Points and Radius for poles
-    QPair<QPointF, QPointF> CelestialPolesSolutions;
-    CircleSolution CelestialPoleSolutionResult = findCircleSolutions(firstCelstialPolePoint, secondCelestialPolePoint, CelestialPointRadius, CelestialPolesSolutions);
+    int i=0;
 
     // #9 Find ONE solution that matches the two above (RA Axis Center)
 
@@ -2484,6 +2479,8 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
     if (pahStage == PAH_FIRST_CAPTURE)
     {
+        firstOrientation = orientation;
+
         alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
 
         // Set First PAH Center
@@ -2513,6 +2510,8 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     }
     else if (pahStage == PAH_SECOND_CAPTURE)
     {
+        secondOrientation = orientation;
+
         alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
 
         // Set Second PAH Center
@@ -2524,6 +2523,11 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         pahStage = PAH_STAR_SELECT;
         PAHWidgets->setCurrentWidget(PAHCorrectionPage);       
     }
+}
+
+void Align::syncGuideScopeCCDs()
+{
+    updateGuideScopeCCDs(useGuideScopeCheck->isChecked());
 }
 
 void Align::updateGuideScopeCCDs(bool toggled)
@@ -2547,13 +2551,15 @@ void Align::updateGuideScopeCCDs(bool toggled)
 }
 
 // Function adapted from https://rosettacode.org/wiki/Circles_of_given_radius_through_two_points
-Align::CircleSolution Align::findCircleSolutions(const QPointF & p1, const QPointF p2, double radius, QPair<QPointF,QPointF> circleSolutions)
-{
+Align::CircleSolution Align::findCircleSolutions(const QPointF & p1, const QPointF p2, double angle, QPair<QPointF, QPointF> &circleSolutions)
+{           
     QPointF solutionOne(1,1), solutionTwo(1,1);
+
+    double radius = distance(p1, p2) / (dms::DegToRad * angle);
 
     if (p1 == p2)
     {
-        if (radius == 0)
+        if (angle == 0)
         {
             circleSolutions = qMakePair(p1, p2);
             appendLogText(i18n("Only one solution is found."));
@@ -2567,7 +2573,7 @@ Align::CircleSolution Align::findCircleSolutions(const QPointF & p1, const QPoin
         }
     }
 
-    QPointF center( p1.x()/2 + p2.x()/2, p1.y() + p2.y());
+    QPointF center( p1.x()/2 + p2.x()/2, p1.y()/2 + p2.y()/2);
 
     double halfDistance = distance(center, p1);
 
