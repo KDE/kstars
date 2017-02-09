@@ -209,11 +209,11 @@ Align::Align()
     // PAH Connections
     connect(PAHRestartB, SIGNAL(clicked()), this, SLOT(restartPAHProcess()));
     connect(PAHStartB, SIGNAL(clicked()), this, SLOT(startPAHProcess()));
-    connect(PAHFirstCaptureB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
-    connect(PAHSecondCaptureB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
-    connect(PAHThirdCaptureB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
-    connect(PAHFirstRotateB, SIGNAL(clicked()), this, SLOT(rotatePAH()));
-    connect(PAHSecondRotateB, SIGNAL(clicked()), this, SLOT(rotatePAH()));
+    connect(PAHFirstCaptureB, &QPushButton::clicked, this, [this]() { PAHFirstCaptureB->setEnabled(false); captureAndSolve();});
+    connect(PAHSecondCaptureB, &QPushButton::clicked, this, [this]() { PAHSecondCaptureB->setEnabled(false); captureAndSolve();});
+    connect(PAHThirdCaptureB, &QPushButton::clicked, this, [this]() { PAHThirdCaptureB->setEnabled(false); captureAndSolve();});
+    connect(PAHFirstRotateB, &QPushButton::clicked, this, [this]() { PAHFirstRotateB->setEnabled(false); rotatePAH();});
+    connect(PAHSecondRotateB, &QPushButton::clicked, this, [this]() { PAHSecondRotateB->setEnabled(false); rotatePAH();});
     connect(PAHCorrectionsNextB, SIGNAL(clicked()), this, SLOT(setPAHCorrectionSelectionComplete()));
     connect(PAHRefreshB, SIGNAL(clicked()), this, SLOT(startPAHRefreshProcess()));
     connect(PAHDoneB, SIGNAL(clicked()), this, SLOT(setPAHRefreshComplete()));
@@ -229,6 +229,9 @@ Align::~Align()
     delete(pi);
     delete(solverFOV);
     delete(parser);
+
+    if (alignWidget->parent() == NULL)
+        toggleAlignWidgetFullScreen();
 
     // Remove temporary FITS files left before by the solver
     QDir dir(QDir::tempPath());
@@ -833,10 +836,6 @@ void Align::setCaptureComplete()
 
     if (pahStage == PAH_REFRESH)
     {
-        alignView->setCorrectionParams(correctionVector);
-        if (correctionOffset.isNull() == false)
-            alignView->setCorrectionOffset(correctionOffset);
-
         captureAndSolve();
         return;
     }
@@ -2218,7 +2217,6 @@ void Align::setCaptureStatus(CaptureState newState)
 void Align::showFITSViewer()
 {
     FITSData *data = alignView->getImageData();
-    data->setAutoRemoveTemporaryFITS(false);
 
     if (data)
     {
@@ -2229,9 +2227,15 @@ void Align::showFITSViewer()
             if (Options::singleWindowCapturedFITS())
                 fv = KStars::Instance()->genericFITSViewer();
             else
+            {
                 fv = new FITSViewer(Options::independentWindowFITS() ? NULL : KStars::Instance());
+                KStars::Instance()->getFITSViewersList().append(fv);
+            }
 
             fv->addFITS(&url);
+            FITSView *currentView = fv->getCurrentView();
+            if (currentView)
+                currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
         }
         else
             fv->updateFITS(&url, 0);
@@ -2273,7 +2277,12 @@ void Align::restartPAHProcess()
 {
     pahStage = PAH_IDLE;
 
-    PAHFirstCapturePage->setEnabled(true);
+    PAHFirstCaptureB->setEnabled(true);
+    PAHSecondCaptureB->setEnabled(true);
+    PAHThirdCaptureB->setEnabled(true);
+    PAHFirstRotateB->setEnabled(true);
+    PAHSecondRotateB->setEnabled(true);
+    PAHRefreshB->setEnabled(true);
 
     PAHWidgets->setCurrentWidget(PAHIntroPage);
 
@@ -2334,7 +2343,7 @@ void Align::rotatePAH()
 }
 
 void Align::calculatePAHError()
-{    
+{
     QVector3D RACircle;
 
     bool rc = findRACircle(RACircle);
@@ -2368,6 +2377,13 @@ void Align::calculatePAHError()
     RACenter.setDec(RACenter.dec0());
     dms polarError = RACenter.angularDistanceTo(&CP);
 
+    if (Options::alignmentLogging())
+    {
+        qDebug() << "Alignment: RA Axis Circle X: " << RACircle.x() << " Y: " << RACircle.y() << " Radius: " << RACircle.z();
+        qDebug() << "Alignment: RA Axis Location RA: " << RACenter.ra0().toHMSString() << "DE: " << RACenter.dec0().toDMSString();
+        qDebug() << "Alignment: RA Axis Offset: " << polarError.toDMSString();
+    }
+
     PAHErrorLabel->setText(polarError.toDMSString());
 
     correctionVector.setP1(RACenterPoint);
@@ -2397,6 +2413,8 @@ void Align::startPAHRefreshProcess()
 {
     pahStage = PAH_REFRESH;
 
+    PAHRefreshB->setEnabled(false);
+
     // We for refresh, just capture really
     captureAndSolve();
 }
@@ -2415,7 +2433,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     tmpFile.setAutoRemove(false);
     tmpFile.open();
     QString newWCSFile = tmpFile.fileName();
-    tmpFile.close();    
+    tmpFile.close();
 
     if (pahStage == PAH_FIRST_CAPTURE)
     {
@@ -2444,7 +2462,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         {
             appendLogText(i18n("Failed to locate celestial pole. Move mount closer to the celestial pole and try again."));
             return;
-        }        
+        }
 
         pahStage = PAH_FIRST_ROTATE;
         PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
@@ -2491,12 +2509,23 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         imageData->wcsToPixel(pahImageInfos[1]->skyCenter, pahImageInfos[1]->pixelCenter, imagePoint);
         imageData->wcsToPixel(pahImageInfos[2]->skyCenter, pahImageInfos[2]->pixelCenter, imagePoint);
 
+        if (Options::alignmentLogging())
+        {
+            qDebug() << "Alignment: P1 RA: " << pahImageInfos[0]->skyCenter.ra0().toHMSString() << "DE: " << pahImageInfos[0]->skyCenter.dec0().toDMSString();
+            qDebug() << "Alignment: P2 RA: " << pahImageInfos[1]->skyCenter.ra0().toHMSString() << "DE: " << pahImageInfos[1]->skyCenter.dec0().toDMSString();
+            qDebug() << "Alignment: P3 RA: " << pahImageInfos[2]->skyCenter.ra0().toHMSString() << "DE: " << pahImageInfos[2]->skyCenter.dec0().toDMSString();
+
+            qDebug() << "Alignment: P1 X: " << pahImageInfos[0]->pixelCenter.x() << "Y: " << pahImageInfos[0]->pixelCenter.y();
+            qDebug() << "Alignment: P2 X: " << pahImageInfos[1]->pixelCenter.x() << "Y: " << pahImageInfos[1]->pixelCenter.y();
+            qDebug() << "Alignment: P3 X: " << pahImageInfos[2]->pixelCenter.x() << "Y: " << pahImageInfos[2]->pixelCenter.y();
+        }
+
         // We have 3 points which uniquely defines a circle with its center representing the RA Axis
         // We have celestial pole location. So correction vector is just the vector between these two points
         calculatePAHError();
 
         pahStage = PAH_STAR_SELECT;
-        PAHWidgets->setCurrentWidget(PAHCorrectionPage);       
+        PAHWidgets->setCurrentWidget(PAHCorrectionPage);
     }
 }
 
@@ -2527,7 +2556,7 @@ void Align::updateGuideScopeCCDs(bool toggled)
 
 // Function adapted from https://rosettacode.org/wiki/Circles_of_given_radius_through_two_points
 Align::CircleSolution Align::findCircleSolutions(const QPointF & p1, const QPointF p2, double angle, QPair<QPointF, QPointF> &circleSolutions)
-{           
+{
     QPointF solutionOne(1,1), solutionTwo(1,1);
 
     double radius = distance(p1, p2) / (dms::DegToRad * angle);

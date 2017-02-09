@@ -29,7 +29,7 @@ AlignView::~AlignView()
 
 void AlignView::drawOverlay(QPainter *painter)
 {
-    painter->setOpacity(0.4);
+    painter->setOpacity(0.5);
     FITSView::drawOverlay(painter);
     painter->setOpacity(1);
 
@@ -48,10 +48,7 @@ bool AlignView::createWCSFile(const QString & newWCSFile, double orientation, do
 void AlignView::setCorrectionParams(QLineF line)
 {
     correctionLine   = line;
-    correctionCenter = line.p2();
-
-    markerCrosshair.setX(correctionCenter.x());
-    markerCrosshair.setY(correctionCenter.y());
+    markerCrosshair  = line.p2();
 
     updateFrame();
 }
@@ -59,15 +56,12 @@ void AlignView::setCorrectionParams(QLineF line)
 void AlignView::setCorrectionOffset(QPointF newOffset)
 {
     if (newOffset.isNull() == false)
-    {
-        double offsetX = newOffset.x() - imageData->getWidth()/2;
-        double offsetY = newOffset.y() - imageData->getHeight()/2;
-
-        correctionOffset.setX(offsetX);
-        correctionOffset.setY(offsetY);
-
-        markerCrosshair.setX(correctionCenter.x() + correctionOffset.x());
-        markerCrosshair.setY(correctionCenter.y() + correctionOffset.y());
+    {        
+        correctionOffset = newOffset;
+        QPointF offset = correctionOffset - correctionLine.p1();
+        QLineF  offsetLine = correctionLine;
+        offsetLine.translate(offset);
+        markerCrosshair = offsetLine.p2();
     }
     // Clear points
     else
@@ -85,23 +79,23 @@ void AlignView::drawLine(QPainter *painter)
     painter->setBrush( Qt::NoBrush );
     double zoomFactor = (currentZoom / ZOOM_DEFAULT);
 
-    int offsetX = 0, offsetY=0;
+    QLineF zoomedLine = correctionLine;
+    QPointF offset;
 
     if (correctionOffset.isNull() == false)
     {
-        offsetX = correctionOffset.x();
-        offsetY = correctionOffset.y();
+        offset = correctionOffset - correctionLine.p1();
     }
 
-    double x1 = (correctionLine.p1().x() + offsetX) * zoomFactor;
-    double y1 = (correctionLine.p1().y() + offsetY) * zoomFactor;
+    zoomedLine.translate(offset);
 
-    double x2 = (correctionLine.p2().x() + offsetX) * zoomFactor;
-    double y2 = (correctionLine.p2().y() + offsetY) * zoomFactor;
+    double x1 = zoomedLine.p1().x() * zoomFactor;
+    double y1 = zoomedLine.p1().y() * zoomFactor;
 
-    QLineF zoomedLine(x1, y1, x2, y2);
+    double x2 = zoomedLine.p2().x() * zoomFactor;
+    double y2 = zoomedLine.p2().y() * zoomFactor;
 
-    painter->drawLine(zoomedLine);
+    painter->drawLine(x1,y1,x2,y2);
 }
 
 void AlignView::drawCircle(QPainter *painter)
@@ -114,14 +108,20 @@ void AlignView::drawCircle(QPainter *painter)
     double zoomFactor = (currentZoom / ZOOM_DEFAULT);
 
     QPointF center(RACircle.x()*zoomFactor, RACircle.y() * zoomFactor);
+
+    // Big Radius
     double r = RACircle.z() * zoomFactor;
 
-    painter->drawEllipse(center, r/25.0, r/25.0);
-    painter->drawText((center.x()+5)*zoomFactor,(center.y()+5)*zoomFactor, i18n("RA Axis"));
+    // Small radius
+    double sr= r/25.0;
+
+    painter->drawEllipse(center, sr, sr);
     painter->drawEllipse(center, r, r);
+    pen.setColor(Qt::darkGreen);
+    painter->setPen(pen);
+    painter->drawText(center.x()+sr,center.y()+sr, i18n("RA Axis"));
 
 }
-
 
 void AlignView::setRACircle(const QVector3D &value)
 {

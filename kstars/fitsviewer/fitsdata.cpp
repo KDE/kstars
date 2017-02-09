@@ -110,7 +110,6 @@ FITSData::~FITSData()
 
         if (tempFile && autoRemoveTemporaryFITS)
             QFile::remove(filename);
-
     }
 }
 
@@ -2220,7 +2219,6 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint & wcsCoord)
     int nkeyrec, nreject, nwcs, stat[2];
     double imgcrd[2], phi, pixcrd[2], theta, world[2];
     struct wcsprm *wcs=0;
-    int height=getHeight();
 
     if (fits_hdr2str(fptr, 1, NULL, 0, &header, &nkeyrec, &status))
     {
