@@ -215,10 +215,8 @@ private:
     double stddev();
     void calculateMaxPixel(double min, double max);
     void initDisplayImage();
-    void drawEQGridline(QPainter *painter, wcs_point *wcs_coord, bool isRA, double targetRA);
-    void drawEQGridlineAtRA(QPainter *painter, wcs_point *wcs_coord, double targetRA);
-    void drawEQGridlineAtDec(QPainter *painter, wcs_point *wcs_coord, double targetRA);
-    bool pointIsNearWCSTargetPoint(wcs_point *wcs_coord, double target, int x, int y, bool isRA, bool vertical);
+
+    QVector<QPointF> eqGridPoints;
 
     FITSLabel *image_frame;
 
@@ -240,6 +238,9 @@ private:
     bool showEQGrid=false;
     bool showPixelGrid=false;
     bool starsSearched=false;
+
+    QPointF getPointForGridLabel();
+    bool pointIsInImage(QPointF pt, bool scaled);
 
     int mouseMode=1;
     bool zooming=false;

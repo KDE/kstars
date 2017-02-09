@@ -943,7 +943,6 @@ void FITSView::ZoomToFit()
 
 void FITSView::updateFrame()
 {
-
     QPixmap displayPixmap;
     bool ok=false;
 
@@ -1181,6 +1180,7 @@ to draw gridlines at those specific RA and Dec values.
  */
 
 void FITSView::drawEQGrid(QPainter *painter){
+    float scale=(currentZoom / ZOOM_DEFAULT);
 
    if (imageData->hasWCS())
        {
@@ -1203,124 +1203,182 @@ void FITSView::drawEQGrid(QPainter *painter){
                    if(dec<minDec)
                        minDec=dec;
                }
-               painter->setPen( QPen( Qt::yellow) );
+               int minDecMinutes=(int)(minDec*12);//This will force the Dec Scale to 5 arc minutes in the loop
+               int maxDecMinutes=(int)(maxDec*12);
 
-               if (maxDec>80){
-                   int minRAMinutes=(int)(minRA/15);//This will force the scale to whole hours of RA near the pole
-                   int maxRAMinutes=(int)(maxRA/15);
-                   for(int targetRA=minRAMinutes;targetRA<=maxRAMinutes;targetRA++)
-                       drawEQGridlineAtRA(painter,wcs_coord,targetRA*15);
-               }else{
-                   int minRAMinutes=(int)(minRA/15*60);//This will force the scale to whole minutes of RA
-                   int maxRAMinutes=(int)(maxRA/15*60);
-                   for(int targetRA=minRAMinutes;targetRA<=maxRAMinutes;targetRA++)
-                       drawEQGridlineAtRA(painter,wcs_coord,targetRA*15/60.0);
+               int minRAMinutes=(int)(minRA/15.0*120.0);//This will force the scale to 1/2 minutes of RA in the loop from 0 to 50 degrees
+               int maxRAMinutes=(int)(maxRA/15.0*120.0);
+
+               double raConvert =  15/120.0;//This will undo the calculation above to retrieve the actual RA.
+               double decConvert = 1.0/12.0;//This will undo the calculation above to retrieve the actual DEC.
+
+               if (maxDec>50||minDec<-50){
+                    minRAMinutes=(int)(minRA/15.0*60.0);//This will force the scale to 1 min of RA from 50 to 80 degrees
+                    maxRAMinutes=(int)(maxRA/15.0*60.0);
+                    raConvert=15/60.0;
                }
 
+               if (maxDec>80||minDec<-80){
+                    minRAMinutes=(int)(minRA/15.0*30);//This will force the scale to 2 min of RA from 80 to 85 degrees
+                    maxRAMinutes=(int)(maxRA/15.0*30);
+                    raConvert=15/30.0;
+               }
+               if (maxDec>85||minDec<-85){
+                    minRAMinutes=(int)(minRA/15.0*6);//This will force the scale to 10 min of RA from 85 to 89 degrees
+                    maxRAMinutes=(int)(maxRA/15.0*6);
+                    raConvert=15/6.0;
+               }
+               if (maxDec>=89.25||minDec<=-89.25){
+                    minRAMinutes=(int)(minRA/15);//This will force the scale to whole hours of RA in the loop really close to the poles
+                    maxRAMinutes=(int)(maxRA/15);
+                    raConvert=15;
+               }
 
-               int minDecMinutes=(int)(minDec*4);//This will force the Dec Scale to 15 arc minutes
-               int maxDecMinutes=(int)(maxDec*4);
-               for(int targetDec=minDecMinutes;targetDec<=maxDecMinutes;targetDec++)
-                    drawEQGridlineAtDec(painter,wcs_coord,targetDec/4.0);
+               painter->setPen( QPen( Qt::yellow) );
+
+               QPointF pixelPoint, imagePoint, pPoint;
+
+               //This section draws the RA Gridlines
+
+               for(int targetRA=minRAMinutes;targetRA<=maxRAMinutes;targetRA++){
+                   painter->setPen( QPen( Qt::yellow) );
+                   double target=targetRA*raConvert;
+
+                   if(eqGridPoints.count()!=0)
+                       eqGridPoints.clear();
+
+                   double increment=std::abs((maxDec-minDec)/100.0);  //This will determine how many points to use to create the RA Line
+
+                   for(double targetDec=minDec;targetDec<=maxDec;targetDec+=increment){
+                       SkyPoint pointToGet(target/15.0, targetDec);
+                       bool inImage = imageData->wcsToPixel(pointToGet, pixelPoint, imagePoint);
+                       if(inImage){
+                           QPointF pt(pixelPoint.x()*scale,pixelPoint.y()*scale);
+                           eqGridPoints.append(pt);
+                       }
+                   }
+
+                   if(eqGridPoints.count()>1){
+                       for(int i=1;i<eqGridPoints.count();i++)
+                            painter->drawLine(eqGridPoints.value(i-1),eqGridPoints.value(i));
+                       QPointF pt=getPointForGridLabel();
+                       if(pt.x()!=-100){
+                           if(maxDec>50||maxDec<-50)
+                               painter->drawText(pt.x(),pt.y(),QString::number(dms(target).hour())+"h "+QString::number(dms(target).minute())+"'");
+                           else
+                               painter->drawText(pt.x()-20,pt.y(),QString::number(dms(target).hour())+"h "+QString::number(dms(target).minute())+"' " + QString::number(dms(target).second())+"''");
+                       }
+                   }
+               }
+
+               //This section draws the DEC Gridlines
+
+               for(int targetDec=minDecMinutes;targetDec<=maxDecMinutes;targetDec++){
+
+                   if(eqGridPoints.count()!=0)
+                       eqGridPoints.clear();
+
+                   double increment=std::abs((maxRA-minRA)/100.0);  //This will determine how many points to use to create the Dec Line
+                    double target=targetDec*decConvert;
+
+                    for(double targetRA=minRA;targetRA<=maxRA;targetRA+=increment){
+                        SkyPoint pointToGet(targetRA/15, targetDec*decConvert);
+                        bool inImage = imageData->wcsToPixel(pointToGet, pixelPoint, imagePoint);
+                        if(inImage){
+                            QPointF pt(pixelPoint.x()*scale,pixelPoint.y()*scale);
+                            eqGridPoints.append(pt);
+                        }
+                    }
+                    if(eqGridPoints.count()>1){
+                        for(int i=1;i<eqGridPoints.count();i++)
+                             painter->drawLine(eqGridPoints.value(i-1),eqGridPoints.value(i));
+                        QPointF pt=getPointForGridLabel();
+                        if(pt.x()!=-100)
+                            painter->drawText(pt.x(),pt.y(),QString::number(dms(target).degree())+"° "+QString::number(dms(target).arcmin())+"'");
+                    }
+               }
+
+               //This Section Draws the North Celestial Pole if present
+               SkyPoint NCP(0,90);
+
+               bool NCPtest = imageData->wcsToPixel(NCP, pPoint, imagePoint);
+               if(NCPtest){
+                   bool NCPinImage=(pPoint.x()>0&&pPoint.x()<image_width)&&(pPoint.y()>0&&pPoint.y()<image_height);
+                   if(NCPinImage){
+                       painter->fillRect(pPoint.x()*scale-2,pPoint.y()*scale-2,4,4,Qt::red);
+                       painter->drawText(pPoint.x()*scale+20,pPoint.y()*scale+20, i18n("North Celestial Pole"));
+                   }
+               }
+
+               //This Section Draws the South Celestial Pole if present
+               SkyPoint SCP(0,-90);
+
+               bool SCPtest = imageData->wcsToPixel(SCP, pPoint, imagePoint);
+               if(SCPtest){
+                   bool SCPinImage=(pPoint.x()>0&&pPoint.x()<image_width)&&(pPoint.y()>0&&pPoint.y()<image_height);
+                   if(SCPinImage){
+                       painter->fillRect(pPoint.x()*scale-2,pPoint.y()*scale-2,4,4,Qt::red);
+                       painter->drawText(pPoint.x()*scale+20,pPoint.y()*scale+20, i18n("South Celestial Pole"));
+                   }
+               }
            }
        }
 }
 
-void FITSView::drawEQGridlineAtRA(QPainter *painter,wcs_point *wcs_coord, double target){
-    drawEQGridline(painter,wcs_coord,true,target);
-}
-
-void FITSView::drawEQGridlineAtDec(QPainter *painter,wcs_point *wcs_coord, double target){
-    drawEQGridline(painter,wcs_coord,false,target);
-}
-
-/**
-This method is intended to search all the sides of an image to locate two points that have the target
-RA or DEC value and then draw a gridLine connecting thost two points.  There should be exactly 2.
-If it fails to find two points, it just doesn't draw a line.  It makes heavy use of the helper method
-pointIsNearWCSTargetPoint to simplify the if statements, which is defined below.
- */
-
-void FITSView::drawEQGridline(QPainter *painter,wcs_point *wcs_coord, bool isRA, double target){
+bool FITSView::pointIsInImage(QPointF pt, bool scaled){
     float scale=(currentZoom / ZOOM_DEFAULT);
-    int num=0;
-    QPoint pt[2];
-    bool vertical=true;
-    //Search along top of image
-    for(int x=1;x<image_width-1;x++){
-        int y=1;
-        if(pointIsNearWCSTargetPoint(wcs_coord,target,x,y,isRA,!vertical)){
-            pt[num] = QPoint(x * scale,y * scale);
-            num++;
-            break;
-        }
-    }
-    //Search along left side of image
-    for(int y=1;y<image_height-1;y++){
-            int x=1;
-            if(pointIsNearWCSTargetPoint(wcs_coord,target,x,y,isRA,vertical)){
-                    pt[num] = QPoint(x * scale,y * scale);
-                    num++;
-                    break;
-
-            }
-    }
-    //Search along bottom of image
-    for(int x=1;x<image_width-1;x++){
-        int y=image_height-2;
-        if(pointIsNearWCSTargetPoint(wcs_coord,target,x,y,isRA,!vertical)){
-            pt[num] = QPoint(x * scale,y * scale);
-            num++;
-            break;
-        }
-    }
-    //Search along right side of image
-        for(int y=1;y<image_height-1;y++){
-            int x=image_width-2;
-            if(pointIsNearWCSTargetPoint(wcs_coord,target,x,y,isRA,vertical)){
-                    pt[num] = QPoint(x * scale,y * scale);
-                    num++;
-                    break;
-            }
-        }
-    if(num==2){
-        if(isRA)
-            painter->drawText(pt[1].x()-40,pt[1].y()-10,QString::number(dms(target).hour())+"h "+QString::number(dms(target).minute())+"'");
-        else
-            painter->drawText(pt[1].x()-40,pt[1].y()-10,QString::number(dms(target).degree())+"° "+QString::number(dms(target).arcmin())+"'");
-        painter->drawLine(pt[0],pt[1]);
-    }
-}
-
-/**
-This method is intended to help find the X,Y Coordinates of a certain RA or DEC in an image.
-Since the exact RA or DEC we are looking for probably does not match the exact RA or DEC for
-a specific pixel, we have to compare the RA or DEC that we are looking for to the RA and DEC
-in the WCS info of the surrounding pixels.  The method returns true if the position
- approximates the target RA or DEC.  To use the method, you need to specify the target number,
- whether you are looking horizontally or vertically, and whether you are looking at RA or DEC,
- in addition to giving the wcs_coord array and the x and y coordinates.
- */
-
-bool FITSView::pointIsNearWCSTargetPoint(wcs_point *wcs_coord, double target, int x, int y, bool isRA, bool vertical){
-    int i = x + y * image_width;
-    int shift;//The Number of index values to the next point to compare
-    if(vertical)
-        shift=image_width;//Vertically it is a full row to the next point
+    if(scaled)
+        return pt.x()<image_width*scale  && pt.y()<image_height*scale && pt.x()>0 && pt.y()>0;
     else
-        shift=1;//Horizontally it is the next point
-    double nextPoint;
-    double prevPoint;
-    if(isRA){
-        nextPoint=wcs_coord[i+shift].ra;
-        prevPoint=wcs_coord[i-shift].ra;
-    } else{
-        nextPoint=wcs_coord[i+shift].dec;
-        prevPoint=wcs_coord[i-shift].dec;
+        return pt.x()<image_width  && pt.y()<image_height && pt.x()>0 && pt.y()>0;
+}
+
+QPointF FITSView::getPointForGridLabel(){
+    float scale=(currentZoom / ZOOM_DEFAULT);
+
+    //These get the maximum X and Y points in the list that are in the image
+    QPointF maxXPt(image_width*scale/2,image_height*scale/2);
+    foreach(QPointF p, eqGridPoints){
+        if(p.x()>maxXPt.x()&&pointIsInImage(p,true))
+            maxXPt=p;
+    }
+    QPointF maxYPt(image_width*scale/2,image_height*scale/2);
+    foreach(QPointF p, eqGridPoints){
+        if(p.y()>maxYPt.y()&&pointIsInImage(p,true))
+            maxYPt=p;
+    }
+    QPointF minXPt(image_width*scale/2,image_height*scale/2);
+    foreach(QPointF p, eqGridPoints){
+        if(p.x()<minXPt.x()&&pointIsInImage(p,true))
+            minXPt=p;
+    }
+    QPointF minYPt(image_width*scale/2,image_height*scale/2);
+    foreach(QPointF p, eqGridPoints){
+        if(p.y()<minYPt.y()&&pointIsInImage(p,true))
+            minYPt=p;
     }
 
-   return (target>nextPoint&&target<prevPoint)||(target>prevPoint&&target<nextPoint);
+    //This gives preferene to points that are on the right hand side and bottom.
+    //But if the line doesn't intersect the right or bottom, it then tries for the top and left.
+    //If no points are found in the image, it returns a point off the screen
+    //If all else fails, like in the case of a circle on the image, it returns the far right point.
+
+    if(image_width*scale-maxXPt.x()<10){
+        return QPointF(image_width*scale-50,maxXPt.y()-10);  //This will draw the text on the right hand side, up and to the left of the point where the line intersects
+    }
+    if(image_height*scale-maxYPt.y()<10)
+        return QPointF(maxYPt.x()-40,image_height*scale-10); //This will draw the text on the bottom side, up and to the left of the point where the line intersects
+    if(minYPt.y()*scale<30)
+        return QPointF(minYPt.x()+10,20);//This will draw the text on the top side, down and to the right of the point where the line intersects
+    if(minXPt.x()*scale<30)
+        return QPointF(10,minXPt.y()+20); //This will draw the text on the left hand side, down and to the right of the point where the line intersects
+    if(maxXPt.x()==image_width*scale/2&&maxXPt.y()==image_height*scale/2)
+        return QPointF(-100,-100);  //All of the points were off the screen
+
+    return QPoint(maxXPt.x()-40,maxXPt.y()-10);
+
 }
+
 
 void FITSView::setFirstLoad(bool value)
 {
