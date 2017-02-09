@@ -29,7 +29,12 @@ AlignView::~AlignView()
 
 void AlignView::drawOverlay(QPainter *painter)
 {
+    painter->setOpacity(0.4);
     FITSView::drawOverlay(painter);
+    painter->setOpacity(1);
+
+    if (RACircle.isNull() == false)
+        drawCircle(painter);
 
     if (correctionLine.isNull() == false)
         drawLine(painter);
@@ -76,7 +81,7 @@ void AlignView::setCorrectionOffset(QPointF newOffset)
 
 void AlignView::drawLine(QPainter *painter)
 {
-    painter->setPen(QPen( Qt::yellow , 2));
+    painter->setPen(QPen( Qt::magenta , 2));
     painter->setBrush( Qt::NoBrush );
     double zoomFactor = (currentZoom / ZOOM_DEFAULT);
 
@@ -97,5 +102,30 @@ void AlignView::drawLine(QPainter *painter)
     QLineF zoomedLine(x1, y1, x2, y2);
 
     painter->drawLine(zoomedLine);
+}
+
+void AlignView::drawCircle(QPainter *painter)
+{
+    QPen pen(Qt::green);
+    pen.setWidth(2);
+    pen.setStyle(Qt::DashLine);
+    painter->setPen(pen);
+    painter->setBrush( Qt::NoBrush);
+    double zoomFactor = (currentZoom / ZOOM_DEFAULT);
+
+    QPointF center(RACircle.x()*zoomFactor, RACircle.y() * zoomFactor);
+    double r = RACircle.z() * zoomFactor;
+
+    painter->drawEllipse(center, r/25.0, r/25.0);
+    painter->drawText((center.x()+5)*zoomFactor,(center.y()+5)*zoomFactor, i18n("RA Axis"));
+    painter->drawEllipse(center, r, r);
+
+}
+
+
+void AlignView::setRACircle(const QVector3D &value)
+{
+    RACircle = value;
+    updateFrame();
 }
 

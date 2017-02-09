@@ -820,7 +820,7 @@
           </size>
          </property>
          <property name="title">
-          <string>Polar Alignment Helper (Experimental)</string>
+          <string>Polar Alignment Assistant (Beta)</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <property name="spacing">
@@ -928,7 +928,7 @@
               <item>
                <widget class="QLabel" name="label">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;An image shall now be captured and solved. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Capture&lt;/span&gt; to start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The assistant requires three images to find a solution. The first image shall now be captured and solved. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Capture&lt;/span&gt; to start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
@@ -964,7 +964,7 @@
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="PAHRotatePage">
+            <widget class="QWidget" name="PAHFirstRotatePage">
              <layout class="QVBoxLayout" name="verticalLayout_9">
               <property name="spacing">
                <number>3</number>
@@ -984,7 +984,7 @@
               <item>
                <widget class="QLabel" name="label_19">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select direction and range of mount rotation, then click &lt;span style=&quot; font-weight:600;&quot;&gt;Rotate&lt;/span&gt; to continue.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select direction and range of &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation, then click &lt;span style=&quot; font-weight:600;&quot;&gt;Rotate&lt;/span&gt; to continue.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
@@ -997,7 +997,7 @@
                  <number>3</number>
                 </property>
                 <item>
-                 <widget class="QRadioButton" name="PAHWestMeridianR">
+                 <widget class="QRadioButton" name="PAHFirstWestMeridianR">
                   <property name="text">
                    <string>West</string>
                   </property>
@@ -1007,14 +1007,14 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="PAHEastMeridianR">
+                 <widget class="QRadioButton" name="PAHFirstEastMeridianR">
                   <property name="text">
                    <string>East</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSpinBox" name="PAHRotationSpin">
+                 <widget class="QSpinBox" name="PAHFirstRotationSpin">
                   <property name="minimum">
                    <number>15</number>
                   </property>
@@ -1050,7 +1050,7 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="PAHRotateB">
+                 <widget class="QPushButton" name="PAHFirstRotateB">
                   <property name="text">
                    <string>Rotate</string>
                   </property>
@@ -1080,7 +1080,7 @@
               <item>
                <widget class="QLabel" name="label_20">
                 <property name="text">
-                 <string>Capture a second image to measure polar alignment error.</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The second image shall now be captured and solved. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Capture&lt;/span&gt; to start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
@@ -1107,6 +1107,128 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="PAHSecondCaptureB">
+                  <property name="text">
+                   <string>Capture</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="PAHSecondRotatePage">
+             <layout class="QVBoxLayout" name="verticalLayout_16">
+              <item>
+               <widget class="QLabel" name="label_27">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select direction and range of final mount rotation, then click &lt;span style=&quot; font-weight:600;&quot;&gt;Rotate&lt;/span&gt; to continue.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_17">
+                <property name="spacing">
+                 <number>3</number>
+                </property>
+                <item>
+                 <widget class="QRadioButton" name="PAHSecondWestMeridianR">
+                  <property name="text">
+                   <string>West</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="PAHSecondEastMeridianR">
+                  <property name="text">
+                   <string>East</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="PAHSecondRotationSpin">
+                  <property name="minimum">
+                   <number>15</number>
+                  </property>
+                  <property name="maximum">
+                   <number>60</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>15</number>
+                  </property>
+                  <property name="value">
+                   <number>30</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_25">
+                  <property name="text">
+                   <string>°</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_9">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="PAHSecondRotateB">
+                  <property name="text">
+                   <string>Rotate</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="PAHThirdCapturePage">
+             <layout class="QVBoxLayout" name="verticalLayout_17">
+              <item>
+               <widget class="QLabel" name="label_28">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The final image shall now be captured and solved. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Capture&lt;/span&gt; to start.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_18">
+                <property name="spacing">
+                 <number>3</number>
+                </property>
+                <item>
+                 <spacer name="horizontalSpacer_10">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="PAHThirdCaptureB">
                   <property name="text">
                    <string>Capture</string>
                   </property>
@@ -1185,7 +1307,7 @@
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Angle between expected perfectly aligned mount center and the actual center&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="text">
-                   <string>Displacement Angle</string>
+                   <string>Polar Error:</string>
                   </property>
                  </widget>
                 </item>

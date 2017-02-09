@@ -62,7 +62,7 @@ public:
     typedef enum { ALT_INIT, ALT_FIRST_TARGET, ALT_SYNCING, ALT_SLEWING, ALT_SECOND_TARGET, ALT_CORRECTING, ALT_FINISHED } ALTStage;
     typedef enum { GOTO_SYNC, GOTO_SLEW, GOTO_NOTHING } GotoMode;
     typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE} SolverType;
-    typedef enum { PAH_IDLE, PAH_FIRST_CAPTURE, PAH_ROTATE, PAH_SECOND_CAPTURE, PAH_STAR_SELECT, PAH_PRE_REFRESH, PAH_REFRESH, PAH_ERROR } PAHStage;
+    typedef enum { PAH_IDLE, PAH_FIRST_CAPTURE, PAH_FIRST_ROTATE, PAH_SECOND_CAPTURE, PAH_SECOND_ROTATE, PAH_THIRD_CAPTURE, PAH_STAR_SELECT, PAH_PRE_REFRESH, PAH_REFRESH, PAH_ERROR } PAHStage;
     typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
 
     enum CircleSolution { NO_CIRCLE_SOLUTION, ONE_CIRCLE_SOLUTION, TWO_CIRCLE_SOLUTION, INFINITE_CIRCLE_SOLUTION };
@@ -327,7 +327,7 @@ private slots:
     void startPAHProcess();
     void restartPAHProcess();
     void rotatePAH();
-    void setPAHCorrectionOffset(double x, double y);
+    void setPAHCorrectionOffset(int x, int y);
     void setPAHCorrectionSelectionComplete();
     void startPAHRefreshProcess();
     void setPAHRefreshComplete();
@@ -411,6 +411,9 @@ private:
     CircleSolution findCircleSolutions(const QPointF & p1, const QPointF p2, double angle, QPair<QPointF,QPointF> & circleSolutions);
 
     double distance(const QPointF & p1, const QPointF & p2);
+    bool findRACircle(QVector3D & RACircle);
+    bool isPerpendicular(const QPointF &p1, const QPointF &p2, const QPointF &p3);
+    bool calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, QVector3D &RACircle);
 
     // Which chip should we invoke in the current CCD?
     bool useGuideHead;
@@ -519,12 +522,20 @@ private:
 
     // Polar Alignment Helper
     PAHStage pahStage;
-    SkyPoint firstPAHCenter, expectedPAHCenter, secondPAHCenter;
-    double firstOrientation, secondOrientation;
-    // Points of interest within the image
-    QPointF firstPAHPoint, secondPAHPoint, firstCelstialPolePoint, firstCelstialPolePointOffset, secondCelestialPolePoint;
+
+    // Sky centers
+    typedef struct
+    {
+        SkyPoint skyCenter;
+        QPointF  pixelCenter;
+        double   pixelScale;
+        double   orientation;
+    } PAHImageInfo;
+
+    QVector<PAHImageInfo*> pahImageInfos;
+
     // User desired offset when selecting a bright star in the image
-    QPointF correctionOffset;
+    QPointF celestialPolePoint, correctionOffset;
     // Correction vector line between mount RA Axis and celestial pole
     QLineF correctionVector;
 
