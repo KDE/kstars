@@ -136,6 +136,7 @@ public:
 
     #ifdef HAVE_CFITSIO
     FITSViewer *genericFITSViewer();
+    QList<FITSViewer*> & getFITSViewersList() { return m_FITSViewers; }
     #endif
 
     #ifdef HAVE_INDI
@@ -684,6 +685,7 @@ private:
     EyepieceField *m_EyepieceView;
     #ifdef HAVE_CFITSIO
     QPointer<FITSViewer> m_GenericFITSViewer;
+    QList<FITSViewer*> m_FITSViewers;
     #endif
 
     #ifdef HAVE_INDI

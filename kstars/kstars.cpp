@@ -475,6 +475,8 @@ FITSViewer * KStars::genericFITSViewer()
     {
         m_GenericFITSViewer = new FITSViewer(Options::independentWindowFITS() ? NULL : this);
         m_GenericFITSViewer->setAttribute(Qt::WA_DeleteOnClose);
+
+        m_FITSViewers.append(m_GenericFITSViewer);
     }
 
     return m_GenericFITSViewer;

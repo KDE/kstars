@@ -286,6 +286,9 @@ void FITSViewer::changeAlwaysOnTop(Qt::ApplicationState state)
 
 FITSViewer::~FITSViewer()
 {
+    if (KStars::Instance())
+        KStars::Instance()->getFITSViewersList().removeOne(this);
+
     fitsTab->disconnect();
 
     qDeleteAll(fitsTabs);
@@ -320,7 +323,7 @@ void FITSViewer::hideEvent(QHideEvent * /*event*/)
         {
             QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
 
-            if (viewers.count() == 1)
+            if (viewers.count() <= 1)
                 a->setChecked(false);
         }
     }
