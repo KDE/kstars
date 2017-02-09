@@ -40,7 +40,7 @@ protected:
 private:
     // Correction Line
     QLineF correctionLine;
-    QPointF correctionCenter, correctionOffset;
+    QPointF correctionOffset;
     QVector3D RACircle;
 };
 
