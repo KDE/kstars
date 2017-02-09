@@ -1234,14 +1234,14 @@ void FITSView::drawEQGrid(QPainter *painter){
                     raConvert=15;
                }
 
-               painter->setPen( QPen( Qt::yellow) );
+               painter->setPen( QPen(Qt::yellow));
 
                QPointF pixelPoint, imagePoint, pPoint;
 
                //This section draws the RA Gridlines
 
                for(int targetRA=minRAMinutes;targetRA<=maxRAMinutes;targetRA++){
-                   painter->setPen( QPen( Qt::yellow) );
+                   painter->setPen( QPen(Qt::yellow ));
                    double target=targetRA*raConvert;
 
                    if(eqGridPoints.count()!=0)
@@ -1305,8 +1305,8 @@ void FITSView::drawEQGrid(QPainter *painter){
                if(NCPtest){
                    bool NCPinImage=(pPoint.x()>0&&pPoint.x()<image_width)&&(pPoint.y()>0&&pPoint.y()<image_height);
                    if(NCPinImage){
-                       painter->fillRect(pPoint.x()*scale-2,pPoint.y()*scale-2,4,4,Qt::red);
-                       painter->drawText(pPoint.x()*scale+20,pPoint.y()*scale+20, i18n("North Celestial Pole"));
+                       painter->fillRect(pPoint.x()*scale-2,pPoint.y()*scale-2,4,4, KStarsData::Instance()->colorScheme()->colorNamed("TargetColor"));
+                       painter->drawText(pPoint.x()*scale+15,pPoint.y()*scale+15, i18nc("North Celestial Pole", "NCP"));
                    }
                }
 
@@ -1317,8 +1317,8 @@ void FITSView::drawEQGrid(QPainter *painter){
                if(SCPtest){
                    bool SCPinImage=(pPoint.x()>0&&pPoint.x()<image_width)&&(pPoint.y()>0&&pPoint.y()<image_height);
                    if(SCPinImage){
-                       painter->fillRect(pPoint.x()*scale-2,pPoint.y()*scale-2,4,4,Qt::red);
-                       painter->drawText(pPoint.x()*scale+20,pPoint.y()*scale+20, i18n("South Celestial Pole"));
+                       painter->fillRect(pPoint.x()*scale-2,pPoint.y()*scale-2,4,4, KStarsData::Instance()->colorScheme()->colorNamed("TargetColor"));
+                       painter->drawText(pPoint.x()*scale+15,pPoint.y()*scale+15, i18nc("South Celestial Pole", "SCP"));
                    }
                }
            }
