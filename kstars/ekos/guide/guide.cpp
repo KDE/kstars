@@ -2162,9 +2162,15 @@ void Guide::showFITSViewer()
             if (Options::singleWindowCapturedFITS())
                 fv = KStars::Instance()->genericFITSViewer();
             else
+            {
                 fv = new FITSViewer(Options::independentWindowFITS() ? NULL : KStars::Instance());
+                KStars::Instance()->getFITSViewersList().append(fv);
+            }
 
             fv->addFITS(&url);
+            FITSView *currentView = fv->getCurrentView();
+            if (currentView)
+                currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
         }
         else
             fv->updateFITS(&url, 0);

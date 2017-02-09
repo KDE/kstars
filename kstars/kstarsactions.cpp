@@ -266,9 +266,7 @@ void KStars::slotINDIToolBar()
     }
     else if ( a == actionCollection()->action( "show_fits_viewer" ) )
     {
-       QList<FITSViewer *> viewers = findChildren<FITSViewer *>();
-
-       if (viewers.isEmpty())
+       if (m_FITSViewers.isEmpty())
        {
            a->setEnabled(false);
            return;
@@ -276,16 +274,19 @@ void KStars::slotINDIToolBar()
 
        if (a->isChecked())
        {
-           foreach(FITSViewer *view, viewers)
+           foreach(FITSViewer *view, m_FITSViewers)
            {
-               view->raise();
-               view->activateWindow();
-               view->showNormal();
+               if (view->getTabs().empty() == false)
+               {
+                   view->raise();
+                   view->activateWindow();
+                   view->showNormal();
+               }
            }
        }
        else
        {
-           foreach(FITSViewer *view, viewers)
+           foreach(FITSViewer *view, m_FITSViewers)
            {
                view->hide();
            }

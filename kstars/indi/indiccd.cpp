@@ -1402,14 +1402,19 @@ void CCD::processBLOB(IBLOB* bp)
         // If there is no FITSViewer, create it. Unless it is a dedicated Focus or Guide frame
         // then no need for a FITS Viewer as they get displayed inside Ekos
         if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode()){
-            if (fv.isNull() && targetChip->getCaptureMode() != FITS_GUIDE && targetChip->getCaptureMode() != FITS_FOCUS)
+            if (fv.isNull() && targetChip->getCaptureMode() != FITS_GUIDE
+                            && targetChip->getCaptureMode() != FITS_FOCUS
+                            && targetChip->getCaptureMode() != FITS_ALIGN)
             {
                 normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
 
                 if (Options::singleWindowCapturedFITS())
                     fv = KStars::Instance()->genericFITSViewer();
                 else
+                {
                     fv = new FITSViewer(Options::independentWindowFITS() ? NULL : KStars::Instance());
+                    KStars::Instance()->getFITSViewersList().append(fv);
+                }
 
                 //connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
                 //connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
