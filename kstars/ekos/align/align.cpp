@@ -211,7 +211,9 @@ Align::Align()
     connect(PAHStartB, SIGNAL(clicked()), this, SLOT(startPAHProcess()));
     connect(PAHFirstCaptureB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
     connect(PAHSecondCaptureB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
-    connect(PAHRotateB, SIGNAL(clicked()), this, SLOT(rotatePAH()));
+    connect(PAHThirdCaptureB, SIGNAL(clicked()), this, SLOT(captureAndSolve()));
+    connect(PAHFirstRotateB, SIGNAL(clicked()), this, SLOT(rotatePAH()));
+    connect(PAHSecondRotateB, SIGNAL(clicked()), this, SLOT(rotatePAH()));
     connect(PAHCorrectionsNextB, SIGNAL(clicked()), this, SLOT(setPAHCorrectionSelectionComplete()));
     connect(PAHRefreshB, SIGNAL(clicked()), this, SLOT(startPAHRefreshProcess()));
     connect(PAHDoneB, SIGNAL(clicked()), this, SLOT(setPAHRefreshComplete()));
@@ -1213,15 +1215,25 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
             if (slew_dirty && Options::solverUpdateCoords())
                 copyCoordsToBoxes();
 
-            if (slew_dirty && pahStage == PAH_ROTATE)
+            if (slew_dirty && pahStage == PAH_FIRST_ROTATE)
             {
                 slew_dirty = false;
 
-                appendLogText(i18n("Mount rotation is complete."));
+                appendLogText(i18n("Mount first rotation is complete."));
 
                 pahStage = PAH_SECOND_CAPTURE;
 
                 PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
+            }
+            else if (slew_dirty && pahStage == PAH_SECOND_ROTATE)
+            {
+                slew_dirty = false;
+
+                appendLogText(i18n("Mount second rotation is complete."));
+
+                pahStage = PAH_THIRD_CAPTURE;
+
+                PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
             }
 
             switch (state)
@@ -2265,29 +2277,29 @@ void Align::restartPAHProcess()
 
     PAHWidgets->setCurrentWidget(PAHIntroPage);
 
+    qDeleteAll(pahImageInfos);
+    pahImageInfos.clear();
+
     correctionVector = QLineF();
     correctionOffset = QPointF();
 
     alignView->setCorrectionParams(correctionVector);
     alignView->setCorrectionOffset(correctionOffset);
+    alignView->setRACircle(QVector3D());
 
     disconnect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
 }
 
 void Align::rotatePAH()
 {
-    expectedPAHCenter.setRA0(alignCoord.ra0());
-    expectedPAHCenter.setDec0(alignCoord.dec0());
-
-    double ra0 = expectedPAHCenter.ra0().Degrees();
-
-    double raDiff = PAHRotationSpin->value();
+    double raDiff = (pahStage == PAH_FIRST_ROTATE) ? PAHFirstRotationSpin->value() : PAHSecondRotationSpin->value();
+    bool westMeridian = (pahStage == PAH_FIRST_ROTATE) ? PAHFirstWestMeridianR->isChecked() : PAHSecondWestMeridianR->isChecked();
 
     // North
     if (hemisphere == NORTH_HEMISPHERE)
     {
         // West
-        if (PAHWestMeridianR->isChecked())
+        if (westMeridian)
             raDiff *= -1;
         // East
         else
@@ -2297,21 +2309,12 @@ void Align::rotatePAH()
     else
     {
         // West
-        if (PAHWestMeridianR->isChecked())
+        if (westMeridian)
             raDiff *= 1;
         // East
         else
             raDiff *= -1;
     }
-
-    // This is we expect the center of the image after the rotation assuming a PERFECT polar alignment
-    // RA only changes by the rotation amount
-    // DE remains as well in a perfectly aligned mount.
-    expectedPAHCenter.setRA0((ra0+raDiff)/15.0);
-
-    if (Options::alignmentLogging())
-        qDebug() << "Alignment: Expected J2000 coordinates after rotation RA (" << expectedPAHCenter.ra0().toHMSString()
-                 << ") DE (" << expectedPAHCenter.dec0().toDMSString() << ")";
 
     SkyPoint targetPAH;
 
@@ -2331,111 +2334,51 @@ void Align::rotatePAH()
 }
 
 void Align::calculatePAHError()
-{
+{    
+    QVector3D RACircle;
+
+    bool rc = findRACircle(RACircle);
+
+    if (rc == false)
+    {
+        appendLogText(i18n("Failed to find a solution. Try again."));
+        restartPAHProcess();
+        return;
+    }
+
+    if (alignView->isEQGridShown() == false)
+        alignView->toggleEQGrid();
+    alignView->setRACircle(RACircle);
+
     FITSData *imageData = alignView->getImageData();
-    double width = imageData->getWidth();
-    double height= imageData->getHeight();
 
-    // #1 In the SECOND image, the Second PAH center (solution center coordinates) is located smack in the center of the image
-    secondPAHPoint.setX(width/2.0);
-    secondPAHPoint.setY(height/2.0);
-
-    // #2 Find where the FIRST PAH Center is located within the reference frame of the SECOND image
-    QPointF imagePoint;
-
-    bool rc = imageData->wcsToPixel(firstPAHCenter, firstPAHPoint, imagePoint);
+    QPointF RACenterPoint(RACircle.x(), RACircle.y());
+    SkyPoint RACenter;
+    rc = imageData->pixelToWCS(RACenterPoint, RACenter);
 
     if (rc == false)
     {
-        appendLogText(i18n("Failed to locate the first center coordinates within the second frame."));
-        restartPAHProcess();
+        appendLogText(i18n("Failed to find RA Axis center."));
         return;
     }
 
-    // #3 Find EXPECTED center in the SECOND image
-    QPointF expectedPAHPoint;
-
-    rc = imageData->wcsToPixel(expectedPAHCenter, expectedPAHPoint, imagePoint);
-
-    // #4 Find Second Celestial Pole in the SECOND Image
     SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
-    rc = imageData->wcsToPixel(CP, secondCelestialPolePoint, imagePoint);
-    if (rc == false)
-    {
-        appendLogText(i18n("Failed to locate celestial pole. Move mount closer to the celestial pole and try again."));
-        restartPAHProcess();
-        return;
-    }
 
-    // #4 Find Circle solutions from TWO Points and Radius for PAH Centers
-    QPair<QPointF, QPointF> RAAxisSolutions;
-    CircleSolution PAHSolutionResult = findCircleSolutions(firstPAHPoint, secondPAHPoint, PAHRotationSpin->value(), RAAxisSolutions);
+    RACenter.setRA(RACenter.ra0());
+    RACenter.setDec(RACenter.dec0());
+    dms polarError = RACenter.angularDistanceTo(&CP);
 
+    PAHErrorLabel->setText(polarError.toDMSString());
 
-    // Center offset from second image to first
-    QPointF centerOffset = secondPAHPoint - firstPAHPoint;
+    correctionVector.setP1(RACenterPoint);
+    correctionVector.setP2(celestialPolePoint);
 
-    //firstCelstialPolePoint.setX(firstPAHPoint.x() + firstCelstialPolePointOffset.x() + centerOffset.x());
-    //firstCelstialPolePoint.setY(firstPAHPoint.y() + firstCelstialPolePointOffset.y() + centerOffset.y());
-
-    firstCelstialPolePoint.setX(firstPAHPoint.x() + firstCelstialPolePointOffset.x());
-    firstCelstialPolePoint.setY(firstPAHPoint.y() + firstCelstialPolePointOffset.y());
-
-    QPair<QPointF, QPointF> CelestialPoleSolutions;
-    CircleSolution CelestialPoleSolutionsResult = findCircleSolutions(firstCelstialPolePoint, secondCelestialPolePoint, PAHRotationSpin->value(), CelestialPoleSolutions);
-
-    int i=0;
-
-    // #9 Find ONE solution that matches the two above (RA Axis Center)
-
-    // #10 Find Vector from the ONE solutoin above and secondCelestialPolePoint
-
-    // #11 This is the correction vector!! Done ... or so I think!!
-
-#if 0
-    double ra0 = expectedPAHCenter.ra0().Degrees();
-    double de0 = expectedPAHCenter.dec0().Degrees();
-
-    double ra1 = secondPAHCenter.ra0().Degrees();
-    double de1 = secondPAHCenter.dec0().Degrees();
-
-    double diffRA = ra0 - ra1;
-    double diffDE = de0 - de1;
-
-    double diff = sqrt(diffRA*diffRA + diffDE*diffDE);
-
-    dms diffAngle;
-    diffAngle.setD(diff);
-
-    PAHErrorLabel->setText(diffAngle.toDMSString());
-
-    FITSData *fitsData = alignView->getImageData();
-
-    // World to Pixel conversion
-    bool rc = fitsData->wcsToPixel(expectedPAHCenter, correctionExpectedPoint);
-
-    if (rc == false)
-    {
-        // Do something here
-    }
-
-    // Center point in image
-    QPoint centerPoint;
-
-    centerPoint.setX(fitsData->getWidth()/2);
-    centerPoint.setY(fitsData->getHeight()/2);
-
-    correctionVector.setP1(centerPoint);
-    correctionVector.setP2(correctionExpectedPoint);
-
-    alignView->setCorrectionParams(correctionVector, correctionExpectedPoint);
+    alignView->setCorrectionParams(correctionVector);
 
     connect(alignView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setPAHCorrectionOffset(int,int)));
-
- #endif
 }
 
-void Align::setPAHCorrectionOffset(double x, double y)
+void Align::setPAHCorrectionOffset(int x, int y)
 {
     correctionOffset.setX(x);
     correctionOffset.setY(y);
@@ -2472,20 +2415,68 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     tmpFile.setAutoRemove(false);
     tmpFile.open();
     QString newWCSFile = tmpFile.fileName();
-    tmpFile.close();
-
-    double width = alignView->getImageData()->getWidth();
-    double height= alignView->getImageData()->getHeight();
+    tmpFile.close();    
 
     if (pahStage == PAH_FIRST_CAPTURE)
     {
-        firstOrientation = orientation;
-
         alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
 
         // Set First PAH Center
-        firstPAHCenter.setRA0(alignCoord.ra0());
-        firstPAHCenter.setDec0(alignCoord.dec0());
+        PAHImageInfo *solution = new PAHImageInfo();
+        solution->skyCenter.setRA0(alignCoord.ra0());
+        solution->skyCenter.setDec0(alignCoord.dec0());
+        solution->orientation = orientation;
+        solution->pixelScale  = pixscale;
+
+        pahImageInfos.append(solution);
+
+        // Find Celstial pole location
+        SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
+
+        FITSData *imageData = alignView->getImageData();
+        QPointF pixelPoint, imagePoint;
+
+        bool rc = imageData->wcsToPixel(CP, pixelPoint, imagePoint);
+
+        // TODO check if pixelPoint is located TOO far from the current position as well
+        // i.e. if X > Width * 2..etc
+        if (rc == false)
+        {
+            appendLogText(i18n("Failed to locate celestial pole. Move mount closer to the celestial pole and try again."));
+            return;
+        }        
+
+        pahStage = PAH_FIRST_ROTATE;
+        PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
+    }
+    else if (pahStage == PAH_SECOND_CAPTURE)
+    {
+        alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+
+        // Set 2nd PAH Center
+        PAHImageInfo *solution = new PAHImageInfo();
+        solution->skyCenter.setRA0(alignCoord.ra0());
+        solution->skyCenter.setDec0(alignCoord.dec0());
+        solution->orientation = orientation;
+        solution->pixelScale  = pixscale;
+
+        pahImageInfos.append(solution);
+
+        pahStage = PAH_SECOND_ROTATE;
+        PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
+    }
+    else if (pahStage == PAH_THIRD_CAPTURE)
+    {
+        alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+
+        // Set Third PAH Center
+        PAHImageInfo *solution = new PAHImageInfo();
+        solution->skyCenter.setRA0(alignCoord.ra0());
+        solution->skyCenter.setDec0(alignCoord.dec0());
+        solution->orientation = orientation;
+        solution->pixelScale  = pixscale;
+
+        pahImageInfos.append(solution);
 
         // Find Celstial pole location
         SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
@@ -2493,31 +2484,15 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         FITSData *imageData = alignView->getImageData();
         QPointF imagePoint;
 
-        bool rc = imageData->wcsToPixel(CP, firstCelstialPolePoint, imagePoint);
+        imageData->wcsToPixel(CP, celestialPolePoint, imagePoint);
 
-        if (rc == false)
-        {
-            appendLogText(i18n("Failed to locate celestial pole. Move mount closer to the celestial pole and try again."));
-            return;
-        }
+        // Now find pixel locations for all recorded center coordinates in the 3rd frame reference
+        imageData->wcsToPixel(pahImageInfos[0]->skyCenter, pahImageInfos[0]->pixelCenter, imagePoint);
+        imageData->wcsToPixel(pahImageInfos[1]->skyCenter, pahImageInfos[1]->pixelCenter, imagePoint);
+        imageData->wcsToPixel(pahImageInfos[2]->skyCenter, pahImageInfos[2]->pixelCenter, imagePoint);
 
-        // Find offset between Image Center and Celestial Pole
-        firstCelstialPolePointOffset.setX(firstCelstialPolePoint.x()-width/2.0);
-        firstCelstialPolePointOffset.setY(firstCelstialPolePoint.y()-height/2.0);
-
-        pahStage = PAH_ROTATE;
-        PAHWidgets->setCurrentWidget(PAHRotatePage);
-    }
-    else if (pahStage == PAH_SECOND_CAPTURE)
-    {
-        secondOrientation = orientation;
-
-        alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
-
-        // Set Second PAH Center
-        secondPAHCenter.setRA0(alignCoord.ra0());
-        secondPAHCenter.setDec0(alignCoord.dec0());
-
+        // We have 3 points which uniquely defines a circle with its center representing the RA Axis
+        // We have celestial pole location. So correction vector is just the vector between these two points
         calculatePAHError();
 
         pahStage = PAH_STAR_SELECT;
@@ -2606,9 +2581,110 @@ Align::CircleSolution Align::findCircleSolutions(const QPointF & p1, const QPoin
 
 double Align::distance(const QPointF & p1, const QPointF & p2)
 {
-    return std::hypotf(p2.x()-p1.x(), p2.y()-p2.y());
+    return std::hypotf(p2.x()-p1.x(), p2.y()-p1.y());
 }
 
+bool Align::findRACircle(QVector3D & RACircle)
+{
+    bool rc = false;
+
+    QPointF p1 = pahImageInfos[0]->pixelCenter;
+    QPointF p2 = pahImageInfos[1]->pixelCenter;
+    QPointF p3 = pahImageInfos[2]->pixelCenter;
+
+    if (!isPerpendicular(p1, p2, p3))
+        rc = calcCircle(p1, p2, p3, RACircle);
+    else if (!isPerpendicular(p1, p3, p2) )
+        rc = calcCircle(p1, p3, p2, RACircle);
+    else if (!isPerpendicular(p2, p1, p3) )
+        rc = calcCircle(p2, p1, p3, RACircle);
+    else if (!isPerpendicular(p2, p3, p1) )
+        rc = calcCircle(p2, p3, p1, RACircle);
+    else if (!isPerpendicular(p3, p2, p1) )
+        rc = calcCircle(p3, p2, p1, RACircle);
+    else if (!isPerpendicular(p3, p1, p2) )
+        rc = calcCircle(p3, p1, p2, RACircle);
+    else {
+        //TRACE("\nThe three pts are perpendicular to axis\n");
+        return false;
+         }
+
+    return rc;
+}
+
+bool Align::isPerpendicular(const QPointF &p1, const QPointF &p2, const QPointF &p3)
+// Check the given point are perpendicular to x or y axis
+{
+    double yDelta_a= p2.y() - p1.y();
+    double xDelta_a= p2.x() - p1.x();
+    double yDelta_b= p3.y() - p2.y();
+    double xDelta_b= p3.x() - p2.x();
+
+
+    // checking whether the line of the two pts are vertical
+    if (fabs(xDelta_a) <= 0.000000001 && fabs(yDelta_b) <= 0.000000001)
+    {
+        //TRACE("The points are pependicular and parallel to x-y axis\n");
+        return false;
+    }
+
+    if (fabs(yDelta_a) <= 0.0000001)
+    {
+        //TRACE(" A line of two point are perpendicular to x-axis 1\n");
+        return true;
+    }
+    else if (fabs(yDelta_b) <= 0.0000001)
+    {
+        //TRACE(" A line of two point are perpendicular to x-axis 2\n");
+        return true;
+    }
+    else if (fabs(xDelta_a)<= 0.000000001)
+    {
+        //TRACE(" A line of two point are perpendicular to y-axis 1\n");
+        return true;
+    }
+    else if (fabs(xDelta_b)<= 0.000000001)
+    {
+        //TRACE(" A line of two point are perpendicular to y-axis 2\n");
+        return true;
+    }
+    else
+        return false;
+}
+
+bool Align::calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, QVector3D & RACircle)
+{
+    double yDelta_a= p2.y() - p1.y();
+    double xDelta_a= p2.x() - p1.x();
+    double yDelta_b= p3.y() - p2.y();
+    double xDelta_b= p3.x() - p2.x();
+
+    if (fabs(xDelta_a) <= 0.000000001 && fabs(yDelta_b) <= 0.000000001)
+    {
+        RACircle.setX(0.5*(p2.x() + p3.x()));
+        RACircle.setY(0.5*(p1.y() + p2.y()));
+        QPointF center(RACircle.x(), RACircle.y());
+        RACircle.setZ(distance(center,p1));
+        return true;
+    }
+
+    // IsPerpendicular() assure that xDelta(s) are not zero
+    double aSlope=yDelta_a/xDelta_a; //
+    double bSlope=yDelta_b/xDelta_b;
+    if (fabs(aSlope-bSlope) <= 0.000000001)
+    {	// checking whether the given points are colinear.
+        //TRACE("The three ps are colinear\n");
+        return false;
+    }
+
+    // calc center
+    RACircle.setX((aSlope*bSlope*(p1.y() - p3.y()) + bSlope*(p1.x() + p2.x()) - aSlope*(p2.x()+p3.x()) )/(2* (bSlope-aSlope) ) );
+    RACircle.setY(-1*(RACircle.x() - (p1.x()+p2.x())/2)/aSlope +  (p1.y()+p2.y())/2 );
+    QPointF center(RACircle.x(), RACircle.y());
+
+    RACircle.setZ(distance(center,p1));
+    return true;
 }
 
 
+}

@@ -178,15 +178,21 @@ public:
     wcs_point *getWCSCoord()  { return wcs_coord; }
 
     /**
-     * @brief wcsToPixel Given J2000 (RA0,DE0) coordinates. Find in the image the corresponding pixel (XY Image) and image (XY FITS) location
-     * XY FITS are the format FITS Standard location in which the (0,0) point is BOTTOM, LEFT so the Y axis increses from bottom to up.
-     * XY Image are the regular image pixel coordinates in which (0,0) point is TOP, LEFT so the Y axis increase from up to bottom.
+     * @brief wcsToPixel Given J2000 (RA0,DE0) coordinates. Find in the image the corresponding pixel coordinates.
      * @param wcsCoord Coordinates of target
-     * @param wcsPixelPoint Return XY Image coordinates
-     * @param wcsImagePoint Return XY FITS coordinates
+     * @param wcsPixelPoint Return XY FITS coordinates
+     * @param wcsImagePoint Return XY Image coordinates
      * @return True if conversion is successfull, false otherwise.
      */
     bool wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint);
+
+    /**
+     * @brief pixelToWCS Convert Pixel coordinates to J2000 world coordinates
+     * @param wcsPixelPoint Pixel coordinates in XY Image space.
+     * @param wcsCoord Store back WCS world coordinate in wcsCoord
+     * @return True if successful, false otherwise.
+     */
+    bool pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint & wcsCoord);
 
     /**
      * @brief createWCSFile Create a new FITS file given the WCS information supplied. Construct the necessary WCS keywords and save the

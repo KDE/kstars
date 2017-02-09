@@ -31,13 +31,17 @@ public:
     void setCorrectionParams(QLineF line);
     void setCorrectionOffset(QPointF newOffset);
 
+    void setRACircle(const QVector3D &value);
+
 protected:
     void drawLine(QPainter *painter);
+    void drawCircle(QPainter *painter);
 
 private:
     // Correction Line
     QLineF correctionLine;
     QPointF correctionCenter, correctionOffset;
+    QVector3D RACircle;
 };
 
 #endif // ALIGNVIEW_H

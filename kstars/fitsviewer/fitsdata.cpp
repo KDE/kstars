@@ -2196,12 +2196,76 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
         return false;
     }
 
-    wcsImagePoint.setX(pixcrd[0]);
-    wcsImagePoint.setY(pixcrd[1]);
+    wcsImagePoint.setX(imgcrd[0]);
+    wcsImagePoint.setY(imgcrd[0]);
 
     wcsPixelPoint.setX(pixcrd[0]);
-    double height = getHeight();
-    wcsPixelPoint.setY(height - pixcrd[1]);
+    wcsPixelPoint.setY(pixcrd[1]);
+
+    return true;
+
+#endif
+#endif
+
+    return false;
+}
+
+bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint & wcsCoord)
+{
+#ifndef KSTARS_LITE
+#ifdef HAVE_WCSLIB
+
+    int status=0;
+    char *header;
+    int nkeyrec, nreject, nwcs, stat[2];
+    double imgcrd[2], phi, pixcrd[2], theta, world[2];
+    struct wcsprm *wcs=0;
+    int height=getHeight();
+
+    if (fits_hdr2str(fptr, 1, NULL, 0, &header, &nkeyrec, &status))
+    {
+        fits_report_error(stderr, status);
+        return false;
+    }
+
+    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
+    {
+        free(header);
+        fprintf(stderr, "wcspih ERROR %d: %s.\n", status, wcshdr_errmsg[status]);
+        return false;
+    }
+
+    free(header);
+
+    if (wcs == 0)
+    {
+        //fprintf(stderr, "No world coordinate systems found.\n");
+        return false;
+    }
+
+    // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
+    if (wcs->crpix[0] == 0)
+        return false;
+
+    if ((status = wcsset(wcs)))
+    {
+        fprintf(stderr, "wcsset ERROR %d: %s.\n", status, wcs_errmsg[status]);
+        return false;
+    }
+
+    pixcrd[0]=wcsPixelPoint.x();
+    pixcrd[1]=wcsPixelPoint.y();
+
+    if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])))
+    {
+        fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status,  wcs_errmsg[status]);
+        return false;
+    }
+    else
+    {
+       wcsCoord.setRA0(world[0]/15.0);
+       wcsCoord.setDec0(world[1]);
+    }
 
     return true;
 
