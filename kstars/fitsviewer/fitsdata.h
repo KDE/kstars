@@ -112,7 +112,9 @@ public:
     /* Rescale image lineary from image_buffer, fit to window if desired */
     int rescale(FITSZoom type);
     /* Calculate stats */
-    void calculateStats(bool refresh=false);        
+    void calculateStats(bool refresh=false);
+
+    bool contains(const QPointF& point) const;
 
     // Access functions
     void clearImageBuffers();

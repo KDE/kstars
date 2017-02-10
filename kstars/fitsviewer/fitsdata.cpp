@@ -3871,3 +3871,8 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
 
     return loadWCS();
 }
+
+bool FITSData::contains(const QPointF& point) const
+{
+    return (point.x() >= 0 && point.y() >= 0 && point.x() <= stats.width && point.y() <= stats.height);
+}
