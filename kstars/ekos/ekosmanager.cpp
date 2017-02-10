@@ -205,6 +205,8 @@ void EkosManager::changeAlwaysOnTop(Qt::ApplicationState state)
 
 EkosManager::~EkosManager()
 {
+    toolsWidget->disconnect(this);
+
     delete captureProcess;
     delete focusProcess;
     delete guideProcess;

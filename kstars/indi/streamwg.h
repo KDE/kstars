@@ -24,8 +24,25 @@
 #include <indidevapi.h>
 
 #include "ui_streamform.h"
+#include "ui_recordingoptions.h"
 
 #include "indi/indiccd.h"
+
+class RecordOptions : public QDialog, public Ui::recordingOptions
+{
+    Q_OBJECT
+
+public:
+    explicit RecordOptions(QWidget *parent);
+
+public slots:
+    void selectRecordDirectory();
+
+private:
+    QUrl dirPath;
+
+friend class StreamWG;
+};
 
 class StreamWG : public QDialog, public Ui::streamForm
 {
@@ -48,11 +65,15 @@ public:
 
 protected:
     void closeEvent ( QCloseEvent * ev );
+    QSize sizeHint() const;
 
 public slots:
     void toggleRecord();
     void updateRecordStatus(bool enabled);
-    void selectRecordDirectory();
+    void resetFrame();
+
+protected slots:
+    void setStreamingFrame(QRect newFrame);
 
 signals:
     void hidden();
@@ -63,8 +84,8 @@ private:
     bool	colorFrame, isRecording;
     QIcon   recordIcon, stopIcon;
     ISD::CCD *currentCCD;
-    QUrl dirPath;
 
+    RecordOptions *options;
 };
 
 #endif
