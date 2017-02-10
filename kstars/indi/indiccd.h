@@ -181,6 +181,8 @@ public:
 
     // Video Stream
     bool setVideoStreamEnabled(bool enable);
+    bool resetStreamingFrame();
+    bool setStreamingFrame(int x, int y, int w, int h);
     bool isStreamingEnabled();
 
     // Video Recording

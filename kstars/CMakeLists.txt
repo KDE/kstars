@@ -52,6 +52,7 @@ if(NOT BUILD_KSTARS_LITE)
             fitsviewer/statform.ui
             fitsviewer/fitsdebayer.ui
             indi/streamform.ui
+            indi/recordingoptions.ui
             fitsviewer/fitshistogramui.ui
             )
         include_directories(${CFITSIO_INCLUDE_DIR})

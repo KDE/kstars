@@ -36,58 +36,17 @@
 #include "kstars.h"
 #include "Options.h"
 
-StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
+RecordOptions::RecordOptions(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
-    currentCCD     = ccd;
-    streamWidth    = streamHeight = -1;
-    processStream  = colorFrame = isRecording = false;
 
     dirPath     = QUrl::fromLocalFile(QDir::homePath());
 
-    setWindowTitle(i18n("%1 Live Video", ccd->getDeviceName()));
-
-    QString filename, directory;
-    ccd->getSERNameDirectory(filename, directory);
-
-    recordFilenameEdit->setText(filename);
-    recordDirectoryEdit->setText(directory);
-
-#ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
-#endif
-
     selectDirB->setIcon(QIcon::fromTheme("document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")));
     connect(selectDirB, SIGNAL(clicked()), this, SLOT(selectRecordDirectory()));
-
-    recordIcon   = QIcon::fromTheme( "media-record", QIcon(":/icons/breeze/default/media-record.svg"));
-    stopIcon     = QIcon::fromTheme( "media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg"));
-
-    recordB->setIcon(recordIcon);
-
-    connect(recordB, SIGNAL(clicked()), this, SLOT(toggleRecord()));
-    connect(ccd, SIGNAL(videoRecordToggled(bool)), this, SLOT(updateRecordStatus(bool)));
-
-    videoFrame->resize(Options::streamWindowWidth(), Options::streamWindowHeight());
 }
 
-StreamWG::~StreamWG()
-{
-}
-
-void StreamWG::closeEvent ( QCloseEvent * ev )
-{
-    processStream = false;
-
-    Options::setStreamWindowWidth(videoFrame->width());
-    Options::setStreamWindowHeight(videoFrame->height());
-
-    ev->accept();
-
-    emit hidden();
-}
-
-void StreamWG::selectRecordDirectory()
+void RecordOptions::selectRecordDirectory()
 {
     QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("SER Record Directory"), dirPath.toLocalFile());
 
@@ -95,6 +54,68 @@ void StreamWG::selectRecordDirectory()
         return;
 
     recordDirectoryEdit->setText(dir);
+}
+
+StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
+{
+    setupUi(this);
+    currentCCD     = ccd;
+    streamWidth    = streamHeight = -1;
+    processStream  = colorFrame = isRecording = false;
+
+    options = new RecordOptions(this);
+
+    connect(optionsB, SIGNAL(clicked()), options, SLOT(show()));
+
+    QString filename, directory;
+    ccd->getSERNameDirectory(filename, directory);
+
+    options->recordFilenameEdit->setText(filename);
+    options->recordDirectoryEdit->setText(directory);
+
+    setWindowTitle(i18n("%1 Live Video", ccd->getDeviceName()));    
+
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif    
+    recordIcon   = QIcon::fromTheme( "media-record", QIcon(":/icons/breeze/default/media-record.svg"));
+    stopIcon     = QIcon::fromTheme( "media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg"));
+
+    optionsB->setIcon(QIcon::fromTheme( "run-build", QIcon(":/icons/breeze/default/run-build.svg")));
+    resetFrameB->setIcon(QIcon::fromTheme( "view-restore", QIcon(":/icons/breeze/default/view-restore.svg")));
+
+    connect(resetFrameB, SIGNAL(clicked()), this, SLOT(resetFrame()));
+
+    recordB->setIcon(recordIcon);
+
+    connect(recordB, SIGNAL(clicked()), this, SLOT(toggleRecord()));
+    connect(ccd, SIGNAL(videoRecordToggled(bool)), this, SLOT(updateRecordStatus(bool)));
+
+    connect(videoFrame, SIGNAL(newSelection(QRect)), this, SLOT(setStreamingFrame(QRect)));
+
+    resize(Options::streamWindowWidth(), Options::streamWindowHeight());
+}
+
+StreamWG::~StreamWG()
+{
+}
+
+QSize StreamWG::sizeHint() const
+{
+    QSize size(Options::streamWindowWidth(), Options::streamWindowHeight());
+    return size;
+}
+
+void StreamWG::closeEvent ( QCloseEvent * ev )
+{
+    processStream = false;
+
+    Options::setStreamWindowWidth(width());
+    Options::setStreamWindowHeight(height());
+
+    ev->accept();
+
+    emit hidden();
 }
 
 void StreamWG::setColorFrame(bool color)
@@ -112,10 +133,8 @@ void StreamWG::enableStream(bool enable)
     else
     {
         processStream = false;
-        //playB->setIcon(pausePix);
         hide();
     }
-
 }
 
 void StreamWG::setSize(int wd, int ht)
@@ -128,7 +147,7 @@ void StreamWG::setSize(int wd, int ht)
     streamWidth = wd;
     streamHeight = ht;
 
-    videoFrame->setTotalBaseCount(wd * ht);
+    videoFrame->setSize(wd, ht);
 }
 
 /*void StreamWG::resizeEvent(QResizeEvent *ev)
@@ -168,19 +187,19 @@ void StreamWG::toggleRecord()
     }
     else
     {
-        currentCCD->setSERNameDirectory(recordFilenameEdit->text(), recordDirectoryEdit->text());
+        currentCCD->setSERNameDirectory(options->recordFilenameEdit->text(), options->recordDirectoryEdit->text());
 
-        if (recordUntilStoppedR->isChecked())
+        if (options->recordUntilStoppedR->isChecked())
         {
             isRecording = currentCCD->startRecording();
         }
-        else if (recordDurationR->isChecked())
+        else if (options->recordDurationR->isChecked())
         {
-            isRecording = currentCCD->startDurationRecording(durationSpin->value());
+            isRecording = currentCCD->startDurationRecording(options->durationSpin->value());
         }
         else
         {
-            isRecording = currentCCD->startFramesRecording(framesSpin->value());
+            isRecording = currentCCD->startFramesRecording(options->framesSpin->value());
         }
 
         if (isRecording)
@@ -200,4 +219,21 @@ void StreamWG::newFrame(IBLOB *bp)
         KMessageBox::error(0, i18n("Unable to load video stream."));
         close();
     }
+}
+
+void StreamWG::resetFrame()
+{
+   currentCCD->resetStreamingFrame();
+}
+
+void StreamWG::setStreamingFrame(QRect newFrame)
+{
+    int w = newFrame.width();
+    // Must be divisable by 4
+    while (w % 4)
+    {
+        w++;
+    }
+
+    currentCCD->setStreamingFrame(newFrame.x(), newFrame.y(), w, newFrame.height());
 }

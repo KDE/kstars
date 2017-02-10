@@ -1049,25 +1049,36 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         {
             streamWindow = new StreamWG(this);
 
-            // Only use CCD dimensions if we are receing raw stream and not stream of images (i.e. mjpeg..etc)
-            IBLOBVectorProperty *rawBP = baseDevice->getBLOB("CCD1");
-            if (rawBP)
+            INumberVectorProperty *streamFrame = baseDevice->getNumber("CCD_STREAM_FRAME");
+            INumber *w=NULL, *h=NULL;
+            if (streamFrame)
             {
-                int x,y,w,h;
-                int binx, biny;
-
-                primaryChip->getFrame(&x, &y, &w, &h);
-                primaryChip->getBinning(&binx, &biny);
-                streamW = w / binx;
-                streamH = h / biny;
-
-                rawBP->bp[0].aux0 = &(streamW);
-                rawBP->bp[0].aux1 = &(streamH);
-
-                if (streamWindow->getStreamWidth() != streamW || streamWindow->getStreamHeight() != streamH)
-                    streamWindow->setSize(streamW, streamH);
+                w = IUFindNumber(streamFrame, "WIDTH");
+                h = IUFindNumber(streamFrame, "HEIGHT");
             }
 
+            if (w && h)
+            {
+                streamW = w->value;
+                streamH = h->value;
+            }
+            else
+            {
+                // Only use CCD dimensions if we are receing raw stream and not stream of images (i.e. mjpeg..etc)
+                IBLOBVectorProperty *rawBP = baseDevice->getBLOB("CCD1");
+                if (rawBP)
+                {
+                    int x,y,w,h;
+                    int binx, biny;
+
+                    primaryChip->getFrame(&x, &y, &w, &h);
+                    primaryChip->getBinning(&binx, &biny);
+                    streamW = w / binx;
+                    streamH = h / biny;
+                }
+            }
+
+            streamWindow->setSize(streamW, streamH);
         }
 
         if (streamWindow)
@@ -1171,23 +1182,40 @@ void CCD::processBLOB(IBLOB* bp)
         if (streamWindow->isStreamEnabled() == false)
             return;
 
-        int x,y,w,h;
-        int binx, biny;
-
-        primaryChip->getFrame(&x, &y, &w, &h);
-        primaryChip->getBinning(&binx, &biny);
-        streamW = w / binx;
-        streamH = h / biny;
-
-        IBLOBVectorProperty *rawBP = baseDevice->getBLOB("CCD1");
-        if (rawBP)
+        INumberVectorProperty *streamFrame = baseDevice->getNumber("CCD_STREAM_FRAME");
+        INumber *w=NULL, *h=NULL;
+        if (streamFrame)
         {
-            rawBP->bp[0].aux0 = &(streamW);
-            rawBP->bp[0].aux1 = &(streamH);
+            w = IUFindNumber(streamFrame, "WIDTH");
+            h = IUFindNumber(streamFrame, "HEIGHT");
         }
 
-        if (streamWindow->getStreamWidth() != streamW || streamWindow->getStreamHeight() != streamH)
-            streamWindow->setSize(streamW, streamH);
+        if (w && h)
+        {
+            streamW = w->value;
+            streamH = h->value;
+        }
+        else
+        {
+            int x,y,w,h;
+            int binx, biny;
+
+            primaryChip->getFrame(&x, &y, &w, &h);
+            primaryChip->getBinning(&binx, &biny);
+            streamW = w / binx;
+            streamH = h / biny;
+
+            /*IBLOBVectorProperty *rawBP = baseDevice->getBLOB("CCD1");
+            if (rawBP)
+            {
+                rawBP->bp[0].aux0 = &(streamW);
+                rawBP->bp[0].aux1 = &(streamH);
+            }*/
+        }
+
+        //if (streamWindow->getStreamWidth() != streamW || streamWindow->getStreamHeight() != streamH)
+
+        streamWindow->setSize(streamW, streamH);
 
         streamWindow->show();
         streamWindow->newFrame(bp);
@@ -2057,6 +2085,65 @@ bool CCD::setVideoStreamEnabled(bool enable)
     clientManager->sendNewSwitch(svp);
 
     return true;
+}
+
+bool CCD::resetStreamingFrame()
+{
+    INumberVectorProperty *frameProp = baseDevice->getNumber("CCD_STREAM_FRAME");
+
+    if (frameProp == NULL)
+        return false;
+
+    INumber *xarg = IUFindNumber(frameProp, "X");
+    INumber *yarg = IUFindNumber(frameProp, "Y");
+    INumber *warg = IUFindNumber(frameProp, "WIDTH");
+    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+
+    if (xarg && yarg && warg && harg)
+    {
+        if (xarg->value == xarg->min && yarg->value == yarg->min && warg->value == warg->max && harg->value == harg->max)
+            return false;
+
+        xarg->value = xarg->min;
+        yarg->value = yarg->min;
+        warg->value = warg->max;
+        harg->value = harg->max;
+
+        clientManager->sendNewNumber(frameProp);
+        return true;
+    }
+
+    return false;
+}
+
+bool CCD::setStreamingFrame(int x, int y, int w, int h)
+{
+    INumberVectorProperty *frameProp = baseDevice->getNumber("CCD_STREAM_FRAME");
+
+    if (frameProp == NULL)
+        return false;
+
+    INumber *xarg = IUFindNumber(frameProp, "X");
+    INumber *yarg = IUFindNumber(frameProp, "Y");
+    INumber *warg = IUFindNumber(frameProp, "WIDTH");
+    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+
+    if (xarg && yarg && warg && harg)
+    {
+        if (xarg->value == x && yarg->value == y && warg->value == w && harg->value == h)
+            return true;
+
+        xarg->value = qBound(xarg->min, static_cast<double>(x), xarg->max);
+        yarg->value = qBound(yarg->min, static_cast<double>(y), yarg->max);
+        warg->value = qBound(warg->min, static_cast<double>(w), warg->max);
+        harg->value = qBound(harg->min, static_cast<double>(h), harg->max);
+
+        clientManager->sendNewNumber(frameProp);
+        return true;
+    }
+
+    return false;
+
 }
 
 bool CCD::isStreamingEnabled()

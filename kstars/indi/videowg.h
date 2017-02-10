@@ -18,7 +18,10 @@
 #include <QImage>
 #include <QLabel>
 
+
 #include <indidevapi.h>
+
+class QRubberBand;
 
 class VideoWG : public QLabel
 {
@@ -32,16 +35,27 @@ public:
 
    bool save(const QString & filename, const char *format);
 
-   void setTotalBaseCount(int value);
+   void setSize(uint16_t w, uint16_t h);
 
 protected:
-   void resizeEvent( QResizeEvent *ev );
+   virtual void resizeEvent( QResizeEvent *ev );
+   void mousePressEvent(QMouseEvent *event);
+   void mouseMoveEvent(QMouseEvent *event);
+   void mouseReleaseEvent(QMouseEvent *);
+
+signals:
+   void newSelection(QRect);
 
 private:
-   int              totalBaseCount;
+   uint16_t         streamW=-1, streamH=-1;
+   uint32_t         totalBaseCount=0;
    QVector<QRgb>    grayTable;
    QImage           *streamImage;
    QPixmap          kPix;
+
+   QRubberBand      *rubberBand=NULL;
+   QPoint           origin;
+
 };
 
 #endif
