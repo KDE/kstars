@@ -214,6 +214,7 @@ signals:
     void newImage(QImage *image, ISD::CCDChip *targetChip);
     void videoStreamToggled(bool enabled);
     void videoRecordToggled(bool enabled);
+    void newFPS(double instantFPS, double averageFPS);
 
 private:
     void addFITSKeywords(QString filename);

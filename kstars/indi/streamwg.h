@@ -74,6 +74,7 @@ public slots:
 
 protected slots:
     void setStreamingFrame(QRect newFrame);
+    void updateFPS(double instantFPS, double averageFPS);
 
 signals:
     void hidden();

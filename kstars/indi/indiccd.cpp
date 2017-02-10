@@ -970,6 +970,12 @@ void CCD::processNumber(INumberVectorProperty *nvp)
         return;
     }
 
+    if (!strcmp(nvp->name, "FPS"))
+    {
+        emit newFPS(nvp->np[0].value, nvp->np[1].value);
+        return;
+    }
+
     if (!strcmp(nvp->name, "CCD_RAPID_GUIDE_DATA"))
     {
         double dx=-1,dy=-1,fit=-1;

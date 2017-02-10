@@ -94,6 +94,8 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     connect(videoFrame, SIGNAL(newSelection(QRect)), this, SLOT(setStreamingFrame(QRect)));
 
     resize(Options::streamWindowWidth(), Options::streamWindowHeight());
+
+    connect(currentCCD, SIGNAL(newFPS(double,double)), this, SLOT(updateFPS(double,double)));
 }
 
 StreamWG::~StreamWG()
@@ -133,6 +135,8 @@ void StreamWG::enableStream(bool enable)
     else
     {
         processStream = false;
+        instFPS->setText("--");
+        avgFPS->setText("--");
         hide();
     }
 }
@@ -236,4 +240,10 @@ void StreamWG::setStreamingFrame(QRect newFrame)
     }
 
     currentCCD->setStreamingFrame(newFrame.x(), newFrame.y(), w, newFrame.height());
+}
+
+void StreamWG::updateFPS(double instantFPS, double averageFPS)
+{
+    instFPS->setText(QString::number(instantFPS, 'f', 1));
+    avgFPS->setText(QString::number(averageFPS, 'f', 1));
 }
