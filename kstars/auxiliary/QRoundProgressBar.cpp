@@ -169,6 +169,7 @@ void QRoundProgressBar::setDecimals(int count)
 
 void QRoundProgressBar::paintEvent(QPaintEvent* /*event*/)
 {
+#if 0
     double outerRadius = qMin(width(), height());
     QRectF baseRect(1, 1, outerRadius-2, outerRadius-2);
 
@@ -205,6 +206,26 @@ void QRoundProgressBar::paintEvent(QPaintEvent* /*event*/)
     QPainter painter(this);
     painter.fillRect(baseRect, palette().background());
     painter.drawImage(0,0, buffer);
+#endif
+    double outerRadius = qMin(width(), height());
+    QRectF baseRect(1, 1, outerRadius-2, outerRadius-2);
+    QPainter p(this);
+    //painter.fillRect(baseRect, palette().window());
+    p.setRenderHint(QPainter::Antialiasing);
+    p.fillRect(baseRect, Qt::NoBrush);
+    drawBase(p, baseRect);
+    // data circle
+    double arcStep = 360.0 / (m_max - m_min) * m_value;
+    drawValue(p, baseRect, m_value, arcStep);
+
+    // center circle
+    double innerRadius(0);
+    QRectF innerRect;
+    calculateInnerRect(baseRect, outerRadius, innerRect, innerRadius);
+    drawInnerBackground(p, innerRect);
+
+    // text
+    drawText(p, innerRect, innerRadius, m_value);
 }
 
 void QRoundProgressBar::drawBackground(QPainter &p, const QRectF &baseRect)
