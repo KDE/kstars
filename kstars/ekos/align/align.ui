@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>566</width>
+    <width>576</width>
     <height>489</height>
    </rect>
   </property>
@@ -984,7 +984,7 @@
               <item>
                <widget class="QLabel" name="label_19">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select direction and range of &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation, then click &lt;span style=&quot; font-weight:600;&quot;&gt;Rotate&lt;/span&gt; to continue.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select direction and range of &lt;span style=&quot; font-style:italic;&quot;&gt;first&lt;/span&gt; mount rotation, then click &lt;span style=&quot; font-weight:600;&quot;&gt;Rotate&lt;/span&gt; to continue. To automate the rest of the process, check &lt;span style=&quot; font-weight:600;&quot;&gt;Auto Mode&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
@@ -1048,6 +1048,16 @@
                    </size>
                   </property>
                  </spacer>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="PAHAutoModeCheck">
+                  <property name="toolTip">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Perform the remaining steps automatically&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="text">
+                   <string>Auto Mode</string>
+                  </property>
+                 </widget>
                 </item>
                 <item>
                  <widget class="QPushButton" name="PAHFirstRotateB">
