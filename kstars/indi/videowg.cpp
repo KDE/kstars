@@ -17,7 +17,6 @@
 
 VideoWG::VideoWG(QWidget * parent) : QLabel(parent)
 {
-    setAttribute(Qt::WA_OpaquePaintEvent);
     streamImage    = new QImage();
 
     grayTable.resize(256);
