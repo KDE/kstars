@@ -47,6 +47,17 @@ bool AlignView::createWCSFile(const QString & newWCSFile, double orientation, do
 
 void AlignView::setCorrectionParams(QLineF line)
 {
+    bool RAAxisInside = imageData->contains(line.p1());
+    bool CPPointInside= imageData->contains(line.p2());
+
+    // If points are outside, let's translate the line to be within the frame
+    if (RAAxisInside == false || CPPointInside == false)
+    {
+        QPointF center(imageData->getWidth()/2, imageData->getHeight()/2);
+        QPointF offset (center - line.p1());
+        line.translate(offset);
+    }
+
     correctionLine   = line;
     markerCrosshair  = line.p2();
 
