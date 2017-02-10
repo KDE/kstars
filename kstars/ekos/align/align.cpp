@@ -2405,11 +2405,13 @@ void Align::calculatePAHError()
     correctionVector.setP1(celestialPolePoint);
     correctionVector.setP2(RACenterPoint);
 
+    /*
     bool RAAxisInside = imageData->contains(RACenterPoint);
     bool CPPointInside= imageData->contains(celestialPolePoint);
 
-    //if (RAAxisInside == false && CPPointInside == false)
-        //appendLogText(i18n("Warning: Mount axis and celestial pole are outside the field of view. Correction vector may be inaccurate."));
+    if (RAAxisInside == false && CPPointInside == false)
+        appendLogText(i18n("Warning: Mount axis and celestial pole are outside the field of view. Correction vector may be inaccurate."));
+    */
 
     alignView->setCorrectionParams(correctionVector);
 
