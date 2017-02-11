@@ -142,6 +142,8 @@ Align::Align()
     currentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
     gotoModeButtonGroup->button(currentGotoMode)->setChecked(true);
 
+    editOptionsB->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/breeze/default/document-edit.svg")));
+    editOptionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     syncBoxesB->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
     syncBoxesB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     clearBoxesB->setIcon(QIcon::fromTheme("edit-clear", QIcon(":/icons/breeze/default/edit-clear.svg")));
@@ -570,7 +572,6 @@ void Align::slotEditOptions(){
     astrometryOptions.updatePosition->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
     astrometryOptions.updatePosition->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-
     connect(astrometryOptions.resetB, SIGNAL(clicked()), this, SLOT(slotResetOptionsInEditor()));
     connect(astrometryOptions.defaultB, SIGNAL(clicked()), this, SLOT(slotDefaultEditorOptions()));
 
@@ -760,8 +761,7 @@ void Align::slotUpdateScaleInEditor(){
         units="dw";
     if(comboBox->currentIndex()==1)
         units="aw";
-    if(comboBox->currentIndex()==2)
-        units="app";
+
     generateFOV(fov_low,fov_high, units);
 
     astrometryOptions.scaleL->setText(fov_low);
@@ -964,26 +964,19 @@ void Align::slotToggleAstrometryOptions(){
 }
 
 //This will generate the high and low scale of the imager field size based on the stated units.
-
-void Align::generateFOV(QString &fov_low, QString &fov_high, QString units){
+void Align::generateFOV(QString &fov_low, QString &fov_high, QString units)
+{
     double fov_lower, fov_upper;
     // let's stretch the boundaries by 5%
     fov_lower = ((fov_x < fov_y) ? (fov_x * 0.95) : (fov_y * 0.95));
     fov_upper = ((fov_x > fov_y) ? (fov_x * 1.05) : (fov_y * 1.05));
-    if(units=="dw"){
+
+    if(units=="dw")
+    {
         fov_lower /=60;
         fov_upper /=60;
     }
-    if(units=="app"){
-        double fovXsec, fovYsec;
-        fovXsec=fov_x*60;
-        fovYsec=fov_y*60;
-        double appX=fovXsec/ccd_width;
-        double appY=fovYsec/ccd_height;
-        //I am not sure why it is off by this much.
-        fov_lower = ((appX < appY) ? (appX * 0.5) : (appY * 0.5));
-        fov_upper = ((appX > appY) ? (appX * 2) : (appY * 2));
-    }
+
     //No need to do anything if they are aw, since that is the default
     fov_low  = QString("%1").arg(fov_lower);
     fov_high = QString("%1").arg(fov_upper);
@@ -1043,7 +1036,7 @@ void Align::generateArgs()
 
     if (raBox->isEmpty() == false && decBox->isEmpty() == false)
     {
-        bool raOk(false), decOk(false), radiusOk(false);
+        bool raOk(false), decOk(false);
         dms ra( raBox->createDms( false, &raOk ) ); //false means expressed in hours
         dms dec( decBox->createDms( true, &decOk ) );
         int radius = 30;
@@ -1061,15 +1054,6 @@ void Align::generateArgs()
                 KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
                 return;
             }
-        }
-
-        if (radiusBox->text().isEmpty() == false)
-            radius = radiusBox->text().toInt(&radiusOk);
-
-        if (radiusOk == false)
-        {
-            KMessageBox::sorry( 0, message, i18n( "Invalid radius value" ) );
-            return;
         }
 
         int ra_index = solver_args.indexOf("-3");
@@ -1459,6 +1443,8 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      dms RADiff(fabs(raDiff)/3600.0), DEDiff(deDiff/3600.0);
      dRAOut->setText(QString("%1%2").arg(raDiff > 0 ? "+" : "-").arg(RADiff.toHMSString()));
      dDEOut->setText(DEDiff.toDMSString(true));
+
+     pixScaleOut->setText(QString::number(pixscale, 'f', 2));
 
      emit newSolutionDeviation(raDiff, deDiff);
 
@@ -2454,7 +2440,7 @@ void Align::setSolverArguments(const QString & value)
     solverOptions->setText(value);
 }
 
-void Align::setSolverSearchOptions(double ra, double dec, double radius)
+void Align::setSolverSearchCoords(double ra, double dec)
 {
     dms RA, DEC;
     RA.setH(ra);
@@ -2462,7 +2448,6 @@ void Align::setSolverSearchOptions(double ra, double dec, double radius)
 
     raBox->setText(RA.toHMSString());
     decBox->setText(DEC.toDMSString());
-    radiusBox->setText(QString::number(radius));
 }
 
 void Align::setUseOAGT(bool enabled)

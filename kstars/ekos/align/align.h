@@ -143,7 +143,7 @@ public:
      * @param dec center DEC for search pattern, in degrees.
      * @param radius radius of search pattern, in degrees.
      */
-    Q_SCRIPTABLE Q_NOREPLY void setSolverSearchOptions(double ra, double dec, double radius);
+    Q_SCRIPTABLE Q_NOREPLY void setSolverSearchCoords(double ra, double dec);
 
     /** DBUS interface function.
      * Sets the solver's option

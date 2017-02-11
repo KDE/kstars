@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>576</width>
-    <height>489</height>
+    <height>491</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -292,13 +292,23 @@
           <property name="spacing">
            <number>3</number>
           </property>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_8">
+          <item row="1" column="0">
+           <widget class="QLabel" name="dRA">
             <property name="toolTip">
-             <string>Field of View size in arcminutes</string>
+             <string>Difference between telescope coordinates and solution coordinates in Right Ascension</string>
             </property>
             <property name="text">
-             <string>FOV:</string>
+             <string>dRA:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QLineEdit" name="dDEOut">
+            <property name="toolTip">
+             <string>Difference between telescope coordinates and solution coordinates in Declination</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font-weight: bold;</string>
             </property>
            </widget>
           </item>
@@ -315,17 +325,13 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>RA:</string>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="dRAOut">
+            <property name="toolTip">
+             <string>Difference between telescope coordinates and solution coordinates in Right Ascension</string>
             </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="SolverRAOut">
-            <property name="readOnly">
-             <bool>true</bool>
+            <property name="styleSheet">
+             <string notr="true">font-weight: bold;</string>
             </property>
            </widget>
           </item>
@@ -343,43 +349,17 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="label_10">
-            <property name="toolTip">
-             <string>Image rotation angle, East of North</string>
-            </property>
-            <property name="text">
-             <string>Rot:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QLineEdit" name="RotOut">
-            <property name="toolTip">
-             <string>Image rotation angle, East of North</string>
-            </property>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="SolverRAOut">
             <property name="readOnly">
              <bool>true</bool>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="dRA">
-            <property name="toolTip">
-             <string>Difference between telescope coordinates and solution coordinates in Right Ascension</string>
-            </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>dRA:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="dRAOut">
-            <property name="toolTip">
-             <string>Difference between telescope coordinates and solution coordinates in Right Ascension</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font-weight: bold;</string>
+             <string>RA:</string>
             </property>
            </widget>
           </item>
@@ -393,13 +373,60 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
-           <widget class="QLineEdit" name="dDEOut">
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_8">
             <property name="toolTip">
-             <string>Difference between telescope coordinates and solution coordinates in Declination</string>
+             <string>Field of View size in arcminutes</string>
             </property>
-            <property name="styleSheet">
-             <string notr="true">font-weight: bold;</string>
+            <property name="text">
+             <string>FOV:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_17">
+            <property name="toolTip">
+             <string>Image scale in arcsecs/pixel</string>
+            </property>
+            <property name="text">
+             <string>Pix:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="pixScaleOut">
+            <property name="toolTip">
+             <string>Image scale in arcsecs/pixel</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QLabel" name="label_10">
+            <property name="toolTip">
+             <string>Image rotation angle, East of North</string>
+            </property>
+            <property name="text">
+             <string>Rot:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QLineEdit" name="RotOut">
+            <property name="toolTip">
+             <string>Image rotation angle, East of North</string>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QCheckBox" name="useGuideScopeCheck">
+            <property name="toolTip">
+             <string>Use Off-Axis Guide Telescope for FOV calculations</string>
+            </property>
+            <property name="text">
+             <string>OAGT</string>
             </property>
            </widget>
           </item>
@@ -437,49 +464,42 @@
               <property name="spacing">
                <number>1</number>
               </property>
+              <item row="0" column="0">
+               <widget class="QLabel" name="textLabel1_6">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>CCD:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="2">
+               <widget class="QDoubleSpinBox" name="exposureIN">
+                <property name="toolTip">
+                 <string>Exposure duration in seconds</string>
+                </property>
+                <property name="minimum">
+                 <double>0.100000000000000</double>
+                </property>
+                <property name="maximum">
+                 <double>60.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>0.500000000000000</double>
+                </property>
+                <property name="value">
+                 <double>3.000000000000000</double>
+                </property>
+               </widget>
+              </item>
               <item row="2" column="1" colspan="2">
                <widget class="QComboBox" name="binningCombo">
                 <property name="toolTip">
                  <string>Camera binning</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="3">
-               <widget class="dmsBox" name="decBox">
-                <property name="toolTip">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="7">
-               <widget class="QPushButton" name="showFITSViewerB">
-                <property name="minimumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Show in FITS Viewer</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_7">
-                <property name="toolTip">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string>Exp:</string>
                 </property>
                </widget>
               </item>
@@ -517,13 +537,23 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="2">
-               <widget class="QLabel" name="label_16">
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_15">
                 <property name="toolTip">
-                 <string>estimated DEC of target center to limit the solver's search area</string>
+                 <string>estimated RA of target center to limit the solver's search area</string>
                 </property>
                 <property name="text">
-                 <string>DE:</string>
+                 <string>RA:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_7">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>Exp:</string>
                 </property>
                </widget>
               </item>
@@ -537,26 +567,55 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="0">
-               <widget class="QLabel" name="textLabel1_6">
+              <item row="3" column="2">
+               <widget class="QLabel" name="label_16">
                 <property name="toolTip">
-                 <string/>
-                </property>
-                <property name="whatsThis">
-                 <string/>
+                 <string>estimated DEC of target center to limit the solver's search area</string>
                 </property>
                 <property name="text">
-                 <string>CCD:</string>
+                 <string>DE:</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_15">
+              <item row="3" column="3">
+               <widget class="dmsBox" name="decBox">
                 <property name="toolTip">
-                 <string>estimated RA of target center to limit the solver's search area</string>
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QCheckBox" name="alignDarkFrameCheck">
+                <property name="toolTip">
+                 <string>Subtract dark frame. If no suitable dark frame is available, a dark frame shall be captured.</string>
                 </property>
                 <property name="text">
-                 <string>RA:</string>
+                 <string>Dark</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="3">
+               <widget class="QComboBox" name="CCDCaptureCombo"/>
+              </item>
+              <item row="0" column="7">
+               <widget class="QPushButton" name="showFITSViewerB">
+                <property name="minimumSize">
+                 <size>
+                  <width>22</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>22</width>
+                  <height>22</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>Show in FITS Viewer</string>
+                </property>
+                <property name="text">
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -566,35 +625,6 @@
                  <string/>
                 </property>
                </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_17">
-                <property name="text">
-                 <string>Radius:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QLineEdit" name="radiusBox">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="toolTip">
-                 <string>The solver's search radius in degrees round the estimated RA and DEC</string>
-                </property>
-                <property name="statusTip">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string>30</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1" colspan="3">
-               <widget class="QComboBox" name="CCDCaptureCombo"/>
               </item>
               <item row="1" column="7">
                <widget class="QPushButton" name="toggleFullScreenB">
@@ -618,7 +648,7 @@
                 </property>
                </widget>
               </item>
-              <item row="4" column="7">
+              <item row="2" column="7">
                <widget class="QPushButton" name="syncBoxesB">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -652,52 +682,6 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="1" colspan="2">
-               <widget class="QDoubleSpinBox" name="exposureIN">
-                <property name="toolTip">
-                 <string>Exposure duration in seconds</string>
-                </property>
-                <property name="minimum">
-                 <double>0.100000000000000</double>
-                </property>
-                <property name="maximum">
-                 <double>60.000000000000000</double>
-                </property>
-                <property name="singleStep">
-                 <double>0.500000000000000</double>
-                </property>
-                <property name="value">
-                 <double>3.000000000000000</double>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QCheckBox" name="alignDarkFrameCheck">
-                <property name="toolTip">
-                 <string>Subtract dark frame. If no suitable dark frame is available, a dark frame shall be captured.</string>
-                </property>
-                <property name="text">
-                 <string>Dark</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="3">
-               <widget class="QCheckBox" name="useGuideScopeCheck">
-                <property name="toolTip">
-                 <string>Use Off-Axis Guide Telescope for FOV calculations</string>
-                </property>
-                <property name="text">
-                 <string>OAGT</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="3">
-               <widget class="QPushButton" name="editOptionsB">
-                <property name="text">
-                 <string>Edit Options</string>
-                </property>
-               </widget>
-              </item>
              </layout>
             </item>
            </layout>
@@ -718,6 +702,28 @@
              <widget class="QLineEdit" name="solverOptions">
               <property name="statusTip">
                <string>Additional options to be the solver</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="editOptionsB">
+              <property name="minimumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>22</width>
+                <height>22</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Edit solver options</string>
+              </property>
+              <property name="text">
+               <string/>
               </property>
              </widget>
             </item>
@@ -1625,19 +1631,15 @@
   <tabstop>dRAOut</tabstop>
   <tabstop>dDEOut</tabstop>
   <tabstop>FOVOut</tabstop>
-  <tabstop>RotOut</tabstop>
   <tabstop>CCDCaptureCombo</tabstop>
   <tabstop>showFITSViewerB</tabstop>
   <tabstop>exposureIN</tabstop>
   <tabstop>alignDarkFrameCheck</tabstop>
   <tabstop>toggleFullScreenB</tabstop>
   <tabstop>binningCombo</tabstop>
-  <tabstop>useGuideScopeCheck</tabstop>
   <tabstop>raBox</tabstop>
   <tabstop>decBox</tabstop>
   <tabstop>clearBoxesB</tabstop>
-  <tabstop>radiusBox</tabstop>
-  <tabstop>syncBoxesB</tabstop>
   <tabstop>solverOptions</tabstop>
   <tabstop>onlineSolverR</tabstop>
   <tabstop>offlineSolverR</tabstop>

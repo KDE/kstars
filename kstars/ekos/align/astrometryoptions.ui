@@ -321,7 +321,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;&lt;p&gt;dw: degree width&lt;/p&gt;&lt;p&gt;aw: arcminute width&lt;/p&gt;&lt;p&gt;app: arcseconds/pixel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;&lt;p&gt;dw: degree width&lt;/p&gt;&lt;p&gt;aw: arcminute width&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>u</string>
@@ -331,7 +331,7 @@
           <item row="2" column="0">
            <widget class="QLabel" name="label_7">
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;&lt;p&gt;dw: degree width&lt;/p&gt;&lt;p&gt;aw: arcminute width&lt;/p&gt;&lt;p&gt;app: arcseconds/pixel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;&lt;p&gt;dw: degree width&lt;/p&gt;&lt;p&gt;aw: arcminute width&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="text">
              <string>units</string>
@@ -347,7 +347,7 @@
              </size>
             </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;&lt;p&gt;dw: degree width&lt;/p&gt;&lt;p&gt;aw: arcminute width&lt;/p&gt;&lt;p&gt;app: arcseconds/pixel&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The units of the imager scale bounds above.&lt;/p&gt;&lt;p&gt;dw: degree width&lt;/p&gt;&lt;p&gt;aw: arcminute width&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="currentIndex">
              <number>0</number>
@@ -360,11 +360,6 @@
             <item>
              <property name="text">
               <string>aw</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>app</string>
              </property>
             </item>
            </widget>
