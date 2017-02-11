@@ -42,7 +42,7 @@
 
 #include <basedevice.h>
 
-#define PAH_CUTOFF_FOV              60                   // Minimum FOV width in arcminutes for PAH to work
+#define PAH_CUTOFF_FOV              30                   // Minimum FOV width in arcminutes for PAH to work
 #define MAXIMUM_SOLVER_ITERATIONS   10
 
 namespace Ekos
@@ -522,8 +522,8 @@ void Align::calculateFOV()
     else
     {
         PAHWidgets->setEnabled(false);
-        PAHWidgets->setToolTip(i18n("<p>Polar Alignment Helper tool requires the following:</p><p>1. German Equatorial Mount</p><p>2. Wide FOV &gt;"
-                                    " 1 degrees</p><p>For small FOVs, use the Legacy Polar Alignment Tool.</p>"));
+        PAHWidgets->setToolTip(i18n("<p>Polar Alignment Helper tool requires the following:</p><p>1. German Equatorial Mount</p><p>2. FOV &gt;"
+                                    " 0.5 degrees</p><p>For small FOVs, use the Legacy Polar Alignment Tool.</p>"));
     }
 }
 
