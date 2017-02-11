@@ -58,9 +58,6 @@ public:
     bool getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH);
     bool setFrame(int x, int y, int w, int h);
 
-    // Pixel size
-    bool getPixelSize(double &x, double &y);
-
     //bool getFocusFrame(int *x, int *y, int *w, int *h);
     //bool setFocusFrame(int x, int y, int w, int h);
     bool resetFrame();
@@ -75,6 +72,11 @@ public:
     bool getMaxBin(int *max_xbin, int *max_ybin);
     ChipType getType() const { return type; }
     ISD::CCD *getCCD() { return parentCCD;}
+
+    // Set Image Info
+    bool setImageInfo(uint16_t width, uint16_t height, double pixelX, double pixelY, uint8_t bitdepth);
+    // Get Pixel size
+    bool getPixelSize(double &x, double &y);
 
     bool isCapturing();
     bool abortExposure();

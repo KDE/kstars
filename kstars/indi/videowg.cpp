@@ -46,7 +46,7 @@ bool VideoWG::newFrame(IBLOB *bp)
         streamImage = new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_RGB888);
         rc = !streamImage->isNull();
     }
-    else
+    else if (bp->size == totalBaseCount)
     {
         delete(streamImage);
         streamImage = new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_Indexed8);
