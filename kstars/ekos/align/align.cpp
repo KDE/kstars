@@ -625,8 +625,6 @@ void Align::slotUpdateAstrometryOptionEditor(QString text){
         units="dw";
     if(comboBox->currentIndex()==1)
         units="aw";
-    if(comboBox->currentIndex()==2)
-        units="app";
     generateFOV(fov_low,fov_high, units);
 
     if(index!=-1){
@@ -654,8 +652,6 @@ void Align::slotUpdateAstrometryOptionEditor(QString text){
                 astrometryOptions.unitSelector->setCurrentIndex(0);
             if(nextValue=="aw")
                 astrometryOptions.unitSelector->setCurrentIndex(1);
-            if(nextValue=="app")
-                astrometryOptions.unitSelector->setCurrentIndex(2);
         }
     }
 
@@ -882,8 +878,6 @@ void Align::slotToggleAstrometryOptions(){
         units="dw";
     if(comboBox->currentIndex()==1)
         units="aw";
-    if(comboBox->currentIndex()==2)
-        units="app";
 
     QObject *object=sender();
     if(object){
@@ -1021,10 +1015,12 @@ void Align::generateArgs()
 
         QString units="aw";
         int units_index = solver_args.indexOf("-u");
-        if(units_index!=-1&&units_index!=solver_args.count()-1){
-            if(solver_args.at(units_index+1)=="dw"||solver_args.at(units_index+1)=="app")
+        if(units_index!=-1&&units_index!=solver_args.count()-1)
+        {
+            if (solver_args.at(units_index+1)=="dw")
                 units=solver_args.at(units_index+1);
         }
+
         generateFOV(fov_low,fov_high,units);
         int fov_low_index = solver_args.indexOf("-L");
         if (fov_low_index != -1)
