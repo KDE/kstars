@@ -187,6 +187,37 @@ bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *mi
 
 }
 
+bool CCDChip::setImageInfo(uint16_t width, uint16_t height, double pixelX, double pixelY, uint8_t bitdepth)
+{
+    INumberVectorProperty *ccdInfoProp = NULL;
+
+    switch (type)
+    {
+    case PRIMARY_CCD:
+        ccdInfoProp = baseDevice->getNumber("CCD_INFO");
+        break;
+
+    case GUIDE_CCD:
+        ccdInfoProp = baseDevice->getNumber("GUIDER_INFO");
+        break;
+
+    }
+
+    if (ccdInfoProp == NULL)
+        return false;
+
+    ccdInfoProp->np[0].value = width;
+    ccdInfoProp->np[1].value = height;
+    ccdInfoProp->np[2].value = std::hypotf(pixelX, pixelY);
+    ccdInfoProp->np[3].value = pixelX;
+    ccdInfoProp->np[4].value = pixelY;
+    ccdInfoProp->np[5].value = bitdepth;
+
+    clientManager->sendNewNumber(ccdInfoProp);
+
+    return true;
+}
+
 bool CCDChip::getPixelSize(double & x, double & y)
 {
     INumberVectorProperty *ccdInfoProp = NULL;
@@ -2139,8 +2170,9 @@ bool CCD::setStreamingFrame(int x, int y, int w, int h)
         if (xarg->value == x && yarg->value == y && warg->value == w && harg->value == h)
             return true;
 
-        xarg->value = qBound(xarg->min, static_cast<double>(x), xarg->max);
-        yarg->value = qBound(yarg->min, static_cast<double>(y), yarg->max);
+        // N.B. We add offset since the X, Y are relative to whatever streaming frame is currently active
+        xarg->value = qBound(xarg->min, static_cast<double>(x)+xarg->value, xarg->max);
+        yarg->value = qBound(yarg->min, static_cast<double>(y)+yarg->value, yarg->max);
         warg->value = qBound(warg->min, static_cast<double>(w), warg->max);
         harg->value = qBound(harg->min, static_cast<double>(h), harg->max);
 

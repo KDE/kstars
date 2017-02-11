@@ -219,10 +219,7 @@ void StreamWG::newFrame(IBLOB *bp)
     bool rc = videoFrame->newFrame(bp);
 
     if (rc == false)
-    {        
-        KMessageBox::error(0, i18n("Unable to load video stream."));
-        close();
-    }
+        qWarning() << "Failed to load video frame.";
 }
 
 void StreamWG::resetFrame()

@@ -123,6 +123,7 @@ if (INDI_FOUND)
                     # Capture
                     ekos/capture/capture.ui
                     ekos/capture/calibrationoptions.ui
+                    ekos/capture/dslrinfo.ui
                     # Align
                     ekos/align/align.ui
                     ekos/align/astrometryoptions.ui
@@ -155,6 +156,7 @@ if (INDI_FOUND)
                        # Capture
                        ekos/capture/capture.cpp
                        ekos/capture/sequencejob.cpp
+                       ekos/capture/dslrinfodialog.cpp
 
                        # Scheduler
                        ekos/scheduler/schedulerjob.cpp
