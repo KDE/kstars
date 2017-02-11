@@ -125,6 +125,7 @@ if (INDI_FOUND)
                     ekos/capture/calibrationoptions.ui
                     # Align
                     ekos/align/align.ui
+                    ekos/align/astrometryoptions.ui
                     # Focus
                     ekos/focus/focus.ui
                     # Mount

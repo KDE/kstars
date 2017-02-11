@@ -25,6 +25,8 @@
 #include "indi/indiccd.h"
 #include "indi/indistd.h"
 
+#include "ui_astrometryoptions.h"
+
 class FOV;
 class QProgressIndicator;
 
@@ -174,6 +176,8 @@ public:
      */
     void generateArgs();
 
+    void generateFOV(QString &fov_low, QString &fov_high, QString units);
+
     /**
      * @brief Does our parser exist in the system?
      */
@@ -296,6 +300,15 @@ public slots:
     // Update Capture Module status
     void setCaptureStatus(Ekos::CaptureState newState);
 
+    void slotEditOptions();
+    void slotUpdateLineEditOptions();
+    void slotToggleAstrometryOptions();
+    void slotUpdateAstrometryOptionEditor(QString text);
+    void slotUpdateScaleInEditor();
+    void slotUpdatePositionInEditor();
+    void slotResetOptionsInEditor();
+    void slotDefaultEditorOptions();
+
 private slots:
     /* Solver Options */
     void checkLineEdits();
@@ -397,6 +410,8 @@ private:
      * @return List of Solver options
      */
     QStringList getSolverOptionsFromFITS(const QString &filename);
+
+    Ui_astrometryoptions astrometryOptions;
 
     /**
      * @brief calculatePAHError Calculate polar alignment error in the Polar Alignment Helper (PAH) method
@@ -544,6 +559,10 @@ private:
 
     // Which hemisphere are we located on?
     HemisphereType hemisphere;
+
+
+    void removeAstrometryOption(QStringList &solver_args,QString option);
+    void editAstrometryOption(QStringList &solver_args, QString option, QString argument);
 };
 
 }
