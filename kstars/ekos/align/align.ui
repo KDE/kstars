@@ -310,6 +310,9 @@
             <property name="styleSheet">
              <string notr="true">font-weight: bold;</string>
             </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item row="2" column="1">
@@ -332,6 +335,9 @@
             </property>
             <property name="styleSheet">
              <string notr="true">font-weight: bold;</string>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -397,6 +403,9 @@
            <widget class="QLineEdit" name="pixScaleOut">
             <property name="toolTip">
              <string>Image scale in arcsecs/pixel</string>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
