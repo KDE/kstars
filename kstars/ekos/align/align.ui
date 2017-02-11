@@ -691,6 +691,13 @@
                 </property>
                </widget>
               </item>
+              <item row="4" column="3">
+               <widget class="QPushButton" name="editOptionsB">
+                <property name="text">
+                 <string>Edit Options</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
            </layout>
