@@ -28,6 +28,7 @@
 
 #include "capture.h"
 #include "sequencejob.h"
+#include "dslrinfodialog.h"
 
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
@@ -608,16 +609,25 @@ void Capture::checkCCD(int ccdNum)
             ISOCombo->addItems(isoList);
             ISOCombo->setCurrentIndex(targetChip->getISOIndex());
 
-            if (currentCCD->getTransferFormat() == ISD::CCD::FORMAT_FITS)
-                appendLogText(i18n("Using FITS transfer format from DSLR camera. Configure DSLR transfer format in options."));
-            else
-                appendLogText(i18n("Using native transfer format from DSLR camera. Configure DSLR transfer format in options."));
+            int currentDSLRTransferOption = Options::dSLRFormatFITS() ? ISD::CCD::FORMAT_FITS : ISD::CCD::FORMAT_NATIVE;
+
+            if (currentDSLRTransferOption != lastDSLRTransforFormat)
+            {
+                if (currentDSLRTransferOption == ISD::CCD::FORMAT_FITS)
+                    appendLogText(i18n("Using FITS transfer format from DSLR camera. Configure DSLR transfer format in options."));
+                else
+                    appendLogText(i18n("Using native transfer format from DSLR camera. Configure DSLR transfer format in options."));
+
+                lastDSLRTransforFormat = currentDSLRTransferOption;
+            }
 
             double pixelX=0, pixelY=0;
             bool rc = targetChip->getPixelSize(pixelX, pixelY);
             if (rc == false || pixelX == 0 || pixelY == 0)
             {
-                appendLogText(i18n("DSLR CCD Information is incomplete. Please update CCD Information in Image Info section in the INDI Control Panel."));
+                DSLRInfo infoDialog(this, currentCCD);
+                infoDialog.exec();
+                //appendLogText(i18n("DSLR CCD Information is incomplete. Please update CCD Information in Image Info section in the INDI Control Panel."));
             }
         }
 

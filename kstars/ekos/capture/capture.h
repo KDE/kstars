@@ -597,6 +597,8 @@ private:
     int16_t lastFilterOffset=0;
 
     QList<OAL::Filter *> m_filterList;
+
+    int lastDSLRTransforFormat=-1;
 };
 
 }
