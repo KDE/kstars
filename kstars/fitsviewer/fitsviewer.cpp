@@ -366,6 +366,12 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
     QApplication::restoreOverrideCursor();
     tab->setPreviewText(previewText);
 
+    connect(tab, SIGNAL(newStatus(QString,FITSBar)), this, SLOT(updateStatusBar(QString,FITSBar)));
+    connect(tab->getView(), SIGNAL(actionUpdated(QString,bool)), this, SLOT(updateAction(QString,bool)));
+    connect(tab, SIGNAL(changeStatus(bool)), this, SLOT(updateTabStatus(bool)));
+    connect(tab, SIGNAL(debayerToggled(bool)), this, SLOT(setDebayerAction(bool)));
+    connect(tab->getView(), SIGNAL(wcsToggled(bool)), this, SLOT(updateWCSFunctions()));
+
     switch (mode)
     {
       case FITS_NORMAL:
@@ -392,12 +398,6 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
         break;
 
     }
-
-    connect(tab, SIGNAL(newStatus(QString,FITSBar)), this, SLOT(updateStatusBar(QString,FITSBar)));
-    connect(tab->getView(), SIGNAL(actionUpdated(QString,bool)), this, SLOT(updateAction(QString,bool)));
-    connect(tab, SIGNAL(changeStatus(bool)), this, SLOT(updateTabStatus(bool)));
-    connect(tab, SIGNAL(debayerToggled(bool)), this, SLOT(setDebayerAction(bool)));
-    connect(tab->getView(), SIGNAL(wcsToggled(bool)), this, SLOT(updateWCSFunctions()));
 
     saveFileAction->setEnabled(true);
     saveFileAsAction->setEnabled(true);
