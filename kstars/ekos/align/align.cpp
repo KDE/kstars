@@ -539,6 +539,8 @@ void Align::slotEditOptions(){
     slotUpdateAstrometryOptionEditor(solverOptions->text());
 
     astrometryOptions.solverOptions->setText(solverOptions->text().simplified());
+    astrometryOptions.buttonBox->button(QDialogButtonBox::Reset)->setToolTip(i18n("Reloads the original options from before you started the editor."));
+    astrometryOptions.buttonBox->button(QDialogButtonBox::RestoreDefaults)->setToolTip(i18n("Replaces the Options with the default option set"));
 
     QDoubleValidator *scaleLValidator=new QDoubleValidator(0.0001,1000,5,this);
     scaleLValidator->setNotation(QDoubleValidator::StandardNotation);
@@ -572,8 +574,8 @@ void Align::slotEditOptions(){
     astrometryOptions.updatePosition->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
     astrometryOptions.updatePosition->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    connect(astrometryOptions.resetB, SIGNAL(clicked()), this, SLOT(slotResetOptionsInEditor()));
-    connect(astrometryOptions.defaultB, SIGNAL(clicked()), this, SLOT(slotDefaultEditorOptions()));
+    connect(astrometryOptions.buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked()), this, SLOT(slotResetOptionsInEditor()));
+    connect(astrometryOptions.buttonBox->button(QDialogButtonBox::RestoreDefaults), SIGNAL(clicked()), this, SLOT(slotDefaultEditorOptions()));
 
     connect(astrometryOptions.solverOptions, SIGNAL(textEdited(const QString &)), this, SLOT(slotUpdateAstrometryOptionEditor(const QString &)));
 
