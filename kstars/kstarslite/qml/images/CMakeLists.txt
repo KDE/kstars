@@ -104,6 +104,10 @@ install( FILES
 	 kstars_supernovae@2x.png
 	 kstars_supernovae@3x.png
 	 kstars_supernovae@4x.png
+         kstars_automode.png
+         kstars_automode@2x.png
+         kstars_automode@3x.png
+         kstars_automode@4x.png
 	 media-playback-pause.png
 	 media-playback-pause@2x.png
 	 media-playback-pause@3x.png

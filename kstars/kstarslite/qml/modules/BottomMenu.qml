@@ -32,7 +32,7 @@ ColumnLayout {
     Connections {
         target: SkyMapLite
         onSlewingChanged: {
-            if(SkyMapLite.slewing) {
+            if(SkyMapLite.slewing || skyMapLite.automaticMode) {
                 prevState = state
                 state = "hidden"
             } else {

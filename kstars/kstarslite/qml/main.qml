@@ -421,6 +421,7 @@ ApplicationWindow {
                     if(model.type == "popup") {
                         objID.open()
                     }
+
                     contextDrawer.close()
                 }
 

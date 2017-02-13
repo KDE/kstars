@@ -29,7 +29,7 @@ ColumnLayout {
     Connections {
         target: SkyMapLite
         onSlewingChanged: {
-            if(SkyMapLite.slewing) {
+            if(SkyMapLite.slewing || skyMapLite.automaticMode) {
                 prevState = state
                 state = "hidden"
             } else {
@@ -111,6 +111,24 @@ ColumnLayout {
             property double childrenWidth: 0
 
             Component.onCompleted: {
+                if(Qt.platform.os == "android") {
+                    //Automatic mode is available only for Android
+                    var columnForTab = Qt.createQmlObject('import QtQuick 2.7
+                                                            import "helpers"
+                TopMenuButton {
+                    id: autoModeButton
+                    iconSrc: "../../images/kstars_automode.png"
+                    title: "Automatic mode"
+                    titlePlural: false
+                    visible: Qt.platform.os == "android"
+
+                    toggled: SkyMapLite.automaticMode
+                    onClicked: {
+                        SkyMapLite.automaticMode = !SkyMapLite.automaticMode
+                    }
+                }', menuFlow)
+                    }
+
                 for(var i = 0; i < children.length; ++i) {
                     childrenWidth += children[i].width + spacing
                 }

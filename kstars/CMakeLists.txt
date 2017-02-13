@@ -717,8 +717,8 @@ if(BUILD_KSTARS_LITE)
         kstarslite/skyitems/skynodes/nodes/linenode.cpp
         kstarslite/skyitems/skynodes/nodes/ellipsenode.cpp
         kstarslite/skyitems/skynodes/nodes/rectnode.cpp
-        #Material
-        #kstarslite/skyitems/skynodes/material/dashedshader.cpp
+        #Other
+        kstarslite/deviceorientation.cpp
         #libtess
         libtess/dict.c
         libtess/geom.c
@@ -891,6 +891,7 @@ if(BUILD_KSTARS_LITE)
         Qt5::Positioning
         Qt5::Concurrent
         ${ZLIB_LIBRARIES}
+        ${QT_EXTRA_LIBRARIES}
         )
     if(INDI_FOUND)
         if(ANDROID)

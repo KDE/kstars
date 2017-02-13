@@ -235,6 +235,12 @@ void SkyMapLite::wheelEvent( QWheelEvent *e ) {
 
 void SkyMapLite::touchEvent( QTouchEvent *e) {
     QList<QTouchEvent::TouchPoint> points = e->touchPoints();
+
+    bool autoMode = false; //Always false for devices that doesn't support automatic mode
+    #if defined(Q_OS_ANDROID)
+        autoMode = getAutomaticMode();
+    #endif
+
     if(points.length() == 2) {
         //Set tapBegan to false because user doesn't tap but either pans or pinches to zoom
         tapBegan = false;
@@ -302,7 +308,7 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         //update(); //Apply rotation*/
 
         //Allow movement of SkyMapLite while rotating or zooming
-        if(!getCenterLocked()) {
+        if(!getCenterLocked() && !autoMode) {
             QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, pinchCenter,
                                                  Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
             if(!pinch) {
@@ -322,7 +328,7 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
                 mouseButtonDown = false;
             }
         }
-    } else if (points.length() == 1 && !pinch && !getCenterLocked()) {
+    } else if (points.length() == 1 && !pinch && !autoMode) {
         QPointF point = points[0].screenPos();
         //Set clicked point (needed for pan)
         if(e->type() == QEvent::TouchBegin) {

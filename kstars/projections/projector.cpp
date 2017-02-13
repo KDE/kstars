@@ -24,6 +24,7 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 #include "skycomponents/skylabeler.h"
+#include "../skymaplite.h"
 
 namespace {
     void toXYZ(const SkyPoint* p, double *x, double *y, double *z) {
@@ -207,12 +208,26 @@ bool Projector::checkVisibility( SkyPoint *p ) const
     */ //Here we hope that the point has already been 'synchronized'
     if( m_vp.fillGround /*&& m_vp.useAltAz*/ && p->alt().Degrees() < -1.0 ) return false;
 
+//    dms rotation(SkyMapLite::Instance()->property("rotation").toFloat());
+//    double cosT, sinT;
+//    if(rotation.Degrees() != 0) {
+//        rotation.SinCos(sinT, cosT);
+//    }
+
     if ( m_vp.useAltAz ) {
         /** To avoid calculating refraction, we just use the unrefracted
             altitude and add a 2-degree 'safety factor' */
-        dY = fabs( p->alt().Degrees() - m_vp.focus->alt().Degrees() ) -2.;
+//        if(rotation.Degrees() != 0) {
+//            dY = fabs( newY - m_vp.focus->alt().Degrees() ) -2.;
+//        } else {
+            dY = fabs( p->alt().Degrees() - m_vp.focus->alt().Degrees() ) -2.;
+//        }
     } else {
-        dY = fabs( p->dec().Degrees() - m_vp.focus->dec().Degrees() );
+//        if(rotation.Degrees() != 0) {
+//            dY = fabs( p->ra().Degrees()*sinT + p->dec().Degrees()*cosT - m_vp.focus->dec().Degrees() );
+//        } else {
+            dY = fabs( p->dec().Degrees() - m_vp.focus->dec().Degrees() );
+//        }
     }
     if( m_isPoleVisible )
         dY *= 0.75; //increase effective FOV when pole visible.
