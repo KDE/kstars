@@ -52,6 +52,8 @@
 #include <QQmlContext>
 #include <QScreen>
 
+#include "kstarslite/deviceorientation.h"
+
 namespace {
 
 // Draw bitmap for zoom cursor. Width is size of pen to draw with.
@@ -98,7 +100,10 @@ int SkyMapLite::starColorMode = 0;
 SkyMapLite::SkyMapLite()
     :m_proj(0), count(0), data(KStarsData::Instance()),
       nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0),
-      isInitialized(false), clearTextures(false), m_centerLocked(false)
+      isInitialized(false), clearTextures(false), m_centerLocked(false), m_automaticMode(false)
+    #if defined (Q_OS_ANDROID)
+    , m_deviceOrientation(new DeviceOrientation(this))
+    #endif
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
@@ -135,6 +140,12 @@ SkyMapLite::SkyMapLite()
 
     connect(clientMng, &ClientManagerLite::telescopeAdded, [this](TelescopeLite *newTelescope){ this->m_newTelescopes.append(newTelescope->getDevice()); });
     connect(clientMng, &ClientManagerLite::telescopeRemoved, [this](TelescopeLite *newTelescope){ this->m_delTelescopes.append(newTelescope->getDevice()); });
+#if defined (Q_OS_ANDROID)
+    //Automatic mode
+    automaticModeTimer.setInterval(10);
+    connect(&automaticModeTimer, SIGNAL(timeout()), this, SLOT(updateAutomaticMode()));
+    setAutomaticMode(false);
+#endif
 }
 
 QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
@@ -183,7 +194,6 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
         }
         m_loadingFinished = true;
     }*/
-
     return n;
 }
 
@@ -785,6 +795,29 @@ void SkyMapLite::setCenterLocked(bool centerLocked) {
     m_centerLocked = centerLocked;
     emit centerLockedChanged(centerLocked);
 }
+
+void SkyMapLite::setAutomaticMode(bool automaticMode) {
+#if defined(Q_OS_ANDROID)
+    if(m_automaticMode != automaticMode) {
+        m_automaticMode = automaticMode;
+        if(automaticMode) {
+            m_deviceOrientation->startSensors();
+            automaticModeTimer.start();
+        } else {
+            automaticModeTimer.stop();
+            m_deviceOrientation->stopSensors();
+        }
+    }
+#endif
+}
+
+#if defined(Q_OS_ANDROID)
+void SkyMapLite::updateAutomaticMode() {
+    m_deviceOrientation->getOrientation();
+    setFocusAltAz(dms(m_deviceOrientation->getAltitude()), dms(m_deviceOrientation->getAzimuth()));
+//    setProperty("rotation", -1 * m_deviceOrientation->getRoll()); // Invert it
+}
+#endif
 
 void SkyMapLite::initStarImages()
 {

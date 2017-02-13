@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0.2" package="org.kde.kstars" android:installLocation="auto" android:versionCode="9">
         <application android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="KStars Lite" android:icon="@drawable/icon">
-                <activity android:name="org.qtproject.qt5.android.bindings.QtActivity" android:label="KStars Lite" android:screenOrientation="unspecified" android:theme="@style/AppTheme" android:launchMode="singleTop" android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|locale|fontScale|keyboard|keyboardHidden|navigation">
+                <activity android:name="org.kde.kstars.DeviceOrientation" android:label="KStars Lite" android:screenOrientation="unspecified" android:theme="@style/AppTheme" android:launchMode="singleTop" android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|locale|fontScale|keyboard|keyboardHidden|navigation">
                         <intent-filter>
                                 <action android:name="android.intent.action.MAIN"/>
                                 <category android:name="android.intent.category.LAUNCHER"/>

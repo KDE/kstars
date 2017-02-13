@@ -162,7 +162,9 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     }
 
     addComponent( m_SolarSystem = new SolarSystemComposite( this ), 2);
+#ifndef KSTARS_LITE
     addComponent( m_Flags       = new FlagComponent( this ), 4);
+#endif
 
     addComponent( m_ObservingList = new TargetListComponent( this , 0, QPen(),
                                                              &Options::obsListSymbol, &Options::obsListText ), 120 );
@@ -221,8 +223,10 @@ void SkyMapComposite::update(KSNumbers *num )
     m_Supernovae->update(num);
     //15. Horizon
     m_Horizon->update( num );
+#ifndef KSTARS_LITE
     //16. Flags
     m_Flags->update(num);
+#endif
 }
 
 void SkyMapComposite::updateSolarSystemBodies(KSNumbers *num )
@@ -822,10 +826,11 @@ void SkyMapComposite::setCurrentCulture( QString culture ) {
 QString SkyMapComposite::currentCulture() {
     return m_Cultures->current();
 }
-
+#ifndef KSTARS_LITE
 FlagComponent* SkyMapComposite::flags() {
     return m_Flags;
 }
+#endif
 
 SatellitesComponent* SkyMapComposite::satellites() {
     return m_Satellites;

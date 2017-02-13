@@ -170,8 +170,9 @@ public:
     void reloadCLines();
     void reloadCNames();
     void reloadConstellationArt();
-
+#ifndef KSTARS_LITE
     FlagComponent* flags();
+#endif
     SatellitesComponent* satellites();
     SupernovaeComponent* supernovaeComponent();
     ArtificialHorizonComponent* artificialHorizon();
@@ -251,7 +252,9 @@ private:
     SolarSystemComposite        *m_SolarSystem;
     SkyComposite                *m_CustomCatalogs;
     StarComponent               *m_Stars;
+#ifndef KSTARS_LITE
     FlagComponent               *m_Flags;
+#endif
     TargetListComponent         *m_ObservingList;
     TargetListComponent         *m_StarHopRouteList;
     SatellitesComponent         *m_Satellites;

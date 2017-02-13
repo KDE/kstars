@@ -31,6 +31,7 @@
 #include "kstarslite/skyitems/rootnode.h"
 
 #include "basedevice.h"
+class DeviceOrientation;
 
 class dms;
 class KStarsData;
@@ -87,6 +88,8 @@ class SkyMapLite : public QQuickItem {
      * @short true if SkyMapLite is centered on an object and only pinch-to-zoom needs to be available
     **/
     Q_PROPERTY(bool centerLocked READ getCenterLocked WRITE setCenterLocked NOTIFY centerLockedChanged)
+    Q_PROPERTY(bool automaticMode READ getAutomaticMode WRITE setAutomaticMode NOTIFY automaticModeChanged)
+
 protected:
     /** Constructor. **/
     explicit SkyMapLite();
@@ -376,6 +379,14 @@ public:
      */
     void setCenterLocked(bool centerLocked);
 
+    /** True if automatic mode is on (SkyMapLite is controled by smartphones accelerometer magnetometer) **/
+    bool getAutomaticMode() const { return m_automaticMode; }
+
+    /**
+     * @short switch automatic mode on/off according to isOn parameter
+     */
+    Q_INVOKABLE void setAutomaticMode(bool automaticMode);
+
 public slots:
      /** Called whenever wrappers' width or height are changed. Probably will be used to
      * update positions of items.
@@ -434,11 +445,11 @@ public slots:
      */
     void slotSelectObject(SkyObject *skyObj);
 
-    /**
-     * @short slotGyroMove called when m_gyroSensor got new reading. Moves focus of SkyMapLite according
-     * to coordinates received from gyroscope
-     */
-    //void slotCompassMove();
+#if defined(Q_OS_ANDROID)
+    /** @short updates focus of SkyMapLite according to data from DeviceOrientation
+        (Smartphone's sensors)*/
+    void updateAutomaticMode();
+#endif
 
 signals:
     /** Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
@@ -483,6 +494,8 @@ signals:
     void slewingChanged(bool);
 
     void centerLockedChanged(bool);
+
+    void automaticModeChanged(bool);
 protected:
     /** Process keystrokes:
      * @li arrow keys  Slew the map
@@ -684,6 +697,12 @@ private:
 
     QList<INDI::BaseDevice *> m_newTelescopes;
     QList<INDI::BaseDevice *> m_delTelescopes;
+    bool m_automaticMode;
+
+#if defined (Q_OS_ANDROID)
+    QTimer automaticModeTimer;
+    DeviceOrientation* m_deviceOrientation;
+#endif
 };
 
 #endif

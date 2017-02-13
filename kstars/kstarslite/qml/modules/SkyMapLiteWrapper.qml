@@ -53,7 +53,7 @@ Item {
 
         Button {
             z: 1
-            visible: SkyMapLite.centerLocked && Qt.platform.os == "android"
+            visible: SkyMapLite.centerLocked
             anchors {
                 right: parent.right
                 top: parent.top
@@ -82,6 +82,26 @@ Item {
             Image {
                 source: "../images/lock-closed.png"
                 anchors.centerIn: parent
+            }
+        }
+
+        Button {
+            z: 1
+            id: exitAutomaticMode
+            visible: SkyMapLite.automaticMode
+            anchors {
+                left: parent.left
+                top: parent.top
+                margins: 25
+            }
+
+            Image {
+                source: "../images/back.png"
+                anchors.centerIn: parent
+            }
+
+            onClicked: {
+                SkyMapLite.automaticMode = false
             }
         }
 
@@ -125,7 +145,7 @@ Item {
 
     //Step 3 - Top Menu
     TutorialStep3 {
-        anchors{
+        anchors {
             top: topMenu.bottom
         }
     }
