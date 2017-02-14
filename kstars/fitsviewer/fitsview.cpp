@@ -534,6 +534,8 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
 
 FITSView::~FITSView()
 {
+    wcsWatcher.waitForFinished();
+
     delete(image_frame);
     delete(imageData);
     delete(display_image);
