@@ -63,8 +63,8 @@ class QProgressDialog;
 
 typedef struct
 {
-    double ra;
-    double dec;
+    float ra;
+    float dec;
 } wcs_point;
 
 class Edge
@@ -258,6 +258,8 @@ public:
     bool getAutoRemoveTemporaryFITS() const;
     void setAutoRemoveTemporaryFITS(bool value);
 
+    QString getLastError() const;
+
 private:
 
     void rotWCSFITS (int angle, int mirror);
@@ -345,6 +347,8 @@ private:
 
     // Remove temproray files after closing
     bool autoRemoveTemporaryFITS=true;
+
+    QString lastError;
 };
 
 #endif

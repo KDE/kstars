@@ -2927,9 +2927,16 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         return;
     }
 
+    bool rc = false;
+
     if (pahStage == PAH_FIRST_CAPTURE)
     {
-        alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+        rc = alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+        if (rc == false)
+        {
+            appendLogText(i18n("Error creating WCS file: %1", alignView->getImageData()->getLastError()));
+            return;
+        }
 
         // Set First PAH Center
         PAHImageInfo *solution = new PAHImageInfo();
@@ -2946,7 +2953,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         FITSData *imageData = alignView->getImageData();
         QPointF pixelPoint, imagePoint;
 
-        bool rc = imageData->wcsToPixel(CP, pixelPoint, imagePoint);
+        rc = imageData->wcsToPixel(CP, pixelPoint, imagePoint);
 
         // TODO check if pixelPoint is located TOO far from the current position as well
         // i.e. if X > Width * 2..etc
@@ -2982,7 +2989,13 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     }
     else if (pahStage == PAH_SECOND_CAPTURE)
     {
-        alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+        rc= alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+        if (rc == false)
+        {
+            appendLogText(i18n("Error creating WCS file: %1", alignView->getImageData()->getLastError()));
+            // Not critical error
+            //return;
+        }
 
         // Set 2nd PAH Center
         PAHImageInfo *solution = new PAHImageInfo();
@@ -3001,7 +3014,12 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     }
     else if (pahStage == PAH_THIRD_CAPTURE)
     {
-        alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+        rc = alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+        if (rc == false)
+        {
+            appendLogText(i18n("Error creating WCS file: %1", alignView->getImageData()->getLastError()));
+            return;
+        }
 
         // Set Third PAH Center
         PAHImageInfo *solution = new PAHImageInfo();

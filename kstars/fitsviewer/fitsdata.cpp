@@ -2078,14 +2078,16 @@ bool FITSData::loadWCS()
 
     if (fits_hdr2str(fptr, 1, NULL, 0, &header, &nkeyrec, &status))
     {
-        fits_report_error(stderr, status);
+        char errmsg[512];
+        fits_get_errstatus(status, errmsg);
+        lastError = errmsg;
         return false;
     }
 
     if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
     {
         free(header);
-        fprintf(stderr, "wcspih ERROR %d: %s.\n", status, wcshdr_errmsg[status]);
+        lastError = QString("wcspih ERROR %1: %2.").arg(status).arg(wcshdr_errmsg[status]);
         return false;
     }
 
@@ -2094,22 +2096,32 @@ bool FITSData::loadWCS()
     if (wcs == 0)
     {
         //fprintf(stderr, "No world coordinate systems found.\n");
+        lastError = i18n("No world coordinate systems found.");
         return false;
     }
 
     // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
     if (wcs->crpix[0] == 0)
+    {
+        lastError = i18n("No world coordinate systems found.");
         return false;
+    }
 
     if ((status = wcsset(wcs)))
     {
-        fprintf(stderr, "wcsset ERROR %d: %s.\n", status, wcs_errmsg[status]);
+        lastError = QString("wcsset error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
     }
 
     delete[] wcs_coord;
 
     wcs_coord = new wcs_point[width*height];
+
+    if (wcs_coord == NULL)
+    {
+        lastError = "Not enough memory for WCS data!";
+        return false;
+    }
 
     wcs_point *p = wcs_coord;
 
@@ -2122,7 +2134,7 @@ bool FITSData::loadWCS()
 
             if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])))
             {
-                fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status,  wcs_errmsg[status]);
+                lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
             }
             else
             {
@@ -3464,6 +3476,11 @@ void FITSData::trace(int width, int height, int id, QVector<float> &image, QVect
             }
         }
     }
+}
+
+QString FITSData::getLastError() const
+{
+    return lastError;
 }
 
 bool FITSData::getAutoRemoveTemporaryFITS() const
