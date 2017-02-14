@@ -509,7 +509,7 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     currentZoom = 0.0;
     markStars = false;
 
-    setBaseSize(750,650);
+    setBaseSize(740,530);
 
     connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
     connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
@@ -832,13 +832,10 @@ template<typename T>  int FITSView::rescale(FITSZoom type)
             }
 
             // Find the zoom level which will enclose the current FITS in the current window size
-            //currentZoom = floor( (w / static_cast<double>(currentWidth)) * 10.) * 10.;
-            currentZoom = floor( (w / static_cast<double>(currentWidth)) * 100.);
+            double zoomX = floor( (w / static_cast<double>(currentWidth)) * 100.);
+            double zoomY = floor( (h / static_cast<double>(currentHeight)) * 100.);
+            (zoomX < zoomY) ? currentZoom = zoomX : currentZoom = zoomY;
 
-            /* If width is not the problem, try height */
-            if (currentZoom > ZOOM_DEFAULT)
-                //currentZoom = floor( (h / static_cast<double>(currentHeight)) * 10.) * 10.;
-                currentZoom = floor( (h / static_cast<double>(currentHeight)) * 100.);
 
             currentWidth  = image_width * (currentZoom / ZOOM_DEFAULT);
             currentHeight = image_height * (currentZoom / ZOOM_DEFAULT);
