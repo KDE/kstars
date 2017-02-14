@@ -16,6 +16,10 @@
 
 DSLRInfo::DSLRInfo(QWidget *parent, ISD::CCD *ccd) : QDialog(parent)
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
+
     setupUi(this);
 
     currentCCD = ccd;

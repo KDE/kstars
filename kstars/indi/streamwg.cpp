@@ -38,6 +38,10 @@
 
 RecordOptions::RecordOptions(QWidget *parent) : QDialog(parent)
 {
+#ifdef Q_OS_OSX
+        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
+
     setupUi(this);
 
     dirPath     = QUrl::fromLocalFile(QDir::homePath());
