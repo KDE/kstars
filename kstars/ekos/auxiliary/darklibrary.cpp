@@ -36,7 +36,6 @@ DarkLibrary::DarkLibrary(QObject *parent) : QObject(parent)
 {
     KStarsData::Instance()->userdb()->GetAllDarkFrames(darkFrames);
 
-
     subtractParams.duration=0;
     subtractParams.offsetX=0;
     subtractParams.offsetY=0;
@@ -50,6 +49,11 @@ DarkLibrary::DarkLibrary(QObject *parent) : QObject(parent)
 DarkLibrary::~DarkLibrary()
 {
     qDeleteAll(darkFiles);
+}
+
+void DarkLibrary::refreshFromDB()
+{
+    KStarsData::Instance()->userdb()->GetAllDarkFrames(darkFrames);
 }
 
 FITSData * DarkLibrary::getDarkFrame(ISD::CCDChip *targetChip, double duration)

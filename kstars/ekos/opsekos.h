@@ -10,9 +10,11 @@
 #ifndef OpsEkos_H_
 #define OpsEkos_H_
 
+#include <QSqlDatabase>
 #include "ui_opsekos.h"
 
 class KConfigDialog;
+class QSqlTableModel;
 
 /**
  * @class OpsEkos
@@ -37,8 +39,14 @@ private slots:
     void toggleConfigInternal();
     void toggleWCSInternal();
 
+    void clearAll();
+    void clearRow();
+    void openDarksFolder();
+    void refreshDarkData();
+
 private:
     KConfigDialog *m_ConfigDialog;
+    QSqlTableModel *darkFramesModel=NULL;
 };
 
 #endif
