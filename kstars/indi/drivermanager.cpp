@@ -183,12 +183,17 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                      cState = dv->getClientState() && dState;
 
 
+                 bool locallyAvailable=false;
+                 if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
+                    locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
+
                  switch (mode)
                  {
                     case SERVER_ONLY:
                      ui->runServiceB->setEnabled(!dState);
                      ui->stopServiceB->setEnabled(dState);
-                     item->setIcon(LOCAL_STATUS_COLUMN, dState ? ui->runningPix : ui->stopPix);
+                     if(locallyAvailable)
+                        item->setIcon(LOCAL_STATUS_COLUMN, dState ? ui->runningPix : ui->stopPix);
                      if (dState)
                      {
                          item->setIcon(LOCAL_MODE_COLUMN, ui->serverMode);
@@ -206,7 +211,8 @@ void DriverManager::processDeviceStatus(DriverInfo *dv)
                     case SERVER_CLIENT:
                      ui->runServiceB->setEnabled(!cState);
                      ui->stopServiceB->setEnabled(cState);
-                     item->setIcon(LOCAL_STATUS_COLUMN, cState ? ui->runningPix : ui->stopPix);
+                     if(locallyAvailable)
+                        item->setIcon(LOCAL_STATUS_COLUMN, cState ? ui->runningPix : ui->stopPix);
                      if (cState)
                      {
                          item->setIcon(LOCAL_MODE_COLUMN, ui->localMode);
@@ -1204,10 +1210,18 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
 
         version = pcdataXMLEle(el);
 
+        bool driverIsAvailable=checkDriverAvailability(driver);
+
+        vMap.insert("LOCALLY_AVAILABLE", driverIsAvailable);
+        QIcon remoteIcon=QIcon::fromTheme("modem", QIcon(":/icons/breeze/default/modem.svg"));
+
         QTreeWidgetItem *device = new QTreeWidgetItem(DGroup);
 
     device->setText(LOCAL_NAME_COLUMN, label);
-    device->setIcon(LOCAL_STATUS_COLUMN, ui->stopPix);
+    if(driverIsAvailable)
+        device->setIcon(LOCAL_STATUS_COLUMN, ui->stopPix);
+    else
+        device->setIcon(LOCAL_STATUS_COLUMN, remoteIcon);
     device->setText(LOCAL_VERSION_COLUMN, version);
     device->setText(LOCAL_PORT_COLUMN, port);
 
@@ -1235,6 +1249,18 @@ bool DriverManager::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, De
     driversList.append(dv);
 
     return true;
+}
+
+bool DriverManager::checkDriverAvailability(QString driver){
+    QString indiServerDir=Options::indiServer();
+    if(Options::indiServerIsInternal())
+        indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
+    else
+       indiServerDir=QFileInfo(Options::indiServer()).dir().path();
+
+    QFile driverFile(indiServerDir + "/" + driver);
+
+    return driverFile.exists();
 }
 
 void DriverManager::updateCustomDrivers()

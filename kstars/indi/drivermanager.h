@@ -136,6 +136,8 @@ private:
     QList<ClientManager *> clients;
     QStringList driversStringList;
 
+    bool checkDriverAvailability(QString driver);
+
     INDIDBus indiDBUS;
 
 public slots:

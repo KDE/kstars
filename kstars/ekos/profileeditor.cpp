@@ -194,6 +194,8 @@ ProfileInfo *ProfileEditor::getPi() const
 
 void ProfileEditor::setRemoteMode(bool enable)
 {
+    loadDrivers();//This is needed to reload the drivers because some may not be available locally
+
     ui->remoteHost->setEnabled(enable);
     ui->remoteHostLabel->setEnabled(enable);
     ui->remotePort->setEnabled(enable);
@@ -394,92 +396,116 @@ void ProfileEditor::setPi(ProfileInfo *value)
 
 void ProfileEditor::loadDrivers()
 {
-    ui->mountCombo->addItem("--");
-    ui->ccdCombo->addItem("--");
-    ui->guiderCombo->addItem("--");
-    ui->AOCombo->addItem("--");
-    ui->focuserCombo->addItem("--");
-    ui->filterCombo->addItem("--");
-    ui->domeCombo->addItem("--");
-    ui->weatherCombo->addItem("--");
-    ui->aux1Combo->addItem("--");
-    ui->aux2Combo->addItem("--");
-    ui->aux3Combo->addItem("--");
-    ui->aux4Combo->addItem("--");
+
+    QVector<QComboBox*> boxes;
+    boxes.append(ui->mountCombo);
+    boxes.append(ui->ccdCombo);
+    boxes.append(ui->guiderCombo);
+    boxes.append(ui->AOCombo);
+    boxes.append(ui->focuserCombo);
+    boxes.append(ui->filterCombo);
+    boxes.append(ui->domeCombo);
+    boxes.append(ui->weatherCombo);
+    boxes.append(ui->aux1Combo);
+    boxes.append(ui->aux2Combo);
+    boxes.append(ui->aux3Combo);
+    boxes.append(ui->aux4Combo);
+
+    QVector<QString> selectedItems;
+
+    foreach(QComboBox *box,boxes){
+        selectedItems.append(box->currentText());
+        box->clear();
+        box->addItem("--");
+        box->setMaxVisibleItems(20);
+    }
+
+    QIcon remoteIcon=QIcon::fromTheme("modem", QIcon(":/icons/breeze/default/modem.svg"));
 
     foreach(DriverInfo *dv, DriverManager::Instance()->getDrivers())
     {
+        bool locallyAvailable=false;
+        QIcon icon;
+        if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
+            locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
+        if(!locallyAvailable){
+            if(ui->localMode->isChecked())
+                continue;
+            else
+                icon=remoteIcon;
+        }
+
         switch (dv->getType())
         {
         case KSTARS_TELESCOPE:
         {
-            ui->mountCombo->addItem(dv->getTreeLabel());
+            ui->mountCombo->addItem(icon, dv->getTreeLabel());
         }
         break;
 
         case KSTARS_CCD:
         {
-            ui->ccdCombo->addItem(dv->getTreeLabel());
-            ui->guiderCombo->addItem(dv->getTreeLabel());
+            ui->ccdCombo->addItem(icon, dv->getTreeLabel());
+            ui->guiderCombo->addItem(icon, dv->getTreeLabel());
 
-            ui->aux1Combo->addItem(dv->getTreeLabel());
-            ui->aux2Combo->addItem(dv->getTreeLabel());
-            ui->aux3Combo->addItem(dv->getTreeLabel());
-            ui->aux4Combo->addItem(dv->getTreeLabel());
+            ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux4Combo->addItem(icon, dv->getTreeLabel());
         }
         break;
 
         case KSTARS_ADAPTIVE_OPTICS:
         {
-            ui->AOCombo->addItem(dv->getTreeLabel());
+            ui->AOCombo->addItem(icon, dv->getTreeLabel());
         }
         break;
 
         case KSTARS_FOCUSER:
         {
-            ui->focuserCombo->addItem(dv->getTreeLabel());
+            ui->focuserCombo->addItem(icon, dv->getTreeLabel());
 
-            ui->aux1Combo->addItem(dv->getTreeLabel());
-            ui->aux2Combo->addItem(dv->getTreeLabel());
-            ui->aux3Combo->addItem(dv->getTreeLabel());
-            ui->aux4Combo->addItem(dv->getTreeLabel());
+            ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux4Combo->addItem(icon, dv->getTreeLabel());
         }
         break;
 
         case KSTARS_FILTER:
         {
-            ui->filterCombo->addItem(dv->getTreeLabel());
+            ui->filterCombo->addItem(icon, dv->getTreeLabel());
 
-            ui->aux1Combo->addItem(dv->getTreeLabel());
-            ui->aux2Combo->addItem(dv->getTreeLabel());
-            ui->aux3Combo->addItem(dv->getTreeLabel());
-            ui->aux4Combo->addItem(dv->getTreeLabel());
+            ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux4Combo->addItem(icon, dv->getTreeLabel());
         }
         break;
 
         case KSTARS_DOME:
         {
-            ui->domeCombo->addItem(dv->getTreeLabel());
+            ui->domeCombo->addItem(icon, dv->getTreeLabel());
         }
         break;
 
         case KSTARS_WEATHER:
         {
-            ui->weatherCombo->addItem(dv->getTreeLabel());
+            ui->weatherCombo->addItem(icon, dv->getTreeLabel());
 
-            ui->aux1Combo->addItem(dv->getTreeLabel());
-            ui->aux2Combo->addItem(dv->getTreeLabel());
-            ui->aux3Combo->addItem(dv->getTreeLabel());
-            ui->aux4Combo->addItem(dv->getTreeLabel());
+            ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux4Combo->addItem(icon, dv->getTreeLabel());
         }
         break;
 
         case KSTARS_AUXILIARY:
         {
-            ui->aux1Combo->addItem(dv->getTreeLabel());
-            ui->aux2Combo->addItem(dv->getTreeLabel());
-            ui->aux3Combo->addItem(dv->getTreeLabel());
-            ui->aux4Combo->addItem(dv->getTreeLabel());
+            ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+            ui->aux4Combo->addItem(icon, dv->getTreeLabel());
         }
         break;
 
@@ -490,17 +516,21 @@ void ProfileEditor::loadDrivers()
     }
 
     //ui->mountCombo->setCurrentIndex(-1);
-    ui->mountCombo->model()->sort(0);
-    ui->ccdCombo->model()->sort(0);
-    ui->guiderCombo->model()->sort(0);
-    ui->AOCombo->model()->sort(0);
-    ui->focuserCombo->model()->sort(0);
-    ui->filterCombo->model()->sort(0);
-    ui->domeCombo->model()->sort(0);
-    ui->weatherCombo->model()->sort(0);
-    ui->aux1Combo->model()->sort(0);
-    ui->aux2Combo->model()->sort(0);
-    ui->aux3Combo->model()->sort(0);
-    ui->aux4Combo->model()->sort(0);
+
+     for(int i=0;i<boxes.count();i++){
+         QComboBox *box=boxes.at(i);
+         QString selectedItemText=selectedItems.at(i);
+         int index=box->findText(selectedItemText);
+         if(index==-1){
+             if(ui->localMode->isChecked())
+                 box->setCurrentIndex(0);
+             else
+                 box->addItem(remoteIcon,selectedItemText);
+
+         } else{
+             box->setCurrentIndex(index);
+         }
+         box->model()->sort(0);
+     }
 }
 
