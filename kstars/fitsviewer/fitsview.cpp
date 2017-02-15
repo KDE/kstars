@@ -620,7 +620,8 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
       {
           if (fitsProg.wasCanceled())
               return false;
-          else
+          // Only invoke loadWCS when we are not restricted by CPU/Memory
+          else if (Options::limitedResourcesMode() == false)
           {
             QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
             wcsWatcher.setFuture(future);
@@ -880,9 +881,9 @@ template<typename T>  int FITSView::rescale(FITSZoom type)
 
 void FITSView::ZoomIn()
 {
-    if (currentZoom >= ZOOM_DEFAULT && Options::limitedMemoryMode())
+    if (currentZoom >= ZOOM_DEFAULT && Options::limitedResourcesMode())
     {
-        emit newStatus(i18n("Cannot zoom in further due to active limited memory mode."), FITS_MESSAGE);
+        emit newStatus(i18n("Cannot zoom in further due to active limited resources mode."), FITS_MESSAGE);
         return;
     }
 

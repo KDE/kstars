@@ -272,7 +272,7 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
 
     calculateStats();
 
-    if (Options::autoDebayerFITS() && checkDebayer())
+    if (Options::autoDebayer() && checkDebayer())
     {
         bayerBuffer = imageBuffer;
         debayer();
@@ -3885,6 +3885,10 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
     }
 
     fits_flush_file(fptr, &status);
+
+    // We do not process WCS in limited resource mode
+    if (Options::limitedResourcesMode())
+        return true;
 
     return loadWCS();
 }

@@ -124,6 +124,7 @@
 
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
+#include "fitsviewer/opsfits.h"
 #ifdef HAVE_INDI
 #include "ekos/ekosmanager.h"
 #include "ekos/opsekos.h"
@@ -744,11 +745,16 @@ void KStars::slotViewOps() {
     page = dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
     page->setIcon(QIcon::fromTheme("kstars_colors", QIcon(":/icons/breeze/default/kstars_colors.svg")));
 
+    #ifdef HAVE_CFITSIO
+    opsfits = new OpsFITS();
+    page = dialog->addPage(opsfits, i18n("FITS"), "kstars_fitsviewer");
+    page->setIcon(QIcon::fromTheme("kstars_fitsviewer", QIcon(":/icons/breeze/default/kstars_fitsviewer.svg")));
+    #endif
+
     #ifdef HAVE_INDI
     opsindi = new OpsINDI();
     page= dialog->addPage(opsindi, i18n("INDI"), "kstars_indi");
     page->setIcon(QIcon::fromTheme("kstars_indi", QIcon(":/icons/breeze/default/kstars_indi.svg")));
-
     #ifdef HAVE_CFITSIO
     opsekos = new OpsEkos();
     KPageWidgetItem *ekosOption = dialog->addPage(opsekos, i18n("Ekos"), "kstars_ekos");

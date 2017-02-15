@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OpsFITS</class>
+ <widget class="QWidget" name="OpsFITS">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>335</width>
+    <height>128</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QGroupBox" name="FITSViewerGroup">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="title">
+        <string>Look &amp;&amp; Feel</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="kcfg_singlePreviewFITS">
+          <property name="toolTip">
+           <string>Display all captured FITS images in a single tab instead of multiple tabs per image.</string>
+          </property>
+          <property name="statusTip">
+           <string/>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Preview Mode</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_singleWindowCapturedFITS">
+          <property name="toolTip">
+           <string>Display captured FITS images from all cameras in a single FITS Viewer window instead of a dedicated window to each camera.</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Single Window Capture</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_singleWindowOpenedFITS">
+          <property name="toolTip">
+           <string>Display opened FITS images in a single FITS Viewer window instead of a dedicated window to each file.</string>
+          </property>
+          <property name="whatsThis">
+           <string/>
+          </property>
+          <property name="text">
+           <string>Single Window Open</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_independentWindowFITS">
+          <property name="toolTip">
+           <string>Make FITS Viewer window independent from KStars</string>
+          </property>
+          <property name="text">
+           <string>Independent Window</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Processing</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QCheckBox" name="kcfg_AutoStretch">
+          <property name="toolTip">
+           <string>Always apply auto stretch to images in FITS Viewer</string>
+          </property>
+          <property name="text">
+           <string>Auto Stretch</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_LimitedResourcesMode">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enable limited resource mode to turn off any resource-intensive operations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Auto Debayer: Bayered images will not be debayered. Only grayscale images are shown.&lt;/li&gt;
+&lt;li&gt;3D Cube: RGB images will not be processed. Only grayscale images are shown.&lt;/li&gt;
+&lt;li&gt;World Coordinate System (WCS): WCS data will not be processed. WCS maps sky coordiantes to image coordinates. Equatorial grid lines, object identification, and telescope slew within an image are disabled.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Limited Resources Mode</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_AutoDebayer">
+          <property name="toolTip">
+           <string>Automatically debayer captured image if it contains a bayer pattern</string>
+          </property>
+          <property name="text">
+           <string>Auto Debayer</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="kcfg_Auto3DCube">
+          <property name="toolTip">
+           <string>Process 3D (RGB) FITS images. If unchecked, only first channel is processed.</string>
+          </property>
+          <property name="text">
+           <string>3D Cube</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>3</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

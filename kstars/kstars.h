@@ -69,6 +69,7 @@ class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
 class OpsEkos;
+class OpsFITS;
 
 #ifdef HAVE_XPLANET
 class OpsXplanet;
@@ -721,6 +722,7 @@ private:
     OpsAdvanced *opadvanced;
     OpsINDI *opsindi;
     OpsEkos *opsekos;
+    OpsFITS *opsfits;
 #ifdef HAVE_XPLANET
     OpsXplanet  *opsxplanet;
 #endif
