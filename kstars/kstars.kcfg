@@ -1459,14 +1459,6 @@
          <label>When starting a new capture job, check if files were previously captured and resume capture afterwards.</label>
          <default>true</default>
       </entry>
-      <entry name="DSLRFormatFITS" type="Bool">
-         <label>Enforce FITS format when capturing from DSLR camera.</label>
-         <default>true</default>
-      </entry>
-      <entry name="DSLRFormatNative" type="Bool">
-         <label>Enforce native format when capturing from DSLR camera.</label>
-         <default>false</default>
-      </entry>
       <entry name="HFRThresholdPercentage" type="Double">
          <label>Increase autofocus HFR value by this percentage gain and store it in Capture Module.</label>
          <default>2.5</default>
@@ -1582,11 +1574,6 @@
          <label>Update Solver RA and DEC search coordinates.</label>
          <whatsthis>Automatically update the solver RA and Declination coordinates after telescope slew is completed.</whatsthis>
          <default>true</default>
-      </entry>
-      <entry name="SolverPreview" type="Bool">
-         <label>Display image in FITS Viewer.</label>
-         <whatsthis>Display captured image in FITS Viewer before starting the plate solving process.</whatsthis>
-         <default>false</default>
       </entry>
       <entry name="SolverVerbose" type="Bool">
          <whatsthis>Display detailed verbose messages of the astrometry solver process while in progress.</whatsthis>

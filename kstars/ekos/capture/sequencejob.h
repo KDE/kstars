@@ -154,6 +154,9 @@ class SequenceJob : public QObject
     QString getRemoteDir() const;
     void setRemoteDir(const QString &value);
 
+    ISD::CCD::TransferFormat getTransforFormat() const;
+    void setTransforFormat(const ISD::CCD::TransferFormat &value);
+
 signals:
     void prepareComplete();
     void checkFocus();
@@ -188,10 +191,12 @@ private:
     QTableWidgetItem *statusCell;
     QString fitsDir;
     QString rootFITSDir;
-    QString postCaptureScript;
+    QString postCaptureScript;    
 
-    //TODO getters and setters
     ISD::CCD::UploadMode uploadMode = ISD::CCD::UPLOAD_CLIENT;
+
+    // Transfer Format
+    ISD::CCD::TransferFormat transforFormat = ISD::CCD::FORMAT_FITS;
 
     // TODO getters and settings
     QString remoteDir;

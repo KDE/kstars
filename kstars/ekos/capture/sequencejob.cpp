@@ -424,6 +424,16 @@ void SequenceJob::setRemoteDir(const QString &value)
     remoteDir = value;
 }
 
+ISD::CCD::TransferFormat SequenceJob::getTransforFormat() const
+{
+    return transforFormat;
+}
+
+void SequenceJob::setTransforFormat(const ISD::CCD::TransferFormat &value)
+{
+    transforFormat = value;
+}
+
 int SequenceJob::getISOIndex() const
 {
     return isoIndex;
