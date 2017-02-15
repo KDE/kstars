@@ -80,6 +80,14 @@ Mount::Mount()
     connect(minAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
     connect(maxAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
 
+    connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]()
+    {
+        if (currentTelescope->clearAlignmentModel())
+            appendLogText(i18n("Alignment Model cleared."));
+        else
+            appendLogText(i18n("Failed to clear Alignment Model."));
+    });
+
     connect(enableLimitsCheck, SIGNAL(toggled(bool)), this, SLOT(enableAltitudeLimits(bool)));
     enableLimitsCheck->setChecked(Options::enableAltitudeLimits());
     altLimitEnabled = enableLimitsCheck->isChecked();
