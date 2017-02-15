@@ -43,27 +43,44 @@ public:
 
     DeviceFamily getType() { return dType;}
 
-    // Common Commands
+    // Coordinates
+    bool getEqCoords(double *ra, double *dec);
+
+    // Slew
     bool Slew(SkyPoint *ScopeTarget);
     bool Slew(double ra, double dec);
+
+    // Sync
     bool Sync(SkyPoint *ScopeTarget);
     bool Sync(double ra, double dec);
+    bool canSync();
+
+    // Motion
     bool MoveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd);
     bool MoveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd);
-    bool canGuide();
-    bool canSync();
-    bool canPark();
     bool isSlewing();
-    bool isParked() { return parkStatus == PARK_PARKED; }
-    ParkStatus getParkStatus() { return parkStatus; }
     bool isInMotion();
-    TelescopeStatus getStatus();
+
+    // Guiding
+    bool canGuide();
     bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
     bool doPulse(GuideDirection dir, int msecs );
-    bool getEqCoords(double *ra, double *dec);
+
+    // Parking
+    bool canPark();
+    bool isParked() { return parkStatus == PARK_PARKED; }
+
+    // Status
+    ParkStatus getParkStatus() { return parkStatus; }
+    TelescopeStatus getStatus();
+    static const QString getStatusString(TelescopeStatus status);
+
+    // Altitude Limits
     void setAltLimits(double minAltitude, double maxAltitude);
 
-    static const QString getStatusString(TelescopeStatus status);
+    // Alignment Model
+    bool setAlignmentModelEnabled(bool enable);
+    bool clearAlignmentModel();
 
 protected:
     bool sendCoords(SkyPoint *ScopeTarget);

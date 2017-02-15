@@ -760,6 +760,71 @@ void Telescope::setAltLimits(double minAltitude, double maxAltitude)
     maxAlt=maxAltitude;
 }
 
+bool Telescope::setAlignmentModelEnabled(bool enable)
+{
+    bool wasExecuted=false;
+    ISwitchVectorProperty *alignSwitch = NULL;
+
+    // For INDI Alignment Subsystem
+    alignSwitch = baseDevice->getSwitch("ALIGNMENT_SUBSYSTEM_ACTIVE");
+    if (alignSwitch)
+    {
+        alignSwitch->sp[0].s = enable ? ISS_ON : ISS_OFF;
+        clientManager->sendNewSwitch(alignSwitch);
+        wasExecuted = true;
+    }
+
+    // For EQMod Alignment --- Temporary until all drivers switch fully to INDI Alignment Subsystem
+    alignSwitch = baseDevice->getSwitch("ALIGNMODE");
+    if (alignSwitch)
+    {
+        IUResetSwitch(alignSwitch);
+        // For now, always set alignment mode to NSTAR on enable.
+        if (enable)
+            alignSwitch->sp[2].s = ISS_ON;
+        // Otherwise, set to NO ALIGN
+        else
+            alignSwitch->sp[0].s = ISS_ON;
+
+        clientManager->sendNewSwitch(alignSwitch);
+        wasExecuted = true;
+    }
+
+    return wasExecuted;
+}
+
+bool Telescope::clearAlignmentModel()
+{
+    bool wasExecuted = false;
+
+    // Note: Should probably use INDI Alignment Subsystem Client API in the future?
+    ISwitchVectorProperty *clearSwitch = baseDevice->getSwitch("ALIGNMENT_POINTSET_ACTION");
+    ISwitchVectorProperty *commitSwitch = baseDevice->getSwitch("ALIGNMENT_POINTSET_COMMIT");
+    if (clearSwitch && commitSwitch)
+    {
+        IUResetSwitch(clearSwitch);
+        // ALIGNMENT_POINTSET_ACTION.CLEAR
+        clearSwitch->sp[4].s = ISS_ON;
+        clientManager->sendNewSwitch(clearSwitch);
+        commitSwitch->sp[0].s = ISS_ON;
+        clientManager->sendNewSwitch(commitSwitch);
+        wasExecuted = true;
+    }
+
+    // For EQMod Alignment --- Temporary until all drivers switch fully to INDI Alignment Subsystem
+    clearSwitch = baseDevice->getSwitch("ALIGNLIST");
+    if (clearSwitch)
+    {
+        // ALIGNLISTCLEAR
+        IUResetSwitch(clearSwitch);
+        clearSwitch->sp[1].s = ISS_ON;
+        clientManager->sendNewSwitch(clearSwitch);
+        wasExecuted = true;
+    }
+
+    return wasExecuted;
+}
+
 Telescope::TelescopeStatus Telescope::getStatus()
 {
     INumberVectorProperty *EqProp(NULL);
