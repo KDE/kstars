@@ -597,10 +597,14 @@ void Capture::checkCCD(int ccdNum)
         QStringList isoList = targetChip->getISOList();
         ISOCombo->clear();
 
+        transferFormatCombo->clear();
+
         if (isoList.isEmpty())
         {
             ISOCombo->setEnabled(false);
             ISOLabel->setEnabled(false);
+            // Only one trasnfer format
+            transferFormatCombo->addItem(i18n("FITS"));
         }
         else
         {
@@ -609,17 +613,9 @@ void Capture::checkCCD(int ccdNum)
             ISOCombo->addItems(isoList);
             ISOCombo->setCurrentIndex(targetChip->getISOIndex());
 
-            int currentDSLRTransferOption = Options::dSLRFormatFITS() ? ISD::CCD::FORMAT_FITS : ISD::CCD::FORMAT_NATIVE;
-
-            if (currentDSLRTransferOption != lastDSLRTransforFormat)
-            {
-                if (currentDSLRTransferOption == ISD::CCD::FORMAT_FITS)
-                    appendLogText(i18n("Using FITS transfer format from DSLR camera. Configure DSLR transfer format in options."));
-                else
-                    appendLogText(i18n("Using native transfer format from DSLR camera. Configure DSLR transfer format in options."));
-
-                lastDSLRTransforFormat = currentDSLRTransferOption;
-            }
+            // DSLRs have two transfer formats
+            transferFormatCombo->addItem(i18n("FITS"));
+            transferFormatCombo->addItem(i18n("Native"));
 
             double pixelX=0, pixelY=0;
             bool rc = targetChip->getPixelSize(pixelX, pixelY);
@@ -1256,7 +1252,7 @@ void Capture::captureOne()
         return;
     }
 
-    if (currentCCD->getTransferFormat() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
+    if (transferFormatCombo->currentIndex() == ISD::CCD::FORMAT_NATIVE && darkSubCheck->isChecked())
     {
         appendLogText(i18n("Cannot perform auto dark subtraction of native DSLR formats."));
         return;
@@ -1347,7 +1343,7 @@ void Capture::captureImage()
     }
 
     // If using DSLR, make sure it is set to correct transfer format
-    currentCCD->setTransformFormat(Options::dSLRFormatFITS() ? ISD::CCD::FORMAT_FITS : ISD::CCD::FORMAT_NATIVE);
+    currentCCD->setTransformFormat(activeJob->getTransforFormat());
 
     rc = activeJob->capture(darkSubCheck->isChecked() ? true : false);
 
@@ -1586,6 +1582,8 @@ void Capture::addJob(bool preview)
 
     if (ISOCombo->isEnabled())
         job->setISOIndex(ISOCombo->currentIndex());
+
+    job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(transferFormatCombo->currentIndex()));
 
     job->setPreview(preview);
 
@@ -2486,6 +2484,10 @@ bool Capture::processJobInfo(XMLEle *root)
             if (ISOCombo->isEnabled())
                 ISOCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
         }
+        else if (!strcmp(tagXMLEle(ep), "FormatIndex"))
+        {
+            transferFormatCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+        }
         else if (!strcmp(tagXMLEle(ep), "Calibration"))
         {
             subEP = findXMLEle(ep, "FlatSource");
@@ -2687,6 +2689,7 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<RemoteDirectory>" << job->getRemoteDir() << "</RemoteDirectory>" << endl;
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
+        outstream << "<FormatIndex>" << (job->getTransforFormat()) << "</FormatIndex>" << endl;
 
         outstream << "<Calibration>" << endl;
         outstream << "<FlatSource>" << endl;
@@ -2796,6 +2799,8 @@ void Capture::syncGUIToJob(SequenceJob *job)
 
    if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());
+
+   transferFormatCombo->setCurrentIndex(job->getTransforFormat());
 }
 
 void Capture::editJob(QModelIndex i)
