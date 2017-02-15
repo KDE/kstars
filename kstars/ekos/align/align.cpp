@@ -2745,6 +2745,9 @@ void Align::startPAHProcess()
     if (Options::limitedResourcesMode())
         appendLogText(i18n("Warning: Equatorial Grid Lines will not be drawn due to limited resources mode."));
 
+    appendLogText(i18n("Clearing mount Alignment Model..."));
+    currentTelescope->clearAlignmentModel();
+
     PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
 }
 
@@ -2842,7 +2845,7 @@ void Align::calculatePAHError()
 
     if (rc == false)
     {
-        appendLogText(i18n("Failed to find RA Axis center."));
+        appendLogText(i18n("Failed to find RA Axis center: %1.", imageData->getLastError()));
         return;
     }
 
@@ -2962,7 +2965,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         // i.e. if X > Width * 2..etc
         if (rc == false)
         {
-            appendLogText(i18n("Failed to process World Coordinate System. Try again."));
+            appendLogText(i18n("Failed to process World Coordinate System: %1. Try again.", imageData->getLastError()));
             return;
         }
 
