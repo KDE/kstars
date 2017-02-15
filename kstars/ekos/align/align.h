@@ -330,7 +330,7 @@ private slots:
     // Solver timeout
     void checkAlignmentTimeout();
 
-    void updateGuideScopeCCDs(bool toggled);
+    void updateGuideScopeCCDs(int index);
 
     // External View
     void showFITSViewer();
