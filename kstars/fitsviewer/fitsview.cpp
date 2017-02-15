@@ -616,7 +616,7 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
     maxPixel = imageData->getMax();
     minPixel = imageData->getMin();
 
-      if (mode != FITS_GUIDE)
+      if (mode == FITS_NORMAL || mode == FITS_ALIGN)
       {
           if (fitsProg.wasCanceled())
               return false;
