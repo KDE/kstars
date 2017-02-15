@@ -2071,8 +2071,7 @@ bool FITSData::loadWCS()
     int status=0;
     char *header;
     int nkeyrec, nreject, nwcs, stat[2];
-    double imgcrd[2], phi, pixcrd[2], theta, world[2];
-    struct wcsprm *wcs=0;
+    double imgcrd[2], phi, pixcrd[2], theta, world[2];    
     int width=getWidth();
     int height=getHeight();
 
@@ -2146,7 +2145,7 @@ bool FITSData::loadWCS()
         }
     }
 
-    findObjectsInImage(wcs, &world[0], phi, theta, &imgcrd[0], &pixcrd[0], &stat[0]);
+    findObjectsInImage(&world[0], phi, theta, &imgcrd[0], &pixcrd[0], &stat[0]);
 
     HasWCS = true;
     return HasWCS;
@@ -2162,39 +2161,12 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
 #ifdef HAVE_WCSLIB
 
     int status=0;
-    char *header;
-    int nkeyrec, nreject, nwcs, stat[2];
+    int stat[2];
     double imgcrd[2], worldcrd[2], pixcrd[2], phi[2], theta[2];
-    struct wcsprm *wcs=0;
-
-    if (fits_hdr2str(fptr, 1, NULL, 0, &header, &nkeyrec, &status))
-    {
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
-    {
-        free(header);
-        fprintf(stderr, "wcspih ERROR %d: %s.\n", status, wcshdr_errmsg[status]);
-        return false;
-    }
-
-    free(header);
 
     if (wcs == 0)
     {
-        //fprintf(stderr, "No world coordinate systems found.\n");
-        return false;
-    }
-
-    // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
-    if (wcs->crpix[0] == 0)
-        return false;
-
-    if ((status = wcsset(wcs)))
-    {
-        fprintf(stderr, "wcsset ERROR %d: %s.\n", status, wcs_errmsg[status]);
+        lastError = i18n("No world coordinate systems found.");
         return false;
     }
 
@@ -2203,7 +2175,7 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
 
     if ((status = wcss2p(wcs, 1, 2, &worldcrd[0], &phi[0], &theta[0], &imgcrd[0], &pixcrd[0], &stat[0])))
     {
-        fprintf(stderr, "wcss2p ERROR %d: %s.\n", status,  wcs_errmsg[status]);
+        lastError = QString("wcss2p error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
     }
 
@@ -2227,39 +2199,12 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint & wcsCoord)
 #ifdef HAVE_WCSLIB
 
     int status=0;
-    char *header;
-    int nkeyrec, nreject, nwcs, stat[2];
+    int stat[2];
     double imgcrd[2], phi, pixcrd[2], theta, world[2];
-    struct wcsprm *wcs=0;
-
-    if (fits_hdr2str(fptr, 1, NULL, 0, &header, &nkeyrec, &status))
-    {
-        fits_report_error(stderr, status);
-        return false;
-    }
-
-    if ((status = wcspih(header, nkeyrec, WCSHDR_all, -3, &nreject, &nwcs, &wcs)))
-    {
-        free(header);
-        fprintf(stderr, "wcspih ERROR %d: %s.\n", status, wcshdr_errmsg[status]);
-        return false;
-    }
-
-    free(header);
 
     if (wcs == 0)
     {
-        //fprintf(stderr, "No world coordinate systems found.\n");
-        return false;
-    }
-
-    // FIXME: Call above goes through EVEN if no WCS is present, so we're adding this to return for now.
-    if (wcs->crpix[0] == 0)
-        return false;
-
-    if ((status = wcsset(wcs)))
-    {
-        fprintf(stderr, "wcsset ERROR %d: %s.\n", status, wcs_errmsg[status]);
+        lastError = i18n("No world coordinate systems found.");
         return false;
     }
 
@@ -2268,7 +2213,7 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint & wcsCoord)
 
     if ((status = wcsp2s(wcs, 1, 2, &pixcrd[0], &imgcrd[0], &phi, &theta, &world[0], &stat[0])))
     {
-        fprintf(stderr, "wcsp2s ERROR %d: %s.\n", status,  wcs_errmsg[status]);
+        lastError = QString("wcsp2s error %1: %2.").arg(status).arg(wcs_errmsg[status]);
         return false;
     }
     else
@@ -2287,7 +2232,7 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint & wcsCoord)
 
 #ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
-void FITSData::findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[])
+void FITSData::findObjectsInImage(double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[])
 {
     int width=getWidth();
     int height=getHeight();
