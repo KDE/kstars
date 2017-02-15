@@ -236,7 +236,24 @@
           <property name="spacing">
            <number>3</number>
           </property>
-          <item row="4" column="2">
+          <item row="4" column="1" colspan="2">
+           <widget class="QComboBox" name="transferFormatCombo">
+            <property name="toolTip">
+             <string>Image Transfer Format</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>FITS</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Native</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="5" column="2">
            <widget class="QSpinBox" name="frameXIN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -259,7 +276,7 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="4" colspan="2">
+          <item row="6" column="4" colspan="2">
            <widget class="QSpinBox" name="frameHIN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -282,7 +299,7 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="1">
+          <item row="7" column="1">
            <widget class="QLabel" name="textLabel1_10">
             <property name="toolTip">
              <string/>
@@ -295,7 +312,7 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="4" colspan="2">
+          <item row="7" column="4" colspan="2">
            <widget class="QSpinBox" name="binYIN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -317,7 +334,7 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="4" colspan="2">
+          <item row="5" column="4" colspan="2">
            <widget class="QSpinBox" name="frameYIN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -340,7 +357,7 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="3">
+          <item row="5" column="3">
            <widget class="QLabel" name="textLabel1_14">
             <property name="toolTip">
              <string/>
@@ -385,7 +402,7 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="0">
+          <item row="7" column="0">
            <widget class="QLabel" name="textLabel1_9">
             <property name="toolTip">
              <string>Horizontal and Vertical binning</string>
@@ -411,7 +428,7 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="1">
+          <item row="6" column="1">
            <widget class="QLabel" name="textLabel1_15">
             <property name="toolTip">
              <string/>
@@ -424,7 +441,7 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="2">
+          <item row="7" column="2">
            <widget class="QSpinBox" name="binXIN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
@@ -469,7 +486,7 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="3">
+          <item row="6" column="3">
            <widget class="QLabel" name="textLabel1_16">
             <property name="toolTip">
              <string/>
@@ -482,7 +499,7 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
+          <item row="5" column="0">
            <widget class="QLabel" name="textLabel1_12">
             <property name="toolTip">
              <string/>
@@ -495,7 +512,7 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="2">
+          <item row="6" column="2">
            <widget class="QSpinBox" name="frameWIN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -508,7 +525,7 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="6">
+          <item row="5" column="6">
            <widget class="QPushButton" name="resetFrameB">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -542,7 +559,7 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="0">
+          <item row="6" column="0">
            <widget class="QLabel" name="textLabel1_19">
             <property name="toolTip">
              <string/>
@@ -555,7 +572,98 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="3" colspan="4">
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Format:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLabel" name="textLabel1_13">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>X:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="QSpinBox" name="countIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>999</number>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="3">
+           <widget class="QLabel" name="textLabel1_11">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>V:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="textLabel1_17">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Type:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="5" colspan="2">
+           <widget class="QComboBox" name="ISOCombo">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>ISO settings</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3" colspan="2">
+           <widget class="QLabel" name="ISOLabel">
+            <property name="text">
+             <string>ISO:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3" colspan="4">
            <widget class="QPushButton" name="calibrationB">
             <property name="enabled">
              <bool>false</bool>
@@ -589,114 +697,6 @@
               <width>16</width>
               <height>16</height>
              </size>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLabel" name="textLabel1_13">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>X:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="2">
-           <widget class="QSpinBox" name="countIN">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <number>999</number>
-            </property>
-            <property name="value">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="3">
-           <widget class="QLabel" name="textLabel1_11">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>V:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="textLabel1_17">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Type:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="6">
-           <widget class="QComboBox" name="ISOCombo">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>ISO settings</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>Format:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1" colspan="2">
-           <widget class="QComboBox" name="transferFormatCombo">
-            <property name="toolTip">
-             <string>Image Transfer Format</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>FITS</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Native</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="3" colspan="3">
-           <widget class="QLabel" name="ISOLabel">
-            <property name="text">
-             <string>ISO</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -1855,7 +1855,6 @@
   <tabstop>countIN</tabstop>
   <tabstop>delayIN</tabstop>
   <tabstop>frameTypeCombo</tabstop>
-  <tabstop>calibrationB</tabstop>
   <tabstop>frameXIN</tabstop>
   <tabstop>frameYIN</tabstop>
   <tabstop>resetFrameB</tabstop>
