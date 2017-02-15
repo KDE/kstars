@@ -201,7 +201,7 @@ Align::Align()
     // Which telescope info to use for FOV calculations
     //kcfg_solverOTA->setChecked(Options::solverOTA());
     guideScopeCCDs = Options::guideScopeCCDs();
-    connect(useGuideScopeCheck, SIGNAL(toggled(bool)), this, SLOT(updateGuideScopeCCDs(bool)));
+    connect(FOVScopeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateGuideScopeCCDs(int)));
 
     accuracySpin->setValue(Options::solverAccuracyThreshold());
     alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
@@ -358,7 +358,7 @@ void Align::checkCCD(int ccdNum)
             (dynamic_cast<RemoteAstrometryParser*>(parser))->setCCD(currentCCD);
     }
 
-    useGuideScopeCheck->setChecked(guideScopeCCDs.contains(currentCCD->getDeviceName()));
+    FOVScopeCombo->setCurrentIndex(guideScopeCCDs.contains(currentCCD->getDeviceName()) ? ISD::CCD::TELESCOPE_GUIDE : ISD::CCD::TELESCOPE_PRIMARY);
 
     syncCCDInfo();
 
@@ -403,32 +403,54 @@ void Align::syncTelescopeInfo()
 
     INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
 
+    double primaryFL=-1, primaryAperture=-1, guideFL=-1, guideAperture=-1;
+
     if (nvp)
     {
         INumber *np = NULL;
 
-        if (currentCCD && Options::guideScopeCCDs().contains(currentCCD->getDeviceName()))
-            np = IUFindNumber(nvp, "GUIDER_APERTURE");
-        else
-            np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
-
+        np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
         if (np && np->value > 0)
-            aperture = np->value;
+            primaryAperture = np->value;
+
+        np = IUFindNumber(nvp, "GUIDER_APERTURE");
+        if (np && np->value > 0)
+            guideAperture = np->value;
+
+        aperture = primaryAperture;
 
         if (currentCCD && Options::guideScopeCCDs().contains(currentCCD->getDeviceName()))
-            np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
-        else
-            np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
+            aperture = guideAperture;
 
+        np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
         if (np && np->value > 0)
-            focal_length = np->value;
+            primaryFL = np->value;
+
+        np = IUFindNumber(nvp, "GUIDER_FOCAL_LENGTH");
+        if (np && np->value > 0)
+            guideFL = np->value;
+
+        focal_length = primaryFL;
+
+        if (currentCCD && Options::guideScopeCCDs().contains(currentCCD->getDeviceName()))
+            focal_length = guideFL;
     }
 
     if (focal_length == -1 || aperture == -1)
         return;
 
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
+    {
+        FOVScopeCombo->setItemData(ISD::CCD::TELESCOPE_PRIMARY, i18nc("F-Number, Focal Length, Aperture", "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
+                                                                     QString::number(primaryFL/primaryAperture, 'f', 1),
+                                                                     QString::number(primaryFL, 'f', 2),
+                                                                     QString::number(primaryAperture, 'f', 2)), Qt::ToolTipRole);
+        FOVScopeCombo->setItemData(ISD::CCD::TELESCOPE_GUIDE, i18nc("F-Number, Focal Length, Aperture", "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
+                                                                     QString::number(guideFL/guideAperture, 'f', 1),
+                                                                     QString::number(guideFL, 'f', 2),
+                                                                     QString::number(guideAperture, 'f', 2)), Qt::ToolTipRole);
         calculateFOV();
+    }
 
     if (currentCCD)
         generateArgs();
@@ -2450,7 +2472,7 @@ void Align::setSolverSearchCoords(double ra, double dec)
 
 void Align::setUseOAGT(bool enabled)
 {
-    useGuideScopeCheck->setChecked(enabled);
+    FOVScopeCombo->setCurrentIndex(enabled ? ISD::CCD::TELESCOPE_GUIDE : ISD::CCD::TELESCOPE_PRIMARY);
 }
 
 FOV* Align::fov()
@@ -3071,17 +3093,17 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
 void Align::syncGuideScopeCCDs()
 {
-    updateGuideScopeCCDs(useGuideScopeCheck->isChecked());
+    updateGuideScopeCCDs(FOVScopeCombo->currentIndex());
 }
 
-void Align::updateGuideScopeCCDs(bool toggled)
+void Align::updateGuideScopeCCDs(int index)
 {
     if (currentCCD == NULL)
         return;
 
-    if (toggled && guideScopeCCDs.contains(currentCCD->getDeviceName()) == false)
+    if (index ==  ISD::CCD::TELESCOPE_GUIDE && guideScopeCCDs.contains(currentCCD->getDeviceName()) == false)
         guideScopeCCDs.append(currentCCD->getDeviceName());
-    else if (toggled == false)
+    else if (index == ISD::CCD::TELESCOPE_PRIMARY)
         guideScopeCCDs.removeOne(currentCCD->getDeviceName());
 
     if (guideScopeCCDs.contains(currentCCD->getDeviceName()))
