@@ -46,6 +46,7 @@ if(NOT BUILD_KSTARS_LITE)
             fitsviewer/fitstab.cpp
             fitsviewer/fitsdebayer.cpp
             fitsviewer/bayer.c
+            fitsviewer/opsfits.cpp
             )
         set (fitsui_SRCS
             fitsviewer/fitsheaderdialog.ui
@@ -54,6 +55,7 @@ if(NOT BUILD_KSTARS_LITE)
             indi/streamform.ui
             indi/recordingoptions.ui
             fitsviewer/fitshistogramui.ui
+            fitsviewer/opsfits.ui
             )
         include_directories(${CFITSIO_INCLUDE_DIR})
     endif(CFITSIO_FOUND)

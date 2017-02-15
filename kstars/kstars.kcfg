@@ -1293,16 +1293,16 @@
       <label>Make FITS Viewer window independent of KStars main window</label>
       <default>false</default>
    </entry>
-   <entry name="autoDebayerFITS" type="Bool">
+   <entry name="AutoDebayer" type="Bool">
       <label>Automatically debayer a FITS image if it is contains a bayer pattern</label>
       <default>true</default>
    </entry>
-   <entry name="auto3DCube" type="Bool">
+   <entry name="Auto3DCube" type="Bool">
       <label>Process 3D FITS Cube (RGB). If false, only first channel is processed.</label>
       <default>true</default>
    </entry>
-   <entry name="LimitedMemoryMode" type="Bool">
-      <label>Conserve memory by disabling all memory-intensive features in FITS Viewer</label>
+   <entry name="LimitedResourcesMode" type="Bool">
+      <label>Conserve CPU and memory by disabling all resource-intensive features in FITS Viewer</label>
       <default>false</default>
    </entry>
    </group>

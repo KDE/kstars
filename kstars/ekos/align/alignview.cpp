@@ -11,7 +11,9 @@
 
 #include <QtConcurrent>
 
+#include "Options.h"
 #include "alignview.h"
+#include "kstarsdata.h"
 
 #define ZOOM_DEFAULT	100.0
 #define ZOOM_MIN        10
@@ -59,6 +61,7 @@ void AlignView::setCorrectionParams(QLineF line)
     }
 
     correctionLine   = line;
+    celestialPolePoint   = line.p1();
     markerCrosshair  = line.p2();
 
     updateFrame();
@@ -107,6 +110,24 @@ void AlignView::drawLine(QPainter *painter)
     double y2 = zoomedLine.p2().y() * zoomFactor;
 
     painter->drawLine(x1,y1,x2,y2);
+
+    // In limited memory mode, WCS data is not loaded so no Equatorial Gridlines are drawn
+    // so we have to at least draw the NCP/SCP locations
+    if (Options::limitedResourcesMode())
+    {
+        QPen pen;
+        pen.setWidth(2);
+        pen.setColor(Qt::darkRed);
+        painter->setPen(pen);
+        double x = celestialPolePoint.x() * zoomFactor;
+        double y = celestialPolePoint.y() * zoomFactor;
+        double sr= 3*zoomFactor;
+
+        if (KStarsData::Instance()->geo()->lat()->Degrees() > 0)
+            painter->drawText(x+sr,y+sr, i18nc("North Celestial Pole", "NCP"));
+        else
+            painter->drawText(x+sr,y+sr, i18nc("South Celestial Pole", "SCP"));
+    }
 }
 
 void AlignView::drawCircle(QPainter *painter)

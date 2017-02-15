@@ -40,7 +40,7 @@ protected:
 private:
     // Correction Line
     QLineF correctionLine;
-    QPointF correctionOffset;
+    QPointF correctionOffset, celestialPolePoint;
     QVector3D RACircle;
 };
 

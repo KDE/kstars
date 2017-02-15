@@ -2742,6 +2742,9 @@ void Align::startPAHProcess()
     nothingR->setChecked(true);
     currentGotoMode = GOTO_NOTHING;
 
+    if (Options::limitedResourcesMode())
+        appendLogText(i18n("Warning: Equatorial Grid Lines will not be drawn due to limited resources mode."));
+
     PAHWidgets->setCurrentWidget(PAHFirstCapturePage);
 }
 
