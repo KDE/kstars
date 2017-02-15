@@ -246,7 +246,7 @@ public:
 
     #ifndef KSTARS_LITE
     #ifdef HAVE_WCSLIB
-    void findObjectsInImage(struct wcsprm *wcs, double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]);
+    void findObjectsInImage(double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]);
     #endif
     #endif
     QList<FITSSkyObject *> getSkyObjects();
@@ -323,6 +323,7 @@ private:
     int flipVCounter;                   // How many times the image was flipped vertically?
 
     wcs_point *wcs_coord;               // Pointer to WCS coordinate data, if any.
+    struct wcsprm *wcs=0;               // WCS Struct
     QList<Edge*> starCenters;           // All the stars we detected, if any.
     Edge* maxHFRStar;                   // The biggest fattest star in the image.
 
