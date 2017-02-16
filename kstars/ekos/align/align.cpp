@@ -540,12 +540,14 @@ void Align::calculateFOV()
     {
         PAHWidgets->setEnabled(true);
         PAHWidgets->setToolTip(QString());
+        FOVDisabledLabel->hide();
     }
     else
     {
         PAHWidgets->setEnabled(false);
         PAHWidgets->setToolTip(i18n("<p>Polar Alignment Helper tool requires the following:</p><p>1. German Equatorial Mount</p><p>2. FOV &gt;"
                                     " 0.5 degrees</p><p>For small FOVs, use the Legacy Polar Alignment Tool.</p>"));
+        FOVDisabledLabel->show();
     }
 }
 
@@ -2775,6 +2777,13 @@ void Align::startPAHProcess()
 
 void Align::restartPAHProcess()
 {
+    if (pahStage == PAH_IDLE)
+        return;
+
+    if (KMessageBox::questionYesNo(KStars::Instance(), i18n("Are you sure you want to restart the polar alignment process?"), i18n("Polar Alignment Assistant"),
+                                   KStandardGuiItem::yes(), KStandardGuiItem::no(), "restart_PAA_process_dialog") == KMessageBox::No)
+        return;
+
     pahStage = PAH_IDLE;
 
     PAHFirstCaptureB->setEnabled(true);
