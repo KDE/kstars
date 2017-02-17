@@ -1756,7 +1756,7 @@ void CCD::addFITSKeywords(QString filename)
 #endif
 }
 
-TransferFormat CCD::getTargetTransferFormat() const
+CCD::TransferFormat CCD::getTargetTransferFormat() const
 {
     return targetTransferFormat;
 }
