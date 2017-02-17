@@ -299,6 +299,8 @@ public slots:
 
     // Update Capture Module status
     void setCaptureStatus(Ekos::CaptureState newState);
+    // Update Mount module status
+    void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
     void slotEditOptions();
     void slotUpdateLineEditOptions();

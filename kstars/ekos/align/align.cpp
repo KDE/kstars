@@ -3286,5 +3286,30 @@ bool Align::calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, 
     return true;
 }
 
+void Align::setMountStatus(ISD::Telescope::TelescopeStatus newState)
+{
+    switch (newState)
+    {
+    case ISD::Telescope::MOUNT_PARKING:
+    case ISD::Telescope::MOUNT_SLEWING:
+        solveB->setEnabled(false);
+        loadSlewB->setEnabled(false);
+        PAHFirstCaptureB->setEnabled(false);
+        PAHSecondCaptureB->setEnabled(false);
+        PAHThirdCaptureB->setEnabled(false);
+        break;
+
+    case ISD::Telescope::MOUNT_TRACKING:
+        solveB->setEnabled(true);
+        loadSlewB->setEnabled(true);
+        PAHFirstCaptureB->setEnabled(true);
+        PAHSecondCaptureB->setEnabled(true);
+        PAHThirdCaptureB->setEnabled(true);
+        break;
+
+    default:
+        break;
+    }
+}
 
 }

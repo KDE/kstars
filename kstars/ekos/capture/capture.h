@@ -255,8 +255,6 @@ public:
     /* Capture */
     void updateSequencePrefix( const QString &newPrefix, const QString &dir);
 
-    bool currentCCDHasVideo() {return currentCCD->hasVideoStream();}
-
 public slots:
 
     /** \addtogroup CaptureDBusInterface
@@ -386,6 +384,8 @@ public slots:
     void setGuideStatus(Ekos::GuideState state);
     // Align
     void setAlignStatus(Ekos::AlignState state);
+    // Update Mount module status
+    void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
 private slots:
 

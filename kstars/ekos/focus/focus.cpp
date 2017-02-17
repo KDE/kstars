@@ -2594,4 +2594,26 @@ void Focus::toggleFocusingWidgetFullScreen()
     }
 }
 
+void Focus::setMountStatus(ISD::Telescope::TelescopeStatus newState)
+{
+    switch (newState)
+    {
+    case ISD::Telescope::MOUNT_PARKING:
+    case ISD::Telescope::MOUNT_SLEWING:
+        captureB->setEnabled(false);
+        startFocusB->setEnabled(false);
+        startLoopB->setEnabled(false);
+        break;
+
+    case ISD::Telescope::MOUNT_TRACKING:
+        captureB->setEnabled(true);
+        startFocusB->setEnabled(true);
+        startLoopB->setEnabled(true);
+        break;
+
+    default:
+        break;
+    }
+}
+
 }
