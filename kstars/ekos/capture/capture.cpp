@@ -4139,4 +4139,27 @@ void Capture::setVideoStreamEnabled(bool enabled)
     }
 }
 
+void Capture::setMountStatus(ISD::Telescope::TelescopeStatus newState)
+{
+    switch (newState)
+    {
+    case ISD::Telescope::MOUNT_PARKING:
+    case ISD::Telescope::MOUNT_SLEWING:
+        previewB->setEnabled(false);
+        liveVideoB->setEnabled(false);
+        startB->setEnabled(false);
+        break;
+
+    case ISD::Telescope::MOUNT_TRACKING:
+        previewB->setEnabled(true);
+        if (currentCCD)
+            liveVideoB->setEnabled(currentCCD->hasVideoStream());
+        startB->setEnabled(true);
+        break;
+
+     default:
+        break;
+    }
+}
+
 }

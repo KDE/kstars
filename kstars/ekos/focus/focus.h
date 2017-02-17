@@ -21,6 +21,7 @@
 #include "indi/indistd.h"
 #include "indi/indifocuser.h"
 #include "indi/indiccd.h"
+#include "indi/inditelescope.h"
 
 namespace Ekos
 {
@@ -161,6 +162,8 @@ public:
      */
     void addFilter(ISD::GDInterface *newFilter);
 
+    // Update Mount module status
+    void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
     void clearLog();
     QString getLogText() { return logText.join("\n"); }

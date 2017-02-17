@@ -1069,12 +1069,20 @@ void Guide::setCaptureStatus(CaptureState newState)
 
 void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
 {
+
     switch (newState)
-    {
+    {    
+        case ISD::Telescope::MOUNT_SLEWING:
         case ISD::Telescope::MOUNT_PARKING:
+        captureB->setEnabled(false);
+        calibrateB->setEnabled(false);
+        if (newState == ISD::Telescope::MOUNT_PARKING)
             abort();
         break;
 
+        case ISD::Telescope::MOUNT_TRACKING:
+        captureB->setEnabled(true);
+        calibrateB->setEnabled(true);
         default:
         break;
     }
