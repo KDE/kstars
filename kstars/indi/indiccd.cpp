@@ -857,7 +857,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
     guideChip   = NULL;
 
-    transferFormat = FORMAT_FITS;
+    transferFormat = targetTransferFormat = FORMAT_FITS;
 }
 
 CCD::~CCD()
@@ -1754,6 +1754,16 @@ void CCD::addFITSKeywords(QString filename)
         filter = "";
     }
 #endif
+}
+
+TransferFormat CCD::getTargetTransferFormat() const
+{
+    return targetTransferFormat;
+}
+
+void CCD::setTargetTransferFormat(const TransferFormat &value)
+{
+    targetTransferFormat = value;
 }
 
 void CCD::FITSViewerDestroyed()

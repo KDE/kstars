@@ -597,6 +597,7 @@ void Capture::checkCCD(int ccdNum)
         QStringList isoList = targetChip->getISOList();
         ISOCombo->clear();
 
+        transferFormatCombo->disconnect();
         transferFormatCombo->clear();
 
         if (isoList.isEmpty())
@@ -616,6 +617,12 @@ void Capture::checkCCD(int ccdNum)
             // DSLRs have two transfer formats
             transferFormatCombo->addItem(i18n("FITS"));
             transferFormatCombo->addItem(i18n("Native"));
+            transferFormatCombo->setCurrentIndex(currentCCD->getTargetTransferFormat());
+            // Keep track of TARGET transfer format when changing CCDs (FITS or NATIVE). Actual format is not changed until capture
+            connect(transferFormatCombo, static_cast<void (QComboBox::*) (int)>(&QComboBox::activated), this, [&](int index)
+            {
+                currentCCD->setTransformFormat(static_cast<ISD::CCD::TransferFormat>(index));
+            });
 
             double pixelX=0, pixelY=0;
             bool rc = targetChip->getPixelSize(pixelX, pixelY);

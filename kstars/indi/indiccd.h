@@ -203,6 +203,9 @@ public:
     CCDChip * getChip(CCDChip::ChipType cType);
     void setFITSDir(const QString &dir) { fitsDir = dir;}
 
+    TransferFormat getTargetTransferFormat() const;
+    void setTargetTransferFormat(const TransferFormat &value);
+
 public slots:
     void FITSViewerDestroyed();
     void StreamWindowHidden();
@@ -236,7 +239,7 @@ private:
     ISD::ST4 *ST4Driver;
     int normalTabID, calibrationTabID, focusTabID, guideTabID, alignTabID;
     CCDChip *primaryChip, *guideChip;
-    TransferFormat transferFormat;
+    TransferFormat transferFormat, targetTransferFormat;
     TelescopeType telescopeType = TELESCOPE_PRIMARY;
 
     QPointer<FITSViewer> fv;
