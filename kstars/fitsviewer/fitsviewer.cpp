@@ -145,7 +145,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     action = actionCollection()->addAction("image_histogram");
     action->setText(i18n("Histogram"));
     connect(action, SIGNAL(triggered(bool)), SLOT (histoFITS()));
-    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_S));
+    actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::CTRL+Qt::Key_T));
 
     action->setIcon(QIcon(":/icons/histogram.png"));
 
