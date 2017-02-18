@@ -303,9 +303,14 @@ int FITSData::saveFITS( const QString &newFilename )
         }
 
         // Skip "!" in the beginning of the new file name
-        if (QFile::copy(filename, newFilename.mid(1)) == false)
+        QString finalFileName(newFilename);
+
+        finalFileName.remove("!");
+
+        if (QFile::copy(filename, finalFileName) == false)
         {
-            qCritical() << "FITS: Failed to copy " << filename << " to " << newFilename.mid(1);
+            qCritical() << "FITS: Failed to copy " << filename << " to " << finalFileName;
+            fptr = NULL;
             return -1;
         }
 
@@ -315,7 +320,7 @@ int FITSData::saveFITS( const QString &newFilename )
             tempFile = false;
         }
 
-        filename = newFilename;
+        filename = finalFileName;
 
         fits_open_image(&fptr, filename.toLatin1(), READONLY, &status);
 
