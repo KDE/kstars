@@ -2194,6 +2194,8 @@ void Focus::resetButtons()
         focusInB->setEnabled(false);
         setAbsTicksB->setEnabled(false);
 
+        resetFrameB->setEnabled(false);
+
         return;
     }
 
@@ -2210,6 +2212,7 @@ void Focus::resetButtons()
     startLoopB->setEnabled(true);
 
     captureB->setEnabled(true);
+    resetFrameB->setEnabled(true);
 }
 
 void Focus::updateBoxSize(int value)
@@ -2606,9 +2609,7 @@ void Focus::setMountStatus(ISD::Telescope::TelescopeStatus newState)
         break;
 
     case ISD::Telescope::MOUNT_TRACKING:
-        captureB->setEnabled(true);
-        startFocusB->setEnabled(true);
-        startLoopB->setEnabled(true);
+        resetButtons();
         break;
 
     default:

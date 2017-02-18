@@ -37,8 +37,8 @@ namespace Ekos
     const QString &getCaptureStatusString(CaptureState state);
 
     // Focus States
-    static const QStringList focusStates = { I18N_NOOP("Idle"), I18N_NOOP("Complete"), I18N_NOOP("Failed"), I18N_NOOP("Aborted"), I18N_NOOP("In Progress"),
-                                             I18N_NOOP("User Input"), I18N_NOOP("Capturing"), I18N_NOOP("Framing"), I18N_NOOP("Changing Filter")};
+    static const QStringList focusStates = { I18N_NOOP("Idle"), I18N_NOOP("Complete"), I18N_NOOP("Failed"), I18N_NOOP("Aborted"), I18N_NOOP("User Input"),
+                                             I18N_NOOP("In Progress"), I18N_NOOP("Framing"), I18N_NOOP("Changing Filter")};
 
     typedef enum { FOCUS_IDLE, FOCUS_COMPLETE, FOCUS_FAILED, FOCUS_ABORTED, FOCUS_WAITING, FOCUS_PROGRESS, FOCUS_FRAMING, FOCUS_CHANGING_FILTER} FocusState;
 

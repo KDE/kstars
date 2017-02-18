@@ -162,9 +162,6 @@ public:
      */
     void addFilter(ISD::GDInterface *newFilter);
 
-    // Update Mount module status
-    void setMountStatus(ISD::Telescope::TelescopeStatus newState);
-
     void clearLog();
     QString getLogText() { return logText.join("\n"); }
 
@@ -288,6 +285,9 @@ public slots:
 
     // Adjust relative focus position
     void adjustRelativeFocus(int16_t offset);
+
+    // Update Mount module status
+    void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
 private slots:
     /**
