@@ -104,23 +104,26 @@ void SupernovaeComponent::loadData()
         const QJsonObject propObject = snValue.toObject();
         mag=99.9;
         z=0;
+        name.clear();type.clear();host.clear();date.clear();
 
-        //if (propObject.contains("claimedtype") == false)
-            //continue;
-
+        if (propObject.contains("ra") == false || propObject.contains("dec") == false)
+            continue;
         ra   = ((propObject["ra"].toArray()[0]).toObject()["value"]).toString();
         de   = ((propObject["dec"].toArray()[0]).toObject()["value"]).toString();
-        if (ra.isEmpty() || de.isEmpty())
-            continue;
 
-        name = propObject["name"].toString();        
-        type = ((propObject["claimedtype"].toArray()[0]).toObject()["value"]).toString();
-        host = ((propObject["host"].toArray()[0]).toObject()["value"]).toString();
-        date = ((propObject["discoverdate"].toArray()[0]).toObject()["value"]).toString();
-        z    = ((propObject["redshift"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
+        name = propObject["name"].toString();
+        if (propObject.contains("claimedtype"))
+            type = ((propObject["claimedtype"].toArray()[0]).toObject()["value"]).toString();
+        if (propObject.contains("host"))
+            host = ((propObject["host"].toArray()[0]).toObject()["value"]).toString();
+        if (propObject.contains("discoverdate"))
+            date = ((propObject["discoverdate"].toArray()[0]).toObject()["value"]).toString();
+        if (propObject.contains("redshift"))
+            z    = ((propObject["redshift"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
         if (ok == false)
             z = 99.9;
-        mag  = ((propObject["maxappmag"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
+        if (propObject.contains("maxappmag"))
+            mag  = ((propObject["maxappmag"].toArray()[0]).toObject()["value"]).toString().toDouble(&ok);
         if (ok == false)
             mag = 99.9;
 
