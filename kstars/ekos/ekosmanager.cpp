@@ -385,7 +385,7 @@ bool EkosManager::start()
 
     reset();
 
-    ProfileInfo *currentProfile = getCurrentProfile();
+    currentProfile = getCurrentProfile();
     localMode = currentProfile->isLocal();
 
     // Load profile location if one exists
@@ -651,8 +651,6 @@ void EkosManager::checkINDITimeout()
     }
     else
     {
-        ProfileInfo *currentProfile = getCurrentProfile();
-
         QStringList remainingDevices;
 
         foreach(QString driver, currentProfile->drivers.values())
@@ -724,9 +722,7 @@ void EkosManager::disconnectDevices()
 
 void EkosManager::processServerTermination(const QString &host, const QString &port)
 {
-    ProfileInfo *pi = getCurrentProfile();
-
-    if ( (localMode && managedDrivers.first()->getPort() == port) || (pi->host == host && pi->port == port.toInt()))
+    if ( (localMode && managedDrivers.first()->getPort() == port) || (currentProfile->host == host && currentProfile->port == port.toInt()))
     {
         cleanDevices(false);
     }
@@ -752,10 +748,9 @@ void EkosManager::cleanDevices(bool stopDrivers)
             if (stopDrivers)
                 DriverManager::Instance()->disconnectRemoteHost(managedDrivers.first());
 
-            ProfileInfo *pi = getCurrentProfile();
-            if (remoteManagerStart && pi->INDIWebManagerPort != -1)
+            if (remoteManagerStart && currentProfile->INDIWebManagerPort != -1)
             {
-                INDI::WebManager::stopProfile(pi);
+                INDI::WebManager::stopProfile(currentProfile);
                 remoteManagerStart = false;
             }
         }
@@ -792,23 +787,12 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
         disconnectB->setEnabled(false);
         controlPanelB->setEnabled(true);
 
-        if (nDevices == 0)
+        if (localMode == false && nDevices == 0)
         {
-            ProfileInfo *currentProfile = getCurrentProfile();
-
-            if (localMode == false)
-            {
-                if (currentProfile->autoConnect)
-                    appendLogText(i18n("Remote devices established."));
-                else
-                    appendLogText(i18n("Remote devices established. Please connect devices."));
-            }
-
-            // Since last device is not yes established properly, we have to wait to its properties
-            // to be define before we connect
             if (currentProfile->autoConnect)
-                lastDeviceToConnect = true;
-
+                appendLogText(i18n("Remote devices established."));
+            else
+                appendLogText(i18n("Remote devices established. Please connect devices."));
         }
     }
 }
@@ -980,18 +964,17 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
     captureProcess->addCCD(ccdDevice);
 
-    ProfileInfo *pi = getCurrentProfile();
     QString primaryCCD, guiderCCD;
 
     // Only look for primary & guider CCDs if we can tell a difference between them
     // otherwise rely on saved options
-    if (pi->ccd() != pi->guider())
+    if (currentProfile->ccd() != currentProfile->guider())
     {
         foreach(ISD::GDInterface *device, findDevices(KSTARS_CCD))
         {
-            if (QString(device->getDeviceName()).startsWith(pi->ccd(), Qt::CaseInsensitive))
+            if (QString(device->getDeviceName()).startsWith(currentProfile->ccd(), Qt::CaseInsensitive))
                 primaryCCD = QString(device->getDeviceName());
-            else if (QString(device->getDeviceName()).startsWith(pi->guider(), Qt::CaseInsensitive))
+            else if (QString(device->getDeviceName()).startsWith(currentProfile->guider(), Qt::CaseInsensitive))
                 guiderCCD = QString(device->getDeviceName());
         }
     }
@@ -1220,10 +1203,11 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 
 void EkosManager::processNewProperty(INDI::Property* prop)
 {
-    if (lastDeviceToConnect && !strcmp(prop->getName(), "CONNECTION"))
+    if (!strcmp(prop->getName(), "CONNECTION") && currentProfile->autoConnect)
     {
-        lastDeviceToConnect = false;
-        connectDevices();
+        ISD::GenericDevice *dev = qobject_cast<ISD::GenericDevice*>(sender());
+        if (dev)
+            dev->Connect();
         return;
     }
 
@@ -1876,15 +1860,15 @@ void EkosManager::addProfile()
         loadProfiles();
         profileCombo->setCurrentIndex(profileCombo->count()-1);
     }
+
+    currentProfile = getCurrentProfile();
 }
 
 void EkosManager::editProfile()
 {
     ProfileEditor editor(this);
 
-    ProfileInfo *currentProfile = getCurrentProfile();
-
-    Q_ASSERT(currentProfile);
+    currentProfile = getCurrentProfile();
 
     editor.setPi(currentProfile);
 
@@ -1897,11 +1881,13 @@ void EkosManager::editProfile()
         profileCombo->setCurrentIndex(currentIndex);
     }
 
+    currentProfile = getCurrentProfile();
+
 }
 
 void EkosManager::deleteProfile()
 {
-    ProfileInfo *currentProfile = getCurrentProfile();
+    currentProfile = getCurrentProfile();
 
     if (currentProfile->name == "Simulators")
         return;
@@ -1914,24 +1900,25 @@ void EkosManager::deleteProfile()
     qDeleteAll(profiles);
     profiles.clear();
     loadProfiles();
+    currentProfile = getCurrentProfile();
 }
 
 ProfileInfo * EkosManager::getCurrentProfile()
 {
-    ProfileInfo *currentProfile = NULL;
+    ProfileInfo *currProfile = NULL;
 
     // Get current profile
     foreach(ProfileInfo *pi, profiles)
     {
         if (profileCombo->currentText() == pi->name)
         {
-            currentProfile = pi;
+            currProfile = pi;
             break;
         }
 
     }
 
-    return currentProfile;
+    return currProfile;
 }
 
 void EkosManager::saveDefaultProfile(const QString &name)
