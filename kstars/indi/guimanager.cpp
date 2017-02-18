@@ -214,7 +214,7 @@ void GUIManager::removeClient(ClientManager *cm)
             }
 
             guidevices.removeOne(gdv);
-            delete (gdv);
+            gdv->deleteLater();
             //break;
         }
     }
