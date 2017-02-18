@@ -756,8 +756,8 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model,
     equip.setData(equip.index(row, 1), vendor);  // row,0 is autoincerement ID
     equip.setData(equip.index(row, 2), model);
     equip.setData(equip.index(row, 3), type);
-    equip.setData(equip.index(row, 4), offset);
-    equip.setData(equip.index(row, 5), color);
+    equip.setData(equip.index(row, 4), color);
+    equip.setData(equip.index(row, 5), offset);
     if (equip.submitAll() == false)
         qCritical() << "AddFilter:" << equip.lastError();
 
@@ -779,8 +779,8 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model,
         record.setValue(1, vendor);
         record.setValue(2, model);
         record.setValue(3, type);
-        record.setValue(4, offset);
-        record.setValue(5, color);
+        record.setValue(4, color);
+        record.setValue(5, offset);
         equip.setRecord(0, record);
         if (equip.submitAll() == false)
             qCritical() << "AddFilter:" << equip.lastError();
