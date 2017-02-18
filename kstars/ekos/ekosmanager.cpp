@@ -962,6 +962,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
     initCapture();
 
+    captureProcess->setEnabled(true);
     captureProcess->addCCD(ccdDevice);
 
     QString primaryCCD, guiderCCD;
@@ -1440,6 +1441,7 @@ void EkosManager::initCapture()
         return;
 
     captureProcess = new Ekos::Capture();
+    captureProcess->setEnabled(false);
     int index = toolsWidget->addTab( captureProcess, QIcon(":/icons/ekos_ccd.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
     connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
