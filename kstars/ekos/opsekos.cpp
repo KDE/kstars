@@ -63,6 +63,7 @@ kcfg_wcsIsInternal->setVisible(false);
 
     // Our refresh lambda
     connect(this, &QTabWidget::currentChanged, this, [this](int index) { if (index == 4) refreshDarkData();});
+    connect(darkTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(loadDarkFITS(QModelIndex)));
 
     connect(openDarksFolderB, SIGNAL(clicked()), this, SLOT(openDarksFolder()));
     connect(clearAllB, SIGNAL(clicked()), this, SLOT(clearAll()));
@@ -177,4 +178,18 @@ void OpsEkos::refreshDarkData()
     darkTableView->hideColumn(2);
 
     userdb.close();
+}
+
+void OpsEkos::loadDarkFITS(QModelIndex index)
+{
+    QSqlRecord record = darkFramesModel->record(index.row());
+
+    QString filename = record.value("filename").toString();
+
+    if (filename.isEmpty() == false)
+    {
+        QUrl url = QUrl::fromLocalFile(filename);
+        KStars::Instance()->genericFITSViewer()->addFITS(&url);
+        KStars::Instance()->genericFITSViewer()->show();
+    }
 }

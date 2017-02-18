@@ -130,9 +130,11 @@ bool DarkLibrary::loadDarkFile(const QString &filename)
 
 bool DarkLibrary::saveDarkFile(FITSData *darkData)
 {
-    QDateTime ts = QDateTime::currentDateTime();
+    // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
+    // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
+    QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
 
-    QString path     = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks/darkframe_" + ts.toString(Qt::ISODate) + ".fits";
+    QString path     = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "darks/darkframe_" + ts + ".fits";
 
     if (darkData->saveFITS(path) != 0)
     {
