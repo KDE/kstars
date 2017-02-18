@@ -43,6 +43,7 @@ private slots:
     void clearRow();
     void openDarksFolder();
     void refreshDarkData();
+    void loadDarkFITS(QModelIndex index);
 
 private:
     KConfigDialog *m_ConfigDialog;

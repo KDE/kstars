@@ -1442,7 +1442,9 @@ void Focus::setCaptureComplete()
         QDir dir;
         QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "autofocus/" + QDateTime::currentDateTime().toString("yyyy-MM-dd");
         dir.mkpath(path);
-        QString name = "autofocus_frame_" + QDateTime::currentDateTime().toString("HH:mm:ss") + ".fits";
+        // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
+        // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
+        QString name = "autofocus_frame_" + QDateTime::currentDateTime().toString("HH-mm-ss") + ".fits";
         QString filename = path + QStringLiteral("/") + name;
         focusView->getImageData()->saveFITS(filename);
     }
