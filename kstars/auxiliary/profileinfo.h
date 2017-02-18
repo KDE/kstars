@@ -30,6 +30,7 @@ public:
 
     int id;
     int port;
+    bool autoConnect;
     int  INDIWebManagerPort;
 
     // driver[role] = label

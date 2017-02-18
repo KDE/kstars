@@ -64,21 +64,27 @@ bool KSUserDB::Initialize() {
             QSqlRecord record = version.record(0);
             version.clear();
 
-            // If prior to 2.4.0 upgrade database for horizon table
-            if (record.value("Version").toString() < "2.4.0")
+            QString currentDBVersion = record.value("Version").toString();
+
+            // Update database version to current KStars version
+            if (currentDBVersion != KSTARS_VERSION)
             {
                 QSqlQuery query(userdb_);
                 QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
-
                 if (!query.exec(versionQuery))
                     qDebug() << query.lastError();
+            }
 
+            // If prior to 2.4.0 upgrade database for horizon table
+            if (currentDBVersion < "2.4.0")
+            {
+                QSqlQuery query(userdb_);
                 if (!query.exec("CREATE TABLE IF NOT EXISTS horizons (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, label TEXT NOT NULL, enabled INTEGER NOT NULL)"))
                     qDebug() << query.lastError();
-           }
+            }
 
            // If prior to 2.6.0 upgrade database for profiles tables
-           if (record.value("Version").toString() < "2.6.0")
+           if (currentDBVersion < "2.6.0")
            {
                 QSqlQuery query(userdb_);
                 QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
@@ -117,7 +123,7 @@ bool KSUserDB::Initialize() {
            }
 
            // If prior to 2.6.1 upgrade database for dark library tables
-           if (record.value("Version").toString() < "2.6.1")
+           if (currentDBVersion < "2.6.1")
            {
                 QSqlQuery query(userdb_);
                 QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
@@ -131,10 +137,19 @@ bool KSUserDB::Initialize() {
            }
 
            // If prior to 2.7.3 upgrade database to add column for focus offset
-           if (record.value("Version").toString() < "2.7.3")
+           if (currentDBVersion < "2.7.3")
            {
                QSqlQuery query(userdb_);
                QString columnQuery = QString("ALTER TABLE filter ADD COLUMN Offset TEXT");
+
+               query.exec(columnQuery);
+           }
+
+           // If prior to 2.7.5 upgrade database to add column for autoconnect
+           if (currentDBVersion < "2.7.5")
+           {
+               QSqlQuery query(userdb_);
+               QString columnQuery = QString("ALTER TABLE profile ADD COLUMN autoconnect INTEGER");
 
                query.exec(columnQuery);
            }
@@ -250,7 +265,7 @@ bool KSUserDB::RebuildDB() {
                   "label TEXT NOT NULL,"
                   "enabled INTEGER NOT NULL)");
 
-     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT NULL)");
+     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT NULL, autoconnect INTEGER DEFAULT 1)");
      tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
      //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
 
@@ -1269,7 +1284,7 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
     QSqlQuery query(userdb_);
 
     // Clear data
-    if (!query.exec(QString("UPDATE profile SET host=null,port=null,city=null,province=null,country=null,indiwebmanagerport=NULL WHERE id=%1").arg(pi->id)))
+    if (!query.exec(QString("UPDATE profile SET host=null,port=null,city=null,province=null,country=null,indiwebmanagerport=NULL,autoconnect=NULL WHERE id=%1").arg(pi->id)))
         qDebug() << query.lastQuery() << query.lastError().text();
 
     // Update Name
@@ -1295,6 +1310,10 @@ void KSUserDB::SaveProfile(ProfileInfo *pi)
         if (!query.exec(QString("UPDATE profile SET city='%1',province='%2',country='%3' WHERE id=%4").arg(pi->city).arg(pi->province).arg(pi->country).arg(pi->id)))
             qDebug() << query.lastQuery() << query.lastError().text();
     }
+
+    // Update Auto Connect Info
+    if (!query.exec(QString("UPDATE profile SET autoconnect=%1 WHERE id=%4").arg(pi->autoConnect ? 1 : 0).arg(pi->id)))
+        qDebug() << query.lastQuery() << query.lastError().text();
 
     QMapIterator<QString, QString> i(pi->drivers);
     while (i.hasNext())
@@ -1338,6 +1357,7 @@ void KSUserDB::GetAllProfiles(QList<ProfileInfo *> &profiles)
         pi->country  = record.value("country").toString();
 
         pi->INDIWebManagerPort = record.value("indiwebmanagerport").toInt();
+        pi->autoConnect        = (record.value("autoconnect").toInt() == 1);
 
         GetProfileDrivers(pi);
         //GetProfileCustomDrivers(pi);

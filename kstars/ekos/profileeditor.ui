@@ -30,6 +30,19 @@
          <widget class="QLineEdit" name="profileIN"/>
         </item>
         <item>
+         <widget class="QCheckBox" name="autoConnectCheck">
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;After establishing connection with INDI server, automatically connect all devices.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="text">
+           <string>Auto Connect</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QCheckBox" name="loadSiteCheck">
           <property name="enabled">
            <bool>false</bool>

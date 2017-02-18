@@ -545,7 +545,10 @@ bool EkosManager::start()
 
         ekosStartingStatus = EKOS_STATUS_PENDING;
 
-        appendLogText(i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
+        if (currentProfile->autoConnect)
+            appendLogText(i18n("INDI services started on port %1.", managedDrivers.first()->getPort()));
+        else
+            appendLogText(i18n("INDI services started on port %1. Please connect devices.", managedDrivers.first()->getPort()));
 
         QTimer::singleShot(MAX_LOCAL_INDI_TIMEOUT, this, SLOT(checkINDITimeout()));
     }
@@ -686,6 +689,19 @@ void EkosManager::checkINDITimeout()
 
 void EkosManager::connectDevices()
 {
+    // Check if already connected
+    int nConnected=0;
+    foreach(ISD::GDInterface *device, genericDevices)
+    {
+        if (device->isConnected())
+            nConnected++;
+    }
+    if (genericDevices.count() == nConnected)
+    {
+        indiConnectionStatus = EKOS_STATUS_SUCCESS;
+        return;
+    }
+
     indiConnectionStatus = EKOS_STATUS_PENDING;
 
     foreach(ISD::GDInterface *device, genericDevices)
@@ -772,12 +788,28 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
     {
         ekosStartingStatus = EKOS_STATUS_SUCCESS;
 
-        if (localMode == false && nDevices == 0)
-            appendLogText(i18n("Remote devices established. Please connect devices."));
-
         connectB->setEnabled(true);
         disconnectB->setEnabled(false);
         controlPanelB->setEnabled(true);
+
+        if (nDevices == 0)
+        {
+            ProfileInfo *currentProfile = getCurrentProfile();
+
+            if (localMode == false)
+            {
+                if (currentProfile->autoConnect)
+                    appendLogText(i18n("Remote devices established."));
+                else
+                    appendLogText(i18n("Remote devices established. Please connect devices."));
+            }
+
+            // Since last device is not yes established properly, we have to wait to its properties
+            // to be define before we connect
+            if (currentProfile->autoConnect)
+                lastDeviceToConnect = true;
+
+        }
     }
 }
 
@@ -1188,6 +1220,13 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
 
 void EkosManager::processNewProperty(INDI::Property* prop)
 {
+    if (lastDeviceToConnect && !strcmp(prop->getName(), "CONNECTION"))
+    {
+        lastDeviceToConnect = false;
+        connectDevices();
+        return;
+    }
+
     if (!strcmp(prop->getName(), "CCD_INFO") || !strcmp(prop->getName(), "GUIDER_INFO"))
     {
         if (focusProcess)
