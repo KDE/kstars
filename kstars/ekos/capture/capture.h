@@ -443,6 +443,7 @@ private slots:
 
     // Filter focus offset
     void showFilterOffsetDialog();
+    void loadFilterOffsets();
 
     // Live Video Preview
     void toggleVideoStream(bool enable);

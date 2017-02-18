@@ -230,6 +230,9 @@ Capture::Capture()
 
     // Remote directory
     connect(uploadModeCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&](int index){remoteDirIN->setEnabled(index != 0);});
+
+    // Load FIlter Offets
+    loadFilterOffsets();
 }
 
 Capture::~Capture()
@@ -382,6 +385,20 @@ void Capture::start()
     spikeDetected     = false;
 
     lastFilterOffset  = 0;
+    // lastFilterOffset should be set to the offset of the current used filter so that any subsequent filter change
+    // is made against this startup value
+    if (currentFilterPosition > 0)
+    {
+        QString currentFilterName = FilterPosCombo->itemText(currentFilterPosition-1);
+        foreach(FocusOffset *offset, filterFocusOffsets)
+        {
+            if (offset->filter == currentFilterName)
+            {
+                lastFilterOffset = offset->offset;
+                break;
+            }
+        }
+    }
 
     ditherCounter     = Options::ditherFrames();
     initialHA = getCurrentHA();
@@ -621,7 +638,7 @@ void Capture::checkCCD(int ccdNum)
             // Keep track of TARGET transfer format when changing CCDs (FITS or NATIVE). Actual format is not changed until capture
             connect(transferFormatCombo, static_cast<void (QComboBox::*) (int)>(&QComboBox::activated), this, [&](int index)
             {
-                currentCCD->setTransformFormat(static_cast<ISD::CCD::TransferFormat>(index));
+                currentCCD->setTargetTransferFormat(static_cast<ISD::CCD::TransferFormat>(index));
             });
 
             double pixelX=0, pixelY=0;
@@ -4011,33 +4028,35 @@ void Capture::postScriptFinished(int exitCode)
     resumeSequence();
 }
 
+void Capture::loadFilterOffsets()
+{
+    // Get all OAL equipment filter list
+    KStarsData::Instance()->userdb()->GetAllFilters(m_filterList);
+    filterFocusOffsets.clear();
+
+    for (int i=0; i < FilterPosCombo->count(); i++)
+    {
+        FocusOffset *oneOffset = new FocusOffset;
+        oneOffset->filter = FilterPosCombo->itemText(i);
+        oneOffset->offset = 0;
+
+        // Find matching filter if any and loads its offset
+        foreach( OAL::Filter *o, m_filterList )
+        {
+            if (o->vendor() == FilterCaptureCombo->currentText() && o->color() == oneOffset->filter)
+            {
+                oneOffset->offset = o->offset().toInt();
+                break;
+            }
+        }
+
+        filterFocusOffsets.append(oneOffset);
+    }
+}
+
 void Capture::showFilterOffsetDialog()
 {
-    // If there is no map, create one
-    if (filterFocusOffsets.empty())
-    {
-        // Get all OAL equipment filter list
-       KStarsData::Instance()->userdb()->GetAllFilters(m_filterList);
-
-        for (int i=0; i < FilterPosCombo->count(); i++)
-        {
-            FocusOffset *oneOffset = new FocusOffset;
-            oneOffset->filter = FilterPosCombo->itemText(i);
-            oneOffset->offset = 0;
-
-            // Find matching filter if any and loads its offset
-            foreach( OAL::Filter *o, m_filterList )
-            {
-                if (o->vendor() == FilterCaptureCombo->currentText() && o->color() == oneOffset->filter)
-                {
-                    oneOffset->offset = o->offset().toInt();
-                    break;
-                }
-            }
-
-            filterFocusOffsets.append(oneOffset);
-        }
-    }
+    loadFilterOffsets();
 
     QDialog filterOffsetDialog;
 
@@ -4112,7 +4131,6 @@ void Capture::showFilterOffsetDialog()
             {
                 KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", QString::number(oneOffset->offset), oneOffset->filter, matchedFilter->id());
             }
-
         }
     }
 }
