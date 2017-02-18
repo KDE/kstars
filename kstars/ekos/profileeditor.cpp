@@ -118,6 +118,9 @@ void ProfileEditor::saveProfile()
       pi->country.clear();
    }
 
+   // Auto Connect
+   pi->autoConnect = ui->autoConnectCheck->isChecked();
+
    if (ui->mountCombo->currentText().isEmpty() || ui->mountCombo->currentText() == "--")
        pi->drivers.remove("Mount");
    else
@@ -231,6 +234,7 @@ void ProfileEditor::setPi(ProfileInfo *value)
     ui->profileIN->setText(pi->name);
 
     ui->loadSiteCheck->setChecked(!pi->city.isEmpty());
+    ui->autoConnectCheck->setChecked(pi->autoConnect);
 
     if (pi->city.isEmpty() == false)
     {

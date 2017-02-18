@@ -303,6 +303,8 @@ private slots:
     //QTemporaryFile guideStarFile;
     //QTemporaryFile guideProfileFile;
 
+    bool lastDeviceToConnect=false;
+
 };
 
 #endif // EKOS_H
