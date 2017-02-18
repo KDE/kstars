@@ -476,8 +476,7 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
               INDIListener::Instance()->removeClient(cm);
               cm->disconnectServer();
               clients.removeOne(cm);
-              delete cm;
-              cm = NULL;
+              cm->deleteLater();
         }
     }
 
@@ -494,8 +493,7 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
           {
                 sm->stop();
                 servers.removeOne(sm);
-                delete sm;
-                sm = NULL;
+                sm->deleteLater();
           }
       }
 
@@ -649,7 +647,7 @@ void DriverManager::processClientTermination(ClientManager *client)
     KSNotification::error(i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected.", client->getHost(), client->getPort()));
 
     clients.removeOne(client);
-    delete client;
+    client->deleteLater();
 
     updateMenuActions();
     updateLocalTab();
@@ -674,7 +672,7 @@ void DriverManager::processServerTermination(ServerManager* server)
 
     emit serverTerminated(server->getHost(), server->getPort());
     servers.removeOne(server);
-    delete server;
+    server->deleteLater();
 
     updateLocalTab();
 }
