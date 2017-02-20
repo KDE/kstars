@@ -225,6 +225,7 @@ private:
     double lastAlt;
     int abortDispatch;
     bool altLimitEnabled;
+    ISD::Telescope::TelescopeStatus lastStatus = ISD::Telescope::MOUNT_IDLE;
 
 };
 
