@@ -1,21 +1,13 @@
-/***************************************************************************
-                          FITSView.cpp  -  FITS Image
-                             -------------------
-    begin                : Tue Feb 24 2004
-    copyright            : (C) 2004 by Jasem Mutlaq
-    email                : mutlaqja@ikarustech.com
- ***************************************************************************/
+/*  FITS Label
+    Copyright (C) 2003-2017 Jasem Mutlaq <mutlaqja@ikarustech.com>
+    Copyright (C) 2016-2017 Robert Lancaster <rlancaste@gmail.com>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   Some code fragments were adapted from Peter Kirchgessner's FITS plugin*
- *   See http://members.aol.com/pkirchg for more details.                  *
- ***************************************************************************/
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+*/
+
 
 #ifndef FITSView_H_
 #define FITSView_H_
@@ -53,39 +45,7 @@
 #define MINIMUM_PIXEL_RANGE 5
 #define MINIMUM_STDVAR  5
 
-class FITSView;
-
-
-class FITSLabel : public QLabel
-{
-     Q_OBJECT
-public:
-    explicit FITSLabel(FITSView *img, QWidget *parent=NULL);
-    virtual ~FITSLabel();
-    void setSize(double w, double h);
-    void centerTelescope(double raJ2000, double decJ2000);
-    bool getMouseButtonDown();
-
-protected:
-
-    virtual void mouseMoveEvent(QMouseEvent *e);
-    virtual void mousePressEvent(QMouseEvent *e);
-    virtual void mouseReleaseEvent(QMouseEvent *e);
-    virtual void mouseDoubleClickEvent(QMouseEvent *e);
-
-private:
-    bool mouseButtonDown=false;
-    QPoint lastMousePoint;
-    FITSView *image;
-    dms ra;
-    dms dec;
-    double width,height,size;
-
-signals:
-    void newStatus(const QString &msg, FITSBar id);
-    void pointSelected(int x, int y);
-    void markerSelected(int x, int y);
-};
+class FITSLabel;
 
 class FITSView : public QScrollArea
 {
@@ -148,6 +108,10 @@ public:
     static const int selectMouse=1;
     static const int scopeMouse=2;
 
+    void updateScopeButton();
+    void setScopeButton(QAction *action){centerTelescopeAction=action;}
+    int lastMouseMode;
+
     // Zoom related
     void cleanUpZoom(QPoint viewCenter);
     QPoint getImagePoint(QPoint viewPortPoint);
@@ -207,7 +171,7 @@ private:
     bool event(QEvent *event);
     bool gestureEvent(QGestureEvent *event);
     void pinchTriggered(QPinchGesture *gesture);
-    void updateScopeButton();
+
 
     template<typename T> int rescale(FITSZoom type);
 
@@ -253,8 +217,6 @@ private:
 
     QStack<FITSScale> filterStack;
 
-
-
     // Star selection algorithm
     StarAlgorithm starAlgorithm = ALGORITHM_GRADIENT;
 
@@ -263,6 +225,9 @@ private:
     bool trackingBoxUpdated;
     QRect trackingBox;
     QPixmap trackingBoxPixmap;
+
+    // Scope pixmap
+    QPixmap scopePixmap;
 
     // Floating toolbar
     QToolBar *floatingToolBar = NULL;

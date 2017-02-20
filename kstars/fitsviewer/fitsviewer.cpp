@@ -912,9 +912,11 @@ void FITSViewer::updateScopeButton(){
  */
 
 void FITSViewer::centerTelescope(){
+    getCurrentView()->setScopeButton(actionCollection()->action("center_telescope"));
     if(getCurrentView()->getMouseMode()==FITSView::scopeMouse){
-        getCurrentView()->setMouseMode(FITSView::dragMouse);
+        getCurrentView()->setMouseMode(getCurrentView()->lastMouseMode);
     } else{
+        getCurrentView()->lastMouseMode=getCurrentView()->getMouseMode();
         getCurrentView()->setMouseMode(FITSView::scopeMouse);
     }
     updateScopeButton();
