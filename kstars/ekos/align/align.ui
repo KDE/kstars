@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
-    <height>491</height>
+    <width>600</width>
+    <height>468</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -493,6 +493,26 @@
                 </property>
                </widget>
               </item>
+              <item row="2" column="1" colspan="2">
+               <widget class="QComboBox" name="binningCombo">
+                <property name="toolTip">
+                 <string>Camera binning</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_7">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>Exp:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1" colspan="3">
+               <widget class="QComboBox" name="CCDCaptureCombo"/>
+              </item>
               <item row="1" column="1" colspan="2">
                <widget class="QDoubleSpinBox" name="exposureIN">
                 <property name="toolTip">
@@ -512,94 +532,6 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="1" colspan="2">
-               <widget class="QComboBox" name="binningCombo">
-                <property name="toolTip">
-                 <string>Camera binning</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="7">
-               <widget class="QPushButton" name="clearBoxesB">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="toolTip">
-                 <string>Clear RA &amp; DEC values and reset solver options</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_15">
-                <property name="toolTip">
-                 <string>estimated RA of target center to limit the solver's search area</string>
-                </property>
-                <property name="text">
-                 <string>RA:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_7">
-                <property name="toolTip">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string>Exp:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_18">
-                <property name="toolTip">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string>Bin:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="2">
-               <widget class="QLabel" name="label_16">
-                <property name="toolTip">
-                 <string>estimated DEC of target center to limit the solver's search area</string>
-                </property>
-                <property name="text">
-                 <string>DE:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="3">
-               <widget class="dmsBox" name="decBox">
-                <property name="toolTip">
-                 <string/>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="3">
                <widget class="QCheckBox" name="alignDarkFrameCheck">
                 <property name="toolTip">
@@ -610,35 +542,13 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="1" colspan="3">
-               <widget class="QComboBox" name="CCDCaptureCombo"/>
-              </item>
-              <item row="0" column="7">
-               <widget class="QPushButton" name="showFITSViewerB">
-                <property name="minimumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
-                </property>
+              <item row="2" column="0">
+               <widget class="QLabel" name="label_18">
                 <property name="toolTip">
-                 <string>Show in FITS Viewer</string>
+                 <string/>
                 </property>
                 <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="dmsBox" name="raBox">
-                <property name="toolTip">
-                 <string/>
+                 <string>Bin:</string>
                 </property>
                </widget>
               </item>
@@ -664,14 +574,8 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="7">
-               <widget class="QPushButton" name="syncBoxesB">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
+              <item row="0" column="7">
+               <widget class="QPushButton" name="showFITSViewerB">
                 <property name="minimumSize">
                  <size>
                   <width>22</width>
@@ -685,16 +589,10 @@
                  </size>
                 </property>
                 <property name="toolTip">
-                 <string>Fill RA &amp;amp; DEC values from telescope coordinates and update options</string>
+                 <string>Show in FITS Viewer</string>
                 </property>
                 <property name="text">
                  <string/>
-                </property>
-                <property name="iconSize">
-                 <size>
-                  <width>22</width>
-                  <height>22</height>
-                 </size>
                 </property>
                </widget>
               </item>
@@ -718,6 +616,9 @@
              <widget class="QLineEdit" name="solverOptions">
               <property name="statusTip">
                <string>Additional options to be the solver</string>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -1633,14 +1534,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>dmsBox</class>
-   <extends>QLineEdit</extends>
-   <header>widgets/dmsbox.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>solveB</tabstop>
   <tabstop>loadSlewB</tabstop>
@@ -1663,9 +1556,6 @@
   <tabstop>alignDarkFrameCheck</tabstop>
   <tabstop>toggleFullScreenB</tabstop>
   <tabstop>binningCombo</tabstop>
-  <tabstop>raBox</tabstop>
-  <tabstop>decBox</tabstop>
-  <tabstop>clearBoxesB</tabstop>
   <tabstop>solverOptions</tabstop>
   <tabstop>onlineSolverR</tabstop>
   <tabstop>offlineSolverR</tabstop>

@@ -1159,19 +1159,19 @@ void EkosManager::processNewNumber(INumberVectorProperty *nvp)
         if (guideProcess)
         {
             guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
-            guideProcess->syncTelescopeInfo();
+            //guideProcess->syncTelescopeInfo();
         }
 
         if (alignProcess)
         {
             alignProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
-            alignProcess->syncTelescopeInfo();
+            //alignProcess->syncTelescopeInfo();
         }
 
         if (mountProcess)
         {
             mountProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
-            mountProcess->syncTelescopeInfo();
+            //mountProcess->syncTelescopeInfo();
         }
 
         return;
@@ -1232,19 +1232,19 @@ void EkosManager::processNewProperty(INDI::Property* prop)
         if (guideProcess)
         {
             guideProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
-            guideProcess->syncTelescopeInfo();
+            //guideProcess->syncTelescopeInfo();
         }
 
         if (alignProcess)
         {
             alignProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
-            alignProcess->syncTelescopeInfo();
+            //alignProcess->syncTelescopeInfo();
         }
 
         if (mountProcess)
         {
             mountProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
-            mountProcess->syncTelescopeInfo();
+            //mountProcess->syncTelescopeInfo();
         }
 
         return;
@@ -2184,10 +2184,23 @@ void EkosManager::setTarget(SkyObject *o)
 
 void EkosManager::showEkosOptions()
 {
+    QWidget *currentWidget = toolsWidget->currentWidget();
+
+    if (alignProcess && alignProcess == currentWidget)
+    {
+        KConfigDialog::showDialog( "alignsettings" );
+        return;
+    }
+
+    if (guideProcess && guideProcess == currentWidget)
+    {
+        KConfigDialog::showDialog( "guidesettings" );
+        return;
+    }
+
     if (ekosOptionsWidget == NULL)
         optionsB->click();
-
-    if (ekosOptionsWidget && KConfigDialog::showDialog( "settings" ))
+    else if (KConfigDialog::showDialog( "settings" ))
     {
         KConfigDialog *cDialog = KConfigDialog::exists("settings");
         cDialog->setCurrentPage(ekosOptionsWidget);

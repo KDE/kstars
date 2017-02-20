@@ -33,12 +33,6 @@ public:
     ~OpsEkos();
 
 private slots:
-
-    void slotApply();
-    void toggleSolverInternal();
-    void toggleConfigInternal();
-    void toggleWCSInternal();
-
     void clearAll();
     void clearRow();
     void openDarksFolder();
