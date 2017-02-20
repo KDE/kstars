@@ -1,21 +1,13 @@
-/***************************************************************************
-                          FITSView.cpp  -  FITS Image
-                             -------------------
-    begin                : Thu Jan 22 2004
-    copyright            : (C) 2004 by Jasem Mutlaq
-    email                : mutlaqja@ikarustech.com
- ***************************************************************************/
+/*  FITS View
+    Copyright (C) 2003-2017 Jasem Mutlaq <mutlaqja@ikarustech.com>
+    Copyright (C) 2016-2017 Robert Lancaster <rlancaste@gmail.com>
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   Some code fragments were adapted from Peter Kirchgessner's FITS plugin*
- *   See http://members.aol.com/pkirchg for more details.                  *
- ***************************************************************************/
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+*/
+
 
 #include <config-kstars.h>
 #include "fitsview.h"
@@ -52,9 +44,10 @@
 #include <KMessageBox>
 #include <KLocalizedString>
 
+#include "Options.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
-#include "Options.h"
+#include "fitslabel.h"
 
 #ifdef HAVE_INDI
 #include "basedevice.h"
@@ -69,422 +62,6 @@
 #define ZOOM_MAX        400
 #define ZOOM_LOW_INCR	10
 #define ZOOM_HIGH_INCR	50
-
-//#define FITS_DEBUG
-
-FITSLabel::FITSLabel(FITSView *img, QWidget *parent) : QLabel(parent)
-{
-    image = img;
-
-}
-
-void FITSLabel::setSize(double w, double h)
-{
-    width  = w;
-    height = h;
-    size   = w*h;
-}
-
-FITSLabel::~FITSLabel() {}
-
-/**
-This method looks at what mouse mode is currently selected and updates the cursor to match.
- */
-
-void FITSView::updateMouseCursor(){
-    if(mouseMode==dragMouse){
-        if(horizontalScrollBar()->maximum()>0||verticalScrollBar()->maximum()>0){
-            if(!image_frame->getMouseButtonDown())
-                viewport()->setCursor(Qt::PointingHandCursor);
-            else
-                viewport()->setCursor(Qt::ClosedHandCursor);
-        }
-        else
-            viewport()->setCursor(Qt::CrossCursor);
-    }
-    if(mouseMode==selectMouse){
-        viewport()->setCursor(Qt::CrossCursor);
-    }
-    if(mouseMode==scopeMouse){
-        QPixmap scope_pix=QPixmap(":/icons/center_telescope.svg").scaled(32,32,Qt::KeepAspectRatio,Qt::FastTransformation);
-        viewport()->setCursor(QCursor(scope_pix,10,10));
-    }
-}
-
-/**
-This is how the mouse mode gets set.
-The default for a FITSView in a FITSViewer should be the dragMouse
-The default for a FITSView in the Focus or Align module should be the selectMouse
-The different defaults are accomplished by putting making the dactual default mouseMode
-the selectMouse, but when a FITSViewer loads an image, it immediately makes it the dragMouse.
- */
-
-void FITSView::setMouseMode(int mode){
-    if(mode>-1&&mode<3){
-        mouseMode=mode;
-        updateMouseCursor();
-    }
-}
-
-bool FITSLabel::getMouseButtonDown(){
-    return mouseButtonDown;
-}
-
-int FITSView::getMouseMode(){
-    return mouseMode;
-}
-
-
-void FITSView::enterEvent(QEvent *)
-{
-    if(floatingToolBar&&imageData){
-        QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
-        floatingToolBar->setGraphicsEffect(eff);
-        QPropertyAnimation *a = new QPropertyAnimation(eff,"opacity");
-        a->setDuration(500);
-        a->setStartValue(0.2);
-        a->setEndValue(1);
-        a->setEasingCurve(QEasingCurve::InBack);
-        a->start(QPropertyAnimation::DeleteWhenStopped);
-    }
-}
-
-void FITSView::leaveEvent(QEvent *)
-{
-    if(floatingToolBar&&imageData){
-        QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
-        floatingToolBar->setGraphicsEffect(eff);
-        QPropertyAnimation *a = new QPropertyAnimation(eff,"opacity");
-        a->setDuration(500);
-        a->setStartValue(1);
-        a->setEndValue(0.2);
-        a->setEasingCurve(QEasingCurve::OutBack);
-        a->start(QPropertyAnimation::DeleteWhenStopped);
-    }
-
-}
-
-/**
-This method was added to make the panning function work.
-If the mouse button is released, it resets mouseButtonDown variable and the mouse cursor.
- */
-void FITSLabel::mouseReleaseEvent(QMouseEvent *e)
-{
-    Q_UNUSED(e);
-    if(image->getMouseMode()==FITSView::dragMouse){
-        mouseButtonDown=false;
-        image->updateMouseCursor();
-    }
-}
-/**
-I added some things to the top of this method to allow panning and Scope slewing to function.
-If you are in the dragMouse mode and the mousebutton is pressed, The method checks the difference
-between the location of the last point stored and the current event point to see how the mouse has moved.
-Then it moves the scrollbars and thus the image to the right location.
-Then it stores the current point so next time it can do it again.
- */
-void FITSLabel::mouseMoveEvent(QMouseEvent *e)
-{
-    float scale=(image->getCurrentZoom() / ZOOM_DEFAULT);
-
-    if(image->getMouseMode()==FITSView::dragMouse&&mouseButtonDown){
-        QPoint newPoint=e->globalPos();
-        int dx=newPoint.x()-lastMousePoint.x();
-        int dy=newPoint.y()-lastMousePoint.y();
-        image->horizontalScrollBar()->setValue(image->horizontalScrollBar()->value()-dx);
-        image->verticalScrollBar()->setValue(image->verticalScrollBar()->value()-dy);
-
-        lastMousePoint=newPoint;
-    }
-
-    double x,y;
-    FITSData *image_data = image->getImageData();
-
-    uint8_t *buffer = image_data->getImageBuffer();
-
-    if (buffer == NULL)
-        return;
-
-    x = round(e->x() / scale);
-    y = round(e->y() / scale);
-
-    x = KSUtils::clamp(x, 1.0, width);
-    y = KSUtils::clamp(y, 1.0, height);
-
-    emit newStatus(QString("X:%1 Y:%2").arg( (int)x ).arg( (int)y ), FITS_POSITION);
-
-    // Range is 0 to dim-1 when accessing array
-    x -= 1;
-    y -= 1;
-
-    QString stringValue;
-
-    switch (image_data->getDataType())
-    {
-        case TBYTE:
-            stringValue = QLocale().toString(buffer[(int) (y * width + x)]);
-            break;
-
-        case TSHORT:
-            stringValue = QLocale().toString( (reinterpret_cast<int16_t*>(buffer)) [(int) (y * width + x)]);
-            break;
-
-        case TUSHORT:
-            stringValue = QLocale().toString( (reinterpret_cast<uint16_t*>(buffer)) [(int) (y * width + x)]);
-            break;
-
-        case TLONG:
-            stringValue = QLocale().toString( (reinterpret_cast<int32_t*>(buffer)) [(int) (y * width + x)]);
-            break;
-
-        case TULONG:
-            stringValue = QLocale().toString( (reinterpret_cast<uint32_t*>(buffer)) [(int) (y * width + x)]);
-            break;
-
-        case TFLOAT:
-            stringValue = QLocale().toString( (reinterpret_cast<float*>(buffer)) [(int) (y * width + x)], 'f', 5);
-            break;
-
-        case TLONGLONG:
-            stringValue = QLocale().toString(static_cast<int>((reinterpret_cast<int64_t*>(buffer)) [(int) (y * width + x)]));
-            break;
-
-        case TDOUBLE:
-            stringValue = QLocale().toString( (reinterpret_cast<float*>(buffer)) [(int) (y * width + x)], 'f', 5);
-
-        break;
-
-        default:
-        break;
-    }
-
-    emit newStatus(stringValue, FITS_VALUE);
-
-    if (image_data->hasWCS()&&image->getMouseMode()!=FITSView::selectMouse)
-    {
-        int index = x + y * width;
-
-        wcs_point * wcs_coord = image_data->getWCSCoord();
-
-        if (wcs_coord)
-        {
-            if (index > size)
-                return;
-
-            ra.setD(wcs_coord[index].ra);
-            dec.setD(wcs_coord[index].dec);
-
-            emit newStatus(QString("%1 , %2").arg( ra.toHMSString()).arg(dec.toDMSString()), FITS_WCS);
-        }
-
-        bool objFound=false;
-        foreach(FITSSkyObject *listObject, image_data->objList){
-            if((std::abs(listObject->x()-x)<5/scale)&&(std::abs(listObject->y()-y)<5/scale)){
-                QToolTip::showText(e->globalPos(), listObject->skyObject()->name() +"\n"+listObject->skyObject()->longname() , this);
-                objFound=true;
-                break;
-            }
-        }
-        if(!objFound)
-            QToolTip::hideText();
-    }
-
-    double HFR = image->getImageData()->getHFR(x, y);
-
-    if (HFR > 0)
-        QToolTip::showText(e->globalPos(), i18nc("Half Flux Radius", "HFR: %1", QString::number(HFR, 'g' , 3)), this);
-
-    //setCursor(Qt::CrossCursor);
-
-    e->accept();
-}
-
-/**
-I added some things to the top of this method to allow panning and Scope slewing to function.
-If in dragMouse mode, the Panning function works by storing the cursor position when the mouse was pressed and setting
-the mouseButtonDown variable to true.
-If in ScopeMouse mode and the mouse is clicked, if there is WCS data and a scope is available, the method will verify that you actually
-do want to slew to the WCS coordinates associated with the click location.  If so, it calls the centerTelescope function.
- */
-
-void FITSLabel::mousePressEvent(QMouseEvent *e)
-{
-    float scale=(image->getCurrentZoom() / ZOOM_DEFAULT);
-
-    if(image->getMouseMode()==FITSView::dragMouse)
-    {
-        mouseButtonDown=true;
-        lastMousePoint=e->globalPos();
-        image->updateMouseCursor();
-    } else if(e->buttons() & Qt::LeftButton&&image->getMouseMode()==FITSView::scopeMouse)
-    {
-#ifdef HAVE_INDI
-        FITSData *image_data = image->getImageData();
-        if (image_data->hasWCS())
-        {
-
-            wcs_point * wcs_coord = image_data->getWCSCoord();
-            double x,y;
-            x = round(e->x() / scale);
-            y = round(e->y() / scale);
-
-            x = KSUtils::clamp(x, 1.0, width);
-            y = KSUtils::clamp(y, 1.0, height);
-            int index = x + y * width;
-            if(KMessageBox::Continue==KMessageBox::warningContinueCancel(NULL, "Slewing to Coordinates: \nRA: " + dms(wcs_coord[index].ra).toHMSString() + "\nDec: " + dms(wcs_coord[index].dec).toDMSString(),
-                                 i18n("Continue Slew"),  KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "continue_slew_warning")){
-                centerTelescope(wcs_coord[index].ra/15.0, wcs_coord[index].dec);
-            }
-        }
-#endif
-    }
-
-    double x,y;
-
-    x = round(e->x() / scale);
-    y = round(e->y() / scale);
-
-    x = KSUtils::clamp(x, 1.0, width);
-    y = KSUtils::clamp(y, 1.0, height);
-
-#ifdef HAVE_INDI
-    FITSData *image_data = image->getImageData();
-
-    if (e->buttons() & Qt::RightButton&&image->getMouseMode()!=FITSView::scopeMouse)
-    {
-        mouseReleaseEvent(e);
-        if (image_data->hasWCS())
-        {
-            foreach(FITSSkyObject *listObject, image_data->objList){
-                if((std::abs(listObject->x()-x)<5/scale)&&(std::abs(listObject->y()-y)<5/scale)){
-                    SkyObject *object=listObject->skyObject();
-                    KSPopupMenu *pmenu;
-                    pmenu=new KSPopupMenu();
-                    object->initPopupMenu(pmenu);
-                    QList<QAction *> actions= pmenu->actions();
-                    foreach(QAction *action,actions){
-                        if(action->text().left(7)=="Starhop")
-                            pmenu->removeAction(action);
-                        if(action->text().left(7)=="Angular")
-                            pmenu->removeAction(action);
-                        if(action->text().left(8)=="Add flag")
-                            pmenu->removeAction(action);
-                        if(action->text().left(12)=="Attach Label")
-                            pmenu->removeAction(action);
-                    }
-                    pmenu->popup(e->globalPos());
-                    KStars::Instance()->map()->setClickedObject(object);
-                    break;
-                }
-            }
-        }
-
-        if (fabs(image->markerCrosshair.x()-x) <= 15 && fabs(image->markerCrosshair.y()-y) <= 15)
-            emit markerSelected(0, 0);
-    }
-#endif
-
-    if (e->buttons() & Qt::LeftButton&&image->getMouseMode()==FITSView::selectMouse)
-    {
-        emit pointSelected(x, y);
-    }
-
-}
-
-void FITSLabel::mouseDoubleClickEvent(QMouseEvent *e)
-{
-    double x,y;
-
-    x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
-    y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
-
-    x = KSUtils::clamp(x, 1.0, width);
-    y = KSUtils::clamp(y, 1.0, height);
-
-    emit markerSelected(x, y);
-
-    return;
-}
-
-/**
-This method just verifies if INDI is online, a telescope present, and is connected
- */
-
-bool FITSView::isTelescopeActive(){
-#ifdef HAVE_INDI
-    if (INDIListener::Instance()->size() == 0)
-    {
-        return false;
-    }
-
-    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
-    {
-        INDI::BaseDevice *bd = gd->getBaseDevice();
-
-        if (gd->getType() != KSTARS_TELESCOPE)
-            continue;
-
-        if (bd == NULL)
-            continue;
-
-        return bd->isConnected();
-    }
-    return false;
-#else
-    return false;
-#endif
-}
-
-void FITSLabel::centerTelescope(double raJ2000, double decJ2000)
-{
-#ifdef HAVE_INDI
-
-    if (INDIListener::Instance()->size() == 0)
-    {
-        KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
-        return;
-    }
-
-    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
-    {
-        INDI::BaseDevice *bd = gd->getBaseDevice();
-
-        if (gd->getType() != KSTARS_TELESCOPE)
-            continue;
-
-        if (bd == NULL)
-            continue;
-
-        if (bd->isConnected() == false)
-        {
-            KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
-            return;
-        }
-
-        ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
-
-        SkyObject selectedObject;
-
-        selectedObject.setRA0(raJ2000);
-        selectedObject.setDec0(decJ2000);
-
-        selectedObject.apparentCoord(J2000, KStarsData::Instance()->ut().djd());
-
-        gd->setProperty(&SlewCMD);
-        gd->runCommand(INDI_SEND_COORDS, &selectedObject);
-
-        return;
-    }
-
-    KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
-
-#else
-
-    Q_UNUSED(raJ2000);
-    Q_UNUSED(decJ2000);
-
-#endif    
-}
 
 FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : QScrollArea(parent) , zoomFactor(1.2)
 {
@@ -525,6 +102,8 @@ FITSView::FITSView(QWidget * parent, FITSMode fitsMode, FITSScale filterType) : 
     noImageLabel->setAlignment(Qt::AlignCenter);
     this->setWidget(noImageLabel);
 
+    scopePixmap = QPixmap(":/icons/center_telescope_red.svg").scaled(32,32,Qt::KeepAspectRatio,Qt::FastTransformation);
+
     //if (fitsMode == FITS_GUIDE)
     //connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(processPointSelection(int,int)));
 
@@ -539,6 +118,44 @@ FITSView::~FITSView()
     delete(image_frame);
     delete(imageData);
     delete(display_image);
+}
+
+/**
+This method looks at what mouse mode is currently selected and updates the cursor to match.
+ */
+
+void FITSView::updateMouseCursor(){
+    if(mouseMode==dragMouse){
+        if(horizontalScrollBar()->maximum()>0||verticalScrollBar()->maximum()>0){
+            if(!image_frame->getMouseButtonDown())
+                viewport()->setCursor(Qt::PointingHandCursor);
+            else
+                viewport()->setCursor(Qt::ClosedHandCursor);
+        }
+        else
+            viewport()->setCursor(Qt::CrossCursor);
+    }
+    if(mouseMode==selectMouse){
+        viewport()->setCursor(Qt::CrossCursor);
+    }
+    if(mouseMode==scopeMouse){
+        viewport()->setCursor(QCursor(scopePixmap,10,10));
+    }
+}
+
+/**
+This is how the mouse mode gets set.
+The default for a FITSView in a FITSViewer should be the dragMouse
+The default for a FITSView in the Focus or Align module should be the selectMouse
+The different defaults are accomplished by putting making the actual default mouseMode
+the selectMouse, but when a FITSViewer loads an image, it immediately makes it the dragMouse.
+ */
+
+void FITSView::setMouseMode(int mode){
+    if(mode>-1&&mode<3){
+        mouseMode=mode;
+        updateMouseCursor();
+    }
 }
 
 void FITSView::resizeEvent(QResizeEvent * event){
@@ -716,6 +333,40 @@ int FITSView::rescale(FITSZoom type)
     }
 
     return 0;
+}
+
+int FITSView::getMouseMode(){
+    return mouseMode;
+}
+
+
+void FITSView::enterEvent(QEvent *)
+{
+    if(floatingToolBar&&imageData){
+        QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
+        floatingToolBar->setGraphicsEffect(eff);
+        QPropertyAnimation *a = new QPropertyAnimation(eff,"opacity");
+        a->setDuration(500);
+        a->setStartValue(0.2);
+        a->setEndValue(1);
+        a->setEasingCurve(QEasingCurve::InBack);
+        a->start(QPropertyAnimation::DeleteWhenStopped);
+    }
+}
+
+void FITSView::leaveEvent(QEvent *)
+{
+    if(floatingToolBar&&imageData){
+        QGraphicsOpacityEffect *eff = new QGraphicsOpacityEffect(this);
+        floatingToolBar->setGraphicsEffect(eff);
+        QPropertyAnimation *a = new QPropertyAnimation(eff,"opacity");
+        a->setDuration(500);
+        a->setStartValue(1);
+        a->setEndValue(0.2);
+        a->setEasingCurve(QEasingCurve::OutBack);
+        a->start(QPropertyAnimation::DeleteWhenStopped);
+    }
+
 }
 
 template<typename T>  int FITSView::rescale(FITSZoom type)
@@ -1691,8 +1342,10 @@ void FITSView::createFloatingToolBar()
     eff->setOpacity(0.2);
     floatingToolBar->setVisible(false);
     floatingToolBar->setStyleSheet("QToolBar{background: rgba(150, 150, 150, 210); border:none; color: yellow}"
-                                   "QToolButton{background: transparent; color: yellow}"
-                                   "QToolButton:hover{background: rgba(200, 200, 200, 255); color: yellow}");
+                                   "QToolButton{background: transparent; border:none; color: yellow}"
+                                   "QToolButton:hover{background: rgba(200, 200, 200, 255);border:solid; color: yellow}"
+                                   "QToolButton:checked{background: rgba(110, 110, 110, 255);border:solid; color: yellow}"
+                                   );
     floatingToolBar->setFloatable(true);
     floatingToolBar->setIconSize(QSize(25,25));
     //floatingToolBar->setMovable(true);
@@ -1746,10 +1399,11 @@ void FITSView::centerTelescope()
     if(imageHasWCS()){
         if(getMouseMode()==FITSView::scopeMouse)
         {
-            setMouseMode(FITSView::selectMouse);
+            setMouseMode(lastMouseMode);
         }
         else
         {
+            lastMouseMode=getMouseMode();
             setMouseMode(FITSView::scopeMouse);
         }
         updateFrame();
@@ -1760,13 +1414,43 @@ void FITSView::centerTelescope()
 
 void FITSView::updateScopeButton()
 {
-    if(getMouseMode()==FITSView::scopeMouse)
-    {
-       centerTelescopeAction->setChecked(true);
-    }
-    else
-    {
-       centerTelescopeAction->setChecked(false);
+    if(centerTelescopeAction){
+        if(getMouseMode()==FITSView::scopeMouse)
+        {
+           centerTelescopeAction->setChecked(true);
+        }
+        else
+        {
+           centerTelescopeAction->setChecked(false);
+        }
     }
 }
 
+/**
+This method just verifies if INDI is online, a telescope present, and is connected
+ */
+
+bool FITSView::isTelescopeActive(){
+#ifdef HAVE_INDI
+    if (INDIListener::Instance()->size() == 0)
+    {
+        return false;
+    }
+
+    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    {
+        INDI::BaseDevice *bd = gd->getBaseDevice();
+
+        if (gd->getType() != KSTARS_TELESCOPE)
+            continue;
+
+        if (bd == NULL)
+            continue;
+
+        return bd->isConnected();
+    }
+    return false;
+#else
+    return false;
+#endif
+}

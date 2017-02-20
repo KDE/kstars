@@ -42,6 +42,7 @@ if(NOT BUILD_KSTARS_LITE)
             fitsviewer/fitshistogram.cpp
             fitsviewer/fitsdata.cpp
             fitsviewer/fitsview.cpp
+            fitsviewer/fitslabel.cpp
             fitsviewer/fitsviewer.cpp
             fitsviewer/fitstab.cpp
             fitsviewer/fitsdebayer.cpp
