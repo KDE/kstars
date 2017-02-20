@@ -25,8 +25,6 @@
 #include "indi/indiccd.h"
 #include "indi/indistd.h"
 
-#include "ui_astrometryoptions.h"
-
 class FOV;
 class QProgressIndicator;
 
@@ -424,8 +422,6 @@ private:
      * @return List of Solver options
      */
     QStringList getSolverOptionsFromFITS(const QString &filename);
-
-    Ui_astrometryoptions astrometryOptions;
 
     /**
      * @brief calculatePAHError Calculate polar alignment error in the Polar Alignment Helper (PAH) method
