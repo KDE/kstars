@@ -3084,7 +3084,7 @@ void Align::setMountStatus(ISD::Telescope::TelescopeStatus newState)
         PAHThirdCaptureB->setEnabled(false);
         break;
 
-    case ISD::Telescope::MOUNT_TRACKING:
+    default:
         if (pi->isAnimated() == false)
         {
             solveB->setEnabled(true);
@@ -3094,10 +3094,7 @@ void Align::setMountStatus(ISD::Telescope::TelescopeStatus newState)
         PAHFirstCaptureB->setEnabled(true);
         PAHSecondCaptureB->setEnabled(true);
         PAHThirdCaptureB->setEnabled(true);
-        break;
-
-    default:
-        break;
+        break;    
     }
 }
 

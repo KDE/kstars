@@ -86,8 +86,9 @@ void OpsAstrometry::slotUpdateScale()
         break;
 
     case SCALE_ARCSECPERPIX:
-        kcfg_AstrometryImageScaleLow->setValue(fov_pixscale);
-        kcfg_AstrometryImageScaleHigh->setValue(fov_pixscale);
+        // 10% range
+        kcfg_AstrometryImageScaleLow->setValue(fov_pixscale*0.9);
+        kcfg_AstrometryImageScaleHigh->setValue(fov_pixscale*1.1);
         break;
 
     default:

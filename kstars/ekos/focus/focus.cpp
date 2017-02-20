@@ -738,8 +738,7 @@ void Focus::start()
 
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
-    Options::setFocusExposure(exposureIN->value());
-    Options::setFocusXBin(activeBin);
+    Options::setFocusExposure(exposureIN->value());    
     Options::setFocusMaxTravel(maxTravelIN->value());
     Options::setFocusBoxSize(focusBoxSize->value());
     Options::setFocusSubFrame(kcfg_subFrame->isChecked());
@@ -806,6 +805,7 @@ void Focus::stop(bool aborted)
     inAutoFocus = false;
     inFocusLoop = false;
     starSelected= false;
+    captureInProgress=false;
     minimumRequiredHFR    = -1;
     noStarCount = 0;
     HFRFrames.clear();
@@ -1234,7 +1234,7 @@ void Focus::setCaptureComplete()
         }
 
         // Try to average values and find if we have bogus results
-        if (inFocusLoop == false && starsHFR.count() > 3)
+        if (inAutoFocus && starsHFR.count() > 3)
         {
             float mean=0, sum=0, stddev=0, noHFR=0;
 
@@ -1253,7 +1253,7 @@ void Focus::setCaptureComplete()
 
             stddev = sqrt(stddev / starsHFR.count());
 
-            if (stddev > focusBoxSize->value()/10.0 || noHFR/starsHFR.count() > 0.75)
+            if (currentHFR == -1 && (stddev > focusBoxSize->value()/10.0 || noHFR/starsHFR.count() > 0.75))
             {
                 appendLogText(i18n("No reliable star is detected. Aborting..."));
                 abort();
@@ -2213,8 +2213,11 @@ void Focus::resetButtons()
     stopFocusB->setEnabled(false);
     startLoopB->setEnabled(true);
 
-    captureB->setEnabled(true);
-    resetFrameB->setEnabled(true);
+    if (captureInProgress == false)
+    {
+        captureB->setEnabled(true);
+        resetFrameB->setEnabled(true);
+    }
 }
 
 void Focus::updateBoxSize(int value)
@@ -2226,11 +2229,13 @@ void Focus::updateBoxSize(int value)
     if (targetChip == NULL)
         return;
 
+    int subBinX, subBinY;
+    targetChip->getBinning(&subBinX, &subBinY);
+
     QRect trackBox = focusView->getTrackingBox();
-    trackBox.setX(trackBox.x()+(trackBox.width()-value)/2);
-    trackBox.setY(trackBox.y()+(trackBox.height()-value)/2);
-    trackBox.setWidth(value);
-    trackBox.setHeight(value);
+    QPoint center(trackBox.x()+(trackBox.width()/2), trackBox.y()+(trackBox.height()/2));
+
+    trackBox = QRect( center.x()-value/(2*subBinX), center.y()-value/(2*subBinY), value/subBinX, value/subBinY);
 
     focusView->setTrackingBox(trackBox);
 }
@@ -2491,6 +2496,7 @@ void Focus::setAbsoluteFocusTicks()
 void Focus::setActiveBinning(int bin)
 {
     activeBin = bin + 1;
+    Options::setFocusXBin(activeBin);
 }
 
 void Focus::setThreshold(double value)
@@ -2610,12 +2616,10 @@ void Focus::setMountStatus(ISD::Telescope::TelescopeStatus newState)
         startLoopB->setEnabled(false);
         break;
 
-    case ISD::Telescope::MOUNT_TRACKING:
+    default:
         resetButtons();
         break;
 
-    default:
-        break;
     }
 }
 

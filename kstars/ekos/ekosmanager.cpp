@@ -1306,6 +1306,9 @@ void EkosManager::processNewProperty(INDI::Property* prop)
         if (captureProcess)
             captureProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
 
+        if (mountProcess)
+            mountProcess->setTelescope(managedDevices[KSTARS_TELESCOPE]);
+
         return;
     }
 
