@@ -4168,14 +4168,15 @@ void Capture::setMountStatus(ISD::Telescope::TelescopeStatus newState)
         startB->setEnabled(false);
         break;
 
-    case ISD::Telescope::MOUNT_TRACKING:
-        previewB->setEnabled(true);
-        if (currentCCD)
-            liveVideoB->setEnabled(currentCCD->hasVideoStream());
-        startB->setEnabled(true);
-        break;
+    default:
+        if (pi->isAnimated() == false)
+        {
+            previewB->setEnabled(true);
+            if (currentCCD)
+                liveVideoB->setEnabled(currentCCD->hasVideoStream());
+            startB->setEnabled(true);
+        }
 
-     default:
         break;
     }
 }

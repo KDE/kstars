@@ -650,7 +650,7 @@ bool copyDataFolderFromAppBundleIfNeeded()  //The method returns true if the dat
         Options::setIndiDriversAreInternal(true);
         Options::setAstrometrySolverIsInternal(true);
         Options::setAstrometryConfFileIsInternal(true);
-        Options::setWcsIsInternal(true);
+        Options::setAstrometryWCSIsInternal(true);
         Options::setXplanetIsInternal(true);
         Options::setRunStartupWizard( false );  //don't run on startup because we are doing it now.
 

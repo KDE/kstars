@@ -1080,11 +1080,13 @@ void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
             abort();
         break;
 
-        case ISD::Telescope::MOUNT_TRACKING:
-        captureB->setEnabled(true);
-        calibrateB->setEnabled(true);
         default:
-        break;
+        if (pi->isAnimated() == false)
+        {
+            captureB->setEnabled(true);
+            calibrateB->setEnabled(true);
+        }
+
     }
 }
 
