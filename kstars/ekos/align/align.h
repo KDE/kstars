@@ -37,6 +37,8 @@ class AstrometryParser;
 class OnlineAstrometryParser;
 class OfflineAstrometryParser;
 class RemoteAstrometryParser;
+class OpsAstrometry;
+class OpsAlign;
 
 /**
  *@class Align
@@ -66,6 +68,9 @@ public:
     typedef enum { SOLVER_ONLINE, SOLVER_OFFLINE, SOLVER_REMOTE} SolverType;
     typedef enum { PAH_IDLE, PAH_FIRST_CAPTURE, PAH_FIND_CP, PAH_FIRST_ROTATE, PAH_SECOND_CAPTURE, PAH_SECOND_ROTATE, PAH_THIRD_CAPTURE, PAH_STAR_SELECT, PAH_PRE_REFRESH, PAH_REFRESH, PAH_ERROR } PAHStage;
     typedef enum { NORTH_HEMISPHERE, SOUTH_HEMISPHERE } HemisphereType;
+
+    // Image Scales
+    const QStringList ImageScales = { "dw", "aw", "app" };
 
     enum CircleSolution { NO_CIRCLE_SOLUTION, ONE_CIRCLE_SOLUTION, TWO_CIRCLE_SOLUTION, INFINITE_CIRCLE_SOLUTION };
 
@@ -174,9 +179,7 @@ public:
     /**
      * @brief Generate arguments we pass to the online and offline solvers. Keep user own arguments in place.
      */
-    void generateArgs();
-
-    void generateFOV(QString &fov_low, QString &fov_high, QString units);
+    void generateArgs();    
 
     /**
      * @brief Does our parser exist in the system?
@@ -197,6 +200,22 @@ public:
      * @brief Return FOV object used to represent the solved image orientation on the sky map.
      */
     FOV *fov();
+
+    /**
+     * @brief getFOVScale Returns calculated FOV values
+     * @param fov_w FOV width in arcmins
+     * @param fov_h FOV height in arcmins
+     * @param fov_scale FOV scale in arcsec per pixel
+     */
+    void getFOVScale(double &fov_w, double & fov_h, double &fov_scale);
+
+    /**
+     * @brief generateOptions Generate astrometry.net option given the supplied map
+     * @param optionsMap List of key=value pairs for all astrometry.net options
+     * @return String List of valid astrometry.net options
+     */
+    static QStringList generateOptions(const QVariantMap & optionsMap);
+    static void generateFOVBounds(double fov_h, double fov_v, QString &fov_low, QString &fov_high);
 
 
 public slots:
@@ -303,19 +322,12 @@ public slots:
     void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
     void slotEditOptions();
-    void slotUpdateLineEditOptions();
-    void slotToggleAstrometryOptions();
-    void slotUpdateAstrometryOptionEditor(QString text);
-    void slotUpdateScaleInEditor();
-    void slotUpdatePositionInEditor();
-    void slotResetOptionsInEditor();
-    void slotDefaultEditorOptions();
 
 private slots:
     /* Solver Options */
-    void checkLineEdits();
-    void copyCoordsToBoxes();
-    void clearCoordBoxes();
+    //void checkLineEdits();
+    //void copyCoordsToBoxes();
+    //void clearCoordBoxes();
 
     /* Polar Alignment */
     void measureAltError();
@@ -452,7 +464,7 @@ private:
     //bool isFocusBusy;
 
     // FOV
-    double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y;
+    double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y, fov_pixscale;
     int ccd_width, ccd_height;
 
     // Keep track of solver results
@@ -562,9 +574,9 @@ private:
     // Which hemisphere are we located on?
     HemisphereType hemisphere;
 
-
-    void removeAstrometryOption(QStringList &solver_args,QString option);
-    void editAstrometryOption(QStringList &solver_args, QString option, QString argument);
+    // Astrometry Options
+    OpsAstrometry *opsAstrometry;
+    OpsAlign *opsAlign;
 };
 
 }

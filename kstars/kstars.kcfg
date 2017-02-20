@@ -1348,57 +1348,19 @@
       <entry name="loadDefaultConfig" type="Bool">
          <label>Always load device default configuration upon successful connection?</label>
          <default>false</default>
-      </entry>
-      <entry name="astrometrySolver" type="String">
-         <label>astrometry.net solve-field binary</label>
-         <whatsthis>Path to astrometry.net solver location.</whatsthis>
-         <default>/usr/bin/solve-field</default>
-      </entry>
-      <entry name="astrometrySolverIsInternal" type="Bool">
-         <label>Internal or External Astrometry Solver?</label>
-         <default>false</default>
-      </entry>
-      <entry name="astrometryWCSInfo" type="String">
-         <label>astrometry.net wcsinfo binary</label>
-         <whatsthis>Path to astrometry.net wcsinfo location.</whatsthis>
-         <default>/usr/bin/wcsinfo</default>
-      </entry>
-      <entry name="wcsIsInternal" type="Bool">
-         <label>Internal or External wcsinfo?</label>
-         <default>false</default>
-      </entry>
-      <entry name="astrometryConfFile" type="String">
-         <label>astrometry.net configuration file</label>
-         <whatsthis>Path to astrometry.net file location.</whatsthis>
-         <default>/etc/astrometry.cfg</default>
-      </entry>
-      <entry name="astrometryConfFileIsInternal" type="Bool">
-         <label>Internal or External Astrometry.net Conf File?</label>
-         <default>false</default>
-      </entry>
-      <entry name="astrometryAPIKey" type="String">
-         <label>astrometry.net API Key</label>
-         <whatsthis>Key to access astrometry.net online web services. You must register with astrometry.net to obtain a key.</whatsthis>
-         <default>iczikaqstszeptgs</default>
-      </entry>
-      <entry name="astrometryAPIURL" type="String">
-         <label>astrometry.net API URL</label>
-         <default>http://nova.astrometry.net</default>
-      </entry>
-      <entry name="astrometryUseJPEG" type="Bool">
-         <label>Use JPEG format, instead of FITS, to upload images to the astrometry.net online service.</label>
-         <default>true</default>
-      </entry>
-      <entry name="MaxDarkTemperatureDiff" type="Double">
-         <label>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</label>
-         <default>1</default>
-      </entry>
-      <entry name="shutterfulCCDs" type="StringList">
-         <label>List of CCDs with mechanical or electronic shutters.</label>
-      </entry>
-      <entry name="shutterlessCCDs" type="StringList">
-         <label>List of CCDs without mechanical or electronic shutters.</label>
-      </entry>
+      </entry>      
+   </group>
+   <group name="DarkLibrary">
+   <entry name="MaxDarkTemperatureDiff" type="Double">
+      <label>Maximum acceptable difference between current and recorded dark frame temperature set point. When the difference exceeds this value, a new dark frame shall be captured for this set point.</label>
+      <default>1</default>
+   </entry>
+   <entry name="shutterfulCCDs" type="StringList">
+      <label>List of CCDs with mechanical or electronic shutters.</label>
+   </entry>
+   <entry name="shutterlessCCDs" type="StringList">
+      <label>List of CCDs without mechanical or electronic shutters.</label>
+   </entry>
    </group>
    <group name="Mount">
       <entry name="MinimumAltLimit" type="Double">
@@ -1568,24 +1530,16 @@
       <entry name="SolverBinningIndex" type="UInt">
          <label>Default CCD binning index while in alignment mode</label>
          <whatsthis>Set binning index of CCD camera while in alignment mode. Default values 0-3 corresponding to 1x1 to 4x4 binning</whatsthis>
-         <default>1</default>
+         <default>0</default>
       </entry>
-      <entry name="SolverUpdateCoords" type="Bool">
-         <label>Update Solver RA and DEC search coordinates.</label>
-         <whatsthis>Automatically update the solver RA and Declination coordinates after telescope slew is completed.</whatsthis>
-         <default>true</default>
-      </entry>
-      <entry name="SolverVerbose" type="Bool">
+      <entry name="AstrometrySolverVerbose" type="Bool">
          <whatsthis>Display detailed verbose messages of the astrometry solver process while in progress.</whatsthis>
          <default>false</default>
       </entry>
       <entry name="SolverType" type="UInt">
          <label>Set solver type (online, offline, remote).</label>
          <default>0</default>
-      </entry>
-      <entry name="SolverOptions" type="String">
-         <label>Options passed to the astrometry solver.</label>
-      </entry>
+      </entry>      
       <entry name="GuideScopeCCDs" type="StringList">
          <label>List of CCDs using Guide Scope parameters instead of Primary Scope</label>
       </entry>
@@ -1593,11 +1547,11 @@
          <label>Action to take if solver if successful (Sync, Slew to Target, or None)</label>
          <default>0</default>
       </entry>
-      <entry name="SolverWCS" type="Bool">
+      <entry name="AstrometrySolverWCS" type="Bool">
          <label>World Coordinate System (WCS). WCS is used to encode RA/DEC coordinates in captured CCD images.</label>
          <default>false</default>
       </entry>
-      <entry name="SolverOverlay" type="Bool">
+      <entry name="AstrometrySolverOverlay" type="Bool">
          <label>Display received FITS images unto solver FOV rectangle in the sky map.</label>
          <default>false</default>
       </entry>
@@ -1612,6 +1566,109 @@
       <entry name="SettlingTime" type="UInt">
          <label>Time to wait in milliseconds after telescope slewing is complete before starting the next capture.</label>
          <default>1500</default>
+      </entry>
+      <entry name="AstrometryUseNoFITS2FITS" type="Bool">
+         <label>Do not sanitize FITS. This option should only be checked if astrometry.net version is 0.67 or earlier. Uncheck for any versions greater than 0.67.</label>
+         <default>true</default>
+      </entry>
+      <entry name="AstrometryUseResort" type="Bool">
+         <label>Check this option if your image does not have much nebulosity. If it does have strong nebulosity, uncheck it.</label>
+         <default>true</default>
+      </entry>
+      <entry name="AstrometryUseNoVerify" type="Bool">
+         <label>This will prevent the solver from looking at an already existing WCS Header before blindly trying to solve the image. It is recommended to keep it checked.</label>
+         <default>true</default>
+      </entry>
+      <entry name="AstrometryUseImageScale" type="Bool">
+         <label>Set image scale to speed up solver as it does not have to search index files of different image scales.</label>
+         <default>true</default>
+      </entry>
+      <entry name="AstrometryImageScaleLow" type="Double">
+         <label>Lower image scale.</label>
+      </entry>
+      <entry name="AstrometryImageScaleHigh" type="Double">
+         <label>Upper image scale.</label>
+      </entry>
+      <entry name="AstrometryAutoUpdateImageScale" type="Bool">
+         <label>Automatically update image scale when CCD or Mount parameters are updated.</label>
+         <default>true</default>
+      </entry>
+      <entry name="AstrometryImageScaleUnits" type="UInt">
+         <label>Image scale units in arcminutes (aw), degrees (dw), or arcsec per pixel (app)</label>
+         <default>1</default>
+      </entry>
+      <entry name="AstrometryUseDownsample" type="Bool">
+         <label>Downsample the image to shrink its size and speed up the solver.</label>
+         <default>true</default>
+      </entry>
+      <entry name="AstrometryDownsample" type="UInt">
+         <label>Downsample factor</label>
+         <default>2</default>
+      </entry>
+      <entry name="AstrometryUsePosition" type="Bool">
+         <label>Set estimated position to speed up astrometry solver as it does not have to search in other areas of the sky.</label>
+         <default>true</default>
+      </entry>
+      <entry name="AstrometryPositionRA" type="Double">
+         <label>User supplied Right Ascension value in degrees to be passed to the solver.</label>
+      </entry>
+      <entry name="AstrometryPositionDE" type="Double">
+         <label>User supplied declination value in degrees to be passed to the solver.</label>
+      </entry>
+      <entry name="AstrometryAutoUpdatePosition" type="Bool">
+         <label>Automatically update position coordinates when mounts completes slewing.</label>
+         <default>true</default>
+      </entry>
+      <entry name="AstrometryRadius" type="Double">
+         <label>The Search Radius for the Estimated Telescope/Image Field Position in degrees.</label>
+         <default>30</default>
+      </entry>
+      <entry name="AstrometryDetectParity" type="Bool">
+         <label>Detect parity and reuse it to speed up solver.</label>
+         <default>true</default>
+      </entry>
+      <entry name="AstrometryCustomOptions" type="String">
+         <label>Additional optional astrometry.net options</label>
+      </entry>
+      <entry name="AstrometrySolverBinary" type="String">
+         <label>astrometry.net solve-field binary</label>
+         <whatsthis>Path to astrometry.net solver location.</whatsthis>
+         <default>/usr/bin/solve-field</default>
+      </entry>
+      <entry name="AstrometrySolverIsInternal" type="Bool">
+         <label>Internal or External Astrometry Solver?</label>
+         <default>false</default>
+      </entry>
+      <entry name="AstrometryWCSInfo" type="String">
+         <label>astrometry.net wcsinfo binary</label>
+         <whatsthis>Path to astrometry.net wcsinfo location.</whatsthis>
+         <default>/usr/bin/wcsinfo</default>
+      </entry>
+      <entry name="AstrometryWCSIsInternal" type="Bool">
+         <label>Internal or External wcsinfo?</label>
+         <default>false</default>
+      </entry>
+      <entry name="AstrometryConfFile" type="String">
+         <label>astrometry.net configuration file</label>
+         <whatsthis>Path to astrometry.net file location.</whatsthis>
+         <default>/etc/astrometry.cfg</default>
+      </entry>
+      <entry name="AstrometryConfFileIsInternal" type="Bool">
+         <label>Internal or External Astrometry.net Conf File?</label>
+         <default>false</default>
+      </entry>
+      <entry name="AstrometryAPIKey" type="String">
+         <label>astrometry.net API Key</label>
+         <whatsthis>Key to access astrometry.net online web services. You must register with astrometry.net to obtain a key.</whatsthis>
+         <default>iczikaqstszeptgs</default>
+      </entry>
+      <entry name="AstrometryAPIURL" type="String">
+         <label>astrometry.net API URL</label>
+         <default>http://nova.astrometry.net</default>
+      </entry>
+      <entry name="AstrometryUseJPEG" type="Bool">
+         <label>Use JPEG format, instead of FITS, to upload images to the astrometry.net online service.</label>
+         <default>true</default>
       </entry>
    </group>
    <group name="Guide">

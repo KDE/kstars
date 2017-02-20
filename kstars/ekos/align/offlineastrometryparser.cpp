@@ -87,11 +87,12 @@ bool OfflineAstrometryParser::astrometryNetOK()
         solverOK = solver.exists() && solver.isFile();
     }
     else{
-        QFileInfo solver(Options::astrometrySolver());
+        QFileInfo solver(Options::astrometrySolverBinary());
         solverOK = solver.exists() && solver.isFile();
     }
 
-    if(Options::wcsIsInternal()){
+    if(Options::astrometryWCSIsInternal())
+    {
         QFileInfo wcsinfo(QCoreApplication::applicationDirPath()+"/astrometry/bin/wcsinfo");
         wcsinfoOK  = wcsinfo.exists() && wcsinfo.isFile();
     }else{
@@ -210,7 +211,7 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
 
     QStringList solverArgs = args;
     // Add parity option if none is give and we already know parity before
-    if (parity.isEmpty() == false && args.contains("parity") == false)
+    if (Options::astrometryDetectParity() && parity.isEmpty() == false && args.contains("parity") == false)
         solverArgs << "--parity" << parity;
     QString solutionFile = QDir::tempPath() + "/solution.wcs";
     solverArgs << "-W" <<  solutionFile << filename;
@@ -240,13 +241,13 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
     if(Options::astrometrySolverIsInternal())
         solverPath=QCoreApplication::applicationDirPath()+"/astrometry/bin/solve-field";
     else
-        solverPath=Options::astrometrySolver();
+        solverPath=Options::astrometrySolverBinary();
 
     solver.start(solverPath, solverArgs);
 
     align->appendLogText(i18n("Starting solver..."));
 
-    if (Options::solverVerbose())
+    if (Options::astrometrySolverVerbose())
     {
         QString command = solverPath + " " + solverArgs.join(" ");
         align->appendLogText(command);
@@ -283,7 +284,7 @@ void OfflineAstrometryParser::solverComplete(int exist_status)
 
     QString wcsPath;
 
-    if(Options::wcsIsInternal())
+    if(Options::astrometryWCSIsInternal())
         wcsPath = QCoreApplication::applicationDirPath()+"/astrometry/bin/wcsinfo";
     else
         wcsPath = Options::astrometryWCSInfo();
@@ -339,7 +340,7 @@ void OfflineAstrometryParser::wcsinfoComplete(int exist_status)
 
 void OfflineAstrometryParser::logSolver()
 {
-    if (Options::solverVerbose())
+    if (Options::astrometrySolverVerbose())
         align->appendLogText(solver.readAll().trimmed());
 }
 

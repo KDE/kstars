@@ -129,7 +129,9 @@ if (INDI_FOUND)
                     ekos/capture/dslrinfo.ui
                     # Align
                     ekos/align/align.ui
-                    ekos/align/astrometryoptions.ui
+                    ekos/align/opsekos.ui
+                    ekos/align/opsastrometry.ui
+                    ekos/align/opsalign.ui
                     # Focus
                     ekos/focus/focus.ui
                     # Mount
@@ -176,6 +178,8 @@ if (INDI_FOUND)
                        ekos/align/align.cpp
                        ekos/align/alignview.cpp
                        ekos/align/astrometryparser.cpp
+                       ekos/align/opsastrometry.cpp
+                       ekos/align/opsalign.cpp
                        ekos/align/offlineastrometryparser.cpp
                        ekos/align/onlineastrometryparser.cpp
                        ekos/align/remoteastrometryparser.cpp

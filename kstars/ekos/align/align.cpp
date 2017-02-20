@@ -20,6 +20,7 @@
 
 #include <QFileDialog>
 #include <KMessageBox>
+#include <KConfigDialog>
 #include <KNotifications/KNotification>
 
 #include "ekos/auxiliary/QProgressIndicator.h"
@@ -37,8 +38,8 @@
 #include "onlineastrometryparser.h"
 #include "offlineastrometryparser.h"
 #include "remoteastrometryparser.h"
-
-#include "ui_astrometryoptions.h"
+#include "opsastrometry.h"
+#include "opsalign.h"
 
 #include <basedevice.h>
 
@@ -87,7 +88,7 @@ Align::Align()
     retries=0;
     targetDiff=1e6;
     solverIterations=0;
-    fov_x=fov_y=0;
+    fov_x=fov_y=fov_pixscale=0;
 
     parser = NULL;
     solverFOV = new FOV();
@@ -116,10 +117,12 @@ Align::Align()
     connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
     connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
     connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
+#if 0
     connect(raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
     connect(decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
     connect(syncBoxesB, SIGNAL(clicked()), this, SLOT(copyCoordsToBoxes()));
     connect(clearBoxesB, SIGNAL(clicked()), this, SLOT(clearCoordBoxes()));
+#endif
     connect(editOptionsB,SIGNAL(clicked()), this, SLOT(slotEditOptions()));
 
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
@@ -143,13 +146,25 @@ Align::Align()
     gotoModeButtonGroup->button(currentGotoMode)->setChecked(true);
 
     editOptionsB->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/breeze/default/document-edit.svg")));
-    editOptionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    editOptionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);    
+    KConfigDialog* dialog = new KConfigDialog(this, "alignsettings", Options::self());
+
+    opsAlign = new OpsAlign(this);
+    dialog->addPage(opsAlign, i18n("Astrometry.net"));
+
+    opsAstrometry = new OpsAstrometry(this);
+    dialog->addPage(opsAstrometry, i18n("Solver Options"));
+    connect(editOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
+
+
+#if 0
     syncBoxesB->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
     syncBoxesB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     clearBoxesB->setIcon(QIcon::fromTheme("edit-clear", QIcon(":/icons/breeze/default/edit-clear.svg")));
     clearBoxesB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     raBox->setDegType(false); //RA box should be HMS-style
+#endif
 
     appendLogText(i18n("Idle."));
 
@@ -196,7 +211,7 @@ Align::Align()
         connect(parser, SIGNAL(solverFailed()), this, SLOT(solverFailed()), Qt::UniqueConnection);
     }
 
-    solverOptions->setText(Options::solverOptions());
+    //solverOptions->setText(Options::solverOptions());
 
     // Which telescope info to use for FOV calculations
     //kcfg_solverOTA->setChecked(Options::solverOTA());
@@ -450,10 +465,9 @@ void Align::syncTelescopeInfo()
                                                                      QString::number(guideFL, 'f', 2),
                                                                      QString::number(guideAperture, 'f', 2)), Qt::ToolTipRole);
         calculateFOV();
-    }
 
-    if (currentCCD)
         generateArgs();
+    }
 }
 
 
@@ -488,7 +502,7 @@ void Align::syncCCDInfo()
 
     ISwitchVectorProperty *svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
     if (svp)
-        setWCSEnabled(Options::solverWCS());
+        setWCSEnabled(Options::astrometrySolverWCS());
 
     targetChip->setImageView(alignView, FITS_ALIGN);
 
@@ -515,20 +529,31 @@ void Align::syncCCDInfo()
         return;
 
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
+    {
         calculateFOV();
-
-    if (currentCCD && currentTelescope)
         generateArgs();
-
+    }
 }
 
+void Align::getFOVScale(double &fov_w, double & fov_h, double &fov_scale)
+{
+    fov_w = fov_x;
+    fov_h = fov_y;
+    fov_scale = fov_pixscale;
+}
 
 void Align::calculateFOV()
 {
     // Calculate FOV
+
+    // FOV in arcsecs
     fov_x = 206264.8062470963552 * ccd_width * ccd_hor_pixel / 1000.0 / focal_length;
     fov_y = 206264.8062470963552 * ccd_height * ccd_ver_pixel / 1000.0 / focal_length;
 
+    // Pix Scale
+    fov_pixscale = (fov_x * (Options::solverBinningIndex()+1)) / ccd_width;
+
+    // FOV in arcmins
     fov_x /= 60.0;
     fov_y /= 60.0;
 
@@ -549,14 +574,52 @@ void Align::calculateFOV()
                                     " 0.5 degrees</p><p>For small FOVs, use the Legacy Polar Alignment Tool.</p>"));
         FOVDisabledLabel->show();
     }
-}
 
+    if (opsAstrometry->kcfg_AstrometryUseImageScale->isChecked())
+    {
+        int unitType = opsAstrometry->kcfg_AstrometryImageScaleUnits->currentIndex();
+
+        // Degrees
+        if (unitType == 0)
+        {
+            double fov_low = qMin(fov_x/60, fov_y/60);
+            double fov_high= qMax(fov_x/60, fov_y/60);
+            opsAstrometry->kcfg_AstrometryImageScaleLow->setValue(fov_low);
+            opsAstrometry->kcfg_AstrometryImageScaleHigh->setValue(fov_high);
+
+            Options::setAstrometryImageScaleLow(fov_low);
+            Options::setAstrometryImageScaleHigh(fov_high);
+        }
+        // Arcmins
+        else if (unitType == 1)
+        {
+            double fov_low = qMin(fov_x, fov_y);
+            double fov_high= qMax(fov_x, fov_y);
+            opsAstrometry->kcfg_AstrometryImageScaleLow->setValue(fov_low);
+            opsAstrometry->kcfg_AstrometryImageScaleHigh->setValue(fov_high);
+
+            Options::setAstrometryImageScaleLow(fov_low);
+            Options::setAstrometryImageScaleHigh(fov_high);
+        }
+        // Arcsec per pixel
+        else
+        {
+            opsAstrometry->kcfg_AstrometryImageScaleLow->setValue(fov_pixscale*0.9);
+            opsAstrometry->kcfg_AstrometryImageScaleHigh->setValue(fov_pixscale*1.1);
+
+            // 10% boundary
+            Options::setAstrometryImageScaleLow(fov_pixscale*0.9);
+            Options::setAstrometryImageScaleHigh(fov_pixscale*1.1);
+        }
+    }
+}
 
 //This starts upthe Astrometry Options Dialog Window and connects the various buttons and line edits to slots.
 //If accepted upon dialog close,the astrometry solver options are updated.
 
-void Align::slotEditOptions(){
-
+void Align::slotEditOptions()
+{
+#if 0
     QDialog astrometryOptionsDialog;
     astrometryOptions.setupUi(&astrometryOptionsDialog);
 
@@ -607,403 +670,10 @@ void Align::slotEditOptions(){
         solverOptions->setText(astrometryOptions.solverOptions->text().simplified());
     }
 
+#endif
 }
 
-//This interprets the solver options to set the checkboxes and line edits to the values contained in the sovler arguments
-
-void Align::slotUpdateAstrometryOptionEditor(QString text){
-    QString options = text.simplified();
-    QStringList solver_args;
-    solver_args = options.split(" ");
-
-    int index=-1;
-    int index2=-1;
-    int index3=-1;
-    bool allExist=false;
-
-    index = solver_args.indexOf("--no-fits2fits");
-    astrometryOptions.checkFits2Fits->setChecked(index != -1);
-
-    index = solver_args.indexOf("--resort");
-    astrometryOptions.checkResort->setChecked(index != -1);
-
-    index = solver_args.indexOf("--no-verify");
-    astrometryOptions.checkVerify->setChecked(index != -1);
-
-    index = solver_args.indexOf("--downsample");
-    astrometryOptions.checkDownSample->setChecked(index != -1);
-    if(index != -1 && index != solver_args.count()-1){
-        QString nextValue=solver_args.at(index+1);
-        if(!nextValue.startsWith('-'))
-            astrometryOptions.downSampleValue->setText(solver_args.at(index+1));
-    }
-
-    index = solver_args.indexOf("-L");
-    index2 = solver_args.indexOf("-H");
-    index3 = solver_args.indexOf("-u");
-    allExist=index != -1 && index2 != -1 && index3 != -1;
-    astrometryOptions.checkScale->setChecked(allExist);
-
-    QString fov_low,fov_high;
-    QString units="aw";
-    QComboBox *comboBox=astrometryOptions.unitSelector;
-    if(comboBox->currentIndex()==0)
-        units="dw";
-    if(comboBox->currentIndex()==1)
-        units="aw";
-    generateFOV(fov_low,fov_high, units);
-
-    if(index!=-1){
-        if(index!=solver_args.count()-1){
-            QString nextValue=solver_args.at(index+1);
-            if(!nextValue.startsWith('-'))
-                    astrometryOptions.scaleL->setText(solver_args.at(index+1));
-        }
-    }else
-        astrometryOptions.scaleL->setText(fov_low);
-
-    if(index2!=-1){
-        if(index2!=solver_args.count()-1){
-            QString nextValue=solver_args.at(index+1);
-            if(!nextValue.startsWith('-'))
-                    astrometryOptions.scaleH->setText(solver_args.at(index2+1));
-        }
-    }else
-        astrometryOptions.scaleH->setText(fov_high);
-
-    if(index3!=-1){
-        if(index3!=solver_args.count()-1){
-            QString nextValue=solver_args.at(index3+1);
-            if(nextValue=="dw")
-                astrometryOptions.unitSelector->setCurrentIndex(0);
-            if(nextValue=="aw")
-                astrometryOptions.unitSelector->setCurrentIndex(1);
-        }
-    }
-
-    index = solver_args.indexOf("-3");
-    index2 = solver_args.indexOf("-4");
-    index3 = solver_args.indexOf("-5");
-    allExist=index != -1 && index2 != -1 && index3 != -1;
-    astrometryOptions.checkPosition->setChecked(allExist);
-
-    if (raBox->isEmpty() == false && decBox->isEmpty() == false){
-        astrometryOptions.estRA->setText(raBox->text());
-        astrometryOptions.estDec->setText(decBox->text());
-    }
-
-    index = solver_args.indexOf("-5");
-    if(index != -1 && index != solver_args.count()-1){
-        QString nextValue=solver_args.at(index+1);
-        if(!nextValue.startsWith('-'))
-            astrometryOptions.estRadius->setText(solver_args.at(index+1));
-    }
-
-    //We might not want to force these, but if they don't have these options selected, it will cause problems.
-
-    index = solver_args.indexOf("--no-plots");
-    if(index==-1){
-        solver_args.prepend("--no-plots");
-        astrometryOptions.solverOptions->setText(solver_args.join(" "));
-    }
-
-    index = solver_args.indexOf("-O");
-    if(index==-1){
-        solver_args.prepend("-O");
-        astrometryOptions.solverOptions->setText(solver_args.join(" "));
-    }
-}
-
-//This updates solver options in real time based on line edits the user makes.
-
-void Align::slotUpdateLineEditOptions(){
-    QString options = astrometryOptions.solverOptions->text().simplified();
-    QStringList solver_args;
-    solver_args = options.split(" ");
-    QLineEdit *lineEdit=(QLineEdit *)sender();
-    QString argument;
-
-    if(lineEdit==astrometryOptions.downSampleValue)
-        argument="--downsample";
-    if(lineEdit==astrometryOptions.scaleL)
-        argument="-L";
-    if(lineEdit==astrometryOptions.scaleH)
-        argument="-H";
-    if(lineEdit==astrometryOptions.estRA)
-        argument="-3";
-    if(lineEdit==astrometryOptions.estDec)
-        argument="-4";
-    if(lineEdit==astrometryOptions.estRadius)
-        argument="-5";
-
-    if(argument=="")
-        return;
-
-    if(lineEdit==astrometryOptions.estRA){
-        bool raOk=false;
-        dms ra( astrometryOptions.estRA->createDms( false, &raOk ));
-        if(raOk){
-            if ( ra.Hours() < 0.0 || ra.Hours() > 24.0 ){
-                KMessageBox::sorry( 0, i18n( "The Right Ascension value must be between 0.0 and 24.0." ), i18n( "Invalid Coordinate Data" ) );
-                return;
-            }
-            editAstrometryOption(solver_args, argument, QString().setNum(ra.Degrees()));
-        }
-    }else if(lineEdit==astrometryOptions.estDec){
-        bool decOk=false;
-        dms dec( astrometryOptions.estDec->createDms( true, &decOk ));
-        if(decOk){
-            if ( dec.Degrees() < -90.0 || dec.Degrees() > 90.0 ){
-                KMessageBox::sorry( 0, i18n( "The Declination value must be between -90.0 and 90.0." ), i18n( "Invalid Coordinate Data" ) );
-                return;
-            }
-            editAstrometryOption(solver_args, argument, QString().setNum(dec.Degrees()));
-        }
-    }else{
-        editAstrometryOption(solver_args, argument, lineEdit->text());
-    }
-
-    astrometryOptions.solverOptions->setText(solver_args.join(" "));
-
-
-}
-
-//This updates the telescope/image field scale in the astrometry options editor to match the currently connected devices.
-
-void Align::slotUpdateScaleInEditor(){
-
-    QString options = astrometryOptions.solverOptions->text().simplified();
-    QStringList solver_args;
-    solver_args = options.split(" ");
-
-    QString fov_low,fov_high;
-    QString units="aw";
-    QComboBox *comboBox=astrometryOptions.unitSelector;
-    if(comboBox->currentIndex()==0)
-        units="dw";
-    if(comboBox->currentIndex()==1)
-        units="aw";
-
-    generateFOV(fov_low,fov_high, units);
-
-    astrometryOptions.scaleL->setText(fov_low);
-    astrometryOptions.scaleH->setText(fov_high);
-
-    editAstrometryOption(solver_args, "-L", fov_low);
-    editAstrometryOption(solver_args, "-H", fov_high);
-
-    astrometryOptions.solverOptions->setText(solver_args.join(" "));
-
-}
-
-//This updates the RA and DEC position in the astrometry options editor to match the current telescope position.
-
-void Align::slotUpdatePositionInEditor(){
-
-    QString options = astrometryOptions.solverOptions->text().simplified();
-    QStringList solver_args;
-    solver_args = options.split(" ");
-
-    raBox->setText(ScopeRAOut->text());
-    decBox->setText(ScopeDecOut->text());
-    astrometryOptions.estRA->setText(ScopeRAOut->text());
-    astrometryOptions.estDec->setText(ScopeDecOut->text());
-
-    bool raOk=false;
-    dms ra( astrometryOptions.estRA->createDms( false, &raOk ));
-    if(raOk)
-        editAstrometryOption(solver_args, "-3", QString().setNum(ra.Degrees()));
-
-    bool decOk=false;
-    dms dec( astrometryOptions.estDec->createDms( true, &decOk ));
-    if(decOk)
-        editAstrometryOption(solver_args, "-4", QString().setNum(dec.Degrees()));
-
-    astrometryOptions.solverOptions->setText(solver_args.join(" "));
-}
-
-//This will reset the options in the astrometry options editor to the original options before editing.
-
-void Align::slotResetOptionsInEditor(){
-
-    astrometryOptions.solverOptions->setText(solverOptions->text().simplified());
-    slotUpdateAstrometryOptionEditor(solverOptions->text().simplified());
-}
-
-//This will replace the options in the astrometry options editor to the default options set.
-
-void Align::slotDefaultEditorOptions(){
-
-    double ra=0,dec=0;
-    QString ra_dms, dec_dms;
-    QStringList solver_args;
-
-    currentTelescope->getEqCoords(&ra, &dec);
-
-    QString fov_low,fov_high;
-    generateFOV(fov_low,fov_high,"aw");
-
-    getFormattedCoords(ra, dec, ra_dms, dec_dms);
-
-    solver_args << "--no-verify" << "--no-plots" << "--resort" << "--no-fits2fits"
-                << "--downsample" << "2" << "-O" << "-L"
-                << fov_low << "-H" << fov_high << "-u" << "aw"
-                << "-3" << "0" << "-4" << "0" << "-5" << "30";
-
-    slotUpdateAstrometryOptionEditor(solver_args.join(" "));
-    astrometryOptions.solverOptions->setText(solver_args.join(" "));
-
-    slotUpdatePositionInEditor();
-}
-
-//This will attempt to remove options that have additional arguments, if none is found, it will just remove the option.
-//If the option is not found, it does nothing
-
-void Align::removeAstrometryOption(QStringList &solver_args,QString option){
-    if(option=="")
-        return;
-    int index=solver_args.indexOf(option);
-    if(index!=-1){
-        if(index!=solver_args.count()-1){
-            QString nextValue=solver_args.at(index+1);
-            if(!nextValue.startsWith('-'))
-                    solver_args.removeAt(index+1);
-        }
-        solver_args.removeAt(index);
-    }
-}
-
-//This will attempt to edit the arguments of options that have additional arguments, if none is found, it will insert it.
-//If the option is not found, it does nothing
-
-void Align::editAstrometryOption(QStringList &solver_args,QString option, QString argument){
-    if(argument==""||option=="")
-        return;
-    int index=solver_args.indexOf(option);
-    if(index!=-1){
-        if(index!=solver_args.count()-1){
-            QString nextValue=solver_args.at(index+1);
-            if(!nextValue.startsWith('-'))
-                   solver_args.replace(index+1, argument);
-                else
-                   solver_args.insert(index+1, argument);
-        }
-    }
-}
-
-//This respond to checkbox clicks in the astrometry options editor to either add or remove options in the solver arguments.
-
-void Align::slotToggleAstrometryOptions(){
-    QString options = astrometryOptions.solverOptions->text().simplified();
-    QStringList solver_args;
-    solver_args = options.split(" ");
-
-    QString units="aw";
-    QComboBox *comboBox=astrometryOptions.unitSelector;
-    if(comboBox->currentIndex()==0)
-        units="dw";
-    if(comboBox->currentIndex()==1)
-        units="aw";
-
-    QObject *object=sender();
-    if(object){
-        if(object==comboBox){
-            editAstrometryOption(solver_args,"-u", units);
-        }else{
-            QCheckBox *checkBox=(QCheckBox *)object;
-            if(checkBox==astrometryOptions.checkPosition){
-                if(!checkBox->isChecked()){
-                    removeAstrometryOption(solver_args,"-3");
-                    removeAstrometryOption(solver_args,"-4");
-                    removeAstrometryOption(solver_args,"-5");
-                } else{
-                    bool raOk(false), decOk(false);
-                    dms ra( astrometryOptions.estRA->createDms( false, &raOk ));
-                    dms dec( astrometryOptions.estDec->createDms( true, &decOk ));
-                    if(raOk && decOk){
-                        if(solver_args.indexOf("-3")==-1){
-                            solver_args.append("-3");
-                            solver_args.append(QString().setNum(ra.Degrees()));
-                        }
-                        if(solver_args.indexOf("-4")==-1){
-                            solver_args.append("-4");
-                            solver_args.append(QString().setNum(dec.Degrees()));
-                        }
-                        if(solver_args.indexOf("-5")==-1){
-                            solver_args.append("-5");
-                            solver_args.append(astrometryOptions.estRadius->text());
-                        }
-                    }
-                }
-            } else if(checkBox==astrometryOptions.checkScale){
-                if(!checkBox->isChecked()){
-                    removeAstrometryOption(solver_args,"-L");
-                    removeAstrometryOption(solver_args,"-H");
-                    removeAstrometryOption(solver_args,"-u");
-                } else{
-                    if(solver_args.indexOf("-L")==-1){
-                        solver_args.append("-L");
-                        solver_args.append(astrometryOptions.scaleL->text());
-                    }
-                    if(solver_args.indexOf("-H")==-1){
-                        solver_args.append("-H");
-                        solver_args.append(astrometryOptions.scaleH->text());
-                    }
-                    if(solver_args.indexOf("-u")==-1){
-                        solver_args.append("-u");
-                        solver_args.append(units);
-                    }
-                }
-            } else if(checkBox==astrometryOptions.checkDownSample){
-                QString argument="--downsample";
-                int index=-1;
-                index = solver_args.indexOf(argument);
-                if(checkBox->isChecked() && index==-1){
-                    solver_args.append(argument);
-                    solver_args.append(astrometryOptions.downSampleValue->text());
-                }
-                if(!checkBox->isChecked()){
-                    removeAstrometryOption(solver_args,argument);
-                }
-            } else{
-                //This case governs all the simple options at the top.
-
-                QString argument=checkBox->text();
-                argument.remove(QChar('&'), Qt::CaseInsensitive);//This is needed because the labels have ampersands in them for keyboard shortcuts.
-
-                int index=-1;
-                index = solver_args.indexOf(argument);
-                if(checkBox->isChecked() && index==-1)
-                    solver_args.prepend(argument);
-                if(!checkBox->isChecked() && index!=-1)
-                    solver_args.removeAt(index);
-            }
-        }
-        astrometryOptions.solverOptions->setText(solver_args.join(" "));
-    }
-}
-
-//This will generate the high and low scale of the imager field size based on the stated units.
-void Align::generateFOV(QString &fov_low, QString &fov_high, QString units)
-{
-    double fov_lower, fov_upper;
-    // let's stretch the boundaries by 5%
-    fov_lower = ((fov_x < fov_y) ? (fov_x * 0.95) : (fov_y * 0.95));
-    fov_upper = ((fov_x > fov_y) ? (fov_x * 1.05) : (fov_y * 1.05));
-
-    if(units=="dw")
-    {
-        fov_lower /=60;
-        fov_upper /=60;
-    }
-
-    //No need to do anything if they are aw, since that is the default
-    fov_low  = QString("%1").arg(fov_lower);
-    fov_high = QString("%1").arg(fov_upper);
-}
-
-
-void Align::generateArgs()
+QStringList Align::generateOptions(const QVariantMap & optionsMap)
 {
     // -O overwrite
     // -3 Expected RA
@@ -1016,91 +686,156 @@ void Align::generateArgs()
     // apog1.jpg name of target file to analyze
     //solve-field -O -3 06:40:51 -4 +09:49:53 -5 1 -L 40 -H 100 -u aw -W solution.wcs apod1.jpg
 
-    double ra=0,dec=0;
-    QString ra_dms, dec_dms;
     QStringList solver_args;
 
-    currentTelescope->getEqCoords(&ra, &dec);
+    // Start with always-used arguments
+    solver_args << "-O" << "--no-plots";
 
-    QString fov_low,fov_high;
+    // Now go over boolean options
 
+    // noverify
+    if (optionsMap.contains("noverify"))
+        solver_args << "--no-verify";
 
-    getFormattedCoords(ra, dec, ra_dms, dec_dms);
+    // noresort
+    if (optionsMap.contains("resort"))
+        solver_args << "--resort";
 
-    if (solverOptions->text().isEmpty())
-    {
-        generateFOV(fov_low,fov_high,"aw");
+    // fits2fits
+    if (optionsMap.contains("nofits2fits"))
+        solver_args << "--no-fits2fits";
 
-        solver_args << "--no-verify" << "--no-plots" << "--resort" << "--no-fits2fits"
-                    << "--downsample" << "2" << "-O" << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
-    }
-    else
-    {
-        QString options = solverOptions->text().simplified();
-        solver_args = options.split(" ");
+    // downsample
+    if (optionsMap.contains("downsample"))
+        solver_args << "--downsample" << QString::number(optionsMap.value("downsample", 2).toInt());
 
-        QString units="aw";
-        int units_index = solver_args.indexOf("-u");
-        if(units_index!=-1&&units_index!=solver_args.count()-1)
-        {
-            if (solver_args.at(units_index+1)=="dw")
-                units=solver_args.at(units_index+1);
-        }
+    // image scale low
+    if (optionsMap.contains("scaleL"))
+        solver_args << "-L" << QString::number(optionsMap.value("scaleL").toDouble());
 
-        generateFOV(fov_low,fov_high,units);
-        int fov_low_index = solver_args.indexOf("-L");
-        if (fov_low_index != -1)
-            solver_args.replace(fov_low_index+1, fov_low);
-        int fov_high_index = solver_args.indexOf("-H");
-        if (fov_high_index != -1)
-            solver_args.replace(fov_high_index+1, fov_high);
-    }
+    // image scale high
+    if (optionsMap.contains("scaleH"))
+        solver_args << "-H" << QString::number(optionsMap.value("scaleH").toDouble());
 
-    if (raBox->isEmpty() == false && decBox->isEmpty() == false)
-    {
-        bool raOk(false), decOk(false);
-        dms ra( raBox->createDms( false, &raOk ) ); //false means expressed in hours
-        dms dec( decBox->createDms( true, &decOk ) );
-        int radius = 30;
-        QString message;
+    // image scale units
+    if (optionsMap.contains("scaleUnits"))
+        solver_args << "-u" << optionsMap.value("scaleUnits").toString();
 
-        if ( raOk && decOk )
-        {
-            //make sure values are in valid range
-            if ( ra.Hours() < 0.0 || ra.Hours() > 24.0 )
-                message = i18n( "The Right Ascension value must be between 0.0 and 24.0." );
-            if ( dec.Degrees() < -90.0 || dec.Degrees() > 90.0 )
-                message += '\n' + i18n( "The Declination value must be between -90.0 and 90.0." );
-            if ( ! message.isEmpty() )
-            {
-                KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
-                return;
-            }
-        }
+    // RA
+    if (optionsMap.contains("ra"))
+        solver_args << "-3" << QString::number(optionsMap.value("ra").toDouble());
 
-        int ra_index = solver_args.indexOf("-3");
-        if (ra_index == -1)
-            solver_args << "-3" << QString().setNum(ra.Degrees());
-        else
-            solver_args.replace(ra_index+1, QString().setNum(ra.Degrees()));
+    // DE
+    if (optionsMap.contains("de"))
+        solver_args << "-4" << QString::number(optionsMap.value("de").toDouble());
 
-        int de_index = solver_args.indexOf("-4");
-        if (de_index == -1)
-            solver_args << "-4" << QString().setNum(dec.Degrees());
-        else
-            solver_args.replace(de_index+1, QString().setNum(dec.Degrees()));
+    // Radius
+    if (optionsMap.contains("radius"))
+        solver_args << "-5" << QString::number(optionsMap.value("radius").toDouble());
 
-        int rad_index = solver_args.indexOf("-5");
-        if (rad_index == -1)
-            solver_args << "-5" << QString().setNum(radius);
-        else
-            solver_args.replace(rad_index+1, QString().setNum(radius));
+    // Custom
+    if (optionsMap.contains("custom"))
+        solver_args << optionsMap.value("custom").toString();
 
-     }
-
-    solverOptions->setText(solver_args.join(" "));
+    return solver_args;
 }
 
+//This will generate the high and low scale of the imager field size based on the stated units.
+void Align::generateFOVBounds(double fov_h, double fov_v, QString &fov_low, QString &fov_high)
+{
+    double fov_lower, fov_upper;
+    // let's stretch the boundaries by 5%
+    fov_lower = ((fov_h < fov_v) ? (fov_h * 0.95) : (fov_v * 0.95));
+    fov_upper = ((fov_h > fov_v) ? (fov_h * 1.05) : (fov_v * 1.05));
+
+    //No need to do anything if they are aw, since that is the default
+    fov_low  = QString::number(fov_lower);
+    fov_high = QString::number(fov_upper);
+}
+
+void Align::generateArgs()
+{
+    // -O overwrite
+    // -3 Expected RA
+    // -4 Expected DEC
+    // -5 Radius (deg)
+    // -L lower scale of image in arcminutes
+    // -H upper scale of image in arcmiutes
+    // -u aw set scale to be in arcminutes
+    // -W solution.wcs name of solution file
+    // apog1.jpg name of target file to analyze
+    //solve-field -O -3 06:40:51 -4 +09:49:53 -5 1 -L 40 -H 100 -u aw -W solution.wcs apod1.jpg    
+
+    QVariantMap optionsMap;
+
+    if (Options::astrometryUseNoVerify())
+        optionsMap["noverify"] = true;
+
+    if (Options::astrometryUseResort())
+        optionsMap["resort"] = true;
+
+    if (Options::astrometryUseNoFITS2FITS())
+        optionsMap["nofits2fits"] = true;
+
+    if (Options::astrometryUseDownsample())
+        optionsMap["downsample"] = Options::astrometryDownsample();
+
+    if (Options::astrometryUseImageScale())
+    {
+        QString units = ImageScales[Options::astrometryImageScaleUnits()];
+        if (Options::astrometryAutoUpdateImageScale())
+        {
+            QString fov_low,fov_high;
+            double fov_w = fov_x;
+            double fov_h = fov_y;
+
+            if (units == "dw")
+            {
+                fov_w /= 60;
+                fov_h /= 60;
+            }
+            else if (units == "app")
+            {
+                fov_w = fov_pixscale;
+                fov_h = fov_pixscale;
+            }
+
+            generateFOVBounds(fov_w, fov_h, fov_low, fov_high);
+
+            optionsMap["scaleL"] = fov_low;
+            optionsMap["scaleH"] = fov_high;
+            optionsMap["scaleUnits"] = units;
+        }
+        else
+        {
+            optionsMap["scaleL"] = Options::astrometryImageScaleLow();
+            optionsMap["scaleH"] = Options::astrometryImageScaleHigh();
+            optionsMap["scaleUnits"] = units;
+        }
+    }
+
+    if (Options::astrometryUsePosition())
+    {
+        double ra=0,dec=0;
+        currentTelescope->getEqCoords(&ra, &dec);
+
+        optionsMap["ra"] = ra*15.0;
+        optionsMap["de"] = dec;
+        optionsMap["radius"] = Options::astrometryRadius();
+    }
+
+    if (Options::astrometryCustomOptions().isEmpty() == false)
+        optionsMap["custom"] = Options::astrometryCustomOptions();
+
+
+    QStringList solverArgs = generateOptions(optionsMap);
+
+    QString options = solverArgs.join(" ");
+    solverOptions->setText(options);
+    solverOptions->setToolTip(options);
+}
+
+#if 0
 void Align::checkLineEdits()
 {
    bool raOk(false), decOk(false);
@@ -1125,6 +860,7 @@ void Align::clearCoordBoxes()
 
     generateArgs();
 }
+#endif
 
 bool Align::captureAndSolve()
 {
@@ -1379,7 +1115,23 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         int rc = KMessageBox::questionYesNoCancel(0, i18n("No metadata is available in this image. Do you want to use the blind solver or the existing solver settings?"), i18n("Astrometry solver"),
                                          blindItem, existingItem, KStandardGuiItem::cancel(), "blind_solver_or_existing_solver_option");
         if (rc == KMessageBox::Yes)
-            solverArgs << "--no-verify" << "--no-plots" << "--resort" << "--no-fits2fits" << "--downsample" << "2" << "-O";
+        {
+            QVariantMap optionsMap;
+
+            if (Options::astrometryUseNoVerify())
+                optionsMap["noverify"] = true;
+
+            if (Options::astrometryUseResort())
+                optionsMap["resort"] = true;
+
+            if (Options::astrometryUseNoFITS2FITS())
+                optionsMap["nofits2fits"] = true;
+
+            if (Options::astrometryUseDownsample())
+                optionsMap["downsample"] = Options::astrometryDownsample();
+
+            solverArgs = generateOptions(optionsMap);
+        }
         else if (rc == KMessageBox::No)
             solverArgs = options.split(" ");
         else
@@ -1398,7 +1150,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
     }
 
     Options::setSolverType(solverTypeGroup->checkedId());
-    Options::setSolverOptions(solverOptions->text());
+    //Options::setSolverOptions(solverOptions->text());
     Options::setGuideScopeCCDs(guideScopeCCDs);
     Options::setSolverAccuracyThreshold(accuracySpin->value());
     Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
@@ -1438,7 +1190,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     targetChip->getBinning(&binx, &biny);
 
-    if (Options::solverVerbose())
+    if (Options::astrometrySolverVerbose())
         appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'g' , 5), QString::number(dec, 'g' , 5),
                             QString::number(orientation, 'g' , 5), QString::number(pixscale, 'g' , 5)));
 
@@ -1474,7 +1226,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
 
      solverFOV->setCenter(alignCoord);
      solverFOV->setRotation(sOrientation);
-     solverFOV->setImageDisplay(Options::solverOverlay());
+     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
 
      QString ra_dms, dec_dms;
      getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
@@ -1482,7 +1234,7 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      SolverRAOut->setText(ra_dms);
      SolverDecOut->setText(dec_dms);
 
-     if (Options::solverWCS())
+     if (Options::astrometrySolverWCS())
      {
          INumberVectorProperty *ccdRotation = currentCCD->getBaseDevice()->getNumber("CCD_ROTATION");
          if (ccdRotation)
@@ -1692,8 +1444,16 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
         case IPS_OK:
         {
             // Update the boxes as the mount just finished slewing
-            if (slew_dirty && Options::solverUpdateCoords())
-                copyCoordsToBoxes();
+            if (slew_dirty && Options::astrometryAutoUpdatePosition())
+            {
+                opsAstrometry->estRA->setText(ra_dms);
+                opsAstrometry->estDec->setText(dec_dms);
+
+                Options::setAstrometryPositionRA(coord->np[0].value*15);
+                Options::setAstrometryPositionDE(coord->np[1].value);
+
+                generateArgs();
+            }
 
             if (slew_dirty && pahStage == PAH_FIND_CP)
             {
@@ -1893,8 +1653,9 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
     }
 
 
-    if (!strcmp(coord->name, "TELESCOPE_INFO"))
-        syncTelescopeInfo();
+    // N.B. EkosManager already mananges TELESCOPE_INFO, why here again?
+    //if (!strcmp(coord->name, "TELESCOPE_INFO"))
+        //syncTelescopeInfo();
 
 }
 
@@ -2455,6 +2216,14 @@ void Align::setBinningIndex(int binIndex)
        binningCombo->setCurrentIndex(binIndex);
        binningCombo->blockSignals(false);
    }
+
+   // Need to calculate FOV and args for APP
+   if (Options::astrometryImageScaleUnits() == OpsAstrometry::SCALE_ARCSECPERPIX)
+   {
+       calculateFOV();
+       generateArgs();
+   }
+
 }
 
 void Align::setSolverArguments(const QString & value)
@@ -2463,13 +2232,14 @@ void Align::setSolverArguments(const QString & value)
 }
 
 void Align::setSolverSearchCoords(double ra, double dec)
-{
+{    
     dms RA, DEC;
     RA.setH(ra);
     DEC.setD(dec);
 
-    raBox->setText(RA.toHMSString());
-    decBox->setText(DEC.toDMSString());
+    //TODO
+    //raBox->setText(RA.toHMSString());
+    //decBox->setText(DEC.toDMSString());
 }
 
 void Align::setUseOAGT(bool enabled)
@@ -2586,12 +2356,24 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     QString fov_low,fov_high;
     QStringList solver_args;
 
-    // If existing options have no-fits2fits then we use it, otherwise we discard it
-    // as no-fits2fits is only works for astrometry.net v0.67 or less
-    if (solverOptions->text().contains("no-fits2fits"))
-        solver_args << "--no-verify" << "--no-plots" << "--resort" << "--no-fits2fits" << "--downsample" << "2" << "-O";
-    else
-        solver_args << "--no-verify" << "--no-plots" << "--resort" << "--downsample" << "2" << "-O";
+    QVariantMap optionsMap;
+
+    if (Options::astrometryUseNoVerify())
+        optionsMap["noverify"] = true;
+
+    if (Options::astrometryUseResort())
+        optionsMap["resort"] = true;
+
+    if (Options::astrometryUseNoFITS2FITS())
+        optionsMap["nofits2fits"] = true;
+
+    if (Options::astrometryUseDownsample())
+        optionsMap["downsample"] = Options::astrometryDownsample();
+
+    if (Options::astrometryCustomOptions().isEmpty() == false)
+        optionsMap["custom"] = Options::astrometryCustomOptions();
+
+    solver_args = generateOptions(optionsMap);
 
     if (fits_open_image(&fptr, filename.toLatin1(), READONLY, &status))
     {
@@ -2680,8 +2462,11 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     fits_fov_y /= 60.0;
 
     // let's stretch the boundaries by 5%
-    fov_lower = ((fits_fov_x < fits_fov_y) ? (fits_fov_x *0.95) : (fits_fov_y *0.95));
-    fov_upper = ((fits_fov_x > fits_fov_y) ? (fits_fov_x * 1.05) : (fits_fov_y * 1.05));
+    fov_lower = qMin(fits_fov_x, fits_fov_y);
+    fov_upper = qMax(fits_fov_x, fits_fov_y);
+
+    fov_lower *= 0.95;
+    fov_upper *= 1.05;
 
     fov_low  = QString::number(fov_lower);
     fov_high = QString::number(fov_upper);
@@ -3300,8 +3085,12 @@ void Align::setMountStatus(ISD::Telescope::TelescopeStatus newState)
         break;
 
     case ISD::Telescope::MOUNT_TRACKING:
-        solveB->setEnabled(true);
-        loadSlewB->setEnabled(true);
+        if (pi->isAnimated() == false)
+        {
+            solveB->setEnabled(true);
+            loadSlewB->setEnabled(true);
+        }
+
         PAHFirstCaptureB->setEnabled(true);
         PAHSecondCaptureB->setEnabled(true);
         PAHThirdCaptureB->setEnabled(true);

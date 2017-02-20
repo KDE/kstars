@@ -202,7 +202,7 @@ void OnlineAstrometryParser::uploadFile()
     uploadReq.insert("radius", radius);
     if (downsample_factor != 0)
         uploadReq.insert("downsample_factor", downsample_factor);
-    if (parity != -1)
+    if (Options::astrometryDetectParity() && parity != -1)
         uploadReq.insert("parity", parity);
 
     QJsonObject json = QJsonObject::fromVariantMap(uploadReq);
@@ -311,7 +311,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
      QVariant json_result = json_doc.toVariant();
      QVariantMap result = json_result.toMap();
 
-     if (Options::solverVerbose())
+     if (Options::astrometrySolverVerbose())
          align->appendLogText(json_doc.toJson(QJsonDocument::Compact));
 
      switch (workflowStage)
@@ -327,7 +327,7 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
 
          sessionKey = result["session"].toString();
 
-         if (Options::solverVerbose())
+         if (Options::astrometrySolverVerbose())
             align->appendLogText(i18n("Authentication to astrometry.net is successful. Session: %1", sessionKey));
 
          emit authenticateFinished();
