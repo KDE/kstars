@@ -402,7 +402,10 @@ template<typename T>  int FITSView::rescale(FITSZoom type)
         max = data_max;
     }
     else
+    {
+        imageData->applyFilter(filter);
         imageData->getMinMax(&min, &max);
+    }
 
     T *buffer = reinterpret_cast<T*>(image_buffer);
 
