@@ -102,6 +102,12 @@ Mount::~Mount()
 
 void Mount::setTelescope(ISD::GDInterface *newTelescope)
 {
+    if (newTelescope == currentTelescope)
+    {
+        syncTelescopeInfo();
+        return;
+    }
+
     currentTelescope = static_cast<ISD::Telescope*> (newTelescope);
 
     connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
@@ -248,7 +254,14 @@ void Mount::updateTelescopeCoords()
 
         newCoords(raOUT->text(), decOUT->text(), azOUT->text(), altOUT->text());
 
-        emit newStatus(currentTelescope->getStatus());
+        ISD::Telescope::TelescopeStatus currentStatus = currentTelescope->getStatus();
+        if (lastStatus != currentStatus)
+        {
+            lastStatus = currentStatus;
+            parkB->setEnabled(!currentTelescope->isParked());
+            unparkB->setEnabled(currentTelescope->isParked());
+            emit newStatus(lastStatus);
+        }
 
         if (currentTelescope->isConnected() == false)
             updateTimer.stop();
@@ -297,7 +310,7 @@ void Mount::updateSwitch(ISwitchVectorProperty *svp)
         int index = IUFindOnSwitchIndex(svp);
         slewSpeedCombo->setCurrentIndex(index);
     }
-    else if (!strcmp(svp->name, "TELESCOPE_PARK"))
+    /*else if (!strcmp(svp->name, "TELESCOPE_PARK"))
     {
         ISwitch *sp = IUFindSwitch(svp, "PARK");
         if (sp)
@@ -305,7 +318,7 @@ void Mount::updateSwitch(ISwitchVectorProperty *svp)
             parkB->setEnabled((sp->s == ISS_OFF));
             unparkB->setEnabled((sp->s == ISS_ON));
         }
-    }
+    }*/
 }
 
 void Mount::appendLogText(const QString &text)
