@@ -27,7 +27,7 @@
 #include "fitsviewer/fitsdata.h"
 
 #define JOB_RETRY_DURATION      2000 /* 2000 ms */
-#define JOB_RETRY_ATTEMPTS      15
+#define JOB_RETRY_ATTEMPTS      30
 #define SOLVER_RETRY_DURATION   2000 /* 2000 ms */
 #define SOLVER_RETRY_ATTEMPTS   90
 
