@@ -24,7 +24,10 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 #include "skycomponents/skylabeler.h"
-#include "../skymaplite.h"
+
+#ifdef KSTARS_LITE
+#include "skymaplite.h"
+#endif
 
 namespace {
     void toXYZ(const SkyPoint* p, double *x, double *y, double *z) {
