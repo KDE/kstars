@@ -2325,7 +2325,7 @@ bool Scheduler::checkShutdownState()
         if (shutdownScriptURL.isEmpty() == false)
         {
             // Need to stop Ekos now before executing script if it happens to stop INDI
-            if (ekosState != EKOS_IDLE && Options::stopEkosAfterShutdown() && Options::shutdownScriptTerminatesINDI())
+            if (ekosState != EKOS_IDLE && Options::shutdownScriptTerminatesINDI())
             {
                 stopEkos();
                 return false;
