@@ -30,6 +30,7 @@
 #define JOB_RETRY_ATTEMPTS      30
 #define SOLVER_RETRY_DURATION   2000 /* 2000 ms */
 #define SOLVER_RETRY_ATTEMPTS   90
+#define INVALID_VALUE           -1000
 
 namespace Ekos
 {
@@ -88,6 +89,11 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
         return false;
     }
 
+    // Reset params
+    center_ra=center_dec=downsample_factor=lowerScale=upperScale=parity=INVALID_VALUE;
+    units.clear();
+    useWCSCenter=false;
+
     filename = in_filename;
 
     for (int i=0; i < args.count(); i++)
@@ -104,6 +110,18 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
             radius = args[i+1].toDouble(&ok);
         else if (args[i] == "--downsample")
             downsample_factor = args[i+1].toInt(&ok);
+        else if (args[i] == "-u")
+        {
+            QString unitType = args[i+1];
+            if (unitType == "aw")
+                units = "arcminwidth";
+            else if (unitType == "dw")
+                units = "degwidth";
+            else
+                units = "arcsecperpix";
+        }
+        else if (args[i] == "--crpix_center")
+            useWCSCenter = true;
         else if (args[i] == "--parity")
         {
             QString arg = args[i+1];
@@ -193,16 +211,31 @@ void OnlineAstrometryParser::uploadFile()
     uploadReq.insert("allow_modifications", "n");
     uploadReq.insert("session", sessionKey);
     uploadReq.insert("allow_commercial_use", "n");
-    uploadReq.insert("scale_units", "arcminwidth");
-    uploadReq.insert("scale_type", "ul");
-    uploadReq.insert("scale_lower", lowerScale);
-    uploadReq.insert("scale_upper", upperScale);
-    uploadReq.insert("center_ra", center_ra);
-    uploadReq.insert("center_dec", center_dec);
-    uploadReq.insert("radius", radius);
-    if (downsample_factor != 0)
+
+    // Do we have the units?
+    if (units.isEmpty() == false)
+    {
+        uploadReq.insert("scale_type", "ul");
+        uploadReq.insert("scale_units", units);
+        uploadReq.insert("scale_lower", lowerScale);
+        uploadReq.insert("scale_upper", upperScale);
+    }
+
+    // Do we send RA/DE?
+    if (center_ra != INVALID_VALUE)
+    {
+        uploadReq.insert("center_ra", center_ra);
+        uploadReq.insert("center_dec", center_dec);
+        uploadReq.insert("radius", radius);
+    }
+
+    if (useWCSCenter)
+        uploadReq.insert("crpix_center", true);
+
+    if (downsample_factor != INVALID_VALUE)
         uploadReq.insert("downsample_factor", downsample_factor);
-    if (Options::astrometryDetectParity() && parity != -1)
+
+    if (Options::astrometryDetectParity() && parity != INVALID_VALUE)
         uploadReq.insert("parity", parity);
 
     QJsonObject json = QJsonObject::fromVariantMap(uploadReq);
@@ -464,5 +497,3 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
 }
 
 }
-
-
