@@ -69,8 +69,9 @@ private:
     int job_retries, solver_retries;
 
     QTime solverTimer;
-    QString filename;
+    QString filename, units;
     double lowerScale, upperScale, center_ra, center_dec, radius, pixscale;
+    bool useWCSCenter=false;
     int parity = -1;
     double ra,dec,orientation;
     int downsample_factor;
