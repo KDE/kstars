@@ -30,7 +30,8 @@
 #include "kstarsdata.h"
 #include "kstarslite/skyitems/rootnode.h"
 
-#include "basedevice.h"
+#include <basedevice.h>
+
 class DeviceOrientation;
 
 class dms;
