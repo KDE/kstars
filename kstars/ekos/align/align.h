@@ -319,8 +319,6 @@ public slots:
     // Update Mount module status
     void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
-    void slotEditOptions();
-
 private slots:
     /* Solver Options */
     //void checkLineEdits();
