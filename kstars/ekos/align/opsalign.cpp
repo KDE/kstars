@@ -44,7 +44,7 @@ if(Options::astrometryConfFileIsInternal())
 
 connect(kcfg_AstrometryWCSIsInternal, SIGNAL(clicked()), this, SLOT(toggleWCSInternal()));
 kcfg_AstrometryWCSIsInternal->setToolTip(i18n("Internal or External wcsinfo?"));
-if(Options::wcsIsInternal())
+if(Options::astrometryWCSIsInternal())
     kcfg_AstrometryWCSInfo->setEnabled(false);
 #else
 kcfg_AstrometrySolverIsInternal->setVisible(false);
