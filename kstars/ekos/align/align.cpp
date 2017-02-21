@@ -614,65 +614,6 @@ void Align::calculateFOV()
     }
 }
 
-//This starts upthe Astrometry Options Dialog Window and connects the various buttons and line edits to slots.
-//If accepted upon dialog close,the astrometry solver options are updated.
-
-void Align::slotEditOptions()
-{
-#if 0
-    QDialog astrometryOptionsDialog;
-    astrometryOptions.setupUi(&astrometryOptionsDialog);
-
-    slotUpdateAstrometryOptionEditor(solverOptions->text());
-
-    astrometryOptions.solverOptions->setText(solverOptions->text().simplified());
-    astrometryOptions.buttonBox->button(QDialogButtonBox::Reset)->setToolTip(i18n("Reloads the original options from before you started the editor."));
-    astrometryOptions.buttonBox->button(QDialogButtonBox::RestoreDefaults)->setToolTip(i18n("Replaces the Options with the default option set"));
-
-    QDoubleValidator *scaleLValidator=new QDoubleValidator(0.0001,1000,5,this);
-    scaleLValidator->setNotation(QDoubleValidator::StandardNotation);
-    QDoubleValidator *scaleHValidator=new QDoubleValidator(0.0001,1000,5,this);
-    scaleHValidator->setNotation(QDoubleValidator::StandardNotation);
-
-    astrometryOptions.downSampleValue->setValidator(new QIntValidator(1,50,this));
-    astrometryOptions.scaleL->setValidator(scaleLValidator);
-    astrometryOptions.scaleH->setValidator(scaleHValidator);
-    astrometryOptions.estRadius->setValidator(new QIntValidator(1,360,this));
-
-    connect(astrometryOptions.checkFits2Fits, SIGNAL(clicked()), this, SLOT(slotToggleAstrometryOptions()));
-    connect(astrometryOptions.checkResort, SIGNAL(clicked()), this, SLOT(slotToggleAstrometryOptions()));
-    connect(astrometryOptions.checkVerify, SIGNAL(clicked()), this, SLOT(slotToggleAstrometryOptions()));
-    connect(astrometryOptions.checkDownSample, SIGNAL(clicked()), this, SLOT(slotToggleAstrometryOptions()));
-    connect(astrometryOptions.checkScale, SIGNAL(clicked()), this, SLOT(slotToggleAstrometryOptions()));
-    connect(astrometryOptions.checkPosition, SIGNAL(clicked()), this, SLOT(slotToggleAstrometryOptions()));
-    connect(astrometryOptions.unitSelector, SIGNAL(activated(int)), this, SLOT(slotToggleAstrometryOptions()));
-
-    connect(astrometryOptions.downSampleValue, SIGNAL(textEdited(const QString &)), this, SLOT(slotUpdateLineEditOptions()));
-    connect(astrometryOptions.scaleL, SIGNAL(textEdited(const QString &)), this, SLOT(slotUpdateLineEditOptions()));
-    connect(astrometryOptions.scaleH, SIGNAL(textEdited(const QString &)), this, SLOT(slotUpdateLineEditOptions()));
-    connect(astrometryOptions.estRA, SIGNAL(textEdited(const QString &)), this, SLOT(slotUpdateLineEditOptions()));
-    connect(astrometryOptions.estDec, SIGNAL(textEdited(const QString &)), this, SLOT(slotUpdateLineEditOptions()));
-    connect(astrometryOptions.estRadius, SIGNAL(textEdited(const QString &)), this, SLOT(slotUpdateLineEditOptions()));
-
-    connect(astrometryOptions.updateScale, SIGNAL(clicked()), this, SLOT(slotUpdateScaleInEditor()));
-    connect(astrometryOptions.updatePosition, SIGNAL(clicked()), this, SLOT(slotUpdatePositionInEditor()));
-    astrometryOptions.updateScale->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
-    astrometryOptions.updateScale->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    astrometryOptions.updatePosition->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
-    astrometryOptions.updatePosition->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
-    connect(astrometryOptions.buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked()), this, SLOT(slotResetOptionsInEditor()));
-    connect(astrometryOptions.buttonBox->button(QDialogButtonBox::RestoreDefaults), SIGNAL(clicked()), this, SLOT(slotDefaultEditorOptions()));
-
-    connect(astrometryOptions.solverOptions, SIGNAL(textEdited(const QString &)), this, SLOT(slotUpdateAstrometryOptionEditor(const QString &)));
-
-    if (astrometryOptionsDialog.exec() == QDialog::Accepted){
-        solverOptions->setText(astrometryOptions.solverOptions->text().simplified());
-    }
-
-#endif
-}
-
 QStringList Align::generateOptions(const QVariantMap & optionsMap)
 {
     // -O overwrite
