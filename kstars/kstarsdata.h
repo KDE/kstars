@@ -63,7 +63,7 @@ struct ADVTreeData
     int Type;
 };
 #else
-class ADVTreeData;
+struct ADVTreeData;
 #endif
 
 
