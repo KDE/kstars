@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>426</width>
+    <width>427</width>
     <height>379</height>
    </rect>
   </property>
@@ -527,7 +527,7 @@
        </widget>
       </item>
       <item row="2" column="3">
-       <widget class="QDoubleSpinBox" name="kcfg_AstrometryRaduis">
+       <widget class="QDoubleSpinBox" name="kcfg_AstrometryRadius">
         <property name="minimum">
          <double>1.000000000000000</double>
         </property>
@@ -679,7 +679,7 @@
      <zorder>estRA</zorder>
      <zorder>lineEdit_44</zorder>
      <zorder>lineEdit_47</zorder>
-     <zorder>kcfg_AstrometryRaduis</zorder>
+     <zorder>kcfg_AstrometryRadius</zorder>
      <zorder>lineEdit_48</zorder>
      <zorder>estDec</zorder>
      <zorder>label_8</zorder>

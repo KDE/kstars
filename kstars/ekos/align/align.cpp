@@ -138,8 +138,7 @@ Align::Align()
 
     connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [=](int id){ this->currentGotoMode = static_cast<GotoMode>(id); });
 
-    // TODO make this configurable, 3 minutes timeout
-    alignTimer.setInterval(180*1000);
+    alignTimer.setInterval(Options::astrometryTimeout()*1000);
     connect(&alignTimer, SIGNAL(timeout()), this, SLOT(checkAlignmentTimeout()));
 
     currentGotoMode = static_cast<GotoMode>(Options::solverGotoOption());
