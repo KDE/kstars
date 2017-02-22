@@ -137,7 +137,7 @@ void OpsAstrometry::slotApply()
     {
         optionsMap["ra"] = RA.Degrees();
         optionsMap["de"] = DE.Degrees();
-        optionsMap["radius"] = kcfg_AstrometryRaduis->value();
+        optionsMap["radius"] = kcfg_AstrometryRadius->value();
     }
 
     if (kcfg_AstrometryUseDownsample->isChecked())

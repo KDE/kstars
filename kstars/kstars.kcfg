@@ -1670,6 +1670,10 @@
          <label>Use JPEG format, instead of FITS, to upload images to the astrometry.net online service.</label>
          <default>true</default>
       </entry>
+      <entry name="AstrometryTimeout" type="UInt">
+         <label>Timeout in seconds to wait for astrometry solver to complete.</label>
+         <default>180</default>
+      </entry>
    </group>
    <group name="Guide">
       <entry name="DefaultGuideCCD" type="String">
