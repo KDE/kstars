@@ -32,21 +32,23 @@ VideoWG::~VideoWG()
 
 bool VideoWG::newFrame(IBLOB *bp)
 {
-    QString format(bp->format);
+    if (bp->size <= 0)
+        return false;
 
+    QString format(bp->format);
     format.remove(".");
     format.remove("stream_");
     bool rc = false;
 
     if (QImageReader::supportedImageFormats().contains(format.toLatin1()))
            rc = streamImage->loadFromData(static_cast<uchar *>(bp->blob), bp->size);
-    else if (bp->size > totalBaseCount)
+    else if (static_cast<uint32_t>(bp->size) > totalBaseCount)
     {
         delete(streamImage);
         streamImage = new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_RGB888);
         rc = !streamImage->isNull();
     }
-    else if (bp->size == totalBaseCount)
+    else if (static_cast<uint32_t>(bp->size) == totalBaseCount)
     {
         delete(streamImage);
         streamImage = new QImage(static_cast<uchar *>(bp->blob), streamW, streamH, QImage::Format_Indexed8);
