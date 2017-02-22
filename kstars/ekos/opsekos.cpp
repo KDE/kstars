@@ -36,9 +36,6 @@ OpsEkos::OpsEkos()
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
-    connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
-
     // Our refresh lambda
     connect(this, &QTabWidget::currentChanged, this, [this](int index) { if (index == 4) refreshDarkData();});
     connect(darkTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(loadDarkFITS(QModelIndex)));
