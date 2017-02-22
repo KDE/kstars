@@ -67,6 +67,7 @@
     <p xml:lang="nl">KStars is een vrij, opensource Astronomieprogramma dat draait op allerlei verschillende soorten computers.</p>
     <p xml:lang="pt">O KStars é uma aplicação de astronomia de código-aberto e multi-plataforma.</p>
     <p xml:lang="sl">KStars je prosta, odprtokodna astronomska programska oprema, ki teče na več okoljih.</p>
+    <p xml:lang="sv">Kstars är en fri astronomiprogramvara med öppen källkod för flera plattformar.</p>
     <p xml:lang="uk">KStars — вільне астрономічне програмне забезпечення з відкритим кодом, яке може працювати на багатьох програмних платформах.</p>
     <p xml:lang="x-test">xxKStars is free, open source, cross-platform Astronomy Software.xx</p>
     <p>It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.</p>
@@ -180,6 +181,7 @@
       <li xml:lang="nl">Catalogi die kunnen worden gedownload, met inbegrip van Messier objecten, Abell planetaire nevels, Sharpless Catalogus, Lynds Dark Nebula Catalog (catalogus donkere nevels)</li>
       <li xml:lang="pt">Catálogos disponíveis para transferência, incluindo as imagens Messier, as Nebulosas Planetárias Abell, o Catálogo Sharpless e o Catálogo de Nebulosas Escuras Lynds</li>
       <li xml:lang="sl">Katalogi, ki jih je mogoče prejeti in vsebujejo Messierjeve slike, Abellove planetarne meglice, Sharplessov katalog in Lyndsov katalog temnih meglic</li>
+      <li xml:lang="sv">Nerladdningsbara kataloger som omfattar Messier-bilder, Abell planetära nebulosor, Sharpless-katalog, Lynds katalog över mörka nebulosor</li>
       <li xml:lang="uk">придатні до отримання каталоги з зображеннями об’єктів каталогу Месьє, каталогу планетарних туманностей Абеля та каталогу Шарплеса, каталогу темних туманностей Ліндса;</li>
       <li xml:lang="x-test">xxDownloadable catalogs including Messier Images, Abell Planetary Nebulae, Sharpless Catalog, Lynds Dark Nebula Catalogxx</li>
       <li>Corrections for precession, nutation and atmospheric refraction</li>
