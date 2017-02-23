@@ -1255,6 +1255,11 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
          processPAHStage(orientation, ra, dec, pixscale);
      else if (azStage > AZ_INIT || altStage > ALT_INIT)
          executePolarAlign();
+     else
+     {
+         solveB->setEnabled(true);
+         loadSlewB->setEnabled(true);
+     }
 }
 
 void Align::solverFailed()
@@ -1290,6 +1295,7 @@ void Align::abort()
     pi->stopAnimation();
     stopB->setEnabled(false);
     solveB->setEnabled(true);
+    loadSlewB->setEnabled(true);
 
     azStage  = AZ_INIT;
     altStage = ALT_INIT;
@@ -1366,7 +1372,6 @@ void Align::clearLog()
 void Align::processTelescopeNumber(INumberVectorProperty *coord)
 {
     QString ra_dms, dec_dms;
-    static bool slew_dirty=false;
 
     if (!strcmp(coord->name, "EQUATORIAL_EOD_COORD"))
     {
@@ -1384,7 +1389,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
         case IPS_OK:
         {
             // Update the boxes as the mount just finished slewing
-            if (slew_dirty && Options::astrometryAutoUpdatePosition())
+            if (isSlewDirty && Options::astrometryAutoUpdatePosition())
             {
                 opsAstrometry->estRA->setText(ra_dms);
                 opsAstrometry->estDec->setText(dec_dms);
@@ -1395,9 +1400,9 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 generateArgs();
             }
 
-            if (slew_dirty && pahStage == PAH_FIND_CP)
+            if (isSlewDirty && pahStage == PAH_FIND_CP)
             {
-                slew_dirty = false;
+                isSlewDirty = false;
                 appendLogText(i18n("Mount completed slewing near celestial pole. Capture again to verify."));
                 PAHFirstCaptureB->setEnabled(true);
                 setGOTOMode(GOTO_NOTHING);
@@ -1405,9 +1410,9 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 return;
             }
 
-            if (slew_dirty && pahStage == PAH_FIRST_ROTATE)
+            if (isSlewDirty && pahStage == PAH_FIRST_ROTATE)
             {
-                slew_dirty = false;
+                isSlewDirty = false;
 
                 appendLogText(i18n("Mount first rotation is complete."));
 
@@ -1416,11 +1421,14 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
 
                 if (PAHAutoModeCheck->isChecked())
+                {
+                    PAHSecondCaptureB->setEnabled(true);
                     PAHSecondCaptureB->click();
+                }
             }
-            else if (slew_dirty && pahStage == PAH_SECOND_ROTATE)
+            else if (isSlewDirty && pahStage == PAH_SECOND_ROTATE)
             {
-                slew_dirty = false;
+                isSlewDirty = false;
 
                 appendLogText(i18n("Mount second rotation is complete."));
 
@@ -1429,7 +1437,10 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                 PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
 
                 if (PAHAutoModeCheck->isChecked())
+                {
+                    PAHThirdCaptureB->setEnabled(true);
                     PAHThirdCaptureB->click();
+                }
             }
 
             switch (state)
@@ -1439,7 +1450,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
             case ALIGN_SYNCING:
             {
-                slew_dirty = false;
+                isSlewDirty = false;
                 if (currentGotoMode == GOTO_SLEW)
                 {
                     Slew();
@@ -1456,10 +1467,10 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
             break;
 
             case ALIGN_SLEWING:
-                if (slew_dirty == false)
+                if (isSlewDirty == false)
                     break;
 
-                slew_dirty = false;
+                isSlewDirty = false;
                 if (loadSlewState == IPS_BUSY)
                 {
                     loadSlewState = IPS_IDLE;
@@ -1487,7 +1498,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
             default:
             {
-                slew_dirty = false;
+                isSlewDirty = false;
             }
             break;
             }
@@ -1496,7 +1507,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
         case IPS_BUSY:
         {
-            slew_dirty = true;
+            isSlewDirty = true;
 
         }
         break;
@@ -1638,7 +1649,7 @@ void Align::Slew()
     state = ALIGN_SLEWING;
     emit newStatus(state);
 
-    currentTelescope->Slew(&targetCoord);
+    isSlewDirty = currentTelescope->Slew(&targetCoord);
 
     appendLogText(i18n("Slewing to target coordinates: RA (%1) DEC (%2).", targetCoord.ra().toHMSString(), targetCoord.dec().toDMSString()));
 }
@@ -1711,7 +1722,7 @@ void Align::measureAzError()
 
         appendLogText(i18n("Solving first frame near the meridian."));
         azStage = AZ_FIRST_TARGET;
-        solveB->click();
+        captureAndSolve();
         break;
 
       case AZ_FIRST_TARGET:
@@ -1746,7 +1757,7 @@ void Align::measureAzError()
         // Let now solver for RA/DEC
         appendLogText(i18n("Solving second frame near the meridian."));
         azStage = AZ_FINISHED;
-        solveB->click();
+        captureAndSolve();
         break;
 
 
@@ -1811,7 +1822,7 @@ void Align::measureAltError()
 
         appendLogText(i18n("Solving first frame."));
         altStage = ALT_FIRST_TARGET;
-        solveB->click();
+        captureAndSolve();
         break;
 
       case ALT_FIRST_TARGET:
@@ -1848,7 +1859,7 @@ void Align::measureAltError()
         // Let now solver for RA/DEC
         appendLogText(i18n("Solving second frame."));
         altStage = ALT_FINISHED;
-        solveB->click();
+        captureAndSolve();
         break;
 
 
@@ -2129,6 +2140,8 @@ void Align::loadAndSlew(QString fileURL)
 
     //loadSlewMode = true;
     loadSlewState=IPS_BUSY;
+
+    restartPAHProcess();
 
     slewR->setChecked(true);
     currentGotoMode = GOTO_SLEW;
@@ -2490,6 +2503,7 @@ void Align::startPAHProcess()
     pahStage = PAH_FIRST_CAPTURE;
     nothingR->setChecked(true);
     currentGotoMode = GOTO_NOTHING;
+    loadSlewB->setEnabled(false);
 
     if (Options::limitedResourcesMode())
         appendLogText(i18n("Warning: Equatorial Grid Lines will not be drawn due to limited resources mode."));
@@ -2505,7 +2519,9 @@ void Align::restartPAHProcess()
     if (pahStage == PAH_IDLE)
         return;
 
-    if (KMessageBox::questionYesNo(KStars::Instance(), i18n("Are you sure you want to restart the polar alignment process?"), i18n("Polar Alignment Assistant"),
+    // Only display dialog if user explicity restarts
+    if ( (static_cast<QPushButton*>(sender()) == PAHRestartB) &&
+        KMessageBox::questionYesNo(KStars::Instance(), i18n("Are you sure you want to restart the polar alignment process?"), i18n("Polar Alignment Assistant"),
                                    KStandardGuiItem::yes(), KStandardGuiItem::no(), "restart_PAA_process_dialog") == KMessageBox::No)
         return;
 
@@ -2667,6 +2683,8 @@ void Align::startPAHRefreshProcess()
 
 void Align::setPAHRefreshComplete()
 {
+    pahStage = PAH_REFRESH;
+
     abort();
 
     restartPAHProcess();
@@ -2693,13 +2711,6 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
     if (pahStage == PAH_FIRST_CAPTURE)
     {
-        rc = alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
-        if (rc == false)
-        {
-            appendLogText(i18n("Error creating WCS file: %1", alignView->getImageData()->getLastError()));
-            return;
-        }
-
         // Set First PAH Center
         PAHImageInfo *solution = new PAHImageInfo();
         solution->skyCenter.setRA0(alignCoord.ra0());
@@ -2709,41 +2720,52 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
         pahImageInfos.append(solution);
 
-        // Find Celestial pole location
-        SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
-
-        FITSData *imageData = alignView->getImageData();
-        QPointF pixelPoint, imagePoint;
-
-        rc = imageData->wcsToPixel(CP, pixelPoint, imagePoint);
-
-        // TODO check if pixelPoint is located TOO far from the current position as well
-        // i.e. if X > Width * 2..etc
-        if (rc == false)
+        // Only invoke this if limited resource mode is false since we want to use CPU heavy WCS
+        if (Options::limitedResourcesMode() == false)
         {
-            appendLogText(i18n("Failed to process World Coordinate System: %1. Try again.", imageData->getLastError()));
-            return;
-        }
-
-        // If celestial pole out of range, ask the user if they want to move to it
-        if (pixelPoint.x() < (-1*imageData->getWidth()) || pixelPoint.x() > (imageData->getWidth()*2) ||
-            pixelPoint.y() < (-1*imageData->getHeight())|| pixelPoint.y() > (imageData->getHeight()*2))
-        {
-            if (currentTelescope->canSync() && KMessageBox::questionYesNo(0, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew the telescope to the celestial pole? WARNING: Slewing near poles may cause your mount to end up in unsafe position. Proceed with caution.")) == KMessageBox::Yes)
+            rc = alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+            if (rc == false)
             {
-                pahStage = PAH_FIND_CP;
-                targetCoord.setRA(KStarsData::Instance()->lst()->Hours());
-                targetCoord.setDec(CP.dec().Degrees() > 0 ? 89.5 : -89.5);
-
-                qDeleteAll(pahImageInfos);
-                pahImageInfos.clear();
-
-                setGOTOMode(GOTO_SLEW);
-                Sync();
+                appendLogText(i18n("Error creating WCS file: %1", alignView->getImageData()->getLastError()));
                 return;
             }
-            else
-                appendLogText(i18n("Warning: Celestial pole is located outside the field of view. Move the mount closer to the celestial pole."));
+
+            // Find Celestial pole location
+            SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
+
+            FITSData *imageData = alignView->getImageData();
+            QPointF pixelPoint, imagePoint;
+
+            rc = imageData->wcsToPixel(CP, pixelPoint, imagePoint);
+
+            // TODO check if pixelPoint is located TOO far from the current position as well
+            // i.e. if X > Width * 2..etc
+            if (rc == false)
+            {
+                appendLogText(i18n("Failed to process World Coordinate System: %1. Try again.", imageData->getLastError()));
+                return;
+            }
+
+            // If celestial pole out of range, ask the user if they want to move to it
+            if (pixelPoint.x() < (-1*imageData->getWidth()) || pixelPoint.x() > (imageData->getWidth()*2) ||
+                pixelPoint.y() < (-1*imageData->getHeight())|| pixelPoint.y() > (imageData->getHeight()*2))
+            {
+                if (currentTelescope->canSync() && KMessageBox::questionYesNo(0, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew the telescope to the celestial pole? WARNING: Slewing near poles may cause your mount to end up in unsafe position. Proceed with caution.")) == KMessageBox::Yes)
+                {
+                    pahStage = PAH_FIND_CP;
+                    targetCoord.setRA(KStarsData::Instance()->lst()->Hours());
+                    targetCoord.setDec(CP.dec().Degrees() > 0 ? 89.5 : -89.5);
+
+                    qDeleteAll(pahImageInfos);
+                    pahImageInfos.clear();
+
+                    setGOTOMode(GOTO_SLEW);
+                    Sync();
+                    return;
+                }
+                else
+                    appendLogText(i18n("Warning: Celestial pole is located outside the field of view. Move the mount closer to the celestial pole."));
+            }
         }
 
         pahStage = PAH_FIRST_ROTATE;
@@ -2772,7 +2794,10 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
 
         if (PAHAutoModeCheck->isChecked())
+        {
+            PAHSecondRotateB->setEnabled(true);
             PAHSecondRotateB->click();
+        }
     }
     else if (pahStage == PAH_THIRD_CAPTURE)
     {
@@ -3025,16 +3050,16 @@ void Align::setMountStatus(ISD::Telescope::TelescopeStatus newState)
         break;
 
     default:
-        if (pi->isAnimated() == false)
+        if (state != ALIGN_PROGRESS)
         {
             solveB->setEnabled(true);
-            loadSlewB->setEnabled(true);
+            PAHFirstCaptureB->setEnabled(true);
+            PAHSecondCaptureB->setEnabled(true);
+            PAHThirdCaptureB->setEnabled(true);
+            if (pahStage == PAH_IDLE)
+                loadSlewB->setEnabled(true);
         }
-
-        PAHFirstCaptureB->setEnabled(true);
-        PAHSecondCaptureB->setEnabled(true);
-        PAHThirdCaptureB->setEnabled(true);
-        break;    
+        break;
     }
 }
 
