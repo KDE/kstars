@@ -63,7 +63,10 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
 
     QStringList solverArgs = args;
     // Add parity option if none is give and we already know parity before
-    if (Options::astrometryDetectParity() && parity.isEmpty() == false && args.contains("parity") == false)
+    // and is NOT a blind solve
+    if (Options::astrometryDetectParity() && parity.isEmpty() == false
+                                          && args.contains("parity") == false
+                                          && (args.contains("-3") || args.contains("-L")) )
         solverArgs << "--parity" << parity;
 
     for (int i=0; i < solverSettings->ntp; i++)

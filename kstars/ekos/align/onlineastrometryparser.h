@@ -72,7 +72,7 @@ private:
     QString filename, units;
     double lowerScale, upperScale, center_ra, center_dec, radius, pixscale;
     bool useWCSCenter=false;
-    int parity = -1;
+    int parity;
     double ra,dec,orientation;
     int downsample_factor;
     bool isGenerated;
