@@ -55,6 +55,7 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     connect(this, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(resetSolver()));
 
     downsample_factor = 0;
+    party=INVALID_VALUE;
     isGenerated = true;
 
 }
@@ -90,7 +91,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
     }
 
     // Reset params
-    center_ra=center_dec=downsample_factor=lowerScale=upperScale=parity=INVALID_VALUE;
+    center_ra=center_dec=downsample_factor=lowerScale=upperScale=INVALID_VALUE;
     units.clear();
     useWCSCenter=false;
 
@@ -235,7 +236,9 @@ void OnlineAstrometryParser::uploadFile()
     if (downsample_factor != INVALID_VALUE)
         uploadReq.insert("downsample_factor", downsample_factor);
 
-    if (Options::astrometryDetectParity() && parity != INVALID_VALUE)
+    // If we have parity and option is valid and this is NOT a blind solve (if ra or units exist then it is not a blind solve)
+    // then we send parity
+    if (Options::astrometryDetectParity() && parity != INVALID_VALUE && (center_ra != INVALID_VALUE || units.isEmpty() == false))
         uploadReq.insert("parity", parity);
 
     QJsonObject json = QJsonObject::fromVariantMap(uploadReq);

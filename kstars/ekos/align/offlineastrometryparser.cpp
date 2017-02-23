@@ -210,8 +210,11 @@ bool OfflineAstrometryParser::startSovler(const QString &filename,  const QStrin
     #endif
 
     QStringList solverArgs = args;
-    // Add parity option if none is give and we already know parity before
-    if (Options::astrometryDetectParity() && parity.isEmpty() == false && args.contains("parity") == false)
+
+    // Use parity if it is: 1. Already known from previous solve. 2. This is NOT a blind solve
+    if (Options::astrometryDetectParity() && (parity.isEmpty() == false)
+                                          && (args.contains("parity") == false)
+                                          && (args.contains("-3") || args.contains("-L")) )
         solverArgs << "--parity" << parity;
     QString solutionFile = QDir::tempPath() + "/solution.wcs";
     solverArgs << "-W" <<  solutionFile << filename;
