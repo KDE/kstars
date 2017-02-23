@@ -180,6 +180,10 @@ Align::Align()
     solverTypeGroup->setId(onlineSolverR, SOLVER_ONLINE);
     solverTypeGroup->setId(offlineSolverR, SOLVER_OFFLINE);
     solverTypeGroup->setId(remoteSolverR, SOLVER_REMOTE);
+    #ifdef Q_OS_WIN
+    offlineSolverR->setEnabled(false);
+    offlineSolverR->setToolTip(i18n("Offline solver is not supported under Windows. Please use either the Online or Remote solvers."));
+    #endif
     solverTypeGroup->button(Options::solverType())->setChecked(true);
     connect(solverTypeGroup, SIGNAL(buttonClicked(int)), SLOT(setSolverType(int)));
 

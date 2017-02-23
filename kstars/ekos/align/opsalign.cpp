@@ -51,6 +51,12 @@ kcfg_AstrometrySolverIsInternal->setVisible(false);
 kcfg_AstrometryConfFileIsInternal->setVisible(false);
 kcfg_AstrometryWCSIsInternal->setVisible(false);
 #endif
+
+#ifdef Q_OS_WIN
+kcfg_AstrometrySolverBinary->setEnabled(false);
+kcfg_AstrometryWCSInfo->setEnabled(false);
+kcfg_AstrometryConfFile->setEnabled(false);
+#endif
 }
 
 OpsAlign::~OpsAlign() {}
