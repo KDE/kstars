@@ -290,6 +290,7 @@ void Align::setSolverType(int type)
     switch(type)
     {
     case SOLVER_ONLINE:
+        loadSlewB->setEnabled(true);
         if (onlineParser != NULL)
         {
             parser = onlineParser;
@@ -301,6 +302,7 @@ void Align::setSolverType(int type)
         break;
 
     case SOLVER_OFFLINE:
+        loadSlewB->setEnabled(true);
         if (offlineParser != NULL)
         {
             parser = offlineParser;
@@ -313,6 +315,7 @@ void Align::setSolverType(int type)
         break;
 
     case SOLVER_REMOTE:
+        loadSlewB->setEnabled(false);
         if (remoteParser != NULL)
         {
             parser = remoteParser;
@@ -2129,6 +2132,13 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 
 void Align::loadAndSlew(QString fileURL)
 {
+    if (solverTypeGroup->checkedId() == SOLVER_REMOTE)
+    {
+        appendLogText(i18n("Load and Slew is not supported in remote solver mode."));
+        loadSlewB->setEnabled(false);
+        return;
+    }
+
     if (fileURL.isEmpty())
         fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Load Image"), dirPath, "Images (*.fits *.fit *.jpg *.jpeg)");
 
