@@ -49,13 +49,13 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     connect(this, SIGNAL(jobFinished()), this, SLOT(checkJobCalibration()));
 
     // Reset parity on solver failure
-    connect(this, &OnlineAstrometryParser::solverFailed, this, [&]() { parity = -1;});
+    connect(this, &OnlineAstrometryParser::solverFailed, this, [&]() { parity = INVALID_VALUE;});
 
     connect(this, SIGNAL(solverFailed()), this, SLOT(resetSolver()));
     connect(this, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(resetSolver()));
 
     downsample_factor = 0;
-    party=INVALID_VALUE;
+    parity=INVALID_VALUE;
     isGenerated = true;
 
 }
