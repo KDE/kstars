@@ -489,6 +489,9 @@ private:
     static const double RAMotion;
     static const float SIDRATE;
 
+    // Have we slewed?
+    bool isSlewDirty=false;
+
     // Online and Offline parsers
     AstrometryParser *parser;
     OnlineAstrometryParser *onlineParser;
