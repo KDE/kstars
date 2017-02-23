@@ -3690,24 +3690,35 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
     int status=0, exttype=0;
     long nelements;
     fitsfile *new_fptr;
+    char errMsg[512];
+
+    if (Options::fITSLogging())
+        qDebug() << "Creating new WCS file: " << newWCSFile << " with parameters orientation: " << orientation <<
+                    "ra: " << ra << "dec: " << dec << "Pixel scale: " << pixscale;
 
     nelements = stats.samples_per_channel * channels;
 
     /* Create a new File, overwriting existing*/
     if (fits_create_file(&new_fptr, QString("!" + newWCSFile).toLatin1(), &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return status;
     }
 
     if (fits_movabs_hdu(fptr, 1, &exttype, &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return status;
     }
 
     if (fits_copy_file(fptr, new_fptr, 1, 1, 1, &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return status;
     }
@@ -3715,6 +3726,8 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
     /* close current file */
     if (fits_close_file(fptr, &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return status;
     }
@@ -3733,6 +3746,8 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
 
     if (fits_movabs_hdu(fptr, 1, &exttype, &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return false;
     }
@@ -3740,6 +3755,8 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
     /* Write Data */
     if (fits_write_img(fptr, data_type, 1, nelements, imageBuffer, &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return false;
     }
@@ -3749,6 +3766,8 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
     // Minimum
     if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(stats.min), "Minimum value", &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return false;
     }
@@ -3756,6 +3775,8 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
     // Maximum
     if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(stats.max), "Maximum value", &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return false;
     }
@@ -3763,6 +3784,8 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
     // NAXIS1
     if (fits_update_key(fptr, TUSHORT, "NAXIS1", &(stats.width), "length of data axis 1", &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return false;
     }
@@ -3770,6 +3793,8 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
     // NAXIS2
     if (fits_update_key(fptr, TUSHORT, "NAXIS2", &(stats.height), "length of data axis 2", &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return false;
     }
@@ -3822,6 +3847,8 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
     // ISO Date
     if (fits_write_date(fptr, &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return false;
     }
@@ -3830,15 +3857,13 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
     // History
     if (fits_write_history(fptr, history.toLatin1(), &status))
     {
+        fits_get_errstatus(status, errMsg);
+        lastError = QString(errMsg);
         fits_report_error(stderr, status);
         return false;
     }
 
     fits_flush_file(fptr, &status);
-
-    // We do not process WCS in limited resource mode
-    if (Options::limitedResourcesMode())
-        return true;
 
     return loadWCS();
 }
