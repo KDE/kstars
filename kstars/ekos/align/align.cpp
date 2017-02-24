@@ -40,6 +40,8 @@
 #include "remoteastrometryparser.h"
 #include "opsastrometry.h"
 #include "opsalign.h"
+#include "opsastrometrycfg.h"
+#include "opsastrometryindexfiles.h"
 
 #include <basedevice.h>
 
@@ -148,11 +150,26 @@ Align::Align()
     editOptionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);    
     KConfigDialog* dialog = new KConfigDialog(this, "alignsettings", Options::self());
 
+#ifdef Q_OS_OSX
+        dialog->setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
+
     opsAlign = new OpsAlign(this);
     dialog->addPage(opsAlign, i18n("Astrometry.net"));
 
     opsAstrometry = new OpsAstrometry(this);
     dialog->addPage(opsAstrometry, i18n("Solver Options"));
+
+#ifdef Q_OS_OSX
+    opsAstrometryCfg = new OpsAstrometryCfg(this);
+    dialog->addPage(opsAstrometryCfg, i18n("Astrometry.cfg"));
+#endif
+
+    #ifndef Q_OS_WIN
+    opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
+    dialog->addPage(opsAstrometryIndexFiles, i18n("Astrometry Index Files"));
+    #endif
+
     connect(editOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
 
 
