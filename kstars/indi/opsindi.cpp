@@ -95,7 +95,7 @@ void OpsINDI::toggleDriversInternal()
     if(kcfg_indiDriversAreInternal->isChecked())
         kcfg_indiDriversDir->setText("*Internal INDI Drivers*");
     else
-        kcfg_indiDriversDir->setText("/usr/local/bin/");
+        kcfg_indiDriversDir->setText("/usr/local/share/indi/");
 }
 
 void OpsINDI::saveFITSDirectory()

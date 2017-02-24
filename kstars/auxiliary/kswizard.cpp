@@ -31,6 +31,8 @@
 #include "geolocation.h"
 #include "widgets/dmsbox.h"
 
+#include "Options.h"
+
 namespace {
     bool hasPrefix(QString str, QString prefix) {
         if( prefix.isEmpty() )
@@ -286,7 +288,8 @@ void KSWizard::slotDownload() {
 
 
 void KSWizard::slotFinishWizard(){
-    if(KStars::Instance())
+    Options::setRunStartupWizard(false);
+    if(KStars::Instance()&&geo())
         KStars::Instance()->updateLocationFromWizard(*(geo()));
     delete this;
 }
@@ -347,7 +350,7 @@ void KSWizard::slotInstallGSC(){
     downloadGSC->setWorkingDirectory(location);
     connect(downloadGSC, SIGNAL(finished(int)), this, SLOT(slotExtractGSC()));
     connect(downloadGSC, SIGNAL(finished(int)), this, SLOT(downloadGSC.deleteLater()));
-    downloadGSC->start("curl", QStringList() << "-o" << "gsc.zip" << "http://mactelescope.com/gsc.zip" );
+    downloadGSC->start("curl", QStringList() << "-L" << "-o" << "gsc.zip" << "http://www.indilib.org/jdownloads/Mac/gsc.zip" );
     data->GSCFeedback->setText("downloading GSC . . .");
 
     downloadMonitor=new QTimer(this);

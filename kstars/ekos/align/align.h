@@ -37,6 +37,8 @@ class OfflineAstrometryParser;
 class RemoteAstrometryParser;
 class OpsAstrometry;
 class OpsAlign;
+class OpsAstrometryCfg;
+class OpsAstrometryIndexFiles;
 
 /**
  *@class Align
@@ -574,6 +576,8 @@ private:
     // Astrometry Options
     OpsAstrometry *opsAstrometry;
     OpsAlign *opsAlign;
+    OpsAstrometryCfg *opsAstrometryCfg;
+    OpsAstrometryIndexFiles *opsAstrometryIndexFiles;
 };
 
 }
