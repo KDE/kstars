@@ -82,12 +82,17 @@ if(ANDROID)
           ${BUILD_KSTARSLITE_DIR}/android_libs/${ANDROID_ARCHITECTURE}/
       )
 else(ANDROID)
+    # Deprecated in INDI Library >= 1.4.0
+    if (INDI_VERSION_MINOR >= 4)
+        set(INDI_LIBRARIES "")
+    else()
     find_library(INDI_LIBRARIES NAMES indi
         PATHS
         ${PC_INDI_LIBRARY_DIRS}
         ${_obLinkDir}
         ${GNUWIN32_DIR}/lib
     )
+    endif()
 
     find_library(INDI_CLIENT_LIBRARIES NAMES indiclient
         PATHS
