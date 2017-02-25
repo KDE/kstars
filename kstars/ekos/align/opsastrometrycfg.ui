@@ -42,10 +42,10 @@
      <item>
       <widget class="QPushButton" name="loadCFG">
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This button will let you reload the Astrometry.cfg file in the event that something was changed ouside of KStars.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This button will let you reload the Astrometry.cfg file in the event that something was changed outside of KStars.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
-        <string>ReLoad</string>
+        <string>Reload</string>
        </property>
       </widget>
      </item>
