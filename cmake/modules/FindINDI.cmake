@@ -83,15 +83,15 @@ if(ANDROID)
       )
 else(ANDROID)
     # Deprecated in INDI Library >= 1.4.0
-    if (INDI_VERSION_MINOR >= 4)
-        set(INDI_LIBRARIES "")
-    else()
+    if (INDI_VERSION VERSION_LESS "1.4.0")
     find_library(INDI_LIBRARIES NAMES indi
         PATHS
         ${PC_INDI_LIBRARY_DIRS}
         ${_obLinkDir}
         ${GNUWIN32_DIR}/lib
     )
+    else()
+    set(INDI_LIBRARIES "Deprecated")
     endif()
 
     find_library(INDI_CLIENT_LIBRARIES NAMES indiclient
@@ -138,7 +138,7 @@ endif(ANDROID)
         if(ANDROID)
             message(STATUS "Found INDI Android Client: ${INDI_CLIENT_ANDROID_LIBRARIES}")
         else(ANDROID)
-          message(STATUS "Found INDI: ${INDI_LIBRARIES}, ${INDI_INCLUDE_DIR}")
+          message(STATUS "Found INDI: ${INDI_INCLUDE_DIR}")
 
           if (INDI_CLIENT_LIBRARIES)
             message(STATUS "Found INDI Client Library: ${INDI_CLIENT_LIBRARIES}")
