@@ -154,7 +154,6 @@ if (INDI_FOUND)
                        ekos/opsekos.cpp
 
                        # Auxiliary
-                       ekos/auxiliary/QProgressIndicator.cpp
                        ekos/auxiliary/dome.cpp
                        ekos/auxiliary/weather.cpp
                        ekos/auxiliary/dustcap.cpp
@@ -628,6 +627,7 @@ set(kstars_extra_SRCS
     auxiliary/QRoundProgressBar.cpp
     auxiliary/skyobjectlistmodel.cpp
     auxiliary/ksnotification.cpp
+    auxiliary/QProgressIndicator.cpp
     time/simclock.cpp
     time/kstarsdatetime.cpp
     time/timezonerule.cpp

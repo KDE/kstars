@@ -20,7 +20,7 @@
 #include "ui_scheduler.h"
 #include "scheduler.h"
 #include "schedulerjob.h"
-#include "ekos/auxiliary/QProgressIndicator.h"
+#include "auxiliary/QProgressIndicator.h"
 #include "ekos/align/align.h"
 
 class KSMoon;

@@ -31,7 +31,7 @@
 #include "ui_wizdownload.h"
 #include "ui_wizdata.h"
 #include "ui_wizastrometry.h"
-#include "ekos/auxiliary/QProgressIndicator.h"
+#include "QProgressIndicator.h"
 
 class GeoLocation;
 class QStackedWidget;

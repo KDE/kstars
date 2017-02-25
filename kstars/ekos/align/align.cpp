@@ -23,7 +23,7 @@
 #include <KConfigDialog>
 #include <KNotifications/KNotification>
 
-#include "ekos/auxiliary/QProgressIndicator.h"
+#include "auxiliary/QProgressIndicator.h"
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
 #include "indi/clientmanager.h"

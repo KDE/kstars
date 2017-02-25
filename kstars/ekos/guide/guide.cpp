@@ -28,7 +28,7 @@
 #include "externalguide/linguider.h"
 
 #include "ekos/auxiliary/darklibrary.h"
-#include "ekos/auxiliary/QProgressIndicator.h"
+#include "auxiliary/QProgressIndicator.h"
 
 #include "indi/driverinfo.h"
 #include "indi/clientmanager.h"

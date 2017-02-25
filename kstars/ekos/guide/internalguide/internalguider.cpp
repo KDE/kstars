@@ -13,11 +13,10 @@
 #include <KNotification>
 
 #include "auxiliary/kspaths.h"
+#include "auxiliary/QProgressIndicator.h"
 
 #include "internalguider.h"
 #include "gmath.h"
-
-#include "ekos/auxiliary/QProgressIndicator.h"
 
 #include "Options.h"
 
