@@ -2409,7 +2409,8 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
         dec = telescopeCoord.dec0().Degrees();
     }
 
-    solver_args << "-3" << QString::number(ra*15.0) << "-4" << QString::number(dec) << "-5 15";
+    if (Options::astrometryUsePosition())
+        solver_args << "-3" << QString::number(ra*15.0) << "-4" << QString::number(dec) << "-5 15";
 
     if (fits_read_key(fptr, TINT, "FOCALLEN", &fits_focal_length, comment, &status ))
     {
@@ -2455,7 +2456,8 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     fov_low  = QString::number(fov_lower);
     fov_high = QString::number(fov_upper);
 
-    solver_args << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
+    if (Options::astrometryUseImageScale())
+        solver_args << "-L" << fov_low << "-H" << fov_high << "-u" << "aw";
 
 
     return solver_args;
