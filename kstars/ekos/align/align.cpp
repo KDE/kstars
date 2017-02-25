@@ -2387,29 +2387,45 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
 
     if (fits_read_key(fptr, TDOUBLE, "OBJCTRA", &ra, comment, &status ))
     {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        coord_ok=false;
-        appendLogText(i18n("FITS header: Cannot find OBJCTRA. Using current mount coordinates."));
-        //return solver_args;
+        char objectra_str[32];
+        if (fits_read_key(fptr, TSTRING, "OBJCTRA", objectra_str, comment, &status ))
+        {
+            fits_report_error(stderr, status);
+            fits_get_errstatus(status, error_status);
+            coord_ok=false;
+            appendLogText(i18n("FITS header: Cannot find OBJCTRA."));
+        }
+        else
+        {
+            dms raDMS = dms::fromString(objectra_str, false);
+            ra = raDMS.Hours();
+        }
     }
 
     if (coord_ok && fits_read_key(fptr, TDOUBLE, "OBJCTDEC", &dec, comment, &status ))
     {
-        fits_report_error(stderr, status);
-        fits_get_errstatus(status, error_status);
-        coord_ok=false;
-        appendLogText(i18n("FITS header: Cannot find OBJCTDEC. Using current mount coordinates."));
-        //return solver_args;
+        char objectde_str[32];
+        if (fits_read_key(fptr, TSTRING, "OBJCTDEC", objectde_str, comment, &status ))
+        {
+            fits_report_error(stderr, status);
+            fits_get_errstatus(status, error_status);
+            coord_ok=false;
+            appendLogText(i18n("FITS header: Cannot find OBJCTDEC."));
+        }
+        else
+        {
+            dms deDMS = dms::fromString(objectde_str, true);
+            dec = deDMS.Degrees();
+        }
     }
 
-    if (coord_ok == false)
-    {
+    /*if (coord_ok == false)
+    {        
         ra  = telescopeCoord.ra0().Hours();
         dec = telescopeCoord.dec0().Degrees();
-    }
+    }*/
 
-    if (Options::astrometryUsePosition())
+    if (coord_ok && Options::astrometryUsePosition())
         solver_args << "-3" << QString::number(ra*15.0) << "-4" << QString::number(dec) << "-5 15";
 
     if (fits_read_key(fptr, TINT, "FOCALLEN", &fits_focal_length, comment, &status ))
@@ -2446,12 +2462,12 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     fits_fov_x /= 60.0;
     fits_fov_y /= 60.0;
 
-    // let's stretch the boundaries by 5%
+    // let's stretch the boundaries by 10%
     fov_lower = qMin(fits_fov_x, fits_fov_y);
     fov_upper = qMax(fits_fov_x, fits_fov_y);
 
-    fov_lower *= 0.95;
-    fov_upper *= 1.05;
+    fov_lower *= 0.90;
+    fov_upper *= 1.10;
 
     fov_low  = QString::number(fov_lower);
     fov_high = QString::number(fov_upper);
