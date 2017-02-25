@@ -42,7 +42,7 @@
 #include "captureadaptor.h"
 #include "ui_calibrationoptions.h"
 
-#include "ekos/auxiliary/QProgressIndicator.h"
+#include "auxiliary/QProgressIndicator.h"
 
 #define INVALID_TEMPERATURE 10000
 #define INVALID_HA          10000
