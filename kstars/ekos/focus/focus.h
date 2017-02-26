@@ -50,6 +50,7 @@ public:
 
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
     typedef enum { FOCUS_MANUAL, FOCUS_AUTO} FocusType;
+    typedef enum { FOCUS_ITERATIVE, FOCUS_POLYNOMIAL } FocusAlgorithm;
 
     /** @defgroup FocusDBusInterface Ekos DBus Interface - Focus Module
      * Ekos::Focus interface provides advanced scripting capabilities to perform manual and automatic focusing operations.
@@ -302,7 +303,7 @@ private slots:
     void updateFilterPos(int index);
 
     /**
-     * @brief toggleSubframe Process enabling and disabling subframing.
+     * @brief toggleSubframe Process enabling and disabling subfrag.
      * @param enable If true, subframing is enabled. If false, subframing is disabled. Even if subframing is enabled, it must be supported by the CCD driver.
      */
     void toggleSubframe(bool enable);
@@ -349,6 +350,10 @@ private:
     void autoFocusRel();
     void resetButtons();
     void stop(bool aborted=false);
+    std::vector<double> gsl_polynomial_fit(const double * const data_x, const double * const data_y, const int n, const int order,
+                                           double & chisq);
+    bool findMinimum(double expected, double *position, double *hfr);
+    static double fn1 (double x, void * params);
 
     /**
      * @brief syncTrackingBoxPosition Sync the tracking box to the current selected star center
@@ -378,7 +383,9 @@ private:
     // What type of focusing are we doing right now?
     FocusType focusType;
     // Focus HFR & Centeroid algorithms
-    StarAlgorithm focusAlgorithm = ALGORITHM_GRADIENT;
+    StarAlgorithm focusDetection = ALGORITHM_GRADIENT;
+    // Focus Process Algorithm
+    FocusAlgorithm focusAlgorithm = FOCUS_ITERATIVE;
 
     /*********************
     * HFR Club variables
@@ -507,6 +514,10 @@ private:
     // Relative Profile
     QCustomPlot *profilePlot;
     QDialog *profileDialog;
+
+    // Polynomial fitting coefficients
+    std::vector<double> coeff;
+    int polySolutionFound=0;
 };
 
 }
