@@ -651,6 +651,7 @@ bool copyDataFolderFromAppBundleIfNeeded()  //The method returns true if the dat
         Options::setAstrometrySolverIsInternal(true);
         Options::setAstrometryConfFileIsInternal(true);
         Options::setAstrometryWCSIsInternal(true);
+        Options::setAstrometryUseNoFITS2FITS(false);
         Options::setXplanetIsInternal(true);
         Options::setRunStartupWizard( false );  //don't run on startup because we are doing it now.
 
