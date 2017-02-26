@@ -2749,9 +2749,18 @@ bool Focus::findMinimum(double expected, double *position, double *hfr)
     F.function = &Focus::fn1;
     F.params = this;
 
+    // Must turn off error handler or it aborts on error
+    gsl_set_error_handler_off();
+
     T = gsl_min_fminimizer_brent;
     s = gsl_min_fminimizer_alloc (T);
-    gsl_min_fminimizer_set (s, &F, m, a, b);
+    status = gsl_min_fminimizer_set (s, &F, m, a, b);
+
+    if (status != GSL_SUCCESS)
+    {
+        qDebug() << "Focus GSL error:" << gsl_strerror(status);
+        return false;
+    }
 
     do
       {
@@ -2774,7 +2783,7 @@ bool Focus::findMinimum(double expected, double *position, double *hfr)
 
     gsl_min_fminimizer_free (s);
 
-    return (status == 0);
+    return (status == GSL_SUCCESS);
 }
 
 }
