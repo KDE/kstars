@@ -27,7 +27,7 @@ public:
                    STAGE_POSTALIGN_FOCUSING, STAGE_POSTALIGN_FOCUSING_COMPLETE, STAGE_GUIDING, STAGE_GUIDING_COMPLETE, STAGE_CAPTURING, STAGE_COMPLETE} JOBStage;
     //typedef enum { FITS_IDLE, FITS_SOLVING, FITS_COMPLETE, FITS_ERROR } FITSStatus;
     typedef enum { START_ASAP, START_CULMINATION, START_AT } StartupCondition;
-    typedef enum { FINISH_SEQUENCE, FINISH_LOOP, FINISH_AT } CompletionCondition;
+    typedef enum { FINISH_SEQUENCE, FINISH_REPEAT, FINISH_LOOP, FINISH_AT } CompletionCondition;
     typedef enum { USE_NONE  = 0,
                    USE_TRACK = 1 << 0,
                    USE_FOCUS = 1 << 1,
@@ -116,6 +116,12 @@ public:
     bool getLightFramesRequired() const;
     void setLightFramesRequired(bool value);
 
+    uint16_t getRepeatsRequired() const;
+    void setRepeatsRequired(const uint16_t &value);
+
+    uint16_t getRepeatsRemaining() const;
+    void setRepeatsRemaining(const uint16_t &value);
+
 private:
 
     QString name;
@@ -148,6 +154,7 @@ private:
     int16_t culminationOffset;
     uint8_t priority;
     int64_t estimatedTime;
+    uint16_t repeatsRequired=0, repeatsRemaining=0;
     bool timeSlotAllocated;
     bool inSequenceFocus;
 

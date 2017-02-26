@@ -242,6 +242,7 @@ void Scheduler::watchJobChanges(bool enable)
         connect(culminationOffset, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(startupTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(minAltitude, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        connect(repeatsSpin, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(minMoonSeparation, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         connect(completionTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
 
@@ -267,6 +268,7 @@ void Scheduler::watchJobChanges(bool enable)
         disconnect(culminationOffset, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(startupTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(minAltitude, SIGNAL(editingFinished()), this, SLOT(setDirty()));
+        disconnect(repeatsSpin, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(minMoonSeparation, SIGNAL(editingFinished()), this, SLOT(setDirty()));
         disconnect(completionTimeEdit, SIGNAL(editingFinished()), this, SLOT(setDirty()));
     }
@@ -509,6 +511,12 @@ void Scheduler::saveJob()
     // #3 Completion conditions
     if (sequenceCompletionR->isChecked())
         job->setCompletionCondition(SchedulerJob::FINISH_SEQUENCE);
+    else if (repeatCompletionR->isChecked())
+    {
+        job->setCompletionCondition(SchedulerJob::FINISH_REPEAT);
+        job->setRepeatsRequired(repeatsSpin->value());
+        job->setRepeatsRemaining(repeatsSpin->value());
+    }
     else if (loopCompletionR->isChecked())
         job->setCompletionCondition(SchedulerJob::FINISH_LOOP);
     else
@@ -733,18 +741,23 @@ void Scheduler::loadJob(QModelIndex i)
 
     switch (job->getCompletionCondition())
     {
-        case SchedulerJob::FINISH_SEQUENCE:
-            sequenceCompletionR->setChecked(true);
-            break;
+    case SchedulerJob::FINISH_SEQUENCE:
+        sequenceCompletionR->setChecked(true);
+        break;
 
-        case SchedulerJob::FINISH_LOOP:
-            loopCompletionR->setChecked(true);
-            break;
+    case SchedulerJob::FINISH_REPEAT:
+        repeatCompletionR->setChecked(true);
+        break;
 
-        case SchedulerJob::FINISH_AT:
-            timeCompletionR->setChecked(true);
-            completionTimeEdit->setDateTime(job->getCompletionTime());
-            break;
+    case SchedulerJob::FINISH_LOOP:
+        loopCompletionR->setChecked(true);
+        repeatsSpin->setValue(job->getRepeatsRequired());
+        break;
+
+    case SchedulerJob::FINISH_AT:
+        timeCompletionR->setChecked(true);
+        completionTimeEdit->setDateTime(job->getCompletionTime());
+        break;
     }
 
    appendLogText(i18n("Editing job #%1...", i.row()+1));
@@ -1039,6 +1052,16 @@ void Scheduler::evaluateJobs()
 
         if (job->getState() == SchedulerJob::JOB_IDLE)
             job->setState(SchedulerJob::JOB_EVALUATION);
+
+        if (job->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
+        {
+            if (job->getRepeatsRemaining() == 0)
+            {
+                appendLogText(i18n("%1 obsevation job has no more runs remaining.", job->getName()));
+                job->setState(SchedulerJob::JOB_INVALID);
+                continue;
+            }
+        }
 
         int16_t score = 0;
 
@@ -3378,6 +3401,11 @@ bool Scheduler::processJobInfo(XMLEle *root)
             {
                 if (!strcmp("Sequence", pcdataXMLEle(subEP)))
                     sequenceCompletionR->setChecked(true);
+                else if (!strcmp("Repeat", pcdataXMLEle(subEP)))
+                {
+                    repeatCompletionR->setChecked(true);
+                    repeatsSpin->setValue(atoi(findXMLAttValu(subEP, "value")));
+                }
                 else if (!strcmp("Loop", pcdataXMLEle(subEP)))
                     loopCompletionR->setChecked(true);
                 else if (!strcmp("At", pcdataXMLEle(subEP)))
@@ -3498,7 +3526,7 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
     QTextStream outstream(&file);
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
-    outstream << "<SchedulerList version='1.2'>" << endl;
+    outstream << "<SchedulerList version='1.3'>" << endl;
 
     foreach(SchedulerJob *job, jobs)
     {
@@ -3539,6 +3567,8 @@ bool Scheduler::saveScheduler(const QUrl &fileURL)
         outstream << "<CompletionCondition>" << endl;
        if (job->getCompletionCondition() == SchedulerJob::FINISH_SEQUENCE)
            outstream << "<Condition>Sequence</Condition>" << endl;
+       else if (job->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
+           outstream << "<Condition value='" << job->getRepeatsRequired() << "'>Repeat</Condition>" << endl;
        else if (job->getCompletionCondition() == SchedulerJob::FINISH_LOOP)
            outstream << "<Condition>Loop</Condition>" << endl;
        else if (job->getCompletionCondition() == SchedulerJob::FINISH_AT)
@@ -3711,6 +3741,33 @@ void Scheduler::findNextJob()
 
         currentJob = NULL;
         schedulerTimer.start();
+        return;
+    }
+
+    if (currentJob->getCompletionCondition() == SchedulerJob::FINISH_REPEAT)
+    {
+        currentJob->setRepeatsRemaining(currentJob->getRepeatsRemaining()-1);
+
+        // If we're done
+        if (currentJob->getRepeatsRemaining() == 0)
+        {
+            appendLogText(i18n("%1 observation job is complete.", currentJob->getName()));
+            currentJob->setState(SchedulerJob::JOB_COMPLETE);
+
+            stopCurrentJobAction();
+            stopGuiding();
+
+            currentJob = NULL;
+            schedulerTimer.start();
+            return;
+        }
+
+        appendLogText(i18n("Repeating %1 observation job. %2 runs remaining.", currentJob->getName(), currentJob->getRepeatsRemaining()));
+        currentJob->setState(SchedulerJob::JOB_BUSY);
+        currentJob->setStage(SchedulerJob::STAGE_CAPTURING);
+
+        startCapture();
+        jobTimer.start();
         return;
     }
 
@@ -4000,6 +4057,8 @@ bool Scheduler::estimateJobTime(SchedulerJob *schedJob)
         if (schedJob->getStepPipeline() & SchedulerJob::USE_GUIDE)
             totalImagingTime += 120;
     }
+
+    totalImagingTime *= (schedJob->getRepeatsRequired()+1);
 
     dms estimatedTime;
     estimatedTime.setH(totalImagingTime/3600.0);
@@ -4648,6 +4707,7 @@ void Scheduler::resetAllJobs()
     {
         job->setState(SchedulerJob::JOB_IDLE);
         job->setStartupCondition(job->getFileStartupCondition());
+        job->setRepeatsRemaining(job->getRepeatsRequired());
     }
 }
 
