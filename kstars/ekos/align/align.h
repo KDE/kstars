@@ -322,10 +322,6 @@ public slots:
     void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
 private slots:
-    /* Solver Options */
-    //void checkLineEdits();
-    //void copyCoordsToBoxes();
-    //void clearCoordBoxes();
 
     /* Polar Alignment */
     void measureAltError();
@@ -450,14 +446,6 @@ private:
     IPState loadSlewState;
     // Solver iterations count
     uint8_t solverIterations;
-
-    // Keep track of solver status
-    //bool m_isSolverComplete;
-    //bool m_isSolverSuccessful;
-    //bool m_slewToTargetSelected;
-
-    // Focus
-    //bool isFocusBusy;
 
     // FOV
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture, fov_x, fov_y, fov_pixscale;
