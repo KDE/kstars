@@ -7,13 +7,20 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include "focus.h"
-#include "Options.h"
+#include <gsl/gsl_fit.h>
+#include <gsl/gsl_vector.h>
+#include <gsl/gsl_matrix.h>
+#include <gsl/gsl_multifit.h>
+#include <gsl/gsl_min.h>
+
+#include <algorithm>
 
 #include <KMessageBox>
 #include <KLocalizedString>
-
 #include <KNotifications/KNotification>
+
+#include "focus.h"
+#include "Options.h"
 
 #include "indi/driverinfo.h"
 #include "indi/indicommon.h"
@@ -39,6 +46,7 @@
 #define AUTO_STAR_TIMEOUT           45000
 #define MINIMUM_PULSE_TIMER         32
 #define MAX_RECAPTURE_RETRIES       3
+#define MINIMUM_POLY_SOLUTIONS      2
 
 namespace Ekos
 {
@@ -77,8 +85,6 @@ Focus::Focus()
     noStarCount=0;
     reverseDir = false;
     initialFocuserAbsPosition = -1;
-
-    focusAlgorithm = ALGORITHM_GRADIENT;
 
     state = Ekos::FOCUS_IDLE;
 
@@ -128,13 +134,22 @@ Focus::Focus()
     connect(binningCombo, SIGNAL(activated(int)), this, SLOT(setActiveBinning(int)));
     connect(focusBoxSize, SIGNAL(valueChanged(int)), this, SLOT(updateBoxSize(int)));
 
-    focusAlgorithm = static_cast<StarAlgorithm>(Options::focusAlgorithm());
-    focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
+    focusDetection = static_cast<StarAlgorithm>(Options::focusDetection());
+    focusDetectionCombo->setCurrentIndex(focusDetection);
 
+    connect(focusDetectionCombo, static_cast<void (QComboBox::*) (int)>(&QComboBox::activated), this, [&](int index)
+    {
+        focusDetection=static_cast<StarAlgorithm>(index);
+        thresholdSpin->setEnabled(focusDetection == ALGORITHM_THRESHOLD);
+        Options::setFocusDetection(index);
+    });
+
+    focusAlgorithm = static_cast<FocusAlgorithm>(Options::focusAlgorithm());
+    focusAlgorithmCombo->setCurrentIndex(focusAlgorithm);
     connect(focusAlgorithmCombo, static_cast<void (QComboBox::*) (int)>(&QComboBox::activated), this, [&](int index)
     {
-        focusAlgorithm=static_cast<StarAlgorithm>(index);
-        thresholdSpin->setEnabled(focusAlgorithm == ALGORITHM_THRESHOLD);
+        focusAlgorithm=static_cast<FocusAlgorithm>(index);
+        //toleranceIN->setEnabled(focusAlgorithm == FOCUS_ITERATIVE);
         Options::setFocusAlgorithm(index);
     });
 
@@ -684,6 +699,8 @@ void Focus::start()
 
     lastFocusDirection = FOCUS_NONE;
 
+    polySolutionFound = 0;
+
     waitStarSelectTimer.stop();
 
     starsHFR.clear();
@@ -805,6 +822,7 @@ void Focus::stop(bool aborted)
     inAutoFocus = false;
     inFocusLoop = false;
     starSelected= false;
+    polySolutionFound=0;
     captureInProgress=false;
     minimumRequiredHFR    = -1;
     noStarCount = 0;
@@ -1093,7 +1111,7 @@ void Focus::setCaptureComplete()
 
             if (starSelected)
             {
-                focusView->findStars(focusAlgorithm);
+                focusView->findStars(focusDetection);
                 focusView->updateFrame();
                 currentHFR= image_data->getHFR(HFR_MAX);
             }
@@ -1190,6 +1208,16 @@ void Focus::setCaptureComplete()
 
         if (currentHFR > 0)
         {
+            // Check if we're done
+            if (focusAlgorithm == FOCUS_POLYNOMIAL && polySolutionFound == MINIMUM_POLY_SOLUTIONS)
+            {
+                polySolutionFound=0;
+                appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
+                stop();
+                emit resumeGuiding();
+                setAutoFocusResult(true);
+                return;
+            }
             Edge *maxStarHFR = NULL;
             // Center tracking box around selected star
             //if (starSelected && inAutoFocus)
@@ -1628,7 +1656,7 @@ void Focus::autoFocusAbs()
     //p->pos = currentPosition;
 
     hfr_position.append(currentPosition);
-    hfr_value.append(currentHFR);
+    hfr_value.append(currentHFR);    
 
     //HFRAbsolutePoints.append(p);
 
@@ -1670,7 +1698,7 @@ void Focus::autoFocusAbs()
                 }
                 else
                 {
-                    appendLogText(i18n("Autofocus complete."));
+                    appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                     stop();
                     emit resumeGuiding();
                     setAutoFocusResult(true);
@@ -1792,27 +1820,66 @@ void Focus::autoFocusAbs()
                         focusInLimit = currentPosition;
                         if (Options::focusLogging())
                             qDebug() << "Focus: Setting focus IN limit to " << focusInLimit;
+
+                        if (hfr_position.count() > 3)
+                        {
+                            focusOutLimit = hfr_position[hfr_position.count() - 3];
+                            if (Options::focusLogging())
+                                qDebug() << "Focus: Setting focus OUT limit to " << focusOutLimit;
+                        }
                     }
                     else
                     {
                         focusOutLimit = currentPosition;
                         if (Options::focusLogging())
                             qDebug() << "Focus: Setting focus OUT limit to " << focusOutLimit;
+
+                        if (hfr_position.count() > 3)
+                        {
+                            focusInLimit = hfr_position[hfr_position.count() - 3];
+                            if (Options::focusLogging())
+                                qDebug() << "Focus: Setting focus IN limit to " << focusInLimit;
+                        }
                     }
 
-                    // Decrease pulse
-                    pulseDuration = pulseDuration * 0.75;
+                    bool polyMinimumFound = false;
+                    if (focusAlgorithm == FOCUS_POLYNOMIAL && hfr_position.count() > 5)
+                    {
+                        double chisq = 0, min_position=0, min_hfr=0;
+                        coeff = gsl_polynomial_fit(hfr_position.data(), hfr_value.data(), hfr_position.count(), 3, chisq);
 
-                    // Let's get close to the minimum HFR position so far detected
-                    if (lastFocusDirection == FOCUS_OUT)
-                          targetPosition = minHFRPos-pulseDuration/2;
-                     else
-                          targetPosition = minHFRPos+pulseDuration/2;
+                        polyMinimumFound = findMinimum(minHFRPos, &min_position, &min_hfr);
+
+                        if (Options::fITSLogging())
+                        {
+                            qDebug() << "Polynomial Coefficients c0:" << coeff[0] << "c1:" << coeff[1] << "c2:" << coeff[2] << "c3:" << coeff[3];
+                            qDebug() << "Found Minimum?" << (polyMinimumFound ? "Yes" : "No");
+                            if (polyMinimumFound)
+                                qDebug() << "Minimum Solution:" << min_hfr << "@" << min_position;
+                        }
+
+                        if (polyMinimumFound)
+                        {
+                            polySolutionFound++;
+                            targetPosition = floor(min_position);
+                            appendLogText(i18n("Found polynomial solution @ %1", QString::number(min_position, 'f', 0)));
+                        }
+                    }
+
+                    if (polyMinimumFound == false)
+                    {
+                        // Decrease pulse
+                        pulseDuration = pulseDuration * 0.75;
+
+                        // Let's get close to the minimum HFR position so far detected
+                        if (lastFocusDirection == FOCUS_OUT)
+                              targetPosition = minHFRPos-pulseDuration/2;
+                         else
+                              targetPosition = minHFRPos+pulseDuration/2;
+                    }
 
                     if (Options::focusLogging())
                         qDebug() << "Focus: new targetPosition " << targetPosition;
-
-               // }
             }
 
         // Limit target Pulse to algorithm limits
@@ -1838,7 +1905,7 @@ void Focus::autoFocusAbs()
         // Ops, we can't go any further, we're done.
         if (targetPosition == currentPosition)
         {
-            appendLogText(i18n("Autofocus complete."));
+            appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
             stop();
             emit resumeGuiding();
             setAutoFocusResult(true);
@@ -1937,7 +2004,7 @@ void Focus::autoFocusRel()
         case FOCUS_OUT:
             if (fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             {
-                appendLogText(i18n("Autofocus complete."));
+                appendLogText(i18n("Autofocus complete after %1 iterations.", hfr_position.count()));
                 stop();
                 emit resumeGuiding();
                 setAutoFocusResult(true);
@@ -2621,6 +2688,93 @@ void Focus::setMountStatus(ISD::Telescope::TelescopeStatus newState)
         break;
 
     }
+}
+
+/* Taken from http://codereview.stackexchange.com/questions/71300/wrapper-function-to-do-polynomial-fits-with-gsl */
+std::vector<double> Focus::gsl_polynomial_fit(const double * const data_x, const double * const data_y,
+                                       const int n, const int order, double & chisq)
+{
+    gsl_vector *y, *c;
+    gsl_matrix *X, *cov;
+    y = gsl_vector_alloc (n);
+    c = gsl_vector_alloc (order+1);
+    X   = gsl_matrix_alloc (n, order+1);
+    cov = gsl_matrix_alloc (order+1, order+1);
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < order+1; j++)
+        {
+            gsl_matrix_set (X, i, j, pow(data_x[i],j));
+        }
+        gsl_vector_set (y, i, data_y[i]);
+    }
+
+    gsl_multifit_linear_workspace * work = gsl_multifit_linear_alloc (n, order+1);
+    gsl_multifit_linear (X, y, c, cov, &chisq, work);
+    gsl_multifit_linear_free (work);
+
+    std::vector<double> vc;
+    for (int i = 0; i < order+1; i++)
+    {
+        vc.push_back(gsl_vector_get(c,i));
+    }
+
+    gsl_vector_free (y);
+    gsl_vector_free (c);
+    gsl_matrix_free (X);
+    gsl_matrix_free (cov);
+
+    return vc;
+}
+
+double Focus::fn1 (double x, void * params)
+{
+  Focus *module = static_cast<Focus*>(params);
+
+  return (module->coeff[0] + module->coeff[1] * x + module->coeff[2] * pow(x,2) + module->coeff[3] * pow(x,3));
+}
+
+bool Focus::findMinimum(double expected, double *position, double *hfr)
+{
+    int status;
+    int iter = 0, max_iter = 100;
+    const gsl_min_fminimizer_type *T;
+    gsl_min_fminimizer *s;
+    double m = expected;
+    double a = *std::min_element(hfr_position.constBegin(), hfr_position.constEnd());
+    double b = *std::max_element(hfr_position.constBegin(), hfr_position.constEnd());;
+    gsl_function F;
+
+    F.function = &Focus::fn1;
+    F.params = this;
+
+    T = gsl_min_fminimizer_brent;
+    s = gsl_min_fminimizer_alloc (T);
+    gsl_min_fminimizer_set (s, &F, m, a, b);
+
+    do
+      {
+        iter++;
+        status = gsl_min_fminimizer_iterate (s);
+
+        m = gsl_min_fminimizer_x_minimum (s);
+        a = gsl_min_fminimizer_x_lower (s);
+        b = gsl_min_fminimizer_x_upper (s);
+
+        status = gsl_min_test_interval (a, b, 0.01, 0.0);
+
+        if (status == GSL_SUCCESS)
+        {
+          *position = m;
+          *hfr = fn1(m, this);
+        }
+      }
+    while (status == GSL_CONTINUE && iter < max_iter);
+
+    gsl_min_fminimizer_free (s);
+
+    return (status == 0);
 }
 
 }
