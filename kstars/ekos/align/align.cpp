@@ -119,13 +119,6 @@ Align::Align()
     connect(stopB, SIGNAL(clicked()), this, SLOT(abort()));
     connect(measureAltB, SIGNAL(clicked()), this, SLOT(measureAltError()));
     connect(measureAzB, SIGNAL(clicked()), this, SLOT(measureAzError()));
-#if 0
-    connect(raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-    connect(decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-    connect(syncBoxesB, SIGNAL(clicked()), this, SLOT(copyCoordsToBoxes()));
-    connect(clearBoxesB, SIGNAL(clicked()), this, SLOT(clearCoordBoxes()));
-#endif
-    connect(editOptionsB,SIGNAL(clicked()), this, SLOT(slotEditOptions()));
 
     connect(CCDCaptureCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
     connect(CCDCaptureCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
@@ -171,16 +164,6 @@ Align::Align()
     #endif
 
     connect(editOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
-
-
-#if 0
-    syncBoxesB->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
-    syncBoxesB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    clearBoxesB->setIcon(QIcon::fromTheme("edit-clear", QIcon(":/icons/breeze/default/edit-clear.svg")));
-    clearBoxesB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
-    raBox->setDegType(false); //RA box should be HMS-style
-#endif
 
     appendLogText(i18n("Idle."));
 
@@ -798,33 +781,6 @@ void Align::generateArgs()
     solverOptions->setText(options);
     solverOptions->setToolTip(options);
 }
-
-#if 0
-void Align::checkLineEdits()
-{
-   bool raOk(false), decOk(false);
-   raBox->createDms( false, &raOk );
-   decBox->createDms( true, &decOk );
-   if ( raOk && decOk )
-            generateArgs();
-}
-
-void Align::copyCoordsToBoxes()
-{
-    raBox->setText(ScopeRAOut->text());
-    decBox->setText(ScopeDecOut->text());
-
-    checkLineEdits();
-}
-
-void Align::clearCoordBoxes()
-{
-    raBox->clear();
-    decBox->clear();
-
-    generateArgs();
-}
-#endif
 
 bool Align::captureAndSolve()
 {
