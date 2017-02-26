@@ -426,6 +426,26 @@ void SchedulerJob::setLightFramesRequired(bool value)
     lightFramesRequired = value;
 }
 
+uint16_t SchedulerJob::getRepeatsRequired() const
+{
+    return repeatsRequired;
+}
+
+void SchedulerJob::setRepeatsRequired(const uint16_t &value)
+{
+    repeatsRequired = value;
+}
+
+uint16_t SchedulerJob::getRepeatsRemaining() const
+{
+    return repeatsRemaining;
+}
+
+void SchedulerJob::setRepeatsRemaining(const uint16_t &value)
+{
+    repeatsRemaining = value;
+}
+
 
 
 void SchedulerJob::setTargetCoords(dms ra, dms dec)
