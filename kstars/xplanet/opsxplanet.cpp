@@ -108,7 +108,7 @@ void OpsXplanet::toggleXPlanetInternal()
     if(kcfg_xplanetIsInternal->isChecked())
         kcfg_XplanetPath->setText("*Internal XPlanet*");
     else
-        kcfg_XplanetPath->setText("/usr/local/bin/xplanet");
+        kcfg_XplanetPath->setText(KSUtils::getDefaultPath("XplanetPath"));
 }
 
 void OpsXplanet::slotUpdateWidgets( bool on ) {

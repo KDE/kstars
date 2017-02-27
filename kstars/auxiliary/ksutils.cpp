@@ -631,6 +631,63 @@ QString constGenetiveToAbbrev( const QString &genetive_ ) {
   void Logging::Disabled(QtMsgType, const QMessageLogContext &, const QString &)
   {
   }
+  /**
+    This method provides a centralized location for the default paths to important external files used in the Options
+    on different operating systems.  Note that on OS X, if the user builds the app without indi, astrometry, and xplanet internally
+    then the options below will be used.  If the user drags the app from a dmg and has to install the KStars data directory,
+    then most of these paths will be overwritten since it is preferrred to use the internal versions.
+  **/
+
+  QString getDefaultPath(QString option)
+  {
+      if(option=="indiServer")
+      {
+        #ifdef Q_OS_OSX          
+            return "/usr/local/bin/indiserver";
+        #endif
+            return "/usr/bin/indiserver";
+      }
+      else if (option=="indiDriversDir")
+      {
+        #ifdef Q_OS_OSX
+            return "/usr/local/share/indi";
+        #elif defined(Q_OS_LINUX)
+            return "/usr/share/indi";
+        #else
+          return QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory);
+        #endif
+      }
+      else if(option=="AstrometrySolverBinary")
+      {
+        #ifdef Q_OS_OSX
+            return "/usr/local/bin/solve-field";
+        #endif
+          return "/usr/bin/solve-field";
+      }
+      else if(option=="AstrometryWCSInfo")
+      {
+        #ifdef Q_OS_OSX
+            return "/usr/local/bin/wcsinfo";
+        #endif
+            return "/usr/bin/wcsinfo";
+      }
+      else if(option=="AstrometryConfFile")
+      {
+        #ifdef Q_OS_OSX
+            return "/usr/local/etc/astrometry.cfg";
+        #endif
+            return "/etc/astrometry.cfg";
+      }
+      else if(option=="XplanetPath")
+      {
+        #ifdef Q_OS_OSX
+            return "/usr/local/bin/xplanet";
+        #endif
+            return "/usr/bin/xplanet";
+      }
+
+      return QString();
+  }
 
 #ifdef Q_OS_OSX
 bool copyDataFolderFromAppBundleIfNeeded()  //The method returns true if the data directory is good to go.
@@ -647,12 +704,18 @@ bool copyDataFolderFromAppBundleIfNeeded()  //The method returns true if the dat
 
         //This sets some important OS X options.
         Options::setIndiServerIsInternal(true);
+        Options::setIndiServer("*Internal INDI Server*");
         Options::setIndiDriversAreInternal(true);
+        Options::setIndiDriversDir("*Internal INDI Drivers*");
         Options::setAstrometrySolverIsInternal(true);
+        Options::setAstrometrySolverBinary("*Internal Solver*");
         Options::setAstrometryConfFileIsInternal(true);
+        Options::setAstrometryConfFile("*Internal astrometry.cfg*");
         Options::setAstrometryWCSIsInternal(true);
+        Options::setAstrometryWCSInfo("*Internal wcsinfo*");
         Options::setAstrometryUseNoFITS2FITS(false);
         Options::setXplanetIsInternal(true);
+        Options::setXplanetPath("*Internal XPlanet*");
         Options::setRunStartupWizard( false );  //don't run on startup because we are doing it now.
 
 
