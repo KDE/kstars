@@ -82,11 +82,7 @@ void OpsINDI::toggleINDIInternal()
     if(kcfg_indiServerIsInternal->isChecked())
         kcfg_indiServer->setText("*Internal INDI Server*");
     else
-        #ifdef Q_OS_OSX
-        kcfg_indiServer->setText("/usr/local/bin/indiserver");
-        #else
-        kcfg_indiServer->setText("/usr/bin/indiserver");
-        #endif
+        kcfg_indiServer->setText(KSUtils::getDefaultPath("indiServer"));
 }
 
 void OpsINDI::toggleDriversInternal()
@@ -95,7 +91,7 @@ void OpsINDI::toggleDriversInternal()
     if(kcfg_indiDriversAreInternal->isChecked())
         kcfg_indiDriversDir->setText("*Internal INDI Drivers*");
     else
-        kcfg_indiDriversDir->setText("/usr/local/share/indi/");
+        kcfg_indiDriversDir->setText(KSUtils::getDefaultPath("indiDriversDir"));
 }
 
 void OpsINDI::saveFITSDirectory()

@@ -67,7 +67,7 @@ void OpsAlign::toggleSolverInternal()
     if(kcfg_AstrometrySolverIsInternal->isChecked())
         kcfg_AstrometrySolverBinary->setText("*Internal Solver*");
     else
-        kcfg_AstrometrySolverBinary->setText("/usr/local/bin/solve-field");
+        kcfg_AstrometrySolverBinary->setText(KSUtils::getDefaultPath("AstrometrySolverBinary"));
 }
 
 void OpsAlign::toggleConfigInternal()
@@ -76,7 +76,7 @@ void OpsAlign::toggleConfigInternal()
     if(kcfg_AstrometryConfFileIsInternal->isChecked())
         kcfg_AstrometryConfFile->setText("*Internal astrometry.cfg*");
     else
-        kcfg_AstrometryConfFile->setText("/etc/astrometry.cfg");
+        kcfg_AstrometryConfFile->setText(KSUtils::getDefaultPath("AstrometryConfFile"));
 }
 
 void OpsAlign::toggleWCSInternal()
@@ -85,7 +85,7 @@ void OpsAlign::toggleWCSInternal()
     if(kcfg_AstrometryWCSIsInternal->isChecked())
         kcfg_AstrometryWCSInfo->setText("*Internal wcsinfo*");
     else
-        kcfg_AstrometryWCSInfo->setText("/usr/local/bin/wcsinfo");
+        kcfg_AstrometryWCSInfo->setText(KSUtils::getDefaultPath("AstrometryWCSInfo"));
 }
 
 void OpsAlign::slotApply()

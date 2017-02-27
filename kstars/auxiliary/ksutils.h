@@ -224,6 +224,8 @@ namespace KSUtils {
 
       };
 
+    QString getDefaultPath(QString option);
+
     #ifdef Q_OS_OSX
     bool copyDataFolderFromAppBundleIfNeeded();//The boolean returns true if the data folders are good to go.
     void configureDefaultAstrometry();
