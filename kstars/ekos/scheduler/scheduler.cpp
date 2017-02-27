@@ -1057,7 +1057,7 @@ void Scheduler::evaluateJobs()
         {
             if (job->getRepeatsRemaining() == 0)
             {
-                appendLogText(i18n("%1 obsevation job has no more runs remaining.", job->getName()));
+                appendLogText(i18n("%1 observation job has no more runs remaining.", job->getName()));
                 job->setState(SchedulerJob::JOB_INVALID);
                 continue;
             }
