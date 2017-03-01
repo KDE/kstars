@@ -85,6 +85,7 @@ Capture::Capture()
     guideChip  = NULL;
 
     targetADU  = 0;
+    targetADUTolerance = 1000;
     flatFieldDuration = DURATION_MANUAL;
     flatFieldSource   = SOURCE_MANUAL;
     calibrationStage         = CAL_NONE;
@@ -210,7 +211,7 @@ Capture::Capture()
 
     guideDeviationCheck->setChecked(Options::enforceGuideDeviation());
     guideDeviation->setValue(Options::guideDeviation());
-    autofocusCheck->setChecked(Options::enforceAutofocus());    
+    autofocusCheck->setChecked(Options::enforceAutofocus());
     meridianCheck->setChecked(Options::autoMeridianFlip());
     meridianHours->setValue(Options::autoMeridianHours());
     useFITSViewerInCapture->setChecked(Options::useFITSViewerInCapture());
@@ -1631,6 +1632,7 @@ void Capture::addJob(bool preview)
     job->setPreDomePark(preDomePark);
     job->setWallCoord(wallCoord);
     job->setTargetADU(targetADU);
+    job->setTargetADUTolerance(targetADUTolerance);
 
     imagePrefix = prefixIN->text();
 
@@ -2099,23 +2101,37 @@ void Capture::executeJob()
 
     useGuideHead = (activeJob->getActiveChip()->getType() == ISD::CCDChip::PRIMARY_CCD) ? false : true;
 
+    syncGUIToJob(activeJob);
+
     // Check flat field frame requirements
     if (activeJob->getFrameType() != FRAME_LIGHT && activeJob->isPreview() == false)
     {
-        // Make sure we don't have any pre-capture pending jobs for flat frames
-        IPState rc = processPreCaptureCalibrationStage();
-
-        if (rc == IPS_ALERT)
-            return;
-        else if (rc == IPS_BUSY)
-        {
-            secondsLabel->clear();
-            QTimer::singleShot(1000, this, SLOT(executeJob()));
-            return;
-        }
+        updatePreCaptureCalibrationStatus();
+        return;
     }
 
-    syncGUIToJob(activeJob);
+    captureImage();
+}
+
+void Capture::updatePreCaptureCalibrationStatus()
+{
+    // If process was aborted or stopped by the user
+    if (isBusy == false)
+    {
+        appendLogText(i18n("Warning: Calibration process was prematurely terminated."));
+        return;
+    }
+
+    IPState rc = processPreCaptureCalibrationStage();
+
+    if (rc == IPS_ALERT)
+        return;
+    else if (rc == IPS_BUSY)
+    {
+        secondsLabel->clear();
+        QTimer::singleShot(1000, this, SLOT(updatePreCaptureCalibrationStatus()));
+        return;
+    }
 
     captureImage();
 }
@@ -2560,6 +2576,12 @@ bool Capture::processJobInfo(XMLEle *root)
                     flatFieldDuration = DURATION_ADU;
                     targetADU         = atof(pcdataXMLEle(aduEP));
                 }
+
+                aduEP= findXMLEle(subEP, "Tolerance");
+                if (aduEP)
+                {
+                    targetADUTolerance = atof(pcdataXMLEle(aduEP));
+                }
             }
 
             subEP = findXMLEle(ep, "PreMountPark");
@@ -2740,6 +2762,7 @@ bool Capture::saveSequenceQueue(const QString &path)
         {
             outstream << "<Type>ADU</Type>" << endl;
             outstream << "<Value>" << job->getTargetADU() << "</Value>" << endl;
+            outstream << "<Tolerance>" << job->getTargetADUTolerance() << "</Tolerance>" << endl;
         }
         outstream << "</FlatDuration>" << endl;
 
@@ -2815,6 +2838,7 @@ void Capture::syncGUIToJob(SequenceJob *job)
    flatFieldDuration = job->getFlatFieldDuration();
    flatFieldSource   = job->getFlatFieldSource();
    targetADU         = job->getTargetADU();
+   targetADUTolerance= job->getTargetADUTolerance();
    wallCoord         = job->getWallCoord();
    preMountPark      = job->isPreMountPark();
    preDomePark       = job->isPreDomePark();
@@ -3429,7 +3453,7 @@ double Capture::setCurrentADU(double value)
     if (nextExposure == 0)
     {
         if (value < targetADU)
-            nextExposure = activeJob->getExposure()*1.5;
+            nextExposure = activeJob->getExposure()*1.25;
         else
             nextExposure = activeJob->getExposure()*.75;
     }
@@ -3589,6 +3613,7 @@ void Capture::openCalibrationDialog()
     case DURATION_ADU:
         calibrationOptions.ADUC->setChecked(true);
         calibrationOptions.ADUValue->setValue(targetADU);
+        calibrationOptions.ADUTolerance->setValue(targetADUTolerance);
         break;
     }
 
@@ -3630,6 +3655,7 @@ void Capture::openCalibrationDialog()
         {
             flatFieldDuration = DURATION_ADU;
             targetADU = calibrationOptions.ADUValue->value();
+            targetADUTolerance = calibrationOptions.ADUTolerance->value();
         }
 
         preMountPark = calibrationOptions.parkMountC->isChecked();
@@ -3899,6 +3925,12 @@ IPState Capture::processPreCaptureCalibrationStage()
 
 bool Capture::processPostCaptureCalibrationStage()
 {
+    // If there are no more images to capture, do not bother calculating next exposure
+    if (calibrationStage == CAL_CALIBRATION_COMPLETE && (seqCurrentCount+1) >= seqTotalCount)
+    {
+        return true;
+    }
+
     // Check if we need to do flat field slope calculation if the user specified a desired ADU value
     if (activeJob->getFrameType() == FRAME_FLAT && activeJob->getFlatFieldDuration() == DURATION_ADU && activeJob->getTargetADU() > 0)
     {
@@ -3910,19 +3942,15 @@ bool Capture::processPostCaptureCalibrationStage()
             double currentADU = image_data->getADU();
             //double currentSlope = ADUSlope;
 
-            double percentageDiff=0;
-            if (currentADU > activeJob->getTargetADU())
-                percentageDiff = activeJob->getTargetADU()/currentADU;
-            else
-                percentageDiff = currentADU / activeJob->getTargetADU();
+            double ADUDiff = fabs(currentADU-activeJob->getTargetADU());
 
-            // If it is within 2% of target ADU
-            if (percentageDiff >= 0.98)
+            // If it is within tolerance range of target ADU
+            if (ADUDiff <= targetADUTolerance)
             {
                 if (calibrationStage == CAL_CALIBRATION)
                 {
                     appendLogText(i18n("Current ADU %1 within target ADU tolerance range.", QString::number(currentADU, 'f', 0)));
-                    activeJob->setPreview(false);
+                    activeJob->setPreview(false);                                        
                     calibrationStage = CAL_CALIBRATION_COMPLETE;
                     startNextExposure();
                     return false;
@@ -3935,7 +3963,7 @@ bool Capture::processPostCaptureCalibrationStage()
 
             if (nextExposure <= 0)
             {
-                appendLogText(i18n("Unable to calculate optimal exposure settings, please take the flats manually."));
+                appendLogText(i18n("Unable to calculate optimal exposure settings, please capture the flats manually."));
                 //activeJob->setTargetADU(0);
                 //targetADU = 0;
                 abort();
