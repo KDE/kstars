@@ -3394,84 +3394,54 @@ void Capture::checkFrameType(int index)
 double Capture::setCurrentADU(double value)
 {
     double nextExposure = 0;
-
-    /*if (ExpRaw1 == -1)
-        ExpRaw1 = activeJob->getExposure();
-    else if (ExpRaw2 == -1)
-        ExpRaw2 = activeJob->getExposure();
-    else
-    {
-        ExpRaw1 = ExpRaw2;
-        ExpRaw2 = activeJob->getExposure();
-    }
-
-    if (ADURaw1 == -1)
-        ADURaw1 = value;
-    else if (ADURaw2 == -1)
-        ADURaw2 = value;
-    else
-    {
-        ADURaw1 = ADURaw2;
-        ADURaw2 = value;
-    }
-
-    qDebug() << "Exposure #1 (" << ExpRaw1 << "," << ADURaw1 << ") Exspoure #2 (" << ExpRaw2 << "," << ADURaw2 << ")";
-
-    // If we don't have the 2nd point, let's take another exposure with value relative to what we have now
-    if (ADURaw2 == -1 || ExpRaw2 == -1 || (ADURaw1 == ADURaw2))
-    {
-        if (value < activeJob->getTargetADU())
-            nextExposure = activeJob->getExposure()*1.5;
-        else
-            nextExposure = activeJob->getExposure()*.75;
-
-        qDebug() << "Next Exposure: " << nextExposure;
-
-        return nextExposure;
-    }
-
-    if (fabs(ADURaw2 - ADURaw1) < 0.01)
-        ADUSlope=1e-6;
-    else
-        ADUSlope = (ExpRaw2 - ExpRaw1) / (ADURaw2 - ADURaw1);
-
-    qDebug() << "ADU Slope: " << ADUSlope;
-
-    nextExposure = ADUSlope * (activeJob->getTargetADU() - ADURaw2) + ExpRaw2;
-
-    qDebug() << "Next Exposure: " << nextExposure;
-
-    return nextExposure;*/
-
-    double a=0,b=0;
+    double targetADU = activeJob->getTargetADU();
+    std::vector<double> coeff;
 
     ExpRaw.append(activeJob->getExposure());
     ADURaw.append(value);
 
-    llsq(ExpRaw, ADURaw, a, b);
-
-    if (a == 0)
+    // Most CCDs are quite linear so 1st degree polynomial is quite sufficient
+    // But DSLRs can exhibit non-linear response curve and so a 2nd degree polynomial is more appropiate
+    if (ExpRaw.count() >= 2)
     {
-        if (value < activeJob->getTargetADU())
+        double chisq = 0;
+        // This would normally fail for only 2 points since we require 3 coefficients.
+        // But it _could_ also fail for 3 or more points as well and as a precaution we will fall back
+        // to llsq in both cases.
+        coeff = gsl_polynomial_fit(ADURaw.data(), ExpRaw.data(), ExpRaw.count(), 2, chisq);
+        if (coeff.size() == 3)
+        {
+            // If we get invalid data, let's fall back to llsq
+            if (std::isnan(coeff[0]) || std::isinf(coeff[0]))
+            {
+                double a=0, b=0;
+                llsq(ExpRaw, ADURaw, a, b);
+
+                // If we have valid results, let's calculate next exposure
+                if (a != 0)
+                    nextExposure = (targetADU - b) / a;
+            }
+            else
+                nextExposure = coeff[0]  + (coeff[1] * targetADU) + (coeff[2] * pow(targetADU, 2));
+        }
+    }
+
+    if (nextExposure == 0)
+    {
+        if (value < targetADU)
             nextExposure = activeJob->getExposure()*1.5;
         else
             nextExposure = activeJob->getExposure()*.75;
-
-        qDebug() << "Next Exposure: " << nextExposure;
-
-        return nextExposure;
     }
 
-    nextExposure = (activeJob->getTargetADU() - b) / a;
-
-    qDebug() << "Next Exposure: " << nextExposure;
+    //qDebug() << "Next Exposure: " << nextExposure;
 
     return nextExposure;
-
 }
 
 //  Based on  John Burkardt LLSQ (LGPL)
-void Capture::llsq (QList<double> x, QList<double> y, double &a, double &b)
+
+void Capture::llsq(QVector<double> x, QVector<double> y, double &a, double &b)
 {
   double bot;
   int i;
@@ -3517,7 +3487,6 @@ void Capture::llsq (QList<double> x, QList<double> y, double &a, double &b)
 
   return;
 }
-
 
 void Capture::setDirty()
 {
@@ -4165,7 +4134,11 @@ void Capture::setMountStatus(ISD::Telescope::TelescopeStatus newState)
     case ISD::Telescope::MOUNT_SLEWING:
         previewB->setEnabled(false);
         liveVideoB->setEnabled(false);
-        startB->setEnabled(false);
+        // Only disable when button is "Start", and not "Stopped"
+        // If mount is in motion, Stopped button should always be enabled to terminate
+        // the sequence
+        if (pi->isAnimated() == false)
+            startB->setEnabled(false);
         break;
 
     default:

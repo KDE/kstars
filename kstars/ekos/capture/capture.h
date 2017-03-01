@@ -58,7 +58,7 @@ class KDirWatch;
  * The primary class is EkosManager. It handles startup and shutdown of local and remote INDI devices, manages and orchesterates the various Ekos modules, and provides advanced DBus
  * interface to enable unattended scripting.
 *@author Jasem Mutlaq
- *@version 1.4
+ *@version 1.5
  */
 namespace Ekos
 {
@@ -477,7 +477,7 @@ private:
     bool saveSequenceQueue(const QString &path);
     void constructPrefix(QString &imagePrefix);
     double setCurrentADU(double value);
-    void llsq (QList<double> x, QList<double> y, double &a, double &b);
+    void llsq (QVector<double> x, QVector<double> y, double &a, double &b);
 
     /* Meridian Flip */
     bool checkMeridianFlip();
@@ -555,8 +555,7 @@ private:
     MFStage meridianFlipStage;
 
     // Flat field automation
-    QList<double> ExpRaw;
-    QList<double> ADURaw;
+    QVector<double> ExpRaw, ADURaw;
     double targetADU;
     SkyPoint wallCoord;
     bool preMountPark, preDomePark;
