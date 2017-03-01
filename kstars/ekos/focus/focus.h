@@ -350,8 +350,6 @@ private:
     void autoFocusRel();
     void resetButtons();
     void stop(bool aborted=false);
-    std::vector<double> gsl_polynomial_fit(const double * const data_x, const double * const data_y, const int n, const int order,
-                                           double & chisq);
     bool findMinimum(double expected, double *position, double *hfr);
     static double fn1 (double x, void * params);
 

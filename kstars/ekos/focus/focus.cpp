@@ -2690,44 +2690,6 @@ void Focus::setMountStatus(ISD::Telescope::TelescopeStatus newState)
     }
 }
 
-/* Taken from http://codereview.stackexchange.com/questions/71300/wrapper-function-to-do-polynomial-fits-with-gsl */
-std::vector<double> Focus::gsl_polynomial_fit(const double * const data_x, const double * const data_y,
-                                       const int n, const int order, double & chisq)
-{
-    gsl_vector *y, *c;
-    gsl_matrix *X, *cov;
-    y = gsl_vector_alloc (n);
-    c = gsl_vector_alloc (order+1);
-    X   = gsl_matrix_alloc (n, order+1);
-    cov = gsl_matrix_alloc (order+1, order+1);
-
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < order+1; j++)
-        {
-            gsl_matrix_set (X, i, j, pow(data_x[i],j));
-        }
-        gsl_vector_set (y, i, data_y[i]);
-    }
-
-    gsl_multifit_linear_workspace * work = gsl_multifit_linear_alloc (n, order+1);
-    gsl_multifit_linear (X, y, c, cov, &chisq, work);
-    gsl_multifit_linear_free (work);
-
-    std::vector<double> vc;
-    for (int i = 0; i < order+1; i++)
-    {
-        vc.push_back(gsl_vector_get(c,i));
-    }
-
-    gsl_vector_free (y);
-    gsl_vector_free (c);
-    gsl_matrix_free (X);
-    gsl_matrix_free (cov);
-
-    return vc;
-}
-
 double Focus::fn1 (double x, void * params)
 {
   Focus *module = static_cast<Focus*>(params);
