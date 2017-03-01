@@ -6,16 +6,15 @@
 #  For Android
 #  INDI_CLIENT_ANDROID_LIBRARIES - Link to these for INDI Android client
 #  For other platforms
-#  INDI_LIBRARIES - Link to these for XML and INDI Common support
+#  INDI_LIBRARIES - Link to these for XML and INDI Common support (INDI < 1.4 only)
 #  INDI_CLIENT_LIBRARIES - Link to these to build INDI clients
 #  INDI_CLIENT_QT_LIBRARIES - Link to these to build INDI clients with Qt5 backend
-
-# Copyright (c) 2016, Jasem Mutlaq <mutlaqja@ikarustech.com>
+#  INDI_CLIENT_ANDROID_LIBRARIES - Link to these to build INDI clients with Qt5 backend on Android
+# Copyright (c) 2012-2017, Jasem Mutlaq <mutlaqja@ikarustech.com>
 # Copyright (c) 2012, Pino Toscano <pino@kde.org>
 # Based on FindLibfacile by Carsten Niehaus, <cniehaus@gmx.de>
 #
-# Redistribution ANDuse is allowed according to the terms of the BSD license.
-# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+# Redistribution AND use is allowed according to the terms of the BSD license.
 
 macro(_INDI_check_version)
   file(READ "${INDI_INCLUDE_DIR}/indiapi.h" _INDI_version_header)
@@ -51,10 +50,13 @@ if (INDI_INCLUDE_DIR)
           message(STATUS "Found INDI: ${INDI_CLIENT_ANDROID_LIBRARIES}")
       endif(INDI_CLIENT_ANDROID_LIBRARIES)
   else(ANDROID)
-      if(INDI_LIBRARIES AND (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES))
+      if (INDI_VERSION VERSION_LESS "1.4" AND INDI_LIBRARIES AND (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES))
           set(INDI_FOUND ${INDI_VERSION_OK})
           message(STATUS "Found INDI: ${INDI_LIBRARIES}, ${INDI_CLIENT_LIBRARIES}, ${INDI_INCLUDE_DIR}")
-      endif(INDI_LIBRARIES AND (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES))
+      elseif (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES)
+          set(INDI_FOUND ${INDI_VERSION_OK})
+          message(STATUS "Found INDI: ${INDI_CLIENT_LIBRARIES}, ${INDI_INCLUDE_DIR}")
+      endif(INDI_VERSION VERSION_LESS "1.4" AND INDI_LIBRARIES AND (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES))
   endif(ANDROID)
 endif(INDI_INCLUDE_DIR)
 
@@ -82,17 +84,15 @@ if(ANDROID)
           ${BUILD_KSTARSLITE_DIR}/android_libs/${ANDROID_ARCHITECTURE}/
       )
 else(ANDROID)
-    # Deprecated in INDI Library >= 1.4.0
-    if (INDI_VERSION VERSION_LESS "1.4.0")
+
+    if (INDI_VERSION VERSION_LESS "1.4")
     find_library(INDI_LIBRARIES NAMES indi
         PATHS
         ${PC_INDI_LIBRARY_DIRS}
         ${_obLinkDir}
         ${GNUWIN32_DIR}/lib
     )
-    else()
-    set(INDI_LIBRARIES "Deprecated")
-    endif()
+    endif(INDI_VERSION VERSION_LESS "1.4")
 
     find_library(INDI_CLIENT_LIBRARIES NAMES indiclient
         PATHS
@@ -117,7 +117,7 @@ if(ANDROID)
     set(INDI_FOUND FALSE)
   endif()
 else(ANDROID)
-  if (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES) AND INDI_VERSION_OK)
+    if (INDI_INCLUDE_DIR AND (INDI_VERSION VERSION_GREATER "1.4" OR INDI_LIBRARIES) AND (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES) AND INDI_VERSION_OK)
       # If INDI is found we need to make sure on WIN32 we have INDI Client Qt backend otherwise we can't use INDI
       if (WIN32)
           if (INDI_CLIENT_QT_LIBRARIES)
@@ -128,9 +128,9 @@ else(ANDROID)
       else (WIN32)
           set(INDI_FOUND TRUE)
       endif(WIN32)
-  else (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES) AND INDI_VERSION_OK)
-    set(INDI_FOUND FALSE)
-  endif (INDI_INCLUDE_DIR AND INDI_LIBRARIES AND (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES) AND INDI_VERSION_OK)
+    else(INDI_INCLUDE_DIR AND (INDI_VERSION VERSION_GREATER "1.4" OR INDI_LIBRARIES) AND (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES) AND INDI_VERSION_OK)
+        set(INDI_FOUND FALSE)
+    endif(INDI_INCLUDE_DIR AND (INDI_VERSION VERSION_GREATER "1.4" OR INDI_LIBRARIES) AND (INDI_CLIENT_LIBRARIES OR INDI_CLIENT_QT_LIBRARIES) AND INDI_VERSION_OK)
 endif(ANDROID)
 
   if (INDI_FOUND)
@@ -138,7 +138,7 @@ endif(ANDROID)
         if(ANDROID)
             message(STATUS "Found INDI Android Client: ${INDI_CLIENT_ANDROID_LIBRARIES}")
         else(ANDROID)
-          message(STATUS "Found INDI: ${INDI_INCLUDE_DIR}")
+          message(STATUS "Found INDI: ${INDI_LIBRARIES}, ${INDI_INCLUDE_DIR}")
 
           if (INDI_CLIENT_LIBRARIES)
             message(STATUS "Found INDI Client Library: ${INDI_CLIENT_LIBRARIES}")
@@ -157,6 +157,10 @@ endif(ANDROID)
     if(ANDROID)
         mark_as_advanced(INDI_INCLUDE_DIR INDI_CLIENT_ANDROID_LIBRARIES)
     else(ANDROID)
-        mark_as_advanced(INDI_INCLUDE_DIR INDI_LIBRARIES INDI_CLIENT_LIBRARIES INDI_CLIENT_QT_LIBRARIES)
+        if (INDI_VERSION VERSION_LESS "1.4")
+            mark_as_advanced(INDI_INCLUDE_DIR INDI_LIBRARIES INDI_CLIENT_LIBRARIES INDI_CLIENT_QT_LIBRARIES)
+        else(INDI_VERSION VERSION_LESS "1.4")
+            mark_as_advanced(INDI_INCLUDE_DIR INDI_CLIENT_LIBRARIES INDI_CLIENT_QT_LIBRARIES)
+        endif(INDI_VERSION VERSION_LESS "1.4")
     endif(ANDROID)
 endif(NOT INDI_FOUND)
