@@ -3140,7 +3140,13 @@ void Capture::processTelescopeNumber(INumberVectorProperty *nvp)
             double ra, dec;
             currentTelescope->getEqCoords(&ra, &dec);
             double diffRA = initialRA - ra;
-            if (fabs(diffRA) > MF_RA_DIFF_LIMIT || nvp->s == IPS_OK)
+            // If the mount is actually flipping then we should see a difference in RA
+            // which if it exceeded MF_RA_DIFF_LIMIT (4 hours) then we consider it to be
+            // undertaking the flip. Otherwise, it's not flipping and let timeout takes care of
+            // of that
+            // Are there any mounts that do NOT change RA while flipping? i.e. do it silently?
+            // Need to investigate that bit
+            if (fabs(diffRA) > MF_RA_DIFF_LIMIT/* || nvp->s == IPS_OK*/)
                 meridianFlipStage = MF_SLEWING;
         }
         break;
@@ -3287,7 +3293,7 @@ void Capture::checkMeridianFlipTimeout()
 
     if (meridianFlipStage < MF_ALIGNING)
     {
-        appendLogText(i18n("Telescope meridian flip timed out."));
+        appendLogText(i18n("Telescope meridian flip timed out. Please make sure your mount supports meridian flip."));
 
         KNotification::event( QLatin1String( "MeridianFlipFailed" ) , i18n("Meridian flip failed"));
 
