@@ -79,6 +79,7 @@ public:
     virtual bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A');
     virtual bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false);
     virtual bool drawPlanet(KSPlanetBase *planet);
+    virtual bool drawComet(KSPlanetBase *comet);
     virtual void drawObservingList(const QList<SkyObject*>& obs);
     virtual void drawFlags();
     virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0);
