@@ -351,6 +351,27 @@ void SkyQPainter::drawSkyPolygon(LineList* list, bool forceClip)
 
 }
 
+
+bool SkyQPainter::drawComet(KSPlanetBase* comet)
+{
+	if (!m_proj->checkVisibility(comet) ) return false;
+	bool visible = false;
+	QPointF pos = m_proj->toScreen(comet, true, &visible);
+	if ( !visible || !m_proj->onScreen(pos) ) return false;
+	float fakeCometSize = (10.0 + log10(Options::zoomFactor() ) - log10(MINZOOM) ) * (10 - comet->mag()) /10;
+	if ( fakeCometSize > 15.0)
+		fakeCometSize = 15.0;
+	float size = comet->angSize() * dms::PI * Options::zoomFactor()/10800.0;
+	if ( size < 2.0 )
+		size = 2.0;
+	save();
+	translate(pos);
+	rotate(m_proj->findPA(comet, pos.x(), pos.y() ) );
+	drawImage(QRect(-0.5*size, -0.5*size, size, size), comet->image() );
+	restore();
+}
+
+
 bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
 {
     if( !m_proj->checkVisibility(planet) ) return false;
