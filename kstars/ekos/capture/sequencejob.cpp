@@ -51,6 +51,7 @@ SequenceJob::SequenceJob()
     calibrationSettings.flatFieldSource   = SOURCE_MANUAL;
     calibrationSettings.flatFieldDuration = DURATION_MANUAL;
     calibrationSettings.targetADU         = 0;
+    calibrationSettings.targetADUTolerance= 250;
     calibrationSettings.preMountPark           = false;
     calibrationSettings.preDomePark            = false;
 
@@ -298,6 +299,17 @@ void SequenceJob::setTargetADU(double value)
 {
     calibrationSettings.targetADU = value;
 }
+
+double SequenceJob::getTargetADUTolerance() const
+{
+    return calibrationSettings.targetADUTolerance;
+}
+
+void SequenceJob::setTargetADUTolerance(double value)
+{
+    calibrationSettings.targetADUTolerance = value;
+}
+
 int SequenceJob::getCaptureRetires() const
 {
     return captureRetires;
