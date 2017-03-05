@@ -356,6 +356,7 @@ void Guide::checkCCD(int ccdNum)
 
         // If guider is external and already connected and remote images option was disabled AND it was already
         // disabled, then let's go ahead and disable it.
+        #if 0
         if (guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false && guider->isConnected())
         {
             for (int i=0; i < CCDs.count(); i++)
@@ -376,6 +377,7 @@ void Guide::checkCCD(int ccdNum)
                }
             }
         }
+        #endif
 
         if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
             useGuideHead=true;
@@ -470,7 +472,7 @@ void Guide::updateGuideParams()
         return;
     }
 
-    binningCombo->setEnabled(targetChip->canBin());
+    binningCombo->setEnabled(targetChip->canBin() && (guiderType == GUIDE_INTERNAL));
     int subBinX=1,subBinY=1;
     if (targetChip->canBin())
     {
@@ -672,11 +674,13 @@ bool Guide::abort()
     case GUIDE_CONNECTED:
         break;
     case GUIDE_DISCONNECTED:
+        #if 0
         if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
         {
             currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
             currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
         }
+        #endif
         break;
 
     case GUIDE_CALIBRATING:
@@ -1194,12 +1198,14 @@ void Guide::setStatus(Ekos::GuideState newState)
         if (guiderType == GUIDE_LINGUIDER)
             calibrateB->setEnabled(true);
         guideB->setEnabled(true);
+        #if 0
         if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
         {
             appendLogText(i18n("Disabling remote image reception from %1", currentCCD->getDeviceName()));
             currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), "CCD1");
             currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), "CCD2");
         }
+        #endif
         break;
 
     case GUIDE_DISCONNECTED:
@@ -1208,12 +1214,14 @@ void Guide::setStatus(Ekos::GuideState newState)
         externalDisconnectB->setEnabled(false);
         calibrateB->setEnabled(false);
         guideB->setEnabled(false);
+        #if 0
         if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
         {
             appendLogText(i18n("Enabling remote image reception from %1", currentCCD->getDeviceName()));
             currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
             currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
         }
+        #endif
         break;
 
     case GUIDE_CALIBRATION_SUCESS:
@@ -1305,7 +1313,7 @@ void Guide::updateCCDBin(int index)
 
 void Guide::processCCDNumber(INumberVectorProperty *nvp)
 {
-    if (currentCCD == NULL || strcmp(nvp->device, currentCCD->getDeviceName()))
+    if (currentCCD == NULL || strcmp(nvp->device, currentCCD->getDeviceName()) || guiderType != GUIDE_INTERNAL)
         return;
 
     if ( (!strcmp(nvp->name, "CCD_BINNING") && useGuideHead == false) || (!strcmp(nvp->name, "GUIDER_BINNING") && useGuideHead) )
@@ -1318,6 +1326,9 @@ void Guide::processCCDNumber(INumberVectorProperty *nvp)
 
 void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState expState)
 {
+    if (guiderType != GUIDE_INTERNAL)
+        return;
+
     INDI_UNUSED(exposure);
 
     if (expState == IPS_ALERT && ( (state == GUIDE_GUIDING) || (state == GUIDE_DITHERING) || (state == GUIDE_CALIBRATING)) )
@@ -1409,6 +1420,8 @@ bool Guide::setGuiderType(int type)
     if (guider)
         guider->disconnect();
 
+    guiderType = static_cast<GuiderType>(type);
+
     switch (type)
     {
     case GUIDE_INTERNAL:
@@ -1425,10 +1438,19 @@ bool Guide::setGuiderType(int type)
         darkFrameCheck->setEnabled(true);
         subFrameCheck->setEnabled(true);
 
+        guiderCombo->setEnabled(true);
+        ST4Combo->setEnabled(true);
+        exposureIN->setEnabled(true);
+        binningCombo->setEnabled(true);
+        boxSizeCombo->setEnabled(true);
+        filterCombo->setEnabled(true);
+
         externalConnectB->setEnabled(false);
         externalDisconnectB->setEnabled(false);
 
         controlGroup->setEnabled(true);
+        infoGroup->setEnabled(true);
+        driftGraphicsGroup->setEnabled(true);
 
         updateGuideParams();
     }
@@ -1446,7 +1468,17 @@ bool Guide::setGuiderType(int type)
         subFrameCheck->setEnabled(false);
         guideB->setEnabled(true);
         externalConnectB->setEnabled(false);
+
         controlGroup->setEnabled(false);
+        infoGroup->setEnabled(false);
+        driftGraphicsGroup->setEnabled(false);
+
+        guiderCombo->setEnabled(false);
+        ST4Combo->setEnabled(false);
+        exposureIN->setEnabled(false);
+        binningCombo->setEnabled(false);
+        boxSizeCombo->setEnabled(false);
+        filterCombo->setEnabled(false);
         break;
 
     case GUIDE_LINGUIDER:
@@ -1461,7 +1493,17 @@ bool Guide::setGuiderType(int type)
         subFrameCheck->setEnabled(false);
         guideB->setEnabled(true);
         externalConnectB->setEnabled(true);
+
         controlGroup->setEnabled(false);
+        infoGroup->setEnabled(false);
+        driftGraphicsGroup->setEnabled(false);
+
+        guiderCombo->setEnabled(false);
+        ST4Combo->setEnabled(false);
+        exposureIN->setEnabled(false);
+        binningCombo->setEnabled(false);
+        boxSizeCombo->setEnabled(false);
+        filterCombo->setEnabled(false);
 
         break;
     }
@@ -1476,8 +1518,6 @@ bool Guide::setGuiderType(int type)
     connect(guider, SIGNAL(newAxisSigma(double,double)), this, SLOT(setAxisSigma(double,double)));
 
     guider->Connect();
-
-    guiderType = static_cast<GuiderType>(type);
 
     return true;
 }
