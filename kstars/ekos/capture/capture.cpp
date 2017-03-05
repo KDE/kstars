@@ -3403,7 +3403,9 @@ void Capture::setGuideStatus(GuideState state)
         break;
 
      case GUIDE_DITHERING_ERROR:
-        abort();
+        appendLogText(i18n("Warning: Dithering failed. Resuming capture..."));
+        resumeCapture();
+        //abort();
         break;
 
     default:
