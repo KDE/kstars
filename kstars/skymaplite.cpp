@@ -100,7 +100,8 @@ int SkyMapLite::starColorMode = 0;
 SkyMapLite::SkyMapLite()
     :m_proj(0), count(0), data(KStarsData::Instance()),
       nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0),
-      isInitialized(false), clearTextures(false), m_centerLocked(false), m_automaticMode(false)
+      isInitialized(false), clearTextures(false), m_centerLocked(false), m_automaticMode(false),
+      m_skyRotation(0), m_skyMapOrientation(SkyMapOrientation::Top0)
     #if defined (Q_OS_ANDROID)
     , m_deviceOrientation(new DeviceOrientation(this))
     #endif
@@ -142,10 +143,11 @@ SkyMapLite::SkyMapLite()
     connect(clientMng, &ClientManagerLite::telescopeRemoved, [this](TelescopeLite *newTelescope){ this->m_delTelescopes.append(newTelescope->getDevice()); });
 #if defined (Q_OS_ANDROID)
     //Automatic mode
-    automaticModeTimer.setInterval(10);
+    automaticModeTimer.setInterval(1);
     connect(&automaticModeTimer, SIGNAL(timeout()), this, SLOT(updateAutomaticMode()));
     setAutomaticMode(false);
 #endif
+//    setRotation(30);
 }
 
 QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
@@ -547,6 +549,25 @@ void SkyMapLite::slotSelectObject(SkyObject *skyObj) {
     slotCenter();
 }
 
+void SkyMapLite::setSkyRotation(double skyRotation)
+{
+    if(m_skyRotation != skyRotation) {
+        m_skyRotation = skyRotation;
+        emit skyRotationChanged(skyRotation);
+
+
+        if(skyRotation >= 0 && skyRotation < 90) {
+            m_skyMapOrientation = SkyMapOrientation::Top0;
+        } else if(skyRotation >= 90 && skyRotation < 180 ) {
+            m_skyMapOrientation = SkyMapOrientation::Right90;
+        } else if(skyRotation >= 180 && skyRotation < 270 ) {
+            m_skyMapOrientation = SkyMapOrientation::Bottom180;
+        } else if(skyRotation >= 270 && skyRotation < 360) {
+            m_skyMapOrientation = SkyMapOrientation::Left270;
+        }
+    }
+}
+
 void SkyMapLite::setZoomFactor(double factor) {
     Options::setZoomFactor(  KSUtils::clamp(factor, MINZOOM, MAXZOOM)  );
 
@@ -742,9 +763,31 @@ QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont)
 
         int width = fm.width(text);
         int height = fm.height();
+//        double rotation = 0;
+
+////        switch(m_skyMapOrientation) {
+////        case(SkyMapOrientation::Top0):
+////            width = fm.width(text);
+////            height = fm.height();
+////            rotation = 0;
+////            break;
+////        case(SkyMapOrientation::Right90):
+////            width = fm.height();
+////            height = fm.width(text);
+////            rotation = 90;
+////        case(SkyMapOrientation::Bottom180):
+//////            width = ;
+//////            height = ;
+////            rotation = 180;
+////        case(SkyMapOrientation::Left270):
+//////            width = ;
+//////            height;
+////            rotation = 270;
+////        }
+
         f.setPointSizeF(f.pointSizeF()*ratio);
 
-        QImage label(width*ratio, height*ratio, QImage::Format_ARGB32_Premultiplied);
+        QImage label((width)*ratio, (height)*ratio, QImage::Format_ARGB32_Premultiplied);
 
         label.fill(Qt::transparent);
 
@@ -753,7 +796,10 @@ QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont)
         m_painter.setFont(f);
 
         m_painter.setPen( color );
-        m_painter.drawText(0,(height - fm.descent())*ratio,text);
+
+//        m_painter.drawRect(0,0, label.width(), label.height());
+//        m_painter.rotate(getSkyRotation());
+        m_painter.drawText(0, (height - fm.descent())*ratio, text);
 
         m_painter.end();
 
@@ -815,7 +861,7 @@ void SkyMapLite::setAutomaticMode(bool automaticMode) {
 void SkyMapLite::updateAutomaticMode() {
     m_deviceOrientation->getOrientation();
     setFocusAltAz(dms(m_deviceOrientation->getAltitude()), dms(m_deviceOrientation->getAzimuth()));
-//    setProperty("rotation", -1 * m_deviceOrientation->getRoll()); // Invert it
+    setSkyRotation(-1 * m_deviceOrientation->getRoll());
 }
 #endif
 

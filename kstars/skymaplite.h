@@ -52,11 +52,6 @@ class TelescopeLite;
 class SkyObjectLite;
 class SkyPointLite;
 
-/*class QTapSensor;
-class QMagnetometer;
-class QCompass;
-class QRotationSensor;*/
-
 class QSGTexture;
 
     /** @class SkyMapLite
@@ -90,7 +85,7 @@ class SkyMapLite : public QQuickItem {
     **/
     Q_PROPERTY(bool centerLocked READ getCenterLocked WRITE setCenterLocked NOTIFY centerLockedChanged)
     Q_PROPERTY(bool automaticMode READ getAutomaticMode WRITE setAutomaticMode NOTIFY automaticModeChanged)
-
+    Q_PROPERTY(double skyRotation READ getSkyRotation WRITE setSkyRotation NOTIFY skyRotationChanged)
 protected:
     /** Constructor. **/
     explicit SkyMapLite();
@@ -388,6 +383,8 @@ public:
      */
     Q_INVOKABLE void setAutomaticMode(bool automaticMode);
 
+    double getSkyRotation() const { return m_skyRotation; }
+
 public slots:
      /** Called whenever wrappers' width or height are changed. Probably will be used to
      * update positions of items.
@@ -451,6 +448,7 @@ public slots:
         (Smartphone's sensors)*/
     void updateAutomaticMode();
 #endif
+    void setSkyRotation(double skyRotation);
 
 signals:
     /** Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
@@ -497,6 +495,9 @@ signals:
     void centerLockedChanged(bool);
 
     void automaticModeChanged(bool);
+
+    /** Emited when skyRotation used to rotate coordinates of SkyPoints is changed **/
+    void skyRotationChanged(double skyRotation);
 protected:
     /** Process keystrokes:
      * @li arrow keys  Slew the map
@@ -699,6 +700,11 @@ private:
     QList<INDI::BaseDevice *> m_newTelescopes;
     QList<INDI::BaseDevice *> m_delTelescopes;
     bool m_automaticMode;
+
+    double m_skyRotation;
+
+    enum class SkyMapOrientation { Top0, Right90, Bottom180, Left270 };
+    SkyMapOrientation m_skyMapOrientation;
 
 #if defined (Q_OS_ANDROID)
     QTimer automaticModeTimer;

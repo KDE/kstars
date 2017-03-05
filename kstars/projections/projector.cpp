@@ -30,15 +30,15 @@
 #endif
 
 namespace {
-    void toXYZ(const SkyPoint* p, double *x, double *y, double *z) {
-        double sinRa, sinDec, cosRa, cosDec;
+void toXYZ(const SkyPoint* p, double *x, double *y, double *z) {
+    double sinRa, sinDec, cosRa, cosDec;
 
-        p->ra().SinCos(  sinRa,  cosRa );
-        p->dec().SinCos( sinDec, cosDec );
-        *x = cosDec * cosRa;
-        *y = cosDec * sinRa;
-        *z = sinDec;
-    }
+    p->ra().SinCos(  sinRa,  cosRa );
+    p->dec().SinCos( sinDec, cosDec );
+    *x = cosDec * cosRa;
+    *y = cosDec * sinRa;
+    *z = sinDec;
+}
 }
 
 SkyPoint Projector::pointAt(double az)
@@ -80,7 +80,7 @@ void Projector::setViewParams(const ViewParams& p)
     double currentFOV = m_fov;
     //Find FOV in radians
     m_fov = sqrt( m_vp.width*m_vp.width + m_vp.height*m_vp.height )
-                    / ( 2 * m_vp.zoomFactor * dms::DegToRad );
+            / ( 2 * m_vp.zoomFactor * dms::DegToRad );
     //Set checkVisibility variables
     double Ymax;
     if ( m_vp.useAltAz ) {
@@ -115,8 +115,7 @@ bool Projector::onScreen(const QPointF& p) const
 
 bool Projector::onScreen(const Vector2f& p) const
 {
-    return (0 <= p.x() && p.x() <= m_vp.width &&
-            0 <= p.y() && p.y() <= m_vp.height);
+    return onScreen(QPointF(p.x(), p.y()));
 }
 
 QPointF Projector::clipLine( SkyPoint *p1, SkyPoint *p2 ) const
@@ -211,26 +210,12 @@ bool Projector::checkVisibility( SkyPoint *p ) const
     */ //Here we hope that the point has already been 'synchronized'
     if( m_vp.fillGround /*&& m_vp.useAltAz*/ && p->alt().Degrees() < -1.0 ) return false;
 
-//    dms rotation(SkyMapLite::Instance()->property("rotation").toFloat());
-//    double cosT, sinT;
-//    if(rotation.Degrees() != 0) {
-//        rotation.SinCos(sinT, cosT);
-//    }
-
     if ( m_vp.useAltAz ) {
         /** To avoid calculating refraction, we just use the unrefracted
             altitude and add a 2-degree 'safety factor' */
-//        if(rotation.Degrees() != 0) {
-//            dY = fabs( newY - m_vp.focus->alt().Degrees() ) -2.;
-//        } else {
-            dY = fabs( p->alt().Degrees() - m_vp.focus->alt().Degrees() ) -2.;
-//        }
+        dY = fabs( p->alt().Degrees() - m_vp.focus->alt().Degrees() ) -2.;
     } else {
-//        if(rotation.Degrees() != 0) {
-//            dY = fabs( p->ra().Degrees()*sinT + p->dec().Degrees()*cosT - m_vp.focus->dec().Degrees() );
-//        } else {
-            dY = fabs( p->dec().Degrees() - m_vp.focus->dec().Degrees() );
-//        }
+        dY = fabs( p->dec().Degrees() - m_vp.focus->dec().Degrees() );
     }
     if( m_isPoleVisible )
         dY *= 0.75; //increase effective FOV when pole visible.
@@ -331,7 +316,7 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
         return QVector<Vector2f>();
     }
 
-    if( allGround ) {
+    if( allGround && SkyMapLite::Instance()->getSkyRotation() == 0 ) {
         ground.clear();
         ground.append( Vector2f( -10., -10. ) );
         ground.append( Vector2f( m_vp.width +10., -10. ) );
@@ -345,7 +330,8 @@ QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel)
     //In Gnomonic projection, or if sufficiently zoomed in, we can complete
     //the ground polygon by simply adding offscreen points
     //FIXME: not just gnomonic
-    if ( daz < 25.0 || type() == Projector::Gnomonic) {
+    if ( daz < 25.0 || type() == Projector::Gnomonic &&
+         SkyMapLite::Instance()->getSkyRotation() == 0) {
         ground.append( Vector2f( m_vp.width + 10.f, ground.last().y() ) );
         ground.append( Vector2f( m_vp.width + 10.f, m_vp.height + 10.f ) );
         ground.append( Vector2f( -10.f, m_vp.height + 10.f ) );
@@ -505,13 +491,13 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
     dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
 
     //Convert dX, Y coords to screen pixel coords, using GNU extension if available
-    #if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
+#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
     sincos( dX, &sindX, &cosdX );
     sincos( Y, &sinY, &cosY );
-    #else
+#else
     sindX = sin(dX);   cosdX = cos(dX);
     sinY  = sin(Y);    cosY  = cos(Y);
-    #endif
+#endif
 
     //c is the cosine of the angular distance from the center
     double c = m_sinY0*sinY + m_cosY0*cosY*cosdX;
@@ -524,6 +510,25 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
 
     double k = projectionK(c);
 
-    return Vector2f( 0.5*m_vp.width  - m_vp.zoomFactor*k*cosY*sindX,
-                     0.5*m_vp.height - m_vp.zoomFactor*k*( m_cosY0*sinY - m_sinY0*cosY*cosdX ) );
+    double origX = m_vp.width/2;
+    double origY  = m_vp.height/2;
+
+    double x = origX - m_vp.zoomFactor*k*cosY*sindX;
+    double y = origY - m_vp.zoomFactor*k*( m_cosY0*sinY - m_sinY0*cosY*cosdX );
+#ifdef KSTARS_LITE
+    double skyRotation = SkyMapLite::Instance()->getSkyRotation();
+    if(skyRotation != 0) {
+        dms rotation(skyRotation);
+        double cosT, sinT;
+
+        rotation.SinCos(sinT, cosT);
+
+        double newX = origX + (x - origX)*cosT - (y - origY)*sinT;
+        double newY = origY + (x - origX)*sinT + (y - origY)*cosT;
+
+        x = newX;
+        y = newY;
+    }
+#endif
+    return Vector2f(x, y);
 }
