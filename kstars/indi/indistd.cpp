@@ -432,10 +432,12 @@ void GenericDevice::updateTime()
 
     offset = QString().setNum(KStars::Instance()->data()->geo()->TZ(), 'g', 2);
 
-    QTime newTime( KStars::Instance()->data()->ut().time());
-    QDate newDate( KStars::Instance()->data()->ut().date());
+    //QTime newTime( KStars::Instance()->data()->ut().time());
+    //QDate newDate( KStars::Instance()->data()->ut().date());
 
-    isoTS = QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month()).arg(newDate.day()).arg(newTime.hour()).arg(newTime.minute()).arg(newTime.second());
+    //isoTS = QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month()).arg(newDate.day()).arg(newTime.hour()).arg(newTime.minute()).arg(newTime.second());
+
+    isoTS = KStars::Instance()->data()->ut().toString(Qt::ISODate).remove("Z");
 
     /* Update Date/Time */
     ITextVectorProperty *timeUTC = baseDevice->getText("TIME_UTC");
