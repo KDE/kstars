@@ -521,20 +521,28 @@ void ProfileEditor::loadDrivers()
 
     //ui->mountCombo->setCurrentIndex(-1);
 
-     for(int i=0;i<boxes.count();i++){
+     for(int i=0;i<boxes.count();i++)
+     {
          QComboBox *box=boxes.at(i);
          QString selectedItemText=selectedItems.at(i);
          int index=box->findText(selectedItemText);
-         if(index==-1){
+         if(index==-1)
+         {
              if(ui->localMode->isChecked())
                  box->setCurrentIndex(0);
              else
                  box->addItem(remoteIcon,selectedItemText);
 
-         } else{
+         }
+         else
+         {
              box->setCurrentIndex(index);
          }
+
          box->model()->sort(0);
      }
+
+     ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), "PHD2" );
+     ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), "LinGuider" );
 }
 
