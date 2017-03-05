@@ -12,14 +12,16 @@ DeviceOrientation::DeviceOrientation(QObject *parent)
 
 }
 
-void DeviceOrientation::stopSensors() {
+void DeviceOrientation::stopSensors()
+{
 #if defined (Q_OS_ANDROID)
     QAndroidJniObject activity = QtAndroid::androidActivity();
     activity.callMethod<void>("stopSensors");
 #endif
 }
 
-void DeviceOrientation::startSensors() {
+void DeviceOrientation::startSensors()
+{
 #if defined (Q_OS_ANDROID)
     QAndroidJniObject activity = QtAndroid::androidActivity();
     activity.callMethod<void>("startSensors");
