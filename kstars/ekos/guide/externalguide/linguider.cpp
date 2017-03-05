@@ -131,6 +131,14 @@ void LinGuider::readLinGuider()
 
 void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
 {
+    if (reply == "Error: Guiding not started.")
+    {
+        state = IDLE;
+        emit newStatus(GUIDE_ABORTED);
+        deviationTimer.stop();
+        return;
+    }
+
     switch (command)
     {
     case GET_VER:
@@ -232,7 +240,7 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
         {
             state = GUIDING;
             emit newStatus(GUIDE_GUIDING);
-        }
+        }        
 
         QStringList pos = reply.split(' ');
         if (pos.count() == 2)
@@ -252,7 +260,7 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
     }
         break;
 
-    case SET_DITHERING_RANGE:
+    case SET_DITHERING_RANGE:        
         if (reply == "OK")
         {
             sendCommand(DITHER);
