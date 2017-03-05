@@ -342,7 +342,13 @@ int FITSData::saveFITS( const QString &newFilename )
         return status;
     }
 
-    if (fits_copy_file(fptr, new_fptr, 1, 1, 1, &status))
+    /*if (fits_copy_file(fptr, new_fptr, 0, 1, 1, &status))
+    {
+        fits_report_error(stderr, status);
+        return status;
+    }*/
+
+    if (fits_copy_header(fptr, new_fptr, &status))
     {
         fits_report_error(stderr, status);
         return status;

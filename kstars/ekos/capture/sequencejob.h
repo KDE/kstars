@@ -118,6 +118,9 @@ class SequenceJob : public QObject
     double getTargetADU() const;
     void setTargetADU(double value);
 
+    double getTargetADUTolerance() const;
+    void setTargetADUTolerance(double value);
+
     int getCaptureRetires() const;
     void setCaptureRetires(int value);
 
@@ -210,6 +213,7 @@ private:
     struct
     {
         double targetADU;
+        double targetADUTolerance;
         FlatFieldSource flatFieldSource;
         FlatFieldDuration flatFieldDuration;
         SkyPoint wallCoord;

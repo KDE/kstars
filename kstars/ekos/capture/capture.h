@@ -431,6 +431,7 @@ private slots:
     void openCalibrationDialog();
     IPState processPreCaptureCalibrationStage();
     bool processPostCaptureCalibrationStage();
+    void updatePreCaptureCalibrationStatus();
 
     // Send image info
     void sendNewImage(QImage *image, ISD::CCDChip *myChip);
@@ -556,7 +557,7 @@ private:
 
     // Flat field automation
     QVector<double> ExpRaw, ADURaw;
-    double targetADU;
+    double targetADU, targetADUTolerance;
     SkyPoint wallCoord;
     bool preMountPark, preDomePark;
     FlatFieldDuration flatFieldDuration;
