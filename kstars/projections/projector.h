@@ -31,9 +31,10 @@ using namespace Eigen;
 #include "skyobjects/skypoint.h"
 #ifdef KSTARS_LITE
 #include "skymaplite.h"
+#else
+#include "skymap.h"
 #endif
 
-#include "skymap.h"
 
 class KStarsData;
 
