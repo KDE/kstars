@@ -640,7 +640,8 @@ void INDI_E::setupElementRead(int length)
 
 void INDI_E::setupBrowseButton()
 {
-    browse_w = new QPushButton("...", guiProp->getGroup()->getContainer());
+    browse_w = new QPushButton(guiProp->getGroup()->getContainer());
+    browse_w->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
     browse_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     browse_w->setMinimumWidth( MIN_SET_WIDTH );
     browse_w->setMaximumWidth( MAX_SET_WIDTH );
@@ -652,13 +653,10 @@ void INDI_E::setupBrowseButton()
 
 void INDI_E::browseBlob()
 {
-
     QFile fp;
     QString filename;
     QString format;
-    QDataStream binaryStream;
     int data64_size=0, pos=0;
-    unsigned char *data_file;
     QUrl currentURL;
 
     currentURL = QFileDialog::getOpenFileUrl();
@@ -683,33 +681,18 @@ void INDI_E::browseBlob()
         return;
     }
 
-    binaryStream.setDevice(&fp);
-
-    data_file = new unsigned char[fp.size()];
-
     bp->bloblen = fp.size();
 
-    if (data_file == NULL)
-    {
-        KMessageBox::error(0, i18n("Not enough memory to load %1", filename));
-        fp.close();
-        return;
-    }
-
-    binaryStream.readRawData((char*)data_file, fp.size());
-
-    bp->blob = new unsigned char[4*fp.size()/3+4];
+    bp->blob = (uint8_t *) realloc (bp->blob, 3*bp->bloblen/4);
     if (bp->blob == NULL)
     {
         KMessageBox::error(0, i18n("Not enough memory to convert file %1 to base64", filename));
         fp.close();
     }
 
-    data64_size = to64frombits ( ((unsigned char *) bp->blob), data_file, fp.size());
+    data64_size = to64frombits(static_cast<unsigned char *>(bp->blob), reinterpret_cast<const unsigned char *>(fp.readAll().constData()), bp->bloblen);
 
-    delete [] data_file;
-
-    bp->size = data64_size;
+    bp->size = bp->bloblen = data64_size;
 
     //qDebug() << "BLOB " << bp->name << " has size of " << bp->size << " and bloblen of " << bp->bloblen << endl;
 

@@ -285,6 +285,10 @@ void GenericDevice::processMessage(int messageID)
 
 void GenericDevice::processBLOB(IBLOB* bp)
 {
+    // Ignore write-only BLOBs since we only receive it for state-change
+    if (bp->bvp->p == IP_WO)
+        return;
+
     QFile       *data_file = NULL;
     INDIDataTypes dataType;
 

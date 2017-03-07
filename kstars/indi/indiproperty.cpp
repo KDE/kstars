@@ -619,8 +619,8 @@ void INDI_P::processSetButton()
 
 void INDI_P::sendBlob()
 {
-    int index=0;
-    bool openingTag=false;
+    //int index=0;
+    //bool openingTag=false;
     IBLOBVectorProperty *bvp = dataProp->getBLOB();
 
     if (bvp == NULL)
@@ -628,8 +628,16 @@ void INDI_P::sendBlob()
 
     bvp->s = IPS_BUSY;
 
+    pg->getDevice()->getClientManager()->startBlob(bvp->device, bvp->name, timestamp());
 
-    foreach(INDI_E *ep, elementList)
+    for (int i=0; i < elementList.count(); i++)
+    {
+        IBLOB *bp = &(bvp->bp[i]);
+        pg->getDevice()->getClientManager()->sendOneBlob(bp);
+    }
+
+    // JM: Why we need dirty here? We should be able to upload multiple time
+    /*foreach(INDI_E *ep, elementList)
     {
         if (ep->getBLOBDirty() == true)
         {
@@ -650,10 +658,10 @@ void INDI_P::sendBlob()
 
         index++;
 
-    }
+    }*/
 
-    if (openingTag)
-        pg->getDevice()->getClientManager()->finishBlob();
+    //if (openingTag)
+    pg->getDevice()->getClientManager()->finishBlob();
 
    updateStateLED();
 
