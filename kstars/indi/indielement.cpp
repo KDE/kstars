@@ -656,7 +656,7 @@ void INDI_E::browseBlob()
     QFile fp;
     QString filename;
     QString format;
-    int data64_size=0, pos=0;
+    int pos=0;
     QUrl currentURL;
 
     currentURL = QFileDialog::getOpenFileUrl();
@@ -683,18 +683,14 @@ void INDI_E::browseBlob()
 
     bp->bloblen = bp->size = fp.size();
 
-    bp->blob = (uint8_t *) realloc (bp->blob, 3*bp->bloblen/4);
+    bp->blob = (uint8_t *) realloc (bp->blob, bp->size);
     if (bp->blob == NULL)
     {
-        KMessageBox::error(0, i18n("Not enough memory to convert file %1 to base64", filename));
+        KMessageBox::error(0, i18n("Not enough memory for file %1", filename));
         fp.close();
     }
 
-    data64_size = to64frombits(static_cast<unsigned char *>(bp->blob), reinterpret_cast<const unsigned char *>(fp.readAll().constData()), bp->bloblen);
-
-    bp->bloblen = data64_size;
-
-    //qDebug() << "BLOB " << bp->name << " has size of " << bp->size << " and bloblen of " << bp->bloblen << endl;
+    memcpy(bp->blob, fp.readAll().constData(), bp->size);
 
     blobDirty = true;
 
