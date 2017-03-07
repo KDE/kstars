@@ -681,7 +681,7 @@ void INDI_E::browseBlob()
         return;
     }
 
-    bp->bloblen = fp.size();
+    bp->bloblen = bp->size = fp.size();
 
     bp->blob = (uint8_t *) realloc (bp->blob, 3*bp->bloblen/4);
     if (bp->blob == NULL)
@@ -692,7 +692,7 @@ void INDI_E::browseBlob()
 
     data64_size = to64frombits(static_cast<unsigned char *>(bp->blob), reinterpret_cast<const unsigned char *>(fp.readAll().constData()), bp->bloblen);
 
-    bp->size = bp->bloblen = data64_size;
+    bp->bloblen = data64_size;
 
     //qDebug() << "BLOB " << bp->name << " has size of " << bp->size << " and bloblen of " << bp->bloblen << endl;
 
