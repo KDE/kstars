@@ -14,6 +14,8 @@
 #include "Options.h"
 
 #include <basedevice.h>
+#include <indicom.h>
+
 #include "indi/clientmanager.h"
 #include "indi/driverinfo.h"
 #include "indi/guimanager.h"
@@ -55,14 +57,67 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
         return false;
     }
 
-    ITextVectorProperty *solverSettings = remoteAstrometry->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
     ISwitchVectorProperty *solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
     IBLOBVectorProperty *solverBLOB = remoteAstrometry->getBaseDevice()->getBLOB("ASTROMETRY_DATA");
 
-    if (solverSettings == NULL || solverSwitch == NULL || solverBLOB == NULL)
+    if (solverSwitch == NULL || solverBLOB == NULL)
+    {
+        align->appendLogText(i18n("Failed to find solver properties."));
+        fp.close();
+        emit solverFailed();
+        return false;
+    }
+
+    sendArgs(args);
+
+    ISwitch *enableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_ENABLE");
+    if (enableSW->s == ISS_OFF)
+    {
+        IUResetSwitch(solverSwitch);
+        enableSW->s = ISS_ON;
+        remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+    }
+
+    IBLOB *bp = &(solverBLOB->bp[0]);
+
+    bp->bloblen = bp->size = fp.size();
+
+    bp->blob = (uint8_t *) realloc (bp->blob, bp->size);
+    if (bp->blob == NULL)
+    {
+        align->appendLogText(i18n("Not enough memory for file %1", filename));
+        fp.close();
+        emit solverFailed();
+        return false;
+    }
+
+    memcpy(bp->blob, fp.readAll().constData(), bp->size);
+
+    solverRunning = true;
+
+    remoteAstrometry->getDriverInfo()->getClientManager()->startBlob(solverBLOB->device, solverBLOB->name, timestamp());
+
+    #if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
+    remoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp);
+    #else
+    remoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp->name, bp->size, bp->format, bp->blob);
+    #endif
+
+    remoteAstrometry->getDriverInfo()->getClientManager()->finishBlob();
+
+    align->appendLogText(i18n("Starting remote solver..."));
+    solverTimer.start();
+
+    return true;
+}
+
+bool RemoteAstrometryParser::sendArgs(const QStringList &args)
+{
+    ITextVectorProperty *solverSettings = remoteAstrometry->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
+
+    if (solverSettings == NULL)
     {
         align->appendLogText(i18n("Failed to find solver settings."));
-        fp.close();
         emit solverFailed();
         return false;
     }
@@ -90,36 +145,6 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
     if (guiDevice)
         guiDevice->updateTextGUI(solverSettings);
 
-    ISwitch *enableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_ENABLE");
-    if (enableSW->s == ISS_OFF)
-    {
-        IUResetSwitch(solverSwitch);
-        enableSW->s = ISS_ON;
-        remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
-    }
-
-    IBLOB *bp = &(solverBLOB->bp[0]);
-
-    bp->bloblen = bp->size = fp.size();
-
-    bp->blob = (uint8_t *) realloc (bp->blob, bp->size);
-    if (bp->blob == NULL)
-    {
-        align->appendLogText(i18n("Not enough memory for file %1", filename));
-        fp.close();
-        emit solverFailed();
-        return false;
-    }
-
-    memcpy(bp->blob, fp.readAll().constData(), bp->size);
-
-    solverRunning = true;
-
-    remoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp);
-
-    align->appendLogText(i18n("Starting remote solver..."));
-    solverTimer.start();
-
     return true;
 }
 
@@ -140,12 +165,14 @@ void RemoteAstrometryParser::setEnabled(bool enable)
         IUResetSwitch(solverSwitch);
         enableSW->s = ISS_ON;
         remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+        solverRunning = true;
     }
     else if (enable == false && disableSW->s == ISS_OFF)
     {
         IUResetSwitch(solverSwitch);
         disableSW->s = ISS_ON;
         remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+        solverRunning = false;
     }
 }
 
@@ -175,7 +202,7 @@ void RemoteAstrometryParser::setAstrometryDevice(ISD::GDInterface *device)
     if (device == remoteAstrometry)
         return;
 
-    remoteAstrometry = dynamic_cast<ISD::GenericDevice*>(device);
+    remoteAstrometry = device;
 
     remoteAstrometry->disconnect(this);
 
