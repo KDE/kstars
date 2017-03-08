@@ -25,6 +25,8 @@
 #include "indi/indiccd.h"
 #include "indi/indistd.h"
 
+#include "ui_mountmodel.h"
+
 class FOV;
 class QProgressIndicator;
 
@@ -170,6 +172,12 @@ public:
      * @newTelescope pointer to telescope device.
      */
     void setTelescope(ISD::GDInterface *newTelescope);
+
+    /**
+     * @brief setAstrometryDevice
+     * @param newAstrometry
+     */
+    void setAstrometryDevice(ISD::GDInterface *newAstrometry);
 
     /**
      * @brief CCD information is updated, sync them.
@@ -321,6 +329,7 @@ public slots:
     // Update Mount module status
     void setMountStatus(ISD::Telescope::TelescopeStatus newState);
 
+
 private slots:
 
     /* Polar Alignment */
@@ -352,6 +361,27 @@ private slots:
     void setPAHCorrectionSelectionComplete();
     void startPAHRefreshProcess();
     void setPAHRefreshComplete();
+
+    //Solutions Display slots
+    void buildTarget();
+    void handlePointTooltip(QMouseEvent * event);
+    void handleVerticalPlotSizeChange();
+    void handleHorizontalPlotSizeChange();
+    void selectSolutionTableRow(int row, int column);
+    void slotClearAllSolutionPoints();
+    void slotRemoveSolutionPoint();
+    void slotMountModel();
+
+    //Mount Model Slots
+    void slotClearAllAlignPoints();
+    void slotRemoveAlignPoint();
+    void slotAddAlignPoint();
+    void slotFindAlignObject();
+    void resetAlignmentProcedure();
+    void startStopAlignmentProcedure();
+    void startAlignmentPoint();
+    void finishAlignmentPoint(bool solverSucceeded);
+    void moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex);
 
 signals:
         void newLog();
@@ -486,7 +516,9 @@ private:
     AstrometryParser *parser;
     OnlineAstrometryParser *onlineParser;
     OfflineAstrometryParser *offlineParser;
+
     RemoteAstrometryParser *remoteParser;
+    ISD::GDInterface *remoteParserDevice = NULL;
 
     // Pointers to our devices
     ISD::Telescope *currentTelescope;
@@ -566,6 +598,19 @@ private:
     OpsAlign *opsAlign;
     OpsAstrometryCfg *opsAstrometryCfg;
     OpsAstrometryIndexFiles *opsAstrometryIndexFiles;
+
+    void resizeEvent(QResizeEvent * event);
+    QCPCurve *centralTarget = NULL;
+    QCPCurve *yellowTarget = NULL;
+    QCPCurve *redTarget = NULL;
+    QCPCurve *concentricRings = NULL;
+    QDialog mountModelDialog;
+    Ui_mountModel mountModel;
+    int currentAlignmentPoint=0;
+    bool mountModelRunning=false;
+    bool targetAccuracyNotMet=false;
+
+    bool alignmentPointsAreBad();
 };
 
 }

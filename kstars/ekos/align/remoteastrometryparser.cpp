@@ -27,7 +27,6 @@ namespace Ekos
 
 RemoteAstrometryParser::RemoteAstrometryParser() : AstrometryParser()
 {
-    currentCCD = NULL;
     solverRunning=false;
 }
 
@@ -37,7 +36,7 @@ RemoteAstrometryParser::~RemoteAstrometryParser()
 
 bool RemoteAstrometryParser::init()
 {    
-    return true;
+    return (remoteAstrometry != NULL);
 }
 
 void RemoteAstrometryParser::verifyIndexFiles(double, double)
@@ -46,17 +45,24 @@ void RemoteAstrometryParser::verifyIndexFiles(double, double)
 
 bool RemoteAstrometryParser::startSovler(const QString &filename,  const QStringList &args, bool generated)
 {
-    INDI_UNUSED(filename);
     INDI_UNUSED(generated);
 
-    solverRunning = true;
-
-    ITextVectorProperty *solverSettings = currentCCD->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
-    ISwitchVectorProperty *solverSwitch = currentCCD->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
-
-    if (solverSettings == NULL || solverSwitch == NULL)
+    QFile fp(filename);
+    if (fp.open(QIODevice::ReadOnly) == false)
     {
-        align->appendLogText(i18n("CCD does not support remote solver."));
+        align->appendLogText(i18n("Cannot open file %1 for reading!", filename));
+        emit solverFailed();
+        return false;
+    }
+
+    ITextVectorProperty *solverSettings = remoteAstrometry->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
+    ISwitchVectorProperty *solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    IBLOBVectorProperty *solverBLOB = remoteAstrometry->getBaseDevice()->getBLOB("ASTROMETRY_DATA");
+
+    if (solverSettings == NULL || solverSwitch == NULL || solverBLOB == NULL)
+    {
+        align->appendLogText(i18n("Failed to find solver settings."));
+        fp.close();
         emit solverFailed();
         return false;
     }
@@ -79,8 +85,8 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
             IUSaveText(&solverSettings->tp[i], solverArgs.join(" ").toLatin1().constData());
     }
 
-    currentCCD->getDriverInfo()->getClientManager()->sendNewText(solverSettings);
-    INDI_D *guiDevice = GUIManager::Instance()->findGUIDevice(currentCCD->getDeviceName());
+    remoteAstrometry->getDriverInfo()->getClientManager()->sendNewText(solverSettings);
+    INDI_D *guiDevice = GUIManager::Instance()->findGUIDevice(remoteAstrometry->getDeviceName());
     if (guiDevice)
         guiDevice->updateTextGUI(solverSettings);
 
@@ -89,8 +95,27 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
     {
         IUResetSwitch(solverSwitch);
         enableSW->s = ISS_ON;
-        currentCCD->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+        remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
     }
+
+    IBLOB *bp = &(solverBLOB->bp[0]);
+
+    bp->bloblen = bp->size = fp.size();
+
+    bp->blob = (uint8_t *) realloc (bp->blob, bp->size);
+    if (bp->blob == NULL)
+    {
+        align->appendLogText(i18n("Not enough memory for file %1", filename));
+        fp.close();
+        emit solverFailed();
+        return false;
+    }
+
+    memcpy(bp->blob, fp.readAll().constData(), bp->size);
+
+    solverRunning = true;
+
+    remoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp);
 
     align->appendLogText(i18n("Starting remote solver..."));
     solverTimer.start();
@@ -98,10 +123,36 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
     return true;
 }
 
+void RemoteAstrometryParser::setEnabled(bool enable)
+{
+    ISwitchVectorProperty *solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    if (solverSwitch == NULL)
+        return;
+
+    ISwitch *enableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_ENABLE");
+    ISwitch *disableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_DISABLE");
+
+    if (enableSW == NULL || disableSW == NULL)
+        return;
+
+    if (enable && enableSW->s == ISS_OFF)
+    {
+        IUResetSwitch(solverSwitch);
+        enableSW->s = ISS_ON;
+        remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+    }
+    else if (enable == false && disableSW->s == ISS_OFF)
+    {
+        IUResetSwitch(solverSwitch);
+        disableSW->s = ISS_ON;
+        remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
+    }
+}
+
 bool RemoteAstrometryParser::stopSolver()
 {
     // Disable solver
-    ISwitchVectorProperty *svp = currentCCD->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    ISwitchVectorProperty *svp = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
     if (!svp)
         return false;
 
@@ -110,7 +161,7 @@ bool RemoteAstrometryParser::stopSolver()
     {
         IUResetSwitch(svp);
         disableSW->s = ISS_ON;
-        currentCCD->getDriverInfo()->getClientManager()->sendNewSwitch(svp);
+        remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(svp);
     }
 
     solverRunning=false;
@@ -119,20 +170,20 @@ bool RemoteAstrometryParser::stopSolver()
 
 }
 
-void RemoteAstrometryParser::setCCD(ISD::CCD *ccd)
+void RemoteAstrometryParser::setAstrometryDevice(ISD::GDInterface *device)
 {
-    if (ccd == currentCCD)
+    if (device == remoteAstrometry)
         return;
 
-    currentCCD = ccd;
+    remoteAstrometry = dynamic_cast<ISD::GenericDevice*>(device);
 
-    currentCCD->disconnect(this);
+    remoteAstrometry->disconnect(this);
 
-    connect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(checkCCDStatus(ISwitchVectorProperty*)));
-    connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(checkCCDResults(INumberVectorProperty*)));
+    connect(remoteAstrometry, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(checkStatus(ISwitchVectorProperty*)));
+    connect(remoteAstrometry, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(checkResults(INumberVectorProperty*)));
 }
 
-void RemoteAstrometryParser::checkCCDStatus(ISwitchVectorProperty *svp)
+void RemoteAstrometryParser::checkStatus(ISwitchVectorProperty *svp)
 {
     if (solverRunning == false || strcmp(svp->name, "ASTROMETRY_SOLVER"))
         return;
@@ -146,7 +197,7 @@ void RemoteAstrometryParser::checkCCDStatus(ISwitchVectorProperty *svp)
     }
 }
 
-void RemoteAstrometryParser::checkCCDResults(INumberVectorProperty * nvp)
+void RemoteAstrometryParser::checkResults(INumberVectorProperty * nvp)
 {
     if (solverRunning == false || strcmp(nvp->name, "ASTROMETRY_RESULTS") || nvp->s != IPS_OK)
         return;
