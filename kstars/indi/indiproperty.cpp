@@ -633,7 +633,11 @@ void INDI_P::sendBlob()
     for (int i=0; i < elementList.count(); i++)
     {
         IBLOB *bp = &(bvp->bp[i]);
+        #if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
         pg->getDevice()->getClientManager()->sendOneBlob(bp);
+        #else
+        pg->getDevice()->getClientManager()->sendOneBlob(bp->name, bp->size, bp->format, bp->blob);
+        #endif
     }
 
     // JM: Why we need dirty here? We should be able to upload multiple time
