@@ -43,6 +43,10 @@
 #include "opsastrometrycfg.h"
 #include "opsastrometryindexfiles.h"
 
+#include "skymapcomposite.h"
+#include "dialogs/finddialog.h"
+#include "ui_mountmodel.h"
+
 #include <basedevice.h>
 
 #define PAH_CUTOFF_FOV              30                   // Minimum FOV width in arcminutes for PAH to work
@@ -245,6 +249,125 @@ Align::Align()
         appendLogText(i18n("Warning: If using astrometry.net v0.68 or above, remove the --no-fits2fits from the astrometry options."));
 
     hemisphere = KStarsData::Instance()->geo()->lat()->Degrees() > 0 ? NORTH_HEMISPHERE : SOUTH_HEMISPHERE;
+
+    double accuracyRadius=accuracySpin->value();
+
+    alignPlot->setBackground(QBrush(Qt::black));
+    alignPlot->setSelectionTolerance(10);
+
+    alignPlot->xAxis->setBasePen(QPen(Qt::white, 1));
+    alignPlot->yAxis->setBasePen(QPen(Qt::white, 1));
+
+    alignPlot->xAxis->setTickPen(QPen(Qt::white, 1));
+    alignPlot->yAxis->setTickPen(QPen(Qt::white, 1));
+
+    alignPlot->xAxis->setSubTickPen(QPen(Qt::white, 1));
+    alignPlot->yAxis->setSubTickPen(QPen(Qt::white, 1));
+
+    alignPlot->xAxis->setTickLabelColor(Qt::white);
+    alignPlot->yAxis->setTickLabelColor(Qt::white);
+
+    alignPlot->xAxis->setLabelColor(Qt::white);
+    alignPlot->yAxis->setLabelColor(Qt::white);
+
+    alignPlot->xAxis->setLabelFont(QFont(font().family(), 10));
+    alignPlot->yAxis->setLabelFont(QFont(font().family(), 10));
+
+    alignPlot->xAxis->setLabelPadding(2);
+    alignPlot->yAxis->setLabelPadding(2);
+
+    alignPlot->xAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    alignPlot->yAxis->grid()->setPen(QPen(QColor(140, 140, 140), 1, Qt::DotLine));
+    alignPlot->xAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    alignPlot->yAxis->grid()->setSubGridPen(QPen(QColor(80, 80, 80), 1, Qt::DotLine));
+    alignPlot->xAxis->grid()->setZeroLinePen(QPen(Qt::yellow));
+    alignPlot->yAxis->grid()->setZeroLinePen(QPen(Qt::yellow));
+
+    alignPlot->xAxis->setLabel(i18n("dRA (arcsec)"));
+    alignPlot->yAxis->setLabel(i18n("dDE (arcsec)"));
+
+    alignPlot->xAxis->setRange(-accuracyRadius*3, accuracyRadius*3);
+    alignPlot->yAxis->setRange(-accuracyRadius*3, accuracyRadius*3);
+
+    alignPlot->setInteractions(QCP::iRangeZoom);
+    alignPlot->setInteraction(QCP::iRangeDrag, true);
+
+    alignPlot->addGraph();
+    alignPlot->graph(0)->setLineStyle(QCPGraph::lsNone);
+    alignPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, Qt::white, 15));
+
+    buildTarget();
+
+    connect(alignPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(handlePointTooltip(QMouseEvent*)));
+    connect(rightLayout, SIGNAL(splitterMoved(int,int)), this, SLOT(handleVerticalPlotSizeChange()));
+    connect(alignSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(handleHorizontalPlotSizeChange()));
+    connect(accuracySpin, SIGNAL(valueChanged(int)), this, SLOT(buildTarget()));
+
+    alignPlot->resize(190, 190);
+    alignPlot->replot();
+
+    solutionTable->setColumnWidth(0,70);
+    solutionTable->setColumnWidth(1,75);
+    solutionTable->setColumnWidth(2,80);
+    solutionTable->setColumnWidth(3,30);
+    solutionTable->setColumnWidth(4,100);
+    solutionTable->setColumnWidth(5,100);
+
+    clearAllSolutionsB->setIcon(QIcon::fromTheme("application-exit", QIcon(":/icons/breeze/default/application-exit.svg") ));
+    clearAllSolutionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    removeSolutionB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg") ));
+    removeSolutionB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+
+    mountModel.setupUi(&mountModelDialog);
+    mountModelDialog.setWindowTitle("Mount Model Tool");
+    mountModelDialog.setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    mountModel.alignTable->setColumnWidth(0,70);
+    mountModel.alignTable->setColumnWidth(1,75);
+    mountModel.alignTable->setColumnWidth(2,80);
+    mountModel.alignTable->setColumnWidth(3,30);
+
+    mountModel.alignTable->verticalHeader()->setDragDropOverwriteMode(false);
+    mountModel.alignTable->verticalHeader()->setSectionsMovable(true);
+    mountModel.alignTable->verticalHeader()->setDragEnabled(true);
+    mountModel.alignTable->verticalHeader()->setDragDropMode(QAbstractItemView::InternalMove);
+    connect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int, int , int)), this, SLOT(moveAlignPoint(int, int , int)));
+
+    mountModel.clearAllAlignB->setIcon(QIcon::fromTheme("application-exit", QIcon(":/icons/breeze/default/application-exit.svg") ));
+    mountModel.clearAllAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    mountModel.removeAlignB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg") ));
+    mountModel.removeAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    mountModel.addAlignB->setIcon(QIcon::fromTheme("list-add", QIcon(":/icons/breeze/default/list-add.svg") ));
+    mountModel.addAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    mountModel.findAlignB->setIcon(QIcon::fromTheme("edit-find", QIcon(":/icons/breeze/default/edit-find.svg") ));
+    mountModel.findAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    mountModel.wizardAlignB->setIcon(QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg") ));
+    mountModel.wizardAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    mountModel.stopAlignB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg") ));
+    mountModel.stopAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    mountModel.startAlignB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg") ));
+    mountModel.startAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
+    connect(clearAllSolutionsB, SIGNAL(clicked()), this, SLOT(slotClearAllSolutionPoints()));
+    connect(removeSolutionB, SIGNAL(clicked()), this, SLOT(slotRemoveSolutionPoint()));
+    connect(mountModelB, SIGNAL(clicked()), this, SLOT(slotMountModel()));
+    connect(solutionTable, SIGNAL(cellClicked(int, int)), this, SLOT(selectSolutionTableRow(int, int)));
+
+    connect(mountModel.clearAllAlignB, SIGNAL(clicked()), this, SLOT(slotClearAllAlignPoints()));
+    connect(mountModel.removeAlignB, SIGNAL(clicked()), this, SLOT(slotRemoveAlignPoint()));
+    connect(mountModel.addAlignB, SIGNAL(clicked()), this, SLOT(slotAddAlignPoint()));
+    connect(mountModel.findAlignB, SIGNAL(clicked()), this, SLOT(slotFindAlignObject()));
+    connect(mountModel.stopAlignB, SIGNAL(clicked()), this, SLOT(resetAlignmentProcedure()));
+    connect(mountModel.startAlignB, SIGNAL(clicked()), this, SLOT(startStopAlignmentProcedure()));
+
+
 }
 
 Align::~Align()
@@ -262,6 +385,370 @@ Align::~Align()
     dir.setFilter(QDir::Files);
     foreach(QString dirFile, dir.entryList())
         dir.remove(dirFile);
+}
+void Align::selectSolutionTableRow(int row, int column){
+    solutionTable->selectRow(row);
+    for(int i=0;i<alignPlot->itemCount();i++){
+        QCPAbstractItem *abstractItem=alignPlot->item(i);
+        if(abstractItem){
+            QCPItemText *item = qobject_cast<QCPItemText*>(abstractItem);
+            if(item){
+                if(i==row){
+                    item->setColor(Qt::black);
+                    item->setBrush(Qt::yellow);
+                }else{
+                    item->setColor(Qt::red);
+                    item->setBrush(Qt::white);
+                }
+            }
+        }
+    }
+    alignPlot->replot();
+}
+
+void Align::handleHorizontalPlotSizeChange(){
+      alignPlot->xAxis->setScaleRatio(alignPlot->yAxis,1.0);
+      alignPlot->replot();
+}
+
+void Align::handleVerticalPlotSizeChange(){
+      alignPlot->yAxis->setScaleRatio(alignPlot->xAxis,1.0);
+      alignPlot->replot();
+}
+
+void Align::resizeEvent(QResizeEvent * event){
+    if(event->oldSize().width()!=-1){
+        if(event->oldSize().width()!=size().width())
+            handleHorizontalPlotSizeChange();
+        else if(event->oldSize().height()!=size().height())
+            handleVerticalPlotSizeChange();
+    }
+}
+
+
+void Align::handlePointTooltip(QMouseEvent* event){
+
+    QCPAbstractItem *item =alignPlot->itemAt(event->localPos());
+    if(item){
+        QCPItemText *label = qobject_cast<QCPItemText*>(item);
+        if(label){
+            QString labelText=label->text();
+            int point=labelText.toInt()-1;
+
+            QToolTip::hideText();
+            QToolTip::showText(event->globalPos(),
+                               tr("<table>"
+                                      "<tr>"
+                                        "<th colspan=\"2\">Object %L1: %L2</th>"
+                                      "</tr>"
+                                      "<tr>"
+                                        "<td>RA:</td><td>%L3</td>"
+                                      "</tr>"
+                                      "<tr>"
+                                        "<td>DE:</td><td>%L4</td>"
+                                      "</tr>"
+                                      "<tr>"
+                                        "<td>dRA:</td><td>%L5</td>"
+                                      "</tr>"
+                                      "<tr>"
+                                        "<td>dDE:</td><td>%L6</td>"
+                                      "</tr>"
+                                  "</table>").
+                               arg(point+1).
+                               arg(solutionTable->item(point, 2)->text()).
+                               arg(solutionTable->item(point, 0)->text()).
+                               arg(solutionTable->item(point, 1)->text()).
+                               arg(solutionTable->item(point, 4)->text()).
+                               arg(solutionTable->item(point, 5)->text()),
+                               alignPlot, alignPlot->rect());
+        }
+    }
+}
+
+
+void Align::buildTarget(){
+    double accuracyRadius=accuracySpin->value();
+    if(centralTarget){
+       concentricRings->data()->clear();
+       redTarget->data()->clear();
+       yellowTarget->data()->clear();
+       centralTarget->data()->clear();
+    }else{
+        concentricRings = new QCPCurve(alignPlot->xAxis, alignPlot->yAxis);
+        redTarget = new QCPCurve(alignPlot->xAxis, alignPlot->yAxis);
+        yellowTarget = new QCPCurve(alignPlot->xAxis, alignPlot->yAxis);
+        centralTarget = new QCPCurve(alignPlot->xAxis, alignPlot->yAxis);
+    }
+    const int pointCount = 200;
+    QVector<QCPCurveData> circleRings(pointCount*(5));//Have to multiply by the number of rings, Rings at : 25%, 50%, 75%, 125%, 175%
+    QVector<QCPCurveData> circleCentral(pointCount);
+    QVector<QCPCurveData> circleYellow(pointCount);
+    QVector<QCPCurveData> circleRed(pointCount);
+
+    int circleRingPt=0;
+    for (int i=0; i<pointCount; i++)
+    {
+      double theta = i/(double)(pointCount)*2*M_PI;
+
+      for(double ring=1; ring < 8; ring++){
+          if(ring !=4 && ring != 6){
+            if(i%(9-(int)ring)==0){ //This causes fewer points to draw on the inner circles.
+                circleRings[circleRingPt] = QCPCurveData(circleRingPt, accuracyRadius*ring*0.25*qCos(theta), accuracyRadius*ring*0.25*qSin(theta));
+                circleRingPt++;
+            }
+          }
+      }
+
+      circleCentral[i] = QCPCurveData(i, accuracyRadius*qCos(theta), accuracyRadius*qSin(theta));
+      circleYellow[i] = QCPCurveData(i, accuracyRadius*1.5*qCos(theta), accuracyRadius*1.5*qSin(theta));
+      circleRed[i] = QCPCurveData(i, accuracyRadius*2*qCos(theta), accuracyRadius*2*qSin(theta));
+    }
+
+    concentricRings->setLineStyle(QCPCurve::lsNone);
+    concentricRings->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,  QColor(255, 255, 255, 150), 1));
+
+    concentricRings->data()->set(circleRings, true);
+    redTarget->data()->set(circleRed, true);
+    yellowTarget->data()->set(circleYellow, true);
+    centralTarget->data()->set(circleCentral, true);
+
+    concentricRings->setPen(QPen(Qt::white));
+    redTarget->setPen(QPen(Qt::red));
+    yellowTarget->setPen(QPen(Qt::yellow));
+    centralTarget->setPen(QPen(Qt::green));
+
+    concentricRings->setBrush(Qt::NoBrush);
+    redTarget->setBrush(QBrush(QColor(255, 0, 0, 50)));
+    yellowTarget->setBrush(QBrush(QColor(0, 255, 0, 50))); //Note this is actually yellow.  It is green on top of red with equal opacity.
+    centralTarget->setBrush(QBrush(QColor(0, 255, 0, 50)));
+
+    if(alignPlot->size().width()>0)
+        alignPlot->replot();
+}
+
+void Align::slotClearAllSolutionPoints(){
+
+    solutionTable->setRowCount(0);
+    alignPlot->graph(0)->data()->clear();
+    alignPlot->clearItems();
+    buildTarget();
+
+    double accuracyRadius=accuracySpin->value();
+    alignPlot->xAxis->setRange(-accuracyRadius*3, accuracyRadius*3);
+    alignPlot->yAxis->setRange(-accuracyRadius*3, accuracyRadius*3);
+
+    alignPlot->xAxis->setScaleRatio(alignPlot->yAxis,1.0);
+
+    alignPlot->replot();
+}
+
+void Align::slotClearAllAlignPoints(){
+
+    mountModel.alignTable->setRowCount(0);
+}
+
+void Align::slotRemoveSolutionPoint(){
+    QCPAbstractItem *abstractItem=alignPlot->item(solutionTable->currentRow());
+    if(abstractItem){
+        QCPItemText *item = qobject_cast<QCPItemText*>(abstractItem);
+        if(item){
+            double point=item->position->key();
+            alignPlot->graph(0)->data()->remove(point);
+        }
+    }
+    alignPlot->removeItem(solutionTable->currentRow());
+    for(int i=0;i<alignPlot->itemCount();i++){
+        QCPAbstractItem *abstractItem=alignPlot->item(i);
+        if(abstractItem){
+            QCPItemText *item = qobject_cast<QCPItemText*>(abstractItem);
+            if(item)
+                item->setText(QString::number(i+1));
+        }
+    }
+    solutionTable->removeRow(solutionTable->currentRow());
+    alignPlot->replot();
+}
+
+void Align::slotRemoveAlignPoint(){
+    mountModel.alignTable->removeRow(mountModel.alignTable->currentRow());
+}
+
+void Align::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex)
+{
+    for (int i=0; i < mountModel.alignTable->columnCount(); i++)
+    {
+        QTableWidgetItem *oldItem = mountModel.alignTable->takeItem(oldVisualIndex, i);
+        QTableWidgetItem *newItem = mountModel.alignTable->takeItem(newVisualIndex, i);
+
+        mountModel.alignTable->setItem(newVisualIndex, i, oldItem);
+        mountModel.alignTable->setItem(oldVisualIndex, i, newItem);
+    }
+    disconnect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int, int , int)), this, SLOT(moveAlignPoint(int, int , int)));
+    mountModel.alignTable->verticalHeader()->moveSection(newVisualIndex,oldVisualIndex);
+    connect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int, int , int)), this, SLOT(moveAlignPoint(int, int , int)));
+
+}
+
+void Align::slotMountModel(){
+    mountModelDialog.show();
+}
+
+
+void Align::slotAddAlignPoint(){
+    int currentRow = mountModel.alignTable->rowCount();
+    mountModel.alignTable->insertRow(currentRow);
+
+    QTableWidgetItem *disabledBox= new QTableWidgetItem();
+    disabledBox->setFlags(Qt::ItemIsSelectable);
+    mountModel.alignTable->setItem(currentRow, 3, disabledBox);
+}
+
+void Align::slotFindAlignObject() {
+   QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
+   if ( fd->exec() == QDialog::Accepted ) {
+       SkyObject *o = fd->targetObject();
+       if( o != 0 ) {
+           int currentRow = mountModel.alignTable->rowCount();
+           mountModel.alignTable->insertRow(currentRow);
+
+           QString ra_report, dec_report;
+           getFormattedCoords(o->ra().Hours(),o->dec().Degrees(),ra_report, dec_report);
+
+           QTableWidgetItem *RAReport = new QTableWidgetItem();
+           RAReport->setText(ra_report);
+           RAReport->setTextAlignment(Qt::AlignHCenter);
+           mountModel.alignTable->setItem(currentRow, 0, RAReport);
+
+           QTableWidgetItem *DECReport = new QTableWidgetItem();
+           DECReport->setText(dec_report);
+           DECReport->setTextAlignment(Qt::AlignHCenter);
+           mountModel.alignTable->setItem(currentRow, 1, DECReport);
+
+           QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
+           ObjNameReport->setText(o->name());
+           ObjNameReport->setTextAlignment(Qt::AlignHCenter);
+           mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
+
+           QTableWidgetItem *disabledBox= new QTableWidgetItem();
+           disabledBox->setFlags(Qt::ItemIsSelectable);
+           mountModel.alignTable->setItem(currentRow, 3, disabledBox);
+       }
+   }
+   delete fd;
+}
+
+void Align::resetAlignmentProcedure(){
+    mountModel.alignTable->setCellWidget(currentAlignmentPoint, 3,new QWidget());
+    QTableWidgetItem *statusReport = new QTableWidgetItem();
+    statusReport->setFlags(Qt::ItemIsSelectable);
+    statusReport->setIcon(QIcon(":/icons/breeze/default/security-medium.svg"));
+    mountModel.alignTable->setItem(currentAlignmentPoint, 3, statusReport);
+
+    appendLogText(i18n("The Mount Model Tool is Reset."));
+    mountModel.startAlignB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg") ));
+    mountModelRunning=false;
+    currentAlignmentPoint=0;
+}
+
+bool Align::alignmentPointsAreBad(){
+    for (int i=0; i < mountModel.alignTable->rowCount(); i++)
+    {
+        QTableWidgetItem *raCell=mountModel.alignTable->item(i,0);
+        if(!raCell)
+            return true;
+        QString raString=raCell->text();
+        if(dms().setFromString(raString,false)==false)
+            return true;
+
+        QTableWidgetItem *decCell=mountModel.alignTable->item(i,1);
+        if(!decCell)
+            return true;
+        QString decString=decCell->text();
+        if(dms().setFromString(decString,true)==false)
+            return true;
+    }
+    return false;
+}
+
+void Align::startStopAlignmentProcedure(){
+    if(!mountModelRunning){
+        if(mountModel.alignTable->rowCount()>0){
+            if(alignmentPointsAreBad()){
+                 KMessageBox::error(0, i18n("Please Check the Alignment Points."));
+                return;
+            }
+            if(currentAlignmentPoint==0){
+                for(int row=0;row<mountModel.alignTable->rowCount();row++){
+                    QTableWidgetItem *statusReport = new QTableWidgetItem();
+                    statusReport->setIcon(QIcon());
+                    mountModel.alignTable->setItem(row, 3, statusReport);
+                }
+            }
+            mountModel.startAlignB->setIcon(QIcon::fromTheme("media-playback-pause", QIcon(":/icons/breeze/default/media-playback-pause.svg") ));
+            mountModelRunning=true;
+            appendLogText(i18n("The Mount Model Tool is Starting."));
+            startAlignmentPoint();
+        }
+    }else{
+        mountModel.startAlignB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg") ));
+        mountModel.alignTable->setCellWidget(currentAlignmentPoint, 3,new QWidget());
+        appendLogText(i18n("The Mount Model Tool is Paused."));
+        mountModelRunning=false;
+
+        QTableWidgetItem *statusReport = new QTableWidgetItem();
+        statusReport->setFlags(Qt::ItemIsSelectable);
+        statusReport->setIcon(QIcon(":/icons/breeze/default/security-medium.svg"));
+        mountModel.alignTable->setItem(currentAlignmentPoint, 3, statusReport);
+    }
+
+}
+
+void Align::startAlignmentPoint(){
+    if(mountModelRunning&&currentAlignmentPoint>=0&&currentAlignmentPoint<mountModel.alignTable->rowCount()){
+        QTableWidgetItem *raCell=mountModel.alignTable->item(currentAlignmentPoint,0);
+        QString raString=raCell->text();
+        dms raDMS  = dms::fromString(raString,false);
+        double ra = raDMS.Hours();
+
+        QTableWidgetItem *decCell=mountModel.alignTable->item(currentAlignmentPoint,1);
+        QString decString=decCell->text();
+        dms decDMS = dms::fromString(decString,true);
+        double dec= decDMS.Degrees();
+
+        QProgressIndicator *alignIndicator = new QProgressIndicator(this);
+        mountModel.alignTable->setCellWidget(currentAlignmentPoint, 3, alignIndicator);
+        alignIndicator->startAnimation();
+
+        targetCoord.setRA(ra);
+        targetCoord.setDec(dec);
+
+        Slew();
+    }
+}
+
+void Align::finishAlignmentPoint(bool solverSucceeded){
+    if(mountModelRunning&&currentAlignmentPoint>=0&&currentAlignmentPoint<mountModel.alignTable->rowCount()){
+        mountModel.alignTable->setCellWidget(currentAlignmentPoint, 3,new QWidget());
+        QTableWidgetItem *statusReport = new QTableWidgetItem();
+        statusReport->setFlags(Qt::ItemIsSelectable);
+        if(solverSucceeded)
+            statusReport->setIcon(QIcon(":/icons/breeze/default/security-high.svg"));
+        else
+            statusReport->setIcon(QIcon(":/icons/breeze/default/security-low.svg"));
+        mountModel.alignTable->setItem(currentAlignmentPoint, 3, statusReport);
+
+
+        currentAlignmentPoint++;
+
+        if(currentAlignmentPoint<mountModel.alignTable->rowCount()){
+            startAlignmentPoint();
+        } else{
+            mountModelRunning=false;
+            mountModel.startAlignB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg") ));
+            appendLogText(i18n("The Mount Model Tool is Finished."));
+            currentAlignmentPoint=0;
+        }
+    }
 }
 
 bool Align::isParserOK()
@@ -323,13 +810,14 @@ void Align::setSolverType(int type)
         if (remoteParser != NULL)
         {
             parser = remoteParser;
-            (dynamic_cast<RemoteAstrometryParser*>(parser))->setCCD(currentCCD);
+            (dynamic_cast<RemoteAstrometryParser*>(parser))->setAstrometryDevice(remoteParserDevice);
             return;
         }
 
         remoteParser = new Ekos::RemoteAstrometryParser();
         parser = remoteParser;
-        (dynamic_cast<RemoteAstrometryParser*>(parser))->setCCD(currentCCD);
+        (dynamic_cast<RemoteAstrometryParser*>(parser))->setAstrometryDevice(remoteParserDevice);
+
         break;
     }
 
@@ -375,8 +863,8 @@ void Align::checkCCD(int ccdNum)
     {
         currentCCD = CCDs.at(ccdNum);
 
-        if (solverTypeGroup->checkedId() == SOLVER_REMOTE)
-            (dynamic_cast<RemoteAstrometryParser*>(parser))->setCCD(currentCCD);
+        //if (solverTypeGroup->checkedId() == SOLVER_REMOTE)
+            //(dynamic_cast<RemoteAstrometryParser*>(parser))->setCCD(currentCCD);
     }
 
     FOVScopeCombo->setCurrentIndex(guideScopeCCDs.contains(currentCCD->getDeviceName()) ? ISD::CCD::TELESCOPE_GUIDE : ISD::CCD::TELESCOPE_PRIMARY);
@@ -859,16 +1347,18 @@ bool Align::captureAndSolve()
    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
 
    // In case of remote solver, we set mode to UPLOAD_BOTH
-   if (solverTypeGroup->checkedId() == SOLVER_REMOTE)
+   if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser)
    {
-       rememberUploadMode = currentCCD->getUploadMode();
-       currentCCD->setUploadMode(ISD::CCD::UPLOAD_BOTH);
-
+       //rememberUploadMode = currentCCD->getUploadMode();
+       //currentCCD->setUploadMode(ISD::CCD::UPLOAD_BOTH);
        // For solver remote we need to start solver BEFORE capture
-       startSolving(QString());
+       //startSolving(QString());
+
+       // Enable remote parse
+       dynamic_cast<RemoteAstrometryParser*>(remoteParser)->setEnabled(true);
    }
-   else
-   {
+   //else
+   //{
        if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
        {
            rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
@@ -881,7 +1371,7 @@ bool Align::captureAndSolve()
        dir.setFilter(QDir::Files);
        foreach(QString dirFile, dir.entryList())
            dir.remove(dirFile);
-   }
+   //}
 
    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
 
@@ -1069,6 +1559,41 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         targetCoord.setDec(dec);
     }
 
+    int currentRow = solutionTable->rowCount();
+    solutionTable->insertRow(currentRow);
+    for(int i=4;i<6;i++){
+        QTableWidgetItem *disabledBox= new QTableWidgetItem();
+        disabledBox->setFlags(Qt::ItemIsSelectable);
+        solutionTable->setItem(currentRow, i, disabledBox);
+    }
+
+    QTableWidgetItem *RAReport = new QTableWidgetItem();
+    RAReport->setText(ScopeRAOut->text());
+    RAReport->setTextAlignment(Qt::AlignHCenter);
+    RAReport->setFlags(Qt::ItemIsSelectable);
+    solutionTable->setItem(currentRow, 0, RAReport);
+
+    QTableWidgetItem *DECReport = new QTableWidgetItem();
+    DECReport->setText(ScopeDecOut->text());
+    DECReport->setTextAlignment(Qt::AlignHCenter);
+    DECReport->setFlags(Qt::ItemIsSelectable);
+    solutionTable->setItem(currentRow, 1, DECReport);
+
+    double maxrad = 1000.0/Options::zoomFactor();
+    SkyObject *so = KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra*15),dms(dec)), maxrad );
+    if (so){
+        QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
+        ObjNameReport->setText(so->name());
+        ObjNameReport->setTextAlignment(Qt::AlignHCenter);
+        ObjNameReport->setFlags(Qt::ItemIsSelectable);
+        solutionTable->setItem(currentRow, 2, ObjNameReport);
+    }
+
+    QProgressIndicator *alignIndicator = new QProgressIndicator(this);
+    solutionTable->setCellWidget(currentRow, 3, alignIndicator);
+    alignIndicator->startAnimation();
+
+
     Options::setSolverType(solverTypeGroup->checkedId());
     //Options::setSolverOptions(solverOptions->text());
     Options::setGuideScopeCCDs(guideScopeCCDs);
@@ -1105,6 +1630,12 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     sDEC = dec;
 
     alignTimer.stop();
+
+    if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser)
+    {
+        // Disable remote parse
+        dynamic_cast<RemoteAstrometryParser*>(remoteParser)->setEnabled(false);
+    }
 
     int binx, biny;
     ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
@@ -1154,6 +1685,52 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      SolverRAOut->setText(ra_dms);
      SolverDecOut->setText(dec_dms);
 
+     int currentRow = solutionTable->rowCount()-1;
+
+     QTableWidgetItem *dRAReport = new QTableWidgetItem();
+     if(dRAReport){
+         dRAReport->setText(QString::number(raDiff,'f',3)+"\"");
+         dRAReport->setTextAlignment(Qt::AlignHCenter);
+         dRAReport->setFlags(Qt::ItemIsSelectable);
+         solutionTable->setItem(currentRow, 4, dRAReport);
+     }
+
+     QTableWidgetItem *dDECReport = new QTableWidgetItem();
+     if(dDECReport){
+         dDECReport->setText(QString::number(deDiff,'f',3)+"\"");
+         dDECReport->setTextAlignment(Qt::AlignHCenter);
+         dDECReport->setFlags(Qt::ItemIsSelectable);
+         solutionTable->setItem(currentRow, 5, dDECReport);
+     }
+
+     double raPlot=raDiff;
+     double decPlot=deDiff;
+     alignPlot->graph(0)->addData(raPlot, decPlot);
+
+     QCPItemText *textLabel = new QCPItemText(alignPlot);
+     textLabel->setPositionAlignment(Qt::AlignVCenter|Qt::AlignHCenter);
+
+     textLabel->position->setType(QCPItemPosition::ptPlotCoords);
+     textLabel->position->setCoords(raPlot,decPlot);
+     textLabel->setColor(Qt::red);
+     textLabel->setPadding(QMargins(0,0,0,0));
+     textLabel->setBrush(Qt::white);
+     //textLabel->setBrush(Qt::NoBrush);
+     textLabel->setPen(Qt::NoPen);
+     textLabel->setText(" " + QString::number(solutionTable->rowCount()) + " ");
+     textLabel->setFont(QFont(font().family(), 8));
+
+
+     if(!alignPlot->xAxis->range().contains(raDiff)){
+        alignPlot->graph(0)->rescaleKeyAxis(true);
+        alignPlot->yAxis->setScaleRatio(alignPlot->xAxis,1.0);
+     }
+     if(!alignPlot->yAxis->range().contains(deDiff)){
+        alignPlot->graph(0)->rescaleValueAxis(true);
+        alignPlot->xAxis->setScaleRatio(alignPlot->yAxis,1.0);
+     }
+     alignPlot->replot();
+
      if (Options::astrometrySolverWCS())
      {
          INumberVectorProperty *ccdRotation = currentCCD->getBaseDevice()->getNumber("CCD_ROTATION");
@@ -1196,32 +1773,69 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
      //if (syncR->isChecked() || nothingR->isChecked() || targetDiff <= accuracySpin->value())
      // CONTINUE HERE
 
+     solutionTable->setCellWidget(currentRow, 3,new QWidget());
+     QTableWidgetItem *statusReport = new QTableWidgetItem();
+     statusReport->setFlags(Qt::ItemIsSelectable);
+
      switch (currentGotoMode)
      {
         case GOTO_SYNC:
          executeGOTO();
+
+         statusReport->setIcon(QIcon(":/icons/breeze/default/security-high.svg"));
+         solutionTable->setItem(currentRow, 3, statusReport);
+         if(mountModelRunning)
+            finishAlignmentPoint(true);
+
          return;
          break;
 
         case GOTO_SLEW:
          if (loadSlewState == IPS_BUSY || targetDiff > accuracySpin->value())
          {
+
              if (loadSlewState == IPS_IDLE && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
              {
                  appendLogText(i18n("Maximum number of iterations reached. Solver failed."));
+
+                 statusReport->setIcon(QIcon(":/icons/breeze/default/security-low.svg"));
+                 solutionTable->setItem(currentRow, 3, statusReport);
+
                  solverFailed();
+                 if(mountModelRunning)
+                    finishAlignmentPoint(false);
                  return;
              }
 
-             //executeMode();
+             targetAccuracyNotMet=true;
+
+             statusReport->setIcon(QIcon(":/icons/breeze/default/security-medium.svg"));
+             solutionTable->setItem(currentRow, 3, statusReport);
+
              executeGOTO();
              return;
          }
 
+         statusReport->setIcon(QIcon(":/icons/breeze/default/security-high.svg"));
+         solutionTable->setItem(currentRow, 3, statusReport);
+
          appendLogText(i18n("Target is within acceptable range. Astrometric solver is successful."));
+         if(mountModelRunning){
+            finishAlignmentPoint(true);
+            if(mountModelRunning)
+                return;
+         }
          break;
 
         case GOTO_NOTHING:
+
+         statusReport->setIcon(QIcon(":/icons/breeze/default/security-high.svg"));
+         solutionTable->setItem(currentRow, 3, statusReport);
+         if(mountModelRunning){
+            finishAlignmentPoint(true);
+            if(mountModelRunning)
+                return;
+         }
          break;
 
      }
@@ -1267,6 +1881,14 @@ void Align::solverFailed()
 
     state = ALIGN_FAILED;
     emit newStatus(state);
+
+    int currentRow = solutionTable->rowCount()-1;
+
+    solutionTable->setCellWidget(currentRow, 3,new QWidget());
+    QTableWidgetItem *statusReport = new QTableWidgetItem();
+    statusReport->setIcon(QIcon(":/icons/breeze/default/security-low.svg"));
+    statusReport->setFlags(Qt::ItemIsSelectable);
+    solutionTable->setItem(currentRow, 3, statusReport);
 }
 
 void Align::abort()
@@ -1322,6 +1944,14 @@ void Align::abort()
 
     state = ALIGN_ABORTED;
     emit newStatus(state);
+
+    int currentRow = solutionTable->rowCount()-1;
+
+    solutionTable->setCellWidget(currentRow, 3,new QWidget());
+    QTableWidgetItem *statusReport = new QTableWidgetItem();
+    statusReport->setIcon(QIcon(":/icons/breeze/default/security-low.svg"));
+    statusReport->setFlags(Qt::ItemIsSelectable);
+    solutionTable->setItem(currentRow, 3, statusReport);
 }
 
 QList<double> Align::getSolutionResult()
@@ -1351,6 +1981,7 @@ void Align::clearLog()
 
 void Align::processTelescopeNumber(INumberVectorProperty *coord)
 {
+
     QString ra_dms, dec_dms;
 
     if (!strcmp(coord->name, "EQUATORIAL_EOD_COORD"))
@@ -1464,9 +2095,13 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                     QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
                     return;
                 }
-                else if(currentGotoMode == GOTO_SLEW)
+                else if(currentGotoMode == GOTO_SLEW||mountModelRunning)
                 {
-                    appendLogText(i18n("Slew complete. Target accuracy is not met, running solver again..."));
+                    if(targetAccuracyNotMet)
+                        appendLogText(i18n("Slew complete. Target accuracy is not met, running solver again..."));
+                    else
+                        appendLogText(i18n("Slew complete. Solving Alignment Point. . ."));
+                    targetAccuracyNotMet=false;
 
                     state = ALIGN_PROGRESS;
                     emit newStatus(state);
@@ -1474,7 +2109,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
                     QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
                     return;
                 }
-                break;
+            break;
 
             default:
             {
@@ -2109,12 +2744,12 @@ void Align::getFormattedCoords(double ra, double dec, QString &ra_str, QString &
 
 void Align::loadAndSlew(QString fileURL)
 {
-    if (solverTypeGroup->checkedId() == SOLVER_REMOTE)
+    /*if (solverTypeGroup->checkedId() == SOLVER_REMOTE)
     {
         appendLogText(i18n("Load and Slew is not supported in remote solver mode."));
         loadSlewB->setEnabled(false);
         return;
-    }
+    }*/
 
     if (fileURL.isEmpty())
         fileURL = QFileDialog::getOpenFileName(KStars::Instance(), i18n("Load Image"), dirPath, "Images (*.fits *.fit *.jpg *.jpeg)");
@@ -2489,8 +3124,8 @@ void Align::toggleAlignWidgetFullScreen()
     {
         alignWidget->setParent(this);
         rightLayout->insertWidget(0, alignWidget);
-        rightLayout->setStretch(0, 2);
-        rightLayout->setStretch(1, 1);
+        //rightLayout->setStretch(0, 2);
+       // rightLayout->setStretch(1, 1);
         alignWidget->showNormal();
     }
     else
@@ -3066,6 +3701,15 @@ void Align::setMountStatus(ISD::Telescope::TelescopeStatus newState)
         }
         break;
     }
+}
+
+void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
+{
+    remoteParserDevice = newAstrometry;
+    remoteSolverR->setEnabled(true);
+
+    if (remoteParser)
+        remoteParser->setAstrometryDevice(remoteParserDevice);
 }
 
 }

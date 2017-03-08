@@ -40,14 +40,15 @@ public:
     virtual bool startSovler(const QString &filename, const QStringList &args, bool generated=true);
     virtual bool stopSolver();
 
-    void setCCD(ISD::CCD *ccd);
+    void setAstrometryDevice(ISD::GDInterface *device);
+    void setEnabled(bool enable);
 
 public slots:
-    void checkCCDStatus(ISwitchVectorProperty * svp);
-    void checkCCDResults(INumberVectorProperty * nvp);
+    void checkStatus(ISwitchVectorProperty * svp);
+    void checkResults(INumberVectorProperty * nvp);
 
 private:
-    ISD::CCD *currentCCD;
+    ISD::GenericDevice *remoteAstrometry=NULL;
     bool solverRunning;
     bool captureRunning;
     Align *align;

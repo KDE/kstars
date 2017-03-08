@@ -1339,6 +1339,19 @@ void EkosManager::processNewProperty(INDI::Property* prop)
         return;
     }
 
+    if (!strcmp(prop->getName(), "ASTROMETRY_SOLVER"))
+    {
+        foreach(ISD::GDInterface *device, genericDevices)
+        {
+            if (!strcmp(device->getDeviceName(), prop->getDeviceName()))
+            {
+                initAlign();
+                alignProcess->setAstrometryDevice(device);
+                break;
+            }
+        }
+    }
+
     if (focusProcess && strstr(prop->getName(), "FOCUS_"))
     {
         focusProcess->checkFocuser();
