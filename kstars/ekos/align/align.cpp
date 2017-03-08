@@ -435,6 +435,9 @@ void Align::handlePointTooltip(QMouseEvent* event){
             QString labelText=label->text();
             int point=labelText.toInt()-1;
 
+            if (point < 0)
+                return;
+
             QToolTip::hideText();
             QToolTip::showText(event->globalPos(),
                                tr("<table>"
@@ -806,7 +809,7 @@ void Align::setSolverType(int type)
         break;
 
     case SOLVER_REMOTE:
-        loadSlewB->setEnabled(false);
+        loadSlewB->setEnabled(true);
         if (remoteParser != NULL)
         {
             parser = remoteParser;
@@ -1356,6 +1359,17 @@ bool Align::captureAndSolve()
 
        // Enable remote parse
        dynamic_cast<RemoteAstrometryParser*>(remoteParser)->setEnabled(true);
+       QString options = solverOptions->text().simplified();
+       QStringList solverArgs = options.split(" ");
+       dynamic_cast<RemoteAstrometryParser*>(remoteParser)->sendArgs(solverArgs);
+
+       if (solverIterations == 0)
+       {
+           double ra,dec;
+           currentTelescope->getEqCoords(&ra, &dec);
+           targetCoord.setRA(ra);
+           targetCoord.setDec(dec);
+       }
    }
    //else
    //{

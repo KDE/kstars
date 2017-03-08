@@ -42,13 +42,14 @@ public:
 
     void setAstrometryDevice(ISD::GDInterface *device);
     void setEnabled(bool enable);
+    bool sendArgs(const QStringList &args);
 
 public slots:
     void checkStatus(ISwitchVectorProperty * svp);
     void checkResults(INumberVectorProperty * nvp);
 
 private:
-    ISD::GenericDevice *remoteAstrometry=NULL;
+    ISD::GDInterface *remoteAstrometry=NULL;
     bool solverRunning;
     bool captureRunning;
     Align *align;
