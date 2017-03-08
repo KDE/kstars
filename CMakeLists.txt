@@ -103,7 +103,7 @@ MACRO_BOOL_TO_01(CFITSIO_FOUND HAVE_CFITSIO)
 set_package_properties(CFitsio PROPERTIES DESCRIPTION "FITS IO Library" URL "http://heasarc.gsfc.nasa.gov/fitsio/fitsio.html" TYPE OPTIONAL PURPOSE "Support for the FITS (Flexible Image Transport System) data format in KStars.")
 
 ## INDI Library
-find_package(INDI 1.4.0)
+find_package(INDI 1.4.1)
 MACRO_BOOL_TO_01(INDI_FOUND HAVE_INDI)
 set_package_properties(INDI PROPERTIES DESCRIPTION "Astronomical instrumentation control" URL "http://www.indilib.org" TYPE OPTIONAL PURPOSE "Support for controlling astronomical devices on Linux with KStars.")
 
