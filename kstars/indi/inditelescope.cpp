@@ -106,7 +106,6 @@ void Telescope::registerProperty(INDI::Property *prop)
 
 void Telescope::processNumber(INumberVectorProperty *nvp)
 {
-
     if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD"))
     {
         INumber *RA = IUFindNumber(nvp, "RA");
@@ -131,13 +130,8 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
 
         KStars::Instance()->map()->update();
-
-        emit numberUpdated(nvp);
-
-        return;
     }
-
-    if (!strcmp(nvp->name, "HORIZONTAL_COORD"))
+    else if (!strcmp(nvp->name, "HORIZONTAL_COORD"))
     {
         INumber *Az = IUFindNumber(nvp, "AZ");
         INumber *Alt = IUFindNumber(nvp, "ALT");
@@ -150,13 +144,9 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
 
         KStars::Instance()->map()->update();
 
-        emit numberUpdated(nvp);
-
-        return;
     }
 
     DeviceDecorator::processNumber(nvp);
-
 }
 
 void Telescope::processSwitch(ISwitchVectorProperty *svp)
@@ -198,9 +188,6 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
                 KNotification::event( QLatin1String( "MountUnparked" ) , i18n("Mount unparked"));
             }
         }
-
-        emit switchUpdated(svp);
-        return;
     }
     else if (!strcmp(svp->name, "TELESCOPE_ABORT_MOTION"))
     {
@@ -215,7 +202,6 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
 
 void Telescope::processText(ITextVectorProperty *tvp)
 {
-
     DeviceDecorator::processText(tvp);
 }
 

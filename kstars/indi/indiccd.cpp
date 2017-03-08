@@ -979,35 +979,25 @@ void CCD::processNumber(INumberVectorProperty *nvp)
         INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
         if (np)
             emit newExposureValue(primaryChip, np->value, nvp->s);
-
-        return;
     }
-
-    if (!strcmp(nvp->name, "CCD_TEMPERATURE"))
+    else if (!strcmp(nvp->name, "CCD_TEMPERATURE"))
     {
         HasCooler = true;
         INumber *np = IUFindNumber(nvp, "CCD_TEMPERATURE_VALUE");
         if (np)
             emit newTemperatureValue(np->value);
-
-        return;
     }
-
-    if (!strcmp(nvp->name, "GUIDER_EXPOSURE"))
+    else if (!strcmp(nvp->name, "GUIDER_EXPOSURE"))
     {
         INumber *np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
         if (np)
             emit newExposureValue(guideChip, np->value, nvp->s);
-        return;
     }
-
-    if (!strcmp(nvp->name, "FPS"))
+    else if (!strcmp(nvp->name, "FPS"))
     {
         emit newFPS(nvp->np[0].value, nvp->np[1].value);
-        return;
     }
-
-    if (!strcmp(nvp->name, "CCD_RAPID_GUIDE_DATA"))
+    else if (!strcmp(nvp->name, "CCD_RAPID_GUIDE_DATA"))
     {
         double dx=-1,dy=-1,fit=-1;
         INumber *np=NULL;
@@ -1031,12 +1021,8 @@ void CCD::processNumber(INumberVectorProperty *nvp)
             if (dx >= 0 && dy >= 0 && fit >= 0)
                 emit newGuideStarData(primaryChip, dx, dy, fit);
         }
-
-        return;
-
     }
-
-    if (!strcmp(nvp->name, "GUIDER_RAPID_GUIDE_DATA"))
+    else if (!strcmp(nvp->name, "GUIDER_RAPID_GUIDE_DATA"))
     {
         double dx=-1,dy=-1,fit=-1;
         INumber *np=NULL;
@@ -1061,9 +1047,6 @@ void CCD::processNumber(INumberVectorProperty *nvp)
             if (dx >= 0 && dy >= 0 && fit >= 0)
                 emit newGuideStarData(guideChip, dx, dy, fit);
         }
-
-        return;
-
     }
 
     DeviceDecorator::processNumber(nvp);
@@ -1075,10 +1058,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     {
         // Can turn cooling on/off
         HasCoolerControl = true;
-        return;
     }
-
-    if (QString(svp->name).endsWith("VIDEO_STREAM"))
+    else if (QString(svp->name).endsWith("VIDEO_STREAM"))
     {
         HasVideoStream = true;
 
@@ -1125,13 +1106,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             streamWindow->enableStream(svp->sp[0].s == ISS_ON);
             emit videoStreamToggled(svp->sp[0].s == ISS_ON);
         }
-
-        emit switchUpdated(svp);
-
-        return;
     }
-
-    if (!strcmp(svp->name, "CCD_TRANSFER_FORMAT"))
+    else if (!strcmp(svp->name, "CCD_TRANSFER_FORMAT"))
     {
         ISwitch *format = IUFindSwitch(svp, "FORMAT_NATIVE");
 
@@ -1140,10 +1116,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         else
             transferFormat = FORMAT_FITS;
 
-        return;
     }
-
-    if (!strcmp(svp->name, "RECORD_STREAM"))
+    else if (!strcmp(svp->name, "RECORD_STREAM"))
     {
         ISwitch *recordOFF = IUFindSwitch(svp, "RECORD_OFF");
 
@@ -1158,10 +1132,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             KNotification::event( QLatin1String( "RecordingStarted" ) , i18n("Video Recording Started"));
         }
 
-        return;
     }
-
-    if (!strcmp(svp->name, "TELESCOPE_TYPE"))
+    else if (!strcmp(svp->name, "TELESCOPE_TYPE"))
     {
         ISwitch *format = IUFindSwitch(svp, "TELESCOPE_PRIMARY");
         if (format && format->s == ISS_ON)
@@ -1169,10 +1141,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         else
             telescopeType = TELESCOPE_GUIDE;
 
-        return;
     }
-
-    if (!strcmp(svp->name, "CONNECTION"))
+    else if (!strcmp(svp->name, "CONNECTION"))
     {
         ISwitch *dSwitch = IUFindSwitch(svp, "DISCONNECT");
 
@@ -1185,7 +1155,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             streamWindow = NULL;
         }
 
-        emit switchUpdated(svp);
+        //emit switchUpdated(svp);
+        //return;
 
     }
 
@@ -1200,8 +1171,6 @@ void CCD::processText(ITextVectorProperty *tvp)
         IText *filepath = IUFindText(tvp, "FILE_PATH");
         if (filepath)
             emit newRemoteFile(QString(filepath->text));
-
-        return;
     }
 
     DeviceDecorator::processText(tvp);

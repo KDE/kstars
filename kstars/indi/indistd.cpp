@@ -143,11 +143,12 @@ void GenericDevice::registerProperty(INDI::Property *prop)
 void GenericDevice::removeProperty(INDI::Property *prop)
 {
     properties.removeOne(prop);
+
+    emit propertyDeleted(prop);
 }
 
 void GenericDevice::processSwitch(ISwitchVectorProperty * svp)
 {
-
     if (!strcmp(svp->name, "CONNECTION"))
     {
         ISwitch *conSP = IUFindSwitch(svp, "CONNECT");
@@ -182,6 +183,7 @@ void GenericDevice::processSwitch(ISwitchVectorProperty * svp)
         }
     }
 
+    emit switchUpdated(svp);
 
 }
 
@@ -231,6 +233,8 @@ void GenericDevice::processNumber(INumberVectorProperty * nvp)
         else if (nvp->np[0].value == 0)
             watchDogTimer->stop();
     }
+
+    emit numberUpdated(nvp);
 }
 
 void GenericDevice::processText(ITextVectorProperty * tvp)
@@ -271,16 +275,18 @@ void GenericDevice::processText(ITextVectorProperty * tvp)
         geo->setTZ(utcOffset);    
 
     }
+
+    emit textUpdated(tvp);
 }
 
 void GenericDevice::processLight(ILightVectorProperty * lvp)
 {
-    INDI_UNUSED(lvp);
+    emit lightUpdated(lvp);
 }
 
 void GenericDevice::processMessage(int messageID)
 {
-   INDI_UNUSED(messageID);
+    emit messageUpdated(messageID);
 }
 
 void GenericDevice::processBLOB(IBLOB* bp)
@@ -367,6 +373,7 @@ void GenericDevice::processBLOB(IBLOB* bp)
     if (dataType == DATA_OTHER)      
         KStars::Instance()->statusBar()->showMessage(i18n("Data file saved to %1", filename ), 0);
 
+    emit BLOBUpdated(bp);
 }
 
 bool GenericDevice::setConfig(INDIConfig tConfig)
@@ -665,6 +672,17 @@ DeviceDecorator::DeviceDecorator(GDInterface *iPtr)
 {
     interfacePtr = iPtr;
 
+    connect(iPtr, SIGNAL(Connected()), this, SIGNAL(Connected()));
+    connect(iPtr, SIGNAL(Disconnected()), this, SIGNAL(Disconnected()));
+    connect(iPtr, SIGNAL(propertyDefined(INDI::Property*)), this, SIGNAL(propertyDefined(INDI::Property*)));
+    connect(iPtr, SIGNAL(propertyDeleted(INDI::Property*)), this, SIGNAL(propertyDeleted(INDI::Property*)));
+    connect(iPtr, SIGNAL(messageUpdated(int)), this, SIGNAL(messageUpdated(int)));
+    connect(iPtr, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SIGNAL(switchUpdated(ISwitchVectorProperty*)));
+    connect(iPtr, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SIGNAL(numberUpdated(INumberVectorProperty*)));
+    connect(iPtr, SIGNAL(textUpdated(ITextVectorProperty*)), this, SIGNAL(textUpdated(ITextVectorProperty*)));
+    connect(iPtr, SIGNAL(BLOBUpdated(IBLOB*)), this, SIGNAL(BLOBUpdated(IBLOB*)));
+    connect(iPtr, SIGNAL(lightUpdated(ILightVectorProperty*)), this, SIGNAL(lightUpdated(ILightVectorProperty*)));
+
     baseDevice    = interfacePtr->getBaseDevice();
     clientManager = interfacePtr->getDriverInfo()->getClientManager();
 }
@@ -687,39 +705,31 @@ bool DeviceDecorator::setProperty(QObject *setPropCommand)
 void DeviceDecorator::processBLOB(IBLOB *bp)
 {
     interfacePtr->processBLOB(bp);
-    emit BLOBUpdated(bp);
-
 }
 
 void DeviceDecorator::processLight(ILightVectorProperty *lvp)
 {
     interfacePtr->processLight(lvp);
-    emit lightUpdated(lvp);
-
 }
 
 void DeviceDecorator::processNumber(INumberVectorProperty *nvp)
 {
     interfacePtr->processNumber(nvp);
-    emit numberUpdated(nvp);
 }
 
 void DeviceDecorator::processSwitch(ISwitchVectorProperty *svp)
 {
     interfacePtr->processSwitch(svp);
-    emit switchUpdated(svp);
 }
 
 void DeviceDecorator::processText(ITextVectorProperty *tvp)
 {
     interfacePtr->processText(tvp);
-    emit textUpdated(tvp);
 }
 
 void DeviceDecorator::processMessage(int messageID)
 {
     interfacePtr->processMessage(messageID);
-    emit messageUpdated(messageID);
 }
 
 void DeviceDecorator::registerProperty(INDI::Property *prop)
@@ -730,7 +740,6 @@ void DeviceDecorator::registerProperty(INDI::Property *prop)
 void DeviceDecorator::removeProperty(INDI::Property *prop)
 {
     interfacePtr->removeProperty(prop);
-    emit propertyDeleted(prop);
 }
 
 bool DeviceDecorator::setConfig(INDIConfig tConfig)
@@ -783,12 +792,9 @@ bool DeviceDecorator::Disconnect()
     return interfacePtr->Disconnect();
 }
 
-
 bool DeviceDecorator::getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)
 {
-
     return interfacePtr->getMinMaxStep(propName, elementName, min, max, step);
-
 }
 
 IPState DeviceDecorator::getState(const QString &propName)
@@ -800,7 +806,6 @@ IPerm DeviceDecorator::getPermission(const QString &propName)
 {
     return interfacePtr->getPermission(propName);
 }
-
 
 ST4::ST4(INDI::BaseDevice *bdv, ClientManager *cm)
 {
