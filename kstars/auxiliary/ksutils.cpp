@@ -640,19 +640,25 @@ QString constGenetiveToAbbrev( const QString &genetive_ ) {
 
   QString getDefaultPath(QString option)
   {
-      if(option=="indiServer")
+      QString snap = QProcessEnvironment::systemEnvironment().value("SNAP");
+
+      if(option=="fitsDir")
+      {
+        return QDir::homePath();
+      }
+      else if(option=="indiServer")
       {
         #ifdef Q_OS_OSX          
             return "/usr/local/bin/indiserver";
         #endif
-            return "/usr/bin/indiserver";
+            return snap + "/usr/bin/indiserver";
       }
       else if (option=="indiDriversDir")
       {
         #ifdef Q_OS_OSX
             return "/usr/local/share/indi";
         #elif defined(Q_OS_LINUX)
-            return "/usr/share/indi";
+            return snap + "/usr/share/indi";
         #else
           return QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory);
         #endif
@@ -662,28 +668,28 @@ QString constGenetiveToAbbrev( const QString &genetive_ ) {
         #ifdef Q_OS_OSX
             return "/usr/local/bin/solve-field";
         #endif
-          return "/usr/bin/solve-field";
+          return snap + "/usr/bin/solve-field";
       }
       else if(option=="AstrometryWCSInfo")
       {
         #ifdef Q_OS_OSX
             return "/usr/local/bin/wcsinfo";
         #endif
-            return "/usr/bin/wcsinfo";
+            return snap + "/usr/bin/wcsinfo";
       }
       else if(option=="AstrometryConfFile")
       {
         #ifdef Q_OS_OSX
             return "/usr/local/etc/astrometry.cfg";
         #endif
-            return "/etc/astrometry.cfg";
+            return snap + "/etc/astrometry.cfg";
       }
       else if(option=="XplanetPath")
       {
         #ifdef Q_OS_OSX
             return "/usr/local/bin/xplanet";
         #endif
-            return "/usr/bin/xplanet";
+            return snap + "/usr/bin/xplanet";
       }
 
       return QString();
