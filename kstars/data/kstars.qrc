@@ -132,6 +132,9 @@
         <file>icons/breeze/default/media-record.svg</file>
         <file>icons/breeze/default/camera-photo.svg</file>
         <file>icons/center_telescope_red.svg</file>
+        <file>icons/AlignFailure.svg</file>
+        <file>icons/AlignSuccess.svg</file>
+        <file>icons/AlignWarning.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>

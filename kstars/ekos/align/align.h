@@ -373,6 +373,12 @@ private slots:
     void slotMountModel();
 
     //Mount Model Slots
+
+    void slotWizardAlignmentPoints();
+    void slotStarSelected(const QString selectedStar);
+    void slotLoadAlignmentPoints();
+    void slotSaveAsAlignmentPoints();
+    void slotSaveAlignmentPoints();
     void slotClearAllAlignPoints();
     void slotRemoveAlignPoint();
     void slotAddAlignPoint();
@@ -611,6 +617,15 @@ private:
     bool targetAccuracyNotMet=false;
 
     bool alignmentPointsAreBad();
+    bool loadAlignmentPoints(const QString &fileURL);
+    bool saveAlignmentPoints(const QString &path);
+
+    QUrl alignURL;
+    QUrl alignURLPath;
+    QVector<QPair<QString, const SkyObject *>> alignStars;
+    void generateAlignStarList();
+    bool isVisible(const SkyObject *so);
+    double getAltitude(const SkyObject *so);
 };
 
 }
