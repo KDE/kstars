@@ -34,14 +34,6 @@ OpsINDI::OpsINDI()
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
-    if (Options::fitsDir().isEmpty())
-    {
-        kcfg_fitsDir->setText (QDir:: homePath());
-        Options::setFitsDir( kcfg_fitsDir->text());
-    }
-    else
-        kcfg_fitsDir->setText ( Options::fitsDir());
-
     selectFITSDirB->setIcon( QIcon::fromTheme( "document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")) );
     selectFITSDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     selectDriversDirB->setIcon( QIcon::fromTheme( "document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")) );

@@ -164,7 +164,7 @@
       <entry name="fitsDir" type="String">
          <label>FITS Default directory</label>
          <whatsthis>The default location of saved FITS files</whatsthis>
-         <default></default>
+         <default code="true">KSUtils::getDefaultPath("fitsDir")</default>
       </entry>
       <entry name="serverPortStart" type="String">
          <label>INDI Server Start Port</label>
