@@ -124,7 +124,7 @@
         <item>
          <widget class="QComboBox" name="starListBox">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;These are the common names for the named stars that are currently up at your location.  If you select a star, it wil be added to the table below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;These are the common names for the named stars that are currently up at your location.  If you select a star, it will be added to the table below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -145,7 +145,7 @@
         <item>
          <widget class="QComboBox" name="greekStarListBox">
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;These are the greek names for the brighter stars that are currently up at your location.  If you select a star, it wil be added to the table below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;These are the Greek names for the brighter stars that are currently up at your location.  If you select a star, it will be added to the table below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
