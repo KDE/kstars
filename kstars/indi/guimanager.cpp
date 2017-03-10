@@ -110,10 +110,12 @@ void GUIManager::closeEvent(QCloseEvent * /*event*/)
 
     if (ks)
     {
-        QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
-        a->setChecked(false);
-    }
+        QAction *showINDIPanel = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+        showINDIPanel->setChecked(false);
 
+        QAction *centerTelescope = KStars::Instance()->actionCollection()->action( "lock_telescope" );
+        centerTelescope->setChecked(false);
+    }
 }
 
 void GUIManager::hideEvent(QHideEvent * /*event*/)
@@ -132,6 +134,9 @@ void GUIManager::showEvent(QShowEvent * /*event*/)
     QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
     a->setEnabled(true);
     a->setChecked(true);
+
+    a = KStars::Instance()->actionCollection()->action( "lock_telescope" );
+    a->setEnabled(true);
 }
 
 /*********************************************************************
@@ -140,23 +145,26 @@ void GUIManager::showEvent(QShowEvent * /*event*/)
 *********************************************************************/
 void GUIManager::updateStatus()
 {
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+    QAction *showINDIPanel   = KStars::Instance()->actionCollection()->action( "show_control_panel" );
 
-    //if (clients.size() == 0)
     if (guidevices.count() == 0)
     {
         KMessageBox::error(0, i18n("No INDI devices currently running. To run devices, please select devices from the Device Manager in the devices menu."));
-        a->setChecked(false);
+        showINDIPanel->setChecked(false);
+        showINDIPanel->setEnabled(false);
+
+        QAction *centerTelescope = KStars::Instance()->actionCollection()->action( "lock_telescope" );
+        centerTelescope->setChecked(false);
+        centerTelescope->setEnabled(false);
+
         return;
     }
 
-   a->setChecked(true);
+   showINDIPanel->setChecked(true);
 
     raise();
     activateWindow();
     showNormal();
-
-
 }
 
 INDI_D * GUIManager::findGUIDevice(const QString &deviceName)
@@ -254,10 +262,13 @@ void GUIManager::removeDevice(DeviceInfo *di)
 
     if (guidevices.isEmpty())
     {
-        QAction *a = KStars::Instance()->actionCollection()->action( "show_control_panel" );
-        a->setEnabled(false);
-    }
+        QAction *showINDIPanel = KStars::Instance()->actionCollection()->action( "show_control_panel" );
+        showINDIPanel->setEnabled(false);
 
+        QAction *centerTelescope = KStars::Instance()->actionCollection()->action( "lock_telescope" );
+        centerTelescope->setChecked(false);
+        centerTelescope->setEnabled(false);
+    }
 }
 
 void GUIManager::buildDevice(DeviceInfo *di)

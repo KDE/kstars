@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 
-<kpartgui name="KStars" version="3">
+<kpartgui name="KStars" version="4">
 <MenuBar noMerge="1">
         <Menu name="file" noMerge="1"><text>&amp;File</text>
                 <Action name="new_window" />
@@ -182,6 +182,7 @@
         <Action name="show_ekos" />
         <Action name="show_control_panel" />
         <Action name="show_fits_viewer" />
+        <Action name="lock_telescope" />
 </ToolBar>
 
 </kpartgui>
