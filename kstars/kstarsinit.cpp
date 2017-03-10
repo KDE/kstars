@@ -585,10 +585,13 @@ void KStars::initActions() {
         << QIcon::fromTheme("kstars_fitsviewer" , QIcon(":/icons/breeze/default/kstars_fitsviewer.svg") )
         << ToolTip( i18n("Toggle FITS Viewer") );
     ka->setEnabled(false);
+    ka = actionCollection()->add<KToggleAction>("lock_telescope", this, SLOT( slotINDIToolBar() ) )
+        << i18nc("Toggle the telescope center lock in display", "Center Telescope" )
+        << QIcon::fromTheme("center_telescope" , QIcon(":/icons/center_telescope.svg") )
+        << ToolTip( i18n("Toggle Lock Telescope Center") );
+    ka->setEnabled(false);
 #endif
 
-    if (Options::fitsDir().isEmpty())
-        Options::setFitsDir(QDir:: homePath());
 }
 
 void KStars::repopulateFOV() {

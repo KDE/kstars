@@ -28,7 +28,13 @@ Telescope::Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr)
     dType = KSTARS_TELESCOPE;
     minAlt=-1;
     maxAlt=-1;    
-    EqCoordPreviousState=IPS_IDLE;    
+    EqCoordPreviousState=IPS_IDLE;
+
+    centerLockTimer = new QTimer(this);
+    // Set it for 5 seconds for now as not to spam the display update
+    centerLockTimer->setInterval(5000);
+    centerLockTimer->setSingleShot(true);
+    connect(centerLockTimer, &QTimer::timeout, this, [this]() { runCommand(INDI_CENTER_LOCK); });
 }
 
 Telescope::~Telescope()
@@ -113,6 +119,10 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         if (RA == NULL || DEC == NULL)
             return;
 
+        currentCoord.setRA(RA->value);
+        currentCoord.setDec(DEC->value);
+        currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+
         if (nvp->s == IPS_BUSY && EqCoordPreviousState != IPS_BUSY)
         {
             if (getStatus() != MOUNT_PARKING)
@@ -121,13 +131,14 @@ void Telescope::processNumber(INumberVectorProperty *nvp)
         else if (EqCoordPreviousState == IPS_BUSY && nvp->s == IPS_OK)
         {
                  KNotification::event( QLatin1String( "SlewCompleted" ) , i18n("Mount arrived at target location"));
+
+                 double maxrad = 1000.0/Options::zoomFactor();
+                 currentObject = KStarsData::Instance()->skyComposite()->objectNearest(&currentCoord, maxrad );
+                 if (currentObject != NULL)
+                     emit newTarget(currentObject->name());
         }
 
         EqCoordPreviousState = nvp->s;
-
-        currentCoord.setRA(RA->value);
-        currentCoord.setDec(DEC->value);
-        currentCoord.EquatorialToHorizontal(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
 
         KStars::Instance()->map()->update();
     }
@@ -171,6 +182,7 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
             {
                 parkStatus = PARK_PARKING;
                 KNotification::event( QLatin1String( "MountParking" ) , i18n("Mount parking is in progress"));
+                currentObject = NULL;
             }
             else if (svp->s == IPS_BUSY && sp->s == ISS_OFF && parkStatus != PARK_UNPARKING)
             {
@@ -181,11 +193,13 @@ void Telescope::processSwitch(ISwitchVectorProperty *svp)
             {
                 parkStatus = PARK_PARKED;
                 KNotification::event( QLatin1String( "MountParked" ) , i18n("Mount parked"));
+                currentObject = NULL;
             }
             else if (svp->s == IPS_OK && sp->s == ISS_OFF && parkStatus != PARK_UNPARKED)
             {
                 parkStatus = PARK_UNPARKED;
                 KNotification::event( QLatin1String( "MountUnparked" ) , i18n("Mount unparked"));
+                currentObject = NULL;
             }
         }
     }
@@ -368,6 +382,31 @@ bool Telescope::runCommand(int command, void *ptr)
         }
         break;
 
+    case INDI_CENTER_LOCK:
+        {
+            //if (currentObject == NULL || KStars::Instance()->map()->focusObject() != currentObject)
+            if (Options::isTracking() == false || currentCoord.angularDistanceTo(KStars::Instance()->map()->focus()).Degrees() > 0.5)
+            {
+                SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
+                J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), (long double) J2000);
+                currentCoord.setRA0(J2000Coord.ra());
+                currentCoord.setDec0(J2000Coord.dec());
+                //KStars::Instance()->map()->setClickedPoint(&currentCoord);
+                //KStars::Instance()->map()->slotCenter();
+                KStars::Instance()->map()->setDestination(currentCoord);
+                KStars::Instance()->map()->setFocusPoint(&currentCoord);
+                KStars::Instance()->map()->setFocusObject(currentObject);
+                Options::setIsTracking( true );
+            }
+            centerLockTimer->start();
+        }
+        break;
+
+    case INDI_CENTER_UNLOCK:
+        KStars::Instance()->map()->stopTracking();
+        centerLockTimer->stop();
+        break;
+
     default:
         return DeviceDecorator::runCommand(command, ptr);
         break;
@@ -493,9 +532,9 @@ bool Telescope::sendCoords(SkyPoint *ScopeTarget)
         }
 
         double maxrad = 1000.0/Options::zoomFactor();
-        SkyObject *so = KStarsData::Instance()->skyComposite()->objectNearest(ScopeTarget, maxrad );
-        if (so)
-            emit newTarget(so->name());
+        currentObject = KStarsData::Instance()->skyComposite()->objectNearest(ScopeTarget, maxrad );
+        if (currentObject)
+            emit newTarget(currentObject->name());
 
         return true;
 

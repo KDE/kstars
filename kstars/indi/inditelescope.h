@@ -12,6 +12,8 @@
 
 #include "indistd.h"
 
+class SkyObject;
+
 namespace ISD
 {
 
@@ -100,6 +102,8 @@ private:
     double minAlt,maxAlt;
     ParkStatus parkStatus = PARK_UNKNOWN;
     IPState EqCoordPreviousState;
+    QTimer *centerLockTimer=NULL;
+    SkyObject *currentObject=NULL;
 
 };
 

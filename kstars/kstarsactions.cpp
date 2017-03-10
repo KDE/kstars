@@ -104,10 +104,12 @@
 #include <KSharedConfig>
 
 #ifdef HAVE_INDI
+#include <basedevice.h>
 #include "indi/telescopewizardprocess.h"
 #include "indi/opsindi.h"
 #include "indi/drivermanager.h"
 #include "indi/guimanager.h"
+#include "indi/indilistener.h"
 #endif
 
 #ifdef HAVE_NOTIFYCONFIG
@@ -264,6 +266,48 @@ void KStars::slotINDIToolBar()
        }
        else
            ekosManager()->hide();
+    }
+    else if ( a == actionCollection()->action( "lock_telescope" ) )
+    {
+        if (INDIListener::Instance()->size() == 0)
+        {
+            KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+            return;
+        }
+
+        ISD::GDInterface *oneScope=NULL;
+
+        foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+        {
+            INDI::BaseDevice *bd = gd->getBaseDevice();
+
+            if (gd->getType() != KSTARS_TELESCOPE)
+                continue;
+
+            if (bd == NULL)
+                continue;
+
+            if (bd->isConnected() == false)
+            {
+                KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+                return;
+            }
+
+
+            oneScope = gd;
+            break;
+        }
+
+        if (oneScope == NULL)
+        {
+            KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+            return;
+        }
+
+       if (a->isChecked())
+           oneScope->runCommand(INDI_CENTER_LOCK);
+       else
+           oneScope->runCommand(INDI_CENTER_UNLOCK);
     }
     else if ( a == actionCollection()->action( "show_fits_viewer" ) )
     {
