@@ -321,6 +321,9 @@ Align::Align()
     removeSolutionB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg") ));
     removeSolutionB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
+    exportSolutionsCSV->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/breeze/default/document-save-as.svg") ));
+    exportSolutionsCSV->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
 
     mountModel.setupUi(&mountModelDialog);
     mountModelDialog.setWindowTitle("Mount Model Tool");
@@ -329,9 +332,6 @@ Align::Align()
     mountModel.alignTable->setColumnWidth(1,75);
     mountModel.alignTable->setColumnWidth(2,80);
     mountModel.alignTable->setColumnWidth(3,30);
-
-    for(int i=1;i<20;i++)
-        mountModel.alignPtNum->addItem(QString::number(i+1));
 
     mountModel.wizardAlignB->setIcon(QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg") ));
     mountModel.wizardAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -375,6 +375,7 @@ Align::Align()
 
     connect(clearAllSolutionsB, SIGNAL(clicked()), this, SLOT(slotClearAllSolutionPoints()));
     connect(removeSolutionB, SIGNAL(clicked()), this, SLOT(slotRemoveSolutionPoint()));
+    connect(exportSolutionsCSV, SIGNAL(clicked()), this, SLOT(exportSolutionPoints()));
     connect(mountModelB, SIGNAL(clicked()), this, SLOT(slotMountModel()));
     connect(solutionTable, SIGNAL(cellClicked(int, int)), this, SLOT(selectSolutionTableRow(int, int)));
 
@@ -557,8 +558,7 @@ void Align::buildTarget(){
 }
 
 void Align::slotWizardAlignmentPoints(){
-    QString numText=mountModel.alignPtNum->currentText();
-    int points=numText.toInt();
+    int points=mountModel.alignPtNum->value();
     if(points<2)
         return;
     double angle = 120 / (points-1);  //180 degrees of sky - 30 degrees at each horizon.
@@ -568,13 +568,11 @@ void Align::slotWizardAlignmentPoints(){
     spWest.setAz(270);
     spWest.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
 
-
     for(int i=0;i<points;i++){
         double ra=spWest.ra().Degrees()+i*angle;
         double dec=spWest.dec().Degrees();
 
-        double maxrad = 10000.0/Options::zoomFactor();
-        SkyObject *o = KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra),dms(dec)), maxrad );
+        const SkyObject *o = getClosestAlignStar(ra,dec,angle);
 
         if(o){
             int currentRow = mountModel.alignTable->rowCount();
@@ -594,7 +592,7 @@ void Align::slotWizardAlignmentPoints(){
             mountModel.alignTable->setItem(currentRow, 1, DECReport);
 
             QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
-            ObjNameReport->setText(o->name());
+            ObjNameReport->setText(o->longname());
             ObjNameReport->setTextAlignment(Qt::AlignHCenter);
             mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
 
@@ -604,16 +602,40 @@ void Align::slotWizardAlignmentPoints(){
         }
 
     }
+}
 
-
+const SkyObject* Align::getClosestAlignStar(double ra, double dec, double angle){
+    double bestDiff=360;
+    double index=-1;
+     for(int i=0;i<alignStars.size();i++){
+         QPair<QString, const SkyObject *> pair=alignStars.value(i);
+         const SkyObject *o=pair.second;
+         if( o != 0 ) {
+             double thisRADiff=qAbs(ra-(o->ra().Degrees()));
+             double thisDEDiff=qAbs(dec-(o->dec().Degrees()));
+             double thisDiff=qSqrt(thisRADiff*thisRADiff+thisDEDiff*thisDEDiff);
+             if(thisDiff<bestDiff){
+                 index=i;
+                 bestDiff=thisDiff;
+             }
+         }
+     }
+     if(index==-1||bestDiff>angle){
+         double maxSearch=5.0;
+         SkyObject *o = KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
+         return o;
+     }
+    QPair<QString, const SkyObject *> pair=alignStars.value(index);
+    qDebug()<<pair.first;
+    return pair.second;
 }
 
 void Align::slotStarSelected(const QString selectedStar){
     for(int i=0;i<alignStars.size();i++){
         QPair<QString, const SkyObject *> pair=alignStars.value(i);
-        if(pair.first==selectedStar){
-            const SkyObject *o=pair.second;
-            if( o != 0 ) {
+        const SkyObject *o=pair.second;
+        if( o != 0 ) {
+            if(pair.first==selectedStar||o->longname()==selectedStar){
                 int currentRow = mountModel.alignTable->rowCount();
                 mountModel.alignTable->insertRow(currentRow);
 
@@ -631,7 +653,7 @@ void Align::slotStarSelected(const QString selectedStar){
                 mountModel.alignTable->setItem(currentRow, 1, DECReport);
 
                 QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
-                ObjNameReport->setText(o->name());
+                ObjNameReport->setText(o->longname());
                 ObjNameReport->setTextAlignment(Qt::AlignHCenter);
                 mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
 
@@ -656,13 +678,19 @@ void Align::generateAlignStarList(){
 
     for(int i=0;i<alignStars.size();i++){
         QPair<QString, const SkyObject *> pair=alignStars.value(i);
-        if(!isVisible(pair.second))
+        if(!isVisible(pair.second)){
             alignStars.remove(i);
-        else if(pair.first.startsWith("HD"))
+            i--;
+        }else if(pair.first.startsWith("HD")){
             alignStars.remove(i);
-        else{
-            if(pair.first.startsWith("alpha")||pair.first.startsWith("beta")||pair.first.startsWith("delta")||pair.first.startsWith("gamma")||pair.first.startsWith("epsilon")||pair.first.startsWith("zeta")||pair.first.startsWith("sigma")||pair.first.startsWith("chi")||pair.first.startsWith("xi")||pair.first.startsWith("kappa")||pair.first.startsWith("eta")||pair.first.startsWith("mu")||pair.first.startsWith("nu")||pair.first.startsWith("theta")||pair.first.startsWith("psi")||pair.first.startsWith("iota")||pair.first.startsWith("lambda")||pair.first.startsWith("omicron"))
-                greekBoxNames << pair.first;
+            i--;
+        }else{
+            if(pair.first.startsWith("alpha")||pair.first.startsWith("beta")||pair.first.startsWith("gamma")||pair.first.startsWith("delta")||pair.first.startsWith("epsilon")||pair.first.startsWith("zeta")||pair.first.startsWith("eta")||pair.first.startsWith("theta")||pair.first.startsWith("iota")||pair.first.startsWith("kappa")||pair.first.startsWith("lambda")||pair.first.startsWith("mu")||pair.first.startsWith("nu")||pair.first.startsWith("xi")||pair.first.startsWith("omicron")||pair.first.startsWith("pi")||pair.first.startsWith("rho")||pair.first.startsWith("sigma")||pair.first.startsWith("tau")||pair.first.startsWith("upsilon")||pair.first.startsWith("phi")||pair.first.startsWith("chi")||pair.first.startsWith("psi")||pair.first.startsWith("omega"))
+            {
+                const SkyObject *o=pair.second;
+                if( o != 0 )
+                    greekBoxNames << o->longname();
+            }
             else
                 boxNames << pair.first;
         }
@@ -683,7 +711,11 @@ void Align::generateAlignStarList(){
 }
 
 bool Align::isVisible(const SkyObject *so){
-    return (getAltitude(so) > 30);
+    //QList<double> limits=Ekos::Mount *mountModule()->getAltitudeLimits();
+   // if(limits.first()>30)
+   //     return (getAltitude(so) > limits.first());
+  //  else
+        return (getAltitude(so) > 30);
 }
 
 double Align::getAltitude(const SkyObject *so){
@@ -886,10 +918,73 @@ bool Align::saveAlignmentPoints(const QString &path){
         outstream << "</AlignmentPoint>" << endl;
     }
     outstream << "</AlignmentList>" << endl;
-    appendLogText(i18n("Sequence queue saved to %1", path));
+    appendLogText(i18n("Alignment List saved to %1", path));
     file.close();
     return true;
 
+}
+
+void Align::exportSolutionPoints(){
+
+    QUrl exportFile = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export Solution Points"), alignURLPath, "CSV File (*.csv)");
+    if (exportFile.isEmpty())   // if user presses cancel
+        return;
+    if (exportFile.toLocalFile().endsWith(".csv") == false)
+        exportFile.setPath(exportFile.toLocalFile() + ".csv");
+
+    QString path=exportFile.toLocalFile();
+
+    if (QFile::exists(path))
+    {
+        int r = KMessageBox::warningContinueCancel(0,
+                    i18n( "A file named \"%1\" already exists. "
+                          "Overwrite it?", exportFile.fileName() ),
+                    i18n( "Overwrite File?" ),
+                    KStandardGuiItem::overwrite() );
+        if(r==KMessageBox::Cancel) return;
+    }
+
+    if ( !exportFile.isValid() )
+    {
+        QString message = i18n( "Invalid URL: %1", exportFile.url() );
+        KMessageBox::sorry(KStars::Instance(), message, i18n( "Invalid URL" ) );
+        return;
+    }
+
+    QFile file;
+    file.setFileName(path);
+    if ( !file.open( QIODevice::WriteOnly))
+    {
+        QString message = i18n( "Unable to write to file %1",  path);
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        return;
+    }
+
+    QTextStream outstream(&file);
+
+    outstream << "RA,DE,Name,RA Error (arcsec),DE Error (arcsec)"<< endl;
+
+    for (int i=0; i < solutionTable->rowCount(); i++)
+    {
+        QTableWidgetItem *raCell=solutionTable->item(i,0);
+        QTableWidgetItem *deCell=solutionTable->item(i,1);
+        QTableWidgetItem *objNameCell=solutionTable->item(i,2);
+        QTableWidgetItem *raErrorCell=solutionTable->item(i,4);
+        QTableWidgetItem *deErrorCell=solutionTable->item(i,5);
+
+        if(!raCell||!deCell||!objNameCell||!raErrorCell||!deErrorCell){
+            KMessageBox::sorry( 0, i18n( "Error in table structure." ) );
+            return;
+        }
+        outstream << raCell->text()<<","
+                  << deCell->text()<<","
+                  << objNameCell->text()<<","
+                  << raErrorCell->text().remove("\"")<<","
+                  << deErrorCell->text().remove("\"")
+                  << endl;
+    }
+    appendLogText(i18n("Solution Points Saved as: %1", path));
+    file.close();
 }
 
 void Align::slotClearAllSolutionPoints()
