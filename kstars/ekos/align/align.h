@@ -388,6 +388,7 @@ private slots:
     void startAlignmentPoint();
     void finishAlignmentPoint(bool solverSucceeded);
     void moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex);
+    void exportSolutionPoints();
 
 signals:
         void newLog();
@@ -626,6 +627,7 @@ private:
     void generateAlignStarList();
     bool isVisible(const SkyObject *so);
     double getAltitude(const SkyObject *so);
+    const SkyObject* getClosestAlignStar(double ra, double de, double angle);
 };
 
 }
