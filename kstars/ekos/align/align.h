@@ -627,7 +627,8 @@ private:
     void generateAlignStarList();
     bool isVisible(const SkyObject *so);
     double getAltitude(const SkyObject *so);
-    const SkyObject* getClosestAlignStar(double ra, double de, double angle);
+    const SkyObject* getWizardAlignObject(double ra, double de, double angle);
+    void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
 };
 
 }
