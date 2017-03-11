@@ -330,7 +330,7 @@ Align::Align()
     mountModelDialog.setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
     mountModel.alignTable->setColumnWidth(0,70);
     mountModel.alignTable->setColumnWidth(1,75);
-    mountModel.alignTable->setColumnWidth(2,80);
+    mountModel.alignTable->setColumnWidth(2,100);
     mountModel.alignTable->setColumnWidth(3,30);
 
     mountModel.wizardAlignB->setIcon(QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg") ));
@@ -561,73 +561,152 @@ void Align::slotWizardAlignmentPoints(){
     int points=mountModel.alignPtNum->value();
     if(points<2)
         return;
-    double angle = 120 / (points-1);  //180 degrees of sky - 30 degrees at each horizon.
 
+    double decAngle=mountModel.alignDec->value();
+    int minAlt=mountModel.minAltBox->value();
+
+    KStarsData *data = KStarsData::Instance();
+    GeoLocation *geo=data->geo();
+
+    double lat=geo->lat()->Degrees();
+
+    //Dec that never rises.
+    if(lat>0){
+        if(decAngle < lat - 90 + minAlt)  //Min altitude possible at minAlt deg above horizon
+            return;
+
+    } else{
+        if(decAngle > lat + 90 - minAlt)  //Max altitude possible at minAlt deg above horizon
+            return;
+    }
+
+    double angle = -1;
+
+    SkyPoint spEast;
     SkyPoint spWest;
-    spWest.setAlt(30);
-    spWest.setAz(270);
-    spWest.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+
+    //Circumpolar dec
+    if(fabs(decAngle)  >  (90 - fabs(lat) + minAlt)){
+        angle = 360 / (points-1);
+        spWest=SkyPoint(dms(0),dms(decAngle));
+    }else{
+        dms AZEast,AZWest;
+        calculateAZPointsForDEC(dms(decAngle), dms(minAlt), AZEast,AZWest);
+
+        spEast.setAlt(minAlt);
+        spEast.setAz(AZEast.Degrees());
+        spEast.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+
+        spWest.setAlt(minAlt);
+        spWest.setAz(AZWest.Degrees());
+        spWest.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+
+        dms angleSep;
+        if(spEast.ra().Degrees()>spWest.ra().Degrees())
+            angleSep=spEast.ra()-spWest.ra();
+        else
+            angleSep=spEast.ra()+dms(360)-spWest.ra();
+        angle=angleSep.Degrees()/(points-1);
+        //qDebug()<<"AZ Intersections: "<<QString::number(AZWest.Degrees())<<","<<QString::number(AZEast.Degrees());
+        //qDebug()<<"RA Values: "<<spWest.ra().toHMSString()<<", "<<spEast.ra().toHMSString();
+        //qDebug()<<"RA Degrees: "<<QString::number(spWest.ra().Degrees())<<","<<QString::number(spEast.ra().Degrees());
+        //qDebug()<<"AngleSep: "<<QString::number(angleSep.Degrees())<<","<<QString::number(angle);
+    }
+
+    if(angle==-1)
+        return;
 
     for(int i=0;i<points;i++){
         double ra=spWest.ra().Degrees()+i*angle;
-        double dec=spWest.dec().Degrees();
+        double dec=decAngle;
 
-        const SkyObject *o = getClosestAlignStar(ra,dec,angle);
+        const SkyObject *o = getWizardAlignObject(ra,dec,angle);
 
+        QString ra_report, dec_report, name;
         if(o){
-            int currentRow = mountModel.alignTable->rowCount();
-            mountModel.alignTable->insertRow(currentRow);
-
-            QString ra_report, dec_report;
             getFormattedCoords(o->ra().Hours(),o->dec().Degrees(),ra_report, dec_report);
-
-            QTableWidgetItem *RAReport = new QTableWidgetItem();
-            RAReport->setText(ra_report);
-            RAReport->setTextAlignment(Qt::AlignHCenter);
-            mountModel.alignTable->setItem(currentRow, 0, RAReport);
-
-            QTableWidgetItem *DECReport = new QTableWidgetItem();
-            DECReport->setText(dec_report);
-            DECReport->setTextAlignment(Qt::AlignHCenter);
-            mountModel.alignTable->setItem(currentRow, 1, DECReport);
-
-            QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
-            ObjNameReport->setText(o->longname());
-            ObjNameReport->setTextAlignment(Qt::AlignHCenter);
-            mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
-
-            QTableWidgetItem *disabledBox= new QTableWidgetItem();
-            disabledBox->setFlags(Qt::ItemIsSelectable);
-            mountModel.alignTable->setItem(currentRow, 3, disabledBox);
+            name=o->longname();
+        } else{
+            getFormattedCoords(dms(ra).Hours(),dec,ra_report, dec_report);
+            name="None";
         }
+        int currentRow = mountModel.alignTable->rowCount();
+        mountModel.alignTable->insertRow(currentRow);
 
-    }
+        QTableWidgetItem *RAReport = new QTableWidgetItem();
+        RAReport->setText(ra_report);
+        RAReport->setTextAlignment(Qt::AlignHCenter);
+        mountModel.alignTable->setItem(currentRow, 0, RAReport);
+
+        QTableWidgetItem *DECReport = new QTableWidgetItem();
+        DECReport->setText(dec_report);
+        DECReport->setTextAlignment(Qt::AlignHCenter);
+        mountModel.alignTable->setItem(currentRow, 1, DECReport);
+
+        QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
+        ObjNameReport->setText(name);
+        ObjNameReport->setTextAlignment(Qt::AlignHCenter);
+        mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
+
+        QTableWidgetItem *disabledBox= new QTableWidgetItem();
+        disabledBox->setFlags(Qt::ItemIsSelectable);
+        mountModel.alignTable->setItem(currentRow, 3, disabledBox);
+   }
 }
 
-const SkyObject* Align::getClosestAlignStar(double ra, double dec, double angle){
-    double bestDiff=360;
-    double index=-1;
-     for(int i=0;i<alignStars.size();i++){
-         QPair<QString, const SkyObject *> pair=alignStars.value(i);
-         const SkyObject *o=pair.second;
-         if( o != 0 ) {
-             double thisRADiff=qAbs(ra-(o->ra().Degrees()));
-             double thisDEDiff=qAbs(dec-(o->dec().Degrees()));
-             double thisDiff=qSqrt(thisRADiff*thisRADiff+thisDEDiff*thisDEDiff);
-             if(thisDiff<bestDiff){
-                 index=i;
-                 bestDiff=thisDiff;
+void Align::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest){
+    KStarsData *data = KStarsData::Instance();
+    GeoLocation *geo=data->geo();
+    double AZRad;
+
+    double sindec, cosdec, sinlat, coslat;
+    double sinAlt, cosAlt;
+
+    geo->lat()->SinCos( sinlat, coslat );
+    dec.SinCos( sindec, cosdec );
+    alt.SinCos( sinAlt, cosAlt );
+
+    double arg = ( sindec - sinlat*sinAlt )/( coslat*cosAlt );
+    AZRad = acos( arg );
+    AZEast.setRadians(AZRad);
+    AZWest.setRadians(2.0*dms::PI - AZRad);
+}
+
+const SkyObject* Align::getWizardAlignObject(double ra, double dec, double angle){
+
+    if(mountModel.alignTypeBox->currentText()=="Any Object"){
+        double maxSearch=5.0;
+        SkyObject *o = KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
+        return o;
+    }else if(mountModel.alignTypeBox->currentText()=="Fixed Positions")
+        return NULL;
+    else{
+
+        //If they want stars, then try to search for and return the closest Align Star in the radius first, and if that fails, return the closest Star.
+
+        double bestDiff=360;
+        double index=-1;
+         for(int i=0;i<alignStars.size();i++){
+             QPair<QString, const SkyObject *> pair=alignStars.value(i);
+             const SkyObject *o=pair.second;
+             if( o != 0 ) {
+                 double thisRADiff=qAbs(ra-(o->ra().Degrees()));
+                 double thisDEDiff=qAbs(dec-(o->dec().Degrees()));
+                 double thisDiff=qSqrt(thisRADiff*thisRADiff+thisDEDiff*thisDEDiff);
+                 if(thisDiff<bestDiff){
+                     index=i;
+                     bestDiff=thisDiff;
+                 }
              }
          }
-     }
-     if(index==-1||bestDiff>angle){
-         double maxSearch=5.0;
-         SkyObject *o = KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
-         return o;
-     }
-    QPair<QString, const SkyObject *> pair=alignStars.value(index);
-    qDebug()<<pair.first;
-    return pair.second;
+         if(index==-1||bestDiff>angle){
+             double maxSearch=5.0;
+             SkyObject *o = KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
+             return o;
+         }
+        QPair<QString, const SkyObject *> pair=alignStars.value(index);
+        return pair.second;
+    }
 }
 
 void Align::slotStarSelected(const QString selectedStar){
@@ -711,11 +790,7 @@ void Align::generateAlignStarList(){
 }
 
 bool Align::isVisible(const SkyObject *so){
-    //QList<double> limits=Ekos::Mount *mountModule()->getAltitudeLimits();
-   // if(limits.first()>30)
-   //     return (getAltitude(so) > limits.first());
-  //  else
-        return (getAltitude(so) > 30);
+        return (getAltitude(so) > mountModel.minAltBox->value());
 }
 
 double Align::getAltitude(const SkyObject *so){
@@ -924,7 +999,10 @@ bool Align::saveAlignmentPoints(const QString &path){
 
 }
 
-void Align::exportSolutionPoints(){
+void Align::exportSolutionPoints()
+{
+    if (solutionTable->rowCount() == 0)
+        return;
 
     QUrl exportFile = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Export Solution Points"), alignURLPath, "CSV File (*.csv)");
     if (exportFile.isEmpty())   // if user presses cancel
@@ -1060,6 +1138,14 @@ void Align::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIn
 
 void Align::slotMountModel(){
     generateAlignStarList();
+
+    SkyPoint spWest;
+    spWest.setAlt(30);
+    spWest.setAz(270);
+    spWest.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+
+    mountModel.alignDec->setValue((int)spWest.dec().Degrees());
+
     mountModelDialog.show();
 }
 
@@ -1095,7 +1181,7 @@ void Align::slotFindAlignObject() {
            mountModel.alignTable->setItem(currentRow, 1, DECReport);
 
            QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
-           ObjNameReport->setText(o->name());
+           ObjNameReport->setText(o->longname());
            ObjNameReport->setTextAlignment(Qt::AlignHCenter);
            mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
 
@@ -2066,15 +2152,19 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         DECReport->setFlags(Qt::ItemIsSelectable);
         solutionTable->setItem(currentRow, 1, DECReport);
 
-        double maxrad = 1000.0/Options::zoomFactor();
+        double maxrad = 1.0;
         SkyObject *so = KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra*15),dms(dec)), maxrad );
+        QString name;
         if (so){
-            QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
-            ObjNameReport->setText(so->name());
-            ObjNameReport->setTextAlignment(Qt::AlignHCenter);
-            ObjNameReport->setFlags(Qt::ItemIsSelectable);
-            solutionTable->setItem(currentRow, 2, ObjNameReport);
+            name = so->longname();
+        } else{
+            name = "None";
         }
+        QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
+        ObjNameReport->setText(name);
+        ObjNameReport->setTextAlignment(Qt::AlignHCenter);
+        ObjNameReport->setFlags(Qt::ItemIsSelectable);
+        solutionTable->setItem(currentRow, 2, ObjNameReport);
 
         QProgressIndicator *alignIndicator = new QProgressIndicator(this);
         solutionTable->setCellWidget(currentRow, 3, alignIndicator);
