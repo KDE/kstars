@@ -46,6 +46,7 @@
 #include "skymapcomposite.h"
 #include "dialogs/finddialog.h"
 #include "ui_mountmodel.h"
+#include "starobject.h"
 
 #include <basedevice.h>
 
@@ -330,7 +331,7 @@ Align::Align()
     mountModelDialog.setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
     mountModel.alignTable->setColumnWidth(0,70);
     mountModel.alignTable->setColumnWidth(1,75);
-    mountModel.alignTable->setColumnWidth(2,100);
+    mountModel.alignTable->setColumnWidth(2,130);
     mountModel.alignTable->setColumnWidth(3,30);
 
     mountModel.wizardAlignB->setIcon(QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg") ));
@@ -380,6 +381,7 @@ Align::Align()
     connect(solutionTable, SIGNAL(cellClicked(int, int)), this, SLOT(selectSolutionTableRow(int, int)));
 
     connect(mountModel.wizardAlignB, SIGNAL(clicked()), this, SLOT(slotWizardAlignmentPoints()));
+    connect(mountModel.alignTypeBox, SIGNAL(currentIndexChanged(const QString)), this, SLOT(alignTypeChanged(const QString)));
 
     connect(mountModel.starListBox, SIGNAL(currentIndexChanged(const QString)), this, SLOT(slotStarSelected(const QString)));
     connect(mountModel.greekStarListBox, SIGNAL(currentIndexChanged(const QString)), this, SLOT(slotStarSelected(const QString)));
@@ -559,39 +561,140 @@ void Align::buildTarget(){
 
 void Align::slotWizardAlignmentPoints(){
     int points=mountModel.alignPtNum->value();
-    if(points<2)
-        return;
+    if(points<2) //The minimum is 2 because the wizard calculations require the calculation of an angle between points.
+        return; //It should not be less than 2 because the minimum in the spin box is 2.
 
-    double decAngle=mountModel.alignDec->value();
+
     int minAlt=mountModel.minAltBox->value();
-
     KStarsData *data = KStarsData::Instance();
     GeoLocation *geo=data->geo();
-
     double lat=geo->lat()->Degrees();
 
-    //Dec that never rises.
-    if(lat>0){
-        if(decAngle < lat - 90 + minAlt)  //Min altitude possible at minAlt deg above horizon
-            return;
+    if(mountModel.alignTypeBox->currentText()=="Fixed DEC"){
+        double decAngle=mountModel.alignDec->value();
+        //Dec that never rises.
+        if(lat>0){
+            if(decAngle < lat - 90 + minAlt){  //Min altitude possible at minAlt deg above horizon
+                KMessageBox::sorry( 0, i18n( "DEC is below the altitude limit" ) );
+                return;
+            }
 
-    } else{
-        if(decAngle > lat + 90 - minAlt)  //Max altitude possible at minAlt deg above horizon
-            return;
+        } else{
+            if(decAngle > lat + 90 - minAlt){  //Max altitude possible at minAlt deg above horizon
+                KMessageBox::sorry( 0, i18n( "DEC is below the altitude limit" ) );
+                return;
+            }
+        }
     }
 
-    double angle = -1;
+    //These calculations rely on modulus and int division counting beginning at 0, but the #s start at 1.
+    int decPoints=(points-1)/5+1;
+    int lastSetRAPoints=(points-1)%5+1;
 
+    double decIncrement = -1;
+    double initDEC = -1;
+    SkyPoint spTest;
+
+    if(mountModel.alignTypeBox->currentText()=="Fixed DEC"){
+        decPoints=1;
+        initDEC=mountModel.alignDec->value();
+        decIncrement=0;
+    } else if(decPoints==1) {
+        decIncrement=0;
+        spTest.setAlt(minAlt); //The goal here is to get the point exactly West at the minAlt so that we can use that DEC
+        spTest.setAz(270);
+        spTest.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+        initDEC=spTest.dec().Degrees();
+    } else{
+        spTest.setAlt(minAlt+10); //We don't want to be right at the minAlt because there would be only 1 point on the dec circle above the alt.
+        spTest.setAz(180);
+        spTest.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
+        initDEC=spTest.dec().Degrees();
+        if(lat>0)
+            decIncrement=(80-initDEC)/(decPoints); //Don't quite want to reach NCP
+        else
+            decIncrement=(initDEC-80)/(decPoints); //Don't quite want to reach SCP
+    }
+
+    qDebug()<<QString::number(initDEC)<<", "<<QString::number(decIncrement);
+
+    for(int d=0;d<decPoints;d++){
+
+        double initRA = -1;
+        double raPoints = -1;
+        double raIncrement = -1;
+        double dec;
+
+        if(lat>0)
+            dec = initDEC + d * decIncrement;
+        else
+            dec = initDEC - d * decIncrement;
+
+        if(mountModel.alignTypeBox->currentText()=="Fixed DEC"){
+            raPoints=points;
+        }else if(d==decPoints-1){
+            raPoints=lastSetRAPoints;
+        }else{
+            raPoints=5;
+        }
+
+        //This computes both the initRA and the raIncrement.
+        calculateAngleForRALine(raIncrement, initRA, dec, lat, raPoints, minAlt);
+
+        if(raIncrement==-1||decIncrement==-1){
+            KMessageBox::sorry( 0, i18n( "Point Calculation Error." ) );
+            return;
+        }
+
+        for(int i=0;i<raPoints;i++){
+            double ra = initRA + i * raIncrement;
+
+            const SkyObject *o = getWizardAlignObject(ra,dec,raIncrement);
+
+            QString ra_report, dec_report, name;
+            if(o){
+                getFormattedCoords(o->ra().Hours(),o->dec().Degrees(),ra_report, dec_report);
+                name=o->longname();
+            } else{
+                getFormattedCoords(dms(ra).Hours(),dec,ra_report, dec_report);
+                name="None";
+            }
+            int currentRow = mountModel.alignTable->rowCount();
+            mountModel.alignTable->insertRow(currentRow);
+
+            QTableWidgetItem *RAReport = new QTableWidgetItem();
+            RAReport->setText(ra_report);
+            RAReport->setTextAlignment(Qt::AlignHCenter);
+            mountModel.alignTable->setItem(currentRow, 0, RAReport);
+
+            QTableWidgetItem *DECReport = new QTableWidgetItem();
+            DECReport->setText(dec_report);
+            DECReport->setTextAlignment(Qt::AlignHCenter);
+            mountModel.alignTable->setItem(currentRow, 1, DECReport);
+
+            QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
+            ObjNameReport->setText(name);
+            ObjNameReport->setTextAlignment(Qt::AlignHCenter);
+            mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
+
+            QTableWidgetItem *disabledBox= new QTableWidgetItem();
+            disabledBox->setFlags(Qt::ItemIsSelectable);
+            mountModel.alignTable->setItem(currentRow, 3, disabledBox);
+       }
+    }
+}
+
+void Align::calculateAngleForRALine(double &raIncrement,double &initRA, double initDEC, double lat, double raPoints, double minAlt){
     SkyPoint spEast;
     SkyPoint spWest;
 
     //Circumpolar dec
-    if(fabs(decAngle)  >  (90 - fabs(lat) + minAlt)){
-        angle = 360 / (points-1);
-        spWest=SkyPoint(dms(0),dms(decAngle));
+    if(fabs(initDEC)  >  (90 - fabs(lat) + minAlt)){
+        raIncrement = 360 / (raPoints-1);
+        initRA=0;
     }else{
         dms AZEast,AZWest;
-        calculateAZPointsForDEC(dms(decAngle), dms(minAlt), AZEast,AZWest);
+        calculateAZPointsForDEC(dms(initDEC), dms(minAlt), AZEast,AZWest);
 
         spEast.setAlt(minAlt);
         spEast.setAz(AZEast.Degrees());
@@ -606,52 +709,10 @@ void Align::slotWizardAlignmentPoints(){
             angleSep=spEast.ra()-spWest.ra();
         else
             angleSep=spEast.ra()+dms(360)-spWest.ra();
-        angle=angleSep.Degrees()/(points-1);
-        //qDebug()<<"AZ Intersections: "<<QString::number(AZWest.Degrees())<<","<<QString::number(AZEast.Degrees());
-        //qDebug()<<"RA Values: "<<spWest.ra().toHMSString()<<", "<<spEast.ra().toHMSString();
-        //qDebug()<<"RA Degrees: "<<QString::number(spWest.ra().Degrees())<<","<<QString::number(spEast.ra().Degrees());
-        //qDebug()<<"AngleSep: "<<QString::number(angleSep.Degrees())<<","<<QString::number(angle);
+
+        initRA=spWest.ra().Degrees();
+        raIncrement=angleSep.Degrees()/(raPoints-1);
     }
-
-    if(angle==-1)
-        return;
-
-    for(int i=0;i<points;i++){
-        double ra=spWest.ra().Degrees()+i*angle;
-        double dec=decAngle;
-
-        const SkyObject *o = getWizardAlignObject(ra,dec,angle);
-
-        QString ra_report, dec_report, name;
-        if(o){
-            getFormattedCoords(o->ra().Hours(),o->dec().Degrees(),ra_report, dec_report);
-            name=o->longname();
-        } else{
-            getFormattedCoords(dms(ra).Hours(),dec,ra_report, dec_report);
-            name="None";
-        }
-        int currentRow = mountModel.alignTable->rowCount();
-        mountModel.alignTable->insertRow(currentRow);
-
-        QTableWidgetItem *RAReport = new QTableWidgetItem();
-        RAReport->setText(ra_report);
-        RAReport->setTextAlignment(Qt::AlignHCenter);
-        mountModel.alignTable->setItem(currentRow, 0, RAReport);
-
-        QTableWidgetItem *DECReport = new QTableWidgetItem();
-        DECReport->setText(dec_report);
-        DECReport->setTextAlignment(Qt::AlignHCenter);
-        mountModel.alignTable->setItem(currentRow, 1, DECReport);
-
-        QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
-        ObjNameReport->setText(name);
-        ObjNameReport->setTextAlignment(Qt::AlignHCenter);
-        mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
-
-        QTableWidgetItem *disabledBox= new QTableWidgetItem();
-        disabledBox->setFlags(Qt::ItemIsSelectable);
-        mountModel.alignTable->setItem(currentRow, 3, disabledBox);
-   }
 }
 
 void Align::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest){
@@ -673,53 +734,53 @@ void Align::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest){
 }
 
 const SkyObject* Align::getWizardAlignObject(double ra, double dec, double angle){
-
-    if(mountModel.alignTypeBox->currentText()=="Any Object"){
-        double maxSearch=5.0;
-        SkyObject *o = KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
-        return o;
-    }else if(mountModel.alignTypeBox->currentText()=="Fixed Positions")
+    double maxSearch=5.0;
+    if(mountModel.alignTypeBox->currentText()=="Any Object")
+        return KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
+    else if(mountModel.alignTypeBox->currentText()=="Fixed DEC"||mountModel.alignTypeBox->currentText()=="Fixed Grid")
         return NULL;
-    else{
+    else if(mountModel.alignTypeBox->currentText()=="Any Stars")
+        return KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
 
-        //If they want stars, then try to search for and return the closest Align Star in the radius first, and if that fails, return the closest Star.
+        //If they want named stars, then try to search for and return the closest Align Star to the requested location
 
-        double bestDiff=360;
+        dms bestDiff=dms(360);
         double index=-1;
          for(int i=0;i<alignStars.size();i++){
-             QPair<QString, const SkyObject *> pair=alignStars.value(i);
-             const SkyObject *o=pair.second;
-             if( o != 0 ) {
-                 double thisRADiff=qAbs(ra-(o->ra().Degrees()));
-                 double thisDEDiff=qAbs(dec-(o->dec().Degrees()));
-                 double thisDiff=qSqrt(thisRADiff*thisRADiff+thisDEDiff*thisDEDiff);
-                 if(thisDiff<bestDiff){
-                     index=i;
-                     bestDiff=thisDiff;
+             const StarObject *star=alignStars.value(i);
+             if( star ) {
+                 if(star->hasName()){
+                     SkyPoint thisPt(ra,dec);
+                     dms thisDiff=thisPt.angularDistanceTo(star);
+                     if(thisDiff.Degrees() < bestDiff.Degrees()){
+                         index=i;
+                         bestDiff=thisDiff;
+                     }
                  }
              }
          }
-         if(index==-1||bestDiff>angle){
-             double maxSearch=5.0;
-             SkyObject *o = KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
-             return o;
-         }
-        QPair<QString, const SkyObject *> pair=alignStars.value(index);
-        return pair.second;
-    }
+         if(index==-1)
+             return KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
+        return alignStars.value(index);
+}
+
+void Align::alignTypeChanged(const QString alignType){
+    if(alignType=="Fixed DEC")
+        mountModel.alignDec->setEnabled(true);
+    else
+        mountModel.alignDec->setEnabled(false);
 }
 
 void Align::slotStarSelected(const QString selectedStar){
     for(int i=0;i<alignStars.size();i++){
-        QPair<QString, const SkyObject *> pair=alignStars.value(i);
-        const SkyObject *o=pair.second;
-        if( o != 0 ) {
-            if(pair.first==selectedStar||o->longname()==selectedStar){
+        const StarObject *star=alignStars.value(i);
+        if(star) {
+            if(star->name()==selectedStar||star->gname().simplified()==selectedStar){
                 int currentRow = mountModel.alignTable->rowCount();
                 mountModel.alignTable->insertRow(currentRow);
 
                 QString ra_report, dec_report;
-                getFormattedCoords(o->ra().Hours(),o->dec().Degrees(),ra_report, dec_report);
+                getFormattedCoords(star->ra().Hours(),star->dec().Degrees(),ra_report, dec_report);
 
                 QTableWidgetItem *RAReport = new QTableWidgetItem();
                 RAReport->setText(ra_report);
@@ -732,7 +793,7 @@ void Align::slotStarSelected(const QString selectedStar){
                 mountModel.alignTable->setItem(currentRow, 1, DECReport);
 
                 QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
-                ObjNameReport->setText(o->longname());
+                ObjNameReport->setText(star->longname());
                 ObjNameReport->setTextAlignment(Qt::AlignHCenter);
                 mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
 
@@ -749,48 +810,62 @@ void Align::slotStarSelected(const QString selectedStar){
 }
 
 void Align::generateAlignStarList(){
+    alignStars.clear();
+    mountModel.starListBox->clear();
+    mountModel.greekStarListBox->clear();
+
     KStarsData *data = KStarsData::Instance();
-    alignStars.append(data->skyComposite()->objectLists(SkyObject::STAR));
+    QVector<QPair<QString, const SkyObject *>> listStars;
+    listStars.append(data->skyComposite()->objectLists(SkyObject::STAR));
+    for(int i=0;i<listStars.size();i++){
+        QPair<QString, const SkyObject *> pair=listStars.value(i);
+        const StarObject *star = dynamic_cast<const StarObject*>(pair.second);
+        if(star)
+            alignStars.append(star);
+    }
 
     QStringList boxNames;
     QStringList greekBoxNames;
 
     for(int i=0;i<alignStars.size();i++){
-        QPair<QString, const SkyObject *> pair=alignStars.value(i);
-        if(!isVisible(pair.second)){
-            alignStars.remove(i);
-            i--;
-        }else if(pair.first.startsWith("HD")){
-            alignStars.remove(i);
-            i--;
-        }else{
-            if(pair.first.startsWith("alpha")||pair.first.startsWith("beta")||pair.first.startsWith("gamma")||pair.first.startsWith("delta")||pair.first.startsWith("epsilon")||pair.first.startsWith("zeta")||pair.first.startsWith("eta")||pair.first.startsWith("theta")||pair.first.startsWith("iota")||pair.first.startsWith("kappa")||pair.first.startsWith("lambda")||pair.first.startsWith("mu")||pair.first.startsWith("nu")||pair.first.startsWith("xi")||pair.first.startsWith("omicron")||pair.first.startsWith("pi")||pair.first.startsWith("rho")||pair.first.startsWith("sigma")||pair.first.startsWith("tau")||pair.first.startsWith("upsilon")||pair.first.startsWith("phi")||pair.first.startsWith("chi")||pair.first.startsWith("psi")||pair.first.startsWith("omega"))
-            {
-                const SkyObject *o=pair.second;
-                if( o != 0 )
-                    greekBoxNames << o->longname();
+        const StarObject *star=alignStars.value(i);
+        if(star){
+            if(!isVisible(star)){
+                alignStars.remove(i);
+                i--;
+            }else{
+                if(star->hasLatinName())
+                    boxNames << star->name();
+                else{
+                    if(!star->gname().isEmpty())
+                        greekBoxNames << star->gname().simplified();
+                }
             }
-            else
-                boxNames << pair.first;
         }
     }
 
     boxNames.sort(Qt::CaseInsensitive);
-    greekBoxNames.sort(Qt::CaseInsensitive);
+    boxNames.removeDuplicates();
+    greekBoxNames.removeDuplicates();
+    qSort(greekBoxNames.begin(), greekBoxNames.end(), [](const QString &a, const QString &b) {
+        QStringList aParts=a.split(" "); QStringList bParts=b.split(" ");
+        if(aParts.length()<2||bParts.length()<2)
+            return a < b;                   //This should not happen, they should all have 2 words in the string.
+        if( aParts[1]==bParts[1]){
+            return aParts[0] < bParts[0]; //This compares the greek letter when the constellation is the same
+        } else return aParts[1] < bParts[1]; //This compares the constellation names
+    } );
 
     mountModel.starListBox->addItem("Select one:");
     mountModel.greekStarListBox->addItem("Select one:");
-    for(int i=0;i<boxNames.size();i++){
+    for(int i=0;i<boxNames.size();i++)
         mountModel.starListBox->addItem(boxNames.at(i));
-    }
-    for(int i=0;i<greekBoxNames.size();i++){
+    for(int i=0;i<greekBoxNames.size();i++)
         mountModel.greekStarListBox->addItem(greekBoxNames.at(i));
-    }
-
 }
 
 bool Align::isVisible(const SkyObject *so){
-        return (getAltitude(so) > mountModel.minAltBox->value());
+        return (getAltitude(so) > 30);
 }
 
 double Align::getAltitude(const SkyObject *so){
@@ -1088,9 +1163,12 @@ void Align::slotClearAllSolutionPoints()
     }
 }
 
-void Align::slotClearAllAlignPoints(){
-    if (KMessageBox::questionYesNo(KStars::Instance(), i18n("Are you sure you want to clear all of the alignment points?"), i18n("Clear Align Points"),
-                                   KStandardGuiItem::yes(), KStandardGuiItem::no()) == KMessageBox::Yes)
+void Align::slotClearAllAlignPoints()
+{
+    if (mountModel.alignTable->rowCount() == 0)
+        return;
+
+    if (KMessageBox::questionYesNo(KStars::Instance(), i18n("Are you sure you want to clear all the alignment points?"), i18n("Clear Align Points")) == KMessageBox::Yes)
         mountModel.alignTable->setRowCount(0);
 }
 

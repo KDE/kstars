@@ -25,6 +25,8 @@
 #include "indi/indiccd.h"
 #include "indi/indistd.h"
 
+#include "starobject.h"
+
 #include "ui_mountmodel.h"
 
 class FOV;
@@ -389,6 +391,7 @@ private slots:
     void finishAlignmentPoint(bool solverSucceeded);
     void moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex);
     void exportSolutionPoints();
+    void alignTypeChanged(const QString alignType);
 
 signals:
         void newLog();
@@ -623,11 +626,12 @@ private:
 
     QUrl alignURL;
     QUrl alignURLPath;
-    QVector<QPair<QString, const SkyObject *>> alignStars;
+    QVector<const StarObject *> alignStars;
     void generateAlignStarList();
     bool isVisible(const SkyObject *so);
     double getAltitude(const SkyObject *so);
     const SkyObject* getWizardAlignObject(double ra, double de, double angle);
+    void calculateAngleForRALine(double &raIncrement,double &initRA, double initDEC, double lat, double raPoints, double minAlt);
     void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
 };
 
