@@ -128,6 +128,9 @@ public:
     /** @return true if the star has a name ("star" doesn't count) */
     inline bool hasName() const { return ( !Name.isEmpty() && Name!=starString ); }
 
+    /** @return true if the star has a latin name ("star" or HD... doesn't count) */
+    inline bool hasLatinName() const { return ( !Name.isEmpty() && Name!=starString && Name!=gname(false) && Name!=gname(true) && !Name.startsWith("HD ")); }
+
     /** If star is unnamed return "star" otherwise return the name */
     inline virtual QString name( void ) const { return hasName() ? Name : starString;}
 
