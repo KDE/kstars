@@ -117,7 +117,7 @@
       <item row="1" column="3">
        <widget class="QLabel" name="label_8">
         <property name="text">
-         <string>Decination:</string>
+         <string>Declination:</string>
         </property>
        </widget>
       </item>
@@ -160,7 +160,7 @@
       <item row="2" column="1" colspan="4">
        <widget class="QComboBox" name="alignTypeBox">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This allows you to select the type of objects/points added by the wizard:&lt;/p&gt;&lt;p&gt;Note: all of the options except Fixed DEC start with a grid of RA/DEC points.&lt;/p&gt;&lt;p&gt;Any Stars--The wizard searches for the nearest star.&lt;/p&gt;&lt;p&gt;Any object --The wizard searches for the nearest object of any type.&lt;/p&gt;&lt;p&gt;Named Stars--The wizard searches for the nearest star in the currently visible star list. Note that the first named star might be fairly far from the intended point and also sometimes the same star could be the closest one for multiple points.&lt;/p&gt;&lt;p&gt;Fixed DEC -- The wizard generates all points at the chosen DEC.&lt;/p&gt;&lt;p&gt;Fixed Grid -- The wizard jut uses the original grid without trying to pair it with objects.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This allows you to select the type of objects/points added by the wizard.&lt;/p&gt;&lt;p&gt;Note: all of the options except Fixed DEC start with a grid of RA/DEC points.&lt;/p&gt;&lt;p&gt;Any Stars -- The wizard searches for the nearest star.&lt;/p&gt;&lt;p&gt;Any object -- The wizard searches for the nearest object of any type.&lt;/p&gt;&lt;p&gt;Named Stars -- The wizard searches for the nearest star in the currently visible star list. Note that the first named star might be fairly far from the intended point and also sometimes the same star could be the closest one for multiple points.&lt;/p&gt;&lt;p&gt;Fixed DEC -- The wizard generates all points at the chosen DEC.&lt;/p&gt;&lt;p&gt;Fixed Grid -- The wizard just uses the original grid without trying to pair it with objects.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <item>
          <property name="text">
