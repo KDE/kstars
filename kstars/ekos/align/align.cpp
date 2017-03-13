@@ -47,6 +47,8 @@
 #include "dialogs/finddialog.h"
 #include "ui_mountmodel.h"
 #include "starobject.h"
+#include "skymap.h"
+#include "flagcomponent.h"
 
 #include <basedevice.h>
 
@@ -367,6 +369,10 @@ Align::Align()
     mountModel.saveAlignB->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg") ));
     mountModel.saveAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
+    mountModel.previewB->setIcon(QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg") ));
+    mountModel.previewB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    mountModel.previewB->setCheckable(true);
+
 
     mountModel.stopAlignB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg") ));
     mountModel.stopAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -394,6 +400,7 @@ Align::Align()
     connect(mountModel.addAlignB, SIGNAL(clicked()), this, SLOT(slotAddAlignPoint()));
     connect(mountModel.findAlignB, SIGNAL(clicked()), this, SLOT(slotFindAlignObject()));
 
+    connect(mountModel.previewB, SIGNAL(clicked()), this, SLOT(togglePreviewAlignPoints()));
     connect(mountModel.stopAlignB, SIGNAL(clicked()), this, SLOT(resetAlignmentProcedure()));
     connect(mountModel.startAlignB, SIGNAL(clicked()), this, SLOT(startStopAlignmentProcedure()));
 
@@ -587,9 +594,15 @@ void Align::slotWizardAlignmentPoints(){
         }
     }
 
+    //If there are less than 6 points, keep them all in the same DEC,
+    //any more, set the num per row to be the sqrt of the points to evenly distribute in RA and DEC
+    int numRAperDEC=5;
+    if(points>5)
+        numRAperDEC=qSqrt(points);
+
     //These calculations rely on modulus and int division counting beginning at 0, but the #s start at 1.
-    int decPoints=(points-1)/5+1;
-    int lastSetRAPoints=(points-1)%5+1;
+    int decPoints=(points-1)/numRAperDEC+1;
+    int lastSetRAPoints=(points-1)%numRAperDEC+1;
 
     double decIncrement = -1;
     double initDEC = -1;
@@ -635,7 +648,7 @@ void Align::slotWizardAlignmentPoints(){
         }else if(d==decPoints-1){
             raPoints=lastSetRAPoints;
         }else{
-            raPoints=5;
+            raPoints=numRAperDEC;
         }
 
         //This computes both the initRA and the raIncrement.
@@ -682,6 +695,8 @@ void Align::slotWizardAlignmentPoints(){
             mountModel.alignTable->setItem(currentRow, 3, disabledBox);
        }
     }
+    if(previewShowing)
+        updatePreviewAlignPoints();
 }
 
 void Align::calculateAngleForRALine(double &raIncrement,double &initRA, double initDEC, double lat, double raPoints, double minAlt){
@@ -807,6 +822,8 @@ void Align::slotStarSelected(const QString selectedStar){
             }
         }
     }
+    if(previewShowing)
+        updatePreviewAlignPoints();
 }
 
 void Align::generateAlignStarList(){
@@ -881,6 +898,46 @@ double Align::getAltitude(const SkyObject *so){
     return sp.alt().Degrees();
 }
 
+void Align::togglePreviewAlignPoints(){
+    previewShowing=!previewShowing;
+    mountModel.previewB->setChecked(previewShowing);
+    updatePreviewAlignPoints();
+}
+
+void Align::updatePreviewAlignPoints(){
+
+    FlagComponent *flags = KStarsData::Instance()->skyComposite()->flags();
+    for(int i=0;i<flags->size();i++){
+        if(flags->label(i).startsWith("Align")){
+            flags->remove(i);
+            i--;
+        }
+    }
+    if(previewShowing){
+        for (int i=0; i < mountModel.alignTable->rowCount(); i++)
+        {
+            QTableWidgetItem *raCell=mountModel.alignTable->item(i,0);
+            QTableWidgetItem *deCell=mountModel.alignTable->item(i,1);
+            QTableWidgetItem *objNameCell=mountModel.alignTable->item(i,2);
+
+            if(raCell&&deCell&&objNameCell){
+                QString raString=raCell->text();
+                QString deString=deCell->text();
+                dms raDMS  = dms::fromString(raString,false);
+                dms decDMS = dms::fromString(deString,true);
+
+                QString objString=objNameCell->text();
+
+
+                SkyPoint flagPoint( raDMS, decDMS );
+                flags->add( flagPoint, QString::number(KStarsDateTime::currentDateTime().epoch()), "Default", "Align " + QString::number(i+1)+ " " + objString, "white" );
+            }
+        }
+    }
+    KStars::Instance()->map()->forceUpdate(true);
+
+}
+
 void Align::slotLoadAlignmentPoints(){
     QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Ekos Alignment List"), alignURLPath, "Ekos AlignmentList (*.eal)");
     if (fileURL.isEmpty())
@@ -896,6 +953,8 @@ void Align::slotLoadAlignmentPoints(){
     alignURLPath = QUrl(fileURL.url(QUrl::RemoveFilename));
 
     loadAlignmentPoints(fileURL.toLocalFile());
+    if(previewShowing)
+        updatePreviewAlignPoints();
 }
 
 
@@ -1170,6 +1229,9 @@ void Align::slotClearAllAlignPoints()
 
     if (KMessageBox::questionYesNo(KStars::Instance(), i18n("Are you sure you want to clear all the alignment points?"), i18n("Clear Align Points")) == KMessageBox::Yes)
         mountModel.alignTable->setRowCount(0);
+
+    if(previewShowing)
+        updatePreviewAlignPoints();
 }
 
 void Align::slotRemoveSolutionPoint(){
@@ -1196,6 +1258,8 @@ void Align::slotRemoveSolutionPoint(){
 
 void Align::slotRemoveAlignPoint(){
     mountModel.alignTable->removeRow(mountModel.alignTable->currentRow());
+    if(previewShowing)
+        updatePreviewAlignPoints();
 }
 
 void Align::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex)
@@ -1212,6 +1276,8 @@ void Align::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIn
     mountModel.alignTable->verticalHeader()->moveSection(newVisualIndex,oldVisualIndex);
     connect(mountModel.alignTable->verticalHeader(), SIGNAL(sectionMoved(int, int , int)), this, SLOT(moveAlignPoint(int, int , int)));
 
+    if(previewShowing)
+        updatePreviewAlignPoints();
 }
 
 void Align::slotMountModel(){
@@ -1269,6 +1335,8 @@ void Align::slotFindAlignObject() {
        }
    }
    delete fd;
+   if(previewShowing)
+       updatePreviewAlignPoints();
 }
 
 void Align::resetAlignmentProcedure(){

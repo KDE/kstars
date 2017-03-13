@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>360</width>
+    <width>438</width>
     <height>535</height>
    </rect>
   </property>
@@ -58,7 +58,7 @@
       <item row="0" column="2">
        <widget class="QSpinBox" name="alignPtNum">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Number of points the wizard should generate.  If this number is less than 5, it will generate them at the same DEC. After that, every 5 points will be at a new dec.  Note, if Fixed DEC is selected, all of the points will be at the same DEC.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Number of points the wizard should generate. If this number is less than 5, it will generate them at the same DEC. After that they will be evenly distributed over RA and DEC. Note, if Fixed DEC is selected, all of the points will be at the same DEC.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="minimum">
          <number>2</number>
@@ -97,7 +97,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>Minimum Alt;</string>
+         <string>Minimum Alt:</string>
         </property>
        </widget>
       </item>
@@ -515,6 +515,28 @@
        </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save the alignment list so that you can run this alignment again in the future.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="previewB">
+       <property name="minimumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Display the alignment points on the skymap as flags.  Clicking it again will remove the flags.  The flags will not be saved.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
         <string/>
