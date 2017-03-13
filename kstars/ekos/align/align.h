@@ -392,6 +392,7 @@ private slots:
     void moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex);
     void exportSolutionPoints();
     void alignTypeChanged(const QString alignType);
+    void togglePreviewAlignPoints();
 
 signals:
         void newLog();
@@ -633,6 +634,8 @@ private:
     const SkyObject* getWizardAlignObject(double ra, double de, double angle);
     void calculateAngleForRALine(double &raIncrement,double &initRA, double initDEC, double lat, double raPoints, double minAlt);
     void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
+    bool previewShowing=false;
+    void updatePreviewAlignPoints();
 };
 
 }
