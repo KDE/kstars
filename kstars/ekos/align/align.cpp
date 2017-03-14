@@ -670,7 +670,6 @@ void Align::slotWizardAlignmentPoints(){
                 getFormattedCoords(o->ra0().Hours(),o->dec0().Degrees(),ra_report, dec_report);
                 name=o->longname();
             } else{
-                qDebug()<<ra<<", "<<dms(ra).Hours();
                 getFormattedCoords(dms(ra).Hours(),dec,ra_report, dec_report);
                 name="None";
             }
@@ -774,7 +773,7 @@ const SkyObject* Align::getWizardAlignObject(double ra, double dec){
              const StarObject *star=alignStars.value(i);
              if( star ) {
                  if(star->hasName()){
-                     SkyPoint thisPt(ra,dec);
+                     SkyPoint thisPt(ra/15.0,dec);
                      dms thisDiff=thisPt.angularDistanceTo(star);
                      if(thisDiff.Degrees() < bestDiff.Degrees()){
                          index=i;
