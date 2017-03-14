@@ -28,6 +28,8 @@ LinGuider::LinGuider()
 {
     tcpSocket = new QTcpSocket(this);
 
+    rawBuffer.clear();
+
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readLinGuider()));
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 
@@ -49,6 +51,7 @@ bool LinGuider::Connect()
 {
     if (connection == DISCONNECTED)
     {
+        rawBuffer.clear();
         connection = CONNECTING;
         tcpSocket->connectToHost(Options::linGuiderHost(),  Options::linGuiderPort());
     }
@@ -60,7 +63,8 @@ bool LinGuider::Connect()
 }
 
 bool LinGuider::Disconnect()
-{   
+{
+    rawBuffer.clear();
     connection = DISCONNECTED;
     tcpSocket->disconnectFromHost();
 
@@ -93,39 +97,42 @@ void LinGuider::displayError(QAbstractSocket::SocketError socketError)
 
 void LinGuider::readLinGuider()
 {
-    QTextStream stream(tcpSocket);
-
-    QString rawString;
-
-    while (stream.atEnd() == false)
+    while (tcpSocket->atEnd() == false )
     {
-        rawString += stream.readLine();
+        rawBuffer += tcpSocket->readAll();
 
-        if (rawString.count() < 8)
-            continue;
-
-        if (Options::guideLogging())
-            qDebug() << "Guide:" << rawString;
-
-        qint16 magicNumber = *(reinterpret_cast<qint16*>(rawString.toLatin1().data()));
-        if (magicNumber != 0x02)
+        while(1)
         {
-            emit newLog(i18n("Invalid response."));
-            continue;
+            if (rawBuffer.count() < 8)
+                break;
+
+            if (Options::guideLogging())
+                qDebug() << "Guide:" << rawBuffer;
+
+            qint16 magicNumber = *(reinterpret_cast<qint16*>(rawBuffer.data()));
+            if (magicNumber != 0x02)
+            {
+                emit newLog(i18n("Invalid response."));
+                rawBuffer = rawBuffer.mid(1);
+                continue;
+            }
+
+            qint16 command = *(reinterpret_cast<qint16*>(rawBuffer.data()+2));
+            if (command < GET_VER || command > GET_RA_DEC_DRIFT)
+            {
+                emit newLog(i18n("Invalid response."));
+                rawBuffer = rawBuffer.mid(1);
+                continue;
+            }
+
+            qint16 datalen = *(reinterpret_cast<qint16*>(rawBuffer.data()+4));
+            if (rawBuffer.count() < datalen + 8)
+                break;
+
+            QString reply = rawBuffer.mid(8, datalen);
+            processResponse(static_cast<LinGuiderCommand>(command), reply);
+            rawBuffer = rawBuffer.mid(8+datalen);
         }
-
-        qint16 command = *(reinterpret_cast<qint16*>(rawString.toLatin1().data()+2));
-        if (command < GET_VER || command > GET_RA_DEC_DRIFT)
-        {
-            emit newLog(i18n("Invalid response."));
-            continue;
-        }
-
-        QString reply = rawString.mid(8);
-
-        processResponse(static_cast<LinGuiderCommand>(command), reply);
-
-        rawString.clear();
     }
 }
 
@@ -274,7 +281,7 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
         break;
 
     case DITHER:
-        if (reply == "OK")
+        if (reply == "Long time cmd finished")
             emit newStatus(GUIDE_DITHERING_SUCCESS);
         else
             emit newStatus(GUIDE_DITHERING_ERROR);
