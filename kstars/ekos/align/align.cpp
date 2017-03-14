@@ -629,8 +629,6 @@ void Align::slotWizardAlignmentPoints(){
             decIncrement=(initDEC-80)/(decPoints); //Don't quite want to reach SCP
     }
 
-    qDebug()<<QString::number(initDEC)<<", "<<QString::number(decIncrement);
-
     for(int d=0;d<decPoints;d++){
 
         double initRA = -1;
@@ -662,16 +660,21 @@ void Align::slotWizardAlignmentPoints(){
         for(int i=0;i<raPoints;i++){
             double ra = initRA + i * raIncrement;
 
-            const SkyObject *o = getWizardAlignObject(ra,dec,raIncrement);
+            const SkyObject *original = getWizardAlignObject(ra,dec);
 
             QString ra_report, dec_report, name;
-            if(o){
-                getFormattedCoords(o->ra().Hours(),o->dec().Degrees(),ra_report, dec_report);
+
+            if(original){
+                SkyObject *o=original->clone();
+                o->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+                getFormattedCoords(o->ra0().Hours(),o->dec0().Degrees(),ra_report, dec_report);
                 name=o->longname();
             } else{
+                qDebug()<<ra<<", "<<dms(ra).Hours();
                 getFormattedCoords(dms(ra).Hours(),dec,ra_report, dec_report);
                 name="None";
             }
+
             int currentRow = mountModel.alignTable->rowCount();
             mountModel.alignTable->insertRow(currentRow);
 
@@ -705,7 +708,10 @@ void Align::calculateAngleForRALine(double &raIncrement,double &initRA, double i
 
     //Circumpolar dec
     if(fabs(initDEC)  >  (90 - fabs(lat) + minAlt)){
-        raIncrement = 360 / (raPoints-1);
+        if(raPoints>1)
+            raIncrement = 360 / (raPoints-1);
+        else
+            raIncrement=0;
         initRA=0;
     }else{
         dms AZEast,AZWest;
@@ -726,7 +732,10 @@ void Align::calculateAngleForRALine(double &raIncrement,double &initRA, double i
             angleSep=spEast.ra()+dms(360)-spWest.ra();
 
         initRA=spWest.ra().Degrees();
-        raIncrement=angleSep.Degrees()/(raPoints-1);
+        if(raPoints>1)
+            raIncrement=angleSep.Degrees()/(raPoints-1);
+        else
+            raIncrement=0;
     }
 }
 
@@ -748,7 +757,7 @@ void Align::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest){
     AZWest.setRadians(2.0*dms::PI - AZRad);
 }
 
-const SkyObject* Align::getWizardAlignObject(double ra, double dec, double angle){
+const SkyObject* Align::getWizardAlignObject(double ra, double dec){
     double maxSearch=5.0;
     if(mountModel.alignTypeBox->currentText()=="Any Object")
         return KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
@@ -795,7 +804,7 @@ void Align::slotStarSelected(const QString selectedStar){
                 mountModel.alignTable->insertRow(currentRow);
 
                 QString ra_report, dec_report;
-                getFormattedCoords(star->ra().Hours(),star->dec().Degrees(),ra_report, dec_report);
+                getFormattedCoords(star->ra0().Hours(),star->dec0().Degrees(),ra_report, dec_report);
 
                 QTableWidgetItem *RAReport = new QTableWidgetItem();
                 RAReport->setText(ra_report);
@@ -837,8 +846,11 @@ void Align::generateAlignStarList(){
     for(int i=0;i<listStars.size();i++){
         QPair<QString, const SkyObject *> pair=listStars.value(i);
         const StarObject *star = dynamic_cast<const StarObject*>(pair.second);
-        if(star)
-            alignStars.append(star);
+        if(star){
+            StarObject *alignStar=star->clone();
+            alignStar->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+            alignStars.append(alignStar);
+        }
     }
 
     QStringList boxNames;
@@ -928,9 +940,8 @@ void Align::updatePreviewAlignPoints(){
 
                 QString objString=objNameCell->text();
 
-
                 SkyPoint flagPoint( raDMS, decDMS );
-                flags->add( flagPoint, QString::number(KStarsDateTime::currentDateTime().epoch()), "Default", "Align " + QString::number(i+1)+ " " + objString, "white" );
+                flags->add( flagPoint, "J2000", "Default", "Align " + QString::number(i+1)+ " " + objString, "white" );
             }
         }
     }
@@ -1174,7 +1185,9 @@ void Align::exportSolutionPoints()
 
     QTextStream outstream(&file);
 
-    outstream << "RA,DE,Name,RA Error (arcsec),DE Error (arcsec)"<< endl;
+    QString epoch=QString::number(KStarsDateTime::currentDateTime().epoch());
+
+    outstream << "RA (J"<<epoch<<"),DE (J"<<epoch<<"),RA (degrees),DE (degrees),Name,RA Error (arcsec),DE Error (arcsec)"<< endl;
 
     for (int i=0; i < solutionTable->rowCount(); i++)
     {
@@ -1188,8 +1201,12 @@ void Align::exportSolutionPoints()
             KMessageBox::sorry( 0, i18n( "Error in table structure." ) );
             return;
         }
-        outstream << raCell->text()<<","
-                  << deCell->text()<<","
+        dms raDMS  = dms::fromString(raCell->text(),false);
+        dms deDMS = dms::fromString(deCell->text(),true);
+        outstream << raDMS.toHMSString()<<","
+                  << deDMS.toDMSString()<<","
+                  << raDMS.Degrees()<<","
+                  << deDMS.Degrees()<<","
                   << objNameCell->text()<<","
                   << raErrorCell->text().remove("\"")<<","
                   << deErrorCell->text().remove("\"")
@@ -1304,15 +1321,18 @@ void Align::slotAddAlignPoint(){
 }
 
 void Align::slotFindAlignObject() {
+   KStarsData *data = KStarsData::Instance();
    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
    if ( fd->exec() == QDialog::Accepted ) {
-       SkyObject *o = fd->targetObject();
-       if( o != 0 ) {
+       SkyObject *object = fd->targetObject();
+       if( object != 0 ) {
+           SkyObject *o=object->clone();
+           o->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
            int currentRow = mountModel.alignTable->rowCount();
            mountModel.alignTable->insertRow(currentRow);
 
            QString ra_report, dec_report;
-           getFormattedCoords(o->ra().Hours(),o->dec().Degrees(),ra_report, dec_report);
+           getFormattedCoords(o->ra0().Hours(),o->dec0().Degrees(),ra_report, dec_report);
 
            QTableWidgetItem *RAReport = new QTableWidgetItem();
            RAReport->setText(ra_report);
@@ -1424,8 +1444,9 @@ void Align::startAlignmentPoint(){
         mountModel.alignTable->setCellWidget(currentAlignmentPoint, 3, alignIndicator);
         alignIndicator->startAnimation();
 
-        targetCoord.setRA(ra);
-        targetCoord.setDec(dec);
+        targetCoord.setRA0(ra);
+        targetCoord.setDec0(dec);
+        targetCoord.updateCoordsNow(KStarsData::Instance()->updateNum());
 
         Slew();
     }

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>438</width>
+    <width>441</width>
     <height>535</height>
    </rect>
   </property>
@@ -415,7 +415,7 @@
         </property>
         <column>
          <property name="text">
-          <string>RA</string>
+          <string>RA (J2000)</string>
          </property>
          <property name="textAlignment">
           <set>AlignCenter</set>
@@ -423,7 +423,7 @@
         </column>
         <column>
          <property name="text">
-          <string>DEC</string>
+          <string>DEC (J2000)</string>
          </property>
          <property name="textAlignment">
           <set>AlignCenter</set>

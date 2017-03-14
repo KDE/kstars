@@ -631,7 +631,7 @@ private:
     void generateAlignStarList();
     bool isVisible(const SkyObject *so);
     double getAltitude(const SkyObject *so);
-    const SkyObject* getWizardAlignObject(double ra, double de, double angle);
+    const SkyObject* getWizardAlignObject(double ra, double de);
     void calculateAngleForRALine(double &raIncrement,double &initRA, double initDEC, double lat, double raPoints, double minAlt);
     void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
     bool previewShowing=false;
