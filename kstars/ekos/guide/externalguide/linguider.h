@@ -63,7 +63,7 @@ private:
     void processResponse(LinGuiderCommand command, const QString &reply);
 
     QTcpSocket *tcpSocket;
-
+    QByteArray rawBuffer;
 
     LinGuiderState state;
     LinGuiderConnection connection;
