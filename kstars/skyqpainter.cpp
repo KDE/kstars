@@ -777,7 +777,7 @@ void SkyQPainter::drawFlags()
 
         // Draw flag label
         setPen( data->skyComposite()->flags()->labelColor( i ) );
-        setFont( QFont( "Courier New", 10, QFont::Bold ) );
+        setFont( QFont( "Helvetica", 10, QFont::Bold ) );
         drawText( pos.x()+10, pos.y()-10, data->skyComposite()->flags()->label( i ) );
     }
 }
