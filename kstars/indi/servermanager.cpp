@@ -81,10 +81,10 @@ bool ServerManager::start()
         QString indiServerDir=Options::indiServer();
         if(Options::indiServerIsInternal())
             indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
-        else if(indiServerDir.length()>10)
-            indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+        else
+            indiServerDir=QFileInfo(Options::indiServer()).dir().path();
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        env.insert("PATH", "/usr/local/bin:/usr/bin:" + driversDir + ":" + indiServerDir);
+        env.insert("PATH", driversDir + ":" + indiServerDir + ":/usr/local/bin:/usr/bin:/bin");
         QString gscDirPath=KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "gsc";
         env.insert("GSCDAT", gscDirPath);
         serverProcess->setProcessEnvironment(env);
@@ -180,8 +180,8 @@ bool ServerManager::startDriver(DriverInfo *dv)
         driversDir=QCoreApplication::applicationDirPath()+"/indi";
     if(Options::indiDriversAreInternal())
         indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
-    else if(indiServerDir.length()>10)
-        indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+    else
+        indiServerDir=QFileInfo(Options::indiServer()).dir().path();
     #endif
 
     QStringList paths;
