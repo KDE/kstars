@@ -588,8 +588,8 @@ void KStars::slotTelescopeWizard()
      #ifdef Q_OS_OSX
     if(Options::indiServerIsInternal())
         indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
-    else if(indiServerDir.length()>10)
-        indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+    else
+        indiServerDir=QFileInfo(Options::indiServer()).dir().path();
     #endif
 
     QStringList paths;
@@ -620,8 +620,8 @@ void KStars::slotINDIPanel()
      #ifdef Q_OS_OSX
     if(Options::indiServerIsInternal())
         indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
-    else if(indiServerDir.length()>10)
-        indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+    else
+        indiServerDir=QFileInfo(Options::indiServer()).dir().path();
     #endif
 
     QStringList paths;
@@ -649,8 +649,8 @@ void KStars::slotINDIDriver()
      #ifdef Q_OS_OSX
     if(Options::indiServerIsInternal())
         indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
-    else if(indiServerDir.length()>10)
-        indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+    else
+        indiServerDir=QFileInfo(Options::indiServer()).dir().path();
     #endif
 
     QStringList paths;
@@ -684,8 +684,8 @@ void KStars::slotEkos()
      #ifdef Q_OS_OSX
     if(Options::indiServerIsInternal())
         indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
-    else if(indiServerDir.length()>10)
-        indiServerDir=Options::indiServer().mid(0,Options::indiServer().length()-10);
+    else
+        indiServerDir=QFileInfo(Options::indiServer()).dir().path();
     #endif
 
     QStringList paths;
