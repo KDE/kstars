@@ -423,7 +423,10 @@ Align::~Align()
     foreach(QString dirFile, dir.entryList())
         dir.remove(dirFile);
 }
-void Align::selectSolutionTableRow(int row, int column){
+void Align::selectSolutionTableRow(int row, int column)
+{
+    Q_UNUSED(column);
+
     solutionTable->selectRow(row);
     for(int i=0;i<alignPlot->itemCount();i++){
         QCPAbstractItem *abstractItem=alignPlot->item(i);
@@ -1280,6 +1283,8 @@ void Align::slotRemoveAlignPoint(){
 
 void Align::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIndex)
 {
+    Q_UNUSED(logicalIndex);
+
     for (int i=0; i < mountModel.alignTable->columnCount(); i++)
     {
         QTableWidgetItem *oldItem = mountModel.alignTable->takeItem(oldVisualIndex, i);
