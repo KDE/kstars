@@ -45,6 +45,13 @@ public:
 
     void loadDrivers();
 
+    void setProfileName(const QString& name);
+    void setAuxDrivers(const QStringList &aux);
+    void setHostPort(const QString &host, const QString &port);
+    void setWebManager(bool enabled, const QString &port = "8624");
+    void setExternalGuider(const QString &name);
+    void setConnectionOptionsEnabled(bool enable);
+
 public slots:
     void saveProfile();
     void setRemoteMode(bool enable);

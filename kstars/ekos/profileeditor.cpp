@@ -546,3 +546,64 @@ void ProfileEditor::loadDrivers()
      ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), "LinGuider" );
 }
 
+void ProfileEditor::setProfileName(const QString& name)
+{
+    ui->profileIN->setText(name);
+}
+
+void ProfileEditor::setAuxDrivers(const QStringList &aux)
+{
+    QStringList auxList(aux);
+
+    if (auxList.isEmpty())  return;
+    ui->aux1Combo->setCurrentText(auxList.first());
+    auxList.removeFirst();
+
+    if (auxList.isEmpty())  return;
+    ui->aux2Combo->setCurrentText(auxList.first());
+    auxList.removeFirst();
+
+    if (auxList.isEmpty())  return;
+    ui->aux3Combo->setCurrentText(auxList.first());
+    auxList.removeFirst();
+
+    if (auxList.isEmpty())  return;
+    ui->aux4Combo->setCurrentText(auxList.first());
+
+}
+
+void ProfileEditor::setHostPort(const QString &host, const QString &port)
+{
+    ui->remoteMode->setChecked(true);
+    ui->remoteHost->setText(host);
+    ui->remotePort->setText(port);
+}
+
+void ProfileEditor::setWebManager(bool enabled, const QString &port)
+{
+    ui->INDIWebManagerCheck->setChecked(enabled);
+    ui->INDIWebManagerPort->setText(port);
+}
+
+void ProfileEditor::setExternalGuider(const QString &name)
+{
+    ui->guiderCombo->setCurrentText(name);
+}
+
+void ProfileEditor::setConnectionOptionsEnabled(bool enable)
+{
+    // Enable or disable connection related options
+    ui->modeLabel->setEnabled(enable);
+    ui->localMode->setEnabled(enable);
+    ui->remoteMode->setEnabled(enable);
+    ui->remoteHostLabel->setEnabled(enable);
+    ui->remoteHost->setEnabled(enable);
+    ui->remotePortLabel->setEnabled(enable);
+    ui->remotePort->setEnabled(enable);
+    ui->INDIWebManagerCheck->setEnabled(enable);
+    ui->INDIWebManagerPort->setEnabled(enable);
+    ui->INDIWebManagerPortLabel->setEnabled(enable);
+
+    if (enable == false)
+        ui->mountCombo->setFocus();
+}

@@ -135,6 +135,7 @@
         <file>icons/AlignFailure.svg</file>
         <file>icons/AlignSuccess.svg</file>
         <file>icons/AlignWarning.svg</file>
+        <file>icons/breeze/default/draw-cuboid.svg</file>
     </qresource>
     <qresource prefix="/kconfig">
         <file>kstars.knsrc</file>
