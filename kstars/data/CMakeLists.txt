@@ -60,8 +60,8 @@ install(FILES
     mercury.orbit venus.orbit earth.orbit mars.orbit jupiter.orbit
     saturn.orbit uranus.orbit neptune.orbit pluto.orbit
     asteroids.dat comets.dat
-    wzstars.png wzgeo.png wzscope.png wzdownload.png chart.colors
-    classic.colors moonless-night.colors night.colors
+    wzstars.png wzgeo.png wzscope.png wzdownload.png wzekos.png windi.png
+    chart.colors classic.colors moonless-night.colors night.colors
     tips TZrules.dat Interesting.dat PlanetFacts.dat
     advinterface.dat catalog.min.json satellites.dat glossary.xml defaultflag.gif
     DESTINATION  ${KDE_INSTALL_DATADIR}/kstars

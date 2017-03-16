@@ -120,6 +120,7 @@ if (INDI_FOUND)
                     ekos/opsekos.ui
                     ekos/ekosmanager.ui
                     ekos/profileeditor.ui
+                    ekos/profilewizard.ui
                     # Scheduler
                     ekos/scheduler/scheduler.ui
                     ekos/scheduler/mosaic.ui
@@ -152,7 +153,8 @@ if (INDI_FOUND)
                        ekos/ekos.cpp
                        ekos/ekosmanager.cpp
                        ekos/profileeditor.cpp
-                       ekos/opsekos.cpp
+                       ekos/profilewizard.cpp
+                       ekos/opsekos.cpp                       
 
                        # Auxiliary
                        ekos/auxiliary/dome.cpp

@@ -34,6 +34,7 @@
 
 #include "profileeditor.h"
 #include "profileinfo.h"
+#include "profilewizard.h"
 #include "auxiliary/QProgressIndicator.h"
 
 #include "indi/clientmanager.h"
@@ -141,6 +142,9 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     connect(deleteProfileB, SIGNAL(clicked()), this, SLOT(deleteProfile()));
     connect(profileCombo, SIGNAL(activated(QString)), this, SLOT(saveDefaultProfile(QString)));
 
+    // Ekos Wizard
+    connect(wizardProfileB, SIGNAL(clicked()), this, SLOT(wizardProfile()));
+
     addProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     editProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     deleteProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -152,6 +156,8 @@ EkosManager::EkosManager(QWidget *parent) : QDialog(parent)
     editProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     deleteProfileB->setIcon(QIcon::fromTheme("list-remove", QIcon(":/icons/breeze/default/list-remove.svg")));
     deleteProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    wizardProfileB->setIcon(QIcon::fromTheme("tools-wizard", QIcon(":/icons/breeze/default/tools-wizard.svg") ));
+    wizardProfileB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
     // Load all drivers
     loadDrivers();
@@ -243,6 +249,9 @@ void EkosManager::showEvent(QShowEvent * /*event*/)
 {
     QAction *a = KStars::Instance()->actionCollection()->action( "show_ekos" );
     a->setChecked(true);
+
+    if (profiles.count() == 1)
+        wizardProfile();
 }
 
 void EkosManager::resizeEvent(QResizeEvent *)
@@ -1935,6 +1944,34 @@ void EkosManager::deleteProfile()
     qDeleteAll(profiles);
     profiles.clear();
     loadProfiles();
+    currentProfile = getCurrentProfile();
+}
+
+void EkosManager::wizardProfile()
+{
+    ProfileWizard wz;
+    if (wz.exec() != QDialog::Accepted)
+        return;
+
+    ProfileEditor editor(this);
+
+    editor.setProfileName(wz.profileName);
+    editor.setAuxDrivers(wz.selectedAuxDrivers());
+    if (wz.useInternalServer == false)
+        editor.setHostPort(wz.host, wz.port);
+    editor.setWebManager(wz.useWebManager);
+    editor.setExternalGuider(wz.selectedExternalGuider());
+    // Disable connection options
+    editor.setConnectionOptionsEnabled(false);
+
+    if (editor.exec() == QDialog::Accepted)
+    {
+        qDeleteAll(profiles);
+        profiles.clear();
+        loadProfiles();
+        profileCombo->setCurrentIndex(profileCombo->count()-1);
+    }
+
     currentProfile = getCurrentProfile();
 }
 

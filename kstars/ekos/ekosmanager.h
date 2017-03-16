@@ -188,6 +188,7 @@ private slots:
     void addProfile();
     void editProfile();
     void deleteProfile();
+    void wizardProfile();
     void saveDefaultProfile(const QString& name);
 
     // Mount Summary
