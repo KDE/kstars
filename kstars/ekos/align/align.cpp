@@ -548,6 +548,7 @@ void Align::buildTarget(){
     }
 
     concentricRings->setLineStyle(QCPCurve::lsNone);
+    concentricRings->setScatterSkip(0);
     concentricRings->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc,  QColor(255, 255, 255, 150), 1));
 
     concentricRings->data()->set(circleRings, true);
