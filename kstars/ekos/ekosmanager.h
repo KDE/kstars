@@ -305,6 +305,7 @@ private slots:
     //QTemporaryFile guideProfileFile;
 
     ProfileInfo *currentProfile = NULL;
+    bool profileWizardLaunched=false;
 };
 
 #endif // EKOS_H

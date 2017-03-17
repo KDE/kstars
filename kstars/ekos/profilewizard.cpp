@@ -39,7 +39,7 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
 
     connect(discoverEkosB, &QPushButton::clicked, this, [this]() { QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos.html")); });
     connect(videoTutorialsB, &QPushButton::clicked, this, [this]() { QDesktopServices::openUrl(QUrl("https://www.youtube.com/user/QAstronomy")); });
-    connect(ekosManualB, &QPushButton::clicked, this, [this]() { QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos/setup.html")); });
+    connect(INDIInfoB, &QPushButton::clicked, this, [this]() { QDesktopServices::openUrl(QUrl("http://indilib.org/about/discover-indi.html")); });
 
     // Intro actions
     connect(introNextB, &QPushButton::clicked, this, [this]() { wizardContainer->setCurrentIndex(EQUIPMENT_LOCATION); });
@@ -79,9 +79,9 @@ void ProfileWizard::reset()
 
 void ProfileWizard::processLocalEquipment()
 {
-    #ifdef Q_OS_OSX
+    #if defined(Q_OS_OSX)
         wizardContainer->setCurrentIndex(MAC_LOCAL);
-    #elseif Q_OS_WIN
+    #elif defined(Q_OS_WIN)
         wizardContainer->setCurrentIndex(WINDOWS_LOCAL);
     #else
         useInternalServer=true;
