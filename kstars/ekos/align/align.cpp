@@ -4205,6 +4205,10 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
         if (PAHAutoModeCheck->isChecked())
         {
+            // Sync 2nd rotation value to be that of 1st in case of Auto Mode
+            PAHSecondRotationSpin->setValue(PAHFirstRotationSpin->value());
+            PAHSecondEastMeridianR->setChecked(PAHFirstEastMeridianR->isChecked());
+            // Now let's commence the move
             PAHSecondRotateB->setEnabled(true);
             PAHSecondRotateB->click();
         }
