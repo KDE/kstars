@@ -585,7 +585,7 @@ to a remote computer</string>
             </font>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To use Ekos with your equipment locally on WIndows, you need to download and install &lt;a href=&quot;http://www.cloudmakers.eu/windi/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;INDI Server for Windows&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To use Ekos with your equipment locally on Windows, you need to download and install &lt;a href=&quot;http://www.cloudmakers.eu/windi/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;INDI Server for Windows&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -906,7 +906,7 @@ Server</string>
             </font>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tip&lt;/span&gt;: Internal Guider is recommened. Using external guider applications requires additional setup instructions outside the scope of Ekos.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tip&lt;/span&gt;: Internal Guider is recommended. Using external guider applications requires additional setup instructions outside the scope of Ekos.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignJustify|Qt::AlignVCenter</set>
