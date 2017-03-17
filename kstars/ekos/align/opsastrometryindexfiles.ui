@@ -120,7 +120,7 @@ background:  url(:/icons/breeze/default/security-high.svg) no-repeat left top;
      <item>
       <widget class="QLabel" name="label_33">
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This index file is recommeneded. Installing the index file might help in improving the solver.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This index file is recommended. Installing the index file might help in improving the solver.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
         <string>Recommended</string>
