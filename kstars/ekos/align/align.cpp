@@ -4180,12 +4180,15 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     }
     else if (pahStage == PAH_SECOND_CAPTURE)
     {
-        rc= alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
-        if (rc == false)
+        if (Options::limitedResourcesMode() == false)
         {
-            appendLogText(i18n("Error creating WCS file: %1", alignView->getImageData()->getLastError()));
-            // Not critical error
-            //return;
+            rc= alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+            if (rc == false)
+            {
+                appendLogText(i18n("Error creating WCS file: %1", alignView->getImageData()->getLastError()));
+                // Not critical error
+                //return;
+            }
         }
 
         // Set 2nd PAH Center
