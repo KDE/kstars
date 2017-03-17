@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>505</width>
+    <width>570</width>
     <height>366</height>
    </rect>
   </property>
@@ -15,6 +15,12 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>366</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Ekos Profile Wizard</string>
@@ -222,6 +228,26 @@
               </spacer>
              </item>
              <item>
+              <widget class="QPushButton" name="INDIInfoB">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>64</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>What is
+INDI?</string>
+               </property>
+               <property name="default">
+                <bool>false</bool>
+               </property>
+               <property name="flat">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QPushButton" name="discoverEkosB">
                <property name="minimumSize">
                 <size>
@@ -252,26 +278,6 @@ Ekos</string>
                <property name="text">
                 <string>Video
 Tutorials</string>
-               </property>
-               <property name="default">
-                <bool>false</bool>
-               </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="ekosManualB">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>64</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Ekos
-Manual</string>
                </property>
                <property name="default">
                 <bool>false</bool>
@@ -458,7 +464,7 @@ to a remote computer</string>
             </font>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Are you running &lt;a href=&quot;https://github.com/knro/indiwebmanager&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;INDI Web Manager&lt;/span&gt;&lt;/a&gt; on the Remote Computer?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/knro/indiwebmanager&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;INDI Web Manager&lt;/span&gt;&lt;/a&gt; running on the Remote Computer?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -484,7 +490,7 @@ to a remote computer</string>
            <item>
             <widget class="QRadioButton" name="webManagerNotSureB">
              <property name="text">
-              <string>No Sure</string>
+              <string>Not Sure</string>
              </property>
              <property name="checked">
               <bool>true</bool>
@@ -505,6 +511,24 @@ to a remote computer</string>
             </spacer>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_18">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tip&lt;/span&gt;: &lt;span style=&quot; font-style:italic;&quot;&gt;INDI Web Manager&lt;/span&gt; is a service that runs on remote devices to help you start and stop INDI services remotely.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -609,6 +633,24 @@ to a remote computer</string>
             </widget>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_19">
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tip&lt;/span&gt;: INDI Server for Windows functionality is limited compared to the native INDI drivers on Linux. It is recommended to install native INDI on an embedded Linux device such as &lt;a href=&quot;http://indilib.org/support/tutorials/169-ekos-on-raspberry-pi-complete-guide.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;Raspberry PI&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -811,7 +853,7 @@ Server</string>
             </font>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Which guider application you want to use?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Which guider application do you want to use?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>

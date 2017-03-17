@@ -250,8 +250,12 @@ void EkosManager::showEvent(QShowEvent * /*event*/)
     QAction *a = KStars::Instance()->actionCollection()->action( "show_ekos" );
     a->setChecked(true);
 
-    if (profiles.count() == 1)
+    // Just show the profile wizard ONCE per session
+    if (profileWizardLaunched == false && profiles.count() == 1)
+    {
+        profileWizardLaunched = true;
         wizardProfile();
+    }
 }
 
 void EkosManager::resizeEvent(QResizeEvent *)
