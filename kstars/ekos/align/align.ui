@@ -1661,6 +1661,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="PAHRestartB">
+               <property name="focusPolicy">
+                <enum>Qt::ClickFocus</enum>
+               </property>
                <property name="text">
                 <string>Restart</string>
                </property>
@@ -1845,7 +1848,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="gotoModeButtonGroup"/>
   <buttongroup name="solverTypeGroup"/>
+  <buttongroup name="gotoModeButtonGroup"/>
  </buttongroups>
 </ui>
