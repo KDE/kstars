@@ -10,7 +10,6 @@
 
 #include <QDesktopServices>
 #include <QUrl>
-#include <KHelpClient>
 #include <QTcpSocket>
 
 #include "profilewizard.h"
@@ -34,7 +33,7 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
         windiPix->setPixmap( im );
 
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
-    connect(buttonBox, &QDialogButtonBox::helpRequested, this, [this]() { KHelpClient::invokeHelp(); });
+    connect(buttonBox, &QDialogButtonBox::helpRequested, this, [this]() {KStars::Instance()->appHelpActivated();});
     connect(buttonBox, &QDialogButtonBox::clicked, this, [this](QAbstractButton *button) {if (button == buttonBox->button(QDialogButtonBox::Reset)) reset();});
 
     connect(discoverEkosB, &QPushButton::clicked, this, [this]() { QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos.html")); });
