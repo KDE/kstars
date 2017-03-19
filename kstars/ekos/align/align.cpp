@@ -227,8 +227,8 @@ Align::Align()
 
     // Which telescope info to use for FOV calculations
     //kcfg_solverOTA->setChecked(Options::solverOTA());
-    guideScopeCCDs = Options::guideScopeCCDs();
-    connect(FOVScopeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateGuideScopeCCDs(int)));
+    //guideScopeCCDs = Options::guideScopeCCDs();
+    connect(FOVScopeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTelescopeType(int)));
 
     accuracySpin->setValue(Options::solverAccuracyThreshold());
     alignDarkFrameCheck->setChecked(Options::alignDarkFrame());
@@ -1582,7 +1582,7 @@ void Align::setDefaultCCD(QString ccd)
 
 void Align::checkCCD(int ccdNum)
 {
-    if (ccdNum == -1)
+    if (ccdNum == -1 || ccdNum >= CCDs.count())
     {
         ccdNum = CCDCaptureCombo->currentIndex();
 
@@ -1590,18 +1590,20 @@ void Align::checkCCD(int ccdNum)
             return;
     }
 
-    if (ccdNum <= CCDs.count())
-    {
-        currentCCD = CCDs.at(ccdNum);
+    if (currentCCD)
+        disconnect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(processCCDSwitch(ISwitchVectorProperty*)));
 
-        //if (solverTypeGroup->checkedId() == SOLVER_REMOTE)
-            //(dynamic_cast<RemoteAstrometryParser*>(parser))->setCCD(currentCCD);
-    }
+    currentCCD = CCDs.at(ccdNum);
 
-    FOVScopeCombo->setCurrentIndex(guideScopeCCDs.contains(currentCCD->getDeviceName()) ? ISD::CCD::TELESCOPE_GUIDE : ISD::CCD::TELESCOPE_PRIMARY);
+    connect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(processCCDSwitch(ISwitchVectorProperty*)));
 
     syncCCDInfo();
 
+    FOVScopeCombo->blockSignals(true);
+    FOVScopeCombo->setCurrentIndex(currentCCD->getTelescopeType());
+    FOVScopeCombo->blockSignals(false);
+
+    syncTelescopeInfo();
 }
 
 void Align::addCCD(ISD::GDInterface *newCCD)
@@ -1659,7 +1661,7 @@ void Align::syncTelescopeInfo()
 
         aperture = primaryAperture;
 
-        if (currentCCD && Options::guideScopeCCDs().contains(currentCCD->getDeviceName()))
+        if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
             aperture = guideAperture;
 
         np = IUFindNumber(nvp, "TELESCOPE_FOCAL_LENGTH");
@@ -1672,7 +1674,7 @@ void Align::syncTelescopeInfo()
 
         focal_length = primaryFL;
 
-        if (currentCCD && Options::guideScopeCCDs().contains(currentCCD->getDeviceName()))
+        if (currentCCD && currentCCD->getTelescopeType() == ISD::CCD::TELESCOPE_GUIDE)
             focal_length = guideFL;
     }
 
@@ -2346,7 +2348,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
 
     Options::setSolverType(solverTypeGroup->checkedId());
     //Options::setSolverOptions(solverOptions->text());
-    Options::setGuideScopeCCDs(guideScopeCCDs);
+    //Options::setGuideScopeCCDs(guideScopeCCDs);
     Options::setSolverAccuracyThreshold(accuracySpin->value());
     Options::setAlignDarkFrame(alignDarkFrameCheck->isChecked());
     Options::setSolverGotoOption(currentGotoMode);
@@ -4264,29 +4266,25 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     }
 }
 
-void Align::syncGuideScopeCCDs()
+void Align::processCCDSwitch(ISwitchVectorProperty *svp)
 {
-    updateGuideScopeCCDs(FOVScopeCombo->currentIndex());
+    if (currentCCD && !strcmp(svp->name, "TELESCOPE_TYPE"))
+    {
+        FOVScopeCombo->blockSignals(true);
+        FOVScopeCombo->setCurrentIndex(currentCCD->getTelescopeType());
+        FOVScopeCombo->blockSignals(false);
+
+        syncTelescopeInfo();
+
+    }
 }
 
-void Align::updateGuideScopeCCDs(int index)
+void Align::updateTelescopeType(int index)
 {
     if (currentCCD == NULL)
         return;
 
-    if (index ==  ISD::CCD::TELESCOPE_GUIDE && guideScopeCCDs.contains(currentCCD->getDeviceName()) == false)
-        guideScopeCCDs.append(currentCCD->getDeviceName());
-    else if (index == ISD::CCD::TELESCOPE_PRIMARY)
-        guideScopeCCDs.removeOne(currentCCD->getDeviceName());
-
-    if (guideScopeCCDs.contains(currentCCD->getDeviceName()))
-        currentCCD->setTelescopeType(ISD::CCD::TELESCOPE_GUIDE);
-    else
-        currentCCD->setTelescopeType(ISD::CCD::TELESCOPE_PRIMARY);
-
-    Options::setGuideScopeCCDs(guideScopeCCDs);
-
-    syncTelescopeInfo();
+    currentCCD->setTelescopeType(static_cast<ISD::CCD::TelescopeType>(index));
 }
 
 // Function adapted from https://rosettacode.org/wiki/Circles_of_given_radius_through_two_points

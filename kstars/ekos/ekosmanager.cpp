@@ -1279,16 +1279,6 @@ void EkosManager::processNewProperty(INDI::Property* prop)
         return;
     }
 
-    if (!strcmp(prop->getName(), "TELESCOPE_TYPE"))
-    {
-        if (alignProcess)
-        {
-            alignProcess->syncGuideScopeCCDs();
-        }
-
-        return;
-    }
-
     if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
     {
         foreach(ISD::GDInterface *device, findDevices(KSTARS_CCD))

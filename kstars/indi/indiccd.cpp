@@ -2083,6 +2083,8 @@ bool CCD::setTelescopeType(TelescopeType type)
 
     clientManager->sendNewSwitch(svp);
 
+    setConfig(SAVE_CONFIG);
+
     return true;
 }
 

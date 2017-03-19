@@ -196,12 +196,6 @@ public:
      */
     bool isParserOK();
 
-    /**
-     * @brief syncGuideScopeCCDs When TELESCOPE_TYPE is first defined by the CCD driver, update its value given the current state of useGuideScope checkbox
-     * If checked, we set TELESCOPE_TYPE to GUIDE, otherwise it is set to PRIMARY
-     */
-    void syncGuideScopeCCDs();
-
     // Log
     QString getLogText() { return logText.join("\n"); }
     void clearLog();
@@ -341,6 +335,7 @@ private slots:
     void correctAltError();
 
     void processFilterNumber(INumberVectorProperty *nvp);
+    void processCCDSwitch(ISwitchVectorProperty *svp);
 
     void setDefaultCCD(QString ccd);
 
@@ -349,7 +344,7 @@ private slots:
     // Solver timeout
     void checkAlignmentTimeout();
 
-    void updateGuideScopeCCDs(int index);
+    void updateTelescopeType(int index);
 
     // External View
     void showFITSViewer();
@@ -599,7 +594,7 @@ private:
     QLineF correctionVector;
 
     // CCDs using Guide Scope for parameters
-    QStringList guideScopeCCDs;
+    //QStringList guideScopeCCDs;
 
     // Which hemisphere are we located on?
     HemisphereType hemisphere;
