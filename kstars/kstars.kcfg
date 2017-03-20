@@ -1384,6 +1384,9 @@
       <entry name="DefaultCaptureCCD" type="String">
          <label>Default capture module CCD.</label>
       </entry>
+      <entry name="DefaultObserver" type="String">
+         <label>Default observer full name.</label>
+      </entry>
       <entry name="GuideDeviation" type="Double">
          <label>Default maximum permittable guide deviation</label>
          <whatsthis>If guide deviation exceeds this limit, the exposure will be automatically aborted and only resumed when the deviation is within this limit.</whatsthis>

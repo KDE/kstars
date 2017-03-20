@@ -24,6 +24,7 @@
 #include "oal/log.h"
 
 #include "kstars.h"
+#include "skymap.h"
 #include "kstarsdata.h"
 
 #include "capture.h"
@@ -51,7 +52,7 @@
 #define MF_RA_DIFF_LIMIT    4
 #define MAX_CAPTURE_RETRIES 3
 
-#define SQ_FORMAT_VERSION   1.5
+#define SQ_FORMAT_VERSION   1.6
 
 namespace Ekos
 {
@@ -225,6 +226,10 @@ Capture::Capture()
     connect(uploadModeCombo, SIGNAL(activated(int)), this, SLOT(setDirty()));
     connect(remoteDirIN, SIGNAL(editingFinished()), this, SLOT(setDirty()));
 
+    observerName = Options::defaultObserver();
+    observerB->setIcon(QIcon::fromTheme("im-user", QIcon(":/icons/breeze/default/im-user.svg") ));
+    observerB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    connect(observerB, SIGNAL(clicked()), this, SLOT(showObserverDialog()));
 
     // Post capture script
     connect(&postCaptureScript, SIGNAL(finished(int)), this, SLOT(postScriptFinished(int)));
@@ -2090,6 +2095,19 @@ void Capture::executeJob()
         currentCCD->setNextSequenceID(nextSequenceID);
     }
 
+    QMap<QString, QString> FITSHeader;
+    if (observerName.isEmpty() == false)
+        FITSHeader["FITS_OBSERVER"] = observerName;
+    if (targetName.isEmpty() == false)
+        FITSHeader["FITS_OBJECT"] = targetName;
+    else if (activeJob->getRawPrefix().isEmpty() == false)
+    {
+        FITSHeader["FITS_OBJECT"] = activeJob->getRawPrefix();
+    }
+
+    if (FITSHeader.count() > 0)
+        currentCCD->setFITSHeader(FITSHeader);
+
     // Update button status
     setBusy(true);
 
@@ -2359,7 +2377,11 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
 
              for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
              {
-                 if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
+                 if (!strcmp(tagXMLEle(ep), "Observer"))
+                 {
+                     observerName = QString(pcdataXMLEle(ep));
+                 }
+                 else if (!strcmp(tagXMLEle(ep), "GuideDeviation"))
                  {
                       if (!strcmp(findXMLAttValu(ep, "enabled"), "true"))
                       {
@@ -2690,6 +2712,8 @@ bool Capture::saveSequenceQueue(const QString &path)
 
     outstream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << endl;
     outstream << "<SequenceQueue version='" << SQ_FORMAT_VERSION << "'>" << endl;
+    if (observerName.isEmpty() == false)
+        outstream << "<Observer>" << observerName << "</Observer>" << endl;
     outstream << "<GuideDeviation enabled='" << (guideDeviationCheck->isChecked() ? "true" : "false") << "'>" << guideDeviation->value() << "</GuideDeviation>" << endl;
     outstream << "<Autofocus enabled='" << (autofocusCheck->isChecked() ? "true" : "false") << "'>" << HFRPixels->value() << "</Autofocus>" << endl;
     outstream << "<MeridianFlip enabled='" << (meridianCheck->isChecked() ? "true" : "false") << "'>" << meridianHours->value() << "</MeridianFlip>" << endl;    
@@ -4203,6 +4227,60 @@ void Capture::setMountStatus(ISD::Telescope::TelescopeStatus newState)
 
         break;
     }
+}
+
+void Capture::showObserverDialog()
+{
+    QList<OAL::Observer *> m_observerList;
+    KStars::Instance()->data()->userdb()->GetAllObservers(m_observerList);
+    QStringList observers;
+    foreach( OAL::Observer *o, m_observerList )
+        observers << QString("%1 %2").arg(o->name()).arg(o->surname());
+
+    QDialog observersDialog(this);
+    observersDialog.setWindowTitle(i18n("Select Current Observer"));
+
+    QLabel label(i18n("Current Observer:"));
+
+    QComboBox observerCombo(&observersDialog);
+    observerCombo.addItems(observers);
+    observerCombo.setCurrentText(observerName);
+    observerCombo.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    QPushButton manageObserver(&observersDialog);
+    manageObserver.setFixedSize(QSize(32,32));
+    manageObserver.setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/breeze/default/document-edit.svg")));
+    manageObserver.setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    manageObserver.setToolTip(i18n("Manage Observers"));
+    connect(&manageObserver, &QPushButton::clicked, this, [&]()
+    {
+        ObserverAdd add;
+        add.exec();
+
+        QList<OAL::Observer *> m_observerList;
+        KStars::Instance()->data()->userdb()->GetAllObservers(m_observerList);
+        QStringList observers;
+        foreach( OAL::Observer *o, m_observerList )
+            observers << QString("%1 %2").arg(o->name()).arg(o->surname());
+
+        observerCombo.clear();
+        observerCombo.addItems(observers);
+        observerCombo.setCurrentText(observerName);
+
+    });
+
+    QHBoxLayout *layout = new QHBoxLayout;
+    layout->addWidget(&label);
+    layout->addWidget(&observerCombo);
+    layout->addWidget(&manageObserver);
+
+    observersDialog.setLayout(layout);
+
+    observersDialog.exec();
+
+    observerName = observerCombo.currentText();
+
+    Options::setDefaultObserver(observerName);
 }
 
 }

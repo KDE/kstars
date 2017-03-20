@@ -134,6 +134,12 @@ public:
     Q_SCRIPTABLE Q_NOREPLY void setTargetName(const QString &name) { targetName = name; }
 
     /** DBUS interface function.
+     * Sets Observer name. Observer name is sent to INDI CCD driver to include it in the FITS header
+     * @param name Full name of observer
+     */
+    Q_SCRIPTABLE Q_NOREPLY void setObservrName(const QString &name) { observerName = name; }
+
+    /** DBUS interface function.
      * Enables or disables the maximum guiding deviation and sets its value.
      * @param enable If true, enable the guiding deviation check, otherwise, disable it.
      * @param if enable is true, it sets the maximum guiding deviation in arcsecs. If the value is exceeded, the capture operation is aborted until the value falls below the value threshold.
@@ -450,6 +456,9 @@ private slots:
     void toggleVideoStream(bool enable);
     void setVideoStreamEnabled(bool enabled);
 
+    // Observer
+    void showObserverDialog();
+
 signals:
         void newLog();
         void checkFocus(double);        
@@ -506,6 +515,7 @@ private:
     bool useGuideHead;
 
     QString targetName;
+    QString observerName;
 
     SequenceJob *activeJob;
 
