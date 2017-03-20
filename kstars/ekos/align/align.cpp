@@ -373,6 +373,9 @@ Align::Align()
     mountModel.previewB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     mountModel.previewB->setCheckable(true);
 
+    mountModel.sortAlignB->setIcon(QIcon::fromTheme("svn-update", QIcon(":/icons/breeze/default/svn-update.svg") ));
+    mountModel.sortAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+
 
     mountModel.stopAlignB->setIcon(QIcon::fromTheme("media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg") ));
     mountModel.stopAlignB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -399,6 +402,7 @@ Align::Align()
     connect(mountModel.removeAlignB, SIGNAL(clicked()), this, SLOT(slotRemoveAlignPoint()));
     connect(mountModel.addAlignB, SIGNAL(clicked()), this, SLOT(slotAddAlignPoint()));
     connect(mountModel.findAlignB, SIGNAL(clicked()), this, SLOT(slotFindAlignObject()));
+    connect(mountModel.sortAlignB, SIGNAL(clicked()), this, SLOT(slotSortAlignmentPoints()));
 
     connect(mountModel.previewB, SIGNAL(clicked()), this, SLOT(togglePreviewAlignPoints()));
     connect(mountModel.stopAlignB, SIGNAL(clicked()), this, SLOT(resetAlignmentProcedure()));
@@ -1147,6 +1151,83 @@ bool Align::saveAlignmentPoints(const QString &path){
 
 }
 
+void Align::slotSortAlignmentPoints(){
+
+    int firstAlignmentPt=findClosestAlignmentPointToTelescope();
+    if(firstAlignmentPt!=-1){
+        swapAlignPoints(firstAlignmentPt,0);
+    }
+
+    for (int i=0; i < mountModel.alignTable->rowCount()-1; i++)
+    {
+        int nextAlignmentPoint=findNextAlignmentPointAfter(i);
+        if(nextAlignmentPoint!=-1){
+            swapAlignPoints(nextAlignmentPoint,i+1);
+        }
+    }
+    if(previewShowing)
+        updatePreviewAlignPoints();
+}
+
+int Align::findClosestAlignmentPointToTelescope(){
+
+    dms bestDiff=dms(360);
+    double index=-1;
+
+    for (int i = 0 ; i < mountModel.alignTable->rowCount(); i++)
+    {
+        QTableWidgetItem *raCell=mountModel.alignTable->item(i,0);
+        QTableWidgetItem *deCell=mountModel.alignTable->item(i,1);
+
+        if(raCell&&deCell){
+            dms raDMS  = dms::fromString(raCell->text(),false);
+            dms deDMS = dms::fromString(deCell->text(),true);
+
+            dms thisDiff=telescopeCoord.angularDistanceTo(new SkyPoint(raDMS,deDMS));
+            if(thisDiff.Degrees() < bestDiff.Degrees()){
+                index=i;
+                bestDiff=thisDiff;
+            }
+        }
+    }
+    return index;
+}
+
+int Align::findNextAlignmentPointAfter(int currentSpot){
+
+    QTableWidgetItem *currentRACell=mountModel.alignTable->item(currentSpot,0);
+    QTableWidgetItem *currentDECell=mountModel.alignTable->item(currentSpot,1);
+
+    if(currentRACell&&currentDECell){
+        dms thisRADMS  = dms::fromString(currentRACell->text(),false);
+        dms thisDEDMS = dms::fromString(currentDECell->text(),true);
+
+        SkyPoint thisPt(thisRADMS,thisDEDMS);
+
+        dms bestDiff=dms(360);
+        double index=-1;
+
+        for (int i = currentSpot+1; i < mountModel.alignTable->rowCount(); i++)
+        {
+            QTableWidgetItem *raCell=mountModel.alignTable->item(i,0);
+            QTableWidgetItem *deCell=mountModel.alignTable->item(i,1);
+
+            if(raCell&&deCell){
+                dms raDMS  = dms::fromString(raCell->text(),false);
+                dms deDMS = dms::fromString(deCell->text(),true);
+
+                dms thisDiff=thisPt.angularDistanceTo(new SkyPoint(raDMS,deDMS));
+                if(thisDiff.Degrees() < bestDiff.Degrees()){
+                    index=i;
+                    bestDiff=thisDiff;
+                }
+            }
+        }
+        return index;
+    }else
+        return -1;
+}
+
 void Align::exportSolutionPoints()
 {
     if (solutionTable->rowCount() == 0)
@@ -1247,7 +1328,7 @@ void Align::slotClearAllAlignPoints()
     if (mountModel.alignTable->rowCount() == 0)
         return;
 
-    if (KMessageBox::questionYesNo(KStars::Instance(), i18n("Are you sure you want to clear all the alignment points?"), i18n("Clear Align Points")) == KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(&mountModelDialog, i18n("Are you sure you want to clear all the alignment points?"), i18n("Clear Align Points")) == KMessageBox::Yes)
         mountModel.alignTable->setRowCount(0);
 
     if(previewShowing)
@@ -1300,6 +1381,18 @@ void Align::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIn
 
     if(previewShowing)
         updatePreviewAlignPoints();
+}
+
+void Align::swapAlignPoints( int firstPt, int secondPt)
+{
+    for (int i=0; i < mountModel.alignTable->columnCount(); i++)
+    {
+        QTableWidgetItem *firstPtItem = mountModel.alignTable->takeItem(firstPt, i);
+        QTableWidgetItem *secondPtItem = mountModel.alignTable->takeItem(secondPt, i);
+
+        mountModel.alignTable->setItem(firstPt, i, secondPtItem);
+        mountModel.alignTable->setItem(secondPt, i, firstPtItem);
+    }
 }
 
 void Align::slotMountModel(){
@@ -1403,8 +1496,15 @@ void Align::startStopAlignmentProcedure(){
     if(!mountModelRunning){
         if(mountModel.alignTable->rowCount()>0){
             if(alignmentPointsAreBad()){
-                 KMessageBox::error(0, i18n("Please Check the Alignment Points."));
+                KMessageBox::error(0, i18n("Please Check the Alignment Points."));
                 return;
+            }
+            if(currentGotoMode == GOTO_NOTHING){
+                int r = KMessageBox::warningContinueCancel(0,
+                            i18n( "In the Align Module, \"Nothing\" is Selected for the Solver Action.  This means that the mount model tool will not sync/align your mount but will only report the pointing model errors.  Do you wish to Continue?" ),
+                            i18n( "Pointing Model Report Only?" ),
+                            KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "nothing_selected_warning") ;
+                if(r==KMessageBox::Cancel) return;
             }
             if(currentAlignmentPoint==0){
                 for(int row=0;row<mountModel.alignTable->rowCount();row++){

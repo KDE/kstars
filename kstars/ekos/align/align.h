@@ -388,6 +388,7 @@ private slots:
     void exportSolutionPoints();
     void alignTypeChanged(const QString alignType);
     void togglePreviewAlignPoints();
+    void slotSortAlignmentPoints();
 
 signals:
         void newLog();
@@ -631,6 +632,10 @@ private:
     void calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest);
     bool previewShowing=false;
     void updatePreviewAlignPoints();
+    int findNextAlignmentPointAfter(int currentSpot);
+    int findClosestAlignmentPointToTelescope();
+    void swapAlignPoints( int firstPt, int secondPt);
+
 };
 
 }
