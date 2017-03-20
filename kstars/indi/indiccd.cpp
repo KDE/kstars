@@ -2322,4 +2322,28 @@ bool CCD::stopRecording()
     return true;
 }
 
+bool CCD::setFITSHeader(const QMap<QString, QString> &values)
+{
+    ITextVectorProperty *tvp = baseDevice->getText("FITS_HEADER");
+    if (tvp == NULL)
+        return false;
+
+    QMapIterator<QString, QString> i(values);
+
+    while (i.hasNext())
+    {
+          i.next();
+
+          IText *headerT = IUFindText(tvp, i.key().toLatin1().data());
+          if (headerT == NULL)
+              continue;
+          IUSaveText(headerT, i.value().toLatin1().data());
+    }
+
+    clientManager->sendNewText(tvp);
+
+    return true;
+}
+
+
 }

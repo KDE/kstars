@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>590</width>
+    <width>623</width>
     <height>519</height>
    </rect>
   </property>
@@ -236,296 +236,7 @@
           <property name="spacing">
            <number>3</number>
           </property>
-          <item row="4" column="1" colspan="2">
-           <widget class="QComboBox" name="transferFormatCombo">
-            <property name="toolTip">
-             <string>Image Transfer Format</string>
-            </property>
-            <item>
-             <property name="text">
-              <string>FITS</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Native</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="5" column="2">
-           <widget class="QSpinBox" name="frameXIN">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="exposureLabel_2">
-            <property name="toolTip">
-             <string>Set the exposure time in seconds for individual images, if applicable</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Exposure:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="4" colspan="2">
-           <widget class="QSpinBox" name="frameHIN">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3" colspan="2">
-           <widget class="QLabel" name="textLabel1_2_3">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Filter:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="QLabel" name="textLabel1_10">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>H:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="4" colspan="2">
-           <widget class="QSpinBox" name="binYIN">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Vertical binning</string>
-            </property>
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <number>10</number>
-            </property>
-            <property name="value">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="4" colspan="2">
-           <widget class="QSpinBox" name="frameYIN">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="3" colspan="2">
-           <widget class="QLabel" name="textLabel1_8">
-            <property name="toolTip">
-             <string>Delay in seconds between consecutive images</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Delay:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="3">
-           <widget class="QLabel" name="textLabel1_14">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Y:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" colspan="2">
-           <widget class="QComboBox" name="frameTypeCombo">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" colspan="2">
-           <widget class="QDoubleSpinBox" name="exposureIN">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="decimals">
-             <number>3</number>
-            </property>
-            <property name="minimum">
-             <double>0.001000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>3600.000000000000000</double>
-            </property>
-            <property name="value">
-             <double>1.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QLabel" name="textLabel1_9">
-            <property name="toolTip">
-             <string>Horizontal and Vertical binning</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Binning:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="textLabel1_4">
-            <property name="toolTip">
-             <string>Number of images to capture</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Count:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QLabel" name="textLabel1_15">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>W:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="2">
-           <widget class="QSpinBox" name="binXIN">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="toolTip">
-             <string>Horizontal binning</string>
-            </property>
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <number>10</number>
-            </property>
-            <property name="value">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="5" colspan="2">
-           <widget class="QSpinBox" name="delayIN">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximum">
-             <number>3600</number>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="5" colspan="2">
-           <widget class="QComboBox" name="FilterPosCombo">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="3">
-           <widget class="QLabel" name="textLabel1_16">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>H:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="textLabel1_12">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Frame:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="2">
-           <widget class="QSpinBox" name="frameWIN">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximum">
-             <number>99</number>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="6">
+          <item row="6" column="6">
            <widget class="QPushButton" name="resetFrameB">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -559,7 +270,56 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="5" colspan="2">
+           <widget class="QSpinBox" name="delayIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximum">
+             <number>3600</number>
+            </property>
+           </widget>
+          </item>
           <item row="6" column="0">
+           <widget class="QLabel" name="textLabel1_12">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Frame:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="textLabel1_17">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Type:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5" colspan="2">
+           <widget class="QComboBox" name="FilterPosCombo">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
            <widget class="QLabel" name="textLabel1_19">
             <property name="toolTip">
              <string/>
@@ -572,15 +332,30 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>Format:</string>
+          <item row="0" column="1" colspan="2">
+           <widget class="QDoubleSpinBox" name="exposureIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="decimals">
+             <number>3</number>
+            </property>
+            <property name="minimum">
+             <double>0.001000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>3600.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>1.000000000000000</double>
             </property>
            </widget>
           </item>
-          <item row="5" column="1">
-           <widget class="QLabel" name="textLabel1_13">
+          <item row="7" column="3">
+           <widget class="QLabel" name="textLabel1_16">
             <property name="toolTip">
              <string/>
             </property>
@@ -588,8 +363,162 @@
              <string/>
             </property>
             <property name="text">
-             <string>X:</string>
+             <string>H:</string>
             </property>
+           </widget>
+          </item>
+          <item row="5" column="1" colspan="2">
+           <widget class="QComboBox" name="frameTypeCombo">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="2">
+           <widget class="QSpinBox" name="binXIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>Horizontal binning</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="3">
+           <widget class="QLabel" name="textLabel1_11">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>V:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="4" colspan="2">
+           <widget class="QSpinBox" name="frameYIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="2">
+           <widget class="QSpinBox" name="frameXIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3" colspan="2">
+           <widget class="QLabel" name="textLabel1_8">
+            <property name="toolTip">
+             <string>Delay in seconds between consecutive images</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Delay:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLabel" name="textLabel1_15">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>W:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="5" colspan="2">
+           <widget class="QComboBox" name="ISOCombo">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="toolTip">
+             <string>ISO settings</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3" colspan="2">
+           <widget class="QLabel" name="ISOLabel">
+            <property name="text">
+             <string>ISO:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="textLabel1_4">
+            <property name="toolTip">
+             <string>Number of images to capture</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Count:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Format:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1" colspan="2">
+           <widget class="QComboBox" name="transferFormatCombo">
+            <property name="toolTip">
+             <string>Image Transfer Format</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>FITS</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Native</string>
+             </property>
+            </item>
            </widget>
           </item>
           <item row="1" column="1" colspan="2">
@@ -611,8 +540,31 @@
             </property>
            </widget>
           </item>
-          <item row="7" column="3">
-           <widget class="QLabel" name="textLabel1_11">
+          <item row="0" column="0">
+           <widget class="QLabel" name="exposureLabel_2">
+            <property name="toolTip">
+             <string>Set the exposure time in seconds for individual images, if applicable</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Exposure:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="4" colspan="2">
+           <widget class="QSpinBox" name="frameHIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="3">
+           <widget class="QLabel" name="textLabel1_14">
             <property name="toolTip">
              <string/>
             </property>
@@ -620,12 +572,25 @@
              <string/>
             </property>
             <property name="text">
-             <string>V:</string>
+             <string>Y:</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="textLabel1_17">
+          <item row="8" column="0">
+           <widget class="QLabel" name="textLabel1_9">
+            <property name="toolTip">
+             <string>Horizontal and Vertical binning</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Binning:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QLabel" name="textLabel1_10">
             <property name="toolTip">
              <string/>
             </property>
@@ -633,15 +598,12 @@
              <string/>
             </property>
             <property name="text">
-             <string>Type:</string>
+             <string>H:</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="5" colspan="2">
-           <widget class="QComboBox" name="ISOCombo">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
+          <item row="8" column="4" colspan="2">
+           <widget class="QSpinBox" name="binYIN">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -649,21 +611,59 @@
              </sizepolicy>
             </property>
             <property name="toolTip">
-             <string>ISO settings</string>
+             <string>Vertical binning</string>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>1</number>
             </property>
            </widget>
           </item>
-          <item row="2" column="3" colspan="2">
-           <widget class="QLabel" name="ISOLabel">
+          <item row="0" column="3" colspan="2">
+           <widget class="QLabel" name="textLabel1_2_3">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
             <property name="text">
-             <string>ISO:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             <string>Filter:</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="3" colspan="4">
+          <item row="7" column="2">
+           <widget class="QSpinBox" name="frameWIN">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximum">
+             <number>99</number>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLabel" name="textLabel1_13">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>X:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3" colspan="4">
            <widget class="QPushButton" name="calibrationB">
             <property name="enabled">
              <bool>false</bool>
@@ -734,6 +734,87 @@
           <property name="spacing">
            <number>3</number>
           </property>
+          <item row="3" column="2">
+           <widget class="QLabel" name="label_2">
+            <property name="toolTip">
+             <string>When storing images on remote devices, specify the directory where captured images are saved to.</string>
+            </property>
+            <property name="text">
+             <string>Remote:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3" colspan="2">
+           <widget class="QLineEdit" name="remoteDirIN">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="placeholderText">
+             <string>/home/pi</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="toolTip">
+             <string>Post-capture script to be executed after an image is captured. The capture sequence is resumed when the script is executed successfully.</string>
+            </property>
+            <property name="text">
+             <string>Script:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="2">
+           <widget class="QLineEdit" name="postCaptureScriptIN"/>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="uploadModeCombo">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>Client</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Local</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Both</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="textLabel1_18">
+            <property name="toolTip">
+             <string>Local directory to save sequence images</string>
+            </property>
+            <property name="whatsThis">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Directory:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="2">
+           <widget class="QLineEdit" name="prefixIN">
+            <property name="placeholderText">
+             <string>Target</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="textLabel1_7">
             <property name="toolTip">
@@ -753,10 +834,19 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1" colspan="2">
-           <widget class="QLineEdit" name="prefixIN">
-            <property name="placeholderText">
-             <string>Target</string>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="toolTip">
+             <string>&lt;p&gt;Select how captured images are uploaded:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Client&lt;/strong&gt;: Captured images are only uploaded to Ekos.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Local&lt;/strong&gt;: Captured images are only saved locally on the remote computer.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Both&lt;/strong&gt;: Captured images are saved on remote device &lt;b&gt;and&lt;/b&gt; uploaded to Ekos.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;When selecting &lt;i&gt;Local&lt;/i&gt; or &lt;i&gt;Both&lt;/i&gt;, you must specify the remote directory where the remote images are saved to. By default, all captured images are uploaded to Ekos.</string>
+            </property>
+            <property name="text">
+             <string>Upload:</string>
             </property>
            </widget>
           </item>
@@ -800,35 +890,6 @@
             </item>
            </layout>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="toolTip">
-             <string>Post-capture script to be executed after an image is captured. The capture sequence is resumed when the script is executed successfully.</string>
-            </property>
-            <property name="text">
-             <string>Script:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" colspan="2">
-           <widget class="QLineEdit" name="postCaptureScriptIN"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="textLabel1_18">
-            <property name="toolTip">
-             <string>Local directory to save sequence images</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Directory:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" colspan="3">
-           <widget class="QLineEdit" name="fitsDir"/>
-          </item>
           <item row="2" column="4">
            <widget class="QPushButton" name="selectFITSDirB">
             <property name="sizePolicy">
@@ -854,69 +915,8 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="toolTip">
-             <string>&lt;p&gt;Select how captured images are uploaded:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Client&lt;/strong&gt;: Captured images are only uploaded to Ekos.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Local&lt;/strong&gt;: Captured images are only saved locally on the remote computer.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Both&lt;/strong&gt;: Captured images are saved on remote device &lt;b&gt;and&lt;/b&gt; uploaded to Ekos.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;When selecting &lt;i&gt;Local&lt;/i&gt; or &lt;i&gt;Both&lt;/i&gt;, you must specify the remote directory where the remote images are saved to. By default, all captured images are uploaded to Ekos.</string>
-            </property>
-            <property name="text">
-             <string>Upload:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QComboBox" name="uploadModeCombo">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <item>
-             <property name="text">
-              <string>Client</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Local</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Both</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="label_2">
-            <property name="toolTip">
-             <string>When storing images on remote devices, specify the directory where captured images are saved to.</string>
-            </property>
-            <property name="text">
-             <string>Remote:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="3" colspan="2">
-           <widget class="QLineEdit" name="remoteDirIN">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="placeholderText">
-             <string>/home/pi</string>
-            </property>
-           </widget>
+          <item row="2" column="1" colspan="3">
+           <widget class="QLineEdit" name="fitsDir"/>
           </item>
          </layout>
         </item>
@@ -1273,6 +1273,28 @@
               <attribute name="buttonGroup">
                <string notr="true">queueEditButtonGroup</string>
               </attribute>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="observerB">
+              <property name="minimumSize">
+               <size>
+                <width>32</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>32</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>Select Observer</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
              </widget>
             </item>
             <item>
@@ -1840,8 +1862,6 @@
     </layout>
    </item>
   </layout>
-  <zorder>optionsGroup</zorder>
-  <zorder>CCDFWGroup</zorder>
  </widget>
  <tabstops>
   <tabstop>CCDCaptureCombo</tabstop>
@@ -1854,7 +1874,6 @@
   <tabstop>FilterPosCombo</tabstop>
   <tabstop>countIN</tabstop>
   <tabstop>delayIN</tabstop>
-  <tabstop>frameTypeCombo</tabstop>
   <tabstop>frameXIN</tabstop>
   <tabstop>frameYIN</tabstop>
   <tabstop>resetFrameB</tabstop>

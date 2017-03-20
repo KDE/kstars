@@ -199,6 +199,9 @@ public:
     TelescopeType getTelescopeType() { return telescopeType; }
     bool setTelescopeType(TelescopeType type);
 
+    // Update FITS Header
+    bool setFITSHeader(const QMap<QString,QString> & values);
+
     FITSViewer *getViewer() { return fv;}
     CCDChip * getChip(CCDChip::ChipType cType);
     void setFITSDir(const QString &dir) { fitsDir = dir;}
