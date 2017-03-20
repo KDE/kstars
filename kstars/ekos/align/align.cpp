@@ -4302,14 +4302,15 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
         pahImageInfos.append(solution);
 
+        // Sync 2nd rotation value to be that of 1st in case
+        PAHSecondRotationSpin->setValue(PAHFirstRotationSpin->value());
+        PAHSecondEastMeridianR->setChecked(PAHFirstEastMeridianR->isChecked());
+
         pahStage = PAH_SECOND_ROTATE;
         PAHWidgets->setCurrentWidget(PAHSecondRotatePage);
 
         if (PAHAutoModeCheck->isChecked())
         {
-            // Sync 2nd rotation value to be that of 1st in case of Auto Mode
-            PAHSecondRotationSpin->setValue(PAHFirstRotationSpin->value());
-            PAHSecondEastMeridianR->setChecked(PAHFirstEastMeridianR->isChecked());
             // Now let's commence the move
             PAHSecondRotateB->setEnabled(true);
             PAHSecondRotateB->click();
