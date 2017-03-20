@@ -3432,6 +3432,9 @@ double Capture::setCurrentADU(double value)
     ExpRaw.append(activeJob->getExposure());
     ADURaw.append(value);
 
+    if (Options::captureLogging())
+        qDebug() << "Capture: Current ADU = " << value << " targetADU = " << targetADU << " Exposure Count: " << ExpRaw.count();
+
     // Most CCDs are quite linear so 1st degree polynomial is quite sufficient
     // But DSLRs can exhibit non-linear response curve and so a 2nd degree polynomial is more appropiate
     if (ExpRaw.count() >= 2)
@@ -3441,13 +3444,24 @@ double Capture::setCurrentADU(double value)
         // But it _could_ also fail for 3 or more points as well and as a precaution we will fall back
         // to llsq in both cases.
         coeff = gsl_polynomial_fit(ADURaw.data(), ExpRaw.data(), ExpRaw.count(), 2, chisq);
+        if (Options::captureLogging())
+        {
+            qDebug() << "Capture: Running polynomial fitting. Found " << coeff.size() << " coefficients.";
+            for (size_t i=0; i < coeff.size(); i++)
+                qDebug() << "Capture: Coeff #" << i << "=" << coeff[i];
+        }
+
         if (coeff.size() == 3)
         {
             // If we get invalid data, let's fall back to llsq
             if (std::isnan(coeff[0]) || std::isinf(coeff[0]))
             {
+
                 double a=0, b=0;
                 llsq(ExpRaw, ADURaw, a, b);
+
+                if (Options::captureLogging())
+                    qDebug() << "Capture: polynomial fitting invalid, faling back to llsq. a=" << a << " b=" << b;
 
                 // If we have valid results, let's calculate next exposure
                 if (a != 0)
@@ -3466,7 +3480,8 @@ double Capture::setCurrentADU(double value)
             nextExposure = activeJob->getExposure()*.75;
     }
 
-    //qDebug() << "Next Exposure: " << nextExposure;
+    if (Options::captureLogging())
+        qDebug() << "Capture: next FLAT exposure is " << nextExposure;
 
     return nextExposure;
 }
