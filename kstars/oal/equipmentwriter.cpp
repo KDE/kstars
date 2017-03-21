@@ -265,7 +265,7 @@ void EquipmentWriter::slotNewLens()
 void EquipmentWriter::slotAddFilter()
 {
     KStarsData::Instance()->userdb()->AddFilter( ui.f_Vendor->text(), ui.f_Model->text(),
-            ui.f_Type->text(), ui.f_Offset->text(), ui.f_Color->text());
+            ui.f_Type->text(), ui.f_Offset->text(), ui.f_Color->text(), ui.f_Exposure->text());
     loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();
@@ -273,6 +273,7 @@ void EquipmentWriter::slotAddFilter()
     ui.f_Type->clear();
     ui.f_Offset->clear();
     ui.f_Color->clear();
+    ui.f_Exposure->clear();
 }
 
 void EquipmentWriter::slotRemoveFilter()
@@ -285,6 +286,7 @@ void EquipmentWriter::slotRemoveFilter()
     ui.f_Type->clear();
     ui.f_Offset->clear();
     ui.f_Color->clear();
+    ui.f_Exposure->clear();
     ui.FilterList->clear();
     foreach( OAL::Filter * f, *( KStarsData::Instance()->logObject()->filterList() ) )
         ui.FilterList->addItem( f->name() );
@@ -293,7 +295,7 @@ void EquipmentWriter::slotRemoveFilter()
 void EquipmentWriter::slotSaveFilter()
 {
     KStarsData::Instance()->userdb()->AddFilter( ui.f_Vendor->text(), ui.f_Model->text(),
-            ui.f_Type->text(), ui.f_Color->text(),
+            ui.f_Type->text(), ui.f_Color->text(), ui.f_Exposure->text(),
             ui.f_Id->text());
     loadEquipment();
 }
@@ -310,6 +312,7 @@ void EquipmentWriter::slotSetFilter( QString name )
         ui.f_Type->setText( f->type() );
         ui.f_Offset->setText(f->offset());
         ui.f_Color->setText( f->color() );
+        ui.f_Exposure->setText(f->exposure());
         newFilter = false;
     }
 }
@@ -322,6 +325,7 @@ void EquipmentWriter::slotNewFilter()
     ui.f_Type->clear();
     ui.f_Model->clear();
     ui.f_Color->clear();
+    ui.f_Exposure->clear();
     ui.FilterList->selectionModel()->clear();
     newFilter = true;
 }

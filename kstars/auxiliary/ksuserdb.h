@@ -267,13 +267,13 @@ class KSUserDB
          *
          * @return void
          **/
-        void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &offset, const QString &color);
+        void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &offset, const QString &color, const QString &exposure);
         /**
          * @brief Replace a filter at given ID with new content
          *
          * @return void
          **/
-        void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &offset, const QString &color,
+        void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &offset, const QString &color, const QString &exposure,
                        const QString &id);
 #ifndef KSTARS_LITE
         /**
