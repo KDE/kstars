@@ -818,4 +818,28 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
 }
 #endif
 
+QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields, const QVector<JPLFilter> &filters) {
+    QByteArray query("obj_group=all&obj_kind=" + kind + "&obj_numbered=num&OBJ_field=0&ORB_field=0");
+
+    // Apply filters:
+    for(int i = 0; i < filters.length(); i++) {
+        QString f = QString::number(i+1);
+        query += "&c" + f + "_group=OBJ&c1_item=" + filters[i].item
+               + "&c" + f + "_op=" + filters[i].op
+               + "&c" + f + "_value=" + filters[i].value;
+    }
+
+    // Apply query data fields...
+    query += "&c_fields=" + dataFields;
+
+    query +=
+    "&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&."
+    "cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifie"
+    "lds=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields="
+    "ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifiel"
+    "ds=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class";
+
+    return query;
+}
+
 }

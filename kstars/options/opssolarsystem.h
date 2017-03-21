@@ -38,11 +38,11 @@ public:
     ~OpsSolarSystem();
 
 private slots:
+    void slotChangeMagDownload( double mag );
     void slotAllWidgets(bool on);
     void slotAsteroidWidgets(bool on);
     void slotCometWidgets(bool on);
     void slotSelectPlanets();
-
     void slotApply();
 
 private:

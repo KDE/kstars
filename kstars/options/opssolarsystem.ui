@@ -6,11 +6,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>506</width>
-    <height>593</height>
+    <width>438</width>
+    <height>516</height>
    </rect>
   </property>
   <layout class="QVBoxLayout">
+   <property name="spacing">
+    <number>3</number>
+   </property>
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <widget class="QCheckBox" name="kcfg_ShowSolarSystem">
      <property name="text">
@@ -270,6 +285,36 @@
      <layout class="QVBoxLayout">
       <item>
        <layout class="QGridLayout">
+        <item row="3" column="0">
+         <spacer>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>16</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QDoubleSpinBox" name="kcfg_MagLimitAsteroidDownload"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>mag</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
         <item row="0" column="0">
          <widget class="QCheckBox" name="kcfg_ShowAsteroids">
           <property name="toolTip">
@@ -323,23 +368,7 @@
           </item>
          </layout>
         </item>
-        <item row="1" column="0">
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>16</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="1">
+        <item row="3" column="1">
          <layout class="QHBoxLayout">
           <item>
            <widget class="QCheckBox" name="kcfg_ShowAsteroidNames">
@@ -382,7 +411,7 @@
           </item>
          </layout>
         </item>
-        <item row="1" column="2">
+        <item row="3" column="2">
          <widget class="QSlider" name="kcfg_AsteroidLabelDensity">
           <property name="maximum">
            <number>20</number>
@@ -392,7 +421,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="4" column="0">
          <widget class="QCheckBox" name="kcfg_ShowComets">
           <property name="toolTip">
            <string>Draw comets?</string>
@@ -408,7 +437,7 @@
           </attribute>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="4" column="1">
          <widget class="QCheckBox" name="kcfg_ShowCometNames">
           <property name="toolTip">
            <string>Show names of comets near the Sun</string>
@@ -424,7 +453,7 @@
           </attribute>
          </widget>
         </item>
-        <item row="2" column="2">
+        <item row="4" column="2">
          <layout class="QHBoxLayout">
           <item>
            <widget class="QDoubleSpinBox" name="kcfg_MaxRadCometName">
@@ -450,6 +479,26 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Download astroids brighter than</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="3">
+         <widget class="QLabel" name="MagLimitAsteroidDownloadWarning">
+          <property name="styleSheet">
+           <string notr="true">color:red; font-weight:bold;</string>
+          </property>
+          <property name="text">
+           <string>This value might result in a big data file and reduced performance!</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

@@ -30,13 +30,19 @@ OpsSolarSystem::OpsSolarSystem()
 
     connect( kcfg_ShowSolarSystem, SIGNAL( toggled(bool) ), SLOT( slotAllWidgets(bool) ) );
     connect( kcfg_ShowAsteroids, SIGNAL( toggled(bool) ), SLOT( slotAsteroidWidgets(bool) ) );
+    connect( kcfg_MagLimitAsteroidDownload, SIGNAL( valueChanged( double ) ), this, SLOT( slotChangeMagDownload( double ) ) );
     connect( kcfg_ShowComets, SIGNAL( toggled(bool) ), SLOT( slotCometWidgets(bool) ) );
     connect( ClearAllTrails, SIGNAL( clicked() ), KStars::Instance(), SLOT( slotClearAllTrails() ) );
     connect( showAllPlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
     connect( showNonePlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
 
+    MagLimitAsteroidDownloadWarning->setVisible( false );
+
+    kcfg_MagLimitAsteroid->setMinimum( 0.0 );
     kcfg_MagLimitAsteroid->setMaximum( 30.0 );
     kcfg_MaxRadCometName->setMaximum( 100.0 );
+    kcfg_MagLimitAsteroidDownload->setMinimum( 0.0 );
+    kcfg_MagLimitAsteroidDownload->setMaximum( 30.0 );
 
     slotAsteroidWidgets( kcfg_ShowAsteroids->isChecked() );
     slotCometWidgets( kcfg_ShowComets->isChecked() );
@@ -53,6 +59,13 @@ OpsSolarSystem::OpsSolarSystem()
 
 OpsSolarSystem::~OpsSolarSystem()
 {
+}
+
+void OpsSolarSystem::slotChangeMagDownload( double mag ) {
+    if( mag > 12 )
+        MagLimitAsteroidDownloadWarning->setVisible( true );
+    else
+        MagLimitAsteroidDownloadWarning->setVisible( false );
 }
 
 void OpsSolarSystem::slotAllWidgets( bool on ) {

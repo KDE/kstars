@@ -41,6 +41,7 @@
 #include "projections/projector.h"
 #include "auxiliary/filedownloader.h"
 #include "kspaths.h"
+#include "ksutils.h"
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent ) {
@@ -224,19 +225,9 @@ void CometsComponent::updateDataFile()
     connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
     QUrl url = QUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
-    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=com&obj_numbere"
-    "d=all&OBJ_field=0&OBJ_op=0&OBJ_value=&ORB_field=0&ORB_op=0&ORB_value=&com"
-    "bine_mode=AND&c1_group=OBJ&c1_item=Af&c1_op=!%3D&c1_value=D&c2_group=OBJ&"
-    "c2_item=Ae&c2_op=!%3D&c2_value=SOHO&c_fields=AcBdBiBgBjBlBkBqBbAgAkAlApAq"
-    "ArAsBsBtChAmAn&table_format=CSV&max_rows=10&format_option=full&query=Gene"
-    "rate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=ob"
-    "j_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mo"
-    "de&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_fiel"
-    "d_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com"
-    "_orbit_class" );    
+    QByteArray post_data = KSUtils::getJPLQueryString("com", "AcBdBiBgBjBlBkBqBbAgAkAlApAqArAsBsBtChAmAn",  QVector<KSUtils::JPLFilter> {{"Af", "!=", "D"}});
 
     downloadJob->post(url, post_data);
-
 }
 
 void CometsComponent::downloadReady()

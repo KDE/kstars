@@ -232,6 +232,22 @@ namespace KSUtils {
     bool copyRecursively(QString sourceFolder, QString destFolder);
     #endif
 
+    struct JPLFilter {
+        QByteArray item;
+        QByteArray op;
+        QByteArray value;
+    };
+
+    // TODO: Implement Datatypes//Maps for kind, datafields, filters...
+
+    /**
+     *@short Generate a query string for downloading comet/asteroid data from JPL.
+     *@param kind The kind of object we want: ast, com.
+     *@param dataFields The collumns we want to download.
+     *@param filters Filters for the Data.
+     *@return The query string.
+     */
+    QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields, const QVector<JPLFilter> &filters);
 }
 
 #endif

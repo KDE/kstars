@@ -672,6 +672,11 @@
          <whatsthis>The faint magnitude limit for drawing asteroids.</whatsthis>
          <default>15.0</default>
       </entry>
+      <entry name="MagLimitAsteroidDownload" type="Double">
+         <label>Maximum magnitude for asteroids to be downloaded from JPL.</label>
+         <whatsthis>The maximum magnitude (visibility) to filter the asteroid data download from JPL.</whatsthis>
+         <default>12.000</default>
+      </entry>
       <entry name="AsteroidLabelDensity" type="Double">
          <label>Label density for asteroid names</label>
          <whatsthis>Controls the relative number of asteroid name labels drawn in the map.</whatsthis>

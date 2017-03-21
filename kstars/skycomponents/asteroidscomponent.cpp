@@ -267,14 +267,9 @@ void AsteroidsComponent::updateDataFile()
     QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
     QUrl url = QUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
-    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=ast&obj_numbere"
-    "d=num&OBJ_field=0&ORB_field=0&c1_group=OBJ&c1_item=Ai&c1_op=%3C&c1_value="
-    "12&c_fields=AcBdBiBhBgBjBlBkBmBqBbAiAjAgAkAlApAqArAsBsBtCh&table_format=C"
-    "SV&max_rows=10&format_option=full&query=Generate%20Table&.cgifields=forma"
-    "t_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&."
-    "cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class"
-    "&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_se"
-    "t&.cgifields=preset_field_set&.cgifields=com_orbit_class" );    
+
+    QByteArray mag = QString::number(Options::magLimitAsteroidDownload()).toUtf8();
+    QByteArray post_data = KSUtils::getJPLQueryString("ast", "AcBdBiBhBgBjBlBkBmBqBbAiAjAgAkAlApAqArAsBsBtCh", QVector<KSUtils::JPLFilter> {{"Ai", "<", mag}});
 
     downloadJob->post(url, post_data);
 }
