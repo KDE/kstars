@@ -30,9 +30,9 @@
 class OAL::Filter
 {
     public:
-        Filter( const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &offset, const QString &color )
+        Filter( const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &offset, const QString &color, const QString &exposure )
         {
-            setFilter( id, model, vendor, type, offset, color );
+            setFilter( id, model, vendor, type, offset, color, exposure );
         }
         QString id() const
         {
@@ -66,8 +66,16 @@ class OAL::Filter
         {
             m_Offset = _offset;
         }
-        void setFilter( const QString &_id, const QString &_model, const QString &_vendor, const QString &_type, const QString &_offset, const QString &_color );
+        QString exposure() const
+        {
+            return m_Exposure;
+        }
+        void setExposure(const QString &_exposure)
+        {
+            m_Exposure = _exposure;
+        }
+        void setFilter( const QString &_id, const QString &_model, const QString &_vendor, const QString &_type, const QString &_offset, const QString &_color, const QString &_exposure );
     private:
-        QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name, m_Offset;
+        QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name, m_Offset, m_Exposure;
 };
 #endif

@@ -14,8 +14,9 @@
 
 #include "ekos/ekos.h"
 #include "focus.h"
-//#include "capture/capture.h"
 
+
+#include "oal/filter.h"
 #include "ui_focus.h"
 
 #include "indi/indistd.h"
@@ -340,6 +341,16 @@ class Focus : public QWidget, public Ui::Focus
 
         void toggleFocusingWidgetFullScreen();
 
+        /**
+         * @brief saveFilterExposure Save filter exposure value in database
+         */
+        void saveFilterExposure();
+
+        /**
+         * @brief refreshFilterExposure Load filter exposure value from DB and apply it to current exposure value
+         */
+        void refreshFilterExposure();
+
         //void registerFocusProperty(INDI::Property *prop);
 
     signals:
@@ -528,6 +539,9 @@ class Focus : public QWidget, public Ui::Focus
         // Polynomial fitting coefficients
         std::vector<double> coeff;
         int polySolutionFound=0;
+
+        // Filters from DB
+        QList<OAL::Filter *> m_filterList;
 };
 
 }

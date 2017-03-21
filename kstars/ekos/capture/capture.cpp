@@ -4172,12 +4172,12 @@ void Capture::showFilterOffsetDialog()
             // If no filter exists, let's create one
             if (matchedFilter == NULL)
             {
-                KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", QString::number(oneOffset->offset), oneOffset->filter);
+                KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", QString::number(oneOffset->offset), oneOffset->filter, "1");
             }
             // Or update Existing one
             else
             {
-                KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", QString::number(oneOffset->offset), oneOffset->filter, matchedFilter->id());
+                KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", QString::number(oneOffset->offset), oneOffset->filter, matchedFilter->exposure(), matchedFilter->id());
             }
         }
     }

@@ -28,6 +28,7 @@
 #include "indi/indifilter.h"
 
 #include "auxiliary/kspaths.h"
+#include "auxiliary/ksuserdb.h"
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
@@ -36,6 +37,7 @@
 #include "ekos/auxiliary/darklibrary.h"
 
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "focusadaptor.h"
 
 #include <basedevice.h>
@@ -133,6 +135,8 @@ Focus::Focus()
     connect(setAbsTicksB, SIGNAL(clicked()), this, SLOT(setAbsoluteFocusTicks()));
     connect(binningCombo, SIGNAL(activated(int)), this, SLOT(setActiveBinning(int)));
     connect(focusBoxSize, SIGNAL(valueChanged(int)), this, SLOT(updateBoxSize(int)));
+
+    connect(exposureIN, SIGNAL(editingFinished()), this, SLOT(saveFilterExposure()));
 
     focusDetection = static_cast<StarAlgorithm>(Options::focusDetection());
     focusDetectionCombo->setCurrentIndex(focusDetection);
@@ -250,7 +254,7 @@ Focus::Focus()
     defaultScale = static_cast<FITSScale>(Options::focusEffect());
     connect(filterCombo, SIGNAL(activated(int)), this, SLOT(filterChangeWarning(int)));
 
-    exposureIN->setValue(Options::focusExposure());
+    //exposureIN->setValue(Options::focusExposure());
     toleranceIN->setValue(Options::focusTolerance());
     stepIN->setValue(Options::focusTicks());
     autoStarCheck->setChecked(Options::focusAutoStarEnabled());
@@ -457,6 +461,7 @@ void Focus::addFilter(ISD::GDInterface * newFilter)
 
     FilterCaptureCombo->setCurrentIndex(0);
 
+    refreshFilterExposure();
 }
 
 bool Focus::setFilter(QString device, int filterSlot)
@@ -481,7 +486,7 @@ bool Focus::setFilter(QString device, int filterSlot)
 }
 
 void Focus::checkFilter(int filterNum)
-{
+{    
     if (filterNum == -1)
     {
         filterNum = FilterCaptureCombo->currentIndex();
@@ -491,8 +496,13 @@ void Focus::checkFilter(int filterNum)
 
     QStringList filterAlias = Options::filterAlias();
 
+    bool deviceChanged=false;
     if (filterNum <= Filters.count())
+    {
+        if (currentFilter != Filters.at(filterNum))
+            deviceChanged = true;
         currentFilter = Filters.at(filterNum);
+    }
 
     FilterPosCombo->clear();
 
@@ -520,7 +530,7 @@ void Focus::checkFilter(int filterNum)
 
         FilterPosCombo->addItem(item);
 
-    }
+    }    
 
     if (lockFilterCheck->isChecked() == false)
         FilterPosCombo->setCurrentIndex( currentFilterIndex);
@@ -544,6 +554,9 @@ void Focus::checkFilter(int filterNum)
             capture();
         }
     }
+
+    if (deviceChanged)
+        refreshFilterExposure();
 
 }
 
@@ -571,6 +584,8 @@ void Focus::updateFilterPos(int index)
         Options::setLockFocusFilterIndex(lockedFilterIndex);
         emit filterLockUpdated(currentFilter, lockedFilterIndex);
     }
+
+    refreshFilterExposure();
 }
 
 void Focus::addFocuser(ISD::GDInterface * newFocuser)
@@ -763,7 +778,7 @@ void Focus::start()
 
     Options::setFocusTicks(stepIN->value());
     Options::setFocusTolerance(toleranceIN->value());
-    Options::setFocusExposure(exposureIN->value());
+    //Options::setFocusExposure(exposureIN->value());
     Options::setFocusMaxTravel(maxTravelIN->value());
     Options::setFocusBoxSize(focusBoxSize->value());
     Options::setFocusSubFrame(kcfg_subFrame->isChecked());
@@ -2754,6 +2769,49 @@ bool Focus::findMinimum(double expected, double * position, double * hfr)
     gsl_min_fminimizer_free (s);
 
     return (status == GSL_SUCCESS);
+}
+
+void Focus::saveFilterExposure()
+{
+    // Find matching filter if any and save its exposure
+    OAL::Filter * matchedFilter=NULL;
+    foreach( OAL::Filter * o, m_filterList )
+    {
+        if (o->vendor() == FilterCaptureCombo->currentText() && o->color() == FilterPosCombo->currentText())
+        {
+            matchedFilter = o;
+            break;
+        }
+    }
+
+    // If doesn't exist, create one
+    if (matchedFilter == NULL)
+        KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", "0", FilterPosCombo->currentText(), QString::number(exposureIN->value()));
+    // Or update existing
+    else
+        KStarsData::Instance()->userdb()->AddFilter(FilterCaptureCombo->currentText(), "", "", matchedFilter->offset(), matchedFilter->color(), QString::number(exposureIN->value()), matchedFilter->id());
+    // Reload
+    KStarsData::Instance()->userdb()->GetAllFilters(m_filterList);
+}
+
+void Focus::refreshFilterExposure()
+{
+    KStarsData::Instance()->userdb()->GetAllFilters(m_filterList);
+    OAL::Filter * matchedFilter=NULL;
+    foreach( OAL::Filter * o, m_filterList )
+    {
+        if (o->vendor() == FilterCaptureCombo->currentText() && o->color() == FilterPosCombo->currentText())
+        {
+            matchedFilter = o;
+            break;
+        }
+    }
+
+    if (matchedFilter)
+        exposureIN->setValue(matchedFilter->exposure().toDouble());
+    else
+        // Default value
+        exposureIN->setValue(1);
 }
 
 }
