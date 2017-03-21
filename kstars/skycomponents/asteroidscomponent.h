@@ -35,30 +35,30 @@ class FileDownloader;
  */
 class AsteroidsComponent: public QObject, public SolarSystemListComponent
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    /** @short Default constructor.
-     * @p parent pointer to the parent SolarSystemComposite
-     */
-    explicit AsteroidsComponent(SolarSystemComposite *parent);
+    public:
+        /** @short Default constructor.
+         * @p parent pointer to the parent SolarSystemComposite
+         */
+        explicit AsteroidsComponent(SolarSystemComposite * parent);
 
-    virtual ~AsteroidsComponent();
-    virtual void draw( SkyPainter *skyp );
-    virtual bool selected();
-    virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+        virtual ~AsteroidsComponent();
+        virtual void draw( SkyPainter * skyp );
+        virtual bool selected();
+        virtual SkyObject * objectNearest( SkyPoint * p, double &maxrad );
 
-    void updateDataFile();
+        void updateDataFile();
 
-    QString ans();
+        QString ans();
 
-protected slots:
-    void downloadReady();
-    void downloadError(const QString &errorString);
+    protected slots:
+        void downloadReady();
+        void downloadError(const QString &errorString);
 
-private:
-    void loadData();
-    FileDownloader* downloadJob;
+    private:
+        void loadData();
+        FileDownloader * downloadJob;
 };
 
 #endif

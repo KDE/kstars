@@ -27,14 +27,14 @@
 
 int SimClock::TimerInterval = 100; //msec
 
-SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
-        QObject(parent),
-        tmr(this)
+SimClock::SimClock(QObject * parent, const KStarsDateTime &when) :
+    QObject(parent),
+    tmr(this)
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     new SimClockAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/SimClock",  this);
-    #endif
+#endif
     if (! when.isValid() )
         tmr.stop();
     setUTC(when);
@@ -47,16 +47,21 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
     QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
 }
 
-void SimClock::tick() {
-    if ( ! ManualMode ) { //only tick if ManualMode is false
+void SimClock::tick()
+{
+    if ( ! ManualMode )   //only tick if ManualMode is false
+    {
         long mselapsed = sysmark.elapsed();
-        if (mselapsed < lastelapsed) {
+        if (mselapsed < lastelapsed)
+        {
             // The sysmark timer has wrapped after 24 hours back to 0 ms.
             // Reset sysmark and julianmark
             julianmark = UTC.djd();
             sysmark.start();
             lastelapsed = 0;
-        } else {
+        }
+        else
+        {
             lastelapsed = mselapsed;
         }
 
@@ -71,14 +76,19 @@ void SimClock::tick() {
     }
 }
 
-void SimClock::setManualMode( bool on ) {
-    if ( on ) {
+void SimClock::setManualMode( bool on )
+{
+    if ( on )
+    {
         //Turn on manual ticking.
         ManualActive = tmr.isActive();
         tmr.stop();
-    } else {
+    }
+    else
+    {
         //Turn off manual ticking.  If the Manual clock was active, start the timer.
-        if ( isActive() ) {
+        if ( isActive() )
+        {
             sysmark.start();
             julianmark = UTC.djd();
             lastelapsed = 0;
@@ -88,35 +98,44 @@ void SimClock::setManualMode( bool on ) {
     ManualMode = on;
 }
 
-void SimClock::manualTick( bool force ) {
-    if ( force || (ManualMode && ManualActive) ) {
+void SimClock::manualTick( bool force )
+{
+    if ( force || (ManualMode && ManualActive) )
+    {
         setUTC( UTC.addSecs( (long double)Scale ) );
-    } else if ( ! ManualMode )
+    }
+    else if ( ! ManualMode )
         tick();
 }
 
-bool SimClock::isActive() {
+bool SimClock::isActive()
+{
     if ( ManualMode )
         return ManualActive;
     else
         return tmr.isActive();
 }
 
-void SimClock::stop() {
-    if ( ManualMode && ManualActive ) {
+void SimClock::stop()
+{
+    if ( ManualMode && ManualActive )
+    {
         ManualActive = false;
         emit clockToggled(true);
     }
 
-    if (!ManualMode && tmr.isActive()) {
+    if (!ManualMode && tmr.isActive())
+    {
         qDebug() << "Stopping the timer";
         tmr.stop();
         emit clockToggled(true);
     }
 }
 
-void SimClock::start() {
-    if ( ManualMode && !ManualActive ) {
+void SimClock::start()
+{
+    if ( ManualMode && !ManualActive )
+    {
         ManualActive = true;
         sysmark.start();
         julianmark = UTC.djd();
@@ -124,7 +143,9 @@ void SimClock::start() {
         emit clockToggled( false );
         //emit timeChanged() in order to restart calls to updateTime()
         emit timeChanged();
-    } else if ( !ManualMode && !tmr.isActive()) {
+    }
+    else if ( !ManualMode && !tmr.isActive())
+    {
         qDebug() << "Starting the timer";
         sysmark.start();
         julianmark = UTC.djd();
@@ -134,14 +155,17 @@ void SimClock::start() {
     }
 }
 
-void SimClock::setUTC(const KStarsDateTime &newtime) {
+void SimClock::setUTC(const KStarsDateTime &newtime)
+{
     //DEBUG
     //qDebug() << newtime.toString();
     //qDebug() << "is dateTime valid? " << newtime.isValid();
 
-    if ( newtime.isValid() ) {
+    if ( newtime.isValid() )
+    {
         UTC = newtime;
-        if (tmr.isActive()) {
+        if (tmr.isActive())
+        {
             julianmark = UTC.djd();
             sysmark.start();
             lastelapsed = 0;
@@ -149,16 +173,21 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
 
         qDebug() << QString("Setting clock:  UTC: %1  JD: %2").arg(UTC.toString()).arg(QLocale().toString( (double) UTC.djd(), 'f' , 2 ) );
         emit timeChanged();
-    } else {
+    }
+    else
+    {
         qDebug() << "Cannot set SimClock:  Invalid Date/Time.";
     }
 }
 
-void SimClock::setClockScale(float s) {
-    if (Scale != s ) {
+void SimClock::setClockScale(float s)
+{
+    if (Scale != s )
+    {
         qDebug() << "New clock scale: " << s << " sec";
         Scale = s;
-        if (tmr.isActive()) {
+        if (tmr.isActive())
+        {
             julianmark = UTC.djd();
             sysmark.start();
             lastelapsed = 0;

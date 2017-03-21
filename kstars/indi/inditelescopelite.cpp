@@ -17,9 +17,9 @@
 #include "kstarslite.h"
 #include "skymaplite.h"
 
-TelescopeLite::TelescopeLite(INDI::BaseDevice *device)
+TelescopeLite::TelescopeLite(INDI::BaseDevice * device)
     :minAlt(-1), maxAlt(-1), IsParked(false), clientManager(KStarsLite::Instance()->clientManagerLite()),
-      baseDevice(device), slewRateIndex(0)
+     baseDevice(device), slewRateIndex(0)
 {
     setDeviceName(device->getDeviceName());
     //Whenever slew rate is changed (or once it was initialized) we update it
@@ -27,12 +27,16 @@ TelescopeLite::TelescopeLite(INDI::BaseDevice *device)
     connect(clientManager, &ClientManagerLite::newINDISwitch, this, &TelescopeLite::updateSlewRate);
 }
 
-void TelescopeLite::updateSlewRate(QString deviceName, QString propName) {
-    if(deviceName == baseDevice->getDeviceName() && propName == "TELESCOPE_SLEW_RATE") {
-        ISwitchVectorProperty *slewRateSP = baseDevice->getSwitch("TELESCOPE_SLEW_RATE");
+void TelescopeLite::updateSlewRate(QString deviceName, QString propName)
+{
+    if(deviceName == baseDevice->getDeviceName() && propName == "TELESCOPE_SLEW_RATE")
+    {
+        ISwitchVectorProperty * slewRateSP = baseDevice->getSwitch("TELESCOPE_SLEW_RATE");
         int index = 0;
-        for(int i = 0; i < slewRateSP->nsp; ++i) {
-            if(slewRateSP->sp[i].s == ISS_ON) {
+        for(int i = 0; i < slewRateSP->nsp; ++i)
+        {
+            if(slewRateSP->sp[i].s == ISS_ON)
+            {
                 index = i;
                 break;
             }
@@ -46,39 +50,47 @@ TelescopeLite::~TelescopeLite()
 
 }
 
-void TelescopeLite::setSlewDecreasable(bool slewDecreasable) {
-    if(m_slewDecreasable != slewDecreasable) {
+void TelescopeLite::setSlewDecreasable(bool slewDecreasable)
+{
+    if(m_slewDecreasable != slewDecreasable)
+    {
         m_slewDecreasable = slewDecreasable;
         emit slewDecreasableChanged(slewDecreasable);
     }
 }
 
-void TelescopeLite::setSlewIncreasable(bool slewIncreasable) {
-    if(m_slewIncreasable != slewIncreasable) {
+void TelescopeLite::setSlewIncreasable(bool slewIncreasable)
+{
+    if(m_slewIncreasable != slewIncreasable)
+    {
         m_slewIncreasable = slewIncreasable;
         emit slewIncreasableChanged(slewIncreasable);
     }
 }
 
-void TelescopeLite::setSlewRateLabel(QString slewRateLabel) {
-    if(m_slewRateLabel != slewRateLabel) {
+void TelescopeLite::setSlewRateLabel(QString slewRateLabel)
+{
+    if(m_slewRateLabel != slewRateLabel)
+    {
         m_slewRateLabel = slewRateLabel;
         emit slewRateLabelChanged(slewRateLabel);
     }
 }
 
-void TelescopeLite::setDeviceName(QString deviceName) {
-    if(m_deviceName != deviceName) {
+void TelescopeLite::setDeviceName(QString deviceName)
+{
+    if(m_deviceName != deviceName)
+    {
         m_deviceName = deviceName;
         emit deviceNameChanged(deviceName);
     }
 }
 
-void TelescopeLite::registerProperty(INDI::Property *prop)
+void TelescopeLite::registerProperty(INDI::Property * prop)
 {
     if (!strcmp(prop->getName(), "TELESCOPE_INFO"))
     {
-        INumberVectorProperty *ti = prop->getNumber();
+        INumberVectorProperty * ti = prop->getNumber();
         if (ti == NULL)
             return;
 
@@ -88,11 +100,11 @@ void TelescopeLite::registerProperty(INDI::Property *prop)
 
     if (!strcmp(prop->getName(), "TELESCOPE_PARK"))
     {
-        ISwitchVectorProperty *svp = prop->getSwitch();
+        ISwitchVectorProperty * svp = prop->getSwitch();
 
         if (svp)
         {
-            ISwitch *sp = IUFindSwitch(svp, "PARK");
+            ISwitch * sp = IUFindSwitch(svp, "PARK");
             if (sp)
             {
                 IsParked = ( (sp->s == ISS_ON) && svp->s == IPS_OK);
@@ -101,13 +113,13 @@ void TelescopeLite::registerProperty(INDI::Property *prop)
     }
 }
 
-void TelescopeLite::processNumber(INumberVectorProperty *nvp)
+void TelescopeLite::processNumber(INumberVectorProperty * nvp)
 {
 
     if (!strcmp(nvp->name, "EQUATORIAL_EOD_COORD"))
     {
-        INumber *RA = IUFindNumber(nvp, "RA");
-        INumber *DEC = IUFindNumber(nvp, "DEC");
+        INumber * RA = IUFindNumber(nvp, "RA");
+        INumber * DEC = IUFindNumber(nvp, "DEC");
         if (RA == NULL || DEC == NULL)
             return;
 
@@ -123,8 +135,8 @@ void TelescopeLite::processNumber(INumberVectorProperty *nvp)
 
     if (!strcmp(nvp->name, "HORIZONTAL_COORD"))
     {
-        INumber *Az = IUFindNumber(nvp, "AZ");
-        INumber *Alt = IUFindNumber(nvp, "ALT");
+        INumber * Az = IUFindNumber(nvp, "AZ");
+        INumber * Alt = IUFindNumber(nvp, "ALT");
         if (Az == NULL || Alt == NULL)
             return;
 
@@ -143,7 +155,7 @@ void TelescopeLite::processNumber(INumberVectorProperty *nvp)
 
 }
 
-void TelescopeLite::processSwitch(ISwitchVectorProperty *svp)
+void TelescopeLite::processSwitch(ISwitchVectorProperty * svp)
 {
     Q_UNUSED(svp);
     /*if (!strcmp(svp->name, "TELESCOPE_PARK"))
@@ -163,8 +175,8 @@ void TelescopeLite::processSwitch(ISwitchVectorProperty *svp)
 
 bool TelescopeLite::canGuide()
 {
-    INumberVectorProperty *raPulse  = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_WE");
-    INumberVectorProperty *decPulse = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_NS");
+    INumberVectorProperty * raPulse  = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_WE");
+    INumberVectorProperty * decPulse = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_NS");
 
     if (raPulse && decPulse)
         return true;
@@ -174,29 +186,29 @@ bool TelescopeLite::canGuide()
 
 bool TelescopeLite::canSync()
 {
-    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("ON_COORD_SET");
+    ISwitchVectorProperty * motionSP = baseDevice->getSwitch("ON_COORD_SET");
     if (motionSP == NULL)
         return false;
 
-    ISwitch *syncSW = IUFindSwitch(motionSP, "SYNC");
+    ISwitch * syncSW = IUFindSwitch(motionSP, "SYNC");
 
     return (syncSW != NULL);
 }
 
 bool TelescopeLite::canPark()
 {
-    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
+    ISwitchVectorProperty * parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
     if (parkSP == NULL)
         return false;
 
-    ISwitch *parkSW = IUFindSwitch(parkSP, "PARK");
+    ISwitch * parkSW = IUFindSwitch(parkSP, "PARK");
 
     return (parkSW != NULL);
 }
 
 bool TelescopeLite::isSlewing()
 {
-    INumberVectorProperty *EqProp(NULL);
+    INumberVectorProperty * EqProp(NULL);
 
     EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
     if (EqProp == NULL)
@@ -207,7 +219,7 @@ bool TelescopeLite::isSlewing()
 
 bool TelescopeLite::isInMotion()
 {
-    ISwitchVectorProperty *movementSP(NULL);
+    ISwitchVectorProperty * movementSP(NULL);
     bool inMotion=false;
     bool inSlew=isSlewing();
 
@@ -222,11 +234,11 @@ bool TelescopeLite::isInMotion()
     return (inSlew || inMotion);
 }
 
-bool TelescopeLite::sendCoords(SkyPoint *ScopeTarget)
+bool TelescopeLite::sendCoords(SkyPoint * ScopeTarget)
 {
 
-    INumber *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL);
-    INumberVectorProperty *EqProp(NULL), *HorProp(NULL);
+    INumber * RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL);
+    INumberVectorProperty * EqProp(NULL), *HorProp(NULL);
     double currentRA=0, currentDEC=0, currentAlt=0, currentAz=0, targetAlt=0;
     bool useJ2000 (false);
 
@@ -350,14 +362,14 @@ bool TelescopeLite::slew(double ra, double dec)
     return slew(&target);
 }
 
-bool TelescopeLite::slew(SkyPoint *ScopeTarget)
+bool TelescopeLite::slew(SkyPoint * ScopeTarget)
 {
     abort();
-    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("ON_COORD_SET");
+    ISwitchVectorProperty * motionSP = baseDevice->getSwitch("ON_COORD_SET");
     if (motionSP == NULL)
         return false;
 
-    ISwitch *slewSW = IUFindSwitch(motionSP, "TRACK");
+    ISwitch * slewSW = IUFindSwitch(motionSP, "TRACK");
     if (slewSW == NULL)
         slewSW = IUFindSwitch(motionSP, "SLEW");
 
@@ -388,14 +400,14 @@ bool TelescopeLite::sync(double ra, double dec)
     return sync(&target);
 }
 
-bool TelescopeLite::sync(SkyPoint *ScopeTarget)
+bool TelescopeLite::sync(SkyPoint * ScopeTarget)
 {
     abort();
-    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("ON_COORD_SET");
+    ISwitchVectorProperty * motionSP = baseDevice->getSwitch("ON_COORD_SET");
     if (motionSP == NULL)
         return false;
 
-    ISwitch *syncSW = IUFindSwitch(motionSP, "SYNC");
+    ISwitch * syncSW = IUFindSwitch(motionSP, "SYNC");
     if (syncSW == NULL)
         return false;
 
@@ -414,11 +426,11 @@ bool TelescopeLite::sync(SkyPoint *ScopeTarget)
 
 bool TelescopeLite::abort()
 {
-    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_ABORT_MOTION");
+    ISwitchVectorProperty * motionSP = baseDevice->getSwitch("TELESCOPE_ABORT_MOTION");
     if (motionSP == NULL)
         return false;
 
-    ISwitch *abortSW = IUFindSwitch(motionSP, "ABORT");
+    ISwitch * abortSW = IUFindSwitch(motionSP, "ABORT");
     if (abortSW == NULL)
         return false;
 
@@ -434,11 +446,11 @@ bool TelescopeLite::abort()
 
 bool TelescopeLite::park()
 {
-    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
+    ISwitchVectorProperty * parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
     if (parkSP == NULL)
         return false;
 
-    ISwitch *parkSW = IUFindSwitch(parkSP, "PARK");
+    ISwitch * parkSW = IUFindSwitch(parkSP, "PARK");
     if (parkSW == NULL)
         return false;
 
@@ -454,11 +466,11 @@ bool TelescopeLite::park()
 
 bool TelescopeLite::unPark()
 {
-    ISwitchVectorProperty *parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
+    ISwitchVectorProperty * parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
     if (parkSP == NULL)
         return false;
 
-    ISwitch *parkSW = IUFindSwitch(parkSP, "UNPARK");
+    ISwitch * parkSW = IUFindSwitch(parkSP, "UNPARK");
     if (parkSW == NULL)
         return false;
 
@@ -472,10 +484,10 @@ bool TelescopeLite::unPark()
     return true;
 }
 
-bool TelescopeLite::getEqCoords(double *ra, double *dec)
+bool TelescopeLite::getEqCoords(double * ra, double * dec)
 {
-    INumberVectorProperty *EqProp(NULL);
-    INumber *RAEle(NULL), *DecEle(NULL);
+    INumberVectorProperty * EqProp(NULL);
+    INumber * RAEle(NULL), *DecEle(NULL);
 
     EqProp = baseDevice->getNumber("EQUATORIAL_EOD_COORD");
     if (EqProp == NULL)
@@ -497,12 +509,12 @@ bool TelescopeLite::getEqCoords(double *ra, double *dec)
 
 bool TelescopeLite::moveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd)
 {
-    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_MOTION_NS");
+    ISwitchVectorProperty * motionSP = baseDevice->getSwitch("TELESCOPE_MOTION_NS");
     if (motionSP == NULL)
         return false;
 
-    ISwitch *motionNorth = IUFindSwitch(motionSP, "MOTION_NORTH");
-    ISwitch *motionSouth = IUFindSwitch(motionSP, "MOTION_SOUTH");
+    ISwitch * motionNorth = IUFindSwitch(motionSP, "MOTION_NORTH");
+    ISwitch * motionSouth = IUFindSwitch(motionSP, "MOTION_SOUTH");
 
     if (motionNorth == NULL || motionSouth == NULL)
         return false;
@@ -531,12 +543,12 @@ bool TelescopeLite::moveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd)
 
 bool TelescopeLite::moveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd)
 {
-    ISwitchVectorProperty *motionSP = baseDevice->getSwitch("TELESCOPE_MOTION_WE");
+    ISwitchVectorProperty * motionSP = baseDevice->getSwitch("TELESCOPE_MOTION_WE");
     if (motionSP == NULL)
         return false;
 
-    ISwitch *motionWest = IUFindSwitch(motionSP, "MOTION_WEST");
-    ISwitch *motionEast = IUFindSwitch(motionSP, "MOTION_EAST");
+    ISwitch * motionWest = IUFindSwitch(motionSP, "MOTION_WEST");
+    ISwitch * motionEast = IUFindSwitch(motionSP, "MOTION_EAST");
 
     if (motionWest == NULL || motionEast == NULL)
         return false;
@@ -565,20 +577,25 @@ bool TelescopeLite::moveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd)
 
 bool TelescopeLite::setSlewRate(int index)
 {
-    ISwitchVectorProperty *slewRateSP = baseDevice->getSwitch("TELESCOPE_SLEW_RATE");
-    if (slewRateSP == NULL) {
+    ISwitchVectorProperty * slewRateSP = baseDevice->getSwitch("TELESCOPE_SLEW_RATE");
+    if (slewRateSP == NULL)
+    {
         return false;
     }
 
     int maxSlewRate = slewRateSP->nsp;
 
-    if (index < 0) {
+    if (index < 0)
+    {
         index = 0;
-    } else if( index >= maxSlewRate) {
+    }
+    else if( index >= maxSlewRate)
+    {
         index = maxSlewRate - 1;
     }
 
-    if(slewRateSP->sp[index].s != ISS_ON || index != slewRateIndex) {
+    if(slewRateSP->sp[index].s != ISS_ON || index != slewRateIndex)
+    {
         IUResetSwitch(slewRateSP);
 
         slewRateSP->sp[index].s = ISS_ON;
@@ -594,11 +611,13 @@ bool TelescopeLite::setSlewRate(int index)
     return true;
 }
 
-bool TelescopeLite::decreaseSlewRate() {
+bool TelescopeLite::decreaseSlewRate()
+{
     return setSlewRate(slewRateIndex - 1);
 }
 
-bool TelescopeLite::increaseSlewRate() {
+bool TelescopeLite::increaseSlewRate()
+{
     return setSlewRate(slewRateIndex + 1);
 }
 

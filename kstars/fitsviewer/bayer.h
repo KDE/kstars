@@ -33,7 +33,8 @@
  *
  * General rule: 0 is success, negative denotes a problem.
  */
-typedef enum {
+typedef enum
+{
     DC1394_SUCCESS                     =  0,
     DC1394_FAILURE                     = -1,
     DC1394_NOT_A_CAMERA                = -2,
@@ -82,7 +83,8 @@ typedef enum {
 /**
  * Enumeration of video modes. Note that the notion of IIDC "format" is not present here, except in the format_7 name.
  */
-typedef enum {
+typedef enum
+{
     DC1394_VIDEO_MODE_160x120_YUV444= 64,
     DC1394_VIDEO_MODE_320x240_YUV422,
     DC1394_VIDEO_MODE_640x480_YUV411,
@@ -128,7 +130,8 @@ typedef enum {
 /**
  * Enumeration of colour codings. For details on the data format please read the IIDC specifications.
  */
-typedef enum {
+typedef enum
+{
     DC1394_COLOR_CODING_MONO8= 352,
     DC1394_COLOR_CODING_YUV411,
     DC1394_COLOR_CODING_YUV422,
@@ -153,7 +156,8 @@ typedef enum {
  *
  * and similarly for other filters.
  */
-typedef enum {
+typedef enum
+{
     DC1394_COLOR_FILTER_RGGB = 512,
     DC1394_COLOR_FILTER_GBRG,
     DC1394_COLOR_FILTER_GRBG,
@@ -168,7 +172,8 @@ typedef enum {
  *
  * IIDC cameras always return data in UYVY order, but conversion functions can change this if requested.
  */
-typedef enum {
+typedef enum
+{
     DC1394_BYTE_ORDER_UYVY=800,
     DC1394_BYTE_ORDER_YUYV
 } dc1394byte_order_t;
@@ -197,7 +202,8 @@ typedef struct
 /**
  * Yet another boolean data type
  */
-typedef enum {
+typedef enum
+{
     DC1394_FALSE= 0,
     DC1394_TRUE
 } dc1394bool_t;
@@ -205,7 +211,8 @@ typedef enum {
 /**
  * Yet another boolean data type, a bit more oriented towards electrical-engineers
  */
-typedef enum {
+typedef enum
+{
     DC1394_OFF= 0,
     DC1394_ON
 } dc1394switch_t;
@@ -215,7 +222,8 @@ typedef enum {
  *
  * The speed of the techniques can vary greatly, as well as their quality.
  */
-typedef enum {
+typedef enum
+{
     DC1394_BAYER_METHOD_NEAREST=0,
     DC1394_BAYER_METHOD_SIMPLE,
     DC1394_BAYER_METHOD_BILINEAR,
@@ -274,7 +282,7 @@ extern "C" {
  * Perform de-mosaicing on an 8-bit image buffer
  */
 dc1394error_t
-dc1394_bayer_decoding_8bit(const uint8_t *bayer, uint8_t *rgb,
+dc1394_bayer_decoding_8bit(const uint8_t * bayer, uint8_t * rgb,
                            uint32_t width, uint32_t height, dc1394color_filter_t tile,
                            dc1394bayer_method_t method);
 
@@ -282,7 +290,7 @@ dc1394_bayer_decoding_8bit(const uint8_t *bayer, uint8_t *rgb,
  * Perform de-mosaicing on an 16-bit image buffer
  */
 dc1394error_t
-dc1394_bayer_decoding_16bit(const uint16_t *bayer, uint16_t *rgb,
+dc1394_bayer_decoding_16bit(const uint16_t * bayer, uint16_t * rgb,
                             uint32_t width, uint32_t height, dc1394color_filter_t tile,
                             dc1394bayer_method_t method, uint32_t bits);
 

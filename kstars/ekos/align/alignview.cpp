@@ -19,7 +19,7 @@
 #define ZOOM_MIN        10
 #define ZOOM_MAX        400
 
-AlignView::AlignView(QWidget *parent, FITSMode mode, FITSScale filter) : FITSView(parent, mode, filter)
+AlignView::AlignView(QWidget * parent, FITSMode mode, FITSScale filter) : FITSView(parent, mode, filter)
 {
 
 }
@@ -29,7 +29,7 @@ AlignView::~AlignView()
 
 }
 
-void AlignView::drawOverlay(QPainter *painter)
+void AlignView::drawOverlay(QPainter * painter)
 {
     painter->setOpacity(0.5);
     FITSView::drawOverlay(painter);
@@ -42,7 +42,7 @@ void AlignView::drawOverlay(QPainter *painter)
         drawLine(painter);
 }
 
-bool AlignView::createWCSFile(const QString & newWCSFile, double orientation, double ra, double dec, double pixscale)
+bool AlignView::createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale)
 {
     return imageData->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
 }
@@ -76,7 +76,7 @@ void AlignView::setCorrectionOffset(QPointF newOffset)
         return;
 
     if (newOffset.isNull() == false)
-    {        
+    {
         correctionOffset = newOffset;
         QPointF offset = correctionOffset - correctionLine.p1();
         QLineF  offsetLine = correctionLine;
@@ -93,7 +93,7 @@ void AlignView::setCorrectionOffset(QPointF newOffset)
     updateFrame();
 }
 
-void AlignView::drawLine(QPainter *painter)
+void AlignView::drawLine(QPainter * painter)
 {
     painter->setPen(QPen( Qt::magenta , 2));
     painter->setBrush( Qt::NoBrush );
@@ -136,7 +136,7 @@ void AlignView::drawLine(QPainter *painter)
     }
 }
 
-void AlignView::drawCircle(QPainter *painter)
+void AlignView::drawCircle(QPainter * painter)
 {
     QPen pen(Qt::green);
     pen.setWidth(2);

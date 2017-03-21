@@ -34,26 +34,26 @@ class FileDownloader;
  */
 class CometsComponent : public QObject, public SolarSystemListComponent
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    /** @short Default constructor.
-     * @p parent pointer to the parent SolarSystemComposite
-     */
-    explicit CometsComponent(SolarSystemComposite *parent);
+    public:
+        /** @short Default constructor.
+         * @p parent pointer to the parent SolarSystemComposite
+         */
+        explicit CometsComponent(SolarSystemComposite * parent);
 
-    virtual ~CometsComponent();
-    virtual bool selected();
-    virtual void draw( SkyPainter *skyp );
-    void updateDataFile();
+        virtual ~CometsComponent();
+        virtual bool selected();
+        virtual void draw( SkyPainter * skyp );
+        void updateDataFile();
 
-protected slots:
-    void downloadReady();
-    void downloadError(const QString &errorString);
+    protected slots:
+        void downloadReady();
+        void downloadError(const QString &errorString);
 
-private:
-    void loadData();
-    FileDownloader* downloadJob;
+    private:
+        void loadData();
+        FileDownloader * downloadJob;
 };
 
 #endif

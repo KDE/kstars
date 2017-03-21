@@ -31,13 +31,13 @@
 class GnomonicProjector : public Projector
 {
 
-public:
-    explicit GnomonicProjector(const ViewParams& p);
-    virtual Projection type() const;
-    virtual double radius() const;
-    virtual double projectionK(double x) const;
-    virtual double projectionL(double x) const;
-    virtual double cosMaxFieldAngle() const;
+    public:
+        explicit GnomonicProjector(const ViewParams &p);
+        virtual Projection type() const;
+        virtual double radius() const;
+        virtual double projectionK(double x) const;
+        virtual double projectionL(double x) const;
+        virtual double cosMaxFieldAngle() const;
 };
 
 #endif // GNOMONICPROJECTOR_H

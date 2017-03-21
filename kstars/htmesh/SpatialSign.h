@@ -5,7 +5,8 @@
 //# Spatial Sign helper class
 
 /** */
-enum Sign {
+enum Sign
+{
     nEG,			/// All constraints negative or zero
     zERO,			/// All constraints zero
     pOS,			/// All constraints positive or zero

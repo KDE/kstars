@@ -29,45 +29,45 @@
  */
 class ModelManager
 {
-public:
-    /**
-     * \enum ModelType
-     * \brief Model type for different types of sky-objects.
-     */
-    enum ModelType {Planet_Model, Star_Model, Constellation_Model, Galaxy_Model, Cluster_Model, Nebula_Model};
+    public:
+        /**
+         * \enum ModelType
+         * \brief Model type for different types of sky-objects.
+         */
+        enum ModelType {Planet_Model, Star_Model, Constellation_Model, Galaxy_Model, Cluster_Model, Nebula_Model};
 
-    /**
-     * \brief Constructor - Creates models for different sky-object types.
-     * \param obs   Pointer to an ObsConditions object.
-     */
-    ModelManager(ObsConditions *obs);
+        /**
+         * \brief Constructor - Creates models for different sky-object types.
+         * \param obs   Pointer to an ObsConditions object.
+         */
+        ModelManager(ObsConditions * obs);
 
-    /**
-     * \brief Destructor
-     */
-    ~ModelManager();
+        /**
+         * \brief Destructor
+         */
+        ~ModelManager();
 
-    /**
-     * \brief Updates sky-object list models.
-     */
-    void updateModels(ObsConditions *obs);
+        /**
+         * \brief Updates sky-object list models.
+         */
+        void updateModels(ObsConditions * obs);
 
-    /**
-     * \brief Clears all sky-objects list models.
-     */
-    void resetModels();
+        /**
+         * \brief Clears all sky-objects list models.
+         */
+        void resetModels();
 
-    /**
-     * \brief Returns model of given type.
-     * \return Pointer to SkyObjListModel of given type.
-     * \param type   Type of sky-object model to be returned.
-     */
-    SkyObjListModel *returnModel(int type);
+        /**
+         * \brief Returns model of given type.
+         * \return Pointer to SkyObjListModel of given type.
+         * \param type   Type of sky-object model to be returned.
+         */
+        SkyObjListModel * returnModel(int type);
 
-private:
-    ObsConditions *m_ObsConditions;
-    SkyObjListModel *m_PlanetsModel, *m_StarsModel, *m_GalModel, *m_ConModel, *m_ClustModel, *m_NebModel;
-    QHash< ModelType, QList <SkyObject *> > m_InitObjects;
+    private:
+        ObsConditions * m_ObsConditions;
+        SkyObjListModel * m_PlanetsModel, *m_StarsModel, *m_GalModel, *m_ConModel, *m_ClustModel, *m_NebModel;
+        QHash< ModelType, QList <SkyObject *> > m_InitObjects;
 };
 
 #endif

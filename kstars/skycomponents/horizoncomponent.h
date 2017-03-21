@@ -27,38 +27,38 @@ class KSNumbers;
 /**
 	*@class HorizonComponent
 	*Represents the horizon on the sky map.
-	
+
 	*@author Thomas Kabelmann
 	*@version 0.1
 	*/
 class HorizonComponent: public PointListComponent
 {
-public:
+    public:
 
-    /**
-     *@short Constructor
-     *@p parent Pointer to the parent SkyComposite object
-     */
-    explicit HorizonComponent(SkyComposite *parent );
+        /**
+         *@short Constructor
+         *@p parent Pointer to the parent SkyComposite object
+         */
+        explicit HorizonComponent(SkyComposite * parent );
 
-    /**
-     *@short Destructor
-     */
-    virtual ~HorizonComponent();
+        /**
+         *@short Destructor
+         */
+        virtual ~HorizonComponent();
 
-    /**
-     *@short Draw the Horizon on the Sky map
-     *@p map Pointer to the SkyMap object
-     *@p psky Reference to the QPainter on which to paint
-     */
-    virtual void draw( SkyPainter *skyp );
+        /**
+         *@short Draw the Horizon on the Sky map
+         *@p map Pointer to the SkyMap object
+         *@p psky Reference to the QPainter on which to paint
+         */
+        virtual void draw( SkyPainter * skyp );
 
-    virtual void update( KSNumbers* );
+        virtual void update( KSNumbers * );
 
-    bool selected();
+        bool selected();
 
-private:
-    void drawCompassLabels();
+    private:
+        void drawCompassLabels();
 
 };
 

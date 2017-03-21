@@ -22,23 +22,26 @@
 #include <QPaintEvent>
 #include <QPainter>
 
-FOVWidget::FOVWidget( QWidget *parent ) : QFrame( parent ), m_FOV(0) 
+FOVWidget::FOVWidget( QWidget * parent ) : QFrame( parent ), m_FOV(0)
 {}
 
 FOVWidget::~FOVWidget()
 {}
 
-void FOVWidget::setFOV( FOV *f ) {
+void FOVWidget::setFOV( FOV * f )
+{
     m_FOV = f;
 }
 
-void FOVWidget::paintEvent( QPaintEvent * ) {
+void FOVWidget::paintEvent( QPaintEvent * )
+{
     QPainter p;
     p.begin( this );
     p.setRenderHint( QPainter::Antialiasing, true );
     p.fillRect( contentsRect(), QColor( "black" ) );
 
-    if( m_FOV && m_FOV->sizeX() > 0 && m_FOV->sizeY() > 0 ) {
+    if( m_FOV && m_FOV->sizeX() > 0 && m_FOV->sizeY() > 0 )
+    {
         m_FOV->draw(p, 0.6*contentsRect().width(), 0.6*contentsRect().height() );
         QFont smallFont = p.font();
         smallFont.setPointSize( p.font().pointSize() - 2 );
@@ -49,7 +52,7 @@ void FOVWidget::paintEvent( QPaintEvent * ) {
                           QString::number( m_FOV->sizeX(), 'f', 1 ),
                           QString::number( m_FOV->sizeY(), 'f', 1 ) ) );
     }
-    
+
     p.end();
 }
 

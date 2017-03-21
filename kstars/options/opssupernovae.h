@@ -34,18 +34,18 @@ class KStars;
  */
 class OpsSupernovae : public QFrame, public Ui::OpsSupernovae
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    /**
-     * Constructor
-     */
-    explicit OpsSupernovae();
+    public:
+        /**
+         * Constructor
+         */
+        explicit OpsSupernovae();
 
-    /**
-     * Destructor
-     */
-    ~OpsSupernovae() {}
+        /**
+         * Destructor
+         */
+        ~OpsSupernovae() {}
 };
 
 #endif  //OPSSUPERNOVAE_H_

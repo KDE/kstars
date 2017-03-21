@@ -28,8 +28,9 @@
 
 class KStars;
 
-class EquipmentWriter : public QDialog {
-Q_OBJECT
+class EquipmentWriter : public QDialog
+{
+        Q_OBJECT
     public:
         EquipmentWriter();
         void saveEquipment();

@@ -18,7 +18,7 @@
 #include "pwizfovmanual.h"
 #include "printingwizard.h"
 
-PWizFovManualUI::PWizFovManualUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
+PWizFovManualUI::PWizFovManualUI(PrintingWizard * wizard, QWidget * parent) : QFrame(parent),
     m_ParentWizard(wizard)
 {
     setupUi(this);

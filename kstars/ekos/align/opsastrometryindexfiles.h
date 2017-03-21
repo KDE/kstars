@@ -14,24 +14,24 @@ class Align;
 
 class OpsAstrometryIndexFiles : public QDialog, public Ui::OpsAstrometryIndexFiles
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit OpsAstrometryIndexFiles(Align *parent);
-    ~OpsAstrometryIndexFiles();
+    public:
+        explicit OpsAstrometryIndexFiles(Align * parent);
+        ~OpsAstrometryIndexFiles();
 
-protected:
-    void showEvent(QShowEvent *);
+    protected:
+        void showEvent(QShowEvent *);
 
-public slots:
-    void slotUpdate();
-    void slotOpenIndexFileDirectory();
+    public slots:
+        void slotUpdate();
+        void slotOpenIndexFileDirectory();
 
-private:
-    KConfigDialog *m_ConfigDialog;
-    Align *alignModule;
-    bool getAstrometryDataDir(QString &dataDir);
-    QMap<float, QString> astrometryIndex;
+    private:
+        KConfigDialog * m_ConfigDialog;
+        Align * alignModule;
+        bool getAstrometryDataDir(QString &dataDir);
+        QMap<float, QString> astrometryIndex;
 };
 
 }

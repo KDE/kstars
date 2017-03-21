@@ -31,52 +31,56 @@ class PHD2 : public GuideInterface
 {
         Q_OBJECT
 
-public:
+    public:
 
-    typedef enum { Version, LockPositionSet, CalibrationComplete, StarSelected, StartGuiding, Paused, StartCalibration, AppState, CalibrationFailed, CalibrationDataFlipped, LoopingExposures,
-                   LoopingExposuresStopped, Settling, SettleDone, StarLost, GuidingStopped, Resumed, GuideStep, GuidingDithered, LockPositionLost, Alert } PHD2Event;
-    typedef enum { STOPPED, SELECTED, LOSTLOCK, PAUSED, LOOPING, CALIBRATING, CALIBRATION_FAILED, CALIBRATION_SUCCESSFUL, GUIDING, DITHERING, DITHER_FAILED, DITHER_SUCCESSFUL } PHD2State;
-    typedef enum { DISCONNECTED, CONNECTING, CONNECTED, EQUIPMENT_DISCONNECTING, EQUIPMENT_DISCONNECTED, EQUIPMENT_CONNECTING, EQUIPMENT_CONNECTED  } PHD2Connection;
-    typedef enum { PHD2_UNKNOWN, PHD2_RESULT, PHD2_EVENT, PHD2_ERROR } PHD2MessageType;
+        typedef enum { Version, LockPositionSet, CalibrationComplete, StarSelected, StartGuiding, Paused, StartCalibration, AppState, CalibrationFailed, CalibrationDataFlipped, LoopingExposures,
+                       LoopingExposuresStopped, Settling, SettleDone, StarLost, GuidingStopped, Resumed, GuideStep, GuidingDithered, LockPositionLost, Alert
+                     } PHD2Event;
+        typedef enum { STOPPED, SELECTED, LOSTLOCK, PAUSED, LOOPING, CALIBRATING, CALIBRATION_FAILED, CALIBRATION_SUCCESSFUL, GUIDING, DITHERING, DITHER_FAILED, DITHER_SUCCESSFUL } PHD2State;
+        typedef enum { DISCONNECTED, CONNECTING, CONNECTED, EQUIPMENT_DISCONNECTING, EQUIPMENT_DISCONNECTED, EQUIPMENT_CONNECTING, EQUIPMENT_CONNECTED  } PHD2Connection;
+        typedef enum { PHD2_UNKNOWN, PHD2_RESULT, PHD2_EVENT, PHD2_ERROR } PHD2MessageType;
 
-    PHD2();
-    ~PHD2();
+        PHD2();
+        ~PHD2();
 
-    bool Connect() override;
-    bool Disconnect() override;
-    bool isConnected() override { return (connection == CONNECTED); }
+        bool Connect() override;
+        bool Disconnect() override;
+        bool isConnected() override
+        {
+            return (connection == CONNECTED);
+        }
 
-    bool calibrate() override;
-    bool guide() override;
-    bool abort() override;
-    bool suspend() override;
-    bool resume() override;
-    bool dither(double pixels) override;
+        bool calibrate() override;
+        bool guide() override;
+        bool abort() override;
+        bool suspend() override;
+        bool resume() override;
+        bool dither(double pixels) override;
 
-private slots:
+    private slots:
 
-    void readPHD2();
-    void displayError(QAbstractSocket::SocketError socketError);
+        void readPHD2();
+        void displayError(QAbstractSocket::SocketError socketError);
 
-private:
+    private:
 
-    void setEquipmentConnected(bool enable);
+        void setEquipmentConnected(bool enable);
 
-    void sendJSONRPCRequest(const QString & method, const QJsonArray args = QJsonArray());
-    void processJSON(const QJsonObject &jsonObj);
+        void sendJSONRPCRequest(const QString &method, const QJsonArray args = QJsonArray());
+        void processJSON(const QJsonObject &jsonObj);
 
-    void processPHD2Event(const QJsonObject &jsonEvent);
-    void processPHD2State(const QString &phd2State);
-    void processPHD2Error(const QJsonObject &jsonError);
+        void processPHD2Event(const QJsonObject &jsonEvent);
+        void processPHD2State(const QString &phd2State);
+        void processPHD2Error(const QJsonObject &jsonError);
 
-    QTcpSocket *tcpSocket;
-    qint64 methodID;
+        QTcpSocket * tcpSocket;
+        qint64 methodID;
 
-    QHash<QString, PHD2Event> events;
+        QHash<QString, PHD2Event> events;
 
-    PHD2State state;
-    PHD2Connection connection;
-    PHD2Event event;    
+        PHD2State state;
+        PHD2Connection connection;
+        PHD2Event event;
 };
 
 }

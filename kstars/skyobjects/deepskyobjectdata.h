@@ -25,13 +25,15 @@
  * @author Akarsh Simha <akarsh.simha@kdemail.net>
  */
 
-struct DeepSkyObjectData {
+struct DeepSkyObjectData
+{
 
     /**
      * @short Constructor
      */
-    inline DeepSkyObjectData(): catalogIDNumber(-1), B( NaN::f ), V( NaN::f ), type( SkyObject::TYPE::TYPE_UNKNOWN ), 
-                                majorAxis( NaN::f ), minorAxis( NaN::f ), positionAngle( NaN::f ) {
+    inline DeepSkyObjectData(): catalogIDNumber(-1), B( NaN::f ), V( NaN::f ), type( SkyObject::TYPE::TYPE_UNKNOWN ),
+        majorAxis( NaN::f ), minorAxis( NaN::f ), positionAngle( NaN::f )
+    {
     }
 
     /**

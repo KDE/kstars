@@ -33,74 +33,123 @@ class QPainter;
  *@author Jason Harris
  *@version 1.0
 */
-class FOV {
-public:
-    enum Shape { SQUARE,
-                 CIRCLE,
-                 CROSSHAIRS,
-                 BULLSEYE,
-                 SOLIDCIRCLE,
-                 UNKNOWN };
-    static FOV::Shape intToShape(int); 
-    
-    /**Default constructor*/
-    FOV();
-    FOV( const QString &name, float a, float b=-1, float xoffset=0, float yoffset=0, float rot=0, Shape shape=SQUARE, const QString &color="#FFFFFF" );
+class FOV
+{
+    public:
+        enum Shape { SQUARE,
+                     CIRCLE,
+                     CROSSHAIRS,
+                     BULLSEYE,
+                     SOLIDCIRCLE,
+                     UNKNOWN
+                   };
+        static FOV::Shape intToShape(int);
 
-    inline QString name() const { return m_name; }
-    void setName( const QString &n ) { m_name = n; }
+        /**Default constructor*/
+        FOV();
+        FOV( const QString &name, float a, float b=-1, float xoffset=0, float yoffset=0, float rot=0, Shape shape=SQUARE, const QString &color="#FFFFFF" );
 
-    inline Shape shape() const { return m_shape; }
-    void setShape( Shape s ) { m_shape = s; }
-    void setShape( int s);
-    
-    inline float sizeX() const { return m_sizeX; }
-    inline float sizeY() const { return m_sizeY; }
-    void setSize( float s ) { m_sizeX = m_sizeY = s; }
-    void setSize( float sx, float sy ) { m_sizeX = sx; m_sizeY = sy; }
+        inline QString name() const
+        {
+            return m_name;
+        }
+        void setName( const QString &n )
+        {
+            m_name = n;
+        }
 
-    void setOffset(float fx, float fy) { m_offsetX = fx ; m_offsetY = fy; }
-    inline float offsetX() const { return m_offsetX; }
-    inline float offsetY() const { return m_offsetY; }
+        inline Shape shape() const
+        {
+            return m_shape;
+        }
+        void setShape( Shape s )
+        {
+            m_shape = s;
+        }
+        void setShape( int s);
 
-    void setRotation(float rt) { m_rotation = rt; }
-    inline float rotation() const { return m_rotation; }
+        inline float sizeX() const
+        {
+            return m_sizeX;
+        }
+        inline float sizeY() const
+        {
+            return m_sizeY;
+        }
+        void setSize( float s )
+        {
+            m_sizeX = m_sizeY = s;
+        }
+        void setSize( float sx, float sy )
+        {
+            m_sizeX = sx;
+            m_sizeY = sy;
+        }
 
-    inline QString color() const { return m_color; }
-    void setColor( const QString &c ) { m_color = c; }
+        void setOffset(float fx, float fy)
+        {
+            m_offsetX = fx ;
+            m_offsetY = fy;
+        }
+        inline float offsetX() const
+        {
+            return m_offsetX;
+        }
+        inline float offsetY() const
+        {
+            return m_offsetY;
+        }
 
-    /** @short draw the FOV symbol on a QPainter
-     * @param p reference to the target QPainter. The painter should already be started.
-     * @param zoomFactor is zoom factor as in SkyMap.
-     */
-    void draw( QPainter &p, float zoomFactor);
-    /** @short draw FOV symbol so it will be inside a rectangle
-     * @param p reference to the target QPainter. The painter should already be started.
-     * @param x is X size of rectangle
-     * @param y is Y size of rectangle
-     */
-    void draw(QPainter &p, float x, float y);
-    
-    SkyPoint center() const;
-    void setCenter(const SkyPoint &center);
+        void setRotation(float rt)
+        {
+            m_rotation = rt;
+        }
+        inline float rotation() const
+        {
+            return m_rotation;
+        }
 
-    float northPA() const;
-    void setNorthPA(float northPA);
+        inline QString color() const
+        {
+            return m_color;
+        }
+        void setColor( const QString &c )
+        {
+            m_color = c;
+        }
 
-    void setImage(const QImage &image);
+        /** @short draw the FOV symbol on a QPainter
+         * @param p reference to the target QPainter. The painter should already be started.
+         * @param zoomFactor is zoom factor as in SkyMap.
+         */
+        void draw( QPainter &p, float zoomFactor);
+        /** @short draw FOV symbol so it will be inside a rectangle
+         * @param p reference to the target QPainter. The painter should already be started.
+         * @param x is X size of rectangle
+         * @param y is Y size of rectangle
+         */
+        void draw(QPainter &p, float x, float y);
 
-    void setImageDisplay(bool value);
+        SkyPoint center() const;
+        void setCenter(const SkyPoint &center);
 
-private:
-    QString m_name, m_color;
-    Shape   m_shape;
-    float   m_sizeX, m_sizeY;
-    float   m_offsetX, m_offsetY;
-    float   m_rotation;
-    float   m_northPA;
-    SkyPoint m_center;
-    QImage m_image;
-    bool m_imageDisplay;    
+        float northPA() const;
+        void setNorthPA(float northPA);
+
+        void setImage(const QImage &image);
+
+        void setImageDisplay(bool value);
+
+    private:
+        QString m_name, m_color;
+        Shape   m_shape;
+        float   m_sizeX, m_sizeY;
+        float   m_offsetX, m_offsetY;
+        float   m_rotation;
+        float   m_northPA;
+        SkyPoint m_center;
+        QImage m_image;
+        bool m_imageDisplay;
 
 };
 
@@ -112,24 +161,35 @@ private:
 */
 class FOVManager
 {
-public:
-    /** @short Read list of FOVs from "fov.dat" */
-    static const QList<FOV*> & readFOVs();
-    static void addFOV(FOV* newFOV) { Q_ASSERT(newFOV); m_FOVs.append(newFOV); }
-    static void removeFOV(FOV* fov) { Q_ASSERT(fov); m_FOVs.removeOne(fov); }
-    static const QList<FOV*> & getFOVs() { return m_FOVs; }
+    public:
+        /** @short Read list of FOVs from "fov.dat" */
+        static const QList<FOV *> &readFOVs();
+        static void addFOV(FOV * newFOV)
+        {
+            Q_ASSERT(newFOV);
+            m_FOVs.append(newFOV);
+        }
+        static void removeFOV(FOV * fov)
+        {
+            Q_ASSERT(fov);
+            m_FOVs.removeOne(fov);
+        }
+        static const QList<FOV *> &getFOVs()
+        {
+            return m_FOVs;
+        }
 
-    /** @short Write list of FOVs to "fov.dat" */
-    static bool save();
+        /** @short Write list of FOVs to "fov.dat" */
+        static bool save();
 
-private:
-    FOVManager();
-    ~FOVManager();
+    private:
+        FOVManager();
+        ~FOVManager();
 
-    /** @short Fill list with default FOVs*/
-    static QList<FOV*> defaults();
+        /** @short Fill list with default FOVs*/
+        static QList<FOV *> defaults();
 
-    static QList<FOV*> m_FOVs;
+        static QList<FOV *> m_FOVs;
 };
 
 #endif

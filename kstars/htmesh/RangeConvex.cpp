@@ -45,7 +45,8 @@ RangeConvex::RangeConvex(const SpatialVector * v1,
     float64 s2 = a2 * (*v2);
     float64 s3 = a3 * (*v3);
 
-    if(s1 * s2 * s3) {                // this is nonzero if not on one line
+    if(s1 * s2 * s3)                  // this is nonzero if not on one line
+    {
         if(s1 < 0.0L) a1 = (-1) * a1 ;  // change sign if necessary
         if(s2 < 0.0L) a2 = (-1) * a2 ;
         if(s3 < 0.0L) a3 = (-1) * a3 ;
@@ -70,11 +71,12 @@ RangeConvex::RangeConvex(const SpatialVector * v1,
 {
     int i,j,k,l,m;  // indices
     // to simplify things, copy input into a 4-array
-    const SpatialVector *v[4] = {v1,v2,v3,v4};
+    const SpatialVector * v[4] = {v1,v2,v3,v4};
     SpatialVector d[6];
     float64 s[6][2];
     for (i = 0, k = 0; i < 4 ; i++)
-        for (j = i+1; j < 4; j++, k++) {    // set directions of half-spheres
+        for (j = i+1; j < 4; j++, k++)      // set directions of half-spheres
+        {
             d[k] = (*v[i]) ^ (*v[j]);			// two of these are diagonals.
             d[k].normalize();
             for (l = 0, m = 0; l < 4; l++)
@@ -90,18 +92,20 @@ RangeConvex::RangeConvex(const SpatialVector * v1,
     for(i = 0; i < 6; i++)
         if(s[i][0] * s[i][1] > 0.0) // not >= because we don't want aligned corners
             constraints_.push_back(SpatialConstraint((s[i][0] > 0.0 ?
-                                                      d[i] : (-1 * d[i])), 0.0));
+                                   d[i] : (-1 * d[i])), 0.0));
 
     // Special cases: 1
     // if three of the corners are aligned, we end up with
     // only two constraints. Find the third and append it.
     // Indeed, there are 3 identical constraints among the d[],
     // so the first that qualifies gets appended.
-    if(constraints_.size() == 2) {
+    if(constraints_.size() == 2)
+    {
         for(i = 0; i < 6; i++)
-            if(s[i][0] == 0.0 || s[i][1] == 0.0) {
+            if(s[i][0] == 0.0 || s[i][1] == 0.0)
+            {
                 constraints_.push_back(SpatialConstraint( ((s[i][0]+s[i][1]) > 0.0 ?
-                                                           d[i] : (-1 * d[i])), 0.0));
+                                       d[i] : (-1 * d[i])), 0.0));
                 break;
             }
     }
@@ -112,38 +116,42 @@ RangeConvex::RangeConvex(const SpatialVector * v1,
 
 /////////////ADD//////////////////////////////////////////
 //
-void RangeConvex::add(SpatialConstraint & c)
+void RangeConvex::add(SpatialConstraint &c)
 {
     constraints_.push_back(c);
     // order constraints: by ascending opening angle. Since we append
     // always at the end, we only need one ordering sweep starting at
     // the end
-    for ( size_t i = constraints_.size() - 1; i > 0; i-- ) {
-        if ( constraints_[i].s_ <  constraints_[i-1].s_ ) {
+    for ( size_t i = constraints_.size() - 1; i > 0; i-- )
+    {
+        if ( constraints_[i].s_ <  constraints_[i-1].s_ )
+        {
             SpatialConstraint tmp( constraints_[i] );
             constraints_[i] = constraints_[i-1];
             constraints_[i-1] = tmp;
         }
     }
 
-    if(constraints_.size() == 1) {  // first constraint
+    if(constraints_.size() == 1)    // first constraint
+    {
         sign_ = c.sign_;
         return;
     }
 
-    switch (sign_) {
-	case nEG:
-		if(c.sign_ == pOS) sign_ = mIXED;
-		break;
-	case pOS:
-		if(c.sign_ == nEG) sign_ = mIXED;
-		break;
-	case zERO:
-		sign_ = c.sign_;
-		break;
-    case mIXED:
-        break;
-	}
+    switch (sign_)
+    {
+        case nEG:
+            if(c.sign_ == pOS) sign_ = mIXED;
+            break;
+        case pOS:
+            if(c.sign_ == nEG) sign_ = mIXED;
+            break;
+        case zERO:
+            sign_ = c.sign_;
+            break;
+        case mIXED:
+            break;
+    }
 }
 
 
@@ -178,27 +186,33 @@ void RangeConvex::add(SpatialConstraint & c)
 //
 
 void
-RangeConvex::simplify0() {
+RangeConvex::simplify0()
+{
 
     size_t i,j,k;
     SpatialVector vi1, vi2;
     std::vector<size_t> cornerConstr1, cornerConstr2, removeConstr;
     std::vector<SpatialVector> corner;
-    if (constraints_.size() == 1) { // for one constraint, it is itself the BC
+    if (constraints_.size() == 1)   // for one constraint, it is itself the BC
+    {
         boundingCircle_ = constraints_[0];
         return;
         // For 2 constraints, take the bounding circle a 0-constraint...
         // this is by no means optimal, but the code is optimized for at least
         // 3 zERO constraints... so this is acceptable.
-    } else if(constraints_.size() == 2) {
+    }
+    else if(constraints_.size() == 2)
+    {
         // test for constraints being identical - rule 1 out
-        if(constraints_[0].a_ == constraints_[1].a_){
+        if(constraints_[0].a_ == constraints_[1].a_)
+        {
             constraints_.erase(constraints_.end()-1);
             boundingCircle_ = constraints_[0];
             return;
         }
         // test for constraints being two disjoint half spheres - empty convex!
-        if(constraints_[0].a_ == (-1.0)*constraints_[1].a_){
+        if(constraints_[0].a_ == (-1.0)*constraints_[1].a_)
+        {
             constraints_.clear();
             return;
         }
@@ -208,13 +222,16 @@ RangeConvex::simplify0() {
     }
 
     // Go over all pairs of constraints
-    for(i = 0; i < constraints_.size() - 1; i++) {
+    for(i = 0; i < constraints_.size() - 1; i++)
+    {
         bool ruledout = true;
-        for(j = i+1; j < constraints_.size(); j ++) {
+        for(j = i+1; j < constraints_.size(); j ++)
+        {
             // test for constraints being identical - rule i out
             if(constraints_[i].a_ == constraints_[j].a_) break;
             // test for constraints being two disjoint half spheres - empty convex!
-            if(constraints_[i].a_ == (-1.0)*constraints_[j].a_){
+            if(constraints_[i].a_ == (-1.0)*constraints_[j].a_)
+            {
                 constraints_.clear();
                 return;
             }
@@ -225,19 +242,22 @@ RangeConvex::simplify0() {
             bool vi1ok = true, vi2ok = true;
             // now test whether vi1 or vi2 or both are inside every other constraint.
             // if yes, store them in the corner array.
-            for(k = 0; k < constraints_.size(); k++) {
+            for(k = 0; k < constraints_.size(); k++)
+            {
                 if(k == i || k == j) continue;
                 if(vi1ok && vi1 * constraints_[k].a_ <= 0.0) vi1ok = false;
                 if(vi2ok && vi2 * constraints_[k].a_ <= 0.0) vi2ok = false;
                 if(!vi1ok && !vi2ok) break;
             }
-            if(vi1ok) {
+            if(vi1ok)
+            {
                 corner.push_back(vi1);
                 cornerConstr1.push_back(i);
                 cornerConstr2.push_back(j);
                 ruledout = false;
             }
-            if(vi2ok) {
+            if(vi2ok)
+            {
                 corner.push_back(vi2);
                 cornerConstr1.push_back(i);
                 cornerConstr2.push_back(j);
@@ -266,23 +286,28 @@ RangeConvex::simplify0() {
     // Now find the other corner where the i'th and j'th constraints intersect.
     // Store the corner in vi1 and vi2, and the other constraint indices
     // in c1,c2.
-    for( k = 1; k < cornerConstr1.size(); k ++) {
-        if(cornerConstr1[k] == i) {
+    for( k = 1; k < cornerConstr1.size(); k ++)
+    {
+        if(cornerConstr1[k] == i)
+        {
             vi1 = corner[k];
             c1 = cornerConstr2[k];
             k1 = k;
         }
-        if(cornerConstr2[k] == i) {
+        if(cornerConstr2[k] == i)
+        {
             vi1 = corner[k];
             c1 = cornerConstr1[k];
             k1 = k;
         }
-        if(cornerConstr1[k] == j) {
+        if(cornerConstr1[k] == j)
+        {
             vi2 = corner[k];
             c2 = cornerConstr2[k];
             k2 = k;
         }
-        if(cornerConstr2[k] == j) {
+        if(cornerConstr2[k] == j)
+        {
             vi2 = corner[k];
             c2 = cornerConstr1[k];
             k2 = k;
@@ -296,11 +321,14 @@ RangeConvex::simplify0() {
     // is >0 if yes, <0 if no...
     //
     size_t c,currentCorner;
-    if( ((vi1 - corner[0]) ^ constraints_[i].a_) * corner[0] > 0 ) {
+    if( ((vi1 - corner[0]) ^ constraints_[i].a_) * corner[0] > 0 )
+    {
         corners_.push_back(vi1);
         c = c1;
         currentCorner = k1;
-    } else {
+    }
+    else
+    {
         corners_.push_back(vi2);
         c = c2;
         currentCorner = k2;
@@ -315,16 +343,20 @@ RangeConvex::simplify0() {
     // x Save that corner, and set c to the constraint that intersects with c
     //   at that corner. Set currentcorner to that corners index.
     // x Loop until 0th corner reached.
-    while( currentCorner ) {
-        for (k = 0; k < cornerConstr1.size(); k++) {
+    while( currentCorner )
+    {
+        for (k = 0; k < cornerConstr1.size(); k++)
+        {
             if(k == currentCorner)continue;
-            if(cornerConstr1[k] == c) {
+            if(cornerConstr1[k] == c)
+            {
                 if( (currentCorner = k) == 0) break;
                 corners_.push_back(corner[k]);
                 c = cornerConstr2[k];
                 break;
             }
-            if(cornerConstr2[k] == c) {
+            if(cornerConstr2[k] == c)
+            {
                 if( (currentCorner = k) == 0) break;
                 corners_.push_back(corner[k]);
                 c = cornerConstr1[k];
@@ -341,12 +373,14 @@ RangeConvex::simplify0() {
     // the widest opening angle. All triangles made out of 3 corners
     // are considered.
     boundingCircle_.d_ = 1.0;
-    if (constraints_.size() >=3 ) {
+    if (constraints_.size() >=3 )
+    {
         for(i = 0; i < corners_.size(); i++)
             for(j = i+1; j < corners_.size(); j++)
-                for(k = j+1; k < corners_.size(); k++) {
+                for(k = j+1; k < corners_.size(); k++)
+                {
                     SpatialVector v = ( corners_[j] - corners_[i] ) ^
-	                    ( corners_[k] - corners_[j] );
+                                      ( corners_[k] - corners_[j] );
                     v.normalize();
                     // Set the correct opening angle: Since the plane cutting
                     // out the triangle also correctly cuts out the bounding cap
@@ -381,9 +415,11 @@ RangeConvex::simplify0() {
 //
 
 void
-RangeConvex::simplify() {
+RangeConvex::simplify()
+{
 
-    if(sign_ == zERO) {
+    if(sign_ == zERO)
+    {
         simplify0();	// treat zERO convexes separately
         return;
     }
@@ -392,12 +428,15 @@ RangeConvex::simplify() {
     size_t clen;
     bool redundancy = true;
 
-    while(redundancy) {
+    while(redundancy)
+    {
         redundancy = false;
         clen = constraints_.size();
 
-        for(i = 0; i < clen; i++) {
-            for(j = 0; j < i; j++) {
+        for(i = 0; i < clen; i++)
+        {
+            for(j = 0; j < i; j++)
+            {
                 int test;
 
                 // don't bother with two zero constraints
@@ -406,9 +445,11 @@ RangeConvex::simplify() {
 
                 // both pos or zero
                 if( ( constraints_[i].sign_ == pOS || constraints_[i].sign_ == zERO ) &&
-                    ( constraints_[j].sign_ == pOS || constraints_[j].sign_ == zERO ) ) {
+                        ( constraints_[j].sign_ == pOS || constraints_[j].sign_ == zERO ) )
+                {
                     if ( (test = testConstraints(i,j)) == 0 ) continue; // intersection
-                    if ( test < 0 ) {					// disjoint ! convex is empty
+                    if ( test < 0 )  					// disjoint ! convex is empty
+                    {
                         constraints_.clear();
                         return;
                     }
@@ -422,7 +463,8 @@ RangeConvex::simplify() {
 
                 // both neg or zero
                 if( ( constraints_[i].sign_ == nEG ) &&
-                    ( constraints_[j].sign_ == nEG ) ) {
+                        ( constraints_[j].sign_ == nEG ) )
+                {
                     if ( (test = testConstraints(i,j)) <= 0 ) continue; // ok
                     // one is redundant
                     if(test == 1)    constraints_.erase(constraints_.end()-1-j);
@@ -434,7 +476,8 @@ RangeConvex::simplify() {
 
                 // one neg, one pos/zero
                 if( (test = testConstraints(i,j)) == 0) continue; // ok: intersect
-                if( test < 0 ) { // neg is redundant
+                if( test < 0 )   // neg is redundant
+                {
                     if ( constraints_[i].sign_ == nEG ) constraints_.erase(constraints_.end()-1-i);
                     else    constraints_.erase(constraints_.end()-1-j);
                     redundancy = true; // we did cut out a constraint -> do the loop again
@@ -442,7 +485,7 @@ RangeConvex::simplify() {
                 }
                 // if the negative constraint is inside the positive: continue
                 if ( (constraints_[i].sign_ == nEG && test == 2) ||
-                     (constraints_[j].sign_ == nEG && test == 1) ) continue;
+                        (constraints_[j].sign_ == nEG && test == 1) ) continue;
                 // positive constraint in negative: convex is empty!
                 constraints_.clear();
                 return;
@@ -454,19 +497,21 @@ RangeConvex::simplify() {
 
     // reset the sign of the convex
     sign_ = constraints_[0].sign_;
-    for(i = 1; i < constraints_.size(); i++) {
-        switch (sign_) {
-        case nEG:
-            if(constraints_[i].sign_ == pOS) sign_ = mIXED;
-            break;
-        case pOS:
-            if(constraints_[i].sign_ == nEG) sign_ = mIXED;
-            break;
-        case zERO:
-            sign_ = constraints_[i].sign_;
-            break;
-        case mIXED:
-            break;
+    for(i = 1; i < constraints_.size(); i++)
+    {
+        switch (sign_)
+        {
+            case nEG:
+                if(constraints_[i].sign_ == pOS) sign_ = mIXED;
+                break;
+            case pOS:
+                if(constraints_[i].sign_ == nEG) sign_ = mIXED;
+                break;
+            case zERO:
+                sign_ = constraints_[i].sign_;
+                break;
+            case mIXED:
+                break;
         }
     }
 
@@ -485,15 +530,16 @@ RangeConvex::simplify() {
 //                  Returns 2  if i is in j
 //
 int
-RangeConvex::testConstraints(size_t i, size_t j) {
+RangeConvex::testConstraints(size_t i, size_t j)
+{
 
     float64 phi = (
-        (constraints_[i].sign_ == nEG ? (-1 * constraints_[i].a_):
-         constraints_[i].a_ )
-        *
-        (constraints_[j].sign_ == nEG ? (-1 * constraints_[j].a_):
-         constraints_[j].a_ )
-        );
+                      (constraints_[i].sign_ == nEG ? (-1 * constraints_[i].a_):
+                       constraints_[i].a_ )
+                      *
+                      (constraints_[j].sign_ == nEG ? (-1 * constraints_[j].a_):
+                       constraints_[j].a_ )
+                  );
     phi = (phi <= -1.0L + gEpsilon ? gPi : acos(phi)) ; // correct for math lib -1.0
     float64 a1 = (constraints_[i].sign_ == pOS ?
                   constraints_[i].s_ : gPi-constraints_[i].s_);
@@ -521,7 +567,8 @@ RangeConvex::intersect(const SpatialIndex * idx, HtmRange * htmrange)
     if(constraints_.empty())return;   // nothing to intersect!!
 
     // Start with root nodes (index = 1-8) and intersect triangles
-    for(uint32 i = 1; i <= 8; i++){
+    for(uint32 i = 1; i <= 8; i++)
+    {
         testTrixel(i);
     }
 }
@@ -542,20 +589,24 @@ inline void RangeConvex::saveTrixel(uint64 htmid)
     IDHIGHBIT2 = IDHIGHBIT2 << 62;
 #endif
 
-    for(i = 0; i < IDSIZE; i+=2) {
+    for(i = 0; i < IDSIZE; i+=2)
+    {
         if ( (htmid << i) & IDHIGHBIT ) break;
     }
 
     level = (IDSIZE-i) >> 1;
     level -= 2;
-    if (level < olevel){
+    if (level < olevel)
+    {
         /* Size is the length of the string representing the name of the
            trixel, the level is size - 2
         */
         shifts = (olevel - level) << 1;
         lo = htmid << shifts;
         hi = lo + ((uint64) 1 << shifts) -1;
-    } else {
+    }
+    else
+    {
         lo = hi = htmid;
     }
     hr->mergeRange(lo, hi);
@@ -575,7 +626,7 @@ RangeConvex::testTrixel(uint64 id)
     uint64 tid;
 
     // const struct SpatialIndex::QuadNode &indexNode = index_->nodes_[id];
-    const struct SpatialIndex::QuadNode *indexNode = &index_->nodes_[id];
+    const struct SpatialIndex::QuadNode * indexNode = &index_->nodes_[id];
 
     //
     // do the face test on the triangle
@@ -586,47 +637,58 @@ RangeConvex::testTrixel(uint64 id)
     mark = testNode(id); // was:(indexNode or  id);
 
 
-    switch(mark){
-    case fULL:
-        tid = N(id).id_;
+    switch(mark)
+    {
+        case fULL:
+            tid = N(id).id_;
 
-        saveTrixel(tid);  //was:  plist_->push_back(tid);
+            saveTrixel(tid);  //was:  plist_->push_back(tid);
 
-        return mark;
-    case rEJECT:
-        tid = N(id).id_;
-        return mark;
-    default:
-        // if pARTIAL or dONTKNOW, then continue, test children,
-        //    but do not reach beyond the leaf nodes.
-        //    If Convex is fully contained within one (sWALLOWED),
-        //    we can stop looking further in another child
+            return mark;
+        case rEJECT:
+            tid = N(id).id_;
+            return mark;
+        default:
+            // if pARTIAL or dONTKNOW, then continue, test children,
+            //    but do not reach beyond the leaf nodes.
+            //    If Convex is fully contained within one (sWALLOWED),
+            //    we can stop looking further in another child
 
-        // #define NC(n,m)	index_->nodes_[(n)].childID_[(m)]	// the children n->m
-        // childID = index_->nodes_[id].childID_[0];
+            // #define NC(n,m)	index_->nodes_[(n)].childID_[(m)]	// the children n->m
+            // childID = index_->nodes_[id].childID_[0];
 
-        // Test how many of the four children are rejected?
-        //
-        // [ed:algo]
-        //
-        break;
+            // Test how many of the four children are rejected?
+            //
+            // [ed:algo]
+            //
+            break;
     }
 
     // NEW NEW algorithm  Disabled when enablenew is 0
     //
     {
         childID = indexNode->childID_[0];
-        if ( childID != 0){
+        if ( childID != 0)
+        {
             ////////////// [ed:split]
             tid = N(id).id_;
-            childID = indexNode->childID_[0];  testTrixel(childID);
-            childID = indexNode->childID_[1];  testTrixel(childID);
-            childID = indexNode->childID_[2];  testTrixel(childID);
-            childID = indexNode->childID_[3];  testTrixel(childID);
-        } else { /// No children...
-            if (addlevel_){
+            childID = indexNode->childID_[0];
+            testTrixel(childID);
+            childID = indexNode->childID_[1];
+            testTrixel(childID);
+            childID = indexNode->childID_[2];
+            testTrixel(childID);
+            childID = indexNode->childID_[3];
+            testTrixel(childID);
+        }
+        else     /// No children...
+        {
+            if (addlevel_)
+            {
                 testPartial(addlevel_, N(id).id_, V(NV(0)), V(NV(1)), V(NV(2)), 0);
-            } else {
+            }
+            else
+            {
                 saveTrixel(N(id).id_); // was: plist_->push_back(N(id).id_);
             }
         }
@@ -654,17 +716,20 @@ RangeConvex::testTrixel(uint64 id)
 //
 void
 RangeConvex::testPartial(size_t level, uint64 id,
-                         const SpatialVector & v0,
-                         const SpatialVector & v1,
-                         const SpatialVector & v2, int PPrev)
+                         const SpatialVector &v0,
+                         const SpatialVector &v1,
+                         const SpatialVector &v2, int PPrev)
 {
     uint64 ids[4], id0;
     SpatialMarkup m[4];
     int P, F;// count number of partials and fulls
 
-    SpatialVector w0 = v1 + v2; w0.normalize();
-    SpatialVector w1 = v0 + v2; w1.normalize();
-    SpatialVector w2 = v1 + v0; w2.normalize();
+    SpatialVector w0 = v1 + v2;
+    w0.normalize();
+    SpatialVector w1 = v0 + v2;
+    w1.normalize();
+    SpatialVector w2 = v1 + v0;
+    w2.normalize();
 
     ids[0] = id0 = id << 2;
     ids[1] = id0 + 1;
@@ -687,13 +752,18 @@ RangeConvex::testPartial(size_t level, uint64 id,
     // as opposed to previous partials being fewer, so parent was in a tiny corner...
 
 
-    if ((level-- <= 0) || ((P == 4) || (F >= 2) || (P == 3 && F == 1) || (P > 1 && PPrev == 3))){
+    if ((level-- <= 0) || ((P == 4) || (F >= 2) || (P == 3 && F == 1) || (P > 1 && PPrev == 3)))
+    {
         saveTrixel(id);
         return;
-    } else {
+    }
+    else
+    {
         // look at each child, see if some need saving;
-        for(int i=0; i<4; i++){
-            if (m[i] == fULL){
+        for(int i=0; i<4; i++)
+        {
+            if (m[i] == fULL)
+            {
                 saveTrixel(ids[i]);
             }
         }
@@ -714,9 +784,9 @@ RangeConvex::testNode(uint64 id)
 //uint64 id)
 // const struct SpatialIndex::QuadNode *indexNode)
 {
-    const SpatialVector *v0, *v1, *v2;
+    const SpatialVector * v0, *v1, *v2;
     // const struct SpatialIndex::QuadNode &indexNode = index_->nodes_[id];
-    const struct SpatialIndex::QuadNode *indexNode = &index_->nodes_[id];
+    const struct SpatialIndex::QuadNode * indexNode = &index_->nodes_[id];
     int m;
     m = indexNode->v_[0];
     v0 = &index_->vertices_[m];				// the vertex vector m
@@ -741,9 +811,10 @@ RangeConvex::testNode(uint64 id)
     return mark;
 }
 SpatialMarkup
-RangeConvex::testNode(const SpatialVector & v0,
-                      const SpatialVector & v1,
-                      const SpatialVector & v2) {
+RangeConvex::testNode(const SpatialVector &v0,
+                      const SpatialVector &v1,
+                      const SpatialVector &v2)
+{
     // Start with testing the vertices for the QuadNode with this convex.
 
     int vsum = testVertex(v0) + testVertex(v1) + testVertex(v2);
@@ -764,10 +835,11 @@ RangeConvex::testNode(const SpatialVector & v0,
 // it intersects the convex.
 //
 SpatialMarkup
-RangeConvex::testTriangle(const SpatialVector & v0,
-                          const SpatialVector & v1,
-                          const SpatialVector & v2,
-                          int vsum) {
+RangeConvex::testTriangle(const SpatialVector &v0,
+                          const SpatialVector &v1,
+                          const SpatialVector &v2,
+                          int vsum)
+{
 
     if(vsum == 1 || vsum == 2) return pARTIAL;
 
@@ -786,7 +858,8 @@ RangeConvex::testTriangle(const SpatialVector & v0,
     //
     // * Else return fULL intersection.
 
-    if(vsum == 3) {
+    if(vsum == 3)
+    {
         if(sign_ == pOS || sign_ == zERO) return fULL;
         if ( testHole(v0,v1,v2) ) return pARTIAL;
         if ( testEdge(v0,v1,v2) ) return pARTIAL;
@@ -831,13 +904,16 @@ RangeConvex::testTriangle(const SpatialVector & v0,
 
     if ( !testBoundingCircle(v0,v1,v2) ) return rEJECT;
 
-    if ( sign_ == pOS || sign_ == mIXED || (sign_ == zERO && constraints_.size() <= 2)) {
+    if ( sign_ == pOS || sign_ == mIXED || (sign_ == zERO && constraints_.size() <= 2))
+    {
         // Does the smallest constraint intersect with the edges?
-        if ( testEdgeConstraint(v0,v1,v2,0) ) {
+        if ( testEdgeConstraint(v0,v1,v2,0) )
+        {
             // Is there another positive constraint that does NOT intersect with
             // the edges?
             size_t cIndex;
-            if ( (cIndex = testOtherPosNone(v0,v1,v2)) ) {
+            if ( (cIndex = testOtherPosNone(v0,v1,v2)) )
+            {
                 // Does that constraint lie inside or outside of the triangle?
                 if ( testConstraintInside(v0,v1,v2, cIndex) )
                     return pARTIAL;
@@ -846,19 +922,27 @@ RangeConvex::testTriangle(const SpatialVector & v0,
                     return pARTIAL;
                 else return rEJECT;
 
-            } else {
+            }
+            else
+            {
                 if(sign_ == pOS || sign_ == zERO) return pARTIAL;
                 else return dONTKNOW;
             }
-        } else {
-            if (sign_ == pOS || sign_ == zERO) {
+        }
+        else
+        {
+            if (sign_ == pOS || sign_ == zERO)
+            {
                 // Does the smallest lie inside or outside the triangle?
                 if( testConstraintInside(v0,v1,v2, 0) )
                     return pARTIAL;
                 else return rEJECT;
-            } else return  dONTKNOW;
+            }
+            else return  dONTKNOW;
         }
-    } else if (sign_ == zERO) {
+    }
+    else if (sign_ == zERO)
+    {
         if ( corners_.size() > 0 && testEdge0(v0,v1,v2) )
             return pARTIAL;
         else return rEJECT;
@@ -870,7 +954,7 @@ RangeConvex::testTriangle(const SpatialVector & v0,
 // testVertex: same as above, but for any spatialvector, no markup speedup
 //
 int
-RangeConvex::testVertex(const SpatialVector & v)
+RangeConvex::testVertex(const SpatialVector &v)
 {
     for ( size_t i = 0; i < constraints_.size(); i++)
         if ( (constraints_[i].a_ * v )  < constraints_[i].d_ )
@@ -879,7 +963,7 @@ RangeConvex::testVertex(const SpatialVector & v)
     return 1;
 }
 int
-RangeConvex::testVertex(const SpatialVector *v)
+RangeConvex::testVertex(const SpatialVector * v)
 {
     for ( size_t i = 0; i < constraints_.size(); i++)
         if ( (constraints_[i].a_ * *v )  < constraints_[i].d_ )
@@ -894,14 +978,17 @@ RangeConvex::testVertex(const SpatialVector *v)
 //	     found one.
 //
 bool
-RangeConvex::testHole(const SpatialVector & v0,
-                      const SpatialVector & v1,
-                      const SpatialVector & v2) {
+RangeConvex::testHole(const SpatialVector &v0,
+                      const SpatialVector &v1,
+                      const SpatialVector &v2)
+{
 
     bool test = false;
 
-    for(size_t i = 0; i < constraints_.size(); i++) {
-        if ( constraints_[i].sign_ == nEG ) {  // test only 'holes'
+    for(size_t i = 0; i < constraints_.size(); i++)
+    {
+        if ( constraints_[i].sign_ == nEG )    // test only 'holes'
+        {
 
             // If (a ^ b * c) < 0, vectors abc point clockwise.
             // -> center c not inside triangle, since vertices a,b are ordered
@@ -909,11 +996,11 @@ RangeConvex::testHole(const SpatialVector & v0,
             // round because c points into the opposite direction as the hole
 
             if ( ( ( v0 ^ v1 ) *
-                   constraints_[i].a_) > 0.0L ) continue;
+                    constraints_[i].a_) > 0.0L ) continue;
             if ( ( ( v1 ^ v2 ) *
-                   constraints_[i].a_) > 0.0L ) continue;
+                    constraints_[i].a_) > 0.0L ) continue;
             if ( ( ( v2 ^ v0 ) *
-                   constraints_[i].a_) > 0.0L ) continue;
+                    constraints_[i].a_) > 0.0L ) continue;
             test = true;
             break;
         }
@@ -932,9 +1019,10 @@ RangeConvex::testHole(const SpatialVector & v0,
 //            inside -> return true.
 //
 bool
-RangeConvex::testEdge0(const SpatialVector & v0,
-                       const SpatialVector & v1,
-                       const SpatialVector & v2) {
+RangeConvex::testEdge0(const SpatialVector &v0,
+                       const SpatialVector &v1,
+                       const SpatialVector &v2)
+{
     // We have constructed the corners_ array in a certain direction.
     // now we can run around the convex, check each side against the 3
     // triangle edges. If any of the sides has its intersection INSIDE
@@ -943,22 +1031,30 @@ RangeConvex::testEdge0(const SpatialVector & v0,
     // can be that the convex is fully inside the triangle. so to test
     // one single edge is enough)
 
-    struct edgeStruct {
+    struct edgeStruct
+    {
         SpatialVector e;		// The half-sphere this edge delimits
         float64	  l;		// length of edge
-        const SpatialVector *e1;	// first end
-        const SpatialVector *e2;	// second end
+        const SpatialVector * e1;	// first end
+        const SpatialVector * e2;	// second end
     } edge[3];
 
     // fill the edge structure for each side of this triangle
-    edge[0].e = v0 ^ v1; edge[0].e1 = &v0; edge[0].e2 = &v1;
-    edge[1].e = v1 ^ v2; edge[1].e1 = &v1; edge[1].e2 = &v2;
-    edge[2].e = v2 ^ v0; edge[2].e1 = &v2; edge[2].e2 = &v0;
+    edge[0].e = v0 ^ v1;
+    edge[0].e1 = &v0;
+    edge[0].e2 = &v1;
+    edge[1].e = v1 ^ v2;
+    edge[1].e1 = &v1;
+    edge[1].e2 = &v2;
+    edge[2].e = v2 ^ v0;
+    edge[2].e1 = &v2;
+    edge[2].e2 = &v0;
     edge[0].l = acos(v0 * v1);
     edge[1].l = acos(v1 * v2);
     edge[2].l = acos(v2 * v0);
 
-    for(size_t i = 0; i < corners_.size(); i++) {
+    for(size_t i = 0; i < corners_.size(); i++)
+    {
         size_t j = 0;
         if(i < corners_.size() - 1) j = i+1;
         SpatialVector a1;
@@ -966,21 +1062,24 @@ RangeConvex::testEdge0(const SpatialVector & v0,
         float64 cedgelen = acos(corners_[i] * corners_[j]);  // length of edge of convex
 
         // calculate the intersection - all 3 edges
-        for (size_t iedge = 0; iedge < 3; iedge++) {
+        for (size_t iedge = 0; iedge < 3; iedge++)
+        {
             a1 = ( edge[iedge].e ) ^ ( corners_[i] ^ corners_[j] );
             a1.normalize();
             // if the intersection a1 is inside the edge of the convex,
             // its distance to the corners is smaller than the edgelength.
             // this test has to be done for both the edge of the convex and
             // the edge of the triangle.
-            for(size_t k = 0; k < 2; k++) {
+            for(size_t k = 0; k < 2; k++)
+            {
                 l1 = acos(corners_[i] * a1);
                 l2 = acos(corners_[j] * a1);
-                if( l1 - cedgelen <= gEpsilon && l2 - cedgelen <= gEpsilon ) {
+                if( l1 - cedgelen <= gEpsilon && l2 - cedgelen <= gEpsilon )
+                {
                     l1 = acos( *(edge[iedge].e1) * a1 );
                     l2 = acos( *(edge[iedge].e2) * a1 );
                     if( l1 - edge[iedge].l <= gEpsilon &&
-                        l2 - edge[iedge].l <= gEpsilon )
+                            l2 - edge[iedge].l <= gEpsilon )
                         return true;
                 }
                 a1 *= -1.0; // do the same for the other intersection
@@ -996,12 +1095,15 @@ RangeConvex::testEdge0(const SpatialVector & v0,
 //	     an intersection.
 //
 bool
-RangeConvex::testEdge(const SpatialVector & v0,
-                      const SpatialVector & v1,
-                      const SpatialVector & v2) {
+RangeConvex::testEdge(const SpatialVector &v0,
+                      const SpatialVector &v1,
+                      const SpatialVector &v2)
+{
 
-    for(size_t i = 0; i < constraints_.size(); i++) {
-        if ( constraints_[i].sign_ == nEG ) {  // test only 'holes'
+    for(size_t i = 0; i < constraints_.size(); i++)
+    {
+        if ( constraints_[i].sign_ == nEG )    // test only 'holes'
+        {
             if ( eSolve(v0, v1, i) ) return true;
             if ( eSolve(v1, v2, i) ) return true;
             if ( eSolve(v2, v0, i) ) return true;
@@ -1015,8 +1117,8 @@ RangeConvex::testEdge(const SpatialVector & v0,
 //         constraint. Edge given by grand circle running through v1, v2
 //         Constraint given by cIndex.
 bool
-RangeConvex::eSolve(const SpatialVector & v1,
-                    const SpatialVector & v2, size_t cIndex)
+RangeConvex::eSolve(const SpatialVector &v1,
+                    const SpatialVector &v2, size_t cIndex)
 {
 
     float64 gamma1 = v1 * constraints_[cIndex].a_ ;
@@ -1039,8 +1141,16 @@ RangeConvex::eSolve(const SpatialVector & v1,
     float64 root1(0), root2(0);
     int i = 0;
 
-    if ( a > gEpsilon || a < -gEpsilon ) { root1 = q / a; i++; }
-    if ( q > gEpsilon || q < -gEpsilon ) { root2 = c / q; i++; }
+    if ( a > gEpsilon || a < -gEpsilon )
+    {
+        root1 = q / a;
+        i++;
+    }
+    if ( q > gEpsilon || q < -gEpsilon )
+    {
+        root2 = c / q;
+        i++;
+    }
 
     // Check whether the roots lie within [0,1]. If not, the intersection
     // is outside the edge.
@@ -1057,9 +1167,10 @@ RangeConvex::eSolve(const SpatialVector & v1,
 // testBoundingCircle: test for boundingCircles intersecting with constraint
 //
 bool
-RangeConvex::testBoundingCircle(const SpatialVector & v0,
-                                const SpatialVector & v1,
-                                const SpatialVector & v2) {
+RangeConvex::testBoundingCircle(const SpatialVector &v0,
+                                const SpatialVector &v1,
+                                const SpatialVector &v2)
+{
 
     // Set the correct direction: The normal vector to the triangle plane
     SpatialVector c = ( v1 - v0 ) ^ ( v2 - v1 );
@@ -1073,11 +1184,12 @@ RangeConvex::testBoundingCircle(const SpatialVector & v0,
     // for zero convexes, we have calculated a bounding circle for the convex.
     // only test with this single bounding circle.
 
-    if(sign_ == zERO) {
+    if(sign_ == zERO)
+    {
         float64 tst;
         if ( ( (tst = c * boundingCircle_.a_) < -1.0L + gEpsilon ? gPi :
-               acos(tst) ) >
-             ( d + boundingCircle_.s_) ) return false;
+                acos(tst) ) >
+                ( d + boundingCircle_.s_) ) return false;
         return true;
     }
 
@@ -1086,10 +1198,11 @@ RangeConvex::testBoundingCircle(const SpatialVector & v0,
     // else, accept.
 
     size_t i;
-    for(i = 0; i < constraints_.size(); i++) {
+    for(i = 0; i < constraints_.size(); i++)
+    {
         if ( ( (c * constraints_[i].a_) < -1.0L + gEpsilon ? gPi :
-               acos(c * constraints_[i].a_) ) >
-             ( d + constraints_[i].s_) ) return false;
+                acos(c * constraints_[i].a_) ) >
+                ( d + constraints_[i].s_) ) return false;
     }
     return true;
 }
@@ -1098,10 +1211,11 @@ RangeConvex::testBoundingCircle(const SpatialVector & v0,
 // testEdgeConstraint: test if edges intersect with a given constraint.
 //
 bool
-RangeConvex::testEdgeConstraint(const SpatialVector & v0,
-                                const SpatialVector & v1,
-                                const SpatialVector & v2,
-                                size_t cIndex) {
+RangeConvex::testEdgeConstraint(const SpatialVector &v0,
+                                const SpatialVector &v1,
+                                const SpatialVector &v2,
+                                size_t cIndex)
+{
     if ( eSolve(v0, v1, cIndex) ) return true;
     if ( eSolve(v1, v2, cIndex) ) return true;
     if ( eSolve(v2, v0, cIndex) ) return true;
@@ -1113,11 +1227,13 @@ RangeConvex::testEdgeConstraint(const SpatialVector & v0,
 //                   not intersect with an edge. Return its index
 //
 size_t
-RangeConvex::testOtherPosNone(const SpatialVector & v0,
-                              const SpatialVector & v1,
-                              const SpatialVector & v2) {
+RangeConvex::testOtherPosNone(const SpatialVector &v0,
+                              const SpatialVector &v1,
+                              const SpatialVector &v2)
+{
     size_t i = 1;
-    while ( i < constraints_.size() && constraints_[i].sign_ == pOS ) {
+    while ( i < constraints_.size() && constraints_[i].sign_ == pOS )
+    {
         if ( !testEdgeConstraint ( v0,v1,v2, i ) ) return i;
         i++;
     }
@@ -1128,10 +1244,11 @@ RangeConvex::testOtherPosNone(const SpatialVector & v0,
 // testConstraintInside: look if a constraint is inside the triangle
 //
 bool
-RangeConvex::testConstraintInside(const SpatialVector & v0,
-                                  const SpatialVector & v1,
-                                  const SpatialVector & v2,
-                                  size_t i) {
+RangeConvex::testConstraintInside(const SpatialVector &v0,
+                                  const SpatialVector &v1,
+                                  const SpatialVector &v2,
+                                  size_t i)
+{
     return testVectorInside(v0,v1,v2, constraints_[i].a_);
 }
 
@@ -1139,18 +1256,19 @@ RangeConvex::testConstraintInside(const SpatialVector & v0,
 // testVectorInside: look if a vector is inside the triangle
 //
 bool
-RangeConvex::testVectorInside(const SpatialVector & v0,
-                              const SpatialVector & v1,
-                              const SpatialVector & v2,
-                              SpatialVector & v) {
+RangeConvex::testVectorInside(const SpatialVector &v0,
+                              const SpatialVector &v1,
+                              const SpatialVector &v2,
+                              SpatialVector &v)
+{
 
     // If (a ^ b * c) < 0, vectors abc point clockwise.
     // -> center c not inside triangle, since vertices are ordered
     // counter-clockwise.
 
     if( ( (( v0 ^ v1 ) * v) < 0 ) ||
-        ( (( v1 ^ v2 ) * v) < 0 ) ||
-        ( (( v2 ^ v0 ) * v) < 0 ) )
+            ( (( v1 ^ v2 ) * v) < 0 ) ||
+            ( (( v2 ^ v0 ) * v) < 0 ) )
         return false;
     return true;
 }

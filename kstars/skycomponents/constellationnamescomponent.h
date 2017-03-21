@@ -33,46 +33,49 @@ class CultureList;
  */
 class ConstellationNamesComponent : public ListComponent
 {
-public:
-    /** @short Constructor
-     * @p parent Pointer to the parent SkyComposite object
-     *
-     * Reads the constellation names data from cnames.dat
-     * Each line in the file is parsed according to column position:
-     * @li 0-1     RA hours [int]
-     * @li 2-3     RA minutes [int]
-     * @li 4-5     RA seconds [int]
-     * @li 6       Dec sign [char; '+' or '-']
-     * @li 7-8     Dec degrees [int]
-     * @li 9-10    Dec minutes [int]
-     * @li 11-12   Dec seconds [int]
-     * @li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
-     * @li 17-     Constellation name [string]
-     */
-    ConstellationNamesComponent(SkyComposite *parent, CultureList* cultures);
+    public:
+        /** @short Constructor
+         * @p parent Pointer to the parent SkyComposite object
+         *
+         * Reads the constellation names data from cnames.dat
+         * Each line in the file is parsed according to column position:
+         * @li 0-1     RA hours [int]
+         * @li 2-3     RA minutes [int]
+         * @li 4-5     RA seconds [int]
+         * @li 6       Dec sign [char; '+' or '-']
+         * @li 7-8     Dec degrees [int]
+         * @li 9-10    Dec minutes [int]
+         * @li 11-12   Dec seconds [int]
+         * @li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
+         * @li 17-     Constellation name [string]
+         */
+        ConstellationNamesComponent(SkyComposite * parent, CultureList * cultures);
 
-    /** @short Destructor.  Delete list members */
-    virtual ~ConstellationNamesComponent();
+        /** @short Destructor.  Delete list members */
+        virtual ~ConstellationNamesComponent();
 
-    /** @short Draw constellation names on the sky map.
-     * @p psky Reference to the QPainter on which to paint
-     */
-    virtual void draw( SkyPainter *skyp );
+        /** @short Draw constellation names on the sky map.
+         * @p psky Reference to the QPainter on which to paint
+         */
+        virtual void draw( SkyPainter * skyp );
 
-    /** @short we need a custom routine (for now) so we don't
-     * precess the locations of the names.
-     */
-    virtual void update( KSNumbers *num );
+        /** @short we need a custom routine (for now) so we don't
+         * precess the locations of the names.
+         */
+        virtual void update( KSNumbers * num );
 
-    /** @short Return true if we are using localized constellation names */
-    inline bool isLocalCNames() { return localCNames; }
+        /** @short Return true if we are using localized constellation names */
+        inline bool isLocalCNames()
+        {
+            return localCNames;
+        }
 
-    virtual bool selected();
+        virtual bool selected();
 
-    void loadData(CultureList* cultures);
+        void loadData(CultureList * cultures);
 
-private:
-    bool localCNames;
+    private:
+        bool localCNames;
 };
 
 #endif

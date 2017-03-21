@@ -33,8 +33,10 @@ StarNode::StarNode()
 
 }
 
-StarNode::~StarNode() {
-    if(starNode) {
+StarNode::~StarNode()
+{
+    if(starNode)
+    {
         SkyMapLite::Instance()->deleteSkyNode(starNode);
         qDebug() << "REAL NODE DESTRUCTOR";
     }
@@ -73,12 +75,12 @@ StarBlock::~StarBlock()
         parent -> releaseBlock( this );
 }
 #ifdef KSTARS_LITE
-StarNode* StarBlock::addStar(const starData& data)
+StarNode * StarBlock::addStar(const starData &data)
 {
     if(isFull())
         return 0;
-    StarNode& node = stars[nStars++];
-    StarObject& star = node.star;
+    StarNode &node = stars[nStars++];
+    StarObject &star = node.star;
 
     star.init(&data);
     if( star.mag() > faintMag )
@@ -88,12 +90,12 @@ StarNode* StarBlock::addStar(const starData& data)
     return &node;
 }
 
-StarNode* StarBlock::addStar(const deepStarData& data)
+StarNode * StarBlock::addStar(const deepStarData &data)
 {
     if(isFull())
         return 0;
-    StarNode& node = stars[nStars++];
-    StarObject& star = node.star;
+    StarNode &node = stars[nStars++];
+    StarObject &star = node.star;
 
     star.init(&data);
     if( star.mag() > faintMag )
@@ -103,12 +105,12 @@ StarNode* StarBlock::addStar(const deepStarData& data)
     return &node;
 }
 #else
-StarObject* StarBlock::addStar(const starData& data)
+StarObject * StarBlock::addStar(const starData &data)
 {
     if(isFull())
         return 0;
-    StarObject& star = stars[nStars++];
-    
+    StarObject &star = stars[nStars++];
+
     star.init(&data);
     if( star.mag() > faintMag )
         faintMag = star.mag();
@@ -117,12 +119,12 @@ StarObject* StarBlock::addStar(const starData& data)
     return &star;
 }
 
-StarObject* StarBlock::addStar(const deepStarData& data)
+StarObject * StarBlock::addStar(const deepStarData &data)
 {
     if(isFull())
         return 0;
-    StarObject& star = stars[nStars++];
-    
+    StarObject &star = stars[nStars++];
+
     star.init(&data);
     if( star.mag() > faintMag )
         faintMag = star.mag();

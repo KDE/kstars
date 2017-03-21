@@ -26,7 +26,7 @@
 #include "projections/projector.h"
 #include "kspaths.h"
 
-ConstellationArtComponent::ConstellationArtComponent( SkyComposite *parent, CultureList *cultures ):SkyComponent(parent)
+ConstellationArtComponent::ConstellationArtComponent( SkyComposite * parent, CultureList * cultures ):SkyComponent(parent)
 {
     cultureName = cultures->current();
     records = 0;
@@ -34,21 +34,27 @@ ConstellationArtComponent::ConstellationArtComponent( SkyComposite *parent, Cult
 }
 
 ConstellationArtComponent::~ConstellationArtComponent()
-{    while( !m_ConstList.isEmpty() ) {
-        ConstellationsArt *o = m_ConstList.takeFirst();
+{
+    while( !m_ConstList.isEmpty() )
+    {
+        ConstellationsArt * o = m_ConstList.takeFirst();
         delete o;
     }
 }
 
 void ConstellationArtComponent::deleteData()
-{    while( !m_ConstList.isEmpty() ) {
-        ConstellationsArt *o = m_ConstList.takeFirst();
+{
+    while( !m_ConstList.isEmpty() )
+    {
+        ConstellationsArt * o = m_ConstList.takeFirst();
         delete o;
     }
 }
 
-void ConstellationArtComponent::loadData(){
-    if(m_ConstList.isEmpty()) {
+void ConstellationArtComponent::loadData()
+{
+    if(m_ConstList.isEmpty())
+    {
         QSqlDatabase skydb = QSqlDatabase::addDatabase("QSQLITE", "skycultures");
         QString dbfile = KSPaths::locate(QStandardPaths::GenericDataLocation, "skycultures.sqlite");
 
@@ -91,7 +97,7 @@ void ConstellationArtComponent::loadData(){
             dms midpointdec = dms::fromString(midpointDEC,true);
 
             // appends constellation info
-            ConstellationsArt *ca = new ConstellationsArt(midpointra, midpointdec, pa, w,h, abbreviation, filename);
+            ConstellationsArt * ca = new ConstellationsArt(midpointra, midpointdec, pa, w,h, abbreviation, filename);
             m_ConstList.append(ca);
             //qDebug()<<"Successsfully read skyculture.sqlite"<<abbreviation<<filename<<midpointRA<<midpointDEC<<pa<<w<<h;
             records++;
@@ -111,7 +117,8 @@ void ConstellationArtComponent::showList()
     }
 }
 
-void ConstellationArtComponent::draw(SkyPainter *skyp){
+void ConstellationArtComponent::draw(SkyPainter * skyp)
+{
     Q_UNUSED(skyp)
 #ifndef KSTARS_LITE
     if(Options::showConstellationArt() && SkyMap::IsSlewing() == false)

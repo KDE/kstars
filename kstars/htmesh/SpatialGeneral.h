@@ -6,7 +6,7 @@
 //#		including Global Type Definitions, Global Macros, and Global Inlines
 //#
 //#		Author:		Peter Z. Kunszt
-//#	
+//#
 //#		Date:		October 19, 1999
 //#
 //#		Copyright (C) 2000  Peter Z. Kunszt, Alex S. Szalay, Aniruddha R. Thakar
@@ -84,7 +84,7 @@ typedef unsigned long long	uint64;
 // Global Math Constants
 
 const float64 gPi = 3.1415926535897932385E0 ;
-const float64 gPr = gPi/180.0; 
+const float64 gPr = gPi/180.0;
 const float64 gEpsilon = 1.0E-15;
 // CVSversion = "$Name:  $";
 
@@ -106,14 +106,14 @@ const float64 gEpsilon = 1.0E-15;
 #endif
 
 #if defined(__unix__) || defined(__unix)
-#   define LINKAGE 
+#   define LINKAGE
 #elif defined(_WIN32)
 #   define SpatialWinNT 1
 // This warning is about template instances being exported in the dll...
 #   pragma warning(disable: 4251)
 
 // Define LINKAGE for NT VC++6 complier
- 
+
 #   ifdef _EXPORTING
 #	define LINKAGE	__declspec(dllexport)
 #   else

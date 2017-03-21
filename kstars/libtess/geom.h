@@ -71,14 +71,14 @@
 
 #define VertCCW(u,v,w)	__gl_vertCCW(u,v,w)
 
-int		__gl_vertLeq( GLUvertex *u, GLUvertex *v );
-GLdouble	__gl_edgeEval( GLUvertex *u, GLUvertex *v, GLUvertex *w );
-GLdouble	__gl_edgeSign( GLUvertex *u, GLUvertex *v, GLUvertex *w );
-GLdouble	__gl_transEval( GLUvertex *u, GLUvertex *v, GLUvertex *w );
-GLdouble	__gl_transSign( GLUvertex *u, GLUvertex *v, GLUvertex *w );
-int		__gl_vertCCW( GLUvertex *u, GLUvertex *v, GLUvertex *w );
-void		__gl_edgeIntersect( GLUvertex *o1, GLUvertex *d1,
-				    GLUvertex *o2, GLUvertex *d2,
-				    GLUvertex *v );
+int		__gl_vertLeq( GLUvertex * u, GLUvertex * v );
+GLdouble	__gl_edgeEval( GLUvertex * u, GLUvertex * v, GLUvertex * w );
+GLdouble	__gl_edgeSign( GLUvertex * u, GLUvertex * v, GLUvertex * w );
+GLdouble	__gl_transEval( GLUvertex * u, GLUvertex * v, GLUvertex * w );
+GLdouble	__gl_transSign( GLUvertex * u, GLUvertex * v, GLUvertex * w );
+int		__gl_vertCCW( GLUvertex * u, GLUvertex * v, GLUvertex * w );
+void		__gl_edgeIntersect( GLUvertex * o1, GLUvertex * d1,
+                                GLUvertex * o2, GLUvertex * d2,
+                                GLUvertex * v );
 
 #endif

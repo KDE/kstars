@@ -30,7 +30,7 @@
 #include <QStatusBar>
 #include <QtSvg/QSvgGenerator>
 
-ImageExporter::ImageExporter( QObject *parent ) : QObject( parent ), m_includeLegend( false ), m_Size( 0 )
+ImageExporter::ImageExporter( QObject * parent ) : QObject( parent ), m_includeLegend( false ), m_Size( 0 )
 {
     m_Legend = new Legend;
 
@@ -43,7 +43,7 @@ ImageExporter::ImageExporter( QObject *parent ) : QObject( parent ), m_includeLe
 
 void ImageExporter::exportSvg(const QString &fileName)
 {
-    SkyMap *map = SkyMap::Instance();
+    SkyMap * map = SkyMap::Instance();
 
     // export as SVG
     QSvgGenerator svgGenerator;
@@ -73,26 +73,43 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
     QString ext = fileName.mid(fileName.lastIndexOf(".") + 1);
 
     // export as raster graphics
-    const char* format = "PNG";
+    const char * format = "PNG";
 
-    if(ext.toLower() == "png") {format = "PNG";}
-    else if(ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }
-    else if(ext.toLower() == "gif") { format = "GIF"; }
-    else if(ext.toLower() == "pnm") { format = "PNM"; }
-    else if(ext.toLower() == "bmp") { format = "BMP"; }
+    if(ext.toLower() == "png")
+    {
+        format = "PNG";
+    }
+    else if(ext.toLower() == "jpg" || ext.toLower() == "jpeg" )
+    {
+        format = "JPG";
+    }
+    else if(ext.toLower() == "gif")
+    {
+        format = "GIF";
+    }
+    else if(ext.toLower() == "pnm")
+    {
+        format = "PNM";
+    }
+    else if(ext.toLower() == "bmp")
+    {
+        format = "BMP";
+    }
     else
     {
         qWarning() << i18n("Could not parse image format of %1; assuming PNG.", fileName);
     }
 
-    SkyMap *map = SkyMap::Instance();
+    SkyMap * map = SkyMap::Instance();
 
     int width, height;
-    if ( m_Size ) {
+    if ( m_Size )
+    {
         width = m_Size->width();
         height = m_Size->height();
     }
-    else {
+    else
+    {
         width = map->width();
         height = map->height();
     }
@@ -164,12 +181,12 @@ bool ImageExporter::exportRasterGraphics(const QString &fileName)
         return true;
     }
 }
-void ImageExporter::addLegend(SkyQPainter *painter)
+void ImageExporter::addLegend(SkyQPainter * painter)
 {
     m_Legend->paintLegend(painter);
 }
 
-void ImageExporter::addLegend(QPaintDevice *pd)
+void ImageExporter::addLegend(QPaintDevice * pd)
 {
     SkyQPainter painter(KStars::Instance(), pd);
     painter.begin();
@@ -216,7 +233,7 @@ bool ImageExporter::exportImage( QString url )
         if(!isLocalFile)
         {
             //attempt to upload image to remote location
-            KIO::StoredTransferJob *put_job = KIO::storedHttpPost(&tmpfile, fileURL, -1);
+            KIO::StoredTransferJob * put_job = KIO::storedHttpPost(&tmpfile, fileURL, -1);
             //if(!KIO::NetAccess::upload(tmpfile.fileName(), fileURL, m_KStars))
             if (put_job->exec() == false)
             {
@@ -254,7 +271,7 @@ ImageExporter::~ImageExporter()
     delete m_Legend;
 }
 
-void ImageExporter::setRasterOutputSize( const QSize *size )
+void ImageExporter::setRasterOutputSize( const QSize * size )
 {
     if ( size )
         m_Size = new QSize( *size ); // make a copy, so it's safe if the original gets deleted

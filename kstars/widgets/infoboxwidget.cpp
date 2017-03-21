@@ -35,25 +35,27 @@ const int InfoBoxWidget::padY = 2;
 InfoBoxes::~InfoBoxes()
 {}
 
-InfoBoxes::InfoBoxes(QWidget* parent) : QWidget(parent) {
+InfoBoxes::InfoBoxes(QWidget * parent) : QWidget(parent)
+{
     setMouseTracking( true );
 }
 
 
-void InfoBoxes::addInfoBox(InfoBoxWidget* ibox)
+void InfoBoxes::addInfoBox(InfoBoxWidget * ibox)
 {
     ibox->setParent(this);
     m_boxes.append(ibox);
 }
 
-void InfoBoxes::resizeEvent(QResizeEvent*) {
-    foreach(InfoBoxWidget* w, m_boxes)
+void InfoBoxes::resizeEvent(QResizeEvent *)
+{
+    foreach(InfoBoxWidget * w, m_boxes)
         w->adjust();
 }
 
 /* ================================================================ */
 
-InfoBoxWidget::InfoBoxWidget(bool shade, const QPoint& pos, int anchor, const QStringList& str, QWidget* parent) :
+InfoBoxWidget::InfoBoxWidget(bool shade, const QPoint &pos, int anchor, const QStringList &str, QWidget * parent) :
     QWidget(parent),
     m_strings(str),
     m_adjusted(false),
@@ -68,10 +70,11 @@ InfoBoxWidget::InfoBoxWidget(bool shade, const QPoint& pos, int anchor, const QS
 InfoBoxWidget::~InfoBoxWidget()
 {}
 
-void InfoBoxWidget::updateSize() {
+void InfoBoxWidget::updateSize()
+{
     QFontMetrics fm(font());
     int w = 0;
-    foreach(const QString& str, m_strings)
+    foreach(const QString &str, m_strings)
         w = qMax(w, fm.width(str));
     int h = fm.height() * (m_shaded ? 1 : m_strings.size());
     // Add padding
@@ -79,17 +82,18 @@ void InfoBoxWidget::updateSize() {
     adjust();
 }
 
-void InfoBoxWidget::slotTimeChanged() {
-    KStarsData* data = KStarsData::Instance();
+void InfoBoxWidget::slotTimeChanged()
+{
+    KStarsData * data = KStarsData::Instance();
 
     m_strings.clear();
     m_strings <<
-        i18nc( "Local Time", "LT: " ) +
-        data->lt().time().toString( QLocale().timeFormat().remove( 't' ) ) + "   " + // Remove timezone, as timezone of geolocation in KStars might not be same as system locale timezone
-        QLocale().toString( data->lt().date() );
+              i18nc( "Local Time", "LT: " ) +
+              data->lt().time().toString( QLocale().timeFormat().remove( 't' ) ) + "   " + // Remove timezone, as timezone of geolocation in KStars might not be same as system locale timezone
+              QLocale().toString( data->lt().date() );
 
     m_strings <<
-        i18nc( "Universal Time", "UT: " ) + data->ut().time().toString( "HH:mm:ss" ) + "   " + QLocale().toString( data->ut().date() ); // Do not format UTC according to locale
+              i18nc( "Universal Time", "UT: " ) + data->ut().time().toString( "HH:mm:ss" ) + "   " + QLocale().toString( data->ut().date() ); // Do not format UTC according to locale
 
     QString STString;
     STString = STString.sprintf( "%02d:%02d:%02d   ", data->lst()->hour(), data->lst()->minute(), data->lst()->second() );
@@ -98,56 +102,64 @@ void InfoBoxWidget::slotTimeChanged() {
     QString JDString = QString::number( data->ut().djd(), 'f', 2 );
     JDString.replace( '.', QLocale().decimalPoint());
     m_strings <<
-        i18nc( "Sidereal Time", "ST: " ) + STString +
-        i18nc( "Julian Day", "JD: " ) + JDString;
+              i18nc( "Sidereal Time", "ST: " ) + STString +
+              i18nc( "Julian Day", "JD: " ) + JDString;
     updateSize();
     update();
 }
 
-void InfoBoxWidget::slotGeoChanged() {
-    GeoLocation* geo = KStarsData::Instance()->geo();
+void InfoBoxWidget::slotGeoChanged()
+{
+    GeoLocation * geo = KStarsData::Instance()->geo();
 
     m_strings.clear();
     m_strings << geo->fullName();
     m_strings <<
-        i18nc( "Longitude", "Long:" ) + ' ' +
-        QLocale().toString( geo->lng()->Degrees(),3) + "   " +
-        i18nc( "Latitude", "Lat:" ) + ' ' +
-        QLocale().toString( geo->lat()->Degrees(),3);
+              i18nc( "Longitude", "Long:" ) + ' ' +
+              QLocale().toString( geo->lng()->Degrees(),3) + "   " +
+              i18nc( "Latitude", "Lat:" ) + ' ' +
+              QLocale().toString( geo->lat()->Degrees(),3);
     updateSize();
     update();
 }
 
-void InfoBoxWidget::slotObjectChanged(SkyObject* obj) {
+void InfoBoxWidget::slotObjectChanged(SkyObject * obj)
+{
     setPoint( obj->translatedLongName(), obj );
 }
 
-void InfoBoxWidget::slotPointChanged(SkyPoint* p) {
+void InfoBoxWidget::slotPointChanged(SkyPoint * p)
+{
     setPoint( i18n("nothing"), p);
 }
 
-void InfoBoxWidget::setPoint(QString name, SkyPoint* p) {
+void InfoBoxWidget::setPoint(QString name, SkyPoint * p)
+{
     m_strings.clear();
     m_strings << name;
     m_strings <<
-        i18nc( "Right Ascension", "RA" ) + ": " + p->ra().toHMSString() + "  " +
-        i18nc( "Declination", "Dec" )    + ": " + p->dec().toDMSString(true);
+              i18nc( "Right Ascension", "RA" ) + ": " + p->ra().toHMSString() + "  " +
+              i18nc( "Declination", "Dec" )    + ": " + p->dec().toDMSString(true);
     m_strings <<
-        i18nc( "Azimuth", "Az" )   + ": " + p->az().toDMSString(true) + "  " +
-        i18nc( "Altitude", "Alt" ) + ": " + p->alt().toDMSString(true);
+              i18nc( "Azimuth", "Az" )   + ": " + p->az().toDMSString(true) + "  " +
+              i18nc( "Altitude", "Alt" ) + ": " + p->alt().toDMSString(true);
     updateSize();
     update();
 }
 
-void InfoBoxWidget::adjust() {
+void InfoBoxWidget::adjust()
+{
     if( !isVisible() )
         return;
     // X axis
     int newX = x();
     int maxX = parentWidget()->width() - width();
-    if( m_anchor & AnchorRight ) {
+    if( m_anchor & AnchorRight )
+    {
         newX = maxX;
-    } else {
+    }
+    else
+    {
         newX = KSUtils::clamp(newX, 0, maxX);
         if( newX == maxX )
             m_anchor |= AnchorRight;
@@ -155,9 +167,12 @@ void InfoBoxWidget::adjust() {
     // Y axis
     int newY = y();
     int maxY = parentWidget()->height() - height();
-    if( m_anchor & AnchorBottom ) {
+    if( m_anchor & AnchorBottom )
+    {
         newY = maxY;
-    } else {
+    }
+    else
+    {
         newY = KSUtils::clamp(newY, 0, maxY);
         if( newY == maxY )
             m_anchor |= AnchorBottom;
@@ -167,13 +182,13 @@ void InfoBoxWidget::adjust() {
     move(newX, newY);
 }
 
-void InfoBoxWidget::paintEvent(QPaintEvent*)
+void InfoBoxWidget::paintEvent(QPaintEvent *)
 {
     // If widget contain no strings return
     if( m_strings.empty() )
         return;
     // Start with painting
-    ColorScheme* cs = KStarsData::Instance()->colorScheme();
+    ColorScheme * cs = KStarsData::Instance()->colorScheme();
     QPainter p;
     p.begin( this );
 
@@ -182,7 +197,8 @@ void InfoBoxWidget::paintEvent(QPaintEvent*)
     colBG.setAlpha(127);
     p.fillRect( contentsRect(), colBG );
     // Draw border
-    if( m_grabbed ) {
+    if( m_grabbed )
+    {
         p.setPen( cs->colorNamed( "BoxGrabColor" ) );
         p.drawRect( 0, 0, width()-1, height()-1 );
     }
@@ -190,7 +206,8 @@ void InfoBoxWidget::paintEvent(QPaintEvent*)
     int h = QFontMetrics( font() ).height();
     int y = 0;
     p.setPen( cs->colorNamed( "BoxTextColor" ) );
-    foreach(const QString& str, m_strings) {
+    foreach(const QString &str, m_strings)
+    {
         y += h;
         p.drawText( padX, padY + y, str);
     }
@@ -198,15 +215,19 @@ void InfoBoxWidget::paintEvent(QPaintEvent*)
     p.end();
 }
 
-void InfoBoxWidget::mouseMoveEvent(QMouseEvent * event) {
+void InfoBoxWidget::mouseMoveEvent(QMouseEvent * event)
+{
     m_grabbed = true;
     // X axis
     int newX = x() + event->x();
     int maxX = parentWidget()->width() - width();
-    if( newX > maxX ) {
+    if( newX > maxX )
+    {
         newX = maxX;
         m_anchor |= AnchorRight;
-    } else {
+    }
+    else
+    {
         if( newX < 0 )
             newX = 0;
         m_anchor &= ~AnchorRight;
@@ -214,10 +235,13 @@ void InfoBoxWidget::mouseMoveEvent(QMouseEvent * event) {
     // Y axis
     int newY = y() + event->y();
     int maxY = parentWidget()->height() - height();
-    if( newY > maxY ) {
+    if( newY > maxY )
+    {
         newY = maxY;
         m_anchor |= AnchorBottom;
-    } else {
+    }
+    else
+    {
         if( newY < 0 )
             newY = 0;
         m_anchor &= ~AnchorBottom;
@@ -227,22 +251,26 @@ void InfoBoxWidget::mouseMoveEvent(QMouseEvent * event) {
     move(newX, newY);
 }
 
-void InfoBoxWidget::mousePressEvent(QMouseEvent*) {
+void InfoBoxWidget::mousePressEvent(QMouseEvent *)
+{
     emit clicked();
 }
 
-void InfoBoxWidget::showEvent(QShowEvent*) {
+void InfoBoxWidget::showEvent(QShowEvent *)
+{
     if( !m_adjusted )
         adjust();
 }
 
-void InfoBoxWidget::mouseDoubleClickEvent(QMouseEvent*) {
+void InfoBoxWidget::mouseDoubleClickEvent(QMouseEvent *)
+{
     m_shaded = !m_shaded;
     updateSize();
     update();
 }
 
-void InfoBoxWidget::mouseReleaseEvent(QMouseEvent*) {
+void InfoBoxWidget::mouseReleaseEvent(QMouseEvent *)
+{
     m_grabbed = false;
 }
 

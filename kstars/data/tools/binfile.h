@@ -39,7 +39,7 @@
 
 /* NOTE: HTM_LEVEL and other HTM-related stuff must be defined before using this header */
 
-// Bogus Define 
+// Bogus Define
 #ifndef INDEX_ENTRY_SIZE
 #define INDEX_ENTRY_SIZE 12
 #endif
@@ -48,7 +48,8 @@
  * enum listing out various possible data types
  */
 
-enum dataType {
+enum dataType
+{
     DT_CHAR,              /* Character */
     DT_INT8,              /* 8-bit Integer */
     DT_UINT8,             /* 8-bit Unsigned Integer */
@@ -65,16 +66,19 @@ enum dataType {
  * struct to store the description of a field / data element in the binary files
  */
 
-typedef struct dataElement {
+typedef struct dataElement
+{
     char name[10];
     int8_t size;
     u_int8_t type;
     int32_t scale;
 } dataElement;
 
-void charv2str(char *str, char *charv, int n) {
+void charv2str(char * str, char * charv, int n)
+{
     int i;
-    for(i = 0; i < n; ++i) {
+    for(i = 0; i < n; ++i)
+    {
         *str = *charv;
         str++;
         charv++;
@@ -82,7 +86,8 @@ void charv2str(char *str, char *charv, int n) {
     *str = '\0';
 }
 
-int displayDataElementDescription(dataElement *e) {
+int displayDataElementDescription(dataElement * e)
+{
     char str[11];
     charv2str(str, e -> name, 10);
     printf("\nData Field:\n");
@@ -94,17 +99,19 @@ int displayDataElementDescription(dataElement *e) {
 
 // NOTE: Ineffecient. Not to be used for high-productivity
 // applications
-void swapbytes(char byteswap, void *ptr, int nbytes) {
+void swapbytes(char byteswap, void * ptr, int nbytes)
+{
 
-    char *destptr;
-    char *i;
+    char * destptr;
+    char * i;
 
     if( !byteswap )
         return;
 
     destptr = (char *)malloc(nbytes);
     i = ((char *)ptr + (nbytes - 1));
-    while( i >= (char *)ptr ) {
+    while( i >= (char *)ptr )
+    {
         *destptr = *i;
         ++destptr;
         --i;
@@ -118,21 +125,25 @@ void swapbytes(char byteswap, void *ptr, int nbytes) {
 }
 
 
-u_int32_t trixel2number(char *trixel) {
+u_int32_t trixel2number(char * trixel)
+{
     int index;
     u_int32_t id = 0;
-    for( index = HTM_LEVEL + 1; index >= 1; --index ) {
+    for( index = HTM_LEVEL + 1; index >= 1; --index )
+    {
         id += (trixel[ index ] - '0') * (u_int16_t)round( pow(4, (HTM_LEVEL + 1 - index)) );
     }
     id += ( ( trixel[0] == 'S' ) ? round( pow(4, HTM_LEVEL + 1) ) + 1 : 0 );
     return id;
 }
 
-char *number2trixel(char *trixel, u_int16_t number) {
+char * number2trixel(char * trixel, u_int16_t number)
+{
 
     int index;
     u_int16_t hpv = (u_int16_t)round( pow(4, HTM_LEVEL) ) * 2;
-    if( number >= hpv ) {
+    if( number >= hpv )
+    {
         trixel[ 0 ] = 'S';
         number -= hpv;
     }
@@ -140,7 +151,8 @@ char *number2trixel(char *trixel, u_int16_t number) {
         trixel[ 0 ] = 'N';
     hpv /= 2;
 
-    for( index = 1; index < HTM_LEVEL + 2; ++index ) {
+    for( index = 1; index < HTM_LEVEL + 2; ++index )
+    {
         trixel[ index ] = (number - (number % hpv)) / hpv + '0';
         number = number % hpv;
         hpv /= 4;
@@ -159,18 +171,19 @@ char *number2trixel(char *trixel, u_int16_t number) {
  * ndec : Number of decimal places to truncate to
  */
 
-int str2int32(int32_t *i, const char *str, int ndec) {
+int str2int32(int32_t * i, const char * str, int ndec)
+{
 
-  double dbl;
+    double dbl;
 
-  if(i == NULL)
-    return 0;
+    if(i == NULL)
+        return 0;
 
-  dbl = atof(str);
+    dbl = atof(str);
 
-  *i = (int32_t)(round(dbl * pow(10, ndec)));
+    *i = (int32_t)(round(dbl * pow(10, ndec)));
 
-  return 1;
+    return 1;
 
 }
 
@@ -181,18 +194,19 @@ int str2int32(int32_t *i, const char *str, int ndec) {
  * ndec : Number of decimal places to truncate to
  */
 
-int str2int16(int16_t *i, const char *str, int ndec) {
+int str2int16(int16_t * i, const char * str, int ndec)
+{
 
-  double dbl;
+    double dbl;
 
-  if(i == NULL || str == NULL)
-    return 0;
+    if(i == NULL || str == NULL)
+        return 0;
 
-  dbl = atof(str);
+    dbl = atof(str);
 
-  *i = (int16_t)(round(dbl * pow(10, ndec)));
+    *i = (int16_t)(round(dbl * pow(10, ndec)));
 
-  return 1;
+    return 1;
 }
 
 /*
@@ -202,22 +216,24 @@ int str2int16(int16_t *i, const char *str, int ndec) {
  * n : Number of characters to convert
  */
 
-int str2charv(char *a, const char *str, int n) {
+int str2charv(char * a, const char * str, int n)
+{
 
-  int i, ret;
+    int i, ret;
 
-  if(a == NULL || str == NULL)
-    return 0;
+    if(a == NULL || str == NULL)
+        return 0;
 
-  ret = 1;
+    ret = 1;
 
-  for(i = 0; i < n; ++i) {
-    a[i] = ((ret < 0)? '\0' : str[i]);
-    if(str[i] == '\0')                /* We can do this safely because we aren't storing binary data in the DB */
-      ret = -1;
-  }
+    for(i = 0; i < n; ++i)
+    {
+        a[i] = ((ret < 0)? '\0' : str[i]);
+        if(str[i] == '\0')                /* We can do this safely because we aren't storing binary data in the DB */
+            ret = -1;
+    }
 
-  return ret;
+    return ret;
 }
 
 /*
@@ -226,18 +242,20 @@ int str2charv(char *a, const char *str, int n) {
  * returns 1 if the string is blank, 0 otherwise.
  */
 
-int isblank(char *str) {
+int isblank(char * str)
+{
 
-  if(str == NULL)
+    if(str == NULL)
+        return 1;
+
+    while(*str != '\0')
+    {
+        if(*str != ' ' && *str != '\n' && *str != '\r' && *str != '\t')
+            return 0;
+        ++str;
+    }
+
     return 1;
-
-  while(*str != '\0') {
-    if(*str != ' ' && *str != '\n' && *str != '\r' && *str != '\t')
-      return 0;
-    ++str;
-  }
-
-  return 1;
 }
 
 /*
@@ -250,33 +268,36 @@ int isblank(char *str) {
  * scale : Scale factor used for conversion of fixed-point reals to integers. N/A to DT_CHARV, DT_STR and DT_CHAR
  */
 
-int writeDataElementDescription(FILE *f, char *name, int8_t size, enum dataType type, int32_t scale) {
-  struct dataElement de;
-  if(f == NULL || name == NULL)
-    return 0;
-  str2charv(de.name, name, 10);
-  de.size = size;
-  de.type = type;
-  de.scale = scale;
-  fwrite(&de, sizeof(struct dataElement), 1, f);
-  return 1;
+int writeDataElementDescription(FILE * f, char * name, int8_t size, enum dataType type, int32_t scale)
+{
+    struct dataElement de;
+    if(f == NULL || name == NULL)
+        return 0;
+    str2charv(de.name, name, 10);
+    de.size = size;
+    de.type = type;
+    de.scale = scale;
+    fwrite(&de, sizeof(struct dataElement), 1, f);
+    return 1;
 }
 
-int writeIndexEntry(FILE *hf, u_int32_t trixel_id, u_int32_t offset, u_int32_t nrec) {
+int writeIndexEntry(FILE * hf, u_int32_t trixel_id, u_int32_t offset, u_int32_t nrec)
+{
 
-  if(hf == NULL)
-    return 0;
+    if(hf == NULL)
+        return 0;
 
-  fwrite(&trixel_id, 4, 1, hf);
-  fwrite(&offset, 4, 1, hf);
-  fwrite(&nrec, 4, 1, hf);
+    fwrite(&trixel_id, 4, 1, hf);
+    fwrite(&offset, 4, 1, hf);
+    fwrite(&nrec, 4, 1, hf);
 
-  /* Put this just for safety, in case we change our mind - we should avoid screwing things up */
-  if(4 + 4 + 4 != INDEX_ENTRY_SIZE) {
-    fprintf(stderr, "CODE ERROR: 4 + 4 + 4 != INDEX_ENTRY_SIZE\n");
-  }
+    /* Put this just for safety, in case we change our mind - we should avoid screwing things up */
+    if(4 + 4 + 4 != INDEX_ENTRY_SIZE)
+    {
+        fprintf(stderr, "CODE ERROR: 4 + 4 + 4 != INDEX_ENTRY_SIZE\n");
+    }
 
-  return 1;
+    return 1;
 }
 
 /*

@@ -43,13 +43,13 @@
 
 QUrl ImageViewer::lastURL = QUrl::fromLocalFile(QDir::homePath());
 
-ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
+ImageLabel::ImageLabel( QWidget * parent ) : QFrame( parent )
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Expanding );
     setFrameStyle( QFrame::StyledPanel | QFrame::Plain );
     setLineWidth( 2 );
-    #endif
+#endif
 }
 
 ImageLabel::~ImageLabel()
@@ -57,23 +57,23 @@ ImageLabel::~ImageLabel()
 
 void ImageLabel::setImage( const QImage &img )
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     m_Image = img;
     pix = QPixmap::fromImage(m_Image);
-    #endif
+#endif
 }
 
 void ImageLabel::invertPixels()
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     m_Image.invertPixels();
     pix = QPixmap::fromImage(m_Image.scaled(width(), height(), Qt::KeepAspectRatio));
-    #endif
+#endif
 }
 
-void ImageLabel::paintEvent (QPaintEvent*)
+void ImageLabel::paintEvent (QPaintEvent *)
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     QPainter p;
     p.begin( this );
     int x = 0;
@@ -81,10 +81,10 @@ void ImageLabel::paintEvent (QPaintEvent*)
         x = (width() - pix.width())/2;
     p.drawPixmap( x, 0, pix );
     p.end();
-    #endif
+#endif
 }
 
-void ImageLabel::resizeEvent(QResizeEvent *event)
+void ImageLabel::resizeEvent(QResizeEvent * event)
 {
     int w=pix.width();
     int h=pix.height();
@@ -95,23 +95,23 @@ void ImageLabel::resizeEvent(QResizeEvent *event)
     pix = QPixmap::fromImage(m_Image.scaled(event->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
-ImageViewer::ImageViewer (const QString &caption, QWidget *parent):
+ImageViewer::ImageViewer (const QString &caption, QWidget * parent):
     QDialog( parent ),
     fileIsImage(false),
     downloadJob(0)
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     init(caption, QString());
-    #endif
+#endif
 }
 
-ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *parent) :
+ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget * parent) :
     QDialog( parent ),
     m_ImageUrl(url),
     fileIsImage(false)
 {
-    #ifndef KSTARS_LITE
-    init(url.fileName(), capText);        
+#ifndef KSTARS_LITE
+    init(url.fileName(), capText);
 
     // check URL
     if (!m_ImageUrl.isValid())
@@ -122,7 +122,7 @@ ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *pare
         loadImage(m_ImageUrl.toLocalFile());
         return;
     }
-    
+
     {
         QTemporaryFile tempfile;
         tempfile.open();
@@ -130,31 +130,31 @@ ImageViewer::ImageViewer (const QUrl &url, const QString &capText, QWidget *pare
     }// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be show
 
     loadImageFromURL();
-    #endif
+#endif
 }
 
 void ImageViewer::init(QString caption, QString capText)
 {
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     setAttribute( Qt::WA_DeleteOnClose, true );
     setModal( false );
     setWindowTitle( i18n( "KStars image viewer: %1", caption ) );
 
     // Create widget
-    QFrame* page = new QFrame( this );
+    QFrame * page = new QFrame( this );
 
     //setMainWidget( page );
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(page);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QPushButton *invertB = new QPushButton(i18n("Invert colors"));
+    QPushButton * invertB = new QPushButton(i18n("Invert colors"));
     invertB->setToolTip(i18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving."));
-    QPushButton *saveB   = new QPushButton(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")), i18n("Save"));
+    QPushButton * saveB   = new QPushButton(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")), i18n("Save"));
     saveB->setToolTip(i18n("Save the image to disk"));
 
     buttonBox->addButton(invertB, QDialogButtonBox::ActionRole);
@@ -170,7 +170,7 @@ void ImageViewer::init(QString caption, QString capText)
     m_Caption->setFrameShape( QFrame::StyledPanel );
     m_Caption->setText( capText );
     // Add layout
-    QVBoxLayout* vlay = new QVBoxLayout( page );
+    QVBoxLayout * vlay = new QVBoxLayout( page );
     vlay->setSpacing( 0 );
     vlay->setMargin( 0 );
     vlay->addWidget( m_View );
@@ -182,12 +182,12 @@ void ImageViewer::init(QString caption, QString capText)
     p.setColor( QPalette::WindowText, palette().color( QPalette::Window ) );
     m_Caption->setPalette( p );
     m_View->setPalette( p );
-    
+
     //If the caption is wider than the image, try to shrink the font a bit
     QFont capFont = m_Caption->font();
     capFont.setPointSize( capFont.pointSize() - 2 );
     m_Caption->setFont( capFont );
-    #endif
+#endif
 }
 
 ImageViewer::~ImageViewer()
@@ -197,7 +197,7 @@ ImageViewer::~ImageViewer()
     {
         if (m_ImageUrl.isEmpty() == false ||
                 KMessageBox::questionYesNo(0, i18n("Remove temporary file %1 from disk?", filename), i18n("Confirm Removal"),
-                                   KStandardGuiItem::yes(), KStandardGuiItem::no(), i18n("imageviewer_temporary_file_removal")) == KMessageBox::Yes)
+                                           KStandardGuiItem::yes(), KStandardGuiItem::no(), i18n("imageviewer_temporary_file_removal")) == KMessageBox::Yes)
             QFile::remove(filename);
     }
 
@@ -289,7 +289,8 @@ bool ImageViewer::showImage()
         image = image.scaled( int( image.width()*h/image.height() ), h );
     else if ( image.height() <= h && image.width() > w ) //window is wider than desktop
         image = image.scaled( w, int( image.height()*w/image.width() ) );
-    else if ( image.width() > w && image.height() > h ) { //window is too tall and too wide
+    else if ( image.width() > w && image.height() > h )   //window is too tall and too wide
+    {
         //which needs to be shrunk least, width or height?
         float fx = float(w)/float(image.width());
         float fy = float(h)/float(image.height());
@@ -358,27 +359,28 @@ void ImageViewer::saveFile (QUrl &url)
     //tmpURL.setScheme("file");
 
     if (file.copy(url.toLocalFile()) == false)
-    //if (KIO::file_copy(tmpURL, url)->exec() == false)
+        //if (KIO::file_copy(tmpURL, url)->exec() == false)
     {
         QString text = i18n ("Saving of the image %1 failed.", url.toString());
-        #ifndef KSTARS_LITE
-            KMessageBox::error (this, text);
-        #else
-            qDebug() << text;
-        #endif
+#ifndef KSTARS_LITE
+        KMessageBox::error (this, text);
+#else
+        qDebug() << text;
+#endif
     }
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     else
         KStars::Instance()->statusBar()->showMessage(i18n ("Saved image to %1", url.toString()));
-    #endif
+#endif
 }
 
-void ImageViewer::invertColors() {
-    #ifndef KSTARS_LITE
+void ImageViewer::invertColors()
+{
+#ifndef KSTARS_LITE
     // Invert colors
     m_View->invertPixels();
     m_View->update();
-    #endif
+#endif
 }
 
 

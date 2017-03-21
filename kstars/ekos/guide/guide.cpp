@@ -79,7 +79,7 @@ Guide::Guide() : QWidget()
     guideView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     guideView->setBaseSize(guideWidget->size());
     guideView->createFloatingToolBar();
-    QVBoxLayout *vlayout = new QVBoxLayout();
+    QVBoxLayout * vlayout = new QVBoxLayout();
     vlayout->addWidget(guideView);
     guideWidget->setLayout(vlayout);
     connect(guideView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setTrackingStar(int,int)));
@@ -115,7 +115,10 @@ Guide::Guide() : QWidget()
 
     // Guider CCD Selection
     //connect(guiderCombo, SIGNAL(activated(QString)), this, SLOT(setDefaultCCD(QString)));
-    connect(guiderCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, [&](const QString & ccd){Options::setDefaultGuideCCD(ccd);});
+    connect(guiderCombo, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, [&](const QString & ccd)
+    {
+        Options::setDefaultGuideCCD(ccd);
+    });
     connect(guiderCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(checkCCD(int)));
 
     // Dark Frame Check
@@ -178,8 +181,14 @@ Guide::Guide() : QWidget()
     connect(guideB, SIGNAL(clicked()), this, SLOT(guide()));
 
     // Connect External Guide
-    connect(externalConnectB, &QPushButton::clicked, this, [&](){guider->Connect();});
-    connect(externalDisconnectB, &QPushButton::clicked, this, [&](){guider->Disconnect();});
+    connect(externalConnectB, &QPushButton::clicked, this, [&]()
+    {
+        guider->Connect();
+    });
+    connect(externalDisconnectB, &QPushButton::clicked, this, [&]()
+    {
+        guider->Disconnect();
+    });
 
     // Pulse Timer
     pulseTimer.setSingleShot(true);
@@ -238,12 +247,12 @@ Guide::Guide() : QWidget()
     driftGraph->setInteractions(QCP::iRangeZoom);
     driftGraph->setInteraction(QCP::iRangeDrag, true);
 
-    connect(driftGraph, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(driftMouseOverLine(QMouseEvent*)));
-    connect(driftGraph, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(driftMouseClicked(QMouseEvent*)));
+    connect(driftGraph, SIGNAL(mouseMove(QMouseEvent *)), this, SLOT(driftMouseOverLine(QMouseEvent *)));
+    connect(driftGraph, SIGNAL(mousePress(QMouseEvent *)), this, SLOT(driftMouseClicked(QMouseEvent *)));
 
     // Init Internal Guider always
     internalGuider = new InternalGuider();
-    KConfigDialog* dialog = new KConfigDialog(this, "guidesettings", Options::self());
+    KConfigDialog * dialog = new KConfigDialog(this, "guidesettings", Options::self());
     opsCalibration = new OpsCalibration(internalGuider);
     dialog->addPage(opsCalibration, i18n("Calibration Settings"));
     opsGuide = new OpsGuide();
@@ -264,9 +273,9 @@ Guide::~Guide()
     delete guider;
 }
 
-void Guide::addCCD(ISD::GDInterface *newCCD)
+void Guide::addCCD(ISD::GDInterface * newCCD)
 {
-    ISD::CCD *ccd = static_cast<ISD::CCD*>(newCCD);
+    ISD::CCD * ccd = static_cast<ISD::CCD *>(newCCD);
 
     if (CCDs.contains(ccd))
         return;
@@ -296,9 +305,9 @@ void Guide::addCCD(ISD::GDInterface *newCCD)
     // setGuiderProcess(Options::useEkosGuider() ? GUIDE_INTERNAL : GUIDE_PHD2);
 }
 
-void Guide::addGuideHead(ISD::GDInterface *newCCD)
+void Guide::addGuideHead(ISD::GDInterface * newCCD)
 {
-    ISD::CCD *ccd = static_cast<ISD::CCD *> (newCCD);
+    ISD::CCD * ccd = static_cast<ISD::CCD *> (newCCD);
 
     CCDs.append(ccd);
 
@@ -317,9 +326,9 @@ void Guide::addGuideHead(ISD::GDInterface *newCCD)
 
 }
 
-void Guide::setTelescope(ISD::GDInterface *newTelescope)
+void Guide::setTelescope(ISD::GDInterface * newTelescope)
 {
-    currentTelescope = (ISD::Telescope*) newTelescope;
+    currentTelescope = (ISD::Telescope *) newTelescope;
 
     syncTelescopeInfo();
 }
@@ -351,40 +360,40 @@ void Guide::checkCCD(int ccdNum)
         currentCCD = CCDs.at(ccdNum);
 
         //connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()), Qt::UniqueConnection);
-        connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processCCDNumber(INumberVectorProperty*)), Qt::UniqueConnection);
-        connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkExposureValue(ISD::CCDChip*,double,IPState)), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processCCDNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+        connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *,double,IPState)), this, SLOT(checkExposureValue(ISD::CCDChip *,double,IPState)), Qt::UniqueConnection);
 
         // If guider is external and already connected and remote images option was disabled AND it was already
         // disabled, then let's go ahead and disable it.
-        #if 0
+#if 0
         if (guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false && guider->isConnected())
         {
             for (int i=0; i < CCDs.count(); i++)
             {
-               ISD::CCD *oneCCD = CCDs[i];
-               if (i == ccdNum && oneCCD->getDriverInfo()->getClientManager()->getBLOBMode(oneCCD->getDeviceName(), "CCD1") != B_NEVER)
-               {
-                   appendLogText(i18n("Disabling remote image reception from %1", oneCCD->getDeviceName()));
-                   oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, oneCCD->getDeviceName(), "CCD1");
-                   oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, oneCCD->getDeviceName(), "CCD2");
-               }
-               // If it was already disabled, enable it back
-               else if (i != ccdNum && oneCCD->getDriverInfo()->getClientManager()->getBLOBMode(oneCCD->getDeviceName(), "CCD1") == B_NEVER)
-               {
-                   appendLogText(i18n("Enabling remote image reception from %1", oneCCD->getDeviceName()));
-                   oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, oneCCD->getDeviceName(), "CCD1");
-                   oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, oneCCD->getDeviceName(), "CCD2");
-               }
+                ISD::CCD * oneCCD = CCDs[i];
+                if (i == ccdNum && oneCCD->getDriverInfo()->getClientManager()->getBLOBMode(oneCCD->getDeviceName(), "CCD1") != B_NEVER)
+                {
+                    appendLogText(i18n("Disabling remote image reception from %1", oneCCD->getDeviceName()));
+                    oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, oneCCD->getDeviceName(), "CCD1");
+                    oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, oneCCD->getDeviceName(), "CCD2");
+                }
+                // If it was already disabled, enable it back
+                else if (i != ccdNum && oneCCD->getDriverInfo()->getClientManager()->getBLOBMode(oneCCD->getDeviceName(), "CCD1") == B_NEVER)
+                {
+                    appendLogText(i18n("Enabling remote image reception from %1", oneCCD->getDeviceName()));
+                    oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, oneCCD->getDeviceName(), "CCD1");
+                    oneCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, oneCCD->getDeviceName(), "CCD2");
+                }
             }
         }
-        #endif
+#endif
 
         if (currentCCD->hasGuideHead() && guiderCombo->currentText().contains("Guider"))
             useGuideHead=true;
         else
             useGuideHead=false;
 
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         targetChip->setImageView(guideView, FITS_GUIDE);
 
         syncCCDInfo();
@@ -405,7 +414,7 @@ void Guide::syncCCDInfo()
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_X");
+        INumber * np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_X");
         if (np)
             ccdPixelSizeX = np->value;
 
@@ -430,7 +439,7 @@ void Guide::syncTelescopeInfo()
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "GUIDER_APERTURE");
+        INumber * np = IUFindNumber(nvp, "GUIDER_APERTURE");
 
         if (np && np->value != 0)
             mountAperture = np->value;
@@ -464,7 +473,7 @@ void Guide::updateGuideParams()
     if (currentCCD->hasGuideHead() == false)
         useGuideHead = false;
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     if (targetChip == NULL)
     {
@@ -541,9 +550,9 @@ void Guide::updateGuideParams()
     }
 }
 
-void Guide::addST4(ISD::ST4 *newST4)
+void Guide::addST4(ISD::ST4 * newST4)
 {
-    foreach(ISD::ST4 *guidePort, ST4List)
+    foreach(ISD::ST4 * guidePort, ST4List)
     {
         if (!strcmp(guidePort->getDeviceName(),newST4->getDeviceName()))
             return;
@@ -585,7 +594,7 @@ void Guide::setST4(int index)
     Options::setDefaultST4Driver(ST4Driver->getDeviceName());
 }
 
-void Guide::setAO(ISD::ST4 *newAO)
+void Guide::setAO(ISD::ST4 * newAO)
 {
     AODriver = newAO;
     //guider->setAO(true);
@@ -611,7 +620,7 @@ bool Guide::captureOneFrame()
 
     double seqExpose = exposureIN->value();
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     targetChip->setCaptureMode(FITS_GUIDE);
     targetChip->setFrameType(FRAME_LIGHT);
@@ -633,21 +642,21 @@ bool Guide::captureOneFrame()
 #if 0
     switch (state)
     {
-    case GUIDE_GUIDING:
-        if (Options::rapidGuideEnabled() == false)
-            connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
-        targetChip->capture(seqExpose);
-        return true;
-        break;
+        case GUIDE_GUIDING:
+            if (Options::rapidGuideEnabled() == false)
+                connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)), Qt::UniqueConnection);
+            targetChip->capture(seqExpose);
+            return true;
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 #endif
 
     currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)), Qt::UniqueConnection);
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)), Qt::UniqueConnection);
     if (Options::guideLogging())
         qDebug() << "Guide: Capturing frame...";
 
@@ -661,7 +670,7 @@ bool Guide::abort()
     if (currentCCD && guiderType == GUIDE_INTERNAL)
     {
         pulseTimer.stop();
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         if (targetChip->isCapturing())
             targetChip->abortExposure();
     }
@@ -670,27 +679,27 @@ bool Guide::abort()
 
     switch (state)
     {
-    case GUIDE_IDLE:
-    case GUIDE_CONNECTED:
-        break;
-    case GUIDE_DISCONNECTED:
-        #if 0
-        if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
-        {
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
-        }
-        #endif
-        break;
+        case GUIDE_IDLE:
+        case GUIDE_CONNECTED:
+            break;
+        case GUIDE_DISCONNECTED:
+#if 0
+            if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
+            {
+                currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
+                currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
+            }
+#endif
+            break;
 
-    case GUIDE_CALIBRATING:
-    case GUIDE_DITHERING:
-    case GUIDE_STAR_SELECT:
-    case GUIDE_CAPTURE:
-    case GUIDE_GUIDING:
-        guider->abort();
-    default:
-        break;
+        case GUIDE_CALIBRATING:
+        case GUIDE_DITHERING:
+        case GUIDE_STAR_SELECT:
+        case GUIDE_CAPTURE:
+        case GUIDE_GUIDING:
+            guider->abort();
+        default:
+            break;
     }
 
     return true;
@@ -742,16 +751,16 @@ void Guide::setBusy(bool enable)
     }
 }
 
-void Guide::newFITS(IBLOB *bp)
+void Guide::newFITS(IBLOB * bp)
 {
     INDI_UNUSED(bp);
 
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
 
     if (Options::guideLogging())
         qDebug() << "Guide: received guide frame.";
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     int subBinX=1, subBinY=1;
     targetChip->getBinning(&subBinX, &subBinY);
@@ -797,30 +806,30 @@ void Guide::setCaptureComplete()
 
     switch (state)
     {
-    case GUIDE_IDLE:
-    case GUIDE_ABORTED:
-    case GUIDE_CONNECTED:
-    case GUIDE_DISCONNECTED:
-    case GUIDE_CALIBRATION_SUCESS:
-    case GUIDE_CALIBRATION_ERROR:
-    case GUIDE_DITHERING_ERROR:
-        setBusy(false);
-        break;
+        case GUIDE_IDLE:
+        case GUIDE_ABORTED:
+        case GUIDE_CONNECTED:
+        case GUIDE_DISCONNECTED:
+        case GUIDE_CALIBRATION_SUCESS:
+        case GUIDE_CALIBRATION_ERROR:
+        case GUIDE_DITHERING_ERROR:
+            setBusy(false);
+            break;
 
-    case GUIDE_CALIBRATING:
-        guider->calibrate();
-        break;
+        case GUIDE_CALIBRATING:
+            guider->calibrate();
+            break;
 
-    case GUIDE_GUIDING:
-        guider->guide();
-        break;
+        case GUIDE_GUIDING:
+            guider->guide();
+            break;
 
-    case GUIDE_DITHERING:
-        guider->dither(Options::ditherPixels());
-        break;
+        case GUIDE_DITHERING:
+            guider->dither(Options::ditherPixels());
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     emit newStarPixmap(guideView->getTrackingBoxPixmap());
@@ -850,7 +859,7 @@ void Guide::setDECSwap(bool enable)
 
     if (guiderType == GUIDE_INTERNAL)
     {
-        dynamic_cast<InternalGuider*>(guider)->setDECSwap(enable);
+        dynamic_cast<InternalGuider *>(guider)->setDECSwap(enable);
         ST4Driver->setDECSwap(enable);
     }
 }
@@ -882,14 +891,14 @@ QStringList Guide::getST4Devices()
 {
     QStringList devices;
 
-    foreach(ISD::ST4* driver, ST4List)
+    foreach(ISD::ST4 * driver, ST4List)
         devices << driver->getDeviceName();
 
     return devices;
 }
 
 #if 0
-void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy, double fit)
+void Guide::processRapidStarData(ISD::CCDChip * targetChip, double dx, double dy, double fit)
 {
     // Check if guide star is lost
     if (dx == -1 && dy == -1 && fit == -1)
@@ -900,7 +909,7 @@ void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy,
         return;
     }
 
-    FITSView *targetImage = targetChip->getImage(FITS_GUIDE);
+    FITSView * targetImage = targetChip->getImage(FITS_GUIDE);
 
     if (targetImage == NULL)
     {
@@ -942,7 +951,7 @@ void Guide::processRapidStarData(ISD::CCDChip *targetChip, double dx, double dy,
 
 void Guide::startRapidGuide()
 {
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     if (currentCCD->setRapidGuide(targetChip, true) == false)
     {
@@ -955,18 +964,18 @@ void Guide::startRapidGuide()
 
     pmath->setRapidGuide(true);
     currentCCD->configureRapidGuide(targetChip, true);
-    connect(currentCCD, SIGNAL(newGuideStarData(ISD::CCDChip*,double,double,double)), this, SLOT(processRapidStarData(ISD::CCDChip*,double,double,double)));
+    connect(currentCCD, SIGNAL(newGuideStarData(ISD::CCDChip *,double,double,double)), this, SLOT(processRapidStarData(ISD::CCDChip *,double,double,double)));
 }
 
 void Guide::stopRapidGuide()
 {
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     pmath->setRapidGuide(false);
 
     rapidGuideReticleSet = false;
 
-    currentCCD->disconnect(SIGNAL(newGuideStarData(ISD::CCDChip*,double,double,double)));
+    currentCCD->disconnect(SIGNAL(newGuideStarData(ISD::CCDChip *,double,double,double)));
 
     currentCCD->configureRapidGuide(targetChip, false, false, false);
 
@@ -980,7 +989,7 @@ bool Guide::calibrate()
     state = GUIDE_IDLE;
     emit newStatus(state);
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     if (frameSettings.contains(targetChip))
     {
@@ -997,7 +1006,7 @@ bool Guide::calibrate()
         subFramed = false;
     }
 
-    saveSettings();        
+    saveSettings();
 
     buildOperationStack(GUIDE_CALIBRATING);
 
@@ -1043,7 +1052,7 @@ bool Guide::suspend()
     if (state == GUIDE_SUSPENDED)
         return true;
     else if (state >= GUIDE_CAPTURE)
-       return guider->suspend();
+        return guider->suspend();
     else
         return false;
 }
@@ -1062,12 +1071,12 @@ void Guide::setCaptureStatus(CaptureState newState)
 {
     switch (newState)
     {
-    case CAPTURE_DITHERING:
-        dither();
-        break;
+        case CAPTURE_DITHERING:
+            dither();
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -1075,21 +1084,21 @@ void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
 {
 
     switch (newState)
-    {    
+    {
         case ISD::Telescope::MOUNT_SLEWING:
         case ISD::Telescope::MOUNT_PARKING:
-        captureB->setEnabled(false);
-        calibrateB->setEnabled(false);
-        if (newState == ISD::Telescope::MOUNT_PARKING)
-            abort();
-        break;
+            captureB->setEnabled(false);
+            calibrateB->setEnabled(false);
+            if (newState == ISD::Telescope::MOUNT_PARKING)
+                abort();
+            break;
 
         default:
-        if (pi->isAnimated() == false)
-        {
-            captureB->setEnabled(true);
-            calibrateB->setEnabled(true);
-        }
+            if (pi->isAnimated() == false)
+            {
+                captureB->setEnabled(true);
+                calibrateB->setEnabled(true);
+            }
 
     }
 }
@@ -1099,7 +1108,7 @@ void Guide::setExposure(double value)
     exposureIN->setValue(value);
 }
 
-void Guide::setImageFilter(const QString & value)
+void Guide::setImageFilter(const QString &value)
 {
     for (int i=0; i < filterCombo->count(); i++)
         if (filterCombo->itemText(i) == value)
@@ -1154,7 +1163,7 @@ void Guide::setGuideRapidEnabled(bool enable)
 #endif
 
 void Guide::setDitherSettings(bool enable, double value)
-{    
+{
     Options::setDitherEnabled(enable);
     Options::setDitherPixels(value);
 }
@@ -1191,108 +1200,108 @@ void Guide::setStatus(Ekos::GuideState newState)
 
     switch (state)
     {
-    case GUIDE_CONNECTED:
-        appendLogText(i18n("External guider connected."));
-        externalConnectB->setEnabled(false);
-        externalDisconnectB->setEnabled(true);
-        if (guiderType == GUIDE_LINGUIDER)
-            calibrateB->setEnabled(true);
-        guideB->setEnabled(true);
-        #if 0
-        if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
-        {
-            appendLogText(i18n("Disabling remote image reception from %1", currentCCD->getDeviceName()));
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), "CCD1");
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), "CCD2");
-        }
-        #endif
-        break;
+        case GUIDE_CONNECTED:
+            appendLogText(i18n("External guider connected."));
+            externalConnectB->setEnabled(false);
+            externalDisconnectB->setEnabled(true);
+            if (guiderType == GUIDE_LINGUIDER)
+                calibrateB->setEnabled(true);
+            guideB->setEnabled(true);
+#if 0
+            if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
+            {
+                appendLogText(i18n("Disabling remote image reception from %1", currentCCD->getDeviceName()));
+                currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), "CCD1");
+                currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_NEVER, currentCCD->getDeviceName(), "CCD2");
+            }
+#endif
+            break;
 
-    case GUIDE_DISCONNECTED:
-        appendLogText(i18n("External guider disconnected."));
-        externalConnectB->setEnabled(true);
-        externalDisconnectB->setEnabled(false);
-        calibrateB->setEnabled(false);
-        guideB->setEnabled(false);
-        #if 0
-        if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
-        {
-            appendLogText(i18n("Enabling remote image reception from %1", currentCCD->getDeviceName()));
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
-            currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
-        }
-        #endif
-        break;
+        case GUIDE_DISCONNECTED:
+            appendLogText(i18n("External guider disconnected."));
+            externalConnectB->setEnabled(true);
+            externalDisconnectB->setEnabled(false);
+            calibrateB->setEnabled(false);
+            guideB->setEnabled(false);
+#if 0
+            if (currentCCD && guiderType != GUIDE_INTERNAL && Options::guideRemoteImagesEnabled() == false)
+            {
+                appendLogText(i18n("Enabling remote image reception from %1", currentCCD->getDeviceName()));
+                currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD1");
+                currentCCD->getDriverInfo()->getClientManager()->setBLOBMode(B_ALSO, currentCCD->getDeviceName(), "CCD2");
+            }
+#endif
+            break;
 
-    case GUIDE_CALIBRATION_SUCESS:
-        appendLogText(i18n("Calibration completed."));
-        calibrationComplete = true;
-        if (autoCalibrateGuide)
-        {
-            autoCalibrateGuide = false;
-            guide();
-        }
-        else
+        case GUIDE_CALIBRATION_SUCESS:
+            appendLogText(i18n("Calibration completed."));
+            calibrationComplete = true;
+            if (autoCalibrateGuide)
+            {
+                autoCalibrateGuide = false;
+                guide();
+            }
+            else
+                setBusy(false);
+            break;
+
+        case GUIDE_CALIBRATION_ERROR:
             setBusy(false);
-        break;
+            break;
 
-    case GUIDE_CALIBRATION_ERROR:
-        setBusy(false);
-        break;
-
-    case GUIDE_CALIBRATING:
-        appendLogText(i18n("Calibration started."));
-        setBusy(true);
-        break;
-
-    case GUIDE_GUIDING:
-        if (previousState == GUIDE_SUSPENDED || previousState == GUIDE_DITHERING_SUCCESS)
-            appendLogText(i18n("Guiding resumed."));
-        else
-        {
-            appendLogText(i18n("Autoguiding started."));
+        case GUIDE_CALIBRATING:
+            appendLogText(i18n("Calibration started."));
             setBusy(true);
+            break;
 
-            driftGraph->graph(0)->data().clear();
-            driftGraph->graph(1)->data().clear();
-            guideTimer = QTime::currentTime();
-            refreshColorScheme();
-        }
+        case GUIDE_GUIDING:
+            if (previousState == GUIDE_SUSPENDED || previousState == GUIDE_DITHERING_SUCCESS)
+                appendLogText(i18n("Guiding resumed."));
+            else
+            {
+                appendLogText(i18n("Autoguiding started."));
+                setBusy(true);
 
-        break;
+                driftGraph->graph(0)->data().clear();
+                driftGraph->graph(1)->data().clear();
+                guideTimer = QTime::currentTime();
+                refreshColorScheme();
+            }
 
-    case GUIDE_ABORTED:
-        appendLogText(i18n("Autoguiding aborted."));
-        setBusy(false);
-        break;
+            break;
 
-    case GUIDE_SUSPENDED:
-        appendLogText(i18n("Guiding suspended."));
-        break;
-
-    case GUIDE_DITHERING:
-        appendLogText(i18n("Dithering in progress."));
-        break;
-
-    case GUIDE_DITHERING_ERROR:
-        appendLogText(i18n("Dithering failed!"));
-        // LinGuider guide continue after dithering failure
-        if (guiderType != GUIDE_LINGUIDER)
-        {
-            //state = GUIDE_IDLE;
-            state = GUIDE_ABORTED;
+        case GUIDE_ABORTED:
+            appendLogText(i18n("Autoguiding aborted."));
             setBusy(false);
-        }
-        break;
+            break;
 
-    case GUIDE_DITHERING_SUCCESS:
-        appendLogText(i18n("Dithering completed successfully."));
-        // Go back to guiding state immediately
-        setStatus(GUIDE_GUIDING);
-        capture();
-        break;
-    default:
-        break;
+        case GUIDE_SUSPENDED:
+            appendLogText(i18n("Guiding suspended."));
+            break;
+
+        case GUIDE_DITHERING:
+            appendLogText(i18n("Dithering in progress."));
+            break;
+
+        case GUIDE_DITHERING_ERROR:
+            appendLogText(i18n("Dithering failed!"));
+            // LinGuider guide continue after dithering failure
+            if (guiderType != GUIDE_LINGUIDER)
+            {
+                //state = GUIDE_IDLE;
+                state = GUIDE_ABORTED;
+                setBusy(false);
+            }
+            break;
+
+        case GUIDE_DITHERING_SUCCESS:
+            appendLogText(i18n("Dithering completed successfully."));
+            // Go back to guiding state immediately
+            setStatus(GUIDE_GUIDING);
+            capture();
+            break;
+        default:
+            break;
     }
 }
 
@@ -1301,7 +1310,7 @@ void Guide::updateCCDBin(int index)
     if (currentCCD == NULL && guiderType != GUIDE_INTERNAL)
         return;
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     targetChip->setBinning(index+1, index+1);
 
@@ -1311,7 +1320,7 @@ void Guide::updateCCDBin(int index)
     frameSettings[targetChip] = settings;
 }
 
-void Guide::processCCDNumber(INumberVectorProperty *nvp)
+void Guide::processCCDNumber(INumberVectorProperty * nvp)
 {
     if (currentCCD == NULL || strcmp(nvp->device, currentCCD->getDeviceName()) || guiderType != GUIDE_INTERNAL)
         return;
@@ -1324,7 +1333,7 @@ void Guide::processCCDNumber(INumberVectorProperty *nvp)
     }
 }
 
-void Guide::checkExposureValue(ISD::CCDChip *targetChip, double exposure, IPState expState)
+void Guide::checkExposureValue(ISD::CCDChip * targetChip, double exposure, IPState expState)
 {
     if (guiderType != GUIDE_INTERNAL)
         return;
@@ -1365,7 +1374,7 @@ void Guide::setStarPosition(const QVector3D &newCenter, bool updateNow)
 
 void Guide::syncTrackingBoxPosition()
 {
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     Q_ASSERT(targetChip);
 
     int subBinX=1, subBinY=1;
@@ -1424,88 +1433,88 @@ bool Guide::setGuiderType(int type)
 
     switch (type)
     {
-    case GUIDE_INTERNAL:
-    {
-        connect(internalGuider, SIGNAL(newPulse(GuideDirection,int)), this, SLOT(sendPulse(GuideDirection,int)));
-        connect(internalGuider, SIGNAL(newPulse(GuideDirection,int,GuideDirection,int)), this, SLOT(sendPulse(GuideDirection,int,GuideDirection,int)));
-        connect(internalGuider, SIGNAL(DESwapChanged(bool)), swapCheck, SLOT(setChecked(bool)));
+        case GUIDE_INTERNAL:
+        {
+            connect(internalGuider, SIGNAL(newPulse(GuideDirection,int)), this, SLOT(sendPulse(GuideDirection,int)));
+            connect(internalGuider, SIGNAL(newPulse(GuideDirection,int,GuideDirection,int)), this, SLOT(sendPulse(GuideDirection,int,GuideDirection,int)));
+            connect(internalGuider, SIGNAL(DESwapChanged(bool)), swapCheck, SLOT(setChecked(bool)));
 
-        guider = internalGuider;
+            guider = internalGuider;
 
-        calibrateB->setEnabled(true);        
-        guideB->setEnabled(false);
-        captureB->setEnabled(true);
-        darkFrameCheck->setEnabled(true);
-        subFrameCheck->setEnabled(true);
+            calibrateB->setEnabled(true);
+            guideB->setEnabled(false);
+            captureB->setEnabled(true);
+            darkFrameCheck->setEnabled(true);
+            subFrameCheck->setEnabled(true);
 
-        guiderCombo->setEnabled(true);
-        ST4Combo->setEnabled(true);
-        exposureIN->setEnabled(true);
-        binningCombo->setEnabled(true);
-        boxSizeCombo->setEnabled(true);
-        filterCombo->setEnabled(true);
+            guiderCombo->setEnabled(true);
+            ST4Combo->setEnabled(true);
+            exposureIN->setEnabled(true);
+            binningCombo->setEnabled(true);
+            boxSizeCombo->setEnabled(true);
+            filterCombo->setEnabled(true);
 
-        externalConnectB->setEnabled(false);
-        externalDisconnectB->setEnabled(false);
+            externalConnectB->setEnabled(false);
+            externalDisconnectB->setEnabled(false);
 
-        controlGroup->setEnabled(true);
-        infoGroup->setEnabled(true);
-        driftGraphicsGroup->setEnabled(true);
+            controlGroup->setEnabled(true);
+            infoGroup->setEnabled(true);
+            driftGraphicsGroup->setEnabled(true);
 
-        updateGuideParams();
-    }
+            updateGuideParams();
+        }
         break;
 
-    case GUIDE_PHD2:
-        if (phd2Guider.isNull())
-            phd2Guider = new PHD2();
+        case GUIDE_PHD2:
+            if (phd2Guider.isNull())
+                phd2Guider = new PHD2();
 
-        guider = phd2Guider;
+            guider = phd2Guider;
 
-        calibrateB->setEnabled(false);
-        captureB->setEnabled(false);
-        darkFrameCheck->setEnabled(false);
-        subFrameCheck->setEnabled(false);
-        guideB->setEnabled(true);
-        externalConnectB->setEnabled(false);
+            calibrateB->setEnabled(false);
+            captureB->setEnabled(false);
+            darkFrameCheck->setEnabled(false);
+            subFrameCheck->setEnabled(false);
+            guideB->setEnabled(true);
+            externalConnectB->setEnabled(false);
 
-        controlGroup->setEnabled(false);
-        infoGroup->setEnabled(false);
-        driftGraphicsGroup->setEnabled(false);
+            controlGroup->setEnabled(false);
+            infoGroup->setEnabled(false);
+            driftGraphicsGroup->setEnabled(false);
 
-        guiderCombo->setEnabled(false);
-        ST4Combo->setEnabled(false);
-        exposureIN->setEnabled(false);
-        binningCombo->setEnabled(false);
-        boxSizeCombo->setEnabled(false);
-        filterCombo->setEnabled(false);
-        break;
+            guiderCombo->setEnabled(false);
+            ST4Combo->setEnabled(false);
+            exposureIN->setEnabled(false);
+            binningCombo->setEnabled(false);
+            boxSizeCombo->setEnabled(false);
+            filterCombo->setEnabled(false);
+            break;
 
-    case GUIDE_LINGUIDER:
-        if (linGuider.isNull())
-            linGuider = new LinGuider();
+        case GUIDE_LINGUIDER:
+            if (linGuider.isNull())
+                linGuider = new LinGuider();
 
-        guider = linGuider;
+            guider = linGuider;
 
-        calibrateB->setEnabled(true);
-        captureB->setEnabled(false);
-        darkFrameCheck->setEnabled(false);
-        subFrameCheck->setEnabled(false);
-        guideB->setEnabled(true);
-        externalConnectB->setEnabled(true);
+            calibrateB->setEnabled(true);
+            captureB->setEnabled(false);
+            darkFrameCheck->setEnabled(false);
+            subFrameCheck->setEnabled(false);
+            guideB->setEnabled(true);
+            externalConnectB->setEnabled(true);
 
-        controlGroup->setEnabled(false);
-        infoGroup->setEnabled(false);
-        driftGraphicsGroup->setEnabled(false);
+            controlGroup->setEnabled(false);
+            infoGroup->setEnabled(false);
+            driftGraphicsGroup->setEnabled(false);
 
-        guiderCombo->setEnabled(false);
-        ST4Combo->setEnabled(false);
-        exposureIN->setEnabled(false);
-        binningCombo->setEnabled(false);
-        boxSizeCombo->setEnabled(false);
-        filterCombo->setEnabled(false);
+            guiderCombo->setEnabled(false);
+            ST4Combo->setEnabled(false);
+            exposureIN->setEnabled(false);
+            binningCombo->setEnabled(false);
+            boxSizeCombo->setEnabled(false);
+            filterCombo->setEnabled(false);
 
-        break;
+            break;
     }
 
     connect(guider, SIGNAL(frameCaptureRequested()), this, SLOT(capture()));
@@ -1536,21 +1545,21 @@ bool Guide::selectAutoStar()
     if (currentCCD == NULL)
         return false;
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     if (targetChip == NULL)
         return false;
 
-    FITSView *targetImage    = targetChip->getImageView(FITS_GUIDE);
+    FITSView * targetImage    = targetChip->getImageView(FITS_GUIDE);
     if (targetImage == NULL)
         return false;
 
-    FITSData *imageData = targetImage->getImageData();
+    FITSData * imageData = targetImage->getImageData();
     if (imageData == NULL)
         return false;
 
     imageData->findStars();
 
-    QList<Edge*> starCenters = imageData->getStarCenters();
+    QList<Edge *> starCenters = imageData->getStarCenters();
 
     if (starCenters.empty())
         return false;
@@ -1558,7 +1567,10 @@ bool Guide::selectAutoStar()
     guideView->setStarsEnabled(true);
     guideView->updateFrame();
 
-    qSort(starCenters.begin(), starCenters.end(), [](const Edge *a, const Edge *b){return a->width > b->width;});
+    qSort(starCenters.begin(), starCenters.end(), [](const Edge *a, const Edge *b)
+    {
+        return a->width > b->width;
+    });
 
     int maxX = imageData->getWidth();
     int maxY = imageData->getHeight();
@@ -1571,7 +1583,7 @@ bool Guide::selectAutoStar()
     {
         int score=100;
 
-        Edge *center = starCenters.at(i);
+        Edge * center = starCenters.at(i);
 
         //qDebug() << "#" << i << " X: " << center->x << " Y: " << center->y << " HFR: " << center->HFR << " Width" << center->width;
 
@@ -1583,7 +1595,7 @@ bool Guide::selectAutoStar()
         score += center->width*center->width;
 
         // Moderately reject stars close to other stars
-        foreach(Edge *edge, starCenters)
+        foreach(Edge * edge, starCenters)
         {
             if (edge == center)
                 continue;
@@ -1652,12 +1664,12 @@ void Guide::onThresholdChanged( int index )
 {
     switch (guiderType)
     {
-    case GUIDE_INTERNAL:
-        dynamic_cast<InternalGuider*>(guider)->setSquareAlgorithm(index);
-        break;
+        case GUIDE_INTERNAL:
+            dynamic_cast<InternalGuider *>(guider)->setSquareAlgorithm(index);
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -1685,10 +1697,10 @@ void Guide::onEnableDirDEC(bool enable)
 
 void Guide::onInputParamChanged()
 {
-    QSpinBox *pSB;
-    QDoubleSpinBox *pDSB;
+    QSpinBox * pSB;
+    QDoubleSpinBox * pDSB;
 
-    QObject *obj = sender();
+    QObject * obj = sender();
 
     if( (pSB = dynamic_cast<QSpinBox *>(obj)) )
     {
@@ -1720,21 +1732,21 @@ void Guide::onInputParamChanged()
 
 void Guide::onControlDirectionChanged(bool enable)
 {
-    QObject *obj = sender();
+    QObject * obj = sender();
 
-    if (northControlCheck == dynamic_cast<QCheckBox*>(obj))
+    if (northControlCheck == dynamic_cast<QCheckBox *>(obj))
     {
         Options::setNorthDECGuideEnabled(enable);
     }
-    else if (southControlCheck == dynamic_cast<QCheckBox*>(obj))
+    else if (southControlCheck == dynamic_cast<QCheckBox *>(obj))
     {
         Options::setSouthDECGuideEnabled(enable);
     }
-    else if (westControlCheck == dynamic_cast<QCheckBox*>(obj))
+    else if (westControlCheck == dynamic_cast<QCheckBox *>(obj))
     {
         Options::setWestRAGuideEnabled(enable);
     }
-    else if (eastControlCheck == dynamic_cast<QCheckBox*>(obj))
+    else if (eastControlCheck == dynamic_cast<QCheckBox *>(obj))
     {
         Options::setEastRAGuideEnabled(enable);
     }
@@ -1837,7 +1849,7 @@ void Guide::saveSettings()
 }
 
 void Guide::setTrackingStar(int x, int y)
-{    
+{
     QVector3D newStarPosition(x,y, -1);
     setStarPosition(newStarPosition, true);
 
@@ -1901,7 +1913,7 @@ void Guide::refreshColorScheme()
     driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
 }
 
-void Guide::driftMouseClicked(QMouseEvent *event)
+void Guide::driftMouseClicked(QMouseEvent * event)
 {
     if (event->buttons() & Qt::RightButton)
     {
@@ -1909,13 +1921,13 @@ void Guide::driftMouseClicked(QMouseEvent *event)
     }
 }
 
-void Guide::driftMouseOverLine(QMouseEvent *event)
+void Guide::driftMouseOverLine(QMouseEvent * event)
 {
     double key      = driftGraph->xAxis->pixelToCoord(event->localPos().x());
 
     if (driftGraph->xAxis->range().contains(key))
     {
-        QCPGraph *graph = qobject_cast<QCPGraph *>(driftGraph->plottableAt(event->pos(), false));
+        QCPGraph * graph = qobject_cast<QCPGraph *>(driftGraph->plottableAt(event->pos(), false));
 
         if(graph)
         {
@@ -1953,38 +1965,38 @@ void Guide::buildOperationStack(GuideState operation)
 
     switch (operation)
     {
-    case GUIDE_CAPTURE:
-        if (Options::guideDarkFrameEnabled())
-            operationStack.push(GUIDE_DARK);
-
-        operationStack.push(GUIDE_CAPTURE);
-        operationStack.push(GUIDE_SUBFRAME);
-        break;
-
-    case GUIDE_CALIBRATING:
-        operationStack.push(GUIDE_CALIBRATING);
-        if (guiderType == GUIDE_INTERNAL && (starCenter.isNull() || (Options::guideAutoStarEnabled())))
-        {
+        case GUIDE_CAPTURE:
             if (Options::guideDarkFrameEnabled())
                 operationStack.push(GUIDE_DARK);
 
-            // If subframe is enabled and we need to auto select a star, then we need to make the final capture
-            // of the subframed image. This is only done if we aren't already subframed.
-            if (subFramed == false && Options::guideSubframeEnabled() && Options::guideAutoStarEnabled())
+            operationStack.push(GUIDE_CAPTURE);
+            operationStack.push(GUIDE_SUBFRAME);
+            break;
+
+        case GUIDE_CALIBRATING:
+            operationStack.push(GUIDE_CALIBRATING);
+            if (guiderType == GUIDE_INTERNAL && (starCenter.isNull() || (Options::guideAutoStarEnabled())))
+            {
+                if (Options::guideDarkFrameEnabled())
+                    operationStack.push(GUIDE_DARK);
+
+                // If subframe is enabled and we need to auto select a star, then we need to make the final capture
+                // of the subframed image. This is only done if we aren't already subframed.
+                if (subFramed == false && Options::guideSubframeEnabled() && Options::guideAutoStarEnabled())
+                    operationStack.push(GUIDE_CAPTURE);
+
+                operationStack.push(GUIDE_SUBFRAME);
+                operationStack.push(GUIDE_STAR_SELECT);
                 operationStack.push(GUIDE_CAPTURE);
 
-            operationStack.push(GUIDE_SUBFRAME);
-            operationStack.push(GUIDE_STAR_SELECT);
-            operationStack.push(GUIDE_CAPTURE);
+                // If we are being ask to go full frame, let's do that first
+                if (subFramed == true && Options::guideSubframeEnabled() == false)
+                    operationStack.push(GUIDE_SUBFRAME);
+            }
+            break;
 
-            // If we are being ask to go full frame, let's do that first
-            if (subFramed == true && Options::guideSubframeEnabled() == false)
-                operationStack.push(GUIDE_SUBFRAME);
-        }
-        break;
-
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -1999,42 +2011,42 @@ bool Guide::executeOperationStack()
 
     switch (nextOperation)
     {
-    case GUIDE_SUBFRAME:
-        actionRequired = executeOneOperation(nextOperation);
-        break;
+        case GUIDE_SUBFRAME:
+            actionRequired = executeOneOperation(nextOperation);
+            break;
 
-    case GUIDE_DARK:
-        actionRequired = executeOneOperation(nextOperation);
-        break;
+        case GUIDE_DARK:
+            actionRequired = executeOneOperation(nextOperation);
+            break;
 
-    case GUIDE_CAPTURE:
-        actionRequired = captureOneFrame();
-        break;
+        case GUIDE_CAPTURE:
+            actionRequired = captureOneFrame();
+            break;
 
-    case GUIDE_STAR_SELECT:
-        actionRequired = executeOneOperation(nextOperation);
-        break;
+        case GUIDE_STAR_SELECT:
+            actionRequired = executeOneOperation(nextOperation);
+            break;
 
-    case GUIDE_CALIBRATING:
-        if (guiderType == GUIDE_INTERNAL)
-            guider->setStarPosition(starCenter);
-        if (guider->calibrate())
-        {
+        case GUIDE_CALIBRATING:
             if (guiderType == GUIDE_INTERNAL)
-                disconnect(guideView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setTrackingStar(int,int)));
-            setBusy(true);
-        }
-        else
-        {
-            emit newStatus(GUIDE_CALIBRATION_ERROR);
-            state = GUIDE_IDLE;
-            appendLogText(i18n("Calibration failed to start!"));
-            setBusy(false);
-        }
-        break;
+                guider->setStarPosition(starCenter);
+            if (guider->calibrate())
+            {
+                if (guiderType == GUIDE_INTERNAL)
+                    disconnect(guideView, SIGNAL(trackingStarSelected(int,int)), this, SLOT(setTrackingStar(int,int)));
+                setBusy(true);
+            }
+            else
+            {
+                emit newStatus(GUIDE_CALIBRATION_ERROR);
+                state = GUIDE_IDLE;
+                appendLogText(i18n("Calibration failed to start!"));
+                setBusy(false);
+            }
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     // If an additional action is required, return return and continue later
@@ -2049,143 +2061,143 @@ bool Guide::executeOneOperation(GuideState operation)
 {
     bool actionRequired = false;
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     int subBinX, subBinY;
     targetChip->getBinning(&subBinX, &subBinY);
 
     switch (operation)
     {
-    case GUIDE_SUBFRAME:
-    {
-        // Do not subframe if we are capturing calibration frame
-        if (subFramed == false && Options::guideSubframeEnabled() == true && targetChip->canSubframe())
+        case GUIDE_SUBFRAME:
         {
-            int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
-            targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
+            // Do not subframe if we are capturing calibration frame
+            if (subFramed == false && Options::guideSubframeEnabled() == true && targetChip->canSubframe())
+            {
+                int minX, maxX, minY, maxY, minW, maxW, minH, maxH;
+                targetChip->getFrameMinMax(&minX, &maxX, &minY, &maxY, &minW, &maxW, &minH, &maxH);
 
-            int offset = boxSizeCombo->currentText().toInt()/subBinX;            
+                int offset = boxSizeCombo->currentText().toInt()/subBinX;
 
-            int x = starCenter.x();
-            int y = starCenter.y();
+                int x = starCenter.x();
+                int y = starCenter.y();
 
-            x = (x - offset*2) * subBinX;
-            y = (y - offset*2) * subBinY;
-            int w=offset*4*subBinX;
-            int h=offset*4*subBinY;
+                x = (x - offset*2) * subBinX;
+                y = (y - offset*2) * subBinY;
+                int w=offset*4*subBinX;
+                int h=offset*4*subBinY;
 
-            if (x<minX)
-                x=minX;
-            if (y<minY)
-                y=minY;
-            if ((x+w)>maxW)
-                w=maxW-x;
-            if ((y+h)>maxH)
-                h=maxH-y;
+                if (x<minX)
+                    x=minX;
+                if (y<minY)
+                    y=minY;
+                if ((x+w)>maxW)
+                    w=maxW-x;
+                if ((y+h)>maxH)
+                    h=maxH-y;
 
-            targetChip->setFrame(x,y,w,h);
+                targetChip->setFrame(x,y,w,h);
 
-            subFramed = true;
-            QVariantMap settings = frameSettings[targetChip];
-            settings["x"] = x;
-            settings["y"] = y;
-            settings["w"] = w;
-            settings["h"] = h;
-            settings["binx"] = subBinX;
-            settings["biny"] = subBinY;
+                subFramed = true;
+                QVariantMap settings = frameSettings[targetChip];
+                settings["x"] = x;
+                settings["y"] = y;
+                settings["w"] = w;
+                settings["h"] = h;
+                settings["binx"] = subBinX;
+                settings["biny"] = subBinY;
 
-            frameSettings[targetChip] = settings;
+                frameSettings[targetChip] = settings;
 
-            starCenter.setX(w/(2*subBinX));
-            starCenter.setY(h/(2*subBinX));
+                starCenter.setX(w/(2*subBinX));
+                starCenter.setY(h/(2*subBinX));
+            }
+            else if (subFramed && Options::guideSubframeEnabled() == false)
+            {
+                targetChip->resetFrame();
+
+                int x,y,w,h;
+                targetChip->getFrame(&x,&y,&w, &h);
+
+                QVariantMap settings;
+                settings["x"] = x;
+                settings["y"] = y;
+                settings["w"] = w;
+                settings["h"] = h;
+                settings["binx"] = 1;
+                settings["biny"] = 1;
+                frameSettings[targetChip] = settings;
+
+                subFramed = false;
+
+                starCenter.setX(w/(2*subBinX));
+                starCenter.setY(h/(2*subBinX));
+
+                //starCenter.setX(0);
+                //starCenter.setY(0);
+            }
         }
-        else if (subFramed && Options::guideSubframeEnabled() == false)
-        {
-            targetChip->resetFrame();
-
-            int x,y,w,h;
-            targetChip->getFrame(&x,&y,&w, &h);
-
-            QVariantMap settings;
-            settings["x"] = x;
-            settings["y"] = y;
-            settings["w"] = w;
-            settings["h"] = h;
-            settings["binx"] = 1;
-            settings["biny"] = 1;
-            frameSettings[targetChip] = settings;
-
-            subFramed = false;
-
-            starCenter.setX(w/(2*subBinX));
-            starCenter.setY(h/(2*subBinX));
-
-            //starCenter.setX(0);
-            //starCenter.setY(0);
-        }
-    }
         break;
 
-    case GUIDE_DARK:
-    {
-        // Do we need to take a dark frame?
-        if (Options::guideDarkFrameEnabled())
+        case GUIDE_DARK:
         {
-            FITSData *darkData       = NULL;
-            QVariantMap settings = frameSettings[targetChip];
-            uint16_t offsetX = settings["x"].toInt() / settings["binx"].toInt();
-            uint16_t offsetY = settings["y"].toInt() / settings["biny"].toInt();
+            // Do we need to take a dark frame?
+            if (Options::guideDarkFrameEnabled())
+            {
+                FITSData * darkData       = NULL;
+                QVariantMap settings = frameSettings[targetChip];
+                uint16_t offsetX = settings["x"].toInt() / settings["binx"].toInt();
+                uint16_t offsetY = settings["y"].toInt() / settings["biny"].toInt();
 
-            darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
+                darkData = DarkLibrary::Instance()->getDarkFrame(targetChip, exposureIN->value());
 
-            connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
-            connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
+                connect(DarkLibrary::Instance(), SIGNAL(darkFrameCompleted(bool)), this, SLOT(setCaptureComplete()));
+                connect(DarkLibrary::Instance(), SIGNAL(newLog(QString)), this, SLOT(appendLogText(QString)));
 
-            actionRequired = true;
+                actionRequired = true;
 
-            targetChip->setCaptureFilter((FITSScale) filterCombo->currentIndex());
+                targetChip->setCaptureFilter((FITSScale) filterCombo->currentIndex());
 
-            if (darkData)
-                DarkLibrary::Instance()->subtract(darkData, guideView, targetChip->getCaptureFilter(), offsetX, offsetY);
+                if (darkData)
+                    DarkLibrary::Instance()->subtract(darkData, guideView, targetChip->getCaptureFilter(), offsetX, offsetY);
+                else
+                {
+                    bool rc = DarkLibrary::Instance()->captureAndSubtract(targetChip, guideView, exposureIN->value(), offsetX, offsetY);
+                    setDarkFrameEnabled(rc);
+                }
+            }
+        }
+        break;
+
+        case GUIDE_STAR_SELECT:
+        {
+            state = GUIDE_STAR_SELECT;
+            emit newStatus(state);
+
+            if (Options::guideAutoStarEnabled())
+            {
+                bool autoStarCaptured = selectAutoStar();
+                if (autoStarCaptured)
+                {
+                    appendLogText(i18n("Auto star selected."));
+                }
+                else
+                {
+                    appendLogText(i18n("Failed to select an auto star."));
+                    state = GUIDE_CALIBRATION_ERROR;
+                    emit newStatus(state);
+                    setBusy(false);
+                }
+            }
             else
             {
-                bool rc = DarkLibrary::Instance()->captureAndSubtract(targetChip, guideView, exposureIN->value(), offsetX, offsetY);
-                setDarkFrameEnabled(rc);
+                appendLogText(i18n("Select a guide star to calibrate."));
+                actionRequired = true;
             }
         }
-    }
         break;
 
-    case GUIDE_STAR_SELECT:
-    {
-        state = GUIDE_STAR_SELECT;
-        emit newStatus(state);
-
-        if (Options::guideAutoStarEnabled())
-        {
-            bool autoStarCaptured = selectAutoStar();
-            if (autoStarCaptured)
-            {
-                appendLogText(i18n("Auto star selected."));
-            }
-            else
-            {
-                appendLogText(i18n("Failed to select an auto star."));
-                state = GUIDE_CALIBRATION_ERROR;
-                emit newStatus(state);
-                setBusy(false);
-            }
-        }
-        else
-        {
-            appendLogText(i18n("Select a guide star to calibrate."));
-            actionRequired = true;
-        }
-    }
-        break;
-
-    default:
-        break;
+        default:
+            break;
     }
 
     return actionRequired;
@@ -2202,7 +2214,7 @@ void Guide::processGuideOptions()
 
 void Guide::showFITSViewer()
 {
-    FITSData *data = guideView->getImageData();
+    FITSData * data = guideView->getImageData();
     if (data)
     {
         QUrl url = QUrl::fromLocalFile(data->getFilename());
@@ -2218,7 +2230,7 @@ void Guide::showFITSViewer()
             }
 
             fv->addFITS(&url);
-            FITSView *currentView = fv->getCurrentView();
+            FITSView * currentView = fv->getCurrentView();
             if (currentView)
                 currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
         }

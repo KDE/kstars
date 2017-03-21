@@ -76,29 +76,37 @@
  * represents that key (ie. nodes[handles[i].node].handle == i).
  */
 
-typedef void *PQkey;
+typedef void * PQkey;
 typedef long PQhandle;
 typedef struct PriorityQ PriorityQ;
 
-typedef struct { PQhandle handle; } PQnode;
-typedef struct { PQkey key; PQhandle node; } PQhandleElem;
+typedef struct
+{
+    PQhandle handle;
+} PQnode;
+typedef struct
+{
+    PQkey key;
+    PQhandle node;
+} PQhandleElem;
 
-struct PriorityQ {
-  PQnode	*nodes;
-  PQhandleElem	*handles;
-  long		size, max;
-  PQhandle	freeList;
-  int		initialized;
-  int		(*leq)(PQkey key1, PQkey key2);
+struct PriorityQ
+{
+    PQnode	* nodes;
+    PQhandleElem	* handles;
+    long		size, max;
+    PQhandle	freeList;
+    int		initialized;
+    int		(*leq)(PQkey key1, PQkey key2);
 };
-  
-PriorityQ	*pqNewPriorityQ( int (*leq)(PQkey key1, PQkey key2) );
-void		pqDeletePriorityQ( PriorityQ *pq );
 
-void		pqInit( PriorityQ *pq );
-PQhandle	pqInsert( PriorityQ *pq, PQkey key );
-PQkey		pqExtractMin( PriorityQ *pq );
-void		pqDelete( PriorityQ *pq, PQhandle handle );
+PriorityQ	* pqNewPriorityQ( int (*leq)(PQkey key1, PQkey key2) );
+void		pqDeletePriorityQ( PriorityQ * pq );
+
+void		pqInit( PriorityQ * pq );
+PQhandle	pqInsert( PriorityQ * pq, PQkey key );
+PQkey		pqExtractMin( PriorityQ * pq );
+void		pqDelete( PriorityQ * pq, PQhandle handle );
 
 
 #define __gl_pqHeapMinimum(pq)	((pq)->handles[(pq)->nodes[1].handle].key)

@@ -22,7 +22,7 @@
 #include <QtGui/QPainter>
 
 
-QRoundProgressBar::QRoundProgressBar(QWidget *parent) :
+QRoundProgressBar::QRoundProgressBar(QWidget * parent) :
     QWidget(parent),
     m_min(0), m_max(100),
     m_value(25),
@@ -167,7 +167,7 @@ void QRoundProgressBar::setDecimals(int count)
     }
 }
 
-void QRoundProgressBar::paintEvent(QPaintEvent* /*event*/)
+void QRoundProgressBar::paintEvent(QPaintEvent * /*event*/)
 {
 #if 0
     double outerRadius = qMin(width(), height());
@@ -237,25 +237,26 @@ void QRoundProgressBar::drawBase(QPainter &p, const QRectF &baseRect)
 {
     switch (m_barStyle)
     {
-    case StyleDonut:
-        p.setPen(QPen(palette().shadow().color(), m_outlinePenWidth));
-        p.setBrush(palette().base());
-        p.drawEllipse(baseRect);
-        break;
+        case StyleDonut:
+            p.setPen(QPen(palette().shadow().color(), m_outlinePenWidth));
+            p.setBrush(palette().base());
+            p.drawEllipse(baseRect);
+            break;
 
-    case StylePie:
-        p.setPen(QPen(palette().base().color(), m_outlinePenWidth));
-        p.setBrush(palette().base());
-        p.drawEllipse(baseRect);
-        break;
+        case StylePie:
+            p.setPen(QPen(palette().base().color(), m_outlinePenWidth));
+            p.setBrush(palette().base());
+            p.drawEllipse(baseRect);
+            break;
 
-    case StyleLine:
-        p.setPen(QPen(palette().base().color(), m_outlinePenWidth));
-        p.setBrush(Qt::NoBrush);
-        p.drawEllipse(baseRect.adjusted(m_outlinePenWidth/2, m_outlinePenWidth/2, -m_outlinePenWidth/2, -m_outlinePenWidth/2));
-        break;
+        case StyleLine:
+            p.setPen(QPen(palette().base().color(), m_outlinePenWidth));
+            p.setBrush(Qt::NoBrush);
+            p.drawEllipse(baseRect.adjusted(m_outlinePenWidth/2, m_outlinePenWidth/2, -m_outlinePenWidth/2, -m_outlinePenWidth/2));
+            break;
 
-    default:;
+        default:
+            ;
     }
 
 }

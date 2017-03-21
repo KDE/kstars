@@ -49,7 +49,7 @@ const QStringList RAWFormats = { "cr2", "crw", "nef", "raf", "dng", "arw" };
 namespace ISD
 {
 
-CCDChip::CCDChip(ISD::CCD *ccd, ChipType cType)
+CCDChip::CCDChip(ISD::CCD * ccd, ChipType cType)
 {
     baseDevice    = ccd->getBaseDevice();
     clientManager = ccd->getDriverInfo()->getClientManager();
@@ -74,86 +74,86 @@ FITSView * CCDChip::getImageView(FITSMode imageType)
 {
     switch (imageType)
     {
-    case FITS_NORMAL:
-        return normalImage;
-        break;
+        case FITS_NORMAL:
+            return normalImage;
+            break;
 
-    case FITS_FOCUS:
-        return focusImage;
-        break;
+        case FITS_FOCUS:
+            return focusImage;
+            break;
 
-    case FITS_GUIDE:
-        return guideImage;
-        break;
+        case FITS_GUIDE:
+            return guideImage;
+            break;
 
-    case FITS_CALIBRATE:
-        return calibrationImage;
-        break;
+        case FITS_CALIBRATE:
+            return calibrationImage;
+            break;
 
-    case FITS_ALIGN:
-        return alignImage;
-        break;
+        case FITS_ALIGN:
+            return alignImage;
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     return NULL;
 
 }
 
-void CCDChip::setImageView(FITSView *image, FITSMode imageType)
+void CCDChip::setImageView(FITSView * image, FITSMode imageType)
 {
     switch (imageType)
     {
-    case FITS_NORMAL:
-        normalImage = image;
-        break;
+        case FITS_NORMAL:
+            normalImage = image;
+            break;
 
-    case FITS_FOCUS:
-        focusImage = image;
-        break;
+        case FITS_FOCUS:
+            focusImage = image;
+            break;
 
-    case FITS_GUIDE:
-        guideImage = image;
-        break;
+        case FITS_GUIDE:
+            guideImage = image;
+            break;
 
-    case FITS_CALIBRATE:
-        calibrationImage = image;
-        break;
+        case FITS_CALIBRATE:
+            calibrationImage = image;
+            break;
 
-    case FITS_ALIGN:
-        alignImage = image;        
-        break;
+        case FITS_ALIGN:
+            alignImage = image;
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     if (image)
         imageData = image->getImageData();
 }
 
-bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *minW, int *maxW, int *minH, int *maxH)
+bool CCDChip::getFrameMinMax(int * minX, int * maxX, int * minY, int * maxY, int * minW, int * maxW, int * minH, int * maxH)
 {
-    INumberVectorProperty *frameProp = NULL;
+    INumberVectorProperty * frameProp = NULL;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        frameProp = baseDevice->getNumber("CCD_FRAME");
-        break;
+        case PRIMARY_CCD:
+            frameProp = baseDevice->getNumber("CCD_FRAME");
+            break;
 
-    case GUIDE_CCD:
-        frameProp = baseDevice->getNumber("GUIDER_FRAME");
-        break;
+        case GUIDE_CCD:
+            frameProp = baseDevice->getNumber("GUIDER_FRAME");
+            break;
 
     }
 
     if (frameProp == NULL)
         return false;
 
-    INumber *arg = IUFindNumber(frameProp, "X");
+    INumber * arg = IUFindNumber(frameProp, "X");
     if (arg == NULL)
         return false;
 
@@ -189,17 +189,17 @@ bool CCDChip::getFrameMinMax(int *minX, int *maxX, int *minY, int *maxY, int *mi
 
 bool CCDChip::setImageInfo(uint16_t width, uint16_t height, double pixelX, double pixelY, uint8_t bitdepth)
 {
-    INumberVectorProperty *ccdInfoProp = NULL;
+    INumberVectorProperty * ccdInfoProp = NULL;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        ccdInfoProp = baseDevice->getNumber("CCD_INFO");
-        break;
+        case PRIMARY_CCD:
+            ccdInfoProp = baseDevice->getNumber("CCD_INFO");
+            break;
 
-    case GUIDE_CCD:
-        ccdInfoProp = baseDevice->getNumber("GUIDER_INFO");
-        break;
+        case GUIDE_CCD:
+            ccdInfoProp = baseDevice->getNumber("GUIDER_INFO");
+            break;
 
     }
 
@@ -218,27 +218,27 @@ bool CCDChip::setImageInfo(uint16_t width, uint16_t height, double pixelX, doubl
     return true;
 }
 
-bool CCDChip::getPixelSize(double & x, double & y)
+bool CCDChip::getPixelSize(double &x, double &y)
 {
-    INumberVectorProperty *ccdInfoProp = NULL;
+    INumberVectorProperty * ccdInfoProp = NULL;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        ccdInfoProp = baseDevice->getNumber("CCD_INFO");
-        break;
+        case PRIMARY_CCD:
+            ccdInfoProp = baseDevice->getNumber("CCD_INFO");
+            break;
 
-    case GUIDE_CCD:
-        ccdInfoProp = baseDevice->getNumber("GUIDER_INFO");
-        break;
+        case GUIDE_CCD:
+            ccdInfoProp = baseDevice->getNumber("GUIDER_INFO");
+            break;
 
     }
 
     if (ccdInfoProp == NULL)
         return false;
 
-    INumber *pixelX = IUFindNumber(ccdInfoProp, "CCD_PIXEL_SIZE_X");
-    INumber *pixelY = IUFindNumber(ccdInfoProp, "CCD_PIXEL_SIZE_Y");
+    INumber * pixelX = IUFindNumber(ccdInfoProp, "CCD_PIXEL_SIZE_X");
+    INumber * pixelY = IUFindNumber(ccdInfoProp, "CCD_PIXEL_SIZE_Y");
 
     if (pixelX == NULL || pixelY == NULL)
         return false;
@@ -249,27 +249,27 @@ bool CCDChip::getPixelSize(double & x, double & y)
     return true;
 }
 
-bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
+bool CCDChip::getFrame(int * x, int * y, int * w, int * h)
 {
 
-    INumberVectorProperty *frameProp = NULL;
+    INumberVectorProperty * frameProp = NULL;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        frameProp = baseDevice->getNumber("CCD_FRAME");
-        break;
+        case PRIMARY_CCD:
+            frameProp = baseDevice->getNumber("CCD_FRAME");
+            break;
 
-    case GUIDE_CCD:
-        frameProp = baseDevice->getNumber("GUIDER_FRAME");
-        break;
+        case GUIDE_CCD:
+            frameProp = baseDevice->getNumber("GUIDER_FRAME");
+            break;
 
     }
 
     if (frameProp == NULL)
         return false;
 
-    INumber *arg = IUFindNumber(frameProp, "X");
+    INumber * arg = IUFindNumber(frameProp, "X");
     if (arg == NULL)
         return false;
 
@@ -301,27 +301,27 @@ bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
 
 bool CCDChip::resetFrame()
 {
-    INumberVectorProperty *frameProp = NULL;
+    INumberVectorProperty * frameProp = NULL;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        frameProp = baseDevice->getNumber("CCD_FRAME");
-        break;
+        case PRIMARY_CCD:
+            frameProp = baseDevice->getNumber("CCD_FRAME");
+            break;
 
-    case GUIDE_CCD:
-        frameProp = baseDevice->getNumber("GUIDER_FRAME");
-        break;
+        case GUIDE_CCD:
+            frameProp = baseDevice->getNumber("GUIDER_FRAME");
+            break;
 
     }
 
     if (frameProp == NULL)
         return false;
 
-    INumber *xarg = IUFindNumber(frameProp, "X");
-    INumber *yarg = IUFindNumber(frameProp, "Y");
-    INumber *warg = IUFindNumber(frameProp, "WIDTH");
-    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+    INumber * xarg = IUFindNumber(frameProp, "X");
+    INumber * yarg = IUFindNumber(frameProp, "Y");
+    INumber * warg = IUFindNumber(frameProp, "WIDTH");
+    INumber * harg = IUFindNumber(frameProp, "HEIGHT");
 
     if (xarg && yarg && warg && harg)
     {
@@ -343,27 +343,27 @@ bool CCDChip::resetFrame()
 
 bool CCDChip::setFrame(int x, int y, int w, int h)
 {
-    INumberVectorProperty *frameProp = NULL;
+    INumberVectorProperty * frameProp = NULL;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        frameProp = baseDevice->getNumber("CCD_FRAME");
-        break;
+        case PRIMARY_CCD:
+            frameProp = baseDevice->getNumber("CCD_FRAME");
+            break;
 
-    case GUIDE_CCD:
-        frameProp = baseDevice->getNumber("GUIDER_FRAME");
-        break;
+        case GUIDE_CCD:
+            frameProp = baseDevice->getNumber("GUIDER_FRAME");
+            break;
 
     }
 
     if (frameProp == NULL)
         return false;
 
-    INumber *xarg = IUFindNumber(frameProp, "X");
-    INumber *yarg = IUFindNumber(frameProp, "Y");
-    INumber *warg = IUFindNumber(frameProp, "WIDTH");
-    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+    INumber * xarg = IUFindNumber(frameProp, "X");
+    INumber * yarg = IUFindNumber(frameProp, "Y");
+    INumber * warg = IUFindNumber(frameProp, "WIDTH");
+    INumber * harg = IUFindNumber(frameProp, "HEIGHT");
 
     if (xarg && yarg && warg && harg)
     {
@@ -385,17 +385,17 @@ bool CCDChip::setFrame(int x, int y, int w, int h)
 
 bool CCDChip::capture(double exposure)
 {
-    INumberVectorProperty *expProp = NULL;
+    INumberVectorProperty * expProp = NULL;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        expProp = baseDevice->getNumber("CCD_EXPOSURE");
-        break;
+        case PRIMARY_CCD:
+            expProp = baseDevice->getNumber("CCD_EXPOSURE");
+            break;
 
-    case GUIDE_CCD:
-        expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
-        break;
+        case GUIDE_CCD:
+            expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
+            break;
 
     }
 
@@ -411,24 +411,24 @@ bool CCDChip::capture(double exposure)
 
 bool CCDChip::abortExposure()
 {
-    ISwitchVectorProperty *abortProp = NULL;
+    ISwitchVectorProperty * abortProp = NULL;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        abortProp = baseDevice->getSwitch("CCD_ABORT_EXPOSURE");
-        break;
+        case PRIMARY_CCD:
+            abortProp = baseDevice->getSwitch("CCD_ABORT_EXPOSURE");
+            break;
 
-    case GUIDE_CCD:
-        abortProp = baseDevice->getSwitch("GUIDER_ABORT_EXPOSURE");
-        break;
+        case GUIDE_CCD:
+            abortProp = baseDevice->getSwitch("GUIDER_ABORT_EXPOSURE");
+            break;
 
     }
 
     if (abortProp == NULL)
         return false;
 
-    ISwitch *abort = IUFindSwitch(abortProp, "ABORT");
+    ISwitch * abort = IUFindSwitch(abortProp, "ABORT");
 
     if (abort == NULL)
         return false;
@@ -489,18 +489,18 @@ void CCDChip::setCanAbort(bool value)
     CanAbort = value;
 }
 
-FITSData *CCDChip::getImageData() const
+FITSData * CCDChip::getImageData() const
 {
     return imageData;
 }
 
-void CCDChip::setImageData(FITSData *value)
+void CCDChip::setImageData(FITSData * value)
 {
     imageData = value;
 }
 int CCDChip::getISOIndex() const
 {
-    ISwitchVectorProperty *isoProp = baseDevice->getSwitch("CCD_ISO");
+    ISwitchVectorProperty * isoProp = baseDevice->getSwitch("CCD_ISO");
     if (isoProp == NULL)
         return -1;
 
@@ -509,7 +509,7 @@ int CCDChip::getISOIndex() const
 
 bool CCDChip::setISOIndex(int value)
 {
-    ISwitchVectorProperty *isoProp = baseDevice->getSwitch("CCD_ISO");
+    ISwitchVectorProperty * isoProp = baseDevice->getSwitch("CCD_ISO");
     if (isoProp == NULL)
         return false;
 
@@ -525,7 +525,7 @@ QStringList CCDChip::getISOList() const
 {
     QStringList isoList;
 
-    ISwitchVectorProperty *isoProp = baseDevice->getSwitch("CCD_ISO");
+    ISwitchVectorProperty * isoProp = baseDevice->getSwitch("CCD_ISO");
     if (isoProp == NULL)
         return isoList;
 
@@ -537,17 +537,17 @@ QStringList CCDChip::getISOList() const
 
 bool CCDChip::isCapturing()
 {
-    INumberVectorProperty *expProp = NULL;
+    INumberVectorProperty * expProp = NULL;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        expProp = baseDevice->getNumber("CCD_EXPOSURE");
-        break;
+        case PRIMARY_CCD:
+            expProp = baseDevice->getNumber("CCD_EXPOSURE");
+            break;
 
-    case GUIDE_CCD:
-        expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
-        break;
+        case GUIDE_CCD:
+            expProp = baseDevice->getNumber("GUIDER_EXPOSURE");
+            break;
 
     }
 
@@ -557,7 +557,7 @@ bool CCDChip::isCapturing()
     return (expProp->s == IPS_BUSY);
 }
 
-bool CCDChip::setFrameType(const QString & name)
+bool CCDChip::setFrameType(const QString &name)
 {
     CCDFrameType fType = FRAME_LIGHT;
 
@@ -581,7 +581,7 @@ bool CCDChip::setFrameType(const QString & name)
 
 bool CCDChip::setFrameType(CCDFrameType fType)
 {
-    ISwitchVectorProperty *frameProp = NULL;
+    ISwitchVectorProperty * frameProp = NULL;
 
     if (type == PRIMARY_CCD)
         frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
@@ -590,7 +590,7 @@ bool CCDChip::setFrameType(CCDFrameType fType)
     if (frameProp == NULL)
         return false;
 
-    ISwitch *ccdFrame = NULL;
+    ISwitch * ccdFrame = NULL;
 
     if (fType == FRAME_LIGHT)
         ccdFrame = IUFindSwitch(frameProp, "FRAME_LIGHT");
@@ -622,7 +622,7 @@ CCDFrameType CCDChip::getFrameType()
 {
 
     CCDFrameType fType = FRAME_LIGHT;
-    ISwitchVectorProperty *frameProp = NULL;
+    ISwitchVectorProperty * frameProp = NULL;
 
     if (type == PRIMARY_CCD)
         frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
@@ -632,7 +632,7 @@ CCDFrameType CCDChip::getFrameType()
     if (frameProp == NULL)
         return fType;
 
-    ISwitch *ccdFrame = NULL;
+    ISwitch * ccdFrame = NULL;
 
     ccdFrame = IUFindOnSwitch(frameProp);
 
@@ -660,18 +660,18 @@ bool CCDChip::setBinning(CCDBinType binType)
 
     switch (binType)
     {
-    case SINGLE_BIN:
-        return setBinning(1,1);
-        break;
-    case DOUBLE_BIN:
-        return setBinning(2,2);
-        break;
-    case TRIPLE_BIN:
-        return setBinning(3,3);
-        break;
-    case QUADRAPLE_BIN:
-        return setBinning(4,4);
-        break;
+        case SINGLE_BIN:
+            return setBinning(1,1);
+            break;
+        case DOUBLE_BIN:
+            return setBinning(2,2);
+            break;
+        case TRIPLE_BIN:
+            return setBinning(3,3);
+            break;
+        case QUADRAPLE_BIN:
+            return setBinning(4,4);
+            break;
     }
 
     return false;
@@ -680,23 +680,23 @@ bool CCDChip::setBinning(CCDBinType binType)
 CCDBinType CCDChip::getBinning()
 {
     CCDBinType binType = SINGLE_BIN;
-    INumberVectorProperty *binProp=NULL;
+    INumberVectorProperty * binProp=NULL;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        binProp = baseDevice->getNumber("CCD_BINNING");
-        break;
+        case PRIMARY_CCD:
+            binProp = baseDevice->getNumber("CCD_BINNING");
+            break;
 
-    case GUIDE_CCD:
-        binProp = baseDevice->getNumber("GUIDER_BINNING");
-        break;
+        case GUIDE_CCD:
+            binProp = baseDevice->getNumber("GUIDER_BINNING");
+            break;
     }
 
     if (binProp == NULL)
         return binType;
 
-    INumber *horBin = NULL, *verBin=NULL;
+    INumber * horBin = NULL, *verBin=NULL;
 
     horBin = IUFindNumber(binProp, "HOR_BIN");
     verBin = IUFindNumber(binProp, "VER_BIN");
@@ -706,20 +706,20 @@ CCDBinType CCDChip::getBinning()
 
     switch ( (int) horBin->value)
     {
-    case 2:
-        binType = DOUBLE_BIN;
-        break;
+        case 2:
+            binType = DOUBLE_BIN;
+            break;
 
-    case 3:
-        binType = TRIPLE_BIN;
-        break;
+        case 3:
+            binType = TRIPLE_BIN;
+            break;
 
-    case 4:
-        binType = QUADRAPLE_BIN;
-        break;
+        case 4:
+            binType = QUADRAPLE_BIN;
+            break;
 
-    default:
-        break;
+        default:
+            break;
 
     }
 
@@ -727,27 +727,27 @@ CCDBinType CCDChip::getBinning()
 
 }
 
-bool CCDChip::getBinning(int *bin_x, int *bin_y)
+bool CCDChip::getBinning(int * bin_x, int * bin_y)
 {
-    INumberVectorProperty *binProp=NULL;
+    INumberVectorProperty * binProp=NULL;
     *bin_x=*bin_y=1;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        binProp = baseDevice->getNumber("CCD_BINNING");
-        break;
+        case PRIMARY_CCD:
+            binProp = baseDevice->getNumber("CCD_BINNING");
+            break;
 
-    case GUIDE_CCD:
-        binProp = baseDevice->getNumber("GUIDER_BINNING");
-        break;
+        case GUIDE_CCD:
+            binProp = baseDevice->getNumber("GUIDER_BINNING");
+            break;
     }
 
 
     if (binProp == NULL)
         return false;
 
-    INumber *horBin = NULL, *verBin=NULL;
+    INumber * horBin = NULL, *verBin=NULL;
 
     horBin = IUFindNumber(binProp, "HOR_BIN");
     verBin = IUFindNumber(binProp, "VER_BIN");
@@ -761,28 +761,28 @@ bool CCDChip::getBinning(int *bin_x, int *bin_y)
     return true;
 }
 
-bool CCDChip::getMaxBin(int *max_xbin, int *max_ybin)
+bool CCDChip::getMaxBin(int * max_xbin, int * max_ybin)
 {
 
-    INumberVectorProperty *binProp=NULL;
+    INumberVectorProperty * binProp=NULL;
     *max_xbin=*max_ybin=1;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        binProp = baseDevice->getNumber("CCD_BINNING");
-        break;
+        case PRIMARY_CCD:
+            binProp = baseDevice->getNumber("CCD_BINNING");
+            break;
 
-    case GUIDE_CCD:
-        binProp = baseDevice->getNumber("GUIDER_BINNING");
-        break;
+        case GUIDE_CCD:
+            binProp = baseDevice->getNumber("GUIDER_BINNING");
+            break;
     }
 
 
     if (binProp == NULL)
         return false;
 
-    INumber *horBin = NULL, *verBin=NULL;
+    INumber * horBin = NULL, *verBin=NULL;
 
     horBin = IUFindNumber(binProp, "HOR_BIN");
     verBin = IUFindNumber(binProp, "VER_BIN");
@@ -799,23 +799,23 @@ bool CCDChip::getMaxBin(int *max_xbin, int *max_ybin)
 bool CCDChip::setBinning(int bin_x, int bin_y)
 {
 
-    INumberVectorProperty *binProp=NULL;
+    INumberVectorProperty * binProp=NULL;
 
     switch (type)
     {
-    case PRIMARY_CCD:
-        binProp = baseDevice->getNumber("CCD_BINNING");
-        break;
+        case PRIMARY_CCD:
+            binProp = baseDevice->getNumber("CCD_BINNING");
+            break;
 
-    case GUIDE_CCD:
-        binProp = baseDevice->getNumber("GUIDER_BINNING");
-        break;
+        case GUIDE_CCD:
+            binProp = baseDevice->getNumber("GUIDER_BINNING");
+            break;
     }
 
     if (binProp == NULL)
         return false;
 
-    INumber *horBin = NULL, *verBin=NULL;
+    INumber * horBin = NULL, *verBin=NULL;
 
     horBin = IUFindNumber(binProp, "HOR_BIN");
     verBin = IUFindNumber(binProp, "VER_BIN");
@@ -839,7 +839,7 @@ bool CCDChip::setBinning(int bin_x, int bin_y)
 }
 
 
-CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
+CCD::CCD(GDInterface * iPtr) : DeviceDecorator(iPtr)
 {
     dType = KSTARS_CCD;
     ISOMode   = true;
@@ -870,7 +870,7 @@ CCD::~CCD()
     delete (streamWindow);
 }
 
-void CCD::registerProperty(INDI::Property *prop)
+void CCD::registerProperty(INDI::Property * prop)
 {
     if (!strcmp(prop->getName(), "GUIDER_EXPOSURE"))
     {
@@ -879,7 +879,7 @@ void CCD::registerProperty(INDI::Property *prop)
     }
     else if (!strcmp(prop->getName(), "CCD_FRAME_TYPE"))
     {
-        ISwitchVectorProperty *ccdFrame = prop->getSwitch();
+        ISwitchVectorProperty * ccdFrame = prop->getSwitch();
 
         primaryChip->clearFrameTypes();
 
@@ -888,43 +888,43 @@ void CCD::registerProperty(INDI::Property *prop)
     }
     else if (!strcmp(prop->getName(), "CCD_FRAME"))
     {
-        INumberVectorProperty *np = prop->getNumber();
+        INumberVectorProperty * np = prop->getNumber();
         if (np && np->p != IP_RO)
             primaryChip->setCanSubframe(true);
     }
     else if (!strcmp(prop->getName(), "GUIDER_FRAME"))
     {
-        INumberVectorProperty *np = prop->getNumber();
+        INumberVectorProperty * np = prop->getNumber();
         if (np && np->p != IP_RO)
             guideChip->setCanSubframe(true);
     }
     else if (!strcmp(prop->getName(), "CCD_BINNING"))
     {
-        INumberVectorProperty *np = prop->getNumber();
+        INumberVectorProperty * np = prop->getNumber();
         if (np && np->p != IP_RO)
             primaryChip->setCanBin(true);
     }
     else if (!strcmp(prop->getName(), "GUIDER_BINNING"))
     {
-        INumberVectorProperty *np = prop->getNumber();
+        INumberVectorProperty * np = prop->getNumber();
         if (np && np->p != IP_RO)
             guideChip->setCanBin(true);
     }
     else if (!strcmp(prop->getName(), "CCD_ABORT_EXPOSURE"))
     {
-        ISwitchVectorProperty *sp = prop->getSwitch();
+        ISwitchVectorProperty * sp = prop->getSwitch();
         if (sp && sp->p != IP_RO)
             primaryChip->setCanAbort(true);
     }
     else if (!strcmp(prop->getName(), "GUIDER_ABORT_EXPOSURE"))
     {
-        ISwitchVectorProperty *sp = prop->getSwitch();
+        ISwitchVectorProperty * sp = prop->getSwitch();
         if (sp && sp->p != IP_RO)
             guideChip->setCanAbort(true);
     }
     else if (!strcmp(prop->getName(), "CCD_TEMPERATURE"))
     {
-        INumberVectorProperty *np = prop->getNumber();
+        INumberVectorProperty * np = prop->getNumber();
         HasCooler = true;
         if (np)
             emit newTemperatureValue(np->np[0].value);
@@ -941,10 +941,10 @@ void CCD::registerProperty(INDI::Property *prop)
     }
     else if (!strcmp(prop->getName(), "CCD_TRANSFER_FORMAT"))
     {
-        ISwitchVectorProperty *sp = prop->getSwitch();
+        ISwitchVectorProperty * sp = prop->getSwitch();
         if (sp)
         {
-            ISwitch *format = IUFindSwitch(sp, "FORMAT_NATIVE");
+            ISwitch * format = IUFindSwitch(sp, "FORMAT_NATIVE");
             if (format && format->s == ISS_ON)
                 transferFormat = FORMAT_NATIVE;
             else
@@ -953,10 +953,10 @@ void CCD::registerProperty(INDI::Property *prop)
     }
     else if (!strcmp(prop->getName(), "TELESCOPE_TYPE"))
     {
-        ISwitchVectorProperty *sp = prop->getSwitch();
+        ISwitchVectorProperty * sp = prop->getSwitch();
         if (sp)
         {
-            ISwitch *format = IUFindSwitch(sp, "TELESCOPE_PRIMARY");
+            ISwitch * format = IUFindSwitch(sp, "TELESCOPE_PRIMARY");
             if (format && format->s == ISS_ON)
                 telescopeType = TELESCOPE_PRIMARY;
             else
@@ -967,29 +967,29 @@ void CCD::registerProperty(INDI::Property *prop)
     DeviceDecorator::registerProperty(prop);
 }
 
-void CCD::processLight(ILightVectorProperty *lvp)
+void CCD::processLight(ILightVectorProperty * lvp)
 {
     DeviceDecorator::processLight(lvp);
 }
 
-void CCD::processNumber(INumberVectorProperty *nvp)
+void CCD::processNumber(INumberVectorProperty * nvp)
 {
     if (!strcmp(nvp->name, "CCD_EXPOSURE"))
     {
-        INumber *np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
+        INumber * np = IUFindNumber(nvp, "CCD_EXPOSURE_VALUE");
         if (np)
             emit newExposureValue(primaryChip, np->value, nvp->s);
     }
     else if (!strcmp(nvp->name, "CCD_TEMPERATURE"))
     {
         HasCooler = true;
-        INumber *np = IUFindNumber(nvp, "CCD_TEMPERATURE_VALUE");
+        INumber * np = IUFindNumber(nvp, "CCD_TEMPERATURE_VALUE");
         if (np)
             emit newTemperatureValue(np->value);
     }
     else if (!strcmp(nvp->name, "GUIDER_EXPOSURE"))
     {
-        INumber *np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
+        INumber * np = IUFindNumber(nvp, "GUIDER_EXPOSURE_VALUE");
         if (np)
             emit newExposureValue(guideChip, np->value, nvp->s);
     }
@@ -1000,7 +1000,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
     else if (!strcmp(nvp->name, "CCD_RAPID_GUIDE_DATA"))
     {
         double dx=-1,dy=-1,fit=-1;
-        INumber *np=NULL;
+        INumber * np=NULL;
 
         if (nvp->s == IPS_ALERT)
         {
@@ -1025,7 +1025,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
     else if (!strcmp(nvp->name, "GUIDER_RAPID_GUIDE_DATA"))
     {
         double dx=-1,dy=-1,fit=-1;
-        INumber *np=NULL;
+        INumber * np=NULL;
 
         if (nvp->s == IPS_ALERT)
         {
@@ -1052,7 +1052,7 @@ void CCD::processNumber(INumberVectorProperty *nvp)
     DeviceDecorator::processNumber(nvp);
 }
 
-void CCD::processSwitch(ISwitchVectorProperty *svp)
+void CCD::processSwitch(ISwitchVectorProperty * svp)
 {
     if (!strcmp(svp->name, "CCD_COOLER"))
     {
@@ -1067,8 +1067,8 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
         {
             streamWindow = new StreamWG(this);
 
-            INumberVectorProperty *streamFrame = baseDevice->getNumber("CCD_STREAM_FRAME");
-            INumber *w=NULL, *h=NULL;
+            INumberVectorProperty * streamFrame = baseDevice->getNumber("CCD_STREAM_FRAME");
+            INumber * w=NULL, *h=NULL;
             if (streamFrame)
             {
                 w = IUFindNumber(streamFrame, "WIDTH");
@@ -1083,7 +1083,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             else
             {
                 // Only use CCD dimensions if we are receing raw stream and not stream of images (i.e. mjpeg..etc)
-                IBLOBVectorProperty *rawBP = baseDevice->getBLOB("CCD1");
+                IBLOBVectorProperty * rawBP = baseDevice->getBLOB("CCD1");
                 if (rawBP)
                 {
                     int x,y,w,h;
@@ -1109,7 +1109,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     }
     else if (!strcmp(svp->name, "CCD_TRANSFER_FORMAT"))
     {
-        ISwitch *format = IUFindSwitch(svp, "FORMAT_NATIVE");
+        ISwitch * format = IUFindSwitch(svp, "FORMAT_NATIVE");
 
         if (format && format->s == ISS_ON)
             transferFormat = FORMAT_NATIVE;
@@ -1119,7 +1119,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     }
     else if (!strcmp(svp->name, "RECORD_STREAM"))
     {
-        ISwitch *recordOFF = IUFindSwitch(svp, "RECORD_OFF");
+        ISwitch * recordOFF = IUFindSwitch(svp, "RECORD_OFF");
 
         if (recordOFF && recordOFF->s == ISS_ON)
         {
@@ -1135,7 +1135,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     }
     else if (!strcmp(svp->name, "TELESCOPE_TYPE"))
     {
-        ISwitch *format = IUFindSwitch(svp, "TELESCOPE_PRIMARY");
+        ISwitch * format = IUFindSwitch(svp, "TELESCOPE_PRIMARY");
         if (format && format->s == ISS_ON)
             telescopeType = TELESCOPE_PRIMARY;
         else
@@ -1144,7 +1144,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
     }
     else if (!strcmp(svp->name, "CONNECTION"))
     {
-        ISwitch *dSwitch = IUFindSwitch(svp, "DISCONNECT");
+        ISwitch * dSwitch = IUFindSwitch(svp, "DISCONNECT");
 
         if (dSwitch && dSwitch->s == ISS_ON && streamWindow != NULL)
         {
@@ -1164,11 +1164,11 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
 
 }
 
-void CCD::processText(ITextVectorProperty *tvp)
+void CCD::processText(ITextVectorProperty * tvp)
 {
     if (!strcmp(tvp->name, "CCD_FILE_PATH"))
     {
-        IText *filepath = IUFindText(tvp, "FILE_PATH");
+        IText * filepath = IUFindText(tvp, "FILE_PATH");
         if (filepath)
             emit newRemoteFile(QString(filepath->text));
     }
@@ -1176,7 +1176,7 @@ void CCD::processText(ITextVectorProperty *tvp)
     DeviceDecorator::processText(tvp);
 }
 
-void CCD::processBLOB(IBLOB* bp)
+void CCD::processBLOB(IBLOB * bp)
 {
     // Ignore write-only BLOBs since we only receive it for state-change
     if (bp->bvp->p == IP_WO)
@@ -1192,8 +1192,8 @@ void CCD::processBLOB(IBLOB* bp)
         if (streamWindow->isStreamEnabled() == false)
             return;
 
-        INumberVectorProperty *streamFrame = baseDevice->getNumber("CCD_STREAM_FRAME");
-        INumber *w=NULL, *h=NULL;
+        INumberVectorProperty * streamFrame = baseDevice->getNumber("CCD_STREAM_FRAME");
+        INumber * w=NULL, *h=NULL;
         if (streamFrame)
         {
             w = IUFindNumber(streamFrame, "WIDTH");
@@ -1248,7 +1248,7 @@ void CCD::processBLOB(IBLOB* bp)
         return;
     }
 
-    CCDChip *targetChip = NULL;
+    CCDChip * targetChip = NULL;
 
     if (!strcmp(bp->name, "CCD2"))
         targetChip = guideChip;
@@ -1352,8 +1352,8 @@ void CCD::processBLOB(IBLOB* bp)
     if (BType == BLOB_IMAGE || BType == BLOB_RAW)
     {
         if (BType == BLOB_RAW)
-        {           
-            #ifdef HAVE_LIBRAW
+        {
+#ifdef HAVE_LIBRAW
 
             QString rawFileName = filename;
             rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));
@@ -1394,9 +1394,9 @@ void CCD::processBLOB(IBLOB* bp)
             if( (ret = RawProcessor.unpack_thumb() ) != LIBRAW_SUCCESS)
             {
                 KStars::Instance()->statusBar()->showMessage(i18n("Cannot unpack_thumb %1: %2", rawFileName, libraw_strerror(ret)));
-                    RawProcessor.recycle();
-                    emit BLOBUpdated(bp);
-                    return;
+                RawProcessor.recycle();
+                emit BLOBUpdated(bp);
+                return;
             }
             else
                 // We have successfully unpacked the thumbnail, now let us write it to a file
@@ -1413,12 +1413,12 @@ void CCD::processBLOB(IBLOB* bp)
 
             filename = preview_filename;
 
-            #else
-                // Silenty fail if KStars was not compiled with libraw
-                //KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG."));
-                emit BLOBUpdated(bp);
-                return;
-            #endif
+#else
+            // Silenty fail if KStars was not compiled with libraw
+            //KStars::Instance()->statusBar()->showMessage(i18n("Unable to find dcraw and cjpeg. Please install the required tools to convert CR2/NEF to JPEG."));
+            emit BLOBUpdated(bp);
+            return;
+#endif
         }
 
         // store file name in
@@ -1439,10 +1439,11 @@ void CCD::processBLOB(IBLOB* bp)
 
         // If there is no FITSViewer, create it. Unless it is a dedicated Focus or Guide frame
         // then no need for a FITS Viewer as they get displayed inside Ekos
-        if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode()){
+        if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode())
+        {
             if (fv.isNull() && targetChip->getCaptureMode() != FITS_GUIDE
-                            && targetChip->getCaptureMode() != FITS_FOCUS
-                            && targetChip->getCaptureMode() != FITS_ALIGN)
+                    && targetChip->getCaptureMode() != FITS_FOCUS
+                    && targetChip->getCaptureMode() != FITS_ALIGN)
             {
                 normalTabID = calibrationTabID = focusTabID = guideTabID = alignTabID = -1;
 
@@ -1476,218 +1477,224 @@ void CCD::processBLOB(IBLOB* bp)
 
         switch (targetChip->getCaptureMode())
         {
-        case FITS_NORMAL:
-        {
-            //This is how to get the image to show up in the EkosManger preview FitsView.
-            FITSView *previewView = KStars::Instance()->ekosManager()->getPreviewView();
-            if (previewView)
+            case FITS_NORMAL:
             {
-                previewView->setFilter(captureFilter);
-                bool imageLoad = previewView->loadFITS(filename, true);
-                if (imageLoad)
-                    previewView->updateFrame();
-            }
-            if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode()){
-                if (normalTabID == -1 || Options::singlePreviewFITS() == false)
-                    tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
-                else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
+                //This is how to get the image to show up in the EkosManger preview FitsView.
+                FITSView * previewView = KStars::Instance()->ekosManager()->getPreviewView();
+                if (previewView)
                 {
-                    fv->removeFITS(normalTabID);
-                    tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+                    previewView->setFilter(captureFilter);
+                    bool imageLoad = previewView->loadFITS(filename, true);
+                    if (imageLoad)
+                        previewView->updateFrame();
+                }
+                if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode())
+                {
+                    if (normalTabID == -1 || Options::singlePreviewFITS() == false)
+                        tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+                    else if (fv->updateFITS(&fileURL, normalTabID, captureFilter) == false)
+                    {
+                        fv->removeFITS(normalTabID);
+                        tabRC = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter, previewTitle);
+                    }
+                    else
+                        tabRC = normalTabID;
+
+                    if (tabRC >= 0)
+                    {
+                        normalTabID = tabRC;
+                        targetChip->setImageView(fv->getView(normalTabID), FITS_NORMAL);
+
+                        emit newImage(fv->getView(normalTabID)->getDisplayImage(), targetChip);
+                    }
+                    else
+                    {
+                        // If opening file fails, we treat it the same as exposure failure and recapture again if possible
+                        emit newExposureValue(targetChip, 0, IPS_ALERT);
+                        return;
+                    }
                 }
                 else
-                    tabRC = normalTabID;
+                {
+                    if(previewView)
+                    {
+                        targetChip->setImageView(previewView,FITS_NORMAL);
+                        emit newImage(previewView->getDisplayImage(), targetChip);
+                    }
+                }
+            }
+            break;
+
+            case FITS_FOCUS:
+                /*
+                if (focusTabID == -1)
+                    tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
+                else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
+                {
+                    fv->removeFITS(focusTabID);
+                    tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
+                }
+                else
+                    tabRC = focusTabID;
 
                 if (tabRC >= 0)
                 {
-                    normalTabID = tabRC;
-                    targetChip->setImageView(fv->getView(normalTabID), FITS_NORMAL);
+                    focusTabID = tabRC;
+                    targetChip->setImageView(fv->getView(focusTabID), FITS_FOCUS);
 
-                    emit newImage(fv->getView(normalTabID)->getDisplayImage(), targetChip);
-                }
-                else
-                {
-                    // If opening file fails, we treat it the same as exposure failure and recapture again if possible
-                    emit newExposureValue(targetChip, 0, IPS_ALERT);
-                    return;
-                }
-            } else{
-                if(previewView){
-                    targetChip->setImageView(previewView,FITS_NORMAL);
-                    emit newImage(previewView->getDisplayImage(), targetChip);
-                }
-            }
-        }
-            break;
-
-        case FITS_FOCUS:
-            /*
-            if (focusTabID == -1)
-                tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
-            else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
-            {
-                fv->removeFITS(focusTabID);
-                tabRC = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
-            }
-            else
-                tabRC = focusTabID;
-
-            if (tabRC >= 0)
-            {
-                focusTabID = tabRC;
-                targetChip->setImageView(fv->getView(focusTabID), FITS_FOCUS);
-
-                emit newImage(fv->getView(focusTabID)->getDisplayImage(), targetChip);
-            }
-            else
-            {
-                emit newExposureValue(targetChip, 0, IPS_ALERT);
-                // If there is problem loading image then BLOB is not valid so let's return
-                return;
-            }
-            */
-
-        {
-            FITSView *focusView = targetChip->getImageView(FITS_FOCUS);
-            if (focusView)
-            {
-                focusView->setFilter(captureFilter);
-                bool imageLoad = focusView->loadFITS(filename, true);
-                if (imageLoad)
-                {
-                    //focusView->rescale(ZOOM_FIT_WINDOW);
-                    focusView->updateFrame();
-                    emit newImage(focusView->getDisplayImage(), targetChip);
+                    emit newImage(fv->getView(focusTabID)->getDisplayImage(), targetChip);
                 }
                 else
                 {
                     emit newExposureValue(targetChip, 0, IPS_ALERT);
+                    // If there is problem loading image then BLOB is not valid so let's return
                     return;
                 }
+                */
+
+            {
+                FITSView * focusView = targetChip->getImageView(FITS_FOCUS);
+                if (focusView)
+                {
+                    focusView->setFilter(captureFilter);
+                    bool imageLoad = focusView->loadFITS(filename, true);
+                    if (imageLoad)
+                    {
+                        //focusView->rescale(ZOOM_FIT_WINDOW);
+                        focusView->updateFrame();
+                        emit newImage(focusView->getDisplayImage(), targetChip);
+                    }
+                    else
+                    {
+                        emit newExposureValue(targetChip, 0, IPS_ALERT);
+                        return;
+                    }
+                }
             }
-        }
             break;
 
-        case FITS_GUIDE:
-            /*
-            if (guideTabID == -1)
-                tabRC = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
-            else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
-            {
-                fv->removeFITS(guideTabID);
-                tabRC = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
-            }
-            else
-                tabRC = guideTabID;
-
-            if (tabRC >= 0)
-            {
-                guideTabID = tabRC;
-                targetChip->setImageView(fv->getView(guideTabID), FITS_GUIDE);
-
-                emit newImage(fv->getView(guideTabID)->getDisplayImage(), targetChip);
-            }
-            else
-            {
-                emit newExposureValue(targetChip, 0, IPS_ALERT);
-                return;
-            }*/
-        {
-            FITSView *guideView = targetChip->getImageView(FITS_GUIDE);
-            if (guideView)
-            {
-                guideView->setFilter(captureFilter);
-                bool imageLoad = guideView->loadFITS(filename, true);
-                if (imageLoad)
+            case FITS_GUIDE:
+                /*
+                if (guideTabID == -1)
+                    tabRC = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
+                else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
                 {
-                    //guideView->rescale(ZOOM_FIT_WINDOW);
-                    guideView->updateFrame();
-                    emit newImage(guideView->getDisplayImage(), targetChip);
+                    fv->removeFITS(guideTabID);
+                    tabRC = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
                 }
                 else
-                {
-                    emit newExposureValue(targetChip, 0, IPS_ALERT);
-                    return;
-                }
-            }
-        }
-            break;
-
-        case FITS_CALIBRATE:
-            if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode()){
-                if (calibrationTabID == -1)
-                    tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
-                else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
-                {
-                    fv->removeFITS(calibrationTabID);
-                    tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
-                }
-                else
-                    tabRC = calibrationTabID;
+                    tabRC = guideTabID;
 
                 if (tabRC >= 0)
                 {
-                    calibrationTabID = tabRC;
-                    targetChip->setImageView(fv->getView(calibrationTabID), FITS_CALIBRATE);
+                    guideTabID = tabRC;
+                    targetChip->setImageView(fv->getView(guideTabID), FITS_GUIDE);
+
+                    emit newImage(fv->getView(guideTabID)->getDisplayImage(), targetChip);
                 }
                 else
                 {
                     emit newExposureValue(targetChip, 0, IPS_ALERT);
                     return;
+                }*/
+            {
+                FITSView * guideView = targetChip->getImageView(FITS_GUIDE);
+                if (guideView)
+                {
+                    guideView->setFilter(captureFilter);
+                    bool imageLoad = guideView->loadFITS(filename, true);
+                    if (imageLoad)
+                    {
+                        //guideView->rescale(ZOOM_FIT_WINDOW);
+                        guideView->updateFrame();
+                        emit newImage(guideView->getDisplayImage(), targetChip);
+                    }
+                    else
+                    {
+                        emit newExposureValue(targetChip, 0, IPS_ALERT);
+                        return;
+                    }
                 }
-          }
+            }
             break;
 
-        case FITS_ALIGN:
-            /*
-            if (alignTabID == -1)
-                tabRC = fv->addFITS(&fileURL, FITS_ALIGN, captureFilter);
-            else if (fv->updateFITS(&fileURL, alignTabID, captureFilter) == false)
-            {
-                fv->removeFITS(alignTabID);
-                tabRC = fv->addFITS(&fileURL, FITS_ALIGN, captureFilter);
-            }
-            else
-                tabRC = alignTabID;
+            case FITS_CALIBRATE:
+                if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode())
+                {
+                    if (calibrationTabID == -1)
+                        tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+                    else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
+                    {
+                        fv->removeFITS(calibrationTabID);
+                        tabRC = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+                    }
+                    else
+                        tabRC = calibrationTabID;
 
-            if (tabRC >= 0)
-            {
-                alignTabID = tabRC;
-                targetChip->setImageView(fv->getView(alignTabID), FITS_ALIGN);
-            }
-            else
-            {
-                emit newExposureValue(targetChip, 0, IPS_ALERT);
-                return;
-            }*/
+                    if (tabRC >= 0)
+                    {
+                        calibrationTabID = tabRC;
+                        targetChip->setImageView(fv->getView(calibrationTabID), FITS_CALIBRATE);
+                    }
+                    else
+                    {
+                        emit newExposureValue(targetChip, 0, IPS_ALERT);
+                        return;
+                    }
+                }
+                break;
 
+            case FITS_ALIGN:
+                /*
+                if (alignTabID == -1)
+                    tabRC = fv->addFITS(&fileURL, FITS_ALIGN, captureFilter);
+                else if (fv->updateFITS(&fileURL, alignTabID, captureFilter) == false)
+                {
+                    fv->removeFITS(alignTabID);
+                    tabRC = fv->addFITS(&fileURL, FITS_ALIGN, captureFilter);
+                }
+                else
+                    tabRC = alignTabID;
+
+                if (tabRC >= 0)
+                {
+                    alignTabID = tabRC;
+                    targetChip->setImageView(fv->getView(alignTabID), FITS_ALIGN);
+                }
+                else
+                {
+                    emit newExposureValue(targetChip, 0, IPS_ALERT);
+                    return;
+                }*/
+
+            {
+                FITSView * alignView = targetChip->getImageView(FITS_ALIGN);
+                if (alignView)
+                {
+                    alignView->setFilter(captureFilter);
+                    bool imageLoad = alignView->loadFITS(filename, true);
+                    if (imageLoad)
+                    {
+                        //alignView->rescale(ZOOM_FIT_WINDOW);
+                        alignView->updateFrame();
+                        emit newImage(alignView->getDisplayImage(), targetChip);
+                    }
+                    else
+                    {
+                        emit newExposureValue(targetChip, 0, IPS_ALERT);
+                        return;
+                    }
+                }
+            }
+            break;
+
+            default:
+                break;
+
+        }
+
+        if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode())
         {
-            FITSView *alignView = targetChip->getImageView(FITS_ALIGN);
-            if (alignView)
-            {
-                alignView->setFilter(captureFilter);
-                bool imageLoad = alignView->loadFITS(filename, true);
-                if (imageLoad)
-                {
-                    //alignView->rescale(ZOOM_FIT_WINDOW);
-                    alignView->updateFrame();
-                    emit newImage(alignView->getDisplayImage(), targetChip);
-                }
-                else
-                {
-                    emit newExposureValue(targetChip, 0, IPS_ALERT);
-                    return;
-                }
-            }
-        }
-        break;
-
-        default:
-            break;
-
-        }
-
-        if (Options::useFITSViewerInCapture()||!targetChip->isBatchMode()){
             if (targetChip->getCaptureMode() == FITS_NORMAL || targetChip->getCaptureMode() == FITS_CALIBRATE)
                 fv->show();
         }
@@ -1708,7 +1715,7 @@ void CCD::addFITSKeywords(QString filename)
         QString key_comment("Filter name");
         filter.replace(" ", "_");
 
-        fitsfile* fptr=NULL;
+        fitsfile * fptr=NULL;
 
         if (fits_open_image(&fptr, filename.toLatin1(), READWRITE, &status))
         {
@@ -1750,7 +1757,7 @@ void CCD::StreamWindowHidden()
     if (baseDevice->isConnected())
     {
         // We can have more than one *_VIDEO_STREAM property active so disable them all
-        ISwitchVectorProperty *streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
+        ISwitchVectorProperty * streamSP = baseDevice->getSwitch("CCD_VIDEO_STREAM");
         if (streamSP)
         {
             IUResetSwitch(streamSP);
@@ -1782,7 +1789,7 @@ void CCD::StreamWindowHidden()
     }
 
     if (streamWindow)
-            streamWindow->disconnect();
+        streamWindow->disconnect();
 }
 
 bool CCD::hasGuideHead()
@@ -1805,7 +1812,7 @@ bool CCD::setCoolerControl(bool enable)
     if (HasCoolerControl == false)
         return false;
 
-    ISwitchVectorProperty *coolerSP = baseDevice->getSwitch("CCD_COOLER");
+    ISwitchVectorProperty * coolerSP = baseDevice->getSwitch("CCD_COOLER");
     if (coolerSP == NULL)
         return false;
 
@@ -1822,22 +1829,22 @@ CCDChip * CCD::getChip(CCDChip::ChipType cType)
 {
     switch (cType)
     {
-    case CCDChip::PRIMARY_CCD:
-        return primaryChip;
-        break;
+        case CCDChip::PRIMARY_CCD:
+            return primaryChip;
+            break;
 
-    case CCDChip::GUIDE_CCD:
-        return guideChip;
-        break;
+        case CCDChip::GUIDE_CCD:
+            return guideChip;
+            break;
     }
 
     return NULL;
 }
 
-bool CCD::setRapidGuide(CCDChip *targetChip, bool enable)
+bool CCD::setRapidGuide(CCDChip * targetChip, bool enable)
 {
-    ISwitchVectorProperty *rapidSP=NULL;
-    ISwitch *enableS=NULL;
+    ISwitchVectorProperty * rapidSP=NULL;
+    ISwitch * enableS=NULL;
 
     if (targetChip == primaryChip)
         rapidSP = baseDevice->getSwitch("CCD_RAPID_GUIDE");
@@ -1866,10 +1873,10 @@ bool CCD::setRapidGuide(CCDChip *targetChip, bool enable)
 
 }
 
-bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage, bool showMarker)
+bool CCD::configureRapidGuide(CCDChip * targetChip, bool autoLoop, bool sendImage, bool showMarker)
 {
-    ISwitchVectorProperty *rapidSP=NULL;
-    ISwitch *autoLoopS=NULL, *sendImageS=NULL, *showMarkerS=NULL;
+    ISwitchVectorProperty * rapidSP=NULL;
+    ISwitch * autoLoopS=NULL, *sendImageS=NULL, *showMarkerS=NULL;
 
     if (targetChip == primaryChip)
         rapidSP = baseDevice->getSwitch("CCD_RAPID_GUIDE_SETUP");
@@ -1888,8 +1895,8 @@ bool CCD::configureRapidGuide(CCDChip *targetChip, bool autoLoop, bool sendImage
 
     // If everything is already set, let's return.
     if ( ( (autoLoop && autoLoopS->s == ISS_ON) || (!autoLoop && autoLoopS->s == ISS_OFF) ) &&
-         ( (sendImage && sendImageS->s == ISS_ON) || (!sendImage && sendImageS->s == ISS_OFF) ) &&
-         ( (showMarker && showMarkerS->s == ISS_ON) || (!showMarker && showMarkerS->s == ISS_OFF) ))
+            ( (sendImage && sendImageS->s == ISS_ON) || (!sendImage && sendImageS->s == ISS_OFF) ) &&
+            ( (showMarker && showMarkerS->s == ISS_ON) || (!showMarker && showMarkerS->s == ISS_OFF) ))
         return true;
 
     autoLoopS->s   = autoLoop ? ISS_ON : ISS_OFF;
@@ -1905,8 +1912,8 @@ void CCD::updateUploadSettings(const QString &remoteDir)
 {
     QString filename = seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("XXX");
 
-    ITextVectorProperty *uploadSettingsTP=NULL;
-    IText *uploadT=NULL;
+    ITextVectorProperty * uploadSettingsTP=NULL;
+    IText * uploadT=NULL;
 
     uploadSettingsTP = baseDevice->getText("UPLOAD_SETTINGS");
     if (uploadSettingsTP)
@@ -1925,7 +1932,7 @@ void CCD::updateUploadSettings(const QString &remoteDir)
 
 CCD::UploadMode CCD::getUploadMode()
 {
-    ISwitchVectorProperty *uploadModeSP=NULL;
+    ISwitchVectorProperty * uploadModeSP=NULL;
 
     uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
 
@@ -1937,7 +1944,7 @@ CCD::UploadMode CCD::getUploadMode()
 
     if (uploadModeSP)
     {
-        ISwitch *modeS= NULL;
+        ISwitch * modeS= NULL;
 
         modeS = IUFindSwitch(uploadModeSP, "UPLOAD_CLIENT");
         if (modeS && modeS->s == ISS_ON)
@@ -1956,8 +1963,8 @@ CCD::UploadMode CCD::getUploadMode()
 
 bool CCD::setUploadMode(UploadMode mode)
 {
-    ISwitchVectorProperty *uploadModeSP=NULL;
-    ISwitch *modeS= NULL;
+    ISwitchVectorProperty * uploadModeSP=NULL;
+    ISwitch * modeS= NULL;
 
     uploadModeSP = baseDevice->getSwitch("UPLOAD_MODE");
 
@@ -1969,29 +1976,29 @@ bool CCD::setUploadMode(UploadMode mode)
 
     switch (mode)
     {
-    case UPLOAD_CLIENT:
-        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_CLIENT");
-        if (modeS == NULL)
-            return false;
-        if (modeS->s == ISS_ON)
-            return true;
-        break;
+        case UPLOAD_CLIENT:
+            modeS = IUFindSwitch(uploadModeSP, "UPLOAD_CLIENT");
+            if (modeS == NULL)
+                return false;
+            if (modeS->s == ISS_ON)
+                return true;
+            break;
 
-    case UPLOAD_BOTH:
-        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_BOTH");
-        if (modeS == NULL)
-            return false;
-        if (modeS->s == ISS_ON)
-            return true;
-        break;
+        case UPLOAD_BOTH:
+            modeS = IUFindSwitch(uploadModeSP, "UPLOAD_BOTH");
+            if (modeS == NULL)
+                return false;
+            if (modeS->s == ISS_ON)
+                return true;
+            break;
 
-    case UPLOAD_LOCAL:
-        modeS = IUFindSwitch(uploadModeSP, "UPLOAD_LOCAL");
-        if (modeS == NULL)
-            return false;
-        if (modeS->s == ISS_ON)
-            return true;
-        break;
+        case UPLOAD_LOCAL:
+            modeS = IUFindSwitch(uploadModeSP, "UPLOAD_LOCAL");
+            if (modeS == NULL)
+                return false;
+            if (modeS->s == ISS_ON)
+                return true;
+            break;
 
     }
 
@@ -2004,12 +2011,12 @@ bool CCD::setUploadMode(UploadMode mode)
 
 }
 
-bool CCD::getTemperature(double *value)
+bool CCD::getTemperature(double * value)
 {
     if (HasCooler == false)
         return false;
 
-    INumberVectorProperty *temperatureNP = baseDevice->getNumber("CCD_TEMPERATURE");
+    INumberVectorProperty * temperatureNP = baseDevice->getNumber("CCD_TEMPERATURE");
     if (temperatureNP == NULL)
         return false;
 
@@ -2021,11 +2028,11 @@ bool CCD::getTemperature(double *value)
 
 bool CCD::setTemperature(double value)
 {
-    INumberVectorProperty *nvp = baseDevice->getNumber("CCD_TEMPERATURE");
+    INumberVectorProperty * nvp = baseDevice->getNumber("CCD_TEMPERATURE");
     if (nvp == NULL)
         return false;
 
-    INumber *np = IUFindNumber(nvp, "CCD_TEMPERATURE_VALUE");
+    INumber * np = IUFindNumber(nvp, "CCD_TEMPERATURE_VALUE");
     if (np == NULL)
         return false;
 
@@ -2041,12 +2048,12 @@ bool CCD::setTransformFormat(CCD::TransferFormat format)
     if (format == transferFormat)
         return true;
 
-    ISwitchVectorProperty *svp = baseDevice->getSwitch("CCD_TRANSFER_FORMAT");
+    ISwitchVectorProperty * svp = baseDevice->getSwitch("CCD_TRANSFER_FORMAT");
     if (svp == NULL)
         return false;
 
-    ISwitch *formatFITS   = IUFindSwitch(svp, "FORMAT_FITS");
-    ISwitch *formatNative = IUFindSwitch(svp, "FORMAT_NATIVE");
+    ISwitch * formatFITS   = IUFindSwitch(svp, "FORMAT_FITS");
+    ISwitch * formatNative = IUFindSwitch(svp, "FORMAT_NATIVE");
 
     if (formatFITS  == NULL || formatNative == NULL)
         return false;
@@ -2066,12 +2073,12 @@ bool CCD::setTelescopeType(TelescopeType type)
     if (type == telescopeType)
         return true;
 
-    ISwitchVectorProperty *svp = baseDevice->getSwitch("TELESCOPE_TYPE");
+    ISwitchVectorProperty * svp = baseDevice->getSwitch("TELESCOPE_TYPE");
     if (svp == NULL)
         return false;
 
-    ISwitch *typePrimary   = IUFindSwitch(svp, "TELESCOPE_PRIMARY");
-    ISwitch *typeGuide     = IUFindSwitch(svp, "TELESCOPE_GUIDE");
+    ISwitch * typePrimary   = IUFindSwitch(svp, "TELESCOPE_PRIMARY");
+    ISwitch * typeGuide     = IUFindSwitch(svp, "TELESCOPE_GUIDE");
 
     if (typePrimary  == NULL || typeGuide == NULL)
         return false;
@@ -2093,13 +2100,13 @@ bool CCD::setVideoStreamEnabled(bool enable)
     if (HasVideoStream == false)
         return false;
 
-    ISwitchVectorProperty *svp = baseDevice->getSwitch("CCD_VIDEO_STREAM");
+    ISwitchVectorProperty * svp = baseDevice->getSwitch("CCD_VIDEO_STREAM");
     if (svp == NULL)
         return false;
 
     // If already on and enable is set or vice versa no need to change anything we return true
     if ( (enable && svp->sp[0].s == ISS_ON) || (!enable && svp->sp[1].s == ISS_ON))
-         return true;
+        return true;
 
     svp->sp[0].s = enable ? ISS_ON : ISS_OFF;
     svp->sp[1].s = enable ? ISS_OFF : ISS_ON;
@@ -2111,15 +2118,15 @@ bool CCD::setVideoStreamEnabled(bool enable)
 
 bool CCD::resetStreamingFrame()
 {
-    INumberVectorProperty *frameProp = baseDevice->getNumber("CCD_STREAM_FRAME");
+    INumberVectorProperty * frameProp = baseDevice->getNumber("CCD_STREAM_FRAME");
 
     if (frameProp == NULL)
         return false;
 
-    INumber *xarg = IUFindNumber(frameProp, "X");
-    INumber *yarg = IUFindNumber(frameProp, "Y");
-    INumber *warg = IUFindNumber(frameProp, "WIDTH");
-    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+    INumber * xarg = IUFindNumber(frameProp, "X");
+    INumber * yarg = IUFindNumber(frameProp, "Y");
+    INumber * warg = IUFindNumber(frameProp, "WIDTH");
+    INumber * harg = IUFindNumber(frameProp, "HEIGHT");
 
     if (xarg && yarg && warg && harg)
     {
@@ -2140,15 +2147,15 @@ bool CCD::resetStreamingFrame()
 
 bool CCD::setStreamingFrame(int x, int y, int w, int h)
 {
-    INumberVectorProperty *frameProp = baseDevice->getNumber("CCD_STREAM_FRAME");
+    INumberVectorProperty * frameProp = baseDevice->getNumber("CCD_STREAM_FRAME");
 
     if (frameProp == NULL)
         return false;
 
-    INumber *xarg = IUFindNumber(frameProp, "X");
-    INumber *yarg = IUFindNumber(frameProp, "Y");
-    INumber *warg = IUFindNumber(frameProp, "WIDTH");
-    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+    INumber * xarg = IUFindNumber(frameProp, "X");
+    INumber * yarg = IUFindNumber(frameProp, "Y");
+    INumber * warg = IUFindNumber(frameProp, "WIDTH");
+    INumber * harg = IUFindNumber(frameProp, "HEIGHT");
 
     if (xarg && yarg && warg && harg)
     {
@@ -2179,12 +2186,12 @@ bool CCD::isStreamingEnabled()
 
 bool CCD::setSERNameDirectory(const QString &filename, const QString &directory)
 {
-    ITextVectorProperty *tvp = baseDevice->getText("RECORD_FILE");
+    ITextVectorProperty * tvp = baseDevice->getText("RECORD_FILE");
     if (tvp == NULL)
         return false;
 
-    IText *filenameT = IUFindText(tvp, "RECORD_FILE_NAME");
-    IText *dirT      = IUFindText(tvp, "RECORD_FILE_DIR");
+    IText * filenameT = IUFindText(tvp, "RECORD_FILE_NAME");
+    IText * dirT      = IUFindText(tvp, "RECORD_FILE_DIR");
 
     if (filenameT == NULL || dirT == NULL)
         return false;
@@ -2199,12 +2206,12 @@ bool CCD::setSERNameDirectory(const QString &filename, const QString &directory)
 
 bool CCD::getSERNameDirectory(QString &filename, QString &directory)
 {
-    ITextVectorProperty *tvp = baseDevice->getText("RECORD_FILE");
+    ITextVectorProperty * tvp = baseDevice->getText("RECORD_FILE");
     if (tvp == NULL)
         return false;
 
-    IText *filenameT = IUFindText(tvp, "RECORD_FILE_NAME");
-    IText *dirT      = IUFindText(tvp, "RECORD_FILE_DIR");
+    IText * filenameT = IUFindText(tvp, "RECORD_FILE_NAME");
+    IText * dirT      = IUFindText(tvp, "RECORD_FILE_DIR");
 
     if (filenameT == NULL || dirT == NULL)
         return false;
@@ -2217,11 +2224,11 @@ bool CCD::getSERNameDirectory(QString &filename, QString &directory)
 
 bool CCD::startRecording()
 {
-    ISwitchVectorProperty *svp = baseDevice->getSwitch("RECORD_STREAM");
+    ISwitchVectorProperty * svp = baseDevice->getSwitch("RECORD_STREAM");
     if (svp == NULL)
         return false;
 
-    ISwitch *recordON = IUFindSwitch(svp, "RECORD_ON");
+    ISwitch * recordON = IUFindSwitch(svp, "RECORD_ON");
     if (recordON == NULL)
         return false;
 
@@ -2238,19 +2245,19 @@ bool CCD::startRecording()
 
 bool CCD::startDurationRecording(double duration)
 {
-    INumberVectorProperty *nvp = baseDevice->getNumber("RECORD_OPTIONS");
+    INumberVectorProperty * nvp = baseDevice->getNumber("RECORD_OPTIONS");
     if (nvp == NULL)
         return false;
 
-    INumber *durationN = IUFindNumber(nvp, "RECORD_DURATION");
+    INumber * durationN = IUFindNumber(nvp, "RECORD_DURATION");
     if (durationN == NULL)
         return false;
 
-    ISwitchVectorProperty *svp = baseDevice->getSwitch("RECORD_STREAM");
+    ISwitchVectorProperty * svp = baseDevice->getSwitch("RECORD_STREAM");
     if (svp == NULL)
         return false;
 
-    ISwitch *recordON = IUFindSwitch(svp, "RECORD_DURATION_ON");
+    ISwitch * recordON = IUFindSwitch(svp, "RECORD_DURATION_ON");
     if (recordON == NULL)
         return false;
 
@@ -2270,19 +2277,19 @@ bool CCD::startDurationRecording(double duration)
 
 bool CCD::startFramesRecording(uint32_t frames)
 {
-    INumberVectorProperty *nvp = baseDevice->getNumber("RECORD_OPTIONS");
+    INumberVectorProperty * nvp = baseDevice->getNumber("RECORD_OPTIONS");
     if (nvp == NULL)
         return false;
 
-    INumber *frameN = IUFindNumber(nvp, "RECORD_FRAME_TOTAL");
+    INumber * frameN = IUFindNumber(nvp, "RECORD_FRAME_TOTAL");
     if (frameN == NULL)
         return false;
 
-    ISwitchVectorProperty *svp = baseDevice->getSwitch("RECORD_STREAM");
+    ISwitchVectorProperty * svp = baseDevice->getSwitch("RECORD_STREAM");
     if (svp == NULL)
         return false;
 
-    ISwitch *recordON = IUFindSwitch(svp, "RECORD_FRAME_ON");
+    ISwitch * recordON = IUFindSwitch(svp, "RECORD_FRAME_ON");
     if (recordON == NULL)
         return false;
 
@@ -2302,11 +2309,11 @@ bool CCD::startFramesRecording(uint32_t frames)
 
 bool CCD::stopRecording()
 {
-    ISwitchVectorProperty *svp = baseDevice->getSwitch("RECORD_STREAM");
+    ISwitchVectorProperty * svp = baseDevice->getSwitch("RECORD_STREAM");
     if (svp == NULL)
         return false;
 
-    ISwitch *recordOFF = IUFindSwitch(svp, "RECORD_OFF");
+    ISwitch * recordOFF = IUFindSwitch(svp, "RECORD_OFF");
     if (recordOFF == NULL)
         return false;
 
@@ -2324,7 +2331,7 @@ bool CCD::stopRecording()
 
 bool CCD::setFITSHeader(const QMap<QString, QString> &values)
 {
-    ITextVectorProperty *tvp = baseDevice->getText("FITS_HEADER");
+    ITextVectorProperty * tvp = baseDevice->getText("FITS_HEADER");
     if (tvp == NULL)
         return false;
 
@@ -2332,12 +2339,12 @@ bool CCD::setFITSHeader(const QMap<QString, QString> &values)
 
     while (i.hasNext())
     {
-          i.next();
+        i.next();
 
-          IText *headerT = IUFindText(tvp, i.key().toLatin1().data());
-          if (headerT == NULL)
-              continue;
-          IUSaveText(headerT, i.value().toLatin1().data());
+        IText * headerT = IUFindText(tvp, i.key().toLatin1().data());
+        if (headerT == NULL)
+            continue;
+        IUSaveText(headerT, i.value().toLatin1().data());
     }
 
     clientManager->sendNewText(tvp);

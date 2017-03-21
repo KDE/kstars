@@ -6,7 +6,7 @@
 //#
 //#
 //#     Author:         Peter Z. Kunszt, based on A. Szalay's code
-//#     
+//#
 //#     Date:           October 16, 1998
 //#
 //#		Copyright (C) 2000  Peter Z. Kunszt, Alex S. Szalay, Aniruddha R. Thakar
@@ -73,27 +73,31 @@
  etc on the sphere surface (pure ZERO convexes)
 
 */
-class LINKAGE SpatialConstraint {
-public:
-    /// Constructor
-    SpatialConstraint() {};
+class LINKAGE SpatialConstraint
+{
+    public:
+        /// Constructor
+        SpatialConstraint() {};
 
-    /// Initialization constructor
-    SpatialConstraint(SpatialVector, float64);
+        /// Initialization constructor
+        SpatialConstraint(SpatialVector, float64);
 
-    /// check whether a vector is inside this
-    bool contains(const SpatialVector v);
+        /// check whether a vector is inside this
+        bool contains(const SpatialVector v);
 
-    /// give back vector
-    SpatialVector & v() { return a_; }
+        /// give back vector
+        SpatialVector &v()
+        {
+            return a_;
+        }
 
-private:
-    Sign          sign_;
-    SpatialVector a_;			// normal vector
-    float64       d_;			// distance from origin
-    float64       s_;			// cone angle in radians
+    private:
+        Sign          sign_;
+        SpatialVector a_;			// normal vector
+        float64       d_;			// distance from origin
+        float64       s_;			// cone angle in radians
 
-    friend class RangeConvex;
+        friend class RangeConvex;
 };
 
 #endif

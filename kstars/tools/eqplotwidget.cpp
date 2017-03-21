@@ -22,19 +22,20 @@
 #include "kstarsdatetime.h"
 #include "modcalcvizequinox.h"
 
-eqPlotWidget::eqPlotWidget( QWidget *parent )
-        : KPlotWidget( parent )
+eqPlotWidget::eqPlotWidget( QWidget * parent )
+    : KPlotWidget( parent )
 {
 }
 
 //Draw rotated labels and month names on top axis
-void eqPlotWidget::paintEvent( QPaintEvent *e ) {
+void eqPlotWidget::paintEvent( QPaintEvent * e )
+{
     KPlotWidget::paintEvent(e);
 
     QPainter p;
     p.begin(this);
 
-    modCalcEquinox *mc = (modCalcEquinox*)(parent()->parent()->parent()->parent());
+    modCalcEquinox * mc = (modCalcEquinox *)(parent()->parent()->parent()->parent());
     KStarsDateTime dt( QDate(mc->Year->value(), 1, 1), QTime(0,0,0) );
     long double jd0 = dt.djd(); //save JD on Jan 1st
 
@@ -81,11 +82,15 @@ void eqPlotWidget::paintEvent( QPaintEvent *e ) {
     p.save();
     p.translate( leftPadding(), topPadding() );
     double y = mc->Plot->dataRect().bottom() + 1.5;
-    for ( int i=0; i<12; i++ ) {
+    for ( int i=0; i<12; i++ )
+    {
         QPoint c;
-        if (i<11) {
+        if (i<11)
+        {
             c = mc->Plot->mapToWidget( QPointF( 0.5*(mc->dmonth(i)+mc->dmonth(i+1)), y ) ).toPoint();
-        } else {
+        }
+        else
+        {
             c = mc->Plot->mapToWidget( QPointF( 0.5*(mc->dmonth(i)+mc->Plot->dataRect().right()), y ) ).toPoint();
         }
         QRect r( -16, -8, 32, 16 );

@@ -40,43 +40,46 @@ class SkyLabeler;
 
 class SolarSystemComposite : public SkyComposite
 {
-public:
-    explicit SolarSystemComposite( SkyComposite *parent );
-    ~SolarSystemComposite();
+    public:
+        explicit SolarSystemComposite( SkyComposite * parent );
+        ~SolarSystemComposite();
 
-    KSPlanet* earth() { return m_Earth; }
-    const QList<SkyObject*>& asteroids() const;
-    const QList<SkyObject*>& comets() const;
-    const QList<SkyObject*>& planetObjects() const;
-    const QList<SkyObject*>& moons() const;
+        KSPlanet * earth()
+        {
+            return m_Earth;
+        }
+        const QList<SkyObject *> &asteroids() const;
+        const QList<SkyObject *> &comets() const;
+        const QList<SkyObject *> &planetObjects() const;
+        const QList<SkyObject *> &moons() const;
 
-    bool selected();
+        bool selected();
 
-    virtual void update( KSNumbers *num );
+        virtual void update( KSNumbers * num );
 
-    virtual void updateSolarSystemBodies( KSNumbers *num );
+        virtual void updateSolarSystemBodies( KSNumbers * num );
 
-    virtual void updateMoons( KSNumbers *num );
+        virtual void updateMoons( KSNumbers * num );
 
-    void drawTrails( SkyPainter *skyp );
+        void drawTrails( SkyPainter * skyp );
 
-    CometsComponent* cometsComponent();
+        CometsComponent * cometsComponent();
 
-    AsteroidsComponent* asteroidsComponent();
+        AsteroidsComponent * asteroidsComponent();
 
-    QList<PlanetMoonsComponent *> planetMoonsComponent() const;
+        QList<PlanetMoonsComponent *> planetMoonsComponent() const;
 
-    const QList<SolarSystemSingleComponent *>& planets() const;
-private:
-    KSPlanet *m_Earth;
-    KSSun *m_Sun;
-    KSMoon *m_Moon;
+        const QList<SolarSystemSingleComponent *> &planets() const;
+    private:
+        KSPlanet * m_Earth;
+        KSSun * m_Sun;
+        KSMoon * m_Moon;
 //    PlanetMoonsComponent *m_JupiterMoons;
-    AsteroidsComponent *m_AsteroidsComponent;
-    CometsComponent *m_CometsComponent;
-    QList<SolarSystemSingleComponent *> m_planets;
-    QList<SkyObject *> m_planetObjects;
-    QList<SkyObject *> m_moons;
+        AsteroidsComponent * m_AsteroidsComponent;
+        CometsComponent * m_CometsComponent;
+        QList<SolarSystemSingleComponent *> m_planets;
+        QList<SkyObject *> m_planetObjects;
+        QList<SkyObject *> m_moons;
 };
 
 #endif

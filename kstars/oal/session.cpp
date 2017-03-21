@@ -18,7 +18,8 @@
 
 #include "oal/session.h"
 
-void OAL::Session::setSession( const QString& _name, const QString& _site, const KStarsDateTime& _begin, const KStarsDateTime& _end, const QString& _weather, const QString& _equipment, const QString& _comment, const QString& _lang ) {
+void OAL::Session::setSession( const QString &_name, const QString &_site, const KStarsDateTime &_begin, const KStarsDateTime &_end, const QString &_weather, const QString &_equipment, const QString &_comment, const QString &_lang )
+{
     m_Site = _site;
     m_Begin = _begin;
     m_End = _end;

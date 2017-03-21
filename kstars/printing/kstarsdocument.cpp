@@ -41,7 +41,7 @@ void KStarsDocument::clearContent()
     m_Document->clear();
 }
 
-void KStarsDocument::print(QPrinter *printer)
+void KStarsDocument::print(QPrinter * printer)
 {
     m_Document->print(printer);
 }
@@ -55,7 +55,7 @@ bool KStarsDocument::writeOdt(const QString &fname)
 void KStarsDocument::writePsPdf(const QString &fname)
 {
     QPrinter printer(QPrinter::HighResolution);
-    printer.setOutputFileName(fname);    
+    printer.setOutputFileName(fname);
     printer.setOutputFormat(fname.endsWith(".pdf") ? QPrinter::PdfFormat : QPrinter::NativeFormat);
     m_Document->print(&printer);
 }

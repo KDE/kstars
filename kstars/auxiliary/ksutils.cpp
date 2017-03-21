@@ -37,65 +37,72 @@
 
 #include <QPointer>
 
-namespace KSUtils {
+namespace KSUtils
+{
 
 
-bool openDataFile( QFile &file, const QString &s ) {
+bool openDataFile( QFile &file, const QString &s )
+{
     QString FileName = KSPaths::locate(QStandardPaths::GenericDataLocation, s );
-    if ( !FileName.isNull() ) {
+    if ( !FileName.isNull() )
+    {
         file.setFileName( FileName );
         return file.open( QIODevice::ReadOnly );
     }
     return false;
 }
 
-QString getDSSURL( const SkyPoint * const p ) {
-        const DeepSkyObject *dso = 0;
-        double height, width;
+QString getDSSURL( const SkyPoint * const p )
+{
+    const DeepSkyObject * dso = 0;
+    double height, width;
 
-        double dss_default_size = Options::defaultDSSImageSize();
-        double dss_padding = Options::dSSPadding();
+    double dss_default_size = Options::defaultDSSImageSize();
+    double dss_padding = Options::dSSPadding();
 
-        Q_ASSERT( p );
-        Q_ASSERT( dss_default_size > 0.0 && dss_padding >= 0.0 );
+    Q_ASSERT( p );
+    Q_ASSERT( dss_default_size > 0.0 && dss_padding >= 0.0 );
 
-        dso = dynamic_cast<const DeepSkyObject *>( p );
+    dso = dynamic_cast<const DeepSkyObject *>( p );
 
-        // Decide what to do about the height and width
-        if( dso ) {
-            // For deep-sky objects, use their height and width information
-            double a, b, pa;
-            a = dso->a();
-            b = dso->a() * dso->e(); // Use a * e instead of b, since e() returns 1 whenever one of the dimensions is zero. This is important for circular objects
-            pa = dso->pa() * dms::DegToRad;
+    // Decide what to do about the height and width
+    if( dso )
+    {
+        // For deep-sky objects, use their height and width information
+        double a, b, pa;
+        a = dso->a();
+        b = dso->a() * dso->e(); // Use a * e instead of b, since e() returns 1 whenever one of the dimensions is zero. This is important for circular objects
+        pa = dso->pa() * dms::DegToRad;
 
-            // We now want to convert a, b, and pa into an image
-            // height and width -- i.e. a dRA and dDec.
-            // DSS uses dDec for height and dRA for width. (i.e. "top" is north in the DSS images, AFAICT)
-            // From some trigonometry, assuming we have a rectangular object (worst case), we need:
-            width = a * sin( pa ) + b * cos( pa );
-            height = a * cos( pa ) + b * sin( pa );
-            // 'a' and 'b' are in arcminutes, so height and width are in arcminutes
+        // We now want to convert a, b, and pa into an image
+        // height and width -- i.e. a dRA and dDec.
+        // DSS uses dDec for height and dRA for width. (i.e. "top" is north in the DSS images, AFAICT)
+        // From some trigonometry, assuming we have a rectangular object (worst case), we need:
+        width = a * sin( pa ) + b * cos( pa );
+        height = a * cos( pa ) + b * sin( pa );
+        // 'a' and 'b' are in arcminutes, so height and width are in arcminutes
 
-            // Pad the RA and Dec, so that we show more of the sky than just the object.
-            height += dss_padding;
-            width += dss_padding;
-        }
-        else {
-            // For a generic sky object, we don't know what to do. So
-            // we just assume the default size.
-            height = width = dss_default_size;
-        }
-        // There's no point in tiny DSS images that are smaller than dss_default_size
-        if( height < dss_default_size )
-            height = dss_default_size;
-        if( width < dss_default_size )
-            width = dss_default_size;
+        // Pad the RA and Dec, so that we show more of the sky than just the object.
+        height += dss_padding;
+        width += dss_padding;
+    }
+    else
+    {
+        // For a generic sky object, we don't know what to do. So
+        // we just assume the default size.
+        height = width = dss_default_size;
+    }
+    // There's no point in tiny DSS images that are smaller than dss_default_size
+    if( height < dss_default_size )
+        height = dss_default_size;
+    if( width < dss_default_size )
+        width = dss_default_size;
 
-        return getDSSURL( p->ra0(), p->dec0(), width, height );
+    return getDSSURL( p->ra0(), p->dec0(), width, height );
 }
 
-QString getDSSURL( const dms &ra, const dms &dec, float width, float height, const QString & type) {
+QString getDSSURL( const dms &ra, const dms &dec, float width, float height, const QString &type)
+{
     const QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?" );
     QString URLsuffix = QString( "&e=J2000&f=%1&c=none&fov=NONE" ).arg(type);
     const double dss_default_size = Options::defaultDSSImageSize();
@@ -125,14 +132,16 @@ QString getDSSURL( const dms &ra, const dms &dec, float width, float height, con
     return ( URLprefix + RAString + DecString + SizeString + URLsuffix );
 }
 
-QString toDirectionString( dms angle ) {
+QString toDirectionString( dms angle )
+{
     // TODO: Instead of doing it this way, it would be nicer to
     // compute the string to arbitrary precision. Although that will
     // not be easy to localize.  (Consider, for instance, Indian
     // languages that have special names for the intercardinal points)
     // -- asimha
 
-    static const char *directions[] = {
+    static const char * directions[] =
+    {
         I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "N"),
         I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NNE"),
         I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NE"),
@@ -161,16 +170,19 @@ QString toDirectionString( dms angle ) {
     return i18nc( "Abbreviated cardinal / intercardinal etc. direction", directions[ index ] );
 }
 
-QList<SkyObject *> * castStarObjListToSkyObjList( QList<StarObject *> *starObjList ) {
-    QList<SkyObject *> *skyObjList = new QList<SkyObject *>();
-    foreach( StarObject *so, *starObjList ) {
+QList<SkyObject *> * castStarObjListToSkyObjList( QList<StarObject *> * starObjList )
+{
+    QList<SkyObject *> * skyObjList = new QList<SkyObject *>();
+    foreach( StarObject * so, *starObjList )
+    {
         skyObjList->append( so );
     }
     return skyObjList;
 }
 
 
-QString constGenetiveFromAbbrev( const QString &code ) {
+QString constGenetiveFromAbbrev( const QString &code )
+{
     if ( code == "And" ) return QString("Andromedae");
     if ( code == "Ant" ) return QString("Antliae");
     if ( code == "Aps" ) return QString("Apodis");
@@ -262,7 +274,8 @@ QString constGenetiveFromAbbrev( const QString &code ) {
     return code;
 }
 
-QString constNameFromAbbrev( const QString &code ) {
+QString constNameFromAbbrev( const QString &code )
+{
     if ( code == "And" ) return QString("Andromeda");
     if ( code == "Ant" ) return QString("Antlia");
     if ( code == "Aps" ) return QString("Apus");
@@ -354,7 +367,8 @@ QString constNameFromAbbrev( const QString &code ) {
     return code;
 }
 
-QString constNameToAbbrev( const QString &fullName_ ) {
+QString constNameToAbbrev( const QString &fullName_ )
+{
     QString fullName = fullName_.toLower();
     if ( fullName == "andromeda" ) return QString( "And" );
     if ( fullName == "antlia" ) return QString( "Ant" );
@@ -447,7 +461,8 @@ QString constNameToAbbrev( const QString &fullName_ ) {
     return fullName_;
 }
 
-QString constGenetiveToAbbrev( const QString &genetive_ ) {
+QString constGenetiveToAbbrev( const QString &genetive_ )
+{
     QString genetive = genetive_.toLower();
     if ( genetive == "andromedae" ) return QString("And");
     if ( genetive == "antliae" ) return QString("Ant");
@@ -541,165 +556,167 @@ QString constGenetiveToAbbrev( const QString &genetive_ ) {
 }
 
 
-  QString Logging::_filename;
+QString Logging::_filename;
 
-  void Logging::UseFile()
-  {
-      if (_filename.isEmpty())
-      {
-          QDir dir;
-          QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs/" + QDateTime::currentDateTime().toString("yyyy-MM-dd");
-          dir.mkpath(path);
-          QString name = "log_" + QDateTime::currentDateTime().toString("HH:mm:ss") + ".txt";
-          _filename = path + QStringLiteral("/") + name;
+void Logging::UseFile()
+{
+    if (_filename.isEmpty())
+    {
+        QDir dir;
+        QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs/" + QDateTime::currentDateTime().toString("yyyy-MM-dd");
+        dir.mkpath(path);
+        QString name = "log_" + QDateTime::currentDateTime().toString("HH:mm:ss") + ".txt";
+        _filename = path + QStringLiteral("/") + name;
 
-          // Clear file contents
-          QFile file(_filename);
-          file.open(QFile::WriteOnly);
-          file.close();
-      }
+        // Clear file contents
+        QFile file(_filename);
+        file.open(QFile::WriteOnly);
+        file.close();
+    }
 
-      qInstallMessageHandler(File);
-  }
+    qInstallMessageHandler(File);
+}
 
-  void Logging::File(QtMsgType type, const QMessageLogContext &, const QString &msg)
-  {
+void Logging::File(QtMsgType type, const QMessageLogContext &, const QString &msg)
+{
     QFile file(_filename);
     if(file.open(QFile::Append | QIODevice::Text))
     {
-      QTextStream stream(&file);
-      Write(stream, type, msg);
+        QTextStream stream(&file);
+        Write(stream, type, msg);
     }
-  }
+}
 
-  void Logging::UseStdout()
-  {
+void Logging::UseStdout()
+{
     qInstallMessageHandler(Stdout);
-  }
+}
 
-  void Logging::Stdout(QtMsgType type, const QMessageLogContext &, const QString &msg)
-  {
+void Logging::Stdout(QtMsgType type, const QMessageLogContext &, const QString &msg)
+{
     QTextStream stream(stdout, QIODevice::WriteOnly);
     Write(stream, type, msg);
-  }
+}
 
-  void Logging::UseStderr()
-  {
+void Logging::UseStderr()
+{
     qInstallMessageHandler(Stderr);
-  }
+}
 
-  void Logging::Stderr(QtMsgType type, const QMessageLogContext &, const QString &msg)
-  {
+void Logging::Stderr(QtMsgType type, const QMessageLogContext &, const QString &msg)
+{
     QTextStream stream(stderr, QIODevice::WriteOnly);
     Write(stream, type, msg);
-  }
+}
 
-  void Logging::Write(QTextStream &stream, QtMsgType type, const QString &msg)
-  {
+void Logging::Write(QTextStream &stream, QtMsgType type, const QString &msg)
+{
     stream << QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss.zzz") << " - ";
 
-    switch(type) {
-      case QtDebugMsg:
-        stream << "DEBG - ";
-        break;
-      case QtWarningMsg:
-        stream << "WARN - ";
-        break;
-      case QtCriticalMsg:
-        stream << "CRIT - ";
-        break;
-      case QtFatalMsg:
-        stream << "FATL - ";
-        break;
-      default:
-        stream << "UNKN - ";
+    switch(type)
+    {
+        case QtDebugMsg:
+            stream << "DEBG - ";
+            break;
+        case QtWarningMsg:
+            stream << "WARN - ";
+            break;
+        case QtCriticalMsg:
+            stream << "CRIT - ";
+            break;
+        case QtFatalMsg:
+            stream << "FATL - ";
+            break;
+        default:
+            stream << "UNKN - ";
     }
 
     stream << msg << endl;
-  }
+}
 
-  void Logging::UseDefault()
-  {
+void Logging::UseDefault()
+{
     qInstallMessageHandler(0);
-  }
+}
 
-  void Logging::Disable()
-  {
+void Logging::Disable()
+{
     qInstallMessageHandler(Disabled);
-  }
+}
 
-  void Logging::Disabled(QtMsgType, const QMessageLogContext &, const QString &)
-  {
-  }
-  /**
-    This method provides a centralized location for the default paths to important external files used in the Options
-    on different operating systems.  Note that on OS X, if the user builds the app without indi, astrometry, and xplanet internally
-    then the options below will be used.  If the user drags the app from a dmg and has to install the KStars data directory,
-    then most of these paths will be overwritten since it is preferrred to use the internal versions.
-  **/
+void Logging::Disabled(QtMsgType, const QMessageLogContext &, const QString &)
+{
+}
+/**
+  This method provides a centralized location for the default paths to important external files used in the Options
+  on different operating systems.  Note that on OS X, if the user builds the app without indi, astrometry, and xplanet internally
+  then the options below will be used.  If the user drags the app from a dmg and has to install the KStars data directory,
+  then most of these paths will be overwritten since it is preferrred to use the internal versions.
+**/
 
-  QString getDefaultPath(QString option)
-  {
-      QString snap = QProcessEnvironment::systemEnvironment().value("SNAP");
+QString getDefaultPath(QString option)
+{
+    QString snap = QProcessEnvironment::systemEnvironment().value("SNAP");
 
-      if(option=="fitsDir")
-      {
+    if(option=="fitsDir")
+    {
         return QDir::homePath();
-      }
-      else if(option=="indiServer")
-      {
-        #ifdef Q_OS_OSX          
-            return "/usr/local/bin/indiserver";
-        #endif
-            return snap + "/usr/bin/indiserver";
-      }
-      else if (option=="indiDriversDir")
-      {
-        #ifdef Q_OS_OSX
-            return "/usr/local/share/indi";
-        #elif defined(Q_OS_LINUX)
-            return snap + "/usr/share/indi";
-        #else
-          return QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory);
-        #endif
-      }
-      else if(option=="AstrometrySolverBinary")
-      {
-        #ifdef Q_OS_OSX
-            return "/usr/local/bin/solve-field";
-        #endif
-          return snap + "/usr/bin/solve-field";
-      }
-      else if(option=="AstrometryWCSInfo")
-      {
-        #ifdef Q_OS_OSX
-            return "/usr/local/bin/wcsinfo";
-        #endif
-            return snap + "/usr/bin/wcsinfo";
-      }
-      else if(option=="AstrometryConfFile")
-      {
-        #ifdef Q_OS_OSX
-            return "/usr/local/etc/astrometry.cfg";
-        #endif
-            return snap + "/etc/astrometry.cfg";
-      }
-      else if(option=="XplanetPath")
-      {
-        #ifdef Q_OS_OSX
-            return "/usr/local/bin/xplanet";
-        #endif
-            return snap + "/usr/bin/xplanet";
-      }
+    }
+    else if(option=="indiServer")
+    {
+#ifdef Q_OS_OSX
+        return "/usr/local/bin/indiserver";
+#endif
+        return snap + "/usr/bin/indiserver";
+    }
+    else if (option=="indiDriversDir")
+    {
+#ifdef Q_OS_OSX
+        return "/usr/local/share/indi";
+#elif defined(Q_OS_LINUX)
+        return snap + "/usr/share/indi";
+#else
+        return QStandardPaths::locate(QStandardPaths::GenericDataLocation, "indi", QStandardPaths::LocateDirectory);
+#endif
+    }
+    else if(option=="AstrometrySolverBinary")
+    {
+#ifdef Q_OS_OSX
+        return "/usr/local/bin/solve-field";
+#endif
+        return snap + "/usr/bin/solve-field";
+    }
+    else if(option=="AstrometryWCSInfo")
+    {
+#ifdef Q_OS_OSX
+        return "/usr/local/bin/wcsinfo";
+#endif
+        return snap + "/usr/bin/wcsinfo";
+    }
+    else if(option=="AstrometryConfFile")
+    {
+#ifdef Q_OS_OSX
+        return "/usr/local/etc/astrometry.cfg";
+#endif
+        return snap + "/etc/astrometry.cfg";
+    }
+    else if(option=="XplanetPath")
+    {
+#ifdef Q_OS_OSX
+        return "/usr/local/bin/xplanet";
+#endif
+        return snap + "/usr/bin/xplanet";
+    }
 
-      return QString();
-  }
+    return QString();
+}
 
 #ifdef Q_OS_OSX
 bool copyDataFolderFromAppBundleIfNeeded()  //The method returns true if the data directory is good to go.
 {
     QString dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-    if(dataLocation.isEmpty()) { //If there is no kstars user data directory
+    if(dataLocation.isEmpty())   //If there is no kstars user data directory
+    {
 
         QPointer<KSWizard> wizard = new KSWizard(new QFrame());
         wizard->exec();//This will pause the startup until the user installs the data directory from the Wizard.
@@ -731,47 +748,57 @@ bool copyDataFolderFromAppBundleIfNeeded()  //The method returns true if the dat
     return true;//This means the data directory was good to go from the start and the wizard did not run.
 }
 
-void configureDefaultAstrometry(){
+void configureDefaultAstrometry()
+{
     QDir writableDir;
     QString astrometryPath=QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/Astrometry/";
-    if(!astrometryPath.isEmpty()){
+    if(!astrometryPath.isEmpty())
+    {
         writableDir.mkdir(astrometryPath);
         astrometryPath=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "Astrometry", QStandardPaths::LocateDirectory);
         if(astrometryPath.isEmpty())
             KMessageBox::sorry(0, i18n("Error!  The Astrometry Index File Directory does not exist and was not able to be created."));
-        else{
+        else
+        {
             QString confPath=QCoreApplication::applicationDirPath()+"/astrometry/bin/astrometry.cfg";
             QFile confFile(confPath);
             QString contents;
             if (confFile.open(QIODevice::ReadOnly) == false)
                 KMessageBox::error(0, i18n("Internal Astrometry Configuration File Read Error."));
-            else{
+            else
+            {
                 QTextStream in(&confFile);
                 QString line;
                 bool foundPathBefore=false;
                 bool fileNeedsUpdating=false;
                 while ( !in.atEnd() )
                 {
-                      line = in.readLine();
-                      if (line.trimmed().startsWith("add_path"))
-                      {
-                          if(!foundPathBefore){  //This will ensure there is not more than one add_path line in the file.
-                              foundPathBefore=true;
-                              QString dataDir = line.trimmed().mid(9).trimmed();
-                              if(dataDir!=astrometryPath){ //Update to the correct path.
-                                  contents += "add_path " + astrometryPath + "\n";
-                                  fileNeedsUpdating=true;
-                              }
-                          }
-                      }else{
-                          contents += line + "\n";
-                      }
-                 }
+                    line = in.readLine();
+                    if (line.trimmed().startsWith("add_path"))
+                    {
+                        if(!foundPathBefore)   //This will ensure there is not more than one add_path line in the file.
+                        {
+                            foundPathBefore=true;
+                            QString dataDir = line.trimmed().mid(9).trimmed();
+                            if(dataDir!=astrometryPath)  //Update to the correct path.
+                            {
+                                contents += "add_path " + astrometryPath + "\n";
+                                fileNeedsUpdating=true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        contents += line + "\n";
+                    }
+                }
                 confFile.close();
-                if(fileNeedsUpdating){
+                if(fileNeedsUpdating)
+                {
                     if (confFile.open(QIODevice::WriteOnly) == false)
                         KMessageBox::error(0, i18n("Internal Astrometry Configuration File Write Error."));
-                    else{
+                    else
+                    {
                         QTextStream out(&confFile);
                         out << contents;
                         confFile.close();
@@ -795,7 +822,8 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
         destDir.mkdir(destFolder);
 
     QStringList files = sourceDir.entryList(QDir::Files);
-    for(int i = 0; i< files.count(); i++) {
+    for(int i = 0; i< files.count(); i++)
+    {
         QString srcName = sourceFolder + QDir::separator() + files[i];
         QString destName = destFolder + QDir::separator() + files[i];
         success = QFile::copy(srcName, destName);
@@ -818,26 +846,28 @@ bool copyRecursively(QString sourceFolder, QString destFolder)
 }
 #endif
 
-QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields, const QVector<JPLFilter> &filters) {
+QByteArray getJPLQueryString(const QByteArray &kind, const QByteArray &dataFields, const QVector<JPLFilter> &filters)
+{
     QByteArray query("obj_group=all&obj_kind=" + kind + "&obj_numbered=num&OBJ_field=0&ORB_field=0");
 
     // Apply filters:
-    for(int i = 0; i < filters.length(); i++) {
+    for(int i = 0; i < filters.length(); i++)
+    {
         QString f = QString::number(i+1);
         query += "&c" + f + "_group=OBJ&c1_item=" + filters[i].item
-               + "&c" + f + "_op=" + filters[i].op
-               + "&c" + f + "_value=" + filters[i].value;
+                 + "&c" + f + "_op=" + filters[i].op
+                 + "&c" + f + "_value=" + filters[i].value;
     }
 
     // Apply query data fields...
     query += "&c_fields=" + dataFields;
 
     query +=
-    "&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&."
-    "cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifie"
-    "lds=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields="
-    "ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifiel"
-    "ds=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class";
+        "&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&."
+        "cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifie"
+        "lds=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields="
+        "ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifiel"
+        "ds=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class";
 
     return query;
 }

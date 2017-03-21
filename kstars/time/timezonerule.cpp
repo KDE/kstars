@@ -22,32 +22,41 @@
 
 #include "kstarsdatetime.h"
 
-TimeZoneRule::TimeZoneRule() {
+TimeZoneRule::TimeZoneRule()
+{
     setEmpty();
 }
 
 TimeZoneRule::TimeZoneRule( const QString &smonth, const QString &sday, const QTime &stime,
-                            const QString &rmonth, const QString &rday, const QTime &rtime, const double &dh ) {
+                            const QString &rmonth, const QString &rday, const QTime &rtime, const double &dh )
+{
     dTZ = 0.0;
-    if ( smonth != "0" ) {
+    if ( smonth != "0" )
+    {
         StartMonth = initMonth( smonth );
         RevertMonth = initMonth( rmonth );
 
         if ( StartMonth && RevertMonth && initDay( sday, StartDay, StartWeek ) &&
-                initDay( rday, RevertDay, RevertWeek ) && stime.isValid() && rtime.isValid() ) {
+                initDay( rday, RevertDay, RevertWeek ) && stime.isValid() && rtime.isValid() )
+        {
             StartTime = stime;
             RevertTime = rtime;
             HourOffset = dh;
-        } else {
+        }
+        else
+        {
             qWarning() << i18n( "Error parsing TimeZoneRule, setting to empty rule." ) ;
             setEmpty();
         }
-    } else { //Empty rule
+    }
+    else     //Empty rule
+    {
         setEmpty();
     }
 }
 
-void TimeZoneRule::setEmpty() {
+void TimeZoneRule::setEmpty()
+{
     StartMonth  = 0;
     RevertMonth = 0;
     StartDay    = 0;
@@ -60,17 +69,22 @@ void TimeZoneRule::setEmpty() {
     dTZ         = 0.0;
 }
 
-void TimeZoneRule::setDST( bool activate ) {
-    if ( activate ) {
+void TimeZoneRule::setDST( bool activate )
+{
+    if ( activate )
+    {
         qDebug() << "Daylight Saving Time active";
         dTZ = HourOffset;
-    } else {
+    }
+    else
+    {
         qDebug() << "Daylight Saving Time inactive";
         dTZ = 0.0;
     }
 }
 
-int TimeZoneRule::initMonth( const QString &mn ) {
+int TimeZoneRule::initMonth( const QString &mn )
+{
     //Check whether the argument is a three-letter English month code.
     QString ml = mn.toLower();
     if ( ml == "jan" ) return 1;
@@ -90,12 +104,14 @@ int TimeZoneRule::initMonth( const QString &mn ) {
     return 0;
 }
 
-bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
+bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week )
+{
     //Three possible ways to express a day.
     //1. simple integer; the calendar date...set Week=0 to indicate that Date is not the day of the week
     bool ok;
     int day = dy.toInt( &ok );
-    if ( ok ) {
+    if ( ok )
+    {
         Day = day;
         Week = 0;
         return true;
@@ -104,33 +120,105 @@ bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
     QString dl = dy.toLower();
     //2. 3-letter day of week string, indicating the last of that day of the month
     //   ...set Week to 5 to indicate the last weekday of the month
-    if ( dl == "mon" ) { Day = 1; Week = 5; return true; }
-    else if ( dl == "tue" ) { Day = 2; Week = 5; return true; }
-    else if ( dl == "wed" ) { Day = 3; Week = 5; return true; }
-    else if ( dl == "thu" ) { Day = 4; Week = 5; return true; }
-    else if ( dl == "fri" ) { Day = 5; Week = 5; return true; }
-    else if ( dl == "sat" ) { Day = 6; Week = 5; return true; }
-    else if ( dl == "sun" ) { Day = 7; Week = 5; return true; }
+    if ( dl == "mon" )
+    {
+        Day = 1;
+        Week = 5;
+        return true;
+    }
+    else if ( dl == "tue" )
+    {
+        Day = 2;
+        Week = 5;
+        return true;
+    }
+    else if ( dl == "wed" )
+    {
+        Day = 3;
+        Week = 5;
+        return true;
+    }
+    else if ( dl == "thu" )
+    {
+        Day = 4;
+        Week = 5;
+        return true;
+    }
+    else if ( dl == "fri" )
+    {
+        Day = 5;
+        Week = 5;
+        return true;
+    }
+    else if ( dl == "sat" )
+    {
+        Day = 6;
+        Week = 5;
+        return true;
+    }
+    else if ( dl == "sun" )
+    {
+        Day = 7;
+        Week = 5;
+        return true;
+    }
 
     //3. 1,2 or 3 followed by 3-letter day of week string; this indicates
     //   the (1st/2nd/3rd) weekday of the month.
     int wn = dl.left(1).toInt();
-    if ( wn >0 && wn <4 ) {
+    if ( wn >0 && wn <4 )
+    {
         QString dm = dl.mid( 1, dl.length() ).toLower();
-        if ( dm == "mon" ) { Day = 1; Week = wn; return true; }
-        else if ( dm == "tue" ) { Day = 2; Week = wn; return true; }
-        else if ( dm == "wed" ) { Day = 3; Week = wn; return true; }
-        else if ( dm == "thu" ) { Day = 4; Week = wn; return true; }
-        else if ( dm == "fri" ) { Day = 5; Week = wn; return true; }
-        else if ( dm == "sat" ) { Day = 6; Week = wn; return true; }
-        else if ( dm == "sun" ) { Day = 7; Week = wn; return true; }
+        if ( dm == "mon" )
+        {
+            Day = 1;
+            Week = wn;
+            return true;
+        }
+        else if ( dm == "tue" )
+        {
+            Day = 2;
+            Week = wn;
+            return true;
+        }
+        else if ( dm == "wed" )
+        {
+            Day = 3;
+            Week = wn;
+            return true;
+        }
+        else if ( dm == "thu" )
+        {
+            Day = 4;
+            Week = wn;
+            return true;
+        }
+        else if ( dm == "fri" )
+        {
+            Day = 5;
+            Week = wn;
+            return true;
+        }
+        else if ( dm == "sat" )
+        {
+            Day = 6;
+            Week = wn;
+            return true;
+        }
+        else if ( dm == "sun" )
+        {
+            Day = 7;
+            Week = wn;
+            return true;
+        }
     }
 
     qWarning() << i18n( "Could not parse %1 as a valid day code.", dy );
     return false;
 }
 
-int TimeZoneRule::findStartDay( const KStarsDateTime &d ) {
+int TimeZoneRule::findStartDay( const KStarsDateTime &d )
+{
     // Determine the calendar date of StartDay for the month and year of the given date.
     QDate test;
 
@@ -141,11 +229,14 @@ int TimeZoneRule::findStartDay( const KStarsDateTime &d ) {
     if ( StartWeek==0 ) return StartDay;
 
     // Since StartWeek was not zero, StartDay is the day of the week, not the calendar date
-    else if ( StartWeek==5 ) { // count back from end of month until StartDay is found.
+    else if ( StartWeek==5 )   // count back from end of month until StartDay is found.
+    {
         for ( test = QDate( d.date().year(), d.date().month(), d.date().daysInMonth() );
                 test.day() > 21; test = test.addDays( -1 ) )
             if ( test.dayOfWeek() == StartDay ) break;
-    } else { // Count forward from day 1, 8 or 15 (depending on StartWeek) until correct day of week is found
+    }
+    else     // Count forward from day 1, 8 or 15 (depending on StartWeek) until correct day of week is found
+    {
         for ( test = QDate( d.date().year(), d.date().month(), (StartWeek-1)*7 + 1 );
                 test.day() < 7*StartWeek; test = test.addDays( 1 ) )
             if ( test.dayOfWeek() == StartDay ) break;
@@ -153,7 +244,8 @@ int TimeZoneRule::findStartDay( const KStarsDateTime &d ) {
     return test.day();
 }
 
-int TimeZoneRule::findRevertDay( const KStarsDateTime &d ) {
+int TimeZoneRule::findRevertDay( const KStarsDateTime &d )
+{
     // Determine the calendar date of RevertDay for the month and year of the given date.
     QDate test;
 
@@ -164,11 +256,14 @@ int TimeZoneRule::findRevertDay( const KStarsDateTime &d ) {
     if ( RevertWeek==0 ) return RevertDay;
 
     // Since RevertWeek was not zero, RevertDay is the day of the week, not the calendar date
-    else if ( RevertWeek==5 ) { //count back from end of month until RevertDay is found.
+    else if ( RevertWeek==5 )   //count back from end of month until RevertDay is found.
+    {
         for ( test = QDate( d.date().year(), d.date().month(), d.date().daysInMonth() );
                 test.day() > 21; test = test.addDays( -1 ) )
             if ( test.dayOfWeek() == RevertDay ) break;
-    } else { //Count forward from day 1, 8 or 15 (depending on RevertWeek) until correct day of week is found
+    }
+    else     //Count forward from day 1, 8 or 15 (depending on RevertWeek) until correct day of week is found
+    {
         for ( test = QDate( d.date().year(), d.date().month(), (RevertWeek-1)*7 + 1 );
                 test.day() < 7*RevertWeek; test = test.addDays( 1 ) )
             if ( test.dayOfWeek() == StartDay ) break;
@@ -176,7 +271,8 @@ int TimeZoneRule::findRevertDay( const KStarsDateTime &d ) {
     return test.day();
 }
 
-bool TimeZoneRule::isDSTActive( const KStarsDateTime &date ) {
+bool TimeZoneRule::isDSTActive( const KStarsDateTime &date )
+{
     // The empty rule always returns false
     if ( isEmptyRule() ) return false;
 
@@ -185,9 +281,12 @@ bool TimeZoneRule::isDSTActive( const KStarsDateTime &date ) {
     // the DST interval includes the end of the year).
     int month = date.date().month();
 
-    if ( StartMonth < RevertMonth ) {
+    if ( StartMonth < RevertMonth )
+    {
         if ( month < StartMonth || month > RevertMonth ) return false;
-    } else {
+    }
+    else
+    {
         if ( month < StartMonth && month > RevertMonth ) return false;
     }
 
@@ -195,11 +294,14 @@ bool TimeZoneRule::isDSTActive( const KStarsDateTime &date ) {
     // detailed checking to do...
     int day = date.date().day();
 
-    if ( month == StartMonth ) {
+    if ( month == StartMonth )
+    {
         int sday = findStartDay( date );
         if ( day < sday ) return false;
         if ( day==sday && date.time() < StartTime ) return false;
-    } else if ( month == RevertMonth ) {
+    }
+    else if ( month == RevertMonth )
+    {
         int rday = findRevertDay( date );
         if ( day > rday ) return false;
         if ( day==rday && date.time() > RevertTime ) return false;
@@ -209,13 +311,15 @@ bool TimeZoneRule::isDSTActive( const KStarsDateTime &date ) {
     return true;
 }
 
-void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date ) {
+void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date )
+{
     KStarsDateTime result;
 
     // return an invalid date if the rule is the empty rule.
     if ( isEmptyRule() ) result = QDateTime();
 
-    else if ( deltaTZ() ) {
+    else if ( deltaTZ() )
+    {
         // Next change is reverting back to standard time.
 
         //y is the year for the next DST Revert date.  It's either the current year, or
@@ -226,7 +330,9 @@ void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date ) {
         result = KStarsDateTime( QDate( y, RevertMonth, 1 ), RevertTime );
         result = KStarsDateTime( QDate( y, RevertMonth, findRevertDay( result ) ), RevertTime );
 
-    } else {
+    }
+    else
+    {
         // Next change is starting DST.
 
         //y is the year for the next DST Start date.  It's either the current year, or
@@ -243,13 +349,15 @@ void TimeZoneRule::nextDSTChange_LTime( const KStarsDateTime &date ) {
 }
 
 
-void TimeZoneRule::previousDSTChange_LTime( const KStarsDateTime &date ) {
+void TimeZoneRule::previousDSTChange_LTime( const KStarsDateTime &date )
+{
     KStarsDateTime result;
 
     // return an invalid date if the rule is the empty rule
     if ( isEmptyRule() ) next_change_ltime = QDateTime();
 
-    if ( deltaTZ() ) {
+    if ( deltaTZ() )
+    {
         // Last change was starting DST.
 
         //y is the year for the previous DST Start date.  It's either the current year, or
@@ -260,7 +368,9 @@ void TimeZoneRule::previousDSTChange_LTime( const KStarsDateTime &date ) {
         result = KStarsDateTime( QDate( y, StartMonth, 1 ), StartTime );
         result = KStarsDateTime( QDate( y, StartMonth, findStartDay( result ) ), StartTime );
 
-    } else if ( StartMonth ) {
+    }
+    else if ( StartMonth )
+    {
         //Last change was reverting to standard time.
 
         //y is the year for the previous DST Start date.  It's either the current year, or
@@ -277,7 +387,8 @@ void TimeZoneRule::previousDSTChange_LTime( const KStarsDateTime &date ) {
 }
 
 /**Convert current local DST change time in universal time */
-void TimeZoneRule::nextDSTChange( const KStarsDateTime &local_date, const double TZoffset ) {
+void TimeZoneRule::nextDSTChange( const KStarsDateTime &local_date, const double TZoffset )
+{
     // just decrement timezone offset and hour offset
     KStarsDateTime result = local_date.addSecs( int( (TZoffset + deltaTZ()) * -3600) );
 
@@ -286,7 +397,8 @@ void TimeZoneRule::nextDSTChange( const KStarsDateTime &local_date, const double
 }
 
 /**Convert current local DST change time in universal time */
-void TimeZoneRule::previousDSTChange( const KStarsDateTime &local_date, const double TZoffset ) {
+void TimeZoneRule::previousDSTChange( const KStarsDateTime &local_date, const double TZoffset )
+{
     // just decrement timezone offset
     KStarsDateTime result = local_date.addSecs( int( TZoffset * -3600) );
 
@@ -299,7 +411,8 @@ void TimeZoneRule::previousDSTChange( const KStarsDateTime &local_date, const do
 }
 
 void TimeZoneRule::reset_with_ltime( KStarsDateTime &ltime, const double TZoffset, const bool time_runs_forward,
-                                     const bool automaticDSTchange ) {
+                                     const bool automaticDSTchange )
+{
 
     /**There are some problems using local time for getting next daylight saving change time.
     	1. The local time is the start time of DST change. So the local time doesn't exists and must
@@ -309,7 +422,7 @@ void TimeZoneRule::reset_with_ltime( KStarsDateTime &ltime, const double TZoffse
 
     	Problem #1 is more complicated and we have to change the local time by reference.
     	Problem #2 we just have to reset status of DST.
-    	
+
     	automaticDSTchange should only set to true if DST status changed due to running automatically over
     	a DST change time. If local time will changed manually the automaticDSTchange should always set to
     	false, to hold current DST status if possible (just on start and revert time possible).
@@ -321,7 +434,8 @@ void TimeZoneRule::reset_with_ltime( KStarsDateTime &ltime, const double TZoffse
     // check if DST is active before resetting with new time
     bool wasDSTactive(false);
 
-    if ( deltaTZ() != 0.0 ) {
+    if ( deltaTZ() != 0.0 )
+    {
         wasDSTactive = true;
     }
 
@@ -332,57 +446,75 @@ void TimeZoneRule::reset_with_ltime( KStarsDateTime &ltime, const double TZoffse
     // store a valid local time
     KStarsDateTime ValidLTime = ltime;
 
-    if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth ) {
+    if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth )
+    {
         // current time is the start time
         qDebug() << "Current time = Starttime: invalid local time due to daylight saving time";
 
         // set a correct local time because the current time doesn't exists
         // if automatic DST change happend, new DST setting is the opposite of current setting
-        if ( automaticDSTchange ) {
+        if ( automaticDSTchange )
+        {
             // revert DST status
             setDST( !wasDSTactive );
             // new setting DST is inactive, so subtract hour offset to new time
-            if ( wasDSTactive ) {
+            if ( wasDSTactive )
+            {
                 // DST inactive
                 ValidLTime = ltime.addSecs( int( HourOffset * - 3600) );
-            } else {
+            }
+            else
+            {
                 // DST active
                 // add hour offset to new time
                 ValidLTime = ltime.addSecs( int( HourOffset * 3600) );
             }
-        } else {  // if ( automaticDSTchange )
+        }
+        else      // if ( automaticDSTchange )
+        {
             // no automatic DST change happend, so stay in current DST mode
             setDST( wasDSTactive );
-            if ( wasDSTactive ) {
+            if ( wasDSTactive )
+            {
                 // DST active
                 // add hour offset to current time, because time doesn't exists
                 ValidLTime = ltime.addSecs( int( HourOffset * 3600) );
-            } else {
+            }
+            else
+            {
                 // DST inactive
                 // subtrace hour offset to current time, because time doesn't exists
                 ValidLTime = ltime.addSecs( int( HourOffset * -3600) );
             }
         }  // else { // if ( automaticDSTchange )
 
-    } else {  // if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth )
+    }
+    else      // if ( active_with_houroffset != active_normal && ValidLTime.date().month() == StartMonth )
+    {
         // If current time was not start time, so check if current time is revert time
         // this means if a DST change happend in next hour(s)
         active_with_houroffset = isDSTActive(ltime.addSecs( int(HourOffset * 3600) ) );
-        if ( active_with_houroffset != active_normal && RevertMonth == ValidLTime.date().month() ) {
+        if ( active_with_houroffset != active_normal && RevertMonth == ValidLTime.date().month() )
+        {
             // current time is the revert time
             qDebug() << "Current time = Reverttime";
 
             // we don't kneed to change the local time, because local time always exists, but
             // some times exists twice, so we have to reset DST status
-            if ( automaticDSTchange ) {
+            if ( automaticDSTchange )
+            {
                 // revert DST status
                 setDST( !wasDSTactive );
-            } else {
+            }
+            else
+            {
                 // no automatic DST change so stay in current DST mode
                 setDST( wasDSTactive );
             }
 
-        } else {
+        }
+        else
+        {
             //Current time was neither starttime nor reverttime, so use normal calculated DST status
             setDST( active_normal );
         }
@@ -390,11 +522,14 @@ void TimeZoneRule::reset_with_ltime( KStarsDateTime &ltime, const double TZoffse
 
     //	qDebug() << "Using Valid Local Time = " << ValidLTime.toString();
 
-    if (time_runs_forward) {
+    if (time_runs_forward)
+    {
         // get next DST change time in local time
         nextDSTChange_LTime( ValidLTime );
         nextDSTChange( next_change_ltime, TZoffset );
-    } else {
+    }
+    else
+    {
         // get previous DST change time in local time
         previousDSTChange_LTime( ValidLTime );
         previousDSTChange( next_change_ltime, TZoffset );
@@ -403,7 +538,8 @@ void TimeZoneRule::reset_with_ltime( KStarsDateTime &ltime, const double TZoffse
 }
 
 
-bool TimeZoneRule::equals( TimeZoneRule *r ) {
+bool TimeZoneRule::equals( TimeZoneRule * r )
+{
     if ( StartDay == r->StartDay && RevertDay == r->RevertDay &&
             StartWeek == r->StartWeek && RevertWeek == r->RevertWeek &&
             StartMonth == r->StartMonth && RevertMonth == r->RevertMonth &&

@@ -45,26 +45,27 @@
 #include "widgets/dmsbox.h"
 #include "widgets/timestepbox.h"
 
-OptionsTreeViewWidget::OptionsTreeViewWidget( QWidget *p ) : QFrame( p ) {
+OptionsTreeViewWidget::OptionsTreeViewWidget( QWidget * p ) : QFrame( p )
+{
     setupUi( this );
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 }
 
-OptionsTreeView::OptionsTreeView( QWidget *p )
-        : QDialog( p )
+OptionsTreeView::OptionsTreeView( QWidget * p )
+    : QDialog( p )
 {
     otvw = new OptionsTreeViewWidget( this );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
 
     mainLayout->addWidget(otvw);
     setLayout(mainLayout);
 
     setWindowTitle( i18n( "Options" ) );
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -72,38 +73,46 @@ OptionsTreeView::OptionsTreeView( QWidget *p )
     setModal( false );
 }
 
-OptionsTreeView::~OptionsTreeView() {
+OptionsTreeView::~OptionsTreeView()
+{
     delete otvw;
 }
 
-void OptionsTreeView::resizeColumns() {
+void OptionsTreeView::resizeColumns()
+{
     //Size each column to the maximum width of items in that column
     int maxwidth[ 3 ] = { 0, 0, 0 };
     QFontMetrics qfm = optionsList()->fontMetrics();
 
-    for ( int i=0; i < optionsList()->topLevelItemCount(); ++i ) {
-        QTreeWidgetItem *topitem = optionsList()->topLevelItem( i );
+    for ( int i=0; i < optionsList()->topLevelItemCount(); ++i )
+    {
+        QTreeWidgetItem * topitem = optionsList()->topLevelItem( i );
         topitem->setExpanded( true );
 
-        for ( int j=0; j < topitem->childCount(); ++j ) {
-            QTreeWidgetItem *child = topitem->child( j );
+        for ( int j=0; j < topitem->childCount(); ++j )
+        {
+            QTreeWidgetItem * child = topitem->child( j );
 
-            for ( int icol=0; icol<3; ++icol ) {
+            for ( int icol=0; icol<3; ++icol )
+            {
                 child->setExpanded( true );
 
                 int w = qfm.width( child->text( icol ) ) + 4;
-                if ( icol == 0 ) {
+                if ( icol == 0 )
+                {
                     w += 2*optionsList()->indentation();
                 }
 
-                if ( w > maxwidth[icol] ) {
+                if ( w > maxwidth[icol] )
+                {
                     maxwidth[icol] = w;
                 }
             }
         }
     }
 
-    for ( int icol=0; icol < 3; ++icol ) {
+    for ( int icol=0; icol < 3; ++icol )
+    {
         //DEBUG
         qDebug() << QString("max width of column %1: %2").arg(icol).arg(maxwidth[icol]) << endl;
 
@@ -111,26 +120,27 @@ void OptionsTreeView::resizeColumns() {
     }
 }
 
-ScriptNameWidget::ScriptNameWidget( QWidget *p ) : QFrame( p ) {
+ScriptNameWidget::ScriptNameWidget( QWidget * p ) : QFrame( p )
+{
     setupUi( this );
 }
 
-ScriptNameDialog::ScriptNameDialog( QWidget *p )
-        : QDialog( p )
+ScriptNameDialog::ScriptNameDialog( QWidget * p )
+    : QDialog( p )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     snw = new ScriptNameWidget( this );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
 
     mainLayout->addWidget(snw);
     setLayout(mainLayout);
 
     setWindowTitle( i18n( "Script Data" ) );
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -140,7 +150,8 @@ ScriptNameDialog::ScriptNameDialog( QWidget *p )
     connect( snw->ScriptName, SIGNAL( textChanged(const QString &) ), this, SLOT( slotEnableOkButton() ) );
 }
 
-ScriptNameDialog::~ScriptNameDialog() {
+ScriptNameDialog::~ScriptNameDialog()
+{
     delete snw;
 }
 
@@ -149,29 +160,30 @@ void ScriptNameDialog::slotEnableOkButton()
     okB->setEnabled( ! snw->ScriptName->text().isEmpty() );
 }
 
-ScriptBuilderUI::ScriptBuilderUI( QWidget *p ) : QFrame( p ) {
+ScriptBuilderUI::ScriptBuilderUI( QWidget * p ) : QFrame( p )
+{
     setupUi( this );
 }
 
-ScriptBuilder::ScriptBuilder( QWidget *parent )
-        : QDialog( parent ), UnsavedChanges(false), checkForChanges(true),
-        currentFileURL(), currentDir( QDir::homePath() ),
-        currentScriptName(), currentAuthor()
+ScriptBuilder::ScriptBuilder( QWidget * parent )
+    : QDialog( parent ), UnsavedChanges(false), checkForChanges(true),
+      currentFileURL(), currentDir( QDir::homePath() ),
+      currentScriptName(), currentAuthor()
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
-    ks = (KStars*)parent;
+    ks = (KStars *)parent;
     sb = new ScriptBuilderUI(this);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
 
     mainLayout->addWidget(sb);
     setLayout(mainLayout);
 
     setWindowTitle( i18n( "Script Builder" ) );
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(slotClose()));
 
@@ -209,8 +221,8 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     SimClockFunctionList.append( new ScriptFunction( "setClockScale", i18n( "Set the timescale of the simulation clock to specified scale.  1.0 means real-time; 2.0 means twice real-time; etc." ), true, "double", "scale" ) );
 
     // JM: We're using QTreeWdiget for Qt4 now
-    QTreeWidgetItem *kstars_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("KStars"));
-    QTreeWidgetItem *simclock_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("SimClock"));
+    QTreeWidgetItem * kstars_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("KStars"));
+    QTreeWidgetItem * simclock_tree = new QTreeWidgetItem( sb->FunctionTree, QStringList("SimClock"));
 
     for ( int i=0; i < KStarsFunctionList.size(); ++i )
         new QTreeWidgetItem (kstars_tree, QStringList( KStarsFunctionList[i]->prototype()) );
@@ -295,9 +307,9 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     initViewOptions();
     otv->resizeColumns();
 
-    //connect widgets in ScriptBuilderUI    
+    //connect widgets in ScriptBuilderUI
     connect( sb->FunctionTree, SIGNAL( itemDoubleClicked(QTreeWidgetItem *, int )), this, SLOT( slotAddFunction() ) );
-    connect( sb->FunctionTree, SIGNAL( itemClicked(QTreeWidgetItem*, int) ), this, SLOT( slotShowDoc() ) );
+    connect( sb->FunctionTree, SIGNAL( itemClicked(QTreeWidgetItem *, int) ), this, SLOT( slotShowDoc() ) );
     connect( sb->UpButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionUp() ) );
     connect( sb->ScriptListBox, SIGNAL( itemClicked(QListWidgetItem *) ), this, SLOT( slotArgWidget() ) );
     connect( sb->DownButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionDown() ) );
@@ -322,8 +334,8 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     connect( argSetRaDec->DecBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotDec() ) );
     connect( argSetAltAz->AltBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotAlt() ) );
     connect( argSetAltAz->AzBox, SIGNAL( textChanged(const QString &) ), this, SLOT( slotAz() ) );
-    connect( argSetLocalTime->DateWidget, SIGNAL( dateChanged(const QDate&) ), this, SLOT( slotChangeDate() ) );
-    connect( argSetLocalTime->TimeBox, SIGNAL( timeChanged(const QTime&) ), this, SLOT( slotChangeTime() ) );
+    connect( argSetLocalTime->DateWidget, SIGNAL( dateChanged(const QDate &) ), this, SLOT( slotChangeDate() ) );
+    connect( argSetLocalTime->TimeBox, SIGNAL( timeChanged(const QTime &) ), this, SLOT( slotChangeTime() ) );
     connect( argWaitFor->DelayBox, SIGNAL( valueChanged(int) ), this, SLOT( slotWaitFor() ) );
     connect( argWaitForKey->WaitKeyEdit, SIGNAL( textChanged(const QString &) ), this, SLOT( slotWaitForKey() ) );
     connect( argSetTracking->CheckTrack, SIGNAL( stateChanged(int) ), this, SLOT( slotTracking() ) );
@@ -366,7 +378,8 @@ ScriptBuilder::~ScriptBuilder()
         delete ScriptList.takeFirst();
 }
 
-void ScriptBuilder::initViewOptions() {
+void ScriptBuilder::initViewOptions()
+{
     otv->optionsList()->setRootIsDecorated( true );
     QStringList fields;
 
@@ -721,7 +734,8 @@ void ScriptBuilder::initViewOptions() {
     argChangeViewOption->OptionName->addItem( "maxRadCometName" );
 
     //init the list of color names and values
-    for ( unsigned int i=0; i < ks->data()->colorScheme()->numberOfColors(); ++i ) {
+    for ( unsigned int i=0; i < ks->data()->colorScheme()->numberOfColors(); ++i )
+    {
         argSetColor->ColorName->addItem( ks->data()->colorScheme()->nameAt(i) );
     }
 
@@ -734,10 +748,12 @@ void ScriptBuilder::initViewOptions() {
     QFile file;
     QString line;
     file.setFileName( KSPaths::locate(QStandardPaths::GenericDataLocation, "colors.dat" ) ); //determine filename in local user KDE directory tree.
-    if ( file.open( QIODevice::ReadOnly ) ) {
+    if ( file.open( QIODevice::ReadOnly ) )
+    {
         QTextStream stream( &file );
 
-        while ( !stream.atEnd() ) {
+        while ( !stream.atEnd() )
+        {
             line = stream.readLine();
             argLoadColorScheme->SchemeList->addItem( line.left( line.indexOf( ':' ) ) );
         }
@@ -746,9 +762,11 @@ void ScriptBuilder::initViewOptions() {
 }
 
 //Slots defined in ScriptBuilderUI
-void ScriptBuilder::slotNew() {
+void ScriptBuilder::slotNew()
+{
     saveWarning();
-    if ( !UnsavedChanges ) {
+    if ( !UnsavedChanges )
+    {
         ScriptList.clear();
         sb->ScriptListBox->clear();
         sb->ArgStack->setCurrentWidget( argBlank );
@@ -763,7 +781,8 @@ void ScriptBuilder::slotNew() {
     }
 }
 
-void ScriptBuilder::slotOpen() {
+void ScriptBuilder::slotOpen()
+{
     saveWarning();
 
     QString fname;
@@ -782,18 +801,21 @@ void ScriptBuilder::slotOpen() {
             sb->ScriptListBox->clear();
             sb->ArgStack->setCurrentWidget( argBlank );
 
-            if ( currentFileURL.isLocalFile() ) {
+            if ( currentFileURL.isLocalFile() )
+            {
                 fname = currentFileURL.toLocalFile();
-            } else
+            }
+            else
             {
                 fname = tmpfile.fileName();
                 if (KIO::copy(currentFileURL, QUrl(fname))->exec() == false)
-                //if ( ! KIO::NetAccess::download( currentFileURL, fname, (QWidget*) 0 ) )
+                    //if ( ! KIO::NetAccess::download( currentFileURL, fname, (QWidget*) 0 ) )
                     KMessageBox::sorry( 0, i18n( "Could not download remote file." ), i18n( "Download Error" ) );
             }
 
             QFile f( fname );
-            if ( !f.open( QIODevice::ReadOnly) ) {
+            if ( !f.open( QIODevice::ReadOnly) )
+            {
                 QString message = i18n( "Could not open file %1.", f.fileName() );
                 KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
                 currentFileURL.clear();
@@ -804,7 +826,9 @@ void ScriptBuilder::slotOpen() {
             readScript( istream );
 
             f.close();
-        } else if ( ! currentFileURL.url().isEmpty() ) {
+        }
+        else if ( ! currentFileURL.url().isEmpty() )
+        {
             QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
             KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
             currentFileURL.clear();
@@ -833,19 +857,23 @@ void ScriptBuilder::slotSave()
     }
 
     bool newFilename = false;
-    if ( currentFileURL.isEmpty() ) {
+    if ( currentFileURL.isEmpty() )
+    {
         currentFileURL = QFileDialog::getSaveFileUrl(KStars::Instance(), QString(), QUrl(currentDir), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
         newFilename = true;
     }
 
-    if ( currentFileURL.isValid() ) {
+    if ( currentFileURL.isValid() )
+    {
         currentDir = currentFileURL.toLocalFile();
 
-        if ( currentFileURL.isLocalFile() ) {
+        if ( currentFileURL.isLocalFile() )
+        {
             fname = currentFileURL.toLocalFile();
 
             //Warn user if file exists
-            if (newFilename == true && QFile::exists(currentFileURL.toLocalFile())) {
+            if (newFilename == true && QFile::exists(currentFileURL.toLocalFile()))
+            {
                 int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
                         i18n( "A file named \"%1\" already exists. "
                               "Overwrite it?" , currentFileURL.fileName()),
@@ -854,14 +882,17 @@ void ScriptBuilder::slotSave()
 
                 if(r==KMessageBox::Cancel) return;
             }
-        } else {
+        }
+        else
+        {
             fname = tmpfile.fileName();
         }
 
         if ( fname.right( 7 ).toLower() != ".kstars" ) fname += ".kstars";
 
         QFile f( fname );
-        if ( !f.open( QIODevice::WriteOnly) ) {
+        if ( !f.open( QIODevice::WriteOnly) )
+        {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             currentFileURL.clear();
@@ -890,28 +921,36 @@ void ScriptBuilder::slotSave()
 
         setUnsavedChanges( false );
 
-    } else {
+    }
+    else
+    {
         QString message = i18n( "Invalid URL: %1", currentFileURL.url() );
         KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
         currentFileURL.clear();
     }
 }
 
-void ScriptBuilder::slotSaveAs() {
+void ScriptBuilder::slotSaveAs()
+{
     currentFileURL.clear();
     currentScriptName.clear();
     slotSave();
 }
 
-void ScriptBuilder::saveWarning() {
-    if ( UnsavedChanges ) {
+void ScriptBuilder::saveWarning()
+{
+    if ( UnsavedChanges )
+    {
         QString caption = i18n( "Save Changes to Script?" );
         QString message = i18n( "The current script has unsaved changes.  Would you like to save before closing it?" );
         int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
-        if ( ans == KMessageBox::Yes ) {
+        if ( ans == KMessageBox::Yes )
+        {
             slotSave();
             setUnsavedChanges( false );
-        } else if ( ans == KMessageBox::No ) {
+        }
+        else if ( ans == KMessageBox::No )
+        {
             setUnsavedChanges( false );
         }
 
@@ -919,7 +958,8 @@ void ScriptBuilder::saveWarning() {
     }
 }
 
-void ScriptBuilder::slotRunScript() {
+void ScriptBuilder::slotRunScript()
+{
     //hide window while script runs
     // If this is uncommented, the program hangs before the script is executed.  Why?
     //	hide();
@@ -933,7 +973,8 @@ void ScriptBuilder::slotRunScript() {
 
     QFile f( fname );
     if ( f.exists() ) f.remove();
-    if ( !f.open( QIODevice::WriteOnly) ) {
+    if ( !f.open( QIODevice::WriteOnly) )
+    {
         QString message = i18n( "Could not open file %1.", f.fileName() );
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
         currentFileURL.clear();
@@ -955,7 +996,8 @@ void ScriptBuilder::slotRunScript() {
     if( !p.waitForStarted() )
         qDebug() << "Process did not start.";
 
-    while ( !p.waitForFinished(10) ) {
+    while ( !p.waitForFinished(10) )
+    {
         qApp->processEvents(); //otherwise tempfile may get deleted before script completes.
         if( p.state() != QProcess::Running )
             break;
@@ -984,14 +1026,15 @@ void ScriptBuilder::writeScript( QTextStream &ostream )
     ostream << "#last modified: " << KStarsDateTime::currentDateTime().toString( Qt::ISODate ) << endl;
     ostream << "#" << endl;
 
-    foreach ( ScriptFunction *sf, ScriptList )
+    foreach ( ScriptFunction * sf, ScriptList )
     {
         if (!sf->valid()) continue;
 
         if ( sf->isClockFunction() )
         {
             ostream << dbus_call << clock_method << sf->scriptLine() << endl;
-        } else
+        }
+        else
         {
             ostream << dbus_call << main_method << sf->scriptLine() << endl;
         }
@@ -1007,7 +1050,8 @@ void ScriptBuilder::readScript( QTextStream &istream )
     QString service_name = "org.kde.kstars.";
     QString fn_name;
 
-    while ( ! istream.atEnd() ) {
+    while ( ! istream.atEnd() )
+    {
         line = istream.readLine();
 
         //look for name of script
@@ -1019,10 +1063,12 @@ void ScriptBuilder::readScript( QTextStream &istream )
             currentAuthor = line.mid( 4 ).trimmed();
 
         //Actual script functions
-        if ( line.left(4) == "dbus" ) {
+        if ( line.left(4) == "dbus" )
+        {
 
             //is ClockFunction?
-            if ( line.contains( "SimClock" ) ) {
+            if ( line.contains( "SimClock" ) )
+            {
                 service_name += "SimClock.";
             }
 
@@ -1053,7 +1099,8 @@ void ScriptBuilder::readScript( QTextStream &istream )
     } // end while !atEnd()
 
     //Select first item in sb->ScriptListBox
-    if ( sb->ScriptListBox->count() ) {
+    if ( sb->ScriptListBox->count() )
+    {
         sb->ScriptListBox->setCurrentItem( 0 );
         slotArgWidget();
     }
@@ -1105,7 +1152,7 @@ bool ScriptBuilder::parseFunction( QString fn_name, QStringList &fn )
         fn = arg.split( '\'', QString::SkipEmptyParts );
 
     //loop over known functions to find a name match
-    foreach ( ScriptFunction *sf, KStarsFunctionList )
+    foreach ( ScriptFunction * sf, KStarsFunctionList )
     {
         if ( fn_name == sf->name() )
         {
@@ -1114,16 +1161,22 @@ bool ScriptBuilder::parseFunction( QString fn_name, QStringList &fn )
             {
                 QString city( fn[0] ), prov, cntry( fn[1] );
                 prov.clear();
-                if ( fn.count() == 4 ) { prov = fn[1]; cntry = fn[2]; }
+                if ( fn.count() == 4 )
+                {
+                    prov = fn[1];
+                    cntry = fn[2];
+                }
                 if ( fn.count() == 3 || fn.count() == 4 )
                 {
                     ScriptList.append( new ScriptFunction( sf ) );
                     ScriptList.last()->setArg( 0, city );
                     ScriptList.last()->setArg( 1, prov );
                     ScriptList.last()->setArg( 2, cntry );
-                } else return false;
+                }
+                else return false;
 
-            } else if ( fn.count() != sf->numArgs()) return false;
+            }
+            else if ( fn.count() != sf->numArgs()) return false;
 
             ScriptList.append( new ScriptFunction( sf ) );
 
@@ -1133,7 +1186,7 @@ bool ScriptBuilder::parseFunction( QString fn_name, QStringList &fn )
             return true;
         }
 
-        foreach ( ScriptFunction *sf, SimClockFunctionList )
+        foreach ( ScriptFunction * sf, SimClockFunctionList )
         {
             if ( fn_name == sf->name() )
             {
@@ -1156,14 +1209,17 @@ bool ScriptBuilder::parseFunction( QString fn_name, QStringList &fn )
     return false;
 }
 
-void ScriptBuilder::setUnsavedChanges( bool b ) {
-    if ( checkForChanges ) {
+void ScriptBuilder::setUnsavedChanges( bool b )
+{
+    if ( checkForChanges )
+    {
         UnsavedChanges = b;
         sb->SaveButton->setEnabled( b );
     }
 }
 
-void ScriptBuilder::slotCopyFunction() {
+void ScriptBuilder::slotCopyFunction()
+{
     if ( ! UnsavedChanges ) setUnsavedChanges( true );
 
     int Pos = sb->ScriptListBox->currentRow() + 1;
@@ -1178,21 +1234,26 @@ void ScriptBuilder::slotCopyFunction() {
     slotArgWidget();
 }
 
-void ScriptBuilder::slotRemoveFunction() {
+void ScriptBuilder::slotRemoveFunction()
+{
     setUnsavedChanges( true );
 
     int Pos = sb->ScriptListBox->currentRow();
     ScriptList.removeAt( Pos );
     sb->ScriptListBox->takeItem( Pos );
-    if ( sb->ScriptListBox->count() == 0 ) {
+    if ( sb->ScriptListBox->count() == 0 )
+    {
         sb->ArgStack->setCurrentWidget( argBlank );
         sb->CopyButton->setEnabled( false );
         sb->RemoveButton->setEnabled( false );
         sb->RunButton->setEnabled( false );
         sb->SaveAsButton->setEnabled( false );
-    } else {
+    }
+    else
+    {
         //sb->ScriptListBox->setSelected( Pos, true );
-        if ( Pos == sb->ScriptListBox->count() ) {
+        if ( Pos == sb->ScriptListBox->count() )
+        {
             Pos = Pos - 1;
         }
         sb->ScriptListBox->setCurrentRow(Pos);
@@ -1200,27 +1261,28 @@ void ScriptBuilder::slotRemoveFunction() {
     slotArgWidget();
 }
 
-void ScriptBuilder::slotAddFunction() {
+void ScriptBuilder::slotAddFunction()
+{
 
-    ScriptFunction *sc = NULL, *found = NULL;
-    QTreeWidgetItem *currentItem = sb->FunctionTree->currentItem();
+    ScriptFunction * sc = NULL, *found = NULL;
+    QTreeWidgetItem * currentItem = sb->FunctionTree->currentItem();
 
     if ( currentItem == NULL || currentItem->parent() == 0)
         return;
 
     foreach ( sc, KStarsFunctionList )
-    if (sc->prototype() == currentItem->text(0))
-    {
-        found = sc;
-        break;
-    }
+        if (sc->prototype() == currentItem->text(0))
+        {
+            found = sc;
+            break;
+        }
 
     foreach ( sc, SimClockFunctionList )
-    if (sc->prototype() == currentItem->text(0))
-    {
-        found = sc;
-        break;
-    }
+        if (sc->prototype() == currentItem->text(0))
+        {
+            found = sc;
+            break;
+        }
 
     if (found == NULL) return;
 
@@ -1234,15 +1296,17 @@ void ScriptBuilder::slotAddFunction() {
     slotArgWidget();
 }
 
-void ScriptBuilder::slotMoveFunctionUp() {
-    if ( sb->ScriptListBox->currentRow() > 0 ) {
+void ScriptBuilder::slotMoveFunctionUp()
+{
+    if ( sb->ScriptListBox->currentRow() > 0 )
+    {
         setUnsavedChanges( true );
 
         //QString t = sb->ScriptListBox->currentItem()->text();
         QString t = sb->ScriptListBox->currentItem()->text();
         unsigned int n = sb->ScriptListBox->currentRow();
 
-        ScriptFunction *tmp = ScriptList.takeAt( n );
+        ScriptFunction * tmp = ScriptList.takeAt( n );
         ScriptList.insert( n-1, tmp );
 
         sb->ScriptListBox->takeItem( n );
@@ -1252,15 +1316,17 @@ void ScriptBuilder::slotMoveFunctionUp() {
     }
 }
 
-void ScriptBuilder::slotMoveFunctionDown() {
+void ScriptBuilder::slotMoveFunctionDown()
+{
     if ( sb->ScriptListBox->currentRow() > -1 &&
-            sb->ScriptListBox->currentRow() < ((int) sb->ScriptListBox->count())-1 ) {
+            sb->ScriptListBox->currentRow() < ((int) sb->ScriptListBox->count())-1 )
+    {
         setUnsavedChanges( true );
 
         QString t = sb->ScriptListBox->currentItem()->text();
         unsigned int n = sb->ScriptListBox->currentRow();
 
-        ScriptFunction *tmp = ScriptList.takeAt( n );
+        ScriptFunction * tmp = ScriptList.takeAt( n );
         ScriptList.insert( n+1, tmp );
 
         sb->ScriptListBox->takeItem( n );
@@ -1270,29 +1336,39 @@ void ScriptBuilder::slotMoveFunctionDown() {
     }
 }
 
-void ScriptBuilder::slotArgWidget() {
+void ScriptBuilder::slotArgWidget()
+{
     //First, setEnabled on buttons that act on the selected script function
-    if ( sb->ScriptListBox->currentRow() == -1 ) { //no selection
+    if ( sb->ScriptListBox->currentRow() == -1 )   //no selection
+    {
         sb->CopyButton->setEnabled( false );
         sb->RemoveButton->setEnabled( false );
         sb->UpButton->setEnabled( false );
         sb->DownButton->setEnabled( false );
-    } else if ( sb->ScriptListBox->count() == 1 ) { //only one item, so disable up/down buttons
+    }
+    else if ( sb->ScriptListBox->count() == 1 )     //only one item, so disable up/down buttons
+    {
         sb->CopyButton->setEnabled( true );
         sb->RemoveButton->setEnabled( true );
         sb->UpButton->setEnabled( false );
         sb->DownButton->setEnabled( false );
-    } else if ( sb->ScriptListBox->currentRow() == 0 ) { //first item selected
+    }
+    else if ( sb->ScriptListBox->currentRow() == 0 )     //first item selected
+    {
         sb->CopyButton->setEnabled( true );
         sb->RemoveButton->setEnabled( true );
         sb->UpButton->setEnabled( false );
         sb->DownButton->setEnabled( true );
-    } else if ( sb->ScriptListBox->currentRow() == ((int) sb->ScriptListBox->count())-1 ) { //last item selected
+    }
+    else if ( sb->ScriptListBox->currentRow() == ((int) sb->ScriptListBox->count())-1 )     //last item selected
+    {
         sb->CopyButton->setEnabled( true );
         sb->RemoveButton->setEnabled( true );
         sb->UpButton->setEnabled( true );
         sb->DownButton->setEnabled( false );
-    } else { //other item selected
+    }
+    else     //other item selected
+    {
         sb->CopyButton->setEnabled( true );
         sb->RemoveButton->setEnabled( true );
         sb->UpButton->setEnabled( true );
@@ -1300,10 +1376,13 @@ void ScriptBuilder::slotArgWidget() {
     }
 
     //RunButton and SaveAs button enabled when script not empty.
-    if ( sb->ScriptListBox->count() ) {
+    if ( sb->ScriptListBox->count() )
+    {
         sb->RunButton->setEnabled( true );
         sb->SaveAsButton->setEnabled( true );
-    } else {
+    }
+    else
+    {
         sb->RunButton->setEnabled( false );
         sb->SaveAsButton->setEnabled( false );
         setUnsavedChanges( false );
@@ -1311,24 +1390,30 @@ void ScriptBuilder::slotArgWidget() {
 
     //Display the function's arguments widget
     if ( sb->ScriptListBox->currentRow() > -1 &&
-            sb->ScriptListBox->currentRow() < ((int) sb->ScriptListBox->count()) ) {
+            sb->ScriptListBox->currentRow() < ((int) sb->ScriptListBox->count()) )
+    {
         QString t = sb->ScriptListBox->currentItem()->text();
         unsigned int n = sb->ScriptListBox->currentRow();
-        ScriptFunction *sf = ScriptList.at( n );
+        ScriptFunction * sf = ScriptList.at( n );
 
         checkForChanges = false; //Don't signal unsaved changes
 
-        if ( sf->name() == "lookTowards" ) {
+        if ( sf->name() == "lookTowards" )
+        {
             sb->ArgStack->setCurrentWidget( argLookToward );
             QString s = sf->argVal(0);
             argLookToward->FocusEdit->setEditText( s );
 
-        } else if ( sf->name() == "addLabel" || sf->name() == "removeLabel" || sf->name() == "addTrail" || sf->name() == "removeTrail" ) {
+        }
+        else if ( sf->name() == "addLabel" || sf->name() == "removeLabel" || sf->name() == "addTrail" || sf->name() == "removeTrail" )
+        {
             sb->ArgStack->setCurrentWidget( argFindObject );
             QString s = sf->argVal(0);
             argFindObject->NameEdit->setText( s );
 
-        } else if ( sf->name() == "setRaDec" ) {
+        }
+        else if ( sf->name() == "setRaDec" )
+        {
             bool ok(false);
             double r(0.0),d(0.0);
             dms ra(0.0);
@@ -1338,14 +1423,20 @@ void ScriptBuilder::slotArgWidget() {
             ok = !sf->argVal(0).isEmpty();
             if (ok) r = sf->argVal(0).toDouble(&ok);
             else argSetRaDec->RABox->clear();
-        if (ok) { ra.setH(r); argSetRaDec->RABox->showInHours( ra ); }
+            if (ok)
+            {
+                ra.setH(r);
+                argSetRaDec->RABox->showInHours( ra );
+            }
 
             ok = !sf->argVal(1).isEmpty();
             if (ok) d = sf->argVal(1).toDouble(&ok);
             else argSetRaDec->DecBox->clear();
             if (ok) argSetRaDec->DecBox->showInDegrees( dms(d) );
 
-        } else if ( sf->name() == "setAltAz" ) {
+        }
+        else if ( sf->name() == "setAltAz" )
+        {
             bool ok(false);
             double x(0.0),y(0.0);
 
@@ -1361,47 +1452,64 @@ void ScriptBuilder::slotArgWidget() {
             x = sf->argVal(1).toDouble(&ok);
             if (ok) argSetAltAz->AzBox->showInDegrees( dms(x) );
 
-        } else if ( sf->name() == "zoomIn" ) {
+        }
+        else if ( sf->name() == "zoomIn" )
+        {
             sb->ArgStack->setCurrentWidget( argBlank );
             //no Args
 
-        } else if ( sf->name() == "zoomOut" ) {
+        }
+        else if ( sf->name() == "zoomOut" )
+        {
             sb->ArgStack->setCurrentWidget( argBlank );
             //no Args
 
-        } else if ( sf->name() == "defaultZoom" ) {
+        }
+        else if ( sf->name() == "defaultZoom" )
+        {
             sb->ArgStack->setCurrentWidget( argBlank );
             //no Args
 
-        } else if ( sf->name() == "zoom" ) {
+        }
+        else if ( sf->name() == "zoom" )
+        {
             sb->ArgStack->setCurrentWidget( argZoom );
             bool ok(false);
             /*double z = */sf->argVal(0).toDouble(&ok);
             if (ok) argZoom->ZoomBox->setText( sf->argVal(0) );
             else argZoom->ZoomBox->setText( "2000." );
 
-        } else if ( sf->name() == "exportImage" ) {
+        }
+        else if ( sf->name() == "exportImage" )
+        {
             sb->ArgStack->setCurrentWidget( argExportImage );
             argExportImage->ExportFileName->setUrl(QUrl::fromUserInput(sf->argVal(0)));
             bool ok(false);
             int w=0, h=0;
             w = sf->argVal(1).toInt( &ok );
             if (ok) h = sf->argVal(2).toInt( &ok );
-            if (ok) {
+            if (ok)
+            {
                 argExportImage->ExportWidth->setValue( w );
                 argExportImage->ExportHeight->setValue( h );
-            } else {
+            }
+            else
+            {
                 argExportImage->ExportWidth->setValue( ks->map()->width() );
                 argExportImage->ExportHeight->setValue( ks->map()->height() );
             }
 
-        } else if ( sf->name() == "printImage" ) {
+        }
+        else if ( sf->name() == "printImage" )
+        {
             if ( sf->argVal(0) == i18n( "true" ) ) argPrintImage->UsePrintDialog->setChecked( true );
             else argPrintImage->UsePrintDialog->setChecked( false );
             if ( sf->argVal(1) == i18n( "true" ) ) argPrintImage->UseChartColors->setChecked( true );
             else argPrintImage->UseChartColors->setChecked( false );
 
-        } else if ( sf->name() == "setLocalTime" ) {
+        }
+        else if ( sf->name() == "setLocalTime" )
+        {
             sb->ArgStack->setCurrentWidget( argSetLocalTime );
             bool ok(false);
             int year=0, month=0, day=0, hour=0, min=0, sec=0;
@@ -1419,37 +1527,49 @@ void ScriptBuilder::slotArgWidget() {
             if (ok) argSetLocalTime->TimeBox->setTime( QTime( hour, min, sec ) );
             else argSetLocalTime->TimeBox->setTime( QTime( QTime::currentTime() ) );
 
-        } else if ( sf->name() == "waitFor" ) {
+        }
+        else if ( sf->name() == "waitFor" )
+        {
             sb->ArgStack->setCurrentWidget( argWaitFor );
             bool ok(false);
             int sec = sf->argVal(0).toInt(&ok);
             if (ok) argWaitFor->DelayBox->setValue( sec );
             else argWaitFor->DelayBox->setValue( 0 );
 
-        } else if ( sf->name() == "waitForKey" ) {
+        }
+        else if ( sf->name() == "waitForKey" )
+        {
             sb->ArgStack->setCurrentWidget( argWaitForKey );
             if ( sf->argVal(0).length()==1 || sf->argVal(0).toLower() == "space" )
                 argWaitForKey->WaitKeyEdit->setText( sf->argVal(0) );
             else argWaitForKey->WaitKeyEdit->setText( QString() );
 
-        } else if ( sf->name() == "setTracking" ) {
+        }
+        else if ( sf->name() == "setTracking" )
+        {
             sb->ArgStack->setCurrentWidget( argSetTracking );
             if ( sf->argVal(0) == i18n( "true" ) ) argSetTracking->CheckTrack->setChecked( true  );
             else argSetTracking->CheckTrack->setChecked( false );
 
-        } else if ( sf->name() == "changeViewOption" ) {
+        }
+        else if ( sf->name() == "changeViewOption" )
+        {
             sb->ArgStack->setCurrentWidget( argChangeViewOption );
             argChangeViewOption->OptionName->setCurrentIndex(
                 argChangeViewOption->OptionName->findText( sf->argVal(0) ) );
             argChangeViewOption->OptionValue->setText( sf->argVal(1) );
 
-        } else if ( sf->name() == "setGeoLocation" ) {
+        }
+        else if ( sf->name() == "setGeoLocation" )
+        {
             sb->ArgStack->setCurrentWidget( argSetGeoLocation );
             argSetGeoLocation->CityName->setText( sf->argVal(0) );
             argSetGeoLocation->ProvinceName->setText( sf->argVal(1) );
             argSetGeoLocation->CountryName->setText( sf->argVal(2) );
 
-        } else if ( sf->name() == "setColor" ) {
+        }
+        else if ( sf->name() == "setColor" )
+        {
             sb->ArgStack->setCurrentWidget( argSetColor );
             if ( sf->argVal(0).isEmpty() ) sf->setArg( 0, "SkyColor" );  //initialize default value
             argSetColor->ColorName->setCurrentIndex(
@@ -1458,51 +1578,60 @@ void ScriptBuilder::slotArgWidget() {
             );
             argSetColor->ColorValue->setColor( QColor( sf->argVal(1).remove('\\') ) );
 
-        } else if ( sf->name() == "loadColorScheme" ) {
+        }
+        else if ( sf->name() == "loadColorScheme" )
+        {
             sb->ArgStack->setCurrentWidget( argLoadColorScheme );
             argLoadColorScheme->SchemeList->setCurrentItem( argLoadColorScheme->SchemeList->findItems( sf->argVal(0).remove('\"'), Qt::MatchExactly ).at(0) );
 
-        } else if ( sf->name() == "stop" ) {
+        }
+        else if ( sf->name() == "stop" )
+        {
             sb->ArgStack->setCurrentWidget( argBlank );
             //no Args
 
-        } else if ( sf->name() == "start" ) {
+        }
+        else if ( sf->name() == "start" )
+        {
             sb->ArgStack->setCurrentWidget( argBlank );
             //no Args
 
-        } else if ( sf->name() == "setClockScale" ) {
+        }
+        else if ( sf->name() == "setClockScale" )
+        {
             sb->ArgStack->setCurrentWidget( argTimeScale );
             bool ok(false);
             double ts = sf->argVal(0).toDouble(&ok);
             if (ok) argTimeScale->TimeScale->tsbox()->changeScale( float(ts) );
             else argTimeScale->TimeScale->tsbox()->changeScale( 0.0 );
 
-        }               
+        }
 
         checkForChanges = true; //signal unsaved changes if the argument widgets are changed
     }
 }
 
-void ScriptBuilder::slotShowDoc() {
-    ScriptFunction *sc = NULL, *found= NULL;
-    QTreeWidgetItem *currentItem = sb->FunctionTree->currentItem();
+void ScriptBuilder::slotShowDoc()
+{
+    ScriptFunction * sc = NULL, *found= NULL;
+    QTreeWidgetItem * currentItem = sb->FunctionTree->currentItem();
 
     if ( currentItem == NULL || currentItem->parent() == 0)
         return;
 
     foreach ( sc, KStarsFunctionList )
-    if (sc->prototype() == currentItem->text(0))
-    {
-        found = sc;
-        break;
-    }
+        if (sc->prototype() == currentItem->text(0))
+        {
+            found = sc;
+            break;
+        }
 
     foreach ( sc, SimClockFunctionList )
-    if (sc->prototype() == currentItem->text(0))
-    {
-        found = sc;
-        break;
-    }
+        if (sc->prototype() == currentItem->text(0))
+        {
+            found = sc;
+            break;
+        }
 
     if (found == NULL)
     {
@@ -1516,28 +1645,37 @@ void ScriptBuilder::slotShowDoc() {
 }
 
 //Slots for Arg Widgets
-void ScriptBuilder::slotFindCity() {
+void ScriptBuilder::slotFindCity()
+{
     QPointer<LocationDialog> ld = new LocationDialog( this );
 
-    if ( ld->exec() == QDialog::Accepted ) {
-        if ( ld->selectedCity() ) {
+    if ( ld->exec() == QDialog::Accepted )
+    {
+        if ( ld->selectedCity() )
+        {
             // set new location names
             argSetGeoLocation->CityName->setText( ld->selectedCityName() );
-            if ( ! ld->selectedProvinceName().isEmpty() ) {
+            if ( ! ld->selectedProvinceName().isEmpty() )
+            {
                 argSetGeoLocation->ProvinceName->setText( ld->selectedProvinceName() );
-            } else {
+            }
+            else
+            {
                 argSetGeoLocation->ProvinceName->clear();
             }
             argSetGeoLocation->CountryName->setText( ld->selectedCountryName() );
 
-            ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
-            if ( sf->name() == "setGeoLocation" ) {
+            ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+            if ( sf->name() == "setGeoLocation" )
+            {
                 setUnsavedChanges( true );
 
                 sf->setArg( 0, ld->selectedCityName() );
                 sf->setArg( 1, ld->selectedProvinceName() );
                 sf->setArg( 2, ld->selectedCountryName() );
-            } else {
+            }
+            else
+            {
                 warningMismatch( "setGeoLocation" );
             }
         }
@@ -1545,10 +1683,12 @@ void ScriptBuilder::slotFindCity() {
     delete ld;
 }
 
-void ScriptBuilder::slotFindObject() {
+void ScriptBuilder::slotFindObject()
+{
     QPointer<FindDialog> fd = new FindDialog( ks );
 
-    if ( fd->exec() == QDialog::Accepted && fd->targetObject() ) {
+    if ( fd->exec() == QDialog::Accepted && fd->targetObject() )
+    {
         setUnsavedChanges( true );
 
         if (sender() == argLookToward->FindButton)
@@ -1559,9 +1699,11 @@ void ScriptBuilder::slotFindObject() {
     delete fd;
 }
 
-void ScriptBuilder::slotShowOptions() {
+void ScriptBuilder::slotShowOptions()
+{
     //Show tree-view of view options
-    if ( otv->exec() == QDialog::Accepted ) {
+    if ( otv->exec() == QDialog::Accepted )
+    {
         argChangeViewOption->OptionName->setCurrentIndex(
             argChangeViewOption->OptionName->findText(
                 otv->optionsList()->currentItem()->text(0) )
@@ -1569,129 +1711,167 @@ void ScriptBuilder::slotShowOptions() {
     }
 }
 
-void ScriptBuilder::slotLookToward() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotLookToward()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "lookTowards" ) {
+    if ( sf->name() == "lookTowards" )
+    {
         setUnsavedChanges( true );
 
         sf->setArg( 0, argLookToward->FocusEdit->currentText() );
         sf->setValid(true);
-    } else {
+    }
+    else
+    {
         warningMismatch( "lookTowards" );
     }
 }
 
-void ScriptBuilder::slotArgFindObject() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotArgFindObject()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "addLabel" || sf->name() == "removeLabel" || sf->name() == "addTrail" || sf->name() == "removeTrail" ) {
+    if ( sf->name() == "addLabel" || sf->name() == "removeLabel" || sf->name() == "addTrail" || sf->name() == "removeTrail" )
+    {
         setUnsavedChanges( true );
 
         sf->setArg( 0, argFindObject->NameEdit->text() );
         sf->setValid(true);
-    } else {
+    }
+    else
+    {
         warningMismatch( sf->name() );
     }
 }
 
-void ScriptBuilder::slotRa() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotRa()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setRaDec" ) {
+    if ( sf->name() == "setRaDec" )
+    {
         //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
         if ( argSetRaDec->RABox->text().isEmpty() ) return;
 
         bool ok(false);
         dms ra = argSetRaDec->RABox->createDms(false, &ok);
-        if ( ok ) {
+        if ( ok )
+        {
             setUnsavedChanges( true );
 
             sf->setArg( 0, QString( "%1" ).arg( ra.Hours() ) );
             if ( ! sf->argVal(1).isEmpty() ) sf->setValid( true );
 
-        } else {
+        }
+        else
+        {
             sf->setArg( 0, QString() );
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "setRaDec" );
     }
 }
 
-void ScriptBuilder::slotDec() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotDec()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setRaDec" ) {
+    if ( sf->name() == "setRaDec" )
+    {
         //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
         if ( argSetRaDec->DecBox->text().isEmpty() ) return;
 
         bool ok(false);
         dms dec = argSetRaDec->DecBox->createDms(true, &ok);
-        if ( ok ) {
+        if ( ok )
+        {
             setUnsavedChanges( true );
 
             sf->setArg( 1, QString( "%1" ).arg( dec.Degrees() ) );
             if ( ! sf->argVal(0).isEmpty() ) sf->setValid( true );
 
-        } else {
+        }
+        else
+        {
             sf->setArg( 1, QString() );
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "setRaDec" );
     }
 }
 
-void ScriptBuilder::slotAz() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotAz()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setAltAz" ) {
+    if ( sf->name() == "setAltAz" )
+    {
         //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
         if ( argSetAltAz->AzBox->text().isEmpty() ) return;
 
         bool ok(false);
         dms az = argSetAltAz->AzBox->createDms(true, &ok);
-        if ( ok ) {
+        if ( ok )
+        {
             setUnsavedChanges( true );
             sf->setArg( 1, QString( "%1" ).arg( az.Degrees() ) );
             if ( ! sf->argVal(0).isEmpty() ) sf->setValid( true );
-        } else {
+        }
+        else
+        {
             sf->setArg( 1, QString() );
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "setAltAz" );
     }
 }
 
-void ScriptBuilder::slotAlt() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotAlt()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setAltAz" ) {
+    if ( sf->name() == "setAltAz" )
+    {
         //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
         if ( argSetAltAz->AltBox->text().isEmpty() ) return;
 
         bool ok(false);
         dms alt = argSetAltAz->AltBox->createDms(true, &ok);
-        if ( ok ) {
+        if ( ok )
+        {
             setUnsavedChanges( true );
 
             sf->setArg( 0, QString( "%1" ).arg( alt.Degrees() ) );
             if ( ! sf->argVal(1).isEmpty() ) sf->setValid( true );
-        } else {
+        }
+        else
+        {
             sf->setArg( 0, QString() );
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "setAltAz" );
     }
 }
 
-void ScriptBuilder::slotChangeDate() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotChangeDate()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setLocalTime" ) {
+    if ( sf->name() == "setLocalTime" )
+    {
         setUnsavedChanges( true );
 
         QDate date = argSetLocalTime->DateWidget->date();
@@ -1700,15 +1880,19 @@ void ScriptBuilder::slotChangeDate() {
         sf->setArg( 1, QString( "%1" ).arg( date.month()  ) );
         sf->setArg( 2, QString( "%1" ).arg( date.day()    ) );
         if ( ! sf->argVal(3).isEmpty() ) sf->setValid( true );
-    } else {
+    }
+    else
+    {
         warningMismatch( "setLocalTime" );
     }
 }
 
-void ScriptBuilder::slotChangeTime() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotChangeTime()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setLocalTime" ) {
+    if ( sf->name() == "setLocalTime" )
+    {
         setUnsavedChanges( true );
 
         QTime time = argSetLocalTime->TimeBox->time();
@@ -1717,207 +1901,274 @@ void ScriptBuilder::slotChangeTime() {
         sf->setArg( 4, QString( "%1" ).arg( time.minute() ) );
         sf->setArg( 5, QString( "%1" ).arg( time.second() ) );
         if ( ! sf->argVal(0).isEmpty() ) sf->setValid( true );
-    } else {
+    }
+    else
+    {
         warningMismatch( "setLocalTime" );
     }
 }
 
-void ScriptBuilder::slotWaitFor() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotWaitFor()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "waitFor" ) {
+    if ( sf->name() == "waitFor" )
+    {
         bool ok(false);
         int delay = argWaitFor->DelayBox->text().toInt( &ok );
 
-        if ( ok ) {
+        if ( ok )
+        {
             setUnsavedChanges( true );
 
             sf->setArg( 0, QString( "%1" ).arg( delay ) );
             sf->setValid( true );
-        } else {
+        }
+        else
+        {
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "waitFor" );
     }
 }
 
-void ScriptBuilder::slotWaitForKey() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotWaitForKey()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "waitForKey" ) {
+    if ( sf->name() == "waitForKey" )
+    {
         QString sKey = argWaitForKey->WaitKeyEdit->text().trimmed();
 
         //DCOP script can only use single keystrokes; make sure entry is either one character,
         //or the word 'space'
-        if ( sKey.length() == 1 || sKey == "space" ) {
+        if ( sKey.length() == 1 || sKey == "space" )
+        {
             setUnsavedChanges( true );
 
             sf->setArg( 0, sKey );
             sf->setValid( true );
-        } else {
+        }
+        else
+        {
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "waitForKey" );
     }
 }
 
-void ScriptBuilder::slotTracking() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotTracking()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setTracking" ) {
+    if ( sf->name() == "setTracking" )
+    {
         setUnsavedChanges( true );
 
         sf->setArg( 0, ( argSetTracking->CheckTrack->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
         sf->setValid( true );
-    } else {
+    }
+    else
+    {
         warningMismatch( "setTracking" );
     }
 }
 
-void ScriptBuilder::slotViewOption() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotViewOption()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "changeViewOption" ) {
+    if ( sf->name() == "changeViewOption" )
+    {
         if ( argChangeViewOption->OptionName->currentIndex() >= 0
-                && argChangeViewOption->OptionValue->text().length() ) {
+                && argChangeViewOption->OptionValue->text().length() )
+        {
             setUnsavedChanges( true );
 
             sf->setArg( 0, argChangeViewOption->OptionName->currentText() );
             sf->setArg( 1, argChangeViewOption->OptionValue->text() );
             sf->setValid( true );
-        } else {
+        }
+        else
+        {
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "changeViewOption" );
     }
 }
 
-void ScriptBuilder::slotChangeCity() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotChangeCity()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setGeoLocation" ) {
+    if ( sf->name() == "setGeoLocation" )
+    {
         QString city =     argSetGeoLocation->CityName->text();
 
-        if ( city.length() ) {
+        if ( city.length() )
+        {
             setUnsavedChanges( true );
 
             sf->setArg( 0, city );
             if ( sf->argVal(2).length() ) sf->setValid( true );
-        } else {
+        }
+        else
+        {
             sf->setArg( 0, QString() );
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "setGeoLocation" );
     }
 }
 
-void ScriptBuilder::slotChangeProvince() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotChangeProvince()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setGeoLocation" ) {
+    if ( sf->name() == "setGeoLocation" )
+    {
         QString province = argSetGeoLocation->ProvinceName->text();
 
-        if ( province.length() ) {
+        if ( province.length() )
+        {
             setUnsavedChanges( true );
 
             sf->setArg( 1, province );
             if ( sf->argVal(0).length() && sf->argVal(2).length() ) sf->setValid( true );
-        } else {
+        }
+        else
+        {
             sf->setArg( 1, QString() );
             //might not be invalid
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "setGeoLocation" );
     }
 }
 
-void ScriptBuilder::slotChangeCountry() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotChangeCountry()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setGeoLocation" ) {
+    if ( sf->name() == "setGeoLocation" )
+    {
         QString country =  argSetGeoLocation->CountryName->text();
 
-        if ( country.length() ) {
+        if ( country.length() )
+        {
             setUnsavedChanges( true );
 
             sf->setArg( 2, country );
             if ( sf->argVal(0).length() ) sf->setValid( true );
-        } else {
+        }
+        else
+        {
             sf->setArg( 2, QString() );
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "setGeoLocation" );
     }
 }
 
-void ScriptBuilder::slotTimeScale() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotTimeScale()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setClockScale" ) {
+    if ( sf->name() == "setClockScale" )
+    {
         setUnsavedChanges( true );
 
         sf->setArg( 0, QString( "%1" ).arg( argTimeScale->TimeScale->tsbox()->timeScale() ) );
         sf->setValid( true );
-    } else {
+    }
+    else
+    {
         warningMismatch( "setClockScale" );
     }
 }
 
-void ScriptBuilder::slotZoom() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotZoom()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "zoom" ) {
+    if ( sf->name() == "zoom" )
+    {
         setUnsavedChanges( true );
 
         bool ok(false);
         argZoom->ZoomBox->text().toDouble(&ok);
-        if ( ok ) {
+        if ( ok )
+        {
             sf->setArg( 0, argZoom->ZoomBox->text() );
             sf->setValid( true );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "zoom" );
     }
 }
 
-void ScriptBuilder::slotExportImage() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotExportImage()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "exportImage" ) {
+    if ( sf->name() == "exportImage" )
+    {
         setUnsavedChanges( true );
 
         sf->setArg( 0, argExportImage->ExportFileName->url().url() );
         sf->setArg( 1, QString("%1").arg( argExportImage->ExportWidth->value() ) );
         sf->setArg( 2, QString("%1").arg( argExportImage->ExportHeight->value() ) );
         sf->setValid( true );
-    } else {
+    }
+    else
+    {
         warningMismatch( "exportImage" );
     }
 }
 
-void ScriptBuilder::slotPrintImage() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotPrintImage()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "printImage" ) {
+    if ( sf->name() == "printImage" )
+    {
         setUnsavedChanges( true );
 
         sf->setArg( 0, ( argPrintImage->UsePrintDialog->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
         sf->setArg( 1, ( argPrintImage->UseChartColors->isChecked() ? i18n( "true" ) : i18n( "false" ) ) );
         sf->setValid( true );
-    } else {
+    }
+    else
+    {
         warningMismatch( "exportImage" );
     }
 }
 
-void ScriptBuilder::slotChangeColorName() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotChangeColorName()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setColor" ) {
+    if ( sf->name() == "setColor" )
+    {
         setUnsavedChanges( true );
 
         argSetColor->ColorValue->setColor( ks->data()->colorScheme()->colorAt( argSetColor->ColorName->currentIndex() ) );
@@ -1926,15 +2177,19 @@ void ScriptBuilder::slotChangeColorName() {
         //if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
         sf->setArg( 1, cname );
         sf->setValid( true );
-    } else {
+    }
+    else
+    {
         warningMismatch( "setColor" );
     }
 }
 
-void ScriptBuilder::slotChangeColor() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotChangeColor()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setColor" ) {
+    if ( sf->name() == "setColor" )
+    {
         setUnsavedChanges( true );
 
         sf->setArg( 0, ks->data()->colorScheme()->keyAt( argSetColor->ColorName->currentIndex() ) );
@@ -1942,20 +2197,26 @@ void ScriptBuilder::slotChangeColor() {
         //if ( cname.at(0) == '#' ) cname = "\\" + cname; //prepend a "\" so bash doesn't think we have a comment
         sf->setArg( 1, cname );
         sf->setValid( true );
-    } else {
+    }
+    else
+    {
         warningMismatch( "setColor" );
     }
 }
 
-void ScriptBuilder::slotLoadColorScheme() {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+void ScriptBuilder::slotLoadColorScheme()
+{
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "loadColorScheme" ) {
+    if ( sf->name() == "loadColorScheme" )
+    {
         setUnsavedChanges( true );
 
         sf->setArg( 0, '\"' + argLoadColorScheme->SchemeList->currentItem()->text() + '\"' );
         sf->setValid( true );
-    } else {
+    }
+    else
+    {
         warningMismatch( "loadColorScheme" );
     }
 }
@@ -1964,7 +2225,8 @@ void ScriptBuilder::slotClose()
 {
     saveWarning();
 
-    if ( !UnsavedChanges ) {
+    if ( !UnsavedChanges )
+    {
         ScriptList.clear();
         sb->ScriptListBox->clear();
         sb->ArgStack->setCurrentWidget( argBlank );
@@ -1977,7 +2239,7 @@ void ScriptBuilder::slotClose()
 #if 0
 void ScriptBuilder::slotINDIStartDeviceName()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "startINDI" )
     {
@@ -1997,7 +2259,7 @@ void ScriptBuilder::slotINDIStartDeviceName()
 void ScriptBuilder::slotINDIStartDeviceMode()
 {
 
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "startINDI" )
     {
@@ -2016,7 +2278,7 @@ void ScriptBuilder::slotINDIStartDeviceMode()
 void ScriptBuilder::slotINDISetDevice()
 {
 
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDIDevice" )
     {
@@ -2034,7 +2296,7 @@ void ScriptBuilder::slotINDISetDevice()
 void ScriptBuilder::slotINDIShutdown()
 {
 
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "shutdownINDI" )
     {
@@ -2060,7 +2322,7 @@ void ScriptBuilder::slotINDIShutdown()
 void ScriptBuilder::slotINDISwitchDeviceConnection()
 {
 
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "switchINDI" )
     {
@@ -2080,7 +2342,7 @@ void ScriptBuilder::slotINDISwitchDeviceConnection()
 
 void ScriptBuilder::slotINDISetPortDevicePort()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDIPort" )
     {
@@ -2106,9 +2368,10 @@ void ScriptBuilder::slotINDISetPortDevicePort()
 
 void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setINDITargetCoord" ) {
+    if ( sf->name() == "setINDITargetCoord" )
+    {
         //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
         if ( argSetTargetCoordINDI->RABox->text().isEmpty() )
         {
@@ -2130,12 +2393,15 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
             else
                 sf->setValid(false);
 
-        } else
+        }
+        else
         {
             sf->setArg( 0, QString() );
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "setINDITargetCoord" );
     }
 
@@ -2143,9 +2409,10 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceRA()
 
 void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setINDITargetCoord" ) {
+    if ( sf->name() == "setINDITargetCoord" )
+    {
         //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
         if ( argSetTargetCoordINDI->DecBox->text().isEmpty() )
         {
@@ -2167,12 +2434,15 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
             else
                 sf->setValid(false);
 
-        } else
+        }
+        else
         {
             sf->setArg( 1, QString() );
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "setINDITargetCoord" );
     }
 
@@ -2181,7 +2451,7 @@ void ScriptBuilder::slotINDISetTargetCoordDeviceDEC()
 void ScriptBuilder::slotINDISetTargetNameTargetName()
 {
 
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDITargetName" )
     {
@@ -2206,7 +2476,7 @@ void ScriptBuilder::slotINDISetTargetNameTargetName()
 
 void ScriptBuilder::slotINDISetActionName()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDIAction" )
     {
@@ -2231,7 +2501,7 @@ void ScriptBuilder::slotINDISetActionName()
 
 void ScriptBuilder::slotINDIWaitForActionName()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "waitForINDIAction" )
     {
@@ -2256,7 +2526,7 @@ void ScriptBuilder::slotINDIWaitForActionName()
 
 void ScriptBuilder::slotINDISetFocusSpeed()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDIFocusSpeed" )
     {
@@ -2276,7 +2546,7 @@ void ScriptBuilder::slotINDISetFocusSpeed()
 
 void ScriptBuilder::slotINDIStartFocusDirection()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "startINDIFocus" )
     {
@@ -2295,7 +2565,7 @@ void ScriptBuilder::slotINDIStartFocusDirection()
 
 void ScriptBuilder::slotINDISetFocusTimeout()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDIFocusTimeout" )
     {
@@ -2314,9 +2584,10 @@ void ScriptBuilder::slotINDISetFocusTimeout()
 
 void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setINDIGeoLocation" ) {
+    if ( sf->name() == "setINDIGeoLocation" )
+    {
         //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
         if ( argSetGeoLocationINDI->longBox->text().isEmpty())
         {
@@ -2326,7 +2597,8 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
 
         bool ok(false);
         dms longitude = argSetGeoLocationINDI->longBox->createDms(true, &ok);
-        if ( ok ) {
+        if ( ok )
+        {
 
             if (sf->argVal(0) != QString( "%1" ).arg( longitude.Degrees()))
                 setUnsavedChanges( true );
@@ -2337,12 +2609,15 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
             else
                 sf->setValid(false);
 
-        } else
+        }
+        else
         {
             sf->setArg( 0, QString() );
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "setINDIGeoLocation" );
     }
 
@@ -2350,9 +2625,10 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLong()
 
 void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
-    if ( sf->name() == "setINDIGeoLocation" ) {
+    if ( sf->name() == "setINDIGeoLocation" )
+    {
         //do nothing if box is blank (because we could be clearing boxes while switcing argWidgets)
         if ( argSetGeoLocationINDI->latBox->text().isEmpty() )
         {
@@ -2362,7 +2638,8 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
 
         bool ok(false);
         dms latitude = argSetGeoLocationINDI->latBox->createDms(true, &ok);
-        if ( ok ) {
+        if ( ok )
+        {
 
             if (sf->argVal(1) != QString( "%1" ).arg( latitude.Degrees()))
                 setUnsavedChanges( true );
@@ -2373,12 +2650,15 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
             else
                 sf->setValid(false);
 
-        } else
+        }
+        else
         {
             sf->setArg( 1, QString() );
             sf->setValid( false );
         }
-    } else {
+    }
+    else
+    {
         warningMismatch( "setINDIGeoLocation" );
     }
 
@@ -2386,7 +2666,7 @@ void ScriptBuilder::slotINDISetGeoLocationDeviceLat()
 
 void ScriptBuilder::slotINDIStartExposureTimeout()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "startINDIExposure" )
     {
@@ -2406,7 +2686,7 @@ void ScriptBuilder::slotINDIStartExposureTimeout()
 
 void ScriptBuilder::slotINDISetUTC()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDIUTC" )
     {
@@ -2432,7 +2712,7 @@ void ScriptBuilder::slotINDISetUTC()
 
 void ScriptBuilder::slotINDISetScopeAction()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDIScopeAction" )
     {
@@ -2453,7 +2733,7 @@ void ScriptBuilder::slotINDISetScopeAction()
 
 void ScriptBuilder::slotINDISetFrameType()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDIFrameType" )
     {
@@ -2473,7 +2753,7 @@ void ScriptBuilder::slotINDISetFrameType()
 
 void ScriptBuilder::slotINDISetCCDTemp()
 {
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDICCDTemp" )
     {
@@ -2494,7 +2774,7 @@ void ScriptBuilder::slotINDISetCCDTemp()
 void ScriptBuilder::slotINDISetFilterNum()
 {
 
-    ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
+    ScriptFunction * sf = ScriptList[ sb->ScriptListBox->currentRow() ];
 
     if ( sf->name() == "setINDIFilterNum" )
     {
@@ -2514,7 +2794,8 @@ void ScriptBuilder::slotINDISetFilterNum()
 }
 #endif
 
-void ScriptBuilder::warningMismatch (const QString &expected) const {
+void ScriptBuilder::warningMismatch (const QString &expected) const
+{
     qWarning() << i18n( "Mismatch between function and Arg widget (expected %1.)", QString(expected) ) ;
 }
 

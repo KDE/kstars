@@ -23,27 +23,28 @@
 
 typedef struct HighPMStar
 {
-    HighPMStar( Trixel t, StarObject* s ) : trixel(t), star(s) {}
+    HighPMStar( Trixel t, StarObject * s ) : trixel(t), star(s) {}
     Trixel      trixel;
-    StarObject  *star;
+    StarObject * star;
 
 } HighPMStar;
 
 
 HighPMStarList::HighPMStarList( double threshold )
-        : m_reindexNum(J2000), m_threshold(threshold), m_maxPM(0.0)
+    : m_reindexNum(J2000), m_threshold(threshold), m_maxPM(0.0)
 {
     m_skyMesh = SkyMesh::Instance();
 }
 
 HighPMStarList::~HighPMStarList()
 {
-    for (int i = 0; i < size(); i++ ) {
+    for (int i = 0; i < size(); i++ )
+    {
         delete m_stars[ i ];
     }
 }
 
-bool HighPMStarList::append( Trixel trixel, StarObject* star, double pm )
+bool HighPMStarList::append( Trixel trixel, StarObject * star, double pm )
 {
     if ( pm < m_threshold ) return false;
 
@@ -59,12 +60,12 @@ bool HighPMStarList::append( Trixel trixel, StarObject* star, double pm )
     return true;
 }
 
-void HighPMStarList::setIndexTime( KSNumbers *num )
+void HighPMStarList::setIndexTime( KSNumbers * num )
 {
     m_reindexNum = KSNumbers( *num );
 }
 
-bool HighPMStarList::reindex( KSNumbers *num, StarIndex* starIndex )
+bool HighPMStarList::reindex( KSNumbers * num, StarIndex * starIndex )
 {
     if ( fabs( num->julianCenturies() -
                m_reindexNum.julianCenturies() ) < m_reindexInterval ) return false;
@@ -74,21 +75,23 @@ bool HighPMStarList::reindex( KSNumbers *num, StarIndex* starIndex )
 
     int cnt(0);
 
-    for ( int i = 0; i < m_stars.size(); i++ ) {
-        HighPMStar* HPStar = m_stars.at( i );
+    for ( int i = 0; i < m_stars.size(); i++ )
+    {
+        HighPMStar * HPStar = m_stars.at( i );
         Trixel trixel = m_skyMesh->indexStar( HPStar->star );
         if ( trixel == HPStar->trixel ) continue;
         cnt++;
-        StarObject* star = HPStar->star;
+        StarObject * star = HPStar->star;
 
         // out with the old ...
-        if( HPStar->trixel >= (unsigned int)m_skyMesh->size() ) {
+        if( HPStar->trixel >= (unsigned int)m_skyMesh->size() )
+        {
             qDebug() << "### Expect an Index out-of-range error. star->trixel =" << HPStar->trixel;
         }
-            
-        StarList *old = starIndex->at( HPStar->trixel );
+
+        StarList * old = starIndex->at( HPStar->trixel );
         old->removeAt( old->indexOf( star ) );
-            
+
         float mag = star->mag();
         //printf("\n mag = %4.2f  trixel %d -> %d\n", mag, HPStar->trixel, trixel );
 
@@ -96,10 +99,11 @@ bool HighPMStarList::reindex( KSNumbers *num, StarIndex* starIndex )
         HPStar->trixel = trixel;
         if( trixel >= (unsigned int)m_skyMesh->size() )
             qDebug() << "### Expect an Index out-of-range error. trixel =" << trixel;
-                
-        StarList *list = starIndex->at( trixel );
+
+        StarList * list = starIndex->at( trixel );
         int j;
-        for ( j = 0; j < list->size(); j++ ) {
+        for ( j = 0; j < list->size(); j++ )
+        {
             if ( list->at(j)->mag() < mag ) continue;
             list->insert( j, star );
             break;

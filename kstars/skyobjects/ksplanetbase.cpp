@@ -39,16 +39,16 @@
 #include "texturemanager.h"
 
 QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() <<
-  QColor("slateblue") << //Mercury
-  QColor("lightgreen") << //Venus
-  QColor("red") << //Mars
-  QColor("goldenrod") << //Jupiter
-  QColor("khaki") << //Saturn
-  QColor("lightseagreen") << //Uranus
-  QColor("skyblue") << //Neptune
-  QColor("grey") << //Pluto
-  QColor("yellow") << //Sun
-  QColor("white"); //Moon
+        QColor("slateblue") << //Mercury
+        QColor("lightgreen") << //Venus
+        QColor("red") << //Mars
+        QColor("goldenrod") << //Jupiter
+        QColor("khaki") << //Saturn
+        QColor("lightseagreen") << //Uranus
+        QColor("skyblue") << //Neptune
+        QColor("grey") << //Pluto
+        QColor("yellow") << //Sun
+        QColor("white"); //Moon
 
 
 const SkyObject::UID KSPlanetBase::UID_SOL_BIGOBJ   = 0;
@@ -62,7 +62,8 @@ KSPlanetBase::KSPlanetBase( const QString &s, const QString &image_file, const Q
     init( s, image_file, c, pSize );
 }
 
-void KSPlanetBase::init( const QString &s, const QString &image_file, const QColor &c, double pSize ) {
+void KSPlanetBase::init( const QString &s, const QString &image_file, const QColor &c, double pSize )
+{
     m_image = TextureManager::getImage( image_file );
     PositionAngle = 0.0;
     PhysicalSize = pSize;
@@ -71,8 +72,10 @@ void KSPlanetBase::init( const QString &s, const QString &image_file, const QCol
     setLongName( s );
 }
 
-KSPlanetBase* KSPlanetBase::createPlanet( int n ) {
-    switch ( n ) {
+KSPlanetBase * KSPlanetBase::createPlanet( int n )
+{
+    switch ( n )
+    {
         case KSPlanetBase::MERCURY:
         case KSPlanetBase::VENUS:
         case KSPlanetBase::MARS:
@@ -95,32 +98,39 @@ KSPlanetBase* KSPlanetBase::createPlanet( int n ) {
     return 0;
 }
 
-void KSPlanetBase::EquatorialToEcliptic( const CachingDms *Obliquity ) {
+void KSPlanetBase::EquatorialToEcliptic( const CachingDms * Obliquity )
+{
     findEcliptic( Obliquity, ep.longitude, ep.latitude );
 }
 
-void KSPlanetBase::EclipticToEquatorial( const CachingDms *Obliquity ) {
+void KSPlanetBase::EclipticToEquatorial( const CachingDms * Obliquity )
+{
     setFromEcliptic( Obliquity, ep.longitude, ep.latitude );
 }
 
-void KSPlanetBase::updateCoords( const KSNumbers *num, bool includePlanets, const CachingDms *lat, const CachingDms *LST, bool )
+void KSPlanetBase::updateCoords( const KSNumbers * num, bool includePlanets, const CachingDms * lat, const CachingDms * LST, bool )
 {
-    KStarsData *kd = KStarsData::Instance();
-    if ( includePlanets ) {
+    KStarsData * kd = KStarsData::Instance();
+    if ( includePlanets )
+    {
         kd->skyComposite()->earth()->findPosition( num ); //since we don't pass lat & LST, localizeCoords will be skipped
 
-        if ( lat && LST ) {
+        if ( lat && LST )
+        {
             findPosition( num, lat, LST, kd->skyComposite()->earth() );
             //Don't add to the trail this time
             if( hasTrail() )
                 Trail.takeLast();
-        } else {
+        }
+        else
+        {
             findGeocentricPosition( num, kd->skyComposite()->earth() );
         }
     }
 }
 
-void KSPlanetBase::findPosition( const KSNumbers *num, const CachingDms *lat, const CachingDms *LST, const KSPlanetBase *Earth ) {
+void KSPlanetBase::findPosition( const KSNumbers * num, const CachingDms * lat, const CachingDms * LST, const KSPlanetBase * Earth )
+{
     // DEBUG edit
     findGeocentricPosition( num, Earth );  //private function, reimplemented in each subclass
     findPhase();
@@ -129,7 +139,8 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const CachingDms *lat, co
     if ( lat && LST )
         localizeCoords( num, lat, LST ); //correct for figure-of-the-Earth
 
-    if ( hasTrail() ) {
+    if ( hasTrail() )
+    {
         addToTrail( KStarsDateTime( num->getJD() ).toString( "yyyy.MM.dd hh:mm" ) + i18nc("Universal time", "UT") ); // TODO: Localize date/time format?
         if ( Trail.size() > TrailObject::MaxTrail )
             clipTrail();
@@ -137,9 +148,10 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const CachingDms *lat, co
 
     findMagnitude(num);
 
-    if ( type() == SkyObject::COMET ) {
+    if ( type() == SkyObject::COMET )
+    {
         // Compute tail size
-        KSComet *me = (KSComet *)this;
+        KSComet * me = (KSComet *)this;
         double TailAngSize;
         // Convert the tail size in km to angular tail size (degrees)
         TailAngSize = asin(physicalSize()/Rearth/AU_KM)*60.0*180.0/dms::PI;
@@ -149,15 +161,17 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const CachingDms *lat, co
 
 }
 
-bool KSPlanetBase::isMajorPlanet() const {
+bool KSPlanetBase::isMajorPlanet() const
+{
     if ( name() == i18n( "Mercury" ) || name() == i18n( "Venus" ) || name() == i18n( "Mars" ) ||
-         name() == i18n( "Jupiter" ) || name() == i18n( "Saturn" ) || name() == i18n( "Uranus" ) ||
-         name() == i18n( "Neptune" ) )
+            name() == i18n( "Jupiter" ) || name() == i18n( "Saturn" ) || name() == i18n( "Uranus" ) ||
+            name() == i18n( "Neptune" ) )
         return true;
     return false;
 }
 
-void KSPlanetBase::localizeCoords( const KSNumbers *num, const CachingDms *lat, const CachingDms *LST ) {
+void KSPlanetBase::localizeCoords( const KSNumbers * num, const CachingDms * lat, const CachingDms * LST )
+{
     //convert geocentric coordinates to local apparent coordinates (topocentric coordinates)
     dms HA, HA2; //Hour Angle, before and after correction
     double rsinp, rcosp, u, sinHA, cosHA, sinDec, cosDec, D;
@@ -185,12 +199,14 @@ void KSPlanetBase::localizeCoords( const KSNumbers *num, const CachingDms *lat, 
     setDec( temp );
 
     //Make sure Dec is between -90 and +90
-    if ( dec().Degrees() > 90.0 ) {
+    if ( dec().Degrees() > 90.0 )
+    {
         setDec( 180.0 - dec().Degrees() );
         setRA( ra().Hours() + 12.0 );
         ra().reduce();
     }
-    if ( dec().Degrees() < -90.0 ) {
+    if ( dec().Degrees() < -90.0 )
+    {
         setDec( 180.0 + dec().Degrees() );
         setRA( ra().Hours() + 12.0 );
         ra().reduce();
@@ -199,22 +215,26 @@ void KSPlanetBase::localizeCoords( const KSNumbers *num, const CachingDms *lat, 
     EquatorialToEcliptic( num->obliquity() );
 }
 
-void KSPlanetBase::setRearth( const KSPlanetBase *Earth ) {
+void KSPlanetBase::setRearth( const KSPlanetBase * Earth )
+{
     double sinL, sinB, sinL0, sinB0;
     double cosL, cosB, cosL0, cosB0;
     double x,y,z;
 
     //The Moon's Rearth is set in its findGeocentricPosition()...
-    if ( name() == "Moon" ) {
+    if ( name() == "Moon" )
+    {
         return;
     }
 
-    if ( name() == "Earth" ) {
+    if ( name() == "Earth" )
+    {
         Rearth = 0.0;
         return;
     }
 
-    if ( ! Earth  ) {
+    if ( ! Earth  )
+    {
         qDebug() << "KSPlanetBase::setRearth():  Error: Need an Earth pointer.  (" << name() << ")";
         Rearth = 1.0;
         return;
@@ -238,7 +258,8 @@ void KSPlanetBase::setRearth( const KSPlanetBase *Earth ) {
     AngularSize = asin(PhysicalSize/Rearth/AU_KM)*60.*180./dms::PI;
 }
 
-void KSPlanetBase::findPA( const KSNumbers *num ) {
+void KSPlanetBase::findPA( const KSNumbers * num )
+{
     //Determine position angle of planet (assuming that it is aligned with
     //the Ecliptic, which is only roughly correct).
     //Displace a point along +Ecliptic Latitude by 1 degree
@@ -248,15 +269,19 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
     double dx = ra().Degrees() - test.ra().Degrees();
     double dy = test.dec().Degrees() - dec().Degrees();
     double pa;
-    if ( dy ) {
+    if ( dy )
+    {
         pa = atan2( dx, dy )*180.0/dms::PI;
-    } else {
+    }
+    else
+    {
         pa = dx < 0 ? 90.0 : -90.0;
     }
     setPA( pa );
 }
 
-double KSPlanetBase::labelOffset() const {
+double KSPlanetBase::labelOffset() const
+{
     double size = angSize() * dms::PI * Options::zoomFactor()/10800.0;
 
     //Determine minimum size for offset
@@ -275,11 +300,12 @@ double KSPlanetBase::labelOffset() const {
     return 0.5*size + 4.;
 }
 
-void KSPlanetBase::findPhase() {
+void KSPlanetBase::findPhase()
+{
     /* Compute the phase of the planet in degrees */
     double earthSun = KStarsData::Instance()->skyComposite()->earth()->rsun();
     double cosPhase = (rsun()*rsun() + rearth()*rearth() - earthSun*earthSun)
-        / (2 * rsun() * rearth() );
+                      / (2 * rsun() * rearth() );
     Phase = acos ( cosPhase ) * 180.0 / dms::PI;
     /* More elegant way of doing it, but requires the Sun.
        TODO: Switch to this if and when we make KSSun a singleton */

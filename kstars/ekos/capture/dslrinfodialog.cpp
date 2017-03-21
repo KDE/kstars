@@ -14,10 +14,10 @@
 #include "dslrinfodialog.h"
 #include "Options.h"
 
-DSLRInfo::DSLRInfo(QWidget *parent, ISD::CCD *ccd) : QDialog(parent)
+DSLRInfo::DSLRInfo(QWidget * parent, ISD::CCD * ccd) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
     setupUi(this);
@@ -42,7 +42,7 @@ void DSLRInfo::save()
         return;
     }
 
-    ISD::CCDChip *primaryChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * primaryChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
     primaryChip->setImageInfo(w, h, x, y, 8);
 
     currentCCD->setConfig(SAVE_CONFIG);

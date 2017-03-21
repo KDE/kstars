@@ -21,15 +21,15 @@
 #ifndef HAVE_DRAND48
 double drand48()
 {
-  double result;
+    double result;
 #ifdef _WIN32
-  result = static_cast<double>( rand() );
-  result /= RAND_MAX;
+    result = static_cast<double>( rand() );
+    result /= RAND_MAX;
 #else
-  result = static_cast<double>( random() );
-  result /= LONG_MAX;
+    result = static_cast<double>( random() );
+    result /= LONG_MAX;
 #endif
-  return result;
+    return result;
 }
 #endif /* HAVE_DRAND48 */
 
@@ -66,16 +66,18 @@ void SkipList::insert(const Key searchKey, const Value value)
 {
     int i;
     long newLevel;
-    SkipListElement* element;
-    SkipListElement* nextElement;
+    SkipListElement * element;
+    SkipListElement * nextElement;
     SkipListElement  update(SKIPLIST_MAXLEVEL);
 
     // scan all levels while key < searchKey
     // starting with header in his level
     element = myHeader;
-    for(i=myHeader->getLevel(); i>=0; i--) {
+    for(i=myHeader->getLevel(); i>=0; i--)
+    {
         nextElement = element->getElement(i);
-        while( (nextElement != NIL) && (nextElement->getKey() < searchKey) ) {
+        while( (nextElement != NIL) && (nextElement->getKey() < searchKey) )
+        {
             element=nextElement;
             nextElement = element->getElement(i);
         }
@@ -86,18 +88,23 @@ void SkipList::insert(const Key searchKey, const Value value)
     // key is < searchKey
     element=element->getElement(0);
 
-    if( (element != NIL) && (element->getKey() == searchKey) ) {
+    if( (element != NIL) && (element->getKey() == searchKey) )
+    {
         // key exists. set new value
         element->setValue(value);
-    }  else {
+    }
+    else
+    {
         // new key. add to list
         // get new level and fix list level
 
         // get new level
         newLevel = getNewLevel(SKIPLIST_MAXLEVEL, myProbability);
-        if (newLevel > myHeader->getLevel() ) {
+        if (newLevel > myHeader->getLevel() )
+        {
             // adjust header level
-            for (i=myHeader->getLevel() + 1; i<=newLevel; i++) {
+            for (i=myHeader->getLevel() + 1; i<=newLevel; i++)
+            {
                 // adjust new pointer of new element
                 update.setElement(i, myHeader);
             }
@@ -107,12 +114,13 @@ void SkipList::insert(const Key searchKey, const Value value)
         // make new element [NEW *******]
         myLength++;
         element = new SkipListElement(newLevel, searchKey, value);
-        for (i=0; i<= newLevel; i++ ) { // scan all levels
+        for (i=0; i<= newLevel; i++ )   // scan all levels
+        {
             // set next pointer of new element
             element->setElement(i, update.getElement(i)->getElement(i));
             update.getElement(i)->setElement(i, element);
         }
-  }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -121,30 +129,35 @@ void SkipList::insert(const Key searchKey, const Value value)
 Key SkipList::findMAX(const Key searchKey) const
 {
     int i;
-    SkipListElement* element;
-    SkipListElement* nextElement;
+    SkipListElement * element;
+    SkipListElement * nextElement;
     Key retKey;
 
     element = myHeader;
-    for(i=myHeader->getLevel(); i>=0; i--) {
+    for(i=myHeader->getLevel(); i>=0; i--)
+    {
         nextElement = element->getElement(i);
-        while( (nextElement != NIL) && (nextElement->getKey() < searchKey) ) {
+        while( (nextElement != NIL) && (nextElement->getKey() < searchKey) )
+        {
             element=nextElement;
             nextElement = element->getElement(i);
         }
     }
-  // now nextElement is >= searhcKey
-  // and element is < searchKey
-  // therefore elemnt  key is largest key less than current
+    // now nextElement is >= searhcKey
+    // and element is < searchKey
+    // therefore elemnt  key is largest key less than current
 
-  // if this were search:
-  // element=element->getElement(0); // skip to >=
-  if(element != NIL) {
-      retKey = element->getKey();
-      return retKey == KEY_MAX ? (-KEY_MAX) : retKey;
-  } else {
-      return((Key) KEY_MAX);
-  }
+    // if this were search:
+    // element=element->getElement(0); // skip to >=
+    if(element != NIL)
+    {
+        retKey = element->getKey();
+        return retKey == KEY_MAX ? (-KEY_MAX) : retKey;
+    }
+    else
+    {
+        return((Key) KEY_MAX);
+    }
 }
 
 
@@ -153,13 +166,15 @@ Key SkipList::findMAX(const Key searchKey) const
 Key SkipList::findMIN(const Key searchKey) const
 {
     int i;
-    SkipListElement* element(myHeader);
-    SkipListElement* nextElement = 0;
+    SkipListElement * element(myHeader);
+    SkipListElement * nextElement = 0;
     Key retKey;
 
-    for(i=myHeader->getLevel(); i>=0; i--) {
+    for(i=myHeader->getLevel(); i>=0; i--)
+    {
         nextElement = element->getElement(i);
-        while( (nextElement != NIL) && (nextElement->getKey() <= searchKey) ) {
+        while( (nextElement != NIL) && (nextElement->getKey() <= searchKey) )
+        {
             element=nextElement;
             nextElement = element->getElement(i);
         }
@@ -168,10 +183,13 @@ Key SkipList::findMIN(const Key searchKey) const
     // element is <= , make it >
     //
     element = nextElement;
-    if(element != NIL) {
+    if(element != NIL)
+    {
         retKey = element->getKey();
         return retKey == KEY_MAX ? (-KEY_MAX) : retKey;
-    } else {
+    }
+    else
+    {
         return (Key)KEY_MAX;
     }
 }
@@ -182,15 +200,17 @@ Key SkipList::findMIN(const Key searchKey) const
 void SkipList::freeRange(const Key loKey, const Key hiKey)
 {
     int i;
-    SkipListElement* element;
-    SkipListElement* nextElement;
+    SkipListElement * element;
+    SkipListElement * nextElement;
 
     // scan all levels while key < searchKey
     // starting with header in his level
     element = myHeader;
-    for(i=myHeader->getLevel(); i>=0; i--) {
+    for(i=myHeader->getLevel(); i>=0; i--)
+    {
         nextElement = element->getElement(i);
-        while( (nextElement != NIL) && (nextElement->getKey() < loKey) ) {
+        while( (nextElement != NIL) && (nextElement->getKey() < loKey) )
+        {
             element=nextElement;
             nextElement = element->getElement(i);
         }
@@ -198,7 +218,8 @@ void SkipList::freeRange(const Key loKey, const Key hiKey)
     // key is < loKey
     element=element->getElement(0);
 
-    while( (element != NIL) && (element->getKey() <= hiKey) ) {
+    while( (element != NIL) && (element->getKey() <= hiKey) )
+    {
         nextElement = element->getElement(0);
         free(element->getKey());
         element = nextElement;
@@ -209,16 +230,18 @@ void SkipList::freeRange(const Key loKey, const Key hiKey)
 void SkipList::free(const Key searchKey)
 {
     int i;
-    SkipListElement* element;
-    SkipListElement* nextElement;
+    SkipListElement * element;
+    SkipListElement * nextElement;
     SkipListElement  update(SKIPLIST_MAXLEVEL);
 
     // scan all levels while key < searchKey
     // starting with header in his level
     element = myHeader;
-    for(i=myHeader->getLevel(); i>=0; i--) {
+    for(i=myHeader->getLevel(); i>=0; i--)
+    {
         nextElement = element->getElement(i);
-        while( (nextElement != NIL) && (nextElement->getKey() < searchKey) ) {
+        while( (nextElement != NIL) && (nextElement->getKey() < searchKey) )
+        {
             element=nextElement;
             nextElement = element->getElement(i);
         }
@@ -230,9 +253,12 @@ void SkipList::free(const Key searchKey)
     element=element->getElement(0);
 
     // if key exists
-    if( (element != NIL) && (element->getKey() == searchKey) ) {
-        for(i=0; i<=myHeader->getLevel(); i++) { // save next pointers
-            if (update.getElement(i)->getElement(i) == element) {
+    if( (element != NIL) && (element->getKey() == searchKey) )
+    {
+        for(i=0; i<=myHeader->getLevel(); i++)   // save next pointers
+        {
+            if (update.getElement(i)->getElement(i) == element)
+            {
                 update.getElement(i)->setElement(i, element->getElement(i));
             }
         }
@@ -242,7 +268,8 @@ void SkipList::free(const Key searchKey)
         myLength--;
 
         // set new header level
-        while ( (myHeader->getLevel() > 0) && (myHeader->getElement(myHeader->getLevel()) == NIL) ) {
+        while ( (myHeader->getLevel() > 0) && (myHeader->getElement(myHeader->getLevel()) == NIL) )
+        {
             myHeader->setLevel(myHeader->getLevel()-1);
         }
     }
@@ -252,13 +279,14 @@ void SkipList::free(const Key searchKey)
 void SkipList::stat()
 {
     int count = 0;
-    SkipListElement* element;
-    SkipListElement* nextElement;
+    SkipListElement * element;
+    SkipListElement * nextElement;
 
     element = myHeader;
     nextElement = element->getElement(0);
 
-    while( (nextElement != NIL) ) {
+    while( (nextElement != NIL) )
+    {
         count++;
         element=nextElement;
         nextElement = element->getElement(0);
@@ -266,17 +294,19 @@ void SkipList::stat()
     std::cout << "Have number of elements ... " << count << std::endl;
     std::cout << "Size  ..................... " << myLength << std::endl;
     {
-        int *hist;
+        int * hist;
         hist = new int[20];
         int i;
         long totalPointers, usedPointers;
-        for(i=0; i<20; i++){
+        for(i=0; i<20; i++)
+        {
             hist[i] = 0;
         }
         element = myHeader;
         count = 0;
         nextElement = element->getElement(0);
-        while( (nextElement != NIL) ) {
+        while( (nextElement != NIL) )
+        {
             count++;
             hist[nextElement->getLevel()]++;
             element=nextElement;
@@ -290,13 +320,14 @@ void SkipList::stat()
         //
         // of these every node that is not at the max level wastes some
         //
-        for(i=0; i<20; i++){
+        for(i=0; i<20; i++)
+        {
             if(hist[i] > 0) std::cout << std::setw(2) << i << ": " << std::setw(6) << hist[i] << std::endl;
             usedPointers += hist[i] * (1 + i);
         }
         std::cout << "Used  pointers " << usedPointers << std::endl;
         std::cout << "Total pointers " << totalPointers << " efficiency = " <<
-            (double) usedPointers / (double) totalPointers << std::endl;
+                  (double) usedPointers / (double) totalPointers << std::endl;
         delete [] hist;
     }
     return;

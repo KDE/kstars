@@ -35,100 +35,116 @@
 #include "ui_argsetcolor.h"
 #include "ui_argloadcolorscheme.h"
 
-class ArgLookToward  : public QFrame, public Ui::ArgLookToward {
-    Q_OBJECT
-public:
-    ArgLookToward ( QWidget *p );
+class ArgLookToward  : public QFrame, public Ui::ArgLookToward
+{
+        Q_OBJECT
+    public:
+        ArgLookToward ( QWidget * p );
 };
 
-class ArgFindObject  : public QFrame, public Ui::ArgFindObject {
-    Q_OBJECT
-public:
-    ArgFindObject ( QWidget *p );
+class ArgFindObject  : public QFrame, public Ui::ArgFindObject
+{
+        Q_OBJECT
+    public:
+        ArgFindObject ( QWidget * p );
 };
 
-class ArgSetRaDec  : public QFrame, public Ui::ArgSetRaDec {
-    Q_OBJECT
-public:
-    ArgSetRaDec ( QWidget *p );
+class ArgSetRaDec  : public QFrame, public Ui::ArgSetRaDec
+{
+        Q_OBJECT
+    public:
+        ArgSetRaDec ( QWidget * p );
 };
 
-class ArgSetAltAz  : public QFrame, public Ui::ArgSetAltAz {
-    Q_OBJECT
-public:
-    ArgSetAltAz ( QWidget *p );
+class ArgSetAltAz  : public QFrame, public Ui::ArgSetAltAz
+{
+        Q_OBJECT
+    public:
+        ArgSetAltAz ( QWidget * p );
 };
 
-class ArgSetLocalTime  : public QFrame, public Ui::ArgSetLocalTime {
-    Q_OBJECT
-public:
-    ArgSetLocalTime ( QWidget *p );
+class ArgSetLocalTime  : public QFrame, public Ui::ArgSetLocalTime
+{
+        Q_OBJECT
+    public:
+        ArgSetLocalTime ( QWidget * p );
 };
 
-class ArgWaitFor  : public QFrame, public Ui::ArgWaitFor {
-    Q_OBJECT
-public:
-    ArgWaitFor ( QWidget *p );
+class ArgWaitFor  : public QFrame, public Ui::ArgWaitFor
+{
+        Q_OBJECT
+    public:
+        ArgWaitFor ( QWidget * p );
 };
 
-class ArgWaitForKey  : public QFrame, public Ui::ArgWaitForKey {
-    Q_OBJECT
-public:
-    ArgWaitForKey ( QWidget *p );
+class ArgWaitForKey  : public QFrame, public Ui::ArgWaitForKey
+{
+        Q_OBJECT
+    public:
+        ArgWaitForKey ( QWidget * p );
 };
 
-class ArgSetTrack  : public QFrame, public Ui::ArgSetTrack {
-    Q_OBJECT
-public:
-    ArgSetTrack ( QWidget *p );
+class ArgSetTrack  : public QFrame, public Ui::ArgSetTrack
+{
+        Q_OBJECT
+    public:
+        ArgSetTrack ( QWidget * p );
 };
 
-class ArgChangeViewOption  : public QFrame, public Ui::ArgChangeViewOption {
-    Q_OBJECT
-public:
-    ArgChangeViewOption ( QWidget *p );
+class ArgChangeViewOption  : public QFrame, public Ui::ArgChangeViewOption
+{
+        Q_OBJECT
+    public:
+        ArgChangeViewOption ( QWidget * p );
 };
 
-class ArgSetGeoLocation  : public QFrame, public Ui::ArgSetGeoLocation {
-    Q_OBJECT
-public:
-    ArgSetGeoLocation ( QWidget *p );
+class ArgSetGeoLocation  : public QFrame, public Ui::ArgSetGeoLocation
+{
+        Q_OBJECT
+    public:
+        ArgSetGeoLocation ( QWidget * p );
 };
 
-class ArgTimeScale  : public QFrame, public Ui::ArgTimeScale {
-    Q_OBJECT
-public:
-    ArgTimeScale ( QWidget *p );
+class ArgTimeScale  : public QFrame, public Ui::ArgTimeScale
+{
+        Q_OBJECT
+    public:
+        ArgTimeScale ( QWidget * p );
 };
 
-class ArgZoom  : public QFrame, public Ui::ArgZoom {
-    Q_OBJECT
-public:
-    ArgZoom ( QWidget *p );
+class ArgZoom  : public QFrame, public Ui::ArgZoom
+{
+        Q_OBJECT
+    public:
+        ArgZoom ( QWidget * p );
 };
 
-class ArgExportImage  : public QFrame, public Ui::ArgExportImage {
-    Q_OBJECT
-public:
-    ArgExportImage ( QWidget *p );
+class ArgExportImage  : public QFrame, public Ui::ArgExportImage
+{
+        Q_OBJECT
+    public:
+        ArgExportImage ( QWidget * p );
 };
 
-class ArgPrintImage  : public QFrame, public Ui::ArgPrintImage {
-    Q_OBJECT
-public:
-    ArgPrintImage ( QWidget *p );
+class ArgPrintImage  : public QFrame, public Ui::ArgPrintImage
+{
+        Q_OBJECT
+    public:
+        ArgPrintImage ( QWidget * p );
 };
 
-class ArgSetColor  : public QFrame, public Ui::ArgSetColor {
-    Q_OBJECT
-public:
-    ArgSetColor ( QWidget *p );
+class ArgSetColor  : public QFrame, public Ui::ArgSetColor
+{
+        Q_OBJECT
+    public:
+        ArgSetColor ( QWidget * p );
 };
 
-class ArgLoadColorScheme  : public QFrame, public Ui::ArgLoadColorScheme {
-    Q_OBJECT
-public:
-    ArgLoadColorScheme ( QWidget *p );
+class ArgLoadColorScheme  : public QFrame, public Ui::ArgLoadColorScheme
+{
+        Q_OBJECT
+    public:
+        ArgLoadColorScheme ( QWidget * p );
 };
 
 #endif

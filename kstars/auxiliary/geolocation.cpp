@@ -22,7 +22,8 @@
 
 
 GeoLocation::GeoLocation(dms lng, dms lat,
-                          const QString &name, const QString &province, const QString &country, double tz, TimeZoneRule *tzrule, bool readOnly, int iEllips, double hght ) {
+                         const QString &name, const QString &province, const QString &country, double tz, TimeZoneRule * tzrule, bool readOnly, int iEllips, double hght )
+{
     Longitude = lng;
     Latitude = lat;
     Name = name;
@@ -38,9 +39,10 @@ GeoLocation::GeoLocation(dms lng, dms lat,
 }
 
 GeoLocation::GeoLocation(double x, double y, double z,
-                          const QString &name, const QString &province,
-                          const QString &country, double TZ,
-                          TimeZoneRule *tzrule, bool readOnly, int iEllips ) {
+                         const QString &name, const QString &province,
+                         const QString &country, double TZ,
+                         TimeZoneRule * tzrule, bool readOnly, int iEllips )
+{
     PosCartX = x;
     PosCartY = y;
     PosCartZ = z;
@@ -55,15 +57,20 @@ GeoLocation::GeoLocation(double x, double y, double z,
     cartToGeod();
 }
 
-QString GeoLocation::fullName() const {
-    if ( province().isEmpty() ) {
+QString GeoLocation::fullName() const
+{
+    if ( province().isEmpty() )
+    {
         return QString("%1, %2").arg(translatedName(), translatedCountry());
-    } else {
+    }
+    else
+    {
         return QString("%1, %2, %3").arg(translatedName(), translatedProvince(), translatedCountry());
     }
 }
 
-void GeoLocation::setEllipsoid(int i) {
+void GeoLocation::setEllipsoid(int i)
+{
     static const double A[] = { 6378140.0,       6378137.0,       6378137.0,       6378137.0,        6378136.0 };
     static const double F[] = { 0.0033528131779, 0.0033528106812, 0.0033528131779, 0.00335281066474, 0.0033528131779 };
 
@@ -72,26 +79,33 @@ void GeoLocation::setEllipsoid(int i) {
     flattening = F[i];
 }
 
-void GeoLocation::changeEllipsoid(int index) {
+void GeoLocation::changeEllipsoid(int index)
+{
     setEllipsoid(index);
     cartToGeod();
 }
 
-QString GeoLocation::translatedName() const {
+QString GeoLocation::translatedName() const
+{
     QString context;
-    if( province().isEmpty() ) {
+    if( province().isEmpty() )
+    {
         context = QString("City in %1").arg(country());
-    } else {
+    }
+    else
+    {
         context = QString("City in %1 %2").arg(province(), country());
     }
     return Name.isEmpty() ? QString() : i18nc(context.toUtf8().data(), Name.toUtf8().data());
 }
 
-QString GeoLocation::translatedProvince() const {
+QString GeoLocation::translatedProvince() const
+{
     return Province.isEmpty() ? QString() : i18nc(QString("Region/state in " + country()).toUtf8().data(), Province.toUtf8().data());
 }
 
-QString GeoLocation::translatedCountry() const {
+QString GeoLocation::translatedCountry() const
+{
     return Country.isEmpty() ? QString() : i18nc("Country name", Country.toUtf8().data());
 }
 
@@ -108,7 +122,8 @@ void GeoLocation::cartToGeod()
     latd = atan2(rpro, (1-e2));
     lat1 = 0.;
 
-    while ( fabs( latd-lat1 ) > RIT ) {
+    while ( fabs( latd-lat1 ) > RIT )
+    {
         lat1 = latd;
         s1 = sin(lat1);
         xn = axis/(sqrt(1-e2*s1*s1));
@@ -123,7 +138,8 @@ void GeoLocation::cartToGeod()
     Latitude.setRadians(latd);
 }
 
-void GeoLocation::geodToCart() {
+void GeoLocation::geodToCart()
+{
     double e2, xn;
     double sinLong, cosLong, sinLat, cosLat;
 
@@ -138,7 +154,8 @@ void GeoLocation::geodToCart() {
     PosCartZ = (xn*(1-e2)+Height)*sinLat;
 }
 
-void GeoLocation::TopocentricVelocity(double vtopo[], dms gst) {
+void GeoLocation::TopocentricVelocity(double vtopo[], dms gst)
+{
 
     double Wearth = 7.29211510e-5;     // rads/s
     dms angularVEarth;
@@ -164,7 +181,7 @@ double GeoLocation::LMST( double jd )
     ut = ( jd + 0.5 ) - floor( jd + 0.5 );
     jd -= ut;
     tu = ( jd - 2451545. ) / 36525.;
-    
+
     gmst = 24110.54841 + tu * ( 8640184.812866 + tu * ( 0.093104 - tu * 6.2e-6 ) );
     divresult = (int)( ( gmst + 8.6400e4 * 1.00273790934 * ut ) / 8.6400e4 );
     gmst = ( gmst + 8.6400e4 * 1.00273790934 * ut ) - (double)divresult * 8.6400e4;
@@ -193,10 +210,10 @@ KStarsDateTime GeoLocation::UTtoLT( const KStarsDateTime &ut ) const
 
 KStarsDateTime GeoLocation::LTtoUT( const KStarsDateTime &lt ) const
 {
-     KStarsDateTime ut = lt.addSecs( int( -3600.*TZ() ) );
-     ut.setUtcOffset(0);
+    KStarsDateTime ut = lt.addSecs( int( -3600.*TZ() ) );
+    ut.setUtcOffset(0);
 
-     return ut;
+    return ut;
 }
 
 

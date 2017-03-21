@@ -36,59 +36,60 @@ class QPixmap;
  * @author Akarsh Simha <akarsh@kde.org>
  */
 
-class ExportEyepieceView : public QDialog {
+class ExportEyepieceView : public QDialog
+{
 
-    Q_OBJECT;
+        Q_OBJECT;
 
- public:
+    public:
 
-    /**
-     * @short Constructor
-     * @note Class self-destructs (commits suicide). Invoke and forget.
-     */
-    ExportEyepieceView( const SkyPoint *_sp, const KStarsDateTime &dt, const QPixmap *renderImage, const QPixmap *renderChart, QWidget *parent = 0 );
+        /**
+         * @short Constructor
+         * @note Class self-destructs (commits suicide). Invoke and forget.
+         */
+        ExportEyepieceView( const SkyPoint * _sp, const KStarsDateTime &dt, const QPixmap * renderImage, const QPixmap * renderChart, QWidget * parent = 0 );
 
-    /**
-     * @short Destructor
-     */
-    ~ExportEyepieceView();
+        /**
+         * @short Destructor
+         */
+        ~ExportEyepieceView();
 
-public slots:
+    public slots:
 
-    /**
-     * @short Change the tick overlay scheme
-     */
-    void slotOverlayTicks( int overlayType );
+        /**
+         * @short Change the tick overlay scheme
+         */
+        void slotOverlayTicks( int overlayType );
 
-    /**
-     * @short Save the image (export), and then close the dialog by calling slotCloseDialog()
-     */
-    void slotSaveImage();
+        /**
+         * @short Save the image (export), and then close the dialog by calling slotCloseDialog()
+         */
+        void slotSaveImage();
 
-    /**
-     * @short Closes the dialog, and sets up deleteLater() so that the dialog is destructed.
-     */
-    void slotCloseDialog();
+        /**
+         * @short Closes the dialog, and sets up deleteLater() so that the dialog is destructed.
+         */
+        void slotCloseDialog();
 
-private slots:
+    private slots:
 
-    /**
-     * @short render the output
-     */
-    void render();
+        /**
+         * @short render the output
+         */
+        void render();
 
- private:
+    private:
 
-    QLabel *m_outputDisplay;
-    QLabel *m_tickWarningLabel;
-    QComboBox *m_tickConfigCombo;
+        QLabel * m_outputDisplay;
+        QLabel * m_tickWarningLabel;
+        QComboBox * m_tickConfigCombo;
 
-    KStarsDateTime m_dt;
-    SkyPoint *m_sp;
-    QPixmap *m_renderImage;
-    QPixmap *m_renderChart;
-    QImage m_output;
-    int m_tickConfig;
+        KStarsDateTime m_dt;
+        SkyPoint * m_sp;
+        QPixmap * m_renderImage;
+        QPixmap * m_renderChart;
+        QImage m_output;
+        int m_tickConfig;
 };
 
 #endif

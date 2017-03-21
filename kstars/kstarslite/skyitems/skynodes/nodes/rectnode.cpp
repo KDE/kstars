@@ -17,7 +17,8 @@
 #include <QSGGeometryNode>
 #include <QSGFlatColorMaterial>
 
-RectNode::RectNode(bool filled, QColor color) {
+RectNode::RectNode(bool filled, QColor color)
+{
     m_geometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D(),0);
     m_geometry->allocate(4);
     setGeometry(m_geometry);
@@ -30,7 +31,8 @@ RectNode::RectNode(bool filled, QColor color) {
     setFilled(filled);
 }
 
-void RectNode::setRect(int x, int y, int w, int h) {
+void RectNode::setRect(int x, int y, int w, int h)
+{
     QSGGeometry::Point2D * vertex = m_geometry->vertexDataAsPoint2D();
     vertex[0].set(x,y);
     vertex[1].set(x + w,y);
@@ -39,18 +41,24 @@ void RectNode::setRect(int x, int y, int w, int h) {
     markDirty(QSGNode::DirtyGeometry);
 }
 
-void RectNode::setColor(QColor color) {
-    if(m_material->color() != color) {
+void RectNode::setColor(QColor color)
+{
+    if(m_material->color() != color)
+    {
         m_material->setColor(color);
         markDirty(QSGNode::DirtyMaterial);
     }
 }
 
-void RectNode::setFilled(bool filled) {
+void RectNode::setFilled(bool filled)
+{
     m_filled = filled;
-    if(filled) {
+    if(filled)
+    {
         m_geometry->setDrawingMode(GL_TRIANGLE_FAN);
-    } else {
+    }
+    else
+    {
         m_geometry->setDrawingMode(GL_LINE_LOOP);
     }
 }

@@ -22,6 +22,7 @@ SkyPointLite::SkyPointLite()
 
 }
 
-void SkyPointLite::setPoint(SkyPoint *p) {
+void SkyPointLite::setPoint(SkyPoint * p)
+{
     point = p;
 }

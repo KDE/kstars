@@ -37,14 +37,15 @@ class KStars;
  *
  * Executes an observation session.
  */
-class Execute : public QDialog {
-Q_OBJECT
+class Execute : public QDialog
+{
+        Q_OBJECT
     public:
         /** @short Default constructor
          */
         Execute();
-        
-        /** @short This initializes the combo boxes, and sets up the 
+
+        /** @short This initializes the combo boxes, and sets up the
          * dateTime and geolocation from the OL
          */
         void init();
@@ -58,7 +59,7 @@ Q_OBJECT
         /*Function to Save the session details*/
         bool saveSession();
 
-        /** @short Function to save the user notes set for 
+        /** @short Function to save the user notes set for
          * the current object in the target combo box
          */
         void addTargetNotes();
@@ -103,7 +104,7 @@ Q_OBJECT
          * the global logObject into the comboBoxes
          */
         void loadObservers();
-        
+
         /** @short loads the observation edit page
          */
         void loadObservationTab();
@@ -111,7 +112,7 @@ Q_OBJECT
         /** @short get object name. If star has no name, generate a name based on catalog number.
          * @param translated set to true if the translated name is required.
          */
-        QString getObjectName(const SkyObject *o, bool translated=true);
+        QString getObjectName(const SkyObject * o, bool translated=true);
 
         void selectNextTarget();
 
@@ -133,15 +134,15 @@ Q_OBJECT
 
     private:
         Ui::Execute ui;
-        OAL::Session *currentSession;
-        OAL::Log *logObject;
-        OAL::Observer *currentObserver;
-        OAL::Scope *currentScope;
-        OAL::Eyepiece *currentEyepiece;
-        OAL::Lens *currentLens;
-        OAL::Filter *currentFilter;
-        GeoLocation *geo;
-        SkyObject *currentTarget;
+        OAL::Session * currentSession;
+        OAL::Log * logObject;
+        OAL::Observer * currentObserver;
+        OAL::Scope * currentScope;
+        OAL::Eyepiece * currentEyepiece;
+        OAL::Lens * currentLens;
+        OAL::Filter * currentFilter;
+        GeoLocation * geo;
+        SkyObject * currentTarget;
         int nextSession, nextObservation, nextSite;
 };
 

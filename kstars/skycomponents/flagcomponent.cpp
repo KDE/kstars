@@ -37,7 +37,7 @@
 #include "projections/projector.h"
 #include "auxiliary/kspaths.h"
 
-FlagComponent::FlagComponent( SkyComposite *parent )
+FlagComponent::FlagComponent( SkyComposite * parent )
     : PointListComponent(parent)
 {
     // Add the default flag images to available images list
@@ -51,12 +51,12 @@ FlagComponent::FlagComponent( SkyComposite *parent )
     // Add all other images found in user appdata directory
     foreach( QString item, appDir.entryList())
     {
-      QString fileName = item.replace(QRegExp("\\.[^.]*$"), QString()).replace(QRegExp("^flag"),   QString()).replace('_',' ');
-      m_Names.append( fileName );
+        QString fileName = item.replace(QRegExp("\\.[^.]*$"), QString()).replace(QRegExp("^flag"),   QString()).replace('_',' ');
+        m_Names.append( fileName );
 
-      // FIXME need to append path??!
-      m_Images.append( QImage( item ));
-      //m_Images.append( QImage( item.localPath() ));
+        // FIXME need to append path??!
+        m_Images.append( QImage( item ));
+        //m_Images.append( QImage( item.localPath() ));
     }
 
     loadFromFile();
@@ -66,7 +66,8 @@ FlagComponent::FlagComponent( SkyComposite *parent )
 FlagComponent::~FlagComponent()
 {}
 
-void FlagComponent::draw( SkyPainter *skyp ) {
+void FlagComponent::draw( SkyPainter * skyp )
+{
     // Return if flags must not be draw
     if( ! selected() )
         return;
@@ -79,15 +80,18 @@ void FlagComponent::draw( SkyPainter *skyp ) {
     skyp->drawFlags();
 }
 
-bool FlagComponent::selected() {
+bool FlagComponent::selected()
+{
     return Options::showFlags();
 }
 
-void FlagComponent::loadFromFile() {
+void FlagComponent::loadFromFile()
+{
     bool imageFound = false;
 
     QList<QStringList> flagList=KStarsData::Instance()->userdb()->GetAllFlags();
-    for (int i=0; i<flagList.size(); ++i){
+    for (int i=0; i<flagList.size(); ++i)
+    {
         QStringList flagEntry = flagList.at(i);
 
         // Read coordinates
@@ -96,7 +100,7 @@ void FlagComponent::loadFromFile() {
 
         m_EpochCoords.append(qMakePair(r.Degrees(), d.Degrees()));
 
-        SkyPoint* flagPoint = new SkyPoint( r, d );
+        SkyPoint * flagPoint = new SkyPoint( r, d );
 
         // Convert to JNow
         toJ2000(flagPoint, flagEntry.at( 2 ));
@@ -111,8 +115,10 @@ void FlagComponent::loadFromFile() {
         // Read image name
         QString str = flagEntry.at( 3 );
         str = str.replace( '_', ' ');
-        for(int i = 0; i < m_Names.size(); ++i ) {
-            if ( str == m_Names.at( i ) ) {
+        for(int i = 0; i < m_Names.size(); ++i )
+        {
+            if ( str == m_Names.at( i ) )
+            {
                 m_FlagImages.append( i );
                 imageFound = true;
             }
@@ -131,40 +137,46 @@ void FlagComponent::loadFromFile() {
         // color label
 
         QRegExp rxLabelColor( "^#[a-fA-F0-9]{6}$" );
-        if ( rxLabelColor.exactMatch( flagEntry.at(5) ) ) {
+        if ( rxLabelColor.exactMatch( flagEntry.at(5) ) )
+        {
             m_LabelColors.append( QColor( flagEntry.at(5) ) );
-        } else {
+        }
+        else
+        {
             m_LabelColors.append( QColor( "red" ) );
         }
 
     }
 }
 
-void FlagComponent::saveToFile() {
+void FlagComponent::saveToFile()
+{
     /*
     TODO: This is a really bad way of storing things. Adding one flag shouldn't
     involve writing a new file/table every time. Needs fixing.
     */
     KStarsData::Instance()->userdb()->DeleteAllFlags();
 
-    for ( int i=0; i < size(); ++i ) {
+    for ( int i=0; i < size(); ++i )
+    {
         KStarsData::Instance()->userdb()->AddFlag(QString::number(epochCoords(i).first) ,
-                                                  QString::number(epochCoords(i).second),
-                                                  epoch ( i ),
-                                                  imageName( i ).replace( ' ', '_' ),
-                                                  label( i ),
-                                                  labelColor( i ).name());
+                QString::number(epochCoords(i).second),
+                epoch ( i ),
+                imageName( i ).replace( ' ', '_' ),
+                label( i ),
+                labelColor( i ).name());
     }
 }
 
-void FlagComponent::add( const SkyPoint & flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
+void FlagComponent::add( const SkyPoint &flagPoint, QString epoch, QString image, QString label, QColor labelColor )
+{
 
     //JM 2015-02-21: Insert original coords in list and convert skypint to JNow
     // JM 2017-02-07: Discard above! We add RAW epoch coordinates to list.
     // If not J2000, we convert to J2000
     m_EpochCoords.append(qMakePair(flagPoint.ra().Degrees(), flagPoint.dec().Degrees()));
 
-    SkyPoint *newFlagPoint = new SkyPoint(flagPoint.ra(), flagPoint.dec());
+    SkyPoint * newFlagPoint = new SkyPoint(flagPoint.ra(), flagPoint.dec());
 
     toJ2000(newFlagPoint, epoch);
 
@@ -173,7 +185,8 @@ void FlagComponent::add( const SkyPoint & flagPoint, QString epoch, QString imag
     pointList().append( newFlagPoint );
     m_Epoch.append( epoch );
 
-    for(int i = 0; i<m_Names.size(); i++ ) {
+    for(int i = 0; i<m_Names.size(); i++ )
+    {
         if( image == m_Names.at( i ) )
             m_FlagImages.append( i );
     }
@@ -182,7 +195,8 @@ void FlagComponent::add( const SkyPoint & flagPoint, QString epoch, QString imag
     m_LabelColors.append( labelColor );
 }
 
-void FlagComponent::remove( int index ) {
+void FlagComponent::remove( int index )
+{
     // check if flag of required index exists
     if ( index > pointList().size() - 1 )
     {
@@ -207,7 +221,7 @@ void FlagComponent::updateFlag( int index, const SkyPoint &flagPoint, QString ep
     if ( index > pointList().size() -1 )
         return;
 
-    SkyPoint *existingFlag = pointList().at( index );
+    SkyPoint * existingFlag = pointList().at( index );
 
     existingFlag->setRA0(flagPoint.ra());
     existingFlag->setDec0(flagPoint.dec());
@@ -221,7 +235,8 @@ void FlagComponent::updateFlag( int index, const SkyPoint &flagPoint, QString ep
 
     m_Epoch.replace( index, epoch );
 
-    for(int i = 0; i<m_Names.size(); i++ ) {
+    for(int i = 0; i<m_Names.size(); i++ )
+    {
         if( image == m_Names.at( i ) )
             m_FlagImages.replace( index, i );
     }
@@ -230,78 +245,94 @@ void FlagComponent::updateFlag( int index, const SkyPoint &flagPoint, QString ep
     m_LabelColors.replace( index, labelColor );
 }
 
-QStringList FlagComponent::getNames() {
+QStringList FlagComponent::getNames()
+{
     return m_Names;
 }
 
-int FlagComponent::size() {
+int FlagComponent::size()
+{
     return pointList().size();
 }
 
-QString FlagComponent::epoch( int index ) {
-    if ( index > m_Epoch.size() - 1 ) {
+QString FlagComponent::epoch( int index )
+{
+    if ( index > m_Epoch.size() - 1 )
+    {
         return QString();
     }
 
     return m_Epoch.at( index );
 }
 
-QString FlagComponent::label( int index ) {
-    if ( index > m_Labels.size() - 1 ) {
+QString FlagComponent::label( int index )
+{
+    if ( index > m_Labels.size() - 1 )
+    {
         return QString();
     }
 
     return m_Labels.at( index );
 }
 
-QColor FlagComponent::labelColor( int index ) {
-    if ( index > m_LabelColors.size() -1 ) {
+QColor FlagComponent::labelColor( int index )
+{
+    if ( index > m_LabelColors.size() -1 )
+    {
         return QColor();
     }
 
     return m_LabelColors.at( index );
 }
 
-QImage FlagComponent::image( int index ) {
-    if ( index > m_FlagImages.size() - 1 ) {
+QImage FlagComponent::image( int index )
+{
+    if ( index > m_FlagImages.size() - 1 )
+    {
         return QImage();
     }
 
-    if ( m_FlagImages.at( index ) > m_Images.size() - 1 ) {
+    if ( m_FlagImages.at( index ) > m_Images.size() - 1 )
+    {
         return QImage();
     }
 
     return m_Images.at( m_FlagImages.at( index ) );
 }
 
-QString FlagComponent::imageName( int index ) {
-    if ( index > m_FlagImages.size() - 1 ) {
+QString FlagComponent::imageName( int index )
+{
+    if ( index > m_FlagImages.size() - 1 )
+    {
         return QString();
     }
 
-    if ( m_FlagImages.at( index ) > m_Names.size() - 1 ) {
+    if ( m_FlagImages.at( index ) > m_Names.size() - 1 )
+    {
         return QString();
     }
 
     return m_Names.at( m_FlagImages.at( index ) );
 }
 
-QList<QImage> FlagComponent::imageList() {
+QList<QImage> FlagComponent::imageList()
+{
     return m_Images;
 }
 
-QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
+QList<int> FlagComponent::getFlagsNearPix ( SkyPoint * point, int pixelRadius )
 {
 #ifdef KSTARS_LITE
-    const Projector *proj = SkyMapLite::Instance()->projector();
+    const Projector * proj = SkyMapLite::Instance()->projector();
 #else
-    const Projector *proj = SkyMap::Instance()->projector();
+    const Projector * proj = SkyMap::Instance()->projector();
 #endif
     QPointF pos = proj->toScreen(point);
     QList<int> retVal;
 
     int ptr = 0;
-    foreach ( SkyPoint *cp, pointList() ) {
+    foreach ( SkyPoint * cp, pointList() )
+    {
         if (std::isnan(cp->ra().Degrees()) || std::isnan(cp->dec().Degrees()))
             continue;
         cp->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -309,7 +340,8 @@ QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
         int dx = (pos2 - pos).x();
         int dy = (pos2 - pos).y();
 
-        if ( qSqrt( dx * dx + dy * dy ) <= pixelRadius ) {
+        if ( qSqrt( dx * dx + dy * dy ) <= pixelRadius )
+        {
             //point is inside pixelRadius circle
             retVal.append(ptr);
         }
@@ -320,15 +352,17 @@ QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
     return retVal;
 }
 
-QImage FlagComponent::imageList( int index ) {
-    if ( index < 0 || index > m_Images.size() - 1 ) {
+QImage FlagComponent::imageList( int index )
+{
+    if ( index < 0 || index > m_Images.size() - 1 )
+    {
         return QImage();
     }
 
     return m_Images.at( index );
 }
 
-void FlagComponent::toJ2000(SkyPoint *p, QString epoch)
+void FlagComponent::toJ2000(SkyPoint * p, QString epoch)
 {
     KStarsDateTime dt;
     dt.setFromEpoch(epoch);
@@ -345,20 +379,21 @@ void FlagComponent::toJ2000(SkyPoint *p, QString epoch)
 
 QPair<double, double> FlagComponent::epochCoords(int index)
 {
-    if ( index > m_FlagImages.size() - 1 ) {
-         QPair<double, double> coord = qMakePair(0,0);
-         return coord;
+    if ( index > m_FlagImages.size() - 1 )
+    {
+        QPair<double, double> coord = qMakePair(0,0);
+        return coord;
     }
 
     return m_EpochCoords.at(index);
 }
 
-void FlagComponent::update( KSNumbers *num )
+void FlagComponent::update( KSNumbers * num )
 {
     if ( ! selected() )
         return;
-    KStarsData *data = KStarsData::Instance();
-    foreach ( SkyPoint *p, pointList() )
+    KStarsData * data = KStarsData::Instance();
+    foreach ( SkyPoint * p, pointList() )
     {
         if (num)
             p->updateCoordsNow(num);

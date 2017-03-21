@@ -14,14 +14,14 @@
 #include "fitsview.h"
 #include "fitsdata.h"
 
-debayerUI::debayerUI(QDialog *parent) : QDialog(parent)
+debayerUI::debayerUI(QDialog * parent) : QDialog(parent)
 {
     setupUi(parent);
     setModal(false);
 
 }
 
-FITSDebayer::FITSDebayer(FITSViewer *parent) : QDialog(parent)
+FITSDebayer::FITSDebayer(FITSViewer * parent) : QDialog(parent)
 {
     ui = new debayerUI(this);
 
@@ -38,11 +38,11 @@ FITSDebayer::~FITSDebayer()
 void FITSDebayer::applyDebayer()
 {
 
-    FITSView *view = viewer->getCurrentView();
+    FITSView * view = viewer->getCurrentView();
 
     if (view)
     {
-        FITSData *image_data = view->getImageData();
+        FITSData * image_data = view->getImageData();
 
         dc1394bayer_method_t method = (dc1394bayer_method_t) ui->methodCombo->currentIndex() ;
         dc1394color_filter_t filter = (dc1394color_filter_t) (ui->filterCombo->currentIndex() + 512) ;

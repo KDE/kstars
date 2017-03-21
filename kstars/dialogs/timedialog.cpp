@@ -33,17 +33,17 @@
 #include "simclock.h"
 #include "geolocation.h"
 
-TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *parent, bool UTCFrame )
-        : QDialog( parent ), geo( _geo )
+TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation * _geo, QWidget * parent, bool UTCFrame )
+    : QDialog( parent ), geo( _geo )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     UTCNow = UTCFrame;
 
-    QFrame *page = new QFrame(this);
+    QFrame * page = new QFrame(this);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(page);
     setLayout(mainLayout);
 
@@ -52,7 +52,7 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *p
     else
         setWindowTitle( i18nc( "set clock to a new time", "Set Time" ) );
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -83,15 +83,21 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, GeoLocation *_geo, QWidget *p
 //Add handler for Escape key to close window
 //Use keyReleaseEvent because keyPressEvents are already consumed
 //by the KDatePicker.
-void TimeDialog::keyReleaseEvent( QKeyEvent *kev ) {
-    switch( kev->key() ) {
-    case Qt::Key_Escape:
+void TimeDialog::keyReleaseEvent( QKeyEvent * kev )
+{
+    switch( kev->key() )
+    {
+        case Qt::Key_Escape:
         {
             close();
             break;
         }
 
-    default: { kev->ignore(); break; }
+        default:
+        {
+            kev->ignore();
+            break;
+        }
     }
 }
 
@@ -105,15 +111,18 @@ void TimeDialog::setNow( void )
     tEdit->setTime( dt.time() );
 }
 
-QTime TimeDialog::selectedTime( void ) {
+QTime TimeDialog::selectedTime( void )
+{
     return tEdit->time();
 }
 
-QDate TimeDialog::selectedDate( void ) {
+QDate TimeDialog::selectedDate( void )
+{
     return dPicker->date();
 }
 
-KStarsDateTime TimeDialog::selectedDateTime( void ) {
+KStarsDateTime TimeDialog::selectedDateTime( void )
+{
     return KStarsDateTime( selectedDate(), selectedTime() );
 }
 

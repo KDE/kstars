@@ -5,7 +5,7 @@
     modify it under the terms of the GNU General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-    
+
     2004-03-16: A class to handle video streaming.
  */
 
@@ -36,10 +36,10 @@
 #include "kstars.h"
 #include "Options.h"
 
-RecordOptions::RecordOptions(QWidget *parent) : QDialog(parent)
+RecordOptions::RecordOptions(QWidget * parent) : QDialog(parent)
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
     setupUi(this);
@@ -60,7 +60,7 @@ void RecordOptions::selectRecordDirectory()
     recordDirectoryEdit->setText(dir);
 }
 
-StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
+StreamWG::StreamWG(ISD::CCD * ccd) : QDialog(KStars::Instance())
 {
     setupUi(this);
     currentCCD     = ccd;
@@ -77,11 +77,11 @@ StreamWG::StreamWG(ISD::CCD *ccd) : QDialog(KStars::Instance())
     options->recordFilenameEdit->setText(filename);
     options->recordDirectoryEdit->setText(directory);
 
-    setWindowTitle(i18n("%1 Live Video", ccd->getDeviceName()));    
+    setWindowTitle(i18n("%1 Live Video", ccd->getDeviceName()));
 
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
-#endif    
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+#endif
     recordIcon   = QIcon::fromTheme( "media-record", QIcon(":/icons/breeze/default/media-record.svg"));
     stopIcon     = QIcon::fromTheme( "media-playback-stop", QIcon(":/icons/breeze/default/media-playback-stop.svg"));
 
@@ -218,7 +218,7 @@ void StreamWG::toggleRecord()
     }
 }
 
-void StreamWG::newFrame(IBLOB *bp)
+void StreamWG::newFrame(IBLOB * bp)
 {
     bool rc = videoFrame->newFrame(bp);
 
@@ -228,7 +228,7 @@ void StreamWG::newFrame(IBLOB *bp)
 
 void StreamWG::resetFrame()
 {
-   currentCCD->resetStreamingFrame();
+    currentCCD->resetStreamingFrame();
 }
 
 void StreamWG::setStreamingFrame(QRect newFrame)

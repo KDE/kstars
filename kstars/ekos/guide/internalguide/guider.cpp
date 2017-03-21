@@ -32,7 +32,7 @@
 
 
 
-internalGuider::internalGuider(cgmath *mathObject, Ekos::Guide *parent)
+internalGuider::internalGuider(cgmath * mathObject, Ekos::Guide * parent)
     : QWidget(parent)
 {
     int i;
@@ -52,7 +52,7 @@ internalGuider::internalGuider(cgmath *mathObject, Ekos::Guide *parent)
     m_lostStarTries=0;
 
     ui.comboBox_ThresholdAlg->clear();
-    for( i = 0;guide_square_alg[i].idx != -1;++i )
+    for( i = 0; guide_square_alg[i].idx != -1; ++i )
         ui.comboBox_ThresholdAlg->addItem( QString( guide_square_alg[i].name ) );
 
     // connect ui
@@ -119,7 +119,7 @@ bool internalGuider::isGuiding( void ) const
 }
 
 
-void internalGuider::setMathObject( cgmath *math )
+void internalGuider::setMathObject( cgmath * math )
 {
     assert( math );
     pmath = math;
@@ -137,7 +137,7 @@ double internalGuider::getAOLimit()
 
 void internalGuider::setInterface( void )
 {
-    const cproc_out_params *out_params;
+    const cproc_out_params * out_params;
     info_params_t	info_params;
     QString str;
     int rx, ry;
@@ -197,7 +197,7 @@ void internalGuider::setInterface( void )
 
 
 
-void internalGuider::setTargetChip(ISD::CCDChip *chip)
+void internalGuider::setTargetChip(ISD::CCDChip * chip)
 {
     targetChip = chip;
     targetChip->getFrame(&fx, &fy, &fw, &fh);
@@ -417,7 +417,7 @@ void internalGuider::setDECSwap(bool enable)
 void internalGuider::guide( void )
 {
     static int maxPulseCounter=0;
-    const cproc_out_params *out;
+    const cproc_out_params * out;
     QString str;
     uint32_t tick = 0;
     double drift_x = 0, drift_y = 0;
@@ -509,7 +509,7 @@ void internalGuider::guide( void )
     emit newProfilePixmap(profilePixmap);
 }
 
-void internalGuider::setImageView(FITSView *image)
+void internalGuider::setImageView(FITSView * image)
 {
     guideFrame = image;
 
@@ -650,7 +650,7 @@ bool internalGuider::useRapidGuide()
     return ui.rapidGuideCheck->isChecked();
 }
 
-void internalGuider::setGuideOptions(const QString & algorithm, bool useSubFrame, bool useRapidGuide)
+void internalGuider::setGuideOptions(const QString &algorithm, bool useSubFrame, bool useRapidGuide)
 {
     for (int i=0; i < ui.comboBox_ThresholdAlg->count(); i++)
         if (ui.comboBox_ThresholdAlg->itemText(i) == algorithm)
@@ -672,7 +672,7 @@ void internalGuider::setDither(bool enable, double value)
         ui.ditherPixels->setValue(value);
 }
 
-void internalGuider::setPHD2(Ekos::PHD2 *phd)
+void internalGuider::setPHD2(Ekos::PHD2 * phd)
 {
     // If we already have PHD2 set but we are asked to unset it then we shall disconnect all signals first
     if (phd2 && phd == NULL)

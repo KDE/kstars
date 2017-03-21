@@ -36,7 +36,8 @@ nomadbinfile2sqlite.cpp -- Convert USNO NOMAD binary file to a SQLite database
 
 using namespace std;
 
-NOMADStarDataWriter::NOMADStarDataWriter( FILE *f, int HTMLevel, sqlite3 *_db, char *_db_tbl ) {
+NOMADStarDataWriter::NOMADStarDataWriter( FILE * f, int HTMLevel, sqlite3 * _db, char * _db_tbl )
+{
     db = _db;
     DataFile = f;
     // Create a new shiny HTMesh
@@ -45,11 +46,13 @@ NOMADStarDataWriter::NOMADStarDataWriter( FILE *f, int HTMLevel, sqlite3 *_db, c
     m_HeaderRead = false;
 }
 
-NOMADStarDataWriter::~NOMADStarDataWriter() {
+NOMADStarDataWriter::~NOMADStarDataWriter()
+{
     delete m_Mesh;
 }
 
-void NOMADStarDataWriter::bswap_stardata( DeepStarData *stardata ) {
+void NOMADStarDataWriter::bswap_stardata( DeepStarData * stardata )
+{
     stardata->RA = bswap_32( stardata->RA );
     stardata->Dec = bswap_32( stardata->Dec );
     stardata->dRA = bswap_16( stardata->dRA );
@@ -61,14 +64,16 @@ void NOMADStarDataWriter::bswap_stardata( DeepStarData *stardata ) {
 /**
  *@short Create the table
  */
-bool NOMADStarDataWriter::createTable() {
+bool NOMADStarDataWriter::createTable()
+{
     // TODO: This is not working. Investigate.
     char create_query[2048];
     char index_query[2048];
-    char *errorMessage = 0;
+    char * errorMessage = 0;
     sprintf( create_query, "CREATE TABLE IF NOT EXISTS `%s` (`Trixel` int(32) NOT NULL , `RA` double NOT NULL , `Dec` double NOT NULL , `dRA` double NOT NULL , `dDec` double NOT NULL , `PM` double NOT NULL , `V` float NOT NULL , `B` float NOT NULL , `Mag` float NOT NULL , `UID` INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT , `Copies` int(8) NOT NULL )", db_tbl );
 
-    if ( sqlite3_exec( db, create_query, 0, 0, &errorMessage ) != SQLITE_OK ) {
+    if ( sqlite3_exec( db, create_query, 0, 0, &errorMessage ) != SQLITE_OK )
+    {
         cerr << "ERROR: Table creation failed: " << errorMessage << endl;
         sqlite3_free( errorMessage );
         return false;
@@ -76,7 +81,8 @@ bool NOMADStarDataWriter::createTable() {
 
     sprintf( index_query, "CREATE INDEX IF NOT EXISTS `TrixelIndex` ON `%s`(`Trixel`)", db_tbl );
 
-    if ( sqlite3_exec( db, index_query, 0, 0, &errorMessage ) != SQLITE_OK ) {
+    if ( sqlite3_exec( db, index_query, 0, 0, &errorMessage ) != SQLITE_OK )
+    {
         cerr << "ERROR: Trixel index creation failed: " << errorMessage << endl;
         sqlite3_free( errorMessage );
         return false;
@@ -90,7 +96,8 @@ bool NOMADStarDataWriter::createTable() {
  *given initial RA, Dec and proper motion rates after 'years' number
  *of years
  */
-void NOMADStarDataWriter::calculatePMCoords( double startRA, double startDec, double dRA, double dDec, double *endRA, double *endDec, float years  ) {
+void NOMADStarDataWriter::calculatePMCoords( double startRA, double startDec, double dRA, double dDec, double * endRA, double * endDec, float years  )
+{
     // (Translated from Perl)
     double theta0 = hour2rad( startRA );
     double lat0   = deg2rad( startDec );
@@ -116,9 +123,10 @@ void NOMADStarDataWriter::calculatePMCoords( double startRA, double startDec, do
 /**
  *@short Do some calculations and insert the star data into the database
  */
-bool NOMADStarDataWriter::insertStarData( unsigned int trixel, const DeepStarData * const data ) {
+bool NOMADStarDataWriter::insertStarData( unsigned int trixel, const DeepStarData * const data )
+{
     char query[2048];
-    char *errorMessage = 0;
+    char * errorMessage = 0;
     float mag;
     float B, V, RA, Dec, dRA, dDec;
 
@@ -138,11 +146,13 @@ bool NOMADStarDataWriter::insertStarData( unsigned int trixel, const DeepStarDat
         return true;  // Ignore this star.
 
     // Magnitude for sorting.
-    if( V == 30.0 && B != 30.0 ) {
+    if( V == 30.0 && B != 30.0 )
+    {
         mag = B - 1.6;
     }
-    else {
-	mag = V;
+    else
+    {
+        mag = V;
     }
 
     // Compute the proper motion
@@ -158,36 +168,42 @@ bool NOMADStarDataWriter::insertStarData( unsigned int trixel, const DeepStarDat
     int ntrixels = 0;
 
     double separation = sqrt( hour2deg(RA1 - RA2) * hour2deg(RA1 - RA2) + (Dec1 - Dec2) * (Dec1 - Dec2) ); // Separation in degrees // ugly.
-    if( separation > 50.0 / 60.0 ) {  // 50 arcminutes
+    if( separation > 50.0 / 60.0 )    // 50 arcminutes
+    {
         m_Mesh->intersect( RA1, Dec1, RA2, Dec2 );
         MeshIterator trixels( m_Mesh );
-        while( trixels.hasNext() ) {
+        while( trixels.hasNext() )
+        {
             TrixelList[ ntrixels ] = trixels.next();
             ntrixels++;
         }
     }
-    else {
+    else
+    {
         TrixelList[ 0 ] = originalTrixelID;
         ntrixels = 1;
     }
 
-    if( ntrixels == 0 ) {
+    if( ntrixels == 0 )
+    {
         cerr << "Ntrixels is zero in trixel " << originalTrixelID;
         return false;
     }
 
     sprintf( query, "INSERT INTO `%s` (`Trixel`, `RA`, `Dec`, `dRA`, `dDec`, `B`, `V`, `mag`, `PM`, `Copies`) VALUES (:Trixel, :RA, :Dec, :dRA, :dDec, :B, :V, :mag, :PM, :Copies)", db_tbl );
-    sqlite3_stmt *stmt;
+    sqlite3_stmt * stmt;
     sqlite3_prepare_v2( db, query, -1, &stmt, 0 );
 
-    if ( sqlite3_exec( db, "BEGIN TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+    if ( sqlite3_exec( db, "BEGIN TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK )
+    {
         cerr << "SQLite INSERT INTO failed! Query was: " << endl << query << endl;
         cerr << "Error was: " << errorMessage << endl;
         sqlite3_free( errorMessage );
         return false;
     }
 
-    for( int i = 0; i < ntrixels; ++i ) {
+    for( int i = 0; i < ntrixels; ++i )
+    {
 
         sqlite3_bind_int( stmt, 1, TrixelList[ i ] );
         sqlite3_bind_double( stmt, 2, RA );
@@ -205,7 +221,8 @@ bool NOMADStarDataWriter::insertStarData( unsigned int trixel, const DeepStarDat
         sqlite3_reset( stmt );
     }
 
-    if ( sqlite3_exec( db, "END TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+    if ( sqlite3_exec( db, "END TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK )
+    {
         cerr << "SQLite INSERT INTO failed! Query was: " << endl << query << endl;
         cerr << "Error was: " << errorMessage << endl;
         sqlite3_free( errorMessage );
@@ -217,12 +234,14 @@ bool NOMADStarDataWriter::insertStarData( unsigned int trixel, const DeepStarDat
     return true;
 }
 
-bool NOMADStarDataWriter::truncateTable() {
+bool NOMADStarDataWriter::truncateTable()
+{
     // Truncate table. TODO: Issue warning etc
     char query[60];
-    char *errorMessage = 0;
+    char * errorMessage = 0;
     sprintf( query, "DELETE FROM `%s`; VACUUM;", db_tbl );
-    if( sqlite3_exec( db, query, 0, 0, &errorMessage ) != SQLITE_OK ) {
+    if( sqlite3_exec( db, query, 0, 0, &errorMessage ) != SQLITE_OK )
+    {
         cerr << "Truncate table query \"" << query << "\" failed!" << endl;
         cerr << "Error was: " << errorMessage << endl;
         sqlite3_free( errorMessage );
@@ -234,7 +253,8 @@ bool NOMADStarDataWriter::truncateTable() {
 /**
  *@short Write star data to the database
  */
-bool NOMADStarDataWriter::writeStarDataToDB() {
+bool NOMADStarDataWriter::writeStarDataToDB()
+{
     int8_t HTM_Level;
     u_int16_t MSpT;
     u_int32_t nstars;
@@ -256,21 +276,23 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
         return false;
     }
     */
-    char *errorMessage = 0;
+    char * errorMessage = 0;
     char query[2048];
 
     sprintf( query, "INSERT INTO `%s` (`Trixel`, `RA`, `Dec`, `dRA`, `dDec`, `B`, `V`, `mag`, `PM`, `Copies`) VALUES (:Trixel, :RA, :Dec, :dRA, :dDec, :B, :V, :mag, :PM, :Copies)", db_tbl );
-    sqlite3_stmt *stmt;
+    sqlite3_stmt * stmt;
     sqlite3_prepare_v2( db, query, -1, &stmt, 0 );
 
-    if ( sqlite3_exec( db, "BEGIN TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+    if ( sqlite3_exec( db, "BEGIN TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK )
+    {
         cerr << "SQLite BEGIN TRANSACTION failed! Query was: " << endl << query << endl;
         cerr << "Error was: " << errorMessage << endl;
         sqlite3_free( errorMessage );
         return false;
     }
 
-    for( trixel = 0; trixel < ntrixels; ++trixel ) {
+    for( trixel = 0; trixel < ntrixels; ++trixel )
+    {
         fseek( DataFile, m_IndexOffset + trixel * INDEX_ENTRY_SIZE + 4 , SEEK_SET );
         fread( &offset, 4, 1, DataFile );
         fread( &nstars, 4, 1, DataFile );
@@ -278,14 +300,16 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
         if ( DEBUG ) cerr << "Processing trixel " << trixel << " of " << ntrixels << endl;
 
         /* If offset > 2^31 - 1, do the fseek in two steps */
-        if( offset > unsigned( pow2(31) - 1 ) ) {
+        if( offset > unsigned( pow2(31) - 1 ) )
+        {
             fseek( DataFile, unsigned( pow2(31) - 1 ), SEEK_SET );
             fseek( DataFile, offset - pow2(31) + 1, SEEK_CUR );
         }
         else
             fseek( DataFile, offset, SEEK_SET );
 
-        for( int i = 0; i < nstars; ++i ) {
+        for( int i = 0; i < nstars; ++i )
+        {
             if ( DEBUG ) cerr << "Processing star " << i << " of " << nstars << " in trixel " << trixel << endl;
             fread( &data, sizeof( DeepStarData ), 1, DataFile );
             if( byteswap ) bswap_stardata( &data );
@@ -307,7 +331,8 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
                 // star is in according to its RA and Dec. If that's not the case,
                 // this star is a duplicate and must be ignored
                 unsigned int originalTrixelID = m_Mesh->index( hour2deg(RA), Dec );
-                if( trixel != originalTrixelID ) {
+                if( trixel != originalTrixelID )
+                {
                     cout << "Trixel = " << trixel << ", but this is the original Trixel ID: " << originalTrixelID << ". Skipping" << endl;
                     cout << "Skipped star has (RA, Dec) = " << RA << Dec << "; (dRA, dDec) = " << dRA << dDec << "; and (B, V) = " << B << V << "." << endl;
                     cout << "This suspected duplicate is star " << i << "in trixel " << trixel;
@@ -315,10 +340,12 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
                 }
 
                 // Magnitude for sorting.
-                if( V == 30.0 && B != 30.0 ) {
+                if( V == 30.0 && B != 30.0 )
+                {
                     mag = B - 1.6;
                 }
-                else {
+                else
+                {
                     mag = V;
                 }
 
@@ -337,25 +364,30 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
                 int nt = 0;
 
                 double separationsqr = (RA1deg - RA2deg) * (RA1deg - RA2deg) + (Dec1 - Dec2) * (Dec1 - Dec2); // Separation in degrees // ugly.
-                if( separationsqr > 0.69 ) {  // 50 arcminutes converted to degrees, squared and rounded below = 0.69. (This has nothing to do with sex positions.)
+                if( separationsqr > 0.69 )    // 50 arcminutes converted to degrees, squared and rounded below = 0.69. (This has nothing to do with sex positions.)
+                {
                     m_Mesh->intersect( RA1deg, Dec1, RA2deg, Dec2 );
                     MeshIterator trixels( m_Mesh );
-                    while( trixels.hasNext() ) {
+                    while( trixels.hasNext() )
+                    {
                         TrixelList[ nt ] = trixels.next();
                         nt++;
                     }
                 }
-                else {
+                else
+                {
                     TrixelList[ 0 ] = originalTrixelID;
                     nt = 1;
                 }
 
-                if( nt == 0 ) {
+                if( nt == 0 )
+                {
                     cerr << "# of trixels is zero in trixel " << originalTrixelID;
                     return false;
                 }
 
-                for( int i = 0; i < nt; ++i ) {
+                for( int i = 0; i < nt; ++i )
+                {
                     sqlite3_bind_int( stmt, 1, TrixelList[ i ] );
                     sqlite3_bind_double( stmt, 2, RA );
                     sqlite3_bind_double( stmt, 3, Dec );
@@ -373,8 +405,10 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
                 }
             }
         }
-        if( trixel % 100 == 0 && trixel != 0 ) {
-            if ( sqlite3_exec( db, "END TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+        if( trixel % 100 == 0 && trixel != 0 )
+        {
+            if ( sqlite3_exec( db, "END TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK )
+            {
                 cerr << "SQLite END TRANSACTION failed! Query was: " << endl << query << endl;
                 cerr << "Error was: " << errorMessage << endl;
                 sqlite3_free( errorMessage );
@@ -383,7 +417,8 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
             sqlite3_finalize( stmt );
             sqlite3_prepare_v2( db, query, -1, &stmt, 0 );
 
-            if ( sqlite3_exec( db, "BEGIN TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+            if ( sqlite3_exec( db, "BEGIN TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK )
+            {
                 cerr << "SQLite BEGIN TRANSACTION failed! Query was: " << endl << query << endl;
                 cerr << "Error was: " << errorMessage << endl;
                 sqlite3_free( errorMessage );
@@ -394,7 +429,8 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
         }
     }
 
-    if ( sqlite3_exec( db, "END TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK ) {
+    if ( sqlite3_exec( db, "END TRANSACTION", 0, 0, &errorMessage ) != SQLITE_OK )
+    {
         cerr << "SQLite INSERT INTO failed! Query was: " << endl << query << endl;
         cerr << "Error was: " << errorMessage << endl;
         sqlite3_free( errorMessage );
@@ -407,7 +443,8 @@ bool NOMADStarDataWriter::writeStarDataToDB() {
 }
 
 
-bool NOMADStarDataWriter::readFileHeader() {
+bool NOMADStarDataWriter::readFileHeader()
+{
     int i;
     int16_t endian_id;
     char ASCII_text[125];
@@ -423,11 +460,13 @@ bool NOMADStarDataWriter::readFileHeader() {
     printf("%s", ASCII_text);
 
     fread(&endian_id, 2, 1, DataFile);
-    if(endian_id != 0x4B53) {
+    if(endian_id != 0x4B53)
+    {
         fprintf( stdout, "Byteswapping required\n" );
         byteswap = 1;
     }
-    else {
+    else
+    {
         fprintf( stdout, "Byteswapping not required\n" );
         byteswap = 0;
     }
@@ -454,7 +493,8 @@ bool NOMADStarDataWriter::readFileHeader() {
     return true;
 }
 
-bool NOMADStarDataWriter::write() {
+bool NOMADStarDataWriter::write()
+{
     if( !readFileHeader() )
         return false;
     if( !createTable() )
@@ -464,14 +504,16 @@ bool NOMADStarDataWriter::write() {
         return false;
 }
 
-int main(int argc, char *argv[]) {
-    sqlite3 *db;
-    FILE *f;
+int main(int argc, char * argv[])
+{
+    sqlite3 * db;
+    FILE * f;
     char db_tbl[20];
     char db_name[20];
     int rc;
 
-    if(argc <= 3) {
+    if(argc <= 3)
+    {
         fprintf(stderr, "USAGE: %s <NOMAD bin file> <SQLite DB File Name> <Table Name>\n", argv[0]);
         return 1;
     }
@@ -481,13 +523,15 @@ int main(int argc, char *argv[]) {
 
     f = fopen(argv[1], "r");
 
-    if(f == NULL) {
+    if(f == NULL)
+    {
         fprintf(stderr, "ERROR: Could not open file %s for binary read.\n", argv[1]);
         return 1;
     }
 
     /* Open the Database */
-    if( sqlite3_open( db_name, &db ) ) {
+    if( sqlite3_open( db_name, &db ) )
+    {
         fprintf( stderr, "ERROR: Failed to open database: %s\n", sqlite3_errmsg( db ) );
         sqlite3_close( db );
         return 1;

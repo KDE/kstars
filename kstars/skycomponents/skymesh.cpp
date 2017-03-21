@@ -35,9 +35,9 @@
 QMap<int, SkyMesh *> SkyMesh::pinstances;
 int SkyMesh::defaultLevel = -1;
 
-SkyMesh* SkyMesh::Create( int level )
+SkyMesh * SkyMesh::Create( int level )
 {
-    SkyMesh *newInstance;
+    SkyMesh * newInstance;
     newInstance = pinstances.value( level, NULL );
     delete newInstance;
     newInstance = new SkyMesh( level );
@@ -47,33 +47,34 @@ SkyMesh* SkyMesh::Create( int level )
     return newInstance;
 }
 
-SkyMesh* SkyMesh::Instance( )
+SkyMesh * SkyMesh::Instance( )
 {
     return pinstances.value( defaultLevel, NULL );
 }
 
-SkyMesh* SkyMesh::Instance( int level ) 
+SkyMesh * SkyMesh::Instance( int level )
 {
     return pinstances.value( level, NULL );
 }
 
 SkyMesh::SkyMesh( int level) :
-        HTMesh(level, level, NUM_MESH_BUF),
-        m_drawID(0), m_KSNumbers( 0 )
+    HTMesh(level, level, NUM_MESH_BUF),
+    m_drawID(0), m_KSNumbers( 0 )
 {
     errLimit = HTMesh::size() / 4;
     m_inDraw = false;
 }
 
-void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
+void SkyMesh::aperture(SkyPoint * p0, double radius, MeshBufNum_t bufNum)
 {
-    KStarsData* data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     // FIXME: simple copying leads to incorrect results because RA0 && dec0 are both zero sometimes
     SkyPoint p1( p0->ra(), p0->dec() );
     long double now = data->updateNum()->julianDay();
     p1.apparentCoord( now, J2000 );
 
-    if ( radius == 1.0 ) {
+    if ( radius == 1.0 )
+    {
 #ifndef KSTARS_LITE
         printf("\n ra0 = %8.4f   dec0 = %8.4f\n", p0->ra().Degrees(), p0->dec().Degrees() );
         printf(" ra1 = %8.4f   dec1 = %8.4f\n", p1.ra().Degrees(), p1.dec().Degrees() );
@@ -96,19 +97,19 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
         printf("Warining: overlapping buffer: %d\n", bufNum);
 }
 
-Trixel SkyMesh::index(const SkyPoint* p)
+Trixel SkyMesh::index(const SkyPoint * p)
 {
     return HTMesh::index( p->ra0().Degrees(), p->dec0().Degrees() );
 }
 
-Trixel SkyMesh::indexStar( StarObject *star )
+Trixel SkyMesh::indexStar( StarObject * star )
 {
     double ra, dec;
     star->getIndexCoords( &m_KSNumbers, &ra, &dec );
     return HTMesh::index( ra, dec );
 }
 
-void SkyMesh::indexStar( StarObject* star1, StarObject* star2 )
+void SkyMesh::indexStar( StarObject * star1, StarObject * star2 )
 {
     double ra1, ra2, dec1, dec2;
     star1->getIndexCoords( &m_KSNumbers, &ra1, &dec1 );
@@ -117,7 +118,7 @@ void SkyMesh::indexStar( StarObject* star1, StarObject* star2 )
 }
 
 
-void SkyMesh::index(const SkyPoint *p, double radius, MeshBufNum_t bufNum )
+void SkyMesh::index(const SkyPoint * p, double radius, MeshBufNum_t bufNum )
 {
     HTMesh::intersect( p->ra().Degrees(), p->dec().Degrees(), radius, (BufNum) bufNum );
 
@@ -126,20 +127,20 @@ void SkyMesh::index(const SkyPoint *p, double radius, MeshBufNum_t bufNum )
         printf("Warning: overlapping buffer: %d\n", bufNum);
 }
 
-void SkyMesh::index( const SkyPoint* p1, const SkyPoint* p2 )
+void SkyMesh::index( const SkyPoint * p1, const SkyPoint * p2 )
 {
     HTMesh::intersect( p1->ra0().Degrees(), p1->dec0().Degrees(),
                        p2->ra0().Degrees(), p2->dec0().Degrees() );
 }
 
-void SkyMesh::index( const SkyPoint* p1, const SkyPoint* p2, const SkyPoint* p3 )
+void SkyMesh::index( const SkyPoint * p1, const SkyPoint * p2, const SkyPoint * p3 )
 {
     HTMesh::intersect( p1->ra0().Degrees(), p1->dec0().Degrees(),
                        p2->ra0().Degrees(), p2->dec0().Degrees(),
                        p3->ra0().Degrees(), p3->dec0().Degrees() );
 }
 
-void SkyMesh::index( const SkyPoint* p1, const SkyPoint* p2, const SkyPoint* p3, const SkyPoint* p4 )
+void SkyMesh::index( const SkyPoint * p1, const SkyPoint * p2, const SkyPoint * p3, const SkyPoint * p4 )
 {
     HTMesh::intersect( p1->ra0().Degrees(), p1->dec0().Degrees(),
                        p2->ra0().Degrees(), p2->dec0().Degrees(),
@@ -162,27 +163,29 @@ void SkyMesh::index( const QPointF &p1, const QPointF &p2, const QPointF &p3, co
                        p4.x() * 15.0, p4.y() );
 }
 
-const IndexHash& SkyMesh::indexLine( SkyList* points )
+const IndexHash &SkyMesh::indexLine( SkyList * points )
 {
     return indexLine( points, NULL );
 }
 
-const IndexHash& SkyMesh::indexStarLine( SkyList* points )
+const IndexHash &SkyMesh::indexStarLine( SkyList * points )
 {
-    SkyPoint *pThis, *pLast;
+    SkyPoint * pThis, *pLast;
 
     indexHash.clear();
 
     if ( points->size() == 0 ) return indexHash;
 
     pLast = points->at( 0 );
-    for ( int i=1 ; i < points->size() ; i++ ) {
+    for ( int i=1 ; i < points->size() ; i++ )
+    {
         pThis = points->at( i );
 
-        indexStar( (StarObject*) pThis, (StarObject*) pLast );
+        indexStar( (StarObject *) pThis, (StarObject *) pLast );
         MeshIterator region( this );
 
-        while ( region.hasNext() ) {
+        while ( region.hasNext() )
+        {
             indexHash[ region.next() ] = true;
         }
         pLast = pThis;
@@ -193,19 +196,21 @@ const IndexHash& SkyMesh::indexStarLine( SkyList* points )
 }
 
 
-const IndexHash& SkyMesh::indexLine( SkyList* points, IndexHash* skip )
+const IndexHash &SkyMesh::indexLine( SkyList * points, IndexHash * skip )
 {
-    SkyPoint *pThis, *pLast;
+    SkyPoint * pThis, *pLast;
 
     indexHash.clear();
 
     if ( points->size() == 0 ) return indexHash;
 
     pLast = points->at( 0 );
-    for ( int i=1 ; i < points->size() ; i++ ) {
+    for ( int i=1 ; i < points->size() ; i++ )
+    {
         pThis = points->at( i );
 
-        if (skip != NULL && skip->contains( i ) ) {
+        if (skip != NULL && skip->contains( i ) )
+        {
             pLast = pThis;
             continue;
         }
@@ -213,7 +218,8 @@ const IndexHash& SkyMesh::indexLine( SkyList* points, IndexHash* skip )
         index( pThis, pLast );
         MeshIterator region( this );
 
-        if ( region.size() > errLimit ) {
+        if ( region.size() > errLimit )
+        {
             printf("\nSkyMesh::indexLine: too many trixels: %d\n", region.size() );
             printf("    ra1  = %f;\n", pThis->ra0().Degrees());
             printf("    ra2  = %f;\n", pLast->ra0().Degrees());
@@ -227,8 +233,10 @@ const IndexHash& SkyMesh::indexLine( SkyList* points, IndexHash* skip )
         // This was used to track down a bug in my HTMesh code. The bug was caught
         // and fixed but I've left this debugging code in for now.  -jbb
 
-        else {
-            while ( region.hasNext() ) {
+        else
+        {
+            while ( region.hasNext() )
+            {
                 indexHash[ region.next() ] = true;
             }
         }
@@ -244,30 +252,34 @@ const IndexHash& SkyMesh::indexLine( SkyList* points, IndexHash* skip )
 // the many duplicate indices that are generated with this procedure.
 // There are probably faster and better ways to do this.
 
-const IndexHash& SkyMesh::indexPoly( SkyList *points )
+const IndexHash &SkyMesh::indexPoly( SkyList * points )
 {
 
     indexHash.clear();
 
     if (points->size() < 3) return indexHash;
 
-    SkyPoint* startP = points->first();
+    SkyPoint * startP = points->first();
 
     int end = points->size() - 2;     // 1) size - 1  -> last index,
     // 2) minimum of 2 points
 
-    for( int p = 1; p <= end; p+= 2 ) {
+    for( int p = 1; p <= end; p+= 2 )
+    {
 
-        if ( p == end ) {
+        if ( p == end )
+        {
             index( startP, points->at(p), points->at(p+1) );
         }
-        else {
+        else
+        {
             index( startP, points->at(p), points->at(p+1), points->at(p+2) );
         }
 
         MeshIterator region( this );
 
-        if ( region.size() > errLimit ) {
+        if ( region.size() > errLimit )
+        {
             printf("\nSkyMesh::indexPoly: too many trixels: %d\n", region.size() );
 
             printf("    ra1 = %f;\n", startP->ra0().Degrees());
@@ -285,14 +297,15 @@ const IndexHash& SkyMesh::indexPoly( SkyList *points )
             printf("\n");
 
         }
-        while ( region.hasNext() ) {
+        while ( region.hasNext() )
+        {
             indexHash[ region.next() ] = true;
         }
     }
     return indexHash;
 }
 
-const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
+const IndexHash &SkyMesh::indexPoly( const QPolygonF * points )
 {
     indexHash.clear();
 
@@ -302,18 +315,22 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
 
     int end = points->size() - 2;     // 1) size - 1  -> last index,
     // 2) minimum of 2 points
-    for( int p = 1; p <= end; p+= 2 ) {
+    for( int p = 1; p <= end; p+= 2 )
+    {
 
-        if ( p == end ) {
+        if ( p == end )
+        {
             index( startP, points->at(p), points->at(p+1) );
         }
-        else {
+        else
+        {
             index( startP, points->at(p), points->at(p+1), points->at(p+2) );
         }
 
         MeshIterator region( this );
 
-        if ( region.size() > errLimit ) {
+        if ( region.size() > errLimit )
+        {
             printf("\nSkyMesh::indexPoly: too many trixels: %d\n", region.size() );
 
             printf("    ra1 = %f;\n", startP.x() );
@@ -331,7 +348,8 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
             printf("\n");
 
         }
-        while ( region.hasNext() ) {
+        while ( region.hasNext() )
+        {
             indexHash[ region.next() ] = true;
         }
     }
@@ -346,13 +364,14 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
 void SkyMesh::draw(QPainter &psky, MeshBufNum_t bufNum)
 {
 #ifndef KSTARS_LITE
-    SkyMap*     map  = SkyMap::Instance();
-    KStarsData* data = KStarsData::Instance();
+    SkyMap   *  map  = SkyMap::Instance();
+    KStarsData * data = KStarsData::Instance();
 
     double r1, d1, r2, d2, r3, d3;
 
     MeshIterator region( this, bufNum );
-    while ( region.hasNext() ) {
+    while ( region.hasNext() )
+    {
         Trixel trixel = region.next();
         vertices( trixel, &r1, &d1, &r2, &d2, &r3, &d3 );
         SkyPoint s1( r1 / 15.0, d1 );
@@ -378,7 +397,7 @@ void SkyMesh::draw(QPainter &psky, MeshBufNum_t bufNum)
 #endif
 }
 
-const SkyRegion& SkyMesh::skyRegion( const SkyPoint& _p1, const SkyPoint& _p2 )
+const SkyRegion &SkyMesh::skyRegion( const SkyPoint &_p1, const SkyPoint &_p2 )
 {
     SkyPoint p1( _p1 ), p2( _p2 );
     SkyPoint p3( p1.ra(), p2.dec() ), p4( p2.ra(), p1.dec() );

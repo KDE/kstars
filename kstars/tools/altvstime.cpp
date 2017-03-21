@@ -45,24 +45,24 @@
 #include "ui_altvstime.h"
 
 
-AltVsTimeUI::AltVsTimeUI( QWidget *p ) :
+AltVsTimeUI::AltVsTimeUI( QWidget * p ) :
     QFrame( p )
 {
     setupUi( this );
 }
 
-AltVsTime::AltVsTime( QWidget* parent)  :
+AltVsTime::AltVsTime( QWidget * parent)  :
     QDialog( parent )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
     setWindowTitle(i18n( "Altitude vs. Time" ) );
 
     setModal( false );
 
-    QVBoxLayout* topLayout = new QVBoxLayout;
+    QVBoxLayout * topLayout = new QVBoxLayout;
     setLayout(topLayout);
     topLayout->setMargin( 0 );
     avtUI = new AltVsTimeUI( this );
@@ -165,11 +165,11 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 
     topLayout->addWidget( avtUI );
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     topLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QPushButton *printB = new QPushButton(QIcon::fromTheme("document-print", QIcon(":/icons/breeze/default/document-print.svg")), i18n("&Print..."));
+    QPushButton * printB = new QPushButton(QIcon::fromTheme("document-print", QIcon(":/icons/breeze/default/document-print.svg")), i18n("&Print..."));
     printB->setToolTip(i18n("Print the Altitude vs. time plot"));
     buttonBox->addButton(printB, QDialogButtonBox::ActionRole);
     connect(printB, SIGNAL(clicked()), this, SLOT(slotPrint()));
@@ -193,8 +193,8 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 
     connect( avtUI->View->yAxis,    SIGNAL( rangeChanged(QCPRange)), this,   SLOT( onYRangeChanged(QCPRange)));
     connect( avtUI->View->xAxis2,    SIGNAL( rangeChanged(QCPRange)), this,   SLOT( onXRangeChanged(QCPRange)));
-    connect( avtUI->View, SIGNAL( plottableClick(QCPAbstractPlottable*,QMouseEvent*)), this, SLOT(plotMousePress(QCPAbstractPlottable *, QMouseEvent *)) );
-    connect( avtUI->View, SIGNAL( mouseMove(QMouseEvent*)), this, SLOT(mouseOverLine(QMouseEvent*)));
+    connect( avtUI->View, SIGNAL( plottableClick(QCPAbstractPlottable *,QMouseEvent *)), this, SLOT(plotMousePress(QCPAbstractPlottable *, QMouseEvent *)) );
+    connect( avtUI->View, SIGNAL( mouseMove(QMouseEvent *)), this, SLOT(mouseOverLine(QMouseEvent *)));
 
     connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
     connect( avtUI->cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
@@ -262,30 +262,36 @@ AltVsTime::~AltVsTime()
 {
     //WARNING: need to delete deleteList items!
 }
-void AltVsTime::slotAddSource() {
-    SkyObject *obj = KStarsData::Instance()->objectNamed( avtUI->nameBox->text() );
+void AltVsTime::slotAddSource()
+{
+    SkyObject * obj = KStarsData::Instance()->objectNamed( avtUI->nameBox->text() );
 
-    if ( obj ) {
+    if ( obj )
+    {
         //An object with the current name exists.  If the object is not already
         //in the avt list, add it.
         bool found = false;
-        foreach ( SkyObject *o, pList ) {
+        foreach ( SkyObject * o, pList )
+        {
             //if ( o->name() == obj->name() ) {
-            if ( getObjectName(o, false) == getObjectName(obj, false) ) {
+            if ( getObjectName(o, false) == getObjectName(obj, false) )
+            {
                 found = true;
                 break;
             }
         }
         if( !found )
             processObject( obj );
-    } else {
+    }
+    else
+    {
         //Object with the current name doesn't exist.  It's possible that the
         //user is trying to add a custom object.  Assume this is the case if
         //the RA and Dec fields are filled in.
 
         if( ! avtUI->nameBox->text().isEmpty() &&
-            ! avtUI->raBox->text().isEmpty()   &&
-            ! avtUI->decBox->text().isEmpty() )
+                ! avtUI->raBox->text().isEmpty()   &&
+                ! avtUI->decBox->text().isEmpty() )
         {
             bool okRA, okDec;
             dms newRA  = avtUI->raBox->createDms( false, &okRA );
@@ -298,7 +304,8 @@ void AltVsTime::slotAddSource() {
             KStarsDateTime dt;
             dt.setFromEpoch( getEpoch( avtUI->epochName->text() ) );
             long double jd = dt.djd();
-            if ( jd != J2000 ) {
+            if ( jd != J2000 )
+            {
                 SkyPoint ptest( newRA, newDec );
                 ptest.precessFromAnyEpoch( jd, J2000 );
                 newRA.setH( ptest.ra().Hours() );
@@ -307,15 +314,18 @@ void AltVsTime::slotAddSource() {
 
             //make sure the coords do not already exist from another object
             bool found = false;
-            foreach ( SkyObject *p, pList ) {
+            foreach ( SkyObject * p, pList )
+            {
                 //within an arcsecond?
-                if ( fabs( newRA.Degrees() - p->ra().Degrees() ) < 0.0003 && fabs( newDec.Degrees() - p->dec().Degrees() ) < 0.0003 ) {
+                if ( fabs( newRA.Degrees() - p->ra().Degrees() ) < 0.0003 && fabs( newDec.Degrees() - p->dec().Degrees() ) < 0.0003 )
+                {
                     found = true;
                     break;
                 }
             }
-            if( !found ) {
-                SkyObject *obj = new SkyObject( 8, newRA, newDec, 1.0, avtUI->nameBox->text() );
+            if( !found )
+            {
+                SkyObject * obj = new SkyObject( 8, newRA, newDec, 1.0, avtUI->nameBox->text() );
                 deleteList.append( obj ); //this object will be deleted when window is destroyed
                 processObject( obj );
             }
@@ -324,12 +334,16 @@ void AltVsTime::slotAddSource() {
         //If the Ra and Dec boxes are filled, but the name field is empty,
         //move input focus to nameBox.  If either coordinate box is empty,
         //move focus there
-        if( avtUI->nameBox->text().isEmpty() ) {
+        if( avtUI->nameBox->text().isEmpty() )
+        {
             avtUI->nameBox->QWidget::setFocus();
         }
-        if( avtUI->raBox->text().isEmpty() ) {
+        if( avtUI->raBox->text().isEmpty() )
+        {
             avtUI->raBox->QWidget::setFocus();
-        } else {
+        }
+        else
+        {
             if ( avtUI->decBox->text().isEmpty() )
                 avtUI->decBox->QWidget::setFocus();
         }
@@ -339,10 +353,12 @@ void AltVsTime::slotAddSource() {
 }
 
 //Use find dialog to choose an object
-void AltVsTime::slotBrowseObject() {
+void AltVsTime::slotBrowseObject()
+{
     QPointer<FindDialog> fd = new FindDialog(this);
-    if ( fd->exec() == QDialog::Accepted ) {
-        SkyObject *o = fd->targetObject();
+    if ( fd->exec() == QDialog::Accepted )
+    {
+        SkyObject * o = fd->targetObject();
         processObject( o );
     }
     delete fd;
@@ -351,16 +367,18 @@ void AltVsTime::slotBrowseObject() {
     avtUI->View->replot();
 }
 
-void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
+void AltVsTime::processObject( SkyObject * o, bool forceAdd )
+{
     if( !o )
         return;
 
-    KSNumbers *num = new KSNumbers( getDate().djd() );
-    KSNumbers *oldNum = 0;
+    KSNumbers * num = new KSNumbers( getDate().djd() );
+    KSNumbers * oldNum = 0;
 
     //If the object is in the solar system, recompute its position for the given epochLabel
-    KStarsData* data = KStarsData::Instance();
-    if ( o->isSolarSystem() ) {
+    KStarsData * data = KStarsData::Instance();
+    if ( o->isSolarSystem() )
+    {
         oldNum = new KSNumbers( data->ut().djd() );
         o->updateCoords( num, true, geo->lat(), data->lst(), true );
     }
@@ -373,21 +391,28 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
     //If this point is not in list already, add it to list
     bool found(false);
-    foreach ( SkyObject *p, pList ) {
-        if ( o->ra().Degrees() == p->ra().Degrees() && o->dec().Degrees() == p->dec().Degrees() ) {
+    foreach ( SkyObject * p, pList )
+    {
+        if ( o->ra().Degrees() == p->ra().Degrees() && o->dec().Degrees() == p->dec().Degrees() )
+        {
             found = true;
             break;
         }
     }
-    if ( found && !forceAdd ) {
+    if ( found && !forceAdd )
+    {
         qDebug() << "This point is already displayed; I will not duplicate it.";
-    } else {
+    }
+    else
+    {
         pList.append( o );
 
         // make sure existing curves are thin and red:
 
-        for(int i=0;i<avtUI->View->graphCount();i++){
-            if(avtUI->View->graph(i)->pen().color() == Qt::white){
+        for(int i=0; i<avtUI->View->graphCount(); i++)
+        {
+            if(avtUI->View->graph(i)->pen().color() == Qt::white)
+            {
                 avtUI->View->graph(i)->setPen(QPen( Qt::red, 2 ));
             }
         }
@@ -399,7 +424,8 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         // time range: 24h
 
         int offset = 3;
-        for ( double h=-12.0, i=0; h<=12.0; h+=0.25, i++ ) {
+        for ( double h=-12.0, i=0; h<=12.0; h+=0.25, i++ )
+        {
             y[i] = findAltitude(o, h);
             if(y[i] > maxAlt)
                 maxAlt = y[i];
@@ -438,7 +464,8 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
     qDebug() << "Currently, there are " << avtUI->View->graphCount() << " objects displayed.";
 
     //restore original position
-    if ( o->isSolarSystem() ) {
+    if ( o->isSolarSystem() )
+    {
         o->updateCoords( oldNum, true, data->geo()->lat(), data->lst(), true );
         delete oldNum;
     }
@@ -446,7 +473,8 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
     delete num;
 }
 
-double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
+double AltVsTime::findAltitude( SkyPoint * p, double hour )
+{
     hour += 24.0 * DayOffset;
 
     //getDate converts the user-entered local time to UT
@@ -464,10 +492,12 @@ void AltVsTime::slotHighlight( int row )
 
     int rowIndex = 0;
     //highlight the curve of the selected object
-    for ( int i=0; i<avtUI->View->graphCount(); i++ ) {
+    for ( int i=0; i<avtUI->View->graphCount(); i++ )
+    {
         if ( i == row )
             rowIndex = row;
-        else{
+        else
+        {
             avtUI->View->graph(i)->setPen(QPen( Qt::red, 2 ));
             avtUI->View->graph(i)->setLayer("main");
         }
@@ -477,34 +507,41 @@ void AltVsTime::slotHighlight( int row )
     avtUI->View->update();
     avtUI->View->replot();
 
-    if( row >= 0 && row < pList.size() ) {
-        SkyObject *p = pList.at(row);
+    if( row >= 0 && row < pList.size() )
+    {
+        SkyObject * p = pList.at(row);
         avtUI->raBox->showInHours( p->ra() );
         avtUI->decBox->showInDegrees( p->dec() );
         avtUI->nameBox->setText( avtUI->PlotList->currentItem()->text() );
     }
 
-    SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+    SkyObject * selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
     const KStarsDateTime &ut = KStarsData::Instance()->ut();
-    if(selectedObject){
+    if(selectedObject)
+    {
         QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
-        if ( rt.isValid() == false ) {
-           avtUI->riseButton->setEnabled(false);
-           avtUI->setButton->setEnabled(false);
-        } else{
-           avtUI->riseButton->setEnabled(true);
-           avtUI->setButton->setEnabled(true);
+        if ( rt.isValid() == false )
+        {
+            avtUI->riseButton->setEnabled(false);
+            avtUI->setButton->setEnabled(false);
+        }
+        else
+        {
+            avtUI->riseButton->setEnabled(true);
+            avtUI->setButton->setEnabled(true);
         }
     }
 
 }
 
-void AltVsTime::onXRangeChanged(const QCPRange &range){
+void AltVsTime::onXRangeChanged(const QCPRange &range)
+{
     QCPRange aux = avtUI->View->xAxis2->range();
     avtUI->View->xAxis->setRange(aux -= 18000 );
     avtUI->View->xAxis2->setRange(range.bounded(61200, 147600));
     // if ZOOM is detected then remove the gold lines that indicate current position:
-    if(avtUI->View->xAxis->range().size() != 86400){
+    if(avtUI->View->xAxis->range().size() != 86400)
+    {
         // Refresh the background:
         background->setScaled(false);
         background->setScaled(true, Qt::IgnoreAspectRatio);
@@ -516,21 +553,26 @@ void AltVsTime::onXRangeChanged(const QCPRange &range){
 
 }
 
-void AltVsTime::onYRangeChanged(const QCPRange &range){
+void AltVsTime::onYRangeChanged(const QCPRange &range)
+{
     int offset = 3;
     avtUI->View->yAxis->setRange(range.bounded(minAlt - offset, maxAlt + offset));
 }
 
-void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEvent *event){
-    if(event->button() == Qt::RightButton){
-        QCPAbstractPlottable *plottable = abstractPlottable;
-        if(plottable){
+void AltVsTime::plotMousePress(QCPAbstractPlottable * abstractPlottable, QMouseEvent * event)
+{
+    if(event->button() == Qt::RightButton)
+    {
+        QCPAbstractPlottable * plottable = abstractPlottable;
+        if(plottable)
+        {
             double x = avtUI->View->xAxis->pixelToCoord(event->localPos().x());
             double y = avtUI->View->yAxis->pixelToCoord(event->localPos().y());
 
-            QCPGraph *graph = qobject_cast<QCPGraph*>(plottable);
+            QCPGraph * graph = qobject_cast<QCPGraph *>(plottable);
 
-            if(graph){
+            if(graph)
+            {
                 double yValue = y;
                 double xValue = x;
 
@@ -543,32 +585,33 @@ void AltVsTime::plotMousePress(QCPAbstractPlottable *abstractPlottable, QMouseEv
 
                 QToolTip::hideText();
                 QToolTip::showText(event->globalPos(),
-                tr("<table>"
-                     "<tr>"
-                       "<th colspan=\"2\">%L1</th>"
-                     "</tr>"
-                     "<tr>"
-                       "<td>LST:   </td>" "<td>%L3</td>"
-                     "</tr>"
-                   "<tr>"
-                     "<td>LT:   </td>" "<td>%L2</td>"
-                   "</tr>"
-                     "<tr>"
-                       "<td>Altitude:   </td>" "<td>%L4</td>"
-                     "</tr>"
-                   "</table>").
-                   arg(graph->name().isEmpty() ? "???" : graph->name()).
-                   arg(localTime.toString()).
-                   arg(localSiderealTime.toString()).
-                   arg(QString::number(yValue,'f',2) +" "+ QChar(176)),
-                   avtUI->View, avtUI->View->rect());
+                                   tr("<table>"
+                                      "<tr>"
+                                      "<th colspan=\"2\">%L1</th>"
+                                      "</tr>"
+                                      "<tr>"
+                                      "<td>LST:   </td>" "<td>%L3</td>"
+                                      "</tr>"
+                                      "<tr>"
+                                      "<td>LT:   </td>" "<td>%L2</td>"
+                                      "</tr>"
+                                      "<tr>"
+                                      "<td>Altitude:   </td>" "<td>%L4</td>"
+                                      "</tr>"
+                                      "</table>").
+                                   arg(graph->name().isEmpty() ? "???" : graph->name()).
+                                   arg(localTime.toString()).
+                                   arg(localSiderealTime.toString()).
+                                   arg(QString::number(yValue,'f',2) +" "+ QChar(176)),
+                                   avtUI->View, avtUI->View->rect());
             }
         }
     }
 }
 
 //move input focus to the next logical widget
-void AltVsTime::slotAdvanceFocus() {
+void AltVsTime::slotAdvanceFocus()
+{
     if ( sender()->objectName() == QString( "nameBox" ) ) avtUI->addButton->setFocus();
     if ( sender()->objectName() == QString( "raBox" ) )   avtUI->decBox->setFocus();
     if ( sender()->objectName() == QString( "decbox" ) )  avtUI->addButton->setFocus();
@@ -576,7 +619,8 @@ void AltVsTime::slotAdvanceFocus() {
     if ( sender()->objectName() == QString( "latBox" ) )  avtUI->updateButton->setFocus();
 }
 
-void AltVsTime::slotClear() {
+void AltVsTime::slotClear()
+{
     pList.clear();
     //Need to delete the pointers in deleteList
     while( !deleteList.isEmpty() )
@@ -592,16 +636,18 @@ void AltVsTime::slotClear() {
     // we remove all the dots (rise/set/transit) from the chart
     // without removing the background image
     int indexItem = 0, noItems = avtUI->View->itemCount();
-    QCPAbstractItem *item;
-    QCPItemPixmap *background;
+    QCPAbstractItem * item;
+    QCPItemPixmap * background;
     // remove every item at a time:
-    while(noItems > 1 && indexItem < noItems){
+    while(noItems > 1 && indexItem < noItems)
+    {
         // test if the current item is the background:
         item = avtUI->View->item(indexItem);
         background = qobject_cast<QCPItemPixmap *>(item);
         if(background)
             indexItem++;
-        else{
+        else
+        {
             // if not, then remove this item:
             avtUI->View->removeItem(indexItem);
             noItems--;
@@ -612,7 +658,8 @@ void AltVsTime::slotClear() {
     avtUI->View->replot();
 }
 
-void AltVsTime::slotClearBoxes() {
+void AltVsTime::slotClearBoxes()
+{
     avtUI->nameBox->clear();
     avtUI->raBox->clear() ;
     avtUI->decBox->clear();
@@ -625,7 +672,8 @@ void AltVsTime::slotComputeAltitudeByTime()
 // FIXME Migrate to QCustomPlot 2.0
 #if 0
     // check if at least one graph exists in the plot
-    if( avtUI->View->graphCount() > 0 ){
+    if( avtUI->View->graphCount() > 0 )
+    {
         // get the time from the time spin box
         QTime timeFormat = avtUI->timeSpin->time();
         double hours = timeFormat.hour();
@@ -634,33 +682,34 @@ void AltVsTime::slotComputeAltitudeByTime()
         if( hours < 12 )
             hours += 24;
         double timeValue = hours * 3600 + minutes * 60;
-        QCPGraph *selectedGraph;
+        QCPGraph * selectedGraph;
         // get the graph's name from the name box
         QString graphName = avtUI->nameBox->text();
         // find the graph index
         int graphIndex = 0;
-        for( int i=0;i<avtUI->View->graphCount();i++ )
-            if( avtUI->View->graph(i)->name().compare(graphName) == 0 ){
+        for( int i=0; i<avtUI->View->graphCount(); i++ )
+            if( avtUI->View->graph(i)->name().compare(graphName) == 0 )
+            {
                 graphIndex = i;
                 break;
-             }
+            }
         selectedGraph = avtUI->View->graph(graphIndex);
         // get the data from the selected graph
-        QCPDataMap *dataMap = selectedGraph->data();
+        QCPDataMap * dataMap = selectedGraph->data();
         double averageAltitude = 0;
         double altitude1 = dataMap->lowerBound(timeValue-899).value().value;
         double altitude2 = dataMap->lowerBound(timeValue).value().value;
         double time1 = dataMap->lowerBound(timeValue-899).value().key;
         averageAltitude = (altitude1+altitude2)/2;
         // short algorithm to compute the right altitude for a certain time
-        if( timeValue > time1 ){
+        if( timeValue > time1 )
+        {
             if( timeValue - time1 < 225 )
                 averageAltitude = altitude1;
+            else if( timeValue - time1 < 675 )
+                averageAltitude = (altitude1+altitude2)/2;
             else
-                if( timeValue - time1 < 675 )
-                    averageAltitude = (altitude1+altitude2)/2;
-                else
-                    averageAltitude = altitude2;
+                averageAltitude = altitude2;
         }
         // set the altitude in the altitude box
         avtUI->altitudeBox->setText( QString::number(averageAltitude, 'f', 2) );
@@ -668,30 +717,34 @@ void AltVsTime::slotComputeAltitudeByTime()
 #endif
 }
 
-void AltVsTime::slotMarkRiseTime(){
+void AltVsTime::slotMarkRiseTime()
+{
     const KStarsDateTime &ut = KStarsData::Instance()->ut();
-    SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
-    QCPItemTracer *riseTimeTracer;
+    SkyObject * selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+    QCPItemTracer * riseTimeTracer;
     // check if at least one graph exists in the plot
-    if( avtUI->View->graphCount() > 0 ){
+    if( avtUI->View->graphCount() > 0 )
+    {
         double time = 0;
         double hours, minutes;
 
-        QCPGraph *selectedGraph;
+        QCPGraph * selectedGraph;
         // get the graph's name from the name box
         QString graphName = avtUI->nameBox->text();
         // find the graph index
         int graphIndex = 0;
-        for( int i=0;i<avtUI->View->graphCount();i++ )
-            if( avtUI->View->graph(i)->name().compare(graphName) == 0 ){
+        for( int i=0; i<avtUI->View->graphCount(); i++ )
+            if( avtUI->View->graph(i)->name().compare(graphName) == 0 )
+            {
                 graphIndex = i;
                 break;
-             }
+            }
         selectedGraph = avtUI->View->graph(graphIndex);
 
         QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
         // mark the Rise time with a solid red circle
-        if ( rt.isValid() && selectedGraph ) {
+        if ( rt.isValid() && selectedGraph )
+        {
             hours = rt.hour();
             minutes = rt.minute();
             if( hours < 12 )
@@ -713,25 +766,28 @@ void AltVsTime::slotMarkRiseTime(){
     }
 }
 
-void AltVsTime::slotMarkSetTime(){
+void AltVsTime::slotMarkSetTime()
+{
     const KStarsDateTime &ut = KStarsData::Instance()->ut();
-    SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
-    QCPItemTracer *setTimeTracer;
+    SkyObject * selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+    QCPItemTracer * setTimeTracer;
     // check if at least one graph exists in the plot
-    if( avtUI->View->graphCount() > 0 ){
+    if( avtUI->View->graphCount() > 0 )
+    {
         double time = 0;
         double hours, minutes;
 
-        QCPGraph *selectedGraph;
+        QCPGraph * selectedGraph;
         // get the graph's name from the name box
         QString graphName = avtUI->nameBox->text();
         // find the graph index
         int graphIndex = 0;
-        for( int i=0;i<avtUI->View->graphCount();i++ )
-            if( avtUI->View->graph(i)->name().compare(graphName) == 0 ){
+        for( int i=0; i<avtUI->View->graphCount(); i++ )
+            if( avtUI->View->graph(i)->name().compare(graphName) == 0 )
+            {
                 graphIndex = i;
                 break;
-             }
+            }
         selectedGraph = avtUI->View->graph(graphIndex);
 
         QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
@@ -740,7 +796,8 @@ void AltVsTime::slotMarkSetTime(){
         if ( st < rt )
             st = selectedObject->riseSetTime( ut.addDays( 1 ), geo, false ); //false = use set time
         // mark the Set time with a solid blue circle
-        if ( rt.isValid() ) {
+        if ( rt.isValid() )
+        {
             hours = st.hour();
             minutes = st.minute();
             if( hours < 12 )
@@ -762,25 +819,28 @@ void AltVsTime::slotMarkSetTime(){
     }
 }
 
-void AltVsTime::slotMarkTransitTime(){
+void AltVsTime::slotMarkTransitTime()
+{
     const KStarsDateTime &ut = KStarsData::Instance()->ut();
-    SkyObject *selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
-    QCPItemTracer *transitTimeTracer;
+    SkyObject * selectedObject = KStarsData::Instance()->objectNamed(avtUI->nameBox->text());
+    QCPItemTracer * transitTimeTracer;
     // check if at least one graph exists in the plot
-    if( avtUI->View->graphCount() > 0 ){
+    if( avtUI->View->graphCount() > 0 )
+    {
         double time = 0;
         double hours, minutes;
 
-        QCPGraph *selectedGraph;
-         // get the graph's name from the name box
+        QCPGraph * selectedGraph;
+        // get the graph's name from the name box
         QString graphName = avtUI->nameBox->text();
         // find the graph index
         int graphIndex = 0;
-        for( int i=0;i<avtUI->View->graphCount();i++ )
-            if( avtUI->View->graph(i)->name().compare(graphName) == 0 ){
+        for( int i=0; i<avtUI->View->graphCount(); i++ )
+            if( avtUI->View->graph(i)->name().compare(graphName) == 0 )
+            {
                 graphIndex = i;
                 break;
-             }
+            }
         selectedGraph = avtUI->View->graph(graphIndex);
 
         QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
@@ -788,7 +848,7 @@ void AltVsTime::slotMarkTransitTime(){
         QTime tt = selectedObject->transitTime( ut, geo );
 
         if ( tt < rt )
-          tt = selectedObject->transitTime( ut.addDays( 1 ), geo );
+            tt = selectedObject->transitTime( ut.addDays( 1 ), geo );
         // mark the Transit time with a solid green circle
         hours = tt.hour();
         minutes = tt.minute();
@@ -810,7 +870,8 @@ void AltVsTime::slotMarkTransitTime(){
     }
 }
 
-void AltVsTime::computeSunRiseSetTimes() {
+void AltVsTime::computeSunRiseSetTimes()
+{
     //Determine the time of sunset and sunrise for the desired date and location
     //expressed as doubles, the fraction of a full day.
     KStarsDateTime today = getDate();
@@ -822,7 +883,8 @@ void AltVsTime::computeSunRiseSetTimes() {
     this->setSunRiseSetTimes( sunRise, sunSet );
 }
 
-void AltVsTime::setSunRiseSetTimes(double sunRise, double sunSet){
+void AltVsTime::setSunRiseSetTimes(double sunRise, double sunSet)
+{
     this->sunRise = sunRise;
     this->sunSet = sunSet;
 }
@@ -893,15 +955,18 @@ void AltVsTime::mouseOverLine(QMouseEvent *event){
 }
 */
 
-void AltVsTime::mouseOverLine(QMouseEvent *event){
+void AltVsTime::mouseOverLine(QMouseEvent * event)
+{
     double x = avtUI->View->xAxis->pixelToCoord(event->localPos().x());
     double y = avtUI->View->yAxis->pixelToCoord(event->localPos().y());
-    QCPAbstractPlottable *abstractGraph = avtUI->View->plottableAt(event->pos(), false);
-    QCPGraph *graph = qobject_cast<QCPGraph *>(abstractGraph);
+    QCPAbstractPlottable * abstractGraph = avtUI->View->plottableAt(event->pos(), false);
+    QCPGraph * graph = qobject_cast<QCPGraph *>(abstractGraph);
 
     if(x > avtUI->View->xAxis->range().lower && x < avtUI->View->xAxis->range().upper)
-        if(y > avtUI->View->yAxis->range().lower && y < avtUI->View->yAxis->range().upper){
-            if(graph){
+        if(y > avtUI->View->yAxis->range().lower && y < avtUI->View->yAxis->range().upper)
+        {
+            if(graph)
+            {
                 double yValue = y;
                 double xValue = x;
 
@@ -914,26 +979,27 @@ void AltVsTime::mouseOverLine(QMouseEvent *event){
 
                 QToolTip::hideText();
                 QToolTip::showText(event->globalPos(),
-                tr("<table>"
-                    "<tr>"
-                    "<th colspan=\"2\">%L1</th>"
-                    "</tr>"
-                    "<tr>"
-                    "<td>LST:   </td>" "<td>%L3</td>"
-                    "</tr>"
-                    "<tr>"
-                    "<td>LT:   </td>" "<td>%L2</td>"
-                    "</tr>"
-                    "<tr>"
-                    "<td>Altitude:   </td>" "<td>%L4</td>"
-                    "</tr>"
-                    "</table>").
-                    arg(graph->name().isEmpty() ? "???" : graph->name()).
-                    arg(localTime.toString()).
-                    arg(localSiderealTime.toString()).
-                    arg(QString::number(yValue,'f',2) +" "+ QChar(176)),
-                    avtUI->View, avtUI->View->rect());
-            } else
+                                   tr("<table>"
+                                      "<tr>"
+                                      "<th colspan=\"2\">%L1</th>"
+                                      "</tr>"
+                                      "<tr>"
+                                      "<td>LST:   </td>" "<td>%L3</td>"
+                                      "</tr>"
+                                      "<tr>"
+                                      "<td>LT:   </td>" "<td>%L2</td>"
+                                      "</tr>"
+                                      "<tr>"
+                                      "<td>Altitude:   </td>" "<td>%L4</td>"
+                                      "</tr>"
+                                      "</table>").
+                                   arg(graph->name().isEmpty() ? "???" : graph->name()).
+                                   arg(localTime.toString()).
+                                   arg(localSiderealTime.toString()).
+                                   arg(QString::number(yValue,'f',2) +" "+ QChar(176)),
+                                   avtUI->View, avtUI->View->rect());
+            }
+            else
                 QToolTip::hideText();
         }
 
@@ -941,11 +1007,12 @@ void AltVsTime::mouseOverLine(QMouseEvent *event){
     avtUI->View->replot();
 }
 
-void AltVsTime::slotUpdateDateLoc() {
-    KStarsData* data = KStarsData::Instance();
+void AltVsTime::slotUpdateDateLoc()
+{
+    KStarsData * data = KStarsData::Instance();
     KStarsDateTime today = getDate();
-    KSNumbers *num = new KSNumbers( today.djd() );
-    KSNumbers *oldNum = 0;
+    KSNumbers * num = new KSNumbers( today.djd() );
+    KSNumbers * oldNum = 0;
     CachingDms LST = geo->GSTtoLST( today.gst() );
 
     //First determine time of sunset and sunrise
@@ -953,13 +1020,16 @@ void AltVsTime::slotUpdateDateLoc() {
     // Determine dawn/dusk time and min/max sun elevation
     setDawnDusk();
 
-    for ( int i = 0; i < avtUI->PlotList->count(); ++i ) {
+    for ( int i = 0; i < avtUI->PlotList->count(); ++i )
+    {
         QString oName = avtUI->PlotList->item( i )->text().toLower();
 
-        SkyObject *o = data->objectNamed( oName );
-        if ( o ) {
+        SkyObject * o = data->objectNamed( oName );
+        if ( o )
+        {
             //If the object is in the solar system, recompute its position for the given date
-            if ( o->isSolarSystem() ) {
+            if ( o->isSolarSystem() )
+            {
                 oldNum = new KSNumbers( data->ut().djd() );
                 o->updateCoords( num, true, geo->lat(), &LST, true );
             }
@@ -976,7 +1046,8 @@ void AltVsTime::slotUpdateDateLoc() {
             // compute the new graph values:
             // time range: 24h
             int offset = 3;
-            for ( double h=-12.0, i=0; h<=12.0; h+=0.25, i++ ) {
+            for ( double h=-12.0, i=0; h<=12.0; h+=0.25, i++ )
+            {
                 point_altitudeValue = findAltitude(o, h);
                 altitude_dataSet.push_back(point_altitudeValue);
                 if(point_altitudeValue > maxAlt)
@@ -1009,13 +1080,16 @@ void AltVsTime::slotUpdateDateLoc() {
             avtUI->View->replot();
 
             //restore original position
-            if ( o->isSolarSystem() ) {
+            if ( o->isSolarSystem() )
+            {
                 o->updateCoords( oldNum, true, data->geo()->lat(), data->lst() );
                 delete oldNum;
                 oldNum = 0;
             }
             o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        } else {  //assume unfound object is a custom object
+        }
+        else      //assume unfound object is a custom object
+        {
             pList.at(i)->updateCoordsNow( num ); //precess to desired epoch
 
             // We are creating a new data set (time, altitude) for the new date:
@@ -1024,7 +1098,8 @@ void AltVsTime::slotUpdateDateLoc() {
             // compute the new graph values:
             // time range: 24h
             int offset = 3;
-            for ( double h=-12.0, i=0; h<=12.0; h+=0.25, i++ ) {
+            for ( double h=-12.0, i=0; h<=12.0; h+=0.25, i++ )
+            {
                 point_altitudeValue = findAltitude(pList.at(i), h);
                 altitude_dataSet.push_back(point_altitudeValue);
                 if(point_altitudeValue > maxAlt)
@@ -1063,18 +1138,21 @@ void AltVsTime::slotUpdateDateLoc() {
     else
         DayOffset = 0;
 
-    setLSTLimits();    
+    setLSTLimits();
     slotHighlight( avtUI->PlotList->currentRow() );
     avtUI->View->update();
 
     delete num;
 }
 
-void AltVsTime::slotChooseCity() {
+void AltVsTime::slotChooseCity()
+{
     QPointer<LocationDialog> ld = new LocationDialog(this);
-    if ( ld->exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld->selectedCity();
-        if ( newGeo ) {
+    if ( ld->exec() == QDialog::Accepted )
+    {
+        GeoLocation * newGeo = ld->selectedCity();
+        if ( newGeo )
+        {
             geo = newGeo;
             avtUI->latBox->showInDegrees( geo->lat() );
             avtUI->longBox->showInDegrees( geo->lng() );
@@ -1084,7 +1162,8 @@ void AltVsTime::slotChooseCity() {
 }
 
 // FIXME: should we remove this method?
-void AltVsTime::setLSTLimits() {
+void AltVsTime::setLSTLimits()
+{
     /*
     //UT at noon on target date
     KStarsDateTime ut = getDate().addSecs(((double)DayOffset + 0.5)*86400.);
@@ -1106,11 +1185,12 @@ void AltVsTime::showCurrentDate()
     avtUI->DateWidget->setDate( dt.date() );
 }
 
-void AltVsTime::drawGradient(){
+void AltVsTime::drawGradient()
+{
     // Things needed for Gradient:
-    KSAlmanac *ksal;
+    KSAlmanac * ksal;
     KStarsDateTime dtt;
-    GeoLocation *geoLoc;
+    GeoLocation * geoLoc;
     dtt = KStarsDateTime::currentDateTime();
     geoLoc = KStarsData::Instance()->geo();
     ksal = new KSAlmanac;
@@ -1144,7 +1224,7 @@ void AltVsTime::drawGradient(){
     QPainter p;
 
     p.begin( gradient );
-    KPlotWidget *kPW = new KPlotWidget;
+    KPlotWidget * kPW = new KPlotWidget;
     p.setRenderHint( QPainter::Antialiasing, kPW->antialiasing() );
     p.fillRect( gradient->rect(), kPW->backgroundColor() );
 
@@ -1161,7 +1241,8 @@ void AltVsTime::drawGradient(){
 //        SkyColor = QColor( 200, 0, 0 ); // use something red, visible through a red filter
 
     // Draw gradient representing lunar interference in the sky
-    if( MoonIllum > 0.01 ) { // do this only if Moon illumination is reasonable so it's important
+    if( MoonIllum > 0.01 )   // do this only if Moon illumination is reasonable so it's important
+    {
         int moonrise = int( pW * (0.5 + MoonRise) );
         int moonset = int( pW * (MoonSet - 0.5 ) );
         if( moonset < 0 )
@@ -1173,7 +1254,8 @@ void AltVsTime::drawGradient(){
         QColor MoonColor( 255, 255, 255, moonalpha );
 
 
-        if( moonset < moonrise ) {
+        if( moonset < moonrise )
+        {
             QLinearGradient grad = QLinearGradient( QPointF( moonset - fadewidth, 0.0 ), QPointF( moonset + fadewidth, 0.0 ) );
             grad.setColorAt( 0, MoonColor );
             grad.setColorAt( 1, Qt::transparent );
@@ -1182,7 +1264,8 @@ void AltVsTime::drawGradient(){
             grad.setFinalStop( QPointF( moonrise - fadewidth, 0.0 ) );
             p.fillRect( QRectF( moonrise - fadewidth, 0.0, pW - moonrise + fadewidth, pH ), grad );
         }
-        else {
+        else
+        {
             qreal opacity = p.opacity();
             p.setOpacity(opacity/4);
             p.fillRect( QRectF( moonrise + fadewidth, 0.0, moonset - moonrise - 2 * fadewidth, pH ), MoonColor );
@@ -1198,17 +1281,21 @@ void AltVsTime::drawGradient(){
     }
 
     //draw daytime sky if the Sun rises for the current date/location
-    if ( SunMaxAlt > -18.0 ) {
+    if ( SunMaxAlt > -18.0 )
+    {
         //Display centered on midnight, so need to modulate dawn/dusk by 0.5
         int rise = int( pW * ( 0.5 + SunRise ) );
         int set = int( pW * ( SunSet - 0.5 ) );
         int da = int( pW * ( 0.5 + Dawn ) );
         int du = int( pW * ( Dusk - 0.5 ) );
 
-        if ( SunMinAlt > 0.0 ) {
+        if ( SunMinAlt > 0.0 )
+        {
             // The sun never set and the sky is always blue
             p.fillRect( rect(), SkyColor );
-        } else if ( SunMaxAlt < 0.0 && SunMinAlt < -18.0 ) {
+        }
+        else if ( SunMaxAlt < 0.0 && SunMinAlt < -18.0 )
+        {
             // The sun never rise but the sky is not completely dark
             QLinearGradient grad = QLinearGradient( QPointF( 0.0, 0.0 ), QPointF( du, 0.0 ) );
 
@@ -1221,7 +1308,9 @@ void AltVsTime::drawGradient(){
             grad.setStart( QPointF( pW, 0.0 ) );
             grad.setFinalStop( QPointF( da, 0.0 ) );
             p.fillRect( QRectF( da, 0.0, pW, pH ), grad );
-        } else if ( SunMaxAlt < 0.0 && SunMinAlt > -18.0 ) {
+        }
+        else if ( SunMaxAlt < 0.0 && SunMinAlt > -18.0 )
+        {
             // The sun never rise but the sky is NEVER completely dark
             QLinearGradient grad = QLinearGradient( QPointF( 0.0, 0.0 ), QPointF( pW, 0.0 ) );
 
@@ -1234,7 +1323,9 @@ void AltVsTime::drawGradient(){
             grad.setColorAt( 0.5, gradMidColor );
             grad.setColorAt( 1, gradStartEndColor );
             p.fillRect( QRectF( 0.0, 0.0, pW, pH ), grad );
-        } else if ( Dawn < 0.0 ) {
+        }
+        else if ( Dawn < 0.0 )
+        {
             // The sun sets and rises but the sky is never completely dark
             p.fillRect( 0, 0, set, int( 0.5 * pH ), SkyColor );
             p.fillRect( rise, 0, pW, int( 0.5 * pH ), SkyColor );
@@ -1248,7 +1339,9 @@ void AltVsTime::drawGradient(){
             grad.setColorAt( 0.5, gradMidColor );
             grad.setColorAt( 1, SkyColor );
             p.fillRect( QRectF( set, 0.0, rise-set, pH ), grad );
-        } else {
+        }
+        else
+        {
             p.fillRect( 0, 0, set, pH, SkyColor );
             p.fillRect( rise, 0, pW, pH, SkyColor );
 
@@ -1304,7 +1397,8 @@ double AltVsTime::getEpoch(const QString &eName)
     //If Epoch field not a double, assume J2000
     bool ok;
     double epoch = eName.toDouble(&ok);
-    if ( !ok ) {
+    if ( !ok )
+    {
         qDebug() << "Invalid Epoch.  Assuming 2000.0.";
         return 2000.0;
     }
@@ -1375,7 +1469,8 @@ void AltVsTime::slotPrint()
     //QPointer<QPrintDialog> dialog( &printer, this );
     QPrintDialog dialog( &printer, this );
     dialog.setWindowTitle( i18n( "Print elevation vs time plot" ) );
-    if ( dialog.exec() == QDialog::Accepted ) {
+    if ( dialog.exec() == QDialog::Accepted )
+    {
         // Change mouse cursor
         QApplication::setOverrideCursor( Qt::WaitCursor );
 
@@ -1427,19 +1522,19 @@ void AltVsTime::slotPrint()
     //delete dialog;
 }
 
-QString AltVsTime::getObjectName(const SkyObject *o, bool translated)
+QString AltVsTime::getObjectName(const SkyObject * o, bool translated)
 {
     QString finalObjectName;
     if( o->name() == "star" )
     {
-        StarObject *s = (StarObject *)o;
+        StarObject * s = (StarObject *)o;
 
         // JM: Enable HD Index stars to be added to the observing list.
         if( s->getHDIndex() != 0 )
-                finalObjectName = QString("HD %1" ).arg( QString::number( s->getHDIndex() ) );
+            finalObjectName = QString("HD %1" ).arg( QString::number( s->getHDIndex() ) );
     }
     else
-         finalObjectName = translated ? o->translatedName() : o->name();
+        finalObjectName = translated ? o->translatedName() : o->name();
 
     return finalObjectName;
 

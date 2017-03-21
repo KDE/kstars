@@ -26,7 +26,7 @@
 
 #include <basedevice.h>
 
-extern const char *libindi_strings_context;
+extern const char * libindi_strings_context;
 
 #define UPDATE_DELAY            1000
 #define ABORT_DISPATCH_LIMIT    3
@@ -100,7 +100,7 @@ Mount::~Mount()
 {
 }
 
-void Mount::setTelescope(ISD::GDInterface *newTelescope)
+void Mount::setTelescope(ISD::GDInterface * newTelescope)
 {
     if (newTelescope == currentTelescope)
     {
@@ -108,10 +108,10 @@ void Mount::setTelescope(ISD::GDInterface *newTelescope)
         return;
     }
 
-    currentTelescope = static_cast<ISD::Telescope*> (newTelescope);
+    currentTelescope = static_cast<ISD::Telescope *> (newTelescope);
 
-    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(updateNumber(INumberVectorProperty*)), Qt::UniqueConnection);
-    connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(updateSwitch(ISwitchVectorProperty*)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(updateNumber(INumberVectorProperty *)), Qt::UniqueConnection);
+    connect(currentTelescope, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this, SLOT(updateSwitch(ISwitchVectorProperty *)), Qt::UniqueConnection);
     connect(currentTelescope, SIGNAL(newTarget(QString)), this, SIGNAL(newTarget(QString)), Qt::UniqueConnection);
 
     //Disable this for now since ALL INDI drivers now log their messages to verbose output
@@ -135,7 +135,7 @@ void Mount::syncTelescopeInfo()
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
         guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
-        INumber *np = NULL;
+        INumber * np = NULL;
 
         np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
         if (np && np->value > 0)
@@ -155,7 +155,7 @@ void Mount::syncTelescopeInfo()
 
     }
 
-    ISwitchVectorProperty *svp = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_SLEW_RATE");
+    ISwitchVectorProperty * svp = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_SLEW_RATE");
 
     if (svp)
     {
@@ -210,7 +210,8 @@ void Mount::updateTelescopeCoords()
         dms lst = KStarsData::Instance()->geo()->GSTtoLST( KStarsData::Instance()->clock()->utc().gst() );
         dms ha( lst.Degrees() - telescopeCoord.ra().Degrees() );
         QChar sgn('+');
-        if ( ha.Hours() > 12.0 ) {
+        if ( ha.Hours() > 12.0 )
+        {
             ha.setH( 24.0 - ha.Hours() );
             sgn = '-';
         }
@@ -220,7 +221,7 @@ void Mount::updateTelescopeCoords()
         double currentAlt = telescopeCoord.altRefracted().Degrees();
 
         if (minAltLimit->isEnabled()
-             && ( currentAlt < minAltLimit->value() || currentAlt > maxAltLimit->value()))
+                && ( currentAlt < minAltLimit->value() || currentAlt > maxAltLimit->value()))
         {
             if (currentAlt < minAltLimit->value())
             {
@@ -272,7 +273,7 @@ void Mount::updateTelescopeCoords()
         updateTimer.stop();
 }
 
-void Mount::updateNumber(INumberVectorProperty *nvp)
+void Mount::updateNumber(INumberVectorProperty * nvp)
 {
     if (!strcmp(nvp->name, "TELESCOPE_INFO"))
     {
@@ -291,19 +292,19 @@ void Mount::updateNumber(INumberVectorProperty *nvp)
         }
         else
         {
-                syncTelescopeInfo();
-                QString newMessage = i18n("Telescope info updated successfully.");
-                if (newMessage != lastNotificationMessage)
-                {
-                    appendLogText(newMessage);
-                    lastNotificationMessage = newMessage;
-                }
+            syncTelescopeInfo();
+            QString newMessage = i18n("Telescope info updated successfully.");
+            if (newMessage != lastNotificationMessage)
+            {
+                appendLogText(newMessage);
+                lastNotificationMessage = newMessage;
+            }
 
         }
     }
 }
 
-void Mount::updateSwitch(ISwitchVectorProperty *svp)
+void Mount::updateSwitch(ISwitchVectorProperty * svp)
 {
     if (!strcmp(svp->name, "TELESCOPE_SLEW_RATE"))
     {
@@ -333,7 +334,7 @@ void Mount::appendLogText(const QString &text)
 
 void Mount::updateLog(int messageID)
 {
-    INDI::BaseDevice *dv = currentTelescope->getBaseDevice();
+    INDI::BaseDevice * dv = currentTelescope->getBaseDevice();
 
     QString message = QString::fromStdString(dv->messageQueue(messageID));
 
@@ -350,7 +351,7 @@ void Mount::clearLog()
 
 void Mount::move()
 {
-    QObject* obj = sender();
+    QObject * obj = sender();
 
     if (obj == northB)
     {
@@ -392,7 +393,7 @@ void Mount::move()
 
 void Mount::stop()
 {
-    QObject* obj = sender();
+    QObject * obj = sender();
 
     if (obj == stopB)
         currentTelescope->Abort();
@@ -445,7 +446,7 @@ void Mount::save()
         primaryScopeGroup->setTitle(currentTelescope->getDeviceName());
         guideScopeGroup->setTitle(i18n("%1 guide scope", currentTelescope->getDeviceName()));
 
-        INumber *np = NULL;
+        INumber * np = NULL;
 
         np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
         if (np)
@@ -460,7 +461,7 @@ void Mount::save()
         if (np)
             np->value = guideScopeFocalIN->value() == 1 ? primaryScopeFocalIN->value() : guideScopeFocalIN->value();
 
-        ClientManager *clientManager = currentTelescope->getDriverInfo()->getClientManager();
+        ClientManager * clientManager = currentTelescope->getDriverInfo()->getClientManager();
 
         clientManager->sendNewNumber(nvp);
 
@@ -651,7 +652,7 @@ Mount::ParkingStatus Mount::getParkingStatus()
     if (currentTelescope == NULL || currentTelescope->canPark() == false)
         return PARKING_ERROR;
 
-    ISwitchVectorProperty* parkSP = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_PARK");
+    ISwitchVectorProperty * parkSP = currentTelescope->getBaseDevice()->getSwitch("TELESCOPE_PARK");
 
     if (parkSP == NULL)
         return PARKING_ERROR;
@@ -668,7 +669,7 @@ Mount::ParkingStatus Mount::getParkingStatus()
                 return UNPARKING_OK;
             break;
 
-         case IPS_BUSY:
+        case IPS_BUSY:
             if (parkSP->sp[0].s == ISS_ON)
                 return PARKING_BUSY;
             else

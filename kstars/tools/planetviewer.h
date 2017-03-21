@@ -34,10 +34,11 @@
 
 class KSPlanetBase;
 
-class PlanetViewerUI : public QFrame, public Ui::PlanetViewer {
-    Q_OBJECT
-public:
-    PlanetViewerUI(QWidget *parent = 0 );
+class PlanetViewerUI : public QFrame, public Ui::PlanetViewer
+{
+        Q_OBJECT
+    public:
+        PlanetViewerUI(QWidget * parent = 0 );
 };
 
 /** @class PlanetViewer
@@ -47,45 +48,54 @@ public:
 	*/
 class PlanetViewer : public QDialog
 {
-    Q_OBJECT
-public:
-    PlanetViewer(QWidget *parent = 0);
-    ~PlanetViewer();
+        Q_OBJECT
+    public:
+        PlanetViewer(QWidget * parent = 0);
+        ~PlanetViewer();
 
-    inline QString centerPlanet() const { return CenterPlanet; }
-    inline void setCenterPlanet( const QString &cp ) { CenterPlanet = cp; }
+        inline QString centerPlanet() const
+        {
+            return CenterPlanet;
+        }
+        inline void setCenterPlanet( const QString &cp )
+        {
+            CenterPlanet = cp;
+        }
 
-    inline KPlotObject* planetObject(uint i) const { return planet[i]; }
-    QString planetName(uint i) const;
+        inline KPlotObject * planetObject(uint i) const
+        {
+            return planet[i];
+        }
+        QString planetName(uint i) const;
 
-protected:
-    virtual void keyPressEvent( QKeyEvent *e );
-    virtual void paintEvent( QPaintEvent* );
+    protected:
+        virtual void keyPressEvent( QKeyEvent * e );
+        virtual void paintEvent( QPaintEvent * );
 
-private slots:
-    void initPlotObjects();
-    void tick();
-    void setTimeScale(float);
-    void slotChangeDate();
-    void slotRunClock();
-    void slotToday();
-    void slotCloseWindow();
+    private slots:
+        void initPlotObjects();
+        void tick();
+        void setTimeScale(float);
+        void slotChangeDate();
+        void slotRunClock();
+        void slotToday();
+        void slotCloseWindow();
 
-private:
-    void updatePlanets();
+    private:
+        void updatePlanets();
 
-    PlanetViewerUI *pw;
-    KStarsDateTime ut;
-    double scale;
-    bool isClockRunning;
-    QTimer tmr;
-    int UpdateInterval[9], LastUpdate[9];
-    QString CenterPlanet;
+        PlanetViewerUI * pw;
+        KStarsDateTime ut;
+        double scale;
+        bool isClockRunning;
+        QTimer tmr;
+        int UpdateInterval[9], LastUpdate[9];
+        QString CenterPlanet;
 
-    QList<KSPlanetBase*> PlanetList;
+        QList<KSPlanetBase *> PlanetList;
 
-    KPlotObject *ksun;
-    KPlotObject *planet[9];
+        KPlotObject * ksun;
+        KPlotObject * planet[9];
 };
 
 #endif

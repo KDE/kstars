@@ -28,22 +28,23 @@
   * Inherits QWidget
   *@author Pablo de Vicente
   */
-class modCalcEclCoords : public QFrame, public Ui::modCalcEclCoordsDlg  {
+class modCalcEclCoords : public QFrame, public Ui::modCalcEclCoordsDlg
+{
 
-    Q_OBJECT
+        Q_OBJECT
 
-public:
+    public:
 
-    modCalcEclCoords(QWidget *p);
-    ~modCalcEclCoords();
+        modCalcEclCoords(QWidget * p);
+        ~modCalcEclCoords();
 
-public slots:
-    void slotNow(void);
-    void slotObject(void);
-    void slotDateTimeChanged(const QDateTime &edt);
-    void slotCompute(void);
-private:
-    KStarsDateTime kdt;
+    public slots:
+        void slotNow(void);
+        void slotObject(void);
+        void slotDateTimeChanged(const QDateTime &edt);
+        void slotCompute(void);
+    private:
+        KStarsDateTime kdt;
 };
 #endif
 

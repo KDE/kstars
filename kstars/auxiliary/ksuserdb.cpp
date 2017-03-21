@@ -28,27 +28,29 @@
 /*
  * TODO (spacetime):
  * The database supports storing logs. But it needs to be implemented.
- * 
+ *
  * One of the unresolved problems was the creation of a unique identifier
  * for each object (DSO,planet,star etc) for use in the database.
 */
 
-bool KSUserDB::Initialize() {
+bool KSUserDB::Initialize()
+{
     // Every logged in user has their own db.
     userdb_ = QSqlDatabase::addDatabase("QSQLITE", "userdb");
     QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "userdb.sqlite";
     QFile testdb(dbfile);
     bool first_run = false;
-    if (!testdb.exists()) {
+    if (!testdb.exists())
+    {
         qDebug()<< "User DB does not exist. New User DB will be created.";
         first_run = true;
     }
     userdb_.setDatabaseName(dbfile);
     if (!userdb_.open())
     {
-           qWarning() << "Unable to open user database file.";
-           qWarning() << LastError();
-           return false;
+        qWarning() << "Unable to open user database file.";
+        qWarning() << LastError();
+        return false;
     }
     else
     {
@@ -83,9 +85,9 @@ bool KSUserDB::Initialize() {
                     qDebug() << query.lastError();
             }
 
-           // If prior to 2.6.0 upgrade database for profiles tables
-           if (currentDBVersion < "2.6.0")
-           {
+            // If prior to 2.6.0 upgrade database for profiles tables
+            if (currentDBVersion < "2.6.0")
+            {
                 QSqlQuery query(userdb_);
                 QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
 
@@ -102,16 +104,16 @@ bool KSUserDB::Initialize() {
 
                 // Custom Drivers
                 //if (!query.exec("CREATE TABLE IF NOT EXISTS custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))"))
-                    //qDebug() << query.lastError();
+                //qDebug() << query.lastError();
 
                 // Add sample profile
-                #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
                 if (!query.exec("INSERT INTO profile (name, host, port) VALUES ('Simulators', 'localhost', 7624)"))
                     qDebug() << query.lastError();
-                #else
+#else
                 if (!query.exec("INSERT INTO profile (name) VALUES ('Simulators')"))
                     qDebug() << query.lastError();
-                #endif
+#endif
 
                 // Add sample profile drivers
                 if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('Telescope Simulator', 'Mount', 1)"))
@@ -120,11 +122,11 @@ bool KSUserDB::Initialize() {
                     qDebug() << query.lastError();
                 if (!query.exec("INSERT INTO driver (label, role, profile) VALUES ('Focuser Simulator', 'Focuser', 1)"))
                     qDebug() << query.lastError();
-           }
+            }
 
-           // If prior to 2.6.1 upgrade database for dark library tables
-           if (currentDBVersion < "2.6.1")
-           {
+            // If prior to 2.6.1 upgrade database for dark library tables
+            if (currentDBVersion < "2.6.1")
+            {
                 QSqlQuery query(userdb_);
                 QString versionQuery = QString("UPDATE Version SET Version='%1'").arg(KSTARS_VERSION);
 
@@ -134,43 +136,46 @@ bool KSUserDB::Initialize() {
                 // Dark Frame
                 if (!query.exec("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, ccd TEXT NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, duration REAL, filename TEXT NOT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)"))
                     qDebug() << query.lastError();
-           }
+            }
 
-           // If prior to 2.7.3 upgrade database to add column for focus offset
-           if (currentDBVersion < "2.7.3")
-           {
-               QSqlQuery query(userdb_);
-               QString columnQuery = QString("ALTER TABLE filter ADD COLUMN Offset TEXT");
+            // If prior to 2.7.3 upgrade database to add column for focus offset
+            if (currentDBVersion < "2.7.3")
+            {
+                QSqlQuery query(userdb_);
+                QString columnQuery = QString("ALTER TABLE filter ADD COLUMN Offset TEXT");
 
-               query.exec(columnQuery);
-           }
+                query.exec(columnQuery);
+            }
 
-           // If prior to 2.7.5 upgrade database to add column for autoconnect
-           if (currentDBVersion < "2.7.5")
-           {
-               QSqlQuery query(userdb_);
-               QString columnQuery = QString("ALTER TABLE profile ADD COLUMN autoconnect INTEGER");
+            // If prior to 2.7.5 upgrade database to add column for autoconnect
+            if (currentDBVersion < "2.7.5")
+            {
+                QSqlQuery query(userdb_);
+                QString columnQuery = QString("ALTER TABLE profile ADD COLUMN autoconnect INTEGER");
 
-               query.exec(columnQuery);
-           }
+                query.exec(columnQuery);
+            }
         }
     }
     userdb_.close();
     return true;
 }
 
-KSUserDB::~KSUserDB() {
+KSUserDB::~KSUserDB()
+{
     userdb_.close();
 }
 
-QSqlError KSUserDB::LastError() {
+QSqlError KSUserDB::LastError()
+{
     // error description is in QSqlError::text()
     return userdb_.lastError();
 }
 
-bool KSUserDB::FirstRun() {
+bool KSUserDB::FirstRun()
+{
     if (!RebuildDB())
-      return false;
+        return false;
 
     /*ImportFlags();
     ImportUsers();
@@ -180,7 +185,8 @@ bool KSUserDB::FirstRun() {
 }
 
 
-bool KSUserDB::RebuildDB() {
+bool KSUserDB::RebuildDB()
+{
     qWarning() << "Rebuilding User Database";
     QVector<QString> tables;
     tables.append("CREATE TABLE Version ("
@@ -265,25 +271,27 @@ bool KSUserDB::RebuildDB() {
                   "label TEXT NOT NULL,"
                   "enabled INTEGER NOT NULL)");
 
-     tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT NULL, autoconnect INTEGER DEFAULT 1)");
-     tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
-     //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
+    tables.append("CREATE TABLE profile (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, host TEXT, port INTEGER, city TEXT, province TEXT, country TEXT, indiwebmanagerport INTEGER DEFAULT NULL, autoconnect INTEGER DEFAULT 1)");
+    tables.append("CREATE TABLE driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL, role TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
+    //tables.append("CREATE TABLE custom_driver (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, drivers TEXT NOT NULL, profile INTEGER NOT NULL, FOREIGN KEY(profile) REFERENCES profile(id))");
 
-     #ifdef Q_OS_WIN
-     tables.append("INSERT INTO profile (name, host, port) VALUES ('Simulators', 'localhost', 7624)");
-     #else
-     tables.append("INSERT INTO profile (name) VALUES ('Simulators')");
-     #endif
+#ifdef Q_OS_WIN
+    tables.append("INSERT INTO profile (name, host, port) VALUES ('Simulators', 'localhost', 7624)");
+#else
+    tables.append("INSERT INTO profile (name) VALUES ('Simulators')");
+#endif
 
-     tables.append("INSERT INTO driver (label, role, profile) VALUES ('Telescope Simulator', 'Mount', 1)");
-     tables.append("INSERT INTO driver (label, role, profile) VALUES ('CCD Simulator', 'CCD', 1)");
-     tables.append("INSERT INTO driver (label, role, profile) VALUES ('Focuser Simulator', 'Focuser', 1)");
+    tables.append("INSERT INTO driver (label, role, profile) VALUES ('Telescope Simulator', 'Mount', 1)");
+    tables.append("INSERT INTO driver (label, role, profile) VALUES ('CCD Simulator', 'CCD', 1)");
+    tables.append("INSERT INTO driver (label, role, profile) VALUES ('Focuser Simulator', 'Focuser', 1)");
 
-     tables.append("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, ccd TEXT NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, duration REAL, filename TEXT NOT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
+    tables.append("CREATE TABLE IF NOT EXISTS darkframe (id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, ccd TEXT NOT NULL, chip INTEGER DEFAULT 0, binX INTEGER, binY INTEGER, temperature REAL, duration REAL, filename TEXT NOT NULL, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)");
 
-    for (int i = 0; i < tables.count(); ++i) {
+    for (int i = 0; i < tables.count(); ++i)
+    {
         QSqlQuery query(userdb_);
-        if (!query.exec(tables[i])) {
+        if (!query.exec(tables[i]))
+        {
             qDebug() << query.lastError();
         }
     }
@@ -293,8 +301,9 @@ bool KSUserDB::RebuildDB() {
 /*
  * Observer Section
 */
-void KSUserDB::AddObserver(const QString& name, const QString& surname,
-                           const QString& contact) {
+void KSUserDB::AddObserver(const QString &name, const QString &surname,
+                           const QString &contact)
+{
     userdb_.open();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
@@ -302,14 +311,17 @@ void KSUserDB::AddObserver(const QString& name, const QString& surname,
                     surname + "\'");
     users.select();
 
-    if (users.rowCount() > 0) {
-            QSqlRecord record = users.record(0);
-            record.setValue("Name", name);
-            record.setValue("Surname", surname);
-            record.setValue("Contact", contact);
-            users.setRecord(0, record);
-            users.submitAll();
-    } else {
+    if (users.rowCount() > 0)
+    {
+        QSqlRecord record = users.record(0);
+        record.setValue("Name", name);
+        record.setValue("Surname", surname);
+        record.setValue("Contact", contact);
+        users.setRecord(0, record);
+        users.submitAll();
+    }
+    else
+    {
         int row = 0;
         users.insertRows(row, 1);
         users.setData(users.index(row, 1), name);  // row0 is autoincerement ID
@@ -321,7 +333,8 @@ void KSUserDB::AddObserver(const QString& name, const QString& surname,
     userdb_.close();
 }
 
-bool KSUserDB::FindObserver(const QString &name, const QString &surname) {
+bool KSUserDB::FindObserver(const QString &name, const QString &surname)
+{
     userdb_.open();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
@@ -337,7 +350,8 @@ bool KSUserDB::FindObserver(const QString &name, const QString &surname) {
 }
 
 // TODO(spacetime): This method is currently unused.
-bool KSUserDB::DeleteObserver(const QString &id) {
+bool KSUserDB::DeleteObserver(const QString &id)
+{
     userdb_.open();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
@@ -359,20 +373,22 @@ QSqlDatabase KSUserDB::GetDatabase()
     return userdb_;
 }
 #ifndef KSTARS_LITE
-void KSUserDB::GetAllObservers(QList<Observer *> &observer_list) {
+void KSUserDB::GetAllObservers(QList<Observer *> &observer_list)
+{
     userdb_.open();
     observer_list.clear();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
     users.select();
 
-    for (int i =0; i < users.rowCount(); ++i) {
+    for (int i =0; i < users.rowCount(); ++i)
+    {
         QSqlRecord record = users.record(i);
         QString id = record.value("id").toString();
         QString name = record.value("Name").toString();
         QString surname = record.value("Surname").toString();
         QString contact = record.value("Contact").toString();
-        OAL::Observer *o= new OAL::Observer(id, name, surname, contact);
+        OAL::Observer * o= new OAL::Observer(id, name, surname, contact);
         observer_list.append(o);
     }
 
@@ -450,7 +466,8 @@ void KSUserDB::GetAllDarkFrames(QList<QVariantMap> &darkFrames)
  * Flag Section
 */
 
-void KSUserDB::DeleteAllFlags() {
+void KSUserDB::DeleteAllFlags()
+{
     userdb_.open();
     QSqlTableModel flags(0, userdb_);
     flags.setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -466,7 +483,8 @@ void KSUserDB::DeleteAllFlags() {
 
 void KSUserDB::AddFlag(const QString &ra, const QString &dec,
                        const QString &epoch, const QString &image_name,
-                       const QString &label, const QString &labelColor) {
+                       const QString &label, const QString &labelColor)
+{
     userdb_.open();
     QSqlTableModel flags(0, userdb_);
     flags.setTable("flags");
@@ -485,7 +503,8 @@ void KSUserDB::AddFlag(const QString &ra, const QString &dec,
     userdb_.close();
 }
 
-QList<QStringList> KSUserDB::GetAllFlags() {
+QList<QStringList> KSUserDB::GetAllFlags()
+{
     QList<QStringList> flagList;
 
     userdb_.open();
@@ -493,7 +512,8 @@ QList<QStringList> KSUserDB::GetAllFlags() {
     flags.setTable("flags");
     flags.select();
 
-    for (int i =0; i < flags.rowCount(); ++i) {
+    for (int i =0; i < flags.rowCount(); ++i)
+    {
         QStringList flagEntry;
         QSqlRecord record = flags.record(i);
         /* flagEntry order description
@@ -520,7 +540,8 @@ QList<QStringList> KSUserDB::GetAllFlags() {
 /*
  * Generic Section
  */
-void KSUserDB::DeleteEquipment(const QString &type, const int &id) {
+void KSUserDB::DeleteEquipment(const QString &type, const int &id)
+{
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable(type);
@@ -534,7 +555,8 @@ void KSUserDB::DeleteEquipment(const QString &type, const int &id) {
     userdb_.close();
 }
 
-void KSUserDB::DeleteAllEquipment(const QString &type) {
+void KSUserDB::DeleteAllEquipment(const QString &type)
+{
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setEditStrategy(QSqlTableModel::OnManualSubmit);
@@ -553,7 +575,8 @@ void KSUserDB::DeleteAllEquipment(const QString &type) {
  */
 void KSUserDB::AddScope(const QString &model, const QString &vendor,
                         const QString &driver, const QString &type,
-                        const double & focalLength, const double &aperture) {
+                        const double &focalLength, const double &aperture)
+{
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("telescope");
@@ -575,14 +598,16 @@ void KSUserDB::AddScope(const QString &model, const QString &vendor,
 void KSUserDB::AddScope(const QString &model, const QString &vendor,
                         const QString &driver, const QString &type,
                         const double &focalLength, const double &aperture,
-                        const QString &id) {
+                        const QString &id)
+{
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("telescope");
     equip.setFilter("id = " + id);
     equip.select();
 
-    if (equip.rowCount() > 0) {
+    if (equip.rowCount() > 0)
+    {
         QSqlRecord record = equip.record(0);
         record.setValue(1, vendor);
         record.setValue(2, aperture);
@@ -597,7 +622,8 @@ void KSUserDB::AddScope(const QString &model, const QString &vendor,
     userdb_.close();
 }
 #ifndef KSTARS_LITE
-void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
+void KSUserDB::GetAllScopes(QList<Scope *> &scope_list)
+{
     scope_list.clear();
 
     userdb_.open();
@@ -605,7 +631,8 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
     equip.setTable("telescope");
     equip.select();
 
-    for (int i =0; i < equip.rowCount(); ++i) {
+    for (int i =0; i < equip.rowCount(); ++i)
+    {
         QSqlRecord record = equip.record(i);
         QString id = record.value("id").toString();
         QString vendor = record.value("Vendor").toString();
@@ -614,8 +641,8 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
         QString driver = record.value("Driver").toString();
         QString type = record.value("Type").toString();
         double focalLength = record.value("FocalLength").toDouble();
-        OAL::Scope *o= new OAL::Scope(id, model, vendor, type,
-                                      focalLength, aperture);
+        OAL::Scope * o= new OAL::Scope(id, model, vendor, type,
+                                       focalLength, aperture);
         o->setINDIDriver(driver);
         scope_list.append(o);
     }
@@ -629,7 +656,8 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
  */
 void KSUserDB::AddEyepiece(const QString &vendor, const QString &model,
                            const double &focalLength, const double &fov,
-                           const QString &fovunit) {
+                           const QString &fovunit)
+{
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("eyepiece");
@@ -649,14 +677,16 @@ void KSUserDB::AddEyepiece(const QString &vendor, const QString &model,
 
 void KSUserDB::AddEyepiece(const QString &vendor, const QString &model,
                            const double &focalLength, const double &fov,
-                           const QString &fovunit, const QString &id) {
+                           const QString &fovunit, const QString &id)
+{
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("eyepiece");
     equip.setFilter("id = " + id);
     equip.select();
 
-    if (equip.rowCount()>0) {
+    if (equip.rowCount()>0)
+    {
         QSqlRecord record = equip.record(0);
         record.setValue(1, vendor);
         record.setValue(2, model);
@@ -670,7 +700,8 @@ void KSUserDB::AddEyepiece(const QString &vendor, const QString &model,
     userdb_.close();
 }
 #ifndef KSTARS_LITE
-void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
+void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list)
+{
     eyepiece_list.clear();
 
     userdb_.open();
@@ -678,7 +709,8 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
     equip.setTable("eyepiece");
     equip.select();
 
-    for (int i =0; i < equip.rowCount(); ++i) {
+    for (int i =0; i < equip.rowCount(); ++i)
+    {
         QSqlRecord record = equip.record(i);
         QString id = record.value("id").toString();
         QString vendor = record.value("Vendor").toString();
@@ -687,8 +719,8 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
         double fov = record.value("ApparentFOV").toDouble();
         QString fovUnit = record.value("FOVUnit").toString();
 
-        OAL::Eyepiece *o = new OAL::Eyepiece(id, model, vendor, fov,
-                                             fovUnit, focalLength);
+        OAL::Eyepiece * o = new OAL::Eyepiece(id, model, vendor, fov,
+                                              fovUnit, focalLength);
         eyepiece_list.append(o);
     }
 
@@ -700,7 +732,8 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
  * lens section
  */
 void KSUserDB::AddLens(const QString &vendor, const QString &model,
-                       const double &factor) {
+                       const double &factor)
+{
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("lens");
@@ -717,14 +750,16 @@ void KSUserDB::AddLens(const QString &vendor, const QString &model,
 }
 
 void KSUserDB::AddLens(const QString &vendor, const QString &model,
-                       const double &factor, const QString &id) {
+                       const double &factor, const QString &id)
+{
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("lens");
     equip.setFilter("id = "+id);
     equip.select();
 
-    if (equip.rowCount()>0) {
+    if (equip.rowCount()>0)
+    {
         QSqlRecord record = equip.record(0);
         record.setValue(1, vendor);
         record.setValue(2, model);
@@ -735,7 +770,8 @@ void KSUserDB::AddLens(const QString &vendor, const QString &model,
     userdb_.close();
 }
 #ifndef KSTARS_LITE
-void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
+void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list)
+{
     lens_list.clear();
 
     userdb_.open();
@@ -743,13 +779,14 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
     equip.setTable("lens");
     equip.select();
 
-    for (int i =0; i < equip.rowCount(); ++i) {
+    for (int i =0; i < equip.rowCount(); ++i)
+    {
         QSqlRecord record = equip.record(i);
         QString id = record.value("id").toString();
         QString vendor = record.value("Vendor").toString();
         QString model = record.value("Model").toString();
         double factor = record.value("Factor").toDouble();
-        OAL::Lens *o = new OAL::Lens(id, model, vendor, factor);
+        OAL::Lens * o = new OAL::Lens(id, model, vendor, factor);
         lens_list.append(o);
     }
 
@@ -761,7 +798,8 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
  *  filter section
  */
 void KSUserDB::AddFilter(const QString &vendor, const QString &model,
-                         const QString &type, const QString &offset, const QString &color) {
+                         const QString &type, const QString &offset, const QString &color)
+{
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("filter");
@@ -782,14 +820,16 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model,
 
 void KSUserDB::AddFilter(const QString &vendor, const QString &model,
                          const QString &type, const QString &offset, const QString &color,
-                         const QString &id) {
+                         const QString &id)
+{
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("filter");
     equip.setFilter("id = " + id);
     equip.select();
 
-    if (equip.rowCount() > 0) {
+    if (equip.rowCount() > 0)
+    {
         QSqlRecord record = equip.record(0);
         record.setValue(1, vendor);
         record.setValue(2, model);
@@ -804,14 +844,16 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model,
     userdb_.close();
 }
 #ifndef KSTARS_LITE
-void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
+void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list)
+{
     userdb_.open();
     filter_list.clear();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("filter");
     equip.select();
 
-    for (int i =0; i < equip.rowCount(); ++i) {
+    for (int i =0; i < equip.rowCount(); ++i)
+    {
         QSqlRecord record = equip.record(i);
         QString id = record.value("id").toString();
         QString vendor = record.value("Vendor").toString();
@@ -819,7 +861,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
         QString type = record.value("Type").toString();
         QString color = record.value("Color").toString();
         QString offset = record.value("Offset").toString();
-        OAL::Filter *o= new OAL::Filter(id, model, vendor, type, offset, color);
+        OAL::Filter * o= new OAL::Filter(id, model, vendor, type, offset, color);
         filter_list.append(o);
     }
 
@@ -829,10 +871,12 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
 }
 #endif
 #if 0
-bool KSUserDB::ImportFlags() {
+bool KSUserDB::ImportFlags()
+{
     QString flagfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "flags.dat";
     QFile flagsfile(flagfilename);
-    if (!flagsfile.exists()) {
+    if (!flagsfile.exists())
+    {
         return false;  // No upgrade needed. Flags file doesn't exist.
     }
 
@@ -846,7 +890,8 @@ bool KSUserDB::ImportFlags() {
     KSParser flagparser(flagfilename,'#',flag_file_sequence,' ');
 
     QHash<QString, QVariant> row_content;
-    while (flagparser.HasNextRow()){
+    while (flagparser.HasNextRow())
+    {
         row_content = flagparser.ReadNextRow();
         QString ra = row_content["RA"].toString();
         QString dec = row_content["Dec"].toString();
@@ -860,59 +905,73 @@ bool KSUserDB::ImportFlags() {
     return true;
 }
 
-bool KSUserDB::ImportUsers() {
+bool KSUserDB::ImportUsers()
+{
     QString usersfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "observerlist.xml";
     QFile usersfile(usersfilename);
 
-    if (!usersfile.exists()) {
+    if (!usersfile.exists())
+    {
         return false;  // No upgrade needed. Users file doesn't exist.
     }
 
     if( ! usersfile.open( QIODevice::ReadOnly ) )
         return false;
 
-    QXmlStreamReader *reader = new QXmlStreamReader(&usersfile);
+    QXmlStreamReader * reader = new QXmlStreamReader(&usersfile);
 
-    while( ! reader->atEnd() ) {
+    while( ! reader->atEnd() )
+    {
         reader->readNext();
 
         if( reader->isEndElement() )
             break;
 
-        if( reader->isStartElement() ) {
-           if (reader->name() != "observers")
+        if( reader->isStartElement() )
+        {
+            if (reader->name() != "observers")
                 continue;
 
-           //Read all observers
-           while( ! reader->atEnd() ) {
+            //Read all observers
+            while( ! reader->atEnd() )
+            {
                 reader->readNext();
 
                 if( reader->isEndElement() )
                     break;
 
-                if( reader->isStartElement() ) {
+                if( reader->isStartElement() )
+                {
                     // Read single observer
-                    if( reader->name() == "observer" ) {
-                      QString name, surname, contact;
-                      while( ! reader->atEnd() ) {
-                          reader->readNext();
+                    if( reader->name() == "observer" )
+                    {
+                        QString name, surname, contact;
+                        while( ! reader->atEnd() )
+                        {
+                            reader->readNext();
 
-                          if( reader->isEndElement() )
-                              break;
+                            if( reader->isEndElement() )
+                                break;
 
-                          if( reader->isStartElement() ) {
-                              if( reader->name() == "name" ) {
-                                  name = reader->readElementText();
-                              } else if( reader->name() == "surname" ) {
-                                  surname = reader->readElementText();
-                              } else if( reader->name() == "contact" ) {
-                                  contact = reader->readElementText();
-                              }
-                          }
-                      }
-                      AddObserver(name, surname, contact);
+                            if( reader->isStartElement() )
+                            {
+                                if( reader->name() == "name" )
+                                {
+                                    name = reader->readElementText();
+                                }
+                                else if( reader->name() == "surname" )
+                                {
+                                    surname = reader->readElementText();
+                                }
+                                else if( reader->name() == "contact" )
+                                {
+                                    contact = reader->readElementText();
+                                }
+                            }
+                        }
+                        AddObserver(name, surname, contact);
                     }
-               }
+                }
             }
         }
     }
@@ -921,11 +980,13 @@ bool KSUserDB::ImportUsers() {
     return true;
 }
 
-bool KSUserDB::ImportEquipment() {
+bool KSUserDB::ImportEquipment()
+{
     QString equipfilename = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + QDir::separator() + "equipmentlist.xml";
     QFile equipfile(equipfilename);
 
-    if (!equipfile.exists()) {
+    if (!equipfile.exists())
+    {
         return false;  // No upgrade needed. File doesn't exist.
     }
 
@@ -933,26 +994,30 @@ bool KSUserDB::ImportEquipment() {
         return false;
 
     reader_ = new QXmlStreamReader(&equipfile);
-    while( ! reader_->atEnd() ) {
+    while( ! reader_->atEnd() )
+    {
         reader_->readNext();
-        if( reader_->isStartElement() ) {
-                while( ! reader_->atEnd() ) {
-                  reader_->readNext();
+        if( reader_->isStartElement() )
+        {
+            while( ! reader_->atEnd() )
+            {
+                reader_->readNext();
 
-                  if( reader_->isEndElement() )
-                      break;
+                if( reader_->isEndElement() )
+                    break;
 
-                  if( reader_->isStartElement() ) {
+                if( reader_->isStartElement() )
+                {
                     if( reader_->name() == "scopes" )
-                          readScopes();
+                        readScopes();
                     else if( reader_->name() == "eyepieces" )
-                          readEyepieces();
+                        readEyepieces();
                     else if( reader_->name() =="lenses" )
-                          readLenses();
+                        readLenses();
                     else if( reader_->name() =="filters" )
-                          readFilters();
-                  }
-              }
+                        readFilters();
+                }
+            }
         }
     }
     delete reader_;
@@ -961,77 +1026,97 @@ bool KSUserDB::ImportEquipment() {
 }
 #endif
 
-void KSUserDB::readScopes() {
-    while( ! reader_->atEnd() ) {
+void KSUserDB::readScopes()
+{
+    while( ! reader_->atEnd() )
+    {
         reader_->readNext();
 
         if( reader_->isEndElement() )
             break;
 
-        if( reader_->isStartElement() ) {
+        if( reader_->isStartElement() )
+        {
             if( reader_->name() == "scope" )
                 readScope();
         }
     }
 }
 
-void KSUserDB::readEyepieces() {
-    while( ! reader_->atEnd() ) {
+void KSUserDB::readEyepieces()
+{
+    while( ! reader_->atEnd() )
+    {
         reader_->readNext();
 
         if( reader_->isEndElement() )
             break;
 
-        if( reader_->isStartElement() ) {
+        if( reader_->isStartElement() )
+        {
             if( reader_->name() == "eyepiece" )
                 readEyepiece();
         }
     }
 }
 
-void KSUserDB::readLenses() {
-    while( ! reader_->atEnd() ) {
+void KSUserDB::readLenses()
+{
+    while( ! reader_->atEnd() )
+    {
         reader_->readNext();
 
         if( reader_->isEndElement() )
             break;
 
-        if( reader_->isStartElement() ) {
+        if( reader_->isStartElement() )
+        {
             if( reader_->name() == "lens" )
                 readLens();
         }
     }
 }
 
-void KSUserDB::readFilters() {
-    while( ! reader_->atEnd() ) {
+void KSUserDB::readFilters()
+{
+    while( ! reader_->atEnd() )
+    {
         reader_->readNext();
 
         if( reader_->isEndElement() )
             break;
 
-        if( reader_->isStartElement() ) {
+        if( reader_->isStartElement() )
+        {
             if( reader_->name() == "filter" )
                 readFilter();
         }
     }
 }
 
-void KSUserDB::readScope() {
+void KSUserDB::readScope()
+{
     QString model, vendor, type, driver = i18nc("No driver", "None");
     double aperture, focalLength;
-    while( ! reader_->atEnd() ) {
+    while( ! reader_->atEnd() )
+    {
         reader_->readNext();
 
         if( reader_->isEndElement() )
             break;
 
-        if( reader_->isStartElement() ) {
-            if( reader_->name() == "model" ) {
+        if( reader_->isStartElement() )
+        {
+            if( reader_->name() == "model" )
+            {
                 model = reader_->readElementText();
-            } else if( reader_->name() == "vendor" ) {
+            }
+            else if( reader_->name() == "vendor" )
+            {
                 vendor = reader_->readElementText() ;
-            } else if( reader_->name() == "type" ) {
+            }
+            else if( reader_->name() == "type" )
+            {
                 type = reader_->readElementText() ;
                 if( type == "N" ) type = "Newtonian";
                 if( type == "R" ) type = "Refractor";
@@ -1039,35 +1124,48 @@ void KSUserDB::readScope() {
                 if( type == "S" ) type = "Schmidt-Cassegrain";
                 if( type == "K" ) type = "Kutter (Schiefspiegler)";
                 if( type == "C" ) type = "Cassegrain";
-            } else if( reader_->name() == "focalLength" ) {
+            }
+            else if( reader_->name() == "focalLength" )
+            {
                 focalLength = (reader_->readElementText()).toDouble() ;
-            } else if( reader_->name() == "aperture" )
+            }
+            else if( reader_->name() == "aperture" )
                 aperture = (reader_->readElementText()).toDouble() ;
-              else if ( reader_->name() == "driver")
-                 driver = reader_->readElementText();
+            else if ( reader_->name() == "driver")
+                driver = reader_->readElementText();
         }
     }
 
     AddScope(model, vendor, driver, type, focalLength, aperture);
 }
 
-void KSUserDB::readEyepiece() {
+void KSUserDB::readEyepiece()
+{
     QString model, focalLength, vendor, fov, fovUnit;
-    while( ! reader_->atEnd() ) {
+    while( ! reader_->atEnd() )
+    {
         reader_->readNext();
 
         if( reader_->isEndElement() )
             break;
 
-        if( reader_->isStartElement() ) {
-            if( reader_->name() == "model" ) {
+        if( reader_->isStartElement() )
+        {
+            if( reader_->name() == "model" )
+            {
                 model = reader_->readElementText();
-            } else if( reader_->name() == "vendor" ) {
+            }
+            else if( reader_->name() == "vendor" )
+            {
                 vendor = reader_->readElementText() ;
-            } else if( reader_->name() == "apparentFOV" ) {
+            }
+            else if( reader_->name() == "apparentFOV" )
+            {
                 fov = reader_->readElementText();
                 fovUnit = reader_->attributes().value( "unit" ).toString();
-            } else if( reader_->name() == "focalLength" ) {
+            }
+            else if( reader_->name() == "focalLength" )
+            {
                 focalLength = reader_->readElementText() ;
             }
         }
@@ -1076,20 +1174,28 @@ void KSUserDB::readEyepiece() {
     AddEyepiece(vendor, model, focalLength.toDouble(), fov.toDouble(), fovUnit);
 }
 
-void KSUserDB::readLens() {
+void KSUserDB::readLens()
+{
     QString model, factor, vendor;
-    while( ! reader_->atEnd() ) {
+    while( ! reader_->atEnd() )
+    {
         reader_->readNext();
 
         if( reader_->isEndElement() )
             break;
 
-        if( reader_->isStartElement() ) {
-            if( reader_->name() == "model" ) {
+        if( reader_->isStartElement() )
+        {
+            if( reader_->name() == "model" )
+            {
                 model = reader_->readElementText();
-            } else if( reader_->name() == "vendor" ) {
+            }
+            else if( reader_->name() == "vendor" )
+            {
                 vendor = reader_->readElementText() ;
-            } else if( reader_->name() == "factor" ) {
+            }
+            else if( reader_->name() == "factor" )
+            {
                 factor = reader_->readElementText() ;
             }
         }
@@ -1098,24 +1204,36 @@ void KSUserDB::readLens() {
     AddLens(vendor, model, factor.toDouble());
 }
 
-void KSUserDB::readFilter() {
+void KSUserDB::readFilter()
+{
     QString model, vendor, type, offset, color;
-    while( ! reader_->atEnd() ) {
+    while( ! reader_->atEnd() )
+    {
         reader_->readNext();
 
         if( reader_->isEndElement() )
             break;
 
-        if( reader_->isStartElement() ) {
-            if( reader_->name() == "model" ) {
+        if( reader_->isStartElement() )
+        {
+            if( reader_->name() == "model" )
+            {
                 model = reader_->readElementText();
-            } else if( reader_->name() == "vendor" ) {
+            }
+            else if( reader_->name() == "vendor" )
+            {
                 vendor = reader_->readElementText() ;
-            } else if( reader_->name() == "type" ) {
+            }
+            else if( reader_->name() == "type" )
+            {
                 type = reader_->readElementText() ;
-            } else if( reader_->name() == "offset" ) {
+            }
+            else if( reader_->name() == "offset" )
+            {
                 offset = reader_->readElementText();
-            } else if( reader_->name() == "color" ) {
+            }
+            else if( reader_->name() == "color" )
+            {
                 color = reader_->readElementText() ;
             }
         }
@@ -1144,9 +1262,9 @@ QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
         points.setTable(regionTable);
         points.select();
 
-        LineList* skyList = new LineList();
+        LineList * skyList = new LineList();
 
-        ArtificialHorizonEntity *horizon = new ArtificialHorizonEntity;
+        ArtificialHorizonEntity * horizon = new ArtificialHorizonEntity;
 
         horizon->setRegion(regionName);
         horizon->setEnabled(enabled);
@@ -1158,7 +1276,7 @@ QList<ArtificialHorizonEntity *> KSUserDB::GetAllHorizons()
         {
             record = points.record(j);
 
-            SkyPoint *p = new SkyPoint();
+            SkyPoint * p = new SkyPoint();
             p->setAz(record.value(0).toDouble());
             p->setAlt(record.value(1).toDouble());
             p->HorizontalToEquatorial(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
@@ -1198,7 +1316,7 @@ void KSUserDB::DeleteAllHorizons()
     userdb_.close();
 }
 
-void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
+void KSUserDB::AddHorizon(ArtificialHorizonEntity * horizon)
 {
     userdb_.open();
     QSqlTableModel regions(0, userdb_);
@@ -1223,7 +1341,7 @@ void KSUserDB::AddHorizon(ArtificialHorizonEntity *horizon)
 
     points.setTable(tableName);
 
-    SkyList *skyList = horizon->list()->points();
+    SkyList * skyList = horizon->list()->points();
 
     for (int i=0; i < skyList->size(); i++)
     {
@@ -1258,7 +1376,7 @@ int KSUserDB::AddProfile(const QString &name)
     return id;
 }
 
-bool KSUserDB::DeleteProfile(ProfileInfo *pi)
+bool KSUserDB::DeleteProfile(ProfileInfo * pi)
 {
     userdb_.open();
 
@@ -1275,7 +1393,7 @@ bool KSUserDB::DeleteProfile(ProfileInfo *pi)
     return rc;
 }
 
-void KSUserDB::SaveProfile(ProfileInfo *pi)
+void KSUserDB::SaveProfile(ProfileInfo * pi)
 {
     // Remove all drivers
     DeleteProfileDrivers(pi);
@@ -1345,7 +1463,7 @@ void KSUserDB::GetAllProfiles(QList<ProfileInfo *> &profiles)
         QString name = record.value("name").toString();
 
         // FIXME: This still shows 562 bytes lost in Valgrind, why? Investigate
-        ProfileInfo *pi = new ProfileInfo(id, name);
+        ProfileInfo * pi = new ProfileInfo(id, name);
 
         // Add host and port
         pi->host = record.value("host").toString();
@@ -1370,7 +1488,7 @@ void KSUserDB::GetAllProfiles(QList<ProfileInfo *> &profiles)
 
 }
 
-void KSUserDB::GetProfileDrivers(ProfileInfo* pi)
+void KSUserDB::GetProfileDrivers(ProfileInfo * pi)
 {
     userdb_.open();
 
@@ -1409,7 +1527,7 @@ void KSUserDB::GetProfileDrivers(ProfileInfo* pi)
     userdb_.close();
 }*/
 
-void KSUserDB::DeleteProfileDrivers(ProfileInfo* pi)
+void KSUserDB::DeleteProfileDrivers(ProfileInfo * pi)
 {
     userdb_.open();
 

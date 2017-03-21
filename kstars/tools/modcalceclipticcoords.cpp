@@ -32,8 +32,8 @@
 #include "dialogs/finddialog.h"
 #include "widgets/dmsbox.h"
 
-modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
-        : QFrame(parentSplit)
+modCalcEclCoords::modCalcEclCoords(QWidget * parentSplit)
+    : QFrame(parentSplit)
 {
     setupUi(this);
     RA->setDegType(false);
@@ -44,7 +44,7 @@ modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
 
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
     connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()));
-    connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotDateTimeChanged(const QDateTime&)));
+    connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime &)), this, SLOT(slotDateTimeChanged(const QDateTime &)));
 
     connect(RA,     SIGNAL(editingFinished()), this, SLOT(slotCompute()));
     connect(Dec,    SIGNAL(editingFinished()), this, SLOT(slotCompute()));
@@ -54,54 +54,65 @@ modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
     this->show();
 }
 
-modCalcEclCoords::~modCalcEclCoords() {
+modCalcEclCoords::~modCalcEclCoords()
+{
 }
 
-void modCalcEclCoords::slotNow() {
+void modCalcEclCoords::slotNow()
+{
     DateTime->setDateTime( KStarsDateTime::currentDateTime() );
     slotCompute();
 }
 
-void modCalcEclCoords::slotObject() {
+void modCalcEclCoords::slotObject()
+{
     FindDialog fd(KStars::Instance());
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.targetObject();
+    if ( fd.exec() == QDialog::Accepted )
+    {
+        SkyObject * o = fd.targetObject();
         RA->showInHours( o->ra() );
         Dec->showInDegrees( o->dec() );
         slotCompute();
     }
 }
 
-void modCalcEclCoords::slotDateTimeChanged(const QDateTime &edt) {
+void modCalcEclCoords::slotDateTimeChanged(const QDateTime &edt)
+{
     kdt = ((KStarsDateTime)edt);
 }
 
-void modCalcEclCoords::slotCompute(void) {
+void modCalcEclCoords::slotCompute(void)
+{
     KSNumbers num( kdt.djd() );
 
     //Determine whether we are calculating ecliptic coordinates from equatorial,
     //or vice versa.  We calculate ecliptic by default, unless the signal
     //was sent by changing the EcLong or EcLat value.
-    if ( sender()->objectName() == "EcLong" || sender()->objectName() == "EcLat" ) {
+    if ( sender()->objectName() == "EcLong" || sender()->objectName() == "EcLat" )
+    {
         //Validate ecliptic coordinates
         bool ok( false );
         dms elat;
         dms elong = EcLong->createDms( true, &ok );
         if ( ok ) elat = EcLat->createDms( true, &ok );
-        if ( ok ) {
+        if ( ok )
+        {
             SkyPoint sp;
             sp.setFromEcliptic( num.obliquity(), elong, elat );
             RA->showInHours( sp.ra() );
             Dec->showInDegrees( sp.dec() );
         }
 
-    } else {
+    }
+    else
+    {
         //Validate RA and Dec coordinates
         bool ok( false );
         dms ra;
         dms dec = Dec->createDms( true, &ok );
         if ( ok ) ra = RA->createDms( false, &ok );
-        if ( ok ) {
+        if ( ok )
+        {
             SkyPoint sp( ra, dec );
             dms elong, elat;
             sp.findEcliptic( num.obliquity(), elong, elat );

@@ -27,7 +27,8 @@
 #include "kstarslite/skyitems/skynodes/pointsourcenode.h"
 #endif
 
-StarBlockList::StarBlockList( Trixel tr, DeepStarComponent *parent ) {
+StarBlockList::StarBlockList( Trixel tr, DeepStarComponent * parent )
+{
     trixel = tr;
     nStars = 0;
     readOffset = 0;
@@ -37,22 +38,27 @@ StarBlockList::StarBlockList( Trixel tr, DeepStarComponent *parent ) {
     staticStars = parent->hasStaticStars();
 }
 
-StarBlockList::~StarBlockList() {
+StarBlockList::~StarBlockList()
+{
     // NOTE: Rest of the StarBlocks are taken care of by StarBlockFactory
     if( staticStars && blocks[ 0 ] )
         delete blocks[0];
 }
 
-int StarBlockList::releaseBlock( StarBlock *block ) {
+int StarBlockList::releaseBlock( StarBlock * block )
+{
 
     if( block != blocks[ nBlocks - 1 ] )
         qDebug() << "ERROR: Trying to release a block which is not the last block! Trixel = " << trixel << endl;
 
-    else if( blocks.size() > 0 ) {
+    else if( blocks.size() > 0 )
+    {
 #ifdef KSTARS_LITE
-        for(int i = 0; i < block->getStarCount(); ++i) {
+        for(int i = 0; i < block->getStarCount(); ++i)
+        {
             PointSourceNode * node = block->star(i)->starNode;
-            if(node) {
+            if(node)
+            {
                 SkyMapLite::Instance()->deleteSkyNode(node);
                 block->star(i)->starNode = 0;
             }
@@ -64,9 +70,9 @@ int StarBlockList::releaseBlock( StarBlock *block ) {
 
         readOffset -= parent->getStarReader()->guessRecordSize() * block->getStarCount();
         if( nBlocks <= 0 )
-          faintMag = -5.0;
+            faintMag = -5.0;
         else
-          faintMag = blocks[nBlocks - 1]->faintMag;
+            faintMag = blocks[nBlocks - 1]->faintMag;
 
         return 1;
     }
@@ -74,13 +80,14 @@ int StarBlockList::releaseBlock( StarBlock *block ) {
     return 0;
 }
 
-bool StarBlockList::fillToMag( float maglim ) {
+bool StarBlockList::fillToMag( float maglim )
+{
     // TODO: Remove staticity of BinFileHelper
-    BinFileHelper *dSReader;
-    StarBlockFactory *SBFactory;
+    BinFileHelper * dSReader;
+    StarBlockFactory * SBFactory;
     starData stardata;
     deepStarData deepstardata;
-    FILE *dataFile;
+    FILE * dataFile;
 
     dSReader = parent->getStarReader();
     dataFile = dSReader->getFileHandle();
@@ -92,7 +99,8 @@ bool StarBlockList::fillToMag( float maglim ) {
     if( faintMag >= maglim )
         return true;
 
-    if( !dataFile ) {
+    if( !dataFile )
+    {
         qDebug() << "dataFile not opened!";
         return false;
     }
@@ -105,67 +113,74 @@ bool StarBlockList::fillToMag( float maglim ) {
     Q_ASSERT( nBlocks == (unsigned int) blocks.size() );
 
     BinFileHelper::unsigned_KDE_fseek( dataFile, readOffset, SEEK_SET );
-    
+
     /*
     qDebug() << "Reading trixel" << trixel << ", id on disk =" << trixelId << ", currently nStars =" << nStars
              << ", record count =" << dSReader->getRecordCount( trixelId ) << ", first block = " << blocks[0]->getStarCount()
              << "to maglim =" << maglim << "with current faintMag =" << faintMag << endl;
     */
 
-    while( maglim >= faintMag && nStars < dSReader->getRecordCount( trixelId ) ) {
-        if( nBlocks == 0 || blocks[nBlocks - 1]->isFull() ) {
-            StarBlock *newBlock;
+    while( maglim >= faintMag && nStars < dSReader->getRecordCount( trixelId ) )
+    {
+        if( nBlocks == 0 || blocks[nBlocks - 1]->isFull() )
+        {
+            StarBlock * newBlock;
             newBlock = SBFactory->getBlock();
-            if( !newBlock ) {
-                qWarning() << "ERROR: Could not get a new block from StarBlockFactory::getBlock() in trixel " 
-                         << trixel << ", while trying to create block #" << nBlocks + 1 << endl;
+            if( !newBlock )
+            {
+                qWarning() << "ERROR: Could not get a new block from StarBlockFactory::getBlock() in trixel "
+                           << trixel << ", while trying to create block #" << nBlocks + 1 << endl;
                 return false;
             }
             blocks.append( newBlock );
             blocks[nBlocks]->parent = this;
             if( nBlocks == 0 )
-	        SBFactory->markFirst( blocks[0] );
-	    else if( !SBFactory->markNext( blocks[nBlocks - 1], blocks[nBlocks] ) )
-	        qWarning() << "ERROR: markNext() failed on block #" << nBlocks + 1 << "in trixel" << trixel;
-            
+                SBFactory->markFirst( blocks[0] );
+            else if( !SBFactory->markNext( blocks[nBlocks - 1], blocks[nBlocks] ) )
+                qWarning() << "ERROR: markNext() failed on block #" << nBlocks + 1 << "in trixel" << trixel;
+
             ++nBlocks;
         }
-	// TODO: Make this more general
-	if( dSReader->guessRecordSize() == 32 ) {
+        // TODO: Make this more general
+        if( dSReader->guessRecordSize() == 32 )
+        {
             fread( &stardata, sizeof( starData ), 1, dataFile );
             if( dSReader->getByteSwap() )
                 DeepStarComponent::byteSwap( &stardata );
             readOffset += sizeof( starData );
             blocks[nBlocks - 1]->addStar(stardata);
-	}
-	else {
+        }
+        else
+        {
             fread( &deepstardata, sizeof( deepStarData ), 1, dataFile );
             if( dSReader->getByteSwap() )
                 DeepStarComponent::byteSwap( &deepstardata );
             readOffset += sizeof( deepStarData );
             blocks[nBlocks - 1]->addStar(deepstardata);
-	}
+        }
 
-    /*
-      if( faintMag > -5.0 && fabs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
-      qDebug() << "Encountered a jump from mag" << faintMag << "to mag"
-      << blocks[nBlocks - 1]->getFaintMag() << "in trixel" << trixel;
-      }
-    */
-    faintMag = blocks[nBlocks - 1]->getFaintMag();
-    nStars++;
+        /*
+          if( faintMag > -5.0 && fabs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
+          qDebug() << "Encountered a jump from mag" << faintMag << "to mag"
+          << blocks[nBlocks - 1]->getFaintMag() << "in trixel" << trixel;
+          }
+        */
+        faintMag = blocks[nBlocks - 1]->getFaintMag();
+        nStars++;
     }
 
     return ( ( maglim < faintMag ) ? true : false );
 }
 
-void StarBlockList::setStaticBlock( StarBlock *block ) {
+void StarBlockList::setStaticBlock( StarBlock * block )
+{
     if( !block )
         return;
-    if ( nBlocks == 0 ) {
+    if ( nBlocks == 0 )
+    {
         blocks.append( block );
     }
-    else 
+    else
         blocks[0] = block;
 
     blocks[0]->parent = this;

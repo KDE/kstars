@@ -94,24 +94,25 @@ typedef PQHeapKey PQkey;
 typedef PQHeapHandle PQhandle;
 typedef struct PriorityQ PriorityQ;
 
-struct PriorityQ {
-  PriorityQHeap	*heap;
-  PQkey		*keys;
-  PQkey		**order;
-  PQhandle	size, max;
-  int		initialized;
-  int		(*leq)(PQkey key1, PQkey key2);
+struct PriorityQ
+{
+    PriorityQHeap	* heap;
+    PQkey	*	keys;
+    PQkey	**	order;
+    PQhandle	size, max;
+    int		initialized;
+    int		(*leq)(PQkey key1, PQkey key2);
 };
-  
-PriorityQ	*pqNewPriorityQ( int (*leq)(PQkey key1, PQkey key2) );
-void		pqDeletePriorityQ( PriorityQ *pq );
 
-int		pqInit( PriorityQ *pq );
-PQhandle	pqInsert( PriorityQ *pq, PQkey key );
-PQkey		pqExtractMin( PriorityQ *pq );
-void		pqDelete( PriorityQ *pq, PQhandle handle );
+PriorityQ	* pqNewPriorityQ( int (*leq)(PQkey key1, PQkey key2) );
+void		pqDeletePriorityQ( PriorityQ * pq );
 
-PQkey		pqMinimum( PriorityQ *pq );
-int		pqIsEmpty( PriorityQ *pq );
+int		pqInit( PriorityQ * pq );
+PQhandle	pqInsert( PriorityQ * pq, PQkey key );
+PQkey		pqExtractMin( PriorityQ * pq );
+void		pqDelete( PriorityQ * pq, PQhandle handle );
+
+PQkey		pqMinimum( PriorityQ * pq );
+int		pqIsEmpty( PriorityQ * pq );
 
 #endif

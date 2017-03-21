@@ -32,7 +32,7 @@
 #include <QtPrintSupport/QPrintDialog>
 #include <QPointer>
 
-PWizPrintUI::PWizPrintUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
+PWizPrintUI::PWizPrintUI(PrintingWizard * wizard, QWidget * parent) : QFrame(parent),
     m_ParentWizard(wizard)
 {
     setupUi(this);
@@ -45,13 +45,13 @@ PWizPrintUI::PWizPrintUI(PrintingWizard *wizard, QWidget *parent) : QFrame(paren
 void PWizPrintUI::slotPreview()
 {
     QPointer<QPrintPreviewDialog> previewDlg( new QPrintPreviewDialog( m_ParentWizard->getPrinter()
-                                                                        , KStars::Instance() ) );
-    connect(previewDlg, SIGNAL(paintRequested(QPrinter*)), SLOT(slotPrintPreview(QPrinter*)));
+            , KStars::Instance() ) );
+    connect(previewDlg, SIGNAL(paintRequested(QPrinter *)), SLOT(slotPrintPreview(QPrinter *)));
     previewDlg->exec();
     delete previewDlg;
 }
 
-void PWizPrintUI::slotPrintPreview(QPrinter *printer)
+void PWizPrintUI::slotPrintPreview(QPrinter * printer)
 {
     printDocument(printer);
 }
@@ -59,7 +59,7 @@ void PWizPrintUI::slotPrintPreview(QPrinter *printer)
 void PWizPrintUI::slotPrint()
 {
     QPointer<QPrintDialog> dialog( new QPrintDialog( m_ParentWizard->getPrinter()
-                                                     , KStars::Instance() ) );
+                                   , KStars::Instance() ) );
     if(dialog->exec() == QDialog::Accepted)
     {
         printDocument(m_ParentWizard->getPrinter());
@@ -67,7 +67,7 @@ void PWizPrintUI::slotPrint()
     delete dialog;
 }
 
-void PWizPrintUI::printDocument(QPrinter *printer)
+void PWizPrintUI::printDocument(QPrinter * printer)
 {
     m_ParentWizard->getFinderChart()->print(printer);
 }
@@ -116,11 +116,16 @@ void PWizPrintUI::slotExport()
 
         //Determine desired image format from filename extension
         QString ext = fname.mid(fname.lastIndexOf(".") + 1);
-        if(ext == "pdf" || ext == "ps") {
+        if(ext == "pdf" || ext == "ps")
+        {
             m_ParentWizard->getFinderChart()->writePsPdf(fname);
-        } else if(ext == "odt") {
+        }
+        else if(ext == "odt")
+        {
             m_ParentWizard->getFinderChart()->writeOdt(fname);
-        } else {
+        }
+        else
+        {
             return;
         }
 
@@ -128,7 +133,7 @@ void PWizPrintUI::slotExport()
         {
             //attempt to upload image to remote location
             if (KIO::storedHttpPost(&tmpfile, url )->exec() == false)
-            //if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
+                //if(!KIO::NetAccess::upload(tmpfile.fileName(), url, this))
             {
                 QString message = i18n( "Could not upload file to remote location: %1", url.url() );
                 KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );

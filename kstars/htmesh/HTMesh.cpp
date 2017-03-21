@@ -20,20 +20,23 @@
  *****************************************************************************/
 
 HTMesh::HTMesh(int level, int buildLevel, int numBuffers) :
-     m_level(level), m_buildLevel(buildLevel), m_numBuffers(numBuffers), htmDebug(0)
+    m_level(level), m_buildLevel(buildLevel), m_numBuffers(numBuffers), htmDebug(0)
 {
     name = "HTMesh";
-    if (m_buildLevel > 0) {
+    if (m_buildLevel > 0)
+    {
         if (m_buildLevel > m_level) m_buildLevel = m_level;
         htm = new SpatialIndex(m_level, m_buildLevel);
     }
-    else {
+    else
+    {
         htm = new SpatialIndex(m_level);
     }
 
     edge = 2. / 3.14;              //  inverse of roughly 1/4 circle
     numTrixels = 8;
-    for(int i = m_level; i--;) {
+    for(int i = m_level; i--;)
+    {
         numTrixels *= 4;
         edge *= 2.0;
     }
@@ -45,12 +48,14 @@ HTMesh::HTMesh(int level, int buildLevel, int numBuffers) :
     degree2Rad = 3.1415926535897932385E0 / 180.0;
 
     // Allocate MeshBuffers
-    m_meshBuffer = (MeshBuffer**) malloc( sizeof(MeshBuffer*) * numBuffers);
-    if (m_meshBuffer == NULL) {
+    m_meshBuffer = (MeshBuffer **) malloc( sizeof(MeshBuffer *) * numBuffers);
+    if (m_meshBuffer == NULL)
+    {
         fprintf(stderr, "Out of memory allocating %d MeshBuffers.\n", numBuffers);
         exit(0);
     }
-    for (int i = 0; i < numBuffers; i++) {
+    for (int i = 0; i < numBuffers; i++)
+    {
         m_meshBuffer[i] = new MeshBuffer( this );
     }
 }
@@ -69,7 +74,8 @@ Trixel HTMesh::index(double ra, double dec) const
     return (Trixel) htm->idByPoint( SpatialVector(ra, dec) ) - magicNum;
 }
 
-bool HTMesh::performIntersection(RangeConvex* convex, BufNum bufNum) {
+bool HTMesh::performIntersection(RangeConvex * convex, BufNum bufNum)
+{
 
     if ( ! validBufNum(bufNum) )
         return false;
@@ -79,13 +85,15 @@ bool HTMesh::performIntersection(RangeConvex* convex, BufNum bufNum) {
     convex->intersect(htm, &range);
     HtmRangeIterator iterator(&range);
 
-    MeshBuffer* buffer = m_meshBuffer[bufNum];
+    MeshBuffer * buffer = m_meshBuffer[bufNum];
     buffer->reset();
-    while (iterator.hasNext() ) {
+    while (iterator.hasNext() )
+    {
         buffer->append( (Trixel) iterator.next() - magicNum);
     }
 
-    if (buffer->error() ) {
+    if (buffer->error() )
+    {
         fprintf(stderr, "%s: trixel overflow.\n", name);
         return false;
     };
@@ -127,7 +135,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
 
     if ( ! performIntersection(&convex, bufNum) )
         printf("In intersect(%f, %f, %f, %f, %f, %f)\n",
-                ra1, dec1, ra2, dec2, ra3, dec3);
+               ra1, dec1, ra2, dec2, ra3, dec3);
 }
 
 
@@ -161,7 +169,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
 }
 
 
-void HTMesh::toXYZ(double ra, double dec, double *x, double *y, double *z)
+void HTMesh::toXYZ(double ra, double dec, double * x, double * y, double * z)
 {
     ra  *= degree2Rad;
     dec *= degree2Rad;
@@ -185,7 +193,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
                        BufNum bufNum)
 {
     double x1, y1, z1, x2, y2, z2;
-    
+
     //if (ra1 == 0.0 || ra1 == 180.00) ra1 += 0.1;
     //if (ra2 == 0.0 || ra2 == 180.00) ra2 -= 0.1;
     //if (dec1 == 0.0 ) dec1 += 0.1;
@@ -201,7 +209,8 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
     len += fabs(y1 - y2);
     len += fabs(z1 - z2);
 
-    if (htmDebug > 0 ) {
+    if (htmDebug > 0 )
+    {
         printf("htmDebug = %d\n", htmDebug);
         printf("p1 = (%f, %f, %f)\n", x1, y1, z1);
         printf("p2 = (%f, %f, %f)\n", x2, y2, z2);
@@ -252,7 +261,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
 }
 
 
-MeshBuffer* HTMesh::meshBuffer(BufNum bufNum)
+MeshBuffer * HTMesh::meshBuffer(BufNum bufNum)
 {
     if ( ! validBufNum(bufNum) )
         return 0;
@@ -267,9 +276,9 @@ int HTMesh::intersectSize(BufNum bufNum)
     return m_meshBuffer[ bufNum ]->size();
 }
 
-void HTMesh::vertices(Trixel id, double *ra1, double *dec1,
-                                 double *ra2, double *dec2,
-                                 double *ra3, double *dec3)
+void HTMesh::vertices(Trixel id, double * ra1, double * dec1,
+                      double * ra2, double * dec2,
+                      double * ra3, double * dec3)
 {
     SpatialVector v1, v2, v3;
     htm->nodeVertex(id + magicNum, v1, v2, v3);

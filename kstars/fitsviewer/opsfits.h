@@ -27,10 +27,10 @@ class KStars;
  */
 class OpsFITS : public QFrame, public Ui::OpsFITS
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit OpsFITS();
+    public:
+        explicit OpsFITS();
 };
 
 #endif

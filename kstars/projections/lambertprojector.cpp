@@ -19,7 +19,7 @@
 
 #include "lambertprojector.h"
 
-LambertProjector::LambertProjector(const ViewParams& p) : Projector(p)
+LambertProjector::LambertProjector(const ViewParams &p) : Projector(p)
 {
     updateClipPoly();
 }

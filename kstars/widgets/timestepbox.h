@@ -23,47 +23,57 @@
 #include "timeunitbox.h"
 
 /** @class TimeStepBox
- *This composite widget consists of a TimeSpinBox (a QSpinBox), coupled with a 
+ *This composite widget consists of a TimeSpinBox (a QSpinBox), coupled with a
  *TimeUnitBox (a second pair of up/down buttons).
- *The second set of buttons makes larger steps through the 82 possible 
+ *The second set of buttons makes larger steps through the 82 possible
  *time-step values, skipping to the next even unit of time.
  *@short Composite spinbox for specifying a time step.
  *@author Jason Harris
  *@version 1.0
  */
-class TimeStepBox : public QWidget  {
-    Q_OBJECT
-public:
-    /**Constructor. */
-    explicit TimeStepBox( QWidget *parent=0, bool daysonly=false );
-    /**Destructor. (empty)*/
-    ~TimeStepBox() {}
+class TimeStepBox : public QWidget
+{
+        Q_OBJECT
+    public:
+        /**Constructor. */
+        explicit TimeStepBox( QWidget * parent=0, bool daysonly=false );
+        /**Destructor. (empty)*/
+        ~TimeStepBox() {}
 
-    /** @return a pointer to the child TimeSpinBox */
-    TimeSpinBox* tsbox() const { return timeBox; }
+        /** @return a pointer to the child TimeSpinBox */
+        TimeSpinBox * tsbox() const
+        {
+            return timeBox;
+        }
 
-    /** @return a pointer to the child TimeUnitBox*/
-    TimeUnitBox* unitbox() const { return unitBox; }
+        /** @return a pointer to the child TimeUnitBox*/
+        TimeUnitBox * unitbox() const
+        {
+            return unitBox;
+        }
 
-    bool daysOnly() const { return DaysOnly; }
-    void setDaysOnly( bool daysonly );
+        bool daysOnly() const
+        {
+            return DaysOnly;
+        }
+        void setDaysOnly( bool daysonly );
 
-signals:
-    void scaleChanged( float );
+    signals:
+        void scaleChanged( float );
 
-private slots:
-    /**Set the TimeSpinBox value according to the current UnitBox value.
-    	*This is connected to the UnitBox valueChanged() Signal. */
-    void changeUnits( void );
+    private slots:
+        /**Set the TimeSpinBox value according to the current UnitBox value.
+        	*This is connected to the UnitBox valueChanged() Signal. */
+        void changeUnits( void );
 
-    /**Make sure the current UnitBox value represents the correct units for the
-    	*current TimeBox value. This slot is connected to the TimeBox valueChanged() Slot. */
-    void syncUnits( int );
-private:
-    bool DaysOnly;
-    QHBoxLayout *hlay;
-    TimeSpinBox *timeBox;
-    TimeUnitBox *unitBox;
+        /**Make sure the current UnitBox value represents the correct units for the
+        	*current TimeBox value. This slot is connected to the TimeBox valueChanged() Slot. */
+        void syncUnits( int );
+    private:
+        bool DaysOnly;
+        QHBoxLayout * hlay;
+        TimeSpinBox * timeBox;
+        TimeUnitBox * unitBox;
 };
 
 #endif

@@ -54,59 +54,68 @@
 #include "skycomponents/constellationboundarylines.h"
 
 
-namespace {
-    // Convert magnitude to string representation for QLabel
-    QString magToStr(double m) {
-        if (m > -30 && m < 90)
-            return QString("%1<sup>m</sup>").arg(m, 0, 'f', 2);
-        else
-            return QString();
-    }
+namespace
+{
+// Convert magnitude to string representation for QLabel
+QString magToStr(double m)
+{
+    if (m > -30 && m < 90)
+        return QString("%1<sup>m</sup>").arg(m, 0, 'f', 2);
+    else
+        return QString();
+}
 
-    // Return object name
-    QString getObjectName(SkyObject *obj) {
-        // FIXME: make logic less convoluted.
-        if( obj->longname() != obj->name() ) { // Object has proper name
-            return obj->translatedLongName() + ", " + obj->translatedName();
-        } else {
-            if( !obj->translatedName2().isEmpty() )
-                return obj->translatedName() + ", " + obj->translatedName2();
-            else
-                return obj->translatedName();
-        }
+// Return object name
+QString getObjectName(SkyObject * obj)
+{
+    // FIXME: make logic less convoluted.
+    if( obj->longname() != obj->name() )   // Object has proper name
+    {
+        return obj->translatedLongName() + ", " + obj->translatedName();
     }
-
-    // String representation for rise/set time of object. If object
-    // doesn't rise/set returns descriptive string.
-    //
-    // Second parameter choose between raise and set. 'true' for
-    // raise, 'false' for set.
-    QString riseSetTimeLabel(SkyObject* o, bool isRaise) {
-        KStarsData* data = KStarsData::Instance();
-        QTime t = o->riseSetTime( data->ut(), data->geo(), isRaise );
-        if ( t.isValid() ) {
-            //We can round to the nearest minute by simply adding 30 seconds to the time.
-            QString time = QLocale().toString( t.addSecs(30), QLocale::ShortFormat );
-            return isRaise ?
-                i18n ("Rise time: %1", time) :
-                i18nc("the time at which an object falls below the horizon", "Set time: %1" , time);
-        }
-        if( o->alt().Degrees() > 0 )
-            return isRaise ? i18n( "No rise time: Circumpolar" ) : i18n( "No set time: Circumpolar" );
+    else
+    {
+        if( !obj->translatedName2().isEmpty() )
+            return obj->translatedName() + ", " + obj->translatedName2();
         else
-            return isRaise ? i18n( "No rise time: Never rises" ) : i18n( "No set time: Never rises" );
+            return obj->translatedName();
     }
+}
 
-    // String representation for transit time for object
-    QString transitTimeLabel(SkyObject* o) {
-        KStarsData* data = KStarsData::Instance();
-        QTime t = o->transitTime( data->ut(), data->geo() );
-        if ( t.isValid() )
-            //We can round to the nearest minute by simply adding 30 seconds to the time.
-            return i18n( "Transit time: %1", QLocale().toString( t.addSecs(30), QLocale::ShortFormat ) );
-        else
-            return "--:--";
+// String representation for rise/set time of object. If object
+// doesn't rise/set returns descriptive string.
+//
+// Second parameter choose between raise and set. 'true' for
+// raise, 'false' for set.
+QString riseSetTimeLabel(SkyObject * o, bool isRaise)
+{
+    KStarsData * data = KStarsData::Instance();
+    QTime t = o->riseSetTime( data->ut(), data->geo(), isRaise );
+    if ( t.isValid() )
+    {
+        //We can round to the nearest minute by simply adding 30 seconds to the time.
+        QString time = QLocale().toString( t.addSecs(30), QLocale::ShortFormat );
+        return isRaise ?
+               i18n ("Rise time: %1", time) :
+               i18nc("the time at which an object falls below the horizon", "Set time: %1" , time);
     }
+    if( o->alt().Degrees() > 0 )
+        return isRaise ? i18n( "No rise time: Circumpolar" ) : i18n( "No set time: Circumpolar" );
+    else
+        return isRaise ? i18n( "No rise time: Never rises" ) : i18n( "No set time: Never rises" );
+}
+
+// String representation for transit time for object
+QString transitTimeLabel(SkyObject * o)
+{
+    KStarsData * data = KStarsData::Instance();
+    QTime t = o->transitTime( data->ut(), data->geo() );
+    if ( t.isValid() )
+        //We can round to the nearest minute by simply adding 30 seconds to the time.
+        return i18n( "Transit time: %1", QLocale().toString( t.addSecs(30), QLocale::ShortFormat ) );
+    else
+        return "--:--";
+}
 
 }
 
@@ -117,17 +126,20 @@ KSPopupMenu::KSPopupMenu()
 
 KSPopupMenu::~KSPopupMenu()
 {
-    if(m_EditActionMapping) {
+    if(m_EditActionMapping)
+    {
         delete m_EditActionMapping;
     }
 
-    if(m_DeleteActionMapping) {
+    if(m_DeleteActionMapping)
+    {
         delete m_DeleteActionMapping;
     }
 }
 
-void KSPopupMenu::createEmptyMenu( SkyPoint *nullObj ) {
-    KStars* ks = KStars::Instance();
+void KSPopupMenu::createEmptyMenu( SkyPoint * nullObj )
+{
+    KStars * ks = KStars::Instance();
     SkyObject o( SkyObject::TYPE_UNKNOWN, nullObj->ra(), nullObj->dec() );
     o.setAlt( nullObj->alt() );
     o.setAz( nullObj->az() );
@@ -136,67 +148,88 @@ void KSPopupMenu::createEmptyMenu( SkyPoint *nullObj ) {
     addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ),      ks->map(), SLOT( slotDSS()  ) );
 }
 
-void KSPopupMenu::slotEditFlag() {
-    if ( m_CurrentFlagIdx != -1 ) {
+void KSPopupMenu::slotEditFlag()
+{
+    if ( m_CurrentFlagIdx != -1 )
+    {
         KStars::Instance()->map()->slotEditFlag( m_CurrentFlagIdx );
     }
 }
 
-void KSPopupMenu::slotDeleteFlag() {
-    if ( m_CurrentFlagIdx != -1 ) {
+void KSPopupMenu::slotDeleteFlag()
+{
+    if ( m_CurrentFlagIdx != -1 )
+    {
         KStars::Instance()->map()->slotDeleteFlag( m_CurrentFlagIdx );
     }
 }
 
-void KSPopupMenu::slotEditFlag( QAction *action ) {
+void KSPopupMenu::slotEditFlag( QAction * action )
+{
     int idx = m_EditActionMapping->value( action, -1 );
 
-    if ( idx == -1 ) {
+    if ( idx == -1 )
+    {
         return;
     }
 
-    else {
+    else
+    {
         KStars::Instance()->map()->slotEditFlag( idx );
     }
 }
 
-void KSPopupMenu::slotDeleteFlag( QAction *action ) {
+void KSPopupMenu::slotDeleteFlag( QAction * action )
+{
     int idx = m_DeleteActionMapping->value( action, -1 );
 
-    if ( idx == -1 ) {
+    if ( idx == -1 )
+    {
         return;
     }
 
-    else {
+    else
+    {
         KStars::Instance()->map()->slotDeleteFlag( idx );
     }
 }
 
-void KSPopupMenu::createStarMenu( StarObject *star ) {
-    KStars* ks = KStars::Instance();
+void KSPopupMenu::createStarMenu( StarObject * star )
+{
+    KStars * ks = KStars::Instance();
     //Add name, rise/set time, center/track, and detail-window items
     QString name;
-    if( star->name() != "star" ) {
+    if( star->name() != "star" )
+    {
         name = star->translatedLongName();
-    } else {
-        if( star->getHDIndex() ) {
+    }
+    else
+    {
+        if( star->getHDIndex() )
+        {
             name = QString( "HD%1" ).arg( QString::number( star->getHDIndex() ) );
-        } else {
+        }
+        else
+        {
             // FIXME: this should be some catalog name too
             name = "Star";
         }
     }
     initPopupMenu( star, name, i18n( "star" ), i18n("%1<sup>m</sup>, %2", star->mag(), star->sptype()) );
     //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
-    if ( star->name() != "star" ) {
+    if ( star->name() != "star" )
+    {
         addLinksToMenu( star );
-    } else {
+    }
+    else
+    {
         addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
         addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
     }
 }
 
-void KSPopupMenu::createDeepSkyObjectMenu( DeepSkyObject *obj ) {
+void KSPopupMenu::createDeepSkyObjectMenu( DeepSkyObject * obj )
+{
     QString name     = getObjectName(obj);
     QString typeName = obj->typeName();
     // FIXME: information about angular sizes should be added.
@@ -205,21 +238,24 @@ void KSPopupMenu::createDeepSkyObjectMenu( DeepSkyObject *obj ) {
     addLinksToMenu( obj );
 }
 
-void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
+void KSPopupMenu::createPlanetMenu( SkyObject * p )
+{
     QString info = magToStr( p->mag() );
     QString type = i18n("Solar system object");;
     initPopupMenu( p, p->translatedName(), type, info);
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 
-void KSPopupMenu::createMoonMenu( KSMoon *moon ) {
+void KSPopupMenu::createMoonMenu( KSMoon * moon )
+{
     QString info = QString("%1, %2").arg( magToStr(moon->mag()), moon->phaseName() );
     initPopupMenu( moon, moon->translatedName(), QString(), info);
     addLinksToMenu( moon, false ); //don't offer DSS images for planets
 }
 
-void KSPopupMenu::createSatelliteMenu( Satellite *satellite ) {
-    KStars* ks = KStars::Instance();
+void KSPopupMenu::createSatelliteMenu( Satellite * satellite )
+{
+    KStars * ks = KStars::Instance();
     QString velocity, altitude, range;
     velocity.setNum( satellite->velocity() );
     altitude.setNum( satellite->altitude() );
@@ -256,7 +292,7 @@ void KSPopupMenu::createSatelliteMenu( Satellite *satellite ) {
         addAction( i18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
 }
 
-void KSPopupMenu::createSupernovaMenu(Supernova* supernova)
+void KSPopupMenu::createSupernovaMenu(Supernova * supernova)
 {
     QString name=supernova->name();
     float mag = supernova->mag();
@@ -274,10 +310,10 @@ void KSPopupMenu::createSupernovaMenu(Supernova* supernova)
     initPopupMenu( supernova, name, i18n( "supernova" ), info);
 }
 
-void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
+void KSPopupMenu::initPopupMenu( SkyObject * obj, QString name, QString type, QString info,
                                  bool showDetails, bool showObsList, bool showFlags )
 {
-    KStarsData* data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     SkyMap * map = SkyMap::Instance();
 
     clear();
@@ -291,7 +327,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     addFancyLabel( KStarsData::Instance()->skyComposite()->constellationBoundary()->constellationName( obj ) );
 
     //Insert Rise/Set/Transit labels
-    SkyObject* o = obj->clone();
+    SkyObject * o = obj->clone();
     addSeparator();
     addFancyLabel( riseSetTimeLabel(o, true),  -2 );
     addFancyLabel( riseSetTimeLabel(o, false), -2 );
@@ -325,22 +361,27 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     //Insert "Add/Remove Label" item
     if ( showLabel )
     {
-        if ( map->isObjectLabeled( obj ) ) {
+        if ( map->isObjectLabeled( obj ) )
+        {
             addAction( i18n( "Remove Label" ), map, SLOT( slotRemoveObjectLabel() ) );
-        } else {
+        }
+        else
+        {
             addAction( i18n( "Attach Label" ), map, SLOT( slotAddObjectLabel() ) );
         }
     }
     // Should show observing list
-    if( showObsList ) {
+    if( showObsList )
+    {
         if ( data->observingList()->contains( obj ) )
             addAction( i18n("Remove From Observing WishList"), data->observingList(), SLOT( slotRemoveObject() ) );
         else
             addAction( i18n("Add to Observing WishList"), data->observingList(), SLOT( slotAddObject() ) );
     }
     // Should we show trail actions
-    TrailObject* t = dynamic_cast<TrailObject*>( obj );
-    if( t ) {
+    TrailObject * t = dynamic_cast<TrailObject *>( obj );
+    if( t )
+    {
         if( t->hasTrail() )
             addAction( i18n( "Remove Trail" ), map, SLOT( slotRemovePlanetTrail() ) );
         else
@@ -351,7 +392,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
 
     addSeparator();
 #ifdef HAVE_XPLANET
-    if ( obj->isSolarSystem() && obj->type() != SkyObject::COMET ) { // FIXME: We now have asteroids -- so should this not be isMajorPlanet() || Pluto?
+    if ( obj->isSolarSystem() && obj->type() != SkyObject::COMET )   // FIXME: We now have asteroids -- so should this not be isMajorPlanet() || Pluto?
+    {
         //QMenu *xplanetSubmenu = new QMenu();
         //xplanetSubmenu->setTitle( i18n( "Print Xplanet view" ) );
         addAction( i18n( "View in XPlanet" ), map, SLOT( slotXplanetToWindow() ) );
@@ -363,17 +405,20 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     addINDI();
 }
 
-void KSPopupMenu::initFlagActions( SkyObject *obj ) {
-    KStars *ks = KStars::Instance();
+void KSPopupMenu::initFlagActions( SkyObject * obj )
+{
+    KStars * ks = KStars::Instance();
 
     QList<int> flags = ks->data()->skyComposite()->flags()->getFlagsNearPix( obj, 5 );
 
-    if ( flags.size() == 0 ) {
+    if ( flags.size() == 0 )
+    {
         // There is no flag around clicked SkyObject
         addAction( i18n( "Add flag..."), ks->map(), SLOT( slotAddFlag() ) );
     }
 
-    else if( flags.size() == 1) {
+    else if( flags.size() == 1)
+    {
         // There is only one flag around clicked SkyObject
         addAction ( i18n ("Edit flag"), this, SLOT( slotEditFlag() ) );
         addAction ( i18n ("Delete flag"), this, SLOT( slotDeleteFlag() ) );
@@ -381,40 +426,45 @@ void KSPopupMenu::initFlagActions( SkyObject *obj ) {
         m_CurrentFlagIdx = flags.first();
     }
 
-    else {
+    else
+    {
         // There are more than one flags around clicked SkyObject - we need to create submenus
-        QMenu *editMenu = new QMenu ( i18n ( "Edit flag..."), KStars::Instance() );
-        QMenu *deleteMenu = new QMenu ( i18n ( "Delete flag..."), KStars::Instance() );
+        QMenu * editMenu = new QMenu ( i18n ( "Edit flag..."), KStars::Instance() );
+        QMenu * deleteMenu = new QMenu ( i18n ( "Delete flag..."), KStars::Instance() );
 
-        connect( editMenu, SIGNAL( triggered(QAction*) ), this, SLOT( slotEditFlag(QAction*) ) );
-        connect( deleteMenu, SIGNAL( triggered(QAction*) ), this, SLOT( slotDeleteFlag(QAction*) ) );
+        connect( editMenu, SIGNAL( triggered(QAction *) ), this, SLOT( slotEditFlag(QAction *) ) );
+        connect( deleteMenu, SIGNAL( triggered(QAction *) ), this, SLOT( slotDeleteFlag(QAction *) ) );
 
-        if ( m_EditActionMapping ) {
+        if ( m_EditActionMapping )
+        {
             delete m_EditActionMapping;
         }
 
-        if ( m_DeleteActionMapping ) {
+        if ( m_DeleteActionMapping )
+        {
             delete m_DeleteActionMapping;
         }
 
-        m_EditActionMapping = new QHash<QAction*, int>;
-        m_DeleteActionMapping = new QHash<QAction*, int>;
+        m_EditActionMapping = new QHash<QAction *, int>;
+        m_DeleteActionMapping = new QHash<QAction *, int>;
 
-        foreach ( int idx, flags ) {
+        foreach ( int idx, flags )
+        {
             QIcon flagIcon( QPixmap::fromImage( ks->data()->skyComposite()->flags()->image( idx ) ) );
 
             QString flagLabel = ks->data()->skyComposite()->flags()->label( idx );
-            if ( flagLabel.size() > 35 ) {
+            if ( flagLabel.size() > 35 )
+            {
                 flagLabel = flagLabel.left( 35 );
                 flagLabel.append( "..." );
             }
 
-            QAction *editAction = new QAction( flagIcon, flagLabel, ks );
+            QAction * editAction = new QAction( flagIcon, flagLabel, ks );
             editAction->setIconVisibleInMenu( true );
             editMenu->addAction( editAction );
             m_EditActionMapping->insert( editAction, idx );
 
-            QAction *deleteAction = new QAction( flagIcon, flagLabel, ks );
+            QAction * deleteAction = new QAction( flagIcon, flagLabel, ks );
             deleteAction->setIconVisibleInMenu( true );
             deleteMenu->addAction( deleteAction );
             m_DeleteActionMapping->insert( deleteAction, idx);
@@ -425,18 +475,21 @@ void KSPopupMenu::initFlagActions( SkyObject *obj ) {
     }
 }
 
-void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
-    KStars* ks = KStars::Instance();
+void KSPopupMenu::addLinksToMenu( SkyObject * obj, bool showDSS )
+{
+    KStars * ks = KStars::Instance();
     QString sURL;
     QStringList::ConstIterator itList, itTitle, itListEnd;
 
     itList  = obj->ImageList().constBegin();
     itTitle = obj->ImageTitle().constBegin();
     itListEnd = obj->ImageList().constEnd();
-    if( ! obj->ImageList().isEmpty() ) {
-        QMenu *imageLinkSubMenu= new QMenu();
+    if( ! obj->ImageList().isEmpty() )
+    {
+        QMenu * imageLinkSubMenu= new QMenu();
         imageLinkSubMenu->setTitle( i18n( "Image Resources" ) );
-        for ( ; itList != itListEnd; ++itList ) {
+        for ( ; itList != itListEnd; ++itList )
+        {
             QString t = QString(*itTitle);
             sURL = QString(*itList);
             imageLinkSubMenu->addAction( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotImage() ) );
@@ -445,7 +498,8 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
         addMenu( imageLinkSubMenu );
     }
 
-    if ( showDSS ) {
+    if ( showDSS )
+    {
         addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
         addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
     }
@@ -457,10 +511,12 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     itTitle = obj->InfoTitle().constBegin();
     itListEnd = obj->InfoList().constEnd();
 
-    if( ! obj->InfoList().isEmpty() ) {
-        QMenu *infoLinkSubMenu= new QMenu();
+    if( ! obj->InfoList().isEmpty() )
+    {
+        QMenu * infoLinkSubMenu= new QMenu();
         infoLinkSubMenu->setTitle( i18n( "Information Resources" ) );
-        for ( ; itList != itListEnd; ++itList ) {
+        for ( ; itList != itListEnd; ++itList )
+        {
             QString t = QString(*itTitle);
             sURL = QString(*itList);
             infoLinkSubMenu->addAction( i18nc( "Image/info menu item (should be translated)", t.toLocal8Bit() ), ks->map(), SLOT( slotInfo() ) );
@@ -477,9 +533,9 @@ void KSPopupMenu::addINDI()
     if (INDIListener::Instance()->size() == 0)
         return;
 
-    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    foreach(ISD::GDInterface * gd, INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *bd = gd->getBaseDevice();
+        INDI::BaseDevice * bd = gd->getBaseDevice();
 
         if (bd == NULL)
             continue;
@@ -487,56 +543,56 @@ void KSPopupMenu::addINDI()
         //if (bd->isConnected() == false)
         //    continue;
 
-        QMenu* menuDevice = NULL;
-        ISD::GDInterface *telescope = NULL;
+        QMenu * menuDevice = NULL;
+        ISD::GDInterface * telescope = NULL;
 
-       foreach(INDI::Property *pp, gd->getProperties())
-       {
-                if (pp->getType() != INDI_SWITCH || INDIListener::Instance()->isStandardProperty(pp->getName()) == false)
-                    continue;
+        foreach(INDI::Property * pp, gd->getProperties())
+        {
+            if (pp->getType() != INDI_SWITCH || INDIListener::Instance()->isStandardProperty(pp->getName()) == false)
+                continue;
 
-                QSignalMapper *sMapper = new QSignalMapper(this);
+            QSignalMapper * sMapper = new QSignalMapper(this);
 
-                ISwitchVectorProperty *svp = pp->getSwitch();
+            ISwitchVectorProperty * svp = pp->getSwitch();
 
-                for (int i=0; i < svp->nsp; i++)
+            for (int i=0; i < svp->nsp; i++)
+            {
+                if (menuDevice == NULL)
                 {
-                    if (menuDevice == NULL)
+                    menuDevice = new QMenu(gd->getDeviceName());
+                    addMenu(menuDevice);
+                }
+
+                QAction * a = menuDevice->addAction(svp->sp[i].label);
+
+                ISD::GDSetCommand * cmd = new ISD::GDSetCommand(INDI_SWITCH, pp->getName(), svp->sp[i].name, ISS_ON, this);
+
+                sMapper->setMapping(a, cmd);
+
+                connect(a, SIGNAL(triggered()), sMapper, SLOT(map()));
+
+                if (!strcmp(svp->sp[i].name, "SLEW") || !strcmp(svp->sp[i].name, "SYNC") || !strcmp(svp->sp[i].name, "TRACK"))
+                {
+                    telescope = INDIListener::Instance()->getDevice(gd->getDeviceName());
+
+                    if (telescope)
                     {
-                        menuDevice = new QMenu(gd->getDeviceName());
-                        addMenu(menuDevice);
-                    }
 
-                    QAction *a = menuDevice->addAction(svp->sp[i].label);
+                        QSignalMapper * scopeMapper = new QSignalMapper(this);
+                        scopeMapper->setMapping(a, INDI_SEND_COORDS);
 
-                    ISD::GDSetCommand *cmd = new ISD::GDSetCommand(INDI_SWITCH, pp->getName(), svp->sp[i].name, ISS_ON, this);
+                        connect(a, SIGNAL(triggered()), scopeMapper, SLOT(map()));
 
-                    sMapper->setMapping(a, cmd);
-
-                    connect(a, SIGNAL(triggered()), sMapper, SLOT(map()));
-
-                    if (!strcmp(svp->sp[i].name, "SLEW") || !strcmp(svp->sp[i].name, "SYNC") || !strcmp(svp->sp[i].name, "TRACK"))
-                    {
-                        telescope = INDIListener::Instance()->getDevice(gd->getDeviceName());
-
-                        if (telescope)
-                        {
-
-                            QSignalMapper *scopeMapper = new QSignalMapper(this);
-                            scopeMapper->setMapping(a, INDI_SEND_COORDS);
-
-                            connect(a, SIGNAL(triggered()), scopeMapper, SLOT(map()));
-
-                            connect(scopeMapper, SIGNAL(mapped(int)), telescope, SLOT(runCommand(int)));
-                        }
-
+                        connect(scopeMapper, SIGNAL(mapped(int)), telescope, SLOT(runCommand(int)));
                     }
 
                 }
 
-                connect(sMapper, SIGNAL(mapped(QObject*)), gd, SLOT(setProperty(QObject*)));
+            }
 
-                menuDevice->addSeparator();
+            connect(sMapper, SIGNAL(mapped(QObject *)), gd, SLOT(setProperty(QObject *)));
+
+            menuDevice->addSeparator();
 
         }
 
@@ -545,9 +601,9 @@ void KSPopupMenu::addINDI()
         {
             menuDevice->addSeparator();
 
-            QAction *a = menuDevice->addAction(i18n("Center Crosshair"));
+            QAction * a = menuDevice->addAction(i18n("Center Crosshair"));
 
-            QSignalMapper *scopeMapper = new QSignalMapper(this);
+            QSignalMapper * scopeMapper = new QSignalMapper(this);
             scopeMapper->setMapping(a, INDI_ENGAGE_TRACKING);
             connect(a, SIGNAL(triggered()), scopeMapper, SLOT(map()));
             connect(scopeMapper, SIGNAL(mapped(int)), telescope, SLOT(runCommand(int)));
@@ -558,12 +614,14 @@ void KSPopupMenu::addINDI()
 }
 
 
-void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize) {
+void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize)
+{
     if( name.isEmpty() )
         return;
-    QLabel* label = new QLabel( "<b>"+name+"</b>", this );
+    QLabel * label = new QLabel( "<b>"+name+"</b>", this );
     label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-    if( deltaFontSize != 0 ) {
+    if( deltaFontSize != 0 )
+    {
         QFont font = label->font();
         font.setPointSize( font.pointSize() + deltaFontSize );
         label->setFont( font );

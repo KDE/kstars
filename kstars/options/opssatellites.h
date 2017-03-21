@@ -29,55 +29,55 @@ class KStars;
 
 class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
 {
-public:
-    explicit SatelliteSortFilterProxyModel( QObject* parent );
-    bool filterAcceptsRow( int sourceRow, const QModelIndex &sourceParent ) const;
+    public:
+        explicit SatelliteSortFilterProxyModel( QObject * parent );
+        bool filterAcceptsRow( int sourceRow, const QModelIndex &sourceParent ) const;
 };
 
 /** @class OpsSatellites
  *The Satellites Tab of the Options window.  In this Tab the user can configure
- *satellites options and select satellites that should be draw 
+ *satellites options and select satellites that should be draw
  *@author Jérôme SONRIER
  *@version 1.0
  */
 class OpsSatellites : public QFrame, public Ui::OpsSatellites
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    /**
-     * Constructor
-     */
-    explicit OpsSatellites();
+    public:
+        /**
+         * Constructor
+         */
+        explicit OpsSatellites();
 
-    /**
-     * Destructor
-     */
-    ~OpsSatellites();
-    
-private:
-    /**
-     * Refresh satellites list
-     */
-    void updateListView();
+        /**
+         * Destructor
+         */
+        ~OpsSatellites();
 
-    /**
-     * @brief saveSatellitesList Saves list of checked satellites in the configuration file
-     */
-    void saveSatellitesList();
-    
-    KConfigDialog *m_ConfigDialog;
-    QStandardItemModel *m_Model;
-    QSortFilterProxyModel *m_SortModel;
-    bool isDirty=false;
+    private:
+        /**
+         * Refresh satellites list
+         */
+        void updateListView();
 
-private slots:
-    void slotUpdateTLEs();
-    void slotShowSatellites( bool on );
-    void slotApply();
-    void slotCancel();
-    void slotFilterReg( const QString& );
-    void slotItemChanged( QStandardItem* );
+        /**
+         * @brief saveSatellitesList Saves list of checked satellites in the configuration file
+         */
+        void saveSatellitesList();
+
+        KConfigDialog * m_ConfigDialog;
+        QStandardItemModel * m_Model;
+        QSortFilterProxyModel * m_SortModel;
+        bool isDirty=false;
+
+    private slots:
+        void slotUpdateTLEs();
+        void slotShowSatellites( bool on );
+        void slotApply();
+        void slotCancel();
+        void slotFilterReg( const QString & );
+        void slotItemChanged( QStandardItem * );
 };
 
 #endif  //OPSSATELLITES_H_

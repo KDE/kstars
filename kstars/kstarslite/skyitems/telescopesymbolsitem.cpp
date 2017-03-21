@@ -24,61 +24,76 @@
 
 #include "labelsitem.h"
 
-TelescopeSymbolsItem::TelescopeSymbolsItem(RootNode *rootNode)
+TelescopeSymbolsItem::TelescopeSymbolsItem(RootNode * rootNode)
     :SkyItem(LabelsItem::label_t::TELESCOPE_SYMBOL, rootNode)
 {
     m_clientManager = KStarsLite::Instance()->clientManagerLite();
     m_KStarsData = KStarsData::Instance();
 }
 
-void TelescopeSymbolsItem::addTelescope(INDI::BaseDevice *bd) {
-    if(!m_telescopes.value(bd)) {
-        CrosshairNode *crossHair = new CrosshairNode(bd, rootNode());
+void TelescopeSymbolsItem::addTelescope(INDI::BaseDevice * bd)
+{
+    if(!m_telescopes.value(bd))
+    {
+        CrosshairNode * crossHair = new CrosshairNode(bd, rootNode());
         appendChildNode(crossHair);
 
         m_telescopes.insert(bd, crossHair);
     }
 }
 
-void TelescopeSymbolsItem::removeTelescope(INDI::BaseDevice *bd) {
-    CrosshairNode *crossHair = m_telescopes.value(bd);
-    if(crossHair) {
+void TelescopeSymbolsItem::removeTelescope(INDI::BaseDevice * bd)
+{
+    CrosshairNode * crossHair = m_telescopes.value(bd);
+    if(crossHair)
+    {
         removeChildNode(crossHair);
         delete crossHair;
     }
     m_telescopes.remove(bd);
 }
 
-void TelescopeSymbolsItem::update() {
+void TelescopeSymbolsItem::update()
+{
     QHash<INDI::BaseDevice *, CrosshairNode *>::iterator i;
     bool deleteAll = !m_clientManager->isConnected();
 
     QColor color = m_KStarsData->colorScheme()->colorNamed("TargetColor" );
 
     bool show = Options::showTargetCrosshair();
-    if(!show) {
+    if(!show)
+    {
         hide();
     }
 
-    for (i = m_telescopes.begin(); i != m_telescopes.end(); ++i) {
-        CrosshairNode *crossHair = i.value();
-        INDI::BaseDevice *device = i.key();
-        if(crossHair) {
-            if(deleteAll || !(device->isConnected())) {
+    for (i = m_telescopes.begin(); i != m_telescopes.end(); ++i)
+    {
+        CrosshairNode * crossHair = i.value();
+        INDI::BaseDevice * device = i.key();
+        if(crossHair)
+        {
+            if(deleteAll || !(device->isConnected()))
+            {
                 removeChildNode(crossHair);
                 delete crossHair;
                 m_telescopes.insert(device, nullptr);
-            } else if(show) {
-                if(device->isConnected()){
+            }
+            else if(show)
+            {
+                if(device->isConnected())
+                {
                     crossHair->setColor(color);
                     crossHair->update();
-                } else {
+                }
+                else
+                {
                     crossHair->hide();
                 }
             }
         }
     }
-    if(deleteAll) {
+    if(deleteAll)
+    {
         m_telescopes.clear();
     }
 }

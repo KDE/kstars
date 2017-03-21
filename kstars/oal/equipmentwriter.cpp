@@ -36,17 +36,18 @@
 #include "indi/drivermanager.h"
 #endif
 
-EquipmentWriter::EquipmentWriter() {
-    QWidget *widget = new QWidget;
+EquipmentWriter::EquipmentWriter()
+{
+    QWidget * widget = new QWidget;
     ui.setupUi( widget );
     ui.tabWidget->setCurrentIndex(0);
     setWindowTitle( i18n( "Configure Equipment" ) );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(widget);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
 
     QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
@@ -62,9 +63,9 @@ EquipmentWriter::EquipmentWriter() {
     newFilter = true;
 
 
-    #ifdef HAVE_INDI
+#ifdef HAVE_INDI
     ui.driverComboBox->insertItems(1, DriverManager::Instance()->getDriversStringList());
-    #endif
+#endif
 
     //make connections
     connect( ui.NewScope, SIGNAL( clicked() ), this, SLOT( slotNewScope() ) );
@@ -89,9 +90,10 @@ EquipmentWriter::EquipmentWriter() {
     connect( ui.RemoveFilter, SIGNAL( clicked() ), this, SLOT( slotRemoveFilter() ) );
 }
 
-void EquipmentWriter::slotAddScope() {
+void EquipmentWriter::slotAddScope()
+{
     KStarsData::Instance()->userdb()->AddScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(),
-                                   ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value());
+            ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value());
     loadEquipment();
     ui.Model->clear();
     ui.Vendor->clear();
@@ -100,7 +102,8 @@ void EquipmentWriter::slotAddScope() {
     ui.driverComboBox->setCurrentIndex(0);
 }
 
-void EquipmentWriter::slotRemoveScope() {
+void EquipmentWriter::slotRemoveScope()
+{
     KStarsData::Instance()->userdb()->DeleteEquipment("telescope",ui.Id->text().toInt());
     ui.Model->clear();
     ui.Vendor->clear();
@@ -109,18 +112,21 @@ void EquipmentWriter::slotRemoveScope() {
     loadEquipment();
 }
 
-void EquipmentWriter::slotSaveScope() {
+void EquipmentWriter::slotSaveScope()
+{
     KStarsData::Instance()->userdb()->AddScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(),
-                                   ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value(),
-                                   ui.Id->text());
+            ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value(),
+            ui.Id->text());
 
     loadEquipment();
 }
 
-void EquipmentWriter::slotSetScope( QString name) {
+void EquipmentWriter::slotSetScope( QString name)
+{
     //TODO: maybe this should also use the DB? ~~spacetime
-    OAL::Scope *s = KStarsData::Instance()->logObject()->findScopeByName( name );
-    if ( s ) {
+    OAL::Scope * s = KStarsData::Instance()->logObject()->findScopeByName( name );
+    if ( s )
+    {
         ui.Id->setText( s->id() ) ;
         ui.Model->setText( s->model() );
         ui.Vendor->setText( s->vendor() );
@@ -131,7 +137,8 @@ void EquipmentWriter::slotSetScope( QString name) {
         newScope = false;
     }
 }
-void EquipmentWriter::slotNewScope() {
+void EquipmentWriter::slotNewScope()
+{
     ui.Id->clear();
     ui.Model->clear();
     ui.Vendor->clear();
@@ -141,10 +148,11 @@ void EquipmentWriter::slotNewScope() {
     newScope = true;
 }
 
-void EquipmentWriter::slotAddEyepiece() {
+void EquipmentWriter::slotAddEyepiece()
+{
     KStarsData::Instance()->userdb()->AddEyepiece(ui.e_Vendor->text(), ui.e_Model->text(),
-                                      ui.e_focalLength->value(),  ui.Fov->value(),
-                                      ui.FovUnit->currentText());
+            ui.e_focalLength->value(),  ui.Fov->value(),
+            ui.FovUnit->currentText());
     loadEquipment();
     ui.e_Id->clear();
     ui.e_Model->clear();
@@ -153,7 +161,8 @@ void EquipmentWriter::slotAddEyepiece() {
     ui.e_focalLength->setValue(0);
 }
 
-void EquipmentWriter::slotRemoveEyepiece() {
+void EquipmentWriter::slotRemoveEyepiece()
+{
     KStarsData::Instance()->userdb()->DeleteEquipment("eyepiece",ui.e_Id->text().toInt());
     loadEquipment();
     ui.e_Id->clear();
@@ -162,21 +171,24 @@ void EquipmentWriter::slotRemoveEyepiece() {
     ui.Fov->setValue(0);
     ui.e_focalLength->setValue(0);
     ui.EyepieceList->clear();
-    foreach( OAL::Eyepiece *e, *( KStarsData::Instance()->logObject()->eyepieceList() ) )
+    foreach( OAL::Eyepiece * e, *( KStarsData::Instance()->logObject()->eyepieceList() ) )
         ui.EyepieceList->addItem( e->name() );
 }
-void EquipmentWriter::slotSaveEyepiece() {
+void EquipmentWriter::slotSaveEyepiece()
+{
     KStarsData::Instance()->userdb()->AddEyepiece(ui.e_Vendor->text(), ui.e_Model->text(),
-                                      ui.e_focalLength->value(),  ui.Fov->value(),
-                                      ui.FovUnit->currentText(), ui.e_Id->text());
+            ui.e_focalLength->value(),  ui.Fov->value(),
+            ui.FovUnit->currentText(), ui.e_Id->text());
     loadEquipment();
 }
 
-void EquipmentWriter::slotSetEyepiece( QString name ) {
+void EquipmentWriter::slotSetEyepiece( QString name )
+{
     //TODO: maybe this should also use the DB? ~~spacetime
-    OAL::Eyepiece *e;
+    OAL::Eyepiece * e;
     e = KStarsData::Instance()->logObject()->findEyepieceByName( name );
-    if( e ) {
+    if( e )
+    {
         ui.e_Id->setText( e->id() );
         ui.e_Model->setText( e->model() );
         ui.e_Vendor->setText( e->vendor() );
@@ -186,7 +198,8 @@ void EquipmentWriter::slotSetEyepiece( QString name ) {
     }
 }
 
-void EquipmentWriter::slotNewEyepiece() {
+void EquipmentWriter::slotNewEyepiece()
+{
     ui.e_Id->clear();
     ui.e_Model->clear();
     ui.e_Vendor->clear();
@@ -196,7 +209,8 @@ void EquipmentWriter::slotNewEyepiece() {
     newEyepiece = true;
 }
 
-void EquipmentWriter::slotAddLens() {
+void EquipmentWriter::slotAddLens()
+{
     KStarsData::Instance()->userdb()->AddLens(ui.l_Vendor->text(), ui.l_Model->text(), ui.l_Factor->value() );
     loadEquipment();
     ui.l_Id->clear();
@@ -205,7 +219,8 @@ void EquipmentWriter::slotAddLens() {
     ui.l_Factor->setValue(0);
 }
 
-void EquipmentWriter::slotRemoveLens() {
+void EquipmentWriter::slotRemoveLens()
+{
     KStarsData::Instance()->userdb()->DeleteEquipment("lens",ui.l_Id->text().toInt());
     loadEquipment();
     ui.l_Id->clear();
@@ -213,19 +228,22 @@ void EquipmentWriter::slotRemoveLens() {
     ui.l_Vendor->clear();
     ui.l_Factor->setValue(0);
     ui.LensList->clear();
-    foreach( OAL::Lens *l, *( KStarsData::Instance()->logObject()->lensList() ) )
+    foreach( OAL::Lens * l, *( KStarsData::Instance()->logObject()->lensList() ) )
         ui.LensList->addItem( l->name() );
 }
-void EquipmentWriter::slotSaveLens() {
+void EquipmentWriter::slotSaveLens()
+{
     KStarsData::Instance()->userdb()->AddLens(ui.l_Vendor->text(), ui.l_Model->text(),
-                                      ui.l_Factor->value(), ui.l_Id->text());
+            ui.l_Factor->value(), ui.l_Id->text());
     loadEquipment();
 }
 
-void EquipmentWriter::slotSetLens( QString name ) {
-    OAL::Lens *l;
+void EquipmentWriter::slotSetLens( QString name )
+{
+    OAL::Lens * l;
     l = KStarsData::Instance()->logObject()->findLensByName( name );
-    if( l ) {
+    if( l )
+    {
         ui.l_Id->setText( l->id() );
         ui.l_Model->setText( l->model() );
         ui.l_Vendor->setText( l->vendor() );
@@ -234,7 +252,8 @@ void EquipmentWriter::slotSetLens( QString name ) {
     }
 }
 
-void EquipmentWriter::slotNewLens() {
+void EquipmentWriter::slotNewLens()
+{
     ui.l_Id->clear();
     ui.l_Model->clear();
     ui.l_Vendor->clear();
@@ -243,9 +262,10 @@ void EquipmentWriter::slotNewLens() {
     newLens = true;
 }
 
-void EquipmentWriter::slotAddFilter() {
+void EquipmentWriter::slotAddFilter()
+{
     KStarsData::Instance()->userdb()->AddFilter( ui.f_Vendor->text(), ui.f_Model->text(),
-                                     ui.f_Type->text(), ui.f_Offset->text(), ui.f_Color->text());
+            ui.f_Type->text(), ui.f_Offset->text(), ui.f_Color->text());
     loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();
@@ -255,7 +275,8 @@ void EquipmentWriter::slotAddFilter() {
     ui.f_Color->clear();
 }
 
-void EquipmentWriter::slotRemoveFilter() {
+void EquipmentWriter::slotRemoveFilter()
+{
     KStarsData::Instance()->userdb()->DeleteEquipment("filter",ui.f_Id->text().toInt());
     loadEquipment();
     ui.f_Id->clear();
@@ -265,21 +286,24 @@ void EquipmentWriter::slotRemoveFilter() {
     ui.f_Offset->clear();
     ui.f_Color->clear();
     ui.FilterList->clear();
-    foreach( OAL::Filter *f, *( KStarsData::Instance()->logObject()->filterList() ) )
+    foreach( OAL::Filter * f, *( KStarsData::Instance()->logObject()->filterList() ) )
         ui.FilterList->addItem( f->name() );
 }
 
-void EquipmentWriter::slotSaveFilter() {
+void EquipmentWriter::slotSaveFilter()
+{
     KStarsData::Instance()->userdb()->AddFilter( ui.f_Vendor->text(), ui.f_Model->text(),
-                                     ui.f_Type->text(), ui.f_Color->text(),
-                                     ui.f_Id->text());
+            ui.f_Type->text(), ui.f_Color->text(),
+            ui.f_Id->text());
     loadEquipment();
 }
 
-void EquipmentWriter::slotSetFilter( QString name ) {
-    OAL::Filter *f;
+void EquipmentWriter::slotSetFilter( QString name )
+{
+    OAL::Filter * f;
     f = KStarsData::Instance()->logObject()->findFilterByName( name );
-    if( f ) {
+    if( f )
+    {
         ui.f_Id->setText( f->id() );
         ui.f_Model->setText( f->model() );
         ui.f_Vendor->setText( f->vendor() );
@@ -290,7 +314,8 @@ void EquipmentWriter::slotSetFilter( QString name ) {
     }
 }
 
-void EquipmentWriter::slotNewFilter() {
+void EquipmentWriter::slotNewFilter()
+{
     ui.f_Id->clear();
     ui.f_Model->clear();
     ui.f_Vendor->clear();
@@ -301,7 +326,8 @@ void EquipmentWriter::slotNewFilter() {
     newFilter = true;
 }
 
-void EquipmentWriter::loadEquipment() {
+void EquipmentWriter::loadEquipment()
+{
     KStarsData::Instance()->logObject()->readScopes();
     KStarsData::Instance()->logObject()->readEyepieces();
     KStarsData::Instance()->logObject()->readLenses();
@@ -310,59 +336,65 @@ void EquipmentWriter::loadEquipment() {
     ui.EyepieceList->clear();
     ui.LensList->clear();
     ui.FilterList->clear();
-    foreach( OAL::Scope *s, *( KStarsData::Instance()->logObject()->scopeList() ) )
+    foreach( OAL::Scope * s, *( KStarsData::Instance()->logObject()->scopeList() ) )
         ui.ScopeList->addItem( s->name() );
-    foreach( OAL::Eyepiece *e, *( KStarsData::Instance()->logObject()->eyepieceList() ) )
+    foreach( OAL::Eyepiece * e, *( KStarsData::Instance()->logObject()->eyepieceList() ) )
         ui.EyepieceList->addItem( e->name() );
-    foreach( OAL::Lens *l, *( KStarsData::Instance()->logObject()->lensList() ) )
+    foreach( OAL::Lens * l, *( KStarsData::Instance()->logObject()->lensList() ) )
         ui.LensList->addItem( l->name() );
-    foreach( OAL::Filter *f, *( KStarsData::Instance()->logObject()->filterList() ) )
+    foreach( OAL::Filter * f, *( KStarsData::Instance()->logObject()->filterList() ) )
         ui.FilterList->addItem( f->name() );
 
-    #ifdef HAVE_INDI
+#ifdef HAVE_INDI
     DriverManager::Instance()->updateCustomDrivers();
-    #endif
+#endif
 }
 
-void EquipmentWriter::slotSave() {
-    switch( ui.tabWidget->currentIndex() ) {
-        case 0: {
+void EquipmentWriter::slotSave()
+{
+    switch( ui.tabWidget->currentIndex() )
+    {
+        case 0:
+        {
             if( newScope )
                 slotAddScope();
             else
                 slotSaveScope();
             ui.ScopeList->clear();
-            foreach( OAL::Scope *s, *( KStarsData::Instance()->logObject()->scopeList() ) )
+            foreach( OAL::Scope * s, *( KStarsData::Instance()->logObject()->scopeList() ) )
                 ui.ScopeList->addItem( s->name() );
             break;
         }
-        case 1: {
+        case 1:
+        {
             if( newEyepiece )
                 slotAddEyepiece();
             else
                 slotSaveEyepiece();
             ui.EyepieceList->clear();
-            foreach( OAL::Eyepiece *e, *( KStarsData::Instance()->logObject()->eyepieceList() ) )
+            foreach( OAL::Eyepiece * e, *( KStarsData::Instance()->logObject()->eyepieceList() ) )
                 ui.EyepieceList->addItem( e->name() );
             break;
         }
-        case 2: {
+        case 2:
+        {
             if( newLens )
                 slotAddLens();
             else
                 slotSaveLens();
             ui.LensList->clear();
-            foreach( OAL::Lens *l, *( KStarsData::Instance()->logObject()->lensList() ) )
+            foreach( OAL::Lens * l, *( KStarsData::Instance()->logObject()->lensList() ) )
                 ui.LensList->addItem( l->name() );
             break;
         }
-        case 3: {
+        case 3:
+        {
             if( newFilter )
                 slotAddFilter();
             else
                 slotSaveFilter();
             ui.FilterList->clear();
-            foreach( OAL::Filter *f, *( KStarsData::Instance()->logObject()->filterList() ) )
+            foreach( OAL::Filter * f, *( KStarsData::Instance()->logObject()->filterList() ) )
                 ui.FilterList->addItem( f->name() );
             break;
         }
@@ -371,7 +403,7 @@ void EquipmentWriter::slotSave() {
 
 void EquipmentWriter::slotClose()
 {
-   hide();
+    hide();
 }
 
 

@@ -28,23 +28,24 @@
  *@author Akarsh Simha <akarsh.simha@kdemail.net>
  */
 
-class SkyMapGLDraw : public QGLWidget, public SkyMapDrawAbstract {
-    
-    Q_OBJECT
+class SkyMapGLDraw : public QGLWidget, public SkyMapDrawAbstract
+{
 
- public:
-    /**
-     *@short Constructor
-     */
-    explicit SkyMapGLDraw( SkyMap *parent );
+        Q_OBJECT
 
- protected:
+    public:
+        /**
+         *@short Constructor
+         */
+        explicit SkyMapGLDraw( SkyMap * parent );
 
-    virtual void paintEvent( QPaintEvent *e );
+    protected:
 
-    virtual void initializeGL();
+        virtual void paintEvent( QPaintEvent * e );
 
-    virtual void resizeGL( int, int );
+        virtual void initializeGL();
+
+        virtual void resizeGL( int, int );
 
 };
 

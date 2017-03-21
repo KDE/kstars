@@ -22,8 +22,9 @@
 #include "kssun.h"
 #include "trailobject.h"
 
-JupiterMoons::JupiterMoons(){
-    //Initialize the Moon objects.  The magnitude data are from the 
+JupiterMoons::JupiterMoons()
+{
+    //Initialize the Moon objects.  The magnitude data are from the
     //wikipedia articles for each moon, as of Oct 2007.
     Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.0, i18nc( "Jupiter's moon Io", "Io" ) ) );
     Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.3, i18nc( "Jupiter's moon Europa", "Europa" ) ) );
@@ -36,10 +37,12 @@ JupiterMoons::JupiterMoons(){
     InFront = QVector<bool>(4, false);
 }
 
-JupiterMoons::~JupiterMoons(){
+JupiterMoons::~JupiterMoons()
+{
 }
 
-void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanetBase *Jupiter, const KSSun *Sun ) {
+void JupiterMoons::findPosition( const KSNumbers * num, const KSPlanetBase * Jupiter, const KSSun * Sun )
+{
     double Xj, Yj, Zj, Rj;
     double sinJB, cosJB, sinJL, cosJL;
     double sinSB, cosSB, sinSL, cosSL;
@@ -426,7 +429,9 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanetBase *Jupit
     Z[3] = R4 * sin( b4 );
 
     //fictional "fifth moon" used later...
-    X[4] = 0.0;  Y[4] = 0.0;  Z[4] = 1.0;
+    X[4] = 0.0;
+    Y[4] = 0.0;
+    Z[4] = 1.0;
 
     T = num->julianCenturies();
 
@@ -434,7 +439,8 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanetBase *Jupit
     fj = z - oj;
     ij = dms( 1.303270 - 0.0054966*T +0.00000465*T*T - 0.000000004*T*T*T ).radians();
 
-    for ( int i=0; i<5; ++i ) {
+    for ( int i=0; i<5; ++i )
+    {
         A1[i] = X[i];
         B1[i] = Y[i] * cos( I ) - Z[i] * sin( I );
         C1[i] = Y[i] * sin( I ) + Z[i] * cos( I );
@@ -474,7 +480,8 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanetBase *Jupit
 
     pa = Jupiter->pa()*dms::PI/180.0;
 
-    for ( int i=0; i<4; ++i ) {
+    for ( int i=0; i<4; ++i )
+    {
         XP[i] = A6[i] * cos( D ) - C6[i] * sin( D );
         YP[i] = A6[i] * sin( D ) + C6[i] * cos( D );
         ZP[i] = B6[i];
@@ -490,7 +497,8 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanetBase *Jupit
         else InFront[i] = false;
 
         //Update Trails
-        if ( Moon[i]->hasTrail() ) {
+        if ( Moon[i]->hasTrail() )
+        {
             Moon[i]->addToTrail();
             if ( Moon[i]->trail().size() > TrailObject::MaxTrail )
                 Moon[i]->clipTrail();

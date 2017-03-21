@@ -45,36 +45,54 @@
 
 #include <functional>
 
-namespace {
+namespace
+{
 
-    // Convert spectral class to numerical index.
-    // If spectral class is invalid return index for white star (A class)
-    int harvardToIndex(char c) {
-        switch( c ) {
-        case 'o': case 'O': return 0;
-        case 'b': case 'B': return 1;
-        case 'a': case 'A': return 2;
-        case 'f': case 'F': return 3;
-        case 'g': case 'G': return 4;
-        case 'k': case 'K': return 5;
-        case 'm': case 'M': return 6;
+// Convert spectral class to numerical index.
+// If spectral class is invalid return index for white star (A class)
+int harvardToIndex(char c)
+{
+    switch( c )
+    {
+        case 'o':
+        case 'O':
+            return 0;
+        case 'b':
+        case 'B':
+            return 1;
+        case 'a':
+        case 'A':
+            return 2;
+        case 'f':
+        case 'F':
+            return 3;
+        case 'g':
+        case 'G':
+            return 4;
+        case 'k':
+        case 'K':
+            return 5;
+        case 'm':
+        case 'M':
+            return 6;
         // For unknown spectral class assume A class (white star)
-        default: return 2;
-        }
+        default:
+            return 2;
     }
+}
 
-    // Total number of sizes of stars.
-    const int nStarSizes = 15;
-    // Total number of specatral classes
-    // N.B. Must be in sync with harvardToIndex
-    const int nSPclasses = 7;
+// Total number of sizes of stars.
+const int nStarSizes = 15;
+// Total number of specatral classes
+// N.B. Must be in sync with harvardToIndex
+const int nSPclasses = 7;
 
-    // Cache for star images.
-    //
-    // These pixmaps are never deallocated. Not really good...
-    QPixmap* imageCache[nSPclasses][nStarSizes] = {{0}};
+// Cache for star images.
+//
+// These pixmaps are never deallocated. Not really good...
+QPixmap * imageCache[nSPclasses][nStarSizes] = {{0}};
 
-    QPixmap  *visibleSatPixmap=0, *invisibleSatPixmap=0;
+QPixmap * visibleSatPixmap=0, *invisibleSatPixmap=0;
 }
 
 int SkyQPainter::starColorMode = 0;
@@ -82,7 +100,7 @@ QColor SkyQPainter::m_starColor = QColor();
 QMap<char, QColor> SkyQPainter::ColorMap = QMap<char, QColor>();
 
 
-SkyQPainter::SkyQPainter( QPaintDevice *pd )
+SkyQPainter::SkyQPainter( QPaintDevice * pd )
     : SkyPainter(), QPainter()
 {
     Q_ASSERT( pd );
@@ -91,7 +109,7 @@ SkyQPainter::SkyQPainter( QPaintDevice *pd )
     m_vectorStars = false;
 }
 
-SkyQPainter::SkyQPainter( QPaintDevice *pd, const QSize &size )
+SkyQPainter::SkyQPainter( QPaintDevice * pd, const QSize &size )
     : SkyPainter(), QPainter()
 {
     Q_ASSERT( pd );
@@ -100,7 +118,7 @@ SkyQPainter::SkyQPainter( QPaintDevice *pd, const QSize &size )
     m_vectorStars = false;
 }
 
-SkyQPainter::SkyQPainter( QWidget *widget, QPaintDevice *pd )
+SkyQPainter::SkyQPainter( QWidget * widget, QPaintDevice * pd )
     : SkyPainter(), QPainter()
 {
     Q_ASSERT( widget );
@@ -134,12 +152,12 @@ void SkyQPainter::drawSkyBackground()
     fillRect( 0, 0, m_size.width(), m_size.height(), KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
 }
 
-void SkyQPainter::setPen(const QPen& pen)
+void SkyQPainter::setPen(const QPen &pen)
 {
     QPainter::setPen(pen);
 }
 
-void SkyQPainter::setBrush(const QBrush& brush)
+void SkyQPainter::setBrush(const QBrush &brush)
 {
     QPainter::setBrush(brush);
 }
@@ -150,29 +168,31 @@ void SkyQPainter::initStarImages()
     const int starColorIntensity = Options::starColorIntensity();
 
     ColorMap.clear();
-    switch( Options::starColorMode() ) {
-    case 1: // Red stars.
-        m_starColor = Qt::red;
-        break;
-    case 2: // Black stars.
-        m_starColor = Qt::black;
-        break;
-    case 3: // White stars
-        m_starColor = Qt::white;
-        break;
-    case 0:  // Real color
-    default: // And use real color for everything else
-        m_starColor = QColor();
-        ColorMap.insert( 'O', QColor::fromRgb(   0,   0, 255 ) );
-        ColorMap.insert( 'B', QColor::fromRgb(   0, 200, 255 ) );
-        ColorMap.insert( 'A', QColor::fromRgb(   0, 255, 255 ) );
-        ColorMap.insert( 'F', QColor::fromRgb( 200, 255, 100 ) );
-        ColorMap.insert( 'G', QColor::fromRgb( 255, 255,   0 ) );
-        ColorMap.insert( 'K', QColor::fromRgb( 255, 100,   0 ) );
-        ColorMap.insert( 'M', QColor::fromRgb( 255,   0,   0 ) );
-        break;
+    switch( Options::starColorMode() )
+    {
+        case 1: // Red stars.
+            m_starColor = Qt::red;
+            break;
+        case 2: // Black stars.
+            m_starColor = Qt::black;
+            break;
+        case 3: // White stars
+            m_starColor = Qt::white;
+            break;
+        case 0:  // Real color
+        default: // And use real color for everything else
+            m_starColor = QColor();
+            ColorMap.insert( 'O', QColor::fromRgb(   0,   0, 255 ) );
+            ColorMap.insert( 'B', QColor::fromRgb(   0, 200, 255 ) );
+            ColorMap.insert( 'A', QColor::fromRgb(   0, 255, 255 ) );
+            ColorMap.insert( 'F', QColor::fromRgb( 200, 255, 100 ) );
+            ColorMap.insert( 'G', QColor::fromRgb( 255, 255,   0 ) );
+            ColorMap.insert( 'K', QColor::fromRgb( 255, 100,   0 ) );
+            ColorMap.insert( 'M', QColor::fromRgb( 255,   0,   0 ) );
+            break;
     }
-    if ( ColorMap.isEmpty() ) {
+    if ( ColorMap.isEmpty() )
+    {
         ColorMap.insert( 'O', m_starColor );
         ColorMap.insert( 'B', m_starColor );
         ColorMap.insert( 'A', m_starColor );
@@ -182,20 +202,24 @@ void SkyQPainter::initStarImages()
         ColorMap.insert( 'M', m_starColor );
     }
 
-    foreach( char color, ColorMap.keys() ) {
+    foreach( char color, ColorMap.keys() )
+    {
         QPixmap BigImage( 15, 15 );
         BigImage.fill( Qt::transparent );
 
         QPainter p;
         p.begin( &BigImage );
 
-        if ( Options::starColorMode() == 0 ) {
+        if ( Options::starColorMode() == 0 )
+        {
             qreal h, s, v, a;
             p.setRenderHint( QPainter::Antialiasing, false );
             QColor starColor = ColorMap[color];
             starColor.getHsvF(&h, &s, &v, &a);
-            for (int i = 0; i < 8; i++ ) {
-                for (int j = 0; j < 8; j++ ) {
+            for (int i = 0; i < 8; i++ )
+            {
+                for (int j = 0; j < 8; j++ )
+                {
                     qreal x = i - 7;
                     qreal y = j - 7;
                     qreal dist = sqrt( x*x + y*y ) / 7.0;
@@ -210,7 +234,9 @@ void SkyQPainter::initStarImages()
                     p.drawPoint (14-i, 14-j);
                 }
             }
-        } else {
+        }
+        else
+        {
             p.setRenderHint(QPainter::Antialiasing, true );
             p.setPen( QPen(ColorMap[color], 2.0 ) );
             p.setBrush( p.pen().color() );
@@ -219,8 +245,9 @@ void SkyQPainter::initStarImages()
         p.end();
 
         // Cache array slice
-        QPixmap** pmap = imageCache[ harvardToIndex(color) ];
-        for( int size = 1; size < nStarSizes; size++ ) {
+        QPixmap ** pmap = imageCache[ harvardToIndex(color) ];
+        for( int size = 1; size < nStarSizes; size++ )
+        {
             if( !pmap[size] )
                 pmap[size] = new QPixmap();
             *pmap[size] = BigImage.scaled( size, size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
@@ -232,7 +259,7 @@ void SkyQPainter::initStarImages()
     invisibleSatPixmap = new QPixmap(":/icons/breeze/default/kstars_satellites_invisible.svg");
 }
 
-void SkyQPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
+void SkyQPainter::drawSkyLine(SkyPoint * a, SkyPoint * b)
 {
 
     bool aVisible, bVisible;
@@ -243,21 +270,26 @@ void SkyQPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
     return;
 
     //THREE CASES:
-    if( aVisible && bVisible ) {
+    if( aVisible && bVisible )
+    {
         //Both a,b visible, so paint the line normally:
         drawLine(aScreen, bScreen);
-    } else if( aVisible ) {
+    }
+    else if( aVisible )
+    {
         //a is visible but b isn't:
         drawLine(aScreen, m_proj->clipLine(a,b));
-    } else if( bVisible ) {
+    }
+    else if( bVisible )
+    {
         //b is visible but a isn't:
         drawLine(bScreen, m_proj->clipLine(b,a));
     } //FIXME: what if both are offscreen but the line isn't?
 }
 
-void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLabel* label)
+void SkyQPainter::drawSkyPolyline(LineList * list, SkipList * skipList, LineListLabel * label)
 {
-    SkyList *points = list->points();
+    SkyList * points = list->points();
     bool isVisible, isVisibleLast;
 
     QPointF   oLast = m_proj->toScreen( points->first(), true, &isVisibleLast );
@@ -265,26 +297,33 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
     isVisibleLast &= m_proj->checkVisibility( points->first() );
     QPointF oThis, oThis2;
 
-    for ( int j = 1 ; j < points->size() ; j++ ) {
-        SkyPoint* pThis = points->at( j );
+    for ( int j = 1 ; j < points->size() ; j++ )
+    {
+        SkyPoint * pThis = points->at( j );
         oThis2 = oThis = m_proj->toScreen( pThis, true, &isVisible );
         // & with the result of checkVisibility to clip away things below horizon
         isVisible &= m_proj->checkVisibility(pThis);
         bool doSkip = false;
-        if( skipList ) {
+        if( skipList )
+        {
             doSkip = skipList->skip(j);
         }
 
         bool pointsVisible = false;
         //Temporary solution to avoid random lines in Gnomonic projection and draw lines up to horizon
-        if(SkyMap::Instance()->projector()->type() == Projector::Gnomonic) {
+        if(SkyMap::Instance()->projector()->type() == Projector::Gnomonic)
+        {
             if ( isVisible && isVisibleLast ) pointsVisible = true;
-        } else {
+        }
+        else
+        {
             if ( isVisible || isVisibleLast ) pointsVisible = true;
         }
 
-        if ( !doSkip ) {
-            if(pointsVisible) {
+        if ( !doSkip )
+        {
+            if(pointsVisible)
+            {
                 drawLine( oLast, oThis );
                 if ( label )
                     label->updateLabelCandidates( oThis.x(), oThis.y(), list, j );
@@ -296,10 +335,10 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
     }
 }
 
-void SkyQPainter::drawSkyPolygon(LineList* list, bool forceClip)
+void SkyQPainter::drawSkyPolygon(LineList * list, bool forceClip)
 {
     bool isVisible, isVisibleLast;
-    SkyList *points = list->points();
+    SkyList * points = list->points();
     QPolygonF polygon;
 
     if (forceClip == false)
@@ -318,24 +357,30 @@ void SkyQPainter::drawSkyPolygon(LineList* list, bool forceClip)
     }
 
 
-    SkyPoint* pLast = points->last();
+    SkyPoint * pLast = points->last();
     QPointF   oLast = m_proj->toScreen( pLast, true, &isVisibleLast );
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility(pLast);
 
-    for ( int i = 0; i < points->size(); ++i ) {
-        SkyPoint* pThis = points->at( i );
+    for ( int i = 0; i < points->size(); ++i )
+    {
+        SkyPoint * pThis = points->at( i );
         QPointF oThis = m_proj->toScreen( pThis, true, &isVisible );
         // & with the result of checkVisibility to clip away things below horizon
         isVisible &= m_proj->checkVisibility(pThis);
 
 
-        if ( isVisible && isVisibleLast ) {
+        if ( isVisible && isVisibleLast )
+        {
             polygon << oThis;
-        } else if ( isVisibleLast ) {
+        }
+        else if ( isVisibleLast )
+        {
             QPointF oMid = m_proj->clipLine( pLast, pThis );
             polygon << oMid;
-        } else if ( isVisible ) {
+        }
+        else if ( isVisible )
+        {
             QPointF oMid = m_proj->clipLine( pThis, pLast );
             polygon << oMid;
             polygon << oThis;
@@ -351,7 +396,7 @@ void SkyQPainter::drawSkyPolygon(LineList* list, bool forceClip)
 
 }
 
-bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
+bool SkyQPainter::drawPlanet(KSPlanetBase * planet)
 {
     if( !m_proj->checkVisibility(planet) ) return false;
 
@@ -364,19 +409,27 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
         fakeStarSize = 15.0;
 
     float size = planet->angSize() * dms::PI * Options::zoomFactor()/10800.0;
-    if( size < fakeStarSize && planet->name() != "Sun" && planet->name() != "Moon" ) {
+    if( size < fakeStarSize && planet->name() != "Sun" && planet->name() != "Moon" )
+    {
         // Draw them as bright stars of appropriate color instead of images
         char spType;
         //FIXME: do these need i18n?
-        if( planet->name() == i18n("Mars") ) {
+        if( planet->name() == i18n("Mars") )
+        {
             spType = 'K';
-        } else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") ) {
+        }
+        else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") )
+        {
             spType = 'F';
-        } else {
+        }
+        else
+        {
             spType = 'B';
         }
         drawPointSource(pos,fakeStarSize,spType);
-    } else {
+    }
+    else
+    {
         float sizemin = 1.0;
         if( planet->name() == "Sun" || planet->name() == "Moon" )
             sizemin = 8.0;
@@ -384,7 +437,8 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
         float size = planet->angSize() * dms::PI * Options::zoomFactor()/10800.0;
         if( size < sizemin )
             size = sizemin;
-        if( Options::showPlanetImages() && !planet->image().isNull() ) {
+        if( Options::showPlanetImages() && !planet->image().isNull() )
+        {
             //Because Saturn has rings, we inflate its image size by a factor 2.5
             if( planet->name() == "Saturn" )
                 size = int(2.5*size);
@@ -398,44 +452,53 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
             drawImage( QRect(-0.5*size, -0.5*size, size, size),
                        planet->image() );
             restore();
-        } else { //Otherwise, draw a simple circle.
+        }
+        else     //Otherwise, draw a simple circle.
+        {
             drawEllipse( pos, size, size );
         }
     }
     return true;
 }
 
-bool SkyQPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
+bool SkyQPainter::drawPointSource(SkyPoint * loc, float mag, char sp)
 {
     //Check if it's even visible before doing anything
     if( !m_proj->checkVisibility(loc) ) return false;
 
     bool visible = false;
     QPointF pos = m_proj->toScreen(loc,true,&visible);
-    if( visible && m_proj->onScreen(pos) ) { // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
+    if( visible && m_proj->onScreen(pos) )   // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode!
+    {
         drawPointSource(pos, starWidth(mag), sp);
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
 
-void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
+void SkyQPainter::drawPointSource(const QPointF &pos, float size, char sp)
 {
     int isize = qMin(static_cast<int>(size), 14);
-    if( !m_vectorStars || starColorMode == 0  ) {
+    if( !m_vectorStars || starColorMode == 0  )
+    {
         // Draw stars as bitmaps, either because we were asked to, or because we're painting real colors
-        QPixmap* im = imageCache[ harvardToIndex(sp) ][isize];
+        QPixmap * im = imageCache[ harvardToIndex(sp) ][isize];
         float offset = 0.5 * im->width();
         drawPixmap( QPointF(pos.x()-offset, pos.y()-offset), *im );
     }
-    else {
+    else
+    {
         // Draw stars as vectors, for better printing / SVG export etc.
-        if ( starColorMode != 4 ) {
+        if ( starColorMode != 4 )
+        {
             setPen( m_starColor );
             setBrush( m_starColor );
         }
-        else {
+        else
+        {
             // Note: This is not efficient, but we use vector stars only when plotting SVG, not when drawing the skymap, so speed is not very important.
             QColor c = ColorMap.value( sp, Qt::white );
             setPen( c );
@@ -452,7 +515,7 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
     }
 }
 
-bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
+bool SkyQPainter::drawConstellationArtImage(ConstellationsArt * obj)
 {
     double zoom = Options::zoomFactor();
 
@@ -486,7 +549,7 @@ bool SkyQPainter::drawConstellationArtImage(ConstellationsArt *obj)
     return true;
 }
 
-bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
+bool SkyQPainter::drawDeepSkyObject(DeepSkyObject * obj, bool drawImage)
 {
     if( !m_proj->checkVisibility(obj) ) return false;
 
@@ -497,7 +560,10 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     // if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
     // if we use size 0.0 the star wouldn't be drawn
     float majorAxis = obj->a();
-    if ( majorAxis == 0.0 ) {   majorAxis = 1.0; }
+    if ( majorAxis == 0.0 )
+    {
+        majorAxis = 1.0;
+    }
 
     float size = majorAxis * dms::PI * Options::zoomFactor() / 10800.0;
 
@@ -514,7 +580,7 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     return true;
 }
 
-bool SkyQPainter::drawDeepSkyImage(const QPointF& pos, DeepSkyObject* obj, float positionAngle)
+bool SkyQPainter::drawDeepSkyImage(const QPointF &pos, DeepSkyObject * obj, float positionAngle)
 {
     double zoom = Options::zoomFactor();
     double w = obj->a() * dms::PI * zoom/10800.0;
@@ -565,179 +631,199 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, fl
     std::function<void( float, float, float, float )> lambdaDrawLine;
     std::function<void( float, float, float, float )> lambdaDrawCross;
 
-    if ( Options::useAntialias() ) {
-        lambdaDrawEllipse = [this]( float x, float y, float width, float height ) {
+    if ( Options::useAntialias() )
+    {
+        lambdaDrawEllipse = [this]( float x, float y, float width, float height )
+        {
             drawEllipse( QRectF( x, y, width, height ) );
         };
-        lambdaDrawLine = [this]( float x1, float y1, float x2, float y2 ) {
+        lambdaDrawLine = [this]( float x1, float y1, float x2, float y2 )
+        {
             drawLine( QLineF( x1, y1, x2, y2 ) );
         };
-        lambdaDrawCross = [this]( float centerX, float centerY, float sizeX, float sizeY ) {
+        lambdaDrawCross = [this]( float centerX, float centerY, float sizeX, float sizeY )
+        {
             drawLine( QLineF( centerX - sizeX/2., centerY, centerX + sizeX/2., centerY ) );
             drawLine( QLineF( centerX, centerY - sizeY/2., centerX, centerY + sizeY/2. ) );
         };
     }
-    else {
-        lambdaDrawEllipse = [this]( float x, float y, float width, float height ) {
+    else
+    {
+        lambdaDrawEllipse = [this]( float x, float y, float width, float height )
+        {
             drawEllipse( QRect( x, y, width, height ) );
         };
-        lambdaDrawLine = [this]( float x1, float y1, float x2, float y2 ) {
+        lambdaDrawLine = [this]( float x1, float y1, float x2, float y2 )
+        {
             drawLine( QLine( x1, y1, x2, y2 ) );
         };
-        lambdaDrawCross = [this]( float centerX, float centerY, float sizeX, float sizeY ) {
+        lambdaDrawCross = [this]( float centerX, float centerY, float sizeX, float sizeY )
+        {
             drawLine( QLine( centerX - sizeX/2., centerY, centerX + sizeX/2., centerY ) );
             drawLine( QLine( centerX, centerY - sizeY/2., centerX, centerY + sizeY/2. ) );
         };
     }
 
-    switch ( type ) {
-    case 0:
-    case 1: //catalog star
-        //Some NGC/IC objects are stars...changed their type to 1 (was double star)
-        if (size<2.) size = 2.;
-        lambdaDrawEllipse( x - size/2., y - size/2., size, size );
-        break;
-    case 2: //Planet
-        break;
-    case 3: //Open cluster; draw circle of points
-    case 13: { // Asterism
-        tempBrush = brush();
-        color = pen().color().name();
-        setBrush( pen().color() );
-        psize = 2.;
-        if ( size > 50. )  psize *= 2.;
-        if ( size > 100. ) psize *= 2.;
-        auto putDot = [this, psize, &lambdaDrawEllipse]( float x, float y ) {
-            lambdaDrawEllipse( x - psize/2., y - psize/2., psize, psize );
-        };
-        putDot( xa, y1 );
-        putDot( xb, y1 );
-        putDot( xa, y2 );
-        putDot( xb, y2 );
-        putDot( x1, ya );
-        putDot( x1, yb );
-        putDot( x2, ya );
-        putDot( x2, yb );
-        setBrush( tempBrush );
-        break;
-    }
-    case 4: //Globular Cluster
-        if (size<2.) size = 2.;
-        save();
-        translate( x, y );
-        color = pen().color().name();
-        rotate( positionAngle );  //rotate the coordinate system
-        lambdaDrawEllipse( dx1, dy1, size, e*size );
-        lambdaDrawCross( 0, 0, size, e*size );
-        restore(); //reset coordinate system
-        break;
-
-    case 5: //Gaseous Nebula
-    case 15: // Dark Nebula
-        if (size <2.) size = 2.;
-        save();
-        translate( x, y );
-        rotate( positionAngle );  //rotate the coordinate system
-        color = pen().color().name();
-        lambdaDrawLine( dx1, dy1, dx2, dy1 );
-        lambdaDrawLine( dx2, dy1, dx2, dy2 );
-        lambdaDrawLine( dx2, dy2, dx1, dy2 );
-        lambdaDrawLine( dx1, dy2, dx1, dy1 );
-        restore(); //reset coordinate system
-        break;
-    case 6: //Planetary Nebula
-        if (size<2.) size = 2.;
-        save();
-        translate( x, y );
-        rotate( positionAngle );  //rotate the coordinate system
-        color = pen().color().name();
-        lambdaDrawEllipse( dx1, dy1, size, e*size );
-        lambdaDrawLine( 0., dy1, 0., dy1 - e*size/2. );
-        lambdaDrawLine( 0., dy2, 0., dy2 + e*size/2. );
-        lambdaDrawLine( dx1, 0., dx1 - size/2., 0. );
-        lambdaDrawLine( dx2, 0., dx2 + size/2., 0. );
-        restore(); //reset coordinate system
-        break;
-    case 7: //Supernova remnant // FIXME: Why is SNR drawn different from a gaseous nebula?
-        if (size<2) size = 2;
-        save();
-        translate( x, y );
-        rotate( positionAngle );  //rotate the coordinate system
-        color = pen().color().name();
-        lambdaDrawLine( 0., dy1, dx2, 0. );
-        lambdaDrawLine( dx2, 0., 0., dy2 );
-        lambdaDrawLine( 0., dy2, dx1, 0. );
-        lambdaDrawLine( dx1, 0., 0., dy1 );
-        restore(); //reset coordinate system
-        break;
-    case 8: //Galaxy
-    case 16: // Quasar
-        color = pen().color().name();
-        if ( size <1. && zoom > 20*MINZOOM ) size = 3.; //force ellipse above zoomFactor 20
-        if ( size <1. && zoom > 5*MINZOOM ) size = 1.; //force points above zoomFactor 5
-        if ( size>2. ) {
+    switch ( type )
+    {
+        case 0:
+        case 1: //catalog star
+            //Some NGC/IC objects are stars...changed their type to 1 (was double star)
+            if (size<2.) size = 2.;
+            lambdaDrawEllipse( x - size/2., y - size/2., size, size );
+            break;
+        case 2: //Planet
+            break;
+        case 3: //Open cluster; draw circle of points
+        case 13:   // Asterism
+        {
+            tempBrush = brush();
+            color = pen().color().name();
+            setBrush( pen().color() );
+            psize = 2.;
+            if ( size > 50. )  psize *= 2.;
+            if ( size > 100. ) psize *= 2.;
+            auto putDot = [this, psize, &lambdaDrawEllipse]( float x, float y )
+            {
+                lambdaDrawEllipse( x - psize/2., y - psize/2., psize, psize );
+            };
+            putDot( xa, y1 );
+            putDot( xb, y1 );
+            putDot( xa, y2 );
+            putDot( xb, y2 );
+            putDot( x1, ya );
+            putDot( x1, yb );
+            putDot( x2, ya );
+            putDot( x2, yb );
+            setBrush( tempBrush );
+            break;
+        }
+        case 4: //Globular Cluster
+            if (size<2.) size = 2.;
             save();
             translate( x, y );
+            color = pen().color().name();
             rotate( positionAngle );  //rotate the coordinate system
             lambdaDrawEllipse( dx1, dy1, size, e*size );
+            lambdaDrawCross( 0, 0, size, e*size );
             restore(); //reset coordinate system
+            break;
 
-        } else if ( size>0. ) {
-            drawPoint( QPointF(x, y) );
-        }
-        break;
-    case 14: { // Galaxy cluster - draw a dashed circle
-        tempBrush = brush();
-        setBrush( QBrush() );
-        psize = 1.;
-        if ( size > 50. )  psize *= 2.;
-        color = pen().color().name();
-        save();
-        translate( x, y );
-        rotate( positionAngle );  //rotate the coordinate system
-        QPen newPen = pen();
-        newPen.setStyle( Qt::DashLine );
-        setPen( newPen );
-        lambdaDrawEllipse( dx1, dy1, size, e*size );
-        restore();
-        setBrush( tempBrush );
-        break;
-    }
-    default: // Unknown object or something we don't know how to draw. Just draw an ellipse with a ?-mark
-        color = pen().color().name();
-        if ( size <1. && zoom > 20*MINZOOM ) size = 3.; //force ellipse above zoomFactor 20
-        if ( size <1. && zoom > 5*MINZOOM ) size = 1.; //force points above zoomFactor 5
-        if ( size>2. ) {
+        case 5: //Gaseous Nebula
+        case 15: // Dark Nebula
+            if (size <2.) size = 2.;
             save();
-            QFont f = font();
-            const QString qMark = " ? ";
-            double scaleFactor = 0.8 * size / fontMetrics().width( qMark );
-            f.setPointSizeF( f.pointSizeF() * scaleFactor );
-            setFont( f );
             translate( x, y );
             rotate( positionAngle );  //rotate the coordinate system
+            color = pen().color().name();
+            lambdaDrawLine( dx1, dy1, dx2, dy1 );
+            lambdaDrawLine( dx2, dy1, dx2, dy2 );
+            lambdaDrawLine( dx2, dy2, dx1, dy2 );
+            lambdaDrawLine( dx1, dy2, dx1, dy1 );
+            restore(); //reset coordinate system
+            break;
+        case 6: //Planetary Nebula
+            if (size<2.) size = 2.;
+            save();
+            translate( x, y );
+            rotate( positionAngle );  //rotate the coordinate system
+            color = pen().color().name();
             lambdaDrawEllipse( dx1, dy1, size, e*size );
-            if ( Options::useAntialias() )
-                drawText( QRectF(dx1, dy1, size, e*size), Qt::AlignCenter, qMark );
-            else {
-                int idx1 = int(dx1); int idy1 = int(dy1);
-                drawText( QRect(idx1, idy1, isize, int(e*size)), Qt::AlignCenter, qMark );
+            lambdaDrawLine( 0., dy1, 0., dy1 - e*size/2. );
+            lambdaDrawLine( 0., dy2, 0., dy2 + e*size/2. );
+            lambdaDrawLine( dx1, 0., dx1 - size/2., 0. );
+            lambdaDrawLine( dx2, 0., dx2 + size/2., 0. );
+            restore(); //reset coordinate system
+            break;
+        case 7: //Supernova remnant // FIXME: Why is SNR drawn different from a gaseous nebula?
+            if (size<2) size = 2;
+            save();
+            translate( x, y );
+            rotate( positionAngle );  //rotate the coordinate system
+            color = pen().color().name();
+            lambdaDrawLine( 0., dy1, dx2, 0. );
+            lambdaDrawLine( dx2, 0., 0., dy2 );
+            lambdaDrawLine( 0., dy2, dx1, 0. );
+            lambdaDrawLine( dx1, 0., 0., dy1 );
+            restore(); //reset coordinate system
+            break;
+        case 8: //Galaxy
+        case 16: // Quasar
+            color = pen().color().name();
+            if ( size <1. && zoom > 20*MINZOOM ) size = 3.; //force ellipse above zoomFactor 20
+            if ( size <1. && zoom > 5*MINZOOM ) size = 1.; //force points above zoomFactor 5
+            if ( size>2. )
+            {
+                save();
+                translate( x, y );
+                rotate( positionAngle );  //rotate the coordinate system
+                lambdaDrawEllipse( dx1, dy1, size, e*size );
+                restore(); //reset coordinate system
+
             }
-            restore(); //reset coordinate system (and font?)
-        }
-        else if ( size>0. ) {
-            if ( Options::useAntialias() )
+            else if ( size>0. )
+            {
                 drawPoint( QPointF(x, y) );
-            else
-                drawPoint( QPoint( x, y ) );
+            }
+            break;
+        case 14:   // Galaxy cluster - draw a dashed circle
+        {
+            tempBrush = brush();
+            setBrush( QBrush() );
+            psize = 1.;
+            if ( size > 50. )  psize *= 2.;
+            color = pen().color().name();
+            save();
+            translate( x, y );
+            rotate( positionAngle );  //rotate the coordinate system
+            QPen newPen = pen();
+            newPen.setStyle( Qt::DashLine );
+            setPen( newPen );
+            lambdaDrawEllipse( dx1, dy1, size, e*size );
+            restore();
+            setBrush( tempBrush );
+            break;
         }
+        default: // Unknown object or something we don't know how to draw. Just draw an ellipse with a ?-mark
+            color = pen().color().name();
+            if ( size <1. && zoom > 20*MINZOOM ) size = 3.; //force ellipse above zoomFactor 20
+            if ( size <1. && zoom > 5*MINZOOM ) size = 1.; //force points above zoomFactor 5
+            if ( size>2. )
+            {
+                save();
+                QFont f = font();
+                const QString qMark = " ? ";
+                double scaleFactor = 0.8 * size / fontMetrics().width( qMark );
+                f.setPointSizeF( f.pointSizeF() * scaleFactor );
+                setFont( f );
+                translate( x, y );
+                rotate( positionAngle );  //rotate the coordinate system
+                lambdaDrawEllipse( dx1, dy1, size, e*size );
+                if ( Options::useAntialias() )
+                    drawText( QRectF(dx1, dy1, size, e*size), Qt::AlignCenter, qMark );
+                else
+                {
+                    int idx1 = int(dx1);
+                    int idy1 = int(dy1);
+                    drawText( QRect(idx1, idy1, isize, int(e*size)), Qt::AlignCenter, qMark );
+                }
+                restore(); //reset coordinate system (and font?)
+            }
+            else if ( size>0. )
+            {
+                if ( Options::useAntialias() )
+                    drawPoint( QPointF(x, y) );
+                else
+                    drawPoint( QPoint( x, y ) );
+            }
     }
 
 }
 
-void SkyQPainter::drawObservingList(const QList< SkyObject* >& obs)
+void SkyQPainter::drawObservingList(const QList< SkyObject * > &obs)
 {
-    foreach ( SkyObject* obj, obs ) {
+    foreach ( SkyObject * obj, obs )
+    {
         bool visible = false;
         QPointF o = m_proj->toScreen( obj, true, &visible );
         if( !visible || !m_proj->onScreen(o) ) continue;
@@ -752,14 +838,15 @@ void SkyQPainter::drawObservingList(const QList< SkyObject* >& obs)
 
 void SkyQPainter::drawFlags()
 {
-    KStarsData *data = KStarsData::Instance();
-    SkyPoint* point;
+    KStarsData * data = KStarsData::Instance();
+    SkyPoint * point;
     QImage image;
     bool visible = false;
     QPointF pos;
     int i;
 
-    for ( i=0;i<data->skyComposite()->flags()->size();i++ ) {
+    for ( i=0; i<data->skyComposite()->flags()->size(); i++ )
+    {
         point = data->skyComposite()->flags()->pointList().at( i );
         image = data->skyComposite()->flags()->image( i );
 
@@ -782,23 +869,25 @@ void SkyQPainter::drawFlags()
     }
 }
 
-void SkyQPainter::drawHorizon(bool filled, SkyPoint* labelPoint, bool* drawLabel)
+void SkyQPainter::drawHorizon(bool filled, SkyPoint * labelPoint, bool * drawLabel)
 {
     QVector<Vector2f> ground = m_proj->groundPoly(labelPoint, drawLabel);
-    if( ground.size() ) {
+    if( ground.size() )
+    {
         QPolygonF groundPoly(ground.size());
         for(int i = 0; i < ground.size(); ++i)
             groundPoly[i] = KSUtils::vecToPoint(ground[i]);
         if( filled )
             drawPolygon(groundPoly);
-        else {
+        else
+        {
             groundPoly.append( groundPoly.first() );
             drawPolyline(groundPoly);
         }
     }
 }
 
-bool SkyQPainter::drawSatellite( Satellite* sat )
+bool SkyQPainter::drawSatellite( Satellite * sat )
 {
     if( !m_proj->checkVisibility(sat) )
         return false;
@@ -834,13 +923,16 @@ bool SkyQPainter::drawSatellite( Satellite* sat )
     return true;
 
     //if ( Options::showSatellitesLabels() )
-        //data->skyComposite()->satellites()->drawLabel( sat, pos );
+    //data->skyComposite()->satellites()->drawLabel( sat, pos );
 }
 
-bool SkyQPainter::drawSupernova(Supernova* sup)
+bool SkyQPainter::drawSupernova(Supernova * sup)
 {
-    KStarsData *data = KStarsData::Instance();
-    if( !m_proj->checkVisibility(sup) ){ return false; }
+    KStarsData * data = KStarsData::Instance();
+    if( !m_proj->checkVisibility(sup) )
+    {
+        return false;
+    }
 
     bool visible = false;
     QPointF pos = m_proj->toScreen(sup,true,&visible);

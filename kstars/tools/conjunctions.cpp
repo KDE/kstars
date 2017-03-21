@@ -53,12 +53,13 @@
 #include "skycomponents/skymapcomposite.h"
 #include "skymap.h"
 
-ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
-    : QFrame(parentSplit), Object1( 0 ), Object2( 0 ) {
+ConjunctionsTool::ConjunctionsTool(QWidget * parentSplit)
+    : QFrame(parentSplit), Object1( 0 ), Object2( 0 )
+{
 
     setupUi(this);
 
-    KStarsData *kd = KStarsData::Instance();
+    KStarsData * kd = KStarsData::Instance();
     KStarsDateTime dtStart ( KStarsDateTime::currentDateTime() );
     KStarsDateTime dtStop ( dtStart.djd() + 365.24 ); // TODO: Refine
 
@@ -96,7 +97,8 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     pNames[KSPlanetBase::SUN] = i18n("Sun");
     pNames[KSPlanetBase::MOON] = i18n("Moon");
 
-    for ( int i=0; i<KSPlanetBase::UNKNOWN_PLANET; ++i ) {
+    for ( int i=0; i<KSPlanetBase::UNKNOWN_PLANET; ++i )
+    {
         //      Obj1ComboBox->insertItem( i, pNames[i] );
         Obj2ComboBox->insertItem( i, pNames[i] );
     }
@@ -107,8 +109,8 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
 
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
-    m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Conjunction/Opposition" ) 
-            << i18n( "Date & Time (UT)" ) << i18n( "Object 1" ) << i18n( "Object 2" ) << i18n( "Separation" ) );
+    m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Conjunction/Opposition" )
+                                        << i18n( "Date & Time (UT)" ) << i18n( "Object 1" ) << i18n( "Object 2" ) << i18n( "Separation" ) );
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     OutputList->setModel( m_SortModel );
@@ -131,25 +133,27 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     connect( FilterTypeComboBox, SIGNAL( currentIndexChanged(int) ), SLOT( slotFilterType(int) ) );
     connect( ClearButton, SIGNAL( clicked() ), this, SLOT( slotClear() ) );
     connect( ExportButton, SIGNAL( clicked() ), this, SLOT( slotExport() ) );
-    connect( OutputList, SIGNAL( doubleClicked( const QModelIndex& ) ), this, SLOT( slotGoto() ) );
+    connect( OutputList, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( slotGoto() ) );
     connect( ClearFilterButton, SIGNAL( clicked() ), FilterEdit, SLOT( clear() ) );
     connect( FilterEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterReg( const QString & ) ) );
 
     show();
 }
 
-ConjunctionsTool::~ConjunctionsTool(){
+ConjunctionsTool::~ConjunctionsTool()
+{
     delete Object1;
     delete Object2;
 }
 
-void ConjunctionsTool::slotGoto() {
+void ConjunctionsTool::slotGoto()
+{
     int index = m_SortModel->mapToSource( OutputList->currentIndex() ).row(); // Get the number of the line
     long double jd = outputJDList.value( index );
     KStarsDateTime dt;
-    KStars *ks = KStars::Instance();
-    KStarsData *data = KStarsData::Instance();
-    SkyMap *map = ks->map();
+    KStars * ks = KStars::Instance();
+    KStarsData * data = KStarsData::Instance();
+    SkyMap * map = ks->map();
 
     // Show conjunction
     data->setLocation( *geoPlace );
@@ -160,9 +164,11 @@ void ConjunctionsTool::slotGoto() {
     map->slotCenter();
 }
 
-void ConjunctionsTool::slotFindObject() {
+void ConjunctionsTool::slotFindObject()
+{
     QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
-    if ( fd->exec() == QDialog::Accepted ) {
+    if ( fd->exec() == QDialog::Accepted )
+    {
         delete Object1;
         if( !fd->targetObject() )
             return;
@@ -176,7 +182,8 @@ void ConjunctionsTool::slotFindObject() {
 void ConjunctionsTool::slotLocation()
 {
     QPointer<LocationDialog> ld( new LocationDialog( this ) );
-    if ( ld->exec() == QDialog::Accepted && ld ) {
+    if ( ld->exec() == QDialog::Accepted && ld )
+    {
         geoPlace = ld->selectedCity();
         LocationButton -> setText( geoPlace -> fullName() );
     }
@@ -205,12 +212,14 @@ void ConjunctionsTool::slotExport()
     QByteArray line;
 
     //QFile file( KFileDialog::getSaveFileName( QDir::homePath(), "*|All files", this, "Save Conjunctions" ) );
-   QFile file( QFileDialog::getSaveFileName(0, i18n("Save Conjunctions"), QDir::homePath(), "*|All files") );
+    QFile file( QFileDialog::getSaveFileName(0, i18n("Save Conjunctions"), QDir::homePath(), "*|All files") );
 
     file.open( QIODevice::WriteOnly | QIODevice::Text );
 
-    for ( i=0; i<m_Model->rowCount(); ++i ) {
-        for ( j=0; j<m_Model->columnCount(); ++j ) {
+    for ( i=0; i<m_Model->rowCount(); ++i )
+    {
+        for ( j=0; j<m_Model->columnCount(); ++j )
+        {
             line.append( m_Model->data( m_Model->index( i, j ) ).toByteArray() );
             if ( j < m_Model->columnCount() - 1 )
                 line.append( ";" );
@@ -224,7 +233,7 @@ void ConjunctionsTool::slotExport()
     file.close();
 }
 
-void ConjunctionsTool::slotFilterReg( const QString & filter)
+void ConjunctionsTool::slotFilterReg( const QString &filter)
 {
     m_SortModel->setFilterRegExp( QRegExp( filter, Qt::CaseInsensitive, QRegExp::RegExp ) );
     m_SortModel->setFilterKeyColumn( -1 );
@@ -239,7 +248,7 @@ void ConjunctionsTool::slotCompute (void)
     bool opposition = false;                            // true=opposition, false=conjunction
     if( Opposition->currentIndex() ) opposition = true;
     QStringList objects;                                // List of sky object used as Object1
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     int progress = 0;
 
     // Check if we have a valid angle in maxSeparationBox
@@ -247,21 +256,24 @@ void ConjunctionsTool::slotCompute (void)
     bool ok;
     maxSeparation = maxSeparationBox->createDms( true, &ok );
 
-    if( !ok ) {
+    if( !ok )
+    {
         KMessageBox::sorry( 0, i18n("Maximum separation entered is not a valid angle. Use the What's this help feature for information on how to enter a valid angle") );
         return;
     }
 
     // Check if Object1 and Object2 are set
-    if( FilterTypeComboBox->currentIndex() == 0 && !Object1 ) {
+    if( FilterTypeComboBox->currentIndex() == 0 && !Object1 )
+    {
         KMessageBox::sorry( 0, i18n("Please select an object to check conjunctions with, by clicking on the \'Find Object\' button.") );
         return;
     }
     Object2 = KSPlanetBase::createPlanet( Obj2ComboBox->currentIndex() );
-    if( FilterTypeComboBox->currentIndex() == 0 && Object1->name() == Object2->name() ) {
+    if( FilterTypeComboBox->currentIndex() == 0 && Object1->name() == Object2->name() )
+    {
         // FIXME: Must free the created Objects
-    	KMessageBox::sorry( 0 , i18n("Please select two different objects to check conjunctions with.") );
-    	return;
+        KMessageBox::sorry( 0 , i18n("Please select two different objects to check conjunctions with.") );
+        return;
     }
 
     // Init KSConjunct object
@@ -269,7 +281,8 @@ void ConjunctionsTool::slotCompute (void)
     connect( &ksc, SIGNAL(madeProgress(int)), this, SLOT(showProgress(int)) );
     ksc.setGeoLocation( geoPlace );
 
-    switch ( FilterTypeComboBox->currentIndex() ) {
+    switch ( FilterTypeComboBox->currentIndex() )
+    {
         case 1: // All object types
             foreach( int type, data->skyComposite()->objectNames().keys() )
                 objects += data->skyComposite()->objectNames( type );
@@ -317,9 +330,10 @@ void ConjunctionsTool::slotCompute (void)
 
     // Remove all Jupiter and Saturn moons
     // KStars crash if we compute a conjunction between a planet and one of this moon
-    if ( FilterTypeComboBox->currentIndex() == 1 || 
-         FilterTypeComboBox->currentIndex() == 3 ||
-         FilterTypeComboBox->currentIndex() == 6 ) {
+    if ( FilterTypeComboBox->currentIndex() == 1 ||
+            FilterTypeComboBox->currentIndex() == 3 ||
+            FilterTypeComboBox->currentIndex() == 6 )
+    {
         objects.removeAll( "Io" );
         objects.removeAll( "Europa" );
         objects.removeAll( "Ganymede" );
@@ -334,13 +348,15 @@ void ConjunctionsTool::slotCompute (void)
         objects.removeAll( "Iapetus" );
     }
 
-    if ( FilterTypeComboBox->currentIndex() != 0 ) {
+    if ( FilterTypeComboBox->currentIndex() != 0 )
+    {
         // Show a progress dialog while processing
         QProgressDialog progressDlg( i18n( "Compute conjunction..." ), i18n( "Abort" ), 0, objects.count(), this);
         progressDlg.setWindowModality( Qt::WindowModal );
         progressDlg.setValue( 0 );
 
-        foreach( QString object, objects ) {
+        foreach( QString object, objects )
+        {
             // If the user click on the 'cancel' button
             if ( progressDlg.wasCanceled() )
                 break;
@@ -356,7 +372,9 @@ void ConjunctionsTool::slotCompute (void)
         }
 
         progressDlg.setValue( objects.count() );
-    } else {
+    }
+    else
+    {
         // Change cursor while we search for conjunction
         QApplication::setOverrideCursor( QCursor(Qt::WaitCursor) );
 
@@ -372,7 +390,8 @@ void ConjunctionsTool::slotCompute (void)
     Object2 = NULL;
 }
 
-void ConjunctionsTool::showProgress(int n) {
+void ConjunctionsTool::showProgress(int n)
+{
     progress->setValue( n );
 }
 
@@ -380,11 +399,12 @@ void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctio
 {
     KStarsDateTime dt;
     QMap<long double, dms>::ConstIterator it;
-    QList<QStandardItem*> itemList;
+    QList<QStandardItem *> itemList;
 
-    for(it = conjunctionlist.constBegin(); it != conjunctionlist.constEnd(); ++it) {
+    for(it = conjunctionlist.constBegin(); it != conjunctionlist.constEnd(); ++it)
+    {
         dt.setDJD( it.key() );
-        QStandardItem* typeItem;
+        QStandardItem * typeItem;
 
         if ( ! Opposition->currentIndex() )
             typeItem = new QStandardItem( i18n( "Conjunction" ) );
@@ -392,13 +412,13 @@ void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctio
             typeItem = new QStandardItem( i18n( "Opposition" ) );
 
         itemList << typeItem
-                //FIXME TODO is this ISO date? is there a ready format to use?
-                //<< new QStandardItem( QLocale().toString( dt.dateTime(), "YYYY-MM-DDTHH:mm:SS" ) )
-                //<< new QStandardItem( QLocale().toString( dt, Qt::ISODate) )
-                << new QStandardItem( dt.toString(Qt::ISODate) )
-                << new QStandardItem( object1 )
-                << new QStandardItem( object2 )
-                << new QStandardItem( it.value().toDMSString() );
+                 //FIXME TODO is this ISO date? is there a ready format to use?
+                 //<< new QStandardItem( QLocale().toString( dt.dateTime(), "YYYY-MM-DDTHH:mm:SS" ) )
+                 //<< new QStandardItem( QLocale().toString( dt, Qt::ISODate) )
+                 << new QStandardItem( dt.toString(Qt::ISODate) )
+                 << new QStandardItem( object1 )
+                 << new QStandardItem( object2 )
+                 << new QStandardItem( it.value().toDMSString() );
         m_Model->appendRow( itemList );
         itemList.clear();
 

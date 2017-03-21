@@ -31,8 +31,9 @@
  *
  * Dialog to add new observers.
  */
-class ObserverAdd : public QDialog {
-Q_OBJECT
+class ObserverAdd : public QDialog
+{
+        Q_OBJECT
     public:
         //The default constructor
         ObserverAdd();

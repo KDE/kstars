@@ -35,8 +35,8 @@
 
 #include "skypainter.h"
 
-HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite *parent )
-        : CoordinateGrid( parent, i18n("Horizontal Coordinate Grid" ) )
+HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite * parent )
+    : CoordinateGrid( parent, i18n("Horizontal Coordinate Grid" ) )
 {
     //KStarsData *data = KStarsData::Instance();
 
@@ -54,15 +54,18 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite *parent )
 
     double max, alt, alt2, az, az2;
 
-    LineList* lineList;
+    LineList * lineList;
 
-    for ( az = minAz; az < maxAz; az += dAz ) {
-        for ( alt = -90.0; alt < maxAlt - eps; alt += dAlt ) {
+    for ( az = minAz; az < maxAz; az += dAz )
+    {
+        for ( alt = -90.0; alt < maxAlt - eps; alt += dAlt )
+        {
             lineList = new LineList();
             max = alt + dAlt;
             if ( max > 90.0 ) max = 90.0;
-            for ( alt2 = alt; alt2 <= max + eps; alt2 += dAlt2 ) {
-                SkyPoint* p = new SkyPoint();
+            for ( alt2 = alt; alt2 <= max + eps; alt2 += dAlt2 )
+            {
+                SkyPoint * p = new SkyPoint();
                 p->setAz( az );
                 p->setAlt( alt2 );
                 //p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
@@ -72,7 +75,8 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite *parent )
         }
     }
 
-    for ( alt = minAlt; alt < maxAlt + eps; alt += dAlt ) {
+    for ( alt = minAlt; alt < maxAlt + eps; alt += dAlt )
+    {
         // Do not paint the line on the horizon
         if ( alt < 0.1 && alt > -0.1 )
             continue;
@@ -83,10 +87,12 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite *parent )
             nPoints = 5;
         double dAz3 = dAz / nPoints;
 
-        for ( az = minAz; az < maxAz + eps; az += dAz ) {
+        for ( az = minAz; az < maxAz + eps; az += dAz )
+        {
             lineList = new LineList();
-            for ( az2 = az; az2 <= az + dAz + eps; az2 += dAz3 ) {
-                SkyPoint* p = new SkyPoint();
+            for ( az2 = az; az2 <= az + dAz + eps; az2 += dAz3 )
+            {
+                SkyPoint * p = new SkyPoint();
                 p->setAz( az2 );
                 p->setAlt( alt );
                 //p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
@@ -105,26 +111,28 @@ bool HorizontalCoordinateGrid::selected()
     else
 #ifndef KSTARS_LITE
         return( Options::showHorizontalGrid() &&
-            ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() ) );
+                ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() ) );
 #else
         return( Options::showHorizontalGrid() &&
-            ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMapLite::IsSlewing() ) );
+                ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMapLite::IsSlewing() ) );
 #endif
 }
 
-void HorizontalCoordinateGrid::preDraw( SkyPainter* skyp )
+void HorizontalCoordinateGrid::preDraw( SkyPainter * skyp )
 {
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     QColor color = data->colorScheme()->colorNamed( "HorizontalGridColor" );
     skyp->setPen( QPen( QBrush( color ), 2, Qt::DotLine ) );
 }
 
-void HorizontalCoordinateGrid::update( KSNumbers* )
+void HorizontalCoordinateGrid::update( KSNumbers * )
 {
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
 
-    for ( int i=0; i<listList().count(); i++ ) {
-        for ( int j=0; j<listList().at( i )->points()->count(); j++ ) {
+    for ( int i=0; i<listList().count(); i++ )
+    {
+        for ( int j=0; j<listList().at( i )->points()->count(); j++ )
+        {
             listList().at( i )->points()->at( j )->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         }
     }

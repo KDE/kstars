@@ -25,12 +25,15 @@ TrixelNode::TrixelNode(Trixel trixel)
 
 }
 
-void TrixelNode::deleteAllChildNodes() {
+void TrixelNode::deleteAllChildNodes()
+{
     QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = m_nodes.begin();
 
-    while(i != m_nodes.cend()) {
-        SkyNode *node = (*i).second;
-        if(node) {
+    while(i != m_nodes.cend())
+    {
+        SkyNode * node = (*i).second;
+        if(node)
+        {
             removeChildNode(node);
             delete node;
 
@@ -40,12 +43,14 @@ void TrixelNode::deleteAllChildNodes() {
     }
 }
 
-void TrixelNode::hide() {
+void TrixelNode::hide()
+{
     m_hideCount++;
     SkyOpacityNode::hide();
 }
 
-void TrixelNode::show() {
+void TrixelNode::show()
+{
     SkyOpacityNode::show();
     m_hideCount = 0;
 }

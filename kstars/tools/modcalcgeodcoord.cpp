@@ -30,8 +30,9 @@
 #include "widgets/dmsbox.h"
 
 
-modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit)
-        : QFrame(parentSplit) {
+modCalcGeodCoord::modCalcGeodCoord(QWidget * parentSplit)
+    : QFrame(parentSplit)
+{
 
     QStringList ellipsoidList;
     ellipsoidList << "IAU76" << "GRS80" << "MERIT83" << "WGS84" << "IERS89";
@@ -50,19 +51,21 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit)
 
 }
 
-modCalcGeodCoord::~modCalcGeodCoord(){
+modCalcGeodCoord::~modCalcGeodCoord()
+{
     delete geoPlace;
 }
 
 void modCalcGeodCoord::showLongLat(void)
 {
-    KStarsData* data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     LongGeoBox->show( data->geo()->lng() );
     LatGeoBox->show(  data->geo()->lat() );
     AltGeoBox->setText( QString("0.0") );
 }
 
-void modCalcGeodCoord::setEllipsoid(int index) {
+void modCalcGeodCoord::setEllipsoid(int index)
+{
 
     geoPlace->changeEllipsoid(index);
 
@@ -96,10 +99,13 @@ void modCalcGeodCoord::slotClearGeoCoords (void)
 void modCalcGeodCoord::slotComputeGeoCoords (void)
 {
 
-    if(cartRadio->isChecked()) {
+    if(cartRadio->isChecked())
+    {
         getCartGeoCoords();
         showSpheGeoCoords();
-    } else {
+    }
+    else
+    {
         getSphGeoCoords();
         showCartGeoCoords();
     }
@@ -121,7 +127,8 @@ void modCalcGeodCoord::showCartGeoCoords(void)
     ZGeoBox->setText( QLocale().toString( geoPlace->zPos()/1000. ,6));
 }
 
-void modCalcGeodCoord::geoCheck(void) {
+void modCalcGeodCoord::geoCheck(void)
+{
 
     XGeoBoxBatch->setEnabled( false );
     XGeoCheckBatch->setChecked( false );
@@ -132,7 +139,8 @@ void modCalcGeodCoord::geoCheck(void) {
     xyzInputCoords = false;
 }
 
-void modCalcGeodCoord::xyzCheck(void) {
+void modCalcGeodCoord::xyzCheck(void)
+{
 
     LongGeoBoxBatch->setEnabled( false );
     LongGeoCheckBatch->setChecked( false );
@@ -144,88 +152,117 @@ void modCalcGeodCoord::xyzCheck(void) {
 
 }
 
-void modCalcGeodCoord::slotLongCheckedBatch(){
+void modCalcGeodCoord::slotLongCheckedBatch()
+{
 
-    if ( LongGeoCheckBatch->isChecked() ) {
+    if ( LongGeoCheckBatch->isChecked() )
+    {
         LongGeoBoxBatch->setEnabled( false );
         geoCheck();
-    } else {
+    }
+    else
+    {
         LongGeoBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcGeodCoord::slotLatCheckedBatch(){
+void modCalcGeodCoord::slotLatCheckedBatch()
+{
 
-    if ( LatGeoCheckBatch->isChecked() ) {
+    if ( LatGeoCheckBatch->isChecked() )
+    {
         LatGeoBoxBatch->setEnabled( false );
         geoCheck();
-    } else {
+    }
+    else
+    {
         LatGeoBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcGeodCoord::slotElevCheckedBatch(){
+void modCalcGeodCoord::slotElevCheckedBatch()
+{
 
-    if ( AltGeoCheckBatch->isChecked() ) {
+    if ( AltGeoCheckBatch->isChecked() )
+    {
         AltGeoBoxBatch->setEnabled( false );
         geoCheck();
-    } else {
+    }
+    else
+    {
         AltGeoBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcGeodCoord::slotXCheckedBatch(){
+void modCalcGeodCoord::slotXCheckedBatch()
+{
 
-    if ( XGeoCheckBatch->isChecked() ) {
+    if ( XGeoCheckBatch->isChecked() )
+    {
         XGeoBoxBatch->setEnabled( false );
         xyzCheck();
-    } else {
+    }
+    else
+    {
         XGeoBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcGeodCoord::slotYCheckedBatch(){
+void modCalcGeodCoord::slotYCheckedBatch()
+{
 
-    if ( YGeoCheckBatch->isChecked() ) {
+    if ( YGeoCheckBatch->isChecked() )
+    {
         YGeoBoxBatch->setEnabled( false );
         xyzCheck();
-    } else {
+    }
+    else
+    {
         YGeoBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcGeodCoord::slotZCheckedBatch(){
+void modCalcGeodCoord::slotZCheckedBatch()
+{
 
-    if ( ZGeoCheckBatch->isChecked() ) {
+    if ( ZGeoCheckBatch->isChecked() )
+    {
         ZGeoBoxBatch->setEnabled( false );
         xyzCheck();
-    } else {
+    }
+    else
+    {
         ZGeoBoxBatch->setEnabled( true );
     }
 }
-void modCalcGeodCoord::slotInputFile() {
+void modCalcGeodCoord::slotInputFile()
+{
 
     const QString inputFileName = QFileDialog::getOpenFileName(KStars::Instance(), QString(), QString());
     if (!inputFileName.isEmpty())
         InputFileBoxBatch->setUrl(QUrl::fromLocalFile(inputFileName));
 }
 
-void modCalcGeodCoord::slotOutputFile() {
+void modCalcGeodCoord::slotOutputFile()
+{
 
     const QString outputFileName = QFileDialog::getSaveFileName();
     if (!outputFileName.isEmpty())
         OutputFileBoxBatch->setUrl(QUrl::fromLocalFile(outputFileName));
 }
 
-void modCalcGeodCoord::slotRunBatch(void) {
+void modCalcGeodCoord::slotRunBatch(void)
+{
 
     const QString inputFileName = InputFileBoxBatch->url().toLocalFile();
 
     // We open the input file and read its content
 
-    if ( QFile::exists(inputFileName) ) {
+    if ( QFile::exists(inputFileName) )
+    {
         QFile f( inputFileName );
-        if ( !f.open( QIODevice::ReadOnly) ) {
+        if ( !f.open( QIODevice::ReadOnly) )
+        {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             return;
@@ -236,14 +273,17 @@ void modCalcGeodCoord::slotRunBatch(void) {
         processLines(istream);
         //		readFile( istream );
         f.close();
-    } else  {
+    }
+    else
+    {
         QString message = i18n( "Invalid file: %1", inputFileName );
         KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
         InputFileBoxBatch->setUrl(QUrl());
     }
 }
 
-void modCalcGeodCoord::processLines( QTextStream &istream ) {
+void modCalcGeodCoord::processLines( QTextStream &istream )
+{
 
     // we open the output file
 
@@ -263,7 +303,8 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
     dms latB, longB;
 
 
-    while ( ! istream.atEnd() ) {
+    while ( ! istream.atEnd() )
+    {
         line = istream.readLine();
         line.trimmed();
 
@@ -275,109 +316,118 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
 
         // Input coords are XYZ:
 
-        if (xyzInputCoords) {
+        if (xyzInputCoords)
+        {
 
             // Read X and write in ostream if corresponds
 
-            if(XGeoCheckBatch->isChecked() ) {
+            if(XGeoCheckBatch->isChecked() )
+            {
                 xB = fields[i].toDouble();
                 i++;
-            } else
+            }
+            else
                 xB = XGeoBoxBatch->text().toDouble() ;
 
             if ( AllRadioBatch->isChecked() )
                 ostream << xB << space;
-            else
-                if(XGeoCheckBatch->isChecked() )
-                    ostream << xB << space;
+            else if(XGeoCheckBatch->isChecked() )
+                ostream << xB << space;
 
             // Read Y and write in ostream if corresponds
 
-            if(YGeoCheckBatch->isChecked() ) {
+            if(YGeoCheckBatch->isChecked() )
+            {
                 yB = fields[i].toDouble();
                 i++;
-            } else
+            }
+            else
                 yB = YGeoBoxBatch->text().toDouble() ;
 
             if ( AllRadioBatch->isChecked() )
                 ostream << yB << space;
-            else
-                if(YGeoCheckBatch->isChecked() )
-                    ostream << yB << space;
+            else if(YGeoCheckBatch->isChecked() )
+                ostream << yB << space;
             // Read Z and write in ostream if corresponds
 
-            if(ZGeoCheckBatch->isChecked() ) {
+            if(ZGeoCheckBatch->isChecked() )
+            {
                 zB = fields[i].toDouble();
                 i++;
-            } else
+            }
+            else
                 zB = ZGeoBoxBatch->text().toDouble();
 
             if ( AllRadioBatch->isChecked() )
                 ostream << zB << space;
-            else
-                if(YGeoCheckBatch->isChecked() )
-                    ostream << zB << space;
+            else if(YGeoCheckBatch->isChecked() )
+                ostream << zB << space;
 
             geoPl.setXPos( xB*1000.0 );
             geoPl.setYPos( yB*1000.0 );
             geoPl.setZPos( zB*1000.0 );
             ostream << geoPl.lng()->toDMSString() << space <<
-            geoPl.lat()->toDMSString() << space <<
-            geoPl.height() << endl;
+                    geoPl.lat()->toDMSString() << space <<
+                    geoPl.height() << endl;
 
             // Input coords. are Long, Lat and Height
 
-        } else {
+        }
+        else
+        {
 
             // Read Longitude and write in ostream if corresponds
 
-            if(LongGeoCheckBatch->isChecked() ) {
+            if(LongGeoCheckBatch->isChecked() )
+            {
                 longB = dms::fromString( fields[i],true);
                 i++;
-            } else
+            }
+            else
                 longB = LongGeoBoxBatch->createDms(true);
 
             if ( AllRadioBatch->isChecked() )
                 ostream << longB.toDMSString() << space;
-            else
-                if(LongGeoCheckBatch->isChecked() )
-                    ostream << longB.toDMSString() << space;
+            else if(LongGeoCheckBatch->isChecked() )
+                ostream << longB.toDMSString() << space;
 
             // Read Latitude and write in ostream if corresponds
 
-            if(LatGeoCheckBatch->isChecked() ) {
+            if(LatGeoCheckBatch->isChecked() )
+            {
                 latB = dms::fromString( fields[i], true);
                 i++;
-            } else
+            }
+            else
                 latB = LatGeoBoxBatch->createDms(true);
 
             if ( AllRadioBatch->isChecked() )
                 ostream << latB.toDMSString() << space;
-            else
-                if(LatGeoCheckBatch->isChecked() )
-                    ostream << latB.toDMSString() << space;
+            else if(LatGeoCheckBatch->isChecked() )
+                ostream << latB.toDMSString() << space;
 
             // Read Height and write in ostream if corresponds
 
-            if(AltGeoCheckBatch->isChecked() ) {
+            if(AltGeoCheckBatch->isChecked() )
+            {
                 hB = fields[i].toDouble();
                 i++;
-            } else
+            }
+            else
                 hB = AltGeoBoxBatch->text().toDouble() ;
 
             if ( AllRadioBatch->isChecked() )
                 ostream << hB << space;
-            else
-                if(AltGeoCheckBatch->isChecked() )
-                    ostream << hB << space;
+            else if(AltGeoCheckBatch->isChecked() )
+                ostream << hB << space;
 
             geoPl.setLong( longB );
             geoPl.setLat(  latB );
             geoPl.setHeight( hB );
 
             ostream << geoPl.xPos()/1000.0 << space <<
-            geoPl.yPos()/1000.0 << space <<
-            geoPl.zPos()/1000.0 << endl;
+                    geoPl.yPos()/1000.0 << space <<
+                    geoPl.zPos()/1000.0 << endl;
 
         }
 

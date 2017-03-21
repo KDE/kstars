@@ -24,11 +24,12 @@
 
 class GeoLocation;
 
-class SkyCalendarUI : public QFrame, public Ui::SkyCalendar {
-    Q_OBJECT
+class SkyCalendarUI : public QFrame, public Ui::SkyCalendar
+{
+        Q_OBJECT
 
-public:
-    SkyCalendarUI( QWidget *p=0 );
+    public:
+        SkyCalendarUI( QWidget * p=0 );
 };
 
 /**
@@ -38,27 +39,27 @@ public:
  */
 class SkyCalendar : public QDialog
 {
-    Q_OBJECT
-    friend class CalendarWidget;
-    
+        Q_OBJECT
+        friend class CalendarWidget;
+
     public:
-        SkyCalendar( QWidget *parent=0 );
+        SkyCalendar( QWidget * parent=0 );
         ~SkyCalendar();
-        
+
         int year();
-        GeoLocation* get_geo();
-        
+        GeoLocation * get_geo();
+
     public slots:
         void slotFillCalendar();
         void slotPrint();
         void slotLocation();
-        
+
     private:
         void addPlanetEvents( int nPlanet );
         void drawEventLabel( float x1, float y1, float x2, float y2, QString LabelText );
-        
-        SkyCalendarUI *scUI;
-        GeoLocation *geo;
+
+        SkyCalendarUI * scUI;
+        GeoLocation * geo;
 };
 
 #endif

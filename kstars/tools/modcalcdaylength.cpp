@@ -32,7 +32,7 @@
 #include "dialogs/locationdialog.h"
 
 
-modCalcDayLength::modCalcDayLength(QWidget *parentSplit) :
+modCalcDayLength::modCalcDayLength(QWidget * parentSplit) :
     QFrame(parentSplit)
 {
     setupUi(this);
@@ -41,12 +41,12 @@ modCalcDayLength::modCalcDayLength(QWidget *parentSplit) :
     initGeo();
     slotComputeAlmanac();
 
-    connect( Date, SIGNAL(dateChanged(const QDate&)), this, SLOT(slotComputeAlmanac() ) );
+    connect( Date, SIGNAL(dateChanged(const QDate &)), this, SLOT(slotComputeAlmanac() ) );
     connect( Location, SIGNAL( clicked() ), this, SLOT( slotLocation() ) );
 
     connect( LocationBatch, SIGNAL( clicked() ), this, SLOT( slotLocationBatch() ) );
-    connect( InputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
-    connect( OutputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( InputFileBatch, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()) );
+    connect( OutputFileBatch, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()) );
     connect( RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
     connect( ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()) );
 
@@ -66,14 +66,15 @@ void modCalcDayLength::showCurrentDate (void)
 
 void modCalcDayLength::initGeo(void)
 {
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     geoPlace = data->geo();
     geoBatch = data->geo();
     Location->setText( geoPlace->fullName() );
     LocationBatch->setText( geoBatch->fullName() );
 }
 
-QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
+QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime)
+{
     QTime dL(0,0,0);
     int dds = riseQTime.secsTo(setQTime);
     QTime dLength = dL.addSecs( dds );
@@ -81,11 +82,14 @@ QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
     return dLength;
 }
 
-void modCalcDayLength::slotLocation() {
+void modCalcDayLength::slotLocation()
+{
     QPointer<LocationDialog> ld = new LocationDialog( this );
-    if ( ld->exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld->selectedCity();
-        if ( newGeo ) {
+    if ( ld->exec() == QDialog::Accepted )
+    {
+        GeoLocation * newGeo = ld->selectedCity();
+        if ( newGeo )
+        {
             geoPlace = newGeo;
             Location->setText( geoPlace->fullName() );
         }
@@ -95,11 +99,14 @@ void modCalcDayLength::slotLocation() {
     slotComputeAlmanac();
 }
 
-void modCalcDayLength::slotLocationBatch() {
+void modCalcDayLength::slotLocationBatch()
+{
     QPointer<LocationDialog> ld = new LocationDialog( this );
-    if ( ld->exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld->selectedCity();
-        if ( newGeo ) {
+    if ( ld->exec() == QDialog::Accepted )
+    {
+        GeoLocation * newGeo = ld->selectedCity();
+        if ( newGeo )
+        {
             geoBatch = newGeo;
             LocationBatch->setText( geoBatch->fullName() );
         }
@@ -107,7 +114,8 @@ void modCalcDayLength::slotLocationBatch() {
     delete ld;
 }
 
-void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
+void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation * geo )
+{
     //Determine values needed for the Almanac
     long double jd0 = KStarsDateTime(d, QTime(8,0,0)).djd();
     KSNumbers num(jd0);
@@ -125,7 +133,8 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
     dms stAlt = Sun.transitAltitude(jd0, geo);
 
     //In most cases, the Sun will rise and set:
-    if ( ssTime.isValid() ) {
+    if ( ssTime.isValid() )
+    {
         ssAzString = ssAz.toDMSString();
         stAltString = stAlt.toDMSString();
         srAzString = srAz.toDMSString();
@@ -138,7 +147,9 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         daylengthString = QLocale().toString( daylength);
 
         //...but not always!
-    } else if ( stAlt.Degrees() > 0. ) {
+    }
+    else if ( stAlt.Degrees() > 0. )
+    {
         ssAzString = i18n("Circumpolar");
         stAltString = stAlt.toDMSString();
         srAzString = i18n("Circumpolar");
@@ -148,7 +159,9 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         stTimeString = QLocale().toString( stTime );
         daylengthString = "24:00";
 
-    } else if (stAlt.Degrees() < 0. ) {
+    }
+    else if (stAlt.Degrees() < 0. )
+    {
         ssAzString = i18n("Does not rise");
         stAltString = stAlt.toDMSString();
         srAzString = i18n("Does not set");
@@ -171,7 +184,8 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
     dms mtAlt = Moon.transitAltitude(jd0, geo);
 
     //In most cases, the Moon will rise and set:
-    if ( msTime.isValid() ) {
+    if ( msTime.isValid() )
+    {
         msAzString = msAz.toDMSString();
         mtAltString = mtAlt.toDMSString();
         mrAzString = mrAz.toDMSString();
@@ -181,7 +195,9 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         mtTimeString = QLocale().toString( mtTime );
 
         //...but not always!
-    } else if ( mtAlt.Degrees() > 0. ) {
+    }
+    else if ( mtAlt.Degrees() > 0. )
+    {
         msAzString = i18n("Circumpolar");
         mtAltString = mtAlt.toDMSString();
         mrAzString = i18n("Circumpolar");
@@ -190,7 +206,9 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         mrTimeString = "--:--";
         mtTimeString = QLocale().toString( mtTime );
 
-    } else if ( mtAlt.Degrees() < 0. ) {
+    }
+    else if ( mtAlt.Degrees() < 0. )
+    {
         msAzString = i18n("Does not rise");
         mtAltString = mtAlt.toDMSString();
         mrAzString = i18n("Does not rise");
@@ -212,7 +230,8 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
     if ( msAz.Degrees() < 100.0 ) msAzString = ' '+msAzString;
 }
 
-void modCalcDayLength::slotComputeAlmanac() {
+void modCalcDayLength::slotComputeAlmanac()
+{
     updateAlmanac( Date->date(), geoPlace );
 
     SunSet->setText( ssTimeString );
@@ -232,17 +251,21 @@ void modCalcDayLength::slotComputeAlmanac() {
     LunarPhase->setText( lunarphaseString );
 }
 
-void modCalcDayLength::slotCheckFiles() {
+void modCalcDayLength::slotCheckFiles()
+{
     bool flag = !InputFileBatch->lineEdit()->text().isEmpty() && !OutputFileBatch->lineEdit()->text().isEmpty();
     RunButtonBatch->setEnabled( flag );
 }
 
-void modCalcDayLength::slotRunBatch() {
+void modCalcDayLength::slotRunBatch()
+{
     QString inputFileName = InputFileBatch->url().toLocalFile();
 
-    if ( QFile::exists(inputFileName) ) {
+    if ( QFile::exists(inputFileName) )
+    {
         QFile f( inputFileName );
-        if ( !f.open( QIODevice::ReadOnly) ) {
+        if ( !f.open( QIODevice::ReadOnly) )
+        {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             return;
@@ -253,49 +276,55 @@ void modCalcDayLength::slotRunBatch() {
         ViewButtonBatch->setEnabled( true );
 
         f.close();
-    } else  {
+    }
+    else
+    {
         QString message = i18n( "Invalid file: %1", inputFileName );
         KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
         return;
     }
 }
 
-void modCalcDayLength::processLines( QTextStream &istream ) {
+void modCalcDayLength::processLines( QTextStream &istream )
+{
     QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::WriteOnly);
     QTextStream ostream(&fOut);
 
     //Write header
     ostream << "# " << i18nc("%1 is a location on earth", "Almanac for %1", geoBatch->fullName())
-    << QString("  [%1, %2]").arg(geoBatch->lng()->toDMSString()).arg(geoBatch->lat()->toDMSString()) << endl
-    << "# " << i18n("computed by KStars") << endl
-    << "#" << endl
-    << "# Date      SRise  STran  SSet     SRiseAz      STranAlt      SSetAz     DayLen    MRise  MTran  MSet      MRiseAz      MTranAlt      MSetAz     LunarPhase" << endl
-    << "#" << endl;
+            << QString("  [%1, %2]").arg(geoBatch->lng()->toDMSString()).arg(geoBatch->lat()->toDMSString()) << endl
+            << "# " << i18n("computed by KStars") << endl
+            << "#" << endl
+            << "# Date      SRise  STran  SSet     SRiseAz      STranAlt      SSetAz     DayLen    MRise  MTran  MSet      MRiseAz      MTranAlt      MSetAz     LunarPhase" << endl
+            << "#" << endl;
 
     QString line;
     QDate d;
 
-    while ( ! istream.atEnd() ) {
+    while ( ! istream.atEnd() )
+    {
         line = istream.readLine();
         line = line.trimmed();
 
         //Parse the line as a date, then compute Almanac values
         d = QDate::fromString( line );
-        if ( d.isValid() ) {
+        if ( d.isValid() )
+        {
             updateAlmanac( d, geoBatch );
             ostream << d.toString( Qt::ISODate ) << "  "
-            << srTimeString << "  " << stTimeString << "  " << ssTimeString << "  "
-            << srAzString << "  " << stAltString << "  " << ssAzString << "  "
-            << daylengthString << "    "
-            << mrTimeString << "  " << mtTimeString << "  " << msTimeString << "  "
-            << mrAzString << "  " << mtAltString << "  " << msAzString << "  "
-            << lunarphaseString << endl;
+                    << srTimeString << "  " << stTimeString << "  " << ssTimeString << "  "
+                    << srAzString << "  " << stAltString << "  " << ssAzString << "  "
+                    << daylengthString << "    "
+                    << mrTimeString << "  " << mtTimeString << "  " << msTimeString << "  "
+                    << mrAzString << "  " << mtAltString << "  " << msAzString << "  "
+                    << lunarphaseString << endl;
         }
     }
 }
 
-void modCalcDayLength::slotViewBatch() {
+void modCalcDayLength::slotViewBatch()
+{
     QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::ReadOnly);
     QTextStream istream(&fOut);

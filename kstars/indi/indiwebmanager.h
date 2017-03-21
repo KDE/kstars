@@ -17,11 +17,11 @@ namespace INDI
 
 namespace WebManager
 {
-    bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUrl &url, QJsonDocument *reply, QByteArray *data=NULL);
-    bool isOnline(ProfileInfo *pi);
-    bool areDriversRunning(ProfileInfo *pi);
-    bool startProfile(ProfileInfo *pi);
-    bool stopProfile(ProfileInfo *pi);
+bool getWebManagerResponse(QNetworkAccessManager::Operation operation, const QUrl &url, QJsonDocument * reply, QByteArray * data=NULL);
+bool isOnline(ProfileInfo * pi);
+bool areDriversRunning(ProfileInfo * pi);
+bool startProfile(ProfileInfo * pi);
+bool stopProfile(ProfileInfo * pi);
 }
 
 }

@@ -24,28 +24,31 @@
 /**
  * @class Ecliptic
  * Represents the ecliptic on the sky map.
- *	
+ *
  * @author James B. Bowlin
  * @version 0.1
  */
 class Ecliptic : public LineListIndex
 {
-public:
+    public:
 
-    /** @short Constructor
-     * @p parent pointer to the parent SkyComposite object
-     * name is the name of the subclass
-     */
-    explicit Ecliptic( SkyComposite *parent );
+        /** @short Constructor
+         * @p parent pointer to the parent SkyComposite object
+         * name is the name of the subclass
+         */
+        explicit Ecliptic( SkyComposite * parent );
 
-    virtual void draw( SkyPainter *skyp );
-    virtual void drawCompassLabels();
-    virtual bool selected();
+        virtual void draw( SkyPainter * skyp );
+        virtual void drawCompassLabels();
+        virtual bool selected();
 
-    virtual LineListLabel* label() { return &m_label; }
+        virtual LineListLabel * label()
+        {
+            return &m_label;
+        }
 
-private:
-    LineListLabel m_label;
+    private:
+        LineListLabel m_label;
 };
 
 #endif

@@ -35,17 +35,18 @@
  **/
 
 
-class CatalogData {
- public:
-  CatalogData();
-  QString catalog_name;
-  QString prefix;
-  QString color;
-  float epoch;
-  QString fluxfreq;
-  QString fluxunit;
-  QString author;
-  QString license;
+class CatalogData
+{
+    public:
+        CatalogData();
+        QString catalog_name;
+        QString prefix;
+        QString color;
+        float epoch;
+        QString fluxfreq;
+        QString fluxunit;
+        QString author;
+        QString license;
 };
 
 #endif // CATALOGDATA_H

@@ -33,17 +33,18 @@
  * @author Akarsh Simha <akarsh.simha@kdemail.net>
  */
 
-class TestSkyPoint : public QObject {
+class TestSkyPoint : public QObject
+{
 
-    Q_OBJECT
+        Q_OBJECT
 
-public:
+    public:
 
-    TestSkyPoint() : QObject() {};
-    ~TestSkyPoint() {};
+        TestSkyPoint() : QObject() {};
+        ~TestSkyPoint() {};
 
-private slots:
-    void testPrecession();
+    private slots:
+        void testPrecession();
 };
 
 #endif

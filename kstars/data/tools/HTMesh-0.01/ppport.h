@@ -1,5 +1,5 @@
 #if 0
-<<'SKIP';
+        <<'SKIP';
 #endif
 /*
 ----------------------------------------------------------------------
@@ -2644,11 +2644,11 @@ __DATA__
 #  endif
 #  ifndef PERL_REVISION
 #    define PERL_REVISION       (5)
-     /* Replace: 1 */
+/* Replace: 1 */
 #    define PERL_VERSION        PATCHLEVEL
 #    define PERL_SUBVERSION     SUBVERSION
-     /* Replace PERL_PATCHLEVEL with PERL_VERSION */
-     /* Replace: 0 */
+/* Replace PERL_PATCHLEVEL with PERL_VERSION */
+/* Replace: 0 */
 #  endif
 #endif
 
@@ -3385,10 +3385,10 @@ typedef NVTYPE NV;
 
 #ifndef eval_pv
 #if defined(NEED_eval_pv)
-static SV* DPPP_(my_eval_pv)(char *p, I32 croak_on_error);
+static SV * DPPP_(my_eval_pv)(char * p, I32 croak_on_error);
 static
 #else
-extern SV* DPPP_(my_eval_pv)(char *p, I32 croak_on_error);
+extern SV * DPPP_(my_eval_pv)(char * p, I32 croak_on_error);
 #endif
 
 #ifdef eval_pv
@@ -3399,11 +3399,11 @@ extern SV* DPPP_(my_eval_pv)(char *p, I32 croak_on_error);
 
 #if defined(NEED_eval_pv) || defined(NEED_eval_pv_GLOBAL)
 
-SV*
-DPPP_(my_eval_pv)(char *p, I32 croak_on_error)
+SV *
+DPPP_(my_eval_pv)(char * p, I32 croak_on_error)
 {
     dSP;
-    SV* sv = newSVpv(p, 0);
+    SV * sv = newSVpv(p, 0);
 
     PUSHMARK(sp);
     eval_sv(sv, G_SCALAR);
@@ -3414,7 +3414,7 @@ DPPP_(my_eval_pv)(char *p, I32 croak_on_error)
     PUTBACK;
 
     if (croak_on_error && SvTRUE(GvSV(errgv)))
-	croak(SvPVx(GvSV(errgv), na));
+        croak(SvPVx(GvSV(errgv), na));
 
     return sv;
 }
@@ -3427,10 +3427,10 @@ DPPP_(my_eval_pv)(char *p, I32 croak_on_error)
 
 #ifndef newRV_noinc
 #if defined(NEED_newRV_noinc)
-static SV * DPPP_(my_newRV_noinc)(SV *sv);
+static SV * DPPP_(my_newRV_noinc)(SV * sv);
 static
 #else
-extern SV * DPPP_(my_newRV_noinc)(SV *sv);
+extern SV * DPPP_(my_newRV_noinc)(SV * sv);
 #endif
 
 #ifdef newRV_noinc
@@ -3441,11 +3441,11 @@ extern SV * DPPP_(my_newRV_noinc)(SV *sv);
 
 #if defined(NEED_newRV_noinc) || defined(NEED_newRV_noinc_GLOBAL)
 SV *
-DPPP_(my_newRV_noinc)(SV *sv)
+DPPP_(my_newRV_noinc)(SV * sv)
 {
-  SV *rv = (SV *)newRV(sv);
-  SvREFCNT_dec(sv);
-  return rv;
+    SV * rv = (SV *)newRV(sv);
+    SvREFCNT_dec(sv);
+    return rv;
 }
 #endif
 #endif
@@ -3458,10 +3458,10 @@ DPPP_(my_newRV_noinc)(SV *sv)
 /* newCONSTSUB from IO.xs is in the core starting with 5.004_63 */
 #if ((PERL_VERSION < 4) || ((PERL_VERSION == 4) && (PERL_SUBVERSION < 63))) && ((PERL_VERSION != 4) || (PERL_SUBVERSION != 5))
 #if defined(NEED_newCONSTSUB)
-static void DPPP_(my_newCONSTSUB)(HV *stash, char *name, SV *sv);
+static void DPPP_(my_newCONSTSUB)(HV * stash, char * name, SV * sv);
 static
 #else
-extern void DPPP_(my_newCONSTSUB)(HV *stash, char *name, SV *sv);
+extern void DPPP_(my_newCONSTSUB)(HV * stash, char * name, SV * sv);
 #endif
 
 #ifdef newCONSTSUB
@@ -3473,37 +3473,37 @@ extern void DPPP_(my_newCONSTSUB)(HV *stash, char *name, SV *sv);
 #if defined(NEED_newCONSTSUB) || defined(NEED_newCONSTSUB_GLOBAL)
 
 void
-DPPP_(my_newCONSTSUB)(HV *stash, char *name, SV *sv)
+DPPP_(my_newCONSTSUB)(HV * stash, char * name, SV * sv)
 {
-	U32 oldhints = PL_hints;
-	HV *old_cop_stash = PL_curcop->cop_stash;
-	HV *old_curstash = PL_curstash;
-	line_t oldline = PL_curcop->cop_line;
-	PL_curcop->cop_line = PL_copline;
+    U32 oldhints = PL_hints;
+    HV * old_cop_stash = PL_curcop->cop_stash;
+    HV * old_curstash = PL_curstash;
+    line_t oldline = PL_curcop->cop_line;
+    PL_curcop->cop_line = PL_copline;
 
-	PL_hints &= ~HINT_BLOCK_SCOPE;
-	if (stash)
-		PL_curstash = PL_curcop->cop_stash = stash;
+    PL_hints &= ~HINT_BLOCK_SCOPE;
+    if (stash)
+        PL_curstash = PL_curcop->cop_stash = stash;
 
-	newSUB(
+    newSUB(
 
 #if   ((PERL_VERSION < 3) || ((PERL_VERSION == 3) && (PERL_SUBVERSION < 22)))
-		start_subparse(),
+        start_subparse(),
 #elif ((PERL_VERSION == 3) && (PERL_SUBVERSION == 22))
-     		start_subparse(0),
+        start_subparse(0),
 #else  /* 5.003_23  onwards */
-     		start_subparse(FALSE, 0),
+        start_subparse(FALSE, 0),
 #endif
 
-		newSVOP(OP_CONST, 0, newSVpv(name,0)),
-		newSVOP(OP_CONST, 0, &PL_sv_no),   /* SvPV(&PL_sv_no) == "" -- GMB */
-		newSTATEOP(0, Nullch, newSVOP(OP_CONST, 0, sv))
-	);
+        newSVOP(OP_CONST, 0, newSVpv(name,0)),
+        newSVOP(OP_CONST, 0, &PL_sv_no),   /* SvPV(&PL_sv_no) == "" -- GMB */
+        newSTATEOP(0, Nullch, newSVOP(OP_CONST, 0, sv))
+    );
 
-	PL_hints = oldhints;
-	PL_curcop->cop_stash = old_cop_stash;
-	PL_curstash = old_curstash;
-	PL_curcop->cop_line = oldline;
+    PL_hints = oldhints;
+    PL_curcop->cop_stash = old_cop_stash;
+    PL_curstash = old_curstash;
+    PL_curcop->cop_line = oldline;
 }
 #endif
 #endif
@@ -3646,10 +3646,10 @@ DPPP_(my_newCONSTSUB)(HV *stash, char *name, SV *sv)
 #ifndef SvPV_nolen
 
 #if defined(NEED_sv_2pv_nolen)
-static char * DPPP_(my_sv_2pv_nolen)(pTHX_ register SV *sv);
+static char * DPPP_(my_sv_2pv_nolen)(pTHX_ register SV * sv);
 static
 #else
-extern char * DPPP_(my_sv_2pv_nolen)(pTHX_ register SV *sv);
+extern char * DPPP_(my_sv_2pv_nolen)(pTHX_ register SV * sv);
 #endif
 
 #ifdef sv_2pv_nolen
@@ -3661,10 +3661,10 @@ extern char * DPPP_(my_sv_2pv_nolen)(pTHX_ register SV *sv);
 #if defined(NEED_sv_2pv_nolen) || defined(NEED_sv_2pv_nolen_GLOBAL)
 
 char *
-DPPP_(my_sv_2pv_nolen)(pTHX_ register SV *sv)
+DPPP_(my_sv_2pv_nolen)(pTHX_ register SV * sv)
 {
-  STRLEN n_a;
-  return sv_2pv(sv, &n_a);
+    STRLEN n_a;
+    return sv_2pv(sv, &n_a);
 }
 
 #endif
@@ -3690,10 +3690,10 @@ DPPP_(my_sv_2pv_nolen)(pTHX_ register SV *sv)
 #if ((PERL_VERSION < 7) || ((PERL_VERSION == 7) && (PERL_SUBVERSION < 0)))
 
 #if defined(NEED_sv_2pvbyte)
-static char * DPPP_(my_sv_2pvbyte)(pTHX_ register SV *sv, STRLEN *lp);
+static char * DPPP_(my_sv_2pvbyte)(pTHX_ register SV * sv, STRLEN * lp);
 static
 #else
-extern char * DPPP_(my_sv_2pvbyte)(pTHX_ register SV *sv, STRLEN *lp);
+extern char * DPPP_(my_sv_2pvbyte)(pTHX_ register SV * sv, STRLEN * lp);
 #endif
 
 #ifdef sv_2pvbyte
@@ -3705,10 +3705,10 @@ extern char * DPPP_(my_sv_2pvbyte)(pTHX_ register SV *sv, STRLEN *lp);
 #if defined(NEED_sv_2pvbyte) || defined(NEED_sv_2pvbyte_GLOBAL)
 
 char *
-DPPP_(my_sv_2pvbyte)(pTHX_ register SV *sv, STRLEN *lp)
+DPPP_(my_sv_2pvbyte)(pTHX_ register SV * sv, STRLEN * lp)
 {
-  sv_utf8_downgrade(sv,0);
-  return SvPV(sv,*lp);
+    sv_utf8_downgrade(sv,0);
+    return SvPV(sv,*lp);
 }
 
 #endif
@@ -3769,11 +3769,11 @@ extern SV * DPPP_(my_vnewSVpvf)(pTHX_ const char * pat, va_list * args);
 #if defined(NEED_vnewSVpvf) || defined(NEED_vnewSVpvf_GLOBAL)
 
 SV *
-DPPP_(my_vnewSVpvf)(pTHX_ const char *pat, va_list *args)
+DPPP_(my_vnewSVpvf)(pTHX_ const char * pat, va_list * args)
 {
-  register SV *sv = newSV(0);
-  sv_vsetpvfn(sv, pat, strlen(pat), args, Null(SV**), 0, Null(bool*));
-  return sv;
+    register SV * sv = newSV(0);
+    sv_vsetpvfn(sv, pat, strlen(pat), args, Null(SV **), 0, Null(bool *));
+    return sv;
 }
 
 #endif
@@ -3803,13 +3803,13 @@ extern void DPPP_(my_sv_catpvf_mg)(pTHX_ SV * sv, const char * pat, ...);
 #if defined(NEED_sv_catpvf_mg) || defined(NEED_sv_catpvf_mg_GLOBAL)
 
 void
-DPPP_(my_sv_catpvf_mg)(pTHX_ SV *sv, const char *pat, ...)
+DPPP_(my_sv_catpvf_mg)(pTHX_ SV * sv, const char * pat, ...)
 {
-  va_list args;
-  va_start(args, pat);
-  sv_vcatpvfn(sv, pat, strlen(pat), &args, Null(SV**), 0, Null(bool*));
-  SvSETMAGIC(sv);
-  va_end(args);
+    va_list args;
+    va_start(args, pat);
+    sv_vcatpvfn(sv, pat, strlen(pat), &args, Null(SV **), 0, Null(bool *));
+    SvSETMAGIC(sv);
+    va_end(args);
 }
 
 #endif
@@ -3831,14 +3831,14 @@ extern void DPPP_(my_sv_catpvf_mg_nocontext)(SV * sv, const char * pat, ...);
 #if defined(NEED_sv_catpvf_mg_nocontext) || defined(NEED_sv_catpvf_mg_nocontext_GLOBAL)
 
 void
-DPPP_(my_sv_catpvf_mg_nocontext)(SV *sv, const char *pat, ...)
+DPPP_(my_sv_catpvf_mg_nocontext)(SV * sv, const char * pat, ...)
 {
-  dTHX;
-  va_list args;
-  va_start(args, pat);
-  sv_vcatpvfn(sv, pat, strlen(pat), &args, Null(SV**), 0, Null(bool*));
-  SvSETMAGIC(sv);
-  va_end(args);
+    dTHX;
+    va_list args;
+    va_start(args, pat);
+    sv_vcatpvfn(sv, pat, strlen(pat), &args, Null(SV **), 0, Null(bool *));
+    SvSETMAGIC(sv);
+    va_end(args);
 }
 
 #endif
@@ -3876,13 +3876,13 @@ extern void DPPP_(my_sv_setpvf_mg)(pTHX_ SV * sv, const char * pat, ...);
 #if defined(NEED_sv_setpvf_mg) || defined(NEED_sv_setpvf_mg_GLOBAL)
 
 void
-DPPP_(my_sv_setpvf_mg)(pTHX_ SV *sv, const char *pat, ...)
+DPPP_(my_sv_setpvf_mg)(pTHX_ SV * sv, const char * pat, ...)
 {
-  va_list args;
-  va_start(args, pat);
-  sv_vsetpvfn(sv, pat, strlen(pat), &args, Null(SV**), 0, Null(bool*));
-  SvSETMAGIC(sv);
-  va_end(args);
+    va_list args;
+    va_start(args, pat);
+    sv_vsetpvfn(sv, pat, strlen(pat), &args, Null(SV **), 0, Null(bool *));
+    SvSETMAGIC(sv);
+    va_end(args);
 }
 
 #endif
@@ -3904,14 +3904,14 @@ extern void DPPP_(my_sv_setpvf_mg_nocontext)(SV * sv, const char * pat, ...);
 #if defined(NEED_sv_setpvf_mg_nocontext) || defined(NEED_sv_setpvf_mg_nocontext_GLOBAL)
 
 void
-DPPP_(my_sv_setpvf_mg_nocontext)(SV *sv, const char *pat, ...)
+DPPP_(my_sv_setpvf_mg_nocontext)(SV * sv, const char * pat, ...)
 {
-  dTHX;
-  va_list args;
-  va_start(args, pat);
-  sv_vsetpvfn(sv, pat, strlen(pat), &args, Null(SV**), 0, Null(bool*));
-  SvSETMAGIC(sv);
-  va_end(args);
+    dTHX;
+    va_list args;
+    va_start(args, pat);
+    sv_vsetpvfn(sv, pat, strlen(pat), &args, Null(SV **), 0, Null(bool *));
+    SvSETMAGIC(sv);
+    va_end(args);
 }
 
 #endif
@@ -4380,14 +4380,16 @@ extern bool DPPP_(my_grok_numeric_radix)(pTHX_ const char ** sp, const char * se
 
 #if defined(NEED_grok_numeric_radix) || defined(NEED_grok_numeric_radix_GLOBAL)
 bool
-DPPP_(my_grok_numeric_radix)(pTHX_ const char **sp, const char *send)
+DPPP_(my_grok_numeric_radix)(pTHX_ const char ** sp, const char * send)
 {
 #ifdef USE_LOCALE_NUMERIC
 #ifdef PL_numeric_radix_sv
-    if (PL_numeric_radix_sv && IN_LOCALE) {
+    if (PL_numeric_radix_sv && IN_LOCALE)
+    {
         STRLEN len;
-        char* radix = SvPV(PL_numeric_radix_sv, len);
-        if (*sp + len <= send && memEQ(*sp, radix, len)) {
+        char * radix = SvPV(PL_numeric_radix_sv, len);
+        if (*sp + len <= send && memEQ(*sp, radix, len))
+        {
             *sp += len;
             return TRUE;
         }
@@ -4398,11 +4400,13 @@ DPPP_(my_grok_numeric_radix)(pTHX_ const char **sp, const char *send)
      */
 #include <locale.h>
     dTHR;  /* needed for older threaded perls */
-    struct lconv *lc = localeconv();
-    char *radix = lc->decimal_point;
-    if (radix && IN_LOCALE) {
+    struct lconv * lc = localeconv();
+    char * radix = lc->decimal_point;
+    if (radix && IN_LOCALE)
+    {
         STRLEN len = strlen(radix);
-        if (*sp + len <= send && memEQ(*sp, radix, len)) {
+        if (*sp + len <= send && memEQ(*sp, radix, len))
+        {
             *sp += len;
             return TRUE;
         }
@@ -4411,7 +4415,8 @@ DPPP_(my_grok_numeric_radix)(pTHX_ const char **sp, const char *send)
 #endif /* USE_LOCALE_NUMERIC */
     /* always try "." if numeric radix didn't match because
      * we may have data from different locales mixed */
-    if (*sp < send && **sp == '.') {
+    if (*sp < send && ** sp == '.')
+    {
         ++*sp;
         return TRUE;
     }
@@ -4438,194 +4443,250 @@ extern int DPPP_(my_grok_number)(pTHX_ const char * pv, STRLEN len, UV * valuep)
 
 #if defined(NEED_grok_number) || defined(NEED_grok_number_GLOBAL)
 int
-DPPP_(my_grok_number)(pTHX_ const char *pv, STRLEN len, UV *valuep)
+DPPP_(my_grok_number)(pTHX_ const char * pv, STRLEN len, UV * valuep)
 {
-  const char *s = pv;
-  const char *send = pv + len;
-  const UV max_div_10 = UV_MAX / 10;
-  const char max_mod_10 = UV_MAX % 10;
-  int numtype = 0;
-  int sawinf = 0;
-  int sawnan = 0;
+    const char * s = pv;
+    const char * send = pv + len;
+    const UV max_div_10 = UV_MAX / 10;
+    const char max_mod_10 = UV_MAX % 10;
+    int numtype = 0;
+    int sawinf = 0;
+    int sawnan = 0;
 
-  while (s < send && isSPACE(*s))
-    s++;
-  if (s == send) {
-    return 0;
-  } else if (*s == '-') {
-    s++;
-    numtype = IS_NUMBER_NEG;
-  }
-  else if (*s == '+')
-  s++;
+    while (s < send && isSPACE(*s))
+        s++;
+    if (s == send)
+    {
+        return 0;
+    }
+    else if (*s == '-')
+    {
+        s++;
+        numtype = IS_NUMBER_NEG;
+    }
+    else if (*s == '+')
+        s++;
 
-  if (s == send)
-    return 0;
+    if (s == send)
+        return 0;
 
-  /* next must be digit or the radix separator or beginning of infinity */
-  if (isDIGIT(*s)) {
-    /* UVs are at least 32 bits, so the first 9 decimal digits cannot
-       overflow.  */
-    UV value = *s - '0';
-    /* This construction seems to be more optimiser friendly.
-       (without it gcc does the isDIGIT test and the *s - '0' separately)
-       With it gcc on arm is managing 6 instructions (6 cycles) per digit.
-       In theory the optimiser could deduce how far to unroll the loop
-       before checking for overflow.  */
-    if (++s < send) {
-      int digit = *s - '0';
-      if (digit >= 0 && digit <= 9) {
-        value = value * 10 + digit;
-        if (++s < send) {
-          digit = *s - '0';
-          if (digit >= 0 && digit <= 9) {
-            value = value * 10 + digit;
-            if (++s < send) {
-              digit = *s - '0';
-              if (digit >= 0 && digit <= 9) {
+    /* next must be digit or the radix separator or beginning of infinity */
+    if (isDIGIT(*s))
+    {
+        /* UVs are at least 32 bits, so the first 9 decimal digits cannot
+           overflow.  */
+        UV value = *s - '0';
+        /* This construction seems to be more optimiser friendly.
+           (without it gcc does the isDIGIT test and the *s - '0' separately)
+           With it gcc on arm is managing 6 instructions (6 cycles) per digit.
+           In theory the optimiser could deduce how far to unroll the loop
+           before checking for overflow.  */
+        if (++s < send)
+        {
+            int digit = *s - '0';
+            if (digit >= 0 && digit <= 9)
+            {
                 value = value * 10 + digit;
-		if (++s < send) {
-                  digit = *s - '0';
-                  if (digit >= 0 && digit <= 9) {
-                    value = value * 10 + digit;
-                    if (++s < send) {
-                      digit = *s - '0';
-                      if (digit >= 0 && digit <= 9) {
+                if (++s < send)
+                {
+                    digit = *s - '0';
+                    if (digit >= 0 && digit <= 9)
+                    {
                         value = value * 10 + digit;
-                        if (++s < send) {
-                          digit = *s - '0';
-                          if (digit >= 0 && digit <= 9) {
-                            value = value * 10 + digit;
-                            if (++s < send) {
-                              digit = *s - '0';
-                              if (digit >= 0 && digit <= 9) {
+                        if (++s < send)
+                        {
+                            digit = *s - '0';
+                            if (digit >= 0 && digit <= 9)
+                            {
                                 value = value * 10 + digit;
-                                if (++s < send) {
-                                  digit = *s - '0';
-                                  if (digit >= 0 && digit <= 9) {
-                                    value = value * 10 + digit;
-                                    if (++s < send) {
-                                      /* Now got 9 digits, so need to check
-                                         each time for overflow.  */
-                                      digit = *s - '0';
-                                      while (digit >= 0 && digit <= 9
-                                             && (value < max_div_10
-                                                 || (value == max_div_10
-                                                     && digit <= max_mod_10))) {
+                                if (++s < send)
+                                {
+                                    digit = *s - '0';
+                                    if (digit >= 0 && digit <= 9)
+                                    {
                                         value = value * 10 + digit;
                                         if (++s < send)
-                                          digit = *s - '0';
-                                        else
-                                          break;
-                                      }
-                                      if (digit >= 0 && digit <= 9
-                                          && (s < send)) {
-                                        /* value overflowed.
-                                           skip the remaining digits, don't
-                                           worry about setting *valuep.  */
-                                        do {
-                                          s++;
-                                        } while (s < send && isDIGIT(*s));
-                                        numtype |=
-                                          IS_NUMBER_GREATER_THAN_UV_MAX;
-                                        goto skip_value;
-                                      }
+                                        {
+                                            digit = *s - '0';
+                                            if (digit >= 0 && digit <= 9)
+                                            {
+                                                value = value * 10 + digit;
+                                                if (++s < send)
+                                                {
+                                                    digit = *s - '0';
+                                                    if (digit >= 0 && digit <= 9)
+                                                    {
+                                                        value = value * 10 + digit;
+                                                        if (++s < send)
+                                                        {
+                                                            digit = *s - '0';
+                                                            if (digit >= 0 && digit <= 9)
+                                                            {
+                                                                value = value * 10 + digit;
+                                                                if (++s < send)
+                                                                {
+                                                                    digit = *s - '0';
+                                                                    if (digit >= 0 && digit <= 9)
+                                                                    {
+                                                                        value = value * 10 + digit;
+                                                                        if (++s < send)
+                                                                        {
+                                                                            /* Now got 9 digits, so need to check
+                                                                               each time for overflow.  */
+                                                                            digit = *s - '0';
+                                                                            while (digit >= 0 && digit <= 9
+                                                                                    && (value < max_div_10
+                                                                                        || (value == max_div_10
+                                                                                            && digit <= max_mod_10)))
+                                                                            {
+                                                                                value = value * 10 + digit;
+                                                                                if (++s < send)
+                                                                                    digit = *s - '0';
+                                                                                else
+                                                                                    break;
+                                                                            }
+                                                                            if (digit >= 0 && digit <= 9
+                                                                                    && (s < send))
+                                                                            {
+                                                                                /* value overflowed.
+                                                                                   skip the remaining digits, don't
+                                                                                   worry about setting *valuep.  */
+                                                                                do
+                                                                                {
+                                                                                    s++;
+                                                                                }
+                                                                                while (s < send && isDIGIT(*s));
+                                                                                numtype |=
+                                                                                    IS_NUMBER_GREATER_THAN_UV_MAX;
+                                                                                goto skip_value;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
-                                  }
-				}
-                              }
+                                }
                             }
-                          }
                         }
-                      }
                     }
-                  }
                 }
-              }
             }
-          }
-	}
-      }
-    }
-    numtype |= IS_NUMBER_IN_UV;
-    if (valuep)
-      *valuep = value;
+        }
+        numtype |= IS_NUMBER_IN_UV;
+        if (valuep)
+            *valuep = value;
 
-  skip_value:
-    if (GROK_NUMERIC_RADIX(&s, send)) {
-      numtype |= IS_NUMBER_NOT_INT;
-      while (s < send && isDIGIT(*s))  /* optional digits after the radix */
-        s++;
+skip_value:
+        if (GROK_NUMERIC_RADIX(&s, send))
+        {
+            numtype |= IS_NUMBER_NOT_INT;
+            while (s < send && isDIGIT(*s))  /* optional digits after the radix */
+                s++;
+        }
     }
-  }
-  else if (GROK_NUMERIC_RADIX(&s, send)) {
-    numtype |= IS_NUMBER_NOT_INT | IS_NUMBER_IN_UV; /* valuep assigned below */
-    /* no digits before the radix means we need digits after it */
-    if (s < send && isDIGIT(*s)) {
-      do {
+    else if (GROK_NUMERIC_RADIX(&s, send))
+    {
+        numtype |= IS_NUMBER_NOT_INT | IS_NUMBER_IN_UV; /* valuep assigned below */
+        /* no digits before the radix means we need digits after it */
+        if (s < send && isDIGIT(*s))
+        {
+            do
+            {
+                s++;
+            }
+            while (s < send && isDIGIT(*s));
+            if (valuep)
+            {
+                /* integer approximation is valid - it's 0.  */
+                *valuep = 0;
+            }
+        }
+        else
+            return 0;
+    }
+    else if (*s == 'I' || *s == 'i')
+    {
         s++;
-      } while (s < send && isDIGIT(*s));
-      if (valuep) {
-        /* integer approximation is valid - it's 0.  */
-        *valuep = 0;
-      }
+        if (s == send || (*s != 'N' && *s != 'n')) return 0;
+        s++;
+        if (s == send || (*s != 'F' && *s != 'f')) return 0;
+        s++;
+        if (s < send && (*s == 'I' || *s == 'i'))
+        {
+            s++;
+            if (s == send || (*s != 'N' && *s != 'n')) return 0;
+            s++;
+            if (s == send || (*s != 'I' && *s != 'i')) return 0;
+            s++;
+            if (s == send || (*s != 'T' && *s != 't')) return 0;
+            s++;
+            if (s == send || (*s != 'Y' && *s != 'y')) return 0;
+            s++;
+        }
+        sawinf = 1;
+    }
+    else if (*s == 'N' || *s == 'n')
+    {
+        /* XXX TODO: There are signaling NaNs and quiet NaNs. */
+        s++;
+        if (s == send || (*s != 'A' && *s != 'a')) return 0;
+        s++;
+        if (s == send || (*s != 'N' && *s != 'n')) return 0;
+        s++;
+        sawnan = 1;
     }
     else
-      return 0;
-  } else if (*s == 'I' || *s == 'i') {
-    s++; if (s == send || (*s != 'N' && *s != 'n')) return 0;
-    s++; if (s == send || (*s != 'F' && *s != 'f')) return 0;
-    s++; if (s < send && (*s == 'I' || *s == 'i')) {
-      s++; if (s == send || (*s != 'N' && *s != 'n')) return 0;
-      s++; if (s == send || (*s != 'I' && *s != 'i')) return 0;
-      s++; if (s == send || (*s != 'T' && *s != 't')) return 0;
-      s++; if (s == send || (*s != 'Y' && *s != 'y')) return 0;
-      s++;
-    }
-    sawinf = 1;
-  } else if (*s == 'N' || *s == 'n') {
-    /* XXX TODO: There are signaling NaNs and quiet NaNs. */
-    s++; if (s == send || (*s != 'A' && *s != 'a')) return 0;
-    s++; if (s == send || (*s != 'N' && *s != 'n')) return 0;
-    s++;
-    sawnan = 1;
-  } else
-    return 0;
+        return 0;
 
-  if (sawinf) {
-    numtype &= IS_NUMBER_NEG; /* Keep track of sign  */
-    numtype |= IS_NUMBER_INFINITY | IS_NUMBER_NOT_INT;
-  } else if (sawnan) {
-    numtype &= IS_NUMBER_NEG; /* Keep track of sign  */
-    numtype |= IS_NUMBER_NAN | IS_NUMBER_NOT_INT;
-  } else if (s < send) {
-    /* we can have an optional exponent part */
-    if (*s == 'e' || *s == 'E') {
-      /* The only flag we keep is sign.  Blow away any "it's UV"  */
-      numtype &= IS_NUMBER_NEG;
-      numtype |= IS_NUMBER_NOT_INT;
-      s++;
-      if (s < send && (*s == '-' || *s == '+'))
-        s++;
-      if (s < send && isDIGIT(*s)) {
-        do {
-          s++;
-        } while (s < send && isDIGIT(*s));
-      }
-      else
-      return 0;
+    if (sawinf)
+    {
+        numtype &= IS_NUMBER_NEG; /* Keep track of sign  */
+        numtype |= IS_NUMBER_INFINITY | IS_NUMBER_NOT_INT;
     }
-  }
-  while (s < send && isSPACE(*s))
-    s++;
-  if (s >= send)
-    return numtype;
-  if (len == 10 && memEQ(pv, "0 but true", 10)) {
-    if (valuep)
-      *valuep = 0;
-    return IS_NUMBER_IN_UV;
-  }
-  return 0;
+    else if (sawnan)
+    {
+        numtype &= IS_NUMBER_NEG; /* Keep track of sign  */
+        numtype |= IS_NUMBER_NAN | IS_NUMBER_NOT_INT;
+    }
+    else if (s < send)
+    {
+        /* we can have an optional exponent part */
+        if (*s == 'e' || *s == 'E')
+        {
+            /* The only flag we keep is sign.  Blow away any "it's UV"  */
+            numtype &= IS_NUMBER_NEG;
+            numtype |= IS_NUMBER_NOT_INT;
+            s++;
+            if (s < send && (*s == '-' || *s == '+'))
+                s++;
+            if (s < send && isDIGIT(*s))
+            {
+                do
+                {
+                    s++;
+                }
+                while (s < send && isDIGIT(*s));
+            }
+            else
+                return 0;
+        }
+    }
+    while (s < send && isSPACE(*s))
+        s++;
+    if (s >= send)
+        return numtype;
+    if (len == 10 && memEQ(pv, "0 but true", 10))
+    {
+        if (valuep)
+            *valuep = 0;
+        return IS_NUMBER_IN_UV;
+    }
+    return 0;
 }
 #endif
 #endif
@@ -4638,10 +4699,10 @@ DPPP_(my_grok_number)(pTHX_ const char *pv, STRLEN len, UV *valuep)
 
 #ifndef grok_bin
 #if defined(NEED_grok_bin)
-static UV DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result);
+static UV DPPP_(my_grok_bin)(pTHX_ char * start, STRLEN * len_p, I32 * flags, NV * result);
 static
 #else
-extern UV DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result);
+extern UV DPPP_(my_grok_bin)(pTHX_ char * start, STRLEN * len_p, I32 * flags, NV * result);
 #endif
 
 #ifdef grok_bin
@@ -4652,9 +4713,9 @@ extern UV DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
 
 #if defined(NEED_grok_bin) || defined(NEED_grok_bin_GLOBAL)
 UV
-DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
+DPPP_(my_grok_bin)(pTHX_ char * start, STRLEN * len_p, I32 * flags, NV * result)
 {
-    const char *s = start;
+    const char * s = start;
     STRLEN len = *len_p;
     UV value = 0;
     NV value_nv = 0;
@@ -4663,31 +4724,39 @@ DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
     bool allow_underscores = *flags & PERL_SCAN_ALLOW_UNDERSCORES;
     bool overflowed = FALSE;
 
-    if (!(*flags & PERL_SCAN_DISALLOW_PREFIX)) {
+    if (!(*flags & PERL_SCAN_DISALLOW_PREFIX))
+    {
         /* strip off leading b or 0b.
            for compatibility silently suffer "b" and "0b" as valid binary
            numbers. */
-        if (len >= 1) {
-            if (s[0] == 'b') {
+        if (len >= 1)
+        {
+            if (s[0] == 'b')
+            {
                 s++;
                 len--;
             }
-            else if (len >= 2 && s[0] == '0' && s[1] == 'b') {
+            else if (len >= 2 && s[0] == '0' && s[1] == 'b')
+            {
                 s+=2;
                 len-=2;
             }
         }
     }
 
-    for (; len-- && *s; s++) {
+    for (; len-- && *s; s++)
+    {
         char bit = *s;
-        if (bit == '0' || bit == '1') {
+        if (bit == '0' || bit == '1')
+        {
             /* Write it in this wonky order with a goto to attempt to get the
                compiler to make the common case integer-only loop pretty tight.
                With gcc seems to be much straighter code than old scan_bin.  */
-          redo:
-            if (!overflowed) {
-                if (value <= max_div_2) {
+redo:
+            if (!overflowed)
+            {
+                if (value <= max_div_2)
+                {
                     value = (value << 1) | (bit - '0');
                     continue;
                 }
@@ -4697,22 +4766,22 @@ DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
                 value_nv = (NV) value;
             }
             value_nv *= 2.0;
-	    /* If an NV has not enough bits in its mantissa to
-	     * represent a UV this summing of small low-order numbers
-	     * is a waste of time (because the NV cannot preserve
-	     * the low-order bits anyway): we could just remember when
-	     * did we overflow and in the end just multiply value_nv by the
-	     * right amount. */
+            /* If an NV has not enough bits in its mantissa to
+             * represent a UV this summing of small low-order numbers
+             * is a waste of time (because the NV cannot preserve
+             * the low-order bits anyway): we could just remember when
+             * did we overflow and in the end just multiply value_nv by the
+             * right amount. */
             value_nv += (NV)(bit - '0');
             continue;
         }
         if (bit == '_' && len && allow_underscores && (bit = s[1])
-            && (bit == '0' || bit == '1'))
-	    {
-		--len;
-		++s;
-                goto redo;
-	    }
+                && (bit == '0' || bit == '1'))
+        {
+            --len;
+            ++s;
+            goto redo;
+        }
         if (!(*flags & PERL_SCAN_SILENT_ILLDIGIT))
             warn("Illegal binary digit '%c' ignored", *s);
         break;
@@ -4720,13 +4789,15 @@ DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
 
     if (   ( overflowed && value_nv > 4294967295.0)
 #if UVSIZE > 4
-	|| (!overflowed && value > 0xffffffff  )
+            || (!overflowed && value > 0xffffffff  )
 #endif
-	) {
-	warn("Binary number > 0b11111111111111111111111111111111 non-portable");
+       )
+    {
+        warn("Binary number > 0b11111111111111111111111111111111 non-portable");
     }
     *len_p = s - start;
-    if (!overflowed) {
+    if (!overflowed)
+    {
         *flags = 0;
         return value;
     }
@@ -4740,10 +4811,10 @@ DPPP_(my_grok_bin)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
 
 #ifndef grok_hex
 #if defined(NEED_grok_hex)
-static UV DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result);
+static UV DPPP_(my_grok_hex)(pTHX_ char * start, STRLEN * len_p, I32 * flags, NV * result);
 static
 #else
-extern UV DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result);
+extern UV DPPP_(my_grok_hex)(pTHX_ char * start, STRLEN * len_p, I32 * flags, NV * result);
 #endif
 
 #ifdef grok_hex
@@ -4754,9 +4825,9 @@ extern UV DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
 
 #if defined(NEED_grok_hex) || defined(NEED_grok_hex_GLOBAL)
 UV
-DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
+DPPP_(my_grok_hex)(pTHX_ char * start, STRLEN * len_p, I32 * flags, NV * result)
 {
-    const char *s = start;
+    const char * s = start;
     STRLEN len = *len_p;
     UV value = 0;
     NV value_nv = 0;
@@ -4764,33 +4835,41 @@ DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
     const UV max_div_16 = UV_MAX / 16;
     bool allow_underscores = *flags & PERL_SCAN_ALLOW_UNDERSCORES;
     bool overflowed = FALSE;
-    const char *xdigit;
+    const char * xdigit;
 
-    if (!(*flags & PERL_SCAN_DISALLOW_PREFIX)) {
+    if (!(*flags & PERL_SCAN_DISALLOW_PREFIX))
+    {
         /* strip off leading x or 0x.
            for compatibility silently suffer "x" and "0x" as valid hex numbers.
         */
-        if (len >= 1) {
-            if (s[0] == 'x') {
+        if (len >= 1)
+        {
+            if (s[0] == 'x')
+            {
                 s++;
                 len--;
             }
-            else if (len >= 2 && s[0] == '0' && s[1] == 'x') {
+            else if (len >= 2 && s[0] == '0' && s[1] == 'x')
+            {
                 s+=2;
                 len-=2;
             }
         }
     }
 
-    for (; len-- && *s; s++) {
-	xdigit = strchr((char *) PL_hexdigit, *s);
-        if (xdigit) {
+    for (; len-- && *s; s++)
+    {
+        xdigit = strchr((char *) PL_hexdigit, *s);
+        if (xdigit)
+        {
             /* Write it in this wonky order with a goto to attempt to get the
                compiler to make the common case integer-only loop pretty tight.
                With gcc seems to be much straighter code than old scan_hex.  */
-          redo:
-            if (!overflowed) {
-                if (value <= max_div_16) {
+redo:
+            if (!overflowed)
+            {
+                if (value <= max_div_16)
+                {
                     value = (value << 4) | ((xdigit - PL_hexdigit) & 15);
                     continue;
                 }
@@ -4799,22 +4878,22 @@ DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
                 value_nv = (NV) value;
             }
             value_nv *= 16.0;
-	    /* If an NV has not enough bits in its mantissa to
-	     * represent a UV this summing of small low-order numbers
-	     * is a waste of time (because the NV cannot preserve
-	     * the low-order bits anyway): we could just remember when
-	     * did we overflow and in the end just multiply value_nv by the
-	     * right amount of 16-tuples. */
+            /* If an NV has not enough bits in its mantissa to
+             * represent a UV this summing of small low-order numbers
+             * is a waste of time (because the NV cannot preserve
+             * the low-order bits anyway): we could just remember when
+             * did we overflow and in the end just multiply value_nv by the
+             * right amount of 16-tuples. */
             value_nv += (NV)((xdigit - PL_hexdigit) & 15);
             continue;
         }
         if (*s == '_' && len && allow_underscores && s[1]
-		&& (xdigit = strchr((char *) PL_hexdigit, s[1])))
-	    {
-		--len;
-		++s;
-                goto redo;
-	    }
+                && (xdigit = strchr((char *) PL_hexdigit, s[1])))
+        {
+            --len;
+            ++s;
+            goto redo;
+        }
         if (!(*flags & PERL_SCAN_SILENT_ILLDIGIT))
             warn("Illegal hexadecimal digit '%c' ignored", *s);
         break;
@@ -4822,13 +4901,15 @@ DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
 
     if (   ( overflowed && value_nv > 4294967295.0)
 #if UVSIZE > 4
-	|| (!overflowed && value > 0xffffffff  )
+            || (!overflowed && value > 0xffffffff  )
 #endif
-	) {
-	warn("Hexadecimal number > 0xffffffff non-portable");
+       )
+    {
+        warn("Hexadecimal number > 0xffffffff non-portable");
     }
     *len_p = s - start;
-    if (!overflowed) {
+    if (!overflowed)
+    {
         *flags = 0;
         return value;
     }
@@ -4842,10 +4923,10 @@ DPPP_(my_grok_hex)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
 
 #ifndef grok_oct
 #if defined(NEED_grok_oct)
-static UV DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result);
+static UV DPPP_(my_grok_oct)(pTHX_ char * start, STRLEN * len_p, I32 * flags, NV * result);
 static
 #else
-extern UV DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result);
+extern UV DPPP_(my_grok_oct)(pTHX_ char * start, STRLEN * len_p, I32 * flags, NV * result);
 #endif
 
 #ifdef grok_oct
@@ -4856,9 +4937,9 @@ extern UV DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *r
 
 #if defined(NEED_grok_oct) || defined(NEED_grok_oct_GLOBAL)
 UV
-DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
+DPPP_(my_grok_oct)(pTHX_ char * start, STRLEN * len_p, I32 * flags, NV * result)
 {
-    const char *s = start;
+    const char * s = start;
     STRLEN len = *len_p;
     UV value = 0;
     NV value_nv = 0;
@@ -4867,17 +4948,21 @@ DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
     bool allow_underscores = *flags & PERL_SCAN_ALLOW_UNDERSCORES;
     bool overflowed = FALSE;
 
-    for (; len-- && *s; s++) {
-         /* gcc 2.95 optimiser not smart enough to figure that this subtraction
-            out front allows slicker code.  */
+    for (; len-- && *s; s++)
+    {
+        /* gcc 2.95 optimiser not smart enough to figure that this subtraction
+           out front allows slicker code.  */
         int digit = *s - '0';
-        if (digit >= 0 && digit <= 7) {
+        if (digit >= 0 && digit <= 7)
+        {
             /* Write it in this wonky order with a goto to attempt to get the
                compiler to make the common case integer-only loop pretty tight.
             */
-          redo:
-            if (!overflowed) {
-                if (value <= max_div_8) {
+redo:
+            if (!overflowed)
+            {
+                if (value <= max_div_8)
+                {
                     value = (value << 3) | digit;
                     continue;
                 }
@@ -4887,26 +4972,27 @@ DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
                 value_nv = (NV) value;
             }
             value_nv *= 8.0;
-	    /* If an NV has not enough bits in its mantissa to
-	     * represent a UV this summing of small low-order numbers
-	     * is a waste of time (because the NV cannot preserve
-	     * the low-order bits anyway): we could just remember when
-	     * did we overflow and in the end just multiply value_nv by the
-	     * right amount of 8-tuples. */
+            /* If an NV has not enough bits in its mantissa to
+             * represent a UV this summing of small low-order numbers
+             * is a waste of time (because the NV cannot preserve
+             * the low-order bits anyway): we could just remember when
+             * did we overflow and in the end just multiply value_nv by the
+             * right amount of 8-tuples. */
             value_nv += (NV)digit;
             continue;
         }
         if (digit == ('_' - '0') && len && allow_underscores
-            && (digit = s[1] - '0') && (digit >= 0 && digit <= 7))
-	    {
-		--len;
-		++s;
-                goto redo;
-	    }
+                && (digit = s[1] - '0') && (digit >= 0 && digit <= 7))
+        {
+            --len;
+            ++s;
+            goto redo;
+        }
         /* Allow \octal to work the DWIM way (that is, stop scanning
          * as soon as non-octal characters are seen, complain only iff
          * someone seems to want to use the digits eight and nine). */
-        if (digit == 8 || digit == 9) {
+        if (digit == 8 || digit == 9)
+        {
             if (!(*flags & PERL_SCAN_SILENT_ILLDIGIT))
                 warn("Illegal octal digit '%c' ignored", *s);
         }
@@ -4915,13 +5001,15 @@ DPPP_(my_grok_oct)(pTHX_ char *start, STRLEN *len_p, I32 *flags, NV *result)
 
     if (   ( overflowed && value_nv > 4294967295.0)
 #if UVSIZE > 4
-	|| (!overflowed && value > 0xffffffff  )
+            || (!overflowed && value > 0xffffffff  )
 #endif
-	) {
-	warn("Octal number > 037777777777 non-portable");
+       )
+    {
+        warn("Octal number > 037777777777 non-portable");
     }
     *len_p = s - start;
-    if (!overflowed) {
+    if (!overflowed)
+    {
         *flags = 0;
         return value;
     }

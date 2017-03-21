@@ -104,7 +104,8 @@ RootNode::RootNode()
     m_labelsItem->setRootNode(this);
 }
 
-void RootNode::testLeakAdd() {
+void RootNode::testLeakAdd()
+{
     /*    m_linesItem = new LinesItem(this);
 
     m_linesItem->addLinesComponent( m_skyComposite->equatorialCoordGrid(), "EquatorialGridColor", 1, Qt::DotLine );
@@ -128,7 +129,8 @@ void RootNode::testLeakAdd() {
     m_horizonItem = new HorizonItem(m_skyComposite->horizon(), this);*/
 }
 
-void RootNode::testLeakDelete() {
+void RootNode::testLeakDelete()
+{
     /*removeChildNode(m_linesItem);
     delete m_linesItem;
 
@@ -154,40 +156,49 @@ void RootNode::testLeakDelete() {
     delete m_horizonItem;*/
 }
 
-RootNode::~RootNode() {
-    for(int i = 0; i < m_textureCache.length(); ++i) {
-        for(int c = 0; c < m_textureCache[i].size(); ++c) {
+RootNode::~RootNode()
+{
+    for(int i = 0; i < m_textureCache.length(); ++i)
+    {
+        for(int c = 0; c < m_textureCache[i].size(); ++c)
+        {
             delete m_textureCache[i][c];
         }
     }
 }
 
-void RootNode::genCachedTextures() {
-    QVector<QVector<QPixmap*>> images = m_skyMapLite->getImageCache();
+void RootNode::genCachedTextures()
+{
+    QVector<QVector<QPixmap *>> images = m_skyMapLite->getImageCache();
 
-    QQuickWindow *win = m_skyMapLite->window();
+    QQuickWindow * win = m_skyMapLite->window();
 
-    m_textureCache = QVector<QVector<QSGTexture*>> (images.length());
+    m_textureCache = QVector<QVector<QSGTexture *>> (images.length());
 
-    for(int i = 0; i < m_textureCache.length(); ++i) {
+    for(int i = 0; i < m_textureCache.length(); ++i)
+    {
         int length = images[i].length();
         m_textureCache[i] = QVector<QSGTexture *>(length);
-        for(int c = 1; c < length; ++c) {
+        for(int c = 1; c < length; ++c)
+        {
             m_textureCache[i][c] = win->createTextureFromImage(images[i][c]->toImage(), QQuickWindow::TextureCanUseAtlas);
         }
     }
 }
 
-QSGTexture* RootNode::getCachedTexture(int size, char spType) {
+QSGTexture * RootNode::getCachedTexture(int size, char spType)
+{
     return m_textureCache[SkyMapLite::Instance()->harvardToIndex(spType)][size];
 }
 
-void RootNode::updateClipPoly() {
+void RootNode::updateClipPoly()
+{
     QPolygonF newClip = m_skyMapLite->projector()->clipPoly();
     m_clipPoly = newClip;
 
     const int size = m_clipPoly.size();
-    if(!m_clipGeometry) {
+    if(!m_clipGeometry)
+    {
         m_clipGeometry = new QSGGeometry (QSGGeometry::defaultAttributes_Point2D (),
                                           size);
         m_clipGeometry->setDrawingMode(GL_TRIANGLE_FAN);
@@ -198,7 +209,8 @@ void RootNode::updateClipPoly() {
     m_clipGeometry->allocate(size);
 
     QSGGeometry::Point2D * vertex = m_clipGeometry->vertexDataAsPoint2D ();
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
+    {
         vertex[i].x = m_clipPoly[i].x();
         vertex[i].y = m_clipPoly[i].y();
     }
@@ -207,9 +219,11 @@ void RootNode::updateClipPoly() {
     markDirty(QSGNode::DirtyGeometry);
 }
 
-void RootNode::update(bool clearTextures) {
+void RootNode::update(bool clearTextures)
+{
     updateClipPoly();
-    if(clearTextures) {
+    if(clearTextures)
+    {
         //First we need to create new textures and only after all PointNodes changed their textures we
         //can delete old textures
         genCachedTextures();
@@ -228,28 +242,39 @@ void RootNode::update(bool clearTextures) {
     m_starItem->update();
 
     //TODO: Move this check somewhere else (create a separate function)
-    if(Options::showSolarSystem()) {
+    if(Options::showSolarSystem())
+    {
         m_planetsItem->update();
-        if (!Options::showAsteroids() ) {
+        if (!Options::showAsteroids() )
+        {
             if (m_asteroidsItem) delete m_asteroidsItem;
-        } else {
+        }
+        else
+        {
             if(!m_asteroidsItem) m_asteroidsItem = new AsteroidsItem(m_solarSystem->asteroids(), this);
             m_asteroidsItem->update();
         }
 
-        if (!Options::showComets() ) {
+        if (!Options::showComets() )
+        {
             if (m_cometsItem) delete m_cometsItem;
-        } else {
+        }
+        else
+        {
             if(!m_cometsItem) m_cometsItem = new CometsItem(m_solarSystem->comets(), this);
             m_cometsItem->update();
         }
-    } else {
+    }
+    else
+    {
         m_planetsItem->hide();
-        if(m_asteroidsItem) {
+        if(m_asteroidsItem)
+        {
             delete m_asteroidsItem;
             m_asteroidsItem = 0;
         }
-        if(m_cometsItem) {
+        if(m_cometsItem)
+        {
             delete m_cometsItem;
             m_cometsItem = 0;
         }
@@ -269,10 +294,13 @@ void RootNode::update(bool clearTextures) {
 
     m_FOVItem->update();
 
-    if(clearTextures) {
+    if(clearTextures)
+    {
         //Delete old textures
-        if(m_oldTextureCache.length()) {
-            foreach(QVector<QSGTexture *> textures, m_oldTextureCache) {
+        if(m_oldTextureCache.length())
+        {
+            foreach(QVector<QSGTexture *> textures, m_oldTextureCache)
+            {
                 qDeleteAll(textures.begin(), textures.end());
             }
         }

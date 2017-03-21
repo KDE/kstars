@@ -29,28 +29,29 @@ class QSGGeometryNode;
 class QSGGeometry;
 class QSGFlatColorMaterial;
 
-class EllipseNode : public QSGTransformNode  {
-public:
-    EllipseNode(QColor color = QColor(), int width = 1);
+class EllipseNode : public QSGTransformNode
+{
+    public:
+        EllipseNode(QColor color = QColor(), int width = 1);
 
-    void setColor(QColor color);
-    void setLineWidth(int width);
-    /**
-     * @short Redraw ellipse with the given width, height and positions (x,y)
-     * @param filled - if true the ellipse will be filled with color
-     */
-    void updateGeometry(float x, float y, int width, int height, bool filled);
+        void setColor(QColor color);
+        void setLineWidth(int width);
+        /**
+         * @short Redraw ellipse with the given width, height and positions (x,y)
+         * @param filled - if true the ellipse will be filled with color
+         */
+        void updateGeometry(float x, float y, int width, int height, bool filled);
 
-private:
-    QSGGeometryNode *m_geometryNode;
-    QSGGeometry *m_geometry;
-    QSGFlatColorMaterial *m_material;
+    private:
+        QSGGeometryNode * m_geometryNode;
+        QSGGeometry * m_geometry;
+        QSGFlatColorMaterial * m_material;
 
-    int m_width;
-    int m_height;
+        int m_width;
+        int m_height;
 
-    float m_x;
-    float m_y;
+        float m_x;
+        float m_y;
 };
 
 #endif

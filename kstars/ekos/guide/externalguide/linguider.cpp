@@ -39,7 +39,10 @@ LinGuider::LinGuider()
     connection = DISCONNECTED;
 
     deviationTimer.setInterval(1000);
-    connect(&deviationTimer, &QTimer::timeout, this, [&](){sendCommand(GET_RA_DEC_DRIFT);});
+    connect(&deviationTimer, &QTimer::timeout, this, [&]()
+    {
+        sendCommand(GET_RA_DEC_DRIFT);
+    });
 }
 
 LinGuider::~LinGuider()
@@ -77,18 +80,18 @@ void LinGuider::displayError(QAbstractSocket::SocketError socketError)
 {
     switch (socketError)
     {
-    case QAbstractSocket::RemoteHostClosedError:
-        break;
-    case QAbstractSocket::HostNotFoundError:
-        emit newLog(i18n("The host was not found. Please check the host name and port settings in Guide options."));
-        emit newStatus(GUIDE_DISCONNECTED);
-        break;
-    case QAbstractSocket::ConnectionRefusedError:
-        emit newLog(i18n("The connection was refused by the peer. Make sure the LinGuider is running, and check that the host name and port settings are correct."));
-        emit newStatus(GUIDE_DISCONNECTED);
-        break;
-    default:
-        emit newLog(i18n("The following error occurred: %1.", tcpSocket->errorString()));
+        case QAbstractSocket::RemoteHostClosedError:
+            break;
+        case QAbstractSocket::HostNotFoundError:
+            emit newLog(i18n("The host was not found. Please check the host name and port settings in Guide options."));
+            emit newStatus(GUIDE_DISCONNECTED);
+            break;
+        case QAbstractSocket::ConnectionRefusedError:
+            emit newLog(i18n("The connection was refused by the peer. Make sure the LinGuider is running, and check that the host name and port settings are correct."));
+            emit newStatus(GUIDE_DISCONNECTED);
+            break;
+        default:
+            emit newLog(i18n("The following error occurred: %1.", tcpSocket->errorString()));
     }
 
     connection = DISCONNECTED;
@@ -109,7 +112,7 @@ void LinGuider::readLinGuider()
             if (Options::guideLogging())
                 qDebug() << "Guide:" << rawBuffer;
 
-            qint16 magicNumber = *(reinterpret_cast<qint16*>(rawBuffer.data()));
+            qint16 magicNumber = *(reinterpret_cast<qint16 *>(rawBuffer.data()));
             if (magicNumber != 0x02)
             {
                 emit newLog(i18n("Invalid response."));
@@ -117,7 +120,7 @@ void LinGuider::readLinGuider()
                 continue;
             }
 
-            qint16 command = *(reinterpret_cast<qint16*>(rawBuffer.data()+2));
+            qint16 command = *(reinterpret_cast<qint16 *>(rawBuffer.data()+2));
             if (command < GET_VER || command > GET_RA_DEC_DRIFT)
             {
                 emit newLog(i18n("Invalid response."));
@@ -125,7 +128,7 @@ void LinGuider::readLinGuider()
                 continue;
             }
 
-            qint16 datalen = *(reinterpret_cast<qint16*>(rawBuffer.data()+4));
+            qint16 datalen = *(reinterpret_cast<qint16 *>(rawBuffer.data()+4));
             if (rawBuffer.count() < datalen + 8)
                 break;
 
@@ -148,150 +151,150 @@ void LinGuider::processResponse(LinGuiderCommand command, const QString &reply)
 
     switch (command)
     {
-    case GET_VER:
-        emit newLog(i18n("Connected to LinGuider %1", reply));
-        if (reply < "v.4.1.0")
-        {
-            emit newLog(i18n("Only LinGuider v4.1.0 or higher is supported. Please upgrade LinGuider and try again."));
-            Disconnect();
-        }
-
-        sendCommand(GET_GUIDER_STATE);
-        break;
-
-    case GET_GUIDER_STATE:
-        if (reply == "GUIDING")
-        {
-            state = GUIDING;
-            emit newStatus(GUIDE_GUIDING);
-            deviationTimer.start();
-        }
-        else
-        {
-            state = IDLE;
-            deviationTimer.stop();
-        }
-        break;
-
-    case FIND_STAR:
-    {
-        emit newLog(i18n("Auto star selected %1", reply));
-        QStringList pos = reply.split(' ');
-        if (pos.count() == 2)
-        {
-            starCenter = reply;
-            sendCommand(SET_GUIDER_RETICLE_POS, reply);
-        }
-        else
-        {
-            emit newLog(i18n("Failed to process star position."));
-            emit newStatus(GUIDE_CALIBRATION_ERROR);
-        }
-    }
-        break;
-
-    case SET_GUIDER_RETICLE_POS:
-        if (reply == "OK")
-        {
-            sendCommand(SET_GUIDER_SQUARE_POS, starCenter);
-        }
-        else
-        {
-            emit newLog(i18n("Failed to set guider reticle position."));
-            emit newStatus(GUIDE_CALIBRATION_ERROR);
-        }
-        break;
-
-    case SET_GUIDER_SQUARE_POS:
-        if (reply == "OK")
-        {
-            emit newStatus(GUIDE_CALIBRATION_SUCESS);
-        }
-        else
-        {
-            emit newLog(i18n("Failed to set guider square position."));
-            emit newStatus(GUIDE_CALIBRATION_ERROR);
-        }
-        break;
-
-    case GUIDER:
-        if (reply == "OK")
-        {
-            if (state == IDLE)
+        case GET_VER:
+            emit newLog(i18n("Connected to LinGuider %1", reply));
+            if (reply < "v.4.1.0")
             {
-                emit newStatus(GUIDE_GUIDING);
-                state = GUIDING;
+                emit newLog(i18n("Only LinGuider v4.1.0 or higher is supported. Please upgrade LinGuider and try again."));
+                Disconnect();
+            }
 
+            sendCommand(GET_GUIDER_STATE);
+            break;
+
+        case GET_GUIDER_STATE:
+            if (reply == "GUIDING")
+            {
+                state = GUIDING;
+                emit newStatus(GUIDE_GUIDING);
                 deviationTimer.start();
             }
             else
             {
-                emit newStatus(GUIDE_IDLE);
                 state = IDLE;
+                deviationTimer.stop();
+            }
+            break;
+
+        case FIND_STAR:
+        {
+            emit newLog(i18n("Auto star selected %1", reply));
+            QStringList pos = reply.split(' ');
+            if (pos.count() == 2)
+            {
+                starCenter = reply;
+                sendCommand(SET_GUIDER_RETICLE_POS, reply);
+            }
+            else
+            {
+                emit newLog(i18n("Failed to process star position."));
+                emit newStatus(GUIDE_CALIBRATION_ERROR);
+            }
+        }
+        break;
+
+        case SET_GUIDER_RETICLE_POS:
+            if (reply == "OK")
+            {
+                sendCommand(SET_GUIDER_SQUARE_POS, starCenter);
+            }
+            else
+            {
+                emit newLog(i18n("Failed to set guider reticle position."));
+                emit newStatus(GUIDE_CALIBRATION_ERROR);
+            }
+            break;
+
+        case SET_GUIDER_SQUARE_POS:
+            if (reply == "OK")
+            {
+                emit newStatus(GUIDE_CALIBRATION_SUCESS);
+            }
+            else
+            {
+                emit newLog(i18n("Failed to set guider square position."));
+                emit newStatus(GUIDE_CALIBRATION_ERROR);
+            }
+            break;
+
+        case GUIDER:
+            if (reply == "OK")
+            {
+                if (state == IDLE)
+                {
+                    emit newStatus(GUIDE_GUIDING);
+                    state = GUIDING;
+
+                    deviationTimer.start();
+                }
+                else
+                {
+                    emit newStatus(GUIDE_IDLE);
+                    state = IDLE;
+
+                    deviationTimer.stop();
+                }
+            }
+            else
+            {
+                if (state == IDLE)
+                    emit newLog(i18n("Failed to start guider."));
+                else
+                    emit newLog(i18n("Failed to stop guider."));
+            }
+            break;
+
+        case GET_RA_DEC_DRIFT:
+        {
+            if (state != GUIDING)
+            {
+                state = GUIDING;
+                emit newStatus(GUIDE_GUIDING);
+            }
+
+            QStringList pos = reply.split(' ');
+            if (pos.count() == 2)
+            {
+                bool raOK=false, deOK=false;
+
+                double raDev = pos[0].toDouble(&raOK);
+                double deDev = pos[1].toDouble(&deOK);
+
+                if (raDev && deDev)
+                    emit newAxisDelta(raDev, deDev);
+            }
+            else
+            {
+                emit newLog(i18n("Failed to get RA/DEC Drift."));
+            }
+        }
+        break;
+
+        case SET_DITHERING_RANGE:
+            if (reply == "OK")
+            {
+                sendCommand(DITHER);
 
                 deviationTimer.stop();
             }
-        }
-        else
-        {
-            if (state == IDLE)
-                emit newLog(i18n("Failed to start guider."));
             else
-                emit newLog(i18n("Failed to stop guider."));
-        }
-        break;
+            {
+                emit newLog(i18n("Failed to set dither range."));
+            }
+            break;
 
-    case GET_RA_DEC_DRIFT:
-    {
-        if (state != GUIDING)
-        {
+        case DITHER:
+            if (reply == "Long time cmd finished")
+                emit newStatus(GUIDE_DITHERING_SUCCESS);
+            else
+                emit newStatus(GUIDE_DITHERING_ERROR);
+
             state = GUIDING;
-            emit newStatus(GUIDE_GUIDING);
-        }        
+            deviationTimer.start();
+            break;
 
-        QStringList pos = reply.split(' ');
-        if (pos.count() == 2)
-        {
-            bool raOK=false, deOK=false;
-
-            double raDev = pos[0].toDouble(&raOK);
-            double deDev = pos[1].toDouble(&deOK);
-
-            if (raDev && deDev)
-                emit newAxisDelta(raDev, deDev);
-        }
-        else
-        {
-            emit newLog(i18n("Failed to get RA/DEC Drift."));
-        }
-    }
-        break;
-
-    case SET_DITHERING_RANGE:        
-        if (reply == "OK")
-        {
-            sendCommand(DITHER);
-
-            deviationTimer.stop();
-        }
-        else
-        {
-            emit newLog(i18n("Failed to set dither range."));
-        }
-        break;
-
-    case DITHER:
-        if (reply == "Long time cmd finished")
-            emit newStatus(GUIDE_DITHERING_SUCCESS);
-        else
-            emit newStatus(GUIDE_DITHERING_ERROR);
-
-        state = GUIDING;
-        deviationTimer.start();
-        break;
-
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -306,7 +309,7 @@ void LinGuider::onConnected()
 }
 
 void LinGuider::sendCommand(LinGuiderCommand command, const QString &args)
-{    
+{
     // Command format: Magic Number (0x00 0x02), cmd (2 bytes), len_of_param (4 bytes), param (ascii)
 
     int size = 8 + args.size();

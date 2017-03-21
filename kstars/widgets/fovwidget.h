@@ -22,19 +22,20 @@
 
 class FOV;
 
-class FOVWidget : public QFrame {
-    Q_OBJECT
+class FOVWidget : public QFrame
+{
+        Q_OBJECT
     public:
-        explicit FOVWidget( QWidget *parent=0 );
+        explicit FOVWidget( QWidget * parent=0 );
         ~FOVWidget();
 
-        void setFOV( FOV *f );
+        void setFOV( FOV * f );
 
     protected:
-        void paintEvent( QPaintEvent *e );
+        void paintEvent( QPaintEvent * e );
 
     private:
-        FOV *m_FOV;
+        FOV * m_FOV;
 };
 
 #endif

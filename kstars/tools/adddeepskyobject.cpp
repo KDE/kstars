@@ -26,16 +26,18 @@
 /* Qt Includes */
 #include <QInputDialog>
 
-AddDeepSkyObject::AddDeepSkyObject( QWidget *parent, SyncedCatalogComponent *catalog ) :
-    QDialog( parent ), m_catalog( catalog ), ui( new Ui::AddDeepSkyObject ) {
+AddDeepSkyObject::AddDeepSkyObject( QWidget * parent, SyncedCatalogComponent * catalog ) :
+    QDialog( parent ), m_catalog( catalog ), ui( new Ui::AddDeepSkyObject )
+{
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     Q_ASSERT( catalog );
     ui->setupUi( this );
 
     // Set up various things in the dialog so it is ready to be shown
-    for( int k = 0; k < SkyObject::NUMBER_OF_KNOWN_TYPES; ++k ) {
+    for( int k = 0; k < SkyObject::NUMBER_OF_KNOWN_TYPES; ++k )
+    {
         ui->typeComboBox->addItem( SkyObject::typeName( k ) );
     }
 
@@ -49,7 +51,7 @@ AddDeepSkyObject::AddDeepSkyObject( QWidget *parent, SyncedCatalogComponent *cat
     // Connections
     //    connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
-    QAbstractButton *resetButton = ui->buttonBox->button( QDialogButtonBox::Reset );
+    QAbstractButton * resetButton = ui->buttonBox->button( QDialogButtonBox::Reset );
     connect( resetButton, SIGNAL( clicked() ), this, SLOT( resetView() ) );
     connect( ui->fillFromTextButton,  SIGNAL( clicked() ), this, SLOT( slotFillFromText() ) );
 
@@ -57,11 +59,13 @@ AddDeepSkyObject::AddDeepSkyObject( QWidget *parent, SyncedCatalogComponent *cat
     show();
 }
 
-AddDeepSkyObject::~AddDeepSkyObject() {
+AddDeepSkyObject::~AddDeepSkyObject()
+{
     delete ui;
 }
 
-void AddDeepSkyObject::fillFromText( const QString &text ) {
+void AddDeepSkyObject::fillFromText( const QString &text )
+{
     // Parse text to fill in the options
 
     // TODO: Add code to match and guess object type, to match blue magnitude.
@@ -97,38 +101,45 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
 
     // Note: The following method is a proxy to support older versions of Qt.
     // In Qt 5.5 and above, the QString::indexOf(const QRegularExpression &re, int from, QRegularExpressionMatch *rmatch) method obviates the need for the following.
-    auto indexOf = []( const QString &s, const QRegularExpression &regExp, int from, QRegularExpressionMatch *m ) -> int {
+    auto indexOf = []( const QString &s, const QRegularExpression &regExp, int from, QRegularExpressionMatch *m ) -> int
+    {
         *m = regExp.match( s, from );
         return m->capturedStart( 0 );
     };
 
-    auto countNonOverlappingMatches = [ indexOf ]( const QString &string, const QRegularExpression &regExp, QStringList *list = 0 ) -> int {
+    auto countNonOverlappingMatches = [ indexOf ]( const QString &string, const QRegularExpression &regExp, QStringList * list = 0 ) -> int
+    {
         int count = 0;
         int matchIndex = -1;
         int lastMatchLength = 1;
         QRegularExpressionMatch rmatch;
-        while ( ( matchIndex = indexOf( string, regExp, matchIndex + lastMatchLength, &rmatch ) ) >= 0 ) {
+        while ( ( matchIndex = indexOf( string, regExp, matchIndex + lastMatchLength, &rmatch ) ) >= 0 )
+        {
             ++count;
             lastMatchLength = rmatch.captured( 0 ).length();
-         if ( list )
-             list->append( rmatch.captured( 0 ) );
+            if ( list )
+                list->append( rmatch.captured( 0 ) );
         }
         return count;
     };
 
     QRegularExpressionMatch rmatch;
     int nonOverlappingMatchCount;
-    if ( ( nonOverlappingMatchCount = countNonOverlappingMatches( text, matchCoords ) ) == 2 ) {
+    if ( ( nonOverlappingMatchCount = countNonOverlappingMatches( text, matchCoords ) ) == 2 )
+    {
         coordText = text;
     }
-    else if ( nonOverlappingMatchCount > 2 ) {
+    else if ( nonOverlappingMatchCount > 2 )
+    {
         qDebug() << "Found more than 2 coordinate matches. Trying to match J2000 line.";
-        if ( indexOf( text, matchJ2000Line, 0, &rmatch ) >= 0 ) {
+        if ( indexOf( text, matchJ2000Line, 0, &rmatch ) >= 0 )
+        {
             coordText = rmatch.captured( 1 ) + rmatch.captured( 2 );
             qDebug() << "Found a J2000 line match: " << coordText;
         }
     }
-    if ( !coordText.isEmpty() ) {
+    if ( !coordText.isEmpty() )
+    {
         int coord1 = indexOf( coordText, matchCoords, 0, &rmatch );
         Q_ASSERT( coord1 >= 0 );
         RA = dms( rmatch.captured( 1 ) + ' ' + rmatch.captured( 2 ) + ' ' + rmatch.captured( 3 ), false );
@@ -138,8 +149,10 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
         qDebug() << "Extracted coordinates: " << RA.toHMSString() << " " << Dec.toDMSString();
         coordsFound = true;
     }
-    else {
-        if ( text.contains( matchCoords2, &rmatch ) ) {
+    else
+    {
+        if ( text.contains( matchCoords2, &rmatch ) )
+        {
             QString matchString = rmatch.captured( 0 );
             QRegularExpression extractCoords2( "(\\d\\d)(\\d\\d)(\\d\\d)([-+]\\d\\d)(\\d\\d)(\\d\\d)" );
             Q_ASSERT(  matchString.contains( extractCoords2,  &rmatch ) );
@@ -147,7 +160,8 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
             Dec = dms( rmatch.captured( 4 ) + ' ' + rmatch.captured( 5 ) + ' ' + rmatch.captured( 6 ), true );
             coordsFound = true;
         }
-        else {
+        else
+        {
             QStringList matches;
             qDebug() << "Could not extract RA/Dec. Found " << countNonOverlappingMatches( text, matchCoords, &matches ) << " coordinate matches:";
             qDebug() << matches;
@@ -155,44 +169,54 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
     }
 
     nameFound = true;
-    if ( text.contains( findName1, &rmatch ) ) { // Explicit name search
+    if ( text.contains( findName1, &rmatch ) )   // Explicit name search
+    {
         qDebug() << "Found explicit name field: " << rmatch.captured( 1 ) << " in text " << rmatch.captured( 0 );
         name = rmatch.captured( 1 );
     }
-    else if ( text.contains( findName2, &rmatch ) ) {
+    else if ( text.contains( findName2, &rmatch ) )
+    {
         qDebug() << "Found known catalog field: " << ( name = rmatch.captured( 1 ) + ' ' + rmatch.captured( 2 ) ) << " in text " << rmatch.captured( 0 );
     }
-    else if ( text.contains( findName3, &rmatch ) ) {
+    else if ( text.contains( findName3, &rmatch ) )
+    {
         qDebug() << "Found something that looks like a catalog designation: " << ( name = rmatch.captured( 1 ) + ' ' + rmatch.captured( 2 ) ) << " in text " << rmatch.captured( 0 );
     }
-    else {
+    else
+    {
         qDebug() << "Could not find name.";
         nameFound = false;
     }
 
     magFound = true;
-    if ( text.contains( findMag1, &rmatch ) ) {
+    if ( text.contains( findMag1, &rmatch ) )
+    {
         qDebug() << "Found magnitude: " << rmatch.captured( 1 ) << " in text " << rmatch.captured( 0 );
         mag = rmatch.captured( 1 ).toFloat();
     }
-    else if ( text.contains( findMag2, &rmatch ) ) {
+    else if ( text.contains( findMag2, &rmatch ) )
+    {
         qDebug() << "Found magnitude: " << rmatch.captured( 1 ) << " in text " << rmatch.captured( 0 );
         mag = rmatch.captured( 1 ).toFloat();
     }
-    else {
+    else
+    {
         qDebug() << "Could not find magnitude.";
         magFound = false;
     }
 
     sizeFound = true;
-    if ( text.contains( findSize1, &rmatch ) ) {
+    if ( text.contains( findSize1, &rmatch ) )
+    {
         qDebug() << "Found size: " << rmatch.captured( 1 ) << " x " << rmatch.captured( 3 ) << " with units " << rmatch.captured( 4 ) << " in text " << rmatch.captured( 0 );
         majorAxis = rmatch.captured( 1 ).toFloat();
         QString unitText2;
-        if ( rmatch.captured( 2 ).isEmpty() ) {
+        if ( rmatch.captured( 2 ).isEmpty() )
+        {
             unitText2 = rmatch.captured( 4 );
         }
-        else {
+        else
+        {
             unitText2 = rmatch.captured( 2 );
         }
 
@@ -208,7 +232,8 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
             minorAxis /= 60;
         qDebug() << "Major axis = " << majorAxis << "; minor axis = " << minorAxis << " in arcmin";
     }
-    else if ( text.contains( findSize2, &rmatch ) ) {
+    else if ( text.contains( findSize2, &rmatch ) )
+    {
         majorAxis = rmatch.captured( 1 ).toFloat();
         if ( rmatch.captured( 2 ).contains( "°" ) )
             majorAxis *= 60;
@@ -216,14 +241,16 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
             majorAxis /= 60;
         minorAxis = majorAxis;
     }
-    else if ( text.contains( findMajorAxis, &rmatch ) ) {
+    else if ( text.contains( findMajorAxis, &rmatch ) )
+    {
         majorAxis = rmatch.captured( 1 ).toFloat();
         if ( rmatch.captured( 2 ).contains( "°" ) )
             majorAxis *= 60;
         else if ( rmatch.captured( 2 ).contains( "\"" ) || rmatch.captured( 2 ).contains( "\'\'" ) )
             majorAxis /= 60;
         minorAxis = majorAxis;
-        if ( text.contains( findMinorAxis, &rmatch ) ) {
+        if ( text.contains( findMinorAxis, &rmatch ) )
+        {
             minorAxis = rmatch.captured( 1 ).toFloat();
             if ( rmatch.captured( 2 ).contains( "°" ) )
                 minorAxis *= 60;
@@ -233,17 +260,20 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
     }
 
 
-    else {
+    else
+    {
         qDebug() << "Could not find size."; // FIXME: Improve to include separate major and minor axis matches, and size matches for round objects.
         sizeFound = false;
     }
 
     positionAngleFound = true;
-    if ( text.contains( findPA, &rmatch ) ) {
+    if ( text.contains( findPA, &rmatch ) )
+    {
         qDebug() << "Found position angle: " << rmatch.captured( 1 ) << " in text " << rmatch.captured( 0 );
         positionAngle = rmatch.captured( 1 ).toFloat();
     }
-    else {
+    else
+    {
         qDebug() << "Could not find position angle.";
         positionAngleFound = false;
     }
@@ -252,19 +282,22 @@ void AddDeepSkyObject::fillFromText( const QString &text ) {
         ui->longNameEdit->setText( name );
     if ( magFound )
         ui->visualMagnitudeInput->setValue( mag ); // Improve band identification (V vs. B)
-    if ( coordsFound ) {
+    if ( coordsFound )
+    {
         ui->raInput->setDMS( RA.toHMSString() );
         ui->decInput->setDMS( Dec.toDMSString() );
     }
     if ( positionAngleFound )
         ui->positionAngleInput->setValue( positionAngle );
-    if ( sizeFound ) {
+    if ( sizeFound )
+    {
         ui->majorAxisInput->setValue( majorAxis );
         ui->minorAxisInput->setValue( minorAxis );
     }
 }
 
-void AddDeepSkyObject::resetView() {
+void AddDeepSkyObject::resetView()
+{
     ui->actualTypeDisplay->setText( SkyObject::typeName( SkyObject::TYPE_UNKNOWN ) );
     ui->catalogIDInput->setValue( m_catalog->objectList().count() );
     ui->blueMagnitudeInput->setValue( 99.99 );
@@ -278,7 +311,8 @@ void AddDeepSkyObject::resetView() {
     ui->decInput->setDMS( QString() );
 }
 
-bool AddDeepSkyObject::slotOk() {
+bool AddDeepSkyObject::slotOk()
+{
     // Formulate a CatalogEntryData object
     CatalogEntryData centry;
     bool ok;
@@ -298,7 +332,8 @@ bool AddDeepSkyObject::slotOk() {
     // Insert it into the catalog
     bool success = m_catalog->addObject( centry );
 
-    if( !success ) {
+    if( !success )
+    {
         // Display error message
         KMessageBox::sorry( 0, i18n( "Could not add deep-sky object. See console for error message!" ), i18n( "Add deep-sky object" ) );
     }
@@ -307,10 +342,11 @@ bool AddDeepSkyObject::slotOk() {
     return success;
 }
 
-void AddDeepSkyObject::slotFillFromText() {
+void AddDeepSkyObject::slotFillFromText()
+{
     bool ok = false;
     QString text = QInputDialog::getMultiLineText( this, i18n( "Add deep-sky object : enter text" ),
-                                                   i18n( "Enter the data to guess parameters from:" ), QString(), &ok );
+                   i18n( "Enter the data to guess parameters from:" ), QString(), &ok );
     if ( ok )
         fillFromText( text );
 }

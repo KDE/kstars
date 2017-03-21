@@ -24,25 +24,25 @@
 #include "kstars/Options.h"
 
 SimpleFovExporter::SimpleFovExporter() :
-        m_KSData(KStarsData::Instance()), m_Map(KStars::Instance()->map()),
-        m_StopClock(false), m_OverrideFovShape(false), m_DrawFovSymbol(false),
-        m_PrevClockState(false), m_PrevSlewing(false), m_PrevPoint(0),
-        m_PrevZoom(0)
+    m_KSData(KStarsData::Instance()), m_Map(KStars::Instance()->map()),
+    m_StopClock(false), m_OverrideFovShape(false), m_DrawFovSymbol(false),
+    m_PrevClockState(false), m_PrevSlewing(false), m_PrevPoint(0),
+    m_PrevZoom(0)
 {}
 
-void SimpleFovExporter::exportFov(SkyPoint *point, FOV *fov, QPaintDevice *pd)
+void SimpleFovExporter::exportFov(SkyPoint * point, FOV * fov, QPaintDevice * pd)
 {
     saveState(true);
     pExportFov(point, fov, pd);
     restoreState(true);
 }
 
-void SimpleFovExporter::exportFov(FOV *fov, QPaintDevice *pd)
+void SimpleFovExporter::exportFov(FOV * fov, QPaintDevice * pd)
 {
     pExportFov(0, fov, pd);
 }
 
-void SimpleFovExporter::exportFov(QPaintDevice *pd)
+void SimpleFovExporter::exportFov(QPaintDevice * pd)
 {
     SkyQPainter painter(m_Map, pd);
     painter.begin();
@@ -58,7 +58,7 @@ void SimpleFovExporter::exportFov(QPaintDevice *pd)
     m_Map->getSkyMapDrawAbstract()->drawOverlays(painter, false);
 }
 
-void SimpleFovExporter::exportFov(const QList<SkyPoint*> &points, const QList<FOV*> &fovs, const QList<QPaintDevice*> &pds)
+void SimpleFovExporter::exportFov(const QList<SkyPoint *> &points, const QList<FOV *> &fovs, const QList<QPaintDevice *> &pds)
 {
     Q_ASSERT(points.size() == fovs.size() && fovs.size() == pds.size());
 
@@ -72,7 +72,7 @@ void SimpleFovExporter::exportFov(const QList<SkyPoint*> &points, const QList<FO
     restoreState(true);
 }
 
-void SimpleFovExporter::exportFov(const QList<SkyPoint*> &points, FOV *fov, const QList<QPaintDevice*> &pds)
+void SimpleFovExporter::exportFov(const QList<SkyPoint *> &points, FOV * fov, const QList<QPaintDevice *> &pds)
 {
     Q_ASSERT(points.size() == pds.size());
 
@@ -86,7 +86,7 @@ void SimpleFovExporter::exportFov(const QList<SkyPoint*> &points, FOV *fov, cons
     restoreState(true);
 }
 
-void SimpleFovExporter::pExportFov(SkyPoint *point, FOV *fov, QPaintDevice *pd)
+void SimpleFovExporter::pExportFov(SkyPoint * point, FOV * fov, QPaintDevice * pd)
 {
     if(point)
     {

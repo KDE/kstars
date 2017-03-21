@@ -116,7 +116,7 @@ void SequenceJob::prepareCapture()
     if (isoIndex != -1)
     {
         if (isoIndex != activeChip->getISOIndex())
-             activeChip->setISOIndex(isoIndex);
+            activeChip->setISOIndex(isoIndex);
     }
 
     if (frameType == FRAME_DARK || frameType == FRAME_BIAS)
@@ -155,7 +155,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
 {
     // If focusing is busy, return error
     //if (activeChip->getCaptureMode() == FITS_FOCUS)
-      //  return CAPTURE_FOCUS_ERROR;
+    //  return CAPTURE_FOCUS_ERROR;
 
     activeChip->setBatchMode(!preview);
 
@@ -168,17 +168,17 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
         }
     }
 
-   if (isoIndex != -1)
-   {
-       if (isoIndex != activeChip->getISOIndex())
+    if (isoIndex != -1)
+    {
+        if (isoIndex != activeChip->getISOIndex())
             activeChip->setISOIndex(isoIndex);
-   }
+    }
 
-   // Only attempt to set ROI and Binning if CCD transfer format is FITS
-   if (activeCCD->getTransferFormat() == ISD::CCD::FORMAT_FITS)
-   {
-       if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
-       {
+    // Only attempt to set ROI and Binning if CCD transfer format is FITS
+    if (activeCCD->getTransferFormat() == ISD::CCD::FORMAT_FITS)
+    {
+        if ((w > 0 && h > 0) && activeChip->canSubframe() && activeChip->setFrame(x, y, w, h) == false)
+        {
             status = JOB_ERROR;
 
             if (preview == false && statusCell)
@@ -186,32 +186,32 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
 
             return CAPTURE_FRAME_ERROR;
 
-       }
+        }
 
-       if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
-       {
-           status = JOB_ERROR;
+        if (activeChip->canBin() && activeChip->setBinning(binX, binY) == false)
+        {
+            status = JOB_ERROR;
 
-           if (preview == false && statusCell)
-               statusCell->setText(statusStrings[status]);
+            if (preview == false && statusCell)
+                statusCell->setText(statusStrings[status]);
 
-           return CAPTURE_BIN_ERROR;
-       }
-   }
+            return CAPTURE_BIN_ERROR;
+        }
+    }
 
-   activeChip->setFrameType(frameType);
-   activeChip->setCaptureMode(FITS_NORMAL);
+    activeChip->setFrameType(frameType);
+    activeChip->setCaptureMode(FITS_NORMAL);
 
-   if (noCaptureFilter)
-       activeChip->setCaptureFilter(FITS_NONE);
-   else
-       activeChip->setCaptureFilter(captureFilter);
+    if (noCaptureFilter)
+        activeChip->setCaptureFilter(FITS_NONE);
+    else
+        activeChip->setCaptureFilter(captureFilter);
 
-   // If filter is different that CCD, send the filter info
-   if (activeFilter && activeFilter != activeCCD)
-       activeCCD->setFilter(filter);
+    // If filter is different that CCD, send the filter info
+    if (activeFilter && activeFilter != activeCCD)
+        activeCCD->setFilter(filter);
 
-   status = JOB_BUSY;
+    status = JOB_BUSY;
 
     if (preview == false && statusCell)
         statusCell->setText(statusStrings[status]);
@@ -224,7 +224,7 @@ SequenceJob::CAPTUREResult SequenceJob::capture(bool noCaptureFilter)
 
 }
 
-void SequenceJob::setTargetFilter(int pos, const QString & name)
+void SequenceJob::setTargetFilter(int pos, const QString &name)
 {
     targetFilter = pos;
     filter    = name;

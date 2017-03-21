@@ -60,7 +60,7 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
                               const QString &n, const QString &n2,
                               const QString &lname, const QString &cat,
                               float a, float b, double pa, int pgc, int ugc )
-        : SkyObject( t, r, d, m, n, n2, lname )
+    : SkyObject( t, r, d, m, n, n2, lname )
 {
     MajorAxis = a;
     MinorAxis = b;
@@ -76,7 +76,7 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
     //loadImage();
 }
 
-DeepSkyObject::DeepSkyObject( const CatalogEntryData &data, CatalogComponent *cat )
+DeepSkyObject::DeepSkyObject( const CatalogEntryData &data, CatalogComponent * cat )
 {
     // FIXME: This assumes that CatalogEntryData coordinates have
     // J2000.0 as epoch as opposed to the catalog's epoch!!! -- asimha
@@ -87,7 +87,8 @@ DeepSkyObject::DeepSkyObject( const CatalogEntryData &data, CatalogComponent *ca
     setLongName( data.long_name );
     if( ! data.catalog_name.isEmpty() )
         setName( data.catalog_name + ' ' + QString::number( data.ID ) );
-    else {
+    else
+    {
         setName( data.long_name );
         setLongName( QString() );
     }
@@ -106,32 +107,36 @@ DeepSkyObject::DeepSkyObject( const CatalogEntryData &data, CatalogComponent *ca
     //loadImage();
 }
 
-DeepSkyObject* DeepSkyObject::clone() const
+DeepSkyObject * DeepSkyObject::clone() const
 {
     Q_ASSERT( typeid( this ) == typeid( static_cast<const DeepSkyObject *>( this ) ) ); // Ensure we are not slicing a derived class
     return new DeepSkyObject(*this);
 }
 
-void DeepSkyObject::initPopupMenu( KSPopupMenu *pmenu ) {
+void DeepSkyObject::initPopupMenu( KSPopupMenu * pmenu )
+{
 #ifndef KSTARS_LITE
     pmenu->createDeepSkyObjectMenu( this );
 #endif
 }
 
-float DeepSkyObject::e() const {
+float DeepSkyObject::e() const
+{
     if ( MajorAxis==0.0 || MinorAxis==0.0 )
         return 1.0; //assume circular
     return MinorAxis / MajorAxis;
 }
 
-QString DeepSkyObject::catalog() const {
+QString DeepSkyObject::catalog() const
+{
     if ( isCatalogM() ) return QString("M");
     if ( isCatalogNGC() ) return QString("NGC");
     if ( isCatalogIC() ) return QString("IC");
     return QString();
 }
 
-void DeepSkyObject::setCatalog( const QString &cat ) {
+void DeepSkyObject::setCatalog( const QString &cat )
+{
     if ( cat.toUpper() == "M" ) Catalog = (unsigned char)CAT_MESSIER;
     else if ( cat.toUpper() == "NGC" ) Catalog = (unsigned char)CAT_NGC;
     else if ( cat.toUpper() == "IC"  ) Catalog = (unsigned char)CAT_IC;
@@ -145,13 +150,15 @@ void DeepSkyObject::loadImage()
     imageLoaded=true;
 }
 
-double DeepSkyObject::labelOffset() const {
+double DeepSkyObject::labelOffset() const
+{
     //Calculate object size in pixels
     double majorAxis = a();
     double minorAxis = b();
-    if ( majorAxis == 0.0 && type() == 1 ) { //catalog stars
-      majorAxis = 1.0;
-      minorAxis = 1.0;
+    if ( majorAxis == 0.0 && type() == 1 )   //catalog stars
+    {
+        majorAxis = 1.0;
+        minorAxis = 1.0;
     }
     double size = ((majorAxis + minorAxis) / 2.0 ) * dms::PI * Options::zoomFactor()/10800.0;
     return 0.5*size + 4.;

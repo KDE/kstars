@@ -33,55 +33,58 @@ class SkyLabeler;
 /**
 	*@class PlanetMoonsComponent
 	*Represents the planetmoons on the sky map.
-	
+
 	*@author Vipul Kumar Singh
 	*@author Médéric boquien
 	*@version 0.1
 	*/
 class PlanetMoonsComponent : public SkyComponent
 {
-public:
-    /**
-     *@short Constructor
-     *@p parent pointer to the parent SkyComposite
-     */
-    PlanetMoonsComponent( SkyComposite *parent, SolarSystemSingleComponent *pla, KSPlanetBase::Planets planet );
+    public:
+        /**
+         *@short Constructor
+         *@p parent pointer to the parent SkyComposite
+         */
+        PlanetMoonsComponent( SkyComposite * parent, SolarSystemSingleComponent * pla, KSPlanetBase::Planets planet );
 
-    /**
-     *@short Destructor
-     */
-    ~PlanetMoonsComponent();
+        /**
+         *@short Destructor
+         */
+        ~PlanetMoonsComponent();
 
-    virtual bool selected();
-    virtual void draw( SkyPainter *skyp );
+        virtual bool selected();
+        virtual void draw( SkyPainter * skyp );
 #ifndef KSTARS_LITE
-    virtual void update( KSNumbers *num );
+        virtual void update( KSNumbers * num );
 #endif
-    virtual void updateMoons( KSNumbers *num );
+        virtual void updateMoons( KSNumbers * num );
 
-    SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+        SkyObject * objectNearest( SkyPoint * p, double &maxrad );
 
-    /** @return a pointer to a moon if its name matches the argument
-     *
-     * @p name the name to be matched
-     * @return a SkyObject pointer to the moon whose name matches
-     * the argument, or a NULL pointer if no match was found.
-     */
-    SkyObject* findByName( const QString &name );
+        /** @return a pointer to a moon if its name matches the argument
+         *
+         * @p name the name to be matched
+         * @return a SkyObject pointer to the moon whose name matches
+         * the argument, or a NULL pointer if no match was found.
+         */
+        SkyObject * findByName( const QString &name );
 
-    /** Return pointer to stored planet object. */
-    KSPlanetBase* getPlanet() const;
+        /** Return pointer to stored planet object. */
+        KSPlanetBase * getPlanet() const;
 
-    /** Return pointer to stored moons object. */
-    inline PlanetMoons* getMoons() const { return pmoons; }
+        /** Return pointer to stored moons object. */
+        inline PlanetMoons * getMoons() const
+        {
+            return pmoons;
+        }
 
-protected:
-    virtual void drawTrails( SkyPainter* skyp );
+    protected:
+        virtual void drawTrails( SkyPainter * skyp );
 
-private:
-    KSPlanetBase::Planets planet;
-    PlanetMoons *pmoons;
-    SolarSystemSingleComponent *m_Planet;
+    private:
+        KSPlanetBase::Planets planet;
+        PlanetMoons * pmoons;
+        SolarSystemSingleComponent * m_Planet;
 };
 
 #endif

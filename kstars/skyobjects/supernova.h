@@ -36,43 +36,55 @@
  */
 class Supernova : public SkyObject
 {
-public:
-    explicit Supernova(const QString &sName, dms ra, dms dec, const QString& type=QString(), const QString& hostGalaxy=QString(),
-                       const QString& date=QString(), float sRedShift = 0.0, float sMag = 99.9);
-    /**
-     * @return a clone of this object
-     * @note See SkyObject::clone()
-     */
-    virtual Supernova* clone() const;
+    public:
+        explicit Supernova(const QString &sName, dms ra, dms dec, const QString &type=QString(), const QString &hostGalaxy=QString(),
+                           const QString &date=QString(), float sRedShift = 0.0, float sMag = 99.9);
+        /**
+         * @return a clone of this object
+         * @note See SkyObject::clone()
+         */
+        virtual Supernova * clone() const;
 
-    /** Destructor(Empty) */
-    virtual ~Supernova() {}    
+        /** Destructor(Empty) */
+        virtual ~Supernova() {}
 
-    /**
-     * @return the type of the supernova
-     */
-    inline QString getType() const { return type; }
+        /**
+         * @return the type of the supernova
+         */
+        inline QString getType() const
+        {
+            return type;
+        }
 
-    /**
-     * @return the host galaxy of the supernova
-     */
-    inline QString getHostGalaxy() const { return hostGalaxy; }
+        /**
+         * @return the host galaxy of the supernova
+         */
+        inline QString getHostGalaxy() const
+        {
+            return hostGalaxy;
+        }
 
-    /**
-     * @return the date the supernova was observed
-     */
-    inline QString getDate() const { return date; }
+        /**
+         * @return the date the supernova was observed
+         */
+        inline QString getDate() const
+        {
+            return date;
+        }
 
-    /**
-     * @return the date the supernova was observed
-     */
-    inline float getRedShift() const { return redShift; }
+        /**
+         * @return the date the supernova was observed
+         */
+        inline float getRedShift() const
+        {
+            return redShift;
+        }
 
-    void initPopupMenu(KSPopupMenu*);
+        void initPopupMenu(KSPopupMenu *);
 
-private:
-    QString type, hostGalaxy, date;
-    float redShift;
+    private:
+        QString type, hostGalaxy, date;
+        float redShift;
 };
 
 #endif

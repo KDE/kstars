@@ -20,13 +20,14 @@
 #ifndef EQPLOTWIDGET_H_
 #define EQPLOTWIDGET_H_
 
-class eqPlotWidget : public KPlotWidget {
-    Q_OBJECT
-public:
-    eqPlotWidget( QWidget *parent=0 );
+class eqPlotWidget : public KPlotWidget
+{
+        Q_OBJECT
+    public:
+        eqPlotWidget( QWidget * parent=0 );
 
-protected:
-    virtual void paintEvent( QPaintEvent * );
+    protected:
+        virtual void paintEvent( QPaintEvent * );
 };
 
 #endif

@@ -30,7 +30,7 @@
 #include "skymap.h"
 #endif
 
-#include "skyobjects/skypoint.h" 
+#include "skyobjects/skypoint.h"
 #include "dms.h"
 #include "skylabeler.h"
 #include "skypainter.h"
@@ -39,15 +39,16 @@
 
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
-HorizonComponent::HorizonComponent(SkyComposite *parent )
-        : PointListComponent( parent )
+HorizonComponent::HorizonComponent(SkyComposite * parent )
+    : PointListComponent( parent )
 {
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     emitProgressText( i18n("Creating horizon" ) );
 
     //Define Horizon
-    for ( unsigned int i=0; i<NCIRCLE; ++i ) {
-        SkyPoint *o = new SkyPoint();
+    for ( unsigned int i=0; i<NCIRCLE; ++i )
+    {
+        SkyPoint * o = new SkyPoint();
         o->setAz( i*360./NCIRCLE );
         o->setAlt( 0.0 );
 
@@ -68,8 +69,9 @@ void HorizonComponent::update( KSNumbers * )
 {
     if ( ! selected() )
         return;
-    KStarsData *data = KStarsData::Instance();
-    foreach ( SkyPoint *p, pointList() ) {
+    KStarsData * data = KStarsData::Instance();
+    foreach ( SkyPoint * p, pointList() )
+    {
         p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
     }
 }
@@ -78,13 +80,13 @@ void HorizonComponent::update( KSNumbers * )
 //To select the valid half, we start with the azimuth of the central focus point.
 //The valid horizon points have azimuth between this az +- 90
 //This is true for Equatorial or Horizontal coordinates
-void HorizonComponent::draw( SkyPainter *skyp )
+void HorizonComponent::draw( SkyPainter * skyp )
 {
     if( !selected() )
         return;
 
-    KStarsData *data = KStarsData::Instance();
-    
+    KStarsData * data = KStarsData::Instance();
+
     skyp->setPen( QPen( QColor( data->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
 
     if ( Options::showGround() )
@@ -96,7 +98,8 @@ void HorizonComponent::draw( SkyPainter *skyp )
     bool drawLabel;
     skyp->drawHorizon( Options::showGround(), &labelPoint, &drawLabel );
 
-    if( drawLabel ) {
+    if( drawLabel )
+    {
         SkyPoint labelPoint2;
         labelPoint2.setAlt(0.0);
         labelPoint2.setAz( labelPoint.az().Degrees() + 1.0 );
@@ -106,16 +109,17 @@ void HorizonComponent::draw( SkyPainter *skyp )
     drawCompassLabels();
 }
 
-void HorizonComponent::drawCompassLabels() {
+void HorizonComponent::drawCompassLabels()
+{
 #ifndef KSTARS_LITE
     SkyPoint c;
     QPointF cpoint;
     bool visible;
 
-    const Projector *proj = SkyMap::Instance()->projector();
-    KStarsData *data = KStarsData::Instance();
-    
-    SkyLabeler* skyLabeler = SkyLabeler::Instance();
+    const Projector * proj = SkyMap::Instance()->projector();
+    KStarsData * data = KStarsData::Instance();
+
+    SkyLabeler * skyLabeler = SkyLabeler::Instance();
     // Set proper color for labels
     QColor color( data->colorScheme()->colorNamed( "CompassColor" ) );
     skyLabeler->setPen( QPen( QBrush(color), 1, Qt::SolidLine) );
@@ -131,16 +135,19 @@ void HorizonComponent::drawCompassLabels() {
     name[6] = i18nc( "Northwest", "NW" );
     name[7] = i18nc( "North", "N" );
 
-    for ( int i = 0; i < 8; i++ ) {
+    for ( int i = 0; i < 8; i++ )
+    {
         az += 45.0;
         c.setAz( az );
         c.setAlt( 0.0 );
-        if ( !Options::useAltAz() ) {
+        if ( !Options::useAltAz() )
+        {
             c.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         }
-        
+
         cpoint = proj->toScreen( &c, false, &visible );
-        if ( visible && proj->onScreen(cpoint) ) {
+        if ( visible && proj->onScreen(cpoint) )
+        {
             skyLabeler->drawGuideLabel( cpoint, name[i], 0.0 );
         }
     }

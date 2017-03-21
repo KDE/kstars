@@ -26,7 +26,7 @@
 #include "skypoint.h"
 #include "printingwizard.h"
 
-ShFovExporter::ShFovExporter(PrintingWizard *wizard, SkyMap *map) : m_Map(map), m_ParentWizard(wizard)
+ShFovExporter::ShFovExporter(PrintingWizard * wizard, SkyMap * map) : m_Map(map), m_ParentWizard(wizard)
 {}
 
 bool ShFovExporter::calculatePath(const SkyPoint &src, const SkyPoint &dest, double fov, double maglim)
@@ -54,7 +54,7 @@ bool ShFovExporter::exportPath()
     }
 
     // Show path on SkyMap
-    TargetListComponent *t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
+    TargetListComponent * t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
     delete t->list;
     t->list = m_skyObjList;
 

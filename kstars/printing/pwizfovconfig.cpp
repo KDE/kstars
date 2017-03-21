@@ -18,7 +18,7 @@
 #include "pwizfovconfig.h"
 #include <KLocalizedString>
 
-PWizFovConfigUI::PWizFovConfigUI(QWidget *parent) : QFrame(parent)
+PWizFovConfigUI::PWizFovConfigUI(QWidget * parent) : QFrame(parent)
 {
     setupUi(this);
     setupWidgets();
@@ -30,22 +30,22 @@ Legend::LEGEND_TYPE PWizFovConfigUI::getLegendType()
 {
     switch(typeCombo->currentIndex())
     {
-    case 0: // Scale with magnitudes chart
+        case 0: // Scale with magnitudes chart
         {
             return Legend::LT_SCALE_MAGNITUDES;
         }
 
-    case 1: // Only scale
+        case 1: // Only scale
         {
             return Legend::LT_SCALE_ONLY;
         }
 
-    case 2: // Only magnitudes chart
+        case 2: // Only magnitudes chart
         {
             return Legend::LT_MAGNITUDES_ONLY;
         }
 
-    default:
+        default:
         {
             return Legend::LT_FULL;
         }
@@ -71,7 +71,7 @@ void PWizFovConfigUI::setupWidgets()
 
     QStringList positions;
     positions << i18n("Upper left corner") << i18n("Upper right corner") << i18n("Lower left corner")
-            << i18n("Lower right corner");
+              << i18n("Lower right corner");
     positionCombo->addItems(positions);
 
     useAlphaBlendBox->setEnabled(false);

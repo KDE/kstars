@@ -32,49 +32,49 @@ class QGLWidget;
 
 class SkyGLPainter : public SkyPainter
 {
-public:
-    explicit SkyGLPainter( QGLWidget *widget );
-    virtual bool drawPlanet(KSPlanetBase* planet);
-    virtual bool drawDeepSkyObject(DeepSkyObject* obj, bool drawImage = false);
-    virtual bool drawPointSource(SkyPoint* loc, float mag, char sp = 'A');
-    virtual void drawSkyPolygon(LineList* list, bool forceClip=true);
-    virtual void drawSkyPolyline(LineList* list, SkipList* skipList = 0, LineListLabel* label = 0);
-    virtual void drawSkyLine(SkyPoint* a, SkyPoint* b);
-    virtual void drawSkyBackground();
-    virtual void drawObservingList(const QList<SkyObject*>& obs);
-    virtual void drawFlags();
-    virtual void end();
-    virtual void begin();
-    virtual void setBrush(const QBrush& brush);
-    virtual void setPen(const QPen& pen);
-    virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0);
-    virtual bool drawSatellite( Satellite* sat );
-    virtual bool drawSupernova(Supernova* sup);
-    void drawText( int x, int y, const QString text, QFont font, QColor color );
-    virtual bool drawConstellationArtImage(ConstellationsArt *obj);
-private:
-    bool addItem(SkyPoint* p, int type, float width, char sp = 'a');
-    void drawBuffer(int type);
-    void drawPolygon(const QVector< Vector2f >& poly, bool convex = true, bool flush_buffers = true);
+    public:
+        explicit SkyGLPainter( QGLWidget * widget );
+        virtual bool drawPlanet(KSPlanetBase * planet);
+        virtual bool drawDeepSkyObject(DeepSkyObject * obj, bool drawImage = false);
+        virtual bool drawPointSource(SkyPoint * loc, float mag, char sp = 'A');
+        virtual void drawSkyPolygon(LineList * list, bool forceClip=true);
+        virtual void drawSkyPolyline(LineList * list, SkipList * skipList = 0, LineListLabel * label = 0);
+        virtual void drawSkyLine(SkyPoint * a, SkyPoint * b);
+        virtual void drawSkyBackground();
+        virtual void drawObservingList(const QList<SkyObject *> &obs);
+        virtual void drawFlags();
+        virtual void end();
+        virtual void begin();
+        virtual void setBrush(const QBrush &brush);
+        virtual void setPen(const QPen &pen);
+        virtual void drawHorizon( bool filled, SkyPoint * labelPoint = 0, bool * drawLabel = 0);
+        virtual bool drawSatellite( Satellite * sat );
+        virtual bool drawSupernova(Supernova * sup);
+        void drawText( int x, int y, const QString text, QFont font, QColor color );
+        virtual bool drawConstellationArtImage(ConstellationsArt * obj);
+    private:
+        bool addItem(SkyPoint * p, int type, float width, char sp = 'a');
+        void drawBuffer(int type);
+        void drawPolygon(const QVector< Vector2f > &poly, bool convex = true, bool flush_buffers = true);
 
-    /** Render textured rectangle on screeen. Parameters are texture
-     *  to be used, position, orientation and size of rectangle*/
-    void drawTexturedRectangle( const QImage& img,
-                                const Vector2f& pos, const float angle,
-                                const float sizeX, const float sizeY );
+        /** Render textured rectangle on screeen. Parameters are texture
+         *  to be used, position, orientation and size of rectangle*/
+        void drawTexturedRectangle( const QImage &img,
+                                    const Vector2f &pos, const float angle,
+                                    const float sizeX, const float sizeY );
 
-    const Projector *m_proj;
-    
-    Vector4f m_pen;
-    static const int BUFSIZE = 512;
-    ///FIXME: what kind of TYPE_UNKNOWN objects are there?
-    static const int NUMTYPES = (int)SkyObject::TYPE_UNKNOWN + 1;
-    static Vector2f m_vertex[NUMTYPES][6*BUFSIZE];
-    static Vector2f m_texcoord[NUMTYPES][6*BUFSIZE];
-    static Vector3f m_color[NUMTYPES][6*BUFSIZE];
-    static int m_idx[NUMTYPES];
-    static bool m_init; ///< keep track of whether we have filled the texcoord array
-    QGLWidget* m_widget; // Pointer to (GL) widget on which we are painting
+        const Projector * m_proj;
+
+        Vector4f m_pen;
+        static const int BUFSIZE = 512;
+        ///FIXME: what kind of TYPE_UNKNOWN objects are there?
+        static const int NUMTYPES = (int)SkyObject::TYPE_UNKNOWN + 1;
+        static Vector2f m_vertex[NUMTYPES][6*BUFSIZE];
+        static Vector2f m_texcoord[NUMTYPES][6*BUFSIZE];
+        static Vector3f m_color[NUMTYPES][6*BUFSIZE];
+        static int m_idx[NUMTYPES];
+        static bool m_init; ///< keep track of whether we have filled the texcoord array
+        QGLWidget * m_widget; // Pointer to (GL) widget on which we are painting
 };
 
 #endif // SKYGLPAINTER_H

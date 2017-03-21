@@ -27,7 +27,7 @@
 #include "../labelsitem.h"
 #include "labelnode.h"
 
-ConstellationArtNode::ConstellationArtNode(ConstellationsArt *obj)
+ConstellationArtNode::ConstellationArtNode(ConstellationsArt * obj)
     :SkyNode(obj), m_art(obj), m_texture(new QSGSimpleTextureNode)
 {
     m_texture->setTexture(SkyMapLite::Instance()->window()->createTextureFromImage(m_art->image(), QQuickWindow::TextureCanUseAtlas));
@@ -36,11 +36,13 @@ ConstellationArtNode::ConstellationArtNode(ConstellationsArt *obj)
     update();
 }
 
-void ConstellationArtNode::update() {
+void ConstellationArtNode::update()
+{
     double zoom = Options::zoomFactor();
 
-    const Projector *m_proj = SkyMapLite::Instance()->projector();
-    if( !m_proj->checkVisibility(m_art) ){
+    const Projector * m_proj = SkyMapLite::Instance()->projector();
+    if( !m_proj->checkVisibility(m_art) )
+    {
         hide();
         return;
     }
@@ -49,7 +51,8 @@ void ConstellationArtNode::update() {
     m_art->EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
     QPointF constellationmidpoint = m_proj->toScreen(m_art, true, &visible);
 
-    if ( !visible || !m_proj->onScreen(constellationmidpoint)) {
+    if ( !visible || !m_proj->onScreen(constellationmidpoint))
+    {
         hide();
         return;
     }
@@ -69,7 +72,8 @@ void ConstellationArtNode::update() {
     changePos(constellationmidpoint, positionangle);
 }
 
-void ConstellationArtNode::changePos(QPointF pos, double positionangle) {
+void ConstellationArtNode::changePos(QPointF pos, double positionangle)
+{
     QSizeF size = m_texture->rect().size();
     QMatrix4x4 m (1,0,0,pos.x(),
                   0,1,0,pos.y(),
@@ -82,7 +86,8 @@ void ConstellationArtNode::changePos(QPointF pos, double positionangle) {
     markDirty(QSGNode::DirtyMatrix);
 }
 
-void ConstellationArtNode::hide() {
+void ConstellationArtNode::hide()
+{
     //m_point->hide();
     SkyNode::hide();
 }

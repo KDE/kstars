@@ -51,12 +51,12 @@
 
 
 static const char description[] =
-        I18N_NOOP("Desktop Planetarium");
+    I18N_NOOP("Desktop Planetarium");
 static const char notice[] =
-        I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
+    I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
 
 
-int main(int argc, char *argv[])
+int main(int argc, char * argv[])
 {
 #ifdef KSTARS_LITE
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -65,7 +65,8 @@ int main(int argc, char *argv[])
 
 #ifdef Q_OS_OSX
     //Note, this function will return true on OS X if the data directories are good to go.  If not, quit with error code 1!
-    if(!KSUtils::copyDataFolderFromAppBundleIfNeeded()){
+    if(!KSUtils::copyDataFolderFromAppBundleIfNeeded())
+    {
         KMessageBox::sorry(0, i18n("Sorry, without a KStars Data Directory, KStars cannot operate. Exiting program now."));
         return 1;
     }
@@ -74,9 +75,9 @@ int main(int argc, char *argv[])
     /**
     * enable high dpi support
     */
-     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
-    KLocalizedString::setApplicationDomain("kstars");    
+    KLocalizedString::setApplicationDomain("kstars");
 #ifndef KSTARS_LITE
     KCrash::initialize();
 
@@ -98,7 +99,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Carsten Niehaus"), QString(), "cniehaus@gmx.de");
     aboutData.addAuthor(i18n("Mark Hollomon"), QString(), "mhh@mindspring.com");
     aboutData.addAuthor(i18n("Alexey Khudyakov"), QString(), "alexey.skladnoy@gmail.com");
-    aboutData.addAuthor(i18n("M&eacute;d&eacute;ric Boquien"), QString(), "mboquien@free.fr");    
+    aboutData.addAuthor(i18n("M&eacute;d&eacute;ric Boquien"), QString(), "mboquien@free.fr");
     aboutData.addAuthor(i18n("J&eacute;r&ocirc;me Sonrier"), QString(), "jsid@emor3j.fr.eu.org");
     aboutData.addAuthor(i18n("Prakash Mohan"), QString(), "prakash.mohan@kdemail.net");
     aboutData.addAuthor(i18n("Victor Cărbune"), QString(), "victor.carbune@kdemail.net");
@@ -146,28 +147,47 @@ int main(int argc, char *argv[])
         qDebug() << "Dumping sky image";
 
         //parse filename and image format
-        const char* format = "PNG";
+        const char * format = "PNG";
         QString fname = parser.value( "filename" );
         QString ext = fname.mid( fname.lastIndexOf(".")+1 );
-        if ( ext.toLower() == "png" ) { format = "PNG"; }
-        else if ( ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }
-        else if ( ext.toLower() == "gif" ) { format = "GIF"; }
-        else if ( ext.toLower() == "pnm" ) { format = "PNM"; }
-        else if ( ext.toLower() == "bmp" ) { format = "BMP"; }
-        else { qWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) ; }
+        if ( ext.toLower() == "png" )
+        {
+            format = "PNG";
+        }
+        else if ( ext.toLower() == "jpg" || ext.toLower() == "jpeg" )
+        {
+            format = "JPG";
+        }
+        else if ( ext.toLower() == "gif" )
+        {
+            format = "GIF";
+        }
+        else if ( ext.toLower() == "pnm" )
+        {
+            format = "PNM";
+        }
+        else if ( ext.toLower() == "bmp" )
+        {
+            format = "BMP";
+        }
+        else
+        {
+            qWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) ;
+        }
 
         //parse width and height
         bool ok(false);
         int w(0), h(0);
         w = parser.value( "width" ).toInt( &ok );
         if ( ok ) h =  parser.value( "height" ).toInt( &ok );
-        if ( !ok ) {
+        if ( !ok )
+        {
             qWarning() << "Unable to parse arguments: " ;
             qWarning() << "Width: " << parser.value( "width" )
                        << "  Height: " << parser.value( "height" ) << endl;
             return 1;
         }
-        KStarsData *dat = KStarsData::Create();
+        KStarsData * dat = KStarsData::Create();
         QObject::connect( dat, SIGNAL( progressText(QString) ), dat, SLOT( slotConsoleMessage(QString) ) );
         dat->initialize();
 
@@ -181,31 +201,41 @@ int main(int argc, char *argv[])
         //Check to see if user provided a date/time string.  If not, use current CPU time
         QString datestring = parser.value( "date" );
         KStarsDateTime kdt;
-        if ( ! datestring.isEmpty() ) {
-            if ( datestring.contains( "-" ) ) { //assume ISODate format
-                if ( datestring.contains( ":" ) ) { //also includes time
+        if ( ! datestring.isEmpty() )
+        {
+            if ( datestring.contains( "-" ) )   //assume ISODate format
+            {
+                if ( datestring.contains( ":" ) )   //also includes time
+                {
                     //kdt = QDateTime::fromString( datestring, QDateTime::ISODate );
                     kdt = QDateTime::fromString( datestring, Qt::ISODate );
-                } else { //string probably contains date only
+                }
+                else     //string probably contains date only
+                {
                     //kdt.setDate( QDate::fromString( datestring, Qt::ISODate ) );
                     kdt.setDate( QDate::fromString( datestring, Qt::ISODate ) );
                     kdt.setTime( QTime( 0, 0, 0 ) );
                 }
-            } else { //assume Text format for date string
+            }
+            else     //assume Text format for date string
+            {
                 kdt = dat->geo()->LTtoUT( QDateTime::fromString( datestring, Qt::TextDate ) );
             }
 
-            if ( ! kdt.isValid() ) {
+            if ( ! kdt.isValid() )
+            {
                 qWarning() << i18n( "Using CPU date/time instead." ) ;
 
                 kdt = KStarsDateTime::currentDateTimeUtc();
             }
-        } else {
+        }
+        else
+        {
             kdt = KStarsDateTime::currentDateTimeUtc();
         }
         dat->clock()->setUTC( kdt );
 
-        SkyMap *map = SkyMap::Create();
+        SkyMap * map = SkyMap::Create();
         map->resize( w, h );
         QPixmap sky( w, h );
 
@@ -220,10 +250,14 @@ int main(int argc, char *argv[])
 
         //Execute the specified script
         QString scriptfile = parser.value( "script" );
-        if ( ! scriptfile.isEmpty() ) {
-            if ( dat->executeScript( scriptfile, map ) ) {
+        if ( ! scriptfile.isEmpty() )
+        {
+            if ( dat->executeScript( scriptfile, map ) )
+            {
                 std::cout << i18n( "Script executed." ).toUtf8().data() << std::endl;
-            } else {
+            }
+            else
+            {
                 qWarning() << i18n( "Could not execute script." ) ;
             }
         }
@@ -266,7 +300,8 @@ int main(int argc, char *argv[])
     // take arguments
     if( ! urls.isEmpty() )
     {
-        foreach (const QString &url, urls) {
+        foreach (const QString &url, urls)
+        {
             const QUrl u = QUrl::fromUserInput(url, QDir::currentPath());
             KStars::Instance()->openFITS(u);
         }

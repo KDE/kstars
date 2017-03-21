@@ -35,11 +35,12 @@
 #include <QPainter>
 #include <QFileDialog>
 
-ExportEyepieceView::ExportEyepieceView( const SkyPoint *_sp, const KStarsDateTime &dt, const QPixmap *renderImage, const QPixmap *renderChart,
-                                        QWidget *parent ) : QDialog( parent ), m_dt( dt ) {
+ExportEyepieceView::ExportEyepieceView( const SkyPoint * _sp, const KStarsDateTime &dt, const QPixmap * renderImage, const QPixmap * renderChart,
+                                        QWidget * parent ) : QDialog( parent ), m_dt( dt )
+{
 
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     m_sp = new SkyPoint( *_sp ); // Work on a copy.
 
@@ -53,26 +54,26 @@ ExportEyepieceView::ExportEyepieceView( const SkyPoint *_sp, const KStarsDateTim
 
     setWindowTitle( i18n( "Export eyepiece view" ) );
 
-    QWidget *mainWidget = new QWidget( this );
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QWidget * mainWidget = new QWidget( this );
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(mainWidget);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(slotCloseDialog()));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotSaveImage()));
 
-    QVBoxLayout *rows = new QVBoxLayout;
+    QVBoxLayout * rows = new QVBoxLayout;
     mainWidget->setLayout( rows );
 
-    QLabel *tickInfoLabel = new QLabel( i18n( "Overlay orientation vs. time ticks: " ), this );
+    QLabel * tickInfoLabel = new QLabel( i18n( "Overlay orientation vs. time ticks: " ), this );
     m_tickConfigCombo = new QComboBox( this );
     m_tickConfigCombo->addItem( i18n( "None" ) );
     m_tickConfigCombo->addItem( i18n( "Towards Zenith" ) );
     m_tickConfigCombo->addItem( i18n( "Dobsonian View" ) );
 
-    QHBoxLayout *optionsLayout = new QHBoxLayout;
+    QHBoxLayout * optionsLayout = new QHBoxLayout;
     optionsLayout->addWidget( tickInfoLabel );
     optionsLayout->addWidget( m_tickConfigCombo );
     optionsLayout->addStretch();
@@ -95,13 +96,15 @@ ExportEyepieceView::ExportEyepieceView( const SkyPoint *_sp, const KStarsDateTim
     show();
 }
 
-ExportEyepieceView::~ExportEyepieceView() {
+ExportEyepieceView::~ExportEyepieceView()
+{
     delete m_sp;
     delete m_renderChart;
     delete m_renderImage;
 }
 
-void ExportEyepieceView::slotOverlayTicks( int tickConfig ) {
+void ExportEyepieceView::slotOverlayTicks( int tickConfig )
+{
     m_tickConfig = tickConfig;
     if( tickConfig == 0 )
         m_tickWarningLabel->setText( QString() );
@@ -112,7 +115,8 @@ void ExportEyepieceView::slotOverlayTicks( int tickConfig ) {
     render();
 }
 
-void ExportEyepieceView::render() {
+void ExportEyepieceView::render()
+{
     float baseWidth = m_renderChart->width();
     float baseHeight = m_renderChart->height();
 
@@ -127,7 +131,8 @@ void ExportEyepieceView::render() {
     if( m_renderImage )
         op.drawPixmap( QPointF(baseWidth * 1.25,0), *m_renderImage );
 
-    if( m_tickConfig != 0 && Options::useAltAz() ) { // FIXME: this is very skymap-state-heavy for my happiness --asimha
+    if( m_tickConfig != 0 && Options::useAltAz() )   // FIXME: this is very skymap-state-heavy for my happiness --asimha
+    {
         // we must draw ticks
         QImage tickOverlay( baseWidth, baseHeight, QImage::Format_ARGB32 );
         tickOverlay.fill( Qt::transparent );
@@ -140,11 +145,12 @@ void ExportEyepieceView::render() {
         font.setPixelSize( ( rEnd - rStart ) );
         p.setFont( font );
 
-        GeoLocation *geo = KStarsData::Instance()->geo();
+        GeoLocation * geo = KStarsData::Instance()->geo();
         double alt0 = m_sp->alt().Degrees(); // altitude when hour = 0, i.e. at m_dt (see below).
         dms northAngle0 = EyepieceField::findNorthAngle( m_sp, geo->lat() );
 
-        for( float hour = -3.5; hour <= 3.5; hour += 0.5 ) {
+        for( float hour = -3.5; hour <= 3.5; hour += 0.5 )
+        {
             dms rotation; // rotation
 
             // FIXME: Code duplication : code duplicated from EyepieceField. This should really be a member of SkyPoint or something.
@@ -153,7 +159,8 @@ void ExportEyepieceView::render() {
             dms northAngle = EyepieceField::findNorthAngle( &sp, geo->lat() );
 
             rotation = ( northAngle - northAngle0 );
-            if( m_tickConfig == 2 ) {
+            if( m_tickConfig == 2 )
+            {
                 // Dobsonian: add additional CW rotation by altitude, but compensate for the fact that we've already rotated by alt0
                 rotation = rotation - dms( ( alt - alt0 ) );
             }
@@ -168,7 +175,8 @@ void ExportEyepieceView::render() {
         }
         p.end();
         op.drawImage( QPointF(0,0), tickOverlay );
-        if( m_renderImage ) {
+        if( m_renderImage )
+        {
             op.drawImage( QPointF(baseWidth * 1.25, 0), tickOverlay );
         }
     }
@@ -177,16 +185,19 @@ void ExportEyepieceView::render() {
     m_outputDisplay->setPixmap( (QPixmap::fromImage( m_output )).scaled( m_outputDisplay->width(), m_outputDisplay->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
 }
 
-void ExportEyepieceView::slotSaveImage() {
+void ExportEyepieceView::slotSaveImage()
+{
     // does nothing at the moment. TODO: Implement.
     QString fileName = QFileDialog::getSaveFileName( this, i18n("Save image as"), QString(), i18n( "Image files (*.png *.jpg *.xpm *.bmp *.gif)" ) );
-    if( !fileName.isEmpty() ) {
+    if( !fileName.isEmpty() )
+    {
         m_output.save( fileName );
         slotCloseDialog();
     }
 }
 
-void ExportEyepieceView::slotCloseDialog() {
+void ExportEyepieceView::slotCloseDialog()
+{
     hide();
     deleteLater();
 }

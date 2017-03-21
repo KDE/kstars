@@ -20,7 +20,7 @@
 #include "pwizfovbrowse.h"
 #include "foveditordialog.h"
 
-PWizFovBrowseUI::PWizFovBrowseUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
+PWizFovBrowseUI::PWizFovBrowseUI(PrintingWizard * wizard, QWidget * parent) : QFrame(parent),
     m_ParentWizard(wizard)
 {
     setupUi(this);

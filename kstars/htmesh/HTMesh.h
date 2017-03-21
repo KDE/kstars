@@ -28,14 +28,14 @@ class MeshBuffer;
  * @class HTMesh
  * HTMesh was originally intended to be a simple interface to the HTM
  * library for the KStars project that would hide some of the complexity.  But
- * it has gained some complexity of its own. 
+ * it has gained some complexity of its own.
  *
  * The most complex addition was the routine that performs an intersection on a
  * line segment, finding all the trixels that cover the line.  Perhaps there is
  * an easier and faster way to do it.  Right now we convert to cartesian
  * coordinates to take the cross product of the two input vectors in order to
  * create a perpendicular which is used to form a very narrow triangle that
- * contains the original line segment as one of its long legs.  
+ * contains the original line segment as one of its long legs.
  *
  * Error detection and prevention added a little bit more complexity.  The raw
  * HTM library is vulnerable to misbehavior if the polygon intersection routines
@@ -57,8 +57,9 @@ class MeshBuffer;
  * NOTE: all Right Ascensions (ra) and Declinations (dec) are in degrees.
  */
 
-class HTMesh {
-public:
+class HTMesh
+{
+    public:
         /** @short constructor.
          * @param level is passed on to the underlying SpatialIndex
          * @param buildLevvel is also passed on to the SpatialIndex
@@ -96,7 +97,7 @@ public:
          * messing with this method.
          */
         void intersect(double ra, double dec, double radius,
-                       BufNum bufNum=0); 
+                       BufNum bufNum=0);
 
 
         /** @short finds the trixels that cover the specified line segment
@@ -104,7 +105,7 @@ public:
         void intersect(double ra1, double dec1, double ra2, double dec2,
                        BufNum bufNum=0);
 
-        
+
         /** @short find the trixels that cover the specified triangle
          */
         void intersect(double ra1, double dec1, double ra2, double dec2,
@@ -124,33 +125,42 @@ public:
         /** @short returns the total number of trixels in the HTM.  This number
          * is 8 * 4^level.
          */
-        int size() const { return numTrixels; }
+        int size() const
+        {
+            return numTrixels;
+        }
 
         /** @short returns the mesh level.
-		 */
-		int level() const { return m_level; }
+         */
+        int level() const
+        {
+            return m_level;
+        }
 
         /** @short sets the debug level which is used to print out intermediate
          * results in the line intersection routine.
          */
-        void setDebug(int debug) { htmDebug = debug; }
+        void setDebug(int debug)
+        {
+            htmDebug = debug;
+        }
 
         /** @short returns  a pointer to the MeshBuffer specified by bufNum.
          * Currently this is only used in the MeshIterator constructor.
          */
-        MeshBuffer* meshBuffer(BufNum bufNum=0);
+        MeshBuffer * meshBuffer(BufNum bufNum=0);
 
-        void vertices(Trixel id, double *ra1, double *dec1,
-                                 double *ra2, double *dec2,
-                                 double *ra3, double *dec3);
+        void vertices(Trixel id, double * ra1, double * dec1,
+                      double * ra2, double * dec2,
+                      double * ra3, double * dec3);
     private:
-        const char *name;
-        SpatialIndex *htm;
+        const char * name;
+        SpatialIndex * htm;
         int m_level, m_buildLevel;
         int numTrixels, magicNum;
 
         // These store the result sets:
-        MeshBuffer** m_meshBuffer;
+        MeshBuffer ** m_meshBuffer;
         BufNum m_numBuffers;
 
         double degree2Rad;
@@ -161,7 +171,7 @@ public:
         /** @short fills the specified buffer with the intersection results in the
          * RangeConvex.
          */
-        bool performIntersection(RangeConvex* convex, BufNum bufNum=0);
+        bool performIntersection(RangeConvex * convex, BufNum bufNum=0);
 
         /** @short users can only use the allocated buffers
          */
@@ -169,14 +179,14 @@ public:
         {
             if (bufNum < m_numBuffers) return true;
             fprintf(stderr, "%s: bufNum: %d >= numBuffers: %d\n",
-            name, bufNum, m_numBuffers);
+                    name, bufNum, m_numBuffers);
             return false;
         }
 
         /** @short used by the line intersection routine.  Maybe there is a
          * simpler and faster approach that does not require this conversion.
          */
-        void toXYZ( double ra, double dec, double *x, double *y, double *z);
+        void toXYZ( double ra, double dec, double * x, double * y, double * z);
 
 };
 

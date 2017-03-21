@@ -48,7 +48,7 @@ extern int		__gl_memInit( size_t );
 #define memAlloc	malloc
 #else
 #define memAlloc	__gl_memAlloc
-extern void *		__gl_memAlloc( size_t );
+extern void 	*	__gl_memAlloc( size_t );
 #endif
 
 #endif

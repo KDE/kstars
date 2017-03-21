@@ -5,7 +5,7 @@
     modify it under the terms of the GNU General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-    
+
  */
 
 #include "opsindi.h"
@@ -27,10 +27,10 @@
 #include "kstars.h"
 
 OpsINDI::OpsINDI()
-        : QFrame(KStars::Instance())
+    : QFrame(KStars::Instance())
 {
     setupUi(this);
-    
+
     //Get a pointer to the KConfigDialog
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
@@ -39,7 +39,7 @@ OpsINDI::OpsINDI()
     selectDriversDirB->setIcon( QIcon::fromTheme( "document-open-folder", QIcon(":/icons/breeze/default/document-open-folder.svg")) );
     selectDriversDirB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
-    #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
     connect(kcfg_indiServerIsInternal, SIGNAL(clicked()), this, SLOT(toggleINDIInternal()));
     kcfg_indiServerIsInternal->setToolTip(i18n("Internal or External INDI Server?"));
     connect(kcfg_indiDriversAreInternal, SIGNAL(clicked()), this, SLOT(toggleDriversInternal()));
@@ -50,19 +50,19 @@ OpsINDI::OpsINDI()
     if(Options::indiDriversAreInternal())
         kcfg_indiDriversDir->setEnabled(false);
 
-    #else
+#else
     kcfg_indiServerIsInternal->setVisible(false);
     kcfg_indiDriversAreInternal->setVisible(false);
-    #endif
+#endif
 
     connect(selectFITSDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
-    connect(selectDriversDirB, SIGNAL(clicked()), this, SLOT(saveDriversDirectory()));    
+    connect(selectDriversDirB, SIGNAL(clicked()), this, SLOT(saveDriversDirectory()));
     connect(showLogsB, SIGNAL(clicked()), this, SLOT(slotShowLogFiles()));
     connect(kcfg_indiServer, SIGNAL(editingFinished()), this, SLOT(verifyINDIServer()));
 
-    #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
     kcfg_indiServer->setEnabled(false);
-    #endif
+#endif
 }
 
 

@@ -1,12 +1,12 @@
 #include "deviceorientation.h"
 
 #if defined(Q_OS_ANDROID)
-    #include <QAndroidJniObject>
-    #include <QtAndroidExtras>
-    #include <QtAndroid>
+#include <QAndroidJniObject>
+#include <QtAndroidExtras>
+#include <QtAndroid>
 #endif
 
-DeviceOrientation::DeviceOrientation(QObject *parent)
+DeviceOrientation::DeviceOrientation(QObject * parent)
     : QObject(parent)
 {
 

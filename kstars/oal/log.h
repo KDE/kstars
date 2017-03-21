@@ -43,7 +43,8 @@ class KStars;
  *
  * Implementation of <a href="https://code.google.com/p/openastronomylog/">Open Astronomy Log</a> (OAL) XML specifications to record observation logs.
  */
-class OAL::Log {
+class OAL::Log
+{
     public:
         QString writeLog( bool native = true );
         void writeBegin();
@@ -58,24 +59,51 @@ class OAL::Log {
         void writeFilters();
         void writeImagers();
         void writeObservations();
-        inline QList<SkyObject *> *targetList() { return &m_targetList; }
-        inline QList<OAL::Scope *> *scopeList() { return &m_scopeList; }
-        inline QList<OAL::Site *> *siteList() { return &m_siteList; }
-        inline QList<OAL::Session *> *sessionList() { return &m_sessionList; }
-        inline QList<OAL::Eyepiece *> *eyepieceList() { return &m_eyepieceList; }
-        inline QList<OAL::Lens *> *lensList() { return &m_lensList; }
-        inline QList<OAL::Filter *> *filterList() { return &m_filterList; }
-        inline QList<OAL::Observation *> *observationList() { return &m_observationList; }
-        inline QList<OAL::Observer *> *observerList() { return &m_observerList; }
-        void writeObserver( OAL::Observer *o );
-        void writeSite( OAL::Site *s );
-        void writeSession( OAL::Session *s );
-        void writeTarget( SkyObject *o );
-        void writeScope( OAL::Scope *s );
-        void writeEyepiece( OAL::Eyepiece *ep );
-        void writeLens( OAL::Lens *l );
-        void writeFilter(OAL::Filter *f );
-        void writeObservation( OAL::Observation *o );
+        inline QList<SkyObject *> * targetList()
+        {
+            return &m_targetList;
+        }
+        inline QList<OAL::Scope *> * scopeList()
+        {
+            return &m_scopeList;
+        }
+        inline QList<OAL::Site *> * siteList()
+        {
+            return &m_siteList;
+        }
+        inline QList<OAL::Session *> * sessionList()
+        {
+            return &m_sessionList;
+        }
+        inline QList<OAL::Eyepiece *> * eyepieceList()
+        {
+            return &m_eyepieceList;
+        }
+        inline QList<OAL::Lens *> * lensList()
+        {
+            return &m_lensList;
+        }
+        inline QList<OAL::Filter *> * filterList()
+        {
+            return &m_filterList;
+        }
+        inline QList<OAL::Observation *> * observationList()
+        {
+            return &m_observationList;
+        }
+        inline QList<OAL::Observer *> * observerList()
+        {
+            return &m_observerList;
+        }
+        void writeObserver( OAL::Observer * o );
+        void writeSite( OAL::Site * s );
+        void writeSession( OAL::Session * s );
+        void writeTarget( SkyObject * o );
+        void writeScope( OAL::Scope * s );
+        void writeEyepiece( OAL::Eyepiece * ep );
+        void writeLens( OAL::Lens * l );
+        void writeFilter(OAL::Filter * f );
+        void writeObservation( OAL::Observation * o );
 //        void writeImager();
         void writeEnd();
         void readBegin( QString input );
@@ -97,24 +125,36 @@ class OAL::Log {
         SkyPoint readPosition(bool &Ok);
         void readGeoDate();
         QString readResult();
-        OAL::Observer* findObserverByName( QString fullName );
-        OAL::Observer* findObserverById( QString id );
-        OAL::Site* findSiteByName( QString name );
-        OAL::Site* findSiteById( QString id );
-        OAL::Session* findSessionByName( QString id );
-        OAL::Scope* findScopeByName( QString name );
-        OAL::Scope* findScopeById( QString id );
-        OAL::Eyepiece* findEyepieceById( QString id );
-        OAL::Lens* findLensById( QString id );
-        OAL::Filter* findFilterById( QString id );
-        OAL::Eyepiece* findEyepieceByName( QString name );
-        OAL::Lens* findLensByName( QString name );
-        OAL::Filter* findFilterByName( QString name );
-        OAL::Observation* findObservationByName( QString name );
-        QHash<QString, QTime> timeHash() const { return TimeHash; }
-        KStarsDateTime dateTime() const { return dt; }
-        GeoLocation* geoLocation() { return geo; }
-        inline QString writtenOutput() const { return output; }
+        OAL::Observer * findObserverByName( QString fullName );
+        OAL::Observer * findObserverById( QString id );
+        OAL::Site * findSiteByName( QString name );
+        OAL::Site * findSiteById( QString id );
+        OAL::Session * findSessionByName( QString id );
+        OAL::Scope * findScopeByName( QString name );
+        OAL::Scope * findScopeById( QString id );
+        OAL::Eyepiece * findEyepieceById( QString id );
+        OAL::Lens * findLensById( QString id );
+        OAL::Filter * findFilterById( QString id );
+        OAL::Eyepiece * findEyepieceByName( QString name );
+        OAL::Lens * findLensByName( QString name );
+        OAL::Filter * findFilterByName( QString name );
+        OAL::Observation * findObservationByName( QString name );
+        QHash<QString, QTime> timeHash() const
+        {
+            return TimeHash;
+        }
+        KStarsDateTime dateTime() const
+        {
+            return dt;
+        }
+        GeoLocation * geoLocation()
+        {
+            return geo;
+        }
+        inline QString writtenOutput() const
+        {
+            return output;
+        }
     private:
         QList<SkyObject *> m_targetList;
         QList<OAL::Observer *> m_observerList;
@@ -130,10 +170,10 @@ class OAL::Log {
         QString output;
         bool native;
         dms ra, dec;
-        QXmlStreamWriter *writer;
-        QXmlStreamReader *reader;
+        QXmlStreamWriter * writer;
+        QXmlStreamReader * reader;
         QHash<QString, QTime> TimeHash;
         KStarsDateTime dt;
-        GeoLocation *geo;
+        GeoLocation * geo;
 };
 #endif

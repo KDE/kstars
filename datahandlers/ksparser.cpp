@@ -29,11 +29,15 @@ KSParser::KSParser(const QString &filename, const char comment_char,
                    const QList< QPair<QString, DataTypes> > &sequence,
                    const char delimiter)
     : filename_(filename), comment_char_(comment_char),
-      name_type_sequence_(sequence), delimiter_(delimiter) {
-    if (!file_reader_.openFullPath(filename_)) {
+      name_type_sequence_(sequence), delimiter_(delimiter)
+{
+    if (!file_reader_.openFullPath(filename_))
+    {
         qWarning() <<"Unable to open file: "<< filename;
         readFunctionPtr = &KSParser::DummyRow;
-    } else {
+    }
+    else
+    {
         readFunctionPtr = &KSParser::ReadCSVRow;
         qDebug() <<"File opened: "<< filename;
     }
@@ -43,21 +47,27 @@ KSParser::KSParser(const QString &filename, const char comment_char,
                    const QList< QPair<QString, DataTypes> > &sequence,
                    const QList<int> &widths)
     : filename_(filename), comment_char_(comment_char),
-      name_type_sequence_(sequence), width_sequence_(widths) {
-    if (!file_reader_.openFullPath(filename_)) {
+      name_type_sequence_(sequence), width_sequence_(widths)
+{
+    if (!file_reader_.openFullPath(filename_))
+    {
         qWarning() <<"Unable to open file: "<< filename;
         readFunctionPtr = &KSParser::DummyRow;
-    } else {
+    }
+    else
+    {
         readFunctionPtr = &KSParser::ReadFixedWidthRow;
         qDebug() <<"File opened: "<< filename;
     }
 }
 
-QHash<QString, QVariant>  KSParser::ReadNextRow() {
+QHash<QString, QVariant>  KSParser::ReadNextRow()
+{
     return (this->*readFunctionPtr)();
 }
 
-QHash<QString, QVariant>  KSParser::ReadCSVRow() {
+QHash<QString, QVariant>  KSParser::ReadCSVRow()
+{
     /**
      * @brief read_success(bool) signifies if a row has been successfully read.
      * If any problem (eg incomplete row) is encountered. The row is discarded
@@ -68,7 +78,8 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
     QStringList separated;
     QHash<QString, QVariant> newRow;
 
-    while (file_reader_.hasMoreLines() && read_success == false) {
+    while (file_reader_.hasMoreLines() && read_success == false)
+    {
         next_line = file_reader_.readLine();
         if (next_line.mid(0,1)[0] == comment_char_) continue;
         separated = next_line.split(delimiter_);
@@ -83,43 +94,47 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
             *
         */
         if (separated.length() == 1) continue; // Length will be 1 if there
-                                               // is no delimiter
+        // is no delimiter
 
         separated = CombineQuoteParts(separated);  // At this point, the
-                                     // string has been split
-                                    // taking the quote marks into account
+        // string has been split
+        // taking the quote marks into account
 
         // Check if the generated list has correct size
         // If not, continue to next row. (i.e SKIP INCOMPLETE ROW)
         if (separated.length() != name_type_sequence_.length())
             continue;
 
-        for (int i = 0; i < name_type_sequence_.length(); i++) {
-           bool ok;
-           newRow[name_type_sequence_[i].first] =
-           ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
-           if (!ok && parser_debug_mode_) {
-             qDebug() << name_type_sequence_[i].second
-                      <<"Failed at field: "
-                      << name_type_sequence_[i].first
-                      << " & next_line : " << next_line;
-           }
+        for (int i = 0; i < name_type_sequence_.length(); i++)
+        {
+            bool ok;
+            newRow[name_type_sequence_[i].first] =
+                ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
+            if (!ok && parser_debug_mode_)
+            {
+                qDebug() << name_type_sequence_[i].second
+                         <<"Failed at field: "
+                         << name_type_sequence_[i].first
+                         << " & next_line : " << next_line;
+            }
         }
         read_success = true;
     }
-   /*
-    * This signifies that someone tried to read a row
-    * without checking if HasNextRow is true.
-    * OR
-    * The file was truncated OR the file ends with one or more '\n'
-    */
+    /*
+     * This signifies that someone tried to read a row
+     * without checking if HasNextRow is true.
+     * OR
+     * The file was truncated OR the file ends with one or more '\n'
+     */
     if (file_reader_.hasMoreLines() == false && newRow.size()<=1)
-      newRow = DummyRow();
+        newRow = DummyRow();
     return newRow;
 }
 
-QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
-    if (name_type_sequence_.length() != (width_sequence_.length() + 1)) {
+QHash<QString, QVariant>  KSParser::ReadFixedWidthRow()
+{
+    if (name_type_sequence_.length() != (width_sequence_.length() + 1))
+    {
         // line length is appendeded to width_sequence_ by default.
         // Hence, the length of width_sequence_ is one less than
         // name_type_sequence_
@@ -139,173 +154,195 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
     QHash<QString, QVariant> newRow;
     int total_min_length = 0;
 
-    foreach(const int width_value, width_sequence_) {
-      total_min_length += width_value;
+    foreach(const int width_value, width_sequence_)
+    {
+        total_min_length += width_value;
     }
-    while (file_reader_.hasMoreLines() && read_success == false) {
-      /*
-       * Steps:
-       * 1) Read Line
-       * 2) If it is a comment, loop again
-       * 3) If it is too small, loop again
-       * 4) Else, a) Break it down according to widths
-       *          b) Convert each broken down unit to appropriate value
-       *          c) set read_success to True denoting we have a valid
-       *             conversion
-      */
+    while (file_reader_.hasMoreLines() && read_success == false)
+    {
+        /*
+         * Steps:
+         * 1) Read Line
+         * 2) If it is a comment, loop again
+         * 3) If it is too small, loop again
+         * 4) Else, a) Break it down according to widths
+         *          b) Convert each broken down unit to appropriate value
+         *          c) set read_success to True denoting we have a valid
+         *             conversion
+        */
         next_line = file_reader_.readLine();
         if (next_line.mid(0,1)[0] == comment_char_) continue;
         if (next_line.length() < total_min_length) continue;
 
         int curr_width = 0;
-        for (int n_split = 0; n_split < width_sequence_.length(); n_split++) {
+        for (int n_split = 0; n_split < width_sequence_.length(); n_split++)
+        {
             // Build separated stringlist. Then assign it afterwards.
             QString temp_split;
             temp_split = next_line.mid(curr_width, width_sequence_[n_split]);
-                        // Don't use at(), because it crashes on invalid index
+            // Don't use at(), because it crashes on invalid index
             curr_width += width_sequence_[n_split];
             separated.append(temp_split.trimmed());
         }
         separated.append(next_line.mid(curr_width).trimmed());  // Append last segment
 
         // Conversions
-        for (int i = 0; i < name_type_sequence_.length(); ++i) {
-           bool ok;
-           newRow[name_type_sequence_[i].first] =
-           ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
-           if (!ok && parser_debug_mode_) {
-             qDebug() << name_type_sequence_[i].second
-                      <<"Failed at field: "
-                      << name_type_sequence_[i].first
-                      << " & next_line : " << next_line;
-           }
+        for (int i = 0; i < name_type_sequence_.length(); ++i)
+        {
+            bool ok;
+            newRow[name_type_sequence_[i].first] =
+                ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
+            if (!ok && parser_debug_mode_)
+            {
+                qDebug() << name_type_sequence_[i].second
+                         <<"Failed at field: "
+                         << name_type_sequence_[i].first
+                         << " & next_line : " << next_line;
+            }
         }
         read_success = true;
     }
-   /*
-    * This signifies that someone tried to read a row
-    * without checking if HasNextRow is true.
-    * OR
-    * The file was truncated OR the file ends with one or more '\n'
-    */
+    /*
+     * This signifies that someone tried to read a row
+     * without checking if HasNextRow is true.
+     * OR
+     * The file was truncated OR the file ends with one or more '\n'
+     */
     if (file_reader_.hasMoreLines() == false && newRow.size()<=1)
-      newRow = DummyRow();
+        newRow = DummyRow();
     return newRow;
 }
 
-QHash<QString, QVariant>  KSParser::DummyRow() {
-   // qWarning() << "File named " << filename_ << " encountered an error while reading";
+QHash<QString, QVariant>  KSParser::DummyRow()
+{
+    // qWarning() << "File named " << filename_ << " encountered an error while reading";
     QHash<QString, QVariant> newRow;
-    for (int i = 0; i < name_type_sequence_.length(); ++i) {
-           switch (name_type_sequence_[i].second) {
-                case D_QSTRING:
-                    newRow[name_type_sequence_[i].first] = EBROKEN_QSTRING;
-                    break;
-                case D_DOUBLE:
-                    newRow[name_type_sequence_[i].first] = EBROKEN_DOUBLE;
-                    break;
-                case D_INT:
-                    newRow[name_type_sequence_[i].first] = EBROKEN_INT;
-                    break;
-                case D_FLOAT:
-                    newRow[name_type_sequence_[i].first] = EBROKEN_FLOAT;
-                    break;
-                case D_SKIP:
-                default:
-                    break;
-            }
+    for (int i = 0; i < name_type_sequence_.length(); ++i)
+    {
+        switch (name_type_sequence_[i].second)
+        {
+            case D_QSTRING:
+                newRow[name_type_sequence_[i].first] = EBROKEN_QSTRING;
+                break;
+            case D_DOUBLE:
+                newRow[name_type_sequence_[i].first] = EBROKEN_DOUBLE;
+                break;
+            case D_INT:
+                newRow[name_type_sequence_[i].first] = EBROKEN_INT;
+                break;
+            case D_FLOAT:
+                newRow[name_type_sequence_[i].first] = EBROKEN_FLOAT;
+                break;
+            case D_SKIP:
+            default:
+                break;
         }
+    }
     return newRow;
 }
 
-bool KSParser::HasNextRow() {
+bool KSParser::HasNextRow()
+{
     return file_reader_.hasMoreLines();
 }
 
-void KSParser::SetProgress(QString msg, int total_lines, int step_size) {
+void KSParser::SetProgress(QString msg, int total_lines, int step_size)
+{
     file_reader_.setProgress(msg, total_lines, step_size);
 }
 
-void KSParser::ShowProgress() {
+void KSParser::ShowProgress()
+{
     file_reader_.showProgress();
 }
 
-QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated) {
+QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated)
+{
     QString iter_string;
     QList<QString> quoteCombined;
     QStringList::const_iterator iter;
 
-    if (separated.length() == 0) {
-      qDebug() << "Cannot Combine empty list";
-    } else {
-      /* Algorithm:
-       * In the following steps, 'word' implies a unit from 'separated'.
-       * i.e. separated[0], separated[1] etc are 'words'
-       *
-       * 1) Read a word
-       * 2) If word does not start with \" add to final expression. Goto 1)
-       * 3) If word starts with \", push to queue
-       * 4) If word ends with \", empty queue and join each with delimiter.
-       *    Add this to final expression. Go to 6)
-       * 5) Read next word. Goto 3) until end of list of words is reached
-       * 6) Goto 1) until end of list of words is reached
-      */
-      iter = separated.constBegin();
+    if (separated.length() == 0)
+    {
+        qDebug() << "Cannot Combine empty list";
+    }
+    else
+    {
+        /* Algorithm:
+         * In the following steps, 'word' implies a unit from 'separated'.
+         * i.e. separated[0], separated[1] etc are 'words'
+         *
+         * 1) Read a word
+         * 2) If word does not start with \" add to final expression. Goto 1)
+         * 3) If word starts with \", push to queue
+         * 4) If word ends with \", empty queue and join each with delimiter.
+         *    Add this to final expression. Go to 6)
+         * 5) Read next word. Goto 3) until end of list of words is reached
+         * 6) Goto 1) until end of list of words is reached
+        */
+        iter = separated.constBegin();
 
-      while (iter != separated.constEnd()) {
-          QList <QString> queue;
-          iter_string = *iter;
+        while (iter != separated.constEnd())
+        {
+            QList <QString> queue;
+            iter_string = *iter;
 
-          if (iter_string.indexOf("\"") == 0) {  // if (quote mark is the first character)
-              iter_string = (iter_string).remove(0,1);  // remove the quote at the start
-              while (iter_string.lastIndexOf('\"') != (iter_string.length()-1) &&
-                      iter != separated.constEnd()) {  // handle stuff between parent quotes
-                  queue.append((iter_string));
-                  ++iter;
-                  iter_string = *iter;
-              }
-              iter_string.chop(1);  // remove the quote at the end
-              queue.append(iter_string);
-          } else {
-              queue.append(iter_string);
-          }
+            if (iter_string.indexOf("\"") == 0)    // if (quote mark is the first character)
+            {
+                iter_string = (iter_string).remove(0,1);  // remove the quote at the start
+                while (iter_string.lastIndexOf('\"') != (iter_string.length()-1) &&
+                        iter != separated.constEnd())    // handle stuff between parent quotes
+                {
+                    queue.append((iter_string));
+                    ++iter;
+                    iter_string = *iter;
+                }
+                iter_string.chop(1);  // remove the quote at the end
+                queue.append(iter_string);
+            }
+            else
+            {
+                queue.append(iter_string);
+            }
 
-          QString col_result;
-          foreach(const QString &join, queue)
-              col_result += (join + delimiter_);
-          col_result.chop(1);  // remove extra delimiter
-          quoteCombined.append(col_result);
-          ++iter;
-      }
+            QString col_result;
+            foreach(const QString &join, queue)
+                col_result += (join + delimiter_);
+            col_result.chop(1);  // remove extra delimiter
+            quoteCombined.append(col_result);
+            ++iter;
+        }
     }
     return quoteCombined;
 }
 
 QVariant KSParser::ConvertToQVariant(const QString &input_string,
                                      const KSParser::DataTypes &data_type,
-                                     bool &ok) {
-  ok = true;
-  QVariant converted_object;
-  switch (data_type) {
-    case D_QSTRING:
-    case D_SKIP:
-      converted_object = input_string;
-      break;
-    case D_DOUBLE:
-      converted_object = input_string.trimmed().toDouble(&ok);
-      if (!ok)
-        converted_object = EBROKEN_DOUBLE;
-      break;
-    case D_INT:
-      converted_object = input_string.trimmed().toInt(&ok);
-      if (!ok)
-        converted_object = EBROKEN_INT;
-      break;
-    case D_FLOAT:
-      converted_object = input_string.trimmed().toFloat(&ok);
-      if (!ok)
-        converted_object = EBROKEN_FLOAT;
-      break;
-  }
-  return converted_object;
+                                     bool &ok)
+{
+    ok = true;
+    QVariant converted_object;
+    switch (data_type)
+    {
+        case D_QSTRING:
+        case D_SKIP:
+            converted_object = input_string;
+            break;
+        case D_DOUBLE:
+            converted_object = input_string.trimmed().toDouble(&ok);
+            if (!ok)
+                converted_object = EBROKEN_DOUBLE;
+            break;
+        case D_INT:
+            converted_object = input_string.trimmed().toInt(&ok);
+            if (!ok)
+                converted_object = EBROKEN_INT;
+            break;
+        case D_FLOAT:
+            converted_object = input_string.trimmed().toFloat(&ok);
+            if (!ok)
+                converted_object = EBROKEN_FLOAT;
+            break;
+    }
+    return converted_object;
 }

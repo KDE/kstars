@@ -27,7 +27,7 @@
 
 #include <QApplication>
 
-NotifyUpdatesUI::NotifyUpdatesUI(QWidget *parent) :
+NotifyUpdatesUI::NotifyUpdatesUI(QWidget * parent) :
     QDialog(parent),
     ui(new Ui::NotifyUpdatesUI)
 {
@@ -41,10 +41,10 @@ NotifyUpdatesUI::~NotifyUpdatesUI()
     delete ui;
 }
 
-void NotifyUpdatesUI::addItems(QList<SkyObject*> updatesList)
+void NotifyUpdatesUI::addItems(QList<SkyObject *> updatesList)
 {
     //int len = updatesList.size();
-    foreach (SkyObject *so , updatesList)
+    foreach (SkyObject * so , updatesList)
     {
         Supernova * sup = (Supernova *)so;
 
@@ -55,12 +55,12 @@ void NotifyUpdatesUI::addItems(QList<SkyObject*> updatesList)
         QString position = i18n("Position :: RA : %1 Dec : %2", sup->getRA().toHMSString(), sup->getDec().toDMSString());
         QString date = i18n("Date :: %1", sup->getDate());
 
-        QTreeWidgetItem *info = new QTreeWidgetItem(ui->infoTreeWidget);
-        QTreeWidgetItem *hGalaxy = new QTreeWidgetItem(info);
-        QTreeWidgetItem *t = new QTreeWidgetItem(info);
-        QTreeWidgetItem *mag = new QTreeWidgetItem(info);
-        QTreeWidgetItem *pos = new QTreeWidgetItem(info);
-        QTreeWidgetItem *dt = new QTreeWidgetItem(info);
+        QTreeWidgetItem * info = new QTreeWidgetItem(ui->infoTreeWidget);
+        QTreeWidgetItem * hGalaxy = new QTreeWidgetItem(info);
+        QTreeWidgetItem * t = new QTreeWidgetItem(info);
+        QTreeWidgetItem * mag = new QTreeWidgetItem(info);
+        QTreeWidgetItem * pos = new QTreeWidgetItem(info);
+        QTreeWidgetItem * dt = new QTreeWidgetItem(info);
 
         info->setText(0,  name);
         hGalaxy->setText(0, hostGalaxy);
@@ -74,16 +74,18 @@ void NotifyUpdatesUI::addItems(QList<SkyObject*> updatesList)
 
 void NotifyUpdatesUI::slotCenter()
 {
-    KStars* kstars = KStars::Instance();
-    SkyObject *o = 0;
+    KStars * kstars = KStars::Instance();
+    SkyObject * o = 0;
     // get selected item
-    if ( ui->infoTreeWidget->currentItem() != 0) {
+    if ( ui->infoTreeWidget->currentItem() != 0)
+    {
         if (ui->infoTreeWidget->currentItem()->childCount() > 0)      //Serial No. is selected
             o = kstars->data()->objectNamed( ui->infoTreeWidget->currentItem()->text(0) );
         else
             o = kstars->data()->objectNamed( ui->infoTreeWidget->currentItem()->parent()->text(0) );
     }
-    if (o != 0) {
+    if (o != 0)
+    {
         kstars->map()->setFocusPoint( o );
         kstars->map()->setFocusObject( o );
         kstars->map()->setDestination( *kstars->map()->focusPoint() );

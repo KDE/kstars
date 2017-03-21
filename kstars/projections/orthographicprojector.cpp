@@ -19,7 +19,7 @@
 
 #include "orthographicprojector.h"
 
-OrthographicProjector::OrthographicProjector(const ViewParams& p)
+OrthographicProjector::OrthographicProjector(const ViewParams &p)
     : Projector(p)
 {
     updateClipPoly();

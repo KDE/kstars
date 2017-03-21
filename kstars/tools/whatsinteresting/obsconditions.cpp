@@ -93,7 +93,7 @@ double ObsConditions::getTrueMagLim()
     return m_LM + 5 * log10(m_Aperture / 7.5);
 }
 
-bool ObsConditions::isVisible(GeoLocation *geo, dms *lst, SkyObject *so)
+bool ObsConditions::isVisible(GeoLocation * geo, dms * lst, SkyObject * so)
 {
     KStarsDateTime ut = geo->LTtoUT(KStarsDateTime(QDateTime::currentDateTime().toLocalTime()));
     SkyPoint sp = so->recomputeCoords(ut, geo);

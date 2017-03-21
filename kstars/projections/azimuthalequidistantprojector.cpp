@@ -23,7 +23,7 @@
 
 #include "azimuthalequidistantprojector.h"
 
-AzimuthalEquidistantProjector::AzimuthalEquidistantProjector(const ViewParams& p)
+AzimuthalEquidistantProjector::AzimuthalEquidistantProjector(const ViewParams &p)
     : Projector(p)
 {
     updateClipPoly();

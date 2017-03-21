@@ -120,7 +120,7 @@ Align::Align()
     alignView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     alignView->setBaseSize(alignWidget->size());
     alignView->createFloatingToolBar();
-    QVBoxLayout *vlayout = new QVBoxLayout();
+    QVBoxLayout * vlayout = new QVBoxLayout();
     vlayout->addWidget(alignView);
     alignWidget->setLayout(vlayout);
 
@@ -140,7 +140,10 @@ Align::Align()
     gotoModeButtonGroup->setId(slewR, GOTO_SLEW);
     gotoModeButtonGroup->setId(nothingR, GOTO_NOTHING);
 
-    connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [=](int id){ this->currentGotoMode = static_cast<GotoMode>(id); });
+    connect(gotoModeButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked), this, [=](int id)
+    {
+        this->currentGotoMode = static_cast<GotoMode>(id);
+    });
 
     alignTimer.setInterval(Options::astrometryTimeout()*1000);
     connect(&alignTimer, SIGNAL(timeout()), this, SLOT(checkAlignmentTimeout()));
@@ -149,11 +152,11 @@ Align::Align()
     gotoModeButtonGroup->button(currentGotoMode)->setChecked(true);
 
     editOptionsB->setIcon(QIcon::fromTheme("document-edit", QIcon(":/icons/breeze/default/document-edit.svg")));
-    editOptionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);    
-    KConfigDialog* dialog = new KConfigDialog(this, "alignsettings", Options::self());
+    editOptionsB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    KConfigDialog * dialog = new KConfigDialog(this, "alignsettings", Options::self());
 
 #ifdef Q_OS_OSX
-        dialog->setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    dialog->setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
     opsAlign = new OpsAlign(this);
@@ -167,10 +170,10 @@ Align::Align()
     dialog->addPage(opsAstrometryCfg, i18n("Astrometry.cfg"));
 #endif
 
-    #ifndef Q_OS_WIN
+#ifndef Q_OS_WIN
     opsAstrometryIndexFiles = new OpsAstrometryIndexFiles(this);
     dialog->addPage(opsAstrometryIndexFiles, i18n("Astrometry Index Files"));
-    #endif
+#endif
 
     connect(editOptionsB, SIGNAL(clicked()), dialog, SLOT(show()));
 
@@ -189,29 +192,29 @@ Align::Align()
     solverTypeGroup->setId(onlineSolverR, SOLVER_ONLINE);
     solverTypeGroup->setId(offlineSolverR, SOLVER_OFFLINE);
     solverTypeGroup->setId(remoteSolverR, SOLVER_REMOTE);
-    #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
     offlineSolverR->setEnabled(false);
     offlineSolverR->setToolTip(i18n("Offline solver is not supported under Windows. Please use either the Online or Remote solvers."));
-    #endif
+#endif
     solverTypeGroup->button(Options::solverType())->setChecked(true);
     connect(solverTypeGroup, SIGNAL(buttonClicked(int)), SLOT(setSolverType(int)));
 
     switch(solverTypeGroup->checkedId())
     {
-    case SOLVER_ONLINE:
-        onlineParser = new Ekos::OnlineAstrometryParser();
-        parser = onlineParser;
-        break;
+        case SOLVER_ONLINE:
+            onlineParser = new Ekos::OnlineAstrometryParser();
+            parser = onlineParser;
+            break;
 
-    case SOLVER_OFFLINE:
-        offlineParser = new OfflineAstrometryParser();
-        parser = offlineParser;
-        break;
+        case SOLVER_OFFLINE:
+            offlineParser = new OfflineAstrometryParser();
+            parser = offlineParser;
+            break;
 
-    case SOLVER_REMOTE:
-        remoteParser = new RemoteAstrometryParser();
-        parser = remoteParser;
-        break;
+        case SOLVER_REMOTE:
+            remoteParser = new RemoteAstrometryParser();
+            parser = remoteParser;
+            break;
     }
 
     parser->setAlign(this);
@@ -241,11 +244,31 @@ Align::Align()
     // PAH Connections
     connect(PAHRestartB, SIGNAL(clicked()), this, SLOT(restartPAHProcess()));
     connect(PAHStartB, SIGNAL(clicked()), this, SLOT(startPAHProcess()));
-    connect(PAHFirstCaptureB, &QPushButton::clicked, this, [this]() { PAHFirstCaptureB->setEnabled(false); captureAndSolve();});
-    connect(PAHSecondCaptureB, &QPushButton::clicked, this, [this]() { PAHSecondCaptureB->setEnabled(false); captureAndSolve();});
-    connect(PAHThirdCaptureB, &QPushButton::clicked, this, [this]() { PAHThirdCaptureB->setEnabled(false); captureAndSolve();});
-    connect(PAHFirstRotateB, &QPushButton::clicked, this, [this]() { PAHFirstRotateB->setEnabled(false); rotatePAH();});
-    connect(PAHSecondRotateB, &QPushButton::clicked, this, [this]() { PAHSecondRotateB->setEnabled(false); rotatePAH();});
+    connect(PAHFirstCaptureB, &QPushButton::clicked, this, [this]()
+    {
+        PAHFirstCaptureB->setEnabled(false);
+        captureAndSolve();
+    });
+    connect(PAHSecondCaptureB, &QPushButton::clicked, this, [this]()
+    {
+        PAHSecondCaptureB->setEnabled(false);
+        captureAndSolve();
+    });
+    connect(PAHThirdCaptureB, &QPushButton::clicked, this, [this]()
+    {
+        PAHThirdCaptureB->setEnabled(false);
+        captureAndSolve();
+    });
+    connect(PAHFirstRotateB, &QPushButton::clicked, this, [this]()
+    {
+        PAHFirstRotateB->setEnabled(false);
+        rotatePAH();
+    });
+    connect(PAHSecondRotateB, &QPushButton::clicked, this, [this]()
+    {
+        PAHSecondRotateB->setEnabled(false);
+        rotatePAH();
+    });
     connect(PAHCorrectionsNextB, SIGNAL(clicked()), this, SLOT(setPAHCorrectionSelectionComplete()));
     connect(PAHRefreshB, SIGNAL(clicked()), this, SLOT(startPAHRefreshProcess()));
     connect(PAHDoneB, SIGNAL(clicked()), this, SLOT(setPAHRefreshComplete()));
@@ -303,7 +326,7 @@ Align::Align()
 
     buildTarget();
 
-    connect(alignPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(handlePointTooltip(QMouseEvent*)));
+    connect(alignPlot, SIGNAL(mouseMove(QMouseEvent *)), this, SLOT(handlePointTooltip(QMouseEvent *)));
     connect(rightLayout, SIGNAL(splitterMoved(int,int)), this, SLOT(handleVerticalPlotSizeChange()));
     connect(alignSplitter, SIGNAL(splitterMoved(int,int)), this, SLOT(handleHorizontalPlotSizeChange()));
     connect(accuracySpin, SIGNAL(valueChanged(int)), this, SLOT(buildTarget()));
@@ -432,15 +455,21 @@ void Align::selectSolutionTableRow(int row, int column)
     Q_UNUSED(column);
 
     solutionTable->selectRow(row);
-    for(int i=0;i<alignPlot->itemCount();i++){
-        QCPAbstractItem *abstractItem=alignPlot->item(i);
-        if(abstractItem){
-            QCPItemText *item = qobject_cast<QCPItemText*>(abstractItem);
-            if(item){
-                if(i==row){
+    for(int i=0; i<alignPlot->itemCount(); i++)
+    {
+        QCPAbstractItem * abstractItem=alignPlot->item(i);
+        if(abstractItem)
+        {
+            QCPItemText * item = qobject_cast<QCPItemText *>(abstractItem);
+            if(item)
+            {
+                if(i==row)
+                {
                     item->setColor(Qt::black);
                     item->setBrush(Qt::yellow);
-                }else{
+                }
+                else
+                {
                     item->setColor(Qt::red);
                     item->setBrush(Qt::white);
                 }
@@ -450,34 +479,43 @@ void Align::selectSolutionTableRow(int row, int column)
     alignPlot->replot();
 }
 
-void Align::handleHorizontalPlotSizeChange(){
-      alignPlot->xAxis->setScaleRatio(alignPlot->yAxis,1.0);
-      alignPlot->replot();
+void Align::handleHorizontalPlotSizeChange()
+{
+    alignPlot->xAxis->setScaleRatio(alignPlot->yAxis,1.0);
+    alignPlot->replot();
 }
 
-void Align::handleVerticalPlotSizeChange(){
-      alignPlot->yAxis->setScaleRatio(alignPlot->xAxis,1.0);
-      alignPlot->replot();
+void Align::handleVerticalPlotSizeChange()
+{
+    alignPlot->yAxis->setScaleRatio(alignPlot->xAxis,1.0);
+    alignPlot->replot();
 }
 
-void Align::resizeEvent(QResizeEvent * event){
-    if(event->oldSize().width()!=-1){
+void Align::resizeEvent(QResizeEvent * event)
+{
+    if(event->oldSize().width()!=-1)
+    {
         if(event->oldSize().width()!=size().width())
             handleHorizontalPlotSizeChange();
         else if(event->oldSize().height()!=size().height())
             handleVerticalPlotSizeChange();
-    } else{
+    }
+    else
+    {
         QTimer::singleShot(10, this, SLOT(handleHorizontalPlotSizeChange()));
     }
 }
 
 
-void Align::handlePointTooltip(QMouseEvent* event){
+void Align::handlePointTooltip(QMouseEvent * event)
+{
 
-    QCPAbstractItem *item =alignPlot->itemAt(event->localPos());
-    if(item){
-        QCPItemText *label = qobject_cast<QCPItemText*>(item);
-        if(label){
+    QCPAbstractItem * item =alignPlot->itemAt(event->localPos());
+    if(item)
+    {
+        QCPItemText * label = qobject_cast<QCPItemText *>(item);
+        if(label)
+        {
             QString labelText=label->text();
             int point=labelText.toInt()-1;
 
@@ -485,21 +523,21 @@ void Align::handlePointTooltip(QMouseEvent* event){
                 return;
             QToolTip::showText(event->globalPos(),
                                tr("<table>"
-                                      "<tr>"
-                                        "<th colspan=\"2\">Object %L1: %L2</th>"
-                                      "</tr>"
-                                      "<tr>"
-                                        "<td>RA:</td><td>%L3</td>"
-                                      "</tr>"
-                                      "<tr>"
-                                        "<td>DE:</td><td>%L4</td>"
-                                      "</tr>"
-                                      "<tr>"
-                                        "<td>dRA:</td><td>%L5</td>"
-                                      "</tr>"
-                                      "<tr>"
-                                        "<td>dDE:</td><td>%L6</td>"
-                                      "</tr>"
+                                  "<tr>"
+                                  "<th colspan=\"2\">Object %L1: %L2</th>"
+                                  "</tr>"
+                                  "<tr>"
+                                  "<td>RA:</td><td>%L3</td>"
+                                  "</tr>"
+                                  "<tr>"
+                                  "<td>DE:</td><td>%L4</td>"
+                                  "</tr>"
+                                  "<tr>"
+                                  "<td>dRA:</td><td>%L5</td>"
+                                  "</tr>"
+                                  "<tr>"
+                                  "<td>dDE:</td><td>%L6</td>"
+                                  "</tr>"
                                   "</table>").
                                arg(point+1).
                                arg(solutionTable->item(point, 2)->text()).
@@ -513,14 +551,18 @@ void Align::handlePointTooltip(QMouseEvent* event){
 }
 
 
-void Align::buildTarget(){
+void Align::buildTarget()
+{
     double accuracyRadius=accuracySpin->value();
-    if(centralTarget){
-       concentricRings->data()->clear();
-       redTarget->data()->clear();
-       yellowTarget->data()->clear();
-       centralTarget->data()->clear();
-    }else{
+    if(centralTarget)
+    {
+        concentricRings->data()->clear();
+        redTarget->data()->clear();
+        yellowTarget->data()->clear();
+        centralTarget->data()->clear();
+    }
+    else
+    {
         concentricRings = new QCPCurve(alignPlot->xAxis, alignPlot->yAxis);
         redTarget = new QCPCurve(alignPlot->xAxis, alignPlot->yAxis);
         yellowTarget = new QCPCurve(alignPlot->xAxis, alignPlot->yAxis);
@@ -535,20 +577,23 @@ void Align::buildTarget(){
     int circleRingPt=0;
     for (int i=0; i<pointCount; i++)
     {
-      double theta = i/(double)(pointCount)*2*M_PI;
+        double theta = i/(double)(pointCount)*2*M_PI;
 
-      for(double ring=1; ring < 8; ring++){
-          if(ring !=4 && ring != 6){
-            if(i%(9-(int)ring)==0){ //This causes fewer points to draw on the inner circles.
-                circleRings[circleRingPt] = QCPCurveData(circleRingPt, accuracyRadius*ring*0.25*qCos(theta), accuracyRadius*ring*0.25*qSin(theta));
-                circleRingPt++;
+        for(double ring=1; ring < 8; ring++)
+        {
+            if(ring !=4 && ring != 6)
+            {
+                if(i%(9-(int)ring)==0)  //This causes fewer points to draw on the inner circles.
+                {
+                    circleRings[circleRingPt] = QCPCurveData(circleRingPt, accuracyRadius*ring*0.25*qCos(theta), accuracyRadius*ring*0.25*qSin(theta));
+                    circleRingPt++;
+                }
             }
-          }
-      }
+        }
 
-      circleCentral[i] = QCPCurveData(i, accuracyRadius*qCos(theta), accuracyRadius*qSin(theta));
-      circleYellow[i] = QCPCurveData(i, accuracyRadius*1.5*qCos(theta), accuracyRadius*1.5*qSin(theta));
-      circleRed[i] = QCPCurveData(i, accuracyRadius*2*qCos(theta), accuracyRadius*2*qSin(theta));
+        circleCentral[i] = QCPCurveData(i, accuracyRadius*qCos(theta), accuracyRadius*qSin(theta));
+        circleYellow[i] = QCPCurveData(i, accuracyRadius*1.5*qCos(theta), accuracyRadius*1.5*qSin(theta));
+        circleRed[i] = QCPCurveData(i, accuracyRadius*2*qCos(theta), accuracyRadius*2*qSin(theta));
     }
 
     concentricRings->setLineStyle(QCPCurve::lsNone);
@@ -574,28 +619,35 @@ void Align::buildTarget(){
         alignPlot->replot();
 }
 
-void Align::slotWizardAlignmentPoints(){
+void Align::slotWizardAlignmentPoints()
+{
     int points=mountModel.alignPtNum->value();
     if(points<2) //The minimum is 2 because the wizard calculations require the calculation of an angle between points.
         return; //It should not be less than 2 because the minimum in the spin box is 2.
 
 
     int minAlt=mountModel.minAltBox->value();
-    KStarsData *data = KStarsData::Instance();
-    GeoLocation *geo=data->geo();
+    KStarsData * data = KStarsData::Instance();
+    GeoLocation * geo=data->geo();
     double lat=geo->lat()->Degrees();
 
-    if(mountModel.alignTypeBox->currentText()=="Fixed DEC"){
+    if(mountModel.alignTypeBox->currentText()=="Fixed DEC")
+    {
         double decAngle=mountModel.alignDec->value();
         //Dec that never rises.
-        if(lat>0){
-            if(decAngle < lat - 90 + minAlt){  //Min altitude possible at minAlt deg above horizon
+        if(lat>0)
+        {
+            if(decAngle < lat - 90 + minAlt)   //Min altitude possible at minAlt deg above horizon
+            {
                 KMessageBox::sorry( 0, i18n( "DEC is below the altitude limit" ) );
                 return;
             }
 
-        } else{
-            if(decAngle > lat + 90 - minAlt){  //Max altitude possible at minAlt deg above horizon
+        }
+        else
+        {
+            if(decAngle > lat + 90 - minAlt)   //Max altitude possible at minAlt deg above horizon
+            {
                 KMessageBox::sorry( 0, i18n( "DEC is below the altitude limit" ) );
                 return;
             }
@@ -616,17 +668,22 @@ void Align::slotWizardAlignmentPoints(){
     double initDEC = -1;
     SkyPoint spTest;
 
-    if(mountModel.alignTypeBox->currentText()=="Fixed DEC"){
+    if(mountModel.alignTypeBox->currentText()=="Fixed DEC")
+    {
         decPoints=1;
         initDEC=mountModel.alignDec->value();
         decIncrement=0;
-    } else if(decPoints==1) {
+    }
+    else if(decPoints==1)
+    {
         decIncrement=0;
         spTest.setAlt(minAlt); //The goal here is to get the point exactly West at the minAlt so that we can use that DEC
         spTest.setAz(270);
         spTest.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
         initDEC=spTest.dec().Degrees();
-    } else{
+    }
+    else
+    {
         spTest.setAlt(minAlt+10); //We don't want to be right at the minAlt because there would be only 1 point on the dec circle above the alt.
         spTest.setAz(180);
         spTest.HorizontalToEquatorial(KStars::Instance()->data()->lst(), KStars::Instance()->data()->geo()->lat());
@@ -637,7 +694,8 @@ void Align::slotWizardAlignmentPoints(){
             decIncrement=(initDEC-80)/(decPoints); //Don't quite want to reach SCP
     }
 
-    for(int d=0;d<decPoints;d++){
+    for(int d=0; d<decPoints; d++)
+    {
 
         double initRA = -1;
         double raPoints = -1;
@@ -649,35 +707,45 @@ void Align::slotWizardAlignmentPoints(){
         else
             dec = initDEC - d * decIncrement;
 
-        if(mountModel.alignTypeBox->currentText()=="Fixed DEC"){
+        if(mountModel.alignTypeBox->currentText()=="Fixed DEC")
+        {
             raPoints=points;
-        }else if(d==decPoints-1){
+        }
+        else if(d==decPoints-1)
+        {
             raPoints=lastSetRAPoints;
-        }else{
+        }
+        else
+        {
             raPoints=numRAperDEC;
         }
 
         //This computes both the initRA and the raIncrement.
         calculateAngleForRALine(raIncrement, initRA, dec, lat, raPoints, minAlt);
 
-        if(raIncrement==-1||decIncrement==-1){
+        if(raIncrement==-1||decIncrement==-1)
+        {
             KMessageBox::sorry( 0, i18n( "Point Calculation Error." ) );
             return;
         }
 
-        for(int i=0;i<raPoints;i++){
+        for(int i=0; i<raPoints; i++)
+        {
             double ra = initRA + i * raIncrement;
 
-            const SkyObject *original = getWizardAlignObject(ra,dec);
+            const SkyObject * original = getWizardAlignObject(ra,dec);
 
             QString ra_report, dec_report, name;
 
-            if(original){
-                SkyObject *o=original->clone();
+            if(original)
+            {
+                SkyObject * o=original->clone();
                 o->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
                 getFormattedCoords(o->ra0().Hours(),o->dec0().Degrees(),ra_report, dec_report);
                 name=o->longname();
-            } else{
+            }
+            else
+            {
                 getFormattedCoords(dms(ra).Hours(),dec,ra_report, dec_report);
                 name="None";
             }
@@ -685,42 +753,46 @@ void Align::slotWizardAlignmentPoints(){
             int currentRow = mountModel.alignTable->rowCount();
             mountModel.alignTable->insertRow(currentRow);
 
-            QTableWidgetItem *RAReport = new QTableWidgetItem();
+            QTableWidgetItem * RAReport = new QTableWidgetItem();
             RAReport->setText(ra_report);
             RAReport->setTextAlignment(Qt::AlignHCenter);
             mountModel.alignTable->setItem(currentRow, 0, RAReport);
 
-            QTableWidgetItem *DECReport = new QTableWidgetItem();
+            QTableWidgetItem * DECReport = new QTableWidgetItem();
             DECReport->setText(dec_report);
             DECReport->setTextAlignment(Qt::AlignHCenter);
             mountModel.alignTable->setItem(currentRow, 1, DECReport);
 
-            QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
+            QTableWidgetItem * ObjNameReport = new QTableWidgetItem();
             ObjNameReport->setText(name);
             ObjNameReport->setTextAlignment(Qt::AlignHCenter);
             mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
 
-            QTableWidgetItem *disabledBox= new QTableWidgetItem();
+            QTableWidgetItem * disabledBox= new QTableWidgetItem();
             disabledBox->setFlags(Qt::ItemIsSelectable);
             mountModel.alignTable->setItem(currentRow, 3, disabledBox);
-       }
+        }
     }
     if(previewShowing)
         updatePreviewAlignPoints();
 }
 
-void Align::calculateAngleForRALine(double &raIncrement,double &initRA, double initDEC, double lat, double raPoints, double minAlt){
+void Align::calculateAngleForRALine(double &raIncrement,double &initRA, double initDEC, double lat, double raPoints, double minAlt)
+{
     SkyPoint spEast;
     SkyPoint spWest;
 
     //Circumpolar dec
-    if(fabs(initDEC)  >  (90 - fabs(lat) + minAlt)){
+    if(fabs(initDEC)  >  (90 - fabs(lat) + minAlt))
+    {
         if(raPoints>1)
             raIncrement = 360 / (raPoints-1);
         else
             raIncrement=0;
         initRA=0;
-    }else{
+    }
+    else
+    {
         dms AZEast,AZWest;
         calculateAZPointsForDEC(dms(initDEC), dms(minAlt), AZEast,AZWest);
 
@@ -746,9 +818,10 @@ void Align::calculateAngleForRALine(double &raIncrement,double &initRA, double i
     }
 }
 
-void Align::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest){
-    KStarsData *data = KStarsData::Instance();
-    GeoLocation *geo=data->geo();
+void Align::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest)
+{
+    KStarsData * data = KStarsData::Instance();
+    GeoLocation * geo=data->geo();
     double AZRad;
 
     double sindec, cosdec, sinlat, coslat;
@@ -764,7 +837,8 @@ void Align::calculateAZPointsForDEC(dms dec, dms alt, dms &AZEast, dms &AZWest){
     AZWest.setRadians(2.0*dms::PI - AZRad);
 }
 
-const SkyObject* Align::getWizardAlignObject(double ra, double dec){
+const SkyObject * Align::getWizardAlignObject(double ra, double dec)
+{
     double maxSearch=5.0;
     if(mountModel.alignTypeBox->currentText()=="Any Object")
         return KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
@@ -773,62 +847,71 @@ const SkyObject* Align::getWizardAlignObject(double ra, double dec){
     else if(mountModel.alignTypeBox->currentText()=="Any Stars")
         return KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
 
-        //If they want named stars, then try to search for and return the closest Align Star to the requested location
+    //If they want named stars, then try to search for and return the closest Align Star to the requested location
 
-        dms bestDiff=dms(360);
-        double index=-1;
-         for(int i=0;i<alignStars.size();i++){
-             const StarObject *star=alignStars.value(i);
-             if( star ) {
-                 if(star->hasName()){
-                     SkyPoint thisPt(ra/15.0,dec);
-                     dms thisDiff=thisPt.angularDistanceTo(star);
-                     if(thisDiff.Degrees() < bestDiff.Degrees()){
-                         index=i;
-                         bestDiff=thisDiff;
-                     }
-                 }
-             }
-         }
-         if(index==-1)
-             return KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
-        return alignStars.value(index);
+    dms bestDiff=dms(360);
+    double index=-1;
+    for(int i=0; i<alignStars.size(); i++)
+    {
+        const StarObject * star=alignStars.value(i);
+        if( star )
+        {
+            if(star->hasName())
+            {
+                SkyPoint thisPt(ra/15.0,dec);
+                dms thisDiff=thisPt.angularDistanceTo(star);
+                if(thisDiff.Degrees() < bestDiff.Degrees())
+                {
+                    index=i;
+                    bestDiff=thisDiff;
+                }
+            }
+        }
+    }
+    if(index==-1)
+        return KStarsData::Instance()->skyComposite()->starNearest(new SkyPoint(dms(ra),dms(dec)), maxSearch );
+    return alignStars.value(index);
 }
 
-void Align::alignTypeChanged(const QString alignType){
+void Align::alignTypeChanged(const QString alignType)
+{
     if(alignType=="Fixed DEC")
         mountModel.alignDec->setEnabled(true);
     else
         mountModel.alignDec->setEnabled(false);
 }
 
-void Align::slotStarSelected(const QString selectedStar){
-    for(int i=0;i<alignStars.size();i++){
-        const StarObject *star=alignStars.value(i);
-        if(star) {
-            if(star->name()==selectedStar||star->gname().simplified()==selectedStar){
+void Align::slotStarSelected(const QString selectedStar)
+{
+    for(int i=0; i<alignStars.size(); i++)
+    {
+        const StarObject * star=alignStars.value(i);
+        if(star)
+        {
+            if(star->name()==selectedStar||star->gname().simplified()==selectedStar)
+            {
                 int currentRow = mountModel.alignTable->rowCount();
                 mountModel.alignTable->insertRow(currentRow);
 
                 QString ra_report, dec_report;
                 getFormattedCoords(star->ra0().Hours(),star->dec0().Degrees(),ra_report, dec_report);
 
-                QTableWidgetItem *RAReport = new QTableWidgetItem();
+                QTableWidgetItem * RAReport = new QTableWidgetItem();
                 RAReport->setText(ra_report);
                 RAReport->setTextAlignment(Qt::AlignHCenter);
                 mountModel.alignTable->setItem(currentRow, 0, RAReport);
 
-                QTableWidgetItem *DECReport = new QTableWidgetItem();
+                QTableWidgetItem * DECReport = new QTableWidgetItem();
                 DECReport->setText(dec_report);
                 DECReport->setTextAlignment(Qt::AlignHCenter);
                 mountModel.alignTable->setItem(currentRow, 1, DECReport);
 
-                QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
+                QTableWidgetItem * ObjNameReport = new QTableWidgetItem();
                 ObjNameReport->setText(star->longname());
                 ObjNameReport->setTextAlignment(Qt::AlignHCenter);
                 mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
 
-                QTableWidgetItem *disabledBox= new QTableWidgetItem();
+                QTableWidgetItem * disabledBox= new QTableWidgetItem();
                 disabledBox->setFlags(Qt::ItemIsSelectable);
                 mountModel.alignTable->setItem(currentRow, 3, disabledBox);
 
@@ -842,19 +925,22 @@ void Align::slotStarSelected(const QString selectedStar){
         updatePreviewAlignPoints();
 }
 
-void Align::generateAlignStarList(){
+void Align::generateAlignStarList()
+{
     alignStars.clear();
     mountModel.starListBox->clear();
     mountModel.greekStarListBox->clear();
 
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     QVector<QPair<QString, const SkyObject *>> listStars;
     listStars.append(data->skyComposite()->objectLists(SkyObject::STAR));
-    for(int i=0;i<listStars.size();i++){
+    for(int i=0; i<listStars.size(); i++)
+    {
         QPair<QString, const SkyObject *> pair=listStars.value(i);
-        const StarObject *star = dynamic_cast<const StarObject*>(pair.second);
-        if(star){
-            StarObject *alignStar=star->clone();
+        const StarObject * star = dynamic_cast<const StarObject *>(pair.second);
+        if(star)
+        {
+            StarObject * alignStar=star->clone();
             alignStar->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
             alignStars.append(alignStar);
         }
@@ -863,16 +949,22 @@ void Align::generateAlignStarList(){
     QStringList boxNames;
     QStringList greekBoxNames;
 
-    for(int i=0;i<alignStars.size();i++){
-        const StarObject *star=alignStars.value(i);
-        if(star){
-            if(!isVisible(star)){
+    for(int i=0; i<alignStars.size(); i++)
+    {
+        const StarObject * star=alignStars.value(i);
+        if(star)
+        {
+            if(!isVisible(star))
+            {
                 alignStars.remove(i);
                 i--;
-            }else{
+            }
+            else
+            {
                 if(star->hasLatinName())
                     boxNames << star->name();
-                else{
+                else
+                {
                     if(!star->gname().isEmpty())
                         greekBoxNames << star->gname().simplified();
                 }
@@ -883,31 +975,37 @@ void Align::generateAlignStarList(){
     boxNames.sort(Qt::CaseInsensitive);
     boxNames.removeDuplicates();
     greekBoxNames.removeDuplicates();
-    qSort(greekBoxNames.begin(), greekBoxNames.end(), [](const QString &a, const QString &b) {
-        QStringList aParts=a.split(" "); QStringList bParts=b.split(" ");
+    qSort(greekBoxNames.begin(), greekBoxNames.end(), [](const QString &a, const QString &b)
+    {
+        QStringList aParts=a.split(" ");
+        QStringList bParts=b.split(" ");
         if(aParts.length()<2||bParts.length()<2)
             return a < b;                   //This should not happen, they should all have 2 words in the string.
-        if( aParts[1]==bParts[1]){
+        if( aParts[1]==bParts[1])
+        {
             return aParts[0] < bParts[0]; //This compares the greek letter when the constellation is the same
-        } else return aParts[1] < bParts[1]; //This compares the constellation names
+        }
+        else return aParts[1] < bParts[1];   //This compares the constellation names
     } );
 
     mountModel.starListBox->addItem("Select one:");
     mountModel.greekStarListBox->addItem("Select one:");
-    for(int i=0;i<boxNames.size();i++)
+    for(int i=0; i<boxNames.size(); i++)
         mountModel.starListBox->addItem(boxNames.at(i));
-    for(int i=0;i<greekBoxNames.size();i++)
+    for(int i=0; i<greekBoxNames.size(); i++)
         mountModel.greekStarListBox->addItem(greekBoxNames.at(i));
 }
 
-bool Align::isVisible(const SkyObject *so){
-        return (getAltitude(so) > 30);
+bool Align::isVisible(const SkyObject * so)
+{
+    return (getAltitude(so) > 30);
 }
 
-double Align::getAltitude(const SkyObject *so){
-    KStarsData *data = KStarsData::Instance();
-    GeoLocation *geo=data->geo();
-    CachingDms *lst=data->lst();
+double Align::getAltitude(const SkyObject * so)
+{
+    KStarsData * data = KStarsData::Instance();
+    GeoLocation * geo=data->geo();
+    CachingDms * lst=data->lst();
     KStarsDateTime ut = geo->LTtoUT(KStarsDateTime(QDateTime::currentDateTime().toLocalTime()));
     SkyPoint sp = so->recomputeCoords(ut, geo);
 
@@ -917,29 +1015,35 @@ double Align::getAltitude(const SkyObject *so){
     return sp.alt().Degrees();
 }
 
-void Align::togglePreviewAlignPoints(){
+void Align::togglePreviewAlignPoints()
+{
     previewShowing=!previewShowing;
     mountModel.previewB->setChecked(previewShowing);
     updatePreviewAlignPoints();
 }
 
-void Align::updatePreviewAlignPoints(){
+void Align::updatePreviewAlignPoints()
+{
 
-    FlagComponent *flags = KStarsData::Instance()->skyComposite()->flags();
-    for(int i=0;i<flags->size();i++){
-        if(flags->label(i).startsWith("Align")){
+    FlagComponent * flags = KStarsData::Instance()->skyComposite()->flags();
+    for(int i=0; i<flags->size(); i++)
+    {
+        if(flags->label(i).startsWith("Align"))
+        {
             flags->remove(i);
             i--;
         }
     }
-    if(previewShowing){
+    if(previewShowing)
+    {
         for (int i=0; i < mountModel.alignTable->rowCount(); i++)
         {
-            QTableWidgetItem *raCell=mountModel.alignTable->item(i,0);
-            QTableWidgetItem *deCell=mountModel.alignTable->item(i,1);
-            QTableWidgetItem *objNameCell=mountModel.alignTable->item(i,2);
+            QTableWidgetItem * raCell=mountModel.alignTable->item(i,0);
+            QTableWidgetItem * deCell=mountModel.alignTable->item(i,1);
+            QTableWidgetItem * objNameCell=mountModel.alignTable->item(i,2);
 
-            if(raCell&&deCell&&objNameCell){
+            if(raCell&&deCell&&objNameCell)
+            {
                 QString raString=raCell->text();
                 QString deString=deCell->text();
                 dms raDMS  = dms::fromString(raString,false);
@@ -956,16 +1060,17 @@ void Align::updatePreviewAlignPoints(){
 
 }
 
-void Align::slotLoadAlignmentPoints(){
+void Align::slotLoadAlignmentPoints()
+{
     QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Ekos Alignment List"), alignURLPath, "Ekos AlignmentList (*.eal)");
     if (fileURL.isEmpty())
         return;
 
     if (fileURL.isValid() == false)
     {
-       QString message = i18n( "Invalid URL: %1", fileURL.toLocalFile() );
-       KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
-       return;
+        QString message = i18n( "Invalid URL: %1", fileURL.toLocalFile() );
+        KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
+        return;
     }
 
     alignURLPath = QUrl(fileURL.url(QUrl::RemoveFilename));
@@ -976,7 +1081,8 @@ void Align::slotLoadAlignmentPoints(){
 }
 
 
-bool Align::loadAlignmentPoints(const QString &fileURL){
+bool Align::loadAlignmentPoints(const QString &fileURL)
+{
 
     QFile sFile;
     sFile.setFileName(fileURL);
@@ -990,10 +1096,10 @@ bool Align::loadAlignmentPoints(const QString &fileURL){
 
     mountModel.alignTable->setRowCount(0);
 
-    LilXML *xmlParser = newLilXML();
+    LilXML * xmlParser = newLilXML();
 
     char errmsg[MAXRBUF];
-    XMLEle *root = NULL;
+    XMLEle * root = NULL;
     char c;
 
     while ( sFile.getChar(&c))
@@ -1009,52 +1115,59 @@ bool Align::loadAlignmentPoints(const QString &fileURL){
                 return false;
             }
 
-             XMLEle *ep = NULL;
-             XMLEle *subEP = NULL;
+            XMLEle * ep = NULL;
+            XMLEle * subEP = NULL;
 
-             int currentRow=0;
+            int currentRow=0;
 
-             for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
-             {
-                 if (!strcmp(tagXMLEle(ep), "AlignmentPoint"))
-                 {
-                     mountModel.alignTable->insertRow(currentRow);
+            for (ep = nextXMLEle(root, 1) ; ep != NULL ; ep = nextXMLEle(root, 0))
+            {
+                if (!strcmp(tagXMLEle(ep), "AlignmentPoint"))
+                {
+                    mountModel.alignTable->insertRow(currentRow);
 
-                     subEP = findXMLEle(ep, "RA");
-                     if (subEP){
-                         QTableWidgetItem *RAReport = new QTableWidgetItem();
-                         RAReport->setText(pcdataXMLEle(subEP));
-                         RAReport->setTextAlignment(Qt::AlignHCenter);
-                         mountModel.alignTable->setItem(currentRow, 0, RAReport);
-                     } else
-                         return false;
-                     subEP = findXMLEle(ep, "DE");
-                     if (subEP){
-                         QTableWidgetItem *DEReport = new QTableWidgetItem();
-                         DEReport->setText(pcdataXMLEle(subEP));
-                         DEReport->setTextAlignment(Qt::AlignHCenter);
-                         mountModel.alignTable->setItem(currentRow, 1, DEReport);
-                     } else
-                         return false;
-                     subEP = findXMLEle(ep, "NAME");
-                     if (subEP){
-                         QTableWidgetItem *ObjReport = new QTableWidgetItem();
-                         ObjReport->setText(pcdataXMLEle(subEP));
-                         ObjReport->setTextAlignment(Qt::AlignHCenter);
-                         mountModel.alignTable->setItem(currentRow, 2, ObjReport);
-                     } else
-                         return false;
+                    subEP = findXMLEle(ep, "RA");
+                    if (subEP)
+                    {
+                        QTableWidgetItem * RAReport = new QTableWidgetItem();
+                        RAReport->setText(pcdataXMLEle(subEP));
+                        RAReport->setTextAlignment(Qt::AlignHCenter);
+                        mountModel.alignTable->setItem(currentRow, 0, RAReport);
+                    }
+                    else
+                        return false;
+                    subEP = findXMLEle(ep, "DE");
+                    if (subEP)
+                    {
+                        QTableWidgetItem * DEReport = new QTableWidgetItem();
+                        DEReport->setText(pcdataXMLEle(subEP));
+                        DEReport->setTextAlignment(Qt::AlignHCenter);
+                        mountModel.alignTable->setItem(currentRow, 1, DEReport);
+                    }
+                    else
+                        return false;
+                    subEP = findXMLEle(ep, "NAME");
+                    if (subEP)
+                    {
+                        QTableWidgetItem * ObjReport = new QTableWidgetItem();
+                        ObjReport->setText(pcdataXMLEle(subEP));
+                        ObjReport->setTextAlignment(Qt::AlignHCenter);
+                        mountModel.alignTable->setItem(currentRow, 2, ObjReport);
+                    }
+                    else
+                        return false;
 
-                 }
-                 currentRow++;
-             }
-             return true;
+                }
+                currentRow++;
+            }
+            return true;
         }
     }
     return false;
 }
 
-void Align::slotSaveAsAlignmentPoints(){
+void Align::slotSaveAsAlignmentPoints()
+{
 
     alignURL.clear();
     slotSaveAlignmentPoints();
@@ -1085,10 +1198,10 @@ void Align::slotSaveAlignmentPoints()
         if (QFile::exists(alignURL.toLocalFile()))
         {
             int r = KMessageBox::warningContinueCancel(0,
-                        i18n( "A file named \"%1\" already exists. "
-                              "Overwrite it?", alignURL.fileName() ),
-                        i18n( "Overwrite File?" ),
-                        KStandardGuiItem::overwrite() );
+                    i18n( "A file named \"%1\" already exists. "
+                          "Overwrite it?", alignURL.fileName() ),
+                    i18n( "Overwrite File?" ),
+                    KStandardGuiItem::overwrite() );
             if(r==KMessageBox::Cancel) return;
         }
     }
@@ -1102,7 +1215,8 @@ void Align::slotSaveAlignmentPoints()
         }
 
 
-    } else
+    }
+    else
     {
         QString message = i18n( "Invalid URL: %1", alignURL.url() );
         KMessageBox::sorry(KStars::Instance(), message, i18n( "Invalid URL" ) );
@@ -1110,7 +1224,8 @@ void Align::slotSaveAlignmentPoints()
 
 }
 
-bool Align::saveAlignmentPoints(const QString &path){
+bool Align::saveAlignmentPoints(const QString &path)
+{
 
     QFile file;
     file.setFileName(path);
@@ -1128,9 +1243,9 @@ bool Align::saveAlignmentPoints(const QString &path){
 
     for (int i=0; i < mountModel.alignTable->rowCount(); i++)
     {
-        QTableWidgetItem *raCell=mountModel.alignTable->item(i,0);
-        QTableWidgetItem *deCell=mountModel.alignTable->item(i,1);
-        QTableWidgetItem *objNameCell=mountModel.alignTable->item(i,2);
+        QTableWidgetItem * raCell=mountModel.alignTable->item(i,0);
+        QTableWidgetItem * deCell=mountModel.alignTable->item(i,1);
+        QTableWidgetItem * objNameCell=mountModel.alignTable->item(i,2);
 
         if(!raCell||!deCell||!objNameCell)
             return false;
@@ -1151,17 +1266,20 @@ bool Align::saveAlignmentPoints(const QString &path){
 
 }
 
-void Align::slotSortAlignmentPoints(){
+void Align::slotSortAlignmentPoints()
+{
 
     int firstAlignmentPt=findClosestAlignmentPointToTelescope();
-    if(firstAlignmentPt!=-1){
+    if(firstAlignmentPt!=-1)
+    {
         swapAlignPoints(firstAlignmentPt,0);
     }
 
     for (int i=0; i < mountModel.alignTable->rowCount()-1; i++)
     {
         int nextAlignmentPoint=findNextAlignmentPointAfter(i);
-        if(nextAlignmentPoint!=-1){
+        if(nextAlignmentPoint!=-1)
+        {
             swapAlignPoints(nextAlignmentPoint,i+1);
         }
     }
@@ -1169,22 +1287,25 @@ void Align::slotSortAlignmentPoints(){
         updatePreviewAlignPoints();
 }
 
-int Align::findClosestAlignmentPointToTelescope(){
+int Align::findClosestAlignmentPointToTelescope()
+{
 
     dms bestDiff=dms(360);
     double index=-1;
 
     for (int i = 0 ; i < mountModel.alignTable->rowCount(); i++)
     {
-        QTableWidgetItem *raCell=mountModel.alignTable->item(i,0);
-        QTableWidgetItem *deCell=mountModel.alignTable->item(i,1);
+        QTableWidgetItem * raCell=mountModel.alignTable->item(i,0);
+        QTableWidgetItem * deCell=mountModel.alignTable->item(i,1);
 
-        if(raCell&&deCell){
+        if(raCell&&deCell)
+        {
             dms raDMS  = dms::fromString(raCell->text(),false);
             dms deDMS = dms::fromString(deCell->text(),true);
 
             dms thisDiff=telescopeCoord.angularDistanceTo(new SkyPoint(raDMS,deDMS));
-            if(thisDiff.Degrees() < bestDiff.Degrees()){
+            if(thisDiff.Degrees() < bestDiff.Degrees())
+            {
                 index=i;
                 bestDiff=thisDiff;
             }
@@ -1193,12 +1314,14 @@ int Align::findClosestAlignmentPointToTelescope(){
     return index;
 }
 
-int Align::findNextAlignmentPointAfter(int currentSpot){
+int Align::findNextAlignmentPointAfter(int currentSpot)
+{
 
-    QTableWidgetItem *currentRACell=mountModel.alignTable->item(currentSpot,0);
-    QTableWidgetItem *currentDECell=mountModel.alignTable->item(currentSpot,1);
+    QTableWidgetItem * currentRACell=mountModel.alignTable->item(currentSpot,0);
+    QTableWidgetItem * currentDECell=mountModel.alignTable->item(currentSpot,1);
 
-    if(currentRACell&&currentDECell){
+    if(currentRACell&&currentDECell)
+    {
         dms thisRADMS  = dms::fromString(currentRACell->text(),false);
         dms thisDEDMS = dms::fromString(currentDECell->text(),true);
 
@@ -1209,22 +1332,25 @@ int Align::findNextAlignmentPointAfter(int currentSpot){
 
         for (int i = currentSpot+1; i < mountModel.alignTable->rowCount(); i++)
         {
-            QTableWidgetItem *raCell=mountModel.alignTable->item(i,0);
-            QTableWidgetItem *deCell=mountModel.alignTable->item(i,1);
+            QTableWidgetItem * raCell=mountModel.alignTable->item(i,0);
+            QTableWidgetItem * deCell=mountModel.alignTable->item(i,1);
 
-            if(raCell&&deCell){
+            if(raCell&&deCell)
+            {
                 dms raDMS  = dms::fromString(raCell->text(),false);
                 dms deDMS = dms::fromString(deCell->text(),true);
 
                 dms thisDiff=thisPt.angularDistanceTo(new SkyPoint(raDMS,deDMS));
-                if(thisDiff.Degrees() < bestDiff.Degrees()){
+                if(thisDiff.Degrees() < bestDiff.Degrees())
+                {
                     index=i;
                     bestDiff=thisDiff;
                 }
             }
         }
         return index;
-    }else
+    }
+    else
         return -1;
 }
 
@@ -1244,10 +1370,10 @@ void Align::exportSolutionPoints()
     if (QFile::exists(path))
     {
         int r = KMessageBox::warningContinueCancel(0,
-                    i18n( "A file named \"%1\" already exists. "
-                          "Overwrite it?", exportFile.fileName() ),
-                    i18n( "Overwrite File?" ),
-                    KStandardGuiItem::overwrite() );
+                i18n( "A file named \"%1\" already exists. "
+                      "Overwrite it?", exportFile.fileName() ),
+                i18n( "Overwrite File?" ),
+                KStandardGuiItem::overwrite() );
         if(r==KMessageBox::Cancel) return;
     }
 
@@ -1275,13 +1401,14 @@ void Align::exportSolutionPoints()
 
     for (int i=0; i < solutionTable->rowCount(); i++)
     {
-        QTableWidgetItem *raCell=solutionTable->item(i,0);
-        QTableWidgetItem *deCell=solutionTable->item(i,1);
-        QTableWidgetItem *objNameCell=solutionTable->item(i,2);
-        QTableWidgetItem *raErrorCell=solutionTable->item(i,4);
-        QTableWidgetItem *deErrorCell=solutionTable->item(i,5);
+        QTableWidgetItem * raCell=solutionTable->item(i,0);
+        QTableWidgetItem * deCell=solutionTable->item(i,1);
+        QTableWidgetItem * objNameCell=solutionTable->item(i,2);
+        QTableWidgetItem * raErrorCell=solutionTable->item(i,4);
+        QTableWidgetItem * deErrorCell=solutionTable->item(i,5);
 
-        if(!raCell||!deCell||!objNameCell||!raErrorCell||!deErrorCell){
+        if(!raCell||!deCell||!objNameCell||!raErrorCell||!deErrorCell)
+        {
             KMessageBox::sorry( 0, i18n( "Error in table structure." ) );
             return;
         }
@@ -1335,20 +1462,25 @@ void Align::slotClearAllAlignPoints()
         updatePreviewAlignPoints();
 }
 
-void Align::slotRemoveSolutionPoint(){
-    QCPAbstractItem *abstractItem=alignPlot->item(solutionTable->currentRow());
-    if(abstractItem){
-        QCPItemText *item = qobject_cast<QCPItemText*>(abstractItem);
-        if(item){
+void Align::slotRemoveSolutionPoint()
+{
+    QCPAbstractItem * abstractItem=alignPlot->item(solutionTable->currentRow());
+    if(abstractItem)
+    {
+        QCPItemText * item = qobject_cast<QCPItemText *>(abstractItem);
+        if(item)
+        {
             double point=item->position->key();
             alignPlot->graph(0)->data()->remove(point);
         }
     }
     alignPlot->removeItem(solutionTable->currentRow());
-    for(int i=0;i<alignPlot->itemCount();i++){
-        QCPAbstractItem *abstractItem=alignPlot->item(i);
-        if(abstractItem){
-            QCPItemText *item = qobject_cast<QCPItemText*>(abstractItem);
+    for(int i=0; i<alignPlot->itemCount(); i++)
+    {
+        QCPAbstractItem * abstractItem=alignPlot->item(i);
+        if(abstractItem)
+        {
+            QCPItemText * item = qobject_cast<QCPItemText *>(abstractItem);
             if(item)
                 item->setText(QString::number(i+1));
         }
@@ -1357,7 +1489,8 @@ void Align::slotRemoveSolutionPoint(){
     alignPlot->replot();
 }
 
-void Align::slotRemoveAlignPoint(){
+void Align::slotRemoveAlignPoint()
+{
     mountModel.alignTable->removeRow(mountModel.alignTable->currentRow());
     if(previewShowing)
         updatePreviewAlignPoints();
@@ -1369,8 +1502,8 @@ void Align::moveAlignPoint(int logicalIndex, int oldVisualIndex, int newVisualIn
 
     for (int i=0; i < mountModel.alignTable->columnCount(); i++)
     {
-        QTableWidgetItem *oldItem = mountModel.alignTable->takeItem(oldVisualIndex, i);
-        QTableWidgetItem *newItem = mountModel.alignTable->takeItem(newVisualIndex, i);
+        QTableWidgetItem * oldItem = mountModel.alignTable->takeItem(oldVisualIndex, i);
+        QTableWidgetItem * newItem = mountModel.alignTable->takeItem(newVisualIndex, i);
 
         mountModel.alignTable->setItem(newVisualIndex, i, oldItem);
         mountModel.alignTable->setItem(oldVisualIndex, i, newItem);
@@ -1387,15 +1520,16 @@ void Align::swapAlignPoints( int firstPt, int secondPt)
 {
     for (int i=0; i < mountModel.alignTable->columnCount(); i++)
     {
-        QTableWidgetItem *firstPtItem = mountModel.alignTable->takeItem(firstPt, i);
-        QTableWidgetItem *secondPtItem = mountModel.alignTable->takeItem(secondPt, i);
+        QTableWidgetItem * firstPtItem = mountModel.alignTable->takeItem(firstPt, i);
+        QTableWidgetItem * secondPtItem = mountModel.alignTable->takeItem(secondPt, i);
 
         mountModel.alignTable->setItem(firstPt, i, secondPtItem);
         mountModel.alignTable->setItem(secondPt, i, firstPtItem);
     }
 }
 
-void Align::slotMountModel(){
+void Align::slotMountModel()
+{
     generateAlignStarList();
 
     SkyPoint spWest;
@@ -1409,58 +1543,63 @@ void Align::slotMountModel(){
 }
 
 
-void Align::slotAddAlignPoint(){
+void Align::slotAddAlignPoint()
+{
     int currentRow = mountModel.alignTable->rowCount();
     mountModel.alignTable->insertRow(currentRow);
 
-    QTableWidgetItem *disabledBox= new QTableWidgetItem();
+    QTableWidgetItem * disabledBox= new QTableWidgetItem();
     disabledBox->setFlags(Qt::ItemIsSelectable);
     mountModel.alignTable->setItem(currentRow, 3, disabledBox);
 }
 
-void Align::slotFindAlignObject() {
-   KStarsData *data = KStarsData::Instance();
-   QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
-   if ( fd->exec() == QDialog::Accepted ) {
-       SkyObject *object = fd->targetObject();
-       if( object != 0 ) {
-           SkyObject *o=object->clone();
-           o->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
-           int currentRow = mountModel.alignTable->rowCount();
-           mountModel.alignTable->insertRow(currentRow);
+void Align::slotFindAlignObject()
+{
+    KStarsData * data = KStarsData::Instance();
+    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
+    if ( fd->exec() == QDialog::Accepted )
+    {
+        SkyObject * object = fd->targetObject();
+        if( object != 0 )
+        {
+            SkyObject * o=object->clone();
+            o->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+            int currentRow = mountModel.alignTable->rowCount();
+            mountModel.alignTable->insertRow(currentRow);
 
-           QString ra_report, dec_report;
-           getFormattedCoords(o->ra0().Hours(),o->dec0().Degrees(),ra_report, dec_report);
+            QString ra_report, dec_report;
+            getFormattedCoords(o->ra0().Hours(),o->dec0().Degrees(),ra_report, dec_report);
 
-           QTableWidgetItem *RAReport = new QTableWidgetItem();
-           RAReport->setText(ra_report);
-           RAReport->setTextAlignment(Qt::AlignHCenter);
-           mountModel.alignTable->setItem(currentRow, 0, RAReport);
+            QTableWidgetItem * RAReport = new QTableWidgetItem();
+            RAReport->setText(ra_report);
+            RAReport->setTextAlignment(Qt::AlignHCenter);
+            mountModel.alignTable->setItem(currentRow, 0, RAReport);
 
-           QTableWidgetItem *DECReport = new QTableWidgetItem();
-           DECReport->setText(dec_report);
-           DECReport->setTextAlignment(Qt::AlignHCenter);
-           mountModel.alignTable->setItem(currentRow, 1, DECReport);
+            QTableWidgetItem * DECReport = new QTableWidgetItem();
+            DECReport->setText(dec_report);
+            DECReport->setTextAlignment(Qt::AlignHCenter);
+            mountModel.alignTable->setItem(currentRow, 1, DECReport);
 
-           QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
-           ObjNameReport->setText(o->longname());
-           ObjNameReport->setTextAlignment(Qt::AlignHCenter);
-           mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
+            QTableWidgetItem * ObjNameReport = new QTableWidgetItem();
+            ObjNameReport->setText(o->longname());
+            ObjNameReport->setTextAlignment(Qt::AlignHCenter);
+            mountModel.alignTable->setItem(currentRow, 2, ObjNameReport);
 
-           QTableWidgetItem *disabledBox= new QTableWidgetItem();
-           disabledBox->setFlags(Qt::ItemIsSelectable);
-           mountModel.alignTable->setItem(currentRow, 3, disabledBox);
-       }
-   }
-   delete fd;
-   if(previewShowing)
-       updatePreviewAlignPoints();
+            QTableWidgetItem * disabledBox= new QTableWidgetItem();
+            disabledBox->setFlags(Qt::ItemIsSelectable);
+            mountModel.alignTable->setItem(currentRow, 3, disabledBox);
+        }
+    }
+    delete fd;
+    if(previewShowing)
+        updatePreviewAlignPoints();
 }
 
-void Align::resetAlignmentProcedure(){
+void Align::resetAlignmentProcedure()
+{
 
     mountModel.alignTable->setCellWidget(currentAlignmentPoint, 3,new QWidget());
-    QTableWidgetItem *statusReport = new QTableWidgetItem();
+    QTableWidgetItem * statusReport = new QTableWidgetItem();
     statusReport->setFlags(Qt::ItemIsSelectable);
     statusReport->setIcon(QIcon(":/icons/AlignWarning.svg"));
     mountModel.alignTable->setItem(currentAlignmentPoint, 3, statusReport);
@@ -1472,17 +1611,18 @@ void Align::resetAlignmentProcedure(){
     abort();
 }
 
-bool Align::alignmentPointsAreBad(){
+bool Align::alignmentPointsAreBad()
+{
     for (int i=0; i < mountModel.alignTable->rowCount(); i++)
     {
-        QTableWidgetItem *raCell=mountModel.alignTable->item(i,0);
+        QTableWidgetItem * raCell=mountModel.alignTable->item(i,0);
         if(!raCell)
             return true;
         QString raString=raCell->text();
         if(dms().setFromString(raString,false)==false)
             return true;
 
-        QTableWidgetItem *decCell=mountModel.alignTable->item(i,1);
+        QTableWidgetItem * decCell=mountModel.alignTable->item(i,1);
         if(!decCell)
             return true;
         QString decString=decCell->text();
@@ -1492,23 +1632,30 @@ bool Align::alignmentPointsAreBad(){
     return false;
 }
 
-void Align::startStopAlignmentProcedure(){
-    if(!mountModelRunning){
-        if(mountModel.alignTable->rowCount()>0){
-            if(alignmentPointsAreBad()){
+void Align::startStopAlignmentProcedure()
+{
+    if(!mountModelRunning)
+    {
+        if(mountModel.alignTable->rowCount()>0)
+        {
+            if(alignmentPointsAreBad())
+            {
                 KMessageBox::error(0, i18n("Please Check the Alignment Points."));
                 return;
             }
-            if(currentGotoMode == GOTO_NOTHING){
+            if(currentGotoMode == GOTO_NOTHING)
+            {
                 int r = KMessageBox::warningContinueCancel(0,
-                            i18n( "In the Align Module, \"Nothing\" is Selected for the Solver Action.  This means that the mount model tool will not sync/align your mount but will only report the pointing model errors.  Do you wish to Continue?" ),
-                            i18n( "Pointing Model Report Only?" ),
-                            KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "nothing_selected_warning") ;
+                        i18n( "In the Align Module, \"Nothing\" is Selected for the Solver Action.  This means that the mount model tool will not sync/align your mount but will only report the pointing model errors.  Do you wish to Continue?" ),
+                        i18n( "Pointing Model Report Only?" ),
+                        KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "nothing_selected_warning") ;
                 if(r==KMessageBox::Cancel) return;
             }
-            if(currentAlignmentPoint==0){
-                for(int row=0;row<mountModel.alignTable->rowCount();row++){
-                    QTableWidgetItem *statusReport = new QTableWidgetItem();
+            if(currentAlignmentPoint==0)
+            {
+                for(int row=0; row<mountModel.alignTable->rowCount(); row++)
+                {
+                    QTableWidgetItem * statusReport = new QTableWidgetItem();
                     statusReport->setIcon(QIcon());
                     mountModel.alignTable->setItem(row, 3, statusReport);
                 }
@@ -1518,14 +1665,16 @@ void Align::startStopAlignmentProcedure(){
             appendLogText(i18n("The Mount Model Tool is Starting."));
             startAlignmentPoint();
         }
-    }else{
+    }
+    else
+    {
         mountModel.startAlignB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg") ));
         mountModel.alignTable->setCellWidget(currentAlignmentPoint, 3,new QWidget());
         appendLogText(i18n("The Mount Model Tool is Paused."));
         abort();
         mountModelRunning=false;
 
-        QTableWidgetItem *statusReport = new QTableWidgetItem();
+        QTableWidgetItem * statusReport = new QTableWidgetItem();
         statusReport->setFlags(Qt::ItemIsSelectable);
         statusReport->setIcon(QIcon(":/icons/AlignWarning.svg"));
         mountModel.alignTable->setItem(currentAlignmentPoint, 3, statusReport);
@@ -1533,19 +1682,21 @@ void Align::startStopAlignmentProcedure(){
 
 }
 
-void Align::startAlignmentPoint(){
-    if(mountModelRunning&&currentAlignmentPoint>=0&&currentAlignmentPoint<mountModel.alignTable->rowCount()){
-        QTableWidgetItem *raCell=mountModel.alignTable->item(currentAlignmentPoint,0);
+void Align::startAlignmentPoint()
+{
+    if(mountModelRunning&&currentAlignmentPoint>=0&&currentAlignmentPoint<mountModel.alignTable->rowCount())
+    {
+        QTableWidgetItem * raCell=mountModel.alignTable->item(currentAlignmentPoint,0);
         QString raString=raCell->text();
         dms raDMS  = dms::fromString(raString,false);
         double ra = raDMS.Hours();
 
-        QTableWidgetItem *decCell=mountModel.alignTable->item(currentAlignmentPoint,1);
+        QTableWidgetItem * decCell=mountModel.alignTable->item(currentAlignmentPoint,1);
         QString decString=decCell->text();
         dms decDMS = dms::fromString(decString,true);
         double dec= decDMS.Degrees();
 
-        QProgressIndicator *alignIndicator = new QProgressIndicator(this);
+        QProgressIndicator * alignIndicator = new QProgressIndicator(this);
         mountModel.alignTable->setCellWidget(currentAlignmentPoint, 3, alignIndicator);
         alignIndicator->startAnimation();
 
@@ -1557,10 +1708,12 @@ void Align::startAlignmentPoint(){
     }
 }
 
-void Align::finishAlignmentPoint(bool solverSucceeded){
-    if(mountModelRunning&&currentAlignmentPoint>=0&&currentAlignmentPoint<mountModel.alignTable->rowCount()){
+void Align::finishAlignmentPoint(bool solverSucceeded)
+{
+    if(mountModelRunning&&currentAlignmentPoint>=0&&currentAlignmentPoint<mountModel.alignTable->rowCount())
+    {
         mountModel.alignTable->setCellWidget(currentAlignmentPoint, 3,new QWidget());
-        QTableWidgetItem *statusReport = new QTableWidgetItem();
+        QTableWidgetItem * statusReport = new QTableWidgetItem();
         statusReport->setFlags(Qt::ItemIsSelectable);
         if(solverSucceeded)
             statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
@@ -1571,9 +1724,12 @@ void Align::finishAlignmentPoint(bool solverSucceeded){
 
         currentAlignmentPoint++;
 
-        if(currentAlignmentPoint<mountModel.alignTable->rowCount()){
+        if(currentAlignmentPoint<mountModel.alignTable->rowCount())
+        {
             startAlignmentPoint();
-        } else{
+        }
+        else
+        {
             mountModelRunning=false;
             mountModel.startAlignB->setIcon(QIcon::fromTheme("media-playback-start", QIcon(":/icons/breeze/default/media-playback-start.svg") ));
             appendLogText(i18n("The Mount Model Tool is Finished."));
@@ -1611,45 +1767,45 @@ void Align::setSolverType(int type)
 {
     switch(type)
     {
-    case SOLVER_ONLINE:
-        loadSlewB->setEnabled(true);
-        if (onlineParser != NULL)
-        {
+        case SOLVER_ONLINE:
+            loadSlewB->setEnabled(true);
+            if (onlineParser != NULL)
+            {
+                parser = onlineParser;
+                return;
+            }
+
+            onlineParser = new Ekos::OnlineAstrometryParser();
             parser = onlineParser;
-            return;
-        }
+            break;
 
-        onlineParser = new Ekos::OnlineAstrometryParser();
-        parser = onlineParser;
-        break;
+        case SOLVER_OFFLINE:
+            loadSlewB->setEnabled(true);
+            if (offlineParser != NULL)
+            {
+                parser = offlineParser;
 
-    case SOLVER_OFFLINE:
-        loadSlewB->setEnabled(true);
-        if (offlineParser != NULL)
-        {
+                return;
+            }
+
+            offlineParser = new Ekos::OfflineAstrometryParser();
             parser = offlineParser;
+            break;
 
-            return;
-        }
+        case SOLVER_REMOTE:
+            loadSlewB->setEnabled(true);
+            if (remoteParser != NULL)
+            {
+                parser = remoteParser;
+                (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
+                return;
+            }
 
-        offlineParser = new Ekos::OfflineAstrometryParser();
-        parser = offlineParser;
-        break;
-
-    case SOLVER_REMOTE:
-        loadSlewB->setEnabled(true);
-        if (remoteParser != NULL)
-        {
+            remoteParser = new Ekos::RemoteAstrometryParser();
             parser = remoteParser;
-            (dynamic_cast<RemoteAstrometryParser*>(parser))->setAstrometryDevice(remoteParserDevice);
-            return;
-        }
+            (dynamic_cast<RemoteAstrometryParser *>(parser))->setAstrometryDevice(remoteParserDevice);
 
-        remoteParser = new Ekos::RemoteAstrometryParser();
-        parser = remoteParser;
-        (dynamic_cast<RemoteAstrometryParser*>(parser))->setAstrometryDevice(remoteParserDevice);
-
-        break;
+            break;
     }
 
     parser->setAlign(this);
@@ -1691,11 +1847,11 @@ void Align::checkCCD(int ccdNum)
     }
 
     if (currentCCD)
-        disconnect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(processCCDSwitch(ISwitchVectorProperty*)));
+        disconnect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this, SLOT(processCCDSwitch(ISwitchVectorProperty *)));
 
     currentCCD = CCDs.at(ccdNum);
 
-    connect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(processCCDSwitch(ISwitchVectorProperty*)));
+    connect(currentCCD, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this, SLOT(processCCDSwitch(ISwitchVectorProperty *)));
 
     syncCCDInfo();
 
@@ -1706,12 +1862,12 @@ void Align::checkCCD(int ccdNum)
     syncTelescopeInfo();
 }
 
-void Align::addCCD(ISD::GDInterface *newCCD)
+void Align::addCCD(ISD::GDInterface * newCCD)
 {
     if (CCDs.contains(static_cast<ISD::CCD *>(newCCD)))
     {
-       syncCCDInfo();
-       return;
+        syncCCDInfo();
+        return;
     }
 
     CCDs.append(static_cast<ISD::CCD *>(newCCD));
@@ -1719,11 +1875,11 @@ void Align::addCCD(ISD::GDInterface *newCCD)
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
 }
 
-void Align::setTelescope(ISD::GDInterface *newTelescope)
+void Align::setTelescope(ISD::GDInterface * newTelescope)
 {
-    currentTelescope = static_cast<ISD::Telescope*> (newTelescope);
+    currentTelescope = static_cast<ISD::Telescope *> (newTelescope);
 
-    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processTelescopeNumber(INumberVectorProperty*)));
+    connect(currentTelescope, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processTelescopeNumber(INumberVectorProperty *)));
 
     syncTelescopeInfo();
 }
@@ -1749,7 +1905,7 @@ void Align::syncTelescopeInfo()
 
     if (nvp)
     {
-        INumber *np = NULL;
+        INumber * np = NULL;
 
         np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
         if (np && np->value > 0)
@@ -1784,13 +1940,13 @@ void Align::syncTelescopeInfo()
     if (ccd_hor_pixel != -1 && ccd_ver_pixel != -1 && focal_length != -1 && aperture != -1)
     {
         FOVScopeCombo->setItemData(ISD::CCD::TELESCOPE_PRIMARY, i18nc("F-Number, Focal Length, Aperture", "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
-                                                                     QString::number(primaryFL/primaryAperture, 'f', 1),
-                                                                     QString::number(primaryFL, 'f', 2),
-                                                                     QString::number(primaryAperture, 'f', 2)), Qt::ToolTipRole);
+                                   QString::number(primaryFL/primaryAperture, 'f', 1),
+                                   QString::number(primaryFL, 'f', 2),
+                                   QString::number(primaryAperture, 'f', 2)), Qt::ToolTipRole);
         FOVScopeCombo->setItemData(ISD::CCD::TELESCOPE_GUIDE, i18nc("F-Number, Focal Length, Aperture", "<nobr>F<b>%1</b> Focal Length: <b>%2</b> mm Aperture: <b>%3</b> mm<sup>2</sup></nobr>",
-                                                                     QString::number(guideFL/guideAperture, 'f', 1),
-                                                                     QString::number(guideFL, 'f', 2),
-                                                                     QString::number(guideAperture, 'f', 2)), Qt::ToolTipRole);
+                                   QString::number(guideFL/guideAperture, 'f', 1),
+                                   QString::number(guideFL, 'f', 2),
+                                   QString::number(guideAperture, 'f', 2)), Qt::ToolTipRole);
         calculateFOV();
 
         generateArgs();
@@ -1812,7 +1968,7 @@ void Align::syncCCDInfo()
 
     if (nvp)
     {
-        INumber *np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_X");
+        INumber * np = IUFindNumber(nvp, "CCD_PIXEL_SIZE_X");
         if (np && np->value >0)
             ccd_hor_pixel = ccd_ver_pixel = np->value;
 
@@ -1825,9 +1981,9 @@ void Align::syncCCDInfo()
             ccd_ver_pixel = np->value;
     }
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
-    ISwitchVectorProperty *svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
+    ISwitchVectorProperty * svp = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
     if (svp)
         setWCSEnabled(Options::astrometrySolverWCS());
 
@@ -1862,7 +2018,7 @@ void Align::syncCCDInfo()
     }
 }
 
-void Align::getFOVScale(double &fov_w, double & fov_h, double &fov_scale)
+void Align::getFOVScale(double &fov_w, double &fov_h, double &fov_scale)
 {
     fov_w = fov_x;
     fov_h = fov_y;
@@ -1941,7 +2097,7 @@ void Align::calculateFOV()
     }
 }
 
-QStringList Align::generateOptions(const QVariantMap & optionsMap)
+QStringList Align::generateOptions(const QVariantMap &optionsMap)
 {
     // -O overwrite
     // -3 Expected RA
@@ -2032,7 +2188,7 @@ void Align::generateArgs()
     // -u aw set scale to be in arcminutes
     // -W solution.wcs name of solution file
     // apog1.jpg name of target file to analyze
-    //solve-field -O -3 06:40:51 -4 +09:49:53 -5 1 -L 40 -H 100 -u aw -W solution.wcs apod1.jpg    
+    //solve-field -O -3 06:40:51 -4 +09:49:53 -5 1 -L 40 -H 100 -u aw -W solution.wcs apod1.jpg
 
     QVariantMap optionsMap;
 
@@ -2158,7 +2314,7 @@ bool Align::captureAndSolve()
 
     double seqExpose = exposureIN->value();
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     if (focusState >= FOCUS_PROGRESS)
     {
@@ -2174,98 +2330,98 @@ bool Align::captureAndSolve()
         return false;
     }
 
-   alignView->setBaseSize(alignWidget->size());
+    alignView->setBaseSize(alignWidget->size());
 
-   connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-   connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
+    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
+    connect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip *,double,IPState)));
 
-   // In case of remote solver, we set mode to UPLOAD_BOTH
-   if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser)
-   {
-       //rememberUploadMode = currentCCD->getUploadMode();
-       //currentCCD->setUploadMode(ISD::CCD::UPLOAD_BOTH);
-       // For solver remote we need to start solver BEFORE capture
-       //startSolving(QString());
+    // In case of remote solver, we set mode to UPLOAD_BOTH
+    if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser)
+    {
+        //rememberUploadMode = currentCCD->getUploadMode();
+        //currentCCD->setUploadMode(ISD::CCD::UPLOAD_BOTH);
+        // For solver remote we need to start solver BEFORE capture
+        //startSolving(QString());
 
-       // Enable remote parse
-       dynamic_cast<RemoteAstrometryParser*>(remoteParser)->setEnabled(true);
-       QString options = solverOptions->text().simplified();
-       QStringList solverArgs = options.split(" ");
-       dynamic_cast<RemoteAstrometryParser*>(remoteParser)->sendArgs(solverArgs);
+        // Enable remote parse
+        dynamic_cast<RemoteAstrometryParser *>(remoteParser)->setEnabled(true);
+        QString options = solverOptions->text().simplified();
+        QStringList solverArgs = options.split(" ");
+        dynamic_cast<RemoteAstrometryParser *>(remoteParser)->sendArgs(solverArgs);
 
-       if (solverIterations == 0)
-       {
-           double ra,dec;
-           currentTelescope->getEqCoords(&ra, &dec);
-           targetCoord.setRA(ra);
-           targetCoord.setDec(dec);
-       }
-   }
-   //else
-   //{
-       if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
-       {
-           rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
-           currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
-       }
+        if (solverIterations == 0)
+        {
+            double ra,dec;
+            currentTelescope->getEqCoords(&ra, &dec);
+            targetCoord.setRA(ra);
+            targetCoord.setDec(dec);
+        }
+    }
+    //else
+    //{
+    if (currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+    {
+        rememberUploadMode = ISD::CCD::UPLOAD_LOCAL;
+        currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+    }
 
-       // Remove temporary FITS files left before by the solver
-       QDir dir(QDir::tempPath());
-       dir.setNameFilters(QStringList() << "fits*" << "tmp.*");
-       dir.setFilter(QDir::Files);
-       foreach(QString dirFile, dir.entryList())
-           dir.remove(dirFile);
-   //}
+    // Remove temporary FITS files left before by the solver
+    QDir dir(QDir::tempPath());
+    dir.setNameFilters(QStringList() << "fits*" << "tmp.*");
+    dir.setFilter(QDir::Files);
+    foreach(QString dirFile, dir.entryList())
+        dir.remove(dirFile);
+    //}
 
-   currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
 
-   targetChip->resetFrame();
-   targetChip->setBatchMode(false);
-   targetChip->setCaptureMode(FITS_ALIGN);
-   targetChip->setFrameType(FRAME_LIGHT);
+    targetChip->resetFrame();
+    targetChip->setBatchMode(false);
+    targetChip->setCaptureMode(FITS_ALIGN);
+    targetChip->setFrameType(FRAME_LIGHT);
 
-   int bin = Options::solverBinningIndex()+1;
-   targetChip->setBinning(bin, bin);
+    int bin = Options::solverBinningIndex()+1;
+    targetChip->setBinning(bin, bin);
 
-   // In case we're in refresh phase of the polar alignment helper then we use capture value from there
-   if (pahStage == PAH_REFRESH)
-       targetChip->capture(PAHExposure->value());
-   else
-       targetChip->capture(seqExpose);
+    // In case we're in refresh phase of the polar alignment helper then we use capture value from there
+    if (pahStage == PAH_REFRESH)
+        targetChip->capture(PAHExposure->value());
+    else
+        targetChip->capture(seqExpose);
 
-   Options::setAlignExposure(seqExpose);
+    Options::setAlignExposure(seqExpose);
 
-   solveB->setEnabled(false);
-   stopB->setEnabled(true);
-   pi->startAnimation();
+    solveB->setEnabled(false);
+    stopB->setEnabled(true);
+    pi->startAnimation();
 
-   state = ALIGN_PROGRESS;
-   emit newStatus(state);
+    state = ALIGN_PROGRESS;
+    emit newStatus(state);
 
-   appendLogText(i18n("Capturing image..."));
+    appendLogText(i18n("Capturing image..."));
 
-   return true;
+    return true;
 }
 
-void Align::newFITS(IBLOB *bp)
+void Align::newFITS(IBLOB * bp)
 {
     // Ignore guide head if there is any.
     if (!strcmp(bp->name, "CCD2"))
         return;
 
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip *,double,IPState)));
 
     appendLogText(i18n("Image received."));
 
-    blobType = *(static_cast<ISD::CCD::BlobType*>(bp->aux1));
-    blobFileName = QString(static_cast<char*>(bp->aux2));
+    blobType = *(static_cast<ISD::CCD::BlobType *>(bp->aux1));
+    blobFileName = QString(static_cast<char *>(bp->aux2));
 
     if (solverTypeGroup->checkedId() != SOLVER_REMOTE)
     {
         if (blobType == ISD::CCD::BLOB_FITS)
         {
-            ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+            ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
             if (alignDarkFrameCheck->isChecked())
             {
@@ -2273,7 +2429,7 @@ void Align::newFITS(IBLOB *bp)
                 targetChip->getFrame(&x,&y,&w,&h);
                 targetChip->getBinning(&binx, &biny);
 
-                FITSData *darkData       = NULL;
+                FITSData * darkData       = NULL;
 
                 uint16_t offsetX = x / binx;
                 uint16_t offsetY = y / biny;
@@ -2311,7 +2467,7 @@ void Align::setCaptureComplete()
 
     if (solverTypeGroup->checkedId() == SOLVER_ONLINE && Options::astrometryUseJPEG())
     {
-        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+        ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         if (targetChip)
         {
             QString jpegFile = blobFileName + ".jpg";
@@ -2367,7 +2523,7 @@ void Align::startSolving(const QString &filename, bool isGenerated)
         KGuiItem blindItem(i18n("Blind solver"), QString(), i18n("Blind solver takes a very long time to solve but can reliably solve any image any where in the sky given enough time."));
         KGuiItem existingItem(i18n("Use existing settings"), QString(), i18n("Mount must be pointing close to the target location and current field of view must match the image's field of view."));
         int rc = KMessageBox::questionYesNoCancel(0, i18n("No metadata is available in this image. Do you want to use the blind solver or the existing solver settings?"), i18n("Astrometry solver"),
-                                         blindItem, existingItem, KStandardGuiItem::cancel(), "blind_solver_or_existing_solver_option");
+                 blindItem, existingItem, KStandardGuiItem::cancel(), "blind_solver_or_existing_solver_option");
         if (rc == KMessageBox::Yes)
         {
             QVariantMap optionsMap;
@@ -2405,42 +2561,47 @@ void Align::startSolving(const QString &filename, bool isGenerated)
 
     //This block of code will create the row in the solution table and populate RA, DE, and object name.
     //It also starts the progress indicator.
-    if (loadSlewState == IPS_IDLE){
+    if (loadSlewState == IPS_IDLE)
+    {
         int currentRow = solutionTable->rowCount();
         solutionTable->insertRow(currentRow);
-        for(int i=4;i<6;i++){
-            QTableWidgetItem *disabledBox= new QTableWidgetItem();
+        for(int i=4; i<6; i++)
+        {
+            QTableWidgetItem * disabledBox= new QTableWidgetItem();
             disabledBox->setFlags(Qt::ItemIsSelectable);
             solutionTable->setItem(currentRow, i, disabledBox);
         }
 
-        QTableWidgetItem *RAReport = new QTableWidgetItem();
+        QTableWidgetItem * RAReport = new QTableWidgetItem();
         RAReport->setText(ScopeRAOut->text());
         RAReport->setTextAlignment(Qt::AlignHCenter);
         RAReport->setFlags(Qt::ItemIsSelectable);
         solutionTable->setItem(currentRow, 0, RAReport);
 
-        QTableWidgetItem *DECReport = new QTableWidgetItem();
+        QTableWidgetItem * DECReport = new QTableWidgetItem();
         DECReport->setText(ScopeDecOut->text());
         DECReport->setTextAlignment(Qt::AlignHCenter);
         DECReport->setFlags(Qt::ItemIsSelectable);
         solutionTable->setItem(currentRow, 1, DECReport);
 
         double maxrad = 1.0;
-        SkyObject *so = KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra*15),dms(dec)), maxrad );
+        SkyObject * so = KStarsData::Instance()->skyComposite()->objectNearest(new SkyPoint(dms(ra*15),dms(dec)), maxrad );
         QString name;
-        if (so){
+        if (so)
+        {
             name = so->longname();
-        } else{
+        }
+        else
+        {
             name = "None";
         }
-        QTableWidgetItem *ObjNameReport = new QTableWidgetItem();
+        QTableWidgetItem * ObjNameReport = new QTableWidgetItem();
         ObjNameReport->setText(name);
         ObjNameReport->setTextAlignment(Qt::AlignHCenter);
         ObjNameReport->setFlags(Qt::ItemIsSelectable);
         solutionTable->setItem(currentRow, 2, ObjNameReport);
 
-        QProgressIndicator *alignIndicator = new QProgressIndicator(this);
+        QProgressIndicator * alignIndicator = new QProgressIndicator(this);
         solutionTable->setCellWidget(currentRow, 3, alignIndicator);
         alignIndicator->startAnimation();
     }
@@ -2486,243 +2647,256 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
     if (solverTypeGroup->checkedId() == SOLVER_REMOTE && remoteParser)
     {
         // Disable remote parse
-        dynamic_cast<RemoteAstrometryParser*>(remoteParser)->setEnabled(false);
+        dynamic_cast<RemoteAstrometryParser *>(remoteParser)->setEnabled(false);
     }
 
     int binx, biny;
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     targetChip->getBinning(&binx, &biny);
 
     if (Options::astrometrySolverVerbose())
         appendLogText(i18n("Solver RA (%1) DEC (%2) Orientation (%3) Pixel Scale (%4)", QString::number(ra, 'g' , 5), QString::number(dec, 'g' , 5),
-                            QString::number(orientation, 'g' , 5), QString::number(pixscale, 'g' , 5)));
+                           QString::number(orientation, 'g' , 5), QString::number(pixscale, 'g' , 5)));
 
     if (pixscale > 0 && loadSlewState == IPS_IDLE)
     {
         double solver_focal_length = (206.264 * ccd_hor_pixel) / pixscale * binx;
         if (fabs(focal_length - solver_focal_length) > 1)
             appendLogText(i18n("Current focal length is %1 mm while computed focal length from the solver is %2 mm. Please update the mount focal length to obtain accurate results.",
-                                QString::number(focal_length, 'g' , 5), QString::number(solver_focal_length, 'g' , 5)));
+                               QString::number(focal_length, 'g' , 5), QString::number(solver_focal_length, 'g' , 5)));
     }
 
-     alignCoord.setRA0(ra/15.0);
-     alignCoord.setDec0(dec);
-     RotOut->setText(QString::number(orientation, 'g', 5));
+    alignCoord.setRA0(ra/15.0);
+    alignCoord.setDec0(dec);
+    RotOut->setText(QString::number(orientation, 'g', 5));
 
-     // Convert to JNow
-     alignCoord.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
-     // Get horizontal coords
-     alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
+    // Convert to JNow
+    alignCoord.apparentCoord((long double) J2000, KStars::Instance()->data()->ut().djd());
+    // Get horizontal coords
+    alignCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-     double raDiff = (alignCoord.ra().Degrees()-targetCoord.ra().Degrees()) * 3600;
-     double deDiff = (alignCoord.dec().Degrees()-targetCoord.dec().Degrees()) * 3600;
+    double raDiff = (alignCoord.ra().Degrees()-targetCoord.ra().Degrees()) * 3600;
+    double deDiff = (alignCoord.dec().Degrees()-targetCoord.dec().Degrees()) * 3600;
 
-     dms RADiff(fabs(raDiff)/3600.0), DEDiff(deDiff/3600.0);
-     dRAOut->setText(QString("%1%2").arg(raDiff > 0 ? "+" : "-").arg(RADiff.toHMSString()));
-     dDEOut->setText(DEDiff.toDMSString(true));
+    dms RADiff(fabs(raDiff)/3600.0), DEDiff(deDiff/3600.0);
+    dRAOut->setText(QString("%1%2").arg(raDiff > 0 ? "+" : "-").arg(RADiff.toHMSString()));
+    dDEOut->setText(DEDiff.toDMSString(true));
 
-     pixScaleOut->setText(QString::number(pixscale, 'f', 2));
+    pixScaleOut->setText(QString::number(pixscale, 'f', 2));
 
-     emit newSolutionDeviation(raDiff, deDiff);
+    emit newSolutionDeviation(raDiff, deDiff);
 
-     targetDiff    = sqrt(raDiff*raDiff + deDiff*deDiff);
+    targetDiff    = sqrt(raDiff*raDiff + deDiff*deDiff);
 
-     solverFOV->setCenter(alignCoord);
-     solverFOV->setRotation(sOrientation);
-     solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
+    solverFOV->setCenter(alignCoord);
+    solverFOV->setRotation(sOrientation);
+    solverFOV->setImageDisplay(Options::astrometrySolverOverlay());
 
-     QString ra_dms, dec_dms;
-     getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
+    QString ra_dms, dec_dms;
+    getFormattedCoords(alignCoord.ra().Hours(), alignCoord.dec().Degrees(), ra_dms, dec_dms);
 
-     SolverRAOut->setText(ra_dms);
-     SolverDecOut->setText(dec_dms);
+    SolverRAOut->setText(ra_dms);
+    SolverDecOut->setText(dec_dms);
 
-     //This block of code will write the result into the solution table and plot it on the graph.
-     int currentRow = solutionTable->rowCount()-1;
-     if (loadSlewState == IPS_IDLE){
+    //This block of code will write the result into the solution table and plot it on the graph.
+    int currentRow = solutionTable->rowCount()-1;
+    if (loadSlewState == IPS_IDLE)
+    {
 
-         QTableWidgetItem *dRAReport = new QTableWidgetItem();
-         if(dRAReport){
-             dRAReport->setText(QString::number(raDiff,'f',3)+"\"");
-             dRAReport->setTextAlignment(Qt::AlignHCenter);
-             dRAReport->setFlags(Qt::ItemIsSelectable);
-             solutionTable->setItem(currentRow, 4, dRAReport);
-         }
+        QTableWidgetItem * dRAReport = new QTableWidgetItem();
+        if(dRAReport)
+        {
+            dRAReport->setText(QString::number(raDiff,'f',3)+"\"");
+            dRAReport->setTextAlignment(Qt::AlignHCenter);
+            dRAReport->setFlags(Qt::ItemIsSelectable);
+            solutionTable->setItem(currentRow, 4, dRAReport);
+        }
 
-         QTableWidgetItem *dDECReport = new QTableWidgetItem();
-         if(dDECReport){
-             dDECReport->setText(QString::number(deDiff,'f',3)+"\"");
-             dDECReport->setTextAlignment(Qt::AlignHCenter);
-             dDECReport->setFlags(Qt::ItemIsSelectable);
-             solutionTable->setItem(currentRow, 5, dDECReport);
-         }
+        QTableWidgetItem * dDECReport = new QTableWidgetItem();
+        if(dDECReport)
+        {
+            dDECReport->setText(QString::number(deDiff,'f',3)+"\"");
+            dDECReport->setTextAlignment(Qt::AlignHCenter);
+            dDECReport->setFlags(Qt::ItemIsSelectable);
+            solutionTable->setItem(currentRow, 5, dDECReport);
+        }
 
-         double raPlot=raDiff;
-         double decPlot=deDiff;
-         alignPlot->graph(0)->addData(raPlot, decPlot);
+        double raPlot=raDiff;
+        double decPlot=deDiff;
+        alignPlot->graph(0)->addData(raPlot, decPlot);
 
-         QCPItemText *textLabel = new QCPItemText(alignPlot);
-         textLabel->setPositionAlignment(Qt::AlignVCenter|Qt::AlignHCenter);
+        QCPItemText * textLabel = new QCPItemText(alignPlot);
+        textLabel->setPositionAlignment(Qt::AlignVCenter|Qt::AlignHCenter);
 
-         textLabel->position->setType(QCPItemPosition::ptPlotCoords);
-         textLabel->position->setCoords(raPlot,decPlot);
-         textLabel->setColor(Qt::red);
-         textLabel->setPadding(QMargins(0,0,0,0));
-         textLabel->setBrush(Qt::white);
-         //textLabel->setBrush(Qt::NoBrush);
-         textLabel->setPen(Qt::NoPen);
-         textLabel->setText(" " + QString::number(solutionTable->rowCount()) + " ");
-         textLabel->setFont(QFont(font().family(), 8));
+        textLabel->position->setType(QCPItemPosition::ptPlotCoords);
+        textLabel->position->setCoords(raPlot,decPlot);
+        textLabel->setColor(Qt::red);
+        textLabel->setPadding(QMargins(0,0,0,0));
+        textLabel->setBrush(Qt::white);
+        //textLabel->setBrush(Qt::NoBrush);
+        textLabel->setPen(Qt::NoPen);
+        textLabel->setText(" " + QString::number(solutionTable->rowCount()) + " ");
+        textLabel->setFont(QFont(font().family(), 8));
 
 
-         if(!alignPlot->xAxis->range().contains(raDiff)){
+        if(!alignPlot->xAxis->range().contains(raDiff))
+        {
             alignPlot->graph(0)->rescaleKeyAxis(true);
             alignPlot->yAxis->setScaleRatio(alignPlot->xAxis,1.0);
-         }
-         if(!alignPlot->yAxis->range().contains(deDiff)){
+        }
+        if(!alignPlot->yAxis->range().contains(deDiff))
+        {
             alignPlot->graph(0)->rescaleValueAxis(true);
             alignPlot->xAxis->setScaleRatio(alignPlot->yAxis,1.0);
-         }
-         alignPlot->replot();
-     }
+        }
+        alignPlot->replot();
+    }
 
-     if (Options::astrometrySolverWCS())
-     {
-         INumberVectorProperty *ccdRotation = currentCCD->getBaseDevice()->getNumber("CCD_ROTATION");
-         if (ccdRotation)
-         {
-             INumber *rotation = IUFindNumber(ccdRotation, "CCD_ROTATION_VALUE");
-             if (rotation)
-             {
-                 ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
-                 rotation->value = orientation;
-                 clientManager->sendNewNumber(ccdRotation);
+    if (Options::astrometrySolverWCS())
+    {
+        INumberVectorProperty * ccdRotation = currentCCD->getBaseDevice()->getNumber("CCD_ROTATION");
+        if (ccdRotation)
+        {
+            INumber * rotation = IUFindNumber(ccdRotation, "CCD_ROTATION_VALUE");
+            if (rotation)
+            {
+                ClientManager * clientManager = currentCCD->getDriverInfo()->getClientManager();
+                rotation->value = orientation;
+                clientManager->sendNewNumber(ccdRotation);
 
-                 if (m_wcsSynced == false)
-                 {
-                     appendLogText(i18n("WCS information updated. Images captured from this point forward shall have valid WCS."));
+                if (m_wcsSynced == false)
+                {
+                    appendLogText(i18n("WCS information updated. Images captured from this point forward shall have valid WCS."));
 
-                     // Just send telescope info in case the CCD driver did not pick up before.
-                     INumberVectorProperty *telescopeInfo = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
-                     if (telescopeInfo)
+                    // Just send telescope info in case the CCD driver did not pick up before.
+                    INumberVectorProperty * telescopeInfo = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
+                    if (telescopeInfo)
                         clientManager->sendNewNumber(telescopeInfo);
 
-                     m_wcsSynced=true;
-                 }
-             }
-         }
-     }
+                    m_wcsSynced=true;
+                }
+            }
+        }
+    }
 
-     retries=0;
+    retries=0;
 
-     appendLogText(i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4)", alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString(), telescopeCoord.ra().toHMSString(), telescopeCoord.dec().toDMSString()));
-     if (loadSlewState == IPS_IDLE && currentGotoMode == GOTO_SLEW)
-     {
+    appendLogText(i18n("Solution coordinates: RA (%1) DEC (%2) Telescope Coordinates: RA (%3) DEC (%4)", alignCoord.ra().toHMSString(), alignCoord.dec().toDMSString(), telescopeCoord.ra().toHMSString(), telescopeCoord.dec().toDMSString()));
+    if (loadSlewState == IPS_IDLE && currentGotoMode == GOTO_SLEW)
+    {
         dms diffDeg(targetDiff/3600.0);
         appendLogText(i18n("Target is within %1 degrees of solution coordinates.", diffDeg.toDMSString()));
-     }
+    }
 
-     if (rememberUploadMode != currentCCD->getUploadMode())
-         currentCCD->setUploadMode(rememberUploadMode);
+    if (rememberUploadMode != currentCCD->getUploadMode())
+        currentCCD->setUploadMode(rememberUploadMode);
 
-     //if (syncR->isChecked() || nothingR->isChecked() || targetDiff <= accuracySpin->value())
-     // CONTINUE HERE
+    //if (syncR->isChecked() || nothingR->isChecked() || targetDiff <= accuracySpin->value())
+    // CONTINUE HERE
 
 
-     //This block of code along with some sections in the switch below will set the status report in the solution table for this item.
-     QTableWidgetItem *statusReport = new QTableWidgetItem();
-     if (loadSlewState == IPS_IDLE){
-         solutionTable->setCellWidget(currentRow, 3,new QWidget());
+    //This block of code along with some sections in the switch below will set the status report in the solution table for this item.
+    QTableWidgetItem * statusReport = new QTableWidgetItem();
+    if (loadSlewState == IPS_IDLE)
+    {
+        solutionTable->setCellWidget(currentRow, 3,new QWidget());
 
-         statusReport->setFlags(Qt::ItemIsSelectable);
-     }
+        statusReport->setFlags(Qt::ItemIsSelectable);
+    }
 
-     switch (currentGotoMode)
-     {
+    switch (currentGotoMode)
+    {
         case GOTO_SYNC:
-         executeGOTO();
+            executeGOTO();
 
-         if (loadSlewState == IPS_IDLE){
-             statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
-             solutionTable->setItem(currentRow, 3, statusReport);
-         }
-         if(mountModelRunning)
-            finishAlignmentPoint(true);
+            if (loadSlewState == IPS_IDLE)
+            {
+                statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
+                solutionTable->setItem(currentRow, 3, statusReport);
+            }
+            if(mountModelRunning)
+                finishAlignmentPoint(true);
 
-         return;
-         break;
+            return;
+            break;
 
         case GOTO_SLEW:
-         if (loadSlewState == IPS_BUSY || targetDiff > accuracySpin->value())
-         {
+            if (loadSlewState == IPS_BUSY || targetDiff > accuracySpin->value())
+            {
 
-             if (loadSlewState == IPS_IDLE && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
-             {
-                 appendLogText(i18n("Maximum number of iterations reached. Solver failed."));
+                if (loadSlewState == IPS_IDLE && ++solverIterations == MAXIMUM_SOLVER_ITERATIONS)
+                {
+                    appendLogText(i18n("Maximum number of iterations reached. Solver failed."));
 
-                 if (loadSlewState == IPS_IDLE){
-                     statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
-                     solutionTable->setItem(currentRow, 3, statusReport);
-                 }
+                    if (loadSlewState == IPS_IDLE)
+                    {
+                        statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
+                        solutionTable->setItem(currentRow, 3, statusReport);
+                    }
 
-                 solverFailed();
-                 if(mountModelRunning)
-                    finishAlignmentPoint(false);
-                 return;
-             }
+                    solverFailed();
+                    if(mountModelRunning)
+                        finishAlignmentPoint(false);
+                    return;
+                }
 
-             targetAccuracyNotMet=true;
+                targetAccuracyNotMet=true;
 
-             if (loadSlewState == IPS_IDLE){
-                 statusReport->setIcon(QIcon(":/icons/AlignWarning.svg"));
-                 solutionTable->setItem(currentRow, 3, statusReport);
-             }
+                if (loadSlewState == IPS_IDLE)
+                {
+                    statusReport->setIcon(QIcon(":/icons/AlignWarning.svg"));
+                    solutionTable->setItem(currentRow, 3, statusReport);
+                }
 
-             executeGOTO();
-             return;
-         }
-
-         if (loadSlewState == IPS_IDLE){
-             statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
-             solutionTable->setItem(currentRow, 3, statusReport);
-         }
-
-         appendLogText(i18n("Target is within acceptable range. Astrometric solver is successful."));
-         if(mountModelRunning){
-            finishAlignmentPoint(true);
-            if(mountModelRunning)
+                executeGOTO();
                 return;
-         }
-         break;
+            }
+
+            if (loadSlewState == IPS_IDLE)
+            {
+                statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
+                solutionTable->setItem(currentRow, 3, statusReport);
+            }
+
+            appendLogText(i18n("Target is within acceptable range. Astrometric solver is successful."));
+            if(mountModelRunning)
+            {
+                finishAlignmentPoint(true);
+                if(mountModelRunning)
+                    return;
+            }
+            break;
 
         case GOTO_NOTHING:
-         if (loadSlewState == IPS_IDLE){
-             statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
-             solutionTable->setItem(currentRow, 3, statusReport);
-         }
-         if(mountModelRunning){
-            finishAlignmentPoint(true);
+            if (loadSlewState == IPS_IDLE)
+            {
+                statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
+                solutionTable->setItem(currentRow, 3, statusReport);
+            }
             if(mountModelRunning)
-                return;
-         }
-         break;
+            {
+                finishAlignmentPoint(true);
+                if(mountModelRunning)
+                    return;
+            }
+            break;
 
-     }
+    }
 
-     KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
-     state = ALIGN_COMPLETE;
-     emit newStatus(state);
-     solverIterations=0;
+    KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
+    state = ALIGN_COMPLETE;
+    emit newStatus(state);
+    solverIterations=0;
 
-     if (pahStage != PAH_IDLE)
-         processPAHStage(orientation, ra, dec, pixscale);
-     else if (azStage > AZ_INIT || altStage > ALT_INIT)
-         executePolarAlign();
-     else
-     {
-         solveB->setEnabled(true);
-         loadSlewB->setEnabled(true);
-     }
+    if (pahStage != PAH_IDLE)
+        processPAHStage(orientation, ra, dec, pixscale);
+    else if (azStage > AZ_INIT || altStage > ALT_INIT)
+        executePolarAlign();
+    else
+    {
+        solveB->setEnabled(true);
+        loadSlewB->setEnabled(true);
+    }
 }
 
 void Align::solverFailed()
@@ -2754,7 +2928,7 @@ void Align::solverFailed()
     int currentRow = solutionTable->rowCount()-1;
 
     solutionTable->setCellWidget(currentRow, 3,new QWidget());
-    QTableWidgetItem *statusReport = new QTableWidgetItem();
+    QTableWidgetItem * statusReport = new QTableWidgetItem();
     statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
     statusReport->setFlags(Qt::ItemIsSelectable);
     solutionTable->setItem(currentRow, 3, statusReport);
@@ -2781,13 +2955,13 @@ void Align::abort()
     alignTimer.stop();
 
     //currentCCD->disconnect(this);
-    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
-    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip*,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip*,double,IPState)));
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
+    disconnect(currentCCD, SIGNAL(newExposureValue(ISD::CCDChip *,double,IPState)), this, SLOT(checkCCDExposureProgress(ISD::CCDChip *,double,IPState)));
 
     if (rememberUploadMode != currentCCD->getUploadMode())
         currentCCD->setUploadMode(rememberUploadMode);
 
-    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
 
     // If capture is still in progress, let's stop that.
     if (pahStage == PAH_REFRESH)
@@ -2817,7 +2991,7 @@ void Align::abort()
     int currentRow = solutionTable->rowCount()-1;
 
     solutionTable->setCellWidget(currentRow, 3,new QWidget());
-    QTableWidgetItem *statusReport = new QTableWidgetItem();
+    QTableWidgetItem * statusReport = new QTableWidgetItem();
     statusReport->setIcon(QIcon(":/icons/AlignFailure.svg"));
     statusReport->setFlags(Qt::ItemIsSelectable);
     solutionTable->setItem(currentRow, 3, statusReport);
@@ -2848,7 +3022,7 @@ void Align::clearLog()
     emit newLog();
 }
 
-void Align::processTelescopeNumber(INumberVectorProperty *coord)
+void Align::processTelescopeNumber(INumberVectorProperty * coord)
 {
 
     QString ra_dms, dec_dms;
@@ -2866,165 +3040,165 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
         switch (coord->s)
         {
-        case IPS_OK:
-        {
-            // Update the boxes as the mount just finished slewing
-            if (isSlewDirty && Options::astrometryAutoUpdatePosition())
+            case IPS_OK:
             {
-                opsAstrometry->estRA->setText(ra_dms);
-                opsAstrometry->estDec->setText(dec_dms);
-
-                Options::setAstrometryPositionRA(coord->np[0].value*15);
-                Options::setAstrometryPositionDE(coord->np[1].value);
-
-                generateArgs();
-            }
-
-            if (isSlewDirty && pahStage == PAH_FIND_CP)
-            {
-                isSlewDirty = false;
-                appendLogText(i18n("Mount completed slewing near celestial pole. Capture again to verify."));
-                PAHFirstCaptureB->setEnabled(true);
-                setGOTOMode(GOTO_NOTHING);
-                pahStage = PAH_FIRST_CAPTURE;
-                return;
-            }
-
-            if (isSlewDirty && pahStage == PAH_FIRST_ROTATE)
-            {
-                isSlewDirty = false;
-
-                appendLogText(i18n("Mount first rotation is complete."));
-
-                pahStage = PAH_SECOND_CAPTURE;
-
-                PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
-
-                if (PAHAutoModeCheck->isChecked())
+                // Update the boxes as the mount just finished slewing
+                if (isSlewDirty && Options::astrometryAutoUpdatePosition())
                 {
-                    PAHSecondCaptureB->setEnabled(true);
-                    PAHSecondCaptureB->click();
+                    opsAstrometry->estRA->setText(ra_dms);
+                    opsAstrometry->estDec->setText(dec_dms);
+
+                    Options::setAstrometryPositionRA(coord->np[0].value*15);
+                    Options::setAstrometryPositionDE(coord->np[1].value);
+
+                    generateArgs();
                 }
-            }
-            else if (isSlewDirty && pahStage == PAH_SECOND_ROTATE)
-            {
-                isSlewDirty = false;
 
-                appendLogText(i18n("Mount second rotation is complete."));
-
-                pahStage = PAH_THIRD_CAPTURE;
-
-                PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
-
-                if (PAHAutoModeCheck->isChecked())
+                if (isSlewDirty && pahStage == PAH_FIND_CP)
                 {
-                    PAHThirdCaptureB->setEnabled(true);
-                    PAHThirdCaptureB->click();
-                }
-            }
-
-            switch (state)
-            {
-            case ALIGN_PROGRESS:
-                break;
-
-            case ALIGN_SYNCING:
-            {
-                isSlewDirty = false;
-                if (currentGotoMode == GOTO_SLEW)
-                {
-                    Slew();
+                    isSlewDirty = false;
+                    appendLogText(i18n("Mount completed slewing near celestial pole. Capture again to verify."));
+                    PAHFirstCaptureB->setEnabled(true);
+                    setGOTOMode(GOTO_NOTHING);
+                    pahStage = PAH_FIRST_CAPTURE;
                     return;
                 }
-                else
+
+                if (isSlewDirty && pahStage == PAH_FIRST_ROTATE)
                 {
-                    appendLogText(i18n("Mount is synced to solution coordinates. Astrometric solver is successful."));
-                    KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
-                    state = ALIGN_COMPLETE;
-                    emit newStatus(state);
+                    isSlewDirty = false;
+
+                    appendLogText(i18n("Mount first rotation is complete."));
+
+                    pahStage = PAH_SECOND_CAPTURE;
+
+                    PAHWidgets->setCurrentWidget(PAHSecondCapturePage);
+
+                    if (PAHAutoModeCheck->isChecked())
+                    {
+                        PAHSecondCaptureB->setEnabled(true);
+                        PAHSecondCaptureB->click();
+                    }
+                }
+                else if (isSlewDirty && pahStage == PAH_SECOND_ROTATE)
+                {
+                    isSlewDirty = false;
+
+                    appendLogText(i18n("Mount second rotation is complete."));
+
+                    pahStage = PAH_THIRD_CAPTURE;
+
+                    PAHWidgets->setCurrentWidget(PAHThirdCapturePage);
+
+                    if (PAHAutoModeCheck->isChecked())
+                    {
+                        PAHThirdCaptureB->setEnabled(true);
+                        PAHThirdCaptureB->click();
+                    }
+                }
+
+                switch (state)
+                {
+                    case ALIGN_PROGRESS:
+                        break;
+
+                    case ALIGN_SYNCING:
+                    {
+                        isSlewDirty = false;
+                        if (currentGotoMode == GOTO_SLEW)
+                        {
+                            Slew();
+                            return;
+                        }
+                        else
+                        {
+                            appendLogText(i18n("Mount is synced to solution coordinates. Astrometric solver is successful."));
+                            KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
+                            state = ALIGN_COMPLETE;
+                            emit newStatus(state);
+                        }
+                    }
+                    break;
+
+                    case ALIGN_SLEWING:
+                        if (isSlewDirty == false)
+                            break;
+
+                        isSlewDirty = false;
+                        if (loadSlewState == IPS_BUSY)
+                        {
+                            loadSlewState = IPS_IDLE;
+
+                            if (Options::alignmentLogging())
+                                qDebug() << "Alignment: loadSlewState is IDLE.";
+
+                            state = ALIGN_PROGRESS;
+                            emit newStatus(state);
+
+                            QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
+                            return;
+                        }
+                        else if(currentGotoMode == GOTO_SLEW||mountModelRunning)
+                        {
+                            if(targetAccuracyNotMet)
+                                appendLogText(i18n("Slew complete. Target accuracy is not met, running solver again..."));
+                            else
+                                appendLogText(i18n("Slew complete. Solving Alignment Point. . ."));
+                            targetAccuracyNotMet=false;
+
+                            state = ALIGN_PROGRESS;
+                            emit newStatus(state);
+
+                            QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
+                            return;
+                        }
+                        break;
+
+                    default:
+                    {
+                        isSlewDirty = false;
+                    }
+                    break;
                 }
             }
             break;
 
-            case ALIGN_SLEWING:
-                if (isSlewDirty == false)
-                    break;
+            case IPS_BUSY:
+            {
+                isSlewDirty = true;
 
-                isSlewDirty = false;
-                if (loadSlewState == IPS_BUSY)
+            }
+            break;
+
+            case IPS_ALERT:
+            {
+                if (state == ALIGN_SYNCING || state == ALIGN_SLEWING)
                 {
-                    loadSlewState = IPS_IDLE;
-
-                    if (Options::alignmentLogging())
-                        qDebug() << "Alignment: loadSlewState is IDLE.";
-
-                    state = ALIGN_PROGRESS;
-                    emit newStatus(state);
-
-                    QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
-                    return;
-                }
-                else if(currentGotoMode == GOTO_SLEW||mountModelRunning)
-                {
-                    if(targetAccuracyNotMet)
-                        appendLogText(i18n("Slew complete. Target accuracy is not met, running solver again..."));
+                    if (state == ALIGN_SYNCING)
+                        appendLogText(i18n("Syncing failed!"));
                     else
-                        appendLogText(i18n("Slew complete. Solving Alignment Point. . ."));
-                    targetAccuracyNotMet=false;
+                        appendLogText(i18n("Slewing failed!"));
 
-                    state = ALIGN_PROGRESS;
-                    emit newStatus(state);
-
-                    QTimer::singleShot(delaySpin->value(), this, SLOT(captureAndSolve()));
-                    return;
+                    if (++retries == 3)
+                    {
+                        abort();
+                        return;
+                    }
+                    else
+                    {
+                        if (currentGotoMode == GOTO_SLEW)
+                            Slew();
+                        else
+                            Sync();
+                    }
                 }
+
+                return;
+            }
             break;
 
             default:
-            {
-                isSlewDirty = false;
-            }
-            break;
-            }
-        }
-        break;
-
-        case IPS_BUSY:
-        {
-            isSlewDirty = true;
-
-        }
-        break;
-
-        case IPS_ALERT:
-        {
-            if (state == ALIGN_SYNCING || state == ALIGN_SLEWING)
-            {
-                if (state == ALIGN_SYNCING)
-                    appendLogText(i18n("Syncing failed!"));
-                else
-                    appendLogText(i18n("Slewing failed!"));
-
-                if (++retries == 3)
-                {
-                    abort();
-                    return;
-                }
-                else
-                {
-                    if (currentGotoMode == GOTO_SLEW)
-                        Slew();
-                    else
-                        Sync();
-                }
-            }
-
-            return;
-        }
-        break;
-
-        default:
-        break;
+                break;
         }
 
 
@@ -3034,55 +3208,55 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
         switch (azStage)
         {
-        case AZ_SYNCING:
-            if (currentTelescope->isSlewing())
-                azStage=AZ_SLEWING;
-            break;
+            case AZ_SYNCING:
+                if (currentTelescope->isSlewing())
+                    azStage=AZ_SLEWING;
+                break;
 
-        case AZ_SLEWING:
-            if (currentTelescope->isSlewing() == false)
-            {
-                azStage = AZ_SECOND_TARGET;
-                measureAzError();
-            }
-            break;
+            case AZ_SLEWING:
+                if (currentTelescope->isSlewing() == false)
+                {
+                    azStage = AZ_SECOND_TARGET;
+                    measureAzError();
+                }
+                break;
 
-        case AZ_CORRECTING:
-            if (currentTelescope->isSlewing() == false)
-            {
-                appendLogText(i18n("Slew complete. Please adjust azimuth knob until the target is in the center of the view."));
-                azStage = AZ_INIT;
-            }
-            break;
+            case AZ_CORRECTING:
+                if (currentTelescope->isSlewing() == false)
+                {
+                    appendLogText(i18n("Slew complete. Please adjust azimuth knob until the target is in the center of the view."));
+                    azStage = AZ_INIT;
+                }
+                break;
 
-        default:
-            break;
+            default:
+                break;
         }
 
         switch (altStage)
         {
-        case ALT_SYNCING:
-            if (currentTelescope->isSlewing())
-                altStage = ALT_SLEWING;
-            break;
+            case ALT_SYNCING:
+                if (currentTelescope->isSlewing())
+                    altStage = ALT_SLEWING;
+                break;
 
-        case ALT_SLEWING:
-            if (currentTelescope->isSlewing() == false)
-            {
-                altStage = ALT_SECOND_TARGET;
-                measureAltError();
-            }
-            break;
+            case ALT_SLEWING:
+                if (currentTelescope->isSlewing() == false)
+                {
+                    altStage = ALT_SECOND_TARGET;
+                    measureAltError();
+                }
+                break;
 
-        case ALT_CORRECTING:
-            if (currentTelescope->isSlewing() == false)
-            {
-                appendLogText(i18n("Slew complete. Please adjust altitude knob until the target is in the center of the view."));
-                altStage = ALT_INIT;
-            }
-            break;
-        default:
-            break;
+            case ALT_CORRECTING:
+                if (currentTelescope->isSlewing() == false)
+                {
+                    appendLogText(i18n("Slew complete. Please adjust altitude knob until the target is in the center of the view."));
+                    altStage = ALT_INIT;
+                }
+                break;
+            default:
+                break;
         }
 
     }
@@ -3090,7 +3264,7 @@ void Align::processTelescopeNumber(INumberVectorProperty *coord)
 
     // N.B. EkosManager already mananges TELESCOPE_INFO, why here again?
     //if (!strcmp(coord->name, "TELESCOPE_INFO"))
-        //syncTelescopeInfo();
+    //syncTelescopeInfo();
 
 }
 
@@ -3099,7 +3273,7 @@ void Align::executeGOTO()
     if (loadSlewState == IPS_BUSY)
     {
         //if (loadSlewIterations == loadSlewIterationsSpin->value())
-            //loadSlewCoord = alignCoord;
+        //loadSlewCoord = alignCoord;
 
         //targetCoord = loadSlewCoord;
         targetCoord = alignCoord;
@@ -3182,8 +3356,8 @@ void Align::measureAzError()
     static double initRA=0, initDEC=0, finalRA=0, finalDEC=0, initAz=0;
 
     if (pahStage != PAH_IDLE &&
-        (KMessageBox::warningContinueCancel(KStars::Instance(),
-         i18n("Polar Alignment Helper is still active. Do you want to continue using legacy polar alignment tool?"))!=KMessageBox::Continue))
+            (KMessageBox::warningContinueCancel(KStars::Instance(),
+                    i18n("Polar Alignment Helper is still active. Do you want to continue using legacy polar alignment tool?"))!=KMessageBox::Continue))
         return;
 
     pahStage = PAH_IDLE;
@@ -3195,85 +3369,85 @@ void Align::measureAzError()
     {
         case AZ_INIT:
 
-        // Display message box confirming user point scope near meridian and south
+            // Display message box confirming user point scope near meridian and south
 
-        if (KMessageBox::warningContinueCancel( 0, hemisphere == NORTH_HEMISPHERE
-                                                   ? i18n("Point the telescope at the southern meridian. Press continue when ready.")
-                                                   : i18n("Point the telescope at the northern meridian. Press continue when ready.")
-                                                , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                                                "ekos_measure_az_error")!=KMessageBox::Continue)
-            return;
+            if (KMessageBox::warningContinueCancel( 0, hemisphere == NORTH_HEMISPHERE
+                                                    ? i18n("Point the telescope at the southern meridian. Press continue when ready.")
+                                                    : i18n("Point the telescope at the northern meridian. Press continue when ready.")
+                                                    , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                                                    "ekos_measure_az_error")!=KMessageBox::Continue)
+                return;
 
-        appendLogText(i18n("Solving first frame near the meridian."));
-        azStage = AZ_FIRST_TARGET;
-        captureAndSolve();
-        break;
+            appendLogText(i18n("Solving first frame near the meridian."));
+            azStage = AZ_FIRST_TARGET;
+            captureAndSolve();
+            break;
 
-      case AZ_FIRST_TARGET:
-        // start solving there, find RA/DEC
-        initRA   = alignCoord.ra().Degrees();
-        initDEC  = alignCoord.dec().Degrees();
-        initAz   = alignCoord.az().Degrees();
+        case AZ_FIRST_TARGET:
+            // start solving there, find RA/DEC
+            initRA   = alignCoord.ra().Degrees();
+            initDEC  = alignCoord.dec().Degrees();
+            initAz   = alignCoord.az().Degrees();
 
-        if (Options::alignmentLogging())
-            qDebug() << "Polar Alignment: initRA " << alignCoord.ra().toHMSString() << " initDEC " << alignCoord.dec().toDMSString() <<
-                        " initlAz " << alignCoord.az().toDMSString() << " initAlt " << alignCoord.alt().toDMSString();
+            if (Options::alignmentLogging())
+                qDebug() << "Polar Alignment: initRA " << alignCoord.ra().toHMSString() << " initDEC " << alignCoord.dec().toDMSString() <<
+                         " initlAz " << alignCoord.az().toDMSString() << " initAlt " << alignCoord.alt().toDMSString();
 
-        // Now move 30 arcminutes in RA
-        if (canSync)
-        {
-            azStage = AZ_SYNCING;
-            currentTelescope->Sync(initRA/15.0, initDEC);
-            currentTelescope->Slew((initRA - RAMotion)/15.0, initDEC);
-        }
-        // If telescope doesn't sync, we slew relative to its current coordinates
-        else
-        {
-            azStage = AZ_SLEWING;
-            currentTelescope->Slew(telescopeCoord.ra().Hours() - RAMotion/15.0, telescopeCoord.dec().Degrees());
-        }
+            // Now move 30 arcminutes in RA
+            if (canSync)
+            {
+                azStage = AZ_SYNCING;
+                currentTelescope->Sync(initRA/15.0, initDEC);
+                currentTelescope->Slew((initRA - RAMotion)/15.0, initDEC);
+            }
+            // If telescope doesn't sync, we slew relative to its current coordinates
+            else
+            {
+                azStage = AZ_SLEWING;
+                currentTelescope->Slew(telescopeCoord.ra().Hours() - RAMotion/15.0, telescopeCoord.dec().Degrees());
+            }
 
-        appendLogText(i18n("Slewing 30 arcminutes in RA..."));
-        break;
+            appendLogText(i18n("Slewing 30 arcminutes in RA..."));
+            break;
 
-      case AZ_SECOND_TARGET:
-        // We reached second target now
-        // Let now solver for RA/DEC
-        appendLogText(i18n("Solving second frame near the meridian."));
-        azStage = AZ_FINISHED;
-        captureAndSolve();
-        break;
+        case AZ_SECOND_TARGET:
+            // We reached second target now
+            // Let now solver for RA/DEC
+            appendLogText(i18n("Solving second frame near the meridian."));
+            azStage = AZ_FINISHED;
+            captureAndSolve();
+            break;
 
 
-      case AZ_FINISHED:
-        // Measure deviation in DEC
-        // Call function to report error
-        // set stage to AZ_FIRST_TARGET again
-        appendLogText(i18n("Calculating azimuth alignment error..."));
-        finalRA   = alignCoord.ra().Degrees();
-        finalDEC  = alignCoord.dec().Degrees();
+        case AZ_FINISHED:
+            // Measure deviation in DEC
+            // Call function to report error
+            // set stage to AZ_FIRST_TARGET again
+            appendLogText(i18n("Calculating azimuth alignment error..."));
+            finalRA   = alignCoord.ra().Degrees();
+            finalDEC  = alignCoord.dec().Degrees();
 
-        if (Options::alignmentLogging())
-            qDebug() << "Polar Alignment: finalRA " << alignCoord.ra().toHMSString() << " finalDEC " << alignCoord.dec().toDMSString() <<
-                        " finalAz " << alignCoord.az().toDMSString() << " finalAlt " << alignCoord.alt().toDMSString();
+            if (Options::alignmentLogging())
+                qDebug() << "Polar Alignment: finalRA " << alignCoord.ra().toHMSString() << " finalDEC " << alignCoord.dec().toDMSString() <<
+                         " finalAz " << alignCoord.az().toDMSString() << " finalAlt " << alignCoord.alt().toDMSString();
 
-        // Slew back to original position
-        if (canSync)
-            currentTelescope->Slew(initRA/15.0, initDEC);
-        else
-        {
-            currentTelescope->Slew(telescopeCoord.ra().Hours() + RAMotion/15.0, telescopeCoord.dec().Degrees());
-        }
+            // Slew back to original position
+            if (canSync)
+                currentTelescope->Slew(initRA/15.0, initDEC);
+            else
+            {
+                currentTelescope->Slew(telescopeCoord.ra().Hours() + RAMotion/15.0, telescopeCoord.dec().Degrees());
+            }
 
-        appendLogText(i18n("Slewing back to original position..."));
+            appendLogText(i18n("Slewing back to original position..."));
 
-        calculatePolarError(initRA, initDEC, finalRA, finalDEC, initAz);
+            calculatePolarError(initRA, initDEC, finalRA, finalDEC, initAz);
 
-        azStage = AZ_INIT;
-        break;
+            azStage = AZ_INIT;
+            break;
 
-    default:
-        break;
+        default:
+            break;
 
     }
 
@@ -3284,8 +3458,8 @@ void Align::measureAltError()
     static double initRA=0, initDEC=0, finalRA=0, finalDEC=0, initAz=0;
 
     if (pahStage != PAH_IDLE &&
-        (KMessageBox::warningContinueCancel(KStars::Instance(),
-         i18n("Polar Alignment Helper is still active. Do you want to continue using legacy polar alignment tool?"))!=KMessageBox::Continue))
+            (KMessageBox::warningContinueCancel(KStars::Instance(),
+                    i18n("Polar Alignment Helper is still active. Do you want to continue using legacy polar alignment tool?"))!=KMessageBox::Continue))
         return;
 
     pahStage = PAH_IDLE;
@@ -3297,85 +3471,85 @@ void Align::measureAltError()
     {
         case ALT_INIT:
 
-        // Display message box confirming user point scope near meridian and south
+            // Display message box confirming user point scope near meridian and south
 
-        if (KMessageBox::warningContinueCancel( 0, i18n("Point the telescope to the eastern or western horizon with a minimum altitude of 20 degrees. Press continue when ready.")
-                                                , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
-                                                "ekos_measure_alt_error")!=KMessageBox::Continue)
-            return;
+            if (KMessageBox::warningContinueCancel( 0, i18n("Point the telescope to the eastern or western horizon with a minimum altitude of 20 degrees. Press continue when ready.")
+                                                    , i18n("Polar Alignment Measurement"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(),
+                                                    "ekos_measure_alt_error")!=KMessageBox::Continue)
+                return;
 
-        appendLogText(i18n("Solving first frame."));
-        altStage = ALT_FIRST_TARGET;
-        captureAndSolve();
-        break;
+            appendLogText(i18n("Solving first frame."));
+            altStage = ALT_FIRST_TARGET;
+            captureAndSolve();
+            break;
 
-      case ALT_FIRST_TARGET:
-        // start solving there, find RA/DEC
-        initRA   = alignCoord.ra().Degrees();
-        initDEC  = alignCoord.dec().Degrees();
-        initAz   = alignCoord.az().Degrees();
+        case ALT_FIRST_TARGET:
+            // start solving there, find RA/DEC
+            initRA   = alignCoord.ra().Degrees();
+            initDEC  = alignCoord.dec().Degrees();
+            initAz   = alignCoord.az().Degrees();
 
-        if (Options::alignmentLogging())
-            qDebug() << "Polar Alignment: initRA " << alignCoord.ra().toHMSString() << " initDEC " << alignCoord.dec().toDMSString() <<
-                        " initlAz " << alignCoord.az().toDMSString() << " initAlt " << alignCoord.alt().toDMSString();
+            if (Options::alignmentLogging())
+                qDebug() << "Polar Alignment: initRA " << alignCoord.ra().toHMSString() << " initDEC " << alignCoord.dec().toDMSString() <<
+                         " initlAz " << alignCoord.az().toDMSString() << " initAlt " << alignCoord.alt().toDMSString();
 
-        // Now move 30 arcminutes in RA
-        if (canSync)
-        {
-            altStage = ALT_SYNCING;
-            currentTelescope->Sync(initRA/15.0, initDEC);
-            currentTelescope->Slew((initRA - RAMotion)/15.0, initDEC);
+            // Now move 30 arcminutes in RA
+            if (canSync)
+            {
+                altStage = ALT_SYNCING;
+                currentTelescope->Sync(initRA/15.0, initDEC);
+                currentTelescope->Slew((initRA - RAMotion)/15.0, initDEC);
 
-        }
-        // If telescope doesn't sync, we slew relative to its current coordinates
-        else
-        {
-            altStage = ALT_SLEWING;
-            currentTelescope->Slew(telescopeCoord.ra().Hours() - RAMotion/15.0, telescopeCoord.dec().Degrees());
-        }
-
-
-        appendLogText(i18n("Slewing 30 arcminutes in RA..."));
-        break;
-
-      case ALT_SECOND_TARGET:
-        // We reached second target now
-        // Let now solver for RA/DEC
-        appendLogText(i18n("Solving second frame."));
-        altStage = ALT_FINISHED;
-        captureAndSolve();
-        break;
+            }
+            // If telescope doesn't sync, we slew relative to its current coordinates
+            else
+            {
+                altStage = ALT_SLEWING;
+                currentTelescope->Slew(telescopeCoord.ra().Hours() - RAMotion/15.0, telescopeCoord.dec().Degrees());
+            }
 
 
-      case ALT_FINISHED:
-        // Measure deviation in DEC
-        // Call function to report error
-        appendLogText(i18n("Calculating altitude alignment error..."));
-        finalRA   = alignCoord.ra().Degrees();
-        finalDEC  = alignCoord.dec().Degrees();
+            appendLogText(i18n("Slewing 30 arcminutes in RA..."));
+            break;
 
-        if (Options::alignmentLogging())
-            qDebug() << "Polar Alignment: finalRA " << alignCoord.ra().toHMSString() << " finalDEC " << alignCoord.dec().toDMSString() <<
-                        " finalAz " << alignCoord.az().toDMSString() << " finalAlt " << alignCoord.alt().toDMSString();
+        case ALT_SECOND_TARGET:
+            // We reached second target now
+            // Let now solver for RA/DEC
+            appendLogText(i18n("Solving second frame."));
+            altStage = ALT_FINISHED;
+            captureAndSolve();
+            break;
 
-        // Slew back to original position
-        if (canSync)
-            currentTelescope->Slew(initRA/15.0, initDEC);
-        // If telescope doesn't sync, we slew relative to its current coordinates
-        else
-        {
-            currentTelescope->Slew(telescopeCoord.ra().Hours() + RAMotion/15.0, telescopeCoord.dec().Degrees());
-        }
 
-        appendLogText(i18n("Slewing back to original position..."));
+        case ALT_FINISHED:
+            // Measure deviation in DEC
+            // Call function to report error
+            appendLogText(i18n("Calculating altitude alignment error..."));
+            finalRA   = alignCoord.ra().Degrees();
+            finalDEC  = alignCoord.dec().Degrees();
 
-        calculatePolarError(initRA, initDEC, finalRA, finalDEC, initAz);
+            if (Options::alignmentLogging())
+                qDebug() << "Polar Alignment: finalRA " << alignCoord.ra().toHMSString() << " finalDEC " << alignCoord.dec().toDMSString() <<
+                         " finalAz " << alignCoord.az().toDMSString() << " finalAlt " << alignCoord.alt().toDMSString();
 
-        altStage = ALT_INIT;
-        break;
+            // Slew back to original position
+            if (canSync)
+                currentTelescope->Slew(initRA/15.0, initDEC);
+            // If telescope doesn't sync, we slew relative to its current coordinates
+            else
+            {
+                currentTelescope->Slew(telescopeCoord.ra().Hours() + RAMotion/15.0, telescopeCoord.dec().Degrees());
+            }
 
-    default:
-        break;
+            appendLogText(i18n("Slewing back to original position..."));
+
+            calculatePolarError(initRA, initDEC, finalRA, finalDEC, initAz);
+
+            altStage = ALT_INIT;
+            break;
+
+        default:
+            break;
 
     }
 
@@ -3407,77 +3581,77 @@ void Align::calculatePolarError(double initRA, double initDEC, double finalRA, d
     {
         // Northern hemisphere
         case NORTH_HEMISPHERE:
-        if (azStage == AZ_FINISHED)
-        {
-            if (decDeviation > 0)
-                deviationDirection = ki18n("%1 too far east");
-            else
-                deviationDirection = ki18n("%1 too far west");
-        }
-        else if (altStage == ALT_FINISHED)
-        {
-            switch (horizon)
+            if (azStage == AZ_FINISHED)
             {
-                // East
-                case 0:
                 if (decDeviation > 0)
-                    deviationDirection = ki18n("%1 too far high");
+                    deviationDirection = ki18n("%1 too far east");
                 else
-                    deviationDirection = ki18n("%1 too far low");
-
-                break;
-
-                // West
-                case 1:
-                if (decDeviation > 0)
-                    deviationDirection = ki18n("%1 too far low");
-                else
-                    deviationDirection = ki18n("%1 too far high");
-                break;
-
-                default:
-                break;
+                    deviationDirection = ki18n("%1 too far west");
             }
-        }
-        break;
+            else if (altStage == ALT_FINISHED)
+            {
+                switch (horizon)
+                {
+                    // East
+                    case 0:
+                        if (decDeviation > 0)
+                            deviationDirection = ki18n("%1 too far high");
+                        else
+                            deviationDirection = ki18n("%1 too far low");
+
+                        break;
+
+                    // West
+                    case 1:
+                        if (decDeviation > 0)
+                            deviationDirection = ki18n("%1 too far low");
+                        else
+                            deviationDirection = ki18n("%1 too far high");
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            break;
 
         // Southern hemisphere
         case SOUTH_HEMISPHERE:
-        if (azStage == AZ_FINISHED)
-        {
-            if (decDeviation > 0)
-                deviationDirection = ki18n("%1 too far west");
-            else
-                deviationDirection = ki18n("%1 too far east");
-        }
-        else if (altStage == ALT_FINISHED)
-        {
-            switch (horizon)
+            if (azStage == AZ_FINISHED)
             {
-                // East
-                case 0:
                 if (decDeviation > 0)
-                    deviationDirection = ki18n("%1 too far low");
+                    deviationDirection = ki18n("%1 too far west");
                 else
-                    deviationDirection = ki18n("%1 too far high");
-                break;
-
-                // West
-                case 1:
-                if (decDeviation > 0)
-                    deviationDirection = ki18n("%1 too far high");
-                else
-                    deviationDirection = ki18n("%1 too far low");
-                break;
-
-                default:
-                break;
+                    deviationDirection = ki18n("%1 too far east");
             }
-        }
-        break;
+            else if (altStage == ALT_FINISHED)
+            {
+                switch (horizon)
+                {
+                    // East
+                    case 0:
+                        if (decDeviation > 0)
+                            deviationDirection = ki18n("%1 too far low");
+                        else
+                            deviationDirection = ki18n("%1 too far high");
+                        break;
 
-       default:
-        break;
+                    // West
+                    case 1:
+                        if (decDeviation > 0)
+                            deviationDirection = ki18n("%1 too far high");
+                        else
+                            deviationDirection = ki18n("%1 too far low");
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            break;
+
+        default:
+            break;
 
     }
 
@@ -3524,7 +3698,7 @@ void Align::correctAltError()
     {
         qDebug() << "Polar Alignment: Correcting Altitude Error...";
         qDebug() << "Polar Alignment: Current Mount RA " << currentCoord.ra().toHMSString() << " DEC " << currentCoord.dec().toDMSString() <<
-                    "Az " << currentCoord.az().toDMSString() << " Alt " << currentCoord.alt().toDMSString();
+                 "Az " << currentCoord.az().toDMSString() << " Alt " << currentCoord.alt().toDMSString();
     }
 
     // An error in polar alignment altitude reflects a deviation in the latitude of the mount from actual latitude of the site
@@ -3564,7 +3738,7 @@ void Align::correctAzError()
     {
         qDebug() << "Polar Alignment: Correcting Azimuth Error...";
         qDebug() << "Polar Alignment: Current Mount RA " << currentCoord.ra().toHMSString() << " DEC " << currentCoord.dec().toDMSString() <<
-                    "Az " << currentCoord.az().toDMSString() << " Alt " << currentCoord.alt().toDMSString();
+                 "Az " << currentCoord.az().toDMSString() << " Alt " << currentCoord.alt().toDMSString();
         qDebug() << "Polar Alignment: Target Azimuth = Current Azimuth " << currentCoord.az().Degrees() << " + Azimuth Deviation " << azDeviation << " = " << currentCoord.az().Degrees() + azDeviation;
     }
 
@@ -3651,32 +3825,32 @@ void Align::setExposure(double value)
 
 void Align::setBinningIndex(int binIndex)
 {
-   Options::setSolverBinningIndex(binIndex);
+    Options::setSolverBinningIndex(binIndex);
 
-   // If sender is not our combo box, then we need to update the combobox itself
-   if ( dynamic_cast<QComboBox*>(sender()) != binningCombo)
-   {
-       binningCombo->blockSignals(true);
-       binningCombo->setCurrentIndex(binIndex);
-       binningCombo->blockSignals(false);
-   }
+    // If sender is not our combo box, then we need to update the combobox itself
+    if ( dynamic_cast<QComboBox *>(sender()) != binningCombo)
+    {
+        binningCombo->blockSignals(true);
+        binningCombo->setCurrentIndex(binIndex);
+        binningCombo->blockSignals(false);
+    }
 
-   // Need to calculate FOV and args for APP
-   if (Options::astrometryImageScaleUnits() == OpsAstrometry::SCALE_ARCSECPERPIX)
-   {
-       calculateFOV();
-       generateArgs();
-   }
+    // Need to calculate FOV and args for APP
+    if (Options::astrometryImageScaleUnits() == OpsAstrometry::SCALE_ARCSECPERPIX)
+    {
+        calculateFOV();
+        generateArgs();
+    }
 
 }
 
-void Align::setSolverArguments(const QString & value)
+void Align::setSolverArguments(const QString &value)
 {
     solverOptions->setText(value);
 }
 
 void Align::setSolverSearchCoords(double ra, double dec)
-{    
+{
     dms RA, DEC;
     RA.setH(ra);
     DEC.setD(dec);
@@ -3691,7 +3865,7 @@ void Align::setUseOAGT(bool enabled)
     FOVScopeCombo->setCurrentIndex(enabled ? ISD::CCD::TELESCOPE_GUIDE : ISD::CCD::TELESCOPE_PRIMARY);
 }
 
-FOV* Align::fov()
+FOV * Align::fov()
 {
     if (sOrientation == -1)
         return NULL;
@@ -3700,22 +3874,22 @@ FOV* Align::fov()
 
 }
 
-void Align::setLockedFilter(ISD::GDInterface *filter, int lockedPosition)
+void Align::setLockedFilter(ISD::GDInterface * filter, int lockedPosition)
 {
     currentFilter = filter;
     if (currentFilter)
     {
         lockedFilterIndex = lockedPosition;
 
-        INumberVectorProperty *filterSlot = filter->getBaseDevice()->getNumber("FILTER_SLOT");
+        INumberVectorProperty * filterSlot = filter->getBaseDevice()->getNumber("FILTER_SLOT");
         if (filterSlot)
             currentFilterIndex = filterSlot->np[0].value-1;
 
-        connect(currentFilter, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFilterNumber(INumberVectorProperty*)), Qt::UniqueConnection);
+        connect(currentFilter, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(processFilterNumber(INumberVectorProperty *)), Qt::UniqueConnection);
     }
 }
 
-void Align::processFilterNumber(INumberVectorProperty *nvp)
+void Align::processFilterNumber(INumberVectorProperty * nvp)
 {
     if (currentFilter && !strcmp(nvp->name, "FILTER_SLOT") && !strcmp(nvp->device, currentFilter->getDeviceName()))
     {
@@ -3737,10 +3911,10 @@ void Align::setWCSEnabled(bool enable)
     if (currentCCD == NULL)
         return;
 
-    ISwitchVectorProperty *wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
+    ISwitchVectorProperty * wcsControl = currentCCD->getBaseDevice()->getSwitch("WCS_CONTROL");
 
-    ISwitch *wcs_enable  = IUFindSwitch(wcsControl, "WCS_ENABLE");
-    ISwitch *wcs_disable = IUFindSwitch(wcsControl, "WCS_DISABLE");
+    ISwitch * wcs_enable  = IUFindSwitch(wcsControl, "WCS_ENABLE");
+    ISwitch * wcs_disable = IUFindSwitch(wcsControl, "WCS_DISABLE");
 
     if (!wcs_enable || !wcs_disable)
         return;
@@ -3761,12 +3935,12 @@ void Align::setWCSEnabled(bool enable)
         appendLogText(i18n("World Coordinate System (WCS) is disabled."));
     }
 
-    ClientManager *clientManager = currentCCD->getDriverInfo()->getClientManager();
+    ClientManager * clientManager = currentCCD->getDriverInfo()->getClientManager();
 
     clientManager->sendNewSwitch(wcsControl);
 }
 
-void Align::checkCCDExposureProgress(ISD::CCDChip *targetChip, double remaining, IPState state)
+void Align::checkCCDExposureProgress(ISD::CCDChip * targetChip, double remaining, IPState state)
 {
     INDI_UNUSED(targetChip);
     INDI_UNUSED(remaining);
@@ -3880,7 +4054,7 @@ QStringList Align::getSolverOptionsFromFITS(const QString &filename)
     }
 
     /*if (coord_ok == false)
-    {        
+    {
         ra  = telescopeCoord.ra0().Hours();
         dec = telescopeCoord.dec0().Degrees();
     }*/
@@ -3948,18 +4122,18 @@ void Align::setCaptureStatus(CaptureState newState)
 {
     switch (newState)
     {
-    case CAPTURE_ALIGNING:
-        QTimer::singleShot(Options::settlingTime(), this, SLOT(captureAndSolve()));
-        break;
+        case CAPTURE_ALIGNING:
+            QTimer::singleShot(Options::settlingTime(), this, SLOT(captureAndSolve()));
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
 void Align::showFITSViewer()
 {
-    FITSData *data = alignView->getImageData();
+    FITSData * data = alignView->getImageData();
 
     if (data)
     {
@@ -3976,7 +4150,7 @@ void Align::showFITSViewer()
             }
 
             fv->addFITS(&url);
-            FITSView *currentView = fv->getCurrentView();
+            FITSView * currentView = fv->getCurrentView();
             if (currentView)
                 currentView->getImageData()->setAutoRemoveTemporaryFITS(false);
         }
@@ -3994,7 +4168,7 @@ void Align::toggleAlignWidgetFullScreen()
         alignWidget->setParent(this);
         rightLayout->insertWidget(0, alignWidget);
         //rightLayout->setStretch(0, 2);
-       // rightLayout->setStretch(1, 1);
+        // rightLayout->setStretch(1, 1);
         alignWidget->showNormal();
     }
     else
@@ -4029,9 +4203,9 @@ void Align::restartPAHProcess()
         return;
 
     // Only display dialog if user explicity restarts
-    if ( (static_cast<QPushButton*>(sender()) == PAHRestartB) &&
-        KMessageBox::questionYesNo(KStars::Instance(), i18n("Are you sure you want to restart the polar alignment process?"), i18n("Polar Alignment Assistant"),
-                                   KStandardGuiItem::yes(), KStandardGuiItem::no(), "restart_PAA_process_dialog") == KMessageBox::No)
+    if ( (static_cast<QPushButton *>(sender()) == PAHRestartB) &&
+            KMessageBox::questionYesNo(KStars::Instance(), i18n("Are you sure you want to restart the polar alignment process?"), i18n("Polar Alignment Assistant"),
+                                       KStandardGuiItem::yes(), KStandardGuiItem::no(), "restart_PAA_process_dialog") == KMessageBox::No)
         return;
 
     pahStage = PAH_IDLE;
@@ -4118,7 +4292,7 @@ void Align::calculatePAHError()
         alignView->toggleEQGrid();
     alignView->setRACircle(RACircle);
 
-    FITSData *imageData = alignView->getImageData();
+    FITSData * imageData = alignView->getImageData();
 
     QPointF RACenterPoint(RACircle.x(), RACircle.y());
     SkyPoint RACenter;
@@ -4221,7 +4395,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     if (pahStage == PAH_FIRST_CAPTURE)
     {
         // Set First PAH Center
-        PAHImageInfo *solution = new PAHImageInfo();
+        PAHImageInfo * solution = new PAHImageInfo();
         solution->skyCenter.setRA0(alignCoord.ra0());
         solution->skyCenter.setDec0(alignCoord.dec0());
         solution->orientation = orientation;
@@ -4242,7 +4416,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
             // Find Celestial pole location
             SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
 
-            FITSData *imageData = alignView->getImageData();
+            FITSData * imageData = alignView->getImageData();
             QPointF pixelPoint, imagePoint;
 
             rc = imageData->wcsToPixel(CP, pixelPoint, imagePoint);
@@ -4257,7 +4431,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
             // If celestial pole out of range, ask the user if they want to move to it
             if (pixelPoint.x() < (-1*imageData->getWidth()) || pixelPoint.x() > (imageData->getWidth()*2) ||
-                pixelPoint.y() < (-1*imageData->getHeight())|| pixelPoint.y() > (imageData->getHeight()*2))
+                    pixelPoint.y() < (-1*imageData->getHeight())|| pixelPoint.y() > (imageData->getHeight()*2))
             {
                 if (currentTelescope->canSync() && KMessageBox::questionYesNo(0, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew the telescope to the celestial pole? WARNING: Slewing near poles may cause your mount to end up in unsafe position. Proceed with caution.")) == KMessageBox::Yes)
                 {
@@ -4294,7 +4468,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         }
 
         // Set 2nd PAH Center
-        PAHImageInfo *solution = new PAHImageInfo();
+        PAHImageInfo * solution = new PAHImageInfo();
         solution->skyCenter.setRA0(alignCoord.ra0());
         solution->skyCenter.setDec0(alignCoord.dec0());
         solution->orientation = orientation;
@@ -4326,7 +4500,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         }
 
         // Set Third PAH Center
-        PAHImageInfo *solution = new PAHImageInfo();
+        PAHImageInfo * solution = new PAHImageInfo();
         solution->skyCenter.setRA0(alignCoord.ra0());
         solution->skyCenter.setDec0(alignCoord.dec0());
         solution->orientation = orientation;
@@ -4337,7 +4511,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         // Find Celstial pole location
         SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
 
-        FITSData *imageData = alignView->getImageData();
+        FITSData * imageData = alignView->getImageData();
         QPointF imagePoint;
 
         imageData->wcsToPixel(CP, celestialPolePoint, imagePoint);
@@ -4367,7 +4541,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     }
 }
 
-void Align::processCCDSwitch(ISwitchVectorProperty *svp)
+void Align::processCCDSwitch(ISwitchVectorProperty * svp)
 {
     if (currentCCD && !strcmp(svp->name, "TELESCOPE_TYPE"))
     {
@@ -4389,7 +4563,7 @@ void Align::updateTelescopeType(int index)
 }
 
 // Function adapted from https://rosettacode.org/wiki/Circles_of_given_radius_through_two_points
-Align::CircleSolution Align::findCircleSolutions(const QPointF & p1, const QPointF p2, double angle, QPair<QPointF, QPointF> &circleSolutions)
+Align::CircleSolution Align::findCircleSolutions(const QPointF &p1, const QPointF p2, double angle, QPair<QPointF, QPointF> &circleSolutions)
 {
     QPointF solutionOne(1,1), solutionTwo(1,1);
 
@@ -4442,12 +4616,12 @@ Align::CircleSolution Align::findCircleSolutions(const QPointF & p1, const QPoin
     return TWO_CIRCLE_SOLUTION;
 }
 
-double Align::distance(const QPointF & p1, const QPointF & p2)
+double Align::distance(const QPointF &p1, const QPointF &p2)
 {
     return std::hypotf(p2.x()-p1.x(), p2.y()-p1.y());
 }
 
-bool Align::findRACircle(QVector3D & RACircle)
+bool Align::findRACircle(QVector3D &RACircle)
 {
     bool rc = false;
 
@@ -4467,10 +4641,11 @@ bool Align::findRACircle(QVector3D & RACircle)
         rc = calcCircle(p3, p2, p1, RACircle);
     else if (!isPerpendicular(p3, p1, p2) )
         rc = calcCircle(p3, p1, p2, RACircle);
-    else {
+    else
+    {
         //TRACE("\nThe three pts are perpendicular to axis\n");
         return false;
-         }
+    }
 
     return rc;
 }
@@ -4515,7 +4690,7 @@ bool Align::isPerpendicular(const QPointF &p1, const QPointF &p2, const QPointF 
         return false;
 }
 
-bool Align::calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, QVector3D & RACircle)
+bool Align::calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, QVector3D &RACircle)
 {
     double yDelta_a= p2.y() - p1.y();
     double xDelta_a= p2.x() - p1.x();
@@ -4535,7 +4710,8 @@ bool Align::calcCircle(const QPointF &p1, const QPointF &p2, const QPointF &p3, 
     double aSlope=yDelta_a/xDelta_a; //
     double bSlope=yDelta_b/xDelta_b;
     if (fabs(aSlope-bSlope) <= 0.000000001)
-    {	// checking whether the given points are colinear.
+    {
+        // checking whether the given points are colinear.
         //TRACE("The three ps are colinear\n");
         return false;
     }
@@ -4553,30 +4729,30 @@ void Align::setMountStatus(ISD::Telescope::TelescopeStatus newState)
 {
     switch (newState)
     {
-    case ISD::Telescope::MOUNT_PARKING:
-    case ISD::Telescope::MOUNT_SLEWING:
-        solveB->setEnabled(false);
-        loadSlewB->setEnabled(false);
-        PAHFirstCaptureB->setEnabled(false);
-        PAHSecondCaptureB->setEnabled(false);
-        PAHThirdCaptureB->setEnabled(false);
-        break;
+        case ISD::Telescope::MOUNT_PARKING:
+        case ISD::Telescope::MOUNT_SLEWING:
+            solveB->setEnabled(false);
+            loadSlewB->setEnabled(false);
+            PAHFirstCaptureB->setEnabled(false);
+            PAHSecondCaptureB->setEnabled(false);
+            PAHThirdCaptureB->setEnabled(false);
+            break;
 
-    default:
-        if (state != ALIGN_PROGRESS)
-        {
-            solveB->setEnabled(true);
-            PAHFirstCaptureB->setEnabled(true);
-            PAHSecondCaptureB->setEnabled(true);
-            PAHThirdCaptureB->setEnabled(true);
-            if (pahStage == PAH_IDLE)
-                loadSlewB->setEnabled(true);
-        }
-        break;
+        default:
+            if (state != ALIGN_PROGRESS)
+            {
+                solveB->setEnabled(true);
+                PAHFirstCaptureB->setEnabled(true);
+                PAHSecondCaptureB->setEnabled(true);
+                PAHThirdCaptureB->setEnabled(true);
+                if (pahStage == PAH_IDLE)
+                    loadSlewB->setEnabled(true);
+            }
+            break;
     }
 }
 
-void Align::setAstrometryDevice(ISD::GDInterface *newAstrometry)
+void Align::setAstrometryDevice(ISD::GDInterface * newAstrometry)
 {
     remoteParserDevice = newAstrometry;
     remoteSolverR->setEnabled(true);

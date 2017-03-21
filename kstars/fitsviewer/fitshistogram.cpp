@@ -39,13 +39,13 @@
 #define LOW_PASS_MARGIN 0.01
 #define LOW_PASS_LIMIT  .05
 
-histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
+histogramUI::histogramUI(QDialog * parent) : QDialog(parent)
 {
     setupUi(parent);
     setModal(false);
 }
 
-FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
+FITSHistogram::FITSHistogram(QWidget * parent) : QDialog(parent)
 {
     ui = new histogramUI(this);
     tab = static_cast<FITSTab *> (parent);
@@ -84,7 +84,7 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
 
     connect(ui->buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(applyScale()));
 
-    connect(customPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(updateValues(QMouseEvent*)));
+    connect(customPlot, SIGNAL(mouseMove(QMouseEvent *)), this, SLOT(updateValues(QMouseEvent *)));
 
     connect(ui->minEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
     connect(ui->maxEdit, SIGNAL(valueChanged(double)), this, SLOT(updateLimits(double)));
@@ -100,7 +100,7 @@ FITSHistogram::~FITSHistogram()
 
 void FITSHistogram::constructHistogram()
 {
-    FITSData *image_data = tab->getView()->getImageData();
+    FITSData * image_data = tab->getView()->getImageData();
 
     switch (image_data->getDataType())
     {
@@ -134,19 +134,19 @@ void FITSHistogram::constructHistogram()
 
         case TDOUBLE:
             constructHistogram<double>();
-        break;
+            break;
 
         default:
-        break;
+            break;
     }
 }
 
 template<typename T> void FITSHistogram::constructHistogram()
 {
     uint16_t fits_w=0, fits_h=0;
-    FITSData *image_data = tab->getView()->getImageData();
+    FITSData * image_data = tab->getView()->getImageData();
 
-    T *buffer = reinterpret_cast<T*>(image_data->getImageBuffer());
+    T * buffer = reinterpret_cast<T *>(image_data->getImageBuffer());
 
     image_data->getDimensions(&fits_w, &fits_h);
     image_data->getMinMax(&fits_min, &fits_max);
@@ -324,7 +324,7 @@ void FITSHistogram::applyScale()
     double min = ui->minEdit->value();
     double max = ui->maxEdit->value();
 
-    FITSHistogramCommand *histC;
+    FITSHistogramCommand * histC;
 
     if (ui->logR->isChecked())
         type = FITS_LOG;
@@ -341,13 +341,13 @@ void FITSHistogram::applyFilter(FITSScale ftype)
     double min = ui->minEdit->value();
     double max = ui->maxEdit->value();
 
-    FITSHistogramCommand *histC;
+    FITSHistogramCommand * histC;
 
     type = ftype;
 
     histC = new FITSHistogramCommand(tab, this, type, min, max);
 
-    tab->getUndoStack()->push(histC);    
+    tab->getUndoStack()->push(histC);
 
 }
 
@@ -356,32 +356,32 @@ QVector<double> FITSHistogram::getCumulativeFrequency() const
     return cumulativeFrequency;
 }
 
-void FITSHistogram::updateValues(QMouseEvent *event)
+void FITSHistogram::updateValues(QMouseEvent * event)
 {
-   int x = event->x();
+    int x = event->x();
 
-   double intensity_key = customPlot->xAxis->pixelToCoord(x);
+    double intensity_key = customPlot->xAxis->pixelToCoord(x);
 
-   if (intensity_key < 0)
-       return;
+    if (intensity_key < 0)
+        return;
 
-   double frequency_val = 0;
+    double frequency_val = 0;
 
-   for (int i=0; i < binCount; i++)
-   {
-       if (intensity[i] > intensity_key)
-       {
-           frequency_val = r_frequency[i];
-           break;
-       }
-   }
+    for (int i=0; i < binCount; i++)
+    {
+        if (intensity[i] > intensity_key)
+        {
+            frequency_val = r_frequency[i];
+            break;
+        }
+    }
 
-   ui->intensityEdit->setText(QString::number(intensity_key));
-   ui->frequencyEdit->setText(QString::number(frequency_val));
+    ui->intensityEdit->setText(QString::number(intensity_key));
+    ui->frequencyEdit->setText(QString::number(frequency_val));
 
 }
 
-FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, double lmin, double lmax)
+FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram * inHisto, FITSScale newType, double lmin, double lmax)
 {
     tab         = (FITSTab *) parent;
     type        = newType;
@@ -398,15 +398,15 @@ FITSHistogramCommand::~FITSHistogramCommand()
     delete(delta);
 }
 
-bool FITSHistogramCommand::calculateDelta(uint8_t *buffer)
+bool FITSHistogramCommand::calculateDelta(uint8_t * buffer)
 {
-    FITSData *image_data = tab->getView()->getImageData();
+    FITSData * image_data = tab->getView()->getImageData();
 
-    uint8_t *image_buffer = image_data->getImageBuffer();
+    uint8_t * image_buffer = image_data->getImageBuffer();
     int totalPixels = image_data->getSize() * image_data->getNumOfChannels();
     unsigned long totalBytes = totalPixels * image_data->getBytesPerPixel();
 
-    uint8_t *raw_delta = new uint8_t[totalBytes];
+    uint8_t * raw_delta = new uint8_t[totalBytes];
     if (raw_delta == NULL)
     {
         qWarning() << "Error! not enough memory to create image delta" << endl;
@@ -444,9 +444,9 @@ bool FITSHistogramCommand::calculateDelta(uint8_t *buffer)
 
 bool FITSHistogramCommand::reverseDelta()
 {
-    FITSView *image = tab->getView();
-    FITSData *image_data = image->getImageData();
-    uint8_t *image_buffer = (image_data->getImageBuffer());
+    FITSView * image = tab->getView();
+    FITSData * image_data = image->getImageData();
+    uint8_t * image_buffer = (image_data->getImageBuffer());
 
     unsigned int size = image_data->getSize();
     int channels = image_data->getNumOfChannels();
@@ -454,14 +454,14 @@ bool FITSHistogramCommand::reverseDelta()
     int totalPixels = size * channels;
     unsigned long totalBytes = totalPixels * image_data->getBytesPerPixel();
 
-    uint8_t *output_image = new uint8_t[totalBytes];
+    uint8_t * output_image = new uint8_t[totalBytes];
     if (output_image == NULL)
     {
         qWarning() << "Error! not enough memory to create output image" << endl;
         return false;
     }
 
-    uint8_t *raw_delta = new uint8_t[totalBytes];
+    uint8_t * raw_delta = new uint8_t[totalBytes];
     if (raw_delta == NULL)
     {
         delete(output_image);
@@ -489,10 +489,10 @@ bool FITSHistogramCommand::reverseDelta()
 
 void FITSHistogramCommand::redo()
 {
-    FITSView *image = tab->getView();
-    FITSData *image_data = image->getImageData();
+    FITSView * image = tab->getView();
+    FITSData * image_data = image->getImageData();
 
-    uint8_t *image_buffer = image_data->getImageBuffer();
+    uint8_t * image_buffer = image_data->getImageBuffer();
     unsigned int size = image_data->getSize();
     int channels = image_data->getNumOfChannels();
     int BBP = image_data->getBytesPerPixel();
@@ -526,7 +526,7 @@ void FITSHistogramCommand::redo()
         }
         else
         {
-            uint8_t *buffer = new uint8_t[size * channels * BBP];
+            uint8_t * buffer = new uint8_t[size * channels * BBP];
             if (buffer == NULL)
             {
                 qWarning() << "Error! not enough memory to create image buffer in redo()" << endl;
@@ -539,22 +539,22 @@ void FITSHistogramCommand::redo()
 
             switch (type)
             {
-            case FITS_AUTO:
-            case FITS_LINEAR:
-                image_data->applyFilter(FITS_LINEAR, NULL, &dataMin, &dataMax);
-                break;
+                case FITS_AUTO:
+                case FITS_LINEAR:
+                    image_data->applyFilter(FITS_LINEAR, NULL, &dataMin, &dataMax);
+                    break;
 
-            case FITS_LOG:
-                image_data->applyFilter(FITS_LOG, NULL, &dataMin, &dataMax);
-                break;
+                case FITS_LOG:
+                    image_data->applyFilter(FITS_LOG, NULL, &dataMin, &dataMax);
+                    break;
 
-            case FITS_SQRT:
-                image_data->applyFilter(FITS_SQRT, NULL, &dataMin, &dataMax);
-                break;
+                case FITS_SQRT:
+                    image_data->applyFilter(FITS_SQRT, NULL, &dataMin, &dataMax);
+                    break;
 
-            default:
-               image_data->applyFilter(type);
-               break;
+                default:
+                    image_data->applyFilter(type);
+                    break;
             }
 
             calculateDelta(buffer);
@@ -579,43 +579,43 @@ void FITSHistogramCommand::redo()
 
 void FITSHistogramCommand::undo()
 {
-    FITSView *image = tab->getView();
-    FITSData *image_data = image->getImageData();
+    FITSView * image = tab->getView();
+    FITSData * image_data = image->getImageData();
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     if (delta != NULL)
     {
-       double min,max,stddev,average,median,snr;
-       min      = image_data->getMin();
-       max      = image_data->getMax();
-       stddev   = image_data->getStdDev();
-       average  = image_data->getMean();
-       median   = image_data->getMedian();
-       snr      = image_data->getSNR();
+        double min,max,stddev,average,median,snr;
+        min      = image_data->getMin();
+        max      = image_data->getMax();
+        stddev   = image_data->getStdDev();
+        average  = image_data->getMean();
+        median   = image_data->getMedian();
+        snr      = image_data->getSNR();
 
-       reverseDelta();
+        reverseDelta();
 
-       restoreStats();
+        restoreStats();
 
-       saveStats(min, max, stddev, average, median, snr);
+        saveStats(min, max, stddev, average, median, snr);
     }
     else
     {
         switch (type)
         {
             case FITS_ROTATE_CW:
-            image_data->applyFilter(FITS_ROTATE_CCW);
-            break;
+                image_data->applyFilter(FITS_ROTATE_CCW);
+                break;
             case FITS_ROTATE_CCW:
-            image_data->applyFilter(FITS_ROTATE_CW);
-            break;
+                image_data->applyFilter(FITS_ROTATE_CW);
+                break;
             case FITS_FLIP_H:
             case FITS_FLIP_V:
-            image_data->applyFilter(type);
-            break;
-        default:
-            break;
+                image_data->applyFilter(type);
+                break;
+            default:
+                break;
         }
 
     }
@@ -641,23 +641,23 @@ QString FITSHistogramCommand::text() const
 
     switch (type)
     {
-    case FITS_AUTO:
-        return i18n("Auto Scale");
-        break;
-    case FITS_LINEAR:
-        return i18n("Linear Scale");
-        break;
-    case FITS_LOG:
-        return i18n("Logarithmic Scale");
-        break;
-    case FITS_SQRT:
-        return i18n("Square Root Scale");
-        break;
+        case FITS_AUTO:
+            return i18n("Auto Scale");
+            break;
+        case FITS_LINEAR:
+            return i18n("Linear Scale");
+            break;
+        case FITS_LOG:
+            return i18n("Logarithmic Scale");
+            break;
+        case FITS_SQRT:
+            return i18n("Square Root Scale");
+            break;
 
-    default:
-        if (type-1 <= FITSViewer::filterTypes.count())
-            return FITSViewer::filterTypes.at(type-1);
-        break;
+        default:
+            if (type-1 <= FITSViewer::filterTypes.count())
+                return FITSViewer::filterTypes.at(type-1);
+            break;
     }
 
     return i18n("Unknown");
@@ -677,7 +677,7 @@ void FITSHistogramCommand::saveStats(double min, double max, double stddev, doub
 
 void FITSHistogramCommand::restoreStats()
 {
-    FITSData *image_data = tab->getView()->getImageData();
+    FITSData * image_data = tab->getView()->getImageData();
 
     image_data->setMinMax(stats.min, stats.max);
     image_data->setStdDev(stats.stddev);

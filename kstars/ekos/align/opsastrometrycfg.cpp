@@ -9,7 +9,7 @@
 namespace Ekos
 {
 
-OpsAstrometryCfg::OpsAstrometryCfg(Align *parent)  : QDialog( KStars::Instance() )
+OpsAstrometryCfg::OpsAstrometryCfg(Align * parent)  : QDialog( KStars::Instance() )
 {
     setupUi(this);
 
@@ -23,14 +23,15 @@ OpsAstrometryCfg::OpsAstrometryCfg(Align *parent)  : QDialog( KStars::Instance()
     connect( astrometryCFGDisplay, SIGNAL( textChanged() ), SLOT( slotCFGEditorUpdated()));
 
 
-   connect(loadCFG, SIGNAL(clicked()), this, SLOT(slotLoadCFG()));
+    connect(loadCFG, SIGNAL(clicked()), this, SLOT(slotLoadCFG()));
 
-   slotLoadCFG();
+    slotLoadCFG();
 }
 
 OpsAstrometryCfg::~OpsAstrometryCfg() {}
 
-void OpsAstrometryCfg::slotLoadCFG(){
+void OpsAstrometryCfg::slotLoadCFG()
+{
     QString confPath;
 
     if(Options::astrometryConfFileIsInternal())
@@ -57,8 +58,10 @@ void OpsAstrometryCfg::slotLoadCFG(){
     confFile.close();
 }
 
-void OpsAstrometryCfg::slotApply(){
-    if(currentCFGText!=astrometryCFGDisplay->toPlainText()){
+void OpsAstrometryCfg::slotApply()
+{
+    if(currentCFGText!=astrometryCFGDisplay->toPlainText())
+    {
         QString confPath;
 
         if(Options::astrometryConfFileIsInternal())
@@ -69,7 +72,8 @@ void OpsAstrometryCfg::slotApply(){
         QFile confFile(confPath);
         if (confFile.open(QIODevice::WriteOnly) == false)
             KMessageBox::error(0, i18n("Internal Astrometry Configuration File Write Error."));
-        else{
+        else
+        {
             QTextStream out(&confFile);
             out << astrometryCFGDisplay->toPlainText();
             confFile.close();
@@ -79,7 +83,8 @@ void OpsAstrometryCfg::slotApply(){
     }
 
 }
-void OpsAstrometryCfg::slotCFGEditorUpdated(){
+void OpsAstrometryCfg::slotCFGEditorUpdated()
+{
     if(currentCFGText!=astrometryCFGDisplay->toPlainText())
         m_ConfigDialog->button(QDialogButtonBox::Apply)->setEnabled(true);
 }

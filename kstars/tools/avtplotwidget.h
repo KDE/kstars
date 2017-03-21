@@ -40,72 +40,75 @@ class GeoLocation;
     */
 class AVTPlotWidget : public KPlotWidget
 {
-    Q_OBJECT
-public:
-    /**Constructor
-        */
-    explicit AVTPlotWidget( QWidget *parent=0 );
+        Q_OBJECT
+    public:
+        /**Constructor
+            */
+        explicit AVTPlotWidget( QWidget * parent=0 );
 
-    /**Set the fractional positions of the Sunrise and Sunset positions,
-        *in units where last midnight was 0.0, and next midnight is 1.0.
-        *i.e., if Sunrise is at 06:00, then we set it as 0.25 in this
-        *function.  Likewise, if Sunset is at 18:00, then we set it as
-        *0.75 in this function.
-        *@param sr the fractional position of Sunrise
-        *@param ss the fractional position of Sunset
-        */
-    void setSunRiseSetTimes( double sr, double ss );
+        /**Set the fractional positions of the Sunrise and Sunset positions,
+            *in units where last midnight was 0.0, and next midnight is 1.0.
+            *i.e., if Sunrise is at 06:00, then we set it as 0.25 in this
+            *function.  Likewise, if Sunset is at 18:00, then we set it as
+            *0.75 in this function.
+            *@param sr the fractional position of Sunrise
+            *@param ss the fractional position of Sunset
+            */
+        void setSunRiseSetTimes( double sr, double ss );
 
-    void setDawnDuskTimes( double da, double du );
+        void setDawnDuskTimes( double da, double du );
 
-    void setMinMaxSunAlt( double min, double max );
+        void setMinMaxSunAlt( double min, double max );
 
-    /**
-     * Set the fractional positions of moonrise and moon set in units
-     * where last midnight was 0.0 and next midnight is 1.0
-     */
-    void setMoonRiseSetTimes( double mr, double ms );
+        /**
+         * Set the fractional positions of moonrise and moon set in units
+         * where last midnight was 0.0 and next midnight is 1.0
+         */
+        void setMoonRiseSetTimes( double mr, double ms );
 
-    /**
-     * @short Set the moon illumination
-     * @param mi Moon illuminated fraction (0.0 to 1.0)
-     * @note Used to determine the brightness of the gradient representing lunar skyglow
-     */
-    void setMoonIllum( double mi );
+        /**
+         * @short Set the moon illumination
+         * @param mi Moon illuminated fraction (0.0 to 1.0)
+         * @note Used to determine the brightness of the gradient representing lunar skyglow
+         */
+        void setMoonIllum( double mi );
 
-    /**
-     * @short Set the GeoLocation
-     * @param Used to convert and format the current time correctly
-     * @fixme Might be better to skip the entire shebang and include the KSAlmanac calls within AVTPlotWidget
-     */
-    inline void setGeoLocation( const GeoLocation *geo_ ) { geo = geo_; }
+        /**
+         * @short Set the GeoLocation
+         * @param Used to convert and format the current time correctly
+         * @fixme Might be better to skip the entire shebang and include the KSAlmanac calls within AVTPlotWidget
+         */
+        inline void setGeoLocation( const GeoLocation * geo_ )
+        {
+            geo = geo_;
+        }
 
-protected:
-    /**Handle mouse move events.  If the mouse button is down,
-        *draw crosshair lines centered at the cursor position.  This
-        *allows the user to pinpoint specific position sin the plot.
-        */
-    void mouseMoveEvent( QMouseEvent *e );
+    protected:
+        /**Handle mouse move events.  If the mouse button is down,
+            *draw crosshair lines centered at the cursor position.  This
+            *allows the user to pinpoint specific position sin the plot.
+            */
+        void mouseMoveEvent( QMouseEvent * e );
 
-    /**
-        *Simply calls mouseMoveEvent().
-        */
-    void mousePressEvent( QMouseEvent *e );
+        /**
+            *Simply calls mouseMoveEvent().
+            */
+        void mousePressEvent( QMouseEvent * e );
 
-    /**
-        *Reset the MousePoint to a null value, to erase the crosshairs
-        */
-    void mouseDoubleClickEvent( QMouseEvent *e );
+        /**
+            *Reset the MousePoint to a null value, to erase the crosshairs
+            */
+        void mouseDoubleClickEvent( QMouseEvent * e );
 
-    /**Redraw the plot.
-        */
-    void paintEvent( QPaintEvent *e );
+        /**Redraw the plot.
+            */
+        void paintEvent( QPaintEvent * e );
 
-private:
-    double SunRise, SunSet, Dawn, Dusk, SunMinAlt, SunMaxAlt;
-    double MoonRise, MoonSet, MoonIllum;
-    QPoint MousePoint;
-    const GeoLocation *geo;
+    private:
+        double SunRise, SunSet, Dawn, Dusk, SunMinAlt, SunMaxAlt;
+        double MoonRise, MoonSet, MoonIllum;
+        QPoint MousePoint;
+        const GeoLocation * geo;
 };
 
 #endif

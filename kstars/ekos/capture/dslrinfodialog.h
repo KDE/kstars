@@ -5,7 +5,7 @@
     modify it under the terms of the GNU General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-        
+
 */
 
 #ifndef DSLRINFODIALOG_H
@@ -21,16 +21,16 @@
 
 class DSLRInfo : public QDialog, public Ui::DSLRInfo
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit DSLRInfo(QWidget *parent, ISD::CCD *ccd);
+    public:
+        explicit DSLRInfo(QWidget * parent, ISD::CCD * ccd);
 
-protected slots:
-    void save();
+    protected slots:
+        void save();
 
-private:
-    ISD::CCD *currentCCD=NULL;
+    private:
+        ISD::CCD * currentCCD=NULL;
 
 };
 

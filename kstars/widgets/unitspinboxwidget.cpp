@@ -16,7 +16,7 @@
  ***************************************************************************/
 #include "unitspinboxwidget.h"
 
-UnitSpinBoxWidget::UnitSpinBoxWidget(QWidget *parent) :
+UnitSpinBoxWidget::UnitSpinBoxWidget(QWidget * parent) :
     QWidget(parent),
     ui(new Ui::UnitSpinBoxWidget)
 {

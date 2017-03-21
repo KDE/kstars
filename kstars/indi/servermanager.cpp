@@ -72,9 +72,10 @@ bool ServerManager::start()
     bool connected=false;
     int fd=0;
 
-    if (serverProcess == NULL){
+    if (serverProcess == NULL)
+    {
         serverProcess = new QProcess(this);
-        #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
         QString driversDir=Options::indiDriversDir();
         if(Options::indiDriversAreInternal())
             driversDir=QCoreApplication::applicationDirPath()+"/indi";
@@ -88,7 +89,7 @@ bool ServerManager::start()
         QString gscDirPath=KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "gsc";
         env.insert("GSCDAT", gscDirPath);
         serverProcess->setProcessEnvironment(env);
-        #endif
+#endif
     }
 
     QStringList args;
@@ -113,16 +114,16 @@ bool ServerManager::start()
         return false;
     }
 
-    args << "-f" << fifoFile;    
+    args << "-f" << fifoFile;
 
     serverProcess->setProcessChannelMode(QProcess::SeparateChannels);
     serverProcess->setReadChannel(QProcess::StandardError);
 
-    #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
     if(Options::indiServerIsInternal())
         serverProcess->start(QCoreApplication::applicationDirPath()+"/indi/indiserver", args);
     else
-    #endif
+#endif
         serverProcess->start(Options::indiServer(), args);
 
 
@@ -142,7 +143,7 @@ bool ServerManager::start()
 #endif
 }
 
-bool ServerManager::startDriver(DriverInfo *dv)
+bool ServerManager::startDriver(DriverInfo * dv)
 {
     QTextStream out(&indiFIFO);
 
@@ -156,7 +157,7 @@ bool ServerManager::startDriver(DriverInfo *dv)
         int nset=0;
         QString uniqueLabel;
         QString label = dv->getUniqueLabel();
-        foreach(DriverInfo *drv, managedDrivers)
+        foreach(DriverInfo * drv, managedDrivers)
         {
             if (label == drv->getUniqueLabel())
                 nset++;
@@ -170,19 +171,19 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
     managedDrivers.append(dv);
     dv->setServerManager(this);
-    
+
     QString driversDir=Options::indiDriversDir();
     QString indiServerDir=Options::indiServer();
 
 
-     #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
     if(Options::indiServerIsInternal())
         driversDir=QCoreApplication::applicationDirPath()+"/indi";
     if(Options::indiDriversAreInternal())
         indiServerDir=QCoreApplication::applicationDirPath()+"/indi";
     else
         indiServerDir=QFileInfo(Options::indiServer()).dir().path();
-    #endif
+#endif
 
     QStringList paths;
     paths << "/usr/bin" << "/usr/local/bin" << driversDir << indiServerDir;
@@ -190,37 +191,38 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
     if (QStandardPaths::findExecutable(dv->getDriver()).isEmpty())
     {
-        if(QStandardPaths::findExecutable(dv->getDriver(),paths).isEmpty()){
+        if(QStandardPaths::findExecutable(dv->getDriver(),paths).isEmpty())
+        {
             KMessageBox::error(NULL, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.", dv->getDriver()));
             return false;
         }
     }
 
 
-        out << "start " << dv->getDriver();
-        if (dv->getUniqueLabel().isEmpty() == false)
-            out << " -n \"" << dv->getUniqueLabel() << "\"";
-        if (dv->getSkeletonFile().isEmpty() == false)
-            out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
-        out << endl;
+    out << "start " << dv->getDriver();
+    if (dv->getUniqueLabel().isEmpty() == false)
+        out << " -n \"" << dv->getUniqueLabel() << "\"";
+    if (dv->getSkeletonFile().isEmpty() == false)
+        out << " -s \"" << driversDir << QDir::separator() << dv->getSkeletonFile() << "\"";
+    out << endl;
 
-        out.flush();
+    out.flush();
 
-        dv->setServerState(true);
+    dv->setServerState(true);
 
-        dv->setPort(port);
+    dv->setPort(port);
 
-        return true;
+    return true;
 }
 
-void ServerManager::stopDriver(DriverInfo *dv)
+void ServerManager::stopDriver(DriverInfo * dv)
 {
     QTextStream out(&indiFIFO);
 
     managedDrivers.removeOne(dv);
 
     if (dv->getUniqueLabel().isEmpty() == false)
-       out << "stop " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
+        out << "stop " << dv->getDriver() << " -n \"" << dv->getUniqueLabel() << "\"" << endl;
     else
         out << "stop " << dv->getDriver() << endl;
 
@@ -229,9 +231,9 @@ void ServerManager::stopDriver(DriverInfo *dv)
     dv->setPort(dv->getUserPort());
 }
 
-bool ServerManager::isDriverManaged(DriverInfo *di)
+bool ServerManager::isDriverManaged(DriverInfo * di)
 {
-    foreach(DriverInfo *dv, managedDrivers)
+    foreach(DriverInfo * dv, managedDrivers)
     {
         if (dv == di)
             return true;
@@ -245,7 +247,7 @@ void ServerManager::stop()
     if (serverProcess == NULL)
         return;
 
-    foreach(DriverInfo *device, managedDrivers)
+    foreach(DriverInfo * device, managedDrivers)
     {
         device->setServerState(false);
         device->clear();
@@ -276,8 +278,8 @@ void ServerManager::terminate()
 void ServerManager::connectionSuccess()
 {
 
-    foreach(DriverInfo *device, managedDrivers)
-         device->setServerState(true);
+    foreach(DriverInfo * device, managedDrivers)
+        device->setServerState(true);
 
     connect(serverProcess, SIGNAL(readyReadStandardError()),  this, SLOT(processStandardError()));
 
@@ -286,16 +288,16 @@ void ServerManager::connectionSuccess()
 
 void ServerManager::processServerError(QProcess::ProcessError err)
 {
-  INDI_UNUSED(err);
-  emit serverFailure(this);
+    INDI_UNUSED(err);
+    emit serverFailure(this);
 }
 
 void ServerManager::processStandardError()
 {
-    #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
     qWarning() << "INDI server is currently not supported on Windows.";
     return;
-    #else
+#else
     QString stderr = serverProcess->readAllStandardError();
 
     serverBuffer.append(stderr);
@@ -319,10 +321,10 @@ void ServerManager::processStandardError()
                 break;
             }
         }
-   }
+    }
 
     emit newServerLog();
-    #endif
+#endif
 }
 
 QString ServerManager::errorString()

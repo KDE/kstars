@@ -27,35 +27,39 @@
 class QDragEnterEvent;
 
 /** @class DragListBox
-	*@short Extension of KListWidget that allows Drag-and-Drop 
+	*@short Extension of KListWidget that allows Drag-and-Drop
 	*with other DragListBoxes
 	*@author Jason Harris
 	*@version 1.0
 	*/
 
-class DragListBox : public QListWidget {
-    Q_OBJECT
-public:
-    /** @short Default constructor
-     */
-    explicit DragListBox( QWidget *parent = 0, const char* name = 0 );
+class DragListBox : public QListWidget
+{
+        Q_OBJECT
+    public:
+        /** @short Default constructor
+         */
+        explicit DragListBox( QWidget * parent = 0, const char * name = 0 );
 
-    /** @short Default destructor
-     */
-    ~DragListBox();
+        /** @short Default destructor
+         */
+        ~DragListBox();
 
-    int ignoreIndex() const { return IgnoreIndex; }
-    bool contains( const QString &s ) const;
+        int ignoreIndex() const
+        {
+            return IgnoreIndex;
+        }
+        bool contains( const QString &s ) const;
 
-    void dragEnterEvent( QDragEnterEvent *evt );
-    void dragMoveEvent( QDragMoveEvent *evt );
-    void dropEvent( QDropEvent *evt );
-    void mousePressEvent( QMouseEvent *evt );
-    void mouseMoveEvent( QMouseEvent * );
-    void mouseReleaseEvent( QMouseEvent * );
-private:
-    bool leftButtonDown;
-    int IgnoreIndex;
+        void dragEnterEvent( QDragEnterEvent * evt );
+        void dragMoveEvent( QDragMoveEvent * evt );
+        void dropEvent( QDropEvent * evt );
+        void mousePressEvent( QMouseEvent * evt );
+        void mouseMoveEvent( QMouseEvent * );
+        void mouseReleaseEvent( QMouseEvent * );
+    private:
+        bool leftButtonDown;
+        int IgnoreIndex;
 
 };
 

@@ -32,12 +32,12 @@
 #include "dialogs/finddialog.h"
 #include "dialogs/locationdialog.h"
 
-modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
-        : QFrame(parentSplit)
+modCalcAltAz::modCalcAltAz(QWidget * parentSplit)
+    : QFrame(parentSplit)
 {
     setupUi(this);
 
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     RA->setDegType(false);
 
     //Initialize Date/Time and Location data
@@ -45,7 +45,7 @@ modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
     LocationButton->setText( geoPlace->fullName() );
 
     //Make sure slotDateTime() gets called, so that LST will be set
-    connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotDateTimeChanged(const QDateTime&)));
+    connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime &)), this, SLOT(slotDateTimeChanged(const QDateTime &)));
     DateTime->setDateTime( data->lt());
 
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
@@ -60,7 +60,8 @@ modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
     show();
 }
 
-modCalcAltAz::~modCalcAltAz(){
+modCalcAltAz::~modCalcAltAz()
+{
 }
 
 void modCalcAltAz::slotNow()
@@ -72,9 +73,11 @@ void modCalcAltAz::slotNow()
 void modCalcAltAz::slotLocation()
 {
     QPointer<LocationDialog> ld = new LocationDialog( this );
-    if ( ld->exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld->selectedCity();
-        if ( newGeo ) {
+    if ( ld->exec() == QDialog::Accepted )
+    {
+        GeoLocation * newGeo = ld->selectedCity();
+        if ( newGeo )
+        {
             geoPlace = newGeo;
             LocationButton->setText( geoPlace->fullName() );
             slotCompute();
@@ -86,8 +89,9 @@ void modCalcAltAz::slotLocation()
 void modCalcAltAz::slotObject()
 {
     FindDialog fd(KStars::Instance());
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.targetObject();
+    if ( fd.exec() == QDialog::Accepted )
+    {
+        SkyObject * o = fd.targetObject();
         RA->showInHours( o->ra() );
         Dec->showInDegrees( o->dec() );
         slotCompute();
@@ -105,13 +109,15 @@ void modCalcAltAz::slotCompute()
     //Determine whether we are calculating Alt/Az coordinates from RA/Dec,
     //or vice versa.  We calculate Alt/Az by default, unless the signal
     //was sent by changing the Az or Alt value.
-    if ( sender()->objectName() == "Az" || sender()->objectName() == "Alt" ) {
+    if ( sender()->objectName() == "Az" || sender()->objectName() == "Alt" )
+    {
         //Validate Az and Alt coordinates
         bool ok( false );
         dms alt;
         dms az = Az->createDms( true, &ok );
         if ( ok ) alt = Alt->createDms( true, &ok );
-        if ( ok ) {
+        if ( ok )
+        {
             SkyPoint sp;
             sp.setAz( az );
             sp.setAlt( alt );
@@ -120,13 +126,16 @@ void modCalcAltAz::slotCompute()
             Dec->showInDegrees( sp.dec() );
         }
 
-    } else {
+    }
+    else
+    {
         //Validate RA and Dec coordinates
         bool ok( false );
         dms ra;
         dms dec = Dec->createDms( true, &ok );
         if ( ok ) ra = RA->createDms( false, &ok );
-        if ( ok ) {
+        if ( ok )
+        {
             SkyPoint sp( ra, dec );
             sp.EquatorialToHorizontal( &LST, geoPlace->lat() );
             Az->showInDegrees( sp.az() );

@@ -40,55 +40,61 @@
 
 using namespace std;
 
-namespace {
-    // Convert degrees to radians and put it into [0,2*pi] range
-    double degToRad(double x) {
-        return dms::DegToRad * KSUtils::reduceAngle(x, 0.0, 360.0);
-    }
+namespace
+{
+// Convert degrees to radians and put it into [0,2*pi] range
+double degToRad(double x)
+{
+    return dms::DegToRad * KSUtils::reduceAngle(x, 0.0, 360.0);
+}
 
-    /*
-     * Data used to calculate moon magnitude. 
-     *
-     * Formula and data were obtained from SkyChart v3.x Beta
-     *
-     */
-    // intensities in Table 1 of M. Minnaert (1961),
-    // Phase  Frac.            Phase  Frac.            Phase  Frac.
-    // angle  ill.   Mag       angle  ill.   Mag       angle  ill.   Mag
-    //  0    1.00  -12.7        60   0.75  -11.0       120   0.25  -8.7
-    // 10    0.99  -12.4        70   0.67  -10.8       130   0.18  -8.2
-    // 20    0.97  -12.1        80   0.59  -10.4       140   0.12  -7.6
-    // 30    0.93  -11.8        90   0.50  -10.0       150   0.07  -6.7
-    // 40    0.88  -11.5       100   0.41   -9.6       160   0.03  -3.4
-    // 50    0.82  -11.2       110   0.33   -9.2
-    static const double MagArray[19] = {
-        -12.7, -12.4, -12.1, -11.8, -11.5, -11.2, -11.0, -10.8, -10.4, -10.0,
-        -9.6,  -9.2,  -8.7,  -8.2,  -7.6,  -6.7,  -3.4,  0, 0};
+/*
+ * Data used to calculate moon magnitude.
+ *
+ * Formula and data were obtained from SkyChart v3.x Beta
+ *
+ */
+// intensities in Table 1 of M. Minnaert (1961),
+// Phase  Frac.            Phase  Frac.            Phase  Frac.
+// angle  ill.   Mag       angle  ill.   Mag       angle  ill.   Mag
+//  0    1.00  -12.7        60   0.75  -11.0       120   0.25  -8.7
+// 10    0.99  -12.4        70   0.67  -10.8       130   0.18  -8.2
+// 20    0.97  -12.1        80   0.59  -10.4       140   0.12  -7.6
+// 30    0.93  -11.8        90   0.50  -10.0       150   0.07  -6.7
+// 40    0.88  -11.5       100   0.41   -9.6       160   0.03  -3.4
+// 50    0.82  -11.2       110   0.33   -9.2
+static const double MagArray[19] =
+{
+    -12.7, -12.4, -12.1, -11.8, -11.5, -11.2, -11.0, -10.8, -10.4, -10.0,
+    -9.6,  -9.2,  -8.7,  -8.2,  -7.6,  -6.7,  -3.4,  0, 0
+};
 }
 
 KSMoon::KSMoon()
-        : KSPlanetBase( I18N_NOOP( "Moon" ), QString(), QColor("white"), 3474.8 /*diameter in km*/ )
+    : KSPlanetBase( I18N_NOOP( "Moon" ), QString(), QColor("white"), 3474.8 /*diameter in km*/ )
 {
     instance_count++;
     //Reset object type
     setType( SkyObject::MOON );
 }
 
-KSMoon::KSMoon(const KSMoon& o) :
+KSMoon::KSMoon(const KSMoon &o) :
     KSPlanetBase(o)
 {
     instance_count++;
 }
 
-KSMoon* KSMoon::clone() const
+KSMoon * KSMoon::clone() const
 {
     Q_ASSERT( typeid( this ) == typeid( static_cast<const KSMoon *>( this ) ) ); // Ensure we are not slicing a derived class
     return new KSMoon(*this);
 }
 
-KSMoon::~KSMoon() {
+KSMoon::~KSMoon()
+{
     instance_count--;
-    if(instance_count <= 0) {
+    if(instance_count <= 0)
+    {
         LRData.clear();
         BData.clear();
         data_loaded = false;
@@ -101,19 +107,23 @@ QList<KSMoon::MoonLRData> KSMoon::LRData;
 QList<KSMoon::MoonBData> KSMoon::BData;
 
 
-bool KSMoon::loadData() {
+bool KSMoon::loadData()
+{
     if (data_loaded)
         return true;
 
     QStringList fields;
     QFile f;
 
-    if ( KSUtils::openDataFile( f, "moonLR.dat" ) ) {
+    if ( KSUtils::openDataFile( f, "moonLR.dat" ) )
+    {
         QTextStream stream( &f );
-        while ( !stream.atEnd() ) {
+        while ( !stream.atEnd() )
+        {
             fields = stream.readLine().split( ' ', QString::SkipEmptyParts );
 
-            if ( fields.size() == 6 ) {
+            if ( fields.size() == 6 )
+            {
                 LRData.append( MoonLRData() );
                 LRData.last().nd  = fields[0].toInt();
                 LRData.last().nm  = fields[1].toInt();
@@ -124,16 +134,20 @@ bool KSMoon::loadData() {
             }
         }
         f.close();
-    } else
+    }
+    else
         return false;
 
 
-    if ( KSUtils::openDataFile( f, "moonB.dat" ) ) {
+    if ( KSUtils::openDataFile( f, "moonB.dat" ) )
+    {
         QTextStream stream( &f );
-        while ( !stream.atEnd() ) {
+        while ( !stream.atEnd() )
+        {
             fields = stream.readLine().split( ' ', QString::SkipEmptyParts );
 
-            if ( fields.size() == 5 ) {
+            if ( fields.size() == 5 )
+            {
                 BData.append( MoonBData() );
                 BData.last().nd  = fields[0].toInt();
                 BData.last().nm  = fields[1].toInt();
@@ -149,7 +163,8 @@ bool KSMoon::loadData() {
     return true;
 }
 
-bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* ) {
+bool KSMoon::findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * )
+{
     //Algorithms in this subroutine are taken from Chapter 45 of "Astronomical Algorithms"
     //by Jean Meeus (1991, Willmann-Bell, Inc. ISBN 0-943396-35-2.  http://www.willbell.com/math/mc1.htm)
     //updated to Jean Messus (1998, Willmann-Bell, http://www.naughter.com/aa.html )
@@ -184,11 +199,13 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
 
     if (!loadData()) return false;
 
-    for ( int i=0; i < LRData.size(); ++i ) {
-        const MoonLRData& mlrd = LRData[i];
+    for ( int i=0; i < LRData.size(); ++i )
+    {
+        const MoonLRData &mlrd = LRData[i];
 
         double E = 1.0;
-        if ( mlrd.nm ) { //if M != 0, include changing eccentricity of Earth's orbit
+        if ( mlrd.nm )   //if M != 0, include changing eccentricity of Earth's orbit
+        {
             E = Et;
             if ( abs( mlrd.nm )==2 ) E = E*E; //use E^2
         }
@@ -197,11 +214,13 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     }
 
     sumB = 0.0;
-    for ( int i=0; i < BData.size(); ++i ) {
-        const MoonBData& mbd = BData[i];
+    for ( int i=0; i < BData.size(); ++i )
+    {
+        const MoonBData &mbd = BData[i];
 
         double E = 1.0;
-        if ( mbd.nm ) { //if M != 0, include changing eccentricity of Earth's orbit
+        if ( mbd.nm )   //if M != 0, include changing eccentricity of Earth's orbit
+        {
             E = Et;
             if ( abs( mbd.nm )==2 ) E = E*E; //use E^2
         }
@@ -225,7 +244,7 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     return true;
 }
 
-void KSMoon::findMagnitude(const KSNumbers*)
+void KSMoon::findMagnitude(const KSNumbers *)
 {
     // This block of code to compute Moon magnitude (and the
     // relevant data put into ksplanetbase.h) was taken from
@@ -249,20 +268,22 @@ void KSMoon::findMagnitude(const KSNumbers*)
     setMag( MagArray[i] + (MagArray[j] - MagArray[i]) * k / 10 );
 }
 
-void KSMoon::findPhase( const KSSun *Sun ) {
+void KSMoon::findPhase( const KSSun * Sun )
+{
 
     if( !Sun )
-      Sun = ( const KSSun* ) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
+        Sun = ( const KSSun * ) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
 
     Phase = (ecLong() - Sun->ecLong()).Degrees(); // Phase is obviously in degrees
     double DegPhase = dms( Phase ).reduce().Degrees();
     iPhase = int( 0.1*DegPhase+0.5 ) % 36; // iPhase must be in [0,36) range
 
     m_image = TextureManager::getImage(
-        QString("moon%1").arg(iPhase,2,10,QChar('0')));
+                  QString("moon%1").arg(iPhase,2,10,QChar('0')));
 }
 
-QString KSMoon::phaseName() const {
+QString KSMoon::phaseName() const
+{
     double f = illum();
     double p = abs(dms(Phase).reduce().Degrees());
 
@@ -286,7 +307,8 @@ QString KSMoon::phaseName() const {
     else return i18n( "unknown" );
 }
 
-void KSMoon::initPopupMenu( KSPopupMenu* pmenu ) {
+void KSMoon::initPopupMenu( KSPopupMenu * pmenu )
+{
 #ifdef KSTARS_LITE
     Q_UNUSED(pmenu)
 #else
@@ -296,5 +318,5 @@ void KSMoon::initPopupMenu( KSPopupMenu* pmenu ) {
 
 SkyObject::UID KSMoon::getUID() const
 {
-   return solarsysUID(UID_SOL_BIGOBJ) | 10;
+    return solarsysUID(UID_SOL_BIGOBJ) | 10;
 }

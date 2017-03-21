@@ -31,48 +31,49 @@
  * @author Akarsh Simha <akarsh@kde.org>
  */
 
-class AddDeepSkyObject : public QDialog, public Ui::AddDeepSkyObject {
+class AddDeepSkyObject : public QDialog, public Ui::AddDeepSkyObject
+{
 
-    Q_OBJECT;
+        Q_OBJECT;
 
- public:
+    public:
 
-    /**
-     * @short Constructor
-     */
-    AddDeepSkyObject( QWidget *parent, SyncedCatalogComponent *catalog );
+        /**
+         * @short Constructor
+         */
+        AddDeepSkyObject( QWidget * parent, SyncedCatalogComponent * catalog );
 
-    /**
-     * @short Destructor
-     */
-    ~AddDeepSkyObject();
+        /**
+         * @short Destructor
+         */
+        ~AddDeepSkyObject();
 
-    /**
-     * @short Fills the dialog from a text by trying to guess fields
-     */
-    void fillFromText( const QString &text );
+        /**
+         * @short Fills the dialog from a text by trying to guess fields
+         */
+        void fillFromText( const QString &text );
 
- public slots:
+    public slots:
 
-    /**
-     * @short Accept the dialog and add the entry to the catalog
-     */
-    bool slotOk();
+        /**
+         * @short Accept the dialog and add the entry to the catalog
+         */
+        bool slotOk();
 
-    /**
-     * @short Resets the entries in the dialog
-     */
-    void resetView();
+        /**
+         * @short Resets the entries in the dialog
+         */
+        void resetView();
 
-    /**
-     * @short Gathers the text and calls fillFromText() to parse the text
-     */
-    void slotFillFromText();
+        /**
+         * @short Gathers the text and calls fillFromText() to parse the text
+         */
+        void slotFillFromText();
 
- private:
+    private:
 
-    SyncedCatalogComponent *m_catalog;
-    Ui::AddDeepSkyObject *ui;
+        SyncedCatalogComponent * m_catalog;
+        Ui::AddDeepSkyObject * ui;
 };
 
 #endif

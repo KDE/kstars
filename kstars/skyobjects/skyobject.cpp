@@ -79,7 +79,7 @@ SkyObject::SkyObject( int t, double r, double d, float m,
     setLongName(lname);
 }
 
-SkyObject* SkyObject::clone() const
+SkyObject * SkyObject::clone() const
 {
     Q_ASSERT( typeid( this ) == typeid( static_cast<const SkyObject *>( this ) ) ); // Ensure we are not slicing a derived class
     return new SkyObject(*this);
@@ -87,7 +87,8 @@ SkyObject* SkyObject::clone() const
 
 SkyObject::~SkyObject() {}
 
-void SkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
+void SkyObject::showPopupMenu( KSPopupMenu * pmenu, const QPoint &pos )
+{
 #ifdef KSTARS_LITE
     Q_UNUSED(pos)
 #else
@@ -96,7 +97,8 @@ void SkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
 #endif
 }
 
-void SkyObject::initPopupMenu( KSPopupMenu *pmenu ) {
+void SkyObject::initPopupMenu( KSPopupMenu * pmenu )
+{
 #ifdef KSTARS_LITE
     Q_UNUSED(pmenu)
 #else
@@ -104,20 +106,25 @@ void SkyObject::initPopupMenu( KSPopupMenu *pmenu ) {
 #endif
 }
 
-void SkyObject::setLongName( const QString &longname ) {
-    if ( longname.isEmpty() ) {
+void SkyObject::setLongName( const QString &longname )
+{
+    if ( longname.isEmpty() )
+    {
         if ( hasName() )
             LongName = name();
         else if ( hasName2() )
             LongName = name2();
         else
             LongName.clear();
-    } else {
+    }
+    else
+    {
         LongName = longname;
     }
 }
 
-QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst, bool exact ) const {
+QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation * geo, bool rst, bool exact ) const
+{
 
     // If this object does not rise or set, return an invalid time
     SkyPoint p = recomputeCoords( dt, geo );
@@ -129,10 +136,14 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
     KStarsDateTime dt2 = dt;
     dms lst(geo->GSTtoLST( dt.gst() ));
     p.EquatorialToHorizontal( &lst, geo->lat() );
-    if ( p.alt().Degrees() < 0.0 ) {
-        if ( p.az().Degrees() < 180.0 ) { //object has not risen yet
+    if ( p.alt().Degrees() < 0.0 )
+    {
+        if ( p.az().Degrees() < 180.0 )   //object has not risen yet
+        {
             dt2 = dt.addSecs( 12.*3600. ); // Move forward 12 hours, to a time when it has already risen
-        } else { //object has already set
+        }
+        else     //object has already set
+        {
             dt2 = dt.addSecs( -12.*3600. ); // Move backward 12 hours, to a time when it has not yet set
         }
     }
@@ -147,7 +158,8 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
     return geo->UTtoLT( KStarsDateTime( dt2.date(), rstUt ) ).time();
 }
 
-QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT, bool exact ) const {
+QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation * geo, bool riseT, bool exact ) const
+{
     // First trial to calculate UT
     QTime UT = auxRiseSetTimeUT( dt, geo, &ra(), &dec(), riseT );
 
@@ -164,16 +176,20 @@ QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
 
     KStarsDateTime dt0 = dt;
     dt0.setTime( UT );
-    if ( riseT && dt0 > dt ) {
+    if ( riseT && dt0 > dt )
+    {
         dt0 = dt0.addDays( -1 );
-    } else if ( ! riseT && dt0 < dt ) {
+    }
+    else if ( ! riseT && dt0 < dt )
+    {
         dt0 = dt0.addDays( 1 );
     }
 
     SkyPoint sp = recomputeCoords( dt0, geo );
     UT = auxRiseSetTimeUT( dt0, geo, &sp.ra(), &sp.dec(), riseT );
 
-    if ( exact ) {
+    if ( exact )
+    {
         // We iterate a second time (For the Moon the second iteration changes
         // aprox. 1.5 arcmin the coordinates).
         dt0.setTime( UT );
@@ -184,13 +200,15 @@ QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
     return UT;
 }
 
-QTime SkyObject::auxRiseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo,
-                                   const dms *righta, const dms *decl, bool riseT) const {
+QTime SkyObject::auxRiseSetTimeUT( const KStarsDateTime &dt, const GeoLocation * geo,
+                                   const dms * righta, const dms * decl, bool riseT) const
+{
     dms LST = auxRiseSetTimeLST( geo->lat(), righta, decl, riseT );
     return dt.GSTtoUT( geo->LSTtoGST( LST ) );
 }
 
-dms SkyObject::auxRiseSetTimeLST( const dms *gLat, const dms *righta, const dms *decl, bool riseT ) const {
+dms SkyObject::auxRiseSetTimeLST( const dms * gLat, const dms * righta, const dms * decl, bool riseT ) const
+{
     dms h0 = elevationCorrection();
     double H = approxHourAngle ( &h0, gLat, decl );
     dms LST;
@@ -204,7 +222,8 @@ dms SkyObject::auxRiseSetTimeLST( const dms *gLat, const dms *righta, const dms 
 }
 
 
-dms SkyObject::riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT ) const {
+dms SkyObject::riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation * geo, bool riseT ) const
+{
     dms Azimuth;
     double AltRad, AzRad;
     double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
@@ -233,7 +252,8 @@ dms SkyObject::riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation *geo, 
     return Azimuth;
 }
 
-QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo ) const {
+QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation * geo ) const
+{
     dms LST = geo->GSTtoLST( dt.gst() );
 
     //dSec is the number of seconds until the object transits.
@@ -253,11 +273,13 @@ QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
     return dt.addSecs( dSec ).time();
 }
 
-QTime SkyObject::transitTime( const KStarsDateTime &dt, const GeoLocation *geo ) const {
+QTime SkyObject::transitTime( const KStarsDateTime &dt, const GeoLocation * geo ) const
+{
     return geo->UTtoLT( KStarsDateTime( dt.date(), transitTimeUT( dt, geo ) ) ).time();
 }
 
-dms SkyObject::transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo ) const {
+dms SkyObject::transitAltitude( const KStarsDateTime &dt, const GeoLocation * geo ) const
+{
     KStarsDateTime dt0 = dt;
     dt0.setTime( transitTimeUT( dt, geo ) );
     SkyPoint sp = recomputeCoords( dt0, geo );
@@ -268,7 +290,8 @@ dms SkyObject::transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo
     return dms(delta);
 }
 
-double SkyObject::approxHourAngle( const dms *h0, const dms *gLat, const dms *dec ) const {
+double SkyObject::approxHourAngle( const dms * h0, const dms * gLat, const dms * dec ) const
+{
 
     double sh0 = sin ( h0->radians() );
     double r = (sh0 - sin( gLat->radians() ) * sin(dec->radians() ))
@@ -279,7 +302,8 @@ double SkyObject::approxHourAngle( const dms *h0, const dms *gLat, const dms *de
     return H;
 }
 
-dms SkyObject::elevationCorrection(void) const {
+dms SkyObject::elevationCorrection(void) const
+{
 
     /* The atmospheric refraction at the horizon shifts altitude by
      * - 34 arcmin = 0.5667 degrees. This value changes if the observer
@@ -308,10 +332,11 @@ dms SkyObject::elevationCorrection(void) const {
         return dms(-0.5667);
 }
 
-SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation *geo ) const {
+SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation * geo ) const
+{
 
     // Create a clone
-    SkyObject *c = this->clone();
+    SkyObject * c = this->clone();
 
     // compute coords of the copy for new time jd
     KSNumbers num( dt.djd() );
@@ -322,10 +347,13 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
     // KSPlanetBase that do not implement SkyObject::clone() due to
     // the passing of lat and LST
 
-    if ( isSolarSystem() && geo ) {
+    if ( isSolarSystem() && geo )
+    {
         CachingDms LST = geo->GSTtoLST( dt.gst() );
         c->updateCoords( &num, true, geo->lat(), &LST );
-    } else {
+    }
+    else
+    {
         c->updateCoords( &num );
     }
 
@@ -340,7 +368,8 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
 }
 
 
-SkyPoint SkyObject::recomputeHorizontalCoords(const KStarsDateTime& dt, const GeoLocation  *geo) const {
+SkyPoint SkyObject::recomputeHorizontalCoords(const KStarsDateTime &dt, const GeoLocation * geo) const
+{
     Q_ASSERT( geo );
     SkyPoint ret = recomputeCoords( dt, geo );
     CachingDms LST = geo->GSTtoLST( dt.gst() );
@@ -348,90 +377,107 @@ SkyPoint SkyObject::recomputeHorizontalCoords(const KStarsDateTime& dt, const Ge
     return ret;
 }
 
-QString SkyObject::typeName( int t ) {
+QString SkyObject::typeName( int t )
+{
 
-    switch( t ) {
-    case STAR:
-        return i18n( "Star" );
-    case CATALOG_STAR:
-        return i18n( "Catalog Star" );
-    case PLANET:
-        return i18n( "Planet" );
-    case OPEN_CLUSTER:
-        return i18n( "Open Cluster" );
-    case GLOBULAR_CLUSTER:
-        return i18n( "Globular Cluster" );
-    case GASEOUS_NEBULA:
-        return i18n( "Gaseous Nebula" );
-    case PLANETARY_NEBULA:
-        return i18n( "Planetary Nebula" );
-    case SUPERNOVA_REMNANT:
-        return i18n( "Supernova Remnant" );
-    case GALAXY:
-        return i18n( "Galaxy" );
-    case COMET:
-        return i18n( "Comet" );
-    case ASTEROID:
-        return i18n( "Asteroid" );
-    case CONSTELLATION:
-        return i18n( "Constellation" );
-    case MOON:
-        return i18n( "Moon" );
-    case GALAXY_CLUSTER:
-        return i18n( "Galaxy Cluster" );
-    case SATELLITE:
-        return i18n( "Satellite" );
-    case SUPERNOVA:
-        return i18n( "Supernova" );
-    case RADIO_SOURCE:
-        return i18n("Radio Source");
-    case ASTERISM:
-        return i18n( "Asterism" );
-    case DARK_NEBULA:
-        return i18n( "Dark Nebula" );
-    case QUASAR:
-        return i18n( "Quasar" );
-    case MULT_STAR:
-        return i18n( "Multiple Star" );
-    default:
-        return i18n( "Unknown Type" );
+    switch( t )
+    {
+        case STAR:
+            return i18n( "Star" );
+        case CATALOG_STAR:
+            return i18n( "Catalog Star" );
+        case PLANET:
+            return i18n( "Planet" );
+        case OPEN_CLUSTER:
+            return i18n( "Open Cluster" );
+        case GLOBULAR_CLUSTER:
+            return i18n( "Globular Cluster" );
+        case GASEOUS_NEBULA:
+            return i18n( "Gaseous Nebula" );
+        case PLANETARY_NEBULA:
+            return i18n( "Planetary Nebula" );
+        case SUPERNOVA_REMNANT:
+            return i18n( "Supernova Remnant" );
+        case GALAXY:
+            return i18n( "Galaxy" );
+        case COMET:
+            return i18n( "Comet" );
+        case ASTEROID:
+            return i18n( "Asteroid" );
+        case CONSTELLATION:
+            return i18n( "Constellation" );
+        case MOON:
+            return i18n( "Moon" );
+        case GALAXY_CLUSTER:
+            return i18n( "Galaxy Cluster" );
+        case SATELLITE:
+            return i18n( "Satellite" );
+        case SUPERNOVA:
+            return i18n( "Supernova" );
+        case RADIO_SOURCE:
+            return i18n("Radio Source");
+        case ASTERISM:
+            return i18n( "Asterism" );
+        case DARK_NEBULA:
+            return i18n( "Dark Nebula" );
+        case QUASAR:
+            return i18n( "Quasar" );
+        case MULT_STAR:
+            return i18n( "Multiple Star" );
+        default:
+            return i18n( "Unknown Type" );
     }
 
 }
 
-QString SkyObject::typeName() const {
+QString SkyObject::typeName() const
+{
     return typeName( Type );
 }
 
-QString SkyObject::messageFromTitle( const QString &imageTitle ) const {
+QString SkyObject::messageFromTitle( const QString &imageTitle ) const
+{
     QString message = imageTitle;
 
     //HST Image
-    if ( imageTitle == i18n( "Show HST Image" ) || imageTitle.contains("HST") ) {
+    if ( imageTitle == i18n( "Show HST Image" ) || imageTitle.contains("HST") )
+    {
         message = i18n( "%1: Hubble Space Telescope, operated by STScI for NASA [public domain]", longname() );
 
         //Spitzer Image
-    } else if ( imageTitle.contains( i18n( "Show Spitzer Image" ) ) ) {
+    }
+    else if ( imageTitle.contains( i18n( "Show Spitzer Image" ) ) )
+    {
         message = i18n( "%1: Spitzer Space Telescope, courtesy NASA/JPL-Caltech [public domain]", longname() );
 
         //SEDS Image
-    } else if ( imageTitle == i18n( "Show SEDS Image" ) ) {
+    }
+    else if ( imageTitle == i18n( "Show SEDS Image" ) )
+    {
         message = i18n( "%1: SEDS, http://www.seds.org [free for non-commercial use]", longname() );
 
         //Kitt Peak AOP Image
-    } else if ( imageTitle == i18n( "Show KPNO AOP Image" ) ) {
+    }
+    else if ( imageTitle == i18n( "Show KPNO AOP Image" ) )
+    {
         message = i18n( "%1: Advanced Observing Program at Kitt Peak National Observatory [free for non-commercial use; no physical reproductions]", longname() );
 
         //NOAO Image
-    } else if ( imageTitle.contains( i18n( "Show NOAO Image" ) ) ) {
+    }
+    else if ( imageTitle.contains( i18n( "Show NOAO Image" ) ) )
+    {
         message = i18n( "%1: National Optical Astronomy Observatories and AURA [free for non-commercial use]", longname() );
 
         //VLT Image
-    } else if ( imageTitle.contains( "VLT" ) ) {
+    }
+    else if ( imageTitle.contains( "VLT" ) )
+    {
         message = i18n( "%1: Very Large Telescope, operated by the European Southern Observatory [free for non-commercial use; no reproductions]", longname() );
 
         //All others
-    } else if ( imageTitle.startsWith( i18n( "Show" ) ) ) {
+    }
+    else if ( imageTitle.startsWith( i18n( "Show" ) ) )
+    {
         message = imageTitle.mid( imageTitle.indexOf( " " ) + 1 ); //eat first word, "Show"
         message = longname() + ": " + message;
     }
@@ -441,7 +487,8 @@ QString SkyObject::messageFromTitle( const QString &imageTitle ) const {
 
 //TODO: Should create a special UserLog widget that encapsulates the "default"
 //message in the widget when no log exists (much like we do with dmsBox now)
-void SkyObject::saveUserLog( const QString &newLog ) {
+void SkyObject::saveUserLog( const QString &newLog )
+{
     QFile file;
     QString logs; //existing logs
 
@@ -454,14 +501,16 @@ void SkyObject::saveUserLog( const QString &newLog ) {
     // header label
     QString KSLabel ="[KSLABEL:" + name() + ']';
     //However, we can't accept a star name if it has a greek letter in it:
-    if ( type() == STAR ) {
-        StarObject *star = (StarObject*)this;
+    if ( type() == STAR )
+    {
+        StarObject * star = (StarObject *)this;
         if ( name() == star->gname() )
             KSLabel = "[KSLABEL:" + star->gname( false ) + ']'; //"false": spell out greek letter
     }
 
     file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "userlog.dat" ) ; //determine filename in local user KDE directory tree.
-    if ( file.open( QIODevice::ReadOnly)) {
+    if ( file.open( QIODevice::ReadOnly))
+    {
         QTextStream instream(&file);
         // read all data into memory
         logs = instream.readAll();
@@ -469,7 +518,8 @@ void SkyObject::saveUserLog( const QString &newLog ) {
     }
 
     //Remove old log entry from the logs text
-    if ( ! userLog().isEmpty() ) {
+    if ( ! userLog().isEmpty() )
+    {
         int startIndex, endIndex;
         QString sub;
 
@@ -484,7 +534,8 @@ void SkyObject::saveUserLog( const QString &newLog ) {
     logs.append( KSLabel + '\n' + newLog + "\n[KSLogEnd]\n" );
 
     //Open file for writing
-    if ( !file.open( QIODevice::WriteOnly ) ) {
+    if ( !file.open( QIODevice::WriteOnly ) )
+    {
         qDebug() << "Cannot write to user log file";
         return;
     }
@@ -499,15 +550,18 @@ void SkyObject::saveUserLog( const QString &newLog ) {
     file.close();
 }
 
-QString SkyObject::labelString() const {
+QString SkyObject::labelString() const
+{
     return translatedName();
 }
 
-double SkyObject::labelOffset() const {
+double SkyObject::labelOffset() const
+{
     return SkyLabeler::ZoomOffset();
 }
 
-AuxInfo *SkyObject::getAuxInfo() {
+AuxInfo * SkyObject::getAuxInfo()
+{
     if( !info )
         info = new AuxInfo;
     return &(*info);

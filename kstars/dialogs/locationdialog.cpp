@@ -33,23 +33,23 @@
 #include "kstarsdata.h"
 #include "kspaths.h"
 
-LocationDialogUI::LocationDialogUI( QWidget *parent ) : QFrame( parent )
+LocationDialogUI::LocationDialogUI( QWidget * parent ) : QFrame( parent )
 {
     setupUi(this);
 }
 
-LocationDialog::LocationDialog( QWidget* parent ) :
+LocationDialog::LocationDialog( QWidget * parent ) :
     QDialog( parent ), timer( 0 )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
-    KStarsData* data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
 
     SelectedCity = NULL;
     ld = new LocationDialogUI(this);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ld);
     setLayout(mainLayout);
 
@@ -57,7 +57,7 @@ LocationDialog::LocationDialog( QWidget* parent ) :
 
     setWindowTitle( i18n( "Set Geographic Location" ) );
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -66,7 +66,8 @@ LocationDialog::LocationDialog( QWidget* parent ) :
         ld->TZBox->addItem( QLocale().toString( (double)(i-12) ) );
 
     //Populate DSTRuleBox
-    foreach( const QString& key, data->getRulebook().keys() ) {
+    foreach( const QString &key, data->getRulebook().keys() )
+    {
         if( !key.isEmpty() )
             ld->DSTRuleBox->addItem( key );
     }
@@ -96,7 +97,7 @@ LocationDialog::LocationDialog( QWidget* parent ) :
 
     dataModified = false;
     nameModified = false;
-    ld->AddCityButton->setEnabled( false );    
+    ld->AddCityButton->setEnabled( false );
 
     ld->errorLabel->setText( QString() );
 
@@ -104,17 +105,21 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     resize (640, 480);
 }
 
-void LocationDialog::initCityList() {
-    KStarsData* data = KStarsData::Instance();
-    foreach ( GeoLocation *loc, data->getGeoList() )
+void LocationDialog::initCityList()
+{
+    KStarsData * data = KStarsData::Instance();
+    foreach ( GeoLocation * loc, data->getGeoList() )
     {
         ld->GeoBox->addItem( loc->fullName() );
         filteredCityList.append( loc );
 
         //If TZ is not an even integer value, add it to listbox
-        if ( loc->TZ0() - int( loc->TZ0() ) && ld->TZBox->findText( QLocale().toString( loc->TZ0() ) ) != -1 ) {
-            for ( int i=0; i < ld->TZBox->count(); ++i ) {
-                if ( ld->TZBox->itemText( i ).toDouble() > loc->TZ0() ) {
+        if ( loc->TZ0() - int( loc->TZ0() ) && ld->TZBox->findText( QLocale().toString( loc->TZ0() ) ) != -1 )
+        {
+            for ( int i=0; i < ld->TZBox->count(); ++i )
+            {
+                if ( ld->TZBox->itemText( i ).toDouble() > loc->TZ0() )
+                {
                     ld->TZBox->addItem( QLocale().toString( loc->TZ0() ), i-1 );
                     break;
                 }
@@ -129,18 +134,22 @@ void LocationDialog::initCityList() {
 
     // attempt to highlight the current kstars location in the GeoBox
     ld->GeoBox->setCurrentItem( 0 );
-    for( int i=0; i < ld->GeoBox->count(); i++ ) {
-        if ( ld->GeoBox->item(i)->text() == data->geo()->fullName() ) {
+    for( int i=0; i < ld->GeoBox->count(); i++ )
+    {
+        if ( ld->GeoBox->item(i)->text() == data->geo()->fullName() )
+        {
             ld->GeoBox->setCurrentRow( i );
             break;
         }
     }
 }
 
-void LocationDialog::enqueueFilterCity() {
+void LocationDialog::enqueueFilterCity()
+{
     if( timer )
         timer->stop();
-    else {
+    else
+    {
         timer = new QTimer( this );
         timer->setSingleShot( true );
         connect( timer, SIGNAL( timeout() ), this, SLOT( filterCity() ) );
@@ -148,8 +157,9 @@ void LocationDialog::enqueueFilterCity() {
     timer->start( 500 );
 }
 
-void LocationDialog::filterCity() {
-    KStarsData* data = KStarsData::Instance();
+void LocationDialog::filterCity()
+{
+    KStarsData * data = KStarsData::Instance();
     ld->GeoBox->clear();
     //Do NOT delete members of filteredCityList!
     while( !filteredCityList.isEmpty() )
@@ -160,7 +170,8 @@ void LocationDialog::filterCity() {
     ld->AddCityButton->setEnabled( false );
     ld->UpdateButton->setEnabled( false );
 
-    foreach ( GeoLocation *loc, data->getGeoList() ) {
+    foreach ( GeoLocation * loc, data->getGeoList() )
+    {
         QString sc( loc->translatedName() );
         QString ss( loc->translatedCountry() );
         QString sp = "";
@@ -169,7 +180,8 @@ void LocationDialog::filterCity() {
 
         if ( sc.toLower().startsWith( ld->CityFilter->text().toLower() ) &&
                 sp.toLower().startsWith( ld->ProvinceFilter->text().toLower() ) &&
-                ss.toLower().startsWith( ld->CountryFilter->text().toLower() ) ) {
+                ss.toLower().startsWith( ld->CountryFilter->text().toLower() ) )
+        {
 
             ld->GeoBox->addItem( loc->fullName() );
             filteredCityList.append( loc );
@@ -186,14 +198,18 @@ void LocationDialog::filterCity() {
     ld->MapView->repaint();
 }
 
-void LocationDialog::changeCity() {
-    KStarsData* data = KStarsData::Instance();
+void LocationDialog::changeCity()
+{
+    KStarsData * data = KStarsData::Instance();
     //when the selected city changes, set newCity, and redraw map
     SelectedCity = 0L;
-    if ( ld->GeoBox->currentItem() ) {
-        for ( int i=0; i < filteredCityList.size(); ++i ) {
-            GeoLocation *loc = filteredCityList.at(i);
-            if ( loc->fullName() == ld->GeoBox->currentItem()->text()) {
+    if ( ld->GeoBox->currentItem() )
+    {
+        for ( int i=0; i < filteredCityList.size(); ++i )
+        {
+            GeoLocation * loc = filteredCityList.at(i);
+            if ( loc->fullName() == ld->GeoBox->currentItem()->text())
+            {
                 SelectedCity = loc;
                 break;
             }
@@ -203,7 +219,8 @@ void LocationDialog::changeCity() {
     ld->MapView->repaint();
 
     //Fill the fields at the bottom of the window with the selected city's data.
-    if ( SelectedCity ) {
+    if ( SelectedCity )
+    {
         ld->NewCityName->setText( SelectedCity->translatedName() );
         if ( SelectedCity->province().isEmpty() )
             ld->NewProvinceName->setText( QString() );
@@ -216,9 +233,11 @@ void LocationDialog::changeCity() {
         ld->TZBox->setEditText( QLocale().toString( SelectedCity->TZ0() ) );
 
         //Pick the City's rule from the rulebook
-        for ( int i=0; i < ld->DSTRuleBox->count(); ++i ) {
+        for ( int i=0; i < ld->DSTRuleBox->count(); ++i )
+        {
             TimeZoneRule tzr = data->getRulebook().value( ld->DSTRuleBox->itemText(i) );
-            if ( tzr.equals( SelectedCity->tzrule() ) ) {
+            if ( tzr.equals( SelectedCity->tzrule() ) )
+            {
                 ld->DSTRuleBox->setCurrentIndex( i );
                 break;
             }
@@ -283,14 +302,16 @@ bool LocationDialog::updateCity(CityOperation operation)
         QString message = i18n( "All fields (except province) must be filled to add this location." );
         KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
         return false;
-    } else if ( ! latOk || ! lngOk )
+    }
+    else if ( ! latOk || ! lngOk )
     {
         QString message = i18n( "Could not parse the Latitude/Longitude." );
         KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
         return false;
-    } else if( ! tzOk)
+    }
+    else if( ! tzOk)
     {
-    	QString message = i18n( "Could not parse coordinates." );
+        QString message = i18n( "Could not parse coordinates." );
         KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
         return false;
     }
@@ -299,165 +320,168 @@ bool LocationDialog::updateCity(CityOperation operation)
     if ( operation == CITY_ADD && !nameModified )
         operation = CITY_UPDATE;
 
-        /*if ( !nameModified )
-        {
-            QString message = i18n( "Really override original data for this city?" );
-            if ( KMessageBox::questionYesNo( 0, message, i18n( "Override Existing Data?" ), KGuiItem(i18n("Override Data")), KGuiItem(i18n("Do Not Override"))) == KMessageBox::No )
-                return false; //user answered No.
-        }*/
+    /*if ( !nameModified )
+    {
+        QString message = i18n( "Really override original data for this city?" );
+        if ( KMessageBox::questionYesNo( 0, message, i18n( "Override Existing Data?" ), KGuiItem(i18n("Override Data")), KGuiItem(i18n("Do Not Override"))) == KMessageBox::No )
+            return false; //user answered No.
+    }*/
 
-        QSqlDatabase mycitydb = QSqlDatabase::database("mycitydb");
-        QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "mycitydb.sqlite";
+    QSqlDatabase mycitydb = QSqlDatabase::database("mycitydb");
+    QString dbfile = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "mycitydb.sqlite";
 
-        // If it doesn't exist, create it
-        if (QFile::exists(dbfile) == false)
+    // If it doesn't exist, create it
+    if (QFile::exists(dbfile) == false)
+    {
+        mycitydb.setDatabaseName(dbfile);
+        mycitydb.open();
+        QSqlQuery create_query(mycitydb);
+        QString query("CREATE TABLE city ( "
+                      "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
+                      "Name TEXT DEFAULT NULL, "
+                      "Province TEXT DEFAULT NULL, "
+                      "Country TEXT DEFAULT NULL, "
+                      "Latitude TEXT DEFAULT NULL, "
+                      "Longitude TEXT DEFAULT NULL, "
+                      "TZ REAL DEFAULT NULL, "
+                      "TZRule TEXT DEFAULT NULL)");
+        if (create_query.exec(query) == false)
         {
-            mycitydb.setDatabaseName(dbfile);
-            mycitydb.open();
-            QSqlQuery create_query(mycitydb);
-            QString query("CREATE TABLE city ( "
-                          "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, "
-                          "Name TEXT DEFAULT NULL, "
-                          "Province TEXT DEFAULT NULL, "
-                          "Country TEXT DEFAULT NULL, "
-                          "Latitude TEXT DEFAULT NULL, "
-                          "Longitude TEXT DEFAULT NULL, "
-                          "TZ REAL DEFAULT NULL, "
-                          "TZRule TEXT DEFAULT NULL)");
-            if (create_query.exec(query) == false)
-            {
-                qWarning() << create_query.lastError() << endl;
-                return false;
-            }
-        }
-        else if (mycitydb.open() == false)
-        {
-            qWarning() << mycitydb.lastError() << endl;
+            qWarning() << create_query.lastError() << endl;
             return false;
         }
+    }
+    else if (mycitydb.open() == false)
+    {
+        qWarning() << mycitydb.lastError() << endl;
+        return false;
+    }
 
-        //Strip off white space
-        QString name = ld->NewCityName->text().trimmed();
-        QString province = ld->NewProvinceName->text().trimmed();
-        QString country = ld->NewCountryName->text().trimmed();
-        QString TZrule = ld->DSTRuleBox->currentText();
-        GeoLocation *g = NULL;
+    //Strip off white space
+    QString name = ld->NewCityName->text().trimmed();
+    QString province = ld->NewProvinceName->text().trimmed();
+    QString country = ld->NewCountryName->text().trimmed();
+    QString TZrule = ld->DSTRuleBox->currentText();
+    GeoLocation * g = NULL;
 
-        switch (operation)
+    switch (operation)
+    {
+        case CITY_ADD:
         {
-            case CITY_ADD:
+            QSqlQuery add_query(mycitydb);
+            add_query.prepare("INSERT INTO city(Name, Province, Country, Latitude, Longitude, TZ, TZRule) VALUES(:Name, :Province, :Country, :Latitude, :Longitude, :TZ, :TZRule)");
+            add_query.bindValue(":Name", name);
+            add_query.bindValue(":Province", province);
+            add_query.bindValue(":Country", country);
+            add_query.bindValue(":Latitude", lat.toDMSString());
+            add_query.bindValue(":Longitude", lng.toDMSString());
+            add_query.bindValue(":TZ", TZ);
+            add_query.bindValue(":TZRule", TZrule);
+            if (add_query.exec() == false)
             {
-                QSqlQuery add_query(mycitydb);
-                add_query.prepare("INSERT INTO city(Name, Province, Country, Latitude, Longitude, TZ, TZRule) VALUES(:Name, :Province, :Country, :Latitude, :Longitude, :TZ, :TZRule)");
-                add_query.bindValue(":Name", name);
-                add_query.bindValue(":Province", province);
-                add_query.bindValue(":Country", country);
-                add_query.bindValue(":Latitude", lat.toDMSString());
-                add_query.bindValue(":Longitude", lng.toDMSString());
-                add_query.bindValue(":TZ", TZ);
-                add_query.bindValue(":TZRule", TZrule);
-                if (add_query.exec() == false)
-                {
-                    qWarning() << add_query.lastError() << endl;
-                    return false;
-                }
-
-                //Add city to geoList...don't need to insert it alphabetically, since we always sort GeoList
-                g = new GeoLocation( lng, lat, name, province, country, TZ, & KStarsData::Instance()->Rulebook[ TZrule ] );
-                KStarsData::Instance()->getGeoList().append(g);
+                qWarning() << add_query.lastError() << endl;
+                return false;
             }
-            break;
 
-            case CITY_UPDATE:
-            {
-
-                g = SelectedCity;
-
-                QSqlQuery update_query(mycitydb);
-                update_query.prepare("UPDATE city SET Name = :newName, Province = :newProvince, Country = :newCountry, Latitude = :Latitude, Longitude = :Longitude, TZ = :TZ, TZRule = :TZRule WHERE "
-                                  "Name = :Name AND Province = :Province AND Country = :Country");
-                update_query.bindValue(":newName", name);
-                update_query.bindValue(":newProvince", province);
-                update_query.bindValue(":newCountry", country);
-                update_query.bindValue(":Name", SelectedCity->name());
-                update_query.bindValue(":Province", SelectedCity->province());
-                update_query.bindValue(":Country", SelectedCity->country());
-                update_query.bindValue(":Latitude", lat.toDMSString());
-                update_query.bindValue(":Longitude", lng.toDMSString());
-                update_query.bindValue(":TZ", TZ);
-                update_query.bindValue(":TZRule", TZrule);
-                if (update_query.exec() == false)
-                {
-                    qWarning() << update_query.lastError() << endl;
-                    return false;
-                }
-
-                g->setName(name);
-                g->setProvince(province);
-                g->setCountry(country);
-                g->setLat(lat);
-                g->setLong(lng);
-                g->setTZ(TZ);
-                g->setTZRule(& KStarsData::Instance()->Rulebook[ TZrule ]);
-
-            }
-            break;
-
-            case CITY_REMOVE:
-            {
-                g = SelectedCity;
-                QSqlQuery delete_query(mycitydb);
-                delete_query.prepare("DELETE FROM city WHERE Name = :Name AND Province = :Province AND Country = :Country");
-                delete_query.bindValue(":Name", name);
-                delete_query.bindValue(":Province", province);
-                delete_query.bindValue(":Country", country);
-                if (delete_query.exec() == false)
-                {
-                    qWarning() << delete_query.lastError() << endl;
-                    return false;
-                }
-
-                filteredCityList.removeOne(g);
-                KStarsData::Instance()->getGeoList().removeOne(g);
-                delete(g);
-                g=NULL;
-            }
-            break;
+            //Add city to geoList...don't need to insert it alphabetically, since we always sort GeoList
+            g = new GeoLocation( lng, lat, name, province, country, TZ, & KStarsData::Instance()->Rulebook[ TZrule ] );
+            KStarsData::Instance()->getGeoList().append(g);
         }
+        break;
 
-        //(possibly) insert new city into GeoBox by running filterCity()
-        filterCity();
-
-        //Attempt to highlight new city in list
-        ld->GeoBox->setCurrentItem( 0 );
-        if (g && ld->GeoBox->count() )
+        case CITY_UPDATE:
         {
-            for ( int i=0; i<ld->GeoBox->count(); i++ )
+
+            g = SelectedCity;
+
+            QSqlQuery update_query(mycitydb);
+            update_query.prepare("UPDATE city SET Name = :newName, Province = :newProvince, Country = :newCountry, Latitude = :Latitude, Longitude = :Longitude, TZ = :TZ, TZRule = :TZRule WHERE "
+                                 "Name = :Name AND Province = :Province AND Country = :Country");
+            update_query.bindValue(":newName", name);
+            update_query.bindValue(":newProvince", province);
+            update_query.bindValue(":newCountry", country);
+            update_query.bindValue(":Name", SelectedCity->name());
+            update_query.bindValue(":Province", SelectedCity->province());
+            update_query.bindValue(":Country", SelectedCity->country());
+            update_query.bindValue(":Latitude", lat.toDMSString());
+            update_query.bindValue(":Longitude", lng.toDMSString());
+            update_query.bindValue(":TZ", TZ);
+            update_query.bindValue(":TZRule", TZrule);
+            if (update_query.exec() == false)
             {
-                if ( ld->GeoBox->item(i)->text() == g->fullName() )
-                {
-                    ld->GeoBox->setCurrentRow( i );
-                    break;
-                }
+                qWarning() << update_query.lastError() << endl;
+                return false;
+            }
+
+            g->setName(name);
+            g->setProvince(province);
+            g->setCountry(country);
+            g->setLat(lat);
+            g->setLong(lng);
+            g->setTZ(TZ);
+            g->setTZRule(& KStarsData::Instance()->Rulebook[ TZrule ]);
+
+        }
+        break;
+
+        case CITY_REMOVE:
+        {
+            g = SelectedCity;
+            QSqlQuery delete_query(mycitydb);
+            delete_query.prepare("DELETE FROM city WHERE Name = :Name AND Province = :Province AND Country = :Country");
+            delete_query.bindValue(":Name", name);
+            delete_query.bindValue(":Province", province);
+            delete_query.bindValue(":Country", country);
+            if (delete_query.exec() == false)
+            {
+                qWarning() << delete_query.lastError() << endl;
+                return false;
+            }
+
+            filteredCityList.removeOne(g);
+            KStarsData::Instance()->getGeoList().removeOne(g);
+            delete(g);
+            g=NULL;
+        }
+        break;
+    }
+
+    //(possibly) insert new city into GeoBox by running filterCity()
+    filterCity();
+
+    //Attempt to highlight new city in list
+    ld->GeoBox->setCurrentItem( 0 );
+    if (g && ld->GeoBox->count() )
+    {
+        for ( int i=0; i<ld->GeoBox->count(); i++ )
+        {
+            if ( ld->GeoBox->item(i)->text() == g->fullName() )
+            {
+                ld->GeoBox->setCurrentRow( i );
+                break;
             }
         }
+    }
 
-        mycitydb.commit();
-        mycitydb.close();
+    mycitydb.commit();
+    mycitydb.close();
 
-        return true;
+    return true;
 }
 
-void LocationDialog::findCitiesNear( int lng, int lat ) {
-    KStarsData* data = KStarsData::Instance();
+void LocationDialog::findCitiesNear( int lng, int lat )
+{
+    KStarsData * data = KStarsData::Instance();
     //find all cities within 3 degrees of (lng, lat); list them in GeoBox
     ld->GeoBox->clear();
     //Remember, do NOT delete members of filteredCityList
     while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
 
-    foreach ( GeoLocation *loc, data->getGeoList() ) {
+    foreach ( GeoLocation * loc, data->getGeoList() )
+    {
         if ( ( abs(	lng - int( loc->lng()->Degrees() ) ) < 3 ) &&
-                ( abs( lat - int( loc->lat()->Degrees() ) ) < 3 ) ) {
+                ( abs( lat - int( loc->lat()->Degrees() ) ) < 3 ) )
+        {
 
             ld->GeoBox->addItem( loc->fullName() );
             filteredCityList.append( loc );
@@ -473,7 +497,8 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
     repaint();
 }
 
-bool LocationDialog::checkLongLat() {
+bool LocationDialog::checkLongLat()
+{
     if ( ld->NewLong->text().isEmpty() || ld->NewLat->text().isEmpty() )
         return false;
 
@@ -511,7 +536,8 @@ void LocationDialog::clearFields()
 
 }
 
-void LocationDialog::showTZRules() {
+void LocationDialog::showTZRules()
+{
     QStringList lines;
     lines.append( i18n( " Start Date (Start Time)  /  Revert Date (Revert Time)" ) );
     lines.append( " " );
@@ -547,19 +573,19 @@ void LocationDialog::showTZRules() {
     QPointer<QDialog> tzd = new QDialog( this );
     tzd->setWindowTitle( message );
 
-    QListWidget *lw = new QListWidget( tzd );
+    QListWidget * lw = new QListWidget( tzd );
     lw->addItems( lines );
     //This is pretty lame...I have to measure the width of the first item in the
     //list widget, in order to set its width properly.  Why doesn't it just resize
     //the widget to fit the contents automatically?  I tried setting the sizePolicy,
     //no joy...
     int w = int( 1.1*lw->visualItemRect( lw->item(0) ).width() );
-    lw->setMinimumWidth( w );   
+    lw->setMinimumWidth( w );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(lw);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), tzd, SLOT(reject()));
 
@@ -570,51 +596,63 @@ void LocationDialog::showTZRules() {
     delete tzd;
 }
 
-void LocationDialog::nameChanged() {
+void LocationDialog::nameChanged()
+{
     nameModified = true;
     dataChanged();
 }
 
 //do not enable Add button until all data are present and valid.
-void LocationDialog::dataChanged() {
+void LocationDialog::dataChanged()
+{
     dataModified = true;
     ld->AddCityButton->setEnabled( nameModified && !ld->NewCityName->text().isEmpty() &&
                                    !ld->NewCountryName->text().isEmpty() &&
                                    checkLongLat() );
     if (SelectedCity)
         ld->UpdateButton->setEnabled(SelectedCity->isReadOnly() == false && !ld->NewCityName->text().isEmpty()
-                                 && !ld->NewCountryName->text().isEmpty() &&
-                                 checkLongLat());
+                                     && !ld->NewCountryName->text().isEmpty() &&
+                                     checkLongLat());
 
-    if( !addCityEnabled() ) {
-        if( ld->NewCityName->text().isEmpty() ) {
+    if( !addCityEnabled() )
+    {
+        if( ld->NewCityName->text().isEmpty() )
+        {
             ld->errorLabel->setText( i18n( "Cannot add new location -- city name blank" ) );
         }
-        else if( ld->NewCountryName->text().isEmpty() ) {
+        else if( ld->NewCountryName->text().isEmpty() )
+        {
             ld->errorLabel->setText( i18n( "Cannot add new location -- country name blank" ) );
         }
-        else if( !checkLongLat() ) {
+        else if( !checkLongLat() )
+        {
             ld->errorLabel->setText( i18n( "Cannot add new location -- invalid latitude / longitude" ) );
         }
-        else {
+        else
+        {
             ld->errorLabel->setText( i18n( "Cannot add new location -- please check all fields" ) );
         }
     }
-    else {
+    else
+    {
         ld->errorLabel->setText( QString() );
     }
 
 }
 
-void LocationDialog::slotOk() {
+void LocationDialog::slotOk()
+{
     if( addCityEnabled())
     {
         if (addCity() )
-         accept();
+            accept();
     }
     else
         accept();
 }
 
-bool LocationDialog::addCityEnabled() { return ld->AddCityButton->isEnabled(); }
+bool LocationDialog::addCityEnabled()
+{
+    return ld->AddCityButton->isEnabled();
+}
 

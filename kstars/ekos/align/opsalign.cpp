@@ -19,7 +19,7 @@
 namespace Ekos
 {
 
-OpsAlign::OpsAlign(Align *parent)  : QWidget( KStars::Instance() )
+OpsAlign::OpsAlign(Align * parent)  : QWidget( KStars::Instance() )
 {
     setupUi(this);
 
@@ -32,30 +32,30 @@ OpsAlign::OpsAlign(Align *parent)  : QWidget( KStars::Instance() )
     connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
 
 #ifdef Q_OS_OSX
-connect(kcfg_AstrometrySolverIsInternal, SIGNAL(clicked()), this, SLOT(toggleSolverInternal()));
-kcfg_AstrometrySolverIsInternal->setToolTip(i18n("Internal or External Plate Solver?"));
-if(Options::astrometrySolverIsInternal())
-    kcfg_AstrometrySolverBinary->setEnabled(false);
+    connect(kcfg_AstrometrySolverIsInternal, SIGNAL(clicked()), this, SLOT(toggleSolverInternal()));
+    kcfg_AstrometrySolverIsInternal->setToolTip(i18n("Internal or External Plate Solver?"));
+    if(Options::astrometrySolverIsInternal())
+        kcfg_AstrometrySolverBinary->setEnabled(false);
 
-connect(kcfg_AstrometryConfFileIsInternal, SIGNAL(clicked()), this, SLOT(toggleConfigInternal()));
-kcfg_AstrometryConfFileIsInternal->setToolTip(i18n("Internal or External astrometry.cfg?"));
-if(Options::astrometryConfFileIsInternal())
-    kcfg_AstrometryConfFile->setEnabled(false);
+    connect(kcfg_AstrometryConfFileIsInternal, SIGNAL(clicked()), this, SLOT(toggleConfigInternal()));
+    kcfg_AstrometryConfFileIsInternal->setToolTip(i18n("Internal or External astrometry.cfg?"));
+    if(Options::astrometryConfFileIsInternal())
+        kcfg_AstrometryConfFile->setEnabled(false);
 
-connect(kcfg_AstrometryWCSIsInternal, SIGNAL(clicked()), this, SLOT(toggleWCSInternal()));
-kcfg_AstrometryWCSIsInternal->setToolTip(i18n("Internal or External wcsinfo?"));
-if(Options::astrometryWCSIsInternal())
-    kcfg_AstrometryWCSInfo->setEnabled(false);
+    connect(kcfg_AstrometryWCSIsInternal, SIGNAL(clicked()), this, SLOT(toggleWCSInternal()));
+    kcfg_AstrometryWCSIsInternal->setToolTip(i18n("Internal or External wcsinfo?"));
+    if(Options::astrometryWCSIsInternal())
+        kcfg_AstrometryWCSInfo->setEnabled(false);
 #else
-kcfg_AstrometrySolverIsInternal->setVisible(false);
-kcfg_AstrometryConfFileIsInternal->setVisible(false);
-kcfg_AstrometryWCSIsInternal->setVisible(false);
+    kcfg_AstrometrySolverIsInternal->setVisible(false);
+    kcfg_AstrometryConfFileIsInternal->setVisible(false);
+    kcfg_AstrometryWCSIsInternal->setVisible(false);
 #endif
 
 #ifdef Q_OS_WIN
-kcfg_AstrometrySolverBinary->setEnabled(false);
-kcfg_AstrometryWCSInfo->setEnabled(false);
-kcfg_AstrometryConfFile->setEnabled(false);
+    kcfg_AstrometrySolverBinary->setEnabled(false);
+    kcfg_AstrometryWCSInfo->setEnabled(false);
+    kcfg_AstrometryConfFile->setEnabled(false);
 #endif
 }
 
@@ -91,7 +91,7 @@ void OpsAlign::toggleWCSInternal()
 void OpsAlign::slotApply()
 {
     if (alignModule->fov())
-            alignModule->fov()->setImageDisplay(kcfg_AstrometrySolverWCS->isChecked());
+        alignModule->fov()->setImageDisplay(kcfg_AstrometrySolverWCS->isChecked());
 }
 
 }

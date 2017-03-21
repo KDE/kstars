@@ -29,47 +29,51 @@ class QStringList;
 	*@version 1.0
 	*/
 
-class TimeSpinBox : public QSpinBox  {
-    Q_OBJECT
-public:
-    /**Constructor */
-    explicit TimeSpinBox( QWidget *parent, bool daysOnly = false );
-    /**Destructor (empty)*/
-    ~TimeSpinBox() {}
+class TimeSpinBox : public QSpinBox
+{
+        Q_OBJECT
+    public:
+        /**Constructor */
+        explicit TimeSpinBox( QWidget * parent, bool daysOnly = false );
+        /**Destructor (empty)*/
+        ~TimeSpinBox() {}
 
-    /**Convert the internal value to a display string.
-    	*@note reimplemented from QSpinBox
-    	*@p value the internal value to convert to a display string
-    	*@return the display string
-    	*/
-    virtual QString textFromValue( int value ) const;
+        /**Convert the internal value to a display string.
+        	*@note reimplemented from QSpinBox
+        	*@p value the internal value to convert to a display string
+        	*@return the display string
+        	*/
+        virtual QString textFromValue( int value ) const;
 
-    /**Convert the displayed string to an internal value.
-    	*@note reimplemented from QSpinBox
-    	*@p ok bool pointer set to true if conversion was successful
-    	*@return internal value converted from displayed text
-    	*/
-    virtual int valueFromText( const QString &text ) const;
+        /**Convert the displayed string to an internal value.
+        	*@note reimplemented from QSpinBox
+        	*@p ok bool pointer set to true if conversion was successful
+        	*@return internal value converted from displayed text
+        	*/
+        virtual int valueFromText( const QString &text ) const;
 
-    /** @return the current TimeStep setting */
-    float timeScale() const;
+        /** @return the current TimeStep setting */
+        float timeScale() const;
 
-    void setDaysOnly( bool daysonly );
-    bool daysOnly() const { return DaysOnly; }
+        void setDaysOnly( bool daysonly );
+        bool daysOnly() const
+        {
+            return DaysOnly;
+        }
 
-signals:
-    void scaleChanged( float s );
+    signals:
+        void scaleChanged( float s );
 
-public slots:
-    void changeScale( float s );
+    public slots:
+        void changeScale( float s );
 
-protected slots:
-    void reportChange();
+    protected slots:
+        void reportChange();
 
-private:
-    bool DaysOnly;
-    float TimeScale[43];
-    QStringList TimeString;
+    private:
+        bool DaysOnly;
+        float TimeScale[43];
+        QStringList TimeString;
 };
 
 #endif

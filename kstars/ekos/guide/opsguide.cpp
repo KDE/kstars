@@ -33,7 +33,7 @@ OpsGuide::OpsGuide()  : QFrame( KStars::Instance() )
     m_ConfigDialog = KConfigDialog::exists( "guidesettings" );
 
     connect( m_ConfigDialog->button(QDialogButtonBox::Apply), SIGNAL( clicked() ), SLOT( slotApply() ) );
-    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );    
+    connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
 
     guiderTypeButtonGroup->setId(internalGuideR, Guide::GUIDE_INTERNAL);
     guiderTypeButtonGroup->setId(PHD2GuideR, Guide::GUIDE_PHD2);
@@ -53,51 +53,51 @@ void OpsGuide::slotLoadSettings(int guiderType)
 {
     switch (static_cast<Guide::GuiderType>(guiderType))
     {
-    case Guide::GUIDE_INTERNAL:
-        internalGuideR->setChecked(true);
-        externalHost->clear();
-        externalPort->clear();
-        externalHost->setEnabled(false);
-        externalPort->setEnabled(false);
-        break;
+        case Guide::GUIDE_INTERNAL:
+            internalGuideR->setChecked(true);
+            externalHost->clear();
+            externalPort->clear();
+            externalHost->setEnabled(false);
+            externalPort->setEnabled(false);
+            break;
 
-    case Guide::GUIDE_PHD2:
-        PHD2GuideR->setChecked(true);
-        externalHost->setEnabled(true);
-        externalPort->setEnabled(true);
-        externalHost->setText(Options::pHD2Host());
-        externalPort->setText(QString::number(Options::pHD2Port()));
-        break;
+        case Guide::GUIDE_PHD2:
+            PHD2GuideR->setChecked(true);
+            externalHost->setEnabled(true);
+            externalPort->setEnabled(true);
+            externalHost->setText(Options::pHD2Host());
+            externalPort->setText(QString::number(Options::pHD2Port()));
+            break;
 
-    case Guide::GUIDE_LINGUIDER:
-        LinGuiderR->setChecked(true);
-        externalHost->setEnabled(true);
-        externalPort->setEnabled(true);
-        externalHost->setText(Options::linGuiderHost());
-        externalPort->setText(QString::number(Options::linGuiderPort()));
-        break;
+        case Guide::GUIDE_LINGUIDER:
+            LinGuiderR->setChecked(true);
+            externalHost->setEnabled(true);
+            externalPort->setEnabled(true);
+            externalHost->setText(Options::linGuiderHost());
+            externalPort->setText(QString::number(Options::linGuiderPort()));
+            break;
     }
 }
 
 void OpsGuide::slotApply()
-{    
+{
     switch (guiderTypeButtonGroup->checkedId())
     {
-    case Guide::GUIDE_INTERNAL:
-        Options::setGuiderType(Guide::GUIDE_INTERNAL);        
-        break;
+        case Guide::GUIDE_INTERNAL:
+            Options::setGuiderType(Guide::GUIDE_INTERNAL);
+            break;
 
-    case Guide::GUIDE_PHD2:
-        Options::setGuiderType(Guide::GUIDE_PHD2);
-        Options::setPHD2Host(externalHost->text());
-        Options::setPHD2Port(externalPort->text().toInt());        
-        break;
+        case Guide::GUIDE_PHD2:
+            Options::setGuiderType(Guide::GUIDE_PHD2);
+            Options::setPHD2Host(externalHost->text());
+            Options::setPHD2Port(externalPort->text().toInt());
+            break;
 
-    case Guide::GUIDE_LINGUIDER:
-        Options::setGuiderType(Guide::GUIDE_LINGUIDER);
-        Options::setLinGuiderHost(externalHost->text());
-        Options::setLinGuiderPort(externalPort->text().toInt());
-        break;
+        case Guide::GUIDE_LINGUIDER:
+            Options::setGuiderType(Guide::GUIDE_LINGUIDER);
+            Options::setLinGuiderHost(externalHost->text());
+            Options::setLinGuiderPort(externalPort->text().toInt());
+            break;
     }
 
     emit guiderTypeChanged(guiderTypeButtonGroup->checkedId());

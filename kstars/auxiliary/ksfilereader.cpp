@@ -29,21 +29,22 @@
 #include "ksutils.h"
 
 KSFileReader::KSFileReader( qint64 maxLen ) :
-        QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(UINT_MAX)
+    QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(UINT_MAX)
 {}
 
-KSFileReader::KSFileReader( QFile& file, qint64 maxLen ) :
-        QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(UINT_MAX)
+KSFileReader::KSFileReader( QFile &file, qint64 maxLen ) :
+    QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(UINT_MAX)
 {
-    QIODevice* device = (QIODevice*) & file;
+    QIODevice * device = (QIODevice *) & file;
     QTextStream::setDevice( device );
     QTextStream::setCodec("UTF-8");
     m_targetLine = UINT_MAX;
 }
 
-bool KSFileReader::open( const QString& fname )
+bool KSFileReader::open( const QString &fname )
 {
-    if (  !KSUtils::openDataFile( m_file, fname ) ) {
+    if (  !KSUtils::openDataFile( m_file, fname ) )
+    {
         qWarning() << QString("Couldn't open(%1)").arg(fname);
         return false;
     }
@@ -52,12 +53,13 @@ bool KSFileReader::open( const QString& fname )
     return true;
 }
 
-bool KSFileReader::openFullPath( const QString& fname )
+bool KSFileReader::openFullPath( const QString &fname )
 {
-    if ( !fname.isNull() ) {
+    if ( !fname.isNull() )
+    {
         m_file.setFileName( fname );
         if ( !m_file.open( QIODevice::ReadOnly ))
-          return false;
+            return false;
     }
     QTextStream::setDevice( &m_file );
     QTextStream::setCodec("UTF-8");

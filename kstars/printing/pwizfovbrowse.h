@@ -29,21 +29,21 @@ class PrintingWizard;
   */
 class PWizFovBrowseUI : public QFrame, public Ui::PWizFovBrowse
 {
-    Q_OBJECT
-public:
-    /**
-      * \brief Constructor.
-      */
-    explicit PWizFovBrowseUI(PrintingWizard *wizard, QWidget *parent = 0);
+        Q_OBJECT
+    public:
+        /**
+          * \brief Constructor.
+          */
+        explicit PWizFovBrowseUI(PrintingWizard * wizard, QWidget * parent = 0);
 
-private slots:
-    /**
-      * \brief Slot: open FOV editor window.
-      */
-    void slotOpenFovEditor();
+    private slots:
+        /**
+          * \brief Slot: open FOV editor window.
+          */
+        void slotOpenFovEditor();
 
-private:
-    PrintingWizard *m_ParentWizard;
+    private:
+        PrintingWizard * m_ParentWizard;
 };
 
 #endif // PWIZFOVBROWSER_H

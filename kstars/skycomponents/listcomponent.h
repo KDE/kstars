@@ -35,33 +35,36 @@ class SkyMap;
  */
 class ListComponent : public SkyComponent
 {
-public:
-    explicit ListComponent( SkyComposite *parent );
+    public:
+        explicit ListComponent( SkyComposite * parent );
 
-    virtual ~ListComponent();
+        virtual ~ListComponent();
 
-    /** @short Update the sky positions of this component.
-     *
-     * This function usually just updates the Horizontal (Azimuth/Altitude)
-     * coordinates of the objects in this component.  If the KSNumbers* 
-     * argument is not NULL, this function also recomputes precession and
-     * nutation for the date in KSNumbers.
-     * @p num Pointer to the KSNumbers object
-     * @note By default, the num parameter is NULL, indicating that 
-     * Precession/Nutation computation should be skipped; this computation 
-     * is only occasionally required.
-     */
-    virtual void update( KSNumbers *num=0 );
+        /** @short Update the sky positions of this component.
+         *
+         * This function usually just updates the Horizontal (Azimuth/Altitude)
+         * coordinates of the objects in this component.  If the KSNumbers*
+         * argument is not NULL, this function also recomputes precession and
+         * nutation for the date in KSNumbers.
+         * @p num Pointer to the KSNumbers object
+         * @note By default, the num parameter is NULL, indicating that
+         * Precession/Nutation computation should be skipped; this computation
+         * is only occasionally required.
+         */
+        virtual void update( KSNumbers * num=0 );
 
-    virtual SkyObject* findByName( const QString &name );
-    virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+        virtual SkyObject * findByName( const QString &name );
+        virtual SkyObject * objectNearest( SkyPoint * p, double &maxrad );
 
-    void clear();
+        void clear();
 
-    const QList<SkyObject*>& objectList() const { return m_ObjectList; }
+        const QList<SkyObject *> &objectList() const
+        {
+            return m_ObjectList;
+        }
 
-protected:
-    QList<SkyObject*> m_ObjectList;
+    protected:
+        QList<SkyObject *> m_ObjectList;
 };
 
 

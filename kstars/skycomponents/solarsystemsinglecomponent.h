@@ -39,41 +39,44 @@ class SkyLabeler;
 
 class SolarSystemSingleComponent : public SkyComponent
 {
-public:
-    /** Initialize visible method, minimum size and sizeScale. */
-    SolarSystemSingleComponent(SolarSystemComposite*, KSPlanetBase *kspb, bool (*visibleMethod)());
+    public:
+        /** Initialize visible method, minimum size and sizeScale. */
+        SolarSystemSingleComponent(SolarSystemComposite *, KSPlanetBase * kspb, bool (*visibleMethod)());
 
-    virtual ~SolarSystemSingleComponent();
+        virtual ~SolarSystemSingleComponent();
 
-    /** Return pointer to stored planet object. */
-    KSPlanetBase* planet() { return m_Planet; }
+        /** Return pointer to stored planet object. */
+        KSPlanetBase * planet()
+        {
+            return m_Planet;
+        }
 
-    virtual bool selected();
+        virtual bool selected();
 
-    /**
-     * @brief update Only convert Equatorial to Horizontal coordinates given current time.
-     * @param num pointer to KSNumbers instance for target time
-     */
-    virtual void update( KSNumbers *num );
+        /**
+         * @brief update Only convert Equatorial to Horizontal coordinates given current time.
+         * @param num pointer to KSNumbers instance for target time
+         */
+        virtual void update( KSNumbers * num );
 
-    /**
-     * @brief updateSolarSystemBodies Update Equtorial & Horizontal coordinates.
-     * @param num pointer to KSNumbers instance for target time
-     */
-    virtual void updateSolarSystemBodies( KSNumbers *num );
+        /**
+         * @brief updateSolarSystemBodies Update Equtorial & Horizontal coordinates.
+         * @param num pointer to KSNumbers instance for target time
+         */
+        virtual void updateSolarSystemBodies( KSNumbers * num );
 
-    virtual SkyObject* findByName( const QString &name );
-    virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
-    virtual void draw( SkyPainter *skyp );
+        virtual SkyObject * findByName( const QString &name );
+        virtual SkyObject * objectNearest( SkyPoint * p, double &maxrad );
+        virtual void draw( SkyPainter * skyp );
 
-protected:
-    virtual void drawTrails( SkyPainter* skyp );
+    protected:
+        virtual void drawTrails( SkyPainter * skyp );
 
-private:
-    bool (*visible)();    
-    QColor        m_Color;
-    KSPlanet     *m_Earth;
-    KSPlanetBase *m_Planet;
+    private:
+        bool (*visible)();
+        QColor        m_Color;
+        KSPlanet   *  m_Earth;
+        KSPlanetBase * m_Planet;
 };
 
 #endif

@@ -20,21 +20,21 @@
 #include "kstarsdata.h"
 #include "Options.h"
 
-OpsXplanet::OpsXplanet( KStars *_ks )
-        : QFrame( _ks ), ksw(_ks)
+OpsXplanet::OpsXplanet( KStars * _ks )
+    : QFrame( _ks ), ksw(_ks)
 {
     setupUi( this );
 
-    #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
     connect(kcfg_xplanetIsInternal, SIGNAL(clicked()), this, SLOT(toggleXPlanetInternal()));
     kcfg_xplanetIsInternal->setToolTip(i18n("Internal or External XPlanet?"));
 
     if(Options::xplanetIsInternal())
         kcfg_XplanetPath->setEnabled(false);
 
-    #else
-     kcfg_xplanetIsInternal->setVisible(false);
-    #endif
+#else
+    kcfg_xplanetIsInternal->setVisible(false);
+#endif
 
     // Init projections combobox
     kcfg_XplanetProjection->addItem( i18nc("Map projection method", "No projection"), "no projection");
@@ -111,24 +111,29 @@ void OpsXplanet::toggleXPlanetInternal()
         kcfg_XplanetPath->setText(KSUtils::getDefaultPath("XplanetPath"));
 }
 
-void OpsXplanet::slotUpdateWidgets( bool on ) {
+void OpsXplanet::slotUpdateWidgets( bool on )
+{
     kcfg_XplanetWaitValue->setEnabled( on );
     textLabelXplanetSecondes->setEnabled( on );
 }
 
-void OpsXplanet::slotConfigFileWidgets( bool on ) {
+void OpsXplanet::slotConfigFileWidgets( bool on )
+{
     kcfg_XplanetConfigFilePath->setEnabled( on );
 }
 
-void OpsXplanet::slotStarmapFileWidgets( bool on ) {
+void OpsXplanet::slotStarmapFileWidgets( bool on )
+{
     kcfg_XplanetStarmapPath->setEnabled( on );
 }
 
-void OpsXplanet::slotArcFileWidgets( bool on ) {
+void OpsXplanet::slotArcFileWidgets( bool on )
+{
     kcfg_XplanetArcFilePath->setEnabled( on );
 }
 
-void OpsXplanet::slotLabelWidgets( bool on ) {
+void OpsXplanet::slotLabelWidgets( bool on )
+{
     kcfg_XplanetLabelLocalTime->setEnabled( on );
     kcfg_XplanetLabelGMT->setEnabled( on );
     textLabelXplanetLabelString->setEnabled( on );
@@ -146,24 +151,28 @@ void OpsXplanet::slotLabelWidgets( bool on ) {
     kcfg_XplanetLabelBL->setEnabled( on );
 }
 
-void OpsXplanet::slotMarkerFileWidgets( bool on ) {
+void OpsXplanet::slotMarkerFileWidgets( bool on )
+{
     kcfg_XplanetMarkerFilePath->setEnabled( on );
     kcfg_XplanetMarkerBounds->setEnabled( on );
     if (kcfg_XplanetMarkerBounds->isChecked() )
         kcfg_XplanetMarkerBoundsPath->setEnabled( on );
 }
 
-void OpsXplanet::slotMarkerBoundsWidgets( bool on ) {
+void OpsXplanet::slotMarkerBoundsWidgets( bool on )
+{
     kcfg_XplanetMarkerBoundsPath->setEnabled( on );
 }
 
-void OpsXplanet::slotProjectionWidgets( int index ) {
+void OpsXplanet::slotProjectionWidgets( int index )
+{
     if( index == 0 )
         groupBoxBackground->setEnabled( false );
     else
         groupBoxBackground->setEnabled( true );
 
-    if( ! kcfg_XplanetBackground->isChecked() ) {
+    if( ! kcfg_XplanetBackground->isChecked() )
+    {
         kcfg_XplanetBackgroundImage->setEnabled( false );
         kcfg_XplanetBackgroundImagePath->setEnabled( false );
         kcfg_XplanetBackgroundColor->setEnabled( false );
@@ -171,7 +180,8 @@ void OpsXplanet::slotProjectionWidgets( int index ) {
     }
 }
 
-void OpsXplanet::slotBackgroundWidgets( bool on ) {
+void OpsXplanet::slotBackgroundWidgets( bool on )
+{
     kcfg_XplanetBackgroundImage->setEnabled( on );
     kcfg_XplanetBackgroundImagePath->setEnabled( on );
     kcfg_XplanetBackgroundColor->setEnabled( on );

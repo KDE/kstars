@@ -4,14 +4,16 @@
 #include "HTMesh.h"
 #include "MeshBuffer.h"
 
-MeshBuffer::MeshBuffer(HTMesh *mesh) {
+MeshBuffer::MeshBuffer(HTMesh * mesh)
+{
 
     m_size= 0;
     m_error = 0;
     maxSize = mesh->size();
-    m_buffer = (Trixel*) malloc( sizeof(Trixel) * maxSize );
+    m_buffer = (Trixel *) malloc( sizeof(Trixel) * maxSize );
 
-    if (m_buffer == NULL) {
+    if (m_buffer == NULL)
+    {
 
         fprintf(stderr, "MeshBuffer: Could not allocate buffer sized %d\n",
                 maxSize * (int) sizeof(Trixel) );
@@ -19,13 +21,15 @@ MeshBuffer::MeshBuffer(HTMesh *mesh) {
     }
 }
 
-MeshBuffer::~MeshBuffer() {
+MeshBuffer::~MeshBuffer()
+{
     free(m_buffer);
 }
 
 int MeshBuffer::append(Trixel trixel)
 {
-    if (m_size >= maxSize) {
+    if (m_size >= maxSize)
+    {
         m_error++;
         return 0;
     }
@@ -33,8 +37,10 @@ int MeshBuffer::append(Trixel trixel)
     return 1;
 }
 
-void MeshBuffer::fill() {
-    for (Trixel i = 0; i < (unsigned int)maxSize; i++) {
+void MeshBuffer::fill()
+{
+    for (Trixel i = 0; i < (unsigned int)maxSize; i++)
+    {
         m_buffer[i] = i;
     }
     m_size = maxSize;

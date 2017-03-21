@@ -26,16 +26,18 @@
 #include "ui_fovdialog.h"
 #include "ui_newfov.h"
 
-class FOVDialogUI : public QFrame, public Ui::FOVDialog {
-    Q_OBJECT
-public:
-    explicit FOVDialogUI( QWidget *parent=0 );
+class FOVDialogUI : public QFrame, public Ui::FOVDialog
+{
+        Q_OBJECT
+    public:
+        explicit FOVDialogUI( QWidget * parent=0 );
 };
 
-class NewFOVUI : public QFrame, public Ui::NewFOV {
-    Q_OBJECT
-public:
-    explicit NewFOVUI( QWidget *parent=0 );
+class NewFOVUI : public QFrame, public Ui::NewFOV
+{
+        Q_OBJECT
+    public:
+        explicit NewFOVUI( QWidget * parent=0 );
 };
 
 /** @class FOVDialog
@@ -45,22 +47,22 @@ public:
     */
 class FOVDialog : public QDialog
 {
-    Q_OBJECT
-public:
-    explicit FOVDialog( QWidget *parent = 0 );
-    virtual ~FOVDialog();
-private slots:
-    void slotNewFOV();
-    void slotEditFOV();
-    void slotRemoveFOV();
-    void slotSelect(int);
-private:
-    /** Add new widget to list box */
-    QListWidgetItem* addListWidget(FOV* f);
-    
-    unsigned int currentItem() const;   
-    FOVDialogUI *fov;
-    static int fovID;
+        Q_OBJECT
+    public:
+        explicit FOVDialog( QWidget * parent = 0 );
+        virtual ~FOVDialog();
+    private slots:
+        void slotNewFOV();
+        void slotEditFOV();
+        void slotRemoveFOV();
+        void slotSelect(int);
+    private:
+        /** Add new widget to list box */
+        QListWidgetItem * addListWidget(FOV * f);
+
+        unsigned int currentItem() const;
+        FOVDialogUI * fov;
+        static int fovID;
 };
 
 /** @class NewFOV Dialog for defining a new FOV symbol
@@ -69,28 +71,31 @@ private:
 	*/
 class NewFOV : public QDialog
 {
-    Q_OBJECT
-public:
-    /** Create new dialog
-     * @param parent parent widget
-     * @fov widget to copy data from. If it's empty will create empty one.
-     */
-    explicit NewFOV( QWidget *parent=0, const FOV* fov = 0);
-    ~NewFOV() {}
-    /** Return reference to FOV. */
-    const FOV& getFOV() const { return f; }
+        Q_OBJECT
+    public:
+        /** Create new dialog
+         * @param parent parent widget
+         * @fov widget to copy data from. If it's empty will create empty one.
+         */
+        explicit NewFOV( QWidget * parent=0, const FOV * fov = 0);
+        ~NewFOV() {}
+        /** Return reference to FOV. */
+        const FOV &getFOV() const
+        {
+            return f;
+        }
 
-public slots:
-    void slotBinocularFOVDistanceChanged( int index );
-    void slotUpdateFOV();
-    void slotComputeFOV();
-    void slotEyepieceAFOVChanged( int index );
-    void slotComputeTelescopeFL();
+    public slots:
+        void slotBinocularFOVDistanceChanged( int index );
+        void slotUpdateFOV();
+        void slotComputeFOV();
+        void slotEyepieceAFOVChanged( int index );
+        void slotComputeTelescopeFL();
 
-private:
-    FOV f;
-    NewFOVUI *ui;
-    QPushButton *okB;
+    private:
+        FOV f;
+        NewFOVUI * ui;
+        QPushButton * okB;
 };
 
 /**
@@ -101,25 +106,25 @@ private:
 
 class TelescopeFL : public QDialog
 {
-    Q_OBJECT
- public:
-    /**
-     * Create a telescope focal length dialog
-     * @param parent parent widget
-     */
-    explicit TelescopeFL( QWidget *parent = 0 );
+        Q_OBJECT
+    public:
+        /**
+         * Create a telescope focal length dialog
+         * @param parent parent widget
+         */
+        explicit TelescopeFL( QWidget * parent = 0 );
 
-    ~TelescopeFL() { }
+        ~TelescopeFL() { }
 
-    /**
-     * Compute and return the focal length in mm
-     * @return focal length in mm
-     */
-    double computeFL() const;
+        /**
+         * Compute and return the focal length in mm
+         * @return focal length in mm
+         */
+        double computeFL() const;
 
- private:
-    QDoubleSpinBox *aperture, *fNumber;
-    QComboBox *apertureUnit;
+    private:
+        QDoubleSpinBox * aperture, *fNumber;
+        QComboBox * apertureUnit;
 };
 
 #endif

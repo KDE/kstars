@@ -29,7 +29,7 @@
 
 //########################################################################
 //#
-//# Spatial Index class 
+//# Spatial Index class
 //#
 
 
@@ -49,107 +49,110 @@
 .                        /  \  /  \
 .                       /____\/____\
 
-</pre> 
+</pre>
    This is how the quad tree is built up to a certain level by
    decomposing every triangle again and again.
 */
 
 
 
-class LINKAGE SpatialIndex {
-public:
-  /** Constructor.
-      Give the level of the index and optionally the level to build -
-      i.e. the depth to keep in memory.  if maxlevel - buildlevel > 0
-      , that many levels are generated on the fly each time the index
-      is called. */
-  SpatialIndex(size_t maxlevel, size_t buildlevel =5);
+class LINKAGE SpatialIndex
+{
+    public:
+        /** Constructor.
+            Give the level of the index and optionally the level to build -
+            i.e. the depth to keep in memory.  if maxlevel - buildlevel > 0
+            , that many levels are generated on the fly each time the index
+            is called. */
+        SpatialIndex(size_t maxlevel, size_t buildlevel =5);
 
-  /// NodeName conversion to integer ID
-  static uint64 idByName(const char *);
+        /// NodeName conversion to integer ID
+        static uint64 idByName(const char *);
 
-  /** int32 conversion to a string (name of database).
-      WARNING: if name is already allocated, a size of at least 17 is
-      required.  The conversion is done by directly calculating the
-      name from a number.  To calculate the name of a certain level,
-      the mechanism is that the name is given by (#of nodes in that
-      level) + (id of node).  So for example, for the first level,
-      there are 8 nodes, and we get the names from numbers 8 through
-      15 giving S0,S1,S2,S3,N0,N1,N2,N3.  The order is always
-      ascending starting from S0000.. to N3333...  */
-  static char * nameById(uint64 ID, char * name = 0);
+        /** int32 conversion to a string (name of database).
+            WARNING: if name is already allocated, a size of at least 17 is
+            required.  The conversion is done by directly calculating the
+            name from a number.  To calculate the name of a certain level,
+            the mechanism is that the name is given by (#of nodes in that
+            level) + (id of node).  So for example, for the first level,
+            there are 8 nodes, and we get the names from numbers 8 through
+            15 giving S0,S1,S2,S3,N0,N1,N2,N3.  The order is always
+            ascending starting from S0000.. to N3333...  */
+        static char * nameById(uint64 ID, char * name = 0);
 
-  /** find the vector to the centroid of a triangle represented by 
-	  the ID */
-  void pointById(SpatialVector & vector, uint64 ID) const;
+        /** find the vector to the centroid of a triangle represented by
+          the ID */
+        void pointById(SpatialVector &vector, uint64 ID) const;
 
-  /** find a node by giving a vector. 
-      The ID of the node is returned. */
-  uint64 idByPoint(const SpatialVector & vector) const;
+        /** find a node by giving a vector.
+            The ID of the node is returned. */
+        uint64 idByPoint(const SpatialVector &vector) const;
 
-  /// return the actual vertex vectors
-  void nodeVertex(const uint64 id, 
-                  SpatialVector & v1, 
-                  SpatialVector & v2, 
-                  SpatialVector & v3) const; 
-  
-private:
+        /// return the actual vertex vectors
+        void nodeVertex(const uint64 id,
+                        SpatialVector &v1,
+                        SpatialVector &v2,
+                        SpatialVector &v3) const;
 
-  // STRUCTURES
+    private:
 
-  struct Layer {
-    size_t 	level_;			// layer level
-    size_t 	nVert_;			// number of vertices in this layer
-    size_t 	nNode_;			// number of nodes
-    size_t 	nEdge_;			// number of edges
-    uint64 	firstIndex_;	// index of first node of this layer
-    size_t 	firstVertex_;	// index of first vertex of this layer
-  };
+        // STRUCTURES
 
-  struct QuadNode {
-    uint64	index_;			// its own index
-    size_t	v_[3];			// The three vertex vector indices
-    size_t	w_[3];			// The three middlepoint vector indices
-    uint64	childID_[4];	// ids of children
-    uint64	parent_;		// id of the parent node (needed for sorting)
-    uint64	id_;			// numeric id -> name
-  };
+        struct Layer
+        {
+            size_t 	level_;			// layer level
+            size_t 	nVert_;			// number of vertices in this layer
+            size_t 	nNode_;			// number of nodes
+            size_t 	nEdge_;			// number of edges
+            uint64 	firstIndex_;	// index of first node of this layer
+            size_t 	firstVertex_;	// index of first vertex of this layer
+        };
 
-  // FUNCTIONS
+        struct QuadNode
+        {
+            uint64	index_;			// its own index
+            size_t	v_[3];			// The three vertex vector indices
+            size_t	w_[3];			// The three middlepoint vector indices
+            uint64	childID_[4];	// ids of children
+            uint64	parent_;		// id of the parent node (needed for sorting)
+            uint64	id_;			// numeric id -> name
+        };
 
-  // insert a new node_[] into the list. The vertex indices are given by
-  // v1,v2,v3 and the id of the node is set.
-  uint64 newNode(size_t v1, size_t v2,size_t v3,uint64 id,uint64 parent);
+        // FUNCTIONS
 
-  // make new nodes in a new layer.
-  void makeNewLayer(size_t oldlayer);
+        // insert a new node_[] into the list. The vertex indices are given by
+        // v1,v2,v3 and the id of the node is set.
+        uint64 newNode(size_t v1, size_t v2,size_t v3,uint64 id,uint64 parent);
 
-  // return the total number of nodes and vertices
-  void vMax(size_t *nodes, size_t *vertices);
+        // make new nodes in a new layer.
+        void makeNewLayer(size_t oldlayer);
 
-  // sort the index so that the leaf nodes are at the beginning
-  void sortIndex();
+        // return the total number of nodes and vertices
+        void vMax(size_t * nodes, size_t * vertices);
 
-  // Test whether a vector v is inside a triangle v0,v1,v2. Input
-  // triangle has to be sorted in a counter-clockwise direction.
-  bool isInside(const SpatialVector & v, const SpatialVector & v0,
-		const SpatialVector & v1, const SpatialVector & v2) const;
+        // sort the index so that the leaf nodes are at the beginning
+        void sortIndex();
 
-  // VARIABLES
+        // Test whether a vector v is inside a triangle v0,v1,v2. Input
+        // triangle has to be sorted in a counter-clockwise direction.
+        bool isInside(const SpatialVector &v, const SpatialVector &v0,
+                      const SpatialVector &v1, const SpatialVector &v2) const;
 
-  size_t 		maxlevel_;		// the depth of the Layer
-  size_t 	    buildlevel_;	// the depth of the Layer stored
-  uint64		leaves_;		// number of leaf nodes
-  uint64		storedleaves_;	// number of stored leaf nodes
-  std::vector<QuadNode> nodes_; // the array of nodes
-  std::vector<Layer> layers_;	// array of layers
+        // VARIABLES
 
-  std::vector<SpatialVector> vertices_;
-  uint64 		index_;			// the current index_ of vertices
+        size_t 		maxlevel_;		// the depth of the Layer
+        size_t 	    buildlevel_;	// the depth of the Layer stored
+        uint64		leaves_;		// number of leaf nodes
+        uint64		storedleaves_;	// number of stored leaf nodes
+        std::vector<QuadNode> nodes_; // the array of nodes
+        std::vector<Layer> layers_;	// array of layers
 
-  friend class SpatialEdge;
-  friend class SpatialConvex;
-  friend class RangeConvex;
+        std::vector<SpatialVector> vertices_;
+        uint64 		index_;			// the current index_ of vertices
+
+        friend class SpatialEdge;
+        friend class SpatialConvex;
+        friend class RangeConvex;
 };
 
 #endif

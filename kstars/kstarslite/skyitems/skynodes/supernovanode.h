@@ -22,39 +22,43 @@ class Supernova;
 class PointNode;
 class QSGFlatColorMaterial;
 
-    /** @class SupernovaNode
-     *
-     * @short A SkyNode derived class that represents supernova
-     * @author Artem Fedoskin
-     * @version 1.0
-     */
+/** @class SupernovaNode
+ *
+ * @short A SkyNode derived class that represents supernova
+ * @author Artem Fedoskin
+ * @version 1.0
+ */
 
-class SupernovaNode : public SkyNode {
-public:
-    /**
-     * @short Constructor.
-     * @param snova - pointer to supernova that needs to be represented by this node
-     */
-    SupernovaNode(Supernova *snova);
+class SupernovaNode : public SkyNode
+{
+    public:
+        /**
+         * @short Constructor.
+         * @param snova - pointer to supernova that needs to be represented by this node
+         */
+        SupernovaNode(Supernova * snova);
 
-    /**
-     * @short Update position and visibility of supernova. Initialize m_lines if not already done
-     */
-    virtual void update() override;
+        /**
+         * @short Update position and visibility of supernova. Initialize m_lines if not already done
+         */
+        virtual void update() override;
 
-    void changePos(QPointF pos);
+        void changePos(QPointF pos);
 
-    inline Supernova *snova() { return m_snova; }
+        inline Supernova * snova()
+        {
+            return m_snova;
+        }
 
-private:
-    Supernova *m_snova;
+    private:
+        Supernova * m_snova;
 
-    QSGGeometryNode *m_lines;
+        QSGGeometryNode * m_lines;
 
-    QSGFlatColorMaterial *m_material;
-    QSGGeometry *m_geometry;
+        QSGFlatColorMaterial * m_material;
+        QSGGeometry * m_geometry;
 
-    PointNode *m_point;
+        PointNode * m_point;
 };
 
 #endif

@@ -29,7 +29,7 @@
 #include "kspaths.h"
 
 OpsEkos::OpsEkos()
-        : QTabWidget( KStars::Instance() )
+    : QTabWidget( KStars::Instance() )
 {
     setupUi(this);
 
@@ -37,7 +37,10 @@ OpsEkos::OpsEkos()
     m_ConfigDialog = KConfigDialog::exists( "settings" );
 
     // Our refresh lambda
-    connect(this, &QTabWidget::currentChanged, this, [this](int index) { if (index == 4) refreshDarkData();});
+    connect(this, &QTabWidget::currentChanged, this, [this](int index)
+    {
+        if (index == 4) refreshDarkData();
+    });
     connect(darkTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(loadDarkFITS(QModelIndex)));
 
     connect(openDarksFolderB, SIGNAL(clicked()), this, SLOT(openDarksFolder()));

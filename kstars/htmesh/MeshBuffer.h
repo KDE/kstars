@@ -23,16 +23,20 @@ class HTMesh;
  * the buffer() so it can iterate over the results.
  */
 
-class MeshBuffer {
+class MeshBuffer
+{
 
     public:
-        MeshBuffer(HTMesh *mesh);
+        MeshBuffer(HTMesh * mesh);
 
         ~MeshBuffer();
 
         /** @short prepare the buffer for a new result set
          */
-        void reset() { m_size = m_error = 0; }
+        void reset()
+        {
+            m_size = m_error = 0;
+        }
 
         /** @short add trixels to the buffer
          */
@@ -40,23 +44,32 @@ class MeshBuffer {
 
         /** @short the location of the buffer for reading
          */
-        const Trixel* buffer() const { return m_buffer; }
+        const Trixel * buffer() const
+        {
+            return m_buffer;
+        }
 
         /** @short the number of trixels in the result set
          */
-        int size() const { return m_size; }
+        int size() const
+        {
+            return m_size;
+        }
 
         /** @short returns the number of trixels that would have overflowed the
          * buffer.
          */
-        int error() const { return m_error; }
+        int error() const
+        {
+            return m_error;
+        }
 
         /** @short fills the buffer with consecutive integers
          */
         void fill();
 
     private:
-        Trixel *m_buffer;
+        Trixel * m_buffer;
         int    m_size;
         int    maxSize;
         int    m_error;

@@ -41,7 +41,7 @@
 #include "skypainter.h"
 
 
-MilkyWay::MilkyWay( SkyComposite *parent ) :
+MilkyWay::MilkyWay( SkyComposite * parent ) :
     LineListIndex( parent, i18n("Milky Way") )
 {
     intro();
@@ -57,15 +57,17 @@ MilkyWay::MilkyWay( SkyComposite *parent ) :
     QtConcurrent::run(this, &MilkyWay::loadContours, QString("smc.dat"), i18n("Loading Small Magellanic Clouds"));
 }
 
-const IndexHash& MilkyWay::getIndexHash(LineList* lineList ) {
+const IndexHash &MilkyWay::getIndexHash(LineList * lineList )
+{
     // FIXME: EVIL!
-    SkipList* skipList = (SkipList*) lineList;
+    SkipList * skipList = (SkipList *) lineList;
     return skyMesh()->indexLine( skipList->points(), skipList->skipHash() );
 }
 
-SkipList* MilkyWay::skipList( LineList* lineList ) {
+SkipList * MilkyWay::skipList( LineList * lineList )
+{
     // FIXME: EVIL!
-    SkipList* skipList = (SkipList*) lineList;
+    SkipList * skipList = (SkipList *) lineList;
     return skipList;
 }
 
@@ -80,7 +82,7 @@ bool MilkyWay::selected()
 #endif
 }
 
-void MilkyWay::draw( SkyPainter *skyp )
+void MilkyWay::draw( SkyPainter * skyp )
 {
     if ( !selected() )
         return;
@@ -89,23 +91,28 @@ void MilkyWay::draw( SkyPainter *skyp )
     skyp->setPen( QPen( color, 3, Qt::SolidLine ) );
     skyp->setBrush( QBrush( color ) );
 
-    if( Options::fillMilkyWay() ) {
+    if( Options::fillMilkyWay() )
+    {
         drawFilled(skyp);
-    } else {
+    }
+    else
+    {
         drawLines(skyp);
     }
 }
 
-void MilkyWay::loadContours(QString fname, QString greeting) {
-    
+void MilkyWay::loadContours(QString fname, QString greeting)
+{
+
     KSFileReader fileReader;
     if ( !fileReader.open( fname ) )
         return;
     fileReader.setProgress( greeting, 2136, 5 );
 
-    SkipList *skipList = 0;
+    SkipList * skipList = 0;
     int iSkip = 0;
-    while ( fileReader.hasMoreLines() ) {
+    while ( fileReader.hasMoreLines() )
+    {
         QString line = fileReader.readLine();
         fileReader.showProgress();
 
@@ -116,12 +123,14 @@ void MilkyWay::loadContours(QString fname, QString greeting) {
         bool okRA, okDec;
         double ra  = line.mid( 2,  8 ).toDouble(&okRA);
         double dec = line.mid( 11, 8 ).toDouble(&okDec);
-        if( !okRA || !okDec) {
+        if( !okRA || !okDec)
+        {
             qDebug() << QString("%1: conversion error on line: %2\n").arg(fname).arg(fileReader.lineNumber());
             continue;
         }
 
-        if ( firstChar == 'M' )  {
+        if ( firstChar == 'M' )
+        {
             if( skipList )
                 appendBoth( skipList );
             skipList = 0;
@@ -135,7 +144,7 @@ void MilkyWay::loadContours(QString fname, QString greeting) {
         if ( firstChar == 'S' )
             skipList->setSkip( iSkip );
         iSkip++;
-    }  
+    }
     if ( skipList )
         appendBoth( skipList );
 }

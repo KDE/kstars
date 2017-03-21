@@ -31,12 +31,12 @@
 class OrthographicProjector : public Projector
 {
 
-public:
-    explicit OrthographicProjector(const ViewParams& p);
-    virtual Projection type() const;
-    virtual double radius() const;
-    virtual double projectionK(double x) const;
-    virtual double projectionL(double x) const;
+    public:
+        explicit OrthographicProjector(const ViewParams &p);
+        virtual Projection type() const;
+        virtual double radius() const;
+        virtual double projectionK(double x) const;
+        virtual double projectionL(double x) const;
 };
 
 #endif // ORTHOGRAPHICPROJECTOR_H

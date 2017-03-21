@@ -35,14 +35,14 @@
 #include "widgets/dmsbox.h"
 
 
-modCalcEquinox::modCalcEquinox(QWidget *parentSplit) :
+modCalcEquinox::modCalcEquinox(QWidget * parentSplit) :
     QFrame(parentSplit), dSpring(), dSummer(), dAutumn(), dWinter()
 {
     setupUi(this);
 
     connect( Year,            SIGNAL( valueChanged(int) ),      this, SLOT( slotCompute() ) );
-    connect( InputFileBatch,  SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
-    connect( OutputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( InputFileBatch,  SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()) );
+    connect( OutputFileBatch, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()) );
     connect( RunButtonBatch,  SIGNAL(clicked()),                this, SLOT(slotRunBatch()));
     connect( ViewButtonBatch, SIGNAL(clicked()),                this, SLOT(slotViewBatch()));
 
@@ -61,26 +61,32 @@ modCalcEquinox::modCalcEquinox(QWidget *parentSplit) :
     show();
 }
 
-modCalcEquinox::~modCalcEquinox(){
+modCalcEquinox::~modCalcEquinox()
+{
 }
 
-double modCalcEquinox::dmonth(int i) {
+double modCalcEquinox::dmonth(int i)
+{
     Q_ASSERT( i>=0 && i<12 && "Month must be in 0 .. 11 range");
     return DMonth[i];
 }
 
-void modCalcEquinox::slotCheckFiles() {
+void modCalcEquinox::slotCheckFiles()
+{
     RunButtonBatch->setEnabled(
         !InputFileBatch->lineEdit()->text().isEmpty() && !OutputFileBatch->lineEdit()->text().isEmpty()
-        );
+    );
 }
 
-void modCalcEquinox::slotRunBatch() {
+void modCalcEquinox::slotRunBatch()
+{
     QString inputFileName = InputFileBatch->url().toLocalFile();
 
-    if ( QFile::exists(inputFileName) ) {
+    if ( QFile::exists(inputFileName) )
+    {
         QFile f( inputFileName );
-        if ( !f.open( QIODevice::ReadOnly) ) {
+        if ( !f.open( QIODevice::ReadOnly) )
+        {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             inputFileName.clear();
@@ -93,7 +99,9 @@ void modCalcEquinox::slotRunBatch() {
         ViewButtonBatch->setEnabled( true );
 
         f.close();
-    } else  {
+    }
+    else
+    {
         QString message = i18n( "Invalid file: %1", inputFileName );
         KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
         inputFileName.clear();
@@ -101,7 +109,8 @@ void modCalcEquinox::slotRunBatch() {
     }
 }
 
-void modCalcEquinox::processLines( QTextStream &istream ) {
+void modCalcEquinox::processLines( QTextStream &istream )
+{
     QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::WriteOnly);
     QTextStream ostream(&fOut);
@@ -109,26 +118,28 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 
     //Write header to output file
     ostream << i18n("# Timing of Equinoxes and Solstices\n")
-    << i18n("# computed by KStars\n#\n")
-    << i18n("# Vernal Equinox\t\tSummer Solstice\t\t\tAutumnal Equinox\t\tWinter Solstice\n#\n");
+            << i18n("# computed by KStars\n#\n")
+            << i18n("# Vernal Equinox\t\tSummer Solstice\t\t\tAutumnal Equinox\t\tWinter Solstice\n#\n");
 
-    while ( ! istream.atEnd() ) {
+    while ( ! istream.atEnd() )
+    {
         QString line = istream.readLine();
         bool ok = false;
         int year = line.toInt( &ok );
 
         //for now I will simply change the value of the Year widget to trigger
         //computation of the Equinoxes and Solstices.
-        if ( ok ) {
+        if ( ok )
+        {
             //triggers slotCompute(), which sets values of dSpring et al.:
             Year->setValue( year );
 
             //Write to output file
             ostream <<
-                QLocale().toString( dSpring.date(), QLocale::LongFormat ) << "\t"
-            << QLocale().toString( dSummer.date(), QLocale::LongFormat ) << "\t"
-            << QLocale().toString( dAutumn.date(), QLocale::LongFormat ) << "\t"
-            << QLocale().toString( dWinter.date(), QLocale::LongFormat ) << endl;
+                    QLocale().toString( dSpring.date(), QLocale::LongFormat ) << "\t"
+                    << QLocale().toString( dSummer.date(), QLocale::LongFormat ) << "\t"
+                    << QLocale().toString( dAutumn.date(), QLocale::LongFormat ) << "\t"
+                    << QLocale().toString( dWinter.date(), QLocale::LongFormat ) << endl;
         }
     }
 
@@ -136,7 +147,8 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
         Year->setValue( originalYear );
 }
 
-void modCalcEquinox::slotViewBatch() {
+void modCalcEquinox::slotViewBatch()
+{
     QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::ReadOnly);
     QTextStream istream(&fOut);
@@ -152,13 +164,14 @@ void modCalcEquinox::slotViewBatch() {
 
 void modCalcEquinox::slotCompute()
 {
-    KStarsData* data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     KSSun Sun;
     int year0 = Year->value();
 
     KStarsDateTime dt( QDate(year0, 1, 1), QTime(0,0,0) );
     long double jd0 = dt.djd(); //save JD on Jan 1st
-    for ( int imonth=0; imonth < 12; imonth++ ) {
+    for ( int imonth=0; imonth < 12; imonth++ )
+    {
         KStarsDateTime kdt( QDate(year0, imonth+1, 1), QTime(0,0,0) );
         DMonth[imonth] = kdt.djd() - jd0;
     }
@@ -166,19 +179,19 @@ void modCalcEquinox::slotCompute()
     Plot->removeAllPlotObjects();
 
     //Add the celestial equator, just a single line bisecting the plot horizontally
-    KPlotObject *ce = new KPlotObject( data->colorScheme()->colorNamed( "EqColor" ), KPlotObject::Lines, 2.0 );
+    KPlotObject * ce = new KPlotObject( data->colorScheme()->colorNamed( "EqColor" ), KPlotObject::Lines, 2.0 );
     ce->addPoint( 0.0, 0.0 );
     ce->addPoint( 366.0, 0.0 );
     Plot->addPlotObject( ce );
 
     // Tropic of cancer
-    KPlotObject *tcan = new KPlotObject( data->colorScheme()->colorNamed( "EqColor" ), KPlotObject::Lines, 2.0 );
+    KPlotObject * tcan = new KPlotObject( data->colorScheme()->colorNamed( "EqColor" ), KPlotObject::Lines, 2.0 );
     tcan->addPoint( 0.0, 23.5 );
     tcan->addPoint( 366.0, 23.5 );
     Plot->addPlotObject( tcan );
 
     // Tropic of capricorn
-    KPlotObject *tcap = new KPlotObject( data->colorScheme()->colorNamed( "EqColor" ), KPlotObject::Lines, 2.0 );
+    KPlotObject * tcap = new KPlotObject( data->colorScheme()->colorNamed( "EqColor" ), KPlotObject::Lines, 2.0 );
     tcap->addPoint( 0.0, -23.5 );
     tcap->addPoint( 366.0, -23.5 );
     Plot->addPlotObject( tcap );
@@ -186,7 +199,7 @@ void modCalcEquinox::slotCompute()
     //Add Ecliptic.  This is more complicated than simply incrementing the
     //ecliptic longitude, because we want the x-axis to be time, not RA.
     //For each day in the year, compute the Sun's position.
-    KPlotObject *ecl = new KPlotObject( data->colorScheme()->colorNamed( "EclColor" ), KPlotObject::Lines, 2 );
+    KPlotObject * ecl = new KPlotObject( data->colorScheme()->colorNamed( "EclColor" ), KPlotObject::Lines, 2 );
     ecl->setLinePen( QPen( ecl->pen().color(), 4 ) );
 
     Plot->setLimits( 1.0, double(dt.date().daysInYear()), -30.0, 30.0 );
@@ -194,7 +207,8 @@ void modCalcEquinox::slotCompute()
     //Add top and bottom axis lines, and custom tickmarks at each month
     addDateAxes();
 
-    for ( int i=1; i<=dt.date().daysInYear(); i++ ) {
+    for ( int i=1; i<=dt.date().daysInYear(); i++ )
+    {
         KSNumbers num( dt.djd() );
         Sun.findPosition( &num );
         ecl->addPoint( double(i), Sun.dec().Degrees() );
@@ -215,22 +229,22 @@ void modCalcEquinox::slotCompute()
     WSolstice->setText( QLocale().toString( dWinter, QLocale::LongFormat ) );
 
     //Add vertical dotted lines at times of the equinoxes and solstices
-    KPlotObject *poSpring = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
+    KPlotObject * poSpring = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
     poSpring->setLinePen( QPen( Qt::white, 1.0, Qt::DotLine ) );
     poSpring->addPoint( dSpring.djd()-jd0, Plot->dataRect().top() );
     poSpring->addPoint( dSpring.djd()-jd0, Plot->dataRect().bottom() );
     Plot->addPlotObject( poSpring );
-    KPlotObject *poSummer = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
+    KPlotObject * poSummer = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
     poSummer->setLinePen( QPen( Qt::white, 1.0, Qt::DotLine ) );
     poSummer->addPoint( dSummer.djd()-jd0, Plot->dataRect().top() );
     poSummer->addPoint( dSummer.djd()-jd0, Plot->dataRect().bottom() );
     Plot->addPlotObject( poSummer );
-    KPlotObject *poAutumn = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
+    KPlotObject * poAutumn = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
     poAutumn->setLinePen( QPen( Qt::white, 1.0, Qt::DotLine ) );
     poAutumn->addPoint( dAutumn.djd()-jd0, Plot->dataRect().top() );
     poAutumn->addPoint( dAutumn.djd()-jd0, Plot->dataRect().bottom() );
     Plot->addPlotObject( poAutumn );
-    KPlotObject *poWinter = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
+    KPlotObject * poWinter = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
     poWinter->setLinePen( QPen( Qt::white, 1.0, Qt::DotLine ) );
     poWinter->addPoint( dWinter.djd()-jd0, Plot->dataRect().top() );
     poWinter->addPoint( dWinter.djd()-jd0, Plot->dataRect().bottom() );
@@ -238,20 +252,22 @@ void modCalcEquinox::slotCompute()
 }
 
 //Add custom top/bottom axes with tickmarks for each month
-void modCalcEquinox::addDateAxes() {
-    KPlotObject *poTopAxis = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
+void modCalcEquinox::addDateAxes()
+{
+    KPlotObject * poTopAxis = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
     poTopAxis->addPoint( 0.0, Plot->dataRect().bottom() ); //y-axis is reversed!
     poTopAxis->addPoint( 366.0, Plot->dataRect().bottom() );
     Plot->addPlotObject( poTopAxis );
 
-    KPlotObject *poBottomAxis = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
+    KPlotObject * poBottomAxis = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
     poBottomAxis->addPoint( 0.0, Plot->dataRect().top() + 0.02 );
     poBottomAxis->addPoint( 366.0, Plot->dataRect().top() + 0.02 );
     Plot->addPlotObject( poBottomAxis );
 
     //Tick mark for each month
-    for ( int imonth=0; imonth<12; imonth++ ) {
-        KPlotObject *poMonth = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
+    for ( int imonth=0; imonth<12; imonth++ )
+    {
+        KPlotObject * poMonth = new KPlotObject( Qt::white, KPlotObject::Lines, 1 );
         poMonth->addPoint( dmonth(imonth), Plot->dataRect().top() );
         poMonth->addPoint( dmonth(imonth), Plot->dataRect().top() + 1.4 );
         Plot->addPlotObject( poMonth );
@@ -262,7 +278,8 @@ void modCalcEquinox::addDateAxes() {
     }
 }
 
-KStarsDateTime modCalcEquinox::findEquinox( int year, bool Spring, KPlotObject *ecl ) {
+KStarsDateTime modCalcEquinox::findEquinox( int year, bool Spring, KPlotObject * ecl )
+{
     // Interpolate to find the moment when the Sun crosses the equator
     // Set initial guess in February or August to be sure that this
     // point is before equinox.
@@ -270,11 +287,13 @@ KStarsDateTime modCalcEquinox::findEquinox( int year, bool Spring, KPlotObject *
     int i = QDate( year, month, 1 ).dayOfYear();
     double dec1, dec2;
     dec2 = ecl->points()[i]->y();
-    do {
+    do
+    {
         ++i;
         dec1 = dec2;
         dec2 = ecl->points()[i]->y();
-    } while ( dec1*dec2 > 0.0 ); //when dec1*dec2<0.0, we bracket the zero
+    }
+    while ( dec1*dec2 > 0.0 );   //when dec1*dec2<0.0, we bracket the zero
 
     double x1 = ecl->points()[i-1]->x();
     double x2 = ecl->points()[i]->x();
@@ -286,7 +305,8 @@ KStarsDateTime modCalcEquinox::findEquinox( int year, bool Spring, KPlotObject *
     return dt;
 }
 
-KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
+KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer )
+{
     //Find the moment when the Sun reaches maximum declination
     //First find three points which bracket the maximum (i.e., x2 > x1,x3)
     //Start at June 16th, which will always be approaching the solstice
@@ -305,14 +325,16 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
     int sgn = 1;
     if ( ! Summer ) sgn = -1; //find minimum if the winter solstice is sought
 
-    do {
+    do
+    {
         jd3 += 1.0;
         num.updateValues( jd3 );
         Sun.findPosition( &num );
         y2 = y3;
         Sun.findPosition( &num );
         y3 = Sun.dec().Degrees();
-    } while ( y3*sgn > y2*sgn );
+    }
+    while ( y3*sgn > y2*sgn );
 
     //Ok, now y2 is larger(smaller) than both y3 and y1.
     jd2 = jd3 - 1.0;
@@ -325,29 +347,39 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
     Sun.findPosition( &num );
     y2 = Sun.dec().Degrees();
 
-    while ( jd3 - jd1 > 0.0005 ) { //sub-minute pecision
+    while ( jd3 - jd1 > 0.0005 )   //sub-minute pecision
+    {
         jd4 = jd1 + jd3 - jd2;
 
         num.updateValues( jd4 );
         Sun.findPosition( &num );
         y4 = Sun.dec().Degrees();
 
-        if ( y4*sgn > y2*sgn ) { //make jd4 the new center
-            if ( jd4 > jd2 ) {
+        if ( y4*sgn > y2*sgn )   //make jd4 the new center
+        {
+            if ( jd4 > jd2 )
+            {
                 jd1 = jd2;
                 jd2 = jd4;
                 y2 = y4;
-            } else {
+            }
+            else
+            {
                 jd3 = jd2;
                 y3 = y2;
                 jd2 = jd4;
                 y2 = y4;
             }
-        } else { //make jd4 a new endpoint
-            if ( jd4 > jd2 ) {
+        }
+        else     //make jd4 a new endpoint
+        {
+            if ( jd4 > jd2 )
+            {
                 jd3 = jd4;
                 y3 = y4;
-            } else {
+            }
+            else
+            {
                 jd1 = jd4;
             }
         }

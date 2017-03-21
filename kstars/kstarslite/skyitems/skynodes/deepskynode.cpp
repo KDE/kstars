@@ -28,19 +28,21 @@
 #include "../labelsitem.h"
 #include "labelnode.h"
 
-DeepSkyNode::DeepSkyNode(DeepSkyObject * skyObject, DSOSymbolNode *symbol, LabelsItem::label_t labelType,
+DeepSkyNode::DeepSkyNode(DeepSkyObject * skyObject, DSOSymbolNode * symbol, LabelsItem::label_t labelType,
                          short trixel)
     :m_dso(skyObject),m_objImg(0), m_symbol(symbol), m_trixel(trixel), m_labelType(labelType),
-      m_label(0)
+     m_label(0)
 {
     m_symbol->hide();
 }
 
-DeepSkyNode::~DeepSkyNode() {
+DeepSkyNode::~DeepSkyNode()
+{
     if(m_label) SkyMapLite::rootNode()->labelsItem()->deleteLabel(m_label);
 }
 
-void DeepSkyNode::changePos(QPointF pos) {
+void DeepSkyNode::changePos(QPointF pos)
+{
     QSizeF size = m_objImg->rect().size();
     QMatrix4x4 m (1,0,0,pos.x(),
                   0,1,0,pos.y(),
@@ -54,8 +56,10 @@ void DeepSkyNode::changePos(QPointF pos) {
     markDirty(QSGNode::DirtyMatrix);
 }
 
-void DeepSkyNode::setColor(QColor color, TrixelNode *symbolTrixel) {
-    if(m_symbol->getColor() != color) {
+void DeepSkyNode::setColor(QColor color, TrixelNode * symbolTrixel)
+{
+    if(m_symbol->getColor() != color)
+    {
         delete m_symbol;
         m_symbol = new DSOSymbolNode(m_dso, color);
         symbolTrixel->appendChildNode(m_symbol);
@@ -64,17 +68,21 @@ void DeepSkyNode::setColor(QColor color, TrixelNode *symbolTrixel) {
     //m_label->setColor
 }
 
-void DeepSkyNode::update(bool drawImage, bool drawLabel, QPointF pos) {
-    if(pos.x() == -1 && pos.y() == -1) {
-        const Projector *proj = projector();
-        if( !proj->checkVisibility(m_dso) ) {
+void DeepSkyNode::update(bool drawImage, bool drawLabel, QPointF pos)
+{
+    if(pos.x() == -1 && pos.y() == -1)
+    {
+        const Projector * proj = projector();
+        if( !proj->checkVisibility(m_dso) )
+        {
             hide();
             return;
         }
 
         bool visible = false;
         pos = proj->toScreen(m_dso, true, &visible);
-        if( !visible || !proj->onScreen(pos) ) {
+        if( !visible || !proj->onScreen(pos) )
+        {
             hide();
             return;
         }
@@ -84,7 +92,10 @@ void DeepSkyNode::update(bool drawImage, bool drawLabel, QPointF pos) {
     // if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
     // if we use size 0.0 the star wouldn't be drawn
     float majorAxis = m_dso->a();
-    if ( majorAxis == 0.0 ) {   majorAxis = 1.0; }
+    if ( majorAxis == 0.0 )
+    {
+        majorAxis = 1.0;
+    }
 
     float size = majorAxis * dms::PI * Options::zoomFactor() / 10800.0;
 
@@ -94,9 +105,12 @@ void DeepSkyNode::update(bool drawImage, bool drawLabel, QPointF pos) {
 
     m_angle = projector()->findPA( m_dso, pos.x(), pos.y() );
 
-    if(drawImage && Options::zoomFactor() > 5.*MINZOOM) {
-        if(!(m_dso->image().isNull())) {
-            if(!m_objImg) {
+    if(drawImage && Options::zoomFactor() > 5.*MINZOOM)
+    {
+        if(!(m_dso->image().isNull()))
+        {
+            if(!m_objImg)
+            {
                 m_objImg = new QSGSimpleTextureNode;
                 m_objImg->setTexture(SkyMapLite::Instance()->window()->createTextureFromImage(
                                          m_dso->image(),QQuickWindow::TextureCanUseAtlas));
@@ -107,7 +121,9 @@ void DeepSkyNode::update(bool drawImage, bool drawLabel, QPointF pos) {
             m_objImg->setRect(0,0,w,h);
             changePos(pos);
         }
-    } else {
+    }
+    else
+    {
         hide();
     }
 
@@ -115,21 +131,29 @@ void DeepSkyNode::update(bool drawImage, bool drawLabel, QPointF pos) {
     m_symbol->update(size, pos, m_angle);
 
     // Draw label
-    if(drawLabel) {
-        if(!m_label) {
-            if(m_trixel != -1) {
+    if(drawLabel)
+    {
+        if(!m_label)
+        {
+            if(m_trixel != -1)
+            {
                 m_label = SkyMapLite::rootNode()->labelsItem()->addLabel(m_dso, m_labelType, m_trixel);
-            } else {
+            }
+            else
+            {
                 m_label = SkyMapLite::rootNode()->labelsItem()->addLabel(m_dso, m_labelType);
             }
         }
         m_label->setLabelPos(pos);
-    } else if(m_label) {
+    }
+    else if(m_label)
+    {
         m_label->hide();
     }
 }
 
-void DeepSkyNode::hide() {
+void DeepSkyNode::hide()
+{
     SkyNode::hide();
     if(m_label) m_label->hide();
     m_symbol->hide();

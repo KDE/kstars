@@ -26,26 +26,26 @@
 #include <KIO/StoredTransferJob>
 #include <KJob>
 
-FovEditorDialogUI::FovEditorDialogUI(QWidget *parent) : QFrame(parent)
+FovEditorDialogUI::FovEditorDialogUI(QWidget * parent) : QFrame(parent)
 {
     setupUi(this);
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
     setWindowTitle(i18n("Field of View Snapshot Browser"));
 }
 
-FovEditorDialog::FovEditorDialog(PrintingWizard *wizard, QWidget *parent) : QDialog(parent),
+FovEditorDialog::FovEditorDialog(PrintingWizard * wizard, QWidget * parent) : QDialog(parent),
     m_ParentWizard(wizard), m_CurrentIndex(0)
 {
     m_EditorUi = new FovEditorDialogUI(this);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(m_EditorUi);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
@@ -155,13 +155,28 @@ void FovEditorDialog::slotSaveImage()
         //Determine desired image format from filename extension
         QString ext = fname.mid(fname.lastIndexOf(".") + 1);
         // export as raster graphics
-        const char* format = "PNG";
+        const char * format = "PNG";
 
-        if(ext.toLower() == "png") {format = "PNG";}
-        else if(ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) {format = "JPG";}
-        else if(ext.toLower() == "gif") {format = "GIF";}
-        else if(ext.toLower() == "pnm") {format = "PNM";}
-        else if(ext.toLower() == "bmp") {format = "BMP";}
+        if(ext.toLower() == "png")
+        {
+            format = "PNG";
+        }
+        else if(ext.toLower() == "jpg" || ext.toLower() == "jpeg" )
+        {
+            format = "JPG";
+        }
+        else if(ext.toLower() == "gif")
+        {
+            format = "GIF";
+        }
+        else if(ext.toLower() == "pnm")
+        {
+            format = "PNM";
+        }
+        else if(ext.toLower() == "bmp")
+        {
+            format = "BMP";
+        }
         else
         {
             qWarning() << i18n("Could not parse image format of %1; assuming PNG.", fname);
@@ -182,7 +197,7 @@ void FovEditorDialog::slotSaveImage()
     {
 
         //attempt to upload image to remote location
-        KIO::TransferJob *uploadJob = KIO::storedHttpPost(&tmpfile, fileUrl);
+        KIO::TransferJob * uploadJob = KIO::storedHttpPost(&tmpfile, fileUrl);
         //if(!KIO::NetAccess::upload(tmpfile.fileName(), fileUrl, this))
         if (uploadJob->exec() == false)
         {
@@ -234,14 +249,14 @@ void FovEditorDialog::updateDescriptions()
 
     else
     {
-        FOV *fov = m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getFov();
+        FOV * fov = m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getFov();
 
         QString fovDescription = i18n("FOV (%1/%2): %3 (%4' x %5')",
-                QString::number(m_CurrentIndex + 1),
-                QString::number(m_ParentWizard->getFovSnapshotList()->size()),
-                fov->name(),
-                QString::number(fov->sizeX()),
-                QString::number(fov->sizeY()));
+                                      QString::number(m_CurrentIndex + 1),
+                                      QString::number(m_ParentWizard->getFovSnapshotList()->size()),
+                                      fov->name(),
+                                      QString::number(fov->sizeX()),
+                                      QString::number(fov->sizeY()));
 
         m_EditorUi->fovInfoLabel->setText(fovDescription);
 

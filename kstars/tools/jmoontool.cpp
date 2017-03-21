@@ -38,20 +38,20 @@
 #include "skycomponents/skymapcomposite.h"
 
 
-JMoonTool::JMoonTool(QWidget *parent)
-        : QDialog( parent )
+JMoonTool::JMoonTool(QWidget * parent)
+    : QDialog( parent )
 {
 
-    ksw = (KStars*)parent;
-    QFrame *page = new QFrame(this);
+    ksw = (KStars *)parent;
+    QFrame * page = new QFrame(this);
 
     setWindowTitle( i18n("Jupiter Moons Tool") );
     setModal( false );
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
-    QVBoxLayout *vlay = new QVBoxLayout;
+    QVBoxLayout * vlay = new QVBoxLayout;
     vlay->setMargin( 0 );
     vlay->setSpacing( 0 );
 
@@ -63,10 +63,10 @@ JMoonTool::JMoonTool(QWidget *parent)
     colGn = QColor(Qt::cyan);
     colCa = QColor(Qt::green);
 
-    QLabel *labIo = new QLabel( i18n("Io"), page );
-    QLabel *labEu = new QLabel( i18n("Europa"), page );
-    QLabel *labGn = new QLabel( i18n("Ganymede"), page );
-    QLabel *labCa = new QLabel( i18n("Callisto"), page );
+    QLabel * labIo = new QLabel( i18n("Io"), page );
+    QLabel * labEu = new QLabel( i18n("Europa"), page );
+    QLabel * labGn = new QLabel( i18n("Ganymede"), page );
+    QLabel * labCa = new QLabel( i18n("Callisto"), page );
 
     labIo->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
     labEu->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
@@ -92,7 +92,7 @@ JMoonTool::JMoonTool(QWidget *parent)
     labGn->setAutoFillBackground( true );
     labCa->setAutoFillBackground( true );
 
-    QGridLayout *glay = new QGridLayout();
+    QGridLayout * glay = new QGridLayout();
     glay->addWidget( labIo, 0, 0 );
     glay->addWidget( labEu, 1, 0 );
     glay->addWidget( labGn, 0, 1 );
@@ -108,7 +108,7 @@ JMoonTool::JMoonTool(QWidget *parent)
     vlay->addWidget( pw );
     resize( 350, 600 );
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     vlay->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
@@ -120,12 +120,13 @@ JMoonTool::~JMoonTool()
 {
 }
 
-void JMoonTool::initPlotObjects() {
-    KPlotObject *orbit[4];
-    KPlotObject *jpath;
+void JMoonTool::initPlotObjects()
+{
+    KPlotObject * orbit[4];
+    KPlotObject * jpath;
     long double jd0 = ksw->data()->ut().djd();
-    KSSun *ksun = (KSSun*)ksw->data()->skyComposite()->findByName( "Sun" );
-    KSPlanet *jup = (KSPlanet*)ksw->data()->skyComposite()->findByName( i18n("Jupiter") );
+    KSSun * ksun = (KSSun *)ksw->data()->skyComposite()->findByName( "Sun" );
+    KSPlanet * jup = (KSPlanet *)ksw->data()->skyComposite()->findByName( i18n("Jupiter") );
     JupiterMoons jm;
 
     pw->removeAllPlotObjects();
@@ -140,7 +141,8 @@ void JMoonTool::initPlotObjects() {
     double dy = 0.01*dataRect.height();
 
     //t is the offset from jd0, in days.
-    for ( double t=dataRect.y(); t<=dataRect.bottom(); t+=dy ) {
+    for ( double t=dataRect.y(); t<=dataRect.bottom(); t+=dy )
+    {
         KSNumbers num( jd0 + t );
         jm.findPosition( &num, jup, ksun );
 
@@ -158,10 +160,12 @@ void JMoonTool::initPlotObjects() {
     pw->addPlotObject( jpath );
 }
 
-void JMoonTool::keyPressEvent( QKeyEvent *e ) {
+void JMoonTool::keyPressEvent( QKeyEvent * e )
+{
     QRectF dataRect = pw->dataRect();
-    switch ( e->key() ) {
-    case Qt::Key_BracketRight:
+    switch ( e->key() )
+    {
+        case Qt::Key_BracketRight:
         {
             double dy = 0.02*dataRect.height();
             pw->setLimits( dataRect.x(), dataRect.right(), dataRect.y()+dy, dataRect.bottom()+dy );
@@ -169,7 +173,7 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
             pw->update();
             break;
         }
-    case Qt::Key_BracketLeft:
+        case Qt::Key_BracketLeft:
         {
             double dy = 0.02*dataRect.height();
             pw->setLimits( dataRect.x(), dataRect.right(), dataRect.y()-dy, dataRect.bottom()-dy );
@@ -177,10 +181,11 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
             pw->update();
             break;
         }
-    case Qt::Key_Plus:
-    case Qt::Key_Equal:
+        case Qt::Key_Plus:
+        case Qt::Key_Equal:
         {
-            if ( dataRect.height() > 2.0 ) {
+            if ( dataRect.height() > 2.0 )
+            {
                 double dy = 0.45*dataRect.height();
                 double y0 = dataRect.y() + 0.5*dataRect.height();
                 pw->setLimits( dataRect.x(), dataRect.right(), y0-dy, y0+dy );
@@ -189,10 +194,11 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
             }
             break;
         }
-    case Qt::Key_Minus:
-    case Qt::Key_Underscore:
+        case Qt::Key_Minus:
+        case Qt::Key_Underscore:
         {
-            if ( dataRect.height() < 40.0 ) {
+            if ( dataRect.height() < 40.0 )
+            {
                 double dy = 0.55*dataRect.height();
                 double y0 = dataRect.y() + 0.5*dataRect.height();
                 pw->setLimits( dataRect.x(), dataRect.right(), y0-dy, y0+dy );
@@ -201,13 +207,17 @@ void JMoonTool::keyPressEvent( QKeyEvent *e ) {
             }
             break;
         }
-    case Qt::Key_Escape:
+        case Qt::Key_Escape:
         {
             close();
             break;
         }
 
-    default: { e->ignore(); break; }
+        default:
+        {
+            e->ignore();
+            break;
+        }
     }
 }
 

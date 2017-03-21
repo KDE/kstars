@@ -52,7 +52,7 @@
 #include "skypainter.h"
 
 
-LineListIndex::LineListIndex( SkyComposite *parent, const QString& name ) :
+LineListIndex::LineListIndex( SkyComposite * parent, const QString &name ) :
     SkyComponent( parent ),
     m_name(name)
 {
@@ -68,39 +68,42 @@ LineListIndex::~LineListIndex()
 }
 
 // This is a callback for the indexLines() function below
-const IndexHash& LineListIndex::getIndexHash(LineList* lineList ) {
+const IndexHash &LineListIndex::getIndexHash(LineList * lineList )
+{
     return skyMesh()->indexLine( lineList->points() );
 }
 
-void LineListIndex::removeLine( LineList* lineList)
+void LineListIndex::removeLine( LineList * lineList)
 {
-    const IndexHash& indexHash = getIndexHash( lineList );
+    const IndexHash &indexHash = getIndexHash( lineList );
     IndexHash::const_iterator iter = indexHash.constBegin();
     while ( iter != indexHash.constEnd() )
     {
         Trixel trixel = iter.key();
         iter++;
 
-         if (m_lineIndex->contains( trixel ))
-                m_lineIndex->value( trixel )->removeOne( lineList );
+        if (m_lineIndex->contains( trixel ))
+            m_lineIndex->value( trixel )->removeOne( lineList );
 
     }
 
     m_listList.removeOne(lineList);
 }
 
-void LineListIndex::appendLine( LineList* lineList, int debug)
+void LineListIndex::appendLine( LineList * lineList, int debug)
 {
     if( debug < skyMesh()->debug() )
         debug = skyMesh()->debug();
 
-    const IndexHash& indexHash = getIndexHash( lineList );
+    const IndexHash &indexHash = getIndexHash( lineList );
     IndexHash::const_iterator iter = indexHash.constBegin();
-    while ( iter != indexHash.constEnd() ) {
+    while ( iter != indexHash.constEnd() )
+    {
         Trixel trixel = iter.key();
         iter++;
 
-        if ( ! m_lineIndex->contains( trixel ) ) {
+        if ( ! m_lineIndex->contains( trixel ) )
+        {
             m_lineIndex->insert(trixel, new LineListList() );
         }
         m_lineIndex->value( trixel )->append( lineList );
@@ -109,24 +112,26 @@ void LineListIndex::appendLine( LineList* lineList, int debug)
     m_listList.append( lineList);
 }
 
-void LineListIndex::appendPoly(LineList* lineList, int debug)
+void LineListIndex::appendPoly(LineList * lineList, int debug)
 {
     if ( debug < skyMesh()->debug() ) debug = skyMesh()->debug();
 
-    const IndexHash& indexHash = skyMesh()->indexPoly( lineList->points() );
+    const IndexHash &indexHash = skyMesh()->indexPoly( lineList->points() );
     IndexHash::const_iterator iter = indexHash.constBegin();
-    while ( iter != indexHash.constEnd() ) {
+    while ( iter != indexHash.constEnd() )
+    {
         Trixel trixel = iter.key();
         iter++;
 
-        if ( ! m_polyIndex->contains( trixel ) ) {
+        if ( ! m_polyIndex->contains( trixel ) )
+        {
             m_polyIndex->insert( trixel, new LineListList() );
         }
         m_polyIndex->value( trixel )->append( lineList );
     }
 }
 
-void LineListIndex::appendBoth(LineList* lineList, int debug)
+void LineListIndex::appendBoth(LineList * lineList, int debug)
 {
     QMutexLocker m1(&mutex);
     appendLine( lineList, debug );
@@ -135,14 +140,16 @@ void LineListIndex::appendBoth(LineList* lineList, int debug)
 
 void LineListIndex::reindexLines()
 {
-    LineListHash* oldIndex = m_lineIndex;
+    LineListHash * oldIndex = m_lineIndex;
     m_lineIndex = new LineListHash();
 
     DrawID drawID = skyMesh()->incDrawID();
 
-    foreach (LineListList* listList, *oldIndex ) {
-        for ( int i = 0; i < listList->size(); i++) {
-            LineList* lineList = listList->at( i );
+    foreach (LineListList * listList, *oldIndex )
+    {
+        for ( int i = 0; i < listList->size(); i++)
+        {
+            LineList * lineList = listList->at( i );
             if ( lineList->drawID == drawID ) continue;
             lineList->drawID = drawID;
             appendLine( lineList );
@@ -153,33 +160,36 @@ void LineListIndex::reindexLines()
 }
 
 
-void LineListIndex::JITupdate( LineList* lineList )
+void LineListIndex::JITupdate( LineList * lineList )
 {
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     lineList->updateID = data->updateID();
-    SkyList* points = lineList->points();
+    SkyList * points = lineList->points();
 
-    if ( lineList->updateNumID != data->updateNumID() ) {
+    if ( lineList->updateNumID != data->updateNumID() )
+    {
         lineList->updateNumID = data->updateNumID();
-        KSNumbers* num = data->updateNum();
-        for (int i = 0; i < points->size(); i++ ) {
+        KSNumbers * num = data->updateNum();
+        for (int i = 0; i < points->size(); i++ )
+        {
             points->at( i )->updateCoords( num );
         }
     }
 
-    for (int i = 0; i < points->size(); i++ ) {
+    for (int i = 0; i < points->size(); i++ )
+    {
         points->at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     }
 }
 
 
 // This is a callback used in draw() below
-void LineListIndex::preDraw( SkyPainter *skyp )
+void LineListIndex::preDraw( SkyPainter * skyp )
 {
     skyp->setPen( QPen( QBrush( QColor( "white" ) ), 1, Qt::SolidLine ) );
 }
 
-void LineListIndex::draw( SkyPainter *skyp )
+void LineListIndex::draw( SkyPainter * skyp )
 {
     if ( ! selected() )
         return;
@@ -187,26 +197,29 @@ void LineListIndex::draw( SkyPainter *skyp )
     drawLines( skyp );
 }
 #ifdef KSTARS_LITE
-MeshIterator LineListIndex::visibleTrixels() {
+MeshIterator LineListIndex::visibleTrixels()
+{
     return MeshIterator( skyMesh(), drawBuffer() );
 }
 #endif
 
 // This is a callback used int drawLinesInt() and drawLinesFloat()
-SkipList* LineListIndex::skipList( LineList *lineList )
+SkipList * LineListIndex::skipList( LineList * lineList )
 {
     Q_UNUSED(lineList)
     return 0;
 }
 
-void LineListIndex::drawLines( SkyPainter *skyp )
+void LineListIndex::drawLines( SkyPainter * skyp )
 {
     DrawID   drawID   = skyMesh()->drawID();
     UpdateID updateID = KStarsData::Instance()->updateID();
 
-    foreach ( LineListList* lineListList, m_lineIndex->values() ) {
-        for (int i = 0; i < lineListList->size(); i++) {
-            LineList* lineList = lineListList->at( i );
+    foreach ( LineListList * lineListList, m_lineIndex->values() )
+    {
+        for (int i = 0; i < lineListList->size(); i++)
+        {
+            LineList * lineList = lineListList->at( i );
 
             if ( lineList->drawID == drawID )
                 continue;
@@ -220,19 +233,21 @@ void LineListIndex::drawLines( SkyPainter *skyp )
     }
 }
 
-void LineListIndex::drawFilled( SkyPainter *skyp )
+void LineListIndex::drawFilled( SkyPainter * skyp )
 {
     DrawID drawID     = skyMesh()->drawID();
     UpdateID updateID = KStarsData::Instance()->updateID();
 
     MeshIterator region( skyMesh(), drawBuffer() );
-    while ( region.hasNext() ) {
+    while ( region.hasNext() )
+    {
 
-        LineListList* lineListList =  m_polyIndex->value( region.next() );
+        LineListList * lineListList =  m_polyIndex->value( region.next() );
         if ( lineListList == 0 ) continue;
 
-        for (int i = 0; i < lineListList->size(); i++) {
-            LineList* lineList = lineListList->at( i );
+        for (int i = 0; i < lineListList->size(); i++)
+        {
+            LineList * lineList = lineListList->at( i );
 
             // draw each Linelist at most once
             if ( lineList->drawID == drawID ) continue;

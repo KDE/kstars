@@ -119,7 +119,8 @@ typedef enum
 #define INDI_PULSE_TRACKING   15000
 
 typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
-              PG_RADIO, PG_MENU, PG_LIGHTS, PG_BLOB} PGui;
+              PG_RADIO, PG_MENU, PG_LIGHTS, PG_BLOB
+             } PGui;
 
 /* new versions of glibc define TIME_UTC as a macro */
 #undef TIME_UTC
@@ -135,7 +136,8 @@ enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSE
                      CCD_VIDEO_STREAM,						/* Video */
                      FOCUS_SPEED, FOCUS_MOTION, FOCUS_TIMER,			/* Focuser */
                      FILTER_SLOT,						/* Filter */
-                     WATCHDOG_HEARTBEAT};                                       /* Watchdog */
+                     WATCHDOG_HEARTBEAT
+                   };                                       /* Watchdog */
 
 
 /* Devices families that we explicitly support (i.e. with std properties) */

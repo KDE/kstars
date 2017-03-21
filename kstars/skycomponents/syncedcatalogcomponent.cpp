@@ -27,17 +27,19 @@
 
 /* Qt Includes */
 
-SyncedCatalogComponent::SyncedCatalogComponent( SkyComposite *parent,
-                                                const QString &catname, bool showerrs, int index )
-    : CatalogComponent( parent, catname, showerrs, index, false ) {
+SyncedCatalogComponent::SyncedCatalogComponent( SkyComposite * parent,
+        const QString &catname, bool showerrs, int index )
+    : CatalogComponent( parent, catname, showerrs, index, false )
+{
 
     // First check if the catalog exists
-    CatalogDB *db = KStarsData::Instance()->catalogdb();
+    CatalogDB * db = KStarsData::Instance()->catalogdb();
     Q_ASSERT( db );
     m_catId = db->FindCatalog( catname );
     if( m_catId >= 0 )
         loadData();
-    else {
+    else
+    {
         // Create the catalog
         qWarning() << "Creating new catalog " << catname;
         CatalogData catData;
@@ -70,32 +72,36 @@ void SyncedCatalogComponent::draw( SkyPainter *skyp ) {
 }
 */
 
-DeepSkyObject *SyncedCatalogComponent::addObject( CatalogEntryData catalogEntry ) {
+DeepSkyObject * SyncedCatalogComponent::addObject( CatalogEntryData catalogEntry )
+{
     if( std::isnan( catalogEntry.major_axis ) )
         catalogEntry.major_axis = 0.0;
     if( std::isnan( catalogEntry.minor_axis ) )
         catalogEntry.minor_axis = 0.0;
     CatalogEntryData dbEntry = catalogEntry;
-    if( dbEntry.catalog_name != m_catName ) {
+    if( dbEntry.catalog_name != m_catName )
+    {
         qWarning() << "Trying to add object " << catalogEntry.catalog_name << catalogEntry.ID << " to catalog " << m_catName << " will over-write catalog name with " << m_catName << " in the database and assign an arbitrary ID";
         dbEntry.catalog_name = m_catName;
     }
     dbEntry.ID = m_catCount;
-    CatalogDB *db = KStarsData::Instance()->catalogdb();
+    CatalogDB * db = KStarsData::Instance()->catalogdb();
     if( !( db->AddEntry( dbEntry, m_catId ) ) )
         return 0;
     m_catCount++;
     qDebug() << "Added object " << catalogEntry.long_name << " into database!";
-    DeepSkyObject *newObj = new DeepSkyObject( catalogEntry, this ); // FIXME: What about stars? Are they treated as DeepSkyObjects, type CATALOG_STAR? -- asimha
+    DeepSkyObject * newObj = new DeepSkyObject( catalogEntry, this ); // FIXME: What about stars? Are they treated as DeepSkyObjects, type CATALOG_STAR? -- asimha
     Q_ASSERT( newObj );
 
     qDebug() << "Created new DSO for " << catalogEntry.long_name;
-    if( newObj->hasLongName() ) {
+    if( newObj->hasLongName() )
+    {
         //        newObj->setName( newObj->longname() );
         objectNames()[ newObj->type() ].append( newObj->longname() );
         objectLists()[ newObj->type() ].append( QPair<QString, const SkyObject *>(newObj->longname(), newObj) );
     }
-    else {
+    else
+    {
         qWarning() << "Created object with name " << newObj->name() << " which is probably fake!";
         objectNames()[ newObj->type() ].append( newObj->name() );
         objectLists()[ newObj->type() ].append( QPair<QString, const SkyObject *>(newObj->name(), newObj) );

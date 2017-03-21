@@ -57,18 +57,20 @@ KSPluto::KSPluto(const QString &fn, double pSize )
     setPhysicalSize( pSize );
 }
 
-KSPluto* KSPluto::clone() const
+KSPluto * KSPluto::clone() const
 {
     Q_ASSERT( typeid( this ) == typeid( static_cast<const KSPluto *>( this ) ) ); // Ensure we are not slicing a derived class
     return new KSPluto(*this);
 }
 
-KSPluto::~KSPluto() {
+KSPluto::~KSPluto()
+{
 }
 
 //Determine values for the orbital elements for the requested JD, then
 //call KSAsteroid::findGeocentricPosition()
-bool KSPluto::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
+bool KSPluto::findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * Earth )
+{
     //First, set the orbital element values according to the current epoch
     double t = num->julianCenturies();
     set_a( a0 + a1*t );
@@ -82,7 +84,7 @@ bool KSPluto::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
     return KSAsteroid::findGeocentricPosition( num, Earth );
 }
 
-void KSPluto::findMagnitude(const KSNumbers*)
+void KSPluto::findMagnitude(const KSNumbers *)
 {
     setMag( -1.01 + 5*log10(rsun() * rearth())  + 0.041*phase().Degrees() );
 }

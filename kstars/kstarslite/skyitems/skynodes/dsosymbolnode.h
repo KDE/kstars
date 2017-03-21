@@ -33,109 +33,118 @@ class RootNode;
  * @short A base class for all symbol nodes.
  *
  */
-class SymbolNode : public QSGNode {
-public:
-    /**
-     * @short Update size and the symbol itself. Each SymbolNode should override this function,
-     * and call SymbolNode::updateSymbol() in the beginning of overridden updateSymbol to
-     * initialize values that are used across all symbols.
-     */
-    virtual void updateSymbol(float x, float y, float e, float size);
-protected:
-    SymbolNode() { }
-    float zoom;
-    int isize;
+class SymbolNode : public QSGNode
+{
+    public:
+        /**
+         * @short Update size and the symbol itself. Each SymbolNode should override this function,
+         * and call SymbolNode::updateSymbol() in the beginning of overridden updateSymbol to
+         * initialize values that are used across all symbols.
+         */
+        virtual void updateSymbol(float x, float y, float e, float size);
+    protected:
+        SymbolNode() { }
+        float zoom;
+        int isize;
 
-    float dx1;
-    float dx2;
-    float dy1;
-    float dy2;
-    float x1;
-    float x2;
-    float y1;
-    float y2;
+        float dx1;
+        float dx2;
+        float dy1;
+        float dy2;
+        float x1;
+        float x2;
+        float y1;
+        float y2;
 
-    float dxa;
-    float dxb;
-    float dya;
-    float dyb;
-    float xa;
-    float xb;
-    float ya;
-    float yb;
-    float psize;
+        float dxa;
+        float dxb;
+        float dya;
+        float dyb;
+        float xa;
+        float xb;
+        float ya;
+        float yb;
+        float psize;
 };
 
-class StarSymbol : public SymbolNode {
-public:
-    StarSymbol(QColor color = QColor());
-    virtual void updateSymbol(float x, float y, float e, float size) override;
-    EllipseNode *m_ellipse;
+class StarSymbol : public SymbolNode
+{
+    public:
+        StarSymbol(QColor color = QColor());
+        virtual void updateSymbol(float x, float y, float e, float size) override;
+        EllipseNode * m_ellipse;
 };
 
-class AsterismSymbol : public SymbolNode {
-public:
-    AsterismSymbol(QColor color);
-    virtual void updateSymbol(float x, float y, float e, float size) override;
+class AsterismSymbol : public SymbolNode
+{
+    public:
+        AsterismSymbol(QColor color);
+        virtual void updateSymbol(float x, float y, float e, float size) override;
 
-    EllipseNode *e1;
-    EllipseNode *e2;
-    EllipseNode *e3;
-    EllipseNode *e4;
-    EllipseNode *e5;
-    EllipseNode *e6;
-    EllipseNode *e7;
-    EllipseNode *e8;
+        EllipseNode * e1;
+        EllipseNode * e2;
+        EllipseNode * e3;
+        EllipseNode * e4;
+        EllipseNode * e5;
+        EllipseNode * e6;
+        EllipseNode * e7;
+        EllipseNode * e8;
 };
 
-class GlobularClusterSymbol : public SymbolNode {
-public:
-    GlobularClusterSymbol(QColor color);
-    virtual void updateSymbol(float x, float y, float e, float size) override;
+class GlobularClusterSymbol : public SymbolNode
+{
+    public:
+        GlobularClusterSymbol(QColor color);
+        virtual void updateSymbol(float x, float y, float e, float size) override;
 
-    EllipseNode *e1;
-    QSGGeometryNode *lines;
+        EllipseNode * e1;
+        QSGGeometryNode * lines;
 };
 
-class DarkNebulaSymbol : public SymbolNode {
-public:
-    DarkNebulaSymbol(QColor color);
-    virtual void updateSymbol(float x, float y, float e, float size) override;
+class DarkNebulaSymbol : public SymbolNode
+{
+    public:
+        DarkNebulaSymbol(QColor color);
+        virtual void updateSymbol(float x, float y, float e, float size) override;
 
-    QSGGeometryNode *lines;
+        QSGGeometryNode * lines;
 };
 
-class PlanetaryNebulaSymbol : public SymbolNode {
-public:
-    PlanetaryNebulaSymbol(QColor color);
-    virtual void updateSymbol(float x, float y, float e, float size) override;
+class PlanetaryNebulaSymbol : public SymbolNode
+{
+    public:
+        PlanetaryNebulaSymbol(QColor color);
+        virtual void updateSymbol(float x, float y, float e, float size) override;
 
-    EllipseNode *e1;
-    QSGGeometryNode *lines;
+        EllipseNode * e1;
+        QSGGeometryNode * lines;
 };
 
-class SupernovaRemnantSymbol : public SymbolNode {
-public:
-    SupernovaRemnantSymbol(QColor color);
-    virtual void updateSymbol(float x, float y, float e, float size) override;
+class SupernovaRemnantSymbol : public SymbolNode
+{
+    public:
+        SupernovaRemnantSymbol(QColor color);
+        virtual void updateSymbol(float x, float y, float e, float size) override;
 
-    QSGGeometryNode *lines;
+        QSGGeometryNode * lines;
 };
 
-class GalaxySymbol : public SymbolNode {
-public:
-    GalaxySymbol(QColor color);
-    virtual void updateSymbol(float x, float y, float e, float size) override;
+class GalaxySymbol : public SymbolNode
+{
+    public:
+        GalaxySymbol(QColor color);
+        virtual void updateSymbol(float x, float y, float e, float size) override;
 
-    EllipseNode *e1;
+        EllipseNode * e1;
 };
 
-class GalaxyClusterSymbol : public SymbolNode {
-public:
-    GalaxyClusterSymbol(QColor color);
-    virtual void updateSymbol(float x, float y, float e, float size) override;
+class GalaxyClusterSymbol : public SymbolNode
+{
+    public:
+        GalaxyClusterSymbol(QColor color);
+        virtual void updateSymbol(float x, float y, float e, float size) override;
 
-    QSGGeometryNode *lines;
+        QSGGeometryNode * lines;
 };
 
 /** @class DSOSymbolNode
@@ -145,40 +154,44 @@ public:
  *@version 1.0
  */
 
-class DSOSymbolNode : public SkyNode  {
-public:
-    /**
-     * @short Constructor.
-     * @param skyObject - DeepSkyObject, for which this symbol should be created
-     * @param color of the symbol
-     */
-    DSOSymbolNode(DeepSkyObject *skyObject, QColor color = QColor());
+class DSOSymbolNode : public SkyNode
+{
+    public:
+        /**
+         * @short Constructor.
+         * @param skyObject - DeepSkyObject, for which this symbol should be created
+         * @param color of the symbol
+         */
+        DSOSymbolNode(DeepSkyObject * skyObject, QColor color = QColor());
 
-    /**
-     * @short Changes position and rotation angle of the symbol
-     * @param pos - new position
-     * @param positionangle - rotation angle
-     */
-    void changePos(const QPointF &pos, float positionangle);
-    /**
-     * @short Update size and position of the symbol
-     * @param size - new size of symbol
-     * @param pos - new position
-     * @param positionangle - new rotation angle
-     */
-    void update(float size, const QPointF &pos, float positionangle);
+        /**
+         * @short Changes position and rotation angle of the symbol
+         * @param pos - new position
+         * @param positionangle - rotation angle
+         */
+        void changePos(const QPointF &pos, float positionangle);
+        /**
+         * @short Update size and position of the symbol
+         * @param size - new size of symbol
+         * @param pos - new position
+         * @param positionangle - new rotation angle
+         */
+        void update(float size, const QPointF &pos, float positionangle);
 
-    /**
-     * @short Create SymbolNode based on the type of m_dso
-     */
-    void initSymbol();
-    QColor getColor() { return m_color; }
-private:
-    QColor m_color;
-    //TODO deal setter for this when stars will be introduced
-    DeepSkyObject *m_dso;
-    SymbolNode *m_symbol;
-    bool m_rotate; //If the symbol needs rotation this should be set to true
+        /**
+         * @short Create SymbolNode based on the type of m_dso
+         */
+        void initSymbol();
+        QColor getColor()
+        {
+            return m_color;
+        }
+    private:
+        QColor m_color;
+        //TODO deal setter for this when stars will be introduced
+        DeepSkyObject * m_dso;
+        SymbolNode * m_symbol;
+        bool m_rotate; //If the symbol needs rotation this should be set to true
 };
 
 #endif

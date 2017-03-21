@@ -22,45 +22,46 @@
 #include "skyobjitem.h"
 #include "ksutils.h"
 
-SkyObjItem::SkyObjItem(SkyObject *so) : m_Name(so->name()), m_LongName(so->longname()),m_TypeName(so->typeName()), m_So(so), skd(NULL)
+SkyObjItem::SkyObjItem(SkyObject * so) : m_Name(so->name()), m_LongName(so->longname()),m_TypeName(so->typeName()), m_So(so), skd(NULL)
 {
     switch (so->type())
     {
-    case SkyObject::PLANET:
-        m_Type = Planet;
-        break;
-    case SkyObject::STAR:
-        skd = new SkyObjDescription(m_Name, m_TypeName);
-        m_Type = Star;
-        break;
-    case SkyObject::CONSTELLATION:
-        skd = new SkyObjDescription(m_Name, m_TypeName);
-        m_Type = Constellation;
-        break;
-    case SkyObject::GALAXY:
-        skd = new SkyObjDescription(m_LongName, "");
-        m_Type = Galaxy;
-        break;
-    case SkyObject::OPEN_CLUSTER:
-    case SkyObject::GLOBULAR_CLUSTER:
-    case SkyObject::GALAXY_CLUSTER:
-        if(m_Name.contains("NGC", Qt::CaseInsensitive))
-            skd = new SkyObjDescription(m_Name, "");
-        m_Type = Cluster;
-        break;
-    case SkyObject::PLANETARY_NEBULA:
-    case SkyObject::GASEOUS_NEBULA:
-    case SkyObject::DARK_NEBULA:
-        if(m_Name.contains("NGC", Qt::CaseInsensitive))
-            skd = new SkyObjDescription(m_Name, "");
-        m_Type = Nebula;
-        break;
+        case SkyObject::PLANET:
+            m_Type = Planet;
+            break;
+        case SkyObject::STAR:
+            skd = new SkyObjDescription(m_Name, m_TypeName);
+            m_Type = Star;
+            break;
+        case SkyObject::CONSTELLATION:
+            skd = new SkyObjDescription(m_Name, m_TypeName);
+            m_Type = Constellation;
+            break;
+        case SkyObject::GALAXY:
+            skd = new SkyObjDescription(m_LongName, "");
+            m_Type = Galaxy;
+            break;
+        case SkyObject::OPEN_CLUSTER:
+        case SkyObject::GLOBULAR_CLUSTER:
+        case SkyObject::GALAXY_CLUSTER:
+            if(m_Name.contains("NGC", Qt::CaseInsensitive))
+                skd = new SkyObjDescription(m_Name, "");
+            m_Type = Cluster;
+            break;
+        case SkyObject::PLANETARY_NEBULA:
+        case SkyObject::GASEOUS_NEBULA:
+        case SkyObject::DARK_NEBULA:
+            if(m_Name.contains("NGC", Qt::CaseInsensitive))
+                skd = new SkyObjDescription(m_Name, "");
+            m_Type = Nebula;
+            break;
     }
 
     setPosition(m_So);
 }
 
-SkyObjItem::~SkyObjItem(){
+SkyObjItem::~SkyObjItem()
+{
     delete skd;
 }
 
@@ -91,9 +92,9 @@ QHash<int, QByteArray> SkyObjItem::roleNames() const
 }
 */
 
-void SkyObjItem::setPosition(SkyObject* so)
+void SkyObjItem::setPosition(SkyObject * so)
 {
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     KStarsDateTime ut = data->geo()->LTtoUT(KStarsDateTime(QDateTime::currentDateTime().toLocalTime()));
     SkyPoint sp = so->recomputeCoords(ut, data->geo());
 
@@ -166,16 +167,16 @@ QString SkyObjItem::getSurfaceBrightness() const
       * brightness obtained in mag * arcminutes^-2
       */
 
-    DeepSkyObject *dso = (DeepSkyObject *)m_So;
+    DeepSkyObject * dso = (DeepSkyObject *)m_So;
     float SB = m_So->mag() + 2.5 * log10(dso->a() * dso->b() / 4);
 
     switch(getType())
     {
-    case Galaxy:
-    case Nebula:
-        return QLocale().toString(SB, 2) + " mag/arcmin^2";
-    default:
-        return QString(" --"); // Not applicable for other sky-objects
+        case Galaxy:
+        case Nebula:
+            return QLocale().toString(SB, 2) + " mag/arcmin^2";
+        default:
+            return QString(" --"); // Not applicable for other sky-objects
     }
 }
 
@@ -183,13 +184,13 @@ QString SkyObjItem::getSize() const
 {
     switch (getType())
     {
-    case Galaxy:
-    case Cluster:
-    case Nebula:
-        return QLocale().toString(((DeepSkyObject *)m_So)->a(), 2) + " arcminutes";
-    case Planet:
-        return QLocale().toString(((KSPlanetBase *)m_So)->angSize(), 2) + " arcseconds";
-    default:
-        return QString(" --");
+        case Galaxy:
+        case Cluster:
+        case Nebula:
+            return QLocale().toString(((DeepSkyObject *)m_So)->a(), 2) + " arcminutes";
+        case Planet:
+            return QLocale().toString(((KSPlanetBase *)m_So)->angSize(), 2) + " arcseconds";
+        default:
+            return QString(" --");
     }
 }

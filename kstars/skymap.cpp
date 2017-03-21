@@ -86,55 +86,58 @@
 #include <QFileDialog>
 #endif
 
-namespace {
+namespace
+{
 
-    // Draw bitmap for zoom cursor. Width is size of pen to draw with.
-    QBitmap zoomCursorBitmap(int width) {
-        QBitmap b(32, 32);
-        b.fill(Qt::color0);
-        int mx = 16, my = 16;
-        // Begin drawing
-        QPainter p;
-        p.begin( &b );
-          p.setPen( QPen( Qt::color1, width ) );
-          p.drawEllipse( mx - 7, my - 7, 14, 14 );
-          p.drawLine(    mx + 5, my + 5, mx + 11, my + 11 );
-        p.end();
-        return b;
-    }
+// Draw bitmap for zoom cursor. Width is size of pen to draw with.
+QBitmap zoomCursorBitmap(int width)
+{
+    QBitmap b(32, 32);
+    b.fill(Qt::color0);
+    int mx = 16, my = 16;
+    // Begin drawing
+    QPainter p;
+    p.begin( &b );
+    p.setPen( QPen( Qt::color1, width ) );
+    p.drawEllipse( mx - 7, my - 7, 14, 14 );
+    p.drawLine(    mx + 5, my + 5, mx + 11, my + 11 );
+    p.end();
+    return b;
+}
 
-    // Draw bitmap for default cursor. Width is size of pen to draw with.
-    QBitmap defaultCursorBitmap(int width) {
-        QBitmap b(32, 32);
-        b.fill(Qt::color0);
-        int mx = 16, my = 16;
-        // Begin drawing
-        QPainter p;
-        p.begin( &b );
-          p.setPen( QPen( Qt::color1, width ) );
-          // 1. diagonal
-          p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
-          p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
-          // 2. diagonal
-          p.drawLine (mx - 2, my + 2, mx - 8, mx + 8);
-          p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
-        p.end();
-        return b;
-    }
+// Draw bitmap for default cursor. Width is size of pen to draw with.
+QBitmap defaultCursorBitmap(int width)
+{
+    QBitmap b(32, 32);
+    b.fill(Qt::color0);
+    int mx = 16, my = 16;
+    // Begin drawing
+    QPainter p;
+    p.begin( &b );
+    p.setPen( QPen( Qt::color1, width ) );
+    // 1. diagonal
+    p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
+    p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
+    // 2. diagonal
+    p.drawLine (mx - 2, my + 2, mx - 8, mx + 8);
+    p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
+    p.end();
+    return b;
+}
 }
 
 
-SkyMap* SkyMap::pinstance = 0;
+SkyMap * SkyMap::pinstance = 0;
 
 
-SkyMap* SkyMap::Create()
+SkyMap * SkyMap::Create()
 {
     delete pinstance;
     pinstance = new SkyMap();
     return pinstance;
 }
 
-SkyMap* SkyMap::Instance( )
+SkyMap * SkyMap::Instance( )
 {
     return pinstance;
 }
@@ -211,10 +214,10 @@ SkyMap::SkyMap() :
                                   Options::stickyFocusBox(),
                                   QStringList(), this);
     m_objBox->setVisible( Options::showFocusBox() );
-    connect(this,     SIGNAL( objectChanged( SkyObject*) ),
-            m_objBox, SLOT(   slotObjectChanged( SkyObject*) ) );
-    connect(this,     SIGNAL( positionChanged( SkyPoint*) ),
-            m_objBox, SLOT(   slotPointChanged(SkyPoint*) ) );
+    connect(this,     SIGNAL( objectChanged( SkyObject *) ),
+            m_objBox, SLOT(   slotObjectChanged( SkyObject *) ) );
+    connect(this,     SIGNAL( positionChanged( SkyPoint *) ),
+            m_objBox, SLOT(   slotPointChanged(SkyPoint *) ) );
 
     m_SkyMapDraw = new SkyMapQDraw( this );
     m_SkyMapDraw->setMouseTracking( true );
@@ -231,23 +234,28 @@ SkyMap::SkyMap() :
 
 }
 
-void SkyMap::slotToggleGeoBox(bool flag) {
+void SkyMap::slotToggleGeoBox(bool flag)
+{
     m_geoBox->setVisible(flag);
 }
 
-void SkyMap::slotToggleFocusBox(bool flag) {
+void SkyMap::slotToggleFocusBox(bool flag)
+{
     m_objBox->setVisible(flag);
 }
 
-void SkyMap::slotToggleTimeBox(bool flag) {
+void SkyMap::slotToggleTimeBox(bool flag)
+{
     m_timeBox->setVisible(flag);
 }
 
-void SkyMap::slotToggleInfoboxes(bool flag) {
+void SkyMap::slotToggleInfoboxes(bool flag)
+{
     m_iboxes->setVisible(flag);
 }
 
-SkyMap::~SkyMap() {
+SkyMap::~SkyMap()
+{
     /* == Save infoxes status into Options == */
     Options::setShowInfoBoxes( m_iboxes->isVisibleTo( parentWidget() ) );
     // Time box
@@ -268,10 +276,13 @@ SkyMap::~SkyMap() {
 
     //store focus values in Options
     //If not tracking and using Alt/Az coords, stor the Alt/Az coordinates
-    if ( Options::useAltAz() && ! Options::isTracking() ) {
+    if ( Options::useAltAz() && ! Options::isTracking() )
+    {
         Options::setFocusRA(  focus()->az().Degrees() );
         Options::setFocusDec( focus()->alt().Degrees() );
-    } else {
+    }
+    else
+    {
         Options::setFocusRA(  focus()->ra().Hours() );
         Options::setFocusDec( focus()->dec().Degrees() );
     }
@@ -291,23 +302,27 @@ SkyMap::~SkyMap() {
     pinstance = 0;
 }
 
-void SkyMap::showFocusCoords() {
+void SkyMap::showFocusCoords()
+{
     if( focusObject() && Options::isTracking() )
         emit objectChanged( focusObject() );
     else
         emit positionChanged( focus() );
 }
 
-void SkyMap::slotTransientLabel() {
+void SkyMap::slotTransientLabel()
+{
     //This function is only called if the HoverTimer manages to timeout.
     //(HoverTimer is restarted with every mouseMoveEvent; so if it times
     //out, that means there was no mouse movement for HOVER_INTERVAL msec.)
     if (hasFocus() && ! slewing && ! ( Options::useAltAz() && Options::showGround() &&
-                          SkyPoint::refract(m_MousePoint.alt()).Degrees() < 0.0 ) ) {
+                                       SkyPoint::refract(m_MousePoint.alt()).Degrees() < 0.0 ) )
+    {
         double maxrad = 1000.0/Options::zoomFactor();
-        SkyObject *so = data->skyComposite()->objectNearest( &m_MousePoint, maxrad );
+        SkyObject * so = data->skyComposite()->objectNearest( &m_MousePoint, maxrad );
 
-        if ( so && ! isObjectLabeled( so ) ) {
+        if ( so && ! isObjectLabeled( so ) )
+        {
             QToolTip::showText(
                 QCursor::pos(),
                 i18n("%1: %2<sup>m</sup>",
@@ -321,11 +336,13 @@ void SkyMap::slotTransientLabel() {
 
 //Slots
 
-void SkyMap::setClickedObject( SkyObject *o ) {
-      ClickedObject = o;
+void SkyMap::setClickedObject( SkyObject * o )
+{
+    ClickedObject = o;
 }
 
-void SkyMap::setFocusObject( SkyObject *o ) {
+void SkyMap::setFocusObject( SkyObject * o )
+{
     FocusObject = o;
     if ( FocusObject )
         Options::setFocusObject( FocusObject->name() );
@@ -333,9 +350,10 @@ void SkyMap::setFocusObject( SkyObject *o ) {
         Options::setFocusObject( i18n( "nothing" ) );
 }
 
-void SkyMap::slotCenter() {
-    KStars* kstars = KStars::Instance();
-    TrailObject* trailObj = dynamic_cast<TrailObject*>( focusObject() );
+void SkyMap::slotCenter()
+{
+    KStars * kstars = KStars::Instance();
+    TrailObject * trailObj = dynamic_cast<TrailObject *>( focusObject() );
 
     setFocusPoint( clickedPoint() );
     if ( Options::useAltAz() )
@@ -343,7 +361,7 @@ void SkyMap::slotCenter() {
         // JM 2016-09-12: Following call has problems when ra0/dec0 of an object are not valid for example
         // because they're solar system bodies. So it creates a lot of issues. It is disabled and centering
         // works correctly for all different body types as I tested.
-        DeepSkyObject *dso = dynamic_cast<DeepSkyObject *>( focusObject() );
+        DeepSkyObject * dso = dynamic_cast<DeepSkyObject *>( focusObject() );
         if ( dso )
             focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -353,7 +371,8 @@ void SkyMap::slotCenter() {
     qDebug() << "Centering on " << focusPoint()->ra().toHMSString() << " " << focusPoint()->dec().toDMSString();
 
     //clear the planet trail of old focusObject, if it was temporary
-    if( trailObj && data->temporaryTrail ) {
+    if( trailObj && data->temporaryTrail )
+    {
         trailObj->clearTrail();
         data->temporaryTrail = false;
     }
@@ -361,12 +380,14 @@ void SkyMap::slotCenter() {
     //If the requested object is below the opaque horizon, issue a warning message
     //(unless user is already pointed below the horizon)
     if ( Options::useAltAz() && Options::showGround() &&
-            focus()->alt().Degrees() > -1.0 && focusPoint()->alt().Degrees() < -1.0 ) {
+            focus()->alt().Degrees() > -1.0 && focusPoint()->alt().Degrees() < -1.0 )
+    {
 
         QString caption = i18n( "Requested Position Below Horizon" );
         QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
         if ( KMessageBox::warningYesNo( this, message, caption,
-                                        KGuiItem(i18n("Go Anyway")), KGuiItem(i18n("Keep Position")), "dag_focus_below_horiz" )==KMessageBox::No ) {
+                                        KGuiItem(i18n("Go Anyway")), KGuiItem(i18n("Keep Position")), "dag_focus_below_horiz" )==KMessageBox::No )
+        {
             setClickedObject( NULL );
             setFocusObject( NULL );
             Options::setIsTracking( false );
@@ -379,22 +400,27 @@ void SkyMap::slotCenter() {
     //destination to previous object...
     setFocusObject( ClickedObject );
     Options::setIsTracking( true );
-    if ( kstars ) {
+    if ( kstars )
+    {
         kstars->actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.svg")) );
         kstars->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
     }
 
     //If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
 
-    if( Options::useAutoTrail() && trailObj && trailObj->hasTrail() ) {
+    if( Options::useAutoTrail() && trailObj && trailObj->hasTrail() )
+    {
         trailObj->addToTrail();
         data->temporaryTrail = true;
     }
 
     //update the destination to the selected coordinates
-    if ( Options::useAltAz() ) {
+    if ( Options::useAltAz() )
+    {
         setDestinationAltAz( focusPoint()->altRefracted(), focusPoint()->az() );
-    } else {
+    }
+    else
+    {
         setDestination( *focusPoint() );
     }
 
@@ -405,7 +431,8 @@ void SkyMap::slotCenter() {
     showFocusCoords(); //update FocusBox
 }
 
-void SkyMap::slotUpdateSky( bool now ) {
+void SkyMap::slotUpdateSky( bool now )
+{
     // Code moved from KStarsData::updateTime()
     //Update focus
     updateFocus();
@@ -416,15 +443,19 @@ void SkyMap::slotUpdateSky( bool now ) {
         forceUpdate();
 }
 
-void SkyMap::slotDSS() {
+void SkyMap::slotDSS()
+{
     dms ra(0.0), dec(0.0);
     QString urlstring;
 
     //ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
     //if we clicked on empty sky, we need to precess to J2000.
-    if ( clickedObject() ) {
+    if ( clickedObject() )
+    {
         urlstring = KSDssDownloader::getDSSURL( clickedObject() );
-    } else {
+    }
+    else
+    {
         SkyPoint deprecessedPoint = clickedPoint()->deprecess( data->updateNum() );
         ra  = deprecessedPoint.ra();
         dec = deprecessedPoint.dec();
@@ -433,13 +464,16 @@ void SkyMap::slotDSS() {
 
     QUrl url ( urlstring );
 
-    KStars* kstars = KStars::Instance();
-    if( kstars ) { new ImageViewer( url,i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." ), this );
+    KStars * kstars = KStars::Instance();
+    if( kstars )
+    {
+        new ImageViewer( url,i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." ), this );
         //iv->show();
     }
 }
 
-void SkyMap::slotSDSS() {
+void SkyMap::slotSDSS()
+{
     // TODO: Remove code duplication -- we have the same stuff
     // implemented in ObservingList::setCurrentImage() etc. in
     // tools/observinglist.cpp; must try to de-duplicate as much as
@@ -451,10 +485,13 @@ void SkyMap::slotSDSS() {
 
     //ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
     //if we clicked on empty sky, we need to precess to J2000.
-    if ( clickedObject() ) {
+    if ( clickedObject() )
+    {
         ra  = clickedObject()->ra0();
         dec = clickedObject()->dec0();
-    } else {
+    }
+    else
+    {
         SkyPoint deprecessedPoint = clickedPoint()->deprecess( data->updateNum() );
         ra  = deprecessedPoint.ra();
         dec = deprecessedPoint.dec();
@@ -466,25 +503,30 @@ void SkyMap::slotSDSS() {
     //concat all the segments into the kview command line:
     QUrl url (URLprefix + RAString + DecString + URLsuffix);
 
-    KStars* kstars = KStars::Instance();
-    if( kstars ) {
+    KStars * kstars = KStars::Instance();
+    if( kstars )
+    {
         new ImageViewer( url, i18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." ), this );
         //iv->show();
     }
 }
 
-void SkyMap::slotEyepieceView() {
+void SkyMap::slotEyepieceView()
+{
     KStars::Instance()->slotEyepieceView( ( clickedObject() ? clickedObject() : clickedPoint() ) );
 }
-void SkyMap::slotBeginAngularDistance() {
+void SkyMap::slotBeginAngularDistance()
+{
     beginRulerMode( false );
 }
 
-void SkyMap::slotBeginStarHop() {
+void SkyMap::slotBeginStarHop()
+{
     beginRulerMode( true );
 }
 
-void SkyMap::beginRulerMode( bool starHopRuler ) {
+void SkyMap::beginRulerMode( bool starHopRuler )
+{
     rulerMode = true;
     starHopDefineMode = starHopRuler;
     AngularRuler.clear();
@@ -492,12 +534,15 @@ void SkyMap::beginRulerMode( bool starHopRuler ) {
     //If the cursor is near a SkyObject, reset the AngularRuler's
     //start point to the position of the SkyObject
     double maxrad = 1000.0/Options::zoomFactor();
-    SkyObject *so = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
-    if ( so ) {
+    SkyObject * so = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
+    if ( so )
+    {
         AngularRuler.append( so );
         AngularRuler.append( so );
         m_rulerStartPoint = so;
-    } else {
+    }
+    else
+    {
         AngularRuler.append( clickedPoint() );
         AngularRuler.append( clickedPoint() );
         m_rulerStartPoint = clickedPoint();
@@ -506,22 +551,27 @@ void SkyMap::beginRulerMode( bool starHopRuler ) {
     AngularRuler.update( data );
 }
 
-void SkyMap::slotEndRulerMode() {
+void SkyMap::slotEndRulerMode()
+{
     if( !rulerMode )
         return;
-    if( !starHopDefineMode ) { // Angular Ruler
+    if( !starHopDefineMode )   // Angular Ruler
+    {
         QString sbMessage;
 
         //If the cursor is near a SkyObject, reset the AngularRuler's
         //end point to the position of the SkyObject
         double maxrad = 1000.0/Options::zoomFactor();
-        SkyPoint *rulerEndPoint;
-        SkyObject *so = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
-        if ( so ) {
+        SkyPoint * rulerEndPoint;
+        SkyObject * so = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
+        if ( so )
+        {
             AngularRuler.setPoint( 1, so );
             sbMessage = so->translatedLongName() + "   ";
             rulerEndPoint = so;
-        } else {
+        }
+        else
+        {
             AngularRuler.setPoint( 1, clickedPoint() );
             rulerEndPoint = clickedPoint();
         }
@@ -532,13 +582,14 @@ void SkyMap::slotEndRulerMode() {
 
         sbMessage += i18n( "Angular distance: %1", angularDistance.toDMSString() );
 
-        const StarObject *p1 = dynamic_cast<const StarObject *>( m_rulerStartPoint );
-        const StarObject *p2 = dynamic_cast<const StarObject *>( rulerEndPoint );
+        const StarObject * p1 = dynamic_cast<const StarObject *>( m_rulerStartPoint );
+        const StarObject * p2 = dynamic_cast<const StarObject *>( rulerEndPoint );
         qDebug() << "Starobjects? " << p1 << p2;
         if( p1 && p2 )
             qDebug() << "Distances: " << p1->distance() << "pc; " << p2->distance() << "pc";
         if( p1 && p2 && std::isfinite( p1->distance() ) && std::isfinite( p2->distance() )
-            && p1->distance() > 0 && p2->distance() > 0 ) {
+                && p1->distance() > 0 && p2->distance() > 0 )
+        {
             double dist = sqrt( p1->distance() * p1->distance() + p2->distance() * p2->distance() - 2 * p1->distance() * p2->distance() * cos( angularDistance.radians() ) );
             qDebug() << "Could calculate physical distance: " << dist << " pc";
             sbMessage += i18n( "; Physical distance: %1 pc", QString::number( dist ) );
@@ -548,42 +599,48 @@ void SkyMap::slotEndRulerMode() {
 
         // Create unobsructive message box with suicidal tendencies
         // to display result.
-        InfoBoxWidget* box = new InfoBoxWidget(
+        InfoBoxWidget * box = new InfoBoxWidget(
             true, mapFromGlobal( QCursor::pos() ), 0, QStringList(sbMessage), this);
         connect(box, SIGNAL( clicked() ), box, SLOT( deleteLater() ));
         QTimer::singleShot(5000, box, SLOT( deleteLater() ));
         box->adjust();
         box->show();
     }
-    else { // Star Hop
-        StarHopperDialog *shd = new StarHopperDialog( this );
+    else   // Star Hop
+    {
+        StarHopperDialog * shd = new StarHopperDialog( this );
         const SkyPoint &startHop = *AngularRuler.point( 0 );
         const SkyPoint &stopHop = *clickedPoint();
         double fov; // Field of view in arcminutes
         bool ok; // true if user did not cancel the operation
-        if( data->getAvailableFOVs().size() == 1 ) {
+        if( data->getAvailableFOVs().size() == 1 )
+        {
             // Exactly 1 FOV symbol visible, so use that. Also assume a circular FOV of size min{sizeX, sizeY}
-            FOV *f = data->getAvailableFOVs().first();
+            FOV * f = data->getAvailableFOVs().first();
             fov = ( ( f->sizeX() >= f->sizeY() && f->sizeY() != 0 ) ? f->sizeY() : f->sizeX() );
             ok = true;
         }
-        else if( !data->getAvailableFOVs().isEmpty() ) {
+        else if( !data->getAvailableFOVs().isEmpty() )
+        {
             // Ask the user to choose from a list of available FOVs.
-            FOV const *f;
+            FOV const * f;
             QMap< QString, double > nameToFovMap;
-            foreach( f, data->getAvailableFOVs() ) {
+            foreach( f, data->getAvailableFOVs() )
+            {
                 nameToFovMap.insert( f->name(), ( ( f->sizeX() >= f->sizeY() && f->sizeY() != 0) ? f->sizeY() : f->sizeX() ) );
             }
             fov = nameToFovMap[ QInputDialog::getItem( this, i18n("Star Hopper: Choose a field-of-view"), i18n("FOV to use for star hopping:"), nameToFovMap.uniqueKeys(), 0, false, &ok ) ];
         }
-        else {
+        else
+        {
             // Ask the user to enter a field of view
             fov = QInputDialog::getDouble( this, i18n("Star Hopper: Enter field-of-view to use"), i18n("FOV to use for star hopping (in arcminutes):"), 60.0, 1.0, 600.0, 1, &ok );
         }
 
         Q_ASSERT( fov > 0.0 );
 
-        if( ok ) {
+        if( ok )
+        {
 
             qDebug() << "fov = " << fov;
 
@@ -596,14 +653,15 @@ void SkyMap::slotEndRulerMode() {
 
 }
 
-void SkyMap::slotCancelRulerMode(void) {
+void SkyMap::slotCancelRulerMode(void)
+{
     rulerMode = false;
     AngularRuler.clear();
 }
 
 void SkyMap::slotAddFlag()
 {
-    KStars *ks = KStars::Instance();
+    KStars * ks = KStars::Instance();
 
     // popup FlagManager window and update coordinates
     ks->slotFlagManager();
@@ -629,45 +687,55 @@ void SkyMap::slotAddFlag()
     ks->flagManager()->setRaDec(J2000RA, J2000DE);
 }
 
-void SkyMap::slotEditFlag( int flagIdx ) {
-    KStars *ks = KStars::Instance();
+void SkyMap::slotEditFlag( int flagIdx )
+{
+    KStars * ks = KStars::Instance();
 
     // popup FlagManager window and switch to selected flag
     ks->slotFlagManager();
     ks->flagManager()->showFlag( flagIdx );
 }
 
-void SkyMap::slotDeleteFlag( int flagIdx ) {
-    KStars *ks = KStars::Instance();
+void SkyMap::slotDeleteFlag( int flagIdx )
+{
+    KStars * ks = KStars::Instance();
 
     ks->data()->skyComposite()->flags()->remove( flagIdx );
     ks->data()->skyComposite()->flags()->saveToFile();
 
     // if there is FlagManager created, update its flag model
-    if ( ks->flagManager() ) {
+    if ( ks->flagManager() )
+    {
         ks->flagManager()->deleteFlagItem( flagIdx );
     }
 }
 
-void SkyMap::slotImage() {
+void SkyMap::slotImage()
+{
     QString message = ((QAction *)sender())->text();
     message = message.remove( '&' ); //Get rid of accelerator markers
 
     // Need to do this because we are comparing translated strings
     int index = -1;
-    for( int i = 0; i < clickedObject()->ImageTitle().size(); ++i ) {
-        if( i18nc( "Image/info menu item (should be translated)", clickedObject()->ImageTitle().at( i ).toLocal8Bit().data() ) == message ) {
+    for( int i = 0; i < clickedObject()->ImageTitle().size(); ++i )
+    {
+        if( i18nc( "Image/info menu item (should be translated)", clickedObject()->ImageTitle().at( i ).toLocal8Bit().data() ) == message )
+        {
             index = i;
             break;
         }
     }
 
     QString sURL;
-    if ( index >= 0 && index < clickedObject()->ImageList().size() ) {
+    if ( index >= 0 && index < clickedObject()->ImageList().size() )
+    {
         sURL = clickedObject()->ImageList()[ index ];
-    } else {
+    }
+    else
+    {
         qWarning() << "ImageList index out of bounds: " << index;
-        if ( index == -1 ) {
+        if ( index == -1 )
+        {
             qWarning() << "Message string \"" << message << "\" not found in ImageTitle.";
             qDebug() << clickedObject()->ImageTitle();
         }
@@ -678,25 +746,32 @@ void SkyMap::slotImage() {
         new ImageViewer( url, clickedObject()->messageFromTitle(message), this );
 }
 
-void SkyMap::slotInfo() {
+void SkyMap::slotInfo()
+{
     QString message = ((QAction *)sender())->text();
     message = message.remove( '&' ); //Get rid of accelerator markers
 
     // Need to do this because we are comparing translated strings
     int index = -1;
-    for( int i = 0; i < clickedObject()->InfoTitle().size(); ++i ) {
-        if( i18nc( "Image/info menu item (should be translated)", clickedObject()->InfoTitle().at( i ).toLocal8Bit().data() ) == message ) {
+    for( int i = 0; i < clickedObject()->InfoTitle().size(); ++i )
+    {
+        if( i18nc( "Image/info menu item (should be translated)", clickedObject()->InfoTitle().at( i ).toLocal8Bit().data() ) == message )
+        {
             index = i;
             break;
         }
     }
 
     QString sURL;
-    if ( index >= 0 && index < clickedObject()->InfoList().size() ) {
+    if ( index >= 0 && index < clickedObject()->InfoList().size() )
+    {
         sURL = clickedObject()->InfoList()[ index ];
-    } else {
+    }
+    else
+    {
         qWarning() << "InfoList index out of bounds: " << index;
-        if ( index == -1 ) {
+        if ( index == -1 )
+        {
             qWarning() << "Message string \"" << message << "\" not found in InfoTitle.";
             qDebug() << clickedObject()->InfoTitle();
         }
@@ -707,7 +782,8 @@ void SkyMap::slotInfo() {
         QDesktopServices::openUrl(url);
 }
 
-bool SkyMap::isObjectLabeled( SkyObject *object ) {
+bool SkyMap::isObjectLabeled( SkyObject * object )
+{
     return data->skyComposite()->labelObjects().contains( object );
 }
 
@@ -720,86 +796,105 @@ SkyPoint SkyMap::getCenterPoint()
     return retVal;
 }
 
-void SkyMap::slotRemoveObjectLabel() {
+void SkyMap::slotRemoveObjectLabel()
+{
     data->skyComposite()->removeNameLabel( clickedObject() );
     forceUpdate();
 }
 
-void SkyMap::slotAddObjectLabel() {
+void SkyMap::slotAddObjectLabel()
+{
     data->skyComposite()->addNameLabel( clickedObject() );
     forceUpdate();
 }
 
-void SkyMap::slotRemovePlanetTrail() {
-    TrailObject* tobj = dynamic_cast<TrailObject*>( clickedObject() );
-    if( tobj ) {
+void SkyMap::slotRemovePlanetTrail()
+{
+    TrailObject * tobj = dynamic_cast<TrailObject *>( clickedObject() );
+    if( tobj )
+    {
         tobj->clearTrail();
         forceUpdate();
     }
 }
 
-void SkyMap::slotAddPlanetTrail() {
-    TrailObject* tobj = dynamic_cast<TrailObject*>( clickedObject() );
-    if( tobj ) {
+void SkyMap::slotAddPlanetTrail()
+{
+    TrailObject * tobj = dynamic_cast<TrailObject *>( clickedObject() );
+    if( tobj )
+    {
         tobj->addToTrail();
         forceUpdate();
     }
 }
 
-void SkyMap::slotDetail() {
+void SkyMap::slotDetail()
+{
     // check if object is selected
-    if ( !clickedObject() ) {
+    if ( !clickedObject() )
+    {
         KMessageBox::sorry( this, i18n("No object selected."), i18n("Object Details") );
         return;
     }
-    DetailDialog* detail = new DetailDialog( clickedObject(), data->ut(), data->geo(), KStars::Instance() );
+    DetailDialog * detail = new DetailDialog( clickedObject(), data->ut(), data->geo(), KStars::Instance() );
     detail->setAttribute(Qt::WA_DeleteOnClose);
     detail->show();
 }
 
-void SkyMap::slotObjectSelected() {
-    if(m_objPointingMode && KStars::Instance()->printingWizard()) {
+void SkyMap::slotObjectSelected()
+{
+    if(m_objPointingMode && KStars::Instance()->printingWizard())
+    {
         KStars::Instance()->printingWizard()->pointingDone(clickedObject());
         m_objPointingMode = false;
     }
 }
 
-void SkyMap::slotCancelLegendPreviewMode() {
+void SkyMap::slotCancelLegendPreviewMode()
+{
     m_previewLegend = false;
     forceUpdate(true);
     KStars::Instance()->showImgExportDialog();
 }
 
-void SkyMap::slotFinishFovCaptureMode() {
-    if(m_fovCaptureMode && KStars::Instance()->printingWizard()) {
+void SkyMap::slotFinishFovCaptureMode()
+{
+    if(m_fovCaptureMode && KStars::Instance()->printingWizard())
+    {
         KStars::Instance()->printingWizard()->fovCaptureDone();
         m_fovCaptureMode = false;
     }
 }
 
-void SkyMap::slotCaptureFov() {
-    if(KStars::Instance()->printingWizard()) {
+void SkyMap::slotCaptureFov()
+{
+    if(KStars::Instance()->printingWizard())
+    {
         KStars::Instance()->printingWizard()->captureFov();
     }
 }
 
-void SkyMap::slotClockSlewing() {
+void SkyMap::slotClockSlewing()
+{
     //If the current timescale exceeds slewTimeScale, set clockSlewing=true, and stop the clock.
-    if( (fabs( data->clock()->scale() ) > Options::slewTimeScale())  ^  clockSlewing ) {
+    if( (fabs( data->clock()->scale() ) > Options::slewTimeScale())  ^  clockSlewing )
+    {
         data->clock()->setManualMode( !clockSlewing );
         clockSlewing = !clockSlewing;
         // don't change automatically the DST status
-        KStars* kstars = KStars::Instance();
+        KStars * kstars = KStars::Instance();
         if( kstars )
             kstars->updateTime( false );
     }
 }
 
-void SkyMap::setFocus( SkyPoint *p ) {
+void SkyMap::setFocus( SkyPoint * p )
+{
     setFocus( p->ra(), p->dec() );
 }
 
-void SkyMap::setFocus( const dms &ra, const dms &dec ) {
+void SkyMap::setFocus( const dms &ra, const dms &dec )
+{
     Options::setFocusRA(  ra.Hours() );
     Options::setFocusDec( dec.Degrees() );
 
@@ -807,7 +902,8 @@ void SkyMap::setFocus( const dms &ra, const dms &dec ) {
     focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void SkyMap::setFocusAltAz( const dms &alt, const dms &az) {
+void SkyMap::setFocusAltAz( const dms &alt, const dms &az)
+{
     Options::setFocusRA( focus()->ra().Hours() );
     Options::setFocusDec( focus()->dec().Degrees() );
     focus()->setAlt(alt);
@@ -818,76 +914,96 @@ void SkyMap::setFocusAltAz( const dms &alt, const dms &az) {
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
-void SkyMap::setDestination( const SkyPoint& p ) {
+void SkyMap::setDestination( const SkyPoint &p )
+{
     setDestination( p.ra(), p.dec() );
 }
 
-void SkyMap::setDestination( const dms &ra, const dms &dec ) {
+void SkyMap::setDestination( const dms &ra, const dms &dec )
+{
     destination()->set( ra, dec );
     destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
-void SkyMap::setDestinationAltAz( const dms &alt, const dms &az) {
+void SkyMap::setDestinationAltAz( const dms &alt, const dms &az)
+{
     destination()->setAlt(alt);
     destination()->setAz(az);
     destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
-void SkyMap::setClickedPoint( SkyPoint *f ) {
+void SkyMap::setClickedPoint( SkyPoint * f )
+{
     ClickedPoint = *f;
 }
 
-void SkyMap::updateFocus() {
+void SkyMap::updateFocus()
+{
     if( slewing )
         return;
 
     //Tracking on an object
-    if ( Options::isTracking() && focusObject() != NULL ) {
-        if ( Options::useAltAz() ) {
+    if ( Options::isTracking() && focusObject() != NULL )
+    {
+        if ( Options::useAltAz() )
+        {
             //Tracking any object in Alt/Az mode requires focus updates
             focusObject()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
             setFocusAltAz( focusObject()->altRefracted(), focusObject()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
             setDestination( *focus() );
-        } else {
+        }
+        else
+        {
             //Tracking in equatorial coords
             setFocus( focusObject() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             setDestination( *focus() );
         }
 
-    //Tracking on empty sky
-    } else if ( Options::isTracking() && focusPoint() != NULL ) {
-        if ( Options::useAltAz() ) {
+        //Tracking on empty sky
+    }
+    else if ( Options::isTracking() && focusPoint() != NULL )
+    {
+        if ( Options::useAltAz() )
+        {
             //Tracking on empty sky in Alt/Az mode
             setFocus( focusPoint() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             setDestination( *focus() );
         }
 
-    // Not tracking and not slewing, let sky drift by
-    // This means that horizontal coordinates are constant.
-    } else {
+        // Not tracking and not slewing, let sky drift by
+        // This means that horizontal coordinates are constant.
+    }
+    else
+    {
         focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat() );
     }
 }
 
-void SkyMap::slewFocus() {
+void SkyMap::slewFocus()
+{
     //Don't slew if the mouse button is pressed
     //Also, no animated slews if the Manual Clock is active
     //08/2002: added possibility for one-time skipping of slew with snapNextFocus
-    if ( !mouseButtonDown ) {
+    if ( !mouseButtonDown )
+    {
         bool goSlew =  ( Options::useAnimatedSlewing() && ! data->snapNextFocus() ) &&
-                      !( data->clock()->isManualMode() && data->clock()->isActive() );
-        if ( goSlew  ) {
+                       !( data->clock()->isManualMode() && data->clock()->isActive() );
+        if ( goSlew  )
+        {
             double dX, dY;
             double maxstep = 10.0;
-            if ( Options::useAltAz() ) {
+            if ( Options::useAltAz() )
+            {
                 dX = destination()->az().Degrees() - focus()->az().Degrees();
                 dY = destination()->alt().Degrees() - focus()->alt().Degrees();
-            } else {
+            }
+            else
+            {
                 dX = destination()->ra().Degrees() - focus()->ra().Degrees();
                 dY = destination()->dec().Degrees() - focus()->dec().Degrees();
             }
@@ -896,22 +1012,27 @@ void SkyMap::slewFocus() {
             dX = KSUtils::reduceAngle(dX, -180.0, 180.0);
 
             double r0 = sqrt( dX*dX + dY*dY );
-            if ( r0 < 20.0 ) { //smaller slews have smaller maxstep
+            if ( r0 < 20.0 )   //smaller slews have smaller maxstep
+            {
                 maxstep *= (10.0 + 0.5*r0)/20.0;
             }
             double step  = 0.5;
             double r  = r0;
-            while ( r > step ) {
+            while ( r > step )
+            {
                 //DEBUG
                 //qDebug() << step << ": " << r << ": " << r0 << endl;
                 double fX = dX / r;
                 double fY = dY / r;
 
-                if ( Options::useAltAz() ) {
+                if ( Options::useAltAz() )
+                {
                     focus()->setAlt( focus()->alt().Degrees() + fY*step );
                     focus()->setAz( dms( focus()->az().Degrees() + fX*step ).reduce() );
                     focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-                } else {
+                }
+                else
+                {
                     fX = fX/15.; //convert RA degrees to hours
                     SkyPoint newFocus( focus()->ra().Hours() + fX*step, focus()->dec().Degrees() + fY*step );
                     setFocus( &newFocus );
@@ -923,10 +1044,13 @@ void SkyMap::slewFocus() {
                 forceUpdate();
                 qApp->processEvents(); //keep up with other stuff
 
-                if ( Options::useAltAz() ) {
+                if ( Options::useAltAz() )
+                {
                     dX = destination()->az().Degrees() - focus()->az().Degrees();
                     dY = destination()->alt().Degrees() - focus()->alt().Degrees();
-                } else {
+                }
+                else
+                {
                     dX = destination()->ra().Degrees() - focus()->ra().Degrees();
                     dY = destination()->dec().Degrees() - focus()->dec().Degrees();
                 }
@@ -947,10 +1071,13 @@ void SkyMap::slewFocus() {
 
         //Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
         //set focus=destination.
-        if ( Options::useAltAz() ) {
+        if ( Options::useAltAz() )
+        {
             setFocusAltAz( destination()->alt(), destination()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-        } else {
+        }
+        else
+        {
             setFocus( destination() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
@@ -958,7 +1085,8 @@ void SkyMap::slewFocus() {
         slewing = false;
 
         //Turn off snapNextFocus, we only want it to happen once
-        if ( data->snapNextFocus() ) {
+        if ( data->snapNextFocus() )
+        {
             data->setSnapNextFocus(false);
         }
 
@@ -971,19 +1099,23 @@ void SkyMap::slewFocus() {
     }
 }
 
-void SkyMap::slotZoomIn() {
+void SkyMap::slotZoomIn()
+{
     setZoomFactor( Options::zoomFactor() * DZOOM );
 }
 
-void SkyMap::slotZoomOut() {
+void SkyMap::slotZoomOut()
+{
     setZoomFactor( Options::zoomFactor() / DZOOM );
 }
 
-void SkyMap::slotZoomDefault() {
+void SkyMap::slotZoomDefault()
+{
     setZoomFactor( DEFAULTZOOM );
 }
 
-void SkyMap::setZoomFactor(double factor) {
+void SkyMap::setZoomFactor(double factor)
+{
     Options::setZoomFactor(  KSUtils::clamp(factor, MINZOOM, MAXZOOM)  );
     forceUpdate();
     emit zoomChanged();
@@ -995,7 +1127,8 @@ void SkyMap::setZoomFactor(double factor) {
 void SkyMap::forceUpdate( bool now )
 {
     QPoint mp( mapFromGlobal( QCursor::pos() ) );
-    if (! projector()->unusablePoint( mp )) {
+    if (! projector()->unusablePoint( mp ))
+    {
         //determine RA, Dec of mouse pointer
         m_MousePoint = projector()->fromScreen( mp, data->lst(), data->geo()->lat() );
     }
@@ -1012,12 +1145,14 @@ void SkyMap::forceUpdate( bool now )
 
 }
 
-float SkyMap::fov() {
-     float diagonalPixels = sqrt(static_cast<double>( width() * width() + height() * height() ));
-     return diagonalPixels / ( 2 * Options::zoomFactor() * dms::DegToRad );
+float SkyMap::fov()
+{
+    float diagonalPixels = sqrt(static_cast<double>( width() * width() + height() * height() ));
+    return diagonalPixels / ( 2 * Options::zoomFactor() * dms::DegToRad );
 }
 
-void SkyMap::setupProjector() {
+void SkyMap::setupProjector()
+{
     //Update View Parameters for projection
     ViewParams p;
     p.focus         = focus();
@@ -1030,9 +1165,11 @@ void SkyMap::setupProjector() {
     //Check if we need a new projector
     if( m_proj && Options::projection() == m_proj->type() )
         m_proj->setViewParams(p);
-    else {
+    else
+    {
         delete m_proj;
-        switch( Options::projection() ) {
+        switch( Options::projection() )
+        {
             case Gnomonic:
                 m_proj = new GnomonicProjector(p);
                 break;
@@ -1048,7 +1185,8 @@ void SkyMap::setupProjector() {
             case Equirectangular:
                 m_proj = new EquirectangularProjector(p);
                 break;
-            case Lambert: default:
+            case Lambert:
+            default:
                 //TODO: implement other projection classes
                 m_proj = new LambertProjector(p);
                 break;
@@ -1081,22 +1219,26 @@ void SkyMap::setMouseMoveCursor()
     }
 }
 
-void SkyMap::updateAngleRuler() {
+void SkyMap::updateAngleRuler()
+{
     if( rulerMode && (!pmenu || !pmenu->isVisible()) )
         AngularRuler.setPoint( 1, &m_MousePoint );
     AngularRuler.update( data );
 }
 
-bool SkyMap::isSlewing() const  {
+bool SkyMap::isSlewing() const
+{
     return (slewing || ( clockSlewing && data->clock()->isActive() ) );
 }
 
 #ifdef HAVE_XPLANET
-void SkyMap::startXplanet( const QString & outputFile ) {
+void SkyMap::startXplanet( const QString &outputFile )
+{
     QString year, month, day, hour, minute, seconde, fov;
 
     // If Options::xplanetPath() is empty, return
-    if ( Options::xplanetPath().isEmpty() ) {
+    if ( Options::xplanetPath().isEmpty() )
+    {
         KMessageBox::error(0, i18n("Xplanet binary path is empty in config panel."));
         return;
     }
@@ -1110,7 +1252,7 @@ void SkyMap::startXplanet( const QString & outputFile ) {
     if ( seconde.setNum( data->ut().time().second() ).size() == 1 ) seconde.push_front( '0' );
 
     // Create xplanet process
-    QProcess *xplanetProc = new QProcess;
+    QProcess * xplanetProc = new QProcess;
 
     // Add some options
     QStringList args;
@@ -1139,10 +1281,11 @@ void SkyMap::startXplanet( const QString & outputFile ) {
         args << "-output" << outputFile << "-quality" << Options::xplanetQuality();
 
     // Labels
-    if ( Options::xplanetLabel() ) {
+    if ( Options::xplanetLabel() )
+    {
         args << "-fontsize" << Options::xplanetFontSize()
-                << "-color" << "0x" + Options::xplanetColor().mid( 1 )
-                << "-date_format" << Options::xplanetDateFormat();
+             << "-color" << "0x" + Options::xplanetColor().mid( 1 )
+             << "-date_format" << Options::xplanetDateFormat();
 
         if ( Options::xplanetLabelGMT() )
             args << "-gmtlabel";
@@ -1173,24 +1316,54 @@ void SkyMap::startXplanet( const QString & outputFile ) {
         args << "-latitude" << Options::xplanetLatitude() << "-longitude" << Options::xplanetLongitude();
 
     // Projection
-    if ( Options::xplanetProjection() ) {
-        switch ( Options::xplanetProjection() ) {
-            case 1 : args << "-projection" << "ancient"; break;
-            case 2 : args << "-projection" << "azimuthal"; break;
-            case 3 : args << "-projection" << "bonne"; break;
-            case 4 : args << "-projection" << "gnomonic"; break;
-            case 5 : args << "-projection" << "hemisphere"; break;
-            case 6 : args << "-projection" << "lambert"; break;
-            case 7 : args << "-projection" << "mercator"; break;
-            case 8 : args << "-projection" << "mollweide"; break;
-            case 9 : args << "-projection" << "orthographic"; break;
-            case 10 : args << "-projection" << "peters"; break;
-            case 11 : args << "-projection" << "polyconic"; break;
-            case 12 : args << "-projection" << "rectangular"; break;
-            case 13 : args << "-projection" << "tsc"; break;
-            default : break;
+    if ( Options::xplanetProjection() )
+    {
+        switch ( Options::xplanetProjection() )
+        {
+            case 1 :
+                args << "-projection" << "ancient";
+                break;
+            case 2 :
+                args << "-projection" << "azimuthal";
+                break;
+            case 3 :
+                args << "-projection" << "bonne";
+                break;
+            case 4 :
+                args << "-projection" << "gnomonic";
+                break;
+            case 5 :
+                args << "-projection" << "hemisphere";
+                break;
+            case 6 :
+                args << "-projection" << "lambert";
+                break;
+            case 7 :
+                args << "-projection" << "mercator";
+                break;
+            case 8 :
+                args << "-projection" << "mollweide";
+                break;
+            case 9 :
+                args << "-projection" << "orthographic";
+                break;
+            case 10 :
+                args << "-projection" << "peters";
+                break;
+            case 11 :
+                args << "-projection" << "polyconic";
+                break;
+            case 12 :
+                args << "-projection" << "rectangular";
+                break;
+            case 13 :
+                args << "-projection" << "tsc";
+                break;
+            default :
+                break;
         }
-        if ( Options::xplanetBackground() ) {
+        if ( Options::xplanetBackground() )
+        {
             if ( Options::xplanetBackgroundImage() )
                 args << "-background" << Options::xplanetBackgroundImagePath();
             else
@@ -1206,25 +1379,30 @@ void SkyMap::startXplanet( const QString & outputFile ) {
 
     QString xPlanetLocation=Options::xplanetPath();
 
-    #ifdef Q_OS_OSX
-    if(Options::xplanetIsInternal()){
+#ifdef Q_OS_OSX
+    if(Options::xplanetIsInternal())
+    {
         xPlanetLocation=QCoreApplication::applicationDirPath()+"/xplanet/bin/xplanet";
         QString searchDir=QCoreApplication::applicationDirPath()+"/xplanet/share/xplanet/";
         args << "-searchdir" << searchDir;
     }
-    #endif
+#endif
     xplanetProc->start(xPlanetLocation, args);
-    if(xplanetProc){
+    if(xplanetProc)
+    {
         xplanetProc->waitForFinished(1000);
         new ImageViewer( QUrl::fromLocalFile(outputFile), "XPlanet View: "+ clickedObject()->name() + ",  " + data->lt().date().toString() + ",  "+ data->lt().time().toString(),
-                this );
+                         this );
         //iv->show();
-    } else{
+    }
+    else
+    {
         KMessageBox::sorry( this, i18n("XPlanet Program Error"));
     }
 }
 
-void SkyMap::slotXplanetToWindow() {
+void SkyMap::slotXplanetToWindow()
+{
     QDir writableDir;
     QString xPlanetDirPath=KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "xplanet";
     writableDir.mkpath(xPlanetDirPath);
@@ -1232,9 +1410,11 @@ void SkyMap::slotXplanetToWindow() {
     startXplanet(xPlanetPath);
 }
 
-void SkyMap::slotXplanetToFile() {
+void SkyMap::slotXplanetToFile()
+{
     QString filename = QFileDialog::getSaveFileName( );
-    if ( ! filename.isEmpty() ) {
+    if ( ! filename.isEmpty() )
+    {
         startXplanet( filename );
     }
 }

@@ -21,15 +21,17 @@
 #endif
 #include "Options.h"
 
-TargetListComponent::TargetListComponent( SkyComposite *parent ) : SkyComponent( parent ) {
+TargetListComponent::TargetListComponent( SkyComposite * parent ) : SkyComponent( parent )
+{
     list = 0;
     drawSymbols = 0;
     drawLabels = 0;
 }
 
-TargetListComponent::TargetListComponent( SkyComposite *parent, SkyObjectList *objectList, QPen _pen, 
-                                          bool (*optionDrawSymbols)(void), bool (*optionDrawLabels)(void) ) 
-    : SkyComponent( parent ), pen( _pen ) {
+TargetListComponent::TargetListComponent( SkyComposite * parent, SkyObjectList * objectList, QPen _pen,
+        bool (*optionDrawSymbols)(void), bool (*optionDrawLabels)(void) )
+    : SkyComponent( parent ), pen( _pen )
+{
     list = objectList;
     drawSymbols = optionDrawSymbols;
     drawLabels = optionDrawLabels;
@@ -68,7 +70,8 @@ void TargetListComponent::drawTargetSymbol( SkyPainter *skyp, SkyObject *obj ) {
 }
 */
 
-void TargetListComponent::draw( SkyPainter *skyp ) {
+void TargetListComponent::draw( SkyPainter * skyp )
+{
     if( drawSymbols && !(*drawSymbols)() )
         return;
     if( !list || list->count() <= 0 )

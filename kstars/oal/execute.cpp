@@ -37,23 +37,24 @@
 #include "skycomponents/skymapcomposite.h"
 #include "observinglist.h"
 
-Execute::Execute() {
-    QWidget *w = new QWidget;
+Execute::Execute()
+{
+    QWidget * w = new QWidget;
     ui.setupUi( w );
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(w);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    QPushButton *execB = new QPushButton(i18n("End Session"));
-    QPushButton *addObs = new QPushButton(i18n("Manage Observers"));
+    QPushButton * execB = new QPushButton(i18n("End Session"));
+    QPushButton * addObs = new QPushButton(i18n("Manage Observers"));
     execB->setToolTip(i18n("Save and End the current session"));
     buttonBox->addButton(execB, QDialogButtonBox::ActionRole);
     buttonBox->addButton(addObs, QDialogButtonBox::ActionRole);
@@ -104,7 +105,8 @@ Execute::Execute() {
              this, SLOT( slotRemoveObject() ) );
 }
 
-void Execute::init() {
+void Execute::init()
+{
     //initialize geo to current location of the ObservingList
     geo = KStarsData::Instance()->geo();
     ui.Location->setText( geo->fullName() );
@@ -130,17 +132,20 @@ void Execute::init() {
     //load Observers
     loadObservers();
 
-    if( logObject->scopeList()->isEmpty() || logObject->observerList()->isEmpty() ) {
+    if( logObject->scopeList()->isEmpty() || logObject->observerList()->isEmpty() )
+    {
         ui.hintLabel->show();
     }
-    else {
+    else
+    {
         ui.hintLabel->hide();
     }
 
     //set Current Items
     loadCurrentItems();
 }
-void Execute::loadCurrentItems() {
+void Execute::loadCurrentItems()
+{
     //Set the current target, equipments and observer
     if( currentTarget )
         ui.Target->setCurrentRow( findIndexOfTarget( currentTarget->name() ), QItemSelectionModel::SelectCurrent );
@@ -159,47 +164,58 @@ void Execute::loadCurrentItems() {
         ui.Filter->setCurrentIndex( ui.Filter->findText( currentFilter->name()) );
 }
 
-int Execute::findIndexOfTarget( QString name ) {
+int Execute::findIndexOfTarget( QString name )
+{
     for( int i = 0; i < ui.Target->count(); i++ )
         if( ui.Target->item( i )->text() == name )
             return i;
     return -1;
 }
 
-void Execute::slotNext() {
-    switch( ui.stackedWidget->currentIndex() ) {
-        case 0: {
+void Execute::slotNext()
+{
+    switch( ui.stackedWidget->currentIndex() )
+    {
+        case 0:
+        {
             saveSession();
             break;
         }
-        case 1: {
+        case 1:
+        {
             addTargetNotes();
             break;
         }
-        case 2: {
-                addObservation();
-                ui.stackedWidget->setCurrentIndex( 1 );
-                ui.NextButton->setText( i18n( "Next Page >" ) );
-                QString prevTarget = currentTarget->name();
-                loadTargets();
-                ui.Target->setCurrentRow( findIndexOfTarget( prevTarget ), QItemSelectionModel::SelectCurrent );
-                selectNextTarget();
+        case 2:
+        {
+            addObservation();
+            ui.stackedWidget->setCurrentIndex( 1 );
+            ui.NextButton->setText( i18n( "Next Page >" ) );
+            QString prevTarget = currentTarget->name();
+            loadTargets();
+            ui.Target->setCurrentRow( findIndexOfTarget( prevTarget ), QItemSelectionModel::SelectCurrent );
+            selectNextTarget();
             break;
         }
     }
 }
 
-bool Execute::saveSession() {
-    OAL::Site *site = logObject->findSiteByName( geo->fullName() );
-    if( ! site ) {
+bool Execute::saveSession()
+{
+    OAL::Site * site = logObject->findSiteByName( geo->fullName() );
+    if( ! site )
+    {
         while( logObject->findSiteById( i18n( "site_" ) + QString::number( nextSite ) ) )
             nextSite++;
         site = new OAL::Site( geo, i18n( "site_" ) + QString::number( nextSite++ ) );
         logObject->siteList()->append( site );
     }
-    if( currentSession ){
-            currentSession->setSession( currentSession->id(), site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
-    } else {
+    if( currentSession )
+    {
+        currentSession->setSession( currentSession->id(), site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+    }
+    else
+    {
         while( logObject->findSessionByName( i18n( "session_" ) + QString::number( nextSession ) ) )
             nextSession++;
         currentSession = new OAL::Session( i18n( "session_" ) + QString::number( nextSession++ ) , site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
@@ -209,46 +225,54 @@ bool Execute::saveSession() {
     return true;
 }
 
-void Execute::slotLocation() {
+void Execute::slotLocation()
+{
     QPointer<LocationDialog> ld = new LocationDialog( this );
-    if ( ld->exec() == QDialog::Accepted ) {
+    if ( ld->exec() == QDialog::Accepted )
+    {
         geo = ld->selectedCity();
         ui.Location->setText( geo -> fullName() );
     }
     delete ld;
 }
 
-void Execute::loadTargets() {
+void Execute::loadTargets()
+{
     ui.Target->clear();
     sortTargetList();
-    foreach( QSharedPointer<SkyObject> o, KStarsData::Instance()->observingList()->sessionList() ) {
+    foreach( QSharedPointer<SkyObject> o, KStarsData::Instance()->observingList()->sessionList() )
+    {
         ui.Target->addItem( getObjectName(o.data(), false) );
     }
 }
 
-void Execute::loadEquipment() {
+void Execute::loadEquipment()
+{
     ui.Scope->clear();
     ui.Eyepiece->clear();
     ui.Lens->clear();
     ui.Filter->clear();
-    foreach( OAL::Scope *s, *( logObject->scopeList() ) )
+    foreach( OAL::Scope * s, *( logObject->scopeList() ) )
         ui.Scope->addItem( s->name() );
-    foreach( OAL::Eyepiece *e, *( logObject->eyepieceList() ) )
+    foreach( OAL::Eyepiece * e, *( logObject->eyepieceList() ) )
         ui.Eyepiece->addItem( e->name() );
-    foreach( OAL::Lens *l, *( logObject->lensList() ) )
+    foreach( OAL::Lens * l, *( logObject->lensList() ) )
         ui.Lens->addItem( l->name() );
-    foreach( OAL::Filter *f, *( logObject->filterList() ) )
+    foreach( OAL::Filter * f, *( logObject->filterList() ) )
         ui.Filter->addItem( f->name() );
 }
 
-void Execute::loadObservers() {
+void Execute::loadObservers()
+{
     ui.Observer->clear();
-    foreach( OAL::Observer *o,*( logObject->observerList() ) )
+    foreach( OAL::Observer * o,*( logObject->observerList() ) )
         ui.Observer->addItem( o->name() + ' ' + o->surname() );
 }
 
-void Execute::sortTargetList() {
-    auto timeLessThan =  []( QSharedPointer<SkyObject> o1, QSharedPointer<SkyObject> o2 ) {
+void Execute::sortTargetList()
+{
+    auto timeLessThan =  []( QSharedPointer<SkyObject> o1, QSharedPointer<SkyObject> o2 )
+    {
         QTime t1 = KStarsData::Instance()->observingList()->scheduledTime( o1.data() );
         QTime t2 = KStarsData::Instance()->observingList()->scheduledTime( o2.data() );
 
@@ -266,11 +290,13 @@ void Execute::sortTargetList() {
     qSort( KStarsData::Instance()->observingList()->sessionList().begin(), KStarsData::Instance()->observingList()->sessionList().end(), timeLessThan );
 }
 
-void Execute::addTargetNotes() {
+void Execute::addTargetNotes()
+{
     if( ! ui.Target->count() )
         return;
-    SkyObject *o = KStarsData::Instance()->observingList()->findObjectByName( ui.Target->currentItem()->text() );
-    if( o ) {
+    SkyObject * o = KStarsData::Instance()->observingList()->findObjectByName( ui.Target->currentItem()->text() );
+    if( o )
+    {
         currentTarget = o;
         o->setNotes( ui.Notes->toPlainText() );
         ui.Notes->clear();
@@ -278,25 +304,29 @@ void Execute::addTargetNotes() {
     }
 }
 
-void Execute::loadObservationTab() {
-   ui.Time->setTime( KStarsDateTime::currentDateTime().time() );
-   ui.stackedWidget->setCurrentIndex( 2 );
-   ui.NextButton->setText( i18n( "Next Target >" ) );
+void Execute::loadObservationTab()
+{
+    ui.Time->setTime( KStarsDateTime::currentDateTime().time() );
+    ui.stackedWidget->setCurrentIndex( 2 );
+    ui.NextButton->setText( i18n( "Next Target >" ) );
 }
 
-bool Execute::addObservation() {
+bool Execute::addObservation()
+{
     slotSetCurrentObjects();
     while( logObject->findObservationByName( i18n( "observation_" ) + QString::number( nextObservation ) ) )
         nextObservation++;
     KStarsDateTime dt = currentSession->begin();
     dt.setTime( ui.Time->time() );
-    OAL::Observation *o = new OAL::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , currentObserver, currentSession, currentTarget, dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope, currentEyepiece, currentLens, currentFilter, ui.Description->toPlainText(), ui.Language->text() );
-        logObject->observationList()->append( o );
+    OAL::Observation * o = new OAL::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , currentObserver, currentSession, currentTarget, dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope, currentEyepiece, currentLens, currentFilter, ui.Description->toPlainText(), ui.Language->text() );
+    logObject->observationList()->append( o );
     ui.Description->clear();
     return true;
 }
-void Execute::slotEndSession() {
-    if( currentSession ) {
+void Execute::slotEndSession()
+{
+    if( currentSession )
+    {
 
         currentSession->setSession( currentSession->id(), currentSession->site(), ui.Begin->dateTime(),
                                     KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(),
@@ -304,15 +334,18 @@ void Execute::slotEndSession() {
 
         QUrl fileURL = QFileDialog::getSaveFileUrl(0, i18n("Save Session"), QUrl(QDir::homePath()), "*.xml" );
 
-        if( fileURL.isEmpty() ) {
+        if( fileURL.isEmpty() )
+        {
             // Cancel
             return;
         }
 
-        if( fileURL.isValid() ) {
+        if( fileURL.isValid() )
+        {
 
             QFile f( fileURL.toLocalFile() );
-            if( ! f.open( QIODevice::WriteOnly ) ) {
+            if( ! f.open( QIODevice::WriteOnly ) )
+            {
                 QString message = i18n( "Could not open file %1", f.fileName() );
                 KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
                 return;
@@ -331,19 +364,24 @@ void Execute::slotEndSession() {
     currentTarget = NULL;
     currentSession = NULL;
 }
-void Execute::slotObserverAdd() {
+void Execute::slotObserverAdd()
+{
     QPointer<ObserverAdd> m_observerAdd = new ObserverAdd();
     m_observerAdd->exec();
     delete m_observerAdd;
 }
 
-void Execute::slotSetTarget( QString name ) {
+void Execute::slotSetTarget( QString name )
+{
     currentTarget = KStarsData::Instance()->observingList()->findObjectByName( name );
-    if( ! currentTarget ) {
+    if( ! currentTarget )
+    {
         ui.NextButton->setEnabled( false );
         ui.Slew->setEnabled( false );
         return;
-    } else {
+    }
+    else
+    {
         ui.NextButton->setEnabled( true );
         ui.Slew->setEnabled( true );
         KStarsData::Instance()->observingList()->selectObject( currentTarget );
@@ -364,19 +402,23 @@ void Execute::slotSetTarget( QString name ) {
     }
 }
 
-void Execute::slotSlew() {
+void Execute::slotSlew()
+{
     KStarsData::Instance()->observingList()->slotSlewToObject();
 }
 
-void Execute::selectNextTarget() {
+void Execute::selectNextTarget()
+{
     int i = findIndexOfTarget( currentTarget->name() ) + 1;
-    if( i < ui.Target->count() ) {
+    if( i < ui.Target->count() )
+    {
         ui.Target->selectionModel()->clear();
         ui.Target->setCurrentRow( i, QItemSelectionModel::SelectCurrent );
     }
 }
 
-void Execute::slotSetCurrentObjects() {
+void Execute::slotSetCurrentObjects()
+{
     currentScope = logObject->findScopeByName( ui.Scope->currentText() );
     currentEyepiece = logObject->findEyepieceByName( ui.Eyepiece->currentText() );
     currentLens = logObject->findLensByName( ui.Lens->currentText() );
@@ -384,7 +426,8 @@ void Execute::slotSetCurrentObjects() {
     currentObserver = logObject->findObserverByName( ui.Observer->currentText() );
 }
 
-void Execute::slotShowSession() {
+void Execute::slotShowSession()
+{
     ui.Target->hide();
     ui.stackedWidget->setCurrentIndex( 0 );
     ui.NextButton->hide();
@@ -392,8 +435,10 @@ void Execute::slotShowSession() {
     ui.RemoveObject->hide();
 }
 
-void Execute::slotShowTargets() {
-    if( saveSession() ) {
+void Execute::slotShowTargets()
+{
+    if( saveSession() )
+    {
         ui.Target->show();
         ui.AddObject->show();
         ui.RemoveObject->show();
@@ -403,48 +448,51 @@ void Execute::slotShowTargets() {
     }
 }
 
-void Execute::slotAddObject() {
-   QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
-   if ( fd->exec() == QDialog::Accepted ) {
-       SkyObject *o = fd->targetObject();
-       if( o != 0 ) {
-           KStarsData::Instance()->observingList()->slotAddObject( o, true );
-           init();
-       }
-   }
-   delete fd;
+void Execute::slotAddObject()
+{
+    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
+    if ( fd->exec() == QDialog::Accepted )
+    {
+        SkyObject * o = fd->targetObject();
+        if( o != 0 )
+        {
+            KStarsData::Instance()->observingList()->slotAddObject( o, true );
+            init();
+        }
+    }
+    delete fd;
 }
 
 void Execute::slotRemoveObject()
 {
-	QModelIndex i = ui.Target->currentIndex();
-	SkyObject *obj = 0;
-	if( i.isValid() )
-	{
-		QString ObjName = i.data().toString();
-		obj = KStarsData::Instance()->skyComposite()->findByName( ObjName );
-	}
+    QModelIndex i = ui.Target->currentIndex();
+    SkyObject * obj = 0;
+    if( i.isValid() )
+    {
+        QString ObjName = i.data().toString();
+        obj = KStarsData::Instance()->skyComposite()->findByName( ObjName );
+    }
 
-	if( obj!=0 )
-	{
+    if( obj!=0 )
+    {
         KStarsData::Instance()->observingList()->slotRemoveObject( obj, true );
-		loadTargets();
-	}
+        loadTargets();
+    }
 }
 
-QString Execute::getObjectName(const SkyObject *o, bool translated)
+QString Execute::getObjectName(const SkyObject * o, bool translated)
 {
     QString finalObjectName;
     if( o->name() == "star" )
     {
-        StarObject *s = (StarObject *)o;
+        StarObject * s = (StarObject *)o;
 
         // JM: Enable HD Index stars to be added to the observing list.
         if( s->getHDIndex() != 0 )
-                finalObjectName = QString("HD %1" ).arg( QString::number( s->getHDIndex() ) );
+            finalObjectName = QString("HD %1" ).arg( QString::number( s->getHDIndex() ) );
     }
     else
-         finalObjectName = translated ? o->translatedName() : o->name();
+        finalObjectName = translated ? o->translatedName() : o->name();
 
     return finalObjectName;
 

@@ -64,14 +64,14 @@ void FITSOverlay::loadImageFromURL()
     connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
 }
 
-void FITSOverlay::downloadReady (KJob *job)
+void FITSOverlay::downloadReady (KJob * job)
 {
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically !!!
     downloadJob = 0;
 
     if ( job->error() )
     {
-        static_cast<KIO::Job*>(job)->ui()->showErrorMessage();
+        static_cast<KIO::Job *>(job)->ui()->showErrorMessage();
         return;
     }
 
@@ -104,7 +104,7 @@ void FITSOverlay::openImage()
 
     int image_width, image_height;
     double min,max, bzero, bscale, val;
-    float *image_buffer;
+    float * image_buffer;
 
     image_width   = newFO->image_data->getWidth();
     image_height  = newFO->image_data->getHeight();

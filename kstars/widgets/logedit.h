@@ -26,17 +26,18 @@
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class LogEdit : public QTextEdit {
-    Q_OBJECT
-public:
-    explicit LogEdit( QWidget *parent=0 );
-    ~LogEdit() {}
+class LogEdit : public QTextEdit
+{
+        Q_OBJECT
+    public:
+        explicit LogEdit( QWidget * parent=0 );
+        ~LogEdit() {}
 
-signals:
-    void focusOut();
+    signals:
+        void focusOut();
 
-protected:
-    void focusOutEvent( QFocusEvent *e );
+    protected:
+        void focusOutEvent( QFocusEvent * e );
 };
 
 

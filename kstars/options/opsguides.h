@@ -28,23 +28,23 @@ class KConfigDialog;
  */
 class OpsGuides : public QFrame, public Ui::OpsGuides
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit OpsGuides();
-    ~OpsGuides();
+    public:
+        explicit OpsGuides();
+        ~OpsGuides();
 
-private slots:
-    void slotApply();
-    void slotToggleConstellOptions( bool state );
-    void slotToggleConstellationArt(bool state );
-    void slotToggleMilkyWayOptions( bool state );
-    void slotToggleOpaqueGround( bool state );
-    void slotToggleAutoSelectGrid( bool state );
+    private slots:
+        void slotApply();
+        void slotToggleConstellOptions( bool state );
+        void slotToggleConstellationArt(bool state );
+        void slotToggleMilkyWayOptions( bool state );
+        void slotToggleOpaqueGround( bool state );
+        void slotToggleAutoSelectGrid( bool state );
 
-private:
-    KConfigDialog *m_ConfigDialog;
-    bool isDirty = false;
+    private:
+        KConfigDialog * m_ConfigDialog;
+        bool isDirty = false;
 
 };
 

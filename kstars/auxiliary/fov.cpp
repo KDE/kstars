@@ -34,7 +34,7 @@
 #include <QStandardPaths>
 #include "kspaths.h"
 
-QList<FOV*> FOVManager::m_FOVs;
+QList<FOV *> FOVManager::m_FOVs;
 
 FOVManager::FOVManager()
 {
@@ -42,12 +42,12 @@ FOVManager::FOVManager()
 
 FOVManager::~FOVManager()
 {
- qDeleteAll(m_FOVs);
+    qDeleteAll(m_FOVs);
 }
 
-QList<FOV*> FOVManager::defaults()
+QList<FOV *> FOVManager::defaults()
 {
-    QList<FOV*> fovs;
+    QList<FOV *> fovs;
     fovs << new FOV(i18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
                     558,  558, 0,0,0, FOV::CIRCLE,"#AAAAAA")
          << new FOV(i18nc("use a Telrad field-of-view indicator", "Telrad" ),
@@ -75,7 +75,7 @@ bool FOVManager::save()
     }
 
     QTextStream ostream(&f);
-    foreach(FOV* fov, m_FOVs)
+    foreach(FOV * fov, m_FOVs)
     {
         ostream << fov->name()  << ':'
                 << fov->sizeX() << ':'
@@ -91,7 +91,7 @@ bool FOVManager::save()
     return true;
 }
 
-const QList<FOV*> & FOVManager::readFOVs()
+const QList<FOV *> &FOVManager::readFOVs()
 {
     qDeleteAll(m_FOVs);
     m_FOVs.clear();
@@ -109,7 +109,8 @@ const QList<FOV*> & FOVManager::readFOVs()
     if( f.open(QIODevice::ReadOnly) )
     {
         QTextStream istream(&f);
-        while( !istream.atEnd() ) {
+        while( !istream.atEnd() )
+        {
             QStringList fields = istream.readLine().split(':');
             bool ok;
             QString name, color;
@@ -119,34 +120,42 @@ const QList<FOV*> & FOVManager::readFOVs()
             {
                 name = fields[0];
                 sizeX = fields[1].toFloat(&ok);
-                if( !ok ) {
+                if( !ok )
+                {
                     return m_FOVs;
                 }
                 sizeY = fields[2].toFloat(&ok);
-                if( !ok ) {
+                if( !ok )
+                {
                     return m_FOVs;
                 }
                 xoffset = fields[3].toFloat(&ok);
-                if( !ok ) {
+                if( !ok )
+                {
                     return m_FOVs;
                 }
 
                 yoffset = fields[4].toFloat(&ok);
-                if( !ok ) {
+                if( !ok )
+                {
                     return m_FOVs;
                 }
 
                 rot = fields[5].toFloat(&ok);
-                if( !ok ) {
+                if( !ok )
+                {
                     return m_FOVs;
                 }
 
                 shape = FOV::intToShape( fields[6].toInt(&ok) );
-                if( !ok ) {
+                if( !ok )
+                {
                     return m_FOVs;
                 }
                 color = fields[7];
-            } else {
+            }
+            else
+            {
                 continue;
             }
 
@@ -159,12 +168,12 @@ const QList<FOV*> & FOVManager::readFOVs()
 
 
 FOV::Shape FOV::intToShape(int s)
-{ 
+{
     return (s >= FOV::UNKNOWN || s < 0) ? FOV::UNKNOWN : static_cast<FOV::Shape>(s);
-} 
+}
 
 FOV::FOV( const QString &n, float a, float b, float xoffset, float yoffset, float rot, Shape sh, const QString &col )
-{ 
+{
     m_name = n;
     m_sizeX = a;
     m_sizeY = (b < 0.0) ? a : b;
@@ -174,11 +183,11 @@ FOV::FOV( const QString &n, float a, float b, float xoffset, float yoffset, floa
     m_rotation    = rot;
     m_shape       = sh;
     m_color       = col;
-    m_northPA     = 0;    
+    m_northPA     = 0;
     m_center.setRA(0);
     m_center.setDec(0);
     m_imageDisplay=false;
-} 
+}
 
 FOV::FOV()
 {
@@ -191,10 +200,11 @@ FOV::FOV()
     m_imageDisplay=false;
 }
 
-void FOV::draw( QPainter &p, float zoomFactor ) {
+void FOV::draw( QPainter &p, float zoomFactor )
+{
     p.setPen( QColor( color() ) );
     p.setBrush( Qt::NoBrush );
-    
+
     p.setRenderHint( QPainter::Antialiasing, Options::useAntialias() );
 
 
@@ -222,54 +232,56 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
 
     switch ( shape() )
     {
-    case SQUARE: 
-    {
-        QRect targetRect(center.x() - pixelSizeX/2, center.y() - pixelSizeY/2, pixelSizeX, pixelSizeY);
-        if (m_imageDisplay)
+        case SQUARE:
         {
-            //QTransform imageT;
-            //imageT.rotate(m_rotation+m_northPA);
-            //p.drawImage(targetRect, m_image.transformed(imageT));
-            p.drawImage(targetRect, m_image);
+            QRect targetRect(center.x() - pixelSizeX/2, center.y() - pixelSizeY/2, pixelSizeX, pixelSizeY);
+            if (m_imageDisplay)
+            {
+                //QTransform imageT;
+                //imageT.rotate(m_rotation+m_northPA);
+                //p.drawImage(targetRect, m_image.transformed(imageT));
+                p.drawImage(targetRect, m_image);
+            }
+            p.drawRect(targetRect);
+            p.drawRect( center.x() , center.y() - (3 * pixelSizeY/5), pixelSizeX/40, pixelSizeX/10);
+            p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5));
+            p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
+            p.drawLine( center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
         }
-        p.drawRect(targetRect);
-        p.drawRect( center.x() , center.y() - (3 * pixelSizeY/5), pixelSizeX/40, pixelSizeX/10);
-        p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5));
-        p.drawLine( center.x() - pixelSizeX/30, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
-        p.drawLine( center.x() + pixelSizeX/20, center.y() - (3 * pixelSizeY/5), center.x() + pixelSizeX/70, center.y() - (0.7 * pixelSizeY));
-    }
         break;
-    case CIRCLE: 
-        p.drawEllipse( center, pixelSizeX/2, pixelSizeY/2 );
-        break;
-    case CROSSHAIRS: 
-        //Draw radial lines
-        p.drawLine(center.x() + 0.5*pixelSizeX, center.y(),
-                   center.x() + 1.5*pixelSizeX, center.y());
-        p.drawLine(center.x() - 0.5*pixelSizeX, center.y(),
-                   center.x() - 1.5*pixelSizeX, center.y());
-        p.drawLine(center.x(), center.y() + 0.5*pixelSizeY,
-                   center.x(), center.y() + 1.5*pixelSizeY);
-        p.drawLine(center.x(), center.y() - 0.5*pixelSizeY,
-                   center.x(), center.y() - 1.5*pixelSizeY);
-        //Draw circles at 0.5 & 1 degrees
-        p.drawEllipse( center, 0.5 * pixelSizeX, 0.5 * pixelSizeY);
-        p.drawEllipse( center,       pixelSizeX,       pixelSizeY);
-        break;
-    case BULLSEYE: 
-        p.drawEllipse(center, 0.5 * pixelSizeX, 0.5 * pixelSizeY);
-        p.drawEllipse(center, 2.0 * pixelSizeX, 2.0 * pixelSizeY);
-        p.drawEllipse(center, 4.0 * pixelSizeX, 4.0 * pixelSizeY);
-        break;
-    case SOLIDCIRCLE: {
-        QColor colorAlpha = color();
-        colorAlpha.setAlpha(127);
-        p.setBrush( QBrush( colorAlpha ) );
-        p.drawEllipse(center, pixelSizeX/2, pixelSizeY/2 );
-        p.setBrush(Qt::NoBrush);
-        break;
-    }
-    default: ; 
+        case CIRCLE:
+            p.drawEllipse( center, pixelSizeX/2, pixelSizeY/2 );
+            break;
+        case CROSSHAIRS:
+            //Draw radial lines
+            p.drawLine(center.x() + 0.5*pixelSizeX, center.y(),
+                       center.x() + 1.5*pixelSizeX, center.y());
+            p.drawLine(center.x() - 0.5*pixelSizeX, center.y(),
+                       center.x() - 1.5*pixelSizeX, center.y());
+            p.drawLine(center.x(), center.y() + 0.5*pixelSizeY,
+                       center.x(), center.y() + 1.5*pixelSizeY);
+            p.drawLine(center.x(), center.y() - 0.5*pixelSizeY,
+                       center.x(), center.y() - 1.5*pixelSizeY);
+            //Draw circles at 0.5 & 1 degrees
+            p.drawEllipse( center, 0.5 * pixelSizeX, 0.5 * pixelSizeY);
+            p.drawEllipse( center,       pixelSizeX,       pixelSizeY);
+            break;
+        case BULLSEYE:
+            p.drawEllipse(center, 0.5 * pixelSizeX, 0.5 * pixelSizeY);
+            p.drawEllipse(center, 2.0 * pixelSizeX, 2.0 * pixelSizeY);
+            p.drawEllipse(center, 4.0 * pixelSizeX, 4.0 * pixelSizeY);
+            break;
+        case SOLIDCIRCLE:
+        {
+            QColor colorAlpha = color();
+            colorAlpha.setAlpha(127);
+            p.setBrush( QBrush( colorAlpha ) );
+            p.drawEllipse(center, pixelSizeX/2, pixelSizeY/2 );
+            p.setBrush(Qt::NoBrush);
+            break;
+        }
+        default:
+            ;
     }
 
     p.restore();
@@ -280,10 +292,16 @@ void FOV::draw(QPainter &p, float x, float y)
     float xfactor = x / sizeX() * 57.3 * 60.0;
     float yfactor = y / sizeY() * 57.3 * 60.0;
     float zoomFactor = std::min(xfactor, yfactor);
-    switch( shape() ) {
-    case CROSSHAIRS: zoomFactor /= 3; break;
-    case BULLSEYE:   zoomFactor /= 8; break;
-    default: ;
+    switch( shape() )
+    {
+        case CROSSHAIRS:
+            zoomFactor /= 3;
+            break;
+        case BULLSEYE:
+            zoomFactor /= 8;
+            break;
+        default:
+            ;
     }
     draw(p, zoomFactor);
 }

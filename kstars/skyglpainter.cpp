@@ -57,16 +57,19 @@ int      SkyGLPainter::m_idx[NUMTYPES];
 bool     SkyGLPainter::m_init = false;
 
 
-                                 
-SkyGLPainter::SkyGLPainter( QGLWidget *widget ) :
-                                     SkyPainter()
+
+SkyGLPainter::SkyGLPainter( QGLWidget * widget ) :
+    SkyPainter()
 {
     m_widget = widget;
-    if( !m_init ) {
+    if( !m_init )
+    {
         qDebug() << "Initializing texcoord arrays...\n";
-        for(int i = 0; i < NUMTYPES; ++i) {
+        for(int i = 0; i < NUMTYPES; ++i)
+        {
             m_idx[i] = 0;
-            for(int j = 0; j < BUFSIZE; ++j) {
+            for(int j = 0; j < BUFSIZE; ++j)
+            {
                 m_texcoord[i][6*j +0] = Vector2f(0,0);
                 m_texcoord[i][6*j +1] = Vector2f(1,0);
                 m_texcoord[i][6*j +2] = Vector2f(0,1);
@@ -90,14 +93,35 @@ void SkyGLPainter::drawBuffer(int type)
     if( m_idx[type] == 0 ) return;
 
     glEnable(GL_TEXTURE_2D);
-    switch( type ) {
-        case 3: case 13:          TextureManager::bindTexture("open-cluster",     m_widget); break;
-        case 4:                   TextureManager::bindTexture("globular-cluster", m_widget); break;
-        case 6:                   TextureManager::bindTexture("planetary-nebula", m_widget); break;
-        case 5: case 7: case 15:  TextureManager::bindTexture("gaseous-nebula",   m_widget); break;
-        case 8: case 16:          TextureManager::bindTexture("galaxy",           m_widget); break;
-        case 14:                  TextureManager::bindTexture("galaxy-cluster",   m_widget); break;
-        case 0: case 1: default:  TextureManager::bindTexture("star",             m_widget); break;
+    switch( type )
+    {
+        case 3:
+        case 13:
+            TextureManager::bindTexture("open-cluster",     m_widget);
+            break;
+        case 4:
+            TextureManager::bindTexture("globular-cluster", m_widget);
+            break;
+        case 6:
+            TextureManager::bindTexture("planetary-nebula", m_widget);
+            break;
+        case 5:
+        case 7:
+        case 15:
+            TextureManager::bindTexture("gaseous-nebula",   m_widget);
+            break;
+        case 8:
+        case 16:
+            TextureManager::bindTexture("galaxy",           m_widget);
+            break;
+        case 14:
+            TextureManager::bindTexture("galaxy-cluster",   m_widget);
+            break;
+        case 0:
+        case 1:
+        default:
+            TextureManager::bindTexture("star",             m_widget);
+            break;
     }
 
     glEnable( GL_BLEND );
@@ -106,20 +130,20 @@ void SkyGLPainter::drawBuffer(int type)
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    
+
     glVertexPointer  (2,GL_FLOAT,0, &m_vertex[type]);
     glTexCoordPointer(2,GL_FLOAT,0, &m_texcoord[type]);
     glColorPointer   (3,GL_FLOAT,0, &m_color[type]);
-    
+
     glDrawArrays(GL_TRIANGLES, 0, 6*m_idx[type]);
     m_idx[type] = 0;
-    
+
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
+bool SkyGLPainter::addItem(SkyPoint * p, int type, float width, char sp)
 {
     bool visible = false;
     Vector2f vec = m_proj->toScreenVec(p,true,&visible);
@@ -130,13 +154,14 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
         type = SkyObject::TYPE_UNKNOWN;
 
     //If the buffer is full, flush it
-    if(m_idx[type] == BUFSIZE) {
+    if(m_idx[type] == BUFSIZE)
+    {
         drawBuffer(type);
     }
 
     int i = 6*m_idx[type];
     float w = width/2.;
-    
+
     m_vertex[type][i + 0] = vec + Vector2f(-w,-w);
     m_vertex[type][i + 1] = vec + Vector2f( w,-w);
     m_vertex[type][i + 2] = vec + Vector2f(-w, w);
@@ -145,31 +170,63 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
     m_vertex[type][i + 5] = vec + Vector2f( w, w);
 
     Vector3f c(1.,1.,1.);
-    if( sp != 'x' && Options::starColorMode() != 0 ) {
+    if( sp != 'x' && Options::starColorMode() != 0 )
+    {
         // We have a star and aren't drawing real star colors
-        switch( Options::starColorMode() ) {
-        case 1: // solid red
-            c = Vector3f( 255./255., 0., 0. ); break;
-        case 2: // solid black
-            c = Vector3f( 0., 0., 0. ); break;
-        case 3: // Solid white
-            c = Vector3f( 1., 1., 1. ); break;
+        switch( Options::starColorMode() )
+        {
+            case 1: // solid red
+                c = Vector3f( 255./255., 0., 0. );
+                break;
+            case 2: // solid black
+                c = Vector3f( 0., 0., 0. );
+                break;
+            case 3: // Solid white
+                c = Vector3f( 1., 1., 1. );
+                break;
         }
     }
-    else {
+    else
+    {
         QColor starColor;
 
         // Set RGB values into QColor
-        switch(sp) {
-        case 'o': case 'O': starColor.setRgb( 153, 153, 255); break;
-        case 'b': case 'B': starColor.setRgb( 151, 233, 255); break;
-        case 'a': case 'A': starColor.setRgb( 153, 255, 255); break;
-        case 'f': case 'F': starColor.setRgb( 219, 255, 135); break;
-        case 'g': case 'G': starColor.setRgb( 255, 255, 153); break;
-        case 'k': case 'K': starColor.setRgb( 255, 193, 153); break;
-        case 'm': case 'M': starColor.setRgb( 255, 153, 153); break;
-        case 'x':           starColor.setRgb( m_pen[0] * 255, m_pen[1] * 255, m_pen[2] *255 ); break;
-        default:            starColor.setRgb( 153, 255, 255); break; // If we don't know what spectral type, we use the same as 'A' (See SkyQPainter)
+        switch(sp)
+        {
+            case 'o':
+            case 'O':
+                starColor.setRgb( 153, 153, 255);
+                break;
+            case 'b':
+            case 'B':
+                starColor.setRgb( 151, 233, 255);
+                break;
+            case 'a':
+            case 'A':
+                starColor.setRgb( 153, 255, 255);
+                break;
+            case 'f':
+            case 'F':
+                starColor.setRgb( 219, 255, 135);
+                break;
+            case 'g':
+            case 'G':
+                starColor.setRgb( 255, 255, 153);
+                break;
+            case 'k':
+            case 'K':
+                starColor.setRgb( 255, 193, 153);
+                break;
+            case 'm':
+            case 'M':
+                starColor.setRgb( 255, 153, 153);
+                break;
+            case 'x':
+                starColor.setRgb( m_pen[0] * 255, m_pen[1] * 255, m_pen[2] *255 );
+                break;
+            default:
+                starColor.setRgb( 153, 255, 255);
+                break; // If we don't know what spectral type, we use the same as 'A' (See SkyQPainter)
         }
 
         // Convert to HSV space using QColor's methods and adjust saturation.
@@ -182,17 +239,18 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
         c = Vector3f( starColor.redF(), starColor.greenF(), starColor.blueF() );
 
     }
-    for(int j = 0; j < 6; ++j) {
+    for(int j = 0; j < 6; ++j)
+    {
         m_color[type][i+j] = c;
     }
-    
+
     ++m_idx[type];
     return true;
 }
 
-void SkyGLPainter::drawTexturedRectangle( const QImage& img,
-                                          const Vector2f& pos, const float angle,
-                                          const float sizeX,   const float sizeY )
+void SkyGLPainter::drawTexturedRectangle( const QImage &img,
+        const Vector2f &pos, const float angle,
+        const float sizeX,   const float sizeY )
 {
     // Set up texture
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -207,27 +265,27 @@ void SkyGLPainter::drawTexturedRectangle( const QImage& img,
     glScalef( sizeX, sizeY, 1 );
 
     glBegin(GL_QUADS);
-        // Note! Y coordinate of texture is mirrored w.r.t. to
-        // vertex coordinates to account for difference between
-        // OpenGL and QPainter coordinate system.
-        // Otherwise image would appear mirrored
-        glTexCoord2f( 0,    1   );
-        glVertex2f(  -0.5, -0.5 );
+    // Note! Y coordinate of texture is mirrored w.r.t. to
+    // vertex coordinates to account for difference between
+    // OpenGL and QPainter coordinate system.
+    // Otherwise image would appear mirrored
+    glTexCoord2f( 0,    1   );
+    glVertex2f(  -0.5, -0.5 );
 
-        glTexCoord2f( 1,    1   );
-        glVertex2f(   0.5, -0.5 );
+    glTexCoord2f( 1,    1   );
+    glVertex2f(   0.5, -0.5 );
 
-        glTexCoord2f( 1,    0   );
-        glVertex2f(   0.5,  0.5 );
+    glTexCoord2f( 1,    0   );
+    glVertex2f(   0.5,  0.5 );
 
-        glTexCoord2f( 0,    0   );
-        glVertex2f(  -0.5,  0.5 );
+    glTexCoord2f( 0,    0   );
+    glVertex2f(  -0.5,  0.5 );
     glEnd();
 
     glPopMatrix();
 }
 
-bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
+bool SkyGLPainter::drawPlanet(KSPlanetBase * planet)
 {
     //If it's surely not visible, just stop now
     if( !m_proj->checkVisibility(planet) )
@@ -243,17 +301,26 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
         // Draw them as bright stars of appropriate color instead of images
         char spType;
         //FIXME: do these need i18n?
-        if( planet->name() == xi18n( "Sun" ) ) {
+        if( planet->name() == xi18n( "Sun" ) )
+        {
             spType = 'G';
-        } else if( planet->name() == xi18n("Mars") ) {
+        }
+        else if( planet->name() == xi18n("Mars") )
+        {
             spType = 'K';
-        } else if( planet->name() == xi18n("Jupiter") || planet->name() == xi18n("Mercury") || planet->name() == xi18n("Saturn") ) {
+        }
+        else if( planet->name() == xi18n("Jupiter") || planet->name() == xi18n("Mercury") || planet->name() == xi18n("Saturn") )
+        {
             spType = 'F';
-        } else {
+        }
+        else
+        {
             spType = 'B';
         }
         return addItem(planet, planet->type(), qMin(fakeStarSize,(float)20.),spType);
-    } else {
+    }
+    else
+    {
         // Draw them as textures
         bool visible = false;
         Vector2f pos = m_proj->toScreenVec(planet,true,&visible);
@@ -271,7 +338,7 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
     }
 }
 
-bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
+bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject * obj, bool drawImage)
 {
     //If it's surely not visible, just stop now
     if( !m_proj->checkVisibility(obj) )
@@ -283,7 +350,7 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
         type = SkyObject::TYPE_UNKNOWN;
 
     //addItem(obj, type, obj->a() * dms::PI * Options::zoomFactor() / 10800.0);
-    
+
     //If it's a star, add it like a star
     if( type < 2 )
         return addItem(obj, type, starWidth(obj->mag()));
@@ -301,19 +368,25 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
     // Fake a small, finite width / height if the objects have
     // undefined sizes (in pixels, does not scale) at high zooms
-    if( Options::zoomFactor() > 10800.0 ) { // This means 1 arcmin maps to 2 pi pixels or something like that
-        if( w == 0 ) {
+    if( Options::zoomFactor() > 10800.0 )   // This means 1 arcmin maps to 2 pi pixels or something like that
+    {
+        if( w == 0 )
+        {
             w = 7;
         }
-        if( h == 0 ) {
+        if( h == 0 )
+        {
             h = 7;
         }
     }
 
     //Init texture if it doesn't exist and we would be drawing it anyways
-    if( drawImage  &&  !obj->image().isNull() ) {
+    if( drawImage  &&  !obj->image().isNull() )
+    {
         drawTexturedRectangle( obj->image(), vec, pa, w, h);
-    } else {
+    }
+    else
+    {
         //If the buffer is full, flush it
         if(m_idx[type] == BUFSIZE)
             drawBuffer(type);
@@ -329,24 +402,24 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
         for(int j = 0; j < 6; ++j)
             m_color[type][i+j] = c;
-        
+
         ++m_idx[type];
     }
     return true;
 }
 
-bool SkyGLPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
+bool SkyGLPainter::drawPointSource(SkyPoint * loc, float mag, char sp)
 {
     //If it's surely not visible, just stop now
     if( !m_proj->checkVisibility(loc) ) return false;
     return addItem(loc, SkyObject::STAR, starWidth(mag), sp);
 }
 
-void SkyGLPainter::drawSkyPolygon(LineList* list)
+void SkyGLPainter::drawSkyPolygon(LineList * list)
 {
-    SkyList *points = list->points();
+    SkyList * points = list->points();
     bool isVisible, isVisibleLast;
-    SkyPoint* pLast = points->last();
+    SkyPoint * pLast = points->last();
     Vector2f  oLast = m_proj->toScreenVec( pLast, true, &isVisibleLast );
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility(pLast);
@@ -354,18 +427,24 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
     //Guess that we will require around the same number of items as in points.
     QVector<Vector2f> polygon;
     polygon.reserve(points->size());
-    for ( int i = 0; i < points->size(); ++i ) {
-        SkyPoint* pThis = points->at( i );
+    for ( int i = 0; i < points->size(); ++i )
+    {
+        SkyPoint * pThis = points->at( i );
         Vector2f oThis = m_proj->toScreenVec( pThis, true, &isVisible );
         // & with the result of checkVisibility to clip away things below horizon
         isVisible &= m_proj->checkVisibility(pThis);
 
-        if ( isVisible && isVisibleLast ) {
+        if ( isVisible && isVisibleLast )
+        {
             polygon << oThis;
-        } else if ( isVisibleLast ) {
+        }
+        else if ( isVisibleLast )
+        {
             Vector2f oMid = m_proj->clipLineVec( pLast, pThis );
             polygon << oMid;
-        } else if ( isVisible ) {
+        }
+        else if ( isVisible )
+        {
             Vector2f oMid = m_proj->clipLineVec( pThis, pLast );
             polygon << oMid;
             polygon << oThis;
@@ -378,23 +457,27 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
 
     // false -> makes kstars slower but is always accurate
     // true -> faster but potentially results in incorrect rendering
-    #define KSTARS_ASSUME_CONVEXITY false
-    if ( polygon.size() ) {
+#define KSTARS_ASSUME_CONVEXITY false
+    if ( polygon.size() )
+    {
         drawPolygon(polygon, KSTARS_ASSUME_CONVEXITY);
     }
 }
 
-void SkyGLPainter::drawPolygon(const QVector<Vector2f>& polygon, bool convex, bool flush_buffers)
+void SkyGLPainter::drawPolygon(const QVector<Vector2f> &polygon, bool convex, bool flush_buffers)
 {
     //Flush all buffers
-    if( flush_buffers ) {
-        for(int i = 0; i < NUMTYPES; ++i) {
+    if( flush_buffers )
+    {
+        for(int i = 0; i < NUMTYPES; ++i)
+        {
             drawBuffer(i);
         }
     }
     glDisable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    if( !convex ) {
+    if( !convex )
+    {
         //Set up the stencil buffer and disable the color buffer
         glClear(GL_STENCIL_BUFFER_BIT);
         glColorMask(0,0,0,0);
@@ -419,7 +502,9 @@ void SkyGLPainter::drawPolygon(const QVector<Vector2f>& polygon, bool convex, bo
         glVertex2f(m_widget->width(),0);
         glEnd();
         glDisable(GL_STENCIL_TEST);
-    } else {
+    }
+    else
+    {
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(2,GL_FLOAT,0, polygon.data() );
         glDrawArrays(GL_POLYGON, 0, polygon.size());
@@ -427,15 +512,19 @@ void SkyGLPainter::drawPolygon(const QVector<Vector2f>& polygon, bool convex, bo
     }
 }
 
-void SkyGLPainter::drawHorizon(bool filled, SkyPoint* labelPoint, bool* drawLabel)
+void SkyGLPainter::drawHorizon(bool filled, SkyPoint * labelPoint, bool * drawLabel)
 {
     QVector<Vector2f> ground = m_proj->groundPoly( labelPoint, drawLabel );
 
-    if( ground.size() ) {
-        if( filled ) {
+    if( ground.size() )
+    {
+        if( filled )
+        {
             glDisableClientState( GL_COLOR_ARRAY );
             drawPolygon( ground, false, false );
-        } else {
+        }
+        else
+        {
             glDisable( GL_TEXTURE_2D );
             glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
             glEnableClientState( GL_VERTEX_ARRAY );
@@ -447,19 +536,23 @@ void SkyGLPainter::drawHorizon(bool filled, SkyPoint* labelPoint, bool* drawLabe
 }
 
 //This implementation is *correct* but slow.
-void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLabel* label)
+void SkyGLPainter::drawSkyPolyline(LineList * list, SkipList * skipList, LineListLabel * label)
 {
     glDisable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBegin(GL_LINE_STRIP);
-    SkyList *points = list->points();
+    SkyList * points = list->points();
     bool isVisible, isVisibleLast;
     Vector2f oLast = m_proj->toScreenVec(points->first(), true, &isVisibleLast);
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility(points->first());
-    if( isVisibleLast ) { glVertex2fv(oLast.data()); }
+    if( isVisibleLast )
+    {
+        glVertex2fv(oLast.data());
+    }
 
-    for(int i = 1; i < points->size(); ++i) {
+    for(int i = 1; i < points->size(); ++i)
+    {
         Vector2f oThis = m_proj->toScreenVec( points->at(i), true, &isVisible);
         // & with the result of checkVisibility to clip away things below horizon
         isVisible &= m_proj->checkVisibility(points->at(i));
@@ -469,29 +562,38 @@ void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListL
         //are to keep drawing into it. If we skip, then we are going to have to end.
         bool shouldEnd = doSkip;
 
-        if( !doSkip ) {
-            if( isVisible && isVisibleLast ) {
+        if( !doSkip )
+        {
+            if( isVisible && isVisibleLast )
+            {
                 glVertex2fv(oThis.data());
-                if( label ) {
+                if( label )
+                {
                     label->updateLabelCandidates(oThis.x(), oThis.y(), list, i);
                 }
-            } else if( isVisibleLast ) {
+            }
+            else if( isVisibleLast )
+            {
                 Vector2f oMid = m_proj->clipLineVec( points->at(i-1), points->at(i) );
                 glVertex2fv(oMid.data());
                 //If the last point was visible but this one isn't we are at
                 //the end of a strip, so we need to end
                 shouldEnd = true;
-            } else if( isVisible ) {
+            }
+            else if( isVisible )
+            {
                 Vector2f oMid = m_proj->clipLineVec( points->at(i), points->at(i-1) );
                 glVertex2fv(oMid.data());
                 glVertex2fv(oThis.data());
             }
         }
 
-        if(shouldEnd) {
+        if(shouldEnd)
+        {
             glEnd();
             glBegin(GL_LINE_STRIP);
-            if( isVisible ) {
+            if( isVisible )
+            {
                 glVertex2fv(oThis.data());
             }
         }
@@ -503,36 +605,38 @@ void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListL
 
 //FIXME: implement these two
 
-void SkyGLPainter::drawObservingList(const QList< SkyObject* >& obs)
+void SkyGLPainter::drawObservingList(const QList< SkyObject * > &obs)
 {
 
     // TODO: Generalize to drawTargetList or something like that. Make
     // texture changeable etc.
     // TODO: Draw labels when required
 
-     foreach( SkyObject *obj, obs ) {
+    foreach( SkyObject * obj, obs )
+    {
         if( !m_proj->checkVisibility(obj) ) continue;
         bool visible;
         Vector2f vec = m_proj->toScreenVec(obj, true, &visible);
         if( !visible || !m_proj->onScreen(vec) ) continue;
         const float size = 30.;
-	QImage obsmarker = TextureManager::getImage("obslistsymbol");
-	drawTexturedRectangle( obsmarker, vec, 0,size,size );
+        QImage obsmarker = TextureManager::getImage("obslistsymbol");
+        drawTexturedRectangle( obsmarker, vec, 0,size,size );
     }
 
 }
 
 void SkyGLPainter::drawFlags()
 {
-    KStarsData *data = KStarsData::Instance();
-    SkyPoint* point;
+    KStarsData * data = KStarsData::Instance();
+    SkyPoint * point;
     QImage image;
     const QString label;
     bool visible = false;
     Vector2f vec;
     int i;
 
-    for ( i=0; i<data->skyComposite()->flags()->size(); i++ ) {
+    for ( i=0; i<data->skyComposite()->flags()->size(); i++ )
+    {
         point = data->skyComposite()->flags()->pointList().at( i );
         image = data->skyComposite()->flags()->image( i );
 
@@ -546,9 +650,9 @@ void SkyGLPainter::drawFlags()
         if( !visible || !m_proj->onScreen( vec ) )
             continue;
 
-        const QImage& img = data->skyComposite()->flags()->imageName( i ) == "Default"
-                          ? TextureManager::getImage("defaultflag")
-                          : image;
+        const QImage &img = data->skyComposite()->flags()->imageName( i ) == "Default"
+                            ? TextureManager::getImage("defaultflag")
+                            : image;
 
         drawTexturedRectangle( img, vec, 0, img.width(), img.height() );
         drawText( vec.x(), vec.y(),
@@ -565,7 +669,7 @@ void SkyGLPainter::drawText( int x, int y, const QString text, QFont font, QColo
         return;
 
     int longest, tex_size = 2;
-    
+
     // Get size of text
     QFontMetrics fm( font );
     const QRect bounding_rect = fm.boundingRect( text );
@@ -576,7 +680,8 @@ void SkyGLPainter::drawText( int x, int y, const QString text, QFont font, QColo
     else
         longest = bounding_rect.height();
 
-    while ( tex_size < longest ) {
+    while ( tex_size < longest )
+    {
         tex_size *= 2;
     }
 
@@ -597,11 +702,11 @@ void SkyGLPainter::drawText( int x, int y, const QString text, QFont font, QColo
     drawTexturedRectangle( text_image, Vector2f(vx,vy), 0, w, h );
 }
 
-bool SkyGLPainter::drawConstellationArtImage(ConstellationsArt *obj)
+bool SkyGLPainter::drawConstellationArtImage(ConstellationsArt * obj)
 {
 }
 
-void SkyGLPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
+void SkyGLPainter::drawSkyLine(SkyPoint * a, SkyPoint * b)
 {
     bool aVisible, bVisible;
     Vector2f aScreen = m_proj->toScreenVec( a, true, &aVisible );
@@ -610,17 +715,22 @@ void SkyGLPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
     glDisable( GL_TEXTURE_2D );
     glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glBegin( GL_LINE_STRIP );
-    
+
     //THREE CASES:
-    if( aVisible && bVisible ) {
+    if( aVisible && bVisible )
+    {
         //Both a,b visible, so paint the line normally:
         glVertex2fv( aScreen.data() );
         glVertex2fv( bScreen.data() );
-    } else if( aVisible ) {
+    }
+    else if( aVisible )
+    {
         //a is visible but b isn't:
         glVertex2fv( aScreen.data() );
         glVertex2fv( m_proj->clipLineVec( a, b ).data() );
-    } else if( bVisible ) {
+    }
+    else if( bVisible )
+    {
         //b is visible but a isn't:
         glVertex2fv( bScreen.data() );
         glVertex2fv( m_proj->clipLineVec( b, a ).data() );
@@ -639,7 +749,8 @@ void SkyGLPainter::drawSkyBackground()
 
 void SkyGLPainter::end()
 {
-    for(int i = 0; i < NUMTYPES; ++i) {
+    for(int i = 0; i < NUMTYPES; ++i)
+    {
         drawBuffer(i);
     }
 }
@@ -647,7 +758,7 @@ void SkyGLPainter::end()
 void SkyGLPainter::begin()
 {
     m_proj = m_sm->projector();
-    
+
     //Load ortho projection
     glViewport(0,0,m_widget->width(),m_widget->height());
     glMatrixMode(GL_PROJECTION);
@@ -670,11 +781,11 @@ void SkyGLPainter::begin()
     glEnable(GL_POLYGON_SMOOTH);
     glLineStipple(1,0xCCCC);
     glEnable(GL_BLEND);
-    
+
     glClearStencil(0);
 }
 
-void SkyGLPainter::setBrush(const QBrush& brush)
+void SkyGLPainter::setBrush(const QBrush &brush)
 {
     Q_UNUSED(brush);
     /*
@@ -684,22 +795,26 @@ void SkyGLPainter::setBrush(const QBrush& brush)
     */
 }
 
-void SkyGLPainter::setPen(const QPen& pen)
+void SkyGLPainter::setPen(const QPen &pen)
 {
     QColor c = pen.color();
     m_pen = Vector4f( c.redF(), c.greenF(), c.blueF(), c.alphaF() );
     glColor4fv( m_pen.data() );
     glLineWidth(pen.widthF());
-    if( pen.style() != Qt::SolidLine ) {
+    if( pen.style() != Qt::SolidLine )
+    {
         glEnable(GL_LINE_STIPPLE);
-    } else {
+    }
+    else
+    {
         glDisable(GL_LINE_STIPPLE);
     }
 
 }
 
-void SkyGLPainter::drawSatellite( Satellite* sat ) {
-    KStarsData *data = KStarsData::Instance();
+void SkyGLPainter::drawSatellite( Satellite * sat )
+{
+    KStarsData * data = KStarsData::Instance();
     bool visible = false;
     Vector2f pos, vertex;
 
@@ -710,9 +825,12 @@ void SkyGLPainter::drawSatellite( Satellite* sat ) {
     if( !visible || !m_proj->onScreen( pos ) )
         return;
 
-    if ( Options::drawSatellitesLikeStars() ) {
+    if ( Options::drawSatellitesLikeStars() )
+    {
         drawPointSource(sat, 3.5, 'B');
-    } else {
+    }
+    else
+    {
         if ( sat->isVisible() )
             setPen( data->colorScheme()->colorNamed( "VisibleSatColor" ) );
         else
@@ -738,9 +856,9 @@ void SkyGLPainter::drawSatellite( Satellite* sat ) {
         data->skyComposite()->satellites()->drawLabel( sat, QPointF( pos.x(), pos.y() ) );
 }
 
-bool SkyGLPainter::drawSupernova(Supernova* sup)
+bool SkyGLPainter::drawSupernova(Supernova * sup)
 {
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     bool visible = false;
     Vector2f pos, vertex;
 

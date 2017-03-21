@@ -44,13 +44,15 @@ CachingDms::CachingDms( const double &x ) : dms( x )
 }
 
 #ifdef COUNT_DMS_SINCOS_CALLS
-CachingDms::~CachingDms() {
+CachingDms::~CachingDms()
+{
     if ( !m_cacheUsed )
         ++cachingdms_bad_uses;
 }
 #endif
 
-CachingDms::CachingDms(const QString& s, bool isDeg) : dms( s, isDeg ) {
+CachingDms::CachingDms(const QString &s, bool isDeg) : dms( s, isDeg )
+{
     dms::SinCos( m_sin, m_cos );
 #ifdef COUNT_DMS_SINCOS_CALLS
     ++cachingdms_constructor_calls;
@@ -60,7 +62,8 @@ CachingDms::CachingDms(const QString& s, bool isDeg) : dms( s, isDeg ) {
 }
 
 CachingDms::CachingDms(const int &d, const int &m, const int &s, const int &ms) :
-    dms( d, m, s, ms ) {
+    dms( d, m, s, ms )
+{
     dms::SinCos( m_sin, m_cos );
 #ifdef COUNT_DMS_SINCOS_CALLS
     ++cachingdms_constructor_calls;
@@ -69,7 +72,8 @@ CachingDms::CachingDms(const int &d, const int &m, const int &s, const int &ms) 
 #endif
 }
 
-void CachingDms::setUsing_atan2(const double & y, const double & x) {
+void CachingDms::setUsing_atan2(const double &y, const double &x)
+{
     /*
      * NOTE: A bit of independent profiling shows that on my machine
      * (Intel Core i5, x86_64, glibc 2.24-2) the square-root based
@@ -99,7 +103,8 @@ void CachingDms::setUsing_atan2(const double & y, const double & x) {
     // the angle and using sincos()
 }
 
-void CachingDms::setUsing_asin(const double & sine) {
+void CachingDms::setUsing_asin(const double &sine)
+{
     dms::setRadians( asin( sine ) );
     m_sin = sine;
     // Note: The below is valid because in the range of asin, which is
@@ -112,7 +117,8 @@ void CachingDms::setUsing_asin(const double & sine) {
 #endif
 }
 
-void CachingDms::setUsing_acos(const double & cosine) {
+void CachingDms::setUsing_acos(const double &cosine)
+{
     dms::setRadians( acos( cosine ) );
     m_cos = cosine;
     // Note: The below is valid because in the range of acos, which is
@@ -125,17 +131,20 @@ void CachingDms::setUsing_acos(const double & cosine) {
 #endif
 }
 
-CachingDms CachingDms::fromString(const QString& s, bool deg) {
+CachingDms CachingDms::fromString(const QString &s, bool deg)
+{
     CachingDms result;
     result.setFromString( s, deg );
     return result;
 }
 
-CachingDms CachingDms::operator -() {
+CachingDms CachingDms::operator -()
+{
     return CachingDms( -D, -m_sin, m_cos );
 }
 
-CachingDms::CachingDms(const dms& angle) {
+CachingDms::CachingDms(const dms &angle)
+{
     D = angle.Degrees();
     dms::SinCos( m_sin, m_cos );
 #ifdef COUNT_DMS_SINCOS_CALLS
@@ -146,13 +155,15 @@ CachingDms::CachingDms(const dms& angle) {
 }
 
 #ifdef COUNT_DMS_SINCOS_CALLS
-CachingDms::CachingDms( const CachingDms &o ) {
+CachingDms::CachingDms( const CachingDms &o )
+{
     m_sin = o.sin();
     m_cos = o.cos();
     D = o.D;
     m_cacheUsed = false;
 }
-CachingDms& CachingDms::operator =( const CachingDms &o ) {
+CachingDms &CachingDms::operator =( const CachingDms &o )
+{
     if ( !m_cacheUsed )
         ++cachingdms_bad_uses;
     m_sin = o.sin();
@@ -176,31 +187,37 @@ CachingDms& CachingDms::operator =( const CachingDms &o ) {
 // addition/subtraction instead.
 // The only caveat is that error can accumulate if used repeatedly!
 
-CachingDms operator +(const CachingDms &a, const CachingDms &b) {
+CachingDms operator +(const CachingDms &a, const CachingDms &b)
+{
     return CachingDms( a.Degrees() + b.Degrees(),
                        sinA * cosB + cosA * sinB,
                        cosA * cosB - sinA * sinB );
 }
 
-CachingDms operator -(const CachingDms &a, const CachingDms &b) {
+CachingDms operator -(const CachingDms &a, const CachingDms &b)
+{
     return CachingDms( a.Degrees() - b.Degrees(),
                        sinA * cosB - cosA * sinB,
                        cosA * cosB + sinA * sinB );
 }
 
-CachingDms operator +(const dms &a, const CachingDms &b) {
+CachingDms operator +(const dms &a, const CachingDms &b)
+{
     return CachingDms( a + dms( b ) );
 }
 
-CachingDms operator -(const dms &a, const CachingDms &b) {
+CachingDms operator -(const dms &a, const CachingDms &b)
+{
     return CachingDms( a - dms( b ) );
 }
 
-CachingDms operator +(const CachingDms &a, const dms &b) {
+CachingDms operator +(const CachingDms &a, const dms &b)
+{
     return CachingDms( dms( a ) + b );
 }
 
-CachingDms operator -(const CachingDms &a, const dms &b) {
+CachingDms operator -(const CachingDms &a, const dms &b)
+{
     return CachingDms( dms( a ) - b );
 }
 

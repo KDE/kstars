@@ -5,10 +5,10 @@
     modify it under the terms of the GNU General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-    
+
     JM Changelog
     2004-16-1:	Start
-   
+
  */
 
 #include "indigroup.h"
@@ -31,7 +31,7 @@
 ** belong to a group, whether they have one or not but how the group
 ** is displayed differs
 *******************************************************************/
-INDI_G::INDI_G(INDI_D *idv, const QString &inName)
+INDI_G::INDI_G(INDI_D * idv, const QString &inName)
 {
     dp = idv;
     name = (inName.isEmpty()) ? i18n("Unknown") : inName;
@@ -51,14 +51,14 @@ INDI_G::INDI_G(INDI_D *idv, const QString &inName)
 
 INDI_G::~INDI_G()
 {
-   while ( ! propList.isEmpty() ) delete propList.takeFirst();
+    while ( ! propList.isEmpty() ) delete propList.takeFirst();
 
-   delete(propertyContainer);
+    delete(propertyContainer);
 
-   delete (scrollArea);
+    delete (scrollArea);
 }
 
-bool INDI_G::addProperty(INDI::Property *prop)
+bool INDI_G::addProperty(INDI::Property * prop)
 {
     QString propName(prop->getName());
 
@@ -95,10 +95,10 @@ bool INDI_G::removeProperty(const QString &probName)
     return false;
 }
 
-INDI_P * INDI_G::getProperty(const QString & propName)
+INDI_P * INDI_G::getProperty(const QString &propName)
 {
 
-    foreach(INDI_P *pp, propList)
+    foreach(INDI_P * pp, propList)
     {
         if (pp->getName() == propName )
             return pp;

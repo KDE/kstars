@@ -27,7 +27,8 @@ GuideLabelNode::GuideLabelNode(QString name, LabelsItem::label_t type)
     appendChildNode(&debugRect);
     debugRect.setColor(QColor("green"));
     QColor color;
-    switch(type) {
+    switch(type)
+    {
         case LabelsItem::label_t::CONSTEL_NAME_LABEL:
             color = KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" );
             break;
@@ -46,7 +47,8 @@ GuideLabelNode::GuideLabelNode(QString name, LabelsItem::label_t type)
     m_textTexture->setRect(QRect(oldRect.x(),oldRect.y(),m_textSize.width(),m_textSize.height()));
 }
 
-void GuideLabelNode::changePos(QPointF pos) {
+void GuideLabelNode::changePos(QPointF pos)
+{
 
     // otherwise draw the label and return true
     //m_p.rotate( angle );                        //rotate the coordinate system
@@ -68,7 +70,8 @@ void GuideLabelNode::changePos(QPointF pos) {
     markDirty(QSGNode::DirtyMatrix);
 }
 
-void GuideLabelNode::setLabelPos(QPointF pos, float angle) {
+void GuideLabelNode::setLabelPos(QPointF pos, float angle)
+{
     show();
     //We need to subtract the height of texture from final y to follow the way QPainter draws the text
     m_angle = angle;
@@ -85,13 +88,15 @@ void GuideLabelNode::setLabelPos(QPointF pos, float angle) {
     qreal w2 = w / 2.0;
 
     // These numbers really do depend on the sign of the angle like this
-    if ( angle >= 0.0 ) {
+    if ( angle >= 0.0 )
+    {
         top   = pos.y()           - s * w2;
         bot   = pos.y() + c *  h  + s * w2;
         left  = pos.x() - c * w2  - s * h;
         right = pos.x() + c * w2;
     }
-    else {
+    else
+    {
         top   = pos.y()           + s * w2;
         bot   = pos.y() + c *  h  - s * w2;
         left  = pos.x() - c * w2;
@@ -102,13 +107,14 @@ void GuideLabelNode::setLabelPos(QPointF pos, float angle) {
 
     labelPos = QPointF(pos.x()-w2, pos.y() + h);
 
-   /*debugRect.setRect(QRectF(QPointF(left,top),QPointF(right,bot)));
-    debugRect.markDirty(QSGNode::DirtyGeometry);*/
+    /*debugRect.setRect(QRectF(QPointF(left,top),QPointF(right,bot)));
+     debugRect.markDirty(QSGNode::DirtyGeometry);*/
 
     // return false if label would overlap existing label
 //    if ( ! markRegion( left, right, top, bot) )
 }
 
-void GuideLabelNode::update() {
+void GuideLabelNode::update()
+{
     changePos(labelPos);
 }

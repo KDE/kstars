@@ -74,18 +74,21 @@ StarObject::StarObject( dms r, dms d, float m,
                         const QString &n, const QString &n2,
                         const QString &sptype, double pmra, double pmdec,
                         double par, bool mult, bool var, int hd )
-        : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
-          PM_RA(pmra), PM_Dec(pmdec),
-          Parallax(par), Multiplicity(mult), Variability(var)
+    : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
+      PM_RA(pmra), PM_Dec(pmdec),
+      Parallax(par), Multiplicity(mult), Variability(var)
 {
     QByteArray spt = sptype.toLatin1();
     SpType[0] = spt[0];
     SpType[1] = spt[1];
     QString lname;
-    if ( hasName() ) {
+    if ( hasName() )
+    {
         lname = n;
         if ( hasName2() ) lname += " (" + gname() + ')';
-    } else if ( hasName2() ) {
+    }
+    else if ( hasName2() )
+    {
         lname = gname();
         //If genetive name exists, but no primary name, set primary name = genetive name.
         setName( gname() );
@@ -110,10 +113,13 @@ StarObject::StarObject( double r, double d, float m,
     SpType[1] = spt[1];
 
     QString lname;
-    if ( hasName() ) {
+    if ( hasName() )
+    {
         lname = n;
         if ( hasName2() )lname += " (" + gname() + ')';
-    } else if ( hasName2() ) {
+    }
+    else if ( hasName2() )
+    {
         lname = gname();
         //If genetive name exists, but no primary name, set primary name = genetive name.
         setName( gname() );
@@ -139,13 +145,13 @@ StarObject::StarObject( const StarObject &o ) :
     updateID = updateNumID = 0;
 }
 
-StarObject* StarObject::clone() const
+StarObject * StarObject::clone() const
 {
     Q_ASSERT( typeid( this ) == typeid( static_cast<const StarObject *>( this ) ) ); // Ensure we are not slicing a derived class
     return new StarObject(*this);
 }
 
-void StarObject::init( const starData *stardata )
+void StarObject::init( const starData * stardata )
 {
     double ra, dec;
     ra = stardata->RA / 1000000.0;
@@ -195,7 +201,7 @@ void StarObject::init( const starData *stardata )
 
 }
 
-void StarObject::init( const deepStarData *stardata )
+void StarObject::init( const deepStarData * stardata )
 {
     double ra, dec, BV_Index;
 
@@ -204,9 +210,9 @@ void StarObject::init( const deepStarData *stardata )
     setType( SkyObject::STAR );
 
     if( stardata->V == 30000 && stardata->B != 30000 )
-      setMag( ( stardata->B - 1600 ) / 1000.0 ); // FIXME: Is it okay to make up stuff like this?
+        setMag( ( stardata->B - 1600 ) / 1000.0 ); // FIXME: Is it okay to make up stuff like this?
     else
-      setMag( stardata->V / 1000.0 );
+        setMag( stardata->V / 1000.0 );
 
     setRA0( ra );
     setDec0( dec );
@@ -215,17 +221,19 @@ void StarObject::init( const deepStarData *stardata )
 
     SpType[1] = '?';
     SpType[0] = 'B';
-    if( stardata->B == 30000 || stardata->V == 30000 ) {
-      BV_Index = -100;
-      SpType[0] = '?';
+    if( stardata->B == 30000 || stardata->V == 30000 )
+    {
+        BV_Index = -100;
+        SpType[0] = '?';
     }
-    else {
-      BV_Index = ( stardata->B - stardata->V ) / 1000.0;
-      ( BV_Index > 0.0 ) && ( SpType[0] = 'A' );
-      ( BV_Index > 0.325 ) && ( SpType[0] = 'F' );
-      ( BV_Index > 0.575 ) && ( SpType[0] = 'G' );
-      ( BV_Index > 0.975 ) && ( SpType[0] = 'K' );
-      ( BV_Index > 1.6 ) && ( SpType[0] = 'M' );
+    else
+    {
+        BV_Index = ( stardata->B - stardata->V ) / 1000.0;
+        ( BV_Index > 0.0 ) &&( SpType[0] = 'A' );
+        ( BV_Index > 0.325 ) &&( SpType[0] = 'F' );
+        ( BV_Index > 0.575 ) &&( SpType[0] = 'G' );
+        ( BV_Index > 0.975 ) &&( SpType[0] = 'K' );
+        ( BV_Index > 1.6 ) &&( SpType[0] = 'M' );
     }
 
     PM_RA = stardata->dRA / 100.0;
@@ -239,21 +247,25 @@ void StarObject::init( const deepStarData *stardata )
     lastPrecessJD = J2000;
 }
 
-void StarObject::setNames( QString name, QString name2 ) {
+void StarObject::setNames( QString name, QString name2 )
+{
     QString lname;
 
     setName( name );
 
     setName2( name2 );
 
-    if ( hasName() && name.startsWith("HD")==false) {
+    if ( hasName() && name.startsWith("HD")==false)
+    {
         lname = name;
         if ( hasName2() ) lname += " (" + gname() + ')';
-    } else if ( hasName2() )
+    }
+    else if ( hasName2() )
         lname = gname();
     setLongName(lname);
 }
-void StarObject::initPopupMenu( KSPopupMenu *pmenu ) {
+void StarObject::initPopupMenu( KSPopupMenu * pmenu )
+{
 #ifdef KSTARS_LITE
     Q_UNUSED(pmenu)
 #else
@@ -261,7 +273,8 @@ void StarObject::initPopupMenu( KSPopupMenu *pmenu ) {
 #endif
 }
 
-void StarObject::updateCoords( const KSNumbers *num, bool , const CachingDms*, const CachingDms*, bool ) {
+void StarObject::updateCoords( const KSNumbers * num, bool , const CachingDms *, const CachingDms *, bool )
+{
     //Correct for proper motion of stars.  Determine RA and Dec offsets.
     //Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
     //That is numerically identical to the number of arcsec per millenium, so multiply by
@@ -292,7 +305,7 @@ void StarObject::updateCoords( const KSNumbers *num, bool , const CachingDms*, c
 #endif
 }
 
-bool StarObject::getIndexCoords( const KSNumbers *num, CachingDms &ra, CachingDms &dec )
+bool StarObject::getIndexCoords( const KSNumbers * num, CachingDms &ra, CachingDms &dec )
 {
     static double pmms;
 
@@ -329,7 +342,8 @@ bool StarObject::getIndexCoords( const KSNumbers *num, CachingDms &ra, CachingDm
 
     pmms = pmMagnitudeSquared();
 
-    if( std::isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. ) {
+    if( std::isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. )
+    {
         // Ignore corrections
         ra = ra0();
         dec = dec0();
@@ -340,7 +354,7 @@ bool StarObject::getIndexCoords( const KSNumbers *num, CachingDms &ra, CachingDm
 
     double dir0 = ( ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() ) );  // Bearing, in radian
 
-    ( pm < 0 ) && ( pm = -pm );
+    ( pm < 0 ) &&( pm = -pm );
 
     double dst = (  pm * M_PI / ( 180.0 * 3600.0 ) );
     //    double phi = M_PI / 2.0 - dec0().radians();
@@ -359,7 +373,7 @@ bool StarObject::getIndexCoords( const KSNumbers *num, CachingDms &ra, CachingDm
     double sinDst = sin( dst ), cosDst = cos( dst );
     lat1.setUsing_asin( dec0().sin() * cosDst + dec0().cos() * sinDst * cos( dir0 ) );
     dtheta.setUsing_atan2( sin( dir0 ) * sinDst * dec0().cos(),
-                              cosDst - dec0().sin() * lat1.sin() );
+                           cosDst - dec0().sin() * lat1.sin() );
 
     ra = ra0() + dtheta; // Use operator + to avoid trigonometry
     dec = lat1; // Need variable lat1 because dec may refer to dec0, so cannot construct result in-place
@@ -370,7 +384,7 @@ bool StarObject::getIndexCoords( const KSNumbers *num, CachingDms &ra, CachingDm
 }
 
 
-bool StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
+bool StarObject::getIndexCoords( const KSNumbers * num, double * ra, double * dec )
 {
     static double pmms;
 
@@ -406,7 +420,8 @@ bool StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
 
     pmms = pmMagnitudeSquared();
 
-    if( std::isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. ) {
+    if( std::isnan( pmms ) || pmms * num->julianMillenia() * num->julianMillenia() < 1. )
+    {
         // Ignore corrections
         *ra = ra0().Degrees();
         *dec = dec0().Degrees();
@@ -417,7 +432,7 @@ bool StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
 
     double dir0 = ( ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() ) );  // Bearing, in radian
 
-    ( pm < 0 ) && ( pm = -pm );
+    ( pm < 0 ) &&( pm = -pm );
 
     double dst = (  pm * M_PI / ( 180.0 * 3600.0 ) );
     //    double phi = M_PI / 2.0 - dec0().radians();
@@ -452,20 +467,21 @@ bool StarObject::getIndexCoords( const KSNumbers *num, double *ra, double *dec )
 
 void StarObject::JITupdate()
 {
-    static KStarsData *data = KStarsData::Instance();
+    static KStarsData * data = KStarsData::Instance();
 
-    if ( updateNumID != data->updateNumID() ) {
+    if ( updateNumID != data->updateNumID() )
+    {
         // TODO: This can be optimized and reorganized further in a better manner.
         // Maybe we should do this only for stars, since this is really a slow step only for stars
         Q_ASSERT( std::isfinite( lastPrecessJD ) );
 
         if  ( Options::alwaysRecomputeCoordinates() ||
-            ( Options::useRelativistic() && checkBendLight() ) ||
-            fabs(lastPrecessJD - data->updateNum()->getJD() ) >= 0.00069444) // Update is once per solar minute
-       {
+                ( Options::useRelativistic() && checkBendLight() ) ||
+                fabs(lastPrecessJD - data->updateNum()->getJD() ) >= 0.00069444) // Update is once per solar minute
+        {
             // Short circuit right here, if recomputing coordinates is not required. NOTE: POTENTIALLY DANGEROUS
             updateCoords( data->updateNum() );
-       }
+        }
 
         updateNumID = data->updateNumID();
     }
@@ -473,7 +489,8 @@ void StarObject::JITupdate()
     updateID = data->updateID();
 }
 
-QString StarObject::sptype( void ) const {
+QString StarObject::sptype( void ) const
+{
     return QString( QByteArray(SpType, 2) );
 }
 
@@ -482,19 +499,22 @@ char StarObject::spchar() const
     return SpType[0];
 }
 
-QString StarObject::gname( bool useGreekChars ) const {
+QString StarObject::gname( bool useGreekChars ) const
+{
     if(!name2().isEmpty())
         return greekLetter( useGreekChars ) + ' ' + constell();
     else
         return QString();
 }
 
-QString StarObject::greekLetter( bool gchar ) const {
+QString StarObject::greekLetter( bool gchar ) const
+{
     QString code = name2().left(3);
     QString letter = code;  //in case genitive name is *not* a Greek letter
     int alpha = 0x03B1;
 
-    auto checkAndGreekify = [&code, gchar, alpha, &letter]( const QString &abbrev, int unicodeOffset, const QString &expansion ) {
+    auto checkAndGreekify = [&code, gchar, alpha, &letter]( const QString &abbrev, int unicodeOffset, const QString &expansion )
+    {
         if ( code == abbrev ) gchar ? letter = QString( QChar( alpha + unicodeOffset ) ) : letter = expansion;
     };
 
@@ -531,7 +551,8 @@ QString StarObject::greekLetter( bool gchar ) const {
     return letter;
 }
 
-QString StarObject::constell() const { // FIXME: Move this somewhere else, make this static, and give it a better name. Mostly for code cleanliness. Also, try to put it in a DB.
+QString StarObject::constell() const   // FIXME: Move this somewhere else, make this static, and give it a better name. Mostly for code cleanliness. Also, try to put it in a DB.
+{
     QString code = name2().mid(4,3);
 
     return KSUtils::constGenetiveFromAbbrev( code );
@@ -545,12 +566,14 @@ QString StarObject::constell() const { // FIXME: Move this somewhere else, make 
 QString StarObject::nameLabel( bool drawName, bool drawMag ) const
 {
     QString sName;
-    if ( drawName ) {
+    if ( drawName )
+    {
         if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
             sName = translatedName();
         else if ( ! gname().trimmed().isEmpty() )
             sName = gname( true );
-        else {
+        else
+        {
             if ( drawMag )
                 return ("[" + QLocale().toString( mag(), 'f', 1 ) + "m]");
         }
@@ -563,11 +586,13 @@ QString StarObject::nameLabel( bool drawName, bool drawMag ) const
 }
 
 //If this works, we can maybe get rid of customLabel() and nameLabel()??
-QString StarObject::labelString() const {
+QString StarObject::labelString() const
+{
     return nameLabel( Options::showStarNames(), Options::showStarMagnitudes() );
 }
 
-double StarObject::labelOffset() const {
+double StarObject::labelOffset() const
+{
     return (6. + 0.5*( 5.0 - mag() ) + 0.01*( Options::zoomFactor()/500. ) );
 }
 

@@ -44,47 +44,53 @@ class INDI_D;
  */
 class GUIManager : public QWidget
 {
-    Q_OBJECT
-public:
+        Q_OBJECT
+    public:
 
-    static GUIManager *Instance();
+        static GUIManager * Instance();
 
-    void updateStatus();
+        void updateStatus();
 
 
-    INDI_D * findGUIDevice(const QString &deviceName);
+        INDI_D * findGUIDevice(const QString &deviceName);
 
-    void addClient(ClientManager *cm);
-    void removeClient(ClientManager *cm);
+        void addClient(ClientManager * cm);
+        void removeClient(ClientManager * cm);
 
-    QList<INDI_D*> getDevices() { return guidevices; }
+        QList<INDI_D *> getDevices()
+        {
+            return guidevices;
+        }
 
-    int size() { return guidevices.size(); }    
+        int size()
+        {
+            return guidevices.size();
+        }
 
-protected:
-    void closeEvent(QCloseEvent *);
-    void hideEvent(QHideEvent *);
-    void showEvent(QShowEvent *);
+    protected:
+        void closeEvent(QCloseEvent *);
+        void hideEvent(QHideEvent *);
+        void showEvent(QShowEvent *);
 
-  private:
-    /*****************************************************************
-    * GUI stuff
-    ******************************************************************/
-    QVBoxLayout	*mainLayout;
-    QTabWidget	*mainTabWidget;
-    QPushButton  *clearB;
-    QPushButton  *closeB;
-    GUIManager(QWidget * parent = 0);
+    private:
+        /*****************************************************************
+        * GUI stuff
+        ******************************************************************/
+        QVBoxLayout	* mainLayout;
+        QTabWidget	* mainTabWidget;
+        QPushButton * clearB;
+        QPushButton * closeB;
+        GUIManager(QWidget * parent = 0);
 
-    static GUIManager * _GUIManager;
-    QList<ClientManager *> clients;
-    QList<INDI_D*> guidevices;    
+        static GUIManager * _GUIManager;
+        QList<ClientManager *> clients;
+        QList<INDI_D *> guidevices;
 
-  public slots:
-    void changeAlwaysOnTop(Qt::ApplicationState state);
-    void clearLog();
-    void buildDevice(DeviceInfo *di);
-    void removeDevice(DeviceInfo *di);
+    public slots:
+        void changeAlwaysOnTop(Qt::ApplicationState state);
+        void clearLog();
+        void buildDevice(DeviceInfo * di);
+        void removeDevice(DeviceInfo * di);
 };
 
 #endif // GUIMANAGER_H

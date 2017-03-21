@@ -33,7 +33,7 @@
 #include "kstarsdata.h"
 #include "auxiliary/kspaths.h"
 
-SupernovaeComponent::SupernovaeComponent(SkyComposite* parent): ListComponent(parent)
+SupernovaeComponent::SupernovaeComponent(SkyComposite * parent): ListComponent(parent)
 {
     QtConcurrent::run(this, &SupernovaeComponent::loadData);
     //loadData();
@@ -41,13 +41,13 @@ SupernovaeComponent::SupernovaeComponent(SkyComposite* parent): ListComponent(pa
 
 SupernovaeComponent::~SupernovaeComponent() {}
 
-void SupernovaeComponent::update(KSNumbers* num)
+void SupernovaeComponent::update(KSNumbers * num)
 {
     if ( ! selected() )
         return;
 
-    KStarsData *data = KStarsData::Instance();
-    foreach ( SkyObject *so, m_ObjectList )
+    KStarsData * data = KStarsData::Instance();
+    foreach ( SkyObject * so, m_ObjectList )
     {
         if( num )
             so->updateCoords( num );
@@ -65,7 +65,7 @@ void SupernovaeComponent::loadData()
     qDeleteAll(m_ObjectList);
     m_ObjectList.clear();
 
-    objectNames(SkyObject::SUPERNOVA).clear();    
+    objectNames(SkyObject::SUPERNOVA).clear();
     objectLists(SkyObject::SUPERNOVA).clear();
 
     QString name, type, host, date, ra, de;
@@ -79,7 +79,7 @@ void SupernovaeComponent::loadData()
     {
         qCritical() << "Unable to open supernova file" << sFileName;
         return;
-    }        
+    }
 
     QJsonParseError pError;
     QJsonDocument sNova = QJsonDocument::fromJson(sNovaFile.readAll(), &pError);
@@ -99,12 +99,15 @@ void SupernovaeComponent::loadData()
     QJsonArray sArray = sNova.array();
     bool ok=false;
 
-    foreach (const QJsonValue& snValue, sArray)
+    foreach (const QJsonValue &snValue, sArray)
     {
         const QJsonObject propObject = snValue.toObject();
         mag=99.9;
         z=0;
-        name.clear();type.clear();host.clear();date.clear();
+        name.clear();
+        type.clear();
+        host.clear();
+        date.clear();
 
         if (propObject.contains("ra") == false || propObject.contains("dec") == false)
             continue;
@@ -132,27 +135,27 @@ void SupernovaeComponent::loadData()
         objectNames(SkyObject::SUPERNOVA).append(name);
 
         m_ObjectList.append(sup);
-        objectLists( SkyObject::SUPERNOVA ).append(QPair<QString, const SkyObject*>(name,sup));
+        objectLists( SkyObject::SUPERNOVA ).append(QPair<QString, const SkyObject *>(name,sup));
     }
 }
 
-SkyObject* SupernovaeComponent::findByName(const QString& name)
+SkyObject * SupernovaeComponent::findByName(const QString &name)
 {
-    foreach (SkyObject* o, m_ObjectList)
+    foreach (SkyObject * o, m_ObjectList)
     {
-         if( QString::compare( o->name(),name, Qt::CaseInsensitive ) == 0 )
-             return o;
+        if( QString::compare( o->name(),name, Qt::CaseInsensitive ) == 0 )
+            return o;
     }
     //if no object is found then..
     return NULL;
 }
 
-SkyObject* SupernovaeComponent::objectNearest(SkyPoint* p, double& maxrad)
+SkyObject * SupernovaeComponent::objectNearest(SkyPoint * p, double &maxrad)
 {
-    SkyObject* oBest=0;
+    SkyObject * oBest=0;
     double rBest=maxrad;
 
-    foreach ( SkyObject* so, m_ObjectList)
+    foreach ( SkyObject * so, m_ObjectList)
     {
         double r = so->angularDistanceTo(p).Degrees();
         //qDebug()<<r;
@@ -177,7 +180,7 @@ float SupernovaeComponent::zoomMagnitudeLimit()
 }
 
 
-void SupernovaeComponent::draw(SkyPainter *skyp)
+void SupernovaeComponent::draw(SkyPainter * skyp)
 {
     //qDebug()<<"selected()="<<selected();
     if ( ! selected() )
@@ -185,9 +188,9 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
 
     double maglim = zoomMagnitudeLimit();
 
-    foreach ( SkyObject *so, m_ObjectList )
+    foreach ( SkyObject * so, m_ObjectList )
     {
-        Supernova *sup = (Supernova*) so;
+        Supernova * sup = (Supernova *) so;
         float mag = sup->mag();
 
         if (mag > float( Options::magnitudeLimitShowSupernovae())) continue;
@@ -204,7 +207,7 @@ void SupernovaeComponent::notifyNewSupernovae()
 {
 #ifndef KSTARS_LITE
     //qDebug()<<"New Supernovae discovered";
-    QList<SkyObject*> latestList;
+    QList<SkyObject *> latestList;
     foreach (SkyObject * so, latest)
     {
         Supernova * sup = (Supernova *)so;

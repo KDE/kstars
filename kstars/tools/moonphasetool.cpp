@@ -19,11 +19,11 @@
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/kssun.h"
 
-MoonPhaseTool::MoonPhaseTool(QWidget *parent)
+MoonPhaseTool::MoonPhaseTool(QWidget * parent)
     : QDialog( parent, Qt::Dialog )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
     //KStarsDateTime dtStart ( KStarsDateTime::currentDateTime() );
@@ -40,7 +40,8 @@ MoonPhaseTool::MoonPhaseTool(QWidget *parent)
 }
 
 
-MoonPhaseTool::~MoonPhaseTool() {
+MoonPhaseTool::~MoonPhaseTool()
+{
     delete m_Moon;
     delete m_Sun;
     delete mpc;

@@ -62,7 +62,7 @@ const int MINIMUM_ROWS_PER_CENTER=3;
 #define MINIMUM_EDGE_LIMIT  2
 #define SMALL_SCALE_SQUARE  256
 
-bool greaterThan(Edge *s1, Edge *s2)
+bool greaterThan(Edge * s1, Edge * s2)
 {
     //return s1->width > s2->width;
     return s1->sum > s2->sum;
@@ -174,47 +174,47 @@ bool FITSData::loadFITS (const QString &inFilename, bool silent)
 
     switch (stats.bitpix)
     {
-    case BYTE_IMG:
-        data_type = TBYTE;
-        stats.bytesPerPixel = sizeof(uint8_t);
-        break;
-    case SHORT_IMG:
-        // Read SHORT image as USHORT
-        data_type = TUSHORT;
-        stats.bytesPerPixel = sizeof(int16_t);
-        break;
-    case USHORT_IMG:
-        data_type = TUSHORT;
-        stats.bytesPerPixel = sizeof(uint16_t);
-        break;
-    case LONG_IMG:
-        // Read LONG image as ULONG
-        data_type = TULONG;
-        stats.bytesPerPixel = sizeof(int32_t);
-        break;
-    case ULONG_IMG:
-        data_type = TULONG;
-        stats.bytesPerPixel = sizeof(uint32_t);
-        break;
-    case FLOAT_IMG:
-        data_type = TFLOAT;
-        stats.bytesPerPixel = sizeof(float);
-        break;
-    case LONGLONG_IMG:
-        data_type = TLONGLONG;
-        stats.bytesPerPixel = sizeof(int64_t);
-        break;
-    case DOUBLE_IMG:
-        data_type = TDOUBLE;
-        stats.bytesPerPixel = sizeof(double);
-    default:
-        errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
-        if (silent == false)
-            KSNotification::error(errMessage, i18n("FITS Open"));
-        if (Options::fITSLogging())
-            qDebug() << errMessage;
-        return false;
-        break;
+        case BYTE_IMG:
+            data_type = TBYTE;
+            stats.bytesPerPixel = sizeof(uint8_t);
+            break;
+        case SHORT_IMG:
+            // Read SHORT image as USHORT
+            data_type = TUSHORT;
+            stats.bytesPerPixel = sizeof(int16_t);
+            break;
+        case USHORT_IMG:
+            data_type = TUSHORT;
+            stats.bytesPerPixel = sizeof(uint16_t);
+            break;
+        case LONG_IMG:
+            // Read LONG image as ULONG
+            data_type = TULONG;
+            stats.bytesPerPixel = sizeof(int32_t);
+            break;
+        case ULONG_IMG:
+            data_type = TULONG;
+            stats.bytesPerPixel = sizeof(uint32_t);
+            break;
+        case FLOAT_IMG:
+            data_type = TFLOAT;
+            stats.bytesPerPixel = sizeof(float);
+            break;
+        case LONGLONG_IMG:
+            data_type = TLONGLONG;
+            stats.bytesPerPixel = sizeof(int64_t);
+            break;
+        case DOUBLE_IMG:
+            data_type = TDOUBLE;
+            stats.bytesPerPixel = sizeof(double);
+        default:
+            errMessage = i18n("Bit depth %1 is not supported.", stats.bitpix);
+            if (silent == false)
+                KSNotification::error(errMessage, i18n("FITS Open"));
+            if (Options::fITSLogging())
+                qDebug() << errMessage;
+            return false;
+            break;
     }
 
     if (stats.ndim < 3)
@@ -291,7 +291,7 @@ int FITSData::saveFITS( const QString &newFilename )
 
     int status=0, exttype=0;
     long nelements;
-    fitsfile *new_fptr;
+    fitsfile * new_fptr;
 
     if (HasDebayer)
     {
@@ -494,10 +494,10 @@ void FITSData::calculateStats(bool refresh)
 
         case TDOUBLE:
             runningAverageStdDev<double>();
-        break;
+            break;
 
         default:
-        return;
+            return;
     }
 
     stats.SNR = stats.mean[0] / stats.stddev[0];
@@ -567,10 +567,10 @@ int FITSData::calculateMinMax(bool refresh)
 
         case TDOUBLE:
             calculateMinMax<double>();
-        break;
+            break;
 
         default:
-        break;
+            break;
     }
 
 
@@ -580,7 +580,7 @@ int FITSData::calculateMinMax(bool refresh)
 
 template<typename T> void FITSData::calculateMinMax()
 {
-    T *buffer = reinterpret_cast<T*>(imageBuffer);
+    T * buffer = reinterpret_cast<T *>(imageBuffer);
 
     if (channels == 1)
     {
@@ -617,7 +617,7 @@ template<typename T> void FITSData::calculateMinMax()
 
 template<typename T> void FITSData::runningAverageStdDev()
 {
-    T *buffer = reinterpret_cast<T*>(imageBuffer);
+    T * buffer = reinterpret_cast<T *>(imageBuffer);
 
     int m_n = 2;
     double m_oldM=0, m_newM=0, m_oldS=0, m_newS=0;
@@ -647,7 +647,7 @@ void FITSData::setMinMax(double newMin,  double newMax, uint8_t channel)
 
 int FITSData::getFITSRecord(QString &recordList, int &nkeys)
 {
-    char *header;
+    char * header;
     int status=0;
 
     if (fits_hdr2str(fptr, 0, NULL, 0, &header, &nkeys, &status))
@@ -664,7 +664,7 @@ int FITSData::getFITSRecord(QString &recordList, int &nkeys)
     return 0;
 }
 
-bool FITSData::checkCollision(Edge* s1, Edge*s2)
+bool FITSData::checkCollision(Edge * s1, Edge * s2)
 {
     int dis; //distance
 
@@ -682,7 +682,7 @@ bool FITSData::checkCollision(Edge* s1, Edge*s2)
     return false;
 }
 
-int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
+int FITSData::findCannyStar(FITSData * data, const QRect &boundary)
 {
     switch (data->getDataType())
     {
@@ -715,17 +715,17 @@ int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
             break;
 
         case TDOUBLE:
-        return FITSData::findCannyStar<double>(data, boundary);
-        break;
+            return FITSData::findCannyStar<double>(data, boundary);
+            break;
 
         default:
-        return 0;
+            return 0;
     }
 
     return 0;
 }
 
-template<typename T> int FITSData::findCannyStar(FITSData *data, const QRect &boundary)
+template<typename T> int FITSData::findCannyStar(FITSData * data, const QRect &boundary)
 {
     int subX = qMax(0, boundary.isNull() ? 0 : boundary.x());
     int subY = qMax(0, boundary.isNull() ? 0 : boundary.y());
@@ -741,14 +741,14 @@ template<typename T> int FITSData::findCannyStar(FITSData *data, const QRect &bo
     uint32_t offset = subX + subY * dataWidth;
 
     // #2 Create new buffer
-    uint8_t *buffer = new uint8_t[size*BBP];
+    uint8_t * buffer = new uint8_t[size*BBP];
     // If there is no offset, copy whole buffer in one go
     if (offset == 0)
         memcpy(buffer, data->getImageBuffer(), size*BBP);
     else
     {
-        uint8_t *dataPtr     = buffer;
-        uint8_t *origDataPtr = data->getImageBuffer();
+        uint8_t * dataPtr     = buffer;
+        uint8_t * origDataPtr = data->getImageBuffer();
         uint32_t lineOffset  = 0;
         // Copy data line by line
         for (int height=subY; height < (subY+subH); height++)
@@ -760,7 +760,7 @@ template<typename T> int FITSData::findCannyStar(FITSData *data, const QRect &bo
     }
 
     // #3 Create new FITSData to hold it
-    FITSData *boundedImage = new FITSData();
+    FITSData * boundedImage = new FITSData();
     boundedImage->stats.width = subW;
     boundedImage->stats.height = subH;
     boundedImage->stats.bitpix = data->stats.bitpix;
@@ -847,7 +847,7 @@ template<typename T> int FITSData::findCannyStar(FITSData *data, const QRect &bo
     if (maxID > 10 && totalMassRatio < 1.5)
         return 0;
 
-    Edge *center = new Edge;
+    Edge * center = new Edge;
     center->width = -1;
     center->x     = masses[maxRegionID].massX / masses[maxRegionID].totalMass + 0.5;
     center->y     = masses[maxRegionID].massY / masses[maxRegionID].totalMass + 0.5;
@@ -907,7 +907,7 @@ template<typename T> int FITSData::findCannyStar(FITSData *data, const QRect &bo
     QVector<double> subPixels;
     subPixels.reserve(center->width / resolution);
 
-    const T *origBuffer = reinterpret_cast<T*>(data->getImageBuffer()) + offset;
+    const T * origBuffer = reinterpret_cast<T *>(data->getImageBuffer()) + offset;
 
     if (Options::fITSLogging())
     {
@@ -1000,10 +1000,10 @@ int FITSData::findOneStar(const QRectF &boundary)
 
         case TDOUBLE:
             return findOneStar<double>(boundary);
-        break;
+            break;
 
         default:
-        break;
+            break;
     }
 
     return 0;
@@ -1018,7 +1018,7 @@ template<typename T> int FITSData::findOneStar(const QRectF &boundary)
 
     float massX=0, massY=0, totalMass=0;
 
-    T* buffer = reinterpret_cast<T*>(imageBuffer);
+    T * buffer = reinterpret_cast<T *>(imageBuffer);
 
     // TODO replace magic number with something more useful to understand
     double threshold = stats.mean[0] * Options::focusThreshold()/100.0;
@@ -1039,7 +1039,7 @@ template<typename T> int FITSData::findOneStar(const QRectF &boundary)
 
     qDebug() << "Weighted Center is X: " << massX/totalMass << " Y: " << massY/totalMass;
 
-    Edge *center = new Edge;
+    Edge * center = new Edge;
     center->width = -1;
     center->x     = massX/totalMass + 0.5;
     center->y     = massY/totalMass + 0.5;
@@ -1186,31 +1186,31 @@ void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeW
 
         case TDOUBLE:
             findCentroid<double>(boundary, initStdDev, minEdgeWidth);
-        break;
+            break;
 
         default:
-        return;
+            return;
     }
 }
 
 template<typename T> void FITSData::findCentroid(const QRectF &boundary, int initStdDev, int minEdgeWidth)
-{    
+{
     double threshold=0,sum=0,avg=0,min=0;
     int starDiameter=0;
     int pixVal=0;
     int minimumEdgeCount = MINIMUM_EDGE_LIMIT;
 
-    T *buffer = reinterpret_cast<T*>(imageBuffer);
+    T * buffer = reinterpret_cast<T *>(imageBuffer);
 
     double JMIndex = 100;
-    #ifndef KSTARS_LITE
+#ifndef KSTARS_LITE
     if (histogram)
         JMIndex = histogram->getJMIndex();
-    #endif
+#endif
 
     float dispersion_ratio=1.5;
 
-    QList<Edge*> edges;
+    QList<Edge *> edges;
 
     if (JMIndex < DIFFUSE_THRESHOLD)
     {
@@ -1317,16 +1317,16 @@ template<typename T> void FITSData::findCentroid(const QRectF &boundary, int ini
 
                             // Check if center is 10% or more brighter than edge, if not skip
                             if ( ((buffer[i_center+(i*stats.width)]-min) / (buffer[i_center+(i*stats.width)-starDiameter/2]-min) >= dispersion_ratio) &&
-                                 ((buffer[i_center+(i*stats.width)]-min) / (buffer[i_center+(i*stats.width)+starDiameter/2]-min) >= dispersion_ratio))
+                                    ((buffer[i_center+(i*stats.width)]-min) / (buffer[i_center+(i*stats.width)+starDiameter/2]-min) >= dispersion_ratio))
                             {
                                 if (Options::fITSLogging())
                                 {
                                     qDebug() << "Edge center is " << buffer[i_center+(i*stats.width)]-min << " Edge is " << buffer[i_center+(i*stats.width)-starDiameter/2]-min
                                              << " and ratio is " << ((buffer[i_center+(i*stats.width)]-min) / (buffer[i_center+(i*stats.width)-starDiameter/2]-min))
-                                            << " located at X: " << center << " Y: " << i+0.5;
+                                             << " located at X: " << center << " Y: " << i+0.5;
                                 }
 
-                                Edge *newEdge = new Edge();
+                                Edge * newEdge = new Edge();
 
                                 newEdge->x          = center;
                                 newEdge->y          = i + 0.5;
@@ -1418,7 +1418,7 @@ template<typename T> void FITSData::findCentroid(const QRectF &boundary, int ini
         cen_count=0;
 
         // Now let's compare to other edges until we hit a maxima
-        for (int j=0; j < edges.count();j++)
+        for (int j=0; j < edges.count(); j++)
         {
             if (edges[j]->scanned)
                 continue;
@@ -1464,7 +1464,7 @@ template<typename T> void FITSData::findCentroid(const QRectF &boundary, int ini
         if (cen_count >= cen_limit)
         {
             // We detected a centroid, let's init it
-            Edge *rCenter = new Edge();
+            Edge * rCenter = new Edge();
 
             rCenter->x = avg_x/sum;
             rCenter->y = avg_y/sum;
@@ -1536,13 +1536,13 @@ template<typename T> void FITSData::findCentroid(const QRectF &boundary, int ini
 
         float lsum =0, sdev=0;
 
-        foreach(Edge *center, starCenters)
+        foreach(Edge * center, starCenters)
             lsum += (center->width - width_avg) * (center->width - width_avg);
 
         sdev = (sqrt(lsum/(starCenters.count() - 1))) * 4;
 
         // Reject stars > 4 * stddev
-        foreach(Edge *center, starCenters)
+        foreach(Edge * center, starCenters)
             if (center->width > sdev)
                 starCenters.removeOne(center);
 
@@ -1621,7 +1621,7 @@ double FITSData::getHFR(int x, int y)
     return -1;
 }
 
-void FITSData::applyFilter(FITSScale type, uint8_t *image, float *min, float *max)
+void FITSData::applyFilter(FITSScale type, uint8_t * image, float * min, float * max)
 {
     if (type == FITS_NONE)
         return;
@@ -1635,106 +1635,106 @@ void FITSData::applyFilter(FITSScale type, uint8_t *image, float *min, float *ma
 
     switch (type)
     {
-    case FITS_AUTO_STRETCH:
-    {
-        dataMin = stats.mean[0] - stats.stddev[0];
-        dataMax = stats.mean[0] + stats.stddev[0] * 3;
+        case FITS_AUTO_STRETCH:
+        {
+            dataMin = stats.mean[0] - stats.stddev[0];
+            dataMax = stats.mean[0] + stats.stddev[0] * 3;
 
-        //dataMin = stats.min[0] + stats.stddev[0];
-        //dataMax = stats.mean[0]*2;
-        //dataMin = 0;
-        //dataMax = pow(2, stats.bitpix) - 1;
-    }
+            //dataMin = stats.min[0] + stats.stddev[0];
+            //dataMax = stats.mean[0]*2;
+            //dataMin = 0;
+            //dataMax = pow(2, stats.bitpix) - 1;
+        }
         break;
 
-    case FITS_HIGH_CONTRAST:
-    {
-        dataMin = stats.mean[0] + stats.stddev[0];
-        dataMax = stats.mean[0] + stats.stddev[0] * 3;
-    }
+        case FITS_HIGH_CONTRAST:
+        {
+            dataMin = stats.mean[0] + stats.stddev[0];
+            dataMax = stats.mean[0] + stats.stddev[0] * 3;
+        }
         break;
 
-    case FITS_HIGH_PASS:
-    {
-        dataMin = stats.mean[0];
-    }
+        case FITS_HIGH_PASS:
+        {
+            dataMin = stats.mean[0];
+        }
         break;
 
 
-    default:
-        break;
+        default:
+            break;
     }
 
     switch (data_type)
     {
-    case TBYTE:
-    {
-        dataMin = dataMin < 0 ? 0 : dataMin;
-        dataMax = dataMax > UINT8_MAX ? UINT8_MAX : dataMax;
-        applyFilter<uint8_t>(type, image, dataMin, dataMax);
-    }
+        case TBYTE:
+        {
+            dataMin = dataMin < 0 ? 0 : dataMin;
+            dataMax = dataMax > UINT8_MAX ? UINT8_MAX : dataMax;
+            applyFilter<uint8_t>(type, image, dataMin, dataMax);
+        }
         break;
 
-    case TSHORT:
-    {
-        dataMin = dataMin < INT16_MIN ? INT16_MIN : dataMin;
-        dataMax = dataMax > INT16_MAX ? INT16_MAX : dataMax;
-        applyFilter<uint16_t>(type, image, dataMin, dataMax);
-    }
-
-        break;
-
-    case TUSHORT:
-    {
-        dataMin = dataMin < 0 ? 0 : dataMin;
-        dataMax = dataMax > UINT16_MAX ? UINT16_MAX : dataMax;
-        applyFilter<uint16_t>(type, image, dataMin, dataMax);
-    }
-        break;
-
-    case TLONG:
-    {
-        dataMin = dataMin < INT_MIN ? INT_MIN : dataMin;
-        dataMax = dataMax > INT_MAX ? INT_MAX : dataMax;
-        applyFilter<uint16_t>(type, image, dataMin, dataMax);
-    }
-        break;
-
-    case TULONG:
-    {
-        dataMin = dataMin < 0 ? 0 : dataMin;
-        dataMax = dataMax > UINT_MAX ? UINT_MAX : dataMax;
-        applyFilter<uint16_t>(type, image, dataMin, dataMax);
-    }
-        break;
-
-    case TFLOAT:
-    {
-        dataMin = dataMin < FLT_MIN ? FLT_MIN : dataMin;
-        dataMax = dataMax > FLT_MAX ? FLT_MAX : dataMax;
-        applyFilter<float>(type, image, dataMin, dataMax);
-    }
-        break;
-
-    case TLONGLONG:
-    {
-        dataMin = dataMin < LLONG_MIN ? LLONG_MIN : dataMin;
-        dataMax = dataMax > LLONG_MAX ? LLONG_MAX : dataMax;
-        applyFilter<long>(type, image, dataMin, dataMax);
-    }
-        break;
-
-    case TDOUBLE:
-    {
-        dataMin = dataMin < DBL_MIN ? DBL_MIN : dataMin;
-        dataMax = dataMax > DBL_MAX ? DBL_MAX : dataMax;
-        applyFilter<double>(type, image, dataMin, dataMax);
-    }
+        case TSHORT:
+        {
+            dataMin = dataMin < INT16_MIN ? INT16_MIN : dataMin;
+            dataMax = dataMax > INT16_MAX ? INT16_MAX : dataMax;
+            applyFilter<uint16_t>(type, image, dataMin, dataMax);
+        }
 
         break;
 
-    default:
-        return;
+        case TUSHORT:
+        {
+            dataMin = dataMin < 0 ? 0 : dataMin;
+            dataMax = dataMax > UINT16_MAX ? UINT16_MAX : dataMax;
+            applyFilter<uint16_t>(type, image, dataMin, dataMax);
+        }
+        break;
+
+        case TLONG:
+        {
+            dataMin = dataMin < INT_MIN ? INT_MIN : dataMin;
+            dataMax = dataMax > INT_MAX ? INT_MAX : dataMax;
+            applyFilter<uint16_t>(type, image, dataMin, dataMax);
+        }
+        break;
+
+        case TULONG:
+        {
+            dataMin = dataMin < 0 ? 0 : dataMin;
+            dataMax = dataMax > UINT_MAX ? UINT_MAX : dataMax;
+            applyFilter<uint16_t>(type, image, dataMin, dataMax);
+        }
+        break;
+
+        case TFLOAT:
+        {
+            dataMin = dataMin < FLT_MIN ? FLT_MIN : dataMin;
+            dataMax = dataMax > FLT_MAX ? FLT_MAX : dataMax;
+            applyFilter<float>(type, image, dataMin, dataMax);
+        }
+        break;
+
+        case TLONGLONG:
+        {
+            dataMin = dataMin < LLONG_MIN ? LLONG_MIN : dataMin;
+            dataMax = dataMax > LLONG_MAX ? LLONG_MAX : dataMax;
+            applyFilter<long>(type, image, dataMin, dataMax);
+        }
+        break;
+
+        case TDOUBLE:
+        {
+            dataMin = dataMin < DBL_MIN ? DBL_MIN : dataMin;
+            dataMax = dataMax > DBL_MAX ? DBL_MAX : dataMax;
+            applyFilter<double>(type, image, dataMin, dataMax);
+        }
+
+        break;
+
+        default:
+            return;
     }
 
 
@@ -1744,7 +1744,7 @@ void FITSData::applyFilter(FITSScale type, uint8_t *image, float *min, float *ma
         *max = dataMax;
 }
 
-template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetImage, float image_min, float image_max)
+template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t * targetImage, float image_min, float image_max)
 {
     int offset=0, row=0;
     double coeff=0;
@@ -1755,13 +1755,13 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
     // Intermediate value
     double ival= 0;
 
-    T *image = NULL;
+    T * image = NULL;
 
     if (targetImage)
-        image = reinterpret_cast<T*>(targetImage);
+        image = reinterpret_cast<T *>(targetImage);
     else
     {
-        image = reinterpret_cast<T*>(imageBuffer);
+        image = reinterpret_cast<T *>(imageBuffer);
         calcStats = true;
     }
 
@@ -1775,262 +1775,262 @@ template<typename T> void FITSData::applyFilter(FITSScale type, uint8_t *targetI
 
     switch (type)
     {
-    case FITS_AUTO:
-    case FITS_LINEAR:
-    {
-        for (int i=0; i < channels; i++)
+        case FITS_AUTO:
+        case FITS_LINEAR:
         {
-            offset = i*size;
-            for (int j=0; j < height; j++)
+            for (int i=0; i < channels; i++)
             {
-                row = offset + j * width;
-                for (int k=0; k < width; k++)
+                offset = i*size;
+                for (int j=0; j < height; j++)
                 {
-                    index=k + row;
-                    image[index] = qBound(min, image[index], max);
+                    row = offset + j * width;
+                    for (int k=0; k < width; k++)
+                    {
+                        index=k + row;
+                        image[index] = qBound(min, image[index], max);
+                    }
                 }
             }
-        }
 
-        if (calcStats)
-        {
-            stats.min[0] = min;
-            stats.max[0] = max;
-        }
+            if (calcStats)
+            {
+                stats.min[0] = min;
+                stats.max[0] = max;
+            }
 
-    }
+        }
         break;
 
-    case FITS_LOG:
-    {
-        coeff = max / log(1 + max);
-
-        for (int i=0; i < channels; i++)
+        case FITS_LOG:
         {
-            offset = i*size;
-            for (int j=0; j < height; j++)
+            coeff = max / log(1 + max);
+
+            for (int i=0; i < channels; i++)
             {
-                row = offset + j * width;
-                for (int k=0; k < width; k++)
+                offset = i*size;
+                for (int j=0; j < height; j++)
                 {
-                    index=k + row;
-                    ival = coeff * log(1 + qBound(min, image[index], max));
-                    image[index] = qBound(min, static_cast<T>(round(ival)), max);
+                    row = offset + j * width;
+                    for (int k=0; k < width; k++)
+                    {
+                        index=k + row;
+                        ival = coeff * log(1 + qBound(min, image[index], max));
+                        image[index] = qBound(min, static_cast<T>(round(ival)), max);
+                    }
                 }
             }
-        }
 
-        if (calcStats)
-        {
-            stats.min[0] = min;
-            stats.max[0] = max;
-            runningAverageStdDev<T>();
+            if (calcStats)
+            {
+                stats.min[0] = min;
+                stats.max[0] = max;
+                runningAverageStdDev<T>();
+            }
         }
-    }
         break;
 
-    case FITS_SQRT:
-    {
-        coeff = max / sqrt(max);
-
-        for (int i=0; i < channels; i++)
+        case FITS_SQRT:
         {
-            offset = i*size;
-            for (int j=0; j < height; j++)
+            coeff = max / sqrt(max);
+
+            for (int i=0; i < channels; i++)
             {
-                row = offset + j * width;
-                for (int k=0; k < width; k++)
+                offset = i*size;
+                for (int j=0; j < height; j++)
                 {
-                    index=k + row;
-                    ival = coeff * image[index];
-                    image[index] = qBound(min, static_cast<T>(round(ival)), max);
+                    row = offset + j * width;
+                    for (int k=0; k < width; k++)
+                    {
+                        index=k + row;
+                        ival = coeff * image[index];
+                        image[index] = qBound(min, static_cast<T>(round(ival)), max);
+                    }
                 }
             }
-        }
 
-        if (calcStats)
-        {
-            stats.min[0] = min;
-            stats.max[0] = max;
-            runningAverageStdDev<T>();
-        }
-    }
-        break;
-
-    // Only difference is how min and max are set
-    case FITS_AUTO_STRETCH:
-    case FITS_HIGH_CONTRAST:
-    {
-        for (int i=0; i < channels; i++)
-        {
-            offset = i*size;
-            for (int j=0; j < height; j++)
+            if (calcStats)
             {
-                row = offset + j * width;
-                for (int k=0; k < width; k++)
-                    image[k + row] = qBound(min, image[k + row], max);
+                stats.min[0] = min;
+                stats.max[0] = max;
+                runningAverageStdDev<T>();
             }
         }
-
-        if (calcStats)
-        {
-            stats.min[0] = min;
-            stats.max[0] = max;
-            runningAverageStdDev<T>();
-        }
-    }
         break;
 
-    case FITS_EQUALIZE:
-    {
-        #ifndef KSTARS_LITE
-        if (histogram == NULL)
-            return;
-        QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
-        coeff = 255.0 / (height * width);
-
-        for (int i=0; i < channels; i++)
+        // Only difference is how min and max are set
+        case FITS_AUTO_STRETCH:
+        case FITS_HIGH_CONTRAST:
         {
-            offset = i*size;
-            for (int j=0; j < height; j++)
+            for (int i=0; i < channels; i++)
             {
-                row = offset + j * width;
-                for (int k=0; k < width; k++)
+                offset = i*size;
+                for (int j=0; j < height; j++)
                 {
-                    index=k + row;
-                    bufferVal = (image[index] - min) / histogram->getBinWidth();
-
-                    if (bufferVal >= cumulativeFreq.size())
-                        bufferVal = cumulativeFreq.size()-1;
-
-                    ival = coeff * cumulativeFreq[bufferVal];
-
-                    image[index] = qBound(min, static_cast<T>(round(ival)), max);
+                    row = offset + j * width;
+                    for (int k=0; k < width; k++)
+                        image[k + row] = qBound(min, image[k + row], max);
                 }
             }
+
+            if (calcStats)
+            {
+                stats.min[0] = min;
+                stats.max[0] = max;
+                runningAverageStdDev<T>();
+            }
         }
-        #endif
-    }
+        break;
+
+        case FITS_EQUALIZE:
+        {
+#ifndef KSTARS_LITE
+            if (histogram == NULL)
+                return;
+            QVector<double> cumulativeFreq = histogram->getCumulativeFrequency();
+            coeff = 255.0 / (height * width);
+
+            for (int i=0; i < channels; i++)
+            {
+                offset = i*size;
+                for (int j=0; j < height; j++)
+                {
+                    row = offset + j * width;
+                    for (int k=0; k < width; k++)
+                    {
+                        index=k + row;
+                        bufferVal = (image[index] - min) / histogram->getBinWidth();
+
+                        if (bufferVal >= cumulativeFreq.size())
+                            bufferVal = cumulativeFreq.size()-1;
+
+                        ival = coeff * cumulativeFreq[bufferVal];
+
+                        image[index] = qBound(min, static_cast<T>(round(ival)), max);
+                    }
+                }
+            }
+#endif
+        }
         if (calcStats)
             calculateStats(true);
         break;
 
-    case FITS_HIGH_PASS:
-    {
-        min = stats.mean[0];
-        for (int i=0; i < channels; i++)
+        case FITS_HIGH_PASS:
         {
-            offset = i*size;
-            for (int j=0; j < height; j++)
+            min = stats.mean[0];
+            for (int i=0; i < channels; i++)
             {
-                row = offset + j * width;
-                for (int k=0; k < width; k++)
+                offset = i*size;
+                for (int j=0; j < height; j++)
                 {
-                    index=k + row;
-                    image[index] = qBound(min, image[index], max);
-                }
-            }
-        }
-
-        if (calcStats)
-        {
-            stats.min[0] = min;
-            stats.max[0] = max;
-            runningAverageStdDev<T>();
-        }
-    }
-    break;
-
-    // Based on http://www.librow.com/articles/article-1
-    case FITS_MEDIAN:
-    {
-        int BBP = stats.bytesPerPixel;
-        T* extension = new T[(width + 2) * (height + 2)];
-        //   Check memory allocation
-        if (!extension)
-            return;
-        //   Create image extension
-        for (int ch=0; ch < channels; ch++)
-        {
-            offset = ch*size;
-            int N=width,M=height;
-
-            for (int i = 0; i < M; ++i)
-            {
-                memcpy(extension + (N + 2) * (i + 1) + 1, image + (N * i) + offset, N * BBP);
-                extension[(N + 2) * (i + 1)] = image[N * i + offset];
-                extension[(N + 2) * (i + 2) - 1] = image[N * (i + 1) - 1 + offset];
-            }
-            //   Fill first line of image extension
-            memcpy(extension, extension + N + 2, (N + 2) * BBP);
-            //   Fill last line of image extension
-            memcpy(extension + (N + 2) * (M + 1), extension + (N + 2) * M, (N + 2) * BBP);
-            //   Call median filter implementation
-
-            N=width+2;
-            M=height+2;
-
-            //   Move window through all elements of the image
-            for (int m = 1; m < M - 1; ++m)
-                for (int n = 1; n < N - 1; ++n)
-                {
-                    //   Pick up window elements
-                    int k = 0;
-                    float window[9];
-                    for (int j = m - 1; j < m + 2; ++j)
-                        for (int i = n - 1; i < n + 2; ++i)
-                            window[k++] = extension[j * N + i];
-                    //   Order elements (only half of them)
-                    for (int j = 0; j < 5; ++j)
+                    row = offset + j * width;
+                    for (int k=0; k < width; k++)
                     {
-                        //   Find position of minimum element
-                        int mine = j;
-                        for (int l = j + 1; l < 9; ++l)
-                            if (window[l] < window[mine])
-                                mine = l;
-                        //   Put found minimum element in its place
-                        const float temp = window[j];
-                        window[j] = window[mine];
-                        window[mine] = temp;
+                        index=k + row;
+                        image[index] = qBound(min, image[index], max);
                     }
-                    //   Get result - the middle element
-                    image[(m - 1) * (N - 2) + n - 1 + offset] = window[4];
                 }
+            }
+
+            if (calcStats)
+            {
+                stats.min[0] = min;
+                stats.max[0] = max;
+                runningAverageStdDev<T>();
+            }
         }
+        break;
 
-        //   Free memory
-        delete[] extension;
+        // Based on http://www.librow.com/articles/article-1
+        case FITS_MEDIAN:
+        {
+            int BBP = stats.bytesPerPixel;
+            T * extension = new T[(width + 2) * (height + 2)];
+            //   Check memory allocation
+            if (!extension)
+                return;
+            //   Create image extension
+            for (int ch=0; ch < channels; ch++)
+            {
+                offset = ch*size;
+                int N=width,M=height;
 
-        if (calcStats)
-            runningAverageStdDev<T>();
-    }
+                for (int i = 0; i < M; ++i)
+                {
+                    memcpy(extension + (N + 2) * (i + 1) + 1, image + (N * i) + offset, N * BBP);
+                    extension[(N + 2) * (i + 1)] = image[N * i + offset];
+                    extension[(N + 2) * (i + 2) - 1] = image[N * (i + 1) - 1 + offset];
+                }
+                //   Fill first line of image extension
+                memcpy(extension, extension + N + 2, (N + 2) * BBP);
+                //   Fill last line of image extension
+                memcpy(extension + (N + 2) * (M + 1), extension + (N + 2) * M, (N + 2) * BBP);
+                //   Call median filter implementation
+
+                N=width+2;
+                M=height+2;
+
+                //   Move window through all elements of the image
+                for (int m = 1; m < M - 1; ++m)
+                    for (int n = 1; n < N - 1; ++n)
+                    {
+                        //   Pick up window elements
+                        int k = 0;
+                        float window[9];
+                        for (int j = m - 1; j < m + 2; ++j)
+                            for (int i = n - 1; i < n + 2; ++i)
+                                window[k++] = extension[j * N + i];
+                        //   Order elements (only half of them)
+                        for (int j = 0; j < 5; ++j)
+                        {
+                            //   Find position of minimum element
+                            int mine = j;
+                            for (int l = j + 1; l < 9; ++l)
+                                if (window[l] < window[mine])
+                                    mine = l;
+                            //   Put found minimum element in its place
+                            const float temp = window[j];
+                            window[j] = window[mine];
+                            window[mine] = temp;
+                        }
+                        //   Get result - the middle element
+                        image[(m - 1) * (N - 2) + n - 1 + offset] = window[4];
+                    }
+            }
+
+            //   Free memory
+            delete[] extension;
+
+            if (calcStats)
+                runningAverageStdDev<T>();
+        }
         break;
 
 
-    case FITS_ROTATE_CW:
-        rotFITS<T>(90, 0);
-        rotCounter++;
-        break;
+        case FITS_ROTATE_CW:
+            rotFITS<T>(90, 0);
+            rotCounter++;
+            break;
 
-    case FITS_ROTATE_CCW:
-        rotFITS<T>(270, 0);
-        rotCounter--;
-        break;
+        case FITS_ROTATE_CCW:
+            rotFITS<T>(270, 0);
+            rotCounter--;
+            break;
 
-    case FITS_FLIP_H:
-        rotFITS<T>(0, 1);
-        flipHCounter++;
-        break;
+        case FITS_FLIP_H:
+            rotFITS<T>(0, 1);
+            flipHCounter++;
+            break;
 
-    case FITS_FLIP_V:
-        rotFITS<T>(0, 2);
-        flipVCounter++;
-        break;
+        case FITS_FLIP_V:
+            rotFITS<T>(0, 2);
+            flipVCounter++;
+            break;
 
-    case FITS_CUSTOM:
-    default:
-        return;
-        break;
+        case FITS_CUSTOM:
+        default:
+            return;
+            break;
     }
 }
 
@@ -2053,17 +2053,17 @@ int FITSData::findStars(const QRectF &boundary, bool force)
 
 }
 
-void FITSData::getCenterSelection(int *x, int *y)
+void FITSData::getCenterSelection(int * x, int * y)
 {
     if (starCenters.count() == 0)
         return;
 
-    Edge *pEdge = new Edge();
+    Edge * pEdge = new Edge();
     pEdge->x = *x;
     pEdge->y = *y;
     pEdge->width = 1;
 
-    foreach(Edge *center, starCenters)
+    foreach(Edge * center, starCenters)
         if (checkCollision(pEdge, center))
         {
             *x = center->x;
@@ -2080,9 +2080,9 @@ bool FITSData::loadWCS()
 #ifdef HAVE_WCSLIB
 
     int status=0;
-    char *header;
+    char * header;
     int nkeyrec, nreject, nwcs, stat[2];
-    double imgcrd[2], phi, pixcrd[2], theta, world[2];    
+    double imgcrd[2], phi, pixcrd[2], theta, world[2];
     int width=getWidth();
     int height=getHeight();
 
@@ -2133,7 +2133,7 @@ bool FITSData::loadWCS()
         return false;
     }
 
-    wcs_point *p = wcs_coord;
+    wcs_point * p = wcs_coord;
 
     for (int i=0; i < height; i++)
     {
@@ -2204,7 +2204,7 @@ bool FITSData::wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &w
     return false;
 }
 
-bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint & wcsCoord)
+bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord)
 {
 #ifndef KSTARS_LITE
 #ifdef HAVE_WCSLIB
@@ -2229,8 +2229,8 @@ bool FITSData::pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint & wcsCoord)
     }
     else
     {
-       wcsCoord.setRA0(world[0]/15.0);
-       wcsCoord.setDec0(world[1]);
+        wcsCoord.setRA0(world[0]/15.0);
+        wcsCoord.setDec0(world[1]);
     }
 
     return true;
@@ -2250,7 +2250,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
     int status=0;
 
     char date[64];
-    KSNumbers *num = NULL;
+    KSNumbers * num = NULL;
 
     if (fits_read_keyword(fptr, "DATE-OBS", date, NULL, &status) == 0)
     {
@@ -2265,7 +2265,7 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
     if (num == NULL)
         num=new KSNumbers(KStarsData::Instance()->ut().djd());//Set to current time if the above does not work.
 
-    SkyMapComposite *map=KStarsData::Instance()->skyComposite();
+    SkyMapComposite * map=KStarsData::Instance()->skyComposite();
 
     wcs_point * wcs_coord = getWCSCoord();
     if (wcs_coord)
@@ -2282,13 +2282,14 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
         p2.setRA0(dms(wcs_coord[size-1].ra));
         p2.setDec0(dms(wcs_coord[size-1].dec));
         p2.updateCoordsNow(num);
-        QList<SkyObject*> list= map->findObjectsInArea( p1, p2 );
+        QList<SkyObject *> list= map->findObjectsInArea( p1, p2 );
 
-        foreach(SkyObject *object, list)
+        foreach(SkyObject * object, list)
         {
 
             int type=object->type();
-            if(object->name()=="star"||type==SkyObject::PLANET||type==SkyObject::ASTEROID||type==SkyObject::COMET||type==SkyObject::SUPERNOVA||type==SkyObject::MOON||type==SkyObject::SATELLITE){
+            if(object->name()=="star"||type==SkyObject::PLANET||type==SkyObject::ASTEROID||type==SkyObject::COMET||type==SkyObject::SUPERNOVA||type==SkyObject::MOON||type==SkyObject::SATELLITE)
+            {
                 //DO NOT DISPLAY, at least for now, becaus these things move and change.
             }
 
@@ -2318,35 +2319,41 @@ void FITSData::findObjectsInImage(double world[], double phi, double theta, doub
 #endif
 #endif
 
-QList<FITSSkyObject *> FITSData::getSkyObjects(){
+QList<FITSSkyObject *> FITSData::getSkyObjects()
+{
     return objList;
 }
 
 
-FITSSkyObject::FITSSkyObject(SkyObject *object, int xPos, int yPos) : QObject()
+FITSSkyObject::FITSSkyObject(SkyObject * object, int xPos, int yPos) : QObject()
 {
     skyObjectStored=object;
     xLoc=xPos;
     yLoc=yPos;
 }
 
-SkyObject *FITSSkyObject::skyObject(){
+SkyObject * FITSSkyObject::skyObject()
+{
     return skyObjectStored;
 }
 
-int FITSSkyObject::x(){
+int FITSSkyObject::x()
+{
     return xLoc;
 }
 
-int FITSSkyObject::y(){
+int FITSSkyObject::y()
+{
     return yLoc;
 }
 
-void FITSSkyObject::setX(int xPos){
+void FITSSkyObject::setX(int xPos)
+{
     xLoc=xPos;
 }
 
-void FITSSkyObject::setY(int yPos){
+void FITSSkyObject::setY(int yPos)
+{
     yLoc=yPos;
 }
 
@@ -2390,7 +2397,7 @@ template<typename T>  bool FITSData::rotFITS (int rotate, int mirror)
 {
     int ny, nx;
     int x1, y1, x2, y2;
-    uint8_t *rotimage = NULL;
+    uint8_t * rotimage = NULL;
     int offset=0;
 
     if (rotate == 1)
@@ -2416,8 +2423,8 @@ template<typename T>  bool FITSData::rotFITS (int rotate, int mirror)
         return false;
     }
 
-    T * rotBuffer = reinterpret_cast<T*>(rotimage);
-    T * buffer    = reinterpret_cast<T*>(imageBuffer);
+    T * rotBuffer = reinterpret_cast<T *>(rotimage);
+    T * buffer    = reinterpret_cast<T *>(imageBuffer);
 
     /* Mirror image without rotation */
     if (rotate < 45 && rotate > -45)
@@ -2885,7 +2892,8 @@ void FITSData::rotWCSFITS (int angle, int mirror)
                 fits_update_key_dbl(fptr, "CD2_2", ctemp1, WCS_DECIMALS, comment, &status );
             }
         }
-        else {
+        else
+        {
             if (angle == 90)
             {
                 fits_update_key_dbl(fptr, "CD1_1", -ctemp4, WCS_DECIMALS, comment, &status );
@@ -2933,12 +2941,12 @@ void FITSData::rotWCSFITS (int angle, int mirror)
     return;
 }
 
-uint8_t *FITSData::getImageBuffer()
+uint8_t * FITSData::getImageBuffer()
 {
     return imageBuffer;
 }
 
-void FITSData::setImageBuffer(uint8_t *buffer)
+void FITSData::setImageBuffer(uint8_t * buffer)
 {
     delete[] imageBuffer;
     imageBuffer = buffer;
@@ -2984,7 +2992,7 @@ bool FITSData::checkDebayer()
     return true;
 }
 
-void FITSData::getBayerParams(BayerParams *param)
+void FITSData::getBayerParams(BayerParams * param)
 {
     param->method       = debayerParams.method;
     param->filter       = debayerParams.filter;
@@ -2992,7 +3000,7 @@ void FITSData::getBayerParams(BayerParams *param)
     param->offsetY      = debayerParams.offsetY;
 }
 
-void FITSData::setBayerParams(BayerParams *param)
+void FITSData::setBayerParams(BayerParams * param)
 {
     debayerParams.method   = param->method;
     debayerParams.filter   = param->filter;
@@ -3019,14 +3027,14 @@ bool FITSData::debayer()
 
     switch (data_type)
     {
-    case TBYTE:
-        return debayer_8bit();
+        case TBYTE:
+            return debayer_8bit();
 
-    case TUSHORT:
-        return debayer_16bit();
+        case TUSHORT:
+            return debayer_16bit();
 
-    default:
-        return false;
+        default:
+            return false;
     }
 
     return false;
@@ -3109,8 +3117,8 @@ bool FITSData::debayer_16bit()
     int rgb_size = stats.samples_per_channel*3*stats.bytesPerPixel;
     uint8_t * destinationBuffer = new uint8_t[rgb_size];
 
-    uint16_t * buffer    = reinterpret_cast<uint16_t*>(bayerBuffer);
-    uint16_t * dstBuffer = reinterpret_cast<uint16_t*>(destinationBuffer);
+    uint16_t * buffer    = reinterpret_cast<uint16_t *>(bayerBuffer);
+    uint16_t * dstBuffer = reinterpret_cast<uint16_t *>(destinationBuffer);
 
     if (destinationBuffer == NULL)
     {
@@ -3155,7 +3163,7 @@ bool FITSData::debayer_16bit()
         }
     }
 
-    buffer    = reinterpret_cast<uint16_t*>(imageBuffer);
+    buffer    = reinterpret_cast<uint16_t *>(imageBuffer);
 
     // Data in R1G1B1, we need to copy them into 3 layers for FITS
 
@@ -3213,33 +3221,35 @@ void FITSData::sobel(const QImage &image, QVector<int> &gradient, QVector<int> &
     gradient.resize(size);
     direction.resize(size);
 
-    for (int y = 0; y < image.height(); y++) {
+    for (int y = 0; y < image.height(); y++)
+    {
         size_t yOffset = y * image.width();
-        const quint8 *grayLine = image.constBits() + yOffset;
+        const quint8 * grayLine = image.constBits() + yOffset;
 
-        const quint8 *grayLine_m1 = y < 1? grayLine: grayLine - image.width();
-        const quint8 *grayLine_p1 = y >= image.height() - 1? grayLine: grayLine + image.width();
+        const quint8 * grayLine_m1 = y < 1? grayLine: grayLine - image.width();
+        const quint8 * grayLine_p1 = y >= image.height() - 1? grayLine: grayLine + image.width();
 
-        int *gradientLine = gradient.data() + yOffset;
-        int *directionLine = direction.data() + yOffset;
+        int * gradientLine = gradient.data() + yOffset;
+        int * directionLine = direction.data() + yOffset;
 
-        for (int x = 0; x < image.width(); x++) {
+        for (int x = 0; x < image.width(); x++)
+        {
             int x_m1 = x < 1? x: x - 1;
             int x_p1 = x >= image.width() - 1? x: x + 1;
 
             int gradX = grayLine_m1[x_p1]
-                    + 2 * grayLine[x_p1]
-                    + grayLine_p1[x_p1]
-                    - grayLine_m1[x_m1]
-                    - 2 * grayLine[x_m1]
-                    - grayLine_p1[x_m1];
+                        + 2 * grayLine[x_p1]
+                        + grayLine_p1[x_p1]
+                        - grayLine_m1[x_m1]
+                        - 2 * grayLine[x_m1]
+                        - grayLine_p1[x_m1];
 
             int gradY = grayLine_m1[x_m1]
-                    + 2 * grayLine_m1[x]
-                    + grayLine_m1[x_p1]
-                    - grayLine_p1[x_m1]
-                    - 2 * grayLine_p1[x]
-                    - grayLine_p1[x_p1];
+                        + 2 * grayLine_m1[x]
+                        + grayLine_m1[x_p1]
+                        - grayLine_p1[x_m1]
+                        - 2 * grayLine_p1[x]
+                        - grayLine_p1[x_p1];
 
             gradientLine[x] = qAbs(gradX) + qAbs(gradY);
 
@@ -3273,7 +3283,8 @@ void FITSData::sobel(const QImage &image, QVector<int> &gradient, QVector<int> &
                 directionLine[x] = 0;
             else if (gradX == 0)
                 directionLine[x] = 3;
-            else {
+            else
+            {
                 qreal a = 180. * atan(qreal(gradY) / gradX) / M_PI;
 
                 if (a >= -22.5 && a < 22.5)
@@ -3299,13 +3310,13 @@ template<typename T> void FITSData::sobel(QVector<float> &gradient, QVector<floa
     for (int y = 0; y < stats.height; y++)
     {
         size_t yOffset = y * stats.width;
-        const T *grayLine = reinterpret_cast<T*>(imageBuffer) + yOffset;
+        const T * grayLine = reinterpret_cast<T *>(imageBuffer) + yOffset;
 
-        const T *grayLine_m1 = y < 1? grayLine: grayLine - stats.width;
-        const T *grayLine_p1 = y >= stats.height - 1? grayLine: grayLine + stats.width;
+        const T * grayLine_m1 = y < 1? grayLine: grayLine - stats.width;
+        const T * grayLine_p1 = y >= stats.height - 1? grayLine: grayLine + stats.width;
 
-        float *gradientLine = gradient.data() + yOffset;
-        float *directionLine = direction.data() + yOffset;
+        float * gradientLine = gradient.data() + yOffset;
+        float * directionLine = direction.data() + yOffset;
 
         for (int x = 0; x < stats.width; x++)
         {
@@ -3313,18 +3324,18 @@ template<typename T> void FITSData::sobel(QVector<float> &gradient, QVector<floa
             int x_p1 = x >= stats.width - 1? x: x + 1;
 
             int gradX = grayLine_m1[x_p1]
-                    + 2 * grayLine[x_p1]
-                    + grayLine_p1[x_p1]
-                    - grayLine_m1[x_m1]
-                    - 2 * grayLine[x_m1]
-                    - grayLine_p1[x_m1];
+                        + 2 * grayLine[x_p1]
+                        + grayLine_p1[x_p1]
+                        - grayLine_m1[x_m1]
+                        - 2 * grayLine[x_m1]
+                        - grayLine_p1[x_m1];
 
             int gradY = grayLine_m1[x_m1]
-                    + 2 * grayLine_m1[x]
-                    + grayLine_m1[x_p1]
-                    - grayLine_p1[x_m1]
-                    - 2 * grayLine_p1[x]
-                    - grayLine_p1[x_p1];
+                        + 2 * grayLine_m1[x]
+                        + grayLine_m1[x_p1]
+                        - grayLine_p1[x_m1]
+                        - 2 * grayLine_p1[x]
+                        - grayLine_p1[x_p1];
 
             gradientLine[x] = qAbs(gradX) + qAbs(gradY);
 
@@ -3401,8 +3412,8 @@ int FITSData::partition(int width, int height, QVector<float> &gradient, QVector
 void FITSData::trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y)
 {
     int yOffset = y * width;
-    float *cannyLine = image.data() + yOffset;
-    int *idLine    = ids.data() + yOffset;
+    float * cannyLine = image.data() + yOffset;
+    int * idLine    = ids.data() + yOffset;
 
     if (idLine[x] != 0)
         return;
@@ -3416,7 +3427,7 @@ void FITSData::trace(int width, int height, int id, QVector<float> &image, QVect
         if (nextY < 0 || nextY >= height)
             continue;
 
-        float *cannyLineNext = cannyLine + j * width;
+        float * cannyLineNext = cannyLine + j * width;
 
         for (int i = -1; i < 2; i++)
         {
@@ -3454,22 +3465,25 @@ QVector<int> FITSData::thinning(int width, int height, const QVector<int> &gradi
 {
     QVector<int> thinned(gradient.size());
 
-    for (int y = 0; y < height; y++) {
+    for (int y = 0; y < height; y++)
+    {
         int yOffset = y * width;
-        const int *gradientLine = gradient.constData() + yOffset;
-        const int *gradientLine_m1 = y < 1? gradientLine: gradientLine - width;
-        const int *gradientLine_p1 = y >= height - 1? gradientLine: gradientLine + width;
-        const int *directionLine = direction.constData() + yOffset;
-        int *thinnedLine = thinned.data() + yOffset;
+        const int * gradientLine = gradient.constData() + yOffset;
+        const int * gradientLine_m1 = y < 1? gradientLine: gradientLine - width;
+        const int * gradientLine_p1 = y >= height - 1? gradientLine: gradientLine + width;
+        const int * directionLine = direction.constData() + yOffset;
+        int * thinnedLine = thinned.data() + yOffset;
 
-        for (int x = 0; x < width; x++) {
+        for (int x = 0; x < width; x++)
+        {
             int x_m1 = x < 1? 0: x - 1;
             int x_p1 = x >= width - 1? x: x + 1;
 
             int direction = directionLine[x];
             int pixel = 0;
 
-            if (direction == 0) {
+            if (direction == 0)
+            {
                 /* x x x
                  * - - -
                  * x x x
@@ -3479,7 +3493,9 @@ QVector<int> FITSData::thinning(int width, int height, const QVector<int> &gradi
                     pixel = 0;
                 else
                     pixel = gradientLine[x];
-            } else if (direction == 1) {
+            }
+            else if (direction == 1)
+            {
                 /* x x /
                  * x / x
                  * / x x
@@ -3489,7 +3505,9 @@ QVector<int> FITSData::thinning(int width, int height, const QVector<int> &gradi
                     pixel = 0;
                 else
                     pixel = gradientLine[x];
-            } else if (direction == 2) {
+            }
+            else if (direction == 2)
+            {
                 /* \ x x
                  * x \ x
                  * x x \
@@ -3499,7 +3517,9 @@ QVector<int> FITSData::thinning(int width, int height, const QVector<int> &gradi
                     pixel = 0;
                 else
                     pixel = gradientLine[x];
-            } else {
+            }
+            else
+            {
                 /* x | x
                  * x | x
                  * x | x
@@ -3524,8 +3544,8 @@ QVector<float> FITSData::threshold(int thLow, int thHi, const QVector<float> &im
 
     for (int i = 0; i < image.size(); i++)
         thresholded[i] = image[i] <= thLow? 0:
-                                            image[i] >= thHi? 255:
-                                                              127;
+                         image[i] >= thHi? 255:
+                         127;
 
     return thresholded;
 }
@@ -3595,112 +3615,112 @@ QImage FITSData::FITSToImage(const QString &filename)
     switch (data.getDataType())
     {
 
-    case TBYTE:
-    {
-        uint8_t *buffer = data.getImageBuffer();
-        uint8_t bMin = dataMin < 0 ? 0 : dataMin;
-        uint8_t bMax = dataMax > 255 ? 255 : dataMax;
-        if (data.getNumOfChannels() == 1)
+        case TBYTE:
         {
-            /* Fill in pixel values using indexed map, linear scale */
-            for (int j = 0; j < h; j++)
+            uint8_t * buffer = data.getImageBuffer();
+            uint8_t bMin = dataMin < 0 ? 0 : dataMin;
+            uint8_t bMax = dataMax > 255 ? 255 : dataMax;
+            if (data.getNumOfChannels() == 1)
             {
-                unsigned char *scanLine = fitsImage.scanLine(j);
-
-                for (int i = 0; i < w; i++)
+                /* Fill in pixel values using indexed map, linear scale */
+                for (int j = 0; j < h; j++)
                 {
-                    val = qBound(bMin, buffer[j * w + i], bMax);
-                    val = val * bscale + bzero;
-                    scanLine[i]= qBound(0.0, val, 255.0);
+                    unsigned char * scanLine = fitsImage.scanLine(j);
+
+                    for (int i = 0; i < w; i++)
+                    {
+                        val = qBound(bMin, buffer[j * w + i], bMax);
+                        val = val * bscale + bzero;
+                        scanLine[i]= qBound(0.0, val, 255.0);
+                    }
+                }
+            }
+            else
+            {
+                double rval=0,gval=0,bval=0;
+                QRgb value;
+                /* Fill in pixel values using indexed map, linear scale */
+                for (int j = 0; j < h; j++)
+                {
+                    QRgb * scanLine = reinterpret_cast<QRgb *>((fitsImage.scanLine(j)));
+
+                    for (int i = 0; i < w; i++)
+                    {
+                        rval = qBound(bMin, buffer[j * w + i], bMax);
+                        gval = qBound(bMin, buffer[j * w + i + size], bMax);
+                        bval = qBound(bMin, buffer[j * w + i + size *2], bMax);;
+
+                        value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
+
+                        scanLine[i] = value;
+                    }
                 }
             }
         }
-        else
-        {
-            double rval=0,gval=0,bval=0;
-            QRgb value;
-            /* Fill in pixel values using indexed map, linear scale */
-            for (int j = 0; j < h; j++)
-            {
-                QRgb *scanLine = reinterpret_cast<QRgb*>((fitsImage.scanLine(j)));
-
-                for (int i = 0; i < w; i++)
-                {
-                    rval = qBound(bMin, buffer[j * w + i], bMax);
-                    gval = qBound(bMin, buffer[j * w + i + size], bMax);
-                    bval = qBound(bMin, buffer[j * w + i + size *2], bMax);;
-
-                    value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
-
-                    scanLine[i] = value;
-                }
-            }
-        }
-    }
         break;
 
 
-    case TUSHORT:
-    {
-        uint16_t *buffer = reinterpret_cast<uint16_t*>(data.getImageBuffer());
-        uint16_t bMin = dataMin < 0 ? 0 : dataMin;
-        uint16_t bMax = dataMax > USHRT_MAX ? USHRT_MAX : dataMax;
-        if (data.getNumOfChannels() == 1)
+        case TUSHORT:
         {
-            /* Fill in pixel values using indexed map, linear scale */
-            for (int j = 0; j < h; j++)
+            uint16_t * buffer = reinterpret_cast<uint16_t *>(data.getImageBuffer());
+            uint16_t bMin = dataMin < 0 ? 0 : dataMin;
+            uint16_t bMax = dataMax > USHRT_MAX ? USHRT_MAX : dataMax;
+            if (data.getNumOfChannels() == 1)
             {
-                unsigned char *scanLine = fitsImage.scanLine(j);
-
-                for (int i = 0; i < w; i++)
+                /* Fill in pixel values using indexed map, linear scale */
+                for (int j = 0; j < h; j++)
                 {
-                    val = qBound(bMin, buffer[j * w + i], bMax);
-                    val = val * bscale + bzero;
-                    scanLine[i]= qBound(0.0, val, 255.0);
+                    unsigned char * scanLine = fitsImage.scanLine(j);
+
+                    for (int i = 0; i < w; i++)
+                    {
+                        val = qBound(bMin, buffer[j * w + i], bMax);
+                        val = val * bscale + bzero;
+                        scanLine[i]= qBound(0.0, val, 255.0);
+                    }
+                }
+            }
+            else
+            {
+                double rval=0,gval=0,bval=0;
+                QRgb value;
+                /* Fill in pixel values using indexed map, linear scale */
+                for (int j = 0; j < h; j++)
+                {
+                    QRgb * scanLine = reinterpret_cast<QRgb *>((fitsImage.scanLine(j)));
+
+                    for (int i = 0; i < w; i++)
+                    {
+                        rval = qBound(bMin, buffer[j * w + i], bMax);
+                        gval = qBound(bMin, buffer[j * w + i + size], bMax);
+                        bval = qBound(bMin, buffer[j * w + i + size *2], bMax);
+
+                        value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
+
+                        scanLine[i] = value;
+                    }
                 }
             }
         }
-        else
-        {
-            double rval=0,gval=0,bval=0;
-            QRgb value;
-            /* Fill in pixel values using indexed map, linear scale */
-            for (int j = 0; j < h; j++)
-            {
-                QRgb *scanLine = reinterpret_cast<QRgb*>((fitsImage.scanLine(j)));
-
-                for (int i = 0; i < w; i++)
-                {
-                    rval = qBound(bMin, buffer[j * w + i], bMax);
-                    gval = qBound(bMin, buffer[j * w + i + size], bMax);
-                    bval = qBound(bMin, buffer[j * w + i + size *2], bMax);
-
-                    value = qRgb(rval* bscale + bzero, gval* bscale + bzero, bval* bscale + bzero);
-
-                    scanLine[i] = value;
-                }
-            }
-        }
-    }
-    break;
-
-   default:
         break;
+
+        default:
+            break;
     }
 
     return fitsImage;
 }
 
-bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, double ra, double dec, double pixscale)
+bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale)
 {
     int status=0, exttype=0;
     long nelements;
-    fitsfile *new_fptr;
+    fitsfile * new_fptr;
     char errMsg[512];
 
     if (Options::fITSLogging())
         qDebug() << "Creating new WCS file: " << newWCSFile << " with parameters orientation: " << orientation <<
-                    "ra: " << ra << "dec: " << dec << "Pixel scale: " << pixscale;
+                 "ra: " << ra << "dec: " << dec << "Pixel scale: " << pixscale;
 
     nelements = stats.samples_per_channel * channels;
 
@@ -3874,7 +3894,7 @@ bool FITSData::createWCSFile(const QString & newWCSFile, double orientation, dou
     return loadWCS();
 }
 
-bool FITSData::contains(const QPointF& point) const
+bool FITSData::contains(const QPointF &point) const
 {
     return (point.x() >= 0 && point.y() >= 0 && point.x() <= stats.width && point.y() <= stats.height);
 }

@@ -31,24 +31,27 @@
  */
 class Equator : public NoPrecessIndex
 {
-public:
+    public:
 
-    /** @short Constructor
-     * @p parent pointer to the parent SkyComposite object
-     * name is the name of the subclass
-     */
-    explicit Equator( SkyComposite *parent );
+        /** @short Constructor
+         * @p parent pointer to the parent SkyComposite object
+         * name is the name of the subclass
+         */
+        explicit Equator( SkyComposite * parent );
 
-    virtual bool selected();
-    virtual void draw( SkyPainter *skyp );
-    virtual void drawCompassLabels();
-    virtual LineListLabel* label() {return &m_label;}
+        virtual bool selected();
+        virtual void draw( SkyPainter * skyp );
+        virtual void drawCompassLabels();
+        virtual LineListLabel * label()
+        {
+            return &m_label;
+        }
 
-protected:
-    virtual void preDraw( SkyPainter *skyp );
+    protected:
+        virtual void preDraw( SkyPainter * skyp );
 
-private:
-    LineListLabel m_label;
+    private:
+        LineListLabel m_label;
 };
 
 #endif

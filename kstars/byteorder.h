@@ -39,7 +39,7 @@ GPL.
 #include <sys/byteorder.h>
 #define bswap_16(x) BSWAP_16(x)
 #define bswap_32(x) BSWAP_32(x)
-#endif 
+#endif
 
 // If no standard headers are found, we define our own byteswap macros
 

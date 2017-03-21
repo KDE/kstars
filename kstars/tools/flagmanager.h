@@ -29,12 +29,12 @@ class KStars;
 
 class FlagManagerUI : public QFrame, public Ui::FlagManager
 {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
-    /** @short Constructor
-     */
-        explicit FlagManagerUI( QWidget *parent );
+        /** @short Constructor
+         */
+        explicit FlagManagerUI( QWidget * parent );
 };
 
 
@@ -48,58 +48,58 @@ class FlagManagerUI : public QFrame, public Ui::FlagManager
  */
 class FlagManager : public QDialog
 {
-    Q_OBJECT
-public:
-    /**
-     *@short Constructor.
-     */
-    explicit FlagManager( QWidget *ks );
+        Q_OBJECT
+    public:
+        /**
+         *@short Constructor.
+         */
+        explicit FlagManager( QWidget * ks );
 
-    /**
-     *@short Destructor.
-     */
-    ~FlagManager();
+        /**
+         *@short Destructor.
+         */
+        ~FlagManager();
 
-    void setRaDec( const dms &ra, const dms &dec );
-    void clearFields ();
-    void showFlag( const int flagIdx );
+        void setRaDec( const dms &ra, const dms &dec );
+        void clearFields ();
+        void showFlag( const int flagIdx );
 
-    bool validatePoint();
+        bool validatePoint();
 
-    void deleteFlagItem ( int flagIdx );
+        void deleteFlagItem ( int flagIdx );
 
-public slots:
-    /**
-     *@short Verify coordinates and add a flag
-     */
-    void slotAddFlag();
+    public slots:
+        /**
+         *@short Verify coordinates and add a flag
+         */
+        void slotAddFlag();
 
-    /**
-     *@short Delete a flag
-     */
-    void slotDeleteFlag();
+        /**
+         *@short Delete a flag
+         */
+        void slotDeleteFlag();
 
-    /**
-     *@short Center the selected flag in the display
-     */
-    void slotCenterFlag();
+        /**
+         *@short Center the selected flag in the display
+         */
+        void slotCenterFlag();
 
-    /**
-     * @brief Center the selected flag in the telescope.
-     */
-    void slotCenterTelescope();
+        /**
+         * @brief Center the selected flag in the telescope.
+         */
+        void slotCenterTelescope();
 
-private slots:
-    void slotSaveChanges();
-    void slotSetShownFlag( QModelIndex idx );
+    private slots:
+        void slotSaveChanges();
+        void slotSetShownFlag( QModelIndex idx );
 
-private:
-    void insertFlag( bool isNew, int row = 0 );
+    private:
+        void insertFlag( bool isNew, int row = 0 );
 
-    KStars *m_Ks;
-    FlagManagerUI *ui;
-    QStandardItemModel *m_Model;
-    QSortFilterProxyModel *m_SortModel;
+        KStars * m_Ks;
+        FlagManagerUI * ui;
+        QStandardItemModel * m_Model;
+        QSortFilterProxyModel * m_SortModel;
 };
 
 #endif

@@ -23,13 +23,15 @@
 #include "auxiliary/dms.h"
 
 
-void TestSkyPoint::testPrecession() {
+void TestSkyPoint::testPrecession()
+{
     /*
      * NOTE: These test cases were picked randomly and generated using
      * https://ned.ipac.caltech.edu/forms/calculator.html
      */
 
-    auto verify = []( const SkyPoint &p, const double targetRA, const double targetDec, const double tolerance ) {
+    auto verify = []( const SkyPoint &p, const double targetRA, const double targetDec, const double tolerance )
+    {
         qDebug() << p.ra().toHMSString() << " " << p.dec().toDMSString();
         QVERIFY( fabs( p.ra().Degrees() - targetRA ) < tolerance * 15. );
         QVERIFY( fabs( p.dec().Degrees() - targetDec ) < tolerance );

@@ -23,17 +23,23 @@ namespace ISD
  */
 class Filter : public DeviceDecorator
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    Filter(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_FILTER;}
+    public:
+        Filter(GDInterface * iPtr) : DeviceDecorator(iPtr)
+        {
+            dType = KSTARS_FILTER;
+        }
 
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty* tvp);
-    void processNumber(INumberVectorProperty *nvp);
-    void processLight(ILightVectorProperty *lvp);
+        void processSwitch(ISwitchVectorProperty * svp);
+        void processText(ITextVectorProperty * tvp);
+        void processNumber(INumberVectorProperty * nvp);
+        void processLight(ILightVectorProperty * lvp);
 
-    DeviceFamily getType() { return dType;}
+        DeviceFamily getType()
+        {
+            return dType;
+        }
 
 };
 

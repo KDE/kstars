@@ -19,7 +19,7 @@
 
 #include "gnomonicprojector.h"
 
-GnomonicProjector::GnomonicProjector(const ViewParams& p)
+GnomonicProjector::GnomonicProjector(const ViewParams &p)
     : Projector(p)
 {
     updateClipPoly();

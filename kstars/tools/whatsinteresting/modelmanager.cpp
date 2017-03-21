@@ -21,7 +21,7 @@
 #include "skymapcomposite.h"
 #include "skyobject.h"
 
-ModelManager::ModelManager(ObsConditions *obs)
+ModelManager::ModelManager(ObsConditions * obs)
 {
     m_ObsConditions = obs;
     m_PlanetsModel = new SkyObjListModel();
@@ -49,13 +49,13 @@ ModelManager::~ModelManager()
     delete m_NebModel;
 }
 
-void ModelManager::updateModels(ObsConditions *obs)
+void ModelManager::updateModels(ObsConditions * obs)
 {
     m_ObsConditions = obs;
     m_InitObjects.clear();
     resetModels();
 
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
 
     KSFileReader fileReader;
     if (!fileReader.open("Interesting.dat")) return;
@@ -67,7 +67,7 @@ void ModelManager::updateModels(ObsConditions *obs)
         if (line.length() == 0 || line[0] == '#')
             continue;
 
-        SkyObject *o;
+        SkyObject * o;
         if ((o = data->skyComposite()->findByName(line)))
         {
             //qDebug()<<o->longname()<<o->typeName();
@@ -96,7 +96,7 @@ void ModelManager::updateModels(ObsConditions *obs)
         }
     }
 
-    foreach (SkyObject *so, m_InitObjects.value(Star_Model))
+    foreach (SkyObject * so, m_InitObjects.value(Star_Model))
     {
         //qDebug()<<so->longname()<<so->typeName();
         if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
@@ -105,7 +105,7 @@ void ModelManager::updateModels(ObsConditions *obs)
         }
     }
 
-    foreach (SkyObject *so, m_InitObjects.value(Galaxy_Model))
+    foreach (SkyObject * so, m_InitObjects.value(Galaxy_Model))
     {
         //qDebug()<<so->longname()<<so->typeName();
         if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
@@ -114,7 +114,7 @@ void ModelManager::updateModels(ObsConditions *obs)
         }
     }
 
-    foreach (SkyObject *so, m_InitObjects.value(Constellation_Model))
+    foreach (SkyObject * so, m_InitObjects.value(Constellation_Model))
     {
         if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
@@ -122,7 +122,7 @@ void ModelManager::updateModels(ObsConditions *obs)
         }
     }
 
-    foreach (SkyObject *so, m_InitObjects.value(Cluster_Model))
+    foreach (SkyObject * so, m_InitObjects.value(Cluster_Model))
     {
         if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
@@ -130,7 +130,7 @@ void ModelManager::updateModels(ObsConditions *obs)
         }
     }
 
-    foreach (SkyObject *so, m_InitObjects.value(Nebula_Model))
+    foreach (SkyObject * so, m_InitObjects.value(Nebula_Model))
     {
         if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
@@ -140,7 +140,7 @@ void ModelManager::updateModels(ObsConditions *obs)
 
     foreach (const QString &name, data->skyComposite()->objectNames(SkyObject::PLANET))
     {
-        SkyObject *so = data->skyComposite()->findByName(name);
+        SkyObject * so = data->skyComposite()->findByName(name);
         //qDebug()<<so->name()<<so->mag();
         if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
         {
@@ -160,23 +160,23 @@ void ModelManager::resetModels()
     m_NebModel->resetModel();
 }
 
-SkyObjListModel* ModelManager::returnModel(int type)
+SkyObjListModel * ModelManager::returnModel(int type)
 {
     switch(type)
     {
-    case 0:    //Planet type
-        return m_PlanetsModel;
-    case 1:    //Star type
-        return m_StarsModel;
-    case 2:    //Constellation type
-        return m_ConModel;
-    case 3:    //Galaxy Type
-        return m_GalModel;
-    case 4:    //Cluster type
-        return m_ClustModel;
-    case 5:    //Nebula type
-        return m_NebModel;
-    default:
-        return 0;
+        case 0:    //Planet type
+            return m_PlanetsModel;
+        case 1:    //Star type
+            return m_StarsModel;
+        case 2:    //Constellation type
+            return m_ConModel;
+        case 3:    //Galaxy Type
+            return m_GalModel;
+        case 4:    //Cluster type
+            return m_ClustModel;
+        case 5:    //Nebula type
+            return m_NebModel;
+        default:
+            return 0;
     }
 }

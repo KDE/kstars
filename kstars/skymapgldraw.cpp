@@ -25,7 +25,7 @@
 #include "skymap.h"
 
 
-SkyMapGLDraw::SkyMapGLDraw( SkyMap *sm ) :
+SkyMapGLDraw::SkyMapGLDraw( SkyMap * sm ) :
     QGLWidget( sm ),
     SkyMapDrawAbstract( sm )
 {
@@ -46,7 +46,7 @@ void SkyMapGLDraw::resizeGL(int width, int height)
     //do nothing since we resize in SkyGLPainter::paintGL()
 }
 
-void SkyMapGLDraw::paintEvent( QPaintEvent *event )
+void SkyMapGLDraw::paintEvent( QPaintEvent * event )
 {
     Q_UNUSED(event);
     // This is machinery to prevent multiple concurrent paint events / recursive paint events
@@ -70,7 +70,7 @@ void SkyMapGLDraw::paintEvent( QPaintEvent *event )
     m_KStarsData->skyComposite()->draw( &psky );
     //Finish up
     psky.end();
-    
+
     p.endNativePainting();
     drawOverlays(p);
     p.end();
