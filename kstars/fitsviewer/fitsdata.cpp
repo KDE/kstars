@@ -363,14 +363,6 @@ int FITSData::saveFITS( const QString &newFilename )
 
     status=0;
 
-    if (tempFile && autoRemoveTemporaryFITS)
-    {
-        QFile::remove(filename);
-        tempFile = false;
-    }
-
-    filename = newFilename;
-
     fptr = new_fptr;
 
     if (fits_movabs_hdu(fptr, 1, &exttype, &status))
@@ -445,6 +437,14 @@ int FITSData::saveFITS( const QString &newFilename )
         rotWCSFITS(rot, mirror);
 
     rotCounter=flipHCounter=flipVCounter=0;
+
+    if (tempFile && autoRemoveTemporaryFITS)
+    {
+        QFile::remove(filename);
+        tempFile = false;
+    }
+
+    filename = newFilename;
 
     return status;
 }
