@@ -102,7 +102,14 @@ FITSData * DarkLibrary::getDarkFrame(ISD::CCDChip * targetChip, double duration)
                     if (rc)
                         return darkFiles[filename];
                     else
+                    {
+                        // Remove bad dark frame
+                        emit newLog(i18n("Removing bad dark frame file %1", filename));
+                        darkFiles.remove(filename);
+                        QFile::remove(filename);
+                        KStarsData::Instance()->userdb()->DeleteDarkFrame(filename);
                         return NULL;
+                    }
                 }
             }
         }
