@@ -41,6 +41,8 @@ void FileDownloader::get(const QUrl & fileUrl)
     connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
     connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
     connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
+
+    setDownloadProgress(0,0);
 }
 
 void FileDownloader::post(const QUrl &fileUrl, QByteArray & data)
@@ -54,6 +56,8 @@ void FileDownloader::post(const QUrl &fileUrl, QByteArray & data)
     connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
     connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
     connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));    
+
+    setDownloadProgress(0,0);
 }
 
 void FileDownloader::post(const QUrl & fileUrl, QHttpMultiPart *parts)
@@ -67,6 +71,8 @@ void FileDownloader::post(const QUrl & fileUrl, QHttpMultiPart *parts)
     connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SIGNAL(downloadProgress(qint64,qint64)));
     connect(m_Reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(setDownloadProgress(qint64,qint64)));
     connect(m_Reply, SIGNAL(readyRead()), this, SLOT(dataReady()));
+
+    setDownloadProgress(0,0);
 }
 
 void FileDownloader::dataReady()
@@ -120,7 +126,7 @@ void FileDownloader::setProgressDialogEnabled(bool ShowProgressDialog, const QSt
         title = textTitle;
 
     if (textLabel.isEmpty())
-       label = i18n("Downloading Data...");
+        label = i18n("Downloading Data...");
     else
         label = textLabel;
 }
@@ -159,7 +165,7 @@ void FileDownloader::setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal
             isCancelled = false;
             progressDialog = new QProgressDialog(KStars::Instance());
             progressDialog->setWindowTitle(title);
-            progressDialog->setLabelText(label);
+            progressDialog->setLabelText(i18n("Awaiting response from server..."));
             connect(progressDialog, SIGNAL(canceled()), this, SIGNAL(canceled()));
             connect(progressDialog, &QProgressDialog::canceled, this, [&]() { isCancelled = true; m_Reply->abort(); progressDialog->close(); });
             progressDialog->setMinimum(0);
@@ -168,12 +174,16 @@ void FileDownloader::setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal
             progressDialog->raise();
         }
 
+        if (bytesReceived > 0)
+        {
+            progressDialog->setLabelText(label);
+        }
+
         if (bytesTotal > 0)
         {
             progressDialog->setMaximum(bytesTotal);
             progressDialog->setValue(bytesReceived);
-        }
-        else
+        } else
         {
             progressDialog->setMaximum(0);
         }
