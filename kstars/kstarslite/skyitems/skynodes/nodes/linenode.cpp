@@ -22,9 +22,9 @@
 #include "skiplist.h"
 #include <QLinkedList>
 
-LineNode::LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle)
+LineNode::LineNode(LineList * lineList, SkipList * skipList, QColor color, int width, Qt::PenStyle drawStyle)
     :m_geometryNode(new QSGGeometryNode), m_lineList(lineList), m_skipList(skipList),
-      m_material(new QSGFlatColorMaterial), m_drawStyle(drawStyle)
+     m_material(new QSGFlatColorMaterial), m_drawStyle(drawStyle)
 {
     m_geometryNode->setOpaqueMaterial(m_material);
     //m_geometryNode->setFlag(QSGNode::OwnsMaterial);
@@ -38,41 +38,48 @@ LineNode::LineNode(LineList *lineList, SkipList *skipList, QColor color, int wid
     appendChildNode(m_geometryNode);
 }
 
-LineNode::~LineNode() {
+LineNode::~LineNode()
+{
     delete m_geometry;
     delete m_material;
 }
 
-void LineNode::setColor(QColor color) {
-    if(m_material->color() != color) {
+void LineNode::setColor(QColor color)
+{
+    if(m_material->color() != color)
+    {
         m_material->setColor(color);
         m_color = color;
         m_geometryNode->markDirty(QSGNode::DirtyMaterial);
     }
 }
 
-void LineNode::setWidth(int width) {
+void LineNode::setWidth(int width)
+{
     m_geometry->setLineWidth(width);
     m_geometryNode->markDirty(QSGNode::DirtyGeometry);
 }
 
-void LineNode::setDrawStyle(Qt::PenStyle style) {
+void LineNode::setDrawStyle(Qt::PenStyle style)
+{
     m_drawStyle = style;
 }
 
-void LineNode::setStyle(QColor color, int width, Qt::PenStyle drawStyle) {
+void LineNode::setStyle(QColor color, int width, Qt::PenStyle drawStyle)
+{
     setColor(color);
     setWidth(width);
     setDrawStyle(drawStyle);
 }
 
-void LineNode::updateGeometry() {
+void LineNode::updateGeometry()
+{
 
-    SkyList *points = m_lineList->points();
+    SkyList * points = m_lineList->points();
 
     m_geometry->setDrawingMode(GL_LINES);
 
-    const Projector *m_proj = SkyMapLite::Instance()->projector();
+    const Projector * m_proj = SkyMapLite::Instance()->projector();
 
     bool isVisible, isVisibleLast;
 
@@ -83,35 +90,42 @@ void LineNode::updateGeometry() {
 
     QLinkedList<QPointF> newPoints;
 
-    for ( int j = 1 ; j < points->size() ; j++ ) {
-        SkyPoint* pThis = points->at( j );
+    for ( int j = 1 ; j < points->size() ; j++ )
+    {
+        SkyPoint * pThis = points->at( j );
         /*In regular KStars we first call checkVisibility and then toScreen
         Here we minimize the number of calls to toScreen by proceeding only if
         checkVisibility is true*/
-            oThis = m_proj->toScreen( pThis, true, &isVisible );
-            // & with the result of checkVisibility to clip away things below horizon
-            isVisible &= m_proj->checkVisibility(pThis);
-            bool doSkip = false;
-            if( m_skipList ) {
-                doSkip = m_skipList->skip(j);
-            }
+        oThis = m_proj->toScreen( pThis, true, &isVisible );
+        // & with the result of checkVisibility to clip away things below horizon
+        isVisible &= m_proj->checkVisibility(pThis);
+        bool doSkip = false;
+        if( m_skipList )
+        {
+            doSkip = m_skipList->skip(j);
+        }
 
-            bool pointsVisible = false;
-            //Temporary solution to avoid random lines in Gnomonic projection and draw lines up to horizon
-            if(SkyMapLite::Instance()->projector()->type() == Projector::Gnomonic) {
-                if ( isVisible && isVisibleLast ) pointsVisible = true;
-            } else {
-                if ( isVisible || isVisibleLast ) pointsVisible = true;
-            }
+        bool pointsVisible = false;
+        //Temporary solution to avoid random lines in Gnomonic projection and draw lines up to horizon
+        if(SkyMapLite::Instance()->projector()->type() == Projector::Gnomonic)
+        {
+            if ( isVisible && isVisibleLast ) pointsVisible = true;
+        }
+        else
+        {
+            if ( isVisible || isVisibleLast ) pointsVisible = true;
+        }
 
-            if ( !doSkip ) {
-                if(pointsVisible) {
-                    newPoints.append(oLast);
-                    newPoints.append(oThis);
-                }
+        if ( !doSkip )
+        {
+            if(pointsVisible)
+            {
+                newPoints.append(oLast);
+                newPoints.append(oThis);
             }
-            oLast = oThis;
-            isVisibleLast = isVisible;
+        }
+        oLast = oThis;
+        isVisibleLast = isVisible;
     }
 
 
@@ -122,7 +136,8 @@ void LineNode::updateGeometry() {
 
     QLinkedList<QPointF>::const_iterator i = newPoints.constBegin();
     int c = 0;
-    while ( i != newPoints.constEnd()) {
+    while ( i != newPoints.constEnd())
+    {
         vertex[c].x = (*i).x();
         vertex[c].y = (*i).y();
         c++;

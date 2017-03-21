@@ -31,7 +31,7 @@
 #include "ui_statform.h"
 #include "ui_fitsheaderdialog.h"
 
-FITSTab::FITSTab(FITSViewer *parent) : QWidget()
+FITSTab::FITSTab(FITSViewer * parent) : QWidget()
 {
     view      = NULL;
     histogram  = NULL;
@@ -69,7 +69,7 @@ void FITSTab::saveUnsaved()
 }
 
 
-void FITSTab::closeEvent(QCloseEvent *ev)
+void FITSTab::closeEvent(QCloseEvent * ev)
 {
     saveUnsaved();
     if( undoStack->isClean() )
@@ -89,13 +89,13 @@ void FITSTab::setPreviewText(const QString &value)
 }
 
 
-bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bool silent)
+bool FITSTab::loadFITS(const QUrl * imageURL, FITSMode mode, FITSScale filter, bool silent)
 {
     if (view == NULL)
     {
         view = new FITSView(this, mode, filter);
         view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        QVBoxLayout *vlayout = new QVBoxLayout();
+        QVBoxLayout * vlayout = new QVBoxLayout();
 
         vlayout->addWidget(view);
 
@@ -117,7 +117,7 @@ bool FITSTab::loadFITS(const QUrl *imageURL, FITSMode mode, FITSScale filter, bo
         else
             histogram->constructHistogram();
 
-        FITSData *image_data = view->getImageData();
+        FITSData * image_data = view->getImageData();
 
         image_data->setHistogram(histogram);
         image_data->applyFilter(filter);
@@ -171,7 +171,7 @@ void FITSTab::statFITS()
     Ui::statForm stat;
     stat.setupUi(&statDialog);
 
-    FITSData *image_data = view->getImageData();
+    FITSData * image_data = view->getImageData();
 
     stat.widthOUT->setText(QString::number(image_data->getWidth()));
     stat.heightOUT->setText(QString::number(image_data->getHeight()));
@@ -194,7 +194,7 @@ void FITSTab::headerFITS()
     int err_status;
     char err_text[FLEN_STATUS];
 
-    FITSData *image_data = view->getImageData();
+    FITSData * image_data = view->getImageData();
 
     if ( (err_status = image_data->getFITSRecord(recordList, nkeys)) < 0)
     {
@@ -214,7 +214,7 @@ void FITSTab::headerFITS()
         // I love regexp!
         QStringList properties = record.split(QRegExp("[=/]"));
 
-        QTableWidgetItem* tempItem = new QTableWidgetItem(properties[0].simplified());
+        QTableWidgetItem * tempItem = new QTableWidgetItem(properties[0].simplified());
         tempItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
         header.tableWidget->setItem(i, 0, tempItem);
 
@@ -303,7 +303,8 @@ bool FITSTab::saveFile()
         emit newStatus(i18n("File saved to %1", currentURL.url()), FITS_MESSAGE);
         modifyFITSState();
         return true;
-    } else
+    }
+    else
     {
         QString message = i18n( "Invalid URL: %1", currentURL.url() );
         KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );

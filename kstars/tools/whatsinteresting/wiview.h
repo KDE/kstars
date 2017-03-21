@@ -37,91 +37,94 @@ class QQuickItem;
   */
 class WIView : public QWidget
 {
-    Q_OBJECT
-public:
+        Q_OBJECT
+    public:
 
-    /**
-      * \brief Constructor - Store QML components as QObject pointers.
-      * Connect signals from various QML components into public slots.
-      * Displays the user interface for What's Interesting
-      */
-    WIView(QWidget *parent = 0, ObsConditions *obs = 0);
+        /**
+          * \brief Constructor - Store QML components as QObject pointers.
+          * Connect signals from various QML components into public slots.
+          * Displays the user interface for What's Interesting
+          */
+        WIView(QWidget * parent = 0, ObsConditions * obs = 0);
 
-    /**
-      * \brief Destructor
-      */
-    ~WIView();
+        /**
+          * \brief Destructor
+          */
+        ~WIView();
 
-    /**
-      * \brief Load details-view for selected sky-object
-      */
-    void loadDetailsView(SkyObjItem* soitem, int index);
+        /**
+          * \brief Load details-view for selected sky-object
+          */
+        void loadDetailsView(SkyObjItem * soitem, int index);
 
-    /**
-      * \brief Updates sky-object list models
-      */
-    void updateModels(ObsConditions *obs);
+        /**
+          * \brief Updates sky-object list models
+          */
+        void updateModels(ObsConditions * obs);
 
-    inline QQuickView *getWIBaseView() const { return m_BaseView; }
+        inline QQuickView * getWIBaseView() const
+        {
+            return m_BaseView;
+        }
 
-public slots:
+    public slots:
 
-    /**
-      * \brief public slot - Act upon signal emitted when category of sky-object is selected
-      * from category selection view of the QML UI.
-      * \param type Category selected
-      */
-    void onCategorySelected(int type);
+        /**
+          * \brief public slot - Act upon signal emitted when category of sky-object is selected
+          * from category selection view of the QML UI.
+          * \param type Category selected
+          */
+        void onCategorySelected(int type);
 
-    /**
-      * \brief public slot - Act upon signal emitted when an item is selected from list of sky-objects.
-      * Display details-view for the skyobject selected.
-      * \param type        Category selected.
-      * \param typename    Name of category selected.
-      * \param index       Index of item in the list of skyobjects.
-      */
-    void onSoListItemClicked(int type, QString typeName, int index);
+        /**
+          * \brief public slot - Act upon signal emitted when an item is selected from list of sky-objects.
+          * Display details-view for the skyobject selected.
+          * \param type        Category selected.
+          * \param typename    Name of category selected.
+          * \param index       Index of item in the list of skyobjects.
+          */
+        void onSoListItemClicked(int type, QString typeName, int index);
 
-    /**
-      * \brief public slot - Show details-view for next sky-object from list of current sky-objects's category.
-      */
-    void onNextObjClicked();
+        /**
+          * \brief public slot - Show details-view for next sky-object from list of current sky-objects's category.
+          */
+        void onNextObjClicked();
 
-    /**
-      * \brief public slot - Show details-view for previous sky-object from list of current sky-objects's category.
-      */
-    void onPrevObjClicked();
+        /**
+          * \brief public slot - Show details-view for previous sky-object from list of current sky-objects's category.
+          */
+        void onPrevObjClicked();
 
-    /**
-      * \brief public slot - Slew map to current sky-object in the details view.
-      */
-    void onSlewButtonClicked();
+        /**
+          * \brief public slot - Slew map to current sky-object in the details view.
+          */
+        void onSlewButtonClicked();
 
-    /**
-      * \brief public slot - Open Details Dialog to show more details for current sky-object.
-      */
-    void onDetailsButtonClicked();
+        /**
+          * \brief public slot - Open Details Dialog to show more details for current sky-object.
+          */
+        void onDetailsButtonClicked();
 
-    /**
-     * \brief public slot - Open WI settings dialog.
-     */
-    void onSettingsIconClicked();
+        /**
+         * \brief public slot - Open WI settings dialog.
+         */
+        void onSettingsIconClicked();
 
-    /**
-     * \brief public slot - Reload list of visible sky-objects.
-     */
-    void onReloadIconClicked();
+        /**
+         * \brief public slot - Reload list of visible sky-objects.
+         */
+        void onReloadIconClicked();
 
-private:
-    QQuickItem *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
-            *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_DetailsButtonObj;
-    QQmlContext *m_Ctxt;
-    QQuickView *m_BaseView;
-    ObsConditions *m_Obs;
-    ModelManager *m_ModManager;
-    SkyObjItem *m_CurSoItem;   ///Current sky-object item.
-    int m_CurIndex;            ///Index of current sky-object item in details-view.
-    int m_CurCategorySelected; ///Currently selected category from WI QML view
+    private:
+        QQuickItem * m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
+                   *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_DetailsButtonObj;
+        QQmlContext * m_Ctxt;
+        QQuickView * m_BaseView;
+        ObsConditions * m_Obs;
+        ModelManager * m_ModManager;
+        SkyObjItem * m_CurSoItem;  ///Current sky-object item.
+        int m_CurIndex;            ///Index of current sky-object item in details-view.
+        int m_CurCategorySelected; ///Currently selected category from WI QML view
 };
 
 #endif

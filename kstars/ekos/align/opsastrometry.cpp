@@ -18,7 +18,7 @@
 namespace Ekos
 {
 
-OpsAstrometry::OpsAstrometry(Align *parent)  : QWidget( KStars::Instance() )
+OpsAstrometry::OpsAstrometry(Align * parent)  : QWidget( KStars::Instance() )
 {
     setupUi(this);
 
@@ -73,26 +73,26 @@ void OpsAstrometry::slotUpdateScale()
 
     switch (kcfg_AstrometryImageScaleUnits->currentIndex())
     {
-    case SCALE_DEGREES:
-        fov_w /= 60;
-        fov_h /= 60;
-        kcfg_AstrometryImageScaleLow->setValue(qMin(fov_w, fov_h));
-        kcfg_AstrometryImageScaleHigh->setValue(qMax(fov_w, fov_h));
-        break;
+        case SCALE_DEGREES:
+            fov_w /= 60;
+            fov_h /= 60;
+            kcfg_AstrometryImageScaleLow->setValue(qMin(fov_w, fov_h));
+            kcfg_AstrometryImageScaleHigh->setValue(qMax(fov_w, fov_h));
+            break;
 
-    case SCALE_ARCMINUTES:
-        kcfg_AstrometryImageScaleLow->setValue(qMin(fov_w, fov_h));
-        kcfg_AstrometryImageScaleHigh->setValue(qMax(fov_w, fov_h));
-        break;
+        case SCALE_ARCMINUTES:
+            kcfg_AstrometryImageScaleLow->setValue(qMin(fov_w, fov_h));
+            kcfg_AstrometryImageScaleHigh->setValue(qMax(fov_w, fov_h));
+            break;
 
-    case SCALE_ARCSECPERPIX:
-        // 10% range
-        kcfg_AstrometryImageScaleLow->setValue(fov_pixscale*0.9);
-        kcfg_AstrometryImageScaleHigh->setValue(fov_pixscale*1.1);
-        break;
+        case SCALE_ARCSECPERPIX:
+            // 10% range
+            kcfg_AstrometryImageScaleLow->setValue(fov_pixscale*0.9);
+            kcfg_AstrometryImageScaleHigh->setValue(fov_pixscale*1.1);
+            break;
 
-    default:
-        return;
+        default:
+            return;
     }
 }
 

@@ -10,7 +10,7 @@
 
 
 extern "C" {
-  int cc_ID2name(char *name, uint64 id);
+    int cc_ID2name(char * name, uint64 id);
 }
 
 HtmRange::HtmRange()
@@ -65,13 +65,19 @@ void HtmRange::mergeRange(const Key lo, const Key hi)
     my_los->freeRange(lo, hi);
 
     // add if not inside a pre-existing interval
-    if (lo_flag == InclHi) {
-    } else if (lo_flag == InclLo || (lo_flag ==  InclOutside) ) {
+    if (lo_flag == InclHi)
+    {
+    }
+    else if (lo_flag == InclLo || (lo_flag ==  InclOutside) )
+    {
         my_los->insert(lo, 33);
     }
 
-    if (hi_flag == InclLo){
-    } else if (hi_flag == InclOutside || hi_flag == InclHi) {
+    if (hi_flag == InclLo)
+    {
+    }
+    else if (hi_flag == InclOutside || hi_flag == InclHi)
+    {
         my_his->insert(hi, 33);
     }
 }
@@ -82,15 +88,16 @@ void HtmRange::reset()
     my_his->reset();
 }
 
-int HtmRange::getNext(Key *lo, Key *hi)
+int HtmRange::getNext(Key * lo, Key * hi)
 {
-	*lo = my_los->getkey();
-	if (*lo <= (Key) 0){
-		*hi = *lo = (Key) 0;
-		return 0;
-	}
-	*hi = my_his->getkey();
-	my_his->step();
-	my_los->step();
-	return 1;
+    *lo = my_los->getkey();
+    if (*lo <= (Key) 0)
+    {
+        *hi = *lo = (Key) 0;
+        return 0;
+    }
+    *hi = my_his->getkey();
+    my_his->step();
+    my_los->step();
+    return 1;
 }

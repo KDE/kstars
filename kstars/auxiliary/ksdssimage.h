@@ -31,68 +31,82 @@
  * @author Akarsh Simha <akarsh@kde.org>
  */
 
-class KSDssImage {
+class KSDssImage
+{
 
- public:
+    public:
 
-    /**
-     * @short Constructor
-     */
-    KSDssImage( const QString &fileName );
-
-    /**
-     * @struct KSDssImage::Metadata
-     * @short Structure to hold some DSS image metadata
-     *
-     * @note Some fields in the structure are redundant. The methods
-     * that fill this structure must be designed to fill in the
-     * redundancies correctly!
-     *
-     */
-    struct Metadata {
         /**
-         * @enum KSDssImage::Metadata::Source
-         * @short Contains possible sources for digitized sky-survey images
+         * @short Constructor
          */
-        enum Source { DSS = 0, SDSS = 1, GenericInternetSource = 2 };
+        KSDssImage( const QString &fileName );
+
         /**
-         * @enum KSDssImage::Metadata::FileFormat
-         * @short Contains possible file formats for images
+         * @struct KSDssImage::Metadata
+         * @short Structure to hold some DSS image metadata
          *
-         * @note Although DSS website provides us GIF, we may convert
-         * to PNG to incorporate metadata, since by default Qt has no
-         * write support for GIF. Besides, PNG compresses better.
+         * @note Some fields in the structure are redundant. The methods
+         * that fill this structure must be designed to fill in the
+         * redundancies correctly!
          *
          */
-        enum FileFormat { FITS = 0, GIF = 1, PNG = 2 };
+        struct Metadata
+        {
+            /**
+             * @enum KSDssImage::Metadata::Source
+             * @short Contains possible sources for digitized sky-survey images
+             */
+            enum Source { DSS = 0, SDSS = 1, GenericInternetSource = 2 };
+            /**
+             * @enum KSDssImage::Metadata::FileFormat
+             * @short Contains possible file formats for images
+             *
+             * @note Although DSS website provides us GIF, we may convert
+             * to PNG to incorporate metadata, since by default Qt has no
+             * write support for GIF. Besides, PNG compresses better.
+             *
+             */
+            enum FileFormat { FITS = 0, GIF = 1, PNG = 2 };
 
-        QString version; // Used for DSS -- Indicates which version of scans to pull
-        QString object; // Name / identifier of the object. Added to metadata
-        FileFormat format; // File format used.
-        Source src; // DSS / SDSS -- source of the image
-        dms ra0; // Center RA (J2000.0)
-        dms dec0; // Center Dec (J2000.0)
-        float height; // height in arcminutes
-        float width; // width in arcminutes
-        char band; // photometric band (UBVRI...) Use "?" for unknown.
-        int gen; // generation for DSS images, data release for SDSS; use -1 for unknown.
-        bool valid; // is this data valid?
+            QString version; // Used for DSS -- Indicates which version of scans to pull
+            QString object; // Name / identifier of the object. Added to metadata
+            FileFormat format; // File format used.
+            Source src; // DSS / SDSS -- source of the image
+            dms ra0; // Center RA (J2000.0)
+            dms dec0; // Center Dec (J2000.0)
+            float height; // height in arcminutes
+            float width; // width in arcminutes
+            char band; // photometric band (UBVRI...) Use "?" for unknown.
+            int gen; // generation for DSS images, data release for SDSS; use -1 for unknown.
+            bool valid; // is this data valid?
 
-        Metadata(); // default constructor
-        inline bool isValid() const { return valid; } // convenience method
-    };
+            Metadata(); // default constructor
+            inline bool isValid() const
+            {
+                return valid;    // convenience method
+            }
+        };
 
-    inline QImage getImage() const { return m_Image; }
-    inline KSDssImage::Metadata getMetadata() const { return m_Metadata; }
-    inline QString getFileName() const { return m_FileName; }
+        inline QImage getImage() const
+        {
+            return m_Image;
+        }
+        inline KSDssImage::Metadata getMetadata() const
+        {
+            return m_Metadata;
+        }
+        inline QString getFileName() const
+        {
+            return m_FileName;
+        }
 
-    // TODO: Implement methods to load and read FITS image data and metadata
+        // TODO: Implement methods to load and read FITS image data and metadata
 
- private:
-    // TODO: Add support for FITS
-    QString m_FileName;
-    QImage m_Image;
-    Metadata m_Metadata;
+    private:
+        // TODO: Add support for FITS
+        QString m_FileName;
+        QImage m_Image;
+        Metadata m_Metadata;
 
 };
 

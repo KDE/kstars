@@ -22,7 +22,7 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
     setupUi(this);
 
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
     QPixmap im;
@@ -33,19 +33,40 @@ ProfileWizard::ProfileWizard() : QDialog(KStars::Instance())
         windiPix->setPixmap( im );
 
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
-    connect(buttonBox, &QDialogButtonBox::helpRequested, this, [this]() {KStars::Instance()->appHelpActivated();});
-    connect(buttonBox, &QDialogButtonBox::clicked, this, [this](QAbstractButton *button) {if (button == buttonBox->button(QDialogButtonBox::Reset)) reset();});
+    connect(buttonBox, &QDialogButtonBox::helpRequested, this, [this]()
+    {
+        KStars::Instance()->appHelpActivated();
+    });
+    connect(buttonBox, &QDialogButtonBox::clicked, this, [this](QAbstractButton *button)
+    {
+        if (button == buttonBox->button(QDialogButtonBox::Reset)) reset();
+    });
 
-    connect(discoverEkosB, &QPushButton::clicked, this, [this]() { QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos.html")); });
-    connect(videoTutorialsB, &QPushButton::clicked, this, [this]() { QDesktopServices::openUrl(QUrl("https://www.youtube.com/user/QAstronomy")); });
-    connect(INDIInfoB, &QPushButton::clicked, this, [this]() { QDesktopServices::openUrl(QUrl("http://indilib.org/about/discover-indi.html")); });
+    connect(discoverEkosB, &QPushButton::clicked, this, [this]()
+    {
+        QDesktopServices::openUrl(QUrl("http://www.indilib.org/about/ekos.html"));
+    });
+    connect(videoTutorialsB, &QPushButton::clicked, this, [this]()
+    {
+        QDesktopServices::openUrl(QUrl("https://www.youtube.com/user/QAstronomy"));
+    });
+    connect(INDIInfoB, &QPushButton::clicked, this, [this]()
+    {
+        QDesktopServices::openUrl(QUrl("http://indilib.org/about/discover-indi.html"));
+    });
 
     // Intro actions
-    connect(introNextB, &QPushButton::clicked, this, [this]() { wizardContainer->setCurrentIndex(EQUIPMENT_LOCATION); });
+    connect(introNextB, &QPushButton::clicked, this, [this]()
+    {
+        wizardContainer->setCurrentIndex(EQUIPMENT_LOCATION);
+    });
 
     // Equipment Location actions
     connect(localEquipmentB, SIGNAL(clicked()), this, SLOT(processLocalEquipment()));
-    connect(remoteEquipmentB, &QPushButton::clicked, this, [this]() { wizardContainer->setCurrentIndex(REMOTE_EQUIPMENT); });
+    connect(remoteEquipmentB, &QPushButton::clicked, this, [this]()
+    {
+        wizardContainer->setCurrentIndex(REMOTE_EQUIPMENT);
+    });
 
     // Remote Equipment Action
     connect(remoteEquipmentNextB, SIGNAL(clicked()), this, SLOT(processRemoteEquipment()));
@@ -78,17 +99,17 @@ void ProfileWizard::reset()
 
 void ProfileWizard::processLocalEquipment()
 {
-    #if defined(Q_OS_OSX)
-        wizardContainer->setCurrentIndex(MAC_LOCAL);
-    #elif defined(Q_OS_WIN)
-        wizardContainer->setCurrentIndex(WINDOWS_LOCAL);
-    #else
-        useInternalServer=true;
-        useJoystickCheck->setEnabled(true);
-        useRemoteAstrometryCheck->setEnabled(false);
-        useWatchDogCheck->setEnabled(false);
-        wizardContainer->setCurrentIndex(CREATE_PROFILE);
-    #endif
+#if defined(Q_OS_OSX)
+    wizardContainer->setCurrentIndex(MAC_LOCAL);
+#elif defined(Q_OS_WIN)
+    wizardContainer->setCurrentIndex(WINDOWS_LOCAL);
+#else
+    useInternalServer=true;
+    useJoystickCheck->setEnabled(true);
+    useRemoteAstrometryCheck->setEnabled(false);
+    useWatchDogCheck->setEnabled(false);
+    wizardContainer->setCurrentIndex(CREATE_PROFILE);
+#endif
 }
 
 void ProfileWizard::processRemoteEquipment()
@@ -145,7 +166,7 @@ void ProfileWizard::processLocalWindows()
 
 void ProfileWizard::processLocalMac()
 {
-    QPushButton *button = qobject_cast<QPushButton*>(sender());
+    QPushButton * button = qobject_cast<QPushButton *>(sender());
     if (button == NULL)
         return;
 

@@ -31,7 +31,7 @@ Weather::~Weather()
 
 }
 
-void Weather::setWeather(ISD::GDInterface *newWeather)
+void Weather::setWeather(ISD::GDInterface * newWeather)
 {
     currentWeather = static_cast<ISD::Weather *>(newWeather);
 }

@@ -32,42 +32,42 @@ class FileDownloader;
 
 class SupernovaeComponent : public QObject, public ListComponent
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit SupernovaeComponent(SkyComposite* parent);
-    virtual ~SupernovaeComponent();
-    virtual bool selected();
-    virtual void update(KSNumbers* num = 0);
-    virtual SkyObject* findByName(const QString& name);
-    virtual SkyObject* objectNearest(SkyPoint* p, double& maxrad);
+    public:
+        explicit SupernovaeComponent(SkyComposite * parent);
+        virtual ~SupernovaeComponent();
+        virtual bool selected();
+        virtual void update(KSNumbers * num = 0);
+        virtual SkyObject * findByName(const QString &name);
+        virtual SkyObject * objectNearest(SkyPoint * p, double &maxrad);
 
-    /**
-     * @note This should actually be implemented in a better manner.
-     * Possibly by checking if the host galaxy for the supernova is drawn.
-     */
-    virtual void draw(SkyPainter* skyp);
+        /**
+         * @note This should actually be implemented in a better manner.
+         * Possibly by checking if the host galaxy for the supernova is drawn.
+         */
+        virtual void draw(SkyPainter * skyp);
 
-    //virtual void notifyNewSupernovae();
-    /**
-     * @note Basically copy pasted from StarComponent::zoomMagnitudeLimit()
-     */
-    static float zoomMagnitudeLimit();
+        //virtual void notifyNewSupernovae();
+        /**
+         * @note Basically copy pasted from StarComponent::zoomMagnitudeLimit()
+         */
+        static float zoomMagnitudeLimit();
 
-public slots:
-    /**
-     * @short This initiates updating of the data file
-     */
-    void slotTriggerDataFileUpdate();
+    public slots:
+        /**
+         * @short This initiates updating of the data file
+         */
+        void slotTriggerDataFileUpdate();
 
-protected slots:
-    void downloadReady();
-    void downloadError(const QString &errorString);
+    protected slots:
+        void downloadReady();
+        void downloadError(const QString &errorString);
 
-private:
-    void loadData();
+    private:
+        void loadData();
 
-    FileDownloader* downloadJob = NULL;
+        FileDownloader * downloadJob = NULL;
 };
 
 #endif

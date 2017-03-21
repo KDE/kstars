@@ -67,80 +67,93 @@ class TelescopeSymbolsItem;
  * @version 1.0
  */
 
-class RootNode : public QSGClipNode {
-public:
-    RootNode();
-    virtual ~RootNode();
-    /**
-     * @short returns cached texture from textureCache
-     * @param size size of the star
-     * @param spType spectral class
-     * @return cached QSGTexture from textureCache
-     */
-    QSGTexture* getCachedTexture(int size, char spType);
+class RootNode : public QSGClipNode
+{
+    public:
+        RootNode();
+        virtual ~RootNode();
+        /**
+         * @short returns cached texture from textureCache
+         * @param size size of the star
+         * @param spType spectral class
+         * @return cached QSGTexture from textureCache
+         */
+        QSGTexture * getCachedTexture(int size, char spType);
 
-    /**
-     * @short triangulates and sets new clipping polygon provided by Projection system
-     */
-    void updateClipPoly();
+        /**
+         * @short triangulates and sets new clipping polygon provided by Projection system
+         */
+        void updateClipPoly();
 
-    /**
-     * @short update positions of all child SkyItems
-     * @param clearTextures true if textures for PointNodes should recreated (required when color scheme
-     * is changed)
-     */
-    void update(bool clearTextures = false);
+        /**
+         * @short update positions of all child SkyItems
+         * @param clearTextures true if textures for PointNodes should recreated (required when color scheme
+         * is changed)
+         */
+        void update(bool clearTextures = false);
 
-    /** Debug functions **/
-    void testLeakDelete();
-    void testLeakAdd();
+        /** Debug functions **/
+        void testLeakDelete();
+        void testLeakAdd();
 
-    inline CometsItem *cometsItem() { return m_cometsItem; }
+        inline CometsItem * cometsItem()
+        {
+            return m_cometsItem;
+        }
 
-    inline LabelsItem *labelsItem() { return m_labelsItem; }
+        inline LabelsItem * labelsItem()
+        {
+            return m_labelsItem;
+        }
 
-    inline StarItem *starItem() { return m_starItem; }
-    /**
-     * @short initializes textureCache with cached images of stars from SkyMapLite
-     */
-    void genCachedTextures();
+        inline StarItem * starItem()
+        {
+            return m_starItem;
+        }
+        /**
+         * @short initializes textureCache with cached images of stars from SkyMapLite
+         */
+        void genCachedTextures();
 
-    inline TelescopeSymbolsItem *telescopeSymbolsItem() { return m_telescopeSymbols; }
-private:
-    QVector<QVector<QSGTexture *>> m_textureCache;
-    QVector<QVector<QSGTexture *>> m_oldTextureCache;
-    SkyMapLite *m_skyMapLite;
+        inline TelescopeSymbolsItem * telescopeSymbolsItem()
+        {
+            return m_telescopeSymbols;
+        }
+    private:
+        QVector<QVector<QSGTexture *>> m_textureCache;
+        QVector<QVector<QSGTexture *>> m_oldTextureCache;
+        SkyMapLite * m_skyMapLite;
 
-    QPolygonF m_clipPoly;
-    QSGGeometry *m_clipGeometry;
+        QPolygonF m_clipPoly;
+        QSGGeometry * m_clipGeometry;
 
-    StarItem *m_starItem;
-    DeepSkyItem *m_dsoItem;
+        StarItem * m_starItem;
+        DeepSkyItem * m_dsoItem;
 
-    PlanetsItem *m_planetsItem;
-    AsteroidsItem *m_asteroidsItem;
-    CometsItem *m_cometsItem;
+        PlanetsItem * m_planetsItem;
+        AsteroidsItem * m_asteroidsItem;
+        CometsItem * m_cometsItem;
 
-    ConstellationNamesItem *m_constelNamesItem;
-    LabelsItem *m_labelsItem;
-    ConstellationArtItem *m_artItem;
-    SatellitesItem *m_satItem;
-    SupernovaeItem *m_snovaItem;
+        ConstellationNamesItem * m_constelNamesItem;
+        LabelsItem * m_labelsItem;
+        ConstellationArtItem * m_artItem;
+        SatellitesItem * m_satItem;
+        SupernovaeItem * m_snovaItem;
 
-    SyncedCatalogItem *m_internedResolvedCatalogItem;
-    SyncedCatalogItem *m_manualAdditionsCatalogItem;
+        SyncedCatalogItem * m_internedResolvedCatalogItem;
+        SyncedCatalogItem * m_manualAdditionsCatalogItem;
 
-    HorizonItem *m_horizonItem;
-    LinesItem *m_linesItem;
-    EquatorItem *m_equator;
-    EclipticItem *m_ecliptic;
-    MilkyWayItem *m_MWItem;
+        HorizonItem * m_horizonItem;
+        LinesItem * m_linesItem;
+        EquatorItem * m_equator;
+        EclipticItem * m_ecliptic;
+        MilkyWayItem * m_MWItem;
 
-    SkyMapComposite *m_skyComposite;
-    SolarSystemComposite *m_solarSystem;
-    QSGGeometryNode *m_visualizeClipping;
+        SkyMapComposite * m_skyComposite;
+        SolarSystemComposite * m_solarSystem;
+        QSGGeometryNode * m_visualizeClipping;
 
-    FOVItem *m_FOVItem;
-    TelescopeSymbolsItem *m_telescopeSymbols;
+        FOVItem * m_FOVItem;
+        TelescopeSymbolsItem * m_telescopeSymbols;
 };
 #endif

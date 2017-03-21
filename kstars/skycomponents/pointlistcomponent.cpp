@@ -17,11 +17,11 @@
 
 #include "pointlistcomponent.h"
 
-#include "skyobjects/skypoint.h" 
+#include "skyobjects/skypoint.h"
 #include "kstarsdata.h"
 
-PointListComponent::PointListComponent( SkyComposite *parent ) :
-        SkyComponent( parent )
+PointListComponent::PointListComponent( SkyComposite * parent ) :
+    SkyComponent( parent )
 {}
 
 PointListComponent::~PointListComponent()
@@ -29,12 +29,13 @@ PointListComponent::~PointListComponent()
     qDeleteAll( pointList() );
 }
 
-void PointListComponent::update( KSNumbers *num )
+void PointListComponent::update( KSNumbers * num )
 {
     if ( ! selected() )
         return;
-    KStarsData *data = KStarsData::Instance();
-    foreach( SkyPoint *p, pointList() ) {
+    KStarsData * data = KStarsData::Instance();
+    foreach( SkyPoint * p, pointList() )
+    {
         if( num )
             p->updateCoords( num );
         p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );

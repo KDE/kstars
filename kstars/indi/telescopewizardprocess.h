@@ -23,46 +23,46 @@ class QProgressDialog;
 class telescopeWizardProcess : public QDialog
 {
 
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit telescopeWizardProcess( QWidget* parent = 0, const char* name = 0);
-    ~telescopeWizardProcess();
+    public:
+        explicit telescopeWizardProcess( QWidget * parent = 0, const char * name = 0);
+        ~telescopeWizardProcess();
 
-    unsigned int currentPage;
-    enum { INTRO_P=0, MODEL_P=1, TELESCOPE_P=2, LOCAL_P=3, PORT_P=4 };
+        unsigned int currentPage;
+        enum { INTRO_P=0, MODEL_P=1, TELESCOPE_P=2, LOCAL_P=3, PORT_P=4 };
 
-private:   
-    Ui::telescopeWizard *ui;
+    private:
+        Ui::telescopeWizard * ui;
 
-    ISD::GDInterface *scopeDevice;
+        ISD::GDInterface * scopeDevice;
 
-    QProgressDialog *progressScan;
+        QProgressDialog * progressScan;
 
-    QStringList portList;
-    QString currentDevice;
+        QStringList portList;
+        QString currentDevice;
 
-    int currentPort;
-    int timeOutCount;
-    bool INDIMessageBar;
-    bool linkRejected;
+        int currentPort;
+        int timeOutCount;
+        bool INDIMessageBar;
+        bool linkRejected;
 
-    QHash<QString, DriverInfo *> driversList;
+        QHash<QString, DriverInfo *> driversList;
 
-    QList<DriverInfo *> managedDevice;
+        QList<DriverInfo *> managedDevice;
 
-    void establishLink();
-    void Reset();
+        void establishLink();
+        void Reset();
 
-public slots:
-    void cancelCheck();
-    void processNext();
-    void processBack();
-    void newTime();
-    void newLocation();
-    void processTelescope(ISD::GDInterface *);
-    void scanPorts();
-    void linkSuccess();
+    public slots:
+        void cancelCheck();
+        void processNext();
+        void processBack();
+        void newTime();
+        void newLocation();
+        void processTelescope(ISD::GDInterface *);
+        void scanPorts();
+        void linkSuccess();
 
 };
 

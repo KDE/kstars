@@ -80,7 +80,7 @@ void FinderChart::insertDescription(const QString &description)
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }
 
-void FinderChart::insertGeoTimeInfo(const KStarsDateTime &ut, GeoLocation *geo)
+void FinderChart::insertGeoTimeInfo(const KStarsDateTime &ut, GeoLocation * geo)
 {
     QTextCursor cursor = m_Document->rootFrame()->lastCursorPosition();
 
@@ -94,14 +94,18 @@ void FinderChart::insertGeoTimeInfo(const KStarsDateTime &ut, GeoLocation *geo)
     cursor.insertText(i18n("Date, time and location: "), geoCharFmt);
 
     QString geoStr = geo->translatedName();
-    if(!geo->translatedProvince().isEmpty()) {
-        if(!geoStr.isEmpty()) {
+    if(!geo->translatedProvince().isEmpty())
+    {
+        if(!geoStr.isEmpty())
+        {
             geoStr.append(", ");
         }
         geoStr.append(geo->translatedProvince());
     }
-    if(!geo->translatedCountry().isEmpty()) {
-        if(!geoStr.isEmpty()) {
+    if(!geo->translatedCountry().isEmpty())
+    {
+        if(!geoStr.isEmpty())
+        {
             geoStr.append(", ");
         }
         geoStr.append(geo->translatedCountry());
@@ -115,7 +119,7 @@ void FinderChart::insertGeoTimeInfo(const KStarsDateTime &ut, GeoLocation *geo)
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }
 
-void FinderChart::insertLoggingForm(LoggingForm *log)
+void FinderChart::insertLoggingForm(LoggingForm * log)
 {
     QTextCursor cursor = m_Document->rootFrame()->lastCursorPosition();
     cursor.insertFragment(QTextDocumentFragment(log->getDocument()));
@@ -151,7 +155,7 @@ void FinderChart::insertImage(const QImage &img, const QString &description, boo
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }
 
-void FinderChart::insertDetailsTable(DetailsTable *table)
+void FinderChart::insertDetailsTable(DetailsTable * table)
 {
     QTextCursor cursor = m_Document->rootFrame()->lastCursorPosition();
     cursor.insertFragment(QTextDocumentFragment(table->getDocument()));

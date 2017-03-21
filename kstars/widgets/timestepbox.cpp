@@ -24,8 +24,9 @@
 #include <QDebug>
 #include <KLocalizedString>
 
-TimeStepBox::TimeStepBox( QWidget *parent, bool daysonly )
-        : QWidget( parent ) {
+TimeStepBox::TimeStepBox( QWidget * parent, bool daysonly )
+    : QWidget( parent )
+{
 
     timeBox = new TimeSpinBox( this, daysonly );
     unitBox = new TimeUnitBox( this, daysonly );
@@ -51,11 +52,13 @@ TimeStepBox::TimeStepBox( QWidget *parent, bool daysonly )
 
 }
 
-void TimeStepBox::changeUnits( void ) {
+void TimeStepBox::changeUnits( void )
+{
     timeBox->setValue( unitBox->unitValue() );
 }
 
-void TimeStepBox::syncUnits( int tstep ) {
+void TimeStepBox::syncUnits( int tstep )
+{
     int i;
     for ( i=unitbox()->maxValue(); i>=unitbox()->minValue(); --i )
         if ( abs(tstep) >= unitBox->getUnitValue( i ) ) break;
@@ -66,7 +69,8 @@ void TimeStepBox::syncUnits( int tstep ) {
     connect( unitBox, SIGNAL( valueChanged( int ) ), this, SLOT( changeUnits() ) );
 }
 
-void TimeStepBox::setDaysOnly( bool daysonly ) {
+void TimeStepBox::setDaysOnly( bool daysonly )
+{
     tsbox()->setDaysOnly( daysonly );
     unitbox()->setDaysOnly( daysonly );
 }

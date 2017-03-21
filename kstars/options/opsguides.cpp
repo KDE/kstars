@@ -25,11 +25,11 @@
 #include "Options.h"
 
 OpsGuides::OpsGuides()
-        : QFrame(KStars::Instance())
+    : QFrame(KStars::Instance())
 {
     setupUi( this );
 
-    foreach( const QString& item, KStarsData::Instance()->skyComposite()->getCultureNames() )
+    foreach( const QString &item, KStarsData::Instance()->skyComposite()->getCultureNames() )
         kcfg_SkyCulture->addItem( i18nc("Sky Culture", item.toUtf8().constData() ) );
 
     m_ConfigDialog = KConfigDialog::exists( "settings" );
@@ -38,7 +38,7 @@ OpsGuides::OpsGuides()
 
     // When setting up the widget, update the enabled status of the
     // checkboxes depending on the options.
-    slotToggleOpaqueGround( Options::showGround() ); 
+    slotToggleOpaqueGround( Options::showGround() );
     slotToggleConstellOptions( Options::showCNames() );
     slotToggleConstellationArt(Options::showConstellationArt);
     slotToggleMilkyWayOptions( Options::showMilkyWay() );
@@ -51,9 +51,18 @@ OpsGuides::OpsGuides()
     connect( kcfg_AutoSelectGrid, SIGNAL( toggled( bool ) ), this, SLOT( slotToggleAutoSelectGrid( bool ) ) );
 
     // Track changes to apply settings
-    connect( constellationButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&](){ isDirty = true;});
-    connect( nameButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&](){ isDirty = true;});
-    connect( kcfg_SkyCulture, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this, [&](){ isDirty = true; });
+    connect( constellationButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&]()
+    {
+        isDirty = true;
+    });
+    connect( nameButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&]()
+    {
+        isDirty = true;
+    });
+    connect( kcfg_SkyCulture, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated), this, [&]()
+    {
+        isDirty = true;
+    });
 
     isDirty = false;
 }
@@ -94,14 +103,14 @@ void OpsGuides::slotApply()
 
     isDirty = false;
 
-    KStarsData *data = KStarsData::Instance();
-    SkyMap *map = SkyMap::Instance();
+    KStarsData * data = KStarsData::Instance();
+    SkyMap * map = SkyMap::Instance();
 
     // If the focus object was a constellation and the sky culture has changed, remove the focus object
     if( map->focusObject() && map->focusObject()->type() == SkyObject::CONSTELLATION )
     {
         if( data->skyComposite()->currentCulture() != data->skyComposite()->getCultureName(kcfg_SkyCulture->currentIndex()) ||
-            data->skyComposite()->isLocalCNames() != Options::useLocalConstellNames() )
+                data->skyComposite()->isLocalCNames() != Options::useLocalConstellNames() )
         {
             map->setClickedObject( NULL );
             map->setFocusObject( NULL );

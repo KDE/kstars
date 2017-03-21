@@ -27,76 +27,76 @@ namespace Ekos
 class DustCap : public QObject
 {
 
-    Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.DustCap")
+        Q_OBJECT
+        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.DustCap")
 
-public:
+    public:
 
-    typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
+        typedef enum { PARKING_IDLE, PARKING_OK, UNPARKING_OK, PARKING_BUSY, UNPARKING_BUSY, PARKING_ERROR } ParkingStatus;
 
-    DustCap();
-    ~DustCap();
+        DustCap();
+        ~DustCap();
 
-    /** @defgroup DustCapDBusInterface Ekos DBus Interface - DustCap Interface
-     * Ekos::DustCap interface provides basic DustCap operations.
-    */
+        /** @defgroup DustCapDBusInterface Ekos DBus Interface - DustCap Interface
+         * Ekos::DustCap interface provides basic DustCap operations.
+        */
 
-    /*@{*/
+        /*@{*/
 
-    /** DBUS interface function.
-     * If dust cap can park/unpark or is it just a light source?
-     * @return True if park is supported, false otherwise
-     */
-    Q_SCRIPTABLE bool canPark();
+        /** DBUS interface function.
+         * If dust cap can park/unpark or is it just a light source?
+         * @return True if park is supported, false otherwise
+         */
+        Q_SCRIPTABLE bool canPark();
 
-    /** DBUS interface function.
-     * Park / Close dust cap
-     * @return True if operation started/successful, false otherwise
-     */
-    Q_SCRIPTABLE bool park();
+        /** DBUS interface function.
+         * Park / Close dust cap
+         * @return True if operation started/successful, false otherwise
+         */
+        Q_SCRIPTABLE bool park();
 
-    /** DBUS interface function.
-     * UnPark / Open dust cap
-     * @return True if operation started/successful, false otherwise
-     */
-    Q_SCRIPTABLE bool unpark();
+        /** DBUS interface function.
+         * UnPark / Open dust cap
+         * @return True if operation started/successful, false otherwise
+         */
+        Q_SCRIPTABLE bool unpark();
 
-    /** DBUS interface function.
-     * hasLight: Does the dust cap have a flat light source?
-     * @return True if there if flat light, false othereise
-     */
-    Q_SCRIPTABLE bool hasLight();
+        /** DBUS interface function.
+         * hasLight: Does the dust cap have a flat light source?
+         * @return True if there if flat light, false othereise
+         */
+        Q_SCRIPTABLE bool hasLight();
 
-    /** DBUS interface function.
-     * setLightEnabled: Turn on/off light box
-     * @param enable If true, turn light on, otherwise turn light off
-     * @return True if operation started/successful, false otherwise
-     */
-    Q_SCRIPTABLE bool setLightEnabled(bool enable);
+        /** DBUS interface function.
+         * setLightEnabled: Turn on/off light box
+         * @param enable If true, turn light on, otherwise turn light off
+         * @return True if operation started/successful, false otherwise
+         */
+        Q_SCRIPTABLE bool setLightEnabled(bool enable);
 
-    /** DBUS interface function.
-     * SetLight: Set light source brightness level
-     * @return True if operation started/successful, false otherwise
-     */
-    Q_SCRIPTABLE bool setBrightness(uint16_t val);
+        /** DBUS interface function.
+         * SetLight: Set light source brightness level
+         * @return True if operation started/successful, false otherwise
+         */
+        Q_SCRIPTABLE bool setBrightness(uint16_t val);
 
-    /** DBUS interface function.
-     * Get the dome park status
-     */
-    Q_SCRIPTABLE ParkingStatus getParkingStatus();
+        /** DBUS interface function.
+         * Get the dome park status
+         */
+        Q_SCRIPTABLE ParkingStatus getParkingStatus();
 
-    /** @}*/
+        /** @}*/
 
-    /**
-     * @brief setDustCap set the DustCap device
-     * @param newDustCap pointer to DustCap device.
-     */
-    void setDustCap(ISD::GDInterface *newDustCap);
+        /**
+         * @brief setDustCap set the DustCap device
+         * @param newDustCap pointer to DustCap device.
+         */
+        void setDustCap(ISD::GDInterface * newDustCap);
 
-private:
+    private:
 
-    // Devices needed for DustCap operation
-    ISD::DustCap *currentDustCap;
+        // Devices needed for DustCap operation
+        ISD::DustCap * currentDustCap;
 
 };
 

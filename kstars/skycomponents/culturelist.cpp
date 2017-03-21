@@ -26,7 +26,8 @@ CultureList::CultureList()
     if ( ! fileReader.open( "cnames.dat" ) )
         return;
 
-    while ( fileReader.hasMoreLines() ) {
+    while ( fileReader.hasMoreLines() )
+    {
         QString line = fileReader.readLine();
         if ( line.size() < 1 ) continue;
 
@@ -39,7 +40,8 @@ CultureList::CultureList()
     m_CurrentCulture = m_CultureList.at( Options::skyCulture() );
 }
 
-void CultureList::setCurrent ( QString newName ) {
+void CultureList::setCurrent ( QString newName )
+{
     m_CurrentCulture = newName;
 }
 

@@ -27,24 +27,25 @@
 #include <config-kstars.h>
 
 ObsListPopupMenu::ObsListPopupMenu()
-        : QMenu( 0 )
+    : QMenu( 0 )
 {}
 
 ObsListPopupMenu::~ObsListPopupMenu() { }
 
 void ObsListPopupMenu::initPopupMenu( bool sessionView, bool multiSelection, bool showScope )
 {
-    KStarsData* ksdata = KStarsData::Instance();
+    KStarsData * ksdata = KStarsData::Instance();
 
     clear();
 
     //Insert item for adding the object to the session view
-    if( !sessionView ) {
+    if( !sessionView )
+    {
         addAction( i18n( "Add to session plan" ), ksdata->observingList(), SLOT( slotAddToSession() ) );
         addAction( i18n( "Add objects visible tonight to session plan" ), ksdata->observingList(), SLOT( slotAddVisibleObj() ) );
-        #ifdef HAVE_INDI
+#ifdef HAVE_INDI
         addAction( i18n( "Add to Ekos Scheduler" ), ksdata->observingList(), SLOT( slotAddToEkosScheduler() ) );
-        #endif
+#endif
     }
 
     addSeparator();
@@ -58,7 +59,8 @@ void ObsListPopupMenu::initPopupMenu( bool sessionView, bool multiSelection, boo
     addSeparator();
 
 
-    if( !multiSelection ) {
+    if( !multiSelection )
+    {
         addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ksdata->observingList(), SLOT( slotDetails() ) ); // Insert item for showing details dialog
         addAction( i18n( "Eyepiece view" ), ksdata->observingList(), SLOT( slotEyepieceView() ) ); // Insert item for showing eyepiece view
     }
@@ -69,7 +71,8 @@ void ObsListPopupMenu::initPopupMenu( bool sessionView, bool multiSelection, boo
     addSeparator();
 
     //Insert item for dowloading different images
-    if( !multiSelection ) {
+    if( !multiSelection )
+    {
         if( ksdata->observingList()->currentObject() != NULL && ! ksdata->observingList()->currentObject()->isSolarSystem() )
         {
             addAction( i18n( "Show SDSS image" ), ksdata->observingList(), SLOT( slotGetImage() ) );

@@ -36,37 +36,37 @@ class CultureList;
 class ConstellationLines : public LineListIndex
 {
 
-public:
-    /** @short Constructor
-     * @p parent Pointer to the parent SkyComposite object
-     *
-     * Constellation lines data is read from clines.dat.
-     * Each line in the file contains a command character ("M" means move to 
-     * this position without drawing a line, "D" means draw a line from 
-     * the previous position to this one), followed by the genetive name of 
-     * a star, which marks the position of the constellation node.
-     */
-    ConstellationLines( SkyComposite *parent, CultureList* cultures );
+    public:
+        /** @short Constructor
+         * @p parent Pointer to the parent SkyComposite object
+         *
+         * Constellation lines data is read from clines.dat.
+         * Each line in the file contains a command character ("M" means move to
+         * this position without drawing a line, "D" means draw a line from
+         * the previous position to this one), followed by the genetive name of
+         * a star, which marks the position of the constellation node.
+         */
+        ConstellationLines( SkyComposite * parent, CultureList * cultures );
 
-    void reindex( KSNumbers *num );
+        void reindex( KSNumbers * num );
 
-    virtual bool selected();
+        virtual bool selected();
 
-protected:
-    const IndexHash& getIndexHash(LineList* lineList );
+    protected:
+        const IndexHash &getIndexHash(LineList * lineList );
 
-    /** @short we need to override the update routine because stars are
-     * updated differently from mere SkyPoints.
-     */
-    virtual void JITupdate( LineList* lineList );
+        /** @short we need to override the update routine because stars are
+         * updated differently from mere SkyPoints.
+         */
+        virtual void JITupdate( LineList * lineList );
 
-    /** @short Set the QColor and QPen for drawing. */
-    virtual void preDraw( SkyPainter* skyp );
+        /** @short Set the QColor and QPen for drawing. */
+        virtual void preDraw( SkyPainter * skyp );
 
-private:
+    private:
 
-    KSNumbers m_reindexNum;
-    double    m_reindexInterval;
+        KSNumbers m_reindexNum;
+        double    m_reindexInterval;
 
 };
 

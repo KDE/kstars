@@ -32,16 +32,16 @@ class KStars;
  */
 class WILPSettings : public QFrame, public Ui::WILPSettings
 {
-    Q_OBJECT
-public:
+        Q_OBJECT
+    public:
 
-    /**
-     * \brief Constructor
-     */
-    WILPSettings(KStars *ks);
+        /**
+         * \brief Constructor
+         */
+        WILPSettings(KStars * ks);
 
-private:
-    KStars *m_Ks;
+    private:
+        KStars * m_Ks;
 };
 
 #endif

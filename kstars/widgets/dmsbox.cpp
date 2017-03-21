@@ -26,8 +26,9 @@
 #include <QFocusEvent>
 #include <QApplication>
 
-dmsBox::dmsBox(QWidget *parent, bool dg)
-        : QLineEdit(parent), EmptyFlag(true) {
+dmsBox::dmsBox(QWidget * parent, bool dg)
+    : QLineEdit(parent), EmptyFlag(true)
+{
     setMaxLength(14);
     setMaximumWidth(160);
     setDegType( dg );
@@ -35,7 +36,8 @@ dmsBox::dmsBox(QWidget *parent, bool dg)
     connect( this, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotTextChanged( const QString & ) ) );
 }
 
-void dmsBox::setEmptyText() {
+void dmsBox::setEmptyText()
+{
     //Set the text color to the average between
     //QColorGroup::Text and QColorGroup::Base
     QPalette p=QApplication::palette();
@@ -57,55 +59,70 @@ void dmsBox::setEmptyText() {
     EmptyFlag = true;
 }
 
-void dmsBox::focusInEvent( QFocusEvent *e ) {
+void dmsBox::focusInEvent( QFocusEvent * e )
+{
     QLineEdit::focusInEvent( e );
 
-    if ( EmptyFlag ) {
+    if ( EmptyFlag )
+    {
         clear();
         setPalette( QApplication::palette() );
         EmptyFlag = false;
     }
 }
 
-void dmsBox::focusOutEvent( QFocusEvent *e ) {
+void dmsBox::focusOutEvent( QFocusEvent * e )
+{
     QLineEdit::focusOutEvent( e );
 
-    if ( text().isEmpty() ) {
+    if ( text().isEmpty() )
+    {
         setEmptyText();
     }
 }
 
-void dmsBox::slotTextChanged( const QString &t ) {
-    if ( ! hasFocus() ) {
-        if ( EmptyFlag && ! t.isEmpty() ) {
+void dmsBox::slotTextChanged( const QString &t )
+{
+    if ( ! hasFocus() )
+    {
+        if ( EmptyFlag && ! t.isEmpty() )
+        {
             EmptyFlag = false;
         }
 
-        if ( ! EmptyFlag && t.isEmpty() ) {
+        if ( ! EmptyFlag && t.isEmpty() )
+        {
             setEmptyText();
         }
     }
 }
 
-void dmsBox::setDegType( bool t ) {
+void dmsBox::setDegType( bool t )
+{
     deg = t;
 
     QString sTip = ( t ? i18n( "Angle value in degrees." ) : i18n( "Angle value in hours." ) );
     QString sWhatsThis;
 
-    if ( isReadOnly() ) {
-        if( t ) {
+    if ( isReadOnly() )
+    {
+        if( t )
+        {
             sWhatsThis = i18n( "This box displays an angle in degrees. "
                                "The three numbers displayed are the angle's "
                                "degrees, arcminutes, and arcseconds." );
         }
-        else {
+        else
+        {
             sWhatsThis = i18n( "This box displays an angle in hours. "
                                "The three numbers displayed are the angle's "
                                "hours, minutes, and seconds." );
         }
-    } else {
-        if( t ) {
+    }
+    else
+    {
+        if( t )
+        {
             sTip += i18n( "  You may enter a simple integer, or a floating-point value, "
                           "or space- or colon-delimited values specifying "
                           "degrees, arcminutes and arcseconds" );
@@ -116,7 +133,8 @@ void dmsBox::setDegType( bool t ) {
                                "values specifying degrees, arcminutes and arcseconds (\"12:20\", \"12:20:00\", "
                                "\"12 20\", \"12 20 00.0\", etc.)." );
         }
-        else {
+        else
+        {
             sTip += i18n( "  You may enter a simple integer, or a floating-point value, "
                           "or space- or colon-delimited values specifying "
                           "hours, minutes and seconds" );
@@ -137,21 +155,30 @@ void dmsBox::setDegType( bool t ) {
     setEmptyText();
 }
 
-void dmsBox::showInDegrees (const dms *d) { showInDegrees( dms( *d ) ); }
+void dmsBox::showInDegrees (const dms * d)
+{
+    showInDegrees( dms( *d ) );
+}
 void dmsBox::showInDegrees (dms d)
 {
     double seconds = d.arcsec() + d.marcsec()/1000.;
     setDMS( QString().sprintf( "%02d %02d %05.2f", d.degree(), d.arcmin(), seconds ) );
 }
 
-void dmsBox::showInHours (const dms *d) { showInHours( dms( *d ) ); }
+void dmsBox::showInHours (const dms * d)
+{
+    showInHours( dms( *d ) );
+}
 void dmsBox::showInHours (dms d)
 {
     double seconds = d.second() + d.msecond()/1000.;
     setDMS( QString().sprintf( "%02d %02d %05.2f", d.hour(), d.minute(), seconds ) );
 }
 
-void dmsBox::show(const dms *d, bool deg) { show( dms( *d ),deg ); }
+void dmsBox::show(const dms * d, bool deg)
+{
+    show( dms( *d ),deg );
+}
 void dmsBox::show(dms d, bool deg)
 {
     if (deg)
@@ -160,7 +187,7 @@ void dmsBox::show(dms d, bool deg)
         showInHours(d);
 }
 
-dms dmsBox::createDms ( bool deg, bool *ok )
+dms dmsBox::createDms ( bool deg, bool * ok )
 {
     dms dmsAngle(0.0); // FIXME: Should we change this to NaN?
     bool check;
@@ -170,7 +197,8 @@ dms dmsBox::createDms ( bool deg, bool *ok )
     return dmsAngle;
 }
 
-dmsBox::~dmsBox(){
+dmsBox::~dmsBox()
+{
 }
 
 

@@ -30,7 +30,7 @@
 #include "kspaths.h"
 
 OpsAdvanced::OpsAdvanced()
-        : QFrame(KStars::Instance())
+    : QFrame(KStars::Instance())
 {
     setupUi( this );
 
@@ -47,21 +47,24 @@ OpsAdvanced::OpsAdvanced()
 
     connect(showLogsB, SIGNAL(clicked()), this, SLOT(slotShowLogFiles()));
 
-    connect( kcfg_ObsListDemoteHole, &QCheckBox::toggled, [this]( bool state ) {
-            kcfg_ObsListHoleSize->setEnabled( state );
-        } );
+    connect( kcfg_ObsListDemoteHole, &QCheckBox::toggled, [this]( bool state )
+    {
+        kcfg_ObsListHoleSize->setEnabled( state );
+    } );
 
-    foreach(QAbstractButton *b, modulesGroup->buttons())
+    foreach(QAbstractButton * b, modulesGroup->buttons())
         b->setEnabled(kcfg_VerboseLogging->isChecked());
 }
 
 OpsAdvanced::~OpsAdvanced() {}
 
-void OpsAdvanced::slotChangeTimeScale( float newScale ) {
+void OpsAdvanced::slotChangeTimeScale( float newScale )
+{
     Options::setSlewTimeScale( newScale );
 }
 
-void OpsAdvanced::slotToggleHideOptions() {
+void OpsAdvanced::slotToggleHideOptions()
+{
     textLabelHideTimeStep->setEnabled( kcfg_HideOnSlew->isChecked() );
     SlewTimeScale->setEnabled( kcfg_HideOnSlew->isChecked() );
     HideBox->setEnabled( kcfg_HideOnSlew->isChecked() );
@@ -72,7 +75,7 @@ void OpsAdvanced::slotToggleVerbosityOptions()
     if (kcfg_DisableLogging->isChecked())
         KSUtils::Logging::Disable();
 
-    foreach(QAbstractButton *b, modulesGroup->buttons())
+    foreach(QAbstractButton * b, modulesGroup->buttons())
     {
         b->setEnabled(kcfg_VerboseLogging->isChecked());
         // If verbose is not checked, CLEAR all selections
@@ -89,7 +92,7 @@ void OpsAdvanced::slotToggleOutputOptions()
             KSUtils::Logging::UseDefault();
     }
     else
-            KSUtils::Logging::UseFile();
+        KSUtils::Logging::UseFile();
 }
 
 void OpsAdvanced::slotShowLogFiles()

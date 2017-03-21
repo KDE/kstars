@@ -29,16 +29,17 @@
 
 #define MJD0 2400000.5
 
-modCalcJD::modCalcJD(QWidget *parentSplit) : QFrame(parentSplit) {
+modCalcJD::modCalcJD(QWidget * parentSplit) : QFrame(parentSplit)
+{
     setupUi(this);
 
     // signals and slots connections
     connect(NowButton, SIGNAL(clicked()), this, SLOT(showCurrentTime()));
-    connect( DateTimeBox, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotUpdateCalendar()) );
+    connect( DateTimeBox, SIGNAL(dateTimeChanged(const QDateTime &)), this, SLOT(slotUpdateCalendar()) );
     connect( JDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateJD()) );
     connect( ModJDBox, SIGNAL(editingFinished()), this, SLOT(slotUpdateModJD()) );
-    connect( InputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
-    connect( OutputFileBatch, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( InputFileBatch, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()) );
+    connect( OutputFileBatch, SIGNAL(urlSelected(const QUrl &)), this, SLOT(slotCheckFiles()) );
     connect( RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
     connect( ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()) );
 
@@ -103,20 +104,27 @@ void modCalcJD::showMjd(long double modjulianDay)
     ModJDBox->setText(QLocale().toString( (double)modjulianDay, 5 ) );
 }
 
-void modCalcJD::slotCheckFiles() {
-    if ( ! InputFileBatch->lineEdit()->text().isEmpty() && ! OutputFileBatch->lineEdit()->text().isEmpty() ) {
+void modCalcJD::slotCheckFiles()
+{
+    if ( ! InputFileBatch->lineEdit()->text().isEmpty() && ! OutputFileBatch->lineEdit()->text().isEmpty() )
+    {
         RunButtonBatch->setEnabled( true );
-    } else {
+    }
+    else
+    {
         RunButtonBatch->setEnabled( false );
     }
 }
 
-void modCalcJD::slotRunBatch() {
+void modCalcJD::slotRunBatch()
+{
     QString inputFileName = InputFileBatch->url().toLocalFile();
 
-    if ( QFile::exists(inputFileName) ) {
+    if ( QFile::exists(inputFileName) )
+    {
         QFile f( inputFileName );
-        if ( !f.open( QIODevice::ReadOnly) ) {
+        if ( !f.open( QIODevice::ReadOnly) )
+        {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             return;
@@ -127,14 +135,17 @@ void modCalcJD::slotRunBatch() {
         ViewButtonBatch->setEnabled( true );
 
         f.close();
-    } else  {
+    }
+    else
+    {
         QString message = i18n( "Invalid file: %1", inputFileName );
         KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
         return;
     }
 }
 
-void modCalcJD::processLines( QTextStream &istream, int inputData ) {
+void modCalcJD::processLines( QTextStream &istream, int inputData )
+{
     QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::WriteOnly);
     QTextStream ostream(&fOut);
@@ -144,12 +155,14 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
     double mjd(0);
     KStarsDateTime dt;
 
-    while ( ! istream.atEnd() ) {
+    while ( ! istream.atEnd() )
+    {
         line = istream.readLine();
         line = line.trimmed();
         QStringList data = line.split( ' ', QString::SkipEmptyParts );
 
-        if ( inputData == 0 ) { //Parse date & time
+        if ( inputData == 0 )   //Parse date & time
+        {
             //Is the first field parseable as a date or date&time?
             if ( data[0].length() > 10 )
                 dt = KStarsDateTime::fromString( data[0] );
@@ -160,21 +173,27 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
             qDebug() << data[0];
             if ( dt.isValid() ) qDebug() << dt.toString();
 
-            if ( dt.isValid() ) {
+            if ( dt.isValid() )
+            {
                 //Try to parse the second field as a time
-                if ( data.size() > 1 ) {
+                if ( data.size() > 1 )
+                {
                     QString s = data[1];
                     if ( s.length() == 4 ) s = '0'+s;
                     QTime t = QTime::fromString( s );
                     if ( t.isValid() ) dt.setTime( t );
                 }
 
-            } else { //Did not parse the first field as a date; try it as a time
+            }
+            else     //Did not parse the first field as a date; try it as a time
+            {
                 QTime t = QTime::fromString( data[0] );
-                if ( t.isValid() ) {
+                if ( t.isValid() )
+                {
                     dt.setTime( t );
                     //Now try the second field as a date
-                    if ( data.size() > 1 ) {
+                    if ( data.size() > 1 )
+                    {
                         QDate d = QDate::fromString( data[1] );
                         if ( d.isValid() ) dt.setDate( d );
                         else dt.setDate( QDate::currentDate() );
@@ -182,23 +201,30 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
                 }
             }
 
-            if ( dt.isValid() ) {
+            if ( dt.isValid() )
+            {
                 //Compute JD and MJD
                 jd = dt.djd();
                 mjd = jd - MJD0;
             }
 
-        } else if ( inputData == 1 ) {//Parse Julian day
+        }
+        else if ( inputData == 1 )    //Parse Julian day
+        {
             bool ok(false);
             jd = data[0].toDouble(&ok);
-            if ( ok ) {
+            if ( ok )
+            {
                 dt.setDJD( jd );
                 mjd = jd - MJD0;
             }
-        } else if ( inputData == 2 ) {//Parse Modified Julian day
+        }
+        else if ( inputData == 2 )    //Parse Modified Julian day
+        {
             bool ok(false);
             mjd = data[0].toDouble(&ok);
-            if ( ok ) {
+            if ( ok )
+            {
                 jd = mjd + MJD0;
                 dt.setDJD( jd );
             }
@@ -206,15 +232,16 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
 
         //Write to output file
         ostream << QLocale().toString( dt, QLocale::LongFormat ) << "  "
-        << QString::number( jd, 'f', 2 ) << "  "
-        << QString::number( mjd, 'f', 2 ) << endl;
+                << QString::number( jd, 'f', 2 ) << "  "
+                << QString::number( mjd, 'f', 2 ) << endl;
 
     }
 
     fOut.close();
 }
 
-void modCalcJD::slotViewBatch() {
+void modCalcJD::slotViewBatch()
+{
     QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::ReadOnly);
     QTextStream istream(&fOut);

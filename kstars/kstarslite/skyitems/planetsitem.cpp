@@ -24,12 +24,13 @@
 #include "skynodes/planetnode.h"
 #include "Options.h"
 
-PlanetsItem::PlanetsItem(QList<SolarSystemSingleComponent *> planets,/* QList<PlanetMoonsComponent *> moons, */RootNode *rootNode)
+PlanetsItem::PlanetsItem(QList<SolarSystemSingleComponent *> planets,/* QList<PlanetMoonsComponent *> moons, */RootNode * rootNode)
     :SkyItem(LabelsItem::label_t::PLANET_LABEL, rootNode), m_planetComponents(planets)/*, m_moonsComponents(moons)*/
 {
-    foreach(SolarSystemSingleComponent * planetComp, m_planetComponents) {
-        KSPlanetBase *planet = planetComp->planet();
-        PlanetMoonsNode *pNode = new PlanetMoonsNode(planet, rootNode);
+    foreach(SolarSystemSingleComponent * planetComp, m_planetComponents)
+    {
+        KSPlanetBase * planet = planetComp->planet();
+        PlanetMoonsNode * pNode = new PlanetMoonsNode(planet, rootNode);
         appendChildNode(pNode);
 
 //        foreach(PlanetMoonsComponent * moonsComp, m_moonsComponents) {
@@ -41,19 +42,23 @@ PlanetsItem::PlanetsItem(QList<SolarSystemSingleComponent *> planets,/* QList<Pl
     }
 }
 
-SolarSystemSingleComponent * PlanetsItem::getParentComponent(SkyObject * planet) {
-    foreach(SolarSystemSingleComponent * planetComp, m_planetComponents) {
+SolarSystemSingleComponent * PlanetsItem::getParentComponent(SkyObject * planet)
+{
+    foreach(SolarSystemSingleComponent * planetComp, m_planetComponents)
+    {
         if(planetComp->planet() == planet) return planetComp;
     }
     return nullptr;
 }
 
-void PlanetsItem::update() {
+void PlanetsItem::update()
+{
     show();
     //Traverse all children nodes of RootNode
-    QSGNode *n = firstChild();
-    while(n != 0) {
-        PlanetMoonsNode *pNode = static_cast<PlanetMoonsNode *>(n);
+    QSGNode * n = firstChild();
+    while(n != 0)
+    {
+        PlanetMoonsNode * pNode = static_cast<PlanetMoonsNode *>(n);
         n = n->nextSibling();
 
         bool selected = getParentComponent(pNode->skyObject())->selected();
@@ -62,12 +67,14 @@ void PlanetsItem::update() {
     }
 }
 
-void PlanetsItem::show() {
+void PlanetsItem::show()
+{
     rootNode()->labelsItem()->getLabelNode(LabelsItem::label_t::JUPITER_MOON_LABEL)->show();
     SkyItem::show();
 }
 
-void PlanetsItem::hide() {
+void PlanetsItem::hide()
+{
     rootNode()->labelsItem()->getLabelNode(LabelsItem::label_t::JUPITER_MOON_LABEL)->hide();
     SkyItem::hide();
 }

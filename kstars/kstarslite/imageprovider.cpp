@@ -21,12 +21,14 @@ ImageProvider::ImageProvider()
 
 }
 
-QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize) {
+QImage ImageProvider::requestImage(const QString &id, QSize * size, const QSize &requestedSize)
+{
     Q_UNUSED(size)
     Q_UNUSED(requestedSize)
     return images.value(id);
 }
 
-void ImageProvider::addImage(const QString &id, QImage image) {
+void ImageProvider::addImage(const QString &id, QImage image)
+{
     images.insert(id, image);
 }

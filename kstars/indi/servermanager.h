@@ -32,61 +32,79 @@ class DriverInfo;
 class ServerManager : public QObject
 {
 
-    Q_OBJECT
+        Q_OBJECT
 
-public:
+    public:
 
-    enum { INDI_DEVICE_NOT_FOUND=-1, INDI_PROPERTY_INVALID=-2, INDI_PROPERTY_DUPLICATED = -3, INDI_DISPATCH_ERROR=-4 };
+        enum { INDI_DEVICE_NOT_FOUND=-1, INDI_PROPERTY_INVALID=-2, INDI_PROPERTY_DUPLICATED = -3, INDI_DISPATCH_ERROR=-4 };
 
-    ServerManager(QString inHost, uint inPort);
-      ~ServerManager();
+        ServerManager(QString inHost, uint inPort);
+        ~ServerManager();
 
-    bool start();
-    void stop();
-    void terminate();
+        bool start();
+        void stop();
+        void terminate();
 
-    const QString & getLogBuffer() { return serverBuffer; }
-    const QString & getHost() { return host;}
-    const QString & getPort() { return port;}
+        const QString &getLogBuffer()
+        {
+            return serverBuffer;
+        }
+        const QString &getHost()
+        {
+            return host;
+        }
+        const QString &getPort()
+        {
+            return port;
+        }
 
-    bool startDriver(DriverInfo *dv);
-    void stopDriver(DriverInfo *dv);
+        bool startDriver(DriverInfo * dv);
+        void stopDriver(DriverInfo * dv);
 
-    void setMode(ServerMode inMode) { mode = inMode; }
-    ServerMode getMode() { return mode; }
+        void setMode(ServerMode inMode)
+        {
+            mode = inMode;
+        }
+        ServerMode getMode()
+        {
+            return mode;
+        }
 
-    QString errorString();
+        QString errorString();
 
-    int size() { return managedDrivers.size(); }
+        int size()
+        {
+            return managedDrivers.size();
+        }
 
-    bool isDriverManaged(DriverInfo *);
+        bool isDriverManaged(DriverInfo *);
 
-private:
+    private:
 
-    QTcpSocket		 serverSocket;
-    LilXML		 *XMLParser;
-    QString		 host;
-    QString		 port;
-    QString 		 serverBuffer;
-    QProcess 		 *serverProcess;
+        QTcpSocket		 serverSocket;
+        LilXML		* XMLParser;
+        QString		 host;
+        QString		 port;
+        QString 		 serverBuffer;
+        QProcess 	*	 serverProcess;
 
-    ServerMode          mode;
-    bool        driverCrashed;
+        ServerMode          mode;
+        bool        driverCrashed;
 
-    QList<DriverInfo *> managedDrivers;
+        QList<DriverInfo *> managedDrivers;
 
-    QFile               indiFIFO;
+        QFile               indiFIFO;
 
-public slots:
-    void connectionSuccess();
-    void processServerError(QProcess::ProcessError);
-    void processStandardError();
+    public slots:
+        void connectionSuccess();
+        void processServerError(QProcess::ProcessError);
+        void processStandardError();
 
-signals:
-    void serverFailure(ServerManager *);
-    void newServerLog();
-    void started();
-    void finished(int exit_code, QProcess::ExitStatus exit_status);
+    signals:
+        void serverFailure(ServerManager *);
+        void newServerLog();
+        void started();
+        void finished(int exit_code, QProcess::ExitStatus exit_status);
 
 
 };

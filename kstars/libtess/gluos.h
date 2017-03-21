@@ -41,16 +41,16 @@
 #define NOMINMAX
 
 #ifdef __MINGW64_VERSION_MAJOR
-  #undef _WIN32_WINNT
+#undef _WIN32_WINNT
 #endif
 
 #ifndef _WIN32_WINNT
-  /* XXX: Workaround a bug in mingw-w64's headers when NOGDI is set and
-   * _WIN32_WINNT >= 0x0600 */
-  #define _WIN32_WINNT 0x0400
+/* XXX: Workaround a bug in mingw-w64's headers when NOGDI is set and
+ * _WIN32_WINNT >= 0x0600 */
+#define _WIN32_WINNT 0x0400
 #endif
 #ifndef STRICT
-  #define STRICT 1
+#define STRICT 1
 #endif
 
 #include <windows.h>

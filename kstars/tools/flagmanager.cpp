@@ -40,18 +40,19 @@
 #include "kspaths.h"
 
 
-FlagManagerUI::FlagManagerUI( QWidget *p ) : QFrame( p ) {
+FlagManagerUI::FlagManagerUI( QWidget * p ) : QFrame( p )
+{
     setupUi( this );
 }
 
 
-FlagManager::FlagManager( QWidget *ks )
-        : QDialog( ks )
+FlagManager::FlagManager( QWidget * ks )
+    : QDialog( ks )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
-    QList<QStandardItem*> itemList;
+    QList<QStandardItem *> itemList;
     QList<QImage> imageList;
     QStringList flagNames;
     int i;
@@ -60,24 +61,24 @@ FlagManager::FlagManager( QWidget *ks )
 
     setWindowTitle( i18n( "Flag manager" ) );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     m_Ks = KStars::Instance();
 
     ui->hintLabel->setText(i18n("To add custom icons, just add images in %1. File names must begin with flag. "
-                                 "For example, the file <i>flagSmall_red_cross.gif</i> will be shown as <i>Small red cross</i> in the combo box.",
-                                 KSPaths::writableLocation(QStandardPaths::GenericDataLocation)));
+                                "For example, the file <i>flagSmall_red_cross.gif</i> will be shown as <i>Small red cross</i> in the combo box.",
+                                KSPaths::writableLocation(QStandardPaths::GenericDataLocation)));
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
-    m_Model->setHorizontalHeaderLabels( QStringList() << i18nc( "Right Ascension", "RA" ) 
-            << i18nc( "Declination", "Dec" ) << i18n( "Epoch" ) 
-            << i18n( "Icon" ) << i18n( "Label" ) );
+    m_Model->setHorizontalHeaderLabels( QStringList() << i18nc( "Right Ascension", "RA" )
+                                        << i18nc( "Declination", "Dec" ) << i18n( "Epoch" )
+                                        << i18n( "Icon" ) << i18n( "Label" ) );
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     m_SortModel->setDynamicSortFilter( true );
@@ -92,24 +93,26 @@ FlagManager::FlagManager( QWidget *ks )
     imageList = m_Ks->data()->skyComposite()->flags()->imageList();
     flagNames =  m_Ks->data()->skyComposite()->flags()->getNames();
 
-    FlagComponent *flags = m_Ks->data()->skyComposite()->flags();
+    FlagComponent * flags = m_Ks->data()->skyComposite()->flags();
     QPixmap pixmap;
 
-    for ( i=0; i<m_Ks->data()->skyComposite()->flags()->size(); ++i ) {
-        QStandardItem* labelItem = new QStandardItem( flags->label( i ) );
+    for ( i=0; i<m_Ks->data()->skyComposite()->flags()->size(); ++i )
+    {
+        QStandardItem * labelItem = new QStandardItem( flags->label( i ) );
         labelItem->setForeground( QBrush( flags->labelColor( i ) ) );
 
         itemList << new QStandardItem( flags->pointList().at( i )->ra0().toHMSString() )
-                << new QStandardItem( flags->pointList().at( i )->dec0().toDMSString() )
-                << new QStandardItem( flags->epoch( i ) )
-                << new QStandardItem( QIcon( pixmap.fromImage( flags->image( i ) ) ), flags->imageName( i ) )
-                << labelItem;
+                 << new QStandardItem( flags->pointList().at( i )->dec0().toDMSString() )
+                 << new QStandardItem( flags->epoch( i ) )
+                 << new QStandardItem( QIcon( pixmap.fromImage( flags->image( i ) ) ), flags->imageName( i ) )
+                 << labelItem;
         m_Model->appendRow( itemList );
         itemList.clear();
     }
 
     //Fill the combobox
-    for ( i=0; i< imageList.size(); ++i ) {
+    for ( i=0; i< imageList.size(); ++i )
+    {
         ui->flagCombobox->addItem( QIcon( pixmap.fromImage( flags->imageList( i ) ) ), flagNames.at( i ), flagNames.at( i ) );
     }
 
@@ -119,7 +122,7 @@ FlagManager::FlagManager( QWidget *ks )
     connect( ui->CenterButton, SIGNAL( clicked() ), this, SLOT( slotCenterFlag() ) );
     connect( ui->ScopeButton, SIGNAL(clicked()), this, SLOT(slotCenterTelescope()));
     connect( ui->flagList, SIGNAL( clicked(QModelIndex) ), this, SLOT( slotSetShownFlag(QModelIndex) ) );
-    connect( ui->flagList, SIGNAL( doubleClicked( const QModelIndex& ) ), this, SLOT( slotCenterFlag() ) );
+    connect( ui->flagList, SIGNAL( doubleClicked( const QModelIndex & ) ), this, SLOT( slotCenterFlag() ) );
 
     connect( ui->saveButton, SIGNAL( clicked() ), this, SLOT( slotSaveChanges() ) );
 }
@@ -134,7 +137,8 @@ void FlagManager::setRaDec( const dms &ra, const dms &dec )
     ui->decBox->show( dec, true );
 }
 
-void FlagManager::clearFields() {
+void FlagManager::clearFields()
+{
     ui->raBox->clear();
     ui->decBox->clear();
 
@@ -151,11 +155,13 @@ void FlagManager::clearFields() {
 
 void FlagManager::showFlag( int flagIdx )
 {
-    if ( flagIdx < 0 || flagIdx >= m_Model->rowCount() ) {
+    if ( flagIdx < 0 || flagIdx >= m_Model->rowCount() )
+    {
         return;
     }
 
-    else {
+    else
+    {
         ui->raBox->setText( m_Model->data( m_Model->index( flagIdx, 0) ).toString() );
         ui->decBox->setText( m_Model->data( m_Model->index( flagIdx, 1) ).toString() );
         ui->epochBox->setText( m_Model->data( m_Model->index( flagIdx, 2) ).toString() );
@@ -172,7 +178,8 @@ void FlagManager::showFlag( int flagIdx )
     ui->saveButton->setEnabled( true );
 }
 
-bool FlagManager::validatePoint() {
+bool FlagManager::validatePoint()
+{
     bool raOk(false), decOk(false);
     dms ra( ui->raBox->createDms( false, &raOk ) ); //false means expressed in hours
     dms dec( ui->decBox->createDms( true, &decOk ) );
@@ -180,7 +187,8 @@ bool FlagManager::validatePoint() {
     QString message;
 
     //check if ra & dec values were successfully converted
-    if ( !raOk || !decOk ) {
+    if ( !raOk || !decOk )
+    {
         return false;
     }
 
@@ -189,7 +197,8 @@ bool FlagManager::validatePoint() {
         message = i18n( "The Right Ascension value must be between 0.0 and 24.0." );
     if ( dec.Degrees() < -90.0 || dec.Degrees() > 90.0 )
         message += '\n' + i18n( "The Declination value must be between -90.0 and 90.0." );
-    if ( ! message.isEmpty() ) {
+    if ( ! message.isEmpty() )
+    {
         KMessageBox::sorry( 0, message, i18n( "Invalid Coordinate Data" ) );
         return false;
     }
@@ -198,19 +207,22 @@ bool FlagManager::validatePoint() {
     return true;
 }
 
-void FlagManager::deleteFlagItem( int flagIdx ) {
-    if ( flagIdx < m_Model->rowCount() ) {
+void FlagManager::deleteFlagItem( int flagIdx )
+{
+    if ( flagIdx < m_Model->rowCount() )
+    {
         m_Model->removeRow( flagIdx );
     }
 }
 
-void FlagManager::slotAddFlag() {
+void FlagManager::slotAddFlag()
+{
     dms ra( ui->raBox->createDms( false) ); //false means expressed in hours
-    dms dec( ui->decBox->createDms( true ) );    
+    dms dec( ui->decBox->createDms( true ) );
 
     insertFlag( true );
 
-    FlagComponent *flags = m_Ks->data()->skyComposite()->flags();
+    FlagComponent * flags = m_Ks->data()->skyComposite()->flags();
     //Add flag in FlagComponent
     SkyPoint flagPoint( ra, dec );
     flags->add( flagPoint, ui->epochBox->text(), ui->flagCombobox->currentText(), ui->flagLabel->text(), ui->labelColorcombo->color() );
@@ -225,7 +237,8 @@ void FlagManager::slotAddFlag() {
 }
 
 
-void FlagManager::slotDeleteFlag() {
+void FlagManager::slotDeleteFlag()
+{
     int flag = ui->flagList->currentIndex().row();
 
     //Remove from FlagComponent
@@ -244,8 +257,10 @@ void FlagManager::slotDeleteFlag() {
     m_Ks->map()->forceUpdate(false);
 }
 
-void FlagManager::slotCenterFlag() {
-    if ( ui->flagList->currentIndex().isValid() ) {
+void FlagManager::slotCenterFlag()
+{
+    if ( ui->flagList->currentIndex().isValid() )
+    {
         m_Ks->map()->setClickedObject( 0 );
         m_Ks->map()->setClickedPoint( m_Ks->data()->skyComposite()->flags()->pointList().at( ui->flagList->currentIndex().row() ) );
         m_Ks->map()->slotCenter();
@@ -262,9 +277,9 @@ void FlagManager::slotCenterTelescope()
         return;
     }
 
-    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    foreach(ISD::GDInterface * gd, INDIListener::Instance()->getDevices())
     {
-        INDI::BaseDevice *bd = gd->getBaseDevice();
+        INDI::BaseDevice * bd = gd->getBaseDevice();
 
         if (gd->getType() != KSTARS_TELESCOPE)
             continue;
@@ -292,7 +307,8 @@ void FlagManager::slotCenterTelescope()
 #endif
 }
 
-void FlagManager::slotSaveChanges() {
+void FlagManager::slotSaveChanges()
+{
     int row = ui->flagList->currentIndex().row();
 
     validatePoint();
@@ -308,43 +324,48 @@ void FlagManager::slotSaveChanges() {
 
     //Update FlagComponent
     m_Ks->data()->skyComposite()->flags()->updateFlag( row, flagPoint, ui->epochBox->text(), ui->flagCombobox->currentText(),
-                                                       ui->flagLabel->text(), ui->labelColorcombo->color() );
+            ui->flagLabel->text(), ui->labelColorcombo->color() );
 
     //Save changes to file
     m_Ks->data()->skyComposite()->flags()->saveToFile();
 }
 
-void FlagManager::slotSetShownFlag( QModelIndex idx ) {
+void FlagManager::slotSetShownFlag( QModelIndex idx )
+{
     showFlag ( idx.row() );
 }
 
-void FlagManager::insertFlag( bool isNew, int row ) {
+void FlagManager::insertFlag( bool isNew, int row )
+{
     dms ra( ui->raBox->createDms( false) ); //false means expressed in hours
     dms dec( ui->decBox->createDms( true ) );
-    SkyPoint *flagPoint = new SkyPoint( ra, dec );
+    SkyPoint * flagPoint = new SkyPoint( ra, dec );
 
     // Add flag in the list
-    QList<QStandardItem*> itemList;
+    QList<QStandardItem *> itemList;
 
-    QStandardItem* labelItem = new QStandardItem( ui->flagLabel->text() );
+    QStandardItem * labelItem = new QStandardItem( ui->flagLabel->text() );
     labelItem->setForeground( QBrush( ui->labelColorcombo->color() ) );
 
-    FlagComponent *flags = m_Ks->data()->skyComposite()->flags();
+    FlagComponent * flags = m_Ks->data()->skyComposite()->flags();
 
     QPixmap pixmap;
     itemList << new QStandardItem( flagPoint->ra0().toHMSString() )
-            << new QStandardItem( flagPoint->dec0().toDMSString() )
-            << new QStandardItem( ui->epochBox->text() )
-            << new QStandardItem( QIcon( pixmap.fromImage( flags->imageList( ui->flagCombobox->currentIndex() ) ) ),
-                                  ui->flagCombobox->currentText() )
-            << labelItem;
+             << new QStandardItem( flagPoint->dec0().toDMSString() )
+             << new QStandardItem( ui->epochBox->text() )
+             << new QStandardItem( QIcon( pixmap.fromImage( flags->imageList( ui->flagCombobox->currentIndex() ) ) ),
+                                   ui->flagCombobox->currentText() )
+             << labelItem;
 
-    if (isNew) {
+    if (isNew)
+    {
         m_Model->appendRow(itemList);
     }
 
-    else {
-        for( int i = 0; i < m_Model->columnCount(); i++ ) {
+    else
+    {
+        for( int i = 0; i < m_Model->columnCount(); i++ )
+        {
             m_Model->setItem( row, i , itemList.at( i ) );
         }
     }

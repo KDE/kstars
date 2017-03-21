@@ -33,25 +33,34 @@
  */
 class SkipList : public LineList
 {
-public:
-    /* @short returns the entire skip hash.  Used by the
-     * indexLines() routine so all the line segments in
-     * this SkipList can be indexed at once.
-     */
-    IndexHash* skipHash() { return &m_skip; }
+    public:
+        /* @short returns the entire skip hash.  Used by the
+         * indexLines() routine so all the line segments in
+         * this SkipList can be indexed at once.
+         */
+        IndexHash * skipHash()
+        {
+            return &m_skip;
+        }
 
-    /* @short instructs that the ith line segment should
-     * be skipped when drawn (and hence when indexed too).
-     */
-    void setSkip( int i ) { m_skip[ i ] = true; }
+        /* @short instructs that the ith line segment should
+         * be skipped when drawn (and hence when indexed too).
+         */
+        void setSkip( int i )
+        {
+            m_skip[ i ] = true;
+        }
 
-    /* @short returns the skip flag for the i-th line
-     * segment.
-     */
-    bool skip( int i ) { return m_skip.contains( i );  }
+        /* @short returns the skip flag for the i-th line
+         * segment.
+         */
+        bool skip( int i )
+        {
+            return m_skip.contains( i );
+        }
 
-private:
-    IndexHash m_skip;
+    private:
+        IndexHash m_skip;
 
 };
 

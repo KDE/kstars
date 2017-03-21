@@ -38,11 +38,13 @@
 
 /* INDI standard property used across all clients to enable interoperability. */
 const char * indi_std[NINDI_STD] =
-    {"CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "GEOGRAPHIC_COORD", "EQUATORIAL_COORD",
-     "EQUATORIAL_EOD_COORD", "EQUATORIAL_EOD_COORD_REQUEST", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET",
-     "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "DOME_PARK", "GPS_REFRESH", "WEATHER_STATUS", "CCD_EXPOSURE",
-     "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCD_VIDEO_STREAM",
-     "RAW_STREAM", "IMAGE_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT",  "WATCHDOG_HEARTBEAT", "CAP_PARK", "FLAT_LIGHT_CONTROL", "FLAT_LIGHT_INTENSITY"};
+{
+    "CONNECTION", "DEVICE_PORT", "TIME_UTC", "TIME_LST", "GEOGRAPHIC_COORD", "EQUATORIAL_COORD",
+    "EQUATORIAL_EOD_COORD", "EQUATORIAL_EOD_COORD_REQUEST", "HORIZONTAL_COORD", "TELESCOPE_ABORT_MOTION", "ON_COORD_SET",
+    "SOLAR_SYSTEM", "TELESCOPE_MOTION_NS", "TELESCOPE_MOTION_WE",  "TELESCOPE_PARK", "DOME_PARK", "GPS_REFRESH", "WEATHER_STATUS", "CCD_EXPOSURE",
+    "CCD_TEMPERATURE", "CCD_FRAME", "CCD_FRAME_TYPE", "CCD_BINNING", "CCD_INFO", "CCD_VIDEO_STREAM",
+    "RAW_STREAM", "IMAGE_STREAM", "FOCUS_SPEED", "FOCUS_MOTION", "FOCUS_TIMER", "FILTER_SLOT",  "WATCHDOG_HEARTBEAT", "CAP_PARK", "FLAT_LIGHT_CONTROL", "FLAT_LIGHT_INTENSITY"
+};
 
 INDIListener * INDIListener::_INDIListener = NULL;
 
@@ -54,7 +56,7 @@ INDIListener * INDIListener::Instance()
     return _INDIListener;
 }
 
-INDIListener::INDIListener(QObject *parent) : QObject(parent)
+INDIListener::INDIListener(QObject * parent) : QObject(parent)
 {
 
 }
@@ -76,47 +78,47 @@ bool INDIListener::isStandardProperty(const QString &name)
 
 ISD::GDInterface * INDIListener::getDevice(const QString &name)
 {
-    foreach(ISD::GDInterface *gi, devices)
+    foreach(ISD::GDInterface * gi, devices)
         if (!strcmp(gi->getDeviceName(), name.toLatin1().constData()))
-                return gi;
+            return gi;
 
     return NULL;
 }
 
-void INDIListener::addClient(ClientManager *cm)
+void INDIListener::addClient(ClientManager * cm)
 {
     if (Options::iNDILogging())
         qDebug() << "INDIListener: Adding a new client manager to INDI listener..";
 
     Qt::ConnectionType type = Qt::BlockingQueuedConnection;
 
-    #ifdef USE_QT5_INDI
+#ifdef USE_QT5_INDI
     type = Qt::DirectConnection;
-    #endif
+#endif
 
     clients.append(cm);
 
-    connect(cm, SIGNAL(newINDIDevice(DeviceInfo*)), this, SLOT(processDevice(DeviceInfo*)), type);
-    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo*)), this, SLOT(removeDevice(DeviceInfo*)), type);
-    connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)), type);
-    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)), type);
+    connect(cm, SIGNAL(newINDIDevice(DeviceInfo *)), this, SLOT(processDevice(DeviceInfo *)), type);
+    connect(cm, SIGNAL(removeINDIDevice(DeviceInfo *)), this, SLOT(removeDevice(DeviceInfo *)), type);
+    connect(cm, SIGNAL(newINDIProperty(INDI::Property *)), this, SLOT(registerProperty(INDI::Property *)), type);
+    connect(cm, SIGNAL(removeINDIProperty(INDI::Property *)), this, SLOT(removeProperty(INDI::Property *)), type);
 
-    connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
-    connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));
-    connect(cm, SIGNAL(newINDINumber(INumberVectorProperty*)), this, SLOT(processNumber(INumberVectorProperty*)));
-    connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), this, SLOT(processLight(ILightVectorProperty*)));
-    connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), this, SLOT(processBLOB(IBLOB*)));
-    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*,int)), this, SLOT(processMessage(INDI::BaseDevice*,int)));
+    connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty *)), this, SLOT(processSwitch(ISwitchVectorProperty *)));
+    connect(cm, SIGNAL(newINDIText(ITextVectorProperty *)), this, SLOT(processText(ITextVectorProperty *)));
+    connect(cm, SIGNAL(newINDINumber(INumberVectorProperty *)), this, SLOT(processNumber(INumberVectorProperty *)));
+    connect(cm, SIGNAL(newINDILight(ILightVectorProperty *)), this, SLOT(processLight(ILightVectorProperty *)));
+    connect(cm, SIGNAL(newINDIBLOB(IBLOB *)), this, SLOT(processBLOB(IBLOB *)));
+    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice *,int)), this, SLOT(processMessage(INDI::BaseDevice *,int)));
 }
 
-void INDIListener::removeClient(ClientManager *cm)
+void INDIListener::removeClient(ClientManager * cm)
 {
     QList<ISD::GDInterface *>::iterator it = devices.begin();
     clients.removeOne(cm);
 
     while (it != devices.end())
     {
-        DriverInfo *dv = (*it)->getDriverInfo();
+        DriverInfo * dv = (*it)->getDriverInfo();
         bool hostSource = (dv->getDriverSource() == HOST_SOURCE) || (dv->getDriverSource() == GENERATED_SOURCE);
 
         if (dv && cm->isDriverManaged(dv))
@@ -128,30 +130,30 @@ void INDIListener::removeClient(ClientManager *cm)
             if (hostSource)
                 return;
         }
-      else
+        else
             ++it;
     }
 
 }
 
-void INDIListener::processDevice(DeviceInfo *dv)
+void INDIListener::processDevice(DeviceInfo * dv)
 {
     if (Options::iNDILogging())
         qDebug() << "INDIListener: Processing device " << dv->getBaseDevice()->getDeviceName();
 
-    ISD::GDInterface *gd = new ISD::GenericDevice(dv);
+    ISD::GDInterface * gd = new ISD::GenericDevice(dv);
 
     devices.append(gd);
 
     emit newDevice(gd);
 }
 
-void INDIListener::removeDevice(DeviceInfo *dv)
+void INDIListener::removeDevice(DeviceInfo * dv)
 {
     if (Options::iNDILogging())
         qDebug() << "INDIListener: Removing device " << dv->getBaseDevice()->getDeviceName() << " with unique label " << dv->getDriverInfo()->getUniqueLabel();
 
-    foreach(ISD::GDInterface *gd, devices)
+    foreach(ISD::GDInterface * gd, devices)
     {
         if (gd->getDeviceInfo() == dv)
         {
@@ -179,12 +181,12 @@ void INDIListener::removeDevice(DeviceInfo *dv)
 
 }
 
-void INDIListener::registerProperty(INDI::Property *prop)
+void INDIListener::registerProperty(INDI::Property * prop)
 {
     if (Options::iNDILogging())
         qDebug() << "<" << prop->getDeviceName() << ">: <" << prop->getName() << ">";
 
-    foreach(ISD::GDInterface *gd, devices)
+    foreach(ISD::GDInterface * gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), prop->getDeviceName() ))
         {
@@ -194,7 +196,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 gd = new ISD::Telescope(gd);
                 devices.append(gd);
                 emit newTelescope(gd);
-             }
+            }
             else if (gd->getType() == KSTARS_UNKNOWN && (!strcmp(prop->getName(), "CCD_EXPOSURE")))
             {
                 devices.removeOne(gd);
@@ -223,7 +225,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                     devices.append(gd);
                 }
 
-               emit newFocuser(gd);
+                emit newFocuser(gd);
             }
 
             else if (!strcmp(prop->getName(), "DOME_MOTION"))
@@ -235,7 +237,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                     devices.append(gd);
                 }
 
-               emit newDome(gd);
+                emit newDome(gd);
             }
             else if (!strcmp(prop->getName(), "WEATHER_STATUS"))
             {
@@ -246,7 +248,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                     devices.append(gd);
                 }
 
-               emit newWeather(gd);
+                emit newWeather(gd);
             }
             else if (!strcmp(prop->getName(), "CAP_PARK"))
             {
@@ -257,7 +259,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                     devices.append(gd);
                 }
 
-               emit newDustCap(gd);
+                emit newDustCap(gd);
             }
             else if (!strcmp(prop->getName(), "FLAT_LIGHT_CONTROL"))
             {
@@ -286,7 +288,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
             if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))
             {
-                ISD::ST4 *st4Driver = new ISD::ST4(gd->getBaseDevice(), gd->getDriverInfo()->getClientManager());
+                ISD::ST4 * st4Driver = new ISD::ST4(gd->getBaseDevice(), gd->getDriverInfo()->getClientManager());
                 st4Devices.append(st4Driver);
                 emit newST4(st4Driver);
             }
@@ -297,12 +299,12 @@ void INDIListener::registerProperty(INDI::Property *prop)
     }
 }
 
-void INDIListener::removeProperty(INDI::Property *prop)
+void INDIListener::removeProperty(INDI::Property * prop)
 {
     if (prop == NULL)
         return;
 
-    foreach(ISD::GDInterface *gd, devices)
+    foreach(ISD::GDInterface * gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), prop->getDeviceName() ))
         {
@@ -315,7 +317,7 @@ void INDIListener::removeProperty(INDI::Property *prop)
 void INDIListener::processSwitch(ISwitchVectorProperty * svp)
 {
 
-    foreach(ISD::GDInterface *gd, devices)
+    foreach(ISD::GDInterface * gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), svp->device))
         {
@@ -328,7 +330,7 @@ void INDIListener::processSwitch(ISwitchVectorProperty * svp)
 
 void INDIListener::processNumber(INumberVectorProperty * nvp)
 {
-    foreach(ISD::GDInterface *gd, devices)
+    foreach(ISD::GDInterface * gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), nvp->device))
         {
@@ -340,7 +342,7 @@ void INDIListener::processNumber(INumberVectorProperty * nvp)
 
 void INDIListener::processText(ITextVectorProperty * tvp)
 {
-    foreach(ISD::GDInterface *gd, devices)
+    foreach(ISD::GDInterface * gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), tvp->device))
         {
@@ -353,7 +355,7 @@ void INDIListener::processText(ITextVectorProperty * tvp)
 void INDIListener::processLight(ILightVectorProperty * lvp)
 {
 
-    foreach(ISD::GDInterface *gd, devices)
+    foreach(ISD::GDInterface * gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), lvp->device))
         {
@@ -363,9 +365,9 @@ void INDIListener::processLight(ILightVectorProperty * lvp)
     }
 }
 
-void INDIListener::processBLOB(IBLOB* bp)
+void INDIListener::processBLOB(IBLOB * bp)
 {
-    foreach(ISD::GDInterface *gd, devices)
+    foreach(ISD::GDInterface * gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), bp->bvp->device))
         {
@@ -375,9 +377,9 @@ void INDIListener::processBLOB(IBLOB* bp)
     }
 }
 
-void INDIListener::processMessage(INDI::BaseDevice *dp, int messageID)
+void INDIListener::processMessage(INDI::BaseDevice * dp, int messageID)
 {
-    foreach(ISD::GDInterface *gd, devices)
+    foreach(ISD::GDInterface * gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), dp->getDeviceName()))
         {

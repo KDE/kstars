@@ -17,7 +17,8 @@
  ***************************************************************************/
 
 #include "oal/scope.h"
-void OAL::Scope::setScope( const QString& _id, const QString& _model, const QString& _vendor, const QString& _type, double _focalLength, double _aperture ) {
+void OAL::Scope::setScope( const QString &_id, const QString &_model, const QString &_vendor, const QString &_type, double _focalLength, double _aperture )
+{
     m_Id = _id;
     m_Model = _model;
     m_Vendor = _vendor;

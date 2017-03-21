@@ -37,36 +37,37 @@ FOVSymbolNode::FOVSymbolNode(const QString &name, float a, float b, float xoffse
 
     switch(shape)
     {
-    case FOVItem::SQUARE:
-        m_symbol = new SquareFOV();
-        break;
-    case FOVItem::CIRCLE:
-        m_symbol = new CircleFOV();
-        break;
-    case FOVItem::CROSSHAIRS:
-        m_symbol = new CrosshairFOV();
-        break;
-    case FOVItem::BULLSEYE:
-        m_symbol = new BullsEyeFOV();
-        break;
-    case FOVItem::SOLIDCIRCLE:
-        m_symbol = new SolidCircleFOV();
-        break;
-    default:
-        break;
+        case FOVItem::SQUARE:
+            m_symbol = new SquareFOV();
+            break;
+        case FOVItem::CIRCLE:
+            m_symbol = new CircleFOV();
+            break;
+        case FOVItem::CROSSHAIRS:
+            m_symbol = new CrosshairFOV();
+            break;
+        case FOVItem::BULLSEYE:
+            m_symbol = new BullsEyeFOV();
+            break;
+        case FOVItem::SOLIDCIRCLE:
+            m_symbol = new SolidCircleFOV();
+            break;
+        default:
+            break;
     }
 
     if(m_symbol) addChildNode(m_symbol);
 }
 
-void FOVSymbolNode::update(float zoomFactor) {
+void FOVSymbolNode::update(float zoomFactor)
+{
     show();
     float pixelSizeX = m_sizeX * zoomFactor / 57.3 / 60.0;
     float pixelSizeY = m_sizeY * zoomFactor / 57.3 / 60.0;
 
     float offsetXPixelSize = m_offsetX * zoomFactor / 57.3 / 60.0;
     float offsetYPixelSize = m_offsetY * zoomFactor / 57.3 / 60.0;
-    SkyMapLite *map = SkyMapLite::Instance();
+    SkyMapLite * map = SkyMapLite::Instance();
 
     QMatrix4x4 newMatrix;
 
@@ -75,7 +76,9 @@ void FOVSymbolNode::update(float zoomFactor) {
         m_center.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
         QPointF skypoint_center = map->projector()->toScreen(&m_center);
         newMatrix.translate(skypoint_center.toPoint().x(), skypoint_center.toPoint().y());
-    } else {
+    }
+    else
+    {
         QPoint center(map->width()/2, map->height()/2);
         newMatrix.translate(center.x(), center.y());
     }
@@ -114,7 +117,8 @@ SquareFOV::SquareFOV()
     lines->geometry()->setDrawingMode(GL_LINES);
 }
 
-void SquareFOV::updateSymbol(QColor color, float pixelSizeX, float pixelSizeY ) {
+void SquareFOV::updateSymbol(QColor color, float pixelSizeX, float pixelSizeY )
+{
     QPoint center(0,0);
 
     /*if (m_imageDisplay)
@@ -131,8 +135,9 @@ void SquareFOV::updateSymbol(QColor color, float pixelSizeX, float pixelSizeY ) 
     rect2->setRect(center.x() , center.y() - (3 * pixelSizeY/5), pixelSizeX/40, pixelSizeX/10);
     rect2->setColor(color);
 
-    QSGFlatColorMaterial *material = static_cast<QSGFlatColorMaterial *>(lines->opaqueMaterial());
-    if(material->color() != color) {
+    QSGFlatColorMaterial * material = static_cast<QSGFlatColorMaterial *>(lines->opaqueMaterial());
+    if(material->color() != color)
+    {
         material->setColor(color);
         lines->markDirty(QSGNode::DirtyMaterial);
     }
@@ -157,7 +162,8 @@ CircleFOV::CircleFOV()
     appendChildNode(el);
 }
 
-void CircleFOV::updateSymbol(QColor color, float pixelSizeX, float pixelSizeY ) {
+void CircleFOV::updateSymbol(QColor color, float pixelSizeX, float pixelSizeY )
+{
     el->setColor(color);
     el->updateGeometry(0,0, pixelSizeX/2, pixelSizeY/2,false);
 }
@@ -182,7 +188,8 @@ CrosshairFOV::CrosshairFOV()
     appendChildNode(el2);
 }
 
-void CrosshairFOV::updateSymbol( QColor color, float pixelSizeX, float pixelSizeY ) {
+void CrosshairFOV::updateSymbol( QColor color, float pixelSizeX, float pixelSizeY )
+{
     QPoint center(0,0);
 
     QSGGeometry::Point2D * vertex = lines->geometry()->vertexDataAsPoint2D();
@@ -221,7 +228,8 @@ BullsEyeFOV::BullsEyeFOV()
     appendChildNode(el3);
 }
 
-void BullsEyeFOV::updateSymbol( QColor color, float pixelSizeX, float pixelSizeY ) {
+void BullsEyeFOV::updateSymbol( QColor color, float pixelSizeX, float pixelSizeY )
+{
     el1->setColor(color);
     el1->updateGeometry(0, 0, 0.5 * pixelSizeX, 0.5 * pixelSizeY, false);
 
@@ -239,7 +247,8 @@ SolidCircleFOV::SolidCircleFOV()
     appendChildNode(el);
 }
 
-void SolidCircleFOV::updateSymbol( QColor color, float pixelSizeX, float pixelSizeY ) {
+void SolidCircleFOV::updateSymbol( QColor color, float pixelSizeX, float pixelSizeY )
+{
     QColor colorAlpha = color;
     colorAlpha.setAlpha(127);
     el->setColor(colorAlpha);

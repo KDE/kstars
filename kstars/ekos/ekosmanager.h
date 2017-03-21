@@ -61,251 +61,278 @@ class QProgressIndicator;
  */
 class EkosManager : public QDialog, public Ui::EkosManager
 {
-    Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos")
+        Q_OBJECT
+        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos")
 
-public:
-    EkosManager(QWidget *parent);
-    ~EkosManager();
+    public:
+        EkosManager(QWidget * parent);
+        ~EkosManager();
 
-    typedef enum { EKOS_STATUS_IDLE, EKOS_STATUS_PENDING, EKOS_STATUS_SUCCESS, EKOS_STATUS_ERROR } CommunicationStatus;
+        typedef enum { EKOS_STATUS_IDLE, EKOS_STATUS_PENDING, EKOS_STATUS_SUCCESS, EKOS_STATUS_ERROR } CommunicationStatus;
 
-    void appendLogText(const QString &);
-    //void refreshRemoteDrivers();
-    void setOptionsWidget(KPageWidgetItem *ops) { ekosOptionsWidget = ops; }
-    void addObjectToScheduler(SkyObject *object);
+        void appendLogText(const QString &);
+        //void refreshRemoteDrivers();
+        void setOptionsWidget(KPageWidgetItem * ops)
+        {
+            ekosOptionsWidget = ops;
+        }
+        void addObjectToScheduler(SkyObject * object);
 
-    Ekos::Capture *captureModule() { return captureProcess;}
-    Ekos::Focus *focusModule() { return focusProcess;}
-    Ekos::Guide *guideModule() { return guideProcess;}
-    Ekos::Align *alignModule() { return alignProcess;}
-    Ekos::Mount *mountModule() { return mountProcess;}
-    FITSView *getPreviewView() { return previewView; }
+        Ekos::Capture * captureModule()
+        {
+            return captureProcess;
+        }
+        Ekos::Focus * focusModule()
+        {
+            return focusProcess;
+        }
+        Ekos::Guide * guideModule()
+        {
+            return guideProcess;
+        }
+        Ekos::Align * alignModule()
+        {
+            return alignProcess;
+        }
+        Ekos::Mount * mountModule()
+        {
+            return mountProcess;
+        }
+        FITSView * getPreviewView()
+        {
+            return previewView;
+        }
 
-    /** @defgroup EkosDBusInterface Ekos DBus Interface
-     * EkosManager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
-    */
+        /** @defgroup EkosDBusInterface Ekos DBus Interface
+         * EkosManager interface provides advanced scripting capabilities to establish and shutdown Ekos services.
+        */
 
-    /*@{*/
+        /*@{*/
 
-    /** DBUS interface function.
-     * set Current device profile.
-     * @param profileName Profile name
-     * @return True if profile is set, false if not found.
-     */
-    Q_SCRIPTABLE bool setProfile(const QString &profileName);
+        /** DBUS interface function.
+         * set Current device profile.
+         * @param profileName Profile name
+         * @return True if profile is set, false if not found.
+         */
+        Q_SCRIPTABLE bool setProfile(const QString &profileName);
 
-    /** DBUS interface function
-     * @brief getProfiles Return a list of all device profiles
-     * @return List of device profiles
-     */
-    Q_SCRIPTABLE QStringList getProfiles();
+        /** DBUS interface function
+         * @brief getProfiles Return a list of all device profiles
+         * @return List of device profiles
+         */
+        Q_SCRIPTABLE QStringList getProfiles();
 
-    /** DBUS interface function.
-     * @retrun INDI connection status (0 Idle, 1 Pending, 2 Connected, 3 Error)
-     */
-    Q_SCRIPTABLE unsigned int getINDIConnectionStatus() { return indiConnectionStatus;}
+        /** DBUS interface function.
+         * @retrun INDI connection status (0 Idle, 1 Pending, 2 Connected, 3 Error)
+         */
+        Q_SCRIPTABLE unsigned int getINDIConnectionStatus()
+        {
+            return indiConnectionStatus;
+        }
 
-    /** DBUS interface function.
-     * @retrun Ekos starting status (0 Idle, 1 Pending, 2 Started, 3 Error)
-     */
-    Q_SCRIPTABLE unsigned int getEkosStartingStatus() { return ekosStartingStatus;}
+        /** DBUS interface function.
+         * @retrun Ekos starting status (0 Idle, 1 Pending, 2 Started, 3 Error)
+         */
+        Q_SCRIPTABLE unsigned int getEkosStartingStatus()
+        {
+            return ekosStartingStatus;
+        }
 
-    /** DBUS interface function.
-     * If connection mode is local, the function first establishes an INDI server with all the specified drivers in Ekos options or as set by the user. For remote connection,
-     * it establishes connection to the remote INDI server.
-     * @return Retruns true if server started successful (local mode) or connection to remote server is successful (remote mode).
-     */
-    Q_SCRIPTABLE bool start();
+        /** DBUS interface function.
+         * If connection mode is local, the function first establishes an INDI server with all the specified drivers in Ekos options or as set by the user. For remote connection,
+         * it establishes connection to the remote INDI server.
+         * @return Retruns true if server started successful (local mode) or connection to remote server is successful (remote mode).
+         */
+        Q_SCRIPTABLE bool start();
 
-    /** DBUS interface function.
-     * If connection mode is local, the function terminates the local INDI server and drivers. For remote, it disconnects from the remote INDI server.
-     */
-    Q_SCRIPTABLE bool stop();
+        /** DBUS interface function.
+         * If connection mode is local, the function terminates the local INDI server and drivers. For remote, it disconnects from the remote INDI server.
+         */
+        Q_SCRIPTABLE bool stop();
 
 
 
-protected:
-    void closeEvent(QCloseEvent *);
-    void hideEvent(QHideEvent *);
-    void showEvent(QShowEvent *);
-    void resizeEvent(QResizeEvent *);
+    protected:
+        void closeEvent(QCloseEvent *);
+        void hideEvent(QHideEvent *);
+        void showEvent(QShowEvent *);
+        void resizeEvent(QResizeEvent *);
 
-public slots:
+    public slots:
 
-    /** DBUS interface function.
-     * Connects all the INDI devices started by Ekos.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void connectDevices();
+        /** DBUS interface function.
+         * Connects all the INDI devices started by Ekos.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void connectDevices();
 
-    /** DBUS interface function.
-     * Disconnects all the INDI devices started by Ekos.
-     */
-    Q_SCRIPTABLE Q_NOREPLY void disconnectDevices();
+        /** DBUS interface function.
+         * Disconnects all the INDI devices started by Ekos.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void disconnectDevices();
 
-    /** @}*/
+        /** @}*/
 
-    void processINDI();
-    void cleanDevices(bool stopDrivers=true);
+        void processINDI();
+        void cleanDevices(bool stopDrivers=true);
 
-    void processNewDevice(ISD::GDInterface*);
-    void processNewProperty(INDI::Property*);
-    void processNewNumber(INumberVectorProperty *nvp);
-    void processNewText(ITextVectorProperty *tvp);
+        void processNewDevice(ISD::GDInterface *);
+        void processNewProperty(INDI::Property *);
+        void processNewNumber(INumberVectorProperty * nvp);
+        void processNewText(ITextVectorProperty * tvp);
 
-private slots:
+    private slots:
 
-    void changeAlwaysOnTop(Qt::ApplicationState state);
+        void changeAlwaysOnTop(Qt::ApplicationState state);
 
-    void showEkosOptions();
+        void showEkosOptions();
 
-    void updateLog();
-    void clearLog();
+        void updateLog();
+        void clearLog();
 
-    void processTabChange();
+        void processTabChange();
 
-    void processServerTermination(const QString &host, const QString &port);
+        void processServerTermination(const QString &host, const QString &port);
 
-    void removeDevice(ISD::GDInterface*);
+        void removeDevice(ISD::GDInterface *);
 
-    void deviceConnected();
-    void deviceDisconnected();
+        void deviceConnected();
+        void deviceDisconnected();
 
-    //void processINDIModeChange();
-    void checkINDITimeout();
+        //void processINDIModeChange();
+        void checkINDITimeout();
 
-    void setTelescope(ISD::GDInterface *);
-    void setCCD(ISD::GDInterface *);
-    void setFilter(ISD::GDInterface *);
-    void setFocuser(ISD::GDInterface *);
-    void setDome(ISD::GDInterface *);
-    void setWeather(ISD::GDInterface *);
-    void setDustCap(ISD::GDInterface *);
-    void setLightBox(ISD::GDInterface *);
-    void setST4(ISD::ST4 *);
+        void setTelescope(ISD::GDInterface *);
+        void setCCD(ISD::GDInterface *);
+        void setFilter(ISD::GDInterface *);
+        void setFocuser(ISD::GDInterface *);
+        void setDome(ISD::GDInterface *);
+        void setWeather(ISD::GDInterface *);
+        void setDustCap(ISD::GDInterface *);
+        void setLightBox(ISD::GDInterface *);
+        void setST4(ISD::ST4 *);
 
-    // Profiles
-    void addProfile();
-    void editProfile();
-    void deleteProfile();
-    void wizardProfile();
-    void saveDefaultProfile(const QString& name);
+        // Profiles
+        void addProfile();
+        void editProfile();
+        void deleteProfile();
+        void wizardProfile();
+        void saveDefaultProfile(const QString &name);
 
-    // Mount Summary
-    void updateMountCoords(const QString &ra, const QString &dec ,const QString &az ,const QString &alt);
-    void updateMountStatus(ISD::Telescope::TelescopeStatus status);
-    void setTarget(SkyObject *o);
+        // Mount Summary
+        void updateMountCoords(const QString &ra, const QString &dec ,const QString &az ,const QString &alt);
+        void updateMountStatus(ISD::Telescope::TelescopeStatus status);
+        void setTarget(SkyObject * o);
 
-    // Capture Summary
-    void updateCaptureStatus(Ekos::CaptureState status);
-    void updateCaptureProgress(QImage *image, Ekos::SequenceJob *job);
-    void updateExposureProgress(Ekos::SequenceJob *job);
-    void updateCaptureCountDown();
+        // Capture Summary
+        void updateCaptureStatus(Ekos::CaptureState status);
+        void updateCaptureProgress(QImage * image, Ekos::SequenceJob * job);
+        void updateExposureProgress(Ekos::SequenceJob * job);
+        void updateCaptureCountDown();
 
-    // Focus summary
-    void setFocusStatus(Ekos::FocusState status);
-    void updateFocusStarPixmap(QPixmap &starPixmap);
-    void updateFocusProfilePixmap(QPixmap &profilePixmap);
-    void updateCurrentHFR(double newHFR);
+        // Focus summary
+        void setFocusStatus(Ekos::FocusState status);
+        void updateFocusStarPixmap(QPixmap &starPixmap);
+        void updateFocusProfilePixmap(QPixmap &profilePixmap);
+        void updateCurrentHFR(double newHFR);
 
-    // Guide Summary
-    void updateGuideStatus(Ekos::GuideState status);
-    void updateGuideStarPixmap(QPixmap &starPix);
-    void updateGuideProfilePixmap(QPixmap &profilePix);
-    void updateSigmas(double ra, double de);
+        // Guide Summary
+        void updateGuideStatus(Ekos::GuideState status);
+        void updateGuideStarPixmap(QPixmap &starPix);
+        void updateGuideProfilePixmap(QPixmap &profilePix);
+        void updateSigmas(double ra, double de);
 
- private:
+    private:
 
-    void removeTabs();
-    void reset();
-    void initCapture();
-    void initFocus();
-    void initGuide();
-    void initAlign();
-    void initMount();
-    void initDome();
-    void initWeather();
-    void initDustCap();
+        void removeTabs();
+        void reset();
+        void initCapture();
+        void initFocus();
+        void initGuide();
+        void initAlign();
+        void initMount();
+        void initDome();
+        void initWeather();
+        void initDustCap();
 
-    void loadDrivers();
-    void loadProfiles();
+        void loadDrivers();
+        void loadProfiles();
 
-    void processLocalDevice(ISD::GDInterface*);
-    void processRemoteDevice(ISD::GDInterface*);
-    bool isRunning(const QString &process);
+        void processLocalDevice(ISD::GDInterface *);
+        void processRemoteDevice(ISD::GDInterface *);
+        bool isRunning(const QString &process);
 
-    bool useGuideHead;
-    bool useST4;
+        bool useGuideHead;
+        bool useST4;
 
-    // Containers
+        // Containers
 
-    // All Drivers
-    QHash<QString, DriverInfo *> driversList;
+        // All Drivers
+        QHash<QString, DriverInfo *> driversList;
 
-    // All managed drivers
-    QList<DriverInfo *> managedDrivers;
+        // All managed drivers
+        QList<DriverInfo *> managedDrivers;
 
-    // All generic devices
-    QList<ISD::GDInterface*> genericDevices;
+        // All generic devices
+        QList<ISD::GDInterface *> genericDevices;
 
-    // All Managed devices
-    QMap<DeviceFamily, ISD::GDInterface*> managedDevices;
-    QList<ISD::GDInterface*> findDevices(DeviceFamily type);
+        // All Managed devices
+        QMap<DeviceFamily, ISD::GDInterface *> managedDevices;
+        QList<ISD::GDInterface *> findDevices(DeviceFamily type);
 
-    Ekos::Capture *captureProcess;
-    Ekos::Focus *focusProcess;
-    Ekos::Guide *guideProcess;
-    Ekos::Align *alignProcess;
-    Ekos::Mount *mountProcess;
-    Ekos::Scheduler *schedulerProcess;
-    Ekos::Dome *domeProcess;
-    Ekos::Weather *weatherProcess;
-    Ekos::DustCap *dustCapProcess;
+        Ekos::Capture * captureProcess;
+        Ekos::Focus * focusProcess;
+        Ekos::Guide * guideProcess;
+        Ekos::Align * alignProcess;
+        Ekos::Mount * mountProcess;
+        Ekos::Scheduler * schedulerProcess;
+        Ekos::Dome * domeProcess;
+        Ekos::Weather * weatherProcess;
+        Ekos::DustCap * dustCapProcess;
 
-    bool localMode, isStarted, remoteManagerStart;
+        bool localMode, isStarted, remoteManagerStart;
 
-    int nDevices, nRemoteDevices;
-    //QAtomicInt nConnectedDevices;
+        int nDevices, nRemoteDevices;
+        //QAtomicInt nConnectedDevices;
 
-    QStringList logText;
-    KPageWidgetItem *ekosOptionsWidget;
-    CommunicationStatus ekosStartingStatus, indiConnectionStatus;
+        QStringList logText;
+        KPageWidgetItem * ekosOptionsWidget;
+        CommunicationStatus ekosStartingStatus, indiConnectionStatus;
 
-    QStandardItemModel *profileModel;
-    QList<ProfileInfo *> profiles;
+        QStandardItemModel * profileModel;
+        QList<ProfileInfo *> profiles;
 
-    ProfileInfo * getCurrentProfile();
-    void updateProfileLocation(ProfileInfo *pi);
+        ProfileInfo * getCurrentProfile();
+        void updateProfileLocation(ProfileInfo * pi);
 
-    // Mount Summary
-    QProgressIndicator *mountPI;
+        // Mount Summary
+        QProgressIndicator * mountPI;
 
-    // Capture Summary
-    QTime imageCountDown;
-    QTime overallCountDown;
-    QTime sequenceCountDown;
-    QTimer countdownTimer;
-    QPixmap *previewPixmap;
-    QProgressIndicator *capturePI;
-    // Preview Frame
-    FITSView *previewView;
+        // Capture Summary
+        QTime imageCountDown;
+        QTime overallCountDown;
+        QTime sequenceCountDown;
+        QTimer countdownTimer;
+        QPixmap * previewPixmap;
+        QProgressIndicator * capturePI;
+        // Preview Frame
+        FITSView * previewView;
 
-    // Focus Summary
-    QProgressIndicator *focusPI;
-    QPixmap *focusStarPixmap;
-    //QPixmap *focusProfilePixmap;
-    //QTemporaryFile focusStarFile;
-    //QTemporaryFile focusProfileFile;
+        // Focus Summary
+        QProgressIndicator * focusPI;
+        QPixmap * focusStarPixmap;
+        //QPixmap *focusProfilePixmap;
+        //QTemporaryFile focusStarFile;
+        //QTemporaryFile focusProfileFile;
 
-    // Guide Summary
-    QProgressIndicator *guidePI;
-    QPixmap *guideStarPixmap;
-    //QPixmap *guideProfilePixmap;
-    //QTemporaryFile guideStarFile;
-    //QTemporaryFile guideProfileFile;
+        // Guide Summary
+        QProgressIndicator * guidePI;
+        QPixmap * guideStarPixmap;
+        //QPixmap *guideProfilePixmap;
+        //QTemporaryFile guideStarFile;
+        //QTemporaryFile guideProfileFile;
 
-    ProfileInfo *currentProfile = NULL;
-    bool profileWizardLaunched=false;
+        ProfileInfo * currentProfile = NULL;
+        bool profileWizardLaunched=false;
 };
 
 #endif // EKOS_H

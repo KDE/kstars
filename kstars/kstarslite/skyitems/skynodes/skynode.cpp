@@ -29,17 +29,20 @@ SkyNode::SkyNode()
     appendChildNode(m_opacity);
 }
 
-void SkyNode::hide() {
+void SkyNode::hide()
+{
     m_opacity->hide();
     m_hideCount++;
 }
 
-void SkyNode::show() {
+void SkyNode::show()
+{
     m_opacity->show();
     m_hideCount = 0;
 }
 
-void SkyNode::update(bool drawLabel) {
+void SkyNode::update(bool drawLabel)
+{
     m_drawLabel = drawLabel;
     update();
 }

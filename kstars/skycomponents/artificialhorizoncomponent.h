@@ -14,25 +14,25 @@
 
 class ArtificialHorizonEntity
 {
-public:
-    ArtificialHorizonEntity();
-    ~ArtificialHorizonEntity();
+    public:
+        ArtificialHorizonEntity();
+        ~ArtificialHorizonEntity();
 
-    QString region() const;
-    void setRegion(const QString &Region);
+        QString region() const;
+        void setRegion(const QString &Region);
 
-    bool enabled() const;
-    void setEnabled(bool Enabled);
+        bool enabled() const;
+        void setEnabled(bool Enabled);
 
-    void clearList();
-    void setList(LineList *List);
-    LineList *list();
+        void clearList();
+        void setList(LineList * List);
+        LineList * list();
 
-private:
+    private:
 
-    QString m_Region;
-    bool m_Enabled;
-    LineList *m_List;
+        QString m_Region;
+        bool m_Enabled;
+        LineList * m_List;
 };
 
 /**
@@ -46,31 +46,37 @@ private:
  */
 class ArtificialHorizonComponent : public NoPrecessIndex
 {
-public:    
+    public:
 
-    /** @short Constructor
-     * @p parent pointer to the parent SkyComposite object
-     * name is the name of the subclass
-     */
-    explicit ArtificialHorizonComponent( SkyComposite *parent );
+        /** @short Constructor
+         * @p parent pointer to the parent SkyComposite object
+         * name is the name of the subclass
+         */
+        explicit ArtificialHorizonComponent( SkyComposite * parent );
 
-    virtual bool selected();
-    virtual void draw( SkyPainter *skyp );
+        virtual bool selected();
+        virtual void draw( SkyPainter * skyp );
 
-    void setLivePreview(LineList *preview) { livePreview = preview; }
-    void addRegion(const QString &regionName, bool enabled, LineList *list);
-    void removeRegion(const QString &regionName, bool lineOnly=false);
-    inline QList<ArtificialHorizonEntity *> * horizonList() { return &m_HorizonList; }
+        void setLivePreview(LineList * preview)
+        {
+            livePreview = preview;
+        }
+        void addRegion(const QString &regionName, bool enabled, LineList * list);
+        void removeRegion(const QString &regionName, bool lineOnly=false);
+        inline QList<ArtificialHorizonEntity *> * horizonList()
+        {
+            return &m_HorizonList;
+        }
 
-    bool load();
-    void save();
+        bool load();
+        void save();
 
-protected:
-    virtual void preDraw( SkyPainter *skyp );
+    protected:
+        virtual void preDraw( SkyPainter * skyp );
 
-private:
-    QList<ArtificialHorizonEntity *> m_HorizonList;
-    LineList *livePreview;
+    private:
+        QList<ArtificialHorizonEntity *> m_HorizonList;
+        LineList * livePreview;
 };
 
 #endif

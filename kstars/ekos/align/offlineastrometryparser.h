@@ -32,33 +32,36 @@ class OfflineAstrometryParser: public AstrometryParser
 {
         Q_OBJECT
 
-public:
-    OfflineAstrometryParser();
-    virtual ~OfflineAstrometryParser();
+    public:
+        OfflineAstrometryParser();
+        virtual ~OfflineAstrometryParser();
 
-    virtual void setAlign(Align *_align) { align = _align; }
-    virtual bool init();
-    virtual void verifyIndexFiles(double fov_x, double fov_y);
-    virtual bool startSovler(const QString &filename, const QStringList &args, bool generated=true);
-    virtual bool stopSolver();
+        virtual void setAlign(Align * _align)
+        {
+            align = _align;
+        }
+        virtual bool init();
+        virtual void verifyIndexFiles(double fov_x, double fov_y);
+        virtual bool startSovler(const QString &filename, const QStringList &args, bool generated=true);
+        virtual bool stopSolver();
 
-public slots:
-    void solverComplete(int exist_status);
-    void wcsinfoComplete(int exist_status);
-    void logSolver();
+    public slots:
+        void solverComplete(int exist_status);
+        void wcsinfoComplete(int exist_status);
+        void logSolver();
 
-private:
-    bool astrometryNetOK();
-    bool getAstrometryDataDir(QString &dataDir);
+    private:
+        bool astrometryNetOK();
+        bool getAstrometryDataDir(QString &dataDir);
 
-    QMap<float, QString> astrometryIndex;
-    QString parity;
-    QProcess solver;
-    QProcess wcsinfo;
-    QTime solverTimer;
-    QString fitsFile;
-    bool astrometryFilesOK;
-    Align *align;
+        QMap<float, QString> astrometryIndex;
+        QString parity;
+        QProcess solver;
+        QProcess wcsinfo;
+        QTime solverTimer;
+        QString fitsFile;
+        bool astrometryFilesOK;
+        Align * align;
 };
 
 }

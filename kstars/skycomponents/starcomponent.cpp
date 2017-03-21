@@ -51,9 +51,9 @@
 #include "byteorder.h"
 #endif
 
-StarComponent *StarComponent::pinstance = 0;
+StarComponent * StarComponent::pinstance = 0;
 
-StarComponent::StarComponent(SkyComposite *parent )
+StarComponent::StarComponent(SkyComposite * parent )
     : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0),
       starsLoaded(false), focusStar(NULL)
 {
@@ -88,22 +88,27 @@ StarComponent::StarComponent(SkyComposite *parent )
 #endif
 }
 
-StarComponent::~StarComponent() {
+StarComponent::~StarComponent()
+{
     qDeleteAll(m_HDHash.values());
 }
 
-StarComponent *StarComponent::Create( SkyComposite *parent ) {
+StarComponent * StarComponent::Create( SkyComposite * parent )
+{
     delete pinstance;
     pinstance = new StarComponent( parent );
     return pinstance;
 }
 
-bool StarComponent::selected() {
+bool StarComponent::selected()
+{
     return Options::showStars();
 }
 
-bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, float trigMag, bool staticstars ) {
-    if( BinFileHelper::testFileExists( fileName ) ) {
+bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, float trigMag, bool staticstars )
+{
+    if( BinFileHelper::testFileExists( fileName ) )
+    {
         m_DeepStarComponents.append( new DeepStarComponent( parent(), fileName, trigMag, staticstars ) );
         return true;
     }
@@ -111,7 +116,8 @@ bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, float t
 }
 
 
-int StarComponent::loadDeepStarCatalogs() {
+int StarComponent::loadDeepStarCatalogs()
+{
 
     // Look for the basic unnamed star catalog to mag 8.0
     if( !addDeepStarCatalogIfExists( "unnamedstars.dat", -5.0, true ) )
@@ -130,19 +136,20 @@ int StarComponent::loadDeepStarCatalogs() {
 
 //This function is empty for a reason; we override the normal
 //update function in favor of JiT updates for stars.
-void StarComponent::update( KSNumbers*)
+void StarComponent::update( KSNumbers *)
 {}
 
 // We use the update hook to re-index all the stars when the date has changed by
 // more than 150 years.
 
-bool StarComponent::reindex( KSNumbers *num )
+bool StarComponent::reindex( KSNumbers * num )
 {
     if ( ! num ) return false;
 
     // for large time steps we re-index all points
     if ( fabs( num->julianCenturies() -
-               m_reindexNum.julianCenturies() ) > m_reindexInterval ) {
+               m_reindexNum.julianCenturies() ) > m_reindexInterval )
+    {
         reindexAll( num );
         return true;
     }
@@ -154,11 +161,12 @@ bool StarComponent::reindex( KSNumbers *num )
     return !(highPM);
 }
 
-void StarComponent::reindexAll( KSNumbers *num )
+void StarComponent::reindexAll( KSNumbers * num )
 {
-    if (  0 && ! m_reindexSplash ) {
+    if (  0 && ! m_reindexSplash )
+    {
         m_reindexSplash = new KStarsSplash(
-                                           i18n("Please wait while re-indexing stars...") );
+            i18n("Please wait while re-indexing stars...") );
         QObject::connect( KStarsData::Instance(),
                           SIGNAL( progressText( QString ) ),
                           m_reindexSplash, SLOT( setMessage( QString ) ) );
@@ -175,20 +183,23 @@ void StarComponent::reindexAll( KSNumbers *num )
     m_skyMesh->setKSNumbers( num );
 
     // clear out the old index
-    for ( int i = 0; i < m_starIndex->size(); i++ ) {
+    for ( int i = 0; i < m_starIndex->size(); i++ )
+    {
         m_starIndex->at( i )->clear();
     }
 
     // re-populate it from the objectList
     int size = m_ObjectList.size();
-    for ( int i = 0; i < size; i++ ) {
-        StarObject* star = (StarObject*) m_ObjectList[ i ];
+    for ( int i = 0; i < size; i++ )
+    {
+        StarObject * star = (StarObject *) m_ObjectList[ i ];
         Trixel trixel = m_skyMesh->indexStar( star );
         m_starIndex->at( trixel )->append( star );
     }
 
     // Let everyone else know we have re-indexed to num
-    for ( int j = 0; j < m_highPMStars.size(); j++ ) {
+    for ( int j = 0; j < m_highPMStars.size(); j++ )
+    {
         m_highPMStars.at( j )->setIndexTime( num );
     }
 
@@ -198,16 +209,19 @@ void StarComponent::reindexAll( KSNumbers *num )
     printf("Done.\n");
 }
 
-float StarComponent::faintMagnitude() const {
+float StarComponent::faintMagnitude() const
+{
     float faintmag = m_FaintMagnitude;
-    for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
+    for( int i =0; i < m_DeepStarComponents.size(); ++i )
+    {
         if( faintmag < m_DeepStarComponents.at( i )->faintMagnitude() )
             faintmag = m_DeepStarComponents.at( i )->faintMagnitude();
     }
     return faintmag;
 }
 
-float StarComponent::zoomMagnitudeLimit() {
+float StarComponent::zoomMagnitudeLimit()
+{
 
     //adjust maglimit for ZoomLevel
     double lgmin = log10(MINZOOM);
@@ -240,15 +254,15 @@ float StarComponent::zoomMagnitudeLimit() {
     return 3.5 + 3.7*( lgz - lgmin ) + 2.222*log10( static_cast<float>(Options::starDensity()) );
 }
 
-void StarComponent::draw( SkyPainter *skyp )
+void StarComponent::draw( SkyPainter * skyp )
 {
 #ifndef KSTARS_LITE
     if( !selected() )
         return;
 
-    SkyMap *map             = SkyMap::Instance();
-    const Projector *proj   = map->projector();
-    KStarsData* data        = KStarsData::Instance();
+    SkyMap * map             = SkyMap::Instance();
+    const Projector * proj   = map->projector();
+    KStarsData * data        = KStarsData::Instance();
     UpdateID updateID       = data->updateID();
 
     bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
@@ -300,13 +314,15 @@ void StarComponent::draw( SkyPainter *skyp )
 
     int nTrixels = 0;
 
-    while( region.hasNext() ) {
+    while( region.hasNext() )
+    {
         ++nTrixels;
         Trixel currentRegion = region.next();
-        StarList* starList = m_starIndex->at( currentRegion );
+        StarList * starList = m_starIndex->at( currentRegion );
 
-        for (int i=0; i < starList->size(); ++i) {
-            StarObject *curStar = starList->at( i );
+        for (int i=0; i < starList->size(); ++i)
+        {
+            StarObject * curStar = starList->at( i );
             if( !curStar )
                 continue;
 
@@ -328,7 +344,8 @@ void StarComponent::draw( SkyPainter *skyp )
     }
 
     // Draw focusStar if not null
-    if( focusStar ) {
+    if( focusStar )
+    {
         if ( focusStar->updateID != updateID )
             focusStar->JITupdate();
         float mag = focusStar->mag();
@@ -336,7 +353,8 @@ void StarComponent::draw( SkyPainter *skyp )
     }
 
     // Now draw each of our DeepStarComponents
-    for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
+    for( int i =0; i < m_DeepStarComponents.size(); ++i )
+    {
         m_DeepStarComponents.at( i )->draw( skyp );
     }
 #else
@@ -344,7 +362,7 @@ void StarComponent::draw( SkyPainter *skyp )
 #endif
 }
 
-void StarComponent::addLabel( const QPointF& p, StarObject *star )
+void StarComponent::addLabel( const QPointF &p, StarObject * star )
 {
     int idx = int( star->mag() * 10.0 );
     if ( idx < 0 ) idx = 0;
@@ -357,16 +375,18 @@ void StarComponent::drawLabels()
     if( m_hideLabels )
         return;
 
-    SkyLabeler *labeler = SkyLabeler::Instance();
+    SkyLabeler * labeler = SkyLabeler::Instance();
     labeler->setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "SNameColor" ) ) );
 
     int max = int( m_zoomMagLimit * 10.0 );
     if ( max < 0 ) max = 0;
     if ( max > MAX_LINENUMBER_MAG ) max = MAX_LINENUMBER_MAG;
 
-    for ( int i = 0; i <= max; i++ ) {
-        LabelList* list = m_labelList[ i ];
-        for ( int j = 0; j < list->size(); j++ ) {
+    for ( int i = 0; i <= max; i++ )
+    {
+        LabelList * list = m_labelList[ i ];
+        for ( int j = 0; j < list->size(); j++ )
+        {
             labeler->drawNameLabel( list->at(j).obj, list->at(j).o );
         }
         list->clear();
@@ -377,12 +397,12 @@ void StarComponent::drawLabels()
 bool StarComponent::loadStaticData()
 {
     // We break from Qt / KDE API and use traditional file handling here, to obtain speed.
-    // We also avoid C++ constructors for the same reason.    
-    FILE *dataFile, *nameFile;
+    // We also avoid C++ constructors for the same reason.
+    FILE * dataFile, *nameFile;
     bool swapBytes = false, named=false, gnamed=false;
     BinFileHelper dataReader, nameReader;
     QString name, gname, visibleName;
-    StarObject *star;
+    StarObject * star;
 
     if(starsLoaded)
         return true;
@@ -392,22 +412,26 @@ bool StarComponent::loadStaticData()
 
     /* Open the data files */
     // TODO: Maybe we don't want to hardcode the filename?
-    if((dataFile = dataReader.openFile("namedstars.dat")) == NULL) {
+    if((dataFile = dataReader.openFile("namedstars.dat")) == NULL)
+    {
         qDebug() << "Could not open data file namedstars.dat" << endl;
         return false;
     }
 
-    if(!(nameFile = nameReader.openFile("starnames.dat"))) {
+    if(!(nameFile = nameReader.openFile("starnames.dat")))
+    {
         qDebug() << "Could not open data file starnames.dat" << endl;
         return false;
     }
 
-    if(!dataReader.readHeader()) {
+    if(!dataReader.readHeader())
+    {
         qDebug() << "Error reading namedstars.dat header : " << dataReader.getErrorNumber() << " : " << dataReader.getError() << endl;
         return false;
     }
 
-    if(!nameReader.readHeader()) {
+    if(!nameReader.readHeader())
+    {
         qDebug() << "Error reading starnames.dat header : " << nameReader.getErrorNumber() << " : " << nameReader.getError() << endl;
         return false;
     }
@@ -439,7 +463,8 @@ bool StarComponent::loadStaticData()
     if( htm_level != m_skyMesh->level() )
         qDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
 
-    for(int i = 0; i < m_skyMesh -> size(); ++i) {
+    for(int i = 0; i < m_skyMesh -> size(); ++i)
+    {
 
         Trixel trixel = i;// = ( ( i >= 256 ) ? ( i - 256 ) : ( i + 256 ) );
         for(unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j)
@@ -510,14 +535,14 @@ bool StarComponent::loadStaticData()
             if (named)
             {
                 objectNames(SkyObject::STAR).append( name );
-                objectLists(SkyObject::STAR).append(QPair<QString, const SkyObject*>(name,star));
+                objectLists(SkyObject::STAR).append(QPair<QString, const SkyObject *>(name,star));
             }
 
             if ( ! visibleName.isEmpty() && gname != name )
             {
                 QString gName = star -> gname(false);
                 objectNames(SkyObject::STAR).append( gName );
-                objectLists(SkyObject::STAR).append(QPair<QString, const SkyObject*>(gName,star));
+                objectLists(SkyObject::STAR).append(QPair<QString, const SkyObject *>(gName,star));
             }
 
             m_ObjectList.append( star );
@@ -526,7 +551,7 @@ bool StarComponent::loadStaticData()
             double pm = star->pmMagnitude();
             for (int z = 0; z < m_highPMStars.size(); z++ )
             {
-                HighPMStarList* list = m_highPMStars.at( z );
+                HighPMStarList * list = m_highPMStars.at( z );
                 if ( list->append( trixel, star, pm ) )
                     break;
             }
@@ -542,7 +567,8 @@ bool StarComponent::loadStaticData()
 
 }
 
-SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {
+SkyObject * StarComponent::findStarByGenetiveName( const QString name )
+{
     if (name.startsWith(QLatin1String("HD")))
     {
         QStringList fields = name.split( ' ', QString::SkipEmptyParts );
@@ -555,32 +581,35 @@ SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {
 }
 
 // Overrides ListComponent::findByName() to include genetive name and HD index also in the search
-SkyObject* StarComponent::findByName( const QString &name ) {
-    foreach(SkyObject* o, m_ObjectList) {
+SkyObject * StarComponent::findByName( const QString &name )
+{
+    foreach(SkyObject * o, m_ObjectList)
+    {
         if ( QString::compare( o->name(), name, Qt::CaseInsensitive ) == 0 ||
-             QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 ||
-             QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 ||
-             QString::compare( ((StarObject *)o)->gname(false), name, Qt::CaseInsensitive ) == 0)
+                QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 ||
+                QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 ||
+                QString::compare( ((StarObject *)o)->gname(false), name, Qt::CaseInsensitive ) == 0)
             return o;
     }
     return 0;
 }
 
-void StarComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region )
+void StarComponent::objectsInArea( QList<SkyObject *> &list, const SkyRegion &region )
 {
     for( SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd(); ++it )
     {
         Trixel trixel = it.key();
-        StarList* starlist = m_starIndex->at( trixel );
+        StarList * starlist = m_starIndex->at( trixel );
         for( int i = 0; starlist && i < starlist->size(); i++ )
             if( starlist->at(i) && starlist->at(i)->name() != QString("star") )
                 list.push_back( starlist->at(i) );
     }
 }
 
-StarObject *StarComponent::findByHDIndex( int HDnum ) {
-    KStarsData* data = KStarsData::Instance();
-    StarObject *o;
+StarObject * StarComponent::findByHDIndex( int HDnum )
+{
+    KStarsData * data = KStarsData::Instance();
+    StarObject * o;
     BinFileHelper hdidxReader;
     // First check the hash to see if we have a corresponding StarObject already
     if( ( o = m_HDHash.value( HDnum, NULL ) ) )
@@ -589,12 +618,13 @@ StarObject *StarComponent::findByHDIndex( int HDnum ) {
     if( m_DeepStarComponents.size() >= 1 )
         if( ( o = m_DeepStarComponents.at( 0 )->findByHDIndex( HDnum ) ) )
             return o;
-    if( m_DeepStarComponents.size() >= 2 ) {
+    if( m_DeepStarComponents.size() >= 2 )
+    {
         qint32 offset;
-        FILE *hdidxFile = hdidxReader.openFile( "Henry-Draper.idx" );
+        FILE * hdidxFile = hdidxReader.openFile( "Henry-Draper.idx" );
         if( !hdidxFile )
             return 0;
-        FILE *dataFile;
+        FILE * dataFile;
         //KDE_fseek( hdidxFile, (HDnum - 1) * 4, SEEK_SET );
         QT_FSEEK(hdidxFile, (HDnum - 1) * 4, SEEK_SET);
         // TODO: Offsets need to be byteswapped if this is a big endian machine.
@@ -606,7 +636,8 @@ StarObject *StarComponent::findByHDIndex( int HDnum ) {
         //KDE_fseek( dataFile, offset, SEEK_SET );
         QT_FSEEK(dataFile, offset, SEEK_SET);
         fread( &stardata, sizeof( starData ), 1, dataFile );
-        if( m_DeepStarComponents.at( 1 )->getStarReader()->getByteSwap() ) {
+        if( m_DeepStarComponents.at( 1 )->getStarReader()->getByteSwap() )
+        {
             byteSwap( &stardata );
         }
         m_starObject.init( &stardata );
@@ -626,24 +657,27 @@ StarObject *StarComponent::findByHDIndex( int HDnum ) {
 // build an index for just the named stars which would make this go
 // much faster still.  -jbb
 //
-SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
+SkyObject * StarComponent::objectNearest( SkyPoint * p, double &maxrad )
 {
     m_zoomMagLimit = zoomMagnitudeLimit();
 
-    SkyObject *oBest = 0;
+    SkyObject * oBest = 0;
 
     MeshIterator region( m_skyMesh, OBJ_NEAREST_BUF );
 
-    while ( region.hasNext() ) {
+    while ( region.hasNext() )
+    {
         Trixel currentRegion = region.next();
-        StarList* starList = m_starIndex->at( currentRegion );
-        for (int i=0; i < starList->size(); ++i) {
-            StarObject* star =  starList->at( i );
+        StarList * starList = m_starIndex->at( currentRegion );
+        for (int i=0; i < starList->size(); ++i)
+        {
+            StarObject * star =  starList->at( i );
             if( !star ) continue;
             if ( star->mag() > m_zoomMagLimit ) continue;
 
             double r = star->angularDistanceTo( p ).Degrees();
-            if ( r < maxrad ) {
+            if ( r < maxrad )
+            {
                 oBest = star;
                 maxrad = r;
             }
@@ -652,13 +686,15 @@ SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
 
     // Check up with our Deep Star Components too!
     double rTry, rBest;
-    SkyObject *oTry;
+    SkyObject * oTry;
     // JM 2016-03-30: Multiply rBest by a factor of 0.5 so that named stars are preferred to unnamed stars searched below
     rBest = maxrad * 0.5;
     rTry  = maxrad;
-    for( int i = 0; i < m_DeepStarComponents.size(); ++i ) {
+    for( int i = 0; i < m_DeepStarComponents.size(); ++i )
+    {
         oTry = m_DeepStarComponents.at( i )->objectNearest( p, rTry );
-        if( rTry < rBest ) {
+        if( rTry < rBest )
+        {
             rBest = rTry;
             oBest = oTry;
         }
@@ -668,7 +704,7 @@ SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
     return oBest;
 }
 
-void StarComponent::starsInAperture( QList<StarObject*> &list, const SkyPoint &center, float radius, float maglim )
+void StarComponent::starsInAperture( QList<StarObject *> &list, const SkyPoint &center, float radius, float maglim )
 {
     // Ensure that we have deprecessed the (RA, Dec) to (RA0, Dec0)
     Q_ASSERT( center.ra0().Degrees() >= 0.0 );
@@ -681,11 +717,13 @@ void StarComponent::starsInAperture( QList<StarObject*> &list, const SkyPoint &c
     if( maglim < -28 )
         maglim = m_FaintMagnitude;
 
-    while ( region.hasNext() ) {
+    while ( region.hasNext() )
+    {
         Trixel currentRegion = region.next();
-        StarList* starList = m_starIndex->at( currentRegion );
-        for (int i=0; i < starList->size(); ++i) {
-            StarObject* star =  starList->at( i );
+        StarList * starList = m_starIndex->at( currentRegion );
+        for (int i=0; i < starList->size(); ++i)
+        {
+            StarObject * star =  starList->at( i );
             if( !star ) continue;
             if ( star->mag() > m_FaintMagnitude ) continue;
             if( star->angularDistanceTo( &center ).Degrees() <= radius )
@@ -694,12 +732,14 @@ void StarComponent::starsInAperture( QList<StarObject*> &list, const SkyPoint &c
     }
 
     // Add stars from the DeepStarComponents as well
-    for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
+    for( int i =0; i < m_DeepStarComponents.size(); ++i )
+    {
         m_DeepStarComponents.at( i )->starsInAperture( list, center, radius, maglim );
     }
 }
 
-void StarComponent::byteSwap( starData *stardata ) {
+void StarComponent::byteSwap( starData * stardata )
+{
     stardata->RA = bswap_32( stardata->RA );
     stardata->Dec = bswap_32( stardata->Dec );
     stardata->dRA = bswap_32( stardata->dRA );

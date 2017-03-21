@@ -32,48 +32,48 @@
     *@author Jérôme SONRIER
     *@version 1.0
     */
-class SatelliteGroup : public QList<Satellite*>
+class SatelliteGroup : public QList<Satellite *>
 {
-public:
-    /**
-     *@short Constructor
-     */
-    SatelliteGroup( QString name, QString tle_filename, QUrl update_url );
+    public:
+        /**
+         *@short Constructor
+         */
+        SatelliteGroup( QString name, QString tle_filename, QUrl update_url );
 
-    /**
-     *@short Destructor
-     */
-    ~SatelliteGroup();
+        /**
+         *@short Destructor
+         */
+        ~SatelliteGroup();
 
-    /**
-     *Read TLE file of the group and create all satellites found in the file.
-     */
-    void readTLE();
+        /**
+         *Read TLE file of the group and create all satellites found in the file.
+         */
+        void readTLE();
 
-    /**
-     *Compute current position of the each satellites in the group.
-     */
-    void updateSatellitesPos();
+        /**
+         *Compute current position of the each satellites in the group.
+         */
+        void updateSatellitesPos();
 
-    /**
-     *@return TLE filename
-     */
-    QUrl tleFilename();
+        /**
+         *@return TLE filename
+         */
+        QUrl tleFilename();
 
-    /**
-     *@return URL from which new TLE file must be download
-     */
-    QUrl tleUrl();
+        /**
+         *@return URL from which new TLE file must be download
+         */
+        QUrl tleUrl();
 
-    /**
-     *@return Name of the group
-     */
-    QString name();
+        /**
+         *@return Name of the group
+         */
+        QString name();
 
-private:
-    QString m_name;             // Group name
-    QString m_tle_file;         // TLE filename
-    QUrl    m_tle_url;          // URL used to update TLE file
+    private:
+        QString m_name;             // Group name
+        QString m_tle_file;         // TLE filename
+        QUrl    m_tle_url;          // URL used to update TLE file
 };
 
 #endif

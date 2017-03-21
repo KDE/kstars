@@ -45,11 +45,13 @@ void SatelliteGroup::readTLE()
 
     // Delete all satellites
     clear();
-    
+
     // Read TLE file
-    if ( KSUtils::openDataFile( file, m_tle_file ) ) {
+    if ( KSUtils::openDataFile( file, m_tle_file ) )
+    {
         QTextStream stream( &file );
-        while ( !stream.atEnd() ) {
+        while ( !stream.atEnd() )
+        {
             // Read satellite name
             QString sat_name = stream.readLine().trimmed();
             line1 = stream.readLine();
@@ -67,7 +69,7 @@ void SatelliteGroup::updateSatellitesPos()
     QMutableListIterator<Satellite *> sats(*this);
     while (sats.hasNext())
     {
-        Satellite *sat = sats.next();
+        Satellite * sat = sats.next();
 
         if ( sat->selected() )
         {

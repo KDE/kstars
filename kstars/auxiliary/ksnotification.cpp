@@ -18,33 +18,33 @@
 
 namespace KSNotification
 {
-    void error(const QString &message, const QString &title)
-    {
-        #ifdef KSTARS_LITE
-        Q_UNUSED(title);
-        KStarsLite::Instance()->notificationMessage(message);
-        #else
-        KMessageBox::error(0, message, title);
-        #endif
-    }
+void error(const QString &message, const QString &title)
+{
+#ifdef KSTARS_LITE
+    Q_UNUSED(title);
+    KStarsLite::Instance()->notificationMessage(message);
+#else
+    KMessageBox::error(0, message, title);
+#endif
+}
 
-    void sorry(const QString &message, const QString &title)
-    {
-        #ifdef KSTARS_LITE
-        Q_UNUSED(title);
-        KStarsLite::Instance()->notificationMessage(message);
-        #else
-        KMessageBox::sorry(0, message, title);
-        #endif
-    }
+void sorry(const QString &message, const QString &title)
+{
+#ifdef KSTARS_LITE
+    Q_UNUSED(title);
+    KStarsLite::Instance()->notificationMessage(message);
+#else
+    KMessageBox::sorry(0, message, title);
+#endif
+}
 
-    void info(const QString &message, const QString &title)
-    {        
-        #ifdef KSTARS_LITE
-        Q_UNUSED(title);
-        KStarsLite::Instance()->notificationMessage(message);
-        #else
-        KMessageBox::information(0, message, title);
-        #endif
-    }
+void info(const QString &message, const QString &title)
+{
+#ifdef KSTARS_LITE
+    Q_UNUSED(title);
+    KStarsLite::Instance()->notificationMessage(message);
+#else
+    KMessageBox::information(0, message, title);
+#endif
+}
 }

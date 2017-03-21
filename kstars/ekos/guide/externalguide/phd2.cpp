@@ -32,7 +32,7 @@ PHD2::PHD2()
     tcpSocket = new QTcpSocket(this);
 
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readPHD2()));
-    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));    
+    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 
     methodID=1;
     state = STOPPED;
@@ -84,33 +84,33 @@ bool PHD2::Connect()
 
 bool PHD2::Disconnect()
 {
-   if (connection == EQUIPMENT_CONNECTED)
-       setEquipmentConnected(false);
+    if (connection == EQUIPMENT_CONNECTED)
+        setEquipmentConnected(false);
 
-   connection = DISCONNECTED;
-   tcpSocket->disconnectFromHost();
+    connection = DISCONNECTED;
+    tcpSocket->disconnectFromHost();
 
-   emit newStatus(GUIDE_DISCONNECTED);
+    emit newStatus(GUIDE_DISCONNECTED);
 
-   return true;
+    return true;
 }
 
 void PHD2::displayError(QAbstractSocket::SocketError socketError)
 {
     switch (socketError)
     {
-    case QAbstractSocket::RemoteHostClosedError:
-        break;
-    case QAbstractSocket::HostNotFoundError:
-        emit newLog(i18n("The host was not found. Please check the host name and port settings in Guide options."));
-        emit newStatus(GUIDE_DISCONNECTED);
-        break;
-    case QAbstractSocket::ConnectionRefusedError:
-        emit newLog(i18n("The connection was refused by the peer. Make sure the PHD2 is running, and check that the host name and port settings are correct."));
-        emit newStatus(GUIDE_DISCONNECTED);
-        break;
-    default:
-        emit newLog(i18n("The following error occurred: %1.", tcpSocket->errorString()));
+        case QAbstractSocket::RemoteHostClosedError:
+            break;
+        case QAbstractSocket::HostNotFoundError:
+            emit newLog(i18n("The host was not found. Please check the host name and port settings in Guide options."));
+            emit newStatus(GUIDE_DISCONNECTED);
+            break;
+        case QAbstractSocket::ConnectionRefusedError:
+            emit newLog(i18n("The connection was refused by the peer. Make sure the PHD2 is running, and check that the host name and port settings are correct."));
+            emit newStatus(GUIDE_DISCONNECTED);
+            break;
+        default:
+            emit newLog(i18n("The following error occurred: %1.", tcpSocket->errorString()));
     }
 
     connection = DISCONNECTED;
@@ -174,65 +174,65 @@ void PHD2::processJSON(const QJsonObject &jsonObj)
 
     switch (connection)
     {
-    case CONNECTING:
-        if (event == Version)
-            connection = CONNECTED;
-        return;
+        case CONNECTING:
+            if (event == Version)
+                connection = CONNECTED;
+            return;
 
-    case CONNECTED:
-        // If initial state is STOPPED, let us connect equipment
-        if (state == STOPPED)
-            setEquipmentConnected(true);
-        else if (state == GUIDING)
-        {
-            connection = EQUIPMENT_CONNECTED;
-            emit newStatus(Ekos::GUIDE_CONNECTED);
-        }
-        return;
-
-    case DISCONNECTED:
-        emit newStatus(Ekos::GUIDE_DISCONNECTED);
-        break;
-
-    case EQUIPMENT_CONNECTING:
-        if (messageType == PHD2_RESULT)
-        {
-            if (result)
+        case CONNECTED:
+            // If initial state is STOPPED, let us connect equipment
+            if (state == STOPPED)
+                setEquipmentConnected(true);
+            else if (state == GUIDING)
             {
                 connection = EQUIPMENT_CONNECTED;
                 emit newStatus(Ekos::GUIDE_CONNECTED);
             }
-            else
+            return;
+
+        case DISCONNECTED:
+            emit newStatus(Ekos::GUIDE_DISCONNECTED);
+            break;
+
+        case EQUIPMENT_CONNECTING:
+            if (messageType == PHD2_RESULT)
             {
-                connection = EQUIPMENT_DISCONNECTED;
-                emit newStatus(Ekos::GUIDE_DISCONNECTED);
+                if (result)
+                {
+                    connection = EQUIPMENT_CONNECTED;
+                    emit newStatus(Ekos::GUIDE_CONNECTED);
+                }
+                else
+                {
+                    connection = EQUIPMENT_DISCONNECTED;
+                    emit newStatus(Ekos::GUIDE_DISCONNECTED);
+                }
             }
-        }
-        return;
+            return;
 
-    case EQUIPMENT_CONNECTED:
-    case EQUIPMENT_DISCONNECTED:
-        break;
+        case EQUIPMENT_CONNECTED:
+        case EQUIPMENT_DISCONNECTED:
+            break;
 
-    case EQUIPMENT_DISCONNECTING:
-        connection = EQUIPMENT_DISCONNECTED;
-        //emit disconnected();
-        return;
+        case EQUIPMENT_DISCONNECTING:
+            connection = EQUIPMENT_DISCONNECTED;
+            //emit disconnected();
+            return;
     }
 
     switch (state)
     {
-    case GUIDING:
-        break;
+        case GUIDING:
+            break;
 
-    case PAUSED:
-        break;
+        case PAUSED:
+            break;
 
-    case STOPPED:
-        break;
+        case STOPPED:
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
@@ -250,150 +250,150 @@ void PHD2::processPHD2Event(const QJsonObject &jsonEvent)
 
     switch (event)
     {
-    case Version:
-        emit newLog(i18n("PHD2: Version %1", jsonEvent["PHDVersion"].toString()));
-        break;
+        case Version:
+            emit newLog(i18n("PHD2: Version %1", jsonEvent["PHDVersion"].toString()));
+            break;
 
-    case CalibrationComplete:
-        //state = CALIBRATION_SUCCESSFUL;
-        // It goes immediately to guiding until PHD implements a calibration-only method
-        state = GUIDING;
-        emit newLog(i18n("PHD2: Calibration Complete."));
-        //emit guideReady();
-        emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
-        break;
+        case CalibrationComplete:
+            //state = CALIBRATION_SUCCESSFUL;
+            // It goes immediately to guiding until PHD implements a calibration-only method
+            state = GUIDING;
+            emit newLog(i18n("PHD2: Calibration Complete."));
+            //emit guideReady();
+            emit newStatus(Ekos::GUIDE_CALIBRATION_SUCESS);
+            break;
 
-    case StartGuiding:
-        state = GUIDING;
-        if (connection != EQUIPMENT_CONNECTED)
-        {
-            connection = EQUIPMENT_CONNECTED;
-            emit newStatus(Ekos::GUIDE_CONNECTED);
-        }
-        emit newLog(i18n("PHD2: Guiding Started."));
-        emit newStatus(Ekos::GUIDE_GUIDING);
-        break;
-
-    case Paused:
-        state = PAUSED;
-        emit newLog(i18n("PHD2: Guiding Paused."));
-        emit newStatus(Ekos::GUIDE_SUSPENDED);
-        break;
-
-    case StartCalibration:
-        state = CALIBRATING;
-        emit newLog(i18n("PHD2: Calibration Started."));
-        emit newStatus(Ekos::GUIDE_CALIBRATING);
-        break;
-
-    case AppState:
-        processPHD2State(jsonEvent["State"].toString());
-        break;
-
-    case CalibrationFailed:
-        state = CALIBRATION_FAILED;
-        emit newLog(i18n("PHD2: Calibration Failed (%1).", jsonEvent["Reason"].toString()));
-        emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
-        break;
-
-    case CalibrationDataFlipped:
-        emit newLog(i18n("Calibration Data Flipped."));
-        break;
-
-    case LoopingExposures:
-        //emit newLog(i18n("PHD2: Looping Exposures."));
-        break;
-
-    case LoopingExposuresStopped:
-        emit newLog(i18n("PHD2: Looping Exposures Stopped."));
-        break;
-
-    case Settling:
-        break;
-
-    case SettleDone:
-    {
-        bool error=false;
-
-        if (jsonEvent["Status"].toInt() != 0)
-        {
-            error = true;
-            emit newLog(i18n("PHD2: Settling failed (%1).", jsonEvent["Error"].toString()));
-        }
-
-        if (state == GUIDING)
-        {
-            if (error)
-                state = STOPPED;
-        }
-        else if (state == DITHERING)
-        {
-            if (error)
+        case StartGuiding:
+            state = GUIDING;
+            if (connection != EQUIPMENT_CONNECTED)
             {
-                state = DITHER_FAILED;
-                //emit ditherFailed();
-                emit newStatus(GUIDE_DITHERING_ERROR);
+                connection = EQUIPMENT_CONNECTED;
+                emit newStatus(Ekos::GUIDE_CONNECTED);
             }
-            else
+            emit newLog(i18n("PHD2: Guiding Started."));
+            emit newStatus(Ekos::GUIDE_GUIDING);
+            break;
+
+        case Paused:
+            state = PAUSED;
+            emit newLog(i18n("PHD2: Guiding Paused."));
+            emit newStatus(Ekos::GUIDE_SUSPENDED);
+            break;
+
+        case StartCalibration:
+            state = CALIBRATING;
+            emit newLog(i18n("PHD2: Calibration Started."));
+            emit newStatus(Ekos::GUIDE_CALIBRATING);
+            break;
+
+        case AppState:
+            processPHD2State(jsonEvent["State"].toString());
+            break;
+
+        case CalibrationFailed:
+            state = CALIBRATION_FAILED;
+            emit newLog(i18n("PHD2: Calibration Failed (%1).", jsonEvent["Reason"].toString()));
+            emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+            break;
+
+        case CalibrationDataFlipped:
+            emit newLog(i18n("Calibration Data Flipped."));
+            break;
+
+        case LoopingExposures:
+            //emit newLog(i18n("PHD2: Looping Exposures."));
+            break;
+
+        case LoopingExposuresStopped:
+            emit newLog(i18n("PHD2: Looping Exposures Stopped."));
+            break;
+
+        case Settling:
+            break;
+
+        case SettleDone:
+        {
+            bool error=false;
+
+            if (jsonEvent["Status"].toInt() != 0)
             {
-                state = DITHER_SUCCESSFUL;
-                emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
+                error = true;
+                emit newLog(i18n("PHD2: Settling failed (%1).", jsonEvent["Error"].toString()));
+            }
+
+            if (state == GUIDING)
+            {
+                if (error)
+                    state = STOPPED;
+            }
+            else if (state == DITHERING)
+            {
+                if (error)
+                {
+                    state = DITHER_FAILED;
+                    //emit ditherFailed();
+                    emit newStatus(GUIDE_DITHERING_ERROR);
+                }
+                else
+                {
+                    state = DITHER_SUCCESSFUL;
+                    emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
+                }
             }
         }
-    }
-    break;
-
-    case StarSelected:
-        emit newLog(i18n("PHD2: Star Selected."));
         break;
 
-    case StarLost:
-        emit newLog(i18n("PHD2: Star Lost."));
-        emit newStatus(Ekos::GUIDE_ABORTED);
+        case StarSelected:
+            emit newLog(i18n("PHD2: Star Selected."));
+            break;
+
+        case StarLost:
+            emit newLog(i18n("PHD2: Star Lost."));
+            emit newStatus(Ekos::GUIDE_ABORTED);
+            break;
+
+        case GuidingStopped:
+            emit newLog(i18n("PHD2: Guiding Stopped."));
+            //emit autoGuidingToggled(false);
+            emit newStatus(Ekos::GUIDE_IDLE);
+            break;
+
+        case Resumed:
+            emit newLog(i18n("PHD2: Guiding Resumed."));
+            emit newStatus(Ekos::GUIDE_GUIDING);
+            state = GUIDING;
+            break;
+
+        case GuideStep:
+        {
+            double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs;
+            diff_ra_pixels = jsonEvent["RADistanceRaw"].toDouble();
+            diff_de_pixels = jsonEvent["DECDistanceRaw"].toDouble();
+
+            diff_ra_arcsecs = 206.26480624709 * diff_ra_pixels * ccdPixelSizeX / mountFocalLength;
+            diff_de_arcsecs = 206.26480624709 * diff_de_pixels * ccdPixelSizeY / mountFocalLength;
+
+            emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
+        }
         break;
 
-    case GuidingStopped:
-        emit newLog(i18n("PHD2: Guiding Stopped."));
-        //emit autoGuidingToggled(false);
-        emit newStatus(Ekos::GUIDE_IDLE);
-        break;
+        case GuidingDithered:
+            emit newLog(i18n("PHD2: Guide Dithering."));
+            emit newStatus(Ekos::GUIDE_DITHERING);
+            break;
 
-    case Resumed:
-        emit newLog(i18n("PHD2: Guiding Resumed."));
-        emit newStatus(Ekos::GUIDE_GUIDING);
-        state = GUIDING;
-        break;
+        case LockPositionSet:
+            emit newLog(i18n("PHD2: Lock Position Set."));
+            break;
 
-    case GuideStep:
-    {
-        double diff_ra_pixels, diff_de_pixels, diff_ra_arcsecs, diff_de_arcsecs;
-        diff_ra_pixels = jsonEvent["RADistanceRaw"].toDouble();
-        diff_de_pixels = jsonEvent["DECDistanceRaw"].toDouble();
+        case LockPositionLost:
+            emit newLog(i18n("PHD2: Lock Position Lost."));
+            emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
+            break;
 
-        diff_ra_arcsecs = 206.26480624709 * diff_ra_pixels * ccdPixelSizeX / mountFocalLength;
-        diff_de_arcsecs = 206.26480624709 * diff_de_pixels * ccdPixelSizeY / mountFocalLength;
-
-        emit newAxisDelta(diff_ra_arcsecs, diff_de_arcsecs);
-    }
-        break;
-
-    case GuidingDithered:
-        emit newLog(i18n("PHD2: Guide Dithering."));
-        emit newStatus(Ekos::GUIDE_DITHERING);
-        break;
-
-    case LockPositionSet:
-        emit newLog(i18n("PHD2: Lock Position Set."));
-        break;
-
-    case LockPositionLost:
-        emit newLog(i18n("PHD2: Lock Position Lost."));
-        emit newStatus(Ekos::GUIDE_CALIBRATION_ERROR);
-        break;
-
-    case Alert:
-        emit newLog(i18n("PHD2 %1: %2", jsonEvent["Type"].toString(), jsonEvent["Msg"].toString()));
-        break;
+        case Alert:
+            emit newLog(i18n("PHD2 %1: %2", jsonEvent["Type"].toString(), jsonEvent["Msg"].toString()));
+            break;
 
     }
 }
@@ -422,19 +422,19 @@ void PHD2::processPHD2Error(const QJsonObject &jsonError)
 
     emit newLog(i18n("PHD2 Error: %1", jsonErrorObject["message"].toString()));
 
-   /* switch (connection)
-    {
-        case CONNECTING:
-        case CONNECTED:
-            emit disconnected();
-        break;
+    /* switch (connection)
+     {
+         case CONNECTING:
+         case CONNECTED:
+             emit disconnected();
+         break;
 
-        default:
-            break;
-    }*/
+         default:
+             break;
+     }*/
 }
 
-void PHD2::sendJSONRPCRequest(const QString & method, const QJsonArray args)
+void PHD2::sendJSONRPCRequest(const QString &method, const QJsonArray args)
 {
 
     QJsonObject jsonRPC;
@@ -513,8 +513,8 @@ bool PHD2::abort()
         return false;
     }
 
-   sendJSONRPCRequest("stop_capture");
-   return true;
+    sendJSONRPCRequest("stop_capture");
+    return true;
 }
 
 bool PHD2::suspend()

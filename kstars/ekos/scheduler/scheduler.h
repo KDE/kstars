@@ -39,254 +39,257 @@ class SequenceJob;
  */
 class Scheduler : public QWidget, public Ui::Scheduler
 {
-    Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Scheduler")
+        Q_OBJECT
+        Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.Ekos.Scheduler")
 
-public:
-    typedef enum { SCHEDULER_IDLE, SCHEDULER_STARTUP, SCHEDULER_RUNNIG, SCHEDULER_PAUSED, SCHEDULER_SHUTDOWN, SCHEDULER_ABORTED } SchedulerState;
-    typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_READY } EkosState;
-    typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_PROPERTY_CHECK, INDI_READY } INDIState;
-    typedef enum { STARTUP_IDLE, STARTUP_SCRIPT, STARTUP_UNPARK_DOME, STARTUP_UNPARKING_DOME, STARTUP_UNPARK_MOUNT, STARTUP_UNPARKING_MOUNT, STARTUP_UNPARK_CAP, STARTUP_UNPARKING_CAP, STARTUP_ERROR, STARTUP_COMPLETE } StartupState;
-    typedef enum { SHUTDOWN_IDLE, SHUTDOWN_PARK_CAP, SHUTDOWN_PARKING_CAP, SHUTDOWN_PARK_MOUNT, SHUTDOWN_PARKING_MOUNT, SHUTDOWN_PARK_DOME, SHUTDOWN_PARKING_DOME, SHUTDOWN_SCRIPT, SHUTDOWN_SCRIPT_RUNNING, SHUTDOWN_ERROR, SHUTDOWN_COMPLETE } ShutdownState;
-    typedef enum { PARKWAIT_IDLE, PARKWAIT_PARK, PARKWAIT_PARKING, PARKWAIT_PARKED, PARKWAIT_UNPARK, PARKWAIT_UNPARKING, PARKWAIT_UNPARKED, PARKWAIT_ERROR } ParkWaitStatus;
+    public:
+        typedef enum { SCHEDULER_IDLE, SCHEDULER_STARTUP, SCHEDULER_RUNNIG, SCHEDULER_PAUSED, SCHEDULER_SHUTDOWN, SCHEDULER_ABORTED } SchedulerState;
+        typedef enum { EKOS_IDLE, EKOS_STARTING, EKOS_READY } EkosState;
+        typedef enum { INDI_IDLE, INDI_CONNECTING, INDI_PROPERTY_CHECK, INDI_READY } INDIState;
+        typedef enum { STARTUP_IDLE, STARTUP_SCRIPT, STARTUP_UNPARK_DOME, STARTUP_UNPARKING_DOME, STARTUP_UNPARK_MOUNT, STARTUP_UNPARKING_MOUNT, STARTUP_UNPARK_CAP, STARTUP_UNPARKING_CAP, STARTUP_ERROR, STARTUP_COMPLETE } StartupState;
+        typedef enum { SHUTDOWN_IDLE, SHUTDOWN_PARK_CAP, SHUTDOWN_PARKING_CAP, SHUTDOWN_PARK_MOUNT, SHUTDOWN_PARKING_MOUNT, SHUTDOWN_PARK_DOME, SHUTDOWN_PARKING_DOME, SHUTDOWN_SCRIPT, SHUTDOWN_SCRIPT_RUNNING, SHUTDOWN_ERROR, SHUTDOWN_COMPLETE } ShutdownState;
+        typedef enum { PARKWAIT_IDLE, PARKWAIT_PARK, PARKWAIT_PARKING, PARKWAIT_PARKED, PARKWAIT_UNPARK, PARKWAIT_UNPARKING, PARKWAIT_UNPARKED, PARKWAIT_ERROR } ParkWaitStatus;
 
-     Scheduler();
-    ~Scheduler();
+        Scheduler();
+        ~Scheduler();
 
-     void appendLogText(const QString &);
-     QString getLogText() { return logText.join("\n"); }
-     void clearLog();
+        void appendLogText(const QString &);
+        QString getLogText()
+        {
+            return logText.join("\n");
+        }
+        void clearLog();
 
-     void addObject(SkyObject *object);
+        void addObject(SkyObject * object);
 
-     /**
-      * @brief startSlew DBus call for initiating slew
-      */
-     void startSlew();
+        /**
+         * @brief startSlew DBus call for initiating slew
+         */
+        void startSlew();
 
-     /**
-      * @brief startFocusing DBus call for feeding ekos the specified settings and initiating focus operation
-      */
-     void startFocusing();
+        /**
+         * @brief startFocusing DBus call for feeding ekos the specified settings and initiating focus operation
+         */
+        void startFocusing();
 
-     /**
-      * @brief startAstrometry initiation of the capture and solve operation. We change the job state
-      * after solver is started
-      */
-     void startAstrometry();
+        /**
+         * @brief startAstrometry initiation of the capture and solve operation. We change the job state
+         * after solver is started
+         */
+        void startAstrometry();
 
-     /**
-      * @brief startGuiding After ekos is fed the calibration options, we start the guiging process
-      */
-     void startGuiding();
+        /**
+         * @brief startGuiding After ekos is fed the calibration options, we start the guiging process
+         */
+        void startGuiding();
 
-     /**
-      * @brief startCapture The current job file name is solved to an url which is fed to ekos. We then start the capture process
-      */
-     void startCapture();
+        /**
+         * @brief startCapture The current job file name is solved to an url which is fed to ekos. We then start the capture process
+         */
+        void startCapture();
 
-     /**
-      * @brief getNextAction Checking for the next appropriate action regarding the current state of the scheduler  and execute it
-      */
-     void getNextAction();
+        /**
+         * @brief getNextAction Checking for the next appropriate action regarding the current state of the scheduler  and execute it
+         */
+        void getNextAction();
 
-     /**
-      * @brief stopindi Stoping the indi services
-      */
-     void stopEkos();
+        /**
+         * @brief stopindi Stoping the indi services
+         */
+        void stopEkos();
 
-     /**
-      * @brief stopGuiding After guiding is done we need to stop the process
-      */
-     void stopGuiding();
+        /**
+         * @brief stopGuiding After guiding is done we need to stop the process
+         */
+        void stopGuiding();
 
-     /**
-      * @brief setGOTOMode set the GOTO mode for the solver
-      * @param mode 0 For Sync, 1 for SlewToTarget, 2 for Nothing
-      */
-     void setGOTOMode(Align::GotoMode mode);
+        /**
+         * @brief setGOTOMode set the GOTO mode for the solver
+         * @param mode 0 For Sync, 1 for SlewToTarget, 2 for Nothing
+         */
+        void setGOTOMode(Align::GotoMode mode);
 
-     /**
-      * @brief findAltitude Find altitude given a specific time
-      * @param target Target
-      * @param when date time to find altitude
-      * @return Altitude of the target at the specific date and time given.
-      */
-     static double findAltitude(const SkyPoint & target, const QDateTime when);
+        /**
+         * @brief findAltitude Find altitude given a specific time
+         * @param target Target
+         * @param when date time to find altitude
+         * @return Altitude of the target at the specific date and time given.
+         */
+        static double findAltitude(const SkyPoint &target, const QDateTime when);
 
-     /** @defgroup SchedulerDBusInterface Ekos DBus Interface - Scheduler Module
-      * Ekos::Align interface provides primary functions to run and stop the scheduler.
-     */
+        /** @defgroup SchedulerDBusInterface Ekos DBus Interface - Scheduler Module
+         * Ekos::Align interface provides primary functions to run and stop the scheduler.
+        */
 
-     /*@{*/
+        /*@{*/
 
-     /** DBUS interface function.
-      * @brief Start the scheduler main loop and evaluate jobs and execute them accordingly.
-      */
-     Q_SCRIPTABLE Q_NOREPLY void start();
+        /** DBUS interface function.
+         * @brief Start the scheduler main loop and evaluate jobs and execute them accordingly.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void start();
 
-     /** DBUS interface function.
-      * @brief Stop the scheduler.
-      */
-     Q_SCRIPTABLE Q_NOREPLY void stop();
+        /** DBUS interface function.
+         * @brief Stop the scheduler.
+         */
+        Q_SCRIPTABLE Q_NOREPLY void stop();
 
 
-     /** DBUS interface function.
-      * @brief Loads the Ekos Scheduler List (.esl) file.
-      * @param fileURL path to a file
-      * @return true if loading file is successful, false otherwise.
-      */
-     Q_SCRIPTABLE bool loadScheduler(const QString &fileURL);
+        /** DBUS interface function.
+         * @brief Loads the Ekos Scheduler List (.esl) file.
+         * @param fileURL path to a file
+         * @return true if loading file is successful, false otherwise.
+         */
+        Q_SCRIPTABLE bool loadScheduler(const QString &fileURL);
 
-     /** DBUS interface function.
-      * @brief Resets all jobs to IDLE
-      */
-     Q_SCRIPTABLE void resetAllJobs();
+        /** DBUS interface function.
+         * @brief Resets all jobs to IDLE
+         */
+        Q_SCRIPTABLE void resetAllJobs();
 
-    /** @}*/
+        /** @}*/
 
-protected slots:
+    protected slots:
 
-     /**
-      * @brief select object from KStars's find dialog.
-      */
-     void selectObject();
+        /**
+         * @brief select object from KStars's find dialog.
+         */
+        void selectObject();
 
-     /**
-      * @brief Selects FITS file for solving.
-      */
-     void selectFITS();
+        /**
+         * @brief Selects FITS file for solving.
+         */
+        void selectFITS();
 
-     /**
-      * @brief Selects sequence queue.
-      */
-     void selectSequence();
+        /**
+         * @brief Selects sequence queue.
+         */
+        void selectSequence();
 
-     /**
-      * @brief Selects sequence queue.
-      */
-     void selectStartupScript();
+        /**
+         * @brief Selects sequence queue.
+         */
+        void selectStartupScript();
 
-     /**
-      * @brief Selects sequence queue.
-      */
-     void selectShutdownScript();
+        /**
+         * @brief Selects sequence queue.
+         */
+        void selectShutdownScript();
 
-     /**
-      * @brief addToQueue Construct a SchedulerJob and add it to the queue or save job settings from current form values.
-      * jobUnderEdit determines whether to add or edit
-      */
-     void saveJob();
+        /**
+         * @brief addToQueue Construct a SchedulerJob and add it to the queue or save job settings from current form values.
+         * jobUnderEdit determines whether to add or edit
+         */
+        void saveJob();
 
-     /**
-      * @brief addJob Add a new job from form values
-      */
-     void addJob();
+        /**
+         * @brief addJob Add a new job from form values
+         */
+        void addJob();
 
-     /**
-      * @brief editJob Edit an observation job
-      * @param i index model in queue table
-      */
-     void loadJob(QModelIndex i);
+        /**
+         * @brief editJob Edit an observation job
+         * @param i index model in queue table
+         */
+        void loadJob(QModelIndex i);
 
-     /**
-      * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.
-      */
-     void removeJob();
+        /**
+         * @brief removeJob Remove a job from the currently selected row. If no row is selected, it remove the last job in the queue.
+         */
+        void removeJob();
 
-     void toggleScheduler();
-     void pause();
-     void save();
-     void saveAs();
-     void load();
+        void toggleScheduler();
+        void pause();
+        void save();
+        void saveAs();
+        void load();
 
-     void resetJobState(QModelIndex i);
+        void resetJobState(QModelIndex i);
 
-     void resetJobEdit();
+        void resetJobEdit();
 
-     /**
-      * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it call evaluateJobs();
-      */
-     void checkStatus();
+        /**
+         * @brief checkJobStatus Check the overall state of the scheduler, Ekos, and INDI. When all is OK, it call evaluateJobs();
+         */
+        void checkStatus();
 
-     /**
-      * @brief checkJobStage Check the progress of the job states and make DBUS call to start the next stage until the job is complete.
-      */
-     void checkJobStage();
+        /**
+         * @brief checkJobStage Check the progress of the job states and make DBUS call to start the next stage until the job is complete.
+         */
+        void checkJobStage();
 
-     /**
-      * @brief findNextJob Check if the job met the completion criteria, and if it did, then it search for next job candidate. If no jobs are found, it starts the shutdown stage.
-      */
-     void findNextJob();
+        /**
+         * @brief findNextJob Check if the job met the completion criteria, and if it did, then it search for next job candidate. If no jobs are found, it starts the shutdown stage.
+         */
+        void findNextJob();
 
-     /**
-      * @brief stopCurrentJobAction Stop whatever action taking place in the current job (eg. capture, guiding...etc).
-      */
-     void stopCurrentJobAction();
+        /**
+         * @brief stopCurrentJobAction Stop whatever action taking place in the current job (eg. capture, guiding...etc).
+         */
+        void stopCurrentJobAction();
 
-     /**
-      * @brief readProcessOutput read running script process output and display it in Ekos
-      */
-     void readProcessOutput();
+        /**
+         * @brief readProcessOutput read running script process output and display it in Ekos
+         */
+        void readProcessOutput();
 
-     /**
-      * @brief checkProcessExit Check script process exist status. This is called when the process exists either normally or abnormally.
-      * @param exitCode exit code from the script process. Depending on the exist code, the status of startup/shutdown procedure is set accordingly.
-      */
-     void checkProcessExit(int exitCode);
+        /**
+         * @brief checkProcessExit Check script process exist status. This is called when the process exists either normally or abnormally.
+         * @param exitCode exit code from the script process. Depending on the exist code, the status of startup/shutdown procedure is set accordingly.
+         */
+        void checkProcessExit(int exitCode);
 
-     /**
-      * @brief watchJobChanges Watch any changes in form values and apply changes to current job selection or ignore any changes
-      * @param enable True to watch changes and apply them to current job, false to ignore changes
-      */
-     void watchJobChanges(bool enable);
-     /**
-      * @brief setDirty Call it to mark the Ekos Scheduler List for change. Next time save button is invoked, the complete content is written to disk.
-      */
-     void setDirty();
+        /**
+         * @brief watchJobChanges Watch any changes in form values and apply changes to current job selection or ignore any changes
+         * @param enable True to watch changes and apply them to current job, false to ignore changes
+         */
+        void watchJobChanges(bool enable);
+        /**
+         * @brief setDirty Call it to mark the Ekos Scheduler List for change. Next time save button is invoked, the complete content is written to disk.
+         */
+        void setDirty();
 
-     /**
-      * @brief resumeCheckStatus If the scheduler primary loop was suspended due to weather or sleep event, resume it again.
-      */
-     void resumeCheckStatus();
+        /**
+         * @brief resumeCheckStatus If the scheduler primary loop was suspended due to weather or sleep event, resume it again.
+         */
+        void resumeCheckStatus();
 
-     /**
-      * @brief checkWeather Check weather status and act accordingly depending on the current status of the scheduler and running jobs.
-      */
-     void checkWeather();
+        /**
+         * @brief checkWeather Check weather status and act accordingly depending on the current status of the scheduler and running jobs.
+         */
+        void checkWeather();
 
-     /**
-      * @brief wakeUpScheduler Wake up scheduler from sleep state
-      */
-     void wakeUpScheduler();
+        /**
+         * @brief wakeUpScheduler Wake up scheduler from sleep state
+         */
+        void wakeUpScheduler();
 
-     /**
-      * @brief startJobEvaluation Start job evaluation only without starting the scheduler process itself. Display the result to the user.
-      */
-     void startJobEvaluation();
+        /**
+         * @brief startJobEvaluation Start job evaluation only without starting the scheduler process itself. Display the result to the user.
+         */
+        void startJobEvaluation();
 
-     /**
-      * @brief startMosaicTool Start Mosaic tool and create jobs if necessary.
-      */
-     void startMosaicTool();
+        /**
+         * @brief startMosaicTool Start Mosaic tool and create jobs if necessary.
+         */
+        void startMosaicTool();
 
-     /**
-      * @brief displayTwilightWarning Display twilight warning to user if it is unchecked.
-      */
-     void checkTwilightWarning(bool enabled);
+        /**
+         * @brief displayTwilightWarning Display twilight warning to user if it is unchecked.
+         */
+        void checkTwilightWarning(bool enabled);
 
-     void runStartupProcedure();
-     void checkStartupProcedure();
+        void runStartupProcedure();
+        void checkStartupProcedure();
 
-     void runShutdownProcedure();
-     void checkShutdownProcedure();
+        void runShutdownProcedure();
+        void checkShutdownProcedure();
 
-signals:
+    signals:
         void newLog();
         void weatherChanged(IPState state);
         void newTarget(const QString &);
 
-private:
+    private:
 
         /**
          * @brief evaluateJobs evaluates the current state of each objects and gives each one a score based on the constraints.
@@ -299,11 +302,11 @@ private:
          * checkJobStatus slot will be connected in order to figure the exact state of the current job each second
          * @param value
          */
-        void executeJob(SchedulerJob *job);
+        void executeJob(SchedulerJob * job);
 
         void executeScript(const QString &filename);
 
-        int16_t getDarkSkyScore(const QDateTime & observationDateTime);
+        int16_t getDarkSkyScore(const QDateTime &observationDateTime);
 
         /**
          * @brief getAltitudeScore Get the altitude score of an object. The higher the better
@@ -311,7 +314,7 @@ private:
          * @param when At what time to check the target altitude
          * @return Altitude score. Altitude below minimum default of 15 degrees but above horizon get -20 score. Bad altitude below minimum required altitude or below horizon get -1000 score.
          */
-        int16_t getAltitudeScore(SchedulerJob *job, QDateTime when);
+        int16_t getAltitudeScore(SchedulerJob * job, QDateTime when);
 
         /**
          * @brief getMoonSeparationScore Get moon separation score. The further apart, the better, up a maximum score of 20.
@@ -319,7 +322,7 @@ private:
          * @param when What time to check the moon separation?
          * @return Moon separation score
          */
-        int16_t getMoonSeparationScore(SchedulerJob *job, QDateTime when);
+        int16_t getMoonSeparationScore(SchedulerJob * job, QDateTime when);
 
         /**
          * @brief calculateJobScore Calculate job dark sky score, altitude score, and moon separation scores and returns the sum.
@@ -327,7 +330,7 @@ private:
          * @param when time to evaluate constraints
          * @return Total score
          */
-        int16_t calculateJobScore(SchedulerJob *job, QDateTime when);
+        int16_t calculateJobScore(SchedulerJob * job, QDateTime when);
 
         /**
          * @brief getWeatherScore Get weather condition score.
@@ -342,14 +345,14 @@ private:
          * @param minMoonAngle minimum separation from the moon. -1 to ignore.
          * @return True if found a time in the night where the object is at or above the minimum altitude, false otherise.
          */
-        bool    calculateAltitudeTime(SchedulerJob *job, double minAltitude, double minMoonAngle=-1);
+        bool    calculateAltitudeTime(SchedulerJob * job, double minAltitude, double minMoonAngle=-1);
 
         /**
          * @brief calculateCulmination find culmination time adjust for the job offset
          * @param job Active job
          * @return True if culmination time adjust for offset is a valid time in the night
          */
-        bool    calculateCulmination(SchedulerJob *job);
+        bool    calculateCulmination(SchedulerJob * job);
 
         /**
          * @brief calculateDawnDusk Get dawn and dusk times for today
@@ -453,14 +456,14 @@ private:
          * @param root XML root element of JOB
          * @return true on success, false on failure.
          */
-        bool processJobInfo(XMLEle *root);
+        bool processJobInfo(XMLEle * root);
 
         /**
          * @brief getCurrentMoonSeparation Get current moon separation in degrees at current time for the given job
          * @param job scheduler job
          * @return Separation in degrees
          */
-        double getCurrentMoonSeparation(SchedulerJob *job);
+        double getCurrentMoonSeparation(SchedulerJob * job);
 
         /**
          * @brief updatePreDawn Update predawn time depending on current time and user offset
@@ -472,7 +475,7 @@ private:
          * @param job target job
          * @return Estimated time in seconds.
          */
-        bool estimateJobTime(SchedulerJob *schedJob);
+        bool estimateJobTime(SchedulerJob * schedJob);
 
         /**
          * @brief createJobSequence Creates a job sequence for the mosaic tool given the prefix and output dir. The currently selected sequence file is modified
@@ -481,85 +484,85 @@ private:
          * @param outputDir Output dir to set for the job sequence
          * @return True if new file is saved, false otherwise
          */
-        bool createJobSequence(XMLEle *root, const QString &prefix, const QString &outputDir);
+        bool createJobSequence(XMLEle * root, const QString &prefix, const QString &outputDir);
 
         void loadProfiles();
 
         XMLEle * getSequenceJobRoot();
 
-        bool isWeatherOK(SchedulerJob *job);
+        bool isWeatherOK(SchedulerJob * job);
 
-        SequenceJob * processJobInfo(XMLEle *root, SchedulerJob *schedJob);
-        bool loadSequenceQueue(const QString &fileURL, SchedulerJob *schedJob, QList<SequenceJob*> &jobs, bool &hasAutoFocus);
+        SequenceJob * processJobInfo(XMLEle * root, SchedulerJob * schedJob);
+        bool loadSequenceQueue(const QString &fileURL, SchedulerJob * schedJob, QList<SequenceJob *> &jobs, bool &hasAutoFocus);
         int getCompletedFiles(const QString &path, const QString &seqPrefix);
 
-    Ekos::Scheduler *ui;
+        Ekos::Scheduler * ui;
 
-    //DBus interfaces
-    QDBusInterface *focusInterface;
-    QDBusInterface *ekosInterface;
-    QDBusInterface *captureInterface;
-    QDBusInterface *mountInterface;
-    QDBusInterface *alignInterface;
-    QDBusInterface *guideInterface;
-    QDBusInterface *domeInterface;
-    QDBusInterface *weatherInterface;
-    QDBusInterface *capInterface;
+        //DBus interfaces
+        QDBusInterface * focusInterface;
+        QDBusInterface * ekosInterface;
+        QDBusInterface * captureInterface;
+        QDBusInterface * mountInterface;
+        QDBusInterface * alignInterface;
+        QDBusInterface * guideInterface;
+        QDBusInterface * domeInterface;
+        QDBusInterface * weatherInterface;
+        QDBusInterface * capInterface;
 
-    // Scheduler and job state and stages
-    SchedulerState state;
-    EkosState ekosState;
-    INDIState indiState;
-    StartupState startupState;
-    ShutdownState shutdownState;
-    ParkWaitStatus parkWaitState;
+        // Scheduler and job state and stages
+        SchedulerState state;
+        EkosState ekosState;
+        INDIState indiState;
+        StartupState startupState;
+        ShutdownState shutdownState;
+        ParkWaitStatus parkWaitState;
 
-    QList<SchedulerJob *> jobs;     // List of all jobs as entered by the user or file
-    SchedulerJob *currentJob;       // Active job
+        QList<SchedulerJob *> jobs;     // List of all jobs as entered by the user or file
+        SchedulerJob * currentJob;      // Active job
 
-    QUrl schedulerURL;              // URL to store the scheduler file
-    QUrl sequenceURL;               // URL for Ekos Sequence
-    QUrl fitsURL;                   // FITS URL to solve
-    QUrl startupScriptURL;          // Startup script URL
-    QUrl shutdownScriptURL;         // Shutdown script URL
+        QUrl schedulerURL;              // URL to store the scheduler file
+        QUrl sequenceURL;               // URL for Ekos Sequence
+        QUrl fitsURL;                   // FITS URL to solve
+        QUrl startupScriptURL;          // Startup script URL
+        QUrl shutdownScriptURL;         // Shutdown script URL
 
-    QStringList logText;            // Store all log strings
+        QStringList logText;            // Store all log strings
 
-    QProgressIndicator *pi;         // Busy indicator widget
-    int jobUnderEdit;               // Are we editing a job right now? Job row index
+        QProgressIndicator * pi;        // Busy indicator widget
+        int jobUnderEdit;               // Are we editing a job right now? Job row index
 
-    KSMoon *moon;                   // Pointer to Moon object
-    GeoLocation *geo;               // Pointer to Geograpic locatoin
+        KSMoon * moon;                  // Pointer to Moon object
+        GeoLocation * geo;              // Pointer to Geograpic locatoin
 
-    uint16_t captureBatch;          // How many repeated job batches did we complete thus far?
+        uint16_t captureBatch;          // How many repeated job batches did we complete thus far?
 
-    QProcess scriptProcess;         // Startup and Shutdown scripts process
+        QProcess scriptProcess;         // Startup and Shutdown scripts process
 
-    double Dawn, Dusk;              // Store day fraction of dawn and dusk to calculate dark skies range
-    QDateTime preDawnDateTime;      // Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
-    QDateTime duskDateTime;         // Dusk date time
-    bool mDirty;                    // Was job modified and needs saving?
-    IPState weatherStatus;          // Keep watch of weather status
-    uint8_t noWeatherCounter;       // Keep track of how many times we didn't receive weather updates
-    bool preemptiveShutdown;        // Are we shutting down until later?
-    bool jobEvaluationOnly;         // Only run job evaluation
-    bool loadAndSlewProgress;       // Keep track of Load & Slew operation
-    bool autofocusCompleted;        // Check if initial autofocus is completed and do not run autofocus until there is a change is telescope position/alignment.
+        double Dawn, Dusk;              // Store day fraction of dawn and dusk to calculate dark skies range
+        QDateTime preDawnDateTime;      // Pre-dawn is where we stop all jobs, it is a user-configurable value before Dawn.
+        QDateTime duskDateTime;         // Dusk date time
+        bool mDirty;                    // Was job modified and needs saving?
+        IPState weatherStatus;          // Keep watch of weather status
+        uint8_t noWeatherCounter;       // Keep track of how many times we didn't receive weather updates
+        bool preemptiveShutdown;        // Are we shutting down until later?
+        bool jobEvaluationOnly;         // Only run job evaluation
+        bool loadAndSlewProgress;       // Keep track of Load & Slew operation
+        bool autofocusCompleted;        // Check if initial autofocus is completed and do not run autofocus until there is a change is telescope position/alignment.
 
-    uint8_t indiConnectFailureCount;// Keep track of INDI connection failures
-    uint8_t focusFailureCount;      // Keep track of Ekos focus module failures
-    uint8_t guideFailureCount;      // Keep track of Ekos guide module failures
-    uint8_t alignFailureCount;      // Keep track of Ekos align module failures
-    uint8_t captureFailureCount;    // Keep track of Ekos capture module failures
+        uint8_t indiConnectFailureCount;// Keep track of INDI connection failures
+        uint8_t focusFailureCount;      // Keep track of Ekos focus module failures
+        uint8_t guideFailureCount;      // Keep track of Ekos guide module failures
+        uint8_t alignFailureCount;      // Keep track of Ekos align module failures
+        uint8_t captureFailureCount;    // Keep track of Ekos capture module failures
 
-    QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
-    QTimer sleepTimer;              // Timer to put the scheduler into sleep mode until a job is ready
-    QTimer schedulerTimer;          // To call checkStatus
-    QTimer jobTimer;                // To call checkJobStage
+        QTimer weatherTimer;            // Call checkWeather when weatherTimer time expires. It is equal to the UpdatePeriod time in INDI::Weather device.
+        QTimer sleepTimer;              // Timer to put the scheduler into sleep mode until a job is ready
+        QTimer schedulerTimer;          // To call checkStatus
+        QTimer jobTimer;                // To call checkJobStage
 
-    QTime currentOperationTime;     // Generic time to track timeout of current operation in progress    
+        QTime currentOperationTime;     // Generic time to track timeout of current operation in progress
 
-    QUrl dirPath;
+        QUrl dirPath;
 
 
 };

@@ -1,5 +1,5 @@
 /***************************************************************************
-                           testcachingdms.h  -  
+                           testcachingdms.h  -
                              -------------------
     begin                : Sun 25 Sep 2016 03:56:35 CDT
     copyright            : (c) 2016 by Akarsh Simha
@@ -31,34 +31,35 @@
  * @author Akarsh Simha <akarsh.simha@kdemail.net>
  */
 
-class TestCachingDms : public QObject {
+class TestCachingDms : public QObject
+{
 
-    Q_OBJECT
+        Q_OBJECT
 
-public:
+    public:
 
-    /**
-     * @short Constructor
-     */
-    TestCachingDms();
+        /**
+         * @short Constructor
+         */
+        TestCachingDms();
 
-    /**
-     * @short Destructor
-     */
-    ~TestCachingDms();
+        /**
+         * @short Destructor
+         */
+        ~TestCachingDms();
 
-private slots:
-   void defaultCtor();
-   void explicitSexigesimalCtor();
-   void angleCtor();
-   void stringCtor();
-   void setUsing_atan2();
-   void setUsing_asin();
-   void setUsing_acos();
-   void additionOperator();
-   void subtractionOperator();
-   void unaryMinusOperator();
-   void testFailsafeUseOfBaseClassPtr();
+    private slots:
+        void defaultCtor();
+        void explicitSexigesimalCtor();
+        void angleCtor();
+        void stringCtor();
+        void setUsing_atan2();
+        void setUsing_asin();
+        void setUsing_acos();
+        void additionOperator();
+        void subtractionOperator();
+        void unaryMinusOperator();
+        void testFailsafeUseOfBaseClassPtr();
 };
 
 #endif

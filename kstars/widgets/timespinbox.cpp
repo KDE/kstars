@@ -40,8 +40,8 @@
 //27-32: 1 month, 2, 3, 4, 6, 9 months
 //33-41: 1 year, 2, 3, 4, 5, 10, 25, 50, 100 years
 
-TimeSpinBox::TimeSpinBox( QWidget *parent, bool _daysonly )
-        : QSpinBox ( parent )
+TimeSpinBox::TimeSpinBox( QWidget * parent, bool _daysonly )
+    : QSpinBox ( parent )
 {
     setDaysOnly( _daysonly );
 
@@ -57,7 +57,8 @@ TimeSpinBox::TimeSpinBox( QWidget *parent, bool _daysonly )
     QFontMetrics fm( font() );
     int extra = width() - lineEdit()->width();
     uint wmax = 0;
-    for ( int i=0; i < maximum(); ++i ) {
+    for ( int i=0; i < maximum(); ++i )
+    {
         uint w = fm.width( '-' + TimeString[i] );
         if (  w > wmax ) wmax = w;
     }
@@ -67,12 +68,14 @@ TimeSpinBox::TimeSpinBox( QWidget *parent, bool _daysonly )
     //	updateDisplay();
 }
 
-void TimeSpinBox::setDaysOnly( bool daysonly ) {
+void TimeSpinBox::setDaysOnly( bool daysonly )
+{
     DaysOnly = daysonly;
 
     int i=0; //index for TimeScale values
     TimeScale[0] = 0.0;          // 0.0 sec
-    if ( ! daysOnly() ) {
+    if ( ! daysOnly() )
+    {
         TimeScale[1] = 0.1;          // 0.1 sec
         TimeScale[2] = 0.25;         // 0.25 sec
         TimeScale[3] = 0.5;          // 0.5 sec
@@ -120,7 +123,8 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
     TimeScale[i+22] = 100.0*SIDEREAL_YEAR; // 100 years
 
     TimeString.clear();
-    if ( ! daysOnly() ) {
+    if ( ! daysOnly() )
+    {
         TimeString.append( "0 " + i18nc( "seconds", "secs" ));
         TimeString.append( "0.1 " + i18nc( "seconds", "secs" ));
         TimeString.append( "0.25 " + i18nc( "seconds", "secs" ));
@@ -142,7 +146,9 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
         TimeString.append( "3 " + i18nc( "hours", "hrs" ));
         TimeString.append( "6 " + i18nc( "hours", "hrs" ));
         TimeString.append( "12 " + i18nc( "hours", "hrs" ));
-    } else {
+    }
+    else
+    {
         TimeString.append( "0 " + i18n( "days" ));
     }
     TimeString.append( "1 " + i18nc( "sidereal day", "sid day" ));
@@ -168,42 +174,63 @@ void TimeSpinBox::setDaysOnly( bool daysonly ) {
     TimeString.append( "50 " + i18nc( "years", "yrs" ));
     TimeString.append( "100 " + i18nc( "years", "yrs" ));
 
-    if ( ! daysOnly() ) {
+    if ( ! daysOnly() )
+    {
         setMinimum( -41 );
         setMaximum(  41 );
-    } else {
+    }
+    else
+    {
         setMinimum( -21 );
         setMaximum(  21 );
     }
 }
 
-int TimeSpinBox::valueFromText( const QString &text ) const {
-    for ( int i=0; i<TimeString.size(); i++ ) {
-        if ( text == TimeString[i] ) { return i; }
-        if ( text.mid(1,text.length()) == TimeString[i] ) { return -1*i; }
+int TimeSpinBox::valueFromText( const QString &text ) const
+{
+    for ( int i=0; i<TimeString.size(); i++ )
+    {
+        if ( text == TimeString[i] )
+        {
+            return i;
+        }
+        if ( text.mid(1,text.length()) == TimeString[i] )
+        {
+            return -1*i;
+        }
     }
 
     return 0;
 }
 
-QString TimeSpinBox::textFromValue( int value ) const {
+QString TimeSpinBox::textFromValue( int value ) const
+{
     QString neg("-"), result;
     int posval( abs( value ) );
     if ( posval > TimeString.size() - 1 ) posval = 4;
 
     result = TimeString[ posval ];
 
-if ( value<0 ) { result = '-' + result; }
+    if ( value<0 )
+    {
+        result = '-' + result;
+    }
     return result;
 }
 
-void TimeSpinBox::changeScale( float x ) {
+void TimeSpinBox::changeScale( float x )
+{
     //Pick the closest value
     int imin = 0;
     float dx, dxlast(10000000000.0), dxmin(10000000000.0);
-    for ( unsigned int i=0; i<42; ++i ) {
+    for ( unsigned int i=0; i<42; ++i )
+    {
         dx = fabs( TimeScale[i] - fabs(x) );
-        if ( dx < dxmin ) { imin = i; dxmin = dx; }
+        if ( dx < dxmin )
+        {
+            imin = i;
+            dxmin = dx;
+        }
         if ( dx > dxlast ) break; //we have passed the minimum dx
         dxlast = dx;
     }
@@ -212,11 +239,13 @@ void TimeSpinBox::changeScale( float x ) {
     setValue( imin );
 }
 
-float TimeSpinBox::timeScale( void ) const {
+float TimeSpinBox::timeScale( void ) const
+{
     return value() > 0 ? TimeScale[ value() ] : -1.*TimeScale[ abs(value()) ];
 }
 
-void TimeSpinBox::reportChange() {
+void TimeSpinBox::reportChange()
+{
     qDebug() << "Reporting new timestep value: " << timeScale();
     emit scaleChanged( timeScale() );
 }

@@ -18,7 +18,7 @@
 
 #include "clicklabel.h"
 
-ClickLabel::ClickLabel( QWidget *parent, const char *name ) : QLabel( parent )
+ClickLabel::ClickLabel( QWidget * parent, const char * name ) : QLabel( parent )
 {
     setObjectName( name );
 }

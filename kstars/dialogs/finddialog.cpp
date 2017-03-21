@@ -34,7 +34,8 @@
 #include <QStringListModel>
 #include <QTimer>
 
-FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
+FindDialogUI::FindDialogUI( QWidget * parent ) : QFrame( parent )
+{
     setupUi( this );
 
     FilterType->addItem( i18n ("Any") );
@@ -55,30 +56,30 @@ FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
     SearchList->setMinimumHeight( 320 );
 }
 
-FindDialog::FindDialog( QWidget* parent ) :
+FindDialog::FindDialog( QWidget * parent ) :
     QDialog( parent ),
     timer(0),
     m_targetObject( 0 )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     ui = new FindDialogUI( this );
 
     setWindowTitle( i18n( "Find Object" ) );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     okB = buttonBox->button(QDialogButtonBox::Ok);
 
-    QPushButton *detailB = new QPushButton(i18n("Details..."));
+    QPushButton * detailB = new QPushButton(i18n("Details..."));
     buttonBox->addButton(detailB, QDialogButtonBox::ActionRole);
     connect(detailB, SIGNAL(clicked()), this, SLOT(slotDetails()));
 
@@ -116,7 +117,8 @@ FindDialog::FindDialog( QWidget* parent ) :
 
 FindDialog::~FindDialog() { }
 
-void FindDialog::init() {
+void FindDialog::init()
+{
     ui->SearchBox->clear();
     filterByType();
     sortModel->sort( 0 );
@@ -124,37 +126,40 @@ void FindDialog::init() {
     m_targetObject = 0;
 }
 
-void FindDialog::initSelection() {
+void FindDialog::initSelection()
+{
     if ( sortModel->rowCount() <= 0 )
     {
         okB->setEnabled( false );
         return;
     }
 
-    if ( ui->SearchBox->text().isEmpty() ) {
+    if ( ui->SearchBox->text().isEmpty() )
+    {
         //Pre-select the first item
         QModelIndex selectItem = sortModel->index( 0, sortModel->filterKeyColumn(), QModelIndex() );
-        switch ( ui->FilterType->currentIndex() ) {
-        case 0: //All objects, choose Andromeda galaxy
+        switch ( ui->FilterType->currentIndex() )
+        {
+            case 0: //All objects, choose Andromeda galaxy
             {
                 QModelIndex qmi = fModel->index( fModel->indexOf( i18n("Andromeda Galaxy") ) );
                 selectItem = sortModel->mapFromSource( qmi );
                 break;
             }
-        case 1: //Stars, choose Aldebaran
+            case 1: //Stars, choose Aldebaran
             {
                 QModelIndex qmi = fModel->index( fModel->indexOf( i18n("Aldebaran") ) );
                 selectItem = sortModel->mapFromSource( qmi );
                 break;
             }
-        case 2: //Solar system or Asteroids, choose Aaltje
-        case 9:
+            case 2: //Solar system or Asteroids, choose Aaltje
+            case 9:
             {
                 QModelIndex qmi = fModel->index( fModel->indexOf( i18n("Aaltje") ) );
                 selectItem = sortModel->mapFromSource( qmi );
                 break;
             }
-        case 8: //Comets, choose 'Aarseth-Brewington (1989 W1)'
+            case 8: //Comets, choose 'Aarseth-Brewington (1989 W1)'
             {
                 QModelIndex qmi = fModel->index( fModel->indexOf( i18n("Aarseth-Brewington (1989 W1)") ) );
                 selectItem = sortModel->mapFromSource( qmi );
@@ -163,7 +168,8 @@ void FindDialog::initSelection() {
 
         }
 
-        if ( selectItem.isValid() ) {
+        if ( selectItem.isValid() )
+        {
             ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
             ui->SearchList->scrollTo( selectItem );
             ui->SearchList->setCurrentIndex( selectItem );
@@ -175,72 +181,76 @@ void FindDialog::initSelection() {
     listFiltered = true;
 }
 
-void FindDialog::filterByType() {
-    KStarsData *data = KStarsData::Instance();
+void FindDialog::filterByType()
+{
+    KStarsData * data = KStarsData::Instance();
 
-    switch ( ui->FilterType->currentIndex() ) {
-    case 0: // All object types
+    switch ( ui->FilterType->currentIndex() )
     {
-        QVector<QPair<QString, const SkyObject *>> allObjects;
-        foreach( int type, data->skyComposite()->objectLists().keys() ) {
-            allObjects.append(data->skyComposite()->objectLists(SkyObject::TYPE(type)));
+        case 0: // All object types
+        {
+            QVector<QPair<QString, const SkyObject *>> allObjects;
+            foreach( int type, data->skyComposite()->objectLists().keys() )
+            {
+                allObjects.append(data->skyComposite()->objectLists(SkyObject::TYPE(type)));
+            }
+            fModel->setSkyObjectsList( allObjects );
+            break;
         }
-        fModel->setSkyObjectsList( allObjects );
-        break;
-    }
-    case 1: //Stars
-    {
-        QVector<QPair<QString, const SkyObject *>> starObjects;
-        starObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
-        starObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
-        fModel->setSkyObjectsList( starObjects );
-        break;
-    }
-    case 2: //Solar system
-    {
-        QVector<QPair<QString, const SkyObject *>> ssObjects;
-        ssObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
-        ssObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
-        ssObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
-        ssObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
+        case 1: //Stars
+        {
+            QVector<QPair<QString, const SkyObject *>> starObjects;
+            starObjects.append(data->skyComposite()->objectLists(SkyObject::STAR));
+            starObjects.append(data->skyComposite()->objectLists(SkyObject::CATALOG_STAR));
+            fModel->setSkyObjectsList( starObjects );
+            break;
+        }
+        case 2: //Solar system
+        {
+            QVector<QPair<QString, const SkyObject *>> ssObjects;
+            ssObjects.append(data->skyComposite()->objectLists(SkyObject::PLANET));
+            ssObjects.append(data->skyComposite()->objectLists(SkyObject::COMET));
+            ssObjects.append(data->skyComposite()->objectLists(SkyObject::ASTEROID));
+            ssObjects.append(data->skyComposite()->objectLists(SkyObject::MOON));
 
-        fModel->setSkyObjectsList(ssObjects);
-        break;
-    }
-    case 3: //Open Clusters
-        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::OPEN_CLUSTER ) );
-        break;
-    case 4: //Globular Clusters
-        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::GLOBULAR_CLUSTER ) );
-        break;
-    case 5: //Gaseous nebulae
-        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::GASEOUS_NEBULA ) );
-        break;
-    case 6: //Planetary nebula
-        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::PLANETARY_NEBULA ) );
-        break;
-    case 7: //Galaxies
-        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::GALAXY ) );
-        break;
-    case 8: //Comets
-        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::COMET ) );
-        break;
-    case 9: //Asteroids
-        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::ASTEROID ) );
-        break;
-    case 10: //Constellations
-        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::CONSTELLATION ) );
-        break;
-    case 11: //Supernovae
-        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::SUPERNOVA ) );
-        break;
-    case 12: //Satellites
-        fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::SATELLITE ) );
-        break;
+            fModel->setSkyObjectsList(ssObjects);
+            break;
+        }
+        case 3: //Open Clusters
+            fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::OPEN_CLUSTER ) );
+            break;
+        case 4: //Globular Clusters
+            fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::GLOBULAR_CLUSTER ) );
+            break;
+        case 5: //Gaseous nebulae
+            fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::GASEOUS_NEBULA ) );
+            break;
+        case 6: //Planetary nebula
+            fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::PLANETARY_NEBULA ) );
+            break;
+        case 7: //Galaxies
+            fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::GALAXY ) );
+            break;
+        case 8: //Comets
+            fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::COMET ) );
+            break;
+        case 9: //Asteroids
+            fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::ASTEROID ) );
+            break;
+        case 10: //Constellations
+            fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::CONSTELLATION ) );
+            break;
+        case 11: //Supernovae
+            fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::SUPERNOVA ) );
+            break;
+        case 12: //Satellites
+            fModel->setSkyObjectsList( data->skyComposite()->objectLists( SkyObject::SATELLITE ) );
+            break;
     }
 }
 
-void FindDialog::filterList() {
+void FindDialog::filterList()
+{
     QString SearchText = processSearchText();
     sortModel->setFilterFixedString( SearchText );
     ui->InternetSearchButton->setText( i18n( "or search the internet for %1", SearchText ) );
@@ -248,15 +258,18 @@ void FindDialog::filterList() {
     initSelection();
 
     //Select the first item in the list that begins with the filter string
-    if ( !SearchText.isEmpty() ) {
+    if ( !SearchText.isEmpty() )
+    {
         QStringList mItems = fModel->filter( QRegExp( '^'+SearchText, Qt::CaseInsensitive ) );
         mItems.sort();
 
-        if ( mItems.size() ) {
+        if ( mItems.size() )
+        {
             QModelIndex qmi = fModel->index( fModel->indexOf( mItems[0] ) );
             QModelIndex selectItem = sortModel->mapFromSource( qmi );
 
-            if ( selectItem.isValid() ) {
+            if ( selectItem.isValid() )
+            {
                 ui->SearchList->selectionModel()->select( selectItem, QItemSelectionModel::ClearAndSelect );
                 ui->SearchList->scrollTo( selectItem );
                 ui->SearchList->setCurrentIndex( selectItem );
@@ -272,17 +285,22 @@ void FindDialog::filterList() {
     listFiltered = true;
 }
 
-SkyObject* FindDialog::selectedObject() const {
+SkyObject * FindDialog::selectedObject() const
+{
     QModelIndex i = ui->SearchList->currentIndex();
     QVariant sObj = sortModel->data(sortModel->index(i.row(), 0), SkyObjectListModel::SkyObjectRole);
     return (SkyObject *) sObj.value<void *>();
 }
 
-void FindDialog::enqueueSearch() {
+void FindDialog::enqueueSearch()
+{
     listFiltered = false;
-    if ( timer ) {
+    if ( timer )
+    {
         timer->stop();
-    } else {
+    }
+    else
+    {
         timer = new QTimer( this );
         timer->setSingleShot( true );
         connect( timer, SIGNAL( timeout() ), this, SLOT( filterList() ) );
@@ -291,7 +309,8 @@ void FindDialog::enqueueSearch() {
 }
 
 // Process the search box text to replace equivalent names like "m93" with "m 93"
-QString FindDialog::processSearchText() {
+QString FindDialog::processSearchText()
+{
     QRegExp re;
     QString searchtext = ui->SearchBox->text();
 
@@ -299,7 +318,8 @@ QString FindDialog::processSearchText() {
 
     // If it is an NGC/IC/M catalog number, as in "M 76" or "NGC 5139", check for absence of the space
     re.setPattern("^(m|ngc|ic)\\s*\\d*$");
-    if(ui->SearchBox->text().contains(re)) {
+    if(ui->SearchBox->text().contains(re))
+    {
         re.setPattern("\\s*(\\d+)");
         searchtext.replace( re, " \\1" );
         re.setPattern("\\s*$");
@@ -315,26 +335,32 @@ QString FindDialog::processSearchText() {
     return searchtext;
 }
 
-void FindDialog::slotOk() {
+void FindDialog::slotOk()
+{
     //If no valid object selected, show a sorry-box.  Otherwise, emit accept()
-    SkyObject *selObj;
-    if(!listFiltered) {
+    SkyObject * selObj;
+    if(!listFiltered)
+    {
         filterList();
     }
     selObj = selectedObject();
     finishProcessing( selObj, Options::resolveNamesOnline() );
 }
 
-void FindDialog::slotResolve() {
+void FindDialog::slotResolve()
+{
     finishProcessing( 0, true );
 }
 
-void FindDialog::finishProcessing( SkyObject *selObj, bool resolve ) {
-    if( ! selObj && resolve ) {
+void FindDialog::finishProcessing( SkyObject * selObj, bool resolve )
+{
+    if( ! selObj && resolve )
+    {
         CatalogEntryData cedata;
         cedata = NameResolver::resolveName( processSearchText() );
-        DeepSkyObject *dso = 0;
-        if( ! std::isnan( cedata.ra ) && ! std::isnan( cedata.dec ) ) {
+        DeepSkyObject * dso = 0;
+        if( ! std::isnan( cedata.ra ) && ! std::isnan( cedata.dec ) )
+        {
             dso = KStarsData::Instance()->skyComposite()->internetResolvedComponent()->addObject( cedata );
             if( dso )
                 qDebug() << dso->ra0().toHMSString() << ";" << dso->dec0().toDMSString();
@@ -342,43 +368,51 @@ void FindDialog::finishProcessing( SkyObject *selObj, bool resolve ) {
         }
     }
     m_targetObject = selObj;
-    if ( selObj == 0 ) {
+    if ( selObj == 0 )
+    {
         QString message = i18n( "No object named %1 found.", ui->SearchBox->text() );
         KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );
-    } else {
+    }
+    else
+    {
         selObj->updateCoordsNow(KStarsData::Instance()->updateNum());
         accept();
     }
 }
-void FindDialog::keyPressEvent( QKeyEvent *e ) {
-    switch( e->key() ) {
-    case Qt::Key_Escape :
-        reject();
-        break;
-    case Qt::Key_Up :
+void FindDialog::keyPressEvent( QKeyEvent * e )
+{
+    switch( e->key() )
     {
-        int currentRow = ui->SearchList->currentIndex().row();
-        if ( currentRow > 0 ) {
-            QModelIndex selectItem = sortModel->index( currentRow-1, sortModel->filterKeyColumn(), QModelIndex() );
-            ui->SearchList->selectionModel()->setCurrentIndex( selectItem, QItemSelectionModel::SelectCurrent );
+        case Qt::Key_Escape :
+            reject();
+            break;
+        case Qt::Key_Up :
+        {
+            int currentRow = ui->SearchList->currentIndex().row();
+            if ( currentRow > 0 )
+            {
+                QModelIndex selectItem = sortModel->index( currentRow-1, sortModel->filterKeyColumn(), QModelIndex() );
+                ui->SearchList->selectionModel()->setCurrentIndex( selectItem, QItemSelectionModel::SelectCurrent );
+            }
+            break;
         }
-        break;
-    }
-    case Qt::Key_Down :
-    {
-        int currentRow = ui->SearchList->currentIndex().row();
-        if ( currentRow < sortModel->rowCount()-1 ) {
-            QModelIndex selectItem = sortModel->index( currentRow+1, sortModel->filterKeyColumn(), QModelIndex() );
-            ui->SearchList->selectionModel()->setCurrentIndex( selectItem, QItemSelectionModel::SelectCurrent );
+        case Qt::Key_Down :
+        {
+            int currentRow = ui->SearchList->currentIndex().row();
+            if ( currentRow < sortModel->rowCount()-1 )
+            {
+                QModelIndex selectItem = sortModel->index( currentRow+1, sortModel->filterKeyColumn(), QModelIndex() );
+                ui->SearchList->selectionModel()->setCurrentIndex( selectItem, QItemSelectionModel::SelectCurrent );
+            }
+            break;
         }
-        break;
-    }
     }
 }
 
 void FindDialog::slotDetails()
 {
-    if ( selectedObject() ) {
+    if ( selectedObject() )
+    {
         QPointer<DetailDialog> dd = new DetailDialog( selectedObject(), KStarsData::Instance()->ut(), KStarsData::Instance()->geo(), KStars::Instance());
         dd->exec();
         delete dd;

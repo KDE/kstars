@@ -24,18 +24,21 @@
 
 class BinFileHelper;
 
-BinFileHelper::BinFileHelper() {
+BinFileHelper::BinFileHelper()
+{
     fileHandle = NULL;
     init();
 }
 
-BinFileHelper::~BinFileHelper() {
+BinFileHelper::~BinFileHelper()
+{
     qDeleteAll( fields );
     if( fileHandle )
         closeFile();
 }
 
-void BinFileHelper::init() {
+void BinFileHelper::init()
+{
     if(fileHandle)
         fclose(fileHandle);
     fileHandle = NULL;
@@ -48,17 +51,20 @@ void BinFileHelper::init() {
     recordCount = 0;
 }
 
-void BinFileHelper::clearFields() {
+void BinFileHelper::clearFields()
+{
     qDeleteAll( fields );
     fields.clear();
 }
 
-bool BinFileHelper::testFileExists( const QString &fileName ) {
+bool BinFileHelper::testFileExists( const QString &fileName )
+{
     QString FilePath = KSPaths::locate(QStandardPaths::GenericDataLocation, fileName );
     QByteArray b = FilePath.toLatin1();
-    const char *filepath = b.data();
-    FILE *f  = fopen(filepath, "rb");
-    if( f ) {
+    const char * filepath = b.data();
+    FILE * f  = fopen(filepath, "rb");
+    if( f )
+    {
         fclose( f );
         return true;
     }
@@ -66,25 +72,28 @@ bool BinFileHelper::testFileExists( const QString &fileName ) {
         return false;
 }
 
-FILE *BinFileHelper::openFile(const QString &fileName) {
+FILE * BinFileHelper::openFile(const QString &fileName)
+{
     QString FilePath = KSPaths::locate(QStandardPaths::GenericDataLocation, fileName );
     init();
     QByteArray b = FilePath.toLatin1();
-    const char *filepath = b.data();
+    const char * filepath = b.data();
 
     fileHandle = fopen(filepath, "rb");
 
-    if(!fileHandle) {
+    if(!fileHandle)
+    {
         errnum = ERR_FILEOPEN;
         return NULL;
     }
     return fileHandle;
 }
 
-enum BinFileHelper::Errors BinFileHelper::__readHeader() {
+enum BinFileHelper::Errors BinFileHelper::__readHeader()
+{
     qint16 endian_id, i;
     char ASCII_text[125];
-    dataElement *de;
+    dataElement * de;
 
     // Read the preamble
     if(!fileHandle)
@@ -110,12 +119,13 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 
     fread( &versionNumber, 1, 1, fileHandle );
 
-    preambleUpdated = true;    
+    preambleUpdated = true;
     // Read the field descriptor table
     fread(&nfields, 2, 1, fileHandle);
     if( byteswap ) nfields = bswap_16( nfields );
     fields.clear();
-    for(i = 0; i < nfields; ++i) {
+    for(i = 0; i < nfields; ++i)
+    {
         // FIXME: Valgrind shows 176 bytes lost here in 11 blocks. Why? Investigate
         de = new dataElement;
 
@@ -130,7 +140,8 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
         fields.append( de );
     }
 
-    if(!RSUpdated) {
+    if(!RSUpdated)
+    {
         recordSize = 0;
         for(i = 0; i < fields.size(); ++i)
             recordSize += fields[i] -> size;
@@ -160,7 +171,8 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     indexCount.clear();
     indexOffset.clear();
 
-    if( indexSize == 0 ) {
+    if( indexSize == 0 )
+    {
         errorMessage.sprintf( "Zero index size!" );
         return ERR_INDEX_TRUNC;
     }
@@ -208,8 +220,8 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 
         if(prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/recordSize)
         {
-            errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u", 
-                                    (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, j - 1);
+            errorMessage.sprintf("Expected %u  = (%X - %x) / %x records, but found %u, in index entry %u",
+                                 (offset - prev_offset) / recordSize, offset, prev_offset, recordSize, prev_nrecs, j - 1);
             return ERR_INDEX_BADOFFSET;
         }
 
@@ -228,50 +240,59 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     return ERR_NULL;
 }
 
-bool BinFileHelper::readHeader() {
-    switch( (errnum = __readHeader()) ) {
-    case ERR_NULL:
-        return true;
-        break;
-    case ERR_FILEOPEN:
-        return false;
-        break;
-    case ERR_FD_TRUNC:
-        clearFields();
-        break;
-    case ERR_INDEX_TRUNC:
-    case ERR_INDEX_BADID:
-    case ERR_INDEX_IDMISMATCH:
-    case ERR_BADSEEK:
-    case ERR_INDEX_BADOFFSET: {
-        indexOffset.clear();
-        indexCount.clear();
-    }
+bool BinFileHelper::readHeader()
+{
+    switch( (errnum = __readHeader()) )
+    {
+        case ERR_NULL:
+            return true;
+            break;
+        case ERR_FILEOPEN:
+            return false;
+            break;
+        case ERR_FD_TRUNC:
+            clearFields();
+            break;
+        case ERR_INDEX_TRUNC:
+        case ERR_INDEX_BADID:
+        case ERR_INDEX_IDMISMATCH:
+        case ERR_BADSEEK:
+        case ERR_INDEX_BADOFFSET:
+        {
+            indexOffset.clear();
+            indexCount.clear();
+        }
     }
     return false;
 }
 
-void BinFileHelper::closeFile() {
+void BinFileHelper::closeFile()
+{
     fclose(fileHandle);
     fileHandle = NULL;
 }
 
-int BinFileHelper::getErrorNumber() {
+int BinFileHelper::getErrorNumber()
+{
     int err = errnum;
     errnum = ERR_NULL;
     return err;
 }
 
-QString BinFileHelper::getError() {
+QString BinFileHelper::getError()
+{
     QString erm = errorMessage;
     errorMessage = "";
     return erm;
 }
 
-struct dataElement BinFileHelper::getField(const QString &fieldName) const {
+struct dataElement BinFileHelper::getField(const QString &fieldName) const
+{
     dataElement de;
-    for(int i = 0; i < fields.size(); ++i) {
-        if(fields[i] -> name == fieldName) {
+    for(int i = 0; i < fields.size(); ++i)
+    {
+        if(fields[i] -> name == fieldName)
+        {
             de = *fields[i];
             return de;
         }
@@ -279,21 +300,26 @@ struct dataElement BinFileHelper::getField(const QString &fieldName) const {
     return de; // Returns junk!
 }
 
-bool BinFileHelper::isField(const QString &fieldName) const {
-    for(int i = 0; i < fields.size(); ++i) {
+bool BinFileHelper::isField(const QString &fieldName) const
+{
+    for(int i = 0; i < fields.size(); ++i)
+    {
         if(fields[i] -> name == fieldName)
             return true;
     }
     return false;
 }
 
-int BinFileHelper::unsigned_KDE_fseek( FILE *stream, quint32 offset, int whence ) {
+int BinFileHelper::unsigned_KDE_fseek( FILE * stream, quint32 offset, int whence )
+{
     Q_ASSERT( stream );
     int ret = 0;
-    if( offset <= ((quint32)1 << 31) - 1 ) {
+    if( offset <= ((quint32)1 << 31) - 1 )
+    {
         ret = fseek( stream, offset, whence );
     }
-    else {
+    else
+    {
         // Do the fseek in two steps
         ret = fseek( stream, ((quint32)1 << 31) - 1, whence );
         if( !ret )

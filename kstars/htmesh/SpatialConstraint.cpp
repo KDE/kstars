@@ -4,7 +4,7 @@
 //#     classes are defined here.
 //#
 //#     Author:         Peter Z. Kunszt based on A. Szalay's code
-//#     
+//#
 //#     Date:           October 23, 1998
 //#
 //#		Copyright (C) 2000  Peter Z. Kunszt, Alex S. Szalay, Aniruddha R. Thakar
@@ -40,6 +40,7 @@ SpatialConstraint::SpatialConstraint(SpatialVector a, float64 d) :
 /////////////CONTAINS/////////////////////////////////////
 // check whether a vector is inside this
 //
-bool SpatialConstraint::contains(const SpatialVector v) {
+bool SpatialConstraint::contains(const SpatialVector v)
+{
     return acos(v * a_) < s_;
 }

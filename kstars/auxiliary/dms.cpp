@@ -31,24 +31,33 @@ long unsigned dms::redundant_trig_function_calls = 0;
 double dms::seconds_in_trig = 0;
 #endif
 
-void dms::setD(const int &d, const int &m, const int &s, const int &ms) {
+void dms::setD(const int &d, const int &m, const int &s, const int &ms)
+{
     D = (double)abs(d) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.;
-    if (d<0) {D = -1.0*D;}
+    if (d<0)
+    {
+        D = -1.0*D;
+    }
 #ifdef COUNT_DMS_SINCOS_CALLS
     m_cosDirty = m_sinDirty = true;
 #endif
 }
 
-void dms::setH(const int &h, const int &m, const int &s, const int &ms) {
+void dms::setH(const int &h, const int &m, const int &s, const int &ms)
+{
     D = 15.0*((double)abs(h) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.);
-    if (h<0) {D = -1.0*D;}
+    if (h<0)
+    {
+        D = -1.0*D;
+    }
 #ifdef COUNT_DMS_SINCOS_CALLS
     m_cosDirty = m_sinDirty = true;
 #endif
 }
 
 
-bool dms::setFromString( const QString &str, bool isDeg ) {
+bool dms::setFromString( const QString &str, bool isDeg )
+{
     int d(0), m(0);
     double s(0.0);
     bool checkValue( false ), badEntry( false ), negative( false );
@@ -60,14 +69,16 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
     entry.replace(QLocale().decimalPoint(), "." );
 
     //empty entry returns false
-    if ( entry.isEmpty() ) {
+    if ( entry.isEmpty() )
+    {
         dms::setD( NaN::d );
         return false;
     }
 
     //try parsing a simple integer
     d = entry.toInt( &checkValue );
-    if ( checkValue ) {
+    if ( checkValue )
+    {
         if (isDeg) dms::setD( d, 0, 0 );
         else dms::setH( d, 0, 0 );
         return true;
@@ -75,7 +86,8 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 
     //try parsing a simple double
     double x = entry.toDouble( &checkValue );
-    if ( checkValue ) {
+    if ( checkValue )
+    {
         if ( isDeg ) dms::setD( x );
         else dms::setH( x );
         return true;
@@ -90,7 +102,8 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
     else fields = entry.split( ' ', QString::SkipEmptyParts );
 
     //anything with one field is invalid!
-    if ( fields.count() == 1 ) {
+    if ( fields.count() == 1 )
+    {
         dms::setD( NaN::d );
         return false;
     }
@@ -100,15 +113,20 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
     //If field[1] is a double, convert it to integer arcmin, and convert
     //the remainder to integer arcsec
     //If field[1] is neither int nor double, return false.
-    if ( fields.count() == 2 ) {
+    if ( fields.count() == 2 )
+    {
         m = fields[1].toInt( &checkValue );
         if ( checkValue ) fields.append( QString( "0" ) );
-        else {
+        else
+        {
             double mx = fields[1].toDouble( &checkValue );
-            if ( checkValue ) {
+            if ( checkValue )
+            {
                 fields[1] = QString::number( int(mx) );
                 fields.append( QString::number( int( 60.0*(mx - int(mx)) ) ) );
-            } else {
+            }
+            else
+            {
                 dms::setD( NaN::d );
                 return false;
             }
@@ -117,7 +135,8 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 
     //Now have (at least) three fields ( h/d m s );
     //we can ignore anything after 3rd field
-    if ( fields.count() >= 3 ) {
+    if ( fields.count() >= 3 )
+    {
         //See if first two fields parse as integers, and third field as a double
 
         d = fields[0].toInt( &checkValue );
@@ -132,18 +151,27 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
         if ( fields[0].at(0) == '-' && d == 0 ) negative = true;
     }
 
-    if ( !badEntry ) {
+    if ( !badEntry )
+    {
         double D = (double)abs(d) + (double)abs(m)/60.
                    + (double)fabs(s)/3600.;
 
-        if ( negative || d<0 || m < 0 || s<0 ) { D = -1.0*D;}
+        if ( negative || d<0 || m < 0 || s<0 )
+        {
+            D = -1.0*D;
+        }
 
-        if (isDeg) {
+        if (isDeg)
+        {
             dms::setD( D );
-        } else {
+        }
+        else
+        {
             dms::setH( D );
         }
-    } else {
+    }
+    else
+    {
         dms::setD( NaN::d );
         return false;
     }
@@ -151,62 +179,76 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
     return true;
 }
 
-int dms::arcmin( void ) const {
+int dms::arcmin( void ) const
+{
     int am = int( float( 60.0*( fabs(D) - abs( degree() ) ) ) );
-    if ( D<0.0 && D>-1.0 ) { //angle less than zero, but greater than -1.0
+    if ( D<0.0 && D>-1.0 )   //angle less than zero, but greater than -1.0
+    {
         am = -1*am; //make minute negative
     }
     return am; // Warning: Will return 0 if the value is NaN
 }
 
-int dms::arcsec( void ) const {
+int dms::arcsec( void ) const
+{
     int as = int( float( 60.0*( 60.0*( fabs(D) - abs( degree() ) ) - abs( arcmin() ) ) ) );
     //If the angle is slightly less than 0.0, give ArcSec a neg. sgn.
-    if ( degree()==0 && arcmin()==0 && D<0.0 ) {
+    if ( degree()==0 && arcmin()==0 && D<0.0 )
+    {
         as = -1*as;
     }
     return as; // Warning: Will return 0 if the value is NaN
 }
 
-int dms::marcsec( void ) const {
+int dms::marcsec( void ) const
+{
     int as = int( float( 1000.0*(60.0*( 60.0*( fabs(D) - abs( degree() ) ) - abs( arcmin() ) ) - abs( arcsec() ) ) ) );
     //If the angle is slightly less than 0.0, give ArcSec a neg. sgn.
-    if ( degree()==0 && arcmin()==0 && arcsec()== 0 && D<0.0 ) {
+    if ( degree()==0 && arcmin()==0 && arcsec()== 0 && D<0.0 )
+    {
         as = -1*as;
     }
     return as; // Warning: Will return 0 if the value is NaN
 }
 
-int dms::minute( void ) const {
+int dms::minute( void ) const
+{
     int hm = int( float( 60.0*( fabs( Hours() ) - abs( hour() ) ) ) );
-    if ( Hours()<0.0 && Hours()>-1.0 ) { //angle less than zero, but greater than -1.0
+    if ( Hours()<0.0 && Hours()>-1.0 )   //angle less than zero, but greater than -1.0
+    {
         hm = -1*hm; //make minute negative
     }
     return hm; // Warning: Will return 0 if the value is NaN
 }
 
-int dms::second( void ) const {
+int dms::second( void ) const
+{
     int hs = int( float( 60.0*( 60.0*( fabs( Hours() ) - abs( hour() ) ) - abs( minute() ) ) ) );
-    if ( hour()==0 && minute()==0 && Hours()<0.0 ) {
+    if ( hour()==0 && minute()==0 && Hours()<0.0 )
+    {
         hs = -1*hs;
     }
     return hs; // Warning: Will return 0 if the value is NaN
 }
 
-int dms::msecond( void ) const {
+int dms::msecond( void ) const
+{
     int hs = int( float( 1000.0*(60.0*( 60.0*( fabs( Hours() ) - abs( hour() ) ) - abs( minute() ) ) - abs( second() ) ) ) );
-    if ( hour()==0 && minute()==0 && second()==0 && Hours()<0.0 ) {
+    if ( hour()==0 && minute()==0 && second()==0 && Hours()<0.0 )
+    {
         hs = -1*hs;
     }
     return hs; // Warning: Will return 0 if the value is NaN
 }
 
 
-const dms dms::reduce( void ) const {
+const dms dms::reduce( void ) const
+{
     return dms( D - 360.0*floor(D/360.0) );
 }
 
-const QString dms::toDMSString(const bool forceSign, const bool machineReadable ) const {
+const QString dms::toDMSString(const bool forceSign, const bool machineReadable ) const
+{
     QString dummy;
     char pm(' ');
     int dd = abs(degree());
@@ -230,7 +272,8 @@ const QString dms::toDMSString(const bool forceSign, const bool machineReadable 
         return dummy.sprintf("%c%03d:%02d:%02d", pm, dd, dm, ds);
 }
 
-const QString dms::toHMSString( const bool machineReadable ) const {
+const QString dms::toHMSString( const bool machineReadable ) const
+{
     QString dummy;
     if( !machineReadable )
         return dummy.sprintf("%02dh %02dm %02ds", hour(), minute(), second());
@@ -238,7 +281,8 @@ const QString dms::toHMSString( const bool machineReadable ) const {
         return dummy.sprintf("%02d:%02d:%02d", hour(), minute(), second());
 }
 
-dms dms::fromString(const QString &st, bool deg) {
+dms dms::fromString(const QString &st, bool deg)
+{
     dms result;
     result.setFromString( st, deg );
     return result;
@@ -255,14 +299,16 @@ dms dms::fromString(const QString &st, bool deg) {
 }
 
 
-void dms::reduceToRange( enum dms::AngleRanges range ) {
-    switch( range ) {
-    case MINUSPI_TO_PI:
-        D -= 360. * floor( ( D + 180. ) / 360. );
-        break;
-    case ZERO_TO_2PI:
-    default:
-        D -= 360. * floor( D / 360. );
+void dms::reduceToRange( enum dms::AngleRanges range )
+{
+    switch( range )
+    {
+        case MINUSPI_TO_PI:
+            D -= 360. * floor( ( D + 180. ) / 360. );
+            break;
+        case ZERO_TO_2PI:
+        default:
+            D -= 360. * floor( D / 360. );
     }
 }
 

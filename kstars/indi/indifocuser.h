@@ -24,31 +24,37 @@ namespace ISD
 
 class Focuser : public DeviceDecorator
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    enum FocusDirection { FOCUS_INWARD, FOCUS_OUTWARD };
+    public:
+        enum FocusDirection { FOCUS_INWARD, FOCUS_OUTWARD };
 
-    Focuser(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_FOCUSER;}
+        Focuser(GDInterface * iPtr) : DeviceDecorator(iPtr)
+        {
+            dType = KSTARS_FOCUSER;
+        }
 
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty* tvp);
-    void processNumber(INumberVectorProperty *nvp);
-    void processLight(ILightVectorProperty *lvp);
+        void processSwitch(ISwitchVectorProperty * svp);
+        void processText(ITextVectorProperty * tvp);
+        void processNumber(INumberVectorProperty * nvp);
+        void processLight(ILightVectorProperty * lvp);
 
-    DeviceFamily getType() { return dType;}
+        DeviceFamily getType()
+        {
+            return dType;
+        }
 
-    bool focusIn();
-    bool focusOut();
-    bool moveByTimer(int msecs);
-    bool moveAbs(int steps);
-    bool moveRel(int steps);
+        bool focusIn();
+        bool focusOut();
+        bool moveByTimer(int msecs);
+        bool moveAbs(int steps);
+        bool moveRel(int steps);
 
-    bool canAbsMove();
-    bool canRelMove();
-    bool canTimerMove();
+        bool canAbsMove();
+        bool canRelMove();
+        bool canTimerMove();
 
-    bool getFocusDirection(FocusDirection *dir);
+        bool getFocusDirection(FocusDirection * dir);
 
 };
 

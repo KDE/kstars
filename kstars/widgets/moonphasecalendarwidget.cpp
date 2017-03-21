@@ -40,7 +40,7 @@
 #include <KLocale>
 #include <QFontDatabase>
 
-MoonPhaseCalendar::MoonPhaseCalendar( KSMoon &moon, KSSun &sun, QWidget *parent ) :
+MoonPhaseCalendar::MoonPhaseCalendar( KSMoon &moon, KSSun &sun, QWidget * parent ) :
     KDateTable(parent),
     m_Moon(moon), m_Sun(sun)
 {
@@ -51,19 +51,23 @@ MoonPhaseCalendar::MoonPhaseCalendar( KSMoon &moon, KSSun &sun, QWidget *parent 
     // TODO: Set geometry.
 }
 
-MoonPhaseCalendar::~MoonPhaseCalendar() {
+MoonPhaseCalendar::~MoonPhaseCalendar()
+{
 }
 
-QSize MoonPhaseCalendar::sizeHint() const {
+QSize MoonPhaseCalendar::sizeHint() const
+{
     const int suggestedMoonImageSize = 50;
     return QSize( qRound( ( suggestedMoonImageSize + 2 ) * numDayColumns ),
                   ( qRound( suggestedMoonImageSize + 4 + 12 ) * numWeekRows ) ); // FIXME: Using hard-coded fontsize
 }
 
-void MoonPhaseCalendar::loadImages() {
+void MoonPhaseCalendar::loadImages()
+{
     computeMoonImageSize();
     qDebug() << "Loading moon images. MoonImageSize = " << MoonImageSize;
-    for( int i = 0; i < 36; ++i ) {
+    for( int i = 0; i < 36; ++i )
+    {
         QString imName = QString().sprintf("moon%02d", i);
         m_Images[i] =
             QPixmap::fromImage( TextureManager::getImage( imName ) ).
@@ -72,23 +76,26 @@ void MoonPhaseCalendar::loadImages() {
     imagesLoaded = true;
 }
 
-void MoonPhaseCalendar::computeMoonImageSize() {
+void MoonPhaseCalendar::computeMoonImageSize()
+{
     cellWidth  = width() / ( double ) numDayColumns;
     cellHeight = height() / ( double ) numWeekRows;
     qDebug() << cellWidth << cellHeight;
     MoonImageSize = ( (cellWidth > cellHeight - 12) ? cellHeight - 12 : cellWidth ) - 2; // FIXME: Using hard-coded fontsize
 }
 
-void MoonPhaseCalendar::setGeometry( int, int, int, int ) {
+void MoonPhaseCalendar::setGeometry( int, int, int, int )
+{
     imagesLoaded = false;
 }
 
-void MoonPhaseCalendar::setGeometry( const QRect &r ) {
+void MoonPhaseCalendar::setGeometry( const QRect &r )
+{
     setGeometry( r.x(), r.y(), r.width(), r.height() ); // FIXME: +1 / -1 pixel compensation. Not required at the moment.
 }
 
 
-void MoonPhaseCalendar::paintEvent( QPaintEvent *e )
+void MoonPhaseCalendar::paintEvent( QPaintEvent * e )
 {
     QPainter p( this );
     if( !imagesLoaded )
@@ -102,8 +109,10 @@ void MoonPhaseCalendar::paintEvent( QPaintEvent *e )
     bottomRow = qMin( bottomRow, numWeekRows - 1 );
     rightCol = qMin( rightCol, numDayColumns - 1 );
     p.translate( leftCol * cellWidth, topRow * cellHeight );
-    for ( int i = leftCol; i <= rightCol; ++i ) {
-        for ( int j = topRow; j <= bottomRow; ++j ) {
+    for ( int i = leftCol; i <= rightCol; ++i )
+    {
+        for ( int j = topRow; j <= bottomRow; ++j )
+        {
             this->paintCell( &p, j, i, colorScheme );
             p.translate( 0, cellHeight );
         }
@@ -114,7 +123,7 @@ void MoonPhaseCalendar::paintEvent( QPaintEvent *e )
 }
 
 
-void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KColorScheme &colorScheme )
+void MoonPhaseCalendar::paintCell( QPainter * painter, int row, int col, const KColorScheme &colorScheme )
 {
     double w = cellWidth - 1;
     double h = cellHeight - 1;
@@ -131,27 +140,35 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
 
     //Calculate what day of the week the cell is
     cellWeekDay = col + calendar()->weekStartDay();
-    if ( cellWeekDay > numDayColumns ) {
+    if ( cellWeekDay > numDayColumns )
+    {
         cellWeekDay -= numDayColumns;
     }
 
     //See if cell day is normally a working day
-    if ( KLocale::global()->workingWeekStartDay() <= KLocale::global()->workingWeekEndDay() ) {
+    if ( KLocale::global()->workingWeekStartDay() <= KLocale::global()->workingWeekEndDay() )
+    {
         workingDay = cellWeekDay >= KLocale::global()->workingWeekStartDay()
-                  && cellWeekDay <= KLocale::global()->workingWeekEndDay();
-    } else {
+                     && cellWeekDay <= KLocale::global()->workingWeekEndDay();
+    }
+    else
+    {
         workingDay = cellWeekDay >= KLocale::global()->workingWeekStartDay()
-                  || cellWeekDay <= KLocale::global()->workingWeekEndDay();
+                     || cellWeekDay <= KLocale::global()->workingWeekEndDay();
     }
 
-    if( row == 0 ) {
+    if( row == 0 )
+    {
 
         //We are drawing a header cell
 
         //If not a normal working day, then use "do not work today" color
-        if ( workingDay ) {
+        if ( workingDay )
+        {
             cellTextColor = palette().color(QPalette::WindowText);
-        } else {
+        }
+        else
+        {
             KColorScheme colorScheme(palette().currentColorGroup(), KColorScheme::Window);
             cellTextColor = colorScheme.foreground(KColorScheme::NegativeText).color();
         }
@@ -161,7 +178,9 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
         cellFont.setBold( true );
         cellText = calendar()->weekDayName( cellWeekDay, KCalendarSystem::ShortDayName );
 
-    } else {
+    }
+    else
+    {
 
         //We are drawing a day cell
 
@@ -171,20 +190,26 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
         bool validDay = calendar()->isValid( cellDate );
 
         // Draw the day number in the cell, if the date is not valid then we don't want to show it
-        if ( validDay ) {
+        if ( validDay )
+        {
             cellText = calendar()->dayString( cellDate, KCalendarSystem::ShortFormat );
-        } else {
+        }
+        else
+        {
             cellText = "";
         }
 
-        if( ! validDay || calendar()->month( cellDate ) != calendar()->month( date() ) ) {
+        if( ! validDay || calendar()->month( cellDate ) != calendar()->month( date() ) )
+        {
             // we are either
             // ° painting an invalid day
             // ° painting a day of the previous month or
             // ° painting a day of the following month or
             cellBackgroundColor = palette().color(backgroundRole());
             cellTextColor = colorScheme.foreground(KColorScheme::InactiveText).color();
-        } else {
+        }
+        else
+        {
             //Paint a day of the current month
 
             // Background Colour priorities will be (high-to-low):
@@ -212,20 +237,23 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
             cellTextColor = palette().color( foregroundRole() );
 
             // If we are drawing the current date, then draw it bold and active
-            if ( currentDay ) {
+            if ( currentDay )
+            {
                 cellFont.setBold( true );
                 cellTextColor = colorScheme.foreground(KColorScheme::ActiveText).color();
             }
 
             // if we are drawing the day cell currently selected in the table
-            if ( selectedDay ) {
+            if ( selectedDay )
+            {
                 // set the background to highlighted
                 cellBackgroundColor = palette().color( QPalette::Highlight );
                 cellTextColor = palette().color( QPalette::HighlightedText );
             }
 
             //If the cell day is the day of religious observance, then always color text red unless Custom overrides
-            if ( dayOfPray ) {
+            if ( dayOfPray )
+            {
                 KColorScheme colorScheme(palette().currentColorGroup(),
                                          selectedDay ? KColorScheme::Selection : KColorScheme::View);
                 cellTextColor = colorScheme.foreground(KColorScheme::NegativeText).color();
@@ -235,21 +263,28 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
     }
 
     //Draw the background
-    if (row == 0) {
+    if (row == 0)
+    {
         painter->setPen( cellBackgroundColor );
         painter->setBrush( cellBackgroundColor );
         painter->drawRect( cell );
-    } else if (cellBackgroundColor != palette().color(backgroundRole())) {
+    }
+    else if (cellBackgroundColor != palette().color(backgroundRole()))
+    {
         QStyleOptionViewItemV4 opt;
         opt.initFrom(this);
         opt.rect = cell.toRect();
-        if (cellBackgroundColor != palette().color(backgroundRole())) {
+        if (cellBackgroundColor != palette().color(backgroundRole()))
+        {
             opt.palette.setBrush(QPalette::Highlight, cellBackgroundColor);
             opt.state |= QStyle::State_Selected;
         }
-        if (false && opt.state & QStyle::State_Enabled) {
+        if (false && opt.state & QStyle::State_Enabled)
+        {
             opt.state |= QStyle::State_MouseOver;
-        } else {
+        }
+        else
+        {
             opt.state &= ~QStyle::State_MouseOver;
         }
         opt.showDecorationSelected = true;
@@ -257,17 +292,19 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
         style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, this);
     }
 
-    if( row != 0 ) {
+    if( row != 0 )
+    {
         // Paint the moon phase
         QDate cellDate = dateFromPos( pos );
-        if( calendar()->isValid( cellDate ) ) {
+        if( calendar()->isValid( cellDate ) )
+        {
             int iPhase = computeMoonPhase( KStarsDateTime( cellDate, QTime(0, 0, 0) ) );
             QRect drawRect = cell.toRect();
             painter->drawPixmap( ( drawRect.width() - MoonImageSize )/2, 12 + (( drawRect.height() - 12 ) - MoonImageSize)/2, m_Images[ iPhase ] ); // FIXME: Using hard coded fon
 // +            painter
             // painter->drawPixmap( ( drawRect.width() - MoonImageSize )/2,
-                                 // 12 + (( drawRect.height() - 12 ) - MoonImageSize)/2,
-                                 // m_Images[ iPhase ] );
+            // 12 + (( drawRect.height() - 12 ) - MoonImageSize)/2,
+            // m_Images[ iPhase ] );
             // FIXME: Using hard coded fontsize
             //            qDebug() << "Drew moon image " << iPhase;
         }
@@ -279,7 +316,8 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
     painter->drawText( cell, (row == 0) ? Qt::AlignCenter : (Qt::AlignTop | Qt::AlignHCenter), cellText, &cell );
 
     //Draw the base line
-    if (row == 0) {
+    if (row == 0)
+    {
         painter->setPen( palette().color(foregroundRole()) );
         painter->drawLine( QPointF( 0, h ), QPointF( w, h ) );
     }
@@ -293,7 +331,8 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
     */
 }
 
-unsigned short MoonPhaseCalendar::computeMoonPhase( const KStarsDateTime &date ) {
+unsigned short MoonPhaseCalendar::computeMoonPhase( const KStarsDateTime &date )
+{
 
     KSNumbers num( date.djd() );
     KSPlanet earth( I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );

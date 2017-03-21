@@ -24,26 +24,32 @@ namespace ISD
 
 class Dome : public DeviceDecorator
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    Dome(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_DOME;}
+    public:
+        Dome(GDInterface * iPtr) : DeviceDecorator(iPtr)
+        {
+            dType = KSTARS_DOME;
+        }
 
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty* tvp);
-    void processNumber(INumberVectorProperty *nvp);
-    void processLight(ILightVectorProperty *lvp);
+        void processSwitch(ISwitchVectorProperty * svp);
+        void processText(ITextVectorProperty * tvp);
+        void processNumber(INumberVectorProperty * nvp);
+        void processLight(ILightVectorProperty * lvp);
 
-    DeviceFamily getType() { return dType;}
+        DeviceFamily getType()
+        {
+            return dType;
+        }
 
-    bool canPark();
-    bool isParked();
-    bool isMoving();
+        bool canPark();
+        bool isParked();
+        bool isMoving();
 
-public slots:
-    bool Abort();
-    bool Park();
-    bool UnPark();
+    public slots:
+        bool Abort();
+        bool Park();
+        bool UnPark();
 
 };
 

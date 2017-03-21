@@ -16,8 +16,8 @@
 #include "kspopupmenu.h"
 #endif
 
-Supernova::Supernova(const QString &sName, dms ra, dms dec, const QString& type, const QString& hostGalaxy,
-                   const QString& date, float sRedShift, float sMag)
+Supernova::Supernova(const QString &sName, dms ra, dms dec, const QString &type, const QString &hostGalaxy,
+                     const QString &date, float sRedShift, float sMag)
     : SkyObject(SkyObject::SUPERNOVA,ra, dec, sMag, sName),
       type(type),
       hostGalaxy(hostGalaxy),
@@ -27,13 +27,13 @@ Supernova::Supernova(const QString &sName, dms ra, dms dec, const QString& type,
 
 }
 
-Supernova* Supernova::clone() const
+Supernova * Supernova::clone() const
 {
     Q_ASSERT( typeid( this ) == typeid( static_cast<const Supernova *>( this ) ) ); // Ensure we are not slicing a derived class
     return new Supernova(*this);
 }
 
-void Supernova::initPopupMenu(KSPopupMenu* pmenu)
+void Supernova::initPopupMenu(KSPopupMenu * pmenu)
 {
 #ifdef KSTARS_LITE
     Q_UNUSED(pmenu)

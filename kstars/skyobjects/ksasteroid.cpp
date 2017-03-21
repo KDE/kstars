@@ -27,21 +27,22 @@
 
 KSAsteroid::KSAsteroid( int _catN, const QString &s, const QString &imfile,
                         long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H, double _G )
-        : KSPlanetBase(s, imfile),
-          catN(_catN), JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H), G(_G)
+    : KSPlanetBase(s, imfile),
+      catN(_catN), JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H), G(_G)
 {
     setType( SkyObject::ASTEROID );
     //Compute the orbital Period from Kepler's 3rd law:
     P = 365.2568984 * pow(a, 1.5); //period in days
 }
 
-KSAsteroid* KSAsteroid::clone() const
+KSAsteroid * KSAsteroid::clone() const
 {
     Q_ASSERT( typeid( this ) == typeid( static_cast<const KSAsteroid *>( this ) ) ); // Ensure we are not slicing a derived class
     return new KSAsteroid(*this);
 }
 
-bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
+bool KSAsteroid::findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * Earth )
+{
     //determine the mean anomaly for the desired date.  This is the mean anomaly for the
     //ephemeis epoch, plus the number of days between the desired date and ephemeris epoch,
     //times the asteroid's mean daily motion (360/P):
@@ -52,14 +53,17 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
     //compute eccentric anomaly:
     double E = m.Degrees() + e*180.0/dms::PI * sinm * ( 1.0 + e*cosm );
 
-    if ( e > 0.05 ) { //need more accurate approximation, iterate...
+    if ( e > 0.05 )   //need more accurate approximation, iterate...
+    {
         double E0;
         int iter(0);
-        do {
+        do
+        {
             E0 = E;
             iter++;
             E = E0 - ( E0 - e*180.0/dms::PI *sin( E0*dms::DegToRad ) - m.Degrees() )/(1 - e*cos( E0*dms::DegToRad ) );
-        } while ( fabs( E - E0 ) > 0.001 && iter < 1000 );
+        }
+        while ( fabs( E - E0 ) > 0.001 && iter < 1000 );
     }
 
     double sinE, cosE;
@@ -94,7 +98,8 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
     helEcPos.latitude.setRadians( ELatRad );
     setRsun( r );
 
-    if ( Earth ) {
+    if ( Earth )
+    {
         //xe, ye, ze are the Earth's heliocentric cartesian coords
         double cosBe, sinBe, cosLe, sinLe;
         Earth->ecLong().SinCos( sinLe, cosLe );
@@ -126,13 +131,13 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
     return true;
 }
 
-void KSAsteroid::findMagnitude(const KSNumbers*)
+void KSAsteroid::findMagnitude(const KSNumbers *)
 {
     double param     = 5 * log10(rsun() * rearth() );
     double phase_rad = phase().radians();
     double phi1      = exp( -3.33 * pow( tan( phase_rad / 2 ), 0.63 ) );
     double phi2      = exp( -1.87 * pow( tan( phase_rad / 2 ), 1.22 ) );
-    
+
     setMag( H + param - 2.5 * log( (1 - G) * phi1 + G * phi2 ) );
 }
 
@@ -187,7 +192,10 @@ void KSAsteroid::setRotationPeriod(float rot_per)
 }
 
 //Unused virtual function from KSPlanetBase
-bool KSAsteroid::loadData() { return false; }
+bool KSAsteroid::loadData()
+{
+    return false;
+}
 
 SkyObject::UID KSAsteroid::getUID() const
 {

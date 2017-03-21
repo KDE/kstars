@@ -32,42 +32,46 @@ class SkipList;
  *@version 1.0
  */
 
-class LineNode : public SkyOpacityNode  {
+class LineNode : public SkyOpacityNode
+{
 
-public:
-    /**
-     * @short Constructor
-     * @param lineList - lines that have to be drawn
-     * @param skipList - lines that have to be skipped
-     * @param drawStyle - not used currently
-     */
-    LineNode(LineList *lineList, SkipList *skipList, QColor color, int width, Qt::PenStyle drawStyle);
-    virtual ~LineNode();
+    public:
+        /**
+         * @short Constructor
+         * @param lineList - lines that have to be drawn
+         * @param skipList - lines that have to be skipped
+         * @param drawStyle - not used currently
+         */
+        LineNode(LineList * lineList, SkipList * skipList, QColor color, int width, Qt::PenStyle drawStyle);
+        virtual ~LineNode();
 
-    void setColor(QColor color);
-    void setWidth(int width);
-    void setDrawStyle(Qt::PenStyle drawStyle);
+        void setColor(QColor color);
+        void setWidth(int width);
+        void setDrawStyle(Qt::PenStyle drawStyle);
 
-    void setStyle(QColor color, int width, Qt::PenStyle drawStyle);
+        void setStyle(QColor color, int width, Qt::PenStyle drawStyle);
 
-    /**
-     * @short Update lines based on the visibility of line segments in m_lineList
-     */
-    void updateGeometry();
+        /**
+         * @short Update lines based on the visibility of line segments in m_lineList
+         */
+        void updateGeometry();
 
-    inline LineList *lineList() { return m_lineList; }
-private:
-    QSGGeometryNode *m_geometryNode;
-    LineList *m_lineList;
-    SkipList *m_skipList;
+        inline LineList * lineList()
+        {
+            return m_lineList;
+        }
+    private:
+        QSGGeometryNode * m_geometryNode;
+        LineList * m_lineList;
+        SkipList * m_skipList;
 
-    QSGGeometry *m_geometry;
-    QSGFlatColorMaterial *m_material;
+        QSGGeometry * m_geometry;
+        QSGFlatColorMaterial * m_material;
 
-    Qt::PenStyle m_drawStyle;
-    QColor m_color;
+        Qt::PenStyle m_drawStyle;
+        QColor m_color;
 
-    QSGTransformNode *debug;
+        QSGTransformNode * debug;
 };
 
 #endif

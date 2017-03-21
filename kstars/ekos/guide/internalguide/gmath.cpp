@@ -27,16 +27,17 @@
 #define DEF_SQR_3	(64-0)
 #define DEF_SQR_4	(128-0)
 
-const guide_square_t guide_squares[] = { 	{DEF_SQR_0, DEF_SQR_0*DEF_SQR_0*1.0},
-                                            {DEF_SQR_1, DEF_SQR_1*DEF_SQR_1*1.0},
-                                            {DEF_SQR_2, DEF_SQR_2*DEF_SQR_2*1.0},
-                                            {DEF_SQR_3, DEF_SQR_3*DEF_SQR_3*1.0},
-                                            {DEF_SQR_4, DEF_SQR_4*DEF_SQR_4*1.0},
-                                            {-1, -1}
-                                       };
+const guide_square_t guide_squares[] = { 	{DEF_SQR_0, DEF_SQR_0 * DEF_SQR_0*1.0},
+    {DEF_SQR_1, DEF_SQR_1 * DEF_SQR_1*1.0},
+    {DEF_SQR_2, DEF_SQR_2 * DEF_SQR_2*1.0},
+    {DEF_SQR_3, DEF_SQR_3 * DEF_SQR_3*1.0},
+    {DEF_SQR_4, DEF_SQR_4 * DEF_SQR_4*1.0},
+    {-1, -1}
+};
 
 
-const square_alg_t guide_square_alg[] = {
+const square_alg_t guide_square_alg[] =
+{
     { SMART_THRESHOLD, "Smart" },
     { CENTROID_THRESHOLD, "Fast"},
     { AUTO_THRESHOLD, "Auto" },
@@ -48,12 +49,12 @@ const square_alg_t guide_square_alg[] = {
 typedef struct
 {
     int x, y;
-}point_t;
+} point_t;
 
 cgmath::cgmath() : QObject()
 {
     // sys...
-    ticks = 0;    
+    ticks = 0;
     video_width  = -1;
     video_height = -1;
     ccd_pixel_width  = 0;
@@ -125,7 +126,7 @@ bool cgmath::setVideoParameters(int vid_wd, int vid_ht , int binX, int binY)
     return true;
 }
 
-void cgmath::setGuideView(FITSView *image)
+void cgmath::setGuideView(FITSView * image)
 {
     guideView = image;
 
@@ -154,7 +155,7 @@ bool cgmath::setGuiderParameters( double ccd_pix_wd, double ccd_pix_ht, double g
     return true;
 }
 
-void cgmath::getGuiderParameters( double *ccd_pix_wd, double *ccd_pix_ht, double *guider_aperture, double *guider_focal )
+void cgmath::getGuiderParameters( double * ccd_pix_wd, double * ccd_pix_ht, double * guider_aperture, double * guider_focal )
 {
     *ccd_pix_wd = ccd_pixel_width * 1000.0;
     *ccd_pix_ht = ccd_pixel_height * 1000.0;
@@ -192,7 +193,7 @@ bool cgmath::setReticleParameters( double x, double y, double ang )
 }
 
 
-bool cgmath::getReticleParameters( double *x, double *y, double *ang ) const
+bool cgmath::getReticleParameters( double * x, double * y, double * ang ) const
 {
     *x = reticle_pos.x;
     *y = reticle_pos.y;
@@ -231,13 +232,13 @@ uint32_t cgmath::getTicks( void ) const
     return ticks;
 }
 
-void cgmath::getStarDrift( double *dx, double *dy ) const
+void cgmath::getStarDrift( double * dx, double * dy ) const
 {
     *dx = star_pos.x;
     *dy = star_pos.y;
 }
 
-void cgmath::getStarScreenPosition( double *dx, double *dy ) const
+void cgmath::getStarScreenPosition( double * dx, double * dy ) const
 {
     *dx = scr_star_pos.x;
     *dy = scr_star_pos.y;
@@ -362,7 +363,7 @@ bool cgmath::calculateAndSetReticle1D( double start_x, double start_y, double en
 }
 
 
-bool cgmath::calculateAndSetReticle2D( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool *swap_dec, int totalPulse)
+bool cgmath::calculateAndSetReticle2D( double start_ra_x, double start_ra_y, double end_ra_x, double end_ra_y, double start_dec_x, double start_dec_y, double end_dec_x, double end_dec_y, bool * swap_dec, int totalPulse)
 {
     double phi_ra = 0;	 // angle calculated by GUIDE_RA drift
     double phi_dec = 0; // angle calculated by GUIDE_DEC drift
@@ -541,7 +542,7 @@ Vector cgmath::findLocalStarPosition( void ) const
         return Vector(rapidDX , rapidDY, 0);
     }
 
-    FITSData *imageData = guideView->getImageData();
+    FITSData * imageData = guideView->getImageData();
 
     switch (imageData->getDataType())
     {
@@ -575,10 +576,10 @@ Vector cgmath::findLocalStarPosition( void ) const
 
         case TDOUBLE:
             return findLocalStarPosition<double>();
-        break;
+            break;
 
         default:
-        break;
+            break;
     }
 
     return Vector(-1,-1,-1);
@@ -591,15 +592,15 @@ template<typename T> Vector cgmath::findLocalStarPosition( void ) const
     Vector ret;
     int i, j;
     double resx, resy, mass, threshold, pval;
-    T *psrc = NULL, *porigin = NULL;
-    T *pptr;
+    T * psrc = NULL, *porigin = NULL;
+    T * pptr;
 
     QRect trackingBox = guideView->getTrackingBox();
 
     if (trackingBox.isValid() == false)
         return Vector(-1,-1,-1);
 
-    FITSData *imageData = guideView->getImageData();
+    FITSData * imageData = guideView->getImageData();
 
     if (imageData == NULL)
     {
@@ -608,7 +609,7 @@ template<typename T> Vector cgmath::findLocalStarPosition( void ) const
         return Vector(-1,-1,-1);
     }
 
-    T *pdata = reinterpret_cast<T*>(imageData->getImageBuffer());
+    T * pdata = reinterpret_cast<T *>(imageData->getImageBuffer());
 
     if (Options::guideLogging())
         qDebug() << "Guide: Tracking Square " << trackingBox;
@@ -623,194 +624,277 @@ template<typename T> Vector cgmath::findLocalStarPosition( void ) const
     // several threshold adaptive smart agorithms
     switch( square_alg_idx )
     {
-    case CENTROID_THRESHOLD:
-    {
-        int width = trackingBox.width();
-        int height = trackingBox.width();
-        float i0, i1, i2, i3, i4, i5, i6, i7, i8;
-        int ix = 0, iy = 0;
-        int xM4;
-        T *p;
-        double average, fit, bestFit = 0;
-        int minx = 0;
-        int maxx = width;
-        int miny = 0;
-        int maxy = height;
-        for (int x = minx; x < maxx; x++)
-            for (int y = miny; y < maxy; y++)
-            {
-                i0 = i1 = i2 = i3 = i4 = i5 = i6 = i7 = i8 = 0;
-                xM4 = x - 4;
-                p = psrc + (y - 4) * video_width + xM4; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++;
-                p = psrc + (y - 3) * video_width + xM4; i8 += *p++; i8 += *p++; i8 += *p++; i7 += *p++; i6 += *p++; i7 += *p++; i8 += *p++; i8 += *p++; i8 += *p++;
-                p = psrc + (y - 2) * video_width + xM4; i8 += *p++; i8 += *p++; i5 += *p++; i4 += *p++; i3 += *p++; i4 += *p++; i5 += *p++; i8 += *p++; i8 += *p++;
-                p = psrc + (y - 1) * video_width + xM4; i8 += *p++; i7 += *p++; i4 += *p++; i2 += *p++; i1 += *p++; i2 += *p++; i4 += *p++; i8 += *p++; i8 += *p++;
-                p = psrc + (y + 0) * video_width + xM4; i8 += *p++; i6 += *p++; i3 += *p++; i1 += *p++; i0 += *p++; i1 += *p++; i3 += *p++; i6 += *p++; i8 += *p++;
-                p = psrc + (y + 1) * video_width + xM4; i8 += *p++; i7 += *p++; i4 += *p++; i2 += *p++; i1 += *p++; i2 += *p++; i4 += *p++; i8 += *p++; i8 += *p++;
-                p = psrc + (y + 2) * video_width + xM4; i8 += *p++; i8 += *p++; i5 += *p++; i4 += *p++; i3 += *p++; i4 += *p++; i5 += *p++; i8 += *p++; i8 += *p++;
-                p = psrc + (y + 3) * video_width + xM4; i8 += *p++; i8 += *p++; i8 += *p++; i7 += *p++; i6 += *p++; i7 += *p++; i8 += *p++; i8 += *p++; i8 += *p++;
-                p = psrc + (y + 4) * video_width + xM4; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++; i8 += *p++;
-                average = (i0 + i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8) / 85.0;
-                fit = P0 * (i0 - average) + P1 * (i1 - 4 * average) + P2 * (i2 - 4 * average) + P3 * (i3 - 4 * average) + P4 * (i4 - 8 * average) + P5 * (i5 - 4 * average) + P6 * (i6 - 4 * average) + P7 * (i7 - 8 * average) + P8 * (i8 - 48 * average);
-                if (bestFit < fit)
-                {
-                    bestFit = fit;
-                    ix = x;
-                    iy = y;
-                }
-            }
-
-        if (bestFit > 50)
+        case CENTROID_THRESHOLD:
         {
-            double sumX = 0;
-            double sumY = 0;
-            double total = 0;
-            for (int y = iy - 4; y <= iy + 4; y++) {
-                p = psrc + y * width + ix - 4;
-                for (int x = ix - 4; x <= ix + 4; x++) {
-                    double w = *p++;
-                    sumX += x * w;
-                    sumY += y * w;
-                    total += w;
+            int width = trackingBox.width();
+            int height = trackingBox.width();
+            float i0, i1, i2, i3, i4, i5, i6, i7, i8;
+            int ix = 0, iy = 0;
+            int xM4;
+            T * p;
+            double average, fit, bestFit = 0;
+            int minx = 0;
+            int maxx = width;
+            int miny = 0;
+            int maxy = height;
+            for (int x = minx; x < maxx; x++)
+                for (int y = miny; y < maxy; y++)
+                {
+                    i0 = i1 = i2 = i3 = i4 = i5 = i6 = i7 = i8 = 0;
+                    xM4 = x - 4;
+                    p = psrc + (y - 4) * video_width + xM4;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    p = psrc + (y - 3) * video_width + xM4;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i7 += *p++;
+                    i6 += *p++;
+                    i7 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    p = psrc + (y - 2) * video_width + xM4;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i5 += *p++;
+                    i4 += *p++;
+                    i3 += *p++;
+                    i4 += *p++;
+                    i5 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    p = psrc + (y - 1) * video_width + xM4;
+                    i8 += *p++;
+                    i7 += *p++;
+                    i4 += *p++;
+                    i2 += *p++;
+                    i1 += *p++;
+                    i2 += *p++;
+                    i4 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    p = psrc + (y + 0) * video_width + xM4;
+                    i8 += *p++;
+                    i6 += *p++;
+                    i3 += *p++;
+                    i1 += *p++;
+                    i0 += *p++;
+                    i1 += *p++;
+                    i3 += *p++;
+                    i6 += *p++;
+                    i8 += *p++;
+                    p = psrc + (y + 1) * video_width + xM4;
+                    i8 += *p++;
+                    i7 += *p++;
+                    i4 += *p++;
+                    i2 += *p++;
+                    i1 += *p++;
+                    i2 += *p++;
+                    i4 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    p = psrc + (y + 2) * video_width + xM4;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i5 += *p++;
+                    i4 += *p++;
+                    i3 += *p++;
+                    i4 += *p++;
+                    i5 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    p = psrc + (y + 3) * video_width + xM4;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i7 += *p++;
+                    i6 += *p++;
+                    i7 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    p = psrc + (y + 4) * video_width + xM4;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    i8 += *p++;
+                    average = (i0 + i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8) / 85.0;
+                    fit = P0 * (i0 - average) + P1 * (i1 - 4 * average) + P2 * (i2 - 4 * average) + P3 * (i3 - 4 * average) + P4 * (i4 - 8 * average) + P5 * (i5 - 4 * average) + P6 * (i6 - 4 * average) + P7 * (i7 - 8 * average) + P8 * (i8 - 48 * average);
+                    if (bestFit < fit)
+                    {
+                        bestFit = fit;
+                        ix = x;
+                        iy = y;
+                    }
+                }
+
+            if (bestFit > 50)
+            {
+                double sumX = 0;
+                double sumY = 0;
+                double total = 0;
+                for (int y = iy - 4; y <= iy + 4; y++)
+                {
+                    p = psrc + y * width + ix - 4;
+                    for (int x = ix - 4; x <= ix + 4; x++)
+                    {
+                        double w = *p++;
+                        sumX += x * w;
+                        sumY += y * w;
+                        total += w;
+                    }
+                }
+                if (total > 0)
+                {
+                    ret = (Vector(trackingBox.x(), trackingBox.y(), 0) + Vector(sumX/total , sumY/total, 0));
+                    return ret;
                 }
             }
-            if (total > 0)
-            {
-                ret = (Vector(trackingBox.x(), trackingBox.y(), 0) + Vector(sumX/total , sumY/total, 0));
-                return ret;
-            }
-        }
 
-       return Vector(-1,-1,-1);
-    }
+            return Vector(-1,-1,-1);
+        }
         break;
         // Alexander's Stepanenko smart threshold algorithm
-    case SMART_THRESHOLD:
-    {
-        point_t bbox_lt = { trackingBox.x()-SMART_FRAME_WIDTH, trackingBox.y()-SMART_FRAME_WIDTH };
-        point_t bbox_rb = { trackingBox.x()+trackingBox.width()+SMART_FRAME_WIDTH, trackingBox.y()+trackingBox.width()+SMART_FRAME_WIDTH };
-        int offset = 0;
+        case SMART_THRESHOLD:
+        {
+            point_t bbox_lt = { trackingBox.x()-SMART_FRAME_WIDTH, trackingBox.y()-SMART_FRAME_WIDTH };
+            point_t bbox_rb = { trackingBox.x()+trackingBox.width()+SMART_FRAME_WIDTH, trackingBox.y()+trackingBox.width()+SMART_FRAME_WIDTH };
+            int offset = 0;
 
-        // clip frame
-        if( bbox_lt.x < 0 )
-            bbox_lt.x = 0;
-        if( bbox_lt.y < 0 )
-            bbox_lt.y = 0;
-        if( bbox_rb.x > video_width )
-            bbox_rb.x = video_width;
-        if( bbox_rb.y > video_height )
-            bbox_rb.y = video_height;
+            // clip frame
+            if( bbox_lt.x < 0 )
+                bbox_lt.x = 0;
+            if( bbox_lt.y < 0 )
+                bbox_lt.y = 0;
+            if( bbox_rb.x > video_width )
+                bbox_rb.x = video_width;
+            if( bbox_rb.y > video_height )
+                bbox_rb.y = video_height;
 
-        // calc top bar
-        int box_wd = bbox_rb.x - bbox_lt.x;
-        int box_ht = trackingBox.y() - bbox_lt.y;
-        int pix_cnt = 0;
-        if( box_wd > 0 && box_ht > 0 )
-        {
-            pix_cnt += box_wd * box_ht;
-            for( j = bbox_lt.y;j < trackingBox.y();++j )
+            // calc top bar
+            int box_wd = bbox_rb.x - bbox_lt.x;
+            int box_ht = trackingBox.y() - bbox_lt.y;
+            int pix_cnt = 0;
+            if( box_wd > 0 && box_ht > 0 )
             {
-                offset = j*video_width;
-                for( i = bbox_lt.x;i < bbox_rb.x;++i )
+                pix_cnt += box_wd * box_ht;
+                for( j = bbox_lt.y; j < trackingBox.y(); ++j )
                 {
-                    pptr = pdata + offset + i;
-                    threshold += *pptr;
+                    offset = j*video_width;
+                    for( i = bbox_lt.x; i < bbox_rb.x; ++i )
+                    {
+                        pptr = pdata + offset + i;
+                        threshold += *pptr;
+                    }
                 }
             }
-        }
-        // calc left bar
-        box_wd = trackingBox.x() - bbox_lt.x;
-        box_ht = trackingBox.width();
-        if( box_wd > 0 && box_ht > 0 )
-        {
-            pix_cnt += box_wd * box_ht;
-            for( j = trackingBox.y();j < trackingBox.y()+box_ht;++j )
+            // calc left bar
+            box_wd = trackingBox.x() - bbox_lt.x;
+            box_ht = trackingBox.width();
+            if( box_wd > 0 && box_ht > 0 )
             {
-                offset = j*video_width;
-                for( i = bbox_lt.x;i < trackingBox.x();++i )
+                pix_cnt += box_wd * box_ht;
+                for( j = trackingBox.y(); j < trackingBox.y()+box_ht; ++j )
                 {
-                    pptr = pdata + offset + i;
-                    threshold += *pptr;
+                    offset = j*video_width;
+                    for( i = bbox_lt.x; i < trackingBox.x(); ++i )
+                    {
+                        pptr = pdata + offset + i;
+                        threshold += *pptr;
+                    }
                 }
             }
-        }
-        // calc right bar
-        box_wd = bbox_rb.x - trackingBox.x() - trackingBox.width();
-        box_ht = trackingBox.width();
-        if( box_wd > 0 && box_ht > 0 )
-        {
-            pix_cnt += box_wd * box_ht;
-            for( j = trackingBox.y();j < trackingBox.y()+box_ht;++j )
+            // calc right bar
+            box_wd = bbox_rb.x - trackingBox.x() - trackingBox.width();
+            box_ht = trackingBox.width();
+            if( box_wd > 0 && box_ht > 0 )
             {
-                offset = j*video_width;
-                for( i = trackingBox.x()+trackingBox.width();i < bbox_rb.x;++i )
+                pix_cnt += box_wd * box_ht;
+                for( j = trackingBox.y(); j < trackingBox.y()+box_ht; ++j )
                 {
-                    pptr = pdata + offset + i;
-                    threshold += *pptr;
+                    offset = j*video_width;
+                    for( i = trackingBox.x()+trackingBox.width(); i < bbox_rb.x; ++i )
+                    {
+                        pptr = pdata + offset + i;
+                        threshold += *pptr;
+                    }
                 }
             }
-        }
-        // calc bottom bar
-        box_wd = bbox_rb.x - bbox_lt.x;
-        box_ht = bbox_rb.y - trackingBox.y() - trackingBox.width();
-        if( box_wd > 0 && box_ht > 0 )
-        {
-            pix_cnt += box_wd * box_ht;
-            for( j = trackingBox.y()+trackingBox.width();j < bbox_rb.y;++j )
+            // calc bottom bar
+            box_wd = bbox_rb.x - bbox_lt.x;
+            box_ht = bbox_rb.y - trackingBox.y() - trackingBox.width();
+            if( box_wd > 0 && box_ht > 0 )
             {
-                offset = j*video_width;
-                for( i = bbox_lt.x;i < bbox_rb.x;++i )
+                pix_cnt += box_wd * box_ht;
+                for( j = trackingBox.y()+trackingBox.width(); j < bbox_rb.y; ++j )
                 {
-                    pptr = pdata + offset + i;
-                    threshold += *pptr;
+                    offset = j*video_width;
+                    for( i = bbox_lt.x; i < bbox_rb.x; ++i )
+                    {
+                        pptr = pdata + offset + i;
+                        threshold += *pptr;
+                    }
                 }
             }
-        }
-        // find maximum
-        double max_val = 0;
-        for( j = 0;j < trackingBox.width();++j )
-        {
-            for( i = 0;i < trackingBox.width();++i )
+            // find maximum
+            double max_val = 0;
+            for( j = 0; j < trackingBox.width(); ++j )
             {
-                pptr = psrc+i;
-                if( *pptr > max_val )
-                    max_val = *pptr;
+                for( i = 0; i < trackingBox.width(); ++i )
+                {
+                    pptr = psrc+i;
+                    if( *pptr > max_val )
+                        max_val = *pptr;
+                }
+                psrc += video_width;
             }
-            psrc += video_width;
-        }
-        threshold /= (double)pix_cnt;
-        // cut by 10% higher then average threshold
-        if( max_val > threshold )
-            threshold += (max_val - threshold) * SMART_CUT_FACTOR;
+            threshold /= (double)pix_cnt;
+            // cut by 10% higher then average threshold
+            if( max_val > threshold )
+                threshold += (max_val - threshold) * SMART_CUT_FACTOR;
 
-        //log_i("smart thr. = %f cnt = %d", threshold, pix_cnt);
-        break;
-    }
+            //log_i("smart thr. = %f cnt = %d", threshold, pix_cnt);
+            break;
+        }
         // simple adaptive threshold
-    case AUTO_THRESHOLD:
-    {
-        for( j = 0;j < trackingBox.width();++j )
+        case AUTO_THRESHOLD:
         {
-            for( i = 0;i < trackingBox.width();++i )
+            for( j = 0; j < trackingBox.width(); ++j )
             {
-                pptr = psrc+i;
-                threshold += *pptr;
+                for( i = 0; i < trackingBox.width(); ++i )
+                {
+                    pptr = psrc+i;
+                    threshold += *pptr;
+                }
+                psrc += video_width;
             }
-            psrc += video_width;
+            threshold /= square_square;
+            break;
         }
-        threshold /= square_square;
-        break;
-    }
         // no threshold subtracion
-    default:
-    {
-    }
+        default:
+        {
+        }
     }
 
     psrc = porigin;
-    for( j = 0;j < trackingBox.width();++j )
+    for( j = 0; j < trackingBox.width(); ++j )
     {
-        for( i = 0;i < trackingBox.width();++i )
+        for( i = 0; i < trackingBox.width(); ++i )
         {
             pptr = psrc+i;
             pval = *pptr - threshold;
@@ -874,7 +958,7 @@ void cgmath::process_axes( void  )
     in_params.enabled_axis2[1]     = Options::southDECGuideEnabled();
 
     // process axes...
-    for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
+    for( int k = GUIDE_RA; k <= GUIDE_DEC; k++ )
     {
         // zero all out commands
         out_params.pulse_dir[k] = NO_DIR;
@@ -887,7 +971,7 @@ void cgmath::process_axes( void  )
 
         cnt = in_params.accum_frame_cnt[ k ];
 
-        for( int i = 0, idx = channel_ticks[k];i < cnt;++i )
+        for( int i = 0, idx = channel_ticks[k]; i < cnt; ++i )
         {
             t_delta += drift[k][idx];
 
@@ -900,7 +984,7 @@ void cgmath::process_axes( void  )
                 idx = MAX_ACCUM_CNT-1;
         }
 
-        for( int i = 0;i < MAX_ACCUM_CNT;++i )
+        for( int i = 0; i < MAX_ACCUM_CNT; ++i )
             drift_integral[k] += drift[k][i];
 
         out_params.delta[k] = t_delta / (double)cnt;
@@ -953,7 +1037,7 @@ void cgmath::process_axes( void  )
 
     QTextStream out(logFile);
     out << ticks << "," << logTime.elapsed() << "," << out_params.delta[0] << "," << out_params.pulse_length[0] << "," << get_direction_string(out_params.pulse_dir[0])
-            << "," << out_params.delta[1] << "," << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]) << endl;
+        << "," << out_params.delta[1] << "," << out_params.pulse_length[1] << "," << get_direction_string(out_params.pulse_dir[1]) << endl;
 
 }
 
@@ -1050,10 +1134,10 @@ void cgmath::calc_square_err( void )
     if( ticks == 0 )
         return;
 
-    for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
+    for( int k = GUIDE_RA; k <= GUIDE_DEC; k++ )
     {
         double sqr_avg = 0;
-        for( int i = 0;i < MAX_ACCUM_CNT;++i )
+        for( int i = 0; i < MAX_ACCUM_CNT; ++i )
             sqr_avg += drift[k][i] * drift[k][i];
 
         out_params.sigma[k] = sqrt( sqr_avg / (double)MAX_ACCUM_CNT );
@@ -1084,35 +1168,35 @@ void cgmath::setRapidStarData(double dx, double dy)
 }
 
 
-void cgmath::setLogFile(QFile *file)
+void cgmath::setLogFile(QFile * file)
 {
     logFile = file;
     logTime.restart();
 }
 
-const char *cgmath::get_direction_string(GuideDirection dir)
+const char * cgmath::get_direction_string(GuideDirection dir)
 {
     switch (dir)
     {
 
-    case RA_DEC_DIR:
-        return "Decrease RA";
-        break;
+        case RA_DEC_DIR:
+            return "Decrease RA";
+            break;
 
-    case RA_INC_DIR:
-        return "Increase RA";
-        break;
+        case RA_INC_DIR:
+            return "Increase RA";
+            break;
 
-    case DEC_DEC_DIR:
-        return "Decrease DEC";
-        break;
+        case DEC_DEC_DIR:
+            return "Decrease DEC";
+            break;
 
-    case DEC_INC_DIR:
-        return "Increase DEC";
-        break;
+        case DEC_INC_DIR:
+            return "Increase DEC";
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     return "NO DIR";
@@ -1132,10 +1216,10 @@ void cproc_in_params::reset( void )
     guiding_rate = 0.5;
     average = true;
 
-    for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
+    for( int k = GUIDE_RA; k <= GUIDE_DEC; k++ )
     {
         enabled[k] 			 = true;
-        accum_frame_cnt[k] 	 = 1;        
+        accum_frame_cnt[k] 	 = 1;
         integral_gain[k] 	 = 0;
         derivative_gain[k] 	 = 0;
         max_pulse_length[k]  = 5000;
@@ -1152,7 +1236,7 @@ cproc_out_params::cproc_out_params()
 
 void cproc_out_params::reset( void )
 {
-    for( int k = GUIDE_RA;k <= GUIDE_DEC;k++ )
+    for( int k = GUIDE_RA; k <= GUIDE_DEC; k++ )
     {
         delta[k] 		= 0;
         pulse_dir[k] 	= NO_DIR;

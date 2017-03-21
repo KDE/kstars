@@ -26,27 +26,33 @@
  */
 class CalendarWidget : public KPlotWidget
 {
-    Q_OBJECT
+        Q_OBJECT
     public:
-        explicit CalendarWidget( QWidget *parent=0 );
+        explicit CalendarWidget( QWidget * parent=0 );
         void setHorizon();
-        inline float getRiseTime( int i ) { return riseTimeList.at( i ); }
-        inline float getSetTime( int i ) { return setTimeList.at( i ); }
-    
+        inline float getRiseTime( int i )
+        {
+            return riseTimeList.at( i );
+        }
+        inline float getSetTime( int i )
+        {
+            return setTimeList.at( i );
+        }
+
     protected:
-        void paintEvent( QPaintEvent *e );
-        
+        void paintEvent( QPaintEvent * e );
+
     private:
-        void drawHorizon( QPainter *p );
-        void drawAxes( QPainter *p );
-        
+        void drawHorizon( QPainter * p );
+        void drawAxes( QPainter * p );
+
         QList<QDate> dateList;
         QList<float> riseTimeList;
         QList<float> setTimeList;
-        
+
         float minSTime;
         float maxRTime;
-        
+
         QPolygonF polySunRise;
         QPolygonF polySunSet;
 };

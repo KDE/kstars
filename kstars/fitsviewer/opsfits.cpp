@@ -18,7 +18,20 @@ OpsFITS::OpsFITS() : QFrame(KStars::Instance())
 {
     setupUi( this );
 
-    connect(kcfg_LimitedResourcesMode, &QCheckBox::toggled, this, [this](bool toggled) { if (toggled) { kcfg_Auto3DCube->setChecked(false); kcfg_AutoDebayer->setChecked(false); } });
-    connect(kcfg_Auto3DCube, &QCheckBox::toggled, this, [this](bool toggled) { if (toggled) kcfg_LimitedResourcesMode->setChecked(false);});
-    connect(kcfg_AutoDebayer, &QCheckBox::toggled, this, [this](bool toggled) { if (toggled) kcfg_LimitedResourcesMode->setChecked(false);});
+    connect(kcfg_LimitedResourcesMode, &QCheckBox::toggled, this, [this](bool toggled)
+    {
+        if (toggled)
+        {
+            kcfg_Auto3DCube->setChecked(false);
+            kcfg_AutoDebayer->setChecked(false);
+        }
+    });
+    connect(kcfg_Auto3DCube, &QCheckBox::toggled, this, [this](bool toggled)
+    {
+        if (toggled) kcfg_LimitedResourcesMode->setChecked(false);
+    });
+    connect(kcfg_AutoDebayer, &QCheckBox::toggled, this, [this](bool toggled)
+    {
+        if (toggled) kcfg_LimitedResourcesMode->setChecked(false);
+    });
 }

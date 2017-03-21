@@ -15,36 +15,36 @@ namespace ISD
 {
 
 
-void Focuser::processLight(ILightVectorProperty *lvp)
+void Focuser::processLight(ILightVectorProperty * lvp)
 {
     DeviceDecorator::processLight(lvp);
 }
 
-void Focuser::processNumber(INumberVectorProperty *nvp)
+void Focuser::processNumber(INumberVectorProperty * nvp)
 {
 
     DeviceDecorator::processNumber(nvp);
 }
 
-void Focuser::processSwitch(ISwitchVectorProperty *svp)
+void Focuser::processSwitch(ISwitchVectorProperty * svp)
 {
     DeviceDecorator::processSwitch(svp);
 
 }
 
-void Focuser::processText(ITextVectorProperty *tvp)
+void Focuser::processText(ITextVectorProperty * tvp)
 {
     DeviceDecorator::processText(tvp);
 }
 
 bool Focuser::focusIn()
 {
-    ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");
+    ISwitchVectorProperty * focusProp = baseDevice->getSwitch("FOCUS_MOTION");
     if (focusProp == NULL)
         return false;
 
 
-    ISwitch *inFocus = IUFindSwitch(focusProp, "FOCUS_INWARD");
+    ISwitch * inFocus = IUFindSwitch(focusProp, "FOCUS_INWARD");
     if (inFocus == NULL)
         return false;
 
@@ -62,12 +62,12 @@ bool Focuser::focusIn()
 
 bool Focuser::focusOut()
 {
-    ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");
+    ISwitchVectorProperty * focusProp = baseDevice->getSwitch("FOCUS_MOTION");
     if (focusProp == NULL)
         return false;
 
 
-    ISwitch *outFocus = IUFindSwitch(focusProp, "FOCUS_OUTWARD");
+    ISwitch * outFocus = IUFindSwitch(focusProp, "FOCUS_OUTWARD");
     if (outFocus == NULL)
         return false;
 
@@ -82,13 +82,13 @@ bool Focuser::focusOut()
     return true;
 }
 
-bool Focuser::getFocusDirection(ISD::Focuser::FocusDirection *dir)
+bool Focuser::getFocusDirection(ISD::Focuser::FocusDirection * dir)
 {
-    ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");
+    ISwitchVectorProperty * focusProp = baseDevice->getSwitch("FOCUS_MOTION");
     if (focusProp == NULL)
         return false;
 
-    ISwitch *inFocus = IUFindSwitch(focusProp, "FOCUS_INWARD");
+    ISwitch * inFocus = IUFindSwitch(focusProp, "FOCUS_INWARD");
     if (inFocus == NULL)
         return false;
 
@@ -102,7 +102,7 @@ bool Focuser::getFocusDirection(ISD::Focuser::FocusDirection *dir)
 
 bool Focuser::moveByTimer(int msecs)
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_TIMER");
+    INumberVectorProperty * focusProp = baseDevice->getNumber("FOCUS_TIMER");
     if (focusProp == NULL)
         return false;
 
@@ -115,7 +115,7 @@ bool Focuser::moveByTimer(int msecs)
 
 bool Focuser::moveAbs(int steps)
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
+    INumberVectorProperty * focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
     if (focusProp == NULL)
         return false;
 
@@ -128,7 +128,7 @@ bool Focuser::moveAbs(int steps)
 
 bool Focuser::canAbsMove()
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
+    INumberVectorProperty * focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
     if (focusProp == NULL)
         return false;
     else
@@ -137,7 +137,7 @@ bool Focuser::canAbsMove()
 
 bool Focuser::moveRel(int steps)
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
+    INumberVectorProperty * focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
     if (focusProp == NULL)
         return false;
 
@@ -150,7 +150,7 @@ bool Focuser::moveRel(int steps)
 
 bool Focuser::canRelMove()
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
+    INumberVectorProperty * focusProp = baseDevice->getNumber("REL_FOCUS_POSITION");
     if (focusProp == NULL)
         return false;
     else
@@ -159,7 +159,7 @@ bool Focuser::canRelMove()
 
 bool Focuser::canTimerMove()
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_TIMER");
+    INumberVectorProperty * focusProp = baseDevice->getNumber("FOCUS_TIMER");
     if (focusProp == NULL)
         return false;
     else

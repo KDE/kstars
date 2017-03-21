@@ -24,7 +24,7 @@
 #include "skymap.h"
 
 OpsSolarSystem::OpsSolarSystem()
-        : QFrame(KStars::Instance())
+    : QFrame(KStars::Instance())
 {
     setupUi( this );
 
@@ -54,27 +54,33 @@ OpsSolarSystem::OpsSolarSystem()
     connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
     //connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
 
-    connect( solarButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&](){ isDirty = true;});
+    connect( solarButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&]()
+    {
+        isDirty = true;
+    });
 }
 
 OpsSolarSystem::~OpsSolarSystem()
 {
 }
 
-void OpsSolarSystem::slotChangeMagDownload( double mag ) {
+void OpsSolarSystem::slotChangeMagDownload( double mag )
+{
     if( mag > 12 )
         MagLimitAsteroidDownloadWarning->setVisible( true );
     else
         MagLimitAsteroidDownloadWarning->setVisible( false );
 }
 
-void OpsSolarSystem::slotAllWidgets( bool on ) {
+void OpsSolarSystem::slotAllWidgets( bool on )
+{
     MajorBodiesBox->setEnabled( on );
     MinorBodiesBox->setEnabled( on );
     TrailsBox->setEnabled( on );
 }
 
-void OpsSolarSystem::slotAsteroidWidgets( bool on ) {
+void OpsSolarSystem::slotAsteroidWidgets( bool on )
+{
     kcfg_MagLimitAsteroid->setEnabled( on );
     kcfg_ShowAsteroidNames->setEnabled( on );
     kcfg_AsteroidLabelDensity->setEnabled( on );
@@ -83,13 +89,15 @@ void OpsSolarSystem::slotAsteroidWidgets( bool on ) {
     LabelDensity->setEnabled( on );
 }
 
-void OpsSolarSystem::slotCometWidgets( bool on ) {
+void OpsSolarSystem::slotCometWidgets( bool on )
+{
     kcfg_ShowCometNames->setEnabled( on );
     kcfg_MaxRadCometName->setEnabled( on );
     textLabel4->setEnabled( on );
 }
 
-void OpsSolarSystem::slotSelectPlanets() {
+void OpsSolarSystem::slotSelectPlanets()
+{
     bool b=true;
     if ( QString(sender()->objectName()) == "showNonePlanets" )
         b = false;

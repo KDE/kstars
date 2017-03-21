@@ -49,8 +49,8 @@ const int INDI_MAX_TRIES=3;
 ** The device Manager can be thought of as the 'networking' parent
 ** of devices, while indimenu is 'GUI' parent of devices
 *******************************************************************/
-DeviceManager::DeviceManager(INDIMenu *INDIparent, QString inHost, uint inPort, ManagerMode inMode)
-  {
+DeviceManager::DeviceManager(INDIMenu * INDIparent, QString inHost, uint inPort, ManagerMode inMode)
+{
     parent		= INDIparent;
     serverProcess	= NULL;
     XMLParser		= NULL;
@@ -64,8 +64,8 @@ DeviceManager::~DeviceManager()
     serverSocket.close();
 
     if (serverProcess)
-	serverProcess->close();
-  
+        serverProcess->close();
+
     delete (serverProcess);
 
     if (XMLParser)
@@ -77,78 +77,78 @@ DeviceManager::~DeviceManager()
 }
 
 void DeviceManager::startServer()
-  {
+{
     serverProcess = new KProcess;
-  
+
     if (managed_devices.isEmpty())
-      {
-	kWarning() << "managed_devices was not set! Cannot start server!";
+    {
+        kWarning() << "managed_devices was not set! Cannot start server!";
         return;
-      }
-     #ifdef Q_OS_OSX
+    }
+#ifdef Q_OS_OSX
     if(Options::indiServerIsInternal())
         *serverProcess << QCoreApplication::applicationDirPath()+"/indi/indiserver";
     else
-    #endif
+#endif
         *serverProcess << Options::indiServer();
     *serverProcess << "-v" << "-p" << QString::number(port);
 
 
-    foreach(IDevice *device, managed_devices)
+    foreach(IDevice * device, managed_devices)
     {
         // JM: Temporary workaround for indiserver limit of client BLOBs for CCDs.
         if (device->type == KSTARS_CCD)
         {
-                *serverProcess << "-m" << "100";
-                break;
+            *serverProcess << "-m" << "100";
+            break;
         }
     }
 
-    foreach(IDevice *device, managed_devices)
-         *serverProcess << device->driver;
+    foreach(IDevice * device, managed_devices)
+        *serverProcess << device->driver;
 
 
     if (mode == DeviceManager::M_LOCAL)
-      {
-    	connect(serverProcess, SIGNAL(readyReadStandardError()),  this, SLOT(processStandardError()));
-	serverProcess->setOutputChannelMode(KProcess::SeparateChannels);
+    {
+        connect(serverProcess, SIGNAL(readyReadStandardError()),  this, SLOT(processStandardError()));
+        serverProcess->setOutputChannelMode(KProcess::SeparateChannels);
         serverProcess->setReadChannel(QProcess::StandardError);
-      }
-  
+    }
+
     serverProcess->start();
-  
+
     serverProcess->waitForStarted();
-  
+
     if (mode == DeviceManager::M_LOCAL)
-    	connectToServer();
+        connectToServer();
 }
 
 void DeviceManager::stopServer()
 {
     serverProcess->terminate();
 }
-  
+
 void DeviceManager::connectToServer()
 {
     connect(&serverSocket, SIGNAL(readyRead()), this, SLOT(dataReceived()));
-  
-   for (int i=0; i < INDI_MAX_TRIES; i++)
-   {
-	serverSocket.connectToHost(host, port);
-	if (serverSocket.waitForConnected(1000))
-	{
-		
-		connect(&serverSocket, SIGNAL(error( QAbstractSocket::SocketError )), this, SLOT(connectionError()));
-		connectionSuccess();
-		return;
-	}
-  
-	usleep(100000);
-   }
-  
-   connectionError();
-  }
-  
+
+    for (int i=0; i < INDI_MAX_TRIES; i++)
+    {
+        serverSocket.connectToHost(host, port);
+        if (serverSocket.waitForConnected(1000))
+        {
+
+            connect(&serverSocket, SIGNAL(error( QAbstractSocket::SocketError )), this, SLOT(connectionError()));
+            connectionSuccess();
+            return;
+        }
+
+        usleep(100000);
+    }
+
+    connectionError();
+}
+
 void DeviceManager::enableBLOB(bool enable, QString device, QString property)
 {
     QTextStream serverFP(&serverSocket);
@@ -158,9 +158,9 @@ void DeviceManager::enableBLOB(bool enable, QString device, QString property)
         return;
 
     if (property.isEmpty() == false)
-            openTag = QString("<enableBLOB device='%1' name='%2'>").arg(device).arg(property);
-        else
-            openTag = QString("<enableBLOB device='%1'>").arg(device);
+        openTag = QString("<enableBLOB device='%1' name='%2'>").arg(device).arg(property);
+    else
+        openTag = QString("<enableBLOB device='%1'>").arg(device);
 
     if (enable)
     {
@@ -176,9 +176,9 @@ void DeviceManager::enableBLOB(bool enable, QString device, QString property)
 
 void DeviceManager::connectionSuccess()
 {
-   QTextStream serverFP(&serverSocket);
-   
-   if (XMLParser)
+    QTextStream serverFP(&serverSocket);
+
+    if (XMLParser)
         delLilXML(XMLParser);
     XMLParser = newLilXML();
 
@@ -186,74 +186,74 @@ void DeviceManager::connectionSuccess()
 }
 
 void DeviceManager::connectionError()
-  {
-  QString errMsg = QString("Connection to INDI host at %1 on port %2 encountered an error: %3.").arg(host).arg(port).arg(serverSocket.errorString());
-  KMessageBox::error(NULL, errMsg);
-  
-  emit deviceManagerError(this);
-}
-  
-void DeviceManager::appendManagedDevices(QList<IDevice *> & processed_devices)
 {
-	managed_devices = processed_devices; 
-  
-	foreach (IDevice *device, managed_devices)
-	{
-		device->unique_label 	= parent->getUniqueDeviceLabel(device->tree_label);
-		//device->mode		= mode;
-		device->deviceManager 	= this;
-	}
+    QString errMsg = QString("Connection to INDI host at %1 on port %2 encountered an error: %3.").arg(host).arg(port).arg(serverSocket.errorString());
+    KMessageBox::error(NULL, errMsg);
+
+    emit deviceManagerError(this);
 }
-  
+
+void DeviceManager::appendManagedDevices(QList<IDevice *> &processed_devices)
+{
+    managed_devices = processed_devices;
+
+    foreach (IDevice * device, managed_devices)
+    {
+        device->unique_label 	= parent->getUniqueDeviceLabel(device->tree_label);
+        //device->mode		= mode;
+        device->deviceManager 	= this;
+    }
+}
+
 void DeviceManager::processStandardError()
 {
     if (serverProcess == NULL)
-          return;
-  
+        return;
+
     serverBuffer.append(serverProcess->readAllStandardError());
     emit newServerInput();
 }
-  
+
 void DeviceManager::dataReceived()
 {
     char errmsg[ERRMSG_SIZE];
     int nr=0, err_code=0;
     QTextStream serverFP(&serverSocket);
     QString ibuf, err_cmd;
-  
+
     ibuf = serverFP.readAll();
     nr = ibuf.length();
-  
-        /* process each char */
-       for (int i = 0; i < nr; i++)
-       {
-           if (!XMLParser)
-              return;
 
-           XMLEle *root = readXMLEle (XMLParser, ibuf[i].toAscii(), errmsg);
-           if (root)
-           {
-                if ( (err_code = dispatchCommand(root, err_cmd)) < 0)
+    /* process each char */
+    for (int i = 0; i < nr; i++)
+    {
+        if (!XMLParser)
+            return;
+
+        XMLEle * root = readXMLEle (XMLParser, ibuf[i].toAscii(), errmsg);
+        if (root)
+        {
+            if ( (err_code = dispatchCommand(root, err_cmd)) < 0)
+            {
+                // Silenty ignore property duplication errors
+                if (err_code != INDI_PROPERTY_DUPLICATED)
                 {
-		     // Silenty ignore property duplication errors
-		     if (err_code != INDI_PROPERTY_DUPLICATED)
-		     {
-                            //kDebug() << "Dispatch command error: " << err_cmd << endl;
-                            fprintf(stderr, "Dispatch command error: %d for command %s\n", err_code, qPrintable(err_cmd));
-	       	            prXMLEle (stderr, root, 0);
-                     }
+                    //kDebug() << "Dispatch command error: " << err_cmd << endl;
+                    fprintf(stderr, "Dispatch command error: %d for command %s\n", err_code, qPrintable(err_cmd));
+                    prXMLEle (stderr, root, 0);
                 }
+            }
 
-                delXMLEle (root);
-           }
-           else if (*errmsg)
-	   {
-                kDebug() << "XML Root Error: " << errmsg;
-	   }
-          }
-  }
+            delXMLEle (root);
+        }
+        else if (*errmsg)
+        {
+            kDebug() << "XML Root Error: " << errmsg;
+        }
+    }
+}
 
-int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
+int DeviceManager::dispatchCommand(XMLEle * root, QString &errmsg)
 {
 
     if  (!strcmp (tagXMLEle(root), "message"))
@@ -262,10 +262,10 @@ int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
         return delPropertyCmd(root, errmsg);
 
     /* Get the device, if not available, create it */
-    INDI_D *dp = findDev (root, 1, errmsg);
+    INDI_D * dp = findDev (root, 1, errmsg);
     if (dp == NULL)
     {
-	errmsg = "No device available and none was created";
+        errmsg = "No device available and none was created";
         return INDI_DEVICE_NOT_FOUND;
     }
 
@@ -297,11 +297,11 @@ int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
  * if no property name attribute at all, delete the whole device regardless.
  * return 0 if ok, else -1 with reason in errmsg[].
  */
-int DeviceManager::delPropertyCmd (XMLEle *root, QString & errmsg)
+int DeviceManager::delPropertyCmd (XMLEle * root, QString &errmsg)
 {
-    XMLAtt *ap;
-    INDI_D *dp;
-    INDI_P *pp;
+    XMLAtt * ap;
+    INDI_D * dp;
+    INDI_P * pp;
 
     /* dig out device and optional property name */
     dp = findDev (root, 0, errmsg);
@@ -327,7 +327,7 @@ int DeviceManager::delPropertyCmd (XMLEle *root, QString & errmsg)
         return removeDevice(dp->name, errmsg);
 }
 
-int DeviceManager::removeDevice( const QString &devName, QString & errmsg )
+int DeviceManager::removeDevice( const QString &devName, QString &errmsg )
 {
     // remove all devices if devName == NULL
     if (devName == NULL)
@@ -349,7 +349,7 @@ int DeviceManager::removeDevice( const QString &devName, QString & errmsg )
     return INDI_DEVICE_NOT_FOUND;
 }
 
-INDI_D * DeviceManager::findDev( const QString &devName, QString & errmsg )
+INDI_D * DeviceManager::findDev( const QString &devName, QString &errmsg )
 {
     /* search for existing */
     for (int i = 0; i < indi_dev.size(); i++)
@@ -366,69 +366,69 @@ INDI_D * DeviceManager::findDev( const QString &devName, QString & errmsg )
 /* add new device to mainrc_w using info in dep.
 - * if trouble return NULL with reason in errmsg[]
 - */
-INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
+INDI_D * DeviceManager::addDevice (XMLEle * dep, QString &errmsg)
 {
 
-    INDI_D *dp;
-    XMLAtt *ap;
+    INDI_D * dp;
+    XMLAtt * ap;
     QString device_name, unique_label;
-    IDevice *targetDevice=NULL;
+    IDevice * targetDevice=NULL;
 
     /* allocate new INDI_D on indi_dev */
     ap = findAtt (dep, "device", errmsg);
     if (!ap)
     {
-	errmsg = QString("Unable to find device attribute in XML tree. Cannot add device.");
-	kDebug() << errmsg << endl;
+        errmsg = QString("Unable to find device attribute in XML tree. Cannot add device.");
+        kDebug() << errmsg << endl;
         return NULL;
     }
 
     device_name = QString(valuXMLAtt(ap));
 
-        if (mode != M_CLIENT)
-    		foreach(IDevice *device, managed_devices)
-    		{
-		        // Each device manager has a list of managed_devices (IDevice). Each IDevice has the original constant name of the driver (driver_class)
-			// Therefore, when a new device is discovered, we match the driver name (which never changes, it's always static from indiserver) against the driver_class
-			// of IDevice because IDevice can have several names. It can have the tree_label which is the name it has in the local tree widget. Finally, the name that shows
-			// up in the INDI control panel is the unique name of the driver, which is for most cases tree_label, but if that exists already then we get tree_label_1..etc
+    if (mode != M_CLIENT)
+        foreach(IDevice * device, managed_devices)
+        {
+            // Each device manager has a list of managed_devices (IDevice). Each IDevice has the original constant name of the driver (driver_class)
+            // Therefore, when a new device is discovered, we match the driver name (which never changes, it's always static from indiserver) against the driver_class
+            // of IDevice because IDevice can have several names. It can have the tree_label which is the name it has in the local tree widget. Finally, the name that shows
+            // up in the INDI control panel is the unique name of the driver, which is for most cases tree_label, but if that exists already then we get tree_label_1..etc
 
-                        if (device->name == device_name && device->state == IDevice::DEV_TERMINATE)
-			{
-	 			device->state = IDevice::DEV_START;
-			        unique_label = device->unique_label = parent->getUniqueDeviceLabel(device->tree_label);
-                                targetDevice = device;
-				break;
-			}
-		}
+            if (device->name == device_name && device->state == IDevice::DEV_TERMINATE)
+            {
+                device->state = IDevice::DEV_START;
+                unique_label = device->unique_label = parent->getUniqueDeviceLabel(device->tree_label);
+                targetDevice = device;
+                break;
+            }
+        }
 
-        // For remote INDI drivers with no label attributes
-	if (unique_label.isEmpty())
-	  unique_label = parent->getUniqueDeviceLabel(device_name);
+    // For remote INDI drivers with no label attributes
+    if (unique_label.isEmpty())
+        unique_label = parent->getUniqueDeviceLabel(device_name);
 
-        dp = new INDI_D(parent, this, device_name, unique_label, targetDevice);
-	indi_dev.append(dp);
-	emit newDevice(dp);
+    dp = new INDI_D(parent, this, device_name, unique_label, targetDevice);
+    indi_dev.append(dp);
+    emit newDevice(dp);
 
-        enableBLOB(true, device_name);
+    enableBLOB(true, device_name);
 
-	connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->indiDriver(), SLOT(newTelescopeDiscovered()), Qt::QueuedConnection);
+    connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->indiDriver(), SLOT(newTelescopeDiscovered()), Qt::QueuedConnection);
 
-    	/* ok */
-    	return dp;
-	
+    /* ok */
+    return dp;
+
 }
 
-INDI_D * DeviceManager::findDev (XMLEle *root, int create, QString & errmsg)
+INDI_D * DeviceManager::findDev (XMLEle * root, int create, QString &errmsg)
 {
-    XMLAtt *ap;
-    char *dn;
+    XMLAtt * ap;
+    char * dn;
 
     /* get device name */
     ap = findAtt (root, "device", errmsg);
     if (!ap)
     {
-	errmsg = QString("No device attribute found in element %1").arg(tagXMLEle(root));
+        errmsg = QString("No device attribute found in element %1").arg(tagXMLEle(root));
         return (NULL);
     }
     dn = valuXMLAtt(ap);
@@ -451,7 +451,7 @@ INDI_D * DeviceManager::findDev (XMLEle *root, int create, QString & errmsg)
 /* a general message command received from the device.
  * return 0 if ok, else -1 with reason in errmsg[].
  */
-int DeviceManager::messageCmd (XMLEle *root, QString & errmsg)
+int DeviceManager::messageCmd (XMLEle * root, QString &errmsg)
 {
     checkMsg (root, findDev (root, 0, errmsg));
     return (0);
@@ -460,9 +460,9 @@ int DeviceManager::messageCmd (XMLEle *root, QString & errmsg)
 /* display message attribute.
  * N.B. don't put carriage control in msg, we take care of that.
  */
-void DeviceManager::checkMsg (XMLEle *root, INDI_D *dp)
+void DeviceManager::checkMsg (XMLEle * root, INDI_D * dp)
 {
-    XMLAtt *ap;
+    XMLAtt * ap;
     ap = findXMLAtt(root, "message");
 
     if (ap)
@@ -473,11 +473,11 @@ void DeviceManager::checkMsg (XMLEle *root, INDI_D *dp)
  * prefix our time stamp if not included.
  * N.B. don't put carriage control in msg, we take care of that.
  */
-void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
+void DeviceManager::doMsg (XMLEle * msg, INDI_D * dp)
 {
-    QTextEdit *txt_w;
-    XMLAtt *message;
-    XMLAtt *timestamp;
+    QTextEdit * txt_w;
+    XMLAtt * message;
+    XMLAtt * timestamp;
 
     if (dp == NULL)
     {
@@ -504,16 +504,16 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
     txt_w->insertPlainText( QString(valuXMLAtt(message)) + QString("\n"));
     QTextCursor c = txt_w->textCursor();
     c.movePosition(QTextCursor::Start);
-    txt_w->setTextCursor(c); 
+    txt_w->setTextCursor(c);
 
     if ( Options::showINDIMessages() )
         parent->ksw->statusBar()->changeItem( QString(valuXMLAtt(message)), 0);
 
 }
 
-void DeviceManager::sendNewText (INDI_P *pp)
+void DeviceManager::sendNewText (INDI_P * pp)
 {
-    INDI_E *lp;
+    INDI_E * lp;
 
     QTextStream serverFP(&serverSocket);
 
@@ -532,9 +532,9 @@ void DeviceManager::sendNewText (INDI_P *pp)
     serverFP << QString("</newTextVector>\n");
 }
 
-void DeviceManager::sendNewNumber (INDI_P *pp)
+void DeviceManager::sendNewNumber (INDI_P * pp)
 {
-    INDI_E *lp;
+    INDI_E * lp;
 
     QTextStream serverFP(&serverSocket);
 
@@ -547,16 +547,16 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
         serverFP << QString("  <oneNumber\n");
         serverFP << QString("    name='%1'>\n").arg(qPrintable( lp->name));
         if (lp->text.isEmpty() || lp->spin_w)
-        	serverFP << QString("      %1\n").arg(lp->targetValue);
+            serverFP << QString("      %1\n").arg(lp->targetValue);
         else
-        	serverFP << QString("      %1\n").arg(lp->text);
+            serverFP << QString("      %1\n").arg(lp->text);
         serverFP << QString("  </oneNumber>\n");
     }
     serverFP << QString("</newNumberVector>\n");
 
 }
 
-void DeviceManager::sendNewSwitch (INDI_P *pp, INDI_E *lp)
+void DeviceManager::sendNewSwitch (INDI_P * pp, INDI_E * lp)
 {
     QTextStream serverFP(&serverSocket);
 

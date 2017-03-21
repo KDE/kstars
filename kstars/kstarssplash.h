@@ -21,7 +21,7 @@
 #include <QSplashScreen>
 
 /** @class KStarsSplash
- * The KStars Splash Screen.  The splash screen shows the KStars logo and 
+ * The KStars Splash Screen.  The splash screen shows the KStars logo and
  * progress messages while data files are parsed and objects are initialized.
  * @short the KStars Splash Screen.
  * @author Heiko Evermann
@@ -29,21 +29,21 @@
  */
 class KStarsSplash : public QSplashScreen
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    /** Constructor. Create widgets.  Load KStars logo.  Start load timer.
-     * A non-empty customMessage will replace "Welcome to KStars [...]".
-    */
-    explicit KStarsSplash( const QString& customMessage="" );
+    public:
+        /** Constructor. Create widgets.  Load KStars logo.  Start load timer.
+         * A non-empty customMessage will replace "Welcome to KStars [...]".
+        */
+        explicit KStarsSplash( const QString &customMessage="" );
 
-    /** Destructor */
-    ~KStarsSplash();
+        /** Destructor */
+        ~KStarsSplash();
 
-public slots:
-    /** Display the text argument in the Splash Screen's status label.
-     * This is connected to KStarsData::progressText(QString)*/
-    void setMessage(const QString &s);
+    public slots:
+        /** Display the text argument in the Splash Screen's status label.
+         * This is connected to KStarsData::progressText(QString)*/
+        void setMessage(const QString &s);
 };
 
 #endif

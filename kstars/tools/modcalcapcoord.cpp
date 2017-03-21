@@ -31,8 +31,9 @@
 #include "dialogs/finddialog.h"
 #include "widgets/dmsbox.h"
 
-modCalcApCoord::modCalcApCoord(QWidget *parentSplit)
-        : QFrame(parentSplit) {
+modCalcApCoord::modCalcApCoord(QWidget * parentSplit)
+    : QFrame(parentSplit)
+{
 
     setupUi(this);
     showCurrentTime();
@@ -56,7 +57,8 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit)
     show();
 }
 
-modCalcApCoord::~modCalcApCoord(){
+modCalcApCoord::~modCalcApCoord()
+{
 }
 
 void modCalcApCoord::showCurrentTime (void)
@@ -67,7 +69,8 @@ void modCalcApCoord::showCurrentTime (void)
     EpochTarget->setText( QString::number( dt.epoch(), 'f', 3 ) );
 }
 
-void modCalcApCoord::slotCompute(){
+void modCalcApCoord::slotCompute()
+{
     KStarsDateTime dt( Date->date(), UT->time() );
     long double jd = dt.djd();
 
@@ -81,10 +84,12 @@ void modCalcApCoord::slotCompute(){
     Dec->setText( sp.dec().toDMSString() );
 }
 
-void modCalcApCoord::slotObject() {
+void modCalcApCoord::slotObject()
+{
     QPointer<FindDialog> fd = new FindDialog( this );
-    if ( fd->exec() == QDialog::Accepted ) {
-        SkyObject *o = fd->targetObject();
+    if ( fd->exec() == QDialog::Accepted )
+    {
+        SkyObject * o = fd->targetObject();
         RACat->showInHours( o->ra0() );
         DecCat->showInDegrees( o->dec0() );
         EpochCat->setValue( 2000.0 );
@@ -94,59 +99,72 @@ void modCalcApCoord::slotObject() {
     delete fd;
 }
 
-void modCalcApCoord::slotUtCheckedBatch(){
+void modCalcApCoord::slotUtCheckedBatch()
+{
     if ( utCheckBatch->isChecked() )
         utBoxBatch->setEnabled( false );
-    else {
+    else
+    {
         utBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcApCoord::slotDateCheckedBatch(){
+void modCalcApCoord::slotDateCheckedBatch()
+{
 
     if ( dateCheckBatch->isChecked() )
         dateBoxBatch->setEnabled( false );
-    else {
+    else
+    {
         dateBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcApCoord::slotRaCheckedBatch(){
+void modCalcApCoord::slotRaCheckedBatch()
+{
 
     if ( raCheckBatch->isChecked() )
         raBoxBatch->setEnabled( false );
-    else {
+    else
+    {
         raBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcApCoord::slotDecCheckedBatch(){
+void modCalcApCoord::slotDecCheckedBatch()
+{
 
     if ( decCheckBatch->isChecked() )
         decBoxBatch->setEnabled( false );
-    else {
+    else
+    {
         decBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcApCoord::slotEpochCheckedBatch(){
+void modCalcApCoord::slotEpochCheckedBatch()
+{
 
     if ( epochCheckBatch->isChecked() )
         epochBoxBatch->setEnabled( false );
-    else {
+    else
+    {
         epochBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcApCoord::slotRunBatch() {
+void modCalcApCoord::slotRunBatch()
+{
 
     QString inputFileName = InputLineEditBatch->url().toLocalFile();
 
     // We open the input file and read its content
 
-    if ( QFile::exists(inputFileName) ) {
+    if ( QFile::exists(inputFileName) )
+    {
         QFile f( inputFileName );
-        if ( !f.open( QIODevice::ReadOnly) ) {
+        if ( !f.open( QIODevice::ReadOnly) )
+        {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             inputFileName.clear();
@@ -158,7 +176,9 @@ void modCalcApCoord::slotRunBatch() {
         processLines(istream);
         //		readFile( istream );
         f.close();
-    } else  {
+    }
+    else
+    {
         QString message = i18n( "Invalid file: %1", inputFileName );
         KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
         inputFileName.clear();
@@ -168,7 +188,8 @@ void modCalcApCoord::slotRunBatch() {
 }
 
 //void modCalcApCoord::processLines( const QFile * fIn ) {
-void modCalcApCoord::processLines( QTextStream &istream ) {
+void modCalcApCoord::processLines( QTextStream &istream )
+{
 
     // we open the output file
 
@@ -189,7 +210,8 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
     dms raB, decB;
     QString epoch0B;
 
-    while ( ! istream.atEnd() ) {
+    while ( ! istream.atEnd() )
+    {
         line = istream.readLine();
         line.trimmed();
 
@@ -201,73 +223,78 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 
         // Read Ut and write in ostream if corresponds
 
-        if(utCheckBatch->isChecked() ) {
+        if(utCheckBatch->isChecked() )
+        {
             utB = QTime::fromString( fields[i] );
             i++;
-        } else
+        }
+        else
             utB = utBoxBatch->time();
 
         if ( allRadioBatch->isChecked() )
             ostream << QLocale().toString( utB ) << space;
-        else
-            if(utCheckBatch->isChecked() )
-                ostream << QLocale().toString( utB ) << space;
+        else if(utCheckBatch->isChecked() )
+            ostream << QLocale().toString( utB ) << space;
 
         // Read date and write in ostream if corresponds
 
-        if(dateCheckBatch->isChecked() ) {
+        if(dateCheckBatch->isChecked() )
+        {
             dtB = QDate::fromString( fields[i] );
             i++;
-        } else
+        }
+        else
             dtB = dateBoxBatch->date();
 
         if ( allRadioBatch->isChecked() )
             ostream << QLocale().toString( dtB, QLocale::LongFormat ).append(space);
-        else
-            if(dateCheckBatch->isChecked() )
-                ostream << QLocale().toString( dtB, QLocale::LongFormat ).append(space);
+        else if(dateCheckBatch->isChecked() )
+            ostream << QLocale().toString( dtB, QLocale::LongFormat ).append(space);
 
         // Read RA and write in ostream if corresponds
 
-        if(raCheckBatch->isChecked() ) {
+        if(raCheckBatch->isChecked() )
+        {
             raB = dms::fromString( fields[i],false);
             i++;
-        } else
+        }
+        else
             raB = raBoxBatch->createDms(false);
 
         if ( allRadioBatch->isChecked() )
             ostream << raB.toHMSString() << space;
-        else
-            if(raCheckBatch->isChecked() )
-                ostream << raB.toHMSString() << space;
+        else if(raCheckBatch->isChecked() )
+            ostream << raB.toHMSString() << space;
 
         // Read DEC and write in ostream if corresponds
 
-        if(decCheckBatch->isChecked() ) {
+        if(decCheckBatch->isChecked() )
+        {
             decB = dms::fromString( fields[i], true);
             i++;
-        } else
+        }
+        else
             decB = decBoxBatch->createDms();
 
         if ( allRadioBatch->isChecked() )
             ostream << decB.toDMSString() << space;
-        else
-            if(decCheckBatch->isChecked() )
-                ostream << decB.toHMSString() << space;
+        else if(decCheckBatch->isChecked() )
+            ostream << decB.toHMSString() << space;
 
         // Read Epoch and write in ostream if corresponds
 
-        if(epochCheckBatch->isChecked() ) {
+        if(epochCheckBatch->isChecked() )
+        {
             epoch0B = fields[i];
             i++;
-        } else
+        }
+        else
             epoch0B = epochBoxBatch->text();
 
         if ( allRadioBatch->isChecked() )
             ostream << epoch0B;
-        else
-            if(decCheckBatch->isChecked() )
-                ostream << epoch0B;
+        else if(decCheckBatch->isChecked() )
+            ostream << epoch0B;
 
         KStarsDateTime dt;
         dt.setFromEpoch( epoch0B );

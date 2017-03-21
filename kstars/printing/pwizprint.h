@@ -30,43 +30,43 @@ class QPrinter;
   */
 class PWizPrintUI : public QFrame, public Ui::PWizPrint
 {
-    Q_OBJECT
-public:
-    /**
-      * \brief Constructor.
-      */
-    explicit PWizPrintUI(PrintingWizard *wizard, QWidget *parent = 0);
+        Q_OBJECT
+    public:
+        /**
+          * \brief Constructor.
+          */
+        explicit PWizPrintUI(PrintingWizard * wizard, QWidget * parent = 0);
 
-private slots:
-    /**
-      * \brief Slot: show "Print preview" dialog window for finder chart.
-      */
-    void slotPreview();
+    private slots:
+        /**
+          * \brief Slot: show "Print preview" dialog window for finder chart.
+          */
+        void slotPreview();
 
-    /**
-      * \brief Slot: show "Print preview" dialog window for finder chart (on passed QPrinter).
-      * \param printer Printer on which preview should be painted.
-      */
-    void slotPrintPreview(QPrinter *printer);
+        /**
+          * \brief Slot: show "Print preview" dialog window for finder chart (on passed QPrinter).
+          * \param printer Printer on which preview should be painted.
+          */
+        void slotPrintPreview(QPrinter * printer);
 
-    /**
-      * \brief Slot: open printing dialog and print document.
-      */
-    void slotPrint();
+        /**
+          * \brief Slot: open printing dialog and print document.
+          */
+        void slotPrint();
 
-    /**
-      * \brief Slot: open "Save file" dialog to select export file name and format.
-      */
-    void slotExport();
+        /**
+          * \brief Slot: open "Save file" dialog to select export file name and format.
+          */
+        void slotExport();
 
-private:
-    /**
-      * \brief Print document on passed printer.
-      * \param printer Printer.
-      */
-    void printDocument(QPrinter *printer);
+    private:
+        /**
+          * \brief Print document on passed printer.
+          * \param printer Printer.
+          */
+        void printDocument(QPrinter * printer);
 
-    PrintingWizard *m_ParentWizard;
+        PrintingWizard * m_ParentWizard;
 };
 
 #endif // PWIZPRINT_H

@@ -34,17 +34,25 @@
 #include "Options.h"
 #include "auxiliary/filedownloader.h"
 
-KSDssDownloader::KSDssDownloader( QObject *parent ) : QObject( parent ) {
-    connect(this, &KSDssDownloader::downloadCanceled, this, [&](){deleteLater();});
+KSDssDownloader::KSDssDownloader( QObject * parent ) : QObject( parent )
+{
+    connect(this, &KSDssDownloader::downloadCanceled, this, [&]()
+    {
+        deleteLater();
+    });
     m_VersionPreference << "poss2ukstu_blue" << "poss2ukstu_red" << "poss1_blue" << "poss1_red" << "quickv" << "poss2ukstu_ir";
     m_TempFile.open();
 }
 
-KSDssDownloader::KSDssDownloader(const SkyPoint * const p, const QString &destFileName, const std::function<void( bool )> &slotDownloadReady, QObject *parent ) : QObject( parent ) {
+KSDssDownloader::KSDssDownloader(const SkyPoint * const p, const QString &destFileName, const std::function<void( bool )> &slotDownloadReady, QObject * parent ) : QObject( parent )
+{
     // Initialize version preferences. FIXME: This must be made a
     // user-changeable option just in case someone likes red
 
-    connect(this, &KSDssDownloader::downloadCanceled, this, [&](){deleteLater();});
+    connect(this, &KSDssDownloader::downloadCanceled, this, [&]()
+    {
+        deleteLater();
+    });
 
     m_VersionPreference << "poss2ukstu_blue" << "poss2ukstu_red" << "poss1_blue" << "poss1_red" << "quickv" << "poss2ukstu_ir";
     m_TempFile.open();
@@ -53,54 +61,58 @@ KSDssDownloader::KSDssDownloader(const SkyPoint * const p, const QString &destFi
 }
 
 
-QString KSDssDownloader::getDSSURL( const SkyPoint * const p, const QString &version, struct KSDssImage::Metadata *md ) {
-        const DeepSkyObject *dso = 0;
-        double height, width;
+QString KSDssDownloader::getDSSURL( const SkyPoint * const p, const QString &version, struct KSDssImage::Metadata * md )
+{
+    const DeepSkyObject * dso = 0;
+    double height, width;
 
-        double dss_default_size = Options::defaultDSSImageSize();
-        double dss_padding = Options::dSSPadding();
+    double dss_default_size = Options::defaultDSSImageSize();
+    double dss_padding = Options::dSSPadding();
 
-        Q_ASSERT( p );
-        Q_ASSERT( dss_default_size > 0.0 && dss_padding >= 0.0 );
+    Q_ASSERT( p );
+    Q_ASSERT( dss_default_size > 0.0 && dss_padding >= 0.0 );
 
-        dso = dynamic_cast<const DeepSkyObject *>( p );
+    dso = dynamic_cast<const DeepSkyObject *>( p );
 
-        // Decide what to do about the height and width
-        if( dso ) {
-            // For deep-sky objects, use their height and width information
-            double a, b, pa;
-            a = dso->a();
-            b = dso->a() * dso->e(); // Use a * e instead of b, since e() returns 1 whenever one of the dimensions is zero. This is important for circular objects
-            Q_ASSERT( a >= b );
-            pa = dso->pa() * dms::DegToRad;
+    // Decide what to do about the height and width
+    if( dso )
+    {
+        // For deep-sky objects, use their height and width information
+        double a, b, pa;
+        a = dso->a();
+        b = dso->a() * dso->e(); // Use a * e instead of b, since e() returns 1 whenever one of the dimensions is zero. This is important for circular objects
+        Q_ASSERT( a >= b );
+        pa = dso->pa() * dms::DegToRad;
 
-            // We now want to convert a, b, and pa into an image
-            // height and width -- i.e. a dRA and dDec.
-            // DSS uses dDec for height and dRA for width. (i.e. "top" is north in the DSS images, AFAICT)
-            // From some trigonometry, assuming we have a rectangular object (worst case), we need:
-            width = a * sin( pa ) + b * fabs( cos( pa ) );
-            height = a * fabs( cos( pa ) ) + b * sin( pa );
-            // 'a' and 'b' are in arcminutes, so height and width are in arcminutes
+        // We now want to convert a, b, and pa into an image
+        // height and width -- i.e. a dRA and dDec.
+        // DSS uses dDec for height and dRA for width. (i.e. "top" is north in the DSS images, AFAICT)
+        // From some trigonometry, assuming we have a rectangular object (worst case), we need:
+        width = a * sin( pa ) + b * fabs( cos( pa ) );
+        height = a * fabs( cos( pa ) ) + b * sin( pa );
+        // 'a' and 'b' are in arcminutes, so height and width are in arcminutes
 
-            // Pad the RA and Dec, so that we show more of the sky than just the object.
-            height += dss_padding;
-            width += dss_padding;
-        }
-        else {
-            // For a generic sky object, we don't know what to do. So
-            // we just assume the default size.
-            height = width = dss_default_size;
-        }
-        // There's no point in tiny DSS images that are smaller than dss_default_size
-        if( height < dss_default_size )
-            height = dss_default_size;
-        if( width < dss_default_size )
-            width = dss_default_size;
+        // Pad the RA and Dec, so that we show more of the sky than just the object.
+        height += dss_padding;
+        width += dss_padding;
+    }
+    else
+    {
+        // For a generic sky object, we don't know what to do. So
+        // we just assume the default size.
+        height = width = dss_default_size;
+    }
+    // There's no point in tiny DSS images that are smaller than dss_default_size
+    if( height < dss_default_size )
+        height = dss_default_size;
+    if( width < dss_default_size )
+        width = dss_default_size;
 
-        return getDSSURL( p, width, height, version, md );
+    return getDSSURL( p, width, height, version, md );
 }
 
-QString KSDssDownloader::getDSSURL( const SkyPoint * const p, float width, float height, const QString &version, struct KSDssImage::Metadata *md ) {
+QString KSDssDownloader::getDSSURL( const SkyPoint * const p, float width, float height, const QString &version, struct KSDssImage::Metadata * md )
+{
     Q_ASSERT( p );
     if( !p )
         return QString();
@@ -109,8 +121,9 @@ QString KSDssDownloader::getDSSURL( const SkyPoint * const p, float width, float
     if( height <= 0 )
         height = width;
     QString URL = getDSSURL( p->ra0(), p->dec0(), width, height, "gif", version, md );
-    if( md ) {
-        const SkyObject *obj = 0;
+    if( md )
+    {
+        const SkyObject * obj = 0;
         obj = dynamic_cast<const SkyObject *>( p );
         if( obj && obj->hasName() )
             md->object = obj->name();
@@ -118,7 +131,8 @@ QString KSDssDownloader::getDSSURL( const SkyPoint * const p, float width, float
     return URL;
 }
 
-QString KSDssDownloader::getDSSURL( const dms &ra, const dms &dec, float width, float height, const QString & type_, const QString & version_, struct KSDssImage::Metadata *md ) {
+QString KSDssDownloader::getDSSURL( const dms &ra, const dms &dec, float width, float height, const QString &type_, const QString &version_, struct KSDssImage::Metadata * md )
+{
 
     const double dss_default_size = Options::defaultDSSImageSize();
 
@@ -149,7 +163,8 @@ QString KSDssDownloader::getDSSURL( const dms &ra, const dms &dec, float width, 
     RAString  = RAString.sprintf( "r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
     SizeString = SizeString.sprintf( "&h=%02.1f&w=%02.1f", height, width );
 
-    if( md ) {
+    if( md )
+    {
         md->src = KSDssImage::Metadata::DSS;
         md->width = width;
         md->height = height;
@@ -186,7 +201,8 @@ QString KSDssDownloader::getDSSURL( const dms &ra, const dms &dec, float width, 
     return ( URLprefix + RAString + DecString + SizeString + URLsuffix );
 }
 
-void KSDssDownloader::initiateSingleDownloadAttempt( QUrl srcUrl ) {
+void KSDssDownloader::initiateSingleDownloadAttempt( QUrl srcUrl )
+{
     qDebug() << "Temp file is at " << m_TempFile.fileName();
     QUrl fileUrl = QUrl::fromLocalFile( m_TempFile.fileName() );
     qDebug() << "Attempt #" << m_attempt << "downloading DSS Image. URL: " << srcUrl << " to " << fileUrl;
@@ -212,7 +228,8 @@ void KSDssDownloader::startDownload( const SkyPoint * const p, const QString &de
     initiateSingleDownloadAttempt( srcUrl );
 }
 
-void KSDssDownloader::startSingleDownload( const QUrl srcUrl, const QString &destFileName, KSDssImage::Metadata md ) {
+void KSDssDownloader::startSingleDownload( const QUrl srcUrl, const QString &destFileName, KSDssImage::Metadata md )
+{
     m_FileName = destFileName;
     QUrl fileUrl = QUrl::fromLocalFile( m_TempFile.fileName() );
     qDebug() << "Downloading DSS Image from URL: " << srcUrl << " to " << fileUrl;
@@ -307,11 +324,13 @@ void KSDssDownloader::downloadAttemptFinished()
     }
 }
 
-bool KSDssDownloader::writeImageFile() {
+bool KSDssDownloader::writeImageFile()
+{
     return writeImageWithMetadata( m_TempFile.fileName(), m_FileName, m_AttemptData );
 }
 
-bool KSDssDownloader::writeImageWithMetadata( const QString &srcFile, const QString &destFile, const KSDssImage::Metadata &md ) {
+bool KSDssDownloader::writeImageWithMetadata( const QString &srcFile, const QString &destFile, const KSDssImage::Metadata &md )
+{
     // Write the temporary file into an image file with metadata
     QImage img( srcFile );
     QImageWriter writer( destFile, "png" );

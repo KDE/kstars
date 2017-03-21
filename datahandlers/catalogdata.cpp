@@ -18,13 +18,14 @@
 
 #include "catalogdata.h"
 
-CatalogData::CatalogData() {
-  catalog_name = "Dafault Catalog";
-  prefix = "Default Prefix";
-  color = "#FF000000";
-  epoch = 2000.0;
-  fluxfreq = "Nil";
-  fluxunit = "";
-  author = "KStars";
-  license = "None";
+CatalogData::CatalogData()
+{
+    catalog_name = "Dafault Catalog";
+    prefix = "Default Prefix";
+    color = "#FF000000";
+    epoch = 2000.0;
+    fluxfreq = "Nil";
+    fluxunit = "";
+    author = "KStars";
+    license = "None";
 }

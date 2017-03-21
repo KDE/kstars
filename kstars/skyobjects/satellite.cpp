@@ -109,7 +109,7 @@ Satellite::Satellite( const QString name, const QString line1, const QString lin
     init();
 }
 
-Satellite* Satellite::clone() const
+Satellite * Satellite::clone() const
 {
     Q_ASSERT( typeid( this ) == typeid( static_cast<const Satellite *>( this ) ) ); // Ensure we are not slicing a derived class
     return new Satellite(*this);
@@ -137,23 +137,92 @@ void Satellite::init()
             z21   , z22   , z23   , z31   , z32   , z33   , ak    ,
             d1    , del   , adel  , po    , ds70  , ts70  , tfrac ,
             c1    , thgr70, fk5r  , c1p2p;
- 
+
     // Init near earth variables
     isimp=false;
-    aycof =0. ; con41 =0. ; cc1     =0. ; cc4    =0. ; cc5    =0. ; d2      =0. ; d3    =0. ; d4    =0. ;
-    delmo =0. ; eta   =0. ; argpdot =0. ; omgcof =0. ; sinmao =0. ; t       =0. ; t2cof =0. ; t3cof =0. ;
-    t4cof =0. ; t5cof =0. ; x1mth2  =0. ; x7thm1 =0. ; mdot   =0. ; nodedot =0. ; xlcof =0. ; xmcof =0. ;
+    aycof =0. ;
+    con41 =0. ;
+    cc1     =0. ;
+    cc4    =0. ;
+    cc5    =0. ;
+    d2      =0. ;
+    d3    =0. ;
+    d4    =0. ;
+    delmo =0. ;
+    eta   =0. ;
+    argpdot =0. ;
+    omgcof =0. ;
+    sinmao =0. ;
+    t       =0. ;
+    t2cof =0. ;
+    t3cof =0. ;
+    t4cof =0. ;
+    t5cof =0. ;
+    x1mth2  =0. ;
+    x7thm1 =0. ;
+    mdot   =0. ;
+    nodedot =0. ;
+    xlcof =0. ;
+    xmcof =0. ;
     nodecf= 0.;
 
     // Init deep space variables
     irez=0;
-    d2201 =0. ; d2211 =0. ; d3210 =0.  ; d3222 =0. ; d4410 =0. ; d4422 =0. ; d5220 =0. ; d5232 =0. ;
-    d5421 =0. ; d5433 =0. ; dedt  =0.  ; del1  =0. ; del2  =0. ; del3  =0. ; didt  =0. ; dmdt  =0. ;
-    dnodt =0. ; domdt =0. ; e3    =0.  ; ee2   =0. ; peo   =0. ; pgho  =0. ; pho   =0. ; pinco =0. ;
-    plo   =0. ; se2   =0. ; se3   =0.  ; sgh2  =0. ; sgh3  =0. ; sgh4  =0. ; sh2   =0. ; sh3   =0. ;
-    si2   =0. ; si3   =0. ; sl2   =0.  ; sl3   =0. ; sl4   =0. ; gsto  =0. ; xfact =0. ; xgh2  =0. ;
-    xgh3  =0. ; xgh4  =0. ; xh2   =0.  ; xh3   =0. ; xi2   =0. ; xi3   =0. ; xl2   =0. ; xl3   =0. ;
-    xl4   =0. ; xlamo =0. ; zmol  =0.  ; zmos  =0. ; atime =0. ; xli   =0. ; xni =0.;
+    d2201 =0. ;
+    d2211 =0. ;
+    d3210 =0.  ;
+    d3222 =0. ;
+    d4410 =0. ;
+    d4422 =0. ;
+    d5220 =0. ;
+    d5232 =0. ;
+    d5421 =0. ;
+    d5433 =0. ;
+    dedt  =0.  ;
+    del1  =0. ;
+    del2  =0. ;
+    del3  =0. ;
+    didt  =0. ;
+    dmdt  =0. ;
+    dnodt =0. ;
+    domdt =0. ;
+    e3    =0.  ;
+    ee2   =0. ;
+    peo   =0. ;
+    pgho  =0. ;
+    pho   =0. ;
+    pinco =0. ;
+    plo   =0. ;
+    se2   =0. ;
+    se3   =0.  ;
+    sgh2  =0. ;
+    sgh3  =0. ;
+    sgh4  =0. ;
+    sh2   =0. ;
+    sh3   =0. ;
+    si2   =0. ;
+    si3   =0. ;
+    sl2   =0.  ;
+    sl3   =0. ;
+    sl4   =0. ;
+    gsto  =0. ;
+    xfact =0. ;
+    xgh2  =0. ;
+    xgh3  =0. ;
+    xgh4  =0. ;
+    xh2   =0.  ;
+    xh3   =0. ;
+    xi2   =0. ;
+    xi3   =0. ;
+    xl2   =0. ;
+    xl3   =0. ;
+    xl4   =0. ;
+    xlamo =0. ;
+    zmol  =0.  ;
+    zmos  =0. ;
+    atime =0. ;
+    xli   =0. ;
+    xni =0.;
 
     method = 'n';
 
@@ -177,7 +246,7 @@ void Satellite::init()
     adel  = ak * ( 1.0 - del*del - del * ( 1.0 / 3.0 + 134.0 * del*del / 81.0 ) );
     del   = d1 / ( adel * adel );
     m_mean_motion = m_mean_motion / (1.0 + del);
-    
+
     ao    = pow( XKE / m_mean_motion, X2O3 );
     sinio = sin( m_inclination );
     po    = ao * omeosq;
@@ -200,7 +269,8 @@ void Satellite::init()
     if ( gsto < 0.0 )
         gsto = gsto + TWOPI;
 
-    if ( ( omeosq >= 0.0 ) || ( m_mean_motion >= 0.0 ) ) {
+    if ( ( omeosq >= 0.0 ) || ( m_mean_motion >= 0.0 ) )
+    {
         if ( rp < ( 220.0 / RADIUSEARTHKM + 1.0 ) )
             isimp = true;
         sfour  = SS;
@@ -208,7 +278,8 @@ void Satellite::init()
         perige = ( rp - 1.0 ) * RADIUSEARTHKM;
 
         // For perigees below 156 km, s and qoms2t are altered
-        if ( perige < 156.0 ) {
+        if ( perige < 156.0 )
+        {
             sfour  = perige - 78.0;
             if ( perige < 98.0 )
                 sfour = 20.0;
@@ -225,8 +296,8 @@ void Satellite::init()
         coef  = qzms24 * pow( tsi, 4.0 );
         coef1 = coef / pow( psisq, 3.5 );
         cc2   = coef1 * m_mean_motion * ( ao * ( 1.0 + 1.5 * etasq + eeta *
-                ( 4.0 + etasq ) ) + 0.375 * J2 * tsi / psisq * con41 *
-                ( 8.0 + 3.0 * etasq * ( 8.0 + etasq ) ) );
+                                          ( 4.0 + etasq ) ) + 0.375 * J2 * tsi / psisq * con41 *
+                                          ( 8.0 + 3.0 * etasq * ( 8.0 + etasq ) ) );
         cc1   = m_bstar * cc2;
         cc3   = 0.0;
         if ( m_eccentricity > 1.0e-4 )
@@ -234,10 +305,10 @@ void Satellite::init()
         x1mth2 = 1.0 - cosio2;
         cc4    = 2.0 * m_mean_motion * coef1 * ao * omeosq *
                  ( eta * ( 2.0 + 0.5 * etasq ) + m_eccentricity *
-                 ( 0.5 + 2.0 * etasq ) - J2 * tsi / ( ao * psisq ) *
-                 ( -3.0 * con41 * ( 1.0 - 2.0 * eeta + etasq *
-                 ( 1.5 - 0.5 * eeta ) ) + 0.75 * x1mth2 *
-                 ( 2.0 * etasq - eeta * ( 1.0 + etasq ) ) * cos( 2.0 * m_arg_perigee ) ) );
+                   ( 0.5 + 2.0 * etasq ) - J2 * tsi / ( ao * psisq ) *
+                   ( -3.0 * con41 * ( 1.0 - 2.0 * eeta + etasq *
+                                      ( 1.5 - 0.5 * eeta ) ) + 0.75 * x1mth2 *
+                     ( 2.0 * etasq - eeta * ( 1.0 + etasq ) ) * cos( 2.0 * m_arg_perigee ) ) );
         cc5 = 2.0 * coef1 * ao * omeosq * ( 1.0 + 2.75 * ( etasq + eeta ) + eeta * etasq );
 
         cosio4 = cosio2 * cosio2;
@@ -251,7 +322,7 @@ void Satellite::init()
                  temp3 * ( 3.0 - 36.0 * cosio2 + 49.0 * cosio4 );
         xhdot1 = -temp1 * cosio;
         nodedot= xhdot1 + ( 0.5 * temp2 * ( 4.0 - 19.0 * cosio2 ) +
-                  2.0 * temp3 * ( 3.0 - 7.0 * cosio2 ) ) * cosio;
+                            2.0 * temp3 * ( 3.0 - 7.0 * cosio2 ) ) * cosio;
         xpidot = argpdot + nodedot;
         omgcof = m_bstar * cc3 * cos( m_arg_perigee );
         xmcof  = 0.0;
@@ -268,9 +339,10 @@ void Satellite::init()
         delmo  = pow( ( 1.0 + eta * cos( m_mean_anomaly ) ), 3 );
         sinmao = sin( m_mean_anomaly );
         x7thm1 = 7.0 * cosio2 - 1.0;
-        
+
         // Deep space initialization
-        if ( ( TWOPI / m_mean_motion ) >= 225.0 ) {
+        if ( ( TWOPI / m_mean_motion ) >= 225.0 )
+        {
             method = 'd';
             isimp = true;
             tc    =  0.0;
@@ -339,7 +411,8 @@ void Satellite::init()
             cc    = c1ss;
             xnoi  = 1.0 / nm;
 
-            for ( lsflg = 1; lsflg <= 2; ++lsflg ) {
+            for ( lsflg = 1; lsflg <= 2; ++lsflg )
+            {
                 a1  =   zcosg * zcosh + zsing * zcosi * zsinh;
                 a3  =  -zsing * zcosh + zcosg * zcosi * zsinh;
                 a7  =  -zcosg * zsinh + zsing * zcosi * zcosh;
@@ -386,7 +459,8 @@ void Satellite::init()
                 s7  = x2 * x4 - x1 * x3;
 
                 // Lunar terms
-                if ( lsflg == 1 ) {
+                if ( lsflg == 1 )
+                {
                     ss1   = s1;
                     ss2   = s2;
                     ss3   = s3;
@@ -446,7 +520,7 @@ void Satellite::init()
             xgh4 = -18.0 * s4 * zel;
             xh2  =  -2.0 * s2 * z22;
             xh3  =  -2.0 * s2 * ( z23 - z21 );
-            
+
             // Apply deep space long period periodic contributions to the mean elements
             double f2   , f3,
                    ses  , sghl , sghs , shll, shs,
@@ -468,7 +542,7 @@ void Satellite::init()
             sghs  = sgh2 * f2 + sgh3 * f3 + sgh4 * sinzf;
             shs   = sh2 * f2 + sh3 * f3;
             zm    = zmol;
-            
+
             zf    = zm + 2.0 * zel * sin( zm );
             sinzf = sin( zf );
             f2    =  0.5 * sinzf * sinzf - 0.25;
@@ -478,11 +552,11 @@ void Satellite::init()
 
             // Deep space contributions to mean motion dot due to geopotential resonance with half day and one day orbits
             double ainv2 , aonv=0.0, cosisq, eoc , f220  , f221  , f311  ,
-                   f321  , f322  , f330  , f441  , f442  , f522  , f523  ,
-                   f542  , f543  , g200  , g201  , g211  , g300  , g310  ,
-                   g322  , g410  , g422  , g520  , g521  , g532  , g533  ,
-                   sgs   , sini2 , temp  , temp1 , theta , xno2  , emo   ,
-                   emsqo;
+                           f321  , f322  , f330  , f441  , f442  , f522  , f523  ,
+                           f542  , f543  , g200  , g201  , g211  , g300  , g310  ,
+                           g322  , g410  , g422  , g520  , g521  , g532  , g533  ,
+                           sgs   , sini2 , temp  , temp1 , theta , xno2  , emo   ,
+                           emsqo;
 
             // Define some constant
             const double q22    = 1.7891679e-6;
@@ -524,7 +598,8 @@ void Satellite::init()
                 shll = 0.0;
             domdt = sgs + sghl;
             dnodt = shs;
-            if ( sinim != 0.0 ) {
+            if ( sinim != 0.0 )
+            {
                 domdt = domdt - cosim / sinim * shll;
                 dnodt = dnodt + shll / sinim;
             }
@@ -534,11 +609,13 @@ void Satellite::init()
             theta  = fmod( gsto + tc * rptim, TWOPI );
 
             // Initialize the resonance terms
-            if ( irez != 0 ) {
+            if ( irez != 0 )
+            {
                 aonv = pow( nm / XKE, X2O3 );
 
                 // Geopotential resonance for 12 hour orbits
-                if ( irez == 2 ) {
+                if ( irez == 2 )
+                {
                     cosisq = cosim * cosim;
                     emo    = em;
                     em     = m_eccentricity;
@@ -547,14 +624,17 @@ void Satellite::init()
                     eoc    = em * emsq;
                     g201   = -0.306 - ( em - 0.64 ) * 0.440;
 
-                    if ( em <= 0.65 ) {
+                    if ( em <= 0.65 )
+                    {
                         g211 =    3.616  -  13.2470 * em +  16.2900 * emsq;
                         g310 =  -19.302  + 117.3900 * em - 228.4190 * emsq +  156.5910 * eoc;
                         g322 =  -18.9068 + 109.7927 * em - 214.6334 * emsq +  146.5816 * eoc;
                         g410 =  -41.122  + 242.6940 * em - 471.0940 * emsq +  313.9530 * eoc;
                         g422 = -146.407  + 841.8800 * em - 1629.014 * emsq + 1083.4350 * eoc;
                         g520 = -532.114  + 3017.977 * em - 5740.032 * emsq + 3708.2760 * eoc;
-                    } else {
+                    }
+                    else
+                    {
                         g211 =   -72.099 +   331.819 * em -   508.738 * emsq +   266.724 * eoc;
                         g310 =  -346.844 +  1582.851 * em -  2415.925 * emsq +  1246.113 * eoc;
                         g322 =  -342.585 +  1554.908 * em -  2366.899 * emsq +  1215.972 * eoc;
@@ -565,11 +645,14 @@ void Satellite::init()
                         else
                             g520 = 1464.74 -  4664.75 * em +  3763.64 * emsq;
                     }
-                    if ( em < 0.7 ) {
+                    if ( em < 0.7 )
+                    {
                         g533 = -919.22770 + 4988.6100 * em - 9064.7700 * emsq + 5542.21  * eoc;
                         g521 = -822.71072 + 4568.6173 * em - 8491.4146 * emsq + 5337.524 * eoc;
                         g532 = -853.66600 + 4690.2500 * em - 8624.7700 * emsq + 5341.4  * eoc;
-                    } else {
+                    }
+                    else
+                    {
                         g533 =-37995.780 + 161616.52 * em - 229838.20 * emsq + 109377.94 * eoc;
                         g521 =-51752.104 + 218913.95 * em - 309468.16 * emsq + 146349.42 * eoc;
                         g532 =-40023.880 + 170470.89 * em - 242699.48 * emsq + 115605.82 * eoc;
@@ -583,13 +666,13 @@ void Satellite::init()
                     f441 = 35.0 * sini2 * f220;
                     f442 = 39.3750 * sini2 * sini2;
                     f522 =  9.84375 * sinim * (sini2 * ( 1.0 - 2.0 * cosim- 5.0 * cosisq ) +
-                            0.33333333 * ( -2.0 + 4.0 * cosim + 6.0 * cosisq ) );
+                                               0.33333333 * ( -2.0 + 4.0 * cosim + 6.0 * cosisq ) );
                     f523 = sinim * ( 4.92187512 * sini2 * ( -2.0 - 4.0 * cosim +
-                           10.0 * cosisq ) + 6.56250012 * ( 1.0+2.0 * cosim - 3.0 * cosisq ) );
+                                                            10.0 * cosisq ) + 6.56250012 * ( 1.0+2.0 * cosim - 3.0 * cosisq ) );
                     f542 = 29.53125 * sinim * ( 2.0 - 8.0 * cosim + cosisq *
-                           ( -12.0 + 8.0 * cosim + 10.0 * cosisq ) );
+                                                ( -12.0 + 8.0 * cosim + 10.0 * cosisq ) );
                     f543 = 29.53125 * sinim * ( -2.0 - 8.0 * cosim + cosisq *
-                           ( 12.0 + 8.0 * cosim - 10.0 * cosisq ) );
+                                                ( 12.0 + 8.0 * cosim - 10.0 * cosisq ) );
                     xno2  =  nm * nm;
                     ainv2 =  aonv * aonv;
                     temp1 =  3.0 * xno2 * ainv2;
@@ -617,7 +700,8 @@ void Satellite::init()
                     emsq  = emsqo;
                 }
 
-                if ( irez == 1 ) {
+                if ( irez == 1 )
+                {
                     g200  = 1.0 + emsq * ( -2.5 + 0.8125 * emsq );
                     g310  = 1.0 + 2.0 * emsq;
                     g300  = 1.0 + emsq * ( -6.0 + 6.60937 * emsq );
@@ -641,7 +725,8 @@ void Satellite::init()
         }
 
         // Set variables if not deep space
-        if ( ! isimp ) {
+        if ( ! isimp )
+        {
             cc1sq = cc1 * cc1;
             d2    = 4.0 * ao * tsi * cc1sq;
             temp  = d2 * tsi * cc1 / 3.0;
@@ -656,31 +741,31 @@ void Satellite::init()
 
 int Satellite::updatePos()
 {
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     return sgp4( ( data->clock()->utc().djd() - m_tle_jd ) * MINPD );
 }
 
 int Satellite::sgp4( double tsince )
 {
-    KStarsData *data = KStarsData::Instance();
-    
+    KStarsData * data = KStarsData::Instance();
+
     int ktr;
     double am   , axnl  , aynl , betal ,  cosim , cnod  ,
            cos2u, coseo1, cosi , cosip ,  cosisq, cossu , cosu,
            delm , delomg, em   , emsq  ,  ecose , el2   , eo1 ,
            ep   , esine , argpm, argpp ,  argpdf, pl    , mrt = 0.0,
-           mvt  , rdotl , rl   , rvdot ,  rvdotl, sinim , dndt,
-           sin2u, sineo1, sini , sinip ,  sinsu , sinu  ,
-           snod , su    , t2   , t3    ,  t4    , tem5  , temp,
-           temp1, temp2 , tempa, tempe ,  templ , u     , ux  ,
-           uy   , uz    , vx   , vy    ,  vz    , inclm , mm  ,
-           nm   , nodem , xinc , xincp ,  xl    , xlm   , mp  ,
-           xmdf , xmx   , xmy  , nodedf, xnode  , nodep , tc  ,
-           sat_posx, sat_posy , sat_posz, sat_posw, sat_velx ,
-           sat_vely  , sat_velz , sinlat, obs_posx, obs_posy,
-           obs_posz, obs_posw, /*obs_velx, obs_vely, obs_velz,*/
-           coslat, thetageo, sintheta, costheta, c, sq, achcp,
-           vkmpersec;
+                                                          mvt  , rdotl , rl   , rvdot ,  rvdotl, sinim , dndt,
+                                                          sin2u, sineo1, sini , sinip ,  sinsu , sinu  ,
+                                                          snod , su    , t2   , t3    ,  t4    , tem5  , temp,
+                                                          temp1, temp2 , tempa, tempe ,  templ , u     , ux  ,
+                                                          uy   , uz    , vx   , vy    ,  vz    , inclm , mm  ,
+                                                          nm   , nodem , xinc , xincp ,  xl    , xlm   , mp  ,
+                                                          xmdf , xmx   , xmy  , nodedf, xnode  , nodep , tc  ,
+                                                          sat_posx, sat_posy , sat_posz, sat_posw, sat_velx ,
+                                                          sat_vely  , sat_velz , sinlat, obs_posx, obs_posy,
+                                                          obs_posz, obs_posw, /*obs_velx, obs_vely, obs_velz,*/
+                                                          coslat, thetageo, sintheta, costheta, c, sq, achcp,
+                                                          vkmpersec;
 
     const double temp4 =   1.5e-12;
 
@@ -700,7 +785,8 @@ int Satellite::sgp4( double tsince )
     tempe   = m_bstar * cc4 * tsince;
     templ   = t2cof * t2;
 
-    if ( ! isimp ) {
+    if ( ! isimp )
+    {
         delomg = omgcof * tsince;
         delm   = xmcof * ( pow( ( 1.0 + eta * cos( xmdf ) ), 3 ) - delmo);
         temp   = delomg + delm;
@@ -717,7 +803,8 @@ int Satellite::sgp4( double tsince )
     em    = m_eccentricity;
     inclm = m_inclination;
 
-    if ( method == 'd' ) {
+    if ( method == 'd' )
+    {
         tc = tsince;
         // Deep space contributions to mean elements for perturbing third body
         int iretn;
@@ -748,13 +835,15 @@ int Satellite::sgp4( double tsince )
 
         // Update resonances : numerical (euler-maclaurin) integration
         ft = 0.0;
-        if ( irez != 0 ) {
-            if ( ( atime == 0.0 ) || ( tsince * atime <= 0.0 ) || ( fabs( tsince ) < fabs( atime ) ) ) {
+        if ( irez != 0 )
+        {
+            if ( ( atime == 0.0 ) || ( tsince * atime <= 0.0 ) || ( fabs( tsince ) < fabs( atime ) ) )
+            {
                 atime  = 0.0;
                 xni    = m_mean_motion;
                 xli    = xlamo;
             }
-            
+
             if ( tsince > 0.0 )
                 delt =  step;
             else
@@ -762,9 +851,11 @@ int Satellite::sgp4( double tsince )
 
             iretn = 381; // added for do loop
 
-            while ( iretn == 381 ) {
+            while ( iretn == 381 )
+            {
                 // Near - synchronous resonance terms
-                if ( irez != 2 ) {
+                if ( irez != 2 )
+                {
                     xndt  = del1 * sin( xli - fasx2 ) + del2 * sin( 2.0 * ( xli - fasx4 ) ) +
                             del3 * sin( 3.0 * ( xli - fasx6 ) );
                     xldot = xni + xfact;
@@ -772,7 +863,9 @@ int Satellite::sgp4( double tsince )
                             2.0 * del2 * cos( 2.0 * ( xli - fasx4 ) ) +
                             3.0 * del3 * cos( 3.0 * ( xli - fasx6 ) );
                     xnddt = xnddt * xldot;
-                } else {
+                }
+                else
+                {
                     // Near - half-day resonance terms
                     xomi  = m_arg_perigee + argpdot * atime;
                     x2omi = xomi + xomi;
@@ -787,19 +880,23 @@ int Satellite::sgp4( double tsince )
                             d3210 * cos( xomi + xli - g32 ) + d3222 * cos( -xomi + xli - g32 ) +
                             d5220 * cos( xomi + xli - g52 ) + d5232 * cos( -xomi + xli - g52 ) +
                             2.0 * ( d4410 * cos( x2omi + x2li - g44 ) +
-                            d4422 * cos( x2li - g44 ) + d5421 * cos( xomi + x2li - g54 ) +
-                            d5433 * cos( -xomi + x2li - g54 ) );
+                                    d4422 * cos( x2li - g44 ) + d5421 * cos( xomi + x2li - g54 ) +
+                                    d5433 * cos( -xomi + x2li - g54 ) );
                     xnddt = xnddt * xldot;
                 }
 
-                if ( fabs( tsince - atime ) >= step ) {
+                if ( fabs( tsince - atime ) >= step )
+                {
                     iretn = 381;
-                } else {
+                }
+                else
+                {
                     ft    = tsince - atime;
                     iretn = 0;
                 }
 
-                if ( iretn == 381 ) {
+                if ( iretn == 381 )
+                {
                     xli   = xli + xldot * delt + xndt * step2;
                     xni   = xni + xndt * delt + xnddt * step2;
                     atime = atime + delt;
@@ -809,10 +906,13 @@ int Satellite::sgp4( double tsince )
             nm = xni + xndt * ft + xnddt * ft * ft * 0.5;
             xl = xli + xldot * ft + xndt * ft * ft * 0.5;
 
-            if (irez != 1) {
+            if (irez != 1)
+            {
                 mm   = xl - 2.0 * nodem + 2.0 * theta;
                 dndt = nm - m_mean_motion;
-            } else {
+            }
+            else
+            {
                 mm   = xl - nodem - argpm + theta;
                 dndt = nm - m_mean_motion;
             }
@@ -821,7 +921,8 @@ int Satellite::sgp4( double tsince )
         }
     }
 
-    if ( nm <= 0.0 ) {
+    if ( nm <= 0.0 )
+    {
         qDebug() << "Mean motion less than 0.0";
         return(2);
     }
@@ -830,7 +931,8 @@ int Satellite::sgp4( double tsince )
     nm = XKE / pow( am, 1.5 );
     em = em - tempe;
 
-    if ( ( em >= 1.0 ) || ( em < -0.001 ) ) {
+    if ( ( em >= 1.0 ) || ( em < -0.001 ) )
+    {
         qDebug() << "Eccentricity >= 1.0 or < -0.001";
         return(1);
     }
@@ -860,7 +962,8 @@ int Satellite::sgp4( double tsince )
     mp     = mm;
     sinip  = sinim;
     cosip  = cosim;
-    if ( method == 'd' ) {
+    if ( method == 'd' )
+    {
         double alfdp, betdp, cosip, cosop, dalf, dbet, dls,
                f2   , f3   , pe   , pgh  , ph  , pinc, pl ,
                sel  , ses  , sghl , sghs , shll, shs , sil,
@@ -912,13 +1015,16 @@ int Satellite::sgp4( double tsince )
         cosip = cos( xincp );
 
         // Apply periodics directly
-        if ( xincp >= 0.2 ) {
+        if ( xincp >= 0.2 )
+        {
             ph     = ph / sinip;
             pgh    = pgh - cosip * ph;
             argpp  = argpp + pgh;
             nodep  = nodep + ph;
             mp     = mp + pl;
-        } else {
+        }
+        else
+        {
             // Apply periodics with lyddane modification
             sinop  = sin( nodep );
             cosop  = cos( nodep );
@@ -938,7 +1044,8 @@ int Satellite::sgp4( double tsince )
             nodep  = atan2( alfdp, betdp );
             if ( ( nodep < 0.0) )
                 nodep += TWOPI;
-            if ( fabs( xnoh - nodep ) > PI ) {
+            if ( fabs( xnoh - nodep ) > PI )
+            {
                 if ( nodep < xnoh )
                     nodep += TWOPI;
                 else
@@ -948,20 +1055,23 @@ int Satellite::sgp4( double tsince )
             argpp = xls - mp - cosip * nodep;
         }
 
-        if ( xincp < 0.0 ) {
+        if ( xincp < 0.0 )
+        {
             xincp = -xincp;
             nodep = nodep + PI;
             argpp = argpp - PI;
         }
 
-        if ( ( ep < 0.0 ) || ( ep > 1.0 ) ) {
+        if ( ( ep < 0.0 ) || ( ep > 1.0 ) )
+        {
             qDebug() << "Eccentricity < 0.0  or > 1.0";
             return( 3 );
         }
     }
 
     // Long period periodics
-    if ( method == 'd' ) {
+    if ( method == 'd' )
+    {
         sinip =  sin( xincp );
         cosip =  cos( xincp );
         aycof = -0.5 * J3OJ2 * sinip;
@@ -980,7 +1090,8 @@ int Satellite::sgp4( double tsince )
     eo1  = u;
     tem5 = 9999.9;
     ktr = 1;
-    while ( ( fabs( tem5 ) >= 1.0e-12 ) && ( ktr <= 10 ) ) {
+    while ( ( fabs( tem5 ) >= 1.0e-12 ) && ( ktr <= 10 ) )
+    {
         sineo1 = sin( eo1 );
         coseo1 = cos( eo1 );
         tem5   = 1.0 - coseo1 * axnl - sineo1 * aynl;
@@ -997,7 +1108,8 @@ int Satellite::sgp4( double tsince )
     el2   = axnl * axnl + aynl * aynl;
     pl    = am * ( 1.0 - el2 );
 
-    if ( pl < 0.0 ) {
+    if ( pl < 0.0 )
+    {
         qDebug() << "Semi-latus rectum < 0.0";
         return( 4 );
     }
@@ -1017,7 +1129,8 @@ int Satellite::sgp4( double tsince )
     temp2  = temp1 * temp;
 
     // Update for short period periodics
-    if ( method == 'd' ) {
+    if ( method == 'd' )
+    {
         cosisq = cosip * cosip;
         con41  = 3.0 * cosisq - 1.0;
         x1mth2 = 1.0 - cosisq;
@@ -1030,7 +1143,7 @@ int Satellite::sgp4( double tsince )
     xinc  = xincp + 1.5 * temp2 * cosip * sinip * cos2u;
     mvt   = rdotl - nm * temp1 * x1mth2 * sin2u / XKE;
     rvdot = rvdotl + nm * temp1 * ( x1mth2 * cos2u +
-            1.5 * con41 ) / XKE;
+                                    1.5 * con41 ) / XKE;
 
     // Orientation vectors
     sinsu =  sin( su );
@@ -1066,7 +1179,8 @@ int Satellite::sgp4( double tsince )
 //     printf("sat_vely=%.15f\n", sat_vely);
 //     printf("sat_velz=%.15f\n", sat_velz);
 
-    if ( mrt < 1.0 ) {
+    if ( mrt < 1.0 )
+    {
         qDebug() << "Satellite has decayed";
         return( 6 );
     }
@@ -1128,8 +1242,8 @@ int Satellite::sgp4( double tsince )
     L    = DEG2RAD * ( Modulus( 279.69668 + Modulus( 36000.76892 * T, 360.0 ) + 0.0003025 * T*T, 360.0 ) );
     e    = 0.01675104 - ( 0.0000418 + 0.000000126 * T ) * T;
     C    = DEG2RAD * ( ( 1.919460 - ( 0.004789 + 0.000014 * T ) * T ) *
-           sin( M ) + ( 0.020094 - 0.000100 *  T) *
-           sin( 2 * M ) + 0.000293 * sin( 3 * M ) );
+                       sin( M ) + ( 0.020094 - 0.000100 *  T) *
+                       sin( 2 * M ) + 0.000293 * sin( 3 * M ) );
     O    = DEG2RAD * ( Modulus( 259.18 - 1934.142 * T, 360.0 ) );
     Lsa  = Modulus( L + C - DEG2RAD * ( 0.00569  -0.00479 * sin( O ) ), TWOPI );
     nu   = Modulus( M + C, TWOPI);
@@ -1158,7 +1272,7 @@ int Satellite::sgp4( double tsince )
     double earth_w = sat_posw;
     delta = PIO2 - arcSin( ( sun_posx*earth_x + sun_posy*earth_y + sun_posz*earth_z )  / ( sun_posw*earth_w ) );
     depth = sd_earth - sd_sun - delta;
-    KSSun *sun = (KSSun*)data->skyComposite()->findByName( "Sun" );
+    KSSun * sun = (KSSun *)data->skyComposite()->findByName( "Sun" );
 
     m_is_eclipsed = sd_earth >= sd_sun  &&  depth >= 0;
     m_is_visible  = !m_is_eclipsed && sun->alt().Degrees() <= -12.0 && elevation >= 0.0;
@@ -1170,26 +1284,26 @@ QString Satellite::sgp4ErrorString(int code)
 {
     switch (code)
     {
-    case 0:
-        return i18n("Success");
+        case 0:
+            return i18n("Success");
 
-    case 1:
-    case 3:
-        return i18n("Eccentricity >= 1.0 or < -0.001");
+        case 1:
+        case 3:
+            return i18n("Eccentricity >= 1.0 or < -0.001");
 
-    case 2:
-        return i18n("Mean motion less than 0.0");
-
-
-    case 4:
-        return i18n("Semi-latus rectum < 0.0");
+        case 2:
+            return i18n("Mean motion less than 0.0");
 
 
-    case 6:
-        return i18n("Satellite has decayed");
+        case 4:
+            return i18n("Semi-latus rectum < 0.0");
 
-    default:
-        return i18n("Unknown error");
+
+        case 6:
+            return i18n("Satellite has decayed");
+
+        default:
+            return i18n("Unknown error");
     }
 }
 
@@ -1245,7 +1359,8 @@ void Satellite::setSelected( bool selected )
     m_is_selected = selected;
 }
 
-void Satellite::initPopupMenu( KSPopupMenu *pmenu ) {
+void Satellite::initPopupMenu( KSPopupMenu * pmenu )
+{
 #ifndef KSTARS_LITE
     pmenu->createSatelliteMenu( this );
 #endif

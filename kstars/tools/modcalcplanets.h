@@ -28,41 +28,42 @@ class KSPlanetBase;
 /**
   *@author Pablo de Vicente
   */
-class modCalcPlanets : public QFrame, public Ui::modCalcPlanetsDlg  {
+class modCalcPlanets : public QFrame, public Ui::modCalcPlanetsDlg
+{
 
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit modCalcPlanets(QWidget *p);
-    ~modCalcPlanets();
+    public:
+        explicit modCalcPlanets(QWidget * p);
+        ~modCalcPlanets();
 
-public slots:
+    public slots:
 
-    void slotLocation();
-    void slotComputePosition();
-    void slotUtCheckedBatch();
-    void slotDateCheckedBatch();
-    void slotLongCheckedBatch();
-    void slotLatCheckedBatch();
-    void slotPlanetsCheckedBatch();
-    void slotRunBatch();
-    void processLines( QTextStream &istream );
-    //void slotInputFile();
-    //void slotOutputFile();
-    //void slotRunBatch();
+        void slotLocation();
+        void slotComputePosition();
+        void slotUtCheckedBatch();
+        void slotDateCheckedBatch();
+        void slotLongCheckedBatch();
+        void slotLatCheckedBatch();
+        void slotPlanetsCheckedBatch();
+        void slotRunBatch();
+        void processLines( QTextStream &istream );
+        //void slotInputFile();
+        //void slotOutputFile();
+        //void slotRunBatch();
 
-private:
+    private:
 
-    void showCoordinates( const KSPlanetBase &ksp );
-    void showHeliocentricEclipticCoords( const dms& hLong, const dms& hLat, double dist);
-    void showGeocentricEclipticCoords( const dms& eLong, const dms& eLat, double r);
-    void showEquatorialCoords( const dms& ra, const dms& dec);
-    void showTopocentricCoords( const dms& az, const dms& el);
-    unsigned int requiredBatchFields();
+        void showCoordinates( const KSPlanetBase &ksp );
+        void showHeliocentricEclipticCoords( const dms &hLong, const dms &hLat, double dist);
+        void showGeocentricEclipticCoords( const dms &eLong, const dms &eLat, double r);
+        void showEquatorialCoords( const dms &ra, const dms &dec);
+        void showTopocentricCoords( const dms &az, const dms &el);
+        unsigned int requiredBatchFields();
 
-    // void processLines( QTextStream &istream );
+        // void processLines( QTextStream &istream );
 
-    GeoLocation *geoPlace;
+        GeoLocation * geoPlace;
 };
 
 #endif

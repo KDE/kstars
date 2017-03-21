@@ -28,29 +28,32 @@
 #include "ksnumbers.h"
 #include "dms.h"
 
-namespace {
-    int letterToNum(QChar c)
+namespace
+{
+int letterToNum(QChar c)
+{
+    char l = c.toLatin1();
+    if( l < 'A' || l > 'Z' || l == 'I')
+        return 0;
+    if( l > 'I' )
+        return l - 'A';
+    return l - 'A' + 1;
+}
+// Convert letter designation like "AZ" to number.
+int letterDesigToN(QString s)
+{
+    int n = 0;
+    foreach(QChar c, s)
     {
-        char l = c.toLatin1();
-        if( l < 'A' || l > 'Z' || l == 'I')
+        int nl = letterToNum(c);
+        if( nl == 0 )
             return 0;
-        if( l > 'I' )
-            return l - 'A';
-        return l - 'A' + 1;
+        n = n*25 + nl;
     }
-    // Convert letter designation like "AZ" to number.
-    int letterDesigToN(QString s) {
-        int n = 0;
-        foreach(QChar c, s) {
-            int nl = letterToNum(c);
-            if( nl == 0 )
-                return 0;
-            n = n*25 + nl;
-        }
-        return n;
-    }
+    return n;
+}
 
-    QMap<QChar,qint64> cometType;
+QMap<QChar,qint64> cometType;
 }
 
 KSComet::KSComet( const QString &_s, const QString &imfile,
@@ -80,7 +83,8 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
     P = 365.2568984 * pow(a, 1.5); //period in days
 
     //If the name contains a "/", make this name2 and make name a truncated version without the leading "P/" or "C/"
-    if ( name().contains( QDir::separator() ) ) {
+    if ( name().contains( QDir::separator() ) )
+    {
         setLongName( name() );
         setName(name().replace("P/", " ").trimmed());
         setName(name().remove("C/"));
@@ -89,11 +93,12 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
     // Try to calculate UID for comets. It's derived from comet designation.
     // To parge name string regular exressions are used. Not really readable.
     // And its make strong assumtions about format of comets' names.
-    // Probably come better algotrithm should be used. 
+    // Probably come better algotrithm should be used.
 
     // Periodic comet. Designation like: 12P or 12P-C
     QRegExp rePer("^(\\d+)[PD](-([A-Z]+))?");
-    if( rePer.indexIn(_s) != -1 ) {
+    if( rePer.indexIn(_s) != -1 )
+    {
         // Comet number
         qint64 num = rePer.cap(1).toInt();
         // Fragment number
@@ -106,9 +111,11 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
     // Non periodic comet or comets with single approach
     // Designations like C/(2006 A7)
     QRegExp rePro("^([PCXDA])/.*\\((\\d{4}) ([A-Z])(\\d+)(-([A-Z]+))?\\)");
-    if( rePro.indexIn(_s) != -1 ) {
+    if( rePro.indexIn(_s) != -1 )
+    {
         // Fill comet type
-        if( cometType.empty() ) {
+        if( cometType.empty() )
+        {
             cometType.insert('P',0);
             cometType.insert('C',1);
             cometType.insert('X',2);
@@ -124,7 +131,7 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
         uidPart =
             1LL        << 43 |
             type       << 40 |  // Bits 40-42 (3)
-            halfMonth  << 33 |  // Bits 33-39 (7) Hope this is enough 
+            halfMonth  << 33 |  // Bits 33-39 (7) Hope this is enough
             nHalfMonth << 28 |  // Bits 28-32 (5)
             year       << 16 |  // Bits 16-27 (12)
             fragment;           // Bits 0-15  (16)
@@ -134,13 +141,14 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
     // qDebug() << "Didn't get it: " << _s;
 }
 
-KSComet* KSComet::clone() const
+KSComet * KSComet::clone() const
 {
     Q_ASSERT( typeid( this ) == typeid( static_cast<const KSComet *>( this ) ) ); // Ensure we are not slicing a derived class
     return new KSComet(*this);
 }
 
-void KSComet::findPhysicalParameters() {
+void KSComet::findPhysicalParameters()
+{
     // Compute and store the estimated Physical size of the comet's coma, tail and nucleus
     // References:
     // * http://www.projectpluto.com/update7b.htm#comet_tail_formula [Project Pluto / GUIDE]
@@ -157,7 +165,8 @@ void KSComet::findPhysicalParameters() {
     setPhysicalSize( ComaSize );
 }
 
-bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
+bool KSComet::findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * Earth )
+{
     double v(0.0), r(0.0);
 
     lastPrecessJD = num->julianDay();
@@ -165,7 +174,8 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
     //Precess the longitude of the Ascending Node to the desired epoch:
     dms n = dms( double(N.Degrees() - 3.82394E-5 * ( lastPrecessJD - J2000 )) ).reduce();
 
-    if ( e > 0.98 ) {
+    if ( e > 0.98 )
+    {
         //Use near-parabolic approximation
         double k = 0.01720209895; //Gauss gravitational constant
         double a = 0.75 * ( lastPrecessJD - JDp ) * k * sqrt( (1+e)/(q*q*q) );
@@ -182,7 +192,9 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
 
         v = 2.0*atan(w) / dms::DegToRad;
         r = q*( 1.0 + w*w )/( 1.0 + w*w*f );
-    } else {
+    }
+    else
+    {
         //Use normal ellipse method
         //Determine Mean anomaly for desired date:
         dms m = dms( double(360.0*( lastPrecessJD - JDp )/P) ).reduce();
@@ -192,14 +204,17 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
         //compute eccentric anomaly:
         double E = m.Degrees() + e*180.0/dms::PI * sinm * ( 1.0 + e*cosm );
 
-        if ( e > 0.05 ) { //need more accurate approximation, iterate...
+        if ( e > 0.05 )   //need more accurate approximation, iterate...
+        {
             double E0;
             int iter(0);
-            do {
+            do
+            {
                 E0 = E;
                 iter++;
                 E = E0 - ( E0 - e*180.0/dms::PI *sin( E0*dms::DegToRad ) - m.Degrees() )/(1 - e*cos( E0*dms::DegToRad ) );
-            } while ( fabs( E - E0 ) > 0.001 && iter < 1000 );
+            }
+            while ( fabs( E - E0 ) > 0.001 && iter < 1000 );
         }
 
         double sinE, cosE;
@@ -268,7 +283,7 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
 }
 
 //T-mag =  M1 + 5*log10(delta) + k1*log10(r)
-void KSComet::findMagnitude(const KSNumbers*)
+void KSComet::findMagnitude(const KSNumbers *)
 {
     setMag( M1 + 5.0 * log10( rearth() ) + K1 * log10( rsun() ) );
 }
@@ -287,7 +302,7 @@ void KSComet::setDiameter( float diam )
 {
     Diameter = diam;
 }
- 
+
 void KSComet::setDimensions( QString dim )
 {
     Dimensions = dim;
@@ -319,7 +334,10 @@ void KSComet::setRotationPeriod(float rot_per)
 }
 
 //Unused virtual function from KSPlanetBase
-bool KSComet::loadData() { return false; }
+bool KSComet::loadData()
+{
+    return false;
+}
 
 SkyObject::UID KSComet::getUID() const
 {

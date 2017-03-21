@@ -38,25 +38,28 @@
 #include <QDebug>
 #include <QEventLoop>
 
-class CatalogEntryData NameResolver::resolveName( const QString &name ) {
-    class CatalogEntryData data;
+class CatalogEntryData NameResolver::resolveName( const QString &name )
+{
+        class CatalogEntryData data;
 
-    data.long_name = name;
-    if( !NameResolverInternals::sesameResolver( data, name ) ) {
-        QString msg = xi18n("Error: sesameResolver failed. Could not resolve name on CDS Sesame!");
-        qDebug() << msg;
+        data.long_name = name;
+        if( !NameResolverInternals::sesameResolver( data, name ) )
+        {
+            QString msg = xi18n("Error: sesameResolver failed. Could not resolve name on CDS Sesame!");
+            qDebug() << msg;
 
 #ifdef KSTARS_LITE
-        KStarsLite::Instance()->notificationMessage(msg);
+            KStarsLite::Instance()->notificationMessage(msg);
 #endif
-        return data; // default data structure with no information
-    }
-    // More to be done here if the resolved name is SIMBAD
-    return data;
+            return data; // default data structure with no information
+        }
+        // More to be done here if the resolved name is SIMBAD
+        return data;
 
 }
 
-bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData &data, const QString &name ) {
+bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData &data, const QString &name )
+{
 
     QUrl resolverUrl = QUrl( QString( "http://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/-oxpFI/SNV?%1" ).arg( name ) );
 
@@ -68,7 +71,7 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
 #endif
 
     QNetworkAccessManager manager;
-    QNetworkReply *response = manager.get( QNetworkRequest( resolverUrl ) );
+    QNetworkReply * response = manager.get( QNetworkRequest( resolverUrl ) );
     Q_ASSERT( response );
 
     // Wait synchronously
@@ -76,45 +79,51 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
     QObject::connect( response, SIGNAL( finished() ), &event, SLOT( quit() ) );
     event.exec();
 
-    if (response->error() != QNetworkReply::NoError) {
+    if (response->error() != QNetworkReply::NoError)
+    {
         msg = xi18n("Error trying to get XML response from CDS Sesame server: %1", response->errorString());
         qWarning() << msg;
 
-    #ifdef KSTARS_LITE
+#ifdef KSTARS_LITE
         KStarsLite::Instance()->notificationMessage(msg);
-    #endif
+#endif
         return false;
     }
 
     QXmlStreamReader xml( response->readAll() );
     response->deleteLater();
-    if( xml.atEnd() ) {
+    if( xml.atEnd() )
+    {
         // file is empty
         msg = xi18n("Empty result instead of expected XML from CDS Sesame! Maybe bad internet connection?");
         qDebug() << msg;
 
-    #ifdef KSTARS_LITE
+#ifdef KSTARS_LITE
         KStarsLite::Instance()->notificationMessage(msg);
-    #endif
+#endif
         return false;
     }
 
-    while( !xml.atEnd() && !xml.hasError() ) {
+    while( !xml.atEnd() && !xml.hasError() )
+    {
         QXmlStreamReader::TokenType token = xml.readNext();
 
         if( xml.isStartDocument() )
             continue;
 
-        if( token == QXmlStreamReader::StartElement ) {
+        if( token == QXmlStreamReader::StartElement )
+        {
             qDebug() << "Parsing token with name " << xml.name();
 
-            if( xml.name() == "Resolver" ) {
+            if( xml.name() == "Resolver" )
+            {
                 // This is the section we want
                 char resolver=0;
                 QXmlStreamAttributes attributes = xml.attributes();
                 if( attributes.hasAttribute( "name" ) )
                     resolver = attributes.value("name").at( 0 ).toLatin1(); // Expected to be S (Simbad), V (VizieR), or N (NED)
-                else {
+                else
+                {
                     resolver = 0; // NUL character for unknown resolver
                     qWarning() << "Warning: Unknown resolver " << attributes.value( "name " ) << " while reading output from CDS Sesame";
                 }
@@ -122,36 +131,46 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
                 qDebug() << "Resolved by " << resolver << attributes.value( "name" ) << "!";
 
                 // Start reading the data to pick out the relevant ones
-                while( xml.readNextStartElement() ) {
-                    if( xml.name() == "otype" ) {
+                while( xml.readNextStartElement() )
+                {
+                    if( xml.name() == "otype" )
+                    {
                         const QString typeString = xml.readElementText();
                         data.type = interpretObjectType( typeString );
                     }
-                    else if( xml.name() == "jradeg" ) {
+                    else if( xml.name() == "jradeg" )
+                    {
                         data.ra = xml.readElementText().toDouble();
                     }
-                    else if( xml.name() == "jdedeg" ) {
+                    else if( xml.name() == "jdedeg" )
+                    {
                         data.dec = xml.readElementText().toDouble();
                     }
-                    else if( xml.name() == "mag" ) {
+                    else if( xml.name() == "mag" )
+                    {
                         attributes = xml.attributes();
                         char band;
-                        if( attributes.hasAttribute( "band" ) ) {
+                        if( attributes.hasAttribute( "band" ) )
+                        {
                             band = attributes.value("band").at(0).toLatin1();
                         }
-                        else {
+                        else
+                        {
                             qWarning() << "Warning: Magnitude of unknown band found while reading output from CDS Sesame";
                             band = 0;
                         }
 
                         float mag = NaN::f;
                         xml.readNext();
-                        if( xml.isCharacters() ) {
+                        if( xml.isCharacters() )
+                        {
                             qDebug() << "characters: " << xml.tokenString();
                             mag = xml.tokenString().toFloat();
                         }
-                        else if( xml.isStartElement() ) {
-                            while( xml.name() != "v" ) {
+                        else if( xml.isStartElement() )
+                        {
+                            while( xml.name() != "v" )
+                            {
                                 qDebug() << "element: " << xml.name();
                                 xml.readNextStartElement();
                             }
@@ -162,20 +181,24 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
                         else
                             qWarning() << "Failed to parse Xml token in magnitude element: " << xml.tokenString();
 
-                        if( band == 'V' ) {
+                        if( band == 'V' )
+                        {
                             data.magnitude = mag;
                         }
-                        else if( band == 'B' ) {
+                        else if( band == 'B' )
+                        {
                             data.flux = mag; // FIXME: This is bad
                             if( std::isnan( data.magnitude ) )
                                 data.magnitude = mag; // FIXME: This is bad too
                         }
                         // Don't know what to do with other magnitudes, until we have a magnitude hash
                     }
-                    else if( xml.name() == "oname" ) { // Primary identifier
+                    else if( xml.name() == "oname" )   // Primary identifier
+                    {
                         QRegExp regex(" *([a-ZA-Z][a-zA-Z ]*) *([0-9]+) *");
                         QString contents = xml.readElementText();
-                        if( contents.contains( regex ) ) { // Has a simple catalog + ID format (this excludes designations like Foo JHHMMMSS+DDMMSS as CatalogEntryData currently doesn't support them, but includes designations like VII Zw 466, where VII Zw will take the place of the catalog)
+                        if( contents.contains( regex ) )   // Has a simple catalog + ID format (this excludes designations like Foo JHHMMMSS+DDMMSS as CatalogEntryData currently doesn't support them, but includes designations like VII Zw 466, where VII Zw will take the place of the catalog)
+                        {
                             data.catalog_name = regex.cap(1);
                             data.ID = regex.cap(2).toInt();
                         }
@@ -191,13 +214,14 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
                 continue;
         }
     }
-    if( xml.hasError() ) {
+    if( xml.hasError() )
+    {
         msg = xi18n("Error parsing XML from CDS Sesame: %1 on line %2 @ col = %3", xml.errorString(), xml.lineNumber(), xml.columnNumber());
         qDebug() << msg;
 
-    #ifdef KSTARS_LITE
+#ifdef KSTARS_LITE
         KStarsLite::Instance()->notificationMessage(msg);
-    #endif
+#endif
         return false;
     }
 
@@ -216,7 +240,8 @@ bool NameResolver::NameResolverInternals::sesameResolver( class CatalogEntryData
 //     // QUrl( QString( "http://simbad.u-strasbg.fr/simbad/sim-script?script=output%20console=off%20script=off%0Aformat%20object%20%22%25DIM%22%0A" ) + data.name );
 // }
 
-SkyObject::TYPE NameResolver::NameResolverInternals::interpretObjectType( const QString &typeString, bool caseSensitive ) {
+SkyObject::TYPE NameResolver::NameResolverInternals::interpretObjectType( const QString &typeString, bool caseSensitive )
+{
 
     // FIXME: Due to the quirks of Sesame (SIMBAD vs NED etc), it
     // might be very difficult to discern the type in all cases.  The
@@ -255,7 +280,8 @@ SkyObject::TYPE NameResolver::NameResolverInternals::interpretObjectType( const 
     if ( openClusterTypes.contains( s, cs ) )
         return SkyObject::OPEN_CLUSTER; // FIXME: NED doesn't distinguish between globular clusters and open clusters!!
 
-    auto check = [typeString, cs]( const QString &type ) {
+    auto check = [typeString, cs]( const QString &type )
+    {
         return ( !QString::compare( typeString, type, cs ) );
     };
 
@@ -266,14 +292,14 @@ SkyObject::TYPE NameResolver::NameResolverInternals::interpretObjectType( const 
     if( check( "SNR" ) ) // FIXME: Simbad returns "ISM" for Veil Nebula (Interstellar Medium??)
         return SkyObject::SUPERNOVA_REMNANT;
     if( check( "PN" ) || check( "PNeb" )
-        || check( "PNe" ) || check( "pA*" ) ) // FIXME: The latter is actually Proto PN
+            || check( "PNe" ) || check( "pA*" ) ) // FIXME: The latter is actually Proto PN
         return SkyObject::PLANETARY_NEBULA;
     if( typeString == "*" )
         return SkyObject::CATALOG_STAR;
     if( check( "QSO" ) )
         return SkyObject::QUASAR;
     if( check( "DN" ) || check( "DNe" )
-        || check( "DNeb" ) || check( "glb" ) ) // The latter is Bok globule
+            || check( "DNeb" ) || check( "glb" ) ) // The latter is Bok globule
         return SkyObject::DARK_NEBULA;
     if ( radioSourceTypes.contains( s, cs ) )
         return SkyObject::RADIO_SOURCE;

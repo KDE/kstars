@@ -57,23 +57,23 @@
 
 
 
-typedef void *DictKey;
+typedef void * DictKey;
 typedef struct Dict Dict;
 typedef struct DictNode DictNode;
 
-Dict		*dictNewDict(
-			void *frame,
-			int (*leq)(void *frame, DictKey key1, DictKey key2) );
-			
-void		dictDeleteDict( Dict *dict );
+Dict	*	dictNewDict(
+    void * frame,
+    int (*leq)(void * frame, DictKey key1, DictKey key2) );
+
+void		dictDeleteDict( Dict * dict );
 
 /* Search returns the node with the smallest key greater than or equal
  * to the given key.  If there is no such key, returns a node whose
  * key is NULL.  Similarly, Succ(Max(d)) has a NULL key, etc.
  */
-DictNode	*dictSearch( Dict *dict, DictKey key );
-DictNode	*dictInsertBefore( Dict *dict, DictNode *node, DictKey key );
-void		dictDelete( Dict *dict, DictNode *node );
+DictNode	* dictSearch( Dict * dict, DictKey key );
+DictNode	* dictInsertBefore( Dict * dict, DictNode * node, DictKey key );
+void		dictDelete( Dict * dict, DictNode * node );
 
 #define		__gl_dictListKey(n)	((n)->key)
 #define		__gl_dictListSucc(n)	((n)->next)
@@ -85,16 +85,18 @@ void		dictDelete( Dict *dict, DictNode *node );
 
 /*** Private data structures ***/
 
-struct DictNode {
-  DictKey	key;
-  DictNode	*next;
-  DictNode	*prev;
+struct DictNode
+{
+    DictKey	key;
+    DictNode	* next;
+    DictNode	* prev;
 };
 
-struct Dict {
-  DictNode	head;
-  void		*frame;
-  int		(*leq)(void *frame, DictKey key1, DictKey key2);
+struct Dict
+{
+    DictNode	head;
+    void	*	frame;
+    int		(*leq)(void * frame, DictKey key1, DictKey key2);
 };
 
 #endif

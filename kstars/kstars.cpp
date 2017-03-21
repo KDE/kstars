@@ -65,7 +65,7 @@
 #include "fitsviewer/fitsviewer.h"
 #endif
 
-KStars *KStars::pinstance = 0;
+KStars * KStars::pinstance = 0;
 
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     : KXmlGuiWindow(), colorActionMenu(0), fovActionMenu(0), m_KStarsData(0), m_SkyMap(0), m_TimeStepBox(0),
@@ -79,7 +79,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     //On OS X, need to launch kdeinit5 so you can get KLauncher and KIOSlave so you can download new data.
     //Note:  You need to make sure the environment variables for KStars are set correctly to get this running properly.
 #ifdef Q_OS_OSX
-    QProcess* klauncher = new QProcess(this);
+    QProcess * klauncher = new QProcess(this);
     klauncher->start("kdeinit5");
 #endif
 
@@ -98,13 +98,13 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     QDBusConnection::sessionBus().registerObject("/KStars",  this);
     QDBusConnection::sessionBus().registerService("org.kde.kstars");
 
-    #ifdef HAVE_CFITSIO
+#ifdef HAVE_CFITSIO
     m_GenericFITSViewer.clear();
-    #endif
+#endif
 
-    #ifdef HAVE_INDI
+#ifdef HAVE_INDI
     m_EkosManager.clear();
-    #endif
+#endif
 
     // Set pinstance to yourself
     pinstance = this;
@@ -146,12 +146,15 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     }
 
     // Setup splash screen
-    KStarsSplash *splash = 0;
-    if ( doSplash ) {
+    KStarsSplash * splash = 0;
+    if ( doSplash )
+    {
         splash = new KStarsSplash(0);
         connect( m_KStarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
         splash->show();
-    } else {
+    }
+    else
+    {
         connect( m_KStarsData, SIGNAL( progressText(QString) ), m_KStarsData, SLOT( slotConsoleMessage(QString) ) );
     }
 
@@ -181,7 +184,8 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
 #endif
 }
 
-KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &startdate ) {
+KStars * KStars::createInstance( bool doSplash, bool clockrun, const QString &startdate )
+{
     delete pinstance;
     // pinstance is set directly in constructor.
     new KStars( doSplash, clockrun, startdate );
@@ -196,10 +200,10 @@ KStars::~KStars()
     delete m_KStarsData;
     pinstance = 0;
 
-    #ifdef HAVE_INDI
+#ifdef HAVE_INDI
     delete m_EkosManager;
     GUIManager::Instance()->close();
-    #endif
+#endif
 
     QSqlDatabase::removeDatabase("userdb");
     QSqlDatabase::removeDatabase("skydb");
@@ -214,20 +218,23 @@ KStars::~KStars()
     qDebug() << "We had " << CachingDms::cachingdms_bad_uses << " bad uses of CachingDms in all, compared to " << CachingDms::cachingdms_constructor_calls << " constructed CachingDms objects = " << ( float( CachingDms::cachingdms_bad_uses ) / float( CachingDms::cachingdms_constructor_calls ) ) * 100. << "% bad uses";
 #endif
 
-/* BUG 366596: Some KDE applications processes remain as background (zombie) processes after closing
- * No solution to this bug so far using Qt 5.8 as of 2016-11-24
- * Therefore, the only way to solve this on Windows is to explicitly kill kstars.exe
- * Hopefully we do not need this hack once the above bug is resolved.
- */
+    /* BUG 366596: Some KDE applications processes remain as background (zombie) processes after closing
+     * No solution to this bug so far using Qt 5.8 as of 2016-11-24
+     * Therefore, the only way to solve this on Windows is to explicitly kill kstars.exe
+     * Hopefully we do not need this hack once the above bug is resolved.
+     */
 #ifdef Q_OS_WIN
-QProcess::execute("taskkill /im kstars.exe /f");
+    QProcess::execute("taskkill /im kstars.exe /f");
 #endif
 }
 
-void KStars::clearCachedFindDialog() {
-    if ( m_FindDialog  ) {  // dialog is cached
+void KStars::clearCachedFindDialog()
+{
+    if ( m_FindDialog  )    // dialog is cached
+    {
         /** Delete findDialog only if it is not opened */
-        if ( m_FindDialog->isHidden() ) {
+        if ( m_FindDialog->isHidden() )
+        {
             delete m_FindDialog;
             m_FindDialog = 0;
             DialogIsObsolete = false;
@@ -237,8 +244,10 @@ void KStars::clearCachedFindDialog() {
     }
 }
 
-void KStars::applyConfig( bool doApplyFocus ) {
-    if ( Options::isTracking() ) {
+void KStars::applyConfig( bool doApplyFocus )
+{
+    if ( Options::isTracking() )
+    {
         actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
         actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-encrypt", QIcon(":/icons/breeze/default/document-encrypt.svg")) );
     }
@@ -276,7 +285,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
     //Note:  This uses style sheets to set the dark colors, this should be cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
     //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
     //This is also in KStarsDbus.cpp.  If you change it, change it in BOTH places.
-    #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
     if(Options::darkAppColors())
         qApp->setStyleSheet("QWidget { background-color: black; color:red; selection-background-color:rgb(30,30,30);selection-color:white}" \
                             "QToolBar { border:none }" \
@@ -304,7 +313,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
     else
         qApp->setStyleSheet("QRoundProgressBar { background-color: rgb(208,208,208) }" \
                             "");
-    #endif
+#endif
 
 
     //Set toolbar options from config file
@@ -315,17 +324,21 @@ void KStars::applyConfig( bool doApplyFocus ) {
     data()->setLocationFromOptions();
 
     //Focus
-    if ( doApplyFocus ) {
-        SkyObject *fo = data()->objectNamed( Options::focusObject() );
-        if ( fo && fo != map()->focusObject() ) {
+    if ( doApplyFocus )
+    {
+        SkyObject * fo = data()->objectNamed( Options::focusObject() );
+        if ( fo && fo != map()->focusObject() )
+        {
             map()->setClickedObject( fo );
             map()->setClickedPoint( fo );
             map()->slotCenter();
         }
 
-        if ( ! fo ) {
+        if ( ! fo )
+        {
             SkyPoint fp( Options::focusRA(), Options::focusDec() );
-            if ( fp.ra().Degrees() != map()->focus()->ra().Degrees() || fp.dec().Degrees() != map()->focus()->dec().Degrees() ) {
+            if ( fp.ra().Degrees() != map()->focus()->ra().Degrees() || fp.dec().Degrees() != map()->focus()->dec().Degrees() )
+            {
                 map()->setClickedPoint( &fp );
                 map()->slotCenter();
             }
@@ -333,20 +346,27 @@ void KStars::applyConfig( bool doApplyFocus ) {
     }
 }
 
-void KStars::showImgExportDialog() {
+void KStars::showImgExportDialog()
+{
     if(m_ExportImageDialog)
         m_ExportImageDialog->show();
 }
 
-void KStars::syncFOVActions() {
-    foreach(QAction *action, fovActionMenu->menu()->actions()) {
-        if(action->text().isEmpty()) {
+void KStars::syncFOVActions()
+{
+    foreach(QAction * action, fovActionMenu->menu()->actions())
+    {
+        if(action->text().isEmpty())
+        {
             continue;
         }
 
-        if(Options::fOVNames().contains(action->text().remove(0, 1))) {
+        if(Options::fOVNames().contains(action->text().remove(0, 1)))
+        {
             action->setChecked(true);
-        } else {
+        }
+        else
+        {
             action->setChecked(false);
         }
     }
@@ -357,14 +377,20 @@ void KStars::hideAllFovExceptFirst()
     // When there is only one visible FOV symbol, we don't need to do anything
     // Also, don't do anything if there are no available FOV symbols.
     if(data()->visibleFOVs.size() == 1 ||
-       data()->availFOVs.size() == 0) {
+            data()->availFOVs.size() == 0)
+    {
         return;
-    } else {
+    }
+    else
+    {
         // If there are no visible FOVs, select first available
-        if(data()->visibleFOVs.size() == 0) {
+        if(data()->visibleFOVs.size() == 0)
+        {
             Q_ASSERT( !data()->availFOVs.isEmpty() );
             Options::setFOVNames(QStringList(data()->availFOVs.first()->name()));
-        } else {
+        }
+        else
+        {
             Options::setFOVNames(QStringList(data()->visibleFOVs.first()->name()));
         }
 
@@ -383,18 +409,22 @@ void KStars::selectNextFov()
 
     Q_ASSERT( ! data()->getAvailableFOVs().isEmpty() ); // The available FOVs had better not be empty if the visible ones are not.
 
-    FOV *currentFov = data()->getVisibleFOVs().first();
+    FOV * currentFov = data()->getVisibleFOVs().first();
     int currentIdx = data()->availFOVs.indexOf(currentFov);
 
     // If current FOV is not the available FOV list or there is only 1 FOV available, then return
-    if(currentIdx == -1 || data()->availFOVs.size() < 2) {
+    if(currentIdx == -1 || data()->availFOVs.size() < 2)
+    {
         return;
     }
 
     QStringList nextFovName;
-    if(currentIdx == data()->availFOVs.size() - 1) {
+    if(currentIdx == data()->availFOVs.size() - 1)
+    {
         nextFovName << data()->availFOVs.first()->name();
-    } else {
+    }
+    else
+    {
         nextFovName << data()->availFOVs.at(currentIdx + 1)->name();
     }
 
@@ -411,18 +441,22 @@ void KStars::selectPreviousFov()
 
     Q_ASSERT( ! data()->getAvailableFOVs().isEmpty() ); // The available FOVs had better not be empty if the visible ones are not.
 
-    FOV *currentFov = data()->getVisibleFOVs().first();
+    FOV * currentFov = data()->getVisibleFOVs().first();
     int currentIdx = data()->availFOVs.indexOf(currentFov);
 
     // If current FOV is not the available FOV list or there is only 1 FOV available, then return
-    if(currentIdx == -1 || data()->availFOVs.size() < 2) {
+    if(currentIdx == -1 || data()->availFOVs.size() < 2)
+    {
         return;
     }
 
     QStringList prevFovName;
-    if(currentIdx == 0) {
+    if(currentIdx == 0)
+    {
         prevFovName << data()->availFOVs.last()->name();
-    } else {
+    }
+    else
+    {
         prevFovName << data()->availFOVs.at(currentIdx - 1)->name();
     }
 
@@ -440,11 +474,12 @@ void KStars::showWISettingsUI()
 }
 //#endif
 
-void KStars::updateTime( const bool automaticDSTchange ) {
+void KStars::updateTime( const bool automaticDSTchange )
+{
     // Due to frequently use of this function save data and map pointers for speedup.
     // Save options and geo() to a pointer would not speedup because most of time options
     // and geo will accessed only one time.
-    KStarsData *Data = data();
+    KStarsData * Data = data();
     // dms oldLST( Data->lst()->Degrees() );
 
     Data->updateTime( Data->geo(), automaticDSTchange );
@@ -463,7 +498,8 @@ void KStars::updateTime( const bool automaticDSTchange ) {
     //step exactly equal to the timeScale setting.
     //Wrap the call to manualTick() in a singleshot timer so that it doesn't get called until
     //the skymap has been completely updated.
-    if ( Data->clock()->isManualMode() && Data->clock()->isActive() ) {
+    if ( Data->clock()->isManualMode() && Data->clock()->isActive() )
+    {
         QTimer::singleShot( 0, Data->clock(), SLOT( manualTick() ) );
     }
 }
@@ -484,7 +520,7 @@ FITSViewer * KStars::genericFITSViewer()
 #endif
 
 #ifdef HAVE_INDI
-EkosManager *KStars::ekosManager()
+EkosManager * KStars::ekosManager()
 {
     if (m_EkosManager.isNull())
         m_EkosManager   = new EkosManager(Options::independentWindowEkos() ? NULL : this);

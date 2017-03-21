@@ -27,7 +27,7 @@
 #include <QPointer>
 #include <KLocalizedString>
 
-PWizObjectSelectionUI::PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
+PWizObjectSelectionUI::PWizObjectSelectionUI(PrintingWizard * wizard, QWidget * parent) : QFrame(parent),
     m_ParentWizard(wizard)
 {
     setupUi(this);
@@ -41,7 +41,7 @@ PWizObjectSelectionUI::PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *pa
     connect(detailsButton, SIGNAL(clicked()), this, SLOT(slotShowDetails()));
 }
 
-void PWizObjectSelectionUI::setSkyObject(SkyObject *obj)
+void PWizObjectSelectionUI::setSkyObject(SkyObject * obj)
 {
     m_ParentWizard->setSkyObject(obj);
     m_ParentWizard->updateStepButtons();
@@ -60,7 +60,7 @@ void PWizObjectSelectionUI::slotSelectFromList()
     QPointer<FindDialog> findDlg( new FindDialog( this ) );
     if(findDlg->exec() == QDialog::Accepted && findDlg)
     {
-        SkyObject *obj = findDlg->targetObject();
+        SkyObject * obj = findDlg->targetObject();
         if(obj)
         {
             setSkyObject(obj);
@@ -80,21 +80,21 @@ void PWizObjectSelectionUI::slotShowDetails()
     if(m_ParentWizard->getSkyObject())
     {
         QPointer<DetailDialog> detailDlg( new DetailDialog( m_ParentWizard->getSkyObject(), KStars::Instance()->data()->ut(),
-                               KStars::Instance()->data()->geo(), this ) );
+                                          KStars::Instance()->data()->geo(), this ) );
         detailDlg->exec();
         delete detailDlg;
     }
 }
 
-QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
+QString PWizObjectSelectionUI::objectInfoString(SkyObject * obj)
 {
     QString retVal;
 
     switch(obj->type())
     {
-    case SkyObject::STAR:
+        case SkyObject::STAR:
         {
-            StarObject *s = (StarObject *)obj;
+            StarObject * s = (StarObject *)obj;
 
             retVal = s->longname();
 
@@ -117,13 +117,13 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
             break;
         }
 
-    case SkyObject::ASTEROID:  //[fall through to planets]
-    case SkyObject::COMET:     //[fall through to planets]
-    case SkyObject::MOON:      //[fall through to planets]
+        case SkyObject::ASTEROID:  //[fall through to planets]
+        case SkyObject::COMET:     //[fall through to planets]
+        case SkyObject::MOON:      //[fall through to planets]
 
-    case SkyObject::PLANET:
+        case SkyObject::PLANET:
         {
-            KSPlanetBase *ps = (KSPlanetBase *)obj;
+            KSPlanetBase * ps = (KSPlanetBase *)obj;
 
             retVal = ps->longname();
 
@@ -155,9 +155,9 @@ QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)
             break;
         }
 
-    default: // deep-sky object
+        default: // deep-sky object
         {
-            DeepSkyObject *dso = (DeepSkyObject *)obj;
+            DeepSkyObject * dso = (DeepSkyObject *)obj;
 
             QString oname, pname;
             //Show all names recorded for the object

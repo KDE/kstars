@@ -19,7 +19,7 @@
 
 #include "stereographicprojector.h"
 
-StereographicProjector::StereographicProjector(const ViewParams& p)
+StereographicProjector::StereographicProjector(const ViewParams &p)
     : Projector(p)
 {
     updateClipPoly();

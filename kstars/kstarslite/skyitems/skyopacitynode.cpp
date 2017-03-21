@@ -16,26 +16,33 @@
 
 #include "skyopacitynode.h"
 
-SkyOpacityNode::SkyOpacityNode() {
+SkyOpacityNode::SkyOpacityNode()
+{
 
 }
 
-void SkyOpacityNode::show() {
-    if(opacity() == 0) {
+void SkyOpacityNode::show()
+{
+    if(opacity() == 0)
+    {
         setOpacity(1);
         markDirty(QSGNode::DirtyOpacity);
     }
 }
 
-void SkyOpacityNode::hide() {
-    if(opacity() != 0) {
+void SkyOpacityNode::hide()
+{
+    if(opacity() != 0)
+    {
         setOpacity(0);
         markDirty(QSGNode::DirtyOpacity);
     }
 }
 
-bool SkyOpacityNode::visible() {
-    if(opacity() != 0) {
+bool SkyOpacityNode::visible()
+{
+    if(opacity() != 0)
+    {
         return true;
     }
     return false;

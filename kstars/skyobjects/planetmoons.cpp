@@ -24,20 +24,24 @@
 #include "kssun.h"
 #include "trailobject.h"
 
-PlanetMoons::PlanetMoons(){
+PlanetMoons::PlanetMoons()
+{
 }
 
-PlanetMoons::~PlanetMoons(){
+PlanetMoons::~PlanetMoons()
+{
     qDeleteAll( Moon );
 }
 
-QString PlanetMoons::name( int id ) const {
+QString PlanetMoons::name( int id ) const
+{
     return Moon[id]->translatedName();
 }
 
-void PlanetMoons::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
-  int nmoons = nMoons();
-  
-  for ( int i=0; i<nmoons; ++i )
+void PlanetMoons::EquatorialToHorizontal( const dms * LST, const dms * lat )
+{
+    int nmoons = nMoons();
+
+    for ( int i=0; i<nmoons; ++i )
         moon(i)->EquatorialToHorizontal( LST, lat );
 }

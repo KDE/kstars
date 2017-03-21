@@ -29,29 +29,30 @@
  *@author Akarsh Simha <akarsh.simha@kdemail.net>
  */
 
-class SkyMapQDraw : public QWidget, public SkyMapDrawAbstract {
-    
-    Q_OBJECT
+class SkyMapQDraw : public QWidget, public SkyMapDrawAbstract
+{
 
- public:
-    /**
-     *@short Constructor
-     */
-    explicit SkyMapQDraw( SkyMap *parent );
+        Q_OBJECT
 
-    /**
-     *@short Destructor
-     */
-    ~SkyMapQDraw();
+    public:
+        /**
+         *@short Constructor
+         */
+        explicit SkyMapQDraw( SkyMap * parent );
 
- protected:
+        /**
+         *@short Destructor
+         */
+        ~SkyMapQDraw();
 
-    virtual void paintEvent( QPaintEvent *e );
-    
-    virtual void resizeEvent( QResizeEvent *e );
+    protected:
 
-    QPixmap *m_SkyPixmap;
-    
+        virtual void paintEvent( QPaintEvent * e );
+
+        virtual void resizeEvent( QResizeEvent * e );
+
+        QPixmap * m_SkyPixmap;
+
 };
 
 #endif

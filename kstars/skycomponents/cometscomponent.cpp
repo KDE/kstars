@@ -43,15 +43,17 @@
 #include "kspaths.h"
 #include "ksutils.h"
 
-CometsComponent::CometsComponent( SolarSystemComposite *parent )
-        : SolarSystemListComponent( parent ) {
+CometsComponent::CometsComponent( SolarSystemComposite * parent )
+    : SolarSystemListComponent( parent )
+{
     loadData();
 }
 
 CometsComponent::~CometsComponent()
 {}
 
-bool CometsComponent::selected() {
+bool CometsComponent::selected()
+{
     return Options::showComets();
 }
 
@@ -84,7 +86,8 @@ bool CometsComponent::selected() {
  * @li 21 comet nuclear magnitude slope parameter
  * @note See KSComet constructor for more details.
  */
-void CometsComponent::loadData() {
+void CometsComponent::loadData()
+{
     QString name, orbit_id, orbit_class, dimensions;
     bool neo;
     int mJD;
@@ -127,8 +130,9 @@ void CometsComponent::loadData() {
     KSParser cometParser(file_name, '#', sequence);
 
     QHash<QString, QVariant> row_content;
-    while (cometParser.HasNextRow()){
-        KSComet *com = 0;
+    while (cometParser.HasNextRow())
+    {
+        KSComet * com = 0;
         row_content = cometParser.ReadNextRow();
         name   = row_content["full name"].toString();
         name   = name.trimmed();
@@ -182,11 +186,11 @@ void CometsComponent::loadData() {
 
         // Add *short* name to the list of object names
         objectNames( SkyObject::COMET ).append( com->name() );
-        objectLists( SkyObject::COMET ).append(QPair<QString, const SkyObject*>(com->name(),com));
+        objectLists( SkyObject::COMET ).append(QPair<QString, const SkyObject *>(com->name(),com));
     }
 }
 
-void CometsComponent::draw( SkyPainter *skyp )
+void CometsComponent::draw( SkyPainter * skyp )
 {
     Q_UNUSED(skyp)
 #ifndef KSTARS_LITE
@@ -202,8 +206,9 @@ void CometsComponent::draw( SkyPainter *skyp )
     skyp->setPen( QPen( QColor( "darkcyan" ) ) );
     skyp->setBrush( QBrush( QColor( "darkcyan" ) ) );
 
-    foreach ( SkyObject *so, m_ObjectList ) {
-        KSComet *com = (KSComet*)so;
+    foreach ( SkyObject * so, m_ObjectList )
+    {
+        KSComet * com = (KSComet *)so;
         double mag= com->mag();
         if (std::isnan(mag) == 0)
         {

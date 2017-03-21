@@ -53,7 +53,7 @@
 ** INDI Menu: Handles communication to server and fetching basic XML
 ** data.
 *******************************************************************/
-INDIMenu::INDIMenu(QWidget *parent) : QWidget(parent, Qt::Window)
+INDIMenu::INDIMenu(QWidget * parent) : QWidget(parent, Qt::Window)
 {
 
     ksw = (KStars *) parent;
@@ -72,11 +72,11 @@ INDIMenu::INDIMenu(QWidget *parent) : QWidget(parent, Qt::Window)
     clearB      = new QPushButton(xi18n("Clear"));
     closeB      = new QPushButton(xi18n("Close"));
 
-    QHBoxLayout *buttonLayout = new QHBoxLayout;
+    QHBoxLayout * buttonLayout = new QHBoxLayout;
     buttonLayout->insertStretch(0);
     buttonLayout->addWidget(clearB, 0, Qt::AlignRight);
     buttonLayout->addWidget(closeB, 0, Qt::AlignRight);
-    
+
     mainLayout->addLayout(buttonLayout);
 
     connect(closeB, SIGNAL(clicked()), this, SLOT(close()));
@@ -105,53 +105,53 @@ void INDIMenu::updateStatus()
     show();
 }
 
-DeviceManager* INDIMenu::initDeviceManager(QString inHost, uint inPort, DeviceManager::ManagerMode inMode)
-  {
-    DeviceManager *deviceManager;
-    
+DeviceManager * INDIMenu::initDeviceManager(QString inHost, uint inPort, DeviceManager::ManagerMode inMode)
+{
+    DeviceManager * deviceManager;
+
     deviceManager = new DeviceManager(this, inHost, inPort, inMode);
     managers.append(deviceManager);
-  
+
     connect(deviceManager, SIGNAL(newDevice(INDI_D *)), ksw->indiDriver(), SLOT(enableDevice(INDI_D *)));
-    connect(deviceManager, SIGNAL(deviceManagerError(DeviceManager *)), this, SLOT(removeDeviceManager(DeviceManager*)), Qt::QueuedConnection);
-  
+    connect(deviceManager, SIGNAL(deviceManagerError(DeviceManager *)), this, SLOT(removeDeviceManager(DeviceManager *)), Qt::QueuedConnection);
+
     return deviceManager;
 }
-  
+
 void INDIMenu::stopDeviceManager(QList<IDevice *> &processed_devices)
 {
 
-	foreach(IDevice *device, processed_devices)
-	{
-		if (device->deviceManager != NULL)
-			removeDeviceManager(device->deviceManager);
-	}
+    foreach(IDevice * device, processed_devices)
+    {
+        if (device->deviceManager != NULL)
+            removeDeviceManager(device->deviceManager);
+    }
 }
 
-void INDIMenu::removeDeviceManager(DeviceManager *deviceManager)
+void INDIMenu::removeDeviceManager(DeviceManager * deviceManager)
 {
     if (deviceManager == NULL)
     {
-	kWarning() << "Warning: trying to remove a null device manager detected.";
-	return;
+        kWarning() << "Warning: trying to remove a null device manager detected.";
+        return;
     }
 
     for (int i=0; i < managers.size(); i++)
     {
         if (deviceManager == managers.at(i))
         {
-		foreach(INDI_D *device, deviceManager->indi_dev)
-			ksw->indiDriver()->disableDevice(device);
+            foreach(INDI_D * device, deviceManager->indi_dev)
+                ksw->indiDriver()->disableDevice(device);
 
             delete managers.takeAt(i);
-	    break;
+            break;
         }
     }
-  
+
     ksw->indiDriver()->updateMenuActions();
 
     if (managers.size() == 0)
-	close();
+        close();
 }
 
 INDI_D * INDIMenu::findDevice(const QString &deviceName)
@@ -177,28 +177,28 @@ INDI_D * INDIMenu::findDeviceByLabel(const QString &label)
 
 QString INDIMenu::getUniqueDeviceLabel(const QString &deviceName)
 {
-      int nset=0;
-  
-      for (int i=0; i < managers.size(); i++)
+    int nset=0;
+
+    for (int i=0; i < managers.size(); i++)
     {
-          for (int j=0; j < managers[i]->indi_dev.size(); j++)
-              if (managers[i]->indi_dev[j]->label.indexOf(deviceName) >= 0)
-                  nset++;
+        for (int j=0; j < managers[i]->indi_dev.size(); j++)
+            if (managers[i]->indi_dev[j]->label.indexOf(deviceName) >= 0)
+                nset++;
     }
-  
-      if (nset)
+
+    if (nset)
         return (deviceName + QString(" %1").arg(nset+1));
-      else
+    else
         return (deviceName);
 
 }
 
 void INDIMenu::clearLog()
 {
-  INDI_D *dev = findDeviceByLabel(mainTabWidget->tabText(mainTabWidget->currentIndex()).remove(QChar('&')));
+    INDI_D * dev = findDeviceByLabel(mainTabWidget->tabText(mainTabWidget->currentIndex()).remove(QChar('&')));
 
-  if (dev)
-	dev->msgST_w->clear();
+    if (dev)
+        dev->msgST_w->clear();
 
 }
 

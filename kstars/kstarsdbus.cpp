@@ -53,50 +53,77 @@
 #include "fitsviewer/fitsviewer.h"
 #endif
 
-void KStars::setRaDec( double ra, double dec ) {
+void KStars::setRaDec( double ra, double dec )
+{
     SkyPoint p( ra, dec );
     map()->setDestination( p );
 }
 
-void KStars::setAltAz( double alt, double az ) {
+void KStars::setAltAz( double alt, double az )
+{
     map()->setDestinationAltAz( dms(alt), dms(az) );
 }
 
-void KStars::lookTowards ( const QString &direction ) {
+void KStars::lookTowards ( const QString &direction )
+{
     QString dir = direction.toLower();
-    if        (dir == i18n("zenith") || dir=="z") {
+    if        (dir == i18n("zenith") || dir=="z")
+    {
         actionCollection()->action("zenith")->trigger();
-    } else if (dir == i18n("north")  || dir=="n") {
+    }
+    else if (dir == i18n("north")  || dir=="n")
+    {
         actionCollection()->action("north")->trigger();
-    } else if (dir == i18n("east")   || dir=="e") {
+    }
+    else if (dir == i18n("east")   || dir=="e")
+    {
         actionCollection()->action("east")->trigger();
-    } else if (dir == i18n("south")  || dir=="s") {
+    }
+    else if (dir == i18n("south")  || dir=="s")
+    {
         actionCollection()->action("south")->trigger();
-    } else if (dir == i18n("west")   || dir=="w") {
+    }
+    else if (dir == i18n("west")   || dir=="w")
+    {
         actionCollection()->action("west")->trigger();
-    } else if (dir == i18n("northeast") || dir=="ne") {
+    }
+    else if (dir == i18n("northeast") || dir=="ne")
+    {
         map()->stopTracking();
-        map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 45.0 );
+        map()->clickedPoint()->setAlt( 15.0 );
+        map()->clickedPoint()->setAz( 45.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
-    } else if (dir == i18n("southeast") || dir=="se") {
+    }
+    else if (dir == i18n("southeast") || dir=="se")
+    {
         map()->stopTracking();
-        map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 135.0 );
+        map()->clickedPoint()->setAlt( 15.0 );
+        map()->clickedPoint()->setAz( 135.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
-    } else if (dir == i18n("southwest") || dir=="sw") {
+    }
+    else if (dir == i18n("southwest") || dir=="sw")
+    {
         map()->stopTracking();
-        map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 225.0 );
+        map()->clickedPoint()->setAlt( 15.0 );
+        map()->clickedPoint()->setAz( 225.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
-    } else if (dir == i18n("northwest") || dir=="nw") {
+    }
+    else if (dir == i18n("northwest") || dir=="nw")
+    {
         map()->stopTracking();
-        map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 315.0 );
+        map()->clickedPoint()->setAlt( 15.0 );
+        map()->clickedPoint()->setAz( 315.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
-    } else {
-        SkyObject *target = data()->objectNamed( direction );
-        if ( target != NULL ) {
+    }
+    else
+    {
+        SkyObject * target = data()->objectNamed( direction );
+        if ( target != NULL )
+        {
             map()->setClickedObject( target );
             map()->setClickedPoint( target );
             map()->slotCenter();
@@ -104,99 +131,127 @@ void KStars::lookTowards ( const QString &direction ) {
     }
 }
 
-void KStars::addLabel( const QString &name ) {
-    SkyObject *target = data()->objectNamed( name );
-    if ( target != NULL ) {
+void KStars::addLabel( const QString &name )
+{
+    SkyObject * target = data()->objectNamed( name );
+    if ( target != NULL )
+    {
         data()->skyComposite()->addNameLabel( target );
         map()->forceUpdate();
     }
 }
 
-void KStars::removeLabel( const QString &name ) {
-    SkyObject *target = data()->objectNamed( name );
-    if ( target != NULL ) {
+void KStars::removeLabel( const QString &name )
+{
+    SkyObject * target = data()->objectNamed( name );
+    if ( target != NULL )
+    {
         data()->skyComposite()->removeNameLabel( target );
         map()->forceUpdate();
     }
 }
 
-void KStars::addTrail( const QString &name ) {
-    TrailObject *target = dynamic_cast<TrailObject*>( data()->objectNamed( name ) );
-    if( target ) {
+void KStars::addTrail( const QString &name )
+{
+    TrailObject * target = dynamic_cast<TrailObject *>( data()->objectNamed( name ) );
+    if( target )
+    {
         target->addToTrail();
         map()->forceUpdate();
     }
 }
 
-void KStars::removeTrail( const QString &name ) {
-    TrailObject *target = dynamic_cast<TrailObject*>( data()->objectNamed( name ) );
-    if ( target ) {
+void KStars::removeTrail( const QString &name )
+{
+    TrailObject * target = dynamic_cast<TrailObject *>( data()->objectNamed( name ) );
+    if ( target )
+    {
         target->clearTrail();
         map()->forceUpdate();
     }
 }
 
-void KStars::zoom( double z ) {
+void KStars::zoom( double z )
+{
     map()->setZoomFactor( z );
 }
 
-void KStars::zoomIn() {
+void KStars::zoomIn()
+{
     map()->slotZoomIn();
 }
 
-void KStars::zoomOut() {
+void KStars::zoomOut()
+{
     map()->slotZoomOut();
 }
 
-void KStars::defaultZoom() {
+void KStars::defaultZoom()
+{
     map()->slotZoomDefault();
 }
 
-void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
+void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec)
+{
     data()->changeDateTime( data()->geo()->LTtoUT( KStarsDateTime( QDate(yr, mth, day), QTime(hr,min,sec) ) ) );
 }
 
-void KStars::setTimeToNow() {
+void KStars::setTimeToNow()
+{
     slotSetTimeToNow();
 }
 
-void KStars::waitFor( double sec ) {
+void KStars::waitFor( double sec )
+{
     QTime tm;
     tm.start();
-    while ( tm.elapsed() < int( 1000.*sec ) ) { qApp->processEvents(); }
+    while ( tm.elapsed() < int( 1000.*sec ) )
+    {
+        qApp->processEvents();
+    }
 }
 
-void KStars::waitForKey( const QString &k ) {
+void KStars::waitForKey( const QString &k )
+{
     data()->resumeKey = QKeySequence::fromString( k );
-    if ( ! data()->resumeKey.isEmpty() ) {
+    if ( ! data()->resumeKey.isEmpty() )
+    {
         //When the resumeKey is pressed, resumeKey is set to empty
         while ( !data()->resumeKey.isEmpty() )
             qApp->processEvents();
-    } else {
+    }
+    else
+    {
         qDebug() << "Error [D-Bus waitForKey()]: Invalid key requested.";
     }
 }
 
-void KStars::setTracking( bool track ) {
+void KStars::setTracking( bool track )
+{
     if ( track != Options::isTracking() ) slotTrack();
 }
 
-void KStars::popupMessage( int /*x*/, int /*y*/, const QString& /*message*/ ){
+void KStars::popupMessage( int /*x*/, int /*y*/, const QString & /*message*/ )
+{
     //Show a small popup window at (x,y) with a text message
 }
 
-void KStars::drawLine( int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, int /*speed*/ ) {
+void KStars::drawLine( int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, int /*speed*/ )
+{
     //Draw a line on the skymap display
 }
 
-bool KStars::setGeoLocation( const QString &city, const QString &province, const QString &country ) {
+bool KStars::setGeoLocation( const QString &city, const QString &province, const QString &country )
+{
     //Set the geographic location
     bool cityFound( false );
 
-    foreach ( GeoLocation *loc, data()->geoList ) {
+    foreach ( GeoLocation * loc, data()->geoList )
+    {
         if ( loc->translatedName() == city &&
                 ( province.isEmpty() || loc->translatedProvince() == province ) &&
-                loc->translatedCountry() == country ) {
+                loc->translatedCountry() == country )
+        {
 
             cityFound = true;
 
@@ -215,7 +270,8 @@ bool KStars::setGeoLocation( const QString &city, const QString &province, const
 
             // If the sky is in Horizontal mode and not tracking, reset focus such that
             // Alt/Az remain constant.
-            if ( ! Options::isTracking() && Options::useAltAz() ) {
+            if ( ! Options::isTracking() && Options::useAltAz() )
+            {
                 map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
 
@@ -228,7 +284,8 @@ bool KStars::setGeoLocation( const QString &city, const QString &province, const
         }
     }
 
-    if ( !cityFound ) {
+    if ( !cityFound )
+    {
         if ( province.isEmpty() )
             qDebug() << QString("Error [D-Bus setGeoLocation]: city %1, %2 not found in database.").arg(city).arg(country);
         else
@@ -238,14 +295,16 @@ bool KStars::setGeoLocation( const QString &city, const QString &province, const
     return cityFound;
 }
 
-void KStars::readConfig() {
+void KStars::readConfig()
+{
     //Load config file values into Options object
     Options::self()->load();
 
     applyConfig();
 
     //Reset date, if one was stored
-    if ( data()->StoredDate.isValid() ) {
+    if ( data()->StoredDate.isValid() )
+    {
         data()->changeDateTime( data()->geo()->LTtoUT( data()->StoredDate ) );
         data()->StoredDate = QDateTime(); //invalidate StoredDate
     }
@@ -253,33 +312,58 @@ void KStars::readConfig() {
     map()->forceUpdate();
 }
 
-void KStars::writeConfig() {
+void KStars::writeConfig()
+{
     Options::self()->save();
 
     //Store current simulation time
     data()->StoredDate = data()->lt();
 }
 
-QString KStars::getOption( const QString &name ) {
+QString KStars::getOption( const QString &name )
+{
     //Some config items are not stored in the Options object while
     //the program is running; catch these here and returntheir current value.
-    if ( name == "FocusRA" ) { return QString::number( map()->focus()->ra().Hours(), 'f', 6 ); }
-    if ( name == "FocusDec" ) { return QString::number( map()->focus()->dec().Degrees(), 'f', 6 ); }
+    if ( name == "FocusRA" )
+    {
+        return QString::number( map()->focus()->ra().Hours(), 'f', 6 );
+    }
+    if ( name == "FocusDec" )
+    {
+        return QString::number( map()->focus()->dec().Degrees(), 'f', 6 );
+    }
 
-    KConfigSkeletonItem *it = Options::self()->findItem( name );
+    KConfigSkeletonItem * it = Options::self()->findItem( name );
     if ( it ) return it->property().toString();
     else return QString();
 }
 
-void KStars::changeViewOption( const QString &op, const QString &val ) {
+void KStars::changeViewOption( const QString &op, const QString &val )
+{
     bool bOk(false), dOk(false);
 
     //parse bool value
     bool bVal(false);
-    if ( val.toLower() == "true" ) { bOk = true; bVal = true; }
-    if ( val.toLower() == "false" ) { bOk = true; bVal = false; }
-    if ( val == "1" ) { bOk = true; bVal = true; }
-    if ( val == "0" ) { bOk = true; bVal = false; }
+    if ( val.toLower() == "true" )
+    {
+        bOk = true;
+        bVal = true;
+    }
+    if ( val.toLower() == "false" )
+    {
+        bOk = true;
+        bVal = false;
+    }
+    if ( val == "1" )
+    {
+        bOk = true;
+        bVal = true;
+    }
+    if ( val == "0" )
+    {
+        bOk = true;
+        bVal = false;
+    }
 
     //parse double value
     double dVal = val.toDouble( &dOk );
@@ -371,17 +455,20 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     if ( op == "MaxRadCometName"      && dOk ) Options::setMaxRadCometName(      dVal );
 
     //these three are a "radio group"
-    if ( op == "UseLatinConstellationNames" && bOk ) {
+    if ( op == "UseLatinConstellationNames" && bOk )
+    {
         Options::setUseLatinConstellNames( true );
         Options::setUseLocalConstellNames( false );
         Options::setUseAbbrevConstellNames( false );
     }
-    if ( op == "UseLocalConstellationNames" && bOk ) {
+    if ( op == "UseLocalConstellationNames" && bOk )
+    {
         Options::setUseLatinConstellNames( false );
         Options::setUseLocalConstellNames( true );
         Options::setUseAbbrevConstellNames( false );
     }
-    if ( op == "UseAbbrevConstellationNames" && bOk ) {
+    if ( op == "UseAbbrevConstellationNames" && bOk )
+    {
         Options::setUseLatinConstellNames( false );
         Options::setUseLocalConstellNames( false );
         Options::setUseAbbrevConstellNames( true );
@@ -390,15 +477,18 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     map()->forceUpdate();
 }
 
-void KStars::setColor( const QString &name, const QString &value ) {
-    ColorScheme *cs = data()->colorScheme();
-    if ( cs->hasColorNamed( name ) ) {
+void KStars::setColor( const QString &name, const QString &value )
+{
+    ColorScheme * cs = data()->colorScheme();
+    if ( cs->hasColorNamed( name ) )
+    {
         cs->setColor( name, value );
         map()->forceUpdate();
     }
 }
 
-void KStars::loadColorScheme( const QString &name ) {
+void KStars::loadColorScheme( const QString &name )
+{
     bool ok = data()->colorScheme()->load( name );
     //QString filename = data()->colorScheme()->fileName();
 
@@ -406,7 +496,7 @@ void KStars::loadColorScheme( const QString &name ) {
     {
         //set the application colors for the Night Vision scheme
         //if ( Options::darkAppColors() == false && filename == "night.colors" )  {
-            //Options::setDarkAppColors( true );
+        //Options::setDarkAppColors( true );
         if (Options::darkAppColors())
         {
             //OriginalPalette = QApplication::palette();
@@ -414,7 +504,7 @@ void KStars::loadColorScheme( const QString &name ) {
             //Note:  This uses style sheets to set the dark colors, this is cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
             //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
             //This is also in KStars.cpp.  If you change it, change it in BOTH places.
-            #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
             qApp->setStyleSheet("QWidget { background-color: black; color:red; selection-background-color:rgb(30,30,30);selection-color:white}" \
                                 "QToolBar { border:none }" \
                                 "QTabBar::tab:selected { background-color:rgb(50,50,50) }" \
@@ -438,17 +528,17 @@ void KStars::loadColorScheme( const QString &name ) {
                                 "QHeaderView::Section { background-color:rgb(30,30,30) }" \
                                 "QTableCornerButton::section{ background-color:rgb(30,30,30) }" \
                                 "");
-            #endif
+#endif
         }
         else
         {
-        //if ( Options::darkAppColors() && filename != "night.colors" ) {
+            //if ( Options::darkAppColors() && filename != "night.colors" ) {
             //Options::setDarkAppColors( false );
             QApplication::setPalette( OriginalPalette );
-            #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
             qApp->setStyleSheet("QRoundProgressBar { background-color: rgb(208,208,208) }" \
                                 "");
-            #endif
+#endif
         }
 
         Options::setColorSchemeFile( name );
@@ -457,9 +547,10 @@ void KStars::loadColorScheme( const QString &name ) {
     }
 }
 
-void KStars::exportImage( const QString &url, int w, int h, bool includeLegend ) {
+void KStars::exportImage( const QString &url, int w, int h, bool includeLegend )
+{
 
-    ImageExporter*  m_ImageExporter = m_KStarsData->imageExporter();
+    ImageExporter * m_ImageExporter = m_KStarsData->imageExporter();
     if ( w <= 0 )
         w = map()->width();
     if ( h <= 0 )
@@ -469,24 +560,30 @@ void KStars::exportImage( const QString &url, int w, int h, bool includeLegend )
     m_ImageExporter->exportImage( url );
 }
 
-QString KStars::getDSSURL( const QString &objectName ) {
-    SkyObject *target = data()->objectNamed( objectName );
-    if ( !target ) {
+QString KStars::getDSSURL( const QString &objectName )
+{
+    SkyObject * target = data()->objectNamed( objectName );
+    if ( !target )
+    {
         return QString( "ERROR" );
     }
-    else {
+    else
+    {
         return KSDssDownloader::getDSSURL( target );
     }
 }
 
-QString KStars::getDSSURL( double RA_J2000, double Dec_J2000, float width, float height ) {
+QString KStars::getDSSURL( double RA_J2000, double Dec_J2000, float width, float height )
+{
     dms ra( RA_J2000 ),  dec( Dec_J2000 );
     return KSDssDownloader::getDSSURL( ra, dec, width, height );
 }
 
-QString KStars::getObjectDataXML( const QString &objectName ) {
-    SkyObject *target = data()->objectNamed( objectName );
-    if ( !target ) {
+QString KStars::getObjectDataXML( const QString &objectName )
+{
+    SkyObject * target = data()->objectNamed( objectName );
+    if ( !target )
+    {
         return QString( "<xml></xml>" );
     }
     QString output;
@@ -510,9 +607,10 @@ QString KStars::getObjectDataXML( const QString &objectName ) {
     stream.writeTextElement( "Type", target->typeName() );
     stream.writeTextElement( "Magnitude", QString::number( target->mag(), 'g', 2 ) );
     stream.writeTextElement( "Position_Angle", QString::number( target->pa(), 'g', 3 ) );
-    StarObject *star = dynamic_cast< StarObject* >( target );
-    DeepSkyObject *dso = dynamic_cast< DeepSkyObject* >( target );
-    if ( star ) {
+    StarObject * star = dynamic_cast< StarObject * >( target );
+    DeepSkyObject * dso = dynamic_cast< DeepSkyObject * >( target );
+    if ( star )
+    {
         stream.writeTextElement( "Spectral_Type",  star->sptype() );
         stream.writeTextElement( "Genetive_Name", star->gname() );
         stream.writeTextElement( "Greek_Letter", star->greekLetter() );
@@ -524,7 +622,8 @@ QString KStars::getObjectDataXML( const QString &objectName ) {
         stream.writeTextElement( "Henry_Draper", QString::number( star->getHDIndex() ) );
         stream.writeTextElement( "BV_Index", QString::number( star->getBVIndex() ) );
     }
-    else if ( dso ) {
+    else if ( dso )
+    {
         stream.writeTextElement( "Catalog", dso->catalog() );
         stream.writeTextElement( "Major_Axis", QString::number( dso->a() ) );
         stream.writeTextElement( "Minor_Axis", QString::number( dso->a() * dso->e() ) );
@@ -534,21 +633,24 @@ QString KStars::getObjectDataXML( const QString &objectName ) {
     return output;
 }
 
-QString KStars::getObjectPositionInfo( const QString &objectName ) {
+QString KStars::getObjectPositionInfo( const QString &objectName )
+{
     Q_ASSERT( data() );
-    const SkyObject *obj = data()->objectNamed( objectName ); // make sure we work with a clone
-    if ( !obj ) {
+    const SkyObject * obj = data()->objectNamed( objectName ); // make sure we work with a clone
+    if ( !obj )
+    {
         return QString( "<xml></xml>" );
     }
-    SkyObject *target = obj->clone();
-    if( !target ) { // should not happen
+    SkyObject * target = obj->clone();
+    if( !target )   // should not happen
+    {
         qWarning() << "ERROR: Could not clone SkyObject " << objectName << "!";
         return QString( "<xml></xml>" );
     }
 
-    const KSNumbers *updateNum = data()->updateNum();
+    const KSNumbers * updateNum = data()->updateNum();
     const KStarsDateTime ut = data()->ut();
-    const GeoLocation *geo = data()->geo();
+    const GeoLocation * geo = data()->geo();
     QString riseTimeString, setTimeString, transitTimeString;
     QString riseAzString, setAzString, transitAltString;
 
@@ -561,26 +663,34 @@ QString KStars::getObjectPositionInfo( const QString &objectName ) {
     dms riseAz = target->riseSetTimeAz( ut, geo, true ); //true = use rise time
     QTime transitTime = target->transitTime( ut, geo );
     dms transitAlt = target->transitAltitude( ut, geo );
-    if ( transitTime < riseTime ) {
+    if ( transitTime < riseTime )
+    {
         transitTime = target->transitTime( ut.addDays( 1 ), geo );
         transitAlt = target->transitAltitude( ut.addDays( 1 ), geo );
     }
     //If set time is before rise time, use set time for tomorrow
     QTime setTime = target->riseSetTime(  ut, geo, false ); //false = use set time
     dms setAz = target->riseSetTimeAz( ut, geo, false ); //false = use set time
-    if ( setTime < riseTime ) {
+    if ( setTime < riseTime )
+    {
         setTime = target->riseSetTime( ut.addDays( 1 ), geo, false ); //false = use set time
         setAz = target->riseSetTimeAz( ut.addDays( 1 ), geo, false ); //false = use set time
     }
-    if ( riseTime.isValid() ) {
+    if ( riseTime.isValid() )
+    {
         riseTimeString = QString().sprintf( "%02d:%02d", riseTime.hour(), riseTime.minute() );
         setTimeString = QString().sprintf( "%02d:%02d", setTime.hour(), setTime.minute() );
         riseAzString = riseAz.toDMSString( true, true );
         setAzString = setAz.toDMSString( true, true );
-    } else {
-        if ( target->alt().Degrees() > 0.0 ) {
+    }
+    else
+    {
+        if ( target->alt().Degrees() > 0.0 )
+        {
             riseTimeString = setTimeString = QString( "Circumpolar" );
-        } else {
+        }
+        else
+        {
             riseTimeString = setTimeString = QString( "Never Rises" );
         }
         riseAzString = setAzString = QString( "N/A" );
@@ -623,25 +733,30 @@ QString KStars::getObjectPositionInfo( const QString &objectName ) {
 }
 
 void KStars::renderEyepieceView( const QString &objectName, const QString &destPathChart, const double fovWidth, const double fovHeight, const double rotation, const double scale,
-                                const bool flip, const bool invert, QString imagePath, const QString &destPathImage, const bool overlay, const bool invertColors ) {
-    const SkyObject *obj = data()->objectNamed( objectName );
-    if ( !obj ) {
+                                 const bool flip, const bool invert, QString imagePath, const QString &destPathImage, const bool overlay, const bool invertColors )
+{
+    const SkyObject * obj = data()->objectNamed( objectName );
+    if ( !obj )
+    {
         qWarning() << "Object named " << objectName << " was not found!";
         return;
     }
-    SkyObject *target = obj->clone();
-    const KSNumbers *updateNum = data()->updateNum();
+    SkyObject * target = obj->clone();
+    const KSNumbers * updateNum = data()->updateNum();
     const KStarsDateTime ut = data()->ut();
-    const GeoLocation *geo = data()->geo();
-    QPixmap *renderChart = new QPixmap();
-    QPixmap *renderImage = 0;
+    const GeoLocation * geo = data()->geo();
+    QPixmap * renderChart = new QPixmap();
+    QPixmap * renderImage = 0;
     QTemporaryFile tempFile;
-    if(  overlay || ( !destPathImage.isEmpty() ) ) {
-        if( !QFile::exists( imagePath ) ) {
+    if(  overlay || ( !destPathImage.isEmpty() ) )
+    {
+        if( !QFile::exists( imagePath ) )
+        {
             // We must download a DSS image
             tempFile.open();
             QEventLoop loop;
-            std::function<void( bool )> slot = [ &loop ]( bool unused ) {
+            std::function<void( bool )> slot = [ &loop ]( bool unused )
+            {
                 Q_UNUSED( unused );
                 loop.quit();
             };
@@ -662,35 +777,43 @@ void KStars::renderEyepieceView( const QString &objectName, const QString &destP
                                        imagePath, renderImage, overlay, invertColors );
     renderChart->save( destPathChart );
     delete renderChart;
-    if( renderImage ) {
+    if( renderImage )
+    {
         renderImage->save( destPathImage );
         delete renderImage;
     }
 }
-QString KStars::getObservingWishListObjectNames() {
+QString KStars::getObservingWishListObjectNames()
+{
     QString output;
-    foreach( QSharedPointer<SkyObject> object,  KStarsData::Instance()->observingList()->obsList() ) {
+    foreach( QSharedPointer<SkyObject> object,  KStarsData::Instance()->observingList()->obsList() )
+    {
         output.append( object->name() + '\n' );
     }
     return output;
 }
 
-QString KStars::getObservingSessionPlanObjectNames() {
+QString KStars::getObservingSessionPlanObjectNames()
+{
     QString output;
-    foreach( QSharedPointer<SkyObject> object,  KStarsData::Instance()->observingList()->sessionList() ) {
+    foreach( QSharedPointer<SkyObject> object,  KStarsData::Instance()->observingList()->sessionList() )
+    {
         output.append( object->name() + '\n' );
     }
     return output;
 }
 
-void KStars::setApproxFOV( double FOV_Degrees ) {
+void KStars::setApproxFOV( double FOV_Degrees )
+{
     zoom( map()->width() / ( FOV_Degrees * dms::DegToRad ) );
 }
 
-QString KStars::getSkyMapDimensions() {
+QString KStars::getSkyMapDimensions()
+{
     return ( QString::number( map()->width() ) + 'x' + QString::number( map()->height() ) );
 }
-void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
+void KStars::printImage( bool usePrintDialog, bool useChartColors )
+{
     //QPRINTER_FOR_NOW
 //    KPrinter printer( true, QPrinter::HighResolution );
     QPrinter printer( QPrinter::HighResolution );
@@ -699,28 +822,33 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
     //Set up the printer (either with the Print Dialog,
     //or using the default settings)
     bool ok( false );
-    if ( usePrintDialog ) {
+    if ( usePrintDialog )
+    {
         //QPRINTER_FOR_NOW
 //        ok = printer.setup( this, i18n("Print Sky") );
         //QPrintDialog *dialog = KdePrint::createPrintDialog(&printer, this);
-        QPrintDialog *dialog = new QPrintDialog(&printer, this);
+        QPrintDialog * dialog = new QPrintDialog(&printer, this);
         dialog->setWindowTitle( i18n("Print Sky") );
         if ( dialog->exec() == QDialog::Accepted )
             ok = true;
         delete dialog;
-    } else {
+    }
+    else
+    {
         //QPRINTER_FOR_NOW
 //        ok = printer.autoConfigure();
         ok = true;
     }
 
-    if( ok ) {
+    if( ok )
+    {
         QApplication::setOverrideCursor( Qt::WaitCursor );
 
         //Save current ColorScheme file name and switch to Star Chart
         //scheme (if requested)
         QString schemeName = data()->colorScheme()->fileName();
-        if ( useChartColors ) {
+        if ( useChartColors )
+        {
             loadColorScheme( "chart.colors" );
         }
 
@@ -729,7 +857,8 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 
         //Restore old color scheme if necessary
         //(if printing was aborted, the ColorScheme is still restored)
-        if ( useChartColors ) {
+        if ( useChartColors )
+        {
             loadColorScheme( schemeName );
             map()->forceUpdate();
         }
@@ -746,10 +875,10 @@ bool KStars::openFITS(const QString &imageURL)
 
 bool KStars::openFITS(const QUrl &imageURL)
 {
-    #ifndef HAVE_CFITSIO
+#ifndef HAVE_CFITSIO
     qWarning() << "KStars does not support loading FITS. Please recompile KStars with FITS support.";
     return false;
-    #else
+#else
     FITSViewer * fv = NULL;
     if (Options::singleWindowOpenedFITS())
         fv = genericFITSViewer();
@@ -766,9 +895,9 @@ bool KStars::openFITS(const QUrl &imageURL)
     }
     else
     {
-       fv->show();
-       return true;
+        fv->show();
+        return true;
     }
-    #endif
+#endif
 }
 

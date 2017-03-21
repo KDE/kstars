@@ -37,41 +37,41 @@ class CultureList;
  */
 class ConstellationArtComponent : public SkyComponent
 {
-public:
+    public:
 
-    /** Constructor*/
-    explicit ConstellationArtComponent ( SkyComposite*, CultureList* cultures );
+        /** Constructor*/
+        explicit ConstellationArtComponent ( SkyComposite *, CultureList * cultures );
 
-    /** Destructor*/
-    ~ConstellationArtComponent();
+        /** Destructor*/
+        ~ConstellationArtComponent();
 
-    /**
-     * @short Read the skycultures.sqlite database file.
-     * Parse all the data from the skycultures database.Construct a ConstellationsArt object
-     * from the data, and add it to a QList.
-     * @return true if data file is successfully read.
-     */
-    void loadData();
+        /**
+         * @short Read the skycultures.sqlite database file.
+         * Parse all the data from the skycultures database.Construct a ConstellationsArt object
+         * from the data, and add it to a QList.
+         * @return true if data file is successfully read.
+         */
+        void loadData();
 
-    /**
-     * @short deletes all created ConstellationsArt objects.
-     * Used in KStars Lite to reduce memory consumption if Constellation Art is switched off
-     */
-    void deleteData();
+        /**
+         * @short deletes all created ConstellationsArt objects.
+         * Used in KStars Lite to reduce memory consumption if Constellation Art is switched off
+         */
+        void deleteData();
 
-    /**
-     * @short Shows the details of the constellations
-     * selected skyculture
-     */
-    void showList();
+        /**
+         * @short Shows the details of the constellations
+         * selected skyculture
+         */
+        void showList();
 
-    virtual void draw( SkyPainter *skyp );
+        virtual void draw( SkyPainter * skyp );
 
-    QList<ConstellationsArt*> m_ConstList;
+        QList<ConstellationsArt *> m_ConstList;
 
-private:
-    QString cultureName;
-    int records;
+    private:
+        QString cultureName;
+        int records;
 };
 
 #endif // ConstellationArtComponent_H

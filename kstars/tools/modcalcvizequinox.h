@@ -27,29 +27,30 @@ class QTextStream;
   *@class modCalcEquinox
   *@author Jason Harris
   */
-class modCalcEquinox : public QFrame, public Ui::modCalcEquinox  {
+class modCalcEquinox : public QFrame, public Ui::modCalcEquinox
+{
 
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    modCalcEquinox(QWidget *p);
-    ~modCalcEquinox();
+    public:
+        modCalcEquinox(QWidget * p);
+        ~modCalcEquinox();
 
-    KStarsDateTime dSpring, dSummer, dAutumn, dWinter;
-    double dmonth(int imonth);
+        KStarsDateTime dSpring, dSummer, dAutumn, dWinter;
+        double dmonth(int imonth);
 
-private slots:
-    void slotCompute();
-    void slotCheckFiles();
-    void slotRunBatch();
-    void slotViewBatch();
+    private slots:
+        void slotCompute();
+        void slotCheckFiles();
+        void slotRunBatch();
+        void slotViewBatch();
 
-private:
-    void processLines( QTextStream &istream );
-    void addDateAxes();
-    KStarsDateTime findEquinox( int year, bool Spring, KPlotObject *po );
-    KStarsDateTime findSolstice( int year, bool Summer );
-    double DMonth[12];
+    private:
+        void processLines( QTextStream &istream );
+        void addDateAxes();
+        KStarsDateTime findEquinox( int year, bool Spring, KPlotObject * po );
+        KStarsDateTime findSolstice( int year, bool Summer );
+        double DMonth[12];
 };
 
 #endif

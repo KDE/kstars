@@ -10,7 +10,7 @@
 
 #include "deviceinfo.h"
 
-DeviceInfo::DeviceInfo(DriverInfo *parent, INDI::BaseDevice *ibd)
+DeviceInfo::DeviceInfo(DriverInfo * parent, INDI::BaseDevice * ibd)
 {
     drv = parent;
     dp  = ibd;

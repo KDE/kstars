@@ -29,28 +29,28 @@
  */
 class UnitSpinBoxWidget : public QWidget
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit UnitSpinBoxWidget(QWidget *parent = 0);
-    ~UnitSpinBoxWidget();
+    public:
+        explicit UnitSpinBoxWidget(QWidget * parent = 0);
+        ~UnitSpinBoxWidget();
 
-    /**
-     * @brief addUnit Adds a item to the combo box
-     * @param unitName The name of the unit to be displayed
-     * @param conversionFactor The factor the value of a unit must be multiplied by
-     */
-    void addUnit( const QString &unitName, double conversionFactor );
+        /**
+         * @brief addUnit Adds a item to the combo box
+         * @param unitName The name of the unit to be displayed
+         * @param conversionFactor The factor the value of a unit must be multiplied by
+         */
+        void addUnit( const QString &unitName, double conversionFactor );
 
-    /**
-     * @brief value Returns value upon conversion
-     */
-    double value() const;
+        /**
+         * @brief value Returns value upon conversion
+         */
+        double value() const;
 
-private:
-    Ui::UnitSpinBoxWidget *ui;
-    QComboBox *comboBox;
-    QDoubleSpinBox *doubleSpinBox;
+    private:
+        Ui::UnitSpinBoxWidget * ui;
+        QComboBox * comboBox;
+        QDoubleSpinBox * doubleSpinBox;
 };
 
 #endif // UNITSPINBOXWIDGET_H

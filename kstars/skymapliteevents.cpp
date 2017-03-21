@@ -14,8 +14,10 @@
 #include "ksutils.h"
 //#include <QTapSensor>
 
-void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
-    if ( ( e->modifiers() & Qt::ControlModifier ) && (e->button() == Qt::LeftButton) ) {
+void SkyMapLite::mousePressEvent( QMouseEvent * e )
+{
+    if ( ( e->modifiers() & Qt::ControlModifier ) && (e->button() == Qt::LeftButton) )
+    {
         ZoomRect.moveCenter( e->pos() );
         setZoomMouseCursor();
         update(); //refresh without redrawing skymap
@@ -28,12 +30,15 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
     if ( projector()->unusablePoint( e->pos() ) )
         return;
 
-    if ( !midMouseButtonDown && e->button() == Qt::MidButton ) {
+    if ( !midMouseButtonDown && e->button() == Qt::MidButton )
+    {
         y0 = 0.5*height() - e->y();  //record y pixel coordinate for middle-button zooming
         midMouseButtonDown = true;
     }
-    if ( !mouseButtonDown ) {
-        if ( e->button() == Qt::LeftButton ) {
+    if ( !mouseButtonDown )
+    {
+        if ( e->button() == Qt::LeftButton )
+        {
             mouseButtonDown = true;
         }
 
@@ -43,47 +48,53 @@ void SkyMapLite::mousePressEvent( QMouseEvent *e ) {
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();
-        SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
+        SkyObject * obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
         setClickedObject( obj );
         if( obj )
             setClickedPoint( obj );
 
-        switch( e->button() ) {
-        case Qt::LeftButton:
+        switch( e->button() )
         {
-            /*QString name;
-            if( clickedObject() )
-                //name = clickedObject()->translatedLongName();
-            else
-                //name = i18n( "Empty sky" );
-            //kstars->statusBar()->changeItem(name, 0 );
-            //kstars->statusBar()->showMessage(name, 0 );
+            case Qt::LeftButton:
+            {
+                /*QString name;
+                if( clickedObject() )
+                    //name = clickedObject()->translatedLongName();
+                else
+                    //name = i18n( "Empty sky" );
+                //kstars->statusBar()->changeItem(name, 0 );
+                //kstars->statusBar()->showMessage(name, 0 );
 
-            emit positionClicked(&m_MousePoint);*/
-        }
-
-            break;
-        case Qt::RightButton:
-            /*if( rulerMode ) {
-                // Compute angular distance.
-                slotEndRulerMode();
-            } else {*/
-            // Show popup menu
-            if( clickedObject() ) {
-                emit objectLiteChanged();
-            } else {
-                emit pointLiteChanged();
-                /* pmenu->createEmptyMenu( clickedPoint() );
-                    pmenu->popup( QCursor::pos() );*/
+                emit positionClicked(&m_MousePoint);*/
             }
-            //}
+
             break;
-        default: ;
+            case Qt::RightButton:
+                /*if( rulerMode ) {
+                    // Compute angular distance.
+                    slotEndRulerMode();
+                } else {*/
+                // Show popup menu
+                if( clickedObject() )
+                {
+                    emit objectLiteChanged();
+                }
+                else
+                {
+                    emit pointLiteChanged();
+                    /* pmenu->createEmptyMenu( clickedPoint() );
+                        pmenu->popup( QCursor::pos() );*/
+                }
+                //}
+                break;
+            default:
+                ;
         }
     }
 }
 
-void SkyMapLite::mouseReleaseEvent( QMouseEvent * ) {
+void SkyMapLite::mouseReleaseEvent( QMouseEvent * )
+{
     /*if ( ZoomRect.isValid() ) {
         stopTracking();
         SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
@@ -103,9 +114,11 @@ void SkyMapLite::mouseReleaseEvent( QMouseEvent * ) {
     }*/
 
     //false if double-clicked, because it's unset there.
-    if (mouseButtonDown) {
+    if (mouseButtonDown)
+    {
         mouseButtonDown = false;
-        if ( getSlewing() ) {
+        if ( getSlewing() )
+        {
             setSlewing(false);
             if ( Options::useAltAz() )
                 setDestinationAltAz( focus()->alt(), focus()->az() );
@@ -118,16 +131,20 @@ void SkyMapLite::mouseReleaseEvent( QMouseEvent * ) {
     midMouseButtonDown = false;
 }
 
-void SkyMapLite::mouseDoubleClickEvent( QMouseEvent *e ) {
-    if ( e->button() == Qt::LeftButton && !projector()->unusablePoint( e->pos() ) ) {
+void SkyMapLite::mouseDoubleClickEvent( QMouseEvent * e )
+{
+    if ( e->button() == Qt::LeftButton && !projector()->unusablePoint( e->pos() ) )
+    {
         mouseButtonDown = false;
         if( e->x() != width()/2 || e->y() != height()/2 )
             slotCenter();
     }
 }
 
-void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
-    if ( Options::useHoverLabel() ) {
+void SkyMapLite::mouseMoveEvent( QMouseEvent * e )
+{
+    if ( Options::useHoverLabel() )
+    {
         //Start a single-shot timer to monitor whether we are currently hovering.
         //The idea is that whenever a moveEvent occurs, the timer is reset.  It
         //will only timeout if there are no move events for HOVER_INTERVAL ms
@@ -161,33 +178,39 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
             return;
         }
     }
-*/
+    */
     if ( projector()->unusablePoint( e->pos() ) ) return;  // break if point is unusable
 
     //determine RA, Dec of mouse pointer
     m_MousePoint = projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() );
     double dyPix = 0.5*height() - e->y();
-    if ( midMouseButtonDown ) { //zoom according to y-offset
+    if ( midMouseButtonDown )   //zoom according to y-offset
+    {
         float yoff = dyPix - y0;
-        if (yoff > 10 ) {
+        if (yoff > 10 )
+        {
             y0 = dyPix;
             slotZoomIn();
         }
-        if (yoff < -10 ) {
+        if (yoff < -10 )
+        {
             y0 = dyPix;
             slotZoomOut();
         }
     }
-    if ( mouseButtonDown ) {
+    if ( mouseButtonDown )
+    {
         // set the mouseMoveCursor and set slewing to true, if they are not set yet
         if( !mouseMoveCursor ) setMouseMoveCursor();
-        if( !getSlewing() ) {
+        if( !getSlewing() )
+        {
             setSlewing(true);
             stopTracking(); //toggle tracking off
         }
 
         //Update focus such that the sky coords at mouse cursor remain approximately constant
-        if ( Options::useAltAz() ) {
+        if ( Options::useAltAz() )
+        {
             m_MousePoint.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             dms dAz  = m_MousePoint.az()  - clickedPoint()->az();
@@ -195,15 +218,17 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
             focus()->setAz( focus()->az().Degrees() - dAz.Degrees() ); //move focus in opposite direction
             focus()->setAz( focus()->az().reduce() );
             focus()->setAlt(
-                        KSUtils::clamp( focus()->alt().Degrees() - dAlt.Degrees() , -90.0 , 90.0 ) );
+                KSUtils::clamp( focus()->alt().Degrees() - dAlt.Degrees() , -90.0 , 90.0 ) );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-        } else {
+        }
+        else
+        {
             dms dRA  = m_MousePoint.ra()  - clickedPoint()->ra();
             dms dDec = m_MousePoint.dec() - clickedPoint()->dec();
             focus()->setRA( focus()->ra().Hours() - dRA.Hours() ); //move focus in opposite direction
             focus()->setRA( focus()->ra().reduce() );
             focus()->setDec(
-                        KSUtils::clamp( focus()->dec().Degrees() - dDec.Degrees() , -90.0 , 90.0 ) );
+                KSUtils::clamp( focus()->dec().Degrees() - dDec.Degrees() , -90.0 , 90.0 ) );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
         //showFocusCoords();
@@ -214,38 +239,45 @@ void SkyMapLite::mouseMoveEvent( QMouseEvent *e ) {
 
         forceUpdate();  // must be new computed
 
-    } else { //mouse button not down
+    }
+    else     //mouse button not down
+    {
         if ( Options::useAltAz() )
             m_MousePoint.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         emit mousePointChanged( &m_MousePoint );
     }
 }
 
-void SkyMapLite::wheelEvent( QWheelEvent *e ) {
-    if ( e->delta() > 0 ) {
+void SkyMapLite::wheelEvent( QWheelEvent * e )
+{
+    if ( e->delta() > 0 )
+    {
         zoomInOrMagStep ( e->modifiers() );
         //setRotation(rotation() + 0.1); TEST
     }
-    else if ( e->delta() < 0 ) {
+    else if ( e->delta() < 0 )
+    {
         zoomOutOrMagStep( e->modifiers() );
         //setRotation(rotation() - 0.1); TEST
     }
 
 }
 
-void SkyMapLite::touchEvent( QTouchEvent *e) {
+void SkyMapLite::touchEvent( QTouchEvent * e)
+{
     QList<QTouchEvent::TouchPoint> points = e->touchPoints();
 
     bool autoMode = false; //Always false for devices that doesn't support automatic mode
-    #if defined(Q_OS_ANDROID)
-        autoMode = getAutomaticMode();
-    #endif
+#if defined(Q_OS_ANDROID)
+    autoMode = getAutomaticMode();
+#endif
 
-    if(points.length() == 2) {
+    if(points.length() == 2)
+    {
         //Set tapBegan to false because user doesn't tap but either pans or pinches to zoom
         tapBegan = false;
         if ( projector()->unusablePoint( points[0].pos() ) ||
-             projector()->unusablePoint( points[1].pos() ))
+                projector()->unusablePoint( points[1].pos() ))
             return;
 
         //Pinch to zoom
@@ -288,7 +320,8 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
 
         /*Workaround to solve the strange bug when sometimes signs of qAtan2 results
         for 2 vectors are different*/
-        if((new_atan > 0 && old_atan < 0) || (new_atan < 0 && old_atan > 0)) {
+        if((new_atan > 0 && old_atan < 0) || (new_atan < 0 && old_atan > 0))
+        {
             old_atan *= -1;
         }
 
@@ -308,10 +341,12 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
         //update(); //Apply rotation*/
 
         //Allow movement of SkyMapLite while rotating or zooming
-        if(!getCenterLocked() && !autoMode) {
-            QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, pinchCenter,
-                                                 Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
-            if(!pinch) {
+        if(!getCenterLocked() && !autoMode)
+        {
+            QMouseEvent * event = new QMouseEvent(QEvent::MouseButtonPress, pinchCenter,
+                                                  Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
+            if(!pinch)
+            {
                 m_MousePoint = projector()->fromScreen( pinchCenter, data->lst(), data->geo()->lat() );
                 setClickedPoint( &m_MousePoint );
                 mouseButtonDown = true;
@@ -321,23 +356,31 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
             delete event;
         }
 
-        if( e->touchPointStates() & Qt::TouchPointReleased ) {
+        if( e->touchPointStates() & Qt::TouchPointReleased )
+        {
             setSlewing(false);
-            if(pinch) {
+            if(pinch)
+            {
                 pinch = false;
                 mouseButtonDown = false;
             }
         }
-    } else if (points.length() == 1 && !pinch && !autoMode) {
+    }
+    else if (points.length() == 1 && !pinch && !autoMode)
+    {
         QPointF point = points[0].screenPos();
         //Set clicked point (needed for pan)
-        if(e->type() == QEvent::TouchBegin) {
+        if(e->type() == QEvent::TouchBegin)
+        {
             m_MousePoint = projector()->fromScreen( point, data->lst(), data->geo()->lat() );
             setClickedPoint( &m_MousePoint );
             mouseButtonDown = true;
-        } else if(e->type() == QEvent::TouchEnd) {
+        }
+        else if(e->type() == QEvent::TouchEnd)
+        {
             mouseButtonDown = false;
-            if ( getSlewing() ) {
+            if ( getSlewing() )
+            {
                 setSlewing(false);
                 if ( Options::useAltAz() )
                     setDestinationAltAz( focus()->alt(), focus()->az() );
@@ -346,27 +389,36 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
             }
         }
 
-        if ( !projector()->unusablePoint( points[0].screenPos() ) ) {
-            if( !tapBegan && (e->touchPointStates() & Qt::TouchPointPressed) ) {
+        if ( !projector()->unusablePoint( points[0].screenPos() ) )
+        {
+            if( !tapBegan && (e->touchPointStates() & Qt::TouchPointPressed) )
+            {
                 //We set tapBegan to true whenever user tapped on the screen
                 tapBegan = true;
                 m_tapBeganTimer.start(100);
-            } else if((e->touchPointStates() & Qt::TouchPointMoved) || getSlewing()) {
+            }
+            else if((e->touchPointStates() & Qt::TouchPointMoved) || getSlewing())
+            {
                 //Set tapBegan to false because user doesn't tap but either pans or pinches to zoom
-                if(m_tapBeganTimer.remainingTime() > 0) {
+                if(m_tapBeganTimer.remainingTime() > 0)
+                {
                     return;
-                } else {
+                }
+                else
+                {
                     m_tapBeganTimer.stop();
                 }
                 tapBegan = false;
 
-                QMouseEvent *event = new QMouseEvent(QEvent::MouseButtonPress, point,
-                                                     Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
+                QMouseEvent * event = new QMouseEvent(QEvent::MouseButtonPress, point,
+                                                      Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
                 mouseMoveEvent(event);
                 delete event;
 
                 //If user didn't pan and pinch to zoom tapBegan will be true
-            } else if((e->touchPointStates() & Qt::TouchPointReleased) && tapBegan ) {
+            }
+            else if((e->touchPointStates() & Qt::TouchPointReleased) && tapBegan )
+            {
                 if(getSlewing()) setSlewing(false);
                 tapBegan = false;
                 //Show tap animation
@@ -379,13 +431,16 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
                 double maxrad = 1000.0/Options::zoomFactor(); /* On high zoom-level it is very hard to select the object using touch screen.
                                             That's why radius remains constant*/
                 maxrad = qMax(maxrad,2.5);
-                SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
+                SkyObject * obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
                 setClickedObject( obj );
                 if( obj ) setClickedPoint( obj );
 
-                if( clickedObject() ) {
+                if( clickedObject() )
+                {
                     emit objectLiteChanged();
-                } else {
+                }
+                else
+                {
                     emit pointLiteChanged();
                 }
             }
@@ -394,17 +449,20 @@ void SkyMapLite::touchEvent( QTouchEvent *e) {
 }
 
 
-double SkyMapLite::zoomFactor( const int modifier ) {
+double SkyMapLite::zoomFactor( const int modifier )
+{
     double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0;
     if ( modifier & Qt::ShiftModifier )
         factor = sqrt( factor );
     return factor;
 }
 
-void SkyMapLite::zoomInOrMagStep( const int modifier ) {
+void SkyMapLite::zoomInOrMagStep( const int modifier )
+{
     if ( modifier & Qt::AltModifier )
         incMagLimit( modifier );
-    else if( modifier & Qt::MetaModifier) {//Used in pinch-to-zoom gesture
+    else if( modifier & Qt::MetaModifier)  //Used in pinch-to-zoom gesture
+    {
         setZoomFactor (Options::zoomFactor() + Options::zoomFactor()*0.05);
     }
     else
@@ -412,25 +470,30 @@ void SkyMapLite::zoomInOrMagStep( const int modifier ) {
 }
 
 
-void SkyMapLite::zoomOutOrMagStep( const int modifier ) {
+void SkyMapLite::zoomOutOrMagStep( const int modifier )
+{
     if ( modifier & Qt::AltModifier )
         decMagLimit( modifier );
-    else if( modifier & Qt::MetaModifier) {//Used in pinch-to-zoom gesture
+    else if( modifier & Qt::MetaModifier)  //Used in pinch-to-zoom gesture
+    {
         setZoomFactor (Options::zoomFactor() - Options::zoomFactor()*0.05);
     }
     else
         setZoomFactor( Options::zoomFactor() / zoomFactor (modifier ) );
 }
 
-double SkyMapLite::magFactor( const int modifier ) {
+double SkyMapLite::magFactor( const int modifier )
+{
     double factor = ( modifier & Qt::ControlModifier) ? 0.1 : 0.5;
     if ( modifier & Qt::ShiftModifier )
         factor *= 2.0;
     return factor;
 }
 
-void SkyMapLite::setMagLim(double magLim) {
-    if(m_magLim != magLim) {
+void SkyMapLite::setMagLim(double magLim)
+{
+    if(m_magLim != magLim)
+    {
         m_magLim = magLim;
         if ( m_magLim > 5.75954 ) m_magLim = 5.75954;
         if ( m_magLim < 1.18778 ) m_magLim = 1.18778;
@@ -442,18 +505,21 @@ void SkyMapLite::setMagLim(double magLim) {
     }
 }
 
-void SkyMapLite::stopTracking() {
-    KStarsLite* kstars = KStarsLite::Instance();
+void SkyMapLite::stopTracking()
+{
+    KStarsLite * kstars = KStarsLite::Instance();
     emit positionChanged();
     if( kstars && Options::isTracking() )
         kstars->slotTrack();
 }
 
-uint SkyMapLite::projType() const {
+uint SkyMapLite::projType() const
+{
     return m_proj->type();
 }
 
-void SkyMapLite::incMagLimit( const int modifier ) {
+void SkyMapLite::incMagLimit( const int modifier )
+{
     m_magLim = 2.222 * log10(static_cast<double>( Options::starDensity() )) + 0.35;
     m_magLim += magFactor( modifier );
     if ( m_magLim > 5.75954 ) m_magLim = 5.75954;
@@ -463,7 +529,8 @@ void SkyMapLite::incMagLimit( const int modifier ) {
     forceUpdate();
 }
 
-void SkyMapLite::decMagLimit( const int modifier ) {
+void SkyMapLite::decMagLimit( const int modifier )
+{
     m_magLim = 2.222 * log10(static_cast<double>( Options::starDensity() )) + 0.35;
     m_magLim -= magFactor( modifier );
     if ( m_magLim < 1.18778 ) m_magLim = 1.18778;

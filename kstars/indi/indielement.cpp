@@ -37,32 +37,32 @@
 #include <QFileDialog>
 #include <KMessageBox>
 
-extern const char *libindi_strings_context;
+extern const char * libindi_strings_context;
 
 /*******************************************************************
 ** INDI Element
 *******************************************************************/
-INDI_E::INDI_E(INDI_P *gProp, INDI::Property *dProp)
+INDI_E::INDI_E(INDI_P * gProp, INDI::Property * dProp)
 {
-  guiProp  = gProp;
-  dataProp = dProp;
+    guiProp  = gProp;
+    dataProp = dProp;
 
-  EHBox     = new QHBoxLayout;
-  EHBox->setMargin(0);
+    EHBox     = new QHBoxLayout;
+    EHBox->setMargin(0);
 
-  tp        = NULL;
-  sp        = NULL;
-  np        = NULL;
-  label_w   = NULL;
-  read_w    = NULL;
-  write_w   = NULL;
-  spin_w    = NULL;
-  slider_w  = NULL;
-  push_w    = NULL;
-  browse_w  = NULL;
-  check_w   = NULL;
-  led_w     = NULL;
-  hSpacer   = NULL;
+    tp        = NULL;
+    sp        = NULL;
+    np        = NULL;
+    label_w   = NULL;
+    read_w    = NULL;
+    write_w   = NULL;
+    spin_w    = NULL;
+    slider_w  = NULL;
+    push_w    = NULL;
+    browse_w  = NULL;
+    check_w   = NULL;
+    led_w     = NULL;
+    hSpacer   = NULL;
 
 }
 
@@ -81,7 +81,7 @@ INDI_E::~INDI_E()
     delete (hSpacer);
 }
 
-void INDI_E::buildSwitch(QButtonGroup* groupB, ISwitch *sw)
+void INDI_E::buildSwitch(QButtonGroup * groupB, ISwitch * sw)
 {
     name  = sw->name;
     label = i18nc(libindi_strings_context, sw->label);
@@ -102,50 +102,50 @@ void INDI_E::buildSwitch(QButtonGroup* groupB, ISwitch *sw)
 
     switch (guiProp->getGUIType())
     {
-    case PG_BUTTONS:
-        push_w = new QPushButton(label, guiProp->getGroup()->getContainer());
-        push_w->setCheckable(true);
-        groupB->addButton(push_w);
+        case PG_BUTTONS:
+            push_w = new QPushButton(label, guiProp->getGroup()->getContainer());
+            push_w->setCheckable(true);
+            groupB->addButton(push_w);
 
-        syncSwitch();
+            syncSwitch();
 
-        guiProp->addWidget(push_w);
+            guiProp->addWidget(push_w);
 
-        push_w->show();
+            push_w->show();
 
-        if (sw->svp->p == IP_RO)
-            push_w->setEnabled(sw->s == ISS_ON);
+            if (sw->svp->p == IP_RO)
+                push_w->setEnabled(sw->s == ISS_ON);
 
-        break;
+            break;
 
-    case PG_RADIO:
-        check_w = new QCheckBox(label, guiProp->getGroup()->getContainer());
-        groupB->addButton(check_w);
+        case PG_RADIO:
+            check_w = new QCheckBox(label, guiProp->getGroup()->getContainer());
+            groupB->addButton(check_w);
 
-        syncSwitch();
+            syncSwitch();
 
-        guiProp->addWidget(check_w);
+            guiProp->addWidget(check_w);
 
-        check_w->show();
+            check_w->show();
 
-        if (sw->svp->p == IP_RO)
-            check_w->setEnabled(sw->s == ISS_ON);
+            if (sw->svp->p == IP_RO)
+                check_w->setEnabled(sw->s == ISS_ON);
 
-        break;
+            break;
 
-    default:
-        break;
+        default:
+            break;
 
     }
 
 }
 
-void INDI_E::buildMenuItem(ISwitch *sw)
+void INDI_E::buildMenuItem(ISwitch * sw)
 {
     buildSwitch(NULL, sw);
 }
 
-void INDI_E::buildText(IText *itp)
+void INDI_E::buildText(IText * itp)
 {
     name  = itp->name;
     if (itp->label[0])
@@ -169,19 +169,19 @@ void INDI_E::buildText(IText *itp)
 
     switch (dataProp->getPermission())
     {
-    case IP_RW:
-        setupElementRead(ELEMENT_READ_WIDTH);
-        setupElementWrite(ELEMENT_WRITE_WIDTH);
+        case IP_RW:
+            setupElementRead(ELEMENT_READ_WIDTH);
+            setupElementWrite(ELEMENT_WRITE_WIDTH);
 
-        break;
+            break;
 
-    case IP_RO:
-        setupElementRead(ELEMENT_FULL_WIDTH);
-        break;
+        case IP_RO:
+            setupElementRead(ELEMENT_FULL_WIDTH);
+            break;
 
-    case IP_WO:
-        setupElementWrite(ELEMENT_FULL_WIDTH);
-        break;
+        case IP_WO:
+            setupElementWrite(ELEMENT_FULL_WIDTH);
+            break;
     }
 
 
@@ -222,48 +222,48 @@ void INDI_E::syncSwitch()
 
     switch (guiProp->getGUIType())
     {
-       case PG_BUTTONS:
-        if (sp->s == ISS_ON)
-        {                       
-            push_w->setChecked(true);
-            //push_w->setDown(true);
-            buttonFont = push_w->font();
-            buttonFont.setBold(true);
-            push_w->setFont(buttonFont);
+        case PG_BUTTONS:
+            if (sp->s == ISS_ON)
+            {
+                push_w->setChecked(true);
+                //push_w->setDown(true);
+                buttonFont = push_w->font();
+                buttonFont.setBold(true);
+                push_w->setFont(buttonFont);
 
-            if (sp->svp->p == IP_RO)
-                push_w->setEnabled(true);
-        }
-        else
-        {            
-            push_w->setChecked(false);
-            //push_w->setDown(false);
-            buttonFont = push_w->font();
-            buttonFont.setBold(false);
-            push_w->setFont(buttonFont);
+                if (sp->svp->p == IP_RO)
+                    push_w->setEnabled(true);
+            }
+            else
+            {
+                push_w->setChecked(false);
+                //push_w->setDown(false);
+                buttonFont = push_w->font();
+                buttonFont.setBold(false);
+                push_w->setFont(buttonFont);
 
-            if (sp->svp->p == IP_RO)
-                push_w->setEnabled(false);
-        }
-        break;
+                if (sp->svp->p == IP_RO)
+                    push_w->setEnabled(false);
+            }
+            break;
 
-    case PG_RADIO:
-        if (sp->s == ISS_ON)
-        {
-            check_w->setChecked(true);
-            if (sp->svp->p == IP_RO)
-                check_w->setEnabled(true);
-        }
-        else
-        {
-            check_w->setChecked(false);
-            if (sp->svp->p == IP_RO)
-                check_w->setEnabled(false);
-        }
-        break;
+        case PG_RADIO:
+            if (sp->s == ISS_ON)
+            {
+                check_w->setChecked(true);
+                if (sp->svp->p == IP_RO)
+                    check_w->setEnabled(true);
+            }
+            else
+            {
+                check_w->setChecked(false);
+                if (sp->svp->p == IP_RO)
+                    check_w->setEnabled(false);
+            }
+            break;
 
-    default:
-        break;
+        default:
+            break;
 
     }
 }
@@ -343,24 +343,24 @@ void INDI_E::setText(const QString &newText)
     if (tp == NULL)
         return;
 
-   switch(dataProp->getPermission())
-   {
-      case IP_RO:
-       read_w->setText(newText);
-       break;
+    switch(dataProp->getPermission())
+    {
+        case IP_RO:
+            read_w->setText(newText);
+            break;
 
-      case IP_WO:
-      case IP_RW:
-       text = newText;
-       IUSaveText(tp, newText.toLatin1().constData());
-       read_w->setText(newText);
-       write_w->setText(newText);
-        break;
-   }
+        case IP_WO:
+        case IP_RW:
+            text = newText;
+            IUSaveText(tp, newText.toLatin1().constData());
+            read_w->setText(newText);
+            write_w->setText(newText);
+            break;
+    }
 
 }
 
-void INDI_E::buildBLOB(IBLOB *ibp)
+void INDI_E::buildBLOB(IBLOB * ibp)
 {
     name  = ibp->name;
     label = i18nc(libindi_strings_context, ibp->label);
@@ -382,27 +382,27 @@ void INDI_E::buildBLOB(IBLOB *ibp)
 
     switch (dataProp->getPermission())
     {
-    case IP_RW:
-        setupElementRead(ELEMENT_READ_WIDTH);
-        setupElementWrite(ELEMENT_WRITE_WIDTH);
-        setupBrowseButton();
-        break;
+        case IP_RW:
+            setupElementRead(ELEMENT_READ_WIDTH);
+            setupElementWrite(ELEMENT_WRITE_WIDTH);
+            setupBrowseButton();
+            break;
 
-    case IP_RO:
-        setupElementRead(ELEMENT_FULL_WIDTH);
-        break;
+        case IP_RO:
+            setupElementRead(ELEMENT_FULL_WIDTH);
+            break;
 
-    case IP_WO:
-        setupElementWrite(ELEMENT_FULL_WIDTH);
-        setupBrowseButton();
-        break;
+        case IP_WO:
+            setupElementWrite(ELEMENT_FULL_WIDTH);
+            setupBrowseButton();
+            break;
     }
 
     guiProp->addLayout(EHBox);
 
 }
 
-void INDI_E::buildNumber  (INumber *inp)
+void INDI_E::buildNumber  (INumber * inp)
 {
     bool scale = false;
     char iNumber[MAXINDIFORMAT];
@@ -431,35 +431,35 @@ void INDI_E::buildNumber  (INumber *inp)
 
     switch (dataProp->getPermission())
     {
-    case IP_RW:
-        setupElementRead(ELEMENT_READ_WIDTH);
-        if (scale)
-            setupElementScale(ELEMENT_WRITE_WIDTH);
-        else
-            setupElementWrite(ELEMENT_WRITE_WIDTH);
+        case IP_RW:
+            setupElementRead(ELEMENT_READ_WIDTH);
+            if (scale)
+                setupElementScale(ELEMENT_WRITE_WIDTH);
+            else
+                setupElementWrite(ELEMENT_WRITE_WIDTH);
 
-        guiProp->addLayout(EHBox);
-        break;
+            guiProp->addLayout(EHBox);
+            break;
 
-    case IP_RO:
-        setupElementRead(ELEMENT_READ_WIDTH);
-        guiProp->addLayout(EHBox);
-        break;
+        case IP_RO:
+            setupElementRead(ELEMENT_READ_WIDTH);
+            guiProp->addLayout(EHBox);
+            break;
 
-    case IP_WO:
-        if (scale)
-            setupElementScale(ELEMENT_FULL_WIDTH);
-        else
-            setupElementWrite(ELEMENT_FULL_WIDTH);
+        case IP_WO:
+            if (scale)
+                setupElementScale(ELEMENT_FULL_WIDTH);
+            else
+                setupElementWrite(ELEMENT_FULL_WIDTH);
 
-        guiProp->addLayout(EHBox);
+            guiProp->addLayout(EHBox);
 
-        break;
+            break;
     }
 
 }
 
-void INDI_E::buildLight(ILight *ilp)
+void INDI_E::buildLight(ILight * ilp)
 {
     name  = ilp->name;
     label = i18nc(libindi_strings_context, ilp->label);
@@ -496,24 +496,24 @@ void INDI_E::syncLight()
 
     switch (lp->s)
     {
-    case IPS_IDLE:
-        led_w->setColor(Qt::gray);
-        break;
+        case IPS_IDLE:
+            led_w->setColor(Qt::gray);
+            break;
 
-    case IPS_OK:
-        led_w->setColor(Qt::green);
-        break;
+        case IPS_OK:
+            led_w->setColor(Qt::green);
+            break;
 
-    case IPS_BUSY:
-        led_w->setColor(Qt::yellow);
-        break;
+        case IPS_BUSY:
+            led_w->setColor(Qt::yellow);
+            break;
 
-    case IPS_ALERT:
-        led_w->setColor(Qt::red);
-        break;
+        case IPS_ALERT:
+            led_w->setColor(Qt::red);
+            break;
 
-    default:
-        break;
+        default:
+            break;
 
     }
 }

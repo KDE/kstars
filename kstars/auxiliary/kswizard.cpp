@@ -33,40 +33,47 @@
 
 #include "Options.h"
 
-namespace {
-    bool hasPrefix(QString str, QString prefix) {
-        if( prefix.isEmpty() )
-            return true;
-        return str.startsWith( prefix, Qt::CaseInsensitive );
-    }
+namespace
+{
+bool hasPrefix(QString str, QString prefix)
+{
+    if( prefix.isEmpty() )
+        return true;
+    return str.startsWith( prefix, Qt::CaseInsensitive );
+}
 }
 
-WizWelcomeUI::WizWelcomeUI( QWidget *parent ) : QFrame( parent ) {
+WizWelcomeUI::WizWelcomeUI( QWidget * parent ) : QFrame( parent )
+{
     setupUi( this );
 }
 
-WizLocationUI::WizLocationUI( QWidget *parent ) : QFrame( parent ) {
+WizLocationUI::WizLocationUI( QWidget * parent ) : QFrame( parent )
+{
     setupUi( this );
 }
 
-WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
+WizDownloadUI::WizDownloadUI( QWidget * parent ) : QFrame( parent )
+{
     setupUi( this );
 }
 
 #ifdef Q_OS_OSX
-WizDataUI::WizDataUI( QWidget *parent ) : QFrame( parent ) {
+WizDataUI::WizDataUI( QWidget * parent ) : QFrame( parent )
+{
     setupUi( this );
 }
-WizAstrometryUI::WizAstrometryUI( QWidget *parent ) : QFrame( parent ) {
+WizAstrometryUI::WizAstrometryUI( QWidget * parent ) : QFrame( parent )
+{
     setupUi( this );
 }
 #endif
 
-KSWizard::KSWizard( QWidget *parent ) :
+KSWizard::KSWizard( QWidget * parent ) :
     QDialog( parent )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Dialog|Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Dialog|Qt::WindowStaysOnTopHint);
 #endif
 
 
@@ -76,7 +83,7 @@ KSWizard::KSWizard( QWidget *parent ) :
 
     setWindowTitle( i18n("Setup Wizard") );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(wizardStack);
     setLayout(mainLayout);
 
@@ -98,7 +105,7 @@ KSWizard::KSWizard( QWidget *parent ) :
     astrometry = new WizAstrometryUI( wizardStack );
 #endif
     location = new WizLocationUI( wizardStack );
-    WizDownloadUI* download = new WizDownloadUI( wizardStack );
+    WizDownloadUI * download = new WizDownloadUI( wizardStack );
 
 
     wizardStack->addWidget( welcome );
@@ -125,7 +132,7 @@ KSWizard::KSWizard( QWidget *parent ) :
     else if( im.load(QDir(QCoreApplication::applicationDirPath()+"/../Resources/data").absolutePath()+"/wzdownload.png"))
         download->Banner->setPixmap( im );
 
-    #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
     if( im.load(KSPaths::locate(QStandardPaths::GenericDataLocation, "wzdownload.png")) )
         data->Banner->setPixmap( im );
     else if( im.load(QDir(QCoreApplication::applicationDirPath()+"/../Resources/data").absolutePath()+"/wzdownload.png"))
@@ -171,7 +178,7 @@ KSWizard::KSWizard( QWidget *parent ) :
     astrometry->programOutput->appendPlainText(env.value("PATH","No Paths!"));
     astrometry->programOutput->appendPlainText("🔭 Installer Ready!\n");
 
-    #endif
+#endif
 
     //connect signals/slots
     connect(nextB, SIGNAL(clicked()), this, SLOT(slotNextPage()));
@@ -195,47 +202,57 @@ KSWizard::KSWizard( QWidget *parent ) :
 KSWizard::~KSWizard()
 {}
 
-void KSWizard::setButtonsEnabled() {
+void KSWizard::setButtonsEnabled()
+{
     nextB->setEnabled(wizardStack->currentIndex() < wizardStack->count()-1 );
     backB->setEnabled(wizardStack->currentIndex() > 0 );
 
-     #ifdef Q_OS_OSX
+#ifdef Q_OS_OSX
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(dataDirExists());
-    if((wizardStack->currentWidget()==data) &&(!dataDirExists())){
+    if((wizardStack->currentWidget()==data) &&(!dataDirExists()))
+    {
         nextB->setEnabled(false);
     }
-    if(wizardStack->currentWidget()==location){
-            if(KStars::Instance()){
-                if(location->LongBox->isReadOnly()==false){
-                    initGeoPage();
+    if(wizardStack->currentWidget()==location)
+    {
+        if(KStars::Instance())
+        {
+            if(location->LongBox->isReadOnly()==false)
+            {
+                initGeoPage();
 
-                }
             }
+        }
     }
-       #endif
+#endif
 }
 
-void KSWizard::slotNextPage() {
+void KSWizard::slotNextPage()
+{
     wizardStack->setCurrentIndex( wizardStack->currentIndex() + 1 );
     setButtonsEnabled();
 }
 
-void KSWizard::slotPrevPage() {
+void KSWizard::slotPrevPage()
+{
     wizardStack->setCurrentIndex( wizardStack->currentIndex() - 1 );
     setButtonsEnabled();
 }
 
-void KSWizard::initGeoPage() {
-    KStarsData* data = KStarsData::Instance();
+void KSWizard::initGeoPage()
+{
+    KStarsData * data = KStarsData::Instance();
     location->LongBox->setReadOnly( true );
     location->LatBox->setReadOnly( true );
 
     //Populate the CityListBox
     //flag the ID of the current City
-    foreach ( GeoLocation *loc, data->getGeoList() ) {
+    foreach ( GeoLocation * loc, data->getGeoList() )
+    {
         location->CityListBox->addItem( loc->fullName() );
         filteredCityList.append( loc );
-        if ( loc->fullName() == data->geo()->fullName() ) {
+        if ( loc->fullName() == data->geo()->fullName() )
+        {
             Geo = loc;
         }
     }
@@ -244,13 +261,17 @@ void KSWizard::initGeoPage() {
     location->CityListBox->sortItems();
     //preset to current city
     location->CityListBox->setCurrentItem(location->CityListBox->findItems(QString(data->geo()->fullName()),
-									   Qt::MatchExactly).at(0));
+                                          Qt::MatchExactly).at(0));
 }
 
-void KSWizard::slotChangeCity() {
-    if ( location->CityListBox->currentItem() ) {
-        for ( int i=0; i < filteredCityList.size(); ++i ) {
-            if ( filteredCityList[i]->fullName() == location->CityListBox->currentItem()->text() ) {
+void KSWizard::slotChangeCity()
+{
+    if ( location->CityListBox->currentItem() )
+    {
+        for ( int i=0; i < filteredCityList.size(); ++i )
+        {
+            if ( filteredCityList[i]->fullName() == location->CityListBox->currentItem()->text() )
+            {
                 Geo = filteredCityList[i];
                 break;
             }
@@ -260,16 +281,18 @@ void KSWizard::slotChangeCity() {
     }
 }
 
-void KSWizard::slotFilterCities() {
+void KSWizard::slotFilterCities()
+{
     location->CityListBox->clear();
     //Do NOT delete members of filteredCityList!
     filteredCityList.clear();
 
-    foreach ( GeoLocation *loc, KStarsData::Instance()->getGeoList() ) {
+    foreach ( GeoLocation * loc, KStarsData::Instance()->getGeoList() )
+    {
         if( hasPrefix( loc->translatedName(),     location->CityFilter->text()     ) &&
-            hasPrefix( loc->translatedCountry(),  location->CountryFilter->text() ) &&
-            hasPrefix( loc->translatedProvince(), location->ProvinceFilter->text()  )
-            )
+                hasPrefix( loc->translatedCountry(),  location->CountryFilter->text() ) &&
+                hasPrefix( loc->translatedProvince(), location->ProvinceFilter->text()  )
+          )
         {
             location->CityListBox->addItem( loc->fullName() );
             filteredCityList.append( loc );
@@ -281,13 +304,15 @@ void KSWizard::slotFilterCities() {
         location->CityListBox->setCurrentItem( location->CityListBox->item(0) );
 }
 
-void KSWizard::slotDownload() {
+void KSWizard::slotDownload()
+{
     KNS3::DownloadDialog dlg;
     dlg.exec();
 }
 
 
-void KSWizard::slotFinishWizard(){
+void KSWizard::slotFinishWizard()
+{
     Options::setRunStartupWizard(false);
     if(KStars::Instance()&&geo())
         KStars::Instance()->updateLocationFromWizard(*(geo()));
@@ -295,19 +320,23 @@ void KSWizard::slotFinishWizard(){
 }
 
 
-void KSWizard::slotOpenOrCopyKStarsDataDirectory(){
-    #ifdef Q_OS_OSX
+void KSWizard::slotOpenOrCopyKStarsDataDirectory()
+{
+#ifdef Q_OS_OSX
     QString dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-    if(dataLocation.isEmpty()) {
+    if(dataLocation.isEmpty())
+    {
         QString dataSourceLocation=QDir(QCoreApplication::applicationDirPath()+"/../Resources/data").absolutePath();
-        if(dataSourceLocation.isEmpty()){ //If there is no default data directory in the app bundle
+        if(dataSourceLocation.isEmpty())  //If there is no default data directory in the app bundle
+        {
             KMessageBox::sorry(0, i18n("Error! There was no default data directory found in the app bundle!"));
             return;
         }
         QDir writableDir;
         writableDir.mkdir(KSPaths::writableLocation(QStandardPaths::GenericDataLocation));
         dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-        if(dataLocation.isEmpty()){  //If there *still* is not a kstars data directory
+        if(dataLocation.isEmpty())   //If there *still* is not a kstars data directory
+        {
             KMessageBox::sorry(0, i18n("Error! There was a problem creating the data directory ~/Library/Application Support/ !"));
             return;
         }
@@ -320,7 +349,9 @@ void KSWizard::slotOpenOrCopyKStarsDataDirectory(){
         setModal(false);
         setWindowFlags(Qt::Dialog|Qt::WindowStaysOnTopHint);
         show();
-    } else{
+    }
+    else
+    {
         QUrl path = QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory));
         QDesktopServices::openUrl(path);
     }
@@ -332,21 +363,25 @@ void KSWizard::slotOpenOrCreateAstrometryFolder()
 {
 #ifdef Q_OS_OSX
     QString astrometryLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "Astrometry", QStandardPaths::LocateDirectory);
-    if(astrometryLocation.isEmpty()) {
+    if(astrometryLocation.isEmpty())
+    {
         KSUtils::configureDefaultAstrometry();
         updateAstrometryButtons();
-    } else{
+    }
+    else
+    {
         QUrl path = QUrl::fromLocalFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, "Astrometry", QStandardPaths::LocateDirectory));
         QDesktopServices::openUrl(path);
     }
 #endif
 }
 
-void KSWizard::slotInstallGSC(){
-    #ifdef Q_OS_OSX
+void KSWizard::slotInstallGSC()
+{
+#ifdef Q_OS_OSX
     QString location=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     gscZipPath=location+"/gsc.zip";
-    QProcess *downloadGSC=new QProcess();
+    QProcess * downloadGSC=new QProcess();
     downloadGSC->setWorkingDirectory(location);
     connect(downloadGSC, SIGNAL(finished(int)), this, SLOT(slotExtractGSC()));
     connect(downloadGSC, SIGNAL(finished(int)), this, SLOT(downloadGSC.deleteLater()));
@@ -361,31 +396,35 @@ void KSWizard::slotInstallGSC(){
     data->downloadProgress->setEnabled(true);
     data->downloadProgress->setMaximum(240);
     data->downloadProgress->setValue(0);
-   #endif
+#endif
 }
 
-void KSWizard::slotExtractGSC(){
+void KSWizard::slotExtractGSC()
+{
 #ifdef Q_OS_OSX
     QString location=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
-    QProcess *gscExtractor=new QProcess();
+    QProcess * gscExtractor=new QProcess();
     connect(gscExtractor, SIGNAL(finished(int)), this, SLOT(slotGSCInstallerFinished()));
     connect(gscExtractor, SIGNAL(finished(int)), this, SLOT(gscExtractor.deleteLater()));
     gscExtractor->setWorkingDirectory(location);
     gscExtractor->start("unzip", QStringList() << "-ao" << "gsc.zip");
     gscMonitor->startAnimation();
- #endif
-}
-
-void KSWizard::slotCheckDownloadProgress(){
-#ifdef Q_OS_OSX
-    if(QFileInfo(gscZipPath).exists());
-        data->downloadProgress->setValue(QFileInfo(gscZipPath).size()/1048576);
 #endif
 }
 
-void KSWizard::slotGSCInstallerFinished(){
+void KSWizard::slotCheckDownloadProgress()
+{
 #ifdef Q_OS_OSX
-    if(downloadMonitor){
+    if(QFileInfo(gscZipPath).exists());
+    data->downloadProgress->setValue(QFileInfo(gscZipPath).size()/1048576);
+#endif
+}
+
+void KSWizard::slotGSCInstallerFinished()
+{
+#ifdef Q_OS_OSX
+    if(downloadMonitor)
+    {
         downloadMonitor->stop();
         delete downloadMonitor;
     }
@@ -405,24 +444,35 @@ void KSWizard::slotInstallPip()
 {
 #ifdef Q_OS_OSX
     astrometry->programOutput->appendPlainText("🔭 INSTALLING PIP:\n");
-    if(!pythonExists()){
-        if(brewExists()){
+    if(!pythonExists())
+    {
+        if(brewExists())
+        {
             astrometry->programOutput->appendPlainText("/usr/local/bin/brew install python\n");
-             install->start("/usr/local/bin/brew" , QStringList() << "install" << "python");
-             installMonitor->startAnimation();
-         } else
+            install->start("/usr/local/bin/brew" , QStringList() << "install" << "python");
+            installMonitor->startAnimation();
+        }
+        else
             KMessageBox::sorry(0,"Python is not installed.  Please install python to /usr/local/bin first, or <a href=http://brew.sh>install homebrew</a> and click again.", "", KMessageBox::AllowLink);
-    }else{
-        if(!pipExists()){
-            if(brewExists()){
+    }
+    else
+    {
+        if(!pipExists())
+        {
+            if(brewExists())
+            {
                 astrometry->programOutput->appendPlainText("/usr/local/bin/brew install python\n");
-                 install->start("/usr/local/bin/brew" , QStringList() << "install" << "python");
-                 installMonitor->startAnimation();
-             } else if(QProcess::execute("type /usr/local/bin/easy_install")==QProcess::NormalExit){
+                install->start("/usr/local/bin/brew" , QStringList() << "install" << "python");
+                installMonitor->startAnimation();
+            }
+            else if(QProcess::execute("type /usr/local/bin/easy_install")==QProcess::NormalExit)
+            {
                 astrometry->programOutput->appendPlainText("/usr/local/bin/easy_install pip\n");
                 install->start("/usr/local/bin/easy_install" , QStringList() << "pip");
                 installMonitor->startAnimation();
-            } else{
+            }
+            else
+            {
                 KMessageBox::sorry(0,"pip failed to install with homebrew and easy_install.  Try <a href=http://brew.sh>installing homebrew</a> and clicking again.", "", KMessageBox::AllowLink);
             }
 
@@ -436,11 +486,16 @@ void KSWizard::slotInstallPyfits()
 #ifdef Q_OS_OSX
     astrometry->programOutput->appendPlainText("🔭 INSTALLING PYFITS:\n");
 
-    if(!pythonExists()){
+    if(!pythonExists())
+    {
         KMessageBox::sorry(0,"/usr/local/bin/python is not installed.  Please install python first.");
-    }else if(!pipExists()){
+    }
+    else if(!pipExists())
+    {
         KMessageBox::sorry(0,"/usr/local/bin/pip is not installed.  Please install pip first.");
-    } else{
+    }
+    else
+    {
         astrometry->programOutput->appendPlainText("/usr/local/bin/pip install pyfits\n");
         install->start("/usr/local/bin/pip" , QStringList() << "install" << "pyfits");
         installMonitor->startAnimation();
@@ -453,14 +508,17 @@ void KSWizard::slotInstallNetpbm()
 #ifdef Q_OS_OSX
     astrometry->programOutput->appendPlainText("🔭 INSTALLING NETPBM:\n");
 
-   if(brewExists()){
+    if(brewExists())
+    {
         install->start("/usr/local/bin/brew" , QStringList() << "install" << "netpbm");
         installMonitor->startAnimation();
-    } else{
+    }
+    else
+    {
         //install->start("ruby", QStringList() << "-e" << "'$(curl -fsSL raw.githubusercontent.com/Homebrew/install/master/install)'" << "<" << "/dev/null" << "2>" << "/dev/null");
         //install->waitForFinished();
         //install->start("/usr/local/bin/brew" , QStringList() << "install" << "netpbm");
-       KMessageBox::sorry(0,"homebrew is not installed.  Try <a href=http://brew.sh>installing homebrew</a> and clicking again.", "", KMessageBox::AllowLink);
+        KMessageBox::sorry(0,"homebrew is not installed.  Try <a href=http://brew.sh>installing homebrew</a> and clicking again.", "", KMessageBox::AllowLink);
     }
 #endif
 }
@@ -469,35 +527,41 @@ void KSWizard::slotInstallNetpbm()
 void KSWizard::slotUpdateText()
 {
 #ifdef Q_OS_OSX
-   QByteArray data = install->readAllStandardOutput();
-   astrometry->programOutput->appendPlainText(QString(data));
+    QByteArray data = install->readAllStandardOutput();
+    astrometry->programOutput->appendPlainText(QString(data));
 #endif
 }
 
 #ifdef Q_OS_OSX
-bool KSWizard::dataDirExists(){
+bool KSWizard::dataDirExists()
+{
     QString dataLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars", QStandardPaths::LocateDirectory);
     return !dataLocation.isEmpty();
 }
 
-bool KSWizard::astrometryDirExists(){
+bool KSWizard::astrometryDirExists()
+{
     QString astrometryLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "Astrometry", QStandardPaths::LocateDirectory);
     return !astrometryLocation.isEmpty();
 }
 
-bool KSWizard::pythonExists(){
+bool KSWizard::pythonExists()
+{
     return QProcess::execute("type /usr/local/bin/python")==QProcess::NormalExit;
 }
-bool KSWizard::GSCExists(){
+bool KSWizard::GSCExists()
+{
     QString GSCLocation=QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kstars/gsc", QStandardPaths::LocateDirectory);
     return !GSCLocation.isEmpty();
 }
 
-bool KSWizard::pipExists(){
+bool KSWizard::pipExists()
+{
     return QProcess::execute("type /usr/local/bin/pip")==QProcess::NormalExit;
 }
 
-bool KSWizard::pyfitsExists(){
+bool KSWizard::pyfitsExists()
+{
     QProcess testPyfits;
     testPyfits.start("/usr/local/bin/pip list");
     testPyfits.waitForFinished();
@@ -506,35 +570,44 @@ bool KSWizard::pyfitsExists(){
     return listPip.contains("pyfits", Qt::CaseInsensitive);
 }
 
-bool KSWizard::netpbmExists(){
+bool KSWizard::netpbmExists()
+{
     return QProcess::execute("type /usr/local/bin/jpegtopnm")==QProcess::NormalExit;
 }
 
-bool KSWizard::brewExists(){
+bool KSWizard::brewExists()
+{
     return QProcess::execute("type /usr/local/bin/brew")==QProcess::NormalExit;
 }
 
-void KSWizard::updateAstrometryButtons(){
-     astrometry->astrometryFound->setChecked(astrometryDirExists());
-     if(astrometryDirExists()) {
-         astrometry->astrometryButton->setText("Open Folder");
-         astrometry->astrometryFeedback->setText("<html><head/><body><p>To plate solve, you need to put index files in the following folder. See the documentation at this link: <a href=http://astrometry.net/doc/readme.html>Astrometry Readme</a> for details on how to get files.</p></body></html>");
-    } else{
+void KSWizard::updateAstrometryButtons()
+{
+    astrometry->astrometryFound->setChecked(astrometryDirExists());
+    if(astrometryDirExists())
+    {
+        astrometry->astrometryButton->setText("Open Folder");
+        astrometry->astrometryFeedback->setText("<html><head/><body><p>To plate solve, you need to put index files in the following folder. See the documentation at this link: <a href=http://astrometry.net/doc/readme.html>Astrometry Readme</a> for details on how to get files.</p></body></html>");
+    }
+    else
+    {
         astrometry->astrometryButton->setText("Create Folder");
         astrometry->astrometryFeedback->setText("KStars needs to configure the astrometry.cfg file and create a folder for the index files. Please click the button below to complete this task.");
     }
 
-    if(!pythonExists()){
+    if(!pythonExists())
+    {
         astrometry->pipFound->setChecked(false);
         astrometry->pipInstall->setDisabled(false);
         astrometry->pyfitsFound->setChecked(false);
         astrometry->pyfitsInstall->setDisabled(false);
     }
-    else{
+    else
+    {
         bool ifPipExists=pipExists();
         astrometry->pipFound->setChecked(ifPipExists);
         astrometry->pipInstall->setDisabled(ifPipExists);
-        if(ifPipExists){
+        if(ifPipExists)
+        {
             bool ifPyfitsExists=pyfitsExists();
             astrometry->pyfitsFound->setChecked(ifPyfitsExists);
             astrometry->pyfitsInstall->setDisabled(ifPyfitsExists);
@@ -548,14 +621,18 @@ void KSWizard::updateAstrometryButtons(){
 }
 #endif
 
-void KSWizard::slotUpdateDataButtons(){
+void KSWizard::slotUpdateDataButtons()
+{
 #ifdef Q_OS_OSX
     data->dataDirFound->setChecked(dataDirExists());
-    if(dataDirExists()) {
+    if(dataDirExists())
+    {
         data->copyKStarsData->setText("Open KStars Data Directory");
         data->foundFeedback1->setText("The KStars Data Directory called kstars is located at:");
         data->foundFeedback2->setText("Your data directory was found.  If you have any problems with it, you can always delete this data directory and KStars will give you a new data directory.  You can click this button to open the data directory, just be careful not to delete any important files.");
-     } else{
+    }
+    else
+    {
         data->foundFeedback1->setText("The KStars Data Directory called kstars should be located at:");
         data->foundFeedback2->setText("<html><head/><body><p>Your data directory was not found. You can click the button below to copy a default KStars data directory to the correct location, or if you have a KStars directory already some place else, you can exit KStars and copy it to that location yourself.</p></body></html>");
     }
@@ -568,7 +645,8 @@ void KSWizard::slotUpdateDataButtons(){
 #endif
 }
 
-void KSWizard::slotInstallerFinished(){
+void KSWizard::slotInstallerFinished()
+{
 #ifdef Q_OS_OSX
     astrometry->programOutput->appendPlainText("🔭 Installer Finished!\n");
     updateAstrometryButtons();

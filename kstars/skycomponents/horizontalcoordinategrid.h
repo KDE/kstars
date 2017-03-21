@@ -29,20 +29,20 @@
 	*/
 class HorizontalCoordinateGrid : public CoordinateGrid
 {
-public:
-    /**
-    	*@short Constructor
-    	*Simply adds all of the coordinate grid circles 
-    	*(meridians and parallels)
-    	*@p parent Pointer to the parent SkyComposite object
-    	*/
-    explicit HorizontalCoordinateGrid( SkyComposite *parent );
+    public:
+        /**
+        	*@short Constructor
+        	*Simply adds all of the coordinate grid circles
+        	*(meridians and parallels)
+        	*@p parent Pointer to the parent SkyComposite object
+        	*/
+        explicit HorizontalCoordinateGrid( SkyComposite * parent );
 
-    void preDraw( SkyPainter *skyp );
-    
-    void update( KSNumbers* );
+        void preDraw( SkyPainter * skyp );
 
-    bool selected();
+        void update( KSNumbers * );
+
+        bool selected();
 };
 
 

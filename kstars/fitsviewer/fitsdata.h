@@ -69,287 +69,394 @@ typedef struct
 
 class Edge
 {
-public:
-    float x;
-    float y;
-    int val;
-    int scanned;
-    float width;
-    float HFR;
-    float sum;
+    public:
+        float x;
+        float y;
+        int val;
+        int scanned;
+        float width;
+        float HFR;
+        float sum;
 };
 
-class FITSSkyObject : public QObject{
-    Q_OBJECT
-public:
-    explicit FITSSkyObject(SkyObject *skyObject, int xPos, int yPos);
-    SkyObject *skyObject();
-    int x();
-    int y();
-    void setX(int xPos);
-    void setY(int yPos);
+class FITSSkyObject : public QObject
+{
+        Q_OBJECT
+    public:
+        explicit FITSSkyObject(SkyObject * skyObject, int xPos, int yPos);
+        SkyObject * skyObject();
+        int x();
+        int y();
+        void setX(int xPos);
+        void setY(int yPos);
 
-private:
-    SkyObject *skyObjectStored;
-    int xLoc;
-    int yLoc;
+    private:
+        SkyObject * skyObjectStored;
+        int xLoc;
+        int yLoc;
 
 };
 
 class FITSData
 {
-public:
+    public:
 
-    typedef enum { CHANNEL_ONE, CHANNEL_TWO, CHANNEL_THREE } ColorChannel;    
+        typedef enum { CHANNEL_ONE, CHANNEL_TWO, CHANNEL_THREE } ColorChannel;
 
-    FITSData(FITSMode mode=FITS_NORMAL);
-    ~FITSData();
+        FITSData(FITSMode mode=FITS_NORMAL);
+        ~FITSData();
 
-    /* Loads FITS image, scales it, and displays it in the GUI */
-    bool  loadFITS(const QString &filename, bool silent=true);
-    /* Save FITS */
-    int saveFITS(const QString &filename);
-    /* Rescale image lineary from image_buffer, fit to window if desired */
-    int rescale(FITSZoom type);
-    /* Calculate stats */
-    void calculateStats(bool refresh=false);
+        /* Loads FITS image, scales it, and displays it in the GUI */
+        bool  loadFITS(const QString &filename, bool silent=true);
+        /* Save FITS */
+        int saveFITS(const QString &filename);
+        /* Rescale image lineary from image_buffer, fit to window if desired */
+        int rescale(FITSZoom type);
+        /* Calculate stats */
+        void calculateStats(bool refresh=false);
 
-    bool contains(const QPointF& point) const;
+        bool contains(const QPointF &point) const;
 
-    // Access functions
-    void clearImageBuffers();
-    void setImageBuffer(uint8_t *buffer);
-    uint8_t * getImageBuffer();
+        // Access functions
+        void clearImageBuffers();
+        void setImageBuffer(uint8_t * buffer);
+        uint8_t * getImageBuffer();
 
-    int getDataType() { return data_type; }
-    void setDataType(int value) { data_type = value; }
+        int getDataType()
+        {
+            return data_type;
+        }
+        void setDataType(int value)
+        {
+            data_type = value;
+        }
 
-    // Stats
-    unsigned int getSize() { return stats.samples_per_channel; }
-    void getDimensions(uint16_t *w, uint16_t *h) { *w = stats.width; *h = stats.height; }
-    void setWidth(uint16_t w) { stats.width = w; stats.samples_per_channel = stats.width * stats.height;}
-    void setHeight(uint16_t h) { stats.height = h; stats.samples_per_channel = stats.width * stats.height;}
-    uint16_t getWidth() { return stats.width; }
-    uint16_t getHeight() { return stats.height; }
+        // Stats
+        unsigned int getSize()
+        {
+            return stats.samples_per_channel;
+        }
+        void getDimensions(uint16_t * w, uint16_t * h)
+        {
+            *w = stats.width;
+            *h = stats.height;
+        }
+        void setWidth(uint16_t w)
+        {
+            stats.width = w;
+            stats.samples_per_channel = stats.width * stats.height;
+        }
+        void setHeight(uint16_t h)
+        {
+            stats.height = h;
+            stats.samples_per_channel = stats.width * stats.height;
+        }
+        uint16_t getWidth()
+        {
+            return stats.width;
+        }
+        uint16_t getHeight()
+        {
+            return stats.height;
+        }
 
-    // Statistics
-    int getNumOfChannels() { return channels;}
-    void setMinMax(double newMin,  double newMax, uint8_t channel=0);
-    void getMinMax(double *min, double *max,uint8_t channel=0) { *min = stats.min[channel]; *max = stats.max[channel]; }
-    double getMin(uint8_t channel=0) { return stats.min[channel]; }
-    double getMax(uint8_t channel=0) { return stats.max[channel]; }
-    void setStdDev(double value, uint8_t channel=0) { stats.stddev[channel] = value;}
-    double getStdDev(uint8_t channel=0) { return stats.stddev[channel]; }
-    void setMean(double value, uint8_t channel=0) { stats.mean[channel] = value; }
-    double getMean(uint8_t channel=0) { return stats.mean[channel]; }
-    void setMedian(double val, uint8_t channel=0) { stats.median[channel] = val;}
-    double getMedian(uint8_t channel=0) { return stats.median[channel];}
+        // Statistics
+        int getNumOfChannels()
+        {
+            return channels;
+        }
+        void setMinMax(double newMin,  double newMax, uint8_t channel=0);
+        void getMinMax(double * min, double * max,uint8_t channel=0)
+        {
+            *min = stats.min[channel];
+            *max = stats.max[channel];
+        }
+        double getMin(uint8_t channel=0)
+        {
+            return stats.min[channel];
+        }
+        double getMax(uint8_t channel=0)
+        {
+            return stats.max[channel];
+        }
+        void setStdDev(double value, uint8_t channel=0)
+        {
+            stats.stddev[channel] = value;
+        }
+        double getStdDev(uint8_t channel=0)
+        {
+            return stats.stddev[channel];
+        }
+        void setMean(double value, uint8_t channel=0)
+        {
+            stats.mean[channel] = value;
+        }
+        double getMean(uint8_t channel=0)
+        {
+            return stats.mean[channel];
+        }
+        void setMedian(double val, uint8_t channel=0)
+        {
+            stats.median[channel] = val;
+        }
+        double getMedian(uint8_t channel=0)
+        {
+            return stats.median[channel];
+        }
 
-    int getBytesPerPixel() { return stats.bytesPerPixel; }
-    void setSNR(double val) { stats.SNR = val;}
-    double getSNR() { return stats.SNR;}
-    void setBPP(int value) { stats.bitpix = value;}
-    int getBPP() { return stats.bitpix; }
-    double getADU();
+        int getBytesPerPixel()
+        {
+            return stats.bytesPerPixel;
+        }
+        void setSNR(double val)
+        {
+            stats.SNR = val;
+        }
+        double getSNR()
+        {
+            return stats.SNR;
+        }
+        void setBPP(int value)
+        {
+            stats.bitpix = value;
+        }
+        int getBPP()
+        {
+            return stats.bitpix;
+        }
+        double getADU();
 
-    // Star detection
-    int getDetectedStars() { return starCenters.count(); }
-    bool areStarsSearched() { return starsSearched; }
-    void appendStar(Edge* newCenter) { starCenters.append(newCenter); }
-    QList<Edge*> getStarCenters() { return starCenters;}
-    int findStars(const QRectF &boundary = QRectF(), bool force=false);
-    void findCentroid(const QRectF &boundary = QRectF(), int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
-    void getCenterSelection(int *x, int *y);
-    int findOneStar(const QRectF &boundary);
+        // Star detection
+        int getDetectedStars()
+        {
+            return starCenters.count();
+        }
+        bool areStarsSearched()
+        {
+            return starsSearched;
+        }
+        void appendStar(Edge * newCenter)
+        {
+            starCenters.append(newCenter);
+        }
+        QList<Edge *> getStarCenters()
+        {
+            return starCenters;
+        }
+        int findStars(const QRectF &boundary = QRectF(), bool force=false);
+        void findCentroid(const QRectF &boundary = QRectF(), int initStdDev=MINIMUM_STDVAR, int minEdgeWidth=MINIMUM_PIXEL_RANGE);
+        void getCenterSelection(int * x, int * y);
+        int findOneStar(const QRectF &boundary);
 
-    // Find single star based on partially customized Canny edge detection
-    static int findCannyStar(FITSData *data, const QRect &boundary = QRect());
-    template<typename T> static int findCannyStar(FITSData *data, const QRect &boundary);
+        // Find single star based on partially customized Canny edge detection
+        static int findCannyStar(FITSData * data, const QRect &boundary = QRect());
+        template<typename T> static int findCannyStar(FITSData * data, const QRect &boundary);
 
-    // Half Flux Radius
-    Edge * getMaxHFRStar() { return maxHFRStar;}
-    double getHFR(HFRType type=HFR_AVERAGE);
-    double getHFR(int x, int y);
+        // Half Flux Radius
+        Edge * getMaxHFRStar()
+        {
+            return maxHFRStar;
+        }
+        double getHFR(HFRType type=HFR_AVERAGE);
+        double getHFR(int x, int y);
 
-    // FITS Mode (Normal, Guide, Focus..etc).
-    FITSMode getMode() { return mode;}
+        // FITS Mode (Normal, Guide, Focus..etc).
+        FITSMode getMode()
+        {
+            return mode;
+        }
 
-    // WCS
-    bool loadWCS();
-    bool hasWCS() { return HasWCS; }
-    wcs_point *getWCSCoord()  { return wcs_coord; }
+        // WCS
+        bool loadWCS();
+        bool hasWCS()
+        {
+            return HasWCS;
+        }
+        wcs_point * getWCSCoord()
+        {
+            return wcs_coord;
+        }
 
-    /**
-     * @brief wcsToPixel Given J2000 (RA0,DE0) coordinates. Find in the image the corresponding pixel coordinates.
-     * @param wcsCoord Coordinates of target
-     * @param wcsPixelPoint Return XY FITS coordinates
-     * @param wcsImagePoint Return XY Image coordinates
-     * @return True if conversion is successfull, false otherwise.
-     */
-    bool wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint);
+        /**
+         * @brief wcsToPixel Given J2000 (RA0,DE0) coordinates. Find in the image the corresponding pixel coordinates.
+         * @param wcsCoord Coordinates of target
+         * @param wcsPixelPoint Return XY FITS coordinates
+         * @param wcsImagePoint Return XY Image coordinates
+         * @return True if conversion is successfull, false otherwise.
+         */
+        bool wcsToPixel(SkyPoint &wcsCoord, QPointF &wcsPixelPoint, QPointF &wcsImagePoint);
 
-    /**
-     * @brief pixelToWCS Convert Pixel coordinates to J2000 world coordinates
-     * @param wcsPixelPoint Pixel coordinates in XY Image space.
-     * @param wcsCoord Store back WCS world coordinate in wcsCoord
-     * @return True if successful, false otherwise.
-     */
-    bool pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint & wcsCoord);
+        /**
+         * @brief pixelToWCS Convert Pixel coordinates to J2000 world coordinates
+         * @param wcsPixelPoint Pixel coordinates in XY Image space.
+         * @param wcsCoord Store back WCS world coordinate in wcsCoord
+         * @return True if successful, false otherwise.
+         */
+        bool pixelToWCS(const QPointF &wcsPixelPoint, SkyPoint &wcsCoord);
 
-    /**
-     * @brief createWCSFile Create a new FITS file given the WCS information supplied. Construct the necessary WCS keywords and save the
-     * new file as the current active file
-     * @param newWCSFile New file name
-     * @param orientation Solver orientation, degrees E of N.
-     * @param ra J2000 Right Ascension
-     * @param dec J2000 Declination
-     * @param pixscale Pixel scale in arcsecs per pixel
-     * @return  True if file is successfully created and saved, false otherwise.
-     */
-    bool createWCSFile(const QString & newWCSFile, double orientation, double ra, double dec, double pixscale);
+        /**
+         * @brief createWCSFile Create a new FITS file given the WCS information supplied. Construct the necessary WCS keywords and save the
+         * new file as the current active file
+         * @param newWCSFile New file name
+         * @param orientation Solver orientation, degrees E of N.
+         * @param ra J2000 Right Ascension
+         * @param dec J2000 Declination
+         * @param pixscale Pixel scale in arcsecs per pixel
+         * @return  True if file is successfully created and saved, false otherwise.
+         */
+        bool createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale);
 
-    // Debayer
-    bool hasDebayer() { return HasDebayer; }
-    bool debayer();
-    bool debayer_8bit();
-    bool debayer_16bit();
-    void getBayerParams(BayerParams *param);
-    void setBayerParams(BayerParams *param);
+        // Debayer
+        bool hasDebayer()
+        {
+            return HasDebayer;
+        }
+        bool debayer();
+        bool debayer_8bit();
+        bool debayer_16bit();
+        void getBayerParams(BayerParams * param);
+        void setBayerParams(BayerParams * param);
 
-    // FITS Record
-    int getFITSRecord(QString &recordList, int &nkeys);
+        // FITS Record
+        int getFITSRecord(QString &recordList, int &nkeys);
 
-   // QVariant getFITSHeaderValue(QString &keyword);
+        // QVariant getFITSHeaderValue(QString &keyword);
 
-    // Histogram
-    #ifndef KSTARS_LITE
-    void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
-    #endif
+        // Histogram
+#ifndef KSTARS_LITE
+        void setHistogram(FITSHistogram * inHistogram)
+        {
+            histogram = inHistogram;
+        }
+#endif
 
-    // Filter
-    void applyFilter(FITSScale type, uint8_t *image=NULL, float * min= NULL, float * max= NULL);
+        // Filter
+        void applyFilter(FITSScale type, uint8_t * image=NULL, float * min= NULL, float * max= NULL);
 
-    // Rotation counter. We keep count to rotate WCS keywords on save
-    int getRotCounter() const;
-    void setRotCounter(int value);
+        // Rotation counter. We keep count to rotate WCS keywords on save
+        int getRotCounter() const;
+        void setRotCounter(int value);
 
-    // Filename
-    const QString & getFilename() { return filename; }
+        // Filename
+        const QString &getFilename()
+        {
+            return filename;
+        }
 
-    // Horizontal flip counter. We keep count to rotate WCS keywords on save
-    int getFlipHCounter() const;
-    void setFlipHCounter(int value);
+        // Horizontal flip counter. We keep count to rotate WCS keywords on save
+        int getFlipHCounter() const;
+        void setFlipHCounter(int value);
 
-    // Horizontal flip counter. We keep count to rotate WCS keywords on save
-    int getFlipVCounter() const;
-    void setFlipVCounter(int value);        
+        // Horizontal flip counter. We keep count to rotate WCS keywords on save
+        int getFlipVCounter() const;
+        void setFlipVCounter(int value);
 
-    #ifndef KSTARS_LITE
-    #ifdef HAVE_WCSLIB
-    void findObjectsInImage(double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]);
-    #endif
-    #endif
-    QList<FITSSkyObject *> getSkyObjects();
-    QList<FITSSkyObject*> objList;//Does this need to be public??
+#ifndef KSTARS_LITE
+#ifdef HAVE_WCSLIB
+        void findObjectsInImage(double world[], double phi, double theta, double imgcrd[], double pixcrd[], int stat[]);
+#endif
+#endif
+        QList<FITSSkyObject *> getSkyObjects();
+        QList<FITSSkyObject *> objList; //Does this need to be public??
 
-    // Create autostretch image from FITS File
-    static QImage FITSToImage(const QString &filename);
+        // Create autostretch image from FITS File
+        static QImage FITSToImage(const QString &filename);
 
-    bool getAutoRemoveTemporaryFITS() const;
-    void setAutoRemoveTemporaryFITS(bool value);
+        bool getAutoRemoveTemporaryFITS() const;
+        void setAutoRemoveTemporaryFITS(bool value);
 
-    QString getLastError() const;
+        QString getLastError() const;
 
-private:
+    private:
 
-    void rotWCSFITS (int angle, int mirror);
-    bool checkCollision(Edge* s1, Edge*s2);
-    int calculateMinMax(bool refresh=false);    
-    bool checkDebayer();
-    void readWCSKeys();
+        void rotWCSFITS (int angle, int mirror);
+        bool checkCollision(Edge * s1, Edge * s2);
+        int calculateMinMax(bool refresh=false);
+        bool checkDebayer();
+        void readWCSKeys();
 
-    // Templated functions
+        // Templated functions
 
-    template<typename T> bool debayer();
+        template<typename T> bool debayer();
 
-    template<typename T> bool rotFITS (int rotate, int mirror);
+        template<typename T> bool rotFITS (int rotate, int mirror);
 
-    // Apply Filter
-    template<typename T> void applyFilter(FITSScale type, uint8_t *targetImage, float image_min, float image_max);
-    // Star Detect - Centroid
-    template<typename T> void findCentroid(const QRectF &boundary, int initStdDev, int minEdgeWidth);
-    // Star Detect - Threshold
-    template<typename T> int findOneStar(const QRectF &boundary);
-
-
-    template<typename T> void calculateMinMax();
-    /* Calculate running average & standard deviation using Welford’s method for computing variance */
-    template<typename T> void runningAverageStdDev();
-
-    // Sobel detector by Gonzalo Exequiel Pedone
-    template<typename T> void sobel(QVector<float> &gradient, QVector<float> &direction);
-
-    // Give unique IDs to each contigous region
-    int partition(int width, int height, QVector<float> &gradient, QVector<int> &ids);
-    void trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y);
-
-    #if 0
-    QVector<int> thinning(int width, int height, const QVector<int> &gradient, const QVector<int> &direction);
-    QVector<float> threshold(int thLow, int thHi, const QVector<float> &image);
-    QVector<int> hysteresis(int width, int height, const QVector<int> &image);    
-    #endif
-
-    #ifndef KSTARS_LITE
-    FITSHistogram *histogram = NULL;    // Pointer to the FITS data histogram
-    #endif
-    fitsfile* fptr;                     // Pointer to CFITSIO FITS file struct
-
-    int data_type;                      // FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
-    int channels;                       // Number of channels    
-    uint8_t *imageBuffer = NULL;        // Generic data image buffer
+        // Apply Filter
+        template<typename T> void applyFilter(FITSScale type, uint8_t * targetImage, float image_min, float image_max);
+        // Star Detect - Centroid
+        template<typename T> void findCentroid(const QRectF &boundary, int initStdDev, int minEdgeWidth);
+        // Star Detect - Threshold
+        template<typename T> int findOneStar(const QRectF &boundary);
 
 
-    bool tempFile;                      // Is this a tempoprary file or one loaded from disk?
-    bool starsSearched;                 // Did we search for stars yet?
-    bool HasWCS;                        // Do we have WCS keywords in this FITS data?
-    bool markStars;                     // Do we need to mark stars for the user?
-    bool HasDebayer;                    // Is the image debayarable?
+        template<typename T> void calculateMinMax();
+        /* Calculate running average & standard deviation using Welford’s method for computing variance */
+        template<typename T> void runningAverageStdDev();
 
-    QString filename;                   // Our very own file name
-    FITSMode mode;                      // FITS Mode (Normal, WCS, Guide, Focus..etc)
+        // Sobel detector by Gonzalo Exequiel Pedone
+        template<typename T> void sobel(QVector<float> &gradient, QVector<float> &direction);
 
-    int rotCounter;                     // How many times the image was rotated? Useful for WCS keywords rotation on save.
-    int flipHCounter;                   // How many times the image was flipped horizontally?
-    int flipVCounter;                   // How many times the image was flipped vertically?
+        // Give unique IDs to each contigous region
+        int partition(int width, int height, QVector<float> &gradient, QVector<int> &ids);
+        void trace(int width, int height, int id, QVector<float> &image, QVector<int> &ids, int x, int y);
 
-    wcs_point *wcs_coord;               // Pointer to WCS coordinate data, if any.
-    struct wcsprm *wcs=0;               // WCS Struct
-    QList<Edge*> starCenters;           // All the stars we detected, if any.
-    Edge* maxHFRStar;                   // The biggest fattest star in the image.
+#if 0
+        QVector<int> thinning(int width, int height, const QVector<int> &gradient, const QVector<int> &direction);
+        QVector<float> threshold(int thLow, int thHi, const QVector<float> &image);
+        QVector<int> hysteresis(int width, int height, const QVector<int> &image);
+#endif
 
-    uint8_t *bayerBuffer = NULL;
-    BayerParams debayerParams;          // Bayer parameters
+#ifndef KSTARS_LITE
+        FITSHistogram * histogram = NULL;   // Pointer to the FITS data histogram
+#endif
+        fitsfile * fptr;                    // Pointer to CFITSIO FITS file struct
 
-    /* stats struct to hold statisical data about the FITS data */
-    struct
-    {
-        double min[3], max[3];
-        double mean[3];
-        double stddev[3];
-        double median[3];
-        double SNR;
-        int bitpix;
-        int bytesPerPixel;
-        int ndim;
-        uint32_t samples_per_channel;
-        uint16_t width;
-        uint16_t height;
-    } stats;
+        int data_type;                      // FITS image data type (TBYTE, TUSHORT, TINT, TFLOAT, TLONG, TDOUBLE)
+        int channels;                       // Number of channels
+        uint8_t * imageBuffer = NULL;       // Generic data image buffer
 
-    // Remove temproray files after closing
-    bool autoRemoveTemporaryFITS=true;
 
-    QString lastError;
+        bool tempFile;                      // Is this a tempoprary file or one loaded from disk?
+        bool starsSearched;                 // Did we search for stars yet?
+        bool HasWCS;                        // Do we have WCS keywords in this FITS data?
+        bool markStars;                     // Do we need to mark stars for the user?
+        bool HasDebayer;                    // Is the image debayarable?
+
+        QString filename;                   // Our very own file name
+        FITSMode mode;                      // FITS Mode (Normal, WCS, Guide, Focus..etc)
+
+        int rotCounter;                     // How many times the image was rotated? Useful for WCS keywords rotation on save.
+        int flipHCounter;                   // How many times the image was flipped horizontally?
+        int flipVCounter;                   // How many times the image was flipped vertically?
+
+        wcs_point * wcs_coord;              // Pointer to WCS coordinate data, if any.
+        struct wcsprm * wcs=0;              // WCS Struct
+        QList<Edge *> starCenters;          // All the stars we detected, if any.
+        Edge * maxHFRStar;                  // The biggest fattest star in the image.
+
+        uint8_t * bayerBuffer = NULL;
+        BayerParams debayerParams;          // Bayer parameters
+
+        /* stats struct to hold statisical data about the FITS data */
+        struct
+        {
+            double min[3], max[3];
+            double mean[3];
+            double stddev[3];
+            double median[3];
+            double SNR;
+            int bitpix;
+            int bytesPerPixel;
+            int ndim;
+            uint32_t samples_per_channel;
+            uint16_t width;
+            uint16_t height;
+        } stats;
+
+        // Remove temproray files after closing
+        bool autoRemoveTemporaryFITS=true;
+
+        QString lastError;
 };
 
 #endif

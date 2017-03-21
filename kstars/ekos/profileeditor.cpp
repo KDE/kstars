@@ -22,40 +22,40 @@
 #include "profileeditor.h"
 #include "profileinfo.h"
 
-ProfileEditorUI::ProfileEditorUI( QWidget *p ) : QFrame( p )
+ProfileEditorUI::ProfileEditorUI( QWidget * p ) : QFrame( p )
 {
     setupUi( this );
 }
 
 
-ProfileEditor::ProfileEditor(QWidget *w )  : QDialog( w )
+ProfileEditor::ProfileEditor(QWidget * w )  : QDialog( w )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     ui = new ProfileEditorUI( this );
 
     pi = NULL;
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
 
     setWindowTitle(i18n("Profile Editor"));
 
     // Create button box and link it to save and reject functions
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Save|QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Save|QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(saveProfile()));
 
-    #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
     ui->remoteMode->setChecked(true);
     ui->localMode->setEnabled(false);
     setRemoteMode(true);
-    #else
+#else
     connect(ui->remoteMode, SIGNAL(toggled(bool)), this, SLOT(setRemoteMode(bool)));
-    #endif
+#endif
 
     // Load all drivers
     loadDrivers();
@@ -76,121 +76,121 @@ void ProfileEditor::saveProfile()
         return;
     }
 
-   if (newProfile)
-   {
-       int id = KStarsData::Instance()->userdb()->AddProfile(ui->profileIN->text());
-       pi = new ProfileInfo(id, ui->profileIN->text());
-   }
-   else
-       pi->name = ui->profileIN->text();
+    if (newProfile)
+    {
+        int id = KStarsData::Instance()->userdb()->AddProfile(ui->profileIN->text());
+        pi = new ProfileInfo(id, ui->profileIN->text());
+    }
+    else
+        pi->name = ui->profileIN->text();
 
-   // Local Mode
-   if (ui->localMode->isChecked())
-   {
-       pi->host.clear();
-       pi->port=-1;
-       pi->INDIWebManagerPort=-1;
-       //pi->customDrivers = ui->customDriversIN->text();
-   }
-   // Remote Mode
-   else
-   {
-       pi->host = ui->remoteHost->text();
-       pi->port = ui->remotePort->text().toInt();
-       if (ui->INDIWebManagerCheck->isChecked())
-           pi->INDIWebManagerPort = ui->INDIWebManagerPort->text().toInt();
-       else
-           pi->INDIWebManagerPort=-1;
-       //pi->customDrivers.clear();
-   }      
+    // Local Mode
+    if (ui->localMode->isChecked())
+    {
+        pi->host.clear();
+        pi->port=-1;
+        pi->INDIWebManagerPort=-1;
+        //pi->customDrivers = ui->customDriversIN->text();
+    }
+    // Remote Mode
+    else
+    {
+        pi->host = ui->remoteHost->text();
+        pi->port = ui->remotePort->text().toInt();
+        if (ui->INDIWebManagerCheck->isChecked())
+            pi->INDIWebManagerPort = ui->INDIWebManagerPort->text().toInt();
+        else
+            pi->INDIWebManagerPort=-1;
+        //pi->customDrivers.clear();
+    }
 
-   // City Info
-   if (ui->loadSiteCheck->isEnabled() && ui->loadSiteCheck->isChecked())
-   {
-       pi->city     = KStarsData::Instance()->geo()->name();
-       pi->province = KStarsData::Instance()->geo()->province();
-       pi->country  = KStarsData::Instance()->geo()->country();
-   }
-   else
-   {
-      pi->city.clear();
-      pi->province.clear();
-      pi->country.clear();
-   }
+    // City Info
+    if (ui->loadSiteCheck->isEnabled() && ui->loadSiteCheck->isChecked())
+    {
+        pi->city     = KStarsData::Instance()->geo()->name();
+        pi->province = KStarsData::Instance()->geo()->province();
+        pi->country  = KStarsData::Instance()->geo()->country();
+    }
+    else
+    {
+        pi->city.clear();
+        pi->province.clear();
+        pi->country.clear();
+    }
 
-   // Auto Connect
-   pi->autoConnect = ui->autoConnectCheck->isChecked();
+    // Auto Connect
+    pi->autoConnect = ui->autoConnectCheck->isChecked();
 
-   if (ui->mountCombo->currentText().isEmpty() || ui->mountCombo->currentText() == "--")
-       pi->drivers.remove("Mount");
-   else
-       pi->drivers["Mount"] = ui->mountCombo->currentText();
+    if (ui->mountCombo->currentText().isEmpty() || ui->mountCombo->currentText() == "--")
+        pi->drivers.remove("Mount");
+    else
+        pi->drivers["Mount"] = ui->mountCombo->currentText();
 
-   if (ui->ccdCombo->currentText().isEmpty() || ui->ccdCombo->currentText() == "--")
-       pi->drivers.remove("CCD");
-   else
-       pi->drivers["CCD"] = ui->ccdCombo->currentText();
+    if (ui->ccdCombo->currentText().isEmpty() || ui->ccdCombo->currentText() == "--")
+        pi->drivers.remove("CCD");
+    else
+        pi->drivers["CCD"] = ui->ccdCombo->currentText();
 
-   if (ui->guiderCombo->currentText().isEmpty() || ui->guiderCombo->currentText() == "--")
-       pi->drivers.remove("Guider");
-   else
-       pi->drivers["Guider"] = ui->guiderCombo->currentText();
+    if (ui->guiderCombo->currentText().isEmpty() || ui->guiderCombo->currentText() == "--")
+        pi->drivers.remove("Guider");
+    else
+        pi->drivers["Guider"] = ui->guiderCombo->currentText();
 
-   if (ui->focuserCombo->currentText().isEmpty() || ui->focuserCombo->currentText() == "--")
-       pi->drivers.remove("Focuser");
-   else
-       pi->drivers["Focuser"] = ui->focuserCombo->currentText();
+    if (ui->focuserCombo->currentText().isEmpty() || ui->focuserCombo->currentText() == "--")
+        pi->drivers.remove("Focuser");
+    else
+        pi->drivers["Focuser"] = ui->focuserCombo->currentText();
 
-   if (ui->filterCombo->currentText().isEmpty() || ui->filterCombo->currentText() == "--")
-       pi->drivers.remove("Filter");
-   else
-       pi->drivers["Filter"] = ui->filterCombo->currentText();
+    if (ui->filterCombo->currentText().isEmpty() || ui->filterCombo->currentText() == "--")
+        pi->drivers.remove("Filter");
+    else
+        pi->drivers["Filter"] = ui->filterCombo->currentText();
 
-   if (ui->AOCombo->currentText().isEmpty() || ui->AOCombo->currentText() == "--")
-       pi->drivers.remove("AO");
-   else
-       pi->drivers["AO"] = ui->AOCombo->currentText();
+    if (ui->AOCombo->currentText().isEmpty() || ui->AOCombo->currentText() == "--")
+        pi->drivers.remove("AO");
+    else
+        pi->drivers["AO"] = ui->AOCombo->currentText();
 
-   if (ui->domeCombo->currentText().isEmpty() || ui->domeCombo->currentText() == "--")
-       pi->drivers.remove("Dome");
-   else
-       pi->drivers["Dome"] = ui->domeCombo->currentText();
+    if (ui->domeCombo->currentText().isEmpty() || ui->domeCombo->currentText() == "--")
+        pi->drivers.remove("Dome");
+    else
+        pi->drivers["Dome"] = ui->domeCombo->currentText();
 
-   if (ui->weatherCombo->currentText().isEmpty() || ui->weatherCombo->currentText() == "--")
-       pi->drivers.remove("Weather");
-   else
-       pi->drivers["Weather"] = ui->weatherCombo->currentText();
+    if (ui->weatherCombo->currentText().isEmpty() || ui->weatherCombo->currentText() == "--")
+        pi->drivers.remove("Weather");
+    else
+        pi->drivers["Weather"] = ui->weatherCombo->currentText();
 
-   if (ui->aux1Combo->currentText().isEmpty() || ui->aux1Combo->currentText() == "--")
-       pi->drivers.remove("Aux1");
-   else
-       pi->drivers["Aux1"] = ui->aux1Combo->currentText();
+    if (ui->aux1Combo->currentText().isEmpty() || ui->aux1Combo->currentText() == "--")
+        pi->drivers.remove("Aux1");
+    else
+        pi->drivers["Aux1"] = ui->aux1Combo->currentText();
 
-   if (ui->aux2Combo->currentText().isEmpty() || ui->aux2Combo->currentText() == "--")
-       pi->drivers.remove("Aux2");
-   else
-       pi->drivers["Aux2"] = ui->aux2Combo->currentText();
+    if (ui->aux2Combo->currentText().isEmpty() || ui->aux2Combo->currentText() == "--")
+        pi->drivers.remove("Aux2");
+    else
+        pi->drivers["Aux2"] = ui->aux2Combo->currentText();
 
-   if (ui->aux3Combo->currentText().isEmpty() || ui->aux3Combo->currentText() == "--")
-       pi->drivers.remove("Aux3");
-   else
-       pi->drivers["Aux3"] = ui->aux3Combo->currentText();
+    if (ui->aux3Combo->currentText().isEmpty() || ui->aux3Combo->currentText() == "--")
+        pi->drivers.remove("Aux3");
+    else
+        pi->drivers["Aux3"] = ui->aux3Combo->currentText();
 
-   if (ui->aux4Combo->currentText().isEmpty() || ui->aux4Combo->currentText() == "--")
-       pi->drivers.remove("Aux4");
-   else
-       pi->drivers["Aux4"] = ui->aux4Combo->currentText();
+    if (ui->aux4Combo->currentText().isEmpty() || ui->aux4Combo->currentText() == "--")
+        pi->drivers.remove("Aux4");
+    else
+        pi->drivers["Aux4"] = ui->aux4Combo->currentText();
 
-   KStarsData::Instance()->userdb()->SaveProfile(pi);
+    KStarsData::Instance()->userdb()->SaveProfile(pi);
 
-   // Ekos manager will reload and new profiles will be created
-   if (newProfile)
-    delete (pi);
+    // Ekos manager will reload and new profiles will be created
+    if (newProfile)
+        delete (pi);
 
-   accept();
+    accept();
 }
 
-ProfileInfo *ProfileEditor::getPi() const
+ProfileInfo * ProfileEditor::getPi() const
 {
     return pi;
 }
@@ -227,7 +227,7 @@ void ProfileEditor::setRemoteMode(bool enable)
 
 }
 
-void ProfileEditor::setPi(ProfileInfo *value)
+void ProfileEditor::setPi(ProfileInfo * value)
 {
     pi = value;
 
@@ -401,7 +401,7 @@ void ProfileEditor::setPi(ProfileInfo *value)
 void ProfileEditor::loadDrivers()
 {
 
-    QVector<QComboBox*> boxes;
+    QVector<QComboBox *> boxes;
     boxes.append(ui->mountCombo);
     boxes.append(ui->ccdCombo);
     boxes.append(ui->guiderCombo);
@@ -417,7 +417,8 @@ void ProfileEditor::loadDrivers()
 
     QVector<QString> selectedItems;
 
-    foreach(QComboBox *box,boxes){
+    foreach(QComboBox * box,boxes)
+    {
         selectedItems.append(box->currentText());
         box->clear();
         box->addItem("--");
@@ -426,13 +427,14 @@ void ProfileEditor::loadDrivers()
 
     QIcon remoteIcon=QIcon::fromTheme("modem", QIcon(":/icons/breeze/default/modem.svg"));
 
-    foreach(DriverInfo *dv, DriverManager::Instance()->getDrivers())
+    foreach(DriverInfo * dv, DriverManager::Instance()->getDrivers())
     {
         bool locallyAvailable=false;
         QIcon icon;
         if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
             locallyAvailable = dv->getAuxInfo().value("LOCALLY_AVAILABLE", false).toBool();
-        if(!locallyAvailable){
+        if(!locallyAvailable)
+        {
             if(ui->localMode->isChecked())
                 continue;
             else
@@ -441,112 +443,112 @@ void ProfileEditor::loadDrivers()
 
         switch (dv->getType())
         {
-        case KSTARS_TELESCOPE:
-        {
-            ui->mountCombo->addItem(icon, dv->getTreeLabel());
-        }
-        break;
-
-        case KSTARS_CCD:
-        {
-            ui->ccdCombo->addItem(icon, dv->getTreeLabel());
-            ui->guiderCombo->addItem(icon, dv->getTreeLabel());
-
-            ui->aux1Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux2Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux3Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux4Combo->addItem(icon, dv->getTreeLabel());
-        }
-        break;
-
-        case KSTARS_ADAPTIVE_OPTICS:
-        {
-            ui->AOCombo->addItem(icon, dv->getTreeLabel());
-        }
-        break;
-
-        case KSTARS_FOCUSER:
-        {
-            ui->focuserCombo->addItem(icon, dv->getTreeLabel());
-
-            ui->aux1Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux2Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux3Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux4Combo->addItem(icon, dv->getTreeLabel());
-        }
-        break;
-
-        case KSTARS_FILTER:
-        {
-            ui->filterCombo->addItem(icon, dv->getTreeLabel());
-
-            ui->aux1Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux2Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux3Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux4Combo->addItem(icon, dv->getTreeLabel());
-        }
-        break;
-
-        case KSTARS_DOME:
-        {
-            ui->domeCombo->addItem(icon, dv->getTreeLabel());
-        }
-        break;
-
-        case KSTARS_WEATHER:
-        {
-            ui->weatherCombo->addItem(icon, dv->getTreeLabel());
-
-            ui->aux1Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux2Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux3Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux4Combo->addItem(icon, dv->getTreeLabel());
-        }
-        break;
-
-        case KSTARS_AUXILIARY:
-        {
-            ui->aux1Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux2Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux3Combo->addItem(icon, dv->getTreeLabel());
-            ui->aux4Combo->addItem(icon, dv->getTreeLabel());
-        }
-        break;
-
-        default:
-            continue;
+            case KSTARS_TELESCOPE:
+            {
+                ui->mountCombo->addItem(icon, dv->getTreeLabel());
+            }
             break;
+
+            case KSTARS_CCD:
+            {
+                ui->ccdCombo->addItem(icon, dv->getTreeLabel());
+                ui->guiderCombo->addItem(icon, dv->getTreeLabel());
+
+                ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux4Combo->addItem(icon, dv->getTreeLabel());
+            }
+            break;
+
+            case KSTARS_ADAPTIVE_OPTICS:
+            {
+                ui->AOCombo->addItem(icon, dv->getTreeLabel());
+            }
+            break;
+
+            case KSTARS_FOCUSER:
+            {
+                ui->focuserCombo->addItem(icon, dv->getTreeLabel());
+
+                ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux4Combo->addItem(icon, dv->getTreeLabel());
+            }
+            break;
+
+            case KSTARS_FILTER:
+            {
+                ui->filterCombo->addItem(icon, dv->getTreeLabel());
+
+                ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux4Combo->addItem(icon, dv->getTreeLabel());
+            }
+            break;
+
+            case KSTARS_DOME:
+            {
+                ui->domeCombo->addItem(icon, dv->getTreeLabel());
+            }
+            break;
+
+            case KSTARS_WEATHER:
+            {
+                ui->weatherCombo->addItem(icon, dv->getTreeLabel());
+
+                ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux4Combo->addItem(icon, dv->getTreeLabel());
+            }
+            break;
+
+            case KSTARS_AUXILIARY:
+            {
+                ui->aux1Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux2Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux3Combo->addItem(icon, dv->getTreeLabel());
+                ui->aux4Combo->addItem(icon, dv->getTreeLabel());
+            }
+            break;
+
+            default:
+                continue;
+                break;
         }
     }
 
     //ui->mountCombo->setCurrentIndex(-1);
 
-     for(int i=0;i<boxes.count();i++)
-     {
-         QComboBox *box=boxes.at(i);
-         QString selectedItemText=selectedItems.at(i);
-         int index=box->findText(selectedItemText);
-         if(index==-1)
-         {
-             if(ui->localMode->isChecked())
-                 box->setCurrentIndex(0);
-             else
-                 box->addItem(remoteIcon,selectedItemText);
+    for(int i=0; i<boxes.count(); i++)
+    {
+        QComboBox * box=boxes.at(i);
+        QString selectedItemText=selectedItems.at(i);
+        int index=box->findText(selectedItemText);
+        if(index==-1)
+        {
+            if(ui->localMode->isChecked())
+                box->setCurrentIndex(0);
+            else
+                box->addItem(remoteIcon,selectedItemText);
 
-         }
-         else
-         {
-             box->setCurrentIndex(index);
-         }
+        }
+        else
+        {
+            box->setCurrentIndex(index);
+        }
 
-         box->model()->sort(0);
-     }
+        box->model()->sort(0);
+    }
 
-     ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), "PHD2" );
-     ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), "LinGuider" );
+    ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), "PHD2" );
+    ui->guiderCombo->addItem(QIcon::fromTheme("crosshairs", QIcon(":/icons/breeze/default/crosshairs.svg")), "LinGuider" );
 }
 
-void ProfileEditor::setProfileName(const QString& name)
+void ProfileEditor::setProfileName(const QString &name)
 {
     ui->profileIN->setText(name);
 }

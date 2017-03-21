@@ -36,7 +36,7 @@ KSAlmanac::KSAlmanac() :
     MoonRise(0),
     MoonSet(0)
 {
-    KStarsData* data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
 
     /*dt  = KStarsDateTime::currentDateTime();
     geo = data->geo();
@@ -50,7 +50,8 @@ KSAlmanac::KSAlmanac() :
     update();
 }
 
-void KSAlmanac::update() {
+void KSAlmanac::update()
+{
     RiseSetTime( &m_Sun, &SunRise, &SunSet, &SunRiseT, &SunSetT );
     RiseSetTime( &m_Moon, &MoonRise, &MoonSet, &MoonRiseT, &MoonSetT );
     //    qDebug() << "Sun rise: " << SunRiseT.toString() << " Sun set: " << SunSetT.toString() << " Moon rise: " << MoonRiseT.toString() << " Moon set: " << MoonSetT.toString();
@@ -58,10 +59,11 @@ void KSAlmanac::update() {
     findMoonPhase();
 }
 
-void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime ) {
+void KSAlmanac::RiseSetTime( SkyObject * o, double * riseTime, double * setTime, QTime * RiseTime, QTime * SetTime )
+{
     // Compute object rise and set times
     const KStarsDateTime today = dt;
-    const GeoLocation* _geo = geo;
+    const GeoLocation * _geo = geo;
     *RiseTime = o->riseSetTime( today, _geo, true ); // FIXME: Should we add a day here so that we report future rise time? Not doing so produces the right results for the moon. Not sure about the sun.
     *SetTime = o->riseSetTime( today, _geo, false );
     *riseTime = -1.0 * RiseTime->secsTo(QTime(0,0,0,0)) / 86400.0;
@@ -75,12 +77,16 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QT
     KSNumbers num( dt.djd() );
     CachingDms LST = geo->GSTtoLST( dt.gst() );
     o->updateCoords( &num, true, geo->lat(), &LST, true );
-    if ( o->checkCircumpolar( geo->lat() ) ) {
-        if ( o->alt().Degrees() > 0.0 ) {
+    if ( o->checkCircumpolar( geo->lat() ) )
+    {
+        if ( o->alt().Degrees() > 0.0 )
+        {
             //Circumpolar, signal it this way:
             *riseTime = 0.0;
             *setTime = 1.0;
-        } else {
+        }
+        else
+        {
             //never rises, signal it this way:
             *riseTime = 0.0;
             *setTime = -1.0;
@@ -92,7 +98,8 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QT
 // in the KStars engine. Forgive me for adding to the nonsense, but I
 // want to get the Observation Planner functional first. -- asimha
 // seems to be copied from AltVsTime::setDawnDusk
-void KSAlmanac::findDawnDusk() {
+void KSAlmanac::findDawnDusk()
+{
 
     KStarsDateTime today = dt;
     KSNumbers num( today.djd() );
@@ -105,7 +112,8 @@ void KSAlmanac::findDawnDusk() {
     dawn = dusk = -13.0;
     max_alt = -100.0;
     min_alt = 100.0;
-    for ( double h=-11.95; h<=12.0; h+=0.05 ) {
+    for ( double h=-11.95; h<=12.0; h+=0.05 )
+    {
         double alt = findAltitude( &m_Sun, h );
         bool   asc = alt - last_alt > 0;
         if ( alt > max_alt )
@@ -122,10 +130,13 @@ void KSAlmanac::findDawnDusk() {
         last_alt = alt;
     }
 
-    if ( dawn < -12.0 || dusk < -12.0 ) {
+    if ( dawn < -12.0 || dusk < -12.0 )
+    {
         da = -1.0;
         du = -1.0;
-    } else {
+    }
+    else
+    {
         da = dawn / 24.0;
         du = ( dusk + 24.0 ) / 24.0;
     }
@@ -137,7 +148,8 @@ void KSAlmanac::findDawnDusk() {
     SunMinAlt = min_alt;
 }
 
-void KSAlmanac::findMoonPhase() {
+void KSAlmanac::findMoonPhase()
+{
     const KStarsDateTime today = dt;
     KSNumbers num( today.djd() );
     CachingDms LST = geo->GSTtoLST( today.gst() );
@@ -149,25 +161,28 @@ void KSAlmanac::findMoonPhase() {
 }
 
 
-void KSAlmanac::setDate( const KStarsDateTime *newdt ) {
+void KSAlmanac::setDate( const KStarsDateTime * newdt )
+{
     dt = *newdt;
     update();
 }
 
-void KSAlmanac::setLocation( const GeoLocation *geo_ ) {
+void KSAlmanac::setLocation( const GeoLocation * geo_ )
+{
     geo = geo_;
     update();
 }
 
 
-double KSAlmanac::sunZenithAngleToTime( double z ) {
+double KSAlmanac::sunZenithAngleToTime( double z )
+{
     // TODO: Correct for movement of the sun
     double HA = acos( ( cos( z * dms::DegToRad ) - m_Sun.dec().sin() * geo->lat()->sin() ) / (m_Sun.dec().cos() * geo->lat()->cos()) );
     double HASunset = acos( ( -m_Sun.dec().sin() * geo->lat()->sin() ) / (m_Sun.dec().cos() * geo->lat()->cos()) );
     return SunSet + ( HA - HASunset ) / 24.0;
 }
 
-double KSAlmanac::findAltitude( const SkyPoint *p, double hour )
+double KSAlmanac::findAltitude( const SkyPoint * p, double hour )
 {
     return SkyPoint::findAltitude( p, dt, geo, hour ).Degrees();
 }

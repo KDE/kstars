@@ -32,7 +32,7 @@ DarkLibrary * DarkLibrary::Instance()
     return _DarkLibrary;
 }
 
-DarkLibrary::DarkLibrary(QObject *parent) : QObject(parent)
+DarkLibrary::DarkLibrary(QObject * parent) : QObject(parent)
 {
     KStarsData::Instance()->userdb()->GetAllDarkFrames(darkFrames);
 
@@ -56,7 +56,7 @@ void DarkLibrary::refreshFromDB()
     KStarsData::Instance()->userdb()->GetAllDarkFrames(darkFrames);
 }
 
-FITSData * DarkLibrary::getDarkFrame(ISD::CCDChip *targetChip, double duration)
+FITSData * DarkLibrary::getDarkFrame(ISD::CCDChip * targetChip, double duration)
 {
     foreach(QVariantMap map, darkFrames)
     {
@@ -113,7 +113,7 @@ FITSData * DarkLibrary::getDarkFrame(ISD::CCDChip *targetChip, double duration)
 
 bool DarkLibrary::loadDarkFile(const QString &filename)
 {
-    FITSData *darkData = new FITSData();
+    FITSData * darkData = new FITSData();
 
     bool rc = darkData->loadFITS(filename);
 
@@ -128,7 +128,7 @@ bool DarkLibrary::loadDarkFile(const QString &filename)
     return rc;
 }
 
-bool DarkLibrary::saveDarkFile(FITSData *darkData)
+bool DarkLibrary::saveDarkFile(FITSData * darkData)
 {
     // IS8601 contains colons but they are illegal under Windows OS, so replacing them with '-'
     // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
@@ -168,10 +168,10 @@ bool DarkLibrary::saveDarkFile(FITSData *darkData)
     return true;
 }
 
-bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY)
+bool DarkLibrary::subtract(FITSData * darkData, FITSView * lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY)
 {
-   Q_ASSERT(darkData);
-   Q_ASSERT(lightImage);
+    Q_ASSERT(darkData);
+    Q_ASSERT(lightImage);
 
     switch (darkData->getDataType())
     {
@@ -205,21 +205,21 @@ bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale f
 
         case TDOUBLE:
             return subtract<double>(darkData, lightImage, filter, offsetX, offsetY);
-        break;
+            break;
 
         default:
-        break;
+            break;
     }
 
     return false;
 }
 
-template<typename T> bool DarkLibrary::subtract(FITSData *darkData, FITSView *lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY)
+template<typename T> bool DarkLibrary::subtract(FITSData * darkData, FITSView * lightImage, FITSScale filter, uint16_t offsetX, uint16_t offsetY)
 {
-    FITSData *lightData = lightImage->getImageData();
+    FITSData * lightData = lightImage->getImageData();
 
-    T *darkBuffer     = reinterpret_cast<T*>(darkData->getImageBuffer());
-    T *lightBuffer    = reinterpret_cast<T*>(lightData->getImageBuffer());
+    T * darkBuffer     = reinterpret_cast<T *>(darkData->getImageBuffer());
+    T * lightBuffer    = reinterpret_cast<T *>(lightData->getImageBuffer());
 
     int darkoffset   = offsetX + offsetY * darkData->getWidth();
     int darkW        = darkData->getWidth();
@@ -254,7 +254,7 @@ template<typename T> bool DarkLibrary::subtract(FITSData *darkData, FITSView *li
 
 }
 
-bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetImage, double duration, uint16_t offsetX, uint16_t offsetY)
+bool DarkLibrary::captureAndSubtract(ISD::CCDChip * targetChip, FITSView * targetImage, double duration, uint16_t offsetX, uint16_t offsetY)
 {
     QStringList shutterfulCCDs  = Options::shutterfulCCDs();
     QStringList shutterlessCCDs = Options::shutterlessCCDs();
@@ -285,10 +285,10 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetIm
     if (hasNoShutter)
     {
         if ( KMessageBox::warningContinueCancel(NULL, i18n("Cover the telescope or camera in order to take a dark exposure."), i18n("Dark Exposure"),
-                                                 KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "dark_exposure_dialog_notification") == KMessageBox::Cancel)
+                                                KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "dark_exposure_dialog_notification") == KMessageBox::Cancel)
         {
             emit newLog(i18n("Dark frame capture cancelled."));
-            disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+            disconnect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
             emit darkFrameCompleted(false);
             return false;
         }
@@ -304,7 +304,7 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetIm
     subtractParams.offsetX    = offsetX;
     subtractParams.offsetY    = offsetY;
 
-    connect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    connect(targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
 
     emit newLog(i18n("Capturing dark frame..."));
 
@@ -313,19 +313,19 @@ bool DarkLibrary::captureAndSubtract(ISD::CCDChip *targetChip, FITSView*targetIm
     return true;
 }
 
-void DarkLibrary::newFITS(IBLOB *bp)
+void DarkLibrary::newFITS(IBLOB * bp)
 {
     INDI_UNUSED(bp);
 
     Q_ASSERT(subtractParams.targetChip);
 
-    disconnect(subtractParams.targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    disconnect(subtractParams.targetChip->getCCD(), SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
 
-    FITSView *calibrationView = subtractParams.targetChip->getImageView(FITS_CALIBRATE);
+    FITSView * calibrationView = subtractParams.targetChip->getImageView(FITS_CALIBRATE);
 
     emit newLog(i18n("Dark frame received."));
 
-    FITSData *calibrationData = new FITSData();
+    FITSData * calibrationData = new FITSData();
 
     // Deep copy of the data
     if (calibrationData->loadFITS(calibrationView->getImageData()->getFilename()))

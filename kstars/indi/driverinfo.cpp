@@ -24,7 +24,7 @@ DriverInfo::DriverInfo(const QString &inName)
 
     driverSource  = PRIMARY_XML;
 
-      // Initially off
+    // Initially off
     serverState = false;
     clientState = false;
 
@@ -38,7 +38,7 @@ DriverInfo::DriverInfo(const QString &inName)
 
 }
 
-DriverInfo::DriverInfo(DriverInfo *di)
+DriverInfo::DriverInfo(DriverInfo * di)
 {
 
     name            = di->getName();
@@ -60,7 +60,7 @@ DriverInfo::DriverInfo(DriverInfo *di)
     devices         = di->getDevices();
 }
 
-DriverInfo* DriverInfo::clone()
+DriverInfo * DriverInfo::clone()
 {
     return new DriverInfo(this);
 }
@@ -81,7 +81,7 @@ void DriverInfo::clear()
 QString DriverInfo::getServerBuffer()
 {
     if (serverManager != NULL)
-           return serverManager->getLogBuffer();
+        return serverManager->getLogBuffer();
 
     return QString();
 }
@@ -125,20 +125,20 @@ void DriverInfo::setUserPort(const QString &inUserPort)
         userPort = "-1";
 }
 
-void DriverInfo::addDevice(DeviceInfo *idv)
+void DriverInfo::addDevice(DeviceInfo * idv)
 {
     devices.append(idv);
 }
 
-void DriverInfo::removeDevice(DeviceInfo *idv)
+void DriverInfo::removeDevice(DeviceInfo * idv)
 {
     devices.removeOne(idv);
     delete(idv);
 }
 
-DeviceInfo* DriverInfo::getDevice(const QString &deviceName)
+DeviceInfo * DriverInfo::getDevice(const QString &deviceName)
 {
-    foreach(DeviceInfo *idv, devices)
+    foreach(DeviceInfo * idv, devices)
     {
         if (idv->getBaseDevice()->getDeviceName() == deviceName)
             return idv;
@@ -157,7 +157,7 @@ void DriverInfo::setAuxInfo(const QVariantMap &value)
     auxInfo = value;
 }
 
-void DriverInfo::addAuxInfo(const QString & key, const QVariant & value)
+void DriverInfo::addAuxInfo(const QString &key, const QVariant &value)
 {
     auxInfo[key] = value;
 }

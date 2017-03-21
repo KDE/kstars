@@ -28,16 +28,17 @@
 #include "satellitegroup.h"
 #include "skymap.h"
 
-static const char *satgroup_strings_context = "Satellite group name";
+static const char * satgroup_strings_context = "Satellite group name";
 
-SatelliteSortFilterProxyModel::SatelliteSortFilterProxyModel( QObject* parent ): QSortFilterProxyModel( parent )
+SatelliteSortFilterProxyModel::SatelliteSortFilterProxyModel( QObject * parent ): QSortFilterProxyModel( parent )
 {}
 
-bool SatelliteSortFilterProxyModel::filterAcceptsRow( int sourceRow, const QModelIndex& sourceParent ) const
+bool SatelliteSortFilterProxyModel::filterAcceptsRow( int sourceRow, const QModelIndex &sourceParent ) const
 {
     QModelIndex index = sourceModel()->index( sourceRow, 0, sourceParent );
 
-    if ( sourceModel()->hasChildren( index ) ) {
+    if ( sourceModel()->hasChildren( index ) )
+    {
         for ( int i=0; i<sourceModel()->rowCount( index ); ++i )
             if ( filterAcceptsRow( i, index ) )
                 return true;
@@ -49,12 +50,12 @@ bool SatelliteSortFilterProxyModel::filterAcceptsRow( int sourceRow, const QMode
 
 
 OpsSatellites::OpsSatellites()
-        : QFrame(KStars::Instance())
+    : QFrame(KStars::Instance())
 {
     setupUi( this );
 
     m_ConfigDialog = KConfigDialog::exists( "settings" );
-    
+
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 1, this );
     m_SortModel = new SatelliteSortFilterProxyModel( this );
@@ -65,7 +66,7 @@ OpsSatellites::OpsSatellites()
 
     // Populate satellites list
     updateListView();
-    
+
     // Signals and slots connections
     connect( UpdateTLEButton, SIGNAL( clicked() ), this, SLOT( slotUpdateTLEs() ) );
     connect( kcfg_ShowSatellites, SIGNAL( toggled( bool ) ), SLOT( slotShowSatellites( bool ) ) );
@@ -73,14 +74,18 @@ OpsSatellites::OpsSatellites()
     connect( m_ConfigDialog->button(QDialogButtonBox::Ok), SIGNAL( clicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog->button(QDialogButtonBox::Cancel), SIGNAL( clicked() ), SLOT( slotCancel() ) );
     connect( FilterEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterReg( const QString & ) ) );
-    connect( m_Model, SIGNAL( itemChanged( QStandardItem* ) ), this, SLOT( slotItemChanged( QStandardItem* ) ) );
+    connect( m_Model, SIGNAL( itemChanged( QStandardItem * ) ), this, SLOT( slotItemChanged( QStandardItem * ) ) );
 
-    connect( satelliteButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&](){ isDirty = true;});
+    connect( satelliteButtonGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonPressed), this, [&]()
+    {
+        isDirty = true;
+    });
 
     isDirty = false;
 }
 
-OpsSatellites::~OpsSatellites() {
+OpsSatellites::~OpsSatellites()
+{
 
 }
 
@@ -100,7 +105,7 @@ void OpsSatellites::slotUpdateTLEs()
 
 void OpsSatellites::updateListView()
 {
-    KStarsData* data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
 
     // Clear satellites list
     m_Model->clear();
@@ -109,31 +114,35 @@ void OpsSatellites::updateListView()
     m_Model->setHorizontalHeaderLabels( QStringList( i18n( "Satellite name" ) ) );
 
     // Add each groups and satellites in the list
-    foreach ( SatelliteGroup* sat_group, data->skyComposite()->satellites()->groups() ) {
-        QStandardItem* group_item;
-        QStandardItem* sat_item;
+    foreach ( SatelliteGroup * sat_group, data->skyComposite()->satellites()->groups() )
+    {
+        QStandardItem * group_item;
+        QStandardItem * sat_item;
         bool all_sat_checked = true;
         bool all_sat_unchecked = true;
-        
+
         // Add the group
         group_item = new QStandardItem( i18nc( satgroup_strings_context, sat_group->name().toUtf8() ) );
         group_item->setCheckable( true );
         m_Model->appendRow( group_item );
-        
-        
+
+
         // Add all satellites of the group
-        for ( int i=0; i<sat_group->count(); ++i ) {
+        for ( int i=0; i<sat_group->count(); ++i )
+        {
             sat_item = new QStandardItem( sat_group->at(i)->name() );
             sat_item->setCheckable( true );
-            if ( Options::selectedSatellites().contains( sat_group->at(i)->name() ) ) {
+            if ( Options::selectedSatellites().contains( sat_group->at(i)->name() ) )
+            {
                 sat_item->setCheckState( Qt::Checked );
                 all_sat_unchecked = false;
-            } else
+            }
+            else
                 all_sat_checked = false;
             group_item->setChild( i, sat_item );
         }
-        
-        // If all satellites of the group are selected, select the group 
+
+        // If all satellites of the group are selected, select the group
         if ( all_sat_checked )
             group_item->setCheckState( Qt::Checked );
         else if ( all_sat_unchecked )
@@ -145,12 +154,12 @@ void OpsSatellites::updateListView()
 
 void OpsSatellites::saveSatellitesList()
 {
-    KStarsData* data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     QString sat_name;
     QStringList selected_satellites;
     QModelIndex group_index, sat_index;
-    QStandardItem* group_item;
-    QStandardItem* sat_item;
+    QStandardItem * group_item;
+    QStandardItem * sat_item;
 
     // Retrieve each satellite in the list and select it if checkbox is checked
     for ( int i=0; i<m_Model->rowCount( SatListTreeView->rootIndex() ); ++i )
@@ -164,7 +173,7 @@ void OpsSatellites::saveSatellitesList()
             sat_item = m_Model->itemFromIndex( sat_index );
             sat_name = sat_item->data( 0 ).toString();
 
-            Satellite *sat = data->skyComposite()->satellites()->findSatellite( sat_name );
+            Satellite * sat = data->skyComposite()->satellites()->findSatellite( sat_name );
             if ( sat )
             {
                 if ( sat_item->checkState() == Qt::Checked )
@@ -224,11 +233,11 @@ void OpsSatellites::slotShowSatellites( bool on )
     kcfg_DrawSatellitesLikeStars->setEnabled( on );
 }
 
-void OpsSatellites::slotFilterReg( const QString& filter )
+void OpsSatellites::slotFilterReg( const QString &filter )
 {
     m_SortModel->setFilterRegExp( QRegExp( filter, Qt::CaseInsensitive, QRegExp::RegExp ) );
     m_SortModel->setFilterKeyColumn( -1 );
-    
+
     isDirty = true;
 
     // Expand all categories when the user use filter
@@ -238,55 +247,61 @@ void OpsSatellites::slotFilterReg( const QString& filter )
         SatListTreeView->collapseAll();
 }
 
-void OpsSatellites::slotItemChanged( QStandardItem* item )
+void OpsSatellites::slotItemChanged( QStandardItem * item )
 {
-    if( item->parent() == 0 && !item->hasChildren() ) {
+    if( item->parent() == 0 && !item->hasChildren() )
+    {
         return;
     }
 
     isDirty = true;
 
     QModelIndex sat_index;
-    QStandardItem* sat_item;
-    
-    disconnect( m_Model, SIGNAL( itemChanged( QStandardItem* ) ), this, SLOT( slotItemChanged( QStandardItem* ) ) );
-    
+    QStandardItem * sat_item;
+
+    disconnect( m_Model, SIGNAL( itemChanged( QStandardItem * ) ), this, SLOT( slotItemChanged( QStandardItem * ) ) );
+
     // If a group has been (un)checked, (un)check all satellites of the group
     // else a satellite has been (un)checked, (un)check his group
-    if ( item->hasChildren() ) {
-        for ( int i=0; i<m_Model->rowCount( item->index() ); ++i ) {
+    if ( item->hasChildren() )
+    {
+        for ( int i=0; i<m_Model->rowCount( item->index() ); ++i )
+        {
             sat_index = m_Model->index( i, 0, item->index() );
             sat_item = m_Model->itemFromIndex( sat_index );
-            
+
             if ( item->checkState() == Qt::Checked )
                 sat_item->setCheckState( Qt::Checked );
             else
                 sat_item->setCheckState( Qt::Unchecked );
         }
-    } else {
+    }
+    else
+    {
         bool all_sat_checked = true;
         bool all_sat_unchecked = true;
-        
-        for ( int i=0; i<item->parent()->model()->rowCount( item->parent()->index() ); ++i ) {
+
+        for ( int i=0; i<item->parent()->model()->rowCount( item->parent()->index() ); ++i )
+        {
             sat_index = m_Model->index( i, 0, item->parent()->index() );
             sat_item = m_Model->itemFromIndex( sat_index );
-            
+
             if ( sat_item->checkState() == Qt::Checked )
                 all_sat_unchecked = false;
             else
                 all_sat_checked = false;
         }
-        
+
         if ( all_sat_checked )
             item->parent()->setCheckState( Qt::Checked );
         else if ( all_sat_unchecked )
             item->parent()->setCheckState( Qt::Unchecked );
         else
             item->parent()->setCheckState( Qt::PartiallyChecked );
-        
+
     }
-    
-    connect( m_Model, SIGNAL( itemChanged( QStandardItem* ) ), this, SLOT( slotItemChanged( QStandardItem* ) ) );
+
+    connect( m_Model, SIGNAL( itemChanged( QStandardItem * ) ), this, SLOT( slotItemChanged( QStandardItem * ) ) );
 }
 
 

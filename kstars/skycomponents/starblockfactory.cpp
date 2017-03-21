@@ -24,15 +24,17 @@
 // TODO: Implement a better way of deciding this
 #define DEFAULT_NCACHE 12
 
-StarBlockFactory *StarBlockFactory::pInstance = 0;
+StarBlockFactory * StarBlockFactory::pInstance = 0;
 
-StarBlockFactory *StarBlockFactory::Instance() {
+StarBlockFactory * StarBlockFactory::Instance()
+{
     if( !pInstance )
         pInstance = new StarBlockFactory();
     return pInstance;
 }
 
-StarBlockFactory::StarBlockFactory() {
+StarBlockFactory::StarBlockFactory()
+{
     first = NULL;
     last = NULL;
     nBlocks = 0;
@@ -40,22 +42,27 @@ StarBlockFactory::StarBlockFactory() {
     nCache = DEFAULT_NCACHE;
 }
 
-StarBlockFactory::~StarBlockFactory() {
+StarBlockFactory::~StarBlockFactory()
+{
     deleteBlocks( nBlocks );
     if( pInstance )
         pInstance = 0;
 }
 
-StarBlock *StarBlockFactory::getBlock() {
-    StarBlock *freeBlock = NULL;
-    if( nBlocks < nCache ) {
+StarBlock * StarBlockFactory::getBlock()
+{
+    StarBlock * freeBlock = NULL;
+    if( nBlocks < nCache )
+    {
         freeBlock = new StarBlock;
-        if( freeBlock ) {
+        if( freeBlock )
+        {
             ++nBlocks;
             return freeBlock;
         }
     }
-    if( last && ( last->drawID != drawID || last->drawID == 0 ) ) {
+    if( last && ( last->drawID != drawID || last->drawID == 0 ) )
+    {
         //        qDebug() << "Recycling block with drawID =" << last->drawID << "and current drawID =" << drawID;
         if( last->parent->block( last->parent->getBlockCount() - 1 ) != last )
             qDebug() << "ERROR: Goof up here!";
@@ -76,13 +83,15 @@ StarBlock *StarBlockFactory::getBlock() {
     return freeBlock;
 }
 
-bool StarBlockFactory::markFirst( StarBlock *block ) {
+bool StarBlockFactory::markFirst( StarBlock * block )
+{
 
     if( !block )
         return false;
 
     //    fprintf(stderr, "markFirst()!\n");
-    if( !first ) {
+    if( !first )
+    {
         //        qDebug() << "INFO: Linking in first block" << endl;
         last = first = block;
         first->prev = first->next = NULL;
@@ -90,7 +99,8 @@ bool StarBlockFactory::markFirst( StarBlock *block ) {
         return true;
     }
 
-    if( block == first ) { // Block is already in the front
+    if( block == first )   // Block is already in the front
+    {
         block->drawID = drawID;
         return true;
     }
@@ -100,7 +110,7 @@ bool StarBlockFactory::markFirst( StarBlock *block ) {
 
     if( block->prev )
         block->prev->next = block->next;
-    
+
     if( block->next )
         block->next->prev = block->prev;
 
@@ -114,39 +124,47 @@ bool StarBlockFactory::markFirst( StarBlock *block ) {
     return true;
 }
 
-bool StarBlockFactory::markNext( StarBlock *after, StarBlock *block ) {
+bool StarBlockFactory::markNext( StarBlock * after, StarBlock * block )
+{
 
     //    fprintf(stderr, "markNext()!\n");
-    if( !block || !after ) {
+    if( !block || !after )
+    {
         qDebug() << "WARNING: markNext called with NULL argument" << endl;
         return false;
     }
 
-    if( !first ) {
+    if( !first )
+    {
         qDebug() << "WARNING: markNext called without an existing linked list" << endl;
         return false;
     }
 
-    if( block == after ) {
+    if( block == after )
+    {
         qDebug() << "ERROR: Trying to mark a block after itself!" << endl;
         return false;
     }
 
-    if( block->prev == after ) { // Block is already after 'after'
+    if( block->prev == after )   // Block is already after 'after'
+    {
         block->drawID = drawID;
         return true;
     }
 
-    if( block == first ) {
-        if( block->next == NULL ) {
+    if( block == first )
+    {
+        if( block->next == NULL )
+        {
             qDebug() << "ERROR: Trying to mark only block after some other block";
             return false;
         }
         first = block->next;
     }
 
-    if( after->getFaintMag() > block->getFaintMag() && block->getFaintMag() != -5 ) {
-        qDebug() << "WARNING: Marking block with faint mag = " << block->getFaintMag() << " after block with faint mag " 
+    if( after->getFaintMag() > block->getFaintMag() && block->getFaintMag() != -5 )
+    {
+        qDebug() << "WARNING: Marking block with faint mag = " << block->getFaintMag() << " after block with faint mag "
                  << after->getFaintMag() << "in trixel" << block->parent->getTrixel();
     }
 
@@ -219,12 +237,14 @@ bool StarBlockFactory::groupMove( StarBlock *start, const int nblocks ) {
 }
 */
 
-int StarBlockFactory::deleteBlocks( int nblocks ) {
+int StarBlockFactory::deleteBlocks( int nblocks )
+{
     int i;
-    StarBlock *temp;
+    StarBlock * temp;
 
     i = 0;
-    while( last != NULL && i != nblocks ) {
+    while( last != NULL && i != nblocks )
+    {
         temp = last->prev;
         delete last;
         last = temp;
@@ -241,38 +261,46 @@ int StarBlockFactory::deleteBlocks( int nblocks ) {
     return i;
 }
 
-void StarBlockFactory::printStructure() const {
+void StarBlockFactory::printStructure() const
+{
 
-    StarBlock *cur;
+    StarBlock * cur;
     Trixel curTrixel = 513; // TODO: Change if we change HTMesh level
     int index;
     bool draw = false;
     cur = first;
     index = 0;
-    do {
-        if( curTrixel != cur->parent->getTrixel() ) {
+    do
+    {
+        if( curTrixel != cur->parent->getTrixel() )
+        {
             qDebug() << "Trixel" << cur->parent->getTrixel() << "starts at index" << index << endl;
             curTrixel = cur->parent->getTrixel();
         }
-        if( cur->drawID == drawID && !draw ) {
+        if( cur->drawID == drawID && !draw )
+        {
             qDebug() << "Blocks from index" << index << "are drawn";
             draw = true;
         }
-        if( cur->drawID != drawID && draw ) {
+        if( cur->drawID != drawID && draw )
+        {
             qDebug() << "Blocks from index" << index << "are not drawn";
             draw = false;
         }
         cur = cur->next;
         ++index;
-    }while( cur != last );
+    }
+    while( cur != last );
 }
 
-int StarBlockFactory::freeUnused() {
+int StarBlockFactory::freeUnused()
+{
     int i;
-    StarBlock *temp;
+    StarBlock * temp;
 
     i = 0;
-    while( last != NULL && last->drawID < drawID && i != nBlocks ) {
+    while( last != NULL && last->drawID < drawID && i != nBlocks )
+    {
         temp = last->prev;
         delete last;
         last = temp;

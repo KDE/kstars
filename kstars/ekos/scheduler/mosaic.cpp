@@ -47,10 +47,10 @@ QRectF MosaicTile::boundingRect() const
     return QRectF(0, 0, w*fovW, h*fovH);
 }
 
-void MosaicTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+void MosaicTile::paint(QPainter * painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 
-  if (w == 1 && h == 1)
+    if (w == 1 && h == 1)
         return;
 
     QFont defaultFont = painter->font();
@@ -61,11 +61,11 @@ void MosaicTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
     //double center_y = (h*fovH)/2.0;
 
     //double center_x = parentItem()->boundingRect().center().x();
-   // double center_y = parentItem()->boundingRect().center().y();
+    // double center_y = parentItem()->boundingRect().center().y();
 
 
 //    painter->save();
-   // QTransform transform;
+    // QTransform transform;
     //transform.translate(center_x, center_y);
     //transform.rotate(pa);
     //transform.translate(-center_x, -center_y);
@@ -81,7 +81,7 @@ void MosaicTile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
     {
         for (int col=0; col < w; col++)
         {
-            OneTile *tile = getTile(row, col);
+            OneTile * tile = getTile(row, col);
             QRect oneRect(tile->pos.x(), tile->pos.y(), fovW, fovH);
 
             painter->setPen(pen);
@@ -106,7 +106,7 @@ QList<OneTile *> MosaicTile::getTiles() const
 }
 
 
-OneTile *MosaicTile::getTile(int row, int col)
+OneTile * MosaicTile::getTile(int row, int col)
 {
     int offset = row * w + col;
     if (offset < 0 || offset > tiles.size())
@@ -137,7 +137,7 @@ void MosaicTile::updateTiles()
 
         for (int col=0; col < w; col++)
         {
-            OneTile *tile = new OneTile();
+            OneTile * tile = new OneTile();
             tile->pos.setX(x);
             tile->pos.setY(y);
 
@@ -162,8 +162,8 @@ void MosaicTile::updateTiles()
     {
         for (int col=0; col < w; col++)
         {
-                  OneTile *tile = getTile(row, col);
-                  tile->center_rot = rotatePoint(tile->center, centerPoint);
+            OneTile * tile = getTile(row, col);
+            tile->center_rot = rotatePoint(tile->center, centerPoint);
         }
     }
 
@@ -185,14 +185,14 @@ QPointF MosaicTile::rotatePoint(QPointF pointToRotate, QPointF centerPoint)
 
 QPointF MosaicTile::getTileCenter(int row, int col)
 {
-    OneTile *tile = getTile(row, col);
+    OneTile * tile = getTile(row, col);
     if (tile == NULL)
         return QPointF();
     else
         return tile->center_rot;
 }
 
-Mosaic::Mosaic(Scheduler *scheduler)
+Mosaic::Mosaic(Scheduler * scheduler)
 {
     setupUi(this);
 
@@ -225,7 +225,7 @@ Mosaic::Mosaic(Scheduler *scheduler)
     //mosaicView->setResizeAnchor(QGraphicsView::AnchorViewCenter);
 
 
-   // scene.addItem(mosaicTile);
+    // scene.addItem(mosaicTile);
 
 }
 
@@ -299,8 +299,8 @@ void Mosaic::calculateFOV()
 
 void Mosaic::updateTargetFOV()
 {
-    KStars *ks = KStars::Instance();
-    SkyMap *map = SkyMap::Instance();
+    KStars * ks = KStars::Instance();
+    SkyMap * map = SkyMap::Instance();
 
     // Save the current state of the sky map
     //SkyPoint *oldFocus = map->focus();
@@ -320,9 +320,9 @@ void Mosaic::updateTargetFOV()
 
     // Repeat -- dirty workaround for some problem in KStars
 
-   /* map->setClickedPoint(&center);
-    map->slotCenter();
-    qApp->processEvents();*/
+    /* map->setClickedPoint(&center);
+     map->slotCenter();
+     qApp->processEvents();*/
 
     pixelPerArcmin = Options::zoomFactor() * dms::DegToRad / 60.0;
 
@@ -337,7 +337,7 @@ void Mosaic::updateTargetFOV()
     // Get the sky map image
     if( m_skyChart )
         delete m_skyChart;
-    QImage *fullSkyChart = new QImage( QSize( map->width(), map->height() ), QImage::Format_RGB32 );
+    QImage * fullSkyChart = new QImage( QSize( map->width(), map->height() ), QImage::Format_RGB32 );
     map->exportSkyImage( fullSkyChart, false ); // FIXME: This might make everything too small, should really use a mask and clip it down!
     qApp->processEvents();
     //m_skyChart = new QImage( fullSkyChart->copy( map->width()/2.0 - map->width()/8.0, map->height()/2.0 - map->height()/8.0, map->width()/4.0, map->height()/4.0 ) );
@@ -372,13 +372,13 @@ void Mosaic::updateTargetFOV()
     // Render the display
     //render();
 
-     targetPix = QPixmap::fromImage(*m_skyChart);
-     targetItem->setPixmap(targetPix);
+    targetPix = QPixmap::fromImage(*m_skyChart);
+    targetItem->setPixmap(targetPix);
 
     // qDebug() << "Pixmap w " << targetPix.width() << " h " << targetPix.height();
     // QRectF bound = (targetItem->boundingRect());
-     scene.setSceneRect(targetItem->boundingRect());
-   // mosaicView->fitInView(targetItem, Qt::KeepAspectRatio);
+    scene.setSceneRect(targetItem->boundingRect());
+    // mosaicView->fitInView(targetItem, Qt::KeepAspectRatio);
     // mosaicView->resize(targetItem->boundingRect().width(), targetItem->boundingRect().height());
 
 
@@ -390,8 +390,8 @@ void Mosaic::render()
     if (m_skyChart == NULL)
         return;
 
-   // targetPix = QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio );
-   // targetItem->setPixmap(targetPix);
+    // targetPix = QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio );
+    // targetItem->setPixmap(targetPix);
 
     //targetPix = QPixmap::fromImage( *m_skyChart ).scaled( mosaicView->width(), mosaicView->height(), Qt::KeepAspectRatio );
     //targetItem->setPixmap(targetPix);
@@ -399,7 +399,7 @@ void Mosaic::render()
     //double scale_x = (double) targetPix.width() / (double) m_skyChart->width();
     //double scale_y = (double) targetPix.height() / (double) m_skyChart->height();
 
-   // mosaicTile->moveBy(center_x, center_y);
+    // mosaicTile->moveBy(center_x, center_y);
 
     //QPointF tile1Center = mosaicTile->scenePos();
     mosaicTile->setTransformOriginPoint(mosaicTile->boundingRect().center());
@@ -425,14 +425,14 @@ void Mosaic::render()
 
 void Mosaic::resizeEvent(QResizeEvent *)
 {
-       //QRectF bounds = scene.itemsBoundingRect();
-        QRectF bounds = targetItem->boundingRect();
-       bounds.setWidth(bounds.width()*1.1);
-       bounds.setHeight(bounds.height()*1.1);
-       bounds.setWidth(bounds.width());
-       bounds.setHeight(bounds.height());
-       mosaicView->fitInView(bounds, Qt::KeepAspectRatio);
-       mosaicView->centerOn(0, 0);
+    //QRectF bounds = scene.itemsBoundingRect();
+    QRectF bounds = targetItem->boundingRect();
+    bounds.setWidth(bounds.width()*1.1);
+    bounds.setHeight(bounds.height()*1.1);
+    bounds.setWidth(bounds.width());
+    bounds.setHeight(bounds.height());
+    mosaicView->fitInView(bounds, Qt::KeepAspectRatio);
+    mosaicView->centerOn(0, 0);
 
 }
 
@@ -464,8 +464,8 @@ void Mosaic::constructMosaic()
 
     //if (cameraWFOVSpin->value() == 0)
     //{
-        calculateFOV();
-        showEvent(NULL);
+    calculateFOV();
+    showEvent(NULL);
     //}
 
     if (mosaicWSpin->value() > 1 || mosaicHSpin->value() > 1)
@@ -514,7 +514,7 @@ void Mosaic::createJobs()
 
     center.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
-    SkyMap *map = SkyMap::Instance();
+    SkyMap * map = SkyMap::Instance();
 
     map->setFocusObject(NULL);
     map->setClickedPoint(&center);
@@ -532,8 +532,8 @@ void Mosaic::createJobs()
 
         for (int j=0; j < mosaicTile->getWidth(); j++)
         {
-            OneTile *tile = mosaicTile->getTile(i, j);
-            qDebug() << "Tile # " << i*mosaicTile->getWidth() + j << " X " << tile->center.x() << " Y " << tile->center.y() << endl;
+            OneTile * tile = mosaicTile->getTile(i, j);
+            qDebug() << "Tile # " << i * mosaicTile->getWidth() + j << " X " << tile->center.x() << " Y " << tile->center.y() << endl;
             qDebug() << "Scene coords" << mosaicTile->mapToScene(tile->center);
             qDebug() << "Rotated coords" << tile->center_rot;
 

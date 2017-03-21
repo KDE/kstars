@@ -5,9 +5,9 @@
 } Vertex;
 */
 void tessellate
-    (double **verts,
-     int *nverts,
-     int **tris,
-     int *ntris,
-     const double **contoursbegin, 
-     const double **contoursend);
+(double ** verts,
+ int * nverts,
+ int ** tris,
+ int * ntris,
+ const double ** contoursbegin,
+ const double ** contoursend);

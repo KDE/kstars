@@ -35,7 +35,7 @@
 
 #define TIMEOUT_THRESHOLD	20
 
-telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*name*/ ) : QDialog(parent)
+telescopeWizardProcess::telescopeWizardProcess( QWidget * parent, const char * /*name*/ ) : QDialog(parent)
 {
     currentPort  = -1;
     timeOutCount = 0;
@@ -72,7 +72,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
                                   .arg(KStars::Instance()->data()->geo()->translatedCountry()));
 
 
-    foreach (DriverInfo *dv, DriverManager::Instance()->getDrivers())
+    foreach (DriverInfo * dv, DriverManager::Instance()->getDrivers())
     {
         if (dv->getType() == KSTARS_TELESCOPE)
         {
@@ -82,7 +82,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
     }
 
     portList << "/dev/ttyS0" <<  "/dev/ttyS1" << "/dev/ttyS2" << "/dev/ttyS3" << "/dev/ttyS4"
-    << "/dev/ttyUSB0" << "/dev/ttyUSB1" << "/dev/ttyUSB2" << "/dev/ttyUSB3";
+             << "/dev/ttyUSB0" << "/dev/ttyUSB1" << "/dev/ttyUSB2" << "/dev/ttyUSB3";
 
     connect(ui->helpB, SIGNAL(clicked()), parent, SLOT(appHelpActivated()));
     connect(ui->cancelB, SIGNAL(clicked()), this, SLOT(cancelCheck()));
@@ -108,15 +108,15 @@ void telescopeWizardProcess::cancelCheck(void)
 {
     switch (currentPage)
     {
-    case TELESCOPE_P:
-    case LOCAL_P:
-    case PORT_P:
-	if ( KMessageBox::warningYesNo(0, i18n("Are you sure you want to cancel?")) == KMessageBox::Yes )
-	    emit reject();
-	break;
-    default:
-	emit reject();
-	break;
+        case TELESCOPE_P:
+        case LOCAL_P:
+        case PORT_P:
+            if ( KMessageBox::warningYesNo(0, i18n("Are you sure you want to cancel?")) == KMessageBox::Yes )
+                emit reject();
+            break;
+        default:
+            emit reject();
+            break;
     }
 }
 
@@ -125,28 +125,28 @@ void telescopeWizardProcess::processNext(void)
 
     switch (currentPage)
     {
-    case INTRO_P:
-        currentPage++;
-        ui->backB->show();
-        ui->wizardContainer->setCurrentIndex(currentPage);
-        break;
-    case MODEL_P:
-        currentPage++;
-        ui->wizardContainer->setCurrentIndex(currentPage);
-        break;
-    case TELESCOPE_P:
-        currentPage++;
-        ui->wizardContainer->setCurrentIndex(currentPage);
-        break;
-    case LOCAL_P:
-        currentPage++;
-        ui->wizardContainer->setCurrentIndex(currentPage);
-        break;
-    case PORT_P:
-        establishLink();
-        break;
-    default:
-        break;
+        case INTRO_P:
+            currentPage++;
+            ui->backB->show();
+            ui->wizardContainer->setCurrentIndex(currentPage);
+            break;
+        case MODEL_P:
+            currentPage++;
+            ui->wizardContainer->setCurrentIndex(currentPage);
+            break;
+        case TELESCOPE_P:
+            currentPage++;
+            ui->wizardContainer->setCurrentIndex(currentPage);
+            break;
+        case LOCAL_P:
+            currentPage++;
+            ui->wizardContainer->setCurrentIndex(currentPage);
+            break;
+        case PORT_P:
+            establishLink();
+            break;
+        default:
+            break;
     }
 
 }
@@ -157,29 +157,29 @@ void telescopeWizardProcess::processBack(void)
 
     switch (currentPage)
     {
-    case INTRO_P:
-        // we shouldn't be here!
-        break;
-        break;
-    case MODEL_P:
-        currentPage--;
-        ui->backB->hide();
-        ui->wizardContainer->setCurrentIndex(currentPage);
-        break;
-    case TELESCOPE_P:
-        currentPage--;
-        ui->wizardContainer->setCurrentIndex(currentPage);
-        break;
-    case LOCAL_P:
-        currentPage--;
-        ui->wizardContainer->setCurrentIndex(currentPage);
-        break;
-    case PORT_P:
-        currentPage--;
-        ui->wizardContainer->setCurrentIndex(currentPage);
-        break;
-    default:
-        break;
+        case INTRO_P:
+            // we shouldn't be here!
+            break;
+            break;
+        case MODEL_P:
+            currentPage--;
+            ui->backB->hide();
+            ui->wizardContainer->setCurrentIndex(currentPage);
+            break;
+        case TELESCOPE_P:
+            currentPage--;
+            ui->wizardContainer->setCurrentIndex(currentPage);
+            break;
+        case LOCAL_P:
+            currentPage--;
+            ui->wizardContainer->setCurrentIndex(currentPage);
+            break;
+        case PORT_P:
+            currentPage--;
+            ui->wizardContainer->setCurrentIndex(currentPage);
+            break;
+        default:
+            break;
     }
 
 }
@@ -201,11 +201,11 @@ void telescopeWizardProcess::newTime()
 void telescopeWizardProcess::newLocation()
 {
     KStars::Instance()->slotGeoLocator();
-    GeoLocation* geo = KStars::Instance()->data()->geo();
+    GeoLocation * geo = KStars::Instance()->data()->geo();
     ui->locationOut->setText( QString("%1, %2, %3")
-                                  .arg( geo->translatedName() )
-                                  .arg( geo->translatedProvince() )
-                                  .arg( geo->translatedCountry()) );
+                              .arg( geo->translatedName() )
+                              .arg( geo->translatedProvince() )
+                              .arg( geo->translatedCountry()) );
     ui->timeOut->setText( QString().sprintf("%02d:%02d:%02d",
                                             KStars::Instance()->data()->lt().time().hour(),
                                             KStars::Instance()->data()->lt().time().minute(),
@@ -220,13 +220,13 @@ void telescopeWizardProcess::establishLink()
 {
     managedDevice.clear();
 
-    DriverInfo *dv = driversList.value(ui->telescopeCombo->currentText());
+    DriverInfo * dv = driversList.value(ui->telescopeCombo->currentText());
 
     if (dv == NULL)
         return;
 
     managedDevice.append(dv);
-    connect(INDIListener::Instance(), SIGNAL(newDevice(ISD::GDInterface*)), this, SLOT(processTelescope(ISD::GDInterface*)));
+    connect(INDIListener::Instance(), SIGNAL(newDevice(ISD::GDInterface *)), this, SLOT(processTelescope(ISD::GDInterface *)));
 
     if (ui->portIn->text().isEmpty())
     {
@@ -256,13 +256,13 @@ void telescopeWizardProcess::establishLink()
         }
     }
     else
-       processTelescope(INDIListener::Instance()->getDevice(dv->getName()));
+        processTelescope(INDIListener::Instance()->getDevice(dv->getName()));
 
 
 }
 
-void telescopeWizardProcess::processTelescope(ISD::GDInterface *telescope)
-{    
+void telescopeWizardProcess::processTelescope(ISD::GDInterface * telescope)
+{
     if (telescope == NULL)
         return;
 

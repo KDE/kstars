@@ -24,22 +24,22 @@ class KConfigDialog;
  */
 class OpsINDI : public QFrame, public Ui::OpsINDI
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    OpsINDI();
-    ~OpsINDI();
+    public:
+        OpsINDI();
+        ~OpsINDI();
 
-private slots:
-    void saveFITSDirectory();
-    void saveDriversDirectory();
-    void slotShowLogFiles();
-    void toggleINDIInternal();
-    void toggleDriversInternal();
-    void verifyINDIServer();
+    private slots:
+        void saveFITSDirectory();
+        void saveDriversDirectory();
+        void slotShowLogFiles();
+        void toggleINDIInternal();
+        void toggleDriversInternal();
+        void verifyINDIServer();
 
-private:
-    KConfigDialog *m_ConfigDialog;
+    private:
+        KConfigDialog * m_ConfigDialog;
 };
 
 #endif

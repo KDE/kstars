@@ -27,18 +27,46 @@
  *
  * Information of user filters
  */
-class OAL::Filter {
+class OAL::Filter
+{
     public:
-        Filter( const QString& id, const QString& model, const QString& vendor, const QString& type, const QString &offset, const QString& color ) { setFilter( id, model, vendor, type, offset, color ); }
-        QString id() const { return m_Id; }
-        QString name() const { return m_Name; }
-        QString model() const { return m_Model; }
-        QString vendor() const { return m_Vendor; }
-        QString type() const { return m_Type; }
-        QString color() const { return m_Color; }
-        QString offset() const { return m_Offset; }
-        void setOffset(const QString & _offset) { m_Offset = _offset; }
-        void setFilter( const QString& _id, const QString &_model, const QString& _vendor, const QString &_type, const QString& _offset, const QString& _color );
+        Filter( const QString &id, const QString &model, const QString &vendor, const QString &type, const QString &offset, const QString &color )
+        {
+            setFilter( id, model, vendor, type, offset, color );
+        }
+        QString id() const
+        {
+            return m_Id;
+        }
+        QString name() const
+        {
+            return m_Name;
+        }
+        QString model() const
+        {
+            return m_Model;
+        }
+        QString vendor() const
+        {
+            return m_Vendor;
+        }
+        QString type() const
+        {
+            return m_Type;
+        }
+        QString color() const
+        {
+            return m_Color;
+        }
+        QString offset() const
+        {
+            return m_Offset;
+        }
+        void setOffset(const QString &_offset)
+        {
+            m_Offset = _offset;
+        }
+        void setFilter( const QString &_id, const QString &_model, const QString &_vendor, const QString &_type, const QString &_offset, const QString &_color );
     private:
         QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name, m_Offset;
 };

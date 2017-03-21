@@ -54,10 +54,12 @@
 
 #include "kstarslite/deviceorientation.h"
 
-namespace {
+namespace
+{
 
 // Draw bitmap for zoom cursor. Width is size of pen to draw with.
-QBitmap zoomCursorBitmap(int width) {
+QBitmap zoomCursorBitmap(int width)
+{
     QBitmap b(32, 32);
     b.fill(Qt::color0);
     int mx = 16, my = 16;
@@ -72,7 +74,8 @@ QBitmap zoomCursorBitmap(int width) {
 }
 
 // Draw bitmap for default cursor. Width is size of pen to draw with.
-QBitmap defaultCursorBitmap(int width) {
+QBitmap defaultCursorBitmap(int width)
+{
     QBitmap b(32, 32);
     b.fill(Qt::color0);
     int mx = 16, my = 16;
@@ -91,20 +94,20 @@ QBitmap defaultCursorBitmap(int width) {
 }
 }
 
-SkyMapLite *SkyMapLite::pinstance = 0;
+SkyMapLite * SkyMapLite::pinstance = 0;
 
-RootNode *SkyMapLite::m_rootNode = nullptr;
+RootNode * SkyMapLite::m_rootNode = nullptr;
 
 int SkyMapLite::starColorMode = 0;
 
 SkyMapLite::SkyMapLite()
     :m_proj(0), count(0), data(KStarsData::Instance()),
-      nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0),
-      isInitialized(false), clearTextures(false), m_centerLocked(false), m_automaticMode(false),
-      m_skyRotation(0), m_skyMapOrientation(SkyMapOrientation::Top0)
-    #if defined (Q_OS_ANDROID)
+     nStarSizes(15), nSPclasses(7), pinch(false), m_loadingFinished(false), m_sizeMagLim(10.0),
+     isInitialized(false), clearTextures(false), m_centerLocked(false), m_automaticMode(false),
+     m_skyRotation(0), m_skyMapOrientation(SkyMapOrientation::Top0)
+#if defined (Q_OS_ANDROID)
     , m_deviceOrientation(new DeviceOrientation(this))
-    #endif
+#endif
 {
     setAcceptHoverEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
@@ -137,10 +140,16 @@ SkyMapLite::SkyMapLite()
     connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
     connect( KStarsData::Instance(), SIGNAL( skyUpdate( bool ) ), this, SLOT( slotUpdateSky( bool ) ) );
 
-    ClientManagerLite *clientMng = KStarsLite::Instance()->clientManagerLite();
+    ClientManagerLite * clientMng = KStarsLite::Instance()->clientManagerLite();
 
-    connect(clientMng, &ClientManagerLite::telescopeAdded, [this](TelescopeLite *newTelescope){ this->m_newTelescopes.append(newTelescope->getDevice()); });
-    connect(clientMng, &ClientManagerLite::telescopeRemoved, [this](TelescopeLite *newTelescope){ this->m_delTelescopes.append(newTelescope->getDevice()); });
+    connect(clientMng, &ClientManagerLite::telescopeAdded, [this](TelescopeLite *newTelescope)
+    {
+        this->m_newTelescopes.append(newTelescope->getDevice());
+    });
+    connect(clientMng, &ClientManagerLite::telescopeRemoved, [this](TelescopeLite *newTelescope)
+    {
+        this->m_delTelescopes.append(newTelescope->getDevice());
+    });
 #if defined (Q_OS_ANDROID)
     //Automatic mode
     automaticModeTimer.setInterval(1);
@@ -150,29 +159,36 @@ SkyMapLite::SkyMapLite()
 //    setRotation(30);
 }
 
-QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
+QSGNode * SkyMapLite::updatePaintNode(QSGNode * oldNode, UpdatePaintNodeData * updatePaintNodeData)
+{
     Q_UNUSED(updatePaintNodeData);
-    RootNode *n = static_cast<RootNode*>(oldNode);
+    RootNode * n = static_cast<RootNode *>(oldNode);
 
     /* This code deletes all nodes that are representing dynamic stars and not needed anymore (under construction) */
     //qDeleteAll(m_deleteNodes);
     //m_deleteNodes.clear();
 
-    if(m_loadingFinished && isInitialized) {
-        if(!n) {
+    if(m_loadingFinished && isInitialized)
+    {
+        if(!n)
+        {
             n = new RootNode();
             m_rootNode = n;
         }
         /** Add or delete telescope crosshairs **/
-        if(m_newTelescopes.count() > 0) {
-            foreach(INDI::BaseDevice *telescope, m_newTelescopes) {
+        if(m_newTelescopes.count() > 0)
+        {
+            foreach(INDI::BaseDevice * telescope, m_newTelescopes)
+            {
                 n->telescopeSymbolsItem()->addTelescope(telescope);
             }
             m_newTelescopes.clear();
         }
 
-        if(m_delTelescopes.count() > 0) {
-            foreach(INDI::BaseDevice *telescope, m_delTelescopes) {
+        if(m_delTelescopes.count() > 0)
+        {
+            foreach(INDI::BaseDevice * telescope, m_delTelescopes)
+            {
                 n->telescopeSymbolsItem()->removeTelescope(telescope);
             }
             m_delTelescopes.clear();
@@ -199,27 +215,33 @@ QSGNode* SkyMapLite::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *upda
     return n;
 }
 
-double SkyMapLite::deleteLimit() {
+double SkyMapLite::deleteLimit()
+{
     double lim = (MAXZOOM/MINZOOM)/sqrt(Options::zoomFactor())/3;//(MAXZOOM/MINZOOM - Options::zoomFactor())/130;
     return lim;
 }
 
-void SkyMapLite::deleteSkyNode(SkyNode *skyNode) {
+void SkyMapLite::deleteSkyNode(SkyNode * skyNode)
+{
     m_deleteNodes.append(skyNode);
 }
 
-QSGTexture* SkyMapLite::getCachedTexture(int size, char spType) {
+QSGTexture * SkyMapLite::getCachedTexture(int size, char spType)
+{
     return textureCache[harvardToIndex(spType)][size];
 }
 
-SkyMapLite* SkyMapLite::createInstance() {
+SkyMapLite * SkyMapLite::createInstance()
+{
     delete pinstance;
     pinstance = new SkyMapLite();
     return pinstance;
 }
 
-void SkyMapLite::initialize(QQuickItem *parent) {
-    if(parent) {
+void SkyMapLite::initialize(QQuickItem * parent)
+{
+    if(parent)
+    {
         setParentItem(parent);
         // Whenever the wrapper's(parent) dimensions changed, change SkyMapLite too
         connect(parent, &QQuickItem::widthChanged, this, &SkyMapLite::resizeItem);
@@ -235,22 +257,27 @@ void SkyMapLite::initialize(QQuickItem *parent) {
     initStarImages();
 }
 
-SkyMapLite::~SkyMapLite() {
+SkyMapLite::~SkyMapLite()
+{
     // Delete image cache
-    foreach(QVector<QPixmap*> imgCache, imageCache) {
+    foreach(QVector<QPixmap *> imgCache, imageCache)
+    {
         foreach(QPixmap* img, imgCache) delete img;
     }
     // Delete textures generated from image cache
-    foreach(QVector<QSGTexture*> tCache, textureCache) {
+    foreach(QVector<QSGTexture *> tCache, textureCache)
+    {
         foreach(QSGTexture* t, tCache) delete t;
     }
 }
 
-void SkyMapLite::setFocus( SkyPoint *p ) {
+void SkyMapLite::setFocus( SkyPoint * p )
+{
     setFocus( p->ra(), p->dec() );
 }
 
-void SkyMapLite::setFocus( const dms &ra, const dms &dec ) {
+void SkyMapLite::setFocus( const dms &ra, const dms &dec )
+{
     Options::setFocusRA(  ra.Hours() );
     Options::setFocusDec( dec.Degrees() );
 
@@ -258,7 +285,8 @@ void SkyMapLite::setFocus( const dms &ra, const dms &dec ) {
     focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void SkyMapLite::setFocusAltAz( const dms &alt, const dms &az) {
+void SkyMapLite::setFocusAltAz( const dms &alt, const dms &az)
+{
     Options::setFocusRA( focus()->ra().Hours() );
     Options::setFocusDec( focus()->dec().Degrees() );
     focus()->setAlt(alt);
@@ -269,34 +297,40 @@ void SkyMapLite::setFocusAltAz( const dms &alt, const dms &az) {
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
-void SkyMapLite::setDestination( const SkyPoint& p ) {
+void SkyMapLite::setDestination( const SkyPoint &p )
+{
     setDestination( p.ra(), p.dec() );
 }
 
-void SkyMapLite::setDestination( const dms &ra, const dms &dec ) {
+void SkyMapLite::setDestination( const dms &ra, const dms &dec )
+{
     destination()->set( ra, dec );
     destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
-void SkyMapLite::setDestinationAltAz( const dms &alt, const dms &az) {
+void SkyMapLite::setDestinationAltAz( const dms &alt, const dms &az)
+{
     destination()->setAlt(alt);
     destination()->setAz(az);
     destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
-void SkyMapLite::setClickedPoint( SkyPoint *f ) {
+void SkyMapLite::setClickedPoint( SkyPoint * f )
+{
     ClickedPoint = *f;
     m_ClickedPointLite->setPoint(f);
 }
 
-void SkyMapLite::setClickedObject( SkyObject *o ) {
+void SkyMapLite::setClickedObject( SkyObject * o )
+{
     ClickedObject = o;
     m_ClickedObjectLite->setObject(o);
 }
 
-void SkyMapLite::setFocusObject( SkyObject *o ) {
+void SkyMapLite::setFocusObject( SkyObject * o )
+{
     FocusObject = o;
     if ( FocusObject )
         Options::setFocusObject( FocusObject->name() );
@@ -304,15 +338,19 @@ void SkyMapLite::setFocusObject( SkyObject *o ) {
         Options::setFocusObject( i18n( "nothing" ) );
 }
 
-void SkyMapLite::slotCenter() {
+void SkyMapLite::slotCenter()
+{
     /*KStars* kstars = KStars::Instance();
     TrailObject* trailObj = dynamic_cast<TrailObject*>( focusObject() );*/
 
     setFocusPoint( clickedPoint() );
-    if ( Options::useAltAz() ) {
+    if ( Options::useAltAz() )
+    {
         focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    } else {
+    }
+    else
+    {
         focusPoint()->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
     }
     qDebug() << "Centering on " << focusPoint()->ra().toHMSString() << " " << focusPoint()->dec().toDMSString();
@@ -326,7 +364,8 @@ void SkyMapLite::slotCenter() {
     //If the requested object is below the opaque horizon, issue a warning message
     //(unless user is already pointed below the horizon)
     if ( Options::useAltAz() && Options::showGround() &&
-         focus()->alt().Degrees() > -1.0 && focusPoint()->alt().Degrees() < -1.0 ) {
+            focus()->alt().Degrees() > -1.0 && focusPoint()->alt().Degrees() < -1.0 )
+    {
 
         QString caption = i18n( "Requested Position Below Horizon" );
         QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
@@ -357,9 +396,12 @@ void SkyMapLite::slotCenter() {
     }*/
 
     //update the destination to the selected coordinates
-    if ( Options::useAltAz() ) {
+    if ( Options::useAltAz() )
+    {
         setDestinationAltAz( focusPoint()->altRefracted(), focusPoint()->az() );
-    } else {
+    }
+    else
+    {
         setDestination( *focusPoint() );
     }
 
@@ -371,20 +413,26 @@ void SkyMapLite::slotCenter() {
     //Lock center so that user could only zoom on touch-enabled devices
 }
 
-void SkyMapLite::slewFocus() {
+void SkyMapLite::slewFocus()
+{
     //Don't slew if the mouse button is pressed
     //Also, no animated slews if the Manual Clock is active
     //08/2002: added possibility for one-time skipping of slew with snapNextFocus
-    if ( !mouseButtonDown ) {
+    if ( !mouseButtonDown )
+    {
         bool goSlew =  ( Options::useAnimatedSlewing() && ! data->snapNextFocus() ) &&
-                !( data->clock()->isManualMode() && data->clock()->isActive() );
-        if ( goSlew  ) {
+                       !( data->clock()->isManualMode() && data->clock()->isActive() );
+        if ( goSlew  )
+        {
             double dX, dY;
             double maxstep = 10.0;
-            if ( Options::useAltAz() ) {
+            if ( Options::useAltAz() )
+            {
                 dX = destination()->az().Degrees() - focus()->az().Degrees();
                 dY = destination()->alt().Degrees() - focus()->alt().Degrees();
-            } else {
+            }
+            else
+            {
                 dX = destination()->ra().Degrees() - focus()->ra().Degrees();
                 dY = destination()->dec().Degrees() - focus()->dec().Degrees();
             }
@@ -393,22 +441,27 @@ void SkyMapLite::slewFocus() {
             dX = KSUtils::reduceAngle(dX, -180.0, 180.0);
 
             double r0 = sqrt( dX*dX + dY*dY );
-            if ( r0 < 20.0 ) { //smaller slews have smaller maxstep
+            if ( r0 < 20.0 )   //smaller slews have smaller maxstep
+            {
                 maxstep *= (10.0 + 0.5*r0)/20.0;
             }
             double step  = 0.1;
             double r  = r0;
-            while ( r > step ) {
+            while ( r > step )
+            {
                 //DEBUG
                 //qDebug() << step << ": " << r << ": " << r0 << endl;
                 double fX = dX / r;
                 double fY = dY / r;
 
-                if ( Options::useAltAz() ) {
+                if ( Options::useAltAz() )
+                {
                     focus()->setAlt( focus()->alt().Degrees() + fY*step );
                     focus()->setAz( dms( focus()->az().Degrees() + fX*step ).reduce() );
                     focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-                } else {
+                }
+                else
+                {
                     fX = fX/15.; //convert RA degrees to hours
                     SkyPoint newFocus( focus()->ra().Hours() + fX*step, focus()->dec().Degrees() + fY*step );
                     setFocus( &newFocus );
@@ -420,10 +473,13 @@ void SkyMapLite::slewFocus() {
                 forceUpdate();
                 qApp->processEvents(); //keep up with other stuff
 
-                if ( Options::useAltAz() ) {
+                if ( Options::useAltAz() )
+                {
                     dX = destination()->az().Degrees() - focus()->az().Degrees();
                     dY = destination()->alt().Degrees() - focus()->alt().Degrees();
-                } else {
+                }
+                else
+                {
                     dX = destination()->ra().Degrees() - focus()->ra().Degrees();
                     dY = destination()->dec().Degrees() - focus()->dec().Degrees();
                 }
@@ -444,10 +500,13 @@ void SkyMapLite::slewFocus() {
 
         //Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
         //set focus=destination.
-        if ( Options::useAltAz() ) {
+        if ( Options::useAltAz() )
+        {
             setFocusAltAz( destination()->alt(), destination()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-        } else {
+        }
+        else
+        {
             setFocus( destination() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
@@ -455,7 +514,8 @@ void SkyMapLite::slewFocus() {
         setSlewing(false);
 
         //Turn off snapNextFocus, we only want it to happen once
-        if ( data->snapNextFocus() ) {
+        if ( data->snapNextFocus() )
+        {
             data->setSnapNextFocus(false);
         }
 
@@ -468,13 +528,15 @@ void SkyMapLite::slewFocus() {
     }
 }
 
-void SkyMapLite::slotClockSlewing() {
+void SkyMapLite::slotClockSlewing()
+{
     //If the current timescale exceeds slewTimeScale, set clockSlewing=true, and stop the clock.
-    if( (fabs( data->clock()->scale() ) > Options::slewTimeScale())  ^  clockSlewing ) {
+    if( (fabs( data->clock()->scale() ) > Options::slewTimeScale())  ^  clockSlewing )
+    {
         data->clock()->setManualMode( !clockSlewing );
         clockSlewing = !clockSlewing;
         // don't change automatically the DST status
-        KStarsLite* kstars = KStarsLite::Instance();
+        KStarsLite * kstars = KStarsLite::Instance();
         if( kstars )
             kstars->updateTime( false );
     }
@@ -515,27 +577,33 @@ void SkyMapLite::slotClockSlewing() {
     }
 }*/
 
-void SkyMapLite::resizeItem() {
-    if(parentItem()) {
+void SkyMapLite::resizeItem()
+{
+    if(parentItem())
+    {
         setWidth(parentItem()->width());
         setHeight(parentItem()->height());
     }
     forceUpdate();
 }
 
-void SkyMapLite::slotZoomIn() {
+void SkyMapLite::slotZoomIn()
+{
     setZoomFactor( Options::zoomFactor() * DZOOM );
 }
 
-void SkyMapLite::slotZoomOut() {
+void SkyMapLite::slotZoomOut()
+{
     setZoomFactor( Options::zoomFactor() / DZOOM );
 }
 
-void SkyMapLite::slotZoomDefault() {
+void SkyMapLite::slotZoomDefault()
+{
     setZoomFactor( DEFAULTZOOM );
 }
 
-void SkyMapLite::slotSelectObject(SkyObject *skyObj) {
+void SkyMapLite::slotSelectObject(SkyObject * skyObj)
+{
     ClickedPoint = *skyObj;
     ClickedObject = skyObj;
     /*if ( Options::useAltAz() ) {
@@ -551,31 +619,41 @@ void SkyMapLite::slotSelectObject(SkyObject *skyObj) {
 
 void SkyMapLite::setSkyRotation(double skyRotation)
 {
-    if(m_skyRotation != skyRotation) {
+    if(m_skyRotation != skyRotation)
+    {
         m_skyRotation = skyRotation;
         emit skyRotationChanged(skyRotation);
 
 
-        if(skyRotation >= 0 && skyRotation < 90) {
+        if(skyRotation >= 0 && skyRotation < 90)
+        {
             m_skyMapOrientation = SkyMapOrientation::Top0;
-        } else if(skyRotation >= 90 && skyRotation < 180 ) {
+        }
+        else if(skyRotation >= 90 && skyRotation < 180 )
+        {
             m_skyMapOrientation = SkyMapOrientation::Right90;
-        } else if(skyRotation >= 180 && skyRotation < 270 ) {
+        }
+        else if(skyRotation >= 180 && skyRotation < 270 )
+        {
             m_skyMapOrientation = SkyMapOrientation::Bottom180;
-        } else if(skyRotation >= 270 && skyRotation < 360) {
+        }
+        else if(skyRotation >= 270 && skyRotation < 360)
+        {
             m_skyMapOrientation = SkyMapOrientation::Left270;
         }
     }
 }
 
-void SkyMapLite::setZoomFactor(double factor) {
+void SkyMapLite::setZoomFactor(double factor)
+{
     Options::setZoomFactor(  KSUtils::clamp(factor, MINZOOM, MAXZOOM)  );
 
     forceUpdate();
     emit zoomChanged();
 }
 
-void SkyMapLite::forceUpdate() {
+void SkyMapLite::forceUpdate()
+{
     setupProjector();
 
     // We delay one draw cycle before re-indexing
@@ -589,8 +667,9 @@ void SkyMapLite::forceUpdate() {
     // cycle so the sky moves as a single sheet.  May not be needed.
     data->syncUpdateIDs();
 
-    SkyMesh *m_skyMesh = SkyMesh::Instance(3);
-    if(m_skyMesh) {
+    SkyMesh * m_skyMesh = SkyMesh::Instance(3);
+    if(m_skyMesh)
+    {
         // prepare the aperture
         // FIXME_FOV: We may want to rejigger this to allow
         // wide-angle views --hdevalence
@@ -599,7 +678,8 @@ void SkyMapLite::forceUpdate() {
             radius = 180.0;
 
 
-        if ( m_skyMesh->inDraw() ) {
+        if ( m_skyMesh->inDraw() )
+        {
             printf("Warning: aborting concurrent SkyMapComposite::draw()\n");
             return;
         }
@@ -608,32 +688,39 @@ void SkyMapLite::forceUpdate() {
         m_skyMesh->aperture( &Focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
         // create the no-precess aperture if needed
-        if ( Options::showEquatorialGrid() || Options::showHorizontalGrid() || Options::showCBounds() || Options::showEquator() ) {
+        if ( Options::showEquatorialGrid() || Options::showHorizontalGrid() || Options::showCBounds() || Options::showEquator() )
+        {
             m_skyMesh->index( &Focus, radius + 1.0, NO_PRECESS_BUF );
         }
     }
     update();
 }
 
-void SkyMapLite::slotUpdateSky( bool now ) {
+void SkyMapLite::slotUpdateSky( bool now )
+{
     Q_UNUSED(now);
     updateFocus();
     forceUpdate();
 }
 
-void SkyMapLite::updateFocus() {
+void SkyMapLite::updateFocus()
+{
     if( getSlewing() )
         return;
 
     //Tracking on an object
-    if ( Options::isTracking() && focusObject() != NULL ) {
-        if ( Options::useAltAz() ) {
+    if ( Options::isTracking() && focusObject() != NULL )
+    {
+        if ( Options::useAltAz() )
+        {
             //Tracking any object in Alt/Az mode requires focus updates
             focusObject()->EquatorialToHorizontal(data->lst(), data->geo()->lat());
             setFocusAltAz( focusObject()->altRefracted(), focusObject()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
             setDestination( *focus() );
-        } else {
+        }
+        else
+        {
             //Tracking in equatorial coords
             setFocus( focusObject() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -641,8 +728,11 @@ void SkyMapLite::updateFocus() {
         }
 
         //Tracking on empty sky
-    } else if ( Options::isTracking() && focusPoint() != NULL ) {
-        if ( Options::useAltAz() ) {
+    }
+    else if ( Options::isTracking() && focusPoint() != NULL )
+    {
+        if ( Options::useAltAz() )
+        {
             //Tracking on empty sky in Alt/Az mode
             setFocus( focusPoint() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -651,12 +741,15 @@ void SkyMapLite::updateFocus() {
 
         // Not tracking and not slewing, let sky drift by
         // This means that horizontal coordinates are constant.
-    } else {
+    }
+    else
+    {
         focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat() );
     }
 }
 
-void SkyMapLite::setupProjector() {
+void SkyMapLite::setupProjector()
+{
     //Update View Parameters for projection
     ViewParams p;
     p.focus         = focus();
@@ -670,28 +763,31 @@ void SkyMapLite::setupProjector() {
     //Check if we need a new projector
     if( m_proj && Options::projection() == m_proj->type() )
         m_proj->setViewParams(p);
-    else {
+    else
+    {
         delete m_proj;
-        switch( Options::projection() ) {
-        case Projector::Gnomonic:
-            m_proj = new GnomonicProjector(p);
-            break;
-        case Projector::Stereographic:
-            m_proj = new StereographicProjector(p);
-            break;
-        case Projector::Orthographic:
-            m_proj = new OrthographicProjector(p);
-            break;
-        case Projector::AzimuthalEquidistant:
-            m_proj = new AzimuthalEquidistantProjector(p);
-            break;
-        case Projector::Equirectangular:
-            m_proj = new EquirectangularProjector(p);
-            break;
-        case Projector::Lambert: default:
-            //TODO: implement other projection classes
-            m_proj = new LambertProjector(p);
-            break;
+        switch( Options::projection() )
+        {
+            case Projector::Gnomonic:
+                m_proj = new GnomonicProjector(p);
+                break;
+            case Projector::Stereographic:
+                m_proj = new StereographicProjector(p);
+                break;
+            case Projector::Orthographic:
+                m_proj = new OrthographicProjector(p);
+                break;
+            case Projector::AzimuthalEquidistant:
+                m_proj = new AzimuthalEquidistantProjector(p);
+                break;
+            case Projector::Equirectangular:
+                m_proj = new EquirectangularProjector(p);
+                break;
+            case Projector::Lambert:
+            default:
+                //TODO: implement other projection classes
+                m_proj = new LambertProjector(p);
+                break;
         }
     }
 }
@@ -721,39 +817,62 @@ void SkyMapLite::setMouseMoveCursor()
     }
 }
 
-bool SkyMapLite::isSlewing() const  {
+bool SkyMapLite::isSlewing() const
+{
     return (getSlewing() || ( clockSlewing && data->clock()->isActive() ) );
 }
 
-int SkyMapLite::harvardToIndex(char c) {
+int SkyMapLite::harvardToIndex(char c)
+{
     // Convert spectral class to numerical index.
     // If spectral class is invalid return index for white star (A class)
 
-    switch( c ) {
-    case 'o': case 'O': return 0;
-    case 'b': case 'B': return 1;
-    case 'a': case 'A': return 2;
-    case 'f': case 'F': return 3;
-    case 'g': case 'G': return 4;
-    case 'k': case 'K': return 5;
-    case 'm': case 'M': return 6;
+    switch( c )
+    {
+        case 'o':
+        case 'O':
+            return 0;
+        case 'b':
+        case 'B':
+            return 1;
+        case 'a':
+        case 'A':
+            return 2;
+        case 'f':
+        case 'F':
+            return 3;
+        case 'g':
+        case 'G':
+            return 4;
+        case 'k':
+        case 'K':
+            return 5;
+        case 'm':
+        case 'M':
+            return 6;
         // For unknown spectral class assume A class (white star)
-    default: return 2;
+        default:
+            return 2;
     }
 }
 
-QVector<QVector<QPixmap*>> SkyMapLite::getImageCache()
+QVector<QVector<QPixmap *>> SkyMapLite::getImageCache()
 {
     return imageCache;
 }
 
-QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont) {
-    if(isInitialized) {
+QSGTexture * SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont)
+{
+    if(isInitialized)
+    {
         QFont f;
 
-        if(zoomFont) {
+        if(zoomFont)
+        {
             f = SkyLabeler::Instance()->drawFont();
-        } else {
+        }
+        else
+        {
             f = SkyLabeler::Instance()->stdFont();
         }
 
@@ -803,15 +922,18 @@ QSGTexture *SkyMapLite::textToTexture(QString text, QColor color, bool zoomFont)
 
         m_painter.end();
 
-        QSGTexture *texture = window()->createTextureFromImage(label,
-                                                               QQuickWindow::TextureCanUseAtlas);
+        QSGTexture * texture = window()->createTextureFromImage(label,
+                               QQuickWindow::TextureCanUseAtlas);
         return texture;
-    } else {
+    }
+    else
+    {
         return nullptr;
     }
 }
 
-void SkyMapLite::addFOVSymbol(const QString &FOVName, bool initialState) {
+void SkyMapLite::addFOVSymbol(const QString &FOVName, bool initialState)
+{
     m_FOVSymbols.append(FOVName);
     //Emit signal whenever new value was added
     emit symbolsFOVChanged(m_FOVSymbols);
@@ -819,37 +941,48 @@ void SkyMapLite::addFOVSymbol(const QString &FOVName, bool initialState) {
     m_FOVSymVisible.append(initialState);
 }
 
-bool SkyMapLite::isFOVVisible(int index) {
+bool SkyMapLite::isFOVVisible(int index)
+{
     return m_FOVSymVisible.value(index);
 }
 
-void SkyMapLite::setFOVVisible(int index, bool visible) {
-    if(index >= 0 && index < m_FOVSymVisible.size()) {
+void SkyMapLite::setFOVVisible(int index, bool visible)
+{
+    if(index >= 0 && index < m_FOVSymVisible.size())
+    {
         m_FOVSymVisible[index] = visible;
         forceUpdate();
     }
 }
 
-void SkyMapLite::setSlewing(bool newSlewing) {
-    if(m_slewing != newSlewing) {
+void SkyMapLite::setSlewing(bool newSlewing)
+{
+    if(m_slewing != newSlewing)
+    {
         m_slewing = newSlewing;
         emit slewingChanged(newSlewing);
     }
 }
 
-void SkyMapLite::setCenterLocked(bool centerLocked) {
+void SkyMapLite::setCenterLocked(bool centerLocked)
+{
     m_centerLocked = centerLocked;
     emit centerLockedChanged(centerLocked);
 }
 
-void SkyMapLite::setAutomaticMode(bool automaticMode) {
+void SkyMapLite::setAutomaticMode(bool automaticMode)
+{
 #if defined(Q_OS_ANDROID)
-    if(m_automaticMode != automaticMode) {
+    if(m_automaticMode != automaticMode)
+    {
         m_automaticMode = automaticMode;
-        if(automaticMode) {
+        if(automaticMode)
+        {
             m_deviceOrientation->startSensors();
             automaticModeTimer.start();
-        } else {
+        }
+        else
+        {
             automaticModeTimer.stop();
             m_deviceOrientation->stopSensors();
         }
@@ -858,7 +991,8 @@ void SkyMapLite::setAutomaticMode(bool automaticMode) {
 }
 
 #if defined(Q_OS_ANDROID)
-void SkyMapLite::updateAutomaticMode() {
+void SkyMapLite::updateAutomaticMode()
+{
     m_deviceOrientation->getOrientation();
     setFocusAltAz(dms(m_deviceOrientation->getAltitude()), dms(m_deviceOrientation->getAzimuth()));
     setSkyRotation(-1 * m_deviceOrientation->getRoll());
@@ -867,16 +1001,19 @@ void SkyMapLite::updateAutomaticMode() {
 
 void SkyMapLite::initStarImages()
 {
-    if(isInitialized) {
+    if(isInitialized)
+    {
         //Delete all existing pixmaps
-        if(imageCache.length() != 0) {
-            foreach(QVector<QPixmap*> vec, imageCache) {
+        if(imageCache.length() != 0)
+        {
+            foreach(QVector<QPixmap *> vec, imageCache)
+            {
                 qDeleteAll(vec.begin(), vec.end());
             }
             clearTextures = true;
         }
 
-        imageCache = QVector<QVector<QPixmap*>>(nSPclasses);
+        imageCache = QVector<QVector<QPixmap *>>(nSPclasses);
 
         QMap<char, QColor> ColorMap;
         const int starColorIntensity = Options::starColorIntensity();
@@ -885,45 +1022,47 @@ void SkyMapLite::initStarImages()
         //Check PointNode::setNode() to see how it works
         qreal ratio = window()->effectiveDevicePixelRatio();
 
-        switch( Options::starColorMode() ) {
-        case 1: // Red stars.
-            ColorMap.insert( 'O', QColor::fromRgb( 255,   0,   0 ) );
-            ColorMap.insert( 'B', QColor::fromRgb( 255,   0,   0 ) );
-            ColorMap.insert( 'A', QColor::fromRgb( 255,   0,   0 ) );
-            ColorMap.insert( 'F', QColor::fromRgb( 255,   0,   0 ) );
-            ColorMap.insert( 'G', QColor::fromRgb( 255,   0,   0 ) );
-            ColorMap.insert( 'K', QColor::fromRgb( 255,   0,   0 ) );
-            ColorMap.insert( 'M', QColor::fromRgb( 255,   0,   0 ) );
-            break;
-        case 2: // Black stars.
-            ColorMap.insert( 'O', QColor::fromRgb(   0,   0,   0 ) );
-            ColorMap.insert( 'B', QColor::fromRgb(   0,   0,   0 ) );
-            ColorMap.insert( 'A', QColor::fromRgb(   0,   0,   0 ) );
-            ColorMap.insert( 'F', QColor::fromRgb(   0,   0,   0 ) );
-            ColorMap.insert( 'G', QColor::fromRgb(   0,   0,   0 ) );
-            ColorMap.insert( 'K', QColor::fromRgb(   0,   0,   0 ) );
-            ColorMap.insert( 'M', QColor::fromRgb(   0,   0,   0 ) );
-            break;
-        case 3: // White stars
-            ColorMap.insert( 'O', QColor::fromRgb( 255, 255, 255 ) );
-            ColorMap.insert( 'B', QColor::fromRgb( 255, 255, 255 ) );
-            ColorMap.insert( 'A', QColor::fromRgb( 255, 255, 255 ) );
-            ColorMap.insert( 'F', QColor::fromRgb( 255, 255, 255 ) );
-            ColorMap.insert( 'G', QColor::fromRgb( 255, 255, 255 ) );
-            ColorMap.insert( 'K', QColor::fromRgb( 255, 255, 255 ) );
-            ColorMap.insert( 'M', QColor::fromRgb( 255, 255, 255 ) );
-        case 0:  // Real color
-        default: // And use real color for everything else
-            ColorMap.insert( 'O', QColor::fromRgb(   0,   0, 255 ) );
-            ColorMap.insert( 'B', QColor::fromRgb(   0, 200, 255 ) );
-            ColorMap.insert( 'A', QColor::fromRgb(   0, 255, 255 ) );
-            ColorMap.insert( 'F', QColor::fromRgb( 200, 255, 100 ) );
-            ColorMap.insert( 'G', QColor::fromRgb( 255, 255,   0 ) );
-            ColorMap.insert( 'K', QColor::fromRgb( 255, 100,   0 ) );
-            ColorMap.insert( 'M', QColor::fromRgb( 255,   0,   0 ) );
+        switch( Options::starColorMode() )
+        {
+            case 1: // Red stars.
+                ColorMap.insert( 'O', QColor::fromRgb( 255,   0,   0 ) );
+                ColorMap.insert( 'B', QColor::fromRgb( 255,   0,   0 ) );
+                ColorMap.insert( 'A', QColor::fromRgb( 255,   0,   0 ) );
+                ColorMap.insert( 'F', QColor::fromRgb( 255,   0,   0 ) );
+                ColorMap.insert( 'G', QColor::fromRgb( 255,   0,   0 ) );
+                ColorMap.insert( 'K', QColor::fromRgb( 255,   0,   0 ) );
+                ColorMap.insert( 'M', QColor::fromRgb( 255,   0,   0 ) );
+                break;
+            case 2: // Black stars.
+                ColorMap.insert( 'O', QColor::fromRgb(   0,   0,   0 ) );
+                ColorMap.insert( 'B', QColor::fromRgb(   0,   0,   0 ) );
+                ColorMap.insert( 'A', QColor::fromRgb(   0,   0,   0 ) );
+                ColorMap.insert( 'F', QColor::fromRgb(   0,   0,   0 ) );
+                ColorMap.insert( 'G', QColor::fromRgb(   0,   0,   0 ) );
+                ColorMap.insert( 'K', QColor::fromRgb(   0,   0,   0 ) );
+                ColorMap.insert( 'M', QColor::fromRgb(   0,   0,   0 ) );
+                break;
+            case 3: // White stars
+                ColorMap.insert( 'O', QColor::fromRgb( 255, 255, 255 ) );
+                ColorMap.insert( 'B', QColor::fromRgb( 255, 255, 255 ) );
+                ColorMap.insert( 'A', QColor::fromRgb( 255, 255, 255 ) );
+                ColorMap.insert( 'F', QColor::fromRgb( 255, 255, 255 ) );
+                ColorMap.insert( 'G', QColor::fromRgb( 255, 255, 255 ) );
+                ColorMap.insert( 'K', QColor::fromRgb( 255, 255, 255 ) );
+                ColorMap.insert( 'M', QColor::fromRgb( 255, 255, 255 ) );
+            case 0:  // Real color
+            default: // And use real color for everything else
+                ColorMap.insert( 'O', QColor::fromRgb(   0,   0, 255 ) );
+                ColorMap.insert( 'B', QColor::fromRgb(   0, 200, 255 ) );
+                ColorMap.insert( 'A', QColor::fromRgb(   0, 255, 255 ) );
+                ColorMap.insert( 'F', QColor::fromRgb( 200, 255, 100 ) );
+                ColorMap.insert( 'G', QColor::fromRgb( 255, 255,   0 ) );
+                ColorMap.insert( 'K', QColor::fromRgb( 255, 100,   0 ) );
+                ColorMap.insert( 'M', QColor::fromRgb( 255,   0,   0 ) );
         }
 
-        foreach( char color, ColorMap.keys() ) {
+        foreach( char color, ColorMap.keys() )
+        {
             //Add new spectral class
 
             QPixmap BigImage( 15, 15 );
@@ -932,13 +1071,16 @@ void SkyMapLite::initStarImages()
             QPainter p;
             p.begin( &BigImage );
 
-            if ( Options::starColorMode() == 0 ) {
+            if ( Options::starColorMode() == 0 )
+            {
                 qreal h, s, v, a;
                 p.setRenderHint( QPainter::Antialiasing, false );
                 QColor starColor = ColorMap[color];
                 starColor.getHsvF(&h, &s, &v, &a);
-                for (int i = 0; i < 8; i++ ) {
-                    for (int j = 0; j < 8; j++ ) {
+                for (int i = 0; i < 8; i++ )
+                {
+                    for (int j = 0; j < 8; j++ )
+                    {
                         qreal x = i - 7;
                         qreal y = j - 7;
                         qreal dist = sqrt( x*x + y*y ) / 7.0;
@@ -953,7 +1095,9 @@ void SkyMapLite::initStarImages()
                         p.drawPoint ((14-i), (14-j));
                     }
                 }
-            } else {
+            }
+            else
+            {
                 p.setRenderHint(QPainter::Antialiasing, true );
                 p.setPen( QPen(ColorMap[color], 2.0 ) );
                 p.setBrush( p.pen().color() );
@@ -963,9 +1107,10 @@ void SkyMapLite::initStarImages()
             //[nSPclasses][nStarSizes];
             // Cache array slice
 
-            QVector<QPixmap *> *pmap = &imageCache[ harvardToIndex(color) ];
+            QVector<QPixmap *> * pmap = &imageCache[ harvardToIndex(color) ];
             pmap->append(new QPixmap(BigImage));
-            for( int size = 1; size < nStarSizes; size++ ) {
+            for( int size = 1; size < nStarSizes; size++ )
+            {
                 pmap->append(new QPixmap(BigImage.scaled( size*ratio, size*ratio, Qt::KeepAspectRatio, Qt::SmoothTransformation )));
             }
         }

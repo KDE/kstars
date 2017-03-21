@@ -56,21 +56,22 @@
  * flux = Flux for the object
  **/
 
-class CatalogEntryData {
- public:
-  CatalogEntryData();
+class CatalogEntryData
+{
+    public:
+        CatalogEntryData();
 
-  QString catalog_name;
-  int ID;
-  QString long_name;
-  double ra;
-  double dec;
-  int type;
-  float magnitude;
-  int position_angle;
-  float major_axis;
-  float minor_axis;
-  float flux;
+        QString catalog_name;
+        int ID;
+        QString long_name;
+        double ra;
+        double dec;
+        int type;
+        float magnitude;
+        int position_angle;
+        float major_axis;
+        float minor_axis;
+        float flux;
 };
 
 #endif // CATALOGENTRYDATA_H

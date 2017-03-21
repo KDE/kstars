@@ -33,26 +33,27 @@
 #include "skycomponents/catalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 
-AddCatDialogUI::AddCatDialogUI( QWidget *parent ) : QFrame( parent ) {
+AddCatDialogUI::AddCatDialogUI( QWidget * parent ) : QFrame( parent )
+{
     setupUi(this);
 }
 
-AddCatDialog::AddCatDialog( KStars *_ks )
-        : QDialog( ( QWidget* )_ks )
+AddCatDialog::AddCatDialog( KStars * _ks )
+    : QDialog( ( QWidget * )_ks )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     QDir::setCurrent( QDir::homePath() );
     acd = new AddCatDialogUI(this);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(acd);
     setLayout(mainLayout);
 
     setWindowTitle( i18n( "Import Catalog" ) );
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Help|QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Help|QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
 
     connect( acd->DataURL->lineEdit(), SIGNAL( lostFocus() ), this, SLOT( slotShowDataFile() ) );
@@ -77,10 +78,12 @@ AddCatDialog::AddCatDialog( KStars *_ks )
     acd->FieldPool->addItem( i18n( "Ignore" ) );
 }
 
-AddCatDialog::~AddCatDialog(){
+AddCatDialog::~AddCatDialog()
+{
 }
 
-void AddCatDialog::slotHelp() {
+void AddCatDialog::slotHelp()
+{
     QString message =
         i18n( "A valid custom catalog file has one line per object, "
               "with the following fields in each line:") + "\n\t" +
@@ -114,17 +117,19 @@ void AddCatDialog::slotHelp() {
  * Minor axis: floating-point value (length of minor axis in arcmin)
  * Position angle: floating-point value (position angle, in degrees)
  */
-bool AddCatDialog::validateDataFile() {
+bool AddCatDialog::validateDataFile()
+{
     //Create the catalog file contents: first the header
     CatalogContents = writeCatalogHeader();
 
     // Check if the URL is empty
     if (acd->DataURL->url().isEmpty())
-	return false;
+        return false;
 
     //Next, the data lines (fill from user-specified file)
     QFile dataFile( acd->DataURL->url().toLocalFile() );
-    if (dataFile.open( QIODevice::ReadOnly ) ) {
+    if (dataFile.open( QIODevice::ReadOnly ) )
+    {
         QTextStream dataStream( &dataFile );
         CatalogContents += dataStream.readAll();
 
@@ -136,7 +141,8 @@ bool AddCatDialog::validateDataFile() {
 
 }
 
-QString AddCatDialog::writeCatalogHeader() {
+QString AddCatDialog::writeCatalogHeader()
+{
     QString name = ( acd->CatalogName->text().isEmpty() ? i18n("Custom") : acd->CatalogName->text() );
     QString pre = ( acd->Prefix->text().isEmpty() ? "CC" : acd->Prefix->text() );
     char delimiter = ( acd->CSVButton->isChecked() ? ',' : ' ' );
@@ -148,30 +154,52 @@ QString AddCatDialog::writeCatalogHeader() {
     h += QString("# Epoch: %1\n").arg( acd->Epoch->value() );
     h += QString("# ");
 
-    for ( int i=0; i < acd->FieldList->count(); ++i ) {
+    for ( int i=0; i < acd->FieldList->count(); ++i )
+    {
         QString f = acd->FieldList->item( i )->text();
 
-        if ( f == i18n( "ID Number" ) ) {
+        if ( f == i18n( "ID Number" ) )
+        {
             h += "ID  ";
-        } else if ( f == i18n( "Right Ascension" ) ) {
+        }
+        else if ( f == i18n( "Right Ascension" ) )
+        {
             h += "RA  ";
-        } else if ( f == i18n( "Declination" ) ) {
+        }
+        else if ( f == i18n( "Declination" ) )
+        {
             h += "Dc  ";
-        } else if ( f == i18n( "Object Type" ) ) {
+        }
+        else if ( f == i18n( "Object Type" ) )
+        {
             h += "Tp  ";
-        } else if ( f == i18n( "Common Name" ) ) {
+        }
+        else if ( f == i18n( "Common Name" ) )
+        {
             h += "Nm  ";
-        } else if ( f == i18n( "Magnitude" ) ) {
+        }
+        else if ( f == i18n( "Magnitude" ) )
+        {
             h += "Mg  ";
-        } else if ( f == i18n( "Flux" ) ) {
+        }
+        else if ( f == i18n( "Flux" ) )
+        {
             h += "Flux  ";
-        } else if ( f == i18n( "Major Axis" ) ) {
+        }
+        else if ( f == i18n( "Major Axis" ) )
+        {
             h += "Mj  ";
-        } else if ( f == i18n( "Minor Axis" ) ) {
+        }
+        else if ( f == i18n( "Minor Axis" ) )
+        {
             h += "Mn  ";
-        } else if ( f == i18n( "Position Angle" ) ) {
+        }
+        else if ( f == i18n( "Position Angle" ) )
+        {
             h += "PA  ";
-        } else if ( f == i18n( "Ignore" ) ) {
+        }
+        else if ( f == i18n( "Ignore" ) )
+        {
             h += "Ig  ";
         }
     }
@@ -181,9 +209,11 @@ QString AddCatDialog::writeCatalogHeader() {
     return h;
 }
 
-void AddCatDialog::slotShowDataFile() {
+void AddCatDialog::slotShowDataFile()
+{
     QFile dataFile( acd->DataURL->url().toLocalFile() );
-    if ( ! acd->DataURL->url().isEmpty() && dataFile.open( QIODevice::ReadOnly ) ) {
+    if ( ! acd->DataURL->url().isEmpty() && dataFile.open( QIODevice::ReadOnly ) )
+    {
         acd->DataFileBox->clear();
         QTextStream dataStream( &dataFile );
         acd->DataFileBox->addItems( dataStream.readAll().split( '\n' ) );
@@ -191,16 +221,20 @@ void AddCatDialog::slotShowDataFile() {
     }
 }
 
-void AddCatDialog::slotPreviewCatalog() {
-    if ( validateDataFile() ) {
+void AddCatDialog::slotPreviewCatalog()
+{
+    if ( validateDataFile() )
+    {
         KMessageBox::informationList( 0, i18n( "Preview of %1", acd->CatalogName->text() ),
                                       CatalogContents.split( '\n' ), i18n( "Catalog Preview" ) );
     }
 }
 
-void AddCatDialog::slotCreateCatalog() {
+void AddCatDialog::slotCreateCatalog()
+{
 
-    if ( validateDataFile() ) {
+    if ( validateDataFile() )
+    {
         //CatalogContents now contains the text for the catalog file,
         //and objList contains the parsed objects
 
@@ -218,11 +252,14 @@ void AddCatDialog::slotCreateCatalog() {
         }
 
         QFile OutFile( acd->CatalogURL->url().toLocalFile() );
-        if ( ! OutFile.open( QIODevice::WriteOnly ) ) {
+        if ( ! OutFile.open( QIODevice::WriteOnly ) )
+        {
             KMessageBox::sorry( 0,
                                 i18n( "Could not open the file %1 for writing.", acd->CatalogURL->url().toLocalFile() ),
                                 i18n( "Error Opening Output File" ) );
-        } else {
+        }
+        else
+        {
             QTextStream outStream( &OutFile );
             outStream << CatalogContents;
             OutFile.close();

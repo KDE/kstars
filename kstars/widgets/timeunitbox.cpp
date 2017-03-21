@@ -25,10 +25,11 @@
 
 #include <QDebug>
 
-TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly )
-        : QWidget( parent ) {
+TimeUnitBox::TimeUnitBox(QWidget * parent, bool daysonly )
+    : QWidget( parent )
+{
 
-    QVBoxLayout *vlay = new QVBoxLayout(this);
+    QVBoxLayout * vlay = new QVBoxLayout(this);
     vlay->setMargin(0);
     vlay->setSpacing(0);
 
@@ -51,11 +52,14 @@ TimeUnitBox::TimeUnitBox(QWidget *parent, bool daysonly )
     connect( DownButton, SIGNAL( clicked() ), this, SLOT( decrease() ) );
 }
 
-TimeUnitBox::~TimeUnitBox(){
+TimeUnitBox::~TimeUnitBox()
+{
 }
 
-void TimeUnitBox::setDaysOnly( bool daysonly ) {
-    if ( daysonly ) {
+void TimeUnitBox::setDaysOnly( bool daysonly )
+{
+    if ( daysonly )
+    {
         setMinimum( 1-DAYUNITS );
         setMaximum( DAYUNITS-1 );
         setValue( 1 ); // Start out with days units
@@ -65,7 +69,9 @@ void TimeUnitBox::setDaysOnly( bool daysonly ) {
         UnitStep[2] = 5;
         UnitStep[3] = 8;
         UnitStep[4] = 14;
-    } else {
+    }
+    else
+    {
         setMinimum( 1-ALLUNITS );
         setMaximum( ALLUNITS-1 );
         setValue( 1 ); // Start out with seconds units
@@ -81,28 +87,34 @@ void TimeUnitBox::setDaysOnly( bool daysonly ) {
     }
 }
 
-void TimeUnitBox::increase() {
-    if ( value() < maxValue() ) {
+void TimeUnitBox::increase()
+{
+    if ( value() < maxValue() )
+    {
         setValue( value()+1 );
         emit valueChanged( value() );
     }
 }
 
-void TimeUnitBox::decrease() {
-    if ( value() > minValue() ) {
+void TimeUnitBox::decrease()
+{
+    if ( value() > minValue() )
+    {
         setValue( value()-1 );
         emit valueChanged( value() );
     }
 }
 
-int TimeUnitBox::unitValue() {
+int TimeUnitBox::unitValue()
+{
     int uval;
     if ( value() >= 0 ) uval = UnitStep[ value() ];
     else uval = -1*UnitStep[ abs( value() ) ];
     return uval;
 }
 
-int TimeUnitBox::getUnitValue( int val ) {
+int TimeUnitBox::getUnitValue( int val )
+{
     if ( val >= 0 ) return UnitStep[ val ];
     else return -1*UnitStep[ abs( val ) ];
 }

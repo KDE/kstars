@@ -24,53 +24,53 @@ class QProgressDialog;
 
 class FileDownloader : public QObject
 {
-    Q_OBJECT
-public:
-    explicit FileDownloader(QObject *parent = 0);
-    virtual ~FileDownloader();
+        Q_OBJECT
+    public:
+        explicit FileDownloader(QObject * parent = 0);
+        virtual ~FileDownloader();
 
-    void get(const QUrl & fileUrl);
-    void post(const QUrl & fileUrl, QByteArray & data);
-    void post(const QUrl & fileUrl, QHttpMultiPart *parts);
+        void get(const QUrl &fileUrl);
+        void post(const QUrl &fileUrl, QByteArray &data);
+        void post(const QUrl &fileUrl, QHttpMultiPart * parts);
 
-    QByteArray downloadedData() const;
+        QByteArray downloadedData() const;
 
-    QUrl getDownloadedFileURL() const;
-    bool setDownloadedFileURL(const QUrl &DownloadedFile);
+        QUrl getDownloadedFileURL() const;
+        bool setDownloadedFileURL(const QUrl &DownloadedFile);
 
-    void setProgressDialogEnabled(bool ShowProgressDialog, const QString &textTitle = QString(), const QString &textLabel = QString());
+        void setProgressDialogEnabled(bool ShowProgressDialog, const QString &textTitle = QString(), const QString &textLabel = QString());
 
-signals:
-    void downloaded();
-    void canceled();
-    void error(const QString &errorString);
-    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    signals:
+        void downloaded();
+        void canceled();
+        void error(const QString &errorString);
+        void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
-private slots:    
-    void dataFinished(QNetworkReply* pReply);
-    void dataReady();
-    void slotError();
-    void setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    private slots:
+        void dataFinished(QNetworkReply * pReply);
+        void dataReady();
+        void slotError();
+        void setDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
-private:
-    QNetworkAccessManager m_WebCtrl;
-    QByteArray m_DownloadedData;
+    private:
+        QNetworkAccessManager m_WebCtrl;
+        QByteArray m_DownloadedData;
 
-    // Downloaded file
-    QUrl m_DownloadedFileURL;
-    QFile m_DownloadedFile;
+        // Downloaded file
+        QUrl m_DownloadedFileURL;
+        QFile m_DownloadedFile;
 
-    // Network reply
-    QNetworkReply *m_Reply = NULL;
+        // Network reply
+        QNetworkReply * m_Reply = NULL;
 
-    // Optional Progress dialog
-    bool m_ShowProgressDialog = false;
+        // Optional Progress dialog
+        bool m_ShowProgressDialog = false;
 
-    #ifndef KSTARS_LITE
-    QProgressDialog* progressDialog = NULL;
-    #endif
-    bool isCancelled = false;
-    QString label, title;
+#ifndef KSTARS_LITE
+        QProgressDialog * progressDialog = NULL;
+#endif
+        bool isCancelled = false;
+        QString label, title;
 };
 
 #endif // FILEDOWNLOADER_H

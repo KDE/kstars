@@ -23,15 +23,21 @@
  */
 class DeviceInfo
 {
-public:
-    DeviceInfo(DriverInfo *parent, INDI::BaseDevice *ibd);
+    public:
+        DeviceInfo(DriverInfo * parent, INDI::BaseDevice * ibd);
 
-    DriverInfo *getDriverInfo() { return drv;}
-    INDI::BaseDevice *getBaseDevice() { return dp;}
+        DriverInfo * getDriverInfo()
+        {
+            return drv;
+        }
+        INDI::BaseDevice * getBaseDevice()
+        {
+            return dp;
+        }
 
-private:
-    DriverInfo *drv;
-    INDI::BaseDevice *dp;
+    private:
+        DriverInfo * drv;
+        INDI::BaseDevice * dp;
 
 };
 

@@ -24,25 +24,28 @@
 
 #include "Options.h"
 
-ConstellationName::ConstellationName(SkyObject *skyObj)
+ConstellationName::ConstellationName(SkyObject * skyObj)
     :obj(skyObj), latin(0), secondary(0)
 {
 
 }
 
-void ConstellationName::hide() {
+void ConstellationName::hide()
+{
     if(latin) latin->hide();
     if(secondary) secondary->hide();
 }
 
-ConstellationNamesItem::ConstellationNamesItem(ConstellationNamesComponent *constComp, RootNode* parent)
+ConstellationNamesItem::ConstellationNamesItem(ConstellationNamesComponent * constComp, RootNode * parent)
     :SkyItem(LabelsItem::label_t::CONSTEL_NAME_LABEL, parent), m_constelNamesComp(constComp)
 {
     recreateList();
 }
 
-void ConstellationNamesItem::update() {
-    if( !m_constelNamesComp->selected() )  {
+void ConstellationNamesItem::update()
+{
+    if( !m_constelNamesComp->selected() )
+    {
         hide();
         rootNode()->labelsItem()->hideLabels(labelType());
         return;
@@ -50,28 +53,33 @@ void ConstellationNamesItem::update() {
 
     show();
 
-    const Projector *proj = SkyMapLite::Instance()->projector();
+    const Projector * proj = SkyMapLite::Instance()->projector();
 
-    foreach(ConstellationName *constName, m_names) {
-        SkyObject *p = constName->obj;
-        if( ! proj->checkVisibility( p ) ) {
+    foreach(ConstellationName * constName, m_names)
+    {
+        SkyObject * p = constName->obj;
+        if( ! proj->checkVisibility( p ) )
+        {
             constName->hide();
             continue;
         }
 
         bool visible = false;
         QPointF o = proj->toScreen( p, false, &visible );
-        if( !visible || !proj->onScreen( o ) ) {
+        if( !visible || !proj->onScreen( o ) )
+        {
             constName->hide();
             continue;
         }
 
         QString name;
 
-        if( Options::useLatinConstellNames() || Options::useLocalConstellNames() ) {
+        if( Options::useLatinConstellNames() || Options::useLocalConstellNames() )
+        {
             name = p->name();
 
-            if(!constName->latin) {
+            if(!constName->latin)
+            {
                 constName->latin = rootNode()->labelsItem()->addLabel(name,labelType());
             }
 
@@ -79,10 +87,13 @@ void ConstellationNamesItem::update() {
 
             constName->latin->setLabelPos(o);
             if(constName->secondary) constName->secondary->hide();
-        } else {
+        }
+        else
+        {
             name = p->name2();
 
-            if(!constName->secondary) {
+            if(!constName->secondary)
+            {
                 constName->secondary = rootNode()->labelsItem()->addLabel(name,labelType());
             }
 
@@ -94,11 +105,13 @@ void ConstellationNamesItem::update() {
     }
 }
 
-void ConstellationNamesItem::recreateList() {
+void ConstellationNamesItem::recreateList()
+{
     rootNode()->labelsItem()->deleteLabels(labelType());
     m_names.clear();
 
-    foreach(SkyObject *skyObj, m_constelNamesComp->objectList()) {
+    foreach(SkyObject * skyObj, m_constelNamesComp->objectList())
+    {
         m_names.append(new ConstellationName(skyObj));
     }
 }

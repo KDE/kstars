@@ -23,5 +23,5 @@
 
 OpsSupernovae::OpsSupernovae() : QFrame(KStars::Instance())
 {
-    setupUi(this);    
+    setupUi(this);
 }

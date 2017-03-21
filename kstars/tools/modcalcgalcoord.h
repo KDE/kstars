@@ -27,35 +27,36 @@
   *@author Pablo de Vicente
 	*@version 0.9
   */
-class modCalcGalCoord : public QFrame, public Ui::modCalcGalCoordDlg  {
+class modCalcGalCoord : public QFrame, public Ui::modCalcGalCoordDlg
+{
 
-    Q_OBJECT
+        Q_OBJECT
 
-public:
+    public:
 
-    modCalcGalCoord(QWidget *p);
-    ~modCalcGalCoord();
+        modCalcGalCoord(QWidget * p);
+        ~modCalcGalCoord();
 
-public slots:
+    public slots:
 
-    void slotComputeCoords ();
-    void slotObject();
+        void slotComputeCoords ();
+        void slotObject();
 
-    void slotGalLatCheckedBatch();
-    void slotGalLongCheckedBatch();
-    void slotRaCheckedBatch();
-    void slotDecCheckedBatch();
-    void slotEpochCheckedBatch();
-    void slotRunBatch();
+        void slotGalLatCheckedBatch();
+        void slotGalLongCheckedBatch();
+        void slotRaCheckedBatch();
+        void slotDecCheckedBatch();
+        void slotEpochCheckedBatch();
+        void slotRunBatch();
 
-private:
-    void equCheck();
-    void galCheck();
-    void processLines( QTextStream &is );
+    private:
+        void equCheck();
+        void galCheck();
+        void processLines( QTextStream &is );
 
-    dms galLong, galLat, raCoord, decCoord;
-    QString epoch;
-    bool galInputCoords;
+        dms galLong, galLat, raCoord, decCoord;
+        QString epoch;
+        bool galInputCoords;
 };
 #endif
 

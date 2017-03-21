@@ -49,7 +49,10 @@ OnlineAstrometryParser::OnlineAstrometryParser() : AstrometryParser()
     connect(this, SIGNAL(jobFinished()), this, SLOT(checkJobCalibration()));
 
     // Reset parity on solver failure
-    connect(this, &OnlineAstrometryParser::solverFailed, this, [&]() { parity = INVALID_VALUE;});
+    connect(this, &OnlineAstrometryParser::solverFailed, this, [&]()
+    {
+        parity = INVALID_VALUE;
+    });
 
     connect(this, SIGNAL(solverFailed()), this, SLOT(resetSolver()));
     connect(this, SIGNAL(solverFinished(double,double,double, double)), this, SLOT(resetSolver()));
@@ -135,7 +138,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
         }
     }
 
-    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onResult(QNetworkReply*)));
+    connect(networkManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onResult(QNetworkReply *)));
 
     solverTimer.start();
 
@@ -145,7 +148,7 @@ bool OnlineAstrometryParser::startSovler(const QString &in_filename, const QStri
         uploadFile();
 
 
-   return true;
+    return true;
 }
 
 void OnlineAstrometryParser::resetSolver()
@@ -159,7 +162,7 @@ bool OnlineAstrometryParser::stopSolver()
     workflowStage = NO_STAGE;
     solver_retries=0;
 
-    disconnect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onResult(QNetworkReply*)));
+    disconnect(networkManager, SIGNAL(finished(QNetworkReply *)), this, SLOT(onResult(QNetworkReply *)));
 
     return true;
 }
@@ -191,7 +194,7 @@ void OnlineAstrometryParser::uploadFile()
 {
     QNetworkRequest request;
 
-    QFile *fitsFile = new QFile(filename);
+    QFile * fitsFile = new QFile(filename);
     bool rc = fitsFile->open(QIODevice::ReadOnly);
     if (rc == false)
     {
@@ -205,7 +208,7 @@ void OnlineAstrometryParser::uploadFile()
     url.setPath("/api/upload");
     request.setUrl(url);
 
-    QHttpMultiPart *reqEntity = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+    QHttpMultiPart * reqEntity = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
     QVariantMap uploadReq;
     uploadReq.insert("publicly_visible", "n");
@@ -266,7 +269,7 @@ void OnlineAstrometryParser::uploadFile()
 
     align->appendLogText(i18n("Uploading file..."));
 
-    QNetworkReply *reply = networkManager->post(request, reqEntity);
+    QNetworkReply * reply = networkManager->post(request, reqEntity);
 
     // The entity should be deleted when reply is finished
     reqEntity->setParent(reply);
@@ -312,7 +315,7 @@ void OnlineAstrometryParser::checkJobCalibration()
     networkManager->get(request);
 }
 
-void OnlineAstrometryParser::onResult(QNetworkReply* reply)
+void OnlineAstrometryParser::onResult(QNetworkReply * reply)
 {
     bool ok;
     QJsonParseError parseError;
@@ -337,165 +340,165 @@ void OnlineAstrometryParser::onResult(QNetworkReply* reply)
 
     QJsonDocument json_doc = QJsonDocument::fromJson(json.toUtf8(), &parseError);
 
-     if (parseError.error != QJsonParseError::NoError)
-     {
-         align->appendLogText(i18n("JSon error during parsing (%1).", parseError.errorString()));
-         emit solverFailed();
-         return;
-     }
+    if (parseError.error != QJsonParseError::NoError)
+    {
+        align->appendLogText(i18n("JSon error during parsing (%1).", parseError.errorString()));
+        emit solverFailed();
+        return;
+    }
 
-     QVariant json_result = json_doc.toVariant();
-     QVariantMap result = json_result.toMap();
+    QVariant json_result = json_doc.toVariant();
+    QVariantMap result = json_result.toMap();
 
-     if (Options::astrometrySolverVerbose())
-         align->appendLogText(json_doc.toJson(QJsonDocument::Compact));
+    if (Options::astrometrySolverVerbose())
+        align->appendLogText(json_doc.toJson(QJsonDocument::Compact));
 
-     switch (workflowStage)
-     {
+    switch (workflowStage)
+    {
         case AUTH_STAGE:
-         status = result["status"].toString();
-         if (status != "success")
-         {
-             align->appendLogText(i18n("Astrometry.net authentication failed. Check the validity of the Astrometry.net API Key."));
-             emit solverFailed();
-             return;
-         }
-
-         sessionKey = result["session"].toString();
-
-         if (Options::astrometrySolverVerbose())
-            align->appendLogText(i18n("Authentication to astrometry.net is successful. Session: %1", sessionKey));
-
-         emit authenticateFinished();
-         break;
-
-       case UPLOAD_STAGE:
-         status = result["status"].toString();
-         if (status != "success")
-         {
-             align->appendLogText(i18n("Upload failed."));
-             emit solverFailed();
-             return;
-         }
-
-         subID = result["subid"].toInt(&ok);
-
-         if (ok == false)
-         {
-             align->appendLogText(i18n("Parsing submission ID failed."));
-             emit solverFailed();
-             return;
-         }
-
-         align->appendLogText(i18n("Upload complete. Waiting for astrometry.net solver to complete..."));
-         emit uploadFinished();
-         if (isGenerated)
-            QFile::remove(filename);
-         break;
-
-       case JOB_ID_STAGE:
-         jsonArray = result["jobs"].toList();
-
-         if (jsonArray.isEmpty())
-             jobID = 0;
-         else
-             jobID = jsonArray.first().toInt(&ok);
-
-         if (jobID == 0 || !ok)
-         {
-             if (job_retries++ < JOB_RETRY_ATTEMPTS)
-             {
-                QTimer::singleShot(JOB_RETRY_DURATION, this, SLOT(getJobID()));
+            status = result["status"].toString();
+            if (status != "success")
+            {
+                align->appendLogText(i18n("Astrometry.net authentication failed. Check the validity of the Astrometry.net API Key."));
+                emit solverFailed();
                 return;
-             }
-             else
-             {
-                 align->appendLogText(i18n("Failed to retrieve job ID."));
-                 emit solverFailed();
-                 return;
-             }
-         }
+            }
 
-         job_retries=0;
-         emit  jobIDFinished();
-         break;
+            sessionKey = result["session"].toString();
 
-       case JOB_STATUS_STAGE:
-         status = result["status"].toString();
-         if (status == "success")
-             emit jobFinished();
-         else if (status == "solving")
-         {
-             if (status == "solving" && solver_retries++ < SOLVER_RETRY_ATTEMPTS)
-             {
-                QTimer::singleShot(SOLVER_RETRY_DURATION, this, SLOT(checkJobs()));
+            if (Options::astrometrySolverVerbose())
+                align->appendLogText(i18n("Authentication to astrometry.net is successful. Session: %1", sessionKey));
+
+            emit authenticateFinished();
+            break;
+
+        case UPLOAD_STAGE:
+            status = result["status"].toString();
+            if (status != "success")
+            {
+                align->appendLogText(i18n("Upload failed."));
+                emit solverFailed();
                 return;
-             }
-             else
-             {
-                 align->appendLogText(i18n("Solver timed out."));
-                 solver_retries=0;
-                 emit solverFailed();
-                 return;
-             }
-         }
-         else if (status == "failure")
-         {
-             elapsed = (int) round(solverTimer.elapsed()/1000.0);
-             align->appendLogText(i18np("Solver failed after %1 second.", "Solver failed after %1 seconds.", elapsed));
-             emit solverFailed();
-             return;
-         }
-         break;
+            }
 
-     case JOB_CALIBRATION_STAGE:
-         parity = result["parity"].toInt(&ok);
-         if (ok == false)
-         {
-             align->appendLogText(i18n("Error parsing parity."));
-             emit solverFailed();
-             return;
-         }
-         orientation = result["orientation"].toDouble(&ok);
-         if (ok == false)
-         {
-             align->appendLogText(i18n("Error parsing orientation."));
-             emit solverFailed();
-             return;
-         }
-         orientation *= parity;
-         ra  = result["ra"].toDouble(&ok);
-         if (ok == false)
-         {
-             align->appendLogText(i18n("Error parsing RA."));
-             emit solverFailed();
-             return;
-         }
-         dec = result["dec"].toDouble(&ok);
-         if (ok == false)
-         {
-             align->appendLogText(i18n("Error parsing DEC."));
-             emit solverFailed();
-             return;
-         }
+            subID = result["subid"].toInt(&ok);
 
-         pixscale = result["pixscale"].toDouble(&ok);
-         if (ok == false)
-         {
-             align->appendLogText(i18n("Error parsing DEC."));
-             emit solverFailed();
-             return;
-         }
+            if (ok == false)
+            {
+                align->appendLogText(i18n("Parsing submission ID failed."));
+                emit solverFailed();
+                return;
+            }
 
-         elapsed = (int) round(solverTimer.elapsed()/1000.0);
-         align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
-         emit solverFinished(orientation, ra, dec, pixscale);
+            align->appendLogText(i18n("Upload complete. Waiting for astrometry.net solver to complete..."));
+            emit uploadFinished();
+            if (isGenerated)
+                QFile::remove(filename);
+            break;
 
-         break;
+        case JOB_ID_STAGE:
+            jsonArray = result["jobs"].toList();
 
-     default:
-         break;
-     }
+            if (jsonArray.isEmpty())
+                jobID = 0;
+            else
+                jobID = jsonArray.first().toInt(&ok);
+
+            if (jobID == 0 || !ok)
+            {
+                if (job_retries++ < JOB_RETRY_ATTEMPTS)
+                {
+                    QTimer::singleShot(JOB_RETRY_DURATION, this, SLOT(getJobID()));
+                    return;
+                }
+                else
+                {
+                    align->appendLogText(i18n("Failed to retrieve job ID."));
+                    emit solverFailed();
+                    return;
+                }
+            }
+
+            job_retries=0;
+            emit  jobIDFinished();
+            break;
+
+        case JOB_STATUS_STAGE:
+            status = result["status"].toString();
+            if (status == "success")
+                emit jobFinished();
+            else if (status == "solving")
+            {
+                if (status == "solving" && solver_retries++ < SOLVER_RETRY_ATTEMPTS)
+                {
+                    QTimer::singleShot(SOLVER_RETRY_DURATION, this, SLOT(checkJobs()));
+                    return;
+                }
+                else
+                {
+                    align->appendLogText(i18n("Solver timed out."));
+                    solver_retries=0;
+                    emit solverFailed();
+                    return;
+                }
+            }
+            else if (status == "failure")
+            {
+                elapsed = (int) round(solverTimer.elapsed()/1000.0);
+                align->appendLogText(i18np("Solver failed after %1 second.", "Solver failed after %1 seconds.", elapsed));
+                emit solverFailed();
+                return;
+            }
+            break;
+
+        case JOB_CALIBRATION_STAGE:
+            parity = result["parity"].toInt(&ok);
+            if (ok == false)
+            {
+                align->appendLogText(i18n("Error parsing parity."));
+                emit solverFailed();
+                return;
+            }
+            orientation = result["orientation"].toDouble(&ok);
+            if (ok == false)
+            {
+                align->appendLogText(i18n("Error parsing orientation."));
+                emit solverFailed();
+                return;
+            }
+            orientation *= parity;
+            ra  = result["ra"].toDouble(&ok);
+            if (ok == false)
+            {
+                align->appendLogText(i18n("Error parsing RA."));
+                emit solverFailed();
+                return;
+            }
+            dec = result["dec"].toDouble(&ok);
+            if (ok == false)
+            {
+                align->appendLogText(i18n("Error parsing DEC."));
+                emit solverFailed();
+                return;
+            }
+
+            pixscale = result["pixscale"].toDouble(&ok);
+            if (ok == false)
+            {
+                align->appendLogText(i18n("Error parsing DEC."));
+                emit solverFailed();
+                return;
+            }
+
+            elapsed = (int) round(solverTimer.elapsed()/1000.0);
+            align->appendLogText(i18np("Solver completed in %1 second.", "Solver completed in %1 seconds.", elapsed));
+            emit solverFinished(orientation, ra, dec, pixscale);
+
+            break;
+
+        default:
+            break;
+    }
 
 }
 

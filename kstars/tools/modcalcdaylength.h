@@ -27,36 +27,37 @@ class QTextStream;
  * from a given epoch or equinox
   *@author Pablo de Vicente
   */
-class modCalcDayLength : public QFrame, public Ui::modCalcDayLengthDlg  {
-    Q_OBJECT
-public:
-    /**Constructor. */
-    explicit modCalcDayLength(QWidget *p);
-    /**Destructor. */
-    ~modCalcDayLength();
+class modCalcDayLength : public QFrame, public Ui::modCalcDayLengthDlg
+{
+        Q_OBJECT
+    public:
+        /**Constructor. */
+        explicit modCalcDayLength(QWidget * p);
+        /**Destructor. */
+        ~modCalcDayLength();
 
-public slots:
-    void slotLocation();
-    void slotLocationBatch();
-    void slotComputeAlmanac();
-    void slotRunBatch();
-    void slotViewBatch();
-    void slotCheckFiles();
+    public slots:
+        void slotLocation();
+        void slotLocationBatch();
+        void slotComputeAlmanac();
+        void slotRunBatch();
+        void slotViewBatch();
+        void slotCheckFiles();
 
-private:
-    void updateAlmanac( const QDate &d, GeoLocation *geo );
-    QTime lengthOfDay(QTime setQTime, QTime riseQTime);
+    private:
+        void updateAlmanac( const QDate &d, GeoLocation * geo );
+        QTime lengthOfDay(QTime setQTime, QTime riseQTime);
 
-    void showCurrentDate(void);
-    void initGeo(void);
-    void processLines( QTextStream &istream );
+        void showCurrentDate(void);
+        void initGeo(void);
+        void processLines( QTextStream &istream );
 
-    GeoLocation *geoPlace, *geoBatch;
-    QString srTimeString, stTimeString, ssTimeString;
-    QString mrTimeString, mtTimeString, msTimeString;
-    QString srAzString, stAltString, ssAzString;
-    QString mrAzString, mtAltString, msAzString;
-    QString daylengthString, lunarphaseString;
+        GeoLocation * geoPlace, *geoBatch;
+        QString srTimeString, stTimeString, ssTimeString;
+        QString mrTimeString, mtTimeString, msTimeString;
+        QString srAzString, stAltString, ssAzString;
+        QString mrAzString, mtAltString, msAzString;
+        QString daylengthString, lunarphaseString;
 };
 
 #endif

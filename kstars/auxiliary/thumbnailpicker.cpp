@@ -40,15 +40,16 @@
 #include "dialogs/detaildialog.h"
 #include "skyobjects/skyobject.h"
 
-ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {
+ThumbnailPickerUI::ThumbnailPickerUI( QWidget * parent ) : QFrame( parent )
+{
     setupUi( this );
 }
 
-ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent, double _w, double _h, QString cap )
-        : QDialog( parent ), SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
+ThumbnailPicker::ThumbnailPicker( SkyObject * o, const QPixmap &current, QWidget * parent, double _w, double _h, QString cap )
+    : QDialog( parent ), SelectedImageIndex(-1), dd((DetailDialog *)parent), Object(o), bImageFound( false )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     wid = _w;
     ht = _h;
@@ -59,11 +60,11 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 
     setWindowTitle( cap );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ui);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -74,7 +75,7 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
     connect( ui->UnsetButton, SIGNAL( clicked() ), this, SLOT( slotUnsetImage() ) );
     connect( ui->ImageList, SIGNAL( currentRowChanged( int ) ),
              this, SLOT( slotSetFromList( int ) ) );
-    connect( ui->ImageURLBox, SIGNAL( urlSelected( const QUrl& ) ),
+    connect( ui->ImageURLBox, SIGNAL( urlSelected( const QUrl & ) ),
              this, SLOT( slotSetFromURL() ) );
     connect( ui->ImageURLBox, SIGNAL( returnPressed() ),
              this, SLOT( slotSetFromURL() ) );
@@ -85,18 +86,21 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
     slotFillList();
 }
 
-ThumbnailPicker::~ThumbnailPicker() {
+ThumbnailPicker::~ThumbnailPicker()
+{
     while ( ! PixList.isEmpty() ) delete PixList.takeFirst();
 }
 
 //Query online sources for images of the object
-void ThumbnailPicker::slotFillList() {    
+void ThumbnailPicker::slotFillList()
+{
     //Query Google Image Search:
 
     QUrlQuery gURL( "http://images.google.com/images?" );
     //Search for the primary name, or longname and primary name
     QString sName = QString("%1 ").arg( Object->name() );
-    if ( Object->longname() != Object->name() ) {
+    if ( Object->longname() != Object->name() )
+    {
         sName = QString("%1 ").arg( Object->longname() ) + sName;
     }
     gURL.addQueryItem( "q", sName ); //add the Google-image query string
@@ -104,7 +108,7 @@ void ThumbnailPicker::slotFillList() {
     parseGooglePage(gURL.query());
 }
 
-void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
+void ThumbnailPicker::slotProcessGoogleResult(KJob * result)
 {
     //Preload ImageList with the URLs in the object's ImageList:
     QStringList ImageList( Object->ImageList() );
@@ -116,7 +120,7 @@ void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
         return;
     }
 
-    QString PageHTML(static_cast<KIO::StoredTransferJob*>(result)->data());
+    QString PageHTML(static_cast<KIO::StoredTransferJob *>(result)->data());
 
     int index = PageHTML.indexOf( "src=\"http:", 0 );
     while ( index >= 0 )
@@ -139,43 +143,49 @@ void ThumbnailPicker::slotProcessGoogleResult(KJob *result)
     }
     else
     {
-            close();
-            return;
-   }
+        close();
+        return;
+    }
 
     //Add images from the ImageList
-    for ( int i=0; i<ImageList.size(); ++i ) {
+    for ( int i=0; i<ImageList.size(); ++i )
+    {
         QString s( ImageList[i] );
         QUrl u( ImageList[i] );
 
-        if ( u.isValid() ) {
-            KIO::StoredTransferJob *j = KIO::storedGet( u, KIO::NoReload, KIO::HideProgressInfo );
+        if ( u.isValid() )
+        {
+            KIO::StoredTransferJob * j = KIO::storedGet( u, KIO::NoReload, KIO::HideProgressInfo );
             j->setUiDelegate(0);
-            connect( j, SIGNAL( result(KJob*) ), SLOT( slotJobResult(KJob*) ) );
+            connect( j, SIGNAL( result(KJob *) ), SLOT( slotJobResult(KJob *) ) );
         }
     }
 }
 
-void ThumbnailPicker::slotJobResult( KJob *job ) {
-    KIO::StoredTransferJob *stjob = (KIO::StoredTransferJob*)job;
+void ThumbnailPicker::slotJobResult( KJob * job )
+{
+    KIO::StoredTransferJob * stjob = (KIO::StoredTransferJob *)job;
 
     //Update Progressbar
-    if ( ! ui->SearchProgress->isHidden() ) {
+    if ( ! ui->SearchProgress->isHidden() )
+    {
         ui->SearchProgress->setValue(ui->SearchProgress->value()+1);
-        if ( ui->SearchProgress->value() == ui->SearchProgress->maximum() ) {
+        if ( ui->SearchProgress->value() == ui->SearchProgress->maximum() )
+        {
             ui->SearchProgress->hide();
             ui->SearchLabel->setText( i18n( "Search results:" ) );
         }
     }
 
     //If there was a problem, just return silently without adding image to list.
-    if ( job->error() ) {
+    if ( job->error() )
+    {
         qDebug() << " error=" << job->error();
         job->kill();
         return;
     }
 
-    QPixmap *pm = new QPixmap();
+    QPixmap * pm = new QPixmap();
     pm->loadFromData( stjob->data() );
 
     uint w = pm->width();
@@ -198,37 +208,50 @@ void ThumbnailPicker::slotJobResult( KJob *job ) {
 void ThumbnailPicker::parseGooglePage(const QString &URL )
 {
     QUrl googleURL(URL);
-    KIO::StoredTransferJob *job = KIO::storedGet(googleURL);
-    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotProcessGoogleResult(KJob*)));
+    KIO::StoredTransferJob * job = KIO::storedGet(googleURL);
+    connect(job, SIGNAL(result(KJob *)), this, SLOT(slotProcessGoogleResult(KJob *)));
 
     job->start();
 }
 
-QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
+QPixmap ThumbnailPicker::shrinkImage( QPixmap * pm, int size, bool setImage )
+{
     int w( pm->width() ), h( pm->height() );
     int bigSize( w );
     int rx(0), ry(0), sx(0), sy(0), bx(0), by(0);
     if ( size == 0 ) return QPixmap();
 
     //Prepare variables for rescaling image (if it is larger than 'size')
-    if ( w > size && w >= h ) {
+    if ( w > size && w >= h )
+    {
         h = size;
         w = size*pm->width()/pm->height();
-    } else if ( h > size && h > w ) {
+    }
+    else if ( h > size && h > w )
+    {
         w = size;
         h = size*pm->height()/pm->width();
     }
     sx = (w - size)/2;
     sy = (h - size)/2;
-    if ( sx < 0 ) { rx = -sx; sx = 0; }
-    if ( sy < 0 ) { ry = -sy; sy = 0; }
+    if ( sx < 0 )
+    {
+        rx = -sx;
+        sx = 0;
+    }
+    if ( sy < 0 )
+    {
+        ry = -sy;
+        sy = 0;
+    }
 
     if ( setImage ) bigSize = int( 200.*float(pm->width())/float(w) );
 
     QPixmap result( size, size );
     result.fill( QColor( "white" ) ); //in case final image is smaller than 'size'
 
-    if ( pm->width() > size || pm->height() > size ) { //image larger than 'size'?
+    if ( pm->width() > size || pm->height() > size )   //image larger than 'size'?
+    {
         //convert to QImage so we can smoothscale it
         QImage im( pm->toImage() );
         im = im.scaled( w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
@@ -239,19 +262,23 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
         p.drawImage( rx, ry, im, sx, sy, size, size );
         p.end();
 
-        if ( setImage ) {
+        if ( setImage )
+        {
             bx = int( sx*float(pm->width())/float(w) );
             by = int( sy*float(pm->width())/float(w) );
             ImageRect->setRect( bx, by, bigSize, bigSize );
         }
 
-    } else { //image is smaller than size x size
+    }
+    else     //image is smaller than size x size
+    {
         QPainter p;
         p.begin( &result );
         p.drawImage( rx, ry, pm->toImage() );
         p.end();
 
-        if ( setImage ) {
+        if ( setImage )
+        {
             bx = int( rx*float(pm->width())/float(w) );
             by = int( ry*float(pm->width())/float(w) );
             ImageRect->setRect( bx, by, bigSize, bigSize );
@@ -261,9 +288,11 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
     return result;
 }
 
-void ThumbnailPicker::slotEditImage() {
+void ThumbnailPicker::slotEditImage()
+{
     QPointer<ThumbnailEditor> te = new ThumbnailEditor( this, wid, ht );
-    if ( te->exec() == QDialog::Accepted ) {
+    if ( te->exec() == QDialog::Accepted )
+    {
         QPixmap pm = te->thumbnail();
         *Image = pm;
         ui->CurrentImage->setPixmap( pm );
@@ -272,15 +301,16 @@ void ThumbnailPicker::slotEditImage() {
     delete te;
 }
 
-void ThumbnailPicker::slotUnsetImage() {
-  //  QFile file;
+void ThumbnailPicker::slotUnsetImage()
+{
+    //  QFile file;
     //if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
     //    file.close();
-   //     Image->load( file.fileName(), "PNG" );
-   // } else {
-   //     *Image = Image->scaled( dd->thumbnail()->width(), dd->thumbnail()->height() );
-  //      Image->fill( dd->palette().color( QPalette::Window ) );
-  //  }
+    //     Image->load( file.fileName(), "PNG" );
+    // } else {
+    //     *Image = Image->scaled( dd->thumbnail()->width(), dd->thumbnail()->height() );
+    //      Image->fill( dd->palette().color( QPalette::Window ) );
+    //  }
 
     QPixmap noImage;
     noImage.load( ":/images/noimage.png" );
@@ -293,7 +323,8 @@ void ThumbnailPicker::slotUnsetImage() {
     bImageFound = false;
 }
 
-void ThumbnailPicker::slotSetFromList( int i ) {
+void ThumbnailPicker::slotSetFromList( int i )
+{
     //Display image in preview pane
     QPixmap pm;
     pm = shrinkImage( PixList[i], 200, true ); //scale image
@@ -303,23 +334,27 @@ void ThumbnailPicker::slotSetFromList( int i ) {
     ui->CurrentImage->update();
     ui->EditButton->setEnabled( true );
 
-    *Image = PixList[i]->scaled( wid, ht, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ); 
+    *Image = PixList[i]->scaled( wid, ht, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
     bImageFound = true;
 }
 
-void ThumbnailPicker::slotSetFromURL() {
+void ThumbnailPicker::slotSetFromURL()
+{
     //Attempt to load the specified URL
     QUrl u = ui->ImageURLBox->url();
 
-    if ( u.isValid() ) {
-        if ( u.isLocalFile() ) {
+    if ( u.isValid() )
+    {
+        if ( u.isLocalFile() )
+        {
             QFile localFile( u.toLocalFile() );
 
             //Add image to list
             //If image is taller than desktop, rescale it.
             QImage im( localFile.fileName() );
 
-            if ( im.isNull() ) {
+            if ( im.isNull() )
+            {
                 KMessageBox::sorry( 0,
                                     i18n("Failed to load image at %1", localFile.fileName() ),
                                     i18n("Failed to load image") );
@@ -342,10 +377,12 @@ void ThumbnailPicker::slotSetFromURL() {
             ui->ImageList->setCurrentRow( 0 );
             slotSetFromList(0);
 
-        } else {
-            KIO::StoredTransferJob *j = KIO::storedGet( u, KIO::NoReload, KIO::HideProgressInfo );
+        }
+        else
+        {
+            KIO::StoredTransferJob * j = KIO::storedGet( u, KIO::NoReload, KIO::HideProgressInfo );
             j->setUiDelegate(0);
-            connect( j, SIGNAL( result(KJob*) ), SLOT( slotJobResult(KJob*) ) );
+            connect( j, SIGNAL( result(KJob *) ), SLOT( slotJobResult(KJob *) ) );
         }
     }
 }

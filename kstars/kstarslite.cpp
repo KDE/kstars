@@ -39,9 +39,10 @@
 #include "Options.h"
 #include "ksutils.h"
 
-KStarsLite *KStarsLite::pinstance = 0;
+KStarsLite * KStarsLite::pinstance = 0;
 
-KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDateString) {
+KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDateString)
+{
     // Initialize logging settings
     /*if (Options::disableLogging())
         KSUtils::Logging::Disable();
@@ -104,7 +105,7 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
 
     m_RootObject = m_Engine.rootObjects()[0];
 
-    QQuickItem *skyMapLiteWrapper = m_RootObject->findChild<QQuickItem*>("skyMapLiteWrapper");
+    QQuickItem * skyMapLiteWrapper = m_RootObject->findChild<QQuickItem *>("skyMapLiteWrapper");
 
     m_SkyMapLite->initialize(skyMapLiteWrapper);
     m_detailDialogLite->initialize();
@@ -112,7 +113,7 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
     m_imgProvider = new ImageProvider;
     m_Engine.addImageProvider(QLatin1String("images"), m_imgProvider);
 
-    QQuickWindow *mainWindow = static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
+    QQuickWindow * mainWindow = static_cast<QQuickWindow *>(m_Engine.rootObjects()[0]);
 
     QSurfaceFormat format = mainWindow->format();
     format.setSamples(4);
@@ -154,8 +155,10 @@ KStarsLite::KStarsLite( bool doSplash, bool startClock, const QString &startDate
 
 }
 
-void KStarsLite::slotTrack() {
-    if ( Options::isTracking() ) {
+void KStarsLite::slotTrack()
+{
+    if ( Options::isTracking() )
+    {
         Options::setIsTracking( false );
         /*actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
         actionCollection()->action("track_object")->setIcon( QIcon::fromTheme("document-decrypt") );
@@ -169,7 +172,9 @@ void KStarsLite::slotTrack() {
         map()->setClickedObject( NULL );
         map()->setFocusObject( NULL );//no longer tracking focusObject
         map()->setFocusPoint( NULL );
-    } else {
+    }
+    else
+    {
         map()->setClickedPoint( map()->focus() );
         map()->setClickedObject( NULL );
         map()->setFocusObject( NULL );//no longer tracking focusObject
@@ -182,7 +187,8 @@ void KStarsLite::slotTrack() {
     map()->forceUpdate();
 }
 
-KStarsLite *KStarsLite::createInstance( bool doSplash, bool clockrunning, const QString &startDateString) {
+KStarsLite * KStarsLite::createInstance( bool doSplash, bool clockrunning, const QString &startDateString)
+{
     delete pinstance;
     // pinstance is set directly in constructor.
     new KStarsLite( doSplash, clockrunning, startDateString );
@@ -190,22 +196,25 @@ KStarsLite *KStarsLite::createInstance( bool doSplash, bool clockrunning, const 
     return nullptr;
 }
 
-KStarsLite::~KStarsLite() {
+KStarsLite::~KStarsLite()
+{
     delete m_imgProvider;
 }
 
-void KStarsLite::fullUpdate() {
+void KStarsLite::fullUpdate()
+{
     m_KStarsData->setFullTimeUpdate();
     updateTime();
 
     m_SkyMapLite->forceUpdate();
 }
 
-void KStarsLite::updateTime( const bool automaticDSTchange ) {
+void KStarsLite::updateTime( const bool automaticDSTchange )
+{
     // Due to frequently use of this function save data and map pointers for speedup.
     // Save options and geo() to a pointer would not speedup because most of time options
     // and geo will accessed only one time.
-    KStarsData *Data = data();
+    KStarsData * Data = data();
     // dms oldLST( Data->lst()->Degrees() );
 
     Data->updateTime( Data->geo(), automaticDSTchange );
@@ -224,19 +233,20 @@ void KStarsLite::updateTime( const bool automaticDSTchange ) {
     //step exactly equal to the timeScale setting.
     //Wrap the call to manualTick() in a singleshot timer so that it doesn't get called until
     //the skymap has been completely updated.
-    if ( Data->clock()->isManualMode() && Data->clock()->isActive() ) {
+    if ( Data->clock()->isManualMode() && Data->clock()->isActive() )
+    {
         QTimer::singleShot( 0, Data->clock(), SLOT( manualTick() ) );
     }
 }
 
 bool KStarsLite::writeConfig()
 {
-   // It seems two config files are saved to android. Must call them both to save all options
-   // First one save color information, 2nd one rest of config. Bug?
-   // /data/user/0/org.kde.kstars/files/settings/kstarsrc is used by KSharedConfig::openConfig()
-   KSharedConfig::openConfig()->sync();
-   // /data/data/org.kde.kstars/files/settings/kstarsrc is used by Options::self()
-   return Options::self()->save();
+    // It seems two config files are saved to android. Must call them both to save all options
+    // First one save color information, 2nd one rest of config. Bug?
+    // /data/user/0/org.kde.kstars/files/settings/kstarsrc is used by KSharedConfig::openConfig()
+    KSharedConfig::openConfig()->sync();
+    // /data/data/org.kde.kstars/files/settings/kstarsrc is used by Options::self()
+    return Options::self()->save();
 
     //Store current simulation time
     //Refer to // FIXME: Used in kstarsdcop.cpp only in kstarsdata.cpp
@@ -267,15 +277,18 @@ void KStarsLite::loadColorScheme( const QString &name )
     bool ok = data()->colorScheme()->load( name );
     QString filename = data()->colorScheme()->fileName();
 
-    if ( ok ) {
+    if ( ok )
+    {
         //set the application colors for the Night Vision scheme
-        if ( Options::darkAppColors() == false && filename == "night.colors" )  {
+        if ( Options::darkAppColors() == false && filename == "night.colors" )
+        {
             Options::setDarkAppColors( true );
             OriginalPalette = QGuiApplication::palette();
             QGuiApplication::setPalette( DarkPalette );
         }
 
-        if ( Options::darkAppColors() && filename != "night.colors" ) {
+        if ( Options::darkAppColors() && filename != "night.colors" )
+        {
             Options::setDarkAppColors( false );
             QGuiApplication::setPalette( OriginalPalette );
         }
@@ -293,15 +306,19 @@ void KStarsLite::loadColorScheme( const QString &name )
     }
 }
 
-void KStarsLite::slotSetTime(QDateTime time) {
+void KStarsLite::slotSetTime(QDateTime time)
+{
     KStarsDateTime selectedDateTime( time );
     data()->changeDateTime( data()->geo()->LTtoUT( selectedDateTime ) );
 
-    if ( Options::useAltAz() ) {
-        if ( map()->focusObject() ) {
+    if ( Options::useAltAz() )
+    {
+        if ( map()->focusObject() )
+        {
             map()->focusObject()->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
             map()->setFocus( map()->focusObject() );
-        } else
+        }
+        else
             map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
     }
 
@@ -315,11 +332,15 @@ void KStarsLite::slotSetTime(QDateTime time) {
         }*/
 }
 
-void KStarsLite::slotToggleTimer() {
-    if ( data()->clock()->isActive() ) {
+void KStarsLite::slotToggleTimer()
+{
+    if ( data()->clock()->isActive() )
+    {
         data()->clock()->stop();
         updateTime();
-    } else {
+    }
+    else
+    {
         if ( fabs( data()->clock()->scale() ) > Options::slewTimeScale() )
             data()->clock()->setManualMode( true );
         data()->clock()->start();
@@ -331,14 +352,16 @@ void KStarsLite::slotToggleTimer() {
     Options::setRunClock( data()->clock()->isActive() );
 }
 
-void KStarsLite::slotStepForward() {
+void KStarsLite::slotStepForward()
+{
     if ( data()->clock()->isActive() )
         data()->clock()->stop();
     data()->clock()->manualTick( true );
     map()->forceUpdate();
 }
 
-void KStarsLite::slotStepBackward() {
+void KStarsLite::slotStepBackward()
+{
     if ( data()->clock()->isActive() )
         data()->clock()->stop();
     data()->clock()->setClockScale( -1.0 * data()->clock()->scale() ); //temporarily need negative time step
@@ -347,71 +370,77 @@ void KStarsLite::slotStepBackward() {
     map()->forceUpdate();
 }
 
-void KStarsLite::applyConfig(bool doApplyFocus) {
+void KStarsLite::applyConfig(bool doApplyFocus)
+{
     Q_UNUSED(doApplyFocus);
     //color scheme
     m_KStarsData->colorScheme()->loadFromConfig();
     QGuiApplication::setPalette( Options::darkAppColors() ? DarkPalette : OriginalPalette );
 }
 
-void KStarsLite::setProjection(uint proj) {
+void KStarsLite::setProjection(uint proj)
+{
     Options::setProjection(proj);
     //We update SkyMapLite 2 times because of the bug in Projector::updateClipPoly()
     SkyMapLite::Instance()->forceUpdate();
 }
 
-QColor KStarsLite::getColor(QString schemeColor) {
+QColor KStarsLite::getColor(QString schemeColor)
+{
     return KStarsData::Instance()->colorScheme()->colorNamed(schemeColor);
 }
 
-QString KStarsLite::getConfigCScheme() {
+QString KStarsLite::getConfigCScheme()
+{
     return Options::colorSchemeFile();
 }
 
-void KStarsLite::toggleObjects(ObjectsToToggle toToggle, bool toggle) {
-    switch(toToggle) {
-    case ObjectsToToggle::Stars:
-        Options::setShowStars(toggle);
-        break;
-    case ObjectsToToggle::DeepSky:
-        Options::setShowDeepSky(toggle);
-        break;
-    case ObjectsToToggle::Planets:
-        Options::setShowSolarSystem(toggle);
-        break;
-    case ObjectsToToggle::CLines:
-        Options::setShowCLines(toggle);
-        break;
-    case ObjectsToToggle::CBounds:
-        Options::setShowCBounds(toggle);
-        break;
-    case ObjectsToToggle::ConstellationArt:
-        Options::setShowConstellationArt(toggle);
-        break;
-    case ObjectsToToggle::MilkyWay:
-        Options::setShowMilkyWay(toggle);
-        break;
-    case ObjectsToToggle::CNames:
-        Options::setShowCNames(toggle);
-        break;
-    case ObjectsToToggle::EquatorialGrid:
-        Options::setShowEquatorialGrid(toggle);
-        break;
-    case ObjectsToToggle::HorizontalGrid:
-        Options::setShowHorizontalGrid(toggle);
-        break;
-    case ObjectsToToggle::Ground:
-        Options::setShowGround(toggle);
-        break;
-    case ObjectsToToggle::Flags:
-        Options::setShowFlags(toggle);
-        break;
-    case ObjectsToToggle::Satellites:
-        Options::setShowSatellites(toggle);
-        break;
-    case ObjectsToToggle::Supernovae:
-        Options::setShowSupernovae(toggle);
-        break;
+void KStarsLite::toggleObjects(ObjectsToToggle toToggle, bool toggle)
+{
+    switch(toToggle)
+    {
+        case ObjectsToToggle::Stars:
+            Options::setShowStars(toggle);
+            break;
+        case ObjectsToToggle::DeepSky:
+            Options::setShowDeepSky(toggle);
+            break;
+        case ObjectsToToggle::Planets:
+            Options::setShowSolarSystem(toggle);
+            break;
+        case ObjectsToToggle::CLines:
+            Options::setShowCLines(toggle);
+            break;
+        case ObjectsToToggle::CBounds:
+            Options::setShowCBounds(toggle);
+            break;
+        case ObjectsToToggle::ConstellationArt:
+            Options::setShowConstellationArt(toggle);
+            break;
+        case ObjectsToToggle::MilkyWay:
+            Options::setShowMilkyWay(toggle);
+            break;
+        case ObjectsToToggle::CNames:
+            Options::setShowCNames(toggle);
+            break;
+        case ObjectsToToggle::EquatorialGrid:
+            Options::setShowEquatorialGrid(toggle);
+            break;
+        case ObjectsToToggle::HorizontalGrid:
+            Options::setShowHorizontalGrid(toggle);
+            break;
+        case ObjectsToToggle::Ground:
+            Options::setShowGround(toggle);
+            break;
+        case ObjectsToToggle::Flags:
+            Options::setShowFlags(toggle);
+            break;
+        case ObjectsToToggle::Satellites:
+            Options::setShowSatellites(toggle);
+            break;
+        case ObjectsToToggle::Supernovae:
+            Options::setShowSupernovae(toggle);
+            break;
     };
 
     // update time for all objects because they might be not initialized
@@ -422,48 +451,53 @@ void KStarsLite::toggleObjects(ObjectsToToggle toToggle, bool toggle) {
     map()->forceUpdate();
 }
 
-bool KStarsLite::isToggled(ObjectsToToggle toToggle) {
-    switch(toToggle) {
-    case ObjectsToToggle::Stars:
-        return Options::showStars();
-    case ObjectsToToggle::DeepSky:
-        return Options::showDeepSky();
-    case ObjectsToToggle::Planets:
-        return Options::showSolarSystem();
-    case ObjectsToToggle::CLines:
-        return Options::showCLines();
-    case ObjectsToToggle::CBounds:
-        return Options::showCBounds();
-    case ObjectsToToggle::ConstellationArt:
-        return Options::showConstellationArt();
-    case ObjectsToToggle::MilkyWay:
-        return Options::showMilkyWay();
-    case ObjectsToToggle::CNames:
-        return Options::showCNames();
-    case ObjectsToToggle::EquatorialGrid:
-        return Options::showEquatorialGrid();
-    case ObjectsToToggle::HorizontalGrid:
-        return Options::showHorizontalGrid();
-    case ObjectsToToggle::Ground:
-        return Options::showGround();
-    case ObjectsToToggle::Flags:
-        return Options::showFlags();
-    case ObjectsToToggle::Satellites:
-        return Options::showSatellites();
-    case ObjectsToToggle::Supernovae:
-        return Options::showSupernovae();
-    default:
-        return false;
+bool KStarsLite::isToggled(ObjectsToToggle toToggle)
+{
+    switch(toToggle)
+    {
+        case ObjectsToToggle::Stars:
+            return Options::showStars();
+        case ObjectsToToggle::DeepSky:
+            return Options::showDeepSky();
+        case ObjectsToToggle::Planets:
+            return Options::showSolarSystem();
+        case ObjectsToToggle::CLines:
+            return Options::showCLines();
+        case ObjectsToToggle::CBounds:
+            return Options::showCBounds();
+        case ObjectsToToggle::ConstellationArt:
+            return Options::showConstellationArt();
+        case ObjectsToToggle::MilkyWay:
+            return Options::showMilkyWay();
+        case ObjectsToToggle::CNames:
+            return Options::showCNames();
+        case ObjectsToToggle::EquatorialGrid:
+            return Options::showEquatorialGrid();
+        case ObjectsToToggle::HorizontalGrid:
+            return Options::showHorizontalGrid();
+        case ObjectsToToggle::Ground:
+            return Options::showGround();
+        case ObjectsToToggle::Flags:
+            return Options::showFlags();
+        case ObjectsToToggle::Satellites:
+            return Options::showSatellites();
+        case ObjectsToToggle::Supernovae:
+            return Options::showSupernovae();
+        default:
+            return false;
     };
 }
 
-void KStarsLite::setRunTutorial(bool runTutorial) {
-    if(Options::runStartupWizard() != runTutorial) {
+void KStarsLite::setRunTutorial(bool runTutorial)
+{
+    if(Options::runStartupWizard() != runTutorial)
+    {
         Options::setRunStartupWizard(runTutorial);
         emit runTutorialChanged();
     }
 }
 
-bool KStarsLite::getRunTutorial() {
+bool KStarsLite::getRunTutorial()
+{
     return Options::runStartupWizard();
 }

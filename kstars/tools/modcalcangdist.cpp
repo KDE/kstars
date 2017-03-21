@@ -29,8 +29,9 @@
 #include "dialogs/finddialog.h"
 #include "kstars.h"
 
-modCalcAngDist::modCalcAngDist(QWidget *parentSplit)
-        : QFrame(parentSplit) {
+modCalcAngDist::modCalcAngDist(QWidget * parentSplit)
+    : QFrame(parentSplit)
+{
 
     setupUi(this);
     FirstRA->setDegType(false);
@@ -52,10 +53,12 @@ modCalcAngDist::modCalcAngDist(QWidget *parentSplit)
     slotValidatePositions();
 }
 
-modCalcAngDist::~modCalcAngDist(){
+modCalcAngDist::~modCalcAngDist()
+{
 }
 
-SkyPoint modCalcAngDist::getCoords (dmsBox* rBox, dmsBox* dBox, bool *ok) {
+SkyPoint modCalcAngDist::getCoords (dmsBox * rBox, dmsBox * dBox, bool * ok)
+{
     dms raCoord, decCoord;
 
     bool ok2=false;
@@ -63,16 +66,20 @@ SkyPoint modCalcAngDist::getCoords (dmsBox* rBox, dmsBox* dBox, bool *ok) {
     if ( ok2 )
         decCoord = dBox->createDms(true, &ok2);
 
-    if ( ok2 ) {
+    if ( ok2 )
+    {
         if ( ok ) *ok = ok2;
         return SkyPoint (raCoord, decCoord);
-    } else {
+    }
+    else
+    {
         if ( ok ) *ok = ok2;
         return SkyPoint();
     }
 }
 
-void modCalcAngDist::slotValidatePositions(){
+void modCalcAngDist::slotValidatePositions()
+{
 
     SkyPoint sp0,sp1;
     bool ok;
@@ -94,15 +101,20 @@ void modCalcAngDist::slotValidatePositions(){
     }
 }
 
-void modCalcAngDist::slotObjectButton() {
+void modCalcAngDist::slotObjectButton()
+{
     QPointer<FindDialog> fd = new FindDialog( this );
-    if ( fd->exec() == QDialog::Accepted ) {
-        SkyObject *o = fd->targetObject();
-        if ( sender()->objectName() == QString("FirstObjectButton") ) {
+    if ( fd->exec() == QDialog::Accepted )
+    {
+        SkyObject * o = fd->targetObject();
+        if ( sender()->objectName() == QString("FirstObjectButton") )
+        {
             FirstRA->showInHours( o->ra() );
             FirstDec->showInDegrees( o->dec() );
             FirstPositionBox->setTitle( i18n("First position: %1", o->name()) );
-        } else {
+        }
+        else
+        {
             SecondRA->showInHours( o->ra() );
             SecondDec->showInDegrees( o->dec() );
             SecondPositionBox->setTitle( i18n("Second position: %1", o->name()) );
@@ -113,7 +125,8 @@ void modCalcAngDist::slotObjectButton() {
     delete fd;
 }
 
-void modCalcAngDist::slotResetTitle() {
+void modCalcAngDist::slotResetTitle()
+{
     QString name = sender()->objectName();
     if ( name.contains( "First" ) )
         FirstPositionBox->setTitle( i18n("First position") );
@@ -121,15 +134,18 @@ void modCalcAngDist::slotResetTitle() {
         SecondPositionBox->setTitle( i18n("Second position") );
 }
 
-void modCalcAngDist::slotRunBatch() {
+void modCalcAngDist::slotRunBatch()
+{
 
     QString inputFileName = InputLineEditBatch->url().toLocalFile();
 
     // We open the input file and read its content
 
-    if ( QFile::exists(inputFileName) ) {
+    if ( QFile::exists(inputFileName) )
+    {
         QFile f( inputFileName );
-        if ( !f.open( QIODevice::ReadOnly) ) {
+        if ( !f.open( QIODevice::ReadOnly) )
+        {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             inputFileName.clear();
@@ -141,7 +157,9 @@ void modCalcAngDist::slotRunBatch() {
         processLines(istream);
         //		readFile( istream );
         f.close();
-    } else  {
+    }
+    else
+    {
         QString message = i18n( "Invalid file: %1", inputFileName );
         KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
         inputFileName.clear();
@@ -151,7 +169,8 @@ void modCalcAngDist::slotRunBatch() {
 }
 
 //void modCalcAngDist::processLines( const QFile * fIn ) {
-void modCalcAngDist::processLines( QTextStream &istream ) {
+void modCalcAngDist::processLines( QTextStream &istream )
+{
 
     // we open the output file
 
@@ -169,7 +188,8 @@ void modCalcAngDist::processLines( QTextStream &istream ) {
     double PA=0;
     dms ra0B, dec0B, ra1B, dec1B, dist;
 
-    while ( ! istream.atEnd() ) {
+    while ( ! istream.atEnd() )
+    {
         line = istream.readLine();
         line.trimmed();
 
@@ -181,59 +201,63 @@ void modCalcAngDist::processLines( QTextStream &istream ) {
 
         // Read RA and write in ostream if corresponds
 
-        if(ra0CheckBatch->isChecked() ) {
+        if(ra0CheckBatch->isChecked() )
+        {
             ra0B = dms::fromString( fields[i],false);
             i++;
-        } else
+        }
+        else
             ra0B = ra0BoxBatch->createDms(false);
 
         if ( allRadioBatch->isChecked() )
             ostream << ra0B.toHMSString() << space;
-        else
-            if(ra0CheckBatch->isChecked() )
-                ostream << ra0B.toHMSString() << space;
+        else if(ra0CheckBatch->isChecked() )
+            ostream << ra0B.toHMSString() << space;
 
         // Read DEC and write in ostream if corresponds
 
-        if(dec0CheckBatch->isChecked() ) {
+        if(dec0CheckBatch->isChecked() )
+        {
             dec0B = dms::fromString( fields[i], true);
             i++;
-        } else
+        }
+        else
             dec0B = dec0BoxBatch->createDms();
 
         if ( allRadioBatch->isChecked() )
             ostream << dec0B.toDMSString() << space;
-        else
-            if(dec0CheckBatch->isChecked() )
-                ostream << dec0B.toDMSString() << space;
+        else if(dec0CheckBatch->isChecked() )
+            ostream << dec0B.toDMSString() << space;
 
         // Read RA and write in ostream if corresponds
 
-        if(ra1CheckBatch->isChecked() ) {
+        if(ra1CheckBatch->isChecked() )
+        {
             ra1B = dms::fromString( fields[i],false);
             i++;
-        } else
+        }
+        else
             ra1B = ra1BoxBatch->createDms(false);
 
         if ( allRadioBatch->isChecked() )
             ostream << ra1B.toHMSString() << space;
-        else
-            if(ra1CheckBatch->isChecked() )
-                ostream << ra1B.toHMSString() << space;
+        else if(ra1CheckBatch->isChecked() )
+            ostream << ra1B.toHMSString() << space;
 
         // Read DEC and write in ostream if corresponds
 
-        if(dec1CheckBatch->isChecked() ) {
+        if(dec1CheckBatch->isChecked() )
+        {
             dec1B = dms::fromString( fields[i], true);
             i++;
-        } else
+        }
+        else
             dec1B = dec1BoxBatch->createDms();
 
         if ( allRadioBatch->isChecked() )
             ostream << dec1B.toDMSString() << space;
-        else
-            if(dec1CheckBatch->isChecked() )
-                ostream << dec1B.toDMSString() << space;
+        else if(dec1CheckBatch->isChecked() )
+            ostream << dec1B.toDMSString() << space;
 
         sp0 = SkyPoint (ra0B, dec0B);
         sp1 = SkyPoint (ra1B, dec1B);

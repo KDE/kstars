@@ -30,8 +30,8 @@
 #include <KPlotting/KPlotObject>
 #include <QDebug>
 
-AVTPlotWidget::AVTPlotWidget( QWidget *parent )
-        : KPlotWidget( parent ), geo(NULL)
+AVTPlotWidget::AVTPlotWidget( QWidget * parent )
+    : KPlotWidget( parent ), geo(NULL)
 {
     setAntialiasing(true);
 
@@ -43,21 +43,25 @@ AVTPlotWidget::AVTPlotWidget( QWidget *parent )
     MousePoint = QPoint( -1, -1 );
 }
 
-void AVTPlotWidget::mousePressEvent( QMouseEvent *e ) {
+void AVTPlotWidget::mousePressEvent( QMouseEvent * e )
+{
     mouseMoveEvent( e );
 }
 
-void AVTPlotWidget::mouseDoubleClickEvent( QMouseEvent * ) {
+void AVTPlotWidget::mouseDoubleClickEvent( QMouseEvent * )
+{
     MousePoint = QPoint(-1, -1);
     update();
 }
 
-void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
+void AVTPlotWidget::mouseMoveEvent( QMouseEvent * e )
+{
     QRect checkRect( leftPadding(), topPadding(), pixRect().width(), pixRect().height() );
     int Xcursor = e->x();
     int Ycursor = e->y();
 
-    if ( ! checkRect.contains( e->x(), e->y() ) ) {
+    if ( ! checkRect.contains( e->x(), e->y() ) )
+    {
         if ( e->x() < checkRect.left() )   Xcursor = checkRect.left();
         if ( e->x() > checkRect.right() )  Xcursor = checkRect.right();
         if ( e->y() < checkRect.top() )    Ycursor = checkRect.top();
@@ -71,7 +75,8 @@ void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
     update();
 }
 
-void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
+void AVTPlotWidget::paintEvent( QPaintEvent * e )
+{
     Q_UNUSED(e)
 
     QPainter p;
@@ -93,7 +98,8 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
         SkyColor = QColor( 200, 0, 0 ); // use something red, visible through a red filter
 
     // Draw gradient representing lunar interference in the sky
-    if( MoonIllum > 0.01 ) { // do this only if Moon illumination is reasonable so it's important
+    if( MoonIllum > 0.01 )   // do this only if Moon illumination is reasonable so it's important
+    {
         int moonrise = int( pW * (0.5 + MoonRise) );
         int moonset = int( pW * (MoonSet - 0.5 ) );
         if( moonset < 0 )
@@ -104,7 +110,8 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
         int fadewidth = pW * 0.01; // pW * fraction of day to fade the moon brightness over (0.01 corresponds to roughly 15 minutes, 0.007 to 10 minutes), both before and after actual set.
         QColor MoonColor( 255, 255, 255, moonalpha );
 
-        if( moonset < moonrise ) {
+        if( moonset < moonrise )
+        {
             QLinearGradient grad = QLinearGradient( QPointF( moonset - fadewidth, 0.0 ), QPointF( moonset + fadewidth, 0.0 ) );
             grad.setColorAt( 0, MoonColor );
             grad.setColorAt( 1, Qt::transparent );
@@ -113,7 +120,8 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
             grad.setFinalStop( QPointF( moonrise - fadewidth, 0.0 ) );
             p.fillRect( QRectF( moonrise - fadewidth, 0.0, pW - moonrise + fadewidth, pH ), grad );
         }
-        else {
+        else
+        {
             p.fillRect( QRectF( moonrise + fadewidth, 0.0, moonset - moonrise - 2 * fadewidth, pH ), MoonColor );
             QLinearGradient grad = QLinearGradient( QPointF( moonrise + fadewidth, 0.0 ) , QPointF( moonrise - fadewidth, 0.0 ) );
             grad.setColorAt( 0, MoonColor );
@@ -125,17 +133,21 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
         }
     }
     //draw daytime sky if the Sun rises for the current date/location
-    if ( SunMaxAlt > -18.0 ) {
+    if ( SunMaxAlt > -18.0 )
+    {
         //Display centered on midnight, so need to modulate dawn/dusk by 0.5
         int rise = int( pW * ( 0.5 + SunRise ) );
         int set = int( pW * ( SunSet - 0.5 ) );
         int da = int( pW * ( 0.5 + Dawn ) );
         int du = int( pW * ( Dusk - 0.5 ) );
 
-        if ( SunMinAlt > 0.0 ) {
+        if ( SunMinAlt > 0.0 )
+        {
             // The sun never set and the sky is always blue
             p.fillRect( rect(), SkyColor );
-        } else if ( SunMaxAlt < 0.0 && SunMinAlt < -18.0 ) {
+        }
+        else if ( SunMaxAlt < 0.0 && SunMinAlt < -18.0 )
+        {
             // The sun never rise but the sky is not completely dark
             QLinearGradient grad = QLinearGradient( QPointF( 0.0, 0.0 ), QPointF( du, 0.0 ) );
 
@@ -148,7 +160,9 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
             grad.setStart( QPointF( pW, 0.0 ) );
             grad.setFinalStop( QPointF( da, 0.0 ) );
             p.fillRect( QRectF( da, 0.0, pW, pH ), grad );
-        } else if ( SunMaxAlt < 0.0 && SunMinAlt > -18.0 ) {
+        }
+        else if ( SunMaxAlt < 0.0 && SunMinAlt > -18.0 )
+        {
             // The sun never rise but the sky is NEVER completely dark
             QLinearGradient grad = QLinearGradient( QPointF( 0.0, 0.0 ), QPointF( pW, 0.0 ) );
 
@@ -161,7 +175,9 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
             grad.setColorAt( 0.5, gradMidColor );
             grad.setColorAt( 1, gradStartEndColor );
             p.fillRect( QRectF( 0.0, 0.0, pW, pH ), grad );
-        } else if ( Dawn < 0.0 ) {
+        }
+        else if ( Dawn < 0.0 )
+        {
             // The sun sets and rises but the sky is never completely dark
             p.fillRect( 0, 0, set, int( 0.5 * pH ), SkyColor );
             p.fillRect( rise, 0, pW, int( 0.5 * pH ), SkyColor );
@@ -175,7 +191,9 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
             grad.setColorAt( 0.5, gradMidColor );
             grad.setColorAt( 1, SkyColor );
             p.fillRect( QRectF( set, 0.0, rise-set, pH ), grad );
-        } else {
+        }
+        else
+        {
             p.fillRect( 0, 0, set, pH, SkyColor );
             p.fillRect( rise, 0, pW, pH, SkyColor );
 
@@ -192,9 +210,10 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
 
     //draw ground
     p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH),
-                KStarsData::Instance()->colorScheme()->colorNamed( "HorzColor" ) ); // asimha changed to use color from scheme. Formerly was QColor( "#002200" ) 
+                KStarsData::Instance()->colorScheme()->colorNamed( "HorzColor" ) ); // asimha changed to use color from scheme. Formerly was QColor( "#002200" )
 
-    foreach( KPlotObject *po, plotObjects() ) {
+    foreach( KPlotObject * po, plotObjects() )
+    {
         po->draw( &p, this );
     }
 
@@ -204,7 +223,8 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
     //Add vertical line indicating "now"
     QFont smallFont = p.font();
     smallFont.setPointSize( smallFont.pointSize() ); // wat?
-    if( geo ) {
+    if( geo )
+    {
         QTime t = geo->UTtoLT( KStarsDateTime::currentDateTimeUtc() ).time(); // convert the current system clock time to the TZ corresponding to geo
         double x = 12.0 + t.hour() + t.minute()/60.0 + t.second()/3600.0;
         while ( x > 24.0 ) x -= 24.0;
@@ -222,7 +242,8 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
     }
 
     //Draw crosshairs at clicked position
-    if ( MousePoint.x() > 0 ) {
+    if ( MousePoint.x() > 0 )
+    {
         p.setPen( QPen( QBrush("gold"), 1.0, Qt::SolidLine ) );
         p.drawLine( QLineF( MousePoint.x()+0.5, 0.5, MousePoint.x()+0.5, pixRect().height()-0.5 ) );
         p.drawLine( QLineF( 0.5, MousePoint.y()+0.5, pixRect().width()-0.5, MousePoint.y()+0.5 ) );
@@ -259,19 +280,22 @@ void AVTPlotWidget::setMinMaxSunAlt( double min, double max )
     update();
 }
 
-void AVTPlotWidget::setSunRiseSetTimes( double sr, double ss ) {
+void AVTPlotWidget::setSunRiseSetTimes( double sr, double ss )
+{
     SunRise = sr;
     SunSet = ss;
     update();
 }
 
-void AVTPlotWidget::setMoonRiseSetTimes( double mr, double ms ) {
+void AVTPlotWidget::setMoonRiseSetTimes( double mr, double ms )
+{
     MoonRise = mr;
     MoonSet = ms;
     update();
 }
 
-void AVTPlotWidget::setMoonIllum( double mi ) {
+void AVTPlotWidget::setMoonIllum( double mi )
+{
     MoonIllum = mi;
     update();
 }

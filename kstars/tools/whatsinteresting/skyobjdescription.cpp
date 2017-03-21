@@ -13,7 +13,7 @@ SkyObjDescription::SkyObjDescription(const QString so_Name, const QString so_Typ
     QNetworkRequest request(wikiUrl);
 
     manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply*)), SLOT(fileDownloaded(QNetworkReply*)));
+    connect(manager, SIGNAL(finished(QNetworkReply *)), SLOT(fileDownloaded(QNetworkReply *)));
     manager->get(request);
 
 }
@@ -23,11 +23,12 @@ SkyObjDescription::~SkyObjDescription()
 
 }
 
-void SkyObjDescription::fileDownloaded(QNetworkReply* reply)
+void SkyObjDescription::fileDownloaded(QNetworkReply * reply)
 {
     m_DownloadedData = reply->readAll();
 
-    if(!m_DownloadedData.isEmpty()){
+    if(!m_DownloadedData.isEmpty())
+    {
         QString data(m_DownloadedData);
 
         const QString descOpeing( "<Description xml:space=\"preserve\">" );

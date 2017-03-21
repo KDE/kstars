@@ -28,32 +28,37 @@
 
 #include "skynodes/supernovanode.h"
 
-SupernovaeItem::SupernovaeItem(SupernovaeComponent *snovaComp, RootNode *rootNode)
+SupernovaeItem::SupernovaeItem(SupernovaeComponent * snovaComp, RootNode * rootNode)
     :SkyItem(LabelsItem::label_t::SATELLITE_LABEL, rootNode), m_snovaComp(snovaComp)
 {
     recreateList();
 }
 
-void SupernovaeItem::update() {
-    if( ! m_snovaComp->selected() ) {
+void SupernovaeItem::update()
+{
+    if( ! m_snovaComp->selected() )
+    {
         hide();
         return;
     }
     show();
 
-    QSGNode *n = firstChild();
+    QSGNode * n = firstChild();
 
-    while(n != 0) {
-        SupernovaNode *sNode = static_cast<SupernovaNode *>(n);
+    while(n != 0)
+    {
+        SupernovaNode * sNode = static_cast<SupernovaNode *>(n);
         sNode->update();
 
         n = n->nextSibling();
     }
 }
 
-void SupernovaeItem::recreateList() {
-    foreach ( SkyObject *so, m_snovaComp->objectList() ) {
-        Supernova *sup = (Supernova*) so;
+void SupernovaeItem::recreateList()
+{
+    foreach ( SkyObject * so, m_snovaComp->objectList() )
+    {
+        Supernova * sup = (Supernova *) so;
         appendChildNode(new SupernovaNode(sup));
     }
 }

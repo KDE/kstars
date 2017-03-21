@@ -10,14 +10,14 @@
 namespace Ekos
 {
 
-OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent)  : QDialog( KStars::Instance() )
+OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align * parent)  : QDialog( KStars::Instance() )
 {
     setupUi(this);
 
     alignModule = parent;
 
     //Get a pointer to the KConfigDialog
-   // m_ConfigDialog = KConfigDialog::exists( "alignsettings" );    
+    // m_ConfigDialog = KConfigDialog::exists( "alignsettings" );
     connect(openIndexFileDirectory, SIGNAL(clicked()), this, SLOT(slotOpenIndexFileDirectory()));
 
     astrometryIndex[2.8] = "00";
@@ -42,7 +42,7 @@ OpsAstrometryIndexFiles::OpsAstrometryIndexFiles(Align *parent)  : QDialog( KSta
     astrometryIndex[2000] = "19";
 }
 
-OpsAstrometryIndexFiles::~OpsAstrometryIndexFiles(){}
+OpsAstrometryIndexFiles::~OpsAstrometryIndexFiles() {}
 
 void OpsAstrometryIndexFiles::showEvent(QShowEvent *)
 {
@@ -71,16 +71,17 @@ void OpsAstrometryIndexFiles::slotUpdate()
     QDir directory(astrometryDataDir);
     QStringList indexList = directory.entryList(nameFilter);
 
-    foreach(QString indexName, indexList){
-       indexName=indexName.replace("-","_").left(10);
-       QCheckBox *indexCheckBox = findChild<QCheckBox *>(indexName);
-       if(indexCheckBox)
-           indexCheckBox->setChecked(true);
+    foreach(QString indexName, indexList)
+    {
+        indexName=indexName.replace("-","_").left(10);
+        QCheckBox * indexCheckBox = findChild<QCheckBox *>(indexName);
+        if(indexCheckBox)
+            indexCheckBox->setChecked(true);
     }
 
     QList<QCheckBox *> checkboxes = findChildren<QCheckBox *>();
 
-    foreach(QCheckBox *checkBox, checkboxes)
+    foreach(QCheckBox * checkBox, checkboxes)
     {
         checkBox->setIcon(QIcon(":/icons/breeze/default/security-low.svg"));
         checkBox->setToolTip(i18n("Optional"));
@@ -91,12 +92,12 @@ void OpsAstrometryIndexFiles::slotUpdate()
     foreach(float skymarksize, astrometryIndex.keys())
     {
         if(   (skymarksize >= 0.40 * fov_check && skymarksize <= 0.9 * fov_check)
-           || (fov_check > last_skymarksize && fov_check < skymarksize))
+                || (fov_check > last_skymarksize && fov_check < skymarksize))
         {
             QString indexName1="index_41" + astrometryIndex.value(skymarksize);
             QString indexName2="index_42" + astrometryIndex.value(skymarksize);
-            QCheckBox *indexCheckBox1 = findChild<QCheckBox *>(indexName1);
-            QCheckBox *indexCheckBox2 = findChild<QCheckBox *>(indexName2);
+            QCheckBox * indexCheckBox1 = findChild<QCheckBox *>(indexName1);
+            QCheckBox * indexCheckBox2 = findChild<QCheckBox *>(indexName2);
             if(indexCheckBox1)
             {
                 indexCheckBox1->setIcon(QIcon(":/icons/breeze/default/security-high.svg"));
@@ -113,8 +114,8 @@ void OpsAstrometryIndexFiles::slotUpdate()
         {
             QString indexName1="index_41" + astrometryIndex.value(skymarksize);
             QString indexName2="index_42" + astrometryIndex.value(skymarksize);
-            QCheckBox *indexCheckBox1 = findChild<QCheckBox *>(indexName1);
-            QCheckBox *indexCheckBox2 = findChild<QCheckBox *>(indexName2);
+            QCheckBox * indexCheckBox1 = findChild<QCheckBox *>(indexName1);
+            QCheckBox * indexCheckBox2 = findChild<QCheckBox *>(indexName2);
             if(indexCheckBox1)
             {
                 indexCheckBox1->setIcon(QIcon(":/icons/breeze/default/security-medium.svg"));
@@ -132,7 +133,8 @@ void OpsAstrometryIndexFiles::slotUpdate()
 
 }
 
-void OpsAstrometryIndexFiles::slotOpenIndexFileDirectory(){
+void OpsAstrometryIndexFiles::slotOpenIndexFileDirectory()
+{
     QString astrometryDataDir;
     if (getAstrometryDataDir(astrometryDataDir) == false)
         return;
@@ -161,17 +163,17 @@ bool OpsAstrometryIndexFiles::getAstrometryDataDir(QString &dataDir)
     QString line;
     while ( !in.atEnd() )
     {
-      line = in.readLine();
-      if (line.isEmpty() || line.startsWith("#"))
-          continue;
+        line = in.readLine();
+        if (line.isEmpty() || line.startsWith("#"))
+            continue;
 
-      line = line.trimmed();
-      if (line.startsWith("add_path"))
-      {
-          dataDir = line.mid(9).trimmed();
-          return true;
-      }
-   }
+        line = line.trimmed();
+        if (line.startsWith("add_path"))
+        {
+            dataDir = line.mid(9).trimmed();
+            return true;
+        }
+    }
 
     KMessageBox::error(0, i18n("Unable to find data dir in astrometry configuration file."));
     return false;

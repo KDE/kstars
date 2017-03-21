@@ -31,8 +31,8 @@
 #include "skylabeler.h"
 #include "projections/projector.h"
 
-ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, CultureList* cultures )
-        : ListComponent( parent )
+ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite * parent, CultureList * cultures )
+    : ListComponent( parent )
 {
     QtConcurrent::run(this, &ConstellationNamesComponent::loadData, cultures);
 }
@@ -40,7 +40,7 @@ ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, C
 ConstellationNamesComponent::~ConstellationNamesComponent()
 {}
 
-void ConstellationNamesComponent::loadData(CultureList* cultures)
+void ConstellationNamesComponent::loadData(CultureList * cultures)
 {
     uint i = 0;
     bool culture = false;
@@ -54,7 +54,8 @@ void ConstellationNamesComponent::loadData(CultureList* cultures)
 
     localCNames = Options::useLocalConstellNames();
 
-    while ( fileReader.hasMoreLines() ) {
+    while ( fileReader.hasMoreLines() )
+    {
         QString line, name, abbrev;
         int rah, ram, ras, dd, dm, ds;
         QChar sgn, mode;
@@ -62,14 +63,16 @@ void ConstellationNamesComponent::loadData(CultureList* cultures)
         line = fileReader.readLine();
 
         mode = line.at( 0 );
-        if ( mode == 'C') {
+        if ( mode == 'C')
+        {
             cultureName = line.mid( 2 ).trimmed();
             culture     = cultureName == cultures->current();
             i++;
             continue;
         }
 
-        if ( culture ) {
+        if ( culture )
+        {
             rah = line.mid( 0, 2 ).toInt();
             ram = line.mid( 2, 2 ).toInt();
             ras = line.mid( 4, 2 ).toInt();
@@ -85,19 +88,20 @@ void ConstellationNamesComponent::loadData(CultureList* cultures)
             if( Options::useLocalConstellNames() )
                 name = i18nc( "Constellation name (optional)", name.toLocal8Bit().data() );
 
-            dms r; r.setH( rah, ram, ras );
+            dms r;
+            r.setH( rah, ram, ras );
             dms d( dd, dm,  ds );
 
             if ( sgn == '-' )
                 d.setD( -1.0*d.Degrees() );
 
-            SkyObject *o = new SkyObject( SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev );
+            SkyObject * o = new SkyObject( SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev );
             o->EquatorialToHorizontal(KStarsData::Instance()->lst(),KStarsData::Instance()->geo()->lat());
             m_ObjectList.append( o );
 
             //Add name to the list of object names
             objectNames(SkyObject::CONSTELLATION).append( name );
-            objectLists(SkyObject::CONSTELLATION).append(QPair<QString, const SkyObject*>(name, o));
+            objectLists(SkyObject::CONSTELLATION).append(QPair<QString, const SkyObject *>(name, o));
         }
     }
 }
@@ -114,31 +118,32 @@ bool ConstellationNamesComponent::selected()
 }
 
 // Don't precess the location of the names
-void ConstellationNamesComponent::update( KSNumbers* )
+void ConstellationNamesComponent::update( KSNumbers * )
 {
     if ( ! selected() )
         return;
-    KStarsData *data = KStarsData::Instance();
-    foreach(SkyObject* o, m_ObjectList)
+    KStarsData * data = KStarsData::Instance();
+    foreach(SkyObject * o, m_ObjectList)
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void ConstellationNamesComponent::draw( SkyPainter *skyp )
+void ConstellationNamesComponent::draw( SkyPainter * skyp )
 {
     Q_UNUSED(skyp);
 #ifndef KSTARS_LITE
     if ( ! selected() )
         return;
 
-    const Projector *proj = SkyMap::Instance()->projector();
-    SkyLabeler* skyLabeler = SkyLabeler::Instance();
+    const Projector * proj = SkyMap::Instance()->projector();
+    SkyLabeler * skyLabeler = SkyLabeler::Instance();
     skyLabeler->useStdFont();
     skyLabeler->setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" ) ) );
 
     QString name;
-    foreach(SkyObject *p, m_ObjectList) {
+    foreach(SkyObject * p, m_ObjectList)
+    {
         if( ! proj->checkVisibility( p ) )
-            continue; 
+            continue;
 
         bool visible = false;
         QPointF o = proj->toScreen( p, false, &visible );

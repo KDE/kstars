@@ -30,28 +30,33 @@
 
 #include "skynodes/trixelnode.h"
 
-DeepStarItem::DeepStarItem(DeepStarComponent *deepStarComp, RootNode *rootNode)
+DeepStarItem::DeepStarItem(DeepStarComponent * deepStarComp, RootNode * rootNode)
     :SkyItem(LabelsItem::label_t::NO_LABEL, rootNode), m_deepStarComp(deepStarComp),
-      m_staticStars(deepStarComp->staticStars)
+     m_staticStars(deepStarComp->staticStars)
 {
     m_starBlockList = &m_deepStarComp->m_starBlockList;
 
-    if(m_staticStars) {
-        for(int c = 0; c < m_starBlockList->size(); ++c) {
-            TrixelNode *trixel = new TrixelNode(m_starBlockList->at( c )->getTrixel());
+    if(m_staticStars)
+    {
+        for(int c = 0; c < m_starBlockList->size(); ++c)
+        {
+            TrixelNode * trixel = new TrixelNode(m_starBlockList->at( c )->getTrixel());
             appendChildNode(trixel);
             int blockCount = m_starBlockList->at( c )->getBlockCount();
 
-            for( int i = 0; i < blockCount; ++i ) {
-                StarBlock *block = m_starBlockList->at( c )->block( i );
+            for( int i = 0; i < blockCount; ++i )
+            {
+                StarBlock * block = m_starBlockList->at( c )->block( i );
                 //            qDebug() << "---> Drawing stars from block " << i << " of trixel " <<
                 //                currentRegion << ". SB has " << block->getStarCount() << " stars" << endl;
                 int starCount = block->getStarCount();
-                for( int j = 0; j < starCount; j++ ) {
+                for( int j = 0; j < starCount; j++ )
+                {
 
-                    StarObject *star = &(block->star( j )->star);
+                    StarObject * star = &(block->star( j )->star);
 
-                    if(star) {
+                    if(star)
+                    {
                         trixel->m_nodes.append(QPair<SkyObject *, SkyNode *>(star, 0));
                     }
                 }
@@ -63,17 +68,20 @@ DeepStarItem::DeepStarItem(DeepStarComponent *deepStarComp, RootNode *rootNode)
     m_StarBlockFactory = StarBlockFactory::Instance();
 }
 
-void DeepStarItem::update() {
-    if(m_staticStars) { // dynamic stars under construction
-        SkyMapLite *map             = SkyMapLite::Instance();
-        KStarsData* data        = KStarsData::Instance();
+void DeepStarItem::update()
+{
+    if(m_staticStars)   // dynamic stars under construction
+    {
+        SkyMapLite * map             = SkyMapLite::Instance();
+        KStarsData * data        = KStarsData::Instance();
         UpdateID updateID       = data->updateID();
 
         //FIXME_FOV -- maybe not clamp like that...
         float radius = map->projector()->fov();
         if ( radius > 90.0 ) radius = 90.0;
 
-        if ( m_skyMesh != SkyMesh::Instance() && m_skyMesh->inDraw() ) {
+        if ( m_skyMesh != SkyMesh::Instance() && m_skyMesh->inDraw() )
+        {
             printf("Warning: aborting concurrent DeepStarComponent::draw()");
         }
         bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
@@ -90,10 +98,13 @@ void DeepStarItem::update() {
 
         float maglim = StarComponent::zoomMagnitudeLimit();
 
-        if( maglim < m_deepStarComp->triggerMag || !m_staticStars ) {
+        if( maglim < m_deepStarComp->triggerMag || !m_staticStars )
+        {
             hide();
             return;
-        } else {
+        }
+        else
+        {
             show();
         }
 
@@ -101,7 +112,7 @@ void DeepStarItem::update() {
 
         m_skyMesh->inDraw( true );
 
-        SkyPoint* focus = map->focus();
+        SkyPoint * focus = map->focus();
         m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
         MeshIterator region(m_skyMesh, DRAW_BUF);
@@ -110,7 +121,7 @@ void DeepStarItem::update() {
         if( hideFaintStars && maglim > hideStarsMag )
             maglim = hideStarsMag;
 
-        StarBlockFactory *m_StarBlockFactory = StarBlockFactory::Instance();
+        StarBlockFactory * m_StarBlockFactory = StarBlockFactory::Instance();
         //    m_StarBlockFactory->drawID = m_skyMesh->drawID();
         //    qDebug() << "Mesh size = " << m_skyMesh->size() << "; drawID = " << m_skyMesh->drawID();
 
@@ -121,7 +132,8 @@ void DeepStarItem::update() {
         //visibleStarCount = 0;
 
         // Mark used blocks in the LRU Cache. Not required for static stars
-        if( !m_staticStars ) {
+        if( !m_staticStars )
+        {
             //Under construction
 //            while( region.hasNext() ) {
 //                Trixel currentRegion = region.next();
@@ -145,29 +157,36 @@ void DeepStarItem::update() {
         m_StarBlockFactory->drawID = m_skyMesh->drawID();
 
         int regionID = -1;
-        if(region.hasNext()) {
+        if(region.hasNext())
+        {
             regionID = region.next();
         }
 
         int trixelID = 0;
 
-        QSGNode *firstTrixel = firstChild();
-        TrixelNode *trixel = static_cast<TrixelNode *>(firstTrixel);
+        QSGNode * firstTrixel = firstChild();
+        TrixelNode * trixel = static_cast<TrixelNode *>(firstTrixel);
 
-        while( trixel != 0 ) {
-            if(m_staticStars) {
-                const Projector *projector = SkyMapLite::Instance()->projector();
+        while( trixel != 0 )
+        {
+            if(m_staticStars)
+            {
+                const Projector * projector = SkyMapLite::Instance()->projector();
                 double delLim = SkyMapLite::deleteLimit();
 
-                if(trixelID != regionID) {
+                if(trixelID != regionID)
+                {
                     trixel->hide();
 
-                    if(trixel->hideCount() > delLim) {
+                    if(trixel->hideCount() > delLim)
+                    {
                         QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = trixel->m_nodes.begin();
 
-                        while(i != trixel->m_nodes.end()) {
-                            SkyNode *node = (*i).second;
-                            if(node) {
+                        while(i != trixel->m_nodes.end())
+                        {
+                            SkyNode * node = (*i).second;
+                            if(node)
+                            {
                                 trixel->removeChildNode(node);
                                 delete node;
 
@@ -181,23 +200,27 @@ void DeepStarItem::update() {
                     trixelID++;
                     continue;
 
-                } else {
+                }
+                else
+                {
                     trixel->show();
 
-                    if(region.hasNext()) {
+                    if(region.hasNext())
+                    {
                         regionID = region.next();
                     }
 
                     QLinkedList<QPair<SkyObject *, SkyNode *>>::iterator i = (&trixel->m_nodes)->begin();
 
-                    while(i != (&trixel->m_nodes)->end()) {
+                    while(i != (&trixel->m_nodes)->end())
+                    {
                         bool hide = false;
                         bool hideSlew = false;
 
                         bool drawLabel = false;
 
-                        StarObject *starObj = static_cast<StarObject *>((*i).first);
-                        SkyNode *node = (*i).second;
+                        StarObject * starObj = static_cast<StarObject *>((*i).first);
+                        SkyNode * node = (*i).second;
 
                         int mag = starObj->mag();
 
@@ -207,27 +230,38 @@ void DeepStarItem::update() {
                         if ( starObj->updateID != KStarsData::Instance()->updateID() )
                             starObj->JITupdate();
 
-                        if( node ) {
-                            if( node->hideCount() > delLim || hide) {
+                        if( node )
+                        {
+                            if( node->hideCount() > delLim || hide)
+                            {
                                 trixel->removeChildNode(node);
                                 delete node;
                                 *i = QPair<SkyObject *, SkyNode *>((*i).first, 0);
-                            } else {
-                                if(!hideSlew) {
+                            }
+                            else
+                            {
+                                if(!hideSlew)
+                                {
                                     node->update(drawLabel);
-                                } else {
+                                }
+                                else
+                                {
                                     node->hide();
                                 }
                             }
-                        } else {
-                            if( !hide && !hideSlew && projector->checkVisibility(starObj) ) {
+                        }
+                        else
+                        {
+                            if( !hide && !hideSlew && projector->checkVisibility(starObj) )
+                            {
 
                                 QPointF pos;
 
                                 bool visible = false;
                                 pos = projector->toScreen(starObj,true,&visible);
-                                if( visible && projector->onScreen(pos) ) {
-                                    PointSourceNode *point = new PointSourceNode(starObj, rootNode(), LabelsItem::label_t::STAR_LABEL, starObj->spchar(), starObj->mag(), trixelID);
+                                if( visible && projector->onScreen(pos) )
+                                {
+                                    PointSourceNode * point = new PointSourceNode(starObj, rootNode(), LabelsItem::label_t::STAR_LABEL, starObj->spchar(), starObj->mag(), trixelID);
                                     trixel->appendChildNode(point);
 
                                     *i = QPair<SkyObject *, SkyNode *>((*i).first, static_cast<SkyNode *>(point));
@@ -238,35 +272,43 @@ void DeepStarItem::update() {
                         i++;
                     }
                 }
-            } else if(false) {
+            }
+            else if(false)
+            {
                 //Dynamic stars are under construction
-                if( !m_staticStars && !m_starBlockList->at( regionID )->fillToMag( maglim ) && maglim <= m_deepStarComp->m_FaintMagnitude * ( 1 - 1.5/16 ) ) {
+                if( !m_staticStars && !m_starBlockList->at( regionID )->fillToMag( maglim ) && maglim <= m_deepStarComp->m_FaintMagnitude * ( 1 - 1.5/16 ) )
+                {
                     qDebug() << "SBL::fillToMag( " << maglim << " ) failed for trixel "
                              << regionID << " !"<< endl;
                 }
 
-                for( int i = 0; i < m_starBlockList->at( regionID )->getBlockCount(); ++i ) {
+                for( int i = 0; i < m_starBlockList->at( regionID )->getBlockCount(); ++i )
+                {
 
                     bool hide = false;
 
-                    StarBlock *block = m_starBlockList->at( regionID )->block( i );
-                    for( int j = 0; j < block->getStarCount(); j++ ) {
+                    StarBlock * block = m_starBlockList->at( regionID )->block( i );
+                    for( int j = 0; j < block->getStarCount(); j++ )
+                    {
 
-                        StarNode *star = block->star( j );
-                        StarObject *curStar = &(star->star);
-                        PointSourceNode *point = star->starNode;
+                        StarNode * star = block->star( j );
+                        StarObject * curStar = &(star->star);
+                        PointSourceNode * point = star->starNode;
 
                         if ( curStar->updateID != updateID )
                             curStar->JITupdate();
 
                         float mag = curStar->mag();
 
-                        if(!hide) {
+                        if(!hide)
+                        {
                             if ( mag > maglim ) hide = true;
                         }
 
-                        if(!hide) {
-                            if(!point) {
+                        if(!hide)
+                        {
+                            if(!point)
+                            {
                                 star->starNode = new PointSourceNode(curStar, rootNode(), LabelsItem::label_t::NO_LABEL, curStar->spchar(),
                                                                      curStar->mag(), regionID);
                                 point = star->starNode;
@@ -275,7 +317,9 @@ void DeepStarItem::update() {
                             //point->setSizeMagLim(m_zoomMagLimit);
                             point->update();
 
-                        } else {
+                        }
+                        else
+                        {
                             if(point) point->hide();
                         }
                     }

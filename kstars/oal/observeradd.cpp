@@ -26,18 +26,19 @@
 #include "ui_observeradd.h"
 #include "observer.h"
 
-ObserverAdd::ObserverAdd() {
+ObserverAdd::ObserverAdd()
+{
     // Setting up the widget from the .ui file and adding it to the QDialog
-    QWidget *widget = new QWidget;
+    QWidget * widget = new QWidget;
     ui.setupUi( widget );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(widget);
     setLayout(mainLayout);
 
     setWindowTitle( i18n( "Manage Observers" ) );
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
@@ -49,7 +50,7 @@ ObserverAdd::ObserverAdd() {
     // Load the observers list from the file
     loadObservers();
     QSqlDatabase db = KStarsData::Instance()->userdb()->GetDatabase();
-    QSqlTableModel *users= new QSqlTableModel(0, db);
+    QSqlTableModel * users= new QSqlTableModel(0, db);
     users->setTable("user");
     users->select();
     ui.tableView->setModel(users);
@@ -67,19 +68,22 @@ ObserverAdd::ObserverAdd() {
     //connect (ui.tableView->verticalHeader(),SIGNAL(sectionClicked(int)),this,SLOT(checkTableInfo()));
     connect (ui.tableView,SIGNAL(clicked(QModelIndex)),this,SLOT(auxSlot()) );
 }
-void ObserverAdd::auxSlot(){
+void ObserverAdd::auxSlot()
+{
     ui.RemoveObserverB->setEnabled(true);
 }
 
-void ObserverAdd::checkObserverInfo(){
+void ObserverAdd::checkObserverInfo()
+{
     if(ui.Name->text().isEmpty() || ui.Surname->text().isEmpty())
-           ui.AddObserverB->setEnabled(false);
+        ui.AddObserverB->setEnabled(false);
     else ui.AddObserverB->setEnabled(true);
 }
 
-void ObserverAdd::slotUpdateModel(){
+void ObserverAdd::slotUpdateModel()
+{
     QSqlDatabase db = KStarsData::Instance()->userdb()->GetDatabase();
-    QSqlTableModel *users= new QSqlTableModel(0, db);
+    QSqlTableModel * users= new QSqlTableModel(0, db);
     users->setTable("user");
     users->select();
     ui.tableView->setModel(users);
@@ -88,19 +92,22 @@ void ObserverAdd::slotUpdateModel(){
     ui.tableView->viewport()->update();
 }
 
-void ObserverAdd::slotRemoveObserver(){
+void ObserverAdd::slotRemoveObserver()
+{
     QModelIndexList selection = ui.tableView->selectionModel()->selectedRows();
 
-       QModelIndex index = ui.tableView->currentIndex();
-       int nr = index.row();
-       QString s = ui.tableView->model()->data(ui.tableView->model()->index(nr,0)).toString();
-       KStarsData::Instance()->userdb()->DeleteObserver(s);
-       ui.RemoveObserverB->setEnabled(false);
+    QModelIndex index = ui.tableView->currentIndex();
+    int nr = index.row();
+    QString s = ui.tableView->model()->data(ui.tableView->model()->index(nr,0)).toString();
+    KStarsData::Instance()->userdb()->DeleteObserver(s);
+    ui.RemoveObserverB->setEnabled(false);
     slotUpdateModel();
 }
 
-void ObserverAdd::slotAddObserver() {
-    if (KStarsData::Instance()->userdb()->FindObserver(ui.Name->text(),ui.Surname->text())){
+void ObserverAdd::slotAddObserver()
+{
+    if (KStarsData::Instance()->userdb()->FindObserver(ui.Name->text(),ui.Surname->text()))
+    {
         if( OAL::warningOverwrite( i18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::No ) return;
     }
 
@@ -115,7 +122,8 @@ void ObserverAdd::slotAddObserver() {
     slotUpdateModel();
 }
 
-void ObserverAdd::loadObservers() {
+void ObserverAdd::loadObservers()
+{
     KStarsData::Instance()->logObject()->readObservers();
 }
 

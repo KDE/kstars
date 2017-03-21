@@ -22,35 +22,42 @@
 SkyLine::SkyLine()
 {}
 
-SkyLine::~SkyLine() {
+SkyLine::~SkyLine()
+{
     clear();
 }
 
-void SkyLine::clear() {
+void SkyLine::clear()
+{
     qDeleteAll( m_pList );
     m_pList.clear();
 }
 
-void SkyLine::append( SkyPoint *p ) {
+void SkyLine::append( SkyPoint * p )
+{
     m_pList.append( new SkyPoint( *p ) );
 }
 
-void SkyLine::setPoint( int i, SkyPoint *p ) {
-    if ( i < 0 || i >= m_pList.size() ) {
+void SkyLine::setPoint( int i, SkyPoint * p )
+{
+    if ( i < 0 || i >= m_pList.size() )
+    {
         qDebug() << "SkyLine index error: no such point: " << i;
         return;
     }
     *m_pList[i] = *p;
 }
 
-dms SkyLine::angularSize( int i ) const{
-    if ( i < 0 || i+1 >= m_pList.size() ) {
+dms SkyLine::angularSize( int i ) const
+{
+    if ( i < 0 || i+1 >= m_pList.size() )
+    {
         qDebug() << "SkyLine index error: no such segment: " << i;
         return dms();
     }
 
-    SkyPoint *p1 = m_pList[i];
-    SkyPoint *p2 = m_pList[i+1];
+    SkyPoint * p1 = m_pList[i];
+    SkyPoint * p2 = m_pList[i+1];
     double dalpha = p1->ra().radians() - p2->ra().radians();
     double ddelta = p1->dec().radians() - p2->dec().radians() ;
 
@@ -68,8 +75,10 @@ dms SkyLine::angularSize( int i ) const{
     return angDist;
 }
 
-void SkyLine::update( KStarsData *d, KSNumbers *num ) {
-    foreach ( SkyPoint *p, m_pList ) {
+void SkyLine::update( KStarsData * d, KSNumbers * num )
+{
+    foreach ( SkyPoint * p, m_pList )
+    {
         if ( num )
             p->updateCoords( num );
         p->EquatorialToHorizontal( d->lst(), d->geo()->lat() );

@@ -42,15 +42,15 @@ SchedulerJob::~SchedulerJob()
 
 QString SchedulerJob::getName() const
 {
-return name;
+    return name;
 }
 
 void SchedulerJob::setName(const QString &value)
 {
-name = value;
+    name = value;
 }
 
-SkyPoint & SchedulerJob::getTargetCoords()
+SkyPoint &SchedulerJob::getTargetCoords()
 {
     return targetCoords;
 }
@@ -255,12 +255,12 @@ void SchedulerJob::setCulminationOffset(const int16_t &value)
     culminationOffset = value;
 }
 
-QTableWidgetItem *SchedulerJob::getStartupCell() const
+QTableWidgetItem * SchedulerJob::getStartupCell() const
 {
     return startupCell;
 }
 
-void SchedulerJob::setStartupCell(QTableWidgetItem *value)
+void SchedulerJob::setStartupCell(QTableWidgetItem * value)
 {
     startupCell = value;
 }
@@ -326,7 +326,7 @@ void SchedulerJob::setStage(const JOBStage &value)
             break;
 
         default:
-        break;
+            break;
     }
 }
 
@@ -406,12 +406,12 @@ void SchedulerJob::setProfile(const QString &value)
     profile = value;
 }
 
-QTableWidgetItem *SchedulerJob::getEstimatedTimeCell() const
+QTableWidgetItem * SchedulerJob::getEstimatedTimeCell() const
 {
     return estimatedTimeCell;
 }
 
-void SchedulerJob::setEstimatedTimeCell(QTableWidgetItem *value)
+void SchedulerJob::setEstimatedTimeCell(QTableWidgetItem * value)
 {
     estimatedTimeCell = value;
 }

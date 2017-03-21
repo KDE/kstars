@@ -29,14 +29,30 @@
  *
  * Information on user who created or contributed to the observation.
  */
-class OAL::Observer {
+class OAL::Observer
+{
     public:
-       QString id() const { return m_Id; }
-       QString name() const { return m_Name; }
-       QString surname() const { return m_Surname; }
-       QString contact() const { return m_Contact; }
-       Observer( QString _id,  QString _name ="", QString _surname = "", QString _contact = "" ) { setObserver( _id, _name, _surname, _contact ); }
-       void setObserver( QString _id, QString _name = "", QString _surname= "", QString _contact = "" );
+        QString id() const
+        {
+            return m_Id;
+        }
+        QString name() const
+        {
+            return m_Name;
+        }
+        QString surname() const
+        {
+            return m_Surname;
+        }
+        QString contact() const
+        {
+            return m_Contact;
+        }
+        Observer( QString _id,  QString _name ="", QString _surname = "", QString _contact = "" )
+        {
+            setObserver( _id, _name, _surname, _contact );
+        }
+        void setObserver( QString _id, QString _name = "", QString _surname= "", QString _contact = "" );
     private:
         QString m_Name, m_Surname, m_Contact, m_Id;
 };

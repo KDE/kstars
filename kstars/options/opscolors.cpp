@@ -49,16 +49,17 @@
 static int ItemColorData = Qt::UserRole + 1;
 
 OpsColors::OpsColors()
-        : QFrame(KStars::Instance())
+    : QFrame(KStars::Instance())
 {
     setupUi( this );
 
     //Populate list of adjustable colors
-    for ( unsigned int i=0; i < KStarsData::Instance()->colorScheme()->numberOfColors(); ++i ) {
+    for ( unsigned int i=0; i < KStarsData::Instance()->colorScheme()->numberOfColors(); ++i )
+    {
         QPixmap col( 30, 20 );
         QColor itemColor( KStarsData::Instance()->colorScheme()->colorAt( i ) );
         col.fill( itemColor );
-        QListWidgetItem *item = new QListWidgetItem( KStarsData::Instance()->colorScheme()->nameAt( i ), ColorPalette );
+        QListWidgetItem * item = new QListWidgetItem( KStarsData::Instance()->colorScheme()->nameAt( i ), ColorPalette );
         item->setData( Qt::DecorationRole, col );
         item->setData( ItemColorData, itemColor );
     }
@@ -76,10 +77,12 @@ OpsColors::OpsColors()
     QFile file;
     QString line, schemeName, filename;
     file.setFileName( KSPaths::locate(QStandardPaths::GenericDataLocation, "colors.dat" ) );
-    if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
+    if ( file.exists() && file.open( QIODevice::ReadOnly ) )
+    {
         QTextStream stream( &file );
 
-        while ( !stream.atEnd() ) {
+        while ( !stream.atEnd() )
+        {
             line = stream.readLine();
             schemeName = line.left( line.indexOf( ':' ) );
             filename = line.mid( line.indexOf( ':' ) +1, line.length() );
@@ -104,7 +107,7 @@ OpsColors::OpsColors()
 
     kcfg_DarkAppColors->setChecked(KStarsData::Instance()->colorScheme()->useDarkPalette());
 
-    connect( ColorPalette, SIGNAL( itemClicked( QListWidgetItem* ) ), this, SLOT( newColor( QListWidgetItem* ) ) );
+    connect( ColorPalette, SIGNAL( itemClicked( QListWidgetItem * ) ), this, SLOT( newColor( QListWidgetItem * ) ) );
     connect( kcfg_StarColorIntensity, SIGNAL( valueChanged( int ) ), this, SLOT( slotStarColorIntensity( int ) ) );
     connect( kcfg_StarColorMode, SIGNAL( activated( int ) ), this, SLOT( slotStarColorMode( int ) ) );
     connect( kcfg_DarkAppColors, SIGNAL(toggled(bool)), this, SLOT(slotDarkAppColors(bool)));
@@ -118,7 +121,8 @@ OpsColors::OpsColors()
 //empty destructor
 OpsColors::~OpsColors() {}
 
-void OpsColors::newColor( QListWidgetItem *item ) {
+void OpsColors::newColor( QListWidgetItem * item )
+{
     if ( !item ) return;
 
     QPixmap pixmap( 30, 20 );
@@ -130,7 +134,8 @@ void OpsColors::newColor( QListWidgetItem *item ) {
     NewColor = QColorDialog::getColor( col );
 
     //NewColor will only be valid if the above if statement was found to be true during one of the for loop iterations
-    if ( NewColor.isValid() ) {
+    if ( NewColor.isValid() )
+    {
         pixmap.fill( NewColor );
         item->setData( Qt::DecorationRole, pixmap );
         item->setData( ItemColorData, NewColor );
@@ -139,19 +144,21 @@ void OpsColors::newColor( QListWidgetItem *item ) {
 
     KStars::Instance()->map()->forceUpdate();
 
-    #ifdef HAVE_CFITSIO
+#ifdef HAVE_CFITSIO
     QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
-    foreach(FITSViewer *viewer, viewers)
+    foreach(FITSViewer * viewer, viewers)
         viewer->getCurrentView()->updateFrame();
-    #endif
+#endif
 }
 
-void OpsColors::slotPreset( int index ) {
+void OpsColors::slotPreset( int index )
+{
     QString sPreset = PresetFileList.at( index );
     setColors( sPreset );
 }
 
-bool OpsColors::setColors( const QString &filename ) {
+bool OpsColors::setColors( const QString &filename )
+{
     QPixmap temp( 30, 20 );
 
     //check if colorscheme is removable...
@@ -161,16 +168,17 @@ bool OpsColors::setColors( const QString &filename ) {
     else RemovePreset->setEnabled( false );
     test.close();
 
-		QString actionName = QString("cs_" + filename.left(filename.indexOf(".colors"))).toUtf8();
-        QAction *a = KStars::Instance()->actionCollection()->action( actionName );
-		if ( a ) a->setChecked( true );
-        qApp->processEvents();
+    QString actionName = QString("cs_" + filename.left(filename.indexOf(".colors"))).toUtf8();
+    QAction * a = KStars::Instance()->actionCollection()->action( actionName );
+    if ( a ) a->setChecked( true );
+    qApp->processEvents();
 
     kcfg_StarColorMode->setCurrentIndex( KStarsData::Instance()->colorScheme()->starColorMode() );
     kcfg_StarColorIntensity->setValue( KStarsData::Instance()->colorScheme()->starColorIntensity() );
     kcfg_DarkAppColors->setChecked(KStarsData::Instance()->colorScheme()->useDarkPalette());
 
-    for ( unsigned int i=0; i < KStarsData::Instance()->colorScheme()->numberOfColors(); ++i ) {
+    for ( unsigned int i=0; i < KStarsData::Instance()->colorScheme()->numberOfColors(); ++i )
+    {
         QColor itemColor( KStarsData::Instance()->colorScheme()->colorAt( i ) );
         temp.fill( itemColor );
         ColorPalette->item( i )->setData( Qt::DecorationRole, temp );
@@ -178,16 +186,17 @@ bool OpsColors::setColors( const QString &filename ) {
     }
 
     KStars::Instance()->map()->forceUpdate();
-    #ifdef HAVE_CFITSIO
+#ifdef HAVE_CFITSIO
     QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
-    foreach(FITSViewer *viewer, viewers)
+    foreach(FITSViewer * viewer, viewers)
         viewer->getCurrentView()->updateFrame();
-    #endif
+#endif
 
     return true;
 }
 
-void OpsColors::slotAddPreset() {
+void OpsColors::slotAddPreset()
+{
 
 
     bool okPressed = false;
@@ -195,23 +204,26 @@ void OpsColors::slotAddPreset() {
                          i18n( "Enter a name for the new color scheme:" ), QLineEdit::Normal,
                          QString(), &okPressed, 0 );
 
-    if ( okPressed && ! schemename.isEmpty() ) {
-        if ( KStarsData::Instance()->colorScheme()->save( schemename ) ) {
-            QListWidgetItem *item = new QListWidgetItem( schemename, PresetBox );
+    if ( okPressed && ! schemename.isEmpty() )
+    {
+        if ( KStarsData::Instance()->colorScheme()->save( schemename ) )
+        {
+            QListWidgetItem * item = new QListWidgetItem( schemename, PresetBox );
             QString fname = KStarsData::Instance()->colorScheme()->fileName();
             PresetFileList.append( fname );
-						QString actionName = QString("cs_" + fname.left(fname.indexOf(".colors"))).toUtf8();
-                        KStars::Instance()->addColorMenuItem( schemename, actionName );
+            QString actionName = QString("cs_" + fname.left(fname.indexOf(".colors"))).toUtf8();
+            KStars::Instance()->addColorMenuItem( schemename, actionName );
 
-                        QAction *a = KStars::Instance()->actionCollection()->action( actionName );
-						if ( a ) a->setChecked( true );
+            QAction * a = KStars::Instance()->actionCollection()->action( actionName );
+            if ( a ) a->setChecked( true );
             PresetBox->setCurrentItem( item );
         }
     }
 }
 
-void OpsColors::slotRemovePreset() {
-    QListWidgetItem *current = PresetBox->currentItem();
+void OpsColors::slotRemovePreset()
+{
+    QListWidgetItem * current = PresetBox->currentItem();
     if ( !current ) return;
     QString name = current->text();
     QString filename = PresetFileList[ PresetBox->currentRow() ];
@@ -221,10 +233,13 @@ void OpsColors::slotRemovePreset() {
     //Remove action from color-schemes menu
     KStars::Instance()->removeColorMenuItem( QString("cs_" + filename.left( filename.indexOf(".colors"))).toUtf8() );
 
-    if ( !cdatFile.exists() || !cdatFile.open( QIODevice::ReadWrite ) ) {
+    if ( !cdatFile.exists() || !cdatFile.open( QIODevice::ReadWrite ) )
+    {
         QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
         KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-    } else {
+    }
+    else
+    {
         //Remove entry from the ListBox and from the QStringList holding filenames.
         //There seems to be no way to set no item selected, so select
         // the first item.
@@ -237,16 +252,19 @@ void OpsColors::slotRemovePreset() {
         QStringList slist;
         bool removed = false;
 
-        while ( !stream.atEnd() ) {
+        while ( !stream.atEnd() )
+        {
             QString line = stream.readLine();
             if ( line.left( line.indexOf(':') ) != name ) slist.append( line );
             else removed = true;
         }
 
-        if ( removed ) { //Entry was removed; delete the corresponding .colors file.
+        if ( removed )   //Entry was removed; delete the corresponding .colors file.
+        {
             QFile colorFile;
             colorFile.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename ) ; //determine filename in local user KDE directory tree.
-            if ( !colorFile.remove() ) {
+            if ( !colorFile.remove() )
+            {
                 QString message = i18n( "Could not delete the file: %1", colorFile.fileName() );
                 KMessageBox::sorry( 0, message, i18n( "Error Deleting File" ) );
             }
@@ -257,7 +275,9 @@ void OpsColors::slotRemovePreset() {
             QTextStream stream2( &cdatFile );
             for( int i=0; i<slist.count(); ++i )
                 stream << slist[i] << endl;
-        } else {
+        }
+        else
+        {
             QString message = i18n( "Could not find an entry named %1 in colors.dat.", name );
             KMessageBox::sorry( 0, message, i18n( "Scheme Not Found" ) );
         }
@@ -265,7 +285,8 @@ void OpsColors::slotRemovePreset() {
     }
 }
 
-void OpsColors::slotStarColorMode( int i ) {
+void OpsColors::slotStarColorMode( int i )
+{
     KStarsData::Instance()->colorScheme()->setStarColorMode( i );
 
     if ( KStarsData::Instance()->colorScheme()->starColorMode() != 0 ) //mode is not "Real Colors"
@@ -274,7 +295,8 @@ void OpsColors::slotStarColorMode( int i ) {
         kcfg_StarColorIntensity->setEnabled( true );
 }
 
-void OpsColors::slotStarColorIntensity( int i ) {
+void OpsColors::slotStarColorIntensity( int i )
+{
     KStarsData::Instance()->colorScheme()->setStarColorIntensity( i );
 }
 

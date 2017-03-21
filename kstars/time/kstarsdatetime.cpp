@@ -64,20 +64,23 @@ KStarsDateTime::KStarsDateTime( const QDate &_d, const QTime &_t ) :
     DJD = (long double)( _d.toJulianDay() ) + jdFrac;
 }
 
-KStarsDateTime::KStarsDateTime( long double _jd ) : QDateTime() {
+KStarsDateTime::KStarsDateTime( long double _jd ) : QDateTime()
+{
     setDJD( _jd );
 }
 
 //KStarsDateTime KStarsDateTime::currentDateTime( QDateTime::Spec spec ) {
-KStarsDateTime KStarsDateTime::currentDateTime() {
+KStarsDateTime KStarsDateTime::currentDateTime()
+{
     KStarsDateTime dt( QDateTime::currentDateTime() );
-   // if ( dt.time().hour()==0 && dt.time().minute()==0 )        // midnight or right after?
-     //   dt.setDate( QDateTime::currentDateTime(spec).date() ); // fetch date again
+    // if ( dt.time().hour()==0 && dt.time().minute()==0 )        // midnight or right after?
+    //   dt.setDate( QDateTime::currentDateTime(spec).date() ); // fetch date again
 
     return dt;
 }
 
-KStarsDateTime KStarsDateTime::currentDateTimeUtc( ) {
+KStarsDateTime KStarsDateTime::currentDateTimeUtc( )
+{
     KStarsDateTime dt( QDateTime::currentDateTimeUtc() );
     //if ( dt.time().hour()==0 && dt.time().minute()==0 )        // midnight or right after?
 //        dt.setDate( QDateTime::currentDateTime(spec).date() ); // fetch date again
@@ -85,7 +88,8 @@ KStarsDateTime KStarsDateTime::currentDateTimeUtc( ) {
     return dt;
 }
 
-KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
+KStarsDateTime KStarsDateTime::fromString( const QString &s )
+{
     //DEBUG
     qDebug() << "Date string: " << s;
 
@@ -110,14 +114,19 @@ KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
     return KStarsDateTime( QDateTime() ); //invalid
 }
 
-void KStarsDateTime::setDJD( long double _jd ) {
+void KStarsDateTime::setDJD( long double _jd )
+{
     //QDateTime::setTimeSpec( QDateTime::Spec::UTC() );
     QDateTime::setTimeSpec( Qt::UTC );
 
     DJD = _jd;
     long int ijd = (long int)_jd;
     double dayfrac = _jd - (double)ijd + 0.5;
-    if ( dayfrac > 1.0 ) { ijd++; dayfrac -= 1.0; }
+    if ( dayfrac > 1.0 )
+    {
+        ijd++;
+        dayfrac -= 1.0;
+    }
 
     QDate dd = QDate::fromJulianDay( ijd );
     QDateTime::setDate( dd );
@@ -131,7 +140,8 @@ void KStarsDateTime::setDJD( long double _jd ) {
     QDateTime::setTime( QTime( h, m, s, ms ) );
 }
 
-void KStarsDateTime::setDate( const QDate &_d ) {
+void KStarsDateTime::setDate( const QDate &_d )
+{
     //Save the JD fraction
     long double jdFrac = djd() - (long double)( date().toJulianDay() );
 
@@ -139,18 +149,21 @@ void KStarsDateTime::setDate( const QDate &_d ) {
     setDJD( (long double)_d.toJulianDay() + jdFrac );
 }
 
-KStarsDateTime KStarsDateTime::addSecs( double s ) const {
+KStarsDateTime KStarsDateTime::addSecs( double s ) const
+{
     long double ds = (long double)s/86400.;
     KStarsDateTime kdt( djd() + ds );
     return kdt;
 }
 
-void KStarsDateTime::setTime( const QTime &_t ) {
+void KStarsDateTime::setTime( const QTime &_t )
+{
     KStarsDateTime _dt( date(), _t );
     setDJD( _dt.djd() );
 }
 
-dms KStarsDateTime::gst() const {
+dms KStarsDateTime::gst() const
+{
     dms gst0 = GSTat0hUT();
 
     double hr = double( time().hour() );
@@ -162,7 +175,8 @@ dms KStarsDateTime::gst() const {
     return gst;
 }
 
-dms KStarsDateTime::GSTat0hUT() const {
+dms KStarsDateTime::GSTat0hUT() const
+{
     double sinOb, cosOb;
 
     // Mean greenwich sidereal time
@@ -188,7 +202,8 @@ dms KStarsDateTime::GSTat0hUT() const {
     return gst.reduce();
 }
 
-QTime KStarsDateTime::GSTtoUT( dms GST ) const {
+QTime KStarsDateTime::GSTtoUT( dms GST ) const
+{
     dms gst0 = GSTat0hUT();
 
     //dt is the number of sidereal hours since UT 0h.
@@ -207,14 +222,16 @@ QTime KStarsDateTime::GSTtoUT( dms GST ) const {
     return( QTime( hr, mn, sc, ms ) );
 }
 
-void KStarsDateTime::setFromEpoch( double epoch ) {
+void KStarsDateTime::setFromEpoch( double epoch )
+{
     if ( epoch == 1950.0 ) // Assume Besselian
         setFromEpoch( epoch, BESSELIAN );
     else
         setFromEpoch( epoch, JULIAN ); // Assume Julian
 }
 
-bool KStarsDateTime::setFromEpoch( double epoch, EpochType type ) {
+bool KStarsDateTime::setFromEpoch( double epoch, EpochType type )
+{
     if ( type != JULIAN && type != BESSELIAN )
         return false;
     else
@@ -222,7 +239,8 @@ bool KStarsDateTime::setFromEpoch( double epoch, EpochType type ) {
     return true;
 }
 
-bool KStarsDateTime::setFromEpoch( const QString &eName ) {
+bool KStarsDateTime::setFromEpoch( const QString &eName )
+{
     bool result;
     double epoch;
     epoch = stringToEpoch( eName, result );
@@ -233,37 +251,41 @@ bool KStarsDateTime::setFromEpoch( const QString &eName ) {
 }
 
 
-long double KStarsDateTime::epochToJd(double epoch, EpochType type) {
-    switch( type ) {
-    case BESSELIAN:
-        return B1900 + ( epoch - 1900.0 ) * JD_PER_BYEAR;
-    case JULIAN:
-        return J2000 + ( epoch - 2000.0 ) * 365.25;
-    default:
-        return NaN::d;
+long double KStarsDateTime::epochToJd(double epoch, EpochType type)
+{
+    switch( type )
+    {
+        case BESSELIAN:
+            return B1900 + ( epoch - 1900.0 ) * JD_PER_BYEAR;
+        case JULIAN:
+            return J2000 + ( epoch - 2000.0 ) * 365.25;
+        default:
+            return NaN::d;
     }
 }
 
 
-double KStarsDateTime::jdToEpoch(long double jd, KStarsDateTime::EpochType type) {
+double KStarsDateTime::jdToEpoch(long double jd, KStarsDateTime::EpochType type)
+{
     // Definitions for conversion formulas are from:
     //
     // * http://scienceworld.wolfram.com/astronomy/BesselianEpoch.html
     // * http://scienceworld.wolfram.com/astronomy/JulianEpoch.html
     //
 
-    switch( type ) {
-    case KStarsDateTime::BESSELIAN:
-        return 1900.0 + ( jd - KStarsDateTime::B1900 )/KStarsDateTime::JD_PER_BYEAR;
-    case KStarsDateTime::JULIAN:
-        return 2000.0 + ( jd - J2000 )/365.24;
-    default:
-        return NaN::d;
+    switch( type )
+    {
+        case KStarsDateTime::BESSELIAN:
+            return 1900.0 + ( jd - KStarsDateTime::B1900 )/KStarsDateTime::JD_PER_BYEAR;
+        case KStarsDateTime::JULIAN:
+            return 2000.0 + ( jd - J2000 )/365.24;
+        default:
+            return NaN::d;
     }
 }
 
 
-double KStarsDateTime::stringToEpoch(const QString& eName, bool &ok)
+double KStarsDateTime::stringToEpoch(const QString &eName, bool &ok)
 {
     double epoch = J2000;
     ok = false;

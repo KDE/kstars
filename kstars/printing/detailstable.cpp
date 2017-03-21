@@ -47,7 +47,7 @@ DetailsTable::~DetailsTable()
     }
 }
 
-void DetailsTable::createGeneralTable(SkyObject *obj)
+void DetailsTable::createGeneralTable(SkyObject * obj)
 {
     clearContents();
 
@@ -55,9 +55,9 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
     //Fill in the data fields
     //Contents depend on type of object
-    StarObject *s = 0;
-    DeepSkyObject *dso = 0;
-    KSPlanetBase *ps = 0;
+    StarObject * s = 0;
+    DeepSkyObject * dso = 0;
+    KSPlanetBase * ps = 0;
     QString pname, oname;
 
     QString objNamesVal, objTypeVal, objDistVal, objSizeVal, objMagVal, objBvVal, objIllumVal;
@@ -65,7 +65,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
     switch(obj->type())
     {
-    case SkyObject::STAR:
+        case SkyObject::STAR:
         {
             s = (StarObject *)obj;
 
@@ -135,13 +135,13 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             break; //End of stars case
         }
 
-    case SkyObject::ASTEROID:  //[fall through to planets]
+        case SkyObject::ASTEROID:  //[fall through to planets]
 
-    case SkyObject::COMET:     //[fall through to planets]
+        case SkyObject::COMET:     //[fall through to planets]
 
-    case SkyObject::MOON:      //[fall through to planets]
+        case SkyObject::MOON:      //[fall through to planets]
 
-    case SkyObject::PLANET:
+        case SkyObject::PLANET:
         {
             ps = (KSPlanetBase *)obj;
 
@@ -209,7 +209,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
             break; //End of planets/comets/asteroids case
         }
 
-    default: //Deep-sky objects
+        default: //Deep-sky objects
         {
             dso = (DeepSkyObject *)obj;
 
@@ -326,7 +326,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
                 << QTextLength(QTextLength::PercentageLength, 25);
     m_TableFormat.setColumnWidthConstraints(constraints);
 
-    QTextTable *table = cursor.insertTable(5, 4, m_TableFormat);
+    QTextTable * table = cursor.insertTable(5, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);
@@ -363,7 +363,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
     table->cellAt(4, 3).firstCursorPosition().insertText(objIllumVal, m_ItemValueCharFormat);
 }
 
-void DetailsTable::createAsteroidCometTable(SkyObject *obj)
+void DetailsTable::createAsteroidCometTable(SkyObject * obj)
 {
     clearContents();
 
@@ -375,9 +375,9 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
     // Add specifics data
     switch(obj->type())
     {
-    case SkyObject::ASTEROID:
+        case SkyObject::ASTEROID:
         {
-            KSAsteroid* ast = (KSAsteroid *)obj;
+            KSAsteroid * ast = (KSAsteroid *)obj;
 
             // Perihelion
             perihelionVal = QString::number(ast->getPerihelion()) + " AU";
@@ -412,9 +412,9 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
             break;
         }
 
-    case SkyObject::COMET:
+        case SkyObject::COMET:
         {
-            KSComet* com = (KSComet *)obj;
+            KSComet * com = (KSComet *)obj;
 
             // Perihelion
             perihelionVal = QString::number(com->getPerihelion()) + " AU";
@@ -449,7 +449,7 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
             break;
         }
 
-    default:
+        default:
         {
             return;
         }
@@ -463,7 +463,7 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
                 << QTextLength(QTextLength::PercentageLength, 25);
     m_TableFormat.setColumnWidthConstraints(constraints);
 
-    QTextTable *table = cursor.insertTable(6, 4, m_TableFormat);
+    QTextTable * table = cursor.insertTable(6, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);
@@ -511,7 +511,7 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
     table->cellAt(5, 3).firstCursorPosition().insertText(periodVal, m_ItemValueCharFormat);
 }
 
-void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &ut, GeoLocation *geo)
+void DetailsTable::createCoordinatesTable(SkyObject * obj, const KStarsDateTime &ut, GeoLocation * geo)
 {
     clearContents();
 
@@ -526,7 +526,7 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     m_TableFormat.setColumnWidthConstraints(constraints);
 
     // Insert table & row containing table name
-    QTextTable *table = cursor.insertTable(4, 4, m_TableFormat);
+    QTextTable * table = cursor.insertTable(4, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);
@@ -600,7 +600,7 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     obj->recomputeCoords(ut, geo);
 }
 
-void DetailsTable::createRSTTAble(SkyObject *obj, const KStarsDateTime &ut, GeoLocation *geo)
+void DetailsTable::createRSTTAble(SkyObject * obj, const KStarsDateTime &ut, GeoLocation * geo)
 {
     clearContents();
 
@@ -666,7 +666,7 @@ void DetailsTable::createRSTTAble(SkyObject *obj, const KStarsDateTime &ut, GeoL
     m_TableFormat.setColumnWidthConstraints(constraints);
 
     // Insert table & row containing table name
-    QTextTable *table = cursor.insertTable(4, 4, m_TableFormat);
+    QTextTable * table = cursor.insertTable(4, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
     QTextBlockFormat centered;
     centered.setAlignment(Qt::AlignCenter);

@@ -45,9 +45,9 @@ void WIEquipSettings::populateScopeListWidget()
     ScopeListWidget->clear();
     ///Get telescope list from KStars user database.
     KStars::Instance()->data()->userdb()->GetAllScopes(m_ScopeList);
-    foreach(OAL::Scope *scope, m_ScopeList)
+    foreach(OAL::Scope * scope, m_ScopeList)
     {
-        QListWidgetItem *scopeItem = new QListWidgetItem;
+        QListWidgetItem * scopeItem = new QListWidgetItem;
         scopeItem->setText(scope->vendor());
         scopeItem->setData(Vendor, scope->vendor());
         scopeItem->setData(Model, scope->model());
@@ -83,7 +83,7 @@ void WIEquipSettings::slotScopeSelected(int row)
     if (row == -1)
         return;
 
-    QListWidgetItem *item = ScopeListWidget->item(row);
+    QListWidgetItem * item = ScopeListWidget->item(row);
     if (item == NULL)
         return;
 
@@ -114,7 +114,7 @@ void WIEquipSettings::setAperture()
     double binoAperture = INVALID_APERTURE;
 
     if (kcfg_TelescopeCheck->isChecked() && ScopeListWidget->selectedItems().isEmpty() == false)
-            telAperture = ScopeListWidget->currentItem()->data(Aperture).toDouble();
+        telAperture = ScopeListWidget->currentItem()->data(Aperture).toDouble();
     if (kcfg_BinocularsCheck->isChecked())
         binoAperture = kcfg_BinocularsAperture->value();
     m_Aperture = telAperture > binoAperture ? telAperture : binoAperture;

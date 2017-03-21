@@ -26,25 +26,26 @@
 
 #include "skyobjects/skyobject.h"
 
-AddLinkDialogUI::AddLinkDialogUI( QWidget *parent ) : QFrame( parent ) {
+AddLinkDialogUI::AddLinkDialogUI( QWidget * parent ) : QFrame( parent )
+{
     setupUi(this);
 }
 
-AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
-        : QDialog( parent ),  ObjectName( oname )
+AddLinkDialog::AddLinkDialog( QWidget * parent, const QString &oname )
+    : QDialog( parent ),  ObjectName( oname )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     ald = new AddLinkDialogUI(this);
 
     setWindowTitle( i18n( "Add Custom URL to %1", oname ) );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(ald);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -57,14 +58,19 @@ AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
     ald->DescBox->setText( i18n( "Show image of " ) + ObjectName );
 }
 
-void AddLinkDialog::checkURL( void ) {
+void AddLinkDialog::checkURL( void )
+{
     QUrl _url ( url() );
-    if ( _url.isValid() ) {   //Is the string a valid URL?
-       QDesktopServices::openUrl(_url);   //If so, launch the browser to see if it's the correct document
-    } else {   //If not, print a warning message box that offers to open the browser to a search engine.
+    if ( _url.isValid() )     //Is the string a valid URL?
+    {
+        QDesktopServices::openUrl(_url);   //If so, launch the browser to see if it's the correct document
+    }
+    else       //If not, print a warning message box that offers to open the browser to a search engine.
+    {
         QString message = i18n( "The URL is not valid. Would you like to open a browser window\nto the Google search engine?" );
         QString caption = i18n( "Invalid URL" );
-        if ( KMessageBox::warningYesNo( 0, message, caption, KGuiItem(i18n("Browse Google")), KGuiItem(i18n("Do Not Browse")) )==KMessageBox::Yes ) {
+        if ( KMessageBox::warningYesNo( 0, message, caption, KGuiItem(i18n("Browse Google")), KGuiItem(i18n("Do Not Browse")) )==KMessageBox::Yes )
+        {
             QDesktopServices::openUrl( QUrl("http://www.google.com") );
         }
     }

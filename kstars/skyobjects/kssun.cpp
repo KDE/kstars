@@ -26,27 +26,30 @@
 #include "kstarsdatetime.h"
 
 KSSun::KSSun( )
-        : KSPlanet( I18N_NOOP( "Sun" ), "sun", Qt::yellow, 1392000. /*diameter in km*/  )
+    : KSPlanet( I18N_NOOP( "Sun" ), "sun", Qt::yellow, 1392000. /*diameter in km*/  )
 {
     setMag( -26.73 );
 }
 
-KSSun* KSSun::clone() const
+KSSun * KSSun::clone() const
 {
     Q_ASSERT( typeid( this ) == typeid( static_cast<const KSSun *>( this ) ) ); // Ensure we are not slicing a derived class
     return new KSSun(*this);
 }
 
-bool KSSun::loadData() {
+bool KSSun::loadData()
+{
     OrbitDataColl odc;
     return (odm.loadData(odc, "earth") != 0);
 }
 
 // We don't need to do anything here
-void KSSun::findMagnitude(const KSNumbers*) {}
+void KSSun::findMagnitude(const KSNumbers *) {}
 
-bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
-    if (Earth) {
+bool KSSun::findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * Earth )
+{
+    if (Earth)
+    {
         //
         // For the precision we need, the earth's orbit is circular.
         // So don't bother to iterate like KSPlanet does. Just subtract
@@ -60,7 +63,7 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
         // MHH 2002-02-04 I don't like this. But it avoids code duplication.
         // Maybe we can find a better way.
         //
-        const KSPlanet *pEarth = static_cast<const KSPlanet *>(Earth);
+        const KSPlanet * pEarth = static_cast<const KSPlanet *>(Earth);
         EclipticPosition trialpos;
         pEarth->calcEcliptic(num->julianMillenia() - delay, trialpos);
 
@@ -69,7 +72,9 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
 
         setRearth( Earth->rsun() );
 
-    } else {
+    }
+    else
+    {
         double sum[6];
         dms EarthLong, EarthLat; //heliocentric coords of Earth
         OrbitDataColl odc;
@@ -77,7 +82,8 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
         double Tpow[6];
 
         Tpow[0] = 1.0;
-        for (int i=1; i<6; ++i) {
+        for (int i=1; i<6; ++i)
+        {
             Tpow[i] = Tpow[i-1] * T;
         }
         //First, find heliocentric coordinates
@@ -85,9 +91,11 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
         if ( ! odm.loadData(odc, "earth") ) return false;
 
         //Ecliptic Longitude
-        for (int i=0; i<6; ++i) {
+        for (int i=0; i<6; ++i)
+        {
             sum[i] = 0.0;
-            for (int j = 0; j < odc.Lon[i].size(); ++j) {
+            for (int j = 0; j < odc.Lon[i].size(); ++j)
+            {
                 sum[i] += odc.Lon[i][j].A * cos( odc.Lon[i][j].B + odc.Lon[i][j].C*T );
             }
             sum[i] *= Tpow[i];
@@ -99,9 +107,11 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
         EarthLong = EarthLong.reduce();
 
         //Compute Ecliptic Latitude
-        for (int i=0; i<6; ++i) {
+        for (int i=0; i<6; ++i)
+        {
             sum[i] = 0.0;
-            for (int j = 0; j < odc.Lat[i].size(); ++j) {
+            for (int j = 0; j < odc.Lat[i].size(); ++j)
+            {
                 sum[i] += odc.Lat[i][j].A * cos( odc.Lat[i][j].B + odc.Lat[i][j].C*T );
             }
             sum[i] *= Tpow[i];
@@ -112,9 +122,11 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
                              sum[4] + sum[5] );
 
         //Compute Heliocentric Distance
-        for (int i=0; i<6; ++i) {
+        for (int i=0; i<6; ++i)
+        {
             sum[i] = 0.0;
-            for (int j = 0; j < odc.Dst[i].size(); ++j) {
+            for (int j = 0; j < odc.Dst[i].size(); ++j)
+            {
                 sum[i] += odc.Dst[i][j].A * cos( odc.Dst[i][j].B + odc.Dst[i][j].C*T );
             }
             sum[i] *= Tpow[i];
@@ -151,5 +163,5 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
 
 SkyObject::UID KSSun::getUID() const
 {
-   return solarsysUID(UID_SOL_BIGOBJ) | 0;
+    return solarsysUID(UID_SOL_BIGOBJ) | 0;
 }

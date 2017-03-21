@@ -45,8 +45,8 @@ typedef struct LabelRun
 //----- Static Methods ------------------------------------------------------//
 
 
-SkyLabeler* SkyLabeler::pinstance = 0;
-SkyLabeler* SkyLabeler::Instance( )
+SkyLabeler * SkyLabeler::pinstance = 0;
+SkyLabeler * SkyLabeler::Instance( )
 {
     if ( ! pinstance ) pinstance = new SkyLabeler();
     return pinstance;
@@ -67,15 +67,18 @@ void SkyLabeler::setZoomFont()
         deltaSize = 1;
 
 #ifndef KSTARS_LITE
-    if ( deltaSize ) {
+    if ( deltaSize )
+    {
         font.setPointSize( font.pointSize() - deltaSize );
         m_p.setFont( font );
     }
 #else
-    if ( deltaSize ) {
+    if ( deltaSize )
+    {
         font.setPointSize( font.pointSize() - deltaSize );
     }
-    if(m_drawFont.pointSize() != font.pointSize()) {
+    if(m_drawFont.pointSize() != font.pointSize())
+    {
         m_drawFont = font;
     }
 #endif
@@ -90,12 +93,12 @@ double SkyLabeler::ZoomOffset()
 //----- Constructor ---------------------------------------------------------//
 
 SkyLabeler::SkyLabeler() :
-        m_maxY(0),
-        m_size(0),
-        m_fontMetrics( QFont() ),
-        m_picture(-1),
-        labelList( NUM_LABEL_TYPES ),
-        m_proj(0)
+    m_maxY(0),
+    m_size(0),
+    m_fontMetrics( QFont() ),
+    m_picture(-1),
+    labelList( NUM_LABEL_TYPES ),
+    m_proj(0)
 {
     m_errors = 0;
     m_minDeltaX = 30;    // when to merge two adjacent regions
@@ -116,16 +119,18 @@ SkyLabeler::SkyLabeler() :
 
 SkyLabeler::~SkyLabeler()
 {
-    for (int y = 0; y < screenRows.size(); y++ ) {
-        LabelRow* row = screenRows[y];
-        for ( int i = 0; i < row->size(); i++) {
+    for (int y = 0; y < screenRows.size(); y++ )
+    {
+        LabelRow * row = screenRows[y];
+        for ( int i = 0; i < row->size(); i++)
+        {
             delete row->at(i);
         }
         delete row;
     }
 }
 
-bool SkyLabeler::drawGuideLabel( QPointF& o, const QString& text, double angle )
+bool SkyLabeler::drawGuideLabel( QPointF &o, const QString &text, double angle )
 {
     // Create bounding rectangle by rotating the (height x width) rectangle
     qreal h = m_fontMetrics.height();
@@ -138,13 +143,15 @@ bool SkyLabeler::drawGuideLabel( QPointF& o, const QString& text, double angle )
     qreal top, bot, left, right;
 
     // These numbers really do depend on the sign of the angle like this
-    if ( angle >= 0.0 ) {
+    if ( angle >= 0.0 )
+    {
         top   = o.y()           - s * w2;
         bot   = o.y() + c *  h  + s * w2;
         left  = o.x() - c * w2  - s * h;
         right = o.x() + c * w2;
     }
-    else {
+    else
+    {
         top   = o.y()           + s * w2;
         bot   = o.y() + c *  h  - s * w2;
         left  = o.x() - c * w2;
@@ -172,7 +179,7 @@ bool SkyLabeler::drawGuideLabel( QPointF& o, const QString& text, double angle )
     return true;
 }
 
-bool SkyLabeler::drawNameLabel(SkyObject* obj, const QPointF& _p)
+bool SkyLabeler::drawNameLabel(SkyObject * obj, const QPointF &_p)
 {
     QString sLabel = obj->labelString();
     if (sLabel.isEmpty())
@@ -181,16 +188,19 @@ bool SkyLabeler::drawNameLabel(SkyObject* obj, const QPointF& _p)
     double offset = obj->labelOffset();
     QPointF p( _p.x()+offset, _p.y()+offset );
 
-    if ( !markText( p, sLabel ) ) {
+    if ( !markText( p, sLabel ) )
+    {
         return false;
-    } else {
+    }
+    else
+    {
         m_p.drawText( p, sLabel );
         return true;
     }
 }
 
 
-void SkyLabeler::setFont( const QFont& font )
+void SkyLabeler::setFont( const QFont &font )
 {
 #ifndef KSTARS_LITE
     m_p.setFont( font );
@@ -200,23 +210,23 @@ void SkyLabeler::setFont( const QFont& font )
     m_fontMetrics = QFontMetrics( font );
 }
 
-void SkyLabeler::setPen(const QPen& pen)
+void SkyLabeler::setPen(const QPen &pen)
 {
-    #ifdef KSTARS_LITE
-        Q_UNUSED(pen);
-    #else
-        m_p.setPen(pen);
-    #endif
+#ifdef KSTARS_LITE
+    Q_UNUSED(pen);
+#else
+    m_p.setPen(pen);
+#endif
 }
 
 void SkyLabeler::shrinkFont( int delta )
 {
-    #ifndef KSTARS_LITE
-        QFont font( m_p.font() );
-    #else
-        QFont font( m_drawFont );
-    #endif
-        font.setPointSize( font.pointSize() - delta );
+#ifndef KSTARS_LITE
+    QFont font( m_p.font() );
+#else
+    QFont font( m_drawFont );
+#endif
+    font.setPointSize( font.pointSize() - delta );
     setFont( font );
 }
 
@@ -230,8 +240,8 @@ void SkyLabeler::resetFont()
     setFont( m_skyFont );
 }
 
-void SkyLabeler::getMargins( const QString& text, float *left,
-                             float *right, float *top, float *bot )
+void SkyLabeler::getMargins( const QString &text, float * left,
+                             float * right, float * top, float * bot )
 {
     float height     = m_fontMetrics.height();
     float width      = m_fontMetrics.width( text );
@@ -254,7 +264,7 @@ void SkyLabeler::getMargins( const QString& text, float *left,
     *bot   = winHeight - 2.0 * height;
 }
 
-void SkyLabeler::reset( SkyMap* skyMap )
+void SkyLabeler::reset( SkyMap * skyMap )
 {
     // ----- Set up Projector ---
     m_proj = skyMap->projector();
@@ -287,9 +297,11 @@ void SkyLabeler::reset( SkyMap* skyMap )
     m_size = (maxY + 1) * m_maxX;
 
     // Resize if needed:
-    if ( maxY > m_maxY ) {
+    if ( maxY > m_maxY )
+    {
         screenRows.resize( m_maxY );
-        for ( int y = m_maxY; y <= maxY; y++) {
+        for ( int y = m_maxY; y <= maxY; y++)
+        {
             screenRows.append( new LabelRow() );
         }
         //printf("resize: %d -> %d, size:%d\n", m_maxY, maxY, screenRows.size());
@@ -299,9 +311,11 @@ void SkyLabeler::reset( SkyMap* skyMap )
 
     int minMaxY = (maxY < m_maxY) ? maxY : m_maxY;
 
-    for (int y = 0; y <= minMaxY; y++) {
-        LabelRow* row = screenRows[y];
-        for ( int i = 0; i < row->size(); i++) {
+    for (int y = 0; y <= minMaxY; y++)
+    {
+        LabelRow * row = screenRows[y];
+        for ( int i = 0; i < row->size(); i++)
+        {
             delete row->at(i);
         }
         row->clear();
@@ -314,7 +328,8 @@ void SkyLabeler::reset( SkyMap* skyMap )
     m_marks = m_hits = m_misses = m_elements = 0;
 
     //----- Clear out labelList -----
-    for (int i = 0; i < labelList.size(); i++) {
+    for (int i = 0; i < labelList.size(); i++)
+    {
         labelList[ i ].clear();
     }
 }
@@ -344,9 +359,11 @@ void SkyLabeler::reset()
     m_size = (maxY + 1) * m_maxX;
 
     // Resize if needed:
-    if ( maxY > m_maxY ) {
+    if ( maxY > m_maxY )
+    {
         screenRows.resize( m_maxY );
-        for ( int y = m_maxY; y <= maxY; y++) {
+        for ( int y = m_maxY; y <= maxY; y++)
+        {
             screenRows.append( new LabelRow() );
         }
         //printf("resize: %d -> %d, size:%d\n", m_maxY, maxY, screenRows.size());
@@ -356,9 +373,11 @@ void SkyLabeler::reset()
 
     int minMaxY = (maxY < m_maxY) ? maxY : m_maxY;
 
-    for (int y = 0; y <= minMaxY; y++) {
-        LabelRow* row = screenRows[y];
-        for ( int i = 0; i < row->size(); i++) {
+    for (int y = 0; y <= minMaxY; y++)
+    {
+        LabelRow * row = screenRows[y];
+        for ( int i = 0; i < row->size(); i++)
+        {
             delete row->at(i);
         }
         row->clear();
@@ -371,21 +390,25 @@ void SkyLabeler::reset()
     m_marks = m_hits = m_misses = m_elements = 0;
 
     //----- Clear out labelList -----
-    for (int i = 0; i < labelList.size(); i++) {
+    for (int i = 0; i < labelList.size(); i++)
+    {
         labelList[ i ].clear();
     }
 }
 #endif
 
-void SkyLabeler::draw(QPainter& p)
+void SkyLabeler::draw(QPainter &p)
 {
     //FIXME: need a better soln. Apparently starting a painter
     //clears the picture.
     // But it's not like that's something that should be in the docs, right?
     // No, that's definitely better to leave to people to figure out on their own.
-    if( m_p.isActive() ) { m_p.end(); }
+    if( m_p.isActive() )
+    {
+        m_p.end();
+    }
     m_picture.play(&p); //can't replay while it's being painted on
-                        //this is also undocumented btw.
+    //this is also undocumented btw.
     //m_p.begin(&m_picture);
 }
 
@@ -394,7 +417,7 @@ void SkyLabeler::draw(QPainter& p)
 //
 // This code is easy to break and hard to fix.
 
-bool SkyLabeler::markText( const QPointF& p, const QString& text )
+bool SkyLabeler::markText( const QPointF &p, const QString &text )
 {
 
     qreal maxX =  p.x() + m_fontMetrics.width( text );
@@ -404,7 +427,8 @@ bool SkyLabeler::markText( const QPointF& p, const QString& text )
 
 bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 {
-    if ( m_maxY < 1 ) {
+    if ( m_maxY < 1 )
+    {
         if ( ! m_errors++ )
             qDebug() << QString("Someone forgot to reset the SkyLabeler!");
         return true;
@@ -413,7 +437,8 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
     // setup x coordinates of rectangular region
     int minX = int( left );
     int maxX = int( right );
-    if (maxX < minX) {
+    if (maxX < minX)
+    {
         maxX = minX;
         minX = int( right );
     }
@@ -427,7 +452,8 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
     if ( minY < 0 ) minY = 0;
     if ( minY > m_maxY ) minY = m_maxY;
 
-    if ( maxY < minY ) {
+    if ( maxY < minY )
+    {
         int temp = maxY;
         maxY = minY;
         minY = temp;
@@ -435,10 +461,12 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 
     // check to see if we overlap any existing label
     // We must check all rows before we start marking
-    for (int y = minY; y <= maxY; y++ ) {
-        LabelRow* row = screenRows[ y ];
+    for (int y = minY; y <= maxY; y++ )
+    {
+        LabelRow * row = screenRows[ y ];
         int i;
-        for ( i = 0; i < row->size(); i++) {
+        for ( i = 0; i < row->size(); i++)
+        {
             if ( row->at( i )->end < minX ) continue;  // skip past these
             if ( row->at( i )->start > maxX ) break;
             m_misses++;
@@ -452,11 +480,13 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
     // Okay, there was no overlap so let's insert the current rectangle into
     // screenRows.
 
-    for ( int y = minY; y <= maxY; y++ ) {
-        LabelRow* row = screenRows[ y ];
+    for ( int y = minY; y <= maxY; y++ )
+    {
+        LabelRow * row = screenRows[ y ];
 
         // Simplest case: an empty row
-        if ( row->size() < 1 ) {
+        if ( row->size() < 1 )
+        {
             row->append( new LabelRun( minX, maxX ) );
             m_elements++;
             continue;
@@ -465,18 +495,22 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
         // Find out our place in the universe (or row).
         // H'mm.  Maybe we could cache these numbers above.
         int i;
-        for ( i = 0; i < row->size(); i++ ) {
+        for ( i = 0; i < row->size(); i++ )
+        {
             if ( row->at(i)->end >= minX ) break;
         }
 
         // i now points to first label PAST ours
 
         // if we are first, append or merge at start of list
-        if ( i == 0 ) {
-            if ( row->at(0)->start - maxX < m_minDeltaX ) {
+        if ( i == 0 )
+        {
+            if ( row->at(0)->start - maxX < m_minDeltaX )
+            {
                 row->at(0)->start = minX;
             }
-            else {
+            else
+            {
                 row->insert( 0, new LabelRun(minX, maxX) );
                 m_elements++;
             }
@@ -484,11 +518,14 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
         }
 
         // if we are past the last label, merge or append at end
-        else if ( i == row->size() ) {
-            if ( minX - row->at(i-1)->end < m_minDeltaX ) {
+        else if ( i == row->size() )
+        {
+            if ( minX - row->at(i-1)->end < m_minDeltaX )
+            {
                 row->at(i-1)->end = maxX;
             }
-            else {
+            else
+            {
                 row->append( new LabelRun(minX, maxX) );
                 m_elements++;
             }
@@ -502,7 +539,8 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
         bool mergeTail = ( row->at(i)->start - maxX < m_minDeltaX );
 
         // double merge => combine all 3 into one
-        if ( mergeHead && mergeTail ) {
+        if ( mergeHead && mergeTail )
+        {
             row->at(i-1)->end = row->at(i)->end;
             delete row->at( i );
             row->removeAt( i );
@@ -510,17 +548,20 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
         }
 
         // Merge label with [i-1]
-        else if ( mergeHead ) {
+        else if ( mergeHead )
+        {
             row->at(i-1)->end = maxX;
         }
 
         // Merge label with [i]
-        else if ( mergeTail ) {
+        else if ( mergeTail )
+        {
             row->at(i)->start = minX;
         }
 
         // insert between the two
-        else {
+        else
+        {
             row->insert( i, new LabelRun( minX, maxX) );
             m_elements++;
         }
@@ -530,7 +571,7 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 }
 
 
-void SkyLabeler::addLabel( SkyObject *obj, SkyLabeler::label_t type )
+void SkyLabeler::addLabel( SkyObject * obj, SkyLabeler::label_t type )
 {
     bool visible = false;
     QPointF p = m_proj->toScreen(obj, true, &visible);
@@ -539,26 +580,29 @@ void SkyLabeler::addLabel( SkyObject *obj, SkyLabeler::label_t type )
 }
 
 #ifdef KSTARS_LITE
-    void SkyLabeler::addLabel(SkyObject *obj, QPointF pos,  label_t type) {
-        labelList[ (int)type ].append( SkyLabel( pos, obj ) );
-    }
+void SkyLabeler::addLabel(SkyObject * obj, QPointF pos,  label_t type)
+{
+    labelList[ (int)type ].append( SkyLabel( pos, obj ) );
+}
 #endif
 
 void SkyLabeler::drawQueuedLabels()
 {
-    KStarsData* data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
 
     resetFont();
     m_p.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
     drawQueuedLabelsType( PLANET_LABEL );
 
-    if ( labelList[ SATURN_MOON_LABEL ].size() > 0 ) {
+    if ( labelList[ SATURN_MOON_LABEL ].size() > 0 )
+    {
         shrinkFont( 2 );
         drawQueuedLabelsType( SATURN_MOON_LABEL );
         resetFont();
     }
 
-    if ( labelList[ JUPITER_MOON_LABEL ].size() > 0 ) {
+    if ( labelList[ JUPITER_MOON_LABEL ].size() > 0 )
+    {
         shrinkFont( 2 );
         drawQueuedLabelsType( JUPITER_MOON_LABEL );
         resetFont();
@@ -575,7 +619,8 @@ void SkyLabeler::drawQueuedLabels()
     // Will just set it to Planet color since this is how it used to be!!
     m_p.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
     LabelList list = labelList[ RUDE_LABEL ];
-    for ( int i = 0; i < list.size(); i ++ ) {
+    for ( int i = 0; i < list.size(); i ++ )
+    {
         drawRudeNameLabel( list.at(i).obj, list.at(i).o );
     }
 
@@ -584,7 +629,8 @@ void SkyLabeler::drawQueuedLabels()
 void SkyLabeler::drawQueuedLabelsType( SkyLabeler::label_t type )
 {
     LabelList list = labelList[ type ];
-    for ( int i = 0; i < list.size(); i ++ ) {
+    for ( int i = 0; i < list.size(); i ++ )
+    {
         drawNameLabel( list.at(i).obj, list.at(i).o );
     }
 }
@@ -593,7 +639,7 @@ void SkyLabeler::drawQueuedLabelsType( SkyLabeler::label_t type )
 //these get drawn no matter what.  Transient labels are rude labels.
 //To mitigate confusion from possibly "underlapping" labels, paint a
 //semi-transparent background.
-void SkyLabeler::drawRudeNameLabel( SkyObject *obj, const QPointF &p )
+void SkyLabeler::drawRudeNameLabel( SkyObject * obj, const QPointF &p )
 {
     QString sLabel = obj->labelString();
     double offset = obj->labelOffset();
@@ -640,7 +686,7 @@ void SkyLabeler::printInfo()
 
     return;
 
-    static const char *labelName[NUM_LABEL_TYPES];
+    static const char * labelName[NUM_LABEL_TYPES];
 
     labelName[         STAR_LABEL ] = "Star";
     labelName[     ASTEROID_LABEL ] = "Asteroid";
@@ -651,24 +697,28 @@ void SkyLabeler::printInfo()
     labelName[     DEEP_SKY_LABEL ] = "Deep Sky Object";
     labelName[ CONSTEL_NAME_LABEL ] = "Constellation Name";
 
-    for ( int i = 0; i < NUM_LABEL_TYPES; i++ ) {
+    for ( int i = 0; i < NUM_LABEL_TYPES; i++ )
+    {
         printf("  %20ss: %d\n", labelName[ i ], labelList[ i ].size() );
     }
 
     // Check for errors in the data structure
-    for (int y = 0; y <= m_maxY; y++) {
-        LabelRow* row = screenRows[y];
+    for (int y = 0; y <= m_maxY; y++)
+    {
+        LabelRow * row = screenRows[y];
         int size = row->size();
         if ( size < 2 ) continue;
 
         bool error = false;
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < size; i++)
+        {
             if ( row->at(i-1)->end > row->at(i)->start ) error = true;
         }
         if ( ! error ) continue;
 
         printf("ERROR: %3d: ", y );
-        for (int i=0; i < row->size(); i++) {
+        for (int i=0; i < row->size(); i++)
+        {
             printf("(%d, %d) ", row->at(i)->start, row->at(i)->end );
         }
         printf("\n");

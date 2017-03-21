@@ -28,7 +28,7 @@
 PointSourceNode::PointSourceNode(SkyObject * skyObject, RootNode * parentNode,
                                  LabelsItem::label_t labelType, char spType, float size, short trixel)
     :SkyNode(skyObject), m_point(0), m_rootNode(parentNode), m_label(0), m_spType(spType), m_size(size),
-      m_labelType(labelType), m_trixel(trixel), isTextureRegenerated(false)
+     m_labelType(labelType), m_trixel(trixel), isTextureRegenerated(false)
 {
 
 }
@@ -53,14 +53,18 @@ float PointSourceNode::starWidth(float mag) const
     return size;
 }
 
-PointSourceNode::~PointSourceNode() {
-    if(m_label && (m_labelType == LabelsItem::label_t::STAR_LABEL || m_labelType == LabelsItem::label_t::CATALOG_STAR_LABEL)) {
+PointSourceNode::~PointSourceNode()
+{
+    if(m_label && (m_labelType == LabelsItem::label_t::STAR_LABEL || m_labelType == LabelsItem::label_t::CATALOG_STAR_LABEL))
+    {
         m_rootNode->labelsItem()->deleteLabel(m_label);
     }
 }
 
-void PointSourceNode::updatePoint() {
-    if(!m_point) {
+void PointSourceNode::updatePoint()
+{
+    if(!m_point)
+    {
         m_point = new PointNode(m_rootNode,m_spType,starWidth(m_size));
         addChildNode(m_point);
     }
@@ -68,7 +72,8 @@ void PointSourceNode::updatePoint() {
     m_point->setSize(starWidth(m_skyObject->mag())); //Set points size base on the magnitude of object
 }
 
-void PointSourceNode::changePos(QPointF pos) {
+void PointSourceNode::changePos(QPointF pos)
+{
     QSizeF size = m_point->size();
     QMatrix4x4 m (1,0,0,pos.x(),
                   0,1,0,pos.y(),
@@ -80,42 +85,56 @@ void PointSourceNode::changePos(QPointF pos) {
     markDirty(QSGNode::DirtyMatrix);
 }
 
-void PointSourceNode::update() {
-    if( !projector()->checkVisibility(m_skyObject) ) {
+void PointSourceNode::update()
+{
+    if( !projector()->checkVisibility(m_skyObject) )
+    {
         hide();
         return;
     }
 
     bool visible = false;
     pos = projector()->toScreen(m_skyObject,true,&visible);
-    if( visible && projector()->onScreen(pos) ) {// FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode! (Inherited from SkyMap)
+    if( visible && projector()->onScreen(pos) )  // FIXME: onScreen here should use canvas size rather than SkyMap size, especially while printing in portrait mode! (Inherited from SkyMap)
+    {
         updatePos(pos, m_drawLabel);
-    } else {
+    }
+    else
+    {
         hide();
     }
 }
 
-void PointSourceNode::updatePos(QPointF pos, bool drawLabel) {
+void PointSourceNode::updatePos(QPointF pos, bool drawLabel)
+{
     updatePoint();
     changePos(pos);
 
     m_drawLabel = drawLabel;
 
-    if(m_drawLabel && m_labelType != LabelsItem::label_t::NO_LABEL) {
-        if(!m_label) { //This way labels will be created only when they are needed
-            if(m_trixel != -1) {
+    if(m_drawLabel && m_labelType != LabelsItem::label_t::NO_LABEL)
+    {
+        if(!m_label)   //This way labels will be created only when they are needed
+        {
+            if(m_trixel != -1)
+            {
                 m_label = m_rootNode->labelsItem()->addLabel(m_skyObject, m_labelType, m_trixel);
-            } else {
+            }
+            else
+            {
                 m_label = m_rootNode->labelsItem()->addLabel(m_skyObject, m_labelType);
             }
         }
         m_label->setLabelPos(pos);
-    } else {
+    }
+    else
+    {
         if(m_label) m_label->hide();
     }
 }
 
-void PointSourceNode::hide() {
+void PointSourceNode::hide()
+{
     if(m_label) m_label->hide();
     SkyNode::hide();
 }

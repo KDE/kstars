@@ -66,20 +66,21 @@
 #define INITIAL_H	650
 
 QStringList FITSViewer::filterTypes = QStringList() << I18N_NOOP("Auto Stretch") << I18N_NOOP("High Contrast")
-                                                    << I18N_NOOP("Equalize") << I18N_NOOP("High Pass") << I18N_NOOP("Median")
-                                                    << I18N_NOOP("Rotate Right") << I18N_NOOP("Rotate Left")
-                                                    << I18N_NOOP("Flip Horizontal") << I18N_NOOP("Flip Vertical");
+                                      << I18N_NOOP("Equalize") << I18N_NOOP("High Pass") << I18N_NOOP("Median")
+                                      << I18N_NOOP("Rotate Right") << I18N_NOOP("Rotate Left")
+                                      << I18N_NOOP("Flip Horizontal") << I18N_NOOP("Flip Vertical");
 
-FITSViewer::FITSViewer (QWidget *parent)
-        : KXmlGuiWindow (parent)
+FITSViewer::FITSViewer (QWidget * parent)
+    : KXmlGuiWindow (parent)
 {
 #ifdef Q_OS_OSX
     if(Options::independentWindowFITS())
-         setWindowFlags(Qt::Window);
-     else{
+        setWindowFlags(Qt::Window);
+    else
+    {
         setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
         connect(QApplication::instance(), SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(changeAlwaysOnTop(Qt::ApplicationState)));
-     }
+    }
 #endif
 
     fitsTab   = new QTabWidget(this);
@@ -103,10 +104,10 @@ FITSViewer::FITSViewer (QWidget *parent)
     //These two connections will enable or disable the scope button if a scope is available or not.
     //Of course this is also dependent on the presence of WCS data in the image.
 
-    #ifdef HAVE_INDI
+#ifdef HAVE_INDI
     connect(INDIListener::Instance(), SIGNAL(newTelescope(ISD::GDInterface *)), this, SLOT(updateWCSFunctions()));
     connect(INDIListener::Instance(), SIGNAL(deviceRemoved(ISD::GDInterface *)), this, SLOT(updateWCSFunctions()));
-    #endif
+#endif
 
     led.setColor(Qt::green);
 
@@ -124,7 +125,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     statusBar()->insertPermanentWidget(FITS_RESOLUTION, &fitsResolution);
     statusBar()->insertPermanentWidget(FITS_LED, &led);
 
-    QAction *action;
+    QAction * action;
 
     action = actionCollection()->addAction("rotate_right", this, SLOT(rotateCW()));
     action->setText(i18n("Rotate Right"));
@@ -151,7 +152,7 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     action = KStandardAction::open(this,   SLOT(openFile()),   actionCollection());
     action->setIcon(QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")));
-    
+
     saveFileAction    = KStandardAction::save(this,   SLOT(saveFile()),   actionCollection());
     saveFileAction->setIcon(QIcon::fromTheme("document-save", QIcon(":/icons/breeze/default/document-save.svg")));
 
@@ -178,23 +179,23 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     action = KStandardAction::close(this,  SLOT(close()),  actionCollection());
     action->setIcon(QIcon::fromTheme("window-close", QIcon(":/icons/breeze/default/window-close.svg")));
-    
+
     action = KStandardAction::copy(this,   SLOT(copyFITS()),   actionCollection());
     action->setIcon(QIcon::fromTheme("edit-copy", QIcon(":/icons/breeze/default/edit-copy.svg")));
-    
+
     action=KStandardAction::zoomIn(this,     SLOT(ZoomIn()),      actionCollection());
     action->setIcon(QIcon::fromTheme("zoom-in", QIcon(":/icons/breeze/default/zoom-in.svg")));
-    
+
     action=KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());
     action->setIcon(QIcon::fromTheme("zoom-out", QIcon(":/icons/breeze/default/zoom-out.svg")));
-    
+
     action=KStandardAction::actualSize(this, SLOT(ZoomDefault()), actionCollection());
     action->setIcon(QIcon::fromTheme("zoom-fit-best", QIcon(":/icons/breeze/default/zoom-fit-best.svg")));
 
-    QAction *kundo = KStandardAction::undo(undoGroup, SLOT(undo()), actionCollection());
+    QAction * kundo = KStandardAction::undo(undoGroup, SLOT(undo()), actionCollection());
     kundo->setIcon(QIcon::fromTheme("edit-undo", QIcon(":/icons/breeze/default/edit-undo.svg")));
-    
-    QAction *kredo = KStandardAction::redo(undoGroup, SLOT(redo()), actionCollection());
+
+    QAction * kredo = KStandardAction::redo(undoGroup, SLOT(redo()), actionCollection());
     kredo->setIcon(QIcon::fromTheme("edit-redo", QIcon(":/icons/breeze/default/edit-redo.svg")));
 
     connect(undoGroup, SIGNAL(canUndoChanged(bool)), kundo, SLOT(setEnabled(bool)));
@@ -247,7 +248,7 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setText(i18n( "Mark Stars"));
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
 
-    QSignalMapper *filterMapper = new QSignalMapper(this);
+    QSignalMapper * filterMapper = new QSignalMapper(this);
 
     int filterCounter=1;
 
@@ -275,7 +276,8 @@ FITSViewer::FITSViewer (QWidget *parent)
 
 void FITSViewer::changeAlwaysOnTop(Qt::ApplicationState state)
 {
-    if(isVisible()){
+    if(isVisible())
+    {
         if (state == Qt::ApplicationActive)
             setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint);
         else
@@ -297,11 +299,11 @@ FITSViewer::~FITSViewer()
 
 void FITSViewer::closeEvent(QCloseEvent * /*event*/)
 {
-    KStars *ks = KStars::Instance();
+    KStars * ks = KStars::Instance();
 
     if (ks)
     {
-        QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+        QAction * a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
         QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
 
         if (a && viewers.count() == 1)
@@ -314,11 +316,11 @@ void FITSViewer::closeEvent(QCloseEvent * /*event*/)
 
 void FITSViewer::hideEvent(QHideEvent * /*event*/)
 {
-    KStars *ks = KStars::Instance();
+    KStars * ks = KStars::Instance();
 
     if (ks)
     {
-        QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+        QAction * a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
         if (a)
         {
             QList<FITSViewer *> viewers = KStars::Instance()->findChildren<FITSViewer *>();
@@ -331,7 +333,7 @@ void FITSViewer::hideEvent(QHideEvent * /*event*/)
 
 void FITSViewer::showEvent(QShowEvent * /*event*/)
 {
-    QAction *a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
+    QAction * a = KStars::Instance()->actionCollection()->action( "show_fits_viewer" );
     if (a)
     {
         a->setEnabled(true);
@@ -339,9 +341,9 @@ void FITSViewer::showEvent(QShowEvent * /*event*/)
     }
 }
 
-int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
+int FITSViewer::addFITS(const QUrl * imageName, FITSMode mode, FITSScale filter, const QString &previewText, bool silent)
 {
-    FITSTab *tab = new FITSTab(this);
+    FITSTab * tab = new FITSTab(this);
 
     led.setColor(Qt::yellow);
 
@@ -374,28 +376,28 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
 
     switch (mode)
     {
-      case FITS_NORMAL:
-        fitsTab->addTab(tab, previewText.isEmpty() ? imageName->fileName() : previewText);
-        break;
+        case FITS_NORMAL:
+            fitsTab->addTab(tab, previewText.isEmpty() ? imageName->fileName() : previewText);
+            break;
 
-       case FITS_CALIBRATE:
-        fitsTab->addTab(tab, i18n("Calibrate"));
-        break;
+        case FITS_CALIBRATE:
+            fitsTab->addTab(tab, i18n("Calibrate"));
+            break;
 
-      case FITS_FOCUS:
-        fitsTab->addTab(tab, i18n("Focus"));
-        break;
+        case FITS_FOCUS:
+            fitsTab->addTab(tab, i18n("Focus"));
+            break;
 
-    case FITS_GUIDE:
-      fitsTab->addTab(tab, i18n("Guide"));
-      break;
+        case FITS_GUIDE:
+            fitsTab->addTab(tab, i18n("Guide"));
+            break;
 
-    case FITS_ALIGN:
-      fitsTab->addTab(tab, i18n("Align"));
-      break;
+        case FITS_ALIGN:
+            fitsTab->addTab(tab, i18n("Align"));
+            break;
 
-    default:
-        break;
+        default:
+            break;
 
     }
 
@@ -428,7 +430,7 @@ int FITSViewer::addFITS(const QUrl *imageName, FITSMode mode, FITSScale filter, 
 
 bool FITSViewer::removeFITS(int fitsUID)
 {
-    FITSTab *tab = fitsMap.value(fitsUID);
+    FITSTab * tab = fitsMap.value(fitsUID);
 
     if (tab == NULL)
     {
@@ -448,9 +450,9 @@ bool FITSViewer::removeFITS(int fitsUID)
 
 }
 
-bool FITSViewer::updateFITS(const QUrl *imageName, int fitsUID, FITSScale filter, bool silent)
+bool FITSViewer::updateFITS(const QUrl * imageName, int fitsUID, FITSScale filter, bool silent)
 {
-    FITSTab *tab = fitsMap.value(fitsUID);
+    FITSTab * tab = fitsMap.value(fitsUID);
 
     if (tab == NULL)
     {
@@ -500,7 +502,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
 
     fitsTabs[currentIndex]->tabPositionUpdated();
 
-    FITSView *view = fitsTabs[currentIndex]->getView();
+    FITSView * view = fitsTabs[currentIndex]->getView();
 
     view->toggleStars(markStars);
 
@@ -585,7 +587,7 @@ void FITSViewer::openFile()
 
 
     // Make sure we don't have it open already, if yes, switch to it
-    foreach (FITSTab *tab, fitsTabs)
+    foreach (FITSTab * tab, fitsTabs)
     {
         cpath = tab->getCurrentURL()->path();
         if (fpath == cpath)
@@ -619,7 +621,7 @@ void FITSViewer::copyFITS()
     if (fitsTabs.empty())
         return;
 
-   fitsTabs[fitsTab->currentIndex()]->copyFITS();
+    fitsTabs[fitsTab->currentIndex()]->copyFITS();
 }
 
 void FITSViewer::histoFITS()
@@ -635,7 +637,7 @@ void FITSViewer::statFITS()
     if (fitsTabs.empty())
         return;
 
-  fitsTabs[fitsTab->currentIndex()]->statFITS();
+    fitsTabs[fitsTab->currentIndex()]->statFITS();
 }
 
 void FITSViewer::stretchFITS()
@@ -668,7 +670,7 @@ void FITSViewer::headerFITS()
     if (fitsTabs.empty())
         return;
 
-  fitsTabs[fitsTab->currentIndex()]->headerFITS();
+    fitsTabs[fitsTab->currentIndex()]->headerFITS();
 }
 
 void FITSViewer::debayerFITS()
@@ -678,7 +680,7 @@ void FITSViewer::debayerFITS()
         debayerDialog = new FITSDebayer(this);
     }
 
-    FITSView *view = getCurrentView();
+    FITSView * view = getCurrentView();
 
     if (view == NULL)
         return;
@@ -693,7 +695,7 @@ void FITSViewer::debayerFITS()
 
 int FITSViewer::saveUnsaved(int index)
 {
-    FITSTab *targetTab = NULL;
+    FITSTab * targetTab = NULL;
 
     if (index < 0 || index >= fitsTabs.size())
         return -1;
@@ -715,8 +717,8 @@ int FITSViewer::saveUnsaved(int index)
     }
     else if( ans == KMessageBox::No )
     {
-       targetTab->getUndoStack()->clear();
-       return 1;
+        targetTab->getUndoStack()->clear();
+        return 1;
     }
     else if ( ans == KMessageBox::Cancel)
     {
@@ -731,28 +733,28 @@ void FITSViewer::updateStatusBar(const QString &msg, FITSBar id)
 {
     switch (id)
     {
-            case FITS_POSITION:
-                fitsPosition.setText(msg);
-                break;
-            case FITS_RESOLUTION:
-                fitsResolution.setText(msg);
-                break;
-             case FITS_ZOOM:
-                fitsZoom.setText(msg);
-                break;
-             case FITS_WCS:
-                fitsWCS.setVisible(true);
-                fitsWCS.setText(msg);
-                break;
-             case FITS_VALUE:
-                fitsValue.setText(msg);
-                break;
-             case FITS_MESSAGE:
-                statusBar()->showMessage(msg);
-                break;
+        case FITS_POSITION:
+            fitsPosition.setText(msg);
+            break;
+        case FITS_RESOLUTION:
+            fitsResolution.setText(msg);
+            break;
+        case FITS_ZOOM:
+            fitsZoom.setText(msg);
+            break;
+        case FITS_WCS:
+            fitsWCS.setVisible(true);
+            fitsWCS.setText(msg);
+            break;
+        case FITS_VALUE:
+            fitsValue.setText(msg);
+            break;
+        case FITS_MESSAGE:
+            statusBar()->showMessage(msg);
+            break;
 
-             default:
-                break;
+        default:
+            break;
 
     }
 }
@@ -762,7 +764,7 @@ void FITSViewer::ZoomIn()
     if (fitsTabs.empty())
         return;
 
-  fitsTabs[fitsTab->currentIndex()]->ZoomIn();
+    fitsTabs[fitsTab->currentIndex()]->ZoomIn();
 }
 
 void FITSViewer::ZoomOut()
@@ -770,7 +772,7 @@ void FITSViewer::ZoomOut()
     if (fitsTabs.empty())
         return;
 
-  fitsTabs[fitsTab->currentIndex()]->ZoomOut();
+    fitsTabs[fitsTab->currentIndex()]->ZoomOut();
 }
 
 void FITSViewer::ZoomDefault()
@@ -778,7 +780,7 @@ void FITSViewer::ZoomDefault()
     if (fitsTabs.empty())
         return;
 
-  fitsTabs[fitsTab->currentIndex()]->ZoomDefault();
+    fitsTabs[fitsTab->currentIndex()]->ZoomDefault();
 }
 
 void FITSViewer::ZoomToFit()
@@ -786,12 +788,12 @@ void FITSViewer::ZoomToFit()
     if (fitsTabs.empty())
         return;
 
-  getCurrentView()->ZoomToFit();
+    getCurrentView()->ZoomToFit();
 }
 
 void FITSViewer::updateAction(const QString &name, bool enable)
 {
-    QAction *toolAction = NULL;
+    QAction * toolAction = NULL;
 
     toolAction = actionCollection()->action(name);
     if (toolAction != NULL)
@@ -803,14 +805,14 @@ void FITSViewer::updateTabStatus(bool clean)
     if (fitsTabs.empty() || (fitsTab->currentIndex() >= fitsTabs.size()))
         return;
 
-  if (fitsTabs[fitsTab->currentIndex()]->getView()->getMode() != FITS_NORMAL)
-      return;
+    if (fitsTabs[fitsTab->currentIndex()]->getView()->getMode() != FITS_NORMAL)
+        return;
 
-  //QString tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
+    //QString tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
 
-  QString tabText = fitsTab->tabText(fitsTab->currentIndex());
+    QString tabText = fitsTab->tabText(fitsTab->currentIndex());
 
-  fitsTab->setTabText(fitsTab->currentIndex(), clean ? tabText.remove('*') : tabText + '*');
+    fitsTab->setTabText(fitsTab->currentIndex(), clean ? tabText.remove('*') : tabText + '*');
 }
 
 void FITSViewer::closeTab(int index)
@@ -818,7 +820,7 @@ void FITSViewer::closeTab(int index)
     if (fitsTabs.empty())
         return;
 
-    FITSTab *tab = fitsTabs[index];
+    FITSTab * tab = fitsTabs[index];
 
     // N.B. We will allow closing of all tabs
     //if (tab->getView()->getMode() != FITS_NORMAL)
@@ -849,8 +851,9 @@ void FITSViewer::closeTab(int index)
  when one of them gets pushed and also when tabs are switched.
  */
 
-void FITSViewer::updateButtonStatus(QString action, QString item, bool showing){
-    QAction *a=actionCollection()->action(action);
+void FITSViewer::updateButtonStatus(QString action, QString item, bool showing)
+{
+    QAction * a=actionCollection()->action(action);
     if (showing)
     {
         a->setText( "Hide " + item );
@@ -872,22 +875,26 @@ void FITSViewer::updateWCSFunctions()
     if (getCurrentView() == NULL)
         return;
 
-    if(getCurrentView()->imageHasWCS()){
+    if(getCurrentView()->imageHasWCS())
+    {
         actionCollection()->action("view_eq_grid")->setDisabled(false);
         actionCollection()->action("view_eq_grid")->setText( i18n( "Show Equatorial Gridlines" ));
         actionCollection()->action("view_objects")->setDisabled(false);
         actionCollection()->action("view_objects")->setText( i18n( "Show Objects in Image" ));
-        if(getCurrentView()->isTelescopeActive()){
+        if(getCurrentView()->isTelescopeActive())
+        {
             actionCollection()->action("center_telescope")->setDisabled(false);
 
             actionCollection()->action("center_telescope")->setText( i18n( "Center Telescope\n*Ready*" ));
         }
-        else{
+        else
+        {
             actionCollection()->action("center_telescope")->setDisabled(true);
             actionCollection()->action("center_telescope")->setText( i18n( "Center Telescope\n*No Telescopes Detected*" ));
         }
     }
-    else{
+    else
+    {
         actionCollection()->action("view_eq_grid")->setDisabled(true);
         actionCollection()->action("view_eq_grid")->setText( i18n( "Show Equatorial Gridlines\n*No WCS Info*" ));
         actionCollection()->action("center_telescope")->setDisabled(true);
@@ -898,10 +905,14 @@ void FITSViewer::updateWCSFunctions()
 
 }
 
-void FITSViewer::updateScopeButton(){
-    if(getCurrentView()->getMouseMode()==FITSView::scopeMouse){
+void FITSViewer::updateScopeButton()
+{
+    if(getCurrentView()->getMouseMode()==FITSView::scopeMouse)
+    {
         actionCollection()->action("center_telescope")->setChecked(true);
-    } else{
+    }
+    else
+    {
         actionCollection()->action("center_telescope")->setChecked(false);
     }
 }
@@ -911,11 +922,15 @@ void FITSViewer::updateScopeButton(){
  just by clicking the mouse on a spot in the image.
  */
 
-void FITSViewer::centerTelescope(){
+void FITSViewer::centerTelescope()
+{
     getCurrentView()->setScopeButton(actionCollection()->action("center_telescope"));
-    if(getCurrentView()->getMouseMode()==FITSView::scopeMouse){
+    if(getCurrentView()->getMouseMode()==FITSView::scopeMouse)
+    {
         getCurrentView()->setMouseMode(getCurrentView()->lastMouseMode);
-    } else{
+    }
+    else
+    {
         getCurrentView()->lastMouseMode=getCurrentView()->getMouseMode();
         getCurrentView()->setMouseMode(FITSView::scopeMouse);
     }
@@ -960,7 +975,7 @@ void FITSViewer::toggleStars()
         actionCollection()->action("mark_stars")->setText( i18n( "Unmark Stars" ) );
     }
 
-    foreach(FITSTab *tab, fitsTabs)
+    foreach(FITSTab * tab, fitsTabs)
     {
         tab->getView()->toggleStars(markStars);
         tab->getView()->updateFrame();
@@ -986,7 +1001,7 @@ void FITSViewer::applyFilter(int ftype)
 
 FITSView * FITSViewer::getView(int fitsUID)
 {
-    FITSTab *tab = fitsMap.value(fitsUID);
+    FITSTab * tab = fitsMap.value(fitsUID);
 
     if (tab)
         return tab->getView();
@@ -994,12 +1009,12 @@ FITSView * FITSViewer::getView(int fitsUID)
         return NULL;
 }
 
-FITSView *FITSViewer::getCurrentView()
+FITSView * FITSViewer::getCurrentView()
 {
     if (fitsTabs.empty() || fitsTab->currentIndex() >= fitsTabs.count() )
         return NULL;
 
-     return fitsTabs[fitsTab->currentIndex()]->getView();
+    return fitsTabs[fitsTab->currentIndex()]->getView();
 }
 
 void FITSViewer::setDebayerAction(bool enable)

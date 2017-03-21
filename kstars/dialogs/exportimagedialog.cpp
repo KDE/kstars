@@ -28,25 +28,25 @@
 #include "skyqpainter.h"
 #include "imageexporter.h"
 
-ExportImageDialogUI::ExportImageDialogUI(QWidget *parent)
+ExportImageDialogUI::ExportImageDialogUI(QWidget * parent)
     : QFrame(parent)
 {
     setupUi(this);
 }
 
-ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, ImageExporter *imgExporter)
-    : QDialog((QWidget*) KStars::Instance()), m_KStars(KStars::Instance()), m_Url(url), m_Size(size)
+ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, ImageExporter * imgExporter)
+    : QDialog((QWidget *) KStars::Instance()), m_KStars(KStars::Instance()), m_Url(url), m_Size(size)
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
     m_DialogUI = new ExportImageDialogUI(this);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(m_DialogUI);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -54,7 +54,7 @@ ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size, Imag
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(exportImage()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(close()));
 
-    QPushButton *previewB = new QPushButton(i18n("Preview image"));
+    QPushButton * previewB = new QPushButton(i18n("Preview image"));
     buttonBox->addButton(previewB, QDialogButtonBox::ActionRole);
     connect(previewB, SIGNAL(clicked()), this, SLOT(previewImage()));
 
@@ -81,7 +81,7 @@ void ExportImageDialog::switchLegendEnabled(bool enabled)
 void ExportImageDialog::previewImage()
 {
     updateLegendSettings();
-    const Legend *legend = m_ImageExporter->getLegend();
+    const Legend * legend = m_ImageExporter->getLegend();
 
     // Preview current legend settings on sky map
     m_KStars->map()->setLegend( Legend( *legend ) );
@@ -95,7 +95,7 @@ void ExportImageDialog::previewImage()
 }
 
 void ExportImageDialog::setupWidgets()
-{    
+{
     m_DialogUI->addLegendCheckBox->setChecked(true);
 
     m_DialogUI->legendOrientationComboBox->addItem(i18n("Horizontal"));
@@ -103,12 +103,12 @@ void ExportImageDialog::setupWidgets()
 
     QStringList types;
     types << i18n("Full legend") << i18n("Scale with magnitudes chart") << i18n("Only scale")
-            << i18n("Only magnitudes") << i18n("Only symbols");
+          << i18n("Only magnitudes") << i18n("Only symbols");
     m_DialogUI->legendTypeComboBox->addItems(types);
 
     QStringList positions;
     positions << i18n("Upper left corner") << i18n("Upper right corner") << i18n("Lower left corner")
-            << i18n("Lower right corner");
+              << i18n("Lower right corner");
     m_DialogUI->legendPositionComboBox->addItems(positions);
 }
 
@@ -128,7 +128,8 @@ void ExportImageDialog::exportImage()
     qDebug() << "Exporting sky image";
     updateLegendSettings();
     m_ImageExporter->includeLegend( m_DialogUI->addLegendCheckBox->isChecked() );
-    if( !m_ImageExporter->exportImage( m_Url ) ) {
+    if( !m_ImageExporter->exportImage( m_Url ) )
+    {
         KMessageBox::sorry( 0, m_ImageExporter->getLastErrorMessage(), i18n( "Could not export image" ) );
     }
 }

@@ -39,125 +39,125 @@ struct INDIHostsInfo
     QString hostname;
     QString portnumber;
     bool isConnected;
-    DeviceManager *deviceManager;
+    DeviceManager * deviceManager;
 };
 
 class IDevice : public QObject
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    IDevice(const QString &inName, const QString &inLabel, const QString &inDriver, const QString &inVersion);
-      ~IDevice();
-  
-    enum DeviceStatus { DEV_START, DEV_TERMINATE };
-    enum XMLSource { PRIMARY_XML, THIRD_PARTY_XML, EM_XML };
+    public:
+        IDevice(const QString &inName, const QString &inLabel, const QString &inDriver, const QString &inVersion);
+        ~IDevice();
 
-    QString tree_label;
-    QString unique_label;
-    QString name;
-    QString driver;
-    QString version;
-    QString id;
-    QString port;
-    DeviceStatus state;
-    XMLSource xmlSource;
+        enum DeviceStatus { DEV_START, DEV_TERMINATE };
+        enum XMLSource { PRIMARY_XML, THIRD_PARTY_XML, EM_XML };
 
-    DeviceManager *deviceManager;
-    int type;
-  
-      /* Telescope specific attributes */
-      double focal_length;
-      double aperture;
-  
-    void clear();
-    QString getServerBuffer();
+        QString tree_label;
+        QString unique_label;
+        QString name;
+        QString driver;
+        QString version;
+        QString id;
+        QString port;
+        DeviceStatus state;
+        XMLSource xmlSource;
+
+        DeviceManager * deviceManager;
+        int type;
+
+        /* Telescope specific attributes */
+        double focal_length;
+        double aperture;
+
+        void clear();
+        QString getServerBuffer();
 
 };
 
 class DeviceManagerUI : public QFrame, public Ui::devManager
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    DeviceManagerUI(QWidget *parent=0);
+    public:
+        DeviceManagerUI(QWidget * parent=0);
 
-    QIcon runningPix;
-    QIcon stopPix;
-    QIcon connected;
-    QIcon disconnected;
-    QIcon localMode;
-    QIcon serverMode;
+        QIcon runningPix;
+        QIcon stopPix;
+        QIcon connected;
+        QIcon disconnected;
+        QIcon localMode;
+        QIcon serverMode;
 
-public slots:
-    void makePortEditable(QTreeWidgetItem* selectedItem, int column);
+    public slots:
+        void makePortEditable(QTreeWidgetItem * selectedItem, int column);
 
 };
 
 class INDIDriver : public QDialog
 {
 
-    Q_OBJECT
+        Q_OBJECT
 
-public:
+    public:
 
-    enum { LOCAL_NAME_COLUMN=0, LOCAL_STATUS_COLUMN, LOCAL_MODE_COLUMN, LOCAL_VERSION_COLUMN, LOCAL_PORT_COLUMN };
-    enum { HOST_STATUS_COLUMN=0, HOST_NAME_COLUMN, HOST_PORT_COLUMN };
+        enum { LOCAL_NAME_COLUMN=0, LOCAL_STATUS_COLUMN, LOCAL_MODE_COLUMN, LOCAL_VERSION_COLUMN, LOCAL_PORT_COLUMN };
+        enum { HOST_STATUS_COLUMN=0, HOST_NAME_COLUMN, HOST_PORT_COLUMN };
 
-    INDIDriver(KStars *ks);
-    ~INDIDriver();
+        INDIDriver(KStars * ks);
+        ~INDIDriver();
 
-    bool readXMLDrivers();
-    void processXMLDriver(QString & driverName);
-    bool buildDeviceGroup  (XMLEle *root, char errmsg[]);
-    bool buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int groupType, char errmsg[]);
+        bool readXMLDrivers();
+        void processXMLDriver(QString &driverName);
+        bool buildDeviceGroup  (XMLEle * root, char errmsg[]);
+        bool buildDriverElement(XMLEle * root, QTreeWidgetItem * DGroup, int groupType, char errmsg[]);
 
-    KStars *ksw;
-    DeviceManagerUI *ui;
-    QList<IDevice *> devices;
-    QTreeWidgetItem *lastGroup;
-    QTreeWidgetItem *lastDevice;
-  
-    QHash<QString, QString> driversList;
-    int currentPort;
-    IDevice::XMLSource xmlSource;
-  
-    int getINDIPort(int customPort);
-    bool isDeviceRunning(const QString &deviceLabel);
-  
-    void saveHosts();
-  
-    void processLocalTree(IDevice::DeviceStatus dev_request);
-    void processRemoteTree(IDevice::DeviceStatus dev_request);
-    IDevice * findDeviceByLabel(const QString &label);
-  
-    
+        KStars * ksw;
+        DeviceManagerUI * ui;
+        QList<IDevice *> devices;
+        QTreeWidgetItem * lastGroup;
+        QTreeWidgetItem * lastDevice;
 
-  public slots:
-    void enableDevice(INDI_D *device);
-    void disableDevice(INDI_D *device);
+        QHash<QString, QString> driversList;
+        int currentPort;
+        IDevice::XMLSource xmlSource;
 
-    void resizeDeviceColumn();
-    void updateLocalTab();
-    void updateClientTab();
+        int getINDIPort(int customPort);
+        bool isDeviceRunning(const QString &deviceLabel);
 
-    void updateMenuActions();
-    
-    void addINDIHost();
-    void modifyINDIHost();
-    void removeINDIHost();
-    void activateRunService();
-    void activateStopService();
-    void activateHostConnection();
-    void activateHostDisconnection();
-    void newTelescopeDiscovered();
-    void newCCDDiscovered();
-    void updateCustomDrivers();
+        void saveHosts();
 
-signals:
-    void newDevice();
-    void newTelescope();
-    void newCCD();
+        void processLocalTree(IDevice::DeviceStatus dev_request);
+        void processRemoteTree(IDevice::DeviceStatus dev_request);
+        IDevice * findDeviceByLabel(const QString &label);
+
+
+
+    public slots:
+        void enableDevice(INDI_D * device);
+        void disableDevice(INDI_D * device);
+
+        void resizeDeviceColumn();
+        void updateLocalTab();
+        void updateClientTab();
+
+        void updateMenuActions();
+
+        void addINDIHost();
+        void modifyINDIHost();
+        void removeINDIHost();
+        void activateRunService();
+        void activateStopService();
+        void activateHostConnection();
+        void activateHostDisconnection();
+        void newTelescopeDiscovered();
+        void newCCDDiscovered();
+        void updateCustomDrivers();
+
+    signals:
+        void newDevice();
+        void newTelescope();
+        void newCCD();
 };
 
 #endif

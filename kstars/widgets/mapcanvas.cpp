@@ -30,7 +30,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 
-MapCanvas::MapCanvas( QWidget *parent ) :
+MapCanvas::MapCanvas( QWidget * parent ) :
     QFrame( parent ),
     ld(0)
 {
@@ -43,23 +43,27 @@ MapCanvas::MapCanvas( QWidget *parent ) :
     origin.setY( bgImage->height()/2 );
 }
 
-MapCanvas::~MapCanvas(){
+MapCanvas::~MapCanvas()
+{
     delete bgImage;
 }
 
-void MapCanvas::setGeometry( int x, int y, int w, int h ) {
+void MapCanvas::setGeometry( int x, int y, int w, int h )
+{
     QWidget::setGeometry( x, y, w, h );
     origin.setX( w/2 );
     origin.setY( h/2 );
 }
 
-void MapCanvas::setGeometry( const QRect &r ) {
+void MapCanvas::setGeometry( const QRect &r )
+{
     QWidget::setGeometry( r );
     origin.setX( r.width()/2 );
     origin.setY( r.height()/2 );
 }
 
-void MapCanvas::mousePressEvent( QMouseEvent *e ) {
+void MapCanvas::mousePressEvent( QMouseEvent * e )
+{
     //Determine Lat/Long corresponding to event press
     int lng = ( e->x() - origin.x() );
     int lat  = ( origin.y() - e->y() );
@@ -68,7 +72,8 @@ void MapCanvas::mousePressEvent( QMouseEvent *e ) {
         ld->findCitiesNear( lng, lat );
 }
 
-void MapCanvas::paintEvent( QPaintEvent * ) {
+void MapCanvas::paintEvent( QPaintEvent * )
+{
     QPainter p;
 
     //prepare the canvas
@@ -78,33 +83,40 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 
     //Draw cities
     QPoint o;
-    foreach ( GeoLocation *g, KStarsData::Instance()->getGeoList() ) {
+    foreach ( GeoLocation * g, KStarsData::Instance()->getGeoList() )
+    {
         o.setX( int( g->lng()->Degrees() + origin.x() ) );
         o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 
-        if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
+        if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() )
+        {
             p.drawPoint( o.x(), o.y() );
         }
     }
 
     // FIXME: there must be better way to this. Without bothering LocationDialog
-    if( ld ) {
+    if( ld )
+    {
         //redraw the cities that appear in the filtered list, with a white pen
         //If the list has not been filtered, skip the redraw.
-        if ( ld->filteredList().size() ) {
+        if ( ld->filteredList().size() )
+        {
             p.setPen( Qt::white );
-            foreach ( GeoLocation *g, ld->filteredList() ) {
+            foreach ( GeoLocation * g, ld->filteredList() )
+            {
                 o.setX( int( g->lng()->Degrees() + origin.x() ) );
                 o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 
-                if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
+                if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() )
+                {
                     p.drawPoint( o.x(), o.y() );
                 }
             }
         }
 
-        GeoLocation *g = ld->selectedCity();
-        if ( g ) {
+        GeoLocation * g = ld->selectedCity();
+        if ( g )
+        {
             o.setX( int( g->lng()->Degrees() + origin.x() ) );
             o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 

@@ -28,17 +28,22 @@
 #include "nodes/pointnode.h"
 #include "labelnode.h"
 
-PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode, LabelsItem::label_t labelType)
+PlanetNode::PlanetNode(KSPlanetBase * pb, RootNode * parentNode, LabelsItem::label_t labelType)
     :SkyNode(pb), m_planetPic(new QSGSimpleTextureNode), m_planetOpacity(new SkyOpacityNode)
 {
     // Draw them as bright stars of appropriate color instead of images
     char spType;
     //FIXME: do these need i18n?
-    if( pb->name() == i18n("Mars") ) {
+    if( pb->name() == i18n("Mars") )
+    {
         spType = 'K';
-    } else if( pb->name() == i18n("Jupiter") || pb->name() == i18n("Mercury") || pb->name() == i18n("Saturn") ) {
+    }
+    else if( pb->name() == i18n("Jupiter") || pb->name() == i18n("Mercury") || pb->name() == i18n("Saturn") )
+    {
         spType = 'F';
-    } else {
+    }
+    else
+    {
         spType = 'B';
     }
 
@@ -54,11 +59,13 @@ PlanetNode::PlanetNode(KSPlanetBase* pb, RootNode* parentNode, LabelsItem::label
     m_label = parentNode->labelsItem()->addLabel(pb, labelType);
 }
 
-void PlanetNode::update() {
+void PlanetNode::update()
+{
     KSPlanetBase * planet = static_cast<KSPlanetBase *>(skyObject());
     const Projector * proj = projector();
 
-    if( !proj->checkVisibility(planet) ) {
+    if( !proj->checkVisibility(planet) )
+    {
         hide();
         return;
     }
@@ -66,7 +73,8 @@ void PlanetNode::update() {
     bool visible = false;
     QPointF pos = proj->toScreen(planet,true,&visible);
 
-    if( !visible || !proj->onScreen(pos) ) {
+    if( !visible || !proj->onScreen(pos) )
+    {
         hide();
         return;
     }
@@ -79,11 +87,14 @@ void PlanetNode::update() {
         fakeStarSize = 15.0;
 
     float size = planet->angSize() * dms::PI * Options::zoomFactor()/10800.0;
-    if( size < fakeStarSize && planet->name() != "Sun" && planet->name() != "Moon" ) {
+    if( size < fakeStarSize && planet->name() != "Sun" && planet->name() != "Moon" )
+    {
         setPointSize(fakeStarSize);
         changePos(pos);
         showPoint();
-    } else {
+    }
+    else
+    {
         float sizemin = 1.0;
         if( planet->name() == "Sun" || planet->name() == "Moon" )
             sizemin = 8.0;
@@ -92,7 +103,8 @@ void PlanetNode::update() {
         if( size < sizemin )
             size = sizemin;
         //Options::showPlanetImages() &&
-        if( !planet->image().isNull() ) {
+        if( !planet->image().isNull() )
+        {
             //Because Saturn has rings, we inflate its image size by a factor 2.5
             if( planet->name() == "Saturn" )
                 size = int(2.5*size);
@@ -103,39 +115,47 @@ void PlanetNode::update() {
             setPlanetPicSize(size);
             showPlanetPic();
             changePos(pos);
-        } else { //Otherwise, draw a simple circle. Do we need it?
+        }
+        else     //Otherwise, draw a simple circle. Do we need it?
+        {
             //drawEllipse( pos, size, size );
         }
     }
 
 }
 
-void PlanetNode::setPointSize(float size) {
+void PlanetNode::setPointSize(float size)
+{
     m_point->setSize(size);
 }
 
-void PlanetNode::setPlanetPicSize(float size) {
+void PlanetNode::setPlanetPicSize(float size)
+{
     m_planetPic->setRect(QRect(0,0,size,size));
     markDirty(QSGNode::DirtyGeometry);
 }
 
-void PlanetNode::showPoint() {
+void PlanetNode::showPoint()
+{
     m_planetOpacity->hide();
     m_point->show();
 }
 
-void PlanetNode::showPlanetPic() {
+void PlanetNode::showPlanetPic()
+{
     m_planetOpacity->show();
     m_point->hide();
 }
 
-void PlanetNode::hide() {
+void PlanetNode::hide()
+{
     m_planetOpacity->hide();
     m_point->hide();
     m_label->hide();
 }
 
-void PlanetNode::changePos(QPointF pos) {
+void PlanetNode::changePos(QPointF pos)
+{
     QSizeF size;
     //Check the bug with planet
     QMatrix4x4 m (1,0,0,pos.x(),
@@ -143,13 +163,16 @@ void PlanetNode::changePos(QPointF pos) {
                   0,0,1,0,
                   0,0,0,1);
 
-    if(m_planetOpacity->visible()) {
+    if(m_planetOpacity->visible())
+    {
         size = m_planetPic->rect().size();
         //Matrix has to be rotated between assigning x and y and translating it by the half
         //of size of the planet. Otherwise the image will don't rotate at all or rotate around
         //the top-left corner
         m.rotate(projector()->findPA( skyObject(), pos.x(), pos.y()), 0, 0, 1);
-    } else {
+    }
+    else
+    {
         size = m_point->size();
     }
 

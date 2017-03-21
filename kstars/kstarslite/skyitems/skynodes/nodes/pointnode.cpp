@@ -23,18 +23,20 @@
 #include "skymaplite.h"
 #include "Options.h"
 
-PointNode::PointNode(RootNode* p, char sp, float size)
+PointNode::PointNode(RootNode * p, char sp, float size)
     :spType(sp), texture(new QSGSimpleTextureNode), m_rootNode(p), m_size(-1), //Important to init to -1
-      starColorMode(Options::starColorMode())
+     starColorMode(Options::starColorMode())
 {
     appendChildNode(texture);
     setSize(size);
 }
 
-void PointNode::setSize(float size) {
+void PointNode::setSize(float size)
+{
     int isize = qMin(static_cast<int>(size), 14);
     uint newStarCM = Options::starColorMode();
-    if(size != m_size || newStarCM != starColorMode) {
+    if(size != m_size || newStarCM != starColorMode)
+    {
         texture->setTexture(m_rootNode->getCachedTexture(isize, spType));
 
         //We divide size of texture by ratio. Otherwise texture will be very large

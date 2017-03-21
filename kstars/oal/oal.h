@@ -38,25 +38,25 @@
  */
 namespace OAL
 {
-    class Log;
-    class Observer;
-    class Observation;
-    class Equipment;
-    class Eyepiece;
-    class Scope;
-    class Filter;
-    class Imager;
-    class Site;
-    class Session;
-    class Target;
-    class Lens;
-    inline int warningOverwrite( QString message )
-    {
-    #ifndef KSTARS_LITE
-        return KMessageBox::warningYesNo( 0, message, xi18n("Overwrite"), KStandardGuiItem::overwrite(), KStandardGuiItem::cancel() );
-    #else
-        return 0;
-    #endif
-    }
+class Log;
+class Observer;
+class Observation;
+class Equipment;
+class Eyepiece;
+class Scope;
+class Filter;
+class Imager;
+class Site;
+class Session;
+class Target;
+class Lens;
+inline int warningOverwrite( QString message )
+{
+#ifndef KSTARS_LITE
+    return KMessageBox::warningYesNo( 0, message, xi18n("Overwrite"), KStandardGuiItem::overwrite(), KStandardGuiItem::cancel() );
+#else
+    return 0;
+#endif
+}
 }
 #endif

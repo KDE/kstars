@@ -5,10 +5,10 @@
     modify it under the terms of the GNU General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-    
+
     JM Changelog
     2004-16-1:	Start
-   
+
  */
 
 #ifndef INDIGROUP_H_
@@ -36,35 +36,53 @@ class QScrollArea;
  */
 class INDI_G
 {
-public:
-    INDI_G(INDI_D *idv, const QString &inName);
-    ~INDI_G();
+    public:
+        INDI_G(INDI_D * idv, const QString &inName);
+        ~INDI_G();
 
 
-    bool addProperty(INDI::Property *prob);
+        bool addProperty(INDI::Property * prob);
 
-    bool removeProperty(const QString &propName);
+        bool removeProperty(const QString &propName);
 
-    INDI_P * getProperty(const QString & propName);
-    QFrame *getContainer() { return propertyContainer;}
-    QScrollArea *getScrollArea() { return scrollArea; }
-    const QString & getName() { return name; }
+        INDI_P * getProperty(const QString &propName);
+        QFrame * getContainer()
+        {
+            return propertyContainer;
+        }
+        QScrollArea * getScrollArea()
+        {
+            return scrollArea;
+        }
+        const QString &getName()
+        {
+            return name;
+        }
 
-    INDI_D *getDevice() { return dp;}
+        INDI_D * getDevice()
+        {
+            return dp;
+        }
 
-    QList<INDI_P*> getProperties() { return propList; }
+        QList<INDI_P *> getProperties()
+        {
+            return propList;
+        }
 
-    int size() { return propList.count(); }
+        int size()
+        {
+            return propList.count();
+        }
 
-private:
-    QString       name;			/* Group name */
-    INDI_D 	  *dp;			/* Parent device */
-    QFrame        *propertyContainer;	/* Properties container */
-    QVBoxLayout   *propertyLayout;        /* Properties layout */
-    QSpacerItem   *VerticalSpacer;	/* Vertical spacer */
-    QScrollArea   *scrollArea;
+    private:
+        QString       name;			/* Group name */
+        INDI_D 	*  dp;			/* Parent device */
+        QFrame    *    propertyContainer;	/* Properties container */
+        QVBoxLayout  * propertyLayout;        /* Properties layout */
+        QSpacerItem  * VerticalSpacer;	/* Vertical spacer */
+        QScrollArea  * scrollArea;
 
-    QList<INDI_P*> propList;			/* malloced list of pointers to properties */
+        QList<INDI_P *> propList;			/* malloced list of pointers to properties */
 
 };
 

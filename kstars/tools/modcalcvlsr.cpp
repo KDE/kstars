@@ -33,7 +33,7 @@
 #include "dialogs/locationdialog.h"
 #include "dialogs/finddialog.h"
 
-modCalcVlsr::modCalcVlsr(QWidget *parentSplit) :
+modCalcVlsr::modCalcVlsr(QWidget * parentSplit) :
     QFrame(parentSplit), velocityFlag(0)
 {
     setupUi(this);
@@ -65,7 +65,8 @@ modCalcVlsr::modCalcVlsr(QWidget *parentSplit) :
     show();
 }
 
-modCalcVlsr::~modCalcVlsr(){
+modCalcVlsr::~modCalcVlsr()
+{
 }
 
 void modCalcVlsr::initGeo(void)
@@ -80,22 +81,27 @@ void modCalcVlsr::slotNow()
     slotCompute();
 }
 
-void modCalcVlsr::slotFindObject() {
+void modCalcVlsr::slotFindObject()
+{
     QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
-    if ( fd->exec() == QDialog::Accepted ) {
-        SkyObject *o = fd->targetObject();
+    if ( fd->exec() == QDialog::Accepted )
+    {
+        SkyObject * o = fd->targetObject();
         RA->showInHours( o->ra0() );
         Dec->showInDegrees( o->dec0() );
     }
     delete fd;
 }
 
-void modCalcVlsr::slotLocation() {
+void modCalcVlsr::slotLocation()
+{
     QPointer<LocationDialog> ld( new LocationDialog( this ) );
 
-    if ( ld->exec() == QDialog::Accepted && ld ) {
-        GeoLocation *newGeo = ld->selectedCity();
-        if ( newGeo ) {
+    if ( ld->exec() == QDialog::Accepted && ld )
+    {
+        GeoLocation * newGeo = ld->selectedCity();
+        if ( newGeo )
+        {
             geoPlace = newGeo;
             LocationButton->setText( geoPlace->fullName() );
         }
@@ -120,8 +126,9 @@ void modCalcVlsr::slotCompute()
     if ( sender()->objectName() == "VGeo" )   velocityFlag = 2;
     if ( sender()->objectName() == "VTopo" )  velocityFlag = 3;
 
-    switch ( velocityFlag ) {
-    case 0: //Hold VLSR constant, compute the others
+    switch ( velocityFlag )
+    {
+        case 0: //Hold VLSR constant, compute the others
         {
             double vlsr = VLSR->text().toDouble();
             double vhelio = sp.vHeliocentric( vlsr, dt.djd() );
@@ -133,7 +140,7 @@ void modCalcVlsr::slotCompute()
             break;
         }
 
-    case 1: //Hold VHelio constant, compute the others
+        case 1: //Hold VHelio constant, compute the others
         {
             double vhelio = VHelio->text().toDouble();
             double vlsr = sp.vHelioToVlsr( vhelio, dt.djd() );
@@ -145,7 +152,7 @@ void modCalcVlsr::slotCompute()
             break;
         }
 
-    case 2: //Hold VGeo constant, compute the others
+        case 2: //Hold VGeo constant, compute the others
         {
             double vgeo = VGeo->text().toDouble();
             double vhelio = sp.vGeoToVHelio( vgeo, dt.djd() );
@@ -157,7 +164,7 @@ void modCalcVlsr::slotCompute()
             break;
         }
 
-    case 3: //Hold VTopo constant, compute the others
+        case 3: //Hold VTopo constant, compute the others
         {
             double vtopo = VTopo->text().toDouble();
             double vgeo = sp.vTopoToVGeo( vtopo, vst );
@@ -170,104 +177,127 @@ void modCalcVlsr::slotCompute()
             break;
         }
 
-    default: //oops
-        qDebug() << "Error: do not know which velocity to use for input.";
-        break;
+        default: //oops
+            qDebug() << "Error: do not know which velocity to use for input.";
+            break;
     }
 }
 
-void modCalcVlsr::slotUtChecked(){
+void modCalcVlsr::slotUtChecked()
+{
     if ( UTCheckBatch->isChecked() )
         UTBoxBatch->setEnabled( false );
-    else {
+    else
+    {
         UTBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcVlsr::slotDateChecked(){
+void modCalcVlsr::slotDateChecked()
+{
     if ( DateCheckBatch->isChecked() )
         DateBoxBatch->setEnabled( false );
-    else {
+    else
+    {
         DateBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcVlsr::slotRaChecked(){
-    if ( RACheckBatch->isChecked() ) {
+void modCalcVlsr::slotRaChecked()
+{
+    if ( RACheckBatch->isChecked() )
+    {
         RABoxBatch->setEnabled( false );
     }
-    else {
+    else
+    {
         RABoxBatch->setEnabled( true );
     }
 }
 
-void modCalcVlsr::slotDecChecked(){
-    if ( DecCheckBatch->isChecked() ) {
+void modCalcVlsr::slotDecChecked()
+{
+    if ( DecCheckBatch->isChecked() )
+    {
         DecBoxBatch->setEnabled( false );
     }
-    else {
+    else
+    {
         DecBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcVlsr::slotEpochChecked(){
+void modCalcVlsr::slotEpochChecked()
+{
     if ( EpochCheckBatch->isChecked() )
         EpochBoxBatch->setEnabled( false );
     else
         EpochBoxBatch->setEnabled( true );
 }
 
-void modCalcVlsr::slotLongChecked(){
+void modCalcVlsr::slotLongChecked()
+{
     if ( LongCheckBatch->isChecked() )
         LongitudeBoxBatch->setEnabled( false );
     else
         LongitudeBoxBatch->setEnabled( true );
 }
 
-void modCalcVlsr::slotLatChecked(){
+void modCalcVlsr::slotLatChecked()
+{
     if ( LatCheckBatch->isChecked() )
         LatitudeBoxBatch->setEnabled( false );
-    else {
+    else
+    {
         LatitudeBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcVlsr::slotHeightChecked(){
+void modCalcVlsr::slotHeightChecked()
+{
     if ( ElevationCheckBatch->isChecked() )
         ElevationBoxBatch->setEnabled( false );
-    else {
+    else
+    {
         ElevationBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcVlsr::slotVlsrChecked(){
+void modCalcVlsr::slotVlsrChecked()
+{
     if ( InputVelocityCheckBatch->isChecked() )
         InputVelocityBoxBatch->setEnabled( false );
-    else {
+    else
+    {
         InputVelocityBoxBatch->setEnabled( true );
     }
 }
 
-void modCalcVlsr::slotInputFile() {
+void modCalcVlsr::slotInputFile()
+{
     const QString inputFileName = QFileDialog::getOpenFileName(KStars::Instance(), QString(),  QString());
     if (!inputFileName.isEmpty())
         InputFileBoxBatch->setUrl(QUrl::fromLocalFile(inputFileName));
 }
 
-void modCalcVlsr::slotOutputFile() {
+void modCalcVlsr::slotOutputFile()
+{
     const QString outputFileName = QFileDialog::getSaveFileName();
     if (!outputFileName.isEmpty())
         OutputFileBoxBatch->setUrl(QUrl::fromLocalFile(outputFileName));
 }
 
-void modCalcVlsr::slotRunBatch() {
+void modCalcVlsr::slotRunBatch()
+{
     const QString inputFileName = InputFileBoxBatch->url().toLocalFile();
 
     // We open the input file and read its content
 
-    if ( QFile::exists(inputFileName) ) {
+    if ( QFile::exists(inputFileName) )
+    {
         QFile f( inputFileName );
-        if ( !f.open( QIODevice::ReadOnly) ) {
+        if ( !f.open( QIODevice::ReadOnly) )
+        {
             QString message = i18n( "Could not open file %1.", f.fileName() );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
             return;
@@ -278,14 +308,17 @@ void modCalcVlsr::slotRunBatch() {
         processLines(istream);
         //		readFile( istream );
         f.close();
-    } else  {
+    }
+    else
+    {
         QString message = i18n( "Invalid file: %1", inputFileName );
         KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
         InputFileBoxBatch->setUrl(QUrl());
     }
 }
 
-void modCalcVlsr::processLines( QTextStream &istream ) {
+void modCalcVlsr::processLines( QTextStream &istream )
+{
 
     // we open the output file
 
@@ -310,7 +343,8 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
     QDate dtB;
     KStarsDateTime dt0B;
 
-    while ( ! istream.atEnd() ) {
+    while ( ! istream.atEnd() )
+    {
         line = istream.readLine();
         line.trimmed();
 
@@ -322,128 +356,137 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 
         // Read Ut and write in ostream if corresponds
 
-        if(UTCheckBatch->isChecked() ) {
+        if(UTCheckBatch->isChecked() )
+        {
             utB = QTime::fromString( fields[i] );
             i++;
-        } else
+        }
+        else
             utB = UTBoxBatch->time();
 
         if ( AllRadioBatch->isChecked() )
             ostream << QLocale().toString( utB ) << space;
-        else
-            if(UTCheckBatch->isChecked() )
-                ostream << QLocale().toString( utB ) << space;
+        else if(UTCheckBatch->isChecked() )
+            ostream << QLocale().toString( utB ) << space;
 
         // Read date and write in ostream if corresponds
 
-        if(DateCheckBatch->isChecked() ) {
+        if(DateCheckBatch->isChecked() )
+        {
             dtB = QDate::fromString( fields[i] );
             i++;
-        } else
+        }
+        else
             dtB = DateBoxBatch->date();
         if ( AllRadioBatch->isChecked() )
             ostream << QLocale().toString( dtB, QLocale::LongFormat ).append(space);
-        else
-            if(DateCheckBatch->isChecked() )
-                ostream << QLocale().toString( dtB, QLocale::LongFormat ).append(space);
+        else if(DateCheckBatch->isChecked() )
+            ostream << QLocale().toString( dtB, QLocale::LongFormat ).append(space);
 
         // Read RA and write in ostream if corresponds
 
-        if(RACheckBatch->isChecked() ) {
+        if(RACheckBatch->isChecked() )
+        {
             raB = dms::fromString( fields[i],false);
             i++;
-        } else
+        }
+        else
             raB = RABoxBatch->createDms(false);
 
         if ( AllRadioBatch->isChecked() )
             ostream << raB.toHMSString() << space;
-        else
-            if(RACheckBatch->isChecked() )
-                ostream << raB.toHMSString() << space;
+        else if(RACheckBatch->isChecked() )
+            ostream << raB.toHMSString() << space;
 
         // Read DEC and write in ostream if corresponds
 
-        if(DecCheckBatch->isChecked() ) {
+        if(DecCheckBatch->isChecked() )
+        {
             decB = dms::fromString( fields[i], true);
             i++;
-        } else
+        }
+        else
             decB = DecBoxBatch->createDms();
 
         if ( AllRadioBatch->isChecked() )
             ostream << decB.toDMSString() << space;
-        else
-            if(DecCheckBatch->isChecked() )
-                ostream << decB.toDMSString() << space;
+        else if(DecCheckBatch->isChecked() )
+            ostream << decB.toDMSString() << space;
 
         // Read Epoch and write in ostream if corresponds
 
-        if(EpochCheckBatch->isChecked() ) {
+        if(EpochCheckBatch->isChecked() )
+        {
             epoch0B = fields[i];
             i++;
-        } else
+        }
+        else
             epoch0B = EpochBoxBatch->text();
 
         if ( AllRadioBatch->isChecked() )
             ostream << epoch0B << space;
-        else
-            if(EpochCheckBatch->isChecked() )
-                ostream << epoch0B << space;
+        else if(EpochCheckBatch->isChecked() )
+            ostream << epoch0B << space;
 
         // Read vlsr and write in ostream if corresponds
 
-        if(InputVelocityCheckBatch->isChecked() ) {
+        if(InputVelocityCheckBatch->isChecked() )
+        {
             vlsrB = fields[i].toDouble();
             i++;
-        } else
+        }
+        else
             vlsrB = InputVelocityComboBatch->currentText().toDouble();
 
         if ( AllRadioBatch->isChecked() )
             ostream << vlsrB << space;
-        else
-            if(InputVelocityCheckBatch->isChecked() )
-                ostream << vlsrB << space;
+        else if(InputVelocityCheckBatch->isChecked() )
+            ostream << vlsrB << space;
 
         // Read Longitude and write in ostream if corresponds
 
-        if (LongCheckBatch->isChecked() ) {
+        if (LongCheckBatch->isChecked() )
+        {
             longB = dms::fromString( fields[i],true);
             i++;
-        } else
+        }
+        else
             longB = LongitudeBoxBatch->createDms(true);
 
         if ( AllRadioBatch->isChecked() )
             ostream << longB.toDMSString() << space;
-        else
-            if (LongCheckBatch->isChecked() )
-                ostream << longB.toDMSString() << space;
+        else if (LongCheckBatch->isChecked() )
+            ostream << longB.toDMSString() << space;
 
         // Read Latitude
 
 
-        if (LatCheckBatch->isChecked() ) {
+        if (LatCheckBatch->isChecked() )
+        {
             latB = dms::fromString( fields[i], true);
             i++;
-        } else
+        }
+        else
             latB = LatitudeBoxBatch->createDms(true);
         if ( AllRadioBatch->isChecked() )
             ostream << latB.toDMSString() << space;
-        else
-            if (LatCheckBatch->isChecked() )
-                ostream << latB.toDMSString() << space;
+        else if (LatCheckBatch->isChecked() )
+            ostream << latB.toDMSString() << space;
 
         // Read height and write in ostream if corresponds
 
-        if(ElevationCheckBatch->isChecked() ) {
+        if(ElevationCheckBatch->isChecked() )
+        {
             heightB = fields[i].toDouble();
             i++;
-        } else
+        }
+        else
             heightB = ElevationBoxBatch->text().toDouble();
 
         if ( AllRadioBatch->isChecked() )
             ostream << heightB << space;
-        else
-            if(ElevationCheckBatch->isChecked() )
-                ostream << heightB << space;
+        else if(ElevationCheckBatch->isChecked() )
+            ostream << heightB << space;
 
         // We make the first calculations
 

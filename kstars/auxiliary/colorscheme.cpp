@@ -43,7 +43,8 @@
 #endif
 #include "kspaths.h"
 
-ColorScheme::ColorScheme() : FileName() {
+ColorScheme::ColorScheme() : FileName()
+{
     //Each color has two names associated with it.  The KeyName is its
     //identification in the QMap, the *.colors file, and the config file.
     //The Name is what appears in the ViewOpsDialog ListBox.
@@ -104,15 +105,18 @@ ColorScheme::ColorScheme() : FileName() {
     DarkPalette = 0;
 }
 
-void ColorScheme::appendItem(QString key, QString name, QString def) {
+void ColorScheme::appendItem(QString key, QString name, QString def)
+{
     KeyName.append( key );
     Name.append( name );
     Default.append( def );
 
 }
 
-QColor ColorScheme::colorNamed( const QString &name ) const {
-    if ( ! hasColorNamed( name ) ) {
+QColor ColorScheme::colorNamed( const QString &name ) const
+{
+    if ( ! hasColorNamed( name ) )
+    {
         qWarning() << i18n( "No color named \"%1\" found in color scheme.", name ) ;
         // Return white if no color found
         return QColor( Qt::white );
@@ -120,23 +124,28 @@ QColor ColorScheme::colorNamed( const QString &name ) const {
     return QColor( Palette[ name ] );
 }
 
-QColor ColorScheme::colorAt( int i ) const {
+QColor ColorScheme::colorAt( int i ) const
+{
     return QColor( Palette[ KeyName.at(i) ] );
 }
 
-QString ColorScheme::nameAt( int i ) const {
+QString ColorScheme::nameAt( int i ) const
+{
     return Name.at(i);
 }
 
-QString ColorScheme::keyAt( int i ) const {
+QString ColorScheme::keyAt( int i ) const
+{
     return KeyName.at(i);
 }
 
-QString ColorScheme::nameFromKey( const QString &key ) const {
+QString ColorScheme::nameFromKey( const QString &key ) const
+{
     return nameAt( KeyName.indexOf( key ) );
 }
 
-void ColorScheme::setColor( const QString &key, const QString &color ) {
+void ColorScheme::setColor( const QString &key, const QString &color )
+{
     //We can blindly insert() the new value; if the key exists, the old value is replaced
     Palette.insert( key, color );
 
@@ -144,7 +153,8 @@ void ColorScheme::setColor( const QString &key, const QString &color ) {
     cg.writeEntry( key, color );
 }
 
-bool ColorScheme::load( const QString &name ) {
+bool ColorScheme::load( const QString &name )
+{
     QString filename = name.toLower().trimmed();
     QFile file;
     int inew = 0, iold = 0;
@@ -164,13 +174,16 @@ bool ColorScheme::load( const QString &name ) {
 
     //If that didn't work, try assuming that 'name' is the color scheme name
     //convert it to a filename exactly as ColorScheme::save() does
-    if ( ! ok ) {
-        if ( !filename.isEmpty() ) {
+    if ( ! ok )
+    {
+        if ( !filename.isEmpty() )
+        {
             filename.replace( ' ', '-' ).append( ".colors" );
             ok = KSUtils::openDataFile( file, filename );
         }
 
-        if ( ! ok ) {
+        if ( ! ok )
+        {
             qDebug() << QString("Unable to load color scheme named %1. Also tried %2.").arg(name).arg(filename);
             return false;
         }
@@ -209,10 +222,12 @@ bool ColorScheme::load( const QString &name ) {
 
     //More flexible method for reading in color values.  Any order is acceptable, and
     //missing entries are ignored.
-    while ( !stream.atEnd() ) {
+    while ( !stream.atEnd() )
+    {
         line = stream.readLine();
 
-        if ( line.count(':')==1 ) { //the new color preset format contains a ":" in each line, followed by the name of the color
+        if ( line.count(':')==1 )   //the new color preset format contains a ":" in each line, followed by the name of the color
+        {
             ++inew;
             if ( iold ) return false; //we read at least one line without a colon...file is corrupted.
 
@@ -220,27 +235,35 @@ bool ColorScheme::load( const QString &name ) {
             QString tkey = line.mid( line.indexOf(':')+1 ).trimmed();
             QString tname = line.left( line.indexOf(':')-1 );
 
-            if ( KeyName.contains( tkey ) ) {
+            if ( KeyName.contains( tkey ) )
+            {
                 setColor( tkey, tname );
-            } else { //attempt to translate from old color ID
+            }
+            else     //attempt to translate from old color ID
+            {
                 QString k( line.mid( 5 ).trimmed() + "Color" );
-                if ( KeyName.contains( k ) ) {
+                if ( KeyName.contains( k ) )
+                {
                     setColor( k, tname );
-                } else {
+                }
+                else
+                {
                     qWarning() << "Could not use the key \"" << tkey
                                << "\" from the color scheme file \"" << filename
                                << "\".  I also tried \"" << k << "\"." << endl;
                 }
             }
 
-        } else { // no ':' seen in the line, so we must assume the old format
+        }
+        else     // no ':' seen in the line, so we must assume the old format
+        {
             ++iold;
             if ( inew ) return false; //a previous line had a colon, this line doesn't.  File is corrupted.
 
             //Assuming the old *.colors format.  Loop through the KeyName list,
             //and assign each color.  Note that order matters here, but only here
             //(so if you don't use the old format, then order doesn't ever matter)
-            foreach(const QString& key, KeyName)
+            foreach(const QString &key, KeyName)
                 setColor( key, line.left( 7 ) );
         }
     }
@@ -249,58 +272,68 @@ bool ColorScheme::load( const QString &name ) {
     return true;
 }
 
-bool ColorScheme::save( const QString &name ) {
+bool ColorScheme::save( const QString &name )
+{
     QFile file;
 
     //Construct a file name from the scheme name.  Make lowercase, replace spaces with "-",
     //and append ".colors".
     QString filename = name.toLower().trimmed();
-    if ( !filename.isEmpty() ) {
+    if ( !filename.isEmpty() )
+    {
         for( int i=0; i<filename.length(); ++i)
             if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
 
         filename = filename.append( ".colors" );
         file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + filename ) ; //determine filename in local user KDE directory tree.
 
-        if ( file.exists() || !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
+        if ( file.exists() || !file.open( QIODevice::ReadWrite | QIODevice::Append ) )
+        {
             QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
-            #ifndef KSTARS_LITE
-                KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-            #else
-                qDebug() << message << i18n( "Could Not Open File" );
-            #endif
+#ifndef KSTARS_LITE
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+#else
+            qDebug() << message << i18n( "Could Not Open File" );
+#endif
             return false;
-        } else {
+        }
+        else
+        {
             QTextStream stream( &file );
             stream << StarColorMode << ":" << StarColorIntensity << ":" << DarkPalette << endl;
 
-            foreach(const QString& key, KeyName )
+            foreach(const QString &key, KeyName )
                 stream << Palette[ key ] << " :" << key << endl;
             file.close();
         }
 
         file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "colors.dat" ) ; //determine filename in local user KDE directory tree.
 
-        if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
+        if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) )
+        {
             QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
-            #ifndef KSTARS_LITE
-                KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-            #else
-                qDebug() << message << i18n( "Could Not Open File" );
-            #endif
+#ifndef KSTARS_LITE
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+#else
+            qDebug() << message << i18n( "Could Not Open File" );
+#endif
             return false;
-        } else {
+        }
+        else
+        {
             QTextStream stream( &file );
             stream << name << ":" << filename << endl;
             file.close();
         }
-    } else {
+    }
+    else
+    {
         QString message = i18n( "Invalid filename requested.\nScheme cannot be recorded." );
-        #ifndef KSTARS_LITE
-            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-        #else
-            qDebug() << message << i18n( "Invalid Filename" );
-        #endif
+#ifndef KSTARS_LITE
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+#else
+        qDebug() << message << i18n( "Invalid Filename" );
+#endif
         return false;
     }
 
@@ -309,7 +342,8 @@ bool ColorScheme::save( const QString &name ) {
     return true;
 }
 
-void ColorScheme::loadFromConfig() {
+void ColorScheme::loadFromConfig()
+{
     KConfigGroup cg = KSharedConfig::openConfig()->group( "Colors" );
 
     for ( int i=0; i < KeyName.size(); ++i )
@@ -321,9 +355,11 @@ void ColorScheme::loadFromConfig() {
     FileName = cg.readEntry( "ColorSchemeFile", "moonless-night.colors" );
 }
 
-void ColorScheme::saveToConfig() {
+void ColorScheme::saveToConfig()
+{
     KConfigGroup cg = KSharedConfig::openConfig()->group( "Colors" );
-    for ( int i=0; i < KeyName.size(); ++i ) {
+    for ( int i=0; i < KeyName.size(); ++i )
+    {
         QString c = colorNamed( KeyName.at(i) ).name();
         cg.writeEntry( KeyName.at(i), c );
     }
@@ -334,7 +370,8 @@ void ColorScheme::saveToConfig() {
     cg.writeEntry( "DarkAppColors", useDarkPalette());
 }
 
-void ColorScheme::setStarColorMode( int mode ) { 
+void ColorScheme::setStarColorMode( int mode )
+{
     StarColorMode = mode;
     Options::setStarColorMode( mode );
 #ifndef KSTARS_LITE
@@ -342,7 +379,8 @@ void ColorScheme::setStarColorMode( int mode ) {
 #endif
 }
 
-void ColorScheme::setDarkPalette( bool enable ) {
+void ColorScheme::setDarkPalette( bool enable )
+{
     DarkPalette = enable ? 1 : 0 ;
     Options::setDarkAppColors(enable);
 #ifndef KSTARS_LITE
@@ -350,7 +388,8 @@ void ColorScheme::setDarkPalette( bool enable ) {
 #endif
 }
 
-void ColorScheme::setStarColorIntensity( int intens ) { 
+void ColorScheme::setStarColorIntensity( int intens )
+{
     StarColorIntensity = intens;
     Options::setStarColorIntensity( intens );
 #ifndef KSTARS_LITE
@@ -358,7 +397,8 @@ void ColorScheme::setStarColorIntensity( int intens ) {
 #endif
 }
 
-void ColorScheme::setStarColorModeIntensity( int mode, int intens) {
+void ColorScheme::setStarColorModeIntensity( int mode, int intens)
+{
     StarColorMode = mode;
     StarColorIntensity = intens;
     Options::setStarColorMode( mode );

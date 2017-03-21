@@ -19,7 +19,7 @@
 #include "printingwizard.h"
 #include "skyobject.h"
 
-PWizChartContentsUI::PWizChartContentsUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
+PWizChartContentsUI::PWizChartContentsUI(PrintingWizard * wizard, QWidget * parent) : QFrame(parent),
     m_ParentWizard(wizard)
 {
     setupUi(this);
@@ -36,7 +36,7 @@ void PWizChartContentsUI::entered()
     }
 
     if(m_ParentWizard->getSkyObject()->type() == 9 ||
-       m_ParentWizard->getSkyObject()->type() == 10)
+            m_ParentWizard->getSkyObject()->type() == 10)
     {
         astComCheckBox->setChecked(true);
         astComCheckBox->setEnabled(true);

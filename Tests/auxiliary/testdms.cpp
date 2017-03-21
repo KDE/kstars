@@ -20,13 +20,13 @@ TestDMS::~TestDMS()
 
 void TestDMS::defaultCtor()
 {
-  /*
-   * Test 1: Check Default Constructor
-  */
+    /*
+     * Test 1: Check Default Constructor
+    */
 
-  // Check default empty constructor
-  dms d;
-  QVERIFY(std::isnan(d.Degrees()));
+    // Check default empty constructor
+    dms d;
+    QVERIFY(std::isnan(d.Degrees()));
 
 }
 
@@ -86,7 +86,8 @@ void TestDMS::stringCtor()
 }
 
 
-void TestDMS::testReduceToRange() {
+void TestDMS::testReduceToRange()
+{
     double base = 67.8;
     double a = 360.0 * 11. + base;
     double b = -360.0 * 12. + base;

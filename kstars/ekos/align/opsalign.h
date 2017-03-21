@@ -24,23 +24,23 @@ class Align;
 
 class OpsAlign : public QWidget, public Ui::OpsAlign
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    explicit OpsAlign(Align *parent);
-    ~OpsAlign();
+    public:
+        explicit OpsAlign(Align * parent);
+        ~OpsAlign();
 
-protected:
+    protected:
 
-private slots:
-    void toggleSolverInternal();
-    void toggleConfigInternal();
-    void toggleWCSInternal();
-    void slotApply();
+    private slots:
+        void toggleSolverInternal();
+        void toggleConfigInternal();
+        void toggleWCSInternal();
+        void slotApply();
 
-private:
-    KConfigDialog *m_ConfigDialog;
-    Align *alignModule;
+    private:
+        KConfigDialog * m_ConfigDialog;
+        Align * alignModule;
 };
 
 }

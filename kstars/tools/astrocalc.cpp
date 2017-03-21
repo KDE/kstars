@@ -41,11 +41,11 @@
 #include "modcalcvlsr.h"
 #include "conjunctions.h"
 
-AstroCalc::AstroCalc( QWidget* parent ) :
-        QDialog( parent )
+AstroCalc::AstroCalc( QWidget * parent ) :
+    QDialog( parent )
 {
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
     // List of messages. Maybe there is better place for it...
@@ -115,13 +115,13 @@ AstroCalc::AstroCalc( QWidget* parent ) :
              "</LI></UL>"
              "</QT>");
 
-    QSplitter* split = new QSplitter ( this );
+    QSplitter * split = new QSplitter ( this );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(split);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
@@ -154,7 +154,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     QIcon solarIcon = QIcon ("geodetic.png");
     // QIcon sunsetIcon = QIcon ("sunset.png"); // Its usage is commented out.
     QIcon timeIcon = QIcon ("sunclock.png");*/
-    
+
     /* Populate the tree widget and widget stack */
     // Time-related entries
     QTreeWidgetItem * timeItem = addTreeTopItem(navigationPanel, i18n("Time Calculators"), messageTime);
@@ -166,7 +166,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     addTreeItem<modCalcDayLength>(timeItem, i18n("Almanac"));
     addTreeItem<modCalcEquinox>  (timeItem, i18n("Equinoxes & Solstices"));
     //  dayItem->setIcon(0,sunsetIcon);
-                                
+
     // Coordinate-related entries
     QTreeWidgetItem * coordItem = addTreeTopItem(navigationPanel, i18n("Coordinate Converters"), messageCoord);
     addTreeItem<modCalcGalCoord> (coordItem, i18n("Equatorial/Galactic"));
@@ -182,52 +182,54 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     //solarItem->setIcon(0,solarIcon);
     addTreeItem<modCalcPlanets>  (solarItem, i18n("Planets Coordinates"));
     addTreeItem<ConjunctionsTool>(solarItem, i18n("Conjunctions"));
-    
+
     acStack->setCurrentWidget( splashScreen );
     connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)),
             this, SLOT(slotItemSelection(QTreeWidgetItem *)));
 }
 
 template<typename T>
-QWidget* AstroCalc::addToStack()
+QWidget * AstroCalc::addToStack()
 {
-    T* t = new T( acStack );
+    T * t = new T( acStack );
     acStack->addWidget(t);
     return t;
 }
 
 template<typename T>
-QTreeWidgetItem* AstroCalc::addTreeItem(QTreeWidgetItem* parent, QString title)
+QTreeWidgetItem * AstroCalc::addTreeItem(QTreeWidgetItem * parent, QString title)
 {
-    QTreeWidgetItem* item = new QTreeWidgetItem(parent, QStringList(title));
+    QTreeWidgetItem * item = new QTreeWidgetItem(parent, QStringList(title));
     dispatchTable.insert(item,
                          WidgetThunk(this, &AstroCalc::addToStack<T>));
     return item;
 }
 
-QTreeWidgetItem* AstroCalc::addTreeTopItem(QTreeWidget* parent, QString title, QString html)
+QTreeWidgetItem * AstroCalc::addTreeTopItem(QTreeWidget * parent, QString title, QString html)
 {
-    QTreeWidgetItem* item = new QTreeWidgetItem(parent, QStringList(title));
+    QTreeWidgetItem * item = new QTreeWidgetItem(parent, QStringList(title));
     htmlTable.insert(item, html);
     return item;
 }
 
 AstroCalc::~AstroCalc() {}
 
-void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
+void AstroCalc::slotItemSelection(QTreeWidgetItem * item)
 {
     if ( item == 0)
         return;
     // Lookup in HTML table
-    QMap<QTreeWidgetItem*, QString>::iterator iterHTML = htmlTable.find(item);
-    if( iterHTML != htmlTable.end() ) {
+    QMap<QTreeWidgetItem *, QString>::iterator iterHTML = htmlTable.find(item);
+    if( iterHTML != htmlTable.end() )
+    {
         splashScreen->setHtml(*iterHTML);
         acStack->setCurrentWidget(splashScreen);
         return;
     }
     // Lookup in frames table
-    QMap<QTreeWidgetItem*, WidgetThunk>::iterator iter = dispatchTable.find(item);
-    if( iter != dispatchTable.end() ) {
+    QMap<QTreeWidgetItem *, WidgetThunk>::iterator iter = dispatchTable.find(item);
+    if( iter != dispatchTable.end() )
+    {
         acStack->setCurrentWidget( iter->eval() );
     }
 }
@@ -237,10 +239,11 @@ QSize AstroCalc::sizeHint() const
     return QSize(640,430);
 }
 
-QWidget* AstroCalc::WidgetThunk::eval()
+QWidget * AstroCalc::WidgetThunk::eval()
 {
-    if( widget == 0 ) {
-        // This is pointer to member function call. 
+    if( widget == 0 )
+    {
+        // This is pointer to member function call.
         widget = (calc->*func)();
     }
     return widget;

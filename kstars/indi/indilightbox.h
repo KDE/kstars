@@ -25,13 +25,13 @@ namespace ISD
 
 class LightBox : public DustCap
 {
-    Q_OBJECT
+        Q_OBJECT
 
-public:
-    LightBox(GDInterface *iPtr) : DustCap(iPtr) {}
+    public:
+        LightBox(GDInterface * iPtr) : DustCap(iPtr) {}
 
-    virtual bool hasLight();
-    virtual bool canPark();
+        virtual bool hasLight();
+        virtual bool canPark();
 
 };
 

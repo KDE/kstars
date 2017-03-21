@@ -17,51 +17,64 @@
 #include "skyobjectlistmodel.h"
 #include "skyobject.h"
 
-SkyObjectListModel::SkyObjectListModel(QObject *parent)
+SkyObjectListModel::SkyObjectListModel(QObject * parent)
     :QAbstractListModel(parent)
 {
 
 }
 
-QHash<int, QByteArray> SkyObjectListModel::roleNames() const {
+QHash<int, QByteArray> SkyObjectListModel::roleNames() const
+{
     QHash<int, QByteArray> roles;
     roles[Qt::DisplayRole] = "name";
     roles[SkyObjectRole] = "skyobject";
     return roles;
 }
 
-int SkyObjectListModel::indexOf(QString objectName) const {
-    for(int i = 0; i < skyObjects.size(); ++i) {
-        if(skyObjects[i].first == objectName) {
+int SkyObjectListModel::indexOf(QString objectName) const
+{
+    for(int i = 0; i < skyObjects.size(); ++i)
+    {
+        if(skyObjects[i].first == objectName)
+        {
             return i;
         }
     }
     return -1;
 }
 
-QVariant SkyObjectListModel::data(const QModelIndex &index, int role) const {
-    if(!index.isValid()) {
+QVariant SkyObjectListModel::data(const QModelIndex &index, int role) const
+{
+    if(!index.isValid())
+    {
         return QVariant();
     }
-    if(role == Qt::DisplayRole) {
+    if(role == Qt::DisplayRole)
+    {
         return QVariant(skyObjects[index.row()].first);
-    } else if(role == SkyObjectRole) {
+    }
+    else if(role == SkyObjectRole)
+    {
         return qVariantFromValue((void *) skyObjects[index.row()].second);
     }
     return QVariant();
 }
 
-QStringList SkyObjectListModel::filter(QRegExp regEx) {
+QStringList SkyObjectListModel::filter(QRegExp regEx)
+{
     QStringList filteredList;
-    for(int i = 0; i < skyObjects.size(); ++i) {
-        if(regEx.exactMatch(skyObjects[i].first)) {
+    for(int i = 0; i < skyObjects.size(); ++i)
+    {
+        if(regEx.exactMatch(skyObjects[i].first))
+        {
             filteredList.append(skyObjects[i].first);
         }
     }
     return filteredList;
 }
 
-void SkyObjectListModel::setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects) {
+void SkyObjectListModel::setSkyObjectsList(QVector<QPair<QString, const SkyObject *>> sObjects)
+{
     emit beginResetModel();
     skyObjects = sObjects;
 

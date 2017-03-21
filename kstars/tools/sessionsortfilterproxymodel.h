@@ -37,12 +37,12 @@ class QModelIndex;
 class SessionSortFilterProxyModel : public QSortFilterProxyModel
 {
 
-    Q_OBJECT;
+        Q_OBJECT;
 
- public:
-    SessionSortFilterProxyModel( QObject *parent = 0 );
+    public:
+        SessionSortFilterProxyModel( QObject * parent = 0 );
 
- protected:
-    bool lessThan( const QModelIndex &left, const QModelIndex &right ) const;
+    protected:
+        bool lessThan( const QModelIndex &left, const QModelIndex &right ) const;
 
 };

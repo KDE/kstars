@@ -31,7 +31,7 @@
 class SkyObject;
 class KSNumbers;
 class KSPlanetBase;
-class KSPlanet; 
+class KSPlanet;
 class dms;
 
 /**
@@ -44,92 +44,93 @@ class dms;
   *@version 1.0
   */
 
-class KSConjunct :public QObject {
- Q_OBJECT
- 
- public:
-  /**
-    *Constructor.  Instantiates a KSNumbers for internal computations.
-    */
-  
-  KSConjunct();
+class KSConjunct :public QObject
+{
+        Q_OBJECT
 
-  /**
-   *Destructor.  (Empty)
-   */
+    public:
+        /**
+          *Constructor.  Instantiates a KSNumbers for internal computations.
+          */
 
-  ~KSConjunct() { }
+        KSConjunct();
 
-  /**
-   *@short Sets the geographic location to compute conjunctions at
-   *
-   *@param geo  Pointer to the GeoLocation object
-   */
-  void setGeoLocation( GeoLocation *geo );
+        /**
+         *Destructor.  (Empty)
+         */
 
-  /**
-   *@short Compute the closest approach of two planets in the given range
-   *
-   *@param Object1  A copy of the class corresponding to one of the two bodies
-   *@param Object2  A copy of the class corresponding to the other of the two bodies
-   *@param startJD  Julian Day corresponding to start of the calculation period
-   *@param stopJD   Julian Day corresponding to end of the calculation period
-   *@param maxSeparation   Maximum separation between Object1 and Object2 - a measure
-   *                       how close the conjunction should be to be output.
-   *@param opposition A parameter to see if we are computing conjunction or opposition
-   *@return Hash containing julian days of close conjunctions against separation
-   */
+        ~KSConjunct() { }
 
-  QMap<long double, dms> findClosestApproach(SkyObject& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation, bool _opposition=false);
-  
- signals:
-  void madeProgress( int progress );
+        /**
+         *@short Sets the geographic location to compute conjunctions at
+         *
+         *@param geo  Pointer to the GeoLocation object
+         */
+        void setGeoLocation( GeoLocation * geo );
 
- private:
+        /**
+         *@short Compute the closest approach of two planets in the given range
+         *
+         *@param Object1  A copy of the class corresponding to one of the two bodies
+         *@param Object2  A copy of the class corresponding to the other of the two bodies
+         *@param startJD  Julian Day corresponding to start of the calculation period
+         *@param stopJD   Julian Day corresponding to end of the calculation period
+         *@param maxSeparation   Maximum separation between Object1 and Object2 - a measure
+         *                       how close the conjunction should be to be output.
+         *@param opposition A parameter to see if we are computing conjunction or opposition
+         *@return Hash containing julian days of close conjunctions against separation
+         */
 
-  /**
-    *@short Finds the angular distance between two solar system objects.
-    *
-    *@param jd  Julian Day corresponding to the time of computation
-    *@param Object1  A pointer to the first solar system object
-    *@param Object2  A pointer to the second solar system object
-    *
-    *@return The angular distance between the two bodies.
-    */
+        QMap<long double, dms> findClosestApproach(SkyObject &Object1, KSPlanetBase &Object2, long double startJD, long double stopJD, dms maxSeparation, bool _opposition=false);
 
-  // TODO: Make pointers to Object1 and Object2 private objects instead of passing them to the methods again and again. 
-  //       Should improve performance, at least marginally.
+    signals:
+        void madeProgress( int progress );
 
-  dms findDistance(long double jd, SkyObject *Object1, KSPlanetBase *Object2);
+    private:
 
-  /**
-    *@short Compute the precise value of the extremum once the extremum has been detected.
-    *
-    *@param out  A pointer to a QPair that stores the Julian Day and Separation corresponding to the extremum
-    *@param Object1  A pointer to the first solar system body
-    *@param Object2  A pointer to the second solar system body
-    *@param jd  Julian day corresponding to the endpoint of the interval where extremum was detected.
-    *@param step  The step in jd taken during computation earlier. (Defines the interval size)
-    *@param prevSign The previous sign of increment in moving from jd - step to jd
-    *
-    *@return true if the extremum is a minimum
-    */
+        /**
+          *@short Finds the angular distance between two solar system objects.
+          *
+          *@param jd  Julian Day corresponding to the time of computation
+          *@param Object1  A pointer to the first solar system object
+          *@param Object2  A pointer to the second solar system object
+          *
+          *@return The angular distance between the two bodies.
+          */
 
-  bool findPrecise(QPair<long double, dms> *out, SkyObject *Object1, KSPlanetBase *Object2, long double jd, double step, int prevSign);
+        // TODO: Make pointers to Object1 and Object2 private objects instead of passing them to the methods again and again.
+        //       Should improve performance, at least marginally.
 
-  /**
-    *@short Return the sign of an angle
-    *
-    *@param a  The angle whose sign has to be returned
-    *
-    *@return (-1, 0, 1) if a.radians() is (-ve, zero, +ve)
-    */
+        dms findDistance(long double jd, SkyObject * Object1, KSPlanetBase * Object2);
 
-  int sgn(dms a);
+        /**
+          *@short Compute the precise value of the extremum once the extremum has been detected.
+          *
+          *@param out  A pointer to a QPair that stores the Julian Day and Separation corresponding to the extremum
+          *@param Object1  A pointer to the first solar system body
+          *@param Object2  A pointer to the second solar system body
+          *@param jd  Julian day corresponding to the endpoint of the interval where extremum was detected.
+          *@param step  The step in jd taken during computation earlier. (Defines the interval size)
+          *@param prevSign The previous sign of increment in moving from jd - step to jd
+          *
+          *@return true if the extremum is a minimum
+          */
 
-  bool opposition;
-  GeoLocation *geoPlace;
+        bool findPrecise(QPair<long double, dms> * out, SkyObject * Object1, KSPlanetBase * Object2, long double jd, double step, int prevSign);
+
+        /**
+          *@short Return the sign of an angle
+          *
+          *@param a  The angle whose sign has to be returned
+          *
+          *@return (-1, 0, 1) if a.radians() is (-ve, zero, +ve)
+          */
+
+        int sgn(dms a);
+
+        bool opposition;
+        GeoLocation * geoPlace;
 };
 
 #endif
-  
+

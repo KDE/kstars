@@ -21,37 +21,51 @@
 #include <QLabel>
 #include <QPixmap>
 
-class ThumbImage : public QLabel {
-    Q_OBJECT
-public:
-    explicit ThumbImage( QWidget *parent, const char *name = 0 );
-    ~ThumbImage();
+class ThumbImage : public QLabel
+{
+        Q_OBJECT
+    public:
+        explicit ThumbImage( QWidget * parent, const char * name = 0 );
+        ~ThumbImage();
 
-    void setImage( QPixmap *pm ) { Image = pm; setFixedSize( Image->width(), Image->height() ); }
-    QPixmap* image() { return Image; }
-    QPixmap croppedImage();
+        void setImage( QPixmap * pm )
+        {
+            Image = pm;
+            setFixedSize( Image->width(), Image->height() );
+        }
+        QPixmap * image()
+        {
+            return Image;
+        }
+        QPixmap croppedImage();
 
-    void setCropRect( int x, int y, int w, int h ) { CropRect->setRect( x, y, w, h ); }
-    QRect* cropRect() const { return CropRect; }
+        void setCropRect( int x, int y, int w, int h )
+        {
+            CropRect->setRect( x, y, w, h );
+        }
+        QRect * cropRect() const
+        {
+            return CropRect;
+        }
 
-signals:
-    void cropRegionModified();
+    signals:
+        void cropRegionModified();
 
-protected:
-    //	void resizeEvent( QResizeEvent *e);
-    void paintEvent( QPaintEvent *);
-    void mousePressEvent( QMouseEvent *e );
-    void mouseReleaseEvent( QMouseEvent *e );
-    void mouseMoveEvent( QMouseEvent *e );
+    protected:
+        //	void resizeEvent( QResizeEvent *e);
+        void paintEvent( QPaintEvent *);
+        void mousePressEvent( QMouseEvent * e );
+        void mouseReleaseEvent( QMouseEvent * e );
+        void mouseMoveEvent( QMouseEvent * e );
 
-private:
-    QRect *CropRect;
-    QPoint *Anchor;
-    QPixmap *Image;
+    private:
+        QRect * CropRect;
+        QPoint * Anchor;
+        QPixmap * Image;
 
-    bool bMouseButtonDown;
-    bool bTopLeftGrab, bBottomLeftGrab, bTopRightGrab, bBottomRightGrab;
-    int HandleSize;
+        bool bMouseButtonDown;
+        bool bTopLeftGrab, bBottomLeftGrab, bTopRightGrab, bBottomRightGrab;
+        int HandleSize;
 };
 
 #endif

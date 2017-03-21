@@ -21,24 +21,30 @@ SkipListElement::SkipListElement(long level, Key key, Value value) :
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-SkipListElement* SkipListElement::getElement(long level)
+SkipListElement * SkipListElement::getElement(long level)
 {
-  if (level > myLevel) {
-      std::cerr << "Error in :" << "SkipListElement::getElement() level:";
-      std::cerr << level << ", my level:" << myLevel << ", max level: " << SKIPLIST_MAXLEVEL << std::endl;
-      return(this);
-  } else {
-      return(myNext[level]);
-  }
+    if (level > myLevel)
+    {
+        std::cerr << "Error in :" << "SkipListElement::getElement() level:";
+        std::cerr << level << ", my level:" << myLevel << ", max level: " << SKIPLIST_MAXLEVEL << std::endl;
+        return(this);
+    }
+    else
+    {
+        return(myNext[level]);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void SkipListElement::setElement(long level, SkipListElement* element)
+void SkipListElement::setElement(long level, SkipListElement * element)
 {
-    if (level > myLevel) {
+    if (level > myLevel)
+    {
         std::cerr << "Error in :" << "SkipListElement::setElement() level:";
         std::cerr << level << ", my level:" << myLevel << ", max level: " << SKIPLIST_MAXLEVEL << std::endl;
-    } else {
+    }
+    else
+    {
         myNext[level]=element;
     }
 }

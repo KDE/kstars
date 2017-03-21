@@ -17,7 +17,7 @@
 
 #include "pwizfovtypeselection.h"
 
-PWizFovTypeSelectionUI::PWizFovTypeSelectionUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
+PWizFovTypeSelectionUI::PWizFovTypeSelectionUI(PrintingWizard * wizard, QWidget * parent) : QFrame(parent),
     m_ParentWizard(wizard)
 {
     setupUi(this);

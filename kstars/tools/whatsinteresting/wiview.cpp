@@ -27,7 +27,7 @@
 #include "kspaths.h"
 
 
-WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs), m_CurCategorySelected(-1)
+WIView::WIView(QWidget * parent, ObsConditions * obs) : QWidget(parent), m_Obs(obs), m_CurCategorySelected(-1)
 {
 
 
@@ -37,7 +37,7 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs
 
     ///To use i18n() instead of qsTr() in qml/wiview.qml for translation
     //KDeclarative kd;
-   // kd.setDeclarativeEngine(m_BaseView->engine());
+    // kd.setDeclarativeEngine(m_BaseView->engine());
     //kd.initialize();
     //kd.setupBindings();
 
@@ -52,7 +52,7 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs
 
     //soTypeTextObj = m_BaseObj->findChild<QObject *>("soTypeTextObj");
 
-    m_ViewsRowObj = m_BaseObj->findChild<QQuickItem*>(QString("viewsRowObj"));
+    m_ViewsRowObj = m_BaseObj->findChild<QQuickItem *>(QString("viewsRowObj"));
     connect(m_ViewsRowObj, SIGNAL(categorySelected(int)), this, SLOT(onCategorySelected(int)));
 
     m_SoListObj = m_BaseObj->findChild<QQuickItem *>("soListObj");
@@ -65,16 +65,16 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs
     m_PrevObj = m_BaseObj->findChild<QQuickItem *>("prevObj");
     connect(m_PrevObj, SIGNAL(prevObjClicked()), this, SLOT(onPrevObjClicked()));
 
-    m_SlewButtonObj = m_BaseObj->findChild<QQuickItem*>("slewButtonObj");
+    m_SlewButtonObj = m_BaseObj->findChild<QQuickItem *>("slewButtonObj");
     connect(m_SlewButtonObj, SIGNAL(slewButtonClicked()), this, SLOT(onSlewButtonClicked()));
 
     m_DetailsButtonObj = m_BaseObj->findChild<QQuickItem *>("detailsButtonObj");
     connect(m_DetailsButtonObj, SIGNAL(detailsButtonClicked()), this, SLOT(onDetailsButtonClicked()));
 
-    QObject *settingsIconObj = m_BaseObj->findChild<QQuickItem *>("settingsIconObj");
+    QObject * settingsIconObj = m_BaseObj->findChild<QQuickItem *>("settingsIconObj");
     connect(settingsIconObj, SIGNAL(settingsIconClicked()), this, SLOT(onSettingsIconClicked()));
 
-    QObject *reloadIconObj = m_BaseObj->findChild<QQuickItem*>("reloadIconObj");
+    QObject * reloadIconObj = m_BaseObj->findChild<QQuickItem *>("reloadIconObj");
     connect(reloadIconObj, SIGNAL(reloadIconClicked()), this, SLOT(onReloadIconClicked()));
 
     m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
@@ -97,7 +97,7 @@ void WIView::onSoListItemClicked(int type, QString typeName, int index)
 {
     Q_UNUSED(typeName)
 
-    SkyObjItem *soitem = m_ModManager->returnModel(type)->getSkyObjItem(index);
+    SkyObjItem * soitem = m_ModManager->returnModel(type)->getSkyObjItem(index);
 
 //    soTypeTextObj->setProperty("text", typeName);
 //    soTypeTextObj->setProperty("visible", true);
@@ -110,22 +110,22 @@ void WIView::onSoListItemClicked(int type, QString typeName, int index)
 void WIView::onNextObjClicked()
 {
     int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
-    SkyObjItem *nextItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
+    SkyObjItem * nextItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
     loadDetailsView(nextItem, (m_CurIndex+1)%modelSize);
 }
 
 void WIView::onPrevObjClicked()
 {
     int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
-    SkyObjItem *prevItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
+    SkyObjItem * prevItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
     loadDetailsView(prevItem, (m_CurIndex-1+modelSize)%modelSize);
 }
 
 void WIView::onSlewButtonClicked()
 {
     ///Slew map to selected sky-object
-    SkyObject* so = m_CurSoItem->getSkyObject();
-    KStars* kstars = KStars::Instance();
+    SkyObject * so = m_CurSoItem->getSkyObject();
+    KStars * kstars = KStars::Instance();
     if (so != 0)
     {
         kstars->map()->setFocusPoint(so);
@@ -137,16 +137,16 @@ void WIView::onSlewButtonClicked()
 void WIView::onDetailsButtonClicked()
 {
     ///Code taken from WUTDialog::slotDetails()
-    KStars *kstars = KStars::Instance();
-    SkyObject* so = m_CurSoItem->getSkyObject();
-    DetailDialog *detail = new DetailDialog(so, kstars->data()->lt(), kstars->data()->geo(), kstars);
+    KStars * kstars = KStars::Instance();
+    SkyObject * so = m_CurSoItem->getSkyObject();
+    DetailDialog * detail = new DetailDialog(so, kstars->data()->lt(), kstars->data()->geo(), kstars);
     detail->exec();
     delete detail;
 }
 
 void WIView::onSettingsIconClicked()
 {
-    KStars *kstars = KStars::Instance();
+    KStars * kstars = KStars::Instance();
     kstars->showWISettingsUI();
 }
 
@@ -155,7 +155,7 @@ void WIView::onReloadIconClicked()
     updateModels(m_Obs);
 }
 
-void WIView::updateModels(ObsConditions* obs)
+void WIView::updateModels(ObsConditions * obs)
 {
     m_Obs = obs;
     m_ModManager->updateModels(m_Obs);
@@ -170,14 +170,14 @@ void WIView::updateModels(ObsConditions* obs)
         m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(m_CurCategorySelected));
 }
 
-void WIView::loadDetailsView(SkyObjItem *soitem, int index)
+void WIView::loadDetailsView(SkyObjItem * soitem, int index)
 {
     m_CurSoItem = soitem;
     m_CurIndex = index;
 
     int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
-    SkyObjItem *nextItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
-    SkyObjItem *prevItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
+    SkyObjItem * nextItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
+    SkyObjItem * prevItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
 
     if(modelSize <= 1)
     {
@@ -188,19 +188,19 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     {
         m_NextObj->setProperty("visible", "true");
         m_PrevObj->setProperty("visible", "true");
-        QObject *nextTextObj = m_NextObj->findChild<QObject *>("nextTextObj");
+        QObject * nextTextObj = m_NextObj->findChild<QObject *>("nextTextObj");
         nextTextObj->setProperty("text", nextItem->getName());
-        QObject *prevTextObj = m_PrevObj->findChild<QObject *>("prevTextObj");
+        QObject * prevTextObj = m_PrevObj->findChild<QObject *>("prevTextObj");
         prevTextObj->setProperty("text", prevItem->getName());
     }
 
-    QObject *sonameObj = m_DetailsViewObj->findChild<QObject *>("sonameObj");
-    QObject *posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
-    QObject *descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
-    QObject *descSrcTextObj = m_DetailsViewObj->findChild<QObject *>("descSrcTextObj");
-    QObject *magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
-    QObject *sbTextObj = m_DetailsViewObj->findChild<QObject *>("sbTextObj");
-    QObject *sizeTextObj = m_DetailsViewObj->findChild<QObject *>("sizeTextObj");
+    QObject * sonameObj = m_DetailsViewObj->findChild<QObject *>("sonameObj");
+    QObject * posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
+    QObject * descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
+    QObject * descSrcTextObj = m_DetailsViewObj->findChild<QObject *>("descSrcTextObj");
+    QObject * magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
+    QObject * sbTextObj = m_DetailsViewObj->findChild<QObject *>("sbTextObj");
+    QObject * sizeTextObj = m_DetailsViewObj->findChild<QObject *>("sizeTextObj");
 
     sonameObj->setProperty("text", soitem->getLongName());
     posTextObj->setProperty("text", soitem->getPosition());

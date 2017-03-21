@@ -46,13 +46,13 @@
 
 #include <stdlib.h>
 #include <assert.h>
- 
-extern const char *libindi_strings_context;
+
+extern const char * libindi_strings_context;
 
 /*******************************************************************
 ** INDI Property: contains widgets, labels, and their status
 *******************************************************************/
-INDI_P::INDI_P(INDI_G *ipg, INDI::Property *prop)
+INDI_P::INDI_P(INDI_G * ipg, INDI::Property * prop)
 {
     pg = ipg;
     dataProp = prop;
@@ -78,24 +78,24 @@ void INDI_P::updateStateLED()
     /* set state light */
     switch (dataProp->getState())
     {
-    case IPS_IDLE:
-        ledStatus->setColor(Qt::gray);
-        break;
+        case IPS_IDLE:
+            ledStatus->setColor(Qt::gray);
+            break;
 
-    case IPS_OK:
-        ledStatus->setColor(Qt::green);
-        break;
+        case IPS_OK:
+            ledStatus->setColor(Qt::green);
+            break;
 
-    case IPS_BUSY:
-        ledStatus->setColor(Qt::yellow);
-        break;
+        case IPS_BUSY:
+            ledStatus->setColor(Qt::yellow);
+            break;
 
-    case IPS_ALERT:
-        ledStatus->setColor(Qt::red);
-        break;
+        case IPS_ALERT:
+            ledStatus->setColor(Qt::red);
+            break;
 
-    default:
-        break;
+        default:
+            break;
 
     }
 
@@ -150,45 +150,45 @@ void INDI_P::initGUI ()
 
     switch (dataProp->getType())
     {
-    case INDI_SWITCH:
-        if (dataProp->getSwitch()->r == ISR_NOFMANY)
-            guiType = PG_RADIO;
-        else if (dataProp->getSwitch()->nsp > 4)
-            guiType = PG_MENU;
-        else
-            guiType = PG_BUTTONS;
+        case INDI_SWITCH:
+            if (dataProp->getSwitch()->r == ISR_NOFMANY)
+                guiType = PG_RADIO;
+            else if (dataProp->getSwitch()->nsp > 4)
+                guiType = PG_MENU;
+            else
+                guiType = PG_BUTTONS;
 
-        if (guiType == PG_MENU)
-            buildMenuGUI();
-        else
-            buildSwitchGUI();
-        break;
+            if (guiType == PG_MENU)
+                buildMenuGUI();
+            else
+                buildSwitchGUI();
+            break;
 
-    case INDI_TEXT:
-        buildTextGUI();
-        break;
+        case INDI_TEXT:
+            buildTextGUI();
+            break;
 
-     case INDI_NUMBER:
-        buildNumberGUI();
-        break;
+        case INDI_NUMBER:
+            buildNumberGUI();
+            break;
 
-     case INDI_LIGHT:
-        buildLightGUI();
-        break;
+        case INDI_LIGHT:
+            buildLightGUI();
+            break;
 
-     case INDI_BLOB:
-        buildBLOBGUI();
-        break;
+        case INDI_BLOB:
+            buildBLOBGUI();
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 }
 
 void INDI_P::buildSwitchGUI()
 {
-    INDI_E *lp;
-    ISwitchVectorProperty *svp = dataProp->getSwitch();
+    INDI_E * lp;
+    ISwitchVectorProperty * svp = dataProp->getSwitch();
 
     if (svp == NULL)
         return;
@@ -206,11 +206,11 @@ void INDI_P::buildSwitchGUI()
         groupB->setExclusive(false);
 
     if (svp->p != IP_RO)
-        QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(newSwitch(QAbstractButton *)));
+        QObject::connect(groupB, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(newSwitch(QAbstractButton *)));
 
     for (int i=0; i < svp->nsp; i++)
     {
-        ISwitch *sp = &(svp->sp[i]);
+        ISwitch * sp = &(svp->sp[i]);
         lp = new INDI_E(this, dataProp);
 
         lp->buildSwitch(groupB, sp);
@@ -226,15 +226,15 @@ void INDI_P::buildSwitchGUI()
 
 void INDI_P::buildTextGUI()
 {
-    INDI_E *lp;
-    ITextVectorProperty *tvp = dataProp->getText();
+    INDI_E * lp;
+    ITextVectorProperty * tvp = dataProp->getText();
 
     if (tvp == NULL)
         return;
 
     for (int i=0; i < tvp->ntp; i++)
     {
-        IText *tp = &(tvp->tp[i]);
+        IText * tp = &(tvp->tp[i]);
         lp = new INDI_E(this, dataProp);
 
         lp->buildText(tp);
@@ -249,12 +249,12 @@ void INDI_P::buildTextGUI()
 
 
     if (tvp->p == IP_RO)
-      return;
+        return;
 
     // INDI STD, but we use our own controls
     if (name == "TIME_UTC")
         setupSetButton(i18n("Time"));
-     else
+    else
         setupSetButton(i18n("Set"));
 
 }
@@ -262,15 +262,15 @@ void INDI_P::buildTextGUI()
 void INDI_P::buildNumberGUI()
 {
 
-    INDI_E *lp;
-    INumberVectorProperty *nvp = dataProp->getNumber();
+    INDI_E * lp;
+    INumberVectorProperty * nvp = dataProp->getNumber();
 
     if (nvp == NULL)
         return;
 
     for (int i=0; i < nvp->nnp; i++)
     {
-        INumber *np = &(nvp->np[i]);
+        INumber * np = &(nvp->np[i]);
         lp = new INDI_E(this, dataProp);
 
         lp->buildNumber(np);
@@ -285,7 +285,7 @@ void INDI_P::buildNumberGUI()
 
 
     if (nvp->p == IP_RO)
-      return;
+        return;
 
     setupSetButton(i18n("Set"));
 
@@ -294,15 +294,15 @@ void INDI_P::buildNumberGUI()
 void INDI_P::buildLightGUI()
 {
 
-    INDI_E *ep;
-    ILightVectorProperty *lvp = dataProp->getLight();
+    INDI_E * ep;
+    ILightVectorProperty * lvp = dataProp->getLight();
 
     if (lvp == NULL)
         return;
 
     for (int i=0; i < lvp->nlp; i++)
     {
-        ILight *lp = &(lvp->lp[i]);
+        ILight * lp = &(lvp->lp[i]);
         ep = new INDI_E(this, dataProp);
 
         ep->buildLight(lp);
@@ -318,15 +318,15 @@ void INDI_P::buildLightGUI()
 void INDI_P::buildBLOBGUI()
 {
 
-    INDI_E *lp;
-    IBLOBVectorProperty *bvp = dataProp->getBLOB();
+    INDI_E * lp;
+    IBLOBVectorProperty * bvp = dataProp->getBLOB();
 
     if (bvp == NULL)
         return;
 
     for (int i=0; i < bvp->nbp; i++)
     {
-        IBLOB *bp = &(bvp->bp[i]);
+        IBLOB * bp = &(bvp->bp[i]);
         lp = new INDI_E(this, dataProp);
 
         lp->buildBLOB(bp);
@@ -364,7 +364,7 @@ void INDI_P::setBLOBOption(int state)
 
 void INDI_P::newSwitch(QAbstractButton * button)
 {
-    ISwitchVectorProperty *svp = dataProp->getSwitch();
+    ISwitchVectorProperty * svp = dataProp->getSwitch();
     QString buttonText = button->text();
 
     if (svp == NULL)
@@ -372,9 +372,9 @@ void INDI_P::newSwitch(QAbstractButton * button)
 
     buttonText.remove("&");
 
-    foreach(INDI_E *el, elementList)
+    foreach(INDI_E * el, elementList)
         if (el->getLabel() == buttonText)
-         {
+        {
             newSwitch(el->getName());
             return;
         }
@@ -383,7 +383,7 @@ void INDI_P::newSwitch(QAbstractButton * button)
 
 void INDI_P::resetSwitch()
 {
-    ISwitchVectorProperty *svp = dataProp->getSwitch();
+    ISwitchVectorProperty * svp = dataProp->getSwitch();
 
     if (svp == NULL)
         return;
@@ -396,7 +396,7 @@ void INDI_P::resetSwitch()
 
 void INDI_P::newSwitch(int index)
 {
-    ISwitchVectorProperty *svp = dataProp->getSwitch();
+    ISwitchVectorProperty * svp = dataProp->getSwitch();
 
     if (svp == NULL)
         return;
@@ -404,7 +404,7 @@ void INDI_P::newSwitch(int index)
     if (index >= svp->nsp)
         return;
 
-    ISwitch *sp = &(svp->sp[index]);
+    ISwitch * sp = &(svp->sp[index]);
 
     IUResetSwitch(svp);
     sp->s = ISS_ON;
@@ -412,15 +412,15 @@ void INDI_P::newSwitch(int index)
     sendSwitch();
 }
 
-void INDI_P::newSwitch(const QString & name)
+void INDI_P::newSwitch(const QString &name)
 {
 
-    ISwitchVectorProperty *svp = dataProp->getSwitch();
+    ISwitchVectorProperty * svp = dataProp->getSwitch();
 
     if (svp == NULL)
         return;
 
-    ISwitch *sp = IUFindSwitch(svp, name.toLatin1().constData());
+    ISwitch * sp = IUFindSwitch(svp, name.toLatin1().constData());
 
     if (sp == NULL)
         return;
@@ -449,13 +449,13 @@ void INDI_P::newSwitch(const QString & name)
 
 void INDI_P::sendSwitch()
 {
-    ISwitchVectorProperty *svp = dataProp->getSwitch();
+    ISwitchVectorProperty * svp = dataProp->getSwitch();
     if (svp == NULL)
         return;
 
     svp->s = IPS_BUSY;
 
-    foreach(INDI_E *el, elementList)
+    foreach(INDI_E * el, elementList)
         el->syncSwitch();
 
     updateStateLED();
@@ -467,8 +467,8 @@ void INDI_P::sendSwitch()
 
 void INDI_P::sendText()
 {
-    ITextVectorProperty   *tvp = NULL;
-    INumberVectorProperty *nvp = NULL;
+    ITextVectorProperty  * tvp = NULL;
+    INumberVectorProperty * nvp = NULL;
 
     switch (dataProp->getType())
     {
@@ -479,27 +479,27 @@ void INDI_P::sendText()
 
             tvp->s = IPS_BUSY;
 
-            foreach(INDI_E *el, elementList)
+            foreach(INDI_E * el, elementList)
                 el->updateTP();
 
             pg->getDevice()->getClientManager()->sendNewText(tvp);
 
-        break;
+            break;
 
-       case INDI_NUMBER:
-        nvp = dataProp->getNumber();
-        if (nvp == NULL)
-            return;
+        case INDI_NUMBER:
+            nvp = dataProp->getNumber();
+            if (nvp == NULL)
+                return;
 
-        nvp->s = IPS_BUSY;
+            nvp->s = IPS_BUSY;
 
-        foreach(INDI_E *el, elementList)
-            el->updateNP();
+            foreach(INDI_E * el, elementList)
+                el->updateNP();
 
-        pg->getDevice()->getClientManager()->sendNewNumber(nvp);
+            pg->getDevice()->getClientManager()->sendNewNumber(nvp);
 
-    default:
-        break;
+        default:
+            break;
 
     }
 
@@ -513,8 +513,8 @@ void INDI_P::buildMenuGUI()
     QStringList menuOptions;
     QString oneOption;
     int onItem=-1;
-    INDI_E *lp;
-    ISwitchVectorProperty *svp = dataProp->getSwitch();
+    INDI_E * lp;
+    ISwitchVectorProperty * svp = dataProp->getSwitch();
 
     if (svp == NULL)
         return;
@@ -528,7 +528,7 @@ void INDI_P::buildMenuGUI()
 
     for (int i=0; i < svp->nsp; i++)
     {
-        ISwitch *tp = &(svp->sp[i]);
+        ISwitch * tp = &(svp->sp[i]);
 
         if (tp->s == ISS_ON)
             onItem = i;
@@ -571,19 +571,19 @@ void INDI_P::setupSetButton(const QString &caption)
     PHBox->addWidget(setB);
 }
 
-void INDI_P::addWidget(QWidget *w)
+void INDI_P::addWidget(QWidget * w)
 {
-        PHBox->addWidget(w);
+    PHBox->addWidget(w);
 }
 
-void INDI_P::addLayout(QHBoxLayout *layout)
+void INDI_P::addLayout(QHBoxLayout * layout)
 {
-        PVBox->addLayout(layout);
+    PVBox->addLayout(layout);
 }
 
 void INDI_P::updateMenuGUI()
 {
-    ISwitchVectorProperty *svp = dataProp->getSwitch();
+    ISwitchVectorProperty * svp = dataProp->getSwitch();
     if (svp == NULL)
         return;
 
@@ -595,24 +595,24 @@ void INDI_P::processSetButton()
 {
     switch (dataProp->getType())
     {
-       case INDI_TEXT:
-        if (!strcmp(dataProp->getName(), "TIME_UTC"))
-            newTime();
-        else
+        case INDI_TEXT:
+            if (!strcmp(dataProp->getName(), "TIME_UTC"))
+                newTime();
+            else
+                sendText();
+
+            break;
+
+        case INDI_NUMBER:
             sendText();
+            break;
 
-        break;
+        case INDI_BLOB:
+            sendBlob();
+            break;
 
-       case INDI_NUMBER:
-        sendText();
-        break;
-
-       case INDI_BLOB:
-        sendBlob();
-        break;
-
-    default:
-        break;
+        default:
+            break;
     }
 
 }
@@ -621,7 +621,7 @@ void INDI_P::sendBlob()
 {
     //int index=0;
     //bool openingTag=false;
-    IBLOBVectorProperty *bvp = dataProp->getBLOB();
+    IBLOBVectorProperty * bvp = dataProp->getBLOB();
 
     if (bvp == NULL)
         return;
@@ -632,12 +632,12 @@ void INDI_P::sendBlob()
 
     for (int i=0; i < elementList.count(); i++)
     {
-        IBLOB *bp = &(bvp->bp[i]);
-        #if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
+        IBLOB * bp = &(bvp->bp[i]);
+#if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
         pg->getDevice()->getClientManager()->sendOneBlob(bp);
-        #else
+#else
         pg->getDevice()->getClientManager()->sendOneBlob(bp->name, bp->size, bp->format, bp->blob);
-        #endif
+#endif
     }
 
     // JM: Why we need dirty here? We should be able to upload multiple time
@@ -667,7 +667,7 @@ void INDI_P::sendBlob()
     //if (openingTag)
     pg->getDevice()->getClientManager()->finishBlob();
 
-   updateStateLED();
+    updateStateLED();
 
 }
 
@@ -704,7 +704,7 @@ void INDI_P::newTime()
 
 INDI_E * INDI_P::getElement(const QString &elementName)
 {
-    foreach(INDI_E *ep, elementList)
+    foreach(INDI_E * ep, elementList)
     {
         if (ep->getName() == elementName)
             return ep;

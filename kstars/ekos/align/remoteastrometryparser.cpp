@@ -37,7 +37,7 @@ RemoteAstrometryParser::~RemoteAstrometryParser()
 }
 
 bool RemoteAstrometryParser::init()
-{    
+{
     return (remoteAstrometry != NULL);
 }
 
@@ -57,8 +57,8 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
         return false;
     }
 
-    ISwitchVectorProperty *solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
-    IBLOBVectorProperty *solverBLOB = remoteAstrometry->getBaseDevice()->getBLOB("ASTROMETRY_DATA");
+    ISwitchVectorProperty * solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    IBLOBVectorProperty * solverBLOB = remoteAstrometry->getBaseDevice()->getBLOB("ASTROMETRY_DATA");
 
     if (solverSwitch == NULL || solverBLOB == NULL)
     {
@@ -70,7 +70,7 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
 
     sendArgs(args);
 
-    ISwitch *enableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_ENABLE");
+    ISwitch * enableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_ENABLE");
     if (enableSW->s == ISS_OFF)
     {
         IUResetSwitch(solverSwitch);
@@ -78,7 +78,7 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
         remoteAstrometry->getDriverInfo()->getClientManager()->sendNewSwitch(solverSwitch);
     }
 
-    IBLOB *bp = &(solverBLOB->bp[0]);
+    IBLOB * bp = &(solverBLOB->bp[0]);
 
     bp->bloblen = bp->size = fp.size();
 
@@ -97,11 +97,11 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
 
     remoteAstrometry->getDriverInfo()->getClientManager()->startBlob(solverBLOB->device, solverBLOB->name, timestamp());
 
-    #if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
+#if (INDI_VERSION_MINOR >= 4 && INDI_VERSION_RELEASE >= 2)
     remoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp);
-    #else
+#else
     remoteAstrometry->getDriverInfo()->getClientManager()->sendOneBlob(bp->name, bp->size, bp->format, bp->blob);
-    #endif
+#endif
 
     remoteAstrometry->getDriverInfo()->getClientManager()->finishBlob();
 
@@ -113,7 +113,7 @@ bool RemoteAstrometryParser::startSovler(const QString &filename,  const QString
 
 bool RemoteAstrometryParser::sendArgs(const QStringList &args)
 {
-    ITextVectorProperty *solverSettings = remoteAstrometry->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
+    ITextVectorProperty * solverSettings = remoteAstrometry->getBaseDevice()->getText("ASTROMETRY_SETTINGS");
 
     if (solverSettings == NULL)
     {
@@ -126,8 +126,8 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
     // Add parity option if none is give and we already know parity before
     // and is NOT a blind solve
     if (Options::astrometryDetectParity() && parity.isEmpty() == false
-                                          && args.contains("parity") == false
-                                          && (args.contains("-3") || args.contains("-L")) )
+            && args.contains("parity") == false
+            && (args.contains("-3") || args.contains("-L")) )
         solverArgs << "--parity" << parity;
 
     for (int i=0; i < solverSettings->ntp; i++)
@@ -141,7 +141,7 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
     }
 
     remoteAstrometry->getDriverInfo()->getClientManager()->sendNewText(solverSettings);
-    INDI_D *guiDevice = GUIManager::Instance()->findGUIDevice(remoteAstrometry->getDeviceName());
+    INDI_D * guiDevice = GUIManager::Instance()->findGUIDevice(remoteAstrometry->getDeviceName());
     if (guiDevice)
         guiDevice->updateTextGUI(solverSettings);
 
@@ -150,12 +150,12 @@ bool RemoteAstrometryParser::sendArgs(const QStringList &args)
 
 void RemoteAstrometryParser::setEnabled(bool enable)
 {
-    ISwitchVectorProperty *solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    ISwitchVectorProperty * solverSwitch = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
     if (solverSwitch == NULL)
         return;
 
-    ISwitch *enableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_ENABLE");
-    ISwitch *disableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_DISABLE");
+    ISwitch * enableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_ENABLE");
+    ISwitch * disableSW = IUFindSwitch(solverSwitch, "ASTROMETRY_SOLVER_DISABLE");
 
     if (enableSW == NULL || disableSW == NULL)
         return;
@@ -179,11 +179,11 @@ void RemoteAstrometryParser::setEnabled(bool enable)
 bool RemoteAstrometryParser::stopSolver()
 {
     // Disable solver
-    ISwitchVectorProperty *svp = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
+    ISwitchVectorProperty * svp = remoteAstrometry->getBaseDevice()->getSwitch("ASTROMETRY_SOLVER");
     if (!svp)
         return false;
 
-    ISwitch *disableSW = IUFindSwitch(svp, "ASTROMETRY_SOLVER_DISABLE");
+    ISwitch * disableSW = IUFindSwitch(svp, "ASTROMETRY_SOLVER_DISABLE");
     if (disableSW->s == ISS_OFF)
     {
         IUResetSwitch(svp);
@@ -197,7 +197,7 @@ bool RemoteAstrometryParser::stopSolver()
 
 }
 
-void RemoteAstrometryParser::setAstrometryDevice(ISD::GDInterface *device)
+void RemoteAstrometryParser::setAstrometryDevice(ISD::GDInterface * device)
 {
     if (device == remoteAstrometry)
         return;
@@ -206,11 +206,11 @@ void RemoteAstrometryParser::setAstrometryDevice(ISD::GDInterface *device)
 
     remoteAstrometry->disconnect(this);
 
-    connect(remoteAstrometry, SIGNAL(switchUpdated(ISwitchVectorProperty*)), this, SLOT(checkStatus(ISwitchVectorProperty*)));
-    connect(remoteAstrometry, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(checkResults(INumberVectorProperty*)));
+    connect(remoteAstrometry, SIGNAL(switchUpdated(ISwitchVectorProperty *)), this, SLOT(checkStatus(ISwitchVectorProperty *)));
+    connect(remoteAstrometry, SIGNAL(numberUpdated(INumberVectorProperty *)), this, SLOT(checkResults(INumberVectorProperty *)));
 }
 
-void RemoteAstrometryParser::checkStatus(ISwitchVectorProperty *svp)
+void RemoteAstrometryParser::checkStatus(ISwitchVectorProperty * svp)
 {
     if (solverRunning == false || strcmp(svp->name, "ASTROMETRY_SOLVER"))
         return;

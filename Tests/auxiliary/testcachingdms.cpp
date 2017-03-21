@@ -39,11 +39,11 @@ TestCachingDms::~TestCachingDms()
 
 void TestCachingDms::defaultCtor()
 {
-  /*
-   * Test 1: Check Default Constructor
-  */
+    /*
+     * Test 1: Check Default Constructor
+    */
 
-  // Check default empty constructor
+    // Check default empty constructor
     CachingDms d;
     QVERIFY(std::isnan(d.Degrees()));
     QVERIFY( std::isnan( d.sin() ) );
@@ -112,7 +112,8 @@ void TestCachingDms::stringCtor()
 }
 
 
-void TestCachingDms::setUsing_asin() {
+void TestCachingDms::setUsing_asin()
+{
     // Test case in first quadrant: 56.3 degrees
     CachingDms d;
     d.setUsing_asin( .83195412213048254606 );
@@ -126,7 +127,8 @@ void TestCachingDms::setUsing_asin() {
 }
 
 
-void TestCachingDms::setUsing_acos() {
+void TestCachingDms::setUsing_acos()
+{
     CachingDms d;
 
     // Test case in first quadrant: 56.3 degrees
@@ -141,7 +143,8 @@ void TestCachingDms::setUsing_acos() {
 
 }
 
-void TestCachingDms::setUsing_atan2() {
+void TestCachingDms::setUsing_atan2()
+{
     // Test case in first quadrant: 56.3 degrees
     CachingDms d;
     d.setUsing_atan2( 2.73701935509448143467, 1.82536500102022632674 );
@@ -193,7 +196,8 @@ void TestCachingDms::setUsing_atan2() {
 }
 
 
-void TestCachingDms::unaryMinusOperator() {
+void TestCachingDms::unaryMinusOperator()
+{
     CachingDms d( 56.3 );
     qDebug() << ( -d ).Degrees();
     QVERIFY( ( -d ).Degrees() == -56.3 );
@@ -202,7 +206,8 @@ void TestCachingDms::unaryMinusOperator() {
 }
 
 
-void TestCachingDms::additionOperator() {
+void TestCachingDms::additionOperator()
+{
     const double a = 123.7;
     const double b = 89.5;
     CachingDms d1( a );
@@ -225,7 +230,8 @@ void TestCachingDms::additionOperator() {
 }
 
 
-void TestCachingDms::subtractionOperator() {
+void TestCachingDms::subtractionOperator()
+{
     const double a = 123.7;
     const double b = 89.5;
     CachingDms d1( a );
@@ -248,53 +254,66 @@ void TestCachingDms::subtractionOperator() {
 }
 
 
-void TestCachingDms::testFailsafeUseOfBaseClassPtr() {
-    typedef union angle { double x; int64_t y; } angle;
+void TestCachingDms::testFailsafeUseOfBaseClassPtr()
+{
+    typedef union angle
+    {
+        double x;
+        int64_t y;
+    } angle;
     const int testCases = 5000;
     std::srand( std::time( 0 ) );
-    for ( int k = 0; k < testCases; ++k ) {
-        angle a; CachingDms _a; dms __a;
+    for ( int k = 0; k < testCases; ++k )
+    {
+        angle a;
+        CachingDms _a;
+        dms __a;
         a.y = std::rand();
         _a.setD( a.x );
         __a.setD( a.x );
-        dms *d;
+        dms * d;
         if ( rand()%10 > 5 )
             d = &_a;
         else
             d = &__a;
         angle b;
         b.y = std::rand();
-        switch( rand()%7 ) {
-        case 0:
-            d->setD( b.x );
-            break;
-        case 1:
-            d->setH( b.x / 15. );
-            break;
-        case 2: {
-            dms x( b.x );
-            d->setD( x.degree(), x.arcmin(), x.arcsec(), x.marcsec() );
-            break;
-        }
-        case 3: {
-            dms x( b.x );
-            d->setFromString( x.toDMSString() );
-            break;
-        }
-        case 4: {
-            dms x( b.x );
-            d->setFromString( x.toHMSString(), false );
-            break;
-        }
-        case 5: {
-            dms x( b.x );
-            dms y( 0.0 );
-            *d = x + y;
-        }
-        case 6:
-        default:
-            d->setRadians( b.x * dms::DegToRad );
-            break;
+        switch( rand()%7 )
+        {
+            case 0:
+                d->setD( b.x );
+                break;
+            case 1:
+                d->setH( b.x / 15. );
+                break;
+            case 2:
+            {
+                dms x( b.x );
+                d->setD( x.degree(), x.arcmin(), x.arcsec(), x.marcsec() );
+                break;
+            }
+            case 3:
+            {
+                dms x( b.x );
+                d->setFromString( x.toDMSString() );
+                break;
+            }
+            case 4:
+            {
+                dms x( b.x );
+                d->setFromString( x.toHMSString(), false );
+                break;
+            }
+            case 5:
+            {
+                dms x( b.x );
+                dms y( 0.0 );
+                *d = x + y;
+            }
+            case 6:
+            default:
+                d->setRadians( b.x * dms::DegToRad );
+                break;
         }
         QVERIFY( fabs( d->sin() - sin( b.x * dms::DegToRad ) ) < 1e-12 );
         QVERIFY( fabs( d->cos() - cos( b.x * dms::DegToRad ) ) < 1e-12 );

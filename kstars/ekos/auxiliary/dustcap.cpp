@@ -31,7 +31,7 @@ DustCap::~DustCap()
 
 }
 
-void DustCap::setDustCap(ISD::GDInterface *newDustCap)
+void DustCap::setDustCap(ISD::GDInterface * newDustCap)
 {
     currentDustCap = static_cast<ISD::DustCap *>(newDustCap);
 }
@@ -41,7 +41,7 @@ DustCap::ParkingStatus DustCap::getParkingStatus()
     if (currentDustCap == NULL)
         return PARKING_ERROR;
 
-    ISwitchVectorProperty *parkSP = currentDustCap->getBaseDevice()->getSwitch("CAP_PARK");
+    ISwitchVectorProperty * parkSP = currentDustCap->getBaseDevice()->getSwitch("CAP_PARK");
 
     if (parkSP == NULL)
         return PARKING_ERROR;
@@ -58,7 +58,7 @@ DustCap::ParkingStatus DustCap::getParkingStatus()
                 return UNPARKING_OK;
             break;
 
-         case IPS_BUSY:
+        case IPS_BUSY:
             if (parkSP->sp[0].s == ISS_ON)
                 return PARKING_BUSY;
             else

@@ -45,10 +45,11 @@
 #include <QSvgRenderer>
 #include <QSvgGenerator>
 
-EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
+EyepieceField::EyepieceField( QWidget * parent ) : QDialog( parent )
+{
 
 #ifdef Q_OS_OSX
-        setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
+    setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
 
     setWindowTitle( i18n( "Eyepiece Field View" ) );
@@ -60,18 +61,18 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     m_fovWidth = m_fovHeight = 0;
     m_dler = 0;
 
-    QWidget *mainWidget = new QWidget( this );
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QWidget * mainWidget = new QWidget( this );
+    QVBoxLayout * mainLayout = new QVBoxLayout;
     mainLayout->addWidget(mainWidget);
     setLayout(mainLayout);
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox( QDialogButtonBox::Close );
+    QDialogButtonBox * buttonBox = new QDialogButtonBox( QDialogButtonBox::Close );
     buttonBox->addButton( i18nc("Export image", "Export"), QDialogButtonBox::AcceptRole );
     mainLayout->addWidget(buttonBox);
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotExport()));
 
-    QVBoxLayout *rows = new QVBoxLayout;
+    QVBoxLayout * rows = new QVBoxLayout;
     mainWidget->setLayout( rows );
 
     m_skyChartDisplay = new QLabel;
@@ -85,7 +86,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     m_skyImageDisplay->setMinimumWidth( 400 );
     m_skyImageDisplay->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Expanding );
 
-    QHBoxLayout *imageLayout = new QHBoxLayout;
+    QHBoxLayout * imageLayout = new QHBoxLayout;
     rows->addLayout( imageLayout );
     imageLayout->addWidget( m_skyChartDisplay );
     imageLayout->addWidget( m_skyImageDisplay );
@@ -98,7 +99,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
     m_getDSS->setVisible( false );
 
-    QHBoxLayout *optionsLayout = new QHBoxLayout;
+    QHBoxLayout * optionsLayout = new QHBoxLayout;
     optionsLayout->addWidget( m_invertView );
     optionsLayout->addWidget( m_flipView );
     optionsLayout->addStretch();
@@ -114,7 +115,7 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     m_rotationSlider->setTickInterval( 30 );
     m_rotationSlider->setPageStep( 30 );
 
-    QLabel *sliderLabel = new QLabel( i18n( "Rotation: " ), this );
+    QLabel * sliderLabel = new QLabel( i18n( "Rotation: " ), this );
 
     m_presetCombo = new QComboBox( this );
     m_presetCombo->addItem( i18n( "None" ) );
@@ -123,9 +124,9 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
     m_presetCombo->addItem( i18n( "Refractor" ) );
     m_presetCombo->addItem( i18n( "Dobsonian" ) );
 
-    QLabel *presetLabel = new QLabel( i18n( "Preset: " ), this );
+    QLabel * presetLabel = new QLabel( i18n( "Preset: " ), this );
 
-    QHBoxLayout *rotationLayout = new QHBoxLayout;
+    QHBoxLayout * rotationLayout = new QHBoxLayout;
     rotationLayout->addWidget( sliderLabel );
     rotationLayout->addWidget( m_rotationSlider );
     rotationLayout->addWidget( presetLabel );
@@ -147,7 +148,8 @@ EyepieceField::EyepieceField( QWidget *parent ) : QDialog( parent ) {
 
 }
 
-void EyepieceField::slotEnforcePreset( int index ) {
+void EyepieceField::slotEnforcePreset( int index )
+{
     if( index == -1 )
         index = m_presetCombo->currentIndex();
     if( index == -1 )
@@ -164,37 +166,39 @@ void EyepieceField::slotEnforcePreset( int index ) {
         dobRot -= 360.0;
     if( dobRot < -180.0 )
         dobRot += 360.0;
-    switch( index ) {
-    case 1:
-        // Preset vanilla
-        m_rotationSlider->setValue( 0.0 ); // reset rotation
-        m_invertView->setChecked( false ); // reset inversion
-        m_flipView->setChecked( false ); // reset flip
-        break;
-    case 2:
-        // Preset flipped
-        m_rotationSlider->setValue( 0.0 ); // reset rotation
-        m_invertView->setChecked( false ); // reset inversion
-        m_flipView->setChecked( true ); // set flip
-        break;
-    case 3:
-        // Preset refractor
-        m_rotationSlider->setValue( altAzRot );
-        m_invertView->setChecked( true );
-        m_flipView->setChecked( false );
-        break;
-    case 4:
-        // Preset Dobsonian
-        m_rotationSlider->setValue( dobRot ); // set rotation for dob
-        m_invertView->setChecked( true ); // set inversion
-        m_flipView->setChecked( false );
-        break;
-    default:
-        break;
+    switch( index )
+    {
+        case 1:
+            // Preset vanilla
+            m_rotationSlider->setValue( 0.0 ); // reset rotation
+            m_invertView->setChecked( false ); // reset inversion
+            m_flipView->setChecked( false ); // reset flip
+            break;
+        case 2:
+            // Preset flipped
+            m_rotationSlider->setValue( 0.0 ); // reset rotation
+            m_invertView->setChecked( false ); // reset inversion
+            m_flipView->setChecked( true ); // set flip
+            break;
+        case 3:
+            // Preset refractor
+            m_rotationSlider->setValue( altAzRot );
+            m_invertView->setChecked( true );
+            m_flipView->setChecked( false );
+            break;
+        case 4:
+            // Preset Dobsonian
+            m_rotationSlider->setValue( dobRot ); // set rotation for dob
+            m_invertView->setChecked( true ); // set inversion
+            m_flipView->setChecked( false );
+            break;
+        default:
+            break;
     }
 }
 
-void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, const QString &imagePath ) {
+void EyepieceField::showEyepieceField( SkyPoint * sp, FOV const * const fov, const QString &imagePath )
+{
 
     double fovWidth, fovHeight;
 
@@ -202,14 +206,17 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
 
     // See if we were supplied a sky image; if so, load its metadata
     // Set up the new sky map FOV and pointing. full map FOV = 4 times the given FOV.
-    if( fov ) {
+    if( fov )
+    {
         fovWidth = fov->sizeX();
         fovHeight = fov->sizeY();
     }
-    else if( QFile::exists( imagePath ) ) {
+    else if( QFile::exists( imagePath ) )
+    {
         fovWidth = fovHeight = -1.0; // figure out from the image.
     }
-    else {
+    else
+    {
         //Q_ASSERT( false );
         // Don't crash the program
         KMessageBox::error(0, i18n(("No image found. Please specify the exact FOV.")));
@@ -221,19 +228,23 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, FOV const * const fov, cons
 
 }
 
-void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, double fovHeight, const QString &imagePath ) {
+void EyepieceField::showEyepieceField( SkyPoint * sp, const double fovWidth, double fovHeight, const QString &imagePath )
+{
 
     if( !m_skyChart )
         m_skyChart = new QImage();
 
-    if( QFile::exists( imagePath ) ) {
+    if( QFile::exists( imagePath ) )
+    {
         qDebug() << "Image path " << imagePath << " exists";
-        if( !m_skyImage ) {
+        if( !m_skyImage )
+        {
             qDebug() << "Sky image did not exist, creating.";
             m_skyImage = new QImage();
         }
     }
-    else {
+    else
+    {
         delete m_skyImage;
         m_skyImage = 0;
     }
@@ -243,7 +254,8 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
     m_lat = KStarsData::Instance()->geo()->lat()->radians();
 
     // Keep a copy for local purposes (computation of field rotation etc.)
-    if( m_sp != sp ) {
+    if( m_sp != sp )
+    {
         if( m_sp )
             delete m_sp;
         m_sp = new SkyPoint( *sp );
@@ -263,20 +275,24 @@ void EyepieceField::showEyepieceField( SkyPoint *sp, const double fovWidth, doub
 
 }
 
-void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage *skyImage, const FOV *fov, const QString &imagePath ) {
-    if( fov ) {
+void EyepieceField::generateEyepieceView( SkyPoint * sp, QImage * skyChart, QImage * skyImage, const FOV * fov, const QString &imagePath )
+{
+    if( fov )
+    {
         generateEyepieceView( sp, skyChart, skyImage, fov->sizeX(), fov->sizeY(), imagePath );
     }
-    else {
+    else
+    {
         generateEyepieceView( sp, skyChart, skyImage, -1.0, -1.0, imagePath );
     }
 }
 
-void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage *skyImage, double fovWidth, double fovHeight,
-                                          const QString &imagePath ) {
+void EyepieceField::generateEyepieceView( SkyPoint * sp, QImage * skyChart, QImage * skyImage, double fovWidth, double fovHeight,
+        const QString &imagePath )
+{
 
-    SkyMap *map = SkyMap::Instance();
-    KStars *ks = KStars::Instance();
+    SkyMap * map = SkyMap::Instance();
+    KStars * ks = KStars::Instance();
 
     Q_ASSERT( sp );
     Q_ASSERT( map );
@@ -289,7 +305,8 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
     if( !map ) // Requires initialization of Sky map.
         return;
 
-    if( fovWidth <= 0 ) {
+    if( fovWidth <= 0 )
+    {
         if( !QFile::exists( imagePath ) )
             return;
         // Otherwise, we will assume that the user wants the FOV of the image and we'll try to guess it from there
@@ -299,11 +316,13 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
 
     // Get DSS image width / height
     double dssWidth, dssHeight;
-    if( QFile::exists( imagePath ) ) {
+    if( QFile::exists( imagePath ) )
+    {
         KSDssImage dssImage( imagePath );
         dssWidth = dssImage.getMetadata().width;
         dssHeight = dssImage.getMetadata().height;
-        if( !dssImage.getMetadata().isValid() || dssWidth == 0 || dssHeight == 0 ) {
+        if( !dssImage.getMetadata().isValid() || dssWidth == 0 || dssHeight == 0 )
+        {
             // Metadata unavailable, guess based on most common DSS arcsec/pixel
             //const double dssArcSecPerPixel = 1.01;
             dssWidth = dssImage.getImage().width()*1.01/60.0;
@@ -314,14 +333,15 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
 
 
     // Set FOV width/height from DSS if necessary
-    if( fovWidth <= 0 ) {
+    if( fovWidth <= 0 )
+    {
         fovWidth = dssWidth;
         fovHeight = dssHeight;
     }
 
     // Grab the sky chart
     // Save the current state of the sky map
-    SkyPoint *oldFocus = map->focus();
+    SkyPoint * oldFocus = map->focus();
     double oldZoomFactor = Options::zoomFactor();
 
     // Set the right zoom
@@ -366,7 +386,7 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
 
     // Render SVG file on raster QImage canvas
     QSvgRenderer svgRenderer( myTempSvgFile.fileName() );
-    QImage *mySkyChart = new QImage( arcMinToScreen * fovWidth * 2.0, arcMinToScreen * fovHeight * 2.0, QImage::Format_ARGB32 ); // 2 times bigger in both dimensions.
+    QImage * mySkyChart = new QImage( arcMinToScreen * fovWidth * 2.0, arcMinToScreen * fovHeight * 2.0, QImage::Format_ARGB32 ); // 2 times bigger in both dimensions.
     QPainter p2( mySkyChart );
     svgRenderer.render( &p2 );
     p2.end();
@@ -390,14 +410,16 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
     map->forceUpdate();
 
     // Prepare the sky image
-    if( QFile::exists( imagePath ) && skyImage ) {
+    if( QFile::exists( imagePath ) && skyImage )
+    {
 
-        QImage *mySkyImage = 0;
+        QImage * mySkyImage = 0;
         mySkyImage = new QImage( int(arcMinToScreen * fovWidth * 2.0), int(arcMinToScreen * fovHeight * 2.0), QImage::Format_ARGB32 );
         mySkyImage->fill( Qt::transparent );
         QPainter p( mySkyImage );
         QImage rawImg( imagePath );
-        if( rawImg.isNull() ) {
+        if( rawImg.isNull() )
+        {
             qWarning() << "Image constructed from " << imagePath << "is a null image! Are you sure you supplied an image file? Continuing nevertheless...";
         }
 
@@ -405,7 +427,8 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
         const auto ksd = KStarsData::Instance();
         sp->updateCoordsNow( ksd->updateNum() );
 
-        if( Options::useAltAz() ) {
+        if( Options::useAltAz() )
+        {
             // Need to rotate the image so that up is towards zenith rather than north.
             sp->EquatorialToHorizontal( ksd->lst(), ksd->geo()->lat() );
             dms northBearing = findNorthAngle( sp, ksd->geo()->lat() );
@@ -423,8 +446,9 @@ void EyepieceField::generateEyepieceView( SkyPoint *sp, QImage *skyChart, QImage
     }
 }
 
-void EyepieceField::renderEyepieceView( const QImage *skyChart, QPixmap *renderChart, const double rotation, const double scale, const bool flip, const bool invert,
-                                        const QImage *skyImage, QPixmap *renderImage, const bool overlay, const bool invertColors ) {
+void EyepieceField::renderEyepieceView( const QImage * skyChart, QPixmap * renderChart, const double rotation, const double scale, const bool flip, const bool invert,
+                                        const QImage * skyImage, QPixmap * renderImage, const bool overlay, const bool invertColors )
+{
     QTransform transform;
     bool deleteRenderImage = false;
     transform.rotate( rotation );
@@ -440,15 +464,18 @@ void EyepieceField::renderEyepieceView( const QImage *skyChart, QPixmap *renderC
 
     *renderChart = QPixmap::fromImage( skyChart->transformed( transform, Qt::SmoothTransformation ) );
 
-    if( skyImage ) {
+    if( skyImage )
+    {
         Q_ASSERT( overlay || renderImage ); // in debug mode, check for calls that supply skyImage but not renderImage
     }
-    if( overlay && !renderImage ) {
+    if( overlay && !renderImage )
+    {
         renderImage = new QPixmap(); // temporary, used for rendering skymap before overlay is done.
         deleteRenderImage = true; // we created it, so we must delete it.
     }
 
-    if( skyImage && renderImage ) {
+    if( skyImage && renderImage )
+    {
         if( skyImage->isNull() )
             qWarning() << "Sky image supplied to renderEyepieceView() for rendering is a Null image!";
         QImage i;
@@ -457,7 +484,8 @@ void EyepieceField::renderEyepieceView( const QImage *skyChart, QPixmap *renderC
             i.invertPixels();
         *renderImage = QPixmap::fromImage( i );
     }
-    if( overlay && skyImage ) {
+    if( overlay && skyImage )
+    {
         QColor skyColor = KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" );
         QBitmap mask = QBitmap::fromImage( skyChart->createMaskFromColor( skyColor.rgb() ).transformed( transform, Qt::SmoothTransformation ) );
         renderChart->setMask( mask );
@@ -477,9 +505,10 @@ void EyepieceField::renderEyepieceView( const QImage *skyChart, QPixmap *renderC
 
 }
 
-void EyepieceField::renderEyepieceView( SkyPoint *sp, QPixmap *renderChart, double fovWidth, double fovHeight, const double rotation, const double scale,
-                                        const bool flip, const bool invert, const QString &imagePath, QPixmap *renderImage, const bool overlay, const bool invertColors) {
-    QImage *skyChart, *skyImage = 0;
+void EyepieceField::renderEyepieceView( SkyPoint * sp, QPixmap * renderChart, double fovWidth, double fovHeight, const double rotation, const double scale,
+                                        const bool flip, const bool invert, const QString &imagePath, QPixmap * renderImage, const bool overlay, const bool invertColors)
+{
+    QImage * skyChart, *skyImage = 0;
     skyChart = new QImage();
     if( QFile::exists( imagePath ) && ( renderImage || overlay ) )
         skyImage = new QImage();
@@ -491,7 +520,8 @@ void EyepieceField::renderEyepieceView( SkyPoint *sp, QPixmap *renderChart, doub
 }
 
 
-void EyepieceField::render() {
+void EyepieceField::render()
+{
 
     double rotation = m_rotationSlider->value();
     bool flip = m_flipView->isChecked();
@@ -505,13 +535,15 @@ void EyepieceField::render() {
                         m_skyImage, &m_renderImage, overlay, invertColors );
 
     m_skyChartDisplay->setVisible( !overlay );
-    if( m_skyImage ) {
+    if( m_skyImage )
+    {
         m_skyImageDisplay->setVisible( true );
         m_overlay->setVisible( true );
         m_invertColors->setVisible( true );
         m_getDSS->setVisible( false );
     }
-    else {
+    else
+    {
         m_skyImageDisplay->setVisible( false );
         m_overlay->setVisible( false );
         m_invertColors->setVisible( false );
@@ -528,16 +560,20 @@ void EyepieceField::render() {
     show();
 }
 
-void EyepieceField::slotDownloadDss() {
+void EyepieceField::slotDownloadDss()
+{
     double fovWidth, fovHeight;
-    if( m_fovWidth == 0 && m_currentFOV == 0 ) {
+    if( m_fovWidth == 0 && m_currentFOV == 0 )
+    {
         fovWidth = fovHeight = 15.0;
     }
-    else if( m_currentFOV ) {
+    else if( m_currentFOV )
+    {
         fovWidth = m_currentFOV->sizeX();
         fovHeight = m_currentFOV->sizeY();
     }
-    if( !m_dler ) {
+    if( !m_dler )
+    {
         m_dler = new KSDssDownloader( this );
         connect( m_dler, SIGNAL ( downloadComplete( bool ) ), SLOT ( slotDssDownloaded( bool ) ) );
     }
@@ -548,8 +584,10 @@ void EyepieceField::slotDownloadDss() {
     m_tempFile.close();
 }
 
-void EyepieceField::slotDssDownloaded( bool success ) {
-    if( !success ) {
+void EyepieceField::slotDssDownloaded( bool success )
+{
+    if( !success )
+    {
         KMessageBox::sorry(0, i18n( "Failed to download DSS/SDSS image!" ) );
         return;
     }
@@ -557,18 +595,21 @@ void EyepieceField::slotDssDownloaded( bool success ) {
         showEyepieceField( m_sp, m_fovWidth, m_fovHeight, m_tempFile.fileName() );
 }
 
-EyepieceField::~EyepieceField() {
+EyepieceField::~EyepieceField()
+{
     // Empty
     delete m_skyChart;
     delete m_skyImage;
 }
 
-void EyepieceField::slotExport() {
+void EyepieceField::slotExport()
+{
     bool overlay = m_overlay->isChecked() && m_skyImage;
     new ExportEyepieceView( m_sp, *m_dt, ((m_skyImage && !overlay) ? &m_renderImage : 0), &m_renderChart, this );
 }
 
-dms EyepieceField::findNorthAngle( const SkyPoint *sp, const dms *lat ) {
+dms EyepieceField::findNorthAngle( const SkyPoint * sp, const dms * lat )
+{
     Q_ASSERT( sp && lat );
 
     // NOTE: northAngle1 is the correction due to lunisolar precession
@@ -598,7 +639,7 @@ dms EyepieceField::findNorthAngle( const SkyPoint *sp, const dms *lat ) {
         northAngle2 = -northAngle2;
     double northAngle = northAngle1 + northAngle2;
     qDebug() << "Data: alt = " << sp->alt().toDMSString() << "; az = " << sp->az().toDMSString() << "; ra, dec (" << sp->getLastPrecessJD()/365.25 << ") = " << sp->ra().toHMSString() <<
-        "," << sp->dec().toDMSString() << "; ra0,dec0 (J2000.0) = " << sp->ra0().toHMSString() << "," << sp->dec0().toDMSString();
+             "," << sp->dec().toDMSString() << "; ra0,dec0 (J2000.0) = " << sp->ra0().toHMSString() << "," << sp->dec0().toDMSString();
     qDebug() << "PA corrections: precession cosine = " << cosNorthAngle1 << "; angle = " << northAngle1 << "; horizontal = " << cosNorthAngle2 << "; angle = " << northAngle2;
     return dms( northAngle * 180/M_PI );
 }

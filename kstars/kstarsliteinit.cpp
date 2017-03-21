@@ -6,7 +6,8 @@
 
 #include "Options.h"
 
-void KStarsLite::datainitFinished() {
+void KStarsLite::datainitFinished()
+{
     //Time-related connections
     connect( data()->clock(), SIGNAL( timeAdvanced() ),
              this, SLOT( updateTime() ) );
@@ -37,7 +38,8 @@ void KStarsLite::datainitFinished() {
     updateTime();
 
     //If this is the first startup, show the wizard
-    if ( Options::runStartupWizard() ) {
+    if ( Options::runStartupWizard() )
+    {
     }
 
     //DEBUG
@@ -54,24 +56,32 @@ void KStarsLite::datainitFinished() {
     Options::setAutoSelectGrid(false);
 }
 
-void KStarsLite::initFocus() {
+void KStarsLite::initFocus()
+{
     //Case 1: tracking on an object
-    if ( Options::isTracking() && Options::focusObject() != i18n("nothing") ) {
-        SkyObject *oFocus;
-        if ( Options::focusObject() == i18n("star") ) {
+    if ( Options::isTracking() && Options::focusObject() != i18n("nothing") )
+    {
+        SkyObject * oFocus;
+        if ( Options::focusObject() == i18n("star") )
+        {
             SkyPoint p( Options::focusRA(), Options::focusDec() );
             double maxrad = 1.0;
 
             oFocus = data()->skyComposite()->starNearest( &p, maxrad );
-        } else {
+        }
+        else
+        {
             oFocus = data()->objectNamed( Options::focusObject() );
         }
 
-        if ( oFocus ) {
+        if ( oFocus )
+        {
             map()->setFocusObject( oFocus );
             map()->setClickedObject( oFocus );
             map()->setFocusPoint( oFocus );
-        } else {
+        }
+        else
+        {
             qWarning() << "Cannot center on "
                        << Options::focusObject()
                        << ": no object found." << endl;
@@ -79,7 +89,9 @@ void KStarsLite::initFocus() {
 
         //Case 2: not tracking, and using Alt/Az coords.  Set focus point using
         //FocusRA as the Azimuth, and FocusDec as the Altitude
-    } else if ( ! Options::isTracking() && Options::useAltAz() ) {
+    }
+    else if ( ! Options::isTracking() && Options::useAltAz() )
+    {
         SkyPoint pFocus;
         pFocus.setAz( Options::focusRA() );
         pFocus.setAlt( Options::focusDec() );
@@ -88,7 +100,9 @@ void KStarsLite::initFocus() {
 
         //Default: set focus point using FocusRA as the RA and
         //FocusDec as the Dec
-    } else {
+    }
+    else
+    {
         SkyPoint pFocus( Options::focusRA(), Options::focusDec() );
         pFocus.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
         map()->setFocusPoint( &pFocus );
@@ -101,7 +115,8 @@ void KStarsLite::initFocus() {
 
     //Check whether initial position is below the horizon.
     if ( Options::useAltAz() && Options::showGround() &&
-         map()->focus()->alt().Degrees() < -1.0 ) {
+            map()->focus()->alt().Degrees() < -1.0 )
+    {
         QString caption = i18n( "Initial Position is Below Horizon" );
         QString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );
         map()->setClickedObject( NULL );
@@ -118,9 +133,9 @@ void KStarsLite::initFocus() {
     }
 
 //If there is a focusObject() and it is a SS body, add a temporary Trail
-/*if ( map()->focusObject() && map()->focusObject()->isSolarSystem()
-            && Options::useAutoTrail() ) {
-        ((KSPlanetBase*)map()->focusObject())->addToTrail();
-        data()->temporaryTrail = true;
-    }*/
+    /*if ( map()->focusObject() && map()->focusObject()->isSolarSystem()
+                && Options::useAutoTrail() ) {
+            ((KSPlanetBase*)map()->focusObject())->addToTrail();
+            data()->temporaryTrail = true;
+        }*/
 }

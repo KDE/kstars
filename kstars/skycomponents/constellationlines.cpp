@@ -40,7 +40,7 @@
 #include "skypainter.h"
 
 
-ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultures ) :
+ConstellationLines::ConstellationLines( SkyComposite * parent, CultureList * cultures ) :
     LineListIndex( parent, i18n("Constellation Lines") ),
     m_reindexNum(J2000)
 {
@@ -64,13 +64,14 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
     intro();
 
     bool culture = false;
-    LineList *lineList(0);
+    LineList * lineList(0);
     double maxPM(0.0);
 
     KSFileReader fileReader;
     if ( ! fileReader.open( "clines.dat" ) )
         return;
-    while ( fileReader.hasMoreLines() ) {
+    while ( fileReader.hasMoreLines() )
+    {
         QString line = fileReader.readLine();
         if( line.isEmpty() )
             continue;
@@ -82,23 +83,27 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
         //In this case, add the existing clc component to the composite,
         //then prepare a new one.
 
-        if ( mode == 'C') {
+        if ( mode == 'C')
+        {
             QString cultureName = line.mid( 2 ).trimmed();
             culture = cultureName == cultures->current();
             continue;
         }
 
-        if ( culture ) {
+        if ( culture )
+        {
             //Mode == 'M' starts a new series of line segments, joined end to end
-            if ( mode == 'M' ) {
+            if ( mode == 'M' )
+            {
                 if( lineList )
                     appendLine( lineList );
                 lineList = new LineList();
             }
 
             int HDnum = line.mid( 2 ).trimmed().toInt();
-            StarObject *star = static_cast<StarObject*>( StarComponent::Instance()->findByHDIndex( HDnum ) );
-            if ( star && lineList ) {
+            StarObject * star = static_cast<StarObject *>( StarComponent::Instance()->findByHDIndex( HDnum ) );
+            if ( star && lineList )
+            {
                 lineList->append( star );
                 double pm = star->pmMagnitude();
                 if ( maxPM < pm )
@@ -129,33 +134,35 @@ bool ConstellationLines::selected()
 #endif
 }
 
-void ConstellationLines::preDraw( SkyPainter* skyp )
+void ConstellationLines::preDraw( SkyPainter * skyp )
 {
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     QColor color = data->colorScheme()->colorNamed( "CLineColor" );
     skyp->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }
 
-const IndexHash& ConstellationLines::getIndexHash(LineList* lineList ) {
+const IndexHash &ConstellationLines::getIndexHash(LineList * lineList )
+{
     return skyMesh()->indexStarLine( lineList->points() );
 }
 
 // JIT updating makes this simple.  Star updates are called from within both
 // StarComponent and ConstellationLines.  If the update is redundant then
 // StarObject::JITupdate() simply returns without doing any work.
-void ConstellationLines::JITupdate( LineList* lineList )
+void ConstellationLines::JITupdate( LineList * lineList )
 {
-    KStarsData *data = KStarsData::Instance();
+    KStarsData * data = KStarsData::Instance();
     lineList->updateID = data->updateID();
 
-    SkyList* points = lineList->points();
-    for (int i = 0; i < points->size(); i++ ) {
-        StarObject* star = (StarObject*) points->at( i );
+    SkyList * points = lineList->points();
+    for (int i = 0; i < points->size(); i++ )
+    {
+        StarObject * star = (StarObject *) points->at( i );
         star->JITupdate();
     }
 }
 
-void ConstellationLines::reindex( KSNumbers *num )
+void ConstellationLines::reindex( KSNumbers * num )
 {
     if ( ! num ) return;
 

@@ -24,7 +24,7 @@
 
 /**
  *@struct AuxInfo
- *Stores Users' Logs and QStringLists of URLs for images 
+ *Stores Users' Logs and QStringLists of URLs for images
  *and webpages regarding an object in the sky.
  *@short Auxiliary information associated with a SkyObject.
  *@author Akarsh Simha
@@ -33,14 +33,14 @@
 
 class AuxInfo : public QSharedData
 {
-public:
-    QStringList ImageList;
-    QStringList ImageTitle;
-    QStringList InfoList;
-    QStringList InfoTitle;
-    QString userLog;
-    QString notes;
-    QHash<QString, QVariant> otherData;
+    public:
+        QStringList ImageList;
+        QStringList ImageTitle;
+        QStringList InfoList;
+        QStringList InfoTitle;
+        QString userLog;
+        QString notes;
+        QHash<QString, QVariant> otherData;
 };
 
 #endif
