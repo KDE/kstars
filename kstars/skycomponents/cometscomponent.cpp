@@ -41,6 +41,9 @@
 #include "projections/projector.h"
 #include "auxiliary/filedownloader.h"
 #include "kspaths.h"
+#include <deepskycomponent.h>
+#include <QPainter>
+
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent ) {
@@ -184,6 +187,38 @@ void CometsComponent::loadData() {
         objectLists( SkyObject::COMET ).append(QPair<QString, const SkyObject*>(com->name(),com));
     }
 }
+/*
+void CometsComponent::draw( SkyPainter *skyp )
+{
+    Q_UNUSED(skyp)
+#ifndef KSTARS_LITE
+    if( !selected() || Options::zoomFactor() < 10*MINZOOM )
+        return;
+
+    bool hideLabels =  ! Options::showCometNames() ||
+                       (SkyMap::Instance()->isSlewing() &&
+                        Options::hideLabels() );
+    double rsunLabelLimit = Options::maxRadCometName();
+
+    //FIXME: Should these be config'able?
+    skyp->setPen( QPen( QColor( "darkcyan" ) ) );
+    skyp->setBrush( QBrush( QColor( "darkcyan" ) ) );
+
+
+    foreach ( SkyObject *so, m_ObjectList ) {
+        KSComet *com = (KSComet*)so;
+        double mag= com->mag();
+        if (std::isnan(mag) == 0)
+        {
+            bool drawn = skyp->drawPointSource(com,mag);        
+            if ( drawn && !(hideLabels || com->rsun() >= rsunLabelLimit) )
+                SkyLabeler::AddLabel( com, SkyLabeler::COMET_LABEL );
+        }
+    }
+#endif
+}
+*/
+
 
 void CometsComponent::draw( SkyPainter *skyp )
 {
@@ -201,18 +236,20 @@ void CometsComponent::draw( SkyPainter *skyp )
     skyp->setPen( QPen( QColor( "darkcyan" ) ) );
     skyp->setBrush( QBrush( QColor( "darkcyan" ) ) );
 
+
     foreach ( SkyObject *so, m_ObjectList ) {
         KSComet *com = (KSComet*)so;
         double mag= com->mag();
         if (std::isnan(mag) == 0)
         {
-            bool drawn = skyp->drawPointSource(com,mag);
+            bool drawn = skyp->drawComet(com);        
             if ( drawn && !(hideLabels || com->rsun() >= rsunLabelLimit) )
                 SkyLabeler::AddLabel( com, SkyLabeler::COMET_LABEL );
         }
     }
 #endif
 }
+
 
 void CometsComponent::updateDataFile()
 {

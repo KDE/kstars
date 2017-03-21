@@ -23,6 +23,8 @@ class SkyLabeler;
 #include "solarsystemlistcomponent.h"
 #include "ksparser.h"
 #include <QList>
+#include <QPainter>
+#include "deepskycomponent.h"
 
 class FileDownloader;
 
