@@ -1062,7 +1062,7 @@ void Align::updatePreviewAlignPoints()
 
 void Align::slotLoadAlignmentPoints()
 {
-    QUrl fileURL = QFileDialog::getOpenFileUrl(KStars::Instance(), i18n("Open Ekos Alignment List"), alignURLPath, "Ekos AlignmentList (*.eal)");
+    QUrl fileURL = QFileDialog::getOpenFileUrl(&mountModelDialog, i18n("Open Ekos Alignment List"), alignURLPath, "Ekos AlignmentList (*.eal)");
     if (fileURL.isEmpty())
         return;
 
@@ -1182,7 +1182,7 @@ void Align::slotSaveAlignmentPoints()
 
     if (alignURL.isEmpty())
     {
-        alignURL = QFileDialog::getSaveFileUrl(KStars::Instance(), i18n("Save Ekos Alignment List"), alignURLPath, "Ekos Alignment List (*.eal)");
+        alignURL = QFileDialog::getSaveFileUrl(&mountModelDialog, i18n("Save Ekos Alignment List"), alignURLPath, "Ekos Alignment List (*.eal)");
         // if user presses cancel
         if (alignURL.isEmpty())
         {
@@ -2814,8 +2814,6 @@ void Align::solverFinished(double orientation, double ra, double dec, double pix
                 statusReport->setIcon(QIcon(":/icons/AlignSuccess.svg"));
                 solutionTable->setItem(currentRow, 3, statusReport);
             }
-            if(mountModelRunning)
-                finishAlignmentPoint(true);
 
             return;
             break;
@@ -3116,6 +3114,9 @@ void Align::processTelescopeNumber(INumberVectorProperty * coord)
                             KNotification::event( QLatin1String( "AlignSuccessful"), i18n("Astrometry alignment completed successfully") );
                             state = ALIGN_COMPLETE;
                             emit newStatus(state);
+
+                            if(mountModelRunning)
+                                finishAlignmentPoint(true);
                         }
                     }
                     break;
