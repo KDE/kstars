@@ -168,6 +168,9 @@
              <property name="text">
               <string>Next</string>
              </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -239,6 +242,9 @@
                 <string>What is
 INDI?</string>
                </property>
+               <property name="autoDefault">
+                <bool>false</bool>
+               </property>
                <property name="default">
                 <bool>false</bool>
                </property>
@@ -259,6 +265,9 @@ INDI?</string>
                 <string>Discover
 Ekos</string>
                </property>
+               <property name="autoDefault">
+                <bool>false</bool>
+               </property>
                <property name="default">
                 <bool>false</bool>
                </property>
@@ -278,6 +287,9 @@ Ekos</string>
                <property name="text">
                 <string>Video
 Tutorials</string>
+               </property>
+               <property name="autoDefault">
+                <bool>false</bool>
                </property>
                <property name="default">
                 <bool>false</bool>
@@ -556,6 +568,9 @@ to a remote computer</string>
              <property name="text">
               <string>Next</string>
              </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -681,6 +696,9 @@ to a remote computer</string>
              <property name="text">
               <string>Ready</string>
              </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
             </widget>
            </item>
            <item>
@@ -745,6 +763,9 @@ Server</string>
              <height>64</height>
             </size>
            </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
           </widget>
          </item>
          <item>
@@ -776,6 +797,9 @@ Server</string>
              <width>64</width>
              <height>64</height>
             </size>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -1013,6 +1037,9 @@ Select Devices</string>
                <width>64</width>
                <height>64</height>
               </size>
+             </property>
+             <property name="autoDefault">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
