@@ -483,7 +483,7 @@
         <item row="1" column="1">
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>Download astroids brighter than</string>
+           <string>Download asteroids brighter than</string>
           </property>
          </widget>
         </item>
