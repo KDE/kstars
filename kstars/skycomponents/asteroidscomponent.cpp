@@ -272,7 +272,7 @@ void AsteroidsComponent::updateDataFile()
     QObject::connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     QObject::connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
-    QUrl url = QUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
+    QUrl url = QUrl( "https://ssd.jpl.nasa.gov/sbdb_query.cgi" );
 
     QByteArray mag = QString::number(Options::magLimitAsteroidDownload()).toUtf8();
     QByteArray post_data = KSUtils::getJPLQueryString("ast", "AcBdBiBhBgBjBlBkBmBqBbAiAjAgAkAlApAqArAsBsBtCh", QVector<KSUtils::JPLFilter> {{"Ai", "<", mag}});

@@ -229,7 +229,7 @@ void CometsComponent::updateDataFile()
     connect(downloadJob, SIGNAL(downloaded()), this, SLOT(downloadReady()));
     connect(downloadJob, SIGNAL(error(QString)), this, SLOT(downloadError(QString)));
 
-    QUrl url = QUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
+    QUrl url = QUrl( "https://ssd.jpl.nasa.gov/sbdb_query.cgi" );
     QByteArray post_data = KSUtils::getJPLQueryString("com", "AcBdBiBgBjBlBkBqBbAgAkAlApAqArAsBsBtChAmAn",  QVector<KSUtils::JPLFilter> {{"Af", "!=", "D"}});
 
     downloadJob->post(url, post_data);
