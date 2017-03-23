@@ -82,10 +82,9 @@ class ThumbnailPicker : public QDialog
         void parseGooglePage(const QString &URL );
 
         int SelectedImageIndex;
-        double wid, ht;
+        double thumbWidth, thumbHeight;
         ThumbnailPickerUI * ui;
         QPixmap * Image;
-        DetailDialog * dd;
         SkyObject * Object;
         QList<KIO::Job *> JobList;
         QList<QPixmap *> PixList;

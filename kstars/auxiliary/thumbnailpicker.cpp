@@ -46,14 +46,14 @@ ThumbnailPickerUI::ThumbnailPickerUI( QWidget * parent ) : QFrame( parent )
 }
 
 ThumbnailPicker::ThumbnailPicker( SkyObject * o, const QPixmap &current, QWidget * parent, double _w, double _h, QString cap )
-    : QDialog( parent ), SelectedImageIndex(-1), dd((DetailDialog *)parent), Object(o), bImageFound( false )
+    : QDialog( parent ), SelectedImageIndex(-1), Object(o), bImageFound( false )
 {
 #ifdef Q_OS_OSX
     setWindowFlags(Qt::Tool| Qt::WindowStaysOnTopHint);
 #endif
-    wid = _w;
-    ht = _h;
-    Image = new QPixmap(current.scaled( dd->thumbnail()->width(), dd->thumbnail()->height(),Qt::KeepAspectRatio,Qt::FastTransformation));
+    thumbWidth = _w;
+    thumbHeight = _h;
+    Image = new QPixmap(current.scaled(_w, _h,Qt::KeepAspectRatio,Qt::FastTransformation));
     ImageRect = new QRect( 0, 0, 200, 200 );
 
     ui = new ThumbnailPickerUI( this );
@@ -96,14 +96,16 @@ void ThumbnailPicker::slotFillList()
 {
     //Query Google Image Search:
 
-    QUrlQuery gURL( "http://images.google.com/images?" );
     //Search for the primary name, or longname and primary name
     QString sName = QString("%1 ").arg( Object->name() );
     if ( Object->longname() != Object->name() )
     {
         sName = QString("%1 ").arg( Object->longname() ) + sName;
     }
-    gURL.addQueryItem( "q", sName ); //add the Google-image query string
+    QString query = QString("http://www.google.com/search?q=%1&tbs=itp:photo,isz:ex,iszw:200,iszh:200&tbm=isch&source=lnt").arg(sName);
+    QUrlQuery gURL(query);
+
+    //gURL.addQueryItem( "q", sName ); //add the Google-image query string
 
     parseGooglePage(gURL.query());
 }
@@ -201,7 +203,7 @@ void ThumbnailPicker::slotJobResult( KJob * job )
     //Add 50x50 image and URL to listbox
     //ui->ImageList->insertItem( shrinkImage( PixList.last(), 50 ),
     //		cjob->srcURLs().first().prettyUrl() );
-    ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 50 )), stjob->url().url()));
+    ui->ImageList->addItem( new QListWidgetItem ( QIcon(shrinkImage( PixList.last(), 200 )), stjob->url().url()));
 }
 
 //void ThumbnailPicker::parseGooglePage( QStringList &ImList, const QString &URL )
@@ -248,7 +250,7 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap * pm, int size, bool setImage )
     if ( setImage ) bigSize = int( 200.*float(pm->width())/float(w) );
 
     QPixmap result( size, size );
-    result.fill( QColor( "white" ) ); //in case final image is smaller than 'size'
+    result.fill( Qt::black ); //in case final image is smaller than 'size'
 
     if ( pm->width() > size || pm->height() > size )   //image larger than 'size'?
     {
@@ -290,7 +292,7 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap * pm, int size, bool setImage )
 
 void ThumbnailPicker::slotEditImage()
 {
-    QPointer<ThumbnailEditor> te = new ThumbnailEditor( this, wid, ht );
+    QPointer<ThumbnailEditor> te = new ThumbnailEditor( this, thumbWidth, thumbHeight );
     if ( te->exec() == QDialog::Accepted )
     {
         QPixmap pm = te->thumbnail();
@@ -314,7 +316,7 @@ void ThumbnailPicker::slotUnsetImage()
 
     QPixmap noImage;
     noImage.load( ":/images/noimage.png" );
-    Image=new QPixmap(noImage.scaled( dd->thumbnail()->width(), dd->thumbnail()->height(),Qt::KeepAspectRatio,Qt::FastTransformation));
+    Image=new QPixmap(noImage.scaled( thumbWidth, thumbHeight,Qt::KeepAspectRatio,Qt::FastTransformation));
 
     ui->EditButton->setEnabled( false );
     ui->CurrentImage->setPixmap( *Image );
@@ -334,7 +336,7 @@ void ThumbnailPicker::slotSetFromList( int i )
     ui->CurrentImage->update();
     ui->EditButton->setEnabled( true );
 
-    *Image = PixList[i]->scaled( wid, ht, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+    *Image = PixList[i]->scaled( thumbWidth, thumbHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
     bImageFound = true;
 }
 
