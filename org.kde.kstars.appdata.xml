@@ -65,6 +65,7 @@
     <p xml:lang="ca">El KStars és un programari d'Astronomia lliure, de codi obert i multiplataforma.</p>
     <p xml:lang="ca-valencia">El KStars és un programari d'Astronomia lliure, de codi obert i multiplataforma.</p>
     <p xml:lang="en-GB">KStars is free, open source, cross-platform Astronomy Software.</p>
+    <p xml:lang="es">KStars es un software astronómico libre, de código abierto y multiplataforma.</p>
     <p xml:lang="nl">KStars is een vrij, opensource Astronomieprogramma dat draait op allerlei verschillende soorten computers.</p>
     <p xml:lang="pt">O KStars é uma aplicação de astronomia de código-aberto e multi-plataforma.</p>
     <p xml:lang="sl">KStars je prosta, odprtokodna astronomska programska oprema, ki teče na več okoljih.</p>
@@ -74,6 +75,7 @@
     <p>It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.</p>
     <p xml:lang="ca">Proporciona una simulació gràfica precisa del cel nocturn, des de qualsevol ubicació a la Terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes del cel profund, tots els 8 planetes, el Sol i la Lluna, i milers de cometes, asteroides, supernoves, i satèl·lits.</p>
     <p xml:lang="ca-valencia">Proporciona una simulació gràfica precisa del cel nocturn, des de qualsevol ubicació a la Terra, en qualsevol data i hora. La visualització inclou fins a 100 milions d'estrelles, 13.000 objectes del cel profund, tots els 8 planetes, el Sol i la Lluna, i milers de cometes, asteroides, supernoves, i satèl·lits.</p>
+    <p xml:lang="de">KStars simuliert präzise den Blick in den nächtlichen Himmel von jedem Punkt der Erde aus, zu jedem beliebigen Datum und Uhrzeit. Derzeit gibt es im Planetarium bis zu 100 Millionen Sterne, 13000 Deep-Sky-Objekte, alle acht Planeten, die Sonne und den Mond, sowie tausende Kometen, Asteroiden, Supernovae und Satelliten.</p>
     <p xml:lang="en-GB">It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects,all 8 planets, the Sun and Moon, and thousands of comets, asteroids, supernovae, and satellites.</p>
     <p xml:lang="nl">Het geeft een nauwkeurige grafische simulatie van de nachtelijke hemel, vanaf elke locatie op aarde, voor elke datum en op elk tijdstip. Er kunnen tot aan 100 miljoen sterren worden afgebeeld, 13000 zogenaamde deepsky-objecten, alle 8 planeten, de zon en de maan, en duizenden kometen, planetoïden, supernova's, en satellieten.</p>
     <p xml:lang="pt">Oferece uma simulação gráfica precisa do céu nocturno, em qualquer ponto da Terra e em qualquer data e hora. A apresentação inclui até 100 milhões de estrelas, 13 000 objectos distantes, todos os 8 planetas, o Sol e a Lua, assim como milhares de cometas, asteróides, supernovas e satélites.</p>
@@ -187,6 +189,7 @@
       <li>Downloadable catalogs including Messier Images, Abell Planetary Nebulae, Sharpless Catalog, Lynds Dark Nebula Catalog</li>
       <li xml:lang="ca">Catàlegs descarregables que inclouen imatges de Messier, la nebulosa planetària Abell, el catàleg Sharpless, el catàleg Lynds de nebuloses fosques</li>
       <li xml:lang="ca-valencia">Catàlegs descarregables que inclouen imatges de Messier, la nebulosa planetària Abell, el catàleg Sharpless, el catàleg Lynds de nebuloses fosques</li>
+      <li xml:lang="de">Herunterladbare Kataloge einschließlich Messier-Bilder, Abell-Katalog, Sharpless-Katalog und Lynds Dunkelnebel-Katalog</li>
       <li xml:lang="en-GB">Downloadable catalogues including Messier Images, Abell Planetary Nebulae, Sharpless Catalogue, Lynds Dark Nebula Catalogue</li>
       <li xml:lang="nl">Catalogi die kunnen worden gedownload, met inbegrip van Messier objecten, Abell planetaire nevels, Sharpless Catalogus, Lynds Dark Nebula Catalog (catalogus donkere nevels)</li>
       <li xml:lang="pt">Catálogos disponíveis para transferência, incluindo as imagens Messier, as Nebulosas Planetárias Abell, o Catálogo Sharpless e o Catálogo de Nebulosas Escuras Lynds</li>
