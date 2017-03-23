@@ -565,7 +565,7 @@ void Logging::UseFile()
         QDir dir;
         QString path = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "logs/" + QDateTime::currentDateTime().toString("yyyy-MM-dd");
         dir.mkpath(path);
-        QString name = "log_" + QDateTime::currentDateTime().toString("HH:mm:ss") + ".txt";
+        QString name = "log_" + QDateTime::currentDateTime().toString("HH-mm-ss") + ".txt";
         _filename = path + QStringLiteral("/") + name;
 
         // Clear file contents
