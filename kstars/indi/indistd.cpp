@@ -311,7 +311,7 @@ void GenericDevice::processBLOB(IBLOB * bp)
 
     QString filename(currentDir + '/');
 
-    QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
+    QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
 
     filename += QString("file_") + ts +  QString(bp->format).trimmed();
 
