@@ -1564,8 +1564,8 @@ bool ObservingList::eventFilter( QObject * obj, QEvent * event )
 
 void ObservingList::slotSearchImage()
 {
-    QPixmap * pm = new QPixmap;
-    QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, i18n( "Image Chooser" ) );
+    QPixmap * pm = new QPixmap(":/images/noimage.png");
+    QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 200, 200, i18n( "Image Chooser" ) );
     if ( tp->exec() == QDialog::Accepted )
     {
         QString currentImagePath = getCurrentImagePath();
@@ -1581,6 +1581,7 @@ void ObservingList::slotSearchImage()
             slotNewSelection();
         }
     }
+    delete pm;
     delete tp;
 }
 
