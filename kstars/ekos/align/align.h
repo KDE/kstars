@@ -319,12 +319,6 @@ class Align : public QWidget, public Ui::Align
          */
         void syncTelescopeInfo();
 
-        /**
-         * @brief setWCSEnabled enables/disables World Coordinate System settings in the CCD driver.
-         * @param enable true to enable WCS, false to disable.
-         */
-        void setWCSEnabled(bool enable);
-
         void setLockedFilter(ISD::GDInterface * filter, int lockedPosition);
 
         void setFocusStatus(Ekos::FocusState state);
@@ -373,6 +367,7 @@ class Align : public QWidget, public Ui::Align
         void setPAHCorrectionSelectionComplete();
         void startPAHRefreshProcess();
         void setPAHRefreshComplete();
+        void setWCSToggled(bool result);
 
         //Solutions Display slots
         void buildTarget();
@@ -470,6 +465,12 @@ class Align : public QWidget, public Ui::Align
          * @return List of Solver options
          */
         QStringList getSolverOptionsFromFITS(const QString &filename);
+
+        /**
+         * @brief setWCSEnabled enables/disables World Coordinate System settings in the CCD driver.
+         * @param enable true to enable WCS, false to disable.
+         */
+        void setWCSEnabled(bool enable);
 
         /**
          * @brief calculatePAHError Calculate polar alignment error in the Polar Alignment Helper (PAH) method

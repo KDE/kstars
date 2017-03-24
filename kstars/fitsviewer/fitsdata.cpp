@@ -3891,7 +3891,7 @@ bool FITSData::createWCSFile(const QString &newWCSFile, double orientation, doub
 
     fits_flush_file(fptr, &status);
 
-    return loadWCS();
+    return true;
 }
 
 bool FITSData::contains(const QPointF &point) const
