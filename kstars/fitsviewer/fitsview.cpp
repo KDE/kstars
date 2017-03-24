@@ -177,6 +177,11 @@ void FITSView::resizeEvent(QResizeEvent * event)
 
 }
 
+void FITSView::setLoadWCSEnabled(bool value)
+{
+    loadWCSEnabled = value;
+}
+
 bool FITSView::loadFITS (const QString &inFilename , bool silent)
 {
     if(floatingToolBar)
@@ -242,7 +247,7 @@ bool FITSView::loadFITS (const QString &inFilename , bool silent)
     maxPixel = imageData->getMax();
     minPixel = imageData->getMin();
 
-    if (mode == FITS_NORMAL || mode == FITS_ALIGN)
+    if (loadWCSEnabled && (mode == FITS_NORMAL || mode == FITS_ALIGN))
     {
         if (fitsProg.wasCanceled())
             return false;

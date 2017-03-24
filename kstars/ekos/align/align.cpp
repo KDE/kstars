@@ -246,16 +246,22 @@ Align::Align()
     connect(PAHStartB, SIGNAL(clicked()), this, SLOT(startPAHProcess()));
     connect(PAHFirstCaptureB, &QPushButton::clicked, this, [this]()
     {
+        // Do not load WCS unless requested
+        alignView->setLoadWCSEnabled(false);
         PAHFirstCaptureB->setEnabled(false);
         captureAndSolve();
     });
     connect(PAHSecondCaptureB, &QPushButton::clicked, this, [this]()
     {
+        // Do not load WCS unless requested
+        alignView->setLoadWCSEnabled(false);
         PAHSecondCaptureB->setEnabled(false);
         captureAndSolve();
     });
     connect(PAHThirdCaptureB, &QPushButton::clicked, this, [this]()
     {
+        // Do not load WCS unless requested
+        alignView->setLoadWCSEnabled(false);
         PAHThirdCaptureB->setEnabled(false);
         captureAndSolve();
     });
@@ -4383,6 +4389,8 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     QString newWCSFile = tmpFile.fileName();
     tmpFile.close();
 
+    alignView->setLoadWCSEnabled(true);
+
     if (pahStage == PAH_FIND_CP)
     {
         setGOTOMode(GOTO_NOTHING);
@@ -4390,8 +4398,6 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         pahStage = PAH_FIRST_CAPTURE;
         return;
     }
-
-    bool rc = false;
 
     if (pahStage == PAH_FIRST_CAPTURE)
     {
@@ -4407,49 +4413,10 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         // Only invoke this if limited resource mode is false since we want to use CPU heavy WCS
         if (Options::limitedResourcesMode() == false)
         {
-            rc = alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
-            if (rc == false)
-            {
-                appendLogText(i18n("Error creating WCS file: %1", alignView->getImageData()->getLastError()));
-                return;
-            }
-
-            // Find Celestial pole location
-            SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
-
-            FITSData * imageData = alignView->getImageData();
-            QPointF pixelPoint, imagePoint;
-
-            rc = imageData->wcsToPixel(CP, pixelPoint, imagePoint);
-
-            // TODO check if pixelPoint is located TOO far from the current position as well
-            // i.e. if X > Width * 2..etc
-            if (rc == false)
-            {
-                appendLogText(i18n("Failed to process World Coordinate System: %1. Try again.", imageData->getLastError()));
-                return;
-            }
-
-            // If celestial pole out of range, ask the user if they want to move to it
-            if (pixelPoint.x() < (-1*imageData->getWidth()) || pixelPoint.x() > (imageData->getWidth()*2) ||
-                    pixelPoint.y() < (-1*imageData->getHeight())|| pixelPoint.y() > (imageData->getHeight()*2))
-            {
-                if (currentTelescope->canSync() && KMessageBox::questionYesNo(0, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew the telescope to the celestial pole? WARNING: Slewing near poles may cause your mount to end up in unsafe position. Proceed with caution.")) == KMessageBox::Yes)
-                {
-                    pahStage = PAH_FIND_CP;
-                    targetCoord.setRA(KStarsData::Instance()->lst()->Hours());
-                    targetCoord.setDec(CP.dec().Degrees() > 0 ? 89.5 : -89.5);
-
-                    qDeleteAll(pahImageInfos);
-                    pahImageInfos.clear();
-
-                    setGOTOMode(GOTO_SLEW);
-                    Sync();
-                    return;
-                }
-                else
-                    appendLogText(i18n("Warning: Celestial pole is located outside the field of view. Move the mount closer to the celestial pole."));
-            }
+            appendLogText(i18n("Please wait while WCS data is processed..."));
+            connect(alignView, SIGNAL(wcsToggled(bool)), this, SLOT(setWCSToggled(bool)));
+            alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+            return;
         }
 
         pahStage = PAH_FIRST_ROTATE;
@@ -4457,6 +4424,8 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     }
     else if (pahStage == PAH_SECOND_CAPTURE)
     {
+// Second capture WCS is not important. Since it consumes quite a bit of resources, skip it
+#if 0
         if (Options::limitedResourcesMode() == false)
         {
             rc= alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
@@ -4467,6 +4436,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
                 //return;
             }
         }
+#endif
 
         // Set 2nd PAH Center
         PAHImageInfo * solution = new PAHImageInfo();
@@ -4493,13 +4463,6 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
     }
     else if (pahStage == PAH_THIRD_CAPTURE)
     {
-        rc = alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
-        if (rc == false)
-        {
-            appendLogText(i18n("Error creating WCS file: %1", alignView->getImageData()->getLastError()));
-            return;
-        }
-
         // Set Third PAH Center
         PAHImageInfo * solution = new PAHImageInfo();
         solution->skyCenter.setRA0(alignCoord.ra0());
@@ -4508,6 +4471,79 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
         solution->pixelScale  = pixscale;
 
         pahImageInfos.append(solution);
+
+        appendLogText(i18n("Please wait while WCS data is processed..."));
+        connect(alignView, SIGNAL(wcsToggled(bool)), this, SLOT(setWCSToggled(bool)));
+        alignView->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+        return;
+    }
+}
+
+void Align::setWCSToggled(bool result)
+{
+    appendLogText(i18n("WCS data processing is complete."));
+
+    alignView->disconnect(this);
+
+    if (pahStage == PAH_FIRST_CAPTURE)
+    {
+        // Not critical error
+        if (result == false)
+        {
+            appendLogText(i18n("Warning: Failed to load WCS data in file: %1", alignView->getImageData()->getLastError()));
+            pahStage = PAH_FIRST_ROTATE;
+            PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
+            return;
+        }
+
+        // Find Celestial pole location
+        SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);
+
+        FITSData * imageData = alignView->getImageData();
+        QPointF pixelPoint, imagePoint;
+
+        bool rc = imageData->wcsToPixel(CP, pixelPoint, imagePoint);
+
+        // TODO check if pixelPoint is located TOO far from the current position as well
+        // i.e. if X > Width * 2..etc
+        if (rc == false)
+        {
+            appendLogText(i18n("Failed to process World Coordinate System: %1. Try again.", imageData->getLastError()));
+            return;
+        }
+
+        // If celestial pole out of range, ask the user if they want to move to it
+        if (pixelPoint.x() < (-1*imageData->getWidth()) || pixelPoint.x() > (imageData->getWidth()*2) ||
+                pixelPoint.y() < (-1*imageData->getHeight())|| pixelPoint.y() > (imageData->getHeight()*2))
+        {
+            if (currentTelescope->canSync() && KMessageBox::questionYesNo(0, i18n("Celestial pole is located outside of the field of view. Would you like to sync and slew the telescope to the celestial pole? WARNING: Slewing near poles may cause your mount to end up in unsafe position. Proceed with caution.")) == KMessageBox::Yes)
+            {
+                pahStage = PAH_FIND_CP;
+                targetCoord.setRA(KStarsData::Instance()->lst()->Hours());
+                targetCoord.setDec(CP.dec().Degrees() > 0 ? 89.5 : -89.5);
+
+                qDeleteAll(pahImageInfos);
+                pahImageInfos.clear();
+
+                setGOTOMode(GOTO_SLEW);
+                Sync();
+                return;
+            }
+            else
+                appendLogText(i18n("Warning: Celestial pole is located outside the field of view. Move the mount closer to the celestial pole."));
+        }
+
+        pahStage = PAH_FIRST_ROTATE;
+        PAHWidgets->setCurrentWidget(PAHFirstRotatePage);
+    }
+    else if (pahStage == PAH_THIRD_CAPTURE)
+    {
+        // Critical error
+        if (result == false)
+        {
+            appendLogText(i18n("Error: Failed to load WCS data in file: %1", alignView->getImageData()->getLastError()));
+            return;
+        }
 
         // Find Celstial pole location
         SkyPoint CP(0, (hemisphere == NORTH_HEMISPHERE) ? 90 : -90);

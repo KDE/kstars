@@ -44,7 +44,18 @@ void AlignView::drawOverlay(QPainter * painter)
 
 bool AlignView::createWCSFile(const QString &newWCSFile, double orientation, double ra, double dec, double pixscale)
 {
-    return imageData->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+    bool rc = imageData->createWCSFile(newWCSFile, orientation, ra, dec, pixscale);
+    // If file fails to load, then no WCS data
+    if (rc == false)
+    {
+        emit wcsToggled(false);
+        return false;
+    }
+
+    // Load WCS async
+    QFuture<bool> future = QtConcurrent::run(imageData, &FITSData::loadWCS);
+    wcsWatcher.setFuture(future);
+    return true;
 }
 
 void AlignView::setCorrectionParams(QLineF line)

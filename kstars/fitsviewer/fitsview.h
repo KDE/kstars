@@ -171,11 +171,14 @@ class FITSView : public QScrollArea
         // Floating toolbar
         void createFloatingToolBar();
 
-    protected:
+        void setLoadWCSEnabled(bool value);
+
+protected:
         void wheelEvent(QWheelEvent * event);
         void resizeEvent(QResizeEvent * event);
 
         QFutureWatcher<bool> wcsWatcher;                // WCS Future Watcher
+        bool loadWCSEnabled=true;                       // Load WCS data?
         QPointF markerCrosshair;                        // Cross hair
         FITSData * imageData;                           // Pointer to FITSData object
         double currentZoom;                             // Current zoom level
