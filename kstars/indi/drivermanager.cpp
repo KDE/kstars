@@ -152,7 +152,6 @@ DriverManager::~DriverManager()
 
 void DriverManager::processDeviceStatus(DriverInfo * dv)
 {
-
     if (dv == NULL)
         return;
 
@@ -172,16 +171,13 @@ void DriverManager::processDeviceStatus(DriverInfo * dv)
 
         foreach (QTreeWidgetItem * item, ui->localTreeWidget->findItems(dv->getTreeLabel(), Qt::MatchExactly |  Qt::MatchRecursive))
         {
-
             item->setText(LOCAL_VERSION_COLUMN, dv->getVersion());
 
             if (manager)
                 mode = manager->getMode();
 
-
             dState = dv->getServerState();
             cState = dv->getClientState() && dState;
-
 
             bool locallyAvailable=false;
             if (dv->getAuxInfo().contains("LOCALLY_AVAILABLE"))
@@ -189,11 +185,19 @@ void DriverManager::processDeviceStatus(DriverInfo * dv)
 
             switch (mode)
             {
-                case SERVER_ONLY:
-                    ui->runServiceB->setEnabled(!dState);
-                    ui->stopServiceB->setEnabled(dState);
+                case SERVER_ONLY:                    
                     if(locallyAvailable)
+                    {
+                        ui->runServiceB->setEnabled(!dState);
+                        ui->stopServiceB->setEnabled(dState);
                         item->setIcon(LOCAL_STATUS_COLUMN, dState ? ui->runningPix : ui->stopPix);
+                    }
+                    else
+                    {
+                        ui->runServiceB->setEnabled(false);
+                        ui->stopServiceB->setEnabled(false);
+                    }
+
                     if (dState)
                     {
                         item->setIcon(LOCAL_MODE_COLUMN, ui->serverMode);
@@ -208,11 +212,19 @@ void DriverManager::processDeviceStatus(DriverInfo * dv)
 
                     break;
 
-                case SERVER_CLIENT:
-                    ui->runServiceB->setEnabled(!cState);
-                    ui->stopServiceB->setEnabled(cState);
+                case SERVER_CLIENT:                    
                     if(locallyAvailable)
+                    {
+                        ui->runServiceB->setEnabled(!cState);
+                        ui->stopServiceB->setEnabled(cState);
                         item->setIcon(LOCAL_STATUS_COLUMN, cState ? ui->runningPix : ui->stopPix);
+                    }
+                    else
+                    {
+                        ui->runServiceB->setEnabled(false);
+                        ui->stopServiceB->setEnabled(false);
+                    }
+
                     if (cState)
                     {
                         item->setIcon(LOCAL_MODE_COLUMN, ui->localMode);
@@ -952,6 +964,11 @@ bool DriverManager::readXMLDrivers()
     QDir indiDir;
     QString driverName;
 
+    // This is the XML file shipped with KStars that contains all supported INDI drivers.
+    QString indiDriversXML = KSPaths::locate(QStandardPaths::GenericDataLocation, "indidrivers.xml");
+    if (indiDriversXML.isEmpty() == false)
+        processXMLDriver(indiDriversXML);
+
     QString driversDir=Options::indiDriversDir();
 #ifdef Q_OS_OSX
     if(Options::indiDriversAreInternal())
@@ -1138,7 +1155,6 @@ bool DriverManager::buildDriverElement(XMLEle * root, QTreeWidgetItem * DGroup, 
     QVariantMap vMap;
     double focal_length (-1), aperture (-1);
 
-
     ap = findXMLAtt(root, "label");
     if (!ap)
     {
@@ -1147,6 +1163,10 @@ bool DriverManager::buildDriverElement(XMLEle * root, QTreeWidgetItem * DGroup, 
     }
 
     label = valuXMLAtt(ap);
+
+    // Label is unique, so if we have the same label, we simply ignore
+    if (findDriverByLabel(label) != NULL)
+        return true;
 
     // Search for optional port attribute
     ap = findXMLAtt(root, "port");
