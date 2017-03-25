@@ -323,15 +323,13 @@
 </driversList>
 <?xml version="1.0" encoding="UTF-8"?>
 <driversList>
-<devGroup group="MeteoStations">
+<devGroup group="Weather">
         <device label="AAG Cloud Watcher">
                 <driver name="AAG Cloud Watcher">indi_aagcloudwatcher</driver>
                 <version>1.3</version>
 	</device>
 </devGroup>
 </driversList>
-
-
 <?xml version="1.0" encoding="UTF-8"?>
 <driversList>
 <devGroup group="CCDs">
@@ -350,8 +348,6 @@
 	</device>
 </devGroup>
 </driversList>
-
-<?xml version="1.0" encoding="UTF-8"?>
 <driversList>
 <devGroup group="CCDs">
         <device label="ZWO CCD" mdpd="true">
@@ -366,8 +362,6 @@
         </device>
 </devGroup>
 </driversList>
-
-<!--?xml version="1.0" encoding="UTF-8"?-->
 <driversList>
   <devGroup group="CCDs">
     <device label="ATIK CCD">
@@ -375,7 +369,6 @@
       <version>1.1</version>
     </device>
   </devGroup>
-
   <devGroup group="Filter Wheels">
     <device label="ATIK Wheel">
       <driver name="ATIK Wheel">indi_atik_wheel</driver>
@@ -383,17 +376,6 @@
     </device>
   </devGroup>
 </driversList>
-<?xml version="1.0" encoding="UTF-8"?>
-<driversList>
-<devGroup group="CCDs">
-        <device label="Meade Deep Sky Imager (I/II)">
-                <driver name="DSI">indi_dsi_ccd</driver>
-                <version>0.1</version>
-        </device>
-</devGroup>
-</driversList>
-
-<?xml version="1.0" encoding="UTF-8"?>
 <driversList>
 <devGroup group="Auxiliary">
         <device label="Arduino Simple Switcher" skel="simple_switcher_sk.xml">
@@ -430,8 +412,6 @@
         </device>
 </devGroup>
 </driversList>
-
-<?xml version="1.0" encoding="UTF-8"?>
 <driversList>
 <devGroup group="Telescopes">
         <device label="EQMod Mount">
@@ -440,7 +420,6 @@
 	</device>
 </devGroup>
 </driversList>
-<?xml version="1.0" encoding="UTF-8"?>
 <driversList>
 <devGroup group="CCDs">
         <device label="FireFly MV">
@@ -449,8 +428,6 @@
         </device>
 </devGroup>
 </driversList>
-
-<?xml version="1.0" encoding="UTF-8"?>
 <driversList>
 <devGroup group="CCDs">
 	<device label="Starfish CCD">
@@ -459,7 +436,6 @@
 	</device>
 </devGroup>
 </driversList>
-<?xml version="1.0" encoding="UTF-8"?>
 <driversList>
 <devGroup group="CCDs">
 	<device label="FLI CCD">
@@ -480,7 +456,6 @@
         </device>
 </devGroup>
 </driversList>
-<?xml version="1.0" encoding="UTF-8"?>
 <driversList>
 <devGroup group="CCDs">
         <device label="Generic CCD" mdpd="true">
@@ -489,7 +464,6 @@
 	</device>
 </devGroup>
 </driversList>
-<?xml version="1.0" encoding="UTF-8"?>
 <driversList>
 <devGroup group="CCDs">
         <device label="Canon DSLR" mdpd="true">
@@ -515,24 +489,6 @@
    </device>
 </devGroup>
 </driversList>
-<?xml version="1.0" encoding="UTF-8"?>
-<driversList>
-<devGroup group="Domes">
-        <device label="Ikarus Roof">
-                <driver name="Ikarus Roof">indi_ikarusroof_dome</driver>
-                <version>0.1</version>
-	</device>
-</devGroup>
-</driversList>
-
-<devGroup group="Focusers">
-        <device label="IP Focuser">
-                <driver name="IPFocuser">indi_ipfocuser</driver>
-                <version>1.0</version>
-                <host>192.168.1.203</host>
-        </device>
-</devGroup>
-
 <?xml version="1.0" encoding="UTF-8"?>
 <driversList>
 <devGroup group="Domes">
@@ -602,7 +558,7 @@
 </driversList>
 <?xml version="1.0" encoding="UTF-8"?>
 <driversList>
-<devGroup group="Receivers">
+<devGroup group="Spectrographs">
 	<device label="SpectraCyber">
 		<driver name='SpectraCyber'>indi_spectracyber</driver>
                 <version>1.2</version>
