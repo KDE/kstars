@@ -84,6 +84,8 @@ void OpsINDI::toggleDriversInternal()
         kcfg_indiDriversDir->setText("*Internal INDI Drivers*");
     else
         kcfg_indiDriversDir->setText(KSUtils::getDefaultPath("indiDriversDir"));
+
+    KSNotification::info(i18n("You need to restart KStars for this change to take effect."));
 }
 
 void OpsINDI::saveFITSDirectory()
@@ -99,7 +101,10 @@ void OpsINDI::saveDriversDirectory()
     QString dir = QFileDialog::getExistingDirectory(KStars::Instance(), i18n("INDI Drivers Directory"), kcfg_indiDriversDir->text());
 
     if (!dir.isEmpty())
+    {
         kcfg_indiDriversDir->setText(dir);
+        KSNotification::info(i18n("You need to restart KStars for this change to take effect."));
+    }
 }
 
 void OpsINDI::slotShowLogFiles()
