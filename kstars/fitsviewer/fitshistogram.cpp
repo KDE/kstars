@@ -473,6 +473,7 @@ bool FITSHistogramCommand::reverseDelta()
     if (r != Z_OK)
     {
         qDebug() << "FITSHistogram compression error in reverseDelta()" << endl;
+        delete [] output_image;
         delete [] raw_delta;
         return false;
     }
