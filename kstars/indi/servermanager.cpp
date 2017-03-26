@@ -36,10 +36,6 @@
 #include "kstarsdatetime.h"
 #include "kspaths.h"
 
-
-const int INDI_MAX_TRIES=3;
-const int MAX_FILENAME_LEN = 1024;
-
 ServerManager::ServerManager(QString inHost, uint inPort)
 {
     serverProcess	= NULL;

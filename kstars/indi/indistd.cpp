@@ -30,8 +30,6 @@
 #include "skymap.h"
 #include "Options.h"
 
-const int MAX_FILENAME_LEN = 1024;
-
 namespace ISD
 {
 
