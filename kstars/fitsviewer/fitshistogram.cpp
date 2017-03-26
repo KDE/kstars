@@ -464,7 +464,7 @@ bool FITSHistogramCommand::reverseDelta()
     uint8_t * raw_delta = new uint8_t[totalBytes];
     if (raw_delta == NULL)
     {
-        delete(output_image);
+        delete [] output_image;
         qWarning() << "Error! not enough memory to create image delta" << endl;
         return false;
     }
