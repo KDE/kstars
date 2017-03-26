@@ -693,7 +693,7 @@
                <bool>false</bool>
               </property>
               <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use astrometry solver on remote machine running INDI server. You must select INDI Astrometry driver from Auxiliary drivers in your Ekos devices profile for this option to be enabled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use astrometry solver on remote machine running INDI server. You must select &lt;b&gt;Astrometry&lt;/b&gt; driver from Auxiliary drivers in your Ekos devices profile for this option to be enabled.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
                <string>Remote</string>
@@ -951,7 +951,7 @@
                    </size>
                   </property>
                   <property name="toolTip">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Center the Solution Result graph.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Auto scale and center the Solution Results graph.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="text">
                    <string/>
