@@ -135,7 +135,6 @@ class FITSHistogramCommand : public QUndoCommand
         FITSHistogram * histogram;
         FITSScale type;
         double min, max;
-        int gamma;
 
         unsigned char * delta;
         unsigned long compressedBytes;
