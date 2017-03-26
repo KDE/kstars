@@ -399,6 +399,7 @@ class Align : public QWidget, public Ui::Align
         void alignTypeChanged(const QString alignType);
         void togglePreviewAlignPoints();
         void slotSortAlignmentPoints();
+        void slotAutoScaleGraph();
 
     signals:
         void newLog();
