@@ -389,7 +389,7 @@ void Projector::updateClipPoly()
 
     double r = m_vp.zoomFactor*radius();
     double t1 = 0 ;
-    double t2 = 180;
+    double t2 = 360;
     double inc=1.0;
     for ( double t=t1; t <= t2; t += inc )
     {
@@ -399,18 +399,6 @@ void Projector::updateClipPoly()
         a.SinCos( sa, ca );
         m_clipPolygon << QPointF( 0.5*m_vp.width + r*ca, 0.5*m_vp.height - r*sa);
     }
-
-    t1 =0 ;
-    t2 =- 180.;
-    for ( double t=t1; t >= t2; t -= inc )
-    {
-        //step along circumference
-        dms a( t );
-        double sa(0.), ca(0.);
-        a.SinCos( sa, ca );
-        m_clipPolygon << QPointF( 0.5*m_vp.width + r*ca, 0.5*m_vp.height - r*sa);
-    }
-
 }
 
 QPolygonF Projector::clipPoly() const
