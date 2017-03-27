@@ -3304,6 +3304,8 @@ bool Capture::checkMeridianFlip()
         currentTelescope->Slew(initialRA,dec);
         secondsLabel->setText(i18n("Meridian Flip..."));
 
+        retries=0;
+
         state = CAPTURE_MERIDIAN_FLIP;
         emit newStatus(Ekos::CAPTURE_MERIDIAN_FLIP);
 
@@ -3323,9 +3325,18 @@ void Capture::checkMeridianFlipTimeout()
     {
         appendLogText(i18n("Telescope meridian flip timed out. Please make sure your mount supports meridian flip."));
 
-        KNotification::event( QLatin1String( "MeridianFlipFailed" ) , i18n("Meridian flip failed"));
-
-        abort();
+        if (++retries == 3)
+        {
+            KNotification::event( QLatin1String( "MeridianFlipFailed" ) , i18n("Meridian flip failed"));
+            abort();
+        }
+        else
+        {
+            double dec;
+            currentTelescope->getEqCoords(&initialRA, &dec);
+            currentTelescope->Slew(initialRA,dec);
+            appendLogText(i18n("Retrying meridian flip again..."));
+        }
     }
 }
 
