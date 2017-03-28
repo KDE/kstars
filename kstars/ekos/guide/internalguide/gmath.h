@@ -189,7 +189,12 @@ class cgmath : public QObject
         // Logging
         void setLogFile(QFile * file);
 
-    signals:
+        bool isImageGuideEnabled() const;
+        void setImageGuideEnabled(bool value);
+
+        void setRegionAxis(const uint32_t &value);
+
+signals:
         void newAxisDelta(double delta_ra, double delta_dec);
         void newStarPosition(QVector3D, bool);
 
@@ -240,8 +245,18 @@ class cgmath : public QObject
         const char * get_direction_string(GuideDirection dir);
 
         // rapid guide
-        bool useRapidGuide;
+        bool useRapidGuide=false;
         double rapidDX, rapidDY;
+
+        // Image Guide
+        bool imageGuideEnabled=false;
+        // Creates a new float image from the guideView image data. The returned image MUST be deleted later or memory will leak.
+        float * createFloatImage() const;
+        // Partition guideView image into NxN square regions each of size axis*axis. The returned vector contains pointers to
+        // the newly allocated square images. It MUST be deleted later by delete[] or memory will leak.
+        QVector<float*> partitionImage() const;
+        uint32_t regionAxis=64;
+        QVector<float*> referenceRegions;
 
         // dithering
         double ditherRate[2];

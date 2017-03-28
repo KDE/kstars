@@ -20,6 +20,7 @@
 #include "matr.h"
 
 #include "fitsviewer/fitsview.h"
+#include "imageautoguiding.h"
 
 #define DEF_SQR_0	(8-0)
 #define DEF_SQR_1	(16-0)
@@ -106,7 +107,10 @@ cgmath::~cgmath()
     delete [] drift[GUIDE_RA];
     delete [] drift[GUIDE_DEC];
 
+    foreach(float *region, referenceRegions)
+        delete [] region;
 
+    referenceRegions.clear();
 }
 
 
@@ -505,6 +509,20 @@ void cgmath::start( void )
     delta_prev = sigma_prev = sigma = 0;
 
     preview_mode = false;
+
+    // Create reference Image
+    if (imageGuideEnabled)
+    {
+        foreach(float *region, referenceRegions)
+            delete [] region;
+
+        referenceRegions.clear();
+
+        referenceRegions = partitionImage();
+
+        reticle_pos = Vector( 0, 0, 0 );
+    }
+
 }
 
 
@@ -535,6 +553,149 @@ void cgmath::setLostStar(bool is_lost)
     lost_star = is_lost;
 }
 
+float * cgmath::createFloatImage() const
+{
+    FITSData * imageData = guideView->getImageData();
+
+    // #1 Convert to float array
+    // We only process 1st plane if it is a color image
+    uint32_t imgSize = imageData->getSize();
+    float *imgFloat = new float[imgSize];
+    if (imgFloat == NULL)
+    {
+        qCritical() << "Not enough memory for float image array!";
+        return NULL;
+    }
+
+    switch (imageData->getDataType())
+    {
+    case TBYTE:
+    {
+        uint8_t *buffer = imageData->getImageBuffer();
+        for (uint32_t i=0; i < imgSize; i++)
+            imgFloat[i] = buffer[i];
+    }
+        break;
+
+    case TSHORT:
+    {
+        int16_t *buffer = reinterpret_cast<int16_t*>(imageData->getImageBuffer());
+        for (uint32_t i=0; i < imgSize; i++)
+            imgFloat[i] = buffer[i];
+    }
+        break;
+
+    case TUSHORT:
+    {
+        uint16_t *buffer = reinterpret_cast<uint16_t*>(imageData->getImageBuffer());
+        for (uint32_t i=0; i < imgSize; i++)
+            imgFloat[i] = buffer[i];
+    }
+        break;
+
+    case TLONG:
+    {
+        int32_t *buffer = reinterpret_cast<int32_t*>(imageData->getImageBuffer());
+        for (uint32_t i=0; i < imgSize; i++)
+            imgFloat[i] = buffer[i];
+    }
+        break;
+
+    case TULONG:
+    {
+        uint32_t *buffer = reinterpret_cast<uint32_t*>(imageData->getImageBuffer());
+        for (uint32_t i=0; i < imgSize; i++)
+            imgFloat[i] = buffer[i];
+    }
+        break;
+
+    case TFLOAT:
+    {
+        float *buffer = reinterpret_cast<float*>(imageData->getImageBuffer());
+        for (uint32_t i=0; i < imgSize; i++)
+            imgFloat[i] = buffer[i];
+    }
+        break;
+
+    case TLONGLONG:
+    {
+        int64_t *buffer = reinterpret_cast<int64_t*>(imageData->getImageBuffer());
+        for (uint32_t i=0; i < imgSize; i++)
+            imgFloat[i] = buffer[i];
+    }
+        break;
+
+    case TDOUBLE:
+    {
+        double *buffer = reinterpret_cast<double*>(imageData->getImageBuffer());
+        for (uint32_t i=0; i < imgSize; i++)
+            imgFloat[i] = buffer[i];
+    }
+    break;
+
+    default:
+        return NULL;
+    }
+
+    return imgFloat;
+}
+
+QVector<float*> cgmath::partitionImage() const
+{
+    QVector<float*> regions;
+
+    FITSData * imageData = guideView->getImageData();
+
+    float *imgFloat = createFloatImage();
+
+    if (imgFloat == NULL)
+        return regions;
+
+    const uint32_t width      = imageData->getWidth();
+    const uint32_t height     = imageData->getHeight();
+
+    uint8_t xRegions = floor(width/regionAxis);
+    uint8_t yRegions = floor(height/regionAxis);
+    // Find number of regions to divide the image
+    //uint8_t regions =  xRegions * yRegions;
+
+    float *regionPtr = imgFloat;
+
+    for (uint8_t i=0; i < yRegions; i++)
+    {
+        for (uint8_t j=0; j < xRegions; j++)
+        {
+            // Allocate space for one region
+            float *oneRegion = new float[regionAxis*regionAxis];
+            // Create points to region and current location of the source image in the desired region
+            float *oneRegionPtr = oneRegion, *imgFloatPtr = regionPtr + j * regionAxis;
+
+            // copy from image to region line by line
+            for (uint32_t line=0; line < regionAxis; line++)
+            {
+                memcpy(oneRegionPtr, imgFloatPtr, regionAxis);
+                oneRegionPtr += regionAxis;
+                imgFloatPtr  += width;
+            }
+
+            regions.append(oneRegion);
+        }
+
+        // Move regionPtr block by (width * regionAxis) elements
+        regionPtr += width * regionAxis;
+    }
+
+    // We're done with imgFloat
+    delete [] imgFloat;
+
+    return regions;
+}
+
+void cgmath::setRegionAxis(const uint32_t &value)
+{
+    regionAxis = value;
+}
+
 Vector cgmath::findLocalStarPosition( void ) const
 {
     if (useRapidGuide)
@@ -543,6 +704,67 @@ Vector cgmath::findLocalStarPosition( void ) const
     }
 
     FITSData * imageData = guideView->getImageData();
+
+    if (imageGuideEnabled)
+    {
+        float xshift=0, yshift=0;
+
+        QVector<Vector> shifts;
+        float xsum=0, ysum=0;
+
+        QVector<float *> imageParition = partitionImage();
+
+        if (imageParition.isEmpty())
+        {
+            qWarning() << "Failed to partiion regions in image!";
+            return Vector(-1,-1,-1);
+        }
+
+        if (imageParition.count() != referenceRegions.count())
+        {
+            qWarning() << "Mismatch between reference regions #" << referenceRegions.count() << "and image parition regions #" << imageParition.count();
+            // Clear memory in case of mis-match
+            foreach(float *region, imageParition)
+            {
+                delete [] region;
+            }
+
+            return Vector(-1,-1,-1);
+        }
+
+        for (uint8_t i=0; i < imageParition.count(); i++)
+        {
+            ImageAutoGuiding::ImageAutoGuiding1(referenceRegions[i], imageParition[i], regionAxis, &xshift, &yshift);
+            Vector shift(xshift, yshift, -1);
+            if (Options::guideLogging())
+                qDebug() << "Guide: Region #" << i << ": X-Shift=" << xshift << "Y-Shift=" << yshift;
+
+            xsum += xshift;
+            ysum += yshift;
+            shifts.append(shift);
+        }
+
+        // Delete partitions
+        foreach(float *region, imageParition)
+        {
+            delete [] region;
+        }
+        imageParition.clear();
+
+        float average_x= xsum / referenceRegions.count();
+        float average_y= ysum / referenceRegions.count();
+
+        float median_x = shifts[referenceRegions.count()/2-1].x;
+        float median_y = shifts[referenceRegions.count()/2-1].y;
+
+        if (Options::guideLogging())
+        {
+            qDebug() << "Guide: Average : X-Shift=" << average_x << "Y-Shift=" << average_y;
+            qDebug() << "Guide: Median  : X-Shift=" << median_x << "Y-Shift=" << median_y;
+        }
+
+        return Vector(median_x, median_y, -1);
+    }
 
     switch (imageData->getDataType())
     {
@@ -1201,6 +1423,16 @@ const char * cgmath::get_direction_string(GuideDirection dir)
 
     return "NO DIR";
 
+}
+
+bool cgmath::isImageGuideEnabled() const
+{
+    return imageGuideEnabled;
+}
+
+void cgmath::setImageGuideEnabled(bool value)
+{
+    imageGuideEnabled = value;
 }
 
 //---------------------------------------------------------------------------------------
