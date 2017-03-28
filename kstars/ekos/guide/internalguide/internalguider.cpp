@@ -30,16 +30,13 @@ InternalGuider::InternalGuider()
     // Create math object
     pmath = new cgmath();
 
-    //connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SIGNAL(newAxisDelta(double,double)));
-    //connect(pmath, SIGNAL(newAxisDelta(double,double)), this, SLOT(updateGuideDriver(double,double)));
-    //connect(pmath, SIGNAL(newStarPosition(QVector3D,bool)), this, SLOT(setStarPosition(QVector3D,bool)));
     connect(pmath, SIGNAL(newStarPosition(QVector3D,bool)), this, SIGNAL(newStarPosition(QVector3D,bool)));
 
     // Calibration
     calibrationStage = CAL_IDLE;
 
-    //is_started = false;
-    axis = GUIDE_RA;
+    state = GUIDE_IDLE;
+
     auto_drift_time = 5;
 
     start_x1 = start_y1 = 0;
@@ -60,7 +57,10 @@ bool InternalGuider::guide()
 
     if (state >= GUIDE_GUIDING)
     {
-        return processGuiding();
+        if (imageGuideEnabled)
+            return processImageGuiding();
+        else
+            return processGuiding();
     }
 
     guideFrame->disconnect(this);
@@ -807,6 +807,80 @@ bool InternalGuider::processGuiding()
     //pDriftOut->update();
 
     return true;
+}
+
+bool InternalGuider::processImageGuiding()
+{
+    static int maxPulseCounter=0;
+    const cproc_out_params * out;
+    uint32_t tick = 0;
+
+    // calc math. it tracks square
+    pmath->performProcessing();
+
+    if (pmath->isStarLost() && ++m_lostStarTries > 2)
+    {
+        emit newLog(i18n("Lost track of phase shift."));
+        abort();
+        return false;
+    }
+    else
+        m_lostStarTries = 0;
+
+    // do pulse
+    out = pmath->getOutputParameters();
+
+    // If within 90% of max pulse repeatedly, let's abort
+    if (out->pulse_length[GUIDE_RA] >=  (0.9 * Options::rAMaximumPulse()) || out->pulse_length[GUIDE_DEC] >= (0.9 * Options::dECMaximumPulse()))
+        maxPulseCounter++;
+    else
+        maxPulseCounter=0;
+
+    if (maxPulseCounter >= 3)
+    {
+        emit newLog(i18n("Lost track of phase shift. Aborting guiding..."));
+        abort();
+        maxPulseCounter=0;
+        return false;
+    }
+
+    emit newPulse( out->pulse_dir[GUIDE_RA], out->pulse_length[GUIDE_RA], out->pulse_dir[GUIDE_DEC], out->pulse_length[GUIDE_DEC] );
+
+    emit frameCaptureRequested();
+
+    if (state == GUIDE_DITHERING)
+        return true;
+
+    tick = pmath->getTicks();
+
+    if( tick & 1 )
+    {
+        // draw some params in window
+        emit newAxisDelta(out->delta[GUIDE_RA], out->delta[GUIDE_DEC]);
+
+        emit newAxisPulse(out->pulse_length[GUIDE_RA], out->pulse_length[GUIDE_DEC]);
+
+        emit newAxisSigma(out->sigma[GUIDE_RA], out->sigma[GUIDE_DEC]);
+    }
+
+    return true;
+}
+
+bool InternalGuider::isImageGuideEnabled() const
+{
+    return imageGuideEnabled;
+}
+
+void InternalGuider::setImageGuideEnabled(bool value)
+{
+    imageGuideEnabled = value;
+
+    pmath->setImageGuideEnabled(value);
+}
+
+void InternalGuider::setRegionAxis(uint32_t value)
+{
+    pmath->setRegionAxis(value);
 }
 
 }

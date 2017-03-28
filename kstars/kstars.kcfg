@@ -1732,6 +1732,14 @@
          <label>Guide square size index (0 to 4) corresponding to pixel sizes (8 to 128).</label>
          <default>2</default>
       </entry>
+      <entry name="ImageGuidingEnabled" type="Bool">
+         <label>Use Image Guiding algorithms instead of classical centroid guiding.</label>
+         <default>false</default>
+      </entry>
+      <entry name="GuideRegionAxis" type="UInt">
+         <label>Region Axis Index (0 to 4) corresponding to NxN parition size used Image Guiding (64 to 1024).</label>
+         <default>1</default>
+      </entry>
       <entry name="GuideAutoStarEnabled" type="Bool">
          <label>Automatically select calibration star and perform calibration.</label>
          <default>false</default>

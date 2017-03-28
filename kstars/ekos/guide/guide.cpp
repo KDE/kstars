@@ -1441,6 +1441,8 @@ bool Guide::setGuiderType(int type)
 
             guider = internalGuider;
 
+            internalGuider->setRegionAxis(opsGuide->kcfg_GuideRegionAxis->currentText().toInt());
+
             calibrateB->setEnabled(true);
             guideB->setEnabled(false);
             captureB->setEnabled(true);
@@ -1985,8 +1987,13 @@ void Guide::buildOperationStack(GuideState operation)
                 if (subFramed == false && Options::guideSubframeEnabled() && Options::guideAutoStarEnabled())
                     operationStack.push(GUIDE_CAPTURE);
 
-                operationStack.push(GUIDE_SUBFRAME);
-                operationStack.push(GUIDE_STAR_SELECT);
+                // Do not subframe and auto-select star on Image Guiding mode
+                if (Options::imageGuidingEnabled() == false)
+                {
+                    operationStack.push(GUIDE_SUBFRAME);
+                    operationStack.push(GUIDE_STAR_SELECT);
+                }
+
                 operationStack.push(GUIDE_CAPTURE);
 
                 // If we are being ask to go full frame, let's do that first
@@ -2029,7 +2036,18 @@ bool Guide::executeOperationStack()
 
         case GUIDE_CALIBRATING:
             if (guiderType == GUIDE_INTERNAL)
+            {
                 guider->setStarPosition(starCenter);
+                dynamic_cast<InternalGuider*>(guider)->setImageGuideEnabled(Options::imageGuidingEnabled());
+
+                // No need to calibrate
+                if (Options::imageGuidingEnabled())
+                {
+                    setStatus(GUIDE_CALIBRATION_SUCESS);
+                    break;
+                }
+            }
+
             if (guider->calibrate())
             {
                 if (guiderType == GUIDE_INTERNAL)
