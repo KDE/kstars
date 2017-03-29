@@ -429,7 +429,7 @@ void SkyPoint::updateCoords( const KSNumbers * num, bool /*includePlanets*/, con
     {
         recompute = ( Options::alwaysRecomputeCoordinates() ||
                       forceRecompute ||
-                      fabs( lastPrecessJD - num->getJD() ) >= 0.00069444); // Update once per solar minute
+                      std::abs( lastPrecessJD - num->getJD() ) >= 0.00069444); // Update once per solar minute
         lens = false;
     }
     if( recompute )

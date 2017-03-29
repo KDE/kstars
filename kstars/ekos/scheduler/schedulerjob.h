@@ -163,7 +163,6 @@ class SchedulerJob
         bool timeSlotAllocated;
         bool inSequenceFocus;
 
-        double Dawn, Dusk;
         QString dateTimeDisplayFormat;
         QString profile;
 

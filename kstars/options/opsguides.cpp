@@ -40,7 +40,7 @@ OpsGuides::OpsGuides()
     // checkboxes depending on the options.
     slotToggleOpaqueGround( Options::showGround() );
     slotToggleConstellOptions( Options::showCNames() );
-    slotToggleConstellationArt(Options::showConstellationArt);
+    slotToggleConstellationArt(Options::showConstellationArt() );
     slotToggleMilkyWayOptions( Options::showMilkyWay() );
     slotToggleAutoSelectGrid( Options::autoSelectGrid() );
 

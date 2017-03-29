@@ -916,6 +916,7 @@ dc1394_bayer_Simple(const uint8_t *restrict bayer, uint8_t *restrict rgb, int sx
 dc1394error_t
 dc1394_bayer_NearestNeighbor_uint16(const uint16_t *restrict bayer, uint16_t *restrict rgb, int sx, int sy, int tile, int bits)
 {
+    (void)bits;
     const int bayerStep = sx;
     const int rgbStep = 3 * sx;
     int width = sx;
@@ -1000,6 +1001,7 @@ dc1394_bayer_NearestNeighbor_uint16(const uint16_t *restrict bayer, uint16_t *re
 dc1394error_t
 dc1394_bayer_Bilinear_uint16(const uint16_t *restrict bayer, uint16_t *restrict rgb, int sx, int sy, int tile, int bits)
 {
+    (void)bits;
     const int bayerStep = sx;
     const int rgbStep = 3 * sx;
     int width = sx;
@@ -2208,7 +2210,8 @@ dc1394_bayer_AHD(const uint8_t *restrict bayer,
     /* start - code from border_interpolate (int border) */
     {
         int border = 3;
-        unsigned row, col, y, x, f, c, sum[8];
+        int row, col, y, x;
+        unsigned f, c, sum[8];
 
         for (row=0; row < height; row++)
             for (col=0; col < width; col++) {
@@ -2382,7 +2385,8 @@ dc1394_bayer_AHD_uint16(const uint16_t *restrict bayer,
     /* start - code from border_interpolate(int border) */
     {
         int border = 3;
-        unsigned row, col, y, x, f, c, sum[8];
+        int row, col, y, x;
+        unsigned f, c, sum[8];
 
         for (row=0; row < height; row++)
             for (col=0; col < width; col++) {
