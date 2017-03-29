@@ -1028,6 +1028,17 @@ add_executable(kstars ${KSTARS_APP_SRCS})
 target_link_libraries(kstars KStarsLib)
 
 if(NOT BUILD_KSTARS_LITE)
+    if (CFITSIO_FOUND)
+        set (fitsdebayertool_SRCS
+            fitsviewer/fitsdebayertool.cpp
+            )
+        add_executable(fitsdebayertool ${fitsdebayertool_SRCS})
+        target_link_libraries(fitsdebayertool KStarsLib)
+    endif(CFITSIO_FOUND)
+    install(TARGETS fitsdebayertool ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+endif(NOT BUILD_KSTARS_LITE)
+
+if(NOT BUILD_KSTARS_LITE)
     install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
     ########### install files ###############
