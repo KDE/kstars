@@ -337,7 +337,7 @@ void SkyQPainter::drawSkyPolyline(LineList * list, SkipList * skipList, LineList
 
 void SkyQPainter::drawSkyPolygon(LineList * list, bool forceClip)
 {
-    bool isVisible, isVisibleLast;
+    bool isVisible = false, isVisibleLast;
     SkyList * points = list->points();
     QPolygonF polygon;
 

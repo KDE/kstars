@@ -562,7 +562,7 @@ void EyepieceField::render()
 
 void EyepieceField::slotDownloadDss()
 {
-    double fovWidth, fovHeight;
+    double fovWidth = 0, fovHeight = 0;
     if( m_fovWidth == 0 && m_currentFOV == 0 )
     {
         fovWidth = fovHeight = 15.0;

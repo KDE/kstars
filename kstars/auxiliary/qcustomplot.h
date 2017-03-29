@@ -3886,7 +3886,6 @@ class QCP_LIB_DECL QCPAbstractPlottable : public QCPLayerable
         void setSelectionDecorator(QCPSelectionDecorator * decorator);
 
         // introduced virtual methods:
-        virtual double selectTest(const QPointF &pos, bool onlySelectable, QVariant * details=0) const = 0;
         virtual QCPPlottableInterface1D * interface1D()
         {
             return 0;
@@ -4068,7 +4067,7 @@ class QCP_LIB_DECL QCPItemPosition : public QCPItemAnchor
             return mValueAxis.data();
         }
         QCPAxisRect * axisRect() const;
-        virtual QPointF pixelPosition() const;
+        virtual QPointF pixelPosition() const Q_DECL_OVERRIDE;
 
         // setters:
         void setType(PositionType type);
@@ -4464,7 +4463,7 @@ class QCP_LIB_DECL QCustomPlot : public QWidget
         virtual QSize sizeHint() const Q_DECL_OVERRIDE;
         virtual void paintEvent(QPaintEvent * event) Q_DECL_OVERRIDE;
         virtual void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
-        bool event( QEvent * event );
+        virtual bool event( QEvent * event ) Q_DECL_OVERRIDE;
         virtual void mouseDoubleClickEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
         virtual void mousePressEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
         virtual void mouseMoveEvent(QMouseEvent * event) Q_DECL_OVERRIDE;
@@ -7166,16 +7165,16 @@ class QCP_LIB_DECL QCPErrorBars : public QCPAbstractPlottable, public QCPPlottab
         void addData(double errorMinus, double errorPlus);
 
         // virtual methods of 1d plottable interface:
-        virtual int dataCount() const;
-        virtual double dataMainKey(int index) const;
-        virtual double dataSortKey(int index) const;
-        virtual double dataMainValue(int index) const;
-        virtual QCPRange dataValueRange(int index) const;
-        virtual QPointF dataPixelPosition(int index) const;
-        virtual bool sortKeyIsMainKey() const;
-        virtual QCPDataSelection selectTestRect(const QRectF &rect, bool onlySelectable) const;
-        virtual int findBegin(double sortKey, bool expandedRange=true) const;
-        virtual int findEnd(double sortKey, bool expandedRange=true) const;
+        virtual int dataCount() const Q_DECL_OVERRIDE;
+        virtual double dataMainKey(int index) const Q_DECL_OVERRIDE;
+        virtual double dataSortKey(int index) const Q_DECL_OVERRIDE;
+        virtual double dataMainValue(int index) const Q_DECL_OVERRIDE;
+        virtual QCPRange dataValueRange(int index) const Q_DECL_OVERRIDE;
+        virtual QPointF dataPixelPosition(int index) const Q_DECL_OVERRIDE;
+        virtual bool sortKeyIsMainKey() const Q_DECL_OVERRIDE;
+        virtual QCPDataSelection selectTestRect(const QRectF &rect, bool onlySelectable) const Q_DECL_OVERRIDE;
+        virtual int findBegin(double sortKey, bool expandedRange=true) const Q_DECL_OVERRIDE;
+        virtual int findEnd(double sortKey, bool expandedRange=true) const Q_DECL_OVERRIDE;
 
         // reimplemented virtual methods:
         virtual double selectTest(const QPointF &pos, bool onlySelectable, QVariant * details=0) const Q_DECL_OVERRIDE;

@@ -240,7 +240,7 @@ void KStarsData::updateTime( GeoLocation * geo, const bool automaticDSTchange )
 
     KSNumbers num( ut().djd() );
 
-    if ( fabs( ut().djd() - LastNumUpdate.djd() ) > 1.0 )
+    if ( std::abs( ut().djd() - LastNumUpdate.djd() ) > 1.0 )
     {
         LastNumUpdate = ut().djd();
         m_preUpdateNumID++;
@@ -248,14 +248,14 @@ void KStarsData::updateTime( GeoLocation * geo, const bool automaticDSTchange )
         skyComposite()->update( &num );
     }
 
-    if ( fabs( ut().djd() - LastPlanetUpdate.djd() ) > 0.01 )
+    if ( std::abs( ut().djd() - LastPlanetUpdate.djd() ) > 0.01 )
     {
         LastPlanetUpdate = ut().djd();
         skyComposite()->updateSolarSystemBodies( &num );
     }
 
     // Moon moves ~30 arcmin/hr, so update its position every minute.
-    if ( fabs( ut().djd() - LastMoonUpdate.djd() ) > 0.00069444 )
+    if ( std::abs( ut().djd() - LastMoonUpdate.djd() ) > 0.00069444 )
     {
         LastMoonUpdate = ut();
         skyComposite()->updateMoons( &num );
@@ -263,7 +263,7 @@ void KStarsData::updateTime( GeoLocation * geo, const bool automaticDSTchange )
 
     //Update Alt/Az coordinates.  Timescale varies with zoom level
     //If Clock is in Manual Mode, always update. (?)
-    if ( fabs( ut().djd() - LastSkyUpdate.djd() ) > 0.1/Options::zoomFactor() || clock()->isManualMode() )
+    if ( std::abs( ut().djd() - LastSkyUpdate.djd() ) > 0.1/Options::zoomFactor() || clock()->isManualMode() )
     {
         LastSkyUpdate = ut();
         m_preUpdateID++;

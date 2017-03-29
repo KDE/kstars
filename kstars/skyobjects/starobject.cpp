@@ -477,7 +477,7 @@ void StarObject::JITupdate()
 
         if  ( Options::alwaysRecomputeCoordinates() ||
                 ( Options::useRelativistic() && checkBendLight() ) ||
-                fabs(lastPrecessJD - data->updateNum()->getJD() ) >= 0.00069444) // Update is once per solar minute
+                std::abs(lastPrecessJD - data->updateNum()->getJD() ) >= 0.00069444) // Update is once per solar minute
         {
             // Short circuit right here, if recomputing coordinates is not required. NOTE: POTENTIALLY DANGEROUS
             updateCoords( data->updateNum() );
