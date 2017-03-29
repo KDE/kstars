@@ -1737,7 +1737,7 @@
          <default>false</default>
       </entry>
       <entry name="GuideRegionAxis" type="UInt">
-         <label>Region Axis Index (0 to 4) corresponding to NxN partion size used Image Guiding (64 to 1024).</label>
+         <label>Region Axis Index (0 to 4) corresponding to NxN partition size used Image Guiding (64 to 1024).</label>
          <default>1</default>
       </entry>
       <entry name="GuideAutoStarEnabled" type="Bool">
