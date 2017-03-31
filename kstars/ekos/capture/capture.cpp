@@ -3479,36 +3479,39 @@ double Capture::setCurrentADU(double value)
     if (ExpRaw.count() >= 2)
     {
         double chisq = 0;
-        // This would normally fail for only 2 points since we require 3 coefficients.
-        // But it _could_ also fail for 3 or more points as well and as a precaution we will fall back
-        // to llsq in both cases.
-        coeff = gsl_polynomial_fit(ADURaw.data(), ExpRaw.data(), ExpRaw.count(), 2, chisq);
-        if (Options::captureLogging())
+        if (ExpRaw.count() >= 4)
         {
-            qDebug() << "Capture: Running polynomial fitting. Found " << coeff.size() << " coefficients.";
-            for (size_t i=0; i < coeff.size(); i++)
-                qDebug() << "Capture: Coeff #" << i << "=" << coeff[i];
-        }
-
-        if (coeff.size() == 3)
-        {
-            // If we get invalid data, let's fall back to llsq
-            if (std::isnan(coeff[0]) || std::isinf(coeff[0]))
+            coeff = gsl_polynomial_fit(ADURaw.data(), ExpRaw.data(), ExpRaw.count(), 2, chisq);
+            if (Options::captureLogging())
             {
-
-                double a=0, b=0;
-                llsq(ExpRaw, ADURaw, a, b);
-
-                if (Options::captureLogging())
-                    qDebug() << "Capture: polynomial fitting invalid, faling back to llsq. a=" << a << " b=" << b;
-
-                // If we have valid results, let's calculate next exposure
-                if (a != 0)
-                    nextExposure = (targetADU - b) / a;
+                qDebug() << "Capture: Running polynomial fitting. Found " << coeff.size() << " coefficients.";
+                for (size_t i=0; i < coeff.size(); i++)
+                    qDebug() << "Capture: Coeff #" << i << "=" << coeff[i];
             }
-            else
-                nextExposure = coeff[0]  + (coeff[1] * targetADU) + (coeff[2] * pow(targetADU, 2));
         }
+
+        // If we get invalid data, let's fall back to llsq
+        // Since polyfit can be unreliable at low counts, let's only use it at the 4th exposure
+        // if we don't have results already.
+        if (ExpRaw.count() < 4 || std::isnan(coeff[0]) || std::isinf(coeff[0]))
+        {
+            double a=0, b=0;
+            llsq(ExpRaw, ADURaw, a, b);
+
+            if (Options::captureLogging())
+                qDebug() << "Capture: polynomial fitting invalid, faling back to llsq. a=" << a << " b=" << b;
+
+            // If we have valid results, let's calculate next exposure
+            if (a != 0)
+            {
+                nextExposure = (targetADU - b) / a;
+                // If we get invalid value, let's just proceed iteratively
+                if (nextExposure < 0)
+                    nextExposure = 0;
+            }
+        }
+        else if (coeff.size() == 3)
+            nextExposure = coeff[0]  + (coeff[1] * targetADU) + (coeff[2] * pow(targetADU, 2));
     }
 
     if (nextExposure == 0)
@@ -4021,7 +4024,13 @@ bool Capture::processPostCaptureCalibrationStage()
                 return true;
             }
 
-            double nextExposure = setCurrentADU(currentADU);
+            double nextExposure = -1;
+
+            // If value is saturdated, try to reduce it to valid range first
+            if (image_data->getMax(0) == image_data->getMin(0))
+                nextExposure = activeJob->getExposure()*0.5;
+            else
+                nextExposure = setCurrentADU(currentADU);
 
             if (nextExposure <= 0)
             {
