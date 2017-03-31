@@ -108,6 +108,7 @@ Focus::Focus()
     connect(showFITSViewerB, SIGNAL(clicked()), this, SLOT(showFITSViewer()));
 
     toggleFullScreenB->setIcon(QIcon::fromTheme("view-fullscreen", QIcon(":/icons/breeze/default/view-fullscreen.svg")));
+    toggleFullScreenB->setShortcut(Qt::Key_F4);
     toggleFullScreenB->setAttribute(Qt::WA_LayoutUsesWidgetRect);
     connect(toggleFullScreenB, SIGNAL(clicked()), this, SLOT(toggleFocusingWidgetFullScreen()));
 
