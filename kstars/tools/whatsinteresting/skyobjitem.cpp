@@ -21,6 +21,7 @@
 #include "ksplanetbase.h"
 #include "skyobjitem.h"
 #include "ksutils.h"
+#include "kspaths.h"
 
 SkyObjItem::SkyObjItem(SkyObject * so) : m_Name(so->name()), m_LongName(so->longname()),m_TypeName(so->typeName()), m_So(so), skd(NULL)
 {
@@ -71,6 +72,10 @@ QVariant SkyObjItem::data(int role)
     {
         case DispNameRole:
             return getLongName();
+        case DispImageRole:
+            return getImageURL();
+        case DispSummaryRole:
+            return getDesc();
         case CategoryRole:
             return getType();
         case CategoryNameRole:
@@ -104,6 +109,24 @@ void SkyObjItem::setPosition(SkyObject * so)
 
     m_Position = xi18n("Now visible: About %1 degrees above the %2 horizon", rounded_altitude, KSUtils::toDirectionString( sp.az() ) );
 }
+
+QString SkyObjItem::getImageURL() const
+{
+    if ( m_Type==Star )
+    {
+        return "";
+    }
+
+    QString fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
+
+    if(fname=="" && m_Type==Planet){
+        fname=KSPaths::locate(QStandardPaths::GenericDataLocation, "xplanet/" + getLongName() + ".png" );
+    }
+
+    return fname;
+
+}
+
 
 QString SkyObjItem::getDesc() const
 {

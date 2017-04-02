@@ -34,7 +34,7 @@ class SkyObjItem
          * \enum SkyObjectRoles
          * User-defined role for the SkyObjItem
          */
-        enum SkyObjectRoles { DispNameRole = Qt::UserRole + 1, CategoryRole, CategoryNameRole };
+        enum SkyObjectRoles { DispNameRole = Qt::UserRole + 1, DispImageRole, DispSummaryRole, CategoryRole, CategoryNameRole };
 
         /**
          * \enum Type
@@ -113,6 +113,9 @@ class SkyObjItem
         {
             return m_So;
         }
+
+        QString getImageURL() const;
+
 
         /**
          * \brief Get description for the SkyObjItem.

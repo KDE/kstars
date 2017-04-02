@@ -83,6 +83,8 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
     klauncher->start("kdeinit5");
 #endif
 
+
+
     // Initialize logging settings
     if (Options::disableLogging())
         KSUtils::Logging::Disable();
