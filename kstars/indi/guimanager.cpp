@@ -91,7 +91,7 @@ GUIManager::GUIManager(QWidget * parent) : QWidget(parent, Qt::Window)
     connect(closeB, SIGNAL(clicked()), this, SLOT(close()));
     connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
 
-    resize( 640, 480);
+    resize(Options::iNDIWindowWidth(), Options::iNDIWindowHeight());
 }
 
 void GUIManager::changeAlwaysOnTop(Qt::ApplicationState state)
@@ -118,6 +118,9 @@ void GUIManager::closeEvent(QCloseEvent * /*event*/)
         QAction * centerTelescope = KStars::Instance()->actionCollection()->action( "lock_telescope" );
         centerTelescope->setChecked(false);
     }
+
+    Options::setINDIWindowWidth(width());
+    Options::setINDIWindowHeight(height());
 }
 
 void GUIManager::hideEvent(QHideEvent * /*event*/)
