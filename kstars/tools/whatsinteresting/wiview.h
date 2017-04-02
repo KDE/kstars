@@ -101,6 +101,11 @@ class WIView : public QWidget
         void onSlewButtonClicked();
 
         /**
+          * \brief public slot - Slew map to current sky-object in the details view.
+          */
+        void onSlewTelescopeButtonClicked();
+
+        /**
           * \brief public slot - Open Details Dialog to show more details for current sky-object.
           */
         void onDetailsButtonClicked();
@@ -117,7 +122,7 @@ class WIView : public QWidget
 
     private:
         QQuickItem * m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
-                   *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_DetailsButtonObj;
+                   *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_SlewTelescopeButtonObj, *m_DetailsButtonObj;
         QQmlContext * m_Ctxt;
         QQuickView * m_BaseView;
         ObsConditions * m_Obs;

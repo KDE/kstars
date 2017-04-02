@@ -29,6 +29,8 @@ QHash<int, QByteArray> SkyObjListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[SkyObjItem::DispNameRole] = "dispName";
+    roles[SkyObjItem::DispImageRole] = "imageSource";
+    roles[SkyObjItem::DispSummaryRole] = "dispObjSummary";
     roles[SkyObjItem::CategoryRole] = "type";
     roles[SkyObjItem::CategoryNameRole] = "typeName";
     return roles;

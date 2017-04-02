@@ -26,6 +26,13 @@
 #include <klocalizedcontext.h>
 #include "kspaths.h"
 
+#ifdef HAVE_INDI
+#include <basedevice.h>
+#include "indi/indilistener.h"
+#include "indi/indistd.h"
+#include "indi/driverinfo.h"
+#endif
+
 
 WIView::WIView(QWidget * parent, ObsConditions * obs) : QWidget(parent), m_Obs(obs), m_CurCategorySelected(-1)
 {
@@ -67,6 +74,9 @@ WIView::WIView(QWidget * parent, ObsConditions * obs) : QWidget(parent), m_Obs(o
 
     m_SlewButtonObj = m_BaseObj->findChild<QQuickItem *>("slewButtonObj");
     connect(m_SlewButtonObj, SIGNAL(slewButtonClicked()), this, SLOT(onSlewButtonClicked()));
+
+    m_SlewTelescopeButtonObj = m_BaseObj->findChild<QQuickItem *>("slewTelescopeButtonObj");
+    connect(m_SlewTelescopeButtonObj, SIGNAL(slewTelescopeButtonClicked()), this, SLOT(onSlewTelescopeButtonClicked()));
 
     m_DetailsButtonObj = m_BaseObj->findChild<QQuickItem *>("detailsButtonObj");
     connect(m_DetailsButtonObj, SIGNAL(detailsButtonClicked()), this, SLOT(onDetailsButtonClicked()));
@@ -134,6 +144,58 @@ void WIView::onSlewButtonClicked()
     }
 }
 
+void WIView::onSlewTelescopeButtonClicked()
+{
+
+    if(KMessageBox::Continue==KMessageBox::warningContinueCancel(NULL, "Are you sure you want your telescope to slew to this object?",
+            i18n("Continue Slew"),  KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "continue_wi_slew_warning"))
+    {
+
+#ifdef HAVE_INDI
+
+    if (INDIListener::Instance()->size() == 0)
+    {
+        KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+        return;
+    }
+
+    foreach(ISD::GDInterface * gd, INDIListener::Instance()->getDevices())
+    {
+        INDI::BaseDevice * bd = gd->getBaseDevice();
+
+        if (gd->getType() != KSTARS_TELESCOPE)
+            continue;
+
+        if (bd == NULL)
+            continue;
+
+        if (bd->isConnected() == false)
+        {
+            KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            return;
+        }
+
+
+        ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "TRACK", ISS_ON, this);
+
+        gd->setProperty(&SlewCMD);
+        gd->runCommand(INDI_SEND_COORDS, m_CurSoItem->getSkyObject());
+
+        ///Slew map to selected sky-object
+        onSlewButtonClicked();
+
+        return;
+
+    }
+
+    KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+
+#endif
+    }
+
+
+}
+
 void WIView::onDetailsButtonClicked()
 {
     ///Code taken from WUTDialog::slotDetails()
@@ -196,6 +258,7 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
 
     QObject * sonameObj = m_DetailsViewObj->findChild<QObject *>("sonameObj");
     QObject * posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
+    QObject * detailImage = m_DetailsViewObj->findChild<QObject *>("detailImage");
     QObject * descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
     QObject * descSrcTextObj = m_DetailsViewObj->findChild<QObject *>("descSrcTextObj");
     QObject * magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
@@ -204,6 +267,7 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
 
     sonameObj->setProperty("text", soitem->getLongName());
     posTextObj->setProperty("text", soitem->getPosition());
+    detailImage->setProperty("refreshableSource", soitem->getImageURL());
     descTextObj->setProperty("text", soitem->getDesc());
     descSrcTextObj->setProperty("text", soitem->getDescSource());
 

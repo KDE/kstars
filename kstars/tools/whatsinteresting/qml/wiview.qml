@@ -39,7 +39,7 @@ Rectangle {
         id: base
         y: 89
         width: parent.width
-        height: 385
+        height: parent.height
         anchors {
             left: parent.left
             leftMargin: 0
@@ -320,12 +320,9 @@ Rectangle {
             Flipable {
                 id: skyObjView
                 width: parent.width
-                height: parent.height
+                height: parent.height - 150
                 anchors.leftMargin: categoryView.width
-
-                //anchors.leftMargin: 370
                 anchors.left: categoryView.right
-
                 property bool flipped: false
 
                 front: Item {
@@ -346,7 +343,7 @@ Rectangle {
                         x: parent.x + 15
                         y: 31
                         width: parent.width - 30
-                        height: 351
+                        height: parent.height -30
                         color: "transparent"
                         radius: 12
                         border {
@@ -371,14 +368,23 @@ Rectangle {
                             delegate: Item {
                                 id: soListItem
                                 x: 8
-                                height: 40
+                                width: parent.width
+                                height: (dispSummary.height >= 130) ? dispSummary.height + 20 : 160
+                                
+                                Image { 
+                                	id: image
+                                	width: 150
+                                	fillMode: Image.PreserveAspectFit
+                                	source: imageSource 
+                                }
+
 
                                 Text {
                                     id: dispText
                                     objectName: dispName
                                     text: dispName
                                     color: "white"
-                                    anchors.verticalCenter: parent.verticalCenter
+
                                     font.bold: true
                                     MouseArea {
                                         anchors.fill: parent
@@ -394,6 +400,20 @@ Rectangle {
                                         }
                                     }
                                 }
+                                Text {
+                                    id: dispSummary
+                                    objectName: dispObjSummary
+                                    text: dispObjSummary
+                                    x: image.width + 5
+                                    width: parent.width - image.width - 30
+                                    color: "#187988"
+       
+                                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                    font{
+                                        family: "Cantarell"
+                                        pixelSize: 13
+                                    }
+                                }
                             }
 
                             model: soListModel
@@ -407,6 +427,7 @@ Rectangle {
                     height: parent.height
                     enabled: parent.flipped
 
+
                     Rectangle {
                         id: detailsViewBackground
                         anchors.fill: detailsView
@@ -419,7 +440,7 @@ Rectangle {
                         id: detailsView
                         objectName: "detailsViewObj"
                         x: parent.x + 15
-                        height: 415
+                        height: parent.height
                         width: parent.width - 30
                         color: "transparent"
                         radius: 12
@@ -446,11 +467,23 @@ Rectangle {
                             }
                             verticalAlignment: Text.AlignVCenter
                         }
+                        
+                        Image { 
+                             id: detailImg
+                             anchors{
+                                right: parent.right
+                             }
+                             objectName: "detailImage"
+                             property string refreshableSource
+                             height: 300
+                             fillMode: Image.PreserveAspectFit
+                             source: refreshableSource
+                        }
 
                         Text {
                             id: posText
                             objectName: "posTextObj"
-                            y: 45
+                            y: 300
                             anchors{
                                 right: parent.right
                                 rightMargin: 10
@@ -470,7 +503,7 @@ Rectangle {
 
                         Rectangle {
                             id: descTextBox
-                            y: 197
+                            y: 347
                             height: 175
                             color: "#010a14"
                             radius: 10
@@ -690,7 +723,7 @@ Rectangle {
                         Column {
                             id: detailItemsCol
                             x: 0
-                            y: 78
+                            y: 75
                             width: 200
                             height: 93
                             spacing: 14
@@ -716,13 +749,12 @@ Rectangle {
 
                         Column {
                             id: detailsViewButtonsCol
-                            y: 134
-                            //width: 132
-                            //height: 52
-                            anchors{
-                                right: parent.right
-                                rightMargin: 10
+                            y: 200
+                            anchors {
+                                left: parent.left
+                                leftMargin: 10
                             }
+                            
                             spacing: 14
 
                             Text {
@@ -774,6 +806,32 @@ Rectangle {
                                     onEntered: slewButton.color = "yellow"
                                     onExited: slewButton.color = "white"
                                     onClicked: slewButton.slewButtonClicked()
+                                }
+                            }
+                            
+                            Text {
+                                id: slewTelescopeButton
+                                objectName: "slewTelescopeButtonObj"
+
+                                verticalAlignment: Text.AlignVCenter
+                                color: "white"
+                                text: xi18n("Slew telescope to object")
+                                font {
+                                    underline: true
+                                    family: "Cantarell"
+                                    pixelSize: 14
+                                }
+
+                                signal slewTelescopeButtonClicked
+
+                                MouseArea {
+                                    id: slewTelescopeObjMouseArea
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    anchors.fill: parent
+                                    onEntered: slewTelescopeButton.color = "yellow"
+                                    onExited: slewTelescopeButton.color = "white"
+                                    onClicked: slewTelescopeButton.slewTelescopeButtonClicked()
                                 }
                             }
                         }
@@ -835,7 +893,7 @@ Rectangle {
     Rectangle {
         id: backButton
         x: container.width + 10
-        y: 518
+        y: container.height - 50
         width: leftArrow.width + goBackText.width + 18
         height: 49
         color: "#00000000"
@@ -907,7 +965,7 @@ Rectangle {
         id: settingsIcon
         objectName: "settingsIconObj"
         x: 9
-        y: 529
+        y: container.height - 50
         width: 28
         height: 28
         anchors{
@@ -945,7 +1003,7 @@ Rectangle {
         id: reloadIcon
         objectName: "reloadIconObj"
         x: 50
-        y: 529
+        y: container.height - 50
         width: 28
         height: 28
         anchors{
