@@ -148,6 +148,10 @@ add_definitions(-Dfexceptions)
 
 # TEMPORARY: To disable QCustomPlot warning until 2.0.0 is released which fixes these warnings
 add_definitions(-Wno-non-virtual-dtor)
+
+# Optimize binary size by dropping unneeded symbols at linking stage
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdata-sections -ffunction-sections")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections")
 endif(UNIX)
 
 configure_file(
