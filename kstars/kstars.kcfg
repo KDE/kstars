@@ -131,6 +131,14 @@
    </group>
 
    <group name="indi">
+    <entry name="INDIWindowWidth" type="UInt">
+          <label>INDI window width</label>
+          <default>800</default>
+    </entry>
+    <entry name="INDIWindowHeight" type="UInt">
+          <label>INDI window height</label>
+          <default>600</default>
+    </entry>
       <entry name="useGeographicUpdate" type="Bool">
          <label>Automatically updates geographic location?</label>
          <default>true</default>
@@ -1336,6 +1344,14 @@
       </entry>
    </group>
    <group name="Ekos">
+    <entry name="EkosWindowWidth" type="UInt">
+             <label>Ekos window width</label>
+             <default>600</default>
+    </entry>
+    <entry name="EkosWindowHeight" type="UInt">
+             <label>Ekos window height</label>
+             <default>600</default>
+    </entry>
       <entry name="independentWindowEkos" type="Bool">
          <label>Make Ekos window independent of KStars main window</label>
          <default>false</default>

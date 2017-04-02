@@ -198,6 +198,8 @@ EkosManager::EkosManager(QWidget * parent) : QDialog(parent)
     QVBoxLayout * vlayout = new QVBoxLayout();
     vlayout->addWidget(previewView);
     previewWidget->setLayout(vlayout);
+
+    resize(Options::ekosWindowWidth(), Options::ekosWindowHeight());
 }
 
 void EkosManager::changeAlwaysOnTop(Qt::ApplicationState state)
@@ -239,6 +241,9 @@ void EkosManager::closeEvent(QCloseEvent * /*event*/)
 {
     QAction * a = KStars::Instance()->actionCollection()->action( "show_ekos" );
     a->setChecked(false);
+
+    Options::setEkosWindowWidth(width());
+    Options::setEkosWindowHeight(height());
 }
 
 void EkosManager::hideEvent(QHideEvent * /*event*/)
