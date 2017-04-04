@@ -120,6 +120,9 @@ class WIView : public QWidget
          */
         void onReloadIconClicked();
 
+        void tryToLoadFromWikipedia(QObject * descTextObj, QObject *descSrcTextObj, SkyObjItem * soitem);
+
+
     private:
         QQuickItem * m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
                    *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_SlewTelescopeButtonObj, *m_DetailsButtonObj;
