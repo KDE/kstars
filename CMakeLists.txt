@@ -150,8 +150,10 @@ add_definitions(-Dfexceptions)
 add_definitions(-Wno-non-virtual-dtor)
 
 # Optimize binary size by dropping unneeded symbols at linking stage
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdata-sections -ffunction-sections")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections")
+endif()
 endif(UNIX)
 
 configure_file(
