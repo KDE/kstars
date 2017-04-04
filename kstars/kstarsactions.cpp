@@ -575,7 +575,7 @@ void KStars::slotShowWIView(int status)
         m_wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
         QWidget * container = QWidget::createWindowContainer(m_WIView->getWIBaseView());
         m_wiDock->setWidget(container);
-        m_wiDock->setMinimumWidth(container->width());
+        m_wiDock->setMinimumWidth(300);
         addDockWidget(Qt::RightDockWidgetArea, m_wiDock);
         m_wiDock->setVisible(true);
     }

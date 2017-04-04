@@ -369,15 +369,34 @@ Rectangle {
                                 id: soListItem
                                 x: 8
                                 width: parent.width
-                                height: (dispSummary.height >= 130) ? dispSummary.height + 20 : 160
-                                
+                                height: (dispSummary.height >= 130) ? dispSummary.height + 20 : 160         
+ 
+                                Rectangle{
+                                	id: summaryBackground
+                                	color: "transparent"
+                                	width: parent.width
+    								height: parent.height
+									Text {
+										id: dispSummary
+										objectName: dispObjSummary
+										text: dispObjSummary
+										x: image.width + 5
+										width: parent.width - image.width - 30
+										color: "#187988"
+	   
+										wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+										font{
+											family: "Cantarell"
+											pixelSize: 13
+										}
+									}
+                                }
                                 Image { 
                                 	id: image
                                 	width: 150
                                 	fillMode: Image.PreserveAspectFit
                                 	source: imageSource 
                                 }
-
 
                                 Text {
                                     id: dispText
@@ -386,11 +405,20 @@ Rectangle {
                                     color: "white"
 
                                     font.bold: true
-                                    MouseArea {
+                                }
+                                MouseArea {
                                         anchors.fill: parent
                                         hoverEnabled: true
-                                        onEntered: dispText.color = "yellow"
-                                        onExited: dispText.color = "white"
+                                        onEntered:{ 
+                                        	dispText.color = "yellow"
+                                        	dispSummary.color = "yellow"
+                                        	summaryBackground.color = "#030723"
+                                    	}
+                                        onExited: {
+                                        	dispText.color = "white"
+                                        	dispSummary.color = "#187988"
+                                        	summaryBackground.color ="transparent"
+                                        }
                                         onClicked: {
                                             soListView.currentIndex = index
                                             soListView.soListItemClicked(
@@ -398,22 +426,7 @@ Rectangle {
                                                         soListView.currentIndex)
                                             skyObjView.flipped = true
                                         }
-                                    }
-                                }
-                                Text {
-                                    id: dispSummary
-                                    objectName: dispObjSummary
-                                    text: dispObjSummary
-                                    x: image.width + 5
-                                    width: parent.width - image.width - 30
-                                    color: "#187988"
-       
-                                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                                    font{
-                                        family: "Cantarell"
-                                        pixelSize: 13
-                                    }
-                                }
+                            	}
                             }
 
                             model: soListModel
@@ -448,12 +461,27 @@ Rectangle {
                             width: 4
                             color: "#000000"
                         }
+                        
+                        Image { 
+                             id: detailImg 
+                             height: 300
+                             width:parent.width - 200
+                             anchors{
+                                right: parent.right
+                             }
+                             objectName: "detailImage"
+                             property string refreshableSource
+                             fillMode: Image.PreserveAspectFit
+                             source: refreshableSource
+                        }
+
+
 
                         Text {
                             id: soname
                             objectName: "sonameObj"
                             y: 8
-                            width: 273
+                            width: parent.width
                             height: 22
                             color: "#ffffff"
                             text: xi18n("text")
@@ -467,19 +495,7 @@ Rectangle {
                             }
                             verticalAlignment: Text.AlignVCenter
                         }
-                        
-                        Image { 
-                             id: detailImg
-                             anchors{
-                                right: parent.right
-                             }
-                             objectName: "detailImage"
-                             property string refreshableSource
-                             height: 300
-                             fillMode: Image.PreserveAspectFit
-                             source: refreshableSource
-                        }
-
+                           
                         Text {
                             id: posText
                             objectName: "posTextObj"
@@ -488,7 +504,7 @@ Rectangle {
                                 right: parent.right
                                 rightMargin: 10
                             }
-                            width: 320
+                            width: parent.width
                             height: 16
                             color: "#f7f7ac"
                             text: xi18n("text")
@@ -504,7 +520,7 @@ Rectangle {
                         Rectangle {
                             id: descTextBox
                             y: 347
-                            height: 175
+                            height: 200
                             color: "#010a14"
                             radius: 10
                             border.width: 0
@@ -723,28 +739,17 @@ Rectangle {
                         Column {
                             id: detailItemsCol
                             x: 0
-                            y: 75
-                            width: 200
+                            y: 100
+                            width: parent.width
                             height: 93
                             spacing: 14
-
+                            
                             DetailsItem {
-                                id: sbText
-                                objectName: "sbTextObj"
-                                text: xi18n("Surface Brightness:")
+                                id: detailsText
+                                objectName: "detailsTextObj"
+                                
                             }
 
-                            DetailsItem {
-                                id: magText
-                                objectName: "magTextObj"
-                                text: xi18n("Magnitude: ")
-                            }
-
-                            DetailsItem {
-                                id: sizeText
-                                objectName: "sizeTextObj"
-                                text: xi18n("Size: ")
-                            }
                         }
 
                         Column {

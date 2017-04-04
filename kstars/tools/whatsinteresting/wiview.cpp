@@ -25,6 +25,8 @@
 #include "dialogs/detaildialog.h"
 #include <klocalizedcontext.h>
 #include "kspaths.h"
+#include "starobject.h"
+
 
 #ifdef HAVE_INDI
 #include <basedevice.h>
@@ -261,26 +263,77 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
     QObject * detailImage = m_DetailsViewObj->findChild<QObject *>("detailImage");
     QObject * descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
     QObject * descSrcTextObj = m_DetailsViewObj->findChild<QObject *>("descSrcTextObj");
-    QObject * magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
-    QObject * sbTextObj = m_DetailsViewObj->findChild<QObject *>("sbTextObj");
-    QObject * sizeTextObj = m_DetailsViewObj->findChild<QObject *>("sizeTextObj");
+    QObject * detailsTextObj = m_DetailsViewObj->findChild<QObject *>("detailsTextObj");
 
     sonameObj->setProperty("text", soitem->getLongName());
     posTextObj->setProperty("text", soitem->getPosition());
     detailImage->setProperty("refreshableSource", soitem->getImageURL());
     descTextObj->setProperty("text", soitem->getDesc());
+    if(soitem->getType() != SkyObjItem::Planet)
+        tryToLoadFromWikipedia(descTextObj, descSrcTextObj, soitem);
     descSrcTextObj->setProperty("text", soitem->getDescSource());
+
+    QString summary=soitem->getSummary();
 
     QString magText;
     if (soitem->getType() == SkyObjItem::Constellation)
         magText = xi18n("Magnitude:  --");
     else
-        magText = xi18n("Magnitude: %1 mag", QLocale().toString(soitem->getMagnitude(), 2));
-    magTextObj->setProperty("text", magText);
+        magText = xi18n("Magnitude: %1", QLocale().toString(soitem->getMagnitude(),'f', 2));
 
     QString sbText = xi18n("Surface Brightness: %1", soitem->getSurfaceBrightness());
-    sbTextObj->setProperty("text", sbText);
 
     QString sizeText = xi18n("Size: %1", soitem->getSize());
-    sizeTextObj->setProperty("text", sizeText);
+
+    QString details = summary + "\n" + sbText + "\n" + magText + "\n" + sizeText;
+    detailsTextObj->setProperty("text", details);
+
+}
+
+
+void WIView::tryToLoadFromWikipedia(QObject * descTextObj, QObject * descSrcTextObj, SkyObjItem * soitem)
+{
+    QString name;
+    if(soitem->getName().startsWith("M "))
+        name = soitem->getName().replace("M ","messier_").toLower().remove( ' ' );
+    else if(soitem->getType() == SkyObjItem::Constellation)
+        name = soitem->getName().toLower().remove( ' ' ) + "_constellation";
+    else if(soitem->getType() == SkyObjItem::Star){
+        StarObject *star=dynamic_cast<StarObject*>(soitem->getSkyObject());
+        if(star)
+            name = star->gname().toLower().remove( ' ' ); //the greek name seems to give the most consistent search results.
+        else
+            name = soitem->getName().toLower().remove( ' ' );
+    }else
+        name = soitem->getName().toLower().remove( ' ' );
+
+    QUrl url("https://en.wikipedia.org/w/api.php?action=opensearch&search=" + name + "&format=xml");
+
+    QNetworkAccessManager * manager = new QNetworkAccessManager();
+    QNetworkReply * response = manager->get(QNetworkRequest(url));
+    connect(manager, &QNetworkAccessManager::finished, this, [descTextObj, descSrcTextObj, manager, response]{
+      response->deleteLater();
+      manager->deleteLater();
+      if (response->error() != QNetworkReply::NoError) return;
+      QString contentType =
+        response->header(QNetworkRequest::ContentTypeHeader).toString();
+      if (!contentType.contains("charset=utf-8")) {
+        qWarning() << "Content charsets other than utf-8 are not implemented yet.";
+        return;
+      }
+    QString result = QString::fromUtf8(response->readAll());
+    int leftPos=result.indexOf("<Description")+34;
+    if(leftPos<34)
+        return;
+    int rightPos=result.indexOf("</Description>")-leftPos;
+
+    int leftURL=result.indexOf("<Url xml:space=\"preserve\">")+26;
+    int rightURL=result.indexOf("</Url>")-leftURL;
+
+    QString html="<HTML>" + result.mid(leftPos,rightPos) + "</HTML>";
+    QString srchtml="<HTML>Source: Wikipedia (<a href='" + result.mid(leftURL,rightURL) + "'>" + result.mid(leftURL,rightURL) + "</a>)</HTML>";
+
+      descTextObj->setProperty("text", html);
+      descSrcTextObj->setProperty("text", srchtml);
+    });
 }

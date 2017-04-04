@@ -75,7 +75,7 @@ QVariant SkyObjItem::data(int role)
         case DispImageRole:
             return getImageURL();
         case DispSummaryRole:
-            return getDesc();
+            return getSummary();
         case CategoryRole:
             return getType();
         case CategoryNameRole:
@@ -117,16 +117,21 @@ QString SkyObjItem::getImageURL() const
         return "";
     }
 
-    QString fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
-
+    QString fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "image_" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
+    if(fname=="")
+        fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
     if(fname=="" && m_Type==Planet){
-        fname=KSPaths::locate(QStandardPaths::GenericDataLocation, "xplanet/" + getLongName() + ".png" );
+        fname=KSPaths::locate(QStandardPaths::GenericDataLocation, "xplanet/" + m_So->name() + ".png" );
     }
 
     return fname;
 
 }
 
+QString SkyObjItem::getSummary() const
+{
+    return m_So->typeName()+"\n"+getRADE()+"\n"+getAltAz()+"\n";
+}
 
 QString SkyObjItem::getDesc() const
 {
@@ -160,7 +165,7 @@ QString SkyObjItem::getDesc() const
     if(m_Type == Star)
         return xi18n("Bright Star");
 
-    return getTypeName();
+    return m_So->typeName();
 
 }
 
@@ -197,7 +202,7 @@ QString SkyObjItem::getSurfaceBrightness() const
     {
         case Galaxy:
         case Nebula:
-            return QLocale().toString(SB, 2) + " mag/arcmin^2";
+            return QLocale().toString(SB,'f', 2) + "\n   (mag/arcmin^2)";
         default:
             return QString(" --"); // Not applicable for other sky-objects
     }
@@ -210,9 +215,9 @@ QString SkyObjItem::getSize() const
         case Galaxy:
         case Cluster:
         case Nebula:
-            return QLocale().toString(((DeepSkyObject *)m_So)->a(), 2) + " arcminutes";
+            return QLocale().toString(((DeepSkyObject *)m_So)->a(),'f', 2) + "\"";
         case Planet:
-            return QLocale().toString(((KSPlanetBase *)m_So)->angSize(), 2) + " arcseconds";
+            return QLocale().toString(((KSPlanetBase *)m_So)->angSize(),'f', 2) + "\"";
         default:
             return QString(" --");
     }

@@ -75,7 +75,10 @@ class SkyObjItem
          */
         inline QString getLongName() const
         {
-            return m_LongName;
+            if(m_LongName==m_Name)
+                return m_LongName;
+            else
+                return m_LongName + "\n (" + m_Name + ")";
         }
 
         /**
@@ -106,6 +109,24 @@ class SkyObjItem
         }
 
         /**
+         * \brief Get current RA/DE of sky-object associated with the SkyObjItem.
+         * \return Current RA/DE of sky-object associated with the SkyObjItem.
+         */
+        inline QString getRADE() const
+        {
+            return "RA: "+ m_So->ra().toHMSString() + "\nDE: " + m_So->ra().toDMSString();
+        }
+
+        /**
+         * \brief Get current Altitute and Azimuth of sky-object associated with the SkyObjItem.
+         * \return Current Altitute and Azimuth of sky-object associated with the SkyObjItem.
+         */
+        inline QString getAltAz() const
+        {
+            return "Alt: "+ QString::number(m_So->alt().Degrees(),'f', 2) + ", Az: " + QString::number(m_So->az().Degrees(),'f', 2);
+        }
+
+        /**
          * \brief Get sky-object associated with the SkyObjItem.
          * \return Pointer to SkyObject associated with the SkyObjItem.
          */
@@ -115,6 +136,13 @@ class SkyObjItem
         }
 
         QString getImageURL() const;
+
+
+        /**
+         * \brief Get Summary Description for the SkyObjItem.
+         * \return Summary Description for the SkyObjItem as a QString.
+         */
+        QString getSummary() const;
 
 
         /**
