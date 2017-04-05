@@ -182,6 +182,9 @@ bool syncProfile(ProfileInfo * pi)
     while (i.hasNext())
     {
         QString name = i.next().value();
+        // Do NOT add guide application selections which are only for user-friendly reasons
+        if (name == "PHD2" || name == "LinGuider")
+            continue;
         QJsonObject driver;
         driver.insert("label", name);
         driverArray.append(driver);
