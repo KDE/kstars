@@ -32,6 +32,7 @@ OpsSolarSystem::OpsSolarSystem()
     connect( kcfg_ShowAsteroids, SIGNAL( toggled(bool) ), SLOT( slotAsteroidWidgets(bool) ) );
     connect( kcfg_MagLimitAsteroidDownload, SIGNAL( valueChanged( double ) ), this, SLOT( slotChangeMagDownload( double ) ) );
     connect( kcfg_ShowComets, SIGNAL( toggled(bool) ), SLOT( slotCometWidgets(bool) ) );
+
     connect( ClearAllTrails, SIGNAL( clicked() ), KStars::Instance(), SLOT( slotClearAllTrails() ) );
     connect( showAllPlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
     connect( showNonePlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
@@ -94,6 +95,7 @@ void OpsSolarSystem::slotCometWidgets( bool on )
     kcfg_ShowCometNames->setEnabled( on );
     kcfg_MaxRadCometName->setEnabled( on );
     textLabel4->setEnabled( on );
+    kcfg_ShowCometComas->setEnabled( on );
 }
 
 void OpsSolarSystem::slotSelectPlanets()
@@ -127,4 +129,3 @@ void OpsSolarSystem::slotApply()
     KStars::Instance()->updateTime();
     KStars::Instance()->map()->forceUpdate();
 }
-

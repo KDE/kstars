@@ -36,7 +36,9 @@ class LineListLabel;
 class Satellite;
 class Supernova;
 class ConstellationsArt;
-
+class KSComet;
+class SolarSystemComposite;
+class KSSun;
 
 /** @short Draws things on the sky, without regard to backend.
     This class serves as an interface to draw objects onto the sky without
@@ -109,6 +111,12 @@ class SkyPainter
             @see drawSkyPolyline()
             */
         virtual void drawSkyPolygon(LineList * list, bool forceClip=true) =0;
+
+        /** @short Draw a comet in the sky.
+            @param com comet to draw
+            @return true if a comet was drawn
+            */
+        virtual bool drawComet(KSComet * com) =0;
 
         /** @short Draw a point source (e.g., a star).
             @param loc the location of the source in the sky
