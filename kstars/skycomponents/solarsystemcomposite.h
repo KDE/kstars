@@ -48,6 +48,12 @@ class SolarSystemComposite : public SkyComposite
         {
             return m_Earth;
         }
+
+        KSSun * sun()
+        {
+            return m_Sun;
+        }
+
         const QList<SkyObject *> &asteroids() const;
         const QList<SkyObject *> &comets() const;
         const QList<SkyObject *> &planetObjects() const;

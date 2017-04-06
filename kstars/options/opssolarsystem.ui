@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>438</width>
-    <height>516</height>
+    <width>465</width>
+    <height>644</height>
    </rect>
   </property>
   <layout class="QVBoxLayout">
@@ -285,35 +285,12 @@
      <layout class="QVBoxLayout">
       <item>
        <layout class="QGridLayout">
-        <item row="3" column="0">
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
+        <item row="1" column="1">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Download asteroids brighter than</string>
           </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>16</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="1" column="2">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QDoubleSpinBox" name="kcfg_MagLimitAsteroidDownload"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>mag</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+         </widget>
         </item>
         <item row="0" column="0">
          <widget class="QCheckBox" name="kcfg_ShowAsteroids">
@@ -331,11 +308,72 @@
           </attribute>
          </widget>
         </item>
+        <item row="4" column="0">
+         <widget class="QCheckBox" name="kcfg_ShowComets">
+          <property name="toolTip">
+           <string>Draw comets?</string>
+          </property>
+          <property name="whatsThis">
+           <string>If checked, comets will be drawn on the map</string>
+          </property>
+          <property name="text">
+           <string>Comets</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <spacer>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>16</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="2" column="0" colspan="3">
+         <widget class="QLabel" name="MagLimitAsteroidDownloadWarning">
+          <property name="styleSheet">
+           <string notr="true">color:red; font-weight:bold;</string>
+          </property>
+          <property name="text">
+           <string>This value might result in a big data file and reduced performance!</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="1">
          <widget class="QLabel" name="textLabel3">
           <property name="text">
            <string>Show asteroids brighter than</string>
           </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QCheckBox" name="kcfg_ShowCometNames">
+          <property name="toolTip">
+           <string>Show names of comets near the Sun</string>
+          </property>
+          <property name="whatsThis">
+           <string>If checked, the comets near the Sun will have name labels attached.  Comets vary in brightness in their orbits, so a faint magnitude is not effective in this case.</string>
+          </property>
+          <property name="text">
+           <string>Show names of comets within</string>
+          </property>
+          <attribute name="buttonGroup">
+           <string notr="true">solarButtonGroup</string>
+          </attribute>
          </widget>
         </item>
         <item row="0" column="2">
@@ -367,6 +405,57 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="1" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QDoubleSpinBox" name="kcfg_MagLimitAsteroidDownload"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>mag</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="2">
+         <layout class="QHBoxLayout">
+          <item>
+           <widget class="QDoubleSpinBox" name="kcfg_MaxRadCometName">
+            <property name="toolTip">
+             <string>Maximum distance for comet names</string>
+            </property>
+            <property name="whatsThis">
+             <string>Set the maximum distance from the Sun for a comet to have a name label, in Astronomical Units (AU).  1 AU is the distance between the Earth and the Sun, approximately 150 million km</string>
+            </property>
+            <property name="decimals">
+             <number>2</number>
+            </property>
+            <property name="maximum">
+             <double>9999.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="textLabel4">
+            <property name="text">
+             <string>AU</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="2">
+         <widget class="QSlider" name="kcfg_AsteroidLabelDensity">
+          <property name="maximum">
+           <number>20</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
         </item>
         <item row="3" column="1">
          <layout class="QHBoxLayout">
@@ -411,92 +500,10 @@
           </item>
          </layout>
         </item>
-        <item row="3" column="2">
-         <widget class="QSlider" name="kcfg_AsteroidLabelDensity">
-          <property name="maximum">
-           <number>20</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QCheckBox" name="kcfg_ShowComets">
-          <property name="toolTip">
-           <string>Draw comets?</string>
-          </property>
-          <property name="whatsThis">
-           <string>If checked, comets will be drawn on the map</string>
-          </property>
+        <item row="5" column="1">
+         <widget class="QCheckBox" name="kcfg_ShowCometComas">
           <property name="text">
-           <string>Comets</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">solarButtonGroup</string>
-          </attribute>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QCheckBox" name="kcfg_ShowCometNames">
-          <property name="toolTip">
-           <string>Show names of comets near the Sun</string>
-          </property>
-          <property name="whatsThis">
-           <string>If checked, the comets near the Sun will have name labels attached.  Comets vary in brightness in their orbits, so a faint magnitude is not effective in this case.</string>
-          </property>
-          <property name="text">
-           <string>Show names of comets within</string>
-          </property>
-          <attribute name="buttonGroup">
-           <string notr="true">solarButtonGroup</string>
-          </attribute>
-         </widget>
-        </item>
-        <item row="4" column="2">
-         <layout class="QHBoxLayout">
-          <item>
-           <widget class="QDoubleSpinBox" name="kcfg_MaxRadCometName">
-            <property name="toolTip">
-             <string>Maximum distance for comet names</string>
-            </property>
-            <property name="whatsThis">
-             <string>Set the maximum distance from the Sun for a comet to have a name label, in Astronomical Units (AU).  1 AU is the distance between the Earth and the Sun, approximately 150 million km</string>
-            </property>
-            <property name="decimals">
-             <number>2</number>
-            </property>
-            <property name="maximum">
-             <double>9999.000000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="textLabel4">
-            <property name="text">
-             <string>AU</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Download asteroids brighter than</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0" colspan="3">
-         <widget class="QLabel" name="MagLimitAsteroidDownloadWarning">
-          <property name="styleSheet">
-           <string notr="true">color:red; font-weight:bold;</string>
-          </property>
-          <property name="text">
-           <string>This value might result in a big data file and reduced performance!</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <string>Show Comet Comas</string>
           </property>
          </widget>
         </item>

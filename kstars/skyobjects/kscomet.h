@@ -149,17 +149,17 @@ class KSComet : public KSPlanetBase
         /**
          *@short Sets the comet's apparent tail length in degrees
          */
-        void setTailAngSize( double tailangsize )
+        void setComaAngSize( double comaAngSize )
         {
-            TailAngSize = tailangsize;
+            ComaAngSize = comaAngSize;
         }
 
         /**
          *@return the estimated angular size of the tail as a dms
          */
-        inline dms getTailAngSize()
+        inline dms getComaAngSize()
         {
-            return dms( TailAngSize );
+            return dms( ComaAngSize );
         }
 
         /**
@@ -295,7 +295,7 @@ class KSComet : public KSPlanetBase
             *@param Earth planet Earth (needed to calculate geocentric coords)
             *@return true if position was successfully calculated.
             */
-        virtual bool findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * Earth=NULL );
+        virtual bool findGeocentricPosition( const KSNumbers * num, const KSPlanetBase * Earth = NULL );
 
         /**
          *@short Estimate physical parameters of the comet such as coma size, tail length and size of the nucleus
@@ -305,11 +305,11 @@ class KSComet : public KSPlanetBase
 
 
     private:
-        virtual void findMagnitude(const KSNumbers *);
+        virtual void findMagnitude( const KSNumbers * );
 
         long double JD, JDp;
         double q, e, a, P, EarthMOID;
-        double TailSize, TailAngSize, ComaSize, NuclearSize; // All in kilometres
+        double TailSize, ComaAngSize, ComaSize, NuclearSize; // All in kilometres
         float M1, M2, K1, K2, Albedo, Diameter, RotationPeriod, Period;
         dms i, w, N;
         QString OrbitID, OrbitClass, Dimensions ;

@@ -378,6 +378,11 @@
          <whatsthis>Toggle whether comets are drawn in the sky map.</whatsthis>
          <default>true</default>
       </entry>
+      <entry name="ShowCometComas" type="Bool">
+         <label>Draw comet comas in the sky map?</label>
+         <whatsthis>Toggle whether comet comas are drawn in the sky map.</whatsthis>
+         <default>true</default>
+      </entry>
       <entry name="ShowCometNames" type="Bool">
          <label>Label comet names in the sky map?</label>
          <whatsthis>Toggle whether comet name labels are drawn in the sky map.</whatsthis>
