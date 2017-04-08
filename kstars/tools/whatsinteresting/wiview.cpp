@@ -263,17 +263,21 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
     QObject * detailImage = m_DetailsViewObj->findChild<QObject *>("detailImage");
     QObject * descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
     QObject * descSrcTextObj = m_DetailsViewObj->findChild<QObject *>("descSrcTextObj");
+    QObject * infoBoxTextObj = m_DetailsViewObj->findChild<QObject *>("infoBoxText");
     QObject * detailsTextObj = m_DetailsViewObj->findChild<QObject *>("detailsTextObj");
 
     sonameObj->setProperty("text", soitem->getLongName());
     posTextObj->setProperty("text", soitem->getPosition());
-    detailImage->setProperty("refreshableSource", soitem->getImageURL());
+    detailImage->setProperty("refreshableSource", soitem->getImageURL(false));
     descTextObj->setProperty("text", soitem->getDesc());
     if(soitem->getType() != SkyObjItem::Planet)
-        tryToLoadFromWikipedia(descTextObj, descSrcTextObj, soitem);
+        loadObjectDescription(descTextObj, descSrcTextObj, soitem);
+
+    infoBoxTextObj->setProperty("text", "trying to Load infoText box from Wikipedia. . .");
+    loadObjectInfoBox(infoBoxTextObj, soitem);
     descSrcTextObj->setProperty("text", soitem->getDescSource());
 
-    QString summary=soitem->getSummary();
+    QString summary=soitem->getSummary(false);
 
     QString magText;
     if (soitem->getType() == SkyObjItem::Constellation)
@@ -285,13 +289,13 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
 
     QString sizeText = xi18n("Size: %1", soitem->getSize());
 
-    QString details = summary + "\n" + sbText + "\n" + magText + "\n" + sizeText;
+    QString details = summary + "<BR>" + sbText + "<BR>" + magText + "<BR>" + sizeText;
     detailsTextObj->setProperty("text", details);
 
 }
 
 
-void WIView::tryToLoadFromWikipedia(QObject * descTextObj, QObject * descSrcTextObj, SkyObjItem * soitem)
+void WIView::tryToLoadDescFromWikipedia(QObject * descTextObj, QObject * descSrcTextObj, SkyObjItem * soitem)
 {
     QString name;
     if(soitem->getName().startsWith("M "))
@@ -311,7 +315,7 @@ void WIView::tryToLoadFromWikipedia(QObject * descTextObj, QObject * descSrcText
 
     QNetworkAccessManager * manager = new QNetworkAccessManager();
     QNetworkReply * response = manager->get(QNetworkRequest(url));
-    connect(manager, &QNetworkAccessManager::finished, this, [descTextObj, descSrcTextObj, manager, response]{
+    connect(manager, &QNetworkAccessManager::finished, this, [soitem, this, descTextObj, descSrcTextObj, manager, response]{
       response->deleteLater();
       manager->deleteLater();
       if (response->error() != QNetworkReply::NoError) return;
@@ -333,7 +337,207 @@ void WIView::tryToLoadFromWikipedia(QObject * descTextObj, QObject * descSrcText
     QString html="<HTML>" + result.mid(leftPos,rightPos) + "</HTML>";
     QString srchtml="<HTML>Source: Wikipedia (<a href='" + result.mid(leftURL,rightURL) + "'>" + result.mid(leftURL,rightURL) + "</a>)</HTML>";
 
+      saveObjectText( soitem, "description", html);
       descTextObj->setProperty("text", html);
       descSrcTextObj->setProperty("text", srchtml);
     });
+
+
 }
+
+void WIView::loadObjectDescription(QObject * descTextObj, QObject * descSrcTextObj, SkyObjItem * soitem){
+    QFile file;
+    QString fname = "description-" + soitem->getName().toLower().remove( ' ' ) + ".html";
+    file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions/" + fname ) ; //determine filename in local user KDE directory tree.
+
+    if(file.exists()){
+
+    if(file.open(QIODevice::ReadOnly)){
+        QTextStream in(&file);
+        QString line;
+        while ( !in.atEnd() )
+        {
+            line = in.readLine();
+            descTextObj->setProperty("text", line);
+        }
+        file.close();
+    }
+    }
+    else{
+        tryToLoadDescFromWikipedia(descTextObj, descSrcTextObj, soitem);
+    }
+}
+
+void WIView::loadObjectInfoBox(QObject * infoBoxText, SkyObjItem * soitem)
+{
+    QFile file;
+    QString fname = "infoText-" + soitem->getName().toLower().remove( ' ' ) + ".html";
+    file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions/" + fname ) ; //determine filename in local user KDE directory tree.
+
+    if(file.exists())
+    {
+        if(file.open(QIODevice::ReadOnly))
+        {
+            QTextStream in(&file);
+            QString line;
+            while ( !in.atEnd() )
+            {
+                line = in.readAll();
+                infoBoxText->setProperty("text", line);
+                QTimer::singleShot(500, infoBoxText, SLOT(doLayout()));
+            }
+            file.close();
+        }
+    }
+    else
+    {
+        tryToLoadInfoBoxFromWikipedia(infoBoxText, soitem);
+    }
+}
+
+void WIView::tryToLoadInfoBoxFromWikipedia(QObject * infoBoxText, SkyObjItem * soitem)
+{
+    QString name;
+    if(soitem->getName().toLower().startsWith("m "))
+        name = soitem->getName().replace("M ","Messier_").remove( ' ' );
+    else if(soitem->getName().toLower().startsWith("ngc"))
+        name = soitem->getName().toLower().replace("ngc","NGC_").remove( ' ' );
+    else if(soitem->getName().toLower().startsWith("ic"))
+        name = soitem->getName().toLower().replace("ic","IC_").remove( ' ' );
+    else if(soitem->getType() == SkyObjItem::Constellation)
+        name = soitem->getName().toLower().replace( " ", "+" ) + "_constellation";
+    else if(soitem->getType() == SkyObjItem::Star){
+        StarObject *star=dynamic_cast<StarObject*>(soitem->getSkyObject());
+        if(star)
+            name = star->gname().toLower().remove( ' ' ); //the greek name seems to give the most consistent search results.
+        else
+            name = soitem->getName().toLower().remove( ' ' );
+    }else
+        name = soitem->getName().toLower().remove( ' ' );
+
+    QUrl url("https://en.wikipedia.org/w/index.php?action=render&title="+ name + "&redirects");
+
+    QNetworkAccessManager * manager = new QNetworkAccessManager();
+    QNetworkReply * response = manager->get(QNetworkRequest(url));
+    connect(manager, &QNetworkAccessManager::finished, this, [infoBoxText, url, manager, response, soitem, this]{
+      if (response->error() != QNetworkReply::NoError) return;
+    QString result = QString::fromUtf8(response->readAll());
+    int leftPos=result.indexOf("<table class=\"infobox\"");
+    int rightPos=result.indexOf("</table>")-leftPos;
+
+    QString infoText=result.mid(leftPos,rightPos).replace("href=\"//","href=\"http://").replace("src=\"//","src=\"http://").replace("background:","color:black;background:").replace("background-color:","color:black;background:");
+    infoText.replace("style=\"width:22em\"","style=\"width:100%;border: 1px solid #a2a9b1;border-spacing: 3px;background-color: black;color: white;margin: 0.5em 0 0.5em 1em;padding: 0.2em;line-height: 1.5em;\"");
+    infoText=infoText + "<BR>(Source: <a href=" + url.url() + ">Wikipedia</a>)";
+    int leftImg=infoText.indexOf("src=\"")+5;
+    int rightImg=infoText.indexOf("\"",leftImg)-leftImg;
+    QString imgURL=infoText.mid(leftImg,rightImg);
+    saveImageURL( soitem, imgURL);
+    downloadWikipediaImage(soitem, imgURL);
+
+    QString html="<HTML><style type=text/css>a {text-decoration: none;color: yellow}</style><body><CENTER>" +  infoText + "</CENTER></body></HTML>";
+    infoBoxText->setProperty("text", html);
+    saveObjectText( soitem, "infoText", html);
+
+      QTimer::singleShot(500, infoBoxText, SLOT(doLayout())); //This should make the image load after the html loads
+
+      response->deleteLater();
+      manager->deleteLater();
+    });
+}
+
+void WIView::saveObjectText(SkyObjItem * soitem, QString type, QString text){
+
+    QFile file;
+    QString fname = type + "-" + soitem->getName().toLower().remove( ' ' ) + ".html";
+
+    QDir writableDir;
+    QString filePath=KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions";
+    writableDir.mkpath(filePath);
+
+    file.setFileName( filePath + "/" + fname ) ; //determine filename in local user KDE directory tree.
+
+    if(file.exists())
+        return;
+
+    if (file.open(QIODevice::WriteOnly) == false)
+    {
+        qDebug()<<"Image text cannot be saved for later.  file save error";
+        return;
+    }
+    else
+    {
+        QTextStream stream( &file );
+        stream << text;
+        file.close();
+    }
+}
+
+
+
+void WIView::saveImageURL(SkyObjItem * soitem, QString imageURL){
+
+    QFile file;
+    file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "image_url.dat" ) ; //determine filename in local user KDE directory tree.
+    QString entry = soitem->getName() + ':' + "Show Wikipedia Image" + ':' + imageURL;
+
+    if(file.open(QIODevice::ReadOnly)){
+        QTextStream in(&file);
+        QString line;
+        while ( !in.atEnd() )
+        {
+            line = in.readLine();
+            if (line==entry){
+                file.close();
+                return;
+            }
+        }
+        file.close();
+    }
+
+    if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) )
+    {
+        qDebug()<<"Image URL cannot be saved for later.  image_url.dat error";
+        return;
+    }
+    else
+    {
+        QTextStream stream( &file );
+        stream << entry << endl;
+        file.close();
+    }
+}
+
+
+void WIView::downloadWikipediaImage(SkyObjItem * soitem, QString imageURL)
+{
+    QString fname = "wikiImage-" + soitem->getName().toLower().remove( ' ' ) + ".png";
+
+    QDir writableDir;
+    QString filePath=KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions";
+    writableDir.mkpath(filePath);
+
+    QString fileN =filePath + "/" + fname;
+
+    qDebug()<<fileN;
+    qDebug()<<imageURL;
+
+    QUrl url(imageURL);
+
+    QNetworkAccessManager * manager = new QNetworkAccessManager();
+    QNetworkReply * response = manager->get(QNetworkRequest(url));
+    connect(manager, &QNetworkAccessManager::finished, this, [fileN, manager, response, this]{
+      response->deleteLater();
+      manager->deleteLater();
+      if (response->error() != QNetworkReply::NoError) return;
+
+        QImage* image = new QImage();
+        QByteArray responseData=response->readAll();
+        image->loadFromData(responseData);
+        image->save(fileN);
+
+
+    });
+
+
+}
+
