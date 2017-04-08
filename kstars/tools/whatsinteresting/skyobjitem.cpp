@@ -73,9 +73,9 @@ QVariant SkyObjItem::data(int role)
         case DispNameRole:
             return getLongName();
         case DispImageRole:
-            return getImageURL();
+            return getImageURL(true);
         case DispSummaryRole:
-            return getSummary();
+            return getSummary(true);
         case CategoryRole:
             return getType();
         case CategoryNameRole:
@@ -110,14 +110,23 @@ void SkyObjItem::setPosition(SkyObject * so)
     m_Position = xi18n("Now visible: About %1 degrees above the %2 horizon", rounded_altitude, KSUtils::toDirectionString( sp.az() ) );
 }
 
-QString SkyObjItem::getImageURL() const
+QString SkyObjItem::getImageURL(bool preferThumb) const
 {
     if ( m_Type==Star )
     {
         return "";
     }
+    QString thumbName = KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
+    QString fullSizeName = KSPaths::locate(QStandardPaths::GenericDataLocation, "Image_" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
 
-    QString fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "image_" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
+    //First try to return the preferred file
+    if(thumbName!=""&&preferThumb)
+        return thumbName;
+    if(fullSizeName!=""&&(!preferThumb))
+        return fullSizeName;
+
+    //If that fails, try to return the large image first, then the thumb and then if it is a planet, the xplanet image.
+    QString fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "Image_" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
     if(fname=="")
         fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
     if(fname=="" && m_Type==Planet){
@@ -128,9 +137,12 @@ QString SkyObjItem::getImageURL() const
 
 }
 
-QString SkyObjItem::getSummary() const
+QString SkyObjItem::getSummary(bool includeDescription) const
 {
-    return m_So->typeName()+"\n"+getRADE()+"\n"+getAltAz()+"\n";
+    if(includeDescription)
+        return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz()+"<BR><BR>" + loadObjectDescription();
+    else
+        return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz();
 }
 
 QString SkyObjItem::getDesc() const
@@ -221,4 +233,23 @@ QString SkyObjItem::getSize() const
         default:
             return QString(" --");
     }
+}
+
+inline QString SkyObjItem::loadObjectDescription() const{
+    QFile file;
+    QString fname = "description-" + getName().toLower().remove( ' ' ) + ".html";
+    file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions/" + fname ) ; //determine filename in local user KDE directory tree.
+
+    if(file.exists())
+    {
+        if(file.open(QIODevice::ReadOnly))
+        {
+            QTextStream in(&file);
+            QString line;
+            line = in.readAll();
+            file.close();
+            return line;
+        }
+    }
+    return "";
 }

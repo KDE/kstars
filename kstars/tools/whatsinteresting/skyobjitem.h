@@ -114,7 +114,7 @@ class SkyObjItem
          */
         inline QString getRADE() const
         {
-            return "RA: "+ m_So->ra().toHMSString() + "\nDE: " + m_So->ra().toDMSString();
+            return "RA: "+ m_So->ra().toHMSString() + "<BR>DE: " + m_So->ra().toDMSString();
         }
 
         /**
@@ -135,14 +135,16 @@ class SkyObjItem
             return m_So;
         }
 
-        QString getImageURL() const;
+        QString getImageURL(bool preferThumb) const;
+
+        inline QString loadObjectDescription() const;
 
 
         /**
          * \brief Get Summary Description for the SkyObjItem.
          * \return Summary Description for the SkyObjItem as a QString.
          */
-        QString getSummary() const;
+        QString getSummary(bool includeDescription) const;
 
 
         /**
@@ -194,6 +196,7 @@ class SkyObjItem
         Type m_Type;         ///Category of sky-object of type SkyObjItem::Type
         SkyObject * m_So;    ///Pointer to SkyObject represented by SkyObjItem
         SkyObjDescription * skd; /// pointer to SkyObjDescription
+
 };
 
 #endif

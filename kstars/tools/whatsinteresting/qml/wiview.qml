@@ -10,7 +10,7 @@
        ***************************************************************************/
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.2
+import QtQuick.Controls 1.4
 
 Rectangle {
     id: container
@@ -380,6 +380,7 @@ Rectangle {
 										id: dispSummary
 										objectName: dispObjSummary
 										text: dispObjSummary
+										textFormat: Text.RichText
 										x: image.width + 5
 										width: parent.width - image.width - 30
 										color: "#187988"
@@ -462,20 +463,6 @@ Rectangle {
                             color: "#000000"
                         }
                         
-                        Image { 
-                             id: detailImg 
-                             height: 300
-                             width:parent.width - 200
-                             anchors{
-                                right: parent.right
-                             }
-                             objectName: "detailImage"
-                             property string refreshableSource
-                             fillMode: Image.PreserveAspectFit
-                             source: refreshableSource
-                        }
-
-
 
                         Text {
                             id: soname
@@ -499,7 +486,7 @@ Rectangle {
                         Text {
                             id: posText
                             objectName: "posTextObj"
-                            y: 300
+                            y: parent.height - 50
                             anchors{
                                 right: parent.right
                                 rightMargin: 10
@@ -516,83 +503,197 @@ Rectangle {
                             }
 
                         }
+                        TabView {
+                        	id: tabbedView
+                        	y: 170
+                        	width: parent.width
+                        	height: parent.height - 170 - 50
+							Tab {
+								title: "Object Information"
 
-                        Rectangle {
-                            id: descTextBox
-                            y: 347
-                            height: 200
-                            color: "#010a14"
-                            radius: 10
-                            border.width: 0
-                            anchors{
-                                right: parent.right
-                                rightMargin: 4
-                                left: parent.left
-                                leftMargin: 4
-                            }
-                            border.color: "#585454"
+								Rectangle {
+									id: descTextBox				
+									height: parent.height
+									width:  parent.width
+									color: "#010a14"
+									radius: 10
+									border.width: 0
+									anchors{
+										top: parent.top
+										left: parent.left
+										leftMargin: 4
+										right: parent.right
+										rightMargin: 4
+									}
+									border.color: "#585454"
 
-                            Flickable {
-                                id: flickableDescText
-                                clip: true
-                                flickableDirection: Flickable.VerticalFlick
-                                width: parent.width
-                                height: parent.height
-                                anchors{
-                                    top: parent.top
-                                    topMargin: 3
-                                    bottom: parent.bottom
-                                    bottomMargin: 4
-                                }
+									Flickable {
+										id: flickableDescText
+										clip: true
+										flickableDirection: Flickable.VerticalFlick
+										width: parent.width
+										height: parent.height - 10
+										anchors{
+											top: parent.top
+											topMargin: 10
+											bottom: parent.bottom
+											bottomMargin: 4
+											left: parent.left
+											right: parent.right
+										}
+										contentWidth:  parent.width
+										contentHeight: col.height + 4
+										Item {
+											id: descTextItem
+											anchors.fill: parent
+											Column {
+												id: col
+												width: parent.width
+												Image { 
+													id: detailImg 
+													width:parent.width
+													anchors{
+														right: parent.right
+													}
+													objectName: "detailImage"
+													property string refreshableSource
+													fillMode: Image.PreserveAspectFit
+													source: refreshableSource
+												}
+												Text {
+													id: descText
+													objectName: "descTextObj"
+													color: "#187988"
+													text: xi18n("text")
+													clip: true
+													wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+													width: parent.width
+													font{
+														family: "Cantarell"
+														pixelSize: 13
+													}
+												}
+												Text {
+													id: descSrcText
+													objectName: "descSrcTextObj"
+													color: "#18885f"
+													text: xi18n("Source: ")
+													clip: true
+													horizontalAlignment: Text.AlignRight
+													wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+													width: parent.width
+													onLinkActivated: Qt.openUrlExternally(link)
+													MouseArea {
+        												anchors.fill: parent
+        												acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
+        												cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+    												}
+													font{
+														family: "Cantarell"
+														pixelSize: 13
+														italic: true
+													} //font
+												} //text
+											} //column
+										} //item
+									} //flickable
+								} //rectangle
+							} //tab
+						
+							Tab {
+								id: infoBoxTab
+								title: "Wikipedia Infotext"
+								active: true
+								Rectangle {
+									id: descTextBox2
+									width: parent.width
+									height: (detailsViewContainer.width >= 600) ?  parent.height - 10 - 50 : parent.height
+									color: "#010a14"
+									radius: 10
+									border.width: 0
+									states: [ 
+										State {
+											name: "outOfTab"
+											ParentChange { target: descTextBox2; parent: detailsView; x: detailsView.width/2; y: 10 }
+											PropertyChanges{target:tabbedView; currentIndex: 0}
+											PropertyChanges{target:tabbedView; tabsVisible: false}
+											PropertyChanges{target:tabbedView; width: detailsView.width / 2}
+											PropertyChanges{target:descTextBox2; width: detailsView.width / 2}
+										},
+										State {
+											name: "inTab"
+											ParentChange { target: descTextBox2; parent: infoBoxTab; x: 0; y: 0 }
+										}
+									]
 
-                                contentWidth: parent.width
-                                contentHeight: col.height + 4
+									onWidthChanged: (detailsViewContainer.width >= 600) ? descTextBox2.state = "outOfTab" : descTextBox2.state = "inTab"
+							
+									anchors{
+										right: parent.right
+										rightMargin: 4
+										left: (detailsViewContainer.width >= 600) ? parent.horizontalCenter : parent.left
+										leftMargin: 4
+									}
+									border.color: "#585454"
 
-                                Item {
-                                    id: descTextItem
-                                    anchors{
-                                        top: parent.top
-                                        topMargin: 3
-                                        left: parent.left
-                                        leftMargin: 6
-                                        right: parent.right
-                                    }
-                                    Column {
-                                        id: col
-                                        width: parent.width
-                                        Text {
-                                            id: descText
-                                            objectName: "descTextObj"
-                                            color: "#187988"
-                                            text: xi18n("text")
-                                            clip: true
-                                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                                            width: parent.width
-                                            font{
-                                                family: "Cantarell"
-                                                pixelSize: 13
-                                            }
-                                        }
-                                        Text {
-                                            id: descSrcText
-                                            objectName: "descSrcTextObj"
-                                            color: "#18885f"
-                                            text: xi18n("Source: ")
-                                            clip: true
-                                            horizontalAlignment: Text.AlignRight
-                                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                                            width: parent.width
-                                            onLinkActivated: Qt.openUrlExternally(link)
-                                            font{
-                                                family: "Cantarell"
-                                                pixelSize: 13
-                                                italic: true
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+									Flickable {
+										id: flickableInfoText
+										clip: true
+										flickableDirection: Flickable.VerticalFlick
+										width: parent.width
+										height: parent.height - 10
+										anchors{
+											top: parent.top
+											topMargin: 10
+											bottom: parent.bottom
+											bottomMargin: 4
+											left: parent.left
+											right: parent.right
+										}
+										contentWidth:   parent.width
+										contentHeight: col2.height + 4			
+										Item {
+											id: descInfoTextItem
+											anchors{
+												top: parent.top
+												topMargin: 0
+												left: parent.left
+												leftMargin: 4
+												right: parent.right
+												rightMargin: 4
+											}
+											Column {
+												id: col2
+												width: parent.width
+												Text {
+													id: infoText
+													objectName: "infoBoxText"
+													textFormat: Text.RichText
+													color: "white"
+													onLinkActivated: Qt.openUrlExternally(link)
+													MouseArea {
+        												anchors.fill: parent
+        												acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
+        												cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+    												}
+										
+													wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+													text: xi18n("\ntrying to Load from Wikipedia. . .")
+													clip: true
+													width: parent.width
+													font{
+														family: "Cantarell"
+														pixelSize: 13
+													} //font
+												} //text
+											} //column
+										} //item
+									} //flickable
+								} //rectangle
+							} //tab
+						} //tabview
+                        
+                       
 
                         Item {
                             id: nextObjRect
@@ -603,7 +704,7 @@ Rectangle {
                                 right: parent.right
                                 rightMargin: 10
                                 bottom: parent.bottom
-                                bottomMargin: 10
+                                bottomMargin: 0
                             }
 
                             signal nextObjClicked
@@ -677,7 +778,7 @@ Rectangle {
                                 left: parent.left
                                 leftMargin: 10
                                 bottom: parent.bottom
-                                bottomMargin: 10
+                                bottomMargin: 0
                             }
 
                             signal prevObjClicked
@@ -738,14 +839,15 @@ Rectangle {
 
                         Column {
                             id: detailItemsCol
-                            x: 0
-                            y: 100
+                            x: 150
+                            y: 80
                             width: parent.width
                             height: 93
                             spacing: 14
                             
                             DetailsItem {
                                 id: detailsText
+                                textFormat: Text.RichText
                                 objectName: "detailsTextObj"
                                 
                             }
@@ -754,7 +856,7 @@ Rectangle {
 
                         Column {
                             id: detailsViewButtonsCol
-                            y: 200
+                            y: 50
                             anchors {
                                 left: parent.left
                                 leftMargin: 10
@@ -768,7 +870,7 @@ Rectangle {
 
                                 verticalAlignment: Text.AlignVCenter
                                 color: "white"
-                                text: xi18n("More object details")
+                                text: xi18n("More Details")
                                 font {
                                     underline: true
                                     family: "Cantarell"
@@ -794,7 +896,7 @@ Rectangle {
 
                                 verticalAlignment: Text.AlignVCenter
                                 color: "white"
-                                text: xi18n("Slew map to object")
+                                text: xi18n("Center in Map")
                                 font {
                                     underline: true
                                     family: "Cantarell"
@@ -820,7 +922,7 @@ Rectangle {
 
                                 verticalAlignment: Text.AlignVCenter
                                 color: "white"
-                                text: xi18n("Slew telescope to object")
+                                text: xi18n("Slew Telescope")
                                 font {
                                     underline: true
                                     family: "Cantarell"

@@ -120,7 +120,13 @@ class WIView : public QWidget
          */
         void onReloadIconClicked();
 
-        void tryToLoadFromWikipedia(QObject * descTextObj, QObject *descSrcTextObj, SkyObjItem * soitem);
+        void tryToLoadDescFromWikipedia(QObject * descTextObj, QObject *descSrcTextObj, SkyObjItem * soitem);
+        void loadObjectDescription(QObject * descTextObj, QObject *descSrcTextObj, SkyObjItem * soitem);
+        void tryToLoadInfoBoxFromWikipedia(QObject * infoBoxText, SkyObjItem * soitem);
+        void loadObjectInfoBox(QObject * infoBoxText, SkyObjItem * soitem);
+        void saveImageURL(SkyObjItem * soitem, QString imageURL);
+        void saveObjectText(SkyObjItem * soitem, QString type, QString infoText);
+        void downloadWikipediaImage(SkyObjItem * soitem, QString imageURL);
 
 
     private:
