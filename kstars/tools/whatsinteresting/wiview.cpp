@@ -108,8 +108,9 @@ void WIView::onCategorySelected(int type)
 void WIView::onSoListItemClicked(int type, QString typeName, int index)
 {
     Q_UNUSED(typeName)
+    Q_UNUSED(type)
 
-    SkyObjItem * soitem = m_ModManager->returnModel(type)->getSkyObjItem(index);
+    SkyObjItem * soitem = m_ModManager->returnModel(m_CurCategorySelected)->getSkyObjItem(index);
 
 //    soTypeTextObj->setProperty("text", typeName);
 //    soTypeTextObj->setProperty("visible", true);
@@ -121,15 +122,15 @@ void WIView::onSoListItemClicked(int type, QString typeName, int index)
 
 void WIView::onNextObjClicked()
 {
-    int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
-    SkyObjItem * nextItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
+    int modelSize = m_ModManager->returnModel(m_CurCategorySelected)->rowCount();
+    SkyObjItem * nextItem = m_ModManager->returnModel(m_CurCategorySelected)->getSkyObjItem((m_CurIndex+1)%modelSize);
     loadDetailsView(nextItem, (m_CurIndex+1)%modelSize);
 }
 
 void WIView::onPrevObjClicked()
 {
-    int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
-    SkyObjItem * prevItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
+    int modelSize = m_ModManager->returnModel(m_CurCategorySelected)->rowCount();
+    SkyObjItem * prevItem = m_ModManager->returnModel(m_CurCategorySelected)->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
     loadDetailsView(prevItem, (m_CurIndex-1+modelSize)%modelSize);
 }
 
@@ -229,8 +230,10 @@ void WIView::updateModels(ObsConditions * obs)
     m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(3));
     m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(4));
     m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(5));
+    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(6));
+    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(7));
 
-    if (m_CurCategorySelected >=0 && m_CurCategorySelected <= 5)
+    if (m_CurCategorySelected >=0 && m_CurCategorySelected <= 7)
         m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(m_CurCategorySelected));
 }
 
@@ -239,9 +242,9 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
     m_CurSoItem = soitem;
     m_CurIndex = index;
 
-    int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
-    SkyObjItem * nextItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
-    SkyObjItem * prevItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
+    int modelSize = m_ModManager->returnModel(m_CurCategorySelected)->rowCount();
+    SkyObjItem * nextItem = m_ModManager->returnModel(m_CurCategorySelected)->getSkyObjItem((m_CurIndex+1)%modelSize);
+    SkyObjItem * prevItem = m_ModManager->returnModel(m_CurCategorySelected)->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
 
     if(modelSize <= 1)
     {
@@ -262,20 +265,19 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
     QObject * posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
     QObject * detailImage = m_DetailsViewObj->findChild<QObject *>("detailImage");
     QObject * descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
-    QObject * descSrcTextObj = m_DetailsViewObj->findChild<QObject *>("descSrcTextObj");
     QObject * infoBoxTextObj = m_DetailsViewObj->findChild<QObject *>("infoBoxText");
     QObject * detailsTextObj = m_DetailsViewObj->findChild<QObject *>("detailsTextObj");
+    QObject * autoCenterCheckBox = m_DetailsViewObj->findChild<QObject *>("autoCenterCheckbox");
 
     sonameObj->setProperty("text", soitem->getLongName());
     posTextObj->setProperty("text", soitem->getPosition());
     detailImage->setProperty("refreshableSource", soitem->getImageURL(false));
     descTextObj->setProperty("text", soitem->getDesc());
     if(soitem->getType() != SkyObjItem::Planet)
-        loadObjectDescription(descTextObj, descSrcTextObj, soitem);
+        loadObjectDescription(descTextObj, soitem);
 
     infoBoxTextObj->setProperty("text", "trying to Load infoText box from Wikipedia. . .");
     loadObjectInfoBox(infoBoxTextObj, soitem);
-    descSrcTextObj->setProperty("text", soitem->getDescSource());
 
     QString summary=soitem->getSummary(false);
 
@@ -292,10 +294,14 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
     QString details = summary + "<BR>" + sbText + "<BR>" + magText + "<BR>" + sizeText;
     detailsTextObj->setProperty("text", details);
 
+    if(autoCenterCheckBox->property("checked")==true){
+        onSlewButtonClicked();
+    }
+
 }
 
 
-void WIView::tryToLoadDescFromWikipedia(QObject * descTextObj, QObject * descSrcTextObj, SkyObjItem * soitem)
+void WIView::tryToLoadDescFromWikipedia(QObject * descTextObj, SkyObjItem * soitem)
 {
     QString name;
     if(soitem->getName().startsWith("M "))
@@ -315,7 +321,7 @@ void WIView::tryToLoadDescFromWikipedia(QObject * descTextObj, QObject * descSrc
 
     QNetworkAccessManager * manager = new QNetworkAccessManager();
     QNetworkReply * response = manager->get(QNetworkRequest(url));
-    connect(manager, &QNetworkAccessManager::finished, this, [soitem, this, descTextObj, descSrcTextObj, manager, response]{
+    connect(manager, &QNetworkAccessManager::finished, this, [soitem, this, descTextObj, manager, response]{
       response->deleteLater();
       manager->deleteLater();
       if (response->error() != QNetworkReply::NoError) return;
@@ -334,37 +340,33 @@ void WIView::tryToLoadDescFromWikipedia(QObject * descTextObj, QObject * descSrc
     int leftURL=result.indexOf("<Url xml:space=\"preserve\">")+26;
     int rightURL=result.indexOf("</Url>")-leftURL;
 
-    QString html="<HTML>" + result.mid(leftPos,rightPos) + "</HTML>";
-    QString srchtml="<HTML>Source: Wikipedia (<a href='" + result.mid(leftURL,rightURL) + "'>" + result.mid(leftURL,rightURL) + "</a>)</HTML>";
+    QString srchtml="\n<p style=text-align:right>Source: (<a href='" + result.mid(leftURL,rightURL) + "'>" + "Wikipedia</a>)";  //Note the \n is so that the description is put on another line in the file.  Doesn't affect the display but allows the source to be loaded in the details but not the list.
+    QString html="<HTML>" + result.mid(leftPos,rightPos) + srchtml + "</HTML>";
 
       saveObjectText( soitem, "description", html);
       descTextObj->setProperty("text", html);
-      descSrcTextObj->setProperty("text", srchtml);
     });
 
 
 }
 
-void WIView::loadObjectDescription(QObject * descTextObj, QObject * descSrcTextObj, SkyObjItem * soitem){
+void WIView::loadObjectDescription(QObject * descTextObj, SkyObjItem * soitem){
     QFile file;
     QString fname = "description-" + soitem->getName().toLower().remove( ' ' ) + ".html";
     file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions/" + fname ) ; //determine filename in local user KDE directory tree.
 
     if(file.exists()){
 
-    if(file.open(QIODevice::ReadOnly)){
-        QTextStream in(&file);
-        QString line;
-        while ( !in.atEnd() )
+        if(file.open(QIODevice::ReadOnly))
         {
-            line = in.readLine();
+            QTextStream in(&file);
+            QString line = in.readAll();
             descTextObj->setProperty("text", line);
+            file.close();
         }
-        file.close();
-    }
     }
     else{
-        tryToLoadDescFromWikipedia(descTextObj, descSrcTextObj, soitem);
+        tryToLoadDescFromWikipedia(descTextObj, soitem);
     }
 }
 
@@ -404,8 +406,17 @@ void WIView::tryToLoadInfoBoxFromWikipedia(QObject * infoBoxText, SkyObjItem * s
         name = soitem->getName().toLower().replace("ngc","NGC_").remove( ' ' );
     else if(soitem->getName().toLower().startsWith("ic"))
         name = soitem->getName().toLower().replace("ic","IC_").remove( ' ' );
-    else if(soitem->getType() == SkyObjItem::Constellation)
-        name = soitem->getName().toLower().replace( " ", "+" ) + "_constellation";
+    else if(soitem->getType() == SkyObjItem::Constellation){
+        QStringList words = soitem->getName().split(" ");
+        for(int i=0;i<words.size();i++){
+            QString temp=words.at(i).toLower();
+            temp[0]=temp[0].toUpper();
+            words.replace(i,temp);
+        }
+        name = words.join("_")+ "_(constellation)";
+    }
+    else if(soitem->getType() == SkyObjItem::Planet)
+        name = soitem->getName().remove( ' ' ) + "_(planet)";
     else if(soitem->getType() == SkyObjItem::Star){
         StarObject *star=dynamic_cast<StarObject*>(soitem->getSkyObject());
         if(star)
@@ -414,20 +425,21 @@ void WIView::tryToLoadInfoBoxFromWikipedia(QObject * infoBoxText, SkyObjItem * s
             name = soitem->getName().toLower().remove( ' ' );
     }else
         name = soitem->getName().toLower().remove( ' ' );
+    qDebug()<<name;
 
     QUrl url("https://en.wikipedia.org/w/index.php?action=render&title="+ name + "&redirects");
 
     QNetworkAccessManager * manager = new QNetworkAccessManager();
     QNetworkReply * response = manager->get(QNetworkRequest(url));
-    connect(manager, &QNetworkAccessManager::finished, this, [infoBoxText, url, manager, response, soitem, this]{
+    connect(manager, &QNetworkAccessManager::finished, this, [infoBoxText, name, manager, response, soitem, this]{
       if (response->error() != QNetworkReply::NoError) return;
     QString result = QString::fromUtf8(response->readAll());
-    int leftPos=result.indexOf("<table class=\"infobox\"");
+    int leftPos=result.indexOf("<table class=\"infobox");
     int rightPos=result.indexOf("</table>")-leftPos;
 
     QString infoText=result.mid(leftPos,rightPos).replace("href=\"//","href=\"http://").replace("src=\"//","src=\"http://").replace("background:","color:black;background:").replace("background-color:","color:black;background:");
     infoText.replace("style=\"width:22em\"","style=\"width:100%;border: 1px solid #a2a9b1;border-spacing: 3px;background-color: black;color: white;margin: 0.5em 0 0.5em 1em;padding: 0.2em;line-height: 1.5em;\"");
-    infoText=infoText + "<BR>(Source: <a href=" + url.url() + ">Wikipedia</a>)";
+    infoText=infoText + "<BR>(Source: <a href='" + "https://en.wikipedia.org/w/index.php?title="+ name + "&redirects" + "'>Wikipedia</a>)";
     int leftImg=infoText.indexOf("src=\"")+5;
     int rightImg=infoText.indexOf("\"",leftImg)-leftImg;
     QString imgURL=infoText.mid(leftImg,rightImg);
@@ -518,8 +530,8 @@ void WIView::downloadWikipediaImage(SkyObjItem * soitem, QString imageURL)
 
     QString fileN =filePath + "/" + fname;
 
-    qDebug()<<fileN;
-    qDebug()<<imageURL;
+    //qDebug()<<fileN;
+    //qDebug()<<imageURL;
 
     QUrl url(imageURL);
 

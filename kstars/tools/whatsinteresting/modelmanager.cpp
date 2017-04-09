@@ -30,12 +30,16 @@ ModelManager::ModelManager(ObsConditions * obs)
     m_ConModel = new SkyObjListModel();
     m_ClustModel = new SkyObjListModel();
     m_NebModel = new SkyObjListModel();
+    m_MessierModel = new SkyObjListModel();
+    m_SharplessModel = new SkyObjListModel();
 
     m_InitObjects[Star_Model] = QList<SkyObject *>();
     m_InitObjects[Galaxy_Model] = QList<SkyObject *>();
     m_InitObjects[Constellation_Model] = QList<SkyObject *>();
     m_InitObjects[Cluster_Model] = QList<SkyObject *>();
     m_InitObjects[Nebula_Model] = QList<SkyObject *>();
+    m_InitObjects[Messier_Model] = QList<SkyObject *>();
+    m_InitObjects[Sharpless_Model] = QList<SkyObject *>();
     updateModels(obs);
 }
 
@@ -47,6 +51,8 @@ ModelManager::~ModelManager()
     delete m_ConModel;
     delete m_ClustModel;
     delete m_NebModel;
+    delete m_MessierModel;
+    delete m_SharplessModel;
 }
 
 void ModelManager::updateModels(ObsConditions * obs)
@@ -148,6 +154,21 @@ void ModelManager::updateModels(ObsConditions * obs)
             m_PlanetsModel->addSkyObject(new SkyObjItem(so));
         }
     }
+
+     for(int i=1;i<=110;i++)
+     {
+            SkyObject * o;
+            if ((o = data->skyComposite()->findByName("M " + QString::number(i))))
+                m_MessierModel->addSkyObject(new SkyObjItem(o));
+     }
+/**
+     for(int i=1;i<=350;i++)
+     {
+            SkyObject * o;
+            if ((o = data->skyComposite()->findByName("Sh2 " + QString::number(i))))
+                m_SharplessModel->addSkyObject(new SkyObjItem(o));
+     }
+**/
 }
 
 void ModelManager::resetModels()
@@ -158,6 +179,8 @@ void ModelManager::resetModels()
     m_GalModel->resetModel();
     m_ClustModel->resetModel();
     m_NebModel->resetModel();
+    m_MessierModel->resetModel();
+    m_SharplessModel->resetModel();
 }
 
 SkyObjListModel * ModelManager::returnModel(int type)
@@ -176,6 +199,10 @@ SkyObjListModel * ModelManager::returnModel(int type)
             return m_ClustModel;
         case 5:    //Nebula type
             return m_NebModel;
+        case 6:    //Messier Objects
+            return m_MessierModel;
+        case 7:    //Sharpless Objects
+            return m_SharplessModel;
         default:
             return 0;
     }

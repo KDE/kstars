@@ -107,7 +107,10 @@ void SkyObjItem::setPosition(SkyObject * so)
     sp.EquatorialToHorizontal(data->lst(), data->geo()->lat());
     double rounded_altitude = (int)(sp.alt().Degrees()/5.0)*5.0;
 
-    m_Position = xi18n("Now visible: About %1 degrees above the %2 horizon", rounded_altitude, KSUtils::toDirectionString( sp.az() ) );
+    if(rounded_altitude<=0)
+        m_Position = "<span style='color:red'>" + xi18n("NOT VISIBLE: About %1 degrees below the %2 horizon", -rounded_altitude, KSUtils::toDirectionString( sp.az() ) ) + "</span>";
+    else
+        m_Position = "<span style='color:yellow'>" + xi18n("Now visible: About %1 degrees above the %2 horizon", rounded_altitude, KSUtils::toDirectionString( sp.az() ) ) + "</span>";
 }
 
 QString SkyObjItem::getImageURL(bool preferThumb) const
@@ -214,7 +217,7 @@ QString SkyObjItem::getSurfaceBrightness() const
     {
         case Galaxy:
         case Nebula:
-            return QLocale().toString(SB,'f', 2) + "\n   (mag/arcmin^2)";
+            return QLocale().toString(SB,'f', 2) + "<BR>   (mag/arcmin^2)";
         default:
             return QString(" --"); // Not applicable for other sky-objects
     }
@@ -246,7 +249,7 @@ inline QString SkyObjItem::loadObjectDescription() const{
         {
             QTextStream in(&file);
             QString line;
-            line = in.readAll();
+            line = in.readLine();//This should only read the description since the source is on the next line
             file.close();
             return line;
         }
