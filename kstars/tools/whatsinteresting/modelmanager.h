@@ -34,7 +34,7 @@ class ModelManager
          * \enum ModelType
          * \brief Model type for different types of sky-objects.
          */
-        enum ModelType {Planet_Model, Star_Model, Constellation_Model, Galaxy_Model, Cluster_Model, Nebula_Model};
+        enum ModelType {Planet_Model, Star_Model, Constellation_Model, Galaxy_Model, Cluster_Model, Nebula_Model, Messier_Model, Sharpless_Model};
 
         /**
          * \brief Constructor - Creates models for different sky-object types.
@@ -66,7 +66,7 @@ class ModelManager
 
     private:
         ObsConditions * m_ObsConditions;
-        SkyObjListModel * m_PlanetsModel, *m_StarsModel, *m_GalModel, *m_ConModel, *m_ClustModel, *m_NebModel;
+        SkyObjListModel * m_PlanetsModel, *m_StarsModel, *m_GalModel, *m_ConModel, *m_ClustModel, *m_NebModel, *m_MessierModel, *m_SharplessModel;
         QHash< ModelType, QList <SkyObject *> > m_InitObjects;
 };
 

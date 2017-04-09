@@ -63,7 +63,7 @@ Rectangle {
                 x: 0
                 y: 31
                 width: parent.width
-                height: 351
+                height: 500
 
                 Rectangle {
                     id: background
@@ -87,6 +87,24 @@ Rectangle {
                         color: "black"
                     }
                 }
+				Item {
+                    id: nakedEyeItem
+                    width: nakedEyeText.width
+                    height: nakedEyeText.height
+                    anchors{
+                        verticalCenterOffset: -180
+                        horizontalCenterOffset: 0
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: nakedEyeText
+                        color: "yellow"
+                        title: xi18n("Naked-Eye Objects")
+                        anchors.centerIn: parent
+                    }
+                }
+
 
                 Item {
                     id: planetItem
@@ -178,7 +196,7 @@ Rectangle {
                 Item {
                     id: dsoContainer
                     y: 172
-                    height: 166
+                    height: 200
                     anchors {
                         right: parent.right
                         rightMargin: 35
@@ -192,24 +210,16 @@ Rectangle {
                         height: dsoText.height
 
                         anchors {
-                            verticalCenterOffset: -54
+                            verticalCenterOffset: -30
                             horizontalCenterOffset: 0
                             centerIn: parent
                         }
 
                         CategoryTitle {
                             id: dsoText
-
+                            color: "yellow"
                             title: xi18n("Deep-sky Objects")
                             anchors.centerIn: parent
-
-                            MouseArea {
-                                id: dsoMouseArea
-                                hoverEnabled: true
-                                anchors.fill: parent
-                                onEntered: container.state = "dsoAreaEntered"
-                                onClicked: container.state = "dsoAreaClicked"
-                            }
                         }
                     }
 
@@ -220,7 +230,7 @@ Rectangle {
                         height: galText.height
 
                         anchors {
-                            verticalCenterOffset: -4
+                            verticalCenterOffset: 26
                             horizontalCenterOffset: -77
                             centerIn: parent
                         }
@@ -228,7 +238,6 @@ Rectangle {
 
                         CategoryTitle {
                             id: galText
-                            color: disabledColor
                             title: xi18n("Galaxies")
                             anchors {
                                 centerIn: parent
@@ -237,8 +246,7 @@ Rectangle {
 
                             MouseArea {
                                 id: galMouseArea
-                                enabled: false
-                                hoverEnabled: false
+                                hoverEnabled: true
                                 anchors.fill: parent
                                 onEntered: container.state = "galAreaEntered"
                                 onClicked: {
@@ -256,7 +264,7 @@ Rectangle {
                         height: nebText.height
 
                         anchors {
-                            verticalCenterOffset: 52
+                            verticalCenterOffset: 82
                             horizontalCenterOffset: -17
                             centerIn: parent
                         }
@@ -264,14 +272,12 @@ Rectangle {
 
                         CategoryTitle {
                             id: nebText
-                            color: disabledColor
                             title: xi18n("Nebulae")
                             anchors.centerIn: parent
 
                             MouseArea {
                                 id: nebMouseArea
-                                enabled: false
-                                hoverEnabled: false
+                                hoverEnabled: true
                                 anchors.fill: parent
                                 onEntered: container.state = "nebAreaEntered"
                                 onClicked: {
@@ -289,7 +295,7 @@ Rectangle {
                         height: clustText.height
 
                         anchors {
-                            verticalCenterOffset: 8
+                            verticalCenterOffset: 38
                             horizontalCenterOffset: 69
                             centerIn: parent
                         }
@@ -297,14 +303,12 @@ Rectangle {
 
                         CategoryTitle {
                             id: clustText
-                            color: disabledColor
                             title: xi18n("Clusters")
                             anchors.centerIn: parent
 
                             MouseArea {
                                 id: clustMouseArea
-                                enabled: false
-                                hoverEnabled: false
+                                hoverEnabled: true
                                 anchors.fill: parent
                                 onEntered: container.state = "clustAreaEntered"
                                 onClicked: {
@@ -314,6 +318,83 @@ Rectangle {
                             }
                         }
                     }
+                    Item {
+                    id: catalogsItem
+                    width: catalogText.width
+                    height: catalogText.height
+                    anchors{
+                        verticalCenterOffset: 130
+                        horizontalCenterOffset: 0
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: catalogText
+                        color: "yellow"
+                        title: xi18n("Explore Catalogs")
+                        anchors.centerIn: parent
+                    }
+                }
+                    Item {
+                        id: messierItem
+
+                        width: messierText.width
+                        height: messierText.height
+
+                        anchors {
+                            verticalCenterOffset: 160
+                            horizontalCenterOffset: 69
+                            centerIn: parent
+                        }
+                        opacity: categoryTitleOpacity
+
+                        CategoryTitle {
+                            id: messierText
+                            title: xi18n("Messier Objects")
+                            anchors.centerIn: parent
+
+                            MouseArea {
+                                id: messierMouseArea
+                                hoverEnabled: true
+                                anchors.fill: parent
+                                onEntered: container.state = "messierAreaEntered"
+                                onClicked: {
+                                    viewsRow.categorySelected(6)
+                                    container.state = "dsoTypeSelected"
+                                }
+                            }
+                        }
+                    }
+                 //   Item {
+                 //       id: sh2Item
+//
+ //                       width: sh2Text.width
+  //                      height: sh2Text.height
+//
+  //                      anchors {
+    //                        verticalCenterOffset: 190
+      //                      horizontalCenterOffset: 69
+        //                    centerIn: parent
+          //              }
+            //            opacity: categoryTitleOpacity
+//
+  //                      CategoryTitle {
+    //                        id: sh2Text
+      //                      title: xi18n("Sharpless Objects")
+        //                    anchors.centerIn: parent
+//
+  //                          MouseArea {
+    //                            id: sh2MouseArea
+      //                          hoverEnabled: true
+        //                        anchors.fill: parent
+          //                      onEntered: container.state = "sh2AreaEntered"
+            //                    onClicked: {
+              //                      viewsRow.categorySelected(7)
+                //                    container.state = "dsoTypeSelected"
+                  //              }
+                    //        }
+                      //  }
+                 //   }
                 }
             } //end of categoryView
 
@@ -491,9 +572,9 @@ Rectangle {
                                 right: parent.right
                                 rightMargin: 10
                             }
+                            textFormat: Text.RichText
                             width: parent.width
                             height: 16
-                            color: "#f7f7ac"
                             text: xi18n("text")
                             horizontalAlignment: Text.AlignRight
                             font{
@@ -568,32 +649,18 @@ Rectangle {
 													clip: true
 													wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 													width: parent.width
+													textFormat: Text.RichText
 													font{
 														family: "Cantarell"
 														pixelSize: 13
 													}
-												}
-												Text {
-													id: descSrcText
-													objectName: "descSrcTextObj"
-													color: "#18885f"
-													text: xi18n("Source: ")
-													clip: true
-													horizontalAlignment: Text.AlignRight
-													wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-													width: parent.width
 													onLinkActivated: Qt.openUrlExternally(link)
 													MouseArea {
         												anchors.fill: parent
         												acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
         												cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
     												}
-													font{
-														family: "Cantarell"
-														pixelSize: 13
-														italic: true
-													} //font
-												} //text
+												}
 											} //column
 										} //item
 									} //flickable
@@ -914,6 +981,12 @@ Rectangle {
                                     onExited: slewButton.color = "white"
                                     onClicked: slewButton.slewButtonClicked()
                                 }
+                                CheckBox {
+                                	id: autoCenter
+                                	objectName: "autoCenterCheckbox"
+                                	x: 100
+                                	checked: true
+                                }
                             }
                             
                             Text {
@@ -1059,7 +1132,7 @@ Rectangle {
                     }
                 } else if (container.state == "dsoTypeSelected") {
                     if (!skyObjView.flipped) {
-                        container.state = "dsoAreaClicked"
+                        container.state = "base"
                     } else if (skyObjView.flipped) {
                         skyObjView.flipped = false
                     }
@@ -1196,87 +1269,6 @@ Rectangle {
             }
         },
         State {
-            name: "dsoAreaClicked"
-
-            PropertyChanges {
-                target: dsoText
-                state:"selected"
-            }
-
-            PropertyChanges {
-                target: galItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: nebItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: clustItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: planetItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: conItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: starItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: clustMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: galMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: nebMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: dsoMouseArea
-                hoverEnabled: false
-            }
-
-            PropertyChanges {
-                target: dsoContainer
-                y: 160
-            }
-
-            PropertyChanges {
-                target: galText
-                color: activeColor
-            }
-
-            PropertyChanges {
-                target: clustText
-                color: activeColor
-            }
-
-            PropertyChanges {
-                target: nebText
-                color: activeColor
-            }
-        },
-        State {
             name: "galAreaEntered"
             PropertyChanges {
                 target: dsoText
@@ -1297,6 +1289,11 @@ Rectangle {
                 target: clustItem
                 opacity: 1
             }
+            
+             PropertyChanges {
+                target: messierItem
+                opacity: 1
+            }
 
             PropertyChanges {
                 target: planetItem
@@ -1314,23 +1311,19 @@ Rectangle {
             }
 
             PropertyChanges {
-                target: dsoMouseArea
-                hoverEnabled: false
-            }
-
-            PropertyChanges {
                 target: galText
                 state: "selected"
                 color: activeColor
             }
 
             PropertyChanges {
-                target: dsoContainer
-                y: 160
-            }
-
-            PropertyChanges {
                 target: clustMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+            
+            PropertyChanges {
+                target: messierMouseArea
                 hoverEnabled: true
                 enabled: true
             }
@@ -1378,6 +1371,11 @@ Rectangle {
                 target: clustItem
                 opacity: 1
             }
+            
+             PropertyChanges {
+                target: messierItem
+                opacity: 1
+            }
 
             PropertyChanges {
                 target: planetItem
@@ -1395,23 +1393,20 @@ Rectangle {
             }
 
             PropertyChanges {
-                target: dsoMouseArea
-                hoverEnabled: false
-            }
-
-            PropertyChanges {
                 target: nebText
                 state: "selected"
                 color: activeColor
             }
 
-            PropertyChanges {
-                target: dsoContainer
-                y: 160
-            }
 
             PropertyChanges {
                 target: clustMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+            
+            PropertyChanges {
+                target: messierMouseArea
                 hoverEnabled: true
                 enabled: true
             }
@@ -1459,6 +1454,11 @@ Rectangle {
                 target: clustItem
                 opacity: 1
             }
+            
+             PropertyChanges {
+                target: messierItem
+                opacity: 1
+            }
 
             PropertyChanges {
                 target: planetItem
@@ -1476,23 +1476,99 @@ Rectangle {
             }
 
             PropertyChanges {
-                target: dsoMouseArea
-                hoverEnabled: false
-            }
-
-            PropertyChanges {
                 target: clustText
                 state: "selected"
                 color: activeColor
             }
 
             PropertyChanges {
-                target: dsoContainer
-                y: 160
+                target: clustMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+            
+            PropertyChanges {
+                target: messierMouseArea
+                hoverEnabled: true
+                enabled: true
             }
 
             PropertyChanges {
+                target: galMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: nebMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: nebText
+                color: activeColor
+            }
+
+            PropertyChanges {
+                target: galText
+                color: activeColor
+            }
+        },
+        State {
+            name: "messierAreaEntered"
+            PropertyChanges {
+                target: dsoText
+                state: "selectedNoBold"
+            }
+
+            PropertyChanges {
+                target: galItem
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: nebItem
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: clustItem
+                opacity: 1
+            }
+            PropertyChanges {
+                target: messierItem
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: planetItem
+                opacity: categoryTitleOpacity
+            }
+
+            PropertyChanges {
+                target: conItem
+                opacity: categoryTitleOpacity
+            }
+
+            PropertyChanges {
+                target: starItem
+                opacity: categoryTitleOpacity
+            }
+
+            PropertyChanges {
+                target: messierText
+                state: "selected"
+                color: activeColor
+            }
+
+			PropertyChanges {
                 target: clustMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+            PropertyChanges {
+                target: messierMouseArea
                 hoverEnabled: true
                 enabled: true
             }
@@ -1574,6 +1650,11 @@ Rectangle {
                 target: clustItem
                 opacity: 1
             }
+            
+             PropertyChanges {
+                target: messierItem
+                opacity: 1
+            }
 
             PropertyChanges {
                 target: planetItem
@@ -1595,6 +1676,12 @@ Rectangle {
                 hoverEnabled: true
                 enabled: true
             }
+            
+            PropertyChanges {
+                target: messierMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
 
             PropertyChanges {
                 target: galMouseArea
@@ -1606,16 +1693,6 @@ Rectangle {
                 target: nebMouseArea
                 hoverEnabled: true
                 enabled: true
-            }
-
-            PropertyChanges {
-                target: dsoMouseArea
-                hoverEnabled: false
-            }
-
-            PropertyChanges {
-                target: dsoContainer
-                y: 160
             }
 
             PropertyChanges {
@@ -1641,11 +1718,6 @@ Rectangle {
             to: "planetAreaEntered"
 
             NumberAnimation {
-                target: dsoContainer
-                property: "y"
-                duration: 500
-            }
-            NumberAnimation {
                 target: galItem
                 property: "opacity"
                 duration: 500
@@ -1657,6 +1729,11 @@ Rectangle {
             }
             NumberAnimation {
                 target: clustItem
+                property: "opacity"
+                duration: 500
+            }
+            NumberAnimation {
+                target: messierItem
                 property: "opacity"
                 duration: 500
             }
@@ -1666,11 +1743,6 @@ Rectangle {
             to: "starAreaEntered"
 
             NumberAnimation {
-                target: dsoContainer
-                property: "y"
-                duration: 500
-            }
-            NumberAnimation {
                 target: galItem
                 property: "opacity"
                 duration: 500
@@ -1682,6 +1754,11 @@ Rectangle {
             }
             NumberAnimation {
                 target: clustItem
+                property: "opacity"
+                duration: 500
+            }
+            NumberAnimation {
+                target: messierItem
                 property: "opacity"
                 duration: 500
             }
@@ -1691,11 +1768,6 @@ Rectangle {
             to: "conAreaEntered"
 
             NumberAnimation {
-                target: dsoContainer
-                property: "y"
-                duration: 500
-            }
-            NumberAnimation {
                 target: galItem
                 property: "opacity"
                 duration: 500
@@ -1710,27 +1782,8 @@ Rectangle {
                 property: "opacity"
                 duration: 500
             }
-        },
-        Transition {
-            from: "*"
-            to: "dsoAreaClicked"
             NumberAnimation {
-                target: dsoContainer
-                property: "y"
-                duration: 200
-            }
-            NumberAnimation {
-                target: galItem
-                property: "opacity"
-                duration: 500
-            }
-            NumberAnimation {
-                target: nebItem
-                property: "opacity"
-                duration: 500
-            }
-            NumberAnimation {
-                target: clustItem
+                target: messierItem
                 property: "opacity"
                 duration: 500
             }
@@ -1770,22 +1823,6 @@ Rectangle {
         Transition {
             from: "soTypeSelected"
             to: "base"
-            NumberAnimation {
-                target: viewsRow
-                property: "x"
-                duration: 250
-                easing.type: Easing.InOutQuad
-            }
-            NumberAnimation {
-                target: backButton
-                property: "x"
-                duration: 250
-                easing.type: Easing.InOutQuad
-            }
-        },
-        Transition {
-            from: "dsoTypeSelected"
-            to: "dsoAreaClicked"
             NumberAnimation {
                 target: viewsRow
                 property: "x"
