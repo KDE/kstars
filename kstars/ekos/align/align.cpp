@@ -1773,6 +1773,7 @@ void Align::checkAlignmentTimeout()
     else if (loadSlewState == IPS_IDLE)
     {
         appendLogText(i18n("Solver timed out"));
+        parser->stopSolver();
         captureAndSolve();
     }
     // TODO must also account for loadAndSlew. Retain file name
@@ -2425,12 +2426,10 @@ bool Align::captureAndSolve()
 
     //This block of code will create the row in the solution table and populate RA, DE, and object name.
     //It also starts the progress indicator.
-    qDebug() << "Ready to insert";
     double ra, dec;
     currentTelescope->getEqCoords(&ra, &dec);
     if (loadSlewState == IPS_IDLE)
     {
-        qDebug() << "Inserting";
         int currentRow = solutionTable->rowCount();
         solutionTable->insertRow(currentRow);
         for(int i = 4; i < 6; i++)
