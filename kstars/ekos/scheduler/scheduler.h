@@ -104,10 +104,10 @@ class Scheduler : public QWidget, public Ui::Scheduler
         void stopGuiding();
 
         /**
-         * @brief setGOTOMode set the GOTO mode for the solver
+         * @brief setSolverAction set the GOTO mode for the solver
          * @param mode 0 For Sync, 1 for SlewToTarget, 2 for Nothing
          */
-        void setGOTOMode(Align::GotoMode mode);
+        void setSolverAction(Align::GotoMode mode);
 
         /**
          * @brief findAltitude Find altitude given a specific time
