@@ -3817,7 +3817,7 @@ void Scheduler::findNextJob()
 void Scheduler::startAstrometry()
 {
     QDBusMessage reply;
-    setGOTOMode(Align::GOTO_SLEW);
+    setSolverAction(Align::GOTO_SLEW);
 
     // Always turn update coords on
     QVariant arg(true);
@@ -3912,10 +3912,10 @@ void Scheduler::stopGuiding()
     }
 }
 
-void Scheduler::setGOTOMode(Align::GotoMode mode)
+void Scheduler::setSolverAction(Align::GotoMode mode)
 {
     QVariant gotoMode(static_cast<int>(mode));
-    alignInterface->call(QDBus::AutoDetect,"setGOTOMode",gotoMode);
+    alignInterface->call(QDBus::AutoDetect,"setSolverAction",gotoMode);
 }
 
 void Scheduler::stopEkos()

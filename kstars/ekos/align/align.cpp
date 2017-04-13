@@ -2556,7 +2556,7 @@ void Align::setCaptureComplete()
     startSolving(blobFileName);
 }
 
-void Align::setGOTOMode(int mode)
+void Align::setSolverAction(int mode)
 {
     gotoModeButtonGroup->button(mode)->setChecked(true);
     currentGotoMode = static_cast<GotoMode>(mode);
@@ -3082,7 +3082,7 @@ void Align::processTelescopeNumber(INumberVectorProperty * coord)
                 isSlewDirty = false;
                 appendLogText(i18n("Mount completed slewing near celestial pole. Capture again to verify."));
                 PAHFirstCaptureB->setEnabled(true);
-                setGOTOMode(GOTO_NOTHING);
+                setSolverAction(GOTO_NOTHING);
                 pahStage = PAH_FIRST_CAPTURE;
                 return;
             }
@@ -3875,20 +3875,14 @@ void Align::setSolverArguments(const QString &value)
     solverOptions->setText(value);
 }
 
-void Align::setSolverSearchCoords(double ra, double dec)
+QString Align::getSolverArguments()
 {
-    dms RA, DEC;
-    RA.setH(ra);
-    DEC.setD(dec);
-
-    //TODO
-    //raBox->setText(RA.toHMSString());
-    //decBox->setText(DEC.toDMSString());
+    return solverOptions->text();
 }
 
-void Align::setUseOAGT(bool enabled)
+void Align::setFOVTelescopeType(int index)
 {
-    FOVScopeCombo->setCurrentIndex(enabled ? ISD::CCD::TELESCOPE_GUIDE : ISD::CCD::TELESCOPE_PRIMARY);
+    FOVScopeCombo->setCurrentIndex(index);
 }
 
 FOV * Align::fov()
@@ -4412,7 +4406,7 @@ void Align::processPAHStage(double orientation, double ra, double dec, double pi
 
     if (pahStage == PAH_FIND_CP)
     {
-        setGOTOMode(GOTO_NOTHING);
+        setSolverAction(GOTO_NOTHING);
         appendLogText(i18n("Mount is synced to celestial pole. You can now continue Polar Alignment Assistant procedure."));
         pahStage = PAH_FIRST_CAPTURE;
         return;
@@ -4544,7 +4538,7 @@ void Align::setWCSToggled(bool result)
                 qDeleteAll(pahImageInfos);
                 pahImageInfos.clear();
 
-                setGOTOMode(GOTO_SLEW);
+                setSolverAction(GOTO_SLEW);
                 Sync();
                 return;
             }

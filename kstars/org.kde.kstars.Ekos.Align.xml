@@ -24,7 +24,7 @@
       <arg name="isGenerated" type="b" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setGOTOMode">
+    <method name="setSolverAction">
       <arg name="mode" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
@@ -50,13 +50,11 @@
       <arg name="value" type="s" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
-    <method name="setSolverSearchCoords">
-      <arg name="ra" type="d" direction="in"/>
-      <arg name="dec" type="d" direction="in"/>
-      <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
+    <method name="getSolverArguments">
+      <arg type="s" direction="out"/>
     </method>
-    <method name="setUseOAGT">
-      <arg name="enabled" type="b" direction="in"/>
+    <method name="setFOVTelescopeType">
+      <arg name="index" type="i" direction="in"/>
       <annotation name="org.freedesktop.DBus.Method.NoReply" value="true"/>
     </method>
   </interface>

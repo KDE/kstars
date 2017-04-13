@@ -100,10 +100,10 @@ class Align : public QWidget, public Ui::Align
         Q_SCRIPTABLE Q_NOREPLY void startSolving(const QString &filename, bool isGenerated=true);
 
         /** DBUS interface function.
-         * Select Goto Mode of Solver. The solver mode is the action the solver performs upon successful solving.
-         * @param mode 0 for Sync, 1 for SlewToTarget, 2 for Nothing
+         * Select Solver Action after successfully solving an image.
+         * @param mode 0 for Sync, 1 for Slew To Target, 2 for Nothing (just display solution results)
          */
-        Q_SCRIPTABLE Q_NOREPLY void setGOTOMode(int mode);
+        Q_SCRIPTABLE Q_NOREPLY void setSolverAction(int mode);
 
         /** DBUS interface function.
          * Returns the solver's solution results
@@ -159,18 +159,16 @@ class Align : public QWidget, public Ui::Align
         Q_SCRIPTABLE Q_NOREPLY void setSolverArguments(const QString &value);
 
         /** DBUS interface function.
-         * Sets the solver search area options
-         * @param ra center RA for search pattern, in hours.
-         * @param dec center DEC for search pattern, in degrees.
-         * @param radius radius of search pattern, in degrees.
+         * Get existing solver options.
+         * @return String containing all arguments.
          */
-        Q_SCRIPTABLE Q_NOREPLY void setSolverSearchCoords(double ra, double dec);
+        Q_SCRIPTABLE QString getSolverArguments();
 
         /** DBUS interface function.
-         * Sets the solver's option
-         * @param useOAGT if true, use the Off-Axis Guide Telescope focal length and aperture for FOV calculations. Otherwise, the main telescope's focal length and aperture are used for the calculation.
+         * Sets the telescope type (PRIMARY or GUIDE) that should be used for FOV calculations. This value is loaded form driver settings by default.
+         * @param index 0 for PRIMARY telescope, 1 for GUIDE telescope
          */
-        Q_SCRIPTABLE Q_NOREPLY void setUseOAGT(bool enabled);
+        Q_SCRIPTABLE Q_NOREPLY void setFOVTelescopeType(int index);
 
 
         /** @}*/
