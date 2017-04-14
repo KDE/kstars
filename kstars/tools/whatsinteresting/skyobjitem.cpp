@@ -120,7 +120,7 @@ QString SkyObjItem::getImageURL(bool preferThumb) const
         return "";
     }
     QString thumbName = KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
-    QString fullSizeName = KSPaths::locate(QStandardPaths::GenericDataLocation, "Image_" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
+    QString fullSizeName = KSPaths::locate(QStandardPaths::GenericDataLocation, "image-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
 
     //First try to return the preferred file
     if(thumbName!=""&&preferThumb)
@@ -129,7 +129,7 @@ QString SkyObjItem::getImageURL(bool preferThumb) const
         return fullSizeName;
 
     //If that fails, try to return the large image first, then the thumb and then if it is a planet, the xplanet image.
-    QString fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "Image_" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
+    QString fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "image-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
     if(fname=="")
         fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
     if(fname=="" && m_Type==Planet){

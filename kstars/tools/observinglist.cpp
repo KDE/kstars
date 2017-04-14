@@ -628,13 +628,7 @@ void ObservingList::slotNewSelection()
                 ui->NotesEdit->setEnabled( false );
                 ui->SearchImage->setEnabled( false );
             }
-            QString ImagePath = getCurrentImagePath();
-            if( QFile::exists( getCurrentImagePath() ) )
-            {
-                ;
-            }
-            else
-                ImagePath = QString();
+            QString ImagePath = KSPaths::locate( QStandardPaths::GenericDataLocation , m_currentImageFileName );
             if( !ImagePath.isEmpty() )
             {
                 //If the image is present, show it!
@@ -1375,9 +1369,28 @@ void ObservingList::downloadReady( bool success )
 
 void ObservingList::setCurrentImage( const SkyObject * o  )
 {
-    QString sanitizedName = o->name().remove(' ').remove( '\'' ).remove( '\"' );
-    m_currentImageFileName = "Image_" +  sanitizedName;
-    ThumbImage = "thumb-" + sanitizedName.toLower() + ".png";
+    QString sanitizedName = o->name().remove(' ').remove( '\'' ).remove( '\"' ).toLower();
+
+    // JM: Always use .png across all platforms. No JPGs at all?
+    m_currentImageFileName = "image-" +  sanitizedName + ".png";
+
+    m_currentThumbImageFileName = "thumb-" + sanitizedName + ".png";
+
+    // Does full image exists in the path?
+    QString currentImagePath = KSPaths::locate( QStandardPaths::GenericDataLocation , m_currentImageFileName );
+
+    // Let's try to fallback to thumb-* images if they exist
+    if (currentImagePath.isEmpty())
+    {
+        currentImagePath = KSPaths::locate( QStandardPaths::GenericDataLocation , m_currentThumbImageFileName);
+
+        // If thumb image exists, let's use it
+        if (currentImagePath.isEmpty() == false)
+            m_currentImageFileName = m_currentThumbImageFileName;
+    }
+
+    // 2017-04-14: Unnamed stars already unsupported in observing list
+    /*
     if( o->name() == "star" )
     {
         QString RAString( o->ra0().toHMSString() );
@@ -1387,21 +1400,17 @@ void ObservingList::setCurrentImage( const SkyObject * o  )
         // QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
         // m_currentImageFileName = m_currentImageFileName.remove('+').remove('-') + decsgn;
     }
-    QString imagePath;
-    if ( QFile::exists( imagePath = getCurrentImagePath() ) )   // New convention -- append filename extension so file is usable on Windows etc.
+    */
+
+    // 2017-04-14 JM: If we use .png always, let us use it across all platforms.
+    /*
+    QString imagePath = getCurrentImagePath();
+    if ( QFile::exists( imagePath))   // New convention -- append filename extension so file is usable on Windows etc.
     {
         QFile::rename( imagePath, imagePath + ".png" );
     }
     m_currentImageFileName += ".png";
-    // DSSUrl = KSDssDownloader::getDSSURL( o );
-    // QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?"); // FIXME: Upgrade to use SDSS Data Release 9 / 10. DR6 is well outdated.
-    // QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
-
-    // QString RA, Dec;
-    // RA = RA.sprintf( "ra=%f", o->ra0().Degrees() );
-    // Dec = Dec.sprintf( "&dec=%f", o->dec0().Degrees() );
-
-    // SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
+    */
 }
 
 QString ObservingList::getCurrentImagePath()
@@ -1413,7 +1422,6 @@ QString ObservingList::getCurrentImagePath()
     }
     else
         return ( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_currentImageFileName );
-
 }
 
 void ObservingList::slotSaveAllImages()
@@ -1594,11 +1602,11 @@ void ObservingList::slotDeleteCurrentImage()
 
 void ObservingList::saveThumbImage()
 {
-    if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + ThumbImage ) )
+    if( ! QFile::exists( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_currentThumbImageFileName ) )
     {
         QImage img( getCurrentImagePath() );
         img = img.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
-        img.save( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + ThumbImage ) ;
+        img.save( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + m_currentThumbImageFileName ) ;
     }
 }
 
