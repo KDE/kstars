@@ -441,7 +441,7 @@ class ObservingList : public QDialog
         QList<QSharedPointer<SkyObject>> m_WishList, m_SessionList;
         SkyObject * LogObject, *m_CurrentObject;
         bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
-        QString m_listFileName, m_currentImageFileName, ThumbImage;
+        QString m_listFileName, m_currentImageFileName, m_currentThumbImageFileName;
         KStarsDateTime dt;
         GeoLocation * geo;
         QStandardItemModel * m_WishListModel, *m_SessionModel;
