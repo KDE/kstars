@@ -1781,6 +1781,10 @@ void Align::checkAlignmentTimeout()
 
 void Align::setSolverType(int type)
 {
+
+    if (sender() == nullptr && type >= 0 && type <= 2)
+        solverTypeGroup->button(type)->setChecked(true);
+
     switch(type)
     {
     case SOLVER_ONLINE:
