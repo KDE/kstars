@@ -714,6 +714,11 @@ void Capture::updateFrameProperties(int reset)
         exposureIN->setMinimum(min);
         exposureIN->setMaximum(max);
         exposureIN->setSingleStep(step);
+
+        if (min < 0.001)
+            exposureIN->setDecimals(6);
+        else
+            exposureIN->setDecimals(3);
     }
 
     if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
