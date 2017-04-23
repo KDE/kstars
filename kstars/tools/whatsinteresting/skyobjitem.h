@@ -73,12 +73,21 @@ class SkyObjItem
          * \brief Get longname of sky-object associated with the SkyObjItem.
          * \return Longname of sky-object associated with the SkyObjItem as a QString
          */
-        inline QString getLongName() const
+        inline QString getDescName() const
         {
             if(m_LongName==m_Name)
                 return m_LongName;
             else
                 return m_LongName + "\n (" + m_Name + ")";
+        }
+
+        /**
+         * \brief Get longname of sky-object associated with the SkyObjItem.
+         * \return Longname of sky-object associated with the SkyObjItem as a QString
+         */
+        inline QString getLongName() const
+        {
+            return m_LongName;
         }
 
         /**
@@ -145,19 +154,6 @@ class SkyObjItem
          * \return Summary Description for the SkyObjItem as a QString.
          */
         QString getSummary(bool includeDescription) const;
-
-
-        /**
-         * \brief Get description for the SkyObjItem.
-         * \return Description for the SkyObjItem as a QString.
-         */
-        QString getDesc() const;
-
-        /**
-         * \brief Get source of description for the SkyObjItem.
-         * \return Source of description for the SkyObjItem as a QString.
-         */
-        QString getDescSource();
 
         /**
          * \brief Get magnitude of sky-object associated with the SkyObjItem.

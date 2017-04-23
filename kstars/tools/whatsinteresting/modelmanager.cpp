@@ -20,48 +20,56 @@
 #include "kstarsdatetime.h"
 #include "skymapcomposite.h"
 #include "skyobject.h"
+#include <QtConcurrent>
 
 ModelManager::ModelManager(ObsConditions * obs)
 {
     m_ObsConditions = obs;
-    m_PlanetsModel = new SkyObjListModel();
-    m_StarsModel = new SkyObjListModel();
-    m_GalModel = new SkyObjListModel();
-    m_ConModel = new SkyObjListModel();
-    m_ClustModel = new SkyObjListModel();
-    m_NebModel = new SkyObjListModel();
-    m_MessierModel = new SkyObjListModel();
-    m_SharplessModel = new SkyObjListModel();
 
-    m_InitObjects[Star_Model] = QList<SkyObject *>();
-    m_InitObjects[Galaxy_Model] = QList<SkyObject *>();
-    m_InitObjects[Constellation_Model] = QList<SkyObject *>();
-    m_InitObjects[Cluster_Model] = QList<SkyObject *>();
-    m_InitObjects[Nebula_Model] = QList<SkyObject *>();
-    m_InitObjects[Messier_Model] = QList<SkyObject *>();
-    m_InitObjects[Sharpless_Model] = QList<SkyObject *>();
-    updateModels(obs);
+    m_ModelList = QList < SkyObjListModel *>();
+    m_ObjectList = QList< QList <SkyObjItem *> >();
+
+    favoriteClusters = QList <SkyObjItem *>();
+    favoriteNebulas = QList <SkyObjItem *>();
+    favoriteGalaxies = QList <SkyObjItem *>();
+
+    for(int i=0;i<NumberOfLists;i++){
+        m_ModelList.append(new SkyObjListModel());
+        m_ObjectList.append(QList<SkyObjItem *>());
+    }
+
+    QtConcurrent::run(this, &ModelManager::loadLists);
 }
 
 ModelManager::~ModelManager()
 {
-    delete m_PlanetsModel;
-    delete m_StarsModel;
-    delete m_GalModel;
-    delete m_ConModel;
-    delete m_ClustModel;
-    delete m_NebModel;
-    delete m_MessierModel;
-    delete m_SharplessModel;
+    qDeleteAll(m_ModelList);
+    foreach(QList<SkyObjItem *> list, m_ObjectList)
+       qDeleteAll(list);
 }
 
-void ModelManager::updateModels(ObsConditions * obs)
+void ModelManager::loadLists()
 {
-    m_ObsConditions = obs;
-    m_InitObjects.clear();
-    resetModels();
-
     KStarsData * data = KStarsData::Instance();
+    QVector<QPair<QString, const SkyObject *>> listStars;
+    listStars.append(data->skyComposite()->objectLists(SkyObject::STAR));
+    for(int i = 0; i < listStars.size(); i++)
+    {
+        QPair<QString, const SkyObject *> pair = listStars.value(i);
+        const StarObject * star = dynamic_cast<const StarObject *>(pair.second);
+        if(star->hasLatinName())
+            m_ObjectList[Stars].append(new SkyObjItem(star->clone()));
+    }
+    QString prevName;
+    for(int i = 0; i < m_ObjectList[Stars].size(); i++)
+    {
+        SkyObjItem *star=m_ObjectList[Stars].at(i);
+        if(prevName==star->getName()){
+            m_ObjectList[Stars].removeAt(i);
+            i--;
+        }
+        prevName = star->getName();
+    }
 
     KSFileReader fileReader;
     if (!fileReader.open("Interesting.dat")) return;
@@ -82,128 +90,140 @@ void ModelManager::updateModels(ObsConditions * obs)
                 case SkyObject::OPEN_CLUSTER:
                 case SkyObject::GLOBULAR_CLUSTER:
                 case SkyObject::GALAXY_CLUSTER:
-                    m_InitObjects[Cluster_Model].append(o);
+                    favoriteClusters.append(new SkyObjItem(o));
                     break;
                 case SkyObject::PLANETARY_NEBULA:
                 case SkyObject::DARK_NEBULA:
                 case SkyObject::GASEOUS_NEBULA:
-                    m_InitObjects[Nebula_Model].append(o);
-                    break;
-                case SkyObject::STAR:
-                    m_InitObjects[Star_Model].append(o);
-                    break;
-                case SkyObject::CONSTELLATION:
-                    m_InitObjects[Constellation_Model].append(o);
+                    favoriteNebulas.append(new SkyObjItem(o));
                     break;
                 case SkyObject::GALAXY:
-                    m_InitObjects[Galaxy_Model].append(o);
+                    favoriteGalaxies.append(new SkyObjItem(o));
                     break;
             }
         }
     }
 
-    foreach (SkyObject * so, m_InitObjects.value(Star_Model))
-    {
-        //qDebug()<<so->longname()<<so->typeName();
-        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
-        {
-            m_StarsModel->addSkyObject(new SkyObjItem(so));
-        }
-    }
+    loadObjectList(m_ObjectList[Asteroids], SkyObject::ASTEROID);
+    loadObjectList(m_ObjectList[Comets], SkyObject::COMET);
+    loadObjectList(m_ObjectList[Satellites], SkyObject::SATELLITE);
+    loadObjectList(m_ObjectList[Constellations], SkyObject::CONSTELLATION);
+    loadObjectList(m_ObjectList[Planets], SkyObject::PLANET);
 
-    foreach (SkyObject * so, m_InitObjects.value(Galaxy_Model))
-    {
-        //qDebug()<<so->longname()<<so->typeName();
-        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
-        {
-            m_GalModel->addSkyObject(new SkyObjItem(so));
-        }
-    }
+    loadObjectList(m_ObjectList[Galaxies], SkyObject::GALAXY);
 
-    foreach (SkyObject * so, m_InitObjects.value(Constellation_Model))
-    {
-        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
-        {
-            m_ConModel->addSkyObject(new SkyObjItem(so));
-        }
-    }
+    loadObjectList(m_ObjectList[Clusters], SkyObject::OPEN_CLUSTER);
+    loadObjectList(m_ObjectList[Clusters], SkyObject::GLOBULAR_CLUSTER);
+    loadObjectList(m_ObjectList[Clusters], SkyObject::GALAXY_CLUSTER);
 
-    foreach (SkyObject * so, m_InitObjects.value(Cluster_Model))
-    {
-        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
-        {
-            m_ClustModel->addSkyObject(new SkyObjItem(so));
-        }
-    }
+    loadObjectList(m_ObjectList[Nebulas], SkyObject::PLANETARY_NEBULA);
+    loadObjectList(m_ObjectList[Nebulas], SkyObject::GASEOUS_NEBULA);
+    loadObjectList(m_ObjectList[Nebulas], SkyObject::DARK_NEBULA);
 
-    foreach (SkyObject * so, m_InitObjects.value(Nebula_Model))
-    {
-        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
-        {
-            m_NebModel->addSkyObject(new SkyObjItem(so));
-        }
-    }
 
-    foreach (const QString &name, data->skyComposite()->objectNames(SkyObject::PLANET))
+    for(int i=1;i<=110;i++)
     {
-        SkyObject * so = data->skyComposite()->findByName(name);
-        //qDebug()<<so->name()<<so->mag();
-        if (m_ObsConditions->isVisible(data->geo(), data->lst(), so))
-        {
-            if (so->name() == "Sun") continue;
-            m_PlanetsModel->addSkyObject(new SkyObjItem(so));
-        }
+           SkyObject * o;
+           if ((o = data->skyComposite()->findByName("M " + QString::number(i))))
+               m_ObjectList[Messier].append(new SkyObjItem(o));
     }
-
-     for(int i=1;i<=110;i++)
-     {
-            SkyObject * o;
-            if ((o = data->skyComposite()->findByName("M " + QString::number(i))))
-                m_MessierModel->addSkyObject(new SkyObjItem(o));
-     }
 /**
-     for(int i=1;i<=350;i++)
-     {
-            SkyObject * o;
-            if ((o = data->skyComposite()->findByName("Sh2 " + QString::number(i))))
-                m_SharplessModel->addSkyObject(new SkyObjItem(o));
-     }
+   Note:  The sharpless catalog did not have good wikipedia articles
+    for(int i=1;i<=350;i++)
+    {
+           SkyObject * o;
+           if ((o = data->skyComposite()->findByName("Sh2 " + QString::number(i))))
+               m_SharplessModel->addSkyObject(new SkyObjItem(o));
+    }
 **/
 }
 
-void ModelManager::resetModels()
+void ModelManager::updateAllModels(ObsConditions * obs)
 {
-    m_PlanetsModel->resetModel();
-    m_StarsModel->resetModel();
-    m_ConModel->resetModel();
-    m_GalModel->resetModel();
-    m_ClustModel->resetModel();
-    m_NebModel->resetModel();
-    m_MessierModel->resetModel();
-    m_SharplessModel->resetModel();
+    m_ObsConditions = obs;
+    resetAllModels();
+
+    for(int i=0;i<NumberOfLists;i++)
+        loadObjectsIntoModel(*m_ModelList[i], m_ObjectList[i]);
 }
 
-SkyObjListModel * ModelManager::returnModel(int type)
-{
-    switch(type)
-    {
-        case 0:    //Planet type
-            return m_PlanetsModel;
-        case 1:    //Star type
-            return m_StarsModel;
-        case 2:    //Constellation type
-            return m_ConModel;
-        case 3:    //Galaxy Type
-            return m_GalModel;
-        case 4:    //Cluster type
-            return m_ClustModel;
-        case 5:    //Nebula type
-            return m_NebModel;
-        case 6:    //Messier Objects
-            return m_MessierModel;
-        case 7:    //Sharpless Objects
-            return m_SharplessModel;
-        default:
-            return 0;
+void ModelManager::updateModel(ObsConditions * obs, QString modelName){
+    m_ObsConditions = obs;
+    SkyObjListModel * model = returnModel(modelName);
+    if(model){
+        model->resetModel();
+        if(showOnlyFavorites && modelName=="galaxies")
+            loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], favoriteGalaxies);
+        else if(showOnlyFavorites && modelName=="nebulas")
+            loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], favoriteNebulas);
+        else if(showOnlyFavorites && modelName=="clusters")
+            loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], favoriteClusters);
+        else
+            loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], m_ObjectList[getModelNumber(modelName)]);
     }
+}
+
+void ModelManager::loadObjectList(QList<SkyObjItem *> & skyObjectList, int type){
+    KStarsData * data = KStarsData::Instance();
+    QVector<QPair<QString, const SkyObject *>> objects = data->skyComposite()->objectLists( type );
+
+    for(int i = 0; i < objects.size(); i++)
+    {
+        QPair<QString, const SkyObject *> pair = objects.value(i);
+        const SkyObject * listObject = dynamic_cast<const SkyObject *>(pair.second);
+        if(listObject->name() != "Sun")
+            skyObjectList.append(new SkyObjItem(listObject->clone()));
+    }
+}
+
+void ModelManager::loadObjectsIntoModel(SkyObjListModel & model, QList<SkyObjItem *> &skyObjectList){
+    KStarsData * data = KStarsData::Instance();
+
+    foreach (SkyObjItem * soitem, skyObjectList)
+    {
+        bool isVisible = (showOnlyVisible) ? (m_ObsConditions->isVisible(data->geo(), data->lst(), soitem->getSkyObject())) : true;
+        if(isVisible)
+            model.addSkyObject(soitem);
+    }
+}
+
+void ModelManager::resetAllModels()
+{
+    foreach(SkyObjListModel * model, m_ModelList)
+        model->resetModel();
+}
+
+int ModelManager::getModelNumber(QString modelName){
+    if(modelName=="planets")
+        return Planets;
+    if(modelName=="stars")
+        return Stars;
+    if(modelName=="constellations")
+        return Constellations;
+    if(modelName=="galaxies")
+        return Galaxies;
+    if(modelName=="clusters")
+        return Clusters;
+    if(modelName=="nebulas")
+        return Nebulas;
+    if(modelName=="asteroids")
+        return Asteroids;
+    if(modelName=="comets")
+        return Comets;
+    if(modelName=="satellites")
+        return Satellites;
+    if(modelName=="messier")
+        return Messier;
+    if(modelName=="sharpless")
+        return Sharpless;
+    else return -1;
+}
+
+SkyObjListModel * ModelManager::returnModel(QString modelName)
+{
+        int modelNumber = getModelNumber(modelName);
+        if(modelNumber > -1 && modelNumber < NumberOfLists)
+            return m_ModelList[modelNumber];
+        else
+            return new SkyObjListModel();
 }

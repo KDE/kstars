@@ -438,7 +438,7 @@ void KStars::initActions()
 
     //FIXME Port to QML2
     //#if 0
-    actionCollection()->addAction("whats_interesting", this, SLOT( slotWISettings() ) )
+    actionCollection()->addAction("whats_interesting", this, SLOT( slotShowWIView() ) )
             << i18n("What's Interesting...")
             << QKeySequence(Qt::CTRL+Qt::Key_W );
     //#endif

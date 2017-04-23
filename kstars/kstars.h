@@ -21,6 +21,7 @@
 #include <kxmlguiwindow.h>
 
 #include <config-kstars.h>
+#include <QDockWidget>
 
 #include "oal/equipmentwriter.h"
 #include "oal/observeradd.h"
@@ -194,6 +195,8 @@ class KStars : public KXmlGuiWindow
         void showWISettingsUI();
 
         void showWI(ObsConditions * obs);
+
+        WIEquipSettings * getWIEquipSettings() { return m_WIEquipmentSettings; }
 
     public Q_SLOTS:
         /** @defgroup DBusInterface DBus Interface
@@ -497,6 +500,28 @@ class KStars : public KXmlGuiWindow
         void slotWizard();
 
         void updateLocationFromWizard(GeoLocation geo);
+
+        WIView * wiView(){
+            return m_WIView;
+        }
+
+        bool isWIVisible(){
+            if(!m_WIView)
+                return false;
+            if(!m_wiDock)
+                return false;
+            return m_wiDock->isVisible();
+        }
+
+        //FIXME Port to QML2
+        //#if 0
+        /** action slot: open What's Interesting settings window */
+        void slotWISettings();
+
+        /** action slot: open What's Interesting window */
+        void slotShowWIView();
+        //#endif
+
     private slots:
         /** action slot: open a dialog for setting the time and date */
         void slotSetTime();
@@ -524,15 +549,6 @@ class KStars : public KXmlGuiWindow
 
         /** action slot: open What's up tonight dialog */
         void slotWUT();
-
-        //FIXME Port to QML2
-        //#if 0
-        /** action slot: open What's Interesting settings window */
-        void slotWISettings();
-
-        /** action slot: open What's Interesting window */
-        void slotShowWIView(int status);
-        //#endif
 
         /** action slot: open Sky Calendar tool */
         void slotCalendar();

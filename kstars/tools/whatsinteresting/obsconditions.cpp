@@ -95,6 +95,9 @@ double ObsConditions::getTrueMagLim()
 
 bool ObsConditions::isVisible(GeoLocation * geo, dms * lst, SkyObject * so)
 {
+    if(so->type()==SkyObject::SATELLITE){
+        return so->alt().Degrees() > 6.0;
+    }
     KStarsDateTime ut = geo->LTtoUT(KStarsDateTime(QDateTime::currentDateTime().toLocalTime()));
     SkyPoint sp = so->recomputeCoords(ut, geo);
 

@@ -24,10 +24,26 @@ Rectangle {
     Text {
         id: title
         x: 9
-        y: 34
+        y: 20
         color: "#59ad0e"
         text: xi18n("What's Interesting...")
         verticalAlignment: Text.AlignVCenter
+        font {
+            family: "Cantarell"
+            bold: false
+            pixelSize:22
+        }
+    }
+    
+    Text {
+        id: catTitle
+        objectName: "categoryTitle"
+        x: 30
+        y: 50
+        color: "white"
+        text: ""
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
         font {
             family: "Cantarell"
             bold: false
@@ -56,7 +72,8 @@ Rectangle {
                 bottom: parent.bottom
             }
 
-            signal categorySelected(int category)
+            signal categorySelected(string category)
+            signal inspectSkyObject(string name);
 
             Item {
                 id: categoryView
@@ -64,7 +81,7 @@ Rectangle {
                 y: 31
                 width: parent.width
                 height: 500
-
+                
                 Rectangle {
                     id: background
 
@@ -92,7 +109,7 @@ Rectangle {
                     width: nakedEyeText.width
                     height: nakedEyeText.height
                     anchors{
-                        verticalCenterOffset: -180
+                        verticalCenterOffset: -200
                         horizontalCenterOffset: 0
                         centerIn: parent
                     }
@@ -104,6 +121,69 @@ Rectangle {
                         anchors.centerIn: parent
                     }
                 }
+                
+                Item {
+                    id: sunItem
+                    width: sunText.width
+                    height: sunText.height
+                    anchors{
+                        verticalCenterOffset: -170
+                        horizontalCenterOffset: -50
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: sunText
+
+                        title: xi18n("Sun")
+                        anchors.centerIn: parent
+
+                        MouseArea {
+                            id: sunMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: sunText.state = "selected"
+                            onExited: sunText.state = ""
+                            onClicked: {
+                                viewsRow.inspectSkyObject("Sun")
+                                catTitle.text = "Sun"
+                                container.state = "singleItemSelected"
+                            }
+                        }
+                    }
+                }
+                
+                Item {
+                    id: moonItem
+                    width: moonText.width
+                    height: moonText.height
+                    anchors{
+                        verticalCenterOffset: -170
+                        horizontalCenterOffset: 50
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: moonText
+
+                        title: xi18n("Moon")
+                        anchors.centerIn: parent
+
+                        MouseArea {
+                            id: moonMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: moonText.state = "selected"
+                            onExited: moonText.state = ""
+                            onClicked: {
+                                viewsRow.inspectSkyObject("Moon")
+                                catTitle.text = "Moon"
+                                container.state = "singleItemSelected"
+                            }
+                        }
+                    }
+                }
+
 
 
                 Item {
@@ -112,7 +192,7 @@ Rectangle {
                     height: planetText.height
                     anchors{
                         verticalCenterOffset: -130
-                        horizontalCenterOffset: -30
+                        horizontalCenterOffset: -50
                         centerIn: parent
                     }
 
@@ -126,10 +206,12 @@ Rectangle {
                             id: planetMouseArea
                             anchors.fill: parent
                             hoverEnabled: true
-                            onEntered: container.state = "planetAreaEntered"
+                            onEntered: planetText.state = "selected"
+                            onExited: planetText.state = ""
                             onClicked: {
-                                viewsRow.categorySelected(0)
-                                container.state = "soTypeSelected"
+                                viewsRow.categorySelected("planets")
+                                catTitle.text = "Planets"
+                                container.state = "objectFromListSelected"
                             }
                         }
                     }
@@ -141,8 +223,8 @@ Rectangle {
                     width: starText.width
                     height: starText.height
                     anchors{
-                        verticalCenterOffset: -85
-                        horizontalCenterOffset: 87
+                        verticalCenterOffset: -130
+                        horizontalCenterOffset: 50
                         centerIn: parent
                     }
 
@@ -156,22 +238,119 @@ Rectangle {
                             id: starMouseArea
                             hoverEnabled: true
                             anchors.fill: parent
-                            onEntered: container.state = "starAreaEntered"
+                            onEntered: starText.state = "selected"
+                            onExited: starText.state = ""
                             onClicked: {
-                                viewsRow.categorySelected(1)
-                                container.state = "soTypeSelected"
+                                viewsRow.categorySelected("stars")
+                                catTitle.text = "Stars"
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
+                
+                Item {
+                    id: asteroidItem
+
+                    width: asteroidText.width
+                    height: asteroidText.height
+                    anchors{
+                        verticalCenterOffset: -90
+                        horizontalCenterOffset: -50
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: asteroidText
+
+                        title: xi18n("Asteroids")
+                        anchors.centerIn: parent
+
+                        MouseArea {
+                            id: asteroidMouseArea
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            onEntered: asteroidText.state = "selected"
+                            onExited: asteroidText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("asteroids")
+                                catTitle.text = "Asteroids"
+                                container.state = "objectFromListSelected"
                             }
                         }
                     }
                 }
 
+				Item {
+                    id: cometItem
+
+                    width: cometText.width
+                    height: cometText.height
+                    anchors{
+                        verticalCenterOffset: -90
+                        horizontalCenterOffset: 50
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: cometText
+
+                        title: xi18n("Comets")
+                        anchors.centerIn: parent
+
+                        MouseArea {
+                            id: cometMouseArea
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            onEntered: cometText.state = "selected"
+                            onExited: cometText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("comets")
+                                catTitle.text = "Comets"
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
+
+
+                Item {
+                    id: satelliteItem
+                    width: satelliteText.width
+                    height: satelliteText.height
+                    anchors {
+                        verticalCenterOffset: -50
+                        horizontalCenterOffset: 0
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: satelliteText
+                        title: xi18n("Satellites")
+                        anchors.centerIn: parent
+
+                        MouseArea {
+                            id: satelliteMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: satelliteText.state = "selected"
+                            onExited: satelliteText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("satellites")
+                                catTitle.text = "Satellites"
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
+                
                 Item {
                     id: conItem
                     width: conText.width
                     height: conText.height
                     anchors {
-                        verticalCenterOffset: -52
-                        horizontalCenterOffset: -63
+                        verticalCenterOffset: -10
+                        horizontalCenterOffset: 0
                         centerIn: parent
                     }
 
@@ -184,10 +363,12 @@ Rectangle {
                             id: conMouseArea
                             anchors.fill: parent
                             hoverEnabled: true
-                            onEntered: container.state = "conAreaEntered"
+                            onEntered: conText.state = "selected"
+                            onExited: conText.state = ""
                             onClicked: {
-                                viewsRow.categorySelected(2)
-                                container.state = "soTypeSelected"
+                                viewsRow.categorySelected("constellations")
+                                catTitle.text = "Constellations"
+                                container.state = "objectFromListSelected"
                             }
                         }
                     }
@@ -210,7 +391,7 @@ Rectangle {
                         height: dsoText.height
 
                         anchors {
-                            verticalCenterOffset: -30
+                            verticalCenterOffset: 10
                             horizontalCenterOffset: 0
                             centerIn: parent
                         }
@@ -230,11 +411,10 @@ Rectangle {
                         height: galText.height
 
                         anchors {
-                            verticalCenterOffset: 26
-                            horizontalCenterOffset: -77
+                            verticalCenterOffset: 50
+                            horizontalCenterOffset: -50
                             centerIn: parent
                         }
-                        opacity: categoryTitleOpacity
 
                         CategoryTitle {
                             id: galText
@@ -248,10 +428,12 @@ Rectangle {
                                 id: galMouseArea
                                 hoverEnabled: true
                                 anchors.fill: parent
-                                onEntered: container.state = "galAreaEntered"
+                                onEntered: galText.state = "selected"
+                            	onExited: galText.state = ""
                                 onClicked: {
-                                    viewsRow.categorySelected(3)
-                                    container.state = "dsoTypeSelected"
+                                    viewsRow.categorySelected("galaxies")
+                                    catTitle.text = "Galaxies"
+                                    container.state = "objectFromListSelected"
                                 }
                             }
                         }
@@ -264,11 +446,10 @@ Rectangle {
                         height: nebText.height
 
                         anchors {
-                            verticalCenterOffset: 82
-                            horizontalCenterOffset: -17
+                            verticalCenterOffset: 90
+                            horizontalCenterOffset: 0
                             centerIn: parent
                         }
-                        opacity: 0.340
 
                         CategoryTitle {
                             id: nebText
@@ -279,10 +460,12 @@ Rectangle {
                                 id: nebMouseArea
                                 hoverEnabled: true
                                 anchors.fill: parent
-                                onEntered: container.state = "nebAreaEntered"
+                                onEntered: nebText.state = "selected"
+                            	onExited: nebText.state = ""
                                 onClicked: {
-                                    viewsRow.categorySelected(5)
-                                    container.state = "dsoTypeSelected"
+                                    viewsRow.categorySelected("nebulas")
+                                    catTitle.text = "Nebulas"
+                                    container.state = "objectFromListSelected"
                                 }
                             }
                         }
@@ -295,11 +478,10 @@ Rectangle {
                         height: clustText.height
 
                         anchors {
-                            verticalCenterOffset: 38
-                            horizontalCenterOffset: 69
+                            verticalCenterOffset: 50
+                            horizontalCenterOffset: 50
                             centerIn: parent
                         }
-                        opacity: categoryTitleOpacity
 
                         CategoryTitle {
                             id: clustText
@@ -310,10 +492,12 @@ Rectangle {
                                 id: clustMouseArea
                                 hoverEnabled: true
                                 anchors.fill: parent
-                                onEntered: container.state = "clustAreaEntered"
+                                onEntered: clustText.state = "selected"
+                            	onExited: clustText.state = ""
                                 onClicked: {
-                                    viewsRow.categorySelected(4)
-                                    container.state = "dsoTypeSelected"
+                                    viewsRow.categorySelected("clusters")
+                                    catTitle.text = "Clusters"
+                                    container.state = "objectFromListSelected"
                                 }
                             }
                         }
@@ -342,11 +526,10 @@ Rectangle {
                         height: messierText.height
 
                         anchors {
-                            verticalCenterOffset: 160
-                            horizontalCenterOffset: 69
+                            verticalCenterOffset: 170
+                            horizontalCenterOffset: 0
                             centerIn: parent
                         }
-                        opacity: categoryTitleOpacity
 
                         CategoryTitle {
                             id: messierText
@@ -357,10 +540,12 @@ Rectangle {
                                 id: messierMouseArea
                                 hoverEnabled: true
                                 anchors.fill: parent
-                                onEntered: container.state = "messierAreaEntered"
+                                onEntered: messierText.state = "selected"
+                            	onExited: messierText.state = ""
                                 onClicked: {
-                                    viewsRow.categorySelected(6)
-                                    container.state = "dsoTypeSelected"
+                                    viewsRow.categorySelected("messier")
+                                    catTitle.text = "Messier Objects"
+                                    container.state = "objectFromListSelected"
                                 }
                             }
                         }
@@ -376,7 +561,6 @@ Rectangle {
       //                      horizontalCenterOffset: 69
         //                    centerIn: parent
           //              }
-            //            opacity: categoryTitleOpacity
 //
   //                      CategoryTitle {
     //                        id: sh2Text
@@ -389,8 +573,9 @@ Rectangle {
         //                        anchors.fill: parent
           //                      onEntered: container.state = "sh2AreaEntered"
             //                    onClicked: {
-              //                      viewsRow.categorySelected(7)
-                //                    container.state = "dsoTypeSelected"
+              //                      viewsRow.categorySelected("sharpless")
+              //					  catTitle.text = "Sharpless Objects"
+                //                    container.state = "objectFromListSelected"
                   //              }
                     //        }
                       //  }
@@ -400,6 +585,7 @@ Rectangle {
 
             Flipable {
                 id: skyObjView
+                objectName: "skyObjView"
                 width: parent.width
                 height: parent.height - 150
                 anchors.leftMargin: categoryView.width
@@ -432,89 +618,100 @@ Rectangle {
                             color: "#000000"
                         }
 
-                        ListView {
-                            id: soListView
-                            z: 0
-                            objectName: "soListObj"
-                            anchors.fill: parent
-
-                            signal soListItemClicked(int type, string typeName, int curIndex)
-                            clip: true
-
-                            ScrollView {
+						Flickable {
+								id: flickable
                                 anchors.fill: parent
-                                contentItem: soListView
-                            }
+                                clip: true
+								flickableDirection: Flickable.VerticalFlick
+								
+                            
+							ListView {
+								id: soListView
+								z: 0
+								objectName: "soListObj"
+								anchors.fill: parent
 
-                            delegate: Item {
-                                id: soListItem
-                                x: 8
-                                width: parent.width
-                                height: (dispSummary.height >= 130) ? dispSummary.height + 20 : 160         
+								signal soListItemClicked(int curIndex)
+								clip: true
+								
+								highlightMoveDuration: 1
+								
+								Rectangle {
+        							id: scrollbar
+        							anchors.right: soListView.right
+        							y: soListView.visibleArea.yPosition * soListView.height
+        							width: 10
+        							height: soListView.visibleArea.heightRatio * soListView.height
+        							color: "blue"
+    							}
+
+								delegate: Item {
+									id: soListItem
+									x: 8
+									width: parent.width
+									height: (dispSummary.height >= 130) ? dispSummary.height + 20 : 160         
  
-                                Rectangle{
-                                	id: summaryBackground
-                                	color: "transparent"
-                                	width: parent.width
-    								height: parent.height
-									Text {
-										id: dispSummary
-										objectName: dispObjSummary
-										text: dispObjSummary
-										textFormat: Text.RichText
-										x: image.width + 5
-										width: parent.width - image.width - 30
-										color: "#187988"
+									Rectangle{
+										id: summaryBackground
+										color: "transparent"
+										width: parent.width
+										height: parent.height
+										Text {
+											id: dispSummary
+											objectName: dispObjSummary
+											text: dispObjSummary
+											textFormat: Text.RichText
+											x: image.width + 5
+											width: parent.width - image.width - 30
+											color: "#187988"
 	   
-										wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-										font{
-											family: "Cantarell"
-											pixelSize: 13
+											wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+											font{
+												family: "Cantarell"
+												pixelSize: 13
+											}
 										}
 									}
-                                }
-                                Image { 
-                                	id: image
-                                	width: 150
-                                	fillMode: Image.PreserveAspectFit
-                                	source: imageSource 
-                                }
+									Image { 
+										id: image
+										width: 150
+										fillMode: Image.PreserveAspectFit
+										source: imageSource 
+									}
 
-                                Text {
-                                    id: dispText
-                                    objectName: dispName
-                                    text: dispName
-                                    color: "white"
+									Text {
+										id: dispText
+										objectName: dispName
+										text: dispName
+										color: "white"
 
-                                    font.bold: true
-                                }
-                                MouseArea {
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        onEntered:{ 
-                                        	dispText.color = "yellow"
-                                        	dispSummary.color = "yellow"
-                                        	summaryBackground.color = "#030723"
-                                    	}
-                                        onExited: {
-                                        	dispText.color = "white"
-                                        	dispSummary.color = "#187988"
-                                        	summaryBackground.color ="transparent"
-                                        }
-                                        onClicked: {
-                                            soListView.currentIndex = index
-                                            soListView.soListItemClicked(
-                                                        type, typeName,
-                                                        soListView.currentIndex)
-                                            skyObjView.flipped = true
-                                        }
-                            	}
-                            }
-
-                            model: soListModel
-                        }
-                    }
-                }
+										font.bold: true
+									}
+									MouseArea {
+											anchors.fill: parent
+											hoverEnabled: true
+											onEntered:{ 
+												dispText.color = "yellow"
+												dispSummary.color = "yellow"
+												summaryBackground.color = "#030723"
+											}
+											onExited: {
+												dispText.color = "white"
+												dispSummary.color = "#187988"
+												summaryBackground.color ="transparent"
+											}
+											onClicked: {
+												soListView.currentIndex = index
+												soListView.soListItemClicked(soListView.currentIndex)
+												skyObjView.flipped = true
+											}
+									}//Mousearea
+								}//soListItem
+								model: soListModel
+							}//soListView
+                        }//Flickable
+                    }//soListViewContainer
+                }//Front, soListContainer
 
                 back: Item {
                     id: detailsViewContainer
@@ -583,6 +780,117 @@ Rectangle {
                                 pixelSize:11
                             }
 
+                        }
+                        Column {
+                            id: detailItemsCol
+                            x: 150
+                            y: 80
+                            width: parent.width
+                            height: 93
+                            spacing: 14
+                            
+                            DetailsItem {
+                                id: detailsText
+                                textFormat: Text.RichText
+                                objectName: "detailsTextObj"
+                                
+                            }
+
+                        }
+
+                        Column {
+                            id: detailsViewButtonsCol
+                            y: 50
+                            anchors {
+                                left: parent.left
+                                leftMargin: 10
+                            }
+                            
+                            spacing: 14
+
+                            Text {
+                                id: detailsButton
+                                objectName: "detailsButtonObj"
+
+                                verticalAlignment: Text.AlignVCenter
+                                color: "white"
+                                text: xi18n("More Details")
+                                font {
+                                    underline: true
+                                    family: "Cantarell"
+                                    pixelSize: 14
+                                }
+
+                                signal detailsButtonClicked
+
+                                MouseArea {
+                                    id: detailsMouseArea
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    anchors.fill: parent
+                                    onEntered: detailsButton.color = "yellow"
+                                    onExited: detailsButton.color = "white"
+                                    onClicked: detailsButton.detailsButtonClicked()
+                                }
+                            }
+
+                            Text {
+                                id: centerButton
+                                objectName: "centerButtonObj"
+
+                                verticalAlignment: Text.AlignVCenter
+                                color: "white"
+                                text: xi18n("Center in Map")
+                                font {
+                                    underline: true
+                                    family: "Cantarell"
+                                    pixelSize: 14
+                                }
+
+                                signal centerButtonClicked
+
+                                MouseArea {
+                                    id: centerObjMouseArea
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    anchors.fill: parent
+                                    onEntered: centerButton.color = "yellow"
+                                    onExited: centerButton.color = "white"
+                                    onClicked: centerButton.centerButtonClicked()
+                                }
+                                CheckBox {
+                                	id: autoCenter
+                                	objectName: "autoCenterCheckbox"
+                                	x: 100
+                                	checked: true
+                                }
+                            }
+                            
+                            Text {
+                                id: slewTelescopeButton
+                                objectName: "slewTelescopeButtonObj"
+
+                                verticalAlignment: Text.AlignVCenter
+                                color: "white"
+                                text: xi18n("Slew Telescope")
+                                font {
+                                    underline: true
+                                    family: "Cantarell"
+                                    pixelSize: 14
+                                }
+
+                                signal slewTelescopeButtonClicked
+
+                                MouseArea {
+                                    id: slewTelescopeObjMouseArea
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    anchors.fill: parent
+                                    onEntered: slewTelescopeButton.color = "yellow"
+                                    onExited: slewTelescopeButton.color = "white"
+                                    onClicked: slewTelescopeButton.slewTelescopeButtonClicked()
+                                }
+                            }
                         }
                         TabView {
                         	id: tabbedView
@@ -680,25 +988,45 @@ Rectangle {
 									border.width: 0
 									states: [ 
 										State {
+											name: "inTab"
+											when: ( detailsView.width < 600)
+											ParentChange { target: descTextBox2; parent: infoBoxTab; x: 0; y: 0 }
+										},
+										State {
 											name: "outOfTab"
+											when: ( (container.state == "singleItemSelected" && detailsView.width >= 600)||(container.state != "singleItemSelected" && detailsView.width >= 600 && detailsView.width < 900))
 											ParentChange { target: descTextBox2; parent: detailsView; x: detailsView.width/2; y: 10 }
 											PropertyChanges{target:tabbedView; currentIndex: 0}
 											PropertyChanges{target:tabbedView; tabsVisible: false}
 											PropertyChanges{target:tabbedView; width: detailsView.width / 2}
+											PropertyChanges{target:descTextBox2; anchors.left: tabbedView.right}
 											PropertyChanges{target:descTextBox2; width: detailsView.width / 2}
 										},
 										State {
-											name: "inTab"
-											ParentChange { target: descTextBox2; parent: infoBoxTab; x: 0; y: 0 }
+											name: "includeList"
+											when: (detailsView.width >= 900 && container.state!="singleItemSelected")
+											ParentChange { target: soListViewContainer; parent: detailsView; x: 0 ; y: 0 }
+											ParentChange { target: descTextBox2; parent: detailsView; x: detailsView.width * 2 / 3; y: 10 }
+											PropertyChanges{target:soListViewContainer; width: detailsView.width / 3}
+											PropertyChanges{target:tabbedView; x: detailsView.width / 3}
+											PropertyChanges{target:detailsViewButtonsCol; anchors.left:  soListViewContainer.right}
+											PropertyChanges{target:soname; anchors.left:  soListViewContainer.right}
+											PropertyChanges{target:detailItemsCol; x: 150 + detailsView.width / 3}
+											PropertyChanges{target:tabbedView; width: detailsView.width / 3}
+											PropertyChanges{target:tabbedView; currentIndex: 0}
+											PropertyChanges{target:tabbedView; tabsVisible: false}
+											PropertyChanges{target:descTextBox2; anchors.left: tabbedView.right}
+											PropertyChanges{target:descTextBox2; width: detailsView.width / 3}
+											PropertyChanges{target:skyObjView; flipped: true}
 										}
 									]
 
-									onWidthChanged: (detailsViewContainer.width >= 600) ? descTextBox2.state = "outOfTab" : descTextBox2.state = "inTab"
+									//onWidthChanged: (detailsView.width >= 900 && container.state!="singleItemSelected") ? descTextBox2.state = "includeList" : (detailsView.width >= 600) ? descTextBox2.state = "outOfTab" : descTextBox2.state = "inTab"
 							
 									anchors{
 										right: parent.right
 										rightMargin: 4
-										left: (detailsViewContainer.width >= 600) ? parent.horizontalCenter : parent.left
+										left: parent.left
 										leftMargin: 4
 									}
 									border.color: "#585454"
@@ -904,117 +1232,7 @@ Rectangle {
                             }
                         }
 
-                        Column {
-                            id: detailItemsCol
-                            x: 150
-                            y: 80
-                            width: parent.width
-                            height: 93
-                            spacing: 14
-                            
-                            DetailsItem {
-                                id: detailsText
-                                textFormat: Text.RichText
-                                objectName: "detailsTextObj"
-                                
-                            }
-
-                        }
-
-                        Column {
-                            id: detailsViewButtonsCol
-                            y: 50
-                            anchors {
-                                left: parent.left
-                                leftMargin: 10
-                            }
-                            
-                            spacing: 14
-
-                            Text {
-                                id: detailsButton
-                                objectName: "detailsButtonObj"
-
-                                verticalAlignment: Text.AlignVCenter
-                                color: "white"
-                                text: xi18n("More Details")
-                                font {
-                                    underline: true
-                                    family: "Cantarell"
-                                    pixelSize: 14
-                                }
-
-                                signal detailsButtonClicked
-
-                                MouseArea {
-                                    id: detailsMouseArea
-                                    hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
-                                    anchors.fill: parent
-                                    onEntered: detailsButton.color = "yellow"
-                                    onExited: detailsButton.color = "white"
-                                    onClicked: detailsButton.detailsButtonClicked()
-                                }
-                            }
-
-                            Text {
-                                id: slewButton
-                                objectName: "slewButtonObj"
-
-                                verticalAlignment: Text.AlignVCenter
-                                color: "white"
-                                text: xi18n("Center in Map")
-                                font {
-                                    underline: true
-                                    family: "Cantarell"
-                                    pixelSize: 14
-                                }
-
-                                signal slewButtonClicked
-
-                                MouseArea {
-                                    id: slewObjMouseArea
-                                    hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
-                                    anchors.fill: parent
-                                    onEntered: slewButton.color = "yellow"
-                                    onExited: slewButton.color = "white"
-                                    onClicked: slewButton.slewButtonClicked()
-                                }
-                                CheckBox {
-                                	id: autoCenter
-                                	objectName: "autoCenterCheckbox"
-                                	x: 100
-                                	checked: true
-                                }
-                            }
-                            
-                            Text {
-                                id: slewTelescopeButton
-                                objectName: "slewTelescopeButtonObj"
-
-                                verticalAlignment: Text.AlignVCenter
-                                color: "white"
-                                text: xi18n("Slew Telescope")
-                                font {
-                                    underline: true
-                                    family: "Cantarell"
-                                    pixelSize: 14
-                                }
-
-                                signal slewTelescopeButtonClicked
-
-                                MouseArea {
-                                    id: slewTelescopeObjMouseArea
-                                    hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
-                                    anchors.fill: parent
-                                    onEntered: slewTelescopeButton.color = "yellow"
-                                    onExited: slewTelescopeButton.color = "white"
-                                    onClicked: slewTelescopeButton.slewTelescopeButtonClicked()
-                                }
-                            }
-                        }
+                        
                     } //end of detailsView
                 } //end of detailsViewContainer
 
@@ -1024,26 +1242,6 @@ Rectangle {
                         PropertyChanges {
                             target: listToDetailsRotation
                             angle: 180
-                        }
-
-                        PropertyChanges {
-                            target: settingsMouseArea
-                            enabled: false
-                        }
-
-                        PropertyChanges {
-                            target: settingsIcon
-                            opacity: 0
-                        }
-
-                        PropertyChanges {
-                            target: reloadMouseArea
-                            enabled: false
-                        }
-
-                        PropertyChanges {
-                            target: reloadIcon
-                            opacity: 0
                         }
 
                         when: skyObjView.flipped
@@ -1124,17 +1322,20 @@ Rectangle {
             onEntered: goBackForeground.opacity = buttonOpacity
             onExited: goBackForeground.opacity = 0.0
             onClicked: {
-                if (container.state == "soTypeSelected") {
-                    if (!skyObjView.flipped) {
+                if (container.state == "objectFromListSelected") {
+                    if (!skyObjView.flipped||container.width>=900) {
                         container.state = "base"
+                        catTitle.text = ""
                     } else if (skyObjView.flipped) {
                         skyObjView.flipped = false
                     }
-                } else if (container.state == "dsoTypeSelected") {
-                    if (!skyObjView.flipped) {
-                        container.state = "base"
-                    } else if (skyObjView.flipped) {
-                        skyObjView.flipped = false
+                } else if (container.state == "singleItemSelected") {
+                    container.state = "base"
+                    catTitle.text = ""
+                    if (container.width>=900) {
+                    	skyObjView.flipped = true
+                    } else{
+                    	skyObjView.flipped = false
                     }
                 }
             }
@@ -1144,7 +1345,7 @@ Rectangle {
     Image {
         id: settingsIcon
         objectName: "settingsIconObj"
-        x: 9
+        x: 10
         y: container.height - 50
         width: 28
         height: 28
@@ -1206,7 +1407,9 @@ Rectangle {
             hoverEnabled: true
             onEntered: reloadForeground.opacity = buttonOpacity
             onExited: reloadForeground.opacity = 0.0
-            onClicked: reloadIcon.reloadIconClicked()
+            onClicked: {
+            	reloadIcon.reloadIconClicked();
+             }
         }
 
         Rectangle {
@@ -1215,388 +1418,200 @@ Rectangle {
             opacity: 0
             anchors.fill: parent
         }
+        states: [
+        	State {
+        		name: "invisible"
+        		when:  (container.state != "objectFromListSelected" && container.state != "singleItemSelected")
+        		PropertyChanges {target: reloadMouseArea; enabled: false}
+        		PropertyChanges {target: reloadIcon; opacity: 0}
+        	}
+        ]
+        
     }
+    
+    Image {
+        id: visibleIcon
+        objectName: "visibleIconObj"
+        state: "checked"
+        x: 90
+        y: container.height - 50
+        width: 28
+        height: 28
+        anchors{
+            verticalCenterOffset: 0
+            verticalCenter: backButton.verticalCenter
+        }
+        sourceSize{
+            height: 40
+            width: 40
+        }
+        smooth: true
+        fillMode: Image.Stretch
+        source: "visibleIcon.png"
+
+        signal visibleIconClicked(bool visible)
+
+        MouseArea {
+            id: visibleMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: visibleForeground.opacity = buttonOpacity
+            onExited: visibleForeground.opacity = 0.0
+            onClicked: {
+            	visibleIcon.visibleIconClicked(visibleIcon.state == "unchecked")
+            	visibleIcon.state = (visibleIcon.state == "unchecked") ?  "" : "unchecked"
+            }
+        }
+
+        Rectangle {
+            id: visibleForeground
+            radius: 5
+            opacity: 0
+            anchors.fill: parent
+        }
+        states: [
+        	State {
+        		name: "invisible"
+        		when: container.state != "objectFromListSelected"
+        		PropertyChanges {target: visibleMouseArea; enabled: false}
+        		PropertyChanges {target: visibleIcon; opacity: 0}
+        	},
+        	State {
+        		name: "unchecked"
+        		PropertyChanges {target: visibleIcon; opacity: 0.5}
+        	}
+        ]
+    }
+    
+	Image {
+        id: favoriteIcon
+        objectName: "favoriteIconObj"
+        state: "checked"
+        x: 130
+        y: container.height - 50
+        width: 28
+        height: 28
+        anchors{
+            verticalCenterOffset: 0
+            verticalCenter: backButton.verticalCenter
+        }
+        sourceSize{
+            height: 40
+            width: 40
+        }
+        smooth: true
+        fillMode: Image.Stretch
+        source: "favoriteIcon.png"
+
+        signal favoriteIconClicked(bool favorite)
+
+        MouseArea {
+            id: favoriteMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: favoriteForeground.opacity = buttonOpacity
+            onExited: favoriteForeground.opacity = 0.0
+            onClicked: {
+            	favoriteIcon.favoriteIconClicked(favoriteIcon.state == "unchecked")
+            	favoriteIcon.state = (favoriteIcon.state == "unchecked") ?  "" : "unchecked"
+            }
+        }
+
+        Rectangle {
+            id: favoriteForeground
+            radius: 5
+            opacity: 0
+            anchors.fill: parent
+        }
+        states: [
+        	State {
+        		name: "invisible"
+        		when:  container.state != "objectFromListSelected"
+        		PropertyChanges {target: favoriteMouseArea; enabled: false}
+        		PropertyChanges {target: favoriteIcon; opacity: 0}
+        	},
+        	State {
+        		name: "unchecked"
+        		PropertyChanges {target: favoriteIcon; opacity: 0.5}
+        	}
+        ]
+    }
+    
+    Image {
+        id: downloadIcon
+        objectName: "downloadIconObj"
+        x: 170
+        y: container.height - 50
+        width: 28
+        height: 28
+        anchors{
+            verticalCenterOffset: 0
+            verticalCenter: backButton.verticalCenter
+        }
+        sourceSize{
+            height: 40
+            width: 40
+        }
+        smooth: true
+        fillMode: Image.Stretch
+        source: "downloadIcon.png"
+
+        signal downloadIconClicked
+
+        MouseArea {
+            id: downloadMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: downloadForeground.opacity = buttonOpacity
+            onExited: downloadForeground.opacity = 0.0
+            onClicked: downloadIcon.downloadIconClicked()
+        }
+
+        Rectangle {
+            id: downloadForeground
+            radius: 5
+            opacity: 0
+            anchors.fill: parent
+        }
+        states: [
+        	State {
+        		name: "invisible"
+        		when: skyObjView.flipped == false || (container.state != "objectFromListSelected" && container.state != "singleItemSelected")
+        		PropertyChanges {target: downloadMouseArea; enabled: false}
+        		PropertyChanges {target: downloadIcon; opacity: 0}
+        	}
+        ]
+    }
+    
+
 
     states: [
         State {
             name: "base"
-
-            PropertyChanges {
-                target: galText
-                color: disabledColor
-            }
-
-            PropertyChanges {
-                target: nebText
-                color: disabledColor
-            }
-
-            PropertyChanges {
-                target: clustText
-                color: disabledColor
-            }
-        },
+            
+        },        
         State {
-            name: "planetAreaEntered"
+            name: "singleItemSelected"
 
             PropertyChanges {
-                target: planetText
-                state: "selected"
-            }
-        },
-        State {
-            name: "starAreaEntered"
-
-            PropertyChanges {
-                target: starText
-                state: "selected"
-            }
-        },
-        State {
-            name: "conAreaEntered"
-
-            PropertyChanges {
-                target: conText
-                state: "selected"
-            }
-        },
-        State {
-            name: "dsoAreaEntered"
-
-            PropertyChanges {
-                target: dsoText
-                state:"selected"
-            }
-        },
-        State {
-            name: "galAreaEntered"
-            PropertyChanges {
-                target: dsoText
-                state: "selectedNoBold"
-            }
-
-            PropertyChanges {
-                target: galItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: nebItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: clustItem
-                opacity: 1
+                target: viewsRow
+                x: -(2 * categoryView.width)
+                y: 0
+                anchors{
+                    topMargin: 0
+                    bottomMargin: 0
+                }
             }
             
-             PropertyChanges {
-                target: messierItem
-                opacity: 1
-            }
+            PropertyChanges{target:skyObjView; flipped: true}
 
             PropertyChanges {
-                target: planetItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: conItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: starItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: galText
-                state: "selected"
-                color: activeColor
-            }
-
-            PropertyChanges {
-                target: clustMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-            
-            PropertyChanges {
-                target: messierMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: galMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: nebMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: nebText
-                color: activeColor
-            }
-
-            PropertyChanges {
-                target: clustText
-                color: activeColor
+                target: backButton
+                x: container.width - 105
             }
         },
         State {
-            name: "nebAreaEntered"
-            PropertyChanges {
-                target: dsoText
-                state: "selectedNoBold"
-            }
-
-            PropertyChanges {
-                target: galItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: nebItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: clustItem
-                opacity: 1
-            }
-            
-             PropertyChanges {
-                target: messierItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: planetItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: conItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: starItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: nebText
-                state: "selected"
-                color: activeColor
-            }
-
-
-            PropertyChanges {
-                target: clustMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-            
-            PropertyChanges {
-                target: messierMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: nebMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: galMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: galText
-                color: activeColor
-            }
-
-            PropertyChanges {
-                target: clustText
-                color: activeColor
-            }
-        },
-        State {
-            name: "clustAreaEntered"
-            PropertyChanges {
-                target: dsoText
-                state: "selectedNoBold"
-            }
-
-            PropertyChanges {
-                target: galItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: nebItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: clustItem
-                opacity: 1
-            }
-            
-             PropertyChanges {
-                target: messierItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: planetItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: conItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: starItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: clustText
-                state: "selected"
-                color: activeColor
-            }
-
-            PropertyChanges {
-                target: clustMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-            
-            PropertyChanges {
-                target: messierMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: galMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: nebMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: nebText
-                color: activeColor
-            }
-
-            PropertyChanges {
-                target: galText
-                color: activeColor
-            }
-        },
-        State {
-            name: "messierAreaEntered"
-            PropertyChanges {
-                target: dsoText
-                state: "selectedNoBold"
-            }
-
-            PropertyChanges {
-                target: galItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: nebItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: clustItem
-                opacity: 1
-            }
-            PropertyChanges {
-                target: messierItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: planetItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: conItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: starItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: messierText
-                state: "selected"
-                color: activeColor
-            }
-
-			PropertyChanges {
-                target: clustMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-            PropertyChanges {
-                target: messierMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: galMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: nebMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: nebText
-                color: activeColor
-            }
-
-            PropertyChanges {
-                target: galText
-                color: activeColor
-            }
-        },
-        State {
-            name: "soTypeSelected"
+            name: "objectFromListSelected"
 
             PropertyChanges {
                 target: viewsRow
@@ -1611,186 +1626,15 @@ Rectangle {
             PropertyChanges {
                 target: backButton
                 x: container.width - 105
-            }
-        },
-        State {
-            name: "dsoTypeSelected"
-
-            PropertyChanges {
-                target: viewsRow
-                x: -(2 * categoryView.width)
-                y: 0
-                anchors{
-                    topMargin: 0
-                    bottomMargin: 0
-                }
-            }
-
-            PropertyChanges {
-                target: backButton
-                x: container.width - 105
-            }
-
-            PropertyChanges {
-                target: dsoText
-                state:"selectedNoBold"
-            }
-
-            PropertyChanges {
-                target: galItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: nebItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: clustItem
-                opacity: 1
-            }
-            
-             PropertyChanges {
-                target: messierItem
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: planetItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: conItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: starItem
-                opacity: categoryTitleOpacity
-            }
-
-            PropertyChanges {
-                target: clustMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-            
-            PropertyChanges {
-                target: messierMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: galMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: nebMouseArea
-                hoverEnabled: true
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: galText
-                color: activeColor
-            }
-
-            PropertyChanges {
-                target: clustText
-                color: activeColor
-            }
-
-            PropertyChanges {
-                target: nebText
-                color: activeColor
             }
         }
     ]
 
     transitions: [
+        
         Transition {
             from: "*"
-            to: "planetAreaEntered"
-
-            NumberAnimation {
-                target: galItem
-                property: "opacity"
-                duration: 500
-            }
-            NumberAnimation {
-                target: nebItem
-                property: "opacity"
-                duration: 500
-            }
-            NumberAnimation {
-                target: clustItem
-                property: "opacity"
-                duration: 500
-            }
-            NumberAnimation {
-                target: messierItem
-                property: "opacity"
-                duration: 500
-            }
-        },
-        Transition {
-            from: "*"
-            to: "starAreaEntered"
-
-            NumberAnimation {
-                target: galItem
-                property: "opacity"
-                duration: 500
-            }
-            NumberAnimation {
-                target: nebItem
-                property: "opacity"
-                duration: 500
-            }
-            NumberAnimation {
-                target: clustItem
-                property: "opacity"
-                duration: 500
-            }
-            NumberAnimation {
-                target: messierItem
-                property: "opacity"
-                duration: 500
-            }
-        },
-        Transition {
-            from: "*"
-            to: "conAreaEntered"
-
-            NumberAnimation {
-                target: galItem
-                property: "opacity"
-                duration: 500
-            }
-            NumberAnimation {
-                target: nebItem
-                property: "opacity"
-                duration: 500
-            }
-            NumberAnimation {
-                target: clustItem
-                property: "opacity"
-                duration: 500
-            }
-            NumberAnimation {
-                target: messierItem
-                property: "opacity"
-                duration: 500
-            }
-        },
-        Transition {
-            from: "*"
-            to: "soTypeSelected"
+            to: "objectFromListSelected"
             NumberAnimation {
                 target: viewsRow
                 property: "x"
@@ -1805,23 +1649,7 @@ Rectangle {
             }
         },
         Transition {
-            from: "*"
-            to: "dsoTypeSelected"
-            NumberAnimation {
-                target: viewsRow
-                property: "x"
-                duration: 250
-                easing.type: Easing.InOutQuad
-            }
-            NumberAnimation {
-                target: backButton
-                property: "x"
-                duration: 250
-                easing.type: Easing.InOutQuad
-            }
-        },
-        Transition {
-            from: "soTypeSelected"
+            from: "objectFromListSelected"
             to: "base"
             NumberAnimation {
                 target: viewsRow

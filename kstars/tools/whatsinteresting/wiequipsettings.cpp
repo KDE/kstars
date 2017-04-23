@@ -34,7 +34,7 @@ WIEquipSettings::WIEquipSettings(): QFrame(KStars::Instance())
 
     connect(kcfg_TelescopeCheck, SIGNAL(toggled(bool)), this, SLOT(slotTelescopeCheck(bool)));
     connect(kcfg_BinocularsCheck, SIGNAL(toggled(bool)), this, SLOT(slotBinocularsCheck(bool)));
-    connect(ScopeListWidget, SIGNAL(currentRowChanged(int)), this, SLOT(slotScopeSelected(int row)));
+    connect(ScopeListWidget, SIGNAL(currentRowChanged(int)), this, SLOT(slotScopeSelected(int)));
     connect(saveNewScopeButton, SIGNAL(clicked()), this, SLOT(slotAddNewScope()));
 
     populateScopeListWidget();

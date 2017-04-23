@@ -34,6 +34,7 @@
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/flagcomponent.h"
 #include "skymap.h"
+#include "tools/whatsinteresting/wiview.h"
 
 #include "observinglist.h"
 
@@ -403,6 +404,8 @@ void KSPopupMenu::initPopupMenu( SkyObject * obj, QString name, QString type, QS
 #endif
     addSeparator();
     addINDI();
+
+    addAction( i18n("View in What's Interesting"), this, SLOT( slotViewInWI() ) );
 }
 
 void KSPopupMenu::initFlagActions( SkyObject * obj )
@@ -629,4 +632,11 @@ void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize)
     QWidgetAction * act = new QWidgetAction( this );
     act->setDefaultWidget(label);
     addAction( act );
+}
+
+void KSPopupMenu::slotViewInWI(){
+    if(!KStars::Instance()->map()->clickedObject())
+        return;
+    KStars::Instance()->slotShowWIView();
+    KStars::Instance()->wiView()->inspectSkyObject(KStars::Instance()->map()->clickedObject());
 }

@@ -35,25 +35,19 @@ SkyObjItem::SkyObjItem(SkyObject * so) : m_Name(so->name()), m_LongName(so->long
             m_Type = Star;
             break;
         case SkyObject::CONSTELLATION:
-            skd = new SkyObjDescription(m_Name, m_TypeName);
             m_Type = Constellation;
             break;
         case SkyObject::GALAXY:
-            skd = new SkyObjDescription(m_LongName, "");
             m_Type = Galaxy;
             break;
         case SkyObject::OPEN_CLUSTER:
         case SkyObject::GLOBULAR_CLUSTER:
         case SkyObject::GALAXY_CLUSTER:
-            if(m_Name.contains("NGC", Qt::CaseInsensitive))
-                skd = new SkyObjDescription(m_Name, "");
             m_Type = Cluster;
             break;
         case SkyObject::PLANETARY_NEBULA:
         case SkyObject::GASEOUS_NEBULA:
         case SkyObject::DARK_NEBULA:
-            if(m_Name.contains("NGC", Qt::CaseInsensitive))
-                skd = new SkyObjDescription(m_Name, "");
             m_Type = Nebula;
             break;
     }
@@ -71,7 +65,7 @@ QVariant SkyObjItem::data(int role)
     switch(role)
     {
         case DispNameRole:
-            return getLongName();
+            return getDescName();
         case DispImageRole:
             return getImageURL(true);
         case DispSummaryRole:
@@ -99,28 +93,40 @@ QHash<int, QByteArray> SkyObjItem::roleNames() const
 
 void SkyObjItem::setPosition(SkyObject * so)
 {
-    KStarsData * data = KStarsData::Instance();
-    KStarsDateTime ut = data->geo()->LTtoUT(KStarsDateTime(QDateTime::currentDateTime().toLocalTime()));
-    SkyPoint sp = so->recomputeCoords(ut, data->geo());
+    double altitude;
+    dms azimuth;
+    if(so->type()==SkyObject::SATELLITE)
+    {
+        altitude = so->alt().Degrees();
+        azimuth = so->az();
+    }
+    else
+    {
 
-    //check altitude of object at this time.
-    sp.EquatorialToHorizontal(data->lst(), data->geo()->lat());
-    double rounded_altitude = (int)(sp.alt().Degrees()/5.0)*5.0;
+        KStarsData * data = KStarsData::Instance();
+        KStarsDateTime ut = data->geo()->LTtoUT(KStarsDateTime(QDateTime::currentDateTime().toLocalTime()));
+        SkyPoint sp = so->recomputeCoords(ut, data->geo());
+
+        //check altitude of object at this time.
+        sp.EquatorialToHorizontal(data->lst(), data->geo()->lat());
+        altitude = sp.alt().Degrees();
+        azimuth = sp.az();
+    }
+
+    double rounded_altitude = (int)(altitude/5.0)*5.0;
 
     if(rounded_altitude<=0)
-        m_Position = "<span style='color:red'>" + xi18n("NOT VISIBLE: About %1 degrees below the %2 horizon", -rounded_altitude, KSUtils::toDirectionString( sp.az() ) ) + "</span>";
+        m_Position = "<span style='color:red'>" + xi18n("NOT VISIBLE: About %1 degrees below the %2 horizon", -rounded_altitude, KSUtils::toDirectionString( azimuth ) ) + "</span>";
     else
-        m_Position = "<span style='color:yellow'>" + xi18n("Now visible: About %1 degrees above the %2 horizon", rounded_altitude, KSUtils::toDirectionString( sp.az() ) ) + "</span>";
+        m_Position = "<span style='color:yellow'>" + xi18n("Now visible: About %1 degrees above the %2 horizon", rounded_altitude, KSUtils::toDirectionString( azimuth ) ) + "</span>";
 }
 
 QString SkyObjItem::getImageURL(bool preferThumb) const
 {
-    if ( m_Type==Star )
-    {
-        return "";
-    }
-    QString thumbName = KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
-    QString fullSizeName = KSPaths::locate(QStandardPaths::GenericDataLocation, "image-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
+    QString thumbName = KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" );
+    QString fullSizeName = KSPaths::locate(QStandardPaths::GenericDataLocation, "image-" + m_So->name().toLower().remove( ' ' ) + ".png" );
+    QString wikiImageName=KSPaths::locate(QStandardPaths::GenericDataLocation, "descriptions/wikiImage-" + m_So->name().toLower().remove( ' ' ) + ".png" );
+    QString XPlanetName = KSPaths::locate(QStandardPaths::GenericDataLocation, "xplanet/" + m_So->name() + ".png" );
 
     //First try to return the preferred file
     if(thumbName!=""&&preferThumb)
@@ -128,12 +134,15 @@ QString SkyObjItem::getImageURL(bool preferThumb) const
     if(fullSizeName!=""&&(!preferThumb))
         return fullSizeName;
 
-    //If that fails, try to return the large image first, then the thumb and then if it is a planet, the xplanet image.
-    QString fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "image-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
-    if(fname=="")
-        fname = KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" ) ;
-    if(fname=="" && m_Type==Planet){
-        fname=KSPaths::locate(QStandardPaths::GenericDataLocation, "xplanet/" + m_So->name() + ".png" );
+    //If that fails, try to return the large image first, then the thumb, and then if it is a planet, the xplanet image. Finally if all else fails, the wiki image.
+    QString fname = fullSizeName ;
+    if(fname == "")
+        fname = thumbName ;
+    if(fname == "" && m_Type==Planet){
+        fname = XPlanetName;
+    }
+    if(fname == ""){
+        fname = wikiImageName;
     }
 
     return fname;
@@ -147,59 +156,6 @@ QString SkyObjItem::getSummary(bool includeDescription) const
     else
         return m_So->typeName() + "<BR>" + getRADE() + "<BR>" + getAltAz();
 }
-
-QString SkyObjItem::getDesc() const
-{
-    if (m_Type == Planet)
-    {
-        KSFileReader fileReader;
-        if (!fileReader.open("PlanetFacts.dat"))
-            return xi18n("No Description found for selected sky-object");
-
-        while (fileReader.hasMoreLines())
-        {
-            QString line = fileReader.readLine();
-            if(line.length() != 0 && line[0] != '#')
-            {
-                QString soname = line.split("::")[0];
-                QString desc = line.split("::")[1];
-                if (soname == m_Name)
-                {
-                    return desc;
-                }
-            }
-        }
-    }
-
-    if(skd)
-    {
-        if(!skd->downloadedData().isEmpty())
-            return skd->downloadedData();
-    }
-
-    if(m_Type == Star)
-        return xi18n("Bright Star");
-
-    return m_So->typeName();
-
-}
-
-QString SkyObjItem::getDescSource()
-{
-    if (m_Type == Planet)
-    {
-        return xi18n("(Source: Wikipedia)");
-    }
-
-    if(skd)
-    {
-        if(!skd->downloadedData().isEmpty() && !skd->url().isEmpty())
-            return "(Source: <a href=\"" + skd->url() + "\">Wikipedia</a>)";
-    }
-
-    return xi18n("(Source: N/A)");
-}
-
 
 QString SkyObjItem::getSurfaceBrightness() const
 {
