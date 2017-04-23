@@ -125,6 +125,7 @@ class KSPopupMenu : public QMenu
         void slotDeleteFlag();
         void slotEditFlag( QAction * action );
         void slotDeleteFlag( QAction * action );
+        void slotViewInWI();
 
     private:
         /** Initialize the popup menus. Adds name and type labels, and possibly

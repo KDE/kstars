@@ -415,8 +415,8 @@ void KSWizard::slotExtractGSC()
 void KSWizard::slotCheckDownloadProgress()
 {
 #ifdef Q_OS_OSX
-    if(QFileInfo(gscZipPath).exists());
-    data->downloadProgress->setValue(QFileInfo(gscZipPath).size()/1048576);
+    if(QFileInfo(gscZipPath).exists())
+        data->downloadProgress->setValue(QFileInfo(gscZipPath).size()/1048576);
 #endif
 }
 

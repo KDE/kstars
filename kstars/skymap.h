@@ -551,6 +551,9 @@ class SkyMap : public QGraphicsView
         /** Emitted when a position is clicked */
         void positionClicked(SkyPoint *);
 
+        /** Emitted when a position is clicked */
+        void objectClicked(SkyObject *);
+
     protected:
         /** Process keystrokes:
          * @li arrow keys  Slew the map

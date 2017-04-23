@@ -45,7 +45,7 @@ class WIView : public QWidget
           * Connect signals from various QML components into public slots.
           * Displays the user interface for What's Interesting
           */
-        WIView(QWidget * parent = 0, ObsConditions * obs = 0);
+        WIView(QWidget * parent = 0);
 
         /**
           * \brief Destructor
@@ -60,12 +60,13 @@ class WIView : public QWidget
         /**
           * \brief Updates sky-object list models
           */
-        void updateModels(ObsConditions * obs);
+        void updateModel(ObsConditions * obs);
 
         inline QQuickView * getWIBaseView() const
         {
             return m_BaseView;
         }
+
 
     public slots:
 
@@ -74,7 +75,7 @@ class WIView : public QWidget
           * from category selection view of the QML UI.
           * \param type Category selected
           */
-        void onCategorySelected(int type);
+        void onCategorySelected(QString model);
 
         /**
           * \brief public slot - Act upon signal emitted when an item is selected from list of sky-objects.
@@ -83,7 +84,7 @@ class WIView : public QWidget
           * \param typename    Name of category selected.
           * \param index       Index of item in the list of skyobjects.
           */
-        void onSoListItemClicked(int type, QString typeName, int index);
+        void onSoListItemClicked(int index);
 
         /**
           * \brief public slot - Show details-view for next sky-object from list of current sky-objects's category.
@@ -98,7 +99,7 @@ class WIView : public QWidget
         /**
           * \brief public slot - Slew map to current sky-object in the details view.
           */
-        void onSlewButtonClicked();
+        void onCenterButtonClicked();
 
         /**
           * \brief public slot - Slew map to current sky-object in the details view.
@@ -120,25 +121,37 @@ class WIView : public QWidget
          */
         void onReloadIconClicked();
 
+        void onVisibleIconClicked(bool checked);
+
+        void onFavoriteIconClicked(bool checked);
+
+        void onDownloadIconClicked();
+
         void tryToLoadDescFromWikipedia(QObject * descTextObj, SkyObjItem * soitem);
         void loadObjectDescription(QObject * descTextObj, SkyObjItem * soitem);
-        void tryToLoadInfoBoxFromWikipedia(QObject * infoBoxText, SkyObjItem * soitem);
+        void tryToLoadInfoBoxFromWikipedia(QObject * infoBoxText, SkyObjItem * soitem, QString name);
         void loadObjectInfoBox(QObject * infoBoxText, SkyObjItem * soitem);
         void saveImageURL(SkyObjItem * soitem, QString imageURL);
         void saveObjectText(SkyObjItem * soitem, QString type, QString infoText);
         void downloadWikipediaImage(SkyObjItem * soitem, QString imageURL);
+        void inspectSkyObject(QString name);
+        void inspectSkyObject(SkyObject *obj);
+        void updateObservingConditions();
 
 
     private:
-        QQuickItem * m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
-                   *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_SlewTelescopeButtonObj, *m_DetailsButtonObj;
+        QQuickItem * m_BaseObj, *m_ViewsRowObj, *m_CategoryTitle, *m_SoListObj, *m_DetailsViewObj, *m_skyObjView, *m_ContainerObj,
+                   *m_NextObj, *m_PrevObj, *m_CenterButtonObj, *m_SlewTelescopeButtonObj, *m_DetailsButtonObj, * visibleIconObj, * favoriteIconObj;
         QQmlContext * m_Ctxt;
         QQuickView * m_BaseView;
         ObsConditions * m_Obs;
         ModelManager * m_ModManager;
         SkyObjItem * m_CurSoItem;  ///Current sky-object item.
         int m_CurIndex;            ///Index of current sky-object item in details-view.
-        int m_CurCategorySelected; ///Currently selected category from WI QML view
+        QString m_CurrentObjectListName; ///Currently selected category from WI QML view
+        QString getWikipediaName(SkyObjItem * soitem);
+        QNetworkAccessManager * manager;
 };
+
 
 #endif

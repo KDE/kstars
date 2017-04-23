@@ -653,9 +653,10 @@ void SkyMap::mousePressEvent( QMouseEvent * e )
             case Qt::LeftButton:
             {
                 QString name;
-                if( clickedObject() )
+                if( clickedObject() ){
                     name = clickedObject()->translatedLongName();
-                else
+                    emit objectClicked(clickedObject());
+                }else
                     name = i18n( "Empty sky" );
                 //kstars->statusBar()->changeItem(name, 0 );
                 kstars->statusBar()->showMessage(name, 0 );

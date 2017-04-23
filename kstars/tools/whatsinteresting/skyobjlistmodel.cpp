@@ -67,7 +67,19 @@ QList< SkyObjItem *> SkyObjListModel::getSkyObjItems()
 
 SkyObjItem * SkyObjListModel::getSkyObjItem(int index)
 {
-    return m_SoItemList[index];
+    if(m_SoItemList.size()>index)
+        return m_SoItemList[index];
+    else
+        return 0;
+}
+
+int SkyObjListModel::getSkyObjIndex(SkyObjItem *item){
+    for(int i=0; i<m_SoItemList.size();i++)
+    {
+        if(item->getName() == m_SoItemList[i]->getName())
+            return i;
+    }
+    return -1;
 }
 
 void SkyObjListModel::resetModel()

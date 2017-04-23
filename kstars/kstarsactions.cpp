@@ -509,11 +509,10 @@ void KStars::slotWUT()
 void KStars::slotWISettings()
 {
 #ifdef HAVE_KF5WIT
+    if (!m_WIView)
+        slotShowWIView();
     if (m_WIView && !m_wiDock->isVisible())
-    {
-        slotShowWIView(1);
-        return;
-    }
+        slotShowWIView();
 
     if (KConfigDialog::showDialog("wisettings"))
     {
@@ -524,52 +523,25 @@ void KStars::slotWISettings()
     KConfigDialog * dialog = new KConfigDialog(this, "wisettings", Options::self());
 
     connect(dialog, SIGNAL(settingsChanged(const QString &)), this, SLOT(slotApplyWIConfigChanges()));
-    connect(dialog, SIGNAL(finished(int)), this, SLOT(slotShowWIView(int)));
 
     m_WISettings = new WILPSettings(this);
     m_WIEquipmentSettings = new WIEquipSettings();
     dialog->addPage(m_WISettings, i18n("Light Pollution Settings"));
     dialog->addPage(m_WIEquipmentSettings, i18n("Equipment Settings - Equipment Type and Parameters"));
-    dialog->show();
+    dialog->exec();
+    if(m_WIEquipmentSettings)
+        m_WIEquipmentSettings->setAperture(); //Something isn't working with this!
+
+
 #endif
 }
 
-void KStars::slotShowWIView(int status)
+void KStars::slotShowWIView()
 {
 #ifdef HAVE_KF5WIT
-
-    if (status == 0) return;          //Cancelled
-
-    int bortle = Options::bortleClass();
-    m_WIEquipmentSettings->setAperture();
-
-    /* NOTE This part of the code dealing with equipment type is presently not required
-     * as WI does not differentiate between Telescope and Binoculars. It only needs the
-     * aperture of the equipment whichever available. However this is kept as a part of
-     * the code as support to be utilised in the future.
-     */
-    ObsConditions::Equipment equip = ObsConditions::None;
-
-    if (Options::telescopeCheck() && Options::binocularsCheck())
-        equip = ObsConditions::Both;
-    else if (Options::telescopeCheck())
-        equip = ObsConditions::Telescope;
-    else if (Options::binocularsCheck())
-        equip = ObsConditions::Binoculars;
-
-    ObsConditions::TelescopeType telType = (equip == ObsConditions::Telescope) ? m_WIEquipmentSettings->getTelType() : ObsConditions::Invalid;
-
-    int aperture = m_WIEquipmentSettings->getAperture();
-
-    //Update observing conditions for What's Interesting
-    if (!m_ObsConditions)
-        m_ObsConditions = new ObsConditions(bortle, aperture, equip, telType);
-    else
-        m_ObsConditions->setObsConditions(bortle, aperture, equip, telType);
-
     if (!m_WIView)
     {
-        m_WIView = new WIView(0, m_ObsConditions);
+        m_WIView = new WIView(0);
         m_wiDock = new QDockWidget(this);
         m_wiDock->setObjectName("What's Interesting");
         m_wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
@@ -581,10 +553,8 @@ void KStars::slotShowWIView(int status)
     }
     else
     {
-        m_WIView->updateModels(m_ObsConditions);
         m_wiDock->setVisible(true);
     }
-
 #endif
 }
 
@@ -902,6 +872,8 @@ void KStars::slotApplyWIConfigChanges()
 {
     Options::self()->save();
     applyConfig();
+    m_WIView->updateObservingConditions();
+    m_WIView->onReloadIconClicked();
 }
 
 void KStars::slotSetTime()

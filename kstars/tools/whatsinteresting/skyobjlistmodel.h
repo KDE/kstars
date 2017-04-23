@@ -77,6 +77,8 @@ class SkyObjListModel : public QAbstractListModel
          */
         void resetModel();
 
+        int getSkyObjIndex(SkyObjItem *item);
+
     private:
         QList<SkyObjItem *> m_SoItemList;     ///List of sky-object items in model.
 };

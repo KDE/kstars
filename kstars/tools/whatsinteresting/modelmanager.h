@@ -21,6 +21,7 @@
 #include "skyobjlistmodel.h"
 #include "kstarsdata.h"
 #include "obsconditions.h"
+#include "starobject.h"
 
 /**
  * \class ModelManager
@@ -34,7 +35,7 @@ class ModelManager
          * \enum ModelType
          * \brief Model type for different types of sky-objects.
          */
-        enum ModelType {Planet_Model, Star_Model, Constellation_Model, Galaxy_Model, Cluster_Model, Nebula_Model, Messier_Model, Sharpless_Model};
+        enum ObjectList {Planets, Stars, Constellations, Galaxies, Clusters, Nebulas, Satellites, Asteroids, Comets, Messier, Sharpless, NumberOfLists};
 
         /**
          * \brief Constructor - Creates models for different sky-object types.
@@ -50,24 +51,55 @@ class ModelManager
         /**
          * \brief Updates sky-object list models.
          */
-        void updateModels(ObsConditions * obs);
+        void updateAllModels(ObsConditions *obs);
+
+        void updateModel(ObsConditions * obs, QString modelName);
 
         /**
          * \brief Clears all sky-objects list models.
          */
-        void resetModels();
+        void resetAllModels();
+
+        void setShowOnlyVisibleObjects(bool show){
+            showOnlyVisible=show;
+        }
+
+        bool showOnlyVisibleObjects(){
+            return showOnlyVisible;
+        }
+
+        void setShowOnlyFavoriteObjects(bool show){
+            showOnlyFavorites=show;
+        }
+
+        bool showOnlyFavoriteObjects(){
+            return showOnlyFavorites;
+        }
 
         /**
          * \brief Returns model of given type.
          * \return Pointer to SkyObjListModel of given type.
          * \param type   Type of sky-object model to be returned.
          */
-        SkyObjListModel * returnModel(int type);
+        SkyObjListModel * returnModel(QString modelName);
+
+        int getModelNumber(QString modelName);
 
     private:
         ObsConditions * m_ObsConditions;
-        SkyObjListModel * m_PlanetsModel, *m_StarsModel, *m_GalModel, *m_ConModel, *m_ClustModel, *m_NebModel, *m_MessierModel, *m_SharplessModel;
-        QHash< ModelType, QList <SkyObject *> > m_InitObjects;
+        void loadLists();
+        void loadObjectList(QList<SkyObjItem *> & skyObjectList, int type);
+        void loadNamedStarList();
+        void loadObjectsIntoModel(SkyObjListModel & model, QList<SkyObjItem *> & skyObjectList);
+        QList< QList <SkyObjItem *> > m_ObjectList;
+        QList < SkyObjListModel *> m_ModelList;
+        bool showOnlyVisible=true;
+        bool showOnlyFavorites=true;
+        QList <SkyObjItem *> favoriteGalaxies;
+        QList <SkyObjItem *> favoriteNebulas;
+        QList <SkyObjItem *> favoriteClusters;
+
+
 };
 
 #endif
