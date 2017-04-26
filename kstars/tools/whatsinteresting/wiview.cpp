@@ -14,8 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
-
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
 #include <QStandardPaths>
@@ -42,6 +40,7 @@
 
 WIView::WIView(QWidget * parent) : QWidget(parent), m_CurrentObjectListName(-1)
 {
+
     //These settings are like this just to get it started.
     int bortle = Options::bortleClass();
     int aperture = 100;
@@ -61,6 +60,8 @@ WIView::WIView(QWidget * parent) : QWidget(parent), m_CurrentObjectListName(-1)
     //kd.setupBindings();
 
     m_Ctxt = m_BaseView->rootContext();
+
+    m_Ctxt->setContextProperty("soListModel", m_ModManager->getTempModel()); // This is to avoid an error saying it doesn't exist.
 
     ///Use instead of KDeclarative
     m_Ctxt->setContextObject(new KLocalizedContext(m_BaseView));

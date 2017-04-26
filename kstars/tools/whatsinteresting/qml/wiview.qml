@@ -607,10 +607,12 @@ Rectangle {
 
                     Rectangle {
                         id: soListViewContainer
-                        x: parent.x + 15
-                        y: 31
-                        width: parent.width - 30
-                        height: parent.height -30
+                        anchors{
+                        	top: soListContainer.top
+							bottom: soListContainer.bottom
+							left: soListContainer.left
+							right: soListContainer.right
+                        }
                         color: "transparent"
                         radius: 12
                         border {
@@ -635,6 +637,8 @@ Rectangle {
 								clip: true
 								
 								highlightMoveDuration: 1
+								
+								model: soListModel
 								
 								Rectangle {
         							id: scrollbar
@@ -707,7 +711,6 @@ Rectangle {
 											}
 									}//Mousearea
 								}//soListItem
-								model: soListModel
 							}//soListView
                         }//Flickable
                     }//soListViewContainer
@@ -981,32 +984,46 @@ Rectangle {
 								active: true
 								Rectangle {
 									id: descTextBox2
-									width: parent.width
-									height: (detailsViewContainer.width >= 600) ?  parent.height - 10 - 50 : parent.height
 									color: "#010a14"
 									radius: 10
 									border.width: 0
 									states: [ 
 										State {
-											name: "inTab"
-											when: ( detailsView.width < 600)
-											ParentChange { target: descTextBox2; parent: infoBoxTab; x: 0; y: 0 }
-										},
-										State {
 											name: "outOfTab"
 											when: ( (container.state == "singleItemSelected" && detailsView.width >= 600)||(container.state != "singleItemSelected" && detailsView.width >= 600 && detailsView.width < 900))
-											ParentChange { target: descTextBox2; parent: detailsView; x: detailsView.width/2; y: 10 }
+											PropertyChanges{target:descTextBox2; parent: detailsView}
+											PropertyChanges{target:descTextBox2; width: detailsView.width / 2}
+											PropertyChanges{target:descTextBox2; anchors{
+													top: detailsView.top
+													bottom: posText.top
+													left: tabbedView.right
+													right: detailsView.right
+												}
+											}
 											PropertyChanges{target:tabbedView; currentIndex: 0}
 											PropertyChanges{target:tabbedView; tabsVisible: false}
 											PropertyChanges{target:tabbedView; width: detailsView.width / 2}
-											PropertyChanges{target:descTextBox2; anchors.left: tabbedView.right}
-											PropertyChanges{target:descTextBox2; width: detailsView.width / 2}
 										},
 										State {
 											name: "includeList"
 											when: (detailsView.width >= 900 && container.state!="singleItemSelected")
-											ParentChange { target: soListViewContainer; parent: detailsView; x: 0 ; y: 0 }
-											ParentChange { target: descTextBox2; parent: detailsView; x: detailsView.width * 2 / 3; y: 10 }
+											PropertyChanges{target: soListViewContainer; parent: detailsView}
+											PropertyChanges{target: soListViewContainer; anchors{
+													top: detailsView.top
+													bottom: posText.top
+													left: detailsView.left
+													right: tabbedView.left
+												}
+											}
+											PropertyChanges{target:descTextBox2; parent: detailsView}
+											PropertyChanges{target:descTextBox2; width: detailsView.width / 3}
+											PropertyChanges{target:descTextBox2; anchors{
+													top: detailsView.top
+													bottom: posText.top
+													left: tabbedView.right
+													right: detailsView.right
+												}
+											}
 											PropertyChanges{target:soListViewContainer; width: detailsView.width / 3}
 											PropertyChanges{target:tabbedView; x: detailsView.width / 3}
 											PropertyChanges{target:detailsViewButtonsCol; anchors.left:  soListViewContainer.right}
@@ -1015,18 +1032,16 @@ Rectangle {
 											PropertyChanges{target:tabbedView; width: detailsView.width / 3}
 											PropertyChanges{target:tabbedView; currentIndex: 0}
 											PropertyChanges{target:tabbedView; tabsVisible: false}
-											PropertyChanges{target:descTextBox2; anchors.left: tabbedView.right}
-											PropertyChanges{target:descTextBox2; width: detailsView.width / 3}
 											PropertyChanges{target:skyObjView; flipped: true}
 										}
 									]
-
-									//onWidthChanged: (detailsView.width >= 900 && container.state!="singleItemSelected") ? descTextBox2.state = "includeList" : (detailsView.width >= 600) ? descTextBox2.state = "outOfTab" : descTextBox2.state = "inTab"
 							
 									anchors{
-										right: parent.right
+										top: infoBoxTab.top
+										bottom: infoBoxTab.bottom
+										left: infoBoxTab.left
+										right: infoBoxTab.right
 										rightMargin: 4
-										left: parent.left
 										leftMargin: 4
 									}
 									border.color: "#585454"
@@ -1124,7 +1139,10 @@ Rectangle {
                                     nextObjForeground.opacity = 0.0
                                     nextObjText.color = "white"
                                 }
-                                onClicked: nextObjRect.nextObjClicked()
+                                onClicked: {
+                                	nextObjRect.nextObjClicked()
+                                	soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
+                                }
                             }
 
                             Text {
@@ -1197,7 +1215,10 @@ Rectangle {
                                     prevObjForeground.opacity = 0.0
                                     prevObjText.color = "white"
                                 }
-                                onClicked: prevObjRect.prevObjClicked()
+                                onClicked: {
+                                	prevObjRect.prevObjClicked()
+                                	soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
+                                }
                             }
 
                             Text {
@@ -1231,6 +1252,18 @@ Rectangle {
                                 source: "previous.png"
                             }
                         }
+                        
+                        Keys.onPressed: {
+        					if (event.key == Qt.Key_Left||event.key == Qt.Key_Up) {
+            					prevObjRect.prevObjClicked();
+            					event.accepted = true;
+        					}
+        					if (event.key == Qt.Key_Right||event.key == Qt.Key_Down) {
+            					nextObjRect.nextObjClicked();
+            					event.accepted = true;
+    						}
+    						soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
+    					}
 
                         
                     } //end of detailsView
@@ -1516,6 +1549,12 @@ Rectangle {
             	favoriteIcon.state = (favoriteIcon.state == "unchecked") ?  "" : "unchecked"
             }
         }
+        /**
+        ToolTip{
+        	id: toolTip
+        	text: "Toggles the display of *interesting* objects vs. all objects.  \n(For Galaxies, Nebulas, and Clusters Only!)"
+        }
+        **/
 
         Rectangle {
             id: favoriteForeground
@@ -1622,7 +1661,7 @@ Rectangle {
                     bottomMargin: 0
                 }
             }
-
+ 			PropertyChanges {target: detailsView; focus: true}
             PropertyChanges {
                 target: backButton
                 x: container.width - 105

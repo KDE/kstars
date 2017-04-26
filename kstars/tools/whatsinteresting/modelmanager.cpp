@@ -26,6 +26,8 @@ ModelManager::ModelManager(ObsConditions * obs)
 {
     m_ObsConditions = obs;
 
+    tempModel = new SkyObjListModel();
+
     m_ModelList = QList < SkyObjListModel *>();
     m_ObjectList = QList< QList <SkyObjItem *> >();
 
@@ -46,6 +48,7 @@ ModelManager::~ModelManager()
     qDeleteAll(m_ModelList);
     foreach(QList<SkyObjItem *> list, m_ObjectList)
        qDeleteAll(list);
+    delete tempModel;
 }
 
 void ModelManager::loadLists()
@@ -225,5 +228,5 @@ SkyObjListModel * ModelManager::returnModel(QString modelName)
         if(modelNumber > -1 && modelNumber < NumberOfLists)
             return m_ModelList[modelNumber];
         else
-            return new SkyObjListModel();
+            return tempModel;
 }
