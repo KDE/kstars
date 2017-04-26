@@ -85,6 +85,8 @@ class ModelManager
 
         int getModelNumber(QString modelName);
 
+        SkyObjListModel * getTempModel(){ return tempModel;}
+
     private:
         ObsConditions * m_ObsConditions;
         void loadLists();
@@ -98,6 +100,7 @@ class ModelManager
         QList <SkyObjItem *> favoriteGalaxies;
         QList <SkyObjItem *> favoriteNebulas;
         QList <SkyObjItem *> favoriteClusters;
+        SkyObjListModel * tempModel;
 
 
 };
