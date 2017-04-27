@@ -398,7 +398,8 @@ bool Telescope::runCommand(int command, void * ptr)
                 //KStars::Instance()->map()->slotCenter();
                 KStars::Instance()->map()->setDestination(currentCoord);
                 KStars::Instance()->map()->setFocusPoint(&currentCoord);
-                KStars::Instance()->map()->setFocusObject(currentObject);
+                //KStars::Instance()->map()->setFocusObject(currentObject);
+                KStars::Instance()->map()->setFocusObject(NULL);
                 Options::setIsTracking( true );
             }
             centerLockTimer->start();
