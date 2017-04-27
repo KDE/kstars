@@ -125,24 +125,30 @@ class WIView : public QWidget
 
         void onFavoriteIconClicked(bool checked);
 
-        void onDownloadIconClicked();
+        void onUpdateIconClicked();
 
-        void tryToLoadDescFromWikipedia(QObject * descTextObj, SkyObjItem * soitem);
-        void loadObjectDescription(QObject * descTextObj, SkyObjItem * soitem);
-        void tryToLoadInfoBoxFromWikipedia(QObject * infoBoxText, SkyObjItem * soitem, QString name);
-        void loadObjectInfoBox(QObject * infoBoxText, SkyObjItem * soitem);
+        void updateWikipediaDescription(SkyObjItem * soitem);
+        void loadObjectDescription(SkyObjItem * soitem);
+        void tryToUpdateWikipediaInfo(SkyObjItem * soitem, QString name);
+        void loadObjectInfoBox(SkyObjItem * soitem);
         void saveImageURL(SkyObjItem * soitem, QString imageURL);
-        void saveObjectText(SkyObjItem * soitem, QString type, QString infoText);
+        void saveObjectInfoBoxText(SkyObjItem * soitem, QString type, QString infoText);
         void downloadWikipediaImage(SkyObjItem * soitem, QString imageURL);
         void inspectSkyObject(QString name);
         void inspectSkyObject(SkyObject *obj);
         void updateObservingConditions();
+        void tryToUpdateWikipediaInfoInModel(bool onlyMissing);
+        void refreshListView();
+        void updateProgress(double value);
+        void setProgressBarVisible(bool visible);
 
 
     private:
-        QQuickItem * m_BaseObj, *m_ViewsRowObj, *m_CategoryTitle, *m_SoListObj, *m_DetailsViewObj, *m_skyObjView, *m_ContainerObj,
+        QQuickItem * m_BaseObj, *m_ViewsRowObj, *m_CategoryTitle, *m_SoListObj, *m_DetailsViewObj, *m_skyObjView, *m_ContainerObj,  *m_ProgressBar,
                    *m_NextObj, *m_PrevObj, *m_CenterButtonObj, *m_SlewTelescopeButtonObj, *m_DetailsButtonObj, * visibleIconObj, * favoriteIconObj;
         QQmlContext * m_Ctxt;
+        QObject * infoBoxText, * descTextObj;
+
         QQuickView * m_BaseView;
         ObsConditions * m_Obs;
         ModelManager * m_ModManager;

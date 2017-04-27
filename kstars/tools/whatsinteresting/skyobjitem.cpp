@@ -210,5 +210,5 @@ inline QString SkyObjItem::loadObjectDescription() const{
             return line;
         }
     }
-    return "";
+    return getTypeName();
 }

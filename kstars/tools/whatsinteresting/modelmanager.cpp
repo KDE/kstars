@@ -53,6 +53,7 @@ ModelManager::~ModelManager()
 
 void ModelManager::loadLists()
 {
+    emit loadProgressUpdated(0);
     KStarsData * data = KStarsData::Instance();
     QVector<QPair<QString, const SkyObject *>> listStars;
     listStars.append(data->skyComposite()->objectLists(SkyObject::STAR));
@@ -107,21 +108,32 @@ void ModelManager::loadLists()
         }
     }
 
+    emit loadProgressUpdated(0.20);
+
     loadObjectList(m_ObjectList[Asteroids], SkyObject::ASTEROID);
+    emit loadProgressUpdated(0.30);
     loadObjectList(m_ObjectList[Comets], SkyObject::COMET);
+    emit loadProgressUpdated(0.40);
     loadObjectList(m_ObjectList[Satellites], SkyObject::SATELLITE);
+    emit loadProgressUpdated(0.50);
     loadObjectList(m_ObjectList[Constellations], SkyObject::CONSTELLATION);
+    emit loadProgressUpdated(0.55);
     loadObjectList(m_ObjectList[Planets], SkyObject::PLANET);
+    emit loadProgressUpdated(0.60);
 
     loadObjectList(m_ObjectList[Galaxies], SkyObject::GALAXY);
+    emit loadProgressUpdated(0.70);
 
     loadObjectList(m_ObjectList[Clusters], SkyObject::OPEN_CLUSTER);
     loadObjectList(m_ObjectList[Clusters], SkyObject::GLOBULAR_CLUSTER);
     loadObjectList(m_ObjectList[Clusters], SkyObject::GALAXY_CLUSTER);
+    emit loadProgressUpdated(0.80);
 
     loadObjectList(m_ObjectList[Nebulas], SkyObject::PLANETARY_NEBULA);
     loadObjectList(m_ObjectList[Nebulas], SkyObject::GASEOUS_NEBULA);
     loadObjectList(m_ObjectList[Nebulas], SkyObject::DARK_NEBULA);
+
+    emit loadProgressUpdated(0.90);
 
 
     for(int i=1;i<=110;i++)
@@ -130,6 +142,7 @@ void ModelManager::loadLists()
            if ((o = data->skyComposite()->findByName("M " + QString::number(i))))
                m_ObjectList[Messier].append(new SkyObjItem(o));
     }
+    emit loadProgressUpdated(1);
 /**
    Note:  The sharpless catalog did not have good wikipedia articles
     for(int i=1;i<=350;i++)
@@ -176,6 +189,16 @@ void ModelManager::loadObjectList(QList<SkyObjItem *> & skyObjectList, int type)
         const SkyObject * listObject = dynamic_cast<const SkyObject *>(pair.second);
         if(listObject->name() != "Sun")
             skyObjectList.append(new SkyObjItem(listObject->clone()));
+    }
+    QString prevName;
+    for(int i = 0; i < skyObjectList.size(); i++)
+    {
+        SkyObjItem *obj=skyObjectList.at(i);
+        if(prevName==obj->getName()){
+            skyObjectList.removeAt(i);
+            i--;
+        }
+        prevName = obj->getName();
     }
 }
 
