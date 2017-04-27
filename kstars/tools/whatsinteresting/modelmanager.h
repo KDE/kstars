@@ -28,8 +28,9 @@
  * \brief Manages models for QML listviews of different types of sky-objects.
  * \author Samikshan Bairagya
  */
-class ModelManager
+class ModelManager: public QObject
 {
+        Q_OBJECT
     public:
         /**
          * \enum ModelType
@@ -86,6 +87,9 @@ class ModelManager
         int getModelNumber(QString modelName);
 
         SkyObjListModel * getTempModel(){ return tempModel;}
+
+    signals:
+        void loadProgressUpdated(double progress);
 
     private:
         ObsConditions * m_ObsConditions;

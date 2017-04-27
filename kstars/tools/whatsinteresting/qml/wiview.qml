@@ -20,6 +20,13 @@ Rectangle {
 
     property double buttonOpacity: 0.2
     property double categoryTitleOpacity: 0.350
+    
+   	ProgressBar {
+   		id: progress
+   		objectName: "progressBar"
+   		width: container.width
+        value: 0.10
+    }
 
     Text {
         id: title
@@ -1615,7 +1622,7 @@ Rectangle {
         states: [
         	State {
         		name: "invisible"
-        		when: skyObjView.flipped == false || (container.state != "objectFromListSelected" && container.state != "singleItemSelected")
+        		when: container.state == "base" || container.state == ""
         		PropertyChanges {target: downloadMouseArea; enabled: false}
         		PropertyChanges {target: downloadIcon; opacity: 0}
         	}
