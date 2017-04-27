@@ -41,6 +41,7 @@ class ProfileWizard : public QDialog, public Ui::ProfileWizard
         bool useJoystick=false;
         bool useRemoteAstrometry=false;
         bool useWatchDog=false;
+        bool useSkySafari=false;
         GuiderType useGuiderType = INTERNAL_GUIDER;
 
         QString profileName, host, port;

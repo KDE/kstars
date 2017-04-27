@@ -996,6 +996,16 @@ Server</string>
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QCheckBox" name="useSkySafariCheck">
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If you plan to use SkySafari to monitor and/or control your mount, check this box to start INDI SkySafari Server. You can connect SkySafari to this server and it shall enable you to connect and control your mount. For more details, please check the &lt;a href=&quot;http://indilib.org/devices/telescopes/skysafari.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;INDI SkySafari Documentation.&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="text">
+                <string>SkySafari</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item>

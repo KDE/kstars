@@ -88,6 +88,7 @@ void ProfileWizard::reset()
     useWebManager=false;
     useJoystick=false;
     useRemoteAstrometry=false;
+    useSkySafari=false;
     useWatchDog=false;
     useGuiderType = INTERNAL_GUIDER;
 
@@ -108,6 +109,7 @@ void ProfileWizard::processLocalEquipment()
     useJoystickCheck->setEnabled(true);
     useRemoteAstrometryCheck->setEnabled(false);
     useWatchDogCheck->setEnabled(false);
+    useSkySafariCheck->setEnabled(true);
     wizardContainer->setCurrentIndex(CREATE_PROFILE);
 #endif
 }
@@ -147,6 +149,7 @@ void ProfileWizard::processRemoteEquipment()
     useJoystickCheck->setEnabled(true);
     useRemoteAstrometryCheck->setEnabled(true);
     useWatchDogCheck->setEnabled(true);
+    useSkySafariCheck->setEnabled(true);
 
     wizardContainer->setCurrentIndex(CREATE_PROFILE);
 }
@@ -160,6 +163,7 @@ void ProfileWizard::processLocalWindows()
     useJoystickCheck->setEnabled(false);
     useRemoteAstrometryCheck->setEnabled(false);
     useWatchDogCheck->setEnabled(false);
+    useSkySafariCheck->setEnabled(false);
 
     wizardContainer->setCurrentIndex(CREATE_PROFILE);
 }
@@ -178,6 +182,7 @@ void ProfileWizard::processLocalMac()
     useJoystickCheck->setEnabled(false);
     useRemoteAstrometryCheck->setEnabled(false);
     useWatchDogCheck->setEnabled(false);
+    useSkySafariCheck->setEnabled(true);
 
     wizardContainer->setCurrentIndex(CREATE_PROFILE);
 }
@@ -192,6 +197,7 @@ void ProfileWizard::createProfile()
 
     useJoystick = useJoystickCheck->isEnabled() && useJoystickCheck->isChecked();
     useWatchDog = useWatchDogCheck->isEnabled() && useWatchDogCheck->isChecked();
+    useSkySafari= useSkySafariCheck->isEnabled() && useSkySafariCheck->isChecked();
     useRemoteAstrometry = useRemoteAstrometryCheck->isEnabled() && useRemoteAstrometryCheck->isChecked();
     if (useInternalGuiderR->isChecked())
         useGuiderType = INTERNAL_GUIDER;
@@ -219,6 +225,8 @@ QStringList ProfileWizard::selectedAuxDrivers()
         auxList << "Joystick";
     if (useWatchDog)
         auxList << "WatchDog";
+    if (useSkySafari)
+        auxList << "SkySafari";
     if (useRemoteAstrometry)
         auxList << "Astrometry";
 
