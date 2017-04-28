@@ -40,7 +40,7 @@ class SkyObjItem
          * \enum Type
          * The type classification for the SkyObjItem
          */
-        enum Type { Planet, Star, Constellation, Galaxy, Cluster, Nebula };
+        enum Type { Planet, Star, Constellation, Galaxy, Cluster, Nebula, Supernova };
 
         /**
          * \brief Constructor

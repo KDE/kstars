@@ -144,7 +144,7 @@ class WIView : public QWidget
 
 
     private:
-        QQuickItem * m_BaseObj, *m_ViewsRowObj, *m_CategoryTitle, *m_SoListObj, *m_DetailsViewObj, *m_skyObjView, *m_ContainerObj,  *m_ProgressBar,
+        QQuickItem * m_BaseObj, *m_ViewsRowObj, *m_CategoryTitle, *m_SoListObj, *m_DetailsViewObj, *m_skyObjView, *m_ContainerObj,  *m_ProgressBar, *m_loadingMessage,
                    *m_NextObj, *m_PrevObj, *m_CenterButtonObj, *m_SlewTelescopeButtonObj, *m_DetailsButtonObj, * visibleIconObj, * favoriteIconObj;
         QQmlContext * m_Ctxt;
         QObject * infoBoxText, * descTextObj;

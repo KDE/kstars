@@ -23,18 +23,21 @@
 #include "ksutils.h"
 #include "kspaths.h"
 
-SkyObjItem::SkyObjItem(SkyObject * so) : m_Name(so->name()), m_LongName(so->longname()),m_TypeName(so->typeName()), m_So(so), skd(NULL)
+SkyObjItem::SkyObjItem(SkyObject * so) : m_Name(so->name()), m_LongName(so->longname()),m_TypeName(so->typeName()), m_So(so)
 {
     switch (so->type())
     {
         case SkyObject::PLANET:
+        case SkyObject::MOON:
             m_Type = Planet;
             break;
         case SkyObject::STAR:
-            skd = new SkyObjDescription(m_Name, m_TypeName);
+        case SkyObject::CATALOG_STAR:
+        case SkyObject::MULT_STAR:
             m_Type = Star;
             break;
         case SkyObject::CONSTELLATION:
+        case SkyObject::ASTERISM:
             m_Type = Constellation;
             break;
         case SkyObject::GALAXY:
@@ -46,10 +49,13 @@ SkyObjItem::SkyObjItem(SkyObject * so) : m_Name(so->name()), m_LongName(so->long
             m_Type = Cluster;
             break;
         case SkyObject::PLANETARY_NEBULA:
+        case SkyObject::SUPERNOVA_REMNANT:
         case SkyObject::GASEOUS_NEBULA:
         case SkyObject::DARK_NEBULA:
             m_Type = Nebula;
             break;
+        case SkyObject::SUPERNOVA:
+            m_Type = Supernova;
     }
 
     setPosition(m_So);
@@ -57,7 +63,7 @@ SkyObjItem::SkyObjItem(SkyObject * so) : m_Name(so->name()), m_LongName(so->long
 
 SkyObjItem::~SkyObjItem()
 {
-    delete skd;
+
 }
 
 QVariant SkyObjItem::data(int role)
