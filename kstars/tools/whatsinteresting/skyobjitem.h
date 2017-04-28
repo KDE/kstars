@@ -123,7 +123,7 @@ class SkyObjItem
          */
         inline QString getRADE() const
         {
-            return "RA: "+ m_So->ra().toHMSString() + "<BR>DE: " + m_So->ra().toDMSString();
+            return "RA: "+ m_So->ra().toHMSString() + "<BR>DE: " + m_So->dec().toDMSString();
         }
 
         /**
