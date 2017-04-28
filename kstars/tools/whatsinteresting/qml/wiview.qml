@@ -1,5 +1,5 @@
 
-// Copyright (C) 2013 Samikshan Bairagya <samikshan@gmail.com>
+// Copyright (C) 2017 Robert Lancaster <rlancaste@gmail.com> based on work in 2013 by Samikshan Bairagya <samikshan@gmail.com>
 /***************************************************************************
  *                                                                         *
   *   This program is free software; you can redistribute it and/or modify  *
@@ -223,6 +223,36 @@ Rectangle {
                         }
                     }
                 }
+                
+                Item {
+                    id: satelliteItem
+                    width: satelliteText.width
+                    height: satelliteText.height
+                    anchors {
+                        verticalCenterOffset: -130
+                        horizontalCenterOffset: 50
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: satelliteText
+                        title: xi18n("Satellites")
+                        anchors.centerIn: parent
+
+                        MouseArea {
+                            id: satelliteMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: satelliteText.state = "selected"
+                            onExited: satelliteText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("satellites")
+                                catTitle.text = "Satellites"
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
 
                 Item {
                     id: starItem
@@ -230,8 +260,8 @@ Rectangle {
                     width: starText.width
                     height: starText.height
                     anchors{
-                        verticalCenterOffset: -130
-                        horizontalCenterOffset: 50
+                        verticalCenterOffset: -90
+                        horizontalCenterOffset: -50
                         centerIn: parent
                     }
 
@@ -257,12 +287,61 @@ Rectangle {
                 }
                 
                 Item {
+                    id: conItem
+                    width: conText.width
+                    height: conText.height
+                    anchors {
+                        verticalCenterOffset: -90
+                        horizontalCenterOffset: 50
+                        centerIn: parent
+                    }
+
+                    CategoryTitle {
+                        id: conText
+                        title: xi18n("Constellations")
+                        anchors.centerIn: parent
+
+                        MouseArea {
+                            id: conMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: conText.state = "selected"
+                            onExited: conText.state = ""
+                            onClicked: {
+                                viewsRow.categorySelected("constellations")
+                                catTitle.text = "Constellations"
+                                container.state = "objectFromListSelected"
+                            }
+                        }
+                    }
+                }
+
+				Item {
+					id: dsoItem
+					width: dsoText.width
+					height: dsoText.height
+
+					anchors {
+						verticalCenterOffset: -50
+						horizontalCenterOffset: 0
+						centerIn: parent
+					}
+
+					CategoryTitle {
+						id: dsoText
+						color: "yellow"
+						title: xi18n("Deep-sky Objects")
+						anchors.centerIn: parent
+					}
+				}
+				
+				Item {
                     id: asteroidItem
 
                     width: asteroidText.width
                     height: asteroidText.height
                     anchors{
-                        verticalCenterOffset: -90
+                        verticalCenterOffset: -10
                         horizontalCenterOffset: -50
                         centerIn: parent
                     }
@@ -294,7 +373,7 @@ Rectangle {
                     width: cometText.width
                     height: cometText.height
                     anchors{
-                        verticalCenterOffset: -90
+                        verticalCenterOffset: -10
                         horizontalCenterOffset: 50
                         centerIn: parent
                     }
@@ -320,274 +399,282 @@ Rectangle {
                     }
                 }
 
+				Item {
+					id: galItem
 
-                Item {
-                    id: satelliteItem
-                    width: satelliteText.width
-                    height: satelliteText.height
+					width: galText.width
+					height: galText.height
+
+					anchors {
+						verticalCenterOffset: 30
+						horizontalCenterOffset: -50
+						centerIn: parent
+					}
+
+					CategoryTitle {
+						id: galText
+						title: xi18n("Galaxies")
+						anchors {
+							centerIn: parent
+							margins: 0
+						}
+
+						MouseArea {
+							id: galMouseArea
+							hoverEnabled: true
+							anchors.fill: parent
+							onEntered: galText.state = "selected"
+							onExited: galText.state = ""
+							onClicked: {
+								viewsRow.categorySelected("galaxies")
+								catTitle.text = "Galaxies"
+								container.state = "objectFromListSelected"
+							}
+						}
+					}
+				}
+
+				Item {
+					id: nebItem
+
+					width: nebText.width
+					height: nebText.height
+
+					anchors {
+						verticalCenterOffset: 30
+						horizontalCenterOffset: 50
+						centerIn: parent
+					}
+
+					CategoryTitle {
+						id: nebText
+						title: xi18n("Nebulae")
+						anchors.centerIn: parent
+
+						MouseArea {
+							id: nebMouseArea
+							hoverEnabled: true
+							anchors.fill: parent
+							onEntered: nebText.state = "selected"
+							onExited: nebText.state = ""
+							onClicked: {
+								viewsRow.categorySelected("nebulas")
+								catTitle.text = "Nebulas"
+								container.state = "objectFromListSelected"
+							}
+						}
+					}
+				}
+
+				Item {
+					id: clustItem
+
+					width: clustText.width
+					height: clustText.height
+
+					anchors {
+						verticalCenterOffset: 70
+						horizontalCenterOffset: -50
+						centerIn: parent
+					}
+
+					CategoryTitle {
+						id: clustText
+						title: xi18n("Clusters")
+						anchors.centerIn: parent
+
+						MouseArea {
+							id: clustMouseArea
+							hoverEnabled: true
+							anchors.fill: parent
+							onEntered: clustText.state = "selected"
+							onExited: clustText.state = ""
+							onClicked: {
+								viewsRow.categorySelected("clusters")
+								catTitle.text = "Clusters"
+								container.state = "objectFromListSelected"
+							}
+						}
+					}
+				}
+				
+				Item {
+					id: superItem
+
+					width: superText.width
+					height: superText.height
+
+					anchors {
+						verticalCenterOffset: 70
+						horizontalCenterOffset: 50
+						centerIn: parent
+					}
+
+					CategoryTitle {
+						id: superText
+						title: xi18n("Supernovae")
+						anchors.centerIn: parent
+
+						MouseArea {
+							id: superMouseArea
+							hoverEnabled: true
+							anchors.fill: parent
+							onEntered: superText.state = "selected"
+							onExited: superText.state = ""
+							onClicked: {
+								viewsRow.categorySelected("supernovas")
+								catTitle.text = "Supernovae"
+								container.state = "objectFromListSelected"
+							}
+						}
+					}
+				}
+				
+				Item {
+					id: catalogsItem
+					width: catalogText.width
+					height: catalogText.height
+					anchors{
+						verticalCenterOffset: 110
+						horizontalCenterOffset: 0
+						centerIn: parent
+					}
+
+					CategoryTitle {
+						id: catalogText
+						color: "yellow"
+						title: xi18n("Explore Catalogs")
+						anchors.centerIn: parent
+					}
+				}
+			
+				Item {
+					id: messierItem
+
+					width: messierText.width
+					height: messierText.height
+
+					anchors {
+						verticalCenterOffset: 150
+						horizontalCenterOffset: 0
+						centerIn: parent
+					}
+
+					CategoryTitle {
+						id: messierText
+						title: xi18n("Messier Catalog")
+						anchors.centerIn: parent
+
+						MouseArea {
+							id: messierMouseArea
+							hoverEnabled: true
+							anchors.fill: parent
+							onEntered: messierText.state = "selected"
+							onExited: messierText.state = ""
+							onClicked: {
+								viewsRow.categorySelected("messier")
+								catTitle.text = "Messier Catalog"
+								container.state = "objectFromListSelected"
+							}
+						}
+					}
+				}
+				
+				Item {
+			        id: ngcItem
+
+                    width: ngcText.width
+                    height: ngcText.height
+
                     anchors {
-                        verticalCenterOffset: -50
+                        verticalCenterOffset: 190
                         horizontalCenterOffset: 0
-                        centerIn: parent
-                    }
+	                    centerIn: parent
+	                }
 
                     CategoryTitle {
-                        id: satelliteText
-                        title: xi18n("Satellites")
-                        anchors.centerIn: parent
+                        id: ngcText
+                        title: xi18n("NGC Catalog")
+	                    anchors.centerIn: parent
 
                         MouseArea {
-                            id: satelliteMouseArea
-                            anchors.fill: parent
+                            id: ngcMouseArea
                             hoverEnabled: true
-                            onEntered: satelliteText.state = "selected"
-                            onExited: satelliteText.state = ""
-                            onClicked: {
-                                viewsRow.categorySelected("satellites")
-                                catTitle.text = "Satellites"
-                                container.state = "objectFromListSelected"
-                            }
-                        }
-                    }
-                }
-                
-                Item {
-                    id: conItem
-                    width: conText.width
-                    height: conText.height
+	                        anchors.fill: parent
+	                        onEntered: ngcText.state = "selected"
+	                        onExited: ngcText.state = ""
+		                    onClicked: {
+		                        viewsRow.categorySelected("ngc")
+		  						catTitle.text = "NGC Catalog"
+			                    container.state = "objectFromListSelected"
+			                }
+				        }
+				    }
+			    }
+			    
+			    Item {
+			        id: icItem
+
+                    width: icText.width
+                    height: icText.height
+
                     anchors {
-                        verticalCenterOffset: -10
+                        verticalCenterOffset: 230
                         horizontalCenterOffset: 0
-                        centerIn: parent
-                    }
+	                    centerIn: parent
+	                }
 
                     CategoryTitle {
-                        id: conText
-                        title: xi18n("Constellations")
-                        anchors.centerIn: parent
+                        id: icText
+                        title: xi18n("IC Catalog")
+	                    anchors.centerIn: parent
 
                         MouseArea {
-                            id: conMouseArea
-                            anchors.fill: parent
+                            id: icMouseArea
                             hoverEnabled: true
-                            onEntered: conText.state = "selected"
-                            onExited: conText.state = ""
-                            onClicked: {
-                                viewsRow.categorySelected("constellations")
-                                catTitle.text = "Constellations"
-                                container.state = "objectFromListSelected"
-                            }
-                        }
-                    }
-                }
+	                        anchors.fill: parent
+	                        onEntered: icText.state = "selected"
+	                        onExited: icText.state = ""
+		                    onClicked: {
+		                        viewsRow.categorySelected("ic")
+		  						catTitle.text = "IC Catalog"
+			                    container.state = "objectFromListSelected"
+			                }
+				        }
+				    }
+			    }
+				
+			    Item {
+			        id: sh2Item
 
-                Item {
-                    id: dsoContainer
-                    y: 172
-                    height: 200
+                    width: sh2Text.width
+                    height: sh2Text.height
+
                     anchors {
-                        right: parent.right
-                        rightMargin: 35
-                        left: parent.left
-                        leftMargin: 35
-                    }
-
-                    Item {
-                        id: dsoItem
-                        width: dsoText.width
-                        height: dsoText.height
-
-                        anchors {
-                            verticalCenterOffset: 10
-                            horizontalCenterOffset: 0
-                            centerIn: parent
-                        }
-
-                        CategoryTitle {
-                            id: dsoText
-                            color: "yellow"
-                            title: xi18n("Deep-sky Objects")
-                            anchors.centerIn: parent
-                        }
-                    }
-
-                    Item {
-                        id: galItem
-
-                        width: galText.width
-                        height: galText.height
-
-                        anchors {
-                            verticalCenterOffset: 50
-                            horizontalCenterOffset: -50
-                            centerIn: parent
-                        }
-
-                        CategoryTitle {
-                            id: galText
-                            title: xi18n("Galaxies")
-                            anchors {
-                                centerIn: parent
-                                margins: 0
-                            }
-
-                            MouseArea {
-                                id: galMouseArea
-                                hoverEnabled: true
-                                anchors.fill: parent
-                                onEntered: galText.state = "selected"
-                            	onExited: galText.state = ""
-                                onClicked: {
-                                    viewsRow.categorySelected("galaxies")
-                                    catTitle.text = "Galaxies"
-                                    container.state = "objectFromListSelected"
-                                }
-                            }
-                        }
-                    }
-
-                    Item {
-                        id: nebItem
-
-                        width: nebText.width
-                        height: nebText.height
-
-                        anchors {
-                            verticalCenterOffset: 90
-                            horizontalCenterOffset: 0
-                            centerIn: parent
-                        }
-
-                        CategoryTitle {
-                            id: nebText
-                            title: xi18n("Nebulae")
-                            anchors.centerIn: parent
-
-                            MouseArea {
-                                id: nebMouseArea
-                                hoverEnabled: true
-                                anchors.fill: parent
-                                onEntered: nebText.state = "selected"
-                            	onExited: nebText.state = ""
-                                onClicked: {
-                                    viewsRow.categorySelected("nebulas")
-                                    catTitle.text = "Nebulas"
-                                    container.state = "objectFromListSelected"
-                                }
-                            }
-                        }
-                    }
-
-                    Item {
-                        id: clustItem
-
-                        width: clustText.width
-                        height: clustText.height
-
-                        anchors {
-                            verticalCenterOffset: 50
-                            horizontalCenterOffset: 50
-                            centerIn: parent
-                        }
-
-                        CategoryTitle {
-                            id: clustText
-                            title: xi18n("Clusters")
-                            anchors.centerIn: parent
-
-                            MouseArea {
-                                id: clustMouseArea
-                                hoverEnabled: true
-                                anchors.fill: parent
-                                onEntered: clustText.state = "selected"
-                            	onExited: clustText.state = ""
-                                onClicked: {
-                                    viewsRow.categorySelected("clusters")
-                                    catTitle.text = "Clusters"
-                                    container.state = "objectFromListSelected"
-                                }
-                            }
-                        }
-                    }
-                    Item {
-                    id: catalogsItem
-                    width: catalogText.width
-                    height: catalogText.height
-                    anchors{
-                        verticalCenterOffset: 130
+                        verticalCenterOffset: 270
                         horizontalCenterOffset: 0
-                        centerIn: parent
-                    }
+	                    centerIn: parent
+	                }
 
                     CategoryTitle {
-                        id: catalogText
-                        color: "yellow"
-                        title: xi18n("Explore Catalogs")
-                        anchors.centerIn: parent
-                    }
-                }
-                    Item {
-                        id: messierItem
+                        id: sh2Text
+                        title: xi18n("Sharpless Catalog")
+	                    anchors.centerIn: parent
 
-                        width: messierText.width
-                        height: messierText.height
-
-                        anchors {
-                            verticalCenterOffset: 170
-                            horizontalCenterOffset: 0
-                            centerIn: parent
-                        }
-
-                        CategoryTitle {
-                            id: messierText
-                            title: xi18n("Messier Objects")
-                            anchors.centerIn: parent
-
-                            MouseArea {
-                                id: messierMouseArea
-                                hoverEnabled: true
-                                anchors.fill: parent
-                                onEntered: messierText.state = "selected"
-                            	onExited: messierText.state = ""
-                                onClicked: {
-                                    viewsRow.categorySelected("messier")
-                                    catTitle.text = "Messier Objects"
-                                    container.state = "objectFromListSelected"
-                                }
-                            }
-                        }
-                    }
-                 //   Item {
-                 //       id: sh2Item
-//
- //                       width: sh2Text.width
-  //                      height: sh2Text.height
-//
-  //                      anchors {
-    //                        verticalCenterOffset: 190
-      //                      horizontalCenterOffset: 69
-        //                    centerIn: parent
-          //              }
-//
-  //                      CategoryTitle {
-    //                        id: sh2Text
-      //                      title: xi18n("Sharpless Objects")
-        //                    anchors.centerIn: parent
-//
-  //                          MouseArea {
-    //                            id: sh2MouseArea
-      //                          hoverEnabled: true
-        //                        anchors.fill: parent
-          //                      onEntered: container.state = "sh2AreaEntered"
-            //                    onClicked: {
-              //                      viewsRow.categorySelected("sharpless")
-              //					  catTitle.text = "Sharpless Objects"
-                //                    container.state = "objectFromListSelected"
-                  //              }
-                    //        }
-                      //  }
-                 //   }
-                }
+                        MouseArea {
+                            id: sh2MouseArea
+                            hoverEnabled: true
+	                        anchors.fill: parent
+	                        onEntered: sh2Text.state = "selected"
+	                        onExited: sh2Text.state = ""
+		                    onClicked: {
+		                        viewsRow.categorySelected("sharpless")
+		  						catTitle.text = "Sharpless Catalog"
+			                    container.state = "objectFromListSelected"
+			                }
+				        }
+				    }
+			    }
             } //end of categoryView
 
             Flipable {
@@ -646,6 +733,25 @@ Rectangle {
 								highlightMoveDuration: 1
 								
 								model: soListModel
+								
+								Rectangle{
+									id: soListEmptyMessage
+									objectName: "soListEmptyMessage"
+									color: "#00060b"
+									anchors.fill: parent
+									Text{
+										anchors.fill: parent
+										text: "No Items to display"
+										verticalAlignment: Text.AlignVCenter
+										horizontalAlignment: Text.AlignHCenter
+										color: "white"
+										font{
+											family: "Arial"
+											pointSize: 20
+										}
+									}
+									visible: (soListView.count > 0) ? false : true
+								}
 								
 								Rectangle {
         							id: scrollbar
@@ -750,7 +856,6 @@ Rectangle {
                             width: 4
                             color: "#000000"
                         }
-                        
 
                         Text {
                             id: soname
@@ -1095,7 +1200,9 @@ Rectangle {
     												}
 										
 													wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-													text: xi18n("\ntrying to Load from Wikipedia. . .")
+													verticalAlignment: Text.AlignVCenter
+													horizontalAlignment: Text.AlignHCenter
+													text: xi18n("Info Text")
 													clip: true
 													width: parent.width
 													font{
@@ -1270,10 +1377,27 @@ Rectangle {
             					event.accepted = true;
     						}
     						soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
-    					}
-
-                        
+    					}                     
                     } //end of detailsView
+                    
+                    Rectangle{
+						id: soItemEmptyMessage
+						objectName: "soItemEmptyMessage"
+						color: "#00060b"
+						anchors.fill: parent
+						Text{
+							anchors.fill: parent
+							text: "No Items to display"
+							verticalAlignment: Text.AlignVCenter
+							horizontalAlignment: Text.AlignHCenter
+							color: "white"
+							font{
+								family: "Arial"
+								pointSize: 20
+							}
+						}
+						visible: (soListView.count > 0) ? false : true
+					}                        
                 } //end of detailsViewContainer
 
                 states: [
@@ -1304,6 +1428,34 @@ Rectangle {
                     axis.y: 1
                     axis.z: 0
                 }
+                					
+				Rectangle{
+					id: loadingMessage
+					objectName: "loadingMessage"
+					color: "#00060b"
+					anchors.fill: parent
+					visible: false
+					Text{
+							anchors.fill: parent
+							text: "Loading . . ."
+							verticalAlignment: Text.AlignVCenter
+							horizontalAlignment: Text.AlignHCenter
+							color: "white"
+							font{
+                				family: "Arial"
+                				pointSize: 30
+            				}
+					}
+					states: [
+                   		State {
+                        	name: "loading"
+                        	PropertyChanges {target: loadingMessage; visible: true }
+                        	PropertyChanges {target: skyObjView; flipped:false }
+                    	}
+                	]
+				}
+
+                
             } //end of skyObjView
         } //end of viewsContainer
     } //end of base

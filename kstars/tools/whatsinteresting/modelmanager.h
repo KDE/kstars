@@ -36,7 +36,7 @@ class ModelManager: public QObject
          * \enum ModelType
          * \brief Model type for different types of sky-objects.
          */
-        enum ObjectList {Planets, Stars, Constellations, Galaxies, Clusters, Nebulas, Satellites, Asteroids, Comets, Messier, Sharpless, NumberOfLists};
+        enum ObjectList {Planets, Stars, Constellations, Galaxies, Clusters, Nebulas, Satellites, Asteroids, Comets, Supernovas, Messier, NGC, IC, Sharpless, NumberOfLists};
 
         /**
          * \brief Constructor - Creates models for different sky-object types.
@@ -86,10 +86,18 @@ class ModelManager: public QObject
 
         int getModelNumber(QString modelName);
 
-        SkyObjListModel * getTempModel(){ return tempModel;}
+        SkyObjListModel * getTempModel(){ return tempModel; }
+
+        void loadNGCCatalog();
+        void loadICCatalog();
+        void loadSharplessCatalog();
+        bool isNGCLoaded(){ return ngcLoaded; }
+        bool isICLoaded(){ return icLoaded; }
+        bool isSharplessLoaded(){ return sharplessLoaded; }
 
     signals:
         void loadProgressUpdated(double progress);
+        void modelUpdated();
 
     private:
         ObsConditions * m_ObsConditions;
@@ -105,6 +113,9 @@ class ModelManager: public QObject
         QList <SkyObjItem *> favoriteNebulas;
         QList <SkyObjItem *> favoriteClusters;
         SkyObjListModel * tempModel;
+        bool ngcLoaded = false;
+        bool icLoaded = false;
+        bool sharplessLoaded = false;
 
 
 };

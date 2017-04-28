@@ -28,6 +28,7 @@
 #include "Options.h"
 #include "wiequipsettings.h"
 #include "skymapcomposite.h"
+#include <QtConcurrent>
 
 
 #ifdef HAVE_INDI
@@ -66,11 +67,22 @@ WIView::WIView(QWidget * parent) : QWidget(parent), m_CurrentObjectListName(-1)
     ///Use instead of KDeclarative
     m_Ctxt->setContextObject(new KLocalizedContext(m_BaseView));
 
-    m_BaseView->setSource(QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::AppDataLocation, "tools/whatsinteresting/qml/wiview.qml")));
+    QString WI_Location="";
+    #ifdef Q_OS_OSX
+        WI_Location = QCoreApplication::applicationDirPath()+"/../Resources/data/tools/whatsinteresting/qml/wiview.qml";
+        if(!QFileInfo(WI_Location).exists())
+            WI_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "tools/whatsinteresting/qml/wiview.qml");
+    #else
+        WI_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "tools/whatsinteresting/qml/wiview.qml");
+    #endif
+
+    m_BaseView->setSource(QUrl::fromLocalFile(WI_Location));
 
     m_BaseObj = m_BaseView->rootObject();
 
     m_ProgressBar = m_BaseObj->findChild<QQuickItem *>("progressBar");
+
+    m_loadingMessage = m_BaseObj->findChild<QQuickItem *>("loadingMessage");
 
     m_CategoryTitle = m_BaseObj->findChild<QQuickItem *>(QString("categoryTitle"));
 
@@ -127,6 +139,7 @@ WIView::WIView(QWidget * parent) : QWidget(parent), m_CurrentObjectListName(-1)
 
     setProgressBarVisible(true);
     connect(m_ModManager, SIGNAL(loadProgressUpdated(double)),this,SLOT(updateProgress(double)));
+    connect(m_ModManager, SIGNAL(modelUpdated()),this,SLOT(refreshListView()));
     m_ViewsRowObj->setProperty("enabled",false);
 
 }
@@ -144,9 +157,14 @@ void WIView::setProgressBarVisible(bool visible){
 
 void WIView::updateProgress(double value){
     m_ProgressBar->setProperty("value", value);
+
     if(value==1){
         setProgressBarVisible(false);
         m_ViewsRowObj->setProperty("enabled",true);
+        m_loadingMessage->setProperty("state", "");
+    } else{
+        setProgressBarVisible(true);
+        m_loadingMessage->setProperty("state", "loading");
     }
 }
 
@@ -191,13 +209,25 @@ void WIView::updateObservingConditions(){
 void WIView::onCategorySelected(QString model)
 {
     m_CurrentObjectListName = model;
-    updateModel(m_Obs);
-    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(model));
+    m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(m_CurrentObjectListName));
+    m_CurIndex = -2;
     if(!m_ModManager->showOnlyVisibleObjects())
         visibleIconObj->setProperty("state","unchecked");
     if(!m_ModManager->showOnlyFavoriteObjects())
         favoriteIconObj->setProperty("state","unchecked");
-    onSoListItemClicked(0);
+    if(model=="ngc"&&(!m_ModManager->isNGCLoaded())){
+        QtConcurrent::run(m_ModManager,&ModelManager::loadNGCCatalog);
+        return;
+    }
+    if(model=="ic"&&(!m_ModManager->isICLoaded())){
+        QtConcurrent::run(m_ModManager,&ModelManager::loadICCatalog);
+        return;
+    }
+    if(model=="sharpless"&&(!m_ModManager->isSharplessLoaded())){
+        QtConcurrent::run(m_ModManager,&ModelManager::loadSharplessCatalog);
+        return;
+    }
+    updateModel(m_Obs);
 }
 
 void WIView::onSoListItemClicked(int index)
@@ -209,16 +239,20 @@ void WIView::onSoListItemClicked(int index)
 
 void WIView::onNextObjClicked()
 {
-    int modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
-    SkyObjItem * nextItem = m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjItem((m_CurIndex+1)%modelSize);
-    loadDetailsView(nextItem, (m_CurIndex+1)%modelSize);
+    if( m_CurrentObjectListName!=""){
+        int modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
+        SkyObjItem * nextItem = m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjItem((m_CurIndex+1)%modelSize);
+        loadDetailsView(nextItem, (m_CurIndex+1)%modelSize);
+    }
 }
 
 void WIView::onPrevObjClicked()
 {
-    int modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
-    SkyObjItem * prevItem = m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
-    loadDetailsView(prevItem, (m_CurIndex-1+modelSize)%modelSize);
+    if( m_CurrentObjectListName!=""){
+        int modelSize = m_ModManager->returnModel(m_CurrentObjectListName)->rowCount();
+        SkyObjItem * prevItem = m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
+        loadDetailsView(prevItem, (m_CurIndex-1+modelSize)%modelSize);
+    }
 }
 
 void WIView::onCenterButtonClicked()
@@ -291,9 +325,11 @@ void WIView::onDetailsButtonClicked()
     ///Code taken from WUTDialog::slotDetails()
     KStars * kstars = KStars::Instance();
     SkyObject * so = m_CurSoItem->getSkyObject();
-    DetailDialog * detail = new DetailDialog(so, kstars->data()->lt(), kstars->data()->geo(), kstars);
-    detail->exec();
-    delete detail;
+    if(so){
+        DetailDialog * detail = new DetailDialog(so, kstars->data()->lt(), kstars->data()->geo(), kstars);
+        detail->exec();
+        delete detail;
+    }
 }
 
 void WIView::onSettingsIconClicked()
@@ -305,7 +341,8 @@ void WIView::onSettingsIconClicked()
 void WIView::onReloadIconClicked()
 {
     updateModel(m_Obs);
-    m_CurIndex=m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjIndex(m_CurSoItem);
+    if(m_CurrentObjectListName!="")
+        m_CurIndex=m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjIndex(m_CurSoItem);
     loadDetailsView(m_CurSoItem, m_CurIndex);
 }
 
@@ -325,11 +362,14 @@ void WIView::onUpdateIconClicked(){
     QMessageBox mbox;
     mbox.setText( "Please choose which object(s) to try to update with Wikipedia data." );
     QPushButton * currentObject = mbox.addButton("Current Object" , QMessageBox::AcceptRole);
-    QPushButton * missingObjects = mbox.addButton("Objects with no data" , QMessageBox::AcceptRole);
-    QPushButton * allObjects = mbox.addButton("Entire List" , QMessageBox::AcceptRole);
+    QPushButton * missingObjects;
+    QPushButton * allObjects;
+    if(m_CurrentObjectListName!=""){
+        missingObjects = mbox.addButton("Objects with no data" , QMessageBox::AcceptRole);
+        allObjects = mbox.addButton("Entire List" , QMessageBox::AcceptRole);
+    }
     QPushButton * cancel = mbox.addButton( "Cancel", QMessageBox::AcceptRole );
     mbox.setDefaultButton(cancel);
-
 
     mbox.exec();
     if(mbox.clickedButton()==currentObject)
@@ -357,6 +397,8 @@ void WIView::refreshListView(){
     m_Ctxt->setContextProperty("soListModel",0);
     if (m_CurrentObjectListName !="")
         m_Ctxt->setContextProperty("soListModel", m_ModManager->returnModel(m_CurrentObjectListName));
+    if(m_CurIndex==-2)
+        onSoListItemClicked(0);
     if(m_CurIndex!=-1)
         m_SoListObj->setProperty("currentIndex", m_CurIndex);
 }
@@ -365,7 +407,6 @@ void WIView::updateModel(ObsConditions * obs)
 {
     m_Obs = obs;
     m_ModManager->updateModel(m_Obs,m_CurrentObjectListName);
-    refreshListView();
 }
 
 void WIView::inspectSkyObject(QString name){
@@ -377,6 +418,7 @@ void WIView::inspectSkyObject(QString name){
 void WIView::inspectSkyObject(SkyObject *obj){
     if(obj){
         if(obj->name()!="star"){
+            m_CurrentObjectListName="";
             loadDetailsView(new SkyObjItem(obj),-1);
             m_BaseObj->setProperty("state", "singleItemSelected");
             m_CategoryTitle->setProperty("text", "Selected Object");
@@ -386,6 +428,8 @@ void WIView::inspectSkyObject(SkyObject *obj){
 
 void WIView::loadDetailsView(SkyObjItem * soitem, int index)
 {
+    if(!soitem)
+        return;
     m_CurSoItem = soitem;
     m_CurIndex = index;
     int modelSize;
@@ -423,7 +467,7 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
 
     loadObjectDescription(soitem);
 
-    infoBoxText->setProperty("text", "trying to Load infoText box from Wikipedia. . .");
+    infoBoxText->setProperty("text", "<BR><BR>No Wikipedia information. <BR>  Please try to download it using the orange download button below.");
     loadObjectInfoBox(soitem);
 
     QString summary=soitem->getSummary(false);
@@ -451,6 +495,8 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
 }
 
 QString WIView::getWikipediaName(SkyObjItem *soitem){
+    if(!soitem)
+        return "";
     QString name;
     if(soitem->getName().toLower().startsWith("m "))
         name = soitem->getName().replace("M ","Messier_").remove( ' ' );
@@ -490,6 +536,8 @@ QString WIView::getWikipediaName(SkyObjItem *soitem){
 
 void WIView::updateWikipediaDescription(SkyObjItem * soitem)
 {
+    if(!soitem)
+        return;
     QString name=getWikipediaName(soitem);
 
     QUrl url("https://en.wikipedia.org/w/api.php?action=opensearch&search=" + name + "&format=xml");
@@ -550,6 +598,8 @@ void WIView::loadObjectDescription(SkyObjItem * soitem){
 
 void WIView::loadObjectInfoBox(SkyObjItem * soitem)
 {
+    if(!soitem)
+        return;
     QFile file;
     QString fname = "infoText-" + soitem->getName().toLower().remove( ' ' ) + ".html";
     file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "descriptions/" + fname ) ; //determine filename in local user KDE directory tree.
@@ -578,10 +628,6 @@ void WIView::loadObjectInfoBox(SkyObjItem * soitem)
             file.close();
         }
     }
-    else
-    {
-        tryToUpdateWikipediaInfo(soitem, getWikipediaName(soitem));
-    }
 }
 
 void WIView::tryToUpdateWikipediaInfoInModel(bool onlyMissing){
@@ -603,7 +649,7 @@ void WIView::tryToUpdateWikipediaInfoInModel(bool onlyMissing){
 
 void WIView::tryToUpdateWikipediaInfo(SkyObjItem * soitem, QString name)
 {
-    if(name=="")
+    if(name==""||!soitem)
         return;
     QUrl url("https://en.wikipedia.org/w/index.php?action=render&title="+ name + "&redirects");
 

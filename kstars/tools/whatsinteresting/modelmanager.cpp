@@ -115,6 +115,7 @@ void ModelManager::loadLists()
     loadObjectList(m_ObjectList[Comets], SkyObject::COMET);
     emit loadProgressUpdated(0.40);
     loadObjectList(m_ObjectList[Satellites], SkyObject::SATELLITE);
+    loadObjectList(m_ObjectList[Supernovas], SkyObject::SUPERNOVA);
     emit loadProgressUpdated(0.50);
     loadObjectList(m_ObjectList[Constellations], SkyObject::CONSTELLATION);
     emit loadProgressUpdated(0.55);
@@ -130,6 +131,7 @@ void ModelManager::loadLists()
     emit loadProgressUpdated(0.80);
 
     loadObjectList(m_ObjectList[Nebulas], SkyObject::PLANETARY_NEBULA);
+    loadObjectList(m_ObjectList[Nebulas], SkyObject::SUPERNOVA_REMNANT);
     loadObjectList(m_ObjectList[Nebulas], SkyObject::GASEOUS_NEBULA);
     loadObjectList(m_ObjectList[Nebulas], SkyObject::DARK_NEBULA);
 
@@ -142,16 +144,59 @@ void ModelManager::loadLists()
            if ((o = data->skyComposite()->findByName("M " + QString::number(i))))
                m_ObjectList[Messier].append(new SkyObjItem(o));
     }
+
     emit loadProgressUpdated(1);
-/**
-   Note:  The sharpless catalog did not have good wikipedia articles
-    for(int i=1;i<=350;i++)
-    {
-           SkyObject * o;
-           if ((o = data->skyComposite()->findByName("Sh2 " + QString::number(i))))
-               m_SharplessModel->addSkyObject(new SkyObjItem(o));
+}
+
+void ModelManager::loadNGCCatalog(){
+    KStarsData * data = KStarsData::Instance();
+    if(!ngcLoaded){
+        for(int i=1;i<=7840;i++)
+        {
+            if(i%100==0)
+                emit loadProgressUpdated((double)i/7840.0);
+            SkyObject * o;
+            if ((o = data->skyComposite()->findByName("NGC " + QString::number(i))))
+                m_ObjectList[NGC].append(new SkyObjItem(o));
+        }
+        updateModel(m_ObsConditions,"ngc");
+        emit loadProgressUpdated(1);
     }
-**/
+    ngcLoaded = true;
+}
+
+void ModelManager::loadICCatalog(){
+    KStarsData * data = KStarsData::Instance();
+    if(!icLoaded){
+        for(int i=1;i<=3866;i++)
+        {
+            if(i%100==0)
+                emit loadProgressUpdated((double)i/3866.0);
+            SkyObject * o;
+            if ((o = data->skyComposite()->findByName("IC " + QString::number(i))))
+                m_ObjectList[IC].append(new SkyObjItem(o));
+        }
+        updateModel(m_ObsConditions,"ic");
+        emit loadProgressUpdated(1);
+    }
+    icLoaded = true;
+}
+
+void ModelManager::loadSharplessCatalog(){
+    KStarsData * data = KStarsData::Instance();
+    if(!sharplessLoaded){
+        for(int i=1;i<=320;i++)
+        {
+            if(i%100==0)
+                emit loadProgressUpdated((double)i/320.0);
+            SkyObject * o;
+            if ((o = data->skyComposite()->findByName("Sh2 " + QString::number(i))))
+                m_ObjectList[Sharpless].append(new SkyObjItem(o));
+        }
+        updateModel(m_ObsConditions,"sharpless");
+        emit loadProgressUpdated(1);
+    }
+    sharplessLoaded = true;
 }
 
 void ModelManager::updateAllModels(ObsConditions * obs)
@@ -176,6 +221,7 @@ void ModelManager::updateModel(ObsConditions * obs, QString modelName){
             loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], favoriteClusters);
         else
             loadObjectsIntoModel(*m_ModelList[getModelNumber(modelName)], m_ObjectList[getModelNumber(modelName)]);
+        emit modelUpdated();
     }
 }
 
@@ -236,10 +282,16 @@ int ModelManager::getModelNumber(QString modelName){
         return Asteroids;
     if(modelName=="comets")
         return Comets;
+    if(modelName=="supernovas")
+        return Supernovas;
     if(modelName=="satellites")
         return Satellites;
     if(modelName=="messier")
         return Messier;
+    if(modelName=="ngc")
+        return NGC;
+    if(modelName=="ic")
+        return IC;
     if(modelName=="sharpless")
         return Sharpless;
     else return -1;
