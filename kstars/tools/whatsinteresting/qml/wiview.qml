@@ -770,17 +770,27 @@ Rectangle {
  
 									Rectangle{
 										id: summaryBackground
-										color: "transparent"
+										color: (mouseListArea.containsMouse||mouseImgArea.containsMouse) ? "#030723" : "transparent"
 										width: parent.width
 										height: parent.height
 										Text {
+											MouseArea {
+												id: mouseListArea
+												anchors.fill: parent
+												hoverEnabled: true
+												onClicked: {
+													soListView.currentIndex = index
+													soListView.soListItemClicked(soListView.currentIndex)
+													skyObjView.flipped = true
+												}
+											}//Mousearea
 											id: dispSummary
 											objectName: dispObjSummary
 											text: dispObjSummary
 											textFormat: Text.RichText
 											x: image.width + 5
 											width: parent.width - image.width - 30
-											color: "#187988"
+											color: (soListItem.ListView.isCurrentItem) ? "white" : (mouseListArea.containsMouse||mouseImgArea.containsMouse) ? "yellow" : "#187988"
 	   
 											wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 											font{
@@ -792,37 +802,27 @@ Rectangle {
 									Image { 
 										id: image
 										width: 150
+										height: parent.height
 										fillMode: Image.PreserveAspectFit
-										source: imageSource 
+										source: imageSource
+										MouseArea {
+											id: mouseImgArea
+											anchors.fill: parent
+											hoverEnabled: true
+											onClicked: {
+												soListView.currentIndex = index
+												soListView.soListItemClicked(soListView.currentIndex)
+											}
+										}//Mousearea
 									}
-
 									Text {
 										id: dispText
 										objectName: dispName
 										text: dispName
-										color: "white"
+										color: (mouseListArea.containsMouse) ? "yellow" : "white"
 
 										font.bold: true
 									}
-									MouseArea {
-											anchors.fill: parent
-											hoverEnabled: true
-											onEntered:{ 
-												dispText.color = "yellow"
-												dispSummary.color = "yellow"
-												summaryBackground.color = "#030723"
-											}
-											onExited: {
-												dispText.color = "white"
-												dispSummary.color = "#187988"
-												summaryBackground.color ="transparent"
-											}
-											onClicked: {
-												soListView.currentIndex = index
-												soListView.soListItemClicked(soListView.currentIndex)
-												skyObjView.flipped = true
-											}
-									}//Mousearea
 								}//soListItem
 							}//soListView
                         }//Flickable
@@ -1367,17 +1367,7 @@ Rectangle {
                             }
                         }
                         
-                        Keys.onPressed: {
-        					if (event.key == Qt.Key_Left||event.key == Qt.Key_Up) {
-            					prevObjRect.prevObjClicked();
-            					event.accepted = true;
-        					}
-        					if (event.key == Qt.Key_Right||event.key == Qt.Key_Down) {
-            					nextObjRect.nextObjClicked();
-            					event.accepted = true;
-    						}
-    						soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
-    					}                     
+                                       
                     } //end of detailsView
                     
                     Rectangle{
@@ -1397,8 +1387,23 @@ Rectangle {
 							}
 						}
 						visible: (soListView.count > 0) ? false : true
-					}                        
+					}        
+					                
                 } //end of detailsViewContainer
+                
+                focus:true
+                
+                Keys.onPressed: {
+					if (event.key == Qt.Key_Left||event.key == Qt.Key_Up) {
+						prevObjRect.prevObjClicked();
+						event.accepted = true;
+					}
+					if (event.key == Qt.Key_Right||event.key == Qt.Key_Down) {
+						nextObjRect.nextObjClicked();
+						event.accepted = true;
+					}
+					soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
+				}      
 
                 states: [
                     State {
@@ -1780,8 +1785,6 @@ Rectangle {
         	}
         ]
     }
-    
-
 
     states: [
         State {
@@ -1820,7 +1823,7 @@ Rectangle {
                     bottomMargin: 0
                 }
             }
- 			PropertyChanges {target: detailsView; focus: true}
+ 			//PropertyChanges {target: detailsView; focus: true}
             PropertyChanges {
                 target: backButton
                 x: container.width - 105
