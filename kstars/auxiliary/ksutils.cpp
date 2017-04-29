@@ -23,6 +23,7 @@
 #include "Options.h"
 
 #include <QFile>
+#include <QProcessEnvironment>
 #include <QtNumeric>
 #include <QUrl>
 #include <QStandardPaths>

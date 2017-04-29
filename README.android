@@ -1,0 +1,50 @@
+
+Only Linux cross-compilation to Android is supported.
+
+Prerequisites:
+- Install Android NDK and Android SDK
+- Get KStars source code from from Github or KDE
+
+Set the following environmental variables before building:
+
+export QT_ANDROID=Qt SDK for Android target (e.g. .../Qt/5.8/android_armv7"}
+export ANDROID_NDK=Android NDK path
+export ANDROID_SDK_ROOT=Android SDK path
+export ANDROID_API_LEVEL=Android API level (currently the minimum is 17)
+
+If you want to generate signed release package set the following variables:
+
+export ANDROID_KEYSTORE=your_keystore_file
+export ANDROID_KEYSTORE_ALIAS=your_keystore_alias
+
+First build the KF5 dependencies separately:
+
+1. Go to the android directory
+2. Run build_kf5.sh and verify that the script builds everything without any problem.
+
+When KF5 are ready, build KStars Lite for Android:
+
+- Install Eigen3 and other dependencies
+- Configure the build (MinSizeRel build type is recommended for Android):
+
+cmake . -DBUILD_KSTARS_LITE=ON -DCMAKE_TOOLCHAIN_FILE=android/toolchain-android.cmake \
+        -DEIGEN3_INCLUDE_DIR=/usr/include/eigen3/ -DCMAKE_INSTALL_PREFIX=$(pwd)/android/export -DCMAKE_BUILD_TYPE=MinSizeRel
+
+- Compile:
+
+make -j4
+
+- Install:
+
+make -j4 install
+
+- Generate the Android package:
+
+make create-apk-kstars
+
+- To sign a release package:
+
+make sign-apk-kstars
+
+- The debug package location: android/kstars_build_apk/bin/QtApp-debug.apk
+- The release package location: android/kstars_build_apk/bin/kstars-release-signed.apk

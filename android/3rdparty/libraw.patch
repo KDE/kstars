@@ -1,0 +1,70 @@
+diff --git CMakeLists.txt CMakeLists.txt
+index 47f3869..279a81f 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -114,6 +114,9 @@ INCLUDE(MacroLogFeature)
+ INCLUDE(MacroOptionalFindPackage)
+ INCLUDE(MacroJPEG)
+ 
++IF (ANDROID)
++    INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/android-hack)
++ENDIF ()
+ # Math library check
+ 
+ IF(NOT WIN32)
+diff --git android-hack/swab.h android-hack/swab.h
+new file mode 100644
+index 0000000..061c61e
+--- /dev/null
++++ android-hack/swab.h
+@@ -0,0 +1,6 @@
++
++#pragma once
++
++#include <stdint.h>
++
++void swab(const void *from, void*to, ssize_t n);
+diff --git internal/dcraw_common.cpp internal/dcraw_common.cpp
+index b68b804..e597d59 100644
+--- internal/dcraw_common.cpp
++++ internal/dcraw_common.cpp
+@@ -21,6 +21,24 @@
+    for more information
+ */
+ 
++#ifdef ANDROID
++#include <swab.h>
++
++#include <stdint.h>
++#include <asm/byteorder.h>
++
++void swab(const void *from, void*to, ssize_t n)
++{
++  ssize_t i;
++
++  if (n < 0)
++    return;
++
++  for (i = 0; i < (n/2)*2; i += 2)
++    *((uint16_t*)to+i) = __arch__swab16(*((uint16_t*)from+i));
++}
++#endif
++
+ #include <math.h>
+ #define CLASS LibRaw::
+ #include "libraw/libraw_types.h"
+diff --git src/libraw_cxx.cpp src/libraw_cxx.cpp
+index b68b804..e597d59 100644
+--- src/libraw_cxx.cpp     2016-05-14 09:53:59.000000000 +0300
++++ src/libraw_cxx.cpp      2017-04-18 15:01:21.806381052 +0300
+@@ -19,6 +19,10 @@
+ 
+  */
+ 
++#if ANDROID
++#include <swab.h>
++#endif
++
+ #include <math.h>
+ #include <errno.h>
+ #include <float.h>

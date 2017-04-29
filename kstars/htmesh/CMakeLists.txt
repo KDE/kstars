@@ -34,7 +34,10 @@ add_definitions(-D_EXPORTING)
 set_target_properties(htmesh PROPERTIES
     VERSION 1.0.0
     SOVERSION 1)
-install(TARGETS htmesh ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
+
+if (NOT ANDROID)
+    install(TARGETS htmesh ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
+endif ()
 
 # If you wish to compile the HTMesh perl wrapper, uncomment this, rebuild and copy the library into /usr/lib/, because we will use it as a shared object. See README in the perl wrapper directory (kstars/kstars/data/tools/HTMesh-*) for more details.
 #set_property(TARGET htmesh PROPERTY POSITION_INDEPENDENT_CODE YES)
