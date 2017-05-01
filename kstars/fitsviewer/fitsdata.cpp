@@ -909,13 +909,13 @@ template<typename T> int FITSData::findCannyStar(FITSData * data, const QRect &b
 
     const T * origBuffer = reinterpret_cast<T *>(data->getImageBuffer()) + offset;
 
-    if (Options::fITSLogging())
+    /*if (Options::fITSLogging())
     {
         QDebug deb = qDebug();
 
         for (int i=0; i < subW; i++)
             deb << origBuffer[i + cen_y * dataWidth] << ",";
-    }
+    }*/
 
     for (double x=leftEdge; x <= rightEdge; x += resolution)
     {
@@ -1037,7 +1037,8 @@ template<typename T> int FITSData::findOneStar(const QRectF &boundary)
         }
     }
 
-    qDebug() << "Weighted Center is X: " << massX/totalMass << " Y: " << massY/totalMass;
+    if (Options::fITSLogging())
+        qDebug() << "FITS: Weighted Center is X: " << massX/totalMass << " Y: " << massY/totalMass;
 
     Edge * center = new Edge;
     center->width = -1;

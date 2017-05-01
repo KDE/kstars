@@ -110,6 +110,10 @@ Guide::Guide() : QWidget()
     // Exposure
     connect(exposureIN, SIGNAL(editingFinished()), this, SLOT(saveDefaultGuideExposure()));
 
+    // Exposure Timeout
+    captureTimeout.setSingleShot(true);
+    connect(&captureTimeout, SIGNAL(timeout()), this, SLOT(processCaptureTimeout()));
+
     // Guiding Box Size
     connect(boxSizeCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTrackingBoxSize(int)));
 
@@ -609,6 +613,8 @@ bool Guide::capture()
 
 bool Guide::captureOneFrame()
 {
+    captureTimeout.stop();
+
     if (currentCCD == NULL)
         return false;
 
@@ -660,6 +666,9 @@ bool Guide::captureOneFrame()
     if (Options::guideLogging())
         qDebug() << "Guide: Capturing frame...";
 
+    // Timeout is exposure duration + 2 seconds
+    captureTimeout.start(seqExpose*1000 + 2000);
+
     targetChip->capture(seqExpose);
 
     return true;
@@ -669,6 +678,7 @@ bool Guide::abort()
 {
     if (currentCCD && guiderType == GUIDE_INTERNAL)
     {
+        captureTimeout.stop();
         pulseTimer.stop();
         ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
         if (targetChip->isCapturing())
@@ -751,9 +761,38 @@ void Guide::setBusy(bool enable)
     }
 }
 
+void Guide::processCaptureTimeout()
+{
+    captureTimeoutCounter++;
+
+    if (captureTimeoutCounter >= 3)
+    {
+        captureTimeoutCounter = 0;
+        if (state == GUIDE_GUIDING)
+            appendLogText(i18n("Exposure timeout. Aborting Autoguide."));
+        else if (state == GUIDE_DITHERING)
+            appendLogText(i18n("Exposure timeout. Aborting Dithering."));
+        else if (state == GUIDE_CALIBRATING)
+            appendLogText(i18n("Exposure timeout. Aborting Calibration."));
+
+        abort();
+        return;
+    }
+
+    appendLogText(i18n("Exposure timeout. Restarting exposure..."));
+    currentCCD->setTransformFormat(ISD::CCD::FORMAT_FITS);
+    ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    targetChip->abortExposure();
+    targetChip->capture(exposureIN->value());
+    captureTimeout.start(exposureIN->value()*1000 + 2000);
+}
+
 void Guide::newFITS(IBLOB * bp)
 {
     INDI_UNUSED(bp);
+
+    captureTimeout.stop();
+    captureTimeoutCounter=0;
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
 

@@ -392,6 +392,8 @@ class Guide : public QWidget, public Ui::Guide
 
         void showFITSViewer();
 
+        void processCaptureTimeout();
+
     signals:
         void newLog();
         void newStatus(Ekos::GuideState status);
@@ -471,6 +473,10 @@ class Guide : public QWidget, public Ui::Guide
 
         // Guide timer
         QTime guideTimer;
+
+        // Capture timeout timer
+        QTimer captureTimeout;
+        uint8_t captureTimeoutCounter=0;
 
         // Pulse Timer
         QTimer pulseTimer;
