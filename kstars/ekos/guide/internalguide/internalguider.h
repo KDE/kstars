@@ -145,7 +145,7 @@ private:
     void reset();
 
     int auto_drift_time;
-    int turn_back_time;
+    int turn_back_time;    
     double start_x1, start_y1;
     double end_x1, end_y1;
     double start_x2, start_y2;

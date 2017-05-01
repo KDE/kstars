@@ -65,7 +65,7 @@ bool InternalGuider::guide()
 
     guideFrame->disconnect(this);
 
-    QString logFileName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/guide_log.txt";
+    QString logFileName = KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "guide_log.txt";
     logFile.setFileName(logFileName);
     logFile.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&logFile);
@@ -217,11 +217,20 @@ bool InternalGuider::dither(double pixels)
     }
     else
     {
-        if (++retries > MAX_DITHER_RETIRES)
+        if (++retries > Options::ditherMaxIterations())
         {
-            emit newStatus(Ekos::GUIDE_DITHERING_ERROR);
-            abort();
-            return false;
+            if (Options::ditherFailAbortsAutoGuide())
+            {
+                emit newStatus(Ekos::GUIDE_DITHERING_ERROR);
+                abort();
+                return false;
+            }
+            else
+            {
+                emit newLog(i18n("Warning: Dithering failed. Autoguiding shall continue as set in the options in case of dither failure."));
+                emit newStatus(Ekos::GUIDE_DITHERING_SUCCESS);
+                return true;
+            }
         }
 
         processGuiding();
