@@ -36,6 +36,7 @@
 #include "auxiliary/kspaths.h"
 
 #include <QPointer>
+#include <QProcessEnvironment>
 
 namespace KSUtils
 {

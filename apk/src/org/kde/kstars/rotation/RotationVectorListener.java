@@ -20,6 +20,12 @@ import android.hardware.SensorManager;
 public class RotationVectorListener implements SensorEventListener {
 	private float[] mRotationM = new float[16];
 	private RotationUpdateDelegate mRotationUpdateDelegate;
+	private final float mFilterFactor = 1.0f;
+	private final float mFilterFactorInv = 1.0f - mFilterFactor;
+
+	private boolean firstSensor = true;
+
+	private float[] mVectorVals = new float[] { 0f, 0f, 0f };
 
 	public RotationVectorListener(RotationUpdateDelegate rotationUpdateDelegate) {
 		mRotationUpdateDelegate = rotationUpdateDelegate;
@@ -28,11 +34,19 @@ public class RotationVectorListener implements SensorEventListener {
 	@SuppressLint("NewApi")
 	@Override
 	public void onSensorChanged(SensorEvent event) {
+		// smooth(event.values, mVectorVals, mVectorVals);
+
 		SensorManager.getRotationMatrixFromVector(mRotationM, event.values);
 		mRotationUpdateDelegate.onRotationUpdate(mRotationM);
 	}
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+	}
+
+	private void smooth(float[] inv, float prevv[], float outv[]) {
+		outv[0] = prevv[0] + mFilterFactor * (inv[0] - prevv[0]);
+		outv[1] = prevv[1] + mFilterFactor * (inv[1] - prevv[1]);
+		outv[2] = prevv[2] + mFilterFactor * (inv[2] - prevv[2]);
 	}
 }
