@@ -93,6 +93,9 @@ public class DeviceOrientation extends QtActivity implements RotationUpdateDeleg
     public void onRotationUpdate(float[] newMatrix) {
             // remap matrix values according to display rotation, as in
             // SensorManager documentation.
+    	    final Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+    	    mDisplayRotation = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) ? display.getRotation() : display.getOrientation();
+
             switch (mDisplayRotation) {
             case Surface.ROTATION_0:
             case Surface.ROTATION_180:
@@ -111,7 +114,6 @@ public class DeviceOrientation extends QtActivity implements RotationUpdateDeleg
             Azimuth = m_orientation[0];
             Pitch = m_orientation[1];
             Roll = m_orientation[2];
-//            System.out.println(m_orientation[0] + " " + m_orientation[1] + " " + m_orientation[2]);
     }
 
     // Other Activity life-cycle methods

@@ -156,7 +156,6 @@ SkyMapLite::SkyMapLite()
     connect(&automaticModeTimer, SIGNAL(timeout()), this, SLOT(updateAutomaticMode()));
     setAutomaticMode(false);
 #endif
-//    setRotation(30);
 }
 
 QSGNode * SkyMapLite::updatePaintNode(QSGNode * oldNode, UpdatePaintNodeData * updatePaintNodeData)
