@@ -116,6 +116,8 @@ class WIView : public QWidget
          */
         void onSettingsIconClicked();
 
+        void onInspectIconClicked(bool checked){ inspectOnClick = checked; }
+
         /**
          * \brief public slot - Reload list of visible sky-objects.
          */
@@ -135,7 +137,9 @@ class WIView : public QWidget
         void saveObjectInfoBoxText(SkyObjItem * soitem, QString type, QString infoText);
         void downloadWikipediaImage(SkyObjItem * soitem, QString imageURL);
         void inspectSkyObject(QString name);
+        void inspectSkyObjectOnClick(SkyObject *obj);
         void inspectSkyObject(SkyObject *obj);
+        bool inspectOnClickIsActive(){ return inspectOnClick; }
         void updateObservingConditions();
         void tryToUpdateWikipediaInfoInModel(bool onlyMissing);
         void refreshListView();
@@ -145,7 +149,7 @@ class WIView : public QWidget
 
     private:
         QQuickItem * m_BaseObj, *m_ViewsRowObj, *m_CategoryTitle, *m_SoListObj, *m_DetailsViewObj, *m_skyObjView, *m_ContainerObj,  *m_ProgressBar, *m_loadingMessage,
-                   *m_NextObj, *m_PrevObj, *m_CenterButtonObj, *m_SlewTelescopeButtonObj, *m_DetailsButtonObj, * visibleIconObj, * favoriteIconObj;
+                   *m_NextObj, *m_PrevObj, *m_CenterButtonObj, *m_SlewTelescopeButtonObj, *m_DetailsButtonObj,  * inspectIconObj, * visibleIconObj, * favoriteIconObj;
         QQmlContext * m_Ctxt;
         QObject * infoBoxText, * descTextObj;
 
@@ -157,6 +161,7 @@ class WIView : public QWidget
         QString m_CurrentObjectListName; ///Currently selected category from WI QML view
         QString getWikipediaName(SkyObjItem * soitem);
         QNetworkAccessManager * manager;
+        bool inspectOnClick;
 };
 
 
