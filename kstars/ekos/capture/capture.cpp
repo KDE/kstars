@@ -2936,7 +2936,14 @@ void Capture::constructPrefix(QString &imagePrefix)
         //if (imagePrefix.isEmpty() == false || frameTypeCheck->isChecked())
         imagePrefix += '_';
 
-        imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
+        double exposureValue = exposureIN->value();
+
+        if (exposureValue == static_cast<int>(exposureValue))
+            // Whole number
+            imagePrefix += QString::number(exposureIN->value(), 'd', 0) + QString("_secs");
+            // Decimal
+        else
+            imagePrefix += QString::number(exposureIN->value(), 'f', 3) + QString("_secs");
     }
 }
 
@@ -4021,6 +4028,14 @@ bool Capture::processPostCaptureCalibrationStage()
                 {
                     appendLogText(i18n("Current ADU %1 within target ADU tolerance range.", QString::number(currentADU, 'f', 0)));
                     activeJob->setPreview(false);
+
+                    // Get raw prefix
+                    exposureIN->setValue(activeJob->getExposure());
+                    QString imagePrefix = activeJob->getRawPrefix();
+                    constructPrefix(imagePrefix);
+                    activeJob->setFullPrefix(imagePrefix);
+                    currentCCD->setSeqPrefix(imagePrefix);
+
                     calibrationStage = CAL_CALIBRATION_COMPLETE;
                     startNextExposure();
                     return false;
