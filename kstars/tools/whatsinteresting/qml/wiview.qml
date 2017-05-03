@@ -750,7 +750,7 @@ Rectangle {
 											pointSize: 20
 										}
 									}
-									visible: (soListView.count > 0) ? false : true
+									visible: (soListView.count > 0 || container.state == "singleItemSelected") ? false : true
 								}
 								
 								Rectangle {
@@ -790,7 +790,7 @@ Rectangle {
 											textFormat: Text.RichText
 											x: image.width + 5
 											width: parent.width - image.width - 30
-											color: (soListItem.ListView.isCurrentItem) ? "white" : (mouseListArea.containsMouse||mouseImgArea.containsMouse) ? "yellow" : "#187988"
+											color: (soListItem.ListView.isCurrentItem) ? "white" : (mouseListArea.containsMouse||mouseImgArea.containsMouse) ? "yellow" : "gray"
 	   
 											wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 											font{
@@ -1067,7 +1067,7 @@ Rectangle {
 												Text {
 													id: descText
 													objectName: "descTextObj"
-													color: "#187988"
+													color: "white"
 													text: xi18n("text")
 													clip: true
 													wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -1386,7 +1386,7 @@ Rectangle {
 								pointSize: 20
 							}
 						}
-						visible: (soListView.count > 0) ? false : true
+						visible: (soListView.count > 0 || container.state == "singleItemSelected") ? false : true
 					}        
 					                
                 } //end of detailsViewContainer
@@ -1397,12 +1397,13 @@ Rectangle {
 					if (event.key == Qt.Key_Left||event.key == Qt.Key_Up) {
 						prevObjRect.prevObjClicked();
 						event.accepted = true;
+						soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
 					}
 					if (event.key == Qt.Key_Right||event.key == Qt.Key_Down) {
 						nextObjRect.nextObjClicked();
 						event.accepted = true;
+						soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
 					}
-					soListView.positionViewAtIndex(soListView.currentIndex, ListView.Beginning)
 				}      
 
                 states: [
@@ -1576,11 +1577,59 @@ Rectangle {
             radius: 5
         }
     }
+    
+    Image {
+        id: inspectIcon
+        objectName: "inspectIconObj"
+        state: "checked"
+        x: 50
+        y: container.height - 50
+        width: 28
+        height: 28
+        anchors{
+            verticalCenterOffset: 0
+            verticalCenter: backButton.verticalCenter
+        }
+        sourceSize{
+            height: 40
+            width: 40
+        }
+        smooth: true
+        fillMode: Image.Stretch
+        source: "inspectIcon.png"
 
+        signal inspectIconClicked(bool inspect)
+
+        MouseArea {
+            id: inspectMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: inspectForeground.opacity = buttonOpacity
+            onExited: inspectForeground.opacity = 0.0
+            onClicked: {
+            	inspectIcon.inspectIconClicked(inspectIcon.state == "checked")
+            	inspectIcon.state = (inspectIcon.state == "checked") ?  "" : "checked"
+            }
+        }
+
+        Rectangle {
+            id: inspectForeground
+            radius: 5
+            opacity: 0
+            anchors.fill: parent
+        }
+        states: [
+        	State {
+        		name: "checked"
+        		PropertyChanges {target: inspectIcon; opacity: 0.5}
+        	}
+        ]
+    }
+    
     Image {
         id: reloadIcon
         objectName: "reloadIconObj"
-        x: 50
+        x: 90
         y: container.height - 50
         width: 28
         height: 28
@@ -1630,7 +1679,7 @@ Rectangle {
         id: visibleIcon
         objectName: "visibleIconObj"
         state: "checked"
-        x: 90
+        x: 130
         y: container.height - 50
         width: 28
         height: 28
@@ -1684,7 +1733,7 @@ Rectangle {
         id: favoriteIcon
         objectName: "favoriteIconObj"
         state: "checked"
-        x: 130
+        x: 170
         y: container.height - 50
         width: 28
         height: 28
@@ -1743,7 +1792,7 @@ Rectangle {
     Image {
         id: downloadIcon
         objectName: "downloadIconObj"
-        x: 170
+        x: 210
         y: container.height - 50
         width: 28
         height: 28

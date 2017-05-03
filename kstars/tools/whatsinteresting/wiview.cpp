@@ -118,6 +118,9 @@ WIView::WIView(QWidget * parent) : QWidget(parent), m_CurrentObjectListName(-1)
     QObject * settingsIconObj = m_BaseObj->findChild<QQuickItem *>("settingsIconObj");
     connect(settingsIconObj, SIGNAL(settingsIconClicked()), this, SLOT(onSettingsIconClicked()));
 
+    inspectIconObj = m_BaseObj->findChild<QQuickItem *>("inspectIconObj");
+    connect(inspectIconObj, SIGNAL(inspectIconClicked(bool)), this, SLOT(onInspectIconClicked(bool)));
+
     visibleIconObj = m_BaseObj->findChild<QQuickItem *>("visibleIconObj");
     connect(visibleIconObj, SIGNAL(visibleIconClicked(bool)), this, SLOT(onVisibleIconClicked(bool)));
 
@@ -133,7 +136,7 @@ WIView::WIView(QWidget * parent) : QWidget(parent), m_CurrentObjectListName(-1)
     m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
     m_BaseView->show();
 
-    connect(KStars::Instance()->map(),SIGNAL(objectClicked(SkyObject*)),this, SLOT(inspectSkyObject(SkyObject*)));
+    connect(KStars::Instance()->map(),SIGNAL(objectClicked(SkyObject*)),this, SLOT(inspectSkyObjectOnClick(SkyObject*)));
 
     manager = new QNetworkAccessManager();
 
@@ -141,6 +144,8 @@ WIView::WIView(QWidget * parent) : QWidget(parent), m_CurrentObjectListName(-1)
     connect(m_ModManager, SIGNAL(loadProgressUpdated(double)),this,SLOT(updateProgress(double)));
     connect(m_ModManager, SIGNAL(modelUpdated()),this,SLOT(refreshListView()));
     m_ViewsRowObj->setProperty("enabled",false);
+
+    inspectOnClick = false;
 
 }
 
@@ -415,6 +420,12 @@ void WIView::inspectSkyObject(QString name){
             inspectSkyObject(obj);
 }
 
+void WIView::inspectSkyObjectOnClick(SkyObject *obj){
+    if(inspectOnClick&&KStars::Instance()->isWIVisible()){
+        inspectSkyObject(obj);
+    }
+}
+
 void WIView::inspectSkyObject(SkyObject *obj){
     if(obj){
         if(obj->name()!="star"){
@@ -587,7 +598,7 @@ void WIView::loadObjectDescription(SkyObjItem * soitem){
         if(file.open(QIODevice::ReadOnly))
         {
             QTextStream in(&file);
-            QString line = in.readAll();
+            QString line = "<HTML><HEAD><style type=text/css>a {text-decoration: none;color: yellow}</style></HEAD><BODY>" + in.readAll() + "</BODY></HTML>";
             descTextObj->setProperty("text", line);
             file.close();
         }

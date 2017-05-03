@@ -14,4 +14,5 @@ install( FILES wiview.qml
          downloadIcon.png
          favoriteIcon.png
          visibleIcon.png
+         inspectIcon.png
          DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/tools/whatsinteresting/qml )
