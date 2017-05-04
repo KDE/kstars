@@ -84,6 +84,12 @@ bool ServerManager::start()
         env.insert("PATH", driversDir + ":" + indiServerDir + ":/usr/local/bin:/usr/bin:/bin");
         QString gscDirPath=KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "gsc";
         env.insert("GSCDAT", gscDirPath);
+        QString gphoto_iolibs=QCoreApplication::applicationDirPath() + "/../PlugIns/libgphoto2_port";
+        if(QFileInfo(gphoto_iolibs).exists()&&Options::indiDriversAreInternal())
+            env.insert("IOLIBS", QDir(gphoto_iolibs).absolutePath());
+        QString gphoto_camlibs=QCoreApplication::applicationDirPath() + "/../PlugIns/libgphoto2";
+        if(QFileInfo(gphoto_camlibs).exists()&&Options::indiDriversAreInternal())
+            env.insert("CAMLIBS", QDir(gphoto_camlibs).absolutePath());
         serverProcess->setProcessEnvironment(env);
 #endif
     }
