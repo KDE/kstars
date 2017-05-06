@@ -145,13 +145,14 @@ class WIView : public QWidget
         void refreshListView();
         void updateProgress(double value);
         void setProgressBarVisible(bool visible);
+        void setNightVisionOn(bool on);
 
 
     private:
         QQuickItem * m_BaseObj, *m_ViewsRowObj, *m_CategoryTitle, *m_SoListObj, *m_DetailsViewObj, *m_skyObjView, *m_ContainerObj,  *m_ProgressBar, *m_loadingMessage,
                    *m_NextObj, *m_PrevObj, *m_CenterButtonObj, *m_SlewTelescopeButtonObj, *m_DetailsButtonObj,  * inspectIconObj, * visibleIconObj, * favoriteIconObj;
         QQmlContext * m_Ctxt;
-        QObject * infoBoxText, * descTextObj;
+        QObject * infoBoxText, * descTextObj, * nightVision;
 
         QQuickView * m_BaseView;
         ObsConditions * m_Obs;

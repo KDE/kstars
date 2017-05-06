@@ -11,6 +11,7 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 
 Rectangle {
     id: container
@@ -790,7 +791,7 @@ Rectangle {
 											textFormat: Text.RichText
 											x: image.width + 5
 											width: parent.width - image.width - 30
-											color: (soListItem.ListView.isCurrentItem) ? "white" : (mouseListArea.containsMouse||mouseImgArea.containsMouse) ? "yellow" : "gray"
+											color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (soListItem.ListView.isCurrentItem) ? "white" : (mouseListArea.containsMouse||mouseImgArea.containsMouse) ? "yellow" : "gray"
 	   
 											wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 											font{
@@ -819,7 +820,7 @@ Rectangle {
 										id: dispText
 										objectName: dispName
 										text: dispName
-										color: (mouseListArea.containsMouse) ? "yellow" : "white"
+										color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (mouseListArea.containsMouse) ? "yellow" : "white"
 
 										font.bold: true
 									}
@@ -943,8 +944,8 @@ Rectangle {
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     anchors.fill: parent
-                                    onEntered: detailsButton.color = "yellow"
-                                    onExited: detailsButton.color = "white"
+                                    onEntered: detailsButton.color = (nightVision.state == "active") ? "red" : "yellow"
+                                    onExited: detailsButton.color = (nightVision.state == "active") ? "red" : "white"
                                     onClicked: detailsButton.detailsButtonClicked()
                                 }
                             }
@@ -969,8 +970,8 @@ Rectangle {
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     anchors.fill: parent
-                                    onEntered: centerButton.color = "yellow"
-                                    onExited: centerButton.color = "white"
+                                    onEntered: centerButton.color = (nightVision.state == "active") ? "red" : "yellow"
+                                    onExited: centerButton.color = (nightVision.state == "active") ? "red" : "white"
                                     onClicked: centerButton.centerButtonClicked()
                                 }
                                 CheckBox {
@@ -1001,8 +1002,8 @@ Rectangle {
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     anchors.fill: parent
-                                    onEntered: slewTelescopeButton.color = "yellow"
-                                    onExited: slewTelescopeButton.color = "white"
+                                    onEntered: slewTelescopeButton.color = (nightVision.state == "active") ? "red" : "yellow"
+                                    onExited: slewTelescopeButton.color = (nightVision.state == "active") ? "red" : "white"
                                     onClicked: slewTelescopeButton.slewTelescopeButtonClicked()
                                 }
                             }
@@ -1012,6 +1013,25 @@ Rectangle {
                         	y: 170
                         	width: parent.width
                         	height: parent.height - 170 - 50
+                        	
+                        	property Component nightTabs: TabViewStyle {
+                        		tabsAlignment: Qt.AlignHCenter
+                        		frameOverlap: 1
+								tab: Rectangle {
+									border.color: "black"
+									implicitWidth: 150
+									implicitHeight: 30
+									color: "red"
+									Text {
+                						id: text
+                						anchors.centerIn: parent
+                						text: styleData.title
+                						color: styleData.selected ? "white" : "black"
+            						}
+								}
+								frame: Rectangle { color: "black" }
+							}
+                        	
 							Tab {
 								title: "Object Information"
 
@@ -1247,11 +1267,11 @@ Rectangle {
                                 hoverEnabled: true
                                 onEntered: {
                                     nextObjForeground.opacity = 0.1
-                                    nextObjText.color = "yellow"
+                                    nextObjText.color = (nightVision.state == "active") ? "red" : "yellow"
                                 }
                                 onExited: {
                                     nextObjForeground.opacity = 0.0
-                                    nextObjText.color = "white"
+                                    nextObjText.color = (nightVision.state == "active") ? "red" : "white"
                                 }
                                 onClicked: {
                                 	nextObjRect.nextObjClicked()
@@ -1323,11 +1343,11 @@ Rectangle {
                                 hoverEnabled: true
                                 onEntered: {
                                     prevObjForeground.opacity = 0.1
-                                    prevObjText.color = "yellow"
+                                    prevObjText.color = (nightVision.state == "active") ? "red" : "yellow"
                                 }
                                 onExited: {
                                     prevObjForeground.opacity = 0.0
-                                    prevObjText.color = "white"
+                                    prevObjText.color = (nightVision.state == "active") ? "red" : "white"
                                 }
                                 onClicked: {
                                 	prevObjRect.prevObjClicked()
@@ -1834,6 +1854,40 @@ Rectangle {
         	}
         ]
     }
+    
+    Rectangle {
+            id: nightVision
+            objectName: "nightVision"
+            opacity: 0
+            color: "#510000"
+            anchors.fill: parent
+            
+            states: [
+        	State {
+        		name: "active"
+        		PropertyChanges {target: nightVision; opacity: 0.2}
+        		PropertyChanges {target: tabbedView; style: tabbedView.nightTabs}
+        		PropertyChanges {target: title; color: "red"}
+        		PropertyChanges {target: catTitle; color: "red"}
+        		PropertyChanges {target: nakedEyeText; color: "red"}
+        		PropertyChanges {target: dsoText; color: "red"}
+        		PropertyChanges {target: catalogText; color: "red"}
+        		PropertyChanges {target: soListEmptyMessage; color: "red"}
+        		PropertyChanges {target: soItemEmptyMessage; color: "red"}
+        		PropertyChanges {target: scrollbar; color: "red"}
+        		PropertyChanges {target: prevObjText; color: "red"}
+        		PropertyChanges {target: nextObjText; color: "red"}
+        		PropertyChanges {target: detailsText; color: "red"}
+        		PropertyChanges {target: soname; color: "red"}
+        		PropertyChanges {target: posText; color: "red"}
+        		PropertyChanges {target: detailsButton; color: "red"}
+        		PropertyChanges {target: centerButton; color: "red"}
+        		PropertyChanges {target: slewTelescopeButton; color: "red"}
+        		PropertyChanges {target: goBackText; color: "red"}
+        	}
+        ]
+            
+        }
 
     states: [
         State {

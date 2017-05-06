@@ -147,6 +147,10 @@ WIView::WIView(QWidget * parent) : QWidget(parent), m_CurrentObjectListName(-1)
 
     inspectOnClick = false;
 
+    nightVision = m_BaseObj->findChild<QObject *>("nightVision");
+    if(Options::darkAppColors())
+        setNightVisionOn(true);
+
 }
 
 WIView::~WIView()
@@ -154,6 +158,15 @@ WIView::~WIView()
     delete m_ModManager;
     delete m_CurSoItem;
     delete manager;
+}
+
+void WIView::setNightVisionOn(bool on){
+    if(on)
+        nightVision->setProperty("state","active");
+    else
+        nightVision->setProperty("state","");
+    if(m_CurSoItem)
+        loadDetailsView(m_CurSoItem, m_CurIndex);
 }
 
 void WIView::setProgressBarVisible(bool visible){
@@ -582,6 +595,11 @@ void WIView::updateWikipediaDescription(SkyObjItem * soitem)
     QString html="<HTML>" + result.mid(leftPos,rightPos) + srchtml + "</HTML>";
 
       saveObjectInfoBoxText( soitem, "description", html);
+
+      QString color = (Options::darkAppColors()) ? "red" : "white";
+      QString linkColor = (Options::darkAppColors()) ? "red" : "yellow";
+      html = "<HTML><HEAD><style type=text/css>body {color:" + color + ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + html + "</BODY></HTML>";
+
       if(soitem==m_CurSoItem)
         descTextObj->setProperty("text", html);
       refreshListView();
@@ -598,7 +616,9 @@ void WIView::loadObjectDescription(SkyObjItem * soitem){
         if(file.open(QIODevice::ReadOnly))
         {
             QTextStream in(&file);
-            QString line = "<HTML><HEAD><style type=text/css>a {text-decoration: none;color: yellow}</style></HEAD><BODY>" + in.readAll() + "</BODY></HTML>";
+            QString color = (Options::darkAppColors()) ? "red" : "white";
+            QString linkColor = (Options::darkAppColors()) ? "red" : "yellow";
+            QString line = "<HTML><HEAD><style type=text/css>body {color:" + color + ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + in.readAll() + "</BODY></HTML>";
             descTextObj->setProperty("text", line);
             file.close();
         }
@@ -634,6 +654,12 @@ void WIView::loadObjectInfoBox(SkyObjItem * soitem)
                     QString imgURL=infoBoxHTML.mid(leftImg,rightImg);
                     infoBoxHTML.replace(imgURL,wikiImageName);
                 }
+                QString color = (Options::darkAppColors()) ? "red" : "white";
+                QString linkColor = (Options::darkAppColors()) ? "red" : "yellow";
+                if(Options::darkAppColors())
+                    infoBoxHTML.replace("color: white","color: " + color);
+                infoBoxHTML = "<HTML><HEAD><style type=text/css>body {color:" + color + ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + infoBoxHTML + "</BODY></HTML>";
+
                 infoBoxText->setProperty("text", infoBoxHTML);
             }
             file.close();
@@ -737,10 +763,16 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem * soitem, QString name)
         saveImageURL( soitem, imgURL);
         downloadWikipediaImage(soitem, imgURL);
 
-        QString html="<HTML><HEAD><style type=text/css>a {text-decoration: none;color: yellow}</style></HEAD><BODY><CENTER>" +  infoText + "</table></CENTER></body></HTML>";
+        QString html="<CENTER>" +  infoText + "</table></CENTER>";
+
+        saveObjectInfoBoxText( soitem, "infoText", html);
+        QString color = (Options::darkAppColors()) ? "red" : "white";
+        QString linkColor = (Options::darkAppColors()) ? "red" : "yellow";
+        if(Options::darkAppColors())
+            html.replace("color: white","color: " + color);
+        html = "<HTML><HEAD><style type=text/css>body {color:" + color + ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + html + "</BODY></HTML>";
         if(soitem==m_CurSoItem)
             infoBoxText->setProperty("text", html);
-        saveObjectInfoBoxText( soitem, "infoText", html);
     });
 }
 
