@@ -149,7 +149,7 @@ WIView::WIView(QWidget * parent) : QWidget(parent), m_CurrentObjectListName(-1)
 
     nightVision = m_BaseObj->findChild<QObject *>("nightVision");
     if(Options::darkAppColors())
-        setNightVisionOn(true);
+        nightVision->setProperty("state","active");
 
 }
 

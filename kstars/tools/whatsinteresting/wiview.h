@@ -155,9 +155,9 @@ class WIView : public QWidget
         QObject * infoBoxText, * descTextObj, * nightVision;
 
         QQuickView * m_BaseView;
-        ObsConditions * m_Obs;
+        ObsConditions * m_Obs = nullptr;
         ModelManager * m_ModManager;
-        SkyObjItem * m_CurSoItem;  ///Current sky-object item.
+        SkyObjItem * m_CurSoItem = nullptr;  ///Current sky-object item.
         int m_CurIndex;            ///Index of current sky-object item in details-view.
         QString m_CurrentObjectListName; ///Currently selected category from WI QML view
         QString getWikipediaName(SkyObjItem * soitem);
