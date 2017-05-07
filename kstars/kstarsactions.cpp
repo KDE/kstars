@@ -83,11 +83,9 @@
 #include "tools/eyepiecefield.h"
 #include "tools/adddeepskyobject.h"
 
-#ifdef HAVE_KF5WIT
 #include "tools/whatsinteresting/wiview.h"
 #include "tools/whatsinteresting/wilpsettings.h"
 #include "tools/whatsinteresting/wiequipsettings.h"
-#endif
 
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
@@ -508,7 +506,6 @@ void KStars::slotWUT()
 //#if 0
 void KStars::slotWISettings()
 {
-#ifdef HAVE_KF5WIT
     if (!m_WIView)
         slotShowWIView();
     if (m_WIView && !m_wiDock->isVisible())
@@ -531,14 +528,10 @@ void KStars::slotWISettings()
     dialog->exec();
     if(m_WIEquipmentSettings)
         m_WIEquipmentSettings->setAperture(); //Something isn't working with this!
-
-
-#endif
 }
 
 void KStars::slotShowWIView()
 {
-#ifdef HAVE_KF5WIT
     if (!m_WIView)
     {
         m_WIView = new WIView(0);
@@ -549,13 +542,14 @@ void KStars::slotShowWIView()
         m_wiDock->setWidget(container);
         m_wiDock->setMinimumWidth(400);
         addDockWidget(Qt::RightDockWidgetArea, m_wiDock);
+        connect( m_wiDock, SIGNAL( visibilityChanged(bool) ),
+            actionCollection()->action( "show_whatsinteresting" ), SLOT( setChecked(bool) ) );
         m_wiDock->setVisible(true);
     }
     else
     {
-        m_wiDock->setVisible(true);
+        m_wiDock->setVisible(!m_wiDock->isVisible());
     }
-#endif
 }
 
 void KStars::slotCalendar()

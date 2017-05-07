@@ -49,9 +49,7 @@
 #include "observinglist.h"
 #include "eyepiecefield.h"
 
-#ifdef HAVE_KF5WIT
 #include "tools/whatsinteresting/wiview.h"
-#endif
 
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
@@ -505,10 +503,8 @@ void KStars::loadColorScheme( const QString &name )
         {
             //OriginalPalette = QApplication::palette();
             QApplication::setPalette( DarkPalette );
-#ifdef HAVE_KF5WIT
             if(KStars::Instance()->wiView())
                 KStars::Instance()->wiView()->setNightVisionOn(true);
-#endif
             //Note:  This uses style sheets to set the dark colors, this is cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
             //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
             //This is also in KStars.cpp.  If you change it, change it in BOTH places.
@@ -540,10 +536,8 @@ void KStars::loadColorScheme( const QString &name )
         }
         else
         {
-#ifdef HAVE_KF5WIT
             if(KStars::Instance()->wiView())
                 KStars::Instance()->wiView()->setNightVisionOn(false);
-#endif
             //if ( Options::darkAppColors() && filename != "night.colors" ) {
             //Options::setDarkAppColors( false );
             QApplication::setPalette( OriginalPalette );

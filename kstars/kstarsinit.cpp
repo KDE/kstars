@@ -198,7 +198,7 @@ void KStars::initActions()
     actionCollection()->addAction("time_dialog", this, SLOT( slotSetTime() ) )
             << i18nc("set Clock to New Time", "&Set Time..." )
             << QKeySequence( Qt::CTRL+Qt::Key_S )
-            << QIcon::fromTheme("view-history", QIcon(":/icons/breeze/default/view-history.svg"));
+            << QIcon::fromTheme("clock", QIcon(":/icons/breeze/default/clock.svg"));
 
     ka = actionCollection()->add<KToggleAction>("clock_startstop")
          << i18n("Stop &Clock" )
@@ -583,6 +583,10 @@ void KStars::initActions()
             << i18nc("Toggle supernovae in the display", "Supernovae" )
             << QIcon::fromTheme("kstars_supernovae" , QIcon(":/icons/breeze/default/kstars_supernovae.svg"))
             << ToolTip( i18n("Toggle supernovae") );
+    actionCollection()->add<KToggleAction>("show_whatsinteresting", this, SLOT( slotShowWIView() ) )
+            << i18nc("Toggle What's Interesting", "What's Interesting" )
+            << QIcon::fromTheme("view-list-details" , QIcon(":/icons/breeze/default/view-list-details.svg"))
+            << ToolTip( i18n("Toggle What's Interesting") );
 
 #ifdef HAVE_INDI
     // ==== INDIToolBar actions ================

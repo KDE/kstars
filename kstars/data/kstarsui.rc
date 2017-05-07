@@ -173,8 +173,9 @@
         <Action name="show_cbounds" />
         <Action name="show_mw" />
         <Action name="show_equatorial_grid" />
-    <Action name="show_horizontal_grid" />
+        <Action name="show_horizontal_grid" />
         <Action name="show_horizon" />
+        <Action name="show_whatsinteresting" />
 </ToolBar>
 
 <ToolBar noMerge="1" name="INDIToolBar" iconText="icononly">
