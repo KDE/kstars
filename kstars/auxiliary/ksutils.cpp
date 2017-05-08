@@ -164,7 +164,7 @@ QString toDirectionString( dms angle )
 
     int index = (int)( (angle.reduce().Degrees() + 11.25) / 22.5); // A number between 0 and 16 (inclusive) is expected
     if( index < 0 || index > 16 )
-        index = 17; // Something went wrong.
+        index = 16; // Something went wrong.
     else
         index = ( ( index == 16 ) ? 0 : index );
 
