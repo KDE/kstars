@@ -518,8 +518,8 @@ class KStars : public KXmlGuiWindow
         /** action slot: open What's Interesting settings window */
         void slotWISettings();
 
-        /** action slot: open What's Interesting window */
-        void slotShowWIView();
+        /** action slot: toggle What's Interesting window */
+        void slotToggleWIView();
         //#endif
 
     private slots:

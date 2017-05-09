@@ -507,9 +507,9 @@ void KStars::slotWUT()
 void KStars::slotWISettings()
 {
     if (!m_WIView)
-        slotShowWIView();
+        slotToggleWIView();
     if (m_WIView && !m_wiDock->isVisible())
-        slotShowWIView();
+        slotToggleWIView();
 
     if (KConfigDialog::showDialog("wisettings"))
     {
@@ -530,7 +530,7 @@ void KStars::slotWISettings()
         m_WIEquipmentSettings->setAperture(); //Something isn't working with this!
 }
 
-void KStars::slotShowWIView()
+void KStars::slotToggleWIView()
 {
     if (!m_WIView)
     {
