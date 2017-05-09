@@ -489,7 +489,7 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
 
     sonameObj->setProperty("text", soitem->getDescName());
     posTextObj->setProperty("text", soitem->getPosition());
-    detailImage->setProperty("refreshableSource", soitem->getImageURL(false));
+    detailImage->setProperty("refreshableSource", QUrl::fromLocalFile(soitem->getImageURL(false)));
 
     loadObjectDescription(soitem);
 
