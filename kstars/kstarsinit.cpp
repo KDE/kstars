@@ -438,7 +438,7 @@ void KStars::initActions()
 
     //FIXME Port to QML2
     //#if 0
-    actionCollection()->addAction("whats_interesting", this, SLOT( slotShowWIView() ) )
+    actionCollection()->addAction("whats_interesting", this, SLOT( slotToggleWIView() ) )
             << i18n("What's Interesting...")
             << QKeySequence(Qt::CTRL+Qt::Key_W );
     //#endif
@@ -583,7 +583,7 @@ void KStars::initActions()
             << i18nc("Toggle supernovae in the display", "Supernovae" )
             << QIcon::fromTheme("kstars_supernovae" , QIcon(":/icons/breeze/default/kstars_supernovae.svg"))
             << ToolTip( i18n("Toggle supernovae") );
-    actionCollection()->add<KToggleAction>("show_whatsinteresting", this, SLOT( slotShowWIView() ) )
+    actionCollection()->add<KToggleAction>("show_whatsinteresting", this, SLOT( slotToggleWIView() ) )
             << i18nc("Toggle What's Interesting", "What's Interesting" )
             << QIcon::fromTheme("view-list-details" , QIcon(":/icons/breeze/default/view-list-details.svg"))
             << ToolTip( i18n("Toggle What's Interesting") );

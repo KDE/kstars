@@ -637,6 +637,7 @@ void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize)
 void KSPopupMenu::slotViewInWI(){
     if(!KStars::Instance()->map()->clickedObject())
         return;
-    KStars::Instance()->slotShowWIView();
+    if(!KStars::Instance()->isWIVisible())
+        KStars::Instance()->slotToggleWIView();
     KStars::Instance()->wiView()->inspectSkyObject(KStars::Instance()->map()->clickedObject());
 }

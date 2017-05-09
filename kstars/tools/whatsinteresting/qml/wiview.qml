@@ -88,7 +88,7 @@ Rectangle {
                 x: 0
                 y: 31
                 width: parent.width
-                height: 500
+                height: 600
                 
                 Rectangle {
                     id: background
