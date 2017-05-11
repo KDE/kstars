@@ -360,9 +360,11 @@ void WIView::onSettingsIconClicked()
 
 void WIView::onReloadIconClicked()
 {
-    updateModel(m_Obs);
-    if(m_CurrentObjectListName!="")
+
+    if(m_CurrentObjectListName!=""){
+        updateModel(m_Obs);
         m_CurIndex=m_ModManager->returnModel(m_CurrentObjectListName)->getSkyObjIndex(m_CurSoItem);
+    }
     loadDetailsView(m_CurSoItem, m_CurIndex);
 }
 
@@ -425,14 +427,18 @@ void WIView::refreshListView(){
 
 void WIView::updateModel(ObsConditions * obs)
 {
-    m_Obs = obs;
-    m_ModManager->updateModel(m_Obs,m_CurrentObjectListName);
+    if(m_CurrentObjectListName!=""){
+        m_Obs = obs;
+        m_ModManager->updateModel(m_Obs,m_CurrentObjectListName);
+    }
 }
 
 void WIView::inspectSkyObject(QString name){
+    if(name != "" && name != "star"){
         SkyObject *obj=KStarsData::Instance()->skyComposite()->findByName(name);
         if(obj)
             inspectSkyObject(obj);
+    }
 }
 
 void WIView::inspectSkyObjectOnClick(SkyObject *obj){
@@ -620,7 +626,7 @@ void WIView::loadObjectDescription(SkyObjItem * soitem){
             QTextStream in(&file);
             QString color = (Options::darkAppColors()) ? "red" : "white";
             QString linkColor = (Options::darkAppColors()) ? "red" : "yellow";
-            QString line = "<HTML><HEAD><style type=text/css>body {color:" + color + ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY>" + in.readAll() + "</BODY></HTML>";
+            QString line = "<HTML><HEAD><style type=text/css>body {color:" + color + ";} a {text-decoration: none;color:" + linkColor + ";}</style></HEAD><BODY><BR>" + in.readAll() + "</BODY></HTML>";
             descTextObj->setProperty("text", line);
             file.close();
         }
