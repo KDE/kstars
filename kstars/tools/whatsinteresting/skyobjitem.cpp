@@ -129,26 +129,26 @@ void SkyObjItem::setPosition(SkyObject * so)
 
 QString SkyObjItem::getImageURL(bool preferThumb) const
 {
-    QString thumbName = KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" );
-    QString fullSizeName = KSPaths::locate(QStandardPaths::GenericDataLocation, "image-" + m_So->name().toLower().remove( ' ' ) + ".png" );
-    QString wikiImageName=KSPaths::locate(QStandardPaths::GenericDataLocation, "descriptions/wikiImage-" + m_So->name().toLower().remove( ' ' ) + ".png" );
-    QString XPlanetName = KSPaths::locate(QStandardPaths::GenericDataLocation, "xplanet/" + m_So->name() + ".png" );
+    QString thumbURL = QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::GenericDataLocation, "thumb-" + m_So->name().toLower().remove( ' ' ) + ".png" )).url();
+    QString fullSizeURL = QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::GenericDataLocation, "image-" + m_So->name().toLower().remove( ' ' ) + ".png" )).url();
+    QString wikiImageURL=QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::GenericDataLocation, "descriptions/wikiImage-" + m_So->name().toLower().remove( ' ' ) + ".png" )).url();
+    QString XPlanetURL = QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::GenericDataLocation, "xplanet/" + m_So->name() + ".png" )).url();
 
     //First try to return the preferred file
-    if(thumbName!=""&&preferThumb)
-        return thumbName;
-    if(fullSizeName!=""&&(!preferThumb))
-        return fullSizeName;
+    if(thumbURL!=""&&preferThumb)
+        return thumbURL;
+    if(fullSizeURL!=""&&(!preferThumb))
+        return fullSizeURL;
 
     //If that fails, try to return the large image first, then the thumb, and then if it is a planet, the xplanet image. Finally if all else fails, the wiki image.
-    QString fname = fullSizeName ;
+    QString fname = fullSizeURL ;
     if(fname == "")
-        fname = thumbName ;
+        fname = thumbURL ;
     if(fname == "" && m_Type==Planet){
-        fname = XPlanetName;
+        fname = XPlanetURL;
     }
     if(fname == ""){
-        fname = wikiImageName;
+        fname = wikiImageURL;
     }
 
     return fname;

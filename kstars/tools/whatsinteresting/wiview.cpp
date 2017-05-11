@@ -489,7 +489,7 @@ void WIView::loadDetailsView(SkyObjItem * soitem, int index)
 
     sonameObj->setProperty("text", soitem->getDescName());
     posTextObj->setProperty("text", soitem->getPosition());
-    detailImage->setProperty("refreshableSource", QUrl::fromLocalFile(soitem->getImageURL(false)));
+    detailImage->setProperty("refreshableSource", soitem->getImageURL(false));
 
     loadObjectDescription(soitem);
 
@@ -646,7 +646,7 @@ void WIView::loadObjectInfoBox(SkyObjItem * soitem)
             while ( !in.atEnd() )
             {
                 infoBoxHTML = in.readAll();
-                QString wikiImageName=KSPaths::locate(QStandardPaths::GenericDataLocation, "descriptions/wikiImage-" + soitem->getName().toLower().remove( ' ' ) + ".png" );
+                QString wikiImageName=QUrl::fromLocalFile(KSPaths::locate(QStandardPaths::GenericDataLocation, "descriptions/wikiImage-" + soitem->getName().toLower().remove( ' ' ) + ".png" )).url();
                 if(wikiImageName!=""){
                     int captionEnd = infoBoxHTML.indexOf("</caption>"); //Start looking for the image AFTER the caption.  Planets have images in their caption.
                     if(captionEnd == -1)
