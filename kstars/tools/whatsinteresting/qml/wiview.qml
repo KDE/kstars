@@ -85,10 +85,8 @@ Rectangle {
 
             Item {
                 id: categoryView
-                x: 0
-                y: 31
                 width: parent.width
-                height: 600
+                height: parent.height - 150
                 
                 Rectangle {
                     id: background
@@ -117,7 +115,7 @@ Rectangle {
                     width: nakedEyeText.width
                     height: nakedEyeText.height
                     anchors{
-                        verticalCenterOffset: -200
+                        verticalCenterOffset: -250
                         horizontalCenterOffset: 0
                         centerIn: parent
                     }
@@ -135,7 +133,7 @@ Rectangle {
                     width: sunText.width
                     height: sunText.height
                     anchors{
-                        verticalCenterOffset: -170
+                        verticalCenterOffset: -210
                         horizontalCenterOffset: -50
                         centerIn: parent
                     }
@@ -166,7 +164,7 @@ Rectangle {
                     width: moonText.width
                     height: moonText.height
                     anchors{
-                        verticalCenterOffset: -170
+                        verticalCenterOffset: -210
                         horizontalCenterOffset: 50
                         centerIn: parent
                     }
@@ -199,7 +197,7 @@ Rectangle {
                     width: planetText.width
                     height: planetText.height
                     anchors{
-                        verticalCenterOffset: -130
+                        verticalCenterOffset: -170
                         horizontalCenterOffset: -50
                         centerIn: parent
                     }
@@ -230,7 +228,7 @@ Rectangle {
                     width: satelliteText.width
                     height: satelliteText.height
                     anchors {
-                        verticalCenterOffset: -130
+                        verticalCenterOffset: -170
                         horizontalCenterOffset: 50
                         centerIn: parent
                     }
@@ -261,7 +259,7 @@ Rectangle {
                     width: starText.width
                     height: starText.height
                     anchors{
-                        verticalCenterOffset: -90
+                        verticalCenterOffset: -130
                         horizontalCenterOffset: -50
                         centerIn: parent
                     }
@@ -292,7 +290,7 @@ Rectangle {
                     width: conText.width
                     height: conText.height
                     anchors {
-                        verticalCenterOffset: -90
+                        verticalCenterOffset: -130
                         horizontalCenterOffset: 50
                         centerIn: parent
                     }
@@ -323,7 +321,7 @@ Rectangle {
 					height: dsoText.height
 
 					anchors {
-						verticalCenterOffset: -50
+						verticalCenterOffset: -90
 						horizontalCenterOffset: 0
 						centerIn: parent
 					}
@@ -342,7 +340,7 @@ Rectangle {
                     width: asteroidText.width
                     height: asteroidText.height
                     anchors{
-                        verticalCenterOffset: -10
+                        verticalCenterOffset: -50
                         horizontalCenterOffset: -50
                         centerIn: parent
                     }
@@ -374,7 +372,7 @@ Rectangle {
                     width: cometText.width
                     height: cometText.height
                     anchors{
-                        verticalCenterOffset: -10
+                        verticalCenterOffset: -50
                         horizontalCenterOffset: 50
                         centerIn: parent
                     }
@@ -407,7 +405,7 @@ Rectangle {
 					height: galText.height
 
 					anchors {
-						verticalCenterOffset: 30
+						verticalCenterOffset: -10
 						horizontalCenterOffset: -50
 						centerIn: parent
 					}
@@ -442,7 +440,7 @@ Rectangle {
 					height: nebText.height
 
 					anchors {
-						verticalCenterOffset: 30
+						verticalCenterOffset: -10
 						horizontalCenterOffset: 50
 						centerIn: parent
 					}
@@ -474,7 +472,7 @@ Rectangle {
 					height: clustText.height
 
 					anchors {
-						verticalCenterOffset: 70
+						verticalCenterOffset: 30
 						horizontalCenterOffset: -50
 						centerIn: parent
 					}
@@ -506,7 +504,7 @@ Rectangle {
 					height: superText.height
 
 					anchors {
-						verticalCenterOffset: 70
+						verticalCenterOffset: 30
 						horizontalCenterOffset: 50
 						centerIn: parent
 					}
@@ -536,7 +534,7 @@ Rectangle {
 					width: catalogText.width
 					height: catalogText.height
 					anchors{
-						verticalCenterOffset: 110
+						verticalCenterOffset: 70
 						horizontalCenterOffset: 0
 						centerIn: parent
 					}
@@ -556,7 +554,7 @@ Rectangle {
 					height: messierText.height
 
 					anchors {
-						verticalCenterOffset: 150
+						verticalCenterOffset: 110
 						horizontalCenterOffset: 0
 						centerIn: parent
 					}
@@ -588,7 +586,7 @@ Rectangle {
                     height: ngcText.height
 
                     anchors {
-                        verticalCenterOffset: 190
+                        verticalCenterOffset: 150
                         horizontalCenterOffset: 0
 	                    centerIn: parent
 	                }
@@ -620,7 +618,7 @@ Rectangle {
                     height: icText.height
 
                     anchors {
-                        verticalCenterOffset: 230
+                        verticalCenterOffset: 190
                         horizontalCenterOffset: 0
 	                    centerIn: parent
 	                }
@@ -652,7 +650,7 @@ Rectangle {
                     height: sh2Text.height
 
                     anchors {
-                        verticalCenterOffset: 270
+                        verticalCenterOffset: 230
                         horizontalCenterOffset: 0
 	                    centerIn: parent
 	                }
@@ -759,8 +757,21 @@ Rectangle {
         							anchors.right: soListView.right
         							y: soListView.visibleArea.yPosition * soListView.height
         							width: 10
-        							height: soListView.visibleArea.heightRatio * soListView.height
+        							height: (soListView.visibleArea.heightRatio * soListView.height > 10) ? soListView.visibleArea.heightRatio * soListView.height : 10
         							color: "blue"
+        							MouseArea {
+												id: dragScrollBar
+												drag.target: scrollbar
+												drag.axis: Drag.YAxis
+												drag.minimumY: 0
+												drag.maximumY: soListView.height - scrollbar.height
+												anchors.fill: parent
+												enabled: true
+												onPositionChanged: {
+													soListView.contentY = scrollbar.y / soListView.height * soListView.contentHeight
+												}
+												
+									}//Mousearea
     							}
 
 								delegate: Item {
@@ -774,17 +785,17 @@ Rectangle {
 										color: (mouseListArea.containsMouse||mouseImgArea.containsMouse) ? "#030723" : "transparent"
 										width: parent.width
 										height: parent.height
+										MouseArea {
+											id: mouseListArea
+											anchors.fill: parent
+											hoverEnabled: true
+											onClicked: {
+												soListView.currentIndex = index
+												soListView.soListItemClicked(soListView.currentIndex)
+												skyObjView.flipped = true
+											}
+										}//Mousearea
 										Text {
-											MouseArea {
-												id: mouseListArea
-												anchors.fill: parent
-												hoverEnabled: true
-												onClicked: {
-													soListView.currentIndex = index
-													soListView.soListItemClicked(soListView.currentIndex)
-													skyObjView.flipped = true
-												}
-											}//Mousearea
 											id: dispSummary
 											objectName: dispObjSummary
 											text: dispObjSummary
@@ -1013,6 +1024,7 @@ Rectangle {
                         	y: 170
                         	width: parent.width
                         	height: parent.height - 170 - 50
+                        	frameVisible: false
                         	
                         	property Component nightTabs: TabViewStyle {
                         		tabsAlignment: Qt.AlignHCenter
@@ -1029,7 +1041,6 @@ Rectangle {
                 						color: styleData.selected ? "white" : "black"
             						}
 								}
-								frame: Rectangle { color: "black" }
 							}
                         	
 							Tab {
@@ -1059,11 +1070,13 @@ Rectangle {
 										height: parent.height - 10
 										anchors{
 											top: parent.top
-											topMargin: 10
+											topMargin: 20
 											bottom: parent.bottom
 											bottomMargin: 4
 											left: parent.left
+											leftMargin: 10
 											right: parent.right
+											rightMargin: 10
 										}
 										contentWidth:  parent.width
 										contentHeight: col.height + 4
@@ -1075,7 +1088,7 @@ Rectangle {
 												width: parent.width
 												Image { 
 													id: detailImg 
-													width:parent.width
+													width: parent.width - 20
 													anchors{
 														right: parent.right
 													}
@@ -1091,7 +1104,7 @@ Rectangle {
 													text: xi18n("text")
 													clip: true
 													wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-													width: parent.width
+													width: parent.width - 20
 													textFormat: Text.RichText
 													font{
 														family: "Cantarell"
@@ -1127,6 +1140,7 @@ Rectangle {
 											PropertyChanges{target:descTextBox2; width: detailsView.width / 2}
 											PropertyChanges{target:descTextBox2; anchors{
 													top: detailsView.top
+													topMargin: 4
 													bottom: posText.top
 													left: tabbedView.right
 													right: detailsView.right
@@ -1151,6 +1165,7 @@ Rectangle {
 											PropertyChanges{target:descTextBox2; width: detailsView.width / 3}
 											PropertyChanges{target:descTextBox2; anchors{
 													top: detailsView.top
+													topMargin: 4
 													bottom: posText.top
 													left: tabbedView.right
 													right: detailsView.right

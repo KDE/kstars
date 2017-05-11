@@ -1869,7 +1869,7 @@ bool EkosManager::isRunning(const QString &process)
 #endif
     ps.waitForFinished();
     QString output = ps.readAllStandardOutput();
-    return output.startsWith(process);
+    return output.contains(process);
 }
 
 void EkosManager::addObjectToScheduler(SkyObject * object)
