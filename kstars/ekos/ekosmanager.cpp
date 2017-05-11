@@ -1862,7 +1862,11 @@ void EkosManager::removeTabs()
 bool EkosManager::isRunning(const QString &process)
 {
     QProcess ps;
+#ifdef Q_OS_OSX
+    ps.start("ps", QStringList() << "-o" << "comm");
+#else
     ps.start("ps", QStringList() << "-o" << "comm" << "--no-headers" << "-C" << process);
+#endif
     ps.waitForFinished();
     QString output = ps.readAllStandardOutput();
     return output.startsWith(process);
