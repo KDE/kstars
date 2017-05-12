@@ -307,6 +307,9 @@ int FITSData::saveFITS( const QString &newFilename )
 
         finalFileName.remove("!");
 
+        // Remove first otherwise copy will fail below if file exists
+        QFile::remove(finalFileName);
+
         if (QFile::copy(filename, finalFileName) == false)
         {
             qCritical() << "FITS: Failed to copy " << filename << " to " << finalFileName;
