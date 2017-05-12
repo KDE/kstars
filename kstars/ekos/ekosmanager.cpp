@@ -1150,8 +1150,15 @@ void EkosManager::removeDevice(ISD::GDInterface * devInterface)
     {
         case KSTARS_CCD:
             removeTabs();
-
             break;
+
+        case KSTARS_TELESCOPE:
+            if (mountProcess)
+            {
+                delete (mountProcess);
+                mountProcess=NULL;
+            }
+        break;
 
         case KSTARS_FOCUSER:
             break;
@@ -1162,6 +1169,19 @@ void EkosManager::removeDevice(ISD::GDInterface * devInterface)
 
     appendLogText(i18n("%1 is offline.", devInterface->getDeviceName()));
 
+    // #1 Remove from Generic Devices
+    // Generic devices are ALL the devices we receive from INDI server
+    // Whether Ekos cares about them (i.e. selected equipment) or extra devices we
+    // do not care about
+    foreach(ISD::GDInterface * genericDevice, genericDevices)
+        if (!strcmp(genericDevice->getDeviceName(), devInterface->getDeviceName()))
+        {
+            genericDevices.removeOne(genericDevice);
+            break;
+        }
+
+    // #2 Remove from Ekos Managed Device
+    // Managed devices are devices selected by the user in the device profile
     foreach(ISD::GDInterface * device, managedDevices.values())
     {
         if (device == devInterface)
