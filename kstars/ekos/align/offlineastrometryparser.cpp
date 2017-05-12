@@ -75,6 +75,36 @@ bool OfflineAstrometryParser::init()
     }
 
     astrometryFilesOK = true;
+
+   QProcess solveField;
+#ifdef Q_OS_OSX
+    // Please check if this works!
+    solveField.start("bash", QStringList() << "-c" << "solve-field | grep Revision");
+#else
+    solveField.start("bash", QStringList() << "-c" << "solve-field | grep Revision");
+#endif
+    solveField.waitForFinished();
+    QString output = solveField.readAllStandardOutput();
+    qDebug() << output;
+
+    if (output.isEmpty() == false)
+    {
+        QString version = output.mid(9, 4);
+
+        align->appendLogText(i18n("Detected Astrometry.net version %1", version));
+
+        if (version <= "0.67" && Options::astrometryUseNoFITS2FITS() == false)
+        {
+            Options::setAstrometryUseNoFITS2FITS(true);
+            align->appendLogText(i18n("Setting astrometry option --no-fits2fits"));
+        }
+        else if (version > "0.67" && Options::astrometryUseNoFITS2FITS())
+        {
+            Options::setAstrometryUseNoFITS2FITS(false);
+            align->appendLogText(i18n("Turning off option --no-fits2fits"));
+        }
+    }
+
     return true;
 }
 
