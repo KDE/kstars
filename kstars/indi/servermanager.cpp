@@ -90,6 +90,9 @@ bool ServerManager::start()
         QString gphoto_camlibs=QCoreApplication::applicationDirPath() + "/../PlugIns/libgphoto2";
         if(QFileInfo(gphoto_camlibs).exists()&&Options::indiDriversAreInternal())
             env.insert("CAMLIBS", QDir(gphoto_camlibs).absolutePath());
+        QString qhyFirmwarePath=QCoreApplication::applicationDirPath() + "/../PlugIns/qhy";
+        if(QFileInfo(qhyFirmwarePath).exists()&&Options::indiDriversAreInternal())
+            env.insert("QHY_FIRMWARE_DIR", QDir(qhyFirmwarePath).absolutePath());
         serverProcess->setProcessEnvironment(env);
 #endif
     }
