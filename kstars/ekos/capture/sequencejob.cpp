@@ -111,7 +111,11 @@ void SequenceJob::prepareCapture()
     activeCCD->setUploadMode(uploadMode);
 
     if (activeChip->isBatchMode())
-        activeCCD->updateUploadSettings(remoteDir);
+    {
+        QString finalRemoteDir = fitsDir;
+        finalRemoteDir.replace(rootFITSDir, remoteDir).replace("//", "/");
+        activeCCD->updateUploadSettings(finalRemoteDir);
+    }
 
     if (isoIndex != -1)
     {
