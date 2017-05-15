@@ -991,6 +991,12 @@ void ScriptBuilder::slotRunScript()
 #endif
 
     QProcess p;
+#ifdef Q_OS_OSX
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    QString path=env.value("PATH","");
+    env.insert("PATH","/usr/local/bin:" + QCoreApplication::applicationDirPath() + ":" + path);
+    p.setProcessEnvironment(env);
+#endif
     p.start(f.fileName());
 
     if( !p.waitForStarted() )
