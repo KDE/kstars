@@ -1151,12 +1151,20 @@ void FITSView::toggleEQGrid()
     if(image_frame)
         updateFrame();
 }
+
 void FITSView::toggleObjects()
 {
     showObjects=!showObjects;
     if(image_frame)
         updateFrame();
 
+}
+
+void FITSView::toggleStars()
+{
+    toggleStars(!markStars);
+    if(image_frame)
+        updateFrame();
 }
 
 void FITSView::togglePixelGrid()
@@ -1442,6 +1450,9 @@ void FITSView::createFloatingToolBar()
         action = floatingToolBar->addAction(QIcon::fromTheme("kstars_grid", QIcon(":/icons/breeze/default/kstars_grid.svg")), i18n("Show Equatorial Gridlines"), this, SLOT(toggleEQGrid()));
         action->setCheckable(true);
 
+        action = floatingToolBar->addAction(QIcon::fromTheme("kstars_stars", QIcon(":/icons/breeze/default/kstars_stars.svg")), i18n("Detect Stars in Image"), this, SLOT(toggleStars()));
+        action->setCheckable(true);
+
         action = floatingToolBar->addAction(QIcon::fromTheme("help-hint", QIcon(":/icons/breeze/default/help-hint.svg")), i18n("Show Objects in Image"), this, SLOT(toggleObjects()));
         action->setCheckable(true);
 
@@ -1521,4 +1532,20 @@ bool FITSView::isTelescopeActive()
 #else
     return false;
 #endif
+}
+
+void FITSView::setStarsEnabled(bool enable)
+{
+    markStars  = enable;
+    if (floatingToolBar)
+    {
+        foreach(QAction *action, floatingToolBar->actions())
+        {
+            if (action->text() == i18n("Detect Stars in Image"))
+            {
+                action->setChecked(markStars);
+                break;
+            }
+        }
+    }
 }

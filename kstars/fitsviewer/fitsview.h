@@ -140,10 +140,7 @@ class FITSView : public QScrollArea
         // Star Detection
         int findStars(StarAlgorithm algorithm = ALGORITHM_CENTROID);
         void toggleStars(bool enable);
-        void setStarsEnabled(bool enable)
-        {
-            markStars  = enable;
-        }
+        void setStarsEnabled(bool enable);
 
         // FITS Mode
         void updateMode(FITSMode mode);
@@ -195,6 +192,9 @@ protected:
         void togglePixelGrid();
         void toggleCrosshair();
 
+        // Stars
+        void toggleStars();
+
         void centerTelescope();
 
         void processPointSelection(int x, int y);
@@ -235,11 +235,11 @@ protected:
         double maxPixel, minPixel;
 
         bool firstLoad;
-        bool markStars;
+        bool markStars=false;
         bool showCrosshair=false;
         bool showObjects=false;
         bool showEQGrid=false;
-        bool showPixelGrid=false;
+        bool showPixelGrid=false;        
         bool starsSearched=false;
 
         QPointF getPointForGridLabel();
