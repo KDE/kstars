@@ -85,12 +85,20 @@ class Mount : public QWidget, public Ui::Mount
          * @param DEC Declination in degrees.
          * @return true if the command is sent successfully, false otherwise.
          */
-        Q_SCRIPTABLE bool slew(double RA, double DEC);
+        Q_INVOKABLE  Q_SCRIPTABLE bool slew(double RA, double DEC);
+
+        /** DBUS interface function.
+         * Sync the mount to the RA/DEC (JNow).
+         * @param RA Right ascention is hours.
+         * @param DEC Declination in degrees.
+         * @return true if the command is sent successfully, false otherwise.
+         */
+        Q_INVOKABLE  Q_SCRIPTABLE bool sync(double RA, double DEC);
 
         /** DBUS interface function.
          * Get equatorial coords (JNow). An array of doubles is returned. First element is RA in hours. Second elements is DEC in degrees.
          */
-        Q_SCRIPTABLE QList<double> getEquatorialCoords();
+        Q_INVOKABLE  Q_SCRIPTABLE QList<double> getEquatorialCoords();
 
         /** DBUS interface function.
          * Get Horizontal coords. An array of doubles is returned. First element is Azimuth in degrees. Second elements is Altitude in degrees.
@@ -106,18 +114,18 @@ class Mount : public QWidget, public Ui::Mount
          * Aborts the mount motion
          * @return true if the command is sent successfully, false otherwise.
          */
-        Q_SCRIPTABLE bool abort();
+        Q_INVOKABLE Q_SCRIPTABLE bool abort();
 
         /** DBUS interface function.
          * Get the mount slew status ("Idle","Complete", "Busy", "Error")
          */
-        Q_SCRIPTABLE IPState getSlewStatus();
+        Q_INVOKABLE  Q_SCRIPTABLE IPState getSlewStatus();
 
         /** DBUS interface function.
          * Get telescope and guide scope info. An array of doubles is returned in order.
          * Primary Telescope Focal Length (mm), Primary Telescope Aperture (mm), Guide Telescope Focal Length (mm), Guide Telescope Aperture (mm)
          */
-        Q_SCRIPTABLE QList<double> getTelescopeInfo();
+        Q_INVOKABLE  Q_SCRIPTABLE QList<double> getTelescopeInfo();
 
         /** DBUS interface function.
          * Set telescope and guide scope info. All measurements is in millimeters.
@@ -131,22 +139,24 @@ class Mount : public QWidget, public Ui::Mount
         /** DBUS interface function.
          * Can mount park?
          */
-        Q_SCRIPTABLE bool canPark();
+        Q_INVOKABLE Q_SCRIPTABLE bool canPark();
 
         /** DBUS interface function.
          * Park mount
          */
-        Q_SCRIPTABLE bool park();
+        Q_INVOKABLE Q_SCRIPTABLE bool park();
 
         /** DBUS interface function.
          * Unpark mount
          */
-        Q_SCRIPTABLE bool unpark();
+        Q_INVOKABLE Q_SCRIPTABLE bool unpark();
 
         /** DBUS interface function.
          * Return parking status of the mount.
          */
-        Q_SCRIPTABLE ParkingStatus getParkingStatus();
+        Q_INVOKABLE  Q_SCRIPTABLE ParkingStatus getParkingStatus();
+
+        Q_INVOKABLE bool setSlewRate(int index);
 
         /** @}*/
 
@@ -184,6 +194,14 @@ class Mount : public QWidget, public Ui::Mount
          * @brief move Issues command to the mount to move in a particular direction based on the pressed direcitonal buttons in the GUI
          */
         void move();
+
+        /**
+         * @brief move Issues motion command to the mount to move in a particular direction based the request NS and WE values
+         * @param command Either ISD::Telescope::MOTION_START (0) or ISD::Telescope::MOTION_STOP (1)
+         * @param NS is either -1 for no direction, or ISD::Telescope::MOTION_NORTH (0), or ISD::Telescope::MOTION_SOUTH (1)
+         * @param WE is either -1 for no direction, or ISD::Telescope::MOTION_WEST (0), or ISD::Telescope::MOTION_EAST (1)
+         */
+        void motionCommand(int command, int NS, int WE);
 
         /**
          * @brief stop Aborts telescope motion
@@ -240,6 +258,9 @@ class Mount : public QWidget, public Ui::Mount
         QQuickView * m_BaseView=nullptr;
         QQuickItem * m_BaseObj=nullptr;
         QQmlContext * m_Ctxt=nullptr;
+
+        QQuickItem * m_SpeedSlider=nullptr, *m_SpeedLabel=nullptr, *m_raValue=nullptr, *m_deValue=nullptr,
+                    *m_azValue=nullptr, *m_altValue=nullptr, *m_haValue=nullptr, *m_zaValue=nullptr;
 
 };
 

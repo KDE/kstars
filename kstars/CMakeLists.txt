@@ -1036,5 +1036,7 @@ if(NOT BUILD_KSTARS_LITE)
     install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
     if(INDI_FOUND)
     install(FILES ekos/mount/mountbox.qml DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml)
+    install(DIRECTORY ekos/mount/ DESTINATION ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml
+            FILES_MATCHING PATTERN "*.png")
     endif()
 endif(NOT BUILD_KSTARS_LITE)
