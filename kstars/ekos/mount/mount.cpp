@@ -83,6 +83,8 @@ Mount::Mount()
     connect(stopB, SIGNAL(clicked()), this, SLOT(stop()));
     connect(saveB, SIGNAL(clicked()), this, SLOT(save()));
 
+    connect(slewSpeedCombo, SIGNAL(activated(int)), this, SLOT(setSlewRate(int)));
+
     connect(minAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
     connect(maxAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
 
@@ -105,9 +107,21 @@ Mount::Mount()
 
     // QML Stuff
     m_BaseView = new QQuickView();
-    QString MountBox_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "ekos/mount/qml/mountbox.qml");
+    QString MountBox_Location;
+    #if defined(Q_OS_OSX)
+        MountBox_Location = QCoreApplication::applicationDirPath()+"/../Resources/data/ekos/mount/qml/mountbox.qml";
+        if(!QFileInfo(MountBox_Location).exists())
+            MountBox_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "ekos/mount/qml/mountbox.qml");
+    #elif defined(Q_OS_WIN)
+           MountBox_Location = KSPaths::locate(QStandardPaths::GenericDataLocation, "ekos/mount/qml/mountbox.qml");
+    #else
+        MountBox_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "ekos/mount/qml/mountbox.qml");
+    #endif
+
     m_BaseView->setSource(QUrl::fromLocalFile(MountBox_Location));
-    m_BaseView->setTitle(i18n("Mount Tool Box"));
+    m_BaseView->setTitle(i18n("Mount Control"));
+
+    // Theming?
     m_BaseView->setColor(Qt::black);
 
     m_BaseObj = m_BaseView->rootObject();
@@ -116,7 +130,20 @@ Mount::Mount()
     ///Use instead of KDeclarative
     m_Ctxt->setContextObject(new KLocalizedContext(m_BaseView));
 
-    m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
+    m_Ctxt->setContextProperty("mount", this);
+
+    m_BaseView->setMaximumSize(QSize(200, 480));
+    m_BaseView->setMinimumSize(QSize(200, 480));
+
+    m_SpeedSlider = m_BaseObj->findChild<QQuickItem *>("speedSliderObject");
+    m_SpeedLabel = m_BaseObj->findChild<QQuickItem *>("speedLabelObject");
+    m_raValue = m_BaseObj->findChild<QQuickItem *>("raValueObject");
+    m_deValue = m_BaseObj->findChild<QQuickItem *>("deValueObject");
+    m_azValue = m_BaseObj->findChild<QQuickItem *>("azValueObject");
+    m_altValue = m_BaseObj->findChild<QQuickItem *>("altValueObject");
+    m_haValue = m_BaseObj->findChild<QQuickItem *>("haValueObject");
+    m_zaValue = m_BaseObj->findChild<QQuickItem *>("zaValueObject");
+
 }
 
 Mount::~Mount()
@@ -189,13 +216,22 @@ void Mount::syncTelescopeInfo()
             slewSpeedCombo->addItem(i18nc(libindi_strings_context, svp->sp[i].label));
 
         int index = IUFindOnSwitchIndex(svp);
-        slewSpeedCombo->setCurrentIndex(index);
-        connect(slewSpeedCombo, SIGNAL(activated(int)), currentTelescope, SLOT(setSlewRate(int)), Qt::UniqueConnection);
+        slewSpeedCombo->setCurrentIndex(index);        
+
+        // QtQuick
+        m_SpeedSlider->setEnabled(true);
+        m_SpeedSlider->setProperty("to", svp->nsp-1);
+        m_SpeedSlider->setProperty("value", index);
+
+        m_SpeedLabel->setProperty("text", slewSpeedCombo->currentText());
+        m_SpeedLabel->setEnabled(true);
     }
     else
     {
         slewSpeedCombo->setEnabled(false);
-        disconnect(slewSpeedCombo, SIGNAL(activated(int)), currentTelescope, SLOT(setSlewRate(int)));
+        // QtQuick
+        m_SpeedSlider->setEnabled(false);
+        m_SpeedLabel->setEnabled(false);
     }
 
     if (currentTelescope->canPark())
@@ -226,9 +262,14 @@ void Mount::updateTelescopeCoords()
         telescopeCoord.EquatorialToHorizontal(KStarsData::Instance()->lst(), KStarsData::Instance()->geo()->lat());
 
         raOUT->setText(telescopeCoord.ra().toHMSString());
+        m_raValue->setProperty("text", telescopeCoord.ra().toHMSString());
         decOUT->setText(telescopeCoord.dec().toDMSString());
+        m_deValue->setProperty("text", telescopeCoord.dec().toDMSString());
+
         azOUT->setText(telescopeCoord.az().toDMSString());
+        m_azValue->setProperty("text", telescopeCoord.az().toDMSString());
         altOUT->setText(telescopeCoord.alt().toDMSString());
+        m_altValue->setProperty("text", telescopeCoord.alt().toDMSString());
 
         dms lst = KStarsData::Instance()->geo()->GSTtoLST( KStarsData::Instance()->clock()->utc().gst() );
         dms ha( lst.Degrees() - telescopeCoord.ra().Degrees() );
@@ -239,9 +280,13 @@ void Mount::updateTelescopeCoords()
             sgn = '-';
         }
         haOUT->setText( QString("%1%2").arg(sgn).arg( ha.toHMSString() ) );
+
+        m_haValue->setProperty("text", haOUT->text());
         lstOUT->setText(lst.toHMSString());
 
         double currentAlt = telescopeCoord.altRefracted().Degrees();
+
+        m_zaValue->setProperty("text", dms(90-currentAlt).toDMSString());
 
         if (minAltLimit->isEnabled()
                 && ( currentAlt < minAltLimit->value() || currentAlt > maxAltLimit->value()))
@@ -327,12 +372,27 @@ void Mount::updateNumber(INumberVectorProperty * nvp)
     }
 }
 
+bool Mount::setSlewRate(int index)
+{
+    if (currentTelescope && slewSpeedCombo->isEnabled())
+        return currentTelescope->setSlewRate(index);
+
+     return false;
+}
+
 void Mount::updateSwitch(ISwitchVectorProperty * svp)
 {
     if (!strcmp(svp->name, "TELESCOPE_SLEW_RATE"))
     {
         int index = IUFindOnSwitchIndex(svp);
+
+        slewSpeedCombo->blockSignals(true);
         slewSpeedCombo->setCurrentIndex(index);
+        slewSpeedCombo->blockSignals(false);
+
+        m_SpeedSlider->setProperty("value", index);
+        m_SpeedLabel->setProperty("text", slewSpeedCombo->currentText());
+
     }
     /*else if (!strcmp(svp->name, "TELESCOPE_PARK"))
     {
@@ -370,6 +430,19 @@ void Mount::clearLog()
 {
     logText.clear();
     emit newLog();
+}
+
+void Mount::motionCommand(int command, int NS, int WE)
+{
+    if (NS != -1)
+    {
+        currentTelescope->MoveNS(static_cast<ISD::Telescope::TelescopeMotionNS>(NS), static_cast<ISD::Telescope::TelescopeMotionCommand>(command));
+    }
+
+    if (WE != -1)
+    {
+        currentTelescope->MoveWE(static_cast<ISD::Telescope::TelescopeMotionWE>(WE), static_cast<ISD::Telescope::TelescopeMotionCommand>(command));
+    }
 }
 
 void Mount::move()
@@ -577,6 +650,14 @@ bool Mount::slew(double RA, double DEC)
         return false;
 
     return currentTelescope->Slew(RA, DEC);
+}
+
+bool Mount::sync(double RA, double DEC)
+{
+    if (currentTelescope == NULL || currentTelescope->isConnected() == false)
+        return false;
+
+    return currentTelescope->Sync(RA, DEC);
 }
 
 bool Mount::abort()
