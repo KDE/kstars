@@ -139,7 +139,7 @@ if (INDI_FOUND)
                     # Focus
                     ekos/focus/focus.ui
                     # Mount
-                    ekos/mount/mount.ui
+                    ekos/mount/mount.ui                    
                     # Guide
                     ekos/guide/guide.ui
                     ekos/guide/opscalibration.ui
@@ -1034,4 +1034,7 @@ if(NOT BUILD_KSTARS_LITE)
     install(PROGRAMS org.kde.kstars.desktop DESTINATION ${KDE_INSTALL_APPDIR})
     install(FILES kstars.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
     install(FILES kstars.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+    if(INDI_FOUND)
+    install(FILES ekos/mount/mountbox.qml DESTINATION  ${KDE_INSTALL_DATADIR}/kstars/ekos/mount/qml)
+    endif()
 endif(NOT BUILD_KSTARS_LITE)

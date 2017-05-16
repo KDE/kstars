@@ -10,12 +10,16 @@
 #ifndef MOUNT_H
 #define MOUNT_H
 
+#include <QQmlContext>
 #include <QtDBus/QtDBus>
 #include "ui_mount.h"
 
 #include "indi/indistd.h"
 #include "indi/indifocuser.h"
 #include "indi/inditelescope.h"
+
+class QQuickView;
+class QQuickItem;
 
 namespace Ekos
 {
@@ -212,6 +216,9 @@ class Mount : public QWidget, public Ui::Mount
          */
         void disableAltLimits();
 
+    protected slots:
+        void showMountToolBox();
+
     signals:
         void newLog();
         void newCoords(const QString &ra, const QString &dec, const QString &az, const QString &alt);
@@ -229,6 +236,10 @@ class Mount : public QWidget, public Ui::Mount
         int abortDispatch;
         bool altLimitEnabled;
         ISD::Telescope::TelescopeStatus lastStatus = ISD::Telescope::MOUNT_IDLE;
+
+        QQuickView * m_BaseView=nullptr;
+        QQuickItem * m_BaseObj=nullptr;
+        QQmlContext * m_Ctxt=nullptr;
 
 };
 
