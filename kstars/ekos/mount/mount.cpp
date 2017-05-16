@@ -7,7 +7,12 @@
     version 2 of the License, or (at your option) any later version.
  */
 
+#include <QtQuick/QQuickView>
+#include <QtQuick/QQuickItem>
+
 #include <KNotifications/KNotification>
+#include <KLocalizedContext>
+
 #include "mount.h"
 #include "Options.h"
 
@@ -21,6 +26,7 @@
 #include "ekos/ekosmanager.h"
 
 #include "kstars.h"
+#include "kspaths.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 
@@ -80,6 +86,8 @@ Mount::Mount()
     connect(minAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
     connect(maxAltLimit, SIGNAL(editingFinished()), this, SLOT(saveLimits()));
 
+    connect(mountToolBoxB, SIGNAL(clicked()), this, SLOT(showMountToolBox()));
+
     connect(clearAlignmentModelB, &QPushButton::clicked, this, [this]()
     {
         if (currentTelescope->clearAlignmentModel())
@@ -94,6 +102,21 @@ Mount::Mount()
 
     updateTimer.setInterval(UPDATE_DELAY);
     connect(&updateTimer, SIGNAL(timeout()), this, SLOT(updateTelescopeCoords()));
+
+    // QML Stuff
+    m_BaseView = new QQuickView();
+    QString MountBox_Location = KSPaths::locate(QStandardPaths::AppDataLocation, "ekos/mount/qml/mountbox.qml");
+    m_BaseView->setSource(QUrl::fromLocalFile(MountBox_Location));
+    m_BaseView->setTitle(i18n("Mount Tool Box"));
+    m_BaseView->setColor(Qt::black);
+
+    m_BaseObj = m_BaseView->rootObject();
+
+    m_Ctxt = m_BaseView->rootContext();
+    ///Use instead of KDeclarative
+    m_Ctxt->setContextObject(new KLocalizedContext(m_BaseView));
+
+    m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
 }
 
 Mount::~Mount()
@@ -680,6 +703,11 @@ Mount::ParkingStatus Mount::getParkingStatus()
     }
 
     return PARKING_ERROR;
+}
+
+void Mount::showMountToolBox()
+{
+    m_BaseView->show();
 }
 
 }
