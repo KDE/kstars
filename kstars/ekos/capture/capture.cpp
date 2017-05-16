@@ -1609,7 +1609,7 @@ void Capture::addJob(bool preview)
 
     if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_CLIENT && remoteDirIN->text().isEmpty())
     {
-        KMessageBox::error(this, i18n("You must set remote remote directory for Local & Both modes."));
+        KMessageBox::error(this, i18n("You must set remote directory for Local & Both modes."));
         return;
     }
 
