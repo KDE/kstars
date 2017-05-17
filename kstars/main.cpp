@@ -55,7 +55,6 @@ static const char description[] =
 static const char notice[] =
     I18N_NOOP("Some images in KStars are for non-commercial use only.  See README.images.");
 
-
 int main(int argc, char * argv[])
 {
 #ifdef KSTARS_LITE
@@ -82,7 +81,7 @@ int main(int argc, char * argv[])
     KCrash::initialize();
 
     KAboutData aboutData( "kstars", i18n("KStars"), KSTARS_VERSION, i18n(description), KAboutLicense::GPL,
-                          "2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team"), i18n(notice), "http://edu.kde.org/kstars");
+                          "2001-" + QString::number(QDate::currentDate().year()) + i18n("(c), The KStars Team"), i18nc("Build number followed by copyright notice", "Build: %1\n\n%2", KSTARS_BUILD_TS, notice), "http://edu.kde.org/kstars");
     aboutData.addAuthor(i18n("Jason Harris"), i18n("Original Author"), "jharris@30doradus.org", "http://www.30doradus.org");
     aboutData.addAuthor(i18n("Jasem Mutlaq"), i18n("Current Maintainer"), "mutlaqja@ikarustech.com", "http://www.indilib.org");
 
