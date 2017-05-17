@@ -464,8 +464,18 @@ void Capture::stop(bool abort)
             emit newStatus(Ekos::CAPTURE_ABORTED);
         }
 
-        activeJob->disconnect(this);
-        activeJob->reset();
+        if (activeJob->isPreview() == false)
+        {
+            activeJob->disconnect(this);
+            activeJob->reset();
+        }
+        else // Delete preview job
+        {
+            jobs.removeOne(activeJob);
+            delete (activeJob);
+            activeJob = nullptr;
+        }
+
     }
 
     state = CAPTURE_IDLE;
