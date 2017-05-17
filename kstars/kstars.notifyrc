@@ -1006,3 +1006,11 @@ Name[pt]=Inversão do Meridiano sem Sucesso
 Name[sv]=Medianvändning misslyckades
 Name[uk]=Помилка переходу за меридіаном
 Name[x-test]=xxMeridian Flip Failedxx
+Action=None
+[Event/MotionStarted]
+Name=Motion Started
+Comment=Mount manual motion started
+Action=None
+[Event/MotionCompleted]
+Name=Motion Completed
+Comment=Mount manual motion completed

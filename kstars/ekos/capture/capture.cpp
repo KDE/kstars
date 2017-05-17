@@ -464,8 +464,18 @@ void Capture::stop(bool abort)
             emit newStatus(Ekos::CAPTURE_ABORTED);
         }
 
-        activeJob->disconnect(this);
-        activeJob->reset();
+        if (activeJob->isPreview() == false)
+        {
+            activeJob->disconnect(this);
+            activeJob->reset();
+        }
+        else // Delete preview job
+        {
+            jobs.removeOne(activeJob);
+            delete (activeJob);
+            activeJob = nullptr;
+        }
+
     }
 
     state = CAPTURE_IDLE;
@@ -1609,7 +1619,7 @@ void Capture::addJob(bool preview)
 
     if (uploadModeCombo->currentIndex() != ISD::CCD::UPLOAD_CLIENT && remoteDirIN->text().isEmpty())
     {
-        KMessageBox::error(this, i18n("You must set remote remote directory for Local & Both modes."));
+        KMessageBox::error(this, i18n("You must set remote directory for Local & Both modes."));
         return;
     }
 
@@ -4257,6 +4267,7 @@ void Capture::setMountStatus(ISD::Telescope::TelescopeStatus newState)
     {
         case ISD::Telescope::MOUNT_PARKING:
         case ISD::Telescope::MOUNT_SLEWING:
+        case ISD::Telescope::MOUNT_MOVING:
             previewB->setEnabled(false);
             liveVideoB->setEnabled(false);
             // Only disable when button is "Start", and not "Stopped"

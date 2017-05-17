@@ -1,0 +1,652 @@
+import QtQuick 2.5
+import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.1
+import QtQuick.Controls.Styles 1.4
+
+Rectangle {
+    id: rectangle
+    width: 200
+    height: 480
+    color: "#000000"
+
+    property color buttonColor: "silver"
+    property color coordsColor: "gold"
+
+    ColumnLayout {
+        id: mainVerticalLayout
+        anchors.fill: parent
+
+
+        GridLayout {
+            id: mountMotionLayout
+            width: 200
+            height: 150
+            rowSpacing: 1
+            columnSpacing: 1
+            Layout.minimumHeight: 150
+            Layout.minimumWidth: 200
+            Layout.maximumHeight: 150
+            Layout.maximumWidth: 200
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.fillWidth: true
+            rows: 3
+            columns: 3
+
+
+            Button
+            {
+                id: northWest
+                width: 52
+                height: 54
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: northWest.pressed ? "red" : rectangle.buttonColor
+                }
+
+                onPressedChanged:
+                {
+                    northWest.pressed ? mount.motionCommand(0, 0, 0) : mount.motionCommand(1, 0, 0);
+                }
+
+                Image {
+                    width: 50
+                    anchors.fill: parent
+                    source: "go-northwest.png"
+                }
+            }
+
+            Button {
+                id: north
+                width: 52
+                height: 54
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: north.pressed ? "red" : rectangle.buttonColor
+                }
+
+                onPressedChanged:
+                {
+                    north.pressed ? mount.motionCommand(0, 0, -1) : mount.motionCommand(1, 0, -1);
+                }
+
+                Image {
+                    width: 50
+                    anchors.fill: parent
+                    source: "go-north.png"
+                }
+            }
+
+            Button {
+                id: northEast
+                width: 52
+                height: 54
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: northEast.pressed ? "red" : rectangle.buttonColor
+                }
+
+                onPressedChanged:
+                {
+                    northEast.pressed ? mount.motionCommand(0, 0, 1) : mount.motionCommand(1, 0, 1);
+                }
+
+
+                Image {
+                    width: 50
+                    anchors.fill: parent
+                    source: "go-northeast.png"
+                }
+            }
+
+
+
+
+
+            Button {
+                id: west
+                width: 52
+                height: 54
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: west.pressed ? "red" : rectangle.buttonColor
+                }
+
+                onPressedChanged:
+                {
+                    west.pressed ? mount.motionCommand(0, -1, 0) : mount.motionCommand(1, -1, 0);
+                }
+
+
+                Image {
+                    width: 50
+                    anchors.fill: parent
+                    source: "go-west.png"
+                }
+            }
+
+            Button {
+                id: stop
+                width: 52
+                height: 54
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: stop.pressed ? "red" : rectangle.buttonColor
+                }
+
+                Image {
+                    width: 50
+                    anchors.fill: parent
+                    source: "stop.png"
+                }
+
+                onClicked:
+                {
+                    mount.abort();
+                }
+
+
+            }
+
+            Button {
+                id: east
+                width: 52
+                height: 54
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: east.pressed ? "red" : rectangle.buttonColor
+                }
+
+                onPressedChanged:
+                {
+                    east.pressed ? mount.motionCommand(0, -1, 1) : mount.motionCommand(1, -1, 1);
+                }
+
+                Image {
+                    width: 50
+                    anchors.fill: parent
+                    source: "go-east.png"
+                }
+            }
+
+            Button {
+                id: southWest
+                width: 52
+                height: 54
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: southWest.pressed ? "red" : rectangle.buttonColor
+                }
+
+                onPressedChanged:
+                {
+                    southWest.pressed ? mount.motionCommand(0, 1, 0) : mount.motionCommand(1, 1, 0);
+                }
+
+                Image {
+                    width: 50
+                    anchors.fill: parent
+                    source: "go-southwest.png"
+                }
+            }
+
+            Button {
+                id: south
+                width: 52
+                height: 54
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: south.pressed ? "red" : rectangle.buttonColor
+                }
+
+                onPressedChanged:
+                {
+                    south.pressed ? mount.motionCommand(0, 1, -1) : mount.motionCommand(1, 1, -1);
+                }
+
+                Image {
+                    width: 50
+                    anchors.fill: parent
+                    source: "go-south.png"
+                }
+            }
+
+            Button {
+                id: southEast
+                width: 52
+                height: 54
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: southEast.pressed ? "red" : rectangle.buttonColor
+                }
+
+                onPressedChanged:
+                {
+                    southEast.pressed ? mount.motionCommand(0, 1, 1) : mount.motionCommand(1, 1, 1);
+                }
+
+                Image {
+                    width: 50
+                    anchors.fill: parent
+                    source: "go-southeast.png"
+                }
+            }
+        }
+
+
+        RowLayout {
+            id: mountSpeedLayout
+            width: 200
+            height: 100
+            Layout.maximumWidth: 200
+            Layout.fillHeight: false
+            Layout.fillWidth: true
+
+            Slider {
+                id: speedSlider
+                width: 150
+                objectName: "speedSliderObject"
+                Layout.fillWidth: true
+                stepSize: 1
+                minimumValue: 0
+                maximumValue: 4
+                value: 0
+
+                onValueChanged:
+                {
+                    mount.setSlewRate(speedSlider.value)
+                }
+            }
+
+            Label {
+                id: speedLabel
+                width: 75
+                objectName: "speedLabelObject"
+                text: qsTr("1x")
+                horizontalAlignment: Text.AlignHCenter
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                Layout.maximumWidth: 75
+                Layout.minimumWidth: 75
+                font.weight: Font.Bold
+                font.bold: true
+                font.pointSize: 14
+                font.family: "Verdana"
+                fontSizeMode: Text.Fit
+                verticalAlignment: Text.AlignVCenter
+                Layout.fillWidth: true
+                color: "white"
+            }
+        }
+
+
+        GridLayout {
+            id: mountCoordsLayout
+            width: 100
+            height: 100
+            Layout.fillHeight: false
+            Layout.maximumWidth: 200
+            Layout.fillWidth: true
+            rows: 2
+            columns: 4
+            property int coordsLabelSize: 10
+            property int coordsValueSize: 11
+
+
+            Label {
+                id: raLabel
+                text: qsTr("RA:")
+                font.bold: true
+                font.pointSize: parent.coordsLabelSize
+                color: "white"
+            }
+
+            Label {
+                id: raValue
+                objectName: "raValueObject"
+                width: 50
+                color: coordsColor
+                text: "00:00:00"
+                font.pointSize: parent.coordsValueSize
+            }
+
+            Label {
+                id: azLabel
+                color: "#ffffff"
+                text: qsTr("AZ:")
+                font.pointSize: parent.coordsLabelSize
+                font.bold: true
+            }
+
+            Label {
+                id: azValue
+                objectName: "azValueObject"
+                width: 50
+                color: coordsColor
+                text: "00:00:00"
+                font.pointSize: parent.coordsValueSize
+            }
+
+            Label {
+                id: deLabel
+                color: "#ffffff"
+                text: qsTr("DE:")
+                font.pointSize: parent.coordsLabelSize
+                font.bold: true
+            }
+
+            Label {
+                id: deValue
+                objectName: "deValueObject"
+                width: 50
+                color: coordsColor
+                text: "00:00:00"
+                font.pointSize: parent.coordsValueSize
+            }
+
+            Label {
+                id: altLabel
+                color: "#ffffff"
+                text: qsTr("AL:")
+                font.pointSize: parent.coordsLabelSize
+                font.bold: true
+            }
+
+            Label {
+                id: altValue
+                objectName: "altValueObject"
+                width: 50
+                color: coordsColor
+                text: "00:00:00"
+                font.pointSize: parent.coordsValueSize
+            }
+
+            Label {
+                id: haLabel
+                color: "#ffffff"
+                text: qsTr("HA:")
+                font.pointSize: parent.coordsLabelSize
+                font.bold: true
+            }
+
+            Label {
+                id: haValue
+                objectName: "haValueObject"
+                width: 50
+                color: coordsColor
+                text: "00:00:00"
+                font.pointSize: parent.coordsValueSize
+
+            }
+
+            Label {
+                id: zaLabel
+                color: "#ffffff"
+                text: qsTr("ZA:")
+                font.pointSize: parent.coordsLabelSize
+                font.bold: true
+            }
+
+            Label {
+                id: zaValue
+                objectName: "zaValueObject"
+                width: 50
+                color: coordsColor
+                text: "00:00:00"
+                font.pointSize: parent.coordsValueSize
+
+            }
+        }
+
+
+        RowLayout {
+            id: targetNameLayout
+            width: 200
+            height: 100
+            Layout.fillHeight: false
+            Layout.maximumWidth: 200
+            Layout.minimumWidth: 200
+            Layout.fillWidth: true
+
+            Label {
+                id: targetLabel
+                color: "#ffffff"
+                text: qsTr("Target:")
+                verticalAlignment: Text.AlignVCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                font.pointSize: 12
+                font.bold: true
+            }
+
+            Label {
+                id: targetText
+                objectName: "targetTextObject"
+                color: "#ffffff"
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: "black"
+                    opacity: 0.5
+                    border.color : "#D4AF37"
+                    border.width : 1
+                }
+
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.minimumWidth: 75
+                font.pointSize: 12
+                font.bold: true
+            }
+
+            Button {
+                id: findButton
+                width: 32
+                height: 32
+                Layout.maximumHeight: 32
+                Layout.minimumHeight: 32
+                Layout.minimumWidth: 32
+                Layout.maximumWidth: 32
+
+                Image {
+                    id: image
+                    anchors.fill: parent
+                    source: "qrc:/icons/breeze/default/view-history.svg"
+                }
+
+                onClicked:
+                {
+                    mount.findTarget()
+                }
+            }
+        }
+
+
+        GridLayout {
+            id: targetCoordsLayout
+            width: 100
+            height: 100
+            Layout.fillWidth: true
+            rows: 2
+            columns: 2
+
+            Label {
+                id: targetRALabel
+                color: "#ffffff"
+                text: qsTr("RA (JNOW):")
+                font.pointSize: 12
+            }
+
+            TextField {
+                id: targetRAText
+                objectName: "targetRATextObject"
+                placeholderText: "HH:MM:SS"
+                width: 150
+                Layout.minimumHeight: 30
+                Layout.maximumHeight: 30
+                Layout.fillWidth: true
+            }
+
+
+            Label {
+                id: targetDELabel
+                color: "#ffffff"
+                text: qsTr("DE (JNOW):")
+                font.pointSize: 12
+            }
+
+            TextField {
+                id: targetDEText
+                objectName: "targetDETextObject"
+                placeholderText: "DD:MM:SS"
+                width: 150
+                height: 30
+                Layout.maximumHeight: 30
+                Layout.minimumHeight: 30
+                Layout.fillWidth: true
+            }
+
+
+        }
+
+
+        GridLayout {
+            id: actionLayout
+            width: 200
+            height: 100
+            Layout.maximumWidth: 200
+            Layout.minimumWidth: 200
+            Layout.fillHeight: false
+            Layout.fillWidth: true
+            rows: 2
+            columns: 2
+
+            Button {
+                id: gotoButton
+                text: qsTr("GOTO")
+                Layout.fillWidth: true
+
+                onClicked:
+                {
+                    mount.slew(targetRAText.text, targetDEText.text)
+                }
+            }
+
+            Button {
+                id: syncButton
+                text: qsTr("SYNC")
+                Layout.fillWidth: true
+
+                onClicked:
+                {
+                    mount.sync(targetRAText.text, targetDEText.text)
+                }
+            }
+
+            Button {
+                id: parkButton
+                objectName: "parkButtonObject"
+                text: qsTr("PARK")
+                Layout.fillWidth: true
+
+                onClicked:
+                {
+                    mount.park()
+                }
+            }
+
+            Button {
+                id: unparkButton
+                objectName: "unparkButtonObject"
+                text: qsTr("UNPARK")
+                Layout.fillWidth: true
+
+                onClicked:
+                {
+                    mount.unpark()
+                }
+            }
+        }
+
+        RowLayout {
+            id: statusLayout
+            width: 100
+            height: 100
+            Layout.fillWidth: true
+
+            Label {
+                id: statusLabel
+                color: "#ffffff"
+                text: qsTr("Status:")
+                font.pointSize: 12
+                font.bold: true
+            }
+
+            Label {
+                id: statusText
+                objectName: "statusTextObject"
+                color: "#ffffff"
+                text: qsTr("Idle")
+                Layout.fillWidth: true
+                Layout.minimumWidth: 100
+                font.pointSize: 12
+                font.bold: true
+            }
+
+            Button {
+                id: centerMount
+                Layout.maximumHeight: 32
+                Layout.maximumWidth: 32
+                Layout.minimumHeight: 32
+                Layout.minimumWidth: 32
+
+                Image {
+                    id: centerMountIcon
+                    anchors.fill: parent
+                    source: "qrc:/icons/breeze/default/crosshairs.svg"
+                }
+
+                onClicked:
+                {
+                    mount.centerMount()
+                }
+            }
+        }
+    }
+}
