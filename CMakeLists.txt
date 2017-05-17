@@ -11,6 +11,8 @@ endif(BUILD_KSTARS_LITE)
 # minimal requirements
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 
+string(TIMESTAMP KSTARS_BUILD_TS UTC)
+
 if(BUILD_KSTARS_LITE)
     set (QT_MIN_VERSION "5.7.0") #QtQuickControls 2 is available only in the Qt 5.7.0
 else()
