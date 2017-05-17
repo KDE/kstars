@@ -1,6 +1,7 @@
 import QtQuick 2.5
-import QtQuick.Controls 2.0
+import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
+import QtQuick.Controls.Styles 1.4
 
 Rectangle {
     id: rectangle
@@ -8,7 +9,7 @@ Rectangle {
     height: 480
     color: "#000000"
 
-    property color buttonColor: "gainsboro"
+    property color buttonColor: "silver"
     property color coordsColor: "gold"
 
     ColumnLayout {
@@ -20,6 +21,8 @@ Rectangle {
             id: mountMotionLayout
             width: 200
             height: 150
+            rowSpacing: 1
+            columnSpacing: 1
             Layout.minimumHeight: 150
             Layout.minimumWidth: 200
             Layout.maximumHeight: 150
@@ -38,19 +41,15 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                background: Rectangle
+                Rectangle
                 {
+                    anchors.fill: parent
                     color: northWest.pressed ? "red" : rectangle.buttonColor
                 }
 
-                onPressAndHold:
+                onPressedChanged:
                 {
-                    mount.motionCommand(0, 0, 0);
-                }
-
-                onReleased:
-                {
-                    mount.motionCommand(1, 0, 0);
+                    northWest.pressed ? mount.motionCommand(0, 0, 0) : mount.motionCommand(1, 0, 0);
                 }
 
                 Image {
@@ -67,19 +66,15 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                background: Rectangle
+                Rectangle
                 {
+                    anchors.fill: parent
                     color: north.pressed ? "red" : rectangle.buttonColor
                 }
 
-                onPressAndHold:
+                onPressedChanged:
                 {
-                    mount.motionCommand(0, 0, -1);
-                }
-
-                onReleased:
-                {
-                    mount.motionCommand(1, 0, -1);
+                    north.pressed ? mount.motionCommand(0, 0, -1) : mount.motionCommand(1, 0, -1);
                 }
 
                 Image {
@@ -96,20 +91,15 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-
-                background: Rectangle
+                Rectangle
                 {
+                    anchors.fill: parent
                     color: northEast.pressed ? "red" : rectangle.buttonColor
                 }
 
-                onPressAndHold:
+                onPressedChanged:
                 {
-                    mount.motionCommand(0, 0, 1);
-                }
-
-                onReleased:
-                {
-                    mount.motionCommand(1, 0, 1);
+                    northEast.pressed ? mount.motionCommand(0, 0, 1) : mount.motionCommand(1, 0, 1);
                 }
 
 
@@ -131,19 +121,15 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                background: Rectangle
+                Rectangle
                 {
+                    anchors.fill: parent
                     color: west.pressed ? "red" : rectangle.buttonColor
                 }
 
-                onPressAndHold:
+                onPressedChanged:
                 {
-                    mount.motionCommand(0, -1, 0);
-                }
-
-                onReleased:
-                {
-                    mount.motionCommand(1, -1, 0);
+                    west.pressed ? mount.motionCommand(0, -1, 0) : mount.motionCommand(1, -1, 0);
                 }
 
 
@@ -161,8 +147,9 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                background: Rectangle
+                Rectangle
                 {
+                    anchors.fill: parent
                     color: stop.pressed ? "red" : rectangle.buttonColor
                 }
 
@@ -187,21 +174,16 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                background: Rectangle
+                Rectangle
                 {
+                    anchors.fill: parent
                     color: east.pressed ? "red" : rectangle.buttonColor
                 }
 
-                onPressAndHold:
+                onPressedChanged:
                 {
-                    mount.motionCommand(0, -1, 1);
+                    east.pressed ? mount.motionCommand(0, -1, 1) : mount.motionCommand(1, -1, 1);
                 }
-
-                onReleased:
-                {
-                    mount.motionCommand(1, -1, 1);
-                }
-
 
                 Image {
                     width: 50
@@ -217,21 +199,16 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                background: Rectangle
+                Rectangle
                 {
+                    anchors.fill: parent
                     color: southWest.pressed ? "red" : rectangle.buttonColor
                 }
 
-                onPressAndHold:
+                onPressedChanged:
                 {
-                    mount.motionCommand(0, 1, 0);
+                    southWest.pressed ? mount.motionCommand(0, 1, 0) : mount.motionCommand(1, 1, 0);
                 }
-
-                onReleased:
-                {
-                    mount.motionCommand(1, 1, 0);
-                }
-
 
                 Image {
                     width: 50
@@ -247,21 +224,16 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                background: Rectangle
+                Rectangle
                 {
+                    anchors.fill: parent
                     color: south.pressed ? "red" : rectangle.buttonColor
                 }
 
-                onPressAndHold:
+                onPressedChanged:
                 {
-                    mount.motionCommand(0, 1, -1);
+                    south.pressed ? mount.motionCommand(0, 1, -1) : mount.motionCommand(1, 1, -1);
                 }
-
-                onReleased:
-                {
-                    mount.motionCommand(1, 1, -1);
-                }
-
 
                 Image {
                     width: 50
@@ -277,19 +249,15 @@ Rectangle {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                background: Rectangle
+                Rectangle
                 {
+                    anchors.fill: parent
                     color: southEast.pressed ? "red" : rectangle.buttonColor
                 }
 
-                onPressAndHold:
+                onPressedChanged:
                 {
-                    mount.motionCommand(0, 1, 1);
-                }
-
-                onReleased:
-                {
-                    mount.motionCommand(1, 1, 1);
+                    southEast.pressed ? mount.motionCommand(0, 1, 1) : mount.motionCommand(1, 1, 1);
                 }
 
                 Image {
@@ -298,8 +266,6 @@ Rectangle {
                     source: "go-southeast.png"
                 }
             }
-
-
         }
 
 
@@ -317,8 +283,8 @@ Rectangle {
                 objectName: "speedSliderObject"
                 Layout.fillWidth: true
                 stepSize: 1
-                from: 0
-                to: 4
+                minimumValue: 0
+                maximumValue: 4
                 value: 0
 
                 onValueChanged:
@@ -497,10 +463,12 @@ Rectangle {
                 id: targetText
                 objectName: "targetTextObject"
                 color: "#ffffff"
-                background: Rectangle
+                Rectangle
                 {
+                    anchors.fill: parent
                     color: "black"
-                    border.color : "yellow"
+                    opacity: 0.5
+                    border.color : "#D4AF37"
                     border.width : 1
                 }
 
