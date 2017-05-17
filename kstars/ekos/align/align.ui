@@ -28,6 +28,9 @@
    </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,2">
+     <property name="spacing">
+      <number>1</number>
+     </property>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
@@ -1815,10 +1818,13 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Preferred</enum>
+     </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>40</height>
+       <height>10</height>
       </size>
      </property>
     </spacer>
