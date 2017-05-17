@@ -9,6 +9,7 @@ Rectangle {
     color: "#000000"
 
     property color buttonColor: "gainsboro"
+    property color coordsColor: "gold"
 
     ColumnLayout {
         id: mainVerticalLayout
@@ -356,12 +357,15 @@ Rectangle {
             Layout.fillWidth: true
             rows: 2
             columns: 4
+            property int coordsLabelSize: 10
+            property int coordsValueSize: 11
+
 
             Label {
                 id: raLabel
                 text: qsTr("RA:")
                 font.bold: true
-                font.pointSize: 12
+                font.pointSize: parent.coordsLabelSize
                 color: "white"
             }
 
@@ -369,9 +373,9 @@ Rectangle {
                 id: raValue
                 objectName: "raValueObject"
                 width: 50
-                color: "#ffffff"
+                color: coordsColor
                 text: "00:00:00"
-                font.pointSize: 12
+                font.pointSize: parent.coordsValueSize
                 font.bold: true
             }
 
@@ -379,7 +383,7 @@ Rectangle {
                 id: azLabel
                 color: "#ffffff"
                 text: qsTr("AZ:")
-                font.pointSize: 12
+                font.pointSize: parent.coordsLabelSize
                 font.bold: true
             }
 
@@ -387,9 +391,9 @@ Rectangle {
                 id: azValue
                 objectName: "azValueObject"
                 width: 50
-                color: "#ffffff"
+                color: coordsColor
                 text: "00:00:00"
-                font.pointSize: 12
+                font.pointSize: parent.coordsValueSize
                 font.bold: true
             }
 
@@ -397,7 +401,7 @@ Rectangle {
                 id: deLabel
                 color: "#ffffff"
                 text: qsTr("DE:")
-                font.pointSize: 12
+                font.pointSize: parent.coordsLabelSize
                 font.bold: true
             }
 
@@ -405,9 +409,9 @@ Rectangle {
                 id: deValue
                 objectName: "deValueObject"
                 width: 50
-                color: "#ffffff"
+                color: coordsColor
                 text: "00:00:00"
-                font.pointSize: 12
+                font.pointSize: parent.coordsValueSize
                 font.bold: true
             }
 
@@ -415,7 +419,7 @@ Rectangle {
                 id: altLabel
                 color: "#ffffff"
                 text: qsTr("AL:")
-                font.pointSize: 12
+                font.pointSize: parent.coordsLabelSize
                 font.bold: true
             }
 
@@ -423,9 +427,9 @@ Rectangle {
                 id: altValue
                 objectName: "altValueObject"
                 width: 50
-                color: "#ffffff"
+                color: coordsColor
                 text: "00:00:00"
-                font.pointSize: 12
+                font.pointSize: parent.coordsValueSize
                 font.bold: true
             }
 
@@ -433,7 +437,7 @@ Rectangle {
                 id: haLabel
                 color: "#ffffff"
                 text: qsTr("HA:")
-                font.pointSize: 12
+                font.pointSize: parent.coordsLabelSize
                 font.bold: true
             }
 
@@ -441,9 +445,9 @@ Rectangle {
                 id: haValue
                 objectName: "haValueObject"
                 width: 50
-                color: "#ffffff"
+                color: coordsColor
                 text: "00:00:00"
-                font.pointSize: 12
+                font.pointSize: parent.coordsValueSize
                 font.bold: true
 
             }
@@ -452,7 +456,7 @@ Rectangle {
                 id: zaLabel
                 color: "#ffffff"
                 text: qsTr("ZA:")
-                font.pointSize: 12
+                font.pointSize: parent.coordsLabelSize
                 font.bold: true
             }
 
@@ -460,9 +464,9 @@ Rectangle {
                 id: zaValue
                 objectName: "zaValueObject"
                 width: 50
-                color: "#ffffff"
+                color: coordsColor
                 text: "00:00:00"
-                font.pointSize: 12
+                font.pointSize: parent.coordsValueSize
                 font.bold: true
 
             }
@@ -491,8 +495,15 @@ Rectangle {
 
             Label {
                 id: targetText
+                objectName: "targetTextObject"
                 color: "#ffffff"
-                text: ""
+                background: Rectangle
+                {
+                    color: "black"
+                    border.color : "yellow"
+                    border.width : 1
+                }
+
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 Layout.fillHeight: true
@@ -506,11 +517,21 @@ Rectangle {
                 id: findButton
                 width: 32
                 height: 32
-                text: qsTr("Find")
                 Layout.maximumHeight: 32
                 Layout.minimumHeight: 32
                 Layout.minimumWidth: 32
                 Layout.maximumWidth: 32
+
+                Image {
+                    id: image
+                    anchors.fill: parent
+                    source: "qrc:/icons/breeze/default/view-history.svg"
+                }
+
+                onClicked:
+                {
+                    mount.findTarget()
+                }
             }
         }
 
@@ -533,6 +554,8 @@ Rectangle {
 
             TextField {
                 id: targetRAText
+                objectName: "targetRATextObject"
+                placeholderText: "HH:MM:SS"
                 width: 150
                 Layout.minimumHeight: 30
                 Layout.maximumHeight: 30
@@ -550,6 +573,8 @@ Rectangle {
 
             TextField {
                 id: targetDEText
+                objectName: "targetDETextObject"
+                placeholderText: "DD:MM:SS"
                 width: 150
                 height: 30
                 Layout.maximumHeight: 30
@@ -576,24 +601,46 @@ Rectangle {
                 id: gotoButton
                 text: qsTr("GOTO")
                 Layout.fillWidth: true
+
+                onClicked:
+                {
+                    mount.slew(targetRAText.text, targetDEText.text)
+                }
             }
 
             Button {
                 id: syncButton
                 text: qsTr("SYNC")
                 Layout.fillWidth: true
+
+                onClicked:
+                {
+                    mount.sync(targetRAText.text, targetDEText.text)
+                }
             }
 
             Button {
                 id: parkButton
+                objectName: "parkButtonObject"
                 text: qsTr("PARK")
                 Layout.fillWidth: true
+
+                onClicked:
+                {
+                    mount.park()
+                }
             }
 
             Button {
                 id: unparkButton
+                objectName: "unparkButtonObject"
                 text: qsTr("UNPARK")
                 Layout.fillWidth: true
+
+                onClicked:
+                {
+                    mount.unpark()
+                }
             }
         }
 
@@ -613,12 +660,12 @@ Rectangle {
 
             Label {
                 id: statusText
+                objectName: "statusTextObject"
                 color: "#ffffff"
                 text: qsTr("Idle")
                 font.pointSize: 12
                 font.bold: true
             }
         }
-
     }
 }

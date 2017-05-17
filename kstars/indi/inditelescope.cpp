@@ -164,7 +164,10 @@ void Telescope::processNumber(INumberVectorProperty * nvp)
 }
 
 void Telescope::processSwitch(ISwitchVectorProperty * svp)
-{
+{    
+
+    bool manualMotionChanged=false;
+
     if (!strcmp(svp->name, "TELESCOPE_PARK"))
     {
         ISwitch * sp = IUFindSwitch(svp, "PARK");
@@ -211,6 +214,40 @@ void Telescope::processSwitch(ISwitchVectorProperty * svp)
         if (svp->s == IPS_OK)
         {
             KNotification::event( QLatin1String( "MountAborted" ) , i18n("Mount motion was aborted"));
+        }
+    }
+    else if (!strcmp(svp->name, "TELESCOPE_MOTION_NS"))
+        manualMotionChanged = true;
+    else if (!strcmp(svp->name, "TELESCOPE_MOTION_WE"))
+        manualMotionChanged = true;
+
+    if (manualMotionChanged)
+    {
+        IPState NSCurrentMotion, WECurrentMotion;
+
+        NSCurrentMotion = baseDevice->getSwitch("TELESCOPE_MOTION_NS")->s;
+        WECurrentMotion = baseDevice->getSwitch("TELESCOPE_MOTION_WE")->s;
+
+        if (NSCurrentMotion == IPS_BUSY || WECurrentMotion == IPS_BUSY || NSPreviousState == IPS_BUSY || WEPreviousState == IPS_BUSY)
+        {
+            if  (inManualMotion == false &&
+                 ((NSCurrentMotion == IPS_BUSY && NSPreviousState != IPS_BUSY) ||
+                  (WECurrentMotion == IPS_BUSY && WEPreviousState != IPS_BUSY)))
+            {
+                inManualMotion = true;
+                KNotification::event( QLatin1String( "MotionStarted" ) , i18n("Mount is manually moving"));
+            }
+            else if (inManualMotion &&
+                     ((NSCurrentMotion != IPS_BUSY && NSPreviousState == IPS_BUSY) ||
+                      (WECurrentMotion != IPS_BUSY && WEPreviousState == IPS_BUSY)))
+            {
+                inManualMotion = false;
+                KNotification::event( QLatin1String( "MotionStopped" ) , i18n("Mount is manually moving"));
+
+            }
+
+            NSPreviousState = NSCurrentMotion;
+            WEPreviousState = WECurrentMotion;
         }
     }
 
@@ -268,19 +305,7 @@ bool Telescope::isSlewing()
 
 bool Telescope::isInMotion()
 {
-    ISwitchVectorProperty * movementSP(NULL);
-    bool inMotion=false;
-    bool inSlew=isSlewing();
-
-    movementSP = baseDevice->getSwitch("TELESCOPE_MOTION_NS");
-    if (movementSP)
-        inMotion = (movementSP->s == IPS_BUSY);
-
-    movementSP = baseDevice->getSwitch("TELESCOPE_MOTION_WE");
-    if (movementSP)
-        inMotion = ((movementSP->s == IPS_BUSY) || inMotion);
-
-    return (inSlew || inMotion);
+    return (isSlewing() || inManualMotion);
 }
 
 bool Telescope::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
@@ -310,40 +335,40 @@ bool Telescope::doPulse(GuideDirection dir, int msecs )
 
     switch(dir)
     {
-        case RA_INC_DIR:
-            dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_W");
-            if (dirPulse == NULL)
-                return false;
-
-            npulse = raPulse;
-            break;
-
-        case RA_DEC_DIR:
-            dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_E");
-            if (dirPulse == NULL)
-                return false;
-
-            npulse = raPulse;
-            break;
-
-        case DEC_INC_DIR:
-            dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_N");
-            if (dirPulse == NULL)
-                return false;
-
-            npulse = decPulse;
-            break;
-
-        case DEC_DEC_DIR:
-            dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_S");
-            if (dirPulse == NULL)
-                return false;
-
-            npulse = decPulse;
-            break;
-
-        default:
+    case RA_INC_DIR:
+        dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_W");
+        if (dirPulse == NULL)
             return false;
+
+        npulse = raPulse;
+        break;
+
+    case RA_DEC_DIR:
+        dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_E");
+        if (dirPulse == NULL)
+            return false;
+
+        npulse = raPulse;
+        break;
+
+    case DEC_INC_DIR:
+        dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_N");
+        if (dirPulse == NULL)
+            return false;
+
+        npulse = decPulse;
+        break;
+
+    case DEC_DEC_DIR:
+        dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_S");
+        if (dirPulse == NULL)
+            return false;
+
+        npulse = decPulse;
+        break;
+
+    default:
+        return false;
 
     }
 
@@ -367,53 +392,53 @@ bool Telescope::runCommand(int command, void * ptr)
 
     switch (command)
     {
-        case INDI_SEND_COORDS:
-            if (ptr == NULL)
-                sendCoords(KStars::Instance()->map()->clickedPoint());
-            else
-                sendCoords(static_cast<SkyPoint *> (ptr));
+    case INDI_SEND_COORDS:
+        if (ptr == NULL)
+            sendCoords(KStars::Instance()->map()->clickedPoint());
+        else
+            sendCoords(static_cast<SkyPoint *> (ptr));
 
-            break;
+        break;
 
-        case INDI_ENGAGE_TRACKING:
+    case INDI_ENGAGE_TRACKING:
+    {
+        SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
+        J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), (long double) J2000);
+        currentCoord.setRA0(J2000Coord.ra());
+        currentCoord.setDec0(J2000Coord.dec());
+        KStars::Instance()->map()->setDestination(currentCoord);
+    }
+        break;
+
+    case INDI_CENTER_LOCK:
+    {
+        //if (currentObject == NULL || KStars::Instance()->map()->focusObject() != currentObject)
+        if (Options::isTracking() == false || currentCoord.angularDistanceTo(KStars::Instance()->map()->focus()).Degrees() > 0.5)
         {
             SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
             J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), (long double) J2000);
             currentCoord.setRA0(J2000Coord.ra());
             currentCoord.setDec0(J2000Coord.dec());
+            //KStars::Instance()->map()->setClickedPoint(&currentCoord);
+            //KStars::Instance()->map()->slotCenter();
             KStars::Instance()->map()->setDestination(currentCoord);
+            KStars::Instance()->map()->setFocusPoint(&currentCoord);
+            //KStars::Instance()->map()->setFocusObject(currentObject);
+            KStars::Instance()->map()->setFocusObject(NULL);
+            Options::setIsTracking( true );
         }
+        centerLockTimer->start();
+    }
         break;
 
-        case INDI_CENTER_LOCK:
-        {
-            //if (currentObject == NULL || KStars::Instance()->map()->focusObject() != currentObject)
-            if (Options::isTracking() == false || currentCoord.angularDistanceTo(KStars::Instance()->map()->focus()).Degrees() > 0.5)
-            {
-                SkyPoint J2000Coord(currentCoord.ra(), currentCoord.dec());
-                J2000Coord.apparentCoord(KStars::Instance()->data()->ut().djd(), (long double) J2000);
-                currentCoord.setRA0(J2000Coord.ra());
-                currentCoord.setDec0(J2000Coord.dec());
-                //KStars::Instance()->map()->setClickedPoint(&currentCoord);
-                //KStars::Instance()->map()->slotCenter();
-                KStars::Instance()->map()->setDestination(currentCoord);
-                KStars::Instance()->map()->setFocusPoint(&currentCoord);
-                //KStars::Instance()->map()->setFocusObject(currentObject);
-                KStars::Instance()->map()->setFocusObject(NULL);
-                Options::setIsTracking( true );
-            }
-            centerLockTimer->start();
-        }
+    case INDI_CENTER_UNLOCK:
+        KStars::Instance()->map()->stopTracking();
+        centerLockTimer->stop();
         break;
 
-        case INDI_CENTER_UNLOCK:
-            KStars::Instance()->map()->stopTracking();
-            centerLockTimer->stop();
-            break;
-
-        default:
-            return DeviceDecorator::runCommand(command, ptr);
-            break;
+    default:
+        return DeviceDecorator::runCommand(command, ptr);
+        break;
 
     }
 
@@ -864,31 +889,35 @@ Telescope::TelescopeStatus Telescope::getStatus()
 
     switch (EqProp->s)
     {
-        case IPS_IDLE:
-            if (isParked())
-                return MOUNT_PARKED;
-            else
-                return MOUNT_IDLE;
-            break;
-
-        case IPS_OK:
-            return MOUNT_TRACKING;
-            break;
-
-
-        case IPS_BUSY:
-        {
-            ISwitchVectorProperty * parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
-            if (parkSP && parkSP->s == IPS_BUSY)
-                return MOUNT_PARKING;
-            else
-                return MOUNT_SLEWING;
-        }
+    case IPS_IDLE:
+        if (inManualMotion)
+            return MOUNT_MOVING;
+        else if (isParked())
+            return MOUNT_PARKED;
+        else
+            return MOUNT_IDLE;
         break;
 
-        case IPS_ALERT:
-            return MOUNT_ERROR;
-            break;
+    case IPS_OK:
+        if (inManualMotion)
+            return MOUNT_MOVING;
+        else
+            return MOUNT_TRACKING;
+        break;
+
+    case IPS_BUSY:
+    {
+        ISwitchVectorProperty * parkSP = baseDevice->getSwitch("TELESCOPE_PARK");
+        if (parkSP && parkSP->s == IPS_BUSY)
+            return MOUNT_PARKING;
+        else
+            return MOUNT_SLEWING;
+    }
+        break;
+
+    case IPS_ALERT:
+        return MOUNT_ERROR;
+        break;
 
     }
 
@@ -899,32 +928,62 @@ const QString Telescope::getStatusString(Telescope::TelescopeStatus status)
 {
     switch (status)
     {
-        case ISD::Telescope::MOUNT_IDLE:
-            return i18n("Idle");
-            break;
+    case ISD::Telescope::MOUNT_IDLE:
+        return i18n("Idle");
+        break;
 
-        case ISD::Telescope::MOUNT_PARKED:
-            return i18n("Parked");
-            break;
+    case ISD::Telescope::MOUNT_PARKED:
+        return i18n("Parked");
+        break;
 
-        case ISD::Telescope::MOUNT_PARKING:
-            return i18n("Parking");
-            break;
+    case ISD::Telescope::MOUNT_PARKING:
+        return i18n("Parking");
+        break;
 
-        case ISD::Telescope::MOUNT_SLEWING:
-            return i18n("Slewing");
-            break;
+    case ISD::Telescope::MOUNT_SLEWING:
+        return i18n("Slewing");
+        break;
 
-        case ISD::Telescope::MOUNT_TRACKING:
-            return i18n("Tracking");
-            break;
+    case ISD::Telescope::MOUNT_MOVING:
+        return i18n("Moving %1", getManualMotionString());
+        break;
 
-        case ISD::Telescope::MOUNT_ERROR:
-            return i18n("Error");
-            break;
+    case ISD::Telescope::MOUNT_TRACKING:
+        return i18n("Tracking");
+        break;
+
+    case ISD::Telescope::MOUNT_ERROR:
+        return i18n("Error");
+        break;
     }
 
     return i18n("Error");
+}
+
+QString Telescope::getManualMotionString() const
+{
+    ISwitchVectorProperty * movementSP(NULL);
+    QString NSMotion, WEMotion;
+
+    movementSP = baseDevice->getSwitch("TELESCOPE_MOTION_NS");
+    if (movementSP)
+    {
+        if (movementSP->sp[MOTION_NORTH].s == ISS_ON)
+            NSMotion = "N";
+        else if (movementSP->sp[MOTION_SOUTH].s == ISS_ON)
+            NSMotion = "S";
+    }
+
+    movementSP = baseDevice->getSwitch("TELESCOPE_MOTION_WE");
+    if (movementSP)
+    {
+        if (movementSP->sp[MOTION_WEST].s == ISS_ON)
+            WEMotion = "W";
+        else if (movementSP->sp[MOTION_EAST].s == ISS_ON)
+            WEMotion = "E";
+    }
+
+    return QString("%1%2").arg(NSMotion, WEMotion);
 }
 
 }

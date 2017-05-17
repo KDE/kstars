@@ -2702,6 +2702,7 @@ void Focus::setMountStatus(ISD::Telescope::TelescopeStatus newState)
     {
         case ISD::Telescope::MOUNT_PARKING:
         case ISD::Telescope::MOUNT_SLEWING:
+        case ISD::Telescope::MOUNT_MOVING:
             captureB->setEnabled(false);
             startFocusB->setEnabled(false);
             startLoopB->setEnabled(false);

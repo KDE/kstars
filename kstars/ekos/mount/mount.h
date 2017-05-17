@@ -87,6 +87,11 @@ class Mount : public QWidget, public Ui::Mount
          */
         Q_INVOKABLE  Q_SCRIPTABLE bool slew(double RA, double DEC);
 
+        /**
+          @brief Like above but RA and DEC are strings HH:MM:SS and DD:MM:SS
+        */
+        Q_INVOKABLE  bool slew(const QString &RA, const QString &DEC);
+
         /** DBUS interface function.
          * Sync the mount to the RA/DEC (JNow).
          * @param RA Right ascention is hours.
@@ -94,6 +99,11 @@ class Mount : public QWidget, public Ui::Mount
          * @return true if the command is sent successfully, false otherwise.
          */
         Q_INVOKABLE  Q_SCRIPTABLE bool sync(double RA, double DEC);
+
+        /**
+          @brief Like above but RA and DEC are strings HH:MM:SS and DD:MM:SS
+        */
+        Q_INVOKABLE  bool sync(const QString &RA, const QString &DEC);
 
         /** DBUS interface function.
          * Get equatorial coords (JNow). An array of doubles is returned. First element is RA in hours. Second elements is DEC in degrees.
@@ -159,6 +169,8 @@ class Mount : public QWidget, public Ui::Mount
         Q_INVOKABLE bool setSlewRate(int index);
 
         /** @}*/
+
+        Q_INVOKABLE void findTarget();
 
     public slots:
 
@@ -259,8 +271,9 @@ class Mount : public QWidget, public Ui::Mount
         QQuickItem * m_BaseObj=nullptr;
         QQmlContext * m_Ctxt=nullptr;
 
-        QQuickItem * m_SpeedSlider=nullptr, *m_SpeedLabel=nullptr, *m_raValue=nullptr, *m_deValue=nullptr,
-                    *m_azValue=nullptr, *m_altValue=nullptr, *m_haValue=nullptr, *m_zaValue=nullptr;
+        QQuickItem *m_SpeedSlider=nullptr, *m_SpeedLabel=nullptr, *m_raValue=nullptr, *m_deValue=nullptr,
+                   *m_azValue=nullptr, *m_altValue=nullptr, *m_haValue=nullptr, *m_zaValue=nullptr, *m_targetText=nullptr,
+                   *m_targetRAText=nullptr, *m_targetDEText=nullptr, *m_Park=nullptr, *m_Unpark=nullptr, *m_statusText=nullptr;
 
 };
 

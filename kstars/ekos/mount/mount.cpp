@@ -27,6 +27,7 @@
 
 #include "kstars.h"
 #include "kspaths.h"
+#include "dialogs/finddialog.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 
@@ -143,6 +144,12 @@ Mount::Mount()
     m_altValue = m_BaseObj->findChild<QQuickItem *>("altValueObject");
     m_haValue = m_BaseObj->findChild<QQuickItem *>("haValueObject");
     m_zaValue = m_BaseObj->findChild<QQuickItem *>("zaValueObject");
+    m_targetText = m_BaseObj->findChild<QQuickItem *>("targetTextObject");
+    m_targetRAText = m_BaseObj->findChild<QQuickItem *>("targetRATextObject");
+    m_targetDEText = m_BaseObj->findChild<QQuickItem *>("targetDETextObject");
+    m_Park = m_BaseObj->findChild<QQuickItem *>("parkButtonObject");
+    m_Unpark = m_BaseObj->findChild<QQuickItem *>("unparkButtonObject");
+    m_statusText = m_BaseObj->findChild<QQuickItem *>("statusTextObject");
 
 }
 
@@ -240,6 +247,10 @@ void Mount::syncTelescopeInfo()
         unparkB->setEnabled(currentTelescope->isParked());
         connect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()), Qt::UniqueConnection);
         connect(unparkB, SIGNAL(clicked()), currentTelescope, SLOT(UnPark()), Qt::UniqueConnection);
+
+        // QtQuick
+        m_Park->setEnabled(true);
+        m_Unpark->setEnabled(true);
     }
     else
     {
@@ -247,6 +258,10 @@ void Mount::syncTelescopeInfo()
         unparkB->setEnabled(false);
         disconnect(parkB, SIGNAL(clicked()), currentTelescope, SLOT(Park()));
         disconnect(unparkB, SIGNAL(clicked()), currentTelescope, SLOT(UnPark()));
+
+        // QtQuick
+        m_Park->setEnabled(false);
+        m_Unpark->setEnabled(false);
     }
 
 }
@@ -329,6 +344,12 @@ void Mount::updateTelescopeCoords()
             lastStatus = currentStatus;
             parkB->setEnabled(!currentTelescope->isParked());
             unparkB->setEnabled(currentTelescope->isParked());
+
+            m_Park->setEnabled(!currentTelescope->isParked());
+            m_Unpark->setEnabled(currentTelescope->isParked());
+
+            m_statusText->setProperty("text", currentTelescope->getStatusString(currentStatus));
+
             emit newStatus(lastStatus);
         }
 
@@ -644,12 +665,32 @@ bool Mount::isLimitsEnabled()
     return enableLimitsCheck->isChecked();
 }
 
+bool Mount::slew(const QString &RA, const QString &DEC)
+{
+    dms ra, de;
+
+    ra = dms::fromString(RA, false);
+    de = dms::fromString(DEC, true);
+
+    return slew(ra.Hours(), de.Degrees());
+}
+
 bool Mount::slew(double RA, double DEC)
 {
     if (currentTelescope == NULL || currentTelescope->isConnected() == false)
         return false;
 
     return currentTelescope->Slew(RA, DEC);
+}
+
+bool Mount::sync(const QString &RA, const QString &DEC)
+{
+    dms ra, de;
+
+    ra = dms::fromString(RA, false);
+    de = dms::fromString(DEC, true);
+
+    return sync(ra.Hours(), de.Degrees());
 }
 
 bool Mount::sync(double RA, double DEC)
@@ -790,5 +831,27 @@ void Mount::showMountToolBox()
 {
     m_BaseView->show();
 }
+
+void Mount::findTarget()
+{
+    KStarsData * data = KStarsData::Instance();
+    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
+    if ( fd->exec() == QDialog::Accepted )
+    {
+        SkyObject * object = fd->targetObject();
+        if( object != 0 )
+        {
+            SkyObject * o = object->clone();
+            o->updateCoords( data->updateNum(), true, data->geo()->lat(), data->lst(), false );
+
+            m_targetText->setProperty("text", o->name());
+            m_targetRAText->setProperty("text", o->ra().toHMSString());
+            m_targetDEText->setProperty("text", o->dec().toDMSString());
+
+        }
+    }
+    delete fd;
+}
+
 
 }

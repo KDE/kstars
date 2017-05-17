@@ -1126,6 +1126,7 @@ void Guide::setMountStatus(ISD::Telescope::TelescopeStatus newState)
     {
         case ISD::Telescope::MOUNT_SLEWING:
         case ISD::Telescope::MOUNT_PARKING:
+        case ISD::Telescope::MOUNT_MOVING:
             captureB->setEnabled(false);
             calibrateB->setEnabled(false);
             if (newState == ISD::Telescope::MOUNT_PARKING)

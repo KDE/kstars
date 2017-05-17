@@ -4257,6 +4257,7 @@ void Capture::setMountStatus(ISD::Telescope::TelescopeStatus newState)
     {
         case ISD::Telescope::MOUNT_PARKING:
         case ISD::Telescope::MOUNT_SLEWING:
+        case ISD::Telescope::MOUNT_MOVING:
             previewB->setEnabled(false);
             liveVideoB->setEnabled(false);
             // Only disable when button is "Start", and not "Stopped"

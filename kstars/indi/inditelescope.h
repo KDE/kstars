@@ -35,7 +35,7 @@ class Telescope : public DeviceDecorator
         typedef enum { MOTION_NORTH, MOTION_SOUTH } TelescopeMotionNS;
         typedef enum { MOTION_WEST, MOTION_EAST } TelescopeMotionWE;
         typedef enum { MOTION_START, MOTION_STOP } TelescopeMotionCommand;
-        typedef enum { MOUNT_IDLE, MOUNT_SLEWING, MOUNT_TRACKING, MOUNT_PARKING, MOUNT_PARKED, MOUNT_ERROR } TelescopeStatus;
+        typedef enum { MOUNT_IDLE, MOUNT_MOVING, MOUNT_SLEWING, MOUNT_TRACKING, MOUNT_PARKING, MOUNT_PARKED, MOUNT_ERROR } TelescopeStatus;
         typedef enum { PARK_UNKNOWN, PARK_PARKED, PARK_PARKING, PARK_UNPARKING, PARK_UNPARKED } ParkStatus;
 
         void registerProperty(INDI::Property * prop);
@@ -64,7 +64,8 @@ class Telescope : public DeviceDecorator
         bool MoveNS(TelescopeMotionNS dir, TelescopeMotionCommand cmd);
         bool MoveWE(TelescopeMotionWE dir, TelescopeMotionCommand cmd);
         bool isSlewing();
-        bool isInMotion();
+        bool isInMotion();        
+        QString getManualMotionString() const;
 
         // Guiding
         bool canGuide();
@@ -84,7 +85,7 @@ class Telescope : public DeviceDecorator
             return parkStatus;
         }
         TelescopeStatus getStatus();
-        static const QString getStatusString(TelescopeStatus status);
+        const QString getStatusString(TelescopeStatus status);
 
         // Altitude Limits
         void setAltLimits(double minAltitude, double maxAltitude);
@@ -113,7 +114,8 @@ class Telescope : public DeviceDecorator
         IPState EqCoordPreviousState;
         QTimer * centerLockTimer=NULL;
         SkyObject * currentObject=NULL;
-
+        bool inManualMotion=false;
+        IPState NSPreviousState=IPS_IDLE, WEPreviousState=IPS_IDLE;
 };
 
 }

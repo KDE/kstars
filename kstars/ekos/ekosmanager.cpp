@@ -2046,12 +2046,13 @@ void EkosManager::updateMountStatus(ISD::Telescope::TelescopeStatus status)
 
     lastStatus = status;
 
-    mountStatus->setText(ISD::Telescope::getStatusString(status));
+    mountStatus->setText(dynamic_cast<ISD::Telescope*>(managedDevices[KSTARS_TELESCOPE])->getStatusString(status));
 
     switch (status)
     {
         case ISD::Telescope::MOUNT_PARKING:
         case ISD::Telescope::MOUNT_SLEWING:
+        case ISD::Telescope::MOUNT_MOVING:
             mountPI->setColor(QColor( KStarsData::Instance()->colorScheme()->colorNamed("TargetColor" )));
             if (mountPI->isAnimated() == false)
                 mountPI->startAnimation();
