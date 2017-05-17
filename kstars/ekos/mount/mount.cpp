@@ -227,7 +227,7 @@ void Mount::syncTelescopeInfo()
 
         // QtQuick
         m_SpeedSlider->setEnabled(true);
-        m_SpeedSlider->setProperty("to", svp->nsp-1);
+        m_SpeedSlider->setProperty("maximumValue", svp->nsp-1);
         m_SpeedSlider->setProperty("value", index);
 
         m_SpeedLabel->setProperty("text", slewSpeedCombo->currentText());
