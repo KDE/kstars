@@ -121,6 +121,7 @@ Mount::Mount()
 
     m_BaseView->setSource(QUrl::fromLocalFile(MountBox_Location));
     m_BaseView->setTitle(i18n("Mount Control"));
+    m_BaseView->setFlags(Qt::WindowStaysOnTopHint);
 
     // Theming?
     m_BaseView->setColor(Qt::black);

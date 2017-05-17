@@ -304,7 +304,7 @@ Rectangle {
                 Layout.minimumWidth: 75
                 font.weight: Font.Bold
                 font.bold: true
-                font.pointSize: 18
+                font.pointSize: 14
                 font.family: "Verdana"
                 fontSizeMode: Text.Fit
                 verticalAlignment: Text.AlignVCenter
@@ -342,7 +342,6 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 font.pointSize: parent.coordsValueSize
-                font.bold: true
             }
 
             Label {
@@ -360,7 +359,6 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 font.pointSize: parent.coordsValueSize
-                font.bold: true
             }
 
             Label {
@@ -378,7 +376,6 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 font.pointSize: parent.coordsValueSize
-                font.bold: true
             }
 
             Label {
@@ -396,7 +393,6 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 font.pointSize: parent.coordsValueSize
-                font.bold: true
             }
 
             Label {
@@ -414,7 +410,6 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 font.pointSize: parent.coordsValueSize
-                font.bold: true
 
             }
 
@@ -433,7 +428,6 @@ Rectangle {
                 color: coordsColor
                 text: "00:00:00"
                 font.pointSize: parent.coordsValueSize
-                font.bold: true
 
             }
         }
@@ -517,7 +511,6 @@ Rectangle {
                 color: "#ffffff"
                 text: qsTr("RA (JNOW):")
                 font.pointSize: 12
-                font.bold: true
             }
 
             TextField {
@@ -536,7 +529,6 @@ Rectangle {
                 color: "#ffffff"
                 text: qsTr("DE (JNOW):")
                 font.pointSize: 12
-                font.bold: true
             }
 
             TextField {
