@@ -25,3 +25,12 @@ build_kstarslite/android_libs_src/libnova/build/*
 *.qmlc
 
 CMakeLists.txt.user
+kstars\.config
+
+kstars\.creator
+
+kstars\.creator\.user
+
+kstars\.files
+
+kstars\.includes
