@@ -121,7 +121,11 @@ Mount::Mount()
 
     m_BaseView->setSource(QUrl::fromLocalFile(MountBox_Location));
     m_BaseView->setTitle(i18n("Mount Control"));
-    m_BaseView->setFlags(Qt::WindowStaysOnTopHint);
+#ifdef Q_OS_OSX
+    m_BaseView->setFlags(Qt::Tool|Qt::WindowStaysOnTopHint);
+#else
+m_BaseView->setFlags(Qt::WindowStaysOnTopHint|Qt::WindowCloseButtonHint);
+#endif
 
     // Theming?
     m_BaseView->setColor(Qt::black);
@@ -854,5 +858,10 @@ void Mount::findTarget()
     delete fd;
 }
 
+void Mount::centerMount()
+{
+    if (currentTelescope)
+        currentTelescope->runCommand(INDI_ENGAGE_TRACKING);
+}
 
 }

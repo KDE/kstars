@@ -172,6 +172,9 @@ class Mount : public QWidget, public Ui::Mount
 
         Q_INVOKABLE void findTarget();
 
+        // Center mount in Sky Map
+        Q_INVOKABLE void centerMount();
+
     public slots:
 
         /**

@@ -623,8 +623,29 @@ Rectangle {
                 objectName: "statusTextObject"
                 color: "#ffffff"
                 text: qsTr("Idle")
+                Layout.fillWidth: true
+                Layout.minimumWidth: 100
                 font.pointSize: 12
                 font.bold: true
+            }
+
+            Button {
+                id: centerMount
+                Layout.maximumHeight: 32
+                Layout.maximumWidth: 32
+                Layout.minimumHeight: 32
+                Layout.minimumWidth: 32
+
+                Image {
+                    id: centerMountIcon
+                    anchors.fill: parent
+                    source: "qrc:/icons/breeze/default/crosshairs.svg"
+                }
+
+                onClicked:
+                {
+                    mount.centerMount()
+                }
             }
         }
     }
