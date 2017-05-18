@@ -272,22 +272,7 @@ ObservingList::ObservingList()
         altItem->setData( altCost, Qt::UserRole );
 //        qDebug() << "Updating altitude for " << p.ra().toHMSString() << " " << p.dec().toDMSString() << " alt = " << p.alt().toDMSString() << " info to " << itemText;
         return altItem;
-    };
-
-    slotLoadWishList(); //Load the wishlist from disk if present
-    m_CurrentObject = 0;
-    setSaveImagesButton();
-    //Hide the MiniButton until I can figure out how to resize the Dialog!
-    //    ui->MiniButton->hide();
-
-    // Set up for the large-size view
-    bIsLarge = false;
-    slotToggleSize();
-
-    slotUpdateAltitudes();
-    m_altitudeUpdater = new QTimer( this );
-    connect( m_altitudeUpdater, SIGNAL( timeout() ), this, SLOT( slotUpdateAltitudes() ) );
-    m_altitudeUpdater->start( 120000 ); // update altitudes every 2 minutes
+    };    
 
 }
 
@@ -297,6 +282,33 @@ ObservingList::~ObservingList()
     delete m_SessionModel;
     delete m_WishListModel;
     delete m_SessionSortModel;
+}
+
+// Show Event
+
+void ObservingList::showEvent(QShowEvent *)
+{
+    // ONLY run for first ever load
+
+    if (m_initialWishlistLoad == false)
+    {
+        m_initialWishlistLoad = true;
+
+        slotLoadWishList(); //Load the wishlist from disk if present
+        m_CurrentObject = 0;
+        setSaveImagesButton();
+        //Hide the MiniButton until I can figure out how to resize the Dialog!
+        //    ui->MiniButton->hide();
+
+        // Set up for the large-size view
+        bIsLarge = false;
+        slotToggleSize();
+
+        slotUpdateAltitudes();
+        m_altitudeUpdater = new QTimer( this );
+        connect( m_altitudeUpdater, SIGNAL( timeout() ), this, SLOT( slotUpdateAltitudes() ) );
+        m_altitudeUpdater->start( 120000 ); // update altitudes every 2 minutes
+    }
 }
 
 //SLOTS
@@ -1055,6 +1067,13 @@ void ObservingList::slotLoadWishList()
     }
     QTextStream istream( &f );
     QString line;
+
+    QPointer<QProgressDialog> addingObjectsProgress = new QProgressDialog();
+    addingObjectsProgress->setWindowTitle(i18n("Observing List Wizard"));
+    addingObjectsProgress->setLabelText(i18n("Please wait while loading objects..."));
+    addingObjectsProgress->setMaximum(0);
+    addingObjectsProgress->setMinimum(0);
+    addingObjectsProgress->show();
     while ( ! istream.atEnd() )
     {
         line = istream.readLine();
@@ -1075,7 +1094,11 @@ void ObservingList::slotLoadWishList()
         //name as a star's genetive name (with ascii letters)
         if ( ! o ) o = KStarsData::Instance()->skyComposite()->findStarByGenetiveName( line );
         if ( o ) slotAddObject( o, false, true );
+        if (addingObjectsProgress->wasCanceled())
+            break;
+        qApp->processEvents();
     }
+    delete (addingObjectsProgress);
     f.close();
 }
 

@@ -394,6 +394,9 @@ class ObservingList : public QDialog
         void slotClose();
         void downloadReady( bool success );
 
+    protected:
+        void showEvent(QShowEvent *);
+
     private:
 
         /**
@@ -458,6 +461,7 @@ class ObservingList : public QDialog
         QPixmap m_NoImagePixmap;
         QTimer * m_altitudeUpdater;
         std::function<QStandardItem *(const SkyPoint &)> m_altCostHelper;
+        bool m_initialWishlistLoad=false;
 };
 
 #endif // OBSERVINGLIST_H_
