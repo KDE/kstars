@@ -316,119 +316,105 @@ Rectangle {
 
         GridLayout {
             id: mountCoordsLayout
-            width: 100
-            height: 100
-            Layout.fillHeight: false
             Layout.maximumWidth: 200
             Layout.fillWidth: true
             rows: 2
             columns: 4
-            property int coordsLabelSize: 10
-            property int coordsValueSize: 11
-
 
             Label {
                 id: raLabel
                 text: qsTr("RA:")
-                font.bold: true
-                font.pointSize: parent.coordsLabelSize
+                font.bold: true                
                 color: "white"
+                fontSizeMode: Text.Fit
             }
 
             Label {
                 id: raValue
-                objectName: "raValueObject"
-                width: 50
+                objectName: "raValueObject"                
                 color: coordsColor
                 text: "00:00:00"
-                font.pointSize: parent.coordsValueSize
+                fontSizeMode: Text.Fit
             }
 
             Label {
                 id: azLabel
                 color: "#ffffff"
                 text: qsTr("AZ:")
-                font.pointSize: parent.coordsLabelSize
+                fontSizeMode: Text.Fit
                 font.bold: true
             }
 
             Label {
                 id: azValue
                 objectName: "azValueObject"
-                width: 50
                 color: coordsColor
                 text: "00:00:00"
-                font.pointSize: parent.coordsValueSize
+                fontSizeMode: Text.Fit
             }
 
             Label {
                 id: deLabel
                 color: "#ffffff"
                 text: qsTr("DE:")
-                font.pointSize: parent.coordsLabelSize
+                fontSizeMode: Text.Fit
                 font.bold: true
             }
 
             Label {
                 id: deValue
                 objectName: "deValueObject"
-                width: 50
                 color: coordsColor
                 text: "00:00:00"
-                font.pointSize: parent.coordsValueSize
+                fontSizeMode: Text.Fit
             }
 
             Label {
                 id: altLabel
                 color: "#ffffff"
                 text: qsTr("AL:")
-                font.pointSize: parent.coordsLabelSize
+                fontSizeMode: Text.Fit
                 font.bold: true
             }
 
             Label {
                 id: altValue
                 objectName: "altValueObject"
-                width: 50
                 color: coordsColor
                 text: "00:00:00"
-                font.pointSize: parent.coordsValueSize
+                fontSizeMode: Text.Fit
             }
 
             Label {
                 id: haLabel
                 color: "#ffffff"
                 text: qsTr("HA:")
-                font.pointSize: parent.coordsLabelSize
+                fontSizeMode: Text.Fit
                 font.bold: true
             }
 
             Label {
                 id: haValue
                 objectName: "haValueObject"
-                width: 50
                 color: coordsColor
                 text: "00:00:00"
-                font.pointSize: parent.coordsValueSize
-
+                fontSizeMode: Text.Fit
             }
 
             Label {
                 id: zaLabel
                 color: "#ffffff"
                 text: qsTr("ZA:")
-                font.pointSize: parent.coordsLabelSize
+                fontSizeMode: Text.Fit
                 font.bold: true
             }
 
             Label {
                 id: zaValue
                 objectName: "zaValueObject"
-                width: 50
                 color: coordsColor
                 text: "00:00:00"
-                font.pointSize: parent.coordsValueSize
-
+                fontSizeMode: Text.Fit
             }
         }
 
