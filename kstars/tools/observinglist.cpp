@@ -217,6 +217,7 @@ ObservingList::ObservingList()
              this, SLOT( slotDeleteAllImages() ) );
     connect( ui->OALExport, SIGNAL( clicked() ),
              this, SLOT( slotOALExport() ) );
+    connect( ui->clearListB, SIGNAL(clicked()), this, SLOT(slotClearList()));
     //Add icons to Push Buttons
     ui->OpenButton->setIcon( QIcon::fromTheme("document-open", QIcon(":/icons/breeze/default/document-open.svg")) );
     ui->OpenButton ->setAttribute(Qt::WA_LayoutUsesWidgetRect);
@@ -863,7 +864,7 @@ void ObservingList::slotClose()
 
 void ObservingList::saveCurrentUserLog()
 {
-    if ( ! ui->NotesEdit->toPlainText().isEmpty() &&
+    if (LogObject && ! ui->NotesEdit->toPlainText().isEmpty() &&
             ui->NotesEdit->toPlainText() !=
             i18n( "Record here observation logs and/or data on %1.", getObjectName(LogObject) ) )
     {
@@ -936,6 +937,36 @@ void ObservingList::slotOpenList()
     else if ( ! fileURL.toLocalFile().isEmpty() )
     {
         KMessageBox::sorry( 0 , i18n( "The specified file is invalid" ) );
+    }
+}
+
+void ObservingList::slotClearList()
+{
+    if ( (ui->tabWidget->currentIndex() == 0 && obsList().isEmpty()) || (ui->tabWidget->currentIndex() == 1 && sessionList().isEmpty()))
+        return;
+
+    QString message = i18n( "Are you sure you want to clear all objects?" );
+    if (KMessageBox::questionYesNo( this, message, i18n( "Clear all?" )) == KMessageBox::Yes )
+    {
+        // Did I forget anything else to remove?
+        ui->avt->removeAllPlotObjects();
+        m_CurrentObject = LogObject = nullptr;
+
+        if (ui->tabWidget->currentIndex() == 0)
+        {
+            // IMPORTANT: Is this enough or we will have dangling pointers in memory?
+            ImagePreviewHash.clear();
+            obsList().clear();
+            m_WishListModel->setRowCount(0);
+        }
+        else
+        {
+            // IMPORTANT: Is this enough or we will have dangling pointers in memory?
+            sessionList().clear();
+            TimeHash.clear();
+            isModified = true;         //Removing an object should trigger the modified flag
+            m_SessionModel->setRowCount(0);
+        }        
     }
 }
 
@@ -1084,11 +1115,25 @@ void ObservingList::slotWizard()
     QPointer<ObsListWizard> wizard = new ObsListWizard( KStars::Instance() );
     if ( wizard->exec() == QDialog::Accepted )
     {
+        QPointer<QProgressDialog> addingObjectsProgress = new QProgressDialog();
+        addingObjectsProgress->setWindowTitle(i18n("Observing List Wizard"));
+        addingObjectsProgress->setLabelText(i18n("Please wait while adding objects..."));
+        addingObjectsProgress->setMaximum(wizard->obsList().size());
+        addingObjectsProgress->setMinimum(0);
+        addingObjectsProgress->setValue(0);
+        addingObjectsProgress->show();
+        int counter=1;
         foreach ( SkyObject * o, wizard->obsList() )
         {
             slotAddObject( o );
+            addingObjectsProgress->setValue(counter++);
+            if (addingObjectsProgress->wasCanceled())
+                break;
+            qApp->processEvents();
         }
+        delete addingObjectsProgress;
     }
+
     delete wizard;
 }
 

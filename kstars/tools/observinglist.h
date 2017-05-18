@@ -384,6 +384,11 @@ class ObservingList : public QDialog
          */
         void slotUpdateAltitudes();
 
+        /**
+         * @brief slotClearList Remove all objects from current list
+         */
+        void slotClearList();
+
 
     protected slots:
         void slotClose();
