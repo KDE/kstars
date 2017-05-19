@@ -401,6 +401,24 @@ void Focus::checkCCD(int ccdNum)
                 ISOCombo->setCurrentIndex(targetChip->getISOIndex());
             }
 
+            gainLabel->setEnabled(currentCCD->hasGain());
+            gainIN->setEnabled(currentCCD->hasGain());
+            if (gainIN->isEnabled())
+            {
+                double gain=0, min=0,max=0,step=1;
+                currentCCD->getGainMinMaxStep(&min, &max, &step);
+                if (currentCCD->getGain(&gain))
+                {
+                    gainIN->setMinimum(min);
+                    gainIN->setMaximum(max);
+                    if (step > 0)
+                        gainIN->setSingleStep(step);
+                    gainIN->setValue(gain);
+                }
+            }
+            else
+                gainIN->clear();
+
         }
     }
 
@@ -934,6 +952,9 @@ void Focus::capture()
 
     if (ISOCombo->isEnabled() && ISOCombo->currentIndex() != -1 && targetChip->getISOIndex() != ISOCombo->currentIndex())
         targetChip->setISOIndex(ISOCombo->currentIndex());
+
+    if (gainIN->isEnabled())
+        currentCCD->setGain(gainIN->value());
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB *)), this, SLOT(newFITS(IBLOB *)));
 

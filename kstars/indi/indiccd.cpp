@@ -962,6 +962,27 @@ void CCD::registerProperty(INDI::Property * prop)
                 telescopeType = TELESCOPE_GUIDE;
         }
     }
+    // try to find gain property, if any
+    else if (gainN == nullptr && prop->getType() == INDI_NUMBER)
+    {
+        // Since gain is spread among multiple property depending on the camera providing it
+        // we need to search in all possible number properties
+        INumberVectorProperty *gainNP = prop->getNumber();
+        if (gainNP)
+        {
+            for (int i=0; i < gainNP->nnp; i++)
+            {
+                QString name = QString(gainNP->np[i].name).toLower();
+                QString label= QString(gainNP->np[i].label).toLower();
+
+                if (name == "gain" || label == "gain")
+                {
+                    gainN = gainNP->np+i;
+                    break;
+                }
+            }
+        }
+    }
 
     DeviceDecorator::registerProperty(prop);
 }
@@ -2351,5 +2372,36 @@ bool CCD::setFITSHeader(const QMap<QString, QString> &values)
     return true;
 }
 
+bool CCD::setGain(double value)
+{
+    if (gainN == nullptr)
+        return false;
+
+    gainN->value = value;
+    clientManager->sendNewNumber(gainN->nvp);
+    return true;
+}
+
+bool CCD::getGain(double *value)
+{
+    if (gainN == nullptr)
+        return false;
+
+    *value = gainN->value;
+
+    return true;
+}
+
+bool CCD::getGainMinMaxStep(double *min, double *max, double *step)
+{
+    if (gainN == nullptr)
+        return false;
+
+    *min = gainN->min;
+    *max = gainN->max;
+    *step= gainN->step;
+
+    return true;
+}
 
 }
