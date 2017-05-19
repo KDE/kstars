@@ -219,6 +219,12 @@ class CCD : public DeviceDecorator
             filter = newFilter;
         }
 
+        // Gain
+        bool hasGain() { return gainN != nullptr; }
+        bool getGain(double *value);
+        bool getGainMinMaxStep(double *min, double *max, double *step);
+        bool setGain(double value);
+
         // Rapid Guide
         bool configureRapidGuide(CCDChip * targetChip, bool autoLoop, bool sendImage=false, bool showMarker=false);
         bool setRapidGuide(CCDChip * targetChip, bool enable);
@@ -295,7 +301,7 @@ class CCD : public DeviceDecorator
         bool HasGuideHead;
         bool HasCooler;
         bool HasCoolerControl;
-        bool HasVideoStream;
+        bool HasVideoStream;        
         QString		seqPrefix;
         QString     fitsDir;
         char BLOBFilename[MAXINDIFILENAME];
@@ -308,10 +314,11 @@ class CCD : public DeviceDecorator
         TransferFormat transferFormat, targetTransferFormat;
         TelescopeType telescopeType = TELESCOPE_PRIMARY;
 
+        // Gain, since it is spread among different vector properties, let's try to find the property itself.
+        INumber *gainN=nullptr;
+
         QPointer<FITSViewer> fv;
         QPointer<ImageViewer> imageViewer;
-
-
 };
 
 }

@@ -52,7 +52,10 @@
 #define MF_RA_DIFF_LIMIT    4
 #define MAX_CAPTURE_RETRIES 3
 
-#define SQ_FORMAT_VERSION   1.6
+// Current Sequence File Format:
+#define SQ_FORMAT_VERSION   1.7
+// We accept file formats with version back to:
+#define SQ_COMPAT_VERSION   1.6
 
 namespace Ekos
 {
@@ -669,6 +672,24 @@ void Capture::checkCCD(int ccdNum)
                 //appendLogText(i18n("DSLR CCD Information is incomplete. Please update CCD Information in Image Info section in the INDI Control Panel."));
             }
         }
+
+        gainLabel->setEnabled(currentCCD->hasGain());
+        gainIN->setEnabled(currentCCD->hasGain());
+        if (gainIN->isEnabled())
+        {
+            double gain=0, min=0,max=0,step=1;
+            currentCCD->getGainMinMaxStep(&min, &max, &step);
+            if (currentCCD->getGain(&gain))
+            {
+                gainIN->setMinimum(min);
+                gainIN->setMaximum(max);
+                if (step > 0)
+                    gainIN->setSingleStep(step);
+                gainIN->setValue(gain);
+            }
+        }
+        else
+            gainIN->clear();
 
         liveVideoB->setEnabled(currentCCD->hasVideoStream());
         setVideoStreamEnabled(currentCCD->isStreamingEnabled());
@@ -1637,6 +1658,9 @@ void Capture::addJob(bool preview)
     if (ISOCombo->isEnabled())
         job->setISOIndex(ISOCombo->currentIndex());
 
+    if (gainIN->isEnabled())
+        job->setGain(gainIN->value());
+
     job->setTransforFormat(static_cast<ISD::CCD::TransferFormat>(transferFormatCombo->currentIndex()));
 
     job->setPreview(preview);
@@ -2393,7 +2417,7 @@ bool Capture::loadSequenceQueue(const QString &fileURL)
         if (root)
         {
             double sqVersion= atof(findXMLAttValu(root, "version"));
-            if (sqVersion < SQ_FORMAT_VERSION)
+            if (sqVersion < SQ_COMPAT_VERSION)
             {
                 appendLogText(i18n("Deprecated sequence file format version %1. Please construct a new sequence file.", sqVersion));
                 return false;
@@ -2569,6 +2593,11 @@ bool Capture::processJobInfo(XMLEle * root)
         {
             if (ISOCombo->isEnabled())
                 ISOCombo->setCurrentIndex(atoi(pcdataXMLEle(ep)));
+        }
+        else if (!strcmp(tagXMLEle(ep), "Gain"))
+        {
+            if (gainIN->isEnabled())
+                gainIN->setValue(atof(pcdataXMLEle(ep)));
         }
         else if (!strcmp(tagXMLEle(ep), "FormatIndex"))
         {
@@ -2784,6 +2813,8 @@ bool Capture::saveSequenceQueue(const QString &path)
             outstream << "<RemoteDirectory>" << job->getRemoteDir() << "</RemoteDirectory>" << endl;
         if (job->getISOIndex() != -1)
             outstream << "<ISOIndex>" << (job->getISOIndex()) << "</ISOIndex>" << endl;
+        if (job->getGain() != -1)
+            outstream << "<Gain>" << (job->getGain()) << "</Gain>" << endl;
         outstream << "<FormatIndex>" << (job->getTransforFormat()) << "</FormatIndex>" << endl;
 
         outstream << "<Calibration>" << endl;
@@ -2896,6 +2927,9 @@ void Capture::syncGUIToJob(SequenceJob * job)
 
     if (ISOCombo->isEnabled())
         ISOCombo->setCurrentIndex(job->getISOIndex());
+
+    if (gainIN->isEnabled())
+        gainIN->setValue(job->getGain());
 
     transferFormatCombo->setCurrentIndex(job->getTransforFormat());
 }
