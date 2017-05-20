@@ -1,0 +1,26 @@
+diff --git CMakeLists.txt CMakeLists.txt
+index ff32a64..2a75747 100644
+--- CMakeLists.txt
++++ CMakeLists.txt
+@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+ 
+ project(libnova)
+ 
++include(${CMAKE_TOOLCHAIN_FILE})
++
+ # define the name of the library
+ set(LIBRARY_NAME libnova)
+ 
+diff --git src/julian_day.c src/julian_day.c
+index d360c79..35809d6 100644
+--- src/julian_day.c
++++ src/julian_day.c
+@@ -27,7 +27,7 @@
+ #include <libnova/julian_day.h>
+ #include <libnova/utility.h>
+ 
+-#include "config.h"
++#define HAVE_ROUND //#include "config.h"
+ 
+ #if !defined(__WIN32__) || defined(__MINGW__)
+ #include <sys/time.h>

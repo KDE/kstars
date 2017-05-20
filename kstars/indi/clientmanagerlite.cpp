@@ -859,6 +859,7 @@ bool ClientManagerLite::processBLOBasCCD(IBLOB * bp)
             OUT.use_camera_wb = 1; // -w
             OUT.highlight = 5; // -H
             OUT.bright = 8; // -b
+#undef OUT
 
             QString rawFileName = filename;
             rawFileName = rawFileName.remove(0, rawFileName.lastIndexOf(QLatin1Literal("/")));

@@ -26,7 +26,7 @@ KSPage {
 
     Item {
         id: imgPreviewColumn
-        anchors.bottom: parent.bottom
+        anchors.fill: parent
 
         RowLayout {
             id: saveButtons
