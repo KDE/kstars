@@ -731,7 +731,7 @@ class KStars : public KXmlGuiWindow
 
         // FIXME Port to QML2
         //#if 0
-        WIView * m_WIView;
+        WIView * m_WIView = nullptr;
         WILPSettings * m_WISettings;
         WIEquipSettings * m_WIEquipmentSettings;
         ObsConditions * m_ObsConditions;

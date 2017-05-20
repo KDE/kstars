@@ -235,6 +235,8 @@ EkosManager::~EkosManager()
     delete guideStarPixmap;
 
     qDeleteAll(profiles);
+
+    guideProcess=nullptr;
 }
 
 void EkosManager::closeEvent(QCloseEvent * /*event*/)

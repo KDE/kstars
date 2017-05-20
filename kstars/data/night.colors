@@ -30,7 +30,7 @@
 #FF0000 :SatColor
 #640000 :SatLabelColor
 #FFA500 :SupernovaColor
-#00FF00 :RAGuideError
-#00A5FF :DEGuideError
-#FFFF00 :SolverFOV
+#FF8200 :RAGuideError
+#FF0500 :DEGuideError
+#FFFF00 :SolverFOVColor
 #950000 :FITSObjectLabelColor
