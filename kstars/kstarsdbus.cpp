@@ -51,8 +51,12 @@
 
 #include "tools/whatsinteresting/wiview.h"
 
+
 #ifdef HAVE_CFITSIO
 #include "fitsviewer/fitsviewer.h"
+#ifdef HAVE_INDI
+#include "ekos/ekosmanager.h"
+#endif
 #endif
 
 void KStars::setRaDec( double ra, double dec )
@@ -497,8 +501,6 @@ void KStars::loadColorScheme( const QString &name )
     if ( ok )
     {
         //set the application colors for the Night Vision scheme
-        //if ( Options::darkAppColors() == false && filename == "night.colors" )  {
-        //Options::setDarkAppColors( true );
         if (Options::darkAppColors())
         {
             //OriginalPalette = QApplication::palette();
@@ -508,7 +510,8 @@ void KStars::loadColorScheme( const QString &name )
             //Note:  This uses style sheets to set the dark colors, this is cross platform.  Palettes have a different behavior on OS X and Windows as opposed to Linux.
             //It might be a good idea to use stylesheets in the future instead of palettes but this will work for now for OS X.
             //This is also in KStars.cpp.  If you change it, change it in BOTH places.
-#ifdef Q_OS_OSX
+            #ifdef Q_OS_OSX
+            qDebug()<<"setting dark stylesheet";
             qApp->setStyleSheet("QWidget { background-color: black; color:red; selection-background-color:rgb(30,30,30);selection-color:white}" \
                                 "QToolBar { border:none }" \
                                 "QTabBar::tab:selected { background-color:rgb(50,50,50) }" \
@@ -532,20 +535,27 @@ void KStars::loadColorScheme( const QString &name )
                                 "QHeaderView::Section { background-color:rgb(30,30,30) }" \
                                 "QTableCornerButton::section{ background-color:rgb(30,30,30) }" \
                                 "");
-#endif
+            qDebug()<<"stylesheet set";
+        #endif
         }
         else
         {
             if(KStars::Instance()->wiView())
                 KStars::Instance()->wiView()->setNightVisionOn(false);
-            //if ( Options::darkAppColors() && filename != "night.colors" ) {
-            //Options::setDarkAppColors( false );
             QApplication::setPalette( OriginalPalette );
-#ifdef Q_OS_OSX
-            qApp->setStyleSheet("QRoundProgressBar { background-color: rgb(208,208,208) }" \
-                                "");
-#endif
+            #ifdef Q_OS_OSX
+            qDebug()<<"setting light stylesheet";
+            qApp->setStyleSheet("");
+            qDebug()<<"stylesheet set";
+            #endif
         }
+        #ifdef HAVE_INDI
+        if(KStars::Instance()->ekosManager()){
+            if(KStars::Instance()->ekosManager()->guideModule()){
+                KStars::Instance()->ekosManager()->guideModule()->refreshColorScheme();
+            }
+        }
+        #endif
 
         Options::setColorSchemeFile( name );
 

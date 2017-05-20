@@ -1951,8 +1951,12 @@ void Guide::setAxisPulse(double ra, double de)
 void Guide::refreshColorScheme()
 {
     // Drift color legend
-    driftGraph->graph(0)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
-    driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+    if(driftGraph){
+        if(driftGraph->graph(0)&&driftGraph->graph(1)){
+            driftGraph->graph(0)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("RAGuideError")));
+            driftGraph->graph(1)->setPen(QPen(KStarsData::Instance()->colorScheme()->colorNamed("DEGuideError")));
+        }
+    }
 }
 
 void Guide::driftMouseClicked(QMouseEvent * event)

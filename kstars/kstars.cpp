@@ -360,8 +360,7 @@ void KStars::applyConfig( bool doApplyFocus )
                             "QTableCornerButton::section{ background-color:rgb(30,30,30) }" \
                             "");
     else
-        qApp->setStyleSheet("QRoundProgressBar { background-color: rgb(208,208,208) }" \
-                            "");
+        qApp->setStyleSheet("");
 #endif
 
 
