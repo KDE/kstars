@@ -1,0 +1,63 @@
+
+Only Linux cross-compilation to Android is supported.
+
+Prerequisites:
+- Install Android NDK and Android SDK
+- Install Qt 5.7+ for Android under your home directory to be writable. Unfortunately, there is a Qt bug
+  (https://bugreports.qt.io/browse/QTBUG-54666) what can be fixed by only patching one cmake config file.
+  The build files will comment the problematic line.
+- Get KStars source code from from Github or KDE
+
+Set the following environmental variables before building:
+
+export QT_ANDROID=Qt SDK for Android target (e.g. .../Qt/5.8/android_armv7"}
+export ANDROID_NDK=Android NDK path
+export ANDROID_SDK_ROOT=Android SDK path
+export ANDROID_API_LEVEL=Android API level (currently the minimum is 17)
+
+If you want to generate signed release package set the following variables:
+
+export ANDROID_KEYSTORE=your_keystore_file
+export ANDROID_KEYSTORE_ALIAS=your_keystore_alias
+
+First build the KF5 dependencies separately:
+
+1. Go to the root of the source directory.
+2. Create build directory for out-of-source build:
+
+mkdir build
+cd build
+
+3. Run build_kf5.sh and verify that the script builds everything without any problem.
+
+../android/build_kf5.sh
+
+When KF5 are ready, build KStars Lite for Android:
+
+- Install Eigen3, git and other dependencies
+- Configure out-of-source build (MinSizeRel build type is recommended for Android):
+
+cmake -B. -H.. -DBUILD_KSTARS_LITE=ON -DCMAKE_TOOLCHAIN_FILE=android/toolchain-android.cmake \
+        -DEIGEN3_INCLUDE_DIR=/usr/include/eigen3/ -DCMAKE_INSTALL_PREFIX=$(pwd)/android/export -DCMAKE_BUILD_TYPE=MinSizeRel
+
+- Compile:
+
+make -j4 indi
+make -j4
+
+- Install:
+
+make -j4 install
+
+- Generate the Android debug and release packages:
+
+make create-apk-kstars
+
+- To sign a release package:
+
+make sign-apk-kstars
+
+- The debug package location: android/kstars_build_apk/bin/QtApp-debug.apk
+  Install: adb install android/kstars_build_apk/bin/QtApp-debug.apk
+- The release package location: android/kstars_build_apk/bin/kstars-release-signed.apk
+  Install: adb install android/kstars_build_apk/bin/kstars-signed.apk

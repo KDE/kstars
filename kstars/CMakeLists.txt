@@ -11,8 +11,14 @@ else()
     SET(HAVE_KF5WIT 0)
 endif()
 
-Find_package(ZLIB REQUIRED)
-Find_package(Threads REQUIRED)
+if (ANDROID AND CMAKE_TOOLCHAIN_FILE)
+    include(${CMAKE_TOOLCHAIN_FILE})
+endif ()
+
+if (NOT ANDROID)
+    Find_package(ZLIB REQUIRED)
+    Find_package(Threads REQUIRED)
+endif ()
 
 if(MSVC)
     add_definitions(-D_USE_MATH_DEFINES=1)
@@ -906,17 +912,11 @@ if(BUILD_KSTARS_LITE)
         Qt5::Positioning
         Qt5::Concurrent
         ${ZLIB_LIBRARIES}
-        ${QT_EXTRA_LIBRARIES}
         )
-    if(INDI_FOUND)
-        if(ANDROID)
-            #RAWExtractor is needed for converting RAW photos to JPEG in INDI Lite
-            add_library(RAWExtractor SHARED IMPORTED)
-            include_directories(${BUILD_KSTARSLITE_DIR}/include/libraw)
-            set_property(TARGET RAWExtractor PROPERTY IMPORTED_LOCATION ${BUILD_KSTARSLITE_DIR}/android_libs/${ANDROID_ARCHITECTURE}/libRAWExtractor.so)
-            target_link_libraries(KStarsLib RAWExtractor)
-        endif(ANDROID)
-    endif(INDI_FOUND)
+
+    if (ANDROID)
+        target_link_libraries(KStarsLib Qt5::AndroidExtras)
+    endif ()
 
 else(BUILD_KSTARS_LITE)
     target_link_libraries(KStarsLib
@@ -924,7 +924,7 @@ else(BUILD_KSTARS_LITE)
         htmesh
         KF5::Crash
         KF5::I18n
-        KF5::NewStuff        
+        KF5::NewStuff
         KF5::KIOFileWidgets
         KF5::WidgetsAddons
         KF5::Plotting
@@ -953,8 +953,12 @@ if (CFITSIO_FOUND)
 endif(CFITSIO_FOUND)
 
 if(INDI_FOUND)
-find_package(Nova REQUIRED)
-include_directories(${NOVA_INCLUDE_DIR})
+    if (ANDROID)
+        include_directories(${NOVA_INCLUDE_DIR})
+    else ()
+        find_package(Nova REQUIRED)
+        include_directories(${NOVA_INCLUDE_DIR})
+    endif ()
 
     ## Support Multiple Platforms. All Require INDI + libnova
     ## WIN32 Desktop: Requires INDI Qt5 Client + GSL
@@ -974,7 +978,7 @@ include_directories(${NOVA_INCLUDE_DIR})
     if(WIN32 OR ANDROID)
         add_definitions(-DUSE_QT5_INDI)
         if(ANDROID)
-            target_link_libraries(KStarsLib ${INDI_CLIENT_ANDROID_LIBRARIES} ${NOVA_LIBRARIES})
+            target_link_libraries(KStarsLib ${INDI_CLIENT_ANDROID_LIBRARIES} ${NOVA_LIBRARIES} ${CFITSIO_LIBRARIES} ${LIBRAW_LIBRARIES})
         else(ANDROID)
             target_link_libraries(KStarsLib ${INDI_CLIENT_QT_LIBRARIES} ${NOVA_LIBRARIES})
         endif(ANDROID)
@@ -994,9 +998,7 @@ if(WCSLIB_FOUND)
 endif (WCSLIB_FOUND)
 
 if(LibRaw_FOUND)
-if(NOT BUILD_KSTARS_LITE)
     target_link_libraries(KStarsLib ${LibRaw_LIBRARIES})
-endif(NOT BUILD_KSTARS_LITE)
 endif (LibRaw_FOUND)
 
 #FIXME Enable OpenGL Later
@@ -1024,8 +1026,14 @@ ecm_add_app_icon(KSTARS_APP_SRCS ICONS
 qt5_add_resources(KSTARS_APP_SRCS data/kstars.qrc)
 endif(NOT BUILD_KSTARS_LITE)
 
-add_executable(kstars ${KSTARS_APP_SRCS})
-target_link_libraries(kstars KStarsLib)
+if (ANDROID)
+    add_library(kstars SHARED ${KSTARS_APP_SRCS})
+    add_dependencies(KStarsLib cfitsio indi nova raw)
+    target_link_libraries(kstars KStarsLib ${CMAKE_SOURCE_DIR}/android/hack/locale.o -lgnustl_static)
+else ()
+    add_executable(kstars ${KSTARS_APP_SRCS})
+    target_link_libraries(kstars KStarsLib)
+endif ()
 
 if(NOT BUILD_KSTARS_LITE)
     install(TARGETS kstars ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
