@@ -199,6 +199,23 @@ EkosManager::EkosManager(QWidget * parent) : QDialog(parent)
     vlayout->addWidget(previewView);
     previewWidget->setLayout(vlayout);
 
+    if (Options::ekosLeftIcons())
+    {
+        toolsWidget->setTabPosition(QTabWidget::West);
+        QTransform trans;
+        trans.rotate(90);
+
+        QIcon icon = toolsWidget->tabIcon(0);
+        QPixmap pix = icon.pixmap(QSize(48,48));
+        icon = QIcon(pix.transformed(trans));
+        toolsWidget->setTabIcon(0, icon);
+
+        icon = toolsWidget->tabIcon(1);
+        pix = icon.pixmap(QSize(48,48));
+        icon = QIcon(pix.transformed(trans));
+        toolsWidget->setTabIcon(1, icon);
+    }
+
     resize(Options::ekosWindowWidth(), Options::ekosWindowHeight());
 }
 
@@ -1509,6 +1526,15 @@ void EkosManager::initCapture()
     captureProcess->setEnabled(false);
     int index = toolsWidget->addTab( captureProcess, QIcon(":/icons/ekos_ccd.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18nc("Charge-Coupled Device", "CCD"));
+    if (Options::ekosLeftIcons())
+    {
+        QTransform trans;
+        trans.rotate(90);
+        QIcon icon = toolsWidget->tabIcon(index);
+        QPixmap pix = icon.pixmap(QSize(48,48));
+        icon = QIcon(pix.transformed(trans));
+        toolsWidget->setTabIcon(index, icon);
+    }
     connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
     connect(captureProcess, SIGNAL(newStatus(Ekos::CaptureState)), this, SLOT(updateCaptureStatus(Ekos::CaptureState)));
     connect(captureProcess, SIGNAL(newImage(QImage *, Ekos::SequenceJob *)), this, SLOT(updateCaptureProgress(QImage *, Ekos::SequenceJob *)));
@@ -1583,6 +1609,15 @@ void EkosManager::initAlign()
     int index = toolsWidget->addTab( alignProcess, QIcon(":/icons/ekos_align.png"), "");
     toolsWidget->tabBar()->setTabToolTip(index, i18n("Align"));
     connect(alignProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+    if (Options::ekosLeftIcons())
+    {
+        QTransform trans;
+        trans.rotate(90);
+        QIcon icon = toolsWidget->tabIcon(index);
+        QPixmap pix = icon.pixmap(QSize(48,48));
+        icon = QIcon(pix.transformed(trans));
+        toolsWidget->setTabIcon(index, icon);
+    }
 
     if (captureProcess)
     {
@@ -1617,6 +1652,16 @@ void EkosManager::initFocus()
     connect(focusProcess, SIGNAL(newStarPixmap(QPixmap &)), this, SLOT(updateFocusStarPixmap(QPixmap &)));
     connect(focusProcess, SIGNAL(newProfilePixmap(QPixmap &)), this, SLOT(updateFocusProfilePixmap(QPixmap &)));
     connect(focusProcess, SIGNAL(newHFR(double)), this, SLOT(updateCurrentHFR(double)));
+
+    if (Options::ekosLeftIcons())
+    {
+        QTransform trans;
+        trans.rotate(90);
+        QIcon icon = toolsWidget->tabIcon(index);
+        QPixmap pix = icon.pixmap(QSize(48,48));
+        icon = QIcon(pix.transformed(trans));
+        toolsWidget->setTabIcon(index, icon);
+    }
 
     focusGroup->setEnabled(true);
 
@@ -1685,6 +1730,16 @@ void EkosManager::initMount()
     connect(mountProcess, SIGNAL(newStatus(ISD::Telescope::TelescopeStatus)), this, SLOT(updateMountStatus(ISD::Telescope::TelescopeStatus)));
     connect(mountProcess, SIGNAL(newTarget(QString)), mountTarget, SLOT(setText(QString)));
 
+    if (Options::ekosLeftIcons())
+    {
+        QTransform trans;
+        trans.rotate(90);
+        QIcon icon = toolsWidget->tabIcon(index);
+        QPixmap pix = icon.pixmap(QSize(48,48));
+        icon = QIcon(pix.transformed(trans));
+        toolsWidget->setTabIcon(index, icon);
+    }
+
     if(!mountPI)
     {
         mountPI = new QProgressIndicator(mountProcess);
@@ -1745,6 +1800,16 @@ void EkosManager::initGuide()
         connect(guideProcess, SIGNAL(newStarPixmap(QPixmap &)), this, SLOT(updateGuideStarPixmap(QPixmap &)));
         connect(guideProcess, SIGNAL(newProfilePixmap(QPixmap &)), this, SLOT(updateGuideProfilePixmap(QPixmap &)));
         connect(guideProcess, SIGNAL(sigmasUpdated(double,double)), this, SLOT(updateSigmas(double,double)));
+
+        if (Options::ekosLeftIcons())
+        {
+            QTransform trans;
+            trans.rotate(90);
+            QIcon icon = toolsWidget->tabIcon(index);
+            QPixmap pix = icon.pixmap(QSize(48,48));
+            icon = QIcon(pix.transformed(trans));
+            toolsWidget->setTabIcon(index, icon);
+        }
     }
 
     if (captureProcess)
