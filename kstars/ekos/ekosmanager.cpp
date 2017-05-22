@@ -2192,17 +2192,14 @@ void EkosManager::updateCaptureStatus(Ekos::CaptureState status)
 
 void EkosManager::updateCaptureProgress(QImage * image, Ekos::SequenceJob * job)
 {
-    if (image)
-    {
-        //delete (previewPixmap);
-        //previewPixmap = new QPixmap(QPixmap::fromImage(*image));
-        //previewImage->setPixmap(previewPixmap->scaled(previewImage->width(), previewImage->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    }
-
     if (job->isPreview() == false)
     {
         // Image is set to NULL only on initial capture start up
-        int completed   = (image == NULL) ? job->getCompleted() : job->getCompleted()+1;
+        int completed   = 0;
+        if (job->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
+            completed = job->getCompleted()+1;
+        else
+            completed = (image == NULL) ? job->getCompleted() : job->getCompleted()+1;
 
         sequenceLabel->setText(QString("Job # %1/%2 %3 (%4/%5)").arg(captureProcess->getActiveJobID()+1).arg(captureProcess->getJobCount()).arg(job->getFullPrefix()).arg(completed).arg(job->getCount()));
         sequenceProgress->setRange(0, job->getCount());
