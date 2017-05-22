@@ -701,6 +701,18 @@ void Capture::checkCCD(int ccdNum)
     }
 }
 
+void Capture::setGuideChip(ISD::CCDChip * chip)
+{
+    guideChip = chip;
+    // We should suspend guide in two scenarios:
+    // 1. If guide chip is within the primary CCD, then we cannot download any data from guide chip while primary CCD is downloading.
+    // 2. If we have two CCDs running from ONE driver (Multiple-Devices-Per-Driver mpdp is true). Same issue as above, only one download
+    // at a time.
+    // After primary CCD download is complete, we resume guiding.
+    suspendGuideOnDownload = (currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip) ||
+                             (guideChip->getCCD() == currentCCD && currentCCD->getDriverInfo()->getAuxInfo().value("mdpd", false).toBool());
+}
+
 void Capture::resetFrameToZero()
 {
     frameXIN->setMinimum(0);
@@ -1224,10 +1236,9 @@ void Capture::processJobCompletion()
 
         //Resume guiding if it was suspended before
         //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-        if (guideState == GUIDE_SUSPENDED && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        if (guideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
             emit resumeGuiding();
     }
-
 }
 
 bool Capture::resumeSequence()
@@ -1260,7 +1271,7 @@ bool Capture::resumeSequence()
 
             //Resume guiding if it was suspended before
             //if (isAutoGuiding && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-            if (guideState == GUIDE_SUSPENDED && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+            if (guideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
                 emit resumeGuiding();
 
             return true;
@@ -1283,7 +1294,7 @@ bool Capture::resumeSequence()
         }
 
         // If we suspended guiding due to primary chip download, resume guide chip guiding now
-        if (guideState == GUIDE_SUSPENDED && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        if (guideState == GUIDE_SUSPENDED && suspendGuideOnDownload)
             emit resumeGuiding();
 
         if (guideState == GUIDE_GUIDING && Options::ditherEnabled() && activeJob->getFrameType() == FRAME_LIGHT && --ditherCounter == 0)
@@ -1592,7 +1603,7 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
         }
 
         //if (isAutoGuiding && Options::useEkosGuider() && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
-        if (guideState == GUIDE_GUIDING && Options::guiderType() == 0 && currentCCD->getChip(ISD::CCDChip::GUIDE_CCD) == guideChip)
+        if (guideState == GUIDE_GUIDING && Options::guiderType() == 0 && suspendGuideOnDownload)
         {
             if (Options::captureLogging())
                 qDebug() << "Capture: Autoguiding suspended until primary CCD chip completes downloading...";
