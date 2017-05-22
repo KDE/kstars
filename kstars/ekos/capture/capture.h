@@ -601,6 +601,7 @@ class Capture : public QWidget, public Ui::Capture
         FlatFieldSource   flatFieldSource;
         CalibrationStage calibrationStage;
         bool dustCapLightEnabled, lightBoxLightEnabled;
+        ISD::CCD::UploadMode rememberUploadMode;
 
         QUrl dirPath;
 
