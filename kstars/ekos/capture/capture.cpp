@@ -456,8 +456,6 @@ void Capture::stop(bool abort)
     ADURaw.clear();
     ExpRaw.clear();
 
-    calibrationStage = CAL_NONE;
-
     if (activeJob)
     {
         if (activeJob->getStatus() == SequenceJob::JOB_BUSY)
@@ -467,10 +465,18 @@ void Capture::stop(bool abort)
             emit newStatus(Ekos::CAPTURE_ABORTED);
         }
 
+        // In case
         if (activeJob->isPreview() == false)
         {
             activeJob->disconnect(this);
             activeJob->reset();
+        }
+        else if (calibrationStage == CAL_CALIBRATION)
+        {
+            activeJob->disconnect(this);
+            activeJob->reset();
+            activeJob->setPreview(false);
+            currentCCD->setUploadMode(rememberUploadMode);
         }
         else // Delete preview job
         {
@@ -481,6 +487,7 @@ void Capture::stop(bool abort)
 
     }
 
+    calibrationStage = CAL_NONE;
     state = CAPTURE_IDLE;
 
     // Turn off any calibration light, IF they were turned on by Capture module
@@ -1397,6 +1404,12 @@ void Capture::captureImage()
 
             calibrationStage = CAL_CALIBRATION;
             activeJob->setPreview(true);
+            // We need to be in preview mode and in client mode for this to work
+            rememberUploadMode = currentCCD->getUploadMode();
+            if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
+            {
+                currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+            }
         }
     }
 
@@ -1518,10 +1531,13 @@ void Capture::checkSeqBoundary(const QString &path)
     {
         tempName = it.next();
         QFileInfo info(tempName);
-        tempName = info.baseName();
+        //tempName = info.baseName();
+        tempName = info.completeBaseName();
 
+        QString finalSeqPrefix = seqPrefix;
+        finalSeqPrefix.remove("_ISO8601");
         // find the prefix first
-        if (tempName.startsWith(seqPrefix) == false)
+        if (tempName.startsWith(finalSeqPrefix) == false)
             continue;
 
         seqFileCount++;
@@ -1591,13 +1607,16 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
         return;
     }
 
-    if (value == 0)
+    qDebug() << "Exposure with value " << value;
+
+    if (state == IPS_OK)
     {
         activeJob->setCaptureRetires(0);
+        activeJob->setExposeLeft(0);
 
         if (currentCCD && currentCCD->getUploadMode() == ISD::CCD::UPLOAD_LOCAL)
         {
-            if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY && activeJob->getExposeLeft() == 0 && state == IPS_OK)
+            if (activeJob && activeJob->getStatus() == SequenceJob::JOB_BUSY)
             {
                 newFITS(0);
                 return;
@@ -3008,6 +3027,10 @@ void Capture::constructPrefix(QString &imagePrefix)
         else
             imagePrefix += QString::number(exposureIN->value(), 'f', 3) + QString("_secs");
     }
+    if (ISOCheck->isChecked())
+    {
+        imagePrefix += "_ISO8601";
+    }
 }
 
 double Capture::getProgressPercentage()
@@ -4060,6 +4083,7 @@ IPState Capture::processPreCaptureCalibrationStage()
     }
 
     calibrationStage = CAL_PRECAPTURE_COMPLETE;
+
     return IPS_OK;
 }
 
@@ -4091,13 +4115,19 @@ bool Capture::processPostCaptureCalibrationStage()
                 {
                     appendLogText(i18n("Current ADU %1 within target ADU tolerance range.", QString::number(currentADU, 'f', 0)));
                     activeJob->setPreview(false);
+                    currentCCD->setUploadMode(rememberUploadMode);
 
                     // Get raw prefix
                     exposureIN->setValue(activeJob->getExposure());
                     QString imagePrefix = activeJob->getRawPrefix();
                     constructPrefix(imagePrefix);
                     activeJob->setFullPrefix(imagePrefix);
+                    seqPrefix = imagePrefix;
                     currentCCD->setSeqPrefix(imagePrefix);
+
+                    QString finalRemoteDir = activeJob->getFITSDir();
+                    finalRemoteDir.replace(activeJob->getRootFITSDir(), activeJob->getRemoteDir()).replace("//", "/");
+                    currentCCD->updateUploadSettings(finalRemoteDir);
 
                     calibrationStage = CAL_CALIBRATION_COMPLETE;
                     startNextExposure();
@@ -4129,6 +4159,11 @@ bool Capture::processPostCaptureCalibrationStage()
             calibrationStage = CAL_CALIBRATION;
             activeJob->setExposure(nextExposure);
             activeJob->setPreview(true);
+            rememberUploadMode = activeJob->getUploadMode();
+            if (currentCCD->getUploadMode() != ISD::CCD::UPLOAD_CLIENT)
+            {
+                currentCCD->setUploadMode(ISD::CCD::UPLOAD_CLIENT);
+            }
 
             startNextExposure();
             return false;
