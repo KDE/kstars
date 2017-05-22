@@ -1139,6 +1139,8 @@ void Capture::newFITS(IBLOB * bp)
             return;
         }
     }
+    else
+        sendNewImage(NULL, activeJob->getActiveChip());
 
     setCaptureComplete();
 
