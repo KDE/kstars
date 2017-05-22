@@ -140,6 +140,7 @@ m_BaseView->setFlags(Qt::WindowStaysOnTopHint|Qt::WindowCloseButtonHint);
 
     m_BaseView->setMaximumSize(QSize(200, 480));
     m_BaseView->setMinimumSize(QSize(200, 480));
+    m_BaseView->setResizeMode(QQuickView::SizeRootObjectToView);
 
     m_SpeedSlider = m_BaseObj->findChild<QQuickItem *>("speedSliderObject");
     m_SpeedLabel = m_BaseObj->findChild<QQuickItem *>("speedLabelObject");

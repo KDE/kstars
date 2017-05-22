@@ -346,6 +346,8 @@ class Guide : public QWidget, public Ui::Guide
          */
         void setDECSwap(bool enable);
 
+        void refreshColorScheme();
+
     protected slots:
         void updateCCDBin(int index);
 
@@ -438,8 +440,6 @@ class Guide : public QWidget, public Ui::Guide
         bool executeOneOperation(GuideState operation);
 
         bool captureOneFrame();
-
-        void refreshColorScheme();
 
         // Operation Stack
         QStack<GuideState> operationStack;

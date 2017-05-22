@@ -34,7 +34,7 @@ SequenceJob::SequenceJob()
 {
     statusStrings = QStringList() << i18n("Idle") << i18n("In Progress") << i18n("Error") << i18n("Aborted") << i18n("Complete");
     status = JOB_IDLE;
-    exposure=count=delay=targetFilter=isoIndex=-1;
+    exposure=count=delay=targetFilter=isoIndex=gain=-1;
     frameType=FRAME_LIGHT;
     currentTemperature=targetTemperature=INVALID_TEMPERATURE;
     captureFilter=FITS_NONE;
@@ -121,6 +121,11 @@ void SequenceJob::prepareCapture()
     {
         if (isoIndex != activeChip->getISOIndex())
             activeChip->setISOIndex(isoIndex);
+    }
+
+    if (gain != -1)
+    {
+        activeCCD->setGain(gain);
     }
 
     if (frameType == FRAME_DARK || frameType == FRAME_BIAS)
@@ -448,6 +453,16 @@ ISD::CCD::TransferFormat SequenceJob::getTransforFormat() const
 void SequenceJob::setTransforFormat(const ISD::CCD::TransferFormat &value)
 {
     transforFormat = value;
+}
+
+double SequenceJob::getGain() const
+{
+    return gain;
+}
+
+void SequenceJob::setGain(double value)
+{
+    gain = value;
 }
 
 int SequenceJob::getISOIndex() const

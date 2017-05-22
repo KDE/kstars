@@ -1357,6 +1357,14 @@
              <label>Ekos window height</label>
              <default>600</default>
     </entry>
+    <entry name="EkosTopIcons" type="Bool">
+       <label>Ekos modules icons are placed on the top of pages</label>
+       <default>true</default>
+    </entry>
+    <entry name="EkosLeftIcons" type="Bool">
+       <label>Ekos modules icons are placed to the left of pages</label>
+       <default>false</default>
+    </entry>
       <entry name="independentWindowEkos" type="Bool">
          <label>Make Ekos window independent of KStars main window</label>
          <default>false</default>

@@ -1,0 +1,41 @@
+--- CMakeLists.txt.orig	2017-05-20 13:30:52.859404414 +0300
++++ CMakeLists.txt	2017-05-20 13:28:38.682343341 +0300
+@@ -1,6 +1,6 @@
+ PROJECT(CFITSIO)
+ CMAKE_MINIMUM_REQUIRED(VERSION 2.8.0)
+-
++include(${CMAKE_TOOLCHAIN_FILE})
+ # Allow the developer to select if Dynamic or Static libraries are built
+ OPTION (BUILD_SHARED_LIBS "Build Shared Libraries" ON)
+ OPTION (USE_PTHREADS "Thread-safe build (using pthreads)" OFF)
+@@ -59,8 +59,8 @@
+ )
+ 
+ SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION} SOVERSION ${${PROJECT_NAME}_MAJOR_VERSION})
+-install(TARGETS ${LIB_NAME} LIBRARY DESTINATION ${LIB_DESTINATION})
+-install(FILES ${H_FILES} DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
++#install(TARGETS ${LIB_NAME} LIBRARY DESTINATION ${LIB_DESTINATION})
++#install(FILES ${H_FILES} DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
+ 
+ ENABLE_TESTING()
+ 
+--- fitscore.c.orig	2017-05-20 13:33:54.887384468 +0300
++++ fitscore.c	2017-05-20 13:08:19.014783064 +0300
+@@ -9230,7 +9230,7 @@
+ 
+     if (!decimalpt) { /* only do this once for efficiency */
+        lcc = localeconv();   /* set structure containing local decimal point symbol */
+-       decimalpt = *(lcc->decimal_point);
++//       decimalpt = *(lcc->decimal_point);
+     }
+ 
+     errno = 0;
+@@ -9300,7 +9300,7 @@
+ 
+     if (!decimalpt) { /* only do this once for efficiency */
+        lcc = localeconv();   /* set structure containing local decimal point symbol */
+-       decimalpt = *(lcc->decimal_point);
++//       decimalpt = *(lcc->decimal_point);
+     }
+    
+     errno = 0;

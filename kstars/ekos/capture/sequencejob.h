@@ -284,7 +284,10 @@ class SequenceJob : public QObject
         ISD::CCD::TransferFormat getTransforFormat() const;
         void setTransforFormat(const ISD::CCD::TransferFormat &value);
 
-    signals:
+        double getGain() const;
+        void setGain(double value);
+
+signals:
         void prepareComplete();
         void checkFocus();
 
@@ -314,6 +317,7 @@ class SequenceJob : public QObject
         unsigned int completed;
         double exposeLeft;
         double currentTemperature, targetTemperature;
+        double gain;
         FITSScale captureFilter;
         QTableWidgetItem * statusCell;
         QString fitsDir;

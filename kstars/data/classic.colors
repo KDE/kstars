@@ -32,5 +32,5 @@
 #FFA500 :SupernovaColor
 #00FF00 :RAGuideError
 #00A5FF :DEGuideError
-#FFFF00 :SolverFOV
+#FFFF00 :SolverFOVColor
 #00FF00 :FITSObjectLabelColor

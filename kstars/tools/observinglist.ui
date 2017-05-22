@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>811</width>
+    <width>776</width>
     <height>650</height>
    </rect>
   </property>
@@ -134,37 +134,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="WizardButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>32</width>
-         <height>32</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>32</width>
-         <height>32</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>Observing List Wizard</string>
-       </property>
-       <property name="whatsThis">
-        <string>The list wizard helps you construct observing lists based on filtering by object type, position on the sky, and magnitude.</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="OALExport">
        <property name="text">
         <string>Export to OAL</string>
@@ -282,6 +251,33 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QLabel" name="refLabel">
+       <property name="text">
+        <string>Reference Images:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveImages">
+       <property name="toolTip">
+        <string>Download the SDSS/DSS images of all the objects in the current list.</string>
+       </property>
+       <property name="text">
+        <string>Download all Images</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="DeleteAllImages">
+       <property name="toolTip">
+        <string>Deletes all the stored DSS/SDSS images</string>
+       </property>
+       <property name="text">
+        <string>Delete all Images</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -293,6 +289,37 @@
       <widget class="QLabel" name="addLabel">
        <property name="text">
         <string>Adding Objects:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="WizardButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Observing List Wizard</string>
+       </property>
+       <property name="whatsThis">
+        <string>The list wizard helps you construct observing lists based on filtering by object type, position on the sky, and magnitude.</string>
+       </property>
+       <property name="text">
+        <string>Wizard</string>
        </property>
       </widget>
      </item>
@@ -348,29 +375,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="refLabel">
+      <widget class="QPushButton" name="clearListB">
        <property name="text">
-        <string>Reference Images:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="saveImages">
-       <property name="toolTip">
-        <string>Download the SDSS/DSS images of all the objects in the current list.</string>
-       </property>
-       <property name="text">
-        <string>Download all Images</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="DeleteAllImages">
-       <property name="toolTip">
-        <string>Deletes all the stored DSS/SDSS images</string>
-       </property>
-       <property name="text">
-        <string>Delete all Images</string>
+        <string>Clear List</string>
        </property>
       </widget>
      </item>

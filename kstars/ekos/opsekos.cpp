@@ -26,6 +26,7 @@
 #include "guide/guide.h"
 #include "ksuserdb.h"
 #include "ekos/auxiliary/darklibrary.h"
+#include "auxiliary/ksnotification.h"
 #include "kspaths.h"
 
 OpsEkos::OpsEkos()
@@ -49,9 +50,16 @@ OpsEkos::OpsEkos()
     connect(refreshB, SIGNAL(clicked()), this, SLOT(refreshDarkData()));
 
     refreshDarkData();
+
+    connect(kcfg_EkosTopIcons, &QRadioButton::toggled, this, [this]()
+    {
+        if (Options::ekosTopIcons() != kcfg_EkosTopIcons->isChecked())
+            KSNotification::info(i18n("You must restart KStars for this change to take effect."));
+    });
 }
 
 OpsEkos::~OpsEkos() {}
+
 
 void OpsEkos::clearAll()
 {
