@@ -394,7 +394,6 @@ NGC 210:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_210
 NGC 221:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_221
 NGC 224:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_224
 NGC 225:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_225
-NGC 235:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_235
 NGC 246:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_246
 NGC 247:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_247
 NGC 248:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_248
@@ -434,7 +433,6 @@ NGC 514:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_514
 NGC 518:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_518
 NGC 520:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_520
 NGC 524:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_524
-NGC 526:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_526
 NGC 533:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_533
 NGC 559:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_559
 NGC 581:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_581
@@ -449,7 +447,6 @@ NGC 628:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_628
 NGC 634:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_634
 NGC 637:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_637
 NGC 650:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_650
-NGC 651:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_651
 NGC 654:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_654
 NGC 659:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_659
 NGC 660:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_660
@@ -655,7 +652,6 @@ NGC 3242:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3242
 NGC 3244:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3244
 NGC 3293:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3293
 NGC 3310:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3310
-NGC 3314:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3314
 NGC 3344:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3344
 NGC 3351:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3351
 NGC 3359:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3359
@@ -683,7 +679,6 @@ NGC 3621:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3621
 NGC 3623:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3623
 NGC 3627:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3627
 NGC 3628:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3628
-NGC 3690:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3690
 NGC 3766:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3766
 NGC 3783:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3783
 NGC 3808:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_3808A
@@ -835,7 +830,6 @@ NGC 5964:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_5964
 NGC 5986:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_5986
 NGC 6000:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_6000
 NGC 6025:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_6025
-NGC 6027:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_6027
 NGC 6087:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_6087
 NGC 6093:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_6093
 NGC 6104:Wikipedia Page:http://en.wikipedia.org/wiki/NGC_6104
@@ -1027,7 +1021,6 @@ IC 1059:Wikipedia Page:http://en.wikipedia.org/wiki/IC_1059
 IC 1065:Wikipedia Page:http://en.wikipedia.org/wiki/IC_1065
 IC 1101:Wikipedia Page:http://en.wikipedia.org/wiki/IC_1101
 IC 1127:Wikipedia Page:http://en.wikipedia.org/wiki/IC_1127
-IC 1179:Wikipedia Page:http://en.wikipedia.org/wiki/IC_1179
 IC 1295:Wikipedia Page:http://en.wikipedia.org/wiki/IC_1295
 IC 1318:Wikipedia Page:http://en.wikipedia.org/wiki/IC_1318
 IC 1337:Wikipedia Page:http://en.wikipedia.org/wiki/IC_1337
@@ -1065,12 +1058,6 @@ IC 4725:Wikipedia Page:http://en.wikipedia.org/wiki/IC_4725
 IC 4756:Wikipedia Page:http://en.wikipedia.org/wiki/IC_4756
 IC 4850:Wikipedia Page:http://en.wikipedia.org/wiki/IC_4850
 IC 4895:Wikipedia Page:http://en.wikipedia.org/wiki/IC_4895
-IC 4970:Wikipedia Page:http://en.wikipedia.org/wiki/IC_4970
-IC 5067:Wikipedia Page:http://en.wikipedia.org/wiki/IC_5067
-IC 5070:Wikipedia Page:http://en.wikipedia.org/wiki/IC_5070
-IC 5146:Wikipedia Page:http://en.wikipedia.org/wiki/IC_5146
-IC 5152:Wikipedia Page:http://en.wikipedia.org/wiki/IC_5152
-IC 5351:Wikipedia Page:http://en.wikipedia.org/wiki/IC_5351
 IC 5357:Wikipedia Page:http://en.wikipedia.org/wiki/IC_5357
 #
 # Major Planets, Sun and Moon:
@@ -1132,8 +1119,6 @@ Ceres:Wikipedia Page:http://en.wikipedia.org/wiki/1_Ceres
 Pallas:Wikipedia Page:http://en.wikipedia.org/wiki/2_Pallas
 Vesta:Wikipedia Page:http://en.wikipedia.org/wiki/4_Vesta
 Cybele:Wikipedia Page:http://en.wikipedia.org/wiki/65_Cybele
-## --==>> There are 2 bodies named "Europa"...asteroid and Jovian moon
-Europa:Wikipedia Page:http://en.wikipedia.org/wiki/52_Europa
 Psyche:Wikipedia Page:http://en.wikipedia.org/wiki/16_Psyche
 Juno:Wikipedia Page:http://en.wikipedia.org/wiki/3_Juno
 Themis:Wikipedia Page:http://en.wikipedia.org/wiki/24_Themis
@@ -1150,10 +1135,7 @@ Chiron (1977 UB):Wikipedia Page:http://en.wikipedia.org/wiki/2060_Chiron
 #
 # Comets:
 2 Encke:Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Encke
-1995 O1 (Hale-Bopp):Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Hale-Bopp
 Halley (1982 HG1):Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Halley
-Hyakutake (1991 XC1):Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Hyakutake
-1973 E1 (Kohoutek):Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Kohoutek
 81 Wild 2:Wikipedia Page:http://en.wikipedia.org/wiki/Comet_Wild_2
 #
 #"XXX" entries will be removed from local copies when encountered in the global file.

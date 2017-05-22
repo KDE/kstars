@@ -707,8 +707,13 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem * soitem, QString name)
     });
     connect(response, &QNetworkReply::finished, this, [name, response, soitem, this]{
         response->deleteLater();
+        if (response->error()==QNetworkReply::ContentNotFoundError){
+            QString html="<BR>Sorry, No Wikipedia article with this object name seems to exist.  It is possible that one does exist but does not match the namimg scheme.";
+            saveObjectInfoBoxText( soitem, "infoText" , html);
+            infoBoxText->setProperty("text", html);
+            return;
+        }
         if (response->error() != QNetworkReply::NoError) return;
-
         QString result = QString::fromUtf8(response->readAll());
         int leftPos=result.indexOf("<table class=\"infobox");
         int rightPos=result.indexOf("</table>", leftPos)-leftPos;
@@ -719,6 +724,9 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem * soitem, QString name)
                 tryToUpdateWikipediaInfo(soitem, soitem->getName().replace(" ", "_"));
                 return;
             }
+            QString html="<BR>Sorry, no Information Box in the object's Wikipedia article was found.";
+            saveObjectInfoBoxText( soitem, "infoText" , html);
+            infoBoxText->setProperty("text", html);
             return;
         }
 
@@ -760,16 +768,19 @@ void WIView::tryToUpdateWikipediaInfo(SkyObjItem * soitem, QString name)
 
         infoText.replace("style=\"width:22em\"","style=\"width:100%;background-color: black;color: white;\"");
         infoText=infoText + "<BR>(Source: <a href='" + "https://en.wikipedia.org/w/index.php?title="+ name + "&redirects" + "'>Wikipedia</a>)";
+        saveInfoURL(soitem, "https://en.wikipedia.org/w/index.php?title="+ name + "&redirects");
 
         int captionEnd = infoText.indexOf("</caption>"); //Start looking for the image AFTER the caption.  Planets have images in their caption.
         if(captionEnd == -1)
             captionEnd = 0;
         int leftImg=infoText.indexOf("src=\"", captionEnd)+5;
-        int rightImg=infoText.indexOf("\"",leftImg)-leftImg;
-        QString imgURL=infoText.mid(leftImg,rightImg);
-        imgURL.replace("http://upload.wikimedia.org","https://upload.wikimedia.org"); //Although they will display, the images apparently don't download properly unless they are https.
-        saveImageURL( soitem, imgURL);
-        downloadWikipediaImage(soitem, imgURL);
+        if(leftImg > captionEnd + 5){
+            int rightImg=infoText.indexOf("\"",leftImg)-leftImg;
+            QString imgURL=infoText.mid(leftImg,rightImg);
+            imgURL.replace("http://upload.wikimedia.org","https://upload.wikimedia.org"); //Although they will display, the images apparently don't download properly unless they are https.
+            saveImageURL( soitem, imgURL);
+            downloadWikipediaImage(soitem, imgURL);
+        }
 
         QString html="<CENTER>" +  infoText + "</table></CENTER>";
 
@@ -841,6 +852,38 @@ void WIView::saveImageURL(SkyObjItem * soitem, QString imageURL){
     }
 }
 
+void WIView::saveInfoURL(SkyObjItem * soitem, QString infoURL){
+
+    QFile file;
+    file.setFileName( KSPaths::writableLocation(QStandardPaths::GenericDataLocation) + "info_url.dat" ) ; //determine filename in local user KDE directory tree.
+    QString entry = soitem->getName() + ':' + "Wikipedia Page" + ':' + infoURL;
+
+    if(file.open(QIODevice::ReadOnly)){
+        QTextStream in(&file);
+        QString line;
+        while ( !in.atEnd() )
+        {
+            line = in.readLine();
+            if (line==entry){
+                file.close();
+                return;
+            }
+        }
+        file.close();
+    }
+
+    if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) )
+    {
+        qDebug()<<"Info URL cannot be saved for later.  info_url.dat error";
+        return;
+    }
+    else
+    {
+        QTextStream stream( &file );
+        stream << entry << endl;
+        file.close();
+    }
+}
 
 void WIView::downloadWikipediaImage(SkyObjItem * soitem, QString imageURL)
 {

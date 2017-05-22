@@ -134,6 +134,7 @@ class WIView : public QWidget
         void tryToUpdateWikipediaInfo(SkyObjItem * soitem, QString name);
         void loadObjectInfoBox(SkyObjItem * soitem);
         void saveImageURL(SkyObjItem * soitem, QString imageURL);
+        void saveInfoURL(SkyObjItem * soitem, QString infoURL);
         void saveObjectInfoBoxText(SkyObjItem * soitem, QString type, QString infoText);
         void downloadWikipediaImage(SkyObjItem * soitem, QString imageURL);
         void inspectSkyObject(QString name);
