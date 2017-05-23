@@ -152,7 +152,7 @@ SkyMapLite::SkyMapLite()
     });
 #if defined (Q_OS_ANDROID)
     //Automatic mode
-    automaticModeTimer.setInterval(1);
+    automaticModeTimer.setInterval(5);
     connect(&automaticModeTimer, SIGNAL(timeout()), this, SLOT(updateAutomaticMode()));
     setAutomaticMode(false);
 #endif
@@ -989,14 +989,14 @@ void SkyMapLite::setAutomaticMode(bool automaticMode)
 #endif
 }
 
-#if defined(Q_OS_ANDROID)
 void SkyMapLite::updateAutomaticMode()
 {
+#if defined(Q_OS_ANDROID)
     m_deviceOrientation->getOrientation();
     setFocusAltAz(dms(m_deviceOrientation->getAltitude()), dms(m_deviceOrientation->getAzimuth()));
     setSkyRotation(-1 * m_deviceOrientation->getRoll());
-}
 #endif
+}
 
 void SkyMapLite::initStarImages()
 {
