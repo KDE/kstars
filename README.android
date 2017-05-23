@@ -7,6 +7,7 @@ Prerequisites:
   (https://bugreports.qt.io/browse/QTBUG-54666) what can be fixed by only patching one cmake config file.
   The build files will comment the problematic line.
 - Get KStars source code from from Github or KDE
+- sudo apt-get install dos2unix
 
 Set the following environmental variables before building:
 
@@ -42,7 +43,6 @@ cmake -B. -H.. -DBUILD_KSTARS_LITE=ON -DCMAKE_TOOLCHAIN_FILE=android/toolchain-a
 
 - Compile:
 
-make -j4 indi
 make -j4
 
 - Install:

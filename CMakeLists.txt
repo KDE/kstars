@@ -120,7 +120,7 @@ if(BUILD_KSTARS_LITE)
     if(ANDROID)
         externalproject_add(cfitsio SOURCE_DIR "${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio"
             URL https://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio3370.tar.gz
-            PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio && patch -p0 < ${CMAKE_SOURCE_DIR}/android/3rdparty/cfitsio.patch"
+            PATCH_COMMAND bash -c "cd ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio && dos2unix ${CMAKE_BINARY_DIR}/android/3rdparty/cfitsio/CMakeLists.txt && patch -p0 < ${CMAKE_SOURCE_DIR}/android/3rdparty/cfitsio.patch"
             CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_SOURCE_DIR}/android/toolchain-android.cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
             BUILD_COMMAND make cfitsio
             BUILD_IN_SOURCE 1
