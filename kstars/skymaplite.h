@@ -516,11 +516,10 @@ class SkyMapLite : public QQuickItem
          */
         void slotSelectObject(SkyObject * skyObj);
 
-#if defined(Q_OS_ANDROID)
         /** @short updates focus of SkyMapLite according to data from DeviceOrientation
             (Smartphone's sensors)*/
         void updateAutomaticMode();
-#endif
+
         void setSkyRotation(double skyRotation);
 
     signals:
