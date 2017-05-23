@@ -1328,10 +1328,14 @@ void CCD::processBLOB(IBLOB * bp)
         // The timestamp is no longer ISO8601 but it should solve interoperality issues between different OS hosts
         QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh-mm-ss");
 
-        if (ISOMode == false)
-            filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%03d", nextSequenceID)).arg(QString(fmt));
+        if (seqPrefix.contains("_ISO8601"))
+        {
+            QString finalPrefix = seqPrefix;
+            finalPrefix.replace("ISO8601", ts);
+            filename += finalPrefix + QString("_%1.%2").arg(QString().sprintf("%03d", nextSequenceID), QString(fmt));
+        }
         else
-            filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.%3").arg(ts).arg(QString().sprintf("%03d", nextSequenceID)).arg(QString(fmt));
+            filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") +  QString("%1.%2").arg(QString().sprintf("%03d", nextSequenceID)).arg(QString(fmt));
 
         QFile fits_temp_file(filename);
         if (!fits_temp_file.open(QIODevice::WriteOnly))

@@ -436,10 +436,7 @@ class Capture : public QWidget, public Ui::Capture
         void saveFITSDirectory();
         void setDefaultCCD(QString ccd);
         void setNewRemoteFile(QString file);
-        void setGuideChip(ISD::CCDChip * chip)
-        {
-            guideChip = chip;
-        }
+        void setGuideChip(ISD::CCDChip * chip);
 
         // Sequence Queue
         void loadSequenceQueue();
@@ -604,11 +601,13 @@ class Capture : public QWidget, public Ui::Capture
         FlatFieldSource   flatFieldSource;
         CalibrationStage calibrationStage;
         bool dustCapLightEnabled, lightBoxLightEnabled;
+        ISD::CCD::UploadMode rememberUploadMode;
 
         QUrl dirPath;
 
         // Misc
         bool ignoreJobProgress;
+        bool suspendGuideOnDownload=false;
 
         // State
         CaptureState state;
