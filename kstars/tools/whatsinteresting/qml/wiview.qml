@@ -782,7 +782,7 @@ Rectangle {
  
 									Rectangle{
 										id: summaryBackground
-										color: (mouseListArea.containsMouse||mouseImgArea.containsMouse) ? "#030723" : "transparent"
+										color: (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "#030723" : "transparent"
 										width: parent.width
 										height: parent.height
 										MouseArea {
@@ -802,13 +802,24 @@ Rectangle {
 											textFormat: Text.RichText
 											x: image.width + 5
 											width: parent.width - image.width - 30
-											color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (soListItem.ListView.isCurrentItem) ? "white" : (mouseListArea.containsMouse||mouseImgArea.containsMouse) ? "yellow" : "gray"
+											color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (soListItem.ListView.isCurrentItem) ? "white" : (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "yellow" : "gray"
 	   
 											wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 											font{
 												family: "Cantarell"
 												pixelSize: 13
 											}
+											
+											MouseArea {
+											id: mouseTextArea
+											anchors.fill: parent
+											hoverEnabled: true
+											onClicked: {
+												soListView.currentIndex = index
+												soListView.soListItemClicked(soListView.currentIndex)
+												skyObjView.flipped = true
+											}
+										}//Mousearea
 										}
 									}
 									Image { 
@@ -831,7 +842,7 @@ Rectangle {
 										id: dispText
 										objectName: dispName
 										text: dispName
-										color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (mouseListArea.containsMouse) ? "yellow" : "white"
+										color: (nightVision.state == "active" && soListItem.ListView.isCurrentItem) ? "#F89404" : (nightVision.state == "active") ? "red" : (mouseListArea.containsMouse||mouseImgArea.containsMouse||mouseTextArea.containsMouse) ? "yellow" : "white"
 
 										font.bold: true
 									}
