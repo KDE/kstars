@@ -536,6 +536,7 @@ void KStars::slotToggleWIView()
     {
         m_WIView = new WIView(0);
         m_wiDock = new QDockWidget(this);
+        m_wiDock->setStyleSheet("QDockWidget::title{background-color:black;}");
         m_wiDock->setObjectName("What's Interesting");
         m_wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
         QWidget * container = QWidget::createWindowContainer(m_WIView->getWIBaseView());

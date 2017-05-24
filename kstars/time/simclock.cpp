@@ -102,7 +102,11 @@ void SimClock::manualTick( bool force )
 {
     if ( force || (ManualMode && ManualActive) )
     {
-        setUTC( UTC.addSecs( (long double)Scale ) );
+        //The single shot timer is needed because otherwise the animation is happening so frequently
+        //that the kstars interface becomes too unresponsive.
+        QTimer::singleShot(1, [this]{
+            setUTC( UTC.addSecs( (long double)Scale ) );
+        });
     }
     else if ( ! ManualMode )
         tick();
