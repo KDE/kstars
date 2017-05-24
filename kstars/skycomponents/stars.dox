@@ -236,8 +236,7 @@
   the memory surge is temporary.
 
   \subsection Files Star Catalog Files
-  Star catalogs are stored in the format described in
-  ../data/README.binfileformat
+  Star catalogs are stored in the format described in \ref BinaryFormat Binary Format section.
 
   Star catalog files were created by first taking ASCII data and putting
   them into MySQL database tables and then dumped in a sorted manner
@@ -246,8 +245,15 @@
   and Jason Harris, or with the US Naval Observatory itself.
 
   Stars in the catalog files are first ordered by trixel (the "Index"
-  parameter in the language of README.binfileformat) and then ordered by
-  magnitude (brightest first) within each trixel.
+  parameter in binary file format) and then ordered by magnitude (brightest first) within each trixel.
+
+  KStars uses two HTM levels:
+   + Level 3: 512 <a href="http://www.skyserver.org/htm/">trixels</a> are used for the following data files:
+        -# default namedstars.dat
+        -# default unnnamedstar.dat: Togeather with #1, they make up all stars up to ~8th magnitude
+        -# Downloadable Tycho-2 deepstars.dat, all stars up to magnitude ~12th
+   + Level 6: 8192 trixels
+        -# Downloadable USNO Nomad USNO-NOMAD-1e8.dat, all stars up to magnitude ~16th
 
   \subsection ProperMotion Proper Motion
   All star data in KStars has first order proper motion rates (called
@@ -277,9 +283,10 @@
   "Henry Draper Index" is available. This file contains a list of 4-byte
   offsets in sequential order of HD number. These offsets tell KStars
   where to find the star in the Tycho-2 catalog binary data file. See
-  StarComponent::findByHDIndex() for details. See
-  ../data/README.indexfileformat for details about the format followed
-  by the Henry-Draper index file.  
+  StarComponent::findByHDIndex() for details. See \ref HDIndex HDIndex section for details about the format followed
+  by the Henry-Draper index file.
+
+  FIXME: The information above is not entirely correct. Star catalogs also include 4-byte HD parameters. Needs update.
   
   \section BinaryFormat Binary Format
   
@@ -302,6 +309,8 @@
  generated, and hence byteswapping must be performed.
 
  * A 1 byte-long unsigned integer for the version of the binary format structure.
+
+ The header section is therefore 127 bytes long. The header range in the binary file is from address 0x0000 to 0x007E
  
  \subsubsection FieldDescriptor Field Descriptor
  The field descriptor describes the various fields used in the latter
@@ -330,22 +339,30 @@
 
   The set of entries is read directly into dataElement structure and byte swapping is performed if needed.
 
-  \subsubsection IndexTable Index Table
-   The format permits an index on one parameter. The parameter is to be
- represented by 4-bytes (eg: A running index from 0 to 4,294,967,295). The
- index table consists of the following:
+  Most of KStars star binary files use 11 fields (0x0B), each is 16 bytes long (0x10). Therefore, the field descriptor
+  total bytes count is 2 + 11 * 16 = 178 bytes. The field descriptor range in the binary file is 0x007F to 0x0130
 
- * A 4 byte unsigned integer indicating the number of index entries
+  \subsubsection IndexTable Index Table
+   The format permits an index on one parameter. This index is the trixel ID.
+   The parameter is to be represented by 4-bytes (eg: A running index from 0 to 4,294,967,295). The index table consists of the following:
+
+ * A 4 byte unsigned integer indicating the number of index entries: Usually 512 (0x0200) or 8192 (0x2000)
 
  * Index table entries, each consisting of:
 
-     - A 4 byte-long unsigned integer parameter, which is the index
+     - A 4 byte-long unsigned integer parameter, which is the index: 0 to 511 for HTM level 3, and 0 to 8191 for HTM Level 6
      
-     - A 4 byte-long unsigned integer, storing the offset of the first
-       record with this index parameter in the file
+     - A 4 byte-long unsigned integer, storing the offset of the first record with this index parameter in the file
 
-     - A 4 byte-long unsigned integer, storing the number of records
-       under this index parameter.
+     - A 4 byte-long unsigned integer, storing the number of records under this index parameter.
+
+  Since multiple stars can share the same trixel ID, the number of records refer to the number of the stars enclosed within the trixel.
+
+  The index table total byte count depends on the index entries:
+  + HTM Level 3: Total bytes = 4 bytes + (512 indexes * 12 bytes) = 6148 bytes (0x1804)
+    The index table range in the binary file is 0x0131 to 0x1934
+  + HTM Level 6: Total bytes = 4 bytes + (8192 indexes * 12 bytes) = 98308 bytes (0x18004)
+    The index table range in the binary file is 0x0131 to 0x18134
 
   \subsection TheData The Data
 
@@ -362,6 +379,11 @@
      level 3.
 
    + Maximum Stars per Trixel, stored as a 2-byte unsigned integer.
+
+   The expansion field total bytes are (2 + 1 + 2) 5 bytes long.
+
+   + HTM Level 3: The range is from 0x1935 to (0x1935 + 0x5) = 0x1939
+   + HTM Level 3: The range is from 0x18135 to (0x18135 + 0x5) = 0x18139
    
    \subsubsection DataRecords Data Records
    This region starts at the offset pointed out in the first entry of
@@ -369,22 +391,19 @@
  details of whose fields (assumed to be placed continuously, without
  any gaps) are as described in the field descriptor in the header.
 
+  + HTM Level 3: Data starts at 0x193A
+  + HTM Level 6: Data starts at 0x1813A
+
  NOTE: KStars _overrides_ the above defined convention for performance
  gains and ease of programming in the star names file, where records
- are stored as single blocks of the "starName" structure defined in
- kstars/kstars/skycomponents/starcomponent.h
+ are stored as single blocks of the 40 bytes long \ref starName starName structure.
  
  \section HDIndex Henry Draper Indexing
-The index file used to store the Henry Draper catalog indexes for
-KStars is just a list of 4-byte long offsets (to be treated as 32-bit
-integers ) describing the position of the Henry Draper stars' records
-in order, in the binary data files.
+The index file used to store the Henry Draper catalog indexes for KStars is just a list of 4-byte long offsets (to be treated as signed 32-bit
+integers ) describing the position of the Henry Draper stars' records in order, in the binary data files.
 
-If the offset is negative, it indicates that the star is in the
-shallow star file and not in the Tycho-2 deep star add on. The actual
-offset in this case is just the absolute value of the offset.
-
-The first four bytes in the index file correspond to the offset of the
+If the offset is negative, it indicates that the star is in the shallow star file and not in the Tycho-2 deep star add on. The actual
+offset in this case is just the absolute value of the offset. The first four bytes in the index file correspond to the offset of the
 star HD000001 in the data files, and so on.
 
 \section Credits Credits
@@ -395,4 +414,5 @@ star HD000001 in the data files, and so on.
   kstars/data/tools directory have code due to James.
   
 \author Akarsh Simha
+\author Jasem Mutlaq
 */

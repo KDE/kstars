@@ -32,7 +32,7 @@ struct starData
     qint32 dRA;
     qint32 dDec;
     qint32 parallax;
-    qint32 HD;          /**< signed? 32-bit Henry Draper Index */
+    qint32 HD;          /**< unsigned 32-bit Henry Draper Index. No scaling is required. */
     qint16 mag;         /**< signed 16-bit raw magnitude. Needs to be divided by the scale (1e2) */
     qint16 bv_index;
     char spec_type[2];
