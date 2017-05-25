@@ -43,6 +43,7 @@
 
 #define driftGraph_WIDTH	200
 #define driftGraph_HEIGHT	200
+#define CAPTURE_TIMEOUT_THRESHOLD 5000
 #define MAX_GUIDE_STARS 10
 
 namespace Ekos
@@ -666,8 +667,8 @@ bool Guide::captureOneFrame()
     if (Options::guideLogging())
         qDebug() << "Guide: Capturing frame...";
 
-    // Timeout is exposure duration + 2 seconds
-    captureTimeout.start(seqExpose*1000 + 2000);
+    // Timeout is exposure duration + timeout threshold in seconds
+    captureTimeout.start(seqExpose*1000 + CAPTURE_TIMEOUT_THRESHOLD);
 
     targetChip->capture(seqExpose);
 
@@ -784,7 +785,7 @@ void Guide::processCaptureTimeout()
     ISD::CCDChip * targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
     targetChip->abortExposure();
     targetChip->capture(exposureIN->value());
-    captureTimeout.start(exposureIN->value()*1000 + 2000);
+    captureTimeout.start(exposureIN->value()*1000 + CAPTURE_TIMEOUT_THRESHOLD);
 }
 
 void Guide::newFITS(IBLOB * bp)
@@ -1338,7 +1339,9 @@ void Guide::setStatus(Ekos::GuideState newState)
             appendLogText(i18n("Dithering completed successfully."));
             // Go back to guiding state immediately
             setStatus(GUIDE_GUIDING);
-            capture();
+            // Only capture again if we are using internal guider
+            if (guiderType == GUIDE_INTERNAL)
+                capture();
             break;
         default:
             break;
