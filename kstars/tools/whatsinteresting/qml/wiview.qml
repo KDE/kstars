@@ -978,7 +978,7 @@ Rectangle {
 
                                 verticalAlignment: Text.AlignVCenter
                                 color: "white"
-                                text: xi18n("Center in Map")
+                                text: xi18n("Center in Map \n")
                                 font {
                                     underline: true
                                     family: "Cantarell"
@@ -996,13 +996,36 @@ Rectangle {
                                     onExited: centerButton.color = (nightVision.state == "active") ? "red" : "white"
                                     onClicked: centerButton.centerButtonClicked()
                                 }
+                                
+                                Text {
+                                	text: xi18n(" Auto     Track   ")
+                                	color: "white"
+                                	font {
+                                    	family: "Cantarell"
+                                    	pixelSize: 14
+                                	}
+                                	y: 15
+                                }
+
                                 CheckBox {
                                 	id: autoCenter
                                 	objectName: "autoCenterCheckbox"
-                                	x: 100
+                                	x: 37
+                                	y: 15
                                 	checked: true
                                 }
+                                                                
+                                CheckBox {
+                                	id: autoTrack
+                                	objectName: "autoTrackCheckbox"
+                                	x: 97
+                                	y: 15
+                                	checked: false
+                                	onClicked: centerButton.centerButtonClicked()
+                                }
+
                             }
+                            
                             
                             Text {
                                 id: slewTelescopeButton
