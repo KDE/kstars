@@ -62,7 +62,7 @@ void ModelManager::loadLists()
         QPair<QString, const SkyObject *> pair = listStars.value(i);
         const StarObject * star = dynamic_cast<const StarObject *>(pair.second);
         if(star->hasLatinName())
-            m_ObjectList[Stars].append(new SkyObjItem(star->clone()));
+            m_ObjectList[Stars].append(new SkyObjItem((SkyObject *)(star)));
     }
     QString prevName;
     for(int i = 0; i < m_ObjectList[Stars].size(); i++)
@@ -234,7 +234,7 @@ void ModelManager::loadObjectList(QList<SkyObjItem *> & skyObjectList, int type)
         QPair<QString, const SkyObject *> pair = objects.value(i);
         const SkyObject * listObject = dynamic_cast<const SkyObject *>(pair.second);
         if(listObject->name() != "Sun")
-            skyObjectList.append(new SkyObjItem(listObject->clone()));
+            skyObjectList.append(new SkyObjItem((SkyObject *)(listObject)));
     }
     QString prevName;
     for(int i = 0; i < skyObjectList.size(); i++)
