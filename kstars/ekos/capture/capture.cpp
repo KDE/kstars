@@ -1607,7 +1607,7 @@ void Capture::setExposureProgress(ISD::CCDChip * tChip, double value, IPState st
         return;
     }
 
-    qDebug() << "Exposure with value " << value;
+    //qDebug() << "Exposure with value " << value;
 
     if (state == IPS_OK)
     {
@@ -3577,6 +3577,7 @@ double Capture::setCurrentADU(double value)
     if (ExpRaw.count() >= 2)
     {
         double chisq = 0;
+
         if (ExpRaw.count() >= 4)
         {
             coeff = gsl_polynomial_fit(ADURaw.data(), ExpRaw.data(), ExpRaw.count(), 2, chisq);
@@ -3588,10 +3589,20 @@ double Capture::setCurrentADU(double value)
             }
         }
 
+
+        bool looping = false;
+        if (ExpRaw.count() >= 10)
+        {
+            int size = ExpRaw.count();
+            looping = (ExpRaw[size-1] == ExpRaw[size-2]) && (ExpRaw[size-2] == ExpRaw[size-3]);
+            if (looping)
+                qDebug() << "Capture: Detected looping in polynomial results. Falling back to llsqr.";
+        }
+
         // If we get invalid data, let's fall back to llsq
         // Since polyfit can be unreliable at low counts, let's only use it at the 4th exposure
         // if we don't have results already.
-        if (ExpRaw.count() < 4 || std::isnan(coeff[0]) || std::isinf(coeff[0]))
+        if (looping || ExpRaw.count() < 4 || std::isnan(coeff[0]) || std::isinf(coeff[0]))
         {
             double a=0, b=0;
             llsq(ExpRaw, ADURaw, a, b);
