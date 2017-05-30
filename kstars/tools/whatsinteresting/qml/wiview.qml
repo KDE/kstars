@@ -1529,10 +1529,174 @@ Rectangle {
                     	}
                 	]
 				}
-
-                
             } //end of skyObjView
         } //end of viewsContainer
+        Rectangle{
+			id: helpMessage
+			objectName: "helpMessage"
+			color: "#00060b"
+			anchors.fill: parent
+			visible: false
+			Text{
+					id: helpText
+					anchors.left: helpMessage.left
+					anchors.right: helpMessage.right
+					anchors.margins: 10
+					text: "Explanation of the What's Interesting Panel"
+					horizontalAlignment: Text.AlignHCenter
+					color: "white"
+					font{
+						family: "Arial"
+						pointSize: 15
+					}
+			}
+			Text{
+					id: helpExplainText
+					anchors.margins: 10
+					anchors.top: helpText.bottom
+					anchors.left: helpMessage.left
+					anchors.right: helpMessage.right
+					text: "The What's Interesting Panel is intended to allow you to explore many different interesting objects in the night sky.  It includes objects visible to the naked eye as well as objects that require telescopes.  It is intended to appeal to both beginners and advanced astronomers.  If you click on a category or catalog, a list of objects will appear.  Clicking on an object in the list will bring up the details view where you can find out more information about the object.  If you have thumbnail images or wikipedia information for this object, these will be displayed as well.  If not, you can download them using the download icon.  If you make What's Interesting wider, the display will dynamically change to display the information more conveniently.  Please see the descriptions below for details on what the buttons at the bottom do."
+					wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+					color: "white"
+					font{
+						family: "Arial"
+						pointSize: 11
+					}
+			}
+			Image {
+				id: helpSettingsImage
+				anchors.top: helpExplainText.bottom
+				source: "settingsIcon.png"
+				width: 28
+        		height: 28
+			}
+			Text{
+				id: helpSettingsText
+				anchors.top: helpExplainText.bottom
+				anchors.left: helpSettingsImage.right
+				anchors.right: helpMessage.right
+				anchors.margins: 10
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+				text: "This button will bring up the What's Interesting Settings. It will let you configure what is displayed in What's Interesting based upon which equipment you are using and the observing conditions."
+				color: "white"
+				font{
+					family: "Arial"
+					pointSize: 11
+				}
+			}
+			Image {
+				id: helpInspectImage
+				anchors.top: helpSettingsText.bottom
+				source: "inspectIcon.png"
+				width: 28
+        		height: 28
+			}
+			Text{
+				id: helpInspectText
+				anchors.top: helpSettingsText.bottom
+				anchors.left: helpInspectImage.right
+				anchors.right: helpMessage.right
+				anchors.margins: 10
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+				text: "This button will turn on and off the Inspector Mode.  In this mode you can click on any object in the map and What's Interesting will display the information about it."
+				color: "white"
+				font{
+					family: "Arial"
+					pointSize: 11
+				}
+			}
+			Image {
+				id: helpReloadImage
+				anchors.top: helpInspectText.bottom
+				source: "reloadIcon.png"
+				width: 28
+        		height: 28
+			}
+			Text{
+				id: helpReloadText
+				anchors.top: helpInspectText.bottom
+				anchors.left: helpReloadImage.right
+				anchors.right: helpMessage.right
+				anchors.margins: 10
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+				text: "This button will reload the current object list, update all displayed information, update any images, and update the information and images for the currently selected object."
+				color: "white"
+				font{
+					family: "Arial"
+					pointSize: 11
+				}
+			}
+			Image {
+				id: helpVisibleImage
+				anchors.top: helpReloadText.bottom
+				source: "visibleIcon.png"
+				width: 28
+        		height: 28
+			}
+			Text{
+				id: helpVisibleText
+				anchors.top: helpReloadText.bottom
+				anchors.left: helpVisibleImage.right
+				anchors.right: helpMessage.right
+				anchors.margins: 10
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+				text: "This button will toggle whether to filter the list to display only currently visible objects in a list or to display all of the objects in the list.  The visibility is determined based on the current KStars date and time, the current observing equipment, and the current sky conditions based on the What's Interesting Settings."
+				color: "white"
+				font{
+					family: "Arial"
+					pointSize: 11
+				}
+			}
+			Image {
+				id: helpFavoriteImage
+				anchors.top: helpVisibleText.bottom
+				source: "favoriteIcon.png"
+				width: 28
+        		height: 28
+			}
+			Text{
+				id: helpFavoriteText
+				anchors.top: helpVisibleText.bottom
+				anchors.left: helpFavoriteImage.right
+				anchors.right: helpMessage.right
+				anchors.margins: 10
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+				text: "This button will toggle whether to filter the list to display only 'interesting' objects or to display any of the objects in the list.  This setting only applies to the Galaxies, Nebulas, and Clusters lists.  The objects are considered 'interesting' if they appear on the KStars 'interesting' list."
+				color: "white"
+				font{
+					family: "Arial"
+					pointSize: 11
+				}
+			}
+			Image {
+				id: helpDownloadImage
+				anchors.top: helpFavoriteText.bottom
+				source: "downloadIcon.png"
+				width: 28
+        		height: 28
+			}
+			Text{
+				id: helpDownloadText
+				anchors.top: helpFavoriteText.bottom
+				anchors.left: helpDownloadImage.right
+				anchors.right: helpMessage.right
+				anchors.margins: 10
+				wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+				text: "This button will attempt to download information and pictures about the object(s) from Wikipedia.  You can select whether to download the information about just one object, all of the objects in a list, or only the objects in a list for which no data was downloaded yet.  Please note: If the list is currently filtered for visible objects or 'interesting' objects, only the filtered objects will be downloaded.  If you actually want all the objects in the list, turn off the filters."
+				color: "white"
+				font{
+					family: "Arial"
+					pointSize: 11
+				}
+			}
+			states: [
+				State {
+					name: "helpDisplayed"
+					PropertyChanges {target: helpMessage; visible: true }
+				}
+			]
+		}
     } //end of base
 
     Rectangle {
@@ -1902,6 +2066,41 @@ Rectangle {
         		PropertyChanges {target: downloadIcon; opacity: 0}
         	}
         ]
+    }
+    
+    Image {
+        id: helpIcon
+        x: 250
+        y: container.height - 50
+        width: 28
+        height: 28
+        anchors{
+            verticalCenterOffset: 0
+            verticalCenter: backButton.verticalCenter
+        }
+        sourceSize{
+            height: 40
+            width: 40
+        }
+        smooth: true
+        fillMode: Image.Stretch
+        source: "helpIcon.png"
+
+        MouseArea {
+            id: helpMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: helpForeground.opacity = buttonOpacity
+            onExited: helpForeground.opacity = 0.0
+            onClicked: (helpMessage.state == "helpDisplayed") ? helpMessage.state = "" : helpMessage.state = "helpDisplayed"
+        }
+
+        Rectangle {
+            id: helpForeground
+            radius: 5
+            opacity: 0
+            anchors.fill: parent
+        }
     }
     
     Rectangle {

@@ -9,6 +9,7 @@ install( FILES wiview.qml
 	 visibleIcon.png
 	 favoriteIcon.png
          reloadIcon.png
+	 helpIcon.png
          next.png
          previous.png
          downloadIcon.png
